@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E983D57A7
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:38:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 428383D57B1
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:41:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79FFC6EAC9;
-	Mon, 26 Jul 2021 10:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B23636EAD0;
+	Mon, 26 Jul 2021 10:41:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93CD86EAC9;
- Mon, 26 Jul 2021 10:38:12 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="211924080"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="211924080"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:38:12 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="416505654"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4BF6E3A0;
+ Mon, 26 Jul 2021 10:41:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="212198887"
+X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="212198887"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 03:41:28 -0700
+X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="455733974"
 Received: from dechasso-mobl3.amr.corp.intel.com (HELO intel.com)
  ([10.212.115.115])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:38:11 -0700
-Date: Mon, 26 Jul 2021 06:38:09 -0400
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 03:41:26 -0700
+Date: Mon, 26 Jul 2021 06:41:24 -0400
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 25/30] drm/i915/gt: rename CNL references in intel_engine.h
-Message-ID: <YP6QkRJybZ1wjDPd@intel.com>
+Subject: Re: [PATCH 11/30] drm/i915/display: remove explicit CNL handling
+ from intel_dp.c
+Message-ID: <YP6RVNJBPlOxW6Cc@intel.com>
 References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-26-lucas.demarchi@intel.com>
+ <20210724001114.249295-12-lucas.demarchi@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210724001114.249295-26-lucas.demarchi@intel.com>
+In-Reply-To: <20210724001114.249295-12-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,56 +51,80 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:11:09PM -0700, Lucas De Marchi wrote:
-> With the removal of CNL, let's consider ICL as the first platform using
-> that index.
+On Fri, Jul 23, 2021 at 05:10:55PM -0700, Lucas De Marchi wrote:
+> The only real platform with DISPLAY_VER == 10 is GLK. We don't need to
+> handle CNL explicitly in intel_dp.c.
+> 
+> Remove code and rename functions/macros accordingly to use ICL prefix.
 > 
 > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-
-(
-I got myself thinking that some patches like this could be squashed into others,
-and a few of them made with coccinele, but in the end I like the approach you
-took. It's been very easy to review this series...
-)
-
-
 > ---
->  drivers/gpu/drm/i915/gt/intel_engine.h | 2 +-
->  drivers/gpu/drm/i915/i915_drv.h        | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_dp.c | 35 ++++---------------------
+>  1 file changed, 5 insertions(+), 30 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-> index f911c1224ab2..dfb400766db5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-> @@ -179,7 +179,7 @@ intel_write_status_page(struct intel_engine_cs *engine, int reg, u32 value)
->  
->  #define I915_HWS_CSB_BUF0_INDEX		0x10
->  #define I915_HWS_CSB_WRITE_INDEX	0x1f
-> -#define CNL_HWS_CSB_WRITE_INDEX		0x2f
-> +#define ICL_HWS_CSB_WRITE_INDEX		0x2f
->  
->  void intel_engine_stop(struct intel_engine_cs *engine);
->  void intel_engine_cleanup(struct intel_engine_cs *engine);
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index d118834a4ed9..dd2d196050d4 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1959,8 +1959,8 @@ int remap_io_sg(struct vm_area_struct *vma,
->  
->  static inline int intel_hws_csb_write_index(struct drm_i915_private *i915)
->  {
-> -	if (GRAPHICS_VER(i915) >= 10)
-> -		return CNL_HWS_CSB_WRITE_INDEX;
-> +	if (GRAPHICS_VER(i915) >= 11)
-> +		return ICL_HWS_CSB_WRITE_INDEX;
->  	else
->  		return I915_HWS_CSB_WRITE_INDEX;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index c386ef8eb200..db701ec5a221 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -222,29 +222,6 @@ bool intel_dp_can_bigjoiner(struct intel_dp *intel_dp)
+>  		 encoder->port != PORT_A);
 >  }
+>  
+> -static int cnl_max_source_rate(struct intel_dp *intel_dp)
+> -{
+> -	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+> -	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
+> -	enum port port = dig_port->base.port;
+> -
+> -	u32 voltage = intel_de_read(dev_priv, CNL_PORT_COMP_DW3) & VOLTAGE_INFO_MASK;
+> -
+> -	/* Low voltage SKUs are limited to max of 5.4G */
+> -	if (voltage == VOLTAGE_INFO_0_85V)
+> -		return 540000;
+> -
+> -	/* For this SKU 8.1G is supported in all ports */
+> -	if (IS_CNL_WITH_PORT_F(dev_priv))
+> -		return 810000;
+> -
+> -	/* For other SKUs, max rate on ports A and D is 5.4G */
+> -	if (port == PORT_A || port == PORT_D)
+> -		return 540000;
+> -
+> -	return 810000;
+> -}
+> -
+>  static int icl_max_source_rate(struct intel_dp *intel_dp)
+>  {
+>  	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+> @@ -270,7 +247,7 @@ static void
+>  intel_dp_set_source_rates(struct intel_dp *intel_dp)
+>  {
+>  	/* The values must be in increasing order */
+> -	static const int cnl_rates[] = {
+> +	static const int icl_rates[] = {
+>  		162000, 216000, 270000, 324000, 432000, 540000, 648000, 810000
+>  	};
+>  	static const int bxt_rates[] = {
+> @@ -295,12 +272,10 @@ intel_dp_set_source_rates(struct intel_dp *intel_dp)
+>  	drm_WARN_ON(&dev_priv->drm,
+>  		    intel_dp->source_rates || intel_dp->num_source_rates);
+>  
+> -	if (DISPLAY_VER(dev_priv) >= 11 || IS_CANNONLAKE(dev_priv)) {
+> -		source_rates = cnl_rates;
+> -		size = ARRAY_SIZE(cnl_rates);
+> -		if (DISPLAY_VER(dev_priv) == 10)
+> -			max_rate = cnl_max_source_rate(intel_dp);
+> -		else if (IS_JSL_EHL(dev_priv))
+> +	if (DISPLAY_VER(dev_priv) >= 11) {
+> +		source_rates = icl_rates;
+> +		size = ARRAY_SIZE(icl_rates);
+> +		if (IS_JSL_EHL(dev_priv))
+>  			max_rate = ehl_max_source_rate(intel_dp);
+>  		else
+>  			max_rate = icl_max_source_rate(intel_dp);
 > -- 
 > 2.31.1
 > 
