@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC443D65FC
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 19:47:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6E33D65FF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 19:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6376E954;
-	Mon, 26 Jul 2021 17:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 658FE6E9BA;
+	Mon, 26 Jul 2021 17:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 463 seconds by postgrey-1.36 at gabe;
- Mon, 26 Jul 2021 11:59:20 UTC
-Received: from forward103o.mail.yandex.net (forward103o.mail.yandex.net
- [37.140.190.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6166EBAC
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 11:59:20 +0000 (UTC)
-Received: from iva5-76c5c16f2a53.qloud-c.yandex.net
- (iva5-76c5c16f2a53.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:7bae:0:640:76c5:c16f])
- by forward103o.mail.yandex.net (Yandex) with ESMTP id 1ACF35F82079;
- Mon, 26 Jul 2021 14:52:10 +0300 (MSK)
-Received: from iva6-2d18925256a6.qloud-c.yandex.net
- (iva6-2d18925256a6.qloud-c.yandex.net [2a02:6b8:c0c:7594:0:640:2d18:9252])
- by iva5-76c5c16f2a53.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- Ay6r08gAVb-q9HqbptB; Mon, 26 Jul 2021 14:52:10 +0300
+Received: from forward106o.mail.yandex.net (forward106o.mail.yandex.net
+ [37.140.190.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19E76E817
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 14:01:22 +0000 (UTC)
+Received: from myt6-d550f0f924f5.qloud-c.yandex.net
+ (myt6-d550f0f924f5.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:2229:0:640:d550:f0f9])
+ by forward106o.mail.yandex.net (Yandex) with ESMTP id B4EA95062EB5;
+ Mon, 26 Jul 2021 17:01:19 +0300 (MSK)
+Received: from myt3-07a4bd8655f2.qloud-c.yandex.net
+ (myt3-07a4bd8655f2.qloud-c.yandex.net [2a02:6b8:c12:693:0:640:7a4:bd86])
+ by myt6-d550f0f924f5.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ eWB6nHTdDt-1GIq8FDl; Mon, 26 Jul 2021 17:01:19 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
- t=1627300330; bh=FgcgbDjWxggREdHTT1qnRWwYLnx7YFzAuhtDLKCU1qw=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=VswILzKGincFX9DATVsVy8uCYWb884fyhoiikHNzIepF0dRvwRF5Jq6bhOE8vDV65
- tWZIV/fBa4iVbycESBTcu+vbwleuulVUMSNnOgCzSFjypCYndzk9li4Ju/t8GAYeWw
- DzrYly6VZTughIdQoUGlCf7NyB69LM+knZ+G0w9s=
-Authentication-Results: iva5-76c5c16f2a53.qloud-c.yandex.net;
+ t=1627308079; bh=LRSbGVRJ9emphCuBYDYrjTlOg7ii27hSBFD4d0sHKsU=;
+ h=In-Reply-To:References:Date:Subject:To:From:Message-Id:Cc;
+ b=G6jTHHuRxls8ZjF1oSg3l5LSMPNSbVj+N80WHbaKZ4Gcr4dXQck9o36aj0VJj9+2a
+ NgnRksCHJNIqxAMmazsy/0rj5kjwjzCmJySo349DRniV4+dmuvQwfyPQV34mTepLif
+ PW7O/PEABbFwFvTiLgYkNL3ZbeFvI2Kja6BSqz04=
+Authentication-Results: myt6-d550f0f924f5.qloud-c.yandex.net;
  dkim=pass header.i=@maquefel.me
-Received: by iva6-2d18925256a6.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id PIKatQa27D-q92Sg7Ih; Mon, 26 Jul 2021 14:52:09 +0300
+Received: by myt3-07a4bd8655f2.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id olJ9yWy468-1E2ikl1L; Mon, 26 Jul 2021 17:01:15 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Nikita Shubin <nikita.shubin@maquefel.me>
 To: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
  Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH 4/8] video: ep93xx: Prepare clock before using it
-Date: Mon, 26 Jul 2021 14:50:48 +0300
-Message-Id: <20210726115058.23729-5-nikita.shubin@maquefel.me>
+Subject: [PATCH v2 0/8] arm: ep93xx: CCF conversion
+Date: Mon, 26 Jul 2021 16:59:48 +0300
+Message-Id: <20210726140001.24820-1-nikita.shubin@maquefel.me>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210726115058.23729-1-nikita.shubin@maquefel.me>
 References: <20210726115058.23729-1-nikita.shubin@maquefel.me>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 26 Jul 2021 17:47:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,44 +59,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+Cc: "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <alsa-devel@alsa-project.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Nikita Shubin <nikita.shubin@maquefel.me>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ YiFei Zhu <yifeifz2@illinois.edu>, Krzysztof Kozlowski <krzk@kernel.org>,
+ "open list:INPUT KEYBOARD, MOUSE, JOYSTICK,
+ TOUCHSCREEN..." <linux-input@vger.kernel.org>,
+ "open list:PWM SUBSYSTEM" <linux-pwm@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Anshuman Khandual <anshuman.khandual@arm.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
  open list <linux-kernel@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+This series series of patches converts ep93xx to Common Clock Framework.
 
-Use clk_prepare_enable()/clk_disable_unprepare() in preparation for switch
-to Common Clock Framework.
+It consists of preparation patches to use clk_prepare_enable where it is 
+needed, instead of clk_enable used in ep93xx drivers prior to CCF and
+a patch converting mach-ep93xx/clock.c to CCF.
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
----
- drivers/video/fbdev/ep93xx-fb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Link: https://lore.kernel.org/patchwork/cover/1445563/
+Link: https://lore.kernel.org/patchwork/patch/1435884/
 
-diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
-index ba33b4dce0df..2398b3d48fed 100644
---- a/drivers/video/fbdev/ep93xx-fb.c
-+++ b/drivers/video/fbdev/ep93xx-fb.c
-@@ -548,7 +548,7 @@ static int ep93xxfb_probe(struct platform_device *pdev)
- 	}
- 
- 	ep93xxfb_set_par(info);
--	clk_enable(fbi->clk);
-+	clk_prepare_enable(fbi->clk);
- 
- 	err = register_framebuffer(info);
- 	if (err)
-@@ -577,7 +577,7 @@ static int ep93xxfb_remove(struct platform_device *pdev)
- 	struct ep93xx_fbi *fbi = info->par;
- 
- 	unregister_framebuffer(info);
--	clk_disable(fbi->clk);
-+	clk_disable_unprepare(fbi->clk);
- 	ep93xxfb_dealloc_videomem(info);
- 	fb_dealloc_cmap(&info->cmap);
- 
+v1->v2:
+- added SoB
+
+Alexander Sverdlin (7):
+  iio: ep93xx: Prepare clock before using it
+  spi: spi-ep93xx: Prepare clock before using it
+  Input: ep93xx_keypad: Prepare clock before using it
+  video: ep93xx: Prepare clock before using it
+  dmaengine: ep93xx: Prepare clock before using it
+  ASoC: cirrus: i2s: Prepare clock before using it
+  pwm: ep93xx: Prepare clock before using it
+
+Nikita Shubin (1):
+  ep93xx: clock: convert in-place to COMMON_CLK
+
+ arch/arm/Kconfig                       |   2 +-
+ arch/arm/mach-ep93xx/clock.c           | 975 ++++++++++++++-----------
+ arch/arm/mach-ep93xx/core.c            |   2 +-
+ arch/arm/mach-ep93xx/soc.h             |  42 +-
+ drivers/dma/ep93xx_dma.c               |   6 +-
+ drivers/iio/adc/ep93xx_adc.c           |   6 +-
+ drivers/input/keyboard/ep93xx_keypad.c |   4 +-
+ drivers/pwm/pwm-ep93xx.c               |  12 +-
+ drivers/spi/spi-ep93xx.c               |   4 +-
+ drivers/video/fbdev/ep93xx-fb.c        |   4 +-
+ sound/soc/cirrus/ep93xx-i2s.c          |  12 +-
+ 11 files changed, 605 insertions(+), 464 deletions(-)
+
+
+base-commit: 64376a981a0e2e57c46efa63197c2ebb7dab35df
 -- 
 2.26.2
 
