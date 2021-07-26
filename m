@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5E13D5CF3
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 17:26:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E28673D5CF8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 17:29:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D17356FE59;
-	Mon, 26 Jul 2021 15:26:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B34216E86E;
+	Mon, 26 Jul 2021 15:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 468FD6FE36
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 15:26:47 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id a93so15507123ybi.1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 08:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F83D6E86E;
+ Mon, 26 Jul 2021 15:29:18 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id 190so9141726qkk.12;
+ Mon, 26 Jul 2021 08:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H6wl93W1xfyR4eqzH50U7OL/RM+7q9Jr9sdrZMFnByQ=;
- b=CFCr+uUEcZWea2gJN5y0nIAu9O73tmRG7J/h1OFEYLhXskZ3+wAMcJiuZ+ygGbGCND
- xJQd9zNthTg/YI/7MCVN10IQGX6iKiTuJVFG5WX9NMWdI7mKnpA8EtygtgDzspjcKsuC
- o3xXMgQp8eOzR4BQjlIM29Q/KGD4rzGiSvaDhk/YOczd9FnYytNQiQd2lXVix7Njtrpt
- XMEDJP3OPLOHagxfuvq3nUA8h+p3I1I/ExV2AlpwuLuBayNhlA+HSzcDwtyMGt/rZ4b1
- Bweo2qpLMZ0GhAvRtDMSuPNIg91ZRaKR8RLZfonUAS3NHFijMR1VJ5LiW8bszpVuajTR
- PA3A==
+ :cc:content-transfer-encoding;
+ bh=yHi9iP8VhJKDy5NqamcgKOvxPvjXye75S+SXX23nOBA=;
+ b=fmOEe5cV+8QRTEHiOYo4ktj6O2bksYrTNPtjm+ez5wJZx0b/q+Mf7zhOun54o2LWTb
+ N5+MZa4b8FHnbz4Y/82STZo5Gfr5JDowkTuCfZETBkv87JdKF1e9B+SEyk5J37c/JlQt
+ PkLPGDaJ2e+CuqC6au4beV9Adr2mBpQXELkRg3YxJyxPLGn/aHvEd2nVbKCmEtwKeEcy
+ qZl3BXSPWcUkIwkzYOBmZha+Z+yEs1LljHCTDs1vOanA8f98S95B6yTzl+0kTOffEfKh
+ 8GGfTj5RFfLqvbu1s7KA6AphLQy8h5yXMyZgk2yV2QPq+0oZ4OnVy42HjTOItBwh6r9p
+ llMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H6wl93W1xfyR4eqzH50U7OL/RM+7q9Jr9sdrZMFnByQ=;
- b=uDw2h3JMPhYNd2HdgucEaoXRkmoTak6+QlJzBgjChLmMGozrRAAsiY4Yue9F7wRPRE
- qNguMPo93YrMCU0Lh60P9Mcruegt0wcUfIEfZXXTdrGBnrfORKzzOOZJr/dEhU0FBqBg
- lExZZQmQLGnWJut7q+7Pz5T2rLHGhw9YYYZJXU/c7pLWYQc8wMst5iZK4q4+PmarGORL
- RU7KV1Gb3hSs5KoBy9IHshspaZIywPw7olsozFjx1kPCRqSpEzl3xlf4Hbv2AYt9UPLy
- OhuhFIT2dpVhkwFw9ueFFauno4Ptk8CZE1pcR5lbl+iqrRAjuFqyFmNaXcwcR58565PD
- n1Ag==
-X-Gm-Message-State: AOAM533EVJnl87Iqlxim91nPFa0OsfvphagRp321zSvBmzRAHefKYVrJ
- MrQyjwuTFWI9Z/Q7I9VL3ufa2fh30/02imJulSzIng==
-X-Google-Smtp-Source: ABdhPJxcsN6RdKYlG/qbjX1RJALedx1OHbE2hmkX6K0QX7kOsnfFHaMcGhGicyFuZxHW335APlAIdbnyB0qn6eVBYxA=
-X-Received: by 2002:a25:680b:: with SMTP id d11mr6356282ybc.241.1627313206304; 
- Mon, 26 Jul 2021 08:26:46 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yHi9iP8VhJKDy5NqamcgKOvxPvjXye75S+SXX23nOBA=;
+ b=f6B6TRFTmArhhCgZ9XiLtMAZ42ghnOrd25G4/++OoWX08dYoXhT0zGixE4JKSXpojG
+ ozWn409QKZfuBVwVrC5z8S3MjKEgLc/Td4rByItsu8kBznZCK6OFUx5a3TTB7+nB75r0
+ F47HgIDBAN2S/X+5bBSkxzZMaLqeWoeXSfLxG7YTQTF6yUSN/f2VlzqopXeDFgFbQaoI
+ 8hQry94vWinEXUSsCXHtJgF9Yaa7X0i0X6PC2wIarwDzJBdX45QY9ebtx7mKPQRM66Ii
+ dH5mzo/Vj47BIniW4vGWAXXyke3j3TR4dMWmizoiAbn04B0xBae8RFj9gXD9OlKHW2Uw
+ TSGw==
+X-Gm-Message-State: AOAM530fpOxUCu6SMKW3FgjyZK00n7EmkGhfYryOD7c+CQwMZU50pKrZ
+ ZLrXKqCxLvcmYJne8lplB6V72NxC7Kvo0qTn+pkF5kL4UUw=
+X-Google-Smtp-Source: ABdhPJyVw4N4+vOc0K74rvcksdNbknBw/hubJu5StKgFL92qWFqxH6LOx+Qg+7J/wO7XuOV0T/6fc7p73g/XHYWhqNw=
+X-Received: by 2002:a05:620a:a19:: with SMTP id
+ i25mr17610579qka.426.1627313357295; 
+ Mon, 26 Jul 2021 08:29:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210723192934.1004427-1-daniel.vetter@ffwll.ch>
- <20210723192934.1004427-3-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210723192934.1004427-3-daniel.vetter@ffwll.ch>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Mon, 26 Jul 2021 10:26:34 -0500
-Message-ID: <CAOFGe973=WchP_GK76rewxK8RDMeVjNEqsHF235n=7hGAZX77Q@mail.gmail.com>
-Subject: Re: [PATCH 03/10] drm/i915: move i915_buddy slab to direct module
- init/exit
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210723172142.3273510-1-jason@jlekstrand.net>
+ <CAM0jSHOgJQni53DJWP0NWJTAR82PNmb6zgt2Gm-faBd1sDaSHA@mail.gmail.com>
+ <CAOFGe95CVvM=7UvH3yBBx9Qr4OPrkRUG7QAXgnSLkWgPGef10g@mail.gmail.com>
+In-Reply-To: <CAOFGe95CVvM=7UvH3yBBx9Qr4OPrkRUG7QAXgnSLkWgPGef10g@mail.gmail.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Mon, 26 Jul 2021 16:28:51 +0100
+Message-ID: <CAM0jSHNmO8ZGdvLkJhonReHmNXjBkgvjmki-yLmUUkbLTnqeLQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 0/8] drm/i915: Migrate memory to SMEM when
+ imported cross-device (v8)
+To: Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,152 +67,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 2:29 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+On Mon, 26 Jul 2021 at 16:11, Jason Ekstrand <jason@jlekstrand.net> wrote:
 >
-> With the global kmem_cache shrink infrastructure gone there's nothing
-> special and we can convert them over.
+> On Mon, Jul 26, 2021 at 3:12 AM Matthew Auld
+> <matthew.william.auld@gmail.com> wrote:
+> >
+> > On Fri, 23 Jul 2021 at 18:21, Jason Ekstrand <jason@jlekstrand.net> wro=
+te:
+> > >
+> > > This patch series fixes an issue with discrete graphics on Intel wher=
+e we
+> > > allowed dma-buf import while leaving the object in local memory.  Thi=
+s
+> > > breaks down pretty badly if the import happened on a different physic=
+al
+> > > device.
+> > >
+> > > v7:
+> > >  - Drop "drm/i915/gem/ttm: Place new BOs in the requested region"
+> > >  - Add a new "drm/i915/gem: Call i915_gem_flush_free_objects() in i91=
+5_gem_dumb_create()"
+> > >  - Misc. review feedback from Matthew Auld
+> > > v8:
+> > >  - Misc. review feedback from Matthew Auld
+> > > v9:
+> > >  - Replace the i915/ttm patch with two that are hopefully more correc=
+t
+> > >
+> > > Jason Ekstrand (6):
+> > >   drm/i915/gem: Check object_can_migrate from object_migrate
+> > >   drm/i915/gem: Refactor placement setup for i915_gem_object_create*
+> > >     (v2)
+> > >   drm/i915/gem: Call i915_gem_flush_free_objects() in
+> > >     i915_gem_dumb_create()
+> > >   drm/i915/gem: Unify user object creation (v3)
+> > >   drm/i915/gem/ttm: Only call __i915_gem_object_set_pages if needed
+> > >   drm/i915/gem: Always call obj->ops->migrate unless can_migrate fail=
+s
+> > >
+> > > Thomas Hellstr=C3=B6m (2):
+> > >   drm/i915/gem: Correct the locking and pin pattern for dma-buf (v8)
+> > >   drm/i915/gem: Migrate to system at dma-buf attach time (v7)
+> >
+> > Should I push the series?
 >
-> I'm doing this split up into each patch because there's quite a bit of
-> noise with removing the static global.slab_blocks to just a
-> slab_blocks.
->
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_buddy.c   | 25 ++++++++-----------------
->  drivers/gpu/drm/i915/i915_buddy.h   |  3 ++-
->  drivers/gpu/drm/i915/i915_globals.c |  2 --
->  drivers/gpu/drm/i915/i915_pci.c     |  2 ++
->  4 files changed, 12 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_buddy.c b/drivers/gpu/drm/i915/i915_buddy.c
-> index caabcaea3be7..045d00c43b4c 100644
-> --- a/drivers/gpu/drm/i915/i915_buddy.c
-> +++ b/drivers/gpu/drm/i915/i915_buddy.c
-> @@ -8,13 +8,9 @@
->  #include "i915_buddy.h"
->
->  #include "i915_gem.h"
-> -#include "i915_globals.h"
->  #include "i915_utils.h"
->
-> -static struct i915_global_buddy {
-> -       struct i915_global base;
-> -       struct kmem_cache *slab_blocks;
-> -} global;
-> +struct kmem_cache *slab_blocks;
+> Yes, please.  Do we have a solid testing plan for things like this
+> that touch discrete?  I tested with mesa+glxgears on my DG1 but
+> haven't run anything more stressful.
 
-static?  With that fixed,
+I think all we really have are the migration related selftests, and CI
+is not even running them on DG1 due to other breakage. Assuming you
+ran these locally, I think we just merge the series?
 
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
-
 >
->  static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
->                                                  struct i915_buddy_block *parent,
-> @@ -25,7 +21,7 @@ static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
+> --Jason
 >
->         GEM_BUG_ON(order > I915_BUDDY_MAX_ORDER);
 >
-> -       block = kmem_cache_zalloc(global.slab_blocks, GFP_KERNEL);
-> +       block = kmem_cache_zalloc(slab_blocks, GFP_KERNEL);
->         if (!block)
->                 return NULL;
->
-> @@ -40,7 +36,7 @@ static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
->  static void i915_block_free(struct i915_buddy_mm *mm,
->                             struct i915_buddy_block *block)
->  {
-> -       kmem_cache_free(global.slab_blocks, block);
-> +       kmem_cache_free(slab_blocks, block);
->  }
->
->  static void mark_allocated(struct i915_buddy_block *block)
-> @@ -410,21 +406,16 @@ int i915_buddy_alloc_range(struct i915_buddy_mm *mm,
->  #include "selftests/i915_buddy.c"
->  #endif
->
-> -static void i915_global_buddy_exit(void)
-> +void i915_buddy_module_exit(void)
->  {
-> -       kmem_cache_destroy(global.slab_blocks);
-> +       kmem_cache_destroy(slab_blocks);
->  }
->
-> -static struct i915_global_buddy global = { {
-> -       .exit = i915_global_buddy_exit,
-> -} };
-> -
-> -int __init i915_global_buddy_init(void)
-> +int __init i915_buddy_module_init(void)
->  {
-> -       global.slab_blocks = KMEM_CACHE(i915_buddy_block, 0);
-> -       if (!global.slab_blocks)
-> +       slab_blocks = KMEM_CACHE(i915_buddy_block, 0);
-> +       if (!slab_blocks)
->                 return -ENOMEM;
->
-> -       i915_global_register(&global.base);
->         return 0;
->  }
-> diff --git a/drivers/gpu/drm/i915/i915_buddy.h b/drivers/gpu/drm/i915/i915_buddy.h
-> index d8f26706de52..3940d632f208 100644
-> --- a/drivers/gpu/drm/i915/i915_buddy.h
-> +++ b/drivers/gpu/drm/i915/i915_buddy.h
-> @@ -129,6 +129,7 @@ void i915_buddy_free(struct i915_buddy_mm *mm, struct i915_buddy_block *block);
->
->  void i915_buddy_free_list(struct i915_buddy_mm *mm, struct list_head *objects);
->
-> -int i915_global_buddy_init(void);
-> +void i915_buddy_module_exit(void);
-> +int i915_buddy_module_init(void);
->
->  #endif
-> diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
-> index a53135ee831d..3de7cf22ec76 100644
-> --- a/drivers/gpu/drm/i915/i915_globals.c
-> +++ b/drivers/gpu/drm/i915/i915_globals.c
-> @@ -7,7 +7,6 @@
->  #include <linux/slab.h>
->  #include <linux/workqueue.h>
->
-> -#include "i915_buddy.h"
->  #include "gem/i915_gem_context.h"
->  #include "gem/i915_gem_object.h"
->  #include "i915_globals.h"
-> @@ -33,7 +32,6 @@ static void __i915_globals_cleanup(void)
->  }
->
->  static __initconst int (* const initfn[])(void) = {
-> -       i915_global_buddy_init,
->         i915_global_context_init,
->         i915_global_gem_context_init,
->         i915_global_objects_init,
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> index 6ee77a8f43d6..f9527269e30a 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -31,6 +31,7 @@
->  #include "display/intel_fbdev.h"
->
->  #include "i915_active.h"
-> +#include "i915_buddy.h"
->  #include "i915_drv.h"
->  #include "i915_perf.h"
->  #include "i915_globals.h"
-> @@ -1295,6 +1296,7 @@ static const struct {
->  } init_funcs[] = {
->         { i915_check_nomodeset, NULL },
->         { i915_active_module_init, i915_active_module_exit },
-> +       { i915_buddy_module_init, i915_buddy_module_exit },
->         { i915_globals_init, i915_globals_exit },
->         { i915_mock_selftests, NULL },
->         { i915_pmu_init, i915_pmu_exit },
-> --
-> 2.32.0
->
+> > >
+> > >  drivers/gpu/drm/i915/gem/i915_gem_create.c    | 177 ++++++++--------
+> > >  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  58 ++++--
+> > >  drivers/gpu/drm/i915/gem/i915_gem_object.c    |  20 +-
+> > >  drivers/gpu/drm/i915/gem/i915_gem_object.h    |   4 +
+> > >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  13 +-
+> > >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 190 ++++++++++++++++=
++-
+> > >  .../drm/i915/gem/selftests/i915_gem_migrate.c |  15 --
+> > >  7 files changed, 341 insertions(+), 136 deletions(-)
+> > >
+> > > --
+> > > 2.31.1
+> > >
+> > > _______________________________________________
+> > > Intel-gfx mailing list
+> > > Intel-gfx@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
