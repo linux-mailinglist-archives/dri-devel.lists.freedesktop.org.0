@@ -1,58 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2AD33D514D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 04:36:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 157853D521E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 06:03:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E604B6E53C;
-	Mon, 26 Jul 2021 02:36:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7CF6E573;
+	Mon, 26 Jul 2021 04:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2F506E53C
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 02:36:03 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- z3-20020a4a98430000b029025f4693434bso1885625ooi.3
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 19:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=C8A6HcM++wep6KAAmRys8qmioTmOstzNOR/tiSRazoc=;
- b=BhRVKW0Bt60eRAIIsM4/IyIB+ukURdPAJx+xxhbYpE7wHrJQ0vtJAGe4kyjQcYc0Pc
- Q2Ai3Egq2KQOUOlFP1HZDih3/jSDfawWs/NB50pgKS4tWPQqMuY5E84TtBkR+Tbhzx0X
- UbvfrQIX5o7jTanojhB8HkjsuvTATOtyTbeVWeAAmoaii69GpWhIGSV91lCgHxJnPa7Y
- 6cSWcIjjtgxuQ264uj6JMlsoIITcMPyxBjuZD08BBYii2mUxd5oHCJfqTe3kmOZmslm9
- w0Pytfnm0F3/jLkeyHzvY6HkldVt2+9G2XXUph6UBCXmsqikB/oGUCVSLIYbJw0jLs+y
- khqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=C8A6HcM++wep6KAAmRys8qmioTmOstzNOR/tiSRazoc=;
- b=aqiUZ9btzTjmi2Y1bANwytikFDAX1aPacDiXdzJQjf9EZCgg6FBkcgoAahZDfYbaEY
- cG6uBFpPYu5uCEuxO4keW9KNOcaDM4U7Hz1A798tW8/673nvZFROuVxVgeyNGTjiMFhP
- dbYKOf7xKLhs5UFxmlAXakvmwWMvhlhqR12A3pzsal/xDtl7OgkWDyYELa2GZ6lcHHfg
- ltNvYffb/2f+0no4RLkK5V7wm/8Zx+I7U53HDzYjFlcRkKhZ1hnNp+pZ+1I2Q/MZzbHM
- 6PPfXNtiju2t1AkHm06A/3blmr0ZC80tpiHqoxZXuW4wBvAavKROGgROZJK6PW3MfxDE
- DlAg==
-X-Gm-Message-State: AOAM530ymPWzhsqkswvNVX2OM1Z3kq1oJIp8wIyhMmUdXI7yjSz24rSD
- PKGQoDiag8ym+mcvuNYAEeAilpv+QcCbn78Ny4k=
-X-Google-Smtp-Source: ABdhPJwITFhXUo4kX7wbncEf4RqipXNxSi71ex+6mujZPJM616Su4cICThOsM33Gvikc0Kq9OkqbBD2x4AD06Cd5gmY=
-X-Received: by 2002:a4a:8687:: with SMTP id x7mr9182612ooh.46.1627266963070;
- Sun, 25 Jul 2021 19:36:03 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0133E6E573
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 04:03:03 +0000 (UTC)
+X-UUID: 76ec69579b424d7d853456f41aa59438-20210726
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=1qkMfTfeNRmsWMXbQc8lB+Iu1NAA2I+IZkOV+hmaRlY=; 
+ b=n3LrDrR5TA/du10LfUrjJS6LRF2AbbmsDlYs6yci5avcTsMEzYuafFJYAkARVdtdD6nvU+xm4G23ivt6tnGjG2x4SRREcFGeKSEWYFiBc9i0tJiRJlcWL867wE82lSiCcibUnvRdBQ2tuvz2598mlmmf2j8e9rrb1xkPWYCyCKg=;
+X-UUID: 76ec69579b424d7d853456f41aa59438-20210726
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1229402346; Mon, 26 Jul 2021 12:02:58 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 26 Jul 2021 12:02:57 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 26 Jul 2021 12:02:57 +0800
+Message-ID: <1627272177.27642.1.camel@mtksdaap41>
+Subject: Re: [PATCH v3 2/2] dt-bindings: mediatek: add
+ force_dsi_end_without_null for dsi
+From: CK Hu <ck.hu@mediatek.com>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Date: Mon, 26 Jul 2021 12:02:57 +0800
+In-Reply-To: <20210726021104.80007-2-jitao.shi@mediatek.com>
+References: <20210726021104.80007-1-jitao.shi@mediatek.com>
+ <20210726021104.80007-2-jitao.shi@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Received: by 2002:a8a:4a:0:0:0:0:0 with HTTP;
- Sun, 25 Jul 2021 19:36:01 -0700 (PDT)
-In-Reply-To: <20210615172153.2839275-1-weiyongjun1@huawei.com>
-References: <20210615172153.2839275-1-weiyongjun1@huawei.com>
-From: Inki Dae <daeinki@gmail.com>
-Date: Mon, 26 Jul 2021 11:36:01 +0900
-Message-ID: <CAAQKjZN_HsRW0wvHnm9hE-kjNORN4Lc+CYoT=JfseCynmmrbHg@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/exynos: g2d: fix missing unlock on error in
- g2d_runqueue_worker()
-To: Wei Yongjun <weiyongjun1@huawei.com>
-Content-Type: multipart/alternative; boundary="00000000000049e11205c7fd9d94"
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,121 +55,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Hulk Robot <hulkci@huawei.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, shuijing.li@mediatek.com,
+ David Airlie <airlied@linux.ie>, huijuan.xie@mediatek.com, stonea168@163.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rex-bc.chen@mediatek.com, devicetree@vger.kernel.org, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000049e11205c7fd9d94
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+SGksIEppdGFvOg0KDQpPbiBNb24sIDIwMjEtMDctMjYgYXQgMTA6MTEgKzA4MDAsIEppdGFvIFNo
+aSB3cm90ZToNCj4gU29tZSBicmlkZ2UgY2hpcCB3aWxsIHNoaWZ0IHNjcmVlbiB3aGVuIHRoZSBk
+c2kgZGF0YSBkb2VzJ3QgZW50IGF0DQo+IHRoZSBzYW1lIHRpbWUgaW4gbGluZS4NCj4gDQo+IFNp
+Z25lZC1vZmYtYnk6IEppdGFvIFNoaSA8aml0YW8uc2hpQG1lZGlhdGVrLmNvbT4NCj4gLS0tDQo+
+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50
+eHQgICAgIHwgNCArKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspDQo+IA0K
+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
+bWVkaWF0ZWsvbWVkaWF0ZWssZHNpLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQNCj4gaW5kZXggODIzOGE4NjY4
+NmJlLi4xYzJmNTNmM2FjM2QgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQNCj4gKysrIGIvRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWss
+ZHNpLnR4dA0KPiBAQCAtMTksNiArMTksMTAgQEAgUmVxdWlyZWQgcHJvcGVydGllczoNCj4gICAg
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2dyYXBoLnR4dC4gVGhpcyBwb3J0IHNo
+b3VsZCBiZSBjb25uZWN0ZWQNCj4gICAgdG8gdGhlIGlucHV0IHBvcnQgb2YgYW4gYXR0YWNoZWQg
+RFNJIHBhbmVsIG9yIERTSS10by1lRFAgZW5jb2RlciBjaGlwLg0KPiAgDQo+ICtPcHRpb25hbCBw
+cm9wZXJ0aWVzOg0KPiArLSBmb3JjZV9kc2lfZW5kX3dpdGhvdXRfbnVsbDogU29tZSBicmlkZ2Ug
+Y2hpcChleC4gQU5YNzYyNSkgcmVxdWlyZXMgdGhlDQo+ICsgIHBhY2tldHMgb24gbGFuZXMgYWxp
+Z25lZCBhdCB0aGUgZW5kLg0KPiArDQoNCkkgdGhpbmsgeW91IHNob3VsZCBhZGQgdGhpcyBwcm9w
+ZXJ0eSBpbiBbMV0gYmVjYXVzZSB0aGlzIGxpbWl0YXRpb24gaXMNCkFOWDc2MjUncyBsaW1pdGF0
+aW9uLg0KDQpbMV0NCkRvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2Jy
+aWRnZS9hbmFsb2dpeCxhbng3NjI1LnlhbWwNCg0KUmVnYXJkcywNCkNLDQoNCj4gIE1JUEkgVFgg
+Q29uZmlndXJhdGlvbiBNb2R1bGUNCj4gID09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4g
+IA0KDQo=
 
-Sorry for late and thanks for fixing it.
-
-Thanks,
-Inki Dae
-
-2021=EB=85=84 6=EC=9B=94 16=EC=9D=BC =EC=88=98=EC=9A=94=EC=9D=BC, Wei Yongj=
-un <weiyongjun1@huawei.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-
-> Add the missing unlock before return from function g2d_runqueue_worker()
-> in the error handling case.
->
-> Fixes: 445d3bed75de ("drm/exynos: use pm_runtime_resume_and_get()")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_g2d.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> index cab4d2c370a7..0ed665501ac4 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> @@ -897,13 +897,14 @@ static void g2d_runqueue_worker(struct work_struct
-> *work)
->                         ret =3D pm_runtime_resume_and_get(g2d->dev);
->                         if (ret < 0) {
->                                 dev_err(g2d->dev, "failed to enable G2D
-> device.\n");
-> -                               return;
-> +                               goto out;
->                         }
->
->                         g2d_dma_start(g2d, g2d->runqueue_node);
->                 }
->         }
->
-> +out:
->         mutex_unlock(&g2d->runqueue_mutex);
->  }
->
->
->
-
---00000000000049e11205c7fd9d94
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Sorry for late and thanks for fixing it.<div><br></div><div>Thanks,</div><d=
-iv>Inki Dae<br><br>2021=EB=85=84 6=EC=9B=94 16=EC=9D=BC =EC=88=98=EC=9A=94=
-=EC=9D=BC, Wei Yongjun &lt;<a href=3D"mailto:weiyongjun1@huawei.com">weiyon=
-gjun1@huawei.com</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">Add the missing unlock before return from function g2=
-d_runqueue_worker()<br>
-in the error handling case.<br>
-<br>
-Fixes: 445d3bed75de (&quot;drm/exynos: use pm_runtime_resume_and_get()&quot=
-;)<br>
-Reported-by: Hulk Robot &lt;<a href=3D"mailto:hulkci@huawei.com">hulkci@hua=
-wei.com</a>&gt;<br>
-Signed-off-by: Wei Yongjun &lt;<a href=3D"mailto:weiyongjun1@huawei.com">we=
-iyongjun1@huawei.com</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_<wbr>drm_g2d.c | 3 ++-<br>
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/exynos/<wbr>exynos_drm_g2d.c b/drivers/gpu/drm=
-/exynos/<wbr>exynos_drm_g2d.c<br>
-index cab4d2c370a7..0ed665501ac4 100644<br>
---- a/drivers/gpu/drm/exynos/<wbr>exynos_drm_g2d.c<br>
-+++ b/drivers/gpu/drm/exynos/<wbr>exynos_drm_g2d.c<br>
-@@ -897,13 +897,14 @@ static void g2d_runqueue_worker(struct work_struct *w=
-ork)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 ret =3D pm_runtime_resume_and_get(g2d-<wbr>&gt;dev);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if (ret &lt; 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_err(g2d-&gt;dev, &quot;failed to=
- enable G2D device.\n&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 g2d_dma_start(g2d, g2d-&gt;runqueue_node);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-+out:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mutex_unlock(&amp;g2d-&gt;runqueue_<wbr>mutex);=
-<br>
-=C2=A0}<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000049e11205c7fd9d94--
