@@ -1,61 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8DE3D6A15
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 01:15:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0198F3D6A2A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 01:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB3CF6EA26;
-	Mon, 26 Jul 2021 23:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF096E99F;
+	Mon, 26 Jul 2021 23:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0E96EA2C
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 23:15:42 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- 61-20020a9d0d430000b02903eabfc221a9so11714485oti.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 16:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WMU3dlNhHc2GMbUZbls+/71C5/GmwZOSbo7SVTlRAII=;
- b=SrG2N5ee7wquGKS/862qxUTzO2dKuqeTGjZPhO2vDmpyz9CVonrM3b0AeITcFeUF0R
- nxV4P7inceNPdw9ot1cdNIevGjAdU2t4ErvoBTzBb0ZioMgm8OteeqEbwHGte3Wyv07L
- tegS1YfM34a1398S69XYI5WSLkI1OKTVMA+2T9XlpqwvOqW/9to9tmh8VtLVCAvqf6g5
- qc8mU1gFCDARhCm/A2dHENlXeZBB2iSYhBu/3JUb79EJLjmoK5c3+ZsSErTXnpkYAYDW
- pdwnmOdg65hpHzev1PagDul17VbBEunNoJfq5El08Q39O5LyBgTDXiGXaCFbNySB7MM4
- o+hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WMU3dlNhHc2GMbUZbls+/71C5/GmwZOSbo7SVTlRAII=;
- b=KfIApoedGS2GYLQ03/rmo/2X2Ut5jW+DNeDaNvJ/WzAo+tuWVwfmv7GRmb60bTr65p
- yre291IFk+ghSM5THWgqJ9Eh2KXdEU2DauHAKM29RO+xA4s3yK+Jnw7P4ofxwZV3h6Cz
- 3L/7yw/pT/j+UUKT5KhT+0cNfFfVzEjjkhc7FA1Y41VhhdR5tVz8I/74vxwTy6FfKjaP
- cbYnI7y460ZxhGxF7tpRbjhr1YnhU+G1F16dzzjepdAber7hA5dV54knW0THHHZzajuB
- KUlwHXiSVTlmlEAsZQofnf3SYhbSm7vd46+QSCfQdO4e1sTsClCWOtwkH4YcuG2LVkNX
- tu6g==
-X-Gm-Message-State: AOAM533NSf9cKBJoApHvMmFuUYQIgwy8hUOppAfejtxNBs14EW0T1sNX
- kmdPd/M8qiLup9crrzRjCUiDYQ==
-X-Google-Smtp-Source: ABdhPJws9wE+8uZqQrov+1Rz2BhcJsfTiMLaHYXyp24fHfRn/SZMw1Hbn5X3FBjtd0yMFhvFlV6+qQ==
-X-Received: by 2002:a9d:1911:: with SMTP id j17mr13055960ota.70.1627341341218; 
- Mon, 26 Jul 2021 16:15:41 -0700 (PDT)
-Received: from localhost.localdomain
- (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id n7sm260844otf.45.2021.07.26.16.15.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 16:15:40 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [RFC] drm/msm/dp: Allow attaching a drm_panel
-Date: Mon, 26 Jul 2021 16:13:51 -0700
-Message-Id: <20210726231351.655302-1-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.29.2
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E76E86E99F;
+ Mon, 26 Jul 2021 23:21:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="234194480"
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="234194480"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 16:21:24 -0700
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="579925201"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 16:21:20 -0700
+Date: Mon, 26 Jul 2021 16:21:19 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [PATCH 23/30] drm/i915/gt: remove explicit CNL handling from
+ intel_sseu.c
+Message-ID: <20210726232119.GW1556418@mdroper-desk1.amr.corp.intel.com>
+References: <20210724001114.249295-1-lucas.demarchi@intel.com>
+ <20210724001114.249295-24-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210724001114.249295-24-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,168 +46,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- Kuogee Hsieh <khsieh@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Vara Reddy <varar@codeaurora.org>, freedreno@lists.freedesktop.org,
- Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, Jose Souza <jose.souza@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-eDP panels might need some power sequencing and backlight management,
-so make it possible to associate a drm_panel with a DP instance and
-prepare and enable the panel accordingly.
+On Fri, Jul 23, 2021 at 05:11:07PM -0700, Lucas De Marchi wrote:
+> CNL is the only platform with GRAPHICS_VER == 10. With its removal we
+> don't need to handle that version anymore.
+> 
+> Also we can now reduce the max number of slices: the call to
+> intel_sseu_set_info() with the highest number of slices comes from SKL
+> and BDW with 3 slices. Recent platforms actually increase the
+> number of subslices so the number of slices remain 1.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-This solves my immediate problem on my 8cx laptops, of indirectly controlling
-the backlight during DPMS. But my panel is powered when I boot it and as such I
-get the hpd interrupt and I don't actually have to deal with a power on
-sequence - so I'm posting this as an RFC, hoping to get some input on these
-other aspects.
+> ---
+>  drivers/gpu/drm/i915/gt/intel_sseu.c | 79 ----------------------------
+>  drivers/gpu/drm/i915/gt/intel_sseu.h |  2 +-
+>  2 files changed, 1 insertion(+), 80 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
+> index 367fd44b81c8..9542c3f3822a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_sseu.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
+> @@ -188,83 +188,6 @@ static void gen11_sseu_info_init(struct intel_gt *gt)
+>  	sseu->has_eu_pg = 1;
+>  }
+>  
+> -static void gen10_sseu_info_init(struct intel_gt *gt)
+> -{
+> -	struct intel_uncore *uncore = gt->uncore;
+> -	struct sseu_dev_info *sseu = &gt->info.sseu;
+> -	const u32 fuse2 = intel_uncore_read(uncore, GEN8_FUSE2);
+> -	const int eu_mask = 0xff;
+> -	u32 subslice_mask, eu_en;
+> -	int s, ss;
+> -
+> -	intel_sseu_set_info(sseu, 6, 4, 8);
+> -
+> -	sseu->slice_mask = (fuse2 & GEN10_F2_S_ENA_MASK) >>
+> -		GEN10_F2_S_ENA_SHIFT;
+> -
+> -	/* Slice0 */
+> -	eu_en = ~intel_uncore_read(uncore, GEN8_EU_DISABLE0);
+> -	for (ss = 0; ss < sseu->max_subslices; ss++)
+> -		sseu_set_eus(sseu, 0, ss, (eu_en >> (8 * ss)) & eu_mask);
+> -	/* Slice1 */
+> -	sseu_set_eus(sseu, 1, 0, (eu_en >> 24) & eu_mask);
+> -	eu_en = ~intel_uncore_read(uncore, GEN8_EU_DISABLE1);
+> -	sseu_set_eus(sseu, 1, 1, eu_en & eu_mask);
+> -	/* Slice2 */
+> -	sseu_set_eus(sseu, 2, 0, (eu_en >> 8) & eu_mask);
+> -	sseu_set_eus(sseu, 2, 1, (eu_en >> 16) & eu_mask);
+> -	/* Slice3 */
+> -	sseu_set_eus(sseu, 3, 0, (eu_en >> 24) & eu_mask);
+> -	eu_en = ~intel_uncore_read(uncore, GEN8_EU_DISABLE2);
+> -	sseu_set_eus(sseu, 3, 1, eu_en & eu_mask);
+> -	/* Slice4 */
+> -	sseu_set_eus(sseu, 4, 0, (eu_en >> 8) & eu_mask);
+> -	sseu_set_eus(sseu, 4, 1, (eu_en >> 16) & eu_mask);
+> -	/* Slice5 */
+> -	sseu_set_eus(sseu, 5, 0, (eu_en >> 24) & eu_mask);
+> -	eu_en = ~intel_uncore_read(uncore, GEN10_EU_DISABLE3);
+> -	sseu_set_eus(sseu, 5, 1, eu_en & eu_mask);
+> -
+> -	subslice_mask = (1 << 4) - 1;
+> -	subslice_mask &= ~((fuse2 & GEN10_F2_SS_DIS_MASK) >>
+> -			   GEN10_F2_SS_DIS_SHIFT);
+> -
+> -	for (s = 0; s < sseu->max_slices; s++) {
+> -		u32 subslice_mask_with_eus = subslice_mask;
+> -
+> -		for (ss = 0; ss < sseu->max_subslices; ss++) {
+> -			if (sseu_get_eus(sseu, s, ss) == 0)
+> -				subslice_mask_with_eus &= ~BIT(ss);
+> -		}
+> -
+> -		/*
+> -		 * Slice0 can have up to 3 subslices, but there are only 2 in
+> -		 * slice1/2.
+> -		 */
+> -		intel_sseu_set_subslices(sseu, s, s == 0 ?
+> -					 subslice_mask_with_eus :
+> -					 subslice_mask_with_eus & 0x3);
+> -	}
+> -
+> -	sseu->eu_total = compute_eu_total(sseu);
+> -
+> -	/*
+> -	 * CNL is expected to always have a uniform distribution
+> -	 * of EU across subslices with the exception that any one
+> -	 * EU in any one subslice may be fused off for die
+> -	 * recovery.
+> -	 */
+> -	sseu->eu_per_subslice =
+> -		intel_sseu_subslice_total(sseu) ?
+> -		DIV_ROUND_UP(sseu->eu_total, intel_sseu_subslice_total(sseu)) :
+> -		0;
+> -
+> -	/* No restrictions on Power Gating */
+> -	sseu->has_slice_pg = 1;
+> -	sseu->has_subslice_pg = 1;
+> -	sseu->has_eu_pg = 1;
+> -}
+> -
+>  static void cherryview_sseu_info_init(struct intel_gt *gt)
+>  {
+>  	struct sseu_dev_info *sseu = &gt->info.sseu;
+> @@ -592,8 +515,6 @@ void intel_sseu_info_init(struct intel_gt *gt)
+>  		bdw_sseu_info_init(gt);
+>  	else if (GRAPHICS_VER(i915) == 9)
+>  		gen9_sseu_info_init(gt);
+> -	else if (GRAPHICS_VER(i915) == 10)
+> -		gen10_sseu_info_init(gt);
+>  	else if (GRAPHICS_VER(i915) == 11)
+>  		gen11_sseu_info_init(gt);
+>  	else if (GRAPHICS_VER(i915) >= 12)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
+> index 4cd1a8a7298a..8d85ec05f610 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_sseu.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
+> @@ -15,7 +15,7 @@ struct drm_i915_private;
+>  struct intel_gt;
+>  struct drm_printer;
+>  
+> -#define GEN_MAX_SLICES		(6) /* CNL upper bound */
+> +#define GEN_MAX_SLICES		(3) /* SKL upper bound */
+>  #define GEN_MAX_SUBSLICES	(8) /* ICL upper bound */
+>  #define GEN_SSEU_STRIDE(max_entries) DIV_ROUND_UP(max_entries, BITS_PER_BYTE)
+>  #define GEN_MAX_SUBSLICE_STRIDE GEN_SSEU_STRIDE(GEN_MAX_SUBSLICES)
+> -- 
+> 2.31.1
+> 
 
-If this is acceptable I'd be happy to write up an accompanying DT binding
-change that marks port 2 of the DP controller's of_graph as a reference to the
-attached panel.
-
- drivers/gpu/drm/msm/dp/dp_display.c | 15 +++++++++++++--
- drivers/gpu/drm/msm/dp/dp_display.h |  1 +
- drivers/gpu/drm/msm/dp/dp_parser.c  | 19 +++++++++++++++++++
- drivers/gpu/drm/msm/dp/dp_parser.h  |  1 +
- 4 files changed, 34 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 206bf7806f51..1db5a3f752d2 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -10,6 +10,7 @@
- #include <linux/component.h>
- #include <linux/of_irq.h>
- #include <linux/delay.h>
-+#include <drm/drm_panel.h>
- 
- #include "msm_drv.h"
- #include "msm_kms.h"
-@@ -252,6 +253,8 @@ static int dp_display_bind(struct device *dev, struct device *master,
- 		goto end;
- 	}
- 
-+	dp->dp_display.drm_panel = dp->parser->drm_panel;
-+
- 	rc = dp_aux_register(dp->aux, drm);
- 	if (rc) {
- 		DRM_ERROR("DRM DP AUX register failed\n");
-@@ -867,8 +870,10 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
- 	return 0;
- }
- 
--static int dp_display_prepare(struct msm_dp *dp)
-+static int dp_display_prepare(struct msm_dp *dp_display)
- {
-+	drm_panel_prepare(dp_display->drm_panel);
-+
- 	return 0;
- }
- 
-@@ -886,6 +891,8 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
- 	if (!rc)
- 		dp_display->power_on = true;
- 
-+	drm_panel_enable(dp_display->drm_panel);
-+
- 	return rc;
- }
- 
-@@ -915,6 +922,8 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
- 	if (!dp_display->power_on)
- 		return 0;
- 
-+	drm_panel_disable(dp_display->drm_panel);
-+
- 	/* wait only if audio was enabled */
- 	if (dp_display->audio_enabled) {
- 		/* signal the disconnect event */
-@@ -939,8 +948,10 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
- 	return 0;
- }
- 
--static int dp_display_unprepare(struct msm_dp *dp)
-+static int dp_display_unprepare(struct msm_dp *dp_display)
- {
-+	drm_panel_unprepare(dp_display->drm_panel);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-index 8b47cdabb67e..ce337824c95d 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.h
-+++ b/drivers/gpu/drm/msm/dp/dp_display.h
-@@ -15,6 +15,7 @@ struct msm_dp {
- 	struct device *codec_dev;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
-+	struct drm_panel *drm_panel;
- 	bool is_connected;
- 	bool audio_enabled;
- 	bool power_on;
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-index fc8a6452f641..e6a6e9007bfd 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.c
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-@@ -6,6 +6,7 @@
- #include <linux/of_gpio.h>
- #include <linux/phy/phy.h>
- 
-+#include <drm/drm_of.h>
- #include <drm/drm_print.h>
- 
- #include "dp_parser.h"
-@@ -276,6 +277,20 @@ static int dp_parser_clock(struct dp_parser *parser)
- 	return 0;
- }
- 
-+static int dp_parser_find_panel(struct dp_parser *parser)
-+{
-+	struct device_node *np = parser->pdev->dev.of_node;
-+	int rc;
-+
-+	rc = drm_of_find_panel_or_bridge(np, 2, 0, &parser->drm_panel, NULL);
-+	if (rc == -ENODEV)
-+		rc = 0;
-+	else if (rc)
-+		DRM_ERROR("failed to acquire DRM panel: %d\n", rc);
-+
-+	return rc;
-+}
-+
- static int dp_parser_parse(struct dp_parser *parser)
- {
- 	int rc = 0;
-@@ -297,6 +312,10 @@ static int dp_parser_parse(struct dp_parser *parser)
- 	if (rc)
- 		return rc;
- 
-+	rc = dp_parser_find_panel(parser);
-+	if (rc)
-+		return rc;
-+
- 	/* Map the corresponding regulator information according to
- 	 * version. Currently, since we only have one supported platform,
- 	 * mapping the regulator directly.
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index 3266b529c090..994ca9336acd 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -122,6 +122,7 @@ struct dp_parser {
- 	struct dp_display_data disp_data;
- 	const struct dp_regulator_cfg *regulator_cfg;
- 	u32 max_dp_lanes;
-+	struct drm_panel *drm_panel;
- 
- 	int (*parse)(struct dp_parser *parser);
- };
 -- 
-2.29.2
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
