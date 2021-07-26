@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8583D5E82
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 17:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D5D73D5EC8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 17:56:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4758D6EC29;
-	Mon, 26 Jul 2021 15:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E1A6EB8C;
+	Mon, 26 Jul 2021 15:56:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5386EC29
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 15:51:38 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id k65so10914999yba.13
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 08:51:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B45E16EB21;
+ Mon, 26 Jul 2021 15:56:33 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id 190so9239943qkk.12;
+ Mon, 26 Jul 2021 08:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=MxUQ1cpOk1/C9p9H/Nnk3DiB/4g8TOaRq0ghLPBQWPY=;
- b=RawFyhq9DvKvSMbXKIt57ZhC8dRO56vUnVXnKc4ZKI3COTSIfCTPoiqNACU/ct0UoE
- 1kV/aJ0beHuPjWWtRPnPE2BpnVCbRnfl+QJaRuitO4tCHEuceCnpE594ejsx1MEKrTUE
- RCqHfIaxNxQINeOsw5I6H657hsuPE+A3OHxkSLn9ieEPt4pO5w74MQm3xdjM7Jh8TAeK
- IWIrLDcGVb+5OWOezV6uvFFs+Nm7dnN3OFJLokze7FlIJSDMXc8yl41RsDZk4WGPVb0L
- 4/lgoa3aC6YDL+nPQVFehkh0L5OyRrzvklfIflA3KvTPkiwaFHX1J987b0z45oIN2SqT
- XKjw==
+ bh=e9XVhRaH1TczqCa76eLVn8zNrWt+6l3OLxw4Ubk1m8A=;
+ b=TXTQAfGj3PduEUVkjW5W0QTA73IakKw9lnBCYW/1B/USOYeKZRM5pc2CxFFhweVM4a
+ 1yS2YR7mvY//3yv3fXfgIs1fKvgMUTx1+XzGKv/R1WYshNlD0t5DHtxJxDYmarA8758u
+ PQoAiU3IcWPURPWisnEy+EPd8VYtNqPJnhSmNdYzAA4pSHK0DgJcRgtS8qRIN6ujCSSl
+ GBocc5SOexvEYeOF0UirQiE83OTrGzLNuUe4JO9X0jnWxx460l8ZKpa58v6r4iVUTgc0
+ QtYM0V6SM787A2WdRoPEIfVh4NyKF3D10wQLCa+ao41PspP3gOe72Sz7VKIa5GlwdfjY
+ qeEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=MxUQ1cpOk1/C9p9H/Nnk3DiB/4g8TOaRq0ghLPBQWPY=;
- b=YENpYaRIcqjKnEgo6+OVkccYo3x7DAiKAYXBdDZBBauClDWyRWYsrqORhGQOeuTDsK
- Gl3+AsWWbkEhfAlxTPTtCrg9FpyHI1Qc/65sVlH8+F6xaikVz2mboEt89BKh1QOjgFbt
- UFef2VZy5wofQM2CkqBZ2d4LMSbPGdLpy8gfLGLCn3d7C03+1sja1Flg5aZFR5XKxpHD
- Hu4wJoB2Nod4sWdvW6C5tOO7uURcRWlK+68CDz2wTDUZNqhtgSiaCcM5EiC+hYHHW29/
- OOqUs4cGu8ZfhFHq0dYmJ6iH/haDyi0rMFqrQ1bLfbcazPq1/d4fXaYcznonvRFoFYOm
- 6pkA==
-X-Gm-Message-State: AOAM533H5jh21DIeUAgUbSjj/79r6oC4QYe3dECayzr8Y/l98iza66XT
- GVAdvj9YL4r/AGd+jDUqI0A/Yd6AzDwywPGJ8kJoKw==
-X-Google-Smtp-Source: ABdhPJx916aR1URzkf6NPLfkbgVcN/KLDIhVc/qpNa8TZOpQdLedlpbtpmrhS0t/A674cEhKo2CMixltatlbx9JojY4=
-X-Received: by 2002:a25:d841:: with SMTP id p62mr3059709ybg.180.1627314697620; 
- Mon, 26 Jul 2021 08:51:37 -0700 (PDT)
+ bh=e9XVhRaH1TczqCa76eLVn8zNrWt+6l3OLxw4Ubk1m8A=;
+ b=oNHaYr5e2PF0mEIW05ANpLbM21a9/hiPbE0FNRv+mRWUdUHEeAdvszevkSRM4cVI8i
+ xZF3idp4mcfOSdkPtu/w/Q5O0GtkH5sNCUVKZBIjU+ZyoCm6a7OwFkZkqGERseRBDECw
+ TOzX6otBKTUaEa6agV0mwsOVLKaaCdWV4wP65LT2xy3uhho86hPZNaODje51eJdOk/bb
+ S2hDrmlElSlwESQYD59PhV6Hc9+Dx5oe65P+2dYQFI89jNz+guwloZVhMnoIem1YI8FS
+ 2oqR5nvvfyyW4BGwwXfarTj6vPf9JOUbuwh3htu1ug/0tATxUYYy60lxr4XJ7Ez8Umsc
+ iAuQ==
+X-Gm-Message-State: AOAM531wtMkDamJs4ECmEqTVNvSe3PQt3TR4iRgFBFCtCucLuyQRq0/z
+ mFlESfpFtNMiyAppB2M7GpjAn/lxqsjMfY3nBEE=
+X-Google-Smtp-Source: ABdhPJzU5nTePJPHJcZijY9ess2g1bgz4H2dGpSSB/GSrspqEXuowcE7ApmXIS8PAsf1sfcC5wZlP3kcPAU7urXq50k=
+X-Received: by 2002:a05:620a:b1b:: with SMTP id
+ t27mr17540412qkg.460.1627314992919; 
+ Mon, 26 Jul 2021 08:56:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210723192934.1004427-1-daniel.vetter@ffwll.ch>
- <20210723192934.1004427-10-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210723192934.1004427-10-daniel.vetter@ffwll.ch>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Mon, 26 Jul 2021 10:51:26 -0500
-Message-ID: <CAOFGe956Y1j-WcvfYCaTTLfT8VGBSede9W_xXXyRcyMYejn+EQ@mail.gmail.com>
-Subject: Re: [PATCH 10/10] drm/i915: Remove i915_globals
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210723172142.3273510-1-jason@jlekstrand.net>
+ <CAM0jSHOgJQni53DJWP0NWJTAR82PNmb6zgt2Gm-faBd1sDaSHA@mail.gmail.com>
+ <CAOFGe95CVvM=7UvH3yBBx9Qr4OPrkRUG7QAXgnSLkWgPGef10g@mail.gmail.com>
+ <CAM0jSHNmO8ZGdvLkJhonReHmNXjBkgvjmki-yLmUUkbLTnqeLQ@mail.gmail.com>
+ <CAOFGe94ZZxm-cahbrzyDkgXGnXT7yVUiHjYO89-hbG8w2=k+Aw@mail.gmail.com>
+In-Reply-To: <CAOFGe94ZZxm-cahbrzyDkgXGnXT7yVUiHjYO89-hbG8w2=k+Aw@mail.gmail.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Mon, 26 Jul 2021 16:56:07 +0100
+Message-ID: <CAM0jSHPANmRWjZGoMTDOgcmNWVVzs+1Wg_9F3hc7GsM_r2u8Wg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 0/8] drm/i915: Migrate memory to SMEM when
+ imported cross-device (v8)
+To: Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,177 +69,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 2:29 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
-e:
+On Mon, 26 Jul 2021 at 16:32, Jason Ekstrand <jason@jlekstrand.net> wrote:
 >
-> No longer used.
+> On Mon, Jul 26, 2021 at 10:29 AM Matthew Auld
+> <matthew.william.auld@gmail.com> wrote:
+> >
+> > On Mon, 26 Jul 2021 at 16:11, Jason Ekstrand <jason@jlekstrand.net> wro=
+te:
+> > >
+> > > On Mon, Jul 26, 2021 at 3:12 AM Matthew Auld
+> > > <matthew.william.auld@gmail.com> wrote:
+> > > >
+> > > > On Fri, 23 Jul 2021 at 18:21, Jason Ekstrand <jason@jlekstrand.net>=
+ wrote:
+> > > > >
+> > > > > This patch series fixes an issue with discrete graphics on Intel =
+where we
+> > > > > allowed dma-buf import while leaving the object in local memory. =
+ This
+> > > > > breaks down pretty badly if the import happened on a different ph=
+ysical
+> > > > > device.
+> > > > >
+> > > > > v7:
+> > > > >  - Drop "drm/i915/gem/ttm: Place new BOs in the requested region"
+> > > > >  - Add a new "drm/i915/gem: Call i915_gem_flush_free_objects() in=
+ i915_gem_dumb_create()"
+> > > > >  - Misc. review feedback from Matthew Auld
+> > > > > v8:
+> > > > >  - Misc. review feedback from Matthew Auld
+> > > > > v9:
+> > > > >  - Replace the i915/ttm patch with two that are hopefully more co=
+rrect
+> > > > >
+> > > > > Jason Ekstrand (6):
+> > > > >   drm/i915/gem: Check object_can_migrate from object_migrate
+> > > > >   drm/i915/gem: Refactor placement setup for i915_gem_object_crea=
+te*
+> > > > >     (v2)
+> > > > >   drm/i915/gem: Call i915_gem_flush_free_objects() in
+> > > > >     i915_gem_dumb_create()
+> > > > >   drm/i915/gem: Unify user object creation (v3)
+> > > > >   drm/i915/gem/ttm: Only call __i915_gem_object_set_pages if need=
+ed
+> > > > >   drm/i915/gem: Always call obj->ops->migrate unless can_migrate =
+fails
+> > > > >
+> > > > > Thomas Hellstr=C3=B6m (2):
+> > > > >   drm/i915/gem: Correct the locking and pin pattern for dma-buf (=
+v8)
+> > > > >   drm/i915/gem: Migrate to system at dma-buf attach time (v7)
+> > > >
+> > > > Should I push the series?
+> > >
+> > > Yes, please.  Do we have a solid testing plan for things like this
+> > > that touch discrete?  I tested with mesa+glxgears on my DG1 but
+> > > haven't run anything more stressful.
+> >
+> > I think all we really have are the migration related selftests, and CI
+> > is not even running them on DG1 due to other breakage. Assuming you
+> > ran these locally, I think we just merge the series?
 >
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Works for me.  Yes, I ran them on my TGL+DG1 box.  I've also tested
+> both GL and Vulkan PRIME support with the client running on DG1 and
+> the compositor running on TGL with this series and everything works
+> smooth.
 
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+And pushed to drm-intel-gt-next.
 
-But, also, tvrtko is right that dumping all that stuff in i915_pci.c
-isn't great.  Mind typing a quick follow-on that moves i915_init/exit
-to i915_drv.c?
-
---Jason
-
-> ---
->  drivers/gpu/drm/i915/Makefile         |  1 -
->  drivers/gpu/drm/i915/gt/intel_gt_pm.c |  1 -
->  drivers/gpu/drm/i915/i915_globals.c   | 53 ---------------------------
->  drivers/gpu/drm/i915/i915_globals.h   | 25 -------------
->  drivers/gpu/drm/i915/i915_pci.c       |  2 -
->  5 files changed, 82 deletions(-)
->  delete mode 100644 drivers/gpu/drm/i915/i915_globals.c
->  delete mode 100644 drivers/gpu/drm/i915/i915_globals.h
 >
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefil=
-e
-> index 10b3bb6207ba..9022dc638ed6 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -166,7 +166,6 @@ i915-y +=3D \
->           i915_gem_gtt.o \
->           i915_gem_ww.o \
->           i915_gem.o \
-> -         i915_globals.o \
->           i915_query.o \
->           i915_request.o \
->           i915_scheduler.o \
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915=
-/gt/intel_gt_pm.c
-> index d86825437516..943c1d416ec0 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -6,7 +6,6 @@
->  #include <linux/suspend.h>
+> --Jason
 >
->  #include "i915_drv.h"
-> -#include "i915_globals.h"
->  #include "i915_params.h"
->  #include "intel_context.h"
->  #include "intel_engine_pm.h"
-> diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i=
-915_globals.c
-> deleted file mode 100644
-> index 04979789e7be..000000000000
-> --- a/drivers/gpu/drm/i915/i915_globals.c
-> +++ /dev/null
-> @@ -1,53 +0,0 @@
-> -/*
-> - * SPDX-License-Identifier: MIT
-> - *
-> - * Copyright =C2=A9 2019 Intel Corporation
-> - */
-> -
-> -#include <linux/slab.h>
-> -#include <linux/workqueue.h>
-> -
-> -#include "i915_globals.h"
-> -#include "i915_drv.h"
-> -
-> -static LIST_HEAD(globals);
-> -
-> -void __init i915_global_register(struct i915_global *global)
-> -{
-> -       GEM_BUG_ON(!global->exit);
-> -
-> -       list_add_tail(&global->link, &globals);
-> -}
-> -
-> -static void __i915_globals_cleanup(void)
-> -{
-> -       struct i915_global *global, *next;
-> -
-> -       list_for_each_entry_safe_reverse(global, next, &globals, link)
-> -               global->exit();
-> -}
-> -
-> -static __initconst int (* const initfn[])(void) =3D {
-> -};
-> -
-> -int __init i915_globals_init(void)
-> -{
-> -       int i;
-> -
-> -       for (i =3D 0; i < ARRAY_SIZE(initfn); i++) {
-> -               int err;
-> -
-> -               err =3D initfn[i]();
-> -               if (err) {
-> -                       __i915_globals_cleanup();
-> -                       return err;
-> -               }
-> -       }
-> -
-> -       return 0;
-> -}
-> -
-> -void i915_globals_exit(void)
-> -{
-> -       __i915_globals_cleanup();
-> -}
-> diff --git a/drivers/gpu/drm/i915/i915_globals.h b/drivers/gpu/drm/i915/i=
-915_globals.h
-> deleted file mode 100644
-> index 57d2998bba45..000000000000
-> --- a/drivers/gpu/drm/i915/i915_globals.h
-> +++ /dev/null
-> @@ -1,25 +0,0 @@
-> -/*
-> - * SPDX-License-Identifier: MIT
-> - *
-> - * Copyright =C2=A9 2019 Intel Corporation
-> - */
-> -
-> -#ifndef _I915_GLOBALS_H_
-> -#define _I915_GLOBALS_H_
-> -
-> -#include <linux/types.h>
-> -
-> -typedef void (*i915_global_func_t)(void);
-> -
-> -struct i915_global {
-> -       struct list_head link;
-> -
-> -       i915_global_func_t exit;
-> -};
-> -
-> -void i915_global_register(struct i915_global *global);
-> -
-> -int i915_globals_init(void);
-> -void i915_globals_exit(void);
-> -
-> -#endif /* _I915_GLOBALS_H_ */
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_=
-pci.c
-> index 0affcf33a211..ed72bcb58331 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -37,7 +37,6 @@
->  #include "gem/i915_gem_object.h"
->  #include "i915_request.h"
->  #include "i915_perf.h"
-> -#include "i915_globals.h"
->  #include "i915_selftest.h"
->  #include "i915_scheduler.h"
->  #include "i915_vma.h"
-> @@ -1308,7 +1307,6 @@ static const struct {
->         { i915_request_module_init, i915_request_module_exit },
->         { i915_scheduler_module_init, i915_scheduler_module_exit },
->         { i915_vma_module_init, i915_vma_module_exit },
-> -       { i915_globals_init, i915_globals_exit },
->         { i915_mock_selftests, NULL },
->         { i915_pmu_init, i915_pmu_exit },
->         { i915_register_pci_driver, i915_unregister_pci_driver },
-> --
-> 2.32.0
 >
+> > >
+> > > --Jason
+> > >
+> > >
+> > > > >
+> > > > >  drivers/gpu/drm/i915/gem/i915_gem_create.c    | 177 ++++++++----=
+----
+> > > > >  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  58 ++++--
+> > > > >  drivers/gpu/drm/i915/gem/i915_gem_object.c    |  20 +-
+> > > > >  drivers/gpu/drm/i915/gem/i915_gem_object.h    |   4 +
+> > > > >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  13 +-
+> > > > >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 190 ++++++++++++=
++++++-
+> > > > >  .../drm/i915/gem/selftests/i915_gem_migrate.c |  15 --
+> > > > >  7 files changed, 341 insertions(+), 136 deletions(-)
+> > > > >
+> > > > > --
+> > > > > 2.31.1
+> > > > >
+> > > > > _______________________________________________
+> > > > > Intel-gfx mailing list
+> > > > > Intel-gfx@lists.freedesktop.org
+> > > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
