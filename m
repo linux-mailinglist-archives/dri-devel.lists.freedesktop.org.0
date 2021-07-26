@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7CE73D5AEC
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 16:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540F73D5BE0
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 16:39:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF6A6E862;
-	Mon, 26 Jul 2021 14:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 748A06EBA8;
+	Mon, 26 Jul 2021 14:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F5A6E821;
- Mon, 26 Jul 2021 14:02:07 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="210350391"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="210350391"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 07:02:06 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="516110255"
-Received: from mandhav-mobl3.gar.corp.intel.com (HELO ldmartin-desk2)
- ([10.251.20.227])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 07:02:05 -0700
-Date: Mon, 26 Jul 2021 07:01:53 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 02/30] drm/i915/display: split DISPLAY_VER 9
- and 10 in intel_setup_outputs()
-Message-ID: <20210726140153.adlmwxqdaiujfzp6@ldmartin-desk2>
-References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-3-lucas.demarchi@intel.com>
- <YPxQwdEAcNRIX9ep@infradead.org>
- <20210725050215.s2ejpin6xkwzba5h@ldmartin-desk2>
- <YP6MU/zzQTwWKOyD@intel.com>
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF026EBA7;
+ Mon, 26 Jul 2021 14:39:50 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id b6so13152970pji.4;
+ Mon, 26 Jul 2021 07:39:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yYvK9aTzc6a6mw4NkjoqvsdrfloQMHrbtNcPQkcDqvs=;
+ b=sNrV1hIjNLb+jarQ5Td+Ia164crR90C5uz98OgfCVUBSZZB7/clHXhcPJv6x8DJbuN
+ rKAl8/Ar8I6pkKdPNSovPLl7JlOOgFjvJXzAuW26ut/CUiuT1JWum4Hevp1VNL0gph5m
+ GmmJSTraAZ+BgqAIvbTV6c1bYkAKqAsESejOKo/kIlGO5LEBQJpHURthQyl65kK0s2vs
+ TdMMaM4c4ifKl6/FWHeBy4+0vUT59SfiX1RCnXvuXjBbVqCohj7oQObXCI/3vERRIifH
+ K6xvLCFG790+7pwl0Wr+ujMKC14Q3gls9yn+gHe4y7PvpALLJSMTDYylu+L2Ut6CFo+4
+ jGvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yYvK9aTzc6a6mw4NkjoqvsdrfloQMHrbtNcPQkcDqvs=;
+ b=AUVvICANMT+z6+qm227uY/nn2kDBdjlhMTO0P3YEod63nzBPc/aDomXQllIu4aOJqs
+ H2Xvhbq4OVgQCv0pDTZmdOrcnVWomvyFHbGvCmXaJTYfJf/HjVz/Mxn4yLN2MsyTSm2O
+ OPgPWRE9S0eIElD2wBslDPxNr/nu/bfns4IhfgjG3VH4rvFOBgXDshGrjqdrLnE/hr72
+ X/vQhCDthJBeEu8jJB/MOJeTZPlRSs8csC//0xgsYw2Ix8QmUKy1IHsflmu2/WCp+XkZ
+ KHv12Jk5Muw8zIngJIRrNhdm9rUMlaGpNTBwoRtq+cBXoeTVm65w0Ales5eFMgofFVdv
+ BWGQ==
+X-Gm-Message-State: AOAM5311AQNKCN7+3kjlA0XOxcTAsMCjWI2wemH6sXaa8ui3VCewBICT
+ i3+XUQerz5qG0wmZyfOyS0n6I6kW6j2USA==
+X-Google-Smtp-Source: ABdhPJyANxBEIcujpjY/aUnkk7Nm6OAiHljjrusdLSVto/jwB7ZIzT4K22rrIQ3wqUrjA6/cHXMBeg==
+X-Received: by 2002:a17:90b:1e46:: with SMTP id
+ pi6mr8048098pjb.57.1627310389230; 
+ Mon, 26 Jul 2021 07:39:49 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id d31sm28342226pgd.33.2021.07.26.07.39.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 07:39:48 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/msm: Reduce fence signal latency
+Date: Mon, 26 Jul 2021 07:43:56 -0700
+Message-Id: <20210726144359.2179302-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <YP6MU/zzQTwWKOyD@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,43 +66,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Hellwig <hch@infradead.org>, Jani Nikula <jani.nikula@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 26, 2021 at 06:20:03AM -0400, Rodrigo Vivi wrote:
->On Sat, Jul 24, 2021 at 10:02:15PM -0700, Lucas De Marchi wrote:
->> On Sat, Jul 24, 2021 at 06:41:21PM +0100, Christoph Hellwig wrote:
->> > Still tests fine:
->> >
->> > Tested-by: Christoph Hellwig <hch@lst.de>
->>
->> I just pushed this  to drm-intel-next as part of another series and
->> added your Tested-by.
->>
->> Rodrigo, can you pick this up for -fixes? This should go with your other
->> patch to fix the port mask, too.
->
->done.
->
->But while doing this and reviewing this series at the same time
->I got myself wondering if we shouldn't remove the PORT_F support
->entirely...
+From: Rob Clark <robdclark@chromium.org>
 
-well, there is still ICL with some skus having it. I'm not sure we
-actually have that sku out in the wild, but if we do, we wouldn't be
-able to remove it.
+A couple tweaks to reduce fence signal latency.
 
-Lucas De Marchi
+Rob Clark (2):
+  drm/msm: Let fences read directly from memptrs
+  drm/msm: Signal fences sooner
 
->
->>
->> Thanks for the bug report and test.
->>
->> Lucas De Marchi
->> _______________________________________________
->> Intel-gfx mailing list
->> Intel-gfx@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+ drivers/gpu/drm/msm/msm_fence.c      | 11 +++++--
+ drivers/gpu/drm/msm/msm_fence.h      | 41 +++++++++++++++++++++++---
+ drivers/gpu/drm/msm/msm_gpu.c        | 44 ++++++++++++++++------------
+ drivers/gpu/drm/msm/msm_ringbuffer.c |  2 +-
+ 4 files changed, 73 insertions(+), 25 deletions(-)
+
+-- 
+2.31.1
+
