@@ -1,38 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973D23D575A
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:23:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C133D5771
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:27:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6764C6F5D5;
-	Mon, 26 Jul 2021 10:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE3A46E863;
+	Mon, 26 Jul 2021 10:27:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B63E6F5D5;
- Mon, 26 Jul 2021 10:23:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="191793662"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="191793662"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:23:03 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="417012663"
-Received: from dechasso-mobl3.amr.corp.intel.com (HELO intel.com)
- ([10.212.115.115])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:23:01 -0700
-Date: Mon, 26 Jul 2021 06:22:59 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 24/30] drm/i915: rename CNL references in intel_dram.c
-Message-ID: <YP6NA8YnP3eMEMXm@intel.com>
-References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-25-lucas.demarchi@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 264426E863
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 10:27:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbrezillon) with ESMTPSA id 71D481F4285E
+Date: Mon, 26 Jul 2021 12:27:06 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH v4 5/7] drm/panfrost: Add a new ioctl to submit batches
+Message-ID: <20210726122706.7fb3a8d5@collabora.com>
+In-Reply-To: <1fe2d843-041d-40f6-b552-91f159487495@gmail.com>
+References: <20210705082950.3573841-1-boris.brezillon@collabora.com>
+ <20210705082950.3573841-6-boris.brezillon@collabora.com>
+ <YOLRnPjCDkc9DRxE@phenom.ffwll.local>
+ <1fe2d843-041d-40f6-b552-91f159487495@gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210724001114.249295-25-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,125 +41,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Jose Souza <jose.souza@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:11:08PM -0700, Lucas De Marchi wrote:
-> With the removal of CNL, let's consider ICL as the first platform using
-> those constants.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+On Thu, 8 Jul 2021 14:10:45 +0200
+Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com> wrote:
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> >> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> >> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> >> @@ -254,6 +254,9 @@ static int panfrost_acquire_object_fences(struct p=
+anfrost_job *job)
+> >>   				return ret;
+> >>   		}
+> >>  =20
+> >> +		if (job->bo_flags[i] & PANFROST_BO_REF_NO_IMPLICIT_DEP)
+> >> +			continue; =20
+> > This breaks dma_resv rules. I'll send out patch set fixing this pattern=
+ in
+> > other drivers, I'll ping you on that for what you need to change. Should
+> > go out today or so.
 
-> ---
->  drivers/gpu/drm/i915/i915_reg.h   | 24 +++++++++++------------
->  drivers/gpu/drm/i915/intel_dram.c | 32 +++++++++++++++----------------
->  2 files changed, 28 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index f032a4c8b26d..8782d1723254 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -11082,18 +11082,18 @@ enum skl_power_gate {
->  #define  SKL_DRAM_RANK_1			(0x0 << 10)
->  #define  SKL_DRAM_RANK_2			(0x1 << 10)
->  #define  SKL_DRAM_RANK_MASK			(0x1 << 10)
-> -#define  CNL_DRAM_SIZE_MASK			0x7F
-> -#define  CNL_DRAM_WIDTH_MASK			(0x3 << 7)
-> -#define  CNL_DRAM_WIDTH_SHIFT			7
-> -#define  CNL_DRAM_WIDTH_X8			(0x0 << 7)
-> -#define  CNL_DRAM_WIDTH_X16			(0x1 << 7)
-> -#define  CNL_DRAM_WIDTH_X32			(0x2 << 7)
-> -#define  CNL_DRAM_RANK_MASK			(0x3 << 9)
-> -#define  CNL_DRAM_RANK_SHIFT			9
-> -#define  CNL_DRAM_RANK_1			(0x0 << 9)
-> -#define  CNL_DRAM_RANK_2			(0x1 << 9)
-> -#define  CNL_DRAM_RANK_3			(0x2 << 9)
-> -#define  CNL_DRAM_RANK_4			(0x3 << 9)
-> +#define  ICL_DRAM_SIZE_MASK			0x7F
-> +#define  ICL_DRAM_WIDTH_MASK			(0x3 << 7)
-> +#define  ICL_DRAM_WIDTH_SHIFT			7
-> +#define  ICL_DRAM_WIDTH_X8			(0x0 << 7)
-> +#define  ICL_DRAM_WIDTH_X16			(0x1 << 7)
-> +#define  ICL_DRAM_WIDTH_X32			(0x2 << 7)
-> +#define  ICL_DRAM_RANK_MASK			(0x3 << 9)
-> +#define  ICL_DRAM_RANK_SHIFT			9
-> +#define  ICL_DRAM_RANK_1			(0x0 << 9)
-> +#define  ICL_DRAM_RANK_2			(0x1 << 9)
-> +#define  ICL_DRAM_RANK_3			(0x2 << 9)
-> +#define  ICL_DRAM_RANK_4			(0x3 << 9)
->  
->  #define SA_PERF_STATUS_0_0_0_MCHBAR_PC		_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5918)
->  #define  DG1_QCLK_RATIO_MASK			REG_GENMASK(9, 2)
-> diff --git a/drivers/gpu/drm/i915/intel_dram.c b/drivers/gpu/drm/i915/intel_dram.c
-> index 9675bb94b70b..34d6cf440352 100644
-> --- a/drivers/gpu/drm/i915/intel_dram.c
-> +++ b/drivers/gpu/drm/i915/intel_dram.c
-> @@ -77,21 +77,21 @@ static int skl_get_dimm_ranks(u16 val)
->  }
->  
->  /* Returns total Gb for the whole DIMM */
-> -static int cnl_get_dimm_size(u16 val)
-> +static int icl_get_dimm_size(u16 val)
->  {
-> -	return (val & CNL_DRAM_SIZE_MASK) * 8 / 2;
-> +	return (val & ICL_DRAM_SIZE_MASK) * 8 / 2;
->  }
->  
-> -static int cnl_get_dimm_width(u16 val)
-> +static int icl_get_dimm_width(u16 val)
->  {
-> -	if (cnl_get_dimm_size(val) == 0)
-> +	if (icl_get_dimm_size(val) == 0)
->  		return 0;
->  
-> -	switch (val & CNL_DRAM_WIDTH_MASK) {
-> -	case CNL_DRAM_WIDTH_X8:
-> -	case CNL_DRAM_WIDTH_X16:
-> -	case CNL_DRAM_WIDTH_X32:
-> -		val = (val & CNL_DRAM_WIDTH_MASK) >> CNL_DRAM_WIDTH_SHIFT;
-> +	switch (val & ICL_DRAM_WIDTH_MASK) {
-> +	case ICL_DRAM_WIDTH_X8:
-> +	case ICL_DRAM_WIDTH_X16:
-> +	case ICL_DRAM_WIDTH_X32:
-> +		val = (val & ICL_DRAM_WIDTH_MASK) >> ICL_DRAM_WIDTH_SHIFT;
->  		return 8 << val;
->  	default:
->  		MISSING_CASE(val);
-> @@ -99,12 +99,12 @@ static int cnl_get_dimm_width(u16 val)
->  	}
->  }
->  
-> -static int cnl_get_dimm_ranks(u16 val)
-> +static int icl_get_dimm_ranks(u16 val)
->  {
-> -	if (cnl_get_dimm_size(val) == 0)
-> +	if (icl_get_dimm_size(val) == 0)
->  		return 0;
->  
-> -	val = (val & CNL_DRAM_RANK_MASK) >> CNL_DRAM_RANK_SHIFT;
-> +	val = (val & ICL_DRAM_RANK_MASK) >> ICL_DRAM_RANK_SHIFT;
->  
->  	return val + 1;
->  }
-> @@ -121,10 +121,10 @@ skl_dram_get_dimm_info(struct drm_i915_private *i915,
->  		       struct dram_dimm_info *dimm,
->  		       int channel, char dimm_name, u16 val)
->  {
-> -	if (GRAPHICS_VER(i915) >= 10) {
-> -		dimm->size = cnl_get_dimm_size(val);
-> -		dimm->width = cnl_get_dimm_width(val);
-> -		dimm->ranks = cnl_get_dimm_ranks(val);
-> +	if (GRAPHICS_VER(i915) >= 11) {
-> +		dimm->size = icl_get_dimm_size(val);
-> +		dimm->width = icl_get_dimm_width(val);
-> +		dimm->ranks = icl_get_dimm_ranks(val);
->  	} else {
->  		dimm->size = skl_get_dimm_size(val);
->  		dimm->width = skl_get_dimm_width(val);
-> -- 
-> 2.31.1
-> 
+I guess you're talking about [1]. TBH, I don't quite see the point of
+exposing a 'no-implicit' flag if we end up forcing this implicit dep
+anyway, but I'm probably missing something.
+
+>=20
+> I'm really wondering if the behavior that the exclusive fences replaces=20
+> all the shared fences was such a good idea.
+
+Is that what's done in [1], or are you talking about a different
+patchset/approach?
+
+>=20
+> It just allows drivers to mess up things in a way which can be easily=20
+> used to compromise the system.
+
+I must admit I'm a bit lost, so I'm tempted to drop that flag for now
+:-).
+
+[1]https://patchwork.freedesktop.org/patch/443711/?series=3D92334&rev=3D3
