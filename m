@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4909F3D7D57
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0E03D7D67
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CEC16EA63;
-	Tue, 27 Jul 2021 18:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA8C6EA02;
+	Tue, 27 Jul 2021 18:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1776E854
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 18:25:38 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id w17so22147144ybl.11
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 11:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rUE7LeW2i/MXeJ7BpjRroFZaGRlXaZd9UAdi1TEb5vU=;
- b=XPQG9tQIL3bGsXLl6bVbclwtB+pR147q9OJYJ+zjBURwhwbfYIb89IZXqNitQfMlJw
- NsAc6WI7rLtpAqgQD6DVnEEYJ5IibZW3g6WgfF1W8CjOOzuj8/ZGDhp90zTavnjv/KaG
- pg5tBkRL43nqr0raUdaXwcUwFIKiz13GhMkyT7S7ikFr7FV2DPFszKCoP5uwTOgT1h2i
- veisQxhroIpWgm2QqsUg4X7EL3tLjDkj820/l3Hl1LPQ/SlIz9Pr02fBJG/aJ5YcpZ+X
- 0sz0pe4puLzjXJ14y9fxxOhENsbe7hyEkiLnd7kPqdCNve7gQUAalkOH2T0RAVfbJdGr
- hONA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rUE7LeW2i/MXeJ7BpjRroFZaGRlXaZd9UAdi1TEb5vU=;
- b=uRYfXZ0m9/RCYpbjA7lXvHpZIae2ClItqL6M2CFE3pP6S21QZPvc6c1qMo+AxNVRya
- 7nlLM3+oW0eVC9SSqMcwVFv4y9D4OOCrXyJZsfqjl+er0Z/knxX3BB2z+kk5+da+lTYz
- 64BiwrqoUG6pGE1Y92HZ28XxlvBMwOKMAP3GeZ/lSiGrPc0RKoHgC6RWWE94aWvDmpk+
- iGh7rvhGY1n5YdmIEhOOttfGVPPEcwjKhKrH/X4U/GIiT82WWD50oXzFgB5HI+nDNVh3
- oiz6qZDLQsIP+Z3bTKAJyKPeZcUIwa5gex7vxJEGDHlhleC20jR/izZvZLAmI3YT0+eR
- OkUg==
-X-Gm-Message-State: AOAM533fTIwHCl+WgI6Gb4zhKesEsdiWmg7h9MXFqY5xrALMwbFAqpKv
- uoPBnpRJnjOifdFeVvRJw4wLA+p3U818ro5pM8KGOA==
-X-Google-Smtp-Source: ABdhPJxtF/qqMJstgN51H+0kJbmM2b6hbXVt5OJPZJnQz2goSSS9By3iC/eFG7qBK7J2z6w9nS0vwNwHY9hRkDKKCcU=
-X-Received: by 2002:a25:5584:: with SMTP id
- j126mr33410119ybb.323.1627410337518; 
- Tue, 27 Jul 2021 11:25:37 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DBC06E9ED;
+ Tue, 27 Jul 2021 18:27:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7B13F22232;
+ Tue, 27 Jul 2021 18:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1627410443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sQ6ZV92dJ08qx/qugWtkh00/YBKXreku+jL667Muqu0=;
+ b=D0cLMEU9NsuCfTXvqQtEbX1HDtbx7wN14JyvEMEAicN/lujXZsMRpaMmHmozuySGPEJ1Uc
+ +69RTnQEkpLP/arxjF2vEaZXcAHsp2fphBALU2b6A8hVafYHVRfazH1OMxNQGrIqoGn+rL
+ F/hPnngabcThN20zbcKn02itDRhVtBU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1627410443;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sQ6ZV92dJ08qx/qugWtkh00/YBKXreku+jL667Muqu0=;
+ b=kRlL1QTjVdWAi74feH3SDtwagrTqK/hY9VDUZ4wLDMoVDiGyXLHa17V1fp4fSe589gMwL3
+ 4JeEzQqDDzsY/IDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E529F13B86;
+ Tue, 27 Jul 2021 18:27:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id MJLeNgpQAGGwGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:22 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
+ sam@ravnborg.org, bbrezillon@kernel.org, nicolas.ferre@microchip.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
+ alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
+ anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
+ sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org
+Subject: [PATCH 00/14] drm: Make DRM's IRQ helpers legacy
+Date: Tue, 27 Jul 2021 20:27:07 +0200
+Message-Id: <20210727182721.17981-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210727121037.2041102-1-daniel.vetter@ffwll.ch>
- <20210727121037.2041102-11-daniel.vetter@ffwll.ch>
- <f3b20f36-a76d-032a-3fb7-1a7c3e839478@linux.intel.com>
-In-Reply-To: <f3b20f36-a76d-032a-3fb7-1a7c3e839478@linux.intel.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Tue, 27 Jul 2021 13:25:26 -0500
-Message-ID: <CAOFGe96pq0ximhgudK4zbgK44Pp0609nUQk1aAkB=W1ZQhVxeg@mail.gmail.com>
-Subject: Re: [PATCH v2 11/11] drm/i915: Extract i915_module.c
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,380 +68,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 9:44 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 27/07/2021 13:10, Daniel Vetter wrote:
-> > The module init code is somewhat misplaced in i915_pci.c, since it
-> > needs to pull in init/exit functions from every part of the driver and
-> > pollutes the include list a lot.
-> >
-> > Extract an i915_module.c file which pulls all the bits together, and
-> > allows us to massively trim the include list of i915_pci.c.
-> >
-> > The downside is that have to drop the error path check Jason added to
-> > catch when we set up the pci driver too early. I think that risk is
-> > acceptable for this pretty nice include.
->
-> i915_module.c is an improvement and the rest for me is not extremely
-> objectionable by the end of this incarnation, but I also do not see it
-> as an improvement really.
+DRM's IRQ helpers are only helpful for old, non-KMS drivers. Move
+the code behind CONFIG_DRM_LEGACY. Convert KMS drivers to Linux
+IRQ interfaces.
 
-It's not a big improvement to be sure, but I think there are a few
-ways this is nicer:
+DRM provides IRQ helpers for setting up, receiving and removing IRQ
+handlers. It's an abstraction over plain Linux functions. The code
+is mid-layerish with several callbacks to hook into the rsp drivers.
+Old UMS driver have their interrupts enabled via ioctl, so these
+abstractions makes some sense. Modern KMS manage all their interrupts
+internally. Using the DRM helpers adds indirection without benefits.
 
- 1. One less level of indirection to sort through.
- 2. The init/exit table is generally simpler than the i915_global interface=
-.
- 3. It's easy to forget i915_global_register but forgetting to put an
-_exit function in the module init table is a lot more obvious.
+Most KMs drivers already use Linux IRQ functions instead of DRM's
+abstraction layer. Patches 1 to 12 convert the remaining ones.
+The patches also resolve a bug for devices without assigned interrupt
+number. DRM helpers don't test for IRQ_NOTCONNECTED, so drivers do
+not detect if the device has no interrupt assigned.
 
-None of those are deal-breakers but they're kind-of nice.  Anyway,
-this one is also
+Patch 13 removes an unused function.
 
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+Patch 14 moves the DRM IRQ helpers behind CONFIG_DRM_LEGACY. Only
+the old non-KMS drivers still use the functionality.
 
---Jason
+Thomas Zimmermann (14):
+  drm/amdgpu: Convert to Linux IRQ interfaces
+  drm/arm/hdlcd: Convert to Linux IRQ interfaces
+  drm/atmel-hlcdc: Convert to Linux IRQ interfaces
+  drm/fsl-dcu: Convert to Linux IRQ interfaces
+  drm/gma500: Convert to Linux IRQ interfaces
+  drm/kmb: Convert to Linux IRQ interfaces
+  drm/msm: Convert to Linux IRQ interfaces
+  drm/mxsfb: Convert to Linux IRQ interfaces
+  drm/radeon: Convert to Linux IRQ interfaces
+  drm/tidss: Convert to Linux IRQ interfaces
+  drm/tilcdc: Convert to Linux IRQ interfaces
+  drm/vc4: Convert to Linux IRQ interfaces
+  drm: Remove unused devm_drm_irq_install()
+  drm: IRQ midlayer is now legacy
 
-> There was a bug to fix relating to mock tests, but that is where the
-> exercise should have stopped for now. After that it IMHO spiraled out of
-> control, not least the unjustifiably expedited removal of cache
-> shrinking. On balance for me it is too churny and boils down to two
-> extremely capable people spending time on kind of really unimportant
-> side fiddles. And I do not intend to prescribe you what to do, just
-> expressing my bewilderment. FWIW... I can only say my opinion as it, not
-> that it matters a lot.
->
-> Regards,
->
-> Tvrtko
->
-> > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/Makefile      |   1 +
-> >   drivers/gpu/drm/i915/i915_module.c | 113 ++++++++++++++++++++++++++++
-> >   drivers/gpu/drm/i915/i915_pci.c    | 117 +---------------------------=
--
-> >   drivers/gpu/drm/i915/i915_pci.h    |   8 ++
-> >   4 files changed, 125 insertions(+), 114 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/i915/i915_module.c
-> >   create mode 100644 drivers/gpu/drm/i915/i915_pci.h
-> >
-> > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makef=
-ile
-> > index 9022dc638ed6..4ebd9f417ddb 100644
-> > --- a/drivers/gpu/drm/i915/Makefile
-> > +++ b/drivers/gpu/drm/i915/Makefile
-> > @@ -38,6 +38,7 @@ i915-y +=3D i915_drv.o \
-> >         i915_irq.o \
-> >         i915_getparam.o \
-> >         i915_mitigations.o \
-> > +       i915_module.o \
-> >         i915_params.o \
-> >         i915_pci.o \
-> >         i915_scatterlist.o \
-> > diff --git a/drivers/gpu/drm/i915/i915_module.c b/drivers/gpu/drm/i915/=
-i915_module.c
-> > new file mode 100644
-> > index 000000000000..c578ea8f56a0
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/i915/i915_module.c
-> > @@ -0,0 +1,113 @@
-> > +/*
-> > + * SPDX-License-Identifier: MIT
-> > + *
-> > + * Copyright =C2=A9 2021 Intel Corporation
-> > + */
-> > +
-> > +#include <linux/console.h>
-> > +
-> > +#include "gem/i915_gem_context.h"
-> > +#include "gem/i915_gem_object.h"
-> > +#include "i915_active.h"
-> > +#include "i915_buddy.h"
-> > +#include "i915_params.h"
-> > +#include "i915_pci.h"
-> > +#include "i915_perf.h"
-> > +#include "i915_request.h"
-> > +#include "i915_scheduler.h"
-> > +#include "i915_selftest.h"
-> > +#include "i915_vma.h"
-> > +
-> > +static int i915_check_nomodeset(void)
-> > +{
-> > +     bool use_kms =3D true;
-> > +
-> > +     /*
-> > +      * Enable KMS by default, unless explicitly overriden by
-> > +      * either the i915.modeset prarameter or by the
-> > +      * vga_text_mode_force boot option.
-> > +      */
-> > +
-> > +     if (i915_modparams.modeset =3D=3D 0)
-> > +             use_kms =3D false;
-> > +
-> > +     if (vgacon_text_force() && i915_modparams.modeset =3D=3D -1)
-> > +             use_kms =3D false;
-> > +
-> > +     if (!use_kms) {
-> > +             /* Silently fail loading to not upset userspace. */
-> > +             DRM_DEBUG_DRIVER("KMS disabled.\n");
-> > +             return 1;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct {
-> > +   int (*init)(void);
-> > +   void (*exit)(void);
-> > +} init_funcs[] =3D {
-> > +     { i915_check_nomodeset, NULL },
-> > +     { i915_active_module_init, i915_active_module_exit },
-> > +     { i915_buddy_module_init, i915_buddy_module_exit },
-> > +     { i915_context_module_init, i915_context_module_exit },
-> > +     { i915_gem_context_module_init, i915_gem_context_module_exit },
-> > +     { i915_objects_module_init, i915_objects_module_exit },
-> > +     { i915_request_module_init, i915_request_module_exit },
-> > +     { i915_scheduler_module_init, i915_scheduler_module_exit },
-> > +     { i915_vma_module_init, i915_vma_module_exit },
-> > +     { i915_mock_selftests, NULL },
-> > +     { i915_pmu_init, i915_pmu_exit },
-> > +     { i915_register_pci_driver, i915_unregister_pci_driver },
-> > +     { i915_perf_sysctl_register, i915_perf_sysctl_unregister },
-> > +};
-> > +static int init_progress;
-> > +
-> > +static int __init i915_init(void)
-> > +{
-> > +     int err, i;
-> > +
-> > +     for (i =3D 0; i < ARRAY_SIZE(init_funcs); i++) {
-> > +             err =3D init_funcs[i].init();
-> > +             if (err < 0) {
-> > +                     while (i--) {
-> > +                             if (init_funcs[i].exit)
-> > +                                     init_funcs[i].exit();
-> > +                     }
-> > +                     return err;
-> > +             } else if (err > 0) {
-> > +                     /*
-> > +                      * Early-exit success is reserved for things whic=
-h
-> > +                      * don't have an exit() function because we have =
-no
-> > +                      * idea how far they got or how to partially tear
-> > +                      * them down.
-> > +                      */
-> > +                     WARN_ON(init_funcs[i].exit);
-> > +                     break;
-> > +             }
-> > +     }
-> > +
-> > +     init_progress =3D i;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void __exit i915_exit(void)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i =3D init_progress - 1; i >=3D 0; i--) {
-> > +             GEM_BUG_ON(i >=3D ARRAY_SIZE(init_funcs));
-> > +             if (init_funcs[i].exit)
-> > +                     init_funcs[i].exit();
-> > +     }
-> > +}
-> > +
-> > +module_init(i915_init);
-> > +module_exit(i915_exit);
-> > +
-> > +MODULE_AUTHOR("Tungsten Graphics, Inc.");
-> > +MODULE_AUTHOR("Intel Corporation");
-> > +
-> > +MODULE_DESCRIPTION(DRIVER_DESC);
-> > +MODULE_LICENSE("GPL and additional rights");
-> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i91=
-5_pci.c
-> > index b4f5e88aaae6..08651ca03478 100644
-> > --- a/drivers/gpu/drm/i915/i915_pci.c
-> > +++ b/drivers/gpu/drm/i915/i915_pci.c
-> > @@ -22,24 +22,13 @@
-> >    *
-> >    */
-> >
-> > -#include <linux/console.h>
-> >   #include <linux/vga_switcheroo.h>
-> >
-> >   #include <drm/drm_drv.h>
-> >   #include <drm/i915_pciids.h>
-> >
-> > -#include "display/intel_fbdev.h"
-> > -
-> > -#include "i915_active.h"
-> > -#include "i915_buddy.h"
-> >   #include "i915_drv.h"
-> > -#include "gem/i915_gem_context.h"
-> > -#include "gem/i915_gem_object.h"
-> > -#include "i915_request.h"
-> > -#include "i915_perf.h"
-> > -#include "i915_selftest.h"
-> > -#include "i915_scheduler.h"
-> > -#include "i915_vma.h"
-> > +#include "i915_pci.h"
-> >
-> >   #define PLATFORM(x) .platform =3D (x)
-> >   #define GEN(x) \
-> > @@ -1251,31 +1240,6 @@ static void i915_pci_shutdown(struct pci_dev *pd=
-ev)
-> >       i915_driver_shutdown(i915);
-> >   }
-> >
-> > -static int i915_check_nomodeset(void)
-> > -{
-> > -     bool use_kms =3D true;
-> > -
-> > -     /*
-> > -      * Enable KMS by default, unless explicitly overriden by
-> > -      * either the i915.modeset prarameter or by the
-> > -      * vga_text_mode_force boot option.
-> > -      */
-> > -
-> > -     if (i915_modparams.modeset =3D=3D 0)
-> > -             use_kms =3D false;
-> > -
-> > -     if (vgacon_text_force() && i915_modparams.modeset =3D=3D -1)
-> > -             use_kms =3D false;
-> > -
-> > -     if (!use_kms) {
-> > -             /* Silently fail loading to not upset userspace. */
-> > -             DRM_DEBUG_DRIVER("KMS disabled.\n");
-> > -             return 1;
-> > -     }
-> > -
-> > -     return 0;
-> > -}
-> > -
-> >   static struct pci_driver i915_pci_driver =3D {
-> >       .name =3D DRIVER_NAME,
-> >       .id_table =3D pciidlist,
-> > @@ -1285,87 +1249,12 @@ static struct pci_driver i915_pci_driver =3D {
-> >       .driver.pm =3D &i915_pm_ops,
-> >   };
-> >
-> > -static int i915_register_pci_driver(void)
-> > +int i915_register_pci_driver(void)
-> >   {
-> >       return pci_register_driver(&i915_pci_driver);
-> >   }
-> >
-> > -static void i915_unregister_pci_driver(void)
-> > +void i915_unregister_pci_driver(void)
-> >   {
-> >       pci_unregister_driver(&i915_pci_driver);
-> >   }
-> > -
-> > -static const struct {
-> > -   int (*init)(void);
-> > -   void (*exit)(void);
-> > -} init_funcs[] =3D {
-> > -     { i915_check_nomodeset, NULL },
-> > -     { i915_active_module_init, i915_active_module_exit },
-> > -     { i915_buddy_module_init, i915_buddy_module_exit },
-> > -     { i915_context_module_init, i915_context_module_exit },
-> > -     { i915_gem_context_module_init, i915_gem_context_module_exit },
-> > -     { i915_objects_module_init, i915_objects_module_exit },
-> > -     { i915_request_module_init, i915_request_module_exit },
-> > -     { i915_scheduler_module_init, i915_scheduler_module_exit },
-> > -     { i915_vma_module_init, i915_vma_module_exit },
-> > -     { i915_mock_selftests, NULL },
-> > -     { i915_pmu_init, i915_pmu_exit },
-> > -     { i915_register_pci_driver, i915_unregister_pci_driver },
-> > -     { i915_perf_sysctl_register, i915_perf_sysctl_unregister },
-> > -};
-> > -static int init_progress;
-> > -
-> > -static int __init i915_init(void)
-> > -{
-> > -     int err, i;
-> > -
-> > -     for (i =3D 0; i < ARRAY_SIZE(init_funcs); i++) {
-> > -             err =3D init_funcs[i].init();
-> > -             if (err < 0) {
-> > -                     while (i--) {
-> > -                             if (init_funcs[i].exit)
-> > -                                     init_funcs[i].exit();
-> > -                     }
-> > -                     return err;
-> > -             } else if (err > 0) {
-> > -                     /*
-> > -                      * Early-exit success is reserved for things whic=
-h
-> > -                      * don't have an exit() function because we have =
-no
-> > -                      * idea how far they got or how to partially tear
-> > -                      * them down.
-> > -                      */
-> > -                     WARN_ON(init_funcs[i].exit);
-> > -
-> > -                     /*
-> > -                      * We don't want to advertise devices with an onl=
-y
-> > -                      * partially initialized driver.
-> > -                      */
-> > -                     WARN_ON(i915_pci_driver.driver.owner);
-> > -                     break;
-> > -             }
-> > -     }
-> > -
-> > -     init_progress =3D i;
-> > -
-> > -     return 0;
-> > -}
-> > -
-> > -static void __exit i915_exit(void)
-> > -{
-> > -     int i;
-> > -
-> > -     for (i =3D init_progress - 1; i >=3D 0; i--) {
-> > -             GEM_BUG_ON(i >=3D ARRAY_SIZE(init_funcs));
-> > -             if (init_funcs[i].exit)
-> > -                     init_funcs[i].exit();
-> > -     }
-> > -}
-> > -
-> > -module_init(i915_init);
-> > -module_exit(i915_exit);
-> > -
-> > -MODULE_AUTHOR("Tungsten Graphics, Inc.");
-> > -MODULE_AUTHOR("Intel Corporation");
-> > -
-> > -MODULE_DESCRIPTION(DRIVER_DESC);
-> > -MODULE_LICENSE("GPL and additional rights");
-> > diff --git a/drivers/gpu/drm/i915/i915_pci.h b/drivers/gpu/drm/i915/i91=
-5_pci.h
-> > new file mode 100644
-> > index 000000000000..b386f319f52e
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/i915/i915_pci.h
-> > @@ -0,0 +1,8 @@
-> > +/*
-> > + * SPDX-License-Identifier: MIT
-> > + *
-> > + * Copyright =C2=A9 2021 Intel Corporation
-> > + */
-> > +
-> > +int i915_register_pci_driver(void);
-> > +void i915_unregister_pci_driver(void);
-> >
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c      |  21 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h      |   2 +-
+ drivers/gpu/drm/arm/hdlcd_drv.c              | 174 ++++++++++---------
+ drivers/gpu/drm/arm/hdlcd_drv.h              |   1 +
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c |  85 +++++----
+ drivers/gpu/drm/drm_irq.c                    |  95 +---------
+ drivers/gpu/drm/drm_legacy_misc.c            |   3 +-
+ drivers/gpu/drm/drm_vblank.c                 |   8 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c    |  78 +++++----
+ drivers/gpu/drm/gma500/power.c               |   1 +
+ drivers/gpu/drm/gma500/psb_drv.c             |   8 +-
+ drivers/gpu/drm/gma500/psb_drv.h             |   5 -
+ drivers/gpu/drm/gma500/psb_irq.c             |  26 ++-
+ drivers/gpu/drm/gma500/psb_irq.h             |   4 +-
+ drivers/gpu/drm/i810/i810_dma.c              |   3 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                |  26 ++-
+ drivers/gpu/drm/mga/mga_dma.c                |   2 +-
+ drivers/gpu/drm/mga/mga_drv.h                |   1 -
+ drivers/gpu/drm/msm/msm_drv.c                | 113 +++++++-----
+ drivers/gpu/drm/msm/msm_kms.h                |   2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c            |  81 +++++----
+ drivers/gpu/drm/mxsfb/mxsfb_drv.h            |   2 +
+ drivers/gpu/drm/r128/r128_cce.c              |   3 +-
+ drivers/gpu/drm/radeon/radeon_drv.c          |   4 -
+ drivers/gpu/drm/radeon/radeon_irq_kms.c      |  44 ++++-
+ drivers/gpu/drm/radeon/radeon_kms.h          |   4 -
+ drivers/gpu/drm/tidss/tidss_drv.c            |  15 +-
+ drivers/gpu/drm/tidss/tidss_drv.h            |   2 +
+ drivers/gpu/drm/tidss/tidss_irq.c            |  27 ++-
+ drivers/gpu/drm/tidss/tidss_irq.h            |   4 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c          |  51 ++++--
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h          |   3 +
+ drivers/gpu/drm/vc4/vc4_drv.c                |   4 -
+ drivers/gpu/drm/vc4/vc4_drv.h                |   8 +-
+ drivers/gpu/drm/vc4/vc4_irq.c                |  48 +++--
+ drivers/gpu/drm/vc4/vc4_v3d.c                |  17 +-
+ drivers/gpu/drm/via/via_mm.c                 |   3 +-
+ include/drm/drm_device.h                     |  18 +-
+ include/drm/drm_drv.h                        |  44 +----
+ include/drm/drm_irq.h                        |  32 ----
+ include/drm/drm_legacy.h                     |   3 +
+ 42 files changed, 572 insertions(+), 504 deletions(-)
+ delete mode 100644 include/drm/drm_irq.h
+
+
+base-commit: 2bda1ca4d4acb4892556fec3a7ea1f02afcd40bb
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+--
+2.32.0
+
