@@ -2,36 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352723D78CD
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 16:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085423D7961
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 17:08:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED7D76E48E;
-	Tue, 27 Jul 2021 14:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 647F66E82A;
+	Tue, 27 Jul 2021 15:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACA46E48E;
- Tue, 27 Jul 2021 14:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=wBMsR9EzvvO5/POTbAjzPN2NDJg6gXSvKf8xLvfYLN4=; 
- b=ePph9/lSyaKh0KuTVRBuU+DrWzA8CIiMZhCrhxOL7jRTdskhhefN3xa6sUu3A7dfZa7sXjD3AmB1pOvvyH9/qZ2Gd0uSFs9jAbG/tnoQvrUqL0E10kQqc7JIeRofLGf1FfIe2mv7GrTd34zFVyfnjpXSIRyIKSGU1McRIRN+pV1V5ZRiAlrQ/EedB4yDH2yYD362XM0mKeLUMmPqVBqNlWx+P7vwl1xHM0xbFiOO5UkdHl6p7eCVMAd3eHGZc9Fgi1RQ2GoLQd9cTUC5AtsdCZjFBbPDGbwTB2a1xIxJ5TzowKWnevl2vt5MKxWnhfLpw+ayvqBuO05sonuzh9Iwng==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1m8ONm-0000VM-7J; Tue, 27 Jul 2021 16:48:34 +0200
-Date: Tue, 27 Jul 2021 15:47:09 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v4 00/18] drm/sched dependency tracking and dma-resv fixes
-Message-ID: <20210727144709.j5cpmtzo2x2m2a2o@mail.igalia.com>
-References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DC56E82A
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 15:08:38 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ m20-20020a05600c4f54b029024e75a15716so2573117wmq.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 08:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jcrbQyHbij430xaq02MbLiHj13M2J5t4Q3rA2r97S1M=;
+ b=ePJAi2hbsieHla1MODd/uh8GFZVMnIlRscK3zkhUSDAUseRyYpSPaurjOwZmuhWBGO
+ MVLE9fUHyMXt38vPDmeRkKhaXHcbOsKJPWXRAhyKmcE03F+3VylPtx87Fs6hlKFBwsGN
+ ZQldGQHrQfR/QhlHKTR5J98f6um8tBLzTrOq26kC6v9/unY0IJjLyZRvx1fMOKwTo1c8
+ kGQ75QJ9sHCE6+Pj6M0aPcLcaGILjjJlrWOOSluledtAN51fWnsi/3b9Y/GjSwiJleRa
+ HFM9TAo5gLzMOIlXlRNOcdfTUoK+7JCdlv/FgSV4wHP0m5WcUD205WybKF592XZppJh+
+ eIRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jcrbQyHbij430xaq02MbLiHj13M2J5t4Q3rA2r97S1M=;
+ b=uQb2HQyCw8ckNoBsbycJy16766L3pkaL93Q0a/QbsDH617KUh90DkVLnQ70II+YpXW
+ 5Ai142+2XzTsMoE0D1y8778WFEdfp40xn3LKsAGgsUtP8Dfpmlq2zZtQUUchm+q6Pku/
+ Tyc2K8GDb7M5ki4HzdvihrDcjnq/R7ziE1TLmxZgMiESwFKFNp9pwavDBuFMXsTJaBYs
+ LmdFomg7PlZRsFOSe+DVhITuUv+029ljMCpmb1Spy0Qe1v0WezFkIohqZytEXIGlUG8d
+ lplpN6CnjC6PUH9TnIJZC/787cAAmTW6zbbQLVkJEw7hbVnBPZxe+RlrJIrKuIBoEoRj
+ U+GQ==
+X-Gm-Message-State: AOAM532Lj3mX5P4EcN+ser+GarqzCWSBIBeCosSZH8PsMx6M20bzVC52
+ zrrJX31K/mSukWYps0X3DlidwLbg/XfUVLlhVqY=
+X-Google-Smtp-Source: ABdhPJyQHd8UqT9Ia3PL8c7l+eagsABe2zXZgvxuJGgX3d4FyLbIEBs//Pnd3H0g36dbX41lxRF0XyssNj+CA1b4ir4=
+X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr4622066wma.164.1627398516915; 
+ Tue, 27 Jul 2021 08:08:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ws4d7pfxpbatkhck"
-Content-Disposition: inline
-In-Reply-To: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+In-Reply-To: <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 27 Jul 2021 08:12:45 -0700
+Message-ID: <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,116 +65,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Matthew Brost <matthew.brost@intel.com>, Rob Clark <robdclark@chromium.org>,
+ Jack Zhang <Jack.Zhang1@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jul 27, 2021 at 7:50 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
+te:
+>
+> On 2021-07-27 1:38 a.m., Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Based on discussion from a previous series[1] to add a "boost" mechanis=
+m
+> > when, for example, vblank deadlines are missed.  Instead of a boost
+> > callback, this approach adds a way to set a deadline on the fence, by
+> > which the waiter would like to see the fence signalled.
+> >
+> > I've not yet had a chance to re-work the drm/msm part of this, but
+> > wanted to send this out as an RFC in case I don't have a chance to
+> > finish the drm/msm part this week.
+> >
+> > Original description:
+> >
+> > In some cases, like double-buffered rendering, missing vblanks can
+> > trick the GPU into running at a lower frequence, when really we
+> > want to be running at a higher frequency to not miss the vblanks
+> > in the first place.
+> >
+> > This is partially inspired by a trick i915 does, but implemented
+> > via dma-fence for a couple of reasons:
+> >
+> > 1) To continue to be able to use the atomic helpers
+> > 2) To support cases where display and gpu are different drivers
+> >
+> > [1] https://patchwork.freedesktop.org/series/90331/
+>
+> Unfortunately, none of these approaches will have the full intended effec=
+t once Wayland compositors start waiting for client buffers to become idle =
+before using them for an output frame (to prevent output frames from gettin=
+g delayed by client work). See https://gitlab.gnome.org/GNOME/mutter/-/merg=
+e_requests/1880 (shameless plug :) for a proof of concept of this for mutte=
+r. The boost will only affect the compositor's own GPU work, not the client=
+ work (which means no effect at all for fullscreen apps where the composito=
+r can scan out the client buffers directly).
+>
 
---ws4d7pfxpbatkhck
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I guess you mean "no effect at all *except* for fullscreen..."?  Games
+are usually running fullscreen, it is a case I care about a lot ;-)
 
-On 07/12, Daniel Vetter wrote:
-> Hi all,
->=20
-> Quick new version since the previous one was a bit too broken:
-> - dropped the bug-on patch to avoid breaking amdgpu's gpu reset failure
->   games
-> - another attempt at splitting job_init/arm, hopefully we're getting
->   there.
->=20
-> Note that Christian has brought up a bikeshed on the new functions to add
-> dependencies to drm_sched_jobs. I'm happy to repaint, if there's some kind
-> of consensus on what it should be.
->=20
-> Testing and review very much welcome, as usual.
-Hi,=20
+I'd perhaps recommend that wayland compositors, in cases where only a
+single layer is changing, not try to be clever and just push the
+update down to the kernel.
 
-I've tested it some time ago; but now, for v3d, don't forget to rebase.
+BR,
+-R
 
-Also, common parts lgtm, so for them:
-
-Acked-by: Melissa Wen <mwen@igalia.com>
->=20
-> Cheers, Daniel
->=20
-> Daniel Vetter (18):
->   drm/sched: Split drm_sched_job_init
->   drm/sched: Barriers are needed for entity->last_scheduled
->   drm/sched: Add dependency tracking
->   drm/sched: drop entity parameter from drm_sched_push_job
->   drm/sched: improve docs around drm_sched_entity
->   drm/panfrost: use scheduler dependency tracking
->   drm/lima: use scheduler dependency tracking
->   drm/v3d: Move drm_sched_job_init to v3d_job_init
->   drm/v3d: Use scheduler dependency handling
->   drm/etnaviv: Use scheduler dependency handling
->   drm/gem: Delete gem array fencing helpers
->   drm/sched: Don't store self-dependencies
->   drm/sched: Check locking in drm_sched_job_await_implicit
->   drm/msm: Don't break exclusive fence ordering
->   drm/etnaviv: Don't break exclusive fence ordering
->   drm/i915: delete exclude argument from i915_sw_fence_await_reservation
->   drm/i915: Don't break exclusive fence ordering
->   dma-resv: Give the docs a do-over
->=20
->  Documentation/gpu/drm-mm.rst                  |   3 +
->  drivers/dma-buf/dma-resv.c                    |  24 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   4 +-
->  drivers/gpu/drm/drm_gem.c                     |  96 ---------
->  drivers/gpu/drm/etnaviv/etnaviv_gem.h         |   5 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |  64 +++---
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c       |  65 +-----
->  drivers/gpu/drm/etnaviv/etnaviv_sched.h       |   3 +-
->  drivers/gpu/drm/i915/display/intel_display.c  |   4 +-
->  drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |   2 +-
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   8 +-
->  drivers/gpu/drm/i915/i915_sw_fence.c          |   6 +-
->  drivers/gpu/drm/i915/i915_sw_fence.h          |   1 -
->  drivers/gpu/drm/lima/lima_gem.c               |   7 +-
->  drivers/gpu/drm/lima/lima_sched.c             |  28 +--
->  drivers/gpu/drm/lima/lima_sched.h             |   6 +-
->  drivers/gpu/drm/msm/msm_gem_submit.c          |   3 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       |  16 +-
->  drivers/gpu/drm/panfrost/panfrost_job.c       |  39 +---
->  drivers/gpu/drm/panfrost/panfrost_job.h       |   5 +-
->  drivers/gpu/drm/scheduler/sched_entity.c      | 140 +++++++------
->  drivers/gpu/drm/scheduler/sched_fence.c       |  19 +-
->  drivers/gpu/drm/scheduler/sched_main.c        | 181 +++++++++++++++--
->  drivers/gpu/drm/v3d/v3d_drv.h                 |   6 +-
->  drivers/gpu/drm/v3d/v3d_gem.c                 | 115 +++++------
->  drivers/gpu/drm/v3d/v3d_sched.c               |  44 +----
->  include/drm/drm_gem.h                         |   5 -
->  include/drm/gpu_scheduler.h                   | 186 ++++++++++++++----
->  include/linux/dma-buf.h                       |   7 +
->  include/linux/dma-resv.h                      | 104 +++++++++-
->  31 files changed, 672 insertions(+), 528 deletions(-)
->=20
-> --=20
-> 2.32.0
->=20
-
---ws4d7pfxpbatkhck
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmEAHGgACgkQwqF3j0dL
-ehwk6g//Zv99a4QJf0MpIaQfpKBoWS2BK62ZvxBGFDNMneshkbS51upqgdc82DTp
-hDmJIjyPFtRARPFnwLM5gnv7I3DZjYeE7jKFsv9I9YQfSz6QUJ9U1RsEYoHEfo4S
-RnB38tRoiT0/bWCOf5ABVN+QzNiGzK6FLwurIwaypZK35XpLQjsLoU4+qu67neKA
-i+IHKhSzgjNABBXoBY0TLHylzFFliWJpkx5y/6bixFe+sdrDQecDA68NrNVcDcis
-l+fBpkT+kj1vk5Cuu5tbnN9xfZZy3rFz2Yj3iipFnv3BZb7+r7UJfhRlTYWrbap3
-nzd2h8sD5VGpRQbvmd5ICmFV3+2x5E+shNLnh4TLeCoJxvf//k8c9dHXPE2zgK2G
-764M2M5fo1Zq/OqrWhWV8XqyL9le6dsR4FoNyWqcVlOkEpeU5QGISNEPAFesNFOY
-Jcapz/1S6YZFVRq1hA/NSj8ssZisAV6zz1nWyzOyf33x5J04C6VxMfi9M9YsoTdT
-7BaI34L5rK9ykCBBi39wZ21h/86/MXN5IQTn2gAlNQg0LNze1r6Ec/GnRNoZRz0r
-yC90bsx98k1QMr58AcYbq23VaHUiglN2gozZvRCZjhMDBbJZoShMoEmPtDu5mguN
-TN2g+qNKdo7QEmdGjWtN3glYfPoAwbqDPdI8hJoEG0VeMAw50PE=
-=Qc90
------END PGP SIGNATURE-----
-
---ws4d7pfxpbatkhck--
+>
+> --
+> Earthling Michel D=C3=A4nzer               |               https://redhat=
+.com
+> Libre software enthusiast             |             Mesa and X developer
