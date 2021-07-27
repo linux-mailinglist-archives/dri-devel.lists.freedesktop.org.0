@@ -2,39 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869A93D7E05
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:52:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8275E3D7E3E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 21:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB9706E4C1;
-	Tue, 27 Jul 2021 18:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A57A6E4FE;
+	Tue, 27 Jul 2021 19:03:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9ECB6E3FC
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 18:52:01 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id c39853f0-ef0b-11eb-8d1a-0050568cd888;
- Tue, 27 Jul 2021 18:52:17 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 4E468194BB3;
- Tue, 27 Jul 2021 20:52:17 +0200 (CEST)
-Date: Tue, 27 Jul 2021 20:51:54 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/14] drm: Make DRM's IRQ helpers legacy
-Message-ID: <YQBVyuPuf9InsY7g@ravnborg.org>
-References: <20210727182721.17981-1-tzimmermann@suse.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEF86E4D0;
+ Tue, 27 Jul 2021 19:03:45 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="234383102"
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="234383102"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 12:03:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="517067568"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
+ by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2021 12:03:32 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Tue, 27 Jul 2021 12:03:32 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10 via Frontend Transport; Tue, 27 Jul 2021 12:03:32 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.10; Tue, 27 Jul 2021 12:03:32 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ig6aLb2uflh1lfrQP7ZSqkgNP9ce7jook1dDBLaJw07aj+xYaNAQgtK4ye5R83eg4+jbp61vL4R1oVkxrYBMn6Th6/xy6afjLFi7UdGFmGY1hG5RQDElLxA1A+u5w5hD9NPZUJKv80GQ0wQMi2oQnp093Zggx8b3gL0Bh/ahXzdQJT6ukykmhPpV+3ZDvIMgOcmfY5BYmGJ3D5lyMUh0ggzDP//h1W6mohL9iXibOSP9/nIRmrJ/jg5WYS5wNMG7FvDIvobWbt7G6S74Oz510jbwRORTUDwwzKNWTrWNUoxGchURXY2rOxyz5kRwxCQQNM24yS2QqXcfB0hYixvBTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2QmRbAi8BM+poJnU2rVC9IVn2vhOPGy7TskFe092zog=;
+ b=a7rpJwCLohVKv1UgxFVpJ/G4Ku+dYHK1/9/ZcNQZztUZMT3oFy8cJE4L7FSCL1/svU2g1gaeZ4s99jUcVwD15j7MKwdW1Zsy3DQw+qQOzSW1fsomMBUYieZW9Eb6aIKni5TD72N8WuKpRtb5lDn0qzVvc3QTe8H5YlDNwej6dK+I3JBW8Y48AsXqf5AhwTKiCnujIZXrAkQhbibZtaGz04l/4sNBFgJp5rabSIIMO3FK+m9lOenEz+xe8w+x6rDpLIojxEOvvwmMyCTs8APxLBXxA9xHa/5thg4r+naM9d4oHOra+d09JJP4bKRn6s+j8SCCoCFAtPw2HH5zY+4tXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2QmRbAi8BM+poJnU2rVC9IVn2vhOPGy7TskFe092zog=;
+ b=Tx6p1GgFko76xW/POSD2ICsxnQuYiBXchnvuwl3UNRZXNaaE/2+0n/s+9fzZ2U2+jfn03oZOo0hA/bez2Vsy3ukKD0SebldvbVvrgGpwUfidE7+jUB/gqiq7c54ZKmvXddYIeAeZUE5bt0pHJUEjVIZ3Cm4xZ8OVgZD5Wmmd8Cs=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
+Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
+ by CO6PR11MB5668.namprd11.prod.outlook.com (2603:10b6:5:355::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Tue, 27 Jul
+ 2021 19:03:30 +0000
+Received: from CO6PR11MB5634.namprd11.prod.outlook.com
+ ([fe80::5d5e:b6bf:aafa:ecd4]) by CO6PR11MB5634.namprd11.prod.outlook.com
+ ([fe80::5d5e:b6bf:aafa:ecd4%9]) with mapi id 15.20.4352.032; Tue, 27 Jul 2021
+ 19:03:30 +0000
+Subject: Re: [PATCH 04/15] drm/i915/guc/slpc: Adding SLPC communication
+ interfaces
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+References: <20210726190800.26762-1-vinay.belgaumkar@intel.com>
+ <20210726190800.26762-5-vinay.belgaumkar@intel.com>
+ <8a9a279f-9f30-647a-8650-4c3f961e50b6@intel.com>
+From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+Message-ID: <d65e20ee-3f00-8323-011e-cd68c4a0bfc9@intel.com>
+Date: Tue, 27 Jul 2021 12:03:27 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
+In-Reply-To: <8a9a279f-9f30-647a-8650-4c3f961e50b6@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR03CA0258.namprd03.prod.outlook.com
+ (2603:10b6:303:b4::23) To CO6PR11MB5634.namprd11.prod.outlook.com
+ (2603:10b6:5:35d::20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727182721.17981-1-tzimmermann@suse.de>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.71] (99.88.121.38) by
+ MW4PR03CA0258.namprd03.prod.outlook.com (2603:10b6:303:b4::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.26 via Frontend Transport; Tue, 27 Jul 2021 19:03:30 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9540dee1-d28f-4e03-9820-08d95131395e
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5668:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO6PR11MB5668DB12C491380431D20A7785E99@CO6PR11MB5668.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: db98Qysh9ebro/eChRbBHgN/yIWxLvU0Cv1pBV4YX1XwRyzi9IJ+4RGwf24Yc7ULIyk6vlUEgSbF6Zh+sU024fZQbEiDcaC3A8TJv0wu/gkPvIZIzMLTpqKS1q/Ss3Iqauexz5MiCYm9s/hsJfoJRa5aX+axBuubZafhIZpk1UWXQWZDfOGt/JoIazKRu3OxcG/CHX8JD85PBANt71Wz9rbM8ApXVN0k0hGu6GQfiY3NvbmSGC+4253IebQhWyGm/ROvQak/eVoO/leGxoHyvfzkvMoaC9PyFeEubHzRntBJHyGE2h/8W+3bOGQWdrppS0nN7lpe0l6oajmXG6yrHv/epqY6LTQBB2fwht7WxmefkuuZYIPUAJA54hgPn67Ij9Bfy72zxWfTrKxahafk2boZvOB/s6rayciOTjfcUtrkLALeA12Sa+kNPvzf+tikGAUSvbLpH/Tslkf7ETjdtOlJLlmqHbZQH1kwbZKLRTPl6oZ6tURVnCQsXUV+3X3seYmcih0yrcg4d8s2bnNru9dzkDfJdA+srksRNw7MHYmLtJcH7wbwModkNGT0REAheBYAcpavfZMmEbYJuSaG4iAqp9gOxm/9njDU5SW0CLw6xkIrg+QxsT2takQcHsc/yxcRDl5M3zw2W4p2NA41OcOkdbq/XJBxD1yDW8BroipWFAYofVy0lZGbcKwXC0+k8Xx8LmiFuWaLg7NIGWjhLcYzCQhMMLOUmDWpUnoKQF8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(6486002)(5660300002)(31696002)(8936002)(478600001)(2906002)(956004)(6666004)(16576012)(66946007)(31686004)(316002)(66476007)(66556008)(450100002)(186003)(83380400001)(30864003)(26005)(86362001)(4326008)(53546011)(2616005)(38100700002)(36756003)(8676002)(107886003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NTViclkrNGtjMkVZeGNFay95cTBQYi9MNWE2ZVI3dGtMc2pwdW43YmdCcjBM?=
+ =?utf-8?B?dkdvS3c4aDRGRW54OU5MaEdCWms5WlN2TEFGVVpFV1pkd2IwNlVzQWNWVkI5?=
+ =?utf-8?B?YTZqZk9GcHYvMzFFajZLTVhUQ1g1endObVhKb2dXazNRYTJ6KytSTkwzWkRC?=
+ =?utf-8?B?ZHJxaEFISTVBQS94SXlTcmdPckNRYWZqUldGbFVqSjQ1N0NieWhFcUZ2SHdZ?=
+ =?utf-8?B?U2h5cjV6dVlUNEUvQVRaVmIyb3NWL2pHNEdRaWxSd0xNRUNjVUxQVDkwUE1W?=
+ =?utf-8?B?cGxFM0E4eVE2QzY3VVI1Ukgxd0YzTkFuVmZhdDN4TSs2U3RZZ2NWSVlFTXRR?=
+ =?utf-8?B?M1lRaUJiWHlmYUdhWm9hNzRNd2Z4YVdacXd5K1g1a3A1eU50dldwcEFsMWxu?=
+ =?utf-8?B?TVZ4Q2tsVDRyaCt2NzhCTTZhbjlwcmE4Ny9zdm9sNTVPRTczc2szMnJhWVpD?=
+ =?utf-8?B?VXpUV0x4Yjl4cGw1cUIzM0REUit2ZTA2ZkQ4NlBxS0NhNjc0cHozUmIxcnVx?=
+ =?utf-8?B?L0YrTHhVSENidTNtWWpZeCtTdzVDVHRDdUd6dEhYb1NoQ25keFdrZUFuREdC?=
+ =?utf-8?B?Qm9aaDdEcjViMXJRbG90alNjUEFCd3NmQmR5eE9LL1N0NU9oVlc1czlOWitY?=
+ =?utf-8?B?ODRZYVRzaXFFVzBYVWN6STBPM3pGVTZ1MzZUVmpkcjIvYzJLanRENlFsZ1JO?=
+ =?utf-8?B?TmRFQkNPUDllQ1k2d2diSXc5akYrS2xTZlp1clJVNE0ybHJwNHNmZGNxZWRO?=
+ =?utf-8?B?Y0x3YjdQWlpES0xlQklTMGZqT3k1c1B2Nmh3WlljZFVxcTRmY0ZNRy9tb004?=
+ =?utf-8?B?RDdqVkdJRUQ3MnZCSU9hUStHZHIxYnE0dnhYcEZPOGQzUlRGTkx0YTZlZlAx?=
+ =?utf-8?B?ZkhwU3p0L2RWbzh6ZkJBbzhuMktIYVBNTEpkVkVXV3pHOHJBV01TeGxzWWMy?=
+ =?utf-8?B?cVVPY3J1NlZieTg5QVlEZUpiR0ZYdGR3VEZod0ZWWkpvblB5eDhEZm5BbSs2?=
+ =?utf-8?B?WDJnSWllVGc0ZEtIU0ZBamxmK0ZyNldERElSVUpMcUhKM2ZKWXlKQWFhMmJn?=
+ =?utf-8?B?L2tvdWpsWkU5TzBydytQU09vMGp2VFFBZXR3RUdqMU03aFRIUnVKVkk0Z25E?=
+ =?utf-8?B?WjdZcU8wYjZXQTNBaGZKLytVZHJiN3ZCaE5GMXhYNVk5WHc4T0Y3YmlDUlpK?=
+ =?utf-8?B?SFVmWlBodXo2WEVzNGhkN2hJZXZQRU0xU0hOQm9jbUY3Ui92YU9IN3UzdCth?=
+ =?utf-8?B?YjBQREV6bjRPS1MxWllLZkg2WWhXODBwRFFlVnJUMzk1S3gyR214OGRXbGtM?=
+ =?utf-8?B?dG90ZUp6cUVoQWRpRkJQT0VjMDdVL2JLSDZwTVRoYUJhZGxmNGpsaFB6aGpr?=
+ =?utf-8?B?OVVudlkwMitCdVZlNlMwaXVCc0RnNmptaGZlMHdIaDlaMTNwdzVFczlLaU13?=
+ =?utf-8?B?ektQaG10QjdQL3Rva2hMWTJpSUVPSS9IdmlaVHZnWUVRU2FqYVhtN0JIWnZU?=
+ =?utf-8?B?cE9oc0tkNExrK1hYOVZvVFU5TmE1YTBZZGg0TWhzTlhGNldoYlpvQmNzV1Rn?=
+ =?utf-8?B?SGE3TzI3eTJseUpoeVJIZVJTbFdhVmtLN084dmxsZmFiaGh6MDNiRjlmR0FM?=
+ =?utf-8?B?bVFoWDBWWWFvb2lWeEQxa2ZJUHpwdXpPQ2dnRTBZN0lFbFVlVmx3Q0ZVRHFm?=
+ =?utf-8?B?aU92bFZ0Z0pKa0hvcE5XcnhtN1BCbU9DbktnbFBScjVZTUVmSVMvZ2tPNks2?=
+ =?utf-8?Q?F1ogY76vtdhyUxlk97wEpaSPK2u9vlluNU2nQP0?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9540dee1-d28f-4e03-9820-08d95131395e
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2021 19:03:30.8359 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r4oHapYMAvUTyxU4we0aT9J0MU75CEWzIVc/XP+/7HI/HSspbmLVber67QosMQqTlnxcDHCwtu712wQghqUP+58QcCZMM5DVv/Vj7SmVQKc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5668
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,38 +151,358 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, liviu.dudau@arm.com, amd-gfx@lists.freedesktop.org,
- anitha.chrisanthus@intel.com, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, edmund.j.dea@intel.com,
- s.hauer@pengutronix.de, alison.wang@nxp.com, dri-devel@lists.freedesktop.org,
- sean@poorly.run, linux-arm-kernel@lists.infradead.org, tomba@kernel.org,
- bbrezillon@kernel.org, jyri.sarha@iki.fi, nicolas.ferre@microchip.com,
- christian.koenig@amd.com, kernel@pengutronix.de, alexander.deucher@amd.com,
- shawnguo@kernel.org
+Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-On Tue, Jul 27, 2021 at 08:27:07PM +0200, Thomas Zimmermann wrote:
-> DRM's IRQ helpers are only helpful for old, non-KMS drivers. Move
-> the code behind CONFIG_DRM_LEGACY. Convert KMS drivers to Linux
-> IRQ interfaces.
+
+On 7/27/2021 6:59 AM, Michal Wajdeczko wrote:
 > 
-> DRM provides IRQ helpers for setting up, receiving and removing IRQ
-> handlers. It's an abstraction over plain Linux functions. The code
-> is mid-layerish with several callbacks to hook into the rsp drivers.
-> Old UMS driver have their interrupts enabled via ioctl, so these
-> abstractions makes some sense. Modern KMS manage all their interrupts
-> internally. Using the DRM helpers adds indirection without benefits.
 > 
-> Most KMs drivers already use Linux IRQ functions instead of DRM's
-> abstraction layer. Patches 1 to 12 convert the remaining ones.
-> The patches also resolve a bug for devices without assigned interrupt
-> number. DRM helpers don't test for IRQ_NOTCONNECTED, so drivers do
-> not detect if the device has no interrupt assigned.
+> On 26.07.2021 21:07, Vinay Belgaumkar wrote:
+>> Add constants and params that are needed to configure SLPC.
+>>
+>> v2: Add a new abi header for SLPC. Replace bitfields with
+>> genmasks. Address other comments from Michal W.
+>>
+>> v3: Add slpc H2G format in abi, other review commments (Michal W)
+>>
+>> v4: Update status bits according to latest spec
+>>
+>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+>> ---
+>>   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 -
+>>   .../drm/i915/gt/uc/abi/guc_actions_slpc_abi.h | 235 ++++++++++++++++++
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   3 +
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   7 +
+>>   4 files changed, 245 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>> index d832c8f11c11..ca538e5de940 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>> @@ -135,7 +135,6 @@ enum intel_guc_action {
+>>   	INTEL_GUC_ACTION_SET_CONTEXT_PREEMPTION_TIMEOUT = 0x1007,
+>>   	INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
+>>   	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
+>> -	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
+>>   	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
+>>   	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
+>>   	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+>> new file mode 100644
+>> index 000000000000..70b300d4a536
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+>> @@ -0,0 +1,235 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright © 2021 Intel Corporation
+>> + */
+>> +
+>> +#ifndef _GUC_ACTIONS_SLPC_ABI_H_
+>> +#define _GUC_ACTIONS_SLPC_ABI_H_
+>> +
+>> +#include <linux/types.h>
+>> +
+>> +/**
+>> + * DOC: SLPC SHARED DATA STRUCTURE
+>> + *
+>> + *  +----+------+--------------------------------------------------------------+
+>> + *  | CL | Bytes| Description                                                  |
+>> + *  +====+======+==============================================================+
+>> + *  | 1  | 0-3  | SHARED DATA SIZE                                             |
+>> + *  |    +------+--------------------------------------------------------------+
+>> + *  |    | 4-7  | GLOBAL STATE                                                 |
+>> + *  |    +------+--------------------------------------------------------------+
+>> + *  |    | 8-11 | DISPLAY DATA ADDRESS                                         |
+>> + *  |    +------+--------------------------------------------------------------+
+>> + *  |    | 12:63| PADDING                                                      |
+>> + *  +----+------+--------------------------------------------------------------+
+>> + *  |    | 0:63 | PADDING(PLATFORM INFO)                                       |
+>> + *  +----+------+--------------------------------------------------------------+
+>> + *  | 3  | 0-3  | TASK STATE DATA                                              |
+>> + *  +    +------+--------------------------------------------------------------+
+>> + *  |    | 4:63 | PADDING                                                      |
+>> + *  +----+------+--------------------------------------------------------------+
+>> + *  |4-21|0:1087| OVERRIDE PARAMS AND BIT FIELDS                               |
+>> + *  +----+------+--------------------------------------------------------------+
+>> + *  |    |      | PADDING + EXTRA RESERVED PAGE                                |
+>> + *  +----+------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +/*
+>> + * SLPC exposes certain parameters for global configuration by the host.
+>> + * These are referred to as override parameters, because in most cases
+>> + * the host will not need to modify the default values used by SLPC.
+>> + * SLPC remembers the default values which allows the host to easily restore
+>> + * them by simply unsetting the override. The host can set or unset override
+>> + * parameters during SLPC (re-)initialization using the SLPC Reset event.
+>> + * The host can also set or unset override parameters on the fly using the
+>> + * Parameter Set and Parameter Unset events
+>> + */
+>> +
+>> +#define SLPC_MAX_OVERRIDE_PARAMETERS		256
+>> +#define SLPC_OVERRIDE_BITFIELD_SIZE \
+>> +		(SLPC_MAX_OVERRIDE_PARAMETERS / 32)
+>> +
+>> +#define SLPC_PAGE_SIZE_BYTES			4096
+>> +#define SLPC_CACHELINE_SIZE_BYTES		64
+>> +#define SLPC_SHARED_DATA_SIZE_BYTE_HEADER	SLPC_CACHELINE_SIZE_BYTES
+>> +#define SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO	SLPC_CACHELINE_SIZE_BYTES
+>> +#define SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE	SLPC_CACHELINE_SIZE_BYTES
+>> +#define SLPC_SHARED_DATA_MODE_DEFN_TABLE_SIZE	SLPC_PAGE_SIZE_BYTES
+>> +#define SLPC_SHARED_DATA_SIZE_BYTE_MAX		(2 * SLPC_PAGE_SIZE_BYTES)
+>> +
+>> +/*
+>> + * Cacheline size aligned (Total size needed for
+>> + * SLPM_KMD_MAX_OVERRIDE_PARAMETERS=256 is 1088 bytes)
+>> + */
+>> +#define SLPC_OVERRIDE_PARAMS_TOTAL_BYTES	(((((SLPC_MAX_OVERRIDE_PARAMETERS * 4) \
+>> +						+ ((SLPC_MAX_OVERRIDE_PARAMETERS / 32) * 4)) \
+>> +		+ (SLPC_CACHELINE_SIZE_BYTES-1)) / SLPC_CACHELINE_SIZE_BYTES)*SLPC_CACHELINE_SIZE_BYTES)
+>> +
+>> +#define SLPC_SHARED_DATA_SIZE_BYTE_OTHER	(SLPC_SHARED_DATA_SIZE_BYTE_MAX - \
+>> +					(SLPC_SHARED_DATA_SIZE_BYTE_HEADER \
+>> +					+ SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO \
+>> +					+ SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE \
+>> +					+ SLPC_OVERRIDE_PARAMS_TOTAL_BYTES \
+>> +					+ SLPC_SHARED_DATA_MODE_DEFN_TABLE_SIZE))
+>> +
+>> +enum slpc_task_enable {
+>> +	SLPC_PARAM_TASK_DEFAULT = 0,
+>> +	SLPC_PARAM_TASK_ENABLED,
+>> +	SLPC_PARAM_TASK_DISABLED,
+>> +	SLPC_PARAM_TASK_UNKNOWN
+>> +};
+>> +
+>> +enum slpc_global_state {
+>> +	SLPC_GLOBAL_STATE_NOT_RUNNING = 0,
+>> +	SLPC_GLOBAL_STATE_INITIALIZING = 1,
+>> +	SLPC_GLOBAL_STATE_RESETTING = 2,
+>> +	SLPC_GLOBAL_STATE_RUNNING = 3,
+>> +	SLPC_GLOBAL_STATE_SHUTTING_DOWN = 4,
+>> +	SLPC_GLOBAL_STATE_ERROR = 5
+>> +};
+>> +
+>> +enum slpc_param_id {
+>> +	SLPC_PARAM_TASK_ENABLE_GTPERF = 0,
+>> +	SLPC_PARAM_TASK_DISABLE_GTPERF = 1,
+>> +	SLPC_PARAM_TASK_ENABLE_BALANCER = 2,
+>> +	SLPC_PARAM_TASK_DISABLE_BALANCER = 3,
+>> +	SLPC_PARAM_TASK_ENABLE_DCC = 4,
+>> +	SLPC_PARAM_TASK_DISABLE_DCC = 5,
+>> +	SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ = 6,
+>> +	SLPC_PARAM_GLOBAL_MAX_GT_UNSLICE_FREQ_MHZ = 7,
+>> +	SLPC_PARAM_GLOBAL_MIN_GT_SLICE_FREQ_MHZ = 8,
+>> +	SLPC_PARAM_GLOBAL_MAX_GT_SLICE_FREQ_MHZ = 9,
+>> +	SLPC_PARAM_GTPERF_THRESHOLD_MAX_FPS = 10,
+>> +	SLPC_PARAM_GLOBAL_DISABLE_GT_FREQ_MANAGEMENT = 11,
+>> +	SLPC_PARAM_GTPERF_ENABLE_FRAMERATE_STALLING = 12,
+>> +	SLPC_PARAM_GLOBAL_DISABLE_RC6_MODE_CHANGE = 13,
+>> +	SLPC_PARAM_GLOBAL_OC_UNSLICE_FREQ_MHZ = 14,
+>> +	SLPC_PARAM_GLOBAL_OC_SLICE_FREQ_MHZ = 15,
+>> +	SLPC_PARAM_GLOBAL_ENABLE_IA_GT_BALANCING = 16,
+>> +	SLPC_PARAM_GLOBAL_ENABLE_ADAPTIVE_BURST_TURBO = 17,
+>> +	SLPC_PARAM_GLOBAL_ENABLE_EVAL_MODE = 18,
+>> +	SLPC_PARAM_GLOBAL_ENABLE_BALANCER_IN_NON_GAMING_MODE = 19,
+>> +	SLPC_PARAM_GLOBAL_RT_MODE_TURBO_FREQ_DELTA_MHZ = 20,
+>> +	SLPC_PARAM_PWRGATE_RC_MODE = 21,
+>> +	SLPC_PARAM_EDR_MODE_COMPUTE_TIMEOUT_MS = 22,
+>> +	SLPC_PARAM_EDR_QOS_FREQ_MHZ = 23,
+>> +	SLPC_PARAM_MEDIA_FF_RATIO_MODE = 24,
+>> +	SLPC_PARAM_ENABLE_IA_FREQ_LIMITING = 25,
+>> +	SLPC_PARAM_STRATEGIES = 26,
+>> +	SLPC_PARAM_POWER_PROFILE = 27,
+>> +	SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY = 28,
+>> +	SLPC_MAX_PARAM = 32,
+>> +};
+>> +
+>> +enum slpc_event_id {
+>> +	SLPC_EVENT_RESET = 0,
+>> +	SLPC_EVENT_SHUTDOWN = 1,
+>> +	SLPC_EVENT_PLATFORM_INFO_CHANGE = 2,
+>> +	SLPC_EVENT_DISPLAY_MODE_CHANGE = 3,
+>> +	SLPC_EVENT_FLIP_COMPLETE = 4,
+>> +	SLPC_EVENT_QUERY_TASK_STATE = 5,
+>> +	SLPC_EVENT_PARAMETER_SET = 6,
+>> +	SLPC_EVENT_PARAMETER_UNSET = 7,
+>> +};
+>> +
+>> +struct slpc_task_state_data {
+>> +	union {
+>> +		u32 task_status_padding;
+>> +		struct {
+>> +			u32 status;
+>> +#define SLPC_GTPERF_TASK_ENABLED	BIT(0)
+>> +#define SLPC_DCC_TASK_ENABLED		BIT(11)
+>> +#define SLPC_IN_DCC			BIT(12)
+>> +#define SLPC_BALANCER_ENABLED		BIT(15)
+>> +#define SLPC_IBC_TASK_ENABLED		BIT(16)
+>> +#define SLPC_BALANCER_IA_LMT_ENABLED	BIT(17)
+>> +#define SLPC_BALANCER_IA_LMT_ACTIVE	BIT(18)
+> 
+> as you are using REG_GENMASK below then you should be consistent and use
+> REG_BIT here and include "i915_reg.h" where both are defined, but then
+> it's no longer pure ABI header, but not a blocker
 
-Before diving into a review of these..
-Any specific reason devm_request_irq is not used?
+ok, makes sense.
 
-	Sam
+> 
+>> +		};
+>> +	};
+>> +	union {
+>> +		u32 freq_padding;
+>> +		struct {
+>> +#define SLPC_MAX_UNSLICE_FREQ_MASK	REG_GENMASK(7, 0)
+>> +#define SLPC_MIN_UNSLICE_FREQ_MASK	REG_GENMASK(15, 8)
+>> +#define SLPC_MAX_SLICE_FREQ_MASK	REG_GENMASK(23, 16)
+>> +#define SLPC_MIN_SLICE_FREQ_MASK	REG_GENMASK(31, 24)
+>> +			u32 freq;
+>> +		};
+>> +	};
+>> +} __packed;
+>> +
+>> +struct slpc_shared_data_header {
+>> +	/* Total size in bytes of this shared buffer. */
+>> +	u32 size;
+>> +	u32 global_state;
+>> +	u32 display_data_addr;
+>> +} __packed;
+>> +
+>> +struct slpc_override_params {
+>> +	u32 bits[SLPC_OVERRIDE_BITFIELD_SIZE];
+>> +	u32 values[SLPC_MAX_OVERRIDE_PARAMETERS];
+>> +} __packed;
+>> +
+>> +struct slpc_shared_data {
+>> +	struct slpc_shared_data_header header;
+>> +	u8 shared_data_header_pad[SLPC_SHARED_DATA_SIZE_BYTE_HEADER -
+>> +				sizeof(struct slpc_shared_data_header)];
+>> +
+>> +	u8 platform_info_pad[SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO];
+>> +
+>> +	struct slpc_task_state_data task_state_data;
+>> +	u8 task_state_data_pad[SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE -
+>> +				sizeof(struct slpc_task_state_data)];
+>> +
+>> +	struct slpc_override_params override_params ;
+>> +	u8 override_params_pad[SLPC_OVERRIDE_PARAMS_TOTAL_BYTES -
+>> +				sizeof(struct slpc_override_params)];
+>> +
+>> +	u8 shared_data_pad[SLPC_SHARED_DATA_SIZE_BYTE_OTHER];
+>> +
+>> +	/* PAGE 2 (4096 bytes), mode based parameter will be removed soon */
+>> +	u8 reserved_mode_definition[4096];
+>> +} __packed;
+>> +
+>> +/**
+>> + * DOC: SLPC H2G MESSAGE FORMAT
+>> + *
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |   | Bits  | Description                                                  |
+>> + *  +===+=======+==============================================================+
+>> + *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_HOST_                                |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   | 27:16 | DATA0 = MBZ                                                  |
+>> + *  |   +-------+--------------------------------------------------------------+
+>> + *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_PC_SLPM_REQUEST` = 0x3003     |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | 1 |  31:8 | **EVENT_ID**                                                 |
+>> + *  +   +-------+--------------------------------------------------------------+
+>> + *  |   |   7:0 | **EVENT_ARGC** - number of data arguments                    |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  | 2 |  31:0 | **EVENT_DATA1**                                              |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |...|  31:0 | ...                                                          |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + *  |2+n|  31:0 | **EVENT_DATAn**                                              |
+>> + *  +---+-------+--------------------------------------------------------------+
+>> + */
+>> +
+>> +#define INTEL_GUC_ACTION_SLPC_REQUEST			0x3003
+> 
+> likely you want to use
+> 	GUC_ACTION_HOST2GUC_PC_SLPM_REQUEST
+
+ok.
+
+> 
+>> +
+>> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_MIN_LEN \
+>> +				(GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
+>> +#define HOST2GUC_PC_SLPC_EVENT_MAX_INPUT_ARGS		9
+>> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_MAX_LEN \
+>> +		(HOST2GUC_PC_SLPC_REQUEST_REQUEST_MSG_MIN_LEN + \
+>> +			HOST2GUC_PC_SLPC_EVENT_MAX_INPUT_ARGS)
+>> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_0_MBZ		GUC_HXG_REQUEST_MSG_0_DATA0
+>> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ID		(0xff << 8)
+>> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ARGC	(0xff << 0)
+>> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_n_EVENT_DATAn	GUC_HXG_REQUEST_MSG_n_DATAn
+>> +
+>> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN \
+>> +			(GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
+> 
+> this one does not belong here
+
+removed.
+Thanks,
+Vinay.
+> 
+> other LGTM,
+> 
+> Michal
+> 
+>> +#endif
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> index 39bc3c16057b..5b0f8c541b69 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> @@ -208,6 +208,9 @@ static u32 guc_ctl_feature_flags(struct intel_guc *guc)
+>>   	if (!intel_guc_submission_is_used(guc))
+>>   		flags |= GUC_CTL_DISABLE_SCHEDULER;
+>>   
+>> +	if (intel_guc_slpc_is_used(guc))
+>> +		flags |= GUC_CTL_ENABLE_SLPC;
+>> +
+>>   	return flags;
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> index 82534259b7ad..6ec331b903a8 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>> @@ -12,6 +12,7 @@
+>>   #include "gt/intel_engine_types.h"
+>>   
+>>   #include "abi/guc_actions_abi.h"
+>> +#include "abi/guc_actions_slpc_abi.h"
+>>   #include "abi/guc_errors_abi.h"
+>>   #include "abi/guc_communication_mmio_abi.h"
+>>   #include "abi/guc_communication_ctb_abi.h"
+>> @@ -95,6 +96,7 @@
+>>   #define GUC_CTL_WA			1
+>>   #define GUC_CTL_FEATURE			2
+>>   #define   GUC_CTL_DISABLE_SCHEDULER	(1 << 14)
+>> +#define   GUC_CTL_ENABLE_SLPC		BIT(2)
+>>   
+>>   #define GUC_CTL_DEBUG			3
+>>   #define   GUC_LOG_VERBOSITY_SHIFT	0
+>> @@ -141,6 +143,11 @@
+>>   #define GUC_ID_TO_ENGINE_INSTANCE(guc_id) \
+>>   	(((guc_id) & GUC_ENGINE_INSTANCE_MASK) >> GUC_ENGINE_INSTANCE_SHIFT)
+>>   
+>> +#define SLPC_EVENT(id,c) (\
+>> +FIELD_PREP(HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ID, id) | \
+>> +FIELD_PREP(HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ARGC, c ) \
+>> +)
+>> +
+>>   static inline u8 engine_class_to_guc_class(u8 class)
+>>   {
+>>   	BUILD_BUG_ON(GUC_RENDER_CLASS != RENDER_CLASS);
+>>
