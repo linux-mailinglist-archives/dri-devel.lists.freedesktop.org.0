@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD393D7FBE
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 22:59:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6603D7FCD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 22:59:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A93AF6E7D0;
-	Tue, 27 Jul 2021 20:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 632B06E937;
+	Tue, 27 Jul 2021 20:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89D106E7DC
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 20:59:08 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id t21so17526596plr.13
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 13:59:08 -0700 (PDT)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3466A6E7D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 20:59:10 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id k1so17545959plt.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 13:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hAtUXOqdIbIKgIXF67i6edRxNnI31C05ADltnD47YVA=;
- b=KjyaAeWacqkMvH9zZm+BBzMkjACC5HUxdXv9tgcqmihQriCrMtd/DFnnW7F/YrD/ZY
- Ukevt5iMkwkus4GIj0BPscD7xfNb9o1NPLdX8zvYUy6Vws2evRXwUJ9SqM3iq4seKTMQ
- 0scT3SXeeEgeJXutbDZfzTUKfHAc3euSilyDg=
+ bh=RCqXotzAIvnXgOqstJDis4roVpoLDPnfq3WqfZlD8nw=;
+ b=IsnPTTOIgdGKCXuW3XQ+MT6hIlhVYI7Io0wctUxwqvbJIIvtSltHPjtWeHzLWKF+kA
+ CQvAxohJQYoF71joFX6v/3Z6eoC2GSqaTNcLccBsOh5LMFueIVes2gOSJpZyft2tneFd
+ eIMQ6OLOd1lFb131IMCikGtxTAI11b8IFNErI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hAtUXOqdIbIKgIXF67i6edRxNnI31C05ADltnD47YVA=;
- b=FjOWiD9WWX5dmcnOOx4UIbyChF+hsLg3f2Qrm79EYKMkLkzkzXMpKplV7N6vxUoW/m
- WejOtIjL4sdUc1TAXfkJ6n68l6bqSdKcEz5NcPzAREw9O0XZKUcld9K9XsJgzXosJWak
- f0mp/wMJKleLg5IDv7q1zJZEqwKGfTPtHw66AnAU3sAx93Bdu/srZrHzhgMWhkno+M5G
- vgsp1xW6kBqUhQzzmPK44Sl0HYSu3jYpJDzhiEMghyHm5R24DqNQsr93a9bwjAhLEMkg
- THU18l0B6ErSOQETRZwqC9qcoWZacaGRxqN9Gtea+slkz/pmXLV8aniKM3bvVtsfYxB1
- 911w==
-X-Gm-Message-State: AOAM533cYhpsn1h6gPGsO+fGuIaT9kg7xqzUm/SzMjvqpEJgdEJy+IZ+
- yQ+QGM/4B/34Hp+35Sev1XqE9A==
-X-Google-Smtp-Source: ABdhPJwKVVacR07W565BalKjkQLpWp2QT/TsDZexTOWZktzaVimKCn1vRk5Czb/MD//fHQXIbyCEWw==
-X-Received: by 2002:a17:90b:3581:: with SMTP id
- mm1mr5913025pjb.98.1627419548265; 
- Tue, 27 Jul 2021 13:59:08 -0700 (PDT)
+ bh=RCqXotzAIvnXgOqstJDis4roVpoLDPnfq3WqfZlD8nw=;
+ b=Nlg0nsd+FmX7c1lEpna+AuE0WiYx9d36bjHvv1CRQg3i/uWmDZbzRU/EdOhuEk1RKx
+ UMzble+HqIhEH5geAxncq8TeVyMUq7+DMV9OCy9dv/6FX5YZzxgNSkfx8tDzzKhfkoOQ
+ tt2UTXB7UQVZMeFOl39hd1J1g2ifDg9BXEalrI5TBYPrXSRi5PKoGHcyYRl5AsXPZtHm
+ oKEbaiF+wdw5qrXHdue10w1yhY45u39ZjkgC7faz/XPapCSE1/Bhi2DkGYqI6ILkqUPm
+ SMgxT/P8hL5UPGaeRSyuJqoksaAj4y4ys0ow1AnCsH2jZbypPUmgsvZn8GbruikKfRGf
+ LV+g==
+X-Gm-Message-State: AOAM533rq5Nw7lcE0x6+TA2ZMrwaimwtUUawBBtj8Y9m19iHsGdhYOTk
+ f9/PobSuuTquFLi4BkzocgOzNw==
+X-Google-Smtp-Source: ABdhPJzspBBQMDyvDf6TBVh0kJFHAIruWS/HtAlIq0eRpPNOGgO/FodQZJlNxuLaUl6IYFezsXLBRA==
+X-Received: by 2002:a05:6a00:1c6d:b029:338:322:137d with SMTP id
+ s45-20020a056a001c6db02903380322137dmr25076229pfw.38.1627419549870; 
+ Tue, 27 Jul 2021 13:59:09 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id a23sm4591110pff.43.2021.07.27.13.59.03
+ by smtp.gmail.com with ESMTPSA id h20sm4771196pfn.173.2021.07.27.13.59.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
+ Tue, 27 Jul 2021 13:59:08 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 10/64] lib80211: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:01 -0700
-Message-Id: <20210727205855.411487-11-keescook@chromium.org>
+Subject: [PATCH 11/64] net/mlx5e: Avoid field-overflowing memcpy()
+Date: Tue, 27 Jul 2021 13:58:02 -0700
+Message-Id: <20210727205855.411487-12-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3842; h=from:subject;
- bh=LxMwWIiVXxCqRjC5BkCQhCAsNp5uK9myZ2a4Qy1ipzQ=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOCS1cmBCRtXI7M3opQcsNvUfw7QHdDVtTF33mg
- z+crDrWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzggAKCRCJcvTf3G3AJn8DD/
- 0T8GLHAQTW4lQjhfBYcVN4KkQX84OyCKR/kM+6CyPh6kkSz3omcb5syI1kQjZZfi9AQMmXGm27pqXs
- Pfzoata/9c4TApOgEv263SYMjRV3AKeFaFCN+M+Tbki7UCpUotJm9dnRg/YZOUqcEJ2jnQpyukE/h5
- WjTdoxGr75vnhyjqxtCW3aafwRG0iXBck5QQofWTgn8C998AMoFRs6Tj6WLGt00Byih284TbE5zULP
- NoahBowuHSS4qSopyrtMF5eCvftM06BTwO2pAHfSDoGwCRneDXaPTK82hxwFjKQowdrTh4iICk8J6z
- Jh8Cy9g9/qrCwlclWJxjLE11hOD2f4KFeZpANKSuUdLgh2gQH0XSCj9eew20UORocfAqHkT/RzbRTF
- SJY0WkjJuqFW0W0eO4eaZyUsWJHuNBEL3OEenTA/cKGL5oil0bnf+evfjR6n7xJYUez++9bbUL8NyK
- mwpGoz6NjtaMd6T6SdpdeK3SjBHnQVR7cnuN787a4kSO0UGQ/qiXd510dvC35+ROc9KccdBJQ9O8UG
- j59WtvEuYIf3wGvX7Gxat7V2DjodwzEvDiy+CyhMLXhp2kdRYaftK+hlMfdh3hvdX9HK1wsHqnZZNW
- 2jIB6Lm8e5R4+zKVC9MC8ZxvWDlXi8uYXm03gL2lKA5E1/cQXWrwqyFnfZrw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2638; h=from:subject;
+ bh=QKALqwrqhLc+7tVP8mb7u9vJwM2ktK3XL7hcr7RjisE=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOCimDJCcehKBIQzI/fV1vkomdBEz58Sp357Acw
+ ashx10aJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzggAKCRCJcvTf3G3AJowOD/
+ 0cV2/gWpM3tzSGeDnd+48FkILInBduxYU7T8eAce0pFHdDWK3Xdzt0Rz/8KSK9g9qHiPAoTtE1ZDZs
+ IdycA5PGwVU7OoMo9y8rxip+T0x8+0FTjiK0eEeADuraWJtuRkY7rqUv3anZB+7aFcy23HLSzsokDy
+ v3K2NShHDdMr6+BTxCwT82oNKp7sflOMI9zqU65OfotImRrxPDAWNMY94XTaiIiAAWhAiHJTCCBy8a
+ ww4ATYSVeRhj5CuJno8eppzIfgRbYoroFPSEqjpMIcR8XWfhMi3nGrZH+yIEDKzj93dnynMtjdt29m
+ NwgegnkyruD3AJAJMQlWpROj7wM6tRwt/RQHzXD7ude5mYXinSx6o7qjeEh5KvtVaWGZNIyNH7QX03
+ PtXqkYsIh8qzepHC9wr8mH6qkkUO1tkoy2yiGAA+MawqqegNs1HUQyC90hWs+rYewPsWZdHCusZQgh
+ ZwPEDFuZ5NwYCIx582KcOGBtSe8ERTdcCF8QAsSe7eA8uVzZh7NgAKPp9Qv5ldepnhjwjiXDlXn1kl
+ c6aG7NcBdLnGZLaWPMWbzyie+xLb3X42bGBryj5ZyD+7tJuSeBWhYRQ4Vf3KftFyOoXMrhYgc97usd
+ VBN5UHc/ZqYheG58Rq9zQ6wjzNvKBzLmALvQsvOQLX+K6SPP+pWWlQKN4+LA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -94,88 +94,59 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memcpy(), memmove(), and memset(), avoid
 intentionally writing across neighboring fields.
 
-Use struct_group() around members addr1, addr2, and addr3 in struct
-ieee80211_hdr so they can be referenced together. This will allow memcpy()
-and sizeof() to more easily reason about sizes, improve readability,
-and avoid future warnings about writing beyond the end of addr1.
+Use flexible arrays instead of zero-element arrays (which look like they
+are always overflowing) and split the cross-field memcpy() into two halves
+that can be appropriately bounds-checked by the compiler.
 
-"pahole" shows no size nor member offset changes to struct ieee80211_hdr.
-"objdump -d" shows no meaningful object code changes (i.e. only source
-line number induced differences and optimizations).
+"pahole" shows no size nor member offset changes to struct mlx5e_tx_wqe
+nor struct mlx5e_umr_wqe. "objdump -d" shows no meaningful object
+code changes (i.e. only source line number induced differences and
+optimizations).
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 5 +++--
- drivers/staging/rtl8723bs/core/rtw_xmit.c     | 5 +++--
- include/linux/ieee80211.h                     | 8 +++++---
- net/wireless/lib80211_crypt_ccmp.c            | 3 ++-
- 4 files changed, 13 insertions(+), 8 deletions(-)
+ drivers/net/ethernet/mellanox/mlx5/core/en.h     | 4 ++--
+ drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c | 4 +++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index a99f439328f1..be7cf42855a1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -1421,8 +1421,9 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
- 		ClearRetry(BIP_AAD);
- 		ClearPwrMgt(BIP_AAD);
- 		ClearMData(BIP_AAD);
--		/* conscruct AAD, copy address 1 to address 3 */
--		memcpy(BIP_AAD+2, pwlanhdr->addr1, 18);
-+		/* conscruct AAD, copy address 1 through address 3 */
-+		BUILD_BUG_ON(sizeof(pwlanhdr->addrs) != 3 * ETH_ALEN);
-+		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, 3 * ETH_ALEN);
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
+index b1b51bbba054..54c014d97db7 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
+@@ -204,7 +204,7 @@ static inline int mlx5e_get_max_num_channels(struct mlx5_core_dev *mdev)
+ struct mlx5e_tx_wqe {
+ 	struct mlx5_wqe_ctrl_seg ctrl;
+ 	struct mlx5_wqe_eth_seg  eth;
+-	struct mlx5_wqe_data_seg data[0];
++	struct mlx5_wqe_data_seg data[];
+ };
  
- 		if (omac1_aes_128(padapter->securitypriv.dot11wBIPKey[padapter->securitypriv.dot11wBIPKeyid].skey
- 			, BIP_AAD, ori_len, mic))
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 79e4d7df1ef5..cb47db784130 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1198,8 +1198,9 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
- 		ClearRetry(BIP_AAD);
- 		ClearPwrMgt(BIP_AAD);
- 		ClearMData(BIP_AAD);
--		/* conscruct AAD, copy address 1 to address 3 */
--		memcpy(BIP_AAD+2, pwlanhdr->addr1, 18);
-+		/* conscruct AAD, copy address 1 through address 3 */
-+		BUILD_BUG_ON(sizeof(pwlanhdr->addrs) != 3 * ETH_ALEN);
-+		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, 3 * ETH_ALEN);
- 		/* copy management fram body */
- 		memcpy(BIP_AAD+BIP_AAD_SIZE, MGMT_body, frame_body_len);
- 		/* calculate mic */
-diff --git a/include/linux/ieee80211.h b/include/linux/ieee80211.h
-index a6730072d13a..d7932b520aaf 100644
---- a/include/linux/ieee80211.h
-+++ b/include/linux/ieee80211.h
-@@ -297,9 +297,11 @@ static inline u16 ieee80211_sn_sub(u16 sn1, u16 sn2)
- struct ieee80211_hdr {
- 	__le16 frame_control;
- 	__le16 duration_id;
--	u8 addr1[ETH_ALEN];
--	u8 addr2[ETH_ALEN];
--	u8 addr3[ETH_ALEN];
-+	struct_group(addrs,
-+		u8 addr1[ETH_ALEN];
-+		u8 addr2[ETH_ALEN];
-+		u8 addr3[ETH_ALEN];
-+	);
- 	__le16 seq_ctrl;
- 	u8 addr4[ETH_ALEN];
- } __packed __aligned(2);
-diff --git a/net/wireless/lib80211_crypt_ccmp.c b/net/wireless/lib80211_crypt_ccmp.c
-index 6a5f08f7491e..21d7c39bb394 100644
---- a/net/wireless/lib80211_crypt_ccmp.c
-+++ b/net/wireless/lib80211_crypt_ccmp.c
-@@ -136,7 +136,8 @@ static int ccmp_init_iv_and_aad(const struct ieee80211_hdr *hdr,
- 	pos = (u8 *) hdr;
- 	aad[0] = pos[0] & 0x8f;
- 	aad[1] = pos[1] & 0xc7;
--	memcpy(aad + 2, hdr->addr1, 3 * ETH_ALEN);
-+	BUILD_BUG_ON(sizeof(hdr->addrs) != 3 * ETH_ALEN);
-+	memcpy(aad + 2, &hdr->addrs, ETH_ALEN);
- 	pos = (u8 *) & hdr->seq_ctrl;
- 	aad[20] = pos[0] & 0x0f;
- 	aad[21] = 0;		/* all bits masked */
+ struct mlx5e_rx_wqe_ll {
+@@ -220,7 +220,7 @@ struct mlx5e_umr_wqe {
+ 	struct mlx5_wqe_ctrl_seg       ctrl;
+ 	struct mlx5_wqe_umr_ctrl_seg   uctrl;
+ 	struct mlx5_mkey_seg           mkc;
+-	struct mlx5_mtt                inline_mtts[0];
++	struct mlx5_mtt                inline_mtts[];
+ };
+ 
+ extern const char mlx5e_self_tests[][ETH_GSTRING_LEN];
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c b/drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c
+index 2f0df5cc1a2d..2d2364ea13cf 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c
+@@ -341,8 +341,10 @@ mlx5e_xmit_xdp_frame(struct mlx5e_xdpsq *sq, struct mlx5e_xmit_data *xdptxd,
+ 
+ 	/* copy the inline part if required */
+ 	if (sq->min_inline_mode != MLX5_INLINE_MODE_NONE) {
+-		memcpy(eseg->inline_hdr.start, xdptxd->data, MLX5E_XDP_MIN_INLINE);
++		memcpy(eseg->inline_hdr.start, xdptxd->data, sizeof(eseg->inline_hdr.start));
+ 		eseg->inline_hdr.sz = cpu_to_be16(MLX5E_XDP_MIN_INLINE);
++		memcpy(dseg, xdptxd->data + sizeof(eseg->inline_hdr.start),
++				MLX5E_XDP_MIN_INLINE - sizeof(eseg->inline_hdr.start));
+ 		dma_len  -= MLX5E_XDP_MIN_INLINE;
+ 		dma_addr += MLX5E_XDP_MIN_INLINE;
+ 		dseg++;
 -- 
 2.30.2
 
