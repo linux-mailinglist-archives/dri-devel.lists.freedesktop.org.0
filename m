@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938453D7D97
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1057C3D7D94
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C09986EC84;
-	Tue, 27 Jul 2021 18:27:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 898996EC4B;
+	Tue, 27 Jul 2021 18:27:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC3966EBFF;
- Tue, 27 Jul 2021 18:27:28 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 737746EA98;
+ Tue, 27 Jul 2021 18:27:29 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6122922239;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id ECB0320174;
  Tue, 27 Jul 2021 18:27:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1627410447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rs6h546CLRMtcSyxepD7Mn/Nsf/jiBpO5HOQCWyBNTo=;
- b=SQ+MjwxOAssb5TOqh295ewENYw3tBiVO/plZKclOEum6hF2v8FluGZHRKLoNOqIzlhQjFY
- hO5DN1xxcpLRR9wMFFCSOK/ZrhA2EJGaBkHA2AG6TYSUKHncim3t2wRNFeNzQiSQa+nBLQ
- UkejJ3EzzPxT+ljfaVJXRBznvi8Csnw=
+ bh=HTDs6Q7T7xPbfvfH4CPrAxJflSyiOEr62IuHUEP3CnY=;
+ b=EPchIdGK2wYHwLQ8tcVVDieEamTUyzEgno7kjr25Qzjet8ZWsBhZ8XbHStXVBMRMDqoCy3
+ Z+KVHoHCKrnLRePh9294eP3Gp9YxzVWHneNBglQCX+UgAvk7lrnP9d10reX2r1tjqDF37P
+ DGk/jmUZWhSxdx+0Dqcwq+hffdyN19s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1627410447;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rs6h546CLRMtcSyxepD7Mn/Nsf/jiBpO5HOQCWyBNTo=;
- b=25rjT4MUF+m8mAVR7hu4Fzy0LZx6zVInCki6vojHl02HI6iTyKxEKx0W73AVZ56HWi0ofn
- CVv9sT6IOGnVqEAA==
+ bh=HTDs6Q7T7xPbfvfH4CPrAxJflSyiOEr62IuHUEP3CnY=;
+ b=JyAIXFvs7OPVN0eLEaw0wCQH19m15JkVsnN0GcYkDluY6b4tQ4VI3P+gC2W44zEMHpPCVY
+ 3hnkLfmiOmqKNRBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D38B813E9D;
- Tue, 27 Jul 2021 18:27:26 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6425013B86;
+ Tue, 27 Jul 2021 18:27:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aCNlMg5QAGGwGQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:26 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id UGl/Fw9QAGGwGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:27 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
@@ -54,9 +54,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
  sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
  kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org
-Subject: [PATCH 07/14] drm/msm: Convert to Linux IRQ interfaces
-Date: Tue, 27 Jul 2021 20:27:14 +0200
-Message-Id: <20210727182721.17981-8-tzimmermann@suse.de>
+Subject: [PATCH 08/14] drm/mxsfb: Convert to Linux IRQ interfaces
+Date: Tue, 27 Jul 2021 20:27:15 +0200
+Message-Id: <20210727182721.17981-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210727182721.17981-1-tzimmermann@suse.de>
 References: <20210727182721.17981-1-tzimmermann@suse.de>
@@ -86,191 +86,154 @@ don't benefit from using it.
 
 DRM IRQ callbacks are now being called directly or inlined.
 
+Calls to platform_get_irq() can fail with a negative errno code.
+Abort initialization in this case. The DRM IRQ midlayer does not
+handle this case correctly.
+
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 113 ++++++++++++++++++++--------------
- drivers/gpu/drm/msm/msm_kms.h |   2 +-
- 2 files changed, 69 insertions(+), 46 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 81 +++++++++++++++++++------------
+ drivers/gpu/drm/mxsfb/mxsfb_drv.h |  2 +
+ 2 files changed, 52 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 9b8fa2ad0d84..6180cba5da32 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -14,7 +14,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 6da93551e2e5..b5212f5bf04a 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -24,7 +24,6 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
 -#include <drm/drm_irq.h>
- #include <drm/drm_prime.h>
+ #include <drm/drm_mode_config.h>
  #include <drm/drm_of.h>
- #include <drm/drm_vblank.h>
-@@ -201,6 +200,71 @@ void msm_rmw(void __iomem *addr, u32 mask, u32 or)
- 	msm_writel(val | or, addr);
+ #include <drm/drm_probe_helper.h>
+@@ -150,6 +149,49 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
+ 	return 0;
  }
  
-+static irqreturn_t msm_irq(int irq, void *arg)
++static irqreturn_t mxsfb_irq_handler(int irq, void *data)
 +{
-+	struct drm_device *dev = arg;
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_kms *kms = priv->kms;
++	struct drm_device *drm = data;
++	struct mxsfb_drm_private *mxsfb = drm->dev_private;
++	u32 reg;
 +
-+	BUG_ON(!kms);
++	reg = readl(mxsfb->base + LCDC_CTRL1);
 +
-+	return kms->funcs->irq(kms);
++	if (reg & CTRL1_CUR_FRAME_DONE_IRQ)
++		drm_crtc_handle_vblank(&mxsfb->crtc);
++
++	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
++
++	return IRQ_HANDLED;
 +}
 +
-+static void msm_irq_preinstall(struct drm_device *dev)
++static void mxsfb_irq_disable(struct drm_device *drm)
 +{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_kms *kms = priv->kms;
++	struct mxsfb_drm_private *mxsfb = drm->dev_private;
 +
-+	BUG_ON(!kms);
-+
-+	kms->funcs->irq_preinstall(kms);
++	mxsfb_enable_axi_clk(mxsfb);
++	mxsfb->crtc.funcs->disable_vblank(&mxsfb->crtc);
++	mxsfb_disable_axi_clk(mxsfb);
 +}
 +
-+static int msm_irq_postinstall(struct drm_device *dev)
++static int mxsfb_irq_install(struct drm_device *dev, int irq)
 +{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_kms *kms = priv->kms;
-+
-+	BUG_ON(!kms);
-+
-+	if (kms->funcs->irq_postinstall)
-+		return kms->funcs->irq_postinstall(kms);
-+
-+	return 0;
-+}
-+
-+static int msm_irq_install(struct drm_device *dev, unsigned int irq)
-+{
-+	int ret;
-+
 +	if (irq == IRQ_NOTCONNECTED)
 +		return -ENOTCONN;
 +
-+	msm_irq_preinstall(dev);
++	mxsfb_irq_disable(dev);
 +
-+	ret = request_irq(irq, msm_irq, 0, dev->driver->name, dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = msm_irq_postinstall(dev);
-+	if (ret) {
-+		free_irq(irq, dev);
-+		return ret;
-+	}
-+
-+	return 0;
++	return request_irq(irq, mxsfb_irq_handler, 0,  dev->driver->name, dev);
 +}
 +
-+static void msm_irq_uninstall(struct drm_device *dev)
++static void mxsfb_irq_uninstall(struct drm_device *dev)
 +{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_kms *kms = priv->kms;
++	struct mxsfb_drm_private *mxsfb = dev->dev_private;
 +
-+	kms->funcs->irq_uninstall(kms);
-+	free_irq(kms->irq, dev);
++	mxsfb_irq_disable(dev);
++	free_irq(mxsfb->irq, dev);
 +}
 +
- struct msm_vblank_work {
- 	struct work_struct work;
- 	int crtc_id;
-@@ -265,7 +329,7 @@ static int msm_drm_uninit(struct device *dev)
- 	}
+ static int mxsfb_load(struct drm_device *drm,
+ 		      const struct mxsfb_devdata *devdata)
+ {
+@@ -223,8 +265,13 @@ static int mxsfb_load(struct drm_device *drm,
  
- 	/* We must cancel and cleanup any pending vblank enable/disable
--	 * work before drm_irq_uninstall() to avoid work re-enabling an
-+	 * work before msm_irq_uninstall() to avoid work re-enabling an
- 	 * irq after uninstall has disabled it.
- 	 */
+ 	drm_mode_config_reset(drm);
  
-@@ -294,7 +358,7 @@ static int msm_drm_uninit(struct device *dev)
- 	drm_mode_config_cleanup(ddev);
++	ret = platform_get_irq(pdev, 0);
++	if (ret < 0)
++		goto err_vblank;
++	mxsfb->irq = ret;
++
+ 	pm_runtime_get_sync(drm->dev);
+-	ret = drm_irq_install(drm, platform_get_irq(pdev, 0));
++	ret = mxsfb_irq_install(drm, mxsfb->irq);
+ 	pm_runtime_put_sync(drm->dev);
  
- 	pm_runtime_get_sync(dev);
--	drm_irq_uninstall(ddev);
-+	msm_irq_uninstall(ddev);
- 	pm_runtime_put_sync(dev);
+ 	if (ret < 0) {
+@@ -252,7 +299,7 @@ static void mxsfb_unload(struct drm_device *drm)
+ 	drm_mode_config_cleanup(drm);
  
- 	if (kms && kms->funcs)
-@@ -553,7 +617,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ 	pm_runtime_get_sync(drm->dev);
+-	drm_irq_uninstall(drm);
++	mxsfb_irq_uninstall(drm);
+ 	pm_runtime_put_sync(drm->dev);
  
- 	if (kms) {
- 		pm_runtime_get_sync(dev);
--		ret = drm_irq_install(ddev, kms->irq);
-+		ret = msm_irq_install(ddev, kms->irq);
- 		pm_runtime_put_sync(dev);
- 		if (ret < 0) {
- 			DRM_DEV_ERROR(dev, "failed to install IRQ handler\n");
-@@ -662,43 +726,6 @@ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
- 	context_close(ctx);
+ 	drm->dev_private = NULL;
+@@ -260,38 +307,10 @@ static void mxsfb_unload(struct drm_device *drm)
+ 	pm_runtime_disable(drm->dev);
  }
  
--static irqreturn_t msm_irq(int irq, void *arg)
+-static void mxsfb_irq_disable(struct drm_device *drm)
 -{
--	struct drm_device *dev = arg;
--	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_kms *kms = priv->kms;
--	BUG_ON(!kms);
--	return kms->funcs->irq(kms);
+-	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+-
+-	mxsfb_enable_axi_clk(mxsfb);
+-	mxsfb->crtc.funcs->disable_vblank(&mxsfb->crtc);
+-	mxsfb_disable_axi_clk(mxsfb);
 -}
 -
--static void msm_irq_preinstall(struct drm_device *dev)
+-static irqreturn_t mxsfb_irq_handler(int irq, void *data)
 -{
--	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_kms *kms = priv->kms;
--	BUG_ON(!kms);
--	kms->funcs->irq_preinstall(kms);
+-	struct drm_device *drm = data;
+-	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+-	u32 reg;
+-
+-	reg = readl(mxsfb->base + LCDC_CTRL1);
+-
+-	if (reg & CTRL1_CUR_FRAME_DONE_IRQ)
+-		drm_crtc_handle_vblank(&mxsfb->crtc);
+-
+-	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+-
+-	return IRQ_HANDLED;
 -}
 -
--static int msm_irq_postinstall(struct drm_device *dev)
--{
--	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_kms *kms = priv->kms;
--	BUG_ON(!kms);
--
--	if (kms->funcs->irq_postinstall)
--		return kms->funcs->irq_postinstall(kms);
--
--	return 0;
--}
--
--static void msm_irq_uninstall(struct drm_device *dev)
--{
--	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_kms *kms = priv->kms;
--	BUG_ON(!kms);
--	kms->funcs->irq_uninstall(kms);
--}
--
- int msm_crtc_enable_vblank(struct drm_crtc *crtc)
- {
- 	struct drm_device *dev = crtc->dev;
-@@ -1025,10 +1052,6 @@ static const struct drm_driver msm_driver = {
- 	.open               = msm_open,
- 	.postclose           = msm_postclose,
- 	.lastclose          = drm_fb_helper_lastclose,
--	.irq_handler        = msm_irq,
--	.irq_preinstall     = msm_irq_preinstall,
--	.irq_postinstall    = msm_irq_postinstall,
--	.irq_uninstall      = msm_irq_uninstall,
- 	.dumb_create        = msm_gem_dumb_create,
- 	.dumb_map_offset    = msm_gem_dumb_map_offset,
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index 086a2d59b8c8..9de7c42e1071 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -150,7 +150,7 @@ struct msm_kms {
- 	const struct msm_kms_funcs *funcs;
- 	struct drm_device *dev;
+ DEFINE_DRM_GEM_CMA_FOPS(fops);
  
--	/* irq number to be passed on to drm_irq_install */
-+	/* irq number to be passed on to msm_irq_install */
- 	int irq;
+ static const struct drm_driver mxsfb_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+-	.irq_handler		= mxsfb_irq_handler,
+-	.irq_preinstall		= mxsfb_irq_disable,
+-	.irq_uninstall		= mxsfb_irq_disable,
+ 	DRM_GEM_CMA_DRIVER_OPS,
+ 	.fops	= &fops,
+ 	.name	= "mxsfb-drm",
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+index 399d23e91ed1..75f426e89b10 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+@@ -32,6 +32,8 @@ struct mxsfb_drm_private {
+ 	struct clk			*clk_axi;
+ 	struct clk			*clk_disp_axi;
  
- 	/* mapper-id used to request GEM buffer mapped for scanout: */
++	unsigned int			irq;
++
+ 	struct drm_device		*drm;
+ 	struct {
+ 		struct drm_plane	primary;
 -- 
 2.32.0
 
