@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B8D3D7FBF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 22:59:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EADF3D8099
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C05BE6E7D3;
-	Tue, 27 Jul 2021 20:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80BDD6EA4D;
+	Tue, 27 Jul 2021 21:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2CB76E7D0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 20:59:11 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- mz5-20020a17090b3785b0290176ecf64922so6604280pjb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 13:59:11 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDED86EA57
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:06:53 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id j1so1815392pjv.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=niMj9CXz4ejnw+kzGNZe1+bUFXSbgDhe9sFS3VQ9miI=;
- b=a+dkLFxyeSBPiOFmgASKI3HBPzumVIOC5mH0NfPZ4G0u9HE21lIwFBBWBONzwmMQDo
- Efqix/y2SZ0MmC2V1Ld9XBh4ywoKeS0o00fNfBm4e5u9ZpK6ODN3+AjOzFOZhZhaYDHx
- uzL0y45E1gPOLULzFld6xboGrx4XSCubE7bFI=
+ bh=clRlkcTWzJOWdb6SjT1HZu+AyElzVwLtoYPXziOiXRE=;
+ b=MBUIR3iBfXKxxQGTkwEdR+msAp6pxmWHaDphvmnJvT1Zw3YRPe0XXCC1E1e0Bq7P9v
+ PHNDTqIkm/jI1FEa26EuyG+8VRkITbDssqS0hfWFfeIsKVWMxs6NsU4giYYW+nhBICQ9
+ RxMzcJq+3X+F/NXCQU0H77itPS7DDeCUh+z/o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=niMj9CXz4ejnw+kzGNZe1+bUFXSbgDhe9sFS3VQ9miI=;
- b=YsvgkMvmRvFZXEHLzXL247f8N56SH7W6/8zSN/qisYaNjiIaOFTVIN5It6xkHDokLa
- srRVKsUt6ElIkKFtSCEOO+UJCScNWIaz/BqXHsR4s/wYwrTyFPXh5QNIRyXLw6AHMBjp
- iB9/tyx3IHDjrosmXg1muwSp2lqw6WW+00ObvIJheRcLSN3iKtGcqdfRqUjFNnQNH58Q
- 7SAt8z7X1+h2OpkBjJJlGjndrIr3tVFqyYpv+R9ZfpRW+L4VmnX8JhhQVtibCGKvBd3/
- ThGLU2hahy6teAki09S9hLJeBH90/d+UnLzySsTtkTSkSd2MAd7Jl2LuHFkz44zLT2cx
- 8KxQ==
-X-Gm-Message-State: AOAM531zsCc3vuYFF2qST4U2KxOgl6TLCZ+RjPho1mfs52h7p6C0MCS8
- dG1PYB7STzlndCC8EDQMtgWpBdDn9nDSPUoj
-X-Google-Smtp-Source: ABdhPJzH1DT4GrYsm4Wp3fQD5rhWKkENYYazYbCfE0KpJ6DHpEI/MRvOUuvJv6GD7saGx6RnZcVO6Q==
-X-Received: by 2002:a63:2586:: with SMTP id l128mr26012275pgl.68.1627419551372; 
- Tue, 27 Jul 2021 13:59:11 -0700 (PDT)
+ bh=clRlkcTWzJOWdb6SjT1HZu+AyElzVwLtoYPXziOiXRE=;
+ b=uk6aybBbm3DBGtkWZQSrvJT0BHalk8oNQHWD3usHP4iWMFQgO4cVZgAyn3asjg2ytu
+ 616ZG37crlRC0VSzjWhjQVC1K+vFtjvb2RAuLauOPfyDdg/7Flarq4tT5urzu2Tz/O6G
+ C2A2txV2EHxxkevUvziiID9qTtLrTuZc084gcnGAf7Astluxz4JTelmU/KExZ3UBXwvI
+ iyUNFt1V8uXK6Y99c/7iSjkgyOGYr6xku5RxIoabJTTnyDEMVPLAuDwhrINv1G96QInq
+ n1rOKLbtURgWag0usy+CL20zj8B6PAkPjOussU0AWbkDVZMsnMBLBmJFkBjGoKMkz04C
+ 9grg==
+X-Gm-Message-State: AOAM5330RTo5iVa4IJ6auB8R2dVnN4GsPTUWxbiNfACnaZPiVzwEhr/W
+ dPdfopNWLIl5tNx3qotljNEppQ==
+X-Google-Smtp-Source: ABdhPJyQWD89modfR5XqhD/BrBVi4uhzmxv+/WY0dPBKz1b0mLB8ON+0pnmzIlozqgKLDJGyoixVLw==
+X-Received: by 2002:a65:420d:: with SMTP id c13mr9244079pgq.123.1627420013548; 
+ Tue, 27 Jul 2021 14:06:53 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id j13sm5025493pgp.29.2021.07.27.13.59.06
+ by smtp.gmail.com with ESMTPSA id l1sm3813994pjq.1.2021.07.27.14.06.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 13:59:08 -0700 (PDT)
+ Tue, 27 Jul 2021 14:06:50 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 15/64] ipw2x00: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:06 -0700
-Message-Id: <20210727205855.411487-16-keescook@chromium.org>
+Subject: [PATCH 16/64] thermal: intel: int340x_thermal: Use struct_group() for
+ memcpy() region
+Date: Tue, 27 Jul 2021 13:58:07 -0700
+Message-Id: <20210727205855.411487-17-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3321; h=from:subject;
- bh=0Nhl+lV3cEcT5lOU4zXDLwJTWM/l7DZ+/5ez9PThfHU=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHODmdLOpeLBo/X7lz0zzh+JJDwEkaDN00Z8kMzv
- sILJmNmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgwAKCRCJcvTf3G3AJqu3EA
- CgffJsGtT8m9lsKheu7s+yA1eAMukcAQ13t72QJcc8A2IdLK2lwV9x8QVh9uUd3041NW91qDNI+Czs
- 3k2PBePcLrqYo+rdGa4Fs/X3zYzBDuEQKSmIYIkoJBe2xr+niqqh7xhFf/5ghdEYzaVZ0zGolFf8it
- 26bmcWDMOOoHxklGwf6NXQYQfYTg0hdDkG2BM1l7UXEbXz2oREhTB+LtbTnn0Hj4OfW7ZiO0CPrkhI
- lKRNotmC8/XbWEzRldEuybAi7+tknghi8uuLE+9GIz7AC4Fe6UXopDTqzxyP6j+beO0cI5K8QQPYQl
- 42woosmLzvhziq8Gj3/SzeQTJF9WacNXul30sJfOMm0mwZMl3y9Z2UvHeW2Q1tzzCZvtSChEQJMlJv
- VPnGbrapT0zmmokAsquizS99ri3WqvRQ4aa/1HPQLQxPLdEV0mfXlCZyBdS9Di0az/9jo4GTt6+4dk
- xw6s52TxDhSNMdH0X/j3Rd4x2bK4G+3/LG6bbP73GrzRSX/7cr5SQeJiichuQ2tAPPZLG3xktu+SBj
- GylM+395+DNTumAg5AwAJownhHXWSpyplcyTrQ9IxdGJW3YqhHop4Auz1mygoryurP3HSPSQoF2pzP
- k0+9FvuNGVyc4wPzxm3gvya7bZvJas+dThlg4d+oB8lbja/QIUDEBiG3BoIw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3277; h=from:subject;
+ bh=FXb9nQQ+9raXNRheCnPL/rsMtfpVZSmOVeEiPUzBx+k=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOD97boEQtghYWjunVAHXryqRBeKslQ/U0/9Z2K
+ SuHsN8WJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgwAKCRCJcvTf3G3AJs4JD/
+ 4t9krlI0msPh0DWMgqWRsM+X+y+HiMVgVUi7JkKAiBNJZoty9G4c1eS7yLV6TgLer2yFH8Ds58wUxF
+ O6n5C18sFXheNiEEW+6vqVVeyQpO6nOPUonTlA8hTYBZp6CBNW7L7fqFalI7RlROQmukoEwMQZpWKx
+ EuiGE22FT/3gJFEHq6KV61yPGYruCiyqaRADMcMMvyaJddy1qUkMgv0+9MsD6Pk/GN14+iLJT/WvX/
+ +Ncg6xMtv77TZnfLggNoIAXvzxqKTuj4YKPXx37SB2DDRCzdDh7R0hdU6WnJYEDwR5nd28AxRY9pW0
+ 3/vFBrVdXmb5M1ePJqtCrbIM24arQveQJ0OFOeHTeWVNTcpF2rYY6HkYdqN5OgBXbagUUrHLo5sTJT
+ oCoXT0USJzevlZoW3hXd+qGHUmuaA7+oUpf8ERJftB1gtBZ5+mAE3oNp6XoGlqZWXKaZOqEXohtJdE
+ JKAKoqmW3JI+EQI+YUWLhorOoexqDCL3tG1VxN6M8wVEznEOVlCPdgcKjMwd4TvvKajC88ejnODvYX
+ Yx+uFlSgaEFH992Tzy+Sem73iwT45T1pxFzlgXi6UKZ/H5V8dY1HWDHhQdWkFNrA7YldsHu5LMPO23
+ EVZMhiu2pPLzAvDWB389kz3t6FqAo/HGYnm8kfHnyCibi/cFhsXVyBwQujpg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -91,89 +91,106 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field array bounds checking for memcpy(), memmove(), and memset(),
-avoid intentionally writing across neighboring fields.
+field bounds checking for memcpy(), avoid intentionally writing across
+neighboring fields.
 
-Use struct_group() in struct libipw_qos_information_element around
-members qui, qui_type, qui_subtype, version, and ac_info, so they can be
-referenced together. This will allow memcpy() and sizeof() to more easily
-reason about sizes, improve readability, and avoid future warnings about
-writing beyond the end of qui.
+Use struct_group() in struct art around members weight, and ac[0-9]_max,
+so they can be referenced together. This will allow memcpy() and sizeof()
+to more easily reason about sizes, improve readability, and avoid future
+warnings about writing beyond the end of weight.
 
-"pahole" shows no size nor member offset changes to struct
-libipw_qos_information_element.
-
-Additionally corrects the size in libipw_read_qos_param_element() as
-it was testing the wrong structure size (it should have been struct
-libipw_qos_information_element, not struct libipw_qos_parameter_info).
+"pahole" shows no size nor member offset changes to struct art.
+"objdump -d" shows no meaningful object code changes (i.e. only source
+line number induced differences).
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/intel/ipw2x00/libipw.h    | 12 +++++++-----
- drivers/net/wireless/intel/ipw2x00/libipw_rx.c |  8 ++++----
- 2 files changed, 11 insertions(+), 9 deletions(-)
+ .../intel/int340x_thermal/acpi_thermal_rel.c  |  5 +-
+ .../intel/int340x_thermal/acpi_thermal_rel.h  | 48 ++++++++++---------
+ 2 files changed, 29 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/net/wireless/intel/ipw2x00/libipw.h b/drivers/net/wireless/intel/ipw2x00/libipw.h
-index 7964ef7d15f0..4006a0db2eea 100644
---- a/drivers/net/wireless/intel/ipw2x00/libipw.h
-+++ b/drivers/net/wireless/intel/ipw2x00/libipw.h
-@@ -537,11 +537,13 @@ struct libipw_txb {
- struct libipw_qos_information_element {
- 	u8 elementID;
- 	u8 length;
--	u8 qui[QOS_OUI_LEN];
--	u8 qui_type;
--	u8 qui_subtype;
--	u8 version;
--	u8 ac_info;
+diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+index a478cff8162a..e90690a234c4 100644
+--- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
++++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+@@ -250,8 +250,9 @@ static int fill_art(char __user *ubuf)
+ 		get_single_name(arts[i].source, art_user[i].source_device);
+ 		get_single_name(arts[i].target, art_user[i].target_device);
+ 		/* copy the rest int data in addition to source and target */
+-		memcpy(&art_user[i].weight, &arts[i].weight,
+-			sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
++		BUILD_BUG_ON(sizeof(art_user[i].data) !=
++			     sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
++		memcpy(&art_user[i].data, &arts[i].data, sizeof(art_user[i].data));
+ 	}
+ 
+ 	if (copy_to_user(ubuf, art_user, art_len))
+diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+index 58822575fd54..78d942477035 100644
+--- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
++++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+@@ -17,17 +17,19 @@
+ struct art {
+ 	acpi_handle source;
+ 	acpi_handle target;
+-	u64 weight;
+-	u64 ac0_max;
+-	u64 ac1_max;
+-	u64 ac2_max;
+-	u64 ac3_max;
+-	u64 ac4_max;
+-	u64 ac5_max;
+-	u64 ac6_max;
+-	u64 ac7_max;
+-	u64 ac8_max;
+-	u64 ac9_max;
 +	struct_group(data,
-+		u8 qui[QOS_OUI_LEN];
-+		u8 qui_type;
-+		u8 qui_subtype;
-+		u8 version;
-+		u8 ac_info;
++		u64 weight;
++		u64 ac0_max;
++		u64 ac1_max;
++		u64 ac2_max;
++		u64 ac3_max;
++		u64 ac4_max;
++		u64 ac5_max;
++		u64 ac6_max;
++		u64 ac7_max;
++		u64 ac8_max;
++		u64 ac9_max;
 +	);
  } __packed;
  
- struct libipw_qos_ac_parameter {
-diff --git a/drivers/net/wireless/intel/ipw2x00/libipw_rx.c b/drivers/net/wireless/intel/ipw2x00/libipw_rx.c
-index 5a2a723e480b..75cc3cab4992 100644
---- a/drivers/net/wireless/intel/ipw2x00/libipw_rx.c
-+++ b/drivers/net/wireless/intel/ipw2x00/libipw_rx.c
-@@ -948,13 +948,13 @@ static int libipw_read_qos_param_element(struct libipw_qos_parameter_info
- 					    *info_element)
- {
- 	int ret = 0;
--	u16 size = sizeof(struct libipw_qos_parameter_info) - 2;
-+	u16 size = sizeof(element_param->info_element.data);
- 
- 	if ((info_element == NULL) || (element_param == NULL))
- 		return -1;
- 
- 	if (info_element->id == QOS_ELEMENT_ID && info_element->len == size) {
--		memcpy(element_param->info_element.qui, info_element->data,
-+		memcpy(&element_param->info_element.data, info_element->data,
- 		       info_element->len);
- 		element_param->info_element.elementID = info_element->id;
- 		element_param->info_element.length = info_element->len;
-@@ -975,7 +975,7 @@ static int libipw_read_qos_info_element(struct
- 					   *info_element)
- {
- 	int ret = 0;
--	u16 size = sizeof(struct libipw_qos_information_element) - 2;
-+	u16 size = sizeof(element_info->data);
- 
- 	if (element_info == NULL)
- 		return -1;
-@@ -983,7 +983,7 @@ static int libipw_read_qos_info_element(struct
- 		return -1;
- 
- 	if ((info_element->id == QOS_ELEMENT_ID) && (info_element->len == size)) {
--		memcpy(element_info->qui, info_element->data,
-+		memcpy(&element_info->data, info_element->data,
- 		       info_element->len);
- 		element_info->elementID = info_element->id;
- 		element_info->length = info_element->len;
+ struct trt {
+@@ -47,17 +49,19 @@ union art_object {
+ 	struct {
+ 		char source_device[8]; /* ACPI single name */
+ 		char target_device[8]; /* ACPI single name */
+-		u64 weight;
+-		u64 ac0_max_level;
+-		u64 ac1_max_level;
+-		u64 ac2_max_level;
+-		u64 ac3_max_level;
+-		u64 ac4_max_level;
+-		u64 ac5_max_level;
+-		u64 ac6_max_level;
+-		u64 ac7_max_level;
+-		u64 ac8_max_level;
+-		u64 ac9_max_level;
++		struct_group(data,
++			u64 weight;
++			u64 ac0_max_level;
++			u64 ac1_max_level;
++			u64 ac2_max_level;
++			u64 ac3_max_level;
++			u64 ac4_max_level;
++			u64 ac5_max_level;
++			u64 ac6_max_level;
++			u64 ac7_max_level;
++			u64 ac8_max_level;
++			u64 ac9_max_level;
++		);
+ 	};
+ 	u64 __data[ACPI_NR_ART_ELEMENTS];
+ };
 -- 
 2.30.2
 
