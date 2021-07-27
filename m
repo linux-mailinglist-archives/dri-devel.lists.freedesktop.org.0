@@ -2,40 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DDD3D79B3
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 17:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406933D79D8
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 17:33:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8A76E44A;
-	Tue, 27 Jul 2021 15:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1E046E04B;
+	Tue, 27 Jul 2021 15:33:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAF36E44A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 15:26:39 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 12df8879-eeef-11eb-8d1a-0050568cd888;
- Tue, 27 Jul 2021 15:26:54 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id E8394194BAE;
- Tue, 27 Jul 2021 17:26:57 +0200 (CEST)
-Date: Tue, 27 Jul 2021 17:26:35 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 0/5] video: fbdev: ssd1307fb: Optimizations and
- improvements
-Message-ID: <YQAlq0/vmutrXCzi@ravnborg.org>
-References: <20210727134730.3765898-1-geert@linux-m68k.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79BD16E04B;
+ Tue, 27 Jul 2021 15:32:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="234336965"
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="234336965"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 08:32:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="474634264"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga008.fm.intel.com with ESMTP; 27 Jul 2021 08:32:57 -0700
+Received: from [10.249.141.251] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.141.251])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 16RFWuZT010699; Tue, 27 Jul 2021 16:32:56 +0100
+Subject: Re: [Intel-gfx] [PATCH 09/15] drm/i915/guc/slpc: Add get max/min freq
+ hooks
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210726190800.26762-1-vinay.belgaumkar@intel.com>
+ <20210726190800.26762-10-vinay.belgaumkar@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <83adc062-f5b9-5272-d99a-fa870a85328c@intel.com>
+Date: Tue, 27 Jul 2021 17:32:55 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727134730.3765898-1-geert@linux-m68k.org>
+In-Reply-To: <20210726190800.26762-10-vinay.belgaumkar@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,38 +53,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
-On Tue, Jul 27, 2021 at 03:47:25PM +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> This patch series optimizes console operations on ssd1307fb, after the
-> customary fixes and cleanups.
-> 
-> Currently, each screen update triggers an I2C transfer of all screen
-> data, up to 1 KiB of data for a 128x64 display, which takes at least 20
-> ms in Fast mode.  While many displays are smaller, and thus require less
-> data to be transferred, 20 ms is still an optimistic value, as the
-> actual data transfer may be much slower, especially on bitbanged I2C
-> drivers.  After this series, the amount of data transfer is reduced, as
-> fillrect, copyarea, and imageblit only update the rectangle that
-> changed.
-> 
-> Changes compared to v1[1]:
->   - Add Acked-by,
->   - Use two separate helpers instead of a single combined helper,
->   - Reorder operands in DIV_ROUND_UP() to improve readability.
-> 
-> This has been tested on an Adafruit FeatherWing OLED with an SSD1306
-> controller and a 128x32 OLED, connected to an OrangeCrab ECP5 FPGA board
-> running a 64 MHz VexRiscv RISC-V softcore, where it reduced the CPU
-> usage for blinking the cursor from more than 70% to ca. 10%.
-> 
-> Thanks for applying!
-Thanks for the respin - patches are now applied to drm-misc-next.
 
-	Sam
+
+On 26.07.2021 21:07, Vinay Belgaumkar wrote:
+> Add helpers to read the min/max frequency being used
+> by SLPC. This is done by send a H2G command which forces
+> SLPC to update the shared data struct which can then be
+> read. These helpers will be used in a sysfs patch later
+> on.
+> 
+> v2: Address review comments (Michal W)
+> v3: Return err in case of query failure (Michal W)
+> 
+> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 54 +++++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h |  2 +
+>  2 files changed, 56 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> index 63656640189c..c653bba3b5eb 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> @@ -306,6 +306,33 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
+>  	return ret;
+>  }
+>  
+> +/**
+> + * intel_guc_slpc_get_max_freq() - Get max frequency limit for SLPC.
+> + * @slpc: pointer to intel_guc_slpc.
+> + * @val: pointer to val which will hold max frequency (MHz)
+> + *
+> + * This function will invoke GuC SLPC action to read the max frequency
+> + * limit for unslice.
+> + *
+> + * Return: 0 on success, non-zero error code on failure.
+> + */
+> +int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val)
+> +{
+> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+> +	intel_wakeref_t wakeref;
+> +	int ret = 0;
+> +
+> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+> +		/* Force GuC to update task data */
+> +		ret = slpc_query_task_state(slpc);
+> +
+> +		if (!ret)
+> +			*val = slpc_decode_max_freq(slpc);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  /**
+>   * intel_guc_slpc_set_min_freq() - Set min frequency limit for SLPC.
+>   * @slpc: pointer to intel_guc_slpc.
+> @@ -338,6 +365,33 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
+>  	return ret;
+>  }
+>  
+> +/**
+> + * intel_guc_slpc_get_min_freq() - Get min frequency limit for SLPC.
+> + * @slpc: pointer to intel_guc_slpc.
+> + * @val: pointer to val which will hold min frequency (MHz)
+> + *
+> + * This function will invoke GuC SLPC action to read the min frequency
+> + * limit for unslice.
+> + *
+> + * Return: 0 on success, non-zero error code on failure.
+> + */
+> +int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val)
+> +{
+> +	intel_wakeref_t wakeref;
+> +	struct drm_i915_private *i915 = guc_to_gt(slpc_to_guc(slpc))->i915;
+
+use slpc_to_i915() and in this order:
+
+	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+	intel_wakeref_t wakeref;
+	int ret = 0;
+
+with that fixed,
+
+Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+
+> +	int ret = 0;
+> +
+> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+> +		/* Force GuC to update task data */
+> +		ret = slpc_query_task_state(slpc);
+> +
+> +		if (!ret)
+> +			*val = slpc_decode_min_freq(slpc);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  /*
+>   * intel_guc_slpc_enable() - Start SLPC
+>   * @slpc: pointer to intel_guc_slpc.
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+> index e594510497ec..92d7afd44f07 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+> @@ -31,5 +31,7 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
+>  void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
+>  int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
+>  int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val);
+> +int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val);
+> +int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
+>  
+>  #endif
+> 
