@@ -1,55 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81A43D787B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 16:28:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A123D7920
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 16:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBD956E187;
-	Tue, 27 Jul 2021 14:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9889C6E5A4;
+	Tue, 27 Jul 2021 14:55:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com
- [IPv6:2607:f8b0:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8F656E106
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:28:51 +0000 (UTC)
-Received: by mail-il1-x129.google.com with SMTP id q18so12202221ile.9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 07:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9Prx0Bs3bi2Iedu+a31xFuqWG2tgHJduHwRz4ZIFies=;
- b=iwg3INetBSvSrA2PFYqyLYPB7PI8YxE5YBgzSCjQ63DsueVurjkfTnHSKQEF6hucc3
- lFDNFSEZz98jxNKhV8ssutp8hNDO8ukVScHrxzMfINjJzxgaxtgKRX0AGiR0DvW78tMd
- OP2U76sZRXONyVQpFCrlDKn8QBC5427e/FOgY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9Prx0Bs3bi2Iedu+a31xFuqWG2tgHJduHwRz4ZIFies=;
- b=IjMAg1cFRi7Ve3WwwrB+44GrXqCY5paJu+SzWjJRku81qno6x5J8EgZx1CXNwa+eaU
- XAQtQTbfOWcEGb10iFruqXuR1z5Csk0IqGhGSrWkhcItwWuH/zI9y/oZ+zaCEGJv0IK4
- A9LC0MisAdQSr0SYZTduyncf1QDwAz7N0mHqO1imNMZksjjGGHzyvqiYl9GAph4XJXPL
- mi7GiWvf4ouPR0qtx+lQ0mEbcoQE14EL5q/I81BeBwk/Nnh9WHY7GKzReJIHtWoKH0Sc
- MxjQyzYQqgFu+Ya9uM5Ks0wYut8KQD7SI08ZJuhET+9oL2mFeWJA5oOpUKQe9R7fL5zX
- nMXA==
-X-Gm-Message-State: AOAM531CcGr++hln8HoZZFF9nPJTPxYMF/+3kD9G1lRV/aDCOvrDMuj+
- aCl4sKfuEKzWvYR5W4Qhzomnn0YPWrwSs0CUaJwT0w==
-X-Google-Smtp-Source: ABdhPJybYxwYy18KLwUbJfyvL+fb6T2BlYafeEVAj/NR03+20aiC9dS9LWK4oQGWXgLiZRehkrarL9nMSfFaH1DpM90=
-X-Received: by 2002:a92:3206:: with SMTP id z6mr16785042ile.201.1627396130923; 
- Tue, 27 Jul 2021 07:28:50 -0700 (PDT)
+X-Greylist: delayed 1054 seconds by postgrey-1.36 at gabe;
+ Tue, 27 Jul 2021 14:55:07 UTC
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E527B6E5A4;
+ Tue, 27 Jul 2021 14:55:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=7JGTPyc+EQAmJMLeawxbIpd5nxKaSoB1NrO5dhBDcSg=; b=Z1QWHyfBAudsewtVZ8tqnA9Zbe
+ j7krK+aZ2Zsve4mh2dBwCSB44HSDKQ0euh1GAIQ6kNWAtVaIoKZQd8wNgQ7TCvuBFV5rJNtSG0e4t
+ m5+mGVrmjRQ9ES/wMXEbwAmky2+Qyb9Xs6s6D6wO4GkeA40a3GFrw2wPM9hbVcTk93YrWsDKBKeRG
+ 3+/Sq1R6enZLH+TZn6chT/YHadroZd3KO2N0yelV5eB27FwFx9da4HDEzPx+6zweL+6d9bihFwgwB
+ +ZJEuEuEW5kcfrqL/etrGmj5yfV6mIsX7jIOea2y6EXyXYnWmzBzqewuLAzypZFKOD6Hv8jbsm4qM
+ 2lzBbYVg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1m8OCz-003Sbi-7Y; Tue, 27 Jul 2021 14:37:25 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5D8F130005A;
+ Tue, 27 Jul 2021 16:37:22 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 4CE37213986E1; Tue, 27 Jul 2021 16:37:22 +0200 (CEST)
+Date: Tue, 27 Jul 2021 16:37:22 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ linux-graphics-maintainer@vmware.com, zackr@vmware.com,
+ airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 1/3] drm: use the lookup lock in drm_is_current_master
+Message-ID: <YQAaIrNUXa6i2gxD@hirez.programming.kicks-ass.net>
+References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
+ <20210722092929.244629-2-desmondcheongzx@gmail.com>
+ <YPlKkvelm/mcnCj0@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <20210726233854.2453899-4-robdclark@gmail.com>
- <db6cdec8-d44c-a09c-3fbd-60fb55c66efb@daenzer.net>
-In-Reply-To: <db6cdec8-d44c-a09c-3fbd-60fb55c66efb@daenzer.net>
-From: Rob Clark <robdclark@chromium.org>
-Date: Tue, 27 Jul 2021 07:33:01 -0700
-Message-ID: <CAJs_Fx6dmNcjAvAJASr-YOZSDPrPfb0iwxNTZwmn1AQXpQevYQ@mail.gmail.com>
-Subject: Re: [RFC 3/4] drm/atomic-helper: Set fence deadline for vblank
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YPlKkvelm/mcnCj0@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,96 +69,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 3:44 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
->
-> On 2021-07-27 1:38 a.m., Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > For an atomic commit updating a single CRTC (ie. a pageflip) calculate
-> > the next vblank time, and inform the fence(s) of that deadline.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+On Thu, Jul 22, 2021 at 12:38:10PM +0200, Daniel Vetter wrote:
+> On Thu, Jul 22, 2021 at 05:29:27PM +0800, Desmond Cheong Zhi Xi wrote:
+> > Inside drm_is_current_master, using the outer drm_device.master_mutex
+> > to protect reads of drm_file.master makes the function prone to creating
+> > lock hierarchy inversions. Instead, we can use the
+> > drm_file.master_lookup_lock that sits at the bottom of the lock
+> > hierarchy.
+> > 
+> > Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 > > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c | 36 +++++++++++++++++++++++++++++
-> >  1 file changed, 36 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_=
-atomic_helper.c
-> > index bc3487964fb5..f81b20775b15 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -1406,6 +1406,40 @@ void drm_atomic_helper_commit_modeset_enables(st=
-ruct drm_device *dev,
-> >  }
-> >  EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
-> >
-> > +/*
-> > + * For atomic updates which touch just a single CRTC, calculate the ti=
-me of the
-> > + * next vblank, and inform all the fences of the of the deadline.
-> > + */
-> > +static void set_fence_deadline(struct drm_device *dev,
-> > +                            struct drm_atomic_state *state)
-> > +{
-> > +     struct drm_crtc *crtc, *wait_crtc =3D NULL;
-> > +     struct drm_crtc_state *new_crtc_state;
-> > +     struct drm_plane *plane;
-> > +     struct drm_plane_state *new_plane_state;
-> > +     ktime_t vbltime;
-> > +     int i;
-> > +
-> > +     for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
-> > +             if (!wait_crtc)
-> > +                     return;
->
-> Either this return or the next one below would always be taken, I doubt t=
-his was intended.
+> >  drivers/gpu/drm/drm_auth.c | 9 +++++----
+> >  1 file changed, 5 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> > index f00354bec3fb..9c24b8cc8e36 100644
+> > --- a/drivers/gpu/drm/drm_auth.c
+> > +++ b/drivers/gpu/drm/drm_auth.c
+> > @@ -63,8 +63,9 @@
+> >  
+> >  static bool drm_is_current_master_locked(struct drm_file *fpriv)
+> >  {
+> > -	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
+> > -
+> > +	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
+> > +	 * should be held here.
+> > +	 */
+> 
+> Disappointing that lockdep can't check or conditions for us, a
+> lockdep_assert_held_either would be really neat in some cases.
+> 
+> Adding lockdep folks, maybe they have ideas.
 
-oops, the condition here is mistakenly inverted, it was meant to bail
-if there is more than a single CRTC
+#ifdef CONFIG_LOCKDEP
+	WARN_ON_ONCE(debug_locks && !(lockdep_is_held(&drm_device.master_mutex) ||
+				      lockdep_is_held(&drm_file.master_lookup_lock)));
+#endif
 
->
-> > +             wait_crtc =3D crtc;
-> > +     }
-> > +
-> > +     /* If no CRTCs updated, then nothing to do: */
-> > +     if (!wait_crtc)
-> > +             return;
-> > +
-> > +     if (drm_crtc_next_vblank_time(wait_crtc, &vbltime))
-> > +             return;
-> > +
-> > +     for_each_new_plane_in_state (state, plane, new_plane_state, i) {
-> > +             if (!new_plane_state->fence)
-> > +                     continue;
-> > +             dma_fence_set_deadline(new_plane_state->fence, vbltime);
-> > +     }
->
-> vblank timestamps correspond to the end of vertical blank, the deadline s=
-hould be the start of vertical blank though.
->
+doesn't exactly roll off the tongue, but should do as you want I
+suppose.
 
-hmm, I suppose this depends on whether the hw actually has separate
-irq's for frame-done and vblank (and whether the driver
-differentiates).. and if the display controller is doing some
-buffering, the point at which it wants to flip could be a bit earlier
-still.  Maybe we just want a kms driver provided offset for how early
-it wants the deadline relative to vblank?
+Would something like:
 
-BR,
--R
+#define lockdep_assert(cond)	WARN_ON_ONCE(debug_locks && !(cond))
 
->
-> --
-> Earthling Michel D=C3=A4nzer               |               https://redhat=
-.com
-> Libre software enthusiast             |             Mesa and X developer
+Such that we can write:
+
+	lockdep_assert(lockdep_is_held(&drm_device.master_mutex) ||
+		       lockdep_is_held(&drm_file.master_lookup_lock));
+
+make it better ?
+
+---
+Subject: locking/lockdep: Provide lockdep_assert{,_once}() helpers
+
+Extract lockdep_assert{,_once}() helpers to more easily write composite
+assertions like, for example:
+
+	lockdep_assert(lockdep_is_held(&drm_device.master_mutex) ||
+		       lockdep_is_held(&drm_file.master_lookup_lock));
+
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+index 5cf387813754..0da67341c1fb 100644
+--- a/include/linux/lockdep.h
++++ b/include/linux/lockdep.h
+@@ -306,31 +306,29 @@ extern void lock_unpin_lock(struct lockdep_map *lock, struct pin_cookie);
+ 
+ #define lockdep_depth(tsk)	(debug_locks ? (tsk)->lockdep_depth : 0)
+ 
+-#define lockdep_assert_held(l)	do {					\
+-		WARN_ON(debug_locks &&					\
+-			lockdep_is_held(l) == LOCK_STATE_NOT_HELD);	\
+-	} while (0)
++#define lockdep_assert(cond)		\
++	do { WARN_ON(debug_locks && !(cond)); } while (0)
+ 
+-#define lockdep_assert_not_held(l)	do {				\
+-		WARN_ON(debug_locks &&					\
+-			lockdep_is_held(l) == LOCK_STATE_HELD);		\
+-	} while (0)
++#define lockdep_assert_once(cond)	\
++	do { WARN_ON_ONCE(debug_locks && !(cond)); } while (0)
+ 
+-#define lockdep_assert_held_write(l)	do {			\
+-		WARN_ON(debug_locks && !lockdep_is_held_type(l, 0));	\
+-	} while (0)
++#define lockdep_assert_held(l)		\
++	lockdep_assert(lockdep_is_held(l) != LOCK_STAT_NOT_HELD)
+ 
+-#define lockdep_assert_held_read(l)	do {				\
+-		WARN_ON(debug_locks && !lockdep_is_held_type(l, 1));	\
+-	} while (0)
++#define lockdep_assert_not_held(l)	\
++	lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
+ 
+-#define lockdep_assert_held_once(l)	do {				\
+-		WARN_ON_ONCE(debug_locks && !lockdep_is_held(l));	\
+-	} while (0)
++#define lockdep_assert_held_write(l)	\
++	lockdep_assert(lockdep_is_held_type(l, 0))
+ 
+-#define lockdep_assert_none_held_once()	do {				\
+-		WARN_ON_ONCE(debug_locks && current->lockdep_depth);	\
+-	} while (0)
++#define lockdep_assert_held_read(l)	\
++	lockdep_assert(lockdep_is_held_type(l, 1))
++
++#define lockdep_assert_held_once(l)		\
++	lockdep_assert_once(lockdep_is_held(l) != LOCK_STAT_NOT_HELD)
++
++#define lockdep_assert_none_held_once()		\
++	lockdep_assert_once(!current->lockdep_depth)
+ 
+ #define lockdep_recursing(tsk)	((tsk)->lockdep_recursion)
+ 
+@@ -407,6 +405,9 @@ extern int lock_is_held(const void *);
+ extern int lockdep_is_held(const void *);
+ #define lockdep_is_held_type(l, r)		(1)
+ 
++#define lockdep_assert(c)			do { } while (0)
++#define lockdep_assert_once(c)			do { } while (0)
++
+ #define lockdep_assert_held(l)			do { (void)(l); } while (0)
+ #define lockdep_assert_not_held(l)		do { (void)(l); } while (0)
+ #define lockdep_assert_held_write(l)		do { (void)(l); } while (0)
+
