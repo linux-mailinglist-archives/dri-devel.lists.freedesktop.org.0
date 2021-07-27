@@ -1,30 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948573D7497
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 13:51:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C26DE3D749C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 13:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76F316E867;
-	Tue, 27 Jul 2021 11:51:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2925D89BB0;
+	Tue, 27 Jul 2021 11:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B7AE6E85E;
- Tue, 27 Jul 2021 11:51:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbrezillon) with ESMTPSA id 21CF11F43020
-Date: Tue, 27 Jul 2021 13:51:10 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v4 00/18] drm/sched dependency tracking and dma-resv fixes
-Message-ID: <20210727135110.420edb3d@collabora.com>
-In-Reply-To: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
-References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8689289BB0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 11:54:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627386862;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LtEQPY6uW+5xma5Ar89LyNdD4KnBU2eYWcwEqgy6rCw=;
+ b=b17vEQAHolHXNgn+smoQSRi+UIn/9Z0WdfRVGg3A8LnBfA1/tWZdEZ8v9TLq1u1gtz1Wub
+ 9rdkr2Q+XHvbqKv7cpXuvSkDiBLT69DKkr+qRyjf08vuovnByzeMr//+iua7hT4ZMq/Xhz
+ rX6mK17HJ2k5ifYuxlvBZ5c4tf3U4Lc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-euFdeUKnN62H7o-0lkeGjA-1; Tue, 27 Jul 2021 07:54:20 -0400
+X-MC-Unique: euFdeUKnN62H7o-0lkeGjA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f10-20020a7bcc0a0000b0290229a389ceb2so594911wmh.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 04:54:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LtEQPY6uW+5xma5Ar89LyNdD4KnBU2eYWcwEqgy6rCw=;
+ b=dPuKM4Y3WMBUj4R06zHsxhmpmRMh7QYNo6IgceSbLpOgNNLmPGBv31quTw/um1sbqu
+ zdtFXHyeYcN8BRDYR2jsZI0GruUnz2pAplxJold7M3QSYU3YYiuKMbOIj4W2D81HEgpC
+ zij4zkGX6vQHpOzcuwyL2RyQfJJixaVTlk6K1sXyvN5sj1ohaAISpru2YSYKNs2NdMBg
+ vuvBDtJ5qnonTxgvKvJoMFHaiAvclBbkoHR8qG4rngERjEw62VGgzE9N/nb0hdrGq/YM
+ 4V/a3KDgfaiNShCn9VDn8KB1t1MffS8ZRnEWqJNiInc2FZTL+dovftJ8D0IIjb+qnfiM
+ VkMA==
+X-Gm-Message-State: AOAM531GcDR5fWJ9L4zdh4b4jgT1snuSq4P6iQKE5H55OEg4ENwixzEj
+ WeQ9VMSACbsxHrMxfEuCtZL2Po8M5tfA/kkKZQygRiNhwcjh1NkjliR5AB/eUxI7+gGlj4ajGcy
+ gRd0GRffbSVVwjORx6oY79NZ7j9CA
+X-Received: by 2002:a7b:c934:: with SMTP id h20mr21724439wml.59.1627386859150; 
+ Tue, 27 Jul 2021 04:54:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8hKxMimbBJI2/gsrfN+EOSzugqFuQQA+bNQ9lMvpdcSm+pXDDcJjGJb5sKa3uIjytVPfidw==
+X-Received: by 2002:a7b:c934:: with SMTP id h20mr21724419wml.59.1627386859005; 
+ Tue, 27 Jul 2021 04:54:19 -0700 (PDT)
+Received: from [192.168.1.101] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id d14sm2840806wrs.49.2021.07.27.04.54.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Jul 2021 04:54:18 -0700 (PDT)
+Subject: Re: [PATCH v2] drivers/firmware: fix SYSFB depends to prevent build
+ failures
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20210727093015.1225107-1-javierm@redhat.com>
+ <CAMuHMdXXoHLO=jsjb+xtW7GDQsvu8Zuz=JmbaEXT49w5o4SJ9A@mail.gmail.com>
+ <f9df82c9-1e1a-d657-d712-312f5f17cab0@redhat.com>
+ <CAMuHMdVh4XgXeaLXXTmPxMuWM4C1mTDnhSmDmff6T37PwNxupg@mail.gmail.com>
+ <e3f0f7a0-2130-18be-48a4-af1918017eca@redhat.com>
+ <CAMuHMdX+hsXeoY8jNdDvyiw2HxhwcQw60LJddsaOGZBcHT=a=A@mail.gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <5ee9e008-a395-56c2-f57f-e3567d6b648b@redhat.com>
+Date: Tue, 27 Jul 2021 13:54:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CAMuHMdX+hsXeoY8jNdDvyiw2HxhwcQw60LJddsaOGZBcHT=a=A@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,86 +89,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ kernel test robot <lkp@intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sudeep Holla <sudeep.holla@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Dinh Nguyen <dinguyen@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Peter Robinson <pbrobinson@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Colin Ian King <colin.king@canonical.com>, Borislav Petkov <bp@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 12 Jul 2021 19:53:34 +0200
-Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+Hello Geert,
 
-> Hi all,
-> 
-> Quick new version since the previous one was a bit too broken:
-> - dropped the bug-on patch to avoid breaking amdgpu's gpu reset failure
->   games
-> - another attempt at splitting job_init/arm, hopefully we're getting
->   there.
-> 
-> Note that Christian has brought up a bikeshed on the new functions to add
-> dependencies to drm_sched_jobs. I'm happy to repaint, if there's some kind
-> of consensus on what it should be.
-> 
-> Testing and review very much welcome, as usual.
-> 
-> Cheers, Daniel
-> 
-> Daniel Vetter (18):
->   drm/sched: Split drm_sched_job_init
->   drm/sched: Barriers are needed for entity->last_scheduled
->   drm/sched: Add dependency tracking
->   drm/sched: drop entity parameter from drm_sched_push_job
->   drm/sched: improve docs around drm_sched_entity
+On 7/27/21 1:39 PM, Geert Uytterhoeven wrote:
 
-Patches 1, 3, 4 and 5 are
+[snip]
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>> Perhaps SYSFB should be selected by SYSFB_SIMPLEFB, FB_VESA,
+>>> and FB_EFI?
+>>
+>> It's another option, yes. I just thought that the use of select was not
+>> encouraged and using depends was less fragile / error prone.
+> 
+> Select is very useful for config symbols that are invisible to the user (i.e.
+> cannot be enabled/disabled manually).
+> 
 
->   drm/panfrost: use scheduler dependency tracking
->   drm/lima: use scheduler dependency tracking
->   drm/v3d: Move drm_sched_job_init to v3d_job_init
->   drm/v3d: Use scheduler dependency handling
->   drm/etnaviv: Use scheduler dependency handling
->   drm/gem: Delete gem array fencing helpers
->   drm/sched: Don't store self-dependencies
->   drm/sched: Check locking in drm_sched_job_await_implicit
->   drm/msm: Don't break exclusive fence ordering
->   drm/etnaviv: Don't break exclusive fence ordering
->   drm/i915: delete exclude argument from i915_sw_fence_await_reservation
->   drm/i915: Don't break exclusive fence ordering
->   dma-resv: Give the docs a do-over
-> 
->  Documentation/gpu/drm-mm.rst                  |   3 +
->  drivers/dma-buf/dma-resv.c                    |  24 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   4 +-
->  drivers/gpu/drm/drm_gem.c                     |  96 ---------
->  drivers/gpu/drm/etnaviv/etnaviv_gem.h         |   5 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |  64 +++---
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c       |  65 +-----
->  drivers/gpu/drm/etnaviv/etnaviv_sched.h       |   3 +-
->  drivers/gpu/drm/i915/display/intel_display.c  |   4 +-
->  drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |   2 +-
->  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   8 +-
->  drivers/gpu/drm/i915/i915_sw_fence.c          |   6 +-
->  drivers/gpu/drm/i915/i915_sw_fence.h          |   1 -
->  drivers/gpu/drm/lima/lima_gem.c               |   7 +-
->  drivers/gpu/drm/lima/lima_sched.c             |  28 +--
->  drivers/gpu/drm/lima/lima_sched.h             |   6 +-
->  drivers/gpu/drm/msm/msm_gem_submit.c          |   3 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       |  16 +-
->  drivers/gpu/drm/panfrost/panfrost_job.c       |  39 +---
->  drivers/gpu/drm/panfrost/panfrost_job.h       |   5 +-
->  drivers/gpu/drm/scheduler/sched_entity.c      | 140 +++++++------
->  drivers/gpu/drm/scheduler/sched_fence.c       |  19 +-
->  drivers/gpu/drm/scheduler/sched_main.c        | 181 +++++++++++++++--
->  drivers/gpu/drm/v3d/v3d_drv.h                 |   6 +-
->  drivers/gpu/drm/v3d/v3d_gem.c                 | 115 +++++------
->  drivers/gpu/drm/v3d/v3d_sched.c               |  44 +----
->  include/drm/drm_gem.h                         |   5 -
->  include/drm/gpu_scheduler.h                   | 186 ++++++++++++++----
->  include/linux/dma-buf.h                       |   7 +
->  include/linux/dma-resv.h                      | 104 +++++++++-
->  31 files changed, 672 insertions(+), 528 deletions(-)
-> 
+Got it. I don't have a strong opinion on this really. In fact, the first
+version of the patch did use select for the arches but I got as feedback
+that should use depends instead:
+
+https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg351961.html
+
+Granted, that was for the arches but you are proposing to do it for the
+drivers that match against the platform devices registered by sysfb. So
+it does make more sense to what I did in v1.
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
