@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE8B3D74D7
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 14:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0793D74D9
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 14:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1E446EA0E;
-	Tue, 27 Jul 2021 12:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 260646EA2B;
+	Tue, 27 Jul 2021 12:11:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9B56E992
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 12:10:52 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id r2so14985682wrl.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 05:10:52 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 450096E992
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 12:10:53 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id z4so3060015wrv.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 05:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WCqsV70edJbQ7NVyAK9Rx/CfAlgYa6xJoV0SdrDjYT4=;
- b=b8uppblO0dnYxnJT7h9GKRHZB4tDWVgC+PT6/4kCfTJPO4jR6VTqXjwCqqNK4QXoU8
- 7TZXepbBqV3pIyLTpFCqAA/yPSck1DgI5qs2ApRMjITwQNGqTIVg9Mi6fcghRHvrRWAK
- dCM0Pi6Sq9eaLPZchaP1PSX1l29NKB5BoUq+4=
+ bh=QJnqoqOXB9+u6uqWz9HbnyQ59ICs56VzdaGB4gc4dXw=;
+ b=VVYoVGzScvSTwe86Sro86PG/AQn/w7PUzP4czC1sC+v8U4rUuKHm979v15ACT+ToHL
+ 98HCwNZzHjrvbJ4bJO37jIllURjW58cZbeQ4ORZwJ3WyAyyOwDL5ppFKNfgL47VJE0u0
+ XmYnWVc19KdZf6/1JWtUqRD3VSsjontF4o93M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WCqsV70edJbQ7NVyAK9Rx/CfAlgYa6xJoV0SdrDjYT4=;
- b=Op0eBvbsOoO4NQeRN3k9MHp40jJOU7scrIpX+H0QpSaMOnhiWEewYwIK0XymJGLii+
- /POP0iosjRuwTZ9ZT3Wulx/+/3oYkeaKBe8qDDe0qmSrFWAmOYiRbnTDkl2zRx5a3hz3
- czUxtZ3RbNClfLe3MrUXJUgJ6m/l9arl+kQFv92R0ID3fvHS2VjYcfXN99kaSgM5Qehu
- NF7hvP1pnjNAVfe8qA8wy//3GXdRiOm4X+pf3XO+K/M+WgYXPQ6XmTTFstbpBmcfG/1l
- MamIJwFOc1G5SCFRK0Uc9gMBLLFc7ayewckpQk6W9bJIPZPc5eKiBynqLfJ1sVtMwwul
- 0GBQ==
-X-Gm-Message-State: AOAM533Cx5BzaXJ23PWxUfe0rTKGLTPWOKIwu7Vo/zBGgkFOeC2IKbIt
- T01dWPUTR2pcLNtkptSTlueg6IdzIBrD6w==
-X-Google-Smtp-Source: ABdhPJyZD4BU3WtjQD0+yvAgeHFYR6EYk5JWEGJAUto9wQRWB05pnpkgDTwqfVMRFjr78KW5e9xs0g==
-X-Received: by 2002:adf:f110:: with SMTP id r16mr24183561wro.358.1627387851009; 
+ bh=QJnqoqOXB9+u6uqWz9HbnyQ59ICs56VzdaGB4gc4dXw=;
+ b=INHiLzLGB/e9esJ337re2q2NUPgL73ZV66LxctIcAk62nW6+RYFaV4TR7ZxDoKCT94
+ Mp+yrzbFcQJx0YPszgzuAfzGTYu9fAbiBhXcEVo+k0dpexDljmxHoup0YmKz8DoUdL5v
+ 7bDVMQKyTUqFADPLqYBdyAhymWLZvdzJRp6MudIND+YLTn3ynQQQZFTpd5CTJGmwujS2
+ U4/1SW15SFOwobqqXygzbAvmHo1o0PTHxk1x4eEEgWjVqaWAd29190JZGWRiUmG5NOXo
+ K345hik7rbKML/pxwSrXKqc/6/puYBq4vTVcNY4JJINQngCofK70S+1akSnaAFogPjp5
+ F73A==
+X-Gm-Message-State: AOAM533J/P/z9mni+AWV9psWQitTs30hbw9XVc94lpAJ1r5uczDtLobG
+ qCTxMa/9tSTvsmpfvcU8mgycGx0ZZqw1mA==
+X-Google-Smtp-Source: ABdhPJw/k/TYh8/3Ihcad2+67nGgvgPfPNRIZGXw4MLMsZtmhE0ZilpkgviilaM2KMi2urq/5XgF/A==
+X-Received: by 2002:a5d:4e8f:: with SMTP id e15mr16395021wru.313.1627387851808; 
  Tue, 27 Jul 2021 05:10:51 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k186sm3010577wme.45.2021.07.27.05.10.50
+ by smtp.gmail.com with ESMTPSA id k186sm3010577wme.45.2021.07.27.05.10.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 05:10:50 -0700 (PDT)
+ Tue, 27 Jul 2021 05:10:51 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 10/11] drm/i915: Remove i915_globals
-Date: Tue, 27 Jul 2021 14:10:36 +0200
-Message-Id: <20210727121037.2041102-10-daniel.vetter@ffwll.ch>
+Subject: [PATCH v2 11/11] drm/i915: Extract i915_module.c
+Date: Tue, 27 Jul 2021 14:10:37 +0200
+Message-Id: <20210727121037.2041102-11-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210727121037.2041102-1-daniel.vetter@ffwll.ch>
 References: <20210727121037.2041102-1-daniel.vetter@ffwll.ch>
@@ -65,160 +65,334 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@intel.com>
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No longer used.
+The module init code is somewhat misplaced in i915_pci.c, since it
+needs to pull in init/exit functions from every part of the driver and
+pollutes the include list a lot.
+
+Extract an i915_module.c file which pulls all the bits together, and
+allows us to massively trim the include list of i915_pci.c.
+
+The downside is that have to drop the error path check Jason added to
+catch when we set up the pci driver too early. I think that risk is
+acceptable for this pretty nice include.
 
 Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile         |  1 -
- drivers/gpu/drm/i915/gt/intel_gt_pm.c |  1 -
- drivers/gpu/drm/i915/i915_globals.c   | 53 ---------------------------
- drivers/gpu/drm/i915/i915_globals.h   | 25 -------------
- drivers/gpu/drm/i915/i915_pci.c       |  2 -
- 5 files changed, 82 deletions(-)
- delete mode 100644 drivers/gpu/drm/i915/i915_globals.c
- delete mode 100644 drivers/gpu/drm/i915/i915_globals.h
+ drivers/gpu/drm/i915/Makefile      |   1 +
+ drivers/gpu/drm/i915/i915_module.c | 113 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_pci.c    | 117 +----------------------------
+ drivers/gpu/drm/i915/i915_pci.h    |   8 ++
+ 4 files changed, 125 insertions(+), 114 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_module.c
+ create mode 100644 drivers/gpu/drm/i915/i915_pci.h
 
 diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 10b3bb6207ba..9022dc638ed6 100644
+index 9022dc638ed6..4ebd9f417ddb 100644
 --- a/drivers/gpu/drm/i915/Makefile
 +++ b/drivers/gpu/drm/i915/Makefile
-@@ -166,7 +166,6 @@ i915-y += \
- 	  i915_gem_gtt.o \
- 	  i915_gem_ww.o \
- 	  i915_gem.o \
--	  i915_globals.o \
- 	  i915_query.o \
- 	  i915_request.o \
- 	  i915_scheduler.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-index d86825437516..943c1d416ec0 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-@@ -6,7 +6,6 @@
- #include <linux/suspend.h>
+@@ -38,6 +38,7 @@ i915-y += i915_drv.o \
+ 	  i915_irq.o \
+ 	  i915_getparam.o \
+ 	  i915_mitigations.o \
++	  i915_module.o \
+ 	  i915_params.o \
+ 	  i915_pci.o \
+ 	  i915_scatterlist.o \
+diff --git a/drivers/gpu/drm/i915/i915_module.c b/drivers/gpu/drm/i915/i915_module.c
+new file mode 100644
+index 000000000000..c578ea8f56a0
+--- /dev/null
++++ b/drivers/gpu/drm/i915/i915_module.c
+@@ -0,0 +1,113 @@
++/*
++ * SPDX-License-Identifier: MIT
++ *
++ * Copyright © 2021 Intel Corporation
++ */
++
++#include <linux/console.h>
++
++#include "gem/i915_gem_context.h"
++#include "gem/i915_gem_object.h"
++#include "i915_active.h"
++#include "i915_buddy.h"
++#include "i915_params.h"
++#include "i915_pci.h"
++#include "i915_perf.h"
++#include "i915_request.h"
++#include "i915_scheduler.h"
++#include "i915_selftest.h"
++#include "i915_vma.h"
++
++static int i915_check_nomodeset(void)
++{
++	bool use_kms = true;
++
++	/*
++	 * Enable KMS by default, unless explicitly overriden by
++	 * either the i915.modeset prarameter or by the
++	 * vga_text_mode_force boot option.
++	 */
++
++	if (i915_modparams.modeset == 0)
++		use_kms = false;
++
++	if (vgacon_text_force() && i915_modparams.modeset == -1)
++		use_kms = false;
++
++	if (!use_kms) {
++		/* Silently fail loading to not upset userspace. */
++		DRM_DEBUG_DRIVER("KMS disabled.\n");
++		return 1;
++	}
++
++	return 0;
++}
++
++static const struct {
++   int (*init)(void);
++   void (*exit)(void);
++} init_funcs[] = {
++	{ i915_check_nomodeset, NULL },
++	{ i915_active_module_init, i915_active_module_exit },
++	{ i915_buddy_module_init, i915_buddy_module_exit },
++	{ i915_context_module_init, i915_context_module_exit },
++	{ i915_gem_context_module_init, i915_gem_context_module_exit },
++	{ i915_objects_module_init, i915_objects_module_exit },
++	{ i915_request_module_init, i915_request_module_exit },
++	{ i915_scheduler_module_init, i915_scheduler_module_exit },
++	{ i915_vma_module_init, i915_vma_module_exit },
++	{ i915_mock_selftests, NULL },
++	{ i915_pmu_init, i915_pmu_exit },
++	{ i915_register_pci_driver, i915_unregister_pci_driver },
++	{ i915_perf_sysctl_register, i915_perf_sysctl_unregister },
++};
++static int init_progress;
++
++static int __init i915_init(void)
++{
++	int err, i;
++
++	for (i = 0; i < ARRAY_SIZE(init_funcs); i++) {
++		err = init_funcs[i].init();
++		if (err < 0) {
++			while (i--) {
++				if (init_funcs[i].exit)
++					init_funcs[i].exit();
++			}
++			return err;
++		} else if (err > 0) {
++			/*
++			 * Early-exit success is reserved for things which
++			 * don't have an exit() function because we have no
++			 * idea how far they got or how to partially tear
++			 * them down.
++			 */
++			WARN_ON(init_funcs[i].exit);
++			break;
++		}
++	}
++
++	init_progress = i;
++
++	return 0;
++}
++
++static void __exit i915_exit(void)
++{
++	int i;
++
++	for (i = init_progress - 1; i >= 0; i--) {
++		GEM_BUG_ON(i >= ARRAY_SIZE(init_funcs));
++		if (init_funcs[i].exit)
++			init_funcs[i].exit();
++	}
++}
++
++module_init(i915_init);
++module_exit(i915_exit);
++
++MODULE_AUTHOR("Tungsten Graphics, Inc.");
++MODULE_AUTHOR("Intel Corporation");
++
++MODULE_DESCRIPTION(DRIVER_DESC);
++MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index b4f5e88aaae6..08651ca03478 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -22,24 +22,13 @@
+  *
+  */
  
+-#include <linux/console.h>
+ #include <linux/vga_switcheroo.h>
+ 
+ #include <drm/drm_drv.h>
+ #include <drm/i915_pciids.h>
+ 
+-#include "display/intel_fbdev.h"
+-
+-#include "i915_active.h"
+-#include "i915_buddy.h"
  #include "i915_drv.h"
--#include "i915_globals.h"
- #include "i915_params.h"
- #include "intel_context.h"
- #include "intel_engine_pm.h"
-diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
-deleted file mode 100644
-index 04979789e7be..000000000000
---- a/drivers/gpu/drm/i915/i915_globals.c
-+++ /dev/null
-@@ -1,53 +0,0 @@
--/*
-- * SPDX-License-Identifier: MIT
-- *
-- * Copyright © 2019 Intel Corporation
-- */
--
--#include <linux/slab.h>
--#include <linux/workqueue.h>
--
--#include "i915_globals.h"
--#include "i915_drv.h"
--
--static LIST_HEAD(globals);
--
--void __init i915_global_register(struct i915_global *global)
+-#include "gem/i915_gem_context.h"
+-#include "gem/i915_gem_object.h"
+-#include "i915_request.h"
+-#include "i915_perf.h"
+-#include "i915_selftest.h"
+-#include "i915_scheduler.h"
+-#include "i915_vma.h"
++#include "i915_pci.h"
+ 
+ #define PLATFORM(x) .platform = (x)
+ #define GEN(x) \
+@@ -1251,31 +1240,6 @@ static void i915_pci_shutdown(struct pci_dev *pdev)
+ 	i915_driver_shutdown(i915);
+ }
+ 
+-static int i915_check_nomodeset(void)
 -{
--	GEM_BUG_ON(!global->exit);
+-	bool use_kms = true;
 -
--	list_add_tail(&global->link, &globals);
--}
+-	/*
+-	 * Enable KMS by default, unless explicitly overriden by
+-	 * either the i915.modeset prarameter or by the
+-	 * vga_text_mode_force boot option.
+-	 */
 -
--static void __i915_globals_cleanup(void)
--{
--	struct i915_global *global, *next;
+-	if (i915_modparams.modeset == 0)
+-		use_kms = false;
 -
--	list_for_each_entry_safe_reverse(global, next, &globals, link)
--		global->exit();
--}
+-	if (vgacon_text_force() && i915_modparams.modeset == -1)
+-		use_kms = false;
 -
--static __initconst int (* const initfn[])(void) = {
--};
--
--int __init i915_globals_init(void)
--{
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(initfn); i++) {
--		int err;
--
--		err = initfn[i]();
--		if (err) {
--			__i915_globals_cleanup();
--			return err;
--		}
+-	if (!use_kms) {
+-		/* Silently fail loading to not upset userspace. */
+-		DRM_DEBUG_DRIVER("KMS disabled.\n");
+-		return 1;
 -	}
 -
 -	return 0;
 -}
 -
--void i915_globals_exit(void)
--{
--	__i915_globals_cleanup();
--}
-diff --git a/drivers/gpu/drm/i915/i915_globals.h b/drivers/gpu/drm/i915/i915_globals.h
-deleted file mode 100644
-index 57d2998bba45..000000000000
---- a/drivers/gpu/drm/i915/i915_globals.h
-+++ /dev/null
-@@ -1,25 +0,0 @@
--/*
-- * SPDX-License-Identifier: MIT
-- *
-- * Copyright © 2019 Intel Corporation
-- */
+ static struct pci_driver i915_pci_driver = {
+ 	.name = DRIVER_NAME,
+ 	.id_table = pciidlist,
+@@ -1285,87 +1249,12 @@ static struct pci_driver i915_pci_driver = {
+ 	.driver.pm = &i915_pm_ops,
+ };
+ 
+-static int i915_register_pci_driver(void)
++int i915_register_pci_driver(void)
+ {
+ 	return pci_register_driver(&i915_pci_driver);
+ }
+ 
+-static void i915_unregister_pci_driver(void)
++void i915_unregister_pci_driver(void)
+ {
+ 	pci_unregister_driver(&i915_pci_driver);
+ }
 -
--#ifndef _I915_GLOBALS_H_
--#define _I915_GLOBALS_H_
--
--#include <linux/types.h>
--
--typedef void (*i915_global_func_t)(void);
--
--struct i915_global {
--	struct list_head link;
--
--	i915_global_func_t exit;
+-static const struct {
+-   int (*init)(void);
+-   void (*exit)(void);
+-} init_funcs[] = {
+-	{ i915_check_nomodeset, NULL },
+-	{ i915_active_module_init, i915_active_module_exit },
+-	{ i915_buddy_module_init, i915_buddy_module_exit },
+-	{ i915_context_module_init, i915_context_module_exit },
+-	{ i915_gem_context_module_init, i915_gem_context_module_exit },
+-	{ i915_objects_module_init, i915_objects_module_exit },
+-	{ i915_request_module_init, i915_request_module_exit },
+-	{ i915_scheduler_module_init, i915_scheduler_module_exit },
+-	{ i915_vma_module_init, i915_vma_module_exit },
+-	{ i915_mock_selftests, NULL },
+-	{ i915_pmu_init, i915_pmu_exit },
+-	{ i915_register_pci_driver, i915_unregister_pci_driver },
+-	{ i915_perf_sysctl_register, i915_perf_sysctl_unregister },
 -};
+-static int init_progress;
 -
--void i915_global_register(struct i915_global *global);
+-static int __init i915_init(void)
+-{
+-	int err, i;
 -
--int i915_globals_init(void);
--void i915_globals_exit(void);
+-	for (i = 0; i < ARRAY_SIZE(init_funcs); i++) {
+-		err = init_funcs[i].init();
+-		if (err < 0) {
+-			while (i--) {
+-				if (init_funcs[i].exit)
+-					init_funcs[i].exit();
+-			}
+-			return err;
+-		} else if (err > 0) {
+-			/*
+-			 * Early-exit success is reserved for things which
+-			 * don't have an exit() function because we have no
+-			 * idea how far they got or how to partially tear
+-			 * them down.
+-			 */
+-			WARN_ON(init_funcs[i].exit);
 -
--#endif /* _I915_GLOBALS_H_ */
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 14785d88dafb..b4f5e88aaae6 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -37,7 +37,6 @@
- #include "gem/i915_gem_object.h"
- #include "i915_request.h"
- #include "i915_perf.h"
--#include "i915_globals.h"
- #include "i915_selftest.h"
- #include "i915_scheduler.h"
- #include "i915_vma.h"
-@@ -1309,7 +1308,6 @@ static const struct {
- 	{ i915_request_module_init, i915_request_module_exit },
- 	{ i915_scheduler_module_init, i915_scheduler_module_exit },
- 	{ i915_vma_module_init, i915_vma_module_exit },
--	{ i915_globals_init, i915_globals_exit },
- 	{ i915_mock_selftests, NULL },
- 	{ i915_pmu_init, i915_pmu_exit },
- 	{ i915_register_pci_driver, i915_unregister_pci_driver },
+-			/*
+-			 * We don't want to advertise devices with an only
+-			 * partially initialized driver.
+-			 */
+-			WARN_ON(i915_pci_driver.driver.owner);
+-			break;
+-		}
+-	}
+-
+-	init_progress = i;
+-
+-	return 0;
+-}
+-
+-static void __exit i915_exit(void)
+-{
+-	int i;
+-
+-	for (i = init_progress - 1; i >= 0; i--) {
+-		GEM_BUG_ON(i >= ARRAY_SIZE(init_funcs));
+-		if (init_funcs[i].exit)
+-			init_funcs[i].exit();
+-	}
+-}
+-
+-module_init(i915_init);
+-module_exit(i915_exit);
+-
+-MODULE_AUTHOR("Tungsten Graphics, Inc.");
+-MODULE_AUTHOR("Intel Corporation");
+-
+-MODULE_DESCRIPTION(DRIVER_DESC);
+-MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/i915/i915_pci.h b/drivers/gpu/drm/i915/i915_pci.h
+new file mode 100644
+index 000000000000..b386f319f52e
+--- /dev/null
++++ b/drivers/gpu/drm/i915/i915_pci.h
+@@ -0,0 +1,8 @@
++/*
++ * SPDX-License-Identifier: MIT
++ *
++ * Copyright © 2021 Intel Corporation
++ */
++
++int i915_register_pci_driver(void);
++void i915_unregister_pci_driver(void);
 -- 
 2.32.0
 
