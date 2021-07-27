@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DCF3D71C9
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 11:15:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E023D71CD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 11:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F766E0DD;
-	Tue, 27 Jul 2021 09:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A65A56E49D;
+	Tue, 27 Jul 2021 09:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 212916E0DD
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 09:15:39 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 862FC200E5;
- Tue, 27 Jul 2021 09:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627377337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Xb68m5dHAKR0PH/2cvLJWdoZvjz2UPvyTRQe435BQg8=;
- b=osSoRLMgc+ypLi2F6EFUg8jgbpY/EBCs8Dmo9MNWFt3N6JudyWlJSZOHMROOE5ZGluEZgQ
- 6WrVbrbypShi0GNKFI641Zq5J3OF0+KvEaGnej4/GYCRGTS8FFG3WBLTOmq9U9b/YpqkpT
- YBLA1WF5SMUxJJnGakeWp+VHvlxGNaU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627377337;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Xb68m5dHAKR0PH/2cvLJWdoZvjz2UPvyTRQe435BQg8=;
- b=3qauaXYm1eYovoaT0uz5z18OcXJEejFwdzcyciDgwb+oG2g8TElHP8q1xoAUBuzdEBVCR5
- viqcvs6dEeqLBUDg==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 58BBA133DE;
- Tue, 27 Jul 2021 09:15:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id cViwFLnO/2CJLQAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 09:15:37 +0000
-Subject: Re: [PATCH] efi: sysfb_efi: fix build when EFI is not set
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-References: <20210727050447.7339-1-rdunlap@infradead.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <aefba212-1e08-9994-6d6e-6db292bf9db6@suse.de>
-Date: Tue, 27 Jul 2021 11:15:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FCD16E49D
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 09:17:50 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id l4so14329519wrs.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 02:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=pJADEBr0lK6P7+G+8gSoVZQ35Hq49xlvXJGQN1nspaw=;
+ b=hJWLgwhFryooSXpByHHvflMOL3FknNzBheooAV7e64Vn7wfXkAA8oYR23powhQpuJo
+ r2rQ4aBurUv9rLi4HmHfD1vG3H/mPA+Rokm/JNDsmaofkX18fVDBs+kpdG4RjgZ77d5+
+ vrLZ5MQuWFX8GW+1Qj3Mnx+fZE+38JzxXvdLI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=pJADEBr0lK6P7+G+8gSoVZQ35Hq49xlvXJGQN1nspaw=;
+ b=WI7V7N/NURrd6fLe9iKJUBXhh2IxrJ+d9FGjrSTHnstZpMDsaqFrDiE+qgknH7AvcU
+ JVBRLXzBO41NJa4gJAUTTrmilymmshA0+4mMx5faTrp4I01POMkkg7I5H53+TW4Ct3T+
+ Uz5OgVQmGYmm8f7JKvIoSqSAUrKoYw43n0a/rVDhT4UOiYuCLoQ7WsujijIl5fhLlDTD
+ JPiD05fWVXWsrIEb5dsrYTOB1c4GRO8ICnmi/vsLaVxKN18uYdvjeVaF+Dfl6WDARNYB
+ p7ow1rAesezl4mEDFdfDZ8trxfSB7KDkhBgmC0QXWGWa+esW0lEXnuwyrAKhTKYdmnQN
+ 6efg==
+X-Gm-Message-State: AOAM530aRnYcE4ygKlD9ZPXJLp70uuFRTsjkM/mydukrA6qRcGkBqaeQ
+ hHRiymgTasC9ECFEHK6weTdArg==
+X-Google-Smtp-Source: ABdhPJyzP7y69x6iByJII/DKyp3G4erRPx4NiFE3mtqBren7+te/t6LUIfckZ2OO9vuwEC6Zfj6foA==
+X-Received: by 2002:a5d:4647:: with SMTP id j7mr6071426wrs.12.1627377468957;
+ Tue, 27 Jul 2021 02:17:48 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o28sm2675169wra.71.2021.07.27.02.17.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jul 2021 02:17:48 -0700 (PDT)
+Date: Tue, 27 Jul 2021 11:17:38 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v4 5/7] drm/panfrost: Add a new ioctl to submit batches
+Message-ID: <YP/PMvbsMS7H/5Sy@phenom.ffwll.local>
+References: <20210705082950.3573841-1-boris.brezillon@collabora.com>
+ <20210705082950.3573841-6-boris.brezillon@collabora.com>
+ <YOLRnPjCDkc9DRxE@phenom.ffwll.local>
+ <1fe2d843-041d-40f6-b552-91f159487495@gmail.com>
+ <20210726122706.7fb3a8d5@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20210727050447.7339-1-rdunlap@infradead.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0RCxopRs9DF6c7HQAMBrIYe4QeHSjEThh"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210726122706.7fb3a8d5@collabora.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,160 +71,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-efi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-next@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0RCxopRs9DF6c7HQAMBrIYe4QeHSjEThh
-Content-Type: multipart/mixed; boundary="NXt3eb7tog0K2DhmRA1oDM5VMlY2jRIyP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Mark Brown <broonie@kernel.org>, linux-next@vger.kernel.org
-Message-ID: <aefba212-1e08-9994-6d6e-6db292bf9db6@suse.de>
-Subject: Re: [PATCH] efi: sysfb_efi: fix build when EFI is not set
-References: <20210727050447.7339-1-rdunlap@infradead.org>
-In-Reply-To: <20210727050447.7339-1-rdunlap@infradead.org>
+On Mon, Jul 26, 2021 at 12:27:06PM +0200, Boris Brezillon wrote:
+> On Thu, 8 Jul 2021 14:10:45 +0200
+> Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
+> 
+> > >> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > >> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > >> @@ -254,6 +254,9 @@ static int panfrost_acquire_object_fences(struct panfrost_job *job)
+> > >>   				return ret;
+> > >>   		}
+> > >>   
+> > >> +		if (job->bo_flags[i] & PANFROST_BO_REF_NO_IMPLICIT_DEP)
+> > >> +			continue;  
+> > > This breaks dma_resv rules. I'll send out patch set fixing this pattern in
+> > > other drivers, I'll ping you on that for what you need to change. Should
+> > > go out today or so.
+> 
+> I guess you're talking about [1]. TBH, I don't quite see the point of
+> exposing a 'no-implicit' flag if we end up forcing this implicit dep
+> anyway, but I'm probably missing something.
 
---NXt3eb7tog0K2DhmRA1oDM5VMlY2jRIyP
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Yeah that's the patch set.
 
-Hi
+Note that there's better ways to do this, it's just that these better ways
+take more typing and need some actual testing (and ideally igts and
+everything).
 
-Am 27.07.21 um 07:04 schrieb Randy Dunlap:
-> When # CONFIG_EFI is not set, there are 2 definitions of
-> sysfb_apply_efi_quirks(). The stub from sysfb.h should be used
-> and the __init function from sysfb_efi.c should not be used.
->=20
-> ../drivers/firmware/efi/sysfb_efi.c:337:13: error: redefinition of =E2=80=
-=98sysfb_apply_efi_quirks=E2=80=99
->   __init void sysfb_apply_efi_quirks(struct platform_device *pd)
->               ^~~~~~~~~~~~~~~~~~~~~~
-> In file included from ../drivers/firmware/efi/sysfb_efi.c:26:0:
-> ../include/linux/sysfb.h:65:20: note: previous definition of =E2=80=98s=
-ysfb_apply_efi_quirks=E2=80=99 was here
->   static inline void sysfb_apply_efi_quirks(struct platform_device *pd)=
+The NO_IMPLICIT flag is still useful even with the hacky solution, as long
+as you don't set a write fence too. For that it might be better to look
+into the dma_fence import patch from Jason:
 
->                      ^~~~~~~~~~~~~~~~~~~~~~
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: linux-efi@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: linux-next@vger.kernel.org
+https://lore.kernel.org/dri-devel/20210610210925.642582-7-jason@jlekstrand.net/
 
-Thanks for the patch. It should have a fixes line
+> > I'm really wondering if the behavior that the exclusive fences replaces 
+> > all the shared fences was such a good idea.
+> 
+> Is that what's done in [1], or are you talking about a different
+> patchset/approach?
 
- > dim fixes 8633ef82f101c040427b57d4df7b706261420b94
+That's just how dma_resv works for the exclusive slot.
+-Daniel
 
-Fixes: 8633ef82f101 ("drivers/firmware: consolidate EFI framebuffer=20
-setup for all arches")
+> 
+> > 
+> > It just allows drivers to mess up things in a way which can be easily 
+> > used to compromise the system.
+> 
+> I must admit I'm a bit lost, so I'm tempted to drop that flag for now
+> :-).
+> 
+> [1]https://patchwork.freedesktop.org/patch/443711/?series=92334&rev=3
 
-
-=2E.. and maybe a few more of the CCs below
-
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-
-Cc: Borislav Petkov <bp@suse.de>
-
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-
-Cc: Ard Biesheuvel <ardb@kernel.org>
-
-Cc: Paul Walmsley <paul.walmsley@sifive.com>
-
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-
-Cc: Albert Ou <aou@eecs.berkeley.edu>
-
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-Cc: Linus Walleij <linus.walleij@linaro.org>
-
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-
-Cc: John Stultz <john.stultz@linaro.org>
-
-Cc: Colin Ian King <colin.king@canonical.com>
-
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
-
-Cc: Sudeep Holla <sudeep.holla@arm.com>
-
-Cc: Maxime Ripard <maxime@cerno.tech>
-
-Cc: linux-efi@vger.kernel.org
-
-Cc: linux-riscv@lists.infradead.org
-
-
-Best regards
-Thomas
-
-> ---
->   drivers/firmware/efi/sysfb_efi.c |    2 ++
->   1 file changed, 2 insertions(+)
->=20
-> --- linext-20210726.orig/drivers/firmware/efi/sysfb_efi.c
-> +++ linext-20210726/drivers/firmware/efi/sysfb_efi.c
-> @@ -332,6 +332,7 @@ static const struct fwnode_operations ef
->   	.add_links =3D efifb_add_links,
->   };
->  =20
-> +#ifdef CONFIG_EFI
->   static struct fwnode_handle efifb_fwnode;
->  =20
->   __init void sysfb_apply_efi_quirks(struct platform_device *pd)
-> @@ -354,3 +355,4 @@ __init void sysfb_apply_efi_quirks(struc
->   		pd->dev.fwnode =3D &efifb_fwnode;
->   	}
->   }
-> +#endif
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---NXt3eb7tog0K2DhmRA1oDM5VMlY2jRIyP--
-
---0RCxopRs9DF6c7HQAMBrIYe4QeHSjEThh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD/zrgFAwAAAAAACgkQlh/E3EQov+B2
-og/7BYM2si7NL1hDIJB8rYBrta2i9u1ew55fC5EuI7RnQkmsUI+xLddnSu0vYg13xoXXP2TodApl
-VAUPHtbkYdKPlqlYMXScUi9t6iCfraElh41EIapWG3r0PRDgkdLtMmLzHatEChFiEJp32ydFzdPm
-xzFwTctOObTNdjqpRwDYDIH1CNdQYpnyzF29F83Cshe8JjIrt9uRf61jp6gKMKYY1YaHpxXkVb/t
-QCyiL1cgP2obQyrTuTogUd5tMCljyYliKCHqI+l7pz1zPLv1c7JyrMQtg0m+0aNHfaUsPYVamnRb
-EaJdBBd17Axh7B3XInD6GFYx4oIq5CX42hiLAm+Ov8qbvsNF2cF0j+94KtXUqpUaIgI3y15+FbMw
-dQb8RefgWQJDj0Dhgl1ULmjYh/mImRkJuRtYpoZNbFvrcxCJK4Y5Sl+KA7puj7TEJ4a4ls/s4nXH
-UOQl8PYzzR93P0C1m72jqCoNnLR6p5kwxDZPIt9MzGc20EZ8vi3lrYASvtxFKEn/GS02cY8Xhx0w
-r5walgfbLu4jpD+PP83sxF6jUsaRyVECG8ld9/MboEty51Chj9UcPp7xHLIICfv4yAMIw5ZWeVYC
-hGyrw4v42Z7QL/QIzHOjIibughA/avWJ6f2H17lpRfpP4fx76bXLB8iV9uHBSXJRN8bQKD/sNRVx
-jrU=
-=Jqd2
------END PGP SIGNATURE-----
-
---0RCxopRs9DF6c7HQAMBrIYe4QeHSjEThh--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
