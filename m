@@ -1,82 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26DE3D749C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 13:54:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA3F3D74AA
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 14:01:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2925D89BB0;
-	Tue, 27 Jul 2021 11:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B884C6E57E;
+	Tue, 27 Jul 2021 12:01:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8689289BB0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 11:54:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627386862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LtEQPY6uW+5xma5Ar89LyNdD4KnBU2eYWcwEqgy6rCw=;
- b=b17vEQAHolHXNgn+smoQSRi+UIn/9Z0WdfRVGg3A8LnBfA1/tWZdEZ8v9TLq1u1gtz1Wub
- 9rdkr2Q+XHvbqKv7cpXuvSkDiBLT69DKkr+qRyjf08vuovnByzeMr//+iua7hT4ZMq/Xhz
- rX6mK17HJ2k5ifYuxlvBZ5c4tf3U4Lc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-euFdeUKnN62H7o-0lkeGjA-1; Tue, 27 Jul 2021 07:54:20 -0400
-X-MC-Unique: euFdeUKnN62H7o-0lkeGjA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f10-20020a7bcc0a0000b0290229a389ceb2so594911wmh.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 04:54:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LtEQPY6uW+5xma5Ar89LyNdD4KnBU2eYWcwEqgy6rCw=;
- b=dPuKM4Y3WMBUj4R06zHsxhmpmRMh7QYNo6IgceSbLpOgNNLmPGBv31quTw/um1sbqu
- zdtFXHyeYcN8BRDYR2jsZI0GruUnz2pAplxJold7M3QSYU3YYiuKMbOIj4W2D81HEgpC
- zij4zkGX6vQHpOzcuwyL2RyQfJJixaVTlk6K1sXyvN5sj1ohaAISpru2YSYKNs2NdMBg
- vuvBDtJ5qnonTxgvKvJoMFHaiAvclBbkoHR8qG4rngERjEw62VGgzE9N/nb0hdrGq/YM
- 4V/a3KDgfaiNShCn9VDn8KB1t1MffS8ZRnEWqJNiInc2FZTL+dovftJ8D0IIjb+qnfiM
- VkMA==
-X-Gm-Message-State: AOAM531GcDR5fWJ9L4zdh4b4jgT1snuSq4P6iQKE5H55OEg4ENwixzEj
- WeQ9VMSACbsxHrMxfEuCtZL2Po8M5tfA/kkKZQygRiNhwcjh1NkjliR5AB/eUxI7+gGlj4ajGcy
- gRd0GRffbSVVwjORx6oY79NZ7j9CA
-X-Received: by 2002:a7b:c934:: with SMTP id h20mr21724439wml.59.1627386859150; 
- Tue, 27 Jul 2021 04:54:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8hKxMimbBJI2/gsrfN+EOSzugqFuQQA+bNQ9lMvpdcSm+pXDDcJjGJb5sKa3uIjytVPfidw==
-X-Received: by 2002:a7b:c934:: with SMTP id h20mr21724419wml.59.1627386859005; 
- Tue, 27 Jul 2021 04:54:19 -0700 (PDT)
-Received: from [192.168.1.101] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id d14sm2840806wrs.49.2021.07.27.04.54.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jul 2021 04:54:18 -0700 (PDT)
-Subject: Re: [PATCH v2] drivers/firmware: fix SYSFB depends to prevent build
- failures
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20210727093015.1225107-1-javierm@redhat.com>
- <CAMuHMdXXoHLO=jsjb+xtW7GDQsvu8Zuz=JmbaEXT49w5o4SJ9A@mail.gmail.com>
- <f9df82c9-1e1a-d657-d712-312f5f17cab0@redhat.com>
- <CAMuHMdVh4XgXeaLXXTmPxMuWM4C1mTDnhSmDmff6T37PwNxupg@mail.gmail.com>
- <e3f0f7a0-2130-18be-48a4-af1918017eca@redhat.com>
- <CAMuHMdX+hsXeoY8jNdDvyiw2HxhwcQw60LJddsaOGZBcHT=a=A@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <5ee9e008-a395-56c2-f57f-e3567d6b648b@redhat.com>
-Date: Tue, 27 Jul 2021 13:54:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5506E57E;
+ Tue, 27 Jul 2021 12:01:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7116661A38;
+ Tue, 27 Jul 2021 12:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627387292;
+ bh=H6GBvjIm6gs/iLbLE96kn/VqKHUusHV0IfYP8LTdKuc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=anIocG4OWAwzmllx6ZRPVFzCiFPqZzRXWMI8tjJGgbGhWa1ObkMmscUx6T1ORakn8
+ cQRKCsQ032g5Iw7F/t3V9TuBudHnysG4NPSNkG80hA0/rVy8scMpMofQIz8Gy/+/Ua
+ O54CC2fWELD3+m2hETwm2vGztpZXlHMmnFgkP8CROD9PkXrvCXCKY+7jNgiB2y/li/
+ 4iPxXXADcVdBDq+1NANnmkO+Vj+ur/AUKXgaINkjp2Qf6juZG6aYlh4QgM87qx5v37
+ Sz0OJDgOSNYPpXnm4mby2Sbl+MO2iYMhXa1rdvu71mGh0/FfxzFYr7D7RbrXzkEm3R
+ ZxVaSpt4epHUg==
+Date: Tue, 27 Jul 2021 13:01:22 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: linux-next: manual merge of the drm-misc tree with the drm-next
+ tree
+Message-ID: <20210727120122.GR4670@sirena.org.uk>
+References: <20210727111448.1443-1-broonie@kernel.org>
+ <CAKMK7uFNFOTrcLbFW3eoziPaZaH9JFKJe1AVvJGT6wU_rqfUeA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdX+hsXeoY8jNdDvyiw2HxhwcQw60LJddsaOGZBcHT=a=A@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="RpDyejMaDGJhP2PU"
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uFNFOTrcLbFW3eoziPaZaH9JFKJe1AVvJGT6wU_rqfUeA@mail.gmail.com>
+X-Cookie: Vini, vidi, Linux!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,48 +51,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
- kernel test robot <lkp@intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Sudeep Holla <sudeep.holla@arm.com>,
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Dinh Nguyen <dinguyen@kernel.org>,
- Mark Brown <broonie@kernel.org>, Peter Robinson <pbrobinson@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Colin Ian King <colin.king@canonical.com>, Borislav Petkov <bp@suse.de>
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
 
-On 7/27/21 1:39 PM, Geert Uytterhoeven wrote:
+--RpDyejMaDGJhP2PU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[snip]
+On Tue, Jul 27, 2021 at 01:41:30PM +0200, Daniel Vetter wrote:
+> On Tue, Jul 27, 2021 at 1:15 PM Mark Brown <broonie@kernel.org> wrote:
 
->>> Perhaps SYSFB should be selected by SYSFB_SIMPLEFB, FB_VESA,
->>> and FB_EFI?
->>
->> It's another option, yes. I just thought that the use of select was not
->> encouraged and using depends was less fragile / error prone.
-> 
-> Select is very useful for config symbols that are invisible to the user (i.e.
-> cannot be enabled/disabled manually).
-> 
+> > Today's linux-next merge of the drm-misc tree got a conflict in:
 
-Got it. I don't have a strong opinion on this really. In fact, the first
-version of the patch did use select for the arches but I got as feedback
-that should use depends instead:
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
 
-https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg351961.html
+> > between commit:
 
-Granted, that was for the arches but you are proposing to do it for the
-drivers that match against the platform devices registered by sysfb. So
-it does make more sense to what I did in v1.
+> >   ebc9ac7c3dfe ("drm/vmwgfx: Update device headers")
 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+> > from the drm-next tree and commit:
 
+> >   be4f77ac6884 ("drm/vmwgfx: Cleanup fifo mmio handling")
+
+> > from the drm-misc tree.
+
+> I got confused for a bit how we managed a conflict here because vmwgfx
+> flows drm-misc.git -> drm.git -> linus. The 2nd patch is in
+> drm-misc-fixes, which makes sense, not in drm-misc-next like I assumed
+> at first drm-misc means.
+
+I probably misidentified the tree when I was reporting things TBH -
+there's so many DRM trees and they're constantly generating conflicts
+that I sometimes rush through it a bit, especially for the simpler ones
+like this.
+
+--RpDyejMaDGJhP2PU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmD/9ZEACgkQJNaLcl1U
+h9By1Af+JO44Ehk6vlvcgLV8W9uQiouHcojGdJQaD4MHuFGlDy46R3h/TuTDrb0M
+nj5AC8yfcJx4joEF9hVYXQEWXP9LKut4afpJjpeSy/vpFsV1xmlHkKo8AtAO8Urb
+osfKHwSQwwljQ+chkXP6v2zEX3DrzoscSXgJO/F9WqPLlXnWpTR4v3FVaiiIt2ob
+FLb5367epKV1dSre54YYba4BDCz0EyOL5FpL/v3RQsQ3MUfPUqFVIMPF22fVJYTS
+M2m0EKEPhFPR1Gu/mYGNKPfBXygQeIwBmg6voBj9WHoHBegcZzBe2yWzWsPe5Xh5
+9VBig7YPnN3wLDpIQelbXU33OSnY4w==
+=L+/4
+-----END PGP SIGNATURE-----
+
+--RpDyejMaDGJhP2PU--
