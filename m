@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A21D3D7D98
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 267C53D7D9A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2B56ECA2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47F466ECA5;
 	Tue, 27 Jul 2021 18:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24BF76EC1A;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D266EC55;
  Tue, 27 Jul 2021 18:27:31 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9A0F620177;
- Tue, 27 Jul 2021 18:27:29 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 394EC2223A;
+ Tue, 27 Jul 2021 18:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627410449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1627410450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v4qvJrqmMgEPSGfiww0cO2Abn6QQrkvG5duDhJXnGmk=;
- b=Yo77msN4V0o0sOWe+Z3KHwhp7mQNqNyBRBuU5aIU53qXhJJ/7H1f4vVQvE7J41IlHwxN8t
- zvtkQmwjVa5aG8uJDRW96uVb1btQqaO6pfexB6wMy9MivPKpDNGQsaH9rUk+dVEyKudbQG
- XkoI//oCWp0iDSE7+qVniSxDG2qldsU=
+ bh=Fzx9d4PDafM0RlfVZrKlRGj6TTaOkt5cDv+r1liQ+SY=;
+ b=fLfH9Lxut/iP0gJawthG598wg+s7XrroifRGPIDeMrC8kKcuZobr7txi1lOo0CNKg/33CZ
+ DYShcFbVwMPG770TYRSOVb1OXLqFnhh1wIqerx8Y8/H/s4JDm66wh/bekJdxh2zEVPYOxV
+ 3os3sKxEsQYRHZaDVis4SPxdrpnXww0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627410449;
+ s=susede2_ed25519; t=1627410450;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v4qvJrqmMgEPSGfiww0cO2Abn6QQrkvG5duDhJXnGmk=;
- b=kvYeyd+4FZYrzzg0++TZ8wBj8Y1XpZ/cOU+oCKnBMEFWQFuljXPgVV9KqyIG1eMUqJyi/a
- fIqOx8gUnYSw20Aw==
+ bh=Fzx9d4PDafM0RlfVZrKlRGj6TTaOkt5cDv+r1liQ+SY=;
+ b=3Xqk0wzUmq5RLJcODPcGK8F9iShqqXSvoaCbt0v1hZKfJSz0Qp0+R3FvOEVPaEkQjeFXug
+ NFd/t0FCQha3etAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1838113E9D;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9E29013B86;
  Tue, 27 Jul 2021 18:27:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QDD0BBFQAGGwGQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id KKCZJRFQAGGwGQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:29 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
@@ -54,9 +54,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
  sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
  kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org
-Subject: [PATCH 11/14] drm/tilcdc: Convert to Linux IRQ interfaces
-Date: Tue, 27 Jul 2021 20:27:18 +0200
-Message-Id: <20210727182721.17981-12-tzimmermann@suse.de>
+Subject: [PATCH 12/14] drm/vc4: Convert to Linux IRQ interfaces
+Date: Tue, 27 Jul 2021 20:27:19 +0200
+Message-Id: <20210727182721.17981-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210727182721.17981-1-tzimmermann@suse.de>
 References: <20210727182721.17981-1-tzimmermann@suse.de>
@@ -92,128 +92,212 @@ handle this case correctly.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tilcdc/tilcdc_drv.c | 51 ++++++++++++++++++++++-------
- drivers/gpu/drm/tilcdc/tilcdc_drv.h |  3 ++
- 2 files changed, 43 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.c |  4 ---
+ drivers/gpu/drm/vc4/vc4_drv.h |  8 +++---
+ drivers/gpu/drm/vc4/vc4_irq.c | 48 +++++++++++++++++++++++++++--------
+ drivers/gpu/drm/vc4/vc4_v3d.c | 17 ++++++++-----
+ 4 files changed, 53 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index f1d3a9f919fd..6b03f89a98d4 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -20,7 +20,6 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
--#include <drm/drm_irq.h>
- #include <drm/drm_mm.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-@@ -124,6 +123,39 @@ static int cpufreq_transition(struct notifier_block *nb,
- }
- #endif
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 73335feb712f..f6c16c5aee68 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -168,10 +168,6 @@ static struct drm_driver vc4_drm_driver = {
+ 			    DRIVER_SYNCOBJ),
+ 	.open = vc4_open,
+ 	.postclose = vc4_close,
+-	.irq_handler = vc4_irq,
+-	.irq_preinstall = vc4_irq_preinstall,
+-	.irq_postinstall = vc4_irq_postinstall,
+-	.irq_uninstall = vc4_irq_uninstall,
  
-+static irqreturn_t tilcdc_irq(int irq, void *arg)
-+{
-+	struct drm_device *dev = arg;
-+	struct tilcdc_drm_private *priv = dev->dev_private;
+ #if defined(CONFIG_DEBUG_FS)
+ 	.debugfs_init = vc4_debugfs_init,
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 5dceadc61600..ef73e0aaf726 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -74,6 +74,8 @@ struct vc4_perfmon {
+ struct vc4_dev {
+ 	struct drm_device base;
+ 
++	unsigned int irq;
 +
-+	return tilcdc_crtc_irq(priv->crtc);
-+}
+ 	struct vc4_hvs *hvs;
+ 	struct vc4_v3d *v3d;
+ 	struct vc4_dpi *dpi;
+@@ -895,9 +897,9 @@ extern struct platform_driver vc4_vec_driver;
+ extern struct platform_driver vc4_txp_driver;
+ 
+ /* vc4_irq.c */
+-irqreturn_t vc4_irq(int irq, void *arg);
+-void vc4_irq_preinstall(struct drm_device *dev);
+-int vc4_irq_postinstall(struct drm_device *dev);
++void vc4_irq_enable(struct drm_device *dev);
++void vc4_irq_disable(struct drm_device *dev);
++int vc4_irq_install(struct drm_device *dev, int irq);
+ void vc4_irq_uninstall(struct drm_device *dev);
+ void vc4_irq_reset(struct drm_device *dev);
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_irq.c b/drivers/gpu/drm/vc4/vc4_irq.c
+index e226c24e543f..20fa8e34c20b 100644
+--- a/drivers/gpu/drm/vc4/vc4_irq.c
++++ b/drivers/gpu/drm/vc4/vc4_irq.c
+@@ -45,6 +45,10 @@
+  * current job can make progress.
+  */
+ 
++#include <linux/platform_device.h>
 +
-+static int tilcdc_irq_install(struct drm_device *dev, unsigned int irq)
++#include <drm/drm_drv.h>
++
+ #include "vc4_drv.h"
+ #include "vc4_regs.h"
+ 
+@@ -192,7 +196,7 @@ vc4_irq_finish_render_job(struct drm_device *dev)
+ 	schedule_work(&vc4->job_done_work);
+ }
+ 
+-irqreturn_t
++static irqreturn_t
+ vc4_irq(int irq, void *arg)
+ {
+ 	struct drm_device *dev = arg;
+@@ -234,8 +238,8 @@ vc4_irq(int irq, void *arg)
+ 	return status;
+ }
+ 
+-void
+-vc4_irq_preinstall(struct drm_device *dev)
++static void
++vc4_irq_prepare(struct drm_device *dev)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 
+@@ -251,24 +255,22 @@ vc4_irq_preinstall(struct drm_device *dev)
+ 	V3D_WRITE(V3D_INTCTL, V3D_DRIVER_IRQS);
+ }
+ 
+-int
+-vc4_irq_postinstall(struct drm_device *dev)
++void
++vc4_irq_enable(struct drm_device *dev)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 
+ 	if (!vc4->v3d)
+-		return 0;
++		return;
+ 
+ 	/* Enable the render done interrupts. The out-of-memory interrupt is
+ 	 * enabled as soon as we have a binner BO allocated.
+ 	 */
+ 	V3D_WRITE(V3D_INTENA, V3D_INT_FLDONE | V3D_INT_FRDONE);
+-
+-	return 0;
+ }
+ 
+ void
+-vc4_irq_uninstall(struct drm_device *dev)
++vc4_irq_disable(struct drm_device *dev)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 
+@@ -282,11 +284,37 @@ vc4_irq_uninstall(struct drm_device *dev)
+ 	V3D_WRITE(V3D_INTCTL, V3D_DRIVER_IRQS);
+ 
+ 	/* Finish any interrupt handler still in flight. */
+-	disable_irq(dev->irq);
++	disable_irq(vc4->irq);
+ 
+ 	cancel_work_sync(&vc4->overflow_mem_work);
+ }
+ 
++int vc4_irq_install(struct drm_device *dev, int irq)
 +{
-+	struct tilcdc_drm_private *priv = dev->dev_private;
 +	int ret;
 +
-+	ret = request_irq(irq, tilcdc_irq, 0, dev->driver->name, dev);
++	if (irq == IRQ_NOTCONNECTED)
++		return -ENOTCONN;
++
++	vc4_irq_prepare(dev);
++
++	ret = request_irq(irq, vc4_irq, 0, dev->driver->name, dev);
 +	if (ret)
 +		return ret;
 +
-+	priv->irq_enabled = false;
++	vc4_irq_enable(dev);
 +
 +	return 0;
 +}
 +
-+static void tilcdc_irq_uninstall(struct drm_device *dev)
++void vc4_irq_uninstall(struct drm_device *dev)
 +{
-+	struct tilcdc_drm_private *priv = dev->dev_private;
++	struct vc4_dev *vc4 = to_vc4_dev(dev);
 +
-+	if (!priv->irq_enabled)
-+		return;
-+
-+	free_irq(priv->irq, dev);
-+	priv->irq_enabled = false;
++	vc4_irq_disable(dev);
++	free_irq(vc4->irq, dev);
 +}
 +
- /*
-  * DRM operations:
-  */
-@@ -145,7 +177,7 @@ static void tilcdc_fini(struct drm_device *dev)
- 		drm_dev_unregister(dev);
+ /** Reinitializes interrupt registers when a GPU reset is performed. */
+ void vc4_irq_reset(struct drm_device *dev)
+ {
+diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
+index 73d63d72575b..7bb3067f8425 100644
+--- a/drivers/gpu/drm/vc4/vc4_v3d.c
++++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+@@ -10,8 +10,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
  
- 	drm_kms_helper_poll_fini(dev);
--	drm_irq_uninstall(dev);
-+	tilcdc_irq_uninstall(dev);
- 	drm_mode_config_cleanup(dev);
+-#include <drm/drm_irq.h>
+-
+ #include "vc4_drv.h"
+ #include "vc4_regs.h"
  
- 	if (priv->clk)
-@@ -336,7 +368,12 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 		goto init_failed;
- 	}
+@@ -361,7 +359,7 @@ static int vc4_v3d_runtime_suspend(struct device *dev)
+ 	struct vc4_v3d *v3d = dev_get_drvdata(dev);
+ 	struct vc4_dev *vc4 = v3d->vc4;
  
--	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
+-	vc4_irq_uninstall(&vc4->base);
++	vc4_irq_disable(&vc4->base);
+ 
+ 	clk_disable_unprepare(v3d->clk);
+ 
+@@ -381,8 +379,8 @@ static int vc4_v3d_runtime_resume(struct device *dev)
+ 	vc4_v3d_init_hw(&vc4->base);
+ 
+ 	/* We disabled the IRQ as part of vc4_irq_uninstall in suspend. */
+-	enable_irq(vc4->base.irq);
+-	vc4_irq_postinstall(&vc4->base);
++	enable_irq(vc4->irq);
++	vc4_irq_enable(&vc4->base);
+ 
+ 	return 0;
+ }
+@@ -448,7 +446,12 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	vc4_v3d_init_hw(drm);
+ 
+-	ret = drm_irq_install(drm, platform_get_irq(pdev, 0));
 +	ret = platform_get_irq(pdev, 0);
 +	if (ret < 0)
-+		goto init_failed;
-+	priv->irq = ret;
++		return ret;
++	vc4->irq = ret;
 +
-+	ret = tilcdc_irq_install(ddev, priv->irq);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to install IRQ handler\n");
- 		goto init_failed;
-@@ -360,13 +397,6 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 	return ret;
- }
++	ret = vc4_irq_install(drm, vc4->irq);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to install IRQ handler\n");
+ 		return ret;
+@@ -473,7 +476,7 @@ static void vc4_v3d_unbind(struct device *dev, struct device *master,
  
--static irqreturn_t tilcdc_irq(int irq, void *arg)
--{
--	struct drm_device *dev = arg;
--	struct tilcdc_drm_private *priv = dev->dev_private;
--	return tilcdc_crtc_irq(priv->crtc);
--}
--
- #if defined(CONFIG_DEBUG_FS)
- static const struct {
- 	const char *name;
-@@ -454,7 +484,6 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
+ 	pm_runtime_disable(dev);
  
- static const struct drm_driver tilcdc_driver = {
- 	.driver_features    = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	.irq_handler        = tilcdc_irq,
- 	DRM_GEM_CMA_DRIVER_OPS,
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init       = tilcdc_debugfs_init,
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-index d29806ca8817..b818448c83f6 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-@@ -46,6 +46,8 @@ struct tilcdc_drm_private {
- 	struct clk *clk;         /* functional clock */
- 	int rev;                 /* IP revision */
+-	drm_irq_uninstall(drm);
++	vc4_irq_uninstall(drm);
  
-+	unsigned int irq;
-+
- 	/* don't attempt resolutions w/ higher W * H * Hz: */
- 	uint32_t max_bandwidth;
- 	/*
-@@ -82,6 +84,7 @@ struct tilcdc_drm_private {
- 
- 	bool is_registered;
- 	bool is_componentized;
-+	bool irq_enabled;
- };
- 
- /* Sub-module for display.  Since we don't know at compile time what panels
+ 	/* Disable the binner's overflow memory address, so the next
+ 	 * driver probe (if any) doesn't try to reuse our old
 -- 
 2.32.0
 
