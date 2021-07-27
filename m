@@ -2,113 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D813D74E0
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 14:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DBD3D7586
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 15:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36F386E8EB;
-	Tue, 27 Jul 2021 12:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CFC26E0E1;
+	Tue, 27 Jul 2021 13:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2048.outbound.protection.outlook.com [40.107.244.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47DEF6E1F9;
- Tue, 27 Jul 2021 12:12:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DHb51Jds55Vmemy+UXZikHN5Ry3tlIn5xcuzPW4EF49n8Nn+/khoOvSCjKB8R3V3acNZFxDGzJa7npA77NeOGQt6ZmaxBWRsf/M567A6BveBrURnfahBjVewC8BhvybHST2fDjDNbLidrDsp44iKajuyjAseKVb0FeeLR3JiDFm+Xk4TmnD28M6qzOXY9nBV5KJEGUWH+5rsul6UwAI1GNlUzyz6Rwg06uDNiTd0hwom429D/Tj1+U7uL9nABePJVDPlovb+7Nht0+B8gB1lYMevfpuUK7gxzo7LrF58JPyxxyJ8wern7xApKYrdN3JsK0JBR/EqI4XT8++d27WeTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UrEYKOq/sGyYUSRo5SkO+A5OOZRVsK+9a0F+8JmE4Ic=;
- b=in6SKVkSUCTfCnwQPYovx23D8KtFyxFHq4GT91csYyiFB2Trk1IZ7YmT0+ltaK+HTPCktr+y6qxa3bFXZwo3n9AHVxHcNfMzdchIbdpm3BWgc9fgSZ3Q66IjdKGfwio6433QQHXJbBFwgxhIchqZeVBdraURD88LO1lvfuLXFJdpFCj6fm9r0kPGXnEC7p/VsRjUPmzJm79pfwus7BPY2mit2PKBJvwCqplG3HmmfLefJToQWcJXnw9cx2+ihWBAgNDstYaESAZY504KBJXoSKS062wtFgsUyc1TB/DfXS2TaM1d3Qmp015O0gm5EznmGWJjXVjXDp+n+VcxT97GiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UrEYKOq/sGyYUSRo5SkO+A5OOZRVsK+9a0F+8JmE4Ic=;
- b=QLzqWFgRGyUey2+vm8H6uWqBs5OZWZRZazP5k8QZbfQNa8XYh0LbhKwKNS3Wb/Ux3QhI1OLWN5BXEnCVHZmaR80MszuqD+Z3xeKgtV9G9lRvqv2EltKm3wRhq9TaChbEyboIYebaAkQBrxU9GcZFUBWRlxg6AgnXV6sM9y3mf8Uux+P4Y5Ty+69BUEGcbPeEmya6JRSTBj3/NFXL6DUO9Eu3JW6nb5USinVk738cxjnBg60Sszz7quviwQLF/aueuEc8bCJiCfYq/fSYoioxTz2/qokob+g49FTeBe929lej8fulPfmCZI6XFIrn8OBMR259JyirC8YEOpnsNSYHow==
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5377.namprd12.prod.outlook.com (2603:10b6:208:31f::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.30; Tue, 27 Jul
- 2021 12:12:25 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::d017:af2f:7049:5482%4]) with mapi id 15.20.4352.031; Tue, 27 Jul 2021
- 12:12:25 +0000
-Date: Tue, 27 Jul 2021 09:12:24 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: refactor the i915 GVT support
-Message-ID: <20210727121224.GA2145868@nvidia.com>
-References: <20210721155355.173183-1-hch@lst.de>
- <DM4PR11MB55496531B246A4604FC86998CAE49@DM4PR11MB5549.namprd11.prod.outlook.com>
- <20210722112636.wj277vqhg4dez5ug@sirius.home.kraxel.org>
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE1A6E0DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 13:04:32 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id n11so7538778wmd.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 06:04:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lIHdtmc7Pc4OZ9ODMPWwZujpvXHPx2nkxuRuGb5xEvk=;
+ b=NfKirlFhQfIivsBBaK3VCTLPm9Cqn+QECfZJbfB+wLImrMHxL+CGJ27u70MtEmRivA
+ FOY28DpJtvHOw9BDUyWq8BSZ1Qha2zQhE0tmdUG017RR7735QXeCmrj+KQBzD2zqdgg+
+ qRJ4oOQeta4Et53+BtJ4fTX2HHj4Eert+WRRU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=lIHdtmc7Pc4OZ9ODMPWwZujpvXHPx2nkxuRuGb5xEvk=;
+ b=dlMb8INYZQYBuxsPqZ8lp2k0i+/LSjJHVUaejcx/uDBQwyUwopEsb41CbCvn1b/vWt
+ Pri+gHqb/qU8qCwBArrUH+aB8BM171NlvkmhY9AI2tldB/XXrvNF9CiR+GC1QJdP7PY+
+ y/88+PPBY6STNV8e+JXdnEhkkKPCxLZGKFOV+6xeoO6yQhoelONeYTRQJDqdDoJMnaAP
+ 7ZLnxM/OpgnGso0EHKJ3SjHOWplsL4WN8/J5FUy380J/0C53LnoyTF25G1Z2FG5+1Qvi
+ rm5HzxwonqgKe0bcky1BrJWKqbVZpb31RrZvVo4Pb0/2rai5HCpMRiOhgYrlFGmPYSeo
+ Ljhw==
+X-Gm-Message-State: AOAM530EeAjahwqOfTIR0DUJa4k8/ZuG7JExhRFVO7HtQjO2LrUHMSxZ
+ BBiIP8M+gG+7tin6oG1g0tTApQ==
+X-Google-Smtp-Source: ABdhPJyC+onv/7KlsmJ9zxf9zt3skPthQIBeGYjDJXbiZQ+vnIkBX6qMkzZ+9RYBzRR6iFCl5O9V1Q==
+X-Received: by 2002:a7b:cc8d:: with SMTP id p13mr3907556wma.145.1627391071253; 
+ Tue, 27 Jul 2021 06:04:31 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k6sm2209963wrm.10.2021.07.27.06.04.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jul 2021 06:04:30 -0700 (PDT)
+Date: Tue, 27 Jul 2021 15:04:28 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v2 2/3] drm: clarify usage of drm leases
+Message-ID: <YQAEXLyr0aBiOH42@phenom.ffwll.local>
+Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-graphics-maintainer@vmware.com, zackr@vmware.com,
+ airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ intel-gfx@lists.freedesktop.org
+References: <20210724111824.59266-1-desmondcheongzx@gmail.com>
+ <20210724111824.59266-3-desmondcheongzx@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210722112636.wj277vqhg4dez5ug@sirius.home.kraxel.org>
-X-ClientProxiedBy: BL1PR13CA0316.namprd13.prod.outlook.com
- (2603:10b6:208:2c1::21) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.113.129) by
- BL1PR13CA0316.namprd13.prod.outlook.com (2603:10b6:208:2c1::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.7 via Frontend
- Transport; Tue, 27 Jul 2021 12:12:24 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1m8Lwe-0090T1-4Z; Tue, 27 Jul 2021 09:12:24 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c15eb4c8-fd97-47ca-2c8c-08d950f7cb66
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5377:
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5377EC895A9E585F64EC1B2AC2E99@BL1PR12MB5377.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z1pVTNLASbZI5xDDcV0rZcuP/MymJuVoaWzSL2ORhGwDlL8r8RdSh5+AxsihG3VKUBQGk8/Isc3W+ZAL1RxcHIylQmHm1Z2K/mPTsfPQXbiEJRjtEnFOjQ6jmhIXgoRBPJTlrUVIrXbs0tdB+Vc1nrOkitGgPDfXmXCzJjgTmpFHVS8awg8ITj5tWL2MKkzCC9rj/UpTJ6SOf40Pdt0L+s+gQl8czmn2InusiUPARDelEwX2guI5YcKKxgkr4PlHAcYbZHa4xzQFuxZx8WYYr4+xSj5fjtOAoJ0ysyrrMoIicrcikrbKfjds8kW6Bvz6mkIOwaWXVrwYarrAmjugSLNNrQSZl6WqylvrRMGYXh7Wexga1j41Uvv53udMG5c0dv/SrH00y++yAlbdhsyjkcRhbpeWpIQAs3BAXZERL9jbeCkWGh2p9EelBp+EL3QbgliyiFEsJb2yuFEw5bT2xKL9UjsqqywlSQtK74XWhfbNnzm70ra92pH+mmiQVfTR5YC2xnss+IYz7g5y1ukxfGggkc+muacB7LG73DJqCOj/ptgfMaOOyzog4SFlVAvCkfA8FDuUHj8S/qFAczCniS297lkasrXbr0NFvtqMk4virXU2Pbo/AirxR+sf0eRDo2uKrg2W+nUXxji9HUg3k4o7AYzkawYrnJ10BcLreiThxPXeN1jc6GyTVGSsdvM9S5i4AFA+akoZ6Wlzr4rA2ErCSxHolvLSb7rtXCX9NI8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(396003)(39860400002)(366004)(136003)(6916009)(2616005)(426003)(2906002)(316002)(478600001)(8936002)(36756003)(4326008)(38100700002)(5660300002)(8676002)(66946007)(33656002)(186003)(1076003)(9746002)(9786002)(26005)(66476007)(86362001)(54906003)(7416002)(966005)(66556008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kCJrr7k/C0lrhulkQfDP85c6Nb53pADC9icnxYkfTzL6q+uNorbRYZiy7Bmx?=
- =?us-ascii?Q?c/9/FyF8KoCADPGsdAem0JM7acV1etmsShu6fHbrZlqAffPWbn4r1hF+rc/+?=
- =?us-ascii?Q?8lvMUuH7TgDVd0FVJEPMYi8ZdhFGNOeLIWnjg+UeLEV0T9v7XJd+iZUXI38W?=
- =?us-ascii?Q?26pEs1tLe8EhsGIDDdVncHYBZOBkaRaeEcriRfXoBhab2hiUxTZ1gdMDIdaf?=
- =?us-ascii?Q?f61VwuT16sOFhuIGGSxKutm0eM8RRLJCQANzdW8QoFewBg7rE9h2xh8LZQJ2?=
- =?us-ascii?Q?PhvncP08HVrn1mjXYIrj3B+JiCqtJhYUOEc7E2pD6yVKCTh3O0eySPXaWsqD?=
- =?us-ascii?Q?EYIjVEQRZbweBod6LIdIshU4RSHN7iWOA1VJiGM/riAHso5pOPfe8Q8QDAC5?=
- =?us-ascii?Q?m7vVrv/SIo4NmeT6NJucw1O79XzS7PzClIfFy5FfIZe0/xgWvAcFzh8U5lzh?=
- =?us-ascii?Q?1jUEWERDSASf6FzrNKsllb5swe1oKJ+sY7yymD0SMSRcOAOA18McnKFtAqLY?=
- =?us-ascii?Q?CRRdAnPK33oZ/WeC+7L4a5jSQ+U2UKNjBIU52l3foN9ejTaoOsTuwiW+So+J?=
- =?us-ascii?Q?TAqXpAic4IKPTOi1f5nAVHV6bXJuDomZJA9elaqUOui7MoTVIA4HAyBMgmP6?=
- =?us-ascii?Q?lYMnIRdqoOIQV2ZKnjGvCh2DAZfFq4Lof9bDpUxDuCxpj9gqmFJ5zggBOs4M?=
- =?us-ascii?Q?RTT7elStcdU1jUn9Mb6Cv/FnNcfCFTs/lNzpArat/+JKBBnVXSOqH61rbMVg?=
- =?us-ascii?Q?G9U4Ra7rfvDwjAiSWh0afR1ebgUuKg5FpXArPN2G53Afd0lc3vrhzGpaX6Ao?=
- =?us-ascii?Q?Y6AhkUjHQb0lakI0wb6G2SS/NKIWs6W+FftxTdR0P3rIYAmdHL7VIzNVZv8b?=
- =?us-ascii?Q?j5XKLA02IHQAgkowlo6568LkY9FaqAfJMtQpCuPg+L6HAEH0NhgCTGn3R+x9?=
- =?us-ascii?Q?RZmm7bM+HyF/FP5j4JuJuBJ1NtCfdybOY9Al7gQC6i3aBrOFTIROsUT9684G?=
- =?us-ascii?Q?G8emgVWJSQzcPSgarseyZePQRP90pxrVs5rzFvQR7OXzheb1EBqttCRvSXe+?=
- =?us-ascii?Q?kU2JViKZoX7lAbzZx2yBNLTipDfnjL3Ge/1SOoTdZATTzStW18c6nPL9ZKiF?=
- =?us-ascii?Q?ZseX1rZxvp+/RQ1W7bLbpoyMsEgdSBw8urHHO88V+EGQexQJWHhikltYCiVF?=
- =?us-ascii?Q?VhzwfNdcrB5uEKxrRraebWHBayQIEUJpYOvpDs9y1kfGqyQ3OKKWghyTw2Dp?=
- =?us-ascii?Q?mkjtSt9gQhBMz2ixk0EzIJjKVQ99N4Bq9RDRi8u0QSrRZgrKDfQXcB40Pb2/?=
- =?us-ascii?Q?ZxsGl7xu1P5ov8NwIF0l5inX?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c15eb4c8-fd97-47ca-2c8c-08d950f7cb66
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2021 12:12:25.5473 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VLScr8E7o1RmxGyA6QdVqWLdV0n/HkO/Rhsd77MDQx7r0acMxbFexnlWy5OxrWCe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5377
+In-Reply-To: <20210724111824.59266-3-desmondcheongzx@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,75 +75,523 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>, "Wang, Zhi A" <zhi.a.wang@intel.com>
+Cc: tzimmermann@suse.de, corbet@lwn.net, airlied@linux.ie,
+ gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
+ dri-devel@lists.freedesktop.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 22, 2021 at 01:26:36PM +0200, Gerd Hoffmann wrote:
->   Hi,
+On Sat, Jul 24, 2021 at 07:18:23PM +0800, Desmond Cheong Zhi Xi wrote:
+> We make the following changes to the documentation of drm leases to
+> make it easier to reason about their usage. In particular, we clarify
+> the lifetime and locking rules of lease fields in drm_master:
 > 
-> > https://github.com/intel/gvt-linux/blob/topic/gvt-xengt/drivers/gpu/drm/i915/gvt/xengt.c
+> 1. Make it clear that &drm_device.mode_config.idr_mutex protects the
+> lease idr and list structures for drm_master. The lessor field itself
+> doesn't need to be protected as it doesn't change after it's set in
+> drm_lease_create.
 > 
-> > But it's hard for some customers to contribute their own "hypervisor"
-> > module to the upstream Linux kernel. I am thinking what would be a
-> > better solution here? The MPT layer in the kernel helps a lot for
-> > customers, but only one open-source "hypervisor" module is there in
-> > the kernel. That can confuse people which don't know the story.  One
-> > thing I was thinking is to put a document about the background and
-> > more description in the MPT headers. So it won't confuse more people. 
+> 2. Add descriptions for the lifetime of lessors and leases.
 > 
-> Getting the xengt module linked above merged into mainline
-> would also nicely explain why there are hypervisor modules.
+> 3. Add an overview DOC: section in drm-uapi.rst that defines the
+> terminology for drm leasing, and explains how leases work and why
+> they're used.
+> 
+> 4. Clean up function documentation in drm_lease.c to use kernel-doc
+> formatting.
+> 
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> ---
+> 
+> Hi,
+> 
+> After I updated the formatting for comments in drm_lease.c, I noticed
+> that none of these were driver interfaces (i.e. no structs/inline
+> functions declared in headers, and no exported symbols in .c files).
+> 
+> I left the kernel-doc links inside drm-uapi.rst so that if any such
+> interfaces are defined in the future, they'll go to the appropriate
+> place. But if these should be removed, or if the formatting changes for
+> function comments should be removed, please let me know.
 
-It would also be nice to explain why a GPU driver needs a hypervisor
-specific shim like this in the first place.
 
-        enum hypervisor_type type;
-        int (*host_init)(struct device *dev, void *gvt, const void *ops);
-        void (*host_exit)(struct device *dev, void *gvt);
-        int (*attach_vgpu)(void *vgpu, unsigned long *handle);
-        void (*detach_vgpu)(void *vgpu);
+Hm indeed, so there's not really any need to either include the
+drm_lease.c or drm_lease.h kerneldoc. The DOC section itself is still
+useful.
 
-Doesn't vfio provide all this generically with notifiers?
+For the internal pieces usually what we do is remove the comment outright
+if it doesn't provide anything useful (like just repeats what the function
+name says already). If there's something interesting in the comment then
+we leave it that sentence in there as a normal comment, but without any of
+the structured comment stuff (so no /**, nor @arguments, or the function
+summary).
 
-        int (*inject_msi)(unsigned long handle, u32 addr, u16 data);
 
-Isn't this one just an eventfd?
 
-        unsigned long (*from_virt_to_mfn)(void *p);
-        int (*read_gpa)(unsigned long handle, unsigned long gpa, void *buf,
-                        unsigned long len);
-        int (*write_gpa)(unsigned long handle, unsigned long gpa, void *buf,
-                         unsigned long len);
-        unsigned long (*gfn_to_mfn)(unsigned long handle, unsigned long gfn);
+> 
+> Best wishes,
+> Desmond
+> 
+>  Documentation/gpu/drm-uapi.rst |  15 +++
+>  drivers/gpu/drm/drm_lease.c    | 182 ++++++++++++++++++++-------------
+>  include/drm/drm_auth.h         |  67 ++++++++++--
+>  3 files changed, 180 insertions(+), 84 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 7e51dd40bf6e..6d7233a9fb14 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -37,6 +37,21 @@ Primary Nodes, DRM Master and Authentication
+>  .. kernel-doc:: include/drm/drm_auth.h
+>     :internal:
+>  
+> +
+> +.. _drm_leasing:
+> +
+> +DRM Display Resource Leasing
+> +============================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_lease.c
+> +   :doc: drm leasing
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_lease.c
+> +   :export:
+> +
+> +.. kernel-doc:: include/drm/drm_lease.h
+> +   :internal:
+> +
+>  Open-Source Userspace Requirements
+>  ==================================
+>  
+> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+> index 92eac73d9001..9b68617840ed 100644
+> --- a/drivers/gpu/drm/drm_lease.c
+> +++ b/drivers/gpu/drm/drm_lease.c
+> @@ -15,18 +15,67 @@
+>  #include "drm_crtc_internal.h"
+>  #include "drm_internal.h"
+>  
+> +/**
+> + * DOC: drm leasing
+> + *
+> + * DRM leases provide information about whether a DRM master may control a DRM
+> + * mode setting object. This enables the creation of multiple DRM masters that
+> + * manage subsets of display resources.
+> + *
+> + * The original DRM master of a device 'owns' the available drm resources. It
+> + * may create additional DRM masters and 'lease' resources which it controls
+> + * to the new DRM master. This gives the new DRM master control over the
+> + * leased resources until the owner revokes the lease, or the new DRM master
+> + * is closed. Some helpful terminology:
+> + *
+> + * - An 'owner' is a &struct drm_master that is not leasing objects from
+> + *   another &struct drm_master, and hence 'owns' the objects. The owner can be
+> + *   identified as the &struct drm_master for which &drm_master.lessor is NULL.
+> + *
+> + * - A 'lessor' is a &struct drm_master which is leasing objects to one or more
+> + *   other &struct drm_master. Currently, lessees are not allowed to
+> + *   create sub-leases, hence the lessor is the same as the owner.
+> + *
+> + * - A 'lessee' is a &struct drm_master which is leasing objects from some
+> + *   other &struct drm_master. Each lessee only leases resources from a single
+> + *   lessor recorded in &drm_master.lessor, and holds the set of objects that
+> + *   it is leasing in &drm_master.leases.
+> + *
+> + * - A 'lease' is a contract between the lessor and lessee that identifies
+> + *   which resources may be controlled by the lessee. All of the resources
+> + *   that are leased must be owned by or leased to the lessor, and lessors are
+> + *   not permitted to lease the same object to multiple lessees.
+> + *
+> + * The set of objects any &struct drm_master 'controls' is limited to the set
+> + * of objects it leases (for lessees) or all objects (for owners).
+> + *
+> + * Objects not controlled by a &struct drm_master cannot be modified through
+> + * the various state manipulating ioctls, and any state reported back to user
+> + * space will be edited to make them appear idle and/or unusable. For
+> + * instance, connectors always report 'disconnected', while encoders
+> + * report no possible crtcs or clones.
+> + *
+> + * Since each lessee may lease objects from a single lessor, display resource
+> + * leases form a tree of &struct drm_master. As lessees are currently not
+> + * allowed to create sub-leases, the tree depth is limited to 1. All of
+> + * these get activated simultaneously, so &drm_device.master points to the
 
-        int (*dma_map_guest_page)(unsigned long handle, unsigned long gfn,
-                                  unsigned long size, dma_addr_t *dma_addr);
-        void (*dma_unmap_guest_page)(unsigned long handle, dma_addr_t dma_addr);
+I think it would be good to clarify that this happens when the top level
+owner changes through the SETMASTER/DROPMASTER IOCTL. Otherwise this all
+looks good, thanks for typing it up.
 
-        int (*dma_pin_guest_page)(unsigned long handle, dma_addr_t dma_addr);
+> + * owner at the top of the lease tree (i.e. the &struct drm_master for which
+> + * &drm_master.lessor is NULL). The full list of lessees that are leasing
+> + * objects from the owner can be searched via the owner's
+> + * &drm_master.lessee_idr.
+> + */
+> +
+>  #define drm_for_each_lessee(lessee, lessor) \
+>  	list_for_each_entry((lessee), &(lessor)->lessees, lessee_list)
+>  
+>  static uint64_t drm_lease_idr_object;
+>  
+>  /**
+> - * drm_lease_owner - return ancestor owner drm_master
+> - * @master: drm_master somewhere within tree of lessees and lessors
+> - *
+> - * RETURN:
+> + * drm_lease_owner - return the device owner in @master's lease tree
+> + * @master: &struct drm_master somewhere within tree of lessees and lessors
+>   *
+> - * drm_master at the top of the tree (i.e, with lessor NULL
+> + * Returns the &struct drm_master that owns the device, i.e. the &struct
+> + * drm_master at the top of the tree for which &drm_master.lessor is NULL.
+>   */
+>  struct drm_master *drm_lease_owner(struct drm_master *master)
+>  {
+> @@ -37,12 +86,10 @@ struct drm_master *drm_lease_owner(struct drm_master *master)
+>  
+>  /**
+>   * _drm_find_lessee - find lessee by id (idr_mutex held)
+> - * @master: drm_master of lessor
+> - * @lessee_id: id
+> + * @master: &struct drm_master of lessor
+> + * @lessee_id: &drm_master.lessee_id of lessee
+>   *
+> - * RETURN:
+> - *
+> - * drm_master of the lessee if valid, NULL otherwise
+> + * Returns &struct drm_master of the lessee if the ID is valid, NULL otherwise.
+>   */
+>  
+>  static struct drm_master*
+> @@ -53,15 +100,12 @@ _drm_find_lessee(struct drm_master *master, int lessee_id)
+>  }
+>  
+>  /**
+> - * _drm_lease_held_master - check to see if an object is leased (or owned) by master (idr_mutex held)
+> - * @master: the master to check the lease status of
+> - * @id: the id to check
+> - *
+> - * Checks if the specified master holds a lease on the object. Return
+> - * value:
+> + * _drm_lease_held_master - check to see if an object is leased (or owned) by
+> + * @master (idr_mutex held)
+> + * @master: the &struct drm_master to check the lease status of
+> + * @id: the object ID to check
+>   *
+> - *	true		'master' holds a lease on (or owns) the object
+> - *	false		'master' does not hold a lease.
+> + * Returns true if @master holds a lease on (or owns) the object, false if not.
+>   */
+>  static int _drm_lease_held_master(struct drm_master *master, int id)
+>  {
+> @@ -73,14 +117,11 @@ static int _drm_lease_held_master(struct drm_master *master, int id)
+>  
+>  /**
+>   * _drm_has_leased - check to see if an object has been leased (idr_mutex held)
+> - * @master: the master to check the lease status of
+> - * @id: the id to check
+> + * @master: the &struct drm_master to check the lease status of
+> + * @id: the object ID to check
+>   *
+> - * Checks if any lessee of 'master' holds a lease on 'id'. Return
+> - * value:
+> - *
+> - *	true		Some lessee holds a lease on the object.
+> - *	false		No lessee has a lease on the object.
+> + * Returns true if any lessee of @master holds a lease on the given object,
+> + * false if no lessee has a lease on the object.
+>   */
+>  static bool _drm_has_leased(struct drm_master *master, int id)
+>  {
+> @@ -95,14 +136,11 @@ static bool _drm_has_leased(struct drm_master *master, int id)
+>  
+>  /**
+>   * _drm_lease_held - check drm_mode_object lease status (idr_mutex held)
+> - * @file_priv: the master drm_file
+> - * @id: the object id
+> - *
+> - * Checks if the specified master holds a lease on the object. Return
+> - * value:
+> + * @file_priv: the master &struct drm_file
+> + * @id: the object ID
+>   *
+> - *	true		'master' holds a lease on (or owns) the object
+> - *	false		'master' does not hold a lease.
+> + * Returns true if @file_priv's &drm_file.master holds a lease on (or owns) the
+> + * object, false if it does not.
+>   */
+>  bool _drm_lease_held(struct drm_file *file_priv, int id)
+>  {
+> @@ -123,14 +161,11 @@ bool _drm_lease_held(struct drm_file *file_priv, int id)
+>  
+>  /**
+>   * drm_lease_held - check drm_mode_object lease status (idr_mutex not held)
+> - * @file_priv: the master drm_file
+> - * @id: the object id
+> + * @file_priv: the master &struct drm_file
+> + * @id: the object ID
+>   *
+> - * Checks if the specified master holds a lease on the object. Return
+> - * value:
+> - *
+> - *	true		'master' holds a lease on (or owns) the object
+> - *	false		'master' does not hold a lease.
+> + * Returns true if @file_priv's &drm_file.master holds a lease on (or owns) the
+> + * object, false if it does not.
+>   */
+>  bool drm_lease_held(struct drm_file *file_priv, int id)
+>  {
+> @@ -157,7 +192,8 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
+>  }
+>  
+>  /**
+> - * drm_lease_filter_crtcs - restricted crtc set to leased values (idr_mutex not held)
+> + * drm_lease_filter_crtcs - restricted crtc set to leased values
+> + * (idr_mutex not held)
+>   * @file_priv: requestor file
+>   * @crtcs_in: bitmask of crtcs to check
+>   *
+> @@ -207,13 +243,14 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
+>  }
+>  
+>  /*
+> - * drm_lease_create - create a new drm_master with leased objects (idr_mutex not held)
+> + * drm_lease_create - create a new &struct drm_master with leased objects
+> + * (idr_mutex not held)
+>   * @lessor: lease holder (or owner) of objects
+>   * @leases: objects to lease to the new drm_master
+>   *
+> - * Uses drm_master_create to allocate a new drm_master, then checks to
+> - * make sure all of the desired objects can be leased, atomically
+> - * leasing them to the new drmmaster.
+> + * Uses drm_master_create() to allocate a new &struct drm_master, then checks
+> + * to make sure all of the desired objects can be leased, atomically
+> + * leasing them to the new &struct drm_master.
+>   *
+>   * 	ERR_PTR(-EACCES)	some other master holds the title to any object
+>   * 	ERR_PTR(-ENOENT)	some object is not a valid DRM object for this device
+> @@ -280,13 +317,13 @@ static struct drm_master *drm_lease_create(struct drm_master *lessor, struct idr
+>  }
+>  
+>  /**
+> - * drm_lease_destroy - a master is going away (idr_mutex not held)
+> - * @master: the drm_master being destroyed
+> + * drm_lease_destroy - destroy a master  (idr_mutex not held)
+> + * @master: the &struct drm_master being destroyed
+>   *
+> - * All lessees will have been destroyed as they
+> - * hold a reference on their lessor. Notify any
+> - * lessor for this master so that it can check
+> - * the list of lessees.
+> + * Destroys @master, then notifies any lessor for this master so that it can
+> + * check the list of lessees. Note that all lessees of @master will have been
+> + * destroyed for this function to be called as they hold a reference on their
+> + * lessor.
+>   */
+>  void drm_lease_destroy(struct drm_master *master)
+>  {
+> @@ -323,7 +360,7 @@ void drm_lease_destroy(struct drm_master *master)
+>  
+>  /**
+>   * _drm_lease_revoke - revoke access to all leased objects (idr_mutex held)
+> - * @top: the master losing its lease
+> + * @top: the &struct drm_master losing its lease
+>   */
+>  static void _drm_lease_revoke(struct drm_master *top)
+>  {
+> @@ -365,7 +402,7 @@ static void _drm_lease_revoke(struct drm_master *top)
+>  
+>  /**
+>   * drm_lease_revoke - revoke access to all leased objects (idr_mutex not held)
+> - * @top: the master losing its lease
+> + * @top: the &struct drm_master losing its lease
+>   */
+>  void drm_lease_revoke(struct drm_master *top)
+>  {
+> @@ -500,14 +537,16 @@ static int fill_object_idr(struct drm_device *dev,
+>  
+>  /**
+>   * drm_mode_create_lease_ioctl - create a new lease
+> - * @dev: the drm device
+> - * @data: pointer to struct drm_mode_create_lease
+> - * @lessor_priv: the file being manipulated
+> + * @dev: the &struct drm_device
+> + * @data: pointer to &struct drm_mode_create_lease
+> + * @lessor_priv: the &struct drm_file being manipulated
+>   *
+> - * The master associated with the specified file will have a lease
+> + * The &struct drm_master associated with @lessor_priv will have a lease
+>   * created containing the objects specified in the ioctl structure.
+>   * A file descriptor will be allocated for that and returned to the
+>   * application.
+> + *
+> + * Note that creating recursive sub-leases for existing lessees is not allowed.
+>   */
+>  int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  				void *data, struct drm_file *lessor_priv)
+> @@ -626,15 +665,13 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  }
+>  
+>  /**
+> - * drm_mode_list_lessees_ioctl - list lessee ids
+> - * @dev: the drm device
+> - * @data: pointer to struct drm_mode_list_lessees
+> - * @lessor_priv: the file being manipulated
+> + * drm_mode_list_lessees_ioctl - list lessee IDs
+> + * @dev: the &struct drm_device
+> + * @data: pointer to &struct drm_mode_list_lessees
+> + * @lessor_priv: the &struct drm_file being manipulated
+>   *
+> - * Starting from the master associated with the specified file,
+> - * the master with the provided lessee_id is found, and then
+> - * an array of lessee ids associated with leases from that master
+> - * are returned.
+> + * Returns an array of &drm_master.lessee_id associated with lessees of
+> + * @lessor_priv's &drm_file.master that have unrevoked leases.
+>   */
+>  
+>  int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+> @@ -685,9 +722,9 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>  
+>  /**
+>   * drm_mode_get_lease_ioctl - list leased objects
+> - * @dev: the drm device
+> - * @data: pointer to struct drm_mode_get_lease
+> - * @lessee_priv: the file being manipulated
+> + * @dev: the &struct drm_device
+> + * @data: pointer to &struct drm_mode_get_lease
+> + * @lessee_priv: the &struct drm_file being manipulated
+>   *
+>   * Return the list of leased objects for the specified lessee
+>   */
+> @@ -747,13 +784,12 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>  
+>  /**
+>   * drm_mode_revoke_lease_ioctl - revoke lease
+> - * @dev: the drm device
+> - * @data: pointer to struct drm_mode_revoke_lease
+> - * @lessor_priv: the file being manipulated
+> + * @dev: the &struct drm_device
+> + * @data: pointer to &struct drm_mode_revoke_lease
+> + * @lessor_priv: the &struct drm_file being manipulated
+>   *
+> - * This removes all of the objects from the lease without
+> - * actually getting rid of the lease itself; that way all
+> - * references to it still work correctly
+> + * Removes all of the objects from the lessee without actually getting rid
+> + * of the lessee itself; that way all references to it still work correctly.
+>   */
+>  int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>  				void *data, struct drm_file *lessor_priv)
+> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+> index f99d3417f304..ba248ca8866f 100644
+> --- a/include/drm/drm_auth.h
+> +++ b/include/drm/drm_auth.h
+> @@ -58,12 +58,6 @@ struct drm_lock_data {
+>   * @refcount: Refcount for this master object.
+>   * @dev: Link back to the DRM device
+>   * @driver_priv: Pointer to driver-private information.
+> - * @lessor: Lease holder
+> - * @lessee_id: id for lessees. Owners always have id 0
+> - * @lessee_list: other lessees of the same master
+> - * @lessees: drm_masters leasing from this one
+> - * @leases: Objects leased to this drm_master.
+> - * @lessee_idr: All lessees under this owner (only used where lessor == NULL)
+>   *
+>   * Note that master structures are only relevant for the legacy/primary device
+>   * nodes, hence there can only be one per device, not one per drm_minor.
+> @@ -88,17 +82,68 @@ struct drm_master {
+>  	struct idr magic_map;
+>  	void *driver_priv;
+>  
+> -	/* Tree of display resource leases, each of which is a drm_master struct
+> -	 * All of these get activated simultaneously, so drm_device master points
+> -	 * at the top of the tree (for which lessor is NULL). Protected by
+> -	 * &drm_device.mode_config.idr_mutex.
+> +	/**
+> +	 * @lessor:
+> +	 *
+> +	 * Lease grantor, only set if this &struct drm_master represents a
+> +	 * lessee holding a lease of objects from @lessor. Full owners of the
+> +	 * device have this set to NULL.
+> +	 *
+> +	 * The lessor does not change once it's set in drm_lease_create(), and
+> +	 * each lessee holds a reference to its lessor that it releases upon
+> +	 * being destroyed in drm_lease_destroy().
+> +	 *
+> +	 * See also the :ref:`section on display resource leasing
+> +	 * <drm_leasing>`.
+>  	 */
+> -
+>  	struct drm_master *lessor;
+> +
+> +	/**
+> +	 * @lessee_id:
+> +	 *
+> +	 * ID for lessees. Owners (i.e. @lessor is NULL) always have ID 0.
+> +	 * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> +	 */
+>  	int	lessee_id;
+> +
+> +	/**
+> +	 * @lessee_list:
+> +	 *
+> +	 * List entry of lessees of @lessor, where they are linked to @lessees.
+> +	 * Not used for owners. Protected by &drm_device.mode_config's
+> +	 * &drm_mode_config.idr_mutex.
+> +	 */
+>  	struct list_head lessee_list;
+> +
+> +	/**
+> +	 * @lessees:
+> +	 *
+> +	 * List of drm_masters leasing from this one. Protected by
+> +	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> +	 *
+> +	 * This list is empty if no leases have been granted, or if all lessees
+> +	 * have been destroyed. Since lessors are referenced by all their
+> +	 * lessees, this master cannot be destroyed unless the list is empty.
+> +	 */
+>  	struct list_head lessees;
+> +
+> +	/**
+> +	 * @leases:
+> +	 *
+> +	 * Objects leased to this drm_master. Protected by
+> +	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> +	 *
+> +	 * Objects are leased all together in drm_lease_create(), and are
+> +	 * removed all together when the lease is revoked.
+> +	 */
+>  	struct idr leases;
+> +
+> +	/**
+> +	 * @lessee_idr:
+> +	 *
+> +	 * All lessees under this owner (only used where @lessor is NULL).
+> +	 * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> +	 */
 
-        int (*map_gfn_to_mfn)(unsigned long handle, unsigned long gfn,
-                              unsigned long mfn, unsigned int nr, bool map);
-        bool (*is_valid_gfn)(unsigned long handle, unsigned long gfn);
+This also looks great now. With the one improvement addressed and I guess
+the includes for drm_lease.[hc] and those parts of the patch removed
+again:
 
-Shouldn't the vfio page SW IOMMU do all of this generically?
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-        int (*enable_page_track)(unsigned long handle, u64 gfn);
-        int (*disable_page_track)(unsigned long handle, u64 gfn);
-        int (*set_trap_area)(unsigned long handle, u64 start, u64 end,
-                             bool map);
-        int (*set_opregion)(void *vgpu);
-        int (*set_edid)(void *vgpu, int port_num);
+If you want perhaps do a follow-up patch to clean up the comments in
+drm_lease.c and remove the outdated/unused kerneldoc? It tends to not be
+maintained when it's not included, so short comments where they provide
+real insight is imo best.
+-Daniel
 
-edid depends on hypervisor??
+>  	struct idr lessee_idr;
+>  	/* private: */
+>  #if IS_ENABLED(CONFIG_DRM_LEGACY)
+> -- 
+> 2.25.1
+> 
 
-        int (*get_vfio_device)(void *vgpu);
-        void (*put_vfio_device)(void *vgpu);
-
-Jason
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
