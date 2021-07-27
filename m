@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1523D80A6
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579A43D7FFB
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A526EA84;
-	Tue, 27 Jul 2021 21:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 007D96EA51;
+	Tue, 27 Jul 2021 21:00:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 483D56EA09
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:06:59 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id k1so17570452plt.12
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:06:59 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF44C6E929
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 20:59:15 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ a4-20020a17090aa504b0290176a0d2b67aso6633053pjq.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 13:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eHJ5K8LiDBXCeTCe7PvgaP3UqQR5uDLvklqQUiAbnC0=;
- b=C9odf/LxM8hQlFgEX94OyyWcybtfMz5fkcvxUOiwkptiFAnxb7Vjc9j5fcILzWzUe0
- 9SXGn/8zZ/4rPOmwRPn9BGvFK32z6oyRZbo5d8AQJpThOjubhaqeuoW3W01DCWdHwowW
- ZQKSKYcukTOUL4ao1lnoeA3vzowcOeQgLkBm8=
+ bh=jkEBu3cyC8P91iNzwefz43r+qwwsnaf9Um6lJSfLX/U=;
+ b=dnENAk9DzH5dgHVppNp1v9l3w86qTmdkLa9Jj4LakaevVCf/iS+sojLxHAr89q9wGa
+ 1fCabL74Qjnciuh4GbRWY0QMtJihWUHg9slAdVEVJB+IsGbTLEE8Dlb87gC23UZGTKB+
+ ZbpL1Gb9H/xRsxA/XACoxQ6NacgDHZVJ/L9f8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eHJ5K8LiDBXCeTCe7PvgaP3UqQR5uDLvklqQUiAbnC0=;
- b=UQb1ntFH9bqskufRA3p6aVJSUUB62LCtvkrd6BVoTdD1TC6UqMhD4wwQvoMbjgtMlz
- EbfHbSkqQgaC5LOVRyYCscVUDH1yg5EBKA1tFIu0KJx9msC1gYsl/DyPpBr49/kQqPAp
- Xo+PQcb2cdDMFHbjWcr41MYvSqUaTcXu5i0H4Ysd93ZQaBDXrkeYyaPuwZwm1KKq8d9b
- 09obNSYqbBiMlBmH+6HWqhHqOZpt7bFSFk0QozVYH4VdClB6FBD08fGArUk5zasv946O
- u9NYxqVdFMQc3GmawMw6ZFbGzdFd+mbVDdO/2r1Q3pf1kmRgyURESHjuMJMXyps5J0hX
- hOOQ==
-X-Gm-Message-State: AOAM532km23StqW+wHp1ZvUt5AsiepGk12W4zPmq60Wxw4+Jnhpz9/+u
- on/ep68mI9HOPHrf6fykuwl4GA==
-X-Google-Smtp-Source: ABdhPJyiPLiIxF0eZ6Ht4eersAStzTtAa77UuUUu3QKRioXbvWIKsuENyKgvU1Bb8BbQdCxPR7B6MQ==
-X-Received: by 2002:a05:6a00:cc1:b029:32b:8465:9b59 with SMTP id
- b1-20020a056a000cc1b029032b84659b59mr24967310pfv.66.1627420018950; 
- Tue, 27 Jul 2021 14:06:58 -0700 (PDT)
+ bh=jkEBu3cyC8P91iNzwefz43r+qwwsnaf9Um6lJSfLX/U=;
+ b=jIs0VwjMGD6vN6vcAXCJYoiwztgEbgBq8H1oORVh4Ya3bKGIqKebX4dVn4KPdlEdSQ
+ 6FUdJgcRYIeXSrhpxKzowJPD4IPN28S27eJRhClUrQM7wAYdY3BVz/wo0b5MxocrV/5M
+ d6I9Wgj2W6Wy8+ScHcjIZcwBR1RmCSVQ53yErnYWW8qpv71RMoUh++7IscEmI/hYRhUe
+ 0QbLK4jVRNF2eAHtbN7bClbYo8Bc3+ViqZ3mk3vrD9UeFYcgwus+zjuXr+/L8HSTAx6p
+ iYh7ov1//YsUVNVAoPDzBklztHXRwck6eFzNLCQmFhEgP6NoGfS71fS+2YwwZkqe2sqj
+ dhug==
+X-Gm-Message-State: AOAM532NY9/lxAf2PX25+MKbm3iId7csQxnO3cjUBAuxXsyegXQ3wLVy
+ BStJCCpGQSIXNCfflFkm56fWjQ==
+X-Google-Smtp-Source: ABdhPJxk0cC72IDwqrlYB1bp1QpRSwhRFLNYtyZi3PbioBLkTbjhG7cCOwJvpMi1oBzdvFnMDhIhyw==
+X-Received: by 2002:a63:1658:: with SMTP id 24mr25466811pgw.307.1627419554930; 
+ Tue, 27 Jul 2021 13:59:14 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id r128sm4687668pfc.155.2021.07.27.14.06.54
+ by smtp.gmail.com with ESMTPSA id g27sm4893301pgl.19.2021.07.27.13.59.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
+ Tue, 27 Jul 2021 13:59:14 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 63/64] iwlwifi: dbg_ini: Split memcpy() to avoid multi-field
- write
-Date: Tue, 27 Jul 2021 13:58:54 -0700
-Message-Id: <20210727205855.411487-64-keescook@chromium.org>
+Subject: [PATCH 64/64] fortify: Add run-time WARN for cross-field memcpy()
+Date: Tue, 27 Jul 2021 13:58:55 -0700
+Message-Id: <20210727205855.411487-65-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1543; h=from:subject;
- bh=s7Xq57zTgnpQLZW9o4dFqvke+b60yZlygvvLnoMj4dM=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOO7ylJm1Pef8Nw2Y9AVMYN/aYHsm9YN/NkJMM0
- 14MmcVqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjgAKCRCJcvTf3G3AJh5wD/
- 0a9KvpCqyFZ9QKAdlblaiFHTvLu6J0I4KvuS/Pu8WGvbtdHoFcEc1A0J0FqancucuNe2oN76GijGN8
- ZmNxkbLuDowcPvHB1KNKV+y/VKyD/GjTqJSFGbHSgE1d3XVQUqA8M80luRN12bHJex3vWEGlQIgVUS
- eo5mVVxa1vQFLA/APQtdO4QC3S0Rxaeq//vH7IZ+y8uTxf7ChRZtqCWERhOu6zi0YYM7UsadKsQ1UW
- kuKw1BHS6rVbpMLujJWWAPEyxEe0W/MD7sUJar7lh/sg2nbnVIlvXob+LuNF5xQtZwtIVnlj1/Tx1c
- JeZYoyxgw4/uvoQF/VaOiL8Fb1Mky8hA3J0Q0KSrMfDlDYr2psRQCz/wYgNiK8aZmkNvU6EyldhpRR
- jvpt2FEuN89iS51ofpMkKT9jWkj2G2IJnYUpSSBDS7x/6U33s9hWYtpjYFkmrtQS+KN+/zM7e0Wq85
- h9kdtxEMB5GcqKunvfEzrJH/6l30zcuWdtxzKr+5eUMIzfT4m7IfJftQW1OHHiIRW8y1i2y9mOZGde
- lSqRZZ+xSG98+pb5deEI05oPi7AOE1XKeHnMMfVyygop9nOeSAmsJJWm+ExFOnNUkiTzMkM+sJqqiU
- uZuZWsn+50meKz7mBFEHFWpt++2rlXLf2jFCbTMaiMMKok79IQfcYfkHRDkg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1942; h=from:subject;
+ bh=RTdC1l2OZqdjmeHWbAdwbLJoQzG6khjndsQEFnTv5CQ=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOOoYe9sIhYxHQvPTRJ442xiTpScfryHfKvIe1i
+ sHyzRDqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjgAKCRCJcvTf3G3AJgaOEA
+ ChcfQRhtSTlAFifX9KeThgQ0Uq0d8HgqX9d7L7di9/gmd2+q9a2jOeVLC8gckPM5zLCPjGAPeADcAJ
+ d66hhTLJ1w+E4pD+VvWPPeopnlvv/UVfWd8PB4LJbpoWEceJ6eDTiiC/iLcY/ccmaowSsyM+RD0OP5
+ pMnkTErmHRoT4p4KW6sBF/D5BjOB39tfSy91Re1raHesEqaFybA9fcJflSdn9W1aI0bHciireUFofB
+ T7rpT4s4qFia+UxE36sxzshuQHwig6S/H7514YsynGyxfM2Qklu8gbfDJ6LAQkHClc0bfyTIiXESyg
+ ywDP93+de3A/S6fGfgl93xa940kRjzrhL1qnzlP0zaVOVbpcgLzsYJ545IJ+TmM8HpJfojPa8GKSuj
+ R4VLih6/XrTEQA2B5d0z/qwYFEm2tk1ALTz5bfkiQLeNBQmj07WzORr0H4yRF3LHyo1EMp06zJeCss
+ ob/ijvKIueEYm1x2q9NTIgloeNO+GTCHYSFzMjtXiJQtqMTwWCPDd7OHie3E3Zdy5kLslb0XwSb4bI
+ 13oeoYOHrWStAAAcuZNIxS1XS1W9LtGkezYc7wGb1YsgX/cpuksW4RJ70bOOYlCUI7ORAmfo/O5xvj
+ 2M/YGfM4cY13yTZbLkY8Kekpx9XUxEtviQZlLWMI0ntWBHVrpbS8XpEjS9xA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -91,44 +90,56 @@ Cc: Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To avoid a run-time false positive in the stricter FORTIFY_SOURCE
-memcpy() checks, split the memcpy() into the struct and the data.
-Additionally switch the data member to a flexible array to follow
-modern language conventions.
+This enables the run-time checking of dynamic memcpy() and memmove()
+lengths, issuing a WARN when a write would exceed the size of the
+target field.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/intel/iwlwifi/fw/file.h     | 2 +-
- drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ include/linux/fortify-string.h | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/wireless/intel/iwlwifi/fw/file.h b/drivers/net/wireless/intel/iwlwifi/fw/file.h
-index 9a8c7b7a0816..226ccd3a6612 100644
---- a/drivers/net/wireless/intel/iwlwifi/fw/file.h
-+++ b/drivers/net/wireless/intel/iwlwifi/fw/file.h
-@@ -116,7 +116,7 @@ enum iwl_ucode_tlv_type {
- struct iwl_ucode_tlv {
- 	__le32 type;		/* see above */
- 	__le32 length;		/* not including type/length fields */
--	u8 data[0];
-+	u8 data[];
- };
+diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+index 4afd42079d3b..0d0acd959ba0 100644
+--- a/include/linux/fortify-string.h
++++ b/include/linux/fortify-string.h
+@@ -260,7 +260,7 @@ __FORTIFY_INLINE void fortify_memset_chk(__kernel_size_t size,
+  * V = vulnerable to run-time overflow
+  *
+  */
+-__FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
++__FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
+ 					 const size_t p_size,
+ 					 const size_t q_size,
+ 					 const size_t p_size_field,
+@@ -309,13 +309,25 @@ __FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
+ 	if ((p_size != (size_t)(-1) && p_size < size) ||
+ 	    (q_size != (size_t)(-1) && q_size < size))
+ 		fortify_panic(func);
++
++	/*
++	 * Warn when writing beyond destination field size. Since
++	 * flexible-arrays are considered 0 bytes, we must ignore 0 sizes
++	 * at runtime for now.
++	 */
++	if (p_size_field && p_size != p_size_field && p_size_field < size)
++		return true;
++
++	return false;
+ }
  
- #define IWL_TLV_UCODE_MAGIC		0x0a4c5749
-diff --git a/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c b/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
-index 0ddd255a8cc1..f4efddf3e3c3 100644
---- a/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
-+++ b/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
-@@ -71,7 +71,8 @@ static int iwl_dbg_tlv_add(const struct iwl_ucode_tlv *tlv,
- 	if (!node)
- 		return -ENOMEM;
+ #define __fortify_memcpy_chk(p, q, size, p_size, q_size,		\
+ 			     p_size_field, q_size_field, op) ({		\
+ 	size_t __fortify_size = (size_t)(size);				\
+-	fortify_memcpy_chk(__fortify_size, p_size, q_size,		\
+-			   p_size_field, q_size_field, #op);		\
++	WARN_ONCE(fortify_memcpy_chk(__fortify_size, p_size, q_size,	\
++				     p_size_field, q_size_field, #op),	\
++		  #op ": detected field-spanning write (size %zu) of single field (size %zu)\n", \
++		  __fortify_size, p_size_field);			\
+ 	__underlying_##op(p, q, __fortify_size);			\
+ })
  
--	memcpy(&node->tlv, tlv, sizeof(node->tlv) + len);
-+	memcpy(&node->tlv, tlv, sizeof(node->tlv));
-+	memcpy(node->tlv.data, tlv->data, len);
- 	list_add_tail(&node->list, list);
- 
- 	return 0;
 -- 
 2.30.2
 
