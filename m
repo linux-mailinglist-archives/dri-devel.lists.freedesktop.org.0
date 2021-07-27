@@ -2,150 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A873D7F8C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 22:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7113D7FB1
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 22:59:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FEB56E093;
-	Tue, 27 Jul 2021 20:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81CC66E111;
+	Tue, 27 Jul 2021 20:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87EC06E093;
- Tue, 27 Jul 2021 20:52:56 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="192122126"
-X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="192122126"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 13:52:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="498615919"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga001.jf.intel.com with ESMTP; 27 Jul 2021 13:52:55 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 27 Jul 2021 13:52:55 -0700
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 27 Jul 2021 13:52:54 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Tue, 27 Jul 2021 13:52:54 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.42) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 27 Jul 2021 13:52:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SQqXqL8x2tAdm6KJCn3nEyM8NMdjceO42+rrKrmRYusLG7YTCG5Oe5OejSjcQV1HrGCPcEGxaIfKW8WAjwD8h681dZPAC/yM3NiptJkUU1TYYAtfGbpwehUWtIczzp0JsXhQYwyVDXiZ2mvigCCDkpN6nwTAIk+qT5dCGdMfFcNU/dr5/j4gc3k1I89AkgvRfwxXHTyi+ehx/cXM4XGyx96mood/08VGzX6T97/gfdfmUtCnNMjLs7DZjZQmh8FHPrRMbDpNtbt05kmr0c/sb7lXZSzKJj1C3NWk8xtGkehI7L+2z21WAkpn123nZYpo/ncA4V9IRNq60QM+ruh0Ow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3uVq2YBP3SB9FC3Xo48LjedXTEXI2BKaV4vfC8tXKv4=;
- b=c6fq/GWUoFAWDfjFCTZtX0b5W2awwpSbOGBUMyuiOFhq+9XHSrZiGPSr68H6FFnS6kvC73hquEnC2cElxCK+h1M1fiDpbaZzZo/utO5o8CPg6c0vZm2e16zl8L4I2DQPtfV5Zqf7MS5jbs7Fd7h7mDcOYrI64pGUL3K6mGPtwQ+h7cwVw2hiYSXSpjWUOzGPmPVGUmw412N9EH05kfZGMr4kZHnyl4MB9Li5zlHMw+Y5+UJXcwlqNAxT0nsMncMQ86KlweN3iahNNSj6C7evXy11jPoC0TirN19xn0c4r3RMDi43DprBn+g6pETBiIqByBr6neEPu7b8EMhVIUHwlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3uVq2YBP3SB9FC3Xo48LjedXTEXI2BKaV4vfC8tXKv4=;
- b=iwQWUUP7rD35jaCtomhQACaNMIZxDri0ZtXJ11N5+r4gAtpseO/ia+TnPNHg/7LbGPYTtkMY8fy69Y4q4p+sEIuXqiMIkpf+Oe7tlt7dle5FKzFQVeC6kEEerRYp14Xnd8LNkS8fu0H2PfzkzsfAJrsAQ8wI0ACstdJ5vzLT4VU=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=intel.com;
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
- by CO6PR11MB5587.namprd11.prod.outlook.com (2603:10b6:303:139::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25; Tue, 27 Jul
- 2021 20:52:53 +0000
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4]) by CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4%9]) with mapi id 15.20.4352.032; Tue, 27 Jul 2021
- 20:52:53 +0000
-Subject: Re: [Intel-gfx] [PATCH 06/15] drm/i915/guc/slpc: Enable SLPC and add
- related H2G events
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20210726190800.26762-1-vinay.belgaumkar@intel.com>
- <20210726190800.26762-7-vinay.belgaumkar@intel.com>
- <1e49627f-80a5-5283-eb6d-f06b0f024911@intel.com>
- <dd8d1976-4b3b-be9d-8b7d-e6487f2c06aa@intel.com>
- <3358d696-04c6-a22a-a956-bfd17f2f1bae@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Message-ID: <01d947a5-f9ce-a046-21b3-1651e4d6dbae@intel.com>
-Date: Tue, 27 Jul 2021 13:52:51 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
-In-Reply-To: <3358d696-04c6-a22a-a956-bfd17f2f1bae@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CO2PR05CA0054.namprd05.prod.outlook.com
- (2603:10b6:102:2::22) To CO6PR11MB5634.namprd11.prod.outlook.com
- (2603:10b6:5:35d::20)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C27C6E111
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 20:59:05 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id e14so17701536plh.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pj8bqnZek7DQGNCWLNQ0g1MGQCZIVVP0FzEBXBYiI7Y=;
+ b=HGNcgmkgioh1CGhVV9MmNSHIIrZU3zyWU9FQ5VTwPn9W0umAdlgjeKjEauZRV7JvPz
+ /xO8V7bI0qXeAL0brzQ/n76823kTps6Q+jg5Lqgw2S0FCPeBRaMRbbQJIg+2s9yZN23w
+ YMWhNsoWAH6pujsciw3v5szvSdnTqVCKJT8K4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pj8bqnZek7DQGNCWLNQ0g1MGQCZIVVP0FzEBXBYiI7Y=;
+ b=tgEfbQfO+EpGvAsWiSIkbu+jLWXOmxLFXtrb/e0gdK0Ag8XpQ4Bs7MPPFX2cwBsyHd
+ 6U94hfew7hzFjkRYJdnrjP8I9vVpVdJrqsKG1vZ8lz12nrYMO3ImMSQ4wlYQ2qFj/5qJ
+ eyq7UnJNPBZff64nLb3hshRNdX2RAxj5XsTyGJT0peADOTWNXh4g+l7tzrR8yvoQyS4A
+ IBt7XubjYem1fYIHC9TbuQNfNYRhpycpueZA6KMfcAJ8fz8Nraha7dIXkNKw6poQQeWO
+ L4InJFVChbR+KMMYozg3i/eRAaTNqmJyfatgGCKXdf7ut383wcbeB26Ui2AZLHzJL5Jo
+ mnSA==
+X-Gm-Message-State: AOAM533HBHqst1O6rA4QLLRI6vHDAw6AQqLDFBnuxC9fluEcQXHVrJ2R
+ lUd9uGggsOwdt8WTTeNoMMPGQYhHSdCj1lZB
+X-Google-Smtp-Source: ABdhPJwQjtrpDZXCytTxeG9yF6HC6xTn6UlfN5aFtxlz0qj/DQHfEGxGJNxB1m8L8ACZ2Ym4GjhdUQ==
+X-Received: by 2002:a17:90a:bd06:: with SMTP id
+ y6mr24299379pjr.6.1627419545039; 
+ Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id b22sm3589308pjq.37.2021.07.27.13.59.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jul 2021 13:59:02 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: linux-hardening@vger.kernel.org
+Subject: [PATCH 00/64] Introduce strict memcpy() bounds checking
+Date: Tue, 27 Jul 2021 13:57:51 -0700
+Message-Id: <20210727205855.411487-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.71] (99.88.121.38) by
- CO2PR05CA0054.namprd05.prod.outlook.com (2603:10b6:102:2::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4373.7 via Frontend Transport; Tue, 27 Jul 2021 20:52:52 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4a30a79b-97cd-42c3-bcad-08d9514080aa
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5587:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR11MB5587666ADB265C2EC036985485E99@CO6PR11MB5587.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:421;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Eo2ovFyga69PTtbLHVjUrvPEDl9PY0N0vpAquucCug2W68cNUidc7v+wD1x0iW44dS+fcsHwcBQi6AppT4lZmLcannZKGMZPW5dTG45zcuP0YU4FrCIvabs5B8JQna55WhF2wEmBDLIdDKhJmyBi0Ag38HXFb7Ho4PLH2ZiXdrZNww+8E8Oot7+Idf7f+5hTf9R2EP/8pGHEUJ77gADptgaFg+9dUy3lpUXZtuR+5eurRdNieOZb+8ZRdUXmRqeLhwU5eUGHmfNqgK6Z94hb0GRgUq7yA1mVOBBhhRVQouUqq3ruZ0jBIoy+lBDtUtXAL+SulxGxg+U0jIV7cCB9CragTJUyYTLAApsfQ9u5EFO5TRqMCrYFrRDNjsFCX12NDKKwi4txy54Ut6fbpuQjDWifDCXVyeQLtL0195DANUPVuUfzlqa+4FWZSmoEIifwT7YYiup9MGfjQzgk1ps2uAYfoJ8OohRedBUGNk/emywKmkYsyYK2Keh+55aH6hRfHyVnpWsUizQR8T2HPi7QuXLaaq6x9V+I1AAbjC/3vqwszDOln9rXHTb/pDvWKvoqYQKGPM23j4AwEie2Y8tP/QTMFmOSLCdCZGZA8fFMpTvkDgaSwd9iAVcsyhj6lReMDk+3BsN8vwRHyXQuWNMIqYKiCUmEF30ZjYMJn/AVUBRjIbq6iaby/TH8k6yJ8ZtNG1p2DnIKqGaVp7n/oNRDSdtZbWEpMDNMQAoJmv+q7CE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(396003)(366004)(39860400002)(346002)(66946007)(66556008)(478600001)(6486002)(31686004)(30864003)(2616005)(53546011)(86362001)(66476007)(956004)(5660300002)(31696002)(36756003)(450100002)(8676002)(83380400001)(26005)(316002)(2906002)(186003)(16576012)(8936002)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTdranFsTU9sTnM0U2RsMncwaS9pMFdBdVoyc0Y3TFN5WllwamtaZGlnL1lF?=
- =?utf-8?B?dERtcjhudFhpeFNPZ2x3VWxRWVNKR3A1QjFsSjVhNUxIcGo3TjFZcVdWN3JL?=
- =?utf-8?B?SFpqQjh4SVZEbVVlQkk3Qlp1TktvVmxLeE5ydE5oRTlkTlF2cE1zV3VIaHZp?=
- =?utf-8?B?OHhoTTdDSXV3cFJLZnhUalFLelhDbVpmSEZkSDdJa2p2L051ZmxuWHRBNy9Z?=
- =?utf-8?B?dkdqamJxRnA3eStvSGRreGlNeEFVUjFBQ2ZCdXY0a0xlMnZXZExVSzk5dmRV?=
- =?utf-8?B?UTdHREIzVEs0bGExQWFLY3Aza2hKWEdkdnl5aHZFYm8vcVNjV2Nld3JSeW1q?=
- =?utf-8?B?UTFIT05Fc3BwNDVkUzdScUVzWjB5Q0pZYjRTVWhmd1p0YTBIMFJTTkhOc0dl?=
- =?utf-8?B?Y0JhSUphR3FYaGVnVS9NZ3o5aWN4NXpEaDdwTllTNC9sZ3BzN2I0SFRDOUxu?=
- =?utf-8?B?T0pZbHZTQUlOZVRIMVhLbUMydXRmMDBpSmFLVkdGZEwrZnlSc20rNnh6K1N4?=
- =?utf-8?B?WGN0Q3M3bUE1MnJLcEFvUVJGZVJaeisxckp0ZGFNdWtYekhONktEbUl4d040?=
- =?utf-8?B?TDVjUnhRVG5hRzBlRHN0MVpaUzJBS0NvKzBxbTdVRFU2aHVzd2IwZTF6LzQ1?=
- =?utf-8?B?RzBnVlhOVFlKTVh0ZlJ6SEIwN2pDL3JweWI0S0JzdjZwajJrcjdzQkFWTkt3?=
- =?utf-8?B?N1BTV21Eb2Z1MHFQMlNZc3lTOGNkMkFJd09sUC9IazdyREpEWEhhaHhwVDVV?=
- =?utf-8?B?YTFpZ1FXbFozd3htRjdCUkxXaDVtVUc4VXFYN09Dc1pjZ3dlTUtxVThoZ3JQ?=
- =?utf-8?B?M2dCM1kzZjFyWkl2R0Y3RzBrdE5WUzdYcXdHQnUyUXhTTjNiVWhOVE44QnJO?=
- =?utf-8?B?YzJhdFZrNGovNFdvMllrZmdCODFsemdiRUtyZnJ4UzdteGdxeGdkL1ZLOTRQ?=
- =?utf-8?B?cFliU1lFUXQ5Y2M0KzQ3WTRENDVaVXY2MWc1bCtOZ2NVbUFpQ0MzcVFrNTY3?=
- =?utf-8?B?TDVZYmh6VmdOWWpvMG5udWxXY2V4L1NiN3QvRFhOVlNCSWd6MUZEVGNjNWRJ?=
- =?utf-8?B?N2U5Zi9TWXE0Y01SRC9pMmI4WVVydlBja1ljdjBITldLeWVreWRhbmZnR1Mv?=
- =?utf-8?B?TWh5ZG8xSTFmay9lSFJZY21JY2dzNEN3SkQzb3JBTHVWRXJvV1ZialJnSUNG?=
- =?utf-8?B?M2VDOGVIYlJlTE5UdEEyVlNlb0lSWHRmWU1aUGQrc1R2bG5yYWpFbUgyK3FO?=
- =?utf-8?B?RWdDSVo4SVNqem1wOVIyaEFUdWVSODBrMUhMNE5yRXFwNVlRcGpwS2RCb1Fw?=
- =?utf-8?B?Um1aR3JsdUdsc3ozMUdHRW5VRG9PYXlnalZGUUV1L1Z6NS96eENueUJxVGJF?=
- =?utf-8?B?cmdobjhIYXUvK2VRdWJwWUk2UmxtZnJZcFFwY1doMUphSGVJMWtaUU5TeHNR?=
- =?utf-8?B?OE9xcERMWll4U3ljQ3hvL21NUlVlUDNBNVNsSWV5TnBweGttdzhUOFN4TWNk?=
- =?utf-8?B?a1UrK2FJMWJxQklmRVU2OEppcGh0RENFZk1TOEVZUkpvbk1XK08yZ2pqb3FT?=
- =?utf-8?B?Q2FaL0lhdVZNSC83WUpRS0FHS2JwbWxNQWExbVJ0VHUzS3FycEIvMWt1NjFw?=
- =?utf-8?B?WmMzVldybHB4cVJUdzBTVSt3SlZYYWF4UWs1RUw1akZxQ29rVGFBSFZZL1dt?=
- =?utf-8?B?VytoVkVpaUlIZ0YvZFRqQ2lKVGxnb1lhOUxPQlFuSnlweHhvcFYrU1JVNXRX?=
- =?utf-8?Q?fIL7JCunMQ1HmWKwkDFTM8kbZ03XJBNm9aSaxfM?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a30a79b-97cd-42c3-bcad-08d9514080aa
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2021 20:52:52.9081 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cYuZq2DvIgRovMDmvdMMbgDeQIUvYmaivLPWz6eKw/ebe5Z4HAz1G3jJuYojesOAkMbG/I3ch1Y6dz2D079GqcZQ+3dLnb2p/GFqFUYz/EY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5587
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14542; h=from:subject;
+ bh=3tzv74ZEYGmAd5y8uADc3iW7VORzfnMWeib6wFauI3E=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOAailZMrySr8Hn5051y4jmV7pP1R0P8T0EYvJP
+ PELScHiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgAAKCRCJcvTf3G3AJuDsD/
+ 49eMPKhRTb8JW/0fu88Js34IrgzhJADjmGc/UumkwlOoDoPkpm1YlMabyJe2OYGVqkIrU6PyPcmKwG
+ YVxEGJ73OfhUQSwuchPcRrV7nhD8bPMqaij8yvd/9p7RR0lekdDNFhdcQgmlrLiOXFP2mokQ4kOIAW
+ zanWodV+4IjYS8aIK+1uMkvRK1kIlxFuMwl1i9ThUz7Wi9lyrz3TJFZZR+1151uW9wzNMZSvI2ba1k
+ gbAu6TN8Qvqlyakd+WhGhH6Th6JcXfGkzkN7xXhLJzXfNE/duHabQB2IUEi2k8LAjXFBgJtr+odhU8
+ HKyA/Y92NIKc4lwIY3q8mXlMdPjdOaQxNWt+Sz76KxQQ14l7sdbypO4OWNdIc/wWzMcKvJAjqKMtNH
+ kocl8xdR/eRtz9R52PCPSif7oDbeYBByDvIB+b4IxdfKIWV1pkn8dgJf81GmUN4wCiaAtMUtvIV/UQ
+ 8hfFOJiP1AMiAzRLt1waXayNuZJ7mTdnbDyJnbj1DtpWJdRrTBjYmWVefNxuxjboVlPrPBo9s/nAvt
+ WpUMeOoFJ/bdWexQFk0g85Kuljf0EHobF3GWuemhqaWEWjSY9Y/jAkzQh2B2OY+bBCFwt6iAk/3qGb
+ G4nqBUEAEMRyidD1kH/Dpq1knG3U7nzJQBcWvNYItFJIl3BjyK80L24ZXZOw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp;
+ fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,427 +79,292 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
+ Keith Packard <keithpac@amazon.com>, netdev@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+This patch series (based on next-20210726) implements stricter (no struct
+member overflows) bounds checking for memcpy(), memmove(), and memset()
+under CONFIG_FORTIFY_SOURCE. To quote a later patch in the series:
+
+    tl;dr: In order to eliminate a large class of common buffer overflow
+    flaws that continue to persist in the kernel, have memcpy() (under
+    CONFIG_FORTIFY_SOURCE) perform bounds checking of the destination struct
+    member when they have a known size. This would have caught all of the
+    memcpy()-related buffer write overflow flaws identified in at least the
+    last three years.
+
+As this series introduces various helpers and performs several phases of
+treewide cleanups, I'm expecting to carry this series in my tree, so I'd
+love to get some Reviews and Acks. Given the size, I've mostly aimed this
+series at various mailing lists, otherwise the CC size got really big. :)
+
+Specifically, this series is logically split into several steps:
+
+Clean up remaining simple compile-time memcpy() warnings:
+  media: omap3isp: Extract struct group for memcpy() region
+  mac80211: Use flex-array for radiotap header bitmap
+  rpmsg: glink: Replace strncpy() with strscpy_pad()
+
+Introduce struct_group() and apply it treewide to avoid compile-time
+memcpy() warnings:
+  stddef: Introduce struct_group() helper macro
+  skbuff: Switch structure bounds to struct_group()
+  bnxt_en: Use struct_group_attr() for memcpy() region
+  staging: rtl8192e: Use struct_group() for memcpy() region
+  staging: rtl8192u: Use struct_group() for memcpy() region
+  staging: rtl8723bs: Avoid field-overflowing memcpy()
+  lib80211: Use struct_group() for memcpy() region
+  net/mlx5e: Avoid field-overflowing memcpy()
+  mwl8k: Use struct_group() for memcpy() region
+  libertas: Use struct_group() for memcpy() region
+  libertas_tf: Use struct_group() for memcpy() region
+  ipw2x00: Use struct_group() for memcpy() region
+  thermal: intel: int340x_thermal: Use struct_group() for memcpy() region
+  iommu/amd: Use struct_group() for memcpy() region
+  cxgb3: Use struct_group() for memcpy() region
+  ip: Use struct_group() for memcpy() regions
+  intersil: Use struct_group() for memcpy() region
+  cxgb4: Use struct_group() for memcpy() region
+  bnx2x: Use struct_group() for memcpy() region
+  drm/amd/pm: Use struct_group() for memcpy() region
+  staging: wlan-ng: Use struct_group() for memcpy() region
+  drm/mga/mga_ioc32: Use struct_group() for memcpy() region
+  net/mlx5e: Use struct_group() for memcpy() region
+  HID: cp2112: Use struct_group() for memcpy() region
+
+Prepare fortify for additional hardening:
+  compiler_types.h: Remove __compiletime_object_size()
+  lib/string: Move helper functions out of string.c
+  fortify: Move remaining fortify helpers into fortify-string.h
+  fortify: Explicitly disable Clang support
+
+Add compile-time and run-time tests:
+  fortify: Add compile-time FORTIFY_SOURCE tests
+  lib: Introduce CONFIG_TEST_MEMCPY
+
+Enable new compile-time memcpy() and memmove() bounds checking:
+  fortify: Detect struct member overflows in memcpy() at compile-time
+  fortify: Detect struct member overflows in memmove() at compile-time
+
+Clean up remaining simple compile-time memset() warnings:
+  scsi: ibmvscsi: Avoid multi-field memset() overflow by aiming at srp
+
+Introduce memset_after() helper and apply it (and struct_group())
+treewide to avoid compile-time memset() warnings:
+  string.h: Introduce memset_after() for wiping trailing members/padding
+  xfrm: Use memset_after() to clear padding
+  mac80211: Use memset_after() to clear tx status
+  net: 802: Use memset_after() to clear struct fields
+  net: dccp: Use memset_after() for TP zeroing
+  net: qede: Use memset_after() for counters
+  ath11k: Use memset_after() for clearing queue descriptors
+  iw_cxgb4: Use memset_after() for cpl_t5_pass_accept_rpl
+  intel_th: msu: Use memset_after() for clearing hw header
+  IB/mthca: Use memset_after() for clearing mpt_entry
+  btrfs: Use memset_after() to clear end of struct
+  drbd: Use struct_group() to zero algs
+  cm4000_cs: Use struct_group() to zero struct cm4000_dev region
+  KVM: x86: Use struct_group() to zero decode cache
+  tracing: Use struct_group() to zero struct trace_iterator
+  dm integrity: Use struct_group() to zero struct journal_sector
+  HID: roccat: Use struct_group() to zero kone_mouse_event
+  ipv6: Use struct_group() to zero rt6_info
+  RDMA/mlx5: Use struct_group() to zero struct mlx5_ib_mr
+  ethtool: stats: Use struct_group() to clear all stats at once
+  netfilter: conntrack: Use struct_group() to zero struct nf_conn
+  powerpc: Split memset() to avoid multi-field overflow
+
+Enable new compile-time memset() bounds checking:
+  fortify: Detect struct member overflows in memset() at compile-time
+
+Enable Clang support and global array-bounds checking:
+  fortify: Work around Clang inlining bugs
+  Makefile: Enable -Warray-bounds
+
+Avoid run-time memcpy() bounds check warnings:
+  netlink: Avoid false-positive memcpy() warning
+  iwlwifi: dbg_ini: Split memcpy() to avoid multi-field write
+
+Enable run-time memcpy() bounds checking:
+  fortify: Add run-time WARN for cross-field memcpy()
+
+A future series will clean up for and add run-time memset() bounds
+checking.
+
+Thanks!
+
+-Kees
 
 
-On 7/27/2021 1:19 PM, Michal Wajdeczko wrote:
-> 
-> 
-> On 27.07.2021 22:00, Belgaumkar, Vinay wrote:
->>
->>
->> On 7/27/2021 8:12 AM, Michal Wajdeczko wrote:
->>>
->>>
->>> On 26.07.2021 21:07, Vinay Belgaumkar wrote:
->>>> Add methods for interacting with GuC for enabling SLPC. Enable
->>>> SLPC after GuC submission has been established. GuC load will
->>>> fail if SLPC cannot be successfully initialized. Add various
->>>> helper methods to set/unset the parameters for SLPC. They can
->>>> be set using H2G calls or directly setting bits in the shared
->>>> data structure.
->>>>
->>>> v2: Address several review comments, add new helpers for
->>>> decoding the SLPC min/max frequencies. Use masks instead of hardcoded
->>>> constants. (Michal W)
->>>>
->>>> v3: Split global_state_to_string function, and check for positive
->>>> non-zero return value from intel_guc_send() (Michal W)
->>>>
->>>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->>>> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
->>>> ---
->>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 237 ++++++++++++++++++
->>>>    .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |   2 +
->>>>    drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   8 +
->>>>    3 files changed, 247 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->>>> index bae4e33db0f8..f5808d2acbca 100644
->>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->>>> @@ -45,6 +45,40 @@ void intel_guc_slpc_init_early(struct
->>>> intel_guc_slpc *slpc)
->>>>        guc->slpc_selected = __guc_slpc_selected(guc);
->>>>    }
->>>>    +static void slpc_mem_set_param(struct slpc_shared_data *data,
->>>> +                u32 id, u32 value)
->>>> +{
->>>> +    GEM_BUG_ON(id >= SLPC_MAX_OVERRIDE_PARAMETERS);
->>>> +    /*
->>>> +     * When the flag bit is set, corresponding value will be read
->>>> +     * and applied by slpc.
->>>
->>> s/slpc/SLPC
->> ok.
->>
->>>
->>>> +     */
->>>> +    data->override_params.bits[id >> 5] |= (1 << (id % 32));
->>>> +    data->override_params.values[id] = value;
->>>> +}
->>>> +
->>>> +static void slpc_mem_set_enabled(struct slpc_shared_data *data,
->>>> +                u8 enable_id, u8 disable_id)
->>>> +{
->>>> +    /*
->>>> +     * Enabling a param involves setting the enable_id
->>>> +     * to 1 and disable_id to 0.
->>>> +     */
->>>> +    slpc_mem_set_param(data, enable_id, 1);
->>>> +    slpc_mem_set_param(data, disable_id, 0);
->>>> +}
->>>> +
->>>> +static void slpc_mem_set_disabled(struct slpc_shared_data *data,
->>>> +                u8 enable_id, u8 disable_id)
->>>> +{
->>>> +    /*
->>>> +     * Disabling a param involves setting the enable_id
->>>> +     * to 0 and disable_id to 1.
->>>> +     */
->>>> +    slpc_mem_set_param(data, disable_id, 1);
->>>> +    slpc_mem_set_param(data, enable_id, 0);
->>>> +}
->>>> +
->>>>    static int slpc_shared_data_init(struct intel_guc_slpc *slpc)
->>>>    {
->>>>        struct intel_guc *guc = slpc_to_guc(slpc);
->>>> @@ -63,6 +97,129 @@ static int slpc_shared_data_init(struct
->>>> intel_guc_slpc *slpc)
->>>>        return err;
->>>>    }
->>>>    +static u32 slpc_get_state(struct intel_guc_slpc *slpc)
->>>> +{
->>>> +    struct slpc_shared_data *data;
->>>> +
->>>> +    GEM_BUG_ON(!slpc->vma);
->>>> +
->>>> +    drm_clflush_virt_range(slpc->vaddr, sizeof(u32));
->>>> +    data = slpc->vaddr;
->>>> +
->>>> +    return data->header.global_state;
->>>> +}
->>>> +
->>>> +static bool slpc_is_running(struct intel_guc_slpc *slpc)
->>>> +{
->>>> +    return (slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING);
->>>
->>> extra ( ) not needed
->>
->> ok.
->>
->>>
->>>> +}
->>>> +
->>>> +static int guc_action_slpc_query(struct intel_guc *guc, u32 offset)
->>>> +{
->>>> +    u32 request[] = {
->>>> +        INTEL_GUC_ACTION_SLPC_REQUEST,
->>>> +         SLPC_EVENT(SLPC_EVENT_QUERY_TASK_STATE, 2),
->>>> +        offset,
->>>> +        0,
->>>> +    };
->>>> +    int ret;
->>>> +
->>>> +    ret = intel_guc_send(guc, request, ARRAY_SIZE(request));
->>>> +
->>>> +    return ret > 0 ? -EPROTO : ret;
->>>> +}
->>>> +
->>>> +static int slpc_query_task_state(struct intel_guc_slpc *slpc)
->>>> +{
->>>> +    struct intel_guc *guc = slpc_to_guc(slpc);
->>>> +    struct drm_i915_private *i915 = slpc_to_i915(slpc);
->>>> +    u32 shared_data_gtt_offset = intel_guc_ggtt_offset(guc, slpc->vma);
->>>
->>> just "offset" ? or maybe pass directly in call below ?
->>
->> ok.
->>
->>>
->>>> +    int ret;
->>>> +
->>>> +    ret = guc_action_slpc_query(guc, shared_data_gtt_offset);
->>>> +    if (ret)
->>>> +        drm_err(&i915->drm, "Query task state data returned (%pe)\n",
->>>
->>> "Failed to query task state (%pe)\n" ?
->>
->> ok.
->>>
->>>> +                ERR_PTR(ret));
->>>> +
->>>> +    drm_clflush_virt_range(slpc->vaddr, SLPC_PAGE_SIZE_BYTES);
->>>> +
->>>> +    return ret;
->>>> +}
->>>> +
->>>> +static const char *slpc_global_state_to_string(enum
->>>> slpc_global_state state)
->>>> +{
->>>> +    const char *str = NULL;
->>>> +
->>>> +    switch (state) {
->>>> +    case SLPC_GLOBAL_STATE_NOT_RUNNING:
->>>> +        str = "not running";
->>>> +        break;
->>>> +    case SLPC_GLOBAL_STATE_INITIALIZING:
->>>> +        str = "initializing";
->>>> +        break;
->>>> +    case SLPC_GLOBAL_STATE_RESETTING:
->>>> +        str = "resetting";
->>>> +        break;
->>>> +    case SLPC_GLOBAL_STATE_RUNNING:
->>>> +        str = "running";
->>>> +        break;
->>>> +    case SLPC_GLOBAL_STATE_SHUTTING_DOWN:
->>>> +        str = "shutting down";
->>>> +        break;
->>>> +    case SLPC_GLOBAL_STATE_ERROR:
->>>> +        str = "error";
->>>> +        break;
->>>> +    default:
->>>> +        str = "unknown";
->>>
->>> nit: you can do early returns to simplify the code
->> ok.
->>
->>>
->>>> +        break;
->>>> +    }
->>>> +
->>>> +    return str;
->>>> +}
->>>> +
->>>> +static const char *slpc_get_state_string(struct intel_guc_slpc *slpc)
->>>> +{
->>>> +    return slpc_global_state_to_string(slpc_get_state(slpc));
->>>> +}
->>>> +
->>>> +static int guc_action_slpc_reset(struct intel_guc *guc, u32 offset)
->>>> +{
->>>> +    u32 request[] = {
->>>> +        INTEL_GUC_ACTION_SLPC_REQUEST,
->>>> +        SLPC_EVENT(SLPC_EVENT_RESET, 2),
->>>> +        offset,
->>>> +        0,
->>>> +    };
->>>> +    int ret;
->>>> +
->>>> +    ret = intel_guc_send(guc, request, ARRAY_SIZE(request));
->>>> +
->>>> +    return ret > 0 ? -EPROTO : ret;
->>>> +}
->>>> +
->>>> +static int slpc_reset(struct intel_guc_slpc *slpc)
->>>> +{
->>>> +    struct drm_i915_private *i915 = slpc_to_i915(slpc);
->>>> +    struct intel_guc *guc = slpc_to_guc(slpc);
->>>> +    u32 offset = intel_guc_ggtt_offset(guc, slpc->vma);
->>>> +    int ret;
->>>> +
->>>> +    ret = guc_action_slpc_reset(guc, offset);
->>>> +
->>>> +    if (unlikely(ret < 0))
->>>> +        return ret;
->>>
->>> no SLPC error here ?
->>
->> added.
->>
->>>
->>>> +
->>>> +    if (!ret) {
->>>> +        if (wait_for(slpc_is_running(slpc), SLPC_RESET_TIMEOUT_MS)) {
->>>> +            drm_err(&i915->drm, "SLPC not enabled! State = %s\n",
->>>> +                  slpc_get_state_string(slpc));
->>>> +            return -EIO;
->>>> +        }
->>>> +    }
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>>    int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->>>>    {
->>>>        GEM_BUG_ON(slpc->vma);
->>>> @@ -70,6 +227,86 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->>>>        return slpc_shared_data_init(slpc);
->>>>    }
->>>>    +static u32 slpc_decode_min_freq(struct intel_guc_slpc *slpc)
->>>> +{
->>>> +    struct slpc_shared_data *data = slpc->vaddr;
->>>> +
->>>> +    GEM_BUG_ON(!slpc->vma);
->>>> +
->>>> +    return    DIV_ROUND_CLOSEST(
->>>> +        REG_FIELD_GET(SLPC_MIN_UNSLICE_FREQ_MASK,
->>>> +            data->task_state_data.freq) *
->>>> +        GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
->>>> +}
->>>> +
->>>> +static u32 slpc_decode_max_freq(struct intel_guc_slpc *slpc)
->>>> +{
->>>> +    struct slpc_shared_data *data = slpc->vaddr;
->>>> +
->>>> +    GEM_BUG_ON(!slpc->vma);
->>>> +
->>>> +    return    DIV_ROUND_CLOSEST(
->>>> +        REG_FIELD_GET(SLPC_MAX_UNSLICE_FREQ_MASK,
->>>> +            data->task_state_data.freq) *
->>>> +        GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
->>>> +}
->>>> +
->>>> +/*
->>>> + * intel_guc_slpc_enable() - Start SLPC
->>>> + * @slpc: pointer to intel_guc_slpc.
->>>> + *
->>>> + * SLPC is enabled by setting up the shared data structure and
->>>> + * sending reset event to GuC SLPC. Initial data is setup in
->>>> + * intel_guc_slpc_init. Here we send the reset event. We do
->>>> + * not currently need a slpc_disable since this is taken care
->>>> + * of automatically when a reset/suspend occurs and the GuC
->>>> + * CTB is destroyed.
->>>> + *
->>>> + * Return: 0 on success, non-zero error code on failure.
->>>> + */
->>>> +int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
->>>> +{
->>>> +    struct drm_i915_private *i915 = slpc_to_i915(slpc);
->>>> +    struct slpc_shared_data *data;
->>>> +    int ret;
->>>> +
->>>> +    GEM_BUG_ON(!slpc->vma);
->>>> +
->>>> +    memset(slpc->vaddr, 0, sizeof(struct slpc_shared_data));
->>>> +
->>>> +    data = slpc->vaddr;
->>>
->>> vaddr is "struct slpc_shared_data *"
->>> do you really need "data" local var?
->>>
->>>> +    data->header.size = sizeof(struct slpc_shared_data);
->>>> +
->>>> +    /* Enable only GTPERF task, disable others */
->>>> +    slpc_mem_set_enabled(data, SLPC_PARAM_TASK_ENABLE_GTPERF,
->>>> +                SLPC_PARAM_TASK_DISABLE_GTPERF);
->>>> +
->>>> +    slpc_mem_set_disabled(data, SLPC_PARAM_TASK_ENABLE_BALANCER,
->>>> +                SLPC_PARAM_TASK_DISABLE_BALANCER);
->>>> +
->>>> +    slpc_mem_set_disabled(data, SLPC_PARAM_TASK_ENABLE_DCC,
->>>> +                SLPC_PARAM_TASK_DISABLE_DCC);
->>>
->>> btw, all this "data" related calls are good candidate for helper like
->>>
->>> static void slpc_shared_data_reset(struct slpc_shared_data *data)
->>> { ... }
->>
->> ok.
->>
->>>
->>>> +
->>>> +    ret = slpc_reset(slpc);
->>>> +    if (unlikely(ret < 0)) {
->>>> +        drm_err(&i915->drm, "SLPC Reset event returned (%pe)\n",
->>>> +                ERR_PTR(ret));
->>>> +        return ret;
->>>> +    }
->>>> +
->>>> +    drm_info(&i915->drm, "GuC SLPC: enabled\n");
->>>> +
->>>> +    slpc_query_task_state(slpc);
->>>
->>> as this still may fail, maybe it should be before we claim success and
->>> "SLPC: enabled" ?
->>
->> ok. Added error check for this as well.
->>
->>>
->>>> +
->>>> +    /* min and max frequency limits being used by SLPC */
->>>> +    drm_info(&i915->drm, "SLPC min freq: %u Mhz, max is %u Mhz\n",
->>>> +            slpc_decode_min_freq(slpc),
->>>> +            slpc_decode_max_freq(slpc));
->>>> +
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>>    void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
->>>>    {
->>>>        if (!slpc->vma)
->>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
->>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
->>>> index edcf4c05bd9f..f14f81821a51 100644
->>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
->>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
->>>> @@ -6,6 +6,8 @@
->>>>    #ifndef _INTEL_GUC_SLPC_TYPES_H_
->>>>    #define _INTEL_GUC_SLPC_TYPES_H_
->>>>    +#define SLPC_RESET_TIMEOUT_MS 5
->>>> +
->>>>    struct intel_guc_slpc {
->>>>        struct i915_vma *vma;
->>>>        struct slpc_shared_data *vaddr;
->>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->>>> b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->>>> index e6bd9406c7b2..b98c14f8c229 100644
->>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->>>> @@ -506,6 +506,12 @@ static int __uc_init_hw(struct intel_uc *uc)
->>>>             "submission",
->>>>             enableddisabled(intel_uc_uses_guc_submission(uc)));
->>>>    +    if (intel_uc_uses_guc_slpc(uc)) {
->>>> +        ret = intel_guc_slpc_enable(&guc->slpc);
->>>> +        if (ret)
->>>> +            goto err_submission;
->>>
->>> hmm, as this may fail, above success message
->>>      "GuC submission enabled"
->>> will be void
->>>
->>> what you likely need is to split "slpc_enable" with error messages only
->>> that is called before we start reporting successes, and then
->>> "slpc_status" part with all drm_info() that could be placed here.
->>
->> Why? It is totally possible that GuC submission works just fine, but
->> SLPC enable fails. In this case, even though we printed "submission
->> enabled", we can still fail later with slpc errors.
-> 
-> hmm, in the code above there is "goto err_submission" if SLPC enabling
-> fails, and that will go to the "We've failed to load the firmware"
-> section below that disables GuC submission ... no ?
+ Makefile                                      |   1 -
+ arch/s390/lib/string.c                        |   3 +
+ arch/x86/boot/compressed/misc.c               |   3 +-
+ arch/x86/kvm/emulate.c                        |   3 +-
+ arch/x86/kvm/kvm_emulate.h                    |  19 +-
+ arch/x86/lib/memcpy_32.c                      |   1 +
+ arch/x86/lib/string_32.c                      |   1 +
+ drivers/block/drbd/drbd_main.c                |   3 +-
+ drivers/block/drbd/drbd_protocol.h            |   6 +-
+ drivers/block/drbd/drbd_receiver.c            |   3 +-
+ drivers/char/pcmcia/cm4000_cs.c               |   9 +-
+ drivers/gpu/drm/amd/include/atomfirmware.h    |   9 +-
+ .../drm/amd/pm/inc/smu11_driver_if_arcturus.h |   3 +-
+ .../drm/amd/pm/inc/smu11_driver_if_navi10.h   |   3 +-
+ .../amd/pm/inc/smu13_driver_if_aldebaran.h    |   3 +-
+ .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |   6 +-
+ .../gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c   |  12 +-
+ .../drm/amd/pm/swsmu/smu13/aldebaran_ppt.c    |   6 +-
+ drivers/gpu/drm/mga/mga_ioc32.c               |  30 +-
+ drivers/hid/hid-cp2112.c                      |  14 +-
+ drivers/hid/hid-roccat-kone.c                 |   2 +-
+ drivers/hid/hid-roccat-kone.h                 |  12 +-
+ drivers/hwtracing/intel_th/msu.c              |   4 +-
+ drivers/infiniband/hw/cxgb4/cm.c              |   5 +-
+ drivers/infiniband/hw/mlx5/mlx5_ib.h          |   4 +-
+ drivers/infiniband/hw/mthca/mthca_mr.c        |   3 +-
+ drivers/iommu/amd/init.c                      |   9 +-
+ drivers/macintosh/smu.c                       |   3 +-
+ drivers/md/dm-integrity.c                     |   9 +-
+ drivers/media/platform/omap3isp/ispstat.c     |   5 +-
+ .../net/ethernet/broadcom/bnx2x/bnx2x_stats.c |   7 +-
+ .../net/ethernet/broadcom/bnx2x/bnx2x_stats.h |  14 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.c |   4 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.h |  14 +-
+ drivers/net/ethernet/chelsio/cxgb3/sge.c      |   9 +-
+ drivers/net/ethernet/chelsio/cxgb4/sge.c      |   8 +-
+ drivers/net/ethernet/chelsio/cxgb4/t4_msg.h   |   2 +-
+ drivers/net/ethernet/chelsio/cxgb4/t4fw_api.h |  10 +-
+ drivers/net/ethernet/chelsio/cxgb4vf/sge.c    |   7 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |   4 +-
+ .../net/ethernet/mellanox/mlx5/core/en/xdp.c  |   4 +-
+ .../net/ethernet/mellanox/mlx5/core/en_tx.c   |   2 +-
+ drivers/net/ethernet/qlogic/qede/qede_main.c  |   2 +-
+ drivers/net/wireguard/queueing.h              |   4 +-
+ drivers/net/wireless/ath/ath11k/hal_rx.c      |  13 +-
+ drivers/net/wireless/ath/carl9170/tx.c        |   4 +-
+ drivers/net/wireless/intel/ipw2x00/libipw.h   |  12 +-
+ .../net/wireless/intel/ipw2x00/libipw_rx.c    |   8 +-
+ drivers/net/wireless/intel/iwlwifi/fw/file.h  |   2 +-
+ .../net/wireless/intel/iwlwifi/iwl-dbg-tlv.c  |   3 +-
+ .../net/wireless/intersil/hostap/hostap_hw.c  |   5 +-
+ .../wireless/intersil/hostap/hostap_wlan.h    |  14 +-
+ drivers/net/wireless/intersil/p54/txrx.c      |   4 +-
+ drivers/net/wireless/marvell/libertas/host.h  |  10 +-
+ drivers/net/wireless/marvell/libertas/tx.c    |   5 +-
+ .../marvell/libertas_tf/libertas_tf.h         |  10 +-
+ .../net/wireless/marvell/libertas_tf/main.c   |   3 +-
+ drivers/net/wireless/marvell/mwl8k.c          |  10 +-
+ drivers/rpmsg/qcom_glink_native.c             |   2 +-
+ drivers/scsi/ibmvscsi/ibmvscsi.c              |   2 +-
+ drivers/staging/rtl8192e/rtllib.h             |  20 +-
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c  |   3 +-
+ drivers/staging/rtl8192e/rtllib_rx.c          |   8 +-
+ .../staging/rtl8192u/ieee80211/ieee80211.h    |  24 +-
+ .../rtl8192u/ieee80211/ieee80211_crypt_ccmp.c |   3 +-
+ .../staging/rtl8192u/ieee80211/ieee80211_rx.c |   8 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |   2 +-
+ drivers/staging/rtl8723bs/core/rtw_security.c |   5 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |   5 +-
+ drivers/staging/wlan-ng/hfa384x.h             |  16 +-
+ drivers/staging/wlan-ng/hfa384x_usb.c         |   4 +-
+ .../intel/int340x_thermal/acpi_thermal_rel.c  |   5 +-
+ .../intel/int340x_thermal/acpi_thermal_rel.h  |  48 +--
+ fs/btrfs/root-tree.c                          |   5 +-
+ include/linux/compiler-gcc.h                  |   2 -
+ include/linux/compiler_types.h                |   4 -
+ include/linux/fortify-string.h                | 234 +++++++++++---
+ include/linux/ieee80211.h                     |   8 +-
+ include/linux/if_vlan.h                       |   6 +-
+ include/linux/skbuff.h                        |   9 +-
+ include/linux/stddef.h                        |  34 ++
+ include/linux/string.h                        |  26 +-
+ include/linux/thread_info.h                   |   2 +-
+ include/linux/trace_events.h                  |  26 +-
+ include/net/flow.h                            |   6 +-
+ include/net/ieee80211_radiotap.h              |  24 +-
+ include/net/ip6_fib.h                         |  30 +-
+ include/net/mac80211.h                        |   4 +-
+ include/net/netfilter/nf_conntrack.h          |  20 +-
+ include/uapi/drm/mga_drm.h                    |  37 ++-
+ include/uapi/linux/if_ether.h                 |  12 +-
+ include/uapi/linux/ip.h                       |  12 +-
+ include/uapi/linux/ipv6.h                     |  12 +-
+ include/uapi/linux/netlink.h                  |   1 +
+ include/uapi/linux/omap3isp.h                 |  44 ++-
+ kernel/trace/trace.c                          |   4 +-
+ lib/.gitignore                                |   2 +
+ lib/Kconfig.debug                             |   3 +
+ lib/Makefile                                  |  32 ++
+ lib/string.c                                  | 210 +------------
+ lib/string_helpers.c                          | 201 ++++++++++++
+ lib/test_fortify/read_overflow-memchr.c       |   5 +
+ lib/test_fortify/read_overflow-memchr_inv.c   |   5 +
+ lib/test_fortify/read_overflow-memcmp.c       |   5 +
+ lib/test_fortify/read_overflow-memscan.c      |   5 +
+ lib/test_fortify/read_overflow2-memcmp.c      |   5 +
+ lib/test_fortify/read_overflow2-memcpy.c      |   5 +
+ lib/test_fortify/read_overflow2-memmove.c     |   5 +
+ .../read_overflow2_field-memcpy.c             |   5 +
+ .../read_overflow2_field-memmove.c            |   5 +
+ lib/test_fortify/test_fortify.h               |  31 ++
+ lib/test_fortify/write_overflow-memcpy.c      |   5 +
+ lib/test_fortify/write_overflow-memmove.c     |   5 +
+ lib/test_fortify/write_overflow-memset.c      |   5 +
+ lib/test_fortify/write_overflow-strlcpy.c     |   5 +
+ lib/test_fortify/write_overflow-strncpy.c     |   5 +
+ lib/test_fortify/write_overflow-strscpy.c     |   5 +
+ .../write_overflow_field-memcpy.c             |   5 +
+ .../write_overflow_field-memmove.c            |   5 +
+ .../write_overflow_field-memset.c             |   5 +
+ lib/test_memcpy.c                             | 297 ++++++++++++++++++
+ net/802/hippi.c                               |   2 +-
+ net/core/flow_dissector.c                     |  10 +-
+ net/core/skbuff.c                             |  14 +-
+ net/dccp/trace.h                              |   4 +-
+ net/ethtool/stats.c                           |  15 +-
+ net/ipv4/ip_output.c                          |   6 +-
+ net/ipv6/route.c                              |   4 +-
+ net/mac80211/rx.c                             |   2 +-
+ net/netfilter/nf_conntrack_core.c             |   4 +-
+ net/netlink/af_netlink.c                      |   4 +-
+ net/wireless/lib80211_crypt_ccmp.c            |   3 +-
+ net/wireless/radiotap.c                       |   5 +-
+ net/xfrm/xfrm_policy.c                        |   4 +-
+ net/xfrm/xfrm_user.c                          |   2 +-
+ scripts/test_fortify.sh                       |  64 ++++
+ security/Kconfig                              |   3 +
+ 137 files changed, 1484 insertions(+), 633 deletions(-)
+ create mode 100644 lib/test_fortify/read_overflow-memchr.c
+ create mode 100644 lib/test_fortify/read_overflow-memchr_inv.c
+ create mode 100644 lib/test_fortify/read_overflow-memcmp.c
+ create mode 100644 lib/test_fortify/read_overflow-memscan.c
+ create mode 100644 lib/test_fortify/read_overflow2-memcmp.c
+ create mode 100644 lib/test_fortify/read_overflow2-memcpy.c
+ create mode 100644 lib/test_fortify/read_overflow2-memmove.c
+ create mode 100644 lib/test_fortify/read_overflow2_field-memcpy.c
+ create mode 100644 lib/test_fortify/read_overflow2_field-memmove.c
+ create mode 100644 lib/test_fortify/test_fortify.h
+ create mode 100644 lib/test_fortify/write_overflow-memcpy.c
+ create mode 100644 lib/test_fortify/write_overflow-memmove.c
+ create mode 100644 lib/test_fortify/write_overflow-memset.c
+ create mode 100644 lib/test_fortify/write_overflow-strlcpy.c
+ create mode 100644 lib/test_fortify/write_overflow-strncpy.c
+ create mode 100644 lib/test_fortify/write_overflow-strscpy.c
+ create mode 100644 lib/test_fortify/write_overflow_field-memcpy.c
+ create mode 100644 lib/test_fortify/write_overflow_field-memmove.c
+ create mode 100644 lib/test_fortify/write_overflow_field-memset.c
+ create mode 100644 lib/test_memcpy.c
+ create mode 100644 scripts/test_fortify.sh
 
-It's the same with loading and submission, right?
+-- 
+2.30.2
 
-Thanks,
-Vinay.
-
-> 
-> Michal
-> 
->>
->> Thanks,
->> Vinay.
->>>
->>> Michal
->>>
->>>> +    }
->>>> +
->>>>        if (intel_uc_uses_huc(uc)) {
->>>>            drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
->>>>                 intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_HUC),
->>>> @@ -520,6 +526,8 @@ static int __uc_init_hw(struct intel_uc *uc)
->>>>        /*
->>>>         * We've failed to load the firmware :(
->>>>         */
->>>> +err_submission:
->>>> +    intel_guc_submission_disable(guc);
->>>>    err_log_capture:
->>>>        __uc_capture_load_err_log(uc);
->>>>    err_out:
->>>>
