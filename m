@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55D93D7D81
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213A83D7D82
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8619C6EA96;
-	Tue, 27 Jul 2021 18:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A9AE6EA98;
+	Tue, 27 Jul 2021 18:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C43E96EA98;
- Tue, 27 Jul 2021 18:27:26 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 476E36EA98;
+ Tue, 27 Jul 2021 18:27:27 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 27EB11FF2F;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BD52C22237;
  Tue, 27 Jul 2021 18:27:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1627410445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VY1eVf0JDzWct/tiRFOtNxNsy3tmpDgcNEfX1HRRO+w=;
- b=BROxKxOwRcuGxrS4iQ84o5UF4g8cRFNlM9fDSuEkJ5RPqK+PPEXzob2F73fM/CTa+VC01j
- Q0RNMskEz4KH9hu91hLDCa3BqvvJjiL3S2lshCloMum1svQAT1saFbcw8cIzPupGrdDL8C
- v+xTxVuoCmDFS5wffxIkoFKISRm2YIU=
+ bh=RbBfL4mCTjt0RtM9rcPnqtOKzHPQr0ry5imZlRlAO48=;
+ b=xUJvzwt1aqVfdnP7e6n9jHDh5bJCuVbKL5suy5GWaHc4O7kMRwVxWJ5G3hB/ey8/so52i6
+ UbaYx7sGgxxAMTcsToqK5xpMqrUOpPZ39KM19xLG4TWSaa2S8+KbjEBl0Tfw4vtB8PkBQQ
+ uor/N0XCVw05ycpCaQvOhmLCad6K8c4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1627410445;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VY1eVf0JDzWct/tiRFOtNxNsy3tmpDgcNEfX1HRRO+w=;
- b=oLs8pOPpzDWinRXHxYqWOCFOwBJJl/mPT6iyKyyVXCH21g611H0AAKopVoT8Qryyjzb1yj
- jSmgd39oBAVzw0AA==
+ bh=RbBfL4mCTjt0RtM9rcPnqtOKzHPQr0ry5imZlRlAO48=;
+ b=vXERzI5KPDUe9Sf+lTt1cRBXWjh0B8kqdRJrL6TKmnyTTZwgL26Kh8X5mwg9sWKzHTcFno
+ 8HNKFkfUNNHgUJBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 95A3613E9D;
- Tue, 27 Jul 2021 18:27:24 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2CD4213B86;
+ Tue, 27 Jul 2021 18:27:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UJuCIwxQAGGwGQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:24 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0L35CQ1QAGGwGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:25 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
@@ -54,9 +54,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
  sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
  kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org
-Subject: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
-Date: Tue, 27 Jul 2021 20:27:10 +0200
-Message-Id: <20210727182721.17981-4-tzimmermann@suse.de>
+Subject: [PATCH 04/14] drm/fsl-dcu: Convert to Linux IRQ interfaces
+Date: Tue, 27 Jul 2021 20:27:11 +0200
+Message-Id: <20210727182721.17981-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210727182721.17981-1-tzimmermann@suse.de>
 References: <20210727182721.17981-1-tzimmermann@suse.de>
@@ -87,137 +87,150 @@ directly or inlined.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 85 ++++++++++++--------
- 1 file changed, 52 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 78 +++++++++++++----------
+ 1 file changed, 46 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index f09b6dd8754c..cfa8c2c9c8aa 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -22,7 +22,6 @@
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+index 7528e8a2d359..660fe573db96 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+@@ -23,7 +23,6 @@
+ #include <drm/drm_fb_cma_helper.h>
  #include <drm/drm_fb_helper.h>
  #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
 -#include <drm/drm_irq.h>
+ #include <drm/drm_modeset_helper.h>
  #include <drm/drm_probe_helper.h>
  #include <drm/drm_vblank.h>
+@@ -51,7 +50,7 @@ static const struct regmap_config fsl_dcu_regmap_config = {
+ 	.volatile_reg = fsl_dcu_drm_is_volatile_reg,
+ };
  
-@@ -557,6 +556,56 @@ static irqreturn_t atmel_hlcdc_dc_irq_handler(int irq, void *data)
- 	return IRQ_HANDLED;
+-static void fsl_dcu_irq_uninstall(struct drm_device *dev)
++static void fsl_dcu_irq_reset(struct drm_device *dev)
+ {
+ 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+ 
+@@ -59,6 +58,45 @@ static void fsl_dcu_irq_uninstall(struct drm_device *dev)
+ 	regmap_write(fsl_dev->regmap, DCU_INT_MASK, ~0);
  }
  
-+static void atmel_hlcdc_dc_irq_postinstall(struct drm_device *dev)
++static irqreturn_t fsl_dcu_drm_irq(int irq, void *arg)
 +{
-+	struct atmel_hlcdc_dc *dc = dev->dev_private;
-+	unsigned int cfg = 0;
-+	int i;
-+
-+	/* Enable interrupts on activated layers */
-+	for (i = 0; i < ATMEL_HLCDC_MAX_LAYERS; i++) {
-+		if (dc->layers[i])
-+			cfg |= ATMEL_HLCDC_LAYER_STATUS(i);
-+	}
-+
-+	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IER, cfg);
-+}
-+
-+static void atmel_hlcdc_dc_irq_disable(struct drm_device *dev)
-+{
-+	struct atmel_hlcdc_dc *dc = dev->dev_private;
-+	unsigned int isr;
-+
-+	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IDR, 0xffffffff);
-+	regmap_read(dc->hlcdc->regmap, ATMEL_HLCDC_ISR, &isr);
-+}
-+
-+static int atmel_hlcdc_dc_irq_install(struct drm_device *dev, unsigned int irq)
-+{
++	struct drm_device *dev = arg;
++	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
++	unsigned int int_status;
 +	int ret;
 +
++	ret = regmap_read(fsl_dev->regmap, DCU_INT_STATUS, &int_status);
++	if (ret) {
++		dev_err(dev->dev, "read DCU_INT_STATUS failed\n");
++		return IRQ_NONE;
++	}
++
++	if (int_status & DCU_INT_STATUS_VBLANK)
++		drm_handle_vblank(dev, 0);
++
++	regmap_write(fsl_dev->regmap, DCU_INT_STATUS, int_status);
++
++	return IRQ_HANDLED;
++}
++
++static int fsl_dcu_irq_install(struct drm_device *dev, unsigned int irq)
++{
 +	if (irq == IRQ_NOTCONNECTED)
 +		return -ENOTCONN;
 +
-+	atmel_hlcdc_dc_irq_disable(dev);
++	fsl_dcu_irq_reset(dev);
 +
-+	ret = request_irq(irq, atmel_hlcdc_dc_irq_handler, 0, dev->driver->name, dev);
-+	if (ret)
-+		return ret;
-+
-+	atmel_hlcdc_dc_irq_postinstall(dev);
-+
-+	return 0;
++	return request_irq(irq, fsl_dcu_drm_irq, 0, dev->driver->name, dev);
 +}
 +
-+static void atmel_hlcdc_dc_irq_uninstall(struct drm_device *dev)
++static void fsl_dcu_irq_uninstall(struct drm_device *dev)
 +{
-+	struct atmel_hlcdc_dc *dc = dev->dev_private;
++	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
 +
-+	atmel_hlcdc_dc_irq_disable(dev);
-+	free_irq(dc->hlcdc->irq, dev);
++	fsl_dcu_irq_reset(dev);
++	free_irq(fsl_dev->irq, dev);
 +}
 +
- static const struct drm_mode_config_funcs mode_config_funcs = {
- 	.fb_create = drm_gem_fb_create,
- 	.atomic_check = drm_atomic_helper_check,
-@@ -647,7 +696,7 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
- 	drm_mode_config_reset(dev);
+ static int fsl_dcu_load(struct drm_device *dev, unsigned long flags)
+ {
+ 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+@@ -73,13 +111,13 @@ static int fsl_dcu_load(struct drm_device *dev, unsigned long flags)
+ 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
+ 	if (ret < 0) {
+ 		dev_err(dev->dev, "failed to initialize vblank\n");
+-		goto done;
++		goto done_vblank;
+ 	}
  
- 	pm_runtime_get_sync(dev->dev);
--	ret = drm_irq_install(dev, dc->hlcdc->irq);
-+	ret = atmel_hlcdc_dc_irq_install(dev, dc->hlcdc->irq);
- 	pm_runtime_put_sync(dev->dev);
+-	ret = drm_irq_install(dev, fsl_dev->irq);
++	ret = fsl_dcu_irq_install(dev, fsl_dev->irq);
  	if (ret < 0) {
  		dev_err(dev->dev, "failed to install IRQ handler\n");
-@@ -676,7 +725,7 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
- 	drm_mode_config_cleanup(dev);
+-		goto done;
++		goto done_irq;
+ 	}
  
- 	pm_runtime_get_sync(dev->dev);
+ 	if (legacyfb_depth != 16 && legacyfb_depth != 24 &&
+@@ -90,11 +128,11 @@ static int fsl_dcu_load(struct drm_device *dev, unsigned long flags)
+ 	}
+ 
+ 	return 0;
+-done:
++done_irq:
+ 	drm_kms_helper_poll_fini(dev);
+ 
+ 	drm_mode_config_cleanup(dev);
 -	drm_irq_uninstall(dev);
-+	atmel_hlcdc_dc_irq_uninstall(dev);
- 	pm_runtime_put_sync(dev->dev);
++done_vblank:
+ 	dev->dev_private = NULL;
+ 
+ 	return ret;
+@@ -106,41 +144,17 @@ static void fsl_dcu_unload(struct drm_device *dev)
+ 	drm_kms_helper_poll_fini(dev);
+ 
+ 	drm_mode_config_cleanup(dev);
+-	drm_irq_uninstall(dev);
++	fsl_dcu_irq_uninstall(dev);
  
  	dev->dev_private = NULL;
-@@ -685,40 +734,10 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
- 	clk_disable_unprepare(dc->hlcdc->periph_clk);
  }
  
--static int atmel_hlcdc_dc_irq_postinstall(struct drm_device *dev)
+-static irqreturn_t fsl_dcu_drm_irq(int irq, void *arg)
 -{
--	struct atmel_hlcdc_dc *dc = dev->dev_private;
--	unsigned int cfg = 0;
--	int i;
+-	struct drm_device *dev = arg;
+-	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+-	unsigned int int_status;
+-	int ret;
 -
--	/* Enable interrupts on activated layers */
--	for (i = 0; i < ATMEL_HLCDC_MAX_LAYERS; i++) {
--		if (dc->layers[i])
--			cfg |= ATMEL_HLCDC_LAYER_STATUS(i);
+-	ret = regmap_read(fsl_dev->regmap, DCU_INT_STATUS, &int_status);
+-	if (ret) {
+-		dev_err(dev->dev, "read DCU_INT_STATUS failed\n");
+-		return IRQ_NONE;
 -	}
 -
--	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IER, cfg);
+-	if (int_status & DCU_INT_STATUS_VBLANK)
+-		drm_handle_vblank(dev, 0);
 -
--	return 0;
+-	regmap_write(fsl_dev->regmap, DCU_INT_STATUS, int_status);
+-
+-	return IRQ_HANDLED;
 -}
 -
--static void atmel_hlcdc_dc_irq_uninstall(struct drm_device *dev)
--{
--	struct atmel_hlcdc_dc *dc = dev->dev_private;
--	unsigned int isr;
--
--	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IDR, 0xffffffff);
--	regmap_read(dc->hlcdc->regmap, ATMEL_HLCDC_ISR, &isr);
--}
--
- DEFINE_DRM_GEM_CMA_FOPS(fops);
+ DEFINE_DRM_GEM_CMA_FOPS(fsl_dcu_drm_fops);
  
- static const struct drm_driver atmel_hlcdc_dc_driver = {
- 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	.irq_handler = atmel_hlcdc_dc_irq_handler,
--	.irq_preinstall = atmel_hlcdc_dc_irq_uninstall,
--	.irq_postinstall = atmel_hlcdc_dc_irq_postinstall,
--	.irq_uninstall = atmel_hlcdc_dc_irq_uninstall,
+ static const struct drm_driver fsl_dcu_drm_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+ 	.load			= fsl_dcu_load,
+ 	.unload			= fsl_dcu_unload,
+-	.irq_handler		= fsl_dcu_drm_irq,
+-	.irq_preinstall		= fsl_dcu_irq_uninstall,
+-	.irq_uninstall		= fsl_dcu_irq_uninstall,
  	DRM_GEM_CMA_DRIVER_OPS,
- 	.fops = &fops,
- 	.name = "atmel-hlcdc",
+ 	.fops			= &fsl_dcu_drm_fops,
+ 	.name			= "fsl-dcu-drm",
 -- 
 2.32.0
 
