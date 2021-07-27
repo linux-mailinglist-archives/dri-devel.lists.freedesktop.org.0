@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC5E3D7755
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 15:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2163D77B0
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 15:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F516E8DB;
-	Tue, 27 Jul 2021 13:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE92E6E986;
+	Tue, 27 Jul 2021 13:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 635156E8FA
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 13:47:38 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:b0a9:7e88:5ca4:551a])
- by baptiste.telenet-ops.be with bizsmtp
- id aDnb2500B1fSPfK01DnbQn; Tue, 27 Jul 2021 15:47:35 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1m8NQk-001Pc7-W3; Tue, 27 Jul 2021 15:47:34 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1m8NQk-00Fnhe-FW; Tue, 27 Jul 2021 15:47:34 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Sam Ravnborg <sam@ravnborg.org>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v2 5/5] video: fbdev: ssd1307fb: Cache address ranges
-Date: Tue, 27 Jul 2021 15:47:30 +0200
-Message-Id: <20210727134730.3765898-6-geert@linux-m68k.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210727134730.3765898-1-geert@linux-m68k.org>
-References: <20210727134730.3765898-1-geert@linux-m68k.org>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC516E986;
+ Tue, 27 Jul 2021 13:59:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="298024042"
+X-IronPort-AV: E=Sophos;i="5.84,273,1620716400"; d="scan'208";a="298024042"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 06:59:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,273,1620716400"; d="scan'208";a="417420497"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga003.jf.intel.com with ESMTP; 27 Jul 2021 06:59:26 -0700
+Received: from [10.249.141.251] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.141.251])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 16RDxP1K013539; Tue, 27 Jul 2021 14:59:25 +0100
+Subject: Re: [PATCH 04/15] drm/i915/guc/slpc: Adding SLPC communication
+ interfaces
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210726190800.26762-1-vinay.belgaumkar@intel.com>
+ <20210726190800.26762-5-vinay.belgaumkar@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <8a9a279f-9f30-647a-8650-4c3f961e50b6@intel.com>
+Date: Tue, 27 Jul 2021 15:59:25 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
+In-Reply-To: <20210726190800.26762-5-vinay.belgaumkar@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,90 +53,345 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cache the column and page ranges, to avoid doing unneeded I2C transfers
-when the values haven't changed.
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
----
-v2:
-  - Add Acked-by,
-  - Rebase.
----
- drivers/video/fbdev/ssd1307fb.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-index 9aed5ee0094f2d95..1e2f71c2f8a8bc78 100644
---- a/drivers/video/fbdev/ssd1307fb.c
-+++ b/drivers/video/fbdev/ssd1307fb.c
-@@ -82,6 +82,11 @@ struct ssd1307fb_par {
- 	struct regulator *vbat_reg;
- 	u32 vcomh;
- 	u32 width;
-+	/* Cached address ranges */
-+	u8 col_start;
-+	u8 col_end;
-+	u8 page_start;
-+	u8 page_end;
- };
- 
- struct ssd1307fb_array {
-@@ -158,6 +163,9 @@ static int ssd1307fb_set_col_range(struct ssd1307fb_par *par, u8 col_start,
- 	u8 col_end = col_start + cols - 1;
- 	int ret;
- 
-+	if (col_start == par->col_start && col_end == par->col_end)
-+		return 0;
-+
- 	ret = ssd1307fb_write_cmd(par->client, SSD1307FB_SET_COL_RANGE);
- 	if (ret < 0)
- 		return ret;
-@@ -166,7 +174,13 @@ static int ssd1307fb_set_col_range(struct ssd1307fb_par *par, u8 col_start,
- 	if (ret < 0)
- 		return ret;
- 
--	return ssd1307fb_write_cmd(par->client, col_end);
-+	ret = ssd1307fb_write_cmd(par->client, col_end);
-+	if (ret < 0)
-+		return ret;
-+
-+	par->col_start = col_start;
-+	par->col_end = col_end;
-+	return 0;
- }
- 
- static int ssd1307fb_set_page_range(struct ssd1307fb_par *par, u8 page_start,
-@@ -175,6 +189,9 @@ static int ssd1307fb_set_page_range(struct ssd1307fb_par *par, u8 page_start,
- 	u8 page_end = page_start + pages - 1;
- 	int ret;
- 
-+	if (page_start == par->page_start && page_end == par->page_end)
-+		return 0;
-+
- 	ret = ssd1307fb_write_cmd(par->client, SSD1307FB_SET_PAGE_RANGE);
- 	if (ret < 0)
- 		return ret;
-@@ -183,7 +200,13 @@ static int ssd1307fb_set_page_range(struct ssd1307fb_par *par, u8 page_start,
- 	if (ret < 0)
- 		return ret;
- 
--	return ssd1307fb_write_cmd(par->client, page_end);
-+	ret = ssd1307fb_write_cmd(par->client, page_end);
-+	if (ret < 0)
-+		return ret;
-+
-+	par->page_start = page_start;
-+	par->page_end = page_end;
-+	return 0;
- }
- 
- static int ssd1307fb_update_rect(struct ssd1307fb_par *par, unsigned int x,
--- 
-2.25.1
+On 26.07.2021 21:07, Vinay Belgaumkar wrote:
+> Add constants and params that are needed to configure SLPC.
+> 
+> v2: Add a new abi header for SLPC. Replace bitfields with
+> genmasks. Address other comments from Michal W.
+> 
+> v3: Add slpc H2G format in abi, other review commments (Michal W)
+> 
+> v4: Update status bits according to latest spec
+> 
+> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+> ---
+>  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 -
+>  .../drm/i915/gt/uc/abi/guc_actions_slpc_abi.h | 235 ++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   3 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   7 +
+>  4 files changed, 245 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> index d832c8f11c11..ca538e5de940 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+> @@ -135,7 +135,6 @@ enum intel_guc_action {
+>  	INTEL_GUC_ACTION_SET_CONTEXT_PREEMPTION_TIMEOUT = 0x1007,
+>  	INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
+>  	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
+> -	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
+>  	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
+>  	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
+>  	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+> new file mode 100644
+> index 000000000000..70b300d4a536
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+> @@ -0,0 +1,235 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2021 Intel Corporation
+> + */
+> +
+> +#ifndef _GUC_ACTIONS_SLPC_ABI_H_
+> +#define _GUC_ACTIONS_SLPC_ABI_H_
+> +
+> +#include <linux/types.h>
+> +
+> +/**
+> + * DOC: SLPC SHARED DATA STRUCTURE
+> + *
+> + *  +----+------+--------------------------------------------------------------+
+> + *  | CL | Bytes| Description                                                  |
+> + *  +====+======+==============================================================+
+> + *  | 1  | 0-3  | SHARED DATA SIZE                                             |
+> + *  |    +------+--------------------------------------------------------------+
+> + *  |    | 4-7  | GLOBAL STATE                                                 |
+> + *  |    +------+--------------------------------------------------------------+
+> + *  |    | 8-11 | DISPLAY DATA ADDRESS                                         |
+> + *  |    +------+--------------------------------------------------------------+
+> + *  |    | 12:63| PADDING                                                      |
+> + *  +----+------+--------------------------------------------------------------+
+> + *  |    | 0:63 | PADDING(PLATFORM INFO)                                       |
+> + *  +----+------+--------------------------------------------------------------+
+> + *  | 3  | 0-3  | TASK STATE DATA                                              |
+> + *  +    +------+--------------------------------------------------------------+
+> + *  |    | 4:63 | PADDING                                                      |
+> + *  +----+------+--------------------------------------------------------------+
+> + *  |4-21|0:1087| OVERRIDE PARAMS AND BIT FIELDS                               |
+> + *  +----+------+--------------------------------------------------------------+
+> + *  |    |      | PADDING + EXTRA RESERVED PAGE                                |
+> + *  +----+------+--------------------------------------------------------------+
+> + */
+> +
+> +/*
+> + * SLPC exposes certain parameters for global configuration by the host.
+> + * These are referred to as override parameters, because in most cases
+> + * the host will not need to modify the default values used by SLPC.
+> + * SLPC remembers the default values which allows the host to easily restore
+> + * them by simply unsetting the override. The host can set or unset override
+> + * parameters during SLPC (re-)initialization using the SLPC Reset event.
+> + * The host can also set or unset override parameters on the fly using the
+> + * Parameter Set and Parameter Unset events
+> + */
+> +
+> +#define SLPC_MAX_OVERRIDE_PARAMETERS		256
+> +#define SLPC_OVERRIDE_BITFIELD_SIZE \
+> +		(SLPC_MAX_OVERRIDE_PARAMETERS / 32)
+> +
+> +#define SLPC_PAGE_SIZE_BYTES			4096
+> +#define SLPC_CACHELINE_SIZE_BYTES		64
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_HEADER	SLPC_CACHELINE_SIZE_BYTES
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO	SLPC_CACHELINE_SIZE_BYTES
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE	SLPC_CACHELINE_SIZE_BYTES
+> +#define SLPC_SHARED_DATA_MODE_DEFN_TABLE_SIZE	SLPC_PAGE_SIZE_BYTES
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_MAX		(2 * SLPC_PAGE_SIZE_BYTES)
+> +
+> +/*
+> + * Cacheline size aligned (Total size needed for
+> + * SLPM_KMD_MAX_OVERRIDE_PARAMETERS=256 is 1088 bytes)
+> + */
+> +#define SLPC_OVERRIDE_PARAMS_TOTAL_BYTES	(((((SLPC_MAX_OVERRIDE_PARAMETERS * 4) \
+> +						+ ((SLPC_MAX_OVERRIDE_PARAMETERS / 32) * 4)) \
+> +		+ (SLPC_CACHELINE_SIZE_BYTES-1)) / SLPC_CACHELINE_SIZE_BYTES)*SLPC_CACHELINE_SIZE_BYTES)
+> +
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_OTHER	(SLPC_SHARED_DATA_SIZE_BYTE_MAX - \
+> +					(SLPC_SHARED_DATA_SIZE_BYTE_HEADER \
+> +					+ SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO \
+> +					+ SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE \
+> +					+ SLPC_OVERRIDE_PARAMS_TOTAL_BYTES \
+> +					+ SLPC_SHARED_DATA_MODE_DEFN_TABLE_SIZE))
+> +
+> +enum slpc_task_enable {
+> +	SLPC_PARAM_TASK_DEFAULT = 0,
+> +	SLPC_PARAM_TASK_ENABLED,
+> +	SLPC_PARAM_TASK_DISABLED,
+> +	SLPC_PARAM_TASK_UNKNOWN
+> +};
+> +
+> +enum slpc_global_state {
+> +	SLPC_GLOBAL_STATE_NOT_RUNNING = 0,
+> +	SLPC_GLOBAL_STATE_INITIALIZING = 1,
+> +	SLPC_GLOBAL_STATE_RESETTING = 2,
+> +	SLPC_GLOBAL_STATE_RUNNING = 3,
+> +	SLPC_GLOBAL_STATE_SHUTTING_DOWN = 4,
+> +	SLPC_GLOBAL_STATE_ERROR = 5
+> +};
+> +
+> +enum slpc_param_id {
+> +	SLPC_PARAM_TASK_ENABLE_GTPERF = 0,
+> +	SLPC_PARAM_TASK_DISABLE_GTPERF = 1,
+> +	SLPC_PARAM_TASK_ENABLE_BALANCER = 2,
+> +	SLPC_PARAM_TASK_DISABLE_BALANCER = 3,
+> +	SLPC_PARAM_TASK_ENABLE_DCC = 4,
+> +	SLPC_PARAM_TASK_DISABLE_DCC = 5,
+> +	SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ = 6,
+> +	SLPC_PARAM_GLOBAL_MAX_GT_UNSLICE_FREQ_MHZ = 7,
+> +	SLPC_PARAM_GLOBAL_MIN_GT_SLICE_FREQ_MHZ = 8,
+> +	SLPC_PARAM_GLOBAL_MAX_GT_SLICE_FREQ_MHZ = 9,
+> +	SLPC_PARAM_GTPERF_THRESHOLD_MAX_FPS = 10,
+> +	SLPC_PARAM_GLOBAL_DISABLE_GT_FREQ_MANAGEMENT = 11,
+> +	SLPC_PARAM_GTPERF_ENABLE_FRAMERATE_STALLING = 12,
+> +	SLPC_PARAM_GLOBAL_DISABLE_RC6_MODE_CHANGE = 13,
+> +	SLPC_PARAM_GLOBAL_OC_UNSLICE_FREQ_MHZ = 14,
+> +	SLPC_PARAM_GLOBAL_OC_SLICE_FREQ_MHZ = 15,
+> +	SLPC_PARAM_GLOBAL_ENABLE_IA_GT_BALANCING = 16,
+> +	SLPC_PARAM_GLOBAL_ENABLE_ADAPTIVE_BURST_TURBO = 17,
+> +	SLPC_PARAM_GLOBAL_ENABLE_EVAL_MODE = 18,
+> +	SLPC_PARAM_GLOBAL_ENABLE_BALANCER_IN_NON_GAMING_MODE = 19,
+> +	SLPC_PARAM_GLOBAL_RT_MODE_TURBO_FREQ_DELTA_MHZ = 20,
+> +	SLPC_PARAM_PWRGATE_RC_MODE = 21,
+> +	SLPC_PARAM_EDR_MODE_COMPUTE_TIMEOUT_MS = 22,
+> +	SLPC_PARAM_EDR_QOS_FREQ_MHZ = 23,
+> +	SLPC_PARAM_MEDIA_FF_RATIO_MODE = 24,
+> +	SLPC_PARAM_ENABLE_IA_FREQ_LIMITING = 25,
+> +	SLPC_PARAM_STRATEGIES = 26,
+> +	SLPC_PARAM_POWER_PROFILE = 27,
+> +	SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY = 28,
+> +	SLPC_MAX_PARAM = 32,
+> +};
+> +
+> +enum slpc_event_id {
+> +	SLPC_EVENT_RESET = 0,
+> +	SLPC_EVENT_SHUTDOWN = 1,
+> +	SLPC_EVENT_PLATFORM_INFO_CHANGE = 2,
+> +	SLPC_EVENT_DISPLAY_MODE_CHANGE = 3,
+> +	SLPC_EVENT_FLIP_COMPLETE = 4,
+> +	SLPC_EVENT_QUERY_TASK_STATE = 5,
+> +	SLPC_EVENT_PARAMETER_SET = 6,
+> +	SLPC_EVENT_PARAMETER_UNSET = 7,
+> +};
+> +
+> +struct slpc_task_state_data {
+> +	union {
+> +		u32 task_status_padding;
+> +		struct {
+> +			u32 status;
+> +#define SLPC_GTPERF_TASK_ENABLED	BIT(0)
+> +#define SLPC_DCC_TASK_ENABLED		BIT(11)
+> +#define SLPC_IN_DCC			BIT(12)
+> +#define SLPC_BALANCER_ENABLED		BIT(15)
+> +#define SLPC_IBC_TASK_ENABLED		BIT(16)
+> +#define SLPC_BALANCER_IA_LMT_ENABLED	BIT(17)
+> +#define SLPC_BALANCER_IA_LMT_ACTIVE	BIT(18)
 
+as you are using REG_GENMASK below then you should be consistent and use
+REG_BIT here and include "i915_reg.h" where both are defined, but then
+it's no longer pure ABI header, but not a blocker
+
+> +		};
+> +	};
+> +	union {
+> +		u32 freq_padding;
+> +		struct {
+> +#define SLPC_MAX_UNSLICE_FREQ_MASK	REG_GENMASK(7, 0)
+> +#define SLPC_MIN_UNSLICE_FREQ_MASK	REG_GENMASK(15, 8)
+> +#define SLPC_MAX_SLICE_FREQ_MASK	REG_GENMASK(23, 16)
+> +#define SLPC_MIN_SLICE_FREQ_MASK	REG_GENMASK(31, 24)
+> +			u32 freq;
+> +		};
+> +	};
+> +} __packed;
+> +
+> +struct slpc_shared_data_header {
+> +	/* Total size in bytes of this shared buffer. */
+> +	u32 size;
+> +	u32 global_state;
+> +	u32 display_data_addr;
+> +} __packed;
+> +
+> +struct slpc_override_params {
+> +	u32 bits[SLPC_OVERRIDE_BITFIELD_SIZE];
+> +	u32 values[SLPC_MAX_OVERRIDE_PARAMETERS];
+> +} __packed;
+> +
+> +struct slpc_shared_data {
+> +	struct slpc_shared_data_header header;
+> +	u8 shared_data_header_pad[SLPC_SHARED_DATA_SIZE_BYTE_HEADER -
+> +				sizeof(struct slpc_shared_data_header)];
+> +
+> +	u8 platform_info_pad[SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO];
+> +
+> +	struct slpc_task_state_data task_state_data;
+> +	u8 task_state_data_pad[SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE -
+> +				sizeof(struct slpc_task_state_data)];
+> +
+> +	struct slpc_override_params override_params ;
+> +	u8 override_params_pad[SLPC_OVERRIDE_PARAMS_TOTAL_BYTES -
+> +				sizeof(struct slpc_override_params)];
+> +
+> +	u8 shared_data_pad[SLPC_SHARED_DATA_SIZE_BYTE_OTHER];
+> +
+> +	/* PAGE 2 (4096 bytes), mode based parameter will be removed soon */
+> +	u8 reserved_mode_definition[4096];
+> +} __packed;
+> +
+> +/**
+> + * DOC: SLPC H2G MESSAGE FORMAT
+> + *
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |   | Bits  | Description                                                  |
+> + *  +===+=======+==============================================================+
+> + *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_HOST_                                |
+> + *  |   +-------+--------------------------------------------------------------+
+> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
+> + *  |   +-------+--------------------------------------------------------------+
+> + *  |   | 27:16 | DATA0 = MBZ                                                  |
+> + *  |   +-------+--------------------------------------------------------------+
+> + *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_PC_SLPM_REQUEST` = 0x3003     |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  | 1 |  31:8 | **EVENT_ID**                                                 |
+> + *  +   +-------+--------------------------------------------------------------+
+> + *  |   |   7:0 | **EVENT_ARGC** - number of data arguments                    |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  | 2 |  31:0 | **EVENT_DATA1**                                              |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |...|  31:0 | ...                                                          |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |2+n|  31:0 | **EVENT_DATAn**                                              |
+> + *  +---+-------+--------------------------------------------------------------+
+> + */
+> +
+> +#define INTEL_GUC_ACTION_SLPC_REQUEST			0x3003
+
+likely you want to use
+	GUC_ACTION_HOST2GUC_PC_SLPM_REQUEST
+
+> +
+> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_MIN_LEN \
+> +				(GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
+> +#define HOST2GUC_PC_SLPC_EVENT_MAX_INPUT_ARGS		9
+> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_MAX_LEN \
+> +		(HOST2GUC_PC_SLPC_REQUEST_REQUEST_MSG_MIN_LEN + \
+> +			HOST2GUC_PC_SLPC_EVENT_MAX_INPUT_ARGS)
+> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_0_MBZ		GUC_HXG_REQUEST_MSG_0_DATA0
+> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ID		(0xff << 8)
+> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ARGC	(0xff << 0)
+> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_n_EVENT_DATAn	GUC_HXG_REQUEST_MSG_n_DATAn
+> +
+> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN \
+> +			(GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
+
+this one does not belong here
+
+other LGTM,
+
+Michal
+
+> +#endif
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index 39bc3c16057b..5b0f8c541b69 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -208,6 +208,9 @@ static u32 guc_ctl_feature_flags(struct intel_guc *guc)
+>  	if (!intel_guc_submission_is_used(guc))
+>  		flags |= GUC_CTL_DISABLE_SCHEDULER;
+>  
+> +	if (intel_guc_slpc_is_used(guc))
+> +		flags |= GUC_CTL_ENABLE_SLPC;
+> +
+>  	return flags;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> index 82534259b7ad..6ec331b903a8 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> @@ -12,6 +12,7 @@
+>  #include "gt/intel_engine_types.h"
+>  
+>  #include "abi/guc_actions_abi.h"
+> +#include "abi/guc_actions_slpc_abi.h"
+>  #include "abi/guc_errors_abi.h"
+>  #include "abi/guc_communication_mmio_abi.h"
+>  #include "abi/guc_communication_ctb_abi.h"
+> @@ -95,6 +96,7 @@
+>  #define GUC_CTL_WA			1
+>  #define GUC_CTL_FEATURE			2
+>  #define   GUC_CTL_DISABLE_SCHEDULER	(1 << 14)
+> +#define   GUC_CTL_ENABLE_SLPC		BIT(2)
+>  
+>  #define GUC_CTL_DEBUG			3
+>  #define   GUC_LOG_VERBOSITY_SHIFT	0
+> @@ -141,6 +143,11 @@
+>  #define GUC_ID_TO_ENGINE_INSTANCE(guc_id) \
+>  	(((guc_id) & GUC_ENGINE_INSTANCE_MASK) >> GUC_ENGINE_INSTANCE_SHIFT)
+>  
+> +#define SLPC_EVENT(id,c) (\
+> +FIELD_PREP(HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ID, id) | \
+> +FIELD_PREP(HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ARGC, c ) \
+> +)
+> +
+>  static inline u8 engine_class_to_guc_class(u8 class)
+>  {
+>  	BUILD_BUG_ON(GUC_RENDER_CLASS != RENDER_CLASS);
+> 
