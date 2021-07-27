@@ -1,70 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839AC3D80A4
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:07:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0313D807E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCBE16EA7B;
-	Tue, 27 Jul 2021 21:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 008BB6E827;
+	Tue, 27 Jul 2021 21:06:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1F96EA80
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:07:01 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id a20so88613plm.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C50816E170
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:06:51 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id j1so1815274pjv.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MXKHRxMVkVHDhZ+T8UiWjZTM6Vum4iJmblaVt4bfwFs=;
- b=QpC9SEfvlX7NSN3JfA2BC35zgCfrRNM89W+45O2qaetJB35LhamFXcVq9sw1mHkTeW
- /rqrtm+yHWSsc0IMWxYyPILgag6o+lXtAWSh9S38wjvoh0M06iGGbo4ZAdR2u94jE/Bx
- ERMjdPmbTbLpNm0w77EfMtJW7fsMMDFF057oc=
+ bh=ix+5YCGgtf4ASFZ4v/FG8sEQnqankYDKBfCTYQuGyCQ=;
+ b=bnW6f5ZW6PRNMZTriXsLXCjk+oTRJuSSLMLz4NTDsbeQQuOz8avWkiTWuVD5pzhNMg
+ iYCqb4IKkBB7T/0UQWl/ua4svjdGwPBZ+rR0OQm74+vwXdPpiJrnKVlZXTKACJK+Udlc
+ zOJKY2stD38NmwWjsipdZ/+lTjPzW1nI+JqKk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MXKHRxMVkVHDhZ+T8UiWjZTM6Vum4iJmblaVt4bfwFs=;
- b=NVx1w8E4h1kNAe3aJrv4jY+zq5Q6nd3g04EZKh6ymbtJ/fENx7GMdhNDiR+/Z1Val9
- ULcOhC2DWA6PogMnyNNYAAt4gHKmdH8rCs8fUzz7aPiVwXgLoYdWU8xHbcuKRxshLlrd
- EzyIPFJmXPxgnMifvJnwFBwi6afmsLyrJ7QhS/D55pAzPpfguhKpqCF9h0mxYkx+Vw0f
- ZfVvekO/B47oBpJiRvQMAkcdjchLbJx9p3ZprbHOYk+Y5sbGxDSviIKmBHhznOyQfK2s
- 3zQd44LUMeCnjt7RxHjq8+tZxuQYs3pcbS8u1lVwnAPYdwL13zer814i4iFlyZMdcfoj
- RXQg==
-X-Gm-Message-State: AOAM530kzoZCiwwiHg0PmXKisV3RMUyB+scF+5ouC5Mox4w2akEhAmiL
- TyCtCRxYLLPqXEv26O4BJqDVPw==
-X-Google-Smtp-Source: ABdhPJyuaoJo7hoFf8hTjNgbyLAts3NdgvoF/5uezLGJPhXywqIjaeGrS9UFbajj1vPPHXYDl+4KUQ==
-X-Received: by 2002:a05:6a00:1582:b029:332:67bf:c196 with SMTP id
- u2-20020a056a001582b029033267bfc196mr25270650pfk.52.1627420021064; 
- Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
+ bh=ix+5YCGgtf4ASFZ4v/FG8sEQnqankYDKBfCTYQuGyCQ=;
+ b=EZLBY/gNHy9U56+w5Y5IZulae956gJgJ3ze/kzbI1tSIn7fz3rT3wHTa8xlOZtJAaf
+ nXnMZuz3mgkjUZlzffIhEEDffPTPQ4j/0qPuOn0PS7hVUSANUpSQuTNooZO93jrVt/rE
+ 3gUmGOi5tQfknpNI1iUg61dsUCOooAZidiYT6XoGllycLu8qkZxjYnLO+3/P6RtcvIi6
+ 0Bwo66cAsSeAmhmPbDIhxjBSCh30WpZhWqXmhCf7ovhG2UJ3LeClD9dmqBLw92GJV932
+ YdP62MYYp1f24R1USZeap9m9BMhqLTlcytpDc2Slv4cyZu25b+GIBPhbnv16lXtNnZ31
+ GEmw==
+X-Gm-Message-State: AOAM533lVMRrRR8m/L2dGobEdnvvbOf521L2ug/1Bwmp0NW3fPYig1O4
+ xI3c/PBzUmRMqBvbQ5pGd9HTLw==
+X-Google-Smtp-Source: ABdhPJwjggurGSKfII6BwItVhzcFMZ6EXwHYvl5td/Q0hyu7n7FMd1AYamrRsA+/bObA3M9juNtcYg==
+X-Received: by 2002:a63:ee11:: with SMTP id e17mr25530642pgi.323.1627420011461; 
+ Tue, 27 Jul 2021 14:06:51 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id h9sm3809707pjk.56.2021.07.27.14.06.54
+ by smtp.gmail.com with ESMTPSA id d67sm4856651pfd.81.2021.07.27.14.06.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
+ Tue, 27 Jul 2021 14:06:50 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 39/64] mac80211: Use memset_after() to clear tx status
-Date: Tue, 27 Jul 2021 13:58:30 -0700
-Message-Id: <20210727205855.411487-40-keescook@chromium.org>
+Subject: [PATCH 40/64] net: 802: Use memset_after() to clear struct fields
+Date: Tue, 27 Jul 2021 13:58:31 -0700
+Message-Id: <20210727205855.411487-41-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2852; h=from:subject;
- bh=zkH2Je2qGKqyQkSiaJEoBpiopw/INo+50iT5U6QcyXI=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOJovWFhW+3LgOdJB6YTmyNLx9mPkMh18BW/VNJ
- BOSsU16JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziQAKCRCJcvTf3G3AJj8qD/
- 9f25pzpuHDI7d5bSyGKts0iDOiz738IV/yhdknEcL4rC+JiQ/OTrFsGvAMK4zbyT6SQdRvwS0HsQtW
- FYEY3eOTO0eTLsnAGwNaxw3v5PWM7YYyFygBYMhIhpCgVOighF6YCT2xPnQ7LTyYdpD6L907wxXQ8j
- oXJcLb9fiEh1t6mn0/dicUHKyTwKkM3fIt2Gx4jCa1Ahv5gyWFd8/4Lv2Yd8KCGn/qxkTG1noBJf5C
- 2f2h93mKKljmD+CJrJzh/ZYUKpdAY63NSAR4QmZHT60LwkIYj0Fml9G4YK2meArKeNsA1MmJjOiSI6
- VkDc7dPKwda9+aKjazu66ex6TqkUbOA0oaukDd2Rq6affQhlkFzRMDK6xCOTPFSye9KgRo0AGn0Klz
- ni+fmXKvOFIQYweU5qyOYDeL9tYUxQqUBJ6xchOdLgNXFSn5zy34UvmTQoqrVdOTKt+ImUcuGG23jI
- EEF20MHn/CZclwSMToQj+7lt9iWIQlJAvkfgdTS5zOajot+7oVFGJNYCGUneXC6jvsB+pZPMryc6uu
- HiwAJXVMsA04PW1mZDRt3xVTJJXADFBiu1CYcDhtJQH//Kmpo9Ydh7kPS4mFHHztPd+qOEZ0St7xxf
- dvAPnwZQNjibJgICAOUq6/ISKZEK5Qq848MAz7EEKrmQeFoCi4Q4SxSehYJw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1002; h=from:subject;
+ bh=W7mlz4eEFjlHgTTisxMegB0ZhUGQYb0aFf/Mmy3UOio=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOJorvZuoNL45b35HsPI1mAinyEnA8ZX78L8pdJ
+ 8EQ0wWuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziQAKCRCJcvTf3G3AJi3aD/
+ 9pKVrL7GGdaVZl4FyfYev6TME/fJq+q9IgkVKQ6QCoKY5T/n8lqb9wXu0sEDlYK/V1GqgYIyOt/r7B
+ kfASageiRvyRg6nT+2AFkSJGPmwhPkUx2C0pnq6h2eqXzqar9s8LCEi8fZCrBkXObTwmGt5Elv2lL9
+ u3iRYv/VfrwevBjfH2MskR4OJDtdPLapzgjtDpmesjJgIuFqbLVbP0StJ/6qcp3046MFgobYGk5guX
+ yTH4PNsJHtyrgdozwjttdVzeuhBt2WzgJQ1eaObNsLLLG37mPRxwCItRBkCwVkgMqOjQ4hE4IYAhXt
+ A46hMy1iM0tpGB/EfZqHobJSxHkdDF8gcTzETtHJpWWBZYyLUvM2XIQ/jR1mne6xOpVdLMQUFxCFnn
+ mY2w5SBcpciTvwuit/vfLui8lZtt29yIVecQbgt9pRHcNcLDYVr8lSjPmpO/H/Ey43fgftvpDaUE1K
+ kZYNcM8o3ZI3ko0BO+gOPvhnYi1Hhu7xktOgZx9M3VFKye7+Rx5Hna1V2YsePjXkMGHbDlKaxCDbwc
+ Es30R4/sgZcQr1pAtYhRgMIV9sd0TuiSf3pQyy3q5FvtNiOSMBvVO2cVjj+RDAqI4SNkvoAH2zrvou
+ WNPNye5apRTKo4NrCQk68ENprSWgvKWfzUOE9H92IsOJCSP1oSa6QuA89TCQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -98,64 +97,24 @@ Use memset_after() so memset() doesn't get confused about writing
 beyond the destination member that is intended to be the starting point
 of zeroing through the end of the struct.
 
-Note that the common helper, ieee80211_tx_info_clear_status(), does NOT
-clear ack_signal, but the open-coded versions do. All three perform
-checks that the ack_signal position hasn't changed, though.
-
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
-Should these each be clearing the same region? Because they're currently not.
----
- drivers/net/wireless/ath/carl9170/tx.c   | 4 +---
- drivers/net/wireless/intersil/p54/txrx.c | 4 +---
- include/net/mac80211.h                   | 4 +---
- 3 files changed, 3 insertions(+), 9 deletions(-)
+ net/802/hippi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireless/ath/carl9170/tx.c b/drivers/net/wireless/ath/carl9170/tx.c
-index 88444fe6d1c6..6d2115639434 100644
---- a/drivers/net/wireless/ath/carl9170/tx.c
-+++ b/drivers/net/wireless/ath/carl9170/tx.c
-@@ -278,9 +278,7 @@ static void carl9170_tx_release(struct kref *ref)
- 	BUILD_BUG_ON(
- 	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
+diff --git a/net/802/hippi.c b/net/802/hippi.c
+index f80b33a8f7e0..00f6666b4b16 100644
+--- a/net/802/hippi.c
++++ b/net/802/hippi.c
+@@ -65,7 +65,7 @@ static int hippi_header(struct sk_buff *skb, struct net_device *dev,
+ 	hip->le.src_addr_type	= 2;	/* 12 bit SC address */
  
--	memset(&txinfo->status.ack_signal, 0,
--	       sizeof(struct ieee80211_tx_info) -
--	       offsetof(struct ieee80211_tx_info, status.ack_signal));
-+	memset_after(&txinfo->status, 0, rates);
+ 	memcpy(hip->le.src_switch_addr, dev->dev_addr + 3, 3);
+-	memset(&hip->le.reserved, 0, 16);
++	memset_after(&hip->le, 0, src_switch_addr);
  
- 	if (atomic_read(&ar->tx_total_queued))
- 		ar->tx_schedule = true;
-diff --git a/drivers/net/wireless/intersil/p54/txrx.c b/drivers/net/wireless/intersil/p54/txrx.c
-index 873fea59894f..f71b355f8583 100644
---- a/drivers/net/wireless/intersil/p54/txrx.c
-+++ b/drivers/net/wireless/intersil/p54/txrx.c
-@@ -431,9 +431,7 @@ static void p54_rx_frame_sent(struct p54_common *priv, struct sk_buff *skb)
- 	 * Clear manually, ieee80211_tx_info_clear_status would
- 	 * clear the counts too and we need them.
- 	 */
--	memset(&info->status.ack_signal, 0,
--	       sizeof(struct ieee80211_tx_info) -
--	       offsetof(struct ieee80211_tx_info, status.ack_signal));
-+	memset_after(&info->status, 0, rates);
- 	BUILD_BUG_ON(offsetof(struct ieee80211_tx_info,
- 			      status.ack_signal) != 20);
- 
-diff --git a/include/net/mac80211.h b/include/net/mac80211.h
-index d8a1d09a2141..7abc1427aa8c 100644
---- a/include/net/mac80211.h
-+++ b/include/net/mac80211.h
-@@ -1200,9 +1200,7 @@ ieee80211_tx_info_clear_status(struct ieee80211_tx_info *info)
- 
- 	BUILD_BUG_ON(
- 	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
--	memset(&info->status.ampdu_ack_len, 0,
--	       sizeof(struct ieee80211_tx_info) -
--	       offsetof(struct ieee80211_tx_info, status.ampdu_ack_len));
-+	memset_after(&info->status, 0, ack_signal);
- }
- 
- 
+ 	hip->snap.dsap		= HIPPI_EXTENDED_SAP;
+ 	hip->snap.ssap		= HIPPI_EXTENDED_SAP;
 -- 
 2.30.2
 
