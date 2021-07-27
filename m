@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B68A3D80A7
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67C93D809F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:07:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF476EA90;
-	Tue, 27 Jul 2021 21:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1BBF6EA57;
+	Tue, 27 Jul 2021 21:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17DE06EA64
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:07:03 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id e21so28807pla.5
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:07:03 -0700 (PDT)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59EFF6EA09
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:06:54 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id k1so17570219plt.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fCr6M9WVbBxoz5xSZDTLYQZUaixoNhvM1z4ft4/JiWU=;
- b=CkfvuUYgjXUdgM1i87D/akGLRkQBlDepGvReTODAXjxv3JZLUxpr2SeqRCtggSb1NQ
- 0eO++6VjfUhMdNdLL9RotuOnb/CQ5ydWv+gSz7/hzqH6ipBx2LTuhN83Pi+6+jPneDFl
- 4XWuDGX42ek2Bg7lAzXWOFRnumRXJltjgh5Ik=
+ bh=O5PVCm4vbOkHTdhySLNgX8cYsmk07det2tWYYr+tRf4=;
+ b=gxKAidxHtXkH57cdgTrBRW+Iu6kBJm2gLTc/ZhTreM4nUhVINAm9hnCEsll5JLIeuv
+ GXDrZXo19JKoLdUCWqYws3d6+nRR58XFL0Nk9+2Zzh54A6uGcEngTnaAEe4kkqqnI2fB
+ ruSx/lD+GWJQolLfAMVF9OQXx6F28ZgkVPYx0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fCr6M9WVbBxoz5xSZDTLYQZUaixoNhvM1z4ft4/JiWU=;
- b=kpm0+ImY0s5E73XVVWAvdg+xwI3hW7c7o0UVy2DvqDVhyd6XPuI8GwrtrsIDgnlEZy
- Rl72z4Hur6YXJTFGVUasX7Xt9l5mbI4AWsOa61llUCVU0VoORPtSWl4fGyGa78lLRykp
- aKGtrmlo4gY9Fpr8V4Uf21JY0nK+KPKrt6Vpa/XNx0VsEi3NnZXB7BLYlFRhSREHCPQE
- ERQ/uPyEfNS0zc3RXJw9mI+KpdoqsxOygqNK0/bEm2pLNEEk0fRdOgFkIX55gKpxeVnJ
- 5mouNrSQ7HV6WNBYKS+2xvdNQgj2fWPpdfKQi+gHX8NVrWsDmyHapy7isgUWAs+oHllh
- BeUw==
-X-Gm-Message-State: AOAM533fWUvilCvBYK3VikWBB+28tR2t0BQeVquQ64CWC+v85oxJZdjA
- Nk3QPgBG373Os7Q0MKin0dPv7A==
-X-Google-Smtp-Source: ABdhPJxSxBiTE9j5dpguWlnBff2W6XOxanMIjLBz3KD/2jrAfNakkqqBYOlfrkNXGZusO3mgNbH5WQ==
-X-Received: by 2002:a17:902:b711:b029:11e:6480:258a with SMTP id
- d17-20020a170902b711b029011e6480258amr20741066pls.41.1627420022747; 
- Tue, 27 Jul 2021 14:07:02 -0700 (PDT)
+ bh=O5PVCm4vbOkHTdhySLNgX8cYsmk07det2tWYYr+tRf4=;
+ b=qboZdGjUYyAMdoCherFdaDAPvQgq/CJDuR/F6N8uMmEQ0y+wpPdN7war1FZaR/gGAg
+ 2aqNBR0CqM4BZHjpfTfvQvfFq5ETB6kusy/YFErsaFk52NhO9zp05ATm3W9cWcIL2+0r
+ 5U3AN+nKsmaJxorWFfIRtCHNp8CMOq/780S0/i59SOL2EqMhL0PCWwgNED0eKxTPPiO1
+ UyM2QN76RqEFTqoXk8Zr9c//atEZLNJVPgrUFCRIJP7Pd5Zeri0/gqnA2KTTseY1eXXm
+ jHlyC1BvzOv6tCk2oRLEmfkhbJuW2w43fyYSDAKndKPVgaNnaAeUYJSO2OCpGYScFKWv
+ iqfQ==
+X-Gm-Message-State: AOAM533HpqxGXAFsUdvHrpkXmqlKsESgKYqvhak1OGeP9oSYzbn/nxWg
+ nggj3oYM0I5Y6MGb5FaEetc9wQ==
+X-Google-Smtp-Source: ABdhPJzlXy/VcX23c9PQ65+XqlmSvwlYyjvPZKBc9QGkV1GFAs820b6KtM3ET4HtRC/ZSXPL17y+Jg==
+X-Received: by 2002:a17:90a:c003:: with SMTP id
+ p3mr23960881pjt.14.1627420014073; 
+ Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id i24sm3255991pfr.207.2021.07.27.14.06.55
+ by smtp.gmail.com with ESMTPSA id q14sm4721670pfn.73.2021.07.27.14.06.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
+ Tue, 27 Jul 2021 14:06:50 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 54/64] ipv6: Use struct_group() to zero rt6_info
-Date: Tue, 27 Jul 2021 13:58:45 -0700
-Message-Id: <20210727205855.411487-55-keescook@chromium.org>
+Subject: [PATCH 55/64] RDMA/mlx5: Use struct_group() to zero struct mlx5_ib_mr
+Date: Tue, 27 Jul 2021 13:58:46 -0700
+Message-Id: <20210727205855.411487-56-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2014; h=from:subject;
- bh=9FxEXENVJNuB45fHUbaxMj4hb424u+KXBOvcDXadQUU=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOMr1s7rjBnwnV0YvEmCppP2KjiI7qwbNhC0tnR
- LR54sH2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJvB1D/
- 9HyBVTCMQFZVnce4Q7z9RSSZaLEhmwSMwOLxk45KjDsJAOP3HcDjbkcb2t+AmQxHosaQzMYzJBsPLM
- fI6MGo8d7iglJul2X+wgatbPcEehYNvmi9N2hSNViixrkSMFXRYD9gNgZxmurHn3poTaQBFJeH/CMt
- i0K0Mf9xJLh09ZTUaBEMkeBp92msj4wB0UzT2YgQVbRBg/2h2H9tSdBS7ou3xC8W1K4gsOB+p8y9Z9
- E6xK8yOM9010RaqlQJ7Xwiw/qBjEzM4v6/BvFKOfF7nbprnDsEcm1n3uqkj3PJ0XdUXpvHAc5ObsoB
- KO/0wpq+dvC4caLYvsafIZqOaz3hLgcDlRNbqQtK2sC08guGWc1MHoTfZoyOpPcsvKpv6Ez1ugjb2i
- pyJ0WkxY6xI4NtO334xyOlpSXADvHv+yqhiucaHger+9V1z3cVGZWQJMnpNFHTjqetSkyOaPhGCfT6
- eygtBdkni37ipeLcPOAVtXgZH4iuKxdilblIEAG1YqFqpciOhCgtYiCt3itR4hpyhJp61nLn2XSysU
- lMIbYdUyBQlmwsWY79F0ezh83tePY6wggdyAujypUrGKiYTgTpH817kU7KBH2AB7YhuYQevj9FEHhD
- B/H1yY45d73/j38Hw4+briFVcL4khdU1nni0efnXIAMBNb0nJPEsOcf21O/g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1274; h=from:subject;
+ bh=oY909dEANo6V3IFn0noc67FV5hBK8uceU7oGCjc7zOw=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOMh317iG5OLcRV6f6KOkZ9q+C2N36hwkRl8LQQ
+ C7eGawSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJg4UD/
+ 9BnzAT1Z7CsW+TRX8tpO/bHWsp1ALKoQrreRJNLcuwaofCAjFi8BnU29qFDffCG8DWqAC3Pmtj4p39
+ RskVkYUAy5axxifQzhefjhk7tLjvkw2mmeV+0QGdeg2rbLL5Dpmmav2A7WaFsWyg7W74/0ud+a6Hbc
+ M4RLDpYX0mM68jox12+Syr653lTWFNFS86gcN1Q975/PUD2xYk3dY3H3s2zF7i9XFyEP2N2G5zErPl
+ ED8ZrAbuSSNxMO5rke2YVbiw/FbKveB5UCkCgtjoT7lSW9mZYdr144xmSl8iaDmr3LYdfAxQG6WpF1
+ N2W+2K9FRkZT0VZd9PdKAMbV3Ofm9qyfYEnpmGGs0y4uhKJtYKpv60s7YXeG+eQtwR/bCFvecfShz5
+ rvqvYF46IrMS8jbLeJHjqvjyd1hw+zCAJKd2c4R2LPUZ7WDVjRNGtq82PEZ2Tr725JvJTSLKrGx8YA
+ tWmn4rCBBSu/PqTl3206VAZLiP+HeqZxC26TE27C7IcR67ONOX3U06CdJRm2X3VkQMJVPvT0OYPmRr
+ DH5V/sNlfiZe0r9fNcKAYsCQaHKXs6D2jYAWqxqm2msNETdd60wrVAfUL77zKIV9hqqj6sRIXPhZ8R
+ +len0ulP7Zp0NQRxZYGLikaPmhWeDXiQR88kCVUq6p0rdBPBuFSFYAGLjJSQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -94,71 +94,41 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Add struct_group() to mark region of struct rt6_info that should be
+Add struct_group() to mark region of struct mlx5_ib_mr that should be
 initialized to zero.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/net/ip6_fib.h | 30 ++++++++++++++++--------------
- net/ipv6/route.c      |  4 +---
- 2 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/net/ip6_fib.h b/include/net/ip6_fib.h
-index 15b7fbe6b15c..9816e7444918 100644
---- a/include/net/ip6_fib.h
-+++ b/include/net/ip6_fib.h
-@@ -205,20 +205,22 @@ struct fib6_info {
+diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+index 585fb00bdce8..830066e95260 100644
+--- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
++++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+@@ -644,6 +644,7 @@ struct mlx5_ib_mr {
+ 	struct ib_umem *umem;
  
- struct rt6_info {
- 	struct dst_entry		dst;
--	struct fib6_info __rcu		*from;
--	int				sernum;
--
--	struct rt6key			rt6i_dst;
--	struct rt6key			rt6i_src;
--	struct in6_addr			rt6i_gateway;
--	struct inet6_dev		*rt6i_idev;
--	u32				rt6i_flags;
--
--	struct list_head		rt6i_uncached;
--	struct uncached_list		*rt6i_uncached_list;
--
--	/* more non-fragment space at head required */
--	unsigned short			rt6i_nfheader_len;
-+	struct_group(init,
-+		struct fib6_info __rcu		*from;
-+		int				sernum;
-+
-+		struct rt6key			rt6i_dst;
-+		struct rt6key			rt6i_src;
-+		struct in6_addr			rt6i_gateway;
-+		struct inet6_dev		*rt6i_idev;
-+		u32				rt6i_flags;
-+
-+		struct list_head		rt6i_uncached;
-+		struct uncached_list		*rt6i_uncached_list;
-+
-+		/* more non-fragment space at head required */
-+		unsigned short			rt6i_nfheader_len;
+ 	/* This is zero'd when the MR is allocated */
++	struct_group(cleared,
+ 	union {
+ 		/* Used only while the MR is in the cache */
+ 		struct {
+@@ -691,12 +692,13 @@ struct mlx5_ib_mr {
+ 			bool is_odp_implicit;
+ 		};
+ 	};
 +	);
  };
  
- struct fib6_result {
-diff --git a/net/ipv6/route.c b/net/ipv6/route.c
-index 6b8051106aba..bbcc605bab57 100644
---- a/net/ipv6/route.c
-+++ b/net/ipv6/route.c
-@@ -327,9 +327,7 @@ static const struct rt6_info ip6_blk_hole_entry_template = {
- 
- static void rt6_info_init(struct rt6_info *rt)
+ /* Zero the fields in the mr that are variant depending on usage */
+ static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
  {
--	struct dst_entry *dst = &rt->dst;
--
--	memset(dst + 1, 0, sizeof(*rt) - sizeof(*dst));
-+	memset(&rt->init, 0, sizeof(rt->init));
- 	INIT_LIST_HEAD(&rt->rt6i_uncached);
+-	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
++	memset(&mr->cleared, 0, sizeof(mr->cleared));
  }
  
+ static inline bool is_odp_mr(struct mlx5_ib_mr *mr)
 -- 
 2.30.2
 
