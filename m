@@ -2,58 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B243D7BD4
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 19:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D669C3D7C39
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 19:35:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6E36EB6B;
-	Tue, 27 Jul 2021 17:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EABE56E9EA;
+	Tue, 27 Jul 2021 17:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC5216EC3B;
- Tue, 27 Jul 2021 17:08:14 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id l19so254652pjz.0;
- Tue, 27 Jul 2021 10:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BVHgu7P3jLeGAr6c6jiQnBbjUeZUVb7sIei9a5S3h4I=;
- b=WlJF/vK63/XIsVPFZZbU8flmm44UA1jL314rnLW262EpDVoPB9cTQj6Z4RfXNNLhDh
- UfKVkUV/CYv+zSH/zFfA27/zxJu3yw5NSqyUZXoe5QMLRuA0ZHe18NHtxElNv0DnxPNO
- N2vPh0m0Br9AyEGzjZdMs6oZU6Dq5zPdnK2iONG0uy/89OmDWbzQUv11xpjddkqIa67C
- C07pXdBgccE246MVnZJGqbLi6t7lpMZWTg9bwBl3Et58UqCrPbv67UILbNN/iMxPfmDX
- IkhqJgV/qkoOPElbFvC/qJLQm2FLSpyZK8TQ0fKmrV6j1gDm37k9e3G4i3ekQCHIvTYS
- rM7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BVHgu7P3jLeGAr6c6jiQnBbjUeZUVb7sIei9a5S3h4I=;
- b=gKyR4zaiTAX5rTJ/MCe0Av5+18pXhfvodTACjFKanuBON+jJUGSnOpvD9IHwB3cGWV
- jcX5dYVsTyVF3k3/5E042myBzQa+EnEwSR7WEx0qtCbkT7Mq5T6elWJsrw+PObqMidPI
- YX1uUBexQ2a2+DMZ1sgUK8xzFDKr5V99EKk2qlN+8XBatAzVJqrTr7Jg97NAiGKz3uS8
- 3bSbsqg4WJAdqzJ7ipb8u6+cOOG8Ia2kW4x+xDJ0mKPaN8RGA08+auMKcQ5vvsYlFXZa
- 4WDJ+clckwnTazXYuIIhdICVik9t4v/E9/vZ3d7dyCMF5RcHN6DGjtQbgzkrdlfn80T1
- UT2A==
-X-Gm-Message-State: AOAM533TQc0jR+B9R+HC9QMylPuDV/Lez0SUlrYnjh9ioAcPj8ynutu4
- o3jnR8lxEDrnOP2S1zjyJePSE76CQVzhNw==
-X-Google-Smtp-Source: ABdhPJwgh/neo2jmD1LpwIXqSJvOglGqEJmFMXn3xH8aasrwoX8uvjwSl79+t+wVSv7dm/Tr37MTng==
-X-Received: by 2002:a17:90b:203:: with SMTP id
- fy3mr1447375pjb.115.1627405693767; 
- Tue, 27 Jul 2021 10:08:13 -0700 (PDT)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id bj15sm3483420pjb.6.2021.07.27.10.08.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 10:08:12 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 13/13] drm/msm/gem: Mark active before pinning
-Date: Tue, 27 Jul 2021 10:11:29 -0700
-Message-Id: <20210727171143.2549475-14-robdclark@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210727171143.2549475-1-robdclark@gmail.com>
-References: <20210727171143.2549475-1-robdclark@gmail.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 136F16E5A5;
+ Tue, 27 Jul 2021 17:35:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="209383254"
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="209383254"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 10:35:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="456193105"
+Received: from bnilawar-ubuntu.iind.intel.com ([10.145.162.129])
+ by orsmga007.jf.intel.com with ESMTP; 27 Jul 2021 10:35:11 -0700
+From: badal.nilawar@intel.com
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/1] drm/i915: dgfx cards need to wait on pcode's uncore init
+ done
+Date: Tue, 27 Jul 2021 23:03:38 +0530
+Message-Id: <20210727173338.901264-1-badal.nilawar@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,129 +43,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Cc: jon.ewins@intel.com, Badal Nilawar <badal.nilawar@intel.com>,
+ rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Badal Nilawar <badal.nilawar@intel.com>
 
-Mark all the bos in the submit as active, before pinning, to prevent
-evicting a buffer in the same submit to make room for a buffer earlier
-in the table.
+In discrete cards, the graphics driver shouldn't proceed with the probe
+or resume unless PCODE indicated everything is done, including memory
+training and gt bring up.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+For this reason, the driver probe and resume paths needs to be blocked
+until PCODE indicates it is done. Also, it needs to aborted if the
+notification never arrives.
+
+In general, the few miliseconds would be enough and the regular PCODE
+recommendation for the timeout was 10 seconds. However there are some
+rare cases where this initialization can take up to 1 minute. So,
+PCODE has increased the recommendation to 3 minutes so we don't fully
+block the device utilization when something just got delayed for
+whatever reason. To be on the safest side, let's accept this
+recommendation, since on the regular case it won't delay or block the
+driver initialization and resume flows
+
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 ---
- drivers/gpu/drm/msm/msm_gem.c        |  2 --
- drivers/gpu/drm/msm/msm_gem_submit.c | 28 ++++++++++++++++++++--------
- 2 files changed, 20 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/i915/i915_drv.c       |  8 +++++++-
+ drivers/gpu/drm/i915/intel_sideband.c | 13 +++++++++----
+ drivers/gpu/drm/i915/intel_sideband.h |  2 +-
+ 3 files changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index af199ef53d2f..15b1804fa64e 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -131,7 +131,6 @@ static struct page **get_pages(struct drm_gem_object *obj)
- 		if (msm_obj->flags & (MSM_BO_WC|MSM_BO_UNCACHED))
- 			sync_for_device(msm_obj);
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index c43b698bf0b97..59fb4c710c8ca 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -620,7 +620,9 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
  
--		GEM_WARN_ON(msm_obj->active_count);
- 		update_inactive(msm_obj);
- 	}
+ 	intel_opregion_setup(dev_priv);
  
-@@ -815,7 +814,6 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
- 	GEM_WARN_ON(!msm_gem_is_locked(obj));
- 	GEM_WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
- 	GEM_WARN_ON(msm_obj->dontneed);
--	GEM_WARN_ON(!msm_obj->sgt);
+-	intel_pcode_init(dev_priv);
++	ret = intel_pcode_init(dev_priv);
++	if (ret)
++		goto err_msi;
  
- 	if (msm_obj->active_count++ == 0) {
- 		mutex_lock(&priv->mm_lock);
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index c2ecec5b11c4..fc25a85eb1ca 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -24,7 +24,8 @@
- /* make sure these don't conflict w/ MSM_SUBMIT_BO_x */
- #define BO_VALID    0x8000   /* is current addr in cmdstream correct/valid? */
- #define BO_LOCKED   0x4000   /* obj lock is held */
--#define BO_PINNED   0x2000   /* obj is pinned and on active list */
-+#define BO_ACTIVE   0x2000   /* active refcnt is held */
-+#define BO_PINNED   0x1000   /* obj is pinned and on active list */
+ 	/*
+ 	 * Fill the dram structure to get the system dram info. This will be
+@@ -1231,6 +1233,10 @@ static int i915_drm_resume(struct drm_device *dev)
  
- static struct msm_gem_submit *submit_create(struct drm_device *dev,
- 		struct msm_gpu *gpu,
-@@ -239,10 +240,11 @@ static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
- 	struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 	unsigned flags = submit->bos[i].flags & cleanup_flags;
+ 	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
  
--	if (flags & BO_PINNED) {
-+	if (flags & BO_PINNED)
- 		msm_gem_unpin_iova_locked(obj, submit->aspace);
++	ret = intel_pcode_init(dev_priv);
++	if (ret)
++		return ret;
 +
-+	if (flags & BO_ACTIVE)
- 		msm_gem_active_put(obj);
--	}
+ 	sanitize_gpu(dev_priv);
  
- 	if (flags & BO_LOCKED)
- 		dma_resv_unlock(obj->resv);
-@@ -252,7 +254,7 @@ static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
+ 	ret = i915_ggtt_enable_hw(dev_priv);
+diff --git a/drivers/gpu/drm/i915/intel_sideband.c b/drivers/gpu/drm/i915/intel_sideband.c
+index f0a82b37bd1ac..e304bf44e1ff8 100644
+--- a/drivers/gpu/drm/i915/intel_sideband.c
++++ b/drivers/gpu/drm/i915/intel_sideband.c
+@@ -556,17 +556,22 @@ int skl_pcode_request(struct drm_i915_private *i915, u32 mbox, u32 request,
+ #undef COND
+ }
  
- static void submit_unlock_unpin_bo(struct msm_gem_submit *submit, int i)
+-void intel_pcode_init(struct drm_i915_private *i915)
++int intel_pcode_init(struct drm_i915_private *i915)
  {
--	submit_cleanup_bo(submit, i, BO_PINNED | BO_LOCKED);
-+	submit_cleanup_bo(submit, i, BO_PINNED | BO_ACTIVE | BO_LOCKED);
+-	int ret;
++	int ret = 0;
  
- 	if (!(submit->bos[i].flags & BO_VALID))
- 		submit->bos[i].iova = 0;
-@@ -356,6 +358,18 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
+ 	if (!IS_DGFX(i915))
+-		return;
++		return ret;
  
- 	submit->valid = true;
- 
-+	/*
-+	 * Increment active_count first, so if under memory pressure, we
-+	 * don't inadvertently evict a bo needed by the submit in order
-+	 * to pin an earlier bo in the same submit.
-+	 */
-+	for (i = 0; i < submit->nr_bos; i++) {
-+		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+ 	ret = skl_pcode_request(i915, DG1_PCODE_STATUS,
+ 				DG1_UNCORE_GET_INIT_STATUS,
+ 				DG1_UNCORE_INIT_STATUS_COMPLETE,
+-				DG1_UNCORE_INIT_STATUS_COMPLETE, 50);
++				DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
 +
-+		msm_gem_active_get(obj, submit->gpu);
-+		submit->bos[i].flags |= BO_ACTIVE;
-+	}
++	drm_dbg(&i915->drm, "PCODE init status %d\n", ret);
 +
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 		uint64_t iova;
-@@ -367,8 +381,6 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
- 		if (ret)
- 			break;
+ 	if (ret)
+ 		drm_err(&i915->drm, "Pcode did not report uncore initialization completion!\n");
++
++	return ret;
+ }
+diff --git a/drivers/gpu/drm/i915/intel_sideband.h b/drivers/gpu/drm/i915/intel_sideband.h
+index 094c7b19c5d42..d1d14bcb8f56e 100644
+--- a/drivers/gpu/drm/i915/intel_sideband.h
++++ b/drivers/gpu/drm/i915/intel_sideband.h
+@@ -138,6 +138,6 @@ int sandybridge_pcode_write_timeout(struct drm_i915_private *i915, u32 mbox,
+ int skl_pcode_request(struct drm_i915_private *i915, u32 mbox, u32 request,
+ 		      u32 reply_mask, u32 reply, int timeout_base_ms);
  
--		msm_gem_active_get(obj, submit->gpu);
--
- 		submit->bos[i].flags |= BO_PINNED;
+-void intel_pcode_init(struct drm_i915_private *i915);
++int intel_pcode_init(struct drm_i915_private *i915);
  
- 		if (iova == submit->bos[i].iova) {
-@@ -502,7 +514,7 @@ static void submit_cleanup(struct msm_gem_submit *submit, bool error)
- 	unsigned i;
- 
- 	if (error)
--		cleanup_flags |= BO_PINNED;
-+		cleanup_flags |= BO_PINNED | BO_ACTIVE;
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
-@@ -520,7 +532,7 @@ void msm_submit_retire(struct msm_gem_submit *submit)
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 
- 		msm_gem_lock(obj);
--		submit_cleanup_bo(submit, i, BO_PINNED);
-+		submit_cleanup_bo(submit, i, BO_PINNED | BO_ACTIVE);
- 		msm_gem_unlock(obj);
- 		drm_gem_object_put(obj);
- 	}
+ #endif /* _INTEL_SIDEBAND_H */
 -- 
-2.31.1
+2.25.1
 
