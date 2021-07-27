@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406933D79D8
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 17:33:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3B53D79DA
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 17:33:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1E046E04B;
-	Tue, 27 Jul 2021 15:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BF06E938;
+	Tue, 27 Jul 2021 15:33:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79BD16E04B;
- Tue, 27 Jul 2021 15:32:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="234336965"
-X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="234336965"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 08:32:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="474634264"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga008.fm.intel.com with ESMTP; 27 Jul 2021 08:32:57 -0700
-Received: from [10.249.141.251] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.141.251])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 16RFWuZT010699; Tue, 27 Jul 2021 16:32:56 +0100
-Subject: Re: [Intel-gfx] [PATCH 09/15] drm/i915/guc/slpc: Add get max/min freq
- hooks
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210726190800.26762-1-vinay.belgaumkar@intel.com>
- <20210726190800.26762-10-vinay.belgaumkar@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <83adc062-f5b9-5272-d99a-fa870a85328c@intel.com>
-Date: Tue, 27 Jul 2021 17:32:55 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
+ [IPv6:2607:f8b0:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4207A6E938
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 15:33:04 +0000 (UTC)
+Received: by mail-il1-x12c.google.com with SMTP id q18so12400390ile.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 08:33:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2XSUgUmh1XmhyeIYFwsZM0972t6Q/ERgdKcfAvWCsXo=;
+ b=WoBVP+ShhYBW3XIRtEoFeKDAxYRg7LAooItgUc/qCO5rbpT8S1SGveANY6QZow8HVV
+ 1+hIz1ESdPIESI7nrWboMNbTJ5mQMsx82jvKEW9JV8YQll6kJkdxKFKzVgHskt4HiTj0
+ Ge3yAY65ZpFqupTShyti2NRxkrPatOLXsbYy4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2XSUgUmh1XmhyeIYFwsZM0972t6Q/ERgdKcfAvWCsXo=;
+ b=aIUo2YwQCUqcYQs6lEveOJZYV2jPUlM51qSVNSO3/p7PHpMJwDbI4wCn2ogZQfivEj
+ TT3UGSHWSN6CNEk+ESol/xh8BnivCzbSnr7uSkXMgO1xglpIiNgW1tr+F1GfIhuPV7z7
+ 0ZEJaTWrTHg+fYsNGqMafbnbH/aYVNnldLOurx5Q5RTRJ/BqdTkAqBp7AI5vmim0Yn8W
+ SuqRZIojhnRqeCLA+TEaRB31u7DzObPB07hU+iChQ6BEdll/eL5s54ttwGsBNhIzjELZ
+ L5u+Jk2n+qqy8zHPBPxb3oze3XQ0VNCIHSL/hjIDQkxWZ/LRhJmy1t/tnbKQWvFFDhJz
+ PSrQ==
+X-Gm-Message-State: AOAM531D8AdAUQnfPA61iT/gpbERsxvuhut2qrAggqtOYy1WdBdCIdPi
+ v1v28XV5Msuesdhre4kNVwabkw4zE6zvPEYSrqzhrA==
+X-Google-Smtp-Source: ABdhPJyp0rjZXaaLN68ns6YbN2+CaZ3yGgUttI6artx6AYKOdKEPRd2tdFT3EnbvCIWSuwrhGLn45TPUXvRSHT8R1Gk=
+X-Received: by 2002:a92:6f0a:: with SMTP id k10mr16658190ilc.105.1627399983576; 
+ Tue, 27 Jul 2021 08:33:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210726190800.26762-10-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+ <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+In-Reply-To: <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+From: Rob Clark <robdclark@chromium.org>
+Date: Tue, 27 Jul 2021 08:37:13 -0700
+Message-ID: <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,121 +63,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Matthew Brost <matthew.brost@intel.com>, Jack Zhang <Jack.Zhang1@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jul 27, 2021 at 8:19 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
+te:
+>
+> On 2021-07-27 5:12 p.m., Rob Clark wrote:
+> > On Tue, Jul 27, 2021 at 7:50 AM Michel D=C3=A4nzer <michel@daenzer.net>=
+ wrote:
+> >>
+> >> On 2021-07-27 1:38 a.m., Rob Clark wrote:
+> >>> From: Rob Clark <robdclark@chromium.org>
+> >>>
+> >>> Based on discussion from a previous series[1] to add a "boost" mechan=
+ism
+> >>> when, for example, vblank deadlines are missed.  Instead of a boost
+> >>> callback, this approach adds a way to set a deadline on the fence, by
+> >>> which the waiter would like to see the fence signalled.
+> >>>
+> >>> I've not yet had a chance to re-work the drm/msm part of this, but
+> >>> wanted to send this out as an RFC in case I don't have a chance to
+> >>> finish the drm/msm part this week.
+> >>>
+> >>> Original description:
+> >>>
+> >>> In some cases, like double-buffered rendering, missing vblanks can
+> >>> trick the GPU into running at a lower frequence, when really we
+> >>> want to be running at a higher frequency to not miss the vblanks
+> >>> in the first place.
+> >>>
+> >>> This is partially inspired by a trick i915 does, but implemented
+> >>> via dma-fence for a couple of reasons:
+> >>>
+> >>> 1) To continue to be able to use the atomic helpers
+> >>> 2) To support cases where display and gpu are different drivers
+> >>>
+> >>> [1] https://patchwork.freedesktop.org/series/90331/
+> >>
+> >> Unfortunately, none of these approaches will have the full intended ef=
+fect once Wayland compositors start waiting for client buffers to become id=
+le before using them for an output frame (to prevent output frames from get=
+ting delayed by client work). See https://gitlab.gnome.org/GNOME/mutter/-/m=
+erge_requests/1880 (shameless plug :) for a proof of concept of this for mu=
+tter. The boost will only affect the compositor's own GPU work, not the cli=
+ent work (which means no effect at all for fullscreen apps where the compos=
+itor can scan out the client buffers directly).
+> >>
+> >
+> > I guess you mean "no effect at all *except* for fullscreen..."?
+>
+> I meant what I wrote: The compositor will wait for the next buffer to bec=
+ome idle, so there's no boost from this mechanism for the client drawing to=
+ that buffer. And since the compositor does no drawing of its own in this c=
+ase, there's no boost from that either.
+>
+>
+> > I'd perhaps recommend that wayland compositors, in cases where only a
+> > single layer is changing, not try to be clever and just push the
+> > update down to the kernel.
+>
+> Even just for the fullscreen direct scanout case, that would require some=
+ kind of atomic KMS API extension to allow queuing multiple page flips for =
+the same CRTC.
+>
+> For other cases, this would also require a mechanism to cancel a pending =
+atomic commit, for when another surface update comes in before the composit=
+or's deadline, which affects the previously single updating surface as well=
+.
+>
 
+Well, in the end, there is more than one compositor out there.. and if
+some wayland compositors are going this route, they can also implement
+the same mechanism in userspace using the sysfs that devfreq exports.
 
-On 26.07.2021 21:07, Vinay Belgaumkar wrote:
-> Add helpers to read the min/max frequency being used
-> by SLPC. This is done by send a H2G command which forces
-> SLPC to update the shared data struct which can then be
-> read. These helpers will be used in a sysfs patch later
-> on.
-> 
-> v2: Address review comments (Michal W)
-> v3: Return err in case of query failure (Michal W)
-> 
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 54 +++++++++++++++++++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h |  2 +
->  2 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index 63656640189c..c653bba3b5eb 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -306,6 +306,33 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
->  	return ret;
->  }
->  
-> +/**
-> + * intel_guc_slpc_get_max_freq() - Get max frequency limit for SLPC.
-> + * @slpc: pointer to intel_guc_slpc.
-> + * @val: pointer to val which will hold max frequency (MHz)
-> + *
-> + * This function will invoke GuC SLPC action to read the max frequency
-> + * limit for unslice.
-> + *
-> + * Return: 0 on success, non-zero error code on failure.
-> + */
-> +int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val)
-> +{
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	intel_wakeref_t wakeref;
-> +	int ret = 0;
-> +
-> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> +		/* Force GuC to update task data */
-> +		ret = slpc_query_task_state(slpc);
-> +
-> +		if (!ret)
-> +			*val = slpc_decode_max_freq(slpc);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /**
->   * intel_guc_slpc_set_min_freq() - Set min frequency limit for SLPC.
->   * @slpc: pointer to intel_guc_slpc.
-> @@ -338,6 +365,33 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
->  	return ret;
->  }
->  
-> +/**
-> + * intel_guc_slpc_get_min_freq() - Get min frequency limit for SLPC.
-> + * @slpc: pointer to intel_guc_slpc.
-> + * @val: pointer to val which will hold min frequency (MHz)
-> + *
-> + * This function will invoke GuC SLPC action to read the min frequency
-> + * limit for unslice.
-> + *
-> + * Return: 0 on success, non-zero error code on failure.
-> + */
-> +int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val)
-> +{
-> +	intel_wakeref_t wakeref;
-> +	struct drm_i915_private *i915 = guc_to_gt(slpc_to_guc(slpc))->i915;
+But it sounds simpler to me for the compositor to have a sort of "game
+mode" for fullscreen games.. I'm less worried about UI interactive
+workloads, boosting the GPU freq upon sudden activity after a period
+of inactivity seems to work reasonably well there.
 
-use slpc_to_i915() and in this order:
+BR,
+-R
 
-	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-	intel_wakeref_t wakeref;
-	int ret = 0;
-
-with that fixed,
-
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-
-> +	int ret = 0;
-> +
-> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> +		/* Force GuC to update task data */
-> +		ret = slpc_query_task_state(slpc);
-> +
-> +		if (!ret)
-> +			*val = slpc_decode_min_freq(slpc);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * intel_guc_slpc_enable() - Start SLPC
->   * @slpc: pointer to intel_guc_slpc.
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> index e594510497ec..92d7afd44f07 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> @@ -31,5 +31,7 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
->  void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
->  int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
->  int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val);
-> +int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val);
-> +int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
->  
->  #endif
-> 
+>
+> --
+> Earthling Michel D=C3=A4nzer               |               https://redhat=
+.com
+> Libre software enthusiast             |             Mesa and X developer
