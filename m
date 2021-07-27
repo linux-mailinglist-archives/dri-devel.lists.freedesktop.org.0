@@ -1,53 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E261B3D7A5E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 18:01:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E076F3D7AB2
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 18:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E9DE6E995;
-	Tue, 27 Jul 2021 16:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9839A6E425;
+	Tue, 27 Jul 2021 16:14:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4FF6E977;
- Tue, 27 Jul 2021 16:01:09 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- f14-20020a05600c154eb02902519e4abe10so2219686wmg.4; 
- Tue, 27 Jul 2021 09:01:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=fWpsiDeQTO8Umc8Q7ThOZBRvsvug1xPlx+gEHjpKDo8=;
- b=NhSFf8RALH6r8ytAzyNnJjlDi7K3ZO2hoQov4SieOYP7hnmw/e9ee7qfc/BcRkisHV
- w+LXRefabeKfixiOZ49LJ2Gq9TS7gLeQn3H3BvhQeJMi5Eco9Epn6n+ibO8enowAT9en
- zCkdjNkk9ZKc9sWDfI6vaxLd4nvthjJR7FOi4WkHLDfm3Spe/7cDw7nV9fKf8UXsbD1r
- 9+e3nr2B5lT8rll0WXlHtW2Dn4IkYvNYxNce6+ljmBzaESd1RtbymOWcyLVAR1v4uGmd
- N+Q3c7lGS8/EpA5mK3aYsSSZ6lTMKJts3qTmWIqMe7oYF7o8K1DG2RiMh7louHmwyITd
- 9wgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=fWpsiDeQTO8Umc8Q7ThOZBRvsvug1xPlx+gEHjpKDo8=;
- b=pcbcna1qr/UYgmBSKjgybduqqTTdW66HIyvpOjEBvvwM/jpfEubMKGe2WVNYyHfByD
- 9uNteVgu4EMemFhyMsZIA1NWLi/bkjql3E5WrkEhTJzyPcqdgGV+SFp0AYWkX0JB1464
- Kccik1wIv3bP8BHQt5HnF1Bi5ozsMMnGEf2hyBiW/Lu5/NCE4o+KyZL4g/8cTyWNH/F0
- O8A1JswrMVCJvD7jo0TsffK91rF30uf0HRmOGNQLwQ57h2ChOxNs2L8WbWEgQbL/7sBE
- NLfdGYjeNdAnI0TfuQdRr2Cc9kpeP4/0AT0EvknnoLuZpNGJSgvjcB2grddlybbm9pcg
- +S4g==
-X-Gm-Message-State: AOAM5337wNqRp1NtNQqR/XgGM3rBzS25E+88w47H6u71+KXx9cezAmuo
- TkDXTQeT5kWPUj5h+C8ATO6i/CuhP8HJZNteV9c=
-X-Google-Smtp-Source: ABdhPJxN2KtavHy/pdkhzu3eo2D9p8fkth7CptRD+0XpNLWfxXlcUGZNjiZbbC6EfWX1xl8ICrC13JS3KrlzMfjGrlI=
-X-Received: by 2002:a05:600c:19cb:: with SMTP id
- u11mr13331594wmq.175.1627401667801; 
- Tue, 27 Jul 2021 09:01:07 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 878656E425
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 16:14:18 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 254BF82F1A;
+ Tue, 27 Jul 2021 18:14:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1627402456;
+ bh=1oeNVlNxoucKGXuCnB3vAxpY6UMVbvWD9BSKIfMzzqA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=O00lirTjx3CYtMmRJWtty2HZmnQa/TL+3fHtuvp6P7fCeNwAneAXOOJ5lo7qVwGl0
+ Vl3FxQaW6QtBxqQLjEqIcFCzpqpzp1VzyxBwlCNdjTuf/lqhW56eCm+3tF8hE+Inex
+ x2AiNYy0LAF4mXw4sbz6MsYiO2gWDEgOJvYur6OAt8pJobJNa2ODXAasaFFZ9Fqfc3
+ 8GzOBbC8zqhtsPfZpqZt0/Ch7iS6qatLjUI9B+lPMyznv8+V+WjAYbwlRc2eHLhsbj
+ 38mQP7JQmFOEm3nNuLQQ7hJj1/mnbdmFd42A8TjiU8qUO1RvEyw7IupODDkEfwm9gv
+ dtpfzYhU4Fbcg==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V4 1/2] dt-bindings: display: bridge: lvds-codec: Document
+ LVDS data mapping select
+Date: Tue, 27 Jul 2021 18:13:56 +0200
+Message-Id: <20210727161357.8842-1-marex@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 27 Jul 2021 09:05:17 -0700
-Message-ID: <CAF6AEGubeV_uzWhsqp_+EmQmPcPatnqWOQnARoing2YvQOHbyg@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2021-07-27 for v5.14-rc4
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,54 +52,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave & Daniel,
+Decoder input LVDS format is a property of the decoder chip or even
+its strapping. Add DT property data-mapping the same way lvds-panel
+does, to define the LVDS data mapping.
 
-A few fixes for v5.14, including a fix for a crash if display triggers
-an iommu fault (which tends to happen at probe time on devices with
-bootloader fw that leaves display enabled as kernel starts)
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
+---
+V2: - Use allOf
+    - Move the data-mapping to endpoint
+V3: - Rebase on V2 submitted a while ago, reinstate changelog
+    - Drop the allOf and un-rebase on previous pclk patch
+V4: - port@1, remove $ref: /schemas/graph.yaml#/properties/port and
+      add $ref: /schemas/graph.yaml#/$defs/port-base
+---
+ .../bindings/display/bridge/lvds-codec.yaml   | 33 ++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-The following changes since commit ff1176468d368232b684f75e82563369208bc371:
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+index 304a1367faaa7..c0400c60f272a 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+@@ -55,11 +55,26 @@ properties:
+           For LVDS decoders, port 0 is the LVDS input
+ 
+       port@1:
+-        $ref: /schemas/graph.yaml#/properties/port
++        $ref: /schemas/graph.yaml#/$defs/port-base
+         description: |
+           For LVDS encoders, port 1 is the LVDS output
+           For LVDS decoders, port 1 is the parallel output
+ 
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-mapping:
++                enum:
++                  - jeida-18
++                  - jeida-24
++                  - vesa-24
++                description: |
++                  The color signals mapping order. See details in
++                  Documentation/devicetree/bindings/display/panel/lvds.yaml
++
+     required:
+       - port@0
+       - port@1
+@@ -71,6 +86,22 @@ properties:
+ 
+   power-supply: true
+ 
++if:
++  not:
++    properties:
++      compatible:
++        contains:
++          const: lvds-decoder
++then:
++  properties:
++    ports:
++      properties:
++        port@1:
++          properties:
++            endpoint:
++              properties:
++                data-mapping: false
++
+ required:
+   - compatible
+   - ports
+-- 
+2.30.2
 
-  Linux 5.14-rc3 (2021-07-25 15:35:14 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2021-07-27
-
-for you to fetch changes up to fc71c9e6f41f9912d22a75dfa76bc10811af7e22:
-
-  drm/msm/dp: Initialize dp->aux->drm_dev before registration
-(2021-07-27 08:14:58 -0700)
-
-----------------------------------------------------------------
-Bjorn Andersson (1):
-      drm/msm/dp: Initialize the INTF_CONFIG register
-
-Kuogee Hsieh (2):
-      drm/msm/dp: use dp_ctrl_off_link_stream during PHY compliance test run
-      drm/msm/dp: signal audio plugged change at dp_pm_resume
-
-Rob Clark (1):
-      drm/msm: Fix display fault handling
-
-Robert Foss (1):
-      drm/msm/dpu: Fix sm8250_mdp register length
-
-Sean Paul (1):
-      drm/msm/dp: Initialize dp->aux->drm_dev before registration
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  2 +-
- drivers/gpu/drm/msm/dp/dp_catalog.c            |  1 +
- drivers/gpu/drm/msm/dp/dp_ctrl.c               |  2 +-
- drivers/gpu/drm/msm/dp/dp_display.c            |  5 +++++
- drivers/gpu/drm/msm/msm_iommu.c                | 11 ++++++++++-
- 5 files changed, 18 insertions(+), 3 deletions(-)
