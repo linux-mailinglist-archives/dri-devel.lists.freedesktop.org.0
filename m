@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01663D7226
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 11:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5B73D722C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 11:42:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E97826E94A;
-	Tue, 27 Jul 2021 09:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0A516E8FC;
+	Tue, 27 Jul 2021 09:42:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 445756E94A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 09:39:46 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id h14so6447142wrx.10
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 02:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=kDmkw1EqHL3aF4RUhWn55hPa3djBJFLDK2P/5+N6cFg=;
- b=DZXF9NSUWCMixAOV12GXeIliwcu4mz81nJmbst9CbLExgZq21eweuMxkjZPdfkZmqo
- tjIahswu7jV9vttN4d2DpvLRUG2PTXpU39tJ9Y4Bcg3znYvJOkWvClfcfARlLo1UgQHs
- z0/Rkz1bTeavxIOFFhTAacX7f2NHluea4bH6A=
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDDA16E8FC
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 09:42:21 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id f13so11784363edq.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 02:42:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8fwQRqMvjgAY6jqV3zlS3GTvqGBBIFqRUeOfjbqNkn4=;
+ b=Vgfr+F5s6Bc5u+uBdMFEhmPySf4LlqpmA8B3AA57fdSa5RwUSGJbIA6tW/1gVcaXOU
+ Vo7X6tgClf+huAZ2z6IUZubQy5E7JzTpiWc2YEhbw46JuKlohm1vKn3zNdJG5ZAW8UAd
+ UsIMO676lnPLuTnVA+C6Na7p2LQ0GHrw5luy8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kDmkw1EqHL3aF4RUhWn55hPa3djBJFLDK2P/5+N6cFg=;
- b=LZRCI3Qf9BaKjG7e91sVW6E0UPkKCLJrFQTxf96ZLbk/DjpdZngwQABc95NERBjBmW
- o9gOIWVR9qNxSYIZZjAPn2qHHQSV0yDOoyvaNZvV3wL5phB5/ZLV/zn+/Sfk1zJJ1RKI
- Uu42hRjBcltiHfjMtxS82+aCi2YnZMKYNAyFSHcyFjaSg0mbHQm9BksQ8Vs9l/GbMqEf
- XF/5uQdTGYEKEEDbQtWzC/Esdxc7R5HaRjblNfnE3sRnkAWvXFWVwr258XPLE57yL9ja
- uVOWOkado0vYN55Wx176Lkt9rR4hpI/zgVamlugI2Z7O2Vmki8SZtJ6lpIofFgHGcnZS
- JLzA==
-X-Gm-Message-State: AOAM5319Vl+I9k9vLRKNXE8EUzN8p1wVzwXmSLVZEFnDFXszQwGPRle+
- /7Wh45Lnix4lWM2pX4zwbYXCh6P29QZ8wg==
-X-Google-Smtp-Source: ABdhPJwwISVvARQ3TmUGUlldYHWRSunkngn+ziJ4YKKtJ82pZzeSHU6Q1WZUd+krCx43l4EbkL2fKQ==
-X-Received: by 2002:a5d:5906:: with SMTP id v6mr26823wrd.194.1627378784753;
- Tue, 27 Jul 2021 02:39:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e11sm3224485wrt.0.2021.07.27.02.39.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 02:39:44 -0700 (PDT)
-Date: Tue, 27 Jul 2021 11:39:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2] drm: add logging for RMFB ioctl
-Message-ID: <YP/UXrNDk25LB2Y2@phenom.ffwll.local>
-References: <EghsoRDcn1SJV0nxVqRCisPd7v0627yLZbBjn4A8Yg@cp3-web-048.plabs.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8fwQRqMvjgAY6jqV3zlS3GTvqGBBIFqRUeOfjbqNkn4=;
+ b=UUosxVHuTyXGDGYXLdFg53LYt2aXEPJ73X9uIDCzCREDNyGv5X6acrXNrmdNRc7JGj
+ V/SHixQyxAOpzVgcSC9Re0wTLiGCTgO8m1BHOPmRIkoy0ofOhBFEt5ji8VokB3gvq5tu
+ aTgO6guBINCeQASpmYP9YWkUwHGCglhe11fzdFxIsScMC8pKlmzNbWxUn7+1T3rp/8Gz
+ XJrJfnO4/X6KAAkH2QK+yM9rAc65K9l8TUfFKaoOyR6n/jW3+NmpFlyb+myE6owDYHHE
+ SfWu9eE3MIAjma1r8SKOl3rfOwhWZO1dPay2Zu4FRmBbM/ibA0o/O8OB99/8BrNBTWj9
+ XflA==
+X-Gm-Message-State: AOAM530vskO9HjaKniGi0T0HbOK7NdBG8Dk6i7WiugCJiASsf/qJ4Rnb
+ LT2NIqwodlugUS/Sa0GGRU+pHnvtOyCwNsZW1EJteg==
+X-Google-Smtp-Source: ABdhPJyeCw9Vo5e9UrsFOswe3Y1tnwFbw3IAOf1WcRCfMxjGuFl09sckUW6CTR3uJUSW6D+U6LZrWYW/ZJWeDClExRU=
+X-Received: by 2002:a05:6402:430b:: with SMTP id
+ m11mr7510996edc.55.1627378940202; 
+ Tue, 27 Jul 2021 02:42:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <EghsoRDcn1SJV0nxVqRCisPd7v0627yLZbBjn4A8Yg@cp3-web-048.plabs.ch>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+References: <20210720134525.563936-1-maxime@cerno.tech>
+ <20210720134525.563936-5-maxime@cerno.tech>
+In-Reply-To: <20210720134525.563936-5-maxime@cerno.tech>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 27 Jul 2021 15:12:09 +0530
+Message-ID: <CAMty3ZD5rpYHtW-Rs4i=XvBmiVEaeWNu1j=QE3mFJTjSPJTpxQ@mail.gmail.com>
+Subject: Re: [PATCH 04/10] drm/bridge: Document the probe issue with MIPI-DSI
+ bridges
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,97 +62,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 26, 2021 at 07:49:06AM +0000, Simon Ser wrote:
-> We already have logging for ADDFB2. Add some logging for RMFB as
-> well.
-> 
-> This can be handy when trying to find out why a CRTC gets magically
-> disabled.
-> 
-> v2: make log message more explicit, add log messages to
-> drm_framebuffer_remove (Daniel)
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
+On Tue, Jul 20, 2021 at 7:15 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Interactions between bridges, panels, MIPI-DSI host and the component
+> framework are not trivial and can lead to probing issues when
+> implementing a display driver. Let's document the various cases we need
+> too consider, and the solution to support all the cases.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  drivers/gpu/drm/drm_framebuffer.c | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-> index 4d01464b6f95..d3d09aba9833 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -404,6 +404,9 @@ static void drm_mode_rmfb_work_fn(struct work_struct *w)
->  		struct drm_framebuffer *fb =
->  			list_first_entry(&arg->fbs, typeof(*fb), filp_head);
->  
-> +		drm_dbg_kms(fb->dev,
-> +			    "Removing [FB:%d] from all active usage due to RMFB ioctl\n",
-> +			    fb->base.id);
->  		list_del_init(&fb->filp_head);
->  		drm_framebuffer_remove(fb);
->  	}
-> @@ -981,6 +984,10 @@ static int atomic_remove_fb(struct drm_framebuffer *fb)
->  		if (plane->state->fb != fb)
->  			continue;
->  
-> +		drm_dbg_kms(dev,
-> +			    "Disabling [PLANE:%d:%s] because [FB:%d] is removed\n",
-> +			    plane->base.id, plane->name, fb->base.id);
+>  Documentation/gpu/drm-kms-helpers.rst |  6 +++
+>  drivers/gpu/drm/drm_bridge.c          | 60 +++++++++++++++++++++++++++
+>  2 files changed, 66 insertions(+)
+>
+> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+> index 10f8df7aecc0..ec2f65b31930 100644
+> --- a/Documentation/gpu/drm-kms-helpers.rst
+> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> @@ -157,6 +157,12 @@ Display Driver Integration
+>  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+>     :doc: display driver integration
+>
+> +Special Care with MIPI-DSI bridges
+> +----------------------------------
 > +
->  		plane_state = drm_atomic_get_plane_state(state, plane);
->  		if (IS_ERR(plane_state)) {
->  			ret = PTR_ERR(plane_state);
-> @@ -990,6 +997,11 @@ static int atomic_remove_fb(struct drm_framebuffer *fb)
->  		if (disable_crtcs && plane_state->crtc->primary == plane) {
->  			struct drm_crtc_state *crtc_state;
->  
-> +			drm_dbg_kms(dev,
-> +				    "Disabling [CRTC:%d:%s] because [FB:%d] is removed\n",
-> +				    plane_state->crtc->base.id,
-> +				    plane_state->crtc->name, fb->base.id);
+> +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> +   :doc: special care dsi
 > +
->  			crtc_state = drm_atomic_get_existing_crtc_state(state, plane_state->crtc);
->  
->  			ret = drm_atomic_add_affected_connectors(state, plane_state->crtc);
-> @@ -1052,6 +1064,10 @@ static void legacy_remove_fb(struct drm_framebuffer *fb)
->  	/* remove from any CRTC */
->  	drm_for_each_crtc(crtc, dev) {
->  		if (crtc->primary->fb == fb) {
-> +			drm_dbg_kms(dev,
-> +				    "Disabling [CRTC:%d:%s] because [FB:%d] is removed\n",
-> +				    crtc->base.id, crtc->name, fb->base.id);
-> +
->  			/* should turn off the crtc */
->  			if (drm_crtc_force_disable(crtc))
->  				DRM_ERROR("failed to reset crtc %p when fb was deleted\n", crtc);
-> @@ -1059,8 +1075,12 @@ static void legacy_remove_fb(struct drm_framebuffer *fb)
->  	}
->  
->  	drm_for_each_plane(plane, dev) {
-> -		if (plane->fb == fb)
-> +		if (plane->fb == fb) {
-> +			drm_dbg_kms(dev,
-> +				    "Disabling [PLANE:%d:%s] because [FB:%d] is removed\n",
-> +				    plane->base.id, plane->name, fb->base.id);
->  			drm_plane_force_disable(plane);
-> +		}
->  	}
->  	drm_modeset_unlock_all(dev);
->  }
-> -- 
-> 2.32.0
-> 
-> 
+>  Bridge Operations
+>  -----------------
+>
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index c9a950bfdfe5..81f8dac12367 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -95,6 +95,66 @@
+>   * documentation of bridge operations for more details).
+>   */
+>
+> +/**
+> + * DOC: special care dsi
+> + *
+> + * The interaction between the bridges and other frameworks involved in
+> + * the probing of the display driver and the bridge driver can be
+> + * challenging. Indeed, there's multiple cases that needs to be
+> + * considered:
+> + *
+> + * - The display driver doesn't use the component framework and isn't a
+> + *   MIPI-DSI host. In this case, the bridge driver will probe at some
+> + *   point and the display driver should try to probe again by returning
+> + *   EPROBE_DEFER as long as the bridge driver hasn't probed.
+> + *
+> + * - The display driver doesn't use the component framework, but is a
+> + *   MIPI-DSI host. The bridge device uses the MIPI-DCS commands to be
+> + *   controlled. In this case, the bridge device is a child of the
+> + *   display device and when it will probe it's assured that the display
+> + *   device (and MIPI-DSI host) is present. The display driver will be
+> + *   assured that the bridge driver is connected between the
+> + *   &mipi_dsi_host_ops.attach and &mipi_dsi_host_ops.detach operations.
+> + *   Therefore, it must run mipi_dsi_host_register() in its probe
+> + *   function, and then run drm_bridge_attach() in its
+> + *   &mipi_dsi_host_ops.attach hook.
+> + *
+> + * - The display driver uses the component framework and is a MIPI-DSI
+> + *   host. The bridge device uses the MIPI-DCS commands to be
+> + *   controlled. This is the same situation than above, and can run
+> + *   mipi_dsi_host_register() in either its probe or bind hooks.
+> + *
+> + * - The display driver uses the component framework and is a MIPI-DSI
+> + *   host. The bridge device uses a separate bus (such as I2C) to be
+> + *   controlled. In this case, there's no correlation between the probe
+> + *   of the bridge and display drivers, so care must be taken to avoid
+> + *   an endless EPROBE_DEFER loop, with each driver waiting for the
+> + *   other to probe.
+> + *
+> + * The ideal pattern to cover the last item (and all the others in the
+> + * display driver case) is to split the operations like this:
+> + *
+> + * - In the display driver must run mipi_dsi_host_register() and
+> + *   component_add in its probe hook. It will make sure that the
+> + *   MIPI-DSI host sticks around, and that the driver's bind can be
+> + *   called.
+> + *
+> + * - In its probe hook, the bridge driver must not try to find its
+> + *   MIPI-DSI host or register as a MIPI-DSI device. As far as the
+> + *   framework is concerned, it must only call drm_bridge_add().
+> + *
+> + * - In its bind hook, the display driver must try to find the bridge
+> + *   and return -EPROBE_DEFER if it doesn't find it. If it's there, it
+> + *   must call drm_bridge_attach(). The MIPI-DSI host is now functional.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+There is an another problem occur for this scenario in the case of kms
+hotplug driver, sun6i_mipi_dsi.c. When host attach wait till drm
+device pointer found and drm device pointer would found only when bind
+done, and bind would complete only when &drm_bridge_funcs.attach hooks
+are complete. But, If DSI driver is fully bridge driven then this
+attach in bind will trigger panel_bridge hook attach and at this point
+we cannot get panel_bridge at all which indeed second attach would
+would failed.
+
+This is one of the reason I'm trying to use drm_bridge_attach host
+attach itself instead of component bind, not yet succeeded.
+
+Thanks,
+Jagan.
