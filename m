@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEAB3D7299
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 12:08:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C65D3D72E2
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 12:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BB5F6E17A;
-	Tue, 27 Jul 2021 10:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650AB6E3CE;
+	Tue, 27 Jul 2021 10:14:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F446E17A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 10:07:57 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- a192-20020a1c7fc90000b0290253b32e8796so1085264wmd.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 03:07:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=dYA+uQMQm9380ZHfO4JIZ9mo+QlYYbiHYkpLZUF5iBI=;
- b=X6Qwfl+H/0zH730rgP040k386Sq2XvF8FP8NXdwNCNc8w8vSzmkyQJUEb8X3cGrm1L
- RiicEx93P2i0vmqio6PLSafXIiOFQ5GQ7DYN8xZnhxe0VKXG8Iqf+8mydL1xZsodTOn0
- vBoJPqT65KN9INOZA6Liez4bxDUsYv2yjT0HU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=dYA+uQMQm9380ZHfO4JIZ9mo+QlYYbiHYkpLZUF5iBI=;
- b=EOKp0PD1Wj6qabZ/tMeOcMDpYSY9pUcRI8oVMk9MQOu5jRJ8x5j57lTCo0pyCdTe4/
- jnMmHSuy/dhMqZ3LdkzHh4a3ZC5Ii+pW5bkr8iWtLtORIvO+IPKdzMfNe4DLNnR8elpA
- B/1qHmd39NZ+ez17uctw/rkMf2Wfak5nkh507uw9keCgG63+6tGU2NflzSjxxzWu4ouZ
- dyc5bdei0MjnKL0xsJuRal5Kv1fY2KAtjZ39ivVq9v4N9I2Gc5wmNY1zwQuaO7RpHIxU
- qk8CSgWNX26BqWEkIiPMHrnSlG+VKEFRrL7tNPH6nh30+unkFheF5JMu0FPQbvnEQFcW
- Crwg==
-X-Gm-Message-State: AOAM5330hE7nH+JDXFtwiNVTR2dzAhoTIFrrCA676eTLS67xBY9JDbdn
- FFTqo7IrR/z2pexu3MaYq/sddr8V6ls8Cw==
-X-Google-Smtp-Source: ABdhPJzIVYc/fFnYYIClRDvvmVMRaSKhAtY9OJ4zL1lTi1d3Evhld1+m9rnANe4QSXoRfhaCLG54jw==
-X-Received: by 2002:a1c:9814:: with SMTP id a20mr11774572wme.158.1627380476280; 
- Tue, 27 Jul 2021 03:07:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z25sm2526663wmf.9.2021.07.27.03.07.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 03:07:55 -0700 (PDT)
-Date: Tue, 27 Jul 2021 12:07:53 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 2/3] drm/plane: check that fb_damage is set up when used
-Message-ID: <YP/a+Rhs+T8B66YH@phenom.ffwll.local>
-References: <20210723083457.696939-1-daniel.vetter@ffwll.ch>
- <20210723083457.696939-2-daniel.vetter@ffwll.ch>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E13E6E17D;
+ Tue, 27 Jul 2021 10:14:43 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="210521390"
+X-IronPort-AV: E=Sophos;i="5.84,273,1620716400"; d="scan'208";a="210521390"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 03:14:42 -0700
+X-IronPort-AV: E=Sophos;i="5.84,273,1620716400"; d="scan'208";a="437256605"
+Received: from jrgrant-mobl.ger.corp.intel.com (HELO [10.213.245.158])
+ ([10.213.245.158])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 03:14:41 -0700
+Subject: Re: [Intel-gfx] [PATCH 04/10] drm/i915: move intel_context slab to
+ direct module init/exit
+To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20210723192934.1004427-1-daniel.vetter@ffwll.ch>
+ <20210723192934.1004427-4-daniel.vetter@ffwll.ch>
+ <0edb5c4d-1faf-4b24-a21d-fd2e5be6591d@linux.intel.com>
+ <CAOFGe96Da_O7VBaw85LsNTfMZhb2ycVg3WJ0fFe6xekB0m2NnA@mail.gmail.com>
+ <CAOFGe96OBK3W_c8YU=4LHysumEOm3Y27KX_Mok=P686aa3c0Bw@mail.gmail.com>
+ <031997ab-5568-9dbd-fcee-b4f820a32632@linux.intel.com>
+ <CAOFGe95G3bYWxZ_EwPEFzxf10vf1T3Zdyez_fbh=imcDj+TSHw@mail.gmail.com>
+ <87291107-0690-9804-08a3-309c23176f23@linux.intel.com>
+ <CAOFGe96KwQe5-GuJ5Yc3w0X0F+EK5r2-dCne8-WqUD6qo=zOHw@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <4f84e629-19e9-1dd8-f558-6c8b6f7df9e6@linux.intel.com>
+Date: Tue, 27 Jul 2021 11:14:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210723083457.696939-2-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <CAOFGe96KwQe5-GuJ5Yc3w0X0F+EK5r2-dCne8-WqUD6qo=zOHw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,199 +57,322 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 10:34:56AM +0200, Daniel Vetter wrote:
-> There's two stages of manual upload/invalidate displays:
-> - just handling dirtyfb and uploading the entire fb all the time
-> - looking at damage clips
-> 
-> In the latter case we support it through fbdev emulation (with
-> fb_defio), atomic property, and with the dirtfy clip rects.
-> 
-> Make sure at least the atomic property is set up as the main official
-> interface for this. Ideally we'd also check that
-> drm_atomic_helper_dirtyfb() is used and that fbdev defio is set up,
-> but that's quite a bit harder to do. Ideas very much welcome.
-> 
-> From a cursor audit drivers seem to be getting this right mostly, but
-> better to make sure. At least no one is bypassing the accessor
-> function.
-> 
-> v2:
-> - use drm_warn_once with a meaningful warning string (José)
-> - don't splat in the atomic check code for everyone (intel-gfx-ci)
 
-v2 got rid of the false positive noise, going to push the series to
-drm-misc-next.
--Daniel
+On 26/07/2021 19:17, Jason Ekstrand wrote:
+> On Mon, Jul 26, 2021 at 11:31 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>>
+>> On 26/07/2021 17:20, Jason Ekstrand wrote:
+>>> On Mon, Jul 26, 2021 at 11:08 AM Tvrtko Ursulin
+>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>> On 26/07/2021 16:42, Jason Ekstrand wrote:
+>>>>> On Mon, Jul 26, 2021 at 10:30 AM Jason Ekstrand <jason@jlekstrand.net> wrote:
+>>>>>>
+>>>>>> On Mon, Jul 26, 2021 at 3:35 AM Tvrtko Ursulin
+>>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On 23/07/2021 20:29, Daniel Vetter wrote:
+>>>>>>>> With the global kmem_cache shrink infrastructure gone there's nothing
+>>>>>>>> special and we can convert them over.
+>>>>>>>>
+>>>>>>>> I'm doing this split up into each patch because there's quite a bit of
+>>>>>>>> noise with removing the static global.slab_ce to just a
+>>>>>>>> slab_ce.
+>>>>>>>>
+>>>>>>>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+>>>>>>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>>>>>>> ---
+>>>>>>>>      drivers/gpu/drm/i915/gt/intel_context.c | 25 ++++++++-----------------
+>>>>>>>>      drivers/gpu/drm/i915/gt/intel_context.h |  3 +++
+>>>>>>>>      drivers/gpu/drm/i915/i915_globals.c     |  2 --
+>>>>>>>>      drivers/gpu/drm/i915/i915_globals.h     |  1 -
+>>>>>>>>      drivers/gpu/drm/i915/i915_pci.c         |  2 ++
+>>>>>>>>      5 files changed, 13 insertions(+), 20 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+>>>>>>>> index baa05fddd690..283382549a6f 100644
+>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>>>>>>>> @@ -7,7 +7,6 @@
+>>>>>>>>      #include "gem/i915_gem_pm.h"
+>>>>>>>>
+>>>>>>>>      #include "i915_drv.h"
+>>>>>>>> -#include "i915_globals.h"
+>>>>>>>>      #include "i915_trace.h"
+>>>>>>>>
+>>>>>>>>      #include "intel_context.h"
+>>>>>>>> @@ -15,14 +14,11 @@
+>>>>>>>>      #include "intel_engine_pm.h"
+>>>>>>>>      #include "intel_ring.h"
+>>>>>>>>
+>>>>>>>> -static struct i915_global_context {
+>>>>>>>> -     struct i915_global base;
+>>>>>>>> -     struct kmem_cache *slab_ce;
+>>>>>>>> -} global;
+>>>>>>>> +struct kmem_cache *slab_ce;
+>>>>>>
+>>>>>> Static?  With that,
+>>>>>>
+>>>>>> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+>>>>>>
+>>>>>>>>
+>>>>>>>>      static struct intel_context *intel_context_alloc(void)
+>>>>>>>>      {
+>>>>>>>> -     return kmem_cache_zalloc(global.slab_ce, GFP_KERNEL);
+>>>>>>>> +     return kmem_cache_zalloc(slab_ce, GFP_KERNEL);
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>>      static void rcu_context_free(struct rcu_head *rcu)
+>>>>>>>> @@ -30,7 +26,7 @@ static void rcu_context_free(struct rcu_head *rcu)
+>>>>>>>>          struct intel_context *ce = container_of(rcu, typeof(*ce), rcu);
+>>>>>>>>
+>>>>>>>>          trace_intel_context_free(ce);
+>>>>>>>> -     kmem_cache_free(global.slab_ce, ce);
+>>>>>>>> +     kmem_cache_free(slab_ce, ce);
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>>      void intel_context_free(struct intel_context *ce)
+>>>>>>>> @@ -410,22 +406,17 @@ void intel_context_fini(struct intel_context *ce)
+>>>>>>>>          i915_active_fini(&ce->active);
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> -static void i915_global_context_exit(void)
+>>>>>>>> +void i915_context_module_exit(void)
+>>>>>>>>      {
+>>>>>>>> -     kmem_cache_destroy(global.slab_ce);
+>>>>>>>> +     kmem_cache_destroy(slab_ce);
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> -static struct i915_global_context global = { {
+>>>>>>>> -     .exit = i915_global_context_exit,
+>>>>>>>> -} };
+>>>>>>>> -
+>>>>>>>> -int __init i915_global_context_init(void)
+>>>>>>>> +int __init i915_context_module_init(void)
+>>>>>>>>      {
+>>>>>>>> -     global.slab_ce = KMEM_CACHE(intel_context, SLAB_HWCACHE_ALIGN);
+>>>>>>>> -     if (!global.slab_ce)
+>>>>>>>> +     slab_ce = KMEM_CACHE(intel_context, SLAB_HWCACHE_ALIGN);
+>>>>>>>> +     if (!slab_ce)
+>>>>>>>>                  return -ENOMEM;
+>>>>>>>>
+>>>>>>>> -     i915_global_register(&global.base);
+>>>>>>>>          return 0;
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+>>>>>>>> index 974ef85320c2..a0ca82e3c40d 100644
+>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+>>>>>>>> @@ -30,6 +30,9 @@ void intel_context_init(struct intel_context *ce,
+>>>>>>>>                          struct intel_engine_cs *engine);
+>>>>>>>>      void intel_context_fini(struct intel_context *ce);
+>>>>>>>>
+>>>>>>>> +void i915_context_module_exit(void);
+>>>>>>>> +int i915_context_module_init(void);
+>>>>>>>> +
+>>>>>>>>      struct intel_context *
+>>>>>>>>      intel_context_create(struct intel_engine_cs *engine);
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
+>>>>>>>> index 3de7cf22ec76..d36eb7dc40aa 100644
+>>>>>>>> --- a/drivers/gpu/drm/i915/i915_globals.c
+>>>>>>>> +++ b/drivers/gpu/drm/i915/i915_globals.c
+>>>>>>>> @@ -7,7 +7,6 @@
+>>>>>>>>      #include <linux/slab.h>
+>>>>>>>>      #include <linux/workqueue.h>
+>>>>>>>>
+>>>>>>>> -#include "gem/i915_gem_context.h"
+>>>>>>>>      #include "gem/i915_gem_object.h"
+>>>>>>>>      #include "i915_globals.h"
+>>>>>>>>      #include "i915_request.h"
+>>>>>>>> @@ -32,7 +31,6 @@ static void __i915_globals_cleanup(void)
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>>      static __initconst int (* const initfn[])(void) = {
+>>>>>>>> -     i915_global_context_init,
+>>>>>>>>          i915_global_gem_context_init,
+>>>>>>>>          i915_global_objects_init,
+>>>>>>>>          i915_global_request_init,
+>>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_globals.h b/drivers/gpu/drm/i915/i915_globals.h
+>>>>>>>> index d80901ba75e3..60daa738a188 100644
+>>>>>>>> --- a/drivers/gpu/drm/i915/i915_globals.h
+>>>>>>>> +++ b/drivers/gpu/drm/i915/i915_globals.h
+>>>>>>>> @@ -23,7 +23,6 @@ int i915_globals_init(void);
+>>>>>>>>      void i915_globals_exit(void);
+>>>>>>>>
+>>>>>>>>      /* constructors */
+>>>>>>>> -int i915_global_context_init(void);
+>>>>>>>>      int i915_global_gem_context_init(void);
+>>>>>>>>      int i915_global_objects_init(void);
+>>>>>>>>      int i915_global_request_init(void);
+>>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+>>>>>>>> index f9527269e30a..266618157775 100644
+>>>>>>>> --- a/drivers/gpu/drm/i915/i915_pci.c
+>>>>>>>> +++ b/drivers/gpu/drm/i915/i915_pci.c
+>>>>>>>> @@ -33,6 +33,7 @@
+>>>>>>>>      #include "i915_active.h"
+>>>>>>>>      #include "i915_buddy.h"
+>>>>>>>>      #include "i915_drv.h"
+>>>>>>>> +#include "gem/i915_gem_context.h"
+>>>>>>>
+>>>>>>> It's a bit ugly to go to a design where i915_pci.c has to include so
+>>>>>>> many random parts of i915. IMO for a complex driver like i915,
+>>>>>>> compartmentalizing so much knowledge about the internals was better
+>>>>>>> inside the globals layer.
+>>>>>>
+>>>>>> I agree that i915_pci feels like the wrong place to put this but I
+>>>>>> don't think that's so much because globals don't belong in i915_pci
+>>>>>> but because i915_init/exit don't belong there.  Maybe, once this is
+>>>>>> all said and done (or at the start of the series), we should move
+>>>>>> i915_init/exit to i915_drv.c?  Of course, there's a bunch of PCI
+>>>>>> probing stuff in i915_drv.c so..... yeah.... our organization is
+>>>>>> pretty busted.
+>>>>>
+>>>>> To put a finer point on this, the new "design" is really to have a
+>>>>> single flat list instead of two, one nested inside the other.  There's
+>>>>> nothing wrong with that at all.  The fact that all this stuff now
+>>>>> lives in i915_pci.c is ugly.  But, as I said, that's kind-of an
+>>>>> accident of history because that's where i915_init() and i915_exit()
+>>>>> currently live.  We should just move the lot to i915_drv.c.
+>>>>
+>>>> Hmm.. on one hand it does sounds better to move to i915_drv.c, but is it
+>>>> just because all these new include directive are so visibly out of place
+>>>> in i915_pci.c?
+>>>>
+>>>> Perhaps we need i915_module.c and then i915_globals is a completely fine
+>>>> concept. Desired IMO even since we have to avoid globals in general
+>>>> (multi-gpu) so it sticks out nicely that all that is allowed to be
+>>>> global has a special place.
+>>>>
+>>>> And i915_drv.c can remain being about a driver instance as bound to one GPU.
+>>>
+>>> Is i915_drv.c about a single instance bound to a single GPU?  If so,
+>>
+>> Yep, all functions there either take drm_dev, pdev or dev_priv as
+>> argument, or return/initialize dev_priv.
+>>
+>>> then, yeah, maybe not the right place.  Maybe a i915_module.c would be
+>>> better.  It's all different shades of shed paint.
+>>
+>> Hm not really just different shades IMO. Because I argue the patch
+>> series as is is a retrograde step in the above discussed respect.
+>>
+>> I think i915_globals is cleaner code organisation. Because even if we
+>> add i915_module.c, then that can be made initialize globals and register
+>> with pci in cleanly separated steps without the need to include many
+>> driver internals.
+> 
+> Ok, so maybe I'm missing something in what you're saying.  I was under
+> the impression that your primary concern was separating PCI setup from
+> per-device from per-module stuff.  If so, moving it all to an
+> i915_module.c fixes that.
 
-> 
-> Reviewed-by: José Roberto de Souza <jose.souza@intel.com> (v1)
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> Cc: José Roberto de Souza <jose.souza@intel.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  drivers/gpu/drm/drm_atomic.c        |  2 +-
->  drivers/gpu/drm/drm_crtc_internal.h |  2 ++
->  drivers/gpu/drm/drm_plane.c         | 50 +++++++++++++++++++++++++++++
->  include/drm/drm_plane.h             | 36 +++------------------
->  4 files changed, 57 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index d820423fac32..c85dcfd69158 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -660,7 +660,7 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
->  		return -ENOSPC;
->  	}
->  
-> -	clips = drm_plane_get_damage_clips(new_plane_state);
-> +	clips = __drm_plane_get_damage_clips(new_plane_state);
->  	num_clips = drm_plane_get_damage_clips_count(new_plane_state);
->  
->  	/* Make sure damage clips are valid and inside the fb. */
-> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-> index 1ca51addb589..edb772947cb4 100644
-> --- a/drivers/gpu/drm/drm_crtc_internal.h
-> +++ b/drivers/gpu/drm/drm_crtc_internal.h
-> @@ -262,6 +262,8 @@ int drm_plane_register_all(struct drm_device *dev);
->  void drm_plane_unregister_all(struct drm_device *dev);
->  int drm_plane_check_pixel_format(struct drm_plane *plane,
->  				 u32 format, u64 modifier);
-> +struct drm_mode_rect *
-> +__drm_plane_get_damage_clips(const struct drm_plane_state *state);
->  
->  /* drm_bridge.c */
->  void drm_bridge_detach(struct drm_bridge *bridge);
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index b373958ecb30..f61315b61174 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -1397,6 +1397,56 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
->  	return ret;
->  }
->  
-> +/**
-> + * drm_plane_get_damage_clips_count - Returns damage clips count.
-> + * @state: Plane state.
-> + *
-> + * Simple helper to get the number of &drm_mode_rect clips set by user-space
-> + * during plane update.
-> + *
-> + * Return: Number of clips in plane fb_damage_clips blob property.
-> + */
-> +unsigned int
-> +drm_plane_get_damage_clips_count(const struct drm_plane_state *state)
-> +{
-> +	return (state && state->fb_damage_clips) ?
-> +		state->fb_damage_clips->length/sizeof(struct drm_mode_rect) : 0;
-> +}
-> +EXPORT_SYMBOL(drm_plane_get_damage_clips_count);
-> +
-> +struct drm_mode_rect *
-> +__drm_plane_get_damage_clips(const struct drm_plane_state *state)
-> +{
-> +	return (struct drm_mode_rect *)((state && state->fb_damage_clips) ?
-> +					state->fb_damage_clips->data : NULL);
-> +}
-> +
-> +/**
-> + * drm_plane_get_damage_clips - Returns damage clips.
-> + * @state: Plane state.
-> + *
-> + * Note that this function returns uapi type &drm_mode_rect. Drivers might want
-> + * to use the helper functions drm_atomic_helper_damage_iter_init() and
-> + * drm_atomic_helper_damage_iter_next() or drm_atomic_helper_damage_merged() if
-> + * the driver can only handle a single damage region at most.
-> + *
-> + * Return: Damage clips in plane fb_damage_clips blob property.
-> + */
-> +struct drm_mode_rect *
-> +drm_plane_get_damage_clips(const struct drm_plane_state *state)
-> +{
-> +	struct drm_device *dev = state->plane->dev;
-> +	struct drm_mode_config *config = &dev->mode_config;
-> +
-> +	/* check that drm_plane_enable_fb_damage_clips() was called */
-> +	if (!drm_mode_obj_find_prop_id(&state->plane->base,
-> +				       config->prop_fb_damage_clips->base.id))
-> +		drm_warn_once(dev, "drm_plane_enable_fb_damage_clips() not called\n");
-> +
-> +	return __drm_plane_get_damage_clips(state);
-> +}
-> +EXPORT_SYMBOL(drm_plane_get_damage_clips);
-> +
->  struct drm_property *
->  drm_create_scaling_filter_prop(struct drm_device *dev,
->  			       unsigned int supported_filters)
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 7f7d5148310c..a2684aab8372 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -897,39 +897,11 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
->  
->  bool drm_any_plane_has_format(struct drm_device *dev,
->  			      u32 format, u64 modifier);
-> -/**
-> - * drm_plane_get_damage_clips_count - Returns damage clips count.
-> - * @state: Plane state.
-> - *
-> - * Simple helper to get the number of &drm_mode_rect clips set by user-space
-> - * during plane update.
-> - *
-> - * Return: Number of clips in plane fb_damage_clips blob property.
-> - */
-> -static inline unsigned int
-> -drm_plane_get_damage_clips_count(const struct drm_plane_state *state)
-> -{
-> -	return (state && state->fb_damage_clips) ?
-> -		state->fb_damage_clips->length/sizeof(struct drm_mode_rect) : 0;
-> -}
-> +unsigned int
-> +drm_plane_get_damage_clips_count(const struct drm_plane_state *state);
->  
-> -/**
-> - * drm_plane_get_damage_clips - Returns damage clips.
-> - * @state: Plane state.
-> - *
-> - * Note that this function returns uapi type &drm_mode_rect. Drivers might want
-> - * to use the helper functions drm_atomic_helper_damage_iter_init() and
-> - * drm_atomic_helper_damage_iter_next() or drm_atomic_helper_damage_merged() if
-> - * the driver can only handle a single damage region at most.
-> - *
-> - * Return: Damage clips in plane fb_damage_clips blob property.
-> - */
-> -static inline struct drm_mode_rect *
-> -drm_plane_get_damage_clips(const struct drm_plane_state *state)
-> -{
-> -	return (struct drm_mode_rect *)((state && state->fb_damage_clips) ?
-> -					state->fb_damage_clips->data : NULL);
-> -}
-> +struct drm_mode_rect *
-> +drm_plane_get_damage_clips(const struct drm_plane_state *state);
->  
->  int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
->  					     unsigned int supported_filters);
-> -- 
-> 2.32.0
-> 
+Yeah, but i915_module.c was just a side discussion which started from 
+whether it is right or not to put module init into i915_drv.c. It does 
+not fix the fundamental question of the below discussion.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Are you arguing that a flat list of module init steps is bad?  And
+> that having globals be its own sub-list is good?  If so, then I have
+> to disagree.  I don't think splitting the calling of misc "set up my
+
+I think having to include all the driver sub-sub component headers from 
+any top level module init file is a step towards a worse design. 
+Currently those steps were nicely encapsulated and I don't see a reason 
+to break them out to top level.
+
+> slabs" functions from the final "register with PCI" at the end gains
+> us anything.  What it does do is give more files to search through,
+> more layers to think about when understanding the code, and more
+> infrastructure to maintain.
+> 
+> If, on the other hand, we had a globals infrastructure that actually
+> gained us something in terms of code simplicity, I might be able to
+> get behind that.  For instance, I could imagine something like this:
+> 
+> I915_DECL_SLAB(foo);
+> 
+>     /* Someone allocates something */
+>     kmem_cache_alloc(foo.slab);
+> 
+> where we somehow automagically declare the slab, initialize it on
+> module load, and tear it down on module exit.  That would add real
+> value.  As is, all i915_globals.c adds is extra layers.
+
+I read this as a statement that at least one part of your thinking is 
+that current globals code is too verbose for simple global slab usage?
+
+This I can buy, given how all but two usages are creating a single slab. 
+Then there are two callers which use two slabs, but nothing outside the 
+slab territory. So argument to simplify can be made yeah, only question 
+is how.
+
+Simple macro like you suggest sounds very attractive indeed if it could 
+replace boiler plate code for single slab users (albeit with some more 
+arguments). Problem is I don't know that we could make it call a 
+registration helper from global scope.
+
+Hm removing the list and going for fixed table slots might work, if 
+logistics of reserving indices for it in i915_globals.h wouldn't be too 
+ugly? Hm maybe not too ugly, maybe it is just an enum every global slab 
+users adds for themselves and references it in a macro. With macro magic 
+like DEV_INFO_FOR_EACH_FLAG and company to generate the table etc?
+
+Regards,
+
+Tvrtko
+
+> --Jason
+> 
+> 
+>> I see r-b are accumulating but I hope reasonable objections will be
+>> considered.
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>> --Jason
+>>>
+>>>> That feels like the best of both worlds to me.
+>>>>
+>>>> Regards,
+>>>>
+>>>> Tvrtko
+>>>>
+>>>>>
+>>>>>> --Jason
+>>>>>>
+>>>>>>> Maybe add a cover letter to explain the perceived pros and cons and
+>>>>>>> thinking in general?
+>>>>>>>
+>>>>>>> Regards,
+>>>>>>>
+>>>>>>> Tvrtko
+>>>>>>>
+>>>>>>>>      #include "i915_perf.h"
+>>>>>>>>      #include "i915_globals.h"
+>>>>>>>>      #include "i915_selftest.h"
+>>>>>>>> @@ -1297,6 +1298,7 @@ static const struct {
+>>>>>>>>          { i915_check_nomodeset, NULL },
+>>>>>>>>          { i915_active_module_init, i915_active_module_exit },
+>>>>>>>>          { i915_buddy_module_init, i915_buddy_module_exit },
+>>>>>>>> +     { i915_context_module_init, i915_context_module_exit },
+>>>>>>>>          { i915_globals_init, i915_globals_exit },
+>>>>>>>>          { i915_mock_selftests, NULL },
+>>>>>>>>          { i915_pmu_init, i915_pmu_exit },
+>>>>>>>>
+>>>>>>> _______________________________________________
+>>>>>>> Intel-gfx mailing list
+>>>>>>> Intel-gfx@lists.freedesktop.org
+>>>>>>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
