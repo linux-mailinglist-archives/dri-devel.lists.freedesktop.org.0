@@ -1,143 +1,147 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8275E3D7E3E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 21:03:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 265CE3D7E53
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 21:16:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A57A6E4FE;
-	Tue, 27 Jul 2021 19:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4ED6E118;
+	Tue, 27 Jul 2021 19:16:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEF86E4D0;
- Tue, 27 Jul 2021 19:03:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="234383102"
-X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="234383102"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 12:03:32 -0700
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE156E0FE;
+ Tue, 27 Jul 2021 19:16:18 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="199735433"
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="199735433"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 12:16:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="517067568"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2021 12:03:32 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="456225285"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga007.jf.intel.com with ESMTP; 27 Jul 2021 12:16:05 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 27 Jul 2021 12:03:32 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ 15.1.2242.10; Tue, 27 Jul 2021 12:16:05 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Tue, 27 Jul 2021 12:03:32 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2242.10; Tue, 27 Jul 2021 12:16:04 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10 via Frontend Transport; Tue, 27 Jul 2021 12:16:04 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 27 Jul 2021 12:03:32 -0700
+ 15.1.2242.10; Tue, 27 Jul 2021 12:16:04 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ig6aLb2uflh1lfrQP7ZSqkgNP9ce7jook1dDBLaJw07aj+xYaNAQgtK4ye5R83eg4+jbp61vL4R1oVkxrYBMn6Th6/xy6afjLFi7UdGFmGY1hG5RQDElLxA1A+u5w5hD9NPZUJKv80GQ0wQMi2oQnp093Zggx8b3gL0Bh/ahXzdQJT6ukykmhPpV+3ZDvIMgOcmfY5BYmGJ3D5lyMUh0ggzDP//h1W6mohL9iXibOSP9/nIRmrJ/jg5WYS5wNMG7FvDIvobWbt7G6S74Oz510jbwRORTUDwwzKNWTrWNUoxGchURXY2rOxyz5kRwxCQQNM24yS2QqXcfB0hYixvBTg==
+ b=YC3NgbOsgvTm0LibW3EAzTQIj9+OfL+HjaB+IULQ0/t4IxBV56dbpNCtY2KExf4GBs6DVY+FE6GrdTkB+JSowg+JmtxhoO4c4GEWiFLUO4xXmBbWI+iqDxv3cqOxczyCj6eSoMnK+YSQXAQweQbBGbGqvQLQjlmA119gkvtfkuwZJ05kSJ3hr6/ogqoGwr4Ve3vAnEp4ZRbuhDV7W7o0IdeGsZgYhlTZAc1d5bamyCtA1rEaiYwA6LcS1zYLMOi/Ze2+fh9aNKNRMk6c9fCVo8HVIdZhEjD0vPVwCSUqqoiaqtPwrJQ08t8bO/C75R02r3qEZ+3q6R7b2uKupM2f1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2QmRbAi8BM+poJnU2rVC9IVn2vhOPGy7TskFe092zog=;
- b=a7rpJwCLohVKv1UgxFVpJ/G4Ku+dYHK1/9/ZcNQZztUZMT3oFy8cJE4L7FSCL1/svU2g1gaeZ4s99jUcVwD15j7MKwdW1Zsy3DQw+qQOzSW1fsomMBUYieZW9Eb6aIKni5TD72N8WuKpRtb5lDn0qzVvc3QTe8H5YlDNwej6dK+I3JBW8Y48AsXqf5AhwTKiCnujIZXrAkQhbibZtaGz04l/4sNBFgJp5rabSIIMO3FK+m9lOenEz+xe8w+x6rDpLIojxEOvvwmMyCTs8APxLBXxA9xHa/5thg4r+naM9d4oHOra+d09JJP4bKRn6s+j8SCCoCFAtPw2HH5zY+4tXg==
+ bh=Bik8f5rVsmHCfmChO8mO+o281qb5Urjz4t5/P8Zu55c=;
+ b=m11CWicVF/IH8Up8Rw+OVI+dVWVJqabUR9kaAMd8TwUaxIfGrg9N9vA258d3yiaCtuWmjNt/YjowQoi8QNDlDIfftZosnqv5ofDNny6wru+C9GZ7Y9w4+qWUYBJxpksjzCxoGmo+5ORdGVSUPDf1VuEbn/TQJ0AlATOf2UqhoUbkh/ebozp15hLk/NQUTQbbFQRkFe0V+zroRZfWwRdMKZ1Pb1DkdI85tGKTGSPM80d5WVma1KdBhzJa//ZnLVfk4hhbEzWUQurBc8kcUF1h5UMS9Jn/PxPhBSosxTNhP3RSx/wPb9q4FnIZCpPyrz5KKqV638hJGYOV6+cqhFlXow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
  s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2QmRbAi8BM+poJnU2rVC9IVn2vhOPGy7TskFe092zog=;
- b=Tx6p1GgFko76xW/POSD2ICsxnQuYiBXchnvuwl3UNRZXNaaE/2+0n/s+9fzZ2U2+jfn03oZOo0hA/bez2Vsy3ukKD0SebldvbVvrgGpwUfidE7+jUB/gqiq7c54ZKmvXddYIeAeZUE5bt0pHJUEjVIZ3Cm4xZ8OVgZD5Wmmd8Cs=
+ bh=Bik8f5rVsmHCfmChO8mO+o281qb5Urjz4t5/P8Zu55c=;
+ b=I9Sme1VRNM11P0NZ65PBedtMjhAOFK82b1zDGeoPDkbPlahRZhZe/QnUqudOsPCzsmvdNvt/8X0sPUGB2mXKRwKc/xVLsll0Jp+TBq6BA22PA/qblBGtr3mstu8aFJDddKzujtD6PUiGDSTXU4wiVH75THueVIZK3ptROkWxzlE=
 Authentication-Results: intel.com; dkim=none (message not signed)
  header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
- by CO6PR11MB5668.namprd11.prod.outlook.com (2603:10b6:5:355::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Tue, 27 Jul
- 2021 19:03:30 +0000
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4]) by CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4%9]) with mapi id 15.20.4352.032; Tue, 27 Jul 2021
- 19:03:30 +0000
-Subject: Re: [PATCH 04/15] drm/i915/guc/slpc: Adding SLPC communication
- interfaces
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ DM6PR11MB2890.namprd11.prod.outlook.com (2603:10b6:5:63::20) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.29; Tue, 27 Jul 2021 19:16:02 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::4017:e7ce:ef66:48d7]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::4017:e7ce:ef66:48d7%9]) with mapi id 15.20.4352.031; Tue, 27 Jul 2021
+ 19:16:02 +0000
+Subject: Re: [PATCH 25/33] drm/i915/guc: Support request cancellation
+To: Matthew Brost <matthew.brost@intel.com>,
  <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20210726190800.26762-1-vinay.belgaumkar@intel.com>
- <20210726190800.26762-5-vinay.belgaumkar@intel.com>
- <8a9a279f-9f30-647a-8650-4c3f961e50b6@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Message-ID: <d65e20ee-3f00-8323-011e-cd68c4a0bfc9@intel.com>
-Date: Tue, 27 Jul 2021 12:03:27 -0700
+References: <20210727002348.97202-1-matthew.brost@intel.com>
+ <20210727002348.97202-26-matthew.brost@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <2a417f11-050a-2445-d5e9-38fe354402f2@intel.com>
+Date: Tue, 27 Jul 2021 12:15:59 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.12.0
-In-Reply-To: <8a9a279f-9f30-647a-8650-4c3f961e50b6@intel.com>
+In-Reply-To: <20210727002348.97202-26-matthew.brost@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0258.namprd03.prod.outlook.com
- (2603:10b6:303:b4::23) To CO6PR11MB5634.namprd11.prod.outlook.com
- (2603:10b6:5:35d::20)
+X-ClientProxiedBy: BY3PR03CA0029.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::34) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.71] (99.88.121.38) by
- MW4PR03CA0258.namprd03.prod.outlook.com (2603:10b6:303:b4::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.26 via Frontend Transport; Tue, 27 Jul 2021 19:03:30 +0000
+Received: from [192.168.1.65] (99.72.232.53) by
+ BY3PR03CA0029.namprd03.prod.outlook.com (2603:10b6:a03:39a::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26 via Frontend
+ Transport; Tue, 27 Jul 2021 19:16:01 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9540dee1-d28f-4e03-9820-08d95131395e
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5668:
+X-MS-Office365-Filtering-Correlation-Id: 40fcd66c-425d-4122-a4c0-08d95132f94c
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2890:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR11MB5668DB12C491380431D20A7785E99@CO6PR11MB5668.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Microsoft-Antispam-PRVS: <DM6PR11MB2890A85084652D26C3CE4B5DF4E99@DM6PR11MB2890.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:407;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: db98Qysh9ebro/eChRbBHgN/yIWxLvU0Cv1pBV4YX1XwRyzi9IJ+4RGwf24Yc7ULIyk6vlUEgSbF6Zh+sU024fZQbEiDcaC3A8TJv0wu/gkPvIZIzMLTpqKS1q/Ss3Iqauexz5MiCYm9s/hsJfoJRa5aX+axBuubZafhIZpk1UWXQWZDfOGt/JoIazKRu3OxcG/CHX8JD85PBANt71Wz9rbM8ApXVN0k0hGu6GQfiY3NvbmSGC+4253IebQhWyGm/ROvQak/eVoO/leGxoHyvfzkvMoaC9PyFeEubHzRntBJHyGE2h/8W+3bOGQWdrppS0nN7lpe0l6oajmXG6yrHv/epqY6LTQBB2fwht7WxmefkuuZYIPUAJA54hgPn67Ij9Bfy72zxWfTrKxahafk2boZvOB/s6rayciOTjfcUtrkLALeA12Sa+kNPvzf+tikGAUSvbLpH/Tslkf7ETjdtOlJLlmqHbZQH1kwbZKLRTPl6oZ6tURVnCQsXUV+3X3seYmcih0yrcg4d8s2bnNru9dzkDfJdA+srksRNw7MHYmLtJcH7wbwModkNGT0REAheBYAcpavfZMmEbYJuSaG4iAqp9gOxm/9njDU5SW0CLw6xkIrg+QxsT2takQcHsc/yxcRDl5M3zw2W4p2NA41OcOkdbq/XJBxD1yDW8BroipWFAYofVy0lZGbcKwXC0+k8Xx8LmiFuWaLg7NIGWjhLcYzCQhMMLOUmDWpUnoKQF8=
+X-Microsoft-Antispam-Message-Info: t1CWeidULLjmvs2Pgz8u2JzVlHeqprsJFcHAcZlJOATIKL39NGxzfsFScQ03Pbv56VM6INEkmTgU2YphwiGpFVyZTMzI96qbKeHMUTW0eiIb8LZdeyif2+btSaL9eRzXGlA9sRxkJCD+s54DFtM2trEvVDZuG2D4ji6Pa8XuXGDWeOSEnX5Nq1jdJK8mSBUcFl58Vu3pqAdxhppIHvPNw7paGFuPoP+vDSLfPqN+AMGq08FP7VR5BnlRHjUo9eDKjvKgZADAh83gA1USWlacgpP1I1kiheZc3JbFQO4X0lA5in9eElPC/wRj+c/aowzFAMkMm7Ppl+QwUY2cFnmkjoCGLlkBs9A8o1gQ5SDq+SLy7P+ZM2iL+cIGwIS5tYNHXtDB8sOaDwopOwPKDSFakyvBXqH/XRv9dzaMWdp2ya5bh0/c4eNe4PmYCQiD86KmBTZICG2gKy5Xg63j5Hgjt0sZUFAmTVf1ry8/DORYXJNwzbY+/hx6lrC9NpyFpY6qt106v6JoqlheK9LeSYTCXEFYhxngPNJJuLLVxQtPLU9fi8gbcG/+Shu7l3Or5RXL2uDD1+0aX/EKBacsLnUdxjIJG+l/LRczMXVwFIX1gCu6H3VxtDCQP8bttD7lLyf/YG5rfLKBuW8EnzwgnH4IlYIakePIhlNyVSwQd1Xq8q05sjvIt1nrjY/OOqh2Fi+qaMnQNXLGWGtweSrQq57okSoLkxcPPl/J7BWE2bohZOZiZvxlNlYPWvv33yFuO2sx
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(6486002)(5660300002)(31696002)(8936002)(478600001)(2906002)(956004)(6666004)(16576012)(66946007)(31686004)(316002)(66476007)(66556008)(450100002)(186003)(83380400001)(30864003)(26005)(86362001)(4326008)(53546011)(2616005)(38100700002)(36756003)(8676002)(107886003)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(396003)(136003)(376002)(39860400002)(186003)(16576012)(31686004)(316002)(66946007)(107886003)(956004)(66556008)(66476007)(6486002)(2616005)(450100002)(36756003)(30864003)(86362001)(8676002)(478600001)(83380400001)(2906002)(38100700002)(8936002)(26005)(5660300002)(53546011)(4326008)(31696002)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NTViclkrNGtjMkVZeGNFay95cTBQYi9MNWE2ZVI3dGtMc2pwdW43YmdCcjBM?=
- =?utf-8?B?dkdvS3c4aDRGRW54OU5MaEdCWms5WlN2TEFGVVpFV1pkd2IwNlVzQWNWVkI5?=
- =?utf-8?B?YTZqZk9GcHYvMzFFajZLTVhUQ1g1endObVhKb2dXazNRYTJ6KytSTkwzWkRC?=
- =?utf-8?B?ZHJxaEFISTVBQS94SXlTcmdPckNRYWZqUldGbFVqSjQ1N0NieWhFcUZ2SHdZ?=
- =?utf-8?B?U2h5cjV6dVlUNEUvQVRaVmIyb3NWL2pHNEdRaWxSd0xNRUNjVUxQVDkwUE1W?=
- =?utf-8?B?cGxFM0E4eVE2QzY3VVI1Ukgxd0YzTkFuVmZhdDN4TSs2U3RZZ2NWSVlFTXRR?=
- =?utf-8?B?M1lRaUJiWHlmYUdhWm9hNzRNd2Z4YVdacXd5K1g1a3A1eU50dldwcEFsMWxu?=
- =?utf-8?B?TVZ4Q2tsVDRyaCt2NzhCTTZhbjlwcmE4Ny9zdm9sNTVPRTczc2szMnJhWVpD?=
- =?utf-8?B?VXpUV0x4Yjl4cGw1cUIzM0REUit2ZTA2ZkQ4NlBxS0NhNjc0cHozUmIxcnVx?=
- =?utf-8?B?L0YrTHhVSENidTNtWWpZeCtTdzVDVHRDdUd6dEhYb1NoQ25keFdrZUFuREdC?=
- =?utf-8?B?Qm9aaDdEcjViMXJRbG90alNjUEFCd3NmQmR5eE9LL1N0NU9oVlc1czlOWitY?=
- =?utf-8?B?ODRZYVRzaXFFVzBYVWN6STBPM3pGVTZ1MzZUVmpkcjIvYzJLanRENlFsZ1JO?=
- =?utf-8?B?TmRFQkNPUDllQ1k2d2diSXc5akYrS2xTZlp1clJVNE0ybHJwNHNmZGNxZWRO?=
- =?utf-8?B?Y0x3YjdQWlpES0xlQklTMGZqT3k1c1B2Nmh3WlljZFVxcTRmY0ZNRy9tb004?=
- =?utf-8?B?RDdqVkdJRUQ3MnZCSU9hUStHZHIxYnE0dnhYcEZPOGQzUlRGTkx0YTZlZlAx?=
- =?utf-8?B?ZkhwU3p0L2RWbzh6ZkJBbzhuMktIYVBNTEpkVkVXV3pHOHJBV01TeGxzWWMy?=
- =?utf-8?B?cVVPY3J1NlZieTg5QVlEZUpiR0ZYdGR3VEZod0ZWWkpvblB5eDhEZm5BbSs2?=
- =?utf-8?B?WDJnSWllVGc0ZEtIU0ZBamxmK0ZyNldERElSVUpMcUhKM2ZKWXlKQWFhMmJn?=
- =?utf-8?B?L2tvdWpsWkU5TzBydytQU09vMGp2VFFBZXR3RUdqMU03aFRIUnVKVkk0Z25E?=
- =?utf-8?B?WjdZcU8wYjZXQTNBaGZKLytVZHJiN3ZCaE5GMXhYNVk5WHc4T0Y3YmlDUlpK?=
- =?utf-8?B?SFVmWlBodXo2WEVzNGhkN2hJZXZQRU0xU0hOQm9jbUY3Ui92YU9IN3UzdCth?=
- =?utf-8?B?YjBQREV6bjRPS1MxWllLZkg2WWhXODBwRFFlVnJUMzk1S3gyR214OGRXbGtM?=
- =?utf-8?B?dG90ZUp6cUVoQWRpRkJQT0VjMDdVL2JLSDZwTVRoYUJhZGxmNGpsaFB6aGpr?=
- =?utf-8?B?OVVudlkwMitCdVZlNlMwaXVCc0RnNmptaGZlMHdIaDlaMTNwdzVFczlLaU13?=
- =?utf-8?B?ektQaG10QjdQL3Rva2hMWTJpSUVPSS9IdmlaVHZnWUVRU2FqYVhtN0JIWnZU?=
- =?utf-8?B?cE9oc0tkNExrK1hYOVZvVFU5TmE1YTBZZGg0TWhzTlhGNldoYlpvQmNzV1Rn?=
- =?utf-8?B?SGE3TzI3eTJseUpoeVJIZVJTbFdhVmtLN084dmxsZmFiaGh6MDNiRjlmR0FM?=
- =?utf-8?B?bVFoWDBWWWFvb2lWeEQxa2ZJUHpwdXpPQ2dnRTBZN0lFbFVlVmx3Q0ZVRHFm?=
- =?utf-8?B?aU92bFZ0Z0pKa0hvcE5XcnhtN1BCbU9DbktnbFBScjVZTUVmSVMvZ2tPNks2?=
- =?utf-8?Q?F1ogY76vtdhyUxlk97wEpaSPK2u9vlluNU2nQP0?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9540dee1-d28f-4e03-9820-08d95131395e
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dThjSG5XSE50bW9xbEdYVWpya28wcThvNzFuckFsVk04eXdQeE9zRmZNRXZJ?=
+ =?utf-8?B?bk5hOVdGRnYzQXBMd1pnb29td2ROZk5OMTZVUWJwQkV6Z1BiNmVjRHVGZU5o?=
+ =?utf-8?B?RmVFQ2JVb1ppY3ZiL0Yxc0tPazRIMlVlSDE0dEdReE5oRVZyQlRYdEZ1Uk5G?=
+ =?utf-8?B?ZmlNTnNPQlBtSXNScmJqRVNVNnZvZURjeUZBUWZJNVppM0NxdCtTNW9pODUw?=
+ =?utf-8?B?RnViOGJoTkxBc1hxUzJsOHlqNTRYZ1NiRHllVWVhaThQaTNmeHUyandFYU1w?=
+ =?utf-8?B?MTlmbDhEbmMxbzA2RUtjOFVDWUk1K1ZFdzR6bVBRZWRqNVJuRFdpWTlmaFNw?=
+ =?utf-8?B?REJnOE14NVIrK0VuWEc4elRwOEo3ZWtoVS9GRE9ySEVTRG9nbkJPOEZWV3Bs?=
+ =?utf-8?B?ODRQWXkydytmc3hydWZHNGprdzIrSXl6azFrUTJTUzhicVhUN2FyQUIxejdI?=
+ =?utf-8?B?VmRsdTV3OU9FWjBBWVNqQUU0Q1FFbXJWQW9SVG5qZmxsaUhkdEc1NGQ3T3I5?=
+ =?utf-8?B?TjlCOUs4Z2w0dmhVNUhObFV3TWxxdjlnZmJ6aDduUjVrSFJyOVNFN3pINzJ2?=
+ =?utf-8?B?MUthK3NJL24rOWozeTA2L3c4eXhXMGt1YzdRTGZOY2JJc2R5TDJ4ZlE2b2pm?=
+ =?utf-8?B?VHVJK0pwU0JhL2ZyWXlMTGg0ZXFRZG1TUTc0NXhPT2JCRUdTYXN5MWIyeHd2?=
+ =?utf-8?B?SkxPYndBbXBkZE5HTTE3UjA5TVU3SXBLN2syMHg0N3dOKzcrWnM3eXBLaFBW?=
+ =?utf-8?B?bWdZZXdIa1lYZTk4UERja2RLd0FsalhPVTY1ZnNEaHdpaUhoODFRdWRGMUJP?=
+ =?utf-8?B?WnZveXFoNnJWMDlybmJyZ1oyRmRRNjRsT0liazdNMXppMzVDTnRBNWQ4OW1q?=
+ =?utf-8?B?Z2g4WkJscUhWejQ2UlYzZnp1dkVIYm50ejBCZytDeEFmYzBsZzVNWEVaZkNR?=
+ =?utf-8?B?OVN1Qk1qejhnZ0xlQmRvSGhoN3RHb25MRm4vYmo0U1JDN2ZncDNjcGpNZmJX?=
+ =?utf-8?B?WXdSZlcvZisyQ1Z1Z2p2bEZUOTM0ZUFzOHJveWkvdW55MDV5RnZETFE1dkMr?=
+ =?utf-8?B?Zml2TDgzY1BGK2FWekJVRnNRUk5TVjI3VmF3K2hrQzRTOGZSY1JHVFZPdHh1?=
+ =?utf-8?B?TVExYlpBVlpIeXBTczVHR1Azbk5nRCtZekJYTStLeVBwaGxCYytEQnpOTm9C?=
+ =?utf-8?B?SWV0eU4vTGdpeStqRmcxd0g2QkkvZTFkSWhnMEY5MFVRa2RPRE1PM01ldktS?=
+ =?utf-8?B?VDliOENZZDRoeXBMNjJpRW5jK3NBakFORDdpVzFvU212QmVrVzZmN2UrMCtv?=
+ =?utf-8?B?RjdjSm9xcTBrenFnRjVtK0ZySW9YZUVJMFFTTURTTzNwSitpZXBaYXE0QmlV?=
+ =?utf-8?B?cnIrcVppaGFaYmY5Y05TLzRicjI1Zkpid091VlAzbEdsNE1KVmkwUXpTUEpZ?=
+ =?utf-8?B?UG1mbDVEVUVHNEsvTFUwVk5EQnIwajVMSCt1eFhRd0RHNVA3UENkZlRxZEVC?=
+ =?utf-8?B?U1VjQXVFSTQ3N2t4anBqdjJXREwzeDJycmwxWEszWENvVkNBYmFlNkVPcnVJ?=
+ =?utf-8?B?anNnYU5qazhpRzJ5Ym0vNHliUDhRVjBJL2crNStYMXhBVEhLYTBRL1hxY0RR?=
+ =?utf-8?B?VGlCS3prdXZDYU1kbExQY0pUbmZyOGo2OXh4bytKK2F2R25paFp4M1VZNDNp?=
+ =?utf-8?B?TnBPM3RWeERMMHp6OUN3SWZLcWFTb3l5YU9IeitmeVhNdzJDOElRRXdTZ0dq?=
+ =?utf-8?Q?K1GpovRUv1dlw2D6jiECQgK84fQixOnF2SufyAH?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40fcd66c-425d-4122-a4c0-08d95132f94c
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2021 19:03:30.8359 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2021 19:16:02.3505 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r4oHapYMAvUTyxU4we0aT9J0MU75CEWzIVc/XP+/7HI/HSspbmLVber67QosMQqTlnxcDHCwtu712wQghqUP+58QcCZMM5DVv/Vj7SmVQKc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5668
+X-MS-Exchange-CrossTenant-UserPrincipalName: m+Jmr36rlxezoKK3zmzGOZBn6Ict8ifGCmja0//mK1g4gxIjXvwS2SsiDPWeh96ajSGhJXgAhl8Js4TSDMr91iCdi6UTtE7EGCyeCtY3DJA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2890
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -151,358 +155,532 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+Cc: john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/27/2021 6:59 AM, Michal Wajdeczko wrote:
-> 
-> 
-> On 26.07.2021 21:07, Vinay Belgaumkar wrote:
->> Add constants and params that are needed to configure SLPC.
->>
->> v2: Add a new abi header for SLPC. Replace bitfields with
->> genmasks. Address other comments from Michal W.
->>
->> v3: Add slpc H2G format in abi, other review commments (Michal W)
->>
->> v4: Update status bits according to latest spec
->>
->> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
->> ---
->>   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 -
->>   .../drm/i915/gt/uc/abi/guc_actions_slpc_abi.h | 235 ++++++++++++++++++
->>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   3 +
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   7 +
->>   4 files changed, 245 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> index d832c8f11c11..ca538e5de940 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
->> @@ -135,7 +135,6 @@ enum intel_guc_action {
->>   	INTEL_GUC_ACTION_SET_CONTEXT_PREEMPTION_TIMEOUT = 0x1007,
->>   	INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
->>   	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
->> -	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
->>   	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
->>   	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
->>   	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
->> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
->> new file mode 100644
->> index 000000000000..70b300d4a536
->> --- /dev/null
->> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
->> @@ -0,0 +1,235 @@
->> +/* SPDX-License-Identifier: MIT */
->> +/*
->> + * Copyright © 2021 Intel Corporation
->> + */
->> +
->> +#ifndef _GUC_ACTIONS_SLPC_ABI_H_
->> +#define _GUC_ACTIONS_SLPC_ABI_H_
->> +
->> +#include <linux/types.h>
->> +
->> +/**
->> + * DOC: SLPC SHARED DATA STRUCTURE
->> + *
->> + *  +----+------+--------------------------------------------------------------+
->> + *  | CL | Bytes| Description                                                  |
->> + *  +====+======+==============================================================+
->> + *  | 1  | 0-3  | SHARED DATA SIZE                                             |
->> + *  |    +------+--------------------------------------------------------------+
->> + *  |    | 4-7  | GLOBAL STATE                                                 |
->> + *  |    +------+--------------------------------------------------------------+
->> + *  |    | 8-11 | DISPLAY DATA ADDRESS                                         |
->> + *  |    +------+--------------------------------------------------------------+
->> + *  |    | 12:63| PADDING                                                      |
->> + *  +----+------+--------------------------------------------------------------+
->> + *  |    | 0:63 | PADDING(PLATFORM INFO)                                       |
->> + *  +----+------+--------------------------------------------------------------+
->> + *  | 3  | 0-3  | TASK STATE DATA                                              |
->> + *  +    +------+--------------------------------------------------------------+
->> + *  |    | 4:63 | PADDING                                                      |
->> + *  +----+------+--------------------------------------------------------------+
->> + *  |4-21|0:1087| OVERRIDE PARAMS AND BIT FIELDS                               |
->> + *  +----+------+--------------------------------------------------------------+
->> + *  |    |      | PADDING + EXTRA RESERVED PAGE                                |
->> + *  +----+------+--------------------------------------------------------------+
->> + */
->> +
->> +/*
->> + * SLPC exposes certain parameters for global configuration by the host.
->> + * These are referred to as override parameters, because in most cases
->> + * the host will not need to modify the default values used by SLPC.
->> + * SLPC remembers the default values which allows the host to easily restore
->> + * them by simply unsetting the override. The host can set or unset override
->> + * parameters during SLPC (re-)initialization using the SLPC Reset event.
->> + * The host can also set or unset override parameters on the fly using the
->> + * Parameter Set and Parameter Unset events
->> + */
->> +
->> +#define SLPC_MAX_OVERRIDE_PARAMETERS		256
->> +#define SLPC_OVERRIDE_BITFIELD_SIZE \
->> +		(SLPC_MAX_OVERRIDE_PARAMETERS / 32)
->> +
->> +#define SLPC_PAGE_SIZE_BYTES			4096
->> +#define SLPC_CACHELINE_SIZE_BYTES		64
->> +#define SLPC_SHARED_DATA_SIZE_BYTE_HEADER	SLPC_CACHELINE_SIZE_BYTES
->> +#define SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO	SLPC_CACHELINE_SIZE_BYTES
->> +#define SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE	SLPC_CACHELINE_SIZE_BYTES
->> +#define SLPC_SHARED_DATA_MODE_DEFN_TABLE_SIZE	SLPC_PAGE_SIZE_BYTES
->> +#define SLPC_SHARED_DATA_SIZE_BYTE_MAX		(2 * SLPC_PAGE_SIZE_BYTES)
->> +
->> +/*
->> + * Cacheline size aligned (Total size needed for
->> + * SLPM_KMD_MAX_OVERRIDE_PARAMETERS=256 is 1088 bytes)
->> + */
->> +#define SLPC_OVERRIDE_PARAMS_TOTAL_BYTES	(((((SLPC_MAX_OVERRIDE_PARAMETERS * 4) \
->> +						+ ((SLPC_MAX_OVERRIDE_PARAMETERS / 32) * 4)) \
->> +		+ (SLPC_CACHELINE_SIZE_BYTES-1)) / SLPC_CACHELINE_SIZE_BYTES)*SLPC_CACHELINE_SIZE_BYTES)
->> +
->> +#define SLPC_SHARED_DATA_SIZE_BYTE_OTHER	(SLPC_SHARED_DATA_SIZE_BYTE_MAX - \
->> +					(SLPC_SHARED_DATA_SIZE_BYTE_HEADER \
->> +					+ SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO \
->> +					+ SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE \
->> +					+ SLPC_OVERRIDE_PARAMS_TOTAL_BYTES \
->> +					+ SLPC_SHARED_DATA_MODE_DEFN_TABLE_SIZE))
->> +
->> +enum slpc_task_enable {
->> +	SLPC_PARAM_TASK_DEFAULT = 0,
->> +	SLPC_PARAM_TASK_ENABLED,
->> +	SLPC_PARAM_TASK_DISABLED,
->> +	SLPC_PARAM_TASK_UNKNOWN
->> +};
->> +
->> +enum slpc_global_state {
->> +	SLPC_GLOBAL_STATE_NOT_RUNNING = 0,
->> +	SLPC_GLOBAL_STATE_INITIALIZING = 1,
->> +	SLPC_GLOBAL_STATE_RESETTING = 2,
->> +	SLPC_GLOBAL_STATE_RUNNING = 3,
->> +	SLPC_GLOBAL_STATE_SHUTTING_DOWN = 4,
->> +	SLPC_GLOBAL_STATE_ERROR = 5
->> +};
->> +
->> +enum slpc_param_id {
->> +	SLPC_PARAM_TASK_ENABLE_GTPERF = 0,
->> +	SLPC_PARAM_TASK_DISABLE_GTPERF = 1,
->> +	SLPC_PARAM_TASK_ENABLE_BALANCER = 2,
->> +	SLPC_PARAM_TASK_DISABLE_BALANCER = 3,
->> +	SLPC_PARAM_TASK_ENABLE_DCC = 4,
->> +	SLPC_PARAM_TASK_DISABLE_DCC = 5,
->> +	SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ = 6,
->> +	SLPC_PARAM_GLOBAL_MAX_GT_UNSLICE_FREQ_MHZ = 7,
->> +	SLPC_PARAM_GLOBAL_MIN_GT_SLICE_FREQ_MHZ = 8,
->> +	SLPC_PARAM_GLOBAL_MAX_GT_SLICE_FREQ_MHZ = 9,
->> +	SLPC_PARAM_GTPERF_THRESHOLD_MAX_FPS = 10,
->> +	SLPC_PARAM_GLOBAL_DISABLE_GT_FREQ_MANAGEMENT = 11,
->> +	SLPC_PARAM_GTPERF_ENABLE_FRAMERATE_STALLING = 12,
->> +	SLPC_PARAM_GLOBAL_DISABLE_RC6_MODE_CHANGE = 13,
->> +	SLPC_PARAM_GLOBAL_OC_UNSLICE_FREQ_MHZ = 14,
->> +	SLPC_PARAM_GLOBAL_OC_SLICE_FREQ_MHZ = 15,
->> +	SLPC_PARAM_GLOBAL_ENABLE_IA_GT_BALANCING = 16,
->> +	SLPC_PARAM_GLOBAL_ENABLE_ADAPTIVE_BURST_TURBO = 17,
->> +	SLPC_PARAM_GLOBAL_ENABLE_EVAL_MODE = 18,
->> +	SLPC_PARAM_GLOBAL_ENABLE_BALANCER_IN_NON_GAMING_MODE = 19,
->> +	SLPC_PARAM_GLOBAL_RT_MODE_TURBO_FREQ_DELTA_MHZ = 20,
->> +	SLPC_PARAM_PWRGATE_RC_MODE = 21,
->> +	SLPC_PARAM_EDR_MODE_COMPUTE_TIMEOUT_MS = 22,
->> +	SLPC_PARAM_EDR_QOS_FREQ_MHZ = 23,
->> +	SLPC_PARAM_MEDIA_FF_RATIO_MODE = 24,
->> +	SLPC_PARAM_ENABLE_IA_FREQ_LIMITING = 25,
->> +	SLPC_PARAM_STRATEGIES = 26,
->> +	SLPC_PARAM_POWER_PROFILE = 27,
->> +	SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY = 28,
->> +	SLPC_MAX_PARAM = 32,
->> +};
->> +
->> +enum slpc_event_id {
->> +	SLPC_EVENT_RESET = 0,
->> +	SLPC_EVENT_SHUTDOWN = 1,
->> +	SLPC_EVENT_PLATFORM_INFO_CHANGE = 2,
->> +	SLPC_EVENT_DISPLAY_MODE_CHANGE = 3,
->> +	SLPC_EVENT_FLIP_COMPLETE = 4,
->> +	SLPC_EVENT_QUERY_TASK_STATE = 5,
->> +	SLPC_EVENT_PARAMETER_SET = 6,
->> +	SLPC_EVENT_PARAMETER_UNSET = 7,
->> +};
->> +
->> +struct slpc_task_state_data {
->> +	union {
->> +		u32 task_status_padding;
->> +		struct {
->> +			u32 status;
->> +#define SLPC_GTPERF_TASK_ENABLED	BIT(0)
->> +#define SLPC_DCC_TASK_ENABLED		BIT(11)
->> +#define SLPC_IN_DCC			BIT(12)
->> +#define SLPC_BALANCER_ENABLED		BIT(15)
->> +#define SLPC_IBC_TASK_ENABLED		BIT(16)
->> +#define SLPC_BALANCER_IA_LMT_ENABLED	BIT(17)
->> +#define SLPC_BALANCER_IA_LMT_ACTIVE	BIT(18)
-> 
-> as you are using REG_GENMASK below then you should be consistent and use
-> REG_BIT here and include "i915_reg.h" where both are defined, but then
-> it's no longer pure ABI header, but not a blocker
+On 7/26/2021 5:23 PM, Matthew Brost wrote:
+> This adds GuC backend support for i915_request_cancel(), which in turn
+> makes CONFIG_DRM_I915_REQUEST_TIMEOUT work.
+>
+> This implementation makes use of fence while there are likely simplier
+> options. A fence was chosen because of another feature coming soon
+> which requires a user to block on a context until scheduling is
+> disabled. In that case we return the fence to the user and the user can
+> wait on that fence.
+>
+> v2:
+>   (Daniele)
+>    - A comment about locking the blocked incr / decr
+>    - A comments about the use of the fence
+>    - Update commit message explaining why fence
+>    - Delete redundant check blocked count in unblock function
+>    - Ring buffer implementation
+>    - Comment about blocked in submission path
+>    - Shorter rpm path
+> v3:
+>   (Checkpatch)
+>    - Fix typos in commit message
+>   (Daniel)
+>    - Rework to simplier locking structure in guc_context_block / unblock
+>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-ok, makes sense.
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-> 
->> +		};
->> +	};
->> +	union {
->> +		u32 freq_padding;
->> +		struct {
->> +#define SLPC_MAX_UNSLICE_FREQ_MASK	REG_GENMASK(7, 0)
->> +#define SLPC_MIN_UNSLICE_FREQ_MASK	REG_GENMASK(15, 8)
->> +#define SLPC_MAX_SLICE_FREQ_MASK	REG_GENMASK(23, 16)
->> +#define SLPC_MIN_SLICE_FREQ_MASK	REG_GENMASK(31, 24)
->> +			u32 freq;
->> +		};
->> +	};
->> +} __packed;
->> +
->> +struct slpc_shared_data_header {
->> +	/* Total size in bytes of this shared buffer. */
->> +	u32 size;
->> +	u32 global_state;
->> +	u32 display_data_addr;
->> +} __packed;
->> +
->> +struct slpc_override_params {
->> +	u32 bits[SLPC_OVERRIDE_BITFIELD_SIZE];
->> +	u32 values[SLPC_MAX_OVERRIDE_PARAMETERS];
->> +} __packed;
->> +
->> +struct slpc_shared_data {
->> +	struct slpc_shared_data_header header;
->> +	u8 shared_data_header_pad[SLPC_SHARED_DATA_SIZE_BYTE_HEADER -
->> +				sizeof(struct slpc_shared_data_header)];
->> +
->> +	u8 platform_info_pad[SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO];
->> +
->> +	struct slpc_task_state_data task_state_data;
->> +	u8 task_state_data_pad[SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE -
->> +				sizeof(struct slpc_task_state_data)];
->> +
->> +	struct slpc_override_params override_params ;
->> +	u8 override_params_pad[SLPC_OVERRIDE_PARAMS_TOTAL_BYTES -
->> +				sizeof(struct slpc_override_params)];
->> +
->> +	u8 shared_data_pad[SLPC_SHARED_DATA_SIZE_BYTE_OTHER];
->> +
->> +	/* PAGE 2 (4096 bytes), mode based parameter will be removed soon */
->> +	u8 reserved_mode_definition[4096];
->> +} __packed;
->> +
->> +/**
->> + * DOC: SLPC H2G MESSAGE FORMAT
->> + *
->> + *  +---+-------+--------------------------------------------------------------+
->> + *  |   | Bits  | Description                                                  |
->> + *  +===+=======+==============================================================+
->> + *  | 0 |    31 | ORIGIN = GUC_HXG_ORIGIN_HOST_                                |
->> + *  |   +-------+--------------------------------------------------------------+
->> + *  |   | 30:28 | TYPE = GUC_HXG_TYPE_REQUEST_                                 |
->> + *  |   +-------+--------------------------------------------------------------+
->> + *  |   | 27:16 | DATA0 = MBZ                                                  |
->> + *  |   +-------+--------------------------------------------------------------+
->> + *  |   |  15:0 | ACTION = _`GUC_ACTION_HOST2GUC_PC_SLPM_REQUEST` = 0x3003     |
->> + *  +---+-------+--------------------------------------------------------------+
->> + *  | 1 |  31:8 | **EVENT_ID**                                                 |
->> + *  +   +-------+--------------------------------------------------------------+
->> + *  |   |   7:0 | **EVENT_ARGC** - number of data arguments                    |
->> + *  +---+-------+--------------------------------------------------------------+
->> + *  | 2 |  31:0 | **EVENT_DATA1**                                              |
->> + *  +---+-------+--------------------------------------------------------------+
->> + *  |...|  31:0 | ...                                                          |
->> + *  +---+-------+--------------------------------------------------------------+
->> + *  |2+n|  31:0 | **EVENT_DATAn**                                              |
->> + *  +---+-------+--------------------------------------------------------------+
->> + */
->> +
->> +#define INTEL_GUC_ACTION_SLPC_REQUEST			0x3003
-> 
-> likely you want to use
-> 	GUC_ACTION_HOST2GUC_PC_SLPM_REQUEST
+Daniele
 
-ok.
+> ---
+>   drivers/gpu/drm/i915/gt/intel_context.c       |  13 ++
+>   drivers/gpu/drm/i915/gt/intel_context.h       |   7 +
+>   drivers/gpu/drm/i915/gt/intel_context_types.h |   9 +-
+>   .../drm/i915/gt/intel_execlists_submission.c  |  18 ++
+>   .../gpu/drm/i915/gt/intel_ring_submission.c   |  16 ++
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 188 ++++++++++++++++++
+>   drivers/gpu/drm/i915/i915_request.c           |  14 +-
+>   7 files changed, 251 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> index 237b70e98744..477c42d7d693 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> @@ -366,6 +366,12 @@ static int __intel_context_active(struct i915_active *active)
+>   	return 0;
+>   }
+>   
+> +static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
+> +				 enum i915_sw_fence_notify state)
+> +{
+> +	return NOTIFY_DONE;
+> +}
+> +
+>   void
+>   intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+>   {
+> @@ -399,6 +405,13 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+>   	ce->guc_id = GUC_INVALID_LRC_ID;
+>   	INIT_LIST_HEAD(&ce->guc_id_link);
+>   
+> +	/*
+> +	 * Initialize fence to be complete as this is expected to be complete
+> +	 * unless there is a pending schedule disable outstanding.
+> +	 */
+> +	i915_sw_fence_init(&ce->guc_blocked, sw_fence_dummy_notify);
+> +	i915_sw_fence_commit(&ce->guc_blocked);
+> +
+>   	i915_active_init(&ce->active,
+>   			 __intel_context_active, __intel_context_retire, 0);
+>   }
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+> index 814d9277096a..876bdb08303c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> @@ -70,6 +70,13 @@ intel_context_is_pinned(struct intel_context *ce)
+>   	return atomic_read(&ce->pin_count);
+>   }
+>   
+> +static inline void intel_context_cancel_request(struct intel_context *ce,
+> +						struct i915_request *rq)
+> +{
+> +	GEM_BUG_ON(!ce->ops->cancel_request);
+> +	return ce->ops->cancel_request(ce, rq);
+> +}
+> +
+>   /**
+>    * intel_context_unlock_pinned - Releases the earlier locking of 'pinned' status
+>    * @ce - the context
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> index 57c19ee3e313..a5bc876face7 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> @@ -13,6 +13,7 @@
+>   #include <linux/types.h>
+>   
+>   #include "i915_active_types.h"
+> +#include "i915_sw_fence.h"
+>   #include "i915_utils.h"
+>   #include "intel_engine_types.h"
+>   #include "intel_sseu.h"
+> @@ -42,6 +43,9 @@ struct intel_context_ops {
+>   	void (*unpin)(struct intel_context *ce);
+>   	void (*post_unpin)(struct intel_context *ce);
+>   
+> +	void (*cancel_request)(struct intel_context *ce,
+> +			       struct i915_request *rq);
+> +
+>   	void (*enter)(struct intel_context *ce);
+>   	void (*exit)(struct intel_context *ce);
+>   
+> @@ -156,7 +160,7 @@ struct intel_context {
+>   		 * sched_state: scheduling state of this context using GuC
+>   		 * submission
+>   		 */
+> -		u8 sched_state;
+> +		u16 sched_state;
+>   		/*
+>   		 * fences: maintains of list of requests that have a submit
+>   		 * fence related to GuC submission
+> @@ -184,6 +188,9 @@ struct intel_context {
+>   	 * GuC ID link - in list when unpinned but guc_id still valid in GuC
+>   	 */
+>   	struct list_head guc_id_link;
+> +
+> +	/* GuC context blocked fence */
+> +	struct i915_sw_fence guc_blocked;
+>   };
+>   
+>   #endif /* __INTEL_CONTEXT_TYPES__ */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index b4a876736074..de5f9c86b9a4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -114,6 +114,7 @@
+>   #include "gen8_engine_cs.h"
+>   #include "intel_breadcrumbs.h"
+>   #include "intel_context.h"
+> +#include "intel_engine_heartbeat.h"
+>   #include "intel_engine_pm.h"
+>   #include "intel_engine_stats.h"
+>   #include "intel_execlists_submission.h"
+> @@ -2587,11 +2588,26 @@ static int execlists_context_alloc(struct intel_context *ce)
+>   	return lrc_alloc(ce, ce->engine);
+>   }
+>   
+> +static void execlists_context_cancel_request(struct intel_context *ce,
+> +					     struct i915_request *rq)
+> +{
+> +	struct intel_engine_cs *engine = NULL;
+> +
+> +	i915_request_active_engine(rq, &engine);
+> +
+> +	if (engine && intel_engine_pulse(engine))
+> +		intel_gt_handle_error(engine->gt, engine->mask, 0,
+> +				      "request cancellation by %s",
+> +				      current->comm);
+> +}
+> +
+>   static const struct intel_context_ops execlists_context_ops = {
+>   	.flags = COPS_HAS_INFLIGHT,
+>   
+>   	.alloc = execlists_context_alloc,
+>   
+> +	.cancel_request = execlists_context_cancel_request,
+> +
+>   	.pre_pin = execlists_context_pre_pin,
+>   	.pin = execlists_context_pin,
+>   	.unpin = lrc_unpin,
+> @@ -3608,6 +3624,8 @@ static const struct intel_context_ops virtual_context_ops = {
+>   
+>   	.alloc = virtual_context_alloc,
+>   
+> +	.cancel_request = execlists_context_cancel_request,
+> +
+>   	.pre_pin = virtual_context_pre_pin,
+>   	.pin = virtual_context_pin,
+>   	.unpin = lrc_unpin,
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> index 05bb9f449df1..2958e2fae380 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> @@ -16,6 +16,7 @@
+>   #include "intel_reset.h"
+>   #include "intel_ring.h"
+>   #include "shmem_utils.h"
+> +#include "intel_engine_heartbeat.h"
+>   
+>   /* Rough estimate of the typical request size, performing a flush,
+>    * set-context and then emitting the batch.
+> @@ -604,9 +605,24 @@ static void ring_context_ban(struct intel_context *ce,
+>   		}
+>   }
+>   
+> +static void ring_context_cancel_request(struct intel_context *ce,
+> +					struct i915_request *rq)
+> +{
+> +	struct intel_engine_cs *engine = NULL;
+> +
+> +	i915_request_active_engine(rq, &engine);
+> +
+> +	if (engine && intel_engine_pulse(engine))
+> +		intel_gt_handle_error(engine->gt, engine->mask, 0,
+> +				      "request cancellation by %s",
+> +				      current->comm);
+> +}
+> +
+>   static const struct intel_context_ops ring_context_ops = {
+>   	.alloc = ring_context_alloc,
+>   
+> +	.cancel_request = ring_context_cancel_request,
+> +
+>   	.ban = ring_context_ban,
+>   
+>   	.pre_pin = ring_context_pre_pin,
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index ad9a38a861df..ee4f1f996efa 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -126,6 +126,9 @@ static inline void clr_context_pending_enable(struct intel_context *ce)
+>   #define SCHED_STATE_DESTROYED				BIT(1)
+>   #define SCHED_STATE_PENDING_DISABLE			BIT(2)
+>   #define SCHED_STATE_BANNED				BIT(3)
+> +#define SCHED_STATE_BLOCKED_SHIFT			4
+> +#define SCHED_STATE_BLOCKED		BIT(SCHED_STATE_BLOCKED_SHIFT)
+> +#define SCHED_STATE_BLOCKED_MASK	(0xfff << SCHED_STATE_BLOCKED_SHIFT)
+>   static inline void init_sched_state(struct intel_context *ce)
+>   {
+>   	/* Only should be called from guc_lrc_desc_pin() */
+> @@ -203,6 +206,32 @@ static inline void clr_context_banned(struct intel_context *ce)
+>   	ce->guc_state.sched_state &= ~SCHED_STATE_BANNED;
+>   }
+>   
+> +static inline u32 context_blocked(struct intel_context *ce)
+> +{
+> +	return (ce->guc_state.sched_state & SCHED_STATE_BLOCKED_MASK) >>
+> +		SCHED_STATE_BLOCKED_SHIFT;
+> +}
+> +
+> +static inline void incr_context_blocked(struct intel_context *ce)
+> +{
+> +	lockdep_assert_held(&ce->engine->sched_engine->lock);
+> +	lockdep_assert_held(&ce->guc_state.lock);
+> +
+> +	ce->guc_state.sched_state += SCHED_STATE_BLOCKED;
+> +
+> +	GEM_BUG_ON(!context_blocked(ce));	/* Overflow check */
+> +}
+> +
+> +static inline void decr_context_blocked(struct intel_context *ce)
+> +{
+> +	lockdep_assert_held(&ce->engine->sched_engine->lock);
+> +	lockdep_assert_held(&ce->guc_state.lock);
+> +
+> +	GEM_BUG_ON(!context_blocked(ce));	/* Underflow check */
+> +
+> +	ce->guc_state.sched_state -= SCHED_STATE_BLOCKED;
+> +}
+> +
+>   static inline bool context_guc_id_invalid(struct intel_context *ce)
+>   {
+>   	return ce->guc_id == GUC_INVALID_LRC_ID;
+> @@ -404,6 +433,14 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+>   		if (unlikely(err))
+>   			goto out;
+>   	}
+> +
+> +	/*
+> +	 * The request / context will be run on the hardware when scheduling
+> +	 * gets enabled in the unblock.
+> +	 */
+> +	if (unlikely(context_blocked(ce)))
+> +		goto out;
+> +
+>   	enabled = context_enabled(ce);
+>   
+>   	if (!enabled) {
+> @@ -532,6 +569,7 @@ static void __guc_context_destroy(struct intel_context *ce);
+>   static void release_guc_id(struct intel_guc *guc, struct intel_context *ce);
+>   static void guc_signal_context_fence(struct intel_context *ce);
+>   static void guc_cancel_context_requests(struct intel_context *ce);
+> +static void guc_blocked_fence_complete(struct intel_context *ce);
+>   
+>   static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+>   {
+> @@ -579,6 +617,10 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+>   			}
+>   			intel_context_sched_disable_unpin(ce);
+>   			atomic_dec(&guc->outstanding_submission_g2h);
+> +			spin_lock_irqsave(&ce->guc_state.lock, flags);
+> +			guc_blocked_fence_complete(ce);
+> +			spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> +
+>   			intel_context_put(ce);
+>   		}
+>   	}
+> @@ -1354,6 +1396,21 @@ static void guc_context_post_unpin(struct intel_context *ce)
+>   	lrc_post_unpin(ce);
+>   }
+>   
+> +static void __guc_context_sched_enable(struct intel_guc *guc,
+> +				       struct intel_context *ce)
+> +{
+> +	u32 action[] = {
+> +		INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_SET,
+> +		ce->guc_id,
+> +		GUC_CONTEXT_ENABLE
+> +	};
+> +
+> +	trace_intel_context_sched_enable(ce);
+> +
+> +	guc_submission_send_busy_loop(guc, action, ARRAY_SIZE(action),
+> +				      G2H_LEN_DW_SCHED_CONTEXT_MODE_SET, true);
+> +}
+> +
+>   static void __guc_context_sched_disable(struct intel_guc *guc,
+>   					struct intel_context *ce,
+>   					u16 guc_id)
+> @@ -1372,17 +1429,143 @@ static void __guc_context_sched_disable(struct intel_guc *guc,
+>   				      G2H_LEN_DW_SCHED_CONTEXT_MODE_SET, true);
+>   }
+>   
+> +static void guc_blocked_fence_complete(struct intel_context *ce)
+> +{
+> +	lockdep_assert_held(&ce->guc_state.lock);
+> +
+> +	if (!i915_sw_fence_done(&ce->guc_blocked))
+> +		i915_sw_fence_complete(&ce->guc_blocked);
+> +}
+> +
+> +static void guc_blocked_fence_reinit(struct intel_context *ce)
+> +{
+> +	lockdep_assert_held(&ce->guc_state.lock);
+> +	GEM_BUG_ON(!i915_sw_fence_done(&ce->guc_blocked));
+> +
+> +	/*
+> +	 * This fence is always complete unless a pending schedule disable is
+> +	 * outstanding. We arm the fence here and complete it when we receive
+> +	 * the pending schedule disable complete message.
+> +	 */
+> +	i915_sw_fence_fini(&ce->guc_blocked);
+> +	i915_sw_fence_reinit(&ce->guc_blocked);
+> +	i915_sw_fence_await(&ce->guc_blocked);
+> +	i915_sw_fence_commit(&ce->guc_blocked);
+> +}
+> +
+>   static u16 prep_context_pending_disable(struct intel_context *ce)
+>   {
+>   	lockdep_assert_held(&ce->guc_state.lock);
+>   
+>   	set_context_pending_disable(ce);
+>   	clr_context_enabled(ce);
+> +	guc_blocked_fence_reinit(ce);
+>   	intel_context_get(ce);
+>   
+>   	return ce->guc_id;
+>   }
+>   
+> +static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
+> +{
+> +	struct intel_guc *guc = ce_to_guc(ce);
+> +	struct i915_sched_engine *sched_engine = ce->engine->sched_engine;
+> +	unsigned long flags;
+> +	struct intel_runtime_pm *runtime_pm = ce->engine->uncore->rpm;
+> +	intel_wakeref_t wakeref;
+> +	u16 guc_id;
+> +	bool enabled;
+> +
+> +	spin_lock_irqsave(&ce->guc_state.lock, flags);
+> +
+> +	/*
+> +	 * Sync with submission path, increment before below changes to context
+> +	 * state.
+> +	 */
+> +	spin_lock(&sched_engine->lock);
+> +	incr_context_blocked(ce);
+> +	spin_unlock(&sched_engine->lock);
+> +
+> +	enabled = context_enabled(ce);
+> +	if (unlikely(!enabled || submission_disabled(guc))) {
+> +		if (enabled)
+> +			clr_context_enabled(ce);
+> +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> +		return &ce->guc_blocked;
+> +	}
+> +
+> +	/*
+> +	 * We add +2 here as the schedule disable complete CTB handler calls
+> +	 * intel_context_sched_disable_unpin (-2 to pin_count).
+> +	 */
+> +	atomic_add(2, &ce->pin_count);
+> +
+> +	guc_id = prep_context_pending_disable(ce);
+> +
+> +	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> +
+> +	with_intel_runtime_pm(runtime_pm, wakeref)
+> +		__guc_context_sched_disable(guc, ce, guc_id);
+> +
+> +	return &ce->guc_blocked;
+> +}
+> +
+> +static void guc_context_unblock(struct intel_context *ce)
+> +{
+> +	struct intel_guc *guc = ce_to_guc(ce);
+> +	struct i915_sched_engine *sched_engine = ce->engine->sched_engine;
+> +	unsigned long flags;
+> +	struct intel_runtime_pm *runtime_pm = ce->engine->uncore->rpm;
+> +	intel_wakeref_t wakeref;
+> +	bool enable;
+> +
+> +	GEM_BUG_ON(context_enabled(ce));
+> +
+> +	spin_lock_irqsave(&ce->guc_state.lock, flags);
+> +
+> +	if (unlikely(submission_disabled(guc) ||
+> +		     !intel_context_is_pinned(ce) ||
+> +		     context_pending_disable(ce) ||
+> +		     context_blocked(ce) > 1)) {
+> +		enable = false;
+> +	} else {
+> +		enable = true;
+> +		set_context_pending_enable(ce);
+> +		set_context_enabled(ce);
+> +		intel_context_get(ce);
+> +	}
+> +
+> +	/*
+> +	 * Sync with submission path, decrement after above changes to context
+> +	 * state.
+> +	 */
+> +	spin_lock(&sched_engine->lock);
+> +	decr_context_blocked(ce);
+> +	spin_unlock(&sched_engine->lock);
+> +
+> +	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> +
+> +	if (enable) {
+> +		with_intel_runtime_pm(runtime_pm, wakeref)
+> +			__guc_context_sched_enable(guc, ce);
+> +	}
+> +}
+> +
+> +static void guc_context_cancel_request(struct intel_context *ce,
+> +				       struct i915_request *rq)
+> +{
+> +	if (i915_sw_fence_signaled(&rq->submit)) {
+> +		struct i915_sw_fence *fence = guc_context_block(ce);
+> +
+> +		i915_sw_fence_wait(fence);
+> +		if (!i915_request_completed(rq)) {
+> +			__i915_request_skip(rq);
+> +			guc_reset_state(ce, intel_ring_wrap(ce->ring, rq->head),
+> +					true);
+> +		}
+> +		guc_context_unblock(ce);
+> +	}
+> +}
+> +
+>   static void __guc_context_set_preemption_timeout(struct intel_guc *guc,
+>   						 u16 guc_id,
+>   						 u32 preemption_timeout)
+> @@ -1642,6 +1825,8 @@ static const struct intel_context_ops guc_context_ops = {
+>   
+>   	.ban = guc_context_ban,
+>   
+> +	.cancel_request = guc_context_cancel_request,
+> +
+>   	.enter = intel_context_enter_engine,
+>   	.exit = intel_context_exit_engine,
+>   
+> @@ -1837,6 +2022,8 @@ static const struct intel_context_ops virtual_guc_context_ops = {
+>   
+>   	.ban = guc_context_ban,
+>   
+> +	.cancel_request = guc_context_cancel_request,
+> +
+>   	.enter = guc_virtual_context_enter,
+>   	.exit = guc_virtual_context_exit,
+>   
+> @@ -2295,6 +2482,7 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+>   		clr_context_banned(ce);
+>   		clr_context_pending_disable(ce);
+>   		__guc_signal_context_fence(ce);
+> +		guc_blocked_fence_complete(ce);
+>   		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>   
+>   		if (banned) {
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 28f38b02a5d2..541a20371502 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -710,18 +710,6 @@ void i915_request_unsubmit(struct i915_request *request)
+>   	spin_unlock_irqrestore(&engine->sched_engine->lock, flags);
+>   }
+>   
+> -static void __cancel_request(struct i915_request *rq)
+> -{
+> -	struct intel_engine_cs *engine = NULL;
+> -
+> -	i915_request_active_engine(rq, &engine);
+> -
+> -	if (engine && intel_engine_pulse(engine))
+> -		intel_gt_handle_error(engine->gt, engine->mask, 0,
+> -				      "request cancellation by %s",
+> -				      current->comm);
+> -}
+> -
+>   void i915_request_cancel(struct i915_request *rq, int error)
+>   {
+>   	if (!i915_request_set_error_once(rq, error))
+> @@ -729,7 +717,7 @@ void i915_request_cancel(struct i915_request *rq, int error)
+>   
+>   	set_bit(I915_FENCE_FLAG_SENTINEL, &rq->fence.flags);
+>   
+> -	__cancel_request(rq);
+> +	intel_context_cancel_request(rq->context, rq);
+>   }
+>   
+>   static int __i915_sw_fence_call
 
-> 
->> +
->> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_MIN_LEN \
->> +				(GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
->> +#define HOST2GUC_PC_SLPC_EVENT_MAX_INPUT_ARGS		9
->> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_MAX_LEN \
->> +		(HOST2GUC_PC_SLPC_REQUEST_REQUEST_MSG_MIN_LEN + \
->> +			HOST2GUC_PC_SLPC_EVENT_MAX_INPUT_ARGS)
->> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_0_MBZ		GUC_HXG_REQUEST_MSG_0_DATA0
->> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ID		(0xff << 8)
->> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ARGC	(0xff << 0)
->> +#define HOST2GUC_PC_SLPC_REQUEST_MSG_n_EVENT_DATAn	GUC_HXG_REQUEST_MSG_n_DATAn
->> +
->> +#define HOST2GUC_DEREGISTER_CTB_REQUEST_MSG_LEN \
->> +			(GUC_HXG_REQUEST_MSG_MIN_LEN + 1u)
-> 
-> this one does not belong here
-
-removed.
-Thanks,
-Vinay.
-> 
-> other LGTM,
-> 
-> Michal
-> 
->> +#endif
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> index 39bc3c16057b..5b0f8c541b69 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> @@ -208,6 +208,9 @@ static u32 guc_ctl_feature_flags(struct intel_guc *guc)
->>   	if (!intel_guc_submission_is_used(guc))
->>   		flags |= GUC_CTL_DISABLE_SCHEDULER;
->>   
->> +	if (intel_guc_slpc_is_used(guc))
->> +		flags |= GUC_CTL_ENABLE_SLPC;
->> +
->>   	return flags;
->>   }
->>   
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->> index 82534259b7ad..6ec331b903a8 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->> @@ -12,6 +12,7 @@
->>   #include "gt/intel_engine_types.h"
->>   
->>   #include "abi/guc_actions_abi.h"
->> +#include "abi/guc_actions_slpc_abi.h"
->>   #include "abi/guc_errors_abi.h"
->>   #include "abi/guc_communication_mmio_abi.h"
->>   #include "abi/guc_communication_ctb_abi.h"
->> @@ -95,6 +96,7 @@
->>   #define GUC_CTL_WA			1
->>   #define GUC_CTL_FEATURE			2
->>   #define   GUC_CTL_DISABLE_SCHEDULER	(1 << 14)
->> +#define   GUC_CTL_ENABLE_SLPC		BIT(2)
->>   
->>   #define GUC_CTL_DEBUG			3
->>   #define   GUC_LOG_VERBOSITY_SHIFT	0
->> @@ -141,6 +143,11 @@
->>   #define GUC_ID_TO_ENGINE_INSTANCE(guc_id) \
->>   	(((guc_id) & GUC_ENGINE_INSTANCE_MASK) >> GUC_ENGINE_INSTANCE_SHIFT)
->>   
->> +#define SLPC_EVENT(id,c) (\
->> +FIELD_PREP(HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ID, id) | \
->> +FIELD_PREP(HOST2GUC_PC_SLPC_REQUEST_MSG_1_EVENT_ARGC, c ) \
->> +)
->> +
->>   static inline u8 engine_class_to_guc_class(u8 class)
->>   {
->>   	BUILD_BUG_ON(GUC_RENDER_CLASS != RENDER_CLASS);
->>
