@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF053D80A8
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:07:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B68A3D80A7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:07:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD016EA8A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF476EA90;
 	Tue, 27 Jul 2021 21:07:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1346D6EA7B
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:07:01 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id j1so1815997pjv.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17DE06EA64
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:07:03 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id e21so28807pla.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:07:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RRl4QwGFVHrrGOIPdMRW7d1sxZ/z0xnxJ3QgfuV7q+Y=;
- b=VLdolfVHCXSWi55Yx/uNOx2x9gNCjcm8fAuonyRhF6lka+9tJjMC+ljSDw1I2hhSPl
- IPeW06Di2elnxoPtiM8a7tbufyY5DIpbj0wKJi28F7I97+I2C7r+CBhjZpWfsMqRUJOq
- uPrEwdOtDaUl+C26xZmgSdL3xsdhOztQ/ekno=
+ bh=fCr6M9WVbBxoz5xSZDTLYQZUaixoNhvM1z4ft4/JiWU=;
+ b=CkfvuUYgjXUdgM1i87D/akGLRkQBlDepGvReTODAXjxv3JZLUxpr2SeqRCtggSb1NQ
+ 0eO++6VjfUhMdNdLL9RotuOnb/CQ5ydWv+gSz7/hzqH6ipBx2LTuhN83Pi+6+jPneDFl
+ 4XWuDGX42ek2Bg7lAzXWOFRnumRXJltjgh5Ik=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RRl4QwGFVHrrGOIPdMRW7d1sxZ/z0xnxJ3QgfuV7q+Y=;
- b=Gl4Hb1wdidEwB9mRTuq2SMIVuo0BubbUf5scYOtTnYVABThr9fPNaDNoUkMP7BZizb
- KMdYPGbnIuykYYahXFSt91UWsDkQGLzaJmW68gTFyoLwEF2wLvqKe9Uu7oKYqV4zWwEP
- yAwbFmirAymslg6SZ3ctazSeGiHezre6Sah4mLk/EceO/OZAdHVqbWRpiH0KPdDHfawm
- CqNAIPOLalX+QYuJguTU6wMBX30OFyzzrw3p3HvpQiyqlw4xSrY66BBJd0cQOU7plKP0
- a5AG/10YXuuaS8nAypKZw6C2r10U0Ff/cV8wkmHF2Fcq5pWbs87uoF8O1JLo7f8iP0Wt
- Id4w==
-X-Gm-Message-State: AOAM533Ggd+EQvoK8WEVTItKCVvfy65s4kUhinEzRsFJplXNNdvk64+v
- xGyfUdHZY6yyIHoyT3Nm0ET30A==
-X-Google-Smtp-Source: ABdhPJz1O0RCaY6YxEHXQjrBeBf6WlvQVtA9lzuclsJxgu0ny8IwFRemKEhaTqFBHWHY+58Ad0sxsg==
-X-Received: by 2002:a17:90b:1097:: with SMTP id
- gj23mr24623197pjb.65.1627420020773; 
- Tue, 27 Jul 2021 14:07:00 -0700 (PDT)
+ bh=fCr6M9WVbBxoz5xSZDTLYQZUaixoNhvM1z4ft4/JiWU=;
+ b=kpm0+ImY0s5E73XVVWAvdg+xwI3hW7c7o0UVy2DvqDVhyd6XPuI8GwrtrsIDgnlEZy
+ Rl72z4Hur6YXJTFGVUasX7Xt9l5mbI4AWsOa61llUCVU0VoORPtSWl4fGyGa78lLRykp
+ aKGtrmlo4gY9Fpr8V4Uf21JY0nK+KPKrt6Vpa/XNx0VsEi3NnZXB7BLYlFRhSREHCPQE
+ ERQ/uPyEfNS0zc3RXJw9mI+KpdoqsxOygqNK0/bEm2pLNEEk0fRdOgFkIX55gKpxeVnJ
+ 5mouNrSQ7HV6WNBYKS+2xvdNQgj2fWPpdfKQi+gHX8NVrWsDmyHapy7isgUWAs+oHllh
+ BeUw==
+X-Gm-Message-State: AOAM533fWUvilCvBYK3VikWBB+28tR2t0BQeVquQ64CWC+v85oxJZdjA
+ Nk3QPgBG373Os7Q0MKin0dPv7A==
+X-Google-Smtp-Source: ABdhPJxSxBiTE9j5dpguWlnBff2W6XOxanMIjLBz3KD/2jrAfNakkqqBYOlfrkNXGZusO3mgNbH5WQ==
+X-Received: by 2002:a17:902:b711:b029:11e:6480:258a with SMTP id
+ d17-20020a170902b711b029011e6480258amr20741066pls.41.1627420022747; 
+ Tue, 27 Jul 2021 14:07:02 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id k4sm1283492pgh.9.2021.07.27.14.06.54
+ by smtp.gmail.com with ESMTPSA id i24sm3255991pfr.207.2021.07.27.14.06.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
+ Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 53/64] HID: roccat: Use struct_group() to zero kone_mouse_event
-Date: Tue, 27 Jul 2021 13:58:44 -0700
-Message-Id: <20210727205855.411487-54-keescook@chromium.org>
+Subject: [PATCH 54/64] ipv6: Use struct_group() to zero rt6_info
+Date: Tue, 27 Jul 2021 13:58:45 -0700
+Message-Id: <20210727205855.411487-55-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1730; h=from:subject;
- bh=EUTv4O0nvngYWbdXtF9deGR2fwqq+6xUthh2+Rv4aLw=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOMI/KVhJIquCmbVDokB41QtN0+bK1f1n8H1BjO
- /vI3XCGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJigBD/
- 4xOpohWQjjZHlbRQQB4Xc96JEF9UrR/87ufDJ/LQCR9f7bpU5HN4prxvGPl+Gh14S3nTWDhs7tQLV8
- lgvttBveo3P3wp1AEgc84pleIWnY19RV8DcusmvreDhDG62N4MMW91V+yoqBuqB34xAxKaVJ0z6h4X
- tMH1NjPo77yLscB15GrJ4m3R/aS/iaccGcVUCwTR/CdCDoI/vLaImBCCH5YwQovtUmT1k04HUparAv
- jTs0fwcc1LfmJGkpT/YOIJnJ2shh0qAzEBKxdHgAIYE1pJJ59NQ6IfNzbMcQzEeapQ0p+kJRjODNpd
- oBpl+VAcjcyG71c3NBYs64mHgmd7xQgqxrKHeTTPI73krFkwv0sjaz1tYf6t3wGr+MJBryeUc/XLef
- bBUhQQ+U2nmjxMpH5biZuX8R5fJd8K2A6iOdS4OCIgCexMIqdOf47mtYSGy6w/OqX0D0HulkNM6Ak5
- /kO3TY/+btKVuq9e6QW5DQLMbCfCbRrCJHmWxOFI5GVH3bchbtyGtVnd5VCwHQJhG28UCjTcKMLd10
- 3FKyVUcll/fy3asrDwz923cHSGawsRdwuUUF+B/1A93hUfh8ZPHnbv0X2Rh95SGmSNd9p793a13Ftn
- 6BVstROxT8kaLKdvZkdDDu6WqpqQxHglko/wXhuVc2rwuMX8jO3UGuzQBK9A==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2014; h=from:subject;
+ bh=9FxEXENVJNuB45fHUbaxMj4hb424u+KXBOvcDXadQUU=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOMr1s7rjBnwnV0YvEmCppP2KjiI7qwbNhC0tnR
+ LR54sH2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJvB1D/
+ 9HyBVTCMQFZVnce4Q7z9RSSZaLEhmwSMwOLxk45KjDsJAOP3HcDjbkcb2t+AmQxHosaQzMYzJBsPLM
+ fI6MGo8d7iglJul2X+wgatbPcEehYNvmi9N2hSNViixrkSMFXRYD9gNgZxmurHn3poTaQBFJeH/CMt
+ i0K0Mf9xJLh09ZTUaBEMkeBp92msj4wB0UzT2YgQVbRBg/2h2H9tSdBS7ou3xC8W1K4gsOB+p8y9Z9
+ E6xK8yOM9010RaqlQJ7Xwiw/qBjEzM4v6/BvFKOfF7nbprnDsEcm1n3uqkj3PJ0XdUXpvHAc5ObsoB
+ KO/0wpq+dvC4caLYvsafIZqOaz3hLgcDlRNbqQtK2sC08guGWc1MHoTfZoyOpPcsvKpv6Ez1ugjb2i
+ pyJ0WkxY6xI4NtO334xyOlpSXADvHv+yqhiucaHger+9V1z3cVGZWQJMnpNFHTjqetSkyOaPhGCfT6
+ eygtBdkni37ipeLcPOAVtXgZH4iuKxdilblIEAG1YqFqpciOhCgtYiCt3itR4hpyhJp61nLn2XSysU
+ lMIbYdUyBQlmwsWY79F0ezh83tePY6wggdyAujypUrGKiYTgTpH817kU7KBH2AB7YhuYQevj9FEHhD
+ B/H1yY45d73/j38Hw4+briFVcL4khdU1nni0efnXIAMBNb0nJPEsOcf21O/g==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -94,51 +94,71 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Add struct_group() to mark region of struct kone_mouse_event that should
-be initialized to zero.
+Add struct_group() to mark region of struct rt6_info that should be
+initialized to zero.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/hid/hid-roccat-kone.c |  2 +-
- drivers/hid/hid-roccat-kone.h | 12 +++++++-----
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ include/net/ip6_fib.h | 30 ++++++++++++++++--------------
+ net/ipv6/route.c      |  4 +---
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/hid/hid-roccat-kone.c b/drivers/hid/hid-roccat-kone.c
-index 1ca64481145e..ea17abc7ad52 100644
---- a/drivers/hid/hid-roccat-kone.c
-+++ b/drivers/hid/hid-roccat-kone.c
-@@ -857,7 +857,7 @@ static int kone_raw_event(struct hid_device *hdev, struct hid_report *report,
- 		memcpy(&kone->last_mouse_event, event,
- 				sizeof(struct kone_mouse_event));
- 	else
--		memset(&event->tilt, 0, 5);
-+		memset(&event->wipe, 0, sizeof(event->wipe));
+diff --git a/include/net/ip6_fib.h b/include/net/ip6_fib.h
+index 15b7fbe6b15c..9816e7444918 100644
+--- a/include/net/ip6_fib.h
++++ b/include/net/ip6_fib.h
+@@ -205,20 +205,22 @@ struct fib6_info {
  
- 	kone_keep_values_up_to_date(kone, event);
- 
-diff --git a/drivers/hid/hid-roccat-kone.h b/drivers/hid/hid-roccat-kone.h
-index 4a1a9cb76b08..65c800e3addc 100644
---- a/drivers/hid/hid-roccat-kone.h
-+++ b/drivers/hid/hid-roccat-kone.h
-@@ -152,11 +152,13 @@ struct kone_mouse_event {
- 	uint16_t x;
- 	uint16_t y;
- 	uint8_t wheel; /* up = 1, down = -1 */
--	uint8_t tilt; /* right = 1, left = -1 */
--	uint8_t unknown;
--	uint8_t event;
--	uint8_t value; /* press = 0, release = 1 */
--	uint8_t macro_key; /* 0 to 8 */
-+	struct_group(wipe,
-+		uint8_t tilt; /* right = 1, left = -1 */
-+		uint8_t unknown;
-+		uint8_t event;
-+		uint8_t value; /* press = 0, release = 1 */
-+		uint8_t macro_key; /* 0 to 8 */
+ struct rt6_info {
+ 	struct dst_entry		dst;
+-	struct fib6_info __rcu		*from;
+-	int				sernum;
+-
+-	struct rt6key			rt6i_dst;
+-	struct rt6key			rt6i_src;
+-	struct in6_addr			rt6i_gateway;
+-	struct inet6_dev		*rt6i_idev;
+-	u32				rt6i_flags;
+-
+-	struct list_head		rt6i_uncached;
+-	struct uncached_list		*rt6i_uncached_list;
+-
+-	/* more non-fragment space at head required */
+-	unsigned short			rt6i_nfheader_len;
++	struct_group(init,
++		struct fib6_info __rcu		*from;
++		int				sernum;
++
++		struct rt6key			rt6i_dst;
++		struct rt6key			rt6i_src;
++		struct in6_addr			rt6i_gateway;
++		struct inet6_dev		*rt6i_idev;
++		u32				rt6i_flags;
++
++		struct list_head		rt6i_uncached;
++		struct uncached_list		*rt6i_uncached_list;
++
++		/* more non-fragment space at head required */
++		unsigned short			rt6i_nfheader_len;
 +	);
- } __attribute__ ((__packed__));
+ };
  
- enum kone_mouse_events {
+ struct fib6_result {
+diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+index 6b8051106aba..bbcc605bab57 100644
+--- a/net/ipv6/route.c
++++ b/net/ipv6/route.c
+@@ -327,9 +327,7 @@ static const struct rt6_info ip6_blk_hole_entry_template = {
+ 
+ static void rt6_info_init(struct rt6_info *rt)
+ {
+-	struct dst_entry *dst = &rt->dst;
+-
+-	memset(dst + 1, 0, sizeof(*rt) - sizeof(*dst));
++	memset(&rt->init, 0, sizeof(rt->init));
+ 	INIT_LIST_HEAD(&rt->rt6i_uncached);
+ }
+ 
 -- 
 2.30.2
 
