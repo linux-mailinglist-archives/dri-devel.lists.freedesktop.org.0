@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31733D8140
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:17:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96F13D8143
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:17:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C94BE6EAA7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA126EAA2;
 	Tue, 27 Jul 2021 21:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C4E6EA66
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:16:59 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id j1so1858164pjv.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:16:59 -0700 (PDT)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B13C76E9EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:16:58 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id e21so59204pla.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=db8CMs13sEHX1QrEwLyB80i98nPNa1sx0I+0vCyGors=;
- b=GWOY5bNN2CYuRWq0nDk3v8n5cQ2YUiqY5XDlZOPEfI39J/ywTay9f3iHysNx2fWQdy
- zqT86UEKHG+I7P6vcxs8NsLuEZO32JeDh3YEB1VC1clApxF/IgDgUW1mT7APjJS6y9ti
- ibvhpmNjVFtbWbV705O3Ucg2loDxWrMRa+bQ8=
+ bh=vvNgpOkYohlzmozRH90jT3va3z9rMWChvsz40h8+RkY=;
+ b=cI7pDAEV+fAYh/9IrkMcLzlca5EW1ooun6AivPtj97ng/WaVF+mQDkhXwA/1Z2+AJr
+ 4Nn77aehsUrpK6SIapNlZq0hcL6Ffryk3x8aHwWk5fGDWlq2H7uxwsPJ/4q0+5tNCXsZ
+ hD+zPYAIV3KQDQDjzvXrg9fukVcidGdotaa4I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=db8CMs13sEHX1QrEwLyB80i98nPNa1sx0I+0vCyGors=;
- b=bZI1Hvye1ynccSRBNqXXSfgcuEiO+99QTMkgol8QtqlzoEkpC1EFJ9Bl96uJ+J5Eo1
- m5OEwWKkxnS8gJHUBv8XYEAyYcOccPagC5QgEFpscG3vVqDqPCxwgzWRf78fe7m6zl/n
- LviFP9mz4zo7e/rukF3BKcvJFcg8CO0TRVPbvZfCLv3GS0sYEInRG8I+kj8XX88cf3I7
- nrgbXxspowIepti5MSzGWJGS3hH4GV0wqLew/ZfhkaJhTpSPdk499kQnIKnwgNi2cMji
- xp3IxdNOAs+DjaPtqN9fZxcfH+ZVKQRZcpRb287c2E3R9KBLK6v1Srwv7hY9MpcnBun4
- Wj6g==
-X-Gm-Message-State: AOAM533T5MMpV9Adznmjbo0UpewudANme1sPALQ0kuN0Ui4ZMydIFPTC
- MFwjLopRyRRKb5nVvH9CmMchng==
-X-Google-Smtp-Source: ABdhPJynuJ3TvAm0Wd5cbNmdXEieC82pehh6dYyZToK5xONKi9T1JAddthF14F/cuU0HoDy1XIjotg==
-X-Received: by 2002:a17:90a:d305:: with SMTP id
- p5mr5977952pju.96.1627420618747; 
+ bh=vvNgpOkYohlzmozRH90jT3va3z9rMWChvsz40h8+RkY=;
+ b=tT4SjfltqN6U8pZ0D8qPm3XAnxzr5HDUWjN/w/O0ZPTdxgCX0jkk2B+uEujwTEGyEQ
+ JbgzhMKXsMJHVOxupmx7Jg6qyO8/EpYxHFkBV8h4khn6j2napNT2FpqWyKDLW/z3xxxj
+ z+2mEetEriuKsKh3jEnP7ibD/ls+BojbD48iMnVihiUMIAy7Qh+f/jEmfJz4LwW1YzX8
+ rrXXf59/hJGVGBx2zky6aQaX2FCU9fVxbDQFmeDfitC8oyPl0Fo/81ItmxazGyg2tYQT
+ MumN2VX16abnx9R8CIvajqfo2WM7i5sU4OjTS++umIjv0vnS6sqm0NuwZxBu2khJdGCu
+ VtLg==
+X-Gm-Message-State: AOAM531X5cLG6TLH8xG/Xyt4R3vzjYeMxA9Q/B5tnoyPNGD99MUt3bcl
+ 3Wz0YDv654kjmRUhF9rQ0ktERA==
+X-Google-Smtp-Source: ABdhPJzE9AoOQUL4/giBdYIFX1uIcw2uVNeNuZFEGRMkEqN+EwkPLwt/9C4Lcpy6fWzjXCsTHLO9Mg==
+X-Received: by 2002:a17:90a:5201:: with SMTP id
+ v1mr23545012pjh.46.1627420618454; 
  Tue, 27 Jul 2021 14:16:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id k11sm5469795pgg.25.2021.07.27.14.16.54
+ by smtp.gmail.com with ESMTPSA id 19sm5431637pgg.36.2021.07.27.14.16.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 27 Jul 2021 14:16:55 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 23/64] drm/amd/pm: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:14 -0700
-Message-Id: <20210727205855.411487-24-keescook@chromium.org>
+Subject: [PATCH 24/64] staging: wlan-ng: Use struct_group() for memcpy() region
+Date: Tue, 27 Jul 2021 13:58:15 -0700
+Message-Id: <20210727205855.411487-25-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9262; h=from:subject;
- bh=ELu/4WSY3rbbc3e6mnbh27qh1PLcuIwUnaACOi4RQcY=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOFJv5WnR7sn1mtFkKeG0XEr7rFPErTrPNncdI8
- nbLR12KJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhQAKCRCJcvTf3G3AJsR8D/
- 9wZ161Upx2yiLo9WehBNhdepCoZIfK0ycr+o+YhGbFvIGHLX2Z/6CVTnO6oGmJhsrVbt+2nrrheUTv
- 8j7E+ffPwgNTUcJd8NXpFT9iui/NcLA8Yykf7B68HUXIlmENHMzE7OS29F6gOvqpuAocWp2XWkcFiL
- otEujZfJsmIdWxZhrOSSm850OaA3vK59G4R6x/nQbmZcTEuIsmnLAoSu6mxNQN8qfCo5+sTSnF3v2R
- JF91oAQ2cCf5Z2zYOFs/fY6mGfUVCy0oO/l4oZvnjGjWbHkr8bCYaQoMKAFt+gt7iCU/OQTfLYPVa2
- 62ogAYAXdveR8zzIITEVXrNMgpDA0PITtHEc3kSIq3iBDlCEKukUEznhPLc9L/KjJW4PDa8fphg2Yh
- Gekz7vZ+GJglawP6/OVsDHYjB+sVivtpueU6OrZQwDrIvls+2tBdhvYA2okrLoYv5QVghtQ5MteFgB
- QkVkfYyxoLj7VK3aJ9d3T602EK7C0ydm4p600HlPmh4c2j/2hlxA0edgA+/VxOFg8egmS6zr2IfSBD
- Eq4LZV5dvDAu9vqC6ypQ1LW/66+iw/9YGt0GJiJCY+arODnVFg6+4d9Q4V19RVMN/Hh+K9bnt0M/+J
- H7XpAuvLYZW1lukZMvCpZapOsvBI4BUSGa3FwriGOeJJSW/+YzrhY/tlrGCA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2375; h=from:subject;
+ bh=c/SxbSrw72JMwWGBAhjNbuucRJa6d830VHNx2pfQMmY=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOF2QDCtL/erQWj7ox+a3ncXLGvlzCwDIvWXZkH
+ qHjzBFyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhQAKCRCJcvTf3G3AJtV+D/
+ 0fO+YtYcaNoJFtJLfaoehtt1+wVJemFnhzXbO8zron27IVuMZAcUQZRTvfedVY+1vq9YmKpR1jLhu6
+ TonAYm/QSoolsRdIvr0usi+NR+eRkXR1ZnyvV5rnOc9YaBWbZRrQq3ZcX6YCjqPkK8p8WRxt9Bj0Sg
+ q5zK3/CNl56vrOTzTCCoxMsajE9vAxySqiSXHSeiMfp2xd3+QR3kRFCFU0ZSA0xfMcnR2JvGQBggJS
+ RkdJjwLCK+kENWJtvHtlX4elSv2P/OtT8hnnPRvud1yeMq+QpTzPeNdW7PxhWE2RwZNA2NugGVRSlX
+ 3jR4hhDV+6JtngiZjWbObIbIUZuegWEMH0zZW7dNgjbeuJq60bTRCUm4kANVmgMnCpvv/gmJ/eOGF+
+ Cy3TIZB46rpL4aRD/GZgx7Z3LlwLOdMudLK7tK9BsLfb7ORVmmEeOisNmyspYO6/AqlMjaI1/ZZlV3
+ 812R76a18N3vOrFFTOfbqpkITezkVwlqkVE+0wU0/No7R2jwKaEwkopqHCE2H8k4ufJ2CY+2fLArN9
+ RN/NT2xb7COyOrwRuX1S423r0L/eefO2fysMApU+RwzbiD/oDAlU7jx19jPFBWMojjzIhrQhJlkdja
+ x1kg9JKYzfTYl3DgElyjMkkBql860vUUs21cPgyOy5TcZ8V0tBlTLOvGWnpg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -95,235 +94,64 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memcpy(), memmove(), and memset(), avoid
 intentionally writing across neighboring fields.
 
-Use struct_group() in structs:
-	struct atom_smc_dpm_info_v4_5
-	struct atom_smc_dpm_info_v4_6
-	struct atom_smc_dpm_info_v4_7
-	struct atom_smc_dpm_info_v4_10
-	PPTable_t
-so the grouped members can be referenced together. This will allow
-memcpy() and sizeof() to more easily reason about sizes, improve
-readability, and avoid future warnings about writing beyond the end of
-the first member.
+Use struct_group() in struct hfa384x_tx_frame around members
+frame_control, duration_id, address[1-4], and sequence_control, so they
+can be referenced together. This will allow memcpy() and sizeof() to
+more easily reason about sizes, improve readability, and avoid future
+warnings about writing beyond the end of frame_control.
 
-"pahole" shows no size nor member offset changes to any structs.
-"objdump -d" shows no object code changes.
+"pahole" shows no size nor member offset changes to struct
+hfa384x_tx_frame. "objdump -d" shows no meaningful object code changes
+(i.e. only source line number induced differences.)
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/gpu/drm/amd/include/atomfirmware.h           |  9 ++++++++-
- .../gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h    |  3 ++-
- drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h  |  3 ++-
- .../gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h   |  3 ++-
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c    |  6 +++---
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c      | 12 ++++++++----
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c   |  6 +++---
- 7 files changed, 28 insertions(+), 14 deletions(-)
+ drivers/staging/wlan-ng/hfa384x.h     | 16 +++++++++-------
+ drivers/staging/wlan-ng/hfa384x_usb.c |  4 +++-
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/gpu/drm/amd/include/atomfirmware.h
-index 3811e58dd857..694dee9d2691 100644
---- a/drivers/gpu/drm/amd/include/atomfirmware.h
-+++ b/drivers/gpu/drm/amd/include/atomfirmware.h
-@@ -2081,6 +2081,7 @@ struct atom_smc_dpm_info_v4_5
- {
-   struct   atom_common_table_header  table_header;
-     // SECTION: BOARD PARAMETERS
-+  struct_group(dpm_info,
-     // I2C Control
-   struct smudpm_i2c_controller_config_v2  I2cControllers[8];
+diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
+index 88e894dd3568..87eb87e3beab 100644
+--- a/drivers/staging/wlan-ng/hfa384x.h
++++ b/drivers/staging/wlan-ng/hfa384x.h
+@@ -476,13 +476,15 @@ struct hfa384x_tx_frame {
  
-@@ -2159,7 +2160,7 @@ struct atom_smc_dpm_info_v4_5
-   uint32_t MvddRatio; // This is used for MVDD Vid workaround. It has 16 fractional bits (Q16.16)
-   
-   uint32_t     BoardReserved[9];
--
-+  );
- };
+ 	/*-- 802.11 Header Information --*/
  
- struct atom_smc_dpm_info_v4_6
-@@ -2168,6 +2169,7 @@ struct atom_smc_dpm_info_v4_6
-   // section: board parameters
-   uint32_t     i2c_padding[3];   // old i2c control are moved to new area
+-	u16 frame_control;
+-	u16 duration_id;
+-	u8 address1[6];
+-	u8 address2[6];
+-	u8 address3[6];
+-	u16 sequence_control;
+-	u8 address4[6];
++	struct_group(p80211,
++		u16 frame_control;
++		u16 duration_id;
++		u8 address1[6];
++		u8 address2[6];
++		u8 address3[6];
++		u16 sequence_control;
++		u8 address4[6];
++	);
+ 	__le16 data_len;		/* little endian format */
  
-+  struct_group(dpm_info,
-   uint16_t     maxvoltagestepgfx; // in mv(q2) max voltage step that smu will request. multiple steps are taken if voltage change exceeds this value.
-   uint16_t     maxvoltagestepsoc; // in mv(q2) max voltage step that smu will request. multiple steps are taken if voltage change exceeds this value.
+ 	/*-- 802.3 Header Information --*/
+diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
+index f2a0e16b0318..38aaae7a2d69 100644
+--- a/drivers/staging/wlan-ng/hfa384x_usb.c
++++ b/drivers/staging/wlan-ng/hfa384x_usb.c
+@@ -2516,7 +2516,9 @@ int hfa384x_drvr_txframe(struct hfa384x *hw, struct sk_buff *skb,
+ 	cpu_to_le16s(&hw->txbuff.txfrm.desc.tx_control);
  
-@@ -2246,12 +2248,14 @@ struct atom_smc_dpm_info_v4_6
+ 	/* copy the header over to the txdesc */
+-	memcpy(&hw->txbuff.txfrm.desc.frame_control, p80211_hdr,
++	BUILD_BUG_ON(sizeof(hw->txbuff.txfrm.desc.p80211) !=
++		     sizeof(union p80211_hdr));
++	memcpy(&hw->txbuff.txfrm.desc.p80211, p80211_hdr,
+ 	       sizeof(union p80211_hdr));
  
-   // reserved
-   uint32_t   boardreserved[10];
-+  );
- };
- 
- struct atom_smc_dpm_info_v4_7
- {
-   struct   atom_common_table_header  table_header;
-     // SECTION: BOARD PARAMETERS
-+  struct_group(dpm_info,
-     // I2C Control
-   struct smudpm_i2c_controller_config_v2  I2cControllers[8];
- 
-@@ -2348,6 +2352,7 @@ struct atom_smc_dpm_info_v4_7
-   uint8_t      Padding8_Psi2;
- 
-   uint32_t     BoardReserved[5];
-+  );
- };
- 
- struct smudpm_i2c_controller_config_v3
-@@ -2478,6 +2483,7 @@ struct atom_smc_dpm_info_v4_10
-   struct   atom_common_table_header  table_header;
- 
-   // SECTION: BOARD PARAMETERS
-+  struct_group(dpm_info,
-   // Telemetry Settings
-   uint16_t GfxMaxCurrent; // in Amps
-   uint8_t   GfxOffset;     // in Amps
-@@ -2524,6 +2530,7 @@ struct atom_smc_dpm_info_v4_10
-   uint16_t spare5;
- 
-   uint32_t reserved[16];
-+  );
- };
- 
- /* 
-diff --git a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-index 43d43d6addc0..8093a98800c3 100644
---- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-+++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-@@ -643,6 +643,7 @@ typedef struct {
-   // SECTION: BOARD PARAMETERS
- 
-   // SVI2 Board Parameters
-+  struct_group(v4_6,
-   uint16_t     MaxVoltageStepGfx; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
-   uint16_t     MaxVoltageStepSoc; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
- 
-@@ -728,10 +729,10 @@ typedef struct {
-   uint32_t     BoardVoltageCoeffB;    // decode by /1000
- 
-   uint32_t     BoardReserved[7];
-+  );
- 
-   // Padding for MMHUB - do not modify this
-   uint32_t     MmHubPadding[8]; // SMU internal use
--
- } PPTable_t;
- 
- typedef struct {
-diff --git a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-index 04752ade1016..0b4e6e907e95 100644
---- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-+++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-@@ -725,6 +725,7 @@ typedef struct {
-   uint32_t     Reserved[8];
- 
-   // SECTION: BOARD PARAMETERS
-+  struct_group(v4,
-   // I2C Control
-   I2cControllerConfig_t  I2cControllers[NUM_I2C_CONTROLLERS];     
- 
-@@ -809,10 +810,10 @@ typedef struct {
-   uint8_t      Padding8_Loadline;
- 
-   uint32_t     BoardReserved[8];
-+  );
- 
-   // Padding for MMHUB - do not modify this
-   uint32_t     MmHubPadding[8]; // SMU internal use
--
- } PPTable_t;
- 
- typedef struct {
-diff --git a/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h b/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-index a017983ff1fa..5056d3728da8 100644
---- a/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-+++ b/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-@@ -390,6 +390,7 @@ typedef struct {
-   uint32_t spare3[14];
- 
-   // SECTION: BOARD PARAMETERS
-+  struct_group(v4_10,
-   // Telemetry Settings
-   uint16_t GfxMaxCurrent; // in Amps
-   int8_t   GfxOffset;     // in Amps
-@@ -444,7 +445,7 @@ typedef struct {
- 
-   //reserved
-   uint32_t reserved[14];
--
-+  );
- } PPTable_t;
- 
- typedef struct {
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-index 6ec8492f71f5..19951399cb33 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-@@ -463,11 +463,11 @@ static int arcturus_append_powerplay_table(struct smu_context *smu)
- 			smc_dpm_table->table_header.format_revision,
- 			smc_dpm_table->table_header.content_revision);
- 
-+	BUILD_BUG_ON(sizeof(smc_pptable->v4_6) != sizeof(smc_dpm_table->dpm_info));
- 	if ((smc_dpm_table->table_header.format_revision == 4) &&
- 	    (smc_dpm_table->table_header.content_revision == 6))
--		memcpy(&smc_pptable->MaxVoltageStepGfx,
--		       &smc_dpm_table->maxvoltagestepgfx,
--		       sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_6, maxvoltagestepgfx));
-+		memcpy(&smc_pptable->v4_6, &smc_dpm_table->dpm_info,
-+		       sizeof(smc_dpm_table->dpm_info));
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-index 59ea59acfb00..cb6665fbe319 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-@@ -431,16 +431,20 @@ static int navi10_append_powerplay_table(struct smu_context *smu)
- 
- 	switch (smc_dpm_table->table_header.content_revision) {
- 	case 5: /* nv10 and nv14 */
--		memcpy(smc_pptable->I2cControllers, smc_dpm_table->I2cControllers,
--			sizeof(*smc_dpm_table) - sizeof(smc_dpm_table->table_header));
-+		BUILD_BUG_ON(sizeof(smc_pptable->v4) !=
-+			     sizeof(smc_dpm_table->dpm_info));
-+		memcpy(&smc_pptable->v4, &smc_dpm_table->dpm_info,
-+		       sizeof(smc_dpm_table->dpm_info));
- 		break;
- 	case 7: /* nv12 */
- 		ret = amdgpu_atombios_get_data_table(adev, index, NULL, NULL, NULL,
- 					      (uint8_t **)&smc_dpm_table_v4_7);
- 		if (ret)
- 			return ret;
--		memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I2cControllers,
--			sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_table_v4_7->table_header));
-+		BUILD_BUG_ON(sizeof(smc_pptable->v4) !=
-+			     sizeof(smc_dpm_table_v4_7->dpm_info));
-+		memcpy(&smc_pptable->v4, &smc_dpm_table_v4_7->dpm_info,
-+		       sizeof(smc_dpm_table_v4_7->dpm_info));
- 		break;
- 	default:
- 		dev_err(smu->adev->dev, "smc_dpm_info with unsupported content revision %d!\n",
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-index 856eeaf293b8..c0645302fa50 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-@@ -407,11 +407,11 @@ static int aldebaran_append_powerplay_table(struct smu_context *smu)
- 			smc_dpm_table->table_header.format_revision,
- 			smc_dpm_table->table_header.content_revision);
- 
-+	BUILD_BUG_ON(sizeof(smc_pptable->v4_10) != sizeof(smc_dpm_table->dpm_info));
- 	if ((smc_dpm_table->table_header.format_revision == 4) &&
- 	    (smc_dpm_table->table_header.content_revision == 10))
--		memcpy(&smc_pptable->GfxMaxCurrent,
--		       &smc_dpm_table->GfxMaxCurrent,
--		       sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_10, GfxMaxCurrent));
-+		memcpy(&smc_pptable->v4_10, &smc_dpm_table->dpm_info,
-+		       sizeof(smc_dpm_table->dpm_info));
- 	return 0;
- }
- 
+ 	/* if we're using host WEP, increase size by IV+ICV */
 -- 
 2.30.2
 
