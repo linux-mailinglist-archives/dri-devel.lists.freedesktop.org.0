@@ -2,76 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0024C3D71D3
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 11:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BD83D71D5
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 11:22:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B44916E90F;
-	Tue, 27 Jul 2021 09:21:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D851C6E95A;
+	Tue, 27 Jul 2021 09:22:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C35146E90F
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 09:20:58 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id n11so7097047wmd.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 02:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=Yvx7FUb+PO9K9tu4D9agXVqaQ0PZBo5xaT5yPpMKIms=;
- b=SIunivkJ3uBUWFL+MmqRwoRt2Ec13tI5ReuRrYPHU6v1ozJHB0RqmiXR2kJtHg7UkK
- kQHeIhOqy40affcu0iFYZjipx4Rj7mvXor6+msSm/jLTCD0shhRncWpbA8dQZkMdDKxG
- CY2f7wiJ4ZZW/66YmNtctsKo4S5yBfyNtbbac=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=Yvx7FUb+PO9K9tu4D9agXVqaQ0PZBo5xaT5yPpMKIms=;
- b=NjinKtmiXP1vSY/7jxOQ7Y2sAD9SBwcZTLNGcRvhwPxsRTxy8Lro6sYR5RkYbWJZgp
- u1aumJVpwdsqL3csjGsRt7YzOBtHOTXAimwyEH+WF/50hlWv5sXNACqR4e7u4XuoCHZ8
- xQS2KyShyFjLScoFKMCCkGJXSnnpxq8VIHIR4KE/Iszpicr+JR0IeCsyzNjF7ZNDRlea
- KTcfIfoOx1Y36ESXVo+vH53LkOyo/9I0wzguZBECOsrQlr+3L79gUJe+FRbWz/ja4bDO
- e3twQen1JTQ8bZQlQxbFuKIDMvCqc9397wb4ZoIrt13ehw2uTKLMeG84AzOuewRL8LO9
- fe1Q==
-X-Gm-Message-State: AOAM530qItZXdwLDZ8JGW0ZPwV1zQ7+A+IzUuxPbOBKxQjoMUvB9btdv
- MT/WnlAWbUTOWwfV5Y3Vn8Yk/g==
-X-Google-Smtp-Source: ABdhPJysqoczxFjCBoJFO3VIH1BODqUjcyDz8tshadU8bwCX8Ub+Bjigbsxk+srbu2FSB8xv5JCr8A==
-X-Received: by 2002:a05:600c:1c0d:: with SMTP id
- j13mr21332335wms.34.1627377657192; 
- Tue, 27 Jul 2021 02:20:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q19sm2002588wmq.38.2021.07.27.02.20.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 02:20:56 -0700 (PDT)
-Date: Tue, 27 Jul 2021 11:20:54 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 04/10] drm/bridge: Document the probe issue with MIPI-DSI
- bridges
-Message-ID: <YP/P9rJrZyk6zjsT@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
- Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20210720134525.563936-1-maxime@cerno.tech>
- <20210720134525.563936-5-maxime@cerno.tech>
- <YPgNbVoNnq3fTMN2@phenom.ffwll.local>
- <20210726151657.c46qmkdvqfhlg6ox@gilmour>
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45B476E95A
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 09:22:52 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 3ac8c088-eebc-11eb-9082-0050568c148b;
+ Tue, 27 Jul 2021 09:22:57 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 8F0A9194BA4;
+ Tue, 27 Jul 2021 11:23:10 +0200 (CEST)
+Date: Tue, 27 Jul 2021 11:22:48 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] drm/panel-sony-acx424akp: Modernize backlight handling
+Message-ID: <YP/QaAnHsJmGgqmM@ravnborg.org>
+References: <20210715092808.1100106-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210726151657.c46qmkdvqfhlg6ox@gilmour>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <20210715092808.1100106-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,54 +47,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 26, 2021 at 05:16:57PM +0200, Maxime Ripard wrote:
-> Hi Daniel,
-> 
-> On Wed, Jul 21, 2021 at 02:05:01PM +0200, Daniel Vetter wrote:
-> > On Tue, Jul 20, 2021 at 03:45:19PM +0200, Maxime Ripard wrote:
-> > > Interactions between bridges, panels, MIPI-DSI host and the component
-> > > framework are not trivial and can lead to probing issues when
-> > > implementing a display driver. Let's document the various cases we need
-> > > too consider, and the solution to support all the cases.
-> > > 
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > 
-> > I still have this dream that eventually we resurrect a patch to add
-> > device_link to bridges/panels (ideally automatically), to help with some
-> > of the suspend/resume issues around here.
-> > 
-> > Will this make things worse?
-> > 
-> > I think it'd be really good to figure that out with some coding, since if
-> > we have incompatible solution to handle probe issues vs suspend/resume
-> > issues, we're screwed.
-> > 
-> > Atm the duct-tape is to carefully move things around between suspend and
-> > suspend_early hooks (and resume and resume_late) and hope it all works ...
-> 
-> My initial idea to fix this was indeed to use device links. I gave up
-> after a while since it doesn't look like there's a way to add a device
-> link before either the bridge or encoder probes.
-> 
-> Indeed the OF-Graph representation is device-specific, so it can't be
-> generic, and if you need to probe to add that link, well, it's already
-> too late for the probe ordering :)
+Hi Linus,
 
-But don't we still need the device_link for suspend/resume and module
-reload? All very annoying indeed anyway.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Thu, Jul 15, 2021 at 11:28:08AM +0200, Linus Walleij wrote:
+> This converts the internal backlight in the Sony ACX424AKP
+> driver to do it the canonical way:
+> 
+> - Assign the panel->backlight during probe.
+> - Let the panel framework handle the backlight.
+> - Make the backlight .set_brightness() turn the backlight
+>   off completely if blank.
+> - Fix some dev_err_probe() use cases along the way.
+
+Very nice cleanup - thanks.
+One issue below, with that fixed:
+
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+I assume you will apply the patch yourself.
+
+	Sam
+
+> 
+> Tested on the U8500 HREF520 reference design.
+> 
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  drivers/gpu/drm/panel/panel-sony-acx424akp.c | 84 +++++++-------------
+>  1 file changed, 28 insertions(+), 56 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> index 95659a4d15e9..163f0e0cee1c 100644
+> --- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> +++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+> @@ -40,7 +40,6 @@
+>  struct acx424akp {
+>  	struct drm_panel panel;
+>  	struct device *dev;
+> -	struct backlight_device *bl;
+>  	struct regulator *supply;
+>  	struct gpio_desc *reset_gpio;
+>  	bool video_mode;
+> @@ -102,6 +101,20 @@ static int acx424akp_set_brightness(struct backlight_device *bl)
+>  	u8 par;
+>  	int ret;
+>  
+> +
+> +	if (backlight_is_blank(bl)) {
+> +		/* Disable backlight */
+> +		par = 0x00;
+> +		ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
+> +					 &par, 1);
+> +		if (ret) {
+> +			dev_err(acx->dev, "failed to disable display backlight (%d)\n", ret);
+> +			return ret;
+> +		}
+> +		return 0;
+> +	}
+> +
+> +
+>  	/* Calculate the PWM duty cycle in n/256's */
+>  	pwm_ratio = max(((duty_ns * 256) / period_ns) - 1, 1);
+>  	pwm_div = max(1,
+> @@ -172,6 +185,12 @@ static const struct backlight_ops acx424akp_bl_ops = {
+>  	.update_status = acx424akp_set_brightness,
+>  };
+>  
+> +static const struct backlight_properties acx424akp_bl_props = {
+> +	.type = BACKLIGHT_PLATFORM,
+Other dsi panels uses BACKLIGHT_RAW here, which I think is more
+correct. So unless there is good arguments for use of PLATFORM, please
+change this to RAW.
+
+It only influences how backlight is reported via sysfs, and there is no
+functional change AFAICT.
+
+
+	Sam
