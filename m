@@ -1,38 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C87B3D6AB8
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 02:07:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD9C3D6AAD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 02:06:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33ED732C0;
-	Tue, 27 Jul 2021 00:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D53B73234;
+	Tue, 27 Jul 2021 00:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30152731B2;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF1D73280;
  Tue, 27 Jul 2021 00:06:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="191932155"
-X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="191932155"
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="191932157"
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="191932157"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jul 2021 17:06:03 -0700
-X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="662339229"
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="662339236"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jul 2021 17:06:03 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 27/33] drm/i915/selftest: Fix workarounds selftest for GuC
- submission
-Date: Mon, 26 Jul 2021 17:23:42 -0700
-Message-Id: <20210727002348.97202-28-matthew.brost@intel.com>
+Subject: [PATCH 28/33] drm/i915/selftest: Fix MOCS selftest for GuC submission
+Date: Mon, 26 Jul 2021 17:23:43 -0700
+Message-Id: <20210727002348.97202-29-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210727002348.97202-1-matthew.brost@intel.com>
 References: <20210727002348.97202-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,393 +61,115 @@ Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile                 |   1 +
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |   1 +
- .../gpu/drm/i915/gt/selftest_workarounds.c    | 130 +++++++++++++-----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   3 +
- .../i915/selftests/intel_scheduler_helpers.c  |  75 ++++++++++
- .../i915/selftests/intel_scheduler_helpers.h  |  27 ++++
- 6 files changed, 203 insertions(+), 34 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
- create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+ drivers/gpu/drm/i915/gt/selftest_mocs.c | 49 ++++++++++++++++++-------
+ 1 file changed, 35 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 10b3bb6207ba..ab7679957623 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -280,6 +280,7 @@ i915-$(CONFIG_DRM_I915_CAPTURE_ERROR) += i915_gpu_error.o
- i915-$(CONFIG_DRM_I915_SELFTEST) += \
- 	gem/selftests/i915_gem_client_blt.o \
- 	gem/selftests/igt_gem_utils.o \
-+	selftests/intel_scheduler_helpers.o \
- 	selftests/i915_random.o \
- 	selftests/i915_selftest.o \
- 	selftests/igt_atomic.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index 260cce15cb62..ed91bcff20eb 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -443,6 +443,7 @@ struct intel_engine_cs {
- #define I915_ENGINE_IS_VIRTUAL       BIT(5)
- #define I915_ENGINE_HAS_RELATIVE_MMIO BIT(6)
- #define I915_ENGINE_REQUIRES_CMD_PARSER BIT(7)
-+#define I915_ENGINE_WANT_FORCED_PREEMPTION BIT(8)
- 	unsigned int flags;
- 
- 	/*
-diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
-index 7a38ce40feb2..ba7ee69414d5 100644
---- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
-@@ -12,6 +12,7 @@
- #include "selftests/igt_flush_test.h"
+diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+index 8763bbeca0f7..b7314739ee40 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
++++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+@@ -10,6 +10,7 @@
+ #include "gem/selftests/mock_context.h"
  #include "selftests/igt_reset.h"
  #include "selftests/igt_spinner.h"
 +#include "selftests/intel_scheduler_helpers.h"
- #include "selftests/mock_drm.h"
  
- #include "gem/selftests/igt_gem_utils.h"
-@@ -261,28 +262,34 @@ static int do_engine_reset(struct intel_engine_cs *engine)
- 	return intel_engine_reset(engine, "live_workarounds");
+ struct live_mocs {
+ 	struct drm_i915_mocs_table table;
+@@ -318,7 +319,8 @@ static int live_mocs_clean(void *arg)
  }
  
-+static int do_guc_reset(struct intel_engine_cs *engine)
-+{
-+	/* Currently a no-op as the reset is handled by GuC */
-+	return 0;
-+}
-+
- static int
- switch_to_scratch_context(struct intel_engine_cs *engine,
--			  struct igt_spinner *spin)
-+			  struct igt_spinner *spin,
-+			  struct i915_request **rq)
+ static int active_engine_reset(struct intel_context *ce,
+-			       const char *reason)
++			       const char *reason,
++			       bool using_guc)
  {
- 	struct intel_context *ce;
--	struct i915_request *rq;
- 	int err = 0;
- 
- 	ce = intel_context_create(engine);
- 	if (IS_ERR(ce))
- 		return PTR_ERR(ce);
- 
--	rq = igt_spinner_create_request(spin, ce, MI_NOOP);
-+	*rq = igt_spinner_create_request(spin, ce, MI_NOOP);
- 	intel_context_put(ce);
- 
--	if (IS_ERR(rq)) {
-+	if (IS_ERR(*rq)) {
- 		spin = NULL;
--		err = PTR_ERR(rq);
-+		err = PTR_ERR(*rq);
- 		goto err;
- 	}
- 
--	err = request_add_spin(rq, spin);
-+	err = request_add_spin(*rq, spin);
- err:
- 	if (err && spin)
- 		igt_spinner_end(spin);
-@@ -296,6 +303,7 @@ static int check_whitelist_across_reset(struct intel_engine_cs *engine,
- {
- 	struct intel_context *ce, *tmp;
  	struct igt_spinner spin;
-+	struct i915_request *rq;
- 	intel_wakeref_t wakeref;
- 	int err;
- 
-@@ -316,13 +324,24 @@ static int check_whitelist_across_reset(struct intel_engine_cs *engine,
- 		goto out_spin;
+ 	struct i915_request *rq;
+@@ -335,9 +337,13 @@ static int active_engine_reset(struct intel_context *ce,
  	}
  
--	err = switch_to_scratch_context(engine, &spin);
-+	err = switch_to_scratch_context(engine, &spin, &rq);
- 	if (err)
- 		goto out_spin;
- 
-+	/* Ensure the spinner hasn't aborted */
-+	if (i915_request_completed(rq)) {
-+		pr_err("%s spinner failed to start\n", name);
-+		err = -ETIMEDOUT;
-+		goto out_spin;
-+	}
-+
- 	with_intel_runtime_pm(engine->uncore->rpm, wakeref)
- 		err = reset(engine);
+ 	err = request_add_spin(rq, &spin);
+-	if (err == 0)
++	if (err == 0 && !using_guc)
+ 		err = intel_engine_reset(ce->engine, reason);
  
 +	/* Ensure the reset happens and kills the engine */
 +	if (err == 0)
 +		err = intel_selftest_wait_for_rq(rq);
 +
  	igt_spinner_end(&spin);
+ 	igt_spinner_fini(&spin);
  
- 	if (err) {
-@@ -787,9 +806,27 @@ static int live_reset_whitelist(void *arg)
- 			continue;
+@@ -345,21 +351,23 @@ static int active_engine_reset(struct intel_context *ce,
+ }
  
- 		if (intel_has_reset_engine(gt)) {
--			err = check_whitelist_across_reset(engine,
--							   do_engine_reset,
--							   "engine");
-+			if (intel_engine_uses_guc(engine)) {
-+				struct intel_selftest_saved_policy saved;
-+				int err2;
-+
-+				err = intel_selftest_modify_policy(engine, &saved);
-+				if (err)
-+					goto out;
-+
-+				err = check_whitelist_across_reset(engine,
-+								   do_guc_reset,
-+								   "guc");
-+
-+				err2 = intel_selftest_restore_policy(engine, &saved);
-+				if (err == 0)
-+					err = err2;
-+			} else {
-+				err = check_whitelist_across_reset(engine,
-+								   do_engine_reset,
-+								   "engine");
-+			}
-+
- 			if (err)
- 				goto out;
- 		}
-@@ -1235,31 +1272,40 @@ live_engine_reset_workarounds(void *arg)
- 	reference_lists_init(gt, lists);
+ static int __live_mocs_reset(struct live_mocs *mocs,
+-			     struct intel_context *ce)
++			     struct intel_context *ce, bool using_guc)
+ {
+ 	struct intel_gt *gt = ce->engine->gt;
+ 	int err;
  
+ 	if (intel_has_reset_engine(gt)) {
+-		err = intel_engine_reset(ce->engine, "mocs");
+-		if (err)
+-			return err;
+-
+-		err = check_mocs_engine(mocs, ce);
+-		if (err)
+-			return err;
++		if (!using_guc) {
++			err = intel_engine_reset(ce->engine, "mocs");
++			if (err)
++				return err;
++
++			err = check_mocs_engine(mocs, ce);
++			if (err)
++				return err;
++		}
+ 
+-		err = active_engine_reset(ce, "mocs");
++		err = active_engine_reset(ce, "mocs", using_guc);
+ 		if (err)
+ 			return err;
+ 
+@@ -395,19 +403,32 @@ static int live_mocs_reset(void *arg)
+ 
+ 	igt_global_reset_lock(gt);
  	for_each_engine(engine, gt, id) {
-+		struct intel_selftest_saved_policy saved;
 +		bool using_guc = intel_engine_uses_guc(engine);
- 		bool ok;
-+		int ret2;
- 
- 		pr_info("Verifying after %s reset...\n", engine->name);
-+		ret = intel_selftest_modify_policy(engine, &saved);
-+		if (ret)
-+			break;
++		struct intel_selftest_saved_policy saved;
+ 		struct intel_context *ce;
++		int err2;
 +
- 		ce = intel_context_create(engine);
++		err = intel_selftest_modify_policy(engine, &saved);
++		if (err)
++			break;
+ 
+ 		ce = mocs_context_create(engine);
  		if (IS_ERR(ce)) {
- 			ret = PTR_ERR(ce);
+ 			err = PTR_ERR(ce);
 -			break;
 +			goto restore;
  		}
  
--		ok = verify_wa_lists(gt, lists, "before reset");
--		if (!ok) {
--			ret = -ESRCH;
--			goto err;
--		}
-+		if (!using_guc) {
-+			ok = verify_wa_lists(gt, lists, "before reset");
-+			if (!ok) {
-+				ret = -ESRCH;
-+				goto err;
-+			}
+ 		intel_engine_pm_get(engine);
+-		err = __live_mocs_reset(&mocs, ce);
+-		intel_engine_pm_put(engine);
  
--		ret = intel_engine_reset(engine, "live_workarounds:idle");
--		if (ret) {
--			pr_err("%s: Reset failed while idle\n", engine->name);
--			goto err;
--		}
-+			ret = intel_engine_reset(engine, "live_workarounds:idle");
-+			if (ret) {
-+				pr_err("%s: Reset failed while idle\n", engine->name);
-+				goto err;
-+			}
- 
--		ok = verify_wa_lists(gt, lists, "after idle reset");
--		if (!ok) {
--			ret = -ESRCH;
--			goto err;
-+			ok = verify_wa_lists(gt, lists, "after idle reset");
-+			if (!ok) {
-+				ret = -ESRCH;
-+				goto err;
-+			}
- 		}
- 
- 		ret = igt_spinner_init(&spin, engine->gt);
-@@ -1280,25 +1326,41 @@ live_engine_reset_workarounds(void *arg)
- 			goto err;
- 		}
- 
--		ret = intel_engine_reset(engine, "live_workarounds:active");
--		if (ret) {
--			pr_err("%s: Reset failed on an active spinner\n",
--			       engine->name);
--			igt_spinner_fini(&spin);
--			goto err;
-+		/* Ensure the spinner hasn't aborted */
-+		if (i915_request_completed(rq)) {
-+			ret = -ETIMEDOUT;
-+			goto skip;
-+		}
++		err = __live_mocs_reset(&mocs, ce, using_guc);
 +
-+		if (!using_guc) {
-+			ret = intel_engine_reset(engine, "live_workarounds:active");
-+			if (ret) {
-+				pr_err("%s: Reset failed on an active spinner\n",
-+				       engine->name);
-+				igt_spinner_fini(&spin);
-+				goto err;
-+			}
- 		}
- 
-+		/* Ensure the reset happens and kills the engine */
-+		if (ret == 0)
-+			ret = intel_selftest_wait_for_rq(rq);
-+
-+skip:
- 		igt_spinner_end(&spin);
- 		igt_spinner_fini(&spin);
- 
- 		ok = verify_wa_lists(gt, lists, "after busy reset");
--		if (!ok) {
-+		if (!ok)
- 			ret = -ESRCH;
--			goto err;
--		}
- 
- err:
++		intel_engine_pm_put(engine);
  		intel_context_put(ce);
 +
 +restore:
-+		ret2 = intel_selftest_restore_policy(engine, &saved);
-+		if (ret == 0)
-+			ret = ret2;
- 		if (ret)
++		err2 = intel_selftest_restore_policy(engine, &saved);
++		if (err == 0)
++			err = err2;
+ 		if (err)
  			break;
  	}
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index ee4f1f996efa..3ff42d6e934f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1252,6 +1252,9 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
- {
- 	desc->policy_flags = 0;
- 
-+	if (engine->flags & I915_ENGINE_WANT_FORCED_PREEMPTION)
-+		desc->policy_flags |= CONTEXT_POLICY_FLAG_PREEMPT_TO_IDLE;
-+
- 	/* NB: For both of these, zero means disabled. */
- 	desc->execution_quantum = engine->props.timeslice_duration_ms * 1000;
- 	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
-diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
-new file mode 100644
-index 000000000000..5cdee1378e98
---- /dev/null
-+++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
-@@ -0,0 +1,75 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+//#include "gt/intel_engine_user.h"
-+#include "gt/intel_gt.h"
-+#include "i915_drv.h"
-+#include "i915_selftest.h"
-+
-+#include "selftests/intel_scheduler_helpers.h"
-+
-+#define REDUCED_TIMESLICE	5
-+#define REDUCED_PREEMPT		10
-+#define WAIT_FOR_RESET_TIME	1000
-+
-+int intel_selftest_modify_policy(struct intel_engine_cs *engine,
-+				 struct intel_selftest_saved_policy *saved)
-+
-+{
-+	int err;
-+
-+	saved->reset = engine->i915->params.reset;
-+	saved->flags = engine->flags;
-+	saved->timeslice = engine->props.timeslice_duration_ms;
-+	saved->preempt_timeout = engine->props.preempt_timeout_ms;
-+
-+	/*
-+	 * Enable force pre-emption on time slice expiration
-+	 * together with engine reset on pre-emption timeout.
-+	 * This is required to make the GuC notice and reset
-+	 * the single hanging context.
-+	 * Also, reduce the preemption timeout to something
-+	 * small to speed the test up.
-+	 */
-+	engine->i915->params.reset = 2;
-+	engine->flags |= I915_ENGINE_WANT_FORCED_PREEMPTION;
-+	engine->props.timeslice_duration_ms = REDUCED_TIMESLICE;
-+	engine->props.preempt_timeout_ms = REDUCED_PREEMPT;
-+
-+	if (!intel_engine_uses_guc(engine))
-+		return 0;
-+
-+	err = intel_guc_global_policies_update(&engine->gt->uc.guc);
-+	if (err)
-+		intel_selftest_restore_policy(engine, saved);
-+
-+	return err;
-+}
-+
-+int intel_selftest_restore_policy(struct intel_engine_cs *engine,
-+				  struct intel_selftest_saved_policy *saved)
-+{
-+	/* Restore the original policies */
-+	engine->i915->params.reset = saved->reset;
-+	engine->flags = saved->flags;
-+	engine->props.timeslice_duration_ms = saved->timeslice;
-+	engine->props.preempt_timeout_ms = saved->preempt_timeout;
-+
-+	if (!intel_engine_uses_guc(engine))
-+		return 0;
-+
-+	return intel_guc_global_policies_update(&engine->gt->uc.guc);
-+}
-+
-+int intel_selftest_wait_for_rq(struct i915_request *rq)
-+{
-+	long ret;
-+
-+	ret = i915_request_wait(rq, 0, WAIT_FOR_RESET_TIME);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
-new file mode 100644
-index 000000000000..79605b14bc33
---- /dev/null
-+++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
-@@ -0,0 +1,27 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#ifndef _INTEL_SELFTEST_SCHEDULER_HELPERS_H_
-+#define _INTEL_SELFTEST_SCHEDULER_HELPERS_H_
-+
-+#include <linux/types.h>
-+
-+struct i915_request;
-+struct intel_engine_cs;
-+
-+struct intel_selftest_saved_policy {
-+	u32 flags;
-+	u32 reset;
-+	u64 timeslice;
-+	u64 preempt_timeout;
-+};
-+
-+int intel_selftest_modify_policy(struct intel_engine_cs *engine,
-+				 struct intel_selftest_saved_policy *saved);
-+int intel_selftest_restore_policy(struct intel_engine_cs *engine,
-+				  struct intel_selftest_saved_policy *saved);
-+int intel_selftest_wait_for_rq(struct i915_request *rq);
-+
-+#endif
 -- 
 2.28.0
 
