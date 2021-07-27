@@ -2,55 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B89F3D834D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 00:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1CD3D835A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 00:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6935E6E9F1;
-	Tue, 27 Jul 2021 22:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5217A6EB1D;
+	Tue, 27 Jul 2021 22:44:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79BE46EB23
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 22:43:40 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id z2so272775lft.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 15:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+SboYQvLEoV+Q5oWgHDYhiCn7Tx7IEj91yehwnQAbvM=;
- b=oPdc+CQOm8sqXyP7XoKBSgtFpkhKc5cVZX213KU9f4Da2FEPu6aF69LfwwjClKWNVJ
- ng7j8yDgO8HI42dHLauya6am2azxxCJCaFF0anEjeHwgReEs16hSqD+oIFo6BZv6LpJS
- ACmvJNRbwJRkxWuoPoNy6dRBIO6yHHlR2M++9sqSSkVpJNRx+YghTE2f5UEGqnLMKX0y
- L9JtEjP+k5Rg4eykCaF7tDDJDWOi5kTiQCm0vlBFpWYapxXmiwTYE1eqKmNSFX0xs0VL
- uH1WcfCABl1xCeDKnknA3HXWng9Y37zixBYLKsXyfi388/m+I1GilxgqhZGurEEKTpA1
- AJfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+SboYQvLEoV+Q5oWgHDYhiCn7Tx7IEj91yehwnQAbvM=;
- b=rlpME7bS0oqyZZ0mYqSYYt9gtUqaQX40g4LLM/TAbc5e9wvTItiq3Ci6gR+A+R1ZGy
- 3AkoobRuiTxznJxljMOfndhutWg6G+DYtIVnuvhj3LJwZztMJD1msy+cMUImzkjNFon7
- kiCl3BvyH3F7AJiCQMn3nPNSNk41XkpETP0eY1ggv58EOMH5Pbez6OF6zA/VvHcHKxnB
- k4TC4OInPVx0TpOFOIroyGpo4Wzf0qCGcvOFZpOg1KzaXz2mP68EBwmqOXWWozpxtm+X
- fDa+FGNJQpXWbbcevIvDUickufwRNTHa4lsf/1XRtVIhCr70cmjcWb9KE+NIE/1AKOSC
- +aEQ==
-X-Gm-Message-State: AOAM532Exul7lh2f/bAFBhJXw7Brqt+bFkUrYitZ4gozC9g5KBljGaNc
- KLoZZLVMPWZy09UJRAAlbbRmKjNNadHKuHKwMzOavA==
-X-Google-Smtp-Source: ABdhPJxnTYGuinYeYdLqLqV+o8/XLcsFPV+/cmsQ8aq8v4uISWTPunqaNAJh2445rOdl0O13jTOR3bXB56B9K3i3ZVk=
-X-Received: by 2002:ac2:596a:: with SMTP id h10mr11005339lfp.374.1627425818438; 
- Tue, 27 Jul 2021 15:43:38 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C25D6EB30;
+ Tue, 27 Jul 2021 22:44:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="273622296"
+X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="273622296"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 15:44:03 -0700
+X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="475440380"
+Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 15:44:03 -0700
+Date: Tue, 27 Jul 2021 22:44:02 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH 03/15] drm/i915/guc/slpc: Gate Host RPS when SLPC is
+ enabled
+Message-ID: <20210727224402.GA49579@DUT151-ICLU.fm.intel.com>
+References: <20210726190800.26762-1-vinay.belgaumkar@intel.com>
+ <20210726190800.26762-4-vinay.belgaumkar@intel.com>
 MIME-Version: 1.0
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-35-keescook@chromium.org>
-In-Reply-To: <20210727205855.411487-35-keescook@chromium.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 27 Jul 2021 15:43:27 -0700
-Message-ID: <CAKwvOdknit8DtWaFvLupmNEebjbwVa6R3xiGc2D4AqB_6+i52g@mail.gmail.com>
-Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in memcpy()
- at compile-time
-To: Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210726190800.26762-4-vinay.belgaumkar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,284 +45,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kbuild@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
- Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: intel-gfx@lists.freedesktop.org,
+ Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 2:17 PM Kees Cook <keescook@chromium.org> wrote:
+On Mon, Jul 26, 2021 at 12:07:48PM -0700, Vinay Belgaumkar wrote:
+> Also ensure uc_init is called before we initialize RPS so that we
+> can check for SLPC support. We do not need to enable up/down
+> interrupts when SLPC is enabled. However, we still need the ARAT
+> interrupt, which will be enabled separately later.
 >
-> To accelerate the review of potential run-time false positives, it's
-> also worth noting that it is possible to partially automate checking
-> by examining memcpy() buffer argument fields to see if they have
-> a neighboring. It is reasonable to expect that the vast majority of
 
-a neighboring...field?
+Do we not need a check for rps_uses_slpc in intel_rps_enable? I guessing
+there is a reason why we don't but can't seem to figure that out.
 
-> diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-> index 7e67d02764db..5e79e626172b 100644
-> --- a/include/linux/fortify-string.h
-> +++ b/include/linux/fortify-string.h
-> @@ -2,13 +2,17 @@
->  #ifndef _LINUX_FORTIFY_STRING_H_
->  #define _LINUX_FORTIFY_STRING_H_
->
-> +#include <linux/bug.h>
+Matt
 
-What are you using from linux/bug.h here?
-
-> +
->  #define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
->  #define __RENAME(x) __asm__(#x)
->
->  void fortify_panic(const char *name) __noreturn __cold;
->  void __read_overflow(void) __compiletime_error("detected read beyond size of object (1st parameter)");
->  void __read_overflow2(void) __compiletime_error("detected read beyond size of object (2nd parameter)");
-> +void __read_overflow2_field(void) __compiletime_warning("detected read beyond size of field (2nd parameter); maybe use struct_group()?");
->  void __write_overflow(void) __compiletime_error("detected write beyond size of object (1st parameter)");
-> +void __write_overflow_field(void) __compiletime_warning("detected write beyond size of field (1st parameter); maybe use struct_group()?");
->
->  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-> @@ -182,22 +186,105 @@ __FORTIFY_INLINE void *memset(void *p, int c, __kernel_size_t size)
->         return __underlying_memset(p, c, size);
+> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt.c  |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_rps.c | 20 ++++++++++++++++++++
+>  2 files changed, 21 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index a64aa43f7cd9..04dd69bcf6cb 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -41,8 +41,8 @@ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
+>  	intel_gt_init_timelines(gt);
+>  	intel_gt_pm_init_early(gt);
+>  
+> -	intel_rps_init_early(&gt->rps);
+>  	intel_uc_init_early(&gt->uc);
+> +	intel_rps_init_early(&gt->rps);
 >  }
->
-> -__FORTIFY_INLINE void *memcpy(void *p, const void *q, __kernel_size_t size)
-> +/*
-> + * To make sure the compiler can enforce protection against buffer overflows,
-> + * memcpy(), memmove(), and memset() must not be used beyond individual
-> + * struct members. If you need to copy across multiple members, please use
-> + * struct_group() to create a named mirror of an anonymous struct union.
-> + * (e.g. see struct sk_buff.)
-> + *
-> + * Mitigation coverage
-> + *                                     Bounds checking at:
-> + *                                     +-------+-------+-------+-------+
-> + *                                     | Compile time  | Run time      |
-> + * memcpy() argument sizes:            | write | read  | write | read  |
-> + *                                     +-------+-------+-------+-------+
-> + * memcpy(known,   known,   constant)  |   y   |   y   |  n/a  |  n/a  |
-> + * memcpy(unknown, known,   constant)  |   n   |   y   |   V   |  n/a  |
-> + * memcpy(known,   unknown, constant)  |   y   |   n   |  n/a  |   V   |
-> + * memcpy(unknown, unknown, constant)  |   n   |   n   |   V   |   V   |
-> + * memcpy(known,   known,   dynamic)   |   n   |   n   |   b   |   B   |
-> + * memcpy(unknown, known,   dynamic)   |   n   |   n   |   V   |   B   |
-> + * memcpy(known,   unknown, dynamic)   |   n   |   n   |   b   |   V   |
-> + * memcpy(unknown, unknown, dynamic)   |   n   |   n   |   V   |   V   |
-> + *                                     +-------+-------+-------+-------+
-> + *
-> + * y = deterministic compile-time bounds checking
-> + * n = cannot do deterministic compile-time bounds checking
-> + * n/a = no run-time bounds checking needed since compile-time deterministic
-> + * b = perform run-time bounds checking
-> + * B = can perform run-time bounds checking, but current unenforced
-> + * V = vulnerable to run-time overflow
-> + *
-> + */
-> +__FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
-> +                                        const size_t p_size,
-> +                                        const size_t q_size,
-> +                                        const size_t p_size_field,
-> +                                        const size_t q_size_field,
-> +                                        const char *func)
->  {
-> -       size_t p_size = __builtin_object_size(p, 0);
-> -       size_t q_size = __builtin_object_size(q, 0);
-> -
->         if (__builtin_constant_p(size)) {
-> -               if (p_size < size)
-> +               /*
-> +                * Length argument is a constant expression, so we
-> +                * can perform compile-time bounds checking where
-> +                * buffer sizes are known.
-> +                */
-> +
-> +               /* Error when size is larger than enclosing struct. */
-> +               if (p_size > p_size_field && p_size < size)
->                         __write_overflow();
-> -               if (q_size < size)
-> +               if (q_size > q_size_field && q_size < size)
->                         __read_overflow2();
-> +
-> +               /* Warn when write size argument larger than dest field. */
-> +               if (p_size_field < size)
-> +                       __write_overflow_field();
-> +               /*
-> +                * Warn for source field over-read when building with W=1
-> +                * or when an over-write happened, so both can be fixed at
-> +                * the same time.
-> +                */
-> +               if ((IS_ENABLED(KBUILD_EXTRA_WARN1) || p_size_field < size) &&
-> +                   q_size_field < size)
-> +                       __read_overflow2_field();
->         }
-> -       if (p_size < size || q_size < size)
-> -               fortify_panic(__func__);
-> -       return __underlying_memcpy(p, q, size);
-> +       /*
-> +        * At this point, length argument may not be a constant expression,
-> +        * so run-time bounds checking can be done where buffer sizes are
-> +        * known. (This is not an "else" because the above checks may only
-> +        * be compile-time warnings, and we want to still warn for run-time
-> +        * overflows.)
-> +        */
-> +
-> +       /*
-> +        * Always stop accesses beyond the struct that contains the
-> +        * field, when the buffer's remaining size is known.
-> +        * (The -1 test is to optimize away checks where the buffer
-> +        * lengths are unknown.)
-> +        */
-> +       if ((p_size != (size_t)(-1) && p_size < size) ||
-> +           (q_size != (size_t)(-1) && q_size < size))
-> +               fortify_panic(func);
+>  
+>  int intel_gt_probe_lmem(struct intel_gt *gt)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> index 0c8e7f2b06f0..e858eeb2c59d 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> @@ -37,6 +37,13 @@ static struct intel_uncore *rps_to_uncore(struct intel_rps *rps)
+>  	return rps_to_gt(rps)->uncore;
 >  }
->
-> +#define __fortify_memcpy_chk(p, q, size, p_size, q_size,               \
-> +                            p_size_field, q_size_field, op) ({         \
-> +       size_t __fortify_size = (size_t)(size);                         \
-> +       fortify_memcpy_chk(__fortify_size, p_size, q_size,              \
-> +                          p_size_field, q_size_field, #op);            \
-> +       __underlying_##op(p, q, __fortify_size);                        \
-> +})
-
-Are there other macro expansion sites for `__fortify_memcpy_chk`,
-perhaps later in this series? I don't understand why `memcpy` is
-passed as `func` to `fortify_panic()` rather than continuing to use
-`__func__`?
-
+>  
+> +static bool rps_uses_slpc(struct intel_rps *rps)
+> +{
+> +	struct intel_gt *gt = rps_to_gt(rps);
 > +
-> +/*
-> + * __builtin_object_size() must be captured here to avoid evaluating argument
-> + * side-effects further into the macro layers.
-> + */
-> +#define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
-> +               __builtin_object_size(p, 0), __builtin_object_size(q, 0), \
-> +               __builtin_object_size(p, 1), __builtin_object_size(q, 1), \
-> +               memcpy)
+> +	return intel_uc_uses_guc_slpc(&gt->uc);
+> +}
 > +
->  __FORTIFY_INLINE void *memmove(void *p, const void *q, __kernel_size_t size)
+>  static u32 rps_pm_sanitize_mask(struct intel_rps *rps, u32 mask)
 >  {
->         size_t p_size = __builtin_object_size(p, 0);
-> @@ -277,27 +364,27 @@ __FORTIFY_INLINE void *kmemdup(const void *p, size_t size, gfp_t gfp)
->         return __real_kmemdup(p, size, gfp);
+>  	return mask & ~rps->pm_intrmsk_mbz;
+> @@ -167,6 +174,8 @@ static void rps_enable_interrupts(struct intel_rps *rps)
+>  {
+>  	struct intel_gt *gt = rps_to_gt(rps);
+>  
+> +	GEM_BUG_ON(rps_uses_slpc(rps));
+> +
+>  	GT_TRACE(gt, "interrupts:on rps->pm_events: %x, rps_pm_mask:%x\n",
+>  		 rps->pm_events, rps_pm_mask(rps, rps->last_freq));
+>  
+> @@ -771,6 +780,8 @@ static int gen6_rps_set(struct intel_rps *rps, u8 val)
+>  	struct drm_i915_private *i915 = rps_to_i915(rps);
+>  	u32 swreq;
+>  
+> +	GEM_BUG_ON(rps_uses_slpc(rps));
+> +
+>  	if (GRAPHICS_VER(i915) >= 9)
+>  		swreq = GEN9_FREQUENCY(val);
+>  	else if (IS_HASWELL(i915) || IS_BROADWELL(i915))
+> @@ -861,6 +872,9 @@ void intel_rps_park(struct intel_rps *rps)
+>  {
+>  	int adj;
+>  
+> +	if (!intel_rps_is_enabled(rps))
+> +		return;
+> +
+>  	GEM_BUG_ON(atomic_read(&rps->num_waiters));
+>  
+>  	if (!intel_rps_clear_active(rps))
+> @@ -1829,6 +1843,9 @@ void intel_rps_init(struct intel_rps *rps)
+>  {
+>  	struct drm_i915_private *i915 = rps_to_i915(rps);
+>  
+> +	if (rps_uses_slpc(rps))
+> +		return;
+> +
+>  	if (IS_CHERRYVIEW(i915))
+>  		chv_rps_init(rps);
+>  	else if (IS_VALLEYVIEW(i915))
+> @@ -1885,6 +1902,9 @@ void intel_rps_init(struct intel_rps *rps)
+>  
+>  void intel_rps_sanitize(struct intel_rps *rps)
+>  {
+> +	if (rps_uses_slpc(rps))
+> +		return;
+> +
+>  	if (GRAPHICS_VER(rps_to_i915(rps)) >= 6)
+>  		rps_disable_interrupts(rps);
 >  }
->
-> -/* defined after fortified strlen and memcpy to reuse them */
-> +/* Defined after fortified strlen to reuse it. */
->  __FORTIFY_INLINE char *strcpy(char *p, const char *q)
->  {
->         size_t p_size = __builtin_object_size(p, 1);
->         size_t q_size = __builtin_object_size(q, 1);
->         size_t size;
->
-> +       /* If neither buffer size is known, immediately give up. */
->         if (p_size == (size_t)-1 && q_size == (size_t)-1)
->                 return __underlying_strcpy(p, q);
->         size = strlen(q) + 1;
->         /* test here to use the more stringent object size */
->         if (p_size < size)
->                 fortify_panic(__func__);
-> -       memcpy(p, q, size);
-> +       __underlying_memcpy(p, q, size);
->         return p;
->  }
->
->  /* Don't use these outside the FORITFY_SOURCE implementation */
->  #undef __underlying_memchr
->  #undef __underlying_memcmp
-> -#undef __underlying_memcpy
->  #undef __underlying_memmove
->  #undef __underlying_memset
->  #undef __underlying_strcat
-> diff --git a/include/linux/string.h b/include/linux/string.h
-> index 9473f81b9db2..cbe889e404e2 100644
-> --- a/include/linux/string.h
-> +++ b/include/linux/string.h
-> @@ -261,8 +261,9 @@ static inline const char *kbasename(const char *path)
->   * @count: The number of bytes to copy
->   * @pad: Character to use for padding if space is left in destination.
->   */
-> -static inline void memcpy_and_pad(void *dest, size_t dest_len,
-> -                                 const void *src, size_t count, int pad)
-> +static __always_inline void memcpy_and_pad(void *dest, size_t dest_len,
-> +                                          const void *src, size_t count,
-> +                                          int pad)
-
-Why __always_inline here?
-
->  {
->         if (dest_len > count) {
->                 memcpy(dest, src, count);
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 083a19336e20..74523fd394bd 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -370,7 +370,8 @@ TEST_FORTIFY_LOG = test_fortify.log
->  quiet_cmd_test_fortify = TEST    $@
->        cmd_test_fortify = $(CONFIG_SHELL) $(srctree)/scripts/test_fortify.sh \
->                         $< $@ "$(NM)" $(CC) $(c_flags) \
-> -                       $(call cc-disable-warning,fortify-source)
-> +                       $(call cc-disable-warning,fortify-source) \
-> +                       -DKBUILD_EXTRA_WARN1
->
->  targets += $(TEST_FORTIFY_LOGS)
->  clean-files += $(TEST_FORTIFY_LOGS)
-> diff --git a/lib/string_helpers.c b/lib/string_helpers.c
-> index faa9d8e4e2c5..4d205bf5993c 100644
-> --- a/lib/string_helpers.c
-> +++ b/lib/string_helpers.c
-> @@ -884,6 +884,12 @@ char *strreplace(char *s, char old, char new)
->  EXPORT_SYMBOL(strreplace);
->
->  #ifdef CONFIG_FORTIFY_SOURCE
-> +/* These are placeholders for fortify compile-time warnings. */
-> +void __read_overflow2_field(void) { }
-> +EXPORT_SYMBOL(__read_overflow2_field);
-> +void __write_overflow_field(void) { }
-> +EXPORT_SYMBOL(__write_overflow_field);
-> +
-
-Don't we rely on these being undefined for Clang to produce a linkage
-failure (until https://reviews.llvm.org/D106030 has landed)?  By
-providing a symbol definition we can link against, I don't think
-__compiletime_{warning|error} will warn at all with Clang?
-
->  void fortify_panic(const char *name)
->  {
->         pr_emerg("detected buffer overflow in %s\n", name);
-> diff --git a/lib/test_fortify/read_overflow2_field-memcpy.c b/lib/test_fortify/read_overflow2_field-memcpy.c
-> new file mode 100644
-> index 000000000000..de9569266223
-> --- /dev/null
-> +++ b/lib/test_fortify/read_overflow2_field-memcpy.c
-> @@ -0,0 +1,5 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +#define TEST   \
-> +       memcpy(large, instance.buf, sizeof(instance.buf) + 1)
-> +
-> +#include "test_fortify.h"
-> diff --git a/lib/test_fortify/write_overflow_field-memcpy.c b/lib/test_fortify/write_overflow_field-memcpy.c
-> new file mode 100644
-> index 000000000000..28cc81058dd3
-> --- /dev/null
-> +++ b/lib/test_fortify/write_overflow_field-memcpy.c
-> @@ -0,0 +1,5 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +#define TEST   \
-> +       memcpy(instance.buf, large, sizeof(instance.buf) + 1)
-> +
-> +#include "test_fortify.h"
-> --
-
-I haven't read the whole series yet, but I assume test_fortify.h was
-provided earlier in the series?
--- 
-Thanks,
-~Nick Desaulniers
+> -- 
+> 2.25.0
+> 
