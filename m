@@ -2,81 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F59F3D7E7C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 21:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B33D7E9F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 21:46:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A80D6E9DA;
-	Tue, 27 Jul 2021 19:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA74D6E13C;
+	Tue, 27 Jul 2021 19:46:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6920A6E802
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 19:25:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627413931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WCcIAoLLgVkcxUqPKKOZeIp8QENc5ogrPw8x8EmlWyE=;
- b=Zh7s8iQUIjEMNziOwB5kCj9umgNEhvdyRT/8e3QX225SCxUynaPGTNvAF3iBiGZaH7joYH
- tnUBCUtxf39oaG66+msTqdFv957gA+cRu3qsZmjaIjje8uzLhJQ4QUTL58RlgVCO42jNqp
- ikHk4Sv2uSb6tH7vFtwtzrgylgb5kxM=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-aC0oBDQbPj2_x54SjCk4nw-1; Tue, 27 Jul 2021 15:25:29 -0400
-X-MC-Unique: aC0oBDQbPj2_x54SjCk4nw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- s14-20020ac8528e0000b029025f76cabdfcso6876276qtn.15
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 12:25:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=WCcIAoLLgVkcxUqPKKOZeIp8QENc5ogrPw8x8EmlWyE=;
- b=Ccwj2zWJ1SngWDZ7KbqLjWojgQj8uQCaIbwbaoSmIZ+BCKwNEsnrvE/sx++pfMIpSc
- XMPA28txekIX+C7TowfSJq6f2D9IvOe2maV+iGaeBcvX3pMIxtzQdmUZgV6rfAaRTSas
- x92CCjK89dz6obiBNOOABL2Rzh2+GsRKF66o3SmiRVSy7tHMAnmUGAtEVlpB6b34LJd4
- udtg0u58oVBvvLQFWU1XqbDBvkocQp8885qheoT+oaYBOpkJBR/GblkEYycsyStdA2Lk
- Ki21B94MvqBnFlfNMYz0HVU8VIHO4xo6IX+84v/ge7IMqIylhDnH2bgO5em79FrtoZjm
- 3A4w==
-X-Gm-Message-State: AOAM531ndR4cdDt7cqW+lW/wboY1Gyh1IREFZPBUKfTcMF7dOlN8pwii
- UTIW0+fN+xH9w7TtKMf359ImIfl02v21dOK8bdn+hpfAihF9MlTdcNo0BCANm7NF+z/5j3FYxJJ
- hB2tJu4/2ASxO8u5/7/n0P0l5LeIm
-X-Received: by 2002:a05:620a:16cc:: with SMTP id
- a12mr23910665qkn.97.1627413929063; 
- Tue, 27 Jul 2021 12:25:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmCwqRTH5oOTEKnkJwEuGSq39savvt0K6d1vLl9O0BPtozX+Ajj86FlkgspyuEjgCqeGY8wQ==
-X-Received: by 2002:a05:620a:16cc:: with SMTP id
- a12mr23910653qkn.97.1627413928910; 
- Tue, 27 Jul 2021 12:25:28 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id 12sm2149727qkr.10.2021.07.27.12.25.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 12:25:28 -0700 (PDT)
-Message-ID: <9e41662e27c08c34685d32d424136c6c81f66a28.camel@redhat.com>
-Subject: Re: [RESEND PATCH v6 11/14] drm/mst: Convert debug printers to
- debug category printers
-From: Lyude Paul <lyude@redhat.com>
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org, 
- ppaalanen@gmail.com, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de,  airlied@linux.ie, daniel.vetter@ffwll.ch
-Date: Tue, 27 Jul 2021 15:25:26 -0400
-In-Reply-To: <20210721175526.22020-12-sean@poorly.run>
-References: <20210721175526.22020-1-sean@poorly.run>
- <20210721175526.22020-12-sean@poorly.run>
-Organization: Red Hat
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFA86E13C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 19:46:38 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 5e90cde5-ef13-11eb-9082-0050568c148b;
+ Tue, 27 Jul 2021 19:46:43 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id E7B71194B83;
+ Tue, 27 Jul 2021 21:46:56 +0200 (CEST)
+Date: Tue, 27 Jul 2021 21:46:34 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH V2] drm: mxsfb: Use bus_format from the nearest bridge if
+ present
+Message-ID: <YQBimpL0kqUVByzX@ravnborg.org>
+References: <20210726194457.341696-1-marex@denx.de>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210726194457.341696-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,77 +48,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>
+Cc: Daniel Abrecht <public@danielabrecht.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-
-On Wed, 2021-07-21 at 13:55 -0400, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
+On Mon, Jul 26, 2021 at 09:44:57PM +0200, Marek Vasut wrote:
+> In case there is a bridge connected to the LCDIF, use bus_format
+> from the bridge, otherwise behave as before and use bus_format
+> from the connector. This way, even if there are multiple bridges
+> in the display pipeline, the LCDIF will use the correct format.
 > 
-> The printers in dp_mst are meant to be gated on DRM_UT_DP, so use the
-> debug category printer to avoid dumping mst transactions to the wrong
-> place.
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link:
-> https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-12-sean@poorly.run
->  #v5
-> 
-> Changes in v5:
-> -Added to the set
-> Changes in v6:
-> -None
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
+> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Daniel Abrecht <public@danielabrecht.ch>
+> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Stefan Agner <stefan@agner.ch>
 > ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index ad0795afc21c..b1dddecad4c6 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -1356,7 +1356,8 @@ static int drm_dp_mst_wait_tx_reply(struct
-> drm_dp_mst_branch *mstb,
->         }
->  out:
->         if (unlikely(ret == -EIO) && drm_debug_enabled(DRM_UT_DP)) {
-> -               struct drm_printer p = drm_debug_printer(DBG_PREFIX);
-> +               struct drm_printer p = drm_debug_category_printer(DRM_UT_DP,
-> +                                                                
-> DBG_PREFIX);
->  
->                 drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
->         }
-> @@ -2873,7 +2874,8 @@ static int process_single_tx_qlock(struct
-> drm_dp_mst_topology_mgr *mgr,
->  
->         ret = drm_dp_send_sideband_msg(mgr, up, chunk, idx);
->         if (unlikely(ret) && drm_debug_enabled(DRM_UT_DP)) {
-> -               struct drm_printer p = drm_debug_printer(DBG_PREFIX);
-> +               struct drm_printer p = drm_debug_category_printer(DRM_UT_DP,
-> +                                                                
-> DBG_PREFIX);
->  
->                 drm_printf(&p, "sideband msg failed to send\n");
->                 drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
-> @@ -2917,7 +2919,8 @@ static void drm_dp_queue_down_tx(struct
-> drm_dp_mst_topology_mgr *mgr,
->         list_add_tail(&txmsg->next, &mgr->tx_msg_downq);
->  
->         if (drm_debug_enabled(DRM_UT_DP)) {
-> -               struct drm_printer p = drm_debug_printer(DBG_PREFIX);
-> +               struct drm_printer p = drm_debug_category_printer(DRM_UT_DP,
-> +                                                                
-> DBG_PREFIX);
->  
->                 drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
->         }
+> V2: Drop null checks for variables which must always be non-null,
+>     state and bridge_state
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Applied this and 3 other pending mxsfb patches from Marek to
+drm-misc-fixes.
 
+	Sam
