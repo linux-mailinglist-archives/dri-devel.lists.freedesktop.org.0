@@ -2,68 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605043D7DDF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949363D7DEE
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:46:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C23006E3E3;
-	Tue, 27 Jul 2021 18:42:38 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB246E3E3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 18:42:37 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id h9so17176099ljq.8
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 11:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+7UEfD2Imkl3ZnkOmnry5ON4ruHu09FP4tYeWeop6j8=;
- b=Dw1xy/B95cB2tQ8nfE4IH8NuStpyecxxK3HsLcmBe5tJe37IsnKZtXreBvEpEIhIFc
- NPwjIj2Q2rzg+iqbTrT1xv4aJZ/rJN1N6tMfA+MUjrFaBwIVYW2MtgDQ44cvIScabO9F
- R0y3s3cIcrxOOOsgQ/3jeRbo1cLqmh+cy736gV+SytYpwepWwqiJvPQVLh0d/QwOcDWr
- tuqLJsI22MlyNc7wnpfDMwJtqbhdXG+bSa88GwIJZQ9a495/ylpicRxlms7Gacg0hvnP
- nGXU3gBlapyO44/mQYuYk97qm+qoWDywGdzwwGthJTCZ7v3sUVXkTeeN0d9GsSN8woSq
- Bj2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+7UEfD2Imkl3ZnkOmnry5ON4ruHu09FP4tYeWeop6j8=;
- b=h+O5kPPPJPZp5VjuUJyW8o+bzlBsmCizb+TkCnzRnJXElKYahdMwh7BCxoIzlg8Im4
- pY2CWi9olFGijitcreBS+ediVlsVQeVSRz98/2wubA64WS88wkYN78LoNIu4jy+/xArB
- MGgBL20e63nHkCVSFndM1NY+uhvxAVx3MKarF344oI65tSDqvVqlQBnf02nWBo2IHWVq
- cbqUa9cm9pgJbbtVA4Vb1NuD/4lusGzkmoGoFxEgts+YEJwxQZiQtDIXTSWGnWQUfmk8
- IBv6JltHMZns4Q+pE++1FsAfe7np+bjrAnONZOmC8Z9x1AHTLvUpx8sGh6kBeJ2C06RT
- trAg==
-X-Gm-Message-State: AOAM530kklZXNAAN+CcXPdLuYJe/21xO4eaLwamy4mh3QlnH3i/VHs7y
- 1UAuaeD74k01eJrSvinjiTJI5A==
-X-Google-Smtp-Source: ABdhPJw4h0sF7m8BSZ4MlkG9L54CcA+FgAX+Io3OlMQJ4N0NrYEy9Vu2yYSi0jwBIhxMPRXFaamJ0g==
-X-Received: by 2002:a2e:85d8:: with SMTP id h24mr16831635ljj.365.1627411355491; 
- Tue, 27 Jul 2021 11:42:35 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id m23sm28970lfc.116.2021.07.27.11.42.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jul 2021 11:42:35 -0700 (PDT)
-Subject: Re: [PATCH 2/5] drm/msm/dp: Modify prototype of encoder based API
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>, Kuogee Hsieh <khsieh@codeaurora.org>
-References: <20210725042436.3967173-1-bjorn.andersson@linaro.org>
- <20210725042436.3967173-3-bjorn.andersson@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <97ac00f8-eb25-9142-3bdc-904aad269b6e@linaro.org>
-Date: Tue, 27 Jul 2021 21:42:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <20210725042436.3967173-3-bjorn.andersson@linaro.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F8156E207;
+	Tue, 27 Jul 2021 18:46:55 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F47F6E07B;
+ Tue, 27 Jul 2021 18:46:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="276293114"
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="276293114"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 11:46:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; d="scan'208";a="517061200"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2021 11:46:51 -0700
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Tue, 27 Jul 2021 11:46:50 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Tue, 27 Jul 2021 11:46:50 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10 via Frontend Transport; Tue, 27 Jul 2021 11:46:50 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.10; Tue, 27 Jul 2021 11:46:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UonQ2pzyJI2vIGIW7D+RlYoYeSrVFE+wIKQ8cOgpgqmeQQSSflko3Y0lm/yg/nV54BhWuiFHRD+WyGadZ0Xk8ymqjb3BTJ2FW6TeR13XNovzBYu8c2RKczu95hPFlMkXHe1LHKSdbX9SJ4UAw73sESm3ap6Yk/jKwCzR1di46IbRn6cLTE6mIZTBwGlKF9ovans+UsFSUcxAyrSBgzCQ9RrB3H/NDnd2ENWKG7jq6LB0C3tgYdNtCwnJKuit2aghPAT3reO3UcsiOi8TO1qYGqLOWgpYkoO1mVVJt7F1XDCh+uRAcKKpjhR2C3MSbqxi8sMgwmmBUyWRwh+lo4Alfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DUgVfVHWA/FF+z3RZTtUQdDLqV3tt8z+iM6YCfnl8yk=;
+ b=W+mdGzT2op9lyvQKjFvyjTzAhW3f2XEWpFyPgn6Cmr+sC6BUXjqSq5HjzkOWdGD7tLAKT0Q0gBtqO0R84UPs2Ew3AeXBareAkauIVTEYHX0gaBBd/2fPJF30/DrUjXEwcxt/Ni2iT/QUBRIVc5Msx/i4DaSMW466QH2OBsJ94ImE4ZzMyaSftJZc4G64MArQNQROKhA9ivCf7GTQJtr9+tng2diInrfKQQGnoQeGUa3vczXq5a+XLMo0mPXSBVprfBO6QbpzQFgXmeneGEoOZhXI14m9A0DYd1oNaCfb+yM4wYyhS51fUjmPb3/4XPhXA6iqtik7r9txxyASecG3/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DUgVfVHWA/FF+z3RZTtUQdDLqV3tt8z+iM6YCfnl8yk=;
+ b=Hxt21rxEvm2D2fe193jDQDsxQQ0f3uJKOpbePWZnvOTzp6YLpb4J6Gdgc3eRdqV4GpmcuDNpbhqH08wMDs4ip/G31axWCXftRjT/tfCycB8Ko533JtcrWmRYNwfu7hxRz6cD0Nw+kK/XzaNBlk9B56rCd/n1SHKCJaJSfxuhOWc=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
+ by PH0PR11MB5675.namprd11.prod.outlook.com (2603:10b6:510:d4::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Tue, 27 Jul
+ 2021 18:46:47 +0000
+Received: from PH0PR11MB5642.namprd11.prod.outlook.com
+ ([fe80::c5a8:5a64:9118:95c4]) by PH0PR11MB5642.namprd11.prod.outlook.com
+ ([fe80::c5a8:5a64:9118:95c4%9]) with mapi id 15.20.4352.031; Tue, 27 Jul 2021
+ 18:46:47 +0000
+Subject: Re: [PATCH 0/2] Add support for querying hw info that UMDs need
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210727022145.157343-1-John.C.Harrison@Intel.com>
+ <YP/WudLoHxIx/h1B@phenom.ffwll.local>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <01479f2d-78be-fdf0-d3ef-c0de92e9a769@intel.com>
+Date: Tue, 27 Jul 2021 11:46:45 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
+In-Reply-To: <YP/WudLoHxIx/h1B@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+X-ClientProxiedBy: MW4PR03CA0212.namprd03.prod.outlook.com
+ (2603:10b6:303:b9::7) To PH0PR11MB5642.namprd11.prod.outlook.com
+ (2603:10b6:510:e5::13)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.221] (73.157.192.58) by
+ MW4PR03CA0212.namprd03.prod.outlook.com (2603:10b6:303:b9::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.29 via Frontend Transport; Tue, 27 Jul 2021 18:46:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6e4e145f-ba37-49b7-0f1c-08d9512ee35b
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5675:
+X-Microsoft-Antispam-PRVS: <PH0PR11MB567530F6756E00B51B42179EBDE99@PH0PR11MB5675.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BYX+/w9+9Eb2TgOL0q7DLndz8HQCZwIGKBnGZwSSHBNA0nVKODmUnfc7Ma7reRAZCBGONpD3GwnwS9GBqW7hO2Jsq4ayIc8nkzda5ZRM/i6rZkn6QwM7HoOa4EezWYZjh8fcYQO7Y8a35U90JlrQO/lpopvnAx4ZNFwPqna/k/e4sJVsp8Tt7jxi29E+iLzldlVWnkVsrh97jd1xJMRg8RkgcpcoztIqOlnD/Y1trLfUHRyoAkfUwk+iyjEsgacFDQ10zwMK7cAxmAf7r+hRd9FBSuJMh27UBmMr57e2meCHyHG3+2daSxVDe0z0rssDSe5Qi1borJcCzhfU2hUMQH2oCLlEKOurOQMUEC2uX4pQ+HezEwopH96/egIXpySMIM0tZ16gAhmWcHYAXdKUjMEHVvz1ttKYN31E8nF1nCVeyiOOCYx9dNgg5GQkVRrltiLzGatjqea+qcFtvDSDYqfCtWKkeUgUVbzFhSnghSISZwlp4rpR4lMjsiTG5JQiu76RiwiXR97nqYREmIPE4TJzgoXGTpMprsq6bLlnQtzRows0OYk6lCpLjqc51UqXBlSLEVdncSq8qmBUc4oCZUV5X1Yv+htMwR3TToaBFH/UCp2/+S3kRz9yNkzkmq2rQGaAiopbDz5S+I2cT+fNf1HPbnwGS2uwqMDhPd+TosCtDiOYHhGdcLrbMnXo5oI3kPTy2h4iv7qU+uuMaKfG6LAI1rELOsfuGvkjljr/wp74AEoGrxq6Pl3caVL36B8g59wgZQupsHBiNQ6IZIOXGbDeGl+LKSROrQ87jEkifHIFH6rheNeX/jQpTNEpoxh5
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(5660300002)(4326008)(186003)(86362001)(6486002)(83380400001)(31696002)(8676002)(6916009)(16576012)(26005)(316002)(36756003)(31686004)(66476007)(66556008)(53546011)(478600001)(2616005)(2906002)(8936002)(956004)(966005)(66946007)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NS95Q1NxTTkrSVdTMUR1TDBHYitzRDdLNUJrTHNFanZGQzNJdmNCTmxsVXVy?=
+ =?utf-8?B?cjVkdVdqRmM4ZExpeTNGMXNWVmp4QTlYUW5FVWVxRk9TdWZJZS9wZlNvMlJn?=
+ =?utf-8?B?SS9UQkYzVjN6ZDk1SG1ra2pMNlBDdng2UVQzQlEvUzd0TmZhcTdyQmV3dmNz?=
+ =?utf-8?B?QzdYUFc0ajlhVWxPS0tGaGVEYU9GQ1RLdUY1bGpZN0xITGMwaU00ekRFcWxX?=
+ =?utf-8?B?TDdJNk1DeGd3WUZUL1JtSnlMc2ZNUTRmbi9JREdMZkp4NURpWFJFSmVnRkVB?=
+ =?utf-8?B?Nks1bnNWam9WSlUvbnZSMUtpbDFDREpiZXRuVkRXY3JUZVArQVN4dHFyZVdT?=
+ =?utf-8?B?UDBvWGpDcnlHZVZZVk9TNWZLa3duVmFkb3AreTM1SFVrU0txd1l5RXpiNHJW?=
+ =?utf-8?B?WlZYWm9YeDZRRWtpV2M4YlpoRG5qbkVFUmFFYndBcGpKdDIwM0R4ajVsUm40?=
+ =?utf-8?B?SEV1bkhOMHF4OVBidVFibFE0eFB4TTd3TGdlL25QMzdRSmtIb1NnQ0V3VjNK?=
+ =?utf-8?B?ZGRTSzlScVlVMkhreDAwdmNYTEdoQWY3bzUzaWl6VjYreXU4Nkp3WWRCK0Uv?=
+ =?utf-8?B?cFRhV2RGVFFCNmpmUDZTTWlwOHpHK000alNMRlA5MVVUdUhOdGVMVzJTcUho?=
+ =?utf-8?B?SHdhYlU5TFVlVkcrVGhCQ3FqMFFqWGovOTBMVXA0ZXZFem9Ja3QzZmp5WGhM?=
+ =?utf-8?B?Z3NrSFJFUmxOSmFMdnJ4V2UrSXBReC9NK3NWVm9QbUxLbUhrUTUxcUVDT0RU?=
+ =?utf-8?B?UHdkSSt1RXNUeW9HQnhWMjNTVncxK1V5cWJPbGFyMHBLNDdEOFFEUWdRNWJB?=
+ =?utf-8?B?UXBXWi95NENWSExZdlRyZld1SGE4VHdDQWVhUG5QV0ZvWlZUemRTTXRZcWda?=
+ =?utf-8?B?ZUR5ZDFFR3VqT2xRV2U4S2xncUluMk5CVzcrb1N1VXBxZXcvRjIxYmtpZ1kr?=
+ =?utf-8?B?eHhwZ2ZSelZiU2RXWHdLRytIUGNNeU1qRnA1UVZwWUlwbXQyRDF3YVNrUytR?=
+ =?utf-8?B?eXhSOG45Tmw3WUZNd2lrcS91T2ZWWURwY29LU09DY1AreWFDWXFoWG5aZWhl?=
+ =?utf-8?B?OVJzOThkdTlUcUx5aUk2Zy9qUU1DczdTWDdPSVl1aHliKzI3Rk4wUVlvbEp4?=
+ =?utf-8?B?T2ZTdVJCTmZKZGUvL2llb09xUnhna2hkZlF3R1B3U3c5MStqYVk2YUwwdDBW?=
+ =?utf-8?B?TkNtTEhhdHpmZXdxZUIzWmVPdjIzTmpHZmMxOGJoSUFQeFpwT3BWZGR6amNR?=
+ =?utf-8?B?SzdXZnNNdHR3MVBubFpvZlJhVWNaOVJpWXpOeGRDZ3VUN2VrQ2kyaXY1bjNT?=
+ =?utf-8?B?cklxUzZpTWI3TDcvTGh5SFdObVdET0l2SVRUcDh0YXpNL1RVdmpDakp5VW5Z?=
+ =?utf-8?B?c2N5SXo2cFZ4LzJDbHJvb0ZHMEQ1YXF2ZzhxN1I3UUVPRHhidXRwdzdueXNT?=
+ =?utf-8?B?ZHFXNEhNczB1ZFpYOWlGQnNjRmN5aHI4a1FRb0NOYWoyYWpwTTZUSkRsZUZH?=
+ =?utf-8?B?bjNvUGUzN2FheHk1aEVXbjhGbmgrZmk5UXE3S21ZTjZGckxiNDlLajY4eDdQ?=
+ =?utf-8?B?ZVR2R3pqYlBqMmRIdEhHUmxuRDBORmt5SUtLakFJUnVFcjRQcWlZMzdicGxh?=
+ =?utf-8?B?UXRGTTFNMWIrVHFmTTNrWE5wTk4zTTJEQWNrQnMzMTRvbytYOHgxNzBISHBj?=
+ =?utf-8?B?WGd4RUVZS2J3aEJNaHJBRnBKYzJhVUlrb1JJdmVxZ1VyalNFbnN0VVJsYWFF?=
+ =?utf-8?Q?lTV9rcuPJls20lfIfCseSVriueqinfm0fWp0EV5?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e4e145f-ba37-49b7-0f1c-08d9512ee35b
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2021 18:46:47.5452 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gg2T+rF7/ywawCutuXpSJm1XnOuX+gvh8DB2CFKwFFIb/0Z2KYoU1ThDxu2/e219SbzSTwC8uILegfInw0h9weR35MSbaHqQZSQDZ8AXgLo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5675
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,236 +152,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, freedreno@lists.freedesktop.org
+Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/07/2021 07:24, Bjorn Andersson wrote:
-> Functions in the DisplayPort code that relates to individual instances
-> (encoders) are passed both the struct msm_dp and the struct drm_encoder. But
-> in a situation where multiple DP instances would exist this means that
-> the caller need to resolve which struct msm_dp relates to the struct
-> drm_encoder at hand.
-> 
-> The information for doing this lookup is available inside the DP driver,
-> so update the API to take the struct msm_drm_private and the struct
-> drm_encoder and have the DP code figure out which struct msm_dp the
-> operation relates to.
+On 7/27/2021 02:49, Daniel Vetter wrote:
+> On Mon, Jul 26, 2021 at 07:21:43PM -0700, John.C.Harrison@Intel.com wrote:
+>> From: John Harrison <John.C.Harrison@Intel.com>
+>>
+>> Various UMDs require hardware configuration information about the
+>> current platform. A bunch of static information is available in a
+>> fixed table that can be retrieved from the GuC.
+>>
+>> Test-with: 20210727002812.43469-2-John.C.Harrison@Intel.com
+>> UMD: https://github.com/intel/compute-runtime/pull/432/files
+>>
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Can you pls submit this with all the usual suspect from the umd side (so
+> also media-driver and mesa) cced?
+Do you have a list of names that you would like included?
 
-Initially I thought to propose moving encoder->dp lookup into dpu code 
-by adding msm_dp_display_get_encoder() function. However as I was 
-writing that, I remembered that at some point I had to refactor my own 
-patchset in the way to get rid of calling msm_FOO_get_encoder().
+>
+> Also do the mesa/media-driver patches exist somewhere? Afaiui this isn't
+> very useful without those bits in place too.
+I don't know about mesa but the media team have the support in place in 
+their internal tree and (as per compute) are waiting for us to push the 
+kernel side. This also comes under the headings of both new platforms 
+and platforms which are POR for GuC submission. So I believe a lot of 
+the UMD side changes for the config table are wrapped up in their 
+support for the new platforms/GuC as a whole and thus not yet ready for 
+upstream.
 
-I'd propose simpler solution. In dpu_encoder_setup() you have the DP 
-index and the encoder. So you can store valid msm_dp pointer in the 
-dpu_encoder_virt and remove all the lookups. Then you can replace all 
-priv->dp with bare dpu_enc->dp accesses. Will this work for you?
-
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 17 +++++----
->   drivers/gpu/drm/msm/dp/dp_display.c         | 38 +++++++++++++++++----
->   drivers/gpu/drm/msm/msm_drv.h               | 31 +++++++++--------
->   3 files changed, 56 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 1c04b7cce43e..0d64ef0819af 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -1002,8 +1002,8 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
->   
->   	trace_dpu_enc_mode_set(DRMID(drm_enc));
->   
-> -	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && priv->dp)
-> -		msm_dp_display_mode_set(priv->dp, drm_enc, mode, adj_mode);
-> +	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS)
-> +		msm_dp_display_mode_set(priv, drm_enc, mode, adj_mode);
->   
->   	list_for_each_entry(conn_iter, connector_list, head)
->   		if (conn_iter->encoder == drm_enc)
-> @@ -1184,9 +1184,8 @@ static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc)
->   
->   	_dpu_encoder_virt_enable_helper(drm_enc);
->   
-> -	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && priv->dp) {
-> -		ret = msm_dp_display_enable(priv->dp,
-> -						drm_enc);
-> +	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
-> +		ret = msm_dp_display_enable(priv, drm_enc);
->   		if (ret) {
->   			DPU_ERROR_ENC(dpu_enc, "dp display enable failed: %d\n",
->   				ret);
-> @@ -1226,8 +1225,8 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
->   	/* wait for idle */
->   	dpu_encoder_wait_for_event(drm_enc, MSM_ENC_TX_COMPLETE);
->   
-> -	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && priv->dp) {
-> -		if (msm_dp_display_pre_disable(priv->dp, drm_enc))
-> +	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
-> +		if (msm_dp_display_pre_disable(priv, drm_enc))
->   			DPU_ERROR_ENC(dpu_enc, "dp display push idle failed\n");
->   	}
->   
-> @@ -1255,8 +1254,8 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
->   
->   	DPU_DEBUG_ENC(dpu_enc, "encoder disabled\n");
->   
-> -	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && priv->dp) {
-> -		if (msm_dp_display_disable(priv->dp, drm_enc))
-> +	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
-> +		if (msm_dp_display_disable(priv, drm_enc))
->   			DPU_ERROR_ENC(dpu_enc, "dp display disable failed\n");
->   	}
->   
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 8696b36d30e4..59ffd6c8f41f 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1432,12 +1432,25 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   	return 0;
->   }
->   
-> -int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
-> +static struct msm_dp *msm_dp_from_drm_encoder(struct msm_drm_private *priv,
-> +					      struct drm_encoder *encoder)
-> +{
-> +	if (priv->dp && priv->dp->encoder == encoder)
-> +		return priv->dp;
-> +
-> +	return NULL;
-> +}
-> +
-> +int msm_dp_display_enable(struct msm_drm_private *priv, struct drm_encoder *encoder)
->   {
->   	int rc = 0;
->   	struct dp_display_private *dp_display;
-> +	struct msm_dp *dp = msm_dp_from_drm_encoder(priv, encoder);
->   	u32 state;
->   
-> +	if (!dp)
-> +		return -EINVAL;
-> +
->   	dp_display = container_of(dp, struct dp_display_private, dp_display);
->   	if (!dp_display->dp_mode.drm_mode.clock) {
->   		DRM_ERROR("invalid params\n");
-> @@ -1489,9 +1502,13 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
->   	return rc;
->   }
->   
-> -int msm_dp_display_pre_disable(struct msm_dp *dp, struct drm_encoder *encoder)
-> +int msm_dp_display_pre_disable(struct msm_drm_private *priv, struct drm_encoder *encoder)
->   {
->   	struct dp_display_private *dp_display;
-> +	struct msm_dp *dp = msm_dp_from_drm_encoder(priv, encoder);
-> +
-> +	if (!dp)
-> +		return 0;
->   
->   	dp_display = container_of(dp, struct dp_display_private, dp_display);
->   
-> @@ -1500,11 +1517,15 @@ int msm_dp_display_pre_disable(struct msm_dp *dp, struct drm_encoder *encoder)
->   	return 0;
->   }
->   
-> -int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
-> +int msm_dp_display_disable(struct msm_drm_private *priv, struct drm_encoder *encoder)
->   {
->   	int rc = 0;
->   	u32 state;
->   	struct dp_display_private *dp_display;
-> +	struct msm_dp *dp = msm_dp_from_drm_encoder(priv, encoder);
-> +
-> +	if (!dp)
-> +		return 0;
->   
->   	dp_display = container_of(dp, struct dp_display_private, dp_display);
->   
-> @@ -1531,11 +1552,16 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
->   	return rc;
->   }
->   
-> -void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
-> -				struct drm_display_mode *mode,
-> -				struct drm_display_mode *adjusted_mode)
-> +void msm_dp_display_mode_set(struct msm_drm_private *priv,
-> +			     struct drm_encoder *encoder,
-> +			     struct drm_display_mode *mode,
-> +			     struct drm_display_mode *adjusted_mode)
->   {
->   	struct dp_display_private *dp_display;
-> +	struct msm_dp *dp = msm_dp_from_drm_encoder(priv, encoder);
-> +
-> +	if (!dp)
-> +		return;
->   
->   	dp_display = container_of(dp, struct dp_display_private, dp_display);
->   
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 9bfd37855969..e9232032b266 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -388,12 +388,13 @@ int __init msm_dp_register(void);
->   void __exit msm_dp_unregister(void);
->   int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   			 struct drm_encoder *encoder);
-> -int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder);
-> -int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder);
-> -int msm_dp_display_pre_disable(struct msm_dp *dp, struct drm_encoder *encoder);
-> -void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
-> -				struct drm_display_mode *mode,
-> -				struct drm_display_mode *adjusted_mode);
-> +int msm_dp_display_enable(struct msm_drm_private *priv, struct drm_encoder *encoder);
-> +int msm_dp_display_disable(struct msm_drm_private *priv, struct drm_encoder *encoder);
-> +int msm_dp_display_pre_disable(struct msm_drm_private *priv, struct drm_encoder *encoder);
-> +void msm_dp_display_mode_set(struct msm_drm_private *priv,
-> +			     struct drm_encoder *encoder,
-> +			     struct drm_display_mode *mode,
-> +			     struct drm_display_mode *adjusted_mode);
->   void msm_dp_irq_postinstall(struct msm_dp *dp_display);
->   void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
->   
-> @@ -413,25 +414,25 @@ static inline int msm_dp_modeset_init(struct msm_dp *dp_display,
->   {
->   	return -EINVAL;
->   }
-> -static inline int msm_dp_display_enable(struct msm_dp *dp,
-> +static inline int msm_dp_display_enable(struct msm_drm_private *priv,
->   					struct drm_encoder *encoder)
->   {
->   	return -EINVAL;
->   }
-> -static inline int msm_dp_display_disable(struct msm_dp *dp,
-> -					struct drm_encoder *encoder)
-> +static inline int msm_dp_display_disable(struct msm_drm_private *priv,
-> +					 struct drm_encoder *encoder)
->   {
->   	return -EINVAL;
->   }
-> -static inline int msm_dp_display_pre_disable(struct msm_dp *dp,
-> -					struct drm_encoder *encoder)
-> +static inline int msm_dp_display_pre_disable(struct msm_drm_private *priv,
-> +					     struct drm_encoder *encoder)
->   {
->   	return -EINVAL;
->   }
-> -static inline void msm_dp_display_mode_set(struct msm_dp *dp,
-> -				struct drm_encoder *encoder,
-> -				struct drm_display_mode *mode,
-> -				struct drm_display_mode *adjusted_mode)
-> +static inline void msm_dp_display_mode_set(struct msm_drm_private *priv,
-> +					   struct drm_encoder *encoder,
-> +					   struct drm_display_mode *mode,
-> +					   struct drm_display_mode *adjusted_mode)
->   {
->   }
->   
-> 
+John.
 
 
--- 
-With best wishes
-Dmitry
+> -Daniel
+>
+>>
+>> John Harrison (1):
+>>    drm/i915/guc: Add fetch of hwconfig table
+>>
+>> Rodrigo Vivi (1):
+>>    drm/i915/uapi: Add query for hwconfig table
+>>
+>>   drivers/gpu/drm/i915/Makefile                 |   1 +
+>>   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
+>>   .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |   4 +
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   3 +-
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   2 +
+>>   .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   | 156 ++++++++++++++++++
+>>   .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.h   |  19 +++
+>>   drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   6 +
+>>   drivers/gpu/drm/i915/i915_query.c             |  23 +++
+>>   include/uapi/drm/i915_drm.h                   |   1 +
+>>   10 files changed, 215 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+>>   create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
+>>
+>> -- 
+>> 2.25.1
+>>
+
