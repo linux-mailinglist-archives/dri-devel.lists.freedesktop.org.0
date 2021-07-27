@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEEB3D813F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:17:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1523D80A6
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:07:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4E16EA9E;
-	Tue, 27 Jul 2021 21:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A526EA84;
+	Tue, 27 Jul 2021 21:07:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0088F6E9EF
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:16:53 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- e2-20020a17090a4a02b029016f3020d867so1115219pjh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:16:53 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483D56EA09
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:06:59 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id k1so17570452plt.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:06:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HP4OyANmlGcmztFWqw/dgo2DQckUAHhybqKwZBENvis=;
- b=LCA95eGQPuDryGp7EbL19tEBN1vZX/DV2Ru999TrrBIWyGTxCgkLiQwMnWVaK3dqpk
- 60QOsc5jmDPjJIsota7QsQXAPPxE36dJdfR+Ydl1pbfvgmM6HMxLTyilm0vGV2trPRqk
- qPStf78RsWs4Jdx6SvJZesYZLDr/2M1lshLlo=
+ bh=eHJ5K8LiDBXCeTCe7PvgaP3UqQR5uDLvklqQUiAbnC0=;
+ b=C9odf/LxM8hQlFgEX94OyyWcybtfMz5fkcvxUOiwkptiFAnxb7Vjc9j5fcILzWzUe0
+ 9SXGn/8zZ/4rPOmwRPn9BGvFK32z6oyRZbo5d8AQJpThOjubhaqeuoW3W01DCWdHwowW
+ ZQKSKYcukTOUL4ao1lnoeA3vzowcOeQgLkBm8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HP4OyANmlGcmztFWqw/dgo2DQckUAHhybqKwZBENvis=;
- b=Fl9j0w4fBrsGCWjhmZRTqUjaXlC27rsG2kQSVG1je5sP/rNgMkxoCLdoodA0ToHLLg
- mz7U5x272fKS1BeMbvhgf4IaI6skBxno80PVGbtWUnsyV/ehNB+3AOr9FSUyNH9mWPCm
- 14IsL4L0eGZyLbyyR3ZrZskf2E1vKLu5YwZNKw/WOueS/Z2AYBOJSso5MYLx4pIJndRW
- 08bLA78HrkyekefrTTpbjhJ8BCryM220BFKWMMjVDkzBbTbcwajK7Aqw18NULALHfg+G
- gmdjdkbzZb4ejpUjcvV91w0QuEGHKYTQnOruwZPtSNu4jQHpdSN+JOxNH4IATFLx13p2
- +C2Q==
-X-Gm-Message-State: AOAM531UG3EsF2lrzep+23Qp8ruG26Sav0NxUI5Yo0Biv6EcUY6EYrgA
- gnQ7o7jphPOJZ6l7Yd3KPMqalQ==
-X-Google-Smtp-Source: ABdhPJxnDJcYqdBzy28fe0pM7iN+zbksS85dJ1SqWH/meLyEzdRT3xN+44Z+ArcWYMJYdepJ2zZ1uQ==
-X-Received: by 2002:a17:90a:c902:: with SMTP id
- v2mr6116581pjt.136.1627420613728; 
- Tue, 27 Jul 2021 14:16:53 -0700 (PDT)
+ bh=eHJ5K8LiDBXCeTCe7PvgaP3UqQR5uDLvklqQUiAbnC0=;
+ b=UQb1ntFH9bqskufRA3p6aVJSUUB62LCtvkrd6BVoTdD1TC6UqMhD4wwQvoMbjgtMlz
+ EbfHbSkqQgaC5LOVRyYCscVUDH1yg5EBKA1tFIu0KJx9msC1gYsl/DyPpBr49/kQqPAp
+ Xo+PQcb2cdDMFHbjWcr41MYvSqUaTcXu5i0H4Ysd93ZQaBDXrkeYyaPuwZwm1KKq8d9b
+ 09obNSYqbBiMlBmH+6HWqhHqOZpt7bFSFk0QozVYH4VdClB6FBD08fGArUk5zasv946O
+ u9NYxqVdFMQc3GmawMw6ZFbGzdFd+mbVDdO/2r1Q3pf1kmRgyURESHjuMJMXyps5J0hX
+ hOOQ==
+X-Gm-Message-State: AOAM532km23StqW+wHp1ZvUt5AsiepGk12W4zPmq60Wxw4+Jnhpz9/+u
+ on/ep68mI9HOPHrf6fykuwl4GA==
+X-Google-Smtp-Source: ABdhPJyiPLiIxF0eZ6Ht4eersAStzTtAa77UuUUu3QKRioXbvWIKsuENyKgvU1Bb8BbQdCxPR7B6MQ==
+X-Received: by 2002:a05:6a00:cc1:b029:32b:8465:9b59 with SMTP id
+ b1-20020a056a000cc1b029032b84659b59mr24967310pfv.66.1627420018950; 
+ Tue, 27 Jul 2021 14:06:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id m6sm4511294pfc.151.2021.07.27.14.16.49
+ by smtp.gmail.com with ESMTPSA id r128sm4687668pfc.155.2021.07.27.14.06.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 14:16:50 -0700 (PDT)
+ Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 62/64] netlink: Avoid false-positive memcpy() warning
-Date: Tue, 27 Jul 2021 13:58:53 -0700
-Message-Id: <20210727205855.411487-63-keescook@chromium.org>
+Subject: [PATCH 63/64] iwlwifi: dbg_ini: Split memcpy() to avoid multi-field
+ write
+Date: Tue, 27 Jul 2021 13:58:54 -0700
+Message-Id: <20210727205855.411487-64-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1678; h=from:subject;
- bh=vs/nNFIrJxwpI5nY+xgEPX6hqzmriBWLvM3b/eZbMbo=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOOsotWr+xLgDAagynSwACfihlJOnm7qN9/Mu92
- bGzCtbGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjgAKCRCJcvTf3G3AJj/ZD/
- 9ntjJhpq8fBwkjGH+dUg05xTxsNzIOuiH2+WA92AhYmbos7FaDGTm1g+GjbS9tYtH4WO2HSlLQe7LQ
- FBHmUbu6aiUm0Adb7gUZE3muL85N91x3mnnmxIoo2J/A/2tV0zkQyLUOckCj8VK+SR9BfW61OwCULU
- 7dXUvxZG2bCfldSz9FFpeTg6B3n38v7ZsFzE0Z+OKqNG5B6gy6nq9hQDiK5eWY7jsHwu6TaCX2KdWP
- ox3h/ObmvzejD4r5bqMjjhvU16eLjApW1M3mdaJGfxBeiC7Hn4U7R0R/a57zPmDRTbz/MhdWbOOFDp
- ABNXWuprZfW5V1fn74AOyo4Qdi0fWAhH4ttZZuPFnGp39cUNy/oe1zMgHhD+XjhBS0RMucpc7gNElk
- gk4SaMhbgnC4Ou6wBhA+yQfDvMUjqtRWUuRYmsFZ5Llmrlr/jWnsbjlt39vSdTBC9vTKSqnxgt1omQ
- fQi/9qcta+kyf71Lx1H+c1m8ve+vz4yBPxEJ5ztsLmSYk+J3LMojiNObOTsmlTFbCj4ZoDBFSpnQga
- mYRnTFbLCAQHQtPXM2pa7+qmWPgSz70szWlbF1IDWFBmyv8JppWdlZQu+0ThYGXTdnhi+QLNwm/WxH
- Zw293JAH5hVEyNiT/+/fkkV4VjclpW+bzGJvvMPBwvfpxzJKDGLjwSx2fyMw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1543; h=from:subject;
+ bh=s7Xq57zTgnpQLZW9o4dFqvke+b60yZlygvvLnoMj4dM=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOO7ylJm1Pef8Nw2Y9AVMYN/aYHsm9YN/NkJMM0
+ 14MmcVqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjgAKCRCJcvTf3G3AJh5wD/
+ 0a9KvpCqyFZ9QKAdlblaiFHTvLu6J0I4KvuS/Pu8WGvbtdHoFcEc1A0J0FqancucuNe2oN76GijGN8
+ ZmNxkbLuDowcPvHB1KNKV+y/VKyD/GjTqJSFGbHSgE1d3XVQUqA8M80luRN12bHJex3vWEGlQIgVUS
+ eo5mVVxa1vQFLA/APQtdO4QC3S0Rxaeq//vH7IZ+y8uTxf7ChRZtqCWERhOu6zi0YYM7UsadKsQ1UW
+ kuKw1BHS6rVbpMLujJWWAPEyxEe0W/MD7sUJar7lh/sg2nbnVIlvXob+LuNF5xQtZwtIVnlj1/Tx1c
+ JeZYoyxgw4/uvoQF/VaOiL8Fb1Mky8hA3J0Q0KSrMfDlDYr2psRQCz/wYgNiK8aZmkNvU6EyldhpRR
+ jvpt2FEuN89iS51ofpMkKT9jWkj2G2IJnYUpSSBDS7x/6U33s9hWYtpjYFkmrtQS+KN+/zM7e0Wq85
+ h9kdtxEMB5GcqKunvfEzrJH/6l30zcuWdtxzKr+5eUMIzfT4m7IfJftQW1OHHiIRW8y1i2y9mOZGde
+ lSqRZZ+xSG98+pb5deEI05oPi7AOE1XKeHnMMfVyygop9nOeSAmsJJWm+ExFOnNUkiTzMkM+sJqqiU
+ uZuZWsn+50meKz7mBFEHFWpt++2rlXLf2jFCbTMaiMMKok79IQfcYfkHRDkg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -91,48 +91,44 @@ Cc: Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.
-
-Add a flexible array member to mark the end of struct nlmsghdr, and
-split the memcpy() to avoid false positive memcpy() warning:
-
-memcpy: detected field-spanning write (size 32) of single field (size 16)
+To avoid a run-time false positive in the stricter FORTIFY_SOURCE
+memcpy() checks, split the memcpy() into the struct and the data.
+Additionally switch the data member to a flexible array to follow
+modern language conventions.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/uapi/linux/netlink.h | 1 +
- net/netlink/af_netlink.c     | 4 +++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ drivers/net/wireless/intel/iwlwifi/fw/file.h     | 2 +-
+ drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
-index 4c0cde075c27..ddeaa748df5e 100644
---- a/include/uapi/linux/netlink.h
-+++ b/include/uapi/linux/netlink.h
-@@ -47,6 +47,7 @@ struct nlmsghdr {
- 	__u16		nlmsg_flags;	/* Additional flags */
- 	__u32		nlmsg_seq;	/* Sequence number */
- 	__u32		nlmsg_pid;	/* Sending process port ID */
-+	__u8		contents[];
+diff --git a/drivers/net/wireless/intel/iwlwifi/fw/file.h b/drivers/net/wireless/intel/iwlwifi/fw/file.h
+index 9a8c7b7a0816..226ccd3a6612 100644
+--- a/drivers/net/wireless/intel/iwlwifi/fw/file.h
++++ b/drivers/net/wireless/intel/iwlwifi/fw/file.h
+@@ -116,7 +116,7 @@ enum iwl_ucode_tlv_type {
+ struct iwl_ucode_tlv {
+ 	__le32 type;		/* see above */
+ 	__le32 length;		/* not including type/length fields */
+-	u8 data[0];
++	u8 data[];
  };
  
- /* Flags values */
-diff --git a/net/netlink/af_netlink.c b/net/netlink/af_netlink.c
-index 24b7cf447bc5..f2dd99e96822 100644
---- a/net/netlink/af_netlink.c
-+++ b/net/netlink/af_netlink.c
-@@ -2447,7 +2447,9 @@ void netlink_ack(struct sk_buff *in_skb, struct nlmsghdr *nlh, int err,
- 			  NLMSG_ERROR, payload, flags);
- 	errmsg = nlmsg_data(rep);
- 	errmsg->error = err;
--	memcpy(&errmsg->msg, nlh, payload > sizeof(*errmsg) ? nlh->nlmsg_len : sizeof(*nlh));
-+	memcpy(&errmsg->msg, nlh, sizeof(*nlh));
-+	if (payload > sizeof(*errmsg))
-+		memcpy(errmsg->msg.contents, nlh->contents, nlh->nlmsg_len - sizeof(*nlh));
+ #define IWL_TLV_UCODE_MAGIC		0x0a4c5749
+diff --git a/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c b/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
+index 0ddd255a8cc1..f4efddf3e3c3 100644
+--- a/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
++++ b/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
+@@ -71,7 +71,8 @@ static int iwl_dbg_tlv_add(const struct iwl_ucode_tlv *tlv,
+ 	if (!node)
+ 		return -ENOMEM;
  
- 	if (nlk_has_extack && extack) {
- 		if (extack->_msg) {
+-	memcpy(&node->tlv, tlv, sizeof(node->tlv) + len);
++	memcpy(&node->tlv, tlv, sizeof(node->tlv));
++	memcpy(node->tlv.data, tlv->data, len);
+ 	list_add_tail(&node->list, list);
+ 
+ 	return 0;
 -- 
 2.30.2
 
