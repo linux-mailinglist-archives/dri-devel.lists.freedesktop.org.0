@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9723D7D8A
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A21D3D7D98
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF516EB4C;
-	Tue, 27 Jul 2021 18:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2B56ECA2;
+	Tue, 27 Jul 2021 18:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A814D6EC01;
- Tue, 27 Jul 2021 18:27:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24BF76EC1A;
+ Tue, 27 Jul 2021 18:27:31 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 15D7120176;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9A0F620177;
  Tue, 27 Jul 2021 18:27:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1627410449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tYx5zq0zX9Ay6h4qCIGAc9GQKhJsvxK7sbFYx90gktc=;
- b=0L5kjsIe2mT/ADmZmAzhyB8DDiKV0MJDr0beOUTDqctQuSU86OnIa3hxQJ3cIeOTvUJsHQ
- c3qX03JWtakwz3wJpE7cF6DDorPF9FTIgdQYov+0PbqyDZ/kYIhbHtxfXk31+nqa+JeEPP
- C/QGF1SMY/NiGh/CrepyfyiEJvYxfDA=
+ bh=v4qvJrqmMgEPSGfiww0cO2Abn6QQrkvG5duDhJXnGmk=;
+ b=Yo77msN4V0o0sOWe+Z3KHwhp7mQNqNyBRBuU5aIU53qXhJJ/7H1f4vVQvE7J41IlHwxN8t
+ zvtkQmwjVa5aG8uJDRW96uVb1btQqaO6pfexB6wMy9MivPKpDNGQsaH9rUk+dVEyKudbQG
+ XkoI//oCWp0iDSE7+qVniSxDG2qldsU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1627410449;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tYx5zq0zX9Ay6h4qCIGAc9GQKhJsvxK7sbFYx90gktc=;
- b=tTjYxjV3yNJzDp8yQUGHg5TJL95Ez1ivjbr6ZE7z51QR2IugebcHXBduwqMme7P8HorOzg
- 5Si9iTpQ355p0QAQ==
+ bh=v4qvJrqmMgEPSGfiww0cO2Abn6QQrkvG5duDhJXnGmk=;
+ b=kvYeyd+4FZYrzzg0++TZ8wBj8Y1XpZ/cOU+oCKnBMEFWQFuljXPgVV9KqyIG1eMUqJyi/a
+ fIqOx8gUnYSw20Aw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8135013B86;
- Tue, 27 Jul 2021 18:27:28 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1838113E9D;
+ Tue, 27 Jul 2021 18:27:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mAaiHhBQAGGwGQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:28 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id QDD0BBFQAGGwGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:29 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
@@ -54,9 +54,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
  sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
  kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org
-Subject: [PATCH 10/14] drm/tidss: Convert to Linux IRQ interfaces
-Date: Tue, 27 Jul 2021 20:27:17 +0200
-Message-Id: <20210727182721.17981-11-tzimmermann@suse.de>
+Subject: [PATCH 11/14] drm/tilcdc: Convert to Linux IRQ interfaces
+Date: Tue, 27 Jul 2021 20:27:18 +0200
+Message-Id: <20210727182721.17981-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210727182721.17981-1-tzimmermann@suse.de>
 References: <20210727182721.17981-1-tzimmermann@suse.de>
@@ -86,170 +86,134 @@ don't benefit from using it.
 
 DRM IRQ callbacks are now being called directly or inlined.
 
+Calls to platform_get_irq() can fail with a negative errno code.
+Abort initialization in this case. The DRM IRQ midlayer does not
+handle this case correctly.
+
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tidss/tidss_drv.c | 15 +++++----------
- drivers/gpu/drm/tidss/tidss_drv.h |  2 ++
- drivers/gpu/drm/tidss/tidss_irq.c | 27 ++++++++++++++++++++++++---
- drivers/gpu/drm/tidss/tidss_irq.h |  4 +---
- 4 files changed, 32 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c | 51 ++++++++++++++++++++++-------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h |  3 ++
+ 2 files changed, 43 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 66e3c86eb5c7..d620f35688da 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -16,7 +16,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index f1d3a9f919fd..6b03f89a98d4 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -20,7 +20,6 @@
+ #include <drm/drm_fourcc.h>
  #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
 -#include <drm/drm_irq.h>
- #include <drm/drm_managed.h>
+ #include <drm/drm_mm.h>
  #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+@@ -124,6 +123,39 @@ static int cpufreq_transition(struct notifier_block *nb,
+ }
+ #endif
  
-@@ -118,11 +117,6 @@ static const struct drm_driver tidss_driver = {
- 	.date			= "20180215",
- 	.major			= 1,
- 	.minor			= 0,
--
--	.irq_preinstall		= tidss_irq_preinstall,
--	.irq_postinstall	= tidss_irq_postinstall,
--	.irq_handler		= tidss_irq_handler,
--	.irq_uninstall		= tidss_irq_uninstall,
- };
- 
- static int tidss_probe(struct platform_device *pdev)
-@@ -172,10 +166,11 @@ static int tidss_probe(struct platform_device *pdev)
- 		ret = irq;
- 		goto err_runtime_suspend;
- 	}
-+	tidss->irq = irq;
- 
--	ret = drm_irq_install(ddev, irq);
-+	ret = tidss_irq_install(ddev, irq);
- 	if (ret) {
--		dev_err(dev, "drm_irq_install failed: %d\n", ret);
-+		dev_err(dev, "tidss_irq_install failed: %d\n", ret);
- 		goto err_runtime_suspend;
- 	}
- 
-@@ -196,7 +191,7 @@ static int tidss_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_irq_uninstall:
--	drm_irq_uninstall(ddev);
-+	tidss_irq_uninstall(ddev);
- 
- err_runtime_suspend:
- #ifndef CONFIG_PM
-@@ -219,7 +214,7 @@ static int tidss_remove(struct platform_device *pdev)
- 
- 	drm_atomic_helper_shutdown(ddev);
- 
--	drm_irq_uninstall(ddev);
-+	tidss_irq_uninstall(ddev);
- 
- #ifndef CONFIG_PM
- 	/* If we don't have PM, we need to call suspend manually */
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-index 7de4bba52e6f..d7f27b0b0315 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.h
-+++ b/drivers/gpu/drm/tidss/tidss_drv.h
-@@ -27,6 +27,8 @@ struct tidss_device {
- 	unsigned int num_planes;
- 	struct drm_plane *planes[TIDSS_MAX_PLANES];
- 
-+	unsigned int irq;
++static irqreturn_t tilcdc_irq(int irq, void *arg)
++{
++	struct drm_device *dev = arg;
++	struct tilcdc_drm_private *priv = dev->dev_private;
 +
- 	spinlock_t wait_lock;	/* protects the irq masks */
- 	dispc_irq_t irq_mask;	/* enabled irqs in addition to wait_list */
- };
-diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
-index 2ed3e3296776..0c681c7600bc 100644
---- a/drivers/gpu/drm/tidss/tidss_irq.c
-+++ b/drivers/gpu/drm/tidss/tidss_irq.c
-@@ -4,6 +4,9 @@
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-+#include <linux/platform_device.h>
-+
-+#include <drm/drm_drv.h>
- #include <drm/drm_print.h>
- 
- #include "tidss_crtc.h"
-@@ -50,7 +53,7 @@ void tidss_irq_disable_vblank(struct drm_crtc *crtc)
- 	spin_unlock_irqrestore(&tidss->wait_lock, flags);
- }
- 
--irqreturn_t tidss_irq_handler(int irq, void *arg)
-+static irqreturn_t tidss_irq_handler(int irq, void *arg)
- {
- 	struct drm_device *ddev = (struct drm_device *)arg;
- 	struct tidss_device *tidss = to_tidss(ddev);
-@@ -90,7 +93,7 @@ void tidss_irq_resume(struct tidss_device *tidss)
- 	spin_unlock_irqrestore(&tidss->wait_lock, flags);
- }
- 
--void tidss_irq_preinstall(struct drm_device *ddev)
-+static void tidss_irq_preinstall(struct drm_device *ddev)
- {
- 	struct tidss_device *tidss = to_tidss(ddev);
- 
-@@ -104,7 +107,7 @@ void tidss_irq_preinstall(struct drm_device *ddev)
- 	tidss_runtime_put(tidss);
- }
- 
--int tidss_irq_postinstall(struct drm_device *ddev)
-+static void tidss_irq_postinstall(struct drm_device *ddev)
- {
- 	struct tidss_device *tidss = to_tidss(ddev);
- 	unsigned long flags;
-@@ -129,6 +132,22 @@ int tidss_irq_postinstall(struct drm_device *ddev)
- 	spin_unlock_irqrestore(&tidss->wait_lock, flags);
- 
- 	tidss_runtime_put(tidss);
++	return tilcdc_crtc_irq(priv->crtc);
 +}
 +
-+int tidss_irq_install(struct drm_device *ddev, unsigned int irq)
++static int tilcdc_irq_install(struct drm_device *dev, unsigned int irq)
 +{
++	struct tilcdc_drm_private *priv = dev->dev_private;
 +	int ret;
 +
-+	if (irq == IRQ_NOTCONNECTED)
-+		return -ENOTCONN;
-+
-+	tidss_irq_preinstall(ddev);
-+
-+	ret = request_irq(irq, tidss_irq_handler, 0, ddev->driver->name, ddev);
++	ret = request_irq(irq, tilcdc_irq, 0, dev->driver->name, dev);
 +	if (ret)
 +		return ret;
 +
-+	tidss_irq_postinstall(ddev);
- 
- 	return 0;
- }
-@@ -140,4 +159,6 @@ void tidss_irq_uninstall(struct drm_device *ddev)
- 	tidss_runtime_get(tidss);
- 	dispc_set_irqenable(tidss->dispc, 0);
- 	tidss_runtime_put(tidss);
++	priv->irq_enabled = false;
 +
-+	free_irq(tidss->irq, ddev);
++	return 0;
++}
++
++static void tilcdc_irq_uninstall(struct drm_device *dev)
++{
++	struct tilcdc_drm_private *priv = dev->dev_private;
++
++	if (!priv->irq_enabled)
++		return;
++
++	free_irq(priv->irq, dev);
++	priv->irq_enabled = false;
++}
++
+ /*
+  * DRM operations:
+  */
+@@ -145,7 +177,7 @@ static void tilcdc_fini(struct drm_device *dev)
+ 		drm_dev_unregister(dev);
+ 
+ 	drm_kms_helper_poll_fini(dev);
+-	drm_irq_uninstall(dev);
++	tilcdc_irq_uninstall(dev);
+ 	drm_mode_config_cleanup(dev);
+ 
+ 	if (priv->clk)
+@@ -336,7 +368,12 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 		goto init_failed;
+ 	}
+ 
+-	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
++	ret = platform_get_irq(pdev, 0);
++	if (ret < 0)
++		goto init_failed;
++	priv->irq = ret;
++
++	ret = tilcdc_irq_install(ddev, priv->irq);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to install IRQ handler\n");
+ 		goto init_failed;
+@@ -360,13 +397,6 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 	return ret;
  }
-diff --git a/drivers/gpu/drm/tidss/tidss_irq.h b/drivers/gpu/drm/tidss/tidss_irq.h
-index 4aaad5dfd7c2..b512614d5863 100644
---- a/drivers/gpu/drm/tidss/tidss_irq.h
-+++ b/drivers/gpu/drm/tidss/tidss_irq.h
-@@ -67,10 +67,8 @@ struct tidss_device;
- void tidss_irq_enable_vblank(struct drm_crtc *crtc);
- void tidss_irq_disable_vblank(struct drm_crtc *crtc);
  
--void tidss_irq_preinstall(struct drm_device *ddev);
--int tidss_irq_postinstall(struct drm_device *ddev);
-+int tidss_irq_install(struct drm_device *ddev, unsigned int irq);
- void tidss_irq_uninstall(struct drm_device *ddev);
--irqreturn_t tidss_irq_handler(int irq, void *arg);
+-static irqreturn_t tilcdc_irq(int irq, void *arg)
+-{
+-	struct drm_device *dev = arg;
+-	struct tilcdc_drm_private *priv = dev->dev_private;
+-	return tilcdc_crtc_irq(priv->crtc);
+-}
+-
+ #if defined(CONFIG_DEBUG_FS)
+ static const struct {
+ 	const char *name;
+@@ -454,7 +484,6 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
  
- void tidss_irq_resume(struct tidss_device *tidss);
+ static const struct drm_driver tilcdc_driver = {
+ 	.driver_features    = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+-	.irq_handler        = tilcdc_irq,
+ 	DRM_GEM_CMA_DRIVER_OPS,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init       = tilcdc_debugfs_init,
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+index d29806ca8817..b818448c83f6 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+@@ -46,6 +46,8 @@ struct tilcdc_drm_private {
+ 	struct clk *clk;         /* functional clock */
+ 	int rev;                 /* IP revision */
  
++	unsigned int irq;
++
+ 	/* don't attempt resolutions w/ higher W * H * Hz: */
+ 	uint32_t max_bandwidth;
+ 	/*
+@@ -82,6 +84,7 @@ struct tilcdc_drm_private {
+ 
+ 	bool is_registered;
+ 	bool is_componentized;
++	bool irq_enabled;
+ };
+ 
+ /* Sub-module for display.  Since we don't know at compile time what panels
 -- 
 2.32.0
 
