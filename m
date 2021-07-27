@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DE43D811F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:16:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E86AD3D8156
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 448F76EA65;
-	Tue, 27 Jul 2021 21:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E2866EAAE;
+	Tue, 27 Jul 2021 21:17:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 142196E9DD
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:16:51 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id d1so78990pll.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:16:51 -0700 (PDT)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C914D6EAAD
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:17:01 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id d17so26794plh.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SpZy1pS0Gg8JkmXUmGaVpmtafp37Y0lKYW1g3lNxRk4=;
- b=A77Hsrv/P1e/41H8BKtZ/n0QSSgOO6Ga9sE1GvbFMi+bKpQp87VSkYvioAmaQfpcBq
- eFv2yBCpv4YJQqBwgjjL2xdq+4FEL936SYjayprWVPJRoYxxFAc4biq4dgch9TexI5GE
- mBiaRsvTzv7gcKjwpSanM5FnLNXazFefox4os=
+ bh=Y9wMesWb3kMvGhORYmMr8FR6o9+jwEvZSo1EsZxY8W0=;
+ b=BN7P01Ur0nT1MgFEaFehSRb7jJppIMvpuqQP+s+oBiWS7VXbf/RvYexr0Hx4+J+tRF
+ ub6d2NuQ/h6uhZ5C5OC3+rwkID8I367GLLdmYSUSQoeXhXVWNYV2m0sd3TTyLfRvYZRi
+ tIFkyuHmHnqC70kWh05pztablIQYnYXX+GWGQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SpZy1pS0Gg8JkmXUmGaVpmtafp37Y0lKYW1g3lNxRk4=;
- b=TvujEw1aLLcSDMcDEOsOZZcYBBYH5DC4DxNgpLfhIlOJMDlbzRn4YamU9iEoM4//xs
- 2qy/gt6Tv9tMgeCNr7bOUvuFk6YYp/A0e/yrTiKc5oldTpe1thbJBo9wUXqT31ImcDvE
- 5sW1AoNK1q8LjuNIN/J/kfBUCqdMPj6YNYi4cRwu+iJsnnAUPI2q8q+/K48E3JAq+6Cy
- Wl8lsOfyxq6qBXW9Nb6bFlg5pNox36Wtx5sEy5SURcUlAbm6uG72JsIJwiXFxettvB1p
- CYeYcBwt74j80Cl9cOuuJgBltiHk3mvndTIPxeBmcMMEMTYj4fDQMQNAk48T1rCrYcmu
- 4a/w==
-X-Gm-Message-State: AOAM531kwWN2EcIqMYt5jeWmvaYBSAk6wJPFlIwvVSkX2Fl1gd0uZPn6
- RhKFe8HUhktVKbFbfbdlwX456Q==
-X-Google-Smtp-Source: ABdhPJwJ5EsyyNwvu2BT/c057PIAzBypfNfC2iNOI+D8sMRvi2xP5fAmx2yzmyvWvNgjy2aoBfHqEw==
-X-Received: by 2002:a63:cd4b:: with SMTP id a11mr25635035pgj.273.1627420610673; 
- Tue, 27 Jul 2021 14:16:50 -0700 (PDT)
+ bh=Y9wMesWb3kMvGhORYmMr8FR6o9+jwEvZSo1EsZxY8W0=;
+ b=gGRtwgmoh16mz3qdxOnKgosSxeRcOVneSqxXXMml6e3Vnyq8UMt2evQkSWoIVKrQMb
+ mfHq2/9wuoSm7WjnZZh+SQvKrwLl8GSYyIAgVtcYK6ERTmtJWfh3sVyeofAxvYvJH7Gs
+ /xTdhjq0RO8n3IkHidIcrywAardeOUZ2P3Zxfqm/U3P3S2dLIff8Z9h6ZbhhtsHknSJm
+ OFqF/Iecvh8VtuLMWZqKEen0J87apM9gT23kn6bMKoW678UkBG1QGPAJl9S6Yejujw7P
+ l5EE/kFWJX/pxK1QB8TmGBjd4xEJugqvvcP+FvmiUJyFwz7h3JTGPWdaR6vjzhRc1W6r
+ 9H0g==
+X-Gm-Message-State: AOAM530OgssT/sgRZ0L/sJQWoC9WjdqFI600fXP6ITY0qHilsF/3Skw0
+ OJl2sfXD+kY3D+ek+5XQeJZZGg==
+X-Google-Smtp-Source: ABdhPJwBzhqNz9CV9N0TSyJ7ZTBhPPhkncXxe8pHuZBIHnuiml3joPIijrND7KmjOEKulsBBdR6JNQ==
+X-Received: by 2002:a62:584:0:b029:32e:3b57:a1c6 with SMTP id
+ 126-20020a6205840000b029032e3b57a1c6mr24589168pff.13.1627420620372; 
+ Tue, 27 Jul 2021 14:17:00 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id q5sm3971112pjo.7.2021.07.27.14.16.49
+ by smtp.gmail.com with ESMTPSA id lk5sm3712997pjb.53.2021.07.27.14.16.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 14:16:50 -0700 (PDT)
+ Tue, 27 Jul 2021 14:16:58 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 57/64] netfilter: conntrack: Use struct_group() to zero struct
- nf_conn
-Date: Tue, 27 Jul 2021 13:58:48 -0700
-Message-Id: <20210727205855.411487-58-keescook@chromium.org>
+Subject: [PATCH 58/64] powerpc: Split memset() to avoid multi-field overflow
+Date: Tue, 27 Jul 2021 13:58:49 -0700
+Message-Id: <20210727205855.411487-59-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2310; h=from:subject;
- bh=s7DyCBPDaCq4d9JSsWLJ8+EongifST6biZFyx2UX6q8=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHONWBiPiNzo/t8OW3Ns6kZ2l8riv+DL/V9XSJtK
- Xd5HzDuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjQAKCRCJcvTf3G3AJsz7D/
- 42pKBLJYcyHNJwO4YohbAAmhcoXAY8bmybN4HQPzp0zeFLNZqc2Mjb4rl3swZnOVaOVIL3tdvOiDgh
- i8NP+ht5TIItplmx8kwQTDPnNvvzlkJ82eWDHbvlZo9L/KkG3tB6q0ZoB5wyDwJ/WtKkX+tNlUGMRP
- OkokNS0HmTNz9ICaj7b7j9osXWGi57NUaXBtDDH/qH8MsT0lOJRU2Z4gVtlmQ4R2LKaBHTKEt6BHyM
- 60WMlTbzjKwmlSHB2aAoSUxJeN+xflQRuXnp9Z6gejpjykNWv/FHyosJTO5fvOqyY7fnbG5IP18fDs
- 13RH/EqMrXXtaC08nbTDiHc7xZZd07xjYusHaAykXGZ1M93N5Yyv4Ki7pupKpuLMhmBe3mMJ6R9V/9
- uGqhRuL79KG+FrjRZBGe6WhgC/PPRmNIQiKGNNqoLP4kHNzZGslITSZJ/dhW1VxfIJC4CSyVjW5cgL
- prwEVJwtrbEMjXtHxTTF6YTc9ktMv2sS2o53nA9MrdPsxA9UV/yGCIxScUw8rTkzsu8Mk49on1WZf9
- QEGh/Zy6T4S+lmbbiyXk3M1IAIDUYvs9WGAIYNlGzCMyk8XCDW9FUvuYcOQEU7XduJJ/wAhIG6MGew
- +7Dpxb4bbGybSLftmpNT3cPqKZ0HD+6F3Nbr82t0S06MwdOE0b2kHOrmjCYg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=970; h=from:subject;
+ bh=EqAYyR61If64Fj2IYKFg3jD8wd3YsI3R0DZAgupjjpE=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHON8m2NPAIDr9Q/N7SXLMGlDKKJPMFM5SUAuhto
+ 7+vlDg+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjQAKCRCJcvTf3G3AJq+CEA
+ Ca4qR9dFfukeDpwBivSWmdN4IXrLxxds4i79tyF2RZ1NetlF3zQFjf0dOJJ6NfqCZjinnNwHjnPaFi
+ 9x4UwneOOuPj/4rf8k7cSpmM2UreUaAAA8VP/jFKg8vdwSBqelmbZjm8ng/qha6pxe9jqRvhE2RWKP
+ qnrUYIUXlqe7N3FgL/8eOB67y/Un3Rfqu05z/doNPDcGWYTfIhpaZu3n+amLx44YduL03EwcMECH/l
+ NDarqGZ78zXiW9XBAw38H8M3+unTerG5RPPulpFMa3XJ+hy0ln0RAD/CKthoOCrGmjVHEls689FYmk
+ 47Xi02bCJdYfIgjqNVNZcc95yunNV29nLCcUCjqRA9qZpvkMrJWQANAATLtxAcI+/txMZUwS94jUFC
+ otBX6K+dP0tshHI5p9QXMMjeOFJUZsvIm5n+eNLtqZADzbxH5992mbjlaJZzSynXuRU7LnKYFwp99u
+ ACzU3xk+GoPHSQbfn0SU7L/H8QNlNuzxIiWmgfUKY2AXa7GfFeO+JPWTK/H/PczC9Or0vmzcwp+j06
+ gmLqgbtlJS5EyLTqxwdJDfRPF9CCi/hV2nu4l+oo6Pue1qSXQEmcxzqGPzn+HR7xkb5suJeevW+l7Z
+ gDF++XCKaI8rWqYNDAdfLYj6eQLBZMJ8AM/75DxdC9t3gUyhjbCYaLueTqow==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -94,70 +94,28 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Replace the empty __nfct_init_offset member with a struct_group() to
-mark the region of struct nf_conn that should be initialized to zero,
-allowing memset() to correctly reason about the size of the write.
+Instead of writing across a field boundary with memset(), move the call
+to just the array, and an explicit zeroing of the prior field.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/net/netfilter/nf_conntrack.h | 20 ++++++++++----------
- net/netfilter/nf_conntrack_core.c    |  4 +---
- 2 files changed, 11 insertions(+), 13 deletions(-)
+ drivers/macintosh/smu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/net/netfilter/nf_conntrack.h b/include/net/netfilter/nf_conntrack.h
-index cc663c68ddc4..51004fce2937 100644
---- a/include/net/netfilter/nf_conntrack.h
-+++ b/include/net/netfilter/nf_conntrack.h
-@@ -101,24 +101,24 @@ struct nf_conn {
- 	struct hlist_node	nat_bysource;
- #endif
- 	/* all members below initialized via memset */
--	struct { } __nfct_init_offset;
--
--	/* If we were expected by an expectation, this will be it */
--	struct nf_conn *master;
-+	struct_group(init,
-+		/* If we were expected by an expectation, this will be it */
-+		struct nf_conn *master;
- 
- #if defined(CONFIG_NF_CONNTRACK_MARK)
--	u_int32_t mark;
-+		u_int32_t mark;
- #endif
- 
- #ifdef CONFIG_NF_CONNTRACK_SECMARK
--	u_int32_t secmark;
-+		u_int32_t secmark;
- #endif
- 
--	/* Extensions */
--	struct nf_ct_ext *ext;
-+		/* Extensions */
-+		struct nf_ct_ext *ext;
- 
--	/* Storage reserved for other modules, must be the last member */
--	union nf_conntrack_proto proto;
-+		/* Storage reserved for other modules, must be the last member */
-+		union nf_conntrack_proto proto;
-+	);
- };
- 
- static inline struct nf_conn *
-diff --git a/net/netfilter/nf_conntrack_core.c b/net/netfilter/nf_conntrack_core.c
-index 5c03e5106751..b05eb64ec788 100644
---- a/net/netfilter/nf_conntrack_core.c
-+++ b/net/netfilter/nf_conntrack_core.c
-@@ -1527,9 +1527,7 @@ __nf_conntrack_alloc(struct net *net,
- 	ct->status = 0;
- 	ct->timeout = 0;
- 	write_pnet(&ct->ct_net, net);
--	memset(&ct->__nfct_init_offset, 0,
--	       offsetof(struct nf_conn, proto) -
--	       offsetof(struct nf_conn, __nfct_init_offset));
-+	memset(&ct->init, 0, sizeof(ct->init));
- 
- 	nf_ct_zone_add(ct, zone);
- 
+diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
+index 94fb63a7b357..59ce431da7ef 100644
+--- a/drivers/macintosh/smu.c
++++ b/drivers/macintosh/smu.c
+@@ -848,7 +848,8 @@ int smu_queue_i2c(struct smu_i2c_cmd *cmd)
+ 	cmd->read = cmd->info.devaddr & 0x01;
+ 	switch(cmd->info.type) {
+ 	case SMU_I2C_TRANSFER_SIMPLE:
+-		memset(&cmd->info.sublen, 0, 4);
++		cmd->info.sublen = 0;
++		memset(&cmd->info.subaddr, 0, 3);
+ 		break;
+ 	case SMU_I2C_TRANSFER_COMBINED:
+ 		cmd->info.devaddr &= 0xfe;
 -- 
 2.30.2
 
