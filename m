@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6343D8159
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C221A3D7FF7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 23:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2CE26EABA;
-	Tue, 27 Jul 2021 21:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 358506EA1A;
+	Tue, 27 Jul 2021 20:59:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B86676E9EF
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 21:16:57 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id e5so52039pld.6
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 14:16:57 -0700 (PDT)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3E746E957
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 20:59:15 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id d17so17580115plh.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 13:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=as474LhSy42cHKge7Gy2Fn1oqutkW78m6VkSl3HByJE=;
- b=lSOk/hBBmMlB1rYWTRaPXPIkKi/CxdsLOHI3vbEi2GSoFn58wsWtYlaoOfqvPj59dt
- ooaVxGQyHEHZnH0A70oChu8vvpJt9DQZz91T5V7lJ7/jvA+gX2vgTxoF4L8nNLo3A1bm
- hHNtGTPTcV/mXDEkppwsVuEpgI+3vO6Y1uBxk=
+ bh=9ZANtB/5paOTL9rrQ/OEPNR1JGy+0L6nD4QX9CL0F7k=;
+ b=mvsqmz2pOJhJ9OaX3L4K7kVGDAStkUtWNLy5iZu/K7AftRRNcUovN+y+miaZbg89tO
+ Uthw8swwf1XqEL18bb1TQESLDee214WGoNCauwBep7bAKX+Je3IIRQ3judpMqtgucXOA
+ K1pL1usRDZBmpoaR3SWjPg28m7oIJmlVwMC7k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=as474LhSy42cHKge7Gy2Fn1oqutkW78m6VkSl3HByJE=;
- b=KkqoMwr0gAGFj7PWrvz/OUzzH8ZNvVbOyvxPbOZdFwsTK0Flo36nBqi8Ou1BMRIgH0
- 6Xv2cF9PDtQ9qLNl2Tlj+Bh+Y74Uyh+fIgPkGCwA4kvTa6lS7Yf/M503pmDq4n2bBi1c
- nM12RDj11qCRwtmzX5vtmf9Tv5XSwpxFXRtpvkRjxjY0a8X2HZpXWiUshXyhXfHmZEo8
- +PqTtf8ZTvjxzsLRkey2/VrqFCn6dqbvNpgF7OftSdTkONiKeMMjTSB2IAykmpnRc9Pi
- SncI2mgIkqcqMaXuPgP1QIQrIk51fAzCqtaQyhfM8TBgryPzF22OtqEyfmHTPEhDmmul
- 90wA==
-X-Gm-Message-State: AOAM532AYvCM1YvtohPVilRjTduy8/jzcF92iLG9P1br4hqyUS1xdrrX
- ku/2THpUFWi4dBfCljs+SBjVXg==
-X-Google-Smtp-Source: ABdhPJxGaEK/7GM0+vAKulISQNQ8zNmBoY4IggEYKPysQEG+1vegv9sBaDZhhkPzUiJxyIhOdVgTMQ==
-X-Received: by 2002:a17:90b:4a4d:: with SMTP id
- lb13mr6031654pjb.221.1627420617450; 
- Tue, 27 Jul 2021 14:16:57 -0700 (PDT)
+ bh=9ZANtB/5paOTL9rrQ/OEPNR1JGy+0L6nD4QX9CL0F7k=;
+ b=BHRIUEDnBjOMDA4tp7cM3d7TnwqFqghIpeo//TvRBD5yrXfR30zK6K+ByEcQSva2tx
+ msIK9WinU8AUZJB1o5MAaE76FQeiKc+gvSYmWNH9Lm21uTlCnrqGjveoVgsKE9+bbY0o
+ QYgwQv/iw6Tw9hO50xRQlu9R98BwJ1UwnIjWxYPL9Msn5cnHSzmAC4ZbqPG6rO43F4bI
+ REPmMZP31nT5GYoNp250Sa9fmxraxo+egY2Csyl9OxiR0g2NPusNDZ0OIIpWO5fk0nO1
+ bw2bmiOd4sDei3IwDqLBcPaodnmRWcy9QmAWqarTwqp+X94DYNeESidUHpgPxIRzImKe
+ 5s7w==
+X-Gm-Message-State: AOAM532Uu6CfX3+SpH5fLeTjgzY+Iaok0H+TtL5IU8t2C2/JyhZkk1TN
+ By3iMwCKy2Axf5i0vUZnUOvUag==
+X-Google-Smtp-Source: ABdhPJyN+3oVzlz/x2hymJ7L4QZLicuTyBl7Z4sZvtU0JhXwk/ln4AMFcNTkrea6rrnY7PtxDktjSw==
+X-Received: by 2002:a17:90a:d251:: with SMTP id
+ o17mr1322871pjw.200.1627419555206; 
+ Tue, 27 Jul 2021 13:59:15 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id q19sm5028194pgj.17.2021.07.27.14.16.53
+ by smtp.gmail.com with ESMTPSA id o134sm4623683pfg.62.2021.07.27.13.59.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 14:16:54 -0700 (PDT)
+ Tue, 27 Jul 2021 13:59:14 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
-Subject: [PATCH 46/64] IB/mthca: Use memset_after() for clearing mpt_entry
-Date: Tue, 27 Jul 2021 13:58:37 -0700
-Message-Id: <20210727205855.411487-47-keescook@chromium.org>
+Subject: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
+Date: Tue, 27 Jul 2021 13:58:38 -0700
+Message-Id: <20210727205855.411487-48-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; h=from:subject;
- bh=EIIm+0VdwQ9IH2XMV6ts5pIWwaxyRwboIG5815tF7+o=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOKarr4bIPgvwWH2qKkwLe6/q8cDAlBzD3bLA24
- ll85FGeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzigAKCRCJcvTf3G3AJvwwEA
- ChEYdVEvOlY6ZSSDwSK+GqTMcoJtHYXIXerlg3cv7Z5B/nj+4tsVkjpbbg6qYJ7G6Wn5LCRzlLTF/B
- JEQNK1K018MnLFUCnQdrWeHhqOML4Z+QY9330qvih8kbryLwUmmPm8tMDr8k7xeqODqXV0ysJUPb2N
- xVAh/ldKgMIWN0SIEK4b/AeC9lC2gYUHs0M9ufsvUwE/w7u4/dJRXGEtfOnpjbz9EiJRevDyOxG/L7
- 5kQTjyY65fkZSD9d3DQYA0of/YGF5vIAzSb90hB4BR+6elYWhMJodLf6s9scmQdVrWhXQ4dVg6J+8M
- ycSHtAUfvV0kejqMCcI904M9g4jJuniybmlBLuzSIsi21ELju85L/7B9KiYaqlPgChXogQSPXNk5Kd
- 54beIYuu1Fd49rYR1R8WtEoklJaIrmJSkYaEDaYgFR3e7sXiui1Lo6/7QEjLjklWuNupXgY7d+KgBw
- oCFrVzGvwPnUGDQnGEfR2OxN6HzTznt5SuyVEVOZkOSmgu5uS6ad9csIugS5srvBjmEQQuXMfiCcAe
- FRY7ypPn9oUPWMah/ykVuPdD7cmvKT/OghOEHP/qza9WeqolkQBPyj4t9m6qBq2lsFMVjj3xVeXXM2
- +eC9JXnzHZx87wkFYpcVJstfzhif8T3qljrVvmM3fY2NknXhqRg98uBOWpsQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=992; h=from:subject;
+ bh=x7ocbS42SjohNmNf+jZzB+Ex+GPw48UesaUcGwh3RlU=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOKwywaxTW0OzsQGL01qHorKOsTwNUavfO4aV7/
+ 4MvZRoyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzigAKCRCJcvTf3G3AJjfPD/
+ 4mFAUDF6T1seKtO/RA+qdlnriVg5ZRjAEH4H/h8DVsqaNsbNjkXXBxy4IGulp+GUR4SdYtq0qxTEGi
+ dzjW0oiJ4wsB27VOGaHIXnH3D72eToay+7FKJsbTmxYF7qq7gMrBtZQ1lKPJOINEfDXC/GPs4PjHFt
+ erSiS4lXcv7ZSR327qucJFy3X6rUI1vW/mu4I34D4vBVDPz7h/U/kTrFIpqQYU5qc8uY/8yajU/JNs
+ mQ1m36vmx9AipRbk9NySHUPM6/19rIlM3mPS80ucsisVgDP46b0pgtm7X6nxCi9z/OaNCqCtQ+53mA
+ 0TEThqquZzBXubfk3PRoVuwATx/orxB1j62Wns1xX49CmkH6puRyfHwmBSmk7CiM4Sk1wpqm9jnpGt
+ 4DEdfYKvvTV5Mz5v4rooDk17qFI5QfRMISRbIJsWf42ioVfoojhOqA1vWlKc/ndypF47wowasPUGyj
+ OXB4t+t9iIqUUqNtvyQSbgC16g4aG2X6ikTW6WjRC9vOt7wyZSNVoZoXQPD/ZmSRZZpvbQKkN2G4yN
+ Vjn4IFYhXwNdyA0oK5yI/r1Q+WXeC+pvl6zO/L8B/K6xmBwrE0dWZNELGC+dpZM2lHGRXavr/S7tV7
+ OmHAQOFKQhK7/G9WgHJLShkAumxIBKLFh22qDqffVoP8zhUM+GH0rhbl7Mpw==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -100,23 +100,25 @@ of zeroing through the end of the struct.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/infiniband/hw/mthca/mthca_mr.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ fs/btrfs/root-tree.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/infiniband/hw/mthca/mthca_mr.c b/drivers/infiniband/hw/mthca/mthca_mr.c
-index ce0e0867e488..64adba5c067d 100644
---- a/drivers/infiniband/hw/mthca/mthca_mr.c
-+++ b/drivers/infiniband/hw/mthca/mthca_mr.c
-@@ -469,8 +469,7 @@ int mthca_mr_alloc(struct mthca_dev *dev, u32 pd, int buffer_size_shift,
- 	mpt_entry->start     = cpu_to_be64(iova);
- 	mpt_entry->length    = cpu_to_be64(total_size);
- 
--	memset(&mpt_entry->lkey, 0,
--	       sizeof *mpt_entry - offsetof(struct mthca_mpt_entry, lkey));
-+	memset_after(mpt_entry, 0, length);
- 
- 	if (mr->mtt)
- 		mpt_entry->mtt_seg =
+diff --git a/fs/btrfs/root-tree.c b/fs/btrfs/root-tree.c
+index 702dc5441f03..ec9e78f65fca 100644
+--- a/fs/btrfs/root-tree.c
++++ b/fs/btrfs/root-tree.c
+@@ -39,10 +39,7 @@ static void btrfs_read_root_item(struct extent_buffer *eb, int slot,
+ 		need_reset = 1;
+ 	}
+ 	if (need_reset) {
+-		memset(&item->generation_v2, 0,
+-			sizeof(*item) - offsetof(struct btrfs_root_item,
+-					generation_v2));
+-
++		memset_after(item, 0, level);
+ 		generate_random_guid(item->uuid);
+ 	}
+ }
 -- 
 2.30.2
 
