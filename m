@@ -1,61 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69543D6AEE
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 02:16:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3883D6A84
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 02:06:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6791F6E0A5;
-	Tue, 27 Jul 2021 00:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A426FC38;
+	Tue, 27 Jul 2021 00:06:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2436E0A5
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 00:16:43 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- z6-20020a9d24860000b02904d14e47202cso11765624ota.4
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 17:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=tscrZBQstzzRaUL+UaPR6i4OEaBy+HrQhXGyWhtHbpY=;
- b=I0bCa3Idkeu+p5K2AETrjGGnbJVU0B3Kdkogh8ZnX/Pg35bJ5u63zp1PpsZR4PUA71
- pJvXM4Jz0xpHXLWmGg5smlJmSgXTQ1IRM4qgno2YoYyOBJ3LpB2LlPz6s+v/qRrjOvKD
- hKDJtkmccFTnmNWnT0gIloYTbnGn5VN8AvSdQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=tscrZBQstzzRaUL+UaPR6i4OEaBy+HrQhXGyWhtHbpY=;
- b=YaG7ZdHKPpG+woNl17BUKt/aqFr5thULy4IGjskwZsmACs7Si6Xbcots0zHCJwAEvd
- 3O1oxlpr4kF3Rlqemjm3J6tlA56UCD28G/B9lEnrW+Qxn+5LFRUfzfcPF1iA7p26PkiH
- SDIWUvyCWQkC4pAcv2UTAtUmg4Db0S/0clNDbO1rTn+YHOFFDeNEaltlUqm0lP6DWPUJ
- V7kec+uzEXB838c72tFMkbBTEbm3vMW/IhhxfbQxziN8NFIChGkFZj+5bTg3AjK+N3RQ
- l4JaZDqGL81G4Tvsgqzt82V0K4VqgZpZo4O6FaGk2EAz3GforS2VsVlhen6dUSp+esjW
- Xitg==
-X-Gm-Message-State: AOAM530BnIQUXhxxnrG7SndYNEpx4Q3LGZ/nlcKIxFaXlSVQkEcN917u
- H/YJDY+E+fgmxibYzxeHn3fQ9Yeabk1iXGeFtuQ4UQ==
-X-Google-Smtp-Source: ABdhPJz9DOthLfEXyaAywpN2zjLbyg7yP79QdEbJyK44iOYpg3YyBnI1HZX1Oyg1Cv6KyXuESXsA/iFNxu6OmeFGo9c=
-X-Received: by 2002:a9d:650e:: with SMTP id i14mr13685660otl.233.1627345002305; 
- Mon, 26 Jul 2021 17:16:42 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 26 Jul 2021 20:16:41 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E93CF6FC38;
+ Tue, 27 Jul 2021 00:05:57 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="191932118"
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="191932118"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 17:05:57 -0700
+X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="662339120"
+Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 17:05:57 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH 00/33] Remaining patches for basic GuC submission
+Date: Mon, 26 Jul 2021 17:23:15 -0700
+Message-Id: <20210727002348.97202-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <1627147740-11590-1-git-send-email-akhilpo@codeaurora.org>
-References: <1627147740-11590-1-git-send-email-akhilpo@codeaurora.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Mon, 26 Jul 2021 20:16:41 -0400
-Message-ID: <CAE-0n52mEy1GReYwcVrffT2KOy4EHMHH-RyCJ_mmxhaeXwGdYA@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: qcom: sc7280: Add gpu support
-To: Akhil P Oommen <akhilpo@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,157 +42,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, linux-kernel@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Andy Gross <agross@kernel.org>,
- Matthias Kaehlcke <mka@chromium.org>
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Akhil P Oommen (2021-07-24 10:29:00)
-> Add the necessary dt nodes for gpu support in sc7280.
->
-> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
-> ---
-> This patch has dependency on the GPUCC bindings patch here:
-> https://patchwork.kernel.org/project/linux-arm-msm/patch/1619519590-3019-4-git-send-email-tdas@codeaurora.org/
+The remaining patches for basic GuC submission [1]. Need 1 more RB and
+CI results to get this merged. 
 
-To avoid the dependency the plain numbers can be used.
+v2:
+ (Checkpatch)
+ - Fix checkpatch warning (1 remaining overrulled) 
+ (Daniele)
+ - Use an outer lock in guc_context_block / unblock
 
->
-> Changes in v2:
-> - formatting update and removed a duplicate header (Stephan)
->
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 116 +++++++++++++++++++++++++++++++++++
->  1 file changed, 116 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index 029723a..524a5e0 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -585,6 +586,121 @@
->                         #clock-cells = <1>;
->                 };
->
-> +               gpu@3d00000 {
-> +                       compatible = "qcom,adreno-635.0", "qcom,adreno";
-> +                       #stream-id-cells = <16>;
-> +                       reg = <0 0x03d00000 0 0x40000>,
-> +                             <0 0x03d9e000 0 0x1000>,
-> +                             <0 0x03d61000 0 0x800>;
-> +                       reg-names = "kgsl_3d0_reg_memory",
-> +                                   "cx_mem",
-> +                                   "cx_dbgc";
-> +                       interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-> +                       iommus = <&adreno_smmu 0 0x401>;
-> +                       operating-points-v2 = <&gpu_opp_table>;
-> +                       qcom,gmu = <&gmu>;
-> +                       interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
-> +                       interconnect-names = "gfx-mem";
-> +
-> +                       gpu_opp_table: opp-table {
-> +                               compatible = "operating-points-v2";
-> +
-> +                               opp-550000000 {
-> +                                       opp-hz = /bits/ 64 <550000000>;
-> +                                       opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-> +                                       opp-peak-kBps = <6832000>;
-> +                               };
-> +
-> +                               opp-450000000 {
-> +                                       opp-hz = /bits/ 64 <450000000>;
-> +                                       opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-> +                                       opp-peak-kBps = <4068000>;
-> +                               };
-> +
-> +                               opp-315000000 {
-> +                                       opp-hz = /bits/ 64 <315000000>;
-> +                                       opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-> +                                       opp-peak-kBps = <1804000>;
-> +                               };
-> +                       };
-> +               };
-> +
-> +               gmu: gmu@3d69000 {
-> +                       compatible="qcom,adreno-gmu-635.0", "qcom,adreno-gmu";
-> +                       reg = <0 0x03d6a000 0 0x34000>,
-> +                               <0 0x3de0000 0 0x10000>,
-> +                               <0 0x0b290000 0 0x10000>;
-> +                       reg-names = "gmu", "rscc", "gmu_pdc";
-> +                       interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-> +                       interrupt-names = "hfi", "gmu";
-> +                       clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-> +                                       <&gpucc GPU_CC_CXO_CLK>,
-> +                                       <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-> +                                       <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +                                       <&gpucc GPU_CC_AHB_CLK>,
-> +                                       <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> +                                       <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
-> +                       clock-names = "gmu",
-> +                                     "cxo",
-> +                                     "axi",
-> +                                     "memnoc",
-> +                                     "ahb",
-> +                                     "hub",
-> +                                     "smmu_vote";
-> +                       power-domains = <&gpucc GPU_CC_CX_GDSC>,
-> +                                       <&gpucc GPU_CC_GX_GDSC>;
-> +                       power-domain-names = "cx",
-> +                                            "gx";
-> +                       iommus = <&adreno_smmu 5 0x400>;
-> +                       operating-points-v2 = <&gmu_opp_table>;
-> +
-> +                       gmu_opp_table: opp-table {
-> +                               compatible = "operating-points-v2";
-> +
-> +                               opp-200000000 {
-> +                                       opp-hz = /bits/ 64 <200000000>;
-> +                                       opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-> +                               };
-> +                       };
-> +               };
-> +
-> +               adreno_smmu: iommu@3da0000 {
-> +                       compatible = "qcom,sc7280-smmu-500", "qcom,adreno-smmu", "arm,mmu-500";
-> +                       reg = <0 0x03da0000 0 0x20000>;
-> +                       #iommu-cells = <2>;
-> +                       #global-interrupts = <2>;
-> +                       interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 675 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
-> +                                       <GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +                       clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +                                       <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
-> +                                       <&gpucc GPU_CC_AHB_CLK>,
-> +                                       <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
-> +                                       <&gpucc GPU_CC_CX_GMU_CLK>,
-> +                                       <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> +                                       <&gpucc GPU_CC_HUB_AON_CLK>;
-> +                       clock-names = "gcc_gpu_memnoc_gfx_clk",
-> +                                       "gcc_gpu_snoc_dvm_gfx_clk",
-> +                                       "gpu_cc_ahb_clk",
-> +                                       "gpu_cc_hlos1_vote_gpu_smmu_clk",
-> +                                       "gpu_cc_cx_gmu_clk",
-> +                                       "gpu_cc_hub_cx_int_clk",
-> +                                       "gpu_cc_hub_aon_clk";
-> +
-> +                       power-domains = <&gpucc GPU_CC_CX_GDSC>;
-> +               };
-> +
->                 lpass_ag_noc: interconnect@3c40000 {
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-This node is 3c40000 and the one above is 3da0000. 3c comes before 3d.
-Please order nodes properly.
+[1] https://patchwork.freedesktop.org/series/91840/
 
->                         reg = <0 0x03c40000 0 0xf080>;
->                         compatible = "qcom,sc7280-lpass-ag-noc";
+Daniele Ceraolo Spurio (1):
+  drm/i915/guc: Unblock GuC submission on Gen11+
+
+
+Daniele Ceraolo Spurio (1):
+  drm/i915/guc: Unblock GuC submission on Gen11+
+
+John Harrison (12):
+  drm/i915/guc: Make hangcheck work with GuC virtual engines
+  drm/i915/guc: Provide mmio list to be saved/restored on engine reset
+  drm/i915/guc: Don't complain about reset races
+  drm/i915/guc: Enable GuC engine reset
+  drm/i915/guc: Fix for error capture after full GPU reset with GuC
+  drm/i915/guc: Hook GuC scheduling policies up
+  drm/i915/guc: Connect reset modparam updates to GuC policy flags
+  drm/i915/guc: Include scheduling policies in the debugfs state dump
+  drm/i915/guc: Add golden context to GuC ADS
+  drm/i915/selftest: Better error reporting from hangcheck selftest
+  drm/i915/selftest: Fix hangcheck self test for GuC submission
+  drm/i915/selftest: Bump selftest timeouts for hangcheck
+
+Matthew Brost (18):
+  drm/i915/guc: GuC virtual engines
+  drm/i915: Hold reference to intel_context over life of i915_request
+  drm/i915/guc: Disable bonding extension with GuC submission
+  drm/i915/guc: Direct all breadcrumbs for a class to single breadcrumbs
+  drm/i915: Add i915_sched_engine destroy vfunc
+  drm/i915: Move active request tracking to a vfunc
+  drm/i915/guc: Reset implementation for new GuC interface
+  drm/i915: Reset GPU immediately if submission is disabled
+  drm/i915/guc: Add disable interrupts to guc sanitize
+  drm/i915/guc: Suspend/resume implementation for new interface
+  drm/i915/guc: Handle context reset notification
+  drm/i915/guc: Handle engine reset failure notification
+  drm/i915/guc: Enable the timer expired interrupt for GuC
+  drm/i915/guc: Capture error state on context reset
+  drm/i915/guc: Implement banned contexts for GuC submission
+  drm/i915/guc: Support request cancellation
+  drm/i915/selftest: Increase some timeouts in live_requests
+  drm/i915/guc: Implement GuC priority management
+
+Rahul Kumar Singh (2):
+  drm/i915/selftest: Fix workarounds selftest for GuC submission
+  drm/i915/selftest: Fix MOCS selftest for GuC submission
+
+ drivers/gpu/drm/i915/Makefile                 |    1 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |   15 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   44 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   16 +-
+ .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
+ drivers/gpu/drm/i915/gt/intel_context.c       |   36 +
+ drivers/gpu/drm/i915/gt/intel_context.h       |   23 +
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   33 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   57 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  183 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   70 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |   13 +-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |    4 +
+ .../drm/i915/gt/intel_execlists_submission.c  |   89 +-
+ .../drm/i915/gt/intel_execlists_submission.h  |    4 -
+ drivers/gpu/drm/i915/gt/intel_gt.c            |    2 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |   50 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |   58 +
+ drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
+ .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
+ drivers/gpu/drm/i915/gt/mock_engine.c         |   34 +-
+ .../drm/i915/gt/selftest_engine_heartbeat.c   |   22 +
+ .../drm/i915/gt/selftest_engine_heartbeat.h   |    2 +
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |   12 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  322 +++-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |   50 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  132 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   38 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  464 ++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   11 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |    2 +
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 1611 +++++++++++++++--
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  101 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h         |    6 +
+ drivers/gpu/drm/i915/i915_debugfs_params.c    |   32 +
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
+ drivers/gpu/drm/i915/i915_reg.h               |    1 +
+ drivers/gpu/drm/i915/i915_request.c           |  162 +-
+ drivers/gpu/drm/i915/i915_request.h           |   21 +
+ drivers/gpu/drm/i915/i915_scheduler.c         |   16 +-
+ drivers/gpu/drm/i915/i915_scheduler.h         |   10 +-
+ drivers/gpu/drm/i915/i915_scheduler_types.h   |   22 +
+ drivers/gpu/drm/i915/i915_trace.h             |   37 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |    4 +-
+ .../gpu/drm/i915/selftests/igt_flush_test.c   |    2 +-
+ .../i915/selftests/intel_scheduler_helpers.c  |   88 +
+ .../i915/selftests/intel_scheduler_helpers.h  |   33 +
+ include/uapi/drm/i915_drm.h                   |    9 +
+ 55 files changed, 3501 insertions(+), 634 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+
+-- 
+2.28.0
+
