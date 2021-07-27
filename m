@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D063D3D8328
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 00:41:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B89F3D834D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 00:43:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B68E6EB13;
-	Tue, 27 Jul 2021 22:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6935E6E9F1;
+	Tue, 27 Jul 2021 22:43:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45B976EB13
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 22:41:09 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1627425669; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=6DcCd5EYEZOUZCyIy2EtvdlY8R0MtDfk5lZlOKcio4E=;
- b=EcmRayQmJ1KAYYiImfMZjEp167EXbdRxO7xL47IS7HvCNY61yLBPXXPZEnUJKYADBRH+wFLS
- xkHIdOZA4YiB1lKj/fv5/0phBKt0ZBcE7jE8yGv3Bm45omtkHjsowMXj923mXNBP8jMncRnN
- 2TWprtFMtSDvFUtHwKCG0YfwLMw=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 61008b8296a66e66b2084019 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 27 Jul 2021 22:41:06
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2E3DAC43143; Tue, 27 Jul 2021 22:41:06 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 59874C433F1;
- Tue, 27 Jul 2021 22:41:04 +0000 (UTC)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79BE46EB23
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 22:43:40 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id z2so272775lft.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 15:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+SboYQvLEoV+Q5oWgHDYhiCn7Tx7IEj91yehwnQAbvM=;
+ b=oPdc+CQOm8sqXyP7XoKBSgtFpkhKc5cVZX213KU9f4Da2FEPu6aF69LfwwjClKWNVJ
+ ng7j8yDgO8HI42dHLauya6am2azxxCJCaFF0anEjeHwgReEs16hSqD+oIFo6BZv6LpJS
+ ACmvJNRbwJRkxWuoPoNy6dRBIO6yHHlR2M++9sqSSkVpJNRx+YghTE2f5UEGqnLMKX0y
+ L9JtEjP+k5Rg4eykCaF7tDDJDWOi5kTiQCm0vlBFpWYapxXmiwTYE1eqKmNSFX0xs0VL
+ uH1WcfCABl1xCeDKnknA3HXWng9Y37zixBYLKsXyfi388/m+I1GilxgqhZGurEEKTpA1
+ AJfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+SboYQvLEoV+Q5oWgHDYhiCn7Tx7IEj91yehwnQAbvM=;
+ b=rlpME7bS0oqyZZ0mYqSYYt9gtUqaQX40g4LLM/TAbc5e9wvTItiq3Ci6gR+A+R1ZGy
+ 3AkoobRuiTxznJxljMOfndhutWg6G+DYtIVnuvhj3LJwZztMJD1msy+cMUImzkjNFon7
+ kiCl3BvyH3F7AJiCQMn3nPNSNk41XkpETP0eY1ggv58EOMH5Pbez6OF6zA/VvHcHKxnB
+ k4TC4OInPVx0TpOFOIroyGpo4Wzf0qCGcvOFZpOg1KzaXz2mP68EBwmqOXWWozpxtm+X
+ fDa+FGNJQpXWbbcevIvDUickufwRNTHa4lsf/1XRtVIhCr70cmjcWb9KE+NIE/1AKOSC
+ +aEQ==
+X-Gm-Message-State: AOAM532Exul7lh2f/bAFBhJXw7Brqt+bFkUrYitZ4gozC9g5KBljGaNc
+ KLoZZLVMPWZy09UJRAAlbbRmKjNNadHKuHKwMzOavA==
+X-Google-Smtp-Source: ABdhPJxnTYGuinYeYdLqLqV+o8/XLcsFPV+/cmsQ8aq8v4uISWTPunqaNAJh2445rOdl0O13jTOR3bXB56B9K3i3ZVk=
+X-Received: by 2002:ac2:596a:: with SMTP id h10mr11005339lfp.374.1627425818438; 
+ Tue, 27 Jul 2021 15:43:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 27 Jul 2021 15:41:04 -0700
-From: khsieh@codeaurora.org
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v3] drm/dp_mst: Fix return code on sideband message failure
-In-Reply-To: <79c5a60fc189261b7a9ef611acd126a41f921593.camel@redhat.com>
-References: <1625585434-9562-1-git-send-email-khsieh@codeaurora.org>
- <87zguy7c5a.fsf@intel.com> <a514c19f712a6feeddf854dc17cb8eb5@codeaurora.org>
- <2da3949fa3504592da42c9d01dc060691c6a8b8b.camel@redhat.com>
- <d9ec812b4be57e32246735ca2f5e9560@codeaurora.org>
- <79c5a60fc189261b7a9ef611acd126a41f921593.camel@redhat.com>
-Message-ID: <696a009e2ab34747abd12bda03c103c7@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-35-keescook@chromium.org>
+In-Reply-To: <20210727205855.411487-35-keescook@chromium.org>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Tue, 27 Jul 2021 15:43:27 -0700
+Message-ID: <CAKwvOdknit8DtWaFvLupmNEebjbwVa6R3xiGc2D4AqB_6+i52g@mail.gmail.com>
+Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in memcpy()
+ at compile-time
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,23 +63,284 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rnayak@codeaurora.org, tzimmermann@suse.de, airlied@linux.ie,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, swboyd@chromium.org,
- aravindh@codeaurora.org, sean@poorly.run, rsubbia@codeaurora.org
+Cc: linux-kbuild@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
+ Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-27 12:21, Lyude Paul wrote:
-> On Thu, 2021-07-22 at 15:28 -0700, khsieh@codeaurora.org wrote:
->> 
->> It looks like this patch is good to go (mainlined).
->> Anything needed from me to do?
->> Thanks,
-> 
-> Do you have access for pushing this patch? If not let me know and I can 
-> go
-> ahead and push it to drm-misc-next for you.
-no, I do not have access to drm-misc-next.
-Please push it for me.
-Thanks a lots.
+On Tue, Jul 27, 2021 at 2:17 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> To accelerate the review of potential run-time false positives, it's
+> also worth noting that it is possible to partially automate checking
+> by examining memcpy() buffer argument fields to see if they have
+> a neighboring. It is reasonable to expect that the vast majority of
+
+a neighboring...field?
+
+> diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+> index 7e67d02764db..5e79e626172b 100644
+> --- a/include/linux/fortify-string.h
+> +++ b/include/linux/fortify-string.h
+> @@ -2,13 +2,17 @@
+>  #ifndef _LINUX_FORTIFY_STRING_H_
+>  #define _LINUX_FORTIFY_STRING_H_
+>
+> +#include <linux/bug.h>
+
+What are you using from linux/bug.h here?
+
+> +
+>  #define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
+>  #define __RENAME(x) __asm__(#x)
+>
+>  void fortify_panic(const char *name) __noreturn __cold;
+>  void __read_overflow(void) __compiletime_error("detected read beyond size of object (1st parameter)");
+>  void __read_overflow2(void) __compiletime_error("detected read beyond size of object (2nd parameter)");
+> +void __read_overflow2_field(void) __compiletime_warning("detected read beyond size of field (2nd parameter); maybe use struct_group()?");
+>  void __write_overflow(void) __compiletime_error("detected write beyond size of object (1st parameter)");
+> +void __write_overflow_field(void) __compiletime_warning("detected write beyond size of field (1st parameter); maybe use struct_group()?");
+>
+>  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+>  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
+> @@ -182,22 +186,105 @@ __FORTIFY_INLINE void *memset(void *p, int c, __kernel_size_t size)
+>         return __underlying_memset(p, c, size);
+>  }
+>
+> -__FORTIFY_INLINE void *memcpy(void *p, const void *q, __kernel_size_t size)
+> +/*
+> + * To make sure the compiler can enforce protection against buffer overflows,
+> + * memcpy(), memmove(), and memset() must not be used beyond individual
+> + * struct members. If you need to copy across multiple members, please use
+> + * struct_group() to create a named mirror of an anonymous struct union.
+> + * (e.g. see struct sk_buff.)
+> + *
+> + * Mitigation coverage
+> + *                                     Bounds checking at:
+> + *                                     +-------+-------+-------+-------+
+> + *                                     | Compile time  | Run time      |
+> + * memcpy() argument sizes:            | write | read  | write | read  |
+> + *                                     +-------+-------+-------+-------+
+> + * memcpy(known,   known,   constant)  |   y   |   y   |  n/a  |  n/a  |
+> + * memcpy(unknown, known,   constant)  |   n   |   y   |   V   |  n/a  |
+> + * memcpy(known,   unknown, constant)  |   y   |   n   |  n/a  |   V   |
+> + * memcpy(unknown, unknown, constant)  |   n   |   n   |   V   |   V   |
+> + * memcpy(known,   known,   dynamic)   |   n   |   n   |   b   |   B   |
+> + * memcpy(unknown, known,   dynamic)   |   n   |   n   |   V   |   B   |
+> + * memcpy(known,   unknown, dynamic)   |   n   |   n   |   b   |   V   |
+> + * memcpy(unknown, unknown, dynamic)   |   n   |   n   |   V   |   V   |
+> + *                                     +-------+-------+-------+-------+
+> + *
+> + * y = deterministic compile-time bounds checking
+> + * n = cannot do deterministic compile-time bounds checking
+> + * n/a = no run-time bounds checking needed since compile-time deterministic
+> + * b = perform run-time bounds checking
+> + * B = can perform run-time bounds checking, but current unenforced
+> + * V = vulnerable to run-time overflow
+> + *
+> + */
+> +__FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
+> +                                        const size_t p_size,
+> +                                        const size_t q_size,
+> +                                        const size_t p_size_field,
+> +                                        const size_t q_size_field,
+> +                                        const char *func)
+>  {
+> -       size_t p_size = __builtin_object_size(p, 0);
+> -       size_t q_size = __builtin_object_size(q, 0);
+> -
+>         if (__builtin_constant_p(size)) {
+> -               if (p_size < size)
+> +               /*
+> +                * Length argument is a constant expression, so we
+> +                * can perform compile-time bounds checking where
+> +                * buffer sizes are known.
+> +                */
+> +
+> +               /* Error when size is larger than enclosing struct. */
+> +               if (p_size > p_size_field && p_size < size)
+>                         __write_overflow();
+> -               if (q_size < size)
+> +               if (q_size > q_size_field && q_size < size)
+>                         __read_overflow2();
+> +
+> +               /* Warn when write size argument larger than dest field. */
+> +               if (p_size_field < size)
+> +                       __write_overflow_field();
+> +               /*
+> +                * Warn for source field over-read when building with W=1
+> +                * or when an over-write happened, so both can be fixed at
+> +                * the same time.
+> +                */
+> +               if ((IS_ENABLED(KBUILD_EXTRA_WARN1) || p_size_field < size) &&
+> +                   q_size_field < size)
+> +                       __read_overflow2_field();
+>         }
+> -       if (p_size < size || q_size < size)
+> -               fortify_panic(__func__);
+> -       return __underlying_memcpy(p, q, size);
+> +       /*
+> +        * At this point, length argument may not be a constant expression,
+> +        * so run-time bounds checking can be done where buffer sizes are
+> +        * known. (This is not an "else" because the above checks may only
+> +        * be compile-time warnings, and we want to still warn for run-time
+> +        * overflows.)
+> +        */
+> +
+> +       /*
+> +        * Always stop accesses beyond the struct that contains the
+> +        * field, when the buffer's remaining size is known.
+> +        * (The -1 test is to optimize away checks where the buffer
+> +        * lengths are unknown.)
+> +        */
+> +       if ((p_size != (size_t)(-1) && p_size < size) ||
+> +           (q_size != (size_t)(-1) && q_size < size))
+> +               fortify_panic(func);
+>  }
+>
+> +#define __fortify_memcpy_chk(p, q, size, p_size, q_size,               \
+> +                            p_size_field, q_size_field, op) ({         \
+> +       size_t __fortify_size = (size_t)(size);                         \
+> +       fortify_memcpy_chk(__fortify_size, p_size, q_size,              \
+> +                          p_size_field, q_size_field, #op);            \
+> +       __underlying_##op(p, q, __fortify_size);                        \
+> +})
+
+Are there other macro expansion sites for `__fortify_memcpy_chk`,
+perhaps later in this series? I don't understand why `memcpy` is
+passed as `func` to `fortify_panic()` rather than continuing to use
+`__func__`?
+
+> +
+> +/*
+> + * __builtin_object_size() must be captured here to avoid evaluating argument
+> + * side-effects further into the macro layers.
+> + */
+> +#define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+> +               __builtin_object_size(p, 0), __builtin_object_size(q, 0), \
+> +               __builtin_object_size(p, 1), __builtin_object_size(q, 1), \
+> +               memcpy)
+> +
+>  __FORTIFY_INLINE void *memmove(void *p, const void *q, __kernel_size_t size)
+>  {
+>         size_t p_size = __builtin_object_size(p, 0);
+> @@ -277,27 +364,27 @@ __FORTIFY_INLINE void *kmemdup(const void *p, size_t size, gfp_t gfp)
+>         return __real_kmemdup(p, size, gfp);
+>  }
+>
+> -/* defined after fortified strlen and memcpy to reuse them */
+> +/* Defined after fortified strlen to reuse it. */
+>  __FORTIFY_INLINE char *strcpy(char *p, const char *q)
+>  {
+>         size_t p_size = __builtin_object_size(p, 1);
+>         size_t q_size = __builtin_object_size(q, 1);
+>         size_t size;
+>
+> +       /* If neither buffer size is known, immediately give up. */
+>         if (p_size == (size_t)-1 && q_size == (size_t)-1)
+>                 return __underlying_strcpy(p, q);
+>         size = strlen(q) + 1;
+>         /* test here to use the more stringent object size */
+>         if (p_size < size)
+>                 fortify_panic(__func__);
+> -       memcpy(p, q, size);
+> +       __underlying_memcpy(p, q, size);
+>         return p;
+>  }
+>
+>  /* Don't use these outside the FORITFY_SOURCE implementation */
+>  #undef __underlying_memchr
+>  #undef __underlying_memcmp
+> -#undef __underlying_memcpy
+>  #undef __underlying_memmove
+>  #undef __underlying_memset
+>  #undef __underlying_strcat
+> diff --git a/include/linux/string.h b/include/linux/string.h
+> index 9473f81b9db2..cbe889e404e2 100644
+> --- a/include/linux/string.h
+> +++ b/include/linux/string.h
+> @@ -261,8 +261,9 @@ static inline const char *kbasename(const char *path)
+>   * @count: The number of bytes to copy
+>   * @pad: Character to use for padding if space is left in destination.
+>   */
+> -static inline void memcpy_and_pad(void *dest, size_t dest_len,
+> -                                 const void *src, size_t count, int pad)
+> +static __always_inline void memcpy_and_pad(void *dest, size_t dest_len,
+> +                                          const void *src, size_t count,
+> +                                          int pad)
+
+Why __always_inline here?
+
+>  {
+>         if (dest_len > count) {
+>                 memcpy(dest, src, count);
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 083a19336e20..74523fd394bd 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -370,7 +370,8 @@ TEST_FORTIFY_LOG = test_fortify.log
+>  quiet_cmd_test_fortify = TEST    $@
+>        cmd_test_fortify = $(CONFIG_SHELL) $(srctree)/scripts/test_fortify.sh \
+>                         $< $@ "$(NM)" $(CC) $(c_flags) \
+> -                       $(call cc-disable-warning,fortify-source)
+> +                       $(call cc-disable-warning,fortify-source) \
+> +                       -DKBUILD_EXTRA_WARN1
+>
+>  targets += $(TEST_FORTIFY_LOGS)
+>  clean-files += $(TEST_FORTIFY_LOGS)
+> diff --git a/lib/string_helpers.c b/lib/string_helpers.c
+> index faa9d8e4e2c5..4d205bf5993c 100644
+> --- a/lib/string_helpers.c
+> +++ b/lib/string_helpers.c
+> @@ -884,6 +884,12 @@ char *strreplace(char *s, char old, char new)
+>  EXPORT_SYMBOL(strreplace);
+>
+>  #ifdef CONFIG_FORTIFY_SOURCE
+> +/* These are placeholders for fortify compile-time warnings. */
+> +void __read_overflow2_field(void) { }
+> +EXPORT_SYMBOL(__read_overflow2_field);
+> +void __write_overflow_field(void) { }
+> +EXPORT_SYMBOL(__write_overflow_field);
+> +
+
+Don't we rely on these being undefined for Clang to produce a linkage
+failure (until https://reviews.llvm.org/D106030 has landed)?  By
+providing a symbol definition we can link against, I don't think
+__compiletime_{warning|error} will warn at all with Clang?
+
+>  void fortify_panic(const char *name)
+>  {
+>         pr_emerg("detected buffer overflow in %s\n", name);
+> diff --git a/lib/test_fortify/read_overflow2_field-memcpy.c b/lib/test_fortify/read_overflow2_field-memcpy.c
+> new file mode 100644
+> index 000000000000..de9569266223
+> --- /dev/null
+> +++ b/lib/test_fortify/read_overflow2_field-memcpy.c
+> @@ -0,0 +1,5 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +#define TEST   \
+> +       memcpy(large, instance.buf, sizeof(instance.buf) + 1)
+> +
+> +#include "test_fortify.h"
+> diff --git a/lib/test_fortify/write_overflow_field-memcpy.c b/lib/test_fortify/write_overflow_field-memcpy.c
+> new file mode 100644
+> index 000000000000..28cc81058dd3
+> --- /dev/null
+> +++ b/lib/test_fortify/write_overflow_field-memcpy.c
+> @@ -0,0 +1,5 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +#define TEST   \
+> +       memcpy(instance.buf, large, sizeof(instance.buf) + 1)
+> +
+> +#include "test_fortify.h"
+> --
+
+I haven't read the whole series yet, but I assume test_fortify.h was
+provided earlier in the series?
+-- 
+Thanks,
+~Nick Desaulniers
