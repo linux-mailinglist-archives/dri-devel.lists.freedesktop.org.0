@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213A83D7D82
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F92D3D7D8C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 20:27:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A9AE6EA98;
-	Tue, 27 Jul 2021 18:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF736EC75;
+	Tue, 27 Jul 2021 18:27:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 476E36EA98;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B75D76EB35;
  Tue, 27 Jul 2021 18:27:27 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BD52C22237;
- Tue, 27 Jul 2021 18:27:25 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 430ED22238;
+ Tue, 27 Jul 2021 18:27:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627410445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1627410446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RbBfL4mCTjt0RtM9rcPnqtOKzHPQr0ry5imZlRlAO48=;
- b=xUJvzwt1aqVfdnP7e6n9jHDh5bJCuVbKL5suy5GWaHc4O7kMRwVxWJ5G3hB/ey8/so52i6
- UbaYx7sGgxxAMTcsToqK5xpMqrUOpPZ39KM19xLG4TWSaa2S8+KbjEBl0Tfw4vtB8PkBQQ
- uor/N0XCVw05ycpCaQvOhmLCad6K8c4=
+ bh=8mQOCbOV52pRbUkfuvMipsrJoBTjpbf/hTeFLBcfUcs=;
+ b=rgzy3kKkO/HZMWuFh+nzaWVo7ItC4u82JQl56z0qAxYN3Lb2imiJJFBYIwTGX/wedl9D1z
+ CRFH3a+IgbLzYdrrCC+qNMmiFXYhLl3L8GGRFKWz5mGcOcn4YdC6yCNW4bWmLd20CUkjN/
+ qJ19Nyiz8ibS0NPyrl1OpcoiJNSF5xE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627410445;
+ s=susede2_ed25519; t=1627410446;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RbBfL4mCTjt0RtM9rcPnqtOKzHPQr0ry5imZlRlAO48=;
- b=vXERzI5KPDUe9Sf+lTt1cRBXWjh0B8kqdRJrL6TKmnyTTZwgL26Kh8X5mwg9sWKzHTcFno
- 8HNKFkfUNNHgUJBg==
+ bh=8mQOCbOV52pRbUkfuvMipsrJoBTjpbf/hTeFLBcfUcs=;
+ b=+D0JJ8X3djIZMbjSGIcsbmDjUpxT/mnGOnkfhG4mZv7Y4JoQgF4LUlvRTgDSBFm3B2SQ7h
+ Mi6BpkMjOh+rH7DA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2CD4213B86;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B53A413E9D;
  Tue, 27 Jul 2021 18:27:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0L35CQ1QAGGwGQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id yJo6Kw1QAGGwGQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 27 Jul 2021 18:27:25 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
@@ -54,9 +54,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
  sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
  kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org
-Subject: [PATCH 04/14] drm/fsl-dcu: Convert to Linux IRQ interfaces
-Date: Tue, 27 Jul 2021 20:27:11 +0200
-Message-Id: <20210727182721.17981-5-tzimmermann@suse.de>
+Subject: [PATCH 05/14] drm/gma500: Convert to Linux IRQ interfaces
+Date: Tue, 27 Jul 2021 20:27:12 +0200
+Message-Id: <20210727182721.17981-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210727182721.17981-1-tzimmermann@suse.de>
 References: <20210727182721.17981-1-tzimmermann@suse.de>
@@ -87,150 +87,168 @@ directly or inlined.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 78 +++++++++++++----------
- 1 file changed, 46 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/gma500/power.c   |  1 +
+ drivers/gpu/drm/gma500/psb_drv.c |  8 ++------
+ drivers/gpu/drm/gma500/psb_drv.h |  5 -----
+ drivers/gpu/drm/gma500/psb_irq.c | 26 ++++++++++++++++++++++++--
+ drivers/gpu/drm/gma500/psb_irq.h |  4 ++--
+ 5 files changed, 29 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-index 7528e8a2d359..660fe573db96 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+diff --git a/drivers/gpu/drm/gma500/power.c b/drivers/gpu/drm/gma500/power.c
+index f07641dfa5a4..20ace6010f9f 100644
+--- a/drivers/gpu/drm/gma500/power.c
++++ b/drivers/gpu/drm/gma500/power.c
+@@ -32,6 +32,7 @@
+ #include "psb_drv.h"
+ #include "psb_reg.h"
+ #include "psb_intel_reg.h"
++#include "psb_irq.h"
+ #include <linux/mutex.h>
+ #include <linux/pm_runtime.h>
+ 
+diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+index 3850842d58f3..58bce1a60a4d 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.c
++++ b/drivers/gpu/drm/gma500/psb_drv.c
 @@ -23,7 +23,6 @@
- #include <drm/drm_fb_cma_helper.h>
  #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_ioctl.h>
 -#include <drm/drm_irq.h>
- #include <drm/drm_modeset_helper.h>
- #include <drm/drm_probe_helper.h>
+ #include <drm/drm_pciids.h>
  #include <drm/drm_vblank.h>
-@@ -51,7 +50,7 @@ static const struct regmap_config fsl_dcu_regmap_config = {
- 	.volatile_reg = fsl_dcu_drm_is_volatile_reg,
- };
  
--static void fsl_dcu_irq_uninstall(struct drm_device *dev)
-+static void fsl_dcu_irq_reset(struct drm_device *dev)
- {
- 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+@@ -33,6 +32,7 @@
+ #include "power.h"
+ #include "psb_drv.h"
+ #include "psb_intel_reg.h"
++#include "psb_irq.h"
+ #include "psb_reg.h"
  
-@@ -59,6 +58,45 @@ static void fsl_dcu_irq_uninstall(struct drm_device *dev)
- 	regmap_write(fsl_dev->regmap, DCU_INT_MASK, ~0);
+ static const struct drm_driver driver;
+@@ -380,7 +380,7 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+ 	PSB_WVDC32(0xFFFFFFFF, PSB_INT_MASK_R);
+ 	spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
+ 
+-	drm_irq_install(dev, pdev->irq);
++	psb_irq_install(dev, pdev->irq);
+ 
+ 	dev->max_vblank_count = 0xffffff; /* only 24 bits of frame count */
+ 
+@@ -515,10 +515,6 @@ static const struct drm_driver driver = {
+ 	.lastclose = drm_fb_helper_lastclose,
+ 
+ 	.num_ioctls = ARRAY_SIZE(psb_ioctls),
+-	.irq_preinstall = psb_irq_preinstall,
+-	.irq_postinstall = psb_irq_postinstall,
+-	.irq_uninstall = psb_irq_uninstall,
+-	.irq_handler = psb_irq_handler,
+ 
+ 	.dumb_create = psb_gem_dumb_create,
+ 	.ioctls = psb_ioctls,
+diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+index d6e7c2c2c947..f2bae270ca7b 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.h
++++ b/drivers/gpu/drm/gma500/psb_drv.h
+@@ -624,11 +624,6 @@ static inline struct drm_psb_private *psb_priv(struct drm_device *dev)
  }
  
-+static irqreturn_t fsl_dcu_drm_irq(int irq, void *arg)
-+{
-+	struct drm_device *dev = arg;
-+	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
-+	unsigned int int_status;
-+	int ret;
-+
-+	ret = regmap_read(fsl_dev->regmap, DCU_INT_STATUS, &int_status);
-+	if (ret) {
-+		dev_err(dev->dev, "read DCU_INT_STATUS failed\n");
-+		return IRQ_NONE;
-+	}
-+
-+	if (int_status & DCU_INT_STATUS_VBLANK)
-+		drm_handle_vblank(dev, 0);
-+
-+	regmap_write(fsl_dev->regmap, DCU_INT_STATUS, int_status);
-+
-+	return IRQ_HANDLED;
+ /* psb_irq.c */
+-extern irqreturn_t psb_irq_handler(int irq, void *arg);
+-extern void psb_irq_preinstall(struct drm_device *dev);
+-extern int psb_irq_postinstall(struct drm_device *dev);
+-extern void psb_irq_uninstall(struct drm_device *dev);
+-
+ extern void psb_irq_uninstall_islands(struct drm_device *dev, int hw_islands);
+ extern int psb_vblank_wait2(struct drm_device *dev, unsigned int *sequence);
+ extern int psb_vblank_wait(struct drm_device *dev, unsigned int *sequence);
+diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+index 104009e78487..deb1fbc1f748 100644
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -8,6 +8,7 @@
+  *
+  **************************************************************************/
+ 
++#include <drm/drm_drv.h>
+ #include <drm/drm_vblank.h>
+ 
+ #include "power.h"
+@@ -222,7 +223,7 @@ static void psb_sgx_interrupt(struct drm_device *dev, u32 stat_1, u32 stat_2)
+ 	PSB_RSGX32(PSB_CR_EVENT_HOST_CLEAR2);
+ }
+ 
+-irqreturn_t psb_irq_handler(int irq, void *arg)
++static irqreturn_t psb_irq_handler(int irq, void *arg)
+ {
+ 	struct drm_device *dev = arg;
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
+@@ -304,7 +305,7 @@ void psb_irq_preinstall(struct drm_device *dev)
+ 	spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
+ }
+ 
+-int psb_irq_postinstall(struct drm_device *dev)
++void psb_irq_postinstall(struct drm_device *dev)
+ {
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	unsigned long irqflags;
+@@ -332,12 +333,31 @@ int psb_irq_postinstall(struct drm_device *dev)
+ 		dev_priv->ops->hotplug_enable(dev, true);
+ 
+ 	spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
 +}
 +
-+static int fsl_dcu_irq_install(struct drm_device *dev, unsigned int irq)
++int psb_irq_install(struct drm_device *dev, unsigned int irq)
 +{
++	int ret;
++
 +	if (irq == IRQ_NOTCONNECTED)
 +		return -ENOTCONN;
 +
-+	fsl_dcu_irq_reset(dev);
++	psb_irq_preinstall(dev);
 +
-+	return request_irq(irq, fsl_dcu_drm_irq, 0, dev->driver->name, dev);
-+}
++	/* PCI devices require shared interrupts. */
++	ret = request_irq(irq, psb_irq_handler, IRQF_SHARED, dev->driver->name, dev);
++	if (ret)
++		return ret;
 +
-+static void fsl_dcu_irq_uninstall(struct drm_device *dev)
-+{
-+	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
++	psb_irq_postinstall(dev);
 +
-+	fsl_dcu_irq_reset(dev);
-+	free_irq(fsl_dev->irq, dev);
-+}
-+
- static int fsl_dcu_load(struct drm_device *dev, unsigned long flags)
- {
- 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
-@@ -73,13 +111,13 @@ static int fsl_dcu_load(struct drm_device *dev, unsigned long flags)
- 	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
- 	if (ret < 0) {
- 		dev_err(dev->dev, "failed to initialize vblank\n");
--		goto done;
-+		goto done_vblank;
- 	}
- 
--	ret = drm_irq_install(dev, fsl_dev->irq);
-+	ret = fsl_dcu_irq_install(dev, fsl_dev->irq);
- 	if (ret < 0) {
- 		dev_err(dev->dev, "failed to install IRQ handler\n");
--		goto done;
-+		goto done_irq;
- 	}
- 
- 	if (legacyfb_depth != 16 && legacyfb_depth != 24 &&
-@@ -90,11 +128,11 @@ static int fsl_dcu_load(struct drm_device *dev, unsigned long flags)
- 	}
- 
  	return 0;
--done:
-+done_irq:
- 	drm_kms_helper_poll_fini(dev);
- 
- 	drm_mode_config_cleanup(dev);
--	drm_irq_uninstall(dev);
-+done_vblank:
- 	dev->dev_private = NULL;
- 
- 	return ret;
-@@ -106,41 +144,17 @@ static void fsl_dcu_unload(struct drm_device *dev)
- 	drm_kms_helper_poll_fini(dev);
- 
- 	drm_mode_config_cleanup(dev);
--	drm_irq_uninstall(dev);
-+	fsl_dcu_irq_uninstall(dev);
- 
- 	dev->dev_private = NULL;
  }
  
--static irqreturn_t fsl_dcu_drm_irq(int irq, void *arg)
--{
--	struct drm_device *dev = arg;
--	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
--	unsigned int int_status;
--	int ret;
--
--	ret = regmap_read(fsl_dev->regmap, DCU_INT_STATUS, &int_status);
--	if (ret) {
--		dev_err(dev->dev, "read DCU_INT_STATUS failed\n");
--		return IRQ_NONE;
--	}
--
--	if (int_status & DCU_INT_STATUS_VBLANK)
--		drm_handle_vblank(dev, 0);
--
--	regmap_write(fsl_dev->regmap, DCU_INT_STATUS, int_status);
--
--	return IRQ_HANDLED;
--}
--
- DEFINE_DRM_GEM_CMA_FOPS(fsl_dcu_drm_fops);
+ void psb_irq_uninstall(struct drm_device *dev)
+ {
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	unsigned long irqflags;
+ 	unsigned int i;
  
- static const struct drm_driver fsl_dcu_drm_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.load			= fsl_dcu_load,
- 	.unload			= fsl_dcu_unload,
--	.irq_handler		= fsl_dcu_drm_irq,
--	.irq_preinstall		= fsl_dcu_irq_uninstall,
--	.irq_uninstall		= fsl_dcu_irq_uninstall,
- 	DRM_GEM_CMA_DRIVER_OPS,
- 	.fops			= &fsl_dcu_drm_fops,
- 	.name			= "fsl-dcu-drm",
+@@ -366,6 +386,8 @@ void psb_irq_uninstall(struct drm_device *dev)
+ 	/* This register is safe even if display island is off */
+ 	PSB_WVDC32(PSB_RVDC32(PSB_INT_IDENTITY_R), PSB_INT_IDENTITY_R);
+ 	spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
++
++	free_irq(pdev->irq, dev);
+ }
+ 
+ /*
+diff --git a/drivers/gpu/drm/gma500/psb_irq.h b/drivers/gpu/drm/gma500/psb_irq.h
+index 17c9b0b62471..a97cb49393d8 100644
+--- a/drivers/gpu/drm/gma500/psb_irq.h
++++ b/drivers/gpu/drm/gma500/psb_irq.h
+@@ -19,9 +19,9 @@ bool sysirq_init(struct drm_device *dev);
+ void sysirq_uninit(struct drm_device *dev);
+ 
+ void psb_irq_preinstall(struct drm_device *dev);
+-int  psb_irq_postinstall(struct drm_device *dev);
++void psb_irq_postinstall(struct drm_device *dev);
++int  psb_irq_install(struct drm_device *dev, unsigned int irq);
+ void psb_irq_uninstall(struct drm_device *dev);
+-irqreturn_t psb_irq_handler(int irq, void *arg);
+ 
+ int  psb_enable_vblank(struct drm_crtc *crtc);
+ void psb_disable_vblank(struct drm_crtc *crtc);
 -- 
 2.32.0
 
