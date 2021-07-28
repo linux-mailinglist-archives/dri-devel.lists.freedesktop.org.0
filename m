@@ -1,71 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AAC3D8CD9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 13:37:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E6013D8CF4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 13:44:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2F56E9B8;
-	Wed, 28 Jul 2021 11:37:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 240A36E190;
+	Wed, 28 Jul 2021 11:44:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1356E81B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 11:37:40 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- d131-20020a1c1d890000b02902516717f562so1440352wmd.3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 04:37:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=x7dQKoEiN4Y7R3Tqb5Hw/QxBWYnx2kMDibC8HqvNYe4=;
- b=IttcygM3lgAOG/DzUraZ/ph9DjRhdhcm5mywlsUE9uoi0hMi4ryiY6GYOw2NXFL0QZ
- f+FLjUVvyBXKIUuUHnSENXxwfLGAfSfLOyEk2l6ZT4uqTjMKSru+JMQZDA0lRdDcJ0Un
- Ky68Bg+47k8jjNNTIIA6Mnsvovkft0l8tw4lJbiSeSqYeVgZLy2hiR4iJRMdeIgMbVgt
- UEBa4xAV+YV/cd+RTnVA26DEaXihYJTj6EGgiZRDl2iW95RciZ2Q0gDwN8hrC/GH3umN
- Kd2QsMLjmile4nDz7TXWy715pQWt+XAtCOlsUfcquwdtteXSuTFXZi8xFa6yM57dH+pI
- JMxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=x7dQKoEiN4Y7R3Tqb5Hw/QxBWYnx2kMDibC8HqvNYe4=;
- b=h6z+5OsBlzq3BFeCU+ocNYNAV8TI7Mh46R1eChXDJmL5mCGwU3XE4o4Xtg8jmHB8pJ
- CQ+uxi+NrLwNXivvmlwBsggHwMODX08z8eTRtMfSDBCkQvkyOkxIEXI/N+YUo+fUWvyy
- wCx7Z18/6VmskQH321fhW8jeq0OmcT1qNbY6A+wY4j3Jo/eA/0SduXEs60Ls5NL+jQcV
- az5ewCfMeI/18mGNURO5YzGzWaI2v1sEJ79KM2toSVOCxHtIx3MaviVXD2G7OJXhHb7l
- aiwwwXCIrQtZzoxfoJYrdFfKACL1X7Kj2uEhpeV3SzGaj+vOSVLxw/Sl2+cNDgi8JRy9
- OgpA==
-X-Gm-Message-State: AOAM5313bS+3PZYlsAb1tE61NYLKLMgkRxv2Vy7kRJmUVRQYoF3fHu28
- HouVE4F1W1l33hwDInC3PuQ=
-X-Google-Smtp-Source: ABdhPJyhlRuWNCGP/fuxPdZohPZ4g+6Dy16iPJvG307/5zbdd028y8U6Li7ED60kcXewkVk/1E6s0A==
-X-Received: by 2002:a7b:c181:: with SMTP id y1mr19380231wmi.82.1627472258968; 
- Wed, 28 Jul 2021 04:37:38 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:6a5d:b580:2891:cbac?
- ([2a02:908:1252:fb60:6a5d:b580:2891:cbac])
- by smtp.gmail.com with ESMTPSA id n11sm377546wrs.81.2021.07.28.04.37.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 04:37:38 -0700 (PDT)
-Subject: Re: [RFC 1/4] dma-fence: Add deadline awareness
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Rob Clark <robdclark@gmail.com>
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <20210726233854.2453899-2-robdclark@gmail.com>
- <50b181fe-6605-b7ac-36a6-8bcda2930e6f@gmail.com>
- <CAF6AEGuNxi_aeYE37FT3a-atCUWgepxs-9EwxMfpiMaU7wgqdQ@mail.gmail.com>
- <9edd7083-e6b3-b230-c273-8f2fbe76ca17@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <703dc9c3-5657-432e-ca0b-25bdd67a2abd@gmail.com>
-Date: Wed, 28 Jul 2021 13:37:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A2EB6E190
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 11:44:04 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 24F1C580A7F;
+ Wed, 28 Jul 2021 07:44:02 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 28 Jul 2021 07:44:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=i5DEVqVLKNgvooEShC0umjdJ2dW
+ fZTwOs7vNdYKqxSQ=; b=0BgbYpq4IkNVoYqOUyBiLyBrAwGJVY+ln4bAgptazgh
+ 1CwejsqIVFwUC5pUgsMwLIthCMtpqv/BfXjPCD0+neoCpQ16DAoNOI8WpsLSdeC6
+ sG/i4bfU2FIq86jLEYts4V5Bw/cvuxrsteJ4Fb1YIYsGW0Z7/Y2ShJdKKUTbeds4
+ 12Ai1T9i78SnYMOpdQxXK31QuXdRcyNE2PzRu+/qPjQHMrSg6JHEz6ve53CiS8Ps
+ mdEVDPRhUVLIE4jiCXYMNXCuIYl1EHaWWFeufNK3zKm1N+RiYXp5FLvspRsW2jT8
+ DB5jbr3uSg1ebtxV3Ibz/xUz8KwjnkeWMBPkTcVrNpg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=i5DEVq
+ VLKNgvooEShC0umjdJ2dWfZTwOs7vNdYKqxSQ=; b=DlrXJzFSJVLHT3694RWKKa
+ OlHojgI5BVV+iNI8pCdMcrmf1lt7TnGGwo6mlK8gSh1LGhnP7IoZ+vq1irUCdw+g
+ uaNhlCE1LxZ9jLeStAHi38mVwS9BwuG0c5CwtF0nghxpzzopRj1WowOmS+a8/CEq
+ sY73sYnwNQwoHKrxhsTm0VXemSbkbjiA05NZCkS5X8WubrVEA1uOyOpfyL3C5Sl6
+ kcUO/8z7dGY0sb6i34/5swrFOD1Ga4fwDLs4/I9WZdIeBT9A6fTQrswk9XLFbmMS
+ NJopTmhKavqFLfXPGad5M0hRFgWCQksbfA8Gumaz/V4xkR2foO1wfhR2zGuzvDMg
+ ==
+X-ME-Sender: <xms:AEMBYZ_UTXRS6O6YxOgJ5R2tpeb3At2O-e1dcPWq3y9-dmXZUNrTig>
+ <xme:AEMBYdt9tJ7dPobH7ahYFRQTvv6DqIXUyCvDRN4ofR8WwhBPl-QVefNAMpq7f2g3C
+ dLEAwhwkoenxhCRbms>
+X-ME-Received: <xmr:AEMBYXCwMKOo-Zx1NCAwnS_fvGSAMPD3oP46Rf4RmYuGGQu3yxiP4P78oH3EQ7vYFcfeHCMdDdRwP6BbqeeirY25I_UKBvO2zTvJ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeelgdegudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:AEMBYdcrY0bw9gZLa1YkFX5CfeAal6XF581e-dgTraURedUB_9KAMg>
+ <xmx:AEMBYeOYFCp5U1JIr-xBMm15Z9Nhrknm2N7qvOmer6eli-LIsuwPyg>
+ <xmx:AEMBYfmmS7ikjrtw094UitImn-9XDk_2Ql8mhIyUeTbSGunOtVugRA>
+ <xmx:AkMBYVnb0OHWiHg4rcYuit3XgkrnLhlSTYlUegXEjlCWB8lk-D5zIg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 28 Jul 2021 07:43:59 -0400 (EDT)
+Date: Wed, 28 Jul 2021 13:43:56 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 2/2] drm/vc4: hdmi: Remove unused struct
+Message-ID: <20210728114356.45atxmgchoh5dec5@gilmour>
+References: <20210707093632.1468127-1-maxime@cerno.tech>
+ <20210707093632.1468127-2-maxime@cerno.tech>
+ <CAPY8ntAAE+N79T7Q15URHRkGf+N6f2DKNjtyp+74AFjNdb3Prg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <9edd7083-e6b3-b230-c273-8f2fbe76ca17@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xk3qsked5wiwxew6"
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntAAE+N79T7Q15URHRkGf+N6f2DKNjtyp+74AFjNdb3Prg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,187 +81,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, Rob Clark <robdclark@chromium.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Tim Gover <tim.gover@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ kernel test robot <lkp@intel.com>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 28.07.21 um 09:03 schrieb Christian König:
-> Am 27.07.21 um 16:25 schrieb Rob Clark:
->> On Tue, Jul 27, 2021 at 12:11 AM Christian König
->> <ckoenig.leichtzumerken@gmail.com> wrote:
->>> Am 27.07.21 um 01:38 schrieb Rob Clark:
->>>> From: Rob Clark <robdclark@chromium.org>
->>>>
->>>> Add a way to hint to the fence signaler of an upcoming deadline, 
->>>> such as
->>>> vblank, which the fence waiter would prefer not to miss. This is to 
->>>> aid
->>>> the fence signaler in making power management decisions, like boosting
->>>> frequency as the deadline approaches and awareness of missing 
->>>> deadlines
->>>> so that can be factored in to the frequency scaling.
->>>>
->>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>>> ---
->>>>    drivers/dma-buf/dma-fence.c | 39 
->>>> +++++++++++++++++++++++++++++++++++++
->>>>    include/linux/dma-fence.h   | 17 ++++++++++++++++
->>>>    2 files changed, 56 insertions(+)
->>>>
->>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>>> index ce0f5eff575d..2e0d25ab457e 100644
->>>> --- a/drivers/dma-buf/dma-fence.c
->>>> +++ b/drivers/dma-buf/dma-fence.c
->>>> @@ -910,6 +910,45 @@ dma_fence_wait_any_timeout(struct dma_fence 
->>>> **fences, uint32_t count,
->>>>    }
->>>>    EXPORT_SYMBOL(dma_fence_wait_any_timeout);
->>>>
->>>> +
->>>> +/**
->>>> + * dma_fence_set_deadline - set desired fence-wait deadline
->>>> + * @fence:    the fence that is to be waited on
->>>> + * @deadline: the time by which the waiter hopes for the fence to be
->>>> + *            signaled
->>>> + *
->>>> + * Inform the fence signaler of an upcoming deadline, such as 
->>>> vblank, by
->>>> + * which point the waiter would prefer the fence to be signaled 
->>>> by.  This
->>>> + * is intended to give feedback to the fence signaler to aid in power
->>>> + * management decisions, such as boosting GPU frequency if a periodic
->>>> + * vblank deadline is approaching.
->>>> + */
->>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t 
->>>> deadline)
->>>> +{
->>>> +     unsigned long flags;
->>>> +
->>>> +     if (dma_fence_is_signaled(fence))
->>>> +             return;
->>>> +
->>>> +     spin_lock_irqsave(fence->lock, flags);
->>>> +
->>>> +     /* If we already have an earlier deadline, keep it: */
->>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags) &&
->>>> +         ktime_before(fence->deadline, deadline)) {
->>>> +             spin_unlock_irqrestore(fence->lock, flags);
->>>> +             return;
->>>> +     }
->>>> +
->>>> +     fence->deadline = deadline;
->>>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags);
->>>> +
->>>> +     spin_unlock_irqrestore(fence->lock, flags);
->>>> +
->>>> +     if (fence->ops->set_deadline)
->>>> +             fence->ops->set_deadline(fence, deadline);
->>>> +}
->>>> +EXPORT_SYMBOL(dma_fence_set_deadline);
->>>> +
->>>>    /**
->>>>     * dma_fence_init - Initialize a custom fence.
->>>>     * @fence: the fence to initialize
->>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>>> index 6ffb4b2c6371..4e6cfe4e6fbc 100644
->>>> --- a/include/linux/dma-fence.h
->>>> +++ b/include/linux/dma-fence.h
->>>> @@ -88,6 +88,7 @@ struct dma_fence {
->>>>                /* @timestamp replaced by @rcu on 
->>>> dma_fence_release() */
->>>>                struct rcu_head rcu;
->>>>        };
->>>> +     ktime_t deadline;
->>> Mhm, adding the flag sounds ok to me but I'm a bit hesitating adding 
->>> the
->>> deadline as extra field here.
->>>
->>> We tuned the dma_fence structure intentionally so that it is only 64 
->>> bytes.
->> Hmm, then I guess you wouldn't be a fan of also adding an hrtimer?
->>
->> We could push the ktime_t (and timer) down into the derived fence
->> class, but I think there is going to need to be some extra storage
->> *somewhere*.. maybe the fence signaler could get away with just
->> storing the nearest upcoming deadline per fence-context instead?
->
-> I would just push that into the driver instead.
->
-> You most likely don't want the deadline per fence anyway in complex 
-> scenarios, but rather per frame. And a frame is usually composed from 
-> multiple fences.
 
-Thinking more about it we could probably kill the spinlock pointer and 
-make the flags 32bit if we absolutely need that here.
+--xk3qsked5wiwxew6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But I still don't see the need for that, especially since most drivers 
-probably won't implement it.
+On Wed, Jul 28, 2021 at 12:01:34PM +0100, Dave Stevenson wrote:
+> On Wed, 7 Jul 2021 at 10:36, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > Commit 91e99e113929 ("drm/vc4: hdmi: Register HDMI codec") removed the
+> > references to the vc4_hdmi_audio_component_drv structure, but not the
+> > structure itself resulting in a warning. Remove it.
+> >
+> > Fixes: 91e99e113929 ("drm/vc4: hdmi: Register HDMI codec")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Regards,
-Christian.
+Applied, thanks!
+Maxime
 
->
-> Regards,
-> Christian.
->
->>
->> BR,
->> -R
->>
->>> Regards,
->>> Christian.
->>>
->>>>        u64 context;
->>>>        u64 seqno;
->>>>        unsigned long flags;
->>>> @@ -99,6 +100,7 @@ enum dma_fence_flag_bits {
->>>>        DMA_FENCE_FLAG_SIGNALED_BIT,
->>>>        DMA_FENCE_FLAG_TIMESTAMP_BIT,
->>>>        DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->>>> +     DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
->>>>        DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
->>>>    };
->>>>
->>>> @@ -261,6 +263,19 @@ struct dma_fence_ops {
->>>>         */
->>>>        void (*timeline_value_str)(struct dma_fence *fence,
->>>>                                   char *str, int size);
->>>> +
->>>> +     /**
->>>> +      * @set_deadline:
->>>> +      *
->>>> +      * Callback to allow a fence waiter to inform the fence 
->>>> signaler of an
->>>> +      * upcoming deadline, such as vblank, by which point the 
->>>> waiter would
->>>> +      * prefer the fence to be signaled by.  This is intended to 
->>>> give feedback
->>>> +      * to the fence signaler to aid in power management 
->>>> decisions, such as
->>>> +      * boosting GPU frequency.
->>>> +      *
->>>> +      * This callback is optional.
->>>> +      */
->>>> +     void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
->>>>    };
->>>>
->>>>    void dma_fence_init(struct dma_fence *fence, const struct 
->>>> dma_fence_ops *ops,
->>>> @@ -586,6 +601,8 @@ static inline signed long dma_fence_wait(struct 
->>>> dma_fence *fence, bool intr)
->>>>        return ret < 0 ? ret : 0;
->>>>    }
->>>>
->>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t 
->>>> deadline);
->>>> +
->>>>    struct dma_fence *dma_fence_get_stub(void);
->>>>    struct dma_fence *dma_fence_allocate_private_stub(void);
->>>>    u64 dma_fence_context_alloc(unsigned num);
->
+--xk3qsked5wiwxew6
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYQFC/AAKCRDj7w1vZxhR
+xd2CAP4mDadHiXJx5q3SwTlgirzxV7iiapFkcxzUnMvR7riZqgD+MLpH/7goDQTx
+7mEM/yZfEZ3idqk11ewlUBlqunMdpQY=
+=AdMi
+-----END PGP SIGNATURE-----
+
+--xk3qsked5wiwxew6--
