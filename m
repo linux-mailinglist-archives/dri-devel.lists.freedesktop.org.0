@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4F43D8767
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 07:49:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E884A3D876E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 07:49:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112496EC9A;
-	Wed, 28 Jul 2021 05:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DB36ECA4;
+	Wed, 28 Jul 2021 05:49:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECF96EC9A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 05:48:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5E4BA60F00;
- Wed, 28 Jul 2021 05:48:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E42A6ECA1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 05:49:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1AAED60F00;
+ Wed, 28 Jul 2021 05:49:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1627451334;
- bh=JbVsyLEsyV0K95tq78eYFj+nbQBWex8TPUG2O5qezhI=;
+ s=korg; t=1627451388;
+ bh=Uj+QHLYAZir2Mxo6cu76dwsKyC/KhFwLcw7JJiMlAdM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LoC9EgXWUIVE6yfgEZosITUtLaP51IYAc4EF8BMu6yXcuHArSq3YpSLR0z9QW9PkB
- rOHss0A4SNXP4+opIRM5+O+mGIbwTTaMd/SSh7hXGIKc3F31yUanRxa81+9XqFAzLR
- gpTe0njI/NP4taNwLMzklkg1vAwgKq5naQqJEoXw=
-Date: Wed, 28 Jul 2021 07:48:52 +0200
+ b=xXqgpI3gRWbEy8rq81hxDjfK+j0CJIwxB4I/Ae+KVbzLUN+qdK/pkNEczVCdkC1CB
+ fCtfqsbsZlEcEq2hviBrmXL0uuu3qCrtSJHnbcmW2vDKkOM3HbDWqFcTxWgnkWe11v
+ 7rqUxCHJeMJoMg8dvgFXbVdy0U19thX2bW8vYx0g=
+Date: Wed, 28 Jul 2021 07:49:46 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH 49/64] cm4000_cs: Use struct_group() to zero struct
- cm4000_dev region
-Message-ID: <YQDvxAofJlI1JoGZ@kroah.com>
+Subject: Re: [PATCH 62/64] netlink: Avoid false-positive memcpy() warning
+Message-ID: <YQDv+oG7ok0T1L+r@kroah.com>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-50-keescook@chromium.org>
+ <20210727205855.411487-63-keescook@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210727205855.411487-50-keescook@chromium.org>
+In-Reply-To: <20210727205855.411487-63-keescook@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,17 +53,36 @@ Cc: linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 01:58:40PM -0700, Kees Cook wrote:
+On Tue, Jul 27, 2021 at 01:58:53PM -0700, Kees Cook wrote:
 > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields.
 > 
-> Add struct_group() to mark region of struct cm4000_dev that should be
-> initialized to zero.
+> Add a flexible array member to mark the end of struct nlmsghdr, and
+> split the memcpy() to avoid false positive memcpy() warning:
+> 
+> memcpy: detected field-spanning write (size 32) of single field (size 16)
 > 
 > Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  drivers/char/pcmcia/cm4000_cs.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  include/uapi/linux/netlink.h | 1 +
+>  net/netlink/af_netlink.c     | 4 +++-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
+> index 4c0cde075c27..ddeaa748df5e 100644
+> --- a/include/uapi/linux/netlink.h
+> +++ b/include/uapi/linux/netlink.h
+> @@ -47,6 +47,7 @@ struct nlmsghdr {
+>  	__u16		nlmsg_flags;	/* Additional flags */
+>  	__u32		nlmsg_seq;	/* Sequence number */
+>  	__u32		nlmsg_pid;	/* Sending process port ID */
+> +	__u8		contents[];
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Is this ok to change a public, userspace visable, structure?
+
+Nothing breaks?
+
+thanks,
+
+greg k-h
