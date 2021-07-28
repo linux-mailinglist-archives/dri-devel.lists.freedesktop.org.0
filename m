@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524123D9633
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 21:53:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A22BB3D95A1
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 20:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1D26E887;
-	Wed, 28 Jul 2021 19:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88C536E079;
+	Wed, 28 Jul 2021 18:57:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
- [IPv6:2607:f8b0:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9036E0F5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 18:56:00 +0000 (UTC)
-Received: by mail-il1-x132.google.com with SMTP id x7so82569ilh.10
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 11:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=pg9Oc8FexJdwg++WGxFIyzfbO7HtZXQu4+lhfbZZJSA=;
- b=SmUnU1tPVN9i/9tG/rMNoyq8GC2Ca9VXG2fndr5Q7lbUN7q2OvL7b3A8tyIlk4aRZO
- 8CxuepNlFVgtbqoM3ADQ3U0+DYSTh4XKY1ShBRwP2xptYX4NzEjxotT52leIbd5xNRXk
- 9vOonTxqSQqQW8naRs/ta+UU9thoYqHRLs8DxUAFrNPA0djreJxetA6MW8BtY4WeIUIW
- dOTRz3L5cqS+wmNpuKdYDrs8Y7JxgzfS82zfkL2T7J9e0mh4UxOrd8m2b0kxlUw+Ng/I
- ath2ZAyFnQXTEeGUJcV4oPxvcRcr2dsP1ecLOrYEwKb4egINVvb+Xoa2A3ZtaP1NLjlz
- iCpg==
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD966E079
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 18:57:16 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id d1so3865790pll.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=127Od1Z5L5mrPERJlQTktPz34XXJuvOrvHqT3KKh12Q=;
+ b=CT/CUy6V11s/6KhYMzSsdsMDErLudpJAHUqNC0Rpu9F7Ero2CNsiQemV80Kh7YxA18
+ O09bddDAkQD5N79FTWd2JhufucZWJdvUnGQK4C3MDdI6o+fliBhy2PpoYHcWAEFN4pot
+ mlS6O/Te+d+/T7xLqqDiIN6UOLBL2XxRO5jCQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=pg9Oc8FexJdwg++WGxFIyzfbO7HtZXQu4+lhfbZZJSA=;
- b=JpUMI8fSpBrehLE3EZzLaBgTKlNVwT6DrNHpO5dx+KbEN0wykv17iTkDY80z/MNbnG
- 6D3PFeD96z10iS9XfcyeTWcMt080JXMp93/IDeMafEhRYnxlpy54CyNGrM6OZv0i97Iv
- tzq5iSkSST+MW2Fbok9ovI9Ab5dN+azOhvvcBG0RTFNa049C5Zg14u/JtpimjezyO21l
- tCSe38+qfYQXvk6w6DnmUjp0DJW2lmVzDs3MCZPl82tszp3mwKaV/S/raPXSaWCfbm15
- q86A1g2R6PmoFg7pSwor8wrf82unKs6qRqgD5cRGXQtg0O75aRSQvaQ7gHIgnatV/IFB
- vDoA==
-X-Gm-Message-State: AOAM533kOf+RgiOK35H6VFcxVwnTjQ+PhrIsNmExMqIGjZ6QRCgCMHsL
- vusWdZHQ0YSerEkGn95+2ogKymJZJXgwbeFCDNs=
-X-Google-Smtp-Source: ABdhPJzdp7XedqkKalo1YzTM6wrHzAyIyMCWMFfqhgcBbZM/+eDvInL7H0YNQ6mczgM/TVmUc+xtfPhLFrpBLGI8h4k=
-X-Received: by 2002:a05:6e02:dcd:: with SMTP id
- l13mr851205ilj.300.1627498559514; 
- Wed, 28 Jul 2021 11:55:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:6e04:29b:0:0:0:0 with HTTP; Wed, 28 Jul 2021 11:55:58
- -0700 (PDT)
-In-Reply-To: <20210727205855.411487-16-keescook@chromium.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=127Od1Z5L5mrPERJlQTktPz34XXJuvOrvHqT3KKh12Q=;
+ b=H/qZVdhG1x6EX2Tyi8Z9GfAjIf8BwSg8f50xLEvqgYHZfSMLNU/9uF4KnP7R9oyFKV
+ MOUUfuLG6N5gsmPOT+hNNkr3KXqtJx52NmNFo+E/E/e9nPCASEuubfi5xz/M3MPMZmpf
+ ReJFAbRKtWoO1iIDKYW2877AJWZV0aQ/n+6Y5Enl5FxixIfZj5tePIWBfZ70XW7nZvdk
+ Wi5hNtN1Khx2TnKhIHzVyYwlfOVPPWcrfOlkaF4rRwT8iUU+9PgSOU41fg1FFIMlVTHm
+ ddq8vAhhpcCn7iTh4CVUtTA6GSSCrRUPLHdCP5MMqv9JUWT71Rcs4nfU9zrKge/gIr0U
+ dHmA==
+X-Gm-Message-State: AOAM530XOf+dMb8Bs2vA7EfxLmxU0nQjjLAmEY3F7SWeFVGdtXsJXI5K
+ bqH694/1jW/YkoQfnbkBx9ZWTA==
+X-Google-Smtp-Source: ABdhPJznHpu/gslPhcK+chR4/yRixyO0Zt/1nxlU5ZOnQ6g7gqNYFE0PSpANagAqHnwDfuJHc+ddvw==
+X-Received: by 2002:a63:4c26:: with SMTP id z38mr313058pga.376.1627498636621; 
+ Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id d14sm5792859pjc.0.2021.07.28.11.57.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
+Date: Wed, 28 Jul 2021 11:57:15 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: [PATCH 36/64] scsi: ibmvscsi: Avoid multi-field memset()
+ overflow by aiming at srp
+Message-ID: <202107281152.515A3BA@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-16-keescook@chromium.org>
-From: Stanislav Yakovlev <stas.yakovlev@gmail.com>
-Date: Wed, 28 Jul 2021 22:55:58 +0400
-Message-ID: <CA++WF2M464stM5Cb8EpX+ecda5yymSZ0Z8PFPFEoqZ_iFhaScQ@mail.gmail.com>
-Subject: Re: [PATCH 15/64] ipw2x00: Use struct_group() for memcpy() region
-To: Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 28 Jul 2021 19:53:08 +0000
+ <20210727205855.411487-37-keescook@chromium.org>
+ <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,43 +67,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kbuild@vger.kernel.org,
+Cc: Tyrel Datwyler <tyreld@linux.ibm.com>, linux-kbuild@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
  linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
  Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+ netdev@vger.kernel.org, Brian King <brking@linux.vnet.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/07/2021, Kees Cook <keescook@chromium.org> wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field array bounds checking for memcpy(), memmove(), and memset(),
-> avoid intentionally writing across neighboring fields.
->
-> Use struct_group() in struct libipw_qos_information_element around
-> members qui, qui_type, qui_subtype, version, and ac_info, so they can be
-> referenced together. This will allow memcpy() and sizeof() to more easily
-> reason about sizes, improve readability, and avoid future warnings about
-> writing beyond the end of qui.
->
-> "pahole" shows no size nor member offset changes to struct
-> libipw_qos_information_element.
->
-> Additionally corrects the size in libipw_read_qos_param_element() as
-> it was testing the wrong structure size (it should have been struct
-> libipw_qos_information_element, not struct libipw_qos_parameter_info).
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  drivers/net/wireless/intel/ipw2x00/libipw.h    | 12 +++++++-----
->  drivers/net/wireless/intel/ipw2x00/libipw_rx.c |  8 ++++----
->  2 files changed, 11 insertions(+), 9 deletions(-)
->
+On Tue, Jul 27, 2021 at 09:39:39PM -0400, Martin K. Petersen wrote:
+> 
+> Kees,
+> 
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memset(), avoid intentionally writing across
+> > neighboring fields.
+> >
+> > Instead of writing beyond the end of evt_struct->iu.srp.cmd, target the
+> > upper union (evt_struct->iu.srp) instead, as that's what is being wiped.
+> >
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> 
+> Orthogonal to your change, it wasn't immediately obvious to me that
+> SRP_MAX_IU_LEN was the correct length to use for an srp_cmd. However, I
+> traversed the nested unions and it does look OK.
 
-Acked-by: Stanislav Yakovlev <stas.yakovlev@gmail.com>
+Yeah, I had the same fun. Maybe I should add a BUILD_BUG_ON() here to
+help illustrate the relationship? I did that in a few other places where
+the equalities weren't very clear.
 
-Looks fine, thanks!
+For example, change it to:
 
-Stanislav.
++	BUILD_BUG_ON(sizeof(evt_struct->iu.srp) != SRP_MAX_IU_LEN);
++	memset(&evt_struct->iu.srp, 0x00, sizeof(evt_struct->iu.srp));
+ 	srp_cmd = &evt_struct->iu.srp.cmd;
+-	memset(srp_cmd, 0x00, SRP_MAX_IU_LEN);
+
+> 
+> For good measure I copied Tyrel and Brian.
+> 
+> Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
+
+For the moment, I'll leave the patch as-is unless you prefer having
+the BUILD_BUG_ON(). :)
+
+Thanks!
+
+-Kees
+
+> 
+> > ---
+> >  drivers/scsi/ibmvscsi/ibmvscsi.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/scsi/ibmvscsi/ibmvscsi.c b/drivers/scsi/ibmvscsi/ibmvscsi.c
+> > index e6a3eaaa57d9..7e8beb42d2d3 100644
+> > --- a/drivers/scsi/ibmvscsi/ibmvscsi.c
+> > +++ b/drivers/scsi/ibmvscsi/ibmvscsi.c
+> > @@ -1055,8 +1055,8 @@ static int ibmvscsi_queuecommand_lck(struct scsi_cmnd *cmnd,
+> >  		return SCSI_MLQUEUE_HOST_BUSY;
+> >  
+> >  	/* Set up the actual SRP IU */
+> > +	memset(&evt_struct->iu.srp, 0x00, SRP_MAX_IU_LEN);
+> >  	srp_cmd = &evt_struct->iu.srp.cmd;
+> > -	memset(srp_cmd, 0x00, SRP_MAX_IU_LEN);
+> >  	srp_cmd->opcode = SRP_CMD;
+> >  	memcpy(srp_cmd->cdb, cmnd->cmnd, sizeof(srp_cmd->cdb));
+> >  	int_to_scsilun(lun, &srp_cmd->lun);
+> 
+> -- 
+> Martin K. Petersen	Oracle Linux Engineering
+
+
+-- 
+Kees Cook
