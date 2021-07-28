@@ -2,41 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3C83D88A5
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 09:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA493D88B9
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 09:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 733586E3F5;
-	Wed, 28 Jul 2021 07:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 553686E1B7;
+	Wed, 28 Jul 2021 07:18:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37686E3F5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 07:16:07 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id b0815579-ef73-11eb-9082-0050568c148b;
- Wed, 28 Jul 2021 07:16:12 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 85CB7194B83;
- Wed, 28 Jul 2021 09:16:26 +0200 (CEST)
-Date: Wed, 28 Jul 2021 09:16:03 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Subject: Re: [PATCH 04/14] drm/kmb : W/A for 256B cache alignment for video
-Message-ID: <YQEEM7YKYd9go3WN@ravnborg.org>
-References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
- <20210728003126.1425028-4-anitha.chrisanthus@intel.com>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 011BD6E1B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 07:18:06 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627456688; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=uTWyTqMs+PRR6Vr7fo7QE9aqKJhA7o/4CIJbMLl7ewQ=;
+ b=d773LqMttmyxLzz8eF9XubBokyvkK81dzu/kLZwdU4QcsfB7W0QD2r6RqS5NZ3bb8V30lkm5
+ fIHSTDjzrgsz0sPYanIei4CoDWF8CirMJLtxR/Y1F/MSyHF1XgDz9xLnPlYF40A04RKLH3W+
+ 5XgIhPgP/zsLd+CHKl3gDDjWK3k=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 610104a117c2b4047d48f1c5 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Jul 2021 07:17:53
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 14A36C4338A; Wed, 28 Jul 2021 07:17:53 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.2 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.105] (unknown [59.89.229.93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id F0052C433D3;
+ Wed, 28 Jul 2021 07:17:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F0052C433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+Subject: Re: [PATCH v2] arm64: dts: qcom: sc7280: Add gpu support
+To: Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
+ <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, freedreno
+ <freedreno@lists.freedesktop.org>, linux-arm-msm@vger.kernel.org
+References: <1627147740-11590-1-git-send-email-akhilpo@codeaurora.org>
+ <CAE-0n52mEy1GReYwcVrffT2KOy4EHMHH-RyCJ_mmxhaeXwGdYA@mail.gmail.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+Message-ID: <e1a28bed-a2a9-2bf2-d0f0-3f608a538f69@codeaurora.org>
+Date: Wed, 28 Jul 2021 12:47:45 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210728003126.1425028-4-anitha.chrisanthus@intel.com>
+In-Reply-To: <CAE-0n52mEy1GReYwcVrffT2KOy4EHMHH-RyCJ_mmxhaeXwGdYA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,186 +77,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: edmund.j.dea@intel.com, dri-devel@lists.freedesktop.org
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Jonathan Marek <jonathan@marek.ca>, linux-kernel@vger.kernel.org,
+ Andy Gross <agross@kernel.org>, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Matthias Kaehlcke <mka@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Anitha,
-On Tue, Jul 27, 2021 at 05:31:16PM -0700, Anitha Chrisanthus wrote:
-> For B0 silicon, the media driver pads the decoded video dmabufs for 256B
-> alignment. This is the backing buffer of the framebuffer and info in the
-> drm frame buffer is not correct for these buffers as this is done
-> internally in the media driver. This change extracts the meta data info
-> from dmabuf priv structure and uses that info for programming stride and
-> offsets in kmb_plane_atomic_update().
+On 7/27/2021 5:46 AM, Stephen Boyd wrote:
+> Quoting Akhil P Oommen (2021-07-24 10:29:00)
+>> Add the necessary dt nodes for gpu support in sc7280.
+>>
+>> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+>> ---
+>> This patch has dependency on the GPUCC bindings patch here:
+>> https://patchwork.kernel.org/project/linux-arm-msm/patch/1619519590-3019-4-git-send-email-tdas@codeaurora.org/
 > 
-> Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
-> Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
-> Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> To avoid the dependency the plain numbers can be used.
 
-Drop extra space in subject before ':'
+But, won't that reduce readability and make things prone to error? If 
+the other patch doesn't get picked up soon, we should try this option. 
+We like to get this patch merged in v5.15.
 
-
-> ---
->  drivers/gpu/drm/kmb/kmb_drv.h    |  1 +
->  drivers/gpu/drm/kmb/kmb_plane.c  | 38 ++++++++++++++++++++---
->  drivers/gpu/drm/kmb/kmb_vidmem.h | 52 ++++++++++++++++++++++++++++++++
->  3 files changed, 87 insertions(+), 4 deletions(-)
->  create mode 100644 drivers/gpu/drm/kmb/kmb_vidmem.h
 > 
-> diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
-> index ebbaa5f422d5..0904e6eb2a09 100644
-> --- a/drivers/gpu/drm/kmb/kmb_drv.h
-> +++ b/drivers/gpu/drm/kmb/kmb_drv.h
-> @@ -49,6 +49,7 @@ struct kmb_drm_private {
->  	int				kmb_under_flow;
->  	int				kmb_flush_done;
->  	int				layer_no;
-> +	struct viv_vidmem_metadata	*md_info;
-I cannot see this member used in this patch - can it be dropped?
+>>
+>> Changes in v2:
+>> - formatting update and removed a duplicate header (Stephan)
+>>
+>>   arch/arm64/boot/dts/qcom/sc7280.dtsi | 116 +++++++++++++++++++++++++++++++++++
+>>   1 file changed, 116 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>> index 029723a..524a5e0 100644
+>> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>> @@ -585,6 +586,121 @@
+>>                          #clock-cells = <1>;
+>>                  };
+>>
+>> +               gpu@3d00000 {
+>> +                       compatible = "qcom,adreno-635.0", "qcom,adreno";
+>> +                       #stream-id-cells = <16>;
+>> +                       reg = <0 0x03d00000 0 0x40000>,
+>> +                             <0 0x03d9e000 0 0x1000>,
+>> +                             <0 0x03d61000 0 0x800>;
+>> +                       reg-names = "kgsl_3d0_reg_memory",
+>> +                                   "cx_mem",
+>> +                                   "cx_dbgc";
+>> +                       interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
+>> +                       iommus = <&adreno_smmu 0 0x401>;
+>> +                       operating-points-v2 = <&gpu_opp_table>;
+>> +                       qcom,gmu = <&gmu>;
+>> +                       interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
+>> +                       interconnect-names = "gfx-mem";
+>> +
+>> +                       gpu_opp_table: opp-table {
+>> +                               compatible = "operating-points-v2";
+>> +
+>> +                               opp-550000000 {
+>> +                                       opp-hz = /bits/ 64 <550000000>;
+>> +                                       opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+>> +                                       opp-peak-kBps = <6832000>;
+>> +                               };
+>> +
+>> +                               opp-450000000 {
+>> +                                       opp-hz = /bits/ 64 <450000000>;
+>> +                                       opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+>> +                                       opp-peak-kBps = <4068000>;
+>> +                               };
+>> +
+>> +                               opp-315000000 {
+>> +                                       opp-hz = /bits/ 64 <315000000>;
+>> +                                       opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+>> +                                       opp-peak-kBps = <1804000>;
+>> +                               };
+>> +                       };
+>> +               };
+>> +
+>> +               gmu: gmu@3d69000 {
+>> +                       compatible="qcom,adreno-gmu-635.0", "qcom,adreno-gmu";
+>> +                       reg = <0 0x03d6a000 0 0x34000>,
+>> +                               <0 0x3de0000 0 0x10000>,
+>> +                               <0 0x0b290000 0 0x10000>;
+>> +                       reg-names = "gmu", "rscc", "gmu_pdc";
+>> +                       interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
+>> +                       interrupt-names = "hfi", "gmu";
+>> +                       clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
+>> +                                       <&gpucc GPU_CC_CXO_CLK>,
+>> +                                       <&gcc GCC_DDRSS_GPU_AXI_CLK>,
+>> +                                       <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
+>> +                                       <&gpucc GPU_CC_AHB_CLK>,
+>> +                                       <&gpucc GPU_CC_HUB_CX_INT_CLK>,
+>> +                                       <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
+>> +                       clock-names = "gmu",
+>> +                                     "cxo",
+>> +                                     "axi",
+>> +                                     "memnoc",
+>> +                                     "ahb",
+>> +                                     "hub",
+>> +                                     "smmu_vote";
+>> +                       power-domains = <&gpucc GPU_CC_CX_GDSC>,
+>> +                                       <&gpucc GPU_CC_GX_GDSC>;
+>> +                       power-domain-names = "cx",
+>> +                                            "gx";
+>> +                       iommus = <&adreno_smmu 5 0x400>;
+>> +                       operating-points-v2 = <&gmu_opp_table>;
+>> +
+>> +                       gmu_opp_table: opp-table {
+>> +                               compatible = "operating-points-v2";
+>> +
+>> +                               opp-200000000 {
+>> +                                       opp-hz = /bits/ 64 <200000000>;
+>> +                                       opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
+>> +                               };
+>> +                       };
+>> +               };
+>> +
+>> +               adreno_smmu: iommu@3da0000 {
+>> +                       compatible = "qcom,sc7280-smmu-500", "qcom,adreno-smmu", "arm,mmu-500";
+>> +                       reg = <0 0x03da0000 0 0x20000>;
+>> +                       #iommu-cells = <2>;
+>> +                       #global-interrupts = <2>;
+>> +                       interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 675 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
+>> +                                       <GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>;
+>> +
+>> +                       clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
+>> +                                       <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
+>> +                                       <&gpucc GPU_CC_AHB_CLK>,
+>> +                                       <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
+>> +                                       <&gpucc GPU_CC_CX_GMU_CLK>,
+>> +                                       <&gpucc GPU_CC_HUB_CX_INT_CLK>,
+>> +                                       <&gpucc GPU_CC_HUB_AON_CLK>;
+>> +                       clock-names = "gcc_gpu_memnoc_gfx_clk",
+>> +                                       "gcc_gpu_snoc_dvm_gfx_clk",
+>> +                                       "gpu_cc_ahb_clk",
+>> +                                       "gpu_cc_hlos1_vote_gpu_smmu_clk",
+>> +                                       "gpu_cc_cx_gmu_clk",
+>> +                                       "gpu_cc_hub_cx_int_clk",
+>> +                                       "gpu_cc_hub_aon_clk";
+>> +
+>> +                       power-domains = <&gpucc GPU_CC_CX_GDSC>;
+>> +               };
+>> +
+>>                  lpass_ag_noc: interconnect@3c40000 {
+> 
+> This node is 3c40000 and the one above is 3da0000. 3c comes before 3d.
+> Please order nodes properly.
 
->  };
->  
->  static inline struct kmb_drm_private *to_kmb(const struct drm_device *dev)
-> diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-> index 2888dd5dcc2c..e45419d6ed96 100644
-> --- a/drivers/gpu/drm/kmb/kmb_plane.c
-> +++ b/drivers/gpu/drm/kmb/kmb_plane.c
-> @@ -11,12 +11,16 @@
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_managed.h>
->  #include <drm/drm_plane_helper.h>
->  
-> +#include <linux/dma-buf.h>
-> +
->  #include "kmb_drv.h"
->  #include "kmb_plane.h"
->  #include "kmb_regs.h"
-> +#include "kmb_vidmem.h"
->  
->  const u32 layer_irqs[] = {
->  	LCD_INT_VL0,
-> @@ -294,8 +298,10 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
->  	unsigned int ctrl = 0, val = 0, out_format = 0;
->  	unsigned int src_w, src_h, crtc_x, crtc_y;
->  	unsigned char plane_id;
-> -	int num_planes;
-> +	int num_planes, i;
->  	static dma_addr_t addr[MAX_SUB_PLANES];
-> +	struct viv_vidmem_metadata *md = NULL;
-> +	struct drm_gem_object *gem_obj;
->  
->  	if (!plane || !new_plane_state || !old_plane_state)
->  		return;
-> @@ -325,6 +331,16 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
->  	drm_dbg(&kmb->drm,
->  		"src_w=%d src_h=%d, fb->format->format=0x%x fb->flags=0x%x\n",
->  		  src_w, src_h, fb->format->format, fb->flags);
-> +	gem_obj = drm_gem_fb_get_obj(fb, plane_id);
-> +	if (gem_obj && gem_obj->import_attach &&
-> +	    gem_obj->import_attach->dmabuf &&
-> +	    gem_obj->import_attach->dmabuf->priv) {
-> +		md = gem_obj->import_attach->dmabuf->priv;
-> +
-> +		/* Check if metadata is coming from hantro driver */
-> +		if (md->magic != HANTRO_IMAGE_VIV_META_DATA_MAGIC)
-> +			md = NULL;
-> +	}
->  
->  	width = fb->width;
->  	height = fb->height;
-> @@ -332,6 +348,11 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
->  	drm_dbg(&kmb->drm, "dma_len=%d ", dma_len);
->  	kmb_write_lcd(kmb, LCD_LAYERn_DMA_LEN(plane_id), dma_len);
->  	kmb_write_lcd(kmb, LCD_LAYERn_DMA_LEN_SHADOW(plane_id), dma_len);
-> +	if (md) {
-> +		for (i = 0; i < 3; i++)
-> +			fb->pitches[i] = md->plane[i].stride;
-> +	}
-> +
->  	kmb_write_lcd(kmb, LCD_LAYERn_DMA_LINE_VSTRIDE(plane_id),
->  		      fb->pitches[0]);
->  	kmb_write_lcd(kmb, LCD_LAYERn_DMA_LINE_WIDTH(plane_id),
-> @@ -339,18 +360,22 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
->  
->  	addr[Y_PLANE] = drm_fb_cma_get_gem_addr(fb, new_plane_state, 0);
->  	kmb_write_lcd(kmb, LCD_LAYERn_DMA_START_ADDR(plane_id),
-> -		      addr[Y_PLANE] + fb->offsets[0]);
-> +		      addr[Y_PLANE]);
->  	val = get_pixel_format(fb->format->format);
->  	val |= get_bits_per_pixel(fb->format);
->  	/* Program Cb/Cr for planar formats */
->  	if (num_planes > 1) {
->  		kmb_write_lcd(kmb, LCD_LAYERn_DMA_CB_LINE_VSTRIDE(plane_id),
-> -			      width * fb->format->cpp[0]);
-> +				fb->pitches[1]);
->  		kmb_write_lcd(kmb, LCD_LAYERn_DMA_CB_LINE_WIDTH(plane_id),
->  			      (width * fb->format->cpp[0]));
->  
->  		addr[U_PLANE] = drm_fb_cma_get_gem_addr(fb, new_plane_state,
->  							U_PLANE);
-> +		if (md) {
-> +			addr[U_PLANE] += md->plane[1].offset -
-> +					 (addr[U_PLANE] - addr[Y_PLANE]);
-> +		}
+Yeah, I messed up the order at a couple of places. Will fix.
 
-I failed to follow why:
-1) offsets is no logner needed
-2) If pitches is always set or only set with a hantro buffer
-3) Why addr[U_PLANE] is assigned twice in the md != NULL case
+-Akhil.
+> 
+>>                          reg = <0 0x03c40000 0 0xf080>;
+>>                          compatible = "qcom,sc7280-lpass-ag-noc";
 
->  		/* check if Cb/Cr is swapped*/
->  		if (num_planes == 3 && (val & LCD_LAYER_CRCB_ORDER))
->  			kmb_write_lcd(kmb,
-> @@ -364,7 +389,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
->  		if (num_planes == 3) {
->  			kmb_write_lcd(kmb,
->  				      LCD_LAYERn_DMA_CR_LINE_VSTRIDE(plane_id),
-> -				      ((width) * fb->format->cpp[0]));
-> +				      fb->pitches[2]);
->  
->  			kmb_write_lcd(kmb,
->  				      LCD_LAYERn_DMA_CR_LINE_WIDTH(plane_id),
-> @@ -373,6 +398,11 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
->  			addr[V_PLANE] = drm_fb_cma_get_gem_addr(fb,
->  								new_plane_state,
->  								V_PLANE);
-> +			if (md) {
-> +				addr[V_PLANE] +=
-> +					md->plane[2].offset -
-> +					(addr[V_PLANE] - addr[Y_PLANE]);
-> +			}
-Likewise - is pitches always valid and why assing addr[V_PLANE] twice?
-
->  
->  			/* check if Cb/Cr is swapped*/
->  			if (val & LCD_LAYER_CRCB_ORDER)
-> diff --git a/drivers/gpu/drm/kmb/kmb_vidmem.h b/drivers/gpu/drm/kmb/kmb_vidmem.h
-> new file mode 100644
-> index 000000000000..06198d413f50
-> --- /dev/null
-> +++ b/drivers/gpu/drm/kmb/kmb_vidmem.h
-> @@ -0,0 +1,52 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only
-> + *
-> + * Copyright © 2018-2020 Intel Corporation
-> + */
-> +
-> +#ifndef __KMB_VIDMEM_H__
-> +#define __KMB_VIDMEM_H__
-> +
-> +#define HANTRO_MAGIC(ch0, ch1, ch2, ch3) \
-> +	    ((unsigned long)(unsigned char)(ch0) | \
-> +	    ((unsigned long)(unsigned char)(ch1) << 8) | \
-> +	    ((unsigned long)(unsigned char)(ch2) << 16) | \
-> +	    ((unsigned long)(unsigned char)(ch3) << 24))
-...
-
-This header looks like it belongs outside the drm driver - I assume the
-hantro driver needs this?
-Or is this some uapi stuff?
-
-	Sam
