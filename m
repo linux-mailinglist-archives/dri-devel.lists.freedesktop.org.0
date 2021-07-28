@@ -2,36 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1683D9300
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 18:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2A33D932C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 18:26:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF7056E20E;
-	Wed, 28 Jul 2021 16:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6326E97F;
+	Wed, 28 Jul 2021 16:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7990F6E20E;
- Wed, 28 Jul 2021 16:16:32 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="212423177"
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="212423177"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 09:16:27 -0700
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="566922494"
-Received: from hseyedro-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.213.174.18])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 09:16:26 -0700
-Date: Wed, 28 Jul 2021 12:16:25 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Use Transparent Hugepages when IOMMU is enabled
-Message-ID: <YQGC2a1OsjaMqSv1@intel.com>
-References: <20210728141249.357067-1-tvrtko.ursulin@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9CBA6E82D
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 16:26:47 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 105A23F;
+ Wed, 28 Jul 2021 18:26:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1627489606;
+ bh=CQuHJ4sTC6shUZSx8nMiM+y/K6DN7rznAFMUxzECdjg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=u4b51Zv+WUyJeLRz21ZlaBcBHnxwdFalXuPIX4FM/LuFZfN0Zi+AJzEVs6UlvotoE
+ K2zOe/7y0GbhV4WLaoh6ge/h+Y3KZmRkvSuDTfDphgfjQiTpIot8XeJeRp3XMtPXrE
+ w19yhYgk+zoLsvcR12DVXFyklN1RkYlYGF4P9yX0=
+Date: Wed, 28 Jul 2021 19:26:39 +0300
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add binding
+ for R-Car MIPI DSI/CSI-2 TX
+Message-ID: <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com>
+References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210728141249.357067-1-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,145 +47,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Matthew Auld <matthew.auld@intel.com>,
- Eero Tamminen <eero.t.tamminen@intel.com>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 28, 2021 at 03:12:49PM +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Usage of Transparent Hugepages was disabled in 9987da4b5dcf
-> ("drm/i915: Disable THP until we have a GPU read BW W/A"), but since it
-> appears majority of performance regressions reported with an enabled IOMMU
-> can be almost eliminated by turning them on, lets do that by adding a
-> couple of Kconfig options.
-> 
-> To err on the side of safety we keep the current default in cases where
-> IOMMU is not active, and only when it is default to the "huge=within_size"
-> mode. Although there probably would be wins to enable them throughout,
-> more extensive testing across benchmarks and platforms would need to be
-> done.
-> 
-> With the patch and IOMMU enabled my local testing on a small Skylake part
-> shows OglVSTangent regression being reduced from ~14% to ~2%.
-> 
-> References: b901bb89324a ("drm/i915/gemfs: enable THP")
-> References: 9987da4b5dcf ("drm/i915: Disable THP until we have a GPU read BW W/A")
-> References: https://gitlab.freedesktop.org/drm/intel/-/issues/430
-> Co-developed-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Eero Tamminen <eero.t.tamminen@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> ---
->  drivers/gpu/drm/i915/Kconfig.profile  | 46 +++++++++++++++++++++++++++
->  drivers/gpu/drm/i915/gem/i915_gemfs.c | 11 +++++--
->  2 files changed, 55 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
-> index 39328567c200..c64c3d39a0f9 100644
-> --- a/drivers/gpu/drm/i915/Kconfig.profile
-> +++ b/drivers/gpu/drm/i915/Kconfig.profile
-> @@ -119,3 +119,49 @@ config DRM_I915_TIMESLICE_DURATION
->  	  /sys/class/drm/card?/engine/*/timeslice_duration_ms
->  
->  	  May be 0 to disable timeslicing.
-> +
-> +choice
-> +	prompt "Transparent Hugepage Support (native)"
-> +	default DRM_I915_THP_NATIVE_NEVER
-> +	help
-> +	  Select the preferred method for allocating from Transparent Hugepages
-> +	  when IOMMU is not enabled.
-> +
-> +	config DRM_I915_THP_NATIVE_NEVER
-> +	bool "Never"
-> +
-> +	config DRM_I915_THP_NATIVE_WITHIN
-> +	bool "Within"
-> +
-> +	config DRM_I915_THP_NATIVE_ALWAYS
-> +	bool "Always"
-> +endchoice
-> +
-> +config DRM_I915_THP_NATIVE
-> +	string
-> +	default "always" if DRM_I915_THP_NATIVE_ALWAYS
-> +	default "within_size" if DRM_I915_THP_NATIVE_WITHIN
-> +	default "never" if DRM_I915_THP_NATIVE_NEVER
-> +
-> +choice
-> +	prompt "Transparent Hugepage Support (IOMMU)"
-> +	default DRM_I915_THP_IOMMU_WITHIN
-> +	help
-> +	  Select the preferred method for allocating from Transparent Hugepages
-> +	  with IOMMU active.
-> +
-> +	config DRM_I915_THP_IOMMU_NEVER
-> +	bool "Never"
-> +
-> +	config DRM_I915_THP_IOMMU_WITHIN
-> +	bool "Within"
-> +
-> +	config DRM_I915_THP_IOMMU_ALWAYS
-> +	bool "Always"
-> +endchoice
-> +
-> +config DRM_I915_THP_IOMMU
-> +	string
-> +	default "always" if DRM_I915_THP_IOMMU_ALWAYS
-> +	default "within_size" if DRM_I915_THP_IOMMU_WITHIN
-> +	default "never" if DRM_I915_THP_IOMMU_NEVER
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> index 5e6e8c91ab38..b71d2b2d2ada 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> @@ -13,8 +13,11 @@
->  
->  int i915_gemfs_init(struct drm_i915_private *i915)
->  {
-> +	char thp_native[] = "huge=" CONFIG_DRM_I915_THP_NATIVE;
-> +	char thp_iommu[] = "huge=" CONFIG_DRM_I915_THP_IOMMU;
->  	struct file_system_type *type;
->  	struct vfsmount *gemfs;
-> +	char *opts;
->  
->  	type = get_fs_type("tmpfs");
->  	if (!type)
-> @@ -26,15 +29,19 @@ int i915_gemfs_init(struct drm_i915_private *i915)
->  	 *
->  	 * One example, although it is probably better with a per-file
->  	 * control, is selecting huge page allocations ("huge=within_size").
-> -	 * Currently unused due to bandwidth issues (slow reads) on Broadwell+.
-> +	 * However, we only do so to offset the overhead of iommu lookups
-> +	 * due to bandwidth issues (slow reads) on Broadwell+.
->  	 */
-> +	opts = intel_vtd_active() ? thp_iommu : thp_native;
+The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
+can operate in either DSI or CSI-2 mode, with up to four data lanes.
 
-at first sight I got confused on why we where having to configs, then
-very few drivers using the mount option there, so it took me a few
-minutes to realize it... but I know understood the goal...
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+Looks like I forgot to CC the devicetree mailing list and Rob Herring on
+the first try. Resending, sorry about that.
+---
+ .../display/bridge/renesas,dsi-csi2-tx.yaml   | 118 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 2 files changed, 119 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+new file mode 100644
+index 000000000000..afeeb967393d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+@@ -0,0 +1,118 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car MIPI DSI/CSI-2 Encoder
++
++maintainers:
++  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
++
++description: |
++  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
++  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
++  to four data lanes.
++
++properties:
++  compatible:
++    enum:
++      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Functional clock
++      - description: DSI (and CSI-2) functional clock
++      - description: PLL reference clock
++
++  clock-names:
++    items:
++      - const: fck
++      - const: dsi
++      - const: pll
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Parallel input port
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: DSI/CSI-2 output port
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - data-lanes
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - power-domains
++  - resets
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
++    #include <dt-bindings/power/r8a779a0-sysc.h>
++
++    dsi0: dsi-encoder@fed80000 {
++        compatible = "renesas,r8a779a0-dsi-csi2-tx";
++        reg = <0xfed80000 0x10000>;
++        power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
++        clocks = <&cpg CPG_MOD 415>,
++                 <&cpg CPG_CORE R8A779A0_CLK_DSI>,
++                 <&cpg CPG_CORE R8A779A0_CLK_CP>;
++        clock-names = "fck", "dsi", "pll";
++        resets = <&cpg 415>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                dsi0_in: endpoint {
++                    remote-endpoint = <&du_out_dsi0>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++                dsi0_out: endpoint {
++                    data-lanes = <1 2>;
++                    remote-endpoint = <&sn65dsi86_in>;
++                };
++            };
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b2cbb5c49358..1c9ea6279189 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6139,6 +6139,7 @@ L:	dri-devel@lists.freedesktop.org
+ L:	linux-renesas-soc@vger.kernel.org
+ S:	Supported
+ T:	git git://linuxtv.org/pinchartl/media drm/du/next
++F:	Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+ F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+ F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+ F:	Documentation/devicetree/bindings/display/renesas,du.yaml
+-- 
+Regards,
 
->  
-> -	gemfs = kern_mount(type);
-> +	gemfs = vfs_kern_mount(type, SB_KERNMOUNT, type->name, opts);
->  	if (IS_ERR(gemfs))
->  		return PTR_ERR(gemfs);
->  
->  	i915->mm.gemfs = gemfs;
->  
-> +	drm_info(&i915->drm, "Transparent Hugepage mode '%s'", opts);
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.30.2
-> 
+Laurent Pinchart
+
