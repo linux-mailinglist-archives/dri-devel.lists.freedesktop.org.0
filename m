@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125AD3D887D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 09:04:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3CC3D8885
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 09:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C57C6E5D2;
-	Wed, 28 Jul 2021 07:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D9146E0F0;
+	Wed, 28 Jul 2021 07:06:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 651FB6E3F5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 07:04:47 +0000 (UTC)
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A32056E0F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 07:06:34 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 1ae17007-ef72-11eb-9082-0050568c148b;
- Wed, 28 Jul 2021 07:04:52 +0000 (UTC)
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 610cdc4b-ef72-11eb-8d1a-0050568cd888;
+ Wed, 28 Jul 2021 07:06:49 +0000 (UTC)
 Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 09D24194B83;
- Wed, 28 Jul 2021 09:05:05 +0200 (CEST)
-Date: Wed, 28 Jul 2021 09:04:42 +0200
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 97CB5194B83;
+ Wed, 28 Jul 2021 09:06:53 +0200 (CEST)
+Date: Wed, 28 Jul 2021 09:06:30 +0200
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Subject: Re: [PATCH 01/14] drm/kmb: Enable LCD DMA for low TVDDCV
-Message-ID: <YQEBirrNA+G+GnuP@ravnborg.org>
+Subject: Re: [PATCH 02/14] drm/kmb: Define driver date and major/minor version
+Message-ID: <YQEB9u3dAviUs5GG@ravnborg.org>
 References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+ <20210728003126.1425028-2-anitha.chrisanthus@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+In-Reply-To: <20210728003126.1425028-2-anitha.chrisanthus@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,97 +53,60 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Anitha,
-On Tue, Jul 27, 2021 at 05:31:13PM -0700, Anitha Chrisanthus wrote:
+On Tue, Jul 27, 2021 at 05:31:14PM -0700, Anitha Chrisanthus wrote:
 > From: Edmund Dea <edmund.j.dea@intel.com>
 > 
-> There's an undocumented dependency between LCD layer enable bits [2-5]
-> and the AXI pipelined read enable bit [28] in the LCD_CONTROL register.
-> The proper order of operation is:
-> 
-> 1) Clear AXI pipelined read enable bit
-> 2) Set LCD layers
-> 3) Set AXI pipelined read enable bit
-> 
-> With this update, LCD can start DMA when TVDDCV is reduced down to 700mV.
+> Added macros for date and version
 > 
 > Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
 > Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
-Patch is missing your s-o-b.
+Your s-o-b is missing.
+
+I find it of no use with macros here, as the figures are not used
+anywhere else, but whatever.
+
+With s-o-b fixed:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
 > ---
->  drivers/gpu/drm/kmb/kmb_drv.c   | 14 ++++++++++++++
->  drivers/gpu/drm/kmb/kmb_plane.c | 15 +++++++++++++--
->  2 files changed, 27 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/kmb/kmb_drv.c | 8 ++++----
+>  drivers/gpu/drm/kmb/kmb_drv.h | 5 +++++
+>  2 files changed, 9 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-> index 96ea1a2c11dd..c0b1c6f99249 100644
+> index c0b1c6f99249..f54392ec4fab 100644
 > --- a/drivers/gpu/drm/kmb/kmb_drv.c
 > +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-> @@ -203,6 +203,7 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
->  	unsigned long status, val, val1;
->  	int plane_id, dma0_state, dma1_state;
->  	struct kmb_drm_private *kmb = to_kmb(dev);
-> +	u32 ctrl = 0;
+> @@ -425,10 +425,10 @@ static const struct drm_driver kmb_driver = {
+>  	.fops = &fops,
+>  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
+>  	.name = "kmb-drm",
+> -	.desc = "KEEMBAY DISPLAY DRIVER ",
+> -	.date = "20201008",
+> -	.major = 1,
+> -	.minor = 0,
+> +	.desc = "KEEMBAY DISPLAY DRIVER",
+> +	.date = DRIVER_DATE,
+> +	.major = DRIVER_MAJOR,
+> +	.minor = DRIVER_MINOR,
+>  };
 >  
->  	status = kmb_read_lcd(kmb, LCD_INT_STATUS);
->  
-> @@ -227,6 +228,19 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
->  				kmb_clr_bitmask_lcd(kmb, LCD_CONTROL,
->  						    kmb->plane_status[plane_id].ctrl);
->  
-> +				ctrl = kmb_read_lcd(kmb, LCD_CONTROL);
-> +				if (!(ctrl & (LCD_CTRL_VL1_ENABLE |
-> +				    LCD_CTRL_VL2_ENABLE |
-> +				    LCD_CTRL_GL1_ENABLE |
-> +				    LCD_CTRL_GL2_ENABLE))) {
-> +					/* If no LCD layers are using DMA,
-> +					 * then disable DMA pipelined AXI read
-> +					 * transactions.
-> +					 */
-> +					kmb_clr_bitmask_lcd(kmb, LCD_CONTROL,
-> +							    LCD_CTRL_PIPELINE_DMA);
-> +				}
+>  static int kmb_remove(struct platform_device *pdev)
+> diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
+> index 02e806712a64..ebbaa5f422d5 100644
+> --- a/drivers/gpu/drm/kmb/kmb_drv.h
+> +++ b/drivers/gpu/drm/kmb/kmb_drv.h
+> @@ -15,6 +15,11 @@
+>  #define KMB_MAX_HEIGHT			1080 /*Max height in pixels */
+>  #define KMB_MIN_WIDTH                   1920 /*Max width in pixels */
+>  #define KMB_MIN_HEIGHT                  1080 /*Max height in pixels */
 > +
-This function could benefit from a few helper functions to avoid all the
-indent. But this is un-related to this patch.
-
->  				kmb->plane_status[plane_id].disable = false;
->  			}
->  		}
-> diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-> index d5b6195856d1..2888dd5dcc2c 100644
-> --- a/drivers/gpu/drm/kmb/kmb_plane.c
-> +++ b/drivers/gpu/drm/kmb/kmb_plane.c
-> @@ -427,8 +427,14 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
->  
->  	kmb_set_bitmask_lcd(kmb, LCD_CONTROL, ctrl);
->  
-> -	/* FIXME no doc on how to set output format,these values are
-> -	 * taken from the Myriadx tests
-> +	/* Enable pipeline AXI read transactions for the DMA
-> +	 * after setting graphics layers. This must be done
-> +	 * in a separate write cycle.
-> +	 */
-> +	kmb_set_bitmask_lcd(kmb, LCD_CONTROL, LCD_CTRL_PIPELINE_DMA);
+> +#define DRIVER_DATE			"20210223"
+> +#define DRIVER_MAJOR			1
+> +#define DRIVER_MINOR			1
 > +
-> +	/* FIXME no doc on how to set output format,these values are taken
-                                                    ^ add space
-> +	 * from the Myriadx tests
->  	 */
->  	out_format |= LCD_OUTF_FORMAT_RGB888;
+>  #define KMB_LCD_DEFAULT_CLK		200000000
+>  #define KMB_SYS_CLK_MHZ			500
 >  
-> @@ -526,6 +532,11 @@ struct kmb_plane *kmb_plane_init(struct drm_device *drm)
->  		plane->id = i;
->  	}
->  
-> +	/* Disable pipeline AXI read transactions for the DMA
-> +	 * prior to setting graphics layers
-> +	 */
-> +	kmb_clr_bitmask_lcd(kmb, LCD_CONTROL, LCD_CTRL_PIPELINE_DMA);
-> +
->  	return primary;
->  cleanup:
->  	drmm_kfree(drm, plane);
-
-With the two nits fixed:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> -- 
+> 2.25.1
