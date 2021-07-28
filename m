@@ -1,158 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAA93D8583
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 03:40:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810C03D859E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 03:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ABA26EC39;
-	Wed, 28 Jul 2021 01:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 273416EC42;
+	Wed, 28 Jul 2021 01:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9DE6EC39
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 01:40:32 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16S1bPtP024744; Wed, 28 Jul 2021 01:39:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2021-07-09;
- bh=1b/ToWLe5ZsKDcrVfg9Wv0lpkAnXoV/Mh/ARa967ohI=;
- b=POkUB1F3j6BOxRH9fXpUoPjvzOxxHd38CB9BNXIK5RMn2IaRn6yiw698x6nbD9rClFz6
- 2yiulqbuNVyH+ljBmpoSSVBYfW0F0kYi8PVWHft/Dcgc/bkHMbYAgL/LM5v2LObc3e7j
- NCH95ounEpoIyF470k8t++xr1Ti+lS91FBaDO0AiX4kuHf3v3k0tz9V9XsrA862nnZhr
- 6+3cN3jLcjiJd2W6ZiSLK9ftNvX2NT6bX7YCxMunT7n8GxklTvssKqxTS9f9gp4klool
- d4B2EM3DA1zWc+JUOSDTDDGUN3OrcHYC/RsvPb6g9ps0HaKb5+9QIFueWOc8GsE1u5Vi 7w== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2020-01-29;
- bh=1b/ToWLe5ZsKDcrVfg9Wv0lpkAnXoV/Mh/ARa967ohI=;
- b=TaIM3z+TmprIny6P4WB473H/S16umwjgM5caTw+8YpRwHuGGD475NfNLUePEQf2BjOH2
- F83MihqJJ92wPRsFqB9sFjIl1uxe1B9c2M0FvhcKSN4iXnnD2XxpArPjHfghKzihAHVU
- xcR9UH3/E9CD3IsP6vKmAE4wlnUzGGKl+c1de2ce7N/SFUkdyNjOvel2VeCYyPJ64z1N
- /Or2Es79QTfQwexki6D9M7m/fV1t2ZhKuK9X2l4VGO7JhxBxirsOJqq2vcDePyzG4f3G
- o6FHe866pCyxeQ14eCz5D72nRk5OYZM4UHb09r6ps8HbVZtpzdVj+jHnQqskh2y9TBFm Ew== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3a234w39xu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 28 Jul 2021 01:39:45 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16S1Zcnq119937;
- Wed, 28 Jul 2021 01:39:44 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com
- (mail-bn1nam07lp2047.outbound.protection.outlook.com [104.47.51.47])
- by aserp3020.oracle.com with ESMTP id 3a234973ef-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 28 Jul 2021 01:39:44 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AusEwc7yLH/RdwwRFhwnaqDpfsOMj09n72AH56UmGUV9RaH8i70TAaFexWc/pCOOHdOPQqY4Zu5R2wc9bTA9e+pMtD2rqZ5uuV5itVNsU3jcEXTYZHG7EEeOTSjQG5gQrGYyplTNvcM7aBytAOkqDJYTsNWU/4L2UU4hWxyi0RWRzpQfnyrhsYDhCLLAuDV/RW2eIhYpqslPx0TCKq63TDb+dCPMDO1zGWymweCXcISoiFENLwsm7kS+IVwZ2Hu1wU5c/7tgUrNbe7MOx4ka2RzIWIyw4WCD6PKcfkfNWBbDvh9qAodVvO+sO2699yHL1pWwTlCQngtNb9Ajdyfe/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1b/ToWLe5ZsKDcrVfg9Wv0lpkAnXoV/Mh/ARa967ohI=;
- b=kSbkCOVIDNXwfZCzjOuIyMazFsP/SNMvhLQRtf2Llsjzr0QlMgIcRTHeyYp5SOCA7PYbAoRwwu3DFWLS/3Uy3CK35hG079A0pUjW6orLci80Q00eqpt8tpibtWTJwlozk9Ai+4Qxz+cYO9SIquGA1gP38o4cezIesFKpXMoXNELuO6XWKWBxmv+1p8BMNWxLP8iHAshm0bXf0Da2kNDUu+C9jAkA9CiYsFL8pIyc1SLOHECYnR4pQOhH9rQW+MeFP9LnoydcMMEAsvuaVVv04hooZrtM0QY/2NBufnxG6KOPyCxT/4LMSPW18EIWcI/AOQF3yMPKTS1j0dsseOJ1BQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1b/ToWLe5ZsKDcrVfg9Wv0lpkAnXoV/Mh/ARa967ohI=;
- b=nhFIzZ9rluVEx2pE5U0d+pHll7Y3osB4TR7GPpKStepYbpoeh5d9TLwoBwNHYa4oJc9cdfsQw7xcmErvFOB3Y9KMbb+UscDAihyCtp/qL7rKQ+6suikYz3xGn42HhJqgTkpjz52+ToiOP5Rk5j/KwhyG5U1pLo1Uxepp+a3DZkE=
-Authentication-Results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none header.from=oracle.com;
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by PH0PR10MB5611.namprd10.prod.outlook.com (2603:10b6:510:f9::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29; Wed, 28 Jul
- 2021 01:39:42 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::153e:22d1:d177:d4f1]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::153e:22d1:d177:d4f1%8]) with mapi id 15.20.4352.031; Wed, 28 Jul 2021
- 01:39:42 +0000
-To: Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH 36/64] scsi: ibmvscsi: Avoid multi-field memset()
- overflow by aiming at srp
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D1106EC42
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 01:47:54 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id e5so781999pld.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jul 2021 18:47:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=b56RRYUTS03XICd8fA2qtUp0AUHb/enzxmkYpgfS6mQ=;
+ b=ULjzXag2fzn2MWAevsHkfU4DGFB83/xCN+ou320ileQKhfcFiIwDmgHT0hK27d/5iw
+ aNtiwfHcnzUz/xRfQqPTbZdf0v2T5DXdLqH/Iy6jeYelvl6kJqyubEE42ujmpxUqJ1M0
+ SVR6MaUBv4nshnxF8am0wiGk1RDsc7Bz3+0xU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=b56RRYUTS03XICd8fA2qtUp0AUHb/enzxmkYpgfS6mQ=;
+ b=SxVSng9gW9EVw4Bza5HVEJ7z88io64Ds92K9yKOnTP483IPrdTpNFJ0/ETOptFPF+1
+ M4gt9fOs8kGyXjNREig5LbAOR1W6ygdBOzz9UsEiTk6V5fVaC0bR2lsHqw+S5dUlj9fr
+ gEYFzeUqlejbW7NsF7iirhx1QxraSO7pLkB6SemVA7aQuOGfieGwJ+rRF+KjsMFRBimJ
+ kI738C3Ry197Y02QWq8QYNtzqNRmRuS75qLkYZjKxWfGcfHQJM9+c9ffTqyQQsCM75vr
+ boEi32LLOCKylLDioZUB7BW3GOSV97oZLpKp+i4VOFR19KN9kneOOJ63L2kWUxyrr5u9
+ OD5A==
+X-Gm-Message-State: AOAM5321zzvp8fnkHT7uOiKbpTqTfhlwipye17GP6oXANbmG0bA5htXs
+ 7yxoiilGUNYtKeZq288iaiHe8g==
+X-Google-Smtp-Source: ABdhPJyGB/6+ELpL7U8c35faYsf4tmgVzMMY5WlBhkjlASqfxpvlVrk6N7mC99D5xk5Tp/+QyE2xNw==
+X-Received: by 2002:a17:90a:8c8a:: with SMTP id
+ b10mr15819262pjo.23.1627436874109; 
+ Tue, 27 Jul 2021 18:47:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id 30sm5933732pgq.31.2021.07.27.18.47.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jul 2021 18:47:53 -0700 (PDT)
+Date: Tue, 27 Jul 2021 18:47:52 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in
+ memcpy() at compile-time
+Message-ID: <202107271830.3DB03F3CF@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-37-keescook@chromium.org>
-Date: Tue, 27 Jul 2021 21:39:39 -0400
-In-Reply-To: <20210727205855.411487-37-keescook@chromium.org> (Kees Cook's
- message of "Tue, 27 Jul 2021 13:58:27 -0700")
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0156.namprd05.prod.outlook.com
- (2603:10b6:a03:339::11) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+ <20210727205855.411487-35-keescook@chromium.org>
+ <CAKwvOdknit8DtWaFvLupmNEebjbwVa6R3xiGc2D4AqB_6+i52g@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ca-mkp.ca.oracle.com (138.3.200.58) by
- SJ0PR05CA0156.namprd05.prod.outlook.com (2603:10b6:a03:339::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.7 via Frontend
- Transport; Wed, 28 Jul 2021 01:39:41 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b4b84a94-9b90-4af0-ea4e-08d95168924f
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5611:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR10MB5611B31E113F35653BEE041F8EEA9@PH0PR10MB5611.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mwSZWSPXbj6YMtjU0A4PM4G5u9VxGHrY8ajQ4HLZ00DyB/iDLveE2JFDYpjChGfg3bMNKlLCwRdEM6g/CpMOn/k3hjo8jzU/X22YiZBV/whIw3Gh285LkDuzDKj0gQT8ZXi53fXukBKkb/bxpQUFIfSd0oWbG8VznvcpmKkR/Mu6MLdn93I9q39QeX2Mkq6S7pk56/6ysu84qa9FSB/0LrLkM1uL1LySz1hnNdzFfKrsxNgCf5yVqALDcSchB09oOttc5PWAhr8ge4QRsqMRMQShFPTi500lXp+qJp3IJQu/IGFo70bNVDROeit/0yWyNdLpcY/3eqQ8nScqcohjxnmFSem0BPsKvDqogIqW520Z4yWeVFAL/oXC8EOIqPr5dShWgzdDYRaMAdboHPnSRtw3N0z3Ha9hq46+TGO+vXXXmB2s/t2wLZR2SOLrHTrXJzBhvfD/finHE/oWddM10DlxNVGC/iNWZeuZ/Jahh3rUY710WBPRCrBpkuknqSSD0ELaaMN6dn1LH8GG9k0w0AsGZcUxgLB/hMqV+9XBv2SOArqGug2xpmxTGJzjMW90UUWoKeFLGjFeBkAqsDa1Lk7GIb1FWUb3HZRnCvTo5TvPEiywLXV5IUoXEDugLivVvsYleBNPsNtibJtsUhQr7qWq3YEIef5BnKKvrkRAgTgORdmk6Igf7GU4Z6hDMBH0U+Hb4TV8dZkHdQhyWq6GHQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR10MB4759.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(346002)(39860400002)(136003)(366004)(376002)(956004)(26005)(66476007)(8936002)(478600001)(54906003)(316002)(83380400001)(7416002)(52116002)(8676002)(86362001)(38100700002)(5660300002)(7696005)(38350700002)(36916002)(66946007)(55016002)(6916009)(2906002)(66556008)(186003)(4326008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?apY1BskIjLovv0TgaJ+cvE3prbMQWW0iC956EErx57YlD+FyQz6VGAbASD3e?=
- =?us-ascii?Q?f9Dc8GQ73Enz5PB8GFn79oL9qIjTBluc5ahAIlZ4+x34g8+ghdvUrPETioDP?=
- =?us-ascii?Q?2YDtTz+XcsY4yzynKrS0ZkswZy1hyd+1QIQd57+r1w9v0wwpLRNyLCia4IDT?=
- =?us-ascii?Q?xx12zhcToDA675trTWwOM6g7jEkyT5hdDE9F677BJH8MiY9iG/I3OuCg7JUY?=
- =?us-ascii?Q?CzYQMuGSUhJdZxEfSEA4kGR9UZzGD4b2MZ5uCCPVci/IdK3qnuLS/e7+knrS?=
- =?us-ascii?Q?jXSzfS83SQ8/eR+Eg/pRYiwopmE7L32jd8vlO8VQtVgo/sbchRAbs2ZifyUg?=
- =?us-ascii?Q?PgyAoWvwK7EE6vHbwAy7xqjpWMqs7KSNPnjmrkpKAU9nfK7WimqQD9XbniJq?=
- =?us-ascii?Q?ViK3hXDaF5tGyDiPpZx1N7x+IkU1ORNz6jQlzVmTlAtzofjNM1Q4o1JwjANd?=
- =?us-ascii?Q?gClM/hVWuTsFGwsmIL4cqozJmN/8WcaOk4blZS0KWvwgIOCFtXLlZ0xMlRuK?=
- =?us-ascii?Q?CjU5aedOqYJlHQXrpKmy/ltJqOXvS99dLas8RM9ux7AAWEvrWEA+mnTD2bQB?=
- =?us-ascii?Q?MHxnErGLd96XXC63ZGC+QJHwaEsaWmBMrYtrmZtI1jTEAu0yMc1rNYqcbz3G?=
- =?us-ascii?Q?7fO6JM7W0zpMz0q9bAmPVIQq5HuvZ54cTWCRMs29AbGj7kze91ecjR39XIIL?=
- =?us-ascii?Q?67CmY0NMtquVa0X/wjLtNoKiYDARWRguVayd7+P80NF5fnj275alTG8mPu/r?=
- =?us-ascii?Q?YlYs+pAKYTaTXMJum/cPnQ3ckHV7T0WCkaxzzFXGcQTQprKkT3opLTovFnKD?=
- =?us-ascii?Q?m/fTvxRPhVXbaVx2iuyMII1F/61aYrMvPKxyZ5AiJEfzs5rQcCUuo9TJ7diL?=
- =?us-ascii?Q?yYXZEuy8ffpcKewovxGnqJL+1H2CPSJ2q2PyQkdzJEeTzqa68J9CTItjmVR2?=
- =?us-ascii?Q?g9cP3f7IH6gPrvCLQo59damPiosbPeh/Tm926tvocwvPqk/xsVcjmGYOnXBk?=
- =?us-ascii?Q?pzit0tWVBezw8Kjo2dZJMkD0aLoOr5bCVrmIZ2lobhs3VM0cSsHAKY5YJUyP?=
- =?us-ascii?Q?huFnSb94WOe7T+POAPU/mWwatTW/JHNQcTsCvskqENM6cCJY/E8P1tGQ5e1x?=
- =?us-ascii?Q?6YVv7ABfx7GUMrTGw77TzP1ke64lLx16pkTVBb0c6kJQcNEXwtGS+EvZF4pV?=
- =?us-ascii?Q?AvDpBWg6ASrGjXzUVZVXv3pfiXF9cRW0Rtt1S8cMZUoHcMH24FrHeTaUi0GH?=
- =?us-ascii?Q?xt/Lob5BvlgdjaSuTyzjfx2PNKglAu6Engp4bNqrisAXkM4mNk+yFYaNDN+K?=
- =?us-ascii?Q?hG4shKS+fQ911xf2IqeCCVWM?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4b84a94-9b90-4af0-ea4e-08d95168924f
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 01:39:42.3960 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H71AKo+72HNmaCrINLqrH8MWQAE/oHYGydeil08fJErqiDL0rVgxtOzFSATD7olP+/yyWJv6TC9GuMCbATv2FyQmrqwm04vA2pgIe7wKfSc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5611
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10058
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- adultscore=0 suspectscore=0
- malwarescore=0 spamscore=0 mlxlogscore=999 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2107280006
-X-Proofpoint-ORIG-GUID: PzoC1ZvBRGce1AdH7qMT0gv5us209nv5
-X-Proofpoint-GUID: PzoC1ZvBRGce1AdH7qMT0gv5us209nv5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdknit8DtWaFvLupmNEebjbwVa6R3xiGc2D4AqB_6+i52g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,55 +68,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tyrel Datwyler <tyreld@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+Cc: linux-kbuild@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
  linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
  Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org, Brian King <brking@linux.vnet.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>
+ netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jul 27, 2021 at 03:43:27PM -0700, Nick Desaulniers wrote:
+> On Tue, Jul 27, 2021 at 2:17 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > To accelerate the review of potential run-time false positives, it's
+> > also worth noting that it is possible to partially automate checking
+> > by examining memcpy() buffer argument fields to see if they have
+> > a neighboring. It is reasonable to expect that the vast majority of
+> 
+> a neighboring...field?
 
-Kees,
+Whoops, sorry, this should say "array member". I've fixed this to read:
 
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
->
-> Instead of writing beyond the end of evt_struct->iu.srp.cmd, target the
-> upper union (evt_struct->iu.srp) instead, as that's what is being wiped.
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+  To accelerate the review of potential run-time false positives, it's
+  also worth noting that it is possible to partially automate checking
+  by examining the memcpy() buffer argument to check for the destination
+  struct member having a neighboring array member. It is reasonable to
+  expect that the vast majority of run-time false positives would look like
+  the already evaluated and fixed compile-time false positives, where the
+  most common pattern is neighboring arrays. (And, FWIW, several of the
+  compile-time fixes were actual bugs.)
 
-Orthogonal to your change, it wasn't immediately obvious to me that
-SRP_MAX_IU_LEN was the correct length to use for an srp_cmd. However, I
-traversed the nested unions and it does look OK.
+> > diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+> > index 7e67d02764db..5e79e626172b 100644
+> > --- a/include/linux/fortify-string.h
+> > +++ b/include/linux/fortify-string.h
+> > @@ -2,13 +2,17 @@
+> >  #ifndef _LINUX_FORTIFY_STRING_H_
+> >  #define _LINUX_FORTIFY_STRING_H_
+> >
+> > +#include <linux/bug.h>
+> 
+> What are you using from linux/bug.h here?
 
-For good measure I copied Tyrel and Brian.
+Thanks; yes, that should have been added in patch 64, when the WARN_ONCE()
+use is introduced:
+https://lore.kernel.org/lkml/20210727205855.411487-65-keescook@chromium.org/
 
-Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
+> > [...]
+> > +#define __fortify_memcpy_chk(p, q, size, p_size, q_size,               \
+> > +                            p_size_field, q_size_field, op) ({         \
+> > +       size_t __fortify_size = (size_t)(size);                         \
+> > +       fortify_memcpy_chk(__fortify_size, p_size, q_size,              \
+> > +                          p_size_field, q_size_field, #op);            \
+> > +       __underlying_##op(p, q, __fortify_size);                        \
+> > +})
+> > +
+> > +/*
+> > + * __builtin_object_size() must be captured here to avoid evaluating argument
+> > + * side-effects further into the macro layers.
+> > + */
+> > +#define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+> > +               __builtin_object_size(p, 0), __builtin_object_size(q, 0), \
+> > +               __builtin_object_size(p, 1), __builtin_object_size(q, 1), \
+> > +               memcpy)
+> 
+> Are there other macro expansion sites for `__fortify_memcpy_chk`,
+> perhaps later in this series? I don't understand why `memcpy` is
+> passed as `func` to `fortify_panic()` rather than continuing to use
+> `__func__`?
 
-> ---
->  drivers/scsi/ibmvscsi/ibmvscsi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/scsi/ibmvscsi/ibmvscsi.c b/drivers/scsi/ibmvscsi/ibmvscsi.c
-> index e6a3eaaa57d9..7e8beb42d2d3 100644
-> --- a/drivers/scsi/ibmvscsi/ibmvscsi.c
-> +++ b/drivers/scsi/ibmvscsi/ibmvscsi.c
-> @@ -1055,8 +1055,8 @@ static int ibmvscsi_queuecommand_lck(struct scsi_cmnd *cmnd,
->  		return SCSI_MLQUEUE_HOST_BUSY;
->  
->  	/* Set up the actual SRP IU */
-> +	memset(&evt_struct->iu.srp, 0x00, SRP_MAX_IU_LEN);
->  	srp_cmd = &evt_struct->iu.srp.cmd;
-> -	memset(srp_cmd, 0x00, SRP_MAX_IU_LEN);
->  	srp_cmd->opcode = SRP_CMD;
->  	memcpy(srp_cmd->cdb, cmnd->cmnd, sizeof(srp_cmd->cdb));
->  	int_to_scsilun(lun, &srp_cmd->lun);
+Yes, memmove() follows exactly the same pattern. Rather than refactoring
+the declaration in that patch, this felt cleaner.
+https://lore.kernel.org/lkml/20210727205855.411487-36-keescook@chromium.org/
+
+> > [...]
+> >   * @count: The number of bytes to copy
+> >   * @pad: Character to use for padding if space is left in destination.
+> >   */
+> > -static inline void memcpy_and_pad(void *dest, size_t dest_len,
+> > -                                 const void *src, size_t count, int pad)
+> > +static __always_inline void memcpy_and_pad(void *dest, size_t dest_len,
+> > +                                          const void *src, size_t count,
+> > +                                          int pad)
+> 
+> Why __always_inline here?
+
+Without it, we run the risk of it being made out of line, and
+potentially losing access to the __builtin_object_size() checking of
+arguments. Though given some of the Clang bugs, it's possible this needs
+to be strictly converted into a macro.
+
+> > [...]
+> >  #ifdef CONFIG_FORTIFY_SOURCE
+> > +/* These are placeholders for fortify compile-time warnings. */
+> > +void __read_overflow2_field(void) { }
+> > +EXPORT_SYMBOL(__read_overflow2_field);
+> > +void __write_overflow_field(void) { }
+> > +EXPORT_SYMBOL(__write_overflow_field);
+> > +
+> 
+> Don't we rely on these being undefined for Clang to produce a linkage
+> failure (until https://reviews.llvm.org/D106030 has landed)?  By
+> providing a symbol definition we can link against, I don't think
+> __compiletime_{warning|error} will warn at all with Clang?
+
+This was intentional because I explicitly do not want to break the build
+for new warnings, and there is no way currently for Clang to _warn_
+(rather than fail to link). This could be adjusted to break only Clang's
+builds, but at this point, it seemed best.
+
+> > [...]
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +#define TEST   \
+> > +       memcpy(instance.buf, large, sizeof(instance.buf) + 1)
+> > +
+> > +#include "test_fortify.h"
+> > --
+> 
+> I haven't read the whole series yet, but I assume test_fortify.h was
+> provided earlier in the series?
+
+Yup, it's part of the compile-time tests in patch 32:
+https://lore.kernel.org/lkml/20210727205855.411487-33-keescook@chromium.org/
+
+-Kees
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+Kees Cook
