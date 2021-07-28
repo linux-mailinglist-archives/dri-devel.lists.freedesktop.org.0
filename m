@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59573D8524
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 03:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087A43D8528
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 03:03:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E619C6EC04;
-	Wed, 28 Jul 2021 01:03:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 729906EBAA;
+	Wed, 28 Jul 2021 01:03:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D855B6EC39;
- Wed, 28 Jul 2021 01:03:05 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id a20so729472plm.0;
- Tue, 27 Jul 2021 18:03:05 -0700 (PDT)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B526EC1D;
+ Wed, 28 Jul 2021 01:03:08 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id j1so2616893pjv.3;
+ Tue, 27 Jul 2021 18:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qGM6Ed6aQX7A3awTW5JWZ2DMzjNPHy+DrpaaPUL/9aE=;
- b=pDXlAhAUzKBCZQWG4ybwlNPg5RvSWaHLdOiwjou/MA9Jnz21hMgXdq80mXTgPIVC2+
- BdvVECQVk7H3OHACpIB2695Ili+Z7T5fIQmkqx2I5BjLBuULdO81tCiRu/P1urXK3mo4
- /9JpJVIZEqeJG6eurP42UdlADuGzhqmCPiUUUNI0Kjh11+VfwZKegZlG9CWRM+BeGOPk
- cg9Lbwq19/jyzam+72KZkV4LIVt9LWYyFrUaRbrsdXHw/XL3YrlXV6n5TGae9zCVWDbX
- NvD4EO6uqMDjEPTtSHa728jNFGaQ7iaK6PXPokNx8kPlT4k/8yborgmCVXdEvU3ciJdW
- 8oQQ==
+ bh=BVHgu7P3jLeGAr6c6jiQnBbjUeZUVb7sIei9a5S3h4I=;
+ b=dmWlM3T2LTqYy+3H7Q8IfXYrQN8RtqxpPMlevHLVCKuFDRXvD+T+ZwM1TEK8pW+Prr
+ 6We5ubyhg7wYLfcKM7vgq1QwH2ynVHcNz42fMHHpdb85J4mJ4H8MiDEFrPSlr3+SZi10
+ g2bJG+tjik8SeuWOlGdOMhTMaS87qaCYNZCNQt5n/KRc6+fac0XyP9OxDXJiNY1m/KoX
+ qF9/C0/hzfJlUUS1jWDSsdmxhIPBM5vHNwaoM73gz+i37bWb8PUg25S6Fldj3T8URgi2
+ bDCoi6Fth0RGOqR1e2dkngEMW42co8gvjqn+xhqXBo2BQucSSedGkvhbJO0TlwV3t4R6
+ tv9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qGM6Ed6aQX7A3awTW5JWZ2DMzjNPHy+DrpaaPUL/9aE=;
- b=XesvGEfbGDELN/CAUhX7z3bo77eY/ZlmB1/w+ZbU83dlnDP6f/vGKTlALZTEPkchTA
- D1MfDFGzTCrSUV5Tghno11Cycit9bQvMwX0zWwzrRg9W7LNIAISglVtrcT6qcDptJiCy
- Wpl8aLMZXHPK0iSMFq8bmBMOhoq0zcv2nUS3NvGLRY4wCA6yQY8CytP/rGLzn3iWjjMu
- 6xXmB+VERZPOii46GY3InELegNmhbkVPAKearitXVWsHMAFUKKJik7FAOggZThlPIODV
- Z+TVX75ElQFisKVfYrjKB1A8hPUeoj2Lh+oTMQjHJW4yA6VXKJDjI4kqj9yIVsqVIFry
- MTXw==
-X-Gm-Message-State: AOAM533uRxEmCFwoHYkslgXZZ4jMErAPaj2csOL/9bYk+9CasyYs6OHp
- rhnL6Fkoy070TOYfHa7LUKgAPZ0CDxpNRw==
-X-Google-Smtp-Source: ABdhPJzJFu6Ld0Uz2Z4lyD+A/qzkAFKxtgz0Xxpx2SIzhPxhqcGrBN3sMBuU2ir+zEmqfp7PmS6k7Q==
-X-Received: by 2002:a17:90a:4894:: with SMTP id
- b20mr5944996pjh.13.1627434184960; 
- Tue, 27 Jul 2021 18:03:04 -0700 (PDT)
+ bh=BVHgu7P3jLeGAr6c6jiQnBbjUeZUVb7sIei9a5S3h4I=;
+ b=NKAtlnuTM9B7lp2nEFDTa11whCM+dUL/hO2qOvlka6Y6sMhj2k8R3C219tlQ/Zo1Nr
+ 0ZpQ4NZEfxI8vp9WQSJUoK6hGg70R8Op3arkCtPgnMZXhwULJnVa7gWfBth/tEhU2dzd
+ s9VUtAiqY9aqG9M0NXeNeGAzihiL5yHVZzpP270qtG7G5hoD2yK9jh7l+XuyTaZuDuUA
+ tSVK+fRRXCV1MmMlLWq5kCTxLEDEtpsp+wRDoVBkftOKrPyvXViph3SGqSjp9wUfGCHz
+ XQgHY1dZ/ETmgpiWOGouFrA+XjNofmg4FrxVYgwqMcOAEpKgtiOirpnuNpSvoQVofYb+
+ OJ4w==
+X-Gm-Message-State: AOAM53238NINq88d3QE1YAzHyUtQ1abNX/XfNGJWb5l+GTjx+FnedKpR
+ z92ejk40PODGprtvlHqzg+4RI0nBudY44A==
+X-Google-Smtp-Source: ABdhPJwLyM6C8RCSNxp9Lhz/fnnARR2n+2V3Q+Mr/oYE0qAQEOLNDhvtsm35CD5Ys48fSh0eT5pTGA==
+X-Received: by 2002:a17:902:8bc3:b029:124:919f:6213 with SMTP id
+ r3-20020a1709028bc3b0290124919f6213mr21425743plo.51.1627434187298; 
+ Tue, 27 Jul 2021 18:03:07 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- l10sm4161010pjg.11.2021.07.27.18.03.03
+ 1sm4926456pfv.138.2021.07.27.18.03.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 18:03:03 -0700 (PDT)
+ Tue, 27 Jul 2021 18:03:06 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 12/13] drm/msm: Utilize gpu scheduler priorities
-Date: Tue, 27 Jul 2021 18:06:17 -0700
-Message-Id: <20210728010632.2633470-13-robdclark@gmail.com>
+Subject: [PATCH v4 13/13] drm/msm/gem: Mark active before pinning
+Date: Tue, 27 Jul 2021 18:06:18 -0700
+Message-Id: <20210728010632.2633470-14-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728010632.2633470-1-robdclark@gmail.com>
 References: <20210728010632.2633470-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,271 +69,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- open list <linux-kernel@vger.kernel.org>
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-The drm/scheduler provides additional prioritization on top of that
-provided by however many number of ringbuffers (each with their own
-priority level) is supported on a given generation.  Expose the
-additional levels of priority to userspace and map the userspace
-priority back to ring (first level of priority) and schedular priority
-(additional priority levels within the ring).
+Mark all the bos in the submit as active, before pinning, to prevent
+evicting a buffer in the same submit to make room for a buffer earlier
+in the table.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Acked-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +-
- drivers/gpu/drm/msm/msm_gem_submit.c    |  4 +-
- drivers/gpu/drm/msm/msm_gpu.h           | 58 ++++++++++++++++++++++++-
- drivers/gpu/drm/msm/msm_submitqueue.c   | 35 +++++++--------
- include/uapi/drm/msm_drm.h              | 14 +++++-
- 5 files changed, 88 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c        |  2 --
+ drivers/gpu/drm/msm/msm_gem_submit.c | 28 ++++++++++++++++++++--------
+ 2 files changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index bad4809b68ef..748665232d29 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -261,8 +261,8 @@ int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value)
- 			return ret;
- 		}
- 		return -EINVAL;
--	case MSM_PARAM_NR_RINGS:
--		*value = gpu->nr_rings;
-+	case MSM_PARAM_PRIORITIES:
-+		*value = gpu->nr_rings * NR_SCHED_PRIORITIES;
- 		return 0;
- 	case MSM_PARAM_PP_PGTABLE:
- 		*value = 0;
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index af199ef53d2f..15b1804fa64e 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -131,7 +131,6 @@ static struct page **get_pages(struct drm_gem_object *obj)
+ 		if (msm_obj->flags & (MSM_BO_WC|MSM_BO_UNCACHED))
+ 			sync_for_device(msm_obj);
+ 
+-		GEM_WARN_ON(msm_obj->active_count);
+ 		update_inactive(msm_obj);
+ 	}
+ 
+@@ -815,7 +814,6 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
+ 	GEM_WARN_ON(!msm_gem_is_locked(obj));
+ 	GEM_WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
+ 	GEM_WARN_ON(msm_obj->dontneed);
+-	GEM_WARN_ON(!msm_obj->sgt);
+ 
+ 	if (msm_obj->active_count++ == 0) {
+ 		mutex_lock(&priv->mm_lock);
 diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 450efe59abb5..c2ecec5b11c4 100644
+index c2ecec5b11c4..fc25a85eb1ca 100644
 --- a/drivers/gpu/drm/msm/msm_gem_submit.c
 +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -59,7 +59,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
- 	submit->gpu = gpu;
- 	submit->cmd = (void *)&submit->bos[nr_bos];
- 	submit->queue = queue;
--	submit->ring = gpu->rb[queue->prio];
-+	submit->ring = gpu->rb[queue->ring_nr];
- 	submit->fault_dumped = false;
+@@ -24,7 +24,8 @@
+ /* make sure these don't conflict w/ MSM_SUBMIT_BO_x */
+ #define BO_VALID    0x8000   /* is current addr in cmdstream correct/valid? */
+ #define BO_LOCKED   0x4000   /* obj lock is held */
+-#define BO_PINNED   0x2000   /* obj is pinned and on active list */
++#define BO_ACTIVE   0x2000   /* active refcnt is held */
++#define BO_PINNED   0x1000   /* obj is pinned and on active list */
  
- 	INIT_LIST_HEAD(&submit->node);
-@@ -749,7 +749,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	/* Get a unique identifier for the submission for logging purposes */
- 	submitid = atomic_inc_return(&ident) - 1;
+ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 		struct msm_gpu *gpu,
+@@ -239,10 +240,11 @@ static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
+ 	struct drm_gem_object *obj = &submit->bos[i].obj->base;
+ 	unsigned flags = submit->bos[i].flags & cleanup_flags;
  
--	ring = gpu->rb[queue->prio];
-+	ring = gpu->rb[queue->ring_nr];
- 	trace_msm_gpu_submit(pid_nr(pid), ring->id, submitid,
- 		args->nr_bos, args->nr_cmds);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index b912cacaecc0..0e4b45bff2e6 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -250,6 +250,59 @@ struct msm_gpu_perfcntr {
- 	const char *name;
- };
- 
-+/*
-+ * The number of priority levels provided by drm gpu scheduler.  The
-+ * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially in some
-+ * cases, so we don't use it (no need for kernel generated jobs).
-+ */
-+#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_MIN)
+-	if (flags & BO_PINNED) {
++	if (flags & BO_PINNED)
+ 		msm_gem_unpin_iova_locked(obj, submit->aspace);
 +
-+/**
-+ * msm_gpu_convert_priority - Map userspace priority to ring # and sched priority
-+ *
-+ * @gpu:        the gpu instance
-+ * @prio:       the userspace priority level
-+ * @ring_nr:    [out] the ringbuffer the userspace priority maps to
-+ * @sched_prio: [out] the gpu scheduler priority level which the userspace
-+ *              priority maps to
-+ *
-+ * With drm/scheduler providing it's own level of prioritization, our total
-+ * number of available priority levels is (nr_rings * NR_SCHED_PRIORITIES).
-+ * Each ring is associated with it's own scheduler instance.  However, our
-+ * UABI is that lower numerical values are higher priority.  So mapping the
-+ * single userspace priority level into ring_nr and sched_prio takes some
-+ * care.  The userspace provided priority (when a submitqueue is created)
-+ * is mapped to ring nr and scheduler priority as such:
-+ *
-+ *   ring_nr    = userspace_prio / NR_SCHED_PRIORITIES
-+ *   sched_prio = NR_SCHED_PRIORITIES -
-+ *                (userspace_prio % NR_SCHED_PRIORITIES) - 1
-+ *
-+ * This allows generations without preemption (nr_rings==1) to have some
-+ * amount of prioritization, and provides more priority levels for gens
-+ * that do have preemption.
-+ */
-+static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
-+		unsigned *ring_nr, enum drm_sched_priority *sched_prio)
-+{
-+	unsigned rn, sp;
-+
-+	rn = div_u64_rem(prio, NR_SCHED_PRIORITIES, &sp);
-+
-+	/* invert sched priority to map to higher-numeric-is-higher-
-+	 * priority convention
-+	 */
-+	sp = NR_SCHED_PRIORITIES - sp - 1;
-+
-+	if (rn >= gpu->nr_rings)
-+		return -EINVAL;
-+
-+	*ring_nr = rn;
-+	*sched_prio = sp;
-+
-+	return 0;
-+}
-+
- /**
-  * A submitqueue is associated with a gl context or vk queue (or equiv)
-  * in userspace.
-@@ -257,7 +310,8 @@ struct msm_gpu_perfcntr {
-  * @id:        userspace id for the submitqueue, unique within the drm_file
-  * @flags:     userspace flags for the submitqueue, specified at creation
-  *             (currently unusued)
-- * @prio:      the submitqueue priority
-+ * @ring_nr:   the ringbuffer used by this submitqueue, which is determined
-+ *             by the submitqueue's priority
-  * @faults:    the number of GPU hangs associated with this submitqueue
-  * @ctx:       the per-drm_file context associated with the submitqueue (ie.
-  *             which set of pgtables do submits jobs associated with the
-@@ -272,7 +326,7 @@ struct msm_gpu_perfcntr {
- struct msm_gpu_submitqueue {
- 	int id;
- 	u32 flags;
--	u32 prio;
-+	u32 ring_nr;
- 	int faults;
- 	struct msm_file_private *ctx;
- 	struct list_head node;
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index 682ba2a7c0ec..32a55d81b58b 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -68,6 +68,8 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 	struct msm_gpu_submitqueue *queue;
- 	struct msm_ringbuffer *ring;
- 	struct drm_gpu_scheduler *sched;
-+	enum drm_sched_priority sched_prio;
-+	unsigned ring_nr;
- 	int ret;
++	if (flags & BO_ACTIVE)
+ 		msm_gem_active_put(obj);
+-	}
  
- 	if (!ctx)
-@@ -76,8 +78,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 	if (!priv->gpu)
- 		return -ENODEV;
+ 	if (flags & BO_LOCKED)
+ 		dma_resv_unlock(obj->resv);
+@@ -252,7 +254,7 @@ static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
  
--	if (prio >= priv->gpu->nr_rings)
--		return -EINVAL;
-+	ret = msm_gpu_convert_priority(priv->gpu, prio, &ring_nr, &sched_prio);
-+	if (ret)
-+		return ret;
- 
- 	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
- 
-@@ -86,24 +89,13 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 
- 	kref_init(&queue->ref);
- 	queue->flags = flags;
--	queue->prio = prio;
-+	queue->ring_nr = ring_nr;
- 
--	ring = priv->gpu->rb[prio];
-+	ring = priv->gpu->rb[ring_nr];
- 	sched = &ring->sched;
- 
--	/*
--	 * TODO we can allow more priorities than we have ringbuffers by
--	 * mapping:
--	 *
--	 *    ring = prio / 3;
--	 *    ent_prio = DRM_SCHED_PRIORITY_MIN + (prio % 3);
--	 *
--	 * Probably avoid using DRM_SCHED_PRIORITY_KERNEL as that is
--	 * treated specially in places.
--	 */
- 	ret = drm_sched_entity_init(&queue->entity,
--			DRM_SCHED_PRIORITY_NORMAL,
--			&sched, 1, NULL);
-+			sched_prio, &sched, 1, NULL);
- 	if (ret) {
- 		kfree(queue);
- 		return ret;
-@@ -134,16 +126,19 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
+ static void submit_unlock_unpin_bo(struct msm_gem_submit *submit, int i)
  {
- 	struct msm_drm_private *priv = drm->dev_private;
--	int default_prio;
-+	int default_prio, max_priority;
+-	submit_cleanup_bo(submit, i, BO_PINNED | BO_LOCKED);
++	submit_cleanup_bo(submit, i, BO_PINNED | BO_ACTIVE | BO_LOCKED);
  
- 	if (!priv->gpu)
- 		return -ENODEV;
+ 	if (!(submit->bos[i].flags & BO_VALID))
+ 		submit->bos[i].iova = 0;
+@@ -356,6 +358,18 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
  
-+	max_priority = (priv->gpu->nr_rings * NR_SCHED_PRIORITIES) - 1;
+ 	submit->valid = true;
+ 
++	/*
++	 * Increment active_count first, so if under memory pressure, we
++	 * don't inadvertently evict a bo needed by the submit in order
++	 * to pin an earlier bo in the same submit.
++	 */
++	for (i = 0; i < submit->nr_bos; i++) {
++		struct drm_gem_object *obj = &submit->bos[i].obj->base;
 +
- 	/*
--	 * Select priority 2 as the "default priority" unless nr_rings is less
--	 * than 2 and then pick the lowest priority
-+	 * Pick a medium priority level as default.  Lower numeric value is
-+	 * higher priority, so round-up to pick a priority that is not higher
-+	 * than the middle priority level.
- 	 */
--	default_prio = clamp_t(uint32_t, 2, 0, priv->gpu->nr_rings - 1);
-+	default_prio = DIV_ROUND_UP(max_priority, 2);
- 
- 	INIT_LIST_HEAD(&ctx->submitqueues);
- 
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index f075851021c3..6b8fffc28a50 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -73,11 +73,19 @@ struct drm_msm_timespec {
- #define MSM_PARAM_MAX_FREQ   0x04
- #define MSM_PARAM_TIMESTAMP  0x05
- #define MSM_PARAM_GMEM_BASE  0x06
--#define MSM_PARAM_NR_RINGS   0x07
-+#define MSM_PARAM_PRIORITIES 0x07  /* The # of priority levels */
- #define MSM_PARAM_PP_PGTABLE 0x08  /* => 1 for per-process pagetables, else 0 */
- #define MSM_PARAM_FAULTS     0x09
- #define MSM_PARAM_SUSPENDS   0x0a
- 
-+/* For backwards compat.  The original support for preemption was based on
-+ * a single ring per priority level so # of priority levels equals the #
-+ * of rings.  With drm/scheduler providing additional levels of priority,
-+ * the number of priorities is greater than the # of rings.  The param is
-+ * renamed to better reflect this.
-+ */
-+#define MSM_PARAM_NR_RINGS   MSM_PARAM_PRIORITIES
++		msm_gem_active_get(obj, submit->gpu);
++		submit->bos[i].flags |= BO_ACTIVE;
++	}
 +
- struct drm_msm_param {
- 	__u32 pipe;           /* in, MSM_PIPE_x */
- 	__u32 param;          /* in, MSM_PARAM_x */
-@@ -304,6 +312,10 @@ struct drm_msm_gem_madvise {
+ 	for (i = 0; i < submit->nr_bos; i++) {
+ 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+ 		uint64_t iova;
+@@ -367,8 +381,6 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
+ 		if (ret)
+ 			break;
  
- #define MSM_SUBMITQUEUE_FLAGS (0)
+-		msm_gem_active_get(obj, submit->gpu);
+-
+ 		submit->bos[i].flags |= BO_PINNED;
  
-+/*
-+ * The submitqueue priority should be between 0 and MSM_PARAM_PRIORITIES-1,
-+ * a lower numeric value is higher priority.
-+ */
- struct drm_msm_submitqueue {
- 	__u32 flags;   /* in, MSM_SUBMITQUEUE_x */
- 	__u32 prio;    /* in, Priority level */
+ 		if (iova == submit->bos[i].iova) {
+@@ -502,7 +514,7 @@ static void submit_cleanup(struct msm_gem_submit *submit, bool error)
+ 	unsigned i;
+ 
+ 	if (error)
+-		cleanup_flags |= BO_PINNED;
++		cleanup_flags |= BO_PINNED | BO_ACTIVE;
+ 
+ 	for (i = 0; i < submit->nr_bos; i++) {
+ 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
+@@ -520,7 +532,7 @@ void msm_submit_retire(struct msm_gem_submit *submit)
+ 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+ 
+ 		msm_gem_lock(obj);
+-		submit_cleanup_bo(submit, i, BO_PINNED);
++		submit_cleanup_bo(submit, i, BO_PINNED | BO_ACTIVE);
+ 		msm_gem_unlock(obj);
+ 		drm_gem_object_put(obj);
+ 	}
 -- 
 2.31.1
 
