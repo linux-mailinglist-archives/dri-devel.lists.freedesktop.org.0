@@ -2,34 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4173B3D902A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AA53D9058
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAA5F89C07;
-	Wed, 28 Jul 2021 14:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 595956EACD;
+	Wed, 28 Jul 2021 14:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B85689C07;
- Wed, 28 Jul 2021 14:13:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="276455058"
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="276455058"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 07:13:03 -0700
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="499235136"
-Received: from evancahi-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.200.34])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 07:12:56 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Use Transparent Hugepages when IOMMU is enabled
-Date: Wed, 28 Jul 2021 15:12:49 +0100
-Message-Id: <20210728141249.357067-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
+ [IPv6:2607:f8b0:4864:20::f29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE52E6E9B0;
+ Wed, 28 Jul 2021 14:22:30 +0000 (UTC)
+Received: by mail-qv1-xf29.google.com with SMTP id w6so1601936qvh.3;
+ Wed, 28 Jul 2021 07:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=REguxMrHBQDa0JkRmuDefkm6jZHt6N1UdAh0jBrpPII=;
+ b=SIbIOj0GB0xhbNCzcJJeUIMaXu7ElmlVCh/If2w6qhlDnkg0M6KvxidPwaInlm3oH/
+ sNFV4e599JFzcvN/d0KPTB1Pv+ZHFMCHrIJbVvmJvdSJ6kgAVn8hiQiXbhstdLxovpEb
+ 4YryCADoEdl+pIfoTnelc/9APyCtlduhhSro491A+WZTl3QFGjuqO+RKfolJDAQfyEJ+
+ AAJ2xutI5plPMBGi+5BNs6Rm4PCqN6rNSRwTzcQbanMhYHXfHHD/3L6b8J3ZsjlXuOFz
+ 8yb0olgktrTFaOhZ6WgzdQwTR7Gdut6U4RDhHazdtA9fKOLIageEiN7UuYk6llba6MVm
+ PxIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=REguxMrHBQDa0JkRmuDefkm6jZHt6N1UdAh0jBrpPII=;
+ b=odUYRkCW3dezlZuRHvuufQpRZTuJf6J4E9bR0oMtAkRF1w2EVmmzDZ0Rz0CgxE6GYJ
+ ir+8dUCQKlzXXl3MmRB2Hm95dRHvMSzPtWxHhxguwylPOcJqaimhlnmBua7szlF3GP/a
+ wdMQ+eY3hXPNYzgBO7u3IXv//faOpxjUELlDHXsW8YrpdiqtTN77Gr2TNKNTdLuNfKyD
+ +Sw8Zn/L0RkntHX7NXq5wlmwEv5NxpJKOwajwQXaxufjmj4EGa/ronOH0EBdpcrhYBME
+ WMNq4sVmYJtkwL4cw0CuT7m+icsTs+d0qW7ZttDB/1S61slJXbu8qfOZ1BKOyBcyEOSS
+ M+ww==
+X-Gm-Message-State: AOAM5338PTQanfgcQBY5lwSr4N3fycGFrZtnRc8GA7NSC+rsmeHn3Dny
+ xWy95T4aKkJosMK3m8OUxupogq6MD8i49l1aETo=
+X-Google-Smtp-Source: ABdhPJzsBJNU17E0qoGgia79Fu1bXaO3ZGF9JUTW52Sr1nLJhk/3x63jZkY6WIX/DG8Wq8TsS9JKVxi2+fiX7a1NToU=
+X-Received: by 2002:a0c:f6c6:: with SMTP id d6mr196596qvo.30.1627482149827;
+ Wed, 28 Jul 2021 07:22:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210723113405.427004-1-matthew.auld@intel.com>
+ <0988bf67-c42a-1e7e-af77-ae2da65b036f@linux.intel.com>
+ <CAOFGe94-StYYc3Fk70u3h0xp2F4RqONb96cnFLhgnhxOVKi8JA@mail.gmail.com>
+ <cf0253c0-6a4c-aaaa-4110-aa403d66ea9f@linux.intel.com>
+In-Reply-To: <cf0253c0-6a4c-aaaa-4110-aa403d66ea9f@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 28 Jul 2021 15:22:03 +0100
+Message-ID: <CAM0jSHO7rQZ0dj5+8kC3P1-00LFkGHeE9XJj6rB95E=gjzkHwg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/userptr: Probe existence of backing
+ struct pages upon creation
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,136 +67,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Eero Tamminen <eero.t.tamminen@intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Kenneth Graunke <kenneth@whitecape.org>, Matthew Auld <matthew.auld@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Mon, 26 Jul 2021 at 17:10, Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 26/07/2021 16:14, Jason Ekstrand wrote:
+> > On Mon, Jul 26, 2021 at 3:31 AM Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com> wrote:
+> >>
+> >> Op 23-07-2021 om 13:34 schreef Matthew Auld:
+> >>> From: Chris Wilson <chris@chris-wilson.co.uk>
+> >>>
+> >>> Jason Ekstrand requested a more efficient method than userptr+set-dom=
+ain
+> >>> to determine if the userptr object was backed by a complete set of pa=
+ges
+> >>> upon creation. To be more efficient than simply populating the userpt=
+r
+> >>> using get_user_pages() (as done by the call to set-domain or execbuf)=
+,
+> >>> we can walk the tree of vm_area_struct and check for gaps or vma not
+> >>> backed by struct page (VM_PFNMAP). The question is how to handle
+> >>> VM_MIXEDMAP which may be either struct page or pfn backed...
+> >>>
+> >>> With discrete we are going to drop support for set_domain(), so offer=
+ing
+> >>> a way to probe the pages, without having to resort to dummy batches h=
+as
+> >>> been requested.
+> >>>
+> >>> v2:
+> >>> - add new query param for the PROBE flag, so userspace can easily
+> >>>    check if the kernel supports it(Jason).
+> >>> - use mmap_read_{lock, unlock}.
+> >>> - add some kernel-doc.
+> >>> v3:
+> >>> - In the docs also mention that PROBE doesn't guarantee that the page=
+s
+> >>>    will remain valid by the time they are actually used(Tvrtko).
+> >>> - Add a small comment for the hole finding logic(Jason).
+> >>> - Move the param next to all the other params which just return true.
+> >>>
+> >>> Testcase: igt/gem_userptr_blits/probe
+> >>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> >>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> >>> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> >>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> >>> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> >>> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> >>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> >>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >>> Cc: Ramalingam C <ramalingam.c@intel.com>
+> >>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> >>> Acked-by: Kenneth Graunke <kenneth@whitecape.org>
+> >>> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+> >>> ---
+> >>>   drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 41 ++++++++++++++++++=
+++-
+> >>>   drivers/gpu/drm/i915/i915_getparam.c        |  1 +
+> >>>   include/uapi/drm/i915_drm.h                 | 20 ++++++++++
+> >>>   3 files changed, 61 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gp=
+u/drm/i915/gem/i915_gem_userptr.c
+> >>> index 56edfeff8c02..468a7a617fbf 100644
+> >>> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> >>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> >>> @@ -422,6 +422,34 @@ static const struct drm_i915_gem_object_ops i915=
+_gem_userptr_ops =3D {
+> >>>
+> >>>   #endif
+> >>>
+> >>> +static int
+> >>> +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long =
+len)
+> >>> +{
+> >>> +     const unsigned long end =3D addr + len;
+> >>> +     struct vm_area_struct *vma;
+> >>> +     int ret =3D -EFAULT;
+> >>> +
+> >>> +     mmap_read_lock(mm);
+> >>> +     for (vma =3D find_vma(mm, addr); vma; vma =3D vma->vm_next) {
+> >>> +             /* Check for holes, note that we also update the addr b=
+elow */
+> >>> +             if (vma->vm_start > addr)
+> >>> +                     break;
+> >>> +
+> >>> +             if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
+> >>> +                     break;
+> >>> +
+> >>> +             if (vma->vm_end >=3D end) {
+> >>> +                     ret =3D 0;
+> >>> +                     break;
+> >>> +             }
+> >>> +
+> >>> +             addr =3D vma->vm_end;
+> >>> +     }
+> >>> +     mmap_read_unlock(mm);
+> >>> +
+> >>> +     return ret;
+> >>> +}
+> >>> +
+> >>>   /*
+> >>>    * Creates a new mm object that wraps some normal memory from the p=
+rocess
+> >>>    * context - user memory.
+> >>> @@ -477,7 +505,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+> >>>        }
+> >>>
+> >>>        if (args->flags & ~(I915_USERPTR_READ_ONLY |
+> >>> -                         I915_USERPTR_UNSYNCHRONIZED))
+> >>> +                         I915_USERPTR_UNSYNCHRONIZED |
+> >>> +                         I915_USERPTR_PROBE))
+> >>>                return -EINVAL;
+> >>>
+> >>>        if (i915_gem_object_size_2big(args->user_size))
+> >>> @@ -504,6 +533,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+> >>>                        return -ENODEV;
+> >>>        }
+> >>>
+> >>> +     if (args->flags & I915_USERPTR_PROBE) {
+> >>> +             /*
+> >>> +              * Check that the range pointed to represents real stru=
+ct
+> >>> +              * pages and not iomappings (at this moment in time!)
+> >>> +              */
+> >>> +             ret =3D probe_range(current->mm, args->user_ptr, args->=
+user_size);
+> >>> +             if (ret)
+> >>> +                     return ret;
+> >>> +     }
+> >>> +
+> >>>   #ifdef CONFIG_MMU_NOTIFIER
+> >>>        obj =3D i915_gem_object_alloc();
+> >>>        if (obj =3D=3D NULL)
+> >>> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i=
+915/i915_getparam.c
+> >>> index 24e18219eb50..bbb7cac43eb4 100644
+> >>> --- a/drivers/gpu/drm/i915/i915_getparam.c
+> >>> +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> >>> @@ -134,6 +134,7 @@ int i915_getparam_ioctl(struct drm_device *dev, v=
+oid *data,
+> >>>        case I915_PARAM_HAS_EXEC_FENCE_ARRAY:
+> >>>        case I915_PARAM_HAS_EXEC_SUBMIT_FENCE:
+> >>>        case I915_PARAM_HAS_EXEC_TIMELINE_FENCES:
+> >>> +     case I915_PARAM_HAS_USERPTR_PROBE:
+> >>>                /* For the time being all of these are always true;
+> >>>                 * if some supported hardware does not have one of the=
+se
+> >>>                 * features this value needs to be provided from
+> >>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.=
+h
+> >>> index 975087553ea0..0d290535a6e5 100644
+> >>> --- a/include/uapi/drm/i915_drm.h
+> >>> +++ b/include/uapi/drm/i915_drm.h
+> >>> @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
+> >>>    */
+> >>>   #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
+> >>>
+> >>> +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
+> >>> +#define I915_PARAM_HAS_USERPTR_PROBE 56
+> >>> +
+> >>>   /* Must be kept compact -- no holes and well documented */
+> >>>
+> >>>   typedef struct drm_i915_getparam {
+> >>> @@ -2222,12 +2225,29 @@ struct drm_i915_gem_userptr {
+> >>>         * through the GTT. If the HW can't support readonly access, a=
+n error is
+> >>>         * returned.
+> >>>         *
+> >>> +      * I915_USERPTR_PROBE:
+> >>> +      *
+> >>> +      * Probe the provided @user_ptr range and validate that the @us=
+er_ptr is
+> >>> +      * indeed pointing to normal memory and that the range is also =
+valid.
+> >>> +      * For example if some garbage address is given to the kernel, =
+then this
+> >>> +      * should complain.
+> >>> +      *
+> >>> +      * Returns -EFAULT if the probe failed.
+> >>> +      *
+> >>> +      * Note that this doesn't populate the backing pages, and also =
+doesn't
+> >>> +      * guarantee that the object will remain valid when the object =
+is
+> >>> +      * eventually used.
+> >>> +      *
+> >>> +      * The kernel supports this feature if I915_PARAM_HAS_USERPTR_P=
+ROBE
+> >>> +      * returns a non-zero value.
+> >>> +      *
+> >>>         * I915_USERPTR_UNSYNCHRONIZED:
+> >>>         *
+> >>>         * NOT USED. Setting this flag will result in an error.
+> >>>         */
+> >>>        __u32 flags;
+> >>>   #define I915_USERPTR_READ_ONLY 0x1
+> >>> +#define I915_USERPTR_PROBE 0x2
+> >>>   #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
+> >>>        /**
+> >>>         * @handle: Returned handle for the object.
+> >>
+> >> Could we use _VALIDATE instead of probe? Or at least pin the pages as =
+well, so we don't have to do it later?
+> >
+> > I only care that the name matches what it does.  _VALIDATE sounds like
+> > it does a full validation of everything such that, if the import
+> > succeeds, execbuf will as well.  If we pin the pages at the same time,
+> > maybe that's true?  _PROBE, on the other hand, sounds a lot more like
+>
+> No it is not possible to guarantee backing store remains valid until
+> execbuf.
+>
+> > a one-time best-effort check which may race with other stuff and
+> > doesn't guarantee future success.  That's in line with what the
+> > current patch does.
+> >
+> >> We already have i915_gem_object_userptr_validate, no need to dupe it.
+> >
+> > I have no opinion on this.
+>
+> I was actually suggesting the same as Maarten here - that we should add
+> a "populate" flag. But opinion was that was not desired - please look
+> for the older threads to see the reasoning there.
 
-Usage of Transparent Hugepages was disabled in 9987da4b5dcf
-("drm/i915: Disable THP until we have a GPU read BW W/A"), but since it
-appears majority of performance regressions reported with an enabled IOMMU
-can be almost eliminated by turning them on, lets do that by adding a
-couple of Kconfig options.
+So how should we proceed here? Maarten?
 
-To err on the side of safety we keep the current default in cases where
-IOMMU is not active, and only when it is default to the "huge=within_size"
-mode. Although there probably would be wins to enable them throughout,
-more extensive testing across benchmarks and platforms would need to be
-done.
-
-With the patch and IOMMU enabled my local testing on a small Skylake part
-shows OglVSTangent regression being reduced from ~14% to ~2%.
-
-References: b901bb89324a ("drm/i915/gemfs: enable THP")
-References: 9987da4b5dcf ("drm/i915: Disable THP until we have a GPU read BW W/A")
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/430
-Co-developed-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Eero Tamminen <eero.t.tamminen@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
----
- drivers/gpu/drm/i915/Kconfig.profile  | 46 +++++++++++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gemfs.c | 11 +++++--
- 2 files changed, 55 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
-index 39328567c200..c64c3d39a0f9 100644
---- a/drivers/gpu/drm/i915/Kconfig.profile
-+++ b/drivers/gpu/drm/i915/Kconfig.profile
-@@ -119,3 +119,49 @@ config DRM_I915_TIMESLICE_DURATION
- 	  /sys/class/drm/card?/engine/*/timeslice_duration_ms
- 
- 	  May be 0 to disable timeslicing.
-+
-+choice
-+	prompt "Transparent Hugepage Support (native)"
-+	default DRM_I915_THP_NATIVE_NEVER
-+	help
-+	  Select the preferred method for allocating from Transparent Hugepages
-+	  when IOMMU is not enabled.
-+
-+	config DRM_I915_THP_NATIVE_NEVER
-+	bool "Never"
-+
-+	config DRM_I915_THP_NATIVE_WITHIN
-+	bool "Within"
-+
-+	config DRM_I915_THP_NATIVE_ALWAYS
-+	bool "Always"
-+endchoice
-+
-+config DRM_I915_THP_NATIVE
-+	string
-+	default "always" if DRM_I915_THP_NATIVE_ALWAYS
-+	default "within_size" if DRM_I915_THP_NATIVE_WITHIN
-+	default "never" if DRM_I915_THP_NATIVE_NEVER
-+
-+choice
-+	prompt "Transparent Hugepage Support (IOMMU)"
-+	default DRM_I915_THP_IOMMU_WITHIN
-+	help
-+	  Select the preferred method for allocating from Transparent Hugepages
-+	  with IOMMU active.
-+
-+	config DRM_I915_THP_IOMMU_NEVER
-+	bool "Never"
-+
-+	config DRM_I915_THP_IOMMU_WITHIN
-+	bool "Within"
-+
-+	config DRM_I915_THP_IOMMU_ALWAYS
-+	bool "Always"
-+endchoice
-+
-+config DRM_I915_THP_IOMMU
-+	string
-+	default "always" if DRM_I915_THP_IOMMU_ALWAYS
-+	default "within_size" if DRM_I915_THP_IOMMU_WITHIN
-+	default "never" if DRM_I915_THP_IOMMU_NEVER
-diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-index 5e6e8c91ab38..b71d2b2d2ada 100644
---- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-@@ -13,8 +13,11 @@
- 
- int i915_gemfs_init(struct drm_i915_private *i915)
- {
-+	char thp_native[] = "huge=" CONFIG_DRM_I915_THP_NATIVE;
-+	char thp_iommu[] = "huge=" CONFIG_DRM_I915_THP_IOMMU;
- 	struct file_system_type *type;
- 	struct vfsmount *gemfs;
-+	char *opts;
- 
- 	type = get_fs_type("tmpfs");
- 	if (!type)
-@@ -26,15 +29,19 @@ int i915_gemfs_init(struct drm_i915_private *i915)
- 	 *
- 	 * One example, although it is probably better with a per-file
- 	 * control, is selecting huge page allocations ("huge=within_size").
--	 * Currently unused due to bandwidth issues (slow reads) on Broadwell+.
-+	 * However, we only do so to offset the overhead of iommu lookups
-+	 * due to bandwidth issues (slow reads) on Broadwell+.
- 	 */
-+	opts = intel_vtd_active() ? thp_iommu : thp_native;
- 
--	gemfs = kern_mount(type);
-+	gemfs = vfs_kern_mount(type, SB_KERNMOUNT, type->name, opts);
- 	if (IS_ERR(gemfs))
- 		return PTR_ERR(gemfs);
- 
- 	i915->mm.gemfs = gemfs;
- 
-+	drm_info(&i915->drm, "Transparent Hugepage mode '%s'", opts);
-+
- 	return 0;
- }
- 
--- 
-2.30.2
-
+>
+> Regards,
+>
+> Tvrtko
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
