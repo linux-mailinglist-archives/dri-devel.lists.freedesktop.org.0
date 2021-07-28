@@ -1,42 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A9C3D91BC
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:21:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFB33D91C4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C365D6E1D6;
-	Wed, 28 Jul 2021 15:21:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A7156E5D1;
+	Wed, 28 Jul 2021 15:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50A2B6E1D6;
- Wed, 28 Jul 2021 15:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=1WnwC+3EXs5c8VfBZDFJ7PRTMAGdpqCKrOWn6WyssQM=; 
- b=LUytcxR2nCFmj4M/m9Bfs7ollqulcS4j9XhLo19EvtUuIg+08LhkHn6ETW7uSK4YHf5//nGWXwkgl9zY6oXtyu7ph0tG62miVryuTl2e7ohcV9ss1LVulaJnriKJXI0JsD3SuVf5nfagNypD/siTUbXWveUoD0ctW2N63QXMP8AnkCw7v3v7k2loZaSYOhMphyn4bstLnzC8dShccqiAdVZsTS3i+079LoMFvxzn5UnS9pksbhQ5QNuGycNrwhsof+2x32rNNj2pdhN3rTvog3KSFzCdTpoVx6huCvAwb0Hx0HGaA/U24XGjsUh3J/DGbjwwXwS7dhaBAqdfAkredg==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1m8lMm-0002xE-LB; Wed, 28 Jul 2021 17:21:04 +0200
-Date: Wed, 28 Jul 2021 16:20:44 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [Linaro-mm-sig] [PATCH v4 03/18] drm/sched: Add dependency
- tracking
-Message-ID: <20210728152044.ygq4cw7i2tm5mcyy@mail.igalia.com>
-References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
- <20210712175352.802687-4-daniel.vetter@ffwll.ch>
- <CAKMK7uG8bMuDP=7-z9nZ38WgMdbeUk96eNx3buTCiaKatYOJxw@mail.gmail.com>
- <2bcfba05-b7d5-1bd9-d74a-b9aac1147e20@gmail.com>
- <CAKMK7uE7GBZYih=KZm5t7-_0P8i7M0tA2KgSOgJsm+-HUE+HzA@mail.gmail.com>
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C761E6E5D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 15:23:23 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id d8so3045149wrm.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 08:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gIJl6heK4Wu8LD+136XTBtnsYW2mvJjQU/D8Ms2H3as=;
+ b=jmPs1tCUkBSl0nSXYR6gPia9DTZUsUuK6WuNawtSRaBMCEBxyDs7+QabJIoXdqZq/U
+ ipyFUCHAbYE4ejN18peJE6bLtQ2Bi5RNYl8nKS6Tjj97CkA062FBKEmfWjDqKQgYK9EN
+ 3fZGAPjbfgcEnTQ2Ujrt4z3pi69aXGmnmeFMWo2wJdXup9LLrxLbA9G20eikcAjxV+Zm
+ av3H6Os8s+gr10pPR3+ISY5lhp9rY5uSyGZCWkWk9iyUoOQiaflz7mC6JcfImucPIXmd
+ fuYSCACdcYk3G4rFYcy0vppFGoGuG7uFFuQT+OruTr/oXEunbEXPHUXYUFT6vnnfcMUG
+ HPQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gIJl6heK4Wu8LD+136XTBtnsYW2mvJjQU/D8Ms2H3as=;
+ b=K9chrtBqAvjJ7fPInxqn1Or1TnkfEZWkzbk267SX/BboEqkJt+HrRQ2xerR1QcmxGm
+ L79jY158aoU/w9DQZpvzjZE70jwUZ+NIluueemCLfxgJ3WErBNwdOq5AftX8J7GXkpib
+ utP8U6JGicVVHKkbxTrMJuQRF6BiMyrVdbg5sBiM6TVVvcNqXu2VSdXPFKpxOSWAEPjK
+ r0Amith6ngPfKnyx/h7PZCf6A0+RhDfNEPuD+IT1jY13IDLcOZ8ymtyVLYw9mznYMv98
+ kVHnZdrDqXC2Bc74fSmDI630Vq5z08QTUDr3z5k8cWC6kefIC4J/wSr+w4EahP5P2lNh
+ bEdA==
+X-Gm-Message-State: AOAM5311qtJOonIRZDYPhpmrEkApyvNyoMcHFPCrymwuou24DAuZkqli
+ MlLtlx+EZQwDMBI2O9Yyxs93xcmuLPpnVgPXWkQ=
+X-Google-Smtp-Source: ABdhPJztwMYMMPn6WPsHQkFz9OCw5D0yFU47cnfG0RLy4751ge1lVIRHbL2Nmyofslpb5wRcwFRa181hDEG1sC6o0cs=
+X-Received: by 2002:adf:ea41:: with SMTP id j1mr17628736wrn.147.1627485802309; 
+ Wed, 28 Jul 2021 08:23:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xrz7dfzdxflucf5v"
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uE7GBZYih=KZm5t7-_0P8i7M0tA2KgSOgJsm+-HUE+HzA@mail.gmail.com>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+ <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+ <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+ <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+ <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
+ <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+ <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
+ <20210728165700.38c39cf8@eldfell>
+In-Reply-To: <20210728165700.38c39cf8@eldfell>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 28 Jul 2021 08:27:31 -0700
+Message-ID: <CAF6AEGs_tG4A=_gs7KLB0WeWQq8xyJuiY2CmRkXHnN7iyhUCqQ@mail.gmail.com>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,123 +73,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, Jack Zhang <Jack.Zhang1@amd.com>,
- David Airlie <airlied@linux.ie>,
- Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Melissa Wen <melissa.srw@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
+ Jack Zhang <Jack.Zhang1@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
  Lee Jones <lee.jones@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---xrz7dfzdxflucf5v
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 07/28, Daniel Vetter wrote:
-> On Wed, Jul 28, 2021 at 1:29 PM Christian K=F6nig
-> <ckoenig.leichtzumerken@gmail.com> wrote:
-> > Am 27.07.21 um 13:09 schrieb Daniel Vetter:
-> > > Adding a few more people to this bikeshed.
+On Wed, Jul 28, 2021 at 6:57 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Wed, 28 Jul 2021 15:31:41 +0200
+> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+>
+> > Am 28.07.21 um 15:24 schrieb Michel D=C3=A4nzer:
+> > > On 2021-07-28 3:13 p.m., Christian K=C3=B6nig wrote:
+> > >> Am 28.07.21 um 15:08 schrieb Michel D=C3=A4nzer:
+> > >>> On 2021-07-28 1:36 p.m., Christian K=C3=B6nig wrote:
+>
+> > >>>> At least AMD hardware is already capable of flipping frames on GPU=
+ events like finishing rendering (or uploading etc).
+> > >>>>
+> > >>>> By waiting in userspace on the CPU before send the frame to the ha=
+rdware you are completely killing of such features.
+> > >>>>
+> > >>>> For composing use cases that makes sense, but certainly not for fu=
+ll screen applications as far as I can see.
+> > >>> Even for fullscreen, the current KMS API only allows queuing a sing=
+le page flip per CRTC, with no way to cancel or otherwise modify it. Theref=
+ore, a Wayland compositor has to set a deadline for the next refresh cycle,=
+ and when the deadline passes, it has to select the best buffer available f=
+or the fullscreen surface. To make sure the flip will not miss the next ref=
+resh cycle, the compositor has to pick an idle buffer. If it picks a non-id=
+le buffer, and the pending rendering does not finish in time for vertical b=
+lank, the flip will be delayed by at least one refresh cycle, which results=
+ in visible stuttering.
+> > >>>
+> > >>> (Until the deadline passes, the Wayland compositor can't even know =
+if a previously fullscreen surface will still be fullscreen for the next re=
+fresh cycle)
+> > >> Well then let's extend the KMS API instead of hacking together worka=
+rounds in userspace.
+> > > That's indeed a possible solution for the fullscreen / direct scanout=
+ case.
 > > >
-> > > On Mon, Jul 12, 2021 at 10:02 PM Daniel Vetter <daniel.vetter@ffwll.c=
-h> wrote:
-> > >
-> > >> @@ -349,6 +367,13 @@ int drm_sched_job_init(struct drm_sched_job *jo=
-b,
-> > >>                         struct drm_sched_entity *entity,
-> > >>                         void *owner);
-> > >>   void drm_sched_job_arm(struct drm_sched_job *job);
-> > >> +int drm_sched_job_await_fence(struct drm_sched_job *job,
-> > >> +                             struct dma_fence *fence);
-> > >> +int drm_sched_job_await_implicit(struct drm_sched_job *job,
-> > >> +                                struct drm_gem_object *obj,
-> > >> +                                bool write);
-> > >> +
-> > >> +
-> > > I'm still waiting on the paint delivery for these two functions so I
-> > > can finish this shed.
+> > > Not for the general compositing case though, since a compositor does =
+not want to composite multiple output frames per display refresh cycle, so =
+it has to make sure the one frame hits the target.
 > >
-> > Well I wouldn't call that bike shedding, good names are important.
+> > Yeah, that's true as well.
 > >
-> > Just imaging we would have called the exclusive-fence write-fence inste=
-ad.
->=20
-> Sure naming matters, but at least to my English understanding there's
-> not a semantic different between telling something to await for
-> something else (i.e. add a dependency) or to tell something to add a
-> dependency (i.e. await that thing later on before you start doing your
-> own thing).
->=20
-> Exclusive vs write fence otoh is a pretty big difference in what it means.
->=20
-> But also if there's consensus that I'm wrong then I'm happy to pick
-> the more preferred of the two options I deem equivalent.
->=20
-> > What speaks against calling them add_dependency() and
-> > _add_implicit_depencencies() ?
->=20
-> Nothing. I just like another ack on this before I rename it all. Also
-> I wasnt sure what you'd want to name the implicit dependency thing.
->=20
-> Lucas, Boris, Melissa, any acks here?
+> > At least as long as nobody invents a mechanism to do this decision on
+> > the GPU instead.
+>
+> That would mean putting the whole window manager into the GPU.
+>
 
-so, my English is far from good; but _add_dependency sounds good to me.
+Hmm, seems like we could come up with a way for a shader to figure out
+if a fence has signaled or not on the GPU, and then either sample from
+the current or previous window surface?
 
-Melissa
-
-> -Daniel
->=20
-> > Regards,
-> > Christian.
-> >
-> > >
-> > > Thanks, Daniel
-> > >
-> > >>   void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
-> > >>                                      struct drm_gpu_scheduler **sche=
-d_list,
-> > >>                                      unsigned int num_sched_list);
-> > >> --
-> > >> 2.32.0
-> > >>
-> > >
-> >
->=20
->=20
-> --=20
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
---xrz7dfzdxflucf5v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmEBdccACgkQwqF3j0dL
-ehyj8g/+NHSkYxFoA0/Cwejk1IUV9MmWHSH6GJ4Ri5WEI12QjJobZjaA3elSeseo
-EBSKRNf6Vlc/8qDfr0ngsKBt17MhjrvMy9RzQrc/c82097PQW1he/df2pMluLmBb
-caqvFQjyq8yo9pGXofnEO8otBLchuByLAhhAYCXLyTIfbfcglI7fe0y9kIcjfo6d
-vR0BEcfeZN3RHG2VAK3W383U8N29ChfO7fa3Z4UlMb+YYgYhDMqj0jkuTgyubvWl
-WDGdj4YM3rfBWQw62f5kc1bDgRHJa52/jGE2ZkeIxHYFihvvdnEPvKbTBQhY4fD2
-LZrKyzEmdMRrlHxzyEBZzhcu+ceyM4bMb04ETYkueVwYCcPsclKirNcmOkM7Vb8a
-XX6TGzj/u/Ho+/3bzsrHASi8EKHgWizzFSSoy+wlADtEZC2LedW5q6WjSBzSY0rS
-BVEDk61nc5bfyIvTJj6+E4qZy4uwmsbCTl4LVoZwFu5422oFEJ25vRdOsyU523xD
-MKs8IlfZ8HoC/A++CLO3luv+GDC8JuNLwal5ShZOuB+ej02TFM1W/NXE/8M5lUuv
-MQMarxCw5X4EhfuMi92SglwXo4Jw77von1L1ncOY3m0EBlcliRDObDf9TFe3jSte
-q6gZ7uhqats2HMrVm/zCOhpC295Z1qpYWy9hvIZu7j6ZNCeIcKA=
-=cI4x
------END PGP SIGNATURE-----
-
---xrz7dfzdxflucf5v--
+BR,
+-R
