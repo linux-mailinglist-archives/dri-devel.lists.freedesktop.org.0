@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE653D8F32
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 15:33:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B37D3D8F2F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 15:33:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C01B56EA77;
-	Wed, 28 Jul 2021 13:33:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97B626EA76;
+	Wed, 28 Jul 2021 13:33:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 639FF6EA23
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 13:32:56 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id C99FE580B89;
- Wed, 28 Jul 2021 09:32:55 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 28 Jul 2021 09:32:55 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0F986EA76
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 13:32:59 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 69D39580B92;
+ Wed, 28 Jul 2021 09:32:59 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 28 Jul 2021 09:32:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=rpqGJA8BzP498
- VRthL+GNLGbJX6smf0yyUoSj3bk7lg=; b=T7QPu9DZcrvJ9+DUbEM2WWuxIgvsA
- aITQ042/uKsM3KruhSU0AE4u17DCinRfDhHJ411KfCKTqHJMfErqcrmOmbHZbQou
- pv7o1qhZAAv5m4su4JKIy/cHbAjT1r2sg3zRwsFnfnuJQeM81j2gweCQTRmXPpEp
- +Dejvo9qy+ujNYiXxaaEwGFRCWLfLyKMRPUt7cWWfqjEcHCPnyMCDpITJ/M7zHeL
- 0yFUePKHq6p2k98yssDPwzK8WbyQS/FTmCdtlwTK6OgqAfWGsY6S/4gToqmt1X5b
- bjFqBV7hJ6deK29Il+b44wVaTNdwwfSPI6fqdcKPbeyxewjKzae9qtUdQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=oj0uWTcP4eN/7
+ CWZDuDel6GfjZzcOM2ouml6hFdmYPA=; b=Slc460qMfo8dv8eoJrvCksRwXJP26
+ FdN2UhmRDlnfq0LcrMhc+R43iu79h22MNTB4lCSBxc9Bd/V9i51IM5CQtWg0FdD1
+ IPTPRcaBY8OBuJDvH3ngDPsCp7ITToLHVgyxcmBKQa3bMYcLUpr2fgdF7irkLDbu
+ qRXewaVGlE5DVlDOWOT0Zcd2yXg+VRz67PzR1vJNtPDr4bdSy5tfpU4u+Qrm2zLb
+ BJXHw8JciJpQhtZ6ofyt2OJWhQvOUgJEu9RuPtIqU3YDhkoucn4Qr8vZIUfk7BaT
+ qxFaFQt89P2wGwxDAzHkve7Z5U2pSwChpl96IfsqiI6bKwoP20fEt6HRA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=rpqGJA8BzP498VRthL+GNLGbJX6smf0yyUoSj3bk7lg=; b=mzkBpZBj
- MFoDsZ2rHfeXCJsmwG+9bmw+xSYn9Ok8xtbCoysdJw9h80OmmUOnOpBMheKFRB5Q
- ulD2Gr2Y7q7hFTikZhL0KIHLaaYU9Ab2AKOxeR1yM9OYJ2t2vW5cew0sEt52Hvmn
- EvoNcZhBfKhQTH+x6HJXRdvl25gfpIx1BfiXInkhhjuahf8IsCejx8j4kCjxU5Dl
- XE9q3UaESs0v4y7uEXXMeWpr3iyXIB0UTZSYpfG5l3orGYAFZXl1X7aPP+ukD5jM
- H4ryNloUl1HMBMYVTAfOGeAcIaQmR0HltX0A35x7U5fSf22tmDEPGxVfhG37s0QG
- NKaLa+m/1OT1yg==
-X-ME-Sender: <xms:hlwBYYTelkxCXq9iaal2xeJBuk0mPBEsjsmb2NfbAkyf_ctyCKzV4Q>
- <xme:hlwBYVxyzQmeeb5uNdBstBas3EcMMJ02sJkQ88B-xmxO5IW-pY8JB6la9hCDO86R2
- eMXFxMy91zqacSH6mM>
-X-ME-Received: <xmr:hlwBYV2xaO3yCMWFJr_t3bjWr448oc2TneyxV4H9mkNcmO4sFWlvxTbx4oWCTA8IlZkdKknEZ83vq7dGvAZDRHAjCM-YAKUoVDlJ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeelgdeifecutefuodetggdotefrodftvf
+ fm3; bh=oj0uWTcP4eN/7CWZDuDel6GfjZzcOM2ouml6hFdmYPA=; b=E9ipdD5t
+ ZlcBQy9QTB1kPmrL7dwvrn7EgRasv8XwE68licTQuITnJP9PSsnFTlXV+Y5aWh4R
+ tzIg3og5O+dUdoiOFtJ5uut9RLz9FEYBK+JWiPOnzSAerOJQ63XmbuPyPmeNKvB4
+ nZ1RMGmoxF4LZ+pDkyQtG9PgGirMnTSyuAz1ZgEX7m8Ko+553wgzpIC9PWwtY/lb
+ QSXKurF3nnyC6tCbiL20aisxaXQzN9SdxZSR7ZXtCfQXcFwr1tzZQPaqIKXxRWQY
+ 01WRpiIWdgi1PPj2a6RswqI9p7NA8vtK+fZ6EwndTsXbObatamyZCRFjSLeD/TTo
+ V0rkwg5hKSaUPQ==
+X-ME-Sender: <xms:iVwBYddrKZVlWNnMQ3qskFOvoBPeWYA1EYhQ694O5eeJSl__SqZqQQ>
+ <xme:iVwBYbMwsN2BTlfvwLosjcctHR3j_JuPJo3tbL-UY9j7xa__vT2N0WAtnXedQbchg
+ ENzSYdNS8X63ij7us4>
+X-ME-Received: <xmr:iVwBYWjmKcZsAEOGejVqgzqrPxKL2ANkLB2o64G0B7oSt-ZoEHo8hxhOQDyAjHFb4For-Qt36xbCY8AwdqMewy3cs68OdU20p_OA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeelgdeivdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeelgdeifecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:hlwBYcB-jJFEL-2cp7AmmODKANCwanjwxK8zy4SZcajabE050sh13Q>
- <xmx:hlwBYRg89sfwRyt-jurlnpIksRaJ24WNAskO-0xtbQL4ToWz8Spk9g>
- <xmx:hlwBYYrC2xQaTl3AscQBTGfw66b_EcLlkX_NJgbqYAfiq340PoXf2A>
- <xmx:h1wBYUQaB3NFDDphv1DsiTGWoA_VEQTOawhxCU-K3MS4JgcFzrKa9Q>
+X-ME-Proxy: <xmx:iVwBYW_2m-EfmLLFzri_qZ3kzWDBb8lAyMKX8FeaMi2iNdP4KjKq3A>
+ <xmx:iVwBYZtrZ9uMzYEUjx6IJ4KfRJBMtcrhoXzrk-ytvPXT8QV_2i073w>
+ <xmx:iVwBYVGvgHNcsR9yXRmJSPTxp1wo80_nNH7CS2PJQZzsCrW7qWBm7g>
+ <xmx:i1wBYaMjmJvB8Zw20cJQ2NlqxUeqTVrY7zXvf5xxizmfwth2V0SVNQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 Jul 2021 09:32:53 -0400 (EDT)
+ 28 Jul 2021 09:32:57 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
@@ -66,9 +66,10 @@ To: Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
  Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v2 7/8] drm/panel: raspberrypi-touchscreen: Use the attach hook
-Date: Wed, 28 Jul 2021 15:32:28 +0200
-Message-Id: <20210728133229.2247965-8-maxime@cerno.tech>
+Subject: [PATCH v2 8/8] drm/panel: raspberrypi-touchscreen: Remove MIPI-DSI
+ driver
+Date: Wed, 28 Jul 2021 15:32:29 +0200
+Message-Id: <20210728133229.2247965-9-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728133229.2247965-1-maxime@cerno.tech>
 References: <20210728133229.2247965-1-maxime@cerno.tech>
@@ -90,199 +91,63 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have an attach hook available for panels as well, let's use
-it for the RaspberryPi 7" DSI panel.
+The driver was using a two-steps initialisation when probing with the
+i2c probe first registering the MIPI-DSI device, and then when that
+device was probed the driver would attach the device to its host. This
+resulted in a fairly non-standard probe logic.
 
-This now mimics what all the other bridges in a similar situation are
-doing, and we avoid our probe order issue entirely.
+The previous commit changed that logic entirely though, resulting in a
+completely empty MIPI-DSI device probe. Let's simplify the driver by
+removing it entirely and just behave as a normal i2c driver.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- .../drm/panel/panel-raspberrypi-touchscreen.c | 135 ++++++++++--------
- 1 file changed, 77 insertions(+), 58 deletions(-)
+ .../drm/panel/panel-raspberrypi-touchscreen.c | 25 +------------------
+ 1 file changed, 1 insertion(+), 24 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-index 462faae0f446..995c5cafb970 100644
+index 995c5cafb970..09937aa26c6a 100644
 --- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
 +++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-@@ -346,7 +346,83 @@ static int rpi_touchscreen_get_modes(struct drm_panel *panel,
- 	return num;
- }
- 
-+static int rpi_touchscreen_attach(struct drm_panel *panel)
-+{
-+	struct rpi_touchscreen *ts = panel_to_ts(panel);
-+	struct device *dev = &ts->i2c->dev;
-+	struct device_node *endpoint, *dsi_host_node;
-+	struct mipi_dsi_device *dsi;
-+	struct mipi_dsi_host *host;
-+	int ret;
-+
-+	struct mipi_dsi_device_info info = {
-+		.type = RPI_DSI_DRIVER_NAME,
-+		.channel = 0,
-+		.node = NULL,
-+	};
-+
-+	/* Look up the DSI host.  It needs to probe before we do. */
-+	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
-+	if (!endpoint)
-+		return -ENODEV;
-+
-+	dsi_host_node = of_graph_get_remote_port_parent(endpoint);
-+	if (!dsi_host_node) {
-+		of_node_put(endpoint);
-+		return -ENODEV;
-+	}
-+
-+	host = of_find_mipi_dsi_host_by_node(dsi_host_node);
-+	of_node_put(dsi_host_node);
-+	if (!host) {
-+		of_node_put(endpoint);
-+		return -EPROBE_DEFER;
-+	}
-+
-+	info.node = of_graph_get_remote_port(endpoint);
-+	if (!info.node) {
-+		of_node_put(endpoint);
-+		return -ENODEV;
-+	}
-+
-+	of_node_put(endpoint);
-+
-+	dsi = mipi_dsi_device_register_full(host, &info);
-+	if (IS_ERR(dsi)) {
-+		dev_err(dev, "DSI device registration failed: %ld\n",
-+			PTR_ERR(dsi));
-+		return PTR_ERR(dsi);
-+	}
-+
-+	ts->dsi = dsi;
-+
-+	dsi->mode_flags = (MIPI_DSI_MODE_VIDEO |
-+			   MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+			   MIPI_DSI_MODE_LPM);
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->lanes = 1;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret) {
-+		dev_err(&dsi->dev, "failed to attach dsi to host: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void rpi_touchscreen_detach(struct drm_panel *panel)
-+{
-+	struct rpi_touchscreen *ts = panel_to_ts(panel);
-+
-+	mipi_dsi_detach(ts->dsi);
-+	mipi_dsi_device_unregister(ts->dsi);
-+}
-+
- static const struct drm_panel_funcs rpi_touchscreen_funcs = {
-+	.attach = rpi_touchscreen_attach,
-+	.detach = rpi_touchscreen_detach,
-+
- 	.disable = rpi_touchscreen_disable,
- 	.unprepare = rpi_touchscreen_noop,
- 	.prepare = rpi_touchscreen_noop,
-@@ -359,14 +435,7 @@ static int rpi_touchscreen_probe(struct i2c_client *i2c,
- {
- 	struct device *dev = &i2c->dev;
- 	struct rpi_touchscreen *ts;
--	struct device_node *endpoint, *dsi_host_node;
--	struct mipi_dsi_host *host;
- 	int ver;
--	struct mipi_dsi_device_info info = {
--		.type = RPI_DSI_DRIVER_NAME,
--		.channel = 0,
--		.node = NULL,
--	};
- 
- 	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
- 	if (!ts)
-@@ -394,35 +463,6 @@ static int rpi_touchscreen_probe(struct i2c_client *i2c,
- 	/* /\* Turn off at boot, so we can cleanly sequence powering on. *\/ */
- 	/* rpi_touchscreen_i2c_write(ts, REG_POWERON, 0); */
- 
--	/* Look up the DSI host.  It needs to probe before we do. */
--	endpoint = of_graph_get_next_endpoint(dev->of_node, NULL);
--	if (!endpoint)
--		return -ENODEV;
--
--	dsi_host_node = of_graph_get_remote_port_parent(endpoint);
--	if (!dsi_host_node)
--		goto error;
--
--	host = of_find_mipi_dsi_host_by_node(dsi_host_node);
--	of_node_put(dsi_host_node);
--	if (!host) {
--		of_node_put(endpoint);
--		return -EPROBE_DEFER;
--	}
--
--	info.node = of_graph_get_remote_port(endpoint);
--	if (!info.node)
--		goto error;
--
--	of_node_put(endpoint);
--
--	ts->dsi = mipi_dsi_device_register_full(host, &info);
--	if (IS_ERR(ts->dsi)) {
--		dev_err(dev, "DSI device registration failed: %ld\n",
--			PTR_ERR(ts->dsi));
--		return PTR_ERR(ts->dsi);
--	}
--
- 	drm_panel_init(&ts->base, dev, &rpi_touchscreen_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 
-@@ -432,41 +472,20 @@ static int rpi_touchscreen_probe(struct i2c_client *i2c,
- 	drm_panel_add(&ts->base);
- 
- 	return 0;
--
--error:
--	of_node_put(endpoint);
--	return -ENODEV;
- }
- 
- static int rpi_touchscreen_remove(struct i2c_client *i2c)
- {
- 	struct rpi_touchscreen *ts = i2c_get_clientdata(i2c);
- 
--	mipi_dsi_detach(ts->dsi);
--
- 	drm_panel_remove(&ts->base);
- 
--	mipi_dsi_device_unregister(ts->dsi);
--
+@@ -483,16 +483,6 @@ static int rpi_touchscreen_remove(struct i2c_client *i2c)
  	return 0;
  }
  
- static int rpi_touchscreen_dsi_probe(struct mipi_dsi_device *dsi)
- {
--	int ret;
+-static int rpi_touchscreen_dsi_probe(struct mipi_dsi_device *dsi)
+-{
+-	return 0;
+-}
 -
--	dsi->mode_flags = (MIPI_DSI_MODE_VIDEO |
--			   MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
--			   MIPI_DSI_MODE_LPM);
--	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->lanes = 1;
+-static struct mipi_dsi_driver rpi_touchscreen_dsi_driver = {
+-	.driver.name = RPI_DSI_DRIVER_NAME,
+-	.probe = rpi_touchscreen_dsi_probe,
+-};
 -
--	ret = mipi_dsi_attach(dsi);
+ static const struct of_device_id rpi_touchscreen_of_ids[] = {
+ 	{ .compatible = "raspberrypi,7inch-touchscreen-panel" },
+ 	{ } /* sentinel */
+@@ -507,20 +497,7 @@ static struct i2c_driver rpi_touchscreen_driver = {
+ 	.probe = rpi_touchscreen_probe,
+ 	.remove = rpi_touchscreen_remove,
+ };
 -
--	if (ret)
--		dev_err(&dsi->dev, "failed to attach dsi to host: %d\n", ret);
+-static int __init rpi_touchscreen_init(void)
+-{
+-	mipi_dsi_driver_register(&rpi_touchscreen_dsi_driver);
+-	return i2c_add_driver(&rpi_touchscreen_driver);
+-}
+-module_init(rpi_touchscreen_init);
 -
--	return ret;
-+	return 0;
- }
+-static void __exit rpi_touchscreen_exit(void)
+-{
+-	i2c_del_driver(&rpi_touchscreen_driver);
+-	mipi_dsi_driver_unregister(&rpi_touchscreen_dsi_driver);
+-}
+-module_exit(rpi_touchscreen_exit);
++module_i2c_driver(rpi_touchscreen_driver);
  
- static struct mipi_dsi_driver rpi_touchscreen_dsi_driver = {
+ MODULE_AUTHOR("Eric Anholt <eric@anholt.net>");
+ MODULE_DESCRIPTION("Raspberry Pi 7-inch touchscreen driver");
 -- 
 2.31.1
 
