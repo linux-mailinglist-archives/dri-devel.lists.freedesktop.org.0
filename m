@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D0D3D918D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:11:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A9C3D91BC
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2736E8D0;
-	Wed, 28 Jul 2021 15:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C365D6E1D6;
+	Wed, 28 Jul 2021 15:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 001676E19B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 15:11:13 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id z4so2968526wrv.11
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 08:11:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bmd0px3e+9Tzd5EO3Rr/x/u7koc5C3KDnqh38Pg2b74=;
- b=KmmhXoqsEOFVYzG7t0vbA17lNhy18DQXvTCYbnakG4kf/2rj3eGzUiflXMQQ6OMFMF
- 0zXdHzXR/nk/Khu1hko3PrSSsaHJ8etS5RJLDI5wv6VymExg+QPzUIl0hlZXq29D87bO
- fyCyRHaSwjqJBcYRPiOc8w624CZMMQnXMOoGprCohyG2jiq0zi5s6y3U0Ix1SVidB5Yk
- iJexABdfHm0zhMrBt6tpDKEs9ZMLzbbJ84dNzrX4zeUDkNR6OadcuKePa7WotYJHddOy
- hZ0Q8jDpCy9btsIRF8ilyPhQcpQXDvIc3/RAuedXhSPTI3NFnhXFgE+ETWNg+Yi3EUPU
- suxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bmd0px3e+9Tzd5EO3Rr/x/u7koc5C3KDnqh38Pg2b74=;
- b=L/h/VAFJG2psU0rgoYf8hJCowPnicg/Fa4N12RZh7hbROLMK046gB+gaHy+0QH4u3c
- VNdBob9CzktpALrKVvQA2psA9Eyh6C0FAidR97YR7YyOW97Nq4nu0r4AP/ZQAsb2hvI1
- Cow3u23DZEebBQMcBtB/orQ6sYBhQdTHfDQyslhfHDMN0eTomtLArhHchCE4n6ss7pa9
- ku0ZWPUcWzPRQgmCg9EN3KctAuVM8cixAR/CPCCeM80e+PzaejUUlPA/8diVRoJPqDv5
- YM+zxVuKC5FLSOJX2DShJWBRJSYzgtcMifhNbOhJLC40BOQCEudE0hdxxAIfPctXWkkZ
- cHSw==
-X-Gm-Message-State: AOAM533PcwX4iWizAs6PDm19QPZbi3VzCAUDpG8Zw2LS/BXJC2oevmCb
- g8nmzGrjdyWwdyIoPw/7NZYySWKljDGWIvBWOio=
-X-Google-Smtp-Source: ABdhPJwpwQ5uyuhug9ZGdb/7QH6tRqOV6GPxT2oOoivt5Kbqf8SeS/5J8QsrzPQuK04fUVM2BYxkiDIl8jWt9ypCSJk=
-X-Received: by 2002:adf:e3c7:: with SMTP id k7mr14768989wrm.327.1627485072367; 
- Wed, 28 Jul 2021 08:11:12 -0700 (PDT)
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A2B6E1D6;
+ Wed, 28 Jul 2021 15:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
+ bh=1WnwC+3EXs5c8VfBZDFJ7PRTMAGdpqCKrOWn6WyssQM=; 
+ b=LUytcxR2nCFmj4M/m9Bfs7ollqulcS4j9XhLo19EvtUuIg+08LhkHn6ETW7uSK4YHf5//nGWXwkgl9zY6oXtyu7ph0tG62miVryuTl2e7ohcV9ss1LVulaJnriKJXI0JsD3SuVf5nfagNypD/siTUbXWveUoD0ctW2N63QXMP8AnkCw7v3v7k2loZaSYOhMphyn4bstLnzC8dShccqiAdVZsTS3i+079LoMFvxzn5UnS9pksbhQ5QNuGycNrwhsof+2x32rNNj2pdhN3rTvog3KSFzCdTpoVx6huCvAwb0Hx0HGaA/U24XGjsUh3J/DGbjwwXwS7dhaBAqdfAkredg==;
+Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
+ helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1m8lMm-0002xE-LB; Wed, 28 Jul 2021 17:21:04 +0200
+Date: Wed, 28 Jul 2021 16:20:44 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [Linaro-mm-sig] [PATCH v4 03/18] drm/sched: Add dependency
+ tracking
+Message-ID: <20210728152044.ygq4cw7i2tm5mcyy@mail.igalia.com>
+References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
+ <20210712175352.802687-4-daniel.vetter@ffwll.ch>
+ <CAKMK7uG8bMuDP=7-z9nZ38WgMdbeUk96eNx3buTCiaKatYOJxw@mail.gmail.com>
+ <2bcfba05-b7d5-1bd9-d74a-b9aac1147e20@gmail.com>
+ <CAKMK7uE7GBZYih=KZm5t7-_0P8i7M0tA2KgSOgJsm+-HUE+HzA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <20210726233854.2453899-2-robdclark@gmail.com>
- <50b181fe-6605-b7ac-36a6-8bcda2930e6f@gmail.com>
- <CAF6AEGuNxi_aeYE37FT3a-atCUWgepxs-9EwxMfpiMaU7wgqdQ@mail.gmail.com>
- <9edd7083-e6b3-b230-c273-8f2fbe76ca17@amd.com>
- <703dc9c3-5657-432e-ca0b-25bdd67a2abd@gmail.com>
-In-Reply-To: <703dc9c3-5657-432e-ca0b-25bdd67a2abd@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 28 Jul 2021 08:15:21 -0700
-Message-ID: <CAF6AEGvSpvc2po93b2eKB2cSzx_a+BtPWhQgRs-1NFFZfUbJNw@mail.gmail.com>
-Subject: Re: [RFC 1/4] dma-fence: Add deadline awareness
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xrz7dfzdxflucf5v"
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uE7GBZYih=KZm5t7-_0P8i7M0tA2KgSOgJsm+-HUE+HzA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,217 +49,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, Rob Clark <robdclark@chromium.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, Jack Zhang <Jack.Zhang1@amd.com>,
+ David Airlie <airlied@linux.ie>,
+ Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 28, 2021 at 4:37 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 28.07.21 um 09:03 schrieb Christian K=C3=B6nig:
-> > Am 27.07.21 um 16:25 schrieb Rob Clark:
-> >> On Tue, Jul 27, 2021 at 12:11 AM Christian K=C3=B6nig
-> >> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>> Am 27.07.21 um 01:38 schrieb Rob Clark:
-> >>>> From: Rob Clark <robdclark@chromium.org>
-> >>>>
-> >>>> Add a way to hint to the fence signaler of an upcoming deadline,
-> >>>> such as
-> >>>> vblank, which the fence waiter would prefer not to miss. This is to
-> >>>> aid
-> >>>> the fence signaler in making power management decisions, like boosti=
-ng
-> >>>> frequency as the deadline approaches and awareness of missing
-> >>>> deadlines
-> >>>> so that can be factored in to the frequency scaling.
-> >>>>
-> >>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>>> ---
-> >>>>    drivers/dma-buf/dma-fence.c | 39
-> >>>> +++++++++++++++++++++++++++++++++++++
-> >>>>    include/linux/dma-fence.h   | 17 ++++++++++++++++
-> >>>>    2 files changed, 56 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence=
-.c
-> >>>> index ce0f5eff575d..2e0d25ab457e 100644
-> >>>> --- a/drivers/dma-buf/dma-fence.c
-> >>>> +++ b/drivers/dma-buf/dma-fence.c
-> >>>> @@ -910,6 +910,45 @@ dma_fence_wait_any_timeout(struct dma_fence
-> >>>> **fences, uint32_t count,
-> >>>>    }
-> >>>>    EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> >>>>
-> >>>> +
-> >>>> +/**
-> >>>> + * dma_fence_set_deadline - set desired fence-wait deadline
-> >>>> + * @fence:    the fence that is to be waited on
-> >>>> + * @deadline: the time by which the waiter hopes for the fence to b=
-e
-> >>>> + *            signaled
-> >>>> + *
-> >>>> + * Inform the fence signaler of an upcoming deadline, such as
-> >>>> vblank, by
-> >>>> + * which point the waiter would prefer the fence to be signaled
-> >>>> by.  This
-> >>>> + * is intended to give feedback to the fence signaler to aid in pow=
-er
-> >>>> + * management decisions, such as boosting GPU frequency if a period=
-ic
-> >>>> + * vblank deadline is approaching.
-> >>>> + */
-> >>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t
-> >>>> deadline)
-> >>>> +{
-> >>>> +     unsigned long flags;
-> >>>> +
-> >>>> +     if (dma_fence_is_signaled(fence))
-> >>>> +             return;
-> >>>> +
-> >>>> +     spin_lock_irqsave(fence->lock, flags);
-> >>>> +
-> >>>> +     /* If we already have an earlier deadline, keep it: */
-> >>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags) &=
-&
-> >>>> +         ktime_before(fence->deadline, deadline)) {
-> >>>> +             spin_unlock_irqrestore(fence->lock, flags);
-> >>>> +             return;
-> >>>> +     }
-> >>>> +
-> >>>> +     fence->deadline =3D deadline;
-> >>>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags);
-> >>>> +
-> >>>> +     spin_unlock_irqrestore(fence->lock, flags);
-> >>>> +
-> >>>> +     if (fence->ops->set_deadline)
-> >>>> +             fence->ops->set_deadline(fence, deadline);
-> >>>> +}
-> >>>> +EXPORT_SYMBOL(dma_fence_set_deadline);
-> >>>> +
-> >>>>    /**
-> >>>>     * dma_fence_init - Initialize a custom fence.
-> >>>>     * @fence: the fence to initialize
-> >>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> >>>> index 6ffb4b2c6371..4e6cfe4e6fbc 100644
-> >>>> --- a/include/linux/dma-fence.h
-> >>>> +++ b/include/linux/dma-fence.h
-> >>>> @@ -88,6 +88,7 @@ struct dma_fence {
-> >>>>                /* @timestamp replaced by @rcu on
-> >>>> dma_fence_release() */
-> >>>>                struct rcu_head rcu;
-> >>>>        };
-> >>>> +     ktime_t deadline;
-> >>> Mhm, adding the flag sounds ok to me but I'm a bit hesitating adding
-> >>> the
-> >>> deadline as extra field here.
-> >>>
-> >>> We tuned the dma_fence structure intentionally so that it is only 64
-> >>> bytes.
-> >> Hmm, then I guess you wouldn't be a fan of also adding an hrtimer?
-> >>
-> >> We could push the ktime_t (and timer) down into the derived fence
-> >> class, but I think there is going to need to be some extra storage
-> >> *somewhere*.. maybe the fence signaler could get away with just
-> >> storing the nearest upcoming deadline per fence-context instead?
+
+--xrz7dfzdxflucf5v
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 07/28, Daniel Vetter wrote:
+> On Wed, Jul 28, 2021 at 1:29 PM Christian K=F6nig
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+> > Am 27.07.21 um 13:09 schrieb Daniel Vetter:
+> > > Adding a few more people to this bikeshed.
+> > >
+> > > On Mon, Jul 12, 2021 at 10:02 PM Daniel Vetter <daniel.vetter@ffwll.c=
+h> wrote:
+> > >
+> > >> @@ -349,6 +367,13 @@ int drm_sched_job_init(struct drm_sched_job *jo=
+b,
+> > >>                         struct drm_sched_entity *entity,
+> > >>                         void *owner);
+> > >>   void drm_sched_job_arm(struct drm_sched_job *job);
+> > >> +int drm_sched_job_await_fence(struct drm_sched_job *job,
+> > >> +                             struct dma_fence *fence);
+> > >> +int drm_sched_job_await_implicit(struct drm_sched_job *job,
+> > >> +                                struct drm_gem_object *obj,
+> > >> +                                bool write);
+> > >> +
+> > >> +
+> > > I'm still waiting on the paint delivery for these two functions so I
+> > > can finish this shed.
 > >
-> > I would just push that into the driver instead.
+> > Well I wouldn't call that bike shedding, good names are important.
 > >
-> > You most likely don't want the deadline per fence anyway in complex
-> > scenarios, but rather per frame. And a frame is usually composed from
-> > multiple fences.
+> > Just imaging we would have called the exclusive-fence write-fence inste=
+ad.
+>=20
+> Sure naming matters, but at least to my English understanding there's
+> not a semantic different between telling something to await for
+> something else (i.e. add a dependency) or to tell something to add a
+> dependency (i.e. await that thing later on before you start doing your
+> own thing).
+>=20
+> Exclusive vs write fence otoh is a pretty big difference in what it means.
+>=20
+> But also if there's consensus that I'm wrong then I'm happy to pick
+> the more preferred of the two options I deem equivalent.
+>=20
+> > What speaks against calling them add_dependency() and
+> > _add_implicit_depencencies() ?
+>=20
+> Nothing. I just like another ack on this before I rename it all. Also
+> I wasnt sure what you'd want to name the implicit dependency thing.
+>=20
+> Lucas, Boris, Melissa, any acks here?
 
-Right, I ended up keeping track of the nearest deadline in patch 5/4
-which added drm/msm support:
+so, my English is far from good; but _add_dependency sounds good to me.
 
-  https://patchwork.freedesktop.org/patch/447138/
+Melissa
 
-But if we do have the ktime_t in dma_fence in dma_fence, we can add
-some checks and avoid calling back to the driver if a later deadline
-is set on a fence that already has an earlier deadline.  OTOH I
-suppose I can push all that back to the driver to start, and we can
-revisit once we have more drivers implementing deadline support.
-
->
-> Thinking more about it we could probably kill the spinlock pointer and
-> make the flags 32bit if we absolutely need that here.
-
-If we had a 'struct dma_fence_context' we could push the spinlock, ops
-pointer, and u64 context into that and replace with a single
-dma_fence_context ptr, fwiw
-
-BR,
--R
-
-> But I still don't see the need for that, especially since most drivers
-> probably won't implement it.
->
-> Regards,
-> Christian.
->
-> >
+> -Daniel
+>=20
 > > Regards,
 > > Christian.
 > >
-> >>
-> >> BR,
-> >> -R
-> >>
-> >>> Regards,
-> >>> Christian.
-> >>>
-> >>>>        u64 context;
-> >>>>        u64 seqno;
-> >>>>        unsigned long flags;
-> >>>> @@ -99,6 +100,7 @@ enum dma_fence_flag_bits {
-> >>>>        DMA_FENCE_FLAG_SIGNALED_BIT,
-> >>>>        DMA_FENCE_FLAG_TIMESTAMP_BIT,
-> >>>>        DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> >>>> +     DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
-> >>>>        DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
-> >>>>    };
-> >>>>
-> >>>> @@ -261,6 +263,19 @@ struct dma_fence_ops {
-> >>>>         */
-> >>>>        void (*timeline_value_str)(struct dma_fence *fence,
-> >>>>                                   char *str, int size);
-> >>>> +
-> >>>> +     /**
-> >>>> +      * @set_deadline:
-> >>>> +      *
-> >>>> +      * Callback to allow a fence waiter to inform the fence
-> >>>> signaler of an
-> >>>> +      * upcoming deadline, such as vblank, by which point the
-> >>>> waiter would
-> >>>> +      * prefer the fence to be signaled by.  This is intended to
-> >>>> give feedback
-> >>>> +      * to the fence signaler to aid in power management
-> >>>> decisions, such as
-> >>>> +      * boosting GPU frequency.
-> >>>> +      *
-> >>>> +      * This callback is optional.
-> >>>> +      */
-> >>>> +     void (*set_deadline)(struct dma_fence *fence, ktime_t deadline=
-);
-> >>>>    };
-> >>>>
-> >>>>    void dma_fence_init(struct dma_fence *fence, const struct
-> >>>> dma_fence_ops *ops,
-> >>>> @@ -586,6 +601,8 @@ static inline signed long dma_fence_wait(struct
-> >>>> dma_fence *fence, bool intr)
-> >>>>        return ret < 0 ? ret : 0;
-> >>>>    }
-> >>>>
-> >>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t
-> >>>> deadline);
-> >>>> +
-> >>>>    struct dma_fence *dma_fence_get_stub(void);
-> >>>>    struct dma_fence *dma_fence_allocate_private_stub(void);
-> >>>>    u64 dma_fence_context_alloc(unsigned num);
+> > >
+> > > Thanks, Daniel
+> > >
+> > >>   void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+> > >>                                      struct drm_gpu_scheduler **sche=
+d_list,
+> > >>                                      unsigned int num_sched_list);
+> > >> --
+> > >> 2.32.0
+> > >>
+> > >
 > >
->
+>=20
+>=20
+> --=20
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+--xrz7dfzdxflucf5v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmEBdccACgkQwqF3j0dL
+ehyj8g/+NHSkYxFoA0/Cwejk1IUV9MmWHSH6GJ4Ri5WEI12QjJobZjaA3elSeseo
+EBSKRNf6Vlc/8qDfr0ngsKBt17MhjrvMy9RzQrc/c82097PQW1he/df2pMluLmBb
+caqvFQjyq8yo9pGXofnEO8otBLchuByLAhhAYCXLyTIfbfcglI7fe0y9kIcjfo6d
+vR0BEcfeZN3RHG2VAK3W383U8N29ChfO7fa3Z4UlMb+YYgYhDMqj0jkuTgyubvWl
+WDGdj4YM3rfBWQw62f5kc1bDgRHJa52/jGE2ZkeIxHYFihvvdnEPvKbTBQhY4fD2
+LZrKyzEmdMRrlHxzyEBZzhcu+ceyM4bMb04ETYkueVwYCcPsclKirNcmOkM7Vb8a
+XX6TGzj/u/Ho+/3bzsrHASi8EKHgWizzFSSoy+wlADtEZC2LedW5q6WjSBzSY0rS
+BVEDk61nc5bfyIvTJj6+E4qZy4uwmsbCTl4LVoZwFu5422oFEJ25vRdOsyU523xD
+MKs8IlfZ8HoC/A++CLO3luv+GDC8JuNLwal5ShZOuB+ej02TFM1W/NXE/8M5lUuv
+MQMarxCw5X4EhfuMi92SglwXo4Jw77von1L1ncOY3m0EBlcliRDObDf9TFe3jSte
+q6gZ7uhqats2HMrVm/zCOhpC295Z1qpYWy9hvIZu7j6ZNCeIcKA=
+=cI4x
+-----END PGP SIGNATURE-----
+
+--xrz7dfzdxflucf5v--
