@@ -1,38 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156623D8499
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 02:20:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C353D84AE
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 02:31:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0B96E90B;
-	Wed, 28 Jul 2021 00:20:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E6816EA21;
+	Wed, 28 Jul 2021 00:31:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43AA46E884;
- Wed, 28 Jul 2021 00:20:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="199732560"
-X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="199732560"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 17:20:40 -0700
-X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="663075467"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 17:20:40 -0700
-Date: Wed, 28 Jul 2021 00:20:37 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Subject: Re: [PATCH 07/15] drm/i915/guc/slpc: Remove BUG_ON in
- guc_submission_disable
-Message-ID: <20210728002037.GA50251@DUT151-ICLU.fm.intel.com>
-References: <20210726190800.26762-1-vinay.belgaumkar@intel.com>
- <20210726190800.26762-8-vinay.belgaumkar@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 507C56EA21
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 00:31:50 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="234430361"
+X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="234430361"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 17:31:48 -0700
+X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="634583284"
+Received: from mamarti1-mobl.amr.corp.intel.com (HELO
+ achrisan-desk3.intel.com) ([10.212.71.161])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 17:31:47 -0700
+From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
+ edmund.j.dea@intel.com
+Subject: [PATCH 01/14] drm/kmb: Enable LCD DMA for low TVDDCV
+Date: Tue, 27 Jul 2021 17:31:13 -0700
+Message-Id: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210726190800.26762-8-vinay.belgaumkar@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,45 +43,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 26, 2021 at 12:07:52PM -0700, Vinay Belgaumkar wrote:
-> The assumption when it was added was there would be no wakerefs
-> held. However, if we fail to enable SLPC, we will still be
-> holding a wakeref.
-> 
+From: Edmund Dea <edmund.j.dea@intel.com>
 
-So this is if intel_guc_slpc_enable() fails, right? Not seeing where the
-wakeref is taken. It also seems wrong not to drop the wakeref before
-calling intel_guc_submission_disable, hence the GEM_BUG_ON in this
-function.
+There's an undocumented dependency between LCD layer enable bits [2-5]
+and the AXI pipelined read enable bit [28] in the LCD_CONTROL register.
+The proper order of operation is:
 
-Can you explain this bit more?
+1) Clear AXI pipelined read enable bit
+2) Set LCD layers
+3) Set AXI pipelined read enable bit
 
-Matt
+With this update, LCD can start DMA when TVDDCV is reduced down to 700mV.
 
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b6338742a594..48cbd800ca54 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -2523,10 +2523,6 @@ void intel_guc_submission_enable(struct intel_guc *guc)
->  
->  void intel_guc_submission_disable(struct intel_guc *guc)
->  {
-> -	struct intel_gt *gt = guc_to_gt(guc);
-> -
-> -	GEM_BUG_ON(gt->awake); /* GT should be parked first */
-> -
->  	/* Note: By the time we're here, GuC may have already been reset */
->  }
->  
-> -- 
-> 2.25.0
-> 
+Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
+Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
+---
+ drivers/gpu/drm/kmb/kmb_drv.c   | 14 ++++++++++++++
+ drivers/gpu/drm/kmb/kmb_plane.c | 15 +++++++++++++--
+ 2 files changed, 27 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
+index 96ea1a2c11dd..c0b1c6f99249 100644
+--- a/drivers/gpu/drm/kmb/kmb_drv.c
++++ b/drivers/gpu/drm/kmb/kmb_drv.c
+@@ -203,6 +203,7 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
+ 	unsigned long status, val, val1;
+ 	int plane_id, dma0_state, dma1_state;
+ 	struct kmb_drm_private *kmb = to_kmb(dev);
++	u32 ctrl = 0;
+ 
+ 	status = kmb_read_lcd(kmb, LCD_INT_STATUS);
+ 
+@@ -227,6 +228,19 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
+ 				kmb_clr_bitmask_lcd(kmb, LCD_CONTROL,
+ 						    kmb->plane_status[plane_id].ctrl);
+ 
++				ctrl = kmb_read_lcd(kmb, LCD_CONTROL);
++				if (!(ctrl & (LCD_CTRL_VL1_ENABLE |
++				    LCD_CTRL_VL2_ENABLE |
++				    LCD_CTRL_GL1_ENABLE |
++				    LCD_CTRL_GL2_ENABLE))) {
++					/* If no LCD layers are using DMA,
++					 * then disable DMA pipelined AXI read
++					 * transactions.
++					 */
++					kmb_clr_bitmask_lcd(kmb, LCD_CONTROL,
++							    LCD_CTRL_PIPELINE_DMA);
++				}
++
+ 				kmb->plane_status[plane_id].disable = false;
+ 			}
+ 		}
+diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
+index d5b6195856d1..2888dd5dcc2c 100644
+--- a/drivers/gpu/drm/kmb/kmb_plane.c
++++ b/drivers/gpu/drm/kmb/kmb_plane.c
+@@ -427,8 +427,14 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 
+ 	kmb_set_bitmask_lcd(kmb, LCD_CONTROL, ctrl);
+ 
+-	/* FIXME no doc on how to set output format,these values are
+-	 * taken from the Myriadx tests
++	/* Enable pipeline AXI read transactions for the DMA
++	 * after setting graphics layers. This must be done
++	 * in a separate write cycle.
++	 */
++	kmb_set_bitmask_lcd(kmb, LCD_CONTROL, LCD_CTRL_PIPELINE_DMA);
++
++	/* FIXME no doc on how to set output format,these values are taken
++	 * from the Myriadx tests
+ 	 */
+ 	out_format |= LCD_OUTF_FORMAT_RGB888;
+ 
+@@ -526,6 +532,11 @@ struct kmb_plane *kmb_plane_init(struct drm_device *drm)
+ 		plane->id = i;
+ 	}
+ 
++	/* Disable pipeline AXI read transactions for the DMA
++	 * prior to setting graphics layers
++	 */
++	kmb_clr_bitmask_lcd(kmb, LCD_CONTROL, LCD_CTRL_PIPELINE_DMA);
++
+ 	return primary;
+ cleanup:
+ 	drmm_kfree(drm, plane);
+-- 
+2.25.1
+
