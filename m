@@ -2,55 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21FE3D9242
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A49E3D9243
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:42:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28CAF6E255;
-	Wed, 28 Jul 2021 15:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EC4C6EB18;
+	Wed, 28 Jul 2021 15:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com
- [IPv6:2607:f8b0:4864:20::e34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B906E255
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 15:41:38 +0000 (UTC)
-Received: by mail-vs1-xe34.google.com with SMTP id t2so1654502vsa.11
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 08:41:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1QoJwY8noglSuUCCXb09kPbOF1oWuAKrTzQuDfXNLUU=;
- b=qnrdSr5cr2oFDAIi9MKUDeBCcH69lMT1IIErkbIcMKZHQkt3foUG2gA3PAfnXza/IR
- 4ZBRV50IECTC2jxXZh4d2xT7OrVUprsQsVa4GGi+CUd9MF6J1Gs0fzPDS2roaD2KoP8b
- lhWOk04KLbA8/0Oe33oMe4n6/q5xe5bKD2hI9GItDhRKCD7g7afFfZyJJlY0lujKUt+w
- sgkRz66cjc9SeExAW43t0Gh2AyyvaCEE7QYS9n2MeyGIrIMkWdVA8Qwmn4PiBz5nsi+g
- /pMlnrRqQNTNT5VGl+dnx3luuXurvGUHHNrn6vi0CqyLlWYRUTYe0jFWHbfpY4l1jeVn
- 0huw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1QoJwY8noglSuUCCXb09kPbOF1oWuAKrTzQuDfXNLUU=;
- b=pMyl/iFcEfBraXAeT5Vku13UlbAg+gAUkkbpTmStiNHGb+ZfA5IFqBq3zS0mrV8ClU
- r/Yvp8U0dgJMpfOsB93VAtzwGQ1hsuJz7FLE1G6FRV3a4p4ZMAwrXm0ChpzToiv+QgSr
- zlIXDfxH72KRAHM+tc4DObK941b24LrLF+J8k1/+tAEW8PBXLscUBkEcQAM+9/0mS0gw
- ADGG3qb82tpzj+f+1PGKhbE6XAw1XPvqsNgxV70NdiB8LY1vk+uUKO4ahdtz1nnTRGvG
- Qr1nDWjgGAsjY6xUnXPZenixtf7Pha7rKlkRpY7D13p1iYavryC8sDCvlQyHkkwV4TAq
- P30g==
-X-Gm-Message-State: AOAM53052p94QUEp6b2QdyqPbN2iDMVOLRtF+se+DTPKdA9YYpHb4DVa
- It/joTgfEZ/xIuN9M6yK4V5VgxrTVw+znslIUHM=
-X-Google-Smtp-Source: ABdhPJxBT1vlrAD/nksa89YIVoxqfVf8n09UebLhNHRp7O7niEHO4G/Fay9CO+2He8YW4MS4ev0ft3CYonbie3lmces=
-X-Received: by 2002:a67:c789:: with SMTP id t9mr438538vsk.60.1627486897528;
- Wed, 28 Jul 2021 08:41:37 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8A86EB11;
+ Wed, 28 Jul 2021 15:42:28 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="212680520"
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="212680520"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 08:42:27 -0700
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="435156783"
+Received: from hseyedro-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.213.174.18])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 08:42:24 -0700
+Date: Wed, 28 Jul 2021 11:42:22 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YQF63ruuE72x2T45@intel.com>
 MIME-Version: 1.0
-References: <20210721175526.22020-1-sean@poorly.run>
- <20210721175526.22020-2-sean@poorly.run>
-In-Reply-To: <20210721175526.22020-2-sean@poorly.run>
-From: jim.cromie@gmail.com
-Date: Wed, 28 Jul 2021 11:41:11 -0400
-Message-ID: <CAJfuBxyLTuix86xNvL_M-2oVz=1ehyZ4YB1FPPG0P4tH2P9Xog@mail.gmail.com>
-Subject: Re: [RESEND PATCH v6 01/14] drm/mipi_dbi: Convert pr_debug calls to
- DRM_DEBUG_DRIVER
-To: Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,66 +42,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 1:55 PM Sean Paul <sean@poorly.run> wrote:
->
-> From: Sean Paul <seanpaul@chromium.org>
->
-> Use the drm logging helpers to output these messages to ensure they'll
-> be included by the drm tracefs instance.
->
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-2-sean@poorly.run #v5
->
-> Changes in v5:
-> -Added to the set
-> Changes in v6:
-> -None
-> ---
->  drivers/gpu/drm/drm_mipi_dbi.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> index 10b4e59384ae..2f661d7ff774 100644
-> --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> @@ -763,9 +763,7 @@ static int mipi_dbi_spi1e_transfer(struct mipi_dbi *dbi, int dc,
->         int i, ret;
->         u8 *dst;
->
-> -       if (drm_debug_enabled(DRM_UT_DRIVER))
-> -               pr_debug("[drm:%s] dc=%d, max_chunk=%zu, transfers:\n",
-> -                        __func__, dc, max_chunk);
-> +       DRM_DEBUG_DRIVER("dc=%d, max_chunk=%zu, transfers:\n", dc, max_chunk);
->
->         tr.speed_hz = mipi_dbi_spi_cmd_max_speed(spi, len);
->         spi_message_init_with_transfers(&m, &tr, 1);
-> @@ -887,9 +885,7 @@ static int mipi_dbi_spi1_transfer(struct mipi_dbi *dbi, int dc,
->         max_chunk = dbi->tx_buf9_len;
->         dst16 = dbi->tx_buf9;
->
-> -       if (drm_debug_enabled(DRM_UT_DRIVER))
-> -               pr_debug("[drm:%s] dc=%d, max_chunk=%zu, transfers:\n",
-> -                        __func__, dc, max_chunk);
-> +       DRM_DEBUG_DRIVER("dc=%d, max_chunk=%zu, transfers:\n", dc, max_chunk);
->
+Hi Dave and Daniel,
 
-This makes sense generically.
+Here goes drm-intel-fixes-2021-07-28:
 
-I note you have dropped the "[drm:__func__]" prefix.
+Display related fixes:
+- Fix vbt port mask
+- Fix around reading the right DSC disable fuse in display_ver 10
+- Split display version 9 and 10 in intel_setup_outputs
 
-dyndbg can provide that if user wants (+pf), so dropping from msg-body
-is brevity.
+Thanks,
+Rodrigo.
 
-but this means that dyndbg cannot select on it using
-   echo "format ^[drm:funcname] +p" > control
+The following changes since commit ff1176468d368232b684f75e82563369208bc371:
 
-thats ok, since "function funcname" would work,
-but theres an element of moving target.
+  Linux 5.14-rc3 (2021-07-25 15:35:14 -0700)
 
-obviously, w/o dyndbg, all this is different, putting more balls in the air.
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-07-28
+
+for you to fetch changes up to b4bde5554f70fb04ff07989fdc1356ab84d6f482:
+
+  drm/i915/display: split DISPLAY_VER 9 and 10 in intel_setup_outputs() (2021-07-26 06:16:47 -0400)
+
+----------------------------------------------------------------
+Display related fixes:
+- Fix vbt port mask
+- Fix around reading the right DSC disable fuse in display_ver 10
+- Split display version 9 and 10 in intel_setup_outputs
+
+----------------------------------------------------------------
+Lucas De Marchi (2):
+      drm/i915: fix not reading DSC disable fuse in GLK
+      drm/i915/display: split DISPLAY_VER 9 and 10 in intel_setup_outputs()
+
+Rodrigo Vivi (1):
+      drm/i915/bios: Fix ports mask
+
+ drivers/gpu/drm/i915/display/intel_bios.c    | 3 ++-
+ drivers/gpu/drm/i915/display/intel_display.c | 8 +++++++-
+ drivers/gpu/drm/i915/intel_device_info.c     | 9 +++++----
+ 3 files changed, 14 insertions(+), 6 deletions(-)
