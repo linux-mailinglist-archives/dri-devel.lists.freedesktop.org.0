@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2463D9252
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E603D9270
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:57:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68EAC6EB29;
-	Wed, 28 Jul 2021 15:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1D326E0CA;
+	Wed, 28 Jul 2021 15:57:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34C626E925;
- Wed, 28 Jul 2021 15:50:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="273770704"
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="273770704"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 08:50:20 -0700
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="437818759"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB24A6E0CA;
+ Wed, 28 Jul 2021 15:57:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="199912533"
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="199912533"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 08:57:23 -0700
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="475893676"
 Received: from sdrogers-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.213.245.248])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 08:50:19 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 08:57:21 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/selftests: fixup igt_shrink_thp
-Date: Wed, 28 Jul 2021 16:50:13 +0100
-Message-Id: <20210728155013.1741657-1-matthew.auld@intel.com>
+Subject: [PATCH] drm/i915/selftests: prefer the create_user helper
+Date: Wed, 28 Jul 2021 16:57:11 +0100
+Message-Id: <20210728155711.1744601-1-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -42,38 +42,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the object might still be active here, the shrink_all will simply
-ignore it, which blows up in the test, since the pages will still be
-there. Currently THP is disabled which should result in the test being
-skipped, but if we ever re-enable THP we might start seeing the failure.
-Fix this by forcing I915_SHRINK_ACTIVE.
+No need to hand roll the set_placements stuff, now that that we have a
+helper for this. Also no need to handle the -ENODEV case here, since
+NULL mr implies missing device support, where the for_each_memory_region
+helper will always skip over such regions.
 
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../drm/i915/gem/selftests/i915_gem_mman.c    | 46 ++-----------------
+ 1 file changed, 4 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index a094f3ce1a90..7a67e880b562 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -1575,7 +1575,10 @@ static int igt_shrink_thp(void *arg)
- 	 * Now that the pages are *unpinned* shrink-all should invoke
- 	 * shmem to truncate our pages.
- 	 */
--	i915_gem_shrink_all(i915);
-+	i915_gem_shrink(NULL, i915, -1UL, NULL,
-+			I915_SHRINK_BOUND |
-+			I915_SHRINK_UNBOUND |
-+			I915_SHRINK_ACTIVE);
- 	if (i915_gem_object_has_pages(obj)) {
- 		pr_err("shrink-all didn't truncate the pages\n");
- 		err = -EINVAL;
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index 0b2b73d8a364..eed1c2c64e75 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -860,24 +860,6 @@ static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
+ 	return !no_map;
+ }
+ 
+-static void object_set_placements(struct drm_i915_gem_object *obj,
+-				  struct intel_memory_region **placements,
+-				  unsigned int n_placements)
+-{
+-	GEM_BUG_ON(!n_placements);
+-
+-	if (n_placements == 1) {
+-		struct drm_i915_private *i915 = to_i915(obj->base.dev);
+-		struct intel_memory_region *mr = placements[0];
+-
+-		obj->mm.placements = &i915->mm.regions[mr->id];
+-		obj->mm.n_placements = 1;
+-	} else {
+-		obj->mm.placements = placements;
+-		obj->mm.n_placements = n_placements;
+-	}
+-}
+-
+ #define expand32(x) (((x) << 0) | ((x) << 8) | ((x) << 16) | ((x) << 24))
+ static int __igt_mmap(struct drm_i915_private *i915,
+ 		      struct drm_i915_gem_object *obj,
+@@ -972,15 +954,10 @@ static int igt_mmap(void *arg)
+ 			struct drm_i915_gem_object *obj;
+ 			int err;
+ 
+-			obj = i915_gem_object_create_region(mr, sizes[i], 0, I915_BO_ALLOC_USER);
+-			if (obj == ERR_PTR(-ENODEV))
+-				continue;
+-
++			obj = __i915_gem_object_create_user(i915, sizes[i], &mr, 1);
+ 			if (IS_ERR(obj))
+ 				return PTR_ERR(obj);
+ 
+-			object_set_placements(obj, &mr, 1);
+-
+ 			err = __igt_mmap(i915, obj, I915_MMAP_TYPE_GTT);
+ 			if (err == 0)
+ 				err = __igt_mmap(i915, obj, I915_MMAP_TYPE_WC);
+@@ -1101,15 +1078,10 @@ static int igt_mmap_access(void *arg)
+ 		struct drm_i915_gem_object *obj;
+ 		int err;
+ 
+-		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
+-		if (obj == ERR_PTR(-ENODEV))
+-			continue;
+-
++		obj = __i915_gem_object_create_user(i915, PAGE_SIZE, &mr, 1);
+ 		if (IS_ERR(obj))
+ 			return PTR_ERR(obj);
+ 
+-		object_set_placements(obj, &mr, 1);
+-
+ 		err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_GTT);
+ 		if (err == 0)
+ 			err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_WB);
+@@ -1248,15 +1220,10 @@ static int igt_mmap_gpu(void *arg)
+ 		struct drm_i915_gem_object *obj;
+ 		int err;
+ 
+-		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
+-		if (obj == ERR_PTR(-ENODEV))
+-			continue;
+-
++		obj = __i915_gem_object_create_user(i915, PAGE_SIZE, &mr, 1);
+ 		if (IS_ERR(obj))
+ 			return PTR_ERR(obj);
+ 
+-		object_set_placements(obj, &mr, 1);
+-
+ 		err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_GTT);
+ 		if (err == 0)
+ 			err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_WC);
+@@ -1405,15 +1372,10 @@ static int igt_mmap_revoke(void *arg)
+ 		struct drm_i915_gem_object *obj;
+ 		int err;
+ 
+-		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
+-		if (obj == ERR_PTR(-ENODEV))
+-			continue;
+-
++		obj = __i915_gem_object_create_user(i915, PAGE_SIZE, &mr, 1);
+ 		if (IS_ERR(obj))
+ 			return PTR_ERR(obj);
+ 
+-		object_set_placements(obj, &mr, 1);
+-
+ 		err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_GTT);
+ 		if (err == 0)
+ 			err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_WC);
 -- 
 2.26.3
 
