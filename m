@@ -2,183 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE8C3D91B1
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D0D3D918D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:11:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 042896EB39;
-	Wed, 28 Jul 2021 15:19:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2736E8D0;
+	Wed, 28 Jul 2021 15:11:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 311 seconds by postgrey-1.36 at gabe;
- Wed, 28 Jul 2021 15:19:58 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 266536E492
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 15:19:57 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MV5G4-1mahib1sN4-00S4EL; Wed, 28 Jul 2021 17:14:39 +0200
-Subject: Re: [Regression] No framebuffer console on Rpi since 5.14-rc1
-From: Stefan Wahren <stefan.wahren@i2se.com>
-To: Maxime Ripard <maxime@cerno.tech>
-References: <69c4f25d-7b48-081b-f609-8e1fd5f950cb@i2se.com>
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
- CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
- bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
- TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
- NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
- MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
- by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
- MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
- VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
- aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
- OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
- bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
- Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
- ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
- bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
- dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
- QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
- UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
- SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
- VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
- akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
- NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
- RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
- QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
- ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
- cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
- R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
- aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
- NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
- SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
- TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
- TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
- NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
- YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
- SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
- KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
- ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
- VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
- SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
- d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
- UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
- c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
- a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
- anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
- WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
- Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
- QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
- Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
- K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
- aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
- dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
- TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
- SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
- U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
- VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
- OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
- Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
- eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
- MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
- SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
- Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
- WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
- Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
- OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
- TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
- eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
- WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
- cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
- QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
- Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
- RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
- SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
- cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
- dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
- RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
- SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
- WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
- VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
- am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
- OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
- L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
- aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
- cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
- WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
- MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
- RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
- RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
- TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
- SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
- M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
- VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
- MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
- bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
- NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
- ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
- Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
- eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
- QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
- TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
- dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
- S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
- VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
- QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
- ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
- UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
- SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
- UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
- N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
- dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
- MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
- d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
- WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
- MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
- MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
- TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
- NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
- MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
- RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
- VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
- WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
- ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
- SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
- MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
- M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
- dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
- CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
- VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
- bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
- LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <2191b755-a888-f87d-637a-d4568da2438f@i2se.com>
-Date: Wed, 28 Jul 2021 17:14:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001676E19B
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 15:11:13 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id z4so2968526wrv.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 08:11:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bmd0px3e+9Tzd5EO3Rr/x/u7koc5C3KDnqh38Pg2b74=;
+ b=KmmhXoqsEOFVYzG7t0vbA17lNhy18DQXvTCYbnakG4kf/2rj3eGzUiflXMQQ6OMFMF
+ 0zXdHzXR/nk/Khu1hko3PrSSsaHJ8etS5RJLDI5wv6VymExg+QPzUIl0hlZXq29D87bO
+ fyCyRHaSwjqJBcYRPiOc8w624CZMMQnXMOoGprCohyG2jiq0zi5s6y3U0Ix1SVidB5Yk
+ iJexABdfHm0zhMrBt6tpDKEs9ZMLzbbJ84dNzrX4zeUDkNR6OadcuKePa7WotYJHddOy
+ hZ0Q8jDpCy9btsIRF8ilyPhQcpQXDvIc3/RAuedXhSPTI3NFnhXFgE+ETWNg+Yi3EUPU
+ suxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bmd0px3e+9Tzd5EO3Rr/x/u7koc5C3KDnqh38Pg2b74=;
+ b=L/h/VAFJG2psU0rgoYf8hJCowPnicg/Fa4N12RZh7hbROLMK046gB+gaHy+0QH4u3c
+ VNdBob9CzktpALrKVvQA2psA9Eyh6C0FAidR97YR7YyOW97Nq4nu0r4AP/ZQAsb2hvI1
+ Cow3u23DZEebBQMcBtB/orQ6sYBhQdTHfDQyslhfHDMN0eTomtLArhHchCE4n6ss7pa9
+ ku0ZWPUcWzPRQgmCg9EN3KctAuVM8cixAR/CPCCeM80e+PzaejUUlPA/8diVRoJPqDv5
+ YM+zxVuKC5FLSOJX2DShJWBRJSYzgtcMifhNbOhJLC40BOQCEudE0hdxxAIfPctXWkkZ
+ cHSw==
+X-Gm-Message-State: AOAM533PcwX4iWizAs6PDm19QPZbi3VzCAUDpG8Zw2LS/BXJC2oevmCb
+ g8nmzGrjdyWwdyIoPw/7NZYySWKljDGWIvBWOio=
+X-Google-Smtp-Source: ABdhPJwpwQ5uyuhug9ZGdb/7QH6tRqOV6GPxT2oOoivt5Kbqf8SeS/5J8QsrzPQuK04fUVM2BYxkiDIl8jWt9ypCSJk=
+X-Received: by 2002:adf:e3c7:: with SMTP id k7mr14768989wrm.327.1627485072367; 
+ Wed, 28 Jul 2021 08:11:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <69c4f25d-7b48-081b-f609-8e1fd5f950cb@i2se.com>
-Content-Type: text/plain; charset=utf-8
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <20210726233854.2453899-2-robdclark@gmail.com>
+ <50b181fe-6605-b7ac-36a6-8bcda2930e6f@gmail.com>
+ <CAF6AEGuNxi_aeYE37FT3a-atCUWgepxs-9EwxMfpiMaU7wgqdQ@mail.gmail.com>
+ <9edd7083-e6b3-b230-c273-8f2fbe76ca17@amd.com>
+ <703dc9c3-5657-432e-ca0b-25bdd67a2abd@gmail.com>
+In-Reply-To: <703dc9c3-5657-432e-ca0b-25bdd67a2abd@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 28 Jul 2021 08:15:21 -0700
+Message-ID: <CAF6AEGvSpvc2po93b2eKB2cSzx_a+BtPWhQgRs-1NFFZfUbJNw@mail.gmail.com>
+Subject: Re: [RFC 1/4] dma-fence: Add deadline awareness
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Provags-ID: V03:K1:n6wJIBr8Ierou+QiXD0pM75zumPI2P00qmDTJ0w10V/xdE+fwER
- eCZr7nLGzMeODZjv+TMSfRC+WINebTFAD8uf4v0Nq5KK+ZR7jy0vvqcO2oIRqornoOuVUng
- erTknAQwTMNVDmGpg7Exbo1RFZMCqy8R2Z4LmuxxnwdcUKrQRD7X6FdMTjZ+aXeR1Py229+
- mWrcoW1zN2JyA+ITeAc3A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nq7R0G0xY6g=:1mFzYr3tH5L06lA+x++6q7
- m2dazsQZzEUxYh/SGnr/L2Wh/MiwBrveRKQJVcFyP/hQaM5sr5C/Q435uiYSgEZkkdam6nTgF
- OgQtBD/pSkwtpkjdGYlkKjWb59VO/lRYBzIbcclMLlR+wzVBs7LaKg11jM8CCC9Ja9xuvEO3Z
- rKpQWJQletLLunLqTdxCklLLE2QXG2Z+vJ5/HUSBUp1+giysZOrDHaSzOdLB1eCFcMfB3S/8H
- 2whU8rJHc3eIHCUBngbck62k8V6r6XJAsEuc35E8u/L+20c0NC5Ya9sM/XWSHRJxQXCKeb2V0
- UHRp6euysNIU9JzPZ4gBZi9ZsggMlDQihyPfoUJp67kJftSczXqLt7jLh9YSqKddxDGz3STpv
- rEPqwdQLDJOXZYuOcO2D/1FO59J9MmnFMXkZqCN1LlEuGnitW+tzfJ21DdQbD5GIqnKBICA+F
- Lorz8YETK1CwNcgQPKrF2VEvS5dyCQfIsbjKXwoXEhAEzVBrQjzwCcfAl4Ams3YuTJj/w5bSx
- pfl+1fp6KwSQJpbZ8EzUM5AWdmxN52zHp5yRZy2QZqgccex0zzULNbormBAVeQbocc7AcOiWq
- r8s0lsm7tuYNd273mRKzXOXUfVUsO1GBFW7f9+RqWMMf0KfuOxK65r/yN3RGjDWWNC7F0ya0v
- V8WTXiCfWNox76+0CqjoMULA4eYQyR7aRS37sMUwHQA2H68sbABDcLx42PLZDRYhTep1+Ht5T
- 5jvZ6VIwoALgc4a68gMZ2v+SGa3+s7/M1Q6VrCsjONaHkZ7xBv1/YLmiYPknYQl0ZPvtNZv6c
- wZXdScmLAKHSdlE7bq7X4COtJjX7TCTs/XvmNHZo1g8Mv2x9eVrgJ2/8ZH71Kpb/usvO9Q1Cq
- FW1HkASsfAinrSLt2URQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -191,78 +68,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kees Cook <keescook@google.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, Rob Clark <robdclark@chromium.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Jul 28, 2021 at 4:37 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 28.07.21 um 09:03 schrieb Christian K=C3=B6nig:
+> > Am 27.07.21 um 16:25 schrieb Rob Clark:
+> >> On Tue, Jul 27, 2021 at 12:11 AM Christian K=C3=B6nig
+> >> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>> Am 27.07.21 um 01:38 schrieb Rob Clark:
+> >>>> From: Rob Clark <robdclark@chromium.org>
+> >>>>
+> >>>> Add a way to hint to the fence signaler of an upcoming deadline,
+> >>>> such as
+> >>>> vblank, which the fence waiter would prefer not to miss. This is to
+> >>>> aid
+> >>>> the fence signaler in making power management decisions, like boosti=
+ng
+> >>>> frequency as the deadline approaches and awareness of missing
+> >>>> deadlines
+> >>>> so that can be factored in to the frequency scaling.
+> >>>>
+> >>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>>> ---
+> >>>>    drivers/dma-buf/dma-fence.c | 39
+> >>>> +++++++++++++++++++++++++++++++++++++
+> >>>>    include/linux/dma-fence.h   | 17 ++++++++++++++++
+> >>>>    2 files changed, 56 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence=
+.c
+> >>>> index ce0f5eff575d..2e0d25ab457e 100644
+> >>>> --- a/drivers/dma-buf/dma-fence.c
+> >>>> +++ b/drivers/dma-buf/dma-fence.c
+> >>>> @@ -910,6 +910,45 @@ dma_fence_wait_any_timeout(struct dma_fence
+> >>>> **fences, uint32_t count,
+> >>>>    }
+> >>>>    EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> >>>>
+> >>>> +
+> >>>> +/**
+> >>>> + * dma_fence_set_deadline - set desired fence-wait deadline
+> >>>> + * @fence:    the fence that is to be waited on
+> >>>> + * @deadline: the time by which the waiter hopes for the fence to b=
+e
+> >>>> + *            signaled
+> >>>> + *
+> >>>> + * Inform the fence signaler of an upcoming deadline, such as
+> >>>> vblank, by
+> >>>> + * which point the waiter would prefer the fence to be signaled
+> >>>> by.  This
+> >>>> + * is intended to give feedback to the fence signaler to aid in pow=
+er
+> >>>> + * management decisions, such as boosting GPU frequency if a period=
+ic
+> >>>> + * vblank deadline is approaching.
+> >>>> + */
+> >>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t
+> >>>> deadline)
+> >>>> +{
+> >>>> +     unsigned long flags;
+> >>>> +
+> >>>> +     if (dma_fence_is_signaled(fence))
+> >>>> +             return;
+> >>>> +
+> >>>> +     spin_lock_irqsave(fence->lock, flags);
+> >>>> +
+> >>>> +     /* If we already have an earlier deadline, keep it: */
+> >>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags) &=
+&
+> >>>> +         ktime_before(fence->deadline, deadline)) {
+> >>>> +             spin_unlock_irqrestore(fence->lock, flags);
+> >>>> +             return;
+> >>>> +     }
+> >>>> +
+> >>>> +     fence->deadline =3D deadline;
+> >>>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags);
+> >>>> +
+> >>>> +     spin_unlock_irqrestore(fence->lock, flags);
+> >>>> +
+> >>>> +     if (fence->ops->set_deadline)
+> >>>> +             fence->ops->set_deadline(fence, deadline);
+> >>>> +}
+> >>>> +EXPORT_SYMBOL(dma_fence_set_deadline);
+> >>>> +
+> >>>>    /**
+> >>>>     * dma_fence_init - Initialize a custom fence.
+> >>>>     * @fence: the fence to initialize
+> >>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> >>>> index 6ffb4b2c6371..4e6cfe4e6fbc 100644
+> >>>> --- a/include/linux/dma-fence.h
+> >>>> +++ b/include/linux/dma-fence.h
+> >>>> @@ -88,6 +88,7 @@ struct dma_fence {
+> >>>>                /* @timestamp replaced by @rcu on
+> >>>> dma_fence_release() */
+> >>>>                struct rcu_head rcu;
+> >>>>        };
+> >>>> +     ktime_t deadline;
+> >>> Mhm, adding the flag sounds ok to me but I'm a bit hesitating adding
+> >>> the
+> >>> deadline as extra field here.
+> >>>
+> >>> We tuned the dma_fence structure intentionally so that it is only 64
+> >>> bytes.
+> >> Hmm, then I guess you wouldn't be a fan of also adding an hrtimer?
+> >>
+> >> We could push the ktime_t (and timer) down into the derived fence
+> >> class, but I think there is going to need to be some extra storage
+> >> *somewhere*.. maybe the fence signaler could get away with just
+> >> storing the nearest upcoming deadline per fence-context instead?
+> >
+> > I would just push that into the driver instead.
+> >
+> > You most likely don't want the deadline per fence anyway in complex
+> > scenarios, but rather per frame. And a frame is usually composed from
+> > multiple fences.
 
-Am 15.07.21 um 18:35 schrieb Stefan Wahren:
-> Hi guys,
->
-> starting with Linux 5.14-rc1 the framebuffer console on Raspberry Pi 3/=
-4
-> (no U-Boot, multi_v7_defconfig) isn't available anymore. The display
-> shows the rainbow screen from the bootloader and than the HDMI screen
-> goes black instead of kernel messages.
->
-> I bisected the issue:
->
-> 62fb9874f5da54fdb243003b386128037319b219 good
-> e73f0f0ee7541171d89f2e2491130c7771ba58d3 bad
-> e058a84bfddc42ba356a2316f2cf1141974625c9 bad
-> a6eaf3850cb171c328a8b0db6d3c79286a1eba9d good
-> 007b312c6f294770de01fbc0643610145012d244 good
-> 18703923a66aecf6f7ded0e16d22eb412ddae72f good
-> 334200bf52f0637a5ab8331c557dfcecbb9c30fa bad
-> c707b73f0cfb1acc94a20389aecde65e6385349b bad
-> caa18dd6dd9305d52943a6b59f410cbc960ad0a0 good
-> 691cf8cd7a531dbfcc29d09a23c509a86fd9b24f bad
-> 2fdcb55dfc86835e4845e3f422180b5596d23cb4 bad
-> 6c3f953381e526a1623d4575660afae8b19ffa20 bad
-> 5ea4dba68305d9648b9dba30036cc36d4e877bca bad
-> 4a888ba03fd97d1cb0253581973533965bf348c4 good
-> c5ef15ae09637fb51ae43e1d1d98329d67dd4fd6 good
-> f611b1e7624ccdbd495c19e9805629e22265aa16 bad
-> ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383 good
->
-> f611b1e7624ccdbd495c19e9805629e22265aa16 is the first bad commit
-> commit f611b1e7624ccdbd495c19e9805629e22265aa16
-> Author: Kees Cook <keescook@chromium.org>
-> Date:=C2=A0=C2=A0 Wed Jun 2 14:52:50 2021 -0700
->
-> =C2=A0=C2=A0=C2=A0 drm: Avoid circular dependencies for CONFIG_FB
-> =C2=A0=C2=A0=C2=A0
-> =C2=A0=C2=A0=C2=A0 When cleaning up other drm config dependencies, it i=
-s too easy to create
-> =C2=A0=C2=A0=C2=A0 larger problems. Instead, mark CONFIG_FB as a "depen=
-ds":
-> =C2=A0=C2=A0=C2=A0
-> =C2=A0=C2=A0=C2=A0 drivers/gpu/drm/Kconfig:74:error: recursive dependen=
-cy detected!
->
-> I compared the changes to the config (based on multi_v7_defconfig) with=
+Right, I ended up keeping track of the nearest deadline in patch 5/4
+which added drm/msm support:
 
-> and without this patch and it shows a lot of changes. Is this intended?=
+  https://patchwork.freedesktop.org/patch/447138/
 
-
-just one question: does the VC4 drm driver functionally depend on
-CONFIG_FB / FRAMEBUFFER_CONSOLE ?
-
-Or with other words should we re-enable CONFIG_FB like this [1] but for
-Raspberry Pi related configs?
-
-[1] -
-https://lore.kernel.org/linux-samsung-soc/20210611100204.6240-1-m.szyprow=
-ski@samsung.com/
+But if we do have the ktime_t in dma_fence in dma_fence, we can add
+some checks and avoid calling back to the driver if a later deadline
+is set on a fence that already has an earlier deadline.  OTOH I
+suppose I can push all that back to the driver to start, and we can
+revisit once we have more drivers implementing deadline support.
 
 >
-> Best regards
-> Stefan
->
->
+> Thinking more about it we could probably kill the spinlock pointer and
+> make the flags 32bit if we absolutely need that here.
 
+If we had a 'struct dma_fence_context' we could push the spinlock, ops
+pointer, and u64 context into that and replace with a single
+dma_fence_context ptr, fwiw
+
+BR,
+-R
+
+> But I still don't see the need for that, especially since most drivers
+> probably won't implement it.
+>
+> Regards,
+> Christian.
+>
+> >
+> > Regards,
+> > Christian.
+> >
+> >>
+> >> BR,
+> >> -R
+> >>
+> >>> Regards,
+> >>> Christian.
+> >>>
+> >>>>        u64 context;
+> >>>>        u64 seqno;
+> >>>>        unsigned long flags;
+> >>>> @@ -99,6 +100,7 @@ enum dma_fence_flag_bits {
+> >>>>        DMA_FENCE_FLAG_SIGNALED_BIT,
+> >>>>        DMA_FENCE_FLAG_TIMESTAMP_BIT,
+> >>>>        DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> >>>> +     DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
+> >>>>        DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
+> >>>>    };
+> >>>>
+> >>>> @@ -261,6 +263,19 @@ struct dma_fence_ops {
+> >>>>         */
+> >>>>        void (*timeline_value_str)(struct dma_fence *fence,
+> >>>>                                   char *str, int size);
+> >>>> +
+> >>>> +     /**
+> >>>> +      * @set_deadline:
+> >>>> +      *
+> >>>> +      * Callback to allow a fence waiter to inform the fence
+> >>>> signaler of an
+> >>>> +      * upcoming deadline, such as vblank, by which point the
+> >>>> waiter would
+> >>>> +      * prefer the fence to be signaled by.  This is intended to
+> >>>> give feedback
+> >>>> +      * to the fence signaler to aid in power management
+> >>>> decisions, such as
+> >>>> +      * boosting GPU frequency.
+> >>>> +      *
+> >>>> +      * This callback is optional.
+> >>>> +      */
+> >>>> +     void (*set_deadline)(struct dma_fence *fence, ktime_t deadline=
+);
+> >>>>    };
+> >>>>
+> >>>>    void dma_fence_init(struct dma_fence *fence, const struct
+> >>>> dma_fence_ops *ops,
+> >>>> @@ -586,6 +601,8 @@ static inline signed long dma_fence_wait(struct
+> >>>> dma_fence *fence, bool intr)
+> >>>>        return ret < 0 ? ret : 0;
+> >>>>    }
+> >>>>
+> >>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t
+> >>>> deadline);
+> >>>> +
+> >>>>    struct dma_fence *dma_fence_get_stub(void);
+> >>>>    struct dma_fence *dma_fence_allocate_private_stub(void);
+> >>>>    u64 dma_fence_context_alloc(unsigned num);
+> >
+>
