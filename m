@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BD13D9231
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EC43D9236
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 17:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B72296E456;
-	Wed, 28 Jul 2021 15:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48AB06E9A8;
+	Wed, 28 Jul 2021 15:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A15B6E16F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 15:37:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 285476E16F
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 15:37:52 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F073A51D;
- Wed, 28 Jul 2021 17:37:48 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 019916EE;
+ Wed, 28 Jul 2021 17:37:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1627486669;
- bh=CwxbwCkqGqK1SZKbEj9PHsjwrLYwY6EhjNCkCzt3EE4=;
+ s=mail; t=1627486670;
+ bh=OmvNtp66srLQ+NcTX76l0rVt3aHK+j/AM4pQKPBXyKo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Cj0iVhrptUAbRXvwQxr8/W86i+0EqAnFp0oGvcFj2N89QAgGDTxqe4nbvKexnhUxF
- IfvpVEmkxmF2VfGk5O9/TJZXT9C9thR+ZyKbU1gf78wQw0Bt1mAA48C5bDBicMP0Bh
- g9Z7tehxp+divG1g7s/j8GMUI6oSgJGn2X5+EYqM=
+ b=Dw57NOaCBW/OJRl0MF4yWoEvgfoLUU1G1bX9sKKMKPNB/APnUpvBHoYF+k5c/3Eu+
+ E5lpxW30W/T+J0MyPoVdVQd1aP+Im6nE6MJ/DLwFyyIH6R8XOc+nn0fV/bfyicYz8Q
+ +XRseqy/1xx0SkKye8Yt4mXEtLU+vynPDQKcHz50=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/7] drm/imx/dcss: Enable COMPILE_TEST on all ARM64 platforms
-Date: Wed, 28 Jul 2021 18:37:32 +0300
-Message-Id: <20210728153736.15240-4-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 4/7] drm/omap: Enable COMPILE_TEST on all ARM and ARM64
+ platforms
+Date: Wed, 28 Jul 2021 18:37:33 +0300
+Message-Id: <20210728153736.15240-5-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -53,28 +54,28 @@ Cc: Tomi Valkeinen <tomba@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To extend test coverage, relax the dependency on ARCH_MXC to also enable
-compilation when COMPILE_TEST is selected.
+To extend test coverage, relax the dependency on ARCH_OMAP2PLUS or
+ARCH_MULTIPLATFORM to also enable compilation on ARM or ARM4 when
+COMPILE_TEST is selected.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/imx/dcss/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/omapdrm/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/imx/dcss/Kconfig b/drivers/gpu/drm/imx/dcss/Kconfig
-index 2b17a964ff05..ad9844fb85ac 100644
---- a/drivers/gpu/drm/imx/dcss/Kconfig
-+++ b/drivers/gpu/drm/imx/dcss/Kconfig
-@@ -3,7 +3,8 @@ config DRM_IMX_DCSS
- 	select IMX_IRQSTEER
- 	select DRM_KMS_CMA_HELPER
+diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
+index e7281da5bc6a..fd5ef00444c1 100644
+--- a/drivers/gpu/drm/omapdrm/Kconfig
++++ b/drivers/gpu/drm/omapdrm/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_OMAP
+ 	tristate "OMAP DRM"
+ 	depends on DRM
+-	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM
++	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM || ((ARM || ARM64) && COMPILE_TEST)
+ 	select OMAP2_DSS
+ 	select DRM_KMS_HELPER
  	select VIDEOMODE_HELPERS
--	depends on DRM && ARCH_MXC && ARM64
-+	depends on DRM
-+	depends on ARM64 && (ARCH_MXC || COMPILE_TEST)
- 	help
- 	  Choose this if you have a NXP i.MX8MQ based system and want to use the
- 	  Display Controller Subsystem. This option enables DCSS support.
 -- 
 Regards,
 
