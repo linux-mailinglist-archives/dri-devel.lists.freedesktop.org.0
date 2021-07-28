@@ -1,65 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446153D8CAE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 13:24:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9273D8CC0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 13:29:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9A1C6E598;
-	Wed, 28 Jul 2021 11:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFB406E98F;
+	Wed, 28 Jul 2021 11:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C42116E598
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 11:24:04 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id q2so2643920ljq.5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 04:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rasmusvillemoes.dk; s=google;
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7593A6E98F;
+ Wed, 28 Jul 2021 11:29:03 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id c16so2047217wrp.13;
+ Wed, 28 Jul 2021 04:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Wg+3/RRWhlXAdTdGrz6ZDOoqwDjAalfDgSMGfZRFy7c=;
- b=MqB2oQJrWErl4M3jysGVniDJ4xARTYUEk892vt+CXTsOghQBHfw+ROqpA+FWeMfNAw
- 99HiHQl9pgCodpNZVcjBeusKVj1g8kcdEIy/ZsV7LY738G0Iid6EaBW2zhaAmZdiUtKc
- pOnrw2np1M0KCLNrhvFVpkrx8b6JNzJx5ukHc=
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=VI1b/7Zio0QbTHVDmC7OIx9Iv7sUZ3kXOO83Nnb1/lI=;
+ b=MOA/VOEXpidjw9AYaF3IXPbM6aik0n/2pDu3qGV734GI/MKZej41DpACQshSitpBHp
+ LQ3YHoaO3xcBZzpcsNjShILGXUpmKS5ZgVAmgwqvbopYjCV6Oe7kqDCKvQGMz1GhH8FV
+ iSxZcRNrR7p1TZ5rVO3i3rez8Tf1bgPKxGIL7d8oWchGGL320KpKfOsAda6x+TjTz5O4
+ 4bCPnPYjchzaaC50jNDk1qaP8p8alaDlxruTYCJqyH5+MzTNO6GiD6mTiiIIejBu2nm4
+ +Vr4pubkhVWp5DZvj/DSgx8P3RUgT6oeNuzxq4zWxIwzW6zjdND1aBxfxo7GqdOlIOLr
+ 7nyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Wg+3/RRWhlXAdTdGrz6ZDOoqwDjAalfDgSMGfZRFy7c=;
- b=bbgxC0lbkIf/ORzN7Ep5AAJgClxpNxyE68J/cNLcyMvcwoCeDYtsGgnd6zDrj0l2pK
- NppA8NV3sEyZ+5G++W+GOCuT/6ok+YwCqfcCE8+xWO05Z0bsWppCZwrs7my1h6OokLA7
- /Cl/F37jlTmdk1FpyFLmynFqAMz/XxsmW1Tq1gD/fn4UM+O58+6CX7RELmBQF05cr9j2
- XO06m0C8HCgP9WR5zD9hFFGJVS9WzzeMZt6aVHY+2Hl+OBYKmB/ZTXR0mnaK2HEDDBwj
- zB6N9XgrLSObbwvqILmZh5k5+FRBp9rCSpByHwhi3qZoiaZItO7PHrmQP+ZtUH/9aiAv
- eKsA==
-X-Gm-Message-State: AOAM530UqN75SnFmza5uOeG5Fo+2wrzhH8g7M+ZnSHAQPriDp7Fo6M5L
- 2nZr+2SRuBta1avv3UALalMj/g==
-X-Google-Smtp-Source: ABdhPJzbJpuLwTQcj/uhUJ1FDab/S8wsNFZGfZq+HhHIgh+eTtqaebX9Ee+tEB7aFHczhnUT7I/eLg==
-X-Received: by 2002:a05:651c:124f:: with SMTP id
- h15mr18566268ljh.4.1627471443108; 
- Wed, 28 Jul 2021 04:24:03 -0700 (PDT)
-Received: from [172.16.11.1] ([81.216.59.226])
- by smtp.gmail.com with ESMTPSA id f14sm494569ljj.116.2021.07.28.04.24.02
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=VI1b/7Zio0QbTHVDmC7OIx9Iv7sUZ3kXOO83Nnb1/lI=;
+ b=WsTRh+zsSrWEaye7sRJ8ij4HB83bEzmA0n/+t1R5mg5m6An4hIWlrizzgd2XBgcimp
+ 6A6GHErQVzDAgD9xpdCdjlX0K4a7gwqpD1lyBo+uLTYnclcjFMnSyRgl+HzqWZ/UosYu
+ SgqoEacQAFFI6fKeWcGnznR6pH+MIp0W6Lltlk7Cgd4n0MnMTuILECG0Y/wi/uKl6QeF
+ q0EPTNDAntU6rjAqVqKkcoHZ615u6AYoGJ5C9XQu7NZm9FgWU/Tyzs2UYl81DUnPm30D
+ +pYsVzjKMQqRbY7cleq/rtuVQzToU14avK8MKZEnozfPcn+aZWx32GONTBvVK6Ma51rk
+ ZGgg==
+X-Gm-Message-State: AOAM530oOqpYwWCc8FpL1ShyMAH5NWAfH5Lz9ygAtiPWkK9CpBUIf6v/
+ bEFovncUGutYs/roqAqk1C8=
+X-Google-Smtp-Source: ABdhPJwO3jBbz+R3AJiHF0WQfeY+oF3uwMVgNB4ghF4GPoF75Jaw2yWir3ze6NE+b9AvVpMjJ+cXcg==
+X-Received: by 2002:a5d:61c8:: with SMTP id q8mr18198915wrv.151.1627471741909; 
+ Wed, 28 Jul 2021 04:29:01 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:6a5d:b580:2891:cbac?
+ ([2a02:908:1252:fb60:6a5d:b580:2891:cbac])
+ by smtp.gmail.com with ESMTPSA id l2sm4888332wru.67.2021.07.28.04.29.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 04:24:02 -0700 (PDT)
-Subject: Re: [PATCH 62/64] netlink: Avoid false-positive memcpy() warning
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kees Cook <keescook@chromium.org>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-63-keescook@chromium.org> <YQDv+oG7ok0T1L+r@kroah.com>
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <d7251d92-150b-5346-6237-52afc154bb00@rasmusvillemoes.dk>
-Date: Wed, 28 Jul 2021 13:24:01 +0200
+ Wed, 28 Jul 2021 04:29:01 -0700 (PDT)
+Subject: Re: [Linaro-mm-sig] [PATCH v4 03/18] drm/sched: Add dependency
+ tracking
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Lucas Stach <l.stach@pengutronix.de>
+References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
+ <20210712175352.802687-4-daniel.vetter@ffwll.ch>
+ <CAKMK7uG8bMuDP=7-z9nZ38WgMdbeUk96eNx3buTCiaKatYOJxw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <2bcfba05-b7d5-1bd9-d74a-b9aac1147e20@gmail.com>
+Date: Wed, 28 Jul 2021 13:28:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YQDv+oG7ok0T1L+r@kroah.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+In-Reply-To: <CAKMK7uG8bMuDP=7-z9nZ38WgMdbeUk96eNx3buTCiaKatYOJxw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,46 +79,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-block@vger.kernel.org,
- clang-built-linux@googlegroups.com, Keith Packard <keithpac@amazon.com>,
- linux-hardening@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: Jack Zhang <Jack.Zhang1@amd.com>, David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/07/2021 07.49, Greg Kroah-Hartman wrote:
-> On Tue, Jul 27, 2021 at 01:58:53PM -0700, Kees Cook wrote:
->> In preparation for FORTIFY_SOURCE performing compile-time and run-time
->> field bounds checking for memcpy(), memmove(), and memset(), avoid
->> intentionally writing across neighboring fields.
->>
->> Add a flexible array member to mark the end of struct nlmsghdr, and
->> split the memcpy() to avoid false positive memcpy() warning:
->>
->> memcpy: detected field-spanning write (size 32) of single field (size 16)
->>
->> Signed-off-by: Kees Cook <keescook@chromium.org>
->> ---
->>  include/uapi/linux/netlink.h | 1 +
->>  net/netlink/af_netlink.c     | 4 +++-
->>  2 files changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
->> index 4c0cde075c27..ddeaa748df5e 100644
->> --- a/include/uapi/linux/netlink.h
->> +++ b/include/uapi/linux/netlink.h
->> @@ -47,6 +47,7 @@ struct nlmsghdr {
->>  	__u16		nlmsg_flags;	/* Additional flags */
->>  	__u32		nlmsg_seq;	/* Sequence number */
->>  	__u32		nlmsg_pid;	/* Sending process port ID */
->> +	__u8		contents[];
-> 
-> Is this ok to change a public, userspace visable, structure?
+Am 27.07.21 um 13:09 schrieb Daniel Vetter:
+> Adding a few more people to this bikeshed.
+>
+> On Mon, Jul 12, 2021 at 10:02 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+>> @@ -349,6 +367,13 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>                         struct drm_sched_entity *entity,
+>>                         void *owner);
+>>   void drm_sched_job_arm(struct drm_sched_job *job);
+>> +int drm_sched_job_await_fence(struct drm_sched_job *job,
+>> +                             struct dma_fence *fence);
+>> +int drm_sched_job_await_implicit(struct drm_sched_job *job,
+>> +                                struct drm_gem_object *obj,
+>> +                                bool write);
+>> +
+>> +
+> I'm still waiting on the paint delivery for these two functions so I
+> can finish this shed.
 
-At least it should keep using a nlmsg_ prefix for consistency and reduce
-risk of collision with somebody having defined an object-like contents
-macro. But there's no guarantees in any case, of course.
+Well I wouldn't call that bike shedding, good names are important.
 
-Rasmus
+Just imaging we would have called the exclusive-fence write-fence instead.
+
+What speaks against calling them add_dependency() and 
+_add_implicit_depencencies() ?
+
+Regards,
+Christian.
+
+>
+> Thanks, Daniel
+>
+>>   void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>>                                      struct drm_gpu_scheduler **sched_list,
+>>                                      unsigned int num_sched_list);
+>> --
+>> 2.32.0
+>>
+>
+
