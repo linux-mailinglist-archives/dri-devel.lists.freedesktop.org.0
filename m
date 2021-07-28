@@ -1,47 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472823D89EB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 10:39:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFE73D9054
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:22:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 130E16E02F;
-	Wed, 28 Jul 2021 08:39:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34E266EA5D;
+	Wed, 28 Jul 2021 14:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
- [209.85.217.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4535A6E02F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 08:39:13 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id o12so984264vst.3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 01:39:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yVmhrRbJkvgpIhHEAfbGhWQBI7I0jYe3w6v9jo77iwE=;
- b=bNmyOFxRdKg8xB8HEvqOT8ReWwzKLgw/ai+CQB2RA2OvEdCCO7jfNH94aj7KLCMUBm
- NnOAtCEys9+W5HKrKE+uDMKXr80xZAQi1hZLw+GTDpcGwYkGt5xMtdo/E4+GOlqq78n6
- AZ/K/eXqg59k83UM1QORLCRTxdBhz4PYKzhs9VbB9wc5B76VW5mgIZSdkRaCjo7xxcsr
- oO7EoFZDIcu4IhygqLp63C8AW00Wi6UB9H2cT4CiKl8N3jgOWV/pr78KuKDaPuOZyRcH
- 7k+Hb51bEamnAiI/AkaZJWClS3y6qOLSf5C3xGxjjPrpxWXZ98qpiuvRcEpO7hwl1vfm
- QXrA==
-X-Gm-Message-State: AOAM5328yE7eRFQEqLF1AgwRbqoL3RRO4muTsRQMZCHUtk8BzFe1YrCX
- FQxCRmU8Aipr9UAJa8Pd6luaY5c9/g04cRX+2GA=
-X-Google-Smtp-Source: ABdhPJxBvXkiNS/OAZjMRCgmqbqSWehnUkEclqwsoSHvLr0T9EfEWNQPPBEhYZvfHmNNmJI9lZ0l29OGsFVNYdIokAI=
-X-Received: by 2002:a05:6102:2828:: with SMTP id
- ba8mr20835288vsb.18.1627461552305; 
- Wed, 28 Jul 2021 01:39:12 -0700 (PDT)
+X-Greylist: delayed 378 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Jul 2021 08:49:33 UTC
+Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8F06E03A
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 08:49:33 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1627461793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Jx2hXfqdAkDWctPjiDQKqFGoOGkOYJlfY8w9c6leveA=;
+ b=xg7i8BjZqk5aeo6d77b5MOfEf6roimot7tALvI6Vcri0m+mRi22J3QcYPFXvHgjJCaOY28
+ HBKBc3/NrTjDjKU3OS5dXIakbAeN55mgRImDJrDO90UsHFYItPQBjNXBb8IyJWCS57XHJi
+ Kr2zwrx7WqGe/Bzf38gXxKFqCPovbwk=
+From: Jackie Liu <liu.yun@linux.dev>
+To: laurent.pinchart@ideasonboard.com,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: rcar-du: crtc: force depends on cmm
+Date: Wed, 28 Jul 2021 16:42:40 +0800
+Message-Id: <20210728084240.566677-1-liu.yun@linux.dev>
 MIME-Version: 1.0
-References: <20210727050447.7339-1-rdunlap@infradead.org>
-In-Reply-To: <20210727050447.7339-1-rdunlap@infradead.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 28 Jul 2021 10:39:00 +0200
-Message-ID: <CAMuHMdXrDLvPRNMy_pEtu1u=7ML8GT3mpKLba8vRnHU3iF8U+w@mail.gmail.com>
-Subject: Re: [PATCH] efi: sysfb_efi: fix build when EFI is not set
-To: Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: liu.yun@linux.dev
+X-Mailman-Approved-At: Wed, 28 Jul 2021 14:22:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,73 +48,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-efi <linux-efi@vger.kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Linux-Next <linux-next@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
+Cc: airlied@linux.ie, liuyun01@kylinos.cn,
+ kieran.bingham+renesas@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Randy,
+From: Jackie Liu <liuyun01@kylinos.cn>
 
-On Tue, Jul 27, 2021 at 7:06 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> When # CONFIG_EFI is not set, there are 2 definitions of
-> sysfb_apply_efi_quirks(). The stub from sysfb.h should be used
-> and the __init function from sysfb_efi.c should not be used.
->
-> ../drivers/firmware/efi/sysfb_efi.c:337:13: error: redefinition of =E2=80=
-=98sysfb_apply_efi_quirks=E2=80=99
->  __init void sysfb_apply_efi_quirks(struct platform_device *pd)
->              ^~~~~~~~~~~~~~~~~~~~~~
-> In file included from ../drivers/firmware/efi/sysfb_efi.c:26:0:
-> ../include/linux/sysfb.h:65:20: note: previous definition of =E2=80=98sys=
-fb_apply_efi_quirks=E2=80=99 was here
->  static inline void sysfb_apply_efi_quirks(struct platform_device *pd)
->                     ^~~~~~~~~~~~~~~~~~~~~~
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+After the patch 78b6bb1d24db ("drm: rcar-du: crtc: Control CMM operations"),
+the cmm module must be included in the crtc. We cannot remove this
+configuration option separately. Therefore, simply linking them together
+is the best solution, otherwise some errors will be reported.
 
-Thanks for your patch!
+ rcar_du_crtc.c:(.text+0x194): undefined reference to `rcar_cmm_setup'
+ rcar_du_crtc.c:(.text+0x11bc): undefined reference to `rcar_cmm_enable'
+ rcar_du_crtc.c:(.text+0x1604): undefined reference to `rcar_cmm_disable'
+ rcar_du_kms.c:(.text+0x768): undefined reference to `rcar_cmm_init'
 
-> --- linext-20210726.orig/drivers/firmware/efi/sysfb_efi.c
-> +++ linext-20210726/drivers/firmware/efi/sysfb_efi.c
-> @@ -332,6 +332,7 @@ static const struct fwnode_operations ef
->         .add_links =3D efifb_add_links,
->  };
->
-> +#ifdef CONFIG_EFI
->  static struct fwnode_handle efifb_fwnode;
->
->  __init void sysfb_apply_efi_quirks(struct platform_device *pd)
-> @@ -354,3 +355,4 @@ __init void sysfb_apply_efi_quirks(struc
->                 pd->dev.fwnode =3D &efifb_fwnode;
->         }
->  }
-> +#endif
+Fixes: 78b6bb1d24db ("rm: rcar-du: crtc: Control CMM operations")
+Reported-by: kernel-bot <k2ci@kylinos.cn>
+Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
+---
+ drivers/gpu/drm/rcar-du/Kconfig  | 8 --------
+ drivers/gpu/drm/rcar-du/Makefile | 2 +-
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
-How come you enter drivers/firmware/efi/ without CONFIG_EFI?
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index b47e74421e34..bc71ad2a472f 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -4,7 +4,6 @@ config DRM_RCAR_DU
+ 	depends on DRM && OF
+ 	depends on ARM || ARM64
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+-	imply DRM_RCAR_CMM
+ 	imply DRM_RCAR_LVDS
+ 	select DRM_KMS_HELPER
+ 	select DRM_KMS_CMA_HELPER
+@@ -14,13 +13,6 @@ config DRM_RCAR_DU
+ 	  Choose this option if you have an R-Car chipset.
+ 	  If M is selected the module will be called rcar-du-drm.
+ 
+-config DRM_RCAR_CMM
+-	tristate "R-Car DU Color Management Module (CMM) Support"
+-	depends on DRM && OF
+-	depends on DRM_RCAR_DU
+-	help
+-	  Enable support for R-Car Color Management Module (CMM).
+-
+ config DRM_RCAR_DW_HDMI
+ 	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+ 	depends on DRM && OF
+diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
+index 4d1187ccc3e5..76ff2e15bc2d 100644
+--- a/drivers/gpu/drm/rcar-du/Makefile
++++ b/drivers/gpu/drm/rcar-du/Makefile
+@@ -5,6 +5,7 @@ rcar-du-drm-y := rcar_du_crtc.o \
+ 		 rcar_du_group.o \
+ 		 rcar_du_kms.o \
+ 		 rcar_du_plane.o \
++		 rcar_cmm.o
+ 
+ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
+ 					   rcar_du_of_lvds_r8a7790.dtb.o \
+@@ -15,7 +16,6 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
+ rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
+ rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
+ 
+-obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
+ obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
+ obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
+ obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
+-- 
+2.25.1
 
-Oh:
-
-drivers/firmware/Makefile:obj-$(CONFIG_EFI)             +=3D efi/
-drivers/firmware/Makefile:obj-$(CONFIG_UEFI_CPER)               +=3D efi/
-
-Looks like UEFI_CPER is not related to EFI at all (it's not set in
-my arm64 config which has CONFIG_EFI=3Dy). Perhaps it should be moved
-to drivers/acpi/ instead?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
