@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971033D84AF
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 02:32:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D5A3D84B0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 02:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B67E36EA5C;
-	Wed, 28 Jul 2021 00:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B20E36EACE;
+	Wed, 28 Jul 2021 00:32:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0886EA5C
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 00:32:01 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="209441962"
-X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="209441962"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536B56EACE
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 00:32:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="209441973"
+X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="209441973"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 17:32:01 -0700
-X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="634583323"
+ 27 Jul 2021 17:32:05 -0700
+X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="634583351"
 Received: from mamarti1-mobl.amr.corp.intel.com (HELO
  achrisan-desk3.intel.com) ([10.212.71.161])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 17:32:00 -0700
+ 27 Jul 2021 17:32:04 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  edmund.j.dea@intel.com
-Subject: [PATCH 02/14] drm/kmb: Define driver date and major/minor version
-Date: Tue, 27 Jul 2021 17:31:14 -0700
-Message-Id: <20210728003126.1425028-2-anitha.chrisanthus@intel.com>
+Subject: [PATCH 03/14] drm/kmb: Work around for higher system clock
+Date: Tue, 27 Jul 2021 17:31:15 -0700
+Message-Id: <20210728003126.1425028-3-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
 References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
@@ -48,52 +48,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Edmund Dea <edmund.j.dea@intel.com>
+Use a different value for system clock offset in the
+ppl/llp ratio calculations for clocks higher than 500 Mhz.
 
-Added macros for date and version
-
-Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
-Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
+Fixes: 98521f4d4b4c ("drm/kmb: Mipi DSI part of the display driver")
+Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_drv.c | 8 ++++----
- drivers/gpu/drm/kmb/kmb_drv.h | 5 +++++
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/kmb/kmb_dsi.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index c0b1c6f99249..f54392ec4fab 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -425,10 +425,10 @@ static const struct drm_driver kmb_driver = {
- 	.fops = &fops,
- 	DRM_GEM_CMA_DRIVER_OPS_VMAP,
- 	.name = "kmb-drm",
--	.desc = "KEEMBAY DISPLAY DRIVER ",
--	.date = "20201008",
--	.major = 1,
--	.minor = 0,
-+	.desc = "KEEMBAY DISPLAY DRIVER",
-+	.date = DRIVER_DATE,
-+	.major = DRIVER_MAJOR,
-+	.minor = DRIVER_MINOR,
- };
+diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
+index 231041b269f5..7e2371ffcb18 100644
+--- a/drivers/gpu/drm/kmb/kmb_dsi.c
++++ b/drivers/gpu/drm/kmb/kmb_dsi.c
+@@ -482,6 +482,10 @@ static u32 mipi_tx_fg_section_cfg(struct kmb_dsi *kmb_dsi,
+ 	return 0;
+ }
  
- static int kmb_remove(struct platform_device *pdev)
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
-index 02e806712a64..ebbaa5f422d5 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.h
-+++ b/drivers/gpu/drm/kmb/kmb_drv.h
-@@ -15,6 +15,11 @@
- #define KMB_MAX_HEIGHT			1080 /*Max height in pixels */
- #define KMB_MIN_WIDTH                   1920 /*Max width in pixels */
- #define KMB_MIN_HEIGHT                  1080 /*Max height in pixels */
++#define CLK_DIFF_LOW 50
++#define CLK_DIFF_HI 60
++#define SYSCLK_500  500
 +
-+#define DRIVER_DATE			"20210223"
-+#define DRIVER_MAJOR			1
-+#define DRIVER_MINOR			1
-+
- #define KMB_LCD_DEFAULT_CLK		200000000
- #define KMB_SYS_CLK_MHZ			500
+ static void mipi_tx_fg_cfg_regs(struct kmb_dsi *kmb_dsi, u8 frame_gen,
+ 				struct mipi_tx_frame_timing_cfg *fg_cfg)
+ {
+@@ -492,7 +496,12 @@ static void mipi_tx_fg_cfg_regs(struct kmb_dsi *kmb_dsi, u8 frame_gen,
+ 	/* 500 Mhz system clock minus 50 to account for the difference in
+ 	 * MIPI clock speed in RTL tests
+ 	 */
+-	sysclk = kmb_dsi->sys_clk_mhz - 50;
++	if (kmb_dsi->sys_clk_mhz == SYSCLK_500) {
++		sysclk = kmb_dsi->sys_clk_mhz - CLK_DIFF_LOW;
++	} else {
++		/* 700 Mhz clk*/
++		sysclk = kmb_dsi->sys_clk_mhz - CLK_DIFF_HI;
++	}
  
+ 	/* PPL-Pixel Packing Layer, LLP-Low Level Protocol
+ 	 * Frame genartor timing parameters are clocked on the system clock,
 -- 
 2.25.1
 
