@@ -1,49 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C3B3D879B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 08:01:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A82AA3D8806
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 08:35:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB1F6ECB2;
-	Wed, 28 Jul 2021 06:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E56906E08A;
+	Wed, 28 Jul 2021 06:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 289DE6ECB3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 06:01:16 +0000 (UTC)
-X-UUID: 23125cafd88040e19121d88c4e298d00-20210728
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=sWw35lBW/IgLGTlrQKog6Lf50AoVc9JQNUi+k6TAvd0=; 
- b=r1Ug7moZk4M74Jk+CeXF2rEi4x7NdCnohd9kFNNkY/fq+WjvqnUba4gUYfn7N5AC9mwFKnSGNU31kPe1Hirw8ug+OVHwUo+++iXDs1ArNjdlqNK5G97yuwCTmSdH0XLHux0IO/LY4WvKrSRBVSNxff6rcCpbhrgcXDjpjJzH4r0=;
-X-UUID: 23125cafd88040e19121d88c4e298d00-20210728
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 516235939; Wed, 28 Jul 2021 14:01:11 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 28 Jul 2021 14:00:58 +0800
-Received: from mtksdccf07 (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 28 Jul 2021 14:00:58 +0800
-Message-ID: <692eeb1314da94e28ccc8722b94c7ce8cae6c880.camel@mediatek.com>
-Subject: Re: [PATCH v2 09/14] soc: mediatek: mmsys: Add reset controller
- support for MT8195 vdosys1
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Enric Balletbo Serra <eballetbo@gmail.com>
-Date: Wed, 28 Jul 2021 14:00:58 +0800
-In-Reply-To: <CAFqH_53bnNvjGjZ2S8oyAx2t0if-YpQyZcb9sRapG2q21X4fGw@mail.gmail.com>
-References: <20210722094551.15255-1-nancy.lin@mediatek.com>
- <20210722094551.15255-10-nancy.lin@mediatek.com>
- <CAFqH_53bnNvjGjZ2S8oyAx2t0if-YpQyZcb9sRapG2q21X4fGw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Greylist: delayed 1366 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Jul 2021 06:34:59 UTC
+Received: from gateway32.websitewelcome.com (gateway32.websitewelcome.com
+ [192.185.145.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7BD26E02B
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 06:34:59 +0000 (UTC)
+Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
+ by gateway32.websitewelcome.com (Postfix) with ESMTP id B65C0B4BB7
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 01:12:11 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id 8cnbmsiHAMGeE8cnbmFClK; Wed, 28 Jul 2021 01:12:11 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/gCRywG3p9gdzDsdnfCiyJuRt7hlhcIRTlf1DfYGxQk=; b=VcIfYrm9dG72K/ZQdtfuvuRlxT
+ V3vj8YAhGaZx/cGjli4zOBFYlJLoXo0Vsd02K5fRjcNQP9NIaIESg+YOXV99qTCB2Yo/O/8WHP1ds
+ tXZbD1nJiwP3eEvBBTiZUo+VuIrDMlwm0ktVaXENnRTX4JuI9vlmD7ltgDRPbsHiRknznvoYhhE9n
+ E8MtFRCudEt5DeNW0MrlXGslPCSnGcfJ5OUAGOu7TVmX7V7cwyVfPVrDjuE3onf3wAwUBuIo0NmMx
+ IpJTghBwcX95Gj2Ml9t6eR6MSITfuKehPikhPibC8RrQ3I91RzhVBZtQ0/pRauPtwPnnaJk7AevGt
+ aQE41uZw==;
+Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:44814
+ helo=[192.168.15.8])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1m8cna-003PI6-Vi; Wed, 28 Jul 2021 01:12:11 -0500
+Subject: Re: [PATCH 19/64] ip: Use struct_group() for memcpy() regions
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kees Cook <keescook@chromium.org>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-20-keescook@chromium.org> <YQDxaYrHu0PeBIuX@kroah.com>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <baead202-569f-775f-348c-aa64e69f03ed@embeddedor.com>
+Date: Wed, 28 Jul 2021 01:14:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+In-Reply-To: <YQDxaYrHu0PeBIuX@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.31.110
+X-Source-L: No
+X-Exim-ID: 1m8cna-003PI6-Vi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8])
+ [187.162.31.110]:44814
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 10
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,160 +85,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- srv_heupstream <srv_heupstream@mediatek.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-block@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Keith Packard <keithpac@amazon.com>,
+ linux-hardening@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRW5yaWMsDQoNClRoYW5rcyBmb3IgeW91ciByZXZpZXcuDQoNCk9uIEZyaSwgMjAyMS0wNy0y
-MyBhdCAxMjo1NyArMDIwMCwgRW5yaWMgQmFsbGV0Ym8gU2VycmEgd3JvdGU6DQo+IEhpIE5hbmN5
-LA0KPiANCj4gVGhhbmsgeW91IGZvciB5b3VyIHBhdGNoLg0KPiANCj4gTWlzc2F0Z2UgZGUgTmFu
-Y3kuTGluIDxuYW5jeS5saW5AbWVkaWF0ZWsuY29tPiBkZWwgZGlhIGRqLiwgMjIgZGUNCj4ganVs
-Lg0KPiAyMDIxIGEgbGVzIDExOjQ2Og0KPiA+IA0KPiA+IEFtb25nIG90aGVyIGZlYXR1cmVzIHRo
-ZSBtbXN5cyBkcml2ZXIgc2hvdWxkIGltcGxlbWVudCBhIHJlc2V0DQo+ID4gY29udHJvbGxlciB0
-byBiZSBhYmxlIHRvIHJlc2V0IGRpZmZlcmVudCBiaXRzIGZyb20gdGhlaXIgc3BhY2UuDQo+ID4g
-DQo+IA0KPiBJJ20gd29ya2luZyBvbiBhIHNlcmllcyB0aGF0IGRvZXMgdGhlIHNhbWUsIGl0IHNo
-b3VsZCBiZSBuaWNlIGlmIHdlDQo+IGNhbiBjb29yZGluYXRlIFsxXQ0KPiANCj4gWzFdIA0KPiBo
-dHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9w
-cm9qZWN0L2xpbnV4LW1lZGlhdGVrL2xpc3QvP3Nlcmllcz01MTUzNTVfXzshIUNUUk5LQTl3TWcw
-QVJidyF4UDZLbzloRi0zS2FzR2dyNy04QWJ5X3RDd2lVMk02Z0ZCQW5nRExWY0pqem9vai1NRWVU
-Y05HOGNmMmU5d0diJA0KPiAgDQo+IA0KT0ssIEkgd2lsbCBhZGQgdGhpcyBzZXJpZXMgdG8gbXkg
-cmVmZXJlbmNlIGJhc2UgaW4gdGhlIG5leHQgcGF0Y2gNCnJldmlzaW9uLg0KDQo+ID4gU2lnbmVk
-LW9mZi1ieTogTmFuY3kuTGluIDxuYW5jeS5saW5AbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+
-ICBkcml2ZXJzL3NvYy9tZWRpYXRlay9tdDgxOTUtbW1zeXMuaCB8ICAxICsNCj4gPiAgZHJpdmVy
-cy9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmMgICAgfCA3Nw0KPiA+ICsrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrDQo+ID4gIGRyaXZlcnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5oICAgIHwg
-IDEgKw0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDc5IGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXQ4MTk1LW1tc3lzLmgNCj4gPiBiL2Ry
-aXZlcnMvc29jL21lZGlhdGVrL210ODE5NS1tbXN5cy5oDQo+ID4gaW5kZXggNGJkYjIwODcyNTBj
-Li5hN2Y2ZTI3NWJmZTUgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXQ4
-MTk1LW1tc3lzLmgNCj4gPiArKysgYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdDgxOTUtbW1zeXMu
-aA0KPiA+IEBAIC0xNTQsNiArMTU0LDcgQEANCj4gPiAgI2RlZmluZSBESVNQX0RQX0lOVEYwX1NF
-TF9JTl9GUk9NX1ZETzBfTUVSR0VfRExfQVNZTkNfTU9VVCAgICAgKDENCj4gPiA8PCAwKQ0KPiA+
-ICAjZGVmaW5lIERJU1BfRFBfSU5URjBfU0VMX0lOX0ZST01fVkRPMF9EU0NfRExfQVNZTkNfTU9V
-VCAgICAgICAoMg0KPiA+IDw8IDApDQo+ID4gDQo+ID4gKyNkZWZpbmUgTVQ4MTk1X1ZETzFfU1cw
-X1JTVF9CICAgICAgICAgICAweDFkMA0KPiA+ICAjZGVmaW5lIE1UODE5NV9WRE8xX01FUkdFMF9B
-U1lOQ19DRkdfV0QgICAgICAgIDB4ZTMwDQo+ID4gICNkZWZpbmUgTVQ4MTk1X1ZETzFfTUVSR0Ux
-X0FTWU5DX0NGR19XRCAgICAgICAgMHhlNDANCj4gPiAgI2RlZmluZSBNVDgxOTVfVkRPMV9NRVJH
-RTJfQVNZTkNfQ0ZHX1dEICAgICAgICAweGU1MA0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3Nv
-Yy9tZWRpYXRlay9tdGstbW1zeXMuYw0KPiA+IGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLW1t
-c3lzLmMNCj4gPiBpbmRleCBkMGY0YTQwN2Y4ZjguLjFhZTA0ZWZlYWRhYiAxMDA2NDQNCj4gPiAt
-LS0gYS9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMuYw0KPiA+ICsrKyBiL2RyaXZlcnMv
-c29jL21lZGlhdGVrL210ay1tbXN5cy5jDQo+ID4gQEAgLTQsMTAgKzQsMTIgQEANCj4gPiAgICog
-QXV0aG9yOiBKYW1lcyBMaWFvIDxqYW1lc2pqLmxpYW9AbWVkaWF0ZWsuY29tPg0KPiA+ICAgKi8N
-Cj4gPiANCj4gPiArI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+DQo+ID4gICNpbmNsdWRlIDxsaW51
-eC9kZXZpY2UuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2lvLmg+DQo+ID4gICNpbmNsdWRlIDxs
-aW51eC9vZl9kZXZpY2UuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5o
-Pg0KPiA+ICsjaW5jbHVkZSA8bGludXgvcmVzZXQtY29udHJvbGxlci5oPg0KPiA+ICAjaW5jbHVk
-ZSA8bGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oPg0KPiA+IA0KPiA+ICAjaW5jbHVkZSAi
-bXRrLW1tc3lzLmgiDQo+ID4gQEAgLTE1LDYgKzE3LDggQEANCj4gPiAgI2luY2x1ZGUgIm10ODE4
-My1tbXN5cy5oIg0KPiA+ICAjaW5jbHVkZSAibXQ4MTk1LW1tc3lzLmgiDQo+ID4gDQo+ID4gKyNk
-ZWZpbmUgTU1TWVNfU1dfUkVTRVRfUEVSX1JFRyAzMg0KPiA+ICsNCj4gPiAgc3RhdGljIGNvbnN0
-IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2RhdGEgbXQyNzAxX21tc3lzX2RyaXZlcl9kYXRhDQo+
-ID4gPSB7DQo+ID4gICAgICAgICAuY2xrX2RyaXZlciA9ICJjbGstbXQyNzAxLW1tIiwNCj4gPiAg
-ICAgICAgIC5yb3V0ZXMgPSBtbXN5c19kZWZhdWx0X3JvdXRpbmdfdGFibGUsDQo+ID4gQEAgLTY1
-LDEyICs2OSwxNSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG10a19tbXN5c19kcml2ZXJfZGF0YQ0K
-PiA+IG10ODE5NV92ZG9zeXMxX2RyaXZlcl9kYXRhID0gew0KPiA+ICAgICAgICAgLm51bV9yb3V0
-ZXMgPSBBUlJBWV9TSVpFKG1tc3lzX210ODE5NV9yb3V0aW5nX3RhYmxlKSwNCj4gPiAgICAgICAg
-IC5jb25maWcgPSBtbXN5c19tdDgxOTVfY29uZmlnX3RhYmxlLA0KPiA+ICAgICAgICAgLm51bV9j
-b25maWdzID0gQVJSQVlfU0laRShtbXN5c19tdDgxOTVfY29uZmlnX3RhYmxlKSwNCj4gPiArICAg
-ICAgIC5zd19yZXNldF9zdGFydCA9IE1UODE5NV9WRE8xX1NXMF9SU1RfQiwNCj4gDQo+IFRoYXQg
-Y2hhbmdlIGlzIGludGVyZXN0aW5nIGFuZCBJIHRoaW5rIEkgc2hvdWxkIGFsc28gdGFrZSBpdCBp
-bnRvDQo+IGNvbnNpZGVyYXRpb24gd2l0aCBteSBzZXJpZXMuDQo+IA0KPiA+ICB9Ow0KPiA+IA0K
-PiA+ICBzdHJ1Y3QgbXRrX21tc3lzIHsNCj4gPiAgICAgICAgIHZvaWQgX19pb21lbSAqcmVnczsN
-Cj4gPiAgICAgICAgIHN0cnVjdCBjbWRxX2NsaWVudF9yZWcgY21kcV9iYXNlOw0KPiA+ICAgICAg
-ICAgY29uc3Qgc3RydWN0IG10a19tbXN5c19kcml2ZXJfZGF0YSAqZGF0YTsNCj4gPiArICAgICAg
-IHNwaW5sb2NrX3QgbG9jazsgLyogcHJvdGVjdHMgbW1zeXNfc3dfcnN0X2IgcmVnICovDQo+IA0K
-PiBTZWVtcyB0aGF0IG1tc3lzX3N3X3JzdF9iIHJlZyBoYXMgZGlmZmVyZW50IG5hbWVzIGZvciBk
-aWZmZXJlbnQgU29Dcz8NCj4gSSBtZWFuIEkga25vdyB0aGF0IGZvciBNVDgxNzMgYW5kIE1UODE4
-MyB0aGUgcmVnaXN0ZXIgaXMgY2FsbGVkDQo+IG1tc3lzX3N3MF9yc3RfYiBidXQgbG9va3MgbGlr
-ZSBmb3IgTVQ4MTk1IHRoZSBuYW1lIGlzIHZkbzFfc3cwX3JzdF9iPw0KPiBTbyBtYXliZSB3ZSBz
-aG91bGQgdXBkYXRlIHRoaXMgY29tbWVudCB0byBiZSBtb3JlIGdlbmVyaWMuDQo+IA0KWWVzLCB0
-aGUgbmFtZSBvZiBNVDgxOTUgdmRvc3lzMSBzdyByZXNldCBpcyBjYWxsZWQgVkRPU1lTMV9TVzBf
-UlNUX0IgDQphbmQgdGhlIG5hbWUgb2YgdmRvc3lzMCBzdyByZXNldCBpcyBjYWxsZWQgR0xPQkFM
-MF9TVzBfUlNUX0IuIFRoZXkgaGF2ZQ0KYSBkaWZmZXJlbnQgbmFtZS4gTWF5YmUgd2UgY2FuIGNo
-YW5nZSB0aGUgY29tbWVudCB0byAicHJvdGVjdHMgbW1zeXMgc3cNCnJlc2V0IHJlZyIuDQoNCj4g
-PiANCg0KPiA+ICsgICAgICAgc3RydWN0IHJlc2V0X2NvbnRyb2xsZXJfZGV2IHJjZGV2Ow0KPiA+
-ICB9Ow0KPiA+IA0KPiA+ICB2b2lkIG10a19tbXN5c19kZHBfY29ubmVjdChzdHJ1Y3QgZGV2aWNl
-ICpkZXYsDQo+ID4gQEAgLTE0OCw2ICsxNTUsNjMgQEAgdm9pZCBtdGtfbW1zeXNfZGRwX2NvbmZp
-ZyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ID4gZW51bSBtdGtfbW1zeXNfY29uZmlnX3R5cGUgY29u
-ZmlnLA0KPiA+ICB9DQo+ID4gIEVYUE9SVF9TWU1CT0xfR1BMKG10a19tbXN5c19kZHBfY29uZmln
-KTsNCj4gPiANCj4gPiArc3RhdGljIGludCBtdGtfbW1zeXNfcmVzZXRfdXBkYXRlKHN0cnVjdCBy
-ZXNldF9jb250cm9sbGVyX2Rldg0KPiA+ICpyY2RldiwgdW5zaWduZWQgbG9uZyBpZCwNCj4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYm9vbCBhc3NlcnQpDQo+ID4gK3sNCj4g
-PiArICAgICAgIHN0cnVjdCBtdGtfbW1zeXMgKm1tc3lzID0gY29udGFpbmVyX29mKHJjZGV2LCBz
-dHJ1Y3QNCj4gPiBtdGtfbW1zeXMsIHJjZGV2KTsNCj4gPiArICAgICAgIHVuc2lnbmVkIGxvbmcg
-ZmxhZ3M7DQo+ID4gKyAgICAgICB1MzIgcmVnOw0KPiA+ICsgICAgICAgaW50IGk7DQo+ID4gKyAg
-ICAgICB1MzIgb2Zmc2V0Ow0KPiA+ICsNCj4gPiArICAgICAgIG9mZnNldCA9IChpZCAvIE1NU1lT
-X1NXX1JFU0VUX1BFUl9SRUcpICogc2l6ZW9mKHUzMik7DQo+ID4gKyAgICAgICBpZCA9IDEgPDwg
-KGlkICUgTU1TWVNfU1dfUkVTRVRfUEVSX1JFRyk7DQo+ID4gKw0KPiA+ICsgICAgICAgc3Bpbl9s
-b2NrX2lycXNhdmUoJm1tc3lzLT5sb2NrLCBmbGFncyk7DQo+ID4gKw0KPiA+ICsgICAgICAgcmVn
-ID0gcmVhZGxfcmVsYXhlZChtbXN5cy0+cmVncyArIG1tc3lzLT5kYXRhLQ0KPiA+ID5zd19yZXNl
-dF9zdGFydCArIG9mZnNldCk7DQo+ID4gKw0KPiA+ICsgICAgICAgaWYgKGFzc2VydCkNCj4gPiAr
-ICAgICAgICAgICAgICAgcmVnICY9IH5CSVQoaWQpOw0KPiA+ICsgICAgICAgZWxzZQ0KPiA+ICsg
-ICAgICAgICAgICAgICByZWcgfD0gQklUKGlkKTsNCj4gPiArDQo+ID4gKyAgICAgICB3cml0ZWxf
-cmVsYXhlZChyZWcsIG1tc3lzLT5yZWdzICsgbW1zeXMtPmRhdGEtDQo+ID4gPnN3X3Jlc2V0X3N0
-YXJ0ICsgb2Zmc2V0KTsNCj4gPiArDQo+ID4gKyAgICAgICBzcGluX3VubG9ja19pcnFyZXN0b3Jl
-KCZtbXN5cy0+bG9jaywgZmxhZ3MpOw0KPiA+ICsNCj4gPiArICAgICAgIHJldHVybiAwOw0KPiA+
-ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IG10a19tbXN5c19yZXNldF9hc3NlcnQoc3RydWN0
-IHJlc2V0X2NvbnRyb2xsZXJfZGV2DQo+ID4gKnJjZGV2LCB1bnNpZ25lZCBsb25nIGlkKQ0KPiA+
-ICt7DQo+ID4gKyAgICAgICByZXR1cm4gbXRrX21tc3lzX3Jlc2V0X3VwZGF0ZShyY2RldiwgaWQs
-IHRydWUpOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IG10a19tbXN5c19yZXNldF9k
-ZWFzc2VydChzdHJ1Y3QgcmVzZXRfY29udHJvbGxlcl9kZXYNCj4gPiAqcmNkZXYsIHVuc2lnbmVk
-IGxvbmcgaWQpDQo+ID4gK3sNCj4gPiArICAgICAgIHJldHVybiBtdGtfbW1zeXNfcmVzZXRfdXBk
-YXRlKHJjZGV2LCBpZCwgZmFsc2UpOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IG10
-a19tbXN5c19yZXNldChzdHJ1Y3QgcmVzZXRfY29udHJvbGxlcl9kZXYgKnJjZGV2LA0KPiA+IHVu
-c2lnbmVkIGxvbmcgaWQpDQo+ID4gK3sNCj4gPiArICAgICAgIGludCByZXQ7DQo+ID4gKw0KPiA+
-ICsgICAgICAgcmV0ID0gbXRrX21tc3lzX3Jlc2V0X2Fzc2VydChyY2RldiwgaWQpOw0KPiA+ICsg
-ICAgICAgaWYgKHJldCkNCj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4gPiArDQo+
-ID4gKyAgICAgICB1c2xlZXBfcmFuZ2UoMTAwMCwgMTEwMCk7DQo+ID4gKw0KPiANCj4gT25lIHF1
-ZXN0aW9uIHRoYXQgSSByZWNlaXZlZCBpbiBteSBzZXJpZXMsIGFuZCBJIGNvdWxkbid0IGFuc3dl
-cg0KPiBiZWNhdXNlIEkgZG9uJ3QgaGF2ZSB0aGUgZGF0YXNoZWV0LCBpcyBpZg0KPiBpcyB0aGlz
-IGtub3duIHRvIGJlIGVub3VnaCBmb3IgYWxsIElQIGNvcmVzIHRoYXQgY2FuIGJlIHJlc2V0IGJ5
-IHRoaXMNCj4gY29udHJvbGxlcj8gSXMgdGhpcyB0aW1lIHNwZWNpZmllZCBpbiB0aGUgZGF0YXNo
-ZWV0Pw0KDQpJdCBvbmx5IHRha2VzIGZldyBjeWNsZXMgZm9yIHRoZSByZXNldC4gVGhlIDEwMDB1
-cyBpcyBlbm91Z2ggZm9yIHRoZQ0KcmVzZXQgdG8gdGFrZSBlZmZlY3QuDQoNCj4gPiArICAgICAg
-IHJldHVybiBtdGtfbW1zeXNfcmVzZXRfZGVhc3NlcnQocmNkZXYsIGlkKTsNCj4gPiArfQ0KPiA+
-ICsNCj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCByZXNldF9jb250cm9sX29wcyBtdGtfbW1zeXNf
-cmVzZXRfb3BzID0gew0KPiA+ICsgICAgICAgLmFzc2VydCA9IG10a19tbXN5c19yZXNldF9hc3Nl
-cnQsDQo+ID4gKyAgICAgICAuZGVhc3NlcnQgPSBtdGtfbW1zeXNfcmVzZXRfZGVhc3NlcnQsDQo+
-ID4gKyAgICAgICAucmVzZXQgPSBtdGtfbW1zeXNfcmVzZXQsDQo+ID4gK307DQo+ID4gKw0KPiA+
-ICBzdGF0aWMgaW50IG10a19tbXN5c19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
-KQ0KPiA+ICB7DQo+ID4gICAgICAgICBzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmcGRldi0+ZGV2Ow0K
-PiA+IEBAIC0xNzQsNiArMjM4LDE5IEBAIHN0YXRpYyBpbnQgbXRrX21tc3lzX3Byb2JlKHN0cnVj
-dA0KPiA+IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gPiAgICAgICAgIGlmIChyZXQpDQo+ID4g
-ICAgICAgICAgICAgICAgIGRldl9kYmcoZGV2LCAiTm8gbWVkaWF0ZWssZ2NlLWNsaWVudC1yZWch
-XG4iKTsNCj4gPiAgI2VuZGlmDQo+ID4gKw0KPiA+ICsgICAgICAgc3Bpbl9sb2NrX2luaXQoJm1t
-c3lzLT5sb2NrKTsNCj4gPiArDQo+ID4gKyAgICAgICBtbXN5cy0+cmNkZXYub3duZXIgPSBUSElT
-X01PRFVMRTsNCj4gPiArICAgICAgIG1tc3lzLT5yY2Rldi5ucl9yZXNldHMgPSA2NDsNCj4gDQo+
-IElzIHRoZSBudW1iZXIgb2YgcmVzZXRzIDY0IGZvciBNVDgxOTU/IEkgdGhpbmsgaXMgMzIgZm9y
-IE1UODE3MyBhbmQNCj4gTVQ4MTgzLiBDYW4geW91IGNvbmZpcm0/DQo+IA0KPiBUaGFua3MsDQo+
-ICAgRW5yaWMNCj4gDQpUaGUgbnVtYmVyIG9mIHJlc2V0cyBpbiBNVDgxOTUgdmRvc3lzMSBpcyA2
-NCAoNDMgcmVzZXRzIGFyZSB1c2VkLCAyMQ0KYXJlIG5vdCB1c2VkKS4NCg0KPiA+ICsgICAgICAg
-bW1zeXMtPnJjZGV2Lm9wcyA9ICZtdGtfbW1zeXNfcmVzZXRfb3BzOw0KPiA+ICsgICAgICAgbW1z
-eXMtPnJjZGV2Lm9mX25vZGUgPSBwZGV2LT5kZXYub2Zfbm9kZTsNCj4gPiArICAgICAgIHJldCA9
-IGRldm1fcmVzZXRfY29udHJvbGxlcl9yZWdpc3RlcigmcGRldi0+ZGV2LCAmbW1zeXMtDQo+ID4g
-PnJjZGV2KTsNCj4gPiArICAgICAgIGlmIChyZXQpIHsNCj4gPiArICAgICAgICAgICAgICAgZGV2
-X2VycigmcGRldi0+ZGV2LCAiQ291bGRuJ3QgcmVnaXN0ZXIgbW1zeXMgcmVzZXQNCj4gPiBjb250
-cm9sbGVyOiAlZFxuIiwgcmV0KTsNCj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4g
-PiArICAgICAgIH0NCj4gPiArDQo+ID4gICAgICAgICBwbGF0Zm9ybV9zZXRfZHJ2ZGF0YShwZGV2
-LCBtbXN5cyk7DQo+ID4gDQo+ID4gICAgICAgICBjbGtzID0gcGxhdGZvcm1fZGV2aWNlX3JlZ2lz
-dGVyX2RhdGEoJnBkZXYtPmRldiwgbW1zeXMtDQo+ID4gPmRhdGEtPmNsa19kcml2ZXIsDQo+ID4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1tbXN5cy5oDQo+ID4gYi9kcml2
-ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMuaA0KPiA+IGluZGV4IDA4NGIxZjVmM2M4OC4uY2M1
-N2MzODk1YzUxIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1tbXN5
-cy5oDQo+ID4gKysrIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmgNCj4gPiBAQCAt
-ODcsNiArODcsNyBAQCBzdHJ1Y3QgbXRrX21tc3lzX2RyaXZlcl9kYXRhIHsNCj4gPiAgICAgICAg
-IGNvbnN0IHVuc2lnbmVkIGludCBudW1fcm91dGVzOw0KPiA+ICAgICAgICAgY29uc3Qgc3RydWN0
-IG10a19tbXN5c19jb25maWcgKmNvbmZpZzsNCj4gPiAgICAgICAgIGNvbnN0IHVuc2lnbmVkIGlu
-dCBudW1fY29uZmlnczsNCj4gPiArICAgICAgIHUzMiBzd19yZXNldF9zdGFydDsNCj4gPiAgfTsN
-Cj4gPiANCj4gPiAgLyoNCj4gPiAtLQ0KPiA+IDIuMTguMA0KPiA+IA0K
 
+
+On 7/28/21 00:55, Greg Kroah-Hartman wrote:
+> On Tue, Jul 27, 2021 at 01:58:10PM -0700, Kees Cook wrote:
+>> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+>> field bounds checking for memcpy(), memmove(), and memset(), avoid
+>> intentionally writing across neighboring fields.
+>>
+>> Use struct_group() in struct flowi4, struct ipv4hdr, and struct ipv6hdr
+>> around members saddr and daddr, so they can be referenced together. This
+>> will allow memcpy() and sizeof() to more easily reason about sizes,
+>> improve readability, and avoid future warnings about writing beyond the
+>> end of saddr.
+>>
+>> "pahole" shows no size nor member offset changes to struct flowi4.
+>> "objdump -d" shows no meaningful object code changes (i.e. only source
+>> line number induced differences.)
+>>
+>> Note that since this is a UAPI header, struct_group() has been open
+>> coded.
+>>
+>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>> ---
+>>  include/net/flow.h            |  6 ++++--
+>>  include/uapi/linux/if_ether.h | 12 ++++++++++--
+>>  include/uapi/linux/ip.h       | 12 ++++++++++--
+>>  include/uapi/linux/ipv6.h     | 12 ++++++++++--
+>>  net/core/flow_dissector.c     | 10 ++++++----
+>>  net/ipv4/ip_output.c          |  6 ++----
+>>  6 files changed, 42 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/include/net/flow.h b/include/net/flow.h
+>> index 6f5e70240071..f1a3b6c8eae2 100644
+>> --- a/include/net/flow.h
+>> +++ b/include/net/flow.h
+>> @@ -81,8 +81,10 @@ struct flowi4 {
+>>  #define flowi4_multipath_hash	__fl_common.flowic_multipath_hash
+>>  
+>>  	/* (saddr,daddr) must be grouped, same order as in IP header */
+>> -	__be32			saddr;
+>> -	__be32			daddr;
+>> +	struct_group(addrs,
+>> +		__be32			saddr;
+>> +		__be32			daddr;
+>> +	);
+>>  
+>>  	union flowi_uli		uli;
+>>  #define fl4_sport		uli.ports.sport
+>> diff --git a/include/uapi/linux/if_ether.h b/include/uapi/linux/if_ether.h
+>> index a0b637911d3c..8f5667b2ea92 100644
+>> --- a/include/uapi/linux/if_ether.h
+>> +++ b/include/uapi/linux/if_ether.h
+>> @@ -163,8 +163,16 @@
+>>  
+>>  #if __UAPI_DEF_ETHHDR
+>>  struct ethhdr {
+>> -	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
+>> -	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
+>> +	union {
+>> +		struct {
+>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
+>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
+>> +		};
+>> +		struct {
+>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
+>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
+>> +		} addrs;
+> 
+> A union of the same fields in the same structure in the same way?
+> 
+> Ah, because struct_group() can not be used here?  Still feels odd to see
+> in a userspace-visible header.
+> 
+>> +	};
+>>  	__be16		h_proto;		/* packet type ID field	*/
+>>  } __attribute__((packed));
+>>  #endif
+>> diff --git a/include/uapi/linux/ip.h b/include/uapi/linux/ip.h
+>> index e42d13b55cf3..33647a37e56b 100644
+>> --- a/include/uapi/linux/ip.h
+>> +++ b/include/uapi/linux/ip.h
+>> @@ -100,8 +100,16 @@ struct iphdr {
+>>  	__u8	ttl;
+>>  	__u8	protocol;
+>>  	__sum16	check;
+>> -	__be32	saddr;
+>> -	__be32	daddr;
+>> +	union {
+>> +		struct {
+>> +			__be32	saddr;
+>> +			__be32	daddr;
+>> +		} addrs;
+>> +		struct {
+>> +			__be32	saddr;
+>> +			__be32	daddr;
+>> +		};
+> 
+> Same here (except you named the first struct addrs, not the second,
+> unlike above).
+> 
+> 
+>> +	};
+>>  	/*The options start here. */
+>>  };
+>>  
+>> diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
+>> index b243a53fa985..1c26d32e733b 100644
+>> --- a/include/uapi/linux/ipv6.h
+>> +++ b/include/uapi/linux/ipv6.h
+>> @@ -130,8 +130,16 @@ struct ipv6hdr {
+>>  	__u8			nexthdr;
+>>  	__u8			hop_limit;
+>>  
+>> -	struct	in6_addr	saddr;
+>> -	struct	in6_addr	daddr;
+>> +	union {
+>> +		struct {
+>> +			struct	in6_addr	saddr;
+>> +			struct	in6_addr	daddr;
+>> +		} addrs;
+>> +		struct {
+>> +			struct	in6_addr	saddr;
+>> +			struct	in6_addr	daddr;
+>> +		};
+> 
+> addrs first?  Consistancy is key :)
+
+I think addrs should be second. In general, I think all newly added
+non-anonymous structures should be second.
+
+Thanks
+--
+Gustavo
