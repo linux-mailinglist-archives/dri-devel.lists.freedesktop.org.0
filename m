@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EEA3D9344
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 18:34:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCE23D934D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 18:36:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6D76E5AB;
-	Wed, 28 Jul 2021 16:34:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BEDD6E162;
+	Wed, 28 Jul 2021 16:36:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC936E44F;
- Wed, 28 Jul 2021 16:34:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="212732969"
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="212732969"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 09:33:59 -0700
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="464723181"
-Received: from hseyedro-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.213.174.18])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 09:33:56 -0700
-Date: Wed, 28 Jul 2021 12:33:49 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: badal.nilawar@intel.com
-Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: dgfx cards need to wait on
- pcode's uncore init done
-Message-ID: <YQGG7XBnIdzrRzx3@intel.com>
-References: <20210727173338.901264-1-badal.nilawar@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1568B6E162
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 16:36:37 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 809A33F;
+ Wed, 28 Jul 2021 18:36:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1627490195;
+ bh=vFWdjKhAzYpI+lcOiQweUdWIWTJhMp6gk2toxBC/3Gg=;
+ h=Date:From:To:Cc:Subject:From;
+ b=RE52fL72JO1iJs5DoUp9kOKgOGY//gpVLY6yFg/IK0x0j3sBUNaQT97CYA3XlUvc9
+ u6sQhLimY1vBye1yEdlnKuIdPmWtLXRJ7OiquKSec2+EDkDt1qkri2TltVNiE/BnHJ
+ cv7XqnDgomBugk8kYjSYzFz6xGLo9TYFVrM0jjfk=
+Date: Wed, 28 Jul 2021 19:36:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [GIT PULL FOR v5.15] R-Car DU fixes and improvements
+Message-ID: <YQGHjOSOw2G4+A3x@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210727173338.901264-1-badal.nilawar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,114 +44,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 11:03:38PM +0530, badal.nilawar@intel.com wrote:
-> From: Badal Nilawar <badal.nilawar@intel.com>
-> 
-> In discrete cards, the graphics driver shouldn't proceed with the probe
-> or resume unless PCODE indicated everything is done, including memory
-> training and gt bring up.
-> 
-> For this reason, the driver probe and resume paths needs to be blocked
-> until PCODE indicates it is done. Also, it needs to aborted if the
-> notification never arrives.
-> 
-> In general, the few miliseconds would be enough and the regular PCODE
-> recommendation for the timeout was 10 seconds. However there are some
-> rare cases where this initialization can take up to 1 minute. So,
-> PCODE has increased the recommendation to 3 minutes so we don't fully
-> block the device utilization when something just got delayed for
-> whatever reason. To be on the safest side, let's accept this
-> recommendation, since on the regular case it won't delay or block the
-> driver initialization and resume flows
-> 
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+Hi Dave and Daniel,
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+The following changes since commit 15d27b15de965043d6f8e23bc7f34386fcd1a772:
 
-> ---
->  drivers/gpu/drm/i915/i915_drv.c       |  8 +++++++-
->  drivers/gpu/drm/i915/intel_sideband.c | 13 +++++++++----
->  drivers/gpu/drm/i915/intel_sideband.h |  2 +-
->  3 files changed, 17 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index c43b698bf0b97..59fb4c710c8ca 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -620,7 +620,9 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
->  
->  	intel_opregion_setup(dev_priv);
->  
-> -	intel_pcode_init(dev_priv);
-> +	ret = intel_pcode_init(dev_priv);
-> +	if (ret)
-> +		goto err_msi;
->  
->  	/*
->  	 * Fill the dram structure to get the system dram info. This will be
-> @@ -1231,6 +1233,10 @@ static int i915_drm_resume(struct drm_device *dev)
->  
->  	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
->  
-> +	ret = intel_pcode_init(dev_priv);
-> +	if (ret)
-> +		return ret;
-> +
->  	sanitize_gpu(dev_priv);
->  
->  	ret = i915_ggtt_enable_hw(dev_priv);
-> diff --git a/drivers/gpu/drm/i915/intel_sideband.c b/drivers/gpu/drm/i915/intel_sideband.c
-> index f0a82b37bd1ac..e304bf44e1ff8 100644
-> --- a/drivers/gpu/drm/i915/intel_sideband.c
-> +++ b/drivers/gpu/drm/i915/intel_sideband.c
-> @@ -556,17 +556,22 @@ int skl_pcode_request(struct drm_i915_private *i915, u32 mbox, u32 request,
->  #undef COND
->  }
->  
-> -void intel_pcode_init(struct drm_i915_private *i915)
-> +int intel_pcode_init(struct drm_i915_private *i915)
->  {
-> -	int ret;
-> +	int ret = 0;
->  
->  	if (!IS_DGFX(i915))
-> -		return;
-> +		return ret;
->  
->  	ret = skl_pcode_request(i915, DG1_PCODE_STATUS,
->  				DG1_UNCORE_GET_INIT_STATUS,
->  				DG1_UNCORE_INIT_STATUS_COMPLETE,
-> -				DG1_UNCORE_INIT_STATUS_COMPLETE, 50);
-> +				DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
-> +
-> +	drm_dbg(&i915->drm, "PCODE init status %d\n", ret);
-> +
->  	if (ret)
->  		drm_err(&i915->drm, "Pcode did not report uncore initialization completion!\n");
-> +
-> +	return ret;
->  }
-> diff --git a/drivers/gpu/drm/i915/intel_sideband.h b/drivers/gpu/drm/i915/intel_sideband.h
-> index 094c7b19c5d42..d1d14bcb8f56e 100644
-> --- a/drivers/gpu/drm/i915/intel_sideband.h
-> +++ b/drivers/gpu/drm/i915/intel_sideband.h
-> @@ -138,6 +138,6 @@ int sandybridge_pcode_write_timeout(struct drm_i915_private *i915, u32 mbox,
->  int skl_pcode_request(struct drm_i915_private *i915, u32 mbox, u32 request,
->  		      u32 reply_mask, u32 reply, int timeout_base_ms);
->  
-> -void intel_pcode_init(struct drm_i915_private *i915);
-> +int intel_pcode_init(struct drm_i915_private *i915);
->  
->  #endif /* _INTEL_SIDEBAND_H */
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+  efi: sysfb_efi: fix build when EFI is not set (2021-07-27 11:52:51 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/pinchartl/media.git tags/du-next-20210728
+
+for you to fetch changes up to 6571a76af380290dd9a003a3bc90d4779ec4f8f8:
+
+  drm: rcar-du: lvds: Use dev_err_probe() (2021-07-28 16:33:32 +0300)
+
+----------------------------------------------------------------
+- R-Car DU shutdown fixes
+- R-Car DU conversion to bridge connector helper
+- Misc small fixes
+
+----------------------------------------------------------------
+Colin Ian King (1):
+      drm/bridge: make a const array static, makes object smaller
+
+Laurent Pinchart (10):
+      drm: rcar-du: Shutdown the display on system shutdown
+      drm: rcar-du: Don't put reference to drm_device in rcar_du_remove()
+      drm: rcar-du: Shutdown the display on remove
+      drm/bridge: Centralize error message when bridge attach fails
+      drm: bridge: dw-hdmi: Attach to next bridge if available
+      drm: rcar-du: lvds: Convert to DRM panel bridge helper
+      drm: rcar-du: dw-hdmi: Set output port number
+      drm: rcar-du: Use drm_bridge_connector_init() helper
+      drm: rcar-du: lvds: Don't set bridge driver_private field
+      drm: rcar-du: lvds: Use dev_err_probe()
+
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |   9 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |   5 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  55 ++++++++-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |  10 +-
+ drivers/gpu/drm/bridge/tc358768.c                  |   2 +-
+ drivers/gpu/drm/drm_bridge.c                       |  10 ++
+ drivers/gpu/drm/exynos/exynos_dp.c                 |   5 +-
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |   5 +-
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c       |   9 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c                |   5 +-
+ drivers/gpu/drm/imx/imx-ldb.c                      |   4 +-
+ drivers/gpu/drm/imx/parallel-display.c             |   5 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |   4 +-
+ drivers/gpu/drm/kmb/kmb_dsi.c                      |   1 -
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |   9 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |   4 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |   5 +-
+ drivers/gpu/drm/omapdrm/omap_drv.c                 |   6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c              |  11 +-
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c          |  26 ++++-
+ drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c             |   1 +
+ drivers/gpu/drm/rcar-du/rcar_lvds.c                | 126 +++------------------
+ drivers/gpu/drm/rockchip/rockchip_lvds.c           |   5 +-
+ drivers/gpu/drm/rockchip/rockchip_rgb.c            |   5 +-
+ drivers/gpu/drm/sti/sti_dvo.c                      |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_lvds.c                 |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_rgb.c                  |   4 +-
+ drivers/gpu/drm/tegra/rgb.c                        |   5 +-
+ drivers/gpu/drm/tidss/tidss_kms.c                  |   4 +-
+ drivers/gpu/drm/tilcdc/tilcdc_external.c           |   4 +-
+ drivers/gpu/drm/vc4/vc4_dsi.c                      |   4 +-
+ include/drm/bridge/dw_hdmi.h                       |   2 +
+ 32 files changed, 134 insertions(+), 224 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
