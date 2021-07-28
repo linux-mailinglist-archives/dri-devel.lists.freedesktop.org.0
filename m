@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598203D850D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 03:02:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F533D850E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 03:02:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBDF6EC0C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFD796EC1C;
 	Wed, 28 Jul 2021 01:02:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD60F6EC09;
- Wed, 28 Jul 2021 01:02:48 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id n10so672149plf.4;
- Tue, 27 Jul 2021 18:02:48 -0700 (PDT)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A1DB6EC09;
+ Wed, 28 Jul 2021 01:02:51 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id ca5so2589602pjb.5;
+ Tue, 27 Jul 2021 18:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rnP/gkcL5lHTpvD1psUDDCzdJhpjhd83ZXQCggS2n0o=;
- b=LAjRvH8KGXn2ZYKmxv7gjrmTPr6QPw7m1ZBT0OOBBAfpbejX2ASyT+gaeQXm6L4RAL
- cL3zKPHAuHMEBosamS+nd4LKEdtgvBSAzgqruJ67AGMCWFrDiQACbCF+J5f6lLkoO8uw
- 2EuCaeQ1GZPwtMctj2JX79RjJR2MoENYO7aYGHCnqoqIlb9oJNLQIX3Dos0wGmD/wccX
- zCyEV0IAKdGC6djIgfhWfWHwCI34qazJOLb3pipIFI8mJNIl3wYi6z7tj/XpGFNpY88c
- Cz+ncOHzGaBnChq9rBNnW4cj2kTQpmVE85lTgATh2N7qLFuF2rf0c6MYemJof45s0mKp
- 3jQg==
+ bh=1lQsB6G8RxUZqymaqJyj6omNrUo1+aKI3ERZw6/dbiY=;
+ b=P573IhqzWtQdkGFJDB24K0BEtclq1vbxa/XLGxWeQkoQIS3belTssscajmTFGVdegc
+ ubHeHWyO4KFFdW3sZfleFOWNXNzwYu9thVGEYiQK4oSU5QvY4G2GHpCEyK4tBLCuSqES
+ xiL3BtHrQwov+xHpDu8BMbyph2SOx0qxyUAKF/a8jsHNu2Npi+sz/AC7eskHZgx18dZx
+ QAVkP5vNmwx5BVY8IhOSzxQ9uEVXiEBAwD9Av2a8ftsEB3/C2nBQbrvE5pQWZGvn7vCx
+ HmwI/wZJA6wEIQQvd/McEN1wGVxHVL7qqG1H9qakHhNMnbSoWY9q9mmO+d8UYsdcUZ/X
+ kBdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rnP/gkcL5lHTpvD1psUDDCzdJhpjhd83ZXQCggS2n0o=;
- b=KT7h7OWvOLuaHqkbghBlrKIq3KkKgNQZVchnTuWld+5rv5bK4vUbzdSwaxTv4K3Ku2
- cY1tPqSfsoRNG9ZYNT4+AccwhANIBhhTlc1W2gnWN3h3sbNKWtJ4E/HFb6a7ejkHNE0g
- my8kbXnJmb2hlXyN88LrSs65FZ/ZqJePsAQbI6r5lMmZ2jDQAJAi/tvLz1qbBkSJLyJu
- Wc394WcI8oIsfAjk9JgeBFnB5aWsrF2djOLhbC9U6ozKnMy6G+zNcz4ESDeUJJPsGJf3
- xABB7/CpWj19QbH7Kz0atiu5FcMquwoJtHB/F9bLv0+xw2JGuDsK/ywkd+V4h5qFfPTY
- wncA==
-X-Gm-Message-State: AOAM533CBzwxPnCHs2Ns+LAvYK44YWORkvgEccmU3p/zXlMBeaErHTJp
- weQG5ffnPUxX67VyMqMMctzDdgBie5cA2w==
-X-Google-Smtp-Source: ABdhPJwjQnHB7fzSbvcn9w1zakHH6gmZdNJDJSn7rN5ja5dnv2WAHZX/VTYtCvXGqRYsWsM3PGdiuA==
-X-Received: by 2002:a65:6494:: with SMTP id e20mr26751394pgv.101.1627434167820; 
- Tue, 27 Jul 2021 18:02:47 -0700 (PDT)
+ bh=1lQsB6G8RxUZqymaqJyj6omNrUo1+aKI3ERZw6/dbiY=;
+ b=oXdSE1nVEakGbx/OmA3WHHKuRNLjSmSThz9hg2ReK4D4FnNUolzqWpyQpvyHk8E8QI
+ tmzptoZBYjhMLCOjVxCVtEk0x63tfGtu6FCPesNxgDLuKP05R1ptZEQyJyh1fGcCuM5n
+ pqjnaTshkYxYYfqzQXbjGLs47HiO4yYQSVYd7tp/hELRsCLiJ3vK+3GfeCniYKqArUoV
+ +BrW0EJ0ty0hTSdHxIIRifyPjOEg80mtCGKPOZzbrCqb4Hsb6meFtF59/ctlecd0yGjk
+ u9BH7qUtEI7qX1PrYToiZyaFl9hcUBtYCkOMV0e4tjEaD+2aS2XW7VrhK3/0REn3uG7w
+ xuag==
+X-Gm-Message-State: AOAM531GGsQINb1JNzJyTF3GvhcVV0Pk3LxNoYwKL87C481DiBjJc07y
+ dbsdE2WnZ2veX7O3aTsrVPjhvcl1GP6frQ==
+X-Google-Smtp-Source: ABdhPJxfcWdlrXmlTGKtdd4VXDhHUkGeZ4NlUDeHopJuZ/bGqoPhbioFwEbqZ91jl+nF2zbUrgqjeg==
+X-Received: by 2002:a63:3d1:: with SMTP id 200mr26378234pgd.26.1627434170485; 
+ Tue, 27 Jul 2021 18:02:50 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- 98sm420742pjo.26.2021.07.27.18.02.46
+ b10sm4942278pfi.122.2021.07.27.18.02.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jul 2021 18:02:46 -0700 (PDT)
+ Tue, 27 Jul 2021 18:02:49 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 06/13] drm/msm: Consolidate submit bo state
-Date: Tue, 27 Jul 2021 18:06:11 -0700
-Message-Id: <20210728010632.2633470-7-robdclark@gmail.com>
+Subject: [PATCH v4 07/13] drm/msm: Track "seqno" fences by idr
+Date: Tue, 27 Jul 2021 18:06:12 -0700
+Message-Id: <20210728010632.2633470-8-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210728010632.2633470-1-robdclark@gmail.com>
 References: <20210728010632.2633470-1-robdclark@gmail.com>
@@ -71,277 +71,285 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
  freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  Sean Paul <sean@poorly.run>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Move all the locked/active/pinned state handling to msm_gem_submit.c.
-In particular, for drm/scheduler, we'll need to do all this before
-pushing the submit job to the scheduler.  But while we're at it we can
-get rid of the dupicate pin and refcnt.
+Previously the (non-fd) fence returned from submit ioctl was a raw
+seqno, which is scoped to the ring.  But from UABI standpoint, the
+ioctls related to seqno fences all specify a submitqueue.  We can
+take advantage of that to replace the seqno fences with a cyclic idr
+handle.
+
+This is in preperation for moving to drm scheduler, at which point
+the submit ioctl will return after queuing the submit job to the
+scheduler, but before the submit is written into the ring (and
+therefore before a ring seqno has been assigned).  Which means we
+need to replace the dma_fence that userspace may need to wait on
+with a scheduler fence.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Acked-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/msm/msm_gem.h        |  2 +
- drivers/gpu/drm/msm/msm_gem_submit.c | 92 ++++++++++++++++++++++------
- drivers/gpu/drm/msm/msm_gpu.c        | 29 +--------
- 3 files changed, 75 insertions(+), 48 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c         | 30 +++++++++++++++++--
+ drivers/gpu/drm/msm/msm_fence.c       | 42 ---------------------------
+ drivers/gpu/drm/msm/msm_fence.h       |  3 --
+ drivers/gpu/drm/msm/msm_gem.h         |  1 +
+ drivers/gpu/drm/msm/msm_gem_submit.c  | 23 ++++++++++++++-
+ drivers/gpu/drm/msm/msm_gpu.h         |  5 ++++
+ drivers/gpu/drm/msm/msm_submitqueue.c |  5 ++++
+ 7 files changed, 61 insertions(+), 48 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 9b8fa2ad0d84..1594ae39d54f 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -911,6 +911,7 @@ static int msm_ioctl_wait_fence(struct drm_device *dev, void *data,
+ 	ktime_t timeout = to_ktime(args->timeout);
+ 	struct msm_gpu_submitqueue *queue;
+ 	struct msm_gpu *gpu = priv->gpu;
++	struct dma_fence *fence;
+ 	int ret;
+ 
+ 	if (args->pad) {
+@@ -925,10 +926,35 @@ static int msm_ioctl_wait_fence(struct drm_device *dev, void *data,
+ 	if (!queue)
+ 		return -ENOENT;
+ 
+-	ret = msm_wait_fence(gpu->rb[queue->prio]->fctx, args->fence, &timeout,
+-		true);
++	/*
++	 * Map submitqueue scoped "seqno" (which is actually an idr key)
++	 * back to underlying dma-fence
++	 *
++	 * The fence is removed from the fence_idr when the submit is
++	 * retired, so if the fence is not found it means there is nothing
++	 * to wait for
++	 */
++	ret = mutex_lock_interruptible(&queue->lock);
++	if (ret)
++		return ret;
++	fence = idr_find(&queue->fence_idr, args->fence);
++	if (fence)
++		fence = dma_fence_get_rcu(fence);
++	mutex_unlock(&queue->lock);
++
++	if (!fence)
++		return 0;
+ 
++	ret = dma_fence_wait_timeout(fence, true, timeout_to_jiffies(&timeout));
++	if (ret == 0) {
++		ret = -ETIMEDOUT;
++	} else if (ret != -ERESTARTSYS) {
++		ret = 0;
++	}
++
++	dma_fence_put(fence);
+ 	msm_submitqueue_put(queue);
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+index b92a9091a1e2..f2cece542c3f 100644
+--- a/drivers/gpu/drm/msm/msm_fence.c
++++ b/drivers/gpu/drm/msm/msm_fence.c
+@@ -24,7 +24,6 @@ msm_fence_context_alloc(struct drm_device *dev, volatile uint32_t *fenceptr,
+ 	strncpy(fctx->name, name, sizeof(fctx->name));
+ 	fctx->context = dma_fence_context_alloc(1);
+ 	fctx->fenceptr = fenceptr;
+-	init_waitqueue_head(&fctx->event);
+ 	spin_lock_init(&fctx->spinlock);
+ 
+ 	return fctx;
+@@ -45,53 +44,12 @@ static inline bool fence_completed(struct msm_fence_context *fctx, uint32_t fenc
+ 		(int32_t)(*fctx->fenceptr - fence) >= 0;
+ }
+ 
+-/* legacy path for WAIT_FENCE ioctl: */
+-int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+-		ktime_t *timeout, bool interruptible)
+-{
+-	int ret;
+-
+-	if (fence > fctx->last_fence) {
+-		DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u (of %u)\n",
+-				fctx->name, fence, fctx->last_fence);
+-		return -EINVAL;
+-	}
+-
+-	if (!timeout) {
+-		/* no-wait: */
+-		ret = fence_completed(fctx, fence) ? 0 : -EBUSY;
+-	} else {
+-		unsigned long remaining_jiffies = timeout_to_jiffies(timeout);
+-
+-		if (interruptible)
+-			ret = wait_event_interruptible_timeout(fctx->event,
+-				fence_completed(fctx, fence),
+-				remaining_jiffies);
+-		else
+-			ret = wait_event_timeout(fctx->event,
+-				fence_completed(fctx, fence),
+-				remaining_jiffies);
+-
+-		if (ret == 0) {
+-			DBG("timeout waiting for fence: %u (completed: %u)",
+-					fence, fctx->completed_fence);
+-			ret = -ETIMEDOUT;
+-		} else if (ret != -ERESTARTSYS) {
+-			ret = 0;
+-		}
+-	}
+-
+-	return ret;
+-}
+-
+ /* called from workqueue */
+ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
+ {
+ 	spin_lock(&fctx->spinlock);
+ 	fctx->completed_fence = max(fence, fctx->completed_fence);
+ 	spin_unlock(&fctx->spinlock);
+-
+-	wake_up_all(&fctx->event);
+ }
+ 
+ struct msm_fence {
+diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
+index 6ab97062ff1a..4783db528bcc 100644
+--- a/drivers/gpu/drm/msm/msm_fence.h
++++ b/drivers/gpu/drm/msm/msm_fence.h
+@@ -49,7 +49,6 @@ struct msm_fence_context {
+ 	 */
+ 	volatile uint32_t *fenceptr;
+ 
+-	wait_queue_head_t event;
+ 	spinlock_t spinlock;
+ };
+ 
+@@ -57,8 +56,6 @@ struct msm_fence_context * msm_fence_context_alloc(struct drm_device *dev,
+ 		volatile uint32_t *fenceptr, const char *name);
+ void msm_fence_context_free(struct msm_fence_context *fctx);
+ 
+-int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+-		ktime_t *timeout, bool interruptible);
+ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence);
+ 
+ struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx);
 diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 71ccf87a646b..da3af702a6c8 100644
+index da3af702a6c8..e0579abda5b9 100644
 --- a/drivers/gpu/drm/msm/msm_gem.h
 +++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -361,6 +361,8 @@ static inline void msm_gem_submit_put(struct msm_gem_submit *submit)
- 	kref_put(&submit->ref, __msm_gem_submit_destroy);
- }
- 
-+void msm_submit_retire(struct msm_gem_submit *submit);
-+
- /* helper to determine of a buffer in submit should be dumped, used for both
-  * devcoredump and debugfs cmdstream dumping:
-  */
+@@ -320,6 +320,7 @@ struct msm_gem_submit {
+ 	struct ww_acquire_ctx ticket;
+ 	uint32_t seqno;		/* Sequence number of the submit on the ring */
+ 	struct dma_fence *fence;
++	int fence_id;       /* key into queue->fence_idr */
+ 	struct msm_gpu_submitqueue *queue;
+ 	struct pid *pid;    /* submitting process */
+ 	bool fault_dumped;  /* Limit devcoredump dumping to one per submit */
 diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 8abd743adfb0..4f02fa3c78f9 100644
+index 4f02fa3c78f9..f6f595aae2c5 100644
 --- a/drivers/gpu/drm/msm/msm_gem_submit.c
 +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -23,8 +23,8 @@
- 
- /* make sure these don't conflict w/ MSM_SUBMIT_BO_x */
- #define BO_VALID    0x8000   /* is current addr in cmdstream correct/valid? */
--#define BO_LOCKED   0x4000
--#define BO_PINNED   0x2000
-+#define BO_LOCKED   0x4000   /* obj lock is held */
-+#define BO_PINNED   0x2000   /* obj is pinned and on active list */
- 
- static struct msm_gem_submit *submit_create(struct drm_device *dev,
- 		struct msm_gpu *gpu,
-@@ -220,21 +220,33 @@ static int submit_lookup_cmds(struct msm_gem_submit *submit,
- 	return ret;
- }
- 
--static void submit_unlock_unpin_bo(struct msm_gem_submit *submit,
--		int i, bool backoff)
-+/* Unwind bo state, according to cleanup_flags.  In the success case, only
-+ * the lock is dropped at the end of the submit (and active/pin ref is dropped
-+ * later when the submit is retired).
-+ */
-+static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
-+		unsigned cleanup_flags)
- {
--	struct msm_gem_object *msm_obj = submit->bos[i].obj;
-+	struct drm_gem_object *obj = &submit->bos[i].obj->base;
-+	unsigned flags = submit->bos[i].flags & cleanup_flags;
- 
--	if (submit->bos[i].flags & BO_PINNED)
--		msm_gem_unpin_iova_locked(&msm_obj->base, submit->aspace);
-+	if (flags & BO_PINNED) {
-+		msm_gem_unpin_iova_locked(obj, submit->aspace);
-+		msm_gem_active_put(obj);
-+	}
- 
--	if (submit->bos[i].flags & BO_LOCKED)
--		dma_resv_unlock(msm_obj->base.resv);
-+	if (flags & BO_LOCKED)
-+		dma_resv_unlock(obj->resv);
- 
--	if (backoff && !(submit->bos[i].flags & BO_VALID))
--		submit->bos[i].iova = 0;
-+	submit->bos[i].flags &= ~cleanup_flags;
-+}
- 
--	submit->bos[i].flags &= ~(BO_LOCKED | BO_PINNED);
-+static void submit_unlock_unpin_bo(struct msm_gem_submit *submit, int i)
-+{
-+	submit_cleanup_bo(submit, i, BO_PINNED | BO_LOCKED);
-+
-+	if (!(submit->bos[i].flags & BO_VALID))
-+		submit->bos[i].iova = 0;
- }
- 
- /* This is where we make sure all the bo's are reserved and pin'd: */
-@@ -266,10 +278,10 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
- 
- fail:
- 	for (; i >= 0; i--)
--		submit_unlock_unpin_bo(submit, i, true);
-+		submit_unlock_unpin_bo(submit, i);
- 
- 	if (slow_locked > 0)
--		submit_unlock_unpin_bo(submit, slow_locked, true);
-+		submit_unlock_unpin_bo(submit, slow_locked);
- 
- 	if (ret == -EDEADLK) {
- 		struct msm_gem_object *msm_obj = submit->bos[contended].obj;
-@@ -325,16 +337,18 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
- 	submit->valid = true;
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
--		struct msm_gem_object *msm_obj = submit->bos[i].obj;
-+		struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 		uint64_t iova;
- 
- 		/* if locking succeeded, pin bo: */
--		ret = msm_gem_get_and_pin_iova_locked(&msm_obj->base,
-+		ret = msm_gem_get_and_pin_iova_locked(obj,
- 				submit->aspace, &iova);
- 
- 		if (ret)
- 			break;
- 
-+		msm_gem_active_get(obj, submit->gpu);
-+
- 		submit->bos[i].flags |= BO_PINNED;
- 
- 		if (iova == submit->bos[i].iova) {
-@@ -350,6 +364,20 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
- 	return ret;
- }
- 
-+static void submit_attach_object_fences(struct msm_gem_submit *submit)
-+{
-+	int i;
-+
-+	for (i = 0; i < submit->nr_bos; i++) {
-+		struct drm_gem_object *obj = &submit->bos[i].obj->base;
-+
-+		if (submit->bos[i].flags & MSM_SUBMIT_BO_WRITE)
-+			dma_resv_add_excl_fence(obj->resv, submit->fence);
-+		else if (submit->bos[i].flags & MSM_SUBMIT_BO_READ)
-+			dma_resv_add_shared_fence(obj->resv, submit->fence);
-+	}
-+}
-+
- static int submit_bo(struct msm_gem_submit *submit, uint32_t idx,
- 		struct msm_gem_object **obj, uint64_t *iova, bool *valid)
- {
-@@ -444,18 +472,40 @@ static int submit_reloc(struct msm_gem_submit *submit, struct msm_gem_object *ob
- 	return ret;
- }
- 
--static void submit_cleanup(struct msm_gem_submit *submit)
-+/* Cleanup submit at end of ioctl.  In the error case, this also drops
-+ * references, unpins, and drops active refcnt.  In the non-error case,
-+ * this is done when the submit is retired.
-+ */
-+static void submit_cleanup(struct msm_gem_submit *submit, bool error)
- {
-+	unsigned cleanup_flags = BO_LOCKED;
+@@ -68,7 +68,14 @@ void __msm_gem_submit_destroy(struct kref *kref)
+ 			container_of(kref, struct msm_gem_submit, ref);
  	unsigned i;
  
-+	if (error)
-+		cleanup_flags |= BO_PINNED;
-+
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
--		submit_unlock_unpin_bo(submit, i, false);
-+		submit_cleanup_bo(submit, i, cleanup_flags);
- 		list_del_init(&msm_obj->submit_entry);
--		drm_gem_object_put(&msm_obj->base);
-+		if (error)
-+			drm_gem_object_put(&msm_obj->base);
- 	}
- }
- 
-+void msm_submit_retire(struct msm_gem_submit *submit)
-+{
-+	int i;
-+
-+	for (i = 0; i < submit->nr_bos; i++) {
-+		struct drm_gem_object *obj = &submit->bos[i].obj->base;
-+
-+		msm_gem_lock(obj);
-+		submit_cleanup_bo(submit, i, BO_PINNED);
-+		msm_gem_unlock(obj);
-+		drm_gem_object_put(obj);
++	if (submit->fence_id) {
++		mutex_lock(&submit->queue->lock);
++		idr_remove(&submit->queue->fence_idr, submit->fence_id);
++		mutex_unlock(&submit->queue->lock);
 +	}
-+}
++
+ 	dma_fence_put(submit->fence);
++
+ 	put_pid(submit->pid);
+ 	msm_submitqueue_put(submit->queue);
  
- struct msm_submit_post_dep {
- 	struct drm_syncobj *syncobj;
-@@ -832,6 +882,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		args->fence_fd = out_fence_fd;
+@@ -872,6 +879,20 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		goto out;
  	}
  
-+	submit_attach_object_fences(submit);
++	/*
++	 * Allocate an id which can be used by WAIT_FENCE ioctl to map back
++	 * to the underlying fence.
++	 */
++	mutex_lock(&queue->lock);
++	submit->fence_id = idr_alloc_cyclic(&queue->fence_idr,
++			submit->fence, 0, INT_MAX, GFP_KERNEL);
++	mutex_unlock(&queue->lock);
++	if (submit->fence_id < 0) {
++		ret = submit->fence_id = 0;
++		submit->fence_id = 0;
++		goto out;
++	}
 +
+ 	if (args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
+ 		struct sync_file *sync_file = sync_file_create(submit->fence);
+ 		if (!sync_file) {
+@@ -886,7 +907,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 
  	msm_gpu_submit(gpu, submit);
  
- 	args->fence = submit->fence->seqno;
-@@ -844,7 +896,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- out:
- 	pm_runtime_put(&gpu->pdev->dev);
- out_pre_pm:
--	submit_cleanup(submit);
-+	submit_cleanup(submit, !!ret);
- 	if (has_ww_ticket)
- 		ww_acquire_fini(&submit->ticket);
- 	msm_gem_submit_put(submit);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index a0589666b1a3..5bfc4d24a956 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -647,7 +647,6 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 	volatile struct msm_gpu_submit_stats *stats;
- 	u64 elapsed, clock = 0;
- 	unsigned long flags;
--	int i;
+-	args->fence = submit->fence->seqno;
++	args->fence = submit->fence_id;
  
- 	stats = &ring->memptrs->stats[index];
- 	/* Convert 19.2Mhz alwayson ticks to nanoseconds for elapsed time */
-@@ -663,15 +662,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 	trace_msm_gpu_submit_retired(submit, elapsed, clock,
- 		stats->alwayson_start, stats->alwayson_end);
+ 	msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
+ 	msm_process_post_deps(post_deps, args->nr_out_syncobjs,
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 96efcb31e502..579627252540 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -263,6 +263,9 @@ struct msm_gpu_perfcntr {
+  *             which set of pgtables do submits jobs associated with the
+  *             submitqueue use)
+  * @node:      node in the context's list of submitqueues
++ * @fence_idr: maps fence-id to dma_fence for userspace visible fence
++ *             seqno, protected by submitqueue lock
++ * @lock:      submitqueue lock
+  * @ref:       reference count
+  */
+ struct msm_gpu_submitqueue {
+@@ -272,6 +275,8 @@ struct msm_gpu_submitqueue {
+ 	int faults;
+ 	struct msm_file_private *ctx;
+ 	struct list_head node;
++	struct idr fence_idr;
++	struct mutex lock;
+ 	struct kref ref;
+ };
  
--	for (i = 0; i < submit->nr_bos; i++) {
--		struct drm_gem_object *obj = &submit->bos[i].obj->base;
--
--		msm_gem_lock(obj);
--		msm_gem_active_put(obj);
--		msm_gem_unpin_iova_locked(obj, submit->aspace);
--		msm_gem_unlock(obj);
--		drm_gem_object_put(obj);
--	}
-+	msm_submit_retire(submit);
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 9e9fec61d629..66f8d0fb38b0 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -12,6 +12,8 @@ void msm_submitqueue_destroy(struct kref *kref)
+ 	struct msm_gpu_submitqueue *queue = container_of(kref,
+ 		struct msm_gpu_submitqueue, ref);
  
- 	pm_runtime_mark_last_busy(&gpu->pdev->dev);
- 	pm_runtime_put_autosuspend(&gpu->pdev->dev);
-@@ -748,7 +739,6 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_ringbuffer *ring = submit->ring;
- 	unsigned long flags;
--	int i;
++	idr_destroy(&queue->fence_idr);
++
+ 	msm_file_private_put(queue->ctx);
  
- 	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
+ 	kfree(queue);
+@@ -89,6 +91,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 	if (id)
+ 		*id = queue->id;
  
-@@ -762,23 +752,6 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
++	idr_init(&queue->fence_idr);
++	mutex_init(&queue->lock);
++
+ 	list_add_tail(&queue->node, &ctx->submitqueues);
  
- 	update_sw_cntrs(gpu);
- 
--	for (i = 0; i < submit->nr_bos; i++) {
--		struct msm_gem_object *msm_obj = submit->bos[i].obj;
--		struct drm_gem_object *drm_obj = &msm_obj->base;
--		uint64_t iova;
--
--		/* submit takes a reference to the bo and iova until retired: */
--		drm_gem_object_get(&msm_obj->base);
--		msm_gem_get_and_pin_iova_locked(&msm_obj->base, submit->aspace, &iova);
--
--		if (submit->bos[i].flags & MSM_SUBMIT_BO_WRITE)
--			dma_resv_add_excl_fence(drm_obj->resv, submit->fence);
--		else if (submit->bos[i].flags & MSM_SUBMIT_BO_READ)
--			dma_resv_add_shared_fence(drm_obj->resv, submit->fence);
--
--		msm_gem_active_get(drm_obj, gpu);
--	}
--
- 	/*
- 	 * ring->submits holds a ref to the submit, to deal with the case
- 	 * that a submit completes before msm_ioctl_gem_submit() returns.
+ 	write_unlock(&ctx->queuelock);
 -- 
 2.31.1
 
