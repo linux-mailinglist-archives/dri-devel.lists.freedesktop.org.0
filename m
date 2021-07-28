@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A649A3D8E83
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 15:06:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C5D3D8E81
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 15:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9BFB6E52A;
-	Wed, 28 Jul 2021 13:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5EE26E489;
+	Wed, 28 Jul 2021 13:06:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697E46E81A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 13:05:56 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id b128so1361529wmb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 06:05:56 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC5B6E8FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 13:05:57 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id n21so1358348wmq.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 06:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K++ityza90IN6prFOtdKFjOjcYel7qNILWEbTxpJgDI=;
- b=pPfKgEIaq6w50VyRFE5h2TlqgahzL6myzhQx3jU1+KtmbkUrz4cCiaGP4k1ygm3v/l
- MKQEpCYS0GtrqTYAD2rm2Arqgx9tBabRNBPBNHKazIb518XDzQUk67IAz+dhpM125D4R
- D/EeGDlcZUuHY3lF3QPZG4LIHCFDV6cMcbDktIEvq8/J+lBrLpFI6NBm8wtmuDFWdh4/
- iX+7Cv5uEuS4teexhKac8/j202rW7Eyj7fl/QFlVN+2RlXgfk0LDOEhLHjhwnb+RDp5R
- 5yn98N4VkFry/rze9dLLAHLXodGiTUr3f1MPBRPSwdSLglSs/dByd+7giMApjtxRAl3/
- orQw==
+ bh=nQjh8xW0eM60mkaCg8rr3F97N02/jcov+zo3FgQKaMo=;
+ b=bdLLqaoHYrbyLv/JQ02RCHlAcchXlRuzOQhHsjak+UKtufwSh1GuFDlKv8FPFZAFsJ
+ IeMmVI2Xpys2zlwuvX2KO7X+v4jkEL1GcMI7Nz4SyTN7ZxM259Mf+ZpUjIkBJ5y6+6O4
+ ZYdoSolZ4K7Fp0yDpp9gMggGDNTq8EvPX9cZbTheRiQJ7yDqIbCif/Nhqwsjeu53lZkZ
+ m405E4zDm1Dq1EZhmWN9YnLJmKaNB8rzaDO5471e4+6fprJhvA+ERdmIgiQLrKfyKCZJ
+ CYB2PfrSyid+Aa4sw3YIIDMa04VyBj+TebsvE0v4KVLt0BpsvNwzXWoqfz+MUwN8I+hO
+ Fv1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K++ityza90IN6prFOtdKFjOjcYel7qNILWEbTxpJgDI=;
- b=fhSwDGJwnaxl0ZmORYHyUxrgmqPzj10xgbp9OeDm7gG+RLiMHXIj2nXIdixg7iY4No
- 1QGwI1NPfoiwvkhCHpCjPgwRMRsdi4uGnmFBfo5RXO1brgW3aEf7ky+uvGUYXz2j9XCD
- 1Sv0MQO+EfAjUVUu+FDYaOiqeeTLQMljRs5zGVJre6BKeKs1HubjyAwxDBDMEk0cVNb6
- PlCDTb/3ZDi/8O0Omtbz6uA+i/5a4S6KqRTWc5Q9MVLE1AWVISfkDVBEA+p5JEtv0tqk
- rQJt+f/YRYZEkxUW2S5V5eUNWZzKcaLY8S4PkOiRMu0XH1gZVVnySGVl/jIE+dLqLvaW
- 4WUg==
-X-Gm-Message-State: AOAM532dtCbpDAyKYRoTUQq1Wmv56buPLtFWv0+kuYv4a1Q77LEGBhwN
- qWALeXBSC8EIZkd1szbPdhbka1oVauw=
-X-Google-Smtp-Source: ABdhPJyHWqAzx8F/lVZF+W68NkZj1jLCMAWgG56ggjxh0pG1ZLQBWWaqlvAsduE8XxjEUU7xkTjqeg==
-X-Received: by 2002:a05:600c:4f90:: with SMTP id
- n16mr276748wmq.71.1627477554944; 
- Wed, 28 Jul 2021 06:05:54 -0700 (PDT)
+ bh=nQjh8xW0eM60mkaCg8rr3F97N02/jcov+zo3FgQKaMo=;
+ b=F/aBoEUGvTMTPTKmYI+u61X7G7rnZblpHfBYmDRedb4dUAu/l5xvG/MUcyFtDafQQD
+ 7vOBV0/qwMZ4R1puZLrP75yjlmBE5xzVGJsComTVsBb+E181r9Aiy3YAtzHY91iLkl5p
+ 6c8X15ea2hyZRi3xgUBVp259jqkCq1RIQgv+ZkGTkJ5ifF9rhoL3FCovdbQkGvMxJUbI
+ sA7xEnBHPe2zUjZQn8kQe1jbTl8rXDlsLsDZyTo9HkFNVfmjlgtT9qLHz/lwH4Brszyu
+ qhQ4a6p0UwjmEtjpsLwjHo1MEq2O9qdfbzqwxDA5MvZFvbpRM28D11ULqNXMmeBtTPiK
+ GxvA==
+X-Gm-Message-State: AOAM531mKL/vCC7PcJrlAbpbC6exLBK9rJBdt4w7YkATipDSs0Cgg7GT
+ MyQb8FykgSaxGQFV8gZcOG1OAZ/reZM=
+X-Google-Smtp-Source: ABdhPJxn8jXr0Xg6K/UeT3BgbBQyyGMv/L8EnDib7pnZtpC75YcoPheq4knXZMIrRd7SrllgjoP0eg==
+X-Received: by 2002:a7b:c3c5:: with SMTP id t5mr9179202wmj.28.1627477555583;
+ Wed, 28 Jul 2021 06:05:55 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:6a03:ba57:3127:59bd])
  by smtp.gmail.com with ESMTPSA id o17sm5867374wmp.31.2021.07.28.06.05.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 06:05:54 -0700 (PDT)
+ Wed, 28 Jul 2021 06:05:55 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel.vetter@ffwll.ch,
 	airlied@gmail.com
-Subject: [PATCH 3/5] drm/nouveau: unbind in nouveau_ttm_tt_unpopulate
-Date: Wed, 28 Jul 2021 15:05:50 +0200
-Message-Id: <20210728130552.2074-3-christian.koenig@amd.com>
+Subject: [PATCH 4/5] drm/radeon: unbind in radeon_ttm_tt_unpopulate()
+Date: Wed, 28 Jul 2021 15:05:51 +0200
+Message-Id: <20210728130552.2074-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210728130552.2074-1-christian.koenig@amd.com>
 References: <20210728130552.2074-1-christian.koenig@amd.com>
@@ -76,50 +75,47 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Doing this in nouveau_ttm_tt_destroy()/nouveau_sgdma_destroy() is to late.
+Doing this in radeon_ttm_tt_destroy() is to late.
 
 It turned out that this is not a good idea at all because it leaves pointers
 to freed up system memory pages in the GART tables of the drivers.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c    | 3 ++-
- drivers/gpu/drm/nouveau/nouveau_sgdma.c | 1 -
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/radeon/radeon_ttm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 6d07e653f82d..c33a56c2f068 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1277,6 +1277,8 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev,
- 	if (slave)
- 		return;
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index a06d4cc2fb1c..ee343b76db54 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -488,9 +488,7 @@ static void radeon_ttm_backend_destroy(struct ttm_device *bdev, struct ttm_tt *t
+ {
+ 	struct radeon_ttm_tt *gtt = (void *)ttm;
  
-+	nouveau_ttm_tt_unbind(bdev, ttm);
+-	radeon_ttm_backend_unbind(bdev, ttm);
+ 	ttm_tt_destroy_common(bdev, ttm);
+-
+ 	ttm_tt_fini(&gtt->ttm);
+ 	kfree(gtt);
+ }
+@@ -574,6 +572,8 @@ static void radeon_ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm
+ 	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
++	radeon_ttm_tt_unbind(bdev, ttm);
 +
- 	drm = nouveau_bdev(bdev);
- 	dev = drm->dev->dev;
+ 	if (gtt && gtt->userptr) {
+ 		kfree(ttm->sg);
+ 		ttm->page_flags &= ~TTM_PAGE_FLAG_SG;
+@@ -651,7 +651,6 @@ static void radeon_ttm_tt_destroy(struct ttm_device *bdev,
+ 	struct radeon_device *rdev = radeon_get_rdev(bdev);
  
-@@ -1290,7 +1292,6 @@ nouveau_ttm_tt_destroy(struct ttm_device *bdev,
- #if IS_ENABLED(CONFIG_AGP)
- 	struct nouveau_drm *drm = nouveau_bdev(bdev);
- 	if (drm->agp.bridge) {
+ 	if (rdev->flags & RADEON_IS_AGP) {
 -		ttm_agp_unbind(ttm);
  		ttm_tt_destroy_common(bdev, ttm);
  		ttm_agp_destroy(ttm);
  		return;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sgdma.c b/drivers/gpu/drm/nouveau/nouveau_sgdma.c
-index 256ec5b35473..bde92a9dae7a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sgdma.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_sgdma.c
-@@ -21,7 +21,6 @@ nouveau_sgdma_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
- 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
- 
- 	if (ttm) {
--		nouveau_sgdma_unbind(bdev, ttm);
- 		ttm_tt_destroy_common(bdev, ttm);
- 		ttm_tt_fini(&nvbe->ttm);
- 		kfree(nvbe);
 -- 
 2.25.1
 
