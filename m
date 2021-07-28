@@ -1,60 +1,132 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AA53D9058
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:22:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6B53D90A3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:30:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 595956EACD;
-	Wed, 28 Jul 2021 14:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACEA36EADC;
+	Wed, 28 Jul 2021 14:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
- [IPv6:2607:f8b0:4864:20::f29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE52E6E9B0;
- Wed, 28 Jul 2021 14:22:30 +0000 (UTC)
-Received: by mail-qv1-xf29.google.com with SMTP id w6so1601936qvh.3;
- Wed, 28 Jul 2021 07:22:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=REguxMrHBQDa0JkRmuDefkm6jZHt6N1UdAh0jBrpPII=;
- b=SIbIOj0GB0xhbNCzcJJeUIMaXu7ElmlVCh/If2w6qhlDnkg0M6KvxidPwaInlm3oH/
- sNFV4e599JFzcvN/d0KPTB1Pv+ZHFMCHrIJbVvmJvdSJ6kgAVn8hiQiXbhstdLxovpEb
- 4YryCADoEdl+pIfoTnelc/9APyCtlduhhSro491A+WZTl3QFGjuqO+RKfolJDAQfyEJ+
- AAJ2xutI5plPMBGi+5BNs6Rm4PCqN6rNSRwTzcQbanMhYHXfHHD/3L6b8J3ZsjlXuOFz
- 8yb0olgktrTFaOhZ6WgzdQwTR7Gdut6U4RDhHazdtA9fKOLIageEiN7UuYk6llba6MVm
- PxIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=REguxMrHBQDa0JkRmuDefkm6jZHt6N1UdAh0jBrpPII=;
- b=odUYRkCW3dezlZuRHvuufQpRZTuJf6J4E9bR0oMtAkRF1w2EVmmzDZ0Rz0CgxE6GYJ
- ir+8dUCQKlzXXl3MmRB2Hm95dRHvMSzPtWxHhxguwylPOcJqaimhlnmBua7szlF3GP/a
- wdMQ+eY3hXPNYzgBO7u3IXv//faOpxjUELlDHXsW8YrpdiqtTN77Gr2TNKNTdLuNfKyD
- +Sw8Zn/L0RkntHX7NXq5wlmwEv5NxpJKOwajwQXaxufjmj4EGa/ronOH0EBdpcrhYBME
- WMNq4sVmYJtkwL4cw0CuT7m+icsTs+d0qW7ZttDB/1S61slJXbu8qfOZ1BKOyBcyEOSS
- M+ww==
-X-Gm-Message-State: AOAM5338PTQanfgcQBY5lwSr4N3fycGFrZtnRc8GA7NSC+rsmeHn3Dny
- xWy95T4aKkJosMK3m8OUxupogq6MD8i49l1aETo=
-X-Google-Smtp-Source: ABdhPJzsBJNU17E0qoGgia79Fu1bXaO3ZGF9JUTW52Sr1nLJhk/3x63jZkY6WIX/DG8Wq8TsS9JKVxi2+fiX7a1NToU=
-X-Received: by 2002:a0c:f6c6:: with SMTP id d6mr196596qvo.30.1627482149827;
- Wed, 28 Jul 2021 07:22:29 -0700 (PDT)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2043.outbound.protection.outlook.com [40.107.212.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63F936EB26
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 14:30:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X1suLKUH+E7Y9S4TiAUsh+RpK5u0pxfz+ShfsjTJkpGaWGAgQ/fIcThiWMNH1EN7JwEWIU2EYSZN2kQD3gxNlZ8unDsLrPGQRVYGmT24s9pW1jfLto/5Vs2lHyHVw7Q2GfGeDr/f3+aF0QLbLN5IkPx5kAeE/tjIOjrDAhf5XY4Tx1l142rN47Vd8N6TGKV6TXTFtjPE1TbCg6bAud+vHezYVE3pQ1RPjGiglUJaAElqw0UFuaC9IeDWAmciIuBXOSFPLWAJ92bGTjR5EV+A+5q+HSZvUzui79wogauZVFOVkw+ZNPBxiHZpKswbdAalrp1xpPxC1nrPPibChVseHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dUgJ8evxEa6hPiP5Ch4koYPYcVNOz2CZ25CfrEuERVU=;
+ b=gl6lP01UhVWxHiL2nU+PitxwVLOuuS6YIL5vWHz5+TVb+v1C9XaLPmp1PSrZS1r/bcw/DUEzqHaCjL1DRAvH3eqAr17eACrDC7+yaTeJnim1XFwCsJt4AYuAcd821f9fYrkscKus8VbX2WZHI2nKxWOMFOPvLOnns3/j+SfRFPqNnmWJVbSmKDlMdaZwXzEhiVIWqUDKU0TZE45kvJSKCusW9fYoW8br+aZkqukxYfWPapxsdjyVf601OynrA3I8JILa7m/TP7lUTq58VRIXJIUTU2R5Bkj/4UmpidBLaiQitwvJwYf0MC9Px9AOrjqy+b22tZqCUA+FwTIc27APfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dUgJ8evxEa6hPiP5Ch4koYPYcVNOz2CZ25CfrEuERVU=;
+ b=5nkyRFXtf3MZUfU3YBRhxIZN3Ouoiv0YhPScZ/pxpYOQG1WMM9fxIeKHI2brFCUBq18Wm0QTgj+Hg3Q78V7fD5MwtGhugd9FH3ET1yQcQOnmWg8DTVQBJQoPMXBUGRyZoKWtx+0fHAlQ3T/kMqYvklrbu4Qb4F+k5hC3dex/QJA=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4320.namprd12.prod.outlook.com (2603:10b6:208:15f::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.17; Wed, 28 Jul
+ 2021 14:30:20 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4352.031; Wed, 28 Jul 2021
+ 14:30:20 +0000
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+ <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+ <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+ <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+ <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
+ <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+ <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
+ <20210728165700.38c39cf8@eldfell>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
+Date: Wed, 28 Jul 2021 16:30:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210728165700.38c39cf8@eldfell>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: PR3P191CA0059.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:102:55::34) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-References: <20210723113405.427004-1-matthew.auld@intel.com>
- <0988bf67-c42a-1e7e-af77-ae2da65b036f@linux.intel.com>
- <CAOFGe94-StYYc3Fk70u3h0xp2F4RqONb96cnFLhgnhxOVKi8JA@mail.gmail.com>
- <cf0253c0-6a4c-aaaa-4110-aa403d66ea9f@linux.intel.com>
-In-Reply-To: <cf0253c0-6a4c-aaaa-4110-aa403d66ea9f@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 28 Jul 2021 15:22:03 +0100
-Message-ID: <CAM0jSHO7rQZ0dj5+8kC3P1-00LFkGHeE9XJj6rB95E=gjzkHwg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/userptr: Probe existence of backing
- struct pages upon creation
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:af99:e30a:2b7e:eda8]
+ (2a02:908:1252:fb60:af99:e30a:2b7e:eda8) by
+ PR3P191CA0059.EURP191.PROD.OUTLOOK.COM (2603:10a6:102:55::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.23 via Frontend Transport; Wed, 28 Jul 2021 14:30:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 60b0e911-4efa-4855-e2a6-08d951d43a03
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4320:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4320E1CC78BCE17737AB0CCB83EA9@MN2PR12MB4320.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: H0e1hQrybcbX3FgfDCtSA8zAneQgJmPtNaNSaShhuwy7Ony2gFwO4tkJzjOTsyzmRUwRac9yEv4IoHnD6vJVSstRWxD8VekAr15AoiuJcJ2vA3O2jslLMuLn/uTbq4DFFTLL4PGbym6rSxJJBcsjEDCKawgjzG2fqLfjUDa4zT34lIkJTT/02hK693lsg9rea1Icsl/O+evbmSubzZVYvJt1arlZtuSlE0FQxVXE1I9jGK2PCGw3bKJxYZbiBErUrQZtCQZZcJSH1m7/cXEsBU8iVJ4E38CvmmbWScuvQT+ee3PMizwyuf3bcds5vCnO7zv4cHg02hy0HW0Zwpj2AAU8OCvGlxMlN+uNQOtVzkpxV7T4BlZNTsOwMSVc459sCqKxmQG8kObQ0inUZyjvYo6NSIywYOEl9ClVMXQOVIXJIreP87/0WhycHdmdfJwLUnFHsC3mkHyY3nCdpuNJwFecxKQ0IUZjFZ57DIaZDpWZwcCDRjajSQn+SGIzYJL0EjOzFL4O94NZkSniNGPtXwmCOzbSlUapQR+oozedWyqfMpXouxD/ka7qBF78LLzhdOrvPggALcVwCb2MgC9QKeM4726vt+rJPG93wr+VrYXPkHMKJ4Fil2x1/Ls4m1+rvlxqBnkS013+Z1YXS292w0zotf8bWTQ9FZvuqZS6tBjMVwj0gUNB0rNRwf+0zCYldyxdpw1AeglJ/JBXbV3x8cBYI83CvYkhaXmNvK/fnNc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(366004)(346002)(39850400004)(376002)(186003)(478600001)(66946007)(8936002)(6486002)(316002)(31696002)(66476007)(31686004)(6916009)(8676002)(54906003)(53546011)(66574015)(2616005)(86362001)(38100700002)(7416002)(4326008)(6666004)(2906002)(66556008)(5660300002)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjlMc3pKbmZBVjRXQS9kWkVhczVVdTBNcVBzc1RGVkM3WmlOVXErUjZMRVZO?=
+ =?utf-8?B?TkZGZGdkdWxSNUR3TWEwWXc2MFA5N29vaTZGSmFzdEFibUE5TmFRYUdDVjU3?=
+ =?utf-8?B?RHU3ZnJncjcxdlJEODBIbVB6SGsxaVpRR0IybDU0YXhlbW9SajhucGY3aW9F?=
+ =?utf-8?B?dVMxVFVoVkNwRE1Hdlo3RGpLaFNobzd5UzJCN0x0Q2Q5azdZano5MDV3VnVv?=
+ =?utf-8?B?MmdiMGJ2Q0M0YXptcDZER0lvRW9pbUtCR2xNcFYvVEtMamFHUEUzT2I0ZFM3?=
+ =?utf-8?B?SjdsWG5haUhKMS9xN0xCY2xsZThxSHZpU2MxNDVpRTFBUmJPbjQzcnRESCsw?=
+ =?utf-8?B?aDhRWUE1Z2xhYmxNMkM2VjU1b1d6MUFVQ2lhalpSckNzbURQanprNnpIbEpN?=
+ =?utf-8?B?amJHdTF4OW1wVXhXK3ZKN2c4dG1TWlM0b3lKODVPZDlVN2dpdHBiVDh3YU9N?=
+ =?utf-8?B?R29Kdk9LTGJYU3d2Q1lMOHM4YVlmeXVoQWJjWGRPdjI5bm82WmxPL2NpZllx?=
+ =?utf-8?B?S1BtSDIxM3M4NkZFeHVVVVFjd1lyNFkwMXpFS2lOb1Q5Z0ZnT1IwSmRlL3Bu?=
+ =?utf-8?B?RHJOazJpaDRoR1kwVEN4VmRMaVJ2ZVR1dFROWlBETHlZN1BNYnRBQlRzelFV?=
+ =?utf-8?B?MTVPVG1uZzRVbGdIcEQ5V2ZkUXZZQlFwQ0pHL3ppZUM1Y3h0dWVKdHJKQXVL?=
+ =?utf-8?B?Rm1LRmFJdHpuSHpXckQxamcvQXRvMWxERmdvcldpMXJHdmYyOCtwS2x4Smk2?=
+ =?utf-8?B?K1hTNkw4Y2I3b3VsNXJ1cllVMWc5SEw2UTdkbGluTjUvYnhaSFhLbWxSVE9T?=
+ =?utf-8?B?d1BJMXMxWWYrU0tPSzRvbGtsa1UwTWIvVzVvR0NYRHJPK0w3T0FtY0xyVjVX?=
+ =?utf-8?B?UlNaS29nOEpxZHlid0dDZ3BjVm83MHZJNEFoTnVpblRkWTB1Z3VmbUtFT21O?=
+ =?utf-8?B?c0lCQzltTCsrNGRlcTZXZXZVS3VzZXFvK3VXZXN0S3hZZ1Zmd2lxdURmdncy?=
+ =?utf-8?B?N0ZWTXhENXo1VS9NWGYxR3JLZmJESVQrSjA3NnpDejVKaHhaTURERW1Zdkgv?=
+ =?utf-8?B?L0VpbWQ0eklSVGlzcTRFY3BIeEd5dFZPREgvVU5yS0VXYlBaamJNZU15bDVn?=
+ =?utf-8?B?M3RVMkI2K2VvSzNsdVJJRGdkSmhsNE42dGZ6cG92cXkvVGh5a2h4L2xHZFJk?=
+ =?utf-8?B?MmZweFFpOC9KV3FSU2FXNWFDRFg0eVhDVE91VVlyZGc2MkZDUTUvZFo4QXpM?=
+ =?utf-8?B?d2ErSU9GNW1qOExsa001UGFEV29HY2FwQkVMZFZWMTZSSW9paDBsMDRpY2xq?=
+ =?utf-8?B?NGxNN0lYdng2STNKNzg1clNzTkhMaDRFemJoMEFDRVluUDRYZ2ZNNktpMFIr?=
+ =?utf-8?B?VE9Ed3BoU2pBODdSWDkyOEViMzhGUG1sZkdOei9PUFlNL0xqMVVrQnFBY21W?=
+ =?utf-8?B?QUs5RU5OWjNNcFFOOTJ5Smt2VGFBUnZQcy8vVFFGRk8rTnk5eGg4SmZldmpN?=
+ =?utf-8?B?c3Z6NVJLTkVNTzNRSHlHUVI4R1RDTnByejRFVmtZYU5hZXQzZk5hK2NTbWE2?=
+ =?utf-8?B?TERRMGc4NzgwdEFzZFBGLzF3WTI3cHBJbVEzVEQ3VzB4Z1NQaHYrOHFlY2l3?=
+ =?utf-8?B?VVlPa2tsdnMzK1JJNXo5UjVPUUVTWE8xbVFCbE5FZUNwQmY4ZWlmUVdqQjJ5?=
+ =?utf-8?B?dzhTZVVya3lic3NJclMxZVByT3ZZTVo2OU1wYnBHWURUZUZwVVpIRzhHOXJI?=
+ =?utf-8?B?ek1EV29FYm1ldmZkTFhOLzAzSG9MWVVmNkw1Z2NKWFJTS09QVFVBYjF2M3Zi?=
+ =?utf-8?B?bUZBQkMrZDBKd2g3dmE3d2tqY084ZEdiMCtBbFljYkF5cVJxZjNJVTF1bXJX?=
+ =?utf-8?Q?6nun/SOBQrsWt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60b0e911-4efa-4855-e2a6-08d951d43a03
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 14:30:20.0853 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lWyrRzqAgJdk5JIA8Hlxflhb1Y7BZ37WVxFFzAOtXoPQ43v5v1CnMC4VvliD5ZWU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4320
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,249 +139,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Kenneth Graunke <kenneth@whitecape.org>, Matthew Auld <matthew.auld@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
+ Jack Zhang <Jack.Zhang1@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Jul 2021 at 17:10, Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
+Am 28.07.21 um 15:57 schrieb Pekka Paalanen:
+> On Wed, 28 Jul 2021 15:31:41 +0200
+> Christian König <christian.koenig@amd.com> wrote:
 >
->
-> On 26/07/2021 16:14, Jason Ekstrand wrote:
-> > On Mon, Jul 26, 2021 at 3:31 AM Maarten Lankhorst
-> > <maarten.lankhorst@linux.intel.com> wrote:
-> >>
-> >> Op 23-07-2021 om 13:34 schreef Matthew Auld:
-> >>> From: Chris Wilson <chris@chris-wilson.co.uk>
-> >>>
-> >>> Jason Ekstrand requested a more efficient method than userptr+set-dom=
-ain
-> >>> to determine if the userptr object was backed by a complete set of pa=
-ges
-> >>> upon creation. To be more efficient than simply populating the userpt=
-r
-> >>> using get_user_pages() (as done by the call to set-domain or execbuf)=
-,
-> >>> we can walk the tree of vm_area_struct and check for gaps or vma not
-> >>> backed by struct page (VM_PFNMAP). The question is how to handle
-> >>> VM_MIXEDMAP which may be either struct page or pfn backed...
-> >>>
-> >>> With discrete we are going to drop support for set_domain(), so offer=
-ing
-> >>> a way to probe the pages, without having to resort to dummy batches h=
-as
-> >>> been requested.
-> >>>
-> >>> v2:
-> >>> - add new query param for the PROBE flag, so userspace can easily
-> >>>    check if the kernel supports it(Jason).
-> >>> - use mmap_read_{lock, unlock}.
-> >>> - add some kernel-doc.
-> >>> v3:
-> >>> - In the docs also mention that PROBE doesn't guarantee that the page=
-s
-> >>>    will remain valid by the time they are actually used(Tvrtko).
-> >>> - Add a small comment for the hole finding logic(Jason).
-> >>> - Move the param next to all the other params which just return true.
-> >>>
-> >>> Testcase: igt/gem_userptr_blits/probe
-> >>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> >>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> >>> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> >>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> >>> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> >>> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> >>> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> >>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >>> Cc: Ramalingam C <ramalingam.c@intel.com>
-> >>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >>> Acked-by: Kenneth Graunke <kenneth@whitecape.org>
-> >>> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
-> >>> ---
-> >>>   drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 41 ++++++++++++++++++=
-++-
-> >>>   drivers/gpu/drm/i915/i915_getparam.c        |  1 +
-> >>>   include/uapi/drm/i915_drm.h                 | 20 ++++++++++
-> >>>   3 files changed, 61 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gp=
-u/drm/i915/gem/i915_gem_userptr.c
-> >>> index 56edfeff8c02..468a7a617fbf 100644
-> >>> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> >>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> >>> @@ -422,6 +422,34 @@ static const struct drm_i915_gem_object_ops i915=
-_gem_userptr_ops =3D {
-> >>>
-> >>>   #endif
-> >>>
-> >>> +static int
-> >>> +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long =
-len)
-> >>> +{
-> >>> +     const unsigned long end =3D addr + len;
-> >>> +     struct vm_area_struct *vma;
-> >>> +     int ret =3D -EFAULT;
-> >>> +
-> >>> +     mmap_read_lock(mm);
-> >>> +     for (vma =3D find_vma(mm, addr); vma; vma =3D vma->vm_next) {
-> >>> +             /* Check for holes, note that we also update the addr b=
-elow */
-> >>> +             if (vma->vm_start > addr)
-> >>> +                     break;
-> >>> +
-> >>> +             if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
-> >>> +                     break;
-> >>> +
-> >>> +             if (vma->vm_end >=3D end) {
-> >>> +                     ret =3D 0;
-> >>> +                     break;
-> >>> +             }
-> >>> +
-> >>> +             addr =3D vma->vm_end;
-> >>> +     }
-> >>> +     mmap_read_unlock(mm);
-> >>> +
-> >>> +     return ret;
-> >>> +}
-> >>> +
-> >>>   /*
-> >>>    * Creates a new mm object that wraps some normal memory from the p=
-rocess
-> >>>    * context - user memory.
-> >>> @@ -477,7 +505,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
-> >>>        }
-> >>>
-> >>>        if (args->flags & ~(I915_USERPTR_READ_ONLY |
-> >>> -                         I915_USERPTR_UNSYNCHRONIZED))
-> >>> +                         I915_USERPTR_UNSYNCHRONIZED |
-> >>> +                         I915_USERPTR_PROBE))
-> >>>                return -EINVAL;
-> >>>
-> >>>        if (i915_gem_object_size_2big(args->user_size))
-> >>> @@ -504,6 +533,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
-> >>>                        return -ENODEV;
-> >>>        }
-> >>>
-> >>> +     if (args->flags & I915_USERPTR_PROBE) {
-> >>> +             /*
-> >>> +              * Check that the range pointed to represents real stru=
-ct
-> >>> +              * pages and not iomappings (at this moment in time!)
-> >>> +              */
-> >>> +             ret =3D probe_range(current->mm, args->user_ptr, args->=
-user_size);
-> >>> +             if (ret)
-> >>> +                     return ret;
-> >>> +     }
-> >>> +
-> >>>   #ifdef CONFIG_MMU_NOTIFIER
-> >>>        obj =3D i915_gem_object_alloc();
-> >>>        if (obj =3D=3D NULL)
-> >>> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i=
-915/i915_getparam.c
-> >>> index 24e18219eb50..bbb7cac43eb4 100644
-> >>> --- a/drivers/gpu/drm/i915/i915_getparam.c
-> >>> +++ b/drivers/gpu/drm/i915/i915_getparam.c
-> >>> @@ -134,6 +134,7 @@ int i915_getparam_ioctl(struct drm_device *dev, v=
-oid *data,
-> >>>        case I915_PARAM_HAS_EXEC_FENCE_ARRAY:
-> >>>        case I915_PARAM_HAS_EXEC_SUBMIT_FENCE:
-> >>>        case I915_PARAM_HAS_EXEC_TIMELINE_FENCES:
-> >>> +     case I915_PARAM_HAS_USERPTR_PROBE:
-> >>>                /* For the time being all of these are always true;
-> >>>                 * if some supported hardware does not have one of the=
-se
-> >>>                 * features this value needs to be provided from
-> >>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.=
-h
-> >>> index 975087553ea0..0d290535a6e5 100644
-> >>> --- a/include/uapi/drm/i915_drm.h
-> >>> +++ b/include/uapi/drm/i915_drm.h
-> >>> @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
-> >>>    */
-> >>>   #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
-> >>>
-> >>> +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
-> >>> +#define I915_PARAM_HAS_USERPTR_PROBE 56
-> >>> +
-> >>>   /* Must be kept compact -- no holes and well documented */
-> >>>
-> >>>   typedef struct drm_i915_getparam {
-> >>> @@ -2222,12 +2225,29 @@ struct drm_i915_gem_userptr {
-> >>>         * through the GTT. If the HW can't support readonly access, a=
-n error is
-> >>>         * returned.
-> >>>         *
-> >>> +      * I915_USERPTR_PROBE:
-> >>> +      *
-> >>> +      * Probe the provided @user_ptr range and validate that the @us=
-er_ptr is
-> >>> +      * indeed pointing to normal memory and that the range is also =
-valid.
-> >>> +      * For example if some garbage address is given to the kernel, =
-then this
-> >>> +      * should complain.
-> >>> +      *
-> >>> +      * Returns -EFAULT if the probe failed.
-> >>> +      *
-> >>> +      * Note that this doesn't populate the backing pages, and also =
-doesn't
-> >>> +      * guarantee that the object will remain valid when the object =
-is
-> >>> +      * eventually used.
-> >>> +      *
-> >>> +      * The kernel supports this feature if I915_PARAM_HAS_USERPTR_P=
-ROBE
-> >>> +      * returns a non-zero value.
-> >>> +      *
-> >>>         * I915_USERPTR_UNSYNCHRONIZED:
-> >>>         *
-> >>>         * NOT USED. Setting this flag will result in an error.
-> >>>         */
-> >>>        __u32 flags;
-> >>>   #define I915_USERPTR_READ_ONLY 0x1
-> >>> +#define I915_USERPTR_PROBE 0x2
-> >>>   #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
-> >>>        /**
-> >>>         * @handle: Returned handle for the object.
-> >>
-> >> Could we use _VALIDATE instead of probe? Or at least pin the pages as =
-well, so we don't have to do it later?
-> >
-> > I only care that the name matches what it does.  _VALIDATE sounds like
-> > it does a full validation of everything such that, if the import
-> > succeeds, execbuf will as well.  If we pin the pages at the same time,
-> > maybe that's true?  _PROBE, on the other hand, sounds a lot more like
->
-> No it is not possible to guarantee backing store remains valid until
-> execbuf.
->
-> > a one-time best-effort check which may race with other stuff and
-> > doesn't guarantee future success.  That's in line with what the
-> > current patch does.
-> >
-> >> We already have i915_gem_object_userptr_validate, no need to dupe it.
-> >
-> > I have no opinion on this.
->
-> I was actually suggesting the same as Maarten here - that we should add
-> a "populate" flag. But opinion was that was not desired - please look
-> for the older threads to see the reasoning there.
+>> Am 28.07.21 um 15:24 schrieb Michel Dänzer:
+>>> On 2021-07-28 3:13 p.m., Christian König wrote:
+>>>> Am 28.07.21 um 15:08 schrieb Michel Dänzer:
+>>>>> On 2021-07-28 1:36 p.m., Christian König wrote:
+>>>>>> At least AMD hardware is already capable of flipping frames on GPU events like finishing rendering (or uploading etc).
+>>>>>>
+>>>>>> By waiting in userspace on the CPU before send the frame to the hardware you are completely killing of such features.
+>>>>>>
+>>>>>> For composing use cases that makes sense, but certainly not for full screen applications as far as I can see.
+>>>>> Even for fullscreen, the current KMS API only allows queuing a single page flip per CRTC, with no way to cancel or otherwise modify it. Therefore, a Wayland compositor has to set a deadline for the next refresh cycle, and when the deadline passes, it has to select the best buffer available for the fullscreen surface. To make sure the flip will not miss the next refresh cycle, the compositor has to pick an idle buffer. If it picks a non-idle buffer, and the pending rendering does not finish in time for vertical blank, the flip will be delayed by at least one refresh cycle, which results in visible stuttering.
+>>>>>
+>>>>> (Until the deadline passes, the Wayland compositor can't even know if a previously fullscreen surface will still be fullscreen for the next refresh cycle)
+>>>> Well then let's extend the KMS API instead of hacking together workarounds in userspace.
+>>> That's indeed a possible solution for the fullscreen / direct scanout case.
+>>>
+>>> Not for the general compositing case though, since a compositor does not want to composite multiple output frames per display refresh cycle, so it has to make sure the one frame hits the target.
+>> Yeah, that's true as well.
+>>
+>> At least as long as nobody invents a mechanism to do this decision on
+>> the GPU instead.
+> That would mean putting the whole window manager into the GPU.
 
-So how should we proceed here? Maarten?
+Not really. You only need to decide if you want to use the new backing 
+store or the old one based on if the new surface is ready or not.
+
+At AMD hardware can already do this, we just don't have an OpenGL 
+extension for it (but maybe already in Vulkan).
+
+Regards,
+Christian.
 
 >
-> Regards,
 >
-> Tvrtko
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> Thanks,
+> pq
+
