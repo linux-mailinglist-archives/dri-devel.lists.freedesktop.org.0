@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 511B63D8D7A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 14:09:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FE23D8D8A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 14:13:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC1746E503;
-	Wed, 28 Jul 2021 12:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A177E6E188;
+	Wed, 28 Jul 2021 12:13:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB726E503
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 12:09:28 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id 21so3416869oin.8
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 05:09:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=epsE9NfA9DWMmQX7B7TUHrwoN0esHZLX/lAuY9R/APs=;
- b=DHWilW85wtL8urWXwK1H35IgOGWct4GNNoH6L2TweyrfSeqohh2SgHlytOyaXk14F4
- nvF7vjevWX82rvVHyvzx1ZbnZeRWF7GYGsfg94wZ9TZMMZCApBFIhorcnBSJAqeydEFq
- z5xPNkjc0P+ANkt/6IP97XE+Nt6V+eT5RGwyw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=epsE9NfA9DWMmQX7B7TUHrwoN0esHZLX/lAuY9R/APs=;
- b=sOBvMnpcjPlm38bI7lB/SlXGp0DwkCemU8gK/AV/SoZ8AIQ/XZ0+EPJQPMbFC24qft
- JftXsjU3XTNIb3qOdZrwWw9OcbBdDsAwveUHDxCZxKRgRTTwGDLhk7DaXKR0QE+1uIDG
- OCXSdqbakIWRKKT6b2NUmGdDq0npbhTO7PMIY0tJwYkWbDK1MYBAJLAAijyD1DxiTtqA
- QOVSGhyuUB4IjQfthWL6FX+XtHIS9K4X/PRsqy69epKKYR0tL0Ba2jud29ZiOkFe6kLg
- AQEkQEm+Kj0MIBZ6Aw1ECgifWH7p4+51nwVH4vjIqqSDWFtt28EYesvq0JSIleAvBnzz
- ojTQ==
-X-Gm-Message-State: AOAM531hLdjKmSmF4kucvec8tkDnkFFu3RVRA2s7OEPfi7yKjtYObVI0
- dc6RXcF4OVWgVjRJ7peFqeHeS4rKHSjWC23L4p9hBw==
-X-Google-Smtp-Source: ABdhPJyoP8j3HcVFOx21JkZ1fbw/u0UOrXcFrbpnUtr9/NGZi5d8IdfwW93rEYxekFa9C908SCfaP6dekAAbolqc/xs=
-X-Received: by 2002:aca:d682:: with SMTP id
- n124mr18525460oig.128.1627474168027; 
- Wed, 28 Jul 2021 05:09:28 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54E266E188
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 12:13:38 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 210223F;
+ Wed, 28 Jul 2021 14:13:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1627474416;
+ bh=T6zsJCpUqqEbe35R2O4FLVEPYpY2o7HNUwWw/+tLQhc=;
+ h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+ b=e45TsLuPu6W4EtW3PezpkS9MrCQhtpUMREZE8z++GrCYEfi8gHS2OtvijThmUxsRM
+ 42+waEI+vN9yPI7yazPGzA+03EJLsMLEJh5qKkBmx0nslbN80GJYPCrBipMaYQ1Jho
+ LFDT8T2B+ZSNhcGvir/t3irBUL4TtSTiqZEdCGgM=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] drm: rcar-du: crtc: force depends on cmm
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210728084240.566677-1-liu.yun@linux.dev>
+ <ca54fd2a-0436-d12a-5d90-bc3ff0b691b7@ideasonboard.com>
+ <1dd90e70-c2d3-e13f-832a-505c91e1898e@linux.dev>
+ <4abb3023-87c4-ffc4-bdfa-8fc9671b45e4@ideasonboard.com>
+ <YQE/0X7IsCaR2/py@pendragon.ideasonboard.com>
+Message-ID: <3b486114-ce19-943c-0ddb-6a011a8c084f@ideasonboard.com>
+Date: Wed, 28 Jul 2021 13:13:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
- <20210712175352.802687-4-daniel.vetter@ffwll.ch>
- <CAKMK7uG8bMuDP=7-z9nZ38WgMdbeUk96eNx3buTCiaKatYOJxw@mail.gmail.com>
- <2bcfba05-b7d5-1bd9-d74a-b9aac1147e20@gmail.com>
-In-Reply-To: <2bcfba05-b7d5-1bd9-d74a-b9aac1147e20@gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 28 Jul 2021 14:09:16 +0200
-Message-ID: <CAKMK7uE7GBZYih=KZm5t7-_0P8i7M0tA2KgSOgJsm+-HUE+HzA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v4 03/18] drm/sched: Add dependency
- tracking
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YQE/0X7IsCaR2/py@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,86 +53,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Zhang <Jack.Zhang1@amd.com>, David Airlie <airlied@linux.ie>,
- Lee Jones <lee.jones@linaro.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Melissa Wen <melissa.srw@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jackie Liu <liu.yun@linux.dev>,
+ liuyun01@kylinos.cn, dri-devel@lists.freedesktop.org, airlied@linux.ie,
+ kieran.bingham+renesas@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 28, 2021 at 1:29 PM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
-> Am 27.07.21 um 13:09 schrieb Daniel Vetter:
-> > Adding a few more people to this bikeshed.
-> >
-> > On Mon, Jul 12, 2021 at 10:02 PM Daniel Vetter <daniel.vetter@ffwll.ch>=
- wrote:
-> >
-> >> @@ -349,6 +367,13 @@ int drm_sched_job_init(struct drm_sched_job *job,
-> >>                         struct drm_sched_entity *entity,
-> >>                         void *owner);
-> >>   void drm_sched_job_arm(struct drm_sched_job *job);
-> >> +int drm_sched_job_await_fence(struct drm_sched_job *job,
-> >> +                             struct dma_fence *fence);
-> >> +int drm_sched_job_await_implicit(struct drm_sched_job *job,
-> >> +                                struct drm_gem_object *obj,
-> >> +                                bool write);
-> >> +
-> >> +
-> > I'm still waiting on the paint delivery for these two functions so I
-> > can finish this shed.
->
-> Well I wouldn't call that bike shedding, good names are important.
->
-> Just imaging we would have called the exclusive-fence write-fence instead=
-.
+Hi Jackie / Laurent,
 
-Sure naming matters, but at least to my English understanding there's
-not a semantic different between telling something to await for
-something else (i.e. add a dependency) or to tell something to add a
-dependency (i.e. await that thing later on before you start doing your
-own thing).
+On 28/07/2021 12:30, Laurent Pinchart wrote:
+> On Wed, Jul 28, 2021 at 12:09:34PM +0100, Kieran Bingham wrote:
+>> Hi Jackie,
+>>
+>> On 28/07/2021 10:57, Jackie Liu wrote:
+>>> Hi Kieran.
+>>>
+>>> How about this.
+>>>
+>>> diff --git a/drivers/gpu/drm/rcar-du/Kconfig
+>>> b/drivers/gpu/drm/rcar-du/Kconfig
+>>> index b47e74421e34..14cf3e6415d7 100644
+>>> --- a/drivers/gpu/drm/rcar-du/Kconfig
+>>> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+>>> @@ -1,7 +1,7 @@
+>>>  # SPDX-License-Identifier: GPL-2.0
+>>>  config DRM_RCAR_DU
+>>>         tristate "DRM Support for R-Car Display Unit"
+>>> -       depends on DRM && OF
+>>> +       depends on DRM && OF && m
+>>>         depends on ARM || ARM64
+>>>         depends on ARCH_RENESAS || COMPILE_TEST
+>>>         imply DRM_RCAR_CMM
+>>>
+>>>
+>>> Of course, this is not a good way, in fact, as long as rcar-du built-in,
+>>> cmm must also be built-in, otherwise an error will be reported.
+>>
+>> Correct, ideally we should enforce that if the RCAR_DU is built in (y),
+>> then the CMM can only be y/n and not m.
+>>
+>> I thought that the depends on DRM_RCAR_DU should do that, but it appears
+>> it doesn't enforce the built-in rule to match...
+>>
+>>> Do you have a good way?
+>>
+>> Kconfig-language.rst says:
+>>
+>>   Note: If the combination of FOO=y and BAR=m causes a link error,
+>>   you can guard the function call with IS_REACHABLE()::
+>>
+>>         foo_init()
+>>         {
+>>                 if (IS_REACHABLE(CONFIG_BAZ))
+>>                         baz_register(&foo);
+>>                 ...
+>>         }
+>>
+>>
+>> But that seems redundant, so I suspect we could/should change the
+>> drivers/gpu/drm/rcar-du/rcar_cmm.h from:
+>>
+>>
+>> #if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
+>> to
+>> #if IS_REACHABLE(CONFIG_DRM_RCAR_CMM)
+>>
+>> ...
+>>
+>>
+>> Seems odd that we might allow the module to be compiled at all if it
+>> won't be reachable and that we can't enforce that at the KConfig level -
+>> but at least IS_REACHABLE would prevent the linker error..
+> 
+> This has been discussed before:
+> 
+> https://lore.kernel.org/dri-devel/20200408202711.1198966-6-arnd@arndb.de/
 
-Exclusive vs write fence otoh is a pretty big difference in what it means.
 
-But also if there's consensus that I'm wrong then I'm happy to pick
-the more preferred of the two options I deem equivalent.
-
-> What speaks against calling them add_dependency() and
-> _add_implicit_depencencies() ?
-
-Nothing. I just like another ack on this before I rename it all. Also
-I wasnt sure what you'd want to name the implicit dependency thing.
-
-Lucas, Boris, Melissa, any acks here?
--Daniel
-
-> Regards,
-> Christian.
->
-> >
-> > Thanks, Daniel
-> >
-> >>   void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
-> >>                                      struct drm_gpu_scheduler **sched_=
-list,
-> >>                                      unsigned int num_sched_list);
-> >> --
-> >> 2.32.0
-> >>
-> >
->
+Arnd suggested this as a solution which looks like it solves the overall
+issue (locally to cmm) with the current restrictions we have...
 
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> In that case, a Makefile trick could also work, doing
+> 
+> ifdef CONFIG_DRM_RCAR_CMM
+> obj-$(CONFIG_DRM_RCAR_DU) += rcar-cmm.o
+> endif
+> 
+> Thereby making the cmm module have the same state (y or m) as
+> the du module whenever the option is enabled.
+
+That seems like a reasonable solution to me until someone comes up with
+a solution in KConfig.
+
+--
+Kieran
+
+
+>>> 在 2021/7/28 下午4:58, Kieran Bingham 写道:
+>>>> On 28/07/2021 09:42, Jackie Liu wrote:
+>>>>> From: Jackie Liu <liuyun01@kylinos.cn>
+>>>>>
+>>>>> After the patch 78b6bb1d24db ("drm: rcar-du: crtc: Control CMM
+>>>>> operations"),
+>>>>> the cmm module must be included in the crtc. We cannot remove this
+>>>>> configuration option separately. Therefore, simply linking them together
+>>>>> is the best solution, otherwise some errors will be reported.
+>>>>>
+>>>>
+>>>> Yikes, I'm sure we've had plenty of problems with the config options on
+>>>> this module. The churn alone makes me wonder if it should just be part
+>>>> of the overall module to simplify things... but...
+>>>>
+>>>>>   rcar_du_crtc.c:(.text+0x194): undefined reference to `rcar_cmm_setup'
+>>>>>   rcar_du_crtc.c:(.text+0x11bc): undefined reference to
+>>>>> `rcar_cmm_enable'
+>>>>>   rcar_du_crtc.c:(.text+0x1604): undefined reference to
+>>>>> `rcar_cmm_disable'
+>>>>>   rcar_du_kms.c:(.text+0x768): undefined reference to `rcar_cmm_init'
+>>>>
+>>>> Those are guarded by #if IS_ENABLED in the header.
+>>>>
+>>>> So from that - perhaps we can assume that the config attempted here was
+>>>> a built-in DU - but a module CMM which wouldn't be supported?
+>>>>
+>>>>
+>>>>
+>>>>> Fixes: 78b6bb1d24db ("rm: rcar-du: crtc: Control CMM operations")
+>>>>
+>>>> That fixes tag is missing a 'd', but that's trivial.
+>>>>
+>>>>
+>>>>> Reported-by: kernel-bot <k2ci@kylinos.cn>
+>>>>> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
+>>>>> ---
+>>>>>   drivers/gpu/drm/rcar-du/Kconfig  | 8 --------
+>>>>>   drivers/gpu/drm/rcar-du/Makefile | 2 +-
+>>>>>   2 files changed, 1 insertion(+), 9 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/rcar-du/Kconfig
+>>>>> b/drivers/gpu/drm/rcar-du/Kconfig
+>>>>> index b47e74421e34..bc71ad2a472f 100644
+>>>>> --- a/drivers/gpu/drm/rcar-du/Kconfig
+>>>>> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+>>>>> @@ -4,7 +4,6 @@ config DRM_RCAR_DU
+>>>>>       depends on DRM && OF
+>>>>>       depends on ARM || ARM64
+>>>>>       depends on ARCH_RENESAS || COMPILE_TEST
+>>>>> -    imply DRM_RCAR_CMM
+>>>>>       imply DRM_RCAR_LVDS
+>>>>>       select DRM_KMS_HELPER
+>>>>>       select DRM_KMS_CMA_HELPER
+>>>>> @@ -14,13 +13,6 @@ config DRM_RCAR_DU
+>>>>>         Choose this option if you have an R-Car chipset.
+>>>>>         If M is selected the module will be called rcar-du-drm.
+>>>>>   -config DRM_RCAR_CMM
+>>>>> -    tristate "R-Car DU Color Management Module (CMM) Support"
+>>>>> -    depends on DRM && OF
+>>>>> -    depends on DRM_RCAR_DU
+>>>>> -    help
+>>>>> -      Enable support for R-Car Color Management Module (CMM).
+>>>>> -
+>>>>
+>>>> I suspect the issue lies somewhere in this config that the CMM is not
+>>>> being enforced to be a built in when the DU is built in ?
+>>>>
+>>>>
+>>>>>   config DRM_RCAR_DW_HDMI
+>>>>>       tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+>>>>>       depends on DRM && OF
+>>>>> diff --git a/drivers/gpu/drm/rcar-du/Makefile
+>>>>> b/drivers/gpu/drm/rcar-du/Makefile
+>>>>> index 4d1187ccc3e5..76ff2e15bc2d 100644
+>>>>> --- a/drivers/gpu/drm/rcar-du/Makefile
+>>>>> +++ b/drivers/gpu/drm/rcar-du/Makefile
+>>>>> @@ -5,6 +5,7 @@ rcar-du-drm-y := rcar_du_crtc.o \
+>>>>>            rcar_du_group.o \
+>>>>>            rcar_du_kms.o \
+>>>>>            rcar_du_plane.o \
+>>>>> +         rcar_cmm.o
+>>>>>     rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)    += rcar_du_of.o \
+>>>>>                          rcar_du_of_lvds_r8a7790.dtb.o \
+>>>>> @@ -15,7 +16,6 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)    +=
+>>>>> rcar_du_of.o \
+>>>>>   rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)    += rcar_du_vsp.o
+>>>>>   rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
+>>>>>   -obj-$(CONFIG_DRM_RCAR_CMM)        += rcar_cmm.o
+>>>>>   obj-$(CONFIG_DRM_RCAR_DU)        += rcar-du-drm.o
+>>>>>   obj-$(CONFIG_DRM_RCAR_DW_HDMI)        += rcar_dw_hdmi.o
+>>>>>   obj-$(CONFIG_DRM_RCAR_LVDS)        += rcar_lvds.o
+> 
