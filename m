@@ -1,62 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DB33D8715
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 07:19:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C06273D871E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 07:21:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33326EAB4;
-	Wed, 28 Jul 2021 05:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8596E027;
+	Wed, 28 Jul 2021 05:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08ACD6E027;
- Wed, 28 Jul 2021 05:19:19 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3C8DE22261;
- Wed, 28 Jul 2021 05:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627449558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YmfSl7/J4rPd2qBHbKNtkwTubic3cXWaOLC2leTR4LQ=;
- b=flb5jOJ92JPke2khTYzDgIbsylLsXyNyM6OVWk0FuamSZTMSE3j6bP5WF7lXoKURFzC2oc
- EPA1hSj2ydTwmd8y1IAvGDQ3N+o4DOrWYcx3u4CmZ0vGGUL/lz+9WUmk1j7gjStY0P0is7
- M/5pbOrnyI7W7A6IIv3hyVC5kBtra78=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627449558;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YmfSl7/J4rPd2qBHbKNtkwTubic3cXWaOLC2leTR4LQ=;
- b=T9onue0syqQ44Ixg7sUrHDrRX6fbDHpFQhyZOpb3WKaG/d8NOOnLWjUBv15JpeQjFGKh41
- jn0fnx2mvsHJzpAg==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id AB22A13CF4;
- Wed, 28 Jul 2021 05:19:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id RqfLKNXoAGFdVQAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Wed, 28 Jul 2021 05:19:17 +0000
-Subject: Re: [PATCH 00/14] drm: Make DRM's IRQ helpers legacy
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20210727182721.17981-1-tzimmermann@suse.de>
- <YQBVyuPuf9InsY7g@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <d11b4688-b05e-8936-50dc-22eee9dd2983@suse.de>
-Date: Wed, 28 Jul 2021 07:19:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE9B96E027
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 05:21:09 +0000 (UTC)
+X-UUID: a3f7b7f9a8ba434ba4bc59eebf1e5dfb-20210728
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=K31VI0Q2wfSoWAA+OtQW+zkU6Kz1I+iyytddAARfBA8=; 
+ b=ZB0vQuQvmSEEJiM2x7ATikZYSlvnpIzEb511mg+rhTsUnmcderm2N9o3bHjz53MsBDTsAK3nitcZ/ykb90ehPIdifMpSf0qD6+VTZ6S45OXZnlPz5pkD/0CgWGCMlQnN+yI7kDRiX5Qfj+qPUuIja+3kJrelS+eqbMfGLItS4Y8=;
+X-UUID: a3f7b7f9a8ba434ba4bc59eebf1e5dfb-20210728
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1555124916; Wed, 28 Jul 2021 13:21:06 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 28 Jul 2021 13:21:04 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 28 Jul 2021 13:21:04 +0800
+Message-ID: <c8860122beb3263025fad139e507f496bd563820.camel@mediatek.com>
+Subject: Re: [PATCH v2 04/14] dt-bindings: reset: mt8195: Move reset
+ controller constants into common location
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Wed, 28 Jul 2021 13:21:04 +0800
+In-Reply-To: <CAFqH_50qC985oTcPWDLRJt6yVvwtHsizPOTnTMBh84m6Hy6hFQ@mail.gmail.com>
+References: <20210722094551.15255-1-nancy.lin@mediatek.com>
+ <20210722094551.15255-5-nancy.lin@mediatek.com>
+ <CAFqH_50qC985oTcPWDLRJt6yVvwtHsizPOTnTMBh84m6Hy6hFQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-In-Reply-To: <YQBVyuPuf9InsY7g@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="XYIqRf9rflDQEkfaVzrzYZxOjhzcpsV4c"
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,115 +56,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, liviu.dudau@arm.com, amd-gfx@lists.freedesktop.org,
- anitha.chrisanthus@intel.com, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, edmund.j.dea@intel.com,
- s.hauer@pengutronix.de, alison.wang@nxp.com, dri-devel@lists.freedesktop.org,
- sean@poorly.run, linux-arm-kernel@lists.infradead.org, tomba@kernel.org,
- bbrezillon@kernel.org, jyri.sarha@iki.fi, nicolas.ferre@microchip.com,
- christian.koenig@amd.com, kernel@pengutronix.de, alexander.deucher@amd.com,
- shawnguo@kernel.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ srv_heupstream <srv_heupstream@mediatek.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---XYIqRf9rflDQEkfaVzrzYZxOjhzcpsV4c
-Content-Type: multipart/mixed; boundary="GmOTuz8b5Zd4f7WcpPA58UjJwmtsS3ps4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
- christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
- bbrezillon@kernel.org, nicolas.ferre@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
- alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
- anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
- sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Message-ID: <d11b4688-b05e-8936-50dc-22eee9dd2983@suse.de>
-Subject: Re: [PATCH 00/14] drm: Make DRM's IRQ helpers legacy
-References: <20210727182721.17981-1-tzimmermann@suse.de>
- <YQBVyuPuf9InsY7g@ravnborg.org>
-In-Reply-To: <YQBVyuPuf9InsY7g@ravnborg.org>
+SGkgRW5yaWMsDQoNClRoYW5rcyBmb3IgeW91ciByZXZpZXcuDQoNCk9uIEZyaSwgMjAyMS0wNy0y
+MyBhdCAxMzoxMCArMDIwMCwgRW5yaWMgQmFsbGV0Ym8gU2VycmEgd3JvdGU6DQo+IEhpIE5hbmN5
+LA0KPiANCj4gVGhhbmsgeW91IGZvciB5b3VyIHBhdGNoDQo+IA0KPiBNaXNzYXRnZSBkZSBOYW5j
+eS5MaW4gPG5hbmN5LmxpbkBtZWRpYXRlay5jb20+IGRlbCBkaWEgZGouLCAyMiBkZQ0KPiBqdWwu
+DQo+IDIwMjEgYSBsZXMgMTE6NDY6DQo+ID4gDQo+ID4gVGhlIERUIGJpbmRpbmcgaW5jbHVkZXMg
+Zm9yIHJlc2V0IGNvbnRyb2xsZXJzIGFyZSBsb2NhdGVkIGluDQo+ID4gaW5jbHVkZS9kdC1iaW5k
+aW5ncy9yZXNldC8uIE1vdmUgdGhlIE1lZGlhdGVrIHJlc2V0IGNvbnN0YW50cyBpbg0KPiA+IHRo
+ZXJlLg0KPiA+IA0KPiANCj4gSSB0aGluayB0aGF0IHRoZSBwYXRjaCB0aGF0IGludHJvZHVjZXMg
+bXQ4MTk1LXJlc2V0cy5oIGludG8gdGhlDQo+IHJlc2V0LWNvbnRyb2xsZXIgZGlyZWN0b3J5IGRp
+ZG4ndCBsYW5kIHlldCwgcGxlYXNlIHN5bmMgd2l0aCB0aGUNCj4gYXV0aG9yIG9mIHRoYXQgcGF0
+Y2ggYW5kIGp1c3QgcHV0IGl0IGluIHRoZSBjb3JyZWN0IHBsYWNlIHRoZSBmaXJzdA0KPiB0aW1l
+Lg0KPiANCj4gVGhhbmtzLA0KPiAgIEVucmljDQo+IA0KT0ssIEkgd2l0aCBzeW5jIHdpdGggdGhl
+IGF1dGhvci4NCg0KPiA+IFNpZ25lZC1vZmYtYnk6IE5hbmN5LkxpbiA8bmFuY3kubGluQG1lZGlh
+dGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgaW5jbHVkZS9kdC1iaW5kaW5ncy97cmVzZXQtY29udHJv
+bGxlciA9PiByZXNldH0vbXQ4MTk1LXJlc2V0cy5oIHwNCj4gPiAwDQo+ID4gIDEgZmlsZSBjaGFu
+Z2VkLCAwIGluc2VydGlvbnMoKyksIDAgZGVsZXRpb25zKC0pDQo+ID4gIHJlbmFtZSBpbmNsdWRl
+L2R0LWJpbmRpbmdzL3tyZXNldC1jb250cm9sbGVyID0+IHJlc2V0fS9tdDgxOTUtDQo+ID4gcmVz
+ZXRzLmggKDEwMCUpDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHQtYmluZGluZ3Mv
+cmVzZXQtY29udHJvbGxlci9tdDgxOTUtcmVzZXRzLmgNCj4gPiBiL2luY2x1ZGUvZHQtYmluZGlu
+Z3MvcmVzZXQvbXQ4MTk1LXJlc2V0cy5oDQo+ID4gc2ltaWxhcml0eSBpbmRleCAxMDAlDQo+ID4g
+cmVuYW1lIGZyb20gaW5jbHVkZS9kdC1iaW5kaW5ncy9yZXNldC1jb250cm9sbGVyL210ODE5NS1y
+ZXNldHMuaA0KPiA+IHJlbmFtZSB0byBpbmNsdWRlL2R0LWJpbmRpbmdzL3Jlc2V0L210ODE5NS1y
+ZXNldHMuaA0KPiA+IC0tDQo+ID4gMi4xOC4wDQo+ID4gDQo=
 
---GmOTuz8b5Zd4f7WcpPA58UjJwmtsS3ps4
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Sam
-
-Am 27.07.21 um 20:51 schrieb Sam Ravnborg:
-> Hi Thomas,
->=20
-> On Tue, Jul 27, 2021 at 08:27:07PM +0200, Thomas Zimmermann wrote:
->> DRM's IRQ helpers are only helpful for old, non-KMS drivers. Move
->> the code behind CONFIG_DRM_LEGACY. Convert KMS drivers to Linux
->> IRQ interfaces.
->>
->> DRM provides IRQ helpers for setting up, receiving and removing IRQ
->> handlers. It's an abstraction over plain Linux functions. The code
->> is mid-layerish with several callbacks to hook into the rsp drivers.
->> Old UMS driver have their interrupts enabled via ioctl, so these
->> abstractions makes some sense. Modern KMS manage all their interrupts
->> internally. Using the DRM helpers adds indirection without benefits.
->>
->> Most KMs drivers already use Linux IRQ functions instead of DRM's
->> abstraction layer. Patches 1 to 12 convert the remaining ones.
->> The patches also resolve a bug for devices without assigned interrupt
->> number. DRM helpers don't test for IRQ_NOTCONNECTED, so drivers do
->> not detect if the device has no interrupt assigned.
->=20
-> Before diving into a review of these..
-> Any specific reason devm_request_irq is not used?
-
-Thanks for looking at the patches.
-
-Switching to devm_ definately makes sense in the longer term.
-  I didn't do this here to not change the order of clean-up operations=20
-in general. And some of the drivers have dedicated IRQ clean-up code,=20
-which might depend on the correct order as well.
-
-Best regards
-Thomas
-
->=20
-> 	Sam
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---GmOTuz8b5Zd4f7WcpPA58UjJwmtsS3ps4--
-
---XYIqRf9rflDQEkfaVzrzYZxOjhzcpsV4c
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEA6NUFAwAAAAAACgkQlh/E3EQov+Ap
-UQ//YR7yzSptLZNGuqp9g/OkDCywROMgVcE14mlYlrq4f0aQRcmfMsJDtEZN+CVtryarPnUlKZ0j
-8u+N8xFcBhIFTxqblkyIPu6Ex/dVzxjoDVWXkJX4UBeI5+QHxzyV+JQlEBKFbePlRa8yFUN863gO
-dX68d1UC4djOb39EgLF+oIYHzWOKnfgOQ5iw8OCiMz35sNG3jiwiCpUqWXrXWhMtg6p0Byv+/2eA
-XUILsWClwUhOn2j3qEnibjikbtxP3pxGN5D+ZbjWCzzgU88iJCjzns2IBalLtEKF/1rOHyhqh+7T
-xOtRQiLH9pDCNJu0qzQj8u3v5MbGkQ2Kd1AshVzSuXHRwMB4Meu8KmuzByEE0QXcCmKIDLWGVqxc
-MHlQq4OPDHe2lTs6np2DaenFVYCXKz7RMsYKaRvPsarN4B/lYEc1XBjMAF3ssyZ/SbaiFeLGvHGE
-OYX9ZqFAyaBAE4A3V88tIJjHuPqhjilkdv4azHsD0nGP+AkUSMXNcukO5aUug+7BAtyYC020cl62
-QuJWg4pvxgstJYbibzNjLqChvIWV/ZNUgN4j2g5HOgf8NylRCF4ZxNhkTdQ638UtKQtIj/rht2Mw
-vDP4PP4VlQR+vAorMusCFjyRxBZKC4uE9QNjI97yM/mlUtR0XeVLHnxYyzr/3+zldyrb8/AN5EH0
-SC0=
-=2i7L
------END PGP SIGNATURE-----
-
---XYIqRf9rflDQEkfaVzrzYZxOjhzcpsV4c--
