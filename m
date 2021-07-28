@@ -1,71 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BAEB3D8D12
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 13:51:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1861B3D8D41
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 13:54:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D61076E250;
-	Wed, 28 Jul 2021 11:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30FB36E81B;
+	Wed, 28 Jul 2021 11:54:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15AB56E0D7;
- Wed, 28 Jul 2021 11:51:01 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id e2so2167689wrq.6;
- Wed, 28 Jul 2021 04:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=yp5cWmb4AkxFKBl8NuqRHF/Fj+1O+kz07eQ9B1cFrTM=;
- b=rjufznQpIgT9Y4X5wATRAu5BDsSd6HgqZ5d9ZbD1tV5XqwI37bp4dlZn7sEU3roUWH
- clGVPK5HZt0ibEg3n3rnQO/LLfCGXNB1z/OcJviBqX5BnDvPAT6ovSqtf2GG9z+b2bf5
- hNRMQ5K1GU2t5utAkiIOYPFplsyDtoOtGyLrHrE0gjJStx3UlTxodAu66P1SUyVqHuRo
- M6T6x8SRy36Ns7u7LeNWzv4QGHqMLlVM5YZOdZC2fd6M+9vcopSschELbxKP610fuQ0E
- cnkAxdbpF2osQv7uYuvrxQu8i8zU9T8kP5ggNwdog+ispko+yCugJr87oZyjOacGVREA
- 620A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=yp5cWmb4AkxFKBl8NuqRHF/Fj+1O+kz07eQ9B1cFrTM=;
- b=KIiZ2rYMZ0aMJhs+UJYSq8zJ5KAi128p997ZbYAfWPkHa0HAUIZfz/3xUnQF/AFSqw
- X+QldXtT1Vacd/0/VZpugv4gJaA7JkwuxcDb+1RP+XCr8Lva6wIylWqPEVZQZt2cyfBK
- 6XO7ZZ3OeYK0zfCuJRvkE/eBvAduLplsXwg+VgNnRKKJKMAQXLPK7AQSW3VlQAc8ry6P
- xAZJiCnxuYdH4mnaOZKS5MGf+KrA6645K2UewcjeDLAMQtM+BZLzHzDCx+p6idg7XhtS
- OBpGqoB96k/iYxLULSDYxYAeQa5aqPN6p3uAcCYfoIZSFZdWT5vY5HRiai+q4cl5yYaX
- NaOw==
-X-Gm-Message-State: AOAM533GbkxJv2dbL33kkvHLXWnlzzxPrw9CW1HSmjZMAGXvxPjy9eBF
- eDfzNQJ1md9JmWAtjqDG4L4=
-X-Google-Smtp-Source: ABdhPJxnFTfpGwAmyL+B5BY1p5oMjCoBMdD/Omxoq7nc4R8MHgQpLQLkqKXCOPeVLSKKDmRSYkfgVw==
-X-Received: by 2002:adf:d1c7:: with SMTP id b7mr22336082wrd.108.1627473059546; 
- Wed, 28 Jul 2021 04:50:59 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:6a5d:b580:2891:cbac?
- ([2a02:908:1252:fb60:6a5d:b580:2891:cbac])
- by smtp.gmail.com with ESMTPSA id q72sm7758671wme.14.2021.07.28.04.50.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 04:50:59 -0700 (PDT)
-Subject: Re: [PATCH 00/11] Implement generic prot_guest_has() helper function
-To: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <cover.1627424773.git.thomas.lendacky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <5cd35ae7-a7ff-eca4-5d2a-f0dad94e1d7a@gmail.com>
-Date: Wed, 28 Jul 2021 13:50:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1627424773.git.thomas.lendacky@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E45D26E9D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 11:54:28 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627473271; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=I+6EtmTkJGuPi6NoSMeA9deQefDBI6Bli9FnlFgsfRM=;
+ b=vXxQdaZe9tDHifc3va/vZoaPlJoxU6tpv9ds/PBV1JpvqPmssLKlf30bH0DE883QCx9SbULq
+ cVxSzY30r7e3o7B4e54ItXmqTqzBXF9gND80tirIr7EgMoLRvJH3DCj3ogOf5O3q6mOWVYKv
+ 3LRTfSFTwBnR07wT+Kej+4ZO/9g=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 6101456617c2b4047d3a8f0b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Jul 2021 11:54:14
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2D0F0C433D3; Wed, 28 Jul 2021 11:54:14 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4E297C433D3;
+ Wed, 28 Jul 2021 11:54:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4E297C433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>, 
+ linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
+Subject: [PATCH v3 1/2] arm64: dts: qcom: sc7280: Add gpu support
+Date: Wed, 28 Jul 2021 17:24:01 +0530
+Message-Id: <1627473242-35926-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,134 +69,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Brijesh Singh <brijesh.singh@amd.com>, David Airlie <airlied@linux.ie>,
- Dave Hansen <dave.hansen@linux.intel.com>, Paul Mackerras <paulus@samba.org>,
- Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Andi Kleen <ak@linux.intel.com>, Baoquan He <bhe@redhat.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Joerg Roedel <joro@8bytes.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Dave Young <dyoung@redhat.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jonathan Marek <jonathan@marek.ca>, linux-kernel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Andy Gross <agross@kernel.org>,
+ Matthias Kaehlcke <mka@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 28.07.21 um 00:26 schrieb Tom Lendacky:
-> This patch series provides a generic helper function, prot_guest_has(),
-> to replace the sme_active(), sev_active(), sev_es_active() and
-> mem_encrypt_active() functions.
->
-> It is expected that as new protected virtualization technologies are
-> added to the kernel, they can all be covered by a single function call
-> instead of a collection of specific function calls all called from the
-> same locations.
->
-> The powerpc and s390 patches have been compile tested only. Can the
-> folks copied on this series verify that nothing breaks for them.
+Add the necessary dt nodes for gpu support in sc7280.
 
-As GPU driver dev I'm only one end user of this, but at least from the 
-high level point of view that makes totally sense to me.
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+This has dependency on the below GPUCC bindings patch which is already
+accepted in clk-next:
+https://patchwork.kernel.org/project/linux-clk/list/?series=514831&state=%2A&archive=both
 
-Feel free to add an Acked-by: Christian König <christian.koenig@amd.com>.
+Changes in v3:
+- Re-ordered the nodes based on address (Stephan)
+- Added the patch for gpu cooling to the stack.
 
-We could run that through the AMD GPU unit tests, but I fear we actually 
-don't test on a system with SEV/SME active.
+Changes in v2:
+- formatting update and removed a duplicate header (Stephan)
 
-Going to raise that on our team call today.
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 116 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 116 insertions(+)
 
-Regards,
-Christian.
-
->
-> Cc: Andi Kleen <ak@linux.intel.com>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Baoquan He <bhe@redhat.com>
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Dave Young <dyoung@redhat.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Heiko Carstens <hca@linux.ibm.com>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Paul Mackerras <paulus@samba.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Vasily Gorbik <gor@linux.ibm.com>
-> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-> Cc: Will Deacon <will@kernel.org>
->
-> ---
->
-> Patches based on:
->    https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
->    commit 79e920060fa7 ("Merge branch 'WIP/fixes'")
->
-> Tom Lendacky (11):
->    mm: Introduce a function to check for virtualization protection
->      features
->    x86/sev: Add an x86 version of prot_guest_has()
->    powerpc/pseries/svm: Add a powerpc version of prot_guest_has()
->    x86/sme: Replace occurrences of sme_active() with prot_guest_has()
->    x86/sev: Replace occurrences of sev_active() with prot_guest_has()
->    x86/sev: Replace occurrences of sev_es_active() with prot_guest_has()
->    treewide: Replace the use of mem_encrypt_active() with
->      prot_guest_has()
->    mm: Remove the now unused mem_encrypt_active() function
->    x86/sev: Remove the now unused mem_encrypt_active() function
->    powerpc/pseries/svm: Remove the now unused mem_encrypt_active()
->      function
->    s390/mm: Remove the now unused mem_encrypt_active() function
->
->   arch/Kconfig                               |  3 ++
->   arch/powerpc/include/asm/mem_encrypt.h     |  5 --
->   arch/powerpc/include/asm/protected_guest.h | 30 +++++++++++
->   arch/powerpc/platforms/pseries/Kconfig     |  1 +
->   arch/s390/include/asm/mem_encrypt.h        |  2 -
->   arch/x86/Kconfig                           |  1 +
->   arch/x86/include/asm/kexec.h               |  2 +-
->   arch/x86/include/asm/mem_encrypt.h         | 13 +----
->   arch/x86/include/asm/protected_guest.h     | 27 ++++++++++
->   arch/x86/kernel/crash_dump_64.c            |  4 +-
->   arch/x86/kernel/head64.c                   |  4 +-
->   arch/x86/kernel/kvm.c                      |  3 +-
->   arch/x86/kernel/kvmclock.c                 |  4 +-
->   arch/x86/kernel/machine_kexec_64.c         | 19 +++----
->   arch/x86/kernel/pci-swiotlb.c              |  9 ++--
->   arch/x86/kernel/relocate_kernel_64.S       |  2 +-
->   arch/x86/kernel/sev.c                      |  6 +--
->   arch/x86/kvm/svm/svm.c                     |  3 +-
->   arch/x86/mm/ioremap.c                      | 16 +++---
->   arch/x86/mm/mem_encrypt.c                  | 60 +++++++++++++++-------
->   arch/x86/mm/mem_encrypt_identity.c         |  3 +-
->   arch/x86/mm/pat/set_memory.c               |  3 +-
->   arch/x86/platform/efi/efi_64.c             |  9 ++--
->   arch/x86/realmode/init.c                   |  8 +--
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  4 +-
->   drivers/gpu/drm/drm_cache.c                |  4 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  4 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_msg.c        |  6 +--
->   drivers/iommu/amd/init.c                   |  7 +--
->   drivers/iommu/amd/iommu.c                  |  3 +-
->   drivers/iommu/amd/iommu_v2.c               |  3 +-
->   drivers/iommu/iommu.c                      |  3 +-
->   fs/proc/vmcore.c                           |  6 +--
->   include/linux/mem_encrypt.h                |  4 --
->   include/linux/protected_guest.h            | 37 +++++++++++++
->   kernel/dma/swiotlb.c                       |  4 +-
->   36 files changed, 218 insertions(+), 104 deletions(-)
->   create mode 100644 arch/powerpc/include/asm/protected_guest.h
->   create mode 100644 arch/x86/include/asm/protected_guest.h
->   create mode 100644 include/linux/protected_guest.h
->
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 029723a..c88f366 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <dt-bindings/clock/qcom,gcc-sc7280.h>
++#include <dt-bindings/clock/qcom,gpucc-sc7280.h>
+ #include <dt-bindings/clock/qcom,rpmh.h>
+ #include <dt-bindings/interconnect/qcom,sc7280.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+@@ -592,6 +593,85 @@
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
++		gpu@3d00000 {
++			compatible = "qcom,adreno-635.0", "qcom,adreno";
++			#stream-id-cells = <16>;
++			reg = <0 0x03d00000 0 0x40000>,
++			      <0 0x03d9e000 0 0x1000>,
++			      <0 0x03d61000 0 0x800>;
++			reg-names = "kgsl_3d0_reg_memory",
++				    "cx_mem",
++				    "cx_dbgc";
++			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++			iommus = <&adreno_smmu 0 0x401>;
++			operating-points-v2 = <&gpu_opp_table>;
++			qcom,gmu = <&gmu>;
++			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
++			interconnect-names = "gfx-mem";
++
++			gpu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-550000000 {
++					opp-hz = /bits/ 64 <550000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
++					opp-peak-kBps = <6832000>;
++				};
++
++				opp-450000000 {
++					opp-hz = /bits/ 64 <450000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
++					opp-peak-kBps = <4068000>;
++				};
++
++				opp-315000000 {
++					opp-hz = /bits/ 64 <315000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
++					opp-peak-kBps = <1804000>;
++				};
++			};
++		};
++
++		gmu: gmu@3d69000 {
++			compatible="qcom,adreno-gmu-635.0", "qcom,adreno-gmu";
++			reg = <0 0x03d6a000 0 0x34000>,
++				<0 0x3de0000 0 0x10000>,
++				<0 0x0b290000 0 0x10000>;
++			reg-names = "gmu", "rscc", "gmu_pdc";
++			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hfi", "gmu";
++			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
++					<&gpucc GPU_CC_CXO_CLK>,
++					<&gcc GCC_DDRSS_GPU_AXI_CLK>,
++					<&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++					<&gpucc GPU_CC_AHB_CLK>,
++					<&gpucc GPU_CC_HUB_CX_INT_CLK>,
++					<&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
++			clock-names = "gmu",
++				      "cxo",
++				      "axi",
++				      "memnoc",
++				      "ahb",
++				      "hub",
++				      "smmu_vote";
++			power-domains = <&gpucc GPU_CC_CX_GDSC>,
++					<&gpucc GPU_CC_GX_GDSC>;
++			power-domain-names = "cx",
++					     "gx";
++			iommus = <&adreno_smmu 5 0x400>;
++			operating-points-v2 = <&gmu_opp_table>;
++
++			gmu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-200000000 {
++					opp-hz = /bits/ 64 <200000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++				};
++			};
++		};
++
+ 		gpucc: clock-controller@3d90000 {
+ 			compatible = "qcom,sc7280-gpucc";
+ 			reg = <0 0x03d90000 0 0x9000>;
+@@ -606,6 +686,42 @@
+ 			#power-domain-cells = <1>;
+ 		};
+ 
++		adreno_smmu: iommu@3da0000 {
++			compatible = "qcom,sc7280-smmu-500", "qcom,adreno-smmu", "arm,mmu-500";
++			reg = <0 0x03da0000 0 0x20000>;
++			#iommu-cells = <2>;
++			#global-interrupts = <2>;
++			interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 675 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>;
++
++			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++					<&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
++					<&gpucc GPU_CC_AHB_CLK>,
++					<&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
++					<&gpucc GPU_CC_CX_GMU_CLK>,
++					<&gpucc GPU_CC_HUB_CX_INT_CLK>,
++					<&gpucc GPU_CC_HUB_AON_CLK>;
++			clock-names = "gcc_gpu_memnoc_gfx_clk",
++					"gcc_gpu_snoc_dvm_gfx_clk",
++					"gpu_cc_ahb_clk",
++					"gpu_cc_hlos1_vote_gpu_smmu_clk",
++					"gpu_cc_cx_gmu_clk",
++					"gpu_cc_hub_cx_int_clk",
++					"gpu_cc_hub_aon_clk";
++
++			power-domains = <&gpucc GPU_CC_CX_GDSC>;
++		};
++
+ 		stm@6002000 {
+ 			compatible = "arm,coresight-stm", "arm,primecell";
+ 			reg = <0 0x06002000 0 0x1000>,
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation.
 
