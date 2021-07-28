@@ -2,37 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359423D9756
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 23:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08E83D9775
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 23:21:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBE4F6E9C6;
-	Wed, 28 Jul 2021 21:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79EB86E847;
+	Wed, 28 Jul 2021 21:20:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E94F76E9E3;
- Wed, 28 Jul 2021 21:12:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="199968626"
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="199968626"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 14:12:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="580995633"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2021 14:12:39 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/14] drm/i915/guc/rc: Setup and enable GuCRC feature
-Date: Wed, 28 Jul 2021 14:11:44 -0700
-Message-Id: <20210728211144.15322-15-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20210728211144.15322-1-vinay.belgaumkar@intel.com>
-References: <20210728211144.15322-1-vinay.belgaumkar@intel.com>
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 211126E847
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 21:20:59 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ k4-20020a17090a5144b02901731c776526so12128758pjm.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 14:20:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=aCyc2NHOkXGYgjWDmf3vrpmk18fLyVZYd3TxhaXnnVE=;
+ b=c6JhMXofkbZ/uaPvfVmC6SEcmKM0PLQ2hKLp4lpFf6E2UFDYQlwI/ajPz92HBukVL7
+ 3/1t8J3CHxk2Aet0zavrHIrdOV/PTcRtHuZqcxaB93hxu9KzN4rGasiScmM1vQ+xqHu9
+ bo2q7n30yNJeOR5zYMX4yKUhbVxnmxalSrXXg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aCyc2NHOkXGYgjWDmf3vrpmk18fLyVZYd3TxhaXnnVE=;
+ b=VrX6jeS2yXsx7qriHXOVaSvfp5hK+lfy6RbRqCVlN1AZ39PFPiEk1XYVca/aWslWTJ
+ 4kURk6CDwIyi/NlMqhVUu+TJ2o0eClgfK1Xf9ruD1Qr1+MUTfvuheU0aRBY5x2lg/UGq
+ +33kIK/wp62hCpvKVc1w/dMvXsaDPWJ+uS4tpY45G7sXfEwbZAHq6Oth71zTbNyMjQk+
+ SHFv1NHcZGOBlyvVDaoMCpfaedOdYZmtcZV7voUHbufM6RRXGPgi89IEI2+7vP4quse3
+ 0YjJ7Doz+Z6jo0f/qOZA4qAUHeI4PeHvs+cI8vmHCJH8B2wOKnMooXI86lbE5a/FMaNX
+ jU9Q==
+X-Gm-Message-State: AOAM533Ty1LVehhOcR3fm/21VWJtdFRPV15DDf6IcdPzkSjH0UjSmEmt
+ BAk/rwWzBdr2NRkfIp1clmPnZA==
+X-Google-Smtp-Source: ABdhPJzpO25ftXdScE+c4moZZIlui/WRunFKdsAHPmjZnWME7bUVC0iDZFA0lX1SRi/VgP0KbMAlxA==
+X-Received: by 2002:a17:90a:a78d:: with SMTP id
+ f13mr1677183pjq.206.1627507258658; 
+ Wed, 28 Jul 2021 14:20:58 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id l2sm908060pfc.157.2021.07.28.14.20.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jul 2021 14:20:57 -0700 (PDT)
+Date: Wed, 28 Jul 2021 14:20:56 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
+Message-ID: <202107281407.52EA0088@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-3-keescook@chromium.org>
+ <20210728073556.GP1931@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210728073556.GP1931@kadam>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,321 +68,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: linux-kbuild@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
+ Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This feature hands over the control of HW RC6 to the GuC.
-GuC decides when to put HW into RC6 based on it's internal
-busyness algorithms.
+On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
+> On Tue, Jul 27, 2021 at 01:57:53PM -0700, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > intentionally writing across neighboring fields.
+> > 
+> > The it_present member of struct ieee80211_radiotap_header is treated as a
+> > flexible array (multiple u32s can be conditionally present). In order for
+> > memcpy() to reason (or really, not reason) about the size of operations
+> > against this struct, use of bytes beyond it_present need to be treated
+> > as part of the flexible array. Add a union/struct to contain the new
+> > "bitmap" member, for use with trailing presence bitmaps and arguments.
+> > 
+> > Additionally improve readability in the iterator code which walks
+> > through the bitmaps and arguments.
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  include/net/ieee80211_radiotap.h | 24 ++++++++++++++++++++----
+> >  net/mac80211/rx.c                |  2 +-
+> >  net/wireless/radiotap.c          |  5 ++---
+> >  3 files changed, 23 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+> > index c0854933e24f..101c1e961032 100644
+> > --- a/include/net/ieee80211_radiotap.h
+> > +++ b/include/net/ieee80211_radiotap.h
+> > @@ -39,10 +39,26 @@ struct ieee80211_radiotap_header {
+> >  	 */
+> >  	__le16 it_len;
+> >  
+> > -	/**
+> > -	 * @it_present: (first) present word
+> > -	 */
+> > -	__le32 it_present;
+> > +	union {
+> > +		/**
+> > +		 * @it_present: (first) present word
+> > +		 */
+> > +		__le32 it_present;
+> > +
+> > +		struct {
+> > +			/* The compiler makes it difficult to overlap
+> > +			 * a flex-array with an existing singleton,
+> > +			 * so we're forced to add an empty named
+> > +			 * variable here.
+> > +			 */
+> > +			struct { } __unused;
+> > +
+> > +			/**
+> > +			 * @bitmap: all presence bitmaps
+> > +			 */
+> > +			__le32 bitmap[];
+> > +		};
+> > +	};
+> >  } __packed;
+> 
+> This patch is so confusing...
 
-GuCRC needs GuC submission to be enabled, and only
-supported on Gen12+ for now.
+Yeah, I agree. I tried a few ways, and was unhappy with all of them. :P
 
-When GuCRC is enabled, do not set HW RC6. Use a H2G message
-to tell GuC to enable GuCRC. When disabling RC6, tell GuC to
-revert RC6 control back to KMD. KMD is still responsible for
-enabling everything related to Coarse Power Gating though.
+> 
+> Btw, after the end of the __le32 data there is a bunch of other le64,
+> u8 and le16 data so the struct is not accurate or complete.
+> 
+> It might be better to re-write this as something like this:
+> 
+> diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+> index c0854933e24f..0cb5719e9668 100644
+> --- a/include/net/ieee80211_radiotap.h
+> +++ b/include/net/ieee80211_radiotap.h
+> @@ -42,7 +42,10 @@ struct ieee80211_radiotap_header {
+>  	/**
+>  	 * @it_present: (first) present word
+>  	 */
+> -	__le32 it_present;
+> +	struct {
+> +		__le32 it_present;
+> +		char buff[];
+> +	} data;
+>  } __packed;
 
-v2: Address comments (Michal W)
-v3: Don't set hysterisis values when GuCRC is used (Matt Roper)
+Hm, yes, I can try this. I attempted something similar without the
+"only a struct" part; I was trying to avoid the identifier churn, but I
+guess seeing it again, it's not _that_ bad. :P
 
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/Makefile                 |  1 +
- drivers/gpu/drm/i915/gt/intel_rc6.c           | 47 +++++++----
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  6 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     | 80 +++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h     | 31 +++++++
- drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  2 +
- 8 files changed, 155 insertions(+), 15 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
+>  
+>  /* version is always 0 */
+> diff --git a/net/mac80211/rx.c b/net/mac80211/rx.c
+> index 771921c057e8..9cc891364a07 100644
+> --- a/net/mac80211/rx.c
+> +++ b/net/mac80211/rx.c
+> @@ -328,7 +328,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  
+>  	rthdr = skb_push(skb, rtap_len);
+>  	memset(rthdr, 0, rtap_len - rtap.len - rtap.pad);
+> -	it_present = &rthdr->it_present;
+> +	it_present = (__le32 *)&rthdr->data;
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index d8eac4468df9..3fc17f20d88e 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -186,6 +186,7 @@ i915-y += gt/uc/intel_uc.o \
- 	  gt/uc/intel_guc_fw.o \
- 	  gt/uc/intel_guc_log.o \
- 	  gt/uc/intel_guc_log_debugfs.o \
-+	  gt/uc/intel_guc_rc.o \
- 	  gt/uc/intel_guc_slpc.o \
- 	  gt/uc/intel_guc_submission.o \
- 	  gt/uc/intel_huc.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 259d7eb4e165..f6b914438a0b 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -62,20 +62,25 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
- 	u32 pg_enable;
- 	int i;
- 
--	/* 2b: Program RC6 thresholds.*/
--	set(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
--	set(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
-+	/*
-+	 * With GuCRC, these parameters are set by GuC
-+	 */
-+	if (!intel_uc_uses_guc_rc(&gt->uc)) {
-+		/* 2b: Program RC6 thresholds.*/
-+		set(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
-+		set(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
- 
--	set(uncore, GEN6_RC_EVALUATION_INTERVAL, 125000); /* 12500 * 1280ns */
--	set(uncore, GEN6_RC_IDLE_HYSTERSIS, 25); /* 25 * 1280ns */
--	for_each_engine(engine, rc6_to_gt(rc6), id)
--		set(uncore, RING_MAX_IDLE(engine->mmio_base), 10);
-+		set(uncore, GEN6_RC_EVALUATION_INTERVAL, 125000); /* 12500 * 1280ns */
-+		set(uncore, GEN6_RC_IDLE_HYSTERSIS, 25); /* 25 * 1280ns */
-+		for_each_engine(engine, rc6_to_gt(rc6), id)
-+			set(uncore, RING_MAX_IDLE(engine->mmio_base), 10);
- 
--	set(uncore, GUC_MAX_IDLE_COUNT, 0xA);
-+		set(uncore, GUC_MAX_IDLE_COUNT, 0xA);
- 
--	set(uncore, GEN6_RC_SLEEP, 0);
-+		set(uncore, GEN6_RC_SLEEP, 0);
- 
--	set(uncore, GEN6_RC6_THRESHOLD, 50000); /* 50/125ms per EI */
-+		set(uncore, GEN6_RC6_THRESHOLD, 50000); /* 50/125ms per EI */
-+	}
- 
- 	/*
- 	 * 2c: Program Coarse Power Gating Policies.
-@@ -98,11 +103,19 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
- 	set(uncore, GEN9_MEDIA_PG_IDLE_HYSTERESIS, 60);
- 	set(uncore, GEN9_RENDER_PG_IDLE_HYSTERESIS, 60);
- 
--	/* 3a: Enable RC6 */
--	rc6->ctl_enable =
--		GEN6_RC_CTL_HW_ENABLE |
--		GEN6_RC_CTL_RC6_ENABLE |
--		GEN6_RC_CTL_EI_MODE(1);
-+	/* 3a: Enable RC6
-+	 *
-+	 * With GuCRC, we do not enable bit 31 of RC_CTL,
-+	 * thus allowing GuC to control RC6 entry/exit fully instead.
-+	 * We will not set the HW ENABLE and EI bits
-+	 */
-+	if (!intel_guc_rc_enable(&gt->uc.guc))
-+		rc6->ctl_enable = GEN6_RC_CTL_RC6_ENABLE;
-+	else
-+		rc6->ctl_enable =
-+			GEN6_RC_CTL_HW_ENABLE |
-+			GEN6_RC_CTL_RC6_ENABLE |
-+			GEN6_RC_CTL_EI_MODE(1);
- 
- 	pg_enable =
- 		GEN9_RENDER_PG_ENABLE |
-@@ -513,6 +526,10 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
- {
- 	struct drm_i915_private *i915 = rc6_to_i915(rc6);
- 	struct intel_uncore *uncore = rc6_to_uncore(rc6);
-+	struct intel_gt *gt = rc6_to_gt(rc6);
-+
-+	/* Take control of RC6 back from GuC */
-+	intel_guc_rc_disable(&gt->uc.guc);
- 
- 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
- 	if (GRAPHICS_VER(i915) >= 9)
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-index ca538e5de940..8ff582222aff 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-@@ -135,6 +135,7 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_SET_CONTEXT_PREEMPTION_TIMEOUT = 0x1007,
- 	INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
- 	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
-+	INTEL_GUC_ACTION_SETUP_PC_GUCRC = 0x3004,
- 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
- 	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
- 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
-@@ -145,6 +146,11 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_LIMIT
- };
- 
-+enum intel_guc_rc_options {
-+	INTEL_GUCRC_HOST_CONTROL,
-+	INTEL_GUCRC_FIRMWARE_CONTROL,
-+};
-+
- enum intel_guc_preempt_options {
- 	INTEL_GUC_PREEMPT_OPTION_DROP_WORK_Q = 0x4,
- 	INTEL_GUC_PREEMPT_OPTION_DROP_SUBMIT_Q = 0x8,
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 13d162353b1a..fbfcae727d7f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -159,6 +159,7 @@ void intel_guc_init_early(struct intel_guc *guc)
- 	intel_guc_log_init_early(&guc->log);
- 	intel_guc_submission_init_early(guc);
- 	intel_guc_slpc_init_early(&guc->slpc);
-+	intel_guc_rc_init_early(guc);
- 
- 	mutex_init(&guc->send_mutex);
- 	spin_lock_init(&guc->irq_lock);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 7da11a0b6059..2e27fe59786b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -59,6 +59,8 @@ struct intel_guc {
- 
- 	bool submission_supported;
- 	bool submission_selected;
-+	bool rc_supported;
-+	bool rc_selected;
- 
- 	struct i915_vma *ads_vma;
- 	struct __guc_ads_blob *ads_blob;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-new file mode 100644
-index 000000000000..18e3e05d7b39
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#include "intel_guc_rc.h"
-+#include "gt/intel_gt.h"
-+#include "i915_drv.h"
-+
-+static bool __guc_rc_supported(struct intel_guc *guc)
-+{
-+	/* GuC RC is unavailable for pre-Gen12 */
-+	return guc->submission_supported &&
-+		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
-+}
-+
-+static bool __guc_rc_selected(struct intel_guc *guc)
-+{
-+	if (!intel_guc_rc_is_supported(guc))
-+		return false;
-+
-+	return guc->submission_selected;
-+}
-+
-+void intel_guc_rc_init_early(struct intel_guc *guc)
-+{
-+	guc->rc_supported = __guc_rc_supported(guc);
-+	guc->rc_selected = __guc_rc_selected(guc);
-+}
-+
-+static int guc_action_control_gucrc(struct intel_guc *guc, bool enable)
-+{
-+	u32 rc_mode = enable ? INTEL_GUCRC_FIRMWARE_CONTROL :
-+				INTEL_GUCRC_HOST_CONTROL;
-+	u32 action[] = {
-+		INTEL_GUC_ACTION_SETUP_PC_GUCRC,
-+		rc_mode
-+	};
-+	int ret;
-+
-+	ret = intel_guc_send(guc, action, ARRAY_SIZE(action));
-+	ret = ret > 0 ? -EPROTO : ret;
-+
-+	return ret;
-+}
-+
-+static int __guc_rc_control(struct intel_guc *guc, bool enable)
-+{
-+	struct intel_gt *gt = guc_to_gt(guc);
-+	struct drm_device *drm = &guc_to_gt(guc)->i915->drm;
-+	int ret;
-+
-+	if (!intel_uc_uses_guc_rc(&gt->uc))
-+		return -ENOTSUPP;
-+
-+	if (!intel_guc_is_ready(guc))
-+		return -EINVAL;
-+
-+	ret = guc_action_control_gucrc(guc, enable);
-+	if (ret) {
-+		drm_err(drm, "Failed to %s GuC RC (%pe)\n",
-+			enabledisable(enable), ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	drm_info(&gt->i915->drm, "GuC RC: %s\n",
-+		enableddisabled(enable));
-+
-+	return 0;
-+}
-+
-+int intel_guc_rc_enable(struct intel_guc *guc)
-+{
-+	return __guc_rc_control(guc, true);
-+}
-+
-+int intel_guc_rc_disable(struct intel_guc *guc)
-+{
-+	return __guc_rc_control(guc, false);
-+}
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-new file mode 100644
-index 000000000000..57e86c337838
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#ifndef _INTEL_GUC_RC_H_
-+#define _INTEL_GUC_RC_H_
-+
-+#include "intel_guc_submission.h"
-+
-+void intel_guc_rc_init_early(struct intel_guc *guc);
-+
-+static inline bool intel_guc_rc_is_supported(struct intel_guc *guc)
-+{
-+	return guc->rc_supported;
-+}
-+
-+static inline bool intel_guc_rc_is_wanted(struct intel_guc *guc)
-+{
-+	return guc->submission_selected && intel_guc_rc_is_supported(guc);
-+}
-+
-+static inline bool intel_guc_rc_is_used(struct intel_guc *guc)
-+{
-+	return intel_guc_submission_is_used(guc) && intel_guc_rc_is_wanted(guc);
-+}
-+
-+int intel_guc_rc_enable(struct intel_guc *guc);
-+int intel_guc_rc_disable(struct intel_guc *guc);
-+
-+#endif
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-index 925a58ca6b94..866b462821c0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-@@ -7,6 +7,7 @@
- #define _INTEL_UC_H_
- 
- #include "intel_guc.h"
-+#include "intel_guc_rc.h"
- #include "intel_guc_submission.h"
- #include "intel_guc_slpc.h"
- #include "intel_huc.h"
-@@ -85,6 +86,7 @@ uc_state_checkers(guc, guc);
- uc_state_checkers(huc, huc);
- uc_state_checkers(guc, guc_submission);
- uc_state_checkers(guc, guc_slpc);
-+uc_state_checkers(guc, guc_rc);
- 
- #undef uc_state_checkers
- #undef __uc_state_checker
+Hm, interesting way to avoid angering the compiler during the later
+it_present++ updates. This is subtle ... a passer-by may not understand
+why this isn't just "it_present = &rthdr->data.it_present".
+
+I think this is okay with a comment added. I'll give this a spin.
+Thanks!
+
+-Kees
+
+>  
+>  	/* radiotap header, set always present flags */
+>  	rthdr->it_len = cpu_to_le16(rtap_len);
+> @@ -372,7 +372,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  			ieee80211_calculate_rx_timestamp(local, status,
+>  							 mpdulen, 0),
+>  			pos);
+> -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
+> +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
+>  		pos += 8;
+>  	}
+>  
+> @@ -396,7 +396,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  		*pos = 0;
+>  	} else {
+>  		int shift = 0;
+> -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_RATE);
+> +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_RATE);
+>  		if (status->bw == RATE_INFO_BW_10)
+>  			shift = 1;
+>  		else if (status->bw == RATE_INFO_BW_5)
+> @@ -432,7 +432,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  	if (ieee80211_hw_check(&local->hw, SIGNAL_DBM) &&
+>  	    !(status->flag & RX_FLAG_NO_SIGNAL_VAL)) {
+>  		*pos = status->signal;
+> -		rthdr->it_present |=
+> +		rthdr->data.it_present |=
+>  			cpu_to_le32(1 << IEEE80211_RADIOTAP_DBM_ANTSIGNAL);
+>  		pos++;
+>  	}
+> @@ -459,7 +459,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  	if (status->encoding == RX_ENC_HT) {
+>  		unsigned int stbc;
+>  
+> -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_MCS);
+> +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_MCS);
+>  		*pos++ = local->hw.radiotap_mcs_details;
+>  		*pos = 0;
+>  		if (status->enc_flags & RX_ENC_FLAG_SHORT_GI)
+> @@ -482,7 +482,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  		/* ensure 4 byte alignment */
+>  		while ((pos - (u8 *)rthdr) & 3)
+>  			pos++;
+> -		rthdr->it_present |=
+> +		rthdr->data.it_present |=
+>  			cpu_to_le32(1 << IEEE80211_RADIOTAP_AMPDU_STATUS);
+>  		put_unaligned_le32(status->ampdu_reference, pos);
+>  		pos += 4;
+> @@ -510,7 +510,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  	if (status->encoding == RX_ENC_VHT) {
+>  		u16 known = local->hw.radiotap_vht_details;
+>  
+> -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_VHT);
+> +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_VHT);
+>  		put_unaligned_le16(known, pos);
+>  		pos += 2;
+>  		/* flags */
+> @@ -553,7 +553,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  		u16 accuracy = 0;
+>  		u8 flags = IEEE80211_RADIOTAP_TIMESTAMP_FLAG_32BIT;
+>  
+> -		rthdr->it_present |=
+> +		rthdr->data.it_present |=
+>  			cpu_to_le32(1 << IEEE80211_RADIOTAP_TIMESTAMP);
+>  
+>  		/* ensure 8 byte alignment */
+> @@ -642,7 +642,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  		/* ensure 2 byte alignment */
+>  		while ((pos - (u8 *)rthdr) & 1)
+>  			pos++;
+> -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_HE);
+> +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_HE);
+>  		memcpy(pos, &he, sizeof(he));
+>  		pos += sizeof(he);
+>  	}
+> @@ -652,13 +652,13 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  		/* ensure 2 byte alignment */
+>  		while ((pos - (u8 *)rthdr) & 1)
+>  			pos++;
+> -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_HE_MU);
+> +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_HE_MU);
+>  		memcpy(pos, &he_mu, sizeof(he_mu));
+>  		pos += sizeof(he_mu);
+>  	}
+>  
+>  	if (status->flag & RX_FLAG_NO_PSDU) {
+> -		rthdr->it_present |=
+> +		rthdr->data.it_present |=
+>  			cpu_to_le32(1 << IEEE80211_RADIOTAP_ZERO_LEN_PSDU);
+>  		*pos++ = status->zero_length_psdu_type;
+>  	}
+> @@ -667,7 +667,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+>  		/* ensure 2 byte alignment */
+>  		while ((pos - (u8 *)rthdr) & 1)
+>  			pos++;
+> -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_LSIG);
+> +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_LSIG);
+>  		memcpy(pos, &lsig, sizeof(lsig));
+>  		pos += sizeof(lsig);
+>  	}
+> diff --git a/net/wireless/radiotap.c b/net/wireless/radiotap.c
+> index 36f1b59a78bf..f7852024c011 100644
+> --- a/net/wireless/radiotap.c
+> +++ b/net/wireless/radiotap.c
+> @@ -114,11 +114,10 @@ int ieee80211_radiotap_iterator_init(
+>  	iterator->_rtheader = radiotap_header;
+>  	iterator->_max_length = get_unaligned_le16(&radiotap_header->it_len);
+>  	iterator->_arg_index = 0;
+> -	iterator->_bitmap_shifter = get_unaligned_le32(&radiotap_header->it_present);
+> +	iterator->_bitmap_shifter = get_unaligned_le32(&radiotap_header->data.it_present);
+>  	iterator->_arg = (uint8_t *)radiotap_header + sizeof(*radiotap_header);
+>  	iterator->_reset_on_ext = 0;
+> -	iterator->_next_bitmap = &radiotap_header->it_present;
+> -	iterator->_next_bitmap++;
+> +	iterator->_next_bitmap = (__le32 *)&radiotap_header->data.buff;
+>  	iterator->_vns = vns;
+>  	iterator->current_namespace = &radiotap_ns;
+>  	iterator->is_radiotap_ns = 1;
+
 -- 
-2.25.0
-
+Kees Cook
