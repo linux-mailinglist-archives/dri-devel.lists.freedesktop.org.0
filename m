@@ -1,41 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA663D9024
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:11:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4173B3D902A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:13:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D63FC6E090;
-	Wed, 28 Jul 2021 14:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAA5F89C07;
+	Wed, 28 Jul 2021 14:13:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2F9C6E090
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 14:10:57 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id aa7c28e5-efad-11eb-8d1a-0050568cd888;
- Wed, 28 Jul 2021 14:11:13 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id A61BE194B9B;
- Wed, 28 Jul 2021 16:11:16 +0200 (CEST)
-Date: Wed, 28 Jul 2021 16:10:53 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 14/14] drm: IRQ midlayer is now legacy
-Message-ID: <YQFlbRE84lwAcov7@ravnborg.org>
-References: <20210727182721.17981-1-tzimmermann@suse.de>
- <20210727182721.17981-15-tzimmermann@suse.de>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B85689C07;
+ Wed, 28 Jul 2021 14:13:21 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="276455058"
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="276455058"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 07:13:03 -0700
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="499235136"
+Received: from evancahi-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.200.34])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 07:12:56 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Use Transparent Hugepages when IOMMU is enabled
+Date: Wed, 28 Jul 2021 15:12:49 +0100
+Message-Id: <20210728141249.357067-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727182721.17981-15-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,50 +42,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, liviu.dudau@arm.com, amd-gfx@lists.freedesktop.org,
- anitha.chrisanthus@intel.com, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, edmund.j.dea@intel.com,
- s.hauer@pengutronix.de, alison.wang@nxp.com, dri-devel@lists.freedesktop.org,
- sean@poorly.run, linux-arm-kernel@lists.infradead.org, tomba@kernel.org,
- bbrezillon@kernel.org, jyri.sarha@iki.fi, nicolas.ferre@microchip.com,
- christian.koenig@amd.com, kernel@pengutronix.de, alexander.deucher@amd.com,
- shawnguo@kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Eero Tamminen <eero.t.tamminen@intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-On Tue, Jul 27, 2021 at 08:27:21PM +0200, Thomas Zimmermann wrote:
-> Hide the DRM midlayer behind CONFIG_DRM_LEGACY, make functions use
-> the prefix drm_legacy_, and move declarations to drm_legacy.h.
-> In struct drm_device, move the fields irq and irq_enabled behind
-> CONFIG_DRM_LEGACY.
-> 
-> All callers have been updated.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Usage of Transparent Hugepages was disabled in 9987da4b5dcf
+("drm/i915: Disable THP until we have a GPU read BW W/A"), but since it
+appears majority of performance regressions reported with an enabled IOMMU
+can be almost eliminated by turning them on, lets do that by adding a
+couple of Kconfig options.
 
-> ---
->  drivers/gpu/drm/drm_irq.c         | 63 ++++---------------------------
+To err on the side of safety we keep the current default in cases where
+IOMMU is not active, and only when it is default to the "huge=within_size"
+mode. Although there probably would be wins to enable them throughout,
+more extensive testing across benchmarks and platforms would need to be
+done.
 
-You could have pulled it all into drm_legacy_misc.c.
+With the patch and IOMMU enabled my local testing on a small Skylake part
+shows OglVSTangent regression being reduced from ~14% to ~2%.
 
+References: b901bb89324a ("drm/i915/gemfs: enable THP")
+References: 9987da4b5dcf ("drm/i915: Disable THP until we have a GPU read BW W/A")
+References: https://gitlab.freedesktop.org/drm/intel/-/issues/430
+Co-developed-by: Chris Wilson <chris@chris-wilson.co.uk>
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Eero Tamminen <eero.t.tamminen@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+---
+ drivers/gpu/drm/i915/Kconfig.profile  | 46 +++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gemfs.c | 11 +++++--
+ 2 files changed, 55 insertions(+), 2 deletions(-)
 
->  drivers/gpu/drm/drm_legacy_misc.c |  3 +-
->  drivers/gpu/drm/drm_vblank.c      |  8 ++--
->  drivers/gpu/drm/i810/i810_dma.c   |  3 +-
->  drivers/gpu/drm/mga/mga_dma.c     |  2 +-
->  drivers/gpu/drm/mga/mga_drv.h     |  1 -
->  drivers/gpu/drm/r128/r128_cce.c   |  3 +-
->  drivers/gpu/drm/via/via_mm.c      |  3 +-
->  include/drm/drm_device.h          | 18 ++-------
->  include/drm/drm_drv.h             | 44 ++-------------------
->  include/drm/drm_irq.h             | 31 ---------------
->  include/drm/drm_legacy.h          |  3 ++
->  12 files changed, 27 insertions(+), 155 deletions(-)
->  delete mode 100644 include/drm/drm_irq.h
+diff --git a/drivers/gpu/drm/i915/Kconfig.profile b/drivers/gpu/drm/i915/Kconfig.profile
+index 39328567c200..c64c3d39a0f9 100644
+--- a/drivers/gpu/drm/i915/Kconfig.profile
++++ b/drivers/gpu/drm/i915/Kconfig.profile
+@@ -119,3 +119,49 @@ config DRM_I915_TIMESLICE_DURATION
+ 	  /sys/class/drm/card?/engine/*/timeslice_duration_ms
+ 
+ 	  May be 0 to disable timeslicing.
++
++choice
++	prompt "Transparent Hugepage Support (native)"
++	default DRM_I915_THP_NATIVE_NEVER
++	help
++	  Select the preferred method for allocating from Transparent Hugepages
++	  when IOMMU is not enabled.
++
++	config DRM_I915_THP_NATIVE_NEVER
++	bool "Never"
++
++	config DRM_I915_THP_NATIVE_WITHIN
++	bool "Within"
++
++	config DRM_I915_THP_NATIVE_ALWAYS
++	bool "Always"
++endchoice
++
++config DRM_I915_THP_NATIVE
++	string
++	default "always" if DRM_I915_THP_NATIVE_ALWAYS
++	default "within_size" if DRM_I915_THP_NATIVE_WITHIN
++	default "never" if DRM_I915_THP_NATIVE_NEVER
++
++choice
++	prompt "Transparent Hugepage Support (IOMMU)"
++	default DRM_I915_THP_IOMMU_WITHIN
++	help
++	  Select the preferred method for allocating from Transparent Hugepages
++	  with IOMMU active.
++
++	config DRM_I915_THP_IOMMU_NEVER
++	bool "Never"
++
++	config DRM_I915_THP_IOMMU_WITHIN
++	bool "Within"
++
++	config DRM_I915_THP_IOMMU_ALWAYS
++	bool "Always"
++endchoice
++
++config DRM_I915_THP_IOMMU
++	string
++	default "always" if DRM_I915_THP_IOMMU_ALWAYS
++	default "within_size" if DRM_I915_THP_IOMMU_WITHIN
++	default "never" if DRM_I915_THP_IOMMU_NEVER
+diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+index 5e6e8c91ab38..b71d2b2d2ada 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
++++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+@@ -13,8 +13,11 @@
+ 
+ int i915_gemfs_init(struct drm_i915_private *i915)
+ {
++	char thp_native[] = "huge=" CONFIG_DRM_I915_THP_NATIVE;
++	char thp_iommu[] = "huge=" CONFIG_DRM_I915_THP_IOMMU;
+ 	struct file_system_type *type;
+ 	struct vfsmount *gemfs;
++	char *opts;
+ 
+ 	type = get_fs_type("tmpfs");
+ 	if (!type)
+@@ -26,15 +29,19 @@ int i915_gemfs_init(struct drm_i915_private *i915)
+ 	 *
+ 	 * One example, although it is probably better with a per-file
+ 	 * control, is selecting huge page allocations ("huge=within_size").
+-	 * Currently unused due to bandwidth issues (slow reads) on Broadwell+.
++	 * However, we only do so to offset the overhead of iommu lookups
++	 * due to bandwidth issues (slow reads) on Broadwell+.
+ 	 */
++	opts = intel_vtd_active() ? thp_iommu : thp_native;
+ 
+-	gemfs = kern_mount(type);
++	gemfs = vfs_kern_mount(type, SB_KERNMOUNT, type->name, opts);
+ 	if (IS_ERR(gemfs))
+ 		return PTR_ERR(gemfs);
+ 
+ 	i915->mm.gemfs = gemfs;
+ 
++	drm_info(&i915->drm, "Transparent Hugepage mode '%s'", opts);
++
+ 	return 0;
+ }
+ 
+-- 
+2.30.2
 
-Nice cleanup.
-
-	Sam
