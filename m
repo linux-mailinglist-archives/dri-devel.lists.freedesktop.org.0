@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B2B3D92B5
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 18:03:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4143D92F1
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 18:14:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B16D6E8A7;
-	Wed, 28 Jul 2021 16:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99CCC6E103;
+	Wed, 28 Jul 2021 16:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com
- [IPv6:2607:f8b0:4864:20::930])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 051DB6E8A7
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 16:03:34 +0000 (UTC)
-Received: by mail-ua1-x930.google.com with SMTP id j7so1285408uaj.10
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 09:03:33 -0700 (PDT)
+Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com
+ [IPv6:2607:f8b0:4864:20::929])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD82C6E103
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 16:14:25 +0000 (UTC)
+Received: by mail-ua1-x929.google.com with SMTP id t26so1292607uao.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 09:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e028qpFiEN6pE1p9Z+hkByATyqBMa+hXycEeUkEN5us=;
- b=lMtKSwKOMhSXMgrhGuHeXlRuHc0OzfNKOXS4j+eAnPTZaylGpo0nWxgVshJPPA7dSW
- Tc5mofXQdo25Kcc2fnlYpyJTPPCUHHLpwjVsDn7yb1yo2Zt4eJ0t2i4CLHhhpaYa9URa
- kAh4eRuwqVxZujy5iCK1rTBs5wJHPsM/f3GkjqZ4mtXLRFY6vHXH0kKUt7EKFnUW8jER
- CdiSf027yC0vAZTLZ6GlGNM8o/RBDcUxORRpTHuVBYeiv4hWnpnmMLeLSPnrKh0/lTYg
- eUKCvoVlmJIlCPO1iIf5hesKWRyS+M3FkqT9pMREGzBPpBzgwDPRidqiHpGEnSQxN3ZI
- iVRg==
+ :cc; bh=QqWn/BHPOPbSckFRicgadgAajWgZlXRmVKCT3bnmuN8=;
+ b=nP9Oy3zAmObpbYStuTy8ZjKX8tEugotw371LI1Eoptm/qpfojs4bTqLEmxyDwM+XWL
+ jurphaRLblUPUzwTRmF1g2t8fjhDJac8nieuSin4PeoHemBXlpe5mNLyaZ2izvEW6Y90
+ szSPmD/nyP/8f7hhHs4XbNRZfKdpTUmhX4S/rl9RFdxUHpjcUEuZZUxX3Hnu1GPoxGHv
+ ZtKxsFnBDL3bART22WLZcHuCf1fGO4m8jGwYFRM7zmjyZyf68QdEGC7mQcFgQt5Bt6Hx
+ 2bS9FvV+WCIGVLngZpfUR4DlkpNm0/FYkclipjcbcrHrY64DGNZDaaHUNd11jZ4dVmDh
+ 9zcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=e028qpFiEN6pE1p9Z+hkByATyqBMa+hXycEeUkEN5us=;
- b=XGOxZqU0UOJq49wu+cscRlkb5prAnNQLJeAGIPEsyzzLSt6cuDe/W5nnCxE4bJcVmz
- +aSYqa7cDr1qB3IKofu9jUgufNuNd5BVD0LYI+XL3UNCLwCI/gQsD9mFg+NkyzYg8qCB
- 3m6j3inku1c3qrgPkci8IlHWNTj2AoXu42NIUUh2H05ABhjCJkcZfHjbmO8oagi0YeVE
- hyHUE9Gge9YL0M/8Bqk65V/LPWSzMC03sU+qExiPXq1eMngARehAuY7V/VJ2gE6MAx84
- NM7XT+wEl2wtScDh0UFKhY5R1z+VXRoOdJ6xxnBtqgrrz60W7UVWjDoC46hcvuDWBGzc
- jRQw==
-X-Gm-Message-State: AOAM530RpQZku+ZwQqjm9uD6s5lbfsCkYxQozCFcjY4svJbO8rPgRzSf
- fCYRY0KfGsf5SJm7vcYG1zCm7jcRQ9XsREQxF0E=
-X-Google-Smtp-Source: ABdhPJzJSKzqO1+ZSjRHME6kbEmz6tiBpA5JU8JgO8MFdxvCstGjsf9X8Y8RkZA/Rbc1bMMIDa4Zu2ojt/Y272F5PJM=
-X-Received: by 2002:ab0:7187:: with SMTP id l7mr670183uao.13.1627488213023;
- Wed, 28 Jul 2021 09:03:33 -0700 (PDT)
+ bh=QqWn/BHPOPbSckFRicgadgAajWgZlXRmVKCT3bnmuN8=;
+ b=aQ5LbsttsrR3dyhvfAQN8J/ue93dRrLud3S2VIIzAnqx8GE6hmM6FLTI1Jw+eZ+dp7
+ aswO+SNv0pDyxtjNhMVyGBrx8LZJjAOOXkW1mCr3w9i2Sbe33DL0EykMKoTnfqOQ8Lhp
+ dT6E6FPCidRlL2tBi/EWNOS5MmpMbO9WhhePOpn9PSdo29aotqcbw0P/F9Ztz3rOzU01
+ c0I/kX7V6vEmKKLXxqQKFOx0HxJmPWw63TYp+xVGB9bDApvP54b2EgyJ/NuGm6MaUFYl
+ 38HQSreYYpaHIOo4XlMTKePAzajFnkEmtKxYWUA+Bg/5McZQdvghTe3wKbms+OA5rHf3
+ 8LQw==
+X-Gm-Message-State: AOAM533sCbdjT8FZjqKB4jqKB0XnMw8clQy2IV8hDeS3S5HCiXEB7ReO
+ 2tsIjzd/7OOA4fLBhPxYNC6Ff15DwHVvbkIdOs4=
+X-Google-Smtp-Source: ABdhPJyXrLnw9h0nBb9nWWSDcZF9BIdcW4KkazctWqpCA4jbo/uoR8angkLMEqHhQNeV7vhaKRiwgKFOGtLQVwB8nDU=
+X-Received: by 2002:ab0:7187:: with SMTP id l7mr746401uao.13.1627488864865;
+ Wed, 28 Jul 2021 09:14:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210721175526.22020-1-sean@poorly.run>
  <20210721175526.22020-6-sean@poorly.run>
 In-Reply-To: <20210721175526.22020-6-sean@poorly.run>
 From: jim.cromie@gmail.com
-Date: Wed, 28 Jul 2021 12:03:07 -0400
-Message-ID: <CAJfuBxwrHy5fwVBv+Jur=-=OeitRBWdnL0WwpaN3DwQFnrb3ug@mail.gmail.com>
+Date: Wed, 28 Jul 2021 12:13:58 -0400
+Message-ID: <CAJfuBxwMOigvHFxjsaNmHa3hgeHm27mweAsVBexFaTNGh373Zw@mail.gmail.com>
 Subject: Re: [RESEND PATCH v6 05/14] drm/print: rename drm_debug* to be more
  syslog-centric
 To: Sean Paul <sean@poorly.run>
@@ -78,10 +78,22 @@ On Wed, Jul 21, 2021 at 1:55 PM Sean Paul <sean@poorly.run> wrote:
 > target syslog and/or tracefs.
 >
 > No functional changes here.
+>
+...
+> +static inline bool drm_debug_syslog_enabled(enum drm_debug_category category)
+> +{
+> +       return unlikely(__drm_debug_syslog & category);
+> +}
+> +
+>  static inline bool drm_debug_enabled(enum drm_debug_category category)
+>  {
+> -       return unlikely(__drm_debug & category);
+> +       return drm_debug_syslog_enabled(category);
+>  }
+>
 
-I feel like a fish asking "whats water?"
 
-from a parochial dynamic-debug view, there is only syslog.
-(maybe theres also console, I try not to think of the rogue tty gonna eat me)
+ok so the distinction is  this has 2  drm_debug_enabled() fns,
+allowing separate decisions later.
 
-is there something in the tracefs work that makes this necessary ?
+IIUC,  in the long run, @danvet wants 0 of these.
