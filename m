@@ -1,45 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54BE3D8C1E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 12:46:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6703A3D8C41
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 12:54:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E71586E511;
-	Wed, 28 Jul 2021 10:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC4326E7DA;
+	Wed, 28 Jul 2021 10:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E116E511
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 10:46:18 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F37F33F;
- Wed, 28 Jul 2021 12:46:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1627469176;
- bh=sgOIP5yZ6bNntnXeqgApXy/KqgqqWSdFfSwWkBLFAGo=;
- h=From:To:Cc:References:Subject:Date:In-Reply-To:From;
- b=mGMisZ05sm1vybgEovo45kuyf1kmuvcdrl9cLTGoWgfjNWO/4yNSz/iXsg7cVxjA1
- NqVNDNyPuOXBL7gPA/d41rJ1lXF2ZF6lVSafIFynlwwl/Fm//cHVGi0EbqyGW/bMdc
- ND3wleaa1vAdjNqCxuaw6FPoWIybvoRbIqe6COo8=
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Jackie Liu <liu.yun@linux.dev>, laurent.pinchart@ideasonboard.com,
- dri-devel@lists.freedesktop.org
-References: <20210728084240.566677-1-liu.yun@linux.dev>
- <ca54fd2a-0436-d12a-5d90-bc3ff0b691b7@ideasonboard.com>
- <3f8127f2-69b4-0faa-bee8-5f6c6ed10606@linux.dev>
-Subject: Re: [PATCH] drm: rcar-du: crtc: force depends on cmm
-Message-ID: <31da5d37-6a81-c168-6284-9a4cb69d8dfb@ideasonboard.com>
-Date: Wed, 28 Jul 2021 11:46:13 +0100
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D07FE6E7DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 10:54:21 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id l4so2565547ljq.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 03:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rasmusvillemoes.dk; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=y7BSRF2BV2wKYMpkMU6AInonSJrtXWVBGV0wA+UfcSQ=;
+ b=HvxZxKORsgd1u77vvKkzSHVmzDZnFgdXGSifvV+HmSIPnClkA6lYo7Qz7nvYlLjejZ
+ PK9B0U1dzVIDM4JKLg5sSHucPcc5bP4ZeDpjmSTAFJSiF4x48AfpDxMdOGxhIAJqc77U
+ oc7qawDYmcTBtp40SM72ZiIXxtcm1lp5rspVI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=y7BSRF2BV2wKYMpkMU6AInonSJrtXWVBGV0wA+UfcSQ=;
+ b=Z0p5NiV03S0cZmaFKRKkqHKvnXSOZF+sScekfnhjv1dJRAqahJVNGKs5dX3S1E/yTV
+ XQIglSRSMZRChwierFLzlAZHXtD9AO2levnbGNapQKUSt6xIF49gqi0Zny5unvcloB4w
+ TI7YDmDy9l+2lxv7KFivR7Dxy8pSoPU2PXcA/cUGkdCUpDLn7UgsK8Qx3RBJDw64aAsa
+ n+AkuLsypoSBSg1pr1qE0LQkcoAjt40qGvB6zfDQv8jM6a0Vb7jgwNk0bRp4G9Bq+6uD
+ QDt9WulAUp5qeX3dw8IrbFdTJY0ufWeQy43vU6eej/FMBGpI4wrwDZznsnnePjh4EO+M
+ 2AZQ==
+X-Gm-Message-State: AOAM530ljR9i64plbgZwrJSDSe6zJbOx8aA1qCYaAstbY6hjw5XHbz0j
+ DN3pCvvLuDv1WUEVx4bwBUIS9Q==
+X-Google-Smtp-Source: ABdhPJzsNcjtwcC6XUZJ5ZJ1M5kI8nrl9w1bOGQ6hWCdCY07r8K6xPGQ9TuYLQLsRgK+FjENio3Z4w==
+X-Received: by 2002:a05:651c:1144:: with SMTP id
+ h4mr18097576ljo.396.1627469659652; 
+ Wed, 28 Jul 2021 03:54:19 -0700 (PDT)
+Received: from [172.16.11.1] ([81.216.59.226])
+ by smtp.gmail.com with ESMTPSA id o1sm555702lfk.298.2021.07.28.03.54.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 03:54:19 -0700 (PDT)
+Subject: Re: [PATCH 04/64] stddef: Introduce struct_group() helper macro
+To: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-5-keescook@chromium.org>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <41183a98-bdb9-4ad6-7eab-5a7292a6df84@rasmusvillemoes.dk>
+Date: Wed, 28 Jul 2021 12:54:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <3f8127f2-69b4-0faa-bee8-5f6c6ed10606@linux.dev>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210727205855.411487-5-keescook@chromium.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,131 +71,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, liuyun01@kylinos.cn,
- kieran.bingham+renesas@ideasonboard.com
+Cc: linux-kbuild@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
+ Keith Packard <keithpac@amazon.com>, netdev@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/07/2021 10:34, Jackie Liu wrote:
-> Hi Kieran.
+On 27/07/2021 22.57, Kees Cook wrote:
+
+> In order to have a regular programmatic way to describe a struct
+> region that can be used for references and sizing, can be examined for
+> bounds checking, avoids forcing the use of intermediate identifiers,
+> and avoids polluting the global namespace, introduce the struct_group()
+> macro. This macro wraps the member declarations to create an anonymous
+> union of an anonymous struct (no intermediate name) and a named struct
+> (for references and sizing):
 > 
-> Thanks for replying to the email so quickly.
+> 	struct foo {
+> 		int one;
+> 		struct_group(thing,
+> 			int two,
+> 			int three,
+> 		);
+> 		int four;
+> 	};
+
+That example won't compile, the commas after two and three should be
+semicolons.
+
+And your implementation relies on MEMBERS not containing any comma
+tokens, but as
+
+  int a, b, c, d;
+
+is a valid way to declare multiple members, consider making MEMBERS
+variadic
+
+#define struct_group(NAME, MEMBERS...)
+
+to have it slurp up every subsequent argument and make that work.
+
 > 
-> 在 2021/7/28 下午4:58, Kieran Bingham 写道:
->> Hi Jackie,
->>
->> On 28/07/2021 09:42, Jackie Liu wrote:
->>> From: Jackie Liu <liuyun01@kylinos.cn>
->>>
->>> After the patch 78b6bb1d24db ("drm: rcar-du: crtc: Control CMM
->>> operations"),
->>> the cmm module must be included in the crtc. We cannot remove this
->>> configuration option separately. Therefore, simply linking them together
->>> is the best solution, otherwise some errors will be reported.
->>>
->>
->> Yikes, I'm sure we've had plenty of problems with the config options on
->> this module. The churn alone makes me wonder if it should just be part
->> of the overall module to simplify things... but...
->>
->>>   rcar_du_crtc.c:(.text+0x194): undefined reference to `rcar_cmm_setup'
->>>   rcar_du_crtc.c:(.text+0x11bc): undefined reference to
->>> `rcar_cmm_enable'
->>>   rcar_du_crtc.c:(.text+0x1604): undefined reference to
->>> `rcar_cmm_disable'
->>>   rcar_du_kms.c:(.text+0x768): undefined reference to `rcar_cmm_init'
->>
->> Those are guarded by #if IS_ENABLED in the header.
->>
->> So from that - perhaps we can assume that the config attempted here was
->> a built-in DU - but a module CMM which wouldn't be supported?
-> 
-> I know you want to keep CMM as a module, I might think it’s too simple.
-> will rewrite the patch.
-
-There are DU's which do not have a CMM, so I think that is why it is an
-optional feature/module.
-
-
->>> Fixes: 78b6bb1d24db ("rm: rcar-du: crtc: Control CMM operations")
->>
->> That fixes tag is missing a 'd', but that's trivial.
-> 
-> 12 characters of sha is enough.
-
-I meant the 'd' of 'drm' (it's 'rm' in your text)
-
+> Co-developed-by: Keith Packard <keithpac@amazon.com>
+> Signed-off-by: Keith Packard <keithpac@amazon.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
-> BR, Thanks.
-> Jackie Liu
-> 
->>
->>
->>> Reported-by: kernel-bot <k2ci@kylinos.cn>
->>> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
->>> ---
->>>   drivers/gpu/drm/rcar-du/Kconfig  | 8 --------
->>>   drivers/gpu/drm/rcar-du/Makefile | 2 +-
->>>   2 files changed, 1 insertion(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/rcar-du/Kconfig
->>> b/drivers/gpu/drm/rcar-du/Kconfig
->>> index b47e74421e34..bc71ad2a472f 100644
->>> --- a/drivers/gpu/drm/rcar-du/Kconfig
->>> +++ b/drivers/gpu/drm/rcar-du/Kconfig
->>> @@ -4,7 +4,6 @@ config DRM_RCAR_DU
->>>       depends on DRM && OF
->>>       depends on ARM || ARM64
->>>       depends on ARCH_RENESAS || COMPILE_TEST
->>> -    imply DRM_RCAR_CMM
->>>       imply DRM_RCAR_LVDS
->>>       select DRM_KMS_HELPER
->>>       select DRM_KMS_CMA_HELPER
->>> @@ -14,13 +13,6 @@ config DRM_RCAR_DU
->>>         Choose this option if you have an R-Car chipset.
->>>         If M is selected the module will be called rcar-du-drm.
->>>   -config DRM_RCAR_CMM
->>> -    tristate "R-Car DU Color Management Module (CMM) Support"
->>> -    depends on DRM && OF
->>> -    depends on DRM_RCAR_DU
->>> -    help
->>> -      Enable support for R-Car Color Management Module (CMM).
->>> -
->>
->> I suspect the issue lies somewhere in this config that the CMM is not
->> being enforced to be a built in when the DU is built in ?
+>  include/linux/stddef.h | 34 ++++++++++++++++++++++++++++++++++
 
+Bikeshedding a bit, but do we need to add 34 lines that need to be
+preprocessed to virtually each and every translation unit [as opposed to
+adding a struct_group.h header]? Oh well, you need it for struct
+skbuff.h, so it would be pulled in by a lot regardless :(
 
-Checked locally, and indeed KConfig lets us enable the DU as a built in
-- but the CMM as a module - that can't be allowed. :-(
-
---
-Kieran
-
-
->>
->>
->>>   config DRM_RCAR_DW_HDMI
->>>       tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
->>>       depends on DRM && OF
->>> diff --git a/drivers/gpu/drm/rcar-du/Makefile
->>> b/drivers/gpu/drm/rcar-du/Makefile
->>> index 4d1187ccc3e5..76ff2e15bc2d 100644
->>> --- a/drivers/gpu/drm/rcar-du/Makefile
->>> +++ b/drivers/gpu/drm/rcar-du/Makefile
->>> @@ -5,6 +5,7 @@ rcar-du-drm-y := rcar_du_crtc.o \
->>>            rcar_du_group.o \
->>>            rcar_du_kms.o \
->>>            rcar_du_plane.o \
->>> +         rcar_cmm.o
->>>     rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)    += rcar_du_of.o \
->>>                          rcar_du_of_lvds_r8a7790.dtb.o \
->>> @@ -15,7 +16,6 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)    +=
->>> rcar_du_of.o \
->>>   rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)    += rcar_du_vsp.o
->>>   rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
->>>   -obj-$(CONFIG_DRM_RCAR_CMM)        += rcar_cmm.o
->>>   obj-$(CONFIG_DRM_RCAR_DU)        += rcar-du-drm.o
->>>   obj-$(CONFIG_DRM_RCAR_DW_HDMI)        += rcar_dw_hdmi.o
->>>   obj-$(CONFIG_DRM_RCAR_LVDS)        += rcar_lvds.o
->>>
+Rasmus
