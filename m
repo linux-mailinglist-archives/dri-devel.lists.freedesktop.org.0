@@ -1,66 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8093D8D3C
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 13:54:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E45B33D8D34
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 13:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1C16E9D4;
-	Wed, 28 Jul 2021 11:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85BEF6E9C3;
+	Wed, 28 Jul 2021 11:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 393A76E9E8
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 11:54:29 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1627473271; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=/WsVFgU8nSk4cXI3eg+ED7P3oZTzr/iTpTi+SjxaHFg=;
- b=Tz8HW3tOmflp99ipQYCaJMlcx5M78/pSPGdl7aAiyp5e+4Y42SDqaULXodPaya/JeSTkcgVK
- dPK8nHFe3RUvwzx5bqrAGOTcCMGJ/LxaC1la2NsXz+PDIfOMDk8R7eh3PV87O0neWqFJDYAq
- YE8EUv//oEuo3wO5jRWOCNi+sSI=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 6101456a17c2b4047d3a9a7b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Jul 2021 11:54:18
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2E2ABC433F1; Wed, 28 Jul 2021 11:54:18 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 6DF75C4338A;
- Wed, 28 Jul 2021 11:54:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6DF75C4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org,
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>, 
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
-Subject: [PATCH v3 2/2] arm64: dts: qcom: sc7280: Add gpu thermal zone cooling
- support
-Date: Wed, 28 Jul 2021 17:24:02 +0530
-Message-Id: <20210728172330.v3.2.Iea8318d85a23f0167fd523ea85df5630147649f9@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1627473242-35926-1-git-send-email-akhilpo@codeaurora.org>
-References: <1627473242-35926-1-git-send-email-akhilpo@codeaurora.org>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E876C6E9C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 11:54:25 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3AB4C5C00E7;
+ Wed, 28 Jul 2021 07:54:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 28 Jul 2021 07:54:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=1xqt7KTezd7B+8knlEY1h4ifSLV
+ iKAGI4K83e6m5dMU=; b=0lzLhgyKnZcaTBLpMblHo2mdF4qP+n7ywW9Pc5rJ/bz
+ t+j7TrvtrIaZN5nqBJN0PxZ+xOYQK6X+5ubl3Qr8/nBb5cTxeT00qzqbOVLHa/yk
+ n41HezpvTvk2EUA2PZzQfMrfoBvcI2Sd+QvHHr3ZGHq1r/Ym0c8ICayhgiigaxCw
+ cbGCw0b2rvBK/00hgNxvq6FNazO9Q8sp9bTCnlohLC5SiDRc7LHUXEXCuPBlxDkt
+ 9fgYL+F95XBCBaRYnL3cjHxly9FzTS2jr515npRx+R/DbghAIgIHNOKbsAtT8uPo
+ vHHZ4S/MDOLdvFUiqrTVyGKV6YKubhhh8d0DS7lSDAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1xqt7K
+ Tezd7B+8knlEY1h4ifSLViKAGI4K83e6m5dMU=; b=rTvZqaHci/YLsdQdLJySj8
+ 2rGLLNwrvCTrzJ2Dm3HreBl/4F2RDYiFtOChDRC1hPCdtxx3emt9IU0Wc8+FFjOP
+ gb6cgz81XZ/24M0h5nAq5bvheEp0KXYFf8BLCP8p5U7NpmUQhL01HjrGj04DJWXN
+ t13hZ5+RUswYn9X4zrpk2zY4RleuIqlxx6nnimfLAndp3+vBTeeS5pQCilhYNvB1
+ 43c1HR/E735SW3cM/fvLDxyE6cBtLt5evRbGW1bsfqNw2NsNYXx+u/3W66WNp0yS
+ 3kZwIyZfOSnvjJ++AYS3qAeF0MXBQ+kGEu2X4Iz7ZvmxwagqsvAGpeeELH5uJ7Zw
+ ==
+X-ME-Sender: <xms:cEUBYeab7_sgZcUzpbAZRV3BDZjcIOdYshL6gvXwwd3wDIwjxMojkw>
+ <xme:cEUBYRYhFP9LtjESM5MkF9nKeinNDLvQeLJ9KWIsZlj7dqJIFTI7yxXBqfgqCw-Pz
+ 4KFVL6NPWJOUqXlfZ8>
+X-ME-Received: <xmr:cEUBYY8y9DyIMTwWEV1y8skZhbcG2-CLLK1dkwrxOXZoD_7UqFE93QeHUavEniF_h8brWREHjValqry-xbt5tZNVHhs8vXfM0rGJ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeelgdegfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:cEUBYQptHTw3iiPxKKDqnvLKHgTeZiygjjUHIVgGYZeRRtGfNyAxuA>
+ <xmx:cEUBYZot-nXIpjVKwmN8yBCZoszHGyE_oqIKwODYwk7MTbly1rGN4A>
+ <xmx:cEUBYeRiXBduqKUvRehdWgNc5nDiaE_eN4fM9c8-OKP_6V2ImIOIpw>
+ <xmx:cUUBYalMHEPbgg2ZLaOod4Dqm2o5_EdHfwtFzMNc-F18JQzoy_WGbA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 28 Jul 2021 07:54:23 -0400 (EDT)
+Date: Wed, 28 Jul 2021 13:54:19 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: "Ivan T. Ivanov" <iivanov@suse.de>
+Subject: Re: [PATCH] drm/vc4: hdmi: Add debugfs prefix
+Message-ID: <20210728115419.kt3tdhx5jmmk42u2@gilmour>
+References: <20210723072414.17590-1-iivanov@suse.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rotth3xlzxm5wim2"
+Content-Disposition: inline
+In-Reply-To: <20210723072414.17590-1-iivanov@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,113 +79,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, linux-kernel@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Andy Gross <agross@kernel.org>,
- Matthias Kaehlcke <mka@chromium.org>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Emma Anholt <emma@anholt.net>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
 
-Add cooling-cells property and the cooling maps for the gpu thermal
-zones to support GPU thermal cooling.
+--rotth3xlzxm5wim2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
-Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
----
+Hi,
 
-(no changes since v1)
+On Fri, Jul 23, 2021 at 09:24:14AM +0200, Ivan T. Ivanov wrote:
+> Without prefix debugfs can't properly create component
+> debug information tree when driver register more than
+> one component per device, in this case two. Fix this.
+>=20
+> debugfs: Directory 'fef00700.hdmi' with parent 'vc4-hdmi-0' already prese=
+nt!
+>=20
+> Signed-off-by: Ivan T. Ivanov <iivanov@suse.de>
 
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+Thanks for your patch.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index c88f366..45a96d1 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -593,7 +593,7 @@
- 			qcom,bcm-voters = <&apps_bcm_voter>;
- 		};
- 
--		gpu@3d00000 {
-+		gpu: gpu@3d00000 {
- 			compatible = "qcom,adreno-635.0", "qcom,adreno";
- 			#stream-id-cells = <16>;
- 			reg = <0 0x03d00000 0 0x40000>,
-@@ -608,6 +608,7 @@
- 			qcom,gmu = <&gmu>;
- 			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
- 			interconnect-names = "gfx-mem";
-+			#cooling-cells = <2>;
- 
- 			gpu_opp_table: opp-table {
- 				compatible = "operating-points-v2";
-@@ -2524,16 +2525,16 @@
- 		};
- 
- 		gpuss0-thermal {
--			polling-delay-passive = <0>;
-+			polling-delay-passive = <100>;
- 			polling-delay = <0>;
- 
- 			thermal-sensors = <&tsens1 1>;
- 
- 			trips {
- 				gpuss0_alert0: trip-point0 {
--					temperature = <90000>;
-+					temperature = <95000>;
- 					hysteresis = <2000>;
--					type = "hot";
-+					type = "passive";
- 				};
- 
- 				gpuss0_crit: gpuss0-crit {
-@@ -2542,19 +2543,26 @@
- 					type = "critical";
- 				};
- 			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&gpuss0_alert0>;
-+					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
- 		};
- 
- 		gpuss1-thermal {
--			polling-delay-passive = <0>;
-+			polling-delay-passive = <100>;
- 			polling-delay = <0>;
- 
- 			thermal-sensors = <&tsens1 2>;
- 
- 			trips {
- 				gpuss1_alert0: trip-point0 {
--					temperature = <90000>;
-+					temperature = <95000>;
- 					hysteresis = <2000>;
--					type = "hot";
-+					type = "passive";
- 				};
- 
- 				gpuss1_crit: gpuss1-crit {
-@@ -2563,6 +2571,13 @@
- 					type = "critical";
- 				};
- 			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&gpuss1_alert0>;
-+					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
- 		};
- 
- 		nspss0-thermal {
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation.
+However, that part changed fairly significantly recently so you'll need
+to rebase it on top of the drm-misc-next (or linux-next)
 
+Maxime
+
+--rotth3xlzxm5wim2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYQFFawAKCRDj7w1vZxhR
+xSo9AQDI2NTYVqSA2pkWlD+4Sqebxb1NKxDNprh8vzsltJFq6QD9HsHa+guhDvGX
+U1Cxfh+vtki37RRS3K0JfmtpMvm+WgM=
+=s2kW
+-----END PGP SIGNATURE-----
+
+--rotth3xlzxm5wim2--
