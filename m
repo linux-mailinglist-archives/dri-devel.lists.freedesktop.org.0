@@ -1,69 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8273D8FDB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 15:57:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 172B43D8FF7
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:00:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34D8E6E061;
-	Wed, 28 Jul 2021 13:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A17E6EAD6;
+	Wed, 28 Jul 2021 14:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 875D16E061
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 13:57:05 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id x7so3169491ljn.10
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 06:57:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=CmKb72PChNszBOXTpOhlC2Z9gbluKznAxmwaxqGh1YY=;
- b=G7G2DULTNw+oWcBqMJgWRUSXrrQbl8/V0TEtdKmAyu/0UlX81IXL1X0G4X0JO5SAfW
- twSNh926fK4VJf5fADPu+wjcjeMqGiukz9eAAs5XO3TGEs+L895b1OMG/SDQhLwkSZdT
- vEZw2YsCv8eY/UeYS5MptQxXVltBsmaYYaH3GJ4FfGWI69S/nMg9bxAuIoCBbCor+/eI
- zDjxLYYzw5K2mCy9//cuiClHheiEQf6jTjcChbrJaM2CsR/TQBTgC8cHbyLYJ7qa5JDi
- CK+9v4VmH1AIyLoZ1HV4HvwGLT8OB9kT3aXPIjf7x+d3hVeVZS3fzJKaITUzGj36Rm/y
- QyBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=CmKb72PChNszBOXTpOhlC2Z9gbluKznAxmwaxqGh1YY=;
- b=X2FPHmE6Xov+psYCuoCM/qAiSqWRauo4qF5yCtRU1AcquTGb0PcCo+ipfaaeQNNtHA
- sEaAwifzx0zeZ8z4cPQtgQIWz5dWZTsB6iPiZckd4FONBMGvZlyy8FfVEucQjUizhGc6
- 3urzZHPosq1eDdbXesjFMTX9V5rQa/Wd8RSdxiR8dXrUJYelPpZMGLqdRiCs/KT4E0u5
- AKAIt42zNMQt+87+J3+yyNGpsCisFqfrzLMYgRhjMdZ69ed3u2Ink51TXo2e1W0Ap0sP
- TeR5A/Gtay0OW0Dvvw4Npq2v6FsyU6p5fE1ynIxeTb8aWn6J+tD0FaS/her0OTWmtKTE
- RqAg==
-X-Gm-Message-State: AOAM532jSCYRxdQe5DQg3qT8r8Cn8yQnhJ7Fjd0ONOnzo8dUBiLLHE0a
- 8tIQm2Bol/9d81BJpa8ELco=
-X-Google-Smtp-Source: ABdhPJzautqHB5Q6fQhaaynf3ycrb+1yDHMfuUiGzZ+EhvO97Jq0C8Rei9oUvj8aunA9cctjfXJxYw==
-X-Received: by 2002:a2e:a78b:: with SMTP id c11mr19465601ljf.347.1627480623823; 
- Wed, 28 Jul 2021 06:57:03 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id g33sm10198lfv.150.2021.07.28.06.57.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 06:57:03 -0700 (PDT)
-Date: Wed, 28 Jul 2021 16:57:00 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
-Message-ID: <20210728165700.38c39cf8@eldfell>
-In-Reply-To: <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
- <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
- <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
- <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
- <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
- <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
- <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
- <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
- <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C9D96EAD6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 14:00:27 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 328b63b4-efac-11eb-8d1a-0050568cd888;
+ Wed, 28 Jul 2021 14:00:42 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 038DD194BB3;
+ Wed, 28 Jul 2021 16:00:45 +0200 (CEST)
+Date: Wed, 28 Jul 2021 16:00:23 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Dan.Sneddon@microchip.com
+Subject: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
+Message-ID: <YQFi96yaYbTG4OO7@ravnborg.org>
+References: <20210727182721.17981-1-tzimmermann@suse.de>
+ <20210727182721.17981-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/0KAbxBfXFJqzhLgHL9cOc+2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210727182721.17981-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,94 +48,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
- Jack Zhang <Jack.Zhang1@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Lee Jones <lee.jones@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: airlied@linux.ie, liviu.dudau@arm.com, amd-gfx@lists.freedesktop.org,
+ anitha.chrisanthus@intel.com, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, edmund.j.dea@intel.com,
+ s.hauer@pengutronix.de, alison.wang@nxp.com, dri-devel@lists.freedesktop.org,
+ sean@poorly.run, linux-arm-kernel@lists.infradead.org, tomba@kernel.org,
+ bbrezillon@kernel.org, jyri.sarha@iki.fi, nicolas.ferre@microchip.com,
+ christian.koenig@amd.com, kernel@pengutronix.de, alexander.deucher@amd.com,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/0KAbxBfXFJqzhLgHL9cOc+2
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Dan,
 
-On Wed, 28 Jul 2021 15:31:41 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+I hope you can fine to test this patch from Thomas.
+If this works then we can forget about my attempt to do the same.
 
-> Am 28.07.21 um 15:24 schrieb Michel D=C3=A4nzer:
-> > On 2021-07-28 3:13 p.m., Christian K=C3=B6nig wrote: =20
-> >> Am 28.07.21 um 15:08 schrieb Michel D=C3=A4nzer: =20
-> >>> On 2021-07-28 1:36 p.m., Christian K=C3=B6nig wrote: =20
+Hi Thomas,
 
-> >>>> At least AMD hardware is already capable of flipping frames on GPU e=
-vents like finishing rendering (or uploading etc).
-> >>>>
-> >>>> By waiting in userspace on the CPU before send the frame to the hard=
-ware you are completely killing of such features.
-> >>>>
-> >>>> For composing use cases that makes sense, but certainly not for full=
- screen applications as far as I can see. =20
-> >>> Even for fullscreen, the current KMS API only allows queuing a single=
- page flip per CRTC, with no way to cancel or otherwise modify it. Therefor=
-e, a Wayland compositor has to set a deadline for the next refresh cycle, a=
-nd when the deadline passes, it has to select the best buffer available for=
- the fullscreen surface. To make sure the flip will not miss the next refre=
-sh cycle, the compositor has to pick an idle buffer. If it picks a non-idle=
- buffer, and the pending rendering does not finish in time for vertical bla=
-nk, the flip will be delayed by at least one refresh cycle, which results i=
-n visible stuttering.
-> >>>
-> >>> (Until the deadline passes, the Wayland compositor can't even know if=
- a previously fullscreen surface will still be fullscreen for the next refr=
-esh cycle) =20
-> >> Well then let's extend the KMS API instead of hacking together workaro=
-unds in userspace. =20
-> > That's indeed a possible solution for the fullscreen / direct scanout c=
-ase.
-> >
-> > Not for the general compositing case though, since a compositor does no=
-t want to composite multiple output frames per display refresh cycle, so it=
- has to make sure the one frame hits the target. =20
->=20
-> Yeah, that's true as well.
->=20
-> At least as long as nobody invents a mechanism to do this decision on=20
-> the GPU instead.
+IRQ_NOTCONNECTED check seems redundant, as mentioned in another patch
+already.
 
-That would mean putting the whole window manager into the GPU.
+With that considered:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
+We shall wait for testing from Dan before you apply it as I had made a
+similar patch that failed to work. I assume my patch was buggy but I
+prefer to be sure.
 
-Thanks,
-pq
+	Sam
 
---Sig_/0KAbxBfXFJqzhLgHL9cOc+2
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmEBYiwACgkQI1/ltBGq
-qqdTlw//XiANshLNmu+nt+NpwbKtkBMqYDdcTWfhPJe8Ip9HhRA6WWzaVugXYwKU
-QgT3BNJiE+0b0fnVvLjdjVlmm3351f6CzG5QcYHDDqckG8p1a2aehkPuUKOAsdyC
-JJuZHBLw7nFFIa8t0WV3PHIwAaD+dWRcALMuKFkwBp574dSoCti2hiLHzEUxhgj9
-URxYBoHECn5+sFUZJngh2kUSrjhjSmM00NN5yFowA81zzaE7UAWjixC47AT+J7ey
-MAqWXNk8ltuM8F4tqavlKttKpdwmyqDBfUvrS10HyHee2VXOrWCQJTbcw2+oZZRt
-wAjcDX64bIHgcU72okVfA7A5ROMBQW/GTqFO/MfKp1g9CBbg/5vcSlI6KCSiOWyX
-5AtEUPNXDN2BoTtMAGNFcSBBI3QOakJfEuPCCj+vwZdj31Bjeu6lOjTlxQ71cGLv
-PzCfm5Uei0mVRMwFcNwYVUgnJvDAx5s9Agodutcod7tsQPEkIfSyJaMuD9L/vTpa
-gmPlEnJ+nwcskDcniReF9OXwyAEcTG6M0lyM2qPP6zjHfSwZW1lHkoVGxNdrHd7m
-xZ6SuYFAsssJBIRyQl/6mHNnsuD+NjzzhCEGlaIcqe3eehPL0gb+SKEwYKBByp7W
-IqQM25v5Ni7oD3fgjkCHCfz6JTNUL2v+JY2ZBHeFWRxROxKMiTE=
-=fn1r
------END PGP SIGNATURE-----
-
---Sig_/0KAbxBfXFJqzhLgHL9cOc+2--
+On Tue, Jul 27, 2021 at 08:27:10PM +0200, Thomas Zimmermann wrote:
+> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+> don't benefit from using it. DRM IRQ callbacks are now being called
+> directly or inlined.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 85 ++++++++++++--------
+>  1 file changed, 52 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> index f09b6dd8754c..cfa8c2c9c8aa 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> @@ -22,7 +22,6 @@
+>  #include <drm/drm_fb_helper.h>
+>  #include <drm/drm_gem_cma_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> -#include <drm/drm_irq.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+> @@ -557,6 +556,56 @@ static irqreturn_t atmel_hlcdc_dc_irq_handler(int irq, void *data)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +static void atmel_hlcdc_dc_irq_postinstall(struct drm_device *dev)
+> +{
+> +	struct atmel_hlcdc_dc *dc = dev->dev_private;
+> +	unsigned int cfg = 0;
+> +	int i;
+> +
+> +	/* Enable interrupts on activated layers */
+> +	for (i = 0; i < ATMEL_HLCDC_MAX_LAYERS; i++) {
+> +		if (dc->layers[i])
+> +			cfg |= ATMEL_HLCDC_LAYER_STATUS(i);
+> +	}
+> +
+> +	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IER, cfg);
+> +}
+> +
+> +static void atmel_hlcdc_dc_irq_disable(struct drm_device *dev)
+> +{
+> +	struct atmel_hlcdc_dc *dc = dev->dev_private;
+> +	unsigned int isr;
+> +
+> +	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IDR, 0xffffffff);
+> +	regmap_read(dc->hlcdc->regmap, ATMEL_HLCDC_ISR, &isr);
+> +}
+> +
+> +static int atmel_hlcdc_dc_irq_install(struct drm_device *dev, unsigned int irq)
+> +{
+> +	int ret;
+> +
+> +	if (irq == IRQ_NOTCONNECTED)
+> +		return -ENOTCONN;
+> +
+> +	atmel_hlcdc_dc_irq_disable(dev);
+> +
+> +	ret = request_irq(irq, atmel_hlcdc_dc_irq_handler, 0, dev->driver->name, dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	atmel_hlcdc_dc_irq_postinstall(dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static void atmel_hlcdc_dc_irq_uninstall(struct drm_device *dev)
+> +{
+> +	struct atmel_hlcdc_dc *dc = dev->dev_private;
+> +
+> +	atmel_hlcdc_dc_irq_disable(dev);
+> +	free_irq(dc->hlcdc->irq, dev);
+> +}
+> +
+>  static const struct drm_mode_config_funcs mode_config_funcs = {
+>  	.fb_create = drm_gem_fb_create,
+>  	.atomic_check = drm_atomic_helper_check,
+> @@ -647,7 +696,7 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+>  	drm_mode_config_reset(dev);
+>  
+>  	pm_runtime_get_sync(dev->dev);
+> -	ret = drm_irq_install(dev, dc->hlcdc->irq);
+> +	ret = atmel_hlcdc_dc_irq_install(dev, dc->hlcdc->irq);
+>  	pm_runtime_put_sync(dev->dev);
+>  	if (ret < 0) {
+>  		dev_err(dev->dev, "failed to install IRQ handler\n");
+> @@ -676,7 +725,7 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
+>  	drm_mode_config_cleanup(dev);
+>  
+>  	pm_runtime_get_sync(dev->dev);
+> -	drm_irq_uninstall(dev);
+> +	atmel_hlcdc_dc_irq_uninstall(dev);
+>  	pm_runtime_put_sync(dev->dev);
+>  
+>  	dev->dev_private = NULL;
+> @@ -685,40 +734,10 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
+>  	clk_disable_unprepare(dc->hlcdc->periph_clk);
+>  }
+>  
+> -static int atmel_hlcdc_dc_irq_postinstall(struct drm_device *dev)
+> -{
+> -	struct atmel_hlcdc_dc *dc = dev->dev_private;
+> -	unsigned int cfg = 0;
+> -	int i;
+> -
+> -	/* Enable interrupts on activated layers */
+> -	for (i = 0; i < ATMEL_HLCDC_MAX_LAYERS; i++) {
+> -		if (dc->layers[i])
+> -			cfg |= ATMEL_HLCDC_LAYER_STATUS(i);
+> -	}
+> -
+> -	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IER, cfg);
+> -
+> -	return 0;
+> -}
+> -
+> -static void atmel_hlcdc_dc_irq_uninstall(struct drm_device *dev)
+> -{
+> -	struct atmel_hlcdc_dc *dc = dev->dev_private;
+> -	unsigned int isr;
+> -
+> -	regmap_write(dc->hlcdc->regmap, ATMEL_HLCDC_IDR, 0xffffffff);
+> -	regmap_read(dc->hlcdc->regmap, ATMEL_HLCDC_ISR, &isr);
+> -}
+> -
+>  DEFINE_DRM_GEM_CMA_FOPS(fops);
+>  
+>  static const struct drm_driver atmel_hlcdc_dc_driver = {
+>  	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> -	.irq_handler = atmel_hlcdc_dc_irq_handler,
+> -	.irq_preinstall = atmel_hlcdc_dc_irq_uninstall,
+> -	.irq_postinstall = atmel_hlcdc_dc_irq_postinstall,
+> -	.irq_uninstall = atmel_hlcdc_dc_irq_uninstall,
+>  	DRM_GEM_CMA_DRIVER_OPS,
+>  	.fops = &fops,
+>  	.name = "atmel-hlcdc",
+> -- 
+> 2.32.0
