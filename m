@@ -1,59 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012AC3D95D3
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 21:03:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BDF3D95DE
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 21:08:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38FA66E570;
-	Wed, 28 Jul 2021 19:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDDFB6E5B2;
+	Wed, 28 Jul 2021 19:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784A16E570
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 19:03:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 6D77D61055
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 19:03:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627499008;
- bh=VDYtpZRLg/hQG31Q8CgvqmoedkudfgIBvaQWkcZFsM8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=cMGGcI6wL1NduR93U9K+PO9ITi+2NVcUHf0nTetyBMcr1eknYxuGoMmTtV1y201n8
- A9kOEb/ENkpPL4HHLl53Tz2AN0fB6sDIve+5ERFuu4nhqK3WL0OwBYgWpoA18A3aTo
- ixmUaKqcnpqcKjSpjZZxGUGVkowqtNAemEv5XS9+7BnhwWhf8aEYleTSMyPzyzxlq9
- WtXCRnHi8y+N3bXQfboLsHkHg6CRp0bYp/GXkBHoUEATlhERNZDdwrIC/pmx8JPsvf
- 1x+B3Xl3H3g2supTQxp0i8/F4WVq131RUMDyfQFJ8C68AnswaYH6MXpTsk/o8xCRhI
- b7bYnADAA6mcQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 6A41E60EBE; Wed, 28 Jul 2021 19:03:28 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Wed, 28 Jul 2021 19:03:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: info@aloisnespor.info
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205089-2300-Vr3g1CXvyd@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870106E81E
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 19:08:38 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 39b27808-efd7-11eb-9082-0050568c148b;
+ Wed, 28 Jul 2021 19:08:43 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 0BF5D194B06;
+ Wed, 28 Jul 2021 21:08:55 +0200 (CEST)
+Date: Wed, 28 Jul 2021 21:08:32 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Dan.Sneddon@microchip.com
+Subject: Re: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
+Message-ID: <YQGrMH36Udg3eKQY@ravnborg.org>
+References: <20210727182721.17981-1-tzimmermann@suse.de>
+ <20210727182721.17981-4-tzimmermann@suse.de>
+ <YQFi96yaYbTG4OO7@ravnborg.org>
+ <e28b1a2f-015c-c81b-eb64-5323df9ed35d@microchip.com>
+ <YQF7bKyeup8n3awU@ravnborg.org>
+ <3d2f6b84-dd07-d925-a8b8-2bfd5fc736d9@microchip.com>
+ <YQGdxtV0BGZ8VOpm@ravnborg.org>
+ <2f04b986-6b41-62f9-1587-23818b841655@suse.de>
+ <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,24 +55,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, liviu.dudau@arm.com, amd-gfx@lists.freedesktop.org,
+ anitha.chrisanthus@intel.com, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, tzimmermann@suse.de, edmund.j.dea@intel.com,
+ s.hauer@pengutronix.de, alison.wang@nxp.com, dri-devel@lists.freedesktop.org,
+ sean@poorly.run, linux-arm-kernel@lists.infradead.org, tomba@kernel.org,
+ bbrezillon@kernel.org, jyri.sarha@iki.fi, Nicolas.Ferre@microchip.com,
+ christian.koenig@amd.com, kernel@pengutronix.de, alexander.deucher@amd.com,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+Hi Dan,
 
-Alois Nespor (info@aloisnespor.info) changed:
+> >>
+> >> Just to be sure...
+> >> Can you confirm that vbltest is working OK *before* this patch?
+> > 
+> > Yes, can you please verify that it regressed. If so, this would mean 
+> > that the driver misses vblank interrupts with the patch applied.
+> 
+> Yes, unfortunately the vbltest works before this patch, but fails after 
+> this patch is applied.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |info@aloisnespor.info
+I think I got it - we need to set irq_enabled to true.
+The documentation says so:
+"
+	 * @irq_enabled:
+	 *
+	 * Indicates that interrupt handling is enabled, specifically vblank
+	 * handling. Drivers which don't use drm_irq_install() need to set this
+	 * to true manually.
+"
 
---- Comment #15 from Alois Nespor (info@aloisnespor.info) ---
-i can confirm, have same problem now with Ryzen 5 3400G (RX Vega 11).
+Can you try to add the following line:
 
-kernel 5.13.4 and mesa 21.1.5
 
---=20
-You may reply to this email to add a comment.
++static int atmel_hlcdc_dc_irq_install(struct drm_device *dev, unsigned int irq)
++{
++       int ret;
++
++       if (irq == IRQ_NOTCONNECTED)
++               return -ENOTCONN;
++
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+	dev->irq_enabled = true;		<= THIS LINE
+
+
++       atmel_hlcdc_dc_irq_disable(dev);
++
++       ret = request_irq(irq, atmel_hlcdc_dc_irq_handler, 0, dev->driver->name, dev);
++       if (ret)
++               return ret;
+
+I hope this fixes it.
+
+	Sam
