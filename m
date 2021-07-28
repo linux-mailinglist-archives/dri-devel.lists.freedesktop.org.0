@@ -1,56 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191DE3D90C9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:40:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE673D916C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 16:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E56E06E081;
-	Wed, 28 Jul 2021 14:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1F56E075;
+	Wed, 28 Jul 2021 14:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com
- [IPv6:2607:f8b0:4864:20::92f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C58816E040;
- Wed, 28 Jul 2021 14:40:16 +0000 (UTC)
-Received: by mail-ua1-x92f.google.com with SMTP id v3so1197033uau.3;
- Wed, 28 Jul 2021 07:40:16 -0700 (PDT)
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
+ [IPv6:2607:f8b0:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD506E075;
+ Wed, 28 Jul 2021 14:57:04 +0000 (UTC)
+Received: by mail-il1-x131.google.com with SMTP id r1so2848496iln.6;
+ Wed, 28 Jul 2021 07:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gy/xEIwD/4wzE9AqH6vhN+tSbWlmdiFtY8oiM2gmEG0=;
- b=TB0d1d+Ax2PLNyC3+GFUdGDreDP3BoBSFSOPGzZ6WZyyFsTPWKeQnv8MMAs6RUDLXr
- /Vz1+J1ztxg1yM1QxaPR+IOybQqwqnUGwAc5gyc81hraGz6JV6yZailQVB98eJWRvI3+
- /hHEWxWpdQd4KUbXceZGbfkHFai0F6L3hZpCAAixyGv8Engvrp7OjjEZsBxGnnb5qHr1
- 7R/R1TaKnFUBE7mCYF6fN/3rXe85Pr1db9bTxWz1Yepr+5wVtVjj6ieApmjkYf3rbX4w
- sHzQOhl4nmipVgLoy4MXgY/h48q9KLHpvN1iQclmYrT7C/asLUxK+TW6O2K+tCGdzSor
- /oQw==
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=e2ywKCAyW5iOo3TdeL4LGysC3w1acIn4LADsFzbMsMA=;
+ b=LmKgLak9fidSbx+hsVMK04ZqjeFal/L/sWVRHPUbfKyYpAF/FL5spbTmGeZD7MgHAl
+ 5eKMIgEflypQwCqPRdpVG+ohHTvVL0gBPbAuOm+9PrzqU+/ObXpT9ut0SBxUdL8zmnHI
+ OPsmcDAzTcTcJWQIB749Hk8BpJbIVEZ07oaLxPd7XcdWRrnfTvHjB0BJrna7ADRoLGjZ
+ n+P/gZUano47GrIg207NeiAQuBa6oQ24nHw/HJsegM188NC5ZcZvJv9JqoG//qye24Z3
+ WrrGadOWX2X3AHUZIgCS/4wEBiOmnnDhciABNrJS19nIl7rlcCXgi4f3NxtLO6aAt1Kd
+ kWcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gy/xEIwD/4wzE9AqH6vhN+tSbWlmdiFtY8oiM2gmEG0=;
- b=hhtEXmIe2hsE+/tSQQq3ea1o4h+YbJGqGdGUTCFtaxRieZ3M2oVEI3azqbC87zdAma
- wnxnd6vzMuFNdlPm7g3KOGztTJ9LQ6T5UN+aptHZgpDcHS0Bt6VFNDtE9IP2BFdY+Az4
- NqNQHKvudrBdAZx6QYZ48quNC8eM+B4y+CsFL1QUw1g9v1Yn4yMAfRfe8uTf+M1qkg6o
- 96EbfZ8oad05m4Oba+Ei3kC0km0znOgrvYWMDoYsbyZuHoUXllmn4uM2JcXdgHx7qDsk
- nc2BCEHZZ5WpLfYcsI/dVwFFX7Bcvq3zXqMjwNqmJe/BPsVZIgWvRa624JAywTMOXcr+
- lkTg==
-X-Gm-Message-State: AOAM5316tZUwCK+i18cGNL+lTBfNyaq8Gqgs3KuHnKsEH+fpgRUhruVR
- IpRtGIcwWUWY5Tvh0akooj3WQX1dYn9ike5OH7U=
-X-Google-Smtp-Source: ABdhPJzw76LXfLoDCvAdTGV1bDUpE3FI0q8/Gg59XtoCCOUTfBE/DrFK7SrC+4QcQTNspTl+nQEAlzwlHPd7OT1kG2A=
-X-Received: by 2002:ab0:6dcb:: with SMTP id r11mr116755uaf.128.1627483215360; 
- Wed, 28 Jul 2021 07:40:15 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=e2ywKCAyW5iOo3TdeL4LGysC3w1acIn4LADsFzbMsMA=;
+ b=tlJQYjcDTBbWknGuS6KsIk0sCnDxEops1vGDxGWXv7PN8NQDVHCPd7290ja7Dv3kk+
+ ttszRQTP+P9CRgGeTw08exhchq55pmAc8H71UadUPxiROXcaKeHiF6uV2agetwxQw/r4
+ O56koAPKf7TKRY5ki3AbpKVeNODljGew31K3WhpGA30FzRXyuCM/Ff9zyFHeKnGjxz7b
+ SbJ9oLoJIat/SKLRlfwMMC6NmVfhlmR0PMYTKdQjZo3IRk8XSBbiikckTEe6TyyuzC04
+ CbPXk9dBfaTZmiZdydC1C/ZviclttJByiuemYjwA0eRjUimhbRHVPARgQuvtPW3g1GR7
+ PxDw==
+X-Gm-Message-State: AOAM530+NVIn2TLeBUAqxzIRg2g3c9YLNSDHiYHWerPzZv6xT6p/vwF2
+ z7otHkbe19IcMjMCcpuBPy8=
+X-Google-Smtp-Source: ABdhPJywbWBVLY6qHpI7Oc9lffXNu0yIXkEG1M1rAmTYABJuf5ipVoG372N5iVxALJi3BqYFfoigxA==
+X-Received: by 2002:a05:6e02:ecd:: with SMTP id
+ i13mr199143ilk.182.1627484223888; 
+ Wed, 28 Jul 2021 07:57:03 -0700 (PDT)
+Received: from localhost ([12.28.44.171])
+ by smtp.gmail.com with ESMTPSA id x4sm78028ilj.52.2021.07.28.07.57.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jul 2021 07:57:03 -0700 (PDT)
+Date: Wed, 28 Jul 2021 07:57:02 -0700
+From: Yury Norov <yury.norov@gmail.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Marc Zyngier <maz@kernel.org>, David Woodhouse <dwmw@amazon.co.uk>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Alexey Klimov <aklimov@redhat.com>, x86@kernel.org,
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH 0/3] for_each_*_bit: move to find.h and reconsider
+Message-ID: <YQFwPtKOtlN6Cigg@yury-ThinkPad>
+References: <20210618195735.55933-1-yury.norov@gmail.com>
 MIME-Version: 1.0
-References: <20210721175526.22020-1-sean@poorly.run>
- <20210721175526.22020-4-sean@poorly.run>
-In-Reply-To: <20210721175526.22020-4-sean@poorly.run>
-From: jim.cromie@gmail.com
-Date: Wed, 28 Jul 2021 10:39:48 -0400
-Message-ID: <CAJfuBxw2uAZozKgG58KvFnQfw8hzcqrzUfN=B0ucYDkU=h40=A@mail.gmail.com>
-Subject: Re: [RESEND PATCH v6 03/14] drm/i915/utils: Replace dev_printk with
- drm helpers
-To: Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210618195735.55933-1-yury.norov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +83,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, daniel.vetter@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 1:55 PM Sean Paul <sean@poorly.run> wrote:
->
-> From: Sean Paul <seanpaul@chromium.org>
->
-> Use drm logging helpers to add support for the upcoming tracefs
-> implementation.
->
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-4-sean@poorly.run #v5
->
-> Changes in v5:
-> -Added to the set
-> Changes in v6:
-> -None
-> ---
->  drivers/gpu/drm/i915/i915_utils.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_utils.c b/drivers/gpu/drm/i915/i915_utils.c
-> index f9e780dee9de..d858c92c6997 100644
-> --- a/drivers/gpu/drm/i915/i915_utils.c
-> +++ b/drivers/gpu/drm/i915/i915_utils.c
-> @@ -30,10 +30,9 @@ __i915_printk(struct drm_i915_private *dev_priv, const char *level,
->         vaf.va = &args;
->
->         if (is_error)
-> -               dev_printk(level, kdev, "%pV", &vaf);
-> +               drm_dev_printk(kdev, level, "%pV", &vaf);
->         else
-> -               dev_printk(level, kdev, "[" DRM_NAME ":%ps] %pV",
-> -                          __builtin_return_address(0), &vaf);
-> +               drm_err(&dev_priv->drm, "%pV", &vaf);
+Ping?
 
-its slightly jarring to see drm_err() in the !is_err branch.
-warn or notice seems better.
-
-
->
->         va_end(args);
->
-> --
-> Sean Paul, Software Engineer, Google / Chromium OS
->
+On Fri, Jun 18, 2021 at 12:57:32PM -0700, Yury Norov wrote:
+> for_each_bit() macro family uses find_bit() functions, so it's better
+> to have for_each_bit() and find_bit() functions in the same header. 
+> 
+> This series puts for_each_bit() to a proper place and optimizes its
+> usage over the kernel.
+> 
+> The series is based on this:
+> https://lore.kernel.org/linux-arch/20210612123639.329047-1-yury.norov@gmail.com/
+> 
+> The full series can be found here:
+> https://github.com/norov/linux/commits/bm-final
+> 
+> Yury Norov (3):
+>   include/linux: move for_each_bit() macros from bitops.h to find.h
+>   find: micro-optimize for_each_{set,clear}_bit()
+>   Replace for_each_*_bit_from() with for_each_*_bit() where appropriate
+> 
+>  arch/x86/kernel/apic/vector.c         |  4 ++--
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c |  4 ++--
+>  drivers/hwmon/ltc2992.c               |  3 +--
+>  include/linux/bitops.h                | 34 ---------------------------
+>  include/linux/find.h                  | 34 +++++++++++++++++++++++++++
+>  5 files changed, 39 insertions(+), 40 deletions(-)
+> 
+> -- 
+> 2.30.2
