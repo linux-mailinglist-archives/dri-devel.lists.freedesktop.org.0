@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C353D84AE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 02:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971033D84AF
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 02:32:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E6816EA21;
-	Wed, 28 Jul 2021 00:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B67E36EA5C;
+	Wed, 28 Jul 2021 00:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 507C56EA21
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 00:31:50 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="234430361"
-X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="234430361"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0886EA5C
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 00:32:01 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="209441962"
+X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="209441962"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 17:31:48 -0700
-X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="634583284"
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2021 17:32:01 -0700
+X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="634583323"
 Received: from mamarti1-mobl.amr.corp.intel.com (HELO
  achrisan-desk3.intel.com) ([10.212.71.161])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 17:31:47 -0700
+ 27 Jul 2021 17:32:00 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  edmund.j.dea@intel.com
-Subject: [PATCH 01/14] drm/kmb: Enable LCD DMA for low TVDDCV
-Date: Tue, 27 Jul 2021 17:31:13 -0700
-Message-Id: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+Subject: [PATCH 02/14] drm/kmb: Define driver date and major/minor version
+Date: Tue, 27 Jul 2021 17:31:14 -0700
+Message-Id: <20210728003126.1425028-2-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,88 +50,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Edmund Dea <edmund.j.dea@intel.com>
 
-There's an undocumented dependency between LCD layer enable bits [2-5]
-and the AXI pipelined read enable bit [28] in the LCD_CONTROL register.
-The proper order of operation is:
-
-1) Clear AXI pipelined read enable bit
-2) Set LCD layers
-3) Set AXI pipelined read enable bit
-
-With this update, LCD can start DMA when TVDDCV is reduced down to 700mV.
+Added macros for date and version
 
 Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
 Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_drv.c   | 14 ++++++++++++++
- drivers/gpu/drm/kmb/kmb_plane.c | 15 +++++++++++++--
- 2 files changed, 27 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/kmb/kmb_drv.c | 8 ++++----
+ drivers/gpu/drm/kmb/kmb_drv.h | 5 +++++
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 96ea1a2c11dd..c0b1c6f99249 100644
+index c0b1c6f99249..f54392ec4fab 100644
 --- a/drivers/gpu/drm/kmb/kmb_drv.c
 +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -203,6 +203,7 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
- 	unsigned long status, val, val1;
- 	int plane_id, dma0_state, dma1_state;
- 	struct kmb_drm_private *kmb = to_kmb(dev);
-+	u32 ctrl = 0;
+@@ -425,10 +425,10 @@ static const struct drm_driver kmb_driver = {
+ 	.fops = &fops,
+ 	DRM_GEM_CMA_DRIVER_OPS_VMAP,
+ 	.name = "kmb-drm",
+-	.desc = "KEEMBAY DISPLAY DRIVER ",
+-	.date = "20201008",
+-	.major = 1,
+-	.minor = 0,
++	.desc = "KEEMBAY DISPLAY DRIVER",
++	.date = DRIVER_DATE,
++	.major = DRIVER_MAJOR,
++	.minor = DRIVER_MINOR,
+ };
  
- 	status = kmb_read_lcd(kmb, LCD_INT_STATUS);
- 
-@@ -227,6 +228,19 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
- 				kmb_clr_bitmask_lcd(kmb, LCD_CONTROL,
- 						    kmb->plane_status[plane_id].ctrl);
- 
-+				ctrl = kmb_read_lcd(kmb, LCD_CONTROL);
-+				if (!(ctrl & (LCD_CTRL_VL1_ENABLE |
-+				    LCD_CTRL_VL2_ENABLE |
-+				    LCD_CTRL_GL1_ENABLE |
-+				    LCD_CTRL_GL2_ENABLE))) {
-+					/* If no LCD layers are using DMA,
-+					 * then disable DMA pipelined AXI read
-+					 * transactions.
-+					 */
-+					kmb_clr_bitmask_lcd(kmb, LCD_CONTROL,
-+							    LCD_CTRL_PIPELINE_DMA);
-+				}
+ static int kmb_remove(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
+index 02e806712a64..ebbaa5f422d5 100644
+--- a/drivers/gpu/drm/kmb/kmb_drv.h
++++ b/drivers/gpu/drm/kmb/kmb_drv.h
+@@ -15,6 +15,11 @@
+ #define KMB_MAX_HEIGHT			1080 /*Max height in pixels */
+ #define KMB_MIN_WIDTH                   1920 /*Max width in pixels */
+ #define KMB_MIN_HEIGHT                  1080 /*Max height in pixels */
 +
- 				kmb->plane_status[plane_id].disable = false;
- 			}
- 		}
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index d5b6195856d1..2888dd5dcc2c 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -427,8 +427,14 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 
- 	kmb_set_bitmask_lcd(kmb, LCD_CONTROL, ctrl);
- 
--	/* FIXME no doc on how to set output format,these values are
--	 * taken from the Myriadx tests
-+	/* Enable pipeline AXI read transactions for the DMA
-+	 * after setting graphics layers. This must be done
-+	 * in a separate write cycle.
-+	 */
-+	kmb_set_bitmask_lcd(kmb, LCD_CONTROL, LCD_CTRL_PIPELINE_DMA);
++#define DRIVER_DATE			"20210223"
++#define DRIVER_MAJOR			1
++#define DRIVER_MINOR			1
 +
-+	/* FIXME no doc on how to set output format,these values are taken
-+	 * from the Myriadx tests
- 	 */
- 	out_format |= LCD_OUTF_FORMAT_RGB888;
+ #define KMB_LCD_DEFAULT_CLK		200000000
+ #define KMB_SYS_CLK_MHZ			500
  
-@@ -526,6 +532,11 @@ struct kmb_plane *kmb_plane_init(struct drm_device *drm)
- 		plane->id = i;
- 	}
- 
-+	/* Disable pipeline AXI read transactions for the DMA
-+	 * prior to setting graphics layers
-+	 */
-+	kmb_clr_bitmask_lcd(kmb, LCD_CONTROL, LCD_CTRL_PIPELINE_DMA);
-+
- 	return primary;
- cleanup:
- 	drmm_kfree(drm, plane);
 -- 
 2.25.1
 
