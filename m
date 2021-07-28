@@ -1,38 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0212A3D84BC
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 02:32:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C593D84E4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jul 2021 02:53:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 294706EB61;
-	Wed, 28 Jul 2021 00:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3C76EB6E;
+	Wed, 28 Jul 2021 00:53:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC0A6EB61
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 00:32:38 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10058"; a="209442034"
-X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="209442034"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 17:32:38 -0700
-X-IronPort-AV: E=Sophos;i="5.84,275,1620716400"; d="scan'208";a="634583515"
-Received: from mamarti1-mobl.amr.corp.intel.com (HELO
- achrisan-desk3.intel.com) ([10.212.71.161])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2021 17:32:38 -0700
-From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
- edmund.j.dea@intel.com
-Subject: [PATCH 14/14] drm/kmb: Enable support for fbcon (framebuffer console)
-Date: Tue, 27 Jul 2021 17:31:26 -0700
-Message-Id: <20210728003126.1425028-14-anitha.chrisanthus@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
-References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC5366EB6E
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 00:53:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 871DE60F9D;
+ Wed, 28 Jul 2021 00:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627433597;
+ bh=V7BMF/FvyWPzFRxxOCJEliV/8jG21FrrgDKLm323gMc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E95F9MNM8J/ruiWgqyL/OWAja7QE9lwWMH1hn56E1drKRJHzRI71JR4r7Q1k8mdzZ
+ THWkufcNZzoKNvRSMagzkbUm27LRKFtlehEUMH4pc70s3QrW6G3K+Za3ex2enBCoxi
+ RxhJ9V6QnTgQHZb3fPI3lSYsKzdqo6n8/Tgv0EC3YiuNFdbETPAJSI9xdS+/M7M93Z
+ TIznOV5w1BAv74+8tyDs6nkDSQPXknW0EwQBtxRDhtH80R5NW6BJOxUkiqCx19Jyg4
+ CTZaFhhXp8bu5AnQZCfWe6BVJR4do/lHoLrJuxUaJIaQms4USCSRZmPotcjAMpAHYG
+ buZPMn28624/A==
+Date: Tue, 27 Jul 2021 19:55:46 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
+ region
+Message-ID: <20210728005546.GA35706@embeddedor>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-2-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210727205855.411487-2-keescook@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,66 +48,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kbuild@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-block@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Keith Packard <keithpac@amazon.com>,
+ linux-hardening@vger.kernel.org, netdev@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Edmund Dea <edmund.j.dea@intel.com>
+On Tue, Jul 27, 2021 at 01:57:52PM -0700, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields.  Wrap the target region
+> in a common named structure. This additionally fixes a theoretical
+> misalignment of the copy (since the size of "buf" changes between 64-bit
+> and 32-bit, but this is likely never built for 64-bit).
+> 
+> FWIW, I think this code is totally broken on 64-bit (which appears to
+> not be a "real" build configuration): it would either always fail (with
+> an uninitialized data->buf_size) or would cause corruption in userspace
+> due to the copy_to_user() in the call path against an uninitialized
+> data->buf value:
+> 
+> omap3isp_stat_request_statistics_time32(...)
+>     struct omap3isp_stat_data data64;
+>     ...
+>     omap3isp_stat_request_statistics(stat, &data64);
+> 
+> int omap3isp_stat_request_statistics(struct ispstat *stat,
+>                                      struct omap3isp_stat_data *data)
+>     ...
+>     buf = isp_stat_buf_get(stat, data);
+> 
+> static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
+>                                                struct omap3isp_stat_data *data)
+> ...
+>     if (buf->buf_size > data->buf_size) {
+>             ...
+>             return ERR_PTR(-EINVAL);
+>     }
+>     ...
+>     rval = copy_to_user(data->buf,
+>                         buf->virt_addr,
+>                         buf->buf_size);
+> 
+> Regardless, additionally initialize data64 to be zero-filled to avoid
+> undefined behavior.
+> 
+> Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  drivers/media/platform/omap3isp/ispstat.c |  5 +--
+>  include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
+>  2 files changed, 36 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> index 5b9b57f4d9bf..ea8222fed38e 100644
+> --- a/drivers/media/platform/omap3isp/ispstat.c
+> +++ b/drivers/media/platform/omap3isp/ispstat.c
+> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+>  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  					struct omap3isp_stat_data_time32 *data)
+>  {
+> -	struct omap3isp_stat_data data64;
+> +	struct omap3isp_stat_data data64 = { };
+>  	int ret;
+>  
+>  	ret = omap3isp_stat_request_statistics(stat, &data64);
+> @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  
+>  	data->ts.tv_sec = data64.ts.tv_sec;
+>  	data->ts.tv_usec = data64.ts.tv_usec;
+> -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
+> +	data->buf = (uintptr_t)data64.buf;
+> +	memcpy(&data->frame, &data64.buf, sizeof(data->frame));
 
-Enable support for fbcon (framebuffer console).
-The user can initialize fbcon by loading kmb-drm with the parameter
-console=1.
+I think this should be:
 
-Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
----
- drivers/gpu/drm/kmb/kmb_drv.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+	memcpy(..., &data64.frame, ...);
 
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index d0de1db03493..d39d004f513a 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/clk.h>
- #include <linux/module.h>
-+#include <linux/moduleparam.h>
- #include <linux/of_graph.h>
- #include <linux/of_platform.h>
- #include <linux/of_reserved_mem.h>
-@@ -15,6 +16,7 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_irq.h>
-@@ -25,7 +27,13 @@
- #include "kmb_dsi.h"
- #include "kmb_regs.h"
- 
--static int kmb_display_clk_enable(struct kmb_drm_private *kmb)
-+/* Module Parameters */
-+static bool console;
-+module_param(console, bool, 0400);
-+MODULE_PARM_DESC(console,
-+		 "Enable framebuffer console support (0=disable [default], 1=on)");
-+
-+int kmb_display_clk_enable(struct kmb_drm_private *kmb)
- {
- 	int ret = 0;
- 
-@@ -546,6 +554,9 @@ static int kmb_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_register;
- 
-+	if (console)
-+		drm_fbdev_generic_setup(&kmb->drm, 32);
-+
- 	return 0;
- 
-  err_register:
--- 
-2.25.1
+instead.
 
+--
+Gustavo
+
+>  
+>  	return 0;
+>  }
+> diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
+> index 87b55755f4ff..0a16af91621f 100644
+> --- a/include/uapi/linux/omap3isp.h
+> +++ b/include/uapi/linux/omap3isp.h
+> @@ -159,13 +159,25 @@ struct omap3isp_h3a_aewb_config {
+>  };
+>  
+>  /**
+> - * struct omap3isp_stat_data - Statistic data sent to or received from user
+> - * @ts: Timestamp of returned framestats.
+> - * @buf: Pointer to pass to user.
+> + * struct omap3isp_stat_frame - Statistic data without timestamp nor pointer.
+> + * @buf_size: Size of buffer.
+>   * @frame_number: Frame number of requested stats.
+>   * @cur_frame: Current frame number being processed.
+>   * @config_counter: Number of the configuration associated with the data.
+>   */
+> +struct omap3isp_stat_frame {
+> +	__u32 buf_size;
+> +	__u16 frame_number;
+> +	__u16 cur_frame;
+> +	__u16 config_counter;
+> +};
+> +
+> +/**
+> + * struct omap3isp_stat_data - Statistic data sent to or received from user
+> + * @ts: Timestamp of returned framestats.
+> + * @buf: Pointer to pass to user.
+> + * @frame: Statistic data for frame.
+> + */
+>  struct omap3isp_stat_data {
+>  #ifdef __KERNEL__
+>  	struct {
+> @@ -176,10 +188,15 @@ struct omap3isp_stat_data {
+>  	struct timeval ts;
+>  #endif
+>  	void __user *buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	union {
+> +		struct {
+> +			__u32 buf_size;
+> +			__u16 frame_number;
+> +			__u16 cur_frame;
+> +			__u16 config_counter;
+> +		};
+> +		struct omap3isp_stat_frame frame;
+> +	};
+>  };
+>  
+>  #ifdef __KERNEL__
+> @@ -189,10 +206,15 @@ struct omap3isp_stat_data_time32 {
+>  		__s32	tv_usec;
+>  	} ts;
+>  	__u32 buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	union {
+> +		struct {
+> +			__u32 buf_size;
+> +			__u16 frame_number;
+> +			__u16 cur_frame;
+> +			__u16 config_counter;
+> +		};
+> +		struct omap3isp_stat_frame frame;
+> +	};
+>  };
+>  #endif
+>  
+> -- 
+> 2.30.2
+> 
