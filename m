@@ -2,70 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF7E3DA2E0
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 14:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D80A3DA2FA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 14:18:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057156E0EC;
-	Thu, 29 Jul 2021 12:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D05C6ED80;
+	Thu, 29 Jul 2021 12:18:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835296E0EC
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 12:11:31 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id b7so6658471wri.8
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 05:11:31 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B856ED80
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 12:18:33 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ h24-20020a1ccc180000b029022e0571d1a0so3895860wmb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 05:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=8Nz6vB9p8A0wBJs6kkDYFIrrTzDZDT+uS9XB0IAUyko=;
- b=IX9QYptYV6st0L1XmOo2+ZVTD1czWMC0yv2A0wEKs5uhoKxyG1M8hYGFid/Rc9caoJ
- g3s8uihSolFDNGNVDmh/KcSkUnjuvxHUSlZem764aZk2d9p45qyVKzkwnR65zmpbIjwe
- oixk5YiEQMSk6egRcnGh8U5DvdkvMLdRPa8MA=
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=K4XS3jQDbEhTY4vhox2tdi5eMV9YDnW9YG1Sohr9u2s=;
+ b=U63mBHus6cpWixWrdLqgH3fsIR0xA3Sg/F8vRn330H6P96Mp0QmZ7KiW0lbiqiSf5P
+ pA5BMVC6ldBDPT0Sdpo3bgyujN3F1l993wnSO59bW+56hlfxOfCmd77puUhbxWpFhJgc
+ IA4qXHHBGYM8AeNxjSwAGGJu05lE8fkvJXm6k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=8Nz6vB9p8A0wBJs6kkDYFIrrTzDZDT+uS9XB0IAUyko=;
- b=WbSrG5XHeVDVItDylfKA2doJCAaP6i0rQHkbYQgQSFOv04hfHKxyYbBxKInXX5U7Kg
- nQdimCz6+165opoZ5hJhZE6UQKvTZP7Od2sA9xVqXVmX6k7zlYhH3Lwxq0RXb/gCsGqz
- vV4Wem3CN3NEBs0Uat6Rd+H6D7jcFBvdFk4MIgjmr0eYXEEkNS60o4eSqMGTkoV/WQrs
- c3R9KmChjfvL58m1boS80uLod9kkvHTc8wxow9m2dcCphBzZ8fRs+rQNmyjzo3ylqTd0
- +iSYlCx9XIw9dNmPjGRNa7xHOB1ys+sUQJ5FhRda4cetHQBTEfzrMz/SrMAaM2o2II9d
- NJ2A==
-X-Gm-Message-State: AOAM530vUyHDgMpDsxYYFihVYgSDP8FuU4c4n5lpoMedjC0iPAvZk9WE
- 4KHppl0gwMm1qBG/oywWpYJw1A==
-X-Google-Smtp-Source: ABdhPJyxNFOOp917FBlh8xg1Ee/DiYPVZ7Er8zzOKotZZKyVJ/yUFb4NW2JEu0Us3Suihgl1chkn3Q==
-X-Received: by 2002:a5d:4e91:: with SMTP id e17mr4462754wru.7.1627560689971;
- Thu, 29 Jul 2021 05:11:29 -0700 (PDT)
+ :content-transfer-encoding:in-reply-to;
+ bh=K4XS3jQDbEhTY4vhox2tdi5eMV9YDnW9YG1Sohr9u2s=;
+ b=F95e3EqR07Srd/Wi4SXNsO9B8fUdlKuQ4WvCwCbRg3ywPaYFQnurzu+nITInoN9WfP
+ wbkYhgC6vOO367o1uo2DaqE+El948CtW6yH1Fw5L891w1KQyUkBdSaiGj9D57NSDEXvZ
+ P0HWdMiRI9aSFi65N53J0MfgmKeC29jf1/DqJOdy9oLBblAhPufPCbSeVNEdE4ISffEz
+ 7QPdG42lF0gP6ectMP5AYQu6Qw5HIbfmcvkA7vfW7TAIXqJV4TtPRgdNGUbGTVuNsHIG
+ 5THqLDuo0A+Zqogcv2lnlBq/DdXAYCwmXcW+UTdHN5opNjk4plh6NuAFWKu4HoU6gGQR
+ q+nw==
+X-Gm-Message-State: AOAM532PHQGpSVl7WHuEZo2e/NEIxf2Z14XQ58cMOOtGZkxk/cr1oXBt
+ ZIMnTPinhmXKBBX1FjtObcZgKg==
+X-Google-Smtp-Source: ABdhPJyQpJTA1ak/werqdV/qBjPra4SeA8v+xZEOpcOm43FkOHkPAROt99M4EftcdD3ZSY1URgB8Zg==
+X-Received: by 2002:a05:600c:4f96:: with SMTP id
+ n22mr4429287wmq.137.1627561112158; 
+ Thu, 29 Jul 2021 05:18:32 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a14sm3323850wrf.97.2021.07.29.05.11.28
+ by smtp.gmail.com with ESMTPSA id v5sm3379855wrd.74.2021.07.29.05.18.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 05:11:29 -0700 (PDT)
-Date: Thu, 29 Jul 2021 14:11:27 +0200
+ Thu, 29 Jul 2021 05:18:31 -0700 (PDT)
+Date: Thu, 29 Jul 2021 14:18:29 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 25/64] drm/mga/mga_ioc32: Use struct_group() for memcpy()
- region
-Message-ID: <YQKa76A6XuFqgM03@phenom.ffwll.local>
-Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
- netdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
- Keith Packard <keithpac@amazon.com>,
- linux-hardening@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-26-keescook@chromium.org>
- <YQDxmEYfppJ4wAmD@kroah.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+Message-ID: <YQKclVvL+QeeL6cP@phenom.ffwll.local>
+Mail-Followup-To: Pekka Paalanen <ppaalanen@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ Rob Clark <robdclark@chromium.org>,
+ Matthew Brost <matthew.brost@intel.com>, Roy Sun <Roy.Sun@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Lee Jones <lee.jones@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+ <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+ <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
+ <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+ <CAF6AEGu409eY9xznTAaBf2ZDcV_AaDELUzN2afWgiHwB_uBwqg@mail.gmail.com>
+ <YQJUKXgf/Q957fmy@phenom.ffwll.local>
+ <ff394f2b-b555-e80f-b685-d0d59e2bbe67@daenzer.net>
+ <YQJu6AqKn7bdT1li@phenom.ffwll.local>
+ <20210729123732.3259a9bf@eldfell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YQDxmEYfppJ4wAmD@kroah.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210729123732.3259a9bf@eldfell>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,174 +92,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
- netdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
- Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 28, 2021 at 07:56:40AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Jul 27, 2021 at 01:58:16PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memcpy(), memmove(), and memset(), avoid
-> > intentionally writing across neighboring fields.
-> > 
-> > Use struct_group() in struct drm32_mga_init around members chipset, sgram,
-> > maccess, fb_cpp, front_offset, front_pitch, back_offset, back_pitch,
-> > depth_cpp, depth_offset, depth_pitch, texture_offset, and texture_size,
-> > so they can be referenced together. This will allow memcpy() and sizeof()
-> > to more easily reason about sizes, improve readability, and avoid future
-> > warnings about writing beyond the end of chipset.
-> > 
-> > "pahole" shows no size nor member offset changes to struct drm32_mga_init.
-> > "objdump -d" shows no meaningful object code changes (i.e. only source
-> > line number induced differences and optimizations).
-> > 
-> > Note that since this includes a UAPI header, struct_group() has been
-> > explicitly redefined local to the header.
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  drivers/gpu/drm/mga/mga_ioc32.c | 30 ++++++++++++++------------
-> >  include/uapi/drm/mga_drm.h      | 37 ++++++++++++++++++++++++---------
-> >  2 files changed, 44 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mga/mga_ioc32.c b/drivers/gpu/drm/mga/mga_ioc32.c
-> > index 4fd4de16cd32..fbd0329dbd4f 100644
-> > --- a/drivers/gpu/drm/mga/mga_ioc32.c
-> > +++ b/drivers/gpu/drm/mga/mga_ioc32.c
-> > @@ -38,16 +38,21 @@
-> >  typedef struct drm32_mga_init {
-> >  	int func;
-> >  	u32 sarea_priv_offset;
-> > -	int chipset;
-> > -	int sgram;
-> > -	unsigned int maccess;
-> > -	unsigned int fb_cpp;
-> > -	unsigned int front_offset, front_pitch;
-> > -	unsigned int back_offset, back_pitch;
-> > -	unsigned int depth_cpp;
-> > -	unsigned int depth_offset, depth_pitch;
-> > -	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
-> > -	unsigned int texture_size[MGA_NR_TEX_HEAPS];
-> > +	struct_group(always32bit,
-> > +		int chipset;
-> > +		int sgram;
-> > +		unsigned int maccess;
-> > +		unsigned int fb_cpp;
-> > +		unsigned int front_offset;
-> > +		unsigned int front_pitch;
-> > +		unsigned int back_offset;
-> > +		unsigned int back_pitch;
-> > +		unsigned int depth_cpp;
-> > +		unsigned int depth_offset;
-> > +		unsigned int depth_pitch;
-> > +		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
-> > +		unsigned int texture_size[MGA_NR_TEX_HEAPS];
-> > +	);
-> >  	u32 fb_offset;
-> >  	u32 mmio_offset;
-> >  	u32 status_offset;
-> > @@ -67,9 +72,8 @@ static int compat_mga_init(struct file *file, unsigned int cmd,
-> >  
-> >  	init.func = init32.func;
-> >  	init.sarea_priv_offset = init32.sarea_priv_offset;
-> > -	memcpy(&init.chipset, &init32.chipset,
-> > -		offsetof(drm_mga_init_t, fb_offset) -
-> > -		offsetof(drm_mga_init_t, chipset));
-> > +	memcpy(&init.always32bit, &init32.always32bit,
-> > +	       sizeof(init32.always32bit));
-> >  	init.fb_offset = init32.fb_offset;
-> >  	init.mmio_offset = init32.mmio_offset;
-> >  	init.status_offset = init32.status_offset;
-> > diff --git a/include/uapi/drm/mga_drm.h b/include/uapi/drm/mga_drm.h
-> > index 8c4337548ab5..61612e5ecab2 100644
-> > --- a/include/uapi/drm/mga_drm.h
-> > +++ b/include/uapi/drm/mga_drm.h
-> > @@ -265,6 +265,16 @@ typedef struct _drm_mga_sarea {
-> >  #define DRM_IOCTL_MGA_WAIT_FENCE    DRM_IOWR(DRM_COMMAND_BASE + DRM_MGA_WAIT_FENCE, __u32)
-> >  #define DRM_IOCTL_MGA_DMA_BOOTSTRAP DRM_IOWR(DRM_COMMAND_BASE + DRM_MGA_DMA_BOOTSTRAP, drm_mga_dma_bootstrap_t)
-> >  
-> > +#define __struct_group(name, fields) \
-> > +	union { \
-> > +		struct { \
-> > +			fields \
-> > +		}; \
-> > +		struct { \
-> > +			fields \
-> > +		} name; \
-> > +	}
-> > +
-> >  typedef struct _drm_mga_warp_index {
-> >  	int installed;
-> >  	unsigned long phys_addr;
-> > @@ -279,20 +289,25 @@ typedef struct drm_mga_init {
-> >  
-> >  	unsigned long sarea_priv_offset;
-> >  
-> > -	int chipset;
-> > -	int sgram;
-> > +	__struct_group(always32bit,
-> > +		int chipset;
-> > +		int sgram;
-> >  
-> > -	unsigned int maccess;
-> > +		unsigned int maccess;
-> >  
-> > -	unsigned int fb_cpp;
-> > -	unsigned int front_offset, front_pitch;
-> > -	unsigned int back_offset, back_pitch;
-> > +		unsigned int fb_cpp;
-> > +		unsigned int front_offset;
-> > +		unsigned int front_pitch;
-> > +		unsigned int back_offset;
-> > +		unsigned int back_pitch;
-> >  
-> > -	unsigned int depth_cpp;
-> > -	unsigned int depth_offset, depth_pitch;
-> > +		unsigned int depth_cpp;
-> > +		unsigned int depth_offset;
-> > +		unsigned int depth_pitch;
-> >  
-> > -	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
-> > -	unsigned int texture_size[MGA_NR_TEX_HEAPS];
-> > +		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
-> > +		unsigned int texture_size[MGA_NR_TEX_HEAPS];
-> > +	);
-> >  
-> >  	unsigned long fb_offset;
-> >  	unsigned long mmio_offset;
-> > @@ -302,6 +317,8 @@ typedef struct drm_mga_init {
-> >  	unsigned long buffers_offset;
-> >  } drm_mga_init_t;
-> >  
-> > +#undef __struct_group
-> > +
+On Thu, Jul 29, 2021 at 12:37:32PM +0300, Pekka Paalanen wrote:
+> On Thu, 29 Jul 2021 11:03:36 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
 > 
-> Why can you use __struct_group in this uapi header, but not the
-> networking one?
+> > On Thu, Jul 29, 2021 at 10:17:43AM +0200, Michel Dänzer wrote:
+> > > On 2021-07-29 9:09 a.m., Daniel Vetter wrote:  
+> > > > On Wed, Jul 28, 2021 at 08:34:13AM -0700, Rob Clark wrote:  
+> > > >> On Wed, Jul 28, 2021 at 6:24 AM Michel Dänzer <michel@daenzer.net> wrote:  
+> > > >>> On 2021-07-28 3:13 p.m., Christian König wrote:  
+> > > >>>> Am 28.07.21 um 15:08 schrieb Michel Dänzer:  
+> > > >>>>> On 2021-07-28 1:36 p.m., Christian König wrote:  
+> > > >>>>>> Am 27.07.21 um 17:37 schrieb Rob Clark:  
+> > > >>>>>>> On Tue, Jul 27, 2021 at 8:19 AM Michel Dänzer <michel@daenzer.net> wrote:  
+> > > >>>>>>>> On 2021-07-27 5:12 p.m., Rob Clark wrote:  
+> > > >>>>>>>>> On Tue, Jul 27, 2021 at 7:50 AM Michel Dänzer <michel@daenzer.net> wrote:  
+> > > >>>>>>>>>> On 2021-07-27 1:38 a.m., Rob Clark wrote:  
+> > > >>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
+> > > >>>>>>>>>>>
+> > > >>>>>>>>>>> Based on discussion from a previous series[1] to add a "boost" mechanism
+> > > >>>>>>>>>>> when, for example, vblank deadlines are missed.  Instead of a boost
+> > > >>>>>>>>>>> callback, this approach adds a way to set a deadline on the fence, by
+> > > >>>>>>>>>>> which the waiter would like to see the fence signalled.
+> 
+> ...
+> 
+> > > I'm not questioning that this approach helps when there's a direct
+> > > chain of fences from the client to the page flip. I'm pointing out
+> > > there will not always be such a chain.
+> > > 
+> > >   
+> > > >> But maybe the solution to make this also useful for mutter  
+> > > 
+> > > It's not just mutter BTW. I understand gamescope has been doing
+> > > this for some time already. And there seems to be consensus among
+> > > developers of Wayland compositors that this is needed, so I expect
+> > > at least all the major compositors to do this longer term.
+> > > 
+> > >   
+> > > >> is to, once we have deadline support, extend it with an ioctl to
+> > > >> the dma-fence fd so userspace can be the one setting the
+> > > >> deadline.  
+> > > 
+> > > I was thinking in a similar direction.
+> > >   
+> > > > atomic ioctl with TEST_ONLY and SET_DEADLINES? Still gives mutter
+> > > > the option to bail out with an old frame if it's too late?  
+> > > 
+> > > This is a bit cryptic though, can you elaborate?  
+> > 
+> > So essentially when the mutter compositor guesstimator is fairly
+> > confident about the next frame's composition (recall you're keeping
+> > track of clients to estimate their usual latency or something like
+> > that), then it does a TEST_ONLY commit to check it all works and prep
+> > the rendering, but _not_ yet fire it off.
+> > 
+> > Instead it waits until all buffers complete, and if some don't, pick
+> > the previous one. Which I guess in an extreme case would mean you
+> > need a different window tree configuration and maybe different
+> > TEST_ONLY check and all that, not sure how you solve that.
+> > 
+> > Anyway, in that TEST_ONLY commit my idea is that you'd also supply
+> > all the in-fences you expect to depend upon (maybe we need an
+> > additional list of in-fences for your rendering job), plus a deadline
+> > when you want to have them done (so that there's enough time for your
+> > render job still). And the kernel then calls dma_fence_set_deadline
+> > on all of them.
+> > 
+> > Pondering this more, maybe a separate ioctl is simpler where you just
+> > supply a list of in-fences and deadlines.
+> > 
+> > The real reason I want to tie this to atomic is for priviledge
+> > checking reasons. I don't think normal userspace should have the
+> > power to set arbitrary deadlines like this - at least on i915 it will
+> > also give you a slight priority boost and stuff like that, to make
+> > sure your rendering for the current frame goes in ahead of the next
+> > frame's prep work.
+> > 
+> > So maybe just a new ioctl that does this which is limited to the
+> > current kms owner (aka drm_master)?
+> 
+> Yeah.
+> 
+> Why not have a Wayland compositor *always* "set the deadlines" for the
+> next screen update as soon as it gets the wl_surface.commit with the
+> new buffer and fences (a simplified description of what is actually
+> necessary to take a new window state set into use)?
 
-If there's others, maybe we can stuff the uapi __struct_group into
-linux/types.h where all the other __ uapi types hang out?
+Yeah taht's probably best. And if the frame is scheduled (video at 24fps
+or whatever) you can also immediately set the deadline for that too, just
+a few frames later. Always minus compositor budget taken into account.
 
-Anyway mga is very dead, I don't anyone cares.
+> The Wayland client posted the frame to the compositor, so surely it
+> wants it ready and displayed ASAP. If we happen to have a Wayland frame
+> queuing extension, then also take that into account when setting the
+> deadline.
+> 
+> Then, *independently* of that, the compositor will choose which frames
+> it will actually use in its composition when the time comes.
+> 
+> No need for any KMS atomic commit fiddling, userspace just explicitly
+> sets the deadline on the fence and that's it. You could tie the
+> privilege of setting deadlines to simply holding DRM master on whatever
+> device? So the ioctl would need both the fence and any DRM device fd.
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Yeah tying that up with atomic doesn't make sense.
 
-I'm assuming this goes in through a topic pull from you?
+> A rogue application opening a DRM device and becoming DRM master on it
+> just to be able to abuse deadlines feels both unlikely and with
+> insignificant consequences. It stops the obvious abuse, and if someone
+> actually goes the extra effort, then so what.
 
-I'll leave the drm/amd one to figure out between you and Alex.
+With logind you can't become drm master just for lolz anymore, so I'm not
+worried about that. On such systems only logind has the rights to access
+the primary node, everyone doing headless goes through the render node.
+
+So just limiting the deadline ioctl to current kms owner is imo perfectly
+good enough for a security model.
 -Daniel
-
-> 
-> thanks,
-> 
-> greg k-h
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
