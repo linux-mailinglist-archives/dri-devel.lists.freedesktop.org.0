@@ -2,72 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F7A3D9E74
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 09:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1C43D9F36
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 10:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFED6ECC2;
-	Thu, 29 Jul 2021 07:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1B396E51B;
+	Thu, 29 Jul 2021 08:09:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8A6F6ECBB
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 07:30:23 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id b11so279515wrx.6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 00:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=Tb+0rRKuqDnjOL1ASnfrRF1A89N4P92fMWjclPMkDss=;
- b=DOm1OvhgzgwgHgDIrraZ03XoHOA+d6dH762ZTJo+E6S39/5h6jRhFRd+nsUazfCfLf
- S2Lkxsdk7hwdmUXxR5OwXDEk4YRTKj7sadSS89ys7t7SG5QJL5cy5+h4oeCB0txEXIsE
- dEHc7JF5fJepkGCz2g+EKTUszzyxAsZeEzsgs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=Tb+0rRKuqDnjOL1ASnfrRF1A89N4P92fMWjclPMkDss=;
- b=nqU6OPlfocaQAMa6eGoB6Pxoa2/hN07zF2na5hNA/k6Kkd7vC9efct49r3MyMbQ3hU
- 8ym5mp+aJ5totVMiMzhbzCdwMdpFMAL4H+Qz+/sZ5gmXwJm2MbMQXbcZGmBCxorkpcUZ
- R6Dq4PiDqAEiS6fLakD7Tc8DXPVqEoAlvB/YDUaCrG5V3yhg+sH+vO81J6wIG1rll8Av
- AMvIsRf9UOID05ywe4LI6sF5BWzLcnO2NmX84UH35Unq0u+J6xC1gVMx3+v1lK7FqrJ4
- Ae+O1Yj01fXiFONmI7Mjd0TvE5dbUodbUNLnPqlcnZyNVGCC0zeBaGWLEp8e9rjd0Ozu
- 40ww==
-X-Gm-Message-State: AOAM530Qs0btXo91QVjzNOzQ2ZOY7BNl44GTSsDV6Zu44lBbFhhl9/co
- VMTbxtUR3TUQR91veCne8MrxVw==
-X-Google-Smtp-Source: ABdhPJzVoNhNuWzyJb6b5KpqveRPXRf80R7n4sTS1a3iK3O41OT/IBBs23MW0vHKeYXlErBFvWWpYQ==
-X-Received: by 2002:a5d:53ca:: with SMTP id a10mr1549831wrw.197.1627543822183; 
- Thu, 29 Jul 2021 00:30:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q22sm2207751wmc.16.2021.07.29.00.30.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 00:30:21 -0700 (PDT)
-Date: Thu, 29 Jul 2021 09:30:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [Intel-gfx] refactor the i915 GVT support
-Message-ID: <YQJZCwyT9YSZWLnO@phenom.ffwll.local>
-Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
- Jason Gunthorpe <jgg@nvidia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
-References: <20210721155355.173183-1-hch@lst.de>
- <DM4PR11MB55496531B246A4604FC86998CAE49@DM4PR11MB5549.namprd11.prod.outlook.com>
- <20210722112636.wj277vqhg4dez5ug@sirius.home.kraxel.org>
- <20210727121224.GA2145868@nvidia.com>
- <DM4PR11MB5549EC882AA6076F3468274DCAEA9@DM4PR11MB5549.namprd11.prod.outlook.com>
- <20210728175925.GU1721383@nvidia.com>
- <20210729072022.GB31896@lst.de>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 814416E51B
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 08:09:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 9624E20201B;
+ Thu, 29 Jul 2021 10:09:05 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id qMf5KNcZpsS5; Thu, 29 Jul 2021 10:09:05 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 525BC20201A;
+ Thu, 29 Jul 2021 10:09:04 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1m916A-00140j-Bn; Thu, 29 Jul 2021 10:08:58 +0200
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+ <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+ <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+ <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+ <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
+ <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+ <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
+ <20210728165700.38c39cf8@eldfell>
+ <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+Message-ID: <fab1c1e6-64cb-6bab-4bc3-e61441174e2f@daenzer.net>
+Date: Thu, 29 Jul 2021 10:08:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210729072022.GB31896@lst.de>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,55 +63,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
+ Jack Zhang <Jack.Zhang1@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 29, 2021 at 09:20:22AM +0200, Christoph Hellwig wrote:
-> On Wed, Jul 28, 2021 at 02:59:25PM -0300, Jason Gunthorpe wrote:
-> > On Wed, Jul 28, 2021 at 01:38:58PM +0000, Wang, Zhi A wrote:
-> > 
-> > > I guess those APIs you were talking about are KVM-only. For other
-> > > hypervisors, e.g. Xen, ARCN cannot use the APIs you mentioned. Not
-> > > sure if you have already noticed that VFIO is KVM-only right now.
-> > 
-> > There is very little hard connection between VFIO and KVM, so no, I
-> > don't think that is completely true.
+On 2021-07-28 4:30 p.m., Christian König wrote:
+> Am 28.07.21 um 15:57 schrieb Pekka Paalanen:
+>> On Wed, 28 Jul 2021 15:31:41 +0200
+>> Christian König <christian.koenig@amd.com> wrote:
+>>
+>>> Am 28.07.21 um 15:24 schrieb Michel Dänzer:
+>>>> On 2021-07-28 3:13 p.m., Christian König wrote:
+>>>>> Am 28.07.21 um 15:08 schrieb Michel Dänzer:
+>>>>>> On 2021-07-28 1:36 p.m., Christian König wrote:
+>>>>>>> At least AMD hardware is already capable of flipping frames on GPU events like finishing rendering (or uploading etc).
+>>>>>>>
+>>>>>>> By waiting in userspace on the CPU before send the frame to the hardware you are completely killing of such features.
+>>>>>>>
+>>>>>>> For composing use cases that makes sense, but certainly not for full screen applications as far as I can see.
+>>>>>> Even for fullscreen, the current KMS API only allows queuing a single page flip per CRTC, with no way to cancel or otherwise modify it. Therefore, a Wayland compositor has to set a deadline for the next refresh cycle, and when the deadline passes, it has to select the best buffer available for the fullscreen surface. To make sure the flip will not miss the next refresh cycle, the compositor has to pick an idle buffer. If it picks a non-idle buffer, and the pending rendering does not finish in time for vertical blank, the flip will be delayed by at least one refresh cycle, which results in visible stuttering.
+>>>>>>
+>>>>>> (Until the deadline passes, the Wayland compositor can't even know if a previously fullscreen surface will still be fullscreen for the next refresh cycle)
+>>>>> Well then let's extend the KMS API instead of hacking together workarounds in userspace.
+>>>> That's indeed a possible solution for the fullscreen / direct scanout case.
+>>>>
+>>>> Not for the general compositing case though, since a compositor does not want to composite multiple output frames per display refresh cycle, so it has to make sure the one frame hits the target.
+>>> Yeah, that's true as well.
+>>>
+>>> At least as long as nobody invents a mechanism to do this decision on
+>>> the GPU instead.
+>> That would mean putting the whole window manager into the GPU.
 > 
-> The only connection is the SET_KVM notifier as far as I can tell.
-> Which is used by a total of two drivers, including i915/gvt.  That
-> being said gvt does not only use vfio, but also does quite a few
-> direct cals to KVM.
-> 
-> > In an event, an in-tree version of other hypervisor support for GVT
-> > needs to go through enabling VFIO support so that the existing API
-> > multiplexers we have can be used properly, not adding a shim layer
-> > trying to recreate VFIO inside a GPU driver.
-> 
-> Yes.  And if we go back to actually looking at the series a lot of
-> it just removes entirely pointless indirect calls that go to generic
-> code and not even the kvm code, or questionable data structure designs.
-> If we were to support another upstream hypervisor we'd just need to
-> union a few fields in struct intel_gpu and maybe introduce a few
-> methods.  Preferably in a way that avoids expensive indirect calls
-> in the fast path.
+> Not really. You only need to decide if you want to use the new backing store or the old one based on if the new surface is ready or not.
 
-fwiw I concur with the direction of this series. gvt landed 5 years ago,
-that should have been plenty of time to merge at least one of the other
-backends that float around. If it didn't happen in 5 years it aint
-suddenly happening in the next few, and the abstraction layer should be
-sunset.
+While something like that might be a possible optimization for (probably common) cases where the new buffer does not come with other state changes which affect the output frame beyond the buffer contents, there will always be cases (at least until a Wayland compositor can fully run on the GPU, as Pekka noted somewhat jokingly :) where this needs to be handled on the CPU.
 
-Also yes structuring it more as a helper layer with some
-unions/subclassing than full blown backend abstractor layer would be a
-good idea too I guess (it usually is the right thing to do).
--Daniel
+I'm currently focusing on that general case. Optimizations for special cases may follow later.
+
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
