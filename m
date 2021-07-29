@@ -2,38 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BA13DADE3
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 22:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4882C3DADE6
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 22:49:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A25906EE4F;
-	Thu, 29 Jul 2021 20:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0986EE67;
+	Thu, 29 Jul 2021 20:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFDE6E16D;
- Thu, 29 Jul 2021 20:45:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="234871842"
-X-IronPort-AV: E=Sophos;i="5.84,279,1620716400"; d="scan'208";a="234871842"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 13:45:24 -0700
-X-IronPort-AV: E=Sophos;i="5.84,279,1620716400"; d="scan'208";a="581476681"
-Received: from cvishik-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.255.35.241])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 13:45:23 -0700
-Date: Thu, 29 Jul 2021 16:45:22 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [PATCH v6 02/15] mei: pxp: export pavp client to me client bus
-Message-ID: <YQMTYhnjr+JzQCsw@intel.com>
-References: <20210729020106.18346-1-daniele.ceraolospurio@intel.com>
- <20210729020106.18346-3-daniele.ceraolospurio@intel.com>
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA4C66EE6B;
+ Thu, 29 Jul 2021 20:49:09 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id k4so4542510wms.3;
+ Thu, 29 Jul 2021 13:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w7rlS789IwgWOu8sIYtR7tqkgkaO1gIx+9/djlmIsjw=;
+ b=hePKOPuIIlnAtoZEz8val+chOEf8rJ7kzDrFbr157HgnPoDVRtY059x6N91MtMpQiN
+ i3MqE5tvyQ5TAyTg9vM6mw/qSOYzsd64vgehdXnhKJbddyoOBIKDmlSBN2ac4AFGM0md
+ vfISX61P1x2bWXSzCmxafEDFt66XYhpjkINkU9Z455HUDmfwuko9p63/HAUp/bwgiHtV
+ IMQPamLEriq+766cvyptqUAYmoC3x0HifCe/YVWKcSv4v3SetAx8o83afYhdy61wJOsS
+ 1FLHySZ7pOEur5JsLlXjylFwr/MNuqIHx2d0b4yoR8dExNw5gxakvCgPN0ldJK4BfIiF
+ kTaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w7rlS789IwgWOu8sIYtR7tqkgkaO1gIx+9/djlmIsjw=;
+ b=PZH9Z5zHgg5izFdrvWq3kpBGCZ++JA4pbhctF7nW8JcwRFiTJdRxhHHYgL1spxRXQz
+ mgqdeVqODJZnXvcKm9P6J4WKNHTV9D7UzlkumeBd/BQZs7cEK3eIffP++CqBHiDXkfW3
+ ZJustHErxAtEZCG0I/gIGEOtxzWYGzIheOKcy42Ianga9YmQyn9lYy1tFfqFwa6JMOXI
+ fAnNOXbBAikkxK4Mg054eZc0s5OwwvZ7LjC2H6KrnydC0oeKyVQLwkRDzvDsWZELVpKC
+ XOCIUHPIXziXDa2xEuBZfG1cGgNbnMG3l+rVeJsVPucD7Ae90DnPtlNGwKWEzCxwitFo
+ EgPw==
+X-Gm-Message-State: AOAM531on77DxFFmryWv5C7CLYZDFIN9bPKnect1NUbJHetwXldLRi0J
+ U/mPCFjdq/GAJyrB6vIB6C5SHzc5tKdocTrNeDY=
+X-Google-Smtp-Source: ABdhPJwrrK8qfqv4dkeGpyNXWI9QqAVnY/HT978HGofFkhk6FkqxWZ2UrgZfiUdhYpi3+dyXWle5jXmbiZpkpyKssrA=
+X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr296283wma.164.1627591748230; 
+ Thu, 29 Jul 2021 13:49:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210729020106.18346-3-daniele.ceraolospurio@intel.com>
+References: <20210729183942.2839925-1-robdclark@gmail.com>
+ <1a38a590-a64e-58ef-1bbf-0ae49c004d05@linaro.org>
+ <CAF6AEGs5dzA7kfO89Uqbh3XmorXoEa=fpW+unk5_oaihHm479Q@mail.gmail.com>
+ <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
+In-Reply-To: <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 29 Jul 2021 13:53:17 -0700
+Message-ID: <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
+To: Caleb Connolly <caleb.connolly@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,351 +64,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Tomas Winkler <tomas.winkler@intel.com>,
- dri-devel@lists.freedesktop.org, Vitaly Lubart <vitaly.lubart@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Stephen Boyd <sboyd@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 28, 2021 at 07:00:53PM -0700, Daniele Ceraolo Spurio wrote:
-> From: Vitaly Lubart <vitaly.lubart@intel.com>
-> 
-> Export PAVP client to work with i915 driver,
-> for binding it uses kernel component framework.
-> 
-> v2:drop debug prints, refactor match code to match mei_hdcp (Tomas)
-> 
-> Signed-off-by: Vitaly Lubart <vitaly.lubart@intel.com>
-> Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> #v1
+On Thu, Jul 29, 2021 at 1:28 PM Caleb Connolly
+<caleb.connolly@linaro.org> wrote:
+>
+>
+>
+> On 29/07/2021 21:24, Rob Clark wrote:
+> > On Thu, Jul 29, 2021 at 1:06 PM Caleb Connolly
+> > <caleb.connolly@linaro.org> wrote:
+> >>
+> >> Hi Rob,
+> >>
+> >> I've done some more testing! It looks like before that patch ("drm/msm: Devfreq tuning") the GPU would never get above
+> >> the second frequency in the OPP table (342MHz) (at least, not in glxgears). With the patch applied it would more
+> >> aggressively jump up to the max frequency which seems to be unstable at the default regulator voltages.
+> >
+> > *ohh*, yeah, ok, that would explain it
+> >
+> >> Hacking the pm8005 s1 regulator (which provides VDD_GFX) up to 0.988v (instead of the stock 0.516v) makes the GPU stable
+> >> at the higher frequencies.
+> >>
+> >> Applying this patch reverts the behaviour, and the GPU never goes above 342MHz in glxgears, losing ~30% performance in
+> >> glxgear.
+> >>
+> >> I think (?) that enabling CPR support would be the proper solution to this - that would ensure that the regulators run
+> >> at the voltage the hardware needs to be stable.
+> >>
+> >> Is hacking the voltage higher (although ideally not quite that high) an acceptable short term solution until we have
+> >> CPR? Or would it be safer to just not make use of the higher frequencies on a630 for now?
+> >>
+> >
+> > tbh, I'm not sure about the regulator stuff and CPR.. Bjorn is already
+> > on CC and I added sboyd, maybe one of them knows better.
+> >
+> > In the short term, removing the higher problematic OPPs from dts might
+> > be a better option than this patch (which I'm dropping), since there
+> > is nothing stopping other workloads from hitting higher OPPs.
+> Oh yeah that sounds like a more sensible workaround than mine .
+> >
+> > I'm slightly curious why I didn't have problems at higher OPPs on my
+> > c630 laptop (sdm850)
+> Perhaps you won the sillicon lottery - iirc sdm850 is binned for higher clocks as is out of the factory.
+>
+> Would it be best to drop the OPPs for all devices? Or just those affected? I guess it's possible another c630 might
+> crash where yours doesn't?
 
-shouldn't we use the 2020-2021 in the other headers as well?
+I've not heard any reports of similar issues from the handful of other
+folks with c630's on #aarch64-laptops.. but I can't really say if that
+is luck or not.
 
-anyway, rv-b remains
+Maybe just remove it for affected devices?  But I'll defer to Bjorn.
 
-> ---
->  drivers/misc/mei/Kconfig       |   2 +
->  drivers/misc/mei/Makefile      |   1 +
->  drivers/misc/mei/pxp/Kconfig   |  13 ++
->  drivers/misc/mei/pxp/Makefile  |   7 +
->  drivers/misc/mei/pxp/mei_pxp.c | 229 +++++++++++++++++++++++++++++++++
->  drivers/misc/mei/pxp/mei_pxp.h |  18 +++
->  6 files changed, 270 insertions(+)
->  create mode 100644 drivers/misc/mei/pxp/Kconfig
->  create mode 100644 drivers/misc/mei/pxp/Makefile
->  create mode 100644 drivers/misc/mei/pxp/mei_pxp.c
->  create mode 100644 drivers/misc/mei/pxp/mei_pxp.h
-> 
-> diff --git a/drivers/misc/mei/Kconfig b/drivers/misc/mei/Kconfig
-> index f5fd5b786607..0e0bcd0da852 100644
-> --- a/drivers/misc/mei/Kconfig
-> +++ b/drivers/misc/mei/Kconfig
-> @@ -47,3 +47,5 @@ config INTEL_MEI_TXE
->  	  Intel Bay Trail
->  
->  source "drivers/misc/mei/hdcp/Kconfig"
-> +source "drivers/misc/mei/pxp/Kconfig"
-> +
-> diff --git a/drivers/misc/mei/Makefile b/drivers/misc/mei/Makefile
-> index f1c76f7ee804..d8e5165917f2 100644
-> --- a/drivers/misc/mei/Makefile
-> +++ b/drivers/misc/mei/Makefile
-> @@ -26,3 +26,4 @@ mei-$(CONFIG_EVENT_TRACING) += mei-trace.o
->  CFLAGS_mei-trace.o = -I$(src)
->  
->  obj-$(CONFIG_INTEL_MEI_HDCP) += hdcp/
-> +obj-$(CONFIG_INTEL_MEI_PXP) += pxp/
-> diff --git a/drivers/misc/mei/pxp/Kconfig b/drivers/misc/mei/pxp/Kconfig
-> new file mode 100644
-> index 000000000000..4029b96afc04
-> --- /dev/null
-> +++ b/drivers/misc/mei/pxp/Kconfig
-> @@ -0,0 +1,13 @@
-> +
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) 2020, Intel Corporation. All rights reserved.
-> +#
-> +config INTEL_MEI_PXP
-> +	tristate "Intel PXP services of ME Interface"
-> +	select INTEL_MEI_ME
-> +	depends on DRM_I915
-> +	help
-> +	  MEI Support for PXP Services on Intel platforms.
-> +
-> +	  Enables the ME FW services required for PXP support through
-> +	  I915 display driver of Intel.
-> diff --git a/drivers/misc/mei/pxp/Makefile b/drivers/misc/mei/pxp/Makefile
-> new file mode 100644
-> index 000000000000..0329950d5794
-> --- /dev/null
-> +++ b/drivers/misc/mei/pxp/Makefile
-> @@ -0,0 +1,7 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Copyright (c) 2020, Intel Corporation. All rights reserved.
-> +#
-> +# Makefile - PXP client driver for Intel MEI Bus Driver.
-> +
-> +obj-$(CONFIG_INTEL_MEI_PXP) += mei_pxp.o
-> diff --git a/drivers/misc/mei/pxp/mei_pxp.c b/drivers/misc/mei/pxp/mei_pxp.c
-> new file mode 100644
-> index 000000000000..f7380d387bab
-> --- /dev/null
-> +++ b/drivers/misc/mei/pxp/mei_pxp.c
-> @@ -0,0 +1,229 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright © 2020 - 2021 Intel Corporation
-> + */
-> +
-> +/**
-> + * DOC: MEI_PXP Client Driver
-> + *
-> + * The mei_pxp driver acts as a translation layer between PXP
-> + * protocol  implementer (I915) and ME FW by translating PXP
-> + * negotiation messages to ME FW command payloads and vice versa.
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/slab.h>
-> +#include <linux/uuid.h>
-> +#include <linux/mei_cl_bus.h>
-> +#include <linux/component.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/i915_component.h>
-> +#include <drm/i915_pxp_tee_interface.h>
-> +
-> +#include "mei_pxp.h"
-> +
-> +/**
-> + * mei_pxp_send_message() - Sends a PXP message to ME FW.
-> + * @dev: device corresponding to the mei_cl_device
-> + * @message: a message buffer to send
-> + * @size: size of the message
-> + * Return: 0 on Success, <0 on Failure
-> + */
-> +static int
-> +mei_pxp_send_message(struct device *dev, const void *message, size_t size)
-> +{
-> +	struct mei_cl_device *cldev;
-> +	ssize_t byte;
-> +
-> +	if (!dev || !message)
-> +		return -EINVAL;
-> +
-> +	cldev = to_mei_cl_device(dev);
-> +
-> +	/* temporary drop const qualifier till the API is fixed */
-> +	byte = mei_cldev_send(cldev, (u8 *)message, size);
-> +	if (byte < 0) {
-> +		dev_dbg(dev, "mei_cldev_send failed. %zd\n", byte);
-> +		return byte;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * mei_pxp_receive_message() - Receives a PXP message from ME FW.
-> + * @dev: device corresponding to the mei_cl_device
-> + * @buffer: a message buffer to contain the received message
-> + * @size: size of the buffer
-> + * Return: bytes sent on Success, <0 on Failure
-> + */
-> +static int
-> +mei_pxp_receive_message(struct device *dev, void *buffer, size_t size)
-> +{
-> +	struct mei_cl_device *cldev;
-> +	ssize_t byte;
-> +
-> +	if (!dev || !buffer)
-> +		return -EINVAL;
-> +
-> +	cldev = to_mei_cl_device(dev);
-> +
-> +	byte = mei_cldev_recv(cldev, buffer, size);
-> +	if (byte < 0) {
-> +		dev_dbg(dev, "mei_cldev_recv failed. %zd\n", byte);
-> +		return byte;
-> +	}
-> +
-> +	return byte;
-> +}
-> +
-> +static const struct i915_pxp_component_ops mei_pxp_ops = {
-> +	.owner = THIS_MODULE,
-> +	.send = mei_pxp_send_message,
-> +	.recv = mei_pxp_receive_message,
-> +};
-> +
-> +static int mei_component_master_bind(struct device *dev)
-> +{
-> +	struct mei_cl_device *cldev = to_mei_cl_device(dev);
-> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
-> +	int ret;
-> +
-> +	comp_master->ops = &mei_pxp_ops;
-> +	comp_master->tee_dev = dev;
-> +	ret = component_bind_all(dev, comp_master);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static void mei_component_master_unbind(struct device *dev)
-> +{
-> +	struct mei_cl_device *cldev = to_mei_cl_device(dev);
-> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
-> +
-> +	component_unbind_all(dev, comp_master);
-> +}
-> +
-> +static const struct component_master_ops mei_component_master_ops = {
-> +	.bind = mei_component_master_bind,
-> +	.unbind = mei_component_master_unbind,
-> +};
-> +
-> +/**
-> + * mei_pxp_component_match - compare function for matching mei pxp.
-> + *
-> + *    The function checks if the driver is i915, the subcomponent is PXP
-> + *    and the grand parent of pxp and the parent of i915 are the same
-> + *    PCH device.
-> + *
-> + * @dev: master device
-> + * @subcomponent: subcomponent to match (I915_COMPONENT_PXP)
-> + * @data: compare data (mei pxp device)
-> + *
-> + * Return:
-> + * * 1 - if components match
-> + * * 0 - otherwise
-> + */
-> +static int mei_pxp_component_match(struct device *dev, int subcomponent,
-> +				   void *data)
-> +{
-> +	struct device *base = data;
-> +
-> +	if (strcmp(dev->driver->name, "i915") ||
-> +	    subcomponent != I915_COMPONENT_PXP)
-> +		return 0;
-> +
-> +	base = base->parent;
-> +	if (!base)
-> +		return 0;
-> +
-> +	base = base->parent;
-> +	dev = dev->parent;
-> +
-> +	return (base && dev && dev == base);
-> +}
-> +
-> +static int mei_pxp_probe(struct mei_cl_device *cldev,
-> +			 const struct mei_cl_device_id *id)
-> +{
-> +	struct i915_pxp_component *comp_master;
-> +	struct component_match *master_match;
-> +	int ret;
-> +
-> +	ret = mei_cldev_enable(cldev);
-> +	if (ret < 0) {
-> +		dev_err(&cldev->dev, "mei_cldev_enable Failed. %d\n", ret);
-> +		goto enable_err_exit;
-> +	}
-> +
-> +	comp_master = kzalloc(sizeof(*comp_master), GFP_KERNEL);
-> +	if (!comp_master) {
-> +		ret = -ENOMEM;
-> +		goto err_exit;
-> +	}
-> +
-> +	master_match = NULL;
-> +	component_match_add_typed(&cldev->dev, &master_match,
-> +				  mei_pxp_component_match, &cldev->dev);
-> +	if (IS_ERR_OR_NULL(master_match)) {
-> +		ret = -ENOMEM;
-> +		goto err_exit;
-> +	}
-> +
-> +	mei_cldev_set_drvdata(cldev, comp_master);
-> +	ret = component_master_add_with_match(&cldev->dev,
-> +					      &mei_component_master_ops,
-> +					      master_match);
-> +	if (ret < 0) {
-> +		dev_err(&cldev->dev, "Master comp add failed %d\n", ret);
-> +		goto err_exit;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_exit:
-> +	mei_cldev_set_drvdata(cldev, NULL);
-> +	kfree(comp_master);
-> +	mei_cldev_disable(cldev);
-> +enable_err_exit:
-> +	return ret;
-> +}
-> +
-> +static void mei_pxp_remove(struct mei_cl_device *cldev)
-> +{
-> +	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
-> +	int ret;
-> +
-> +	component_master_del(&cldev->dev, &mei_component_master_ops);
-> +	kfree(comp_master);
-> +	mei_cldev_set_drvdata(cldev, NULL);
-> +
-> +	ret = mei_cldev_disable(cldev);
-> +	if (ret)
-> +		dev_warn(&cldev->dev, "mei_cldev_disable() failed\n");
-> +}
-> +
-> +/* fbf6fcf1-96cf-4e2e-a6a6-1bab8cbe36b1 : PAVP GUID*/
-> +#define MEI_GUID_PXP GUID_INIT(0xfbf6fcf1, 0x96cf, 0x4e2e, 0xA6, \
-> +			       0xa6, 0x1b, 0xab, 0x8c, 0xbe, 0x36, 0xb1)
-> +
-> +static struct mei_cl_device_id mei_pxp_tbl[] = {
-> +	{ .uuid = MEI_GUID_PXP, .version = MEI_CL_VERSION_ANY },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(mei, mei_pxp_tbl);
-> +
-> +static struct mei_cl_driver mei_pxp_driver = {
-> +	.id_table = mei_pxp_tbl,
-> +	.name = KBUILD_MODNAME,
-> +	.probe = mei_pxp_probe,
-> +	.remove	= mei_pxp_remove,
-> +};
-> +
-> +module_mei_cl_driver(mei_pxp_driver);
-> +
-> +MODULE_AUTHOR("Intel Corporation");
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("MEI PXP");
-> diff --git a/drivers/misc/mei/pxp/mei_pxp.h b/drivers/misc/mei/pxp/mei_pxp.h
-> new file mode 100644
-> index 000000000000..e7b15373fefd
-> --- /dev/null
-> +++ b/drivers/misc/mei/pxp/mei_pxp.h
-> @@ -0,0 +1,18 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright © 2020 Intel Corporation
-> + *
-> + * Authors:
-> + * Vitaly Lubart <vitaly.lubart@intel.com>
-> + */
-> +
-> +#ifndef __MEI_PXP_H__
-> +#define __MEI_PXP_H__
-> +
-> +/* me_pxp_status: Enumeration of all PXP Status Codes */
-> +enum me_pxp_status {
-> +	ME_PXP_STATUS_SUCCESS			= 0x0000,
-> +
-> +};
-> +
-> +#endif /* __MEI_PXP_H__ */
-> -- 
-> 2.32.0
-> 
+BR,
+-R
