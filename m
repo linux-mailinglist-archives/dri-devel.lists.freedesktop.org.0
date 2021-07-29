@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9C13DAB66
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 20:53:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FB83DAB70
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 20:55:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDEAE6EE1E;
-	Thu, 29 Jul 2021 18:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53FFE6EE23;
+	Thu, 29 Jul 2021 18:55:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 374076EE1E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 18:53:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="212679459"
-X-IronPort-AV: E=Sophos;i="5.84,279,1620716400"; d="scan'208";a="212679459"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 11:53:45 -0700
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C606EE23
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 18:55:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="212990844"
+X-IronPort-AV: E=Sophos;i="5.84,279,1620716400"; d="scan'208";a="212990844"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2021 11:55:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,279,1620716400"; d="scan'208";a="476515452"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga008.fm.intel.com with ESMTP; 29 Jul 2021 11:53:45 -0700
+X-IronPort-AV: E=Sophos;i="5.84,279,1620716400"; d="scan'208";a="518396928"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by fmsmga002.fm.intel.com with ESMTP; 29 Jul 2021 11:55:50 -0700
 Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Thu, 29 Jul 2021 11:53:44 -0700
+ 15.1.2242.4; Thu, 29 Jul 2021 11:55:50 -0700
 Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
  ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Thu, 29 Jul 2021 11:53:44 -0700
+ 15.1.2242.10; Thu, 29 Jul 2021 11:55:50 -0700
 Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
  ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.010;
- Thu, 29 Jul 2021 11:53:44 -0700
+ Thu, 29 Jul 2021 11:55:50 -0700
 From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [RFC v1 2/4] virtio-gpu uapi: Add VIRTIO_GPU_F_OUT_FENCE feature
-Thread-Topic: [RFC v1 2/4] virtio-gpu uapi: Add VIRTIO_GPU_F_OUT_FENCE feature
-Thread-Index: AQHXhFPnb9rpKvlN0Eut27TVkUFkUKtaKwmAgAAfXWA=
-Date: Thu, 29 Jul 2021 18:53:44 +0000
-Message-ID: <6ffb3ea1b5e94af1af04b3c133c7e45f@intel.com>
+Subject: RE: [RFC v1 4/4] drm/virtio: Probe and implement
+ VIRTIO_GPU_F_OUT_FENCE feature
+Thread-Topic: [RFC v1 4/4] drm/virtio: Probe and implement
+ VIRTIO_GPU_F_OUT_FENCE feature
+Thread-Index: AQHXhFPnf4WPYuIB7UWJ+g+lFyoJ86taK4OAgAAh95A=
+Date: Thu, 29 Jul 2021 18:55:50 +0000
+Message-ID: <764ddf2671c847e4b571bebbadf144c1@intel.com>
 References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
- <20210729081659.2255499-3-vivek.kasireddy@intel.com>
- <20210729095033.js2i6bjk27itcvhg@sirius.home.kraxel.org>
-In-Reply-To: <20210729095033.js2i6bjk27itcvhg@sirius.home.kraxel.org>
+ <20210729081659.2255499-5-vivek.kasireddy@intel.com>
+ <20210729095215.ojuojvherbossnhj@sirius.home.kraxel.org>
+In-Reply-To: <20210729095215.ojuojvherbossnhj@sirius.home.kraxel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -73,40 +75,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Gerd,
 
 >=20
-> On Thu, Jul 29, 2021 at 01:16:57AM -0700, Vivek Kasireddy wrote:
-> > This feature enables the Guest to wait to know when a resource
-> > is completely consumed by the Host.
+>   Hi,
 >=20
-> virtio spec update?
+> > +	bool has_out_fence;
 >=20
-> What are the exact semantics?
-[Kasireddy, Vivek] As of now, this is still a RFC version. If everyone (Wes=
-ton
-Upstream, drm upstream and you) agree that this is a reasonable way to
-solve https://gitlab.freedesktop.org/wayland/weston/-/issues/514 then I'd g=
-o=20
-ahead and send out the spec updates and cleaner versions of these patches -=
--
-with more documentation.
-
+> > +	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_OUT_FENCE)) {
+> > +		vgdev->has_out_fence =3D true;
+> > +		vgdev->ddev->mode_config.deferred_out_fence =3D true;
 >=20
-> Why a new command?  Can't you simply fence one of the commands sent
-> anyway (set_scanout probably for page-flip updates)?
-[Kasireddy, Vivek] Yes, I think I could add a fence (and an out_fence) to s=
-et-scanout-blob.=20
-
->=20
-> (feature flag is probably needed even in case we don't need a new
-> command to make sure the host sends the completion when processing
-> the command is actually done, i.e. in case of qemu the recently added
-> fence support is there).
-[Kasireddy, Vivek] The recently added fence support was for resource_flush =
-and
-specifically for GTK-UI or similar backends. I tried using the same mechani=
-sm for
-Wayland-UI backend but ran into the above Weston issue. This feature (OUT_F=
-ENCE)
-is a potential solution for this issue.
+> Looks like you don't need has_out_fence, you can just use
+> vgdev->ddev->mode_config.deferred_out_fence instead.
+[Kasireddy, Vivek] Right, I don't need has_out_fence; will fix it.
 
 Thanks,
 Vivek
