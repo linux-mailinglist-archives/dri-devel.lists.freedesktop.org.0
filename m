@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978183DA929
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 18:34:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B7B3DA964
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 18:50:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56AC86EDEE;
-	Thu, 29 Jul 2021 16:34:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030A06EDF2;
+	Thu, 29 Jul 2021 16:50:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89C616EDED;
- Thu, 29 Jul 2021 16:34:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="212960709"
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="212960709"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 09:33:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="476465572"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga008.fm.intel.com with ESMTP; 29 Jul 2021 09:33:42 -0700
-Received: from [10.249.142.82] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.142.82])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 16TGXfuq005357; Thu, 29 Jul 2021 17:33:42 +0100
-Subject: Re: [Intel-gfx] [PATCH 07/14] drm/i915/guc/slpc: Add methods to set
- min/max frequency
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210728211144.15322-1-vinay.belgaumkar@intel.com>
- <20210728211144.15322-8-vinay.belgaumkar@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <52f85865-5b0e-3966-bd2e-2ca36cffcf64@intel.com>
-Date: Thu, 29 Jul 2021 18:33:41 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2210D6EDF3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 16:50:27 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 1c1c2356-f08d-11eb-8d1a-0050568cd888;
+ Thu, 29 Jul 2021 16:50:41 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id D1FF4194B1F;
+ Thu, 29 Jul 2021 18:50:41 +0200 (CEST)
+Date: Thu, 29 Jul 2021 18:50:17 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Robert Foss <robert.foss@linaro.org>
+Subject: Re: [RFC PATCH 05/17] drm/exynos: dsi: Get the mode from bridge
+Message-ID: <YQLcSfTS2jiqtWED@ravnborg.org>
+References: <20210704090230.26489-1-jagan@amarulasolutions.com>
+ <20210704090230.26489-6-jagan@amarulasolutions.com>
+ <CAG3jFytHb=iOc6CHy47iGwvxuSg1UMqnpE7oFZL9tfcPUB22eA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210728211144.15322-8-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG3jFytHb=iOc6CHy47iGwvxuSg1UMqnpE7oFZL9tfcPUB22eA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,152 +49,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Marek Vasut <marex@denx.de>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <a.hajda@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jul 29, 2021 at 03:20:17PM +0200, Robert Foss wrote:
+> Hey Jagan,
+> 
+> On Sun, 4 Jul 2021 at 11:04, Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> > Now the exynos dsi driver is fully aware of bridge
+> > handling, so get the display mode from bridge, mode_set
+> > API instead of legacy encoder crtc.
+> >
+> > This makes bridge usage more efficient instead of relying
+> > on encoder stack.
+> >
+> > Add mode_set in drm_bridge_funcs.
+> >
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > ---
+> >  drivers/gpu/drm/exynos/exynos_drm_dsi.c | 13 ++++++++++++-
+> >  1 file changed, 12 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> > index d828be07c325..99a1b8c22313 100644
+> > --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> > +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> > @@ -275,6 +275,7 @@ struct exynos_dsi {
+> >         u32 format;
+> >
+> >         int state;
+> > +       struct drm_display_mode mode;
+> >         struct drm_property *brightness;
+> >         struct completion completed;
+> >
+> > @@ -881,7 +882,7 @@ static int exynos_dsi_init_link(struct exynos_dsi *dsi)
+> >
+> >  static void exynos_dsi_set_display_mode(struct exynos_dsi *dsi)
+> >  {
+> > -       struct drm_display_mode *m = &dsi->encoder.crtc->state->adjusted_mode;
+> > +       struct drm_display_mode *m = &dsi->mode;
+> >         unsigned int num_bits_resol = dsi->driver_data->num_bits_resol;
+> >         u32 reg;
+> >
+> > @@ -1411,6 +1412,15 @@ static void exynos_dsi_bridge_disable(struct drm_bridge *bridge)
+> >         pm_runtime_put_sync(dsi->dev);
+> >  }
+> >
+> > +static void exynos_dsi_bridge_mode_set(struct drm_bridge *bridge,
+> > +                                      const struct drm_display_mode *mode,
+> > +                                      const struct drm_display_mode *adjusted_mode)
+> > +{
+> > +       struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+> > +
+> > +       drm_mode_copy(&dsi->mode, adjusted_mode);
+> > +}
+> > +
+> >  static int exynos_dsi_panel_or_bridge(struct exynos_dsi *dsi,
+> >                                       struct device_node *node)
+> >  {
+> > @@ -1451,6 +1461,7 @@ static int exynos_dsi_bridge_attach(struct drm_bridge *bridge,
+> >  static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
+> >         .enable = exynos_dsi_bridge_enable,
+> >         .disable = exynos_dsi_bridge_disable,
+> > +       .mode_set = exynos_dsi_bridge_mode_set,
+> 
+> As far as I understand it, .enable(), .disable() &.mode_set() are
+> deprecated[1] and should be replaced by atomic_enable(),
+> atomic_disable() & atomic_enable() respectively.
+> 
+> [1] https://lore.kernel.org/dri-devel/20210722062246.2512666-8-sam@ravnborg.org/
 
+Correct, we are slowly moving away from the deprecated bridge functions.
+Need to find time to update my patchset that address some of this.
 
-On 28.07.2021 23:11, Vinay Belgaumkar wrote:
-> Add param set h2g helpers to set the min and max frequencies
-> for use by SLPC.
-> 
-> v2: Address review comments (Michal W)
-> v3: Check for positive error code (Michal W)
-> v4: Print generic error in set_param (Michal W)
-> 
-> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 89 +++++++++++++++++++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h |  2 +
->  2 files changed, 91 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index da3e1f8844a9..0959cc9e104a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -109,6 +109,21 @@ static u32 slpc_get_state(struct intel_guc_slpc *slpc)
->  	return data->header.global_state;
->  }
->  
-> +static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
-> +{
-> +	u32 request[] = {
-> +		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
-> +		SLPC_EVENT(SLPC_EVENT_PARAMETER_SET, 2),
-> +		id,
-> +		value,
-> +	};
-> +	int ret;
-> +
-> +	ret = intel_guc_send(guc, request, ARRAY_SIZE(request));
-> +
-> +	return ret > 0 ? -EPROTO : ret;
-> +}
-> +
->  static bool slpc_is_running(struct intel_guc_slpc *slpc)
->  {
->  	return slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING;
-> @@ -146,6 +161,22 @@ static int slpc_query_task_state(struct intel_guc_slpc *slpc)
->  	return ret;
->  }
->  
-> +static int slpc_set_param(struct intel_guc_slpc *slpc, u8 id, u32 value)
-> +{
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	int ret;
-> +
-> +	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
-> +
-> +	ret = guc_action_slpc_set_param(guc, id, value);
-> +	if (ret)
-> +		drm_err(&i915->drm, "Failed to set param %d to %u (%pe)\n",
-> +				id, value, ERR_PTR(ret));
-> +
-> +	return ret;
-> +}
-> +
->  static const char *slpc_global_state_to_string(enum slpc_global_state state)
->  {
->  	switch (state) {
-> @@ -260,6 +291,64 @@ static void slpc_shared_data_reset(struct slpc_shared_data *data)
->  				SLPC_PARAM_TASK_DISABLE_DCC);
->  }
->  
-> +/**
-> + * intel_guc_slpc_set_max_freq() - Set max frequency limit for SLPC.
-> + * @slpc: pointer to intel_guc_slpc.
-> + * @val: frequency (MHz)
-> + *
-> + * This function will invoke GuC SLPC action to update the max frequency
-> + * limit for unslice.
-> + *
-> + * Return: 0 on success, non-zero error code on failure.
-> + */
-> +int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
-> +{
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	intel_wakeref_t wakeref;
-> +	int ret;
-> +
-> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> +		ret = slpc_set_param(slpc,
-> +			       SLPC_PARAM_GLOBAL_MAX_GT_UNSLICE_FREQ_MHZ,
-> +			       val);
-> +
-> +		/* Return standardized err code for sysfs calls */
-> +		if (ret)
-> +			ret = -EIO;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * intel_guc_slpc_set_min_freq() - Set min frequency limit for SLPC.
-> + * @slpc: pointer to intel_guc_slpc.
-> + * @val: frequency (MHz)
-> + *
-> + * This function will invoke GuC SLPC action to update the min unslice
-> + * frequency.
-> + *
-> + * Return: 0 on success, non-zero error code on failure.
-> + */
-> +int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
-> +{
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	intel_wakeref_t wakeref;
-> +	int ret;
-> +
-> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> +		ret = slpc_set_param(slpc,
-> +			       SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-> +			       val);
-> +
-> +		/* Return standardized err code for sysfs calls */
-> +		if (ret)
-> +			ret = -EIO;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * intel_guc_slpc_enable() - Start SLPC
->   * @slpc: pointer to intel_guc_slpc.
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> index bc139682ad0f..788d87ff7b58 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> @@ -29,5 +29,7 @@ void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc);
->  int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
->  int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
->  void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
-> +int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
-> +int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val);
->  
->  #endif
-> 
-
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+	Sam
