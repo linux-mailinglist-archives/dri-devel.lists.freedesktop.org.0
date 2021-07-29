@@ -2,66 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6763DA17D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 12:48:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73D83DA193
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 12:53:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F5A6ED14;
-	Thu, 29 Jul 2021 10:48:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E79EC6E0C9;
+	Thu, 29 Jul 2021 10:53:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B98C6ED14
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 10:48:35 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 6BCE0201ED;
- Thu, 29 Jul 2021 10:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1627555713;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ao638iMTTjsA+VNcKLaQE/T5PYOWw6rLSmI4SdHNaOg=;
- b=abeCZgaOXkwOt0BkzLlF/+2YTZf7UkZxXuKxwx+rarlLl6+++jGA/oSR1zP1tBBkMVXgvm
- GT4hGzwrHWO646FIwY3QI2qOTTdotUXq3PJvQire1Y3xdHm1pRg9mNfEdMqC4y4P0XvCJK
- f4ThlbSAIc4M6bC7S1y1F/1mrMoaviA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1627555713;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ao638iMTTjsA+VNcKLaQE/T5PYOWw6rLSmI4SdHNaOg=;
- b=3jaJHiWtLRI5qqhbTkmtMyPrqt0TMeDMpnw71ZVL0gyLLlXhjwjFNZFKJAOOOEzthRehoc
- I6ScSOeN75vLU8Cg==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
- by relay2.suse.de (Postfix) with ESMTP id 53E3BA3B81;
- Thu, 29 Jul 2021 10:48:33 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
- id E0A69DA7AF; Thu, 29 Jul 2021 12:45:47 +0200 (CEST)
-Date: Thu, 29 Jul 2021 12:45:47 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
-Message-ID: <20210729104547.GT5047@suse.cz>
-Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- linux-hardening@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Keith Packard <keithpac@amazon.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-3-keescook@chromium.org>
- <20210728073556.GP1931@kadam> <20210728092323.GW5047@twin.jikos.cz>
- <202107281454.F96505E15@keescook>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD14E6E05D;
+ Thu, 29 Jul 2021 10:53:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="234748271"
+X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="234748271"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2021 03:53:48 -0700
+X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="518150162"
+Received: from eoghanru-mobl.ger.corp.intel.com (HELO [10.213.215.170])
+ ([10.213.215.170])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2021 03:53:47 -0700
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/selftests: fixup igt_shrink_thp
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20210728155013.1741657-1-matthew.auld@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <c5365359-0a0d-2232-5fde-c1f4caf45cc6@linux.intel.com>
+Date: Thu, 29 Jul 2021 11:53:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202107281454.F96505E15@keescook>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+In-Reply-To: <20210728155013.1741657-1-matthew.auld@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,67 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
-Cc: linux-kbuild@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-wireless@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
- Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 28, 2021 at 02:54:52PM -0700, Kees Cook wrote:
-> On Wed, Jul 28, 2021 at 11:23:23AM +0200, David Sterba wrote:
-> > On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
-> > > @@ -372,7 +372,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
-> > >  			ieee80211_calculate_rx_timestamp(local, status,
-> > >  							 mpdulen, 0),
-> > >  			pos);
-> > > -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
-> > > +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
-> > 
-> > A drive-by comment, not related to the patchset, but rather the
-> > ieee80211 driver itself.
-> > 
-> > Shift expressions with (1 << NUMBER) can be subtly broken once the
-> > NUMBER is 31 and the value gets silently cast to a 64bit type. It will
-> > become 0xfffffffff80000000.
-> > 
-> > I've checked the IEEE80211_RADIOTAP_* defintions if this is even remotely
-> > possible and yes, IEEE80211_RADIOTAP_EXT == 31. Fortunatelly it seems to
-> > be used with used with a 32bit types (eg. _bitmap_shifter) so there are
-> > no surprises.
-> > 
-> > The recommended practice is to always use unsigned types for shifts, so
-> > "1U << ..." at least.
+
+Hi Matt,
+
+On 28/07/2021 16:50, Matthew Auld wrote:
+> Since the object might still be active here, the shrink_all will simply
+> ignore it, which blows up in the test, since the pages will still be
+> there. Currently THP is disabled which should result in the test being
+> skipped, but if we ever re-enable THP we might start seeing the failure.
+> Fix this by forcing I915_SHRINK_ACTIVE.
 > 
-> Ah, good catch! I think just using BIT() is the right replacement here,
-> yes? I suppose that should be a separate patch.
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> index a094f3ce1a90..7a67e880b562 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> @@ -1575,7 +1575,10 @@ static int igt_shrink_thp(void *arg)
+>   	 * Now that the pages are *unpinned* shrink-all should invoke
+>   	 * shmem to truncate our pages.
+>   	 */
+> -	i915_gem_shrink_all(i915);
+> +	i915_gem_shrink(NULL, i915, -1UL, NULL,
+> +			I915_SHRINK_BOUND |
+> +			I915_SHRINK_UNBOUND |
+> +			I915_SHRINK_ACTIVE);
+>   	if (i915_gem_object_has_pages(obj)) {
+>   		pr_err("shrink-all didn't truncate the pages\n");
+>   		err = -EINVAL;
+> 
 
-I found definition of BIT in vdso/bits.h, that does not sound like a
-standard header, besides that it shifts 1UL, that may not be necessary
-everywhere. IIRC there were objections against using the macro at all.
+I did s/shrink-all/shrinking/ locally in the comment above, and in 
+pr_err below the call to shrinker. Are you okay if I repost like that 
+and with my r-b as part of my series?
 
-Looking for all the definitions, there are a few that are wrong in the
-sense they're using the singed type, eg.
+Regards,
 
-https://elixir.bootlin.com/linux/v5.14-rc3/source/arch/arm/mach-davinci/sleep.S#L7
-
-#define BIT(nr)			(1 << (nr))
-...
-#define DEEPSLEEP_SLEEPENABLE_BIT	BIT(31)
-
-but that's an assembly file so the C integer promotions don't apply.
-
-https://elixir.bootlin.com/linux/v5.14-rc3/source/drivers/staging/rtl8723bs/include/osdep_service.h#L18
-https://elixir.bootlin.com/linux/v5.14-rc3/source/drivers/staging/rtl8723bs/include/wifi.h#L15
-https://elixir.bootlin.com/linux/v5.14-rc3/source/tools/perf/util/intel-pt-decoder/intel-pt-pkt-decoder.c#L15
-
-#define BIT(x)	(1 << (x))
-
-Auditing and cleaning that up is for another series, yeah, I'm just
-pointing it here if somebody feels like doing the work. It's IMO low
-hanging fruit but can reveal real bugs.
+Tvrtko
