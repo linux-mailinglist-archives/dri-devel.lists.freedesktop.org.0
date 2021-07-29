@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AE73DA793
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6763DA7A3
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:31:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 058AE6EDC7;
-	Thu, 29 Jul 2021 15:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 162A66EDC2;
+	Thu, 29 Jul 2021 15:31:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3733C6EDC7;
- Thu, 29 Jul 2021 15:28:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="211025246"
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="211025246"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 08:28:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="507261037"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by FMSMGA003.fm.intel.com with ESMTP; 29 Jul 2021 08:28:12 -0700
-Received: from [10.249.142.82] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.142.82])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 16TFSB8r020175; Thu, 29 Jul 2021 16:28:11 +0100
-Subject: Re: [PATCH 01/14] drm/i915/guc/slpc: Initial definitions for SLPC
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210728211144.15322-1-vinay.belgaumkar@intel.com>
- <20210728211144.15322-2-vinay.belgaumkar@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <521d5ea2-3bc1-bb1a-b4d3-56dc93318119@intel.com>
-Date: Thu, 29 Jul 2021 17:28:11 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <20210728211144.15322-2-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E67406EDCC
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 15:31:19 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627572687; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=4H3jYkElAs1QyW2ncrox+PElUWZ1CeNfk5nXkU3IPbw=;
+ b=YNyllDqFGnpJScYmkHFFzcAAUHWH2Ml5kSWu3vaIr5sWmUYYs3yQqqJBao98cvkWS311lEwO
+ WRfK/88IGenXthMHNlu/ABqm9Ze8P0hQWJzcR9G1fwllreK23goGcOCYM00GiKGHTM65M3Fo
+ Z5F5eaneqChj8epZ/TKhezsSO8s=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 6102c9b7e81205dd0a943216 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Jul 2021 15:31:03
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 16ECAC43217; Thu, 29 Jul 2021 15:31:03 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D8AD6C4338A;
+ Thu, 29 Jul 2021 15:30:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D8AD6C4338A
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>
+Subject: [RFC PATCH] drm/msm: Introduce Adreno Features
+Date: Thu, 29 Jul 2021 21:00:40 +0530
+Message-Id: <20210729205906.RFC.1.I5645753650f32d9b469d6183a5fd8e5e65a7b7a4@changeid>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,276 +65,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Matthias Kaehlcke <mka@chromium.org>,
+ Iskren Chernev <iskren.chernev@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Introduce a feature flag in gpulist to easily identify the capabilities
+of each gpu revision. This will help to avoid a lot of adreno_is_axxx()
+check when we add new features. In the current patch, HW APRIV feature
+is converted to a feature flag.
 
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+This patch is rebased on top of the below series:
+https://patchwork.freedesktop.org/series/93192/
 
-On 28.07.2021 23:11, Vinay Belgaumkar wrote:
-> Add macros to check for SLPC support. This feature is currently supported
-> for Gen12+ and enabled whenever GuC submission is enabled/selected.
-> 
-> Include templates for SLPC init/fini and enable.
-> 
-> v2: Move SLPC helper functions to intel_guc_slpc.c/.h. Define basic
-> template for SLPC structure in intel_guc_slpc_types.h. Fix copyright (Michal W)
-> 
-> v3: Review comments (Michal W)
-> 
-> v4: Include supported/selected inside slpc struct (Michal W)
-> 
-> Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> 
-> drm/i915/guc/slpc: Lay out slpc init/enable/fini
-> 
-> Declare init/fini and enable function templates.
-> 
-> v2: Rebase
-> 
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-> ---
->  drivers/gpu/drm/i915/Makefile                 |  1 +
->  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  2 +
->  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 45 +++++++++++++++++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   | 33 ++++++++++++++
->  .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h | 16 +++++++
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  6 ++-
->  drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  2 +
->  8 files changed, 105 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index ab7679957623..d8eac4468df9 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -186,6 +186,7 @@ i915-y += gt/uc/intel_uc.o \
->  	  gt/uc/intel_guc_fw.o \
->  	  gt/uc/intel_guc_log.o \
->  	  gt/uc/intel_guc_log_debugfs.o \
-> +	  gt/uc/intel_guc_slpc.o \
->  	  gt/uc/intel_guc_submission.o \
->  	  gt/uc/intel_huc.o \
->  	  gt/uc/intel_huc_debugfs.o \
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index 979128e28372..39bc3c16057b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -7,6 +7,7 @@
->  #include "gt/intel_gt_irq.h"
->  #include "gt/intel_gt_pm_irq.h"
->  #include "intel_guc.h"
-> +#include "intel_guc_slpc.h"
->  #include "intel_guc_ads.h"
->  #include "intel_guc_submission.h"
->  #include "i915_drv.h"
-> @@ -157,6 +158,7 @@ void intel_guc_init_early(struct intel_guc *guc)
->  	intel_guc_ct_init_early(&guc->ct);
->  	intel_guc_log_init_early(&guc->log);
->  	intel_guc_submission_init_early(guc);
-> +	intel_guc_slpc_init_early(&guc->slpc);
->  
->  	mutex_init(&guc->send_mutex);
->  	spin_lock_init(&guc->irq_lock);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index a9547069ee7e..7da11a0b6059 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -15,6 +15,7 @@
->  #include "intel_guc_ct.h"
->  #include "intel_guc_log.h"
->  #include "intel_guc_reg.h"
-> +#include "intel_guc_slpc_types.h"
->  #include "intel_uc_fw.h"
->  #include "i915_utils.h"
->  #include "i915_vma.h"
-> @@ -30,6 +31,7 @@ struct intel_guc {
->  	struct intel_uc_fw fw;
->  	struct intel_guc_log log;
->  	struct intel_guc_ct ct;
-> +	struct intel_guc_slpc slpc;
->  
->  	/* Global engine used to submit requests to GuC */
->  	struct i915_sched_engine *sched_engine;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> new file mode 100644
-> index 000000000000..40950f1bf05c
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -0,0 +1,45 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2021 Intel Corporation
-> + */
-> +
-> +#include "i915_drv.h"
-> +#include "intel_guc_slpc.h"
-> +#include "gt/intel_gt.h"
-> +
-> +static inline struct intel_guc *slpc_to_guc(struct intel_guc_slpc *slpc)
-> +{
-> +	return container_of(slpc, struct intel_guc, slpc);
-> +}
-> +
-> +static bool __detect_slpc_supported(struct intel_guc *guc)
-> +{
-> +	/* GuC SLPC is unavailable for pre-Gen12 */
-> +	return guc->submission_supported &&
-> +		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
-> +}
-> +
-> +static bool __guc_slpc_selected(struct intel_guc *guc)
-> +{
-> +	if (!intel_guc_slpc_is_supported(guc))
-> +		return false;
-> +
-> +	return guc->submission_selected;
-> +}
-> +
-> +void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc)
-> +{
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +
-> +	slpc->supported = __detect_slpc_supported(guc);
-> +	slpc->selected = __guc_slpc_selected(guc);
-> +}
-> +
-> +int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
-> +{
-> +	return 0;
-> +}
-> +
-> +void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
-> +{
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> new file mode 100644
-> index 000000000000..bc139682ad0f
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> @@ -0,0 +1,33 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2021 Intel Corporation
-> + */
-> +
-> +#ifndef _INTEL_GUC_SLPC_H_
-> +#define _INTEL_GUC_SLPC_H_
-> +
-> +#include "intel_guc_submission.h"
-> +#include "intel_guc_slpc_types.h"
-> +
-> +static inline bool intel_guc_slpc_is_supported(struct intel_guc *guc)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 12 ------------
+ drivers/gpu/drm/msm/adreno/adreno_device.c |  3 +++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  3 +++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  9 +++++++++
+ 4 files changed, 15 insertions(+), 12 deletions(-)
 
-hmm, I was expecting these to be like:
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 1881e09..b28305b 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1765,7 +1765,6 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
+ 	struct adreno_platform_config *config = pdev->dev.platform_data;
+-	const struct adreno_info *info;
+ 	struct device_node *node;
+ 	struct a6xx_gpu *a6xx_gpu;
+ 	struct adreno_gpu *adreno_gpu;
+@@ -1781,17 +1780,6 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 
+ 	adreno_gpu->registers = NULL;
+ 
+-	/*
+-	 * We need to know the platform type before calling into adreno_gpu_init
+-	 * so that the hw_apriv flag can be correctly set. Snoop into the info
+-	 * and grab the revision number
+-	 */
+-	info = adreno_info(config->rev);
+-
+-	if (info && (info->revn == 650 || info->revn == 660 ||
+-			adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
+-		adreno_gpu->base.hw_apriv = true;
+-
+ 	a6xx_llc_slices_init(pdev, a6xx_gpu);
+ 
+ 	ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 7b9d605..44321ec 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -276,6 +276,7 @@ static const struct adreno_info gpulist[] = {
+ 		.rev = ADRENO_REV(6, 5, 0, ANY_ID),
+ 		.revn = 650,
+ 		.name = "A650",
++		.features = ADRENO_APRIV,
+ 		.fw = {
+ 			[ADRENO_FW_SQE] = "a650_sqe.fw",
+ 			[ADRENO_FW_GMU] = "a650_gmu.bin",
+@@ -289,6 +290,7 @@ static const struct adreno_info gpulist[] = {
+ 		.rev = ADRENO_REV(6, 6, 0, ANY_ID),
+ 		.revn = 660,
+ 		.name = "A660",
++		.features = ADRENO_APRIV,
+ 		.fw = {
+ 			[ADRENO_FW_SQE] = "a660_sqe.fw",
+ 			[ADRENO_FW_GMU] = "a660_gmu.bin",
+@@ -301,6 +303,7 @@ static const struct adreno_info gpulist[] = {
+ 	}, {
+ 		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
+ 		.name = "Adreno 7c Gen 3",
++		.features = ADRENO_APRIV,
+ 		.fw = {
+ 			[ADRENO_FW_SQE] = "a660_sqe.fw",
+ 			[ADRENO_FW_GMU] = "a660_gmu.bin",
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 9f5a302..e8acadf5 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -945,6 +945,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_enable(dev);
+ 
++	if (ADRENO_FEAT(adreno_gpu, ADRENO_APRIV))
++		adreno_gpu->base.hw_apriv = true;
++
+ 	return msm_gpu_init(drm, pdev, &adreno_gpu->base, &funcs->base,
+ 			adreno_gpu->info->name, &adreno_gpu_config);
+ }
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 50b4d53..61797c3 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -35,6 +35,11 @@ enum adreno_quirks {
+ 	ADRENO_QUIRK_LMLOADKILL_DISABLE = 3,
+ };
+ 
++enum adreno_features {
++	/* ADRENO has HW APRIV feature */
++	ADRENO_APRIV,
++};
++
+ struct adreno_rev {
+ 	uint8_t  core;
+ 	uint8_t  major;
+@@ -63,6 +68,7 @@ struct adreno_info {
+ 	struct adreno_rev rev;
+ 	uint32_t revn;
+ 	const char *name;
++	u32 features;
+ 	const char *fw[ADRENO_FW_MAX];
+ 	uint32_t gmem;
+ 	enum adreno_quirks quirks;
+@@ -388,6 +394,9 @@ static inline uint32_t get_wptr(struct msm_ringbuffer *ring)
+ 	return (ring->cur - ring->start) % (MSM_GPU_RINGBUFFER_SZ >> 2);
+ }
+ 
++#define ADRENO_FEAT(adreno_gpu, feature) \
++	(adreno_gpu->info->features & (1 << feature))
++
+ /*
+  * Given a register and a count, return a value to program into
+  * REG_CP_PROTECT_REG(n) - this will block both reads and writes for _len
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation.
 
-	intel_guc_slpc_is_supported(struct intel_guc_slpc *slpc)
-
-likely blocked by ...
-
-> +{
-> +	return guc->slpc.supported;
-> +}
-> +
-> +static inline bool intel_guc_slpc_is_wanted(struct intel_guc *guc)
-> +{
-> +	return guc->slpc.selected;
-> +}
-> +
-> +static inline bool intel_guc_slpc_is_used(struct intel_guc *guc)
-> +{
-> +	return intel_guc_submission_is_used(guc) && intel_guc_slpc_is_wanted(guc);
-> +}
-> +
-> +void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc);
-> +
-> +int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
-> +int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
-> +void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> new file mode 100644
-> index 000000000000..769c162305a0
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2021 Intel Corporation
-> + */
-> +
-> +#ifndef _INTEL_GUC_SLPC_TYPES_H_
-> +#define _INTEL_GUC_SLPC_TYPES_H_
-> +
-> +#include <linux/types.h>
-> +
-> +struct intel_guc_slpc {
-> +	bool supported;
-> +	bool selected;
-> +};
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index da57d18d9f6b..e6bd9406c7b2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -75,16 +75,18 @@ static void __confirm_options(struct intel_uc *uc)
->  	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
->  
->  	drm_dbg(&i915->drm,
-> -		"enable_guc=%d (guc:%s submission:%s huc:%s)\n",
-> +		"enable_guc=%d (guc:%s submission:%s huc:%s slpc:%s)\n",
->  		i915->params.enable_guc,
->  		yesno(intel_uc_wants_guc(uc)),
->  		yesno(intel_uc_wants_guc_submission(uc)),
-> -		yesno(intel_uc_wants_huc(uc)));
-> +		yesno(intel_uc_wants_huc(uc)),
-> +		yesno(intel_uc_wants_guc_slpc(uc)));
->  
->  	if (i915->params.enable_guc == 0) {
->  		GEM_BUG_ON(intel_uc_wants_guc(uc));
->  		GEM_BUG_ON(intel_uc_wants_guc_submission(uc));
->  		GEM_BUG_ON(intel_uc_wants_huc(uc));
-> +		GEM_BUG_ON(intel_uc_wants_guc_slpc(uc));
->  		return;
->  	}
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> index e2da2b6e76e1..925a58ca6b94 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> @@ -8,6 +8,7 @@
->  
->  #include "intel_guc.h"
->  #include "intel_guc_submission.h"
-> +#include "intel_guc_slpc.h"
->  #include "intel_huc.h"
->  #include "i915_params.h"
->  
-> @@ -83,6 +84,7 @@ __uc_state_checker(x, func, uses, used)
->  uc_state_checkers(guc, guc);
->  uc_state_checkers(huc, huc);
->  uc_state_checkers(guc, guc_submission);
-> +uc_state_checkers(guc, guc_slpc);
-
-... by above, but maybe can be done right with:
-
-	uc_state_checkers(guc.slpc, guc_slpc);
-
-(not a blocker)
-
-Michal
-
->  
->  #undef uc_state_checkers
->  #undef __uc_state_checker
-> 
