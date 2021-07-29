@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C7B3DA77E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:24:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0C43DA77A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:23:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B28A26EDC3;
-	Thu, 29 Jul 2021 15:24:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157156EDC6;
+	Thu, 29 Jul 2021 15:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D49F6EDCF
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 15:24:02 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 038a931a-f081-11eb-9082-0050568c148b;
- Thu, 29 Jul 2021 15:24:06 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 7746D194C0B;
- Thu, 29 Jul 2021 17:24:19 +0200 (CEST)
-Date: Thu, 29 Jul 2021 17:23:55 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Alistair Francis <alistair@alistair23.me>
-Subject: Re: [PATCH v4] drm/panel: Add support for E Ink VB3300-KCA
-Message-ID: <YQLIC0MJvRHr83vY@ravnborg.org>
-References: <20210729103358.209-1-alistair@alistair23.me>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33B476EDC2;
+ Thu, 29 Jul 2021 15:23:17 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ e25-20020a05600c4b99b0290253418ba0fbso4315227wmp.1; 
+ Thu, 29 Jul 2021 08:23:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rBpQQ4PrkRZY0WtM7KbjU/FjfELe0vopn+N+lTuqMUk=;
+ b=Dr+kc8ks6iyXT9LWSb5Du3HdAHPz7RDalBOKm0Og6v/tOp9R0FVfTLQLEb6YjgcFAZ
+ OODEOtCXWQbWffIcrKm4DBgFkXgZzYwHrt+TnvY8sHMYbODXN5+AC287YYQ1Ml2myFyc
+ lrSos/ncgWbQkBjX/3rJpjjDb/w6OxPEEKcNHNnikoGDo+nLRGD2Lw+wleq+XK+7sWBw
+ xn+dBHPBJMl5k0iAstt3pf8RPQLevB6s/P7bjl/Cxbw+u1yMBrE24gQMmZmmeVacKJeS
+ a5VfkAXtDy6sJ6hPFJv0pet+bPSamucYCLdgJS/zhsmD74VZ85w4fHPzJiF4Ge1OKqbA
+ dyDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rBpQQ4PrkRZY0WtM7KbjU/FjfELe0vopn+N+lTuqMUk=;
+ b=sYrB4l4axmS7oNpWEih0OZ7nKKKVD+SNIzFC+mtHkSt8MHY/3kJJ7S1RRYh0Z9RJ8D
+ jSMhErEWAjgTiXv83ZaHiBcuoK0Lv6w/UnQ1WyVtoenX9eXscyaQjEldKwVZsyvEji5e
+ VzXZJoZaneaFr5Mm73Gwng9CNiZ8fa44G4dC/WPdn9t5RD77cj5b2g+NXqR7a+jeC5/e
+ wZ8bHm1qsdoGdGW0OSbARq7Q56sa1pjy6pS3d7w/tRVBVxDlJp6sbTvbz1QTeD+BlB+S
+ SzymnLgXgDCS45YAlYm60kICo1xxKgzFe8zwOJVyLLZrdScC9E8pCef4M4BpzfDG1LN6
+ E3wg==
+X-Gm-Message-State: AOAM530KEe4hV6zQMnEZboytiqyqIiG4VKfCbp84vexVX4xcGuGXu7mY
+ 8S8ucL1CgiYsu+hcP/dvPs0BsdzC/toc86ygrww=
+X-Google-Smtp-Source: ABdhPJxzPEUgqOVmodbHdeZsVfk006v7VDK8qP5MqAnzI/Dj02PkT1mP2Sz1xjDX1yMh4Lyhth6wY2YnuSQUJxmpC8s=
+X-Received: by 2002:a05:600c:4401:: with SMTP id
+ u1mr15603401wmn.49.1627572195705; 
+ Thu, 29 Jul 2021 08:23:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210729103358.209-1-alistair@alistair23.me>
+References: <20210729200230.v2.1.I110b87677ef16d97397fb7c81c07a16e1f5d211e@changeid>
+ <20210729200230.v2.2.I286ef007fcadd9e6ee3b2c0ad948f990735f9610@changeid>
+In-Reply-To: <20210729200230.v2.2.I286ef007fcadd9e6ee3b2c0ad948f990735f9610@changeid>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 29 Jul 2021 08:27:25 -0700
+Message-ID: <CAF6AEGtv0R=SjwpV7NEX6-4sHTF_CxbqgFXNWN+PT9hJJb7N2A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm/msm/a6xx: Use rev to identify SKU
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,112 +64,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, geert+renesas@glider.be,
- kuninori.morimoto.gx@renesas.com, airlied@linux.ie, daniel@0x0f.com,
- linux-kernel@vger.kernel.org, krzk@kernel.org, linux@rempel-privat.de,
- robh+dt@kernel.org, thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
- max.Merchel@tq-group.com, alistair23@gmail.com, shawnguo@kernel.org
+Cc: Sean Paul <sean@poorly.run>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Matthias Kaehlcke <mka@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alistair,
-
-On Thu, Jul 29, 2021 at 08:33:58PM +1000, Alistair Francis wrote:
-> Add support for the 10.3" E Ink panel described at:
-> https://www.eink.com/product.html?type=productdetail&id=7
-> 
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> Acked-by: Rob Herring <robh@kernel.org>
+On Thu, Jul 29, 2021 at 7:33 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
+>
+> Use rev instead of revn to identify the SKU. This is in
+> preparation to the introduction of 7c3 gpu which won't have a
+> revn.
+>
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
 > ---
-> v4:
->  - Fixup alphebetical sorting
-> 
->  .../bindings/display/panel/panel-simple.yaml  |  2 ++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 ++
->  drivers/gpu/drm/panel/panel-simple.c          | 29 +++++++++++++++++++
->  3 files changed, 33 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index b3797ba2698b..799e20222551 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -128,6 +128,8 @@ properties:
->          # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
->        - edt,etm0700g0dh6
->        - edt,etm0700g0edh6
-> +        # E Ink VB3300-KCA
-> +      - eink,vb3300-kca
->          # Evervision Electronics Co. Ltd. VGG804821 5.0" WVGA TFT LCD Panel
->        - evervision,vgg804821
->          # Foxlink Group 5" WVGA TFT LCD panel
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 71da86e7b3a2..31745c45dd92 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -339,6 +339,8 @@ patternProperties:
->      description: eGalax_eMPIA Technology Inc
->    "^einfochips,.*":
->      description: Einfochips
-> +  "^eink,.*":
-> +    description: E Ink Corporation
->    "^elan,.*":
->      description: Elan Microelectronic Corp.
->    "^element14,.*":
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 21939d4352cf..8d6317b85465 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2046,6 +2046,32 @@ static const struct panel_desc edt_etm0700g0bdh6 = {
->  	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
->  };
->  
-> +static const struct display_timing eink_vb3300_kca_timing = {
-> +	.pixelclock = { 40000000, 40000000, 40000000 },
-> +	.hactive = { 334, 334, 334 },
-> +	.hfront_porch = { 1, 1, 1 },
-> +	.hback_porch = { 1, 1, 1 },
-> +	.hsync_len = { 1, 1, 1 },
-> +	.vactive = { 1405, 1405, 1405 },
-> +	.vfront_porch = { 1, 1, 1 },
-> +	.vback_porch = { 1, 1, 1 },
-> +	.vsync_len = { 1, 1, 1 },
-> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-> +		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE,
-> +};
-> +
-> +static const struct panel_desc eink_vb3300_kca = {
-> +	.timings = &eink_vb3300_kca_timing,
-> +	.num_timings = 1,
-> +	.bpc = 6,
-> +	.size = {
-> +		.width = 157,
-> +		.height = 209,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-> +};
-We need the connector_type here.
+>
+> (no changes since v1)
+>
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 183b9f9..0da1a66 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1675,11 +1675,11 @@ static u32 a618_get_speed_bin(u32 fuse)
+>         return UINT_MAX;
+>  }
+>
+> -static u32 fuse_to_supp_hw(struct device *dev, u32 revn, u32 fuse)
+> +static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+>  {
+>         u32 val = UINT_MAX;
+>
+> -       if (revn == 618)
+> +       if (adreno_cmp_rev(ADRENO_REV(6, 1, 8, ANY_ID), rev))
 
-With this added:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Looks like adreno_cmp_rev() ended up in patch 3/3 when it should have
+been in this patch..
 
-I will apply if you update the patch with this.
-I cannot do it as I do not know what connector_type to use.
+But I guess we could also move this into adreno_is_a618() and use that here
 
-	Sam
-> +
->  static const struct display_timing evervision_vgg804821_timing = {
->  	.pixelclock = { 27600000, 33300000, 50000000 },
->  	.hactive = { 800, 800, 800 },
-> @@ -4350,6 +4376,9 @@ static const struct of_device_id platform_of_match[] = {
->  	}, {
->  		.compatible = "edt,etm0700g0edh6",
->  		.data = &edt_etm0700g0bdh6,
-> +	}, {
-> +		.compatible = "eink,vb3300-kca",
-> +		.data = &eink_vb3300_kca,
->  	}, {
->  		.compatible = "evervision,vgg804821",
->  		.data = &evervision_vgg804821,
-> -- 
-> 2.31.1
+BR,
+-R
+
+>                 val = a618_get_speed_bin(fuse);
+>
+>         if (val == UINT_MAX) {
+> @@ -1692,8 +1692,7 @@ static u32 fuse_to_supp_hw(struct device *dev, u32 revn, u32 fuse)
+>         return (1 << val);
+>  }
+>
+> -static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
+> -               u32 revn)
+> +static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
+>  {
+>         u32 supp_hw = UINT_MAX;
+>         u16 speedbin;
+> @@ -1714,7 +1713,7 @@ static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
+>         }
+>         speedbin = le16_to_cpu(speedbin);
+>
+> -       supp_hw = fuse_to_supp_hw(dev, revn, speedbin);
+> +       supp_hw = fuse_to_supp_hw(dev, rev, speedbin);
+>
+>  done:
+>         ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
+> @@ -1785,7 +1784,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>
+>         a6xx_llc_slices_init(pdev, a6xx_gpu);
+>
+> -       ret = a6xx_set_supported_hw(&pdev->dev, a6xx_gpu, info->revn);
+> +       ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
+>         if (ret) {
+>                 a6xx_destroy(&(a6xx_gpu->base.base));
+>                 return ERR_PTR(ret);
+> --
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation.
+>
