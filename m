@@ -2,37 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F21C3D9A06
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 02:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D9D3D9D93
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 08:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE496E314;
-	Thu, 29 Jul 2021 00:16:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B44B06EC8C;
+	Thu, 29 Jul 2021 06:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5DD96E243;
- Thu, 29 Jul 2021 00:16:12 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="212500656"
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="212500656"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 17:16:11 -0700
-X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="456666796"
-Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2021 17:16:10 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/1] drm/i915: Check if engine has heartbeat when closing a
- context
-Date: Wed, 28 Jul 2021 17:34:00 -0700
-Message-Id: <20210729003400.151864-2-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210729003400.151864-1-matthew.brost@intel.com>
-References: <20210729003400.151864-1-matthew.brost@intel.com>
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65DBC6E51C
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 00:35:44 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ n28-20020a05600c3b9cb02902552e60df56so2796762wms.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 17:35:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=A91VsRhxCCDIXtkfswtebSEJGkGdWMGW8PkmZnFfEqA=;
+ b=SvncO4Q5IeNq+bdgnrabIUmkNm8M0cS+oXjh52oWxM6ucE1MgJgrpPpRzS6DfOWLhK
+ +UMuvIZp8L1pAIpoWX3lcrSdQL7TGpie938D0Kjg2uk3YBltmP4EnEYvWXhbAuFEPL90
+ UW28LH6i40CmJ1nj7nzsyo6pVgJ8l0Qwtb/R5I8vJ76DZy/cHvkZaTFRtcC5636j+ZF/
+ kyn5krxJNmHzfoFc8O7PcVLenwCgWvpQc5f3dTWnZZb9M5FjqsK/ULvV/X8lxOSI0Uwa
+ +7yWsSJwVSQ/WxXuBuD7EXFCFbHWsUWPYRXVsV4g4XnygTCYCMq2uGgRLMG4JtxaErII
+ ysDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=A91VsRhxCCDIXtkfswtebSEJGkGdWMGW8PkmZnFfEqA=;
+ b=fGrNU5rwpbyFGXgO1aBWntlJrLOTHOILQYJWnfP1kBVKNs4WKqC0cW01jqKZCQ5Xqr
+ ofe476ufL09NMKHv1HMuG8cfbH7ukMZrc+Bmn8MrNydX0taSzkvryb1NIm8Oiu0HGCAw
+ 8K76cwLcWbZIs+t1C8UYkg9adrTi6jDcp36BdZlVVlzlseFUb+Ax5rOpC7w0DB5ULlMu
+ nAicP5lldN7rQaq2SsFoiKR2qf9KhNyqU42kKuHhcwz87yv2bn/8DPj87fh4x0/wSGsc
+ mFtCZA4VW5+nc+CtNjrzShxf0P92ghLbwE8CPMCfPJL3mWHpItaHLqnZAUkUuTiFMjCg
+ mOKg==
+X-Gm-Message-State: AOAM531gx8DYxuzyVwH9psuWI7BcNxOp9dhbG3DWBkVsLA0yVk7Rg7m6
+ mSSYRSGWQ8vfuqxzadHTdKVOTA==
+X-Google-Smtp-Source: ABdhPJxNnhr67/krO6Od73KqvFm2SWsrllggrEWrmt1dtZmyIJrwfJHmKsNApbDqElBq2VnfEKWdXw==
+X-Received: by 2002:a1c:f40a:: with SMTP id z10mr2073824wma.119.1627518942865; 
+ Wed, 28 Jul 2021 17:35:42 -0700 (PDT)
+Received: from [192.168.1.12] (host-80-41-121-59.as13285.net. [80.41.121.59])
+ by smtp.gmail.com with ESMTPSA id
+ p5sm1628396wrd.25.2021.07.28.17.35.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 17:35:42 -0700 (PDT)
+Subject: Re: [early pull] drm/msm: drm-msm-next-2021-07-28 for v5.15
+To: Rob Clark <robdclark@gmail.com>, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <SKuAxGshCZFzlguCiEJOU0kAFCJ9WDGK_qCmPESnrghqei0-VIp4DD5vL58OEJCq2B-AkvF1az0EedzkGjSNLQ==@protonmail.internalid>
+ <CAF6AEGumRk7H88bqV=H9Fb1SM0zPBo5B7NsCU3jFFKBYxf5k+Q@mail.gmail.com>
+From: Caleb Connolly <caleb.connolly@linaro.org>
+Message-ID: <7553f3cd-61c8-3ece-14ec-6c0cf4ae0296@linaro.org>
+Date: Thu, 29 Jul 2021 01:35:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGumRk7H88bqV=H9Fb1SM0zPBo5B7NsCU3jFFKBYxf5k+Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 29 Jul 2021 06:21:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,175 +76,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If an engine associated with a context does not have a heartbeat, ban it
-immediately. This is needed for GuC submission as a idle pulse doesn't
-kick the context off the hardware where it then can check for a
-heartbeat and ban the context.
+Hi Rob,
 
-This patch also updates intel_engine_has_heartbeat to be a vfunc as we
-now need to call this function on execlists virtual engines too.  
+This series causes a fatal crash on my Oneplus 6, the device goes to 
+Qualcomm crashdump mode shortly after reaching UI with the following errors:
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c   |  5 +++--
- drivers/gpu/drm/i915/gt/intel_context_types.h |  2 ++
- drivers/gpu/drm/i915/gt/intel_engine.h        | 21 ++-----------------
- .../drm/i915/gt/intel_execlists_submission.c  | 14 +++++++++++++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +++++-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 --
- 6 files changed, 26 insertions(+), 24 deletions(-)
+https://paste.ubuntu.com/p/HvjmzZYtgw/
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 9c3672bac0e2..b8e01c5ba9e5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1090,8 +1090,9 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
- 	 */
- 	for_each_gem_engine(ce, engines, it) {
- 		struct intel_engine_cs *engine;
-+		bool local_ban = ban || !intel_engine_has_heartbeat(ce->engine);
- 
--		if (ban && intel_context_ban(ce, NULL))
-+		if (local_ban && intel_context_ban(ce, NULL))
- 			continue;
- 
- 		/*
-@@ -1104,7 +1105,7 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
- 		engine = active_engine(ce);
- 
- 		/* First attempt to gracefully cancel the context */
--		if (engine && !__cancel_engine(engine) && ban)
-+		if (engine && !__cancel_engine(engine) && local_ban)
- 			/*
- 			 * If we are unable to send a preemptive pulse to bump
- 			 * the context from the GPU, we have to resort to a full
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index e54351a170e2..65f2eb2a78e4 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -55,6 +55,8 @@ struct intel_context_ops {
- 	void (*reset)(struct intel_context *ce);
- 	void (*destroy)(struct kref *kref);
- 
-+	bool (*has_heartbeat)(const struct intel_engine_cs *engine);
-+
- 	/* virtual engine/context interface */
- 	struct intel_context *(*create_virtual)(struct intel_engine_cs **engine,
- 						unsigned int count);
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-index c2a5640ae055..1b11a808acc4 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-@@ -283,28 +283,11 @@ struct intel_context *
- intel_engine_create_virtual(struct intel_engine_cs **siblings,
- 			    unsigned int count);
- 
--static inline bool
--intel_virtual_engine_has_heartbeat(const struct intel_engine_cs *engine)
--{
--	/*
--	 * For non-GuC submission we expect the back-end to look at the
--	 * heartbeat status of the actual physical engine that the work
--	 * has been (or is being) scheduled on, so we should only reach
--	 * here with GuC submission enabled.
--	 */
--	GEM_BUG_ON(!intel_engine_uses_guc(engine));
--
--	return intel_guc_virtual_engine_has_heartbeat(engine);
--}
--
- static inline bool
- intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
- {
--	if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
--		return false;
--
--	if (intel_engine_is_virtual(engine))
--		return intel_virtual_engine_has_heartbeat(engine);
-+	if (engine->cops->has_heartbeat)
-+		return engine->cops->has_heartbeat(engine);
- 	else
- 		return READ_ONCE(engine->props.heartbeat_interval_ms);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index de5f9c86b9a4..18005b5546b6 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -3619,6 +3619,18 @@ virtual_get_sibling(struct intel_engine_cs *engine, unsigned int sibling)
- 	return ve->siblings[sibling];
- }
- 
-+static bool virtual_engine_has_heartbeat(const struct intel_engine_cs *ve)
-+{
-+	struct intel_engine_cs *engine;
-+	intel_engine_mask_t tmp, mask = ve->mask;
-+
-+	for_each_engine_masked(engine, ve->gt, mask, tmp)
-+		if (READ_ONCE(engine->props.heartbeat_interval_ms))
-+			return true;
-+
-+	return false;
-+}
-+
- static const struct intel_context_ops virtual_context_ops = {
- 	.flags = COPS_HAS_INFLIGHT,
- 
-@@ -3634,6 +3646,8 @@ static const struct intel_context_ops virtual_context_ops = {
- 	.enter = virtual_context_enter,
- 	.exit = virtual_context_exit,
- 
-+	.has_heartbeat = virtual_engine_has_heartbeat,
-+
- 	.destroy = virtual_context_destroy,
- 
- 	.get_sibling = virtual_get_sibling,
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 89ff0e4b4bc7..ae70bff3605f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2168,6 +2168,8 @@ static int guc_virtual_context_alloc(struct intel_context *ce)
- 	return lrc_alloc(ce, engine);
- }
- 
-+static bool guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve);
-+
- static const struct intel_context_ops virtual_guc_context_ops = {
- 	.alloc = guc_virtual_context_alloc,
- 
-@@ -2183,6 +2185,8 @@ static const struct intel_context_ops virtual_guc_context_ops = {
- 	.enter = guc_virtual_context_enter,
- 	.exit = guc_virtual_context_exit,
- 
-+	.has_heartbeat = guc_virtual_engine_has_heartbeat,
-+
- 	.sched_disable = guc_context_sched_disable,
- 
- 	.destroy = guc_context_destroy,
-@@ -3029,7 +3033,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
- 	return ERR_PTR(err);
- }
- 
--bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve)
-+static bool guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve)
- {
- 	struct intel_engine_cs *engine;
- 	intel_engine_mask_t tmp, mask = ve->mask;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-index c7ef44fa0c36..c2afc3b88fd8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-@@ -29,8 +29,6 @@ void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
- 				    struct i915_request *hung_rq,
- 				    struct drm_printer *m);
- 
--bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve);
--
- int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
- 				   atomic_t *wait_var,
- 				   bool interruptible,
+I did a git bisect and the patch ("drm/msm: Devfreq tuning") seems to be 
+the cause of the crash, reverting it resolves the issue.
+
+
+On 28/07/2021 21:52, Rob Clark wrote:
+> Hi Dave & Daniel,
+> 
+> An early pull for v5.15 (there'll be more coming in a week or two),
+> consisting of the drm/scheduler conversion and a couple other small
+> series that one was based one.  Mostly sending this now because IIUC
+> danvet wanted it in drm-next so he could rebase on it.  (Daniel, if
+> you disagree then speak up, and I'll instead include this in the main
+> pull request once that is ready.)
+> 
+> This also has a core patch to drop drm_gem_object_put_locked() now
+> that the last use of it is removed.
+> 
+> The following changes since commit ff1176468d368232b684f75e82563369208bc371:
+> 
+>    Linux 5.14-rc3 (2021-07-25 15:35:14 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.freedesktop.org/drm/msm.git drm-msm-next-2021-07-28
+> 
+> for you to fetch changes up to 4541e4f2225c30b0e9442be9eb2fb8b7086cdd1f:
+> 
+>    drm/msm/gem: Mark active before pinning (2021-07-28 09:19:00 -0700)
+> 
+> ----------------------------------------------------------------
+> Rob Clark (18):
+>        drm/msm: Let fences read directly from memptrs
+>        drm/msm: Signal fences sooner
+>        drm/msm: Split out devfreq handling
+>        drm/msm: Split out get_freq() helper
+>        drm/msm: Devfreq tuning
+>        drm/msm: Docs and misc cleanup
+>        drm/msm: Small submitqueue creation cleanup
+>        drm/msm: drop drm_gem_object_put_locked()
+>        drm: Drop drm_gem_object_put_locked()
+>        drm/msm/submit: Simplify out-fence-fd handling
+>        drm/msm: Consolidate submit bo state
+>        drm/msm: Track "seqno" fences by idr
+>        drm/msm: Return ERR_PTR() from submit_create()
+>        drm/msm: Conversion to drm scheduler
+>        drm/msm: Drop submit bo_list
+>        drm/msm: Drop struct_mutex in submit path
+>        drm/msm: Utilize gpu scheduler priorities
+>        drm/msm/gem: Mark active before pinning
+> 
+>   drivers/gpu/drm/drm_gem.c                   |  22 --
+>   drivers/gpu/drm/msm/Kconfig                 |   1 +
+>   drivers/gpu/drm/msm/Makefile                |   1 +
+>   drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
+>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
+>   drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
+>   drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   6 +-
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
+>   drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
+>   drivers/gpu/drm/msm/msm_drv.c               |  30 ++-
+>   drivers/gpu/drm/msm/msm_fence.c             |  53 +----
+>   drivers/gpu/drm/msm/msm_fence.h             |  44 +++-
+>   drivers/gpu/drm/msm/msm_gem.c               |  94 +-------
+>   drivers/gpu/drm/msm/msm_gem.h               |  47 ++--
+>   drivers/gpu/drm/msm/msm_gem_submit.c        | 344 +++++++++++++++++-----------
+>   drivers/gpu/drm/msm/msm_gpu.c               | 220 ++++--------------
+>   drivers/gpu/drm/msm/msm_gpu.h               | 139 ++++++++++-
+>   drivers/gpu/drm/msm/msm_gpu_devfreq.c       | 203 ++++++++++++++++
+>   drivers/gpu/drm/msm/msm_rd.c                |   6 +-
+>   drivers/gpu/drm/msm/msm_ringbuffer.c        |  69 +++++-
+>   drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
+>   drivers/gpu/drm/msm/msm_submitqueue.c       |  53 +++--
+>   include/drm/drm_gem.h                       |   2 -
+>   include/uapi/drm/msm_drm.h                  |  14 +-
+>   26 files changed, 865 insertions(+), 536 deletions(-)
+>   create mode 100644 drivers/gpu/drm/msm/msm_gpu_devfreq.c
+> 
+
 -- 
-2.28.0
-
+Kind Regards,
+Caleb (they/them)
