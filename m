@@ -1,73 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9943DA11C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 12:34:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6763DA17D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 12:48:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05E366E0C6;
-	Thu, 29 Jul 2021 10:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F5A6ED14;
+	Thu, 29 Jul 2021 10:48:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5B256E0C6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 10:34:20 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 094EE580CD9;
- Thu, 29 Jul 2021 06:34:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 29 Jul 2021 06:34:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=V4C55hsRueWa8C1kkzjddTo5uH
- zR8ZYH9nUiecGcVuk=; b=g+/XtHHoj3CfrBsfqDX/52EObavJ6dr8GOdOXNlJXB
- wUmP46oD+pYDLpPRhXUL8HvVo6ZWLOPZZdlt0rTkuwj6LKta5dMfYHdjdsIEEiw4
- Gy9NoN98v4UGCjDA4iKpderM3SF/vih4XagQKyI1gBXg5FISeTzQjdup0UqoG5Ln
- dJE96WL5fqfare0QQCBW3AmreJZRGYJ4hOLyxI5/ZOEVncWzaOxibp6RqglMEWiA
- P1XI+MlSCjnVnS18/6kSei9oirsRzS69LjjIFQvRy3zUd3BUrKEk8wQGRwbs5c9Z
- gY0ToJlOKJx5AKqXFz13fn25JIQtZx1EFwNn2d6/Ujnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=V4C55hsRueWa8C1kk
- zjddTo5uHzR8ZYH9nUiecGcVuk=; b=GrHseugRFsVX7h2G58XQ7y1K5rZAGKwrN
- Eiw3KAZm87qiiDSyQgT8XtpWPZmAupJ7euCdeiBbKHq1T8jCGaowENUU9+gXB7zd
- 93Zao0mxxGJWWCKTeW0obIYRSPO+FpCeKN9lkWuBepIR01exzPHG+/N87zLJZS5p
- d+FaVNa3IfnXilEW0qXx165JAhqsASUhxdxBNi/cAepx3eDIIg5k9tDVjp2NC61Q
- f3RuPTTVLSKueyWIUENklDwE8b2/+ywAD6T9IGXlSkxYJAcUyfQPOYRJeoPlBgzW
- 8T8JDvngxmM54/KumZkWxhNuuFsDj6jhHwDDQiQaPXkjCCIWezzNQ==
-X-ME-Sender: <xms:J4QCYR8L6XPQ8MERFwA4-FnXTX5NkjqCuP4DsO-u_QXRPTU6IxYH5A>
- <xme:J4QCYVuywSTSMtVD8_ddIyoCipbLVhRdcz0MwcJ2A78CU54RJBvppZSSD4bwi-Zwt
- ebFYcmfzPF3LEX6LTQ>
-X-ME-Received: <xmr:J4QCYfAK-_mYamets8ftnz4zct_LDxMGi9r1KiIxIM9h17ylmy_gxw2qR3SfDyY2GB2jNUahXkKfcp2nthU1BuxqWKmZEwGXei99DiGw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrhedugddvudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlihhsthgrihhr
- ucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvqeenuc
- ggtffrrghtthgvrhhnpefghfegkeejtddvfeekjeelgeffhefhvddvvddtvefgfffftdek
- geeljeefvdeiudenucffohhmrghinhepvghinhhkrdgtohhmnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishht
- rghirhdvfedrmhgv
-X-ME-Proxy: <xmx:J4QCYVe02nXhSMk0zWzqSkERFmklr-Rj0DyB70Y6j6mSmZ5QEJcG6g>
- <xmx:J4QCYWO3nJr2iz34JRFe_38l047YF9KQE5dysCYn5MVXO8LDaxYg8w>
- <xmx:J4QCYXmjpwvPQap6kgZMNVjAN0zvilueH-uJ37r08cdML3tneSLrCQ>
- <xmx:KoQCYTvJB0tKhA5yeCNgIAdREBGd69MS684CWuztX_alZgWgPNt20w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Jul 2021 06:34:07 -0400 (EDT)
-From: Alistair Francis <alistair@alistair23.me>
-To: robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org,
- krzk@kernel.org, shawnguo@kernel.org, daniel@0x0f.com,
- linux@rempel-privat.de, kuninori.morimoto.gx@renesas.com,
- max.Merchel@tq-group.com, geert+renesas@glider.be, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH v4] drm/panel: Add support for E Ink VB3300-KCA
-Date: Thu, 29 Jul 2021 20:33:58 +1000
-Message-Id: <20210729103358.209-1-alistair@alistair23.me>
-X-Mailer: git-send-email 2.20.1
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B98C6ED14
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 10:48:35 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 6BCE0201ED;
+ Thu, 29 Jul 2021 10:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1627555713;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ao638iMTTjsA+VNcKLaQE/T5PYOWw6rLSmI4SdHNaOg=;
+ b=abeCZgaOXkwOt0BkzLlF/+2YTZf7UkZxXuKxwx+rarlLl6+++jGA/oSR1zP1tBBkMVXgvm
+ GT4hGzwrHWO646FIwY3QI2qOTTdotUXq3PJvQire1Y3xdHm1pRg9mNfEdMqC4y4P0XvCJK
+ f4ThlbSAIc4M6bC7S1y1F/1mrMoaviA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1627555713;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ao638iMTTjsA+VNcKLaQE/T5PYOWw6rLSmI4SdHNaOg=;
+ b=3jaJHiWtLRI5qqhbTkmtMyPrqt0TMeDMpnw71ZVL0gyLLlXhjwjFNZFKJAOOOEzthRehoc
+ I6ScSOeN75vLU8Cg==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+ by relay2.suse.de (Postfix) with ESMTP id 53E3BA3B81;
+ Thu, 29 Jul 2021 10:48:33 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+ id E0A69DA7AF; Thu, 29 Jul 2021 12:45:47 +0200 (CEST)
+Date: Thu, 29 Jul 2021 12:45:47 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
+Message-ID: <20210729104547.GT5047@suse.cz>
+Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ linux-hardening@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Keith Packard <keithpac@amazon.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-3-keescook@chromium.org>
+ <20210728073556.GP1931@kadam> <20210728092323.GW5047@twin.jikos.cz>
+ <202107281454.F96505E15@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202107281454.F96505E15@keescook>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,99 +74,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Alistair Francis <alistair@alistair23.me>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- alistair23@gmail.com
+Reply-To: dsterba@suse.cz
+Cc: linux-kbuild@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
+ Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the 10.3" E Ink panel described at:
-https://www.eink.com/product.html?type=productdetail&id=7
+On Wed, Jul 28, 2021 at 02:54:52PM -0700, Kees Cook wrote:
+> On Wed, Jul 28, 2021 at 11:23:23AM +0200, David Sterba wrote:
+> > On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
+> > > @@ -372,7 +372,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+> > >  			ieee80211_calculate_rx_timestamp(local, status,
+> > >  							 mpdulen, 0),
+> > >  			pos);
+> > > -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
+> > > +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
+> > 
+> > A drive-by comment, not related to the patchset, but rather the
+> > ieee80211 driver itself.
+> > 
+> > Shift expressions with (1 << NUMBER) can be subtly broken once the
+> > NUMBER is 31 and the value gets silently cast to a 64bit type. It will
+> > become 0xfffffffff80000000.
+> > 
+> > I've checked the IEEE80211_RADIOTAP_* defintions if this is even remotely
+> > possible and yes, IEEE80211_RADIOTAP_EXT == 31. Fortunatelly it seems to
+> > be used with used with a 32bit types (eg. _bitmap_shifter) so there are
+> > no surprises.
+> > 
+> > The recommended practice is to always use unsigned types for shifts, so
+> > "1U << ..." at least.
+> 
+> Ah, good catch! I think just using BIT() is the right replacement here,
+> yes? I suppose that should be a separate patch.
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
-Acked-by: Rob Herring <robh@kernel.org>
----
-v4:
- - Fixup alphebetical sorting
+I found definition of BIT in vdso/bits.h, that does not sound like a
+standard header, besides that it shifts 1UL, that may not be necessary
+everywhere. IIRC there were objections against using the macro at all.
 
- .../bindings/display/panel/panel-simple.yaml  |  2 ++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 ++
- drivers/gpu/drm/panel/panel-simple.c          | 29 +++++++++++++++++++
- 3 files changed, 33 insertions(+)
+Looking for all the definitions, there are a few that are wrong in the
+sense they're using the singed type, eg.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index b3797ba2698b..799e20222551 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -128,6 +128,8 @@ properties:
-         # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
-       - edt,etm0700g0dh6
-       - edt,etm0700g0edh6
-+        # E Ink VB3300-KCA
-+      - eink,vb3300-kca
-         # Evervision Electronics Co. Ltd. VGG804821 5.0" WVGA TFT LCD Panel
-       - evervision,vgg804821
-         # Foxlink Group 5" WVGA TFT LCD panel
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 71da86e7b3a2..31745c45dd92 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -339,6 +339,8 @@ patternProperties:
-     description: eGalax_eMPIA Technology Inc
-   "^einfochips,.*":
-     description: Einfochips
-+  "^eink,.*":
-+    description: E Ink Corporation
-   "^elan,.*":
-     description: Elan Microelectronic Corp.
-   "^element14,.*":
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 21939d4352cf..8d6317b85465 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2046,6 +2046,32 @@ static const struct panel_desc edt_etm0700g0bdh6 = {
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
- };
- 
-+static const struct display_timing eink_vb3300_kca_timing = {
-+	.pixelclock = { 40000000, 40000000, 40000000 },
-+	.hactive = { 334, 334, 334 },
-+	.hfront_porch = { 1, 1, 1 },
-+	.hback_porch = { 1, 1, 1 },
-+	.hsync_len = { 1, 1, 1 },
-+	.vactive = { 1405, 1405, 1405 },
-+	.vfront_porch = { 1, 1, 1 },
-+	.vback_porch = { 1, 1, 1 },
-+	.vsync_len = { 1, 1, 1 },
-+	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-+		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE,
-+};
-+
-+static const struct panel_desc eink_vb3300_kca = {
-+	.timings = &eink_vb3300_kca_timing,
-+	.num_timings = 1,
-+	.bpc = 6,
-+	.size = {
-+		.width = 157,
-+		.height = 209,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-+};
-+
- static const struct display_timing evervision_vgg804821_timing = {
- 	.pixelclock = { 27600000, 33300000, 50000000 },
- 	.hactive = { 800, 800, 800 },
-@@ -4350,6 +4376,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "edt,etm0700g0edh6",
- 		.data = &edt_etm0700g0bdh6,
-+	}, {
-+		.compatible = "eink,vb3300-kca",
-+		.data = &eink_vb3300_kca,
- 	}, {
- 		.compatible = "evervision,vgg804821",
- 		.data = &evervision_vgg804821,
--- 
-2.31.1
+https://elixir.bootlin.com/linux/v5.14-rc3/source/arch/arm/mach-davinci/sleep.S#L7
 
+#define BIT(nr)			(1 << (nr))
+...
+#define DEEPSLEEP_SLEEPENABLE_BIT	BIT(31)
+
+but that's an assembly file so the C integer promotions don't apply.
+
+https://elixir.bootlin.com/linux/v5.14-rc3/source/drivers/staging/rtl8723bs/include/osdep_service.h#L18
+https://elixir.bootlin.com/linux/v5.14-rc3/source/drivers/staging/rtl8723bs/include/wifi.h#L15
+https://elixir.bootlin.com/linux/v5.14-rc3/source/tools/perf/util/intel-pt-decoder/intel-pt-pkt-decoder.c#L15
+
+#define BIT(x)	(1 << (x))
+
+Auditing and cleaning that up is for another series, yeah, I'm just
+pointing it here if somebody feels like doing the work. It's IMO low
+hanging fruit but can reveal real bugs.
