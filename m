@@ -1,59 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFDDE3DA3EC
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 15:23:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A883DA465
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 15:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4BC86E12A;
-	Thu, 29 Jul 2021 13:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A57AA6ED65;
+	Thu, 29 Jul 2021 13:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93F6A6E12A
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 13:23:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5EB4F60F42
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 13:23:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627565000;
- bh=E8Op1puKZIgHXgQDpp4vp32ZS0lMgArtJXfdsukF468=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=tCnmX8YFZh4cUK7rDoBzBa2uwXFE1L8lHX3Y8yHl80riLqqyFwiW/bs2bvBXgUVe5
- tpZJxNSWj9ToxsCwv4pquEy4lGfl0qPIik4FtNXV1t3S+cn07kQWwwA6p/TH5aQRNv
- +eBalGb45JrApHPyMTPUnk3mesly4Q9T2AbUdNvtk9n+G5WeS/YoiisXKqBlBJ+Ur1
- xqameNWGh3APHJx7Rwnxhh0iNJTPJ1XAzEgo4sa60SsktrXJqIoy3SocV2JCY5LnLY
- rk6fX7gBkHxeUDdJcZysz0vD72iXb6aF6cSM2/KlRReOCHEmJEqy1pJ3QT0NWtSqb1
- S9Pb24wiex91A==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 54F4960EE6; Thu, 29 Jul 2021 13:23:20 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210263] brightness device returns ENXIO (?) on brightness
- restore at boot, with bootoption "quiet"
-Date: Thu, 29 Jul 2021 13:23:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jplatte+linux@posteo.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-210263-2300-xBGVQllbsA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210263-2300@https.bugzilla.kernel.org/>
-References: <bug-210263-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC096E203;
+ Thu, 29 Jul 2021 13:34:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="209769967"
+X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="209769967"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2021 06:34:30 -0700
+X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="438420086"
+Received: from eoghanru-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.215.170])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2021 06:34:29 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915/selftests: fixup igt_shrink_thp
+Date: Thu, 29 Jul 2021 14:34:19 +0100
+Message-Id: <20210729133420.770672-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,26 +42,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D210263
+From: Matthew Auld <matthew.auld@intel.com>
 
-Jonas Platte (jplatte+linux@posteo.de) changed:
+Since the object might still be active here, the shrink_all will simply
+ignore it, which blows up in the test, since the pages will still be
+there. Currently THP is disabled which should result in the test being
+skipped, but if we ever re-enable THP we might start seeing the failure.
+Fix this by forcing I915_SHRINK_ACTIVE.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |jplatte+linux@posteo.de
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+---
+ drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
---- Comment #4 from Jonas Platte (jplatte+linux@posteo.de) ---
-Workaround works for me too, on a Lenovo Ideapad 530S-14ARR with an AMD Ryz=
-en
-2500U. I also set acpi_backlight=3Dvendor to fix the same error message for
-backlight:acpi_video1. (No idea why it tries to restore backlight brightness
-twice)
+diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+index a094f3ce1a90..acc435f14ac9 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
++++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+@@ -1572,12 +1572,15 @@ static int igt_shrink_thp(void *arg)
+ 		goto out_put;
+ 
+ 	/*
+-	 * Now that the pages are *unpinned* shrink-all should invoke
++	 * Now that the pages are *unpinned* shrinking should invoke
+ 	 * shmem to truncate our pages.
+ 	 */
+-	i915_gem_shrink_all(i915);
++	i915_gem_shrink(NULL, i915, -1UL, NULL,
++			I915_SHRINK_BOUND |
++			I915_SHRINK_UNBOUND |
++			I915_SHRINK_ACTIVE);
+ 	if (i915_gem_object_has_pages(obj)) {
+-		pr_err("shrink-all didn't truncate the pages\n");
++		pr_err("shrinking didn't truncate the pages\n");
+ 		err = -EINVAL;
+ 		goto out_put;
+ 	}
+-- 
+2.30.2
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
