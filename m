@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0D93DA272
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 13:47:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D0B3DA278
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 13:48:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E06C6E0F1;
-	Thu, 29 Jul 2021 11:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20A686E25A;
+	Thu, 29 Jul 2021 11:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E19966E0F1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 11:47:49 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id mt6so9929950pjb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 04:47:49 -0700 (PDT)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C944D6E25A
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 11:48:46 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ m10-20020a17090a34cab0290176b52c60ddso8807497pjf.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 04:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K9GiTJuVI5x4RuGCQ02DAiAFTRDb2BIvA8GMDRJSB6k=;
- b=yv0lO2IkvEcpcHECnb+T9gwzGSAowFwz+9NwBQpZ11PaFdVU/wsxqo5fT/yrr9tE6M
- Ldm2VOpbXRZAp/Ug5rk1DcmYG25epedmzpza6KBBkPIWWIU7cnkhwi5RdfEKtfrk65s1
- GcDIOKGueKx7ADdXFb+B0UfN7q529DbF4mAMud1t5ig4ZT4wFlvvW93uLKfhpMPpuYDE
- +3qoQXZFOEq7/2BkBOo2VE/K4GgooZfWR7x7Q7wbCbqOdGeZ8UTclpJv5e7k8I+pY3do
- pFVHevMO+EsgGnt9SJ+iP6vbjj8fi2gt0ZptRsIVCs1MsTj5s26K9jP2McPJUIYn8Wko
- OsqA==
+ :cc; bh=vxhHsDrYpm2kI+mPYAlWy7FpBAReDvQpjfpTvihE1ZE=;
+ b=XQRdVrXr9ifqpbu6q9ewzE9YUmb4YMlVLGs9JHdGfMbmKe4kAYHSv4WY20+0qdxfGm
+ 5BRybZX5w7SbfyvL9iAXSPOh+xRz8VcvSemDzrTqs4EYxxlH1Eyy7MYcKqSFAWUcrANW
+ iCFxE6oY/wFgElEjL5ktNZGFCcUNqiWgxMdKfhmiVshMAGlHBWppJ0DsRjBLnNKMr0qi
+ osBMKIoO2gsGMbqJSgLmJHcoHZnWU/xvWKoPelN7JheEAJoSsQG8hGpE3X5LyqjG0cgT
+ n8MTJSIDHwUhsK7k+/z9x1Kx2RmeM+/xweoby9TWdXrHItl342LoXyD+wooRp4gOpf+1
+ MCKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=K9GiTJuVI5x4RuGCQ02DAiAFTRDb2BIvA8GMDRJSB6k=;
- b=YiQWvcFG4+EnM5tLXDf5NU6fjbVheKavmdrPUYdNiUPxXFPrIGtMMK/uqfw3JZK1gf
- P13lFwoDfIrVTxlX9mb3cOzrApvhwqCVWgzRXkxiPlRkgH6FMSi9rPI4pw6pkO43YPF8
- PpQ6lZnLdAx6JWCOoN0HLob0d9jNS++eHkP0cTHtEq1pdQH8TakIlhdZIwo0bvqjvl0u
- zvqxloYJULUne1xt6qeDmNg/UgXjiTzudXJWH90AgrzxLpYhiWyR35hkwFwjnOv7DCz/
- SpKlZmQ4BCPzYLv3rexjLk3EsWGWe2LVDT8lsvFYnXVpqZfzGfay81MFzh1RwXXAX88K
- 41Zw==
-X-Gm-Message-State: AOAM533AEmzAADZebvT+OonqZ5emOSD2gIofzeH1otd0BFmjFvofrjBx
- MHg5zVMSXDdM5JxVe0BQLWnLol+Lb3L3UWZ9fvEtSg==
-X-Google-Smtp-Source: ABdhPJy0UIG7qmOKUr5AtuyIOSotO04zDKZuTO2snDleiMOIl76CIKdVjCd+V8P1Zk5FWrClXpEgXRn8P4tKqvKvU8w=
-X-Received: by 2002:aa7:90c8:0:b029:32c:935f:de5f with SMTP id
- k8-20020aa790c80000b029032c935fde5fmr4738606pfk.79.1627559269461; Thu, 29 Jul
- 2021 04:47:49 -0700 (PDT)
+ bh=vxhHsDrYpm2kI+mPYAlWy7FpBAReDvQpjfpTvihE1ZE=;
+ b=BgyWVkVC4ZVY7HHFcxt2Uea19SIuBqcJQoovZCEGoJL62/Yr9tmRkLwZ3sBtAg5tbZ
+ eQI0uS13cURDyvCm14Q40h8/s9NSTkE+TrneeUtSorvsJrAx4jeKHxgf07vqNemQVgIJ
+ QK67+bTLN4PJpNPiHAg730Q590ZLwhYbj311IHcmPgjE2fP1oxwjqrA5c59ObeUNWs7e
+ utJCAWLxFVd1d9EQK6hvlowGIeHvYGLLzffzQXxQr1/TgaxRtriblH2G7bYQYBKgANkG
+ XlJI5hS+BkzDgy1GvZ1fSMDZHn1bJ5uacCfadhwT01Aq6iq7VoxbWwid4KaGS4R/HwKl
+ jckQ==
+X-Gm-Message-State: AOAM532h3qqWcLe26jg1Nqutx+/AWf1hBoxbZRKjD6eWWxg22CRV/A1O
+ 0chE8YHqSYc8UM1O49tVdxTt13pcSgPKoWsEH+KLLQ==
+X-Google-Smtp-Source: ABdhPJzmjmbRLZHOYGw8ZKDBP8QSe9qxWf7f2rEWUiJPz48ENWI7qEJjpdwkxa7mxaox1V0XGFReV7579lL4tNxFtQs=
+X-Received: by 2002:a17:902:da8a:b029:12c:4261:a2d6 with SMTP id
+ j10-20020a170902da8ab029012c4261a2d6mr4372829plx.50.1627559326287; Thu, 29
+ Jul 2021 04:48:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210728164557.1882787-1-dianders@chromium.org>
- <20210728094511.2.If8a8ec3bf1855cf0dbb62c005a71d6698c99c125@changeid>
-In-Reply-To: <20210728094511.2.If8a8ec3bf1855cf0dbb62c005a71d6698c99c125@changeid>
+ <20210728094511.3.I842d483139531aa4651da8338512fdf0171ff23c@changeid>
+In-Reply-To: <20210728094511.3.I842d483139531aa4651da8338512fdf0171ff23c@changeid>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 29 Jul 2021 13:47:38 +0200
-Message-ID: <CAG3jFytxZAJZdpMyL1Dye2Q+AaVLBDofV8risAFd=++pLYPvXQ@mail.gmail.com>
-Subject: Re: [PATCH 2/6] drm/bridge: ti-sn65dsi86: Fix power off sequence
+Date: Thu, 29 Jul 2021 13:48:35 +0200
+Message-ID: <CAG3jFyvwTY8azFVcHnSwgSe++ZNEfMvhbgROsLhpY00hwg5ikA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] drm/bridge: ti-sn65dsi86: Add some 100 us delays
 To: Douglas Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,7 +65,6 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Sandeep Panda <spanda@codeaurora.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
@@ -80,75 +80,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hey Doug,
 
-Thank you for submitting this.
+Thanks for submitting this.
 
 On Wed, 28 Jul 2021 at 18:46, Douglas Anderson <dianders@chromium.org> wrote:
 >
-> When testing with a panel that's apparently a little more persnickety
-> about the correct power sequence (specifically Samsung ATNA33XC20), we
-> found that the ti-sn65dsi86 was doing things just slightly wrong.
+> The manual has always said that we need 100 us delays in a few
+> places. Though it hasn't seemed to be a big deal to skip these, let's
+> add them in case it makes something happier.
 >
-> Looking closely at the ti-sn65dsi86's datasheet, the power off
-> sequence is supposed to be:
-> 1. Clear VSTREAM_ENABLE bit
-> 2. Stop DSI stream from GPU. DSI lanes must be placed in LP11 state.
-> 3. Program the ML_TX_MODE to 0x0 (OFF)
-> 4. Program the DP_NUM_LANES register to 0x0
-> 5. Clear the DP_PLL_EN bit.
-> 6. Deassert the EN pin.
-> 7. Remove power from supply pins
+> NOTE: this fixes no known issues but it seems good to make it right.
 >
-> Since we were doing the whole sequence in the "disable", I believe
-> that step #2 (stopping the DSI stream from the GPU) wasn't
-> happening. We also weren't setting DP_NUM_LANES to 0.
->
-> Let's fix this.
->
-> NOTE: things are a little asymmetric now. For instance, we turn the
-> PLL on in "enable" but now we're not turning it off until
-> "post_disable". It would seem to make sense to move the PLL turning on
-> to "pre_enable" to match. Unfortunately, I don't believe that's
-> allowed. It looks as if (in the non-refclk mode which probably nobody
-> is using) we have to wait until the MIPI clock is there before we can
-> enable the PLL. In any case, the way it is here won't really
-> hurt--it'll just leave the PLL on a little longer.
->
-> Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
 >
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
 > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 9bf889302bcc..5e932070a1c3 100644
+> index 5e932070a1c3..cd0fccdd8dfd 100644
 > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -766,10 +766,6 @@ static void ti_sn_bridge_disable(struct drm_bridge *bridge)
+> @@ -307,6 +307,9 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
+>                 return ret;
+>         }
 >
->         /* disable video stream */
->         regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE, 0);
-> -       /* semi auto link training mode OFF */
-> -       regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0);
-> -       /* disable DP PLL */
-> -       regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 0);
+> +       /* td2: min 100 us after regulators before enabling the GPIO */
+> +       usleep_range(100, 110);
+> +
+>         gpiod_set_value(pdata->enable_gpio, 1);
+>
+>         /*
+> @@ -1096,6 +1099,9 @@ static void ti_sn_bridge_pre_enable(struct drm_bridge *bridge)
+>
+>         if (!pdata->refclk)
+>                 ti_sn65dsi86_enable_comms(pdata);
+> +
+> +       /* td7: min 100 us after enable before DSI data */
+> +       usleep_range(100, 110);
 >  }
 >
->  static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
-> @@ -1106,6 +1102,13 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
->  {
->         struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
->
-> +       /* semi auto link training mode OFF */
-> +       regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0);
-> +       /* Num lanes to 0 as per power sequencing in data sheet */
-> +       regmap_update_bits(pdata->regmap, SN_SSC_CONFIG_REG, DP_NUM_LANES_MASK, 0);
-> +       /* disable DP PLL */
-> +       regmap_write(pdata->regmap, SN_PLL_ENABLE_REG, 0);
-> +
->         if (!pdata->refclk)
->                 ti_sn65dsi86_disable_comms(pdata);
->
+>  static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
 > --
 > 2.32.0.432.gabb21c7263-goog
 >
