@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25BA3D9AB3
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 02:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B433D9B62
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 03:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 180A56E416;
-	Thu, 29 Jul 2021 00:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72DA06E9AF;
+	Thu, 29 Jul 2021 01:59:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEC1A6E416;
- Thu, 29 Jul 2021 00:58:20 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id r2so4665417wrl.1;
- Wed, 28 Jul 2021 17:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2s1hdSTzFHg/7UL0elBXK+uq6mOJCD2JwEhclE1GvL4=;
- b=YJ5hjIrVapOHiT8yy2uwshZ+6GE+wXf6yT/xJWAOeECU3D5dan+RFAt4Bv1vaYep11
- 4tnL0U0Yo//3P8Cr9TBXJ3W1Pbtl6FNrDvlMAO02BH87DQlYb2bsxT47xZlSPL0vnlo2
- GYzawuUmXpM/sVr/WUap+EzIJ7bWA1WCB9LSlM/X1S/yY1swxCZS7Nn1qSJSpiy+L90j
- 5ZYxC1U7DCjIs7djVARLreJR2At9i5VMhsalVKf8GkLXz84OH+dlrzZEZuAjLqksgOF3
- kzctLud8URXhBmwvIPmluu6uL6EX28GmRohNBpVIazX6prMXmagj/2tTJ81Jl+HbuXul
- TGbw==
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB326E3D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 01:59:11 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id mt6so8018268pjb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 18:59:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2s1hdSTzFHg/7UL0elBXK+uq6mOJCD2JwEhclE1GvL4=;
- b=PR5IcGdpyF8slyUozV2m24HjJsXozssx7gBUpS4r/eNoFlJoY/YvLSSE6QwbYYMKg4
- Skb2j5c9aPxuytFtQqTZ2rkz9CXy13iOwOWgO5M4PYR2hGF8cBGqQeEMsHsDV/bw1b+c
- xbhF84x43avY6M2lxyOmD8auqGGvn/RkO0wlRoa+n+PctRa+mGs1qg8rPuUzXJXLR5QZ
- W0OcE55/+pvStQQ41Lh/M+5phBpHJ+/vy0akjiqNnKxwr8loU83BG4Lyja77h2KSk3le
- 0qVc9y+jo+3QBUZj6fQQHRmy2bM7U+YtCcs5Ii1WiF5/YeCq5nSsM8xHletphIYOWvtt
- Fl2w==
-X-Gm-Message-State: AOAM5326VUqvXSaC6dBE9tw8vtcarp8MxTTbW8Y2g7frfua5CfYjq7TS
- b1XrzSj8vz7i35qAwISTw6OikgTn6Qp+wNhHLdQ=
-X-Google-Smtp-Source: ABdhPJzW5Q8OEorGHgwin1FvunAy5rXQhFx3+SneO8wjiAA6nKskhDHaLoxXsuhZDBEW+1wPXHXxObDqN5csPhDjvG8=
-X-Received: by 2002:adf:ea41:: with SMTP id j1mr1842369wrn.147.1627520299190; 
- Wed, 28 Jul 2021 17:58:19 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/EMnvbg1lkcKUNHoTGAUlLRl80RwVqD1WDQs78+Ryng=;
+ b=k6SUCobB72pcz/N/YNU2hwg7WlEvp/BlMcHnGleM3omjfHWQIa1+xhHd/a6bR+2yPD
+ i2YU3vMKtGA6/HQfNcOA+uWREHp/sdXbmjNhkGsSCWydHYsAIQGV0Zga4dZArmJQ+1Mm
+ 1E69Wniy6jwlhqU0S9yG1ShDdDHmifyC4xuuqmsHqFAjG6JfcYFfeX3Kz7wjJr16bSRs
+ qVWw3PgPtCdy8HPV+SiHiX86i3pUdtF8I+vxKFXMAofckp74a3Iy0DEGkxEa+bfUhSAy
+ oGGpPcmIhfH7aEXRa3ulBTRsxtoKbVfj9hedqAQn0/sZJR2AJK9vqzPRNInfE5g6p5qD
+ x7oQ==
+X-Gm-Message-State: AOAM531O0//DNmGtjj6xnJuOC1OqQdDWl5fEy93DrqcUE1zE30cayrlB
+ kgujz6aiYIc66lvrdihIfZM=
+X-Google-Smtp-Source: ABdhPJwy46rGfGzBPHT0dDc2OF3JHAeIdHBXsVA3/Hjfoi4OURPDSpbVi+xEgy37JuU2Z3C+YFQFpw==
+X-Received: by 2002:aa7:93dc:0:b029:328:d6c9:cae7 with SMTP id
+ y28-20020aa793dc0000b0290328d6c9cae7mr2579458pff.53.1627523950822; 
+ Wed, 28 Jul 2021 18:59:10 -0700 (PDT)
+Received: from ?IPv6:2601:647:4000:d7:9eeb:60dc:7a3c:6558?
+ ([2601:647:4000:d7:9eeb:60dc:7a3c:6558])
+ by smtp.gmail.com with ESMTPSA id z16sm1344383pgu.21.2021.07.28.18.59.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 18:59:10 -0700 (PDT)
+Subject: Re: [PATCH 19/64] ip: Use struct_group() for memcpy() regions
+To: Kees Cook <keescook@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-20-keescook@chromium.org> <YQDxaYrHu0PeBIuX@kroah.com>
+ <202107281358.8E12638@keescook>
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <45855f4f-f7cf-b7b3-bcd6-c9ebc3a55c64@acm.org>
+Date: Wed, 28 Jul 2021 18:59:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <SKuAxGshCZFzlguCiEJOU0kAFCJ9WDGK_qCmPESnrghqei0-VIp4DD5vL58OEJCq2B-AkvF1az0EedzkGjSNLQ==@protonmail.internalid>
- <CAF6AEGumRk7H88bqV=H9Fb1SM0zPBo5B7NsCU3jFFKBYxf5k+Q@mail.gmail.com>
- <7553f3cd-61c8-3ece-14ec-6c0cf4ae0296@linaro.org>
-In-Reply-To: <7553f3cd-61c8-3ece-14ec-6c0cf4ae0296@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 28 Jul 2021 18:02:28 -0700
-Message-ID: <CAF6AEGuJjH94s0ymARtEMUo2tBuaacx7e0nqOj7_j2SQQcUa9Q@mail.gmail.com>
-Subject: Re: [early pull] drm/msm: drm-msm-next-2021-07-28 for v5.15
-To: Caleb Connolly <caleb.connolly@linaro.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <202107281358.8E12638@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,127 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abhinav Kumar <abhinavk@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-block@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Keith Packard <keithpac@amazon.com>,
+ linux-hardening@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jordan, any idea if more frequent frequency changes would for some
-reason make a630 grumpy?  I was expecting it should be somewhat
-similar to a618 (same GMU fw, etc).  The main result of that patch
-should be clamping to min freq when gpu goes idle, and the toggling
-back to devfreq provided freq on idle->active transition.  So there
-might be more frequent freq transitions.
+On 7/28/21 2:01 PM, Kees Cook wrote:
+> On Wed, Jul 28, 2021 at 07:55:53AM +0200, Greg Kroah-Hartman wrote:
+>>>  struct ethhdr {
+>>> -	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
+>>> -	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
+>>> +	union {
+>>> +		struct {
+>>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
+>>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
+>>> +		};
+>>> +		struct {
+>>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
+>>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
+>>> +		} addrs;
+>>
+>> A union of the same fields in the same structure in the same way?
+>>
+>> Ah, because struct_group() can not be used here?  Still feels odd to see
+>> in a userspace-visible header.
+> 
+> Yeah, there is some inconsistency here. I will clean this up for v2.
+> 
+> Is there a place we can put kernel-specific macros for use in UAPI
+> headers? (I need to figure out where things like __kernel_size_t get
+> defined...)
 
-Caleb, I don't suppose you could somehow delay starting UI and get
-some traces?  Something along the lines of:
+How about using two memset() calls to clear h_dest[] and h_source[]
+instead of modifying the uapi header?
 
-  localhost ~ # cd /sys/kernel/debug/tracing/
-  localhost /sys/kernel/debug/tracing # echo 1 > events/drm_msm_gpu/enable
-  localhost /sys/kernel/debug/tracing # echo 1 > tracing_on
-  localhost /sys/kernel/debug/tracing # cat trace_pipe
+Thanks,
 
-Does adding an 'if (1) return' at the top of msm_devfreq_idle() help?
-That should bypass the clamping to min freq when the GPU isn't doing
-anything and reduce the # of freq transitions.  I suppose we could
-opt-in to this behavior on a per-gpu basis..
+Bart.
 
-BR,
--R
 
-On Wed, Jul 28, 2021 at 5:35 PM Caleb Connolly
-<caleb.connolly@linaro.org> wrote:
->
-> Hi Rob,
->
-> This series causes a fatal crash on my Oneplus 6, the device goes to
-> Qualcomm crashdump mode shortly after reaching UI with the following errors:
->
-> https://paste.ubuntu.com/p/HvjmzZYtgw/
->
-> I did a git bisect and the patch ("drm/msm: Devfreq tuning") seems to be
-> the cause of the crash, reverting it resolves the issue.
->
->
-> On 28/07/2021 21:52, Rob Clark wrote:
-> > Hi Dave & Daniel,
-> >
-> > An early pull for v5.15 (there'll be more coming in a week or two),
-> > consisting of the drm/scheduler conversion and a couple other small
-> > series that one was based one.  Mostly sending this now because IIUC
-> > danvet wanted it in drm-next so he could rebase on it.  (Daniel, if
-> > you disagree then speak up, and I'll instead include this in the main
-> > pull request once that is ready.)
-> >
-> > This also has a core patch to drop drm_gem_object_put_locked() now
-> > that the last use of it is removed.
-> >
-> > The following changes since commit ff1176468d368232b684f75e82563369208bc371:
-> >
-> >    Linux 5.14-rc3 (2021-07-25 15:35:14 -0700)
-> >
-> > are available in the Git repository at:
-> >
-> >    https://gitlab.freedesktop.org/drm/msm.git drm-msm-next-2021-07-28
-> >
-> > for you to fetch changes up to 4541e4f2225c30b0e9442be9eb2fb8b7086cdd1f:
-> >
-> >    drm/msm/gem: Mark active before pinning (2021-07-28 09:19:00 -0700)
-> >
-> > ----------------------------------------------------------------
-> > Rob Clark (18):
-> >        drm/msm: Let fences read directly from memptrs
-> >        drm/msm: Signal fences sooner
-> >        drm/msm: Split out devfreq handling
-> >        drm/msm: Split out get_freq() helper
-> >        drm/msm: Devfreq tuning
-> >        drm/msm: Docs and misc cleanup
-> >        drm/msm: Small submitqueue creation cleanup
-> >        drm/msm: drop drm_gem_object_put_locked()
-> >        drm: Drop drm_gem_object_put_locked()
-> >        drm/msm/submit: Simplify out-fence-fd handling
-> >        drm/msm: Consolidate submit bo state
-> >        drm/msm: Track "seqno" fences by idr
-> >        drm/msm: Return ERR_PTR() from submit_create()
-> >        drm/msm: Conversion to drm scheduler
-> >        drm/msm: Drop submit bo_list
-> >        drm/msm: Drop struct_mutex in submit path
-> >        drm/msm: Utilize gpu scheduler priorities
-> >        drm/msm/gem: Mark active before pinning
-> >
-> >   drivers/gpu/drm/drm_gem.c                   |  22 --
-> >   drivers/gpu/drm/msm/Kconfig                 |   1 +
-> >   drivers/gpu/drm/msm/Makefile                |   1 +
-> >   drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
-> >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
-> >   drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
-> >   drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
-> >   drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
-> >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   6 +-
-> >   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
-> >   drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
-> >   drivers/gpu/drm/msm/msm_drv.c               |  30 ++-
-> >   drivers/gpu/drm/msm/msm_fence.c             |  53 +----
-> >   drivers/gpu/drm/msm/msm_fence.h             |  44 +++-
-> >   drivers/gpu/drm/msm/msm_gem.c               |  94 +-------
-> >   drivers/gpu/drm/msm/msm_gem.h               |  47 ++--
-> >   drivers/gpu/drm/msm/msm_gem_submit.c        | 344 +++++++++++++++++-----------
-> >   drivers/gpu/drm/msm/msm_gpu.c               | 220 ++++--------------
-> >   drivers/gpu/drm/msm/msm_gpu.h               | 139 ++++++++++-
-> >   drivers/gpu/drm/msm/msm_gpu_devfreq.c       | 203 ++++++++++++++++
-> >   drivers/gpu/drm/msm/msm_rd.c                |   6 +-
-> >   drivers/gpu/drm/msm/msm_ringbuffer.c        |  69 +++++-
-> >   drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
-> >   drivers/gpu/drm/msm/msm_submitqueue.c       |  53 +++--
-> >   include/drm/drm_gem.h                       |   2 -
-> >   include/uapi/drm/msm_drm.h                  |  14 +-
-> >   26 files changed, 865 insertions(+), 536 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> >
->
-> --
-> Kind Regards,
-> Caleb (they/them)
