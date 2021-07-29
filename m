@@ -1,66 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30A03DA0BD
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 11:59:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D96033DA0EA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 12:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A7FC89F6D;
-	Thu, 29 Jul 2021 09:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BEFD6E0AF;
+	Thu, 29 Jul 2021 10:14:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD39C89F6D
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 09:59:16 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id h11so6740304ljo.12
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 02:59:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423686E0AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 10:14:22 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id n21so3348001wmq.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 03:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nIej11/PYcGeLGxt7QOR+AppfCQjgzk8NOs4YUKmoVs=;
- b=m6MS/ZA3IHYlnwTYoSS9WTrTqje10ox98fXiIHsiSs6fIpuUWgFw5PJ2vLzgiH9wXm
- oNfNwAKxV9xDmZdElU1gKVLdVXRyThDU+SXgY69YWjaRBJMBtxG0z3wQw7QWTapcts9O
- iN1OGi3uMFfiO74SU0ONms6KT5r1gWDPbABFRueW9HvNGsN6QmzU07E7pvIPOI8xZ3K5
- zYg7Tw/HopP5eN/tkjneBmxwAy3udxo8HUBRPuFH6YrHRzIipKqcfi67LLC9yY8F/I15
- YD19xIMW9/LGzpCQ3bwTc4kf7Yw+RkYA3Z1MMjpkJ62ao7I0D49Apn5ZdAQB1eZwmIgn
- hnHw==
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=CbFHCpPlzhscajakLbbh3EIk/BRFf4SX49QUa0d5Qg8=;
+ b=iiRfREWMNqV+qofxci/nzSz0YAr9K6MCEnf8mrHjk5y30QSLdkiVVWBq2cSSMhixN3
+ ry579tv1iYeCv29lJtfmG5FwAtxbT5yYu5lAVL8ZpVNvJ53JkuPkc7CG6zDCoWMOyRFX
+ GADeLhCmxvmdJVr1mDhX6/g8ZgA2/q4W9C+er3WP4hMov+Tsm9dSAt+WgDJ4hr1RX+rn
+ E/qLsNO2AIRIJIm5SV1Y30DYw9Cw08mbLnPBLmj4yUu3UDnnqb6cip/FaecTccXJG/e3
+ l5ydK+ERFnB7VVy/Ts8KO7uAifGrAIXPr/o+CFsOc3K3/kwQNLOzOSOnJJR7wDL0EEe/
+ Nt+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nIej11/PYcGeLGxt7QOR+AppfCQjgzk8NOs4YUKmoVs=;
- b=lu8onYZKcF28ge+vbHCttpgJhVBEyJsFdVzWNBZIfZxvkdwsUQAqQZ/txOGlgxaC7B
- QC6HTIKJjQoJFnpgf66jdbU+B3/W3Q5hf4hG9iRvnTf9lHf6oXScHQDqHH93zrcllect
- +wUYpX27m7S2knOVtjqAqkCy0EqRyMA7u/30mVzRJrC0T4XCSSvf9UjhnIibV44Dqnqm
- jj5yMPJbS+rnipi/I6riak/Pt8kayWvkZ167rTSw+SpFACWvI1nqiDxaC1TsLYZNAQxM
- 81ElAY9FD+ognF0s0LweSh0ow1QqUVTlMIyd7isLWfjWjLaYshUEMAFfgtIK6S7TcetY
- /fhw==
-X-Gm-Message-State: AOAM531kRqM/Ajkamy02UsNrj7GBxiIy+wMNbbsJGdVLHsk3ekwTCNUI
- cX4pf/YhpHX/R2IopjzGF+B/Gw==
-X-Google-Smtp-Source: ABdhPJysezjVyG3wOZUNPI2nlc1wYDaL9jMePnngzQ5rByaB9dBKJMmfrXAUe2w0ApMfEdXkx8DVcQ==
-X-Received: by 2002:a2e:b0c5:: with SMTP id g5mr2418335ljl.41.1627552754933;
- Thu, 29 Jul 2021 02:59:14 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id x3sm117577ljd.66.2021.07.29.02.59.14
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=CbFHCpPlzhscajakLbbh3EIk/BRFf4SX49QUa0d5Qg8=;
+ b=iuGxFfuhhNfl5zjCmQJ+QwhiDQqXwy4DHOF/EYFqHdE2NWBjxLvFgXsN0YF4AIg0iN
+ LHdx1VkFzTFnkns2AVRo0s/9ySVP5udNCLLj57CV/MuxVvE1by1bB8e9TLwYS20FukiB
+ 5sHrxKTADi8NfF895HvlCq39GS59iSSm9uMJi+2vepl2AvmYy6914o/nyLzdtuHJd7l9
+ ZLNXK+Ve0HbmovDVKe8ZTrRewgdmklp7pb9bhNNhnrePk+qHiBK2w664cZKdC1JugfTM
+ TAMG9gxPzNAZwmhekiVt76M6+akKB2Ww2ijS2/h9KOszG1p+lRPpdlpY7Vxr2Gd4rfcD
+ E7sA==
+X-Gm-Message-State: AOAM532Y4gOiwAqwCR6tE+MBeztA9QR7JsO+c7MdyOr39oMbHOLBPqKJ
+ sp4NvkYGxO1CUfi8koTYxQk=
+X-Google-Smtp-Source: ABdhPJz5727odHJWfYQdPwGMdYsRDkR36uAkRZDsHt9CJwGj6udF1FY1AywRQgAgB56AGxuvCy2G9A==
+X-Received: by 2002:a1c:a7d2:: with SMTP id q201mr13967106wme.61.1627553660808; 
+ Thu, 29 Jul 2021 03:14:20 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:4b10:6e80:f619:9837?
+ ([2a02:908:1252:fb60:4b10:6e80:f619:9837])
+ by smtp.gmail.com with ESMTPSA id d14sm2751552wrs.49.2021.07.29.03.14.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 02:59:14 -0700 (PDT)
-Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210726231351.655302-1-bjorn.andersson@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <3bb5dc26-6779-6cb4-b9dd-e64c306e9ae6@linaro.org>
-Date: Thu, 29 Jul 2021 12:59:13 +0300
+ Thu, 29 Jul 2021 03:14:20 -0700 (PDT)
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+To: Pekka Paalanen <ppaalanen@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+ <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+ <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+ <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+ <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
+ <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+ <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
+ <20210728165700.38c39cf8@eldfell>
+ <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
+ <20210729112358.237651ff@eldfell>
+ <3675d530-c9fc-7ec9-e157-b6abeeec7c2a@amd.com>
+ <20210729121542.27d9b1cc@eldfell>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <15cf73a8-eda4-3559-561a-a05a14f445d0@gmail.com>
+Date: Thu, 29 Jul 2021 12:14:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210726231351.655302-1-bjorn.andersson@linaro.org>
+In-Reply-To: <20210729121542.27d9b1cc@eldfell>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,176 +87,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- Kuogee Hsieh <khsieh@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Vara Reddy <varar@codeaurora.org>, freedreno@lists.freedesktop.org,
- Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
+ Jack Zhang <Jack.Zhang1@amd.com>, Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/07/2021 02:13, Bjorn Andersson wrote:
-> eDP panels might need some power sequencing and backlight management,
-> so make it possible to associate a drm_panel with a DP instance and
-> prepare and enable the panel accordingly.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Am 29.07.21 um 11:15 schrieb Pekka Paalanen:
+> [SNIP]
+>> But how does it then help to wait on the CPU instead?
+> A compositor does not "wait" literally. It would only check which state
+> set is ready to be used, and uses the most recent set that is ready. Any
+> state sets that are not ready are ignored and reconsidered the next
+> time the compositor updates the screen.
 
-The idea looks good from my point of view. For v1 could you please 
-extend it with the `if (panel)` checks and handling of the error codes.
+Mhm, then I'm not understanding what Michel's changes are actually doing.
 
-> ---
-> 
-> This solves my immediate problem on my 8cx laptops, of indirectly controlling
-> the backlight during DPMS. But my panel is powered when I boot it and as such I
-> get the hpd interrupt and I don't actually have to deal with a power on
-> sequence - so I'm posting this as an RFC, hoping to get some input on these
-> other aspects.
-> 
-> If this is acceptable I'd be happy to write up an accompanying DT binding
-> change that marks port 2 of the DP controller's of_graph as a reference to the
-> attached panel.
-> 
->   drivers/gpu/drm/msm/dp/dp_display.c | 15 +++++++++++++--
->   drivers/gpu/drm/msm/dp/dp_display.h |  1 +
->   drivers/gpu/drm/msm/dp/dp_parser.c  | 19 +++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_parser.h  |  1 +
->   4 files changed, 34 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 206bf7806f51..1db5a3f752d2 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -10,6 +10,7 @@
->   #include <linux/component.h>
->   #include <linux/of_irq.h>
->   #include <linux/delay.h>
-> +#include <drm/drm_panel.h>
->   
->   #include "msm_drv.h"
->   #include "msm_kms.h"
-> @@ -252,6 +253,8 @@ static int dp_display_bind(struct device *dev, struct device *master,
->   		goto end;
->   	}
->   
-> +	dp->dp_display.drm_panel = dp->parser->drm_panel;
-> +
->   	rc = dp_aux_register(dp->aux, drm);
->   	if (rc) {
->   		DRM_ERROR("DRM DP AUX register failed\n");
-> @@ -867,8 +870,10 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
->   	return 0;
->   }
->   
-> -static int dp_display_prepare(struct msm_dp *dp)
-> +static int dp_display_prepare(struct msm_dp *dp_display)
->   {
-> +	drm_panel_prepare(dp_display->drm_panel);
-> +
->   	return 0;
->   }
->   
-> @@ -886,6 +891,8 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
->   	if (!rc)
->   		dp_display->power_on = true;
->   
-> +	drm_panel_enable(dp_display->drm_panel);
-> +
->   	return rc;
->   }
->   
-> @@ -915,6 +922,8 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
->   	if (!dp_display->power_on)
->   		return 0;
->   
-> +	drm_panel_disable(dp_display->drm_panel);
-> +
->   	/* wait only if audio was enabled */
->   	if (dp_display->audio_enabled) {
->   		/* signal the disconnect event */
-> @@ -939,8 +948,10 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
->   	return 0;
->   }
->   
-> -static int dp_display_unprepare(struct msm_dp *dp)
-> +static int dp_display_unprepare(struct msm_dp *dp_display)
->   {
-> +	drm_panel_unprepare(dp_display->drm_panel);
-> +
->   	return 0;
->   }
->   
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 8b47cdabb67e..ce337824c95d 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -15,6 +15,7 @@ struct msm_dp {
->   	struct device *codec_dev;
->   	struct drm_connector *connector;
->   	struct drm_encoder *encoder;
-> +	struct drm_panel *drm_panel;
->   	bool is_connected;
->   	bool audio_enabled;
->   	bool power_on;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index fc8a6452f641..e6a6e9007bfd 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -6,6 +6,7 @@
->   #include <linux/of_gpio.h>
->   #include <linux/phy/phy.h>
->   
-> +#include <drm/drm_of.h>
->   #include <drm/drm_print.h>
->   
->   #include "dp_parser.h"
-> @@ -276,6 +277,20 @@ static int dp_parser_clock(struct dp_parser *parser)
->   	return 0;
->   }
->   
-> +static int dp_parser_find_panel(struct dp_parser *parser)
-> +{
-> +	struct device_node *np = parser->pdev->dev.of_node;
-> +	int rc;
-> +
-> +	rc = drm_of_find_panel_or_bridge(np, 2, 0, &parser->drm_panel, NULL);
-> +	if (rc == -ENODEV)
-> +		rc = 0;
-> +	else if (rc)
-> +		DRM_ERROR("failed to acquire DRM panel: %d\n", rc);
-> +
-> +	return rc;
-> +}
-> +
->   static int dp_parser_parse(struct dp_parser *parser)
->   {
->   	int rc = 0;
-> @@ -297,6 +312,10 @@ static int dp_parser_parse(struct dp_parser *parser)
->   	if (rc)
->   		return rc;
->   
-> +	rc = dp_parser_find_panel(parser);
-> +	if (rc)
-> +		return rc;
-> +
->   	/* Map the corresponding regulator information according to
->   	 * version. Currently, since we only have one supported platform,
->   	 * mapping the regulator directly.
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index 3266b529c090..994ca9336acd 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -122,6 +122,7 @@ struct dp_parser {
->   	struct dp_display_data disp_data;
->   	const struct dp_regulator_cfg *regulator_cfg;
->   	u32 max_dp_lanes;
-> +	struct drm_panel *drm_panel;
->   
->   	int (*parse)(struct dp_parser *parser);
->   };
-> 
+> Depending on which state sets are selected for a screen update, the
+> global window manager state may be updated accordingly, before the
+> drawing commands for the composition can be created.
+>
+>> See what I'm proposing is to either render the next state of the window
+>> or compose from the old state (including all atomic properties).
+> Yes, that's exactly how it would work. It's just that state for a
+> window is not an independent thing, it can affect how unrelated windows
+> are managed.
+>
+> A simplified example would be two windows side by side where the
+> resizing of one causes the other to move. You can't resize the window
+> or move the other until the buffer with the new size is ready. Until
+> then the compositor uses the old state.
+>
+>> E.g. what do you do if you timeout and can't have the new window content
+>> on time? What's the fallback here?
+> As there is no wait, there is no timeout either.
+>
+> If the app happens to be frozen (e.g. some weird bug in fence handling
+> to make it never ready, or maybe it's just bugged itself and never
+> drawing again), then the app is frozen, and all the rest of the desktop
+> continues running normally without a glitch.
 
+But that is in contradict to what you told me before.
 
--- 
-With best wishes
-Dmitry
+See when the window should move but fails to draw it's new content what 
+happens?
+
+Are the other windows which would be affected by the move not drawn as well?
+
+Regards,
+Christian.
+
+>
+>
+> Thanks,
+> pq
+
