@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D293DA7C1
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:43:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27DF93DA7CE
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D84D66EDDA;
-	Thu, 29 Jul 2021 15:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0AB6EDD3;
+	Thu, 29 Jul 2021 15:48:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5356EDD3;
- Thu, 29 Jul 2021 15:43:01 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id m12so2692822wru.12;
- Thu, 29 Jul 2021 08:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wUU+uqMK2XMkpAz+JRAI4WjTrxOmVumYKbTDtChNDWo=;
- b=YYfeUO7J0s+htMw0H3O22n/vBXHjlJQeKQWQcryPN1ybpayRJQVsIaaOEbRyDuzpKG
- 5FP3L2sftm+c1akwosWgGa0am6YFfVvoUNbMQqWxyVZtJJnhLpEO4cT7XDMM4ppOnz/E
- 7uYx8u9ynh9RTI7cpeDRt5ThvkKdhECzwVOx89Yn1xyXnIyR262UOYj0vTEaEcKK2ssh
- No4uIzo4xs6EcUcXNGlF1poVXzC52DmegInCEYRcnWnRWQVDIpGQBnnlIU6bExQrPR7a
- Oru8g63IUkt4ZQM5NvDMka409VALFyI04q8aLhbM97lVIsnIRZ+WZIv1F4+wSLBvyP/U
- fYBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wUU+uqMK2XMkpAz+JRAI4WjTrxOmVumYKbTDtChNDWo=;
- b=VGOy/K7E51+hrn6abJAt3Usa095HnKc4k/8HfT6xjsOINzur4L3o7/OVr34ezrPAFi
- 8yKMyoPfV5kZjQriUGhzqy8MlujsWKNeJmgJSlSr5wkuIr8FCbiWi2EDHQyCP0Xzp3Yv
- zyd8ub7/bBpPaMvLjxGjeqZxj/urVQVk/bO4e1vF5nCPyETqwOfLi2xaEfwnqSml19VH
- Cr2FqnnxSQWSpiLM1tiMzHA1R80Tvn9SfSCpzsNuje75NkojUst5/tUe3gGZ2+bIVK+o
- brbnm1LtTdZIj0S2yR+qx0e2kRgpgAsDmybMRS6Hrvtiv3fgNabpUNGBFKpUv3HlDo7J
- 3CTw==
-X-Gm-Message-State: AOAM531nuf02NhzF3dHYUAZPA6wXPWRfT4yPqwbjS3MAyvALiywn3bBw
- 8z+v0WxmS+1jSomk3Sm34MBjZGgYjzb6cPe4jDA=
-X-Google-Smtp-Source: ABdhPJxAJP84bulTj7l8JqyLiyhO41g1incA4XrhGVMOuwHSwF6m47BA2XAHlmhzvHLRiVNdg1NiWrZIEAYeNdzQexE=
-X-Received: by 2002:a5d:4e43:: with SMTP id r3mr5511562wrt.132.1627573379809; 
- Thu, 29 Jul 2021 08:42:59 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDDA16EDD3;
+ Thu, 29 Jul 2021 15:48:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="212904242"
+X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="212904242"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2021 08:48:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="476443785"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga008.fm.intel.com with ESMTP; 29 Jul 2021 08:48:12 -0700
+Received: from [10.249.142.82] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.142.82])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 16TFmBTa024751; Thu, 29 Jul 2021 16:48:11 +0100
+Subject: Re: [PATCH 05/14] drm/i915/guc/slpc: Enable SLPC and add related H2G
+ events
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210728211144.15322-1-vinay.belgaumkar@intel.com>
+ <20210728211144.15322-6-vinay.belgaumkar@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <3848937b-9364-e3c6-b25f-72bafd5383cf@intel.com>
+Date: Thu, 29 Jul 2021 17:48:11 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210729200230.v2.1.I110b87677ef16d97397fb7c81c07a16e1f5d211e@changeid>
- <20210729200230.v2.2.I286ef007fcadd9e6ee3b2c0ad948f990735f9610@changeid>
- <CAF6AEGtv0R=SjwpV7NEX6-4sHTF_CxbqgFXNWN+PT9hJJb7N2A@mail.gmail.com>
- <cf9effea-43dc-0ea6-6e73-29e6beff607f@codeaurora.org>
-In-Reply-To: <cf9effea-43dc-0ea6-6e73-29e6beff607f@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 29 Jul 2021 08:47:09 -0700
-Message-ID: <CAF6AEGtypTgeCdo_yzywEVyzEUG1H_w_r_29dS9MYRpSNvit8Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] drm/msm/a6xx: Use rev to identify SKU
-To: Akhil P Oommen <akhilpo@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210728211144.15322-6-vinay.belgaumkar@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,104 +53,358 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Matthias Kaehlcke <mka@chromium.org>,
- Sean Paul <sean@poorly.run>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 29, 2021 at 8:36 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
->
-> On 7/29/2021 8:57 PM, Rob Clark wrote:
-> > On Thu, Jul 29, 2021 at 7:33 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
-> >>
-> >> Use rev instead of revn to identify the SKU. This is in
-> >> preparation to the introduction of 7c3 gpu which won't have a
-> >> revn.
-> >>
-> >> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
-> >> ---
-> >>
-> >> (no changes since v1)
-> >>
-> >>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++------
-> >>   1 file changed, 5 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >> index 183b9f9..0da1a66 100644
-> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >> @@ -1675,11 +1675,11 @@ static u32 a618_get_speed_bin(u32 fuse)
-> >>          return UINT_MAX;
-> >>   }
-> >>
-> >> -static u32 fuse_to_supp_hw(struct device *dev, u32 revn, u32 fuse)
-> >> +static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
-> >>   {
-> >>          u32 val = UINT_MAX;
-> >>
-> >> -       if (revn == 618)
-> >> +       if (adreno_cmp_rev(ADRENO_REV(6, 1, 8, ANY_ID), rev))
-> >
-> > Looks like adreno_cmp_rev() ended up in patch 3/3 when it should have
-> > been in this patch..
-> >
-> > But I guess we could also move this into adreno_is_a618() and use that here
-> >
-> > BR,
-> > -R
-> Ahh! I reordered the patches. This is too early in the probe sequence to
-> call adreno_is_axxx(), right?
 
-ahh, right, I guess you do still need to open code adreno_cmp_rev()
-here.. but you can at least move adreno_cmp_rev() into this patch.
 
-BR,
--R
+On 28.07.2021 23:11, Vinay Belgaumkar wrote:
+> Add methods for interacting with GuC for enabling SLPC. Enable
+> SLPC after GuC submission has been established. GuC load will
+> fail if SLPC cannot be successfully initialized. Add various
+> helper methods to set/unset the parameters for SLPC. They can
+> be set using H2G calls or directly setting bits in the shared
+> data structure.
+> 
+> v2: Address several review comments, add new helpers for
+> decoding the SLPC min/max frequencies. Use masks instead of hardcoded
+> constants. (Michal W)
+> 
+> v3: Split global_state_to_string function, and check for positive
+> non-zero return value from intel_guc_send() (Michal W)
+> 
+> v4: Optimize the stringify function and other comments (Michal W)
+> 
+> v5: Enable slpc as well before declaring GuC submission status (Michal W)
+> 
+> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 226 ++++++++++++++++++
+>  .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |   2 +
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  11 +
+>  3 files changed, 239 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> index 6d76ea4c0ace..da3e1f8844a9 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> @@ -45,6 +45,40 @@ void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc)
+>  	slpc->selected = __guc_slpc_selected(guc);
+>  }
+>  
+> +static void slpc_mem_set_param(struct slpc_shared_data *data,
+> +				u32 id, u32 value)
+> +{
+> +	GEM_BUG_ON(id >= SLPC_MAX_OVERRIDE_PARAMETERS);
+> +	/*
+> +	 * When the flag bit is set, corresponding value will be read
+> +	 * and applied by SLPC.
+> +	 */
+> +	data->override_params.bits[id >> 5] |= (1 << (id % 32));
+> +	data->override_params.values[id] = value;
+> +}
+> +
+> +static void slpc_mem_set_enabled(struct slpc_shared_data *data,
+> +				u8 enable_id, u8 disable_id)
+> +{
+> +	/*
+> +	 * Enabling a param involves setting the enable_id
+> +	 * to 1 and disable_id to 0.
+> +	 */
+> +	slpc_mem_set_param(data, enable_id, 1);
+> +	slpc_mem_set_param(data, disable_id, 0);
+> +}
+> +
+> +static void slpc_mem_set_disabled(struct slpc_shared_data *data,
+> +				u8 enable_id, u8 disable_id)
+> +{
+> +	/*
+> +	 * Disabling a param involves setting the enable_id
+> +	 * to 0 and disable_id to 1.
+> +	 */
+> +	slpc_mem_set_param(data, disable_id, 1);
+> +	slpc_mem_set_param(data, enable_id, 0);
+> +}
+> +
+>  static int slpc_shared_data_init(struct intel_guc_slpc *slpc)
+>  {
+>  	struct intel_guc *guc = slpc_to_guc(slpc);
+> @@ -63,6 +97,121 @@ static int slpc_shared_data_init(struct intel_guc_slpc *slpc)
+>  	return err;
+>  }
+>  
+> +static u32 slpc_get_state(struct intel_guc_slpc *slpc)
+> +{
+> +	struct slpc_shared_data *data;
+> +
+> +	GEM_BUG_ON(!slpc->vma);
+> +
+> +	drm_clflush_virt_range(slpc->vaddr, sizeof(u32));
+> +	data = slpc->vaddr;
+> +
+> +	return data->header.global_state;
+> +}
+> +
+> +static bool slpc_is_running(struct intel_guc_slpc *slpc)
+> +{
+> +	return slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING;
+> +}
+> +
+> +static int guc_action_slpc_query(struct intel_guc *guc, u32 offset)
+> +{
+> +	u32 request[] = {
+> +		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
+> +		SLPC_EVENT(SLPC_EVENT_QUERY_TASK_STATE, 2),
+> +		offset,
+> +		0,
+> +	};
+> +	int ret;
+> +
+> +	ret = intel_guc_send(guc, request, ARRAY_SIZE(request));
+> +
+> +	return ret > 0 ? -EPROTO : ret;
+> +}
+> +
+> +static int slpc_query_task_state(struct intel_guc_slpc *slpc)
+> +{
+> +	struct intel_guc *guc = slpc_to_guc(slpc);
+> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+> +	u32 offset = intel_guc_ggtt_offset(guc, slpc->vma);
+> +	int ret;
+> +
+> +	ret = guc_action_slpc_query(guc, offset);
+> +	if (ret)
 
->
-> -Akhil.
-> >
-> >>                  val = a618_get_speed_bin(fuse);
-> >>
-> >>          if (val == UINT_MAX) {
-> >> @@ -1692,8 +1692,7 @@ static u32 fuse_to_supp_hw(struct device *dev, u32 revn, u32 fuse)
-> >>          return (1 << val);
-> >>   }
-> >>
-> >> -static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
-> >> -               u32 revn)
-> >> +static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
-> >>   {
-> >>          u32 supp_hw = UINT_MAX;
-> >>          u16 speedbin;
-> >> @@ -1714,7 +1713,7 @@ static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
-> >>          }
-> >>          speedbin = le16_to_cpu(speedbin);
-> >>
-> >> -       supp_hw = fuse_to_supp_hw(dev, revn, speedbin);
-> >> +       supp_hw = fuse_to_supp_hw(dev, rev, speedbin);
-> >>
-> >>   done:
-> >>          ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
-> >> @@ -1785,7 +1784,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
-> >>
-> >>          a6xx_llc_slices_init(pdev, a6xx_gpu);
-> >>
-> >> -       ret = a6xx_set_supported_hw(&pdev->dev, a6xx_gpu, info->revn);
-> >> +       ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
-> >>          if (ret) {
-> >>                  a6xx_destroy(&(a6xx_gpu->base.base));
-> >>                  return ERR_PTR(ret);
-> >> --
-> >> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-> >> of Code Aurora Forum, hosted by The Linux Foundation.
-> >>
->
+unlikely(ret) ?
+
+> +		drm_err(&i915->drm, "Failed to query task state (%pe)\n",
+> +				ERR_PTR(ret));
+
+is this indent correct ?
+
+> +
+> +	drm_clflush_virt_range(slpc->vaddr, SLPC_PAGE_SIZE_BYTES);
+> +
+> +	return ret;
+> +}
+> +
+> +static const char *slpc_global_state_to_string(enum slpc_global_state state)
+> +{
+> +	switch (state) {
+> +	case SLPC_GLOBAL_STATE_NOT_RUNNING:
+> +		return "not running";
+> +	case SLPC_GLOBAL_STATE_INITIALIZING:
+> +		return "initializing";
+> +	case SLPC_GLOBAL_STATE_RESETTING:
+> +		return "resetting";
+> +	case SLPC_GLOBAL_STATE_RUNNING:
+> +		return "running";
+> +	case SLPC_GLOBAL_STATE_SHUTTING_DOWN:
+> +		return "shutting down";
+> +	case SLPC_GLOBAL_STATE_ERROR:
+> +		return "error";
+> +	default:
+> +		return "unknown";
+> +	}
+> +}
+> +
+> +static const char *slpc_get_state_string(struct intel_guc_slpc *slpc)
+> +{
+> +	return slpc_global_state_to_string(slpc_get_state(slpc));
+> +}
+> +
+> +static int guc_action_slpc_reset(struct intel_guc *guc, u32 offset)
+> +{
+> +	u32 request[] = {
+> +		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
+> +		SLPC_EVENT(SLPC_EVENT_RESET, 2),
+> +		offset,
+> +		0,
+> +	};
+> +	int ret;
+> +
+> +	ret = intel_guc_send(guc, request, ARRAY_SIZE(request));
+> +
+> +	return ret > 0 ? -EPROTO : ret;
+> +}
+> +
+> +static int slpc_reset(struct intel_guc_slpc *slpc)
+> +{
+> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+> +	struct intel_guc *guc = slpc_to_guc(slpc);
+> +	u32 offset = intel_guc_ggtt_offset(guc, slpc->vma);
+> +	int ret;
+> +
+> +	ret = guc_action_slpc_reset(guc, offset);
+> +
+> +	if (unlikely(ret < 0)) {
+> +		drm_err(&i915->drm, "SLPC reset action failed (%pe)\n",
+> +					ERR_PTR(ret));
+
+same here
+
+> +		return ret;
+> +	}
+> +
+> +	if (!ret) {
+> +		if (wait_for(slpc_is_running(slpc), SLPC_RESET_TIMEOUT_MS)) {
+> +			drm_err(&i915->drm, "SLPC not enabled! State = %s\n",
+> +				  slpc_get_state_string(slpc));
+> +			return -EIO;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+>  {
+>  	GEM_BUG_ON(slpc->vma);
+> @@ -70,6 +219,83 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+>  	return slpc_shared_data_init(slpc);
+>  }
+>  
+> +static u32 slpc_decode_min_freq(struct intel_guc_slpc *slpc)
+> +{
+> +	struct slpc_shared_data *data = slpc->vaddr;
+> +
+> +	GEM_BUG_ON(!slpc->vma);
+> +
+> +	return	DIV_ROUND_CLOSEST(
+
+double space  ^^
+
+> +		REG_FIELD_GET(SLPC_MIN_UNSLICE_FREQ_MASK,
+> +			data->task_state_data.freq) *
+> +		GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
+
+and here
+
+> +}
+> +
+> +static u32 slpc_decode_max_freq(struct intel_guc_slpc *slpc)
+> +{
+> +	struct slpc_shared_data *data = slpc->vaddr;
+> +
+> +	GEM_BUG_ON(!slpc->vma);
+> +
+> +	return	DIV_ROUND_CLOSEST(
+
+double space  ^^
+
+> +		REG_FIELD_GET(SLPC_MAX_UNSLICE_FREQ_MASK,
+> +			data->task_state_data.freq) *
+> +		GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
+> +}
+> +
+> +static void slpc_shared_data_reset(struct slpc_shared_data *data)
+> +{
+> +	memset(data, 0, sizeof(struct slpc_shared_data));
+> +
+> +	data->header.size = sizeof(struct slpc_shared_data);
+> +
+> +	/* Enable only GTPERF task, disable others */
+> +	slpc_mem_set_enabled(data, SLPC_PARAM_TASK_ENABLE_GTPERF,
+> +				SLPC_PARAM_TASK_DISABLE_GTPERF);
+> +
+> +	slpc_mem_set_disabled(data, SLPC_PARAM_TASK_ENABLE_BALANCER,
+> +				SLPC_PARAM_TASK_DISABLE_BALANCER);
+> +
+> +	slpc_mem_set_disabled(data, SLPC_PARAM_TASK_ENABLE_DCC,
+> +				SLPC_PARAM_TASK_DISABLE_DCC);
+> +}
+> +
+> +/*
+> + * intel_guc_slpc_enable() - Start SLPC
+> + * @slpc: pointer to intel_guc_slpc.
+> + *
+> + * SLPC is enabled by setting up the shared data structure and
+> + * sending reset event to GuC SLPC. Initial data is setup in
+> + * intel_guc_slpc_init. Here we send the reset event. We do
+> + * not currently need a slpc_disable since this is taken care
+> + * of automatically when a reset/suspend occurs and the GuC
+> + * CTB is destroyed.
+> + *
+> + * Return: 0 on success, non-zero error code on failure.
+> + */
+> +int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+> +{
+> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+> +	int ret;
+> +
+> +	GEM_BUG_ON(!slpc->vma);
+> +
+> +	slpc_shared_data_reset(slpc->vaddr);
+> +
+> +	ret = slpc_reset(slpc);
+> +	if (unlikely(ret < 0)) {
+> +		drm_err(&i915->drm, "SLPC Reset event returned (%pe)\n",
+> +				ERR_PTR(ret));
+> +		return ret;
+> +	}
+> +
+> +	ret = slpc_query_task_state(slpc);
+> +	if (unlikely(ret < 0))
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+>  void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
+>  {
+>  	if (!slpc->vma)
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+> index 8bd753167234..3cefe19b17b2 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+> @@ -8,6 +8,8 @@
+>  
+>  #include <linux/types.h>
+>  
+> +#define SLPC_RESET_TIMEOUT_MS 5
+> +
+>  struct intel_guc_slpc {
+>  	struct i915_vma *vma;
+>  	struct slpc_shared_data *vaddr;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> index e6bd9406c7b2..3e0cd1f05e3b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> @@ -500,12 +500,21 @@ static int __uc_init_hw(struct intel_uc *uc)
+>  	if (intel_uc_uses_guc_submission(uc))
+>  		intel_guc_submission_enable(guc);
+>  
+> +	if (intel_uc_uses_guc_slpc(uc)) {
+> +		ret = intel_guc_slpc_enable(&guc->slpc);
+> +		if (ret)
+> +			goto err_submission;
+> +	}
+> +
+>  	drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
+>  		 intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_GUC), guc->fw.path,
+>  		 guc->fw.major_ver_found, guc->fw.minor_ver_found,
+>  		 "submission",
+>  		 enableddisabled(intel_uc_uses_guc_submission(uc)));
+>  
+> +	drm_info(&i915->drm, "GuC SLPC: %s\n",
+> +		 enableddisabled(intel_uc_uses_guc_slpc(uc)));
+> +
+>  	if (intel_uc_uses_huc(uc)) {
+>  		drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
+>  			 intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_HUC),
+> @@ -520,6 +529,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+>  	/*
+>  	 * We've failed to load the firmware :(
+>  	 */
+> +err_submission:
+> +	intel_guc_submission_disable(guc);
+>  err_log_capture:
+>  	__uc_capture_load_err_log(uc);
+>  err_out:
+> 
+
+make sure checkpatch.pl is happy with indents, with that
+
+Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
