@@ -1,80 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB02B3DA5C0
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 16:10:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FEB3DA64C
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 16:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 839336EDB9;
-	Thu, 29 Jul 2021 14:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB8836EDAA;
+	Thu, 29 Jul 2021 14:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06E4A6EDB4
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 14:10:23 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id r26so11331546lfp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 07:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=KVeYIfkluOzJAUxQ6fjcXqXMAp11NPT9x26kXkIM9wM=;
- b=SibX58LSiD/u9dKbhKcen8rE9n01FSntjvE2TxKqEcW2rFX9Rt6nvzAE8k8r99xb/V
- oqjW9FKWnW+lx3snEEYci0yJvw9NfhxPihfbS9MuqVXkrq2HlDaN1aOXxhmoT0gdVsF6
- b246hzmGTC1ofMmgBlZNmBT2pRLY0QDOL9Q/h3JPMHK7Z6x9QYGPESqlUjYgh9NlIvTQ
- Xf6Lkpo6Qj5aIuq1/vb6gUtF6VidmI1x8Kp15X3GfjnvQOGKE5P21wO/o1C8KeSGRf81
- g+ODBffQ5zbZ7qCz6jX7YvyI72ca9iRlBEHZW18WX55fc1VWGecNq5xh8cRCJ5YMshXr
- nPJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=KVeYIfkluOzJAUxQ6fjcXqXMAp11NPT9x26kXkIM9wM=;
- b=oyITDTAmtKlOXz5Z4vxDjO3msMlrT0mBiUCAaUxBmyd6XLHU1D2nig+PZ9uTm5i3re
- n2E4Bu9ySrfH50r8o8b2jBM9v778Fu8dx7yeRj8E6LoufglWdPJ6eY7R8JKOEGDjz+ai
- KOoUbUIuW8IaoJLvrL1PdU6zJIpBULHijf/7W+1dhYTfsYUBqyQfbJ1yehwIRXelumUK
- oEARHTnaS9LDa7pYWf1Ggo7NtXxanwz2BMCfFMdNV2l2R/E/S8R9RA4sAxzxeA574J0c
- JEp6eKGR3LaAC+yPzq2ebsOQyBet9mW9x965Ue9WfRJUfS4CIE52rRGVINO5AxF6OjhE
- 73eA==
-X-Gm-Message-State: AOAM532EEN95OEflsL2DtuYqIuX6Xzq02COH0jthYC2uXL8sgKkDVbMZ
- fB9mVMACZg92ZOgvH4O6/iQ=
-X-Google-Smtp-Source: ABdhPJz9Eq4IckwXHS1EzovDJ5oWEjCbWpskXZEWqWPysT2uNlbZuJPI2mO19uvMvjAZbLjG37InoA==
-X-Received: by 2002:a05:6512:511:: with SMTP id
- o17mr3919872lfb.396.1627567821084; 
- Thu, 29 Jul 2021 07:10:21 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id f14sm170210ljj.116.2021.07.29.07.10.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 07:10:20 -0700 (PDT)
-Date: Thu, 29 Jul 2021 17:10:17 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
-Message-ID: <20210729171017.25441c00@eldfell>
-In-Reply-To: <11692377-acae-696a-bbeb-9921a6f5d905@amd.com>
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
- <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
- <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
- <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
- <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
- <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
- <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
- <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
- <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
- <20210728165700.38c39cf8@eldfell>
- <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
- <20210729112358.237651ff@eldfell>
- <3675d530-c9fc-7ec9-e157-b6abeeec7c2a@amd.com>
- <20210729121542.27d9b1cc@eldfell>
- <15cf73a8-eda4-3559-561a-a05a14f445d0@gmail.com>
- <20210729140024.6a635be4@eldfell>
- <c090d320-7f2c-3858-d978-7a6f6e8001c0@amd.com>
- <20210729154917.5e664b24@eldfell>
- <11692377-acae-696a-bbeb-9921a6f5d905@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2041.outbound.protection.outlook.com [40.107.102.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8C086E086;
+ Thu, 29 Jul 2021 14:24:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oBPOZblI+D9q77pDFBSyLNHXzTrAz5IsLvp2O2F8c60Kl6isOKWXRrwlt1ZJxP3/O9ABpgyEyl210S07fUIJqdg6MUASfOl2zQ7DfbQdSdD3TJlTnn+soHx0lrQjWn4H/IsE1EHvsgYyFzAgj8m0mJ3BVcF7oNBEz++uZmFT/XcoMJeCanhq68znsaTFif9wI3z7l1YU2grMOV8MsDw2aIqKlHFCIqr/zXgvsvGeteEuII2MzBvf8t1W6U6EANqJK972jsXpjU4+bZPZmFvuJLYuQ2RJyRTlCPTp6TR+QOrt8uxMMiv2OCB/wN0Vg/GqSubLzK0Z70Sxszll2sv+Kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HxOGcG2LsSuPhPcirirqQ/LcY/hiKUspD1DVlba2L3c=;
+ b=TGC1W3GPQplOEI5Vu2rfdFM4EFWQu+dpNHlxxgTIHstcNsVx0E3Famfug+SaKINOZc8CI27DVXnchwAStUX9Y0Wxm5SfMO7U2e1HDnEyzPlh4Ui+GvlPX7pO37ejeNDoyL47nyZAQPcbY9nAN60RQ5ghlApHSr58+Cc53i+hdnnWsKAOUPh4Ql6MS1mxDKj5Gc90fOAB/vpFZ2/E3nKLKarwRsM0xwZf7f2ykK/J0UEH4duD2JYU8D3/JRZxMFaIrmkgelAem7yS+kwF7IIiMSrt9SmLdSH1YvBiNKQQUckxrDqczNrXV2y125ykG+cUCvXSioaga4XWmm4S3+mONQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HxOGcG2LsSuPhPcirirqQ/LcY/hiKUspD1DVlba2L3c=;
+ b=LIvpt20J02/WWVx2KsVWfVez16+ttvk4SPIxCg8AldfS1gQBEvUPs21El1F7ZZw72jymteXfSvkaKTKHdDouFQLMyVqLaIyECNno18DfU8UrRC0LdGZQ9hBN87q29w6BBNuiu43RoIZlFfQ8drIWnNQBz/d1QmlQIzU6wVunksA=
+Authentication-Results: linutronix.de; dkim=none (message not signed)
+ header.d=none;linutronix.de; dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
+ by DM4PR12MB5296.namprd12.prod.outlook.com (2603:10b6:5:39d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.19; Thu, 29 Jul
+ 2021 14:24:38 +0000
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::73:2581:970b:3208]) by DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::73:2581:970b:3208%3]) with mapi id 15.20.4373.020; Thu, 29 Jul 2021
+ 14:24:38 +0000
+Subject: Re: [PATCH 02/11] x86/sev: Add an x86 version of prot_guest_has()
+To: Christoph Hellwig <hch@infradead.org>
+References: <cover.1627424773.git.thomas.lendacky@amd.com>
+ <b3e929a77303dd47fd2adc2a1011009d3bfcee20.1627424774.git.thomas.lendacky@amd.com>
+ <YQFaM7nOhD2d6SUQ@infradead.org>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <9f371091-7f73-8f60-e537-166984c650c1@amd.com>
+Date: Thu, 29 Jul 2021 09:24:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <YQFaM7nOhD2d6SUQ@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR13CA0158.namprd13.prod.outlook.com
+ (2603:10b6:806:28::13) To DM4PR12MB5229.namprd12.prod.outlook.com
+ (2603:10b6:5:398::12)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/N=FJlttKm+gC6bUtDikG7jt";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from office-ryzen.texastahm.com (67.79.209.213) by
+ SA9PR13CA0158.namprd13.prod.outlook.com (2603:10b6:806:28::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4394.9 via Frontend Transport; Thu, 29 Jul 2021 14:24:36 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c51be881-a8ee-4f10-1d19-08d9529c9870
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5296:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM4PR12MB5296FD585C0C26204D6AB48BECEB9@DM4PR12MB5296.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: g8YoiZL9oeNXf2hggdEMEReQ+f+DiLp2r9FTfxn88t2YLUE3pWUNn8K9VtxgI8iolh3GEkoas+UVQIrSlwwsn0ddWqksQBUcCLc4Uzf6H5rqzpW5qSn3OUEU7heA2gQpwQchJ/M19G+awOq+zZRXLe/2h5RbYxk931+1rw4HdoHwWoMSiGKwq+M1Jo/zWiDQvzLS4Kymdi27/i4xNFaGO/3NdVa4f2HkR3bWK8Npg4xGKFk3D9GV9PLQF6rTDrNk4pm2Z3HJJW7dxn29XFfNYIvhvkyYoeWKrzNgEMqGPktb27iDoOkEdvbGZDCOvEfusrO0GCbZrnqxrRiT/fDS1VQg6BU+Jql0WSzrT8jGbM0+bIzhtM9uIheXwtYjd5NlULBUjxcOdNLm/vHUDMSl24DqKpvBDHkaF31ZatgpoIKTudS+qRgeXy/onmmD0u7oIrZXGV3F/WJZAgXOZRkW/JsJIyE6WBIqmxAfHBPazdIeruy0Gs6bslyx9jWuHbX4JprQGnbAbbii71eN07uJ1TTYpUtj2M/P7OGEd1HcAoqjNDli+R7sOf+12ENRM0/tm4w6UF1XN3jjLJVwlG+A36O+bO9nvyJlIMmZKNKmSNbDnZtUwruXFh+x1i4No1RYrXFgyNIoqsiVN/cetcApGCTZ7xHqcxe6y1raQ1GK19K5lIaQncIMmHmhZztRCPInZdsbdwihBrS2ZVlEdkrhB7N+rO8CFWLP1X9/idqL/1c=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(376002)(39860400002)(346002)(366004)(5660300002)(6486002)(4744005)(31696002)(38100700002)(36756003)(6916009)(478600001)(6512007)(31686004)(316002)(8676002)(26005)(8936002)(4326008)(7416002)(6506007)(956004)(2906002)(66476007)(66946007)(86362001)(53546011)(66556008)(186003)(54906003)(2616005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDdDZ1VyMGZLZGtueGNoY1o0TTBwTEUyNnhuc3NiOFF1QVQ5QnlZN3FWS3g1?=
+ =?utf-8?B?dDlqSzZsWkdIdTFIWUVMc1NxaVptTStJMENLbERqQkg4eTdkOGlXeHFEckpH?=
+ =?utf-8?B?VTF0aWljYXlKTW9QVkc3YWRlMHN6Z005MW5VSm9aYmErVjBHWmdxY3N2ZHpL?=
+ =?utf-8?B?V0p5VE5WUVBnMTdlbkx2VHNDNDZlUDAxTW5adUxuVGRoMi9tNzdTTVk5bU5L?=
+ =?utf-8?B?c05WdVRpUDZuMllJYjFmVkZLUmh4REVtVHVXTXQ1elhjbVlreVR2WlcyWkJp?=
+ =?utf-8?B?NUVzQURpNytGa2VpcXJ0OEoyVVg0NzM3TmZZdXAyQ1FORnpCV2taUlNiVnZQ?=
+ =?utf-8?B?R1U1RTREbVV3bkEwRTFkcU0rdE5mVnpmQkVRMnAxb2U5OXdsVXNrSTJnNjQz?=
+ =?utf-8?B?T21oWU5Sb21aeE1KckRnaFJvVGJPZWY3Y0J6ZmkzSzRjd1BEWjltS055OGFz?=
+ =?utf-8?B?V285VEdqalN6TmhCcmM4NlFLYlZZOXJMOTZaN0luNW9Scm9VTjRVYTVXYU4x?=
+ =?utf-8?B?MU1FZGxXRktjYzdseHF0WElkbU5EMU9yNE9DdFlkMGczMzlGQnQ0V1RzMkpp?=
+ =?utf-8?B?NWFRRlFYK0JwTG40SHhkS3VIOHltUXlVSG41N2h6UkVBOW93WWMrRE9KL0g2?=
+ =?utf-8?B?SXQwVWRCZGVvRUE0YytDVzdYWmJKTnRmYm01SHZudnhHZmQyTHRJbEhlRmow?=
+ =?utf-8?B?NWVSKzN0TmtFSk1zWmxqRTZoOG5GWDdhZFpBNTBPY1VUOTR6eXEzQTZmNytt?=
+ =?utf-8?B?VnRGSjZtUlBIOGpFZStSUVA0VkN3dm5MS3BTTnBFSzNUK1NJUWtyaDhsV1ZY?=
+ =?utf-8?B?eGd1ZHVkbnh4MEJPS3RxY3FLQzNLakoyL0lERW9UVzV3dlFxYnFpY0RIdTZR?=
+ =?utf-8?B?QzZtbTVETTNUQnNQSytZVS8ySnVEQmFEczdzeUkvSkxlUEU5SkhaWTJGQUh6?=
+ =?utf-8?B?MktRVkFObjFtdkhTdnNvRlkwVUZzZUxNSFhDaFdtTzVHWmJtS2E4a29JUVEy?=
+ =?utf-8?B?NnYvaFhtMDhyOVltNTBlNDJwMWg5MmFCUXpjVjRkWCtZR1F5aE81VHpFclp0?=
+ =?utf-8?B?ejFnWGJVM2g1Q0hMSVRSTWxDNkNwNGxsWVdrYnA3eUdaUGZ2dlZ4TEtoNXo2?=
+ =?utf-8?B?OTVPNDE5YjQvZFU4alFmeUg5Q3kwRGxoUjBkZjJiOFFPNkl2OTBkWmt0ZExN?=
+ =?utf-8?B?c3l6TEI0RkdvZnpSZzJPMTNzYXJnRUUza0pRUzFmcWhERk1zZVRSVktlYUZQ?=
+ =?utf-8?B?MjZHNTdtL1A1MkxSUmN4bm1IZzNQaCt6WmpXSUlDWGxQUm9BVk1sUGE4b0RS?=
+ =?utf-8?B?QUcweUozYjVpeG5jZ01lUTMxeGd0WVd2bkduZmNCM0RxNWNhdk4rNzlSMENl?=
+ =?utf-8?B?Q1lEMGthSzVSYmNxNmg0TUFTdU45TGtOMGpkc0JReVlzTi9SZFE1aWJSUWds?=
+ =?utf-8?B?YVFZQnVRQ1UrYld4S1BtVTQyc0hoVEJqdlBYOEtZaWx2dHBvUW53bU9GYUNH?=
+ =?utf-8?B?TUc3V0d4WWltS0FDcytocVpHdDVPRyttVGtzUXoxTHl3aTNXWW55WlpDOXEw?=
+ =?utf-8?B?RnZnU1RSOVFpNUNuNGsrSyt3VjhEMERpb280a3Bud1FTME5yZEtwV0x0dERP?=
+ =?utf-8?B?Q0YwbVVwL1Q4bElrM3owdSt5dUUraTdDaU8zRi9DWWRQaWx1Q0tsTzNHVkh1?=
+ =?utf-8?B?RXhYbTlsbVlKRjVHMkJvZE01alRWdFdsREJmV2ZlaTU3enJud2NIMnVCNTVO?=
+ =?utf-8?Q?q4A8SyjXWCqV9AOU5580L5phdBMDoaGT3lNqj8e?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c51be881-a8ee-4f10-1d19-08d9529c9870
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2021 14:24:37.8233 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x1yJKZYpE3WkuJiRwixNSm6zZLvrS6IgOGEpCjzchdd6GSdW+MSbiMQLNDM2RswlYPSEsW5kcYKeKwZNqRb27Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5296
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,274 +128,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
- Jack Zhang <Jack.Zhang1@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Lee Jones <lee.jones@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ kvm@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-s390@vger.kernel.org,
+ Andi Kleen <ak@linux.intel.com>, x86@kernel.org, amd-gfx@lists.freedesktop.org,
+ Ingo Molnar <mingo@redhat.com>, linux-graphics-maintainer@vmware.com,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/N=FJlttKm+gC6bUtDikG7jt
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 7/28/21 8:22 AM, Christoph Hellwig wrote:
+> On Tue, Jul 27, 2021 at 05:26:05PM -0500, Tom Lendacky via iommu wrote:
+>> Introduce an x86 version of the prot_guest_has() function. This will be
+>> used in the more generic x86 code to replace vendor specific calls like
+>> sev_active(), etc.
+>>
+>> While the name suggests this is intended mainly for guests, it will
+>> also be used for host memory encryption checks in place of sme_active().
+>>
+>> The amd_prot_guest_has() function does not use EXPORT_SYMBOL_GPL for the
+>> same reasons previously stated when changing sme_active(), sev_active and
+> 
+> None of that applies here as none of the callers get pulled into
+> random macros.  The only case of that is sme_me_mask through
+> sme_mask, but that's not something this series replaces as far as I can
+> tell.
 
-On Thu, 29 Jul 2021 15:41:09 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-
-> Am 29.07.21 um 14:49 schrieb Pekka Paalanen:
-> > On Thu, 29 Jul 2021 13:43:20 +0200
-> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> > =20
-> >> Am 29.07.21 um 13:00 schrieb Pekka Paalanen: =20
-> >>> On Thu, 29 Jul 2021 12:14:18 +0200
-> >>> Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>>    =20
-> >>>> Am 29.07.21 um 11:15 schrieb Pekka Paalanen: =20
-> >>>>> If the app happens to be frozen (e.g. some weird bug in fence handl=
-ing
-> >>>>> to make it never ready, or maybe it's just bugged itself and never
-> >>>>> drawing again), then the app is frozen, and all the rest of the des=
-ktop
-> >>>>> continues running normally without a glitch. =20
-> >>>> But that is in contradict to what you told me before.
-> >>>>
-> >>>> See when the window should move but fails to draw it's new content w=
-hat
-> >>>> happens?
-> >>>>
-> >>>> Are the other windows which would be affected by the move not drawn =
-as well? =20
-> >>> No, all the other windows will continue behaving normally just like
-> >>> they always did. It's just that one frozen window there that won't
-> >>> update; it won't resize, so there is no reason to move that other
-> >>> window either.
-> >>>
-> >>> Everything continues as if the frozen window never even sent anything
-> >>> to the compositor after its last good update.
-> >>>
-> >>> We have a principle in Wayland: the compositor cannot afford to wait
-> >>> for clients, the desktop as a whole must remain responsive. So there =
-is
-> >>> always a backup plan even for cases where the compositor expects the
-> >>> client to change something. For resizes, in a floating-window manager
-> >>> it's easy: just let things continue as they are; in a tiling window
-> >>> manager they may have a timeout after which... whatever is appropriat=
-e.
-> >>>
-> >>> Another example: If a compositor decides to make a window maximized, =
-it
-> >>> tells the client the new size and state it must have. Until the client
-> >>> acks that specific state change, the compositor will continue managing
-> >>> that window as if nothing changed. Given the asynchronous nature of
-> >>> Wayland, the client might even continue submitting updates
-> >>> non-maximized for a while, and that will go through as if the
-> >>> compositor didn't ask for maximized. But at some point the client acks
-> >>> the window state change, and from that point on if it doesn't behave
-> >>> like maximized state requires, it will get a protocol error and be
-> >>> disconnected. =20
-> >> Yeah and all of this totally makes sense.
-> >>
-> >> The problem is that not forwarding the state changes to the hardware
-> >> adds a CPU round trip which is rather bad for the driver design,
-> >> especially power management.
-> >>
-> >> E.g. when you submit the work only after everybody becomes available t=
-he
-> >> GPU becomes idle in between and might think it is a good idea to reduce
-> >> clocks etc... =20
-> > Everybody does not need to be available. The compositor can submit its
-> > work anyway, it just uses old state for some of the windows.
-> >
-> > But if everybody happens to be ready before the compositor repaints,
-> > then the GPU will be idle anyway, whether the compositor looked at the
-> > buffer readyness at all or not. =20
->=20
-> Ok good point.
->=20
-> > Given that Wayland clients are not expected (but can if they want) to
-> > draw again until the frame callback which ensures that their previous
-> > frame is definitely going to be used on screen, this idling of GPU
-> > might happen regularly with well-behaved clients I guess? =20
->=20
-> Maybe I wasn't clear what the problem is: That the GPU goes idle is=20
-> expected, but it should it should just not go idle multiple times.
->=20
-> > The aim is that co-operative clients never draw a frame that will only
-> > get discarded.
-> > =20
-> >> How about doing this instead:
-> >>
-> >> 1. As soon as at least one window has new committed state you submit t=
-he
-> >> rendering.
-> >>   =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 As far as I understand it that=
- is already the case anyway. =20
-> > At least Weston does not work like that. Doing that means that the
-> > first client to send a new frame will lock all other client updates out
-> > of that update cycle.
-> >
-> > Hence, a compositor usually waits until some point before the target
-> > vblank before it starts the repaint, which locks the window state in
-> > place for the frame. =20
->=20
-> Uff, that means we have lost this game anyway.
->=20
-> See you get the best energy utilization if the hardware wakes up as few=20
-> as possible and still get everything done.
->=20
-> So what happens in the case you describes is that the hardware comes out=
-=20
-> of sleep at least twice, once for the client and once for the server=20
-> which is rather sub optimal.
-
-I can see the point, but what do we know about its significance?
-
-If the alternative is the first-to-win and everyone else gets postponed
-by another full refresh cycle, isn't that worse? It could even cause
-jitter rather than just "high" latency to screen.
-
-Is there any approach that would not have either disadvantage?
-
-Here is an analysis of why Weston does what it does right now (the new
-algorithm):
-https://ppaalanen.blogspot.com/2015/02/weston-repaint-scheduling.html
-
-
-Are we talking about desktops in general, or games, or fullscreen use
-case?
-
-It's not unthinkable to have a different compositor scheduling policy
-for outputs that happen have only one fullscreen window.
-
-> > Any client update could contain window state changes that prevents the
-> > GPU from choosing the content buffer to use.
-> > =20
-> >> 2. Before starting rendering the hardware driver waits with a timeout
-> >> for all the window content to become ready.
-> >>   =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 The timeout is picked in a way=
- so that we at least reach a
-> >> reasonable fps. Making that depending on the maximum refresh rate of t=
-he
-> >> display device sounds reasonable to me.
-> >>
-> >> 3a. If all windows become ready on time we draw the frame as expected.
-> >> 3b. If a timeout occurs the compositor is noted of this and goes on a
-> >> fallback path rendering only the content known to be ready. =20
-> > Sounds like the fallback path, where the compositor's rendering is
-> > already late, would need to re-do all the rendering with an extremely
-> > tight schedule just before the KMS submission deadline. IOW, when
-> > you're not going to make it in time, you have to do even more work and
-> > ping-pong even more between CPU and GPU after being a bit late already.
-> > Is that really a good idea? =20
->=20
-> My idea is that both the fallback path and the normal rendering are=20
-> submitted at the same time, just with a big if/then/else around it. E.g.=
-=20
-> the timeout happens on the GPU hardware and not on the CPU.
-
-So for every refresh, the compositor needs to prepare a combinatorial
-explosion number of possible compositions to be rendered?
-
-Or do we have the assumption that everything we talk about here is
-conditional to not having any window state changes other than content
-change?
-
-Remember the example where one window is pending a resize, and if/when
-that happens another window needs to move.
-
-> But I think that stuff is just to complicated to implement.
->=20
-> I want to describe once more what the ideal configuration would be:
-> 1. When you render a frame one or more clients submit jobs to the hardwar=
-e.
-> 2. Those jobs then execute on the hardware asynchronously to the CPU.
-> 3. At the same time the CPU prepares a composition job which takes all=20
-> the window content from clients and renders a new frame.
-> 4. This new frame gets submitted to the hardware driver as new content=20
-> on the screen.
-> 5. The hardware driver waits for all the rendering to be completed and=20
-> flips the screen.
-
-I believe this is what happens right now, when compositors do not take
-into account that client buffers might not be ready, with the problem
-that any client GPU job that takes ages will stall the whole desktop's
-refresh.
-
->=20
-> The idea is that you have only one block of activity on the hardware,=20
-> e.g. something like this:
-> _------------_______flip_-------------_____flip.....
->=20
->=20
-> But what happens with Wayland currently is that you end up with:
-> _--------_______-__flip_------------___-__flip.....
->=20
->=20
-> Or even worse when you have multiple clients rendering at random times:
-> _---_---_---____-__flip_---_---_---___-__flip.....
->=20
->=20
-> I'm actually not that of a power management guy, but it is rather=20
-> obvious that this is not optimal.
-
-Possibly, but I haven't seen anyone come up with a better plan given the
-constraints that Wayland window state management raises.
-
-Seems like it all boils down to the fundamental trade-off between
-latency and throughput, or latency and power efficiency.
-
+Ok, let me make sure of that and I'll change to EXPORT_SYMBOL_GPL if
+that's the case.
 
 Thanks,
-pq
+Tom
 
->=20
-> Regards,
-> Christian.
->=20
->=20
-> > It also means the compositor cannot submit the KMS atomic commit until
-> > the GPU is done or timed out the compositing job, which is another
-> > GPU-CPU ping-pong.
-> > =20
-> >> 4. Repeat.
-> >>
-> >> This way we should be able to handle all use cases gracefully, e.g. the
-> >> hanging client won't cause the server to block and when everything
-> >> becomes ready on time we just render as expected. =20
-> >
-> > Thanks,
-> > pq =20
->=20
-
-
---Sig_/N=FJlttKm+gC6bUtDikG7jt
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmECtskACgkQI1/ltBGq
-qqeyCxAAqLOHHDzFwFh3JAIeQEv/9ke1qU3yRiT/1w17VwnHKJCG0HAWyyAGUFy2
-ggW++JIjPye1ZT6LbdDJcLNbDsOXuhnwdxjy4lRLcjHVVMT78lsH+ATQ05UZU9bF
-8x/yzj0YV6LYRGpNB6unqs3nu+/B41TyNB9fVRjW0XwfRUdEnC7JYpJFdJd7GeTI
-QOLsoGSk0rqMhKX5lF/n01qhofipb+hLNAuo4sgiuqRbKXmhTcmKRh4/CqC4NsPc
-SIUG3tjNeIkmo6+OEhCXgCTjSC3pd5LUY/Gqt+Zuny/+CD4eFilOqo1huKhIbk66
-gCCCeOxhoAOLGsJi0VG4GxIChIKWj38ORpMWS4ZTh1GUlzXNdyErhNnxyZt7Okr/
-ukhuHFMH/TYr+8N+EkhvMzuuHke2YeJU9b8FsuW7PGPnBbUDOLytVZlVLapOEofc
-LvCO5d5LQaVAd7piW8Fc4P194w+98FgmEmL435QUtdI+6/Y5GyWCvBaUKC+3IiSn
-LAAMtAGEuxuVDBKjbjhlNOu8pRhhHI8w44weaB2geYR47+3pGQq1S9F0FOd0vFTR
-tjrtLl0uW6tDDtsqSKhPTtdpGNrUyvLJ+13NO3uXyxMblIbMo1Sn4CswsA/y+Qaa
-KSscxUDPqHMC//8kiQSGnIghhsLMP8aSdLCfsv5YSMQ4RaBdmaE=
-=itZY
------END PGP SIGNATURE-----
-
---Sig_/N=FJlttKm+gC6bUtDikG7jt--
+> 
