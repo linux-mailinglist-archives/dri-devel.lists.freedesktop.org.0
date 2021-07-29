@@ -2,53 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F873DABA0
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 21:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F363DABBE
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 21:18:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E886E12B;
-	Thu, 29 Jul 2021 19:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2EFC6EE35;
+	Thu, 29 Jul 2021 19:18:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
- [209.85.166.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1ABA6E12B
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 19:08:28 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id x7so3641803ilh.10
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 12:08:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HmDYTMDrb5z+wR/I3Bgep+1Plzvx/T7uZyiKlMv4WDc=;
- b=gqSgnBWWqGcxQAxdAOH0w0ih8corOIFxqIXFZasDpWJ2ukVG/wm6XYL+SkxZYWlPvL
- DrsWUSzpePqP12TX4J8CqvClU/sqzYphVkfqJihNVFE8yJHiBKuj0+/vbQSZrlGmMIQp
- hcfJyZ+YhOtK3zHJGJvHdfdhwTL88pQLKFm6zKZRHamaHRA1RHBaLoPQDx7B8LiyhZ8Z
- /4xiMF0ZBT6LygfZrFE8P0FJAsIHjdy+NH9hwDzjB23LjLas2U9B8FF6pkQW+bZD+2PI
- kp13b83HqmspTuriULb+fm4/YtjdTaSjrCYiJj3H3P/ubjbU8KOvumLwxenKVijW9U27
- SJMg==
-X-Gm-Message-State: AOAM532MJLq3zwxLnTGDmCwR/AY08Qk5RhtTLNW2+cWw8t2NeJogs75Q
- qICaiXZmK2/0F1VvxFo2jw==
-X-Google-Smtp-Source: ABdhPJzo5t2afAZSo7+QVOK17vpxXGg6rQM1gUcfwrGEIFPcxdTBNVn/G0Kjax4Mwehv6E92N252OQ==
-X-Received: by 2002:a92:dad0:: with SMTP id o16mr4695293ilq.65.1627585708145; 
- Thu, 29 Jul 2021 12:08:28 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id q10sm2975639ion.3.2021.07.29.12.08.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 12:08:27 -0700 (PDT)
-Received: (nullmailer pid 704017 invoked by uid 1000);
- Thu, 29 Jul 2021 19:08:24 -0000
-Date: Thu, 29 Jul 2021 13:08:24 -0600
-From: Rob Herring <robh@kernel.org>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v10 1/4] dt-bindings:drm/bridge:anx7625:add vendor define
- flags
-Message-ID: <YQL8qLpN41ocV9N0@robh.at.kernel.org>
-References: <cover.1626685856.git.xji@analogixsemi.com>
- <85126d087cb045ea5e00a5100fc7d81840744a68.1626685856.git.xji@analogixsemi.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD0B6EE31;
+ Thu, 29 Jul 2021 19:18:33 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DE36B1FD6C;
+ Thu, 29 Jul 2021 19:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1627586311; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ARi7fzuP6PspqOeeSxIq7f++s/zF6k625nFKZfwFtBY=;
+ b=KsG6VOhcgqdVeyqYhniNovQGNCc1rM1BVsnW7Tu3idQfSVON7/FrE7sBEhzvCfDf5fPPou
+ r8p2JRdLAGbxUw6iboJ0UMMTNFpnqkV584up9x5KvJrd4nOkn3ZJ5bGxO0DVSI/c7CtBdV
+ kM73nyRjX+p30DK+2gYtiSeONxj9sHw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1627586311;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ARi7fzuP6PspqOeeSxIq7f++s/zF6k625nFKZfwFtBY=;
+ b=PnOg9mOoda2BHjNEHphWHZ3PsVj5irQTGyAoXXZ+3hb2iy0d7cMsljAzjdkoG2nRRe8TQT
+ UHhhtCs/na9gD1AQ==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 159FC13756;
+ Thu, 29 Jul 2021 19:18:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id umyQAwf/AmFiaAAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Thu, 29 Jul 2021 19:18:31 +0000
+Subject: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
+To: Sam Ravnborg <sam@ravnborg.org>, Dan.Sneddon@microchip.com
+References: <20210727182721.17981-4-tzimmermann@suse.de>
+ <YQFi96yaYbTG4OO7@ravnborg.org>
+ <e28b1a2f-015c-c81b-eb64-5323df9ed35d@microchip.com>
+ <YQF7bKyeup8n3awU@ravnborg.org>
+ <3d2f6b84-dd07-d925-a8b8-2bfd5fc736d9@microchip.com>
+ <YQGdxtV0BGZ8VOpm@ravnborg.org>
+ <2f04b986-6b41-62f9-1587-23818b841655@suse.de>
+ <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
+ <YQGrMH36Udg3eKQY@ravnborg.org>
+ <dcc5cd1e-d0de-bdda-32f3-623b85085756@microchip.com>
+ <YQG5+/9lPexU3Dn3@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <1df22406-2e91-c15a-49dc-1cf33522a142@suse.de>
+Date: Thu, 29 Jul 2021 21:18:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85126d087cb045ea5e00a5100fc7d81840744a68.1626685856.git.xji@analogixsemi.com>
+In-Reply-To: <YQG5+/9lPexU3Dn3@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7KdZdn9qKKUSuKkMys46FDSsbCZWJFWg8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,261 +78,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@google.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>,
- Zhen Li <zhenli@analogixsemi.com>, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Bernie Liang <bliang@analogixsemi.com>, Sheng Pan <span@analogixsemi.com>
+Cc: airlied@linux.ie, liviu.dudau@arm.com, amd-gfx@lists.freedesktop.org,
+ anitha.chrisanthus@intel.com, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, edmund.j.dea@intel.com,
+ s.hauer@pengutronix.de, alison.wang@nxp.com, dri-devel@lists.freedesktop.org,
+ sean@poorly.run, linux-arm-kernel@lists.infradead.org, tomba@kernel.org,
+ bbrezillon@kernel.org, jyri.sarha@iki.fi, Nicolas.Ferre@microchip.com,
+ christian.koenig@amd.com, kernel@pengutronix.de, alexander.deucher@amd.com,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 19, 2021 at 06:10:09PM +0800, Xin Ji wrote:
-> Add 'bus-type' and 'data-lanes' define for port0. Define DP tx lane0,
-> lane1 swing register array define, and audio enable flag.
-> 
-> The device which cannot pass DP tx PHY CTS caused by long PCB trace or
-> embedded MUX, adjusting ANX7625 PHY parameters can pass the CTS test. The
-> adjusting type include Pre-emphasis, Vp-p, Rterm(Resistor Termination)
-> and Rsel(Driven Strength). Each lane has maximum 20 registers for
-> these settings.
-> 
-> For the DP tx swing setting, each lane has 10 different combination for
-> swing, as Pre0: swing3|swing2|swing1|swing0, Pre1: swing2|swing1|swing0,
-> Pre2: swing1|swing0, Pre3: swing0.
-> 
-> Register definition as:
-> [Boost_ctrl]
-> These registers control post cursor manual, increase the Boost_Ctrl
-> setting can increase Pre-emphasis value separately.
-> Lane	Condition	Register address
-> Lane0	Swing0_Pre0	0x7a:0x00 bit[3:0]
-> Lane0	Swing1_Pre0	0x7a:0x01 bit[3:0]
-> Lane0	Swing2_Pre0	0x7a:0x02 bit[3:0]
-> Lane0	Swing3_Pre0	0x7a:0x03 bit[3:0]
-> Lane0	Swing0_Pre1	0x7a:0x04 bit[3:0]
-> Lane0	Swing1_Pre1	0x7a:0x05 bit[3:0]
-> Lane0	Swing2_Pre1	0x7a:0x06 bit[3:0]
-> Lane0	Swing0_Pre2	0x7a:0x07 bit[3:0]
-> Lane0	Swing1_Pre2	0x7a:0x08 bit[3:0]
-> Lane0	Swing0_Pre3	0x7a:0x09 bit[3:0]
-> Lane1	Swing0_Pre0	0x7a:0x14 bit[3:0]
-> Lane1	Swing1_Pre0	0x7a:0x15 bit[3:0]
-> Lane1	Swing2_Pre0	0x7a:0x16 bit[3:0]
-> Lane1	Swing3_Pre0	0x7a:0x17 bit[3:0]
-> Lane1	Swing0_Pre1	0x7a:0x18 bit[3:0]
-> Lane1	Swing1_Pre1	0x7a:0x19 bit[3:0]
-> Lane1	Swing2_Pre1	0x7a:0x1a bit[3:0]
-> Lane1	Swing0_Pre2	0x7a:0x1b bit[3:0]
-> Lane1	Swing1_Pre2	0x7a:0x1c bit[3:0]
-> Lane1	Swing0_Pre3	0x7a:0x1d bit[3:0]
-> 
-> [Swing_ctrl]
-> These registers control swing manual, increase Swing_Ctrl setting can
-> increase Vp-p value separately.
-> Lane	Condition	Register address
-> Lane0	Swing0_Pre0	0x7a:0x00 bit[6:4]
-> Lane0	Swing1_Pre0	0x7a:0x01 bit[6:4]
-> Lane0	Swing2_Pre0	0x7a:0x02 bit[6:4]
-> Lane0	Swing3_Pre0	0x7a:0x03 bit[6:4]
-> Lane0	Swing0_Pre1	0x7a:0x04 bit[6:4]
-> Lane0	Swing1_Pre1	0x7a:0x05 bit[6:4]
-> Lane0	Swing2_Pre1	0x7a:0x06 bit[6:4]
-> Lane0	Swing0_Pre2	0x7a:0x07 bit[6:4]
-> Lane0	Swing1_Pre2	0x7a:0x08 bit[6:4]
-> Lane0	Swing0_Pre3	0x7a:0x09 bit[6:4]
-> Lane1	Swing0_Pre0	0x7a:0x14 bit[6:4]
-> Lane1	Swing1_Pre0	0x7a:0x15 bit[6:4]
-> Lane1	Swing2_Pre0	0x7a:0x16 bit[6:4]
-> Lane1	Swing3_Pre0	0x7a:0x17 bit[6:4]
-> Lane1	Swing0_Pre1	0x7a:0x18 bit[6:4]
-> Lane1	Swing1_Pre1	0x7a:0x19 bit[6:4]
-> Lane1	Swing2_Pre1	0x7a:0x1a bit[6:4]
-> Lane1	Swing0_Pre2	0x7a:0x1b bit[6:4]
-> Lane1	Swing1_Pre2	0x7a:0x1c bit[6:4]
-> Lane1	Swing0_Pre3	0x7a:0x1d bit[6:4]
-> 
-> [Rsel_ctrl]
-> These registers control resistor compensation manual, increase Rsel_ctrl
-> can increase the IO driven strength, increase Vp-p simultaneously.
-> Lane	Condition	Register address
-> Lane0	Swing0_Pre0	0x7a:0x0a bit[4:0]
-> Lane0	Swing1_Pre0	0x7a:0x0b bit[4:0]
-> Lane0	Swing2_Pre0	0x7a:0x0c bit[4:0]
-> Lane0	Swing3_Pre0	0x7a:0x0d bit[4:0]
-> Lane0	Swing0_Pre1	0x7a:0x0e bit[4:0]
-> Lane0	Swing1_Pre1	0x7a:0x0f bit[4:0]
-> Lane0	Swing2_Pre1	0x7a:0x10 bit[4:0]
-> Lane0	Swing0_Pre2	0x7a:0x11 bit[4:0]
-> Lane0	Swing1_Pre2	0x7a:0x12 bit[4:0]
-> Lane0	Swing0_Pre3	0x7a:0x13 bit[4:0]
-> Lane1	Swing0_Pre0	0x7a:0x1e bit[4:0]
-> Lane1	Swing1_Pre0	0x7a:0x1f bit[4:0]
-> Lane1	Swing2_Pre0	0x7a:0x20 bit[4:0]
-> Lane1	Swing3_Pre0	0x7a:0x21 bit[4:0]
-> Lane1	Swing0_Pre1	0x7a:0x22 bit[4:0]
-> Lane1	Swing1_Pre1	0x7a:0x23 bit[4:0]
-> Lane1	Swing2_Pre1	0x7a:0x24 bit[4:0]
-> Lane1	Swing0_Pre2	0x7a:0x25 bit[4:0]
-> Lane1	Swing1_Pre2	0x7a:0x26 bit[4:0]
-> Lane1	Swing0_Pre3	0x7a:0x27 bit[4:0]
-> 
-> [Rterm_ctrl]
-> These registers adjust 50ohm impedance of DP tx
-> 00:55 ohm
-> 01:50 ohm(default)
-> 10:45 ohm
-> 11:40 ohm
-> Lane	Condition	Register address
-> Lane0	Swing0_Pre0	0x7a:0x0a bit[6:5]
-> Lane0	Swing1_Pre0	0x7a:0x0b bit[6:5]
-> Lane0	Swing2_Pre0	0x7a:0x0c bit[6:5]
-> Lane0	Swing3_Pre0	0x7a:0x0d bit[6:5]
-> Lane0	Swing0_Pre1	0x7a:0x0e bit[6:5]
-> Lane0	Swing1_Pre1	0x7a:0x0f bit[6:5]
-> Lane0	Swing2_Pre1	0x7a:0x10 bit[6:5]
-> Lane0	Swing0_Pre2	0x7a:0x11 bit[6:5]
-> Lane0	Swing1_Pre2	0x7a:0x12 bit[6:5]
-> Lane0	Swing0_Pre3	0x7a:0x13 bit[6:5]
-> lane1	Swing0_Pre0	0x7a:0x1e bit[6:5]
-> Lane1	Swing1_Pre0	0x7a:0x1f bit[6:5]
-> Lane1	Swing2_Pre0	0x7a:0x20 bit[6:5]
-> Lane1	Swing3_Pre0	0x7a:0x21 bit[6:5]
-> Lane1	Swing0_Pre1	0x7a:0x22 bit[6:5]
-> Lane1	Swing1_Pre1	0x7a:0x23 bit[6:5]
-> Lane1	Swing2_Pre1	0x7a:0x24 bit[6:5]
-> Lane1	Swing0_Pre2	0x7a:0x25 bit[6:5]
-> Lane1	Swing1_Pre2	0x7a:0x26 bit[6:5]
-> Lane1	Swing0_Pre3	0x7a:0x27 bit[6:5]
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7KdZdn9qKKUSuKkMys46FDSsbCZWJFWg8
+Content-Type: multipart/mixed; boundary="k8RKRzHP1SDzHIj8TPo5gmhRo3stMnzU2";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, Dan.Sneddon@microchip.com
+Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
+ bbrezillon@kernel.org, Nicolas.Ferre@microchip.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
+ alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
+ anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
+ sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Message-ID: <1df22406-2e91-c15a-49dc-1cf33522a142@suse.de>
+Subject: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
+References: <20210727182721.17981-4-tzimmermann@suse.de>
+ <YQFi96yaYbTG4OO7@ravnborg.org>
+ <e28b1a2f-015c-c81b-eb64-5323df9ed35d@microchip.com>
+ <YQF7bKyeup8n3awU@ravnborg.org>
+ <3d2f6b84-dd07-d925-a8b8-2bfd5fc736d9@microchip.com>
+ <YQGdxtV0BGZ8VOpm@ravnborg.org>
+ <2f04b986-6b41-62f9-1587-23818b841655@suse.de>
+ <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
+ <YQGrMH36Udg3eKQY@ravnborg.org>
+ <dcc5cd1e-d0de-bdda-32f3-623b85085756@microchip.com>
+ <YQG5+/9lPexU3Dn3@ravnborg.org>
+In-Reply-To: <YQG5+/9lPexU3Dn3@ravnborg.org>
 
-All this information should be in the properties description. But the 
-above form is not all that clear in defining how to fill in the 
-properties. You need to describe what is in each word of the properties 
-and assume the reader has the datasheet. 
-> 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  .../display/bridge/analogix,anx7625.yaml      | 55 ++++++++++++++++++-
->  1 file changed, 54 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> index ab48ab2f4240..77b160d7c269 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> @@ -43,6 +43,24 @@ properties:
->    vdd33-supply:
->      description: Regulator that provides the supply 3.3V power.
->  
-> +  analogix,lane0-swing:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 1
-> +    maxItems: 20
-> +    description:
-> +      an array of swing register setting for DP tx lane0 PHY.
-> +
-> +  analogix,lane1-swing:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 1
-> +    maxItems: 20
-> +    description:
-> +      an array of swing register setting for DP tx lane1 PHY.
-> +
-> +  analogix,audio-enable:
-> +    type: boolean
-> +    description: let the driver enable audio HDMI codec function or not.
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->  
-> @@ -50,13 +68,43 @@ properties:
->        port@0:
->          $ref: /schemas/graph.yaml#/properties/port
+--k8RKRzHP1SDzHIj8TPo5gmhRo3stMnzU2
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-This needs to be #/$defs/port-base instead since you are adding child 
-properties.
+Hi
 
-Also needs 'unevaluatedProperties: false'.
+Am 28.07.21 um 22:11 schrieb Sam Ravnborg:
+> Hi Dan,
+>=20
+>>>
+>>> I think I got it - we need to set irq_enabled to true.
+>>> The documentation says so:
+>>> "
+>>>            * @irq_enabled:
+>>>            *
+>>>            * Indicates that interrupt handling is enabled, specifical=
+ly vblank
+>>>            * handling. Drivers which don't use drm_irq_install() need=
+ to set this
+>>>            * to true manually.
+>>> "
+>>>
+>>> Can you try to add the following line:
+>>>
+>>>
+>>> +static int atmel_hlcdc_dc_irq_install(struct drm_device *dev, unsign=
+ed int irq)
+>>> +{
+>>> +       int ret;
+>>> +
+>>> +       if (irq =3D=3D IRQ_NOTCONNECTED)
+>>> +               return -ENOTCONN;
+>>> +
+>>>
+>>>           dev->irq_enabled =3D true;                <=3D THIS LINE
+>>>
+>>>
+>>> +       atmel_hlcdc_dc_irq_disable(dev);
+>>> +
+>>> +       ret =3D request_irq(irq, atmel_hlcdc_dc_irq_handler, 0, dev->=
+driver->name, dev);
+>>> +       if (ret)
+>>> +               return ret;
+>>>
+>>> I hope this fixes it.
+>>
+>> It does!  With the irq_enabled line added everything is looking good.
 
->          description:
-> -          Video port for MIPI DSI input.
-> +          MIPI DSI/DPI input.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            type: object
-> +            additionalProperties: false
-> +
-> +            properties:
-> +              remote-endpoint: true
-> +              bus-type: true
+Are you sure, you're testing with the latest drm-misc-next or drm-tip?=20
+Because using irq_enabled is deprecated and the flag was recently=20
+replaced by commit 1e4cd78ed493 ("drm: Don't test for IRQ support in=20
+VBLANK ioctls").
 
-All the possible bus-type values are supported by this h/w?
+Best regards
+Thomas
 
-> +              data-lanes: true
-> +
-> +            required:
-> +              - remote-endpoint
+>=20
+> Great, thanks for testing.
+>=20
+> Thomas - I assume you will do a re-spin and there is likely some fixes
+> for the applied IRQ conversions too.
+>=20
+> Note - irq_enabled must be cleared if request_irq fails. I did not
+> include this in the testing here.
+>=20
+> 	Sam
+>=20
 
-Drop this.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-> +
-> +        required:
-> +          - endpoint
 
-Drop this.
+--k8RKRzHP1SDzHIj8TPo5gmhRo3stMnzU2--
 
-> +
->  
->        port@1:
->          $ref: /schemas/graph.yaml#/properties/port
->          description:
->            Video port for panel or connector.
->  
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
+--7KdZdn9qKKUSuKkMys46FDSsbCZWJFWg8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-No additional properties, you don't need this reference or the rest of 
-this addition.
+-----BEGIN PGP SIGNATURE-----
 
-> +            type: object
-> +            additionalProperties: false
-> +
-> +            properties:
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - remote-endpoint
-> +
->      required:
->        - port@0
->        - port@1
-> @@ -87,6 +135,9 @@ examples:
->              vdd10-supply = <&pp1000_mipibrdg>;
->              vdd18-supply = <&pp1800_mipibrdg>;
->              vdd33-supply = <&pp3300_mipibrdg>;
-> +            analogix,audio-enable;
-> +            analogix,lane0-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> +            analogix,lane1-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEC/wYFAwAAAAAACgkQlh/E3EQov+B2
+7Q//UVCwvB5dM0KBGIxYZP4EX3WE120wH55oAGYqSC297HYUYtiK0ao/Tnl3VjwrBTpVtys/tufE
+Ytjsrbt3HqISjsU+ii3u87Ep/0p6Fd6RfqjH8JzzRSt8COjfNPdAGmlyugZvS0fwfywgZw/4FCP6
+dg0Jhzft+YzF3XsF8I3/2C+xOGlV/85T2OY+WHNLjXfrD8Q4YaK+0Kd05P/HIIJscHeR/ttRsmdB
+WyxCwb1wiYYfNb2lfet/slXQo5LqSSVZwsO06DDFxg6PvrhMls7mB+q8jZnsMJ3llI7NQm9UXkn/
+Qy2fGTBQIcgI7n2avq7cBEwdRMupuqCli43/tk+TLGJuiKoa/dT8e88E+ktm6zCIDq9/qv0I1JyU
+o7ccJI6aVI8fgQROHEPkBXqnZgDFAPJMnejjErb7mLvfCdrPb1E0yTH1yHlu3hAqA+BTWUsxD+HQ
+AYWEK07ne2rn7x5rzJivWXvZBaFzf3RqU5SO0h+pjLW0Reez3l8AlvXwt/rjdug0TtEpNv0J9XyV
+1hnCNvBn24cQ2TrL0ETZ9GNljADsV416eECymXsLG2/A8sescEJ6LVjjXTaMo12G/1rlduaBSF5U
+JWMQR7qWFMRmfU/xaN+ccZXxe+JwWAfsnhRWmuDYgUWyQXparjHKTUshRg+BmBvB+Sl9CIFhDYln
+Duw=
+=lqN7
+-----END PGP SIGNATURE-----
 
-If the values are only 8-bit, then make the type uint8-array.
-
->  
->              ports {
->                  #address-cells = <1>;
-> @@ -96,6 +147,8 @@ examples:
->                      reg = <0>;
->                      anx7625_in: endpoint {
->                          remote-endpoint = <&mipi_dsi>;
-> +                        bus-type = <5>;
-> +                        data-lanes = <0 1 2 3>;
->                      };
->                  };
->  
-> -- 
-> 2.25.1
-> 
-> 
+--7KdZdn9qKKUSuKkMys46FDSsbCZWJFWg8--
