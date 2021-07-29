@@ -1,63 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0093D9B9C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 04:14:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA253D9D91
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 08:21:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A2526EC47;
-	Thu, 29 Jul 2021 02:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 488316EC89;
+	Thu, 29 Jul 2021 06:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8686EC47
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 02:14:44 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- h63-20020a9d14450000b02904ce97efee36so4232583oth.7
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 19:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:date:message-id:in-reply-to:references:user-agent
- :subject:mime-version;
- bh=RKcHeVvw16ovUpP8GEZ6BTrOqKRokMe4yAiNEIUj+ew=;
- b=lHM9MrZBCcdqjOiYzh5aS5m1SCpmNbjI1/f3+dV75FUKSnkpNy0enFMCyf/Zja+xET
- 9T065+MmGCFyXdXk7AAtgT1UE7aMrvRVY0jd0exTi4SDZYz6gDib4OIR+4NR/pWzDnAD
- wQNEYDNY++h4QcBbrSBEFYGuIRkYcqPNTJ/J+c202GRn5DaRveI/UeUVCzAFJtPSY7p4
- JS13dWon5hsfp1AhjoAspAuPXxKrkJ5Gvs6ye/haNmqrB+muYV+QsM9A1t5Cx3oJiU/S
- 6HVHPMvuJM9d5vYwQ0KyoEcLsQiCixeVsq3ePlzGiwWVRs2XKnb4HsT13OT/aTuUH9qo
- kDtA==
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5B36E7F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 02:18:13 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ a192-20020a1c7fc90000b0290253b32e8796so4297700wmd.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 19:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gdO4o8bjnyjf6VJ32RyW/MGpB10JopzkFnT0LLJKmv8=;
+ b=lQDpb+uYuVNSPSV5KLbzdR8iYg+0/y43zYcrBP1Hd5GQeZdpdnn/3BWOJoBkEi+BlB
+ O9mEDqscLMy/PqCYAZIUHfGwwjLFpVUPsob3BON/at7EBQCCZxzEZ4wIyXM0XIk1C8Vb
+ QTlfiHH8Y3F2A98ec5l3GdKcb/jelJD22n5hKC6FRLd/uwDunwIBA4n5KzzEKPkzTDHq
+ uOp/cPn2Bqc8bikxdn0yaTZ1ShbQS0tNrEcg7o6ujL0HFtNeCf1zXSFLOTh2f7uxC0TL
+ kxSVrmoFlxI98KK7ywgELkUDb/w6b19SIp0TDiB8jJ6vKW1//5vn11XjKsUBLXswOYlA
+ icqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:date:message-id:in-reply-to
- :references:user-agent:subject:mime-version;
- bh=RKcHeVvw16ovUpP8GEZ6BTrOqKRokMe4yAiNEIUj+ew=;
- b=bokLrtBx0xMt1sxKaGwOX6MwHiU3Ebv5HfL3bwrpto2FX5/TbDK9+PWqqJeLHtS2N1
- pfaTRqpORQjxIQTslwqFttc4xeAfXErqcfU5oAg9mIHflSU1zrVFP8c4pdDycYitV0PE
- sXH2yFkcl4zyaO06uN4/w+26mz3J0UZcdotBz/rZV8B3Xt4noN5WLK3wO9KG6R0+lwN9
- M5ocSLRRFdphmrtvO3Z1CdUs2aT1EPb/kOG1ionZprFAmPeSu8luc3dZDABjt+Nq53Xg
- fZJZUA4yNIAIaTqZDSo6tXLfC71UXGHc2tXyfqsdlnPoWPHQUZvp7o2vFX7lXqwsbyjR
- j61A==
-X-Gm-Message-State: AOAM531lSYm/TnFpL2qEubntCNMfvlYy3HyRMeHDdYL5jeKXkOKQ2vk4
- GRA+sA9sRSXfLpnfX9yijqJnqA==
-X-Google-Smtp-Source: ABdhPJwPJ53Vs9M4+90a0FM9VefA6mhmmSbR2UkVToV2IIkvkRyb2QjnfUKiCOOxrZpiD9WYdgbZzg==
-X-Received: by 2002:a05:6830:1414:: with SMTP id
- v20mr1887957otp.69.1627524883485; 
- Wed, 28 Jul 2021 19:14:43 -0700 (PDT)
-Received: from [100.72.193.189] ([209.107.186.70])
- by smtp.gmail.com with ESMTPSA id z22sm274888ooz.20.2021.07.28.19.14.42
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 28 Jul 2021 19:14:43 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: Matthew Auld <matthew.auld@intel.com>, <intel-gfx@lists.freedesktop.org>
-Date: Wed, 28 Jul 2021 21:14:41 -0500
-Message-ID: <17af00ad680.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
-In-Reply-To: <20210728155711.1744601-1-matthew.auld@intel.com>
-References: <20210728155711.1744601-1-matthew.auld@intel.com>
-User-Agent: AquaMail/1.30.0-1826 (build: 103000001)
-Subject: Re: [PATCH] drm/i915/selftests: prefer the create_user helper
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gdO4o8bjnyjf6VJ32RyW/MGpB10JopzkFnT0LLJKmv8=;
+ b=ZiA+CcdvSipXrGilthxBg2s2UbQibQj96sP/pAjQ9WQCmz+QewlmU9LEaVMK7oKJOr
+ KfmkbdLlDfUrFu8W4KIj4M5xSf/Y+/0MMrqsxvBganWi9ny/poHEirpXHatL6IGuJQyT
+ 848UQ4ejY1l59NoUFSZohWlAZpfk8WwRHlqrukhCsC6KJPdKQCL8pIvtdZ23sOhIPbSw
+ OnIJo1jcF13FMeSrbjBadaVBH5LbtgivxADrFkevRFOG6g9Hh59raDVg4ip2ZuqGB5C0
+ JfwFihigNdvWtZAjQqwVZDpM2dIpsdqyYB4T3wgDbwnM8LfaJBb7yGpq0tqCNGzU1wgX
+ 9zbA==
+X-Gm-Message-State: AOAM531fFvaN8qwc9SrLU/2QKPkx8UVkqoDKSfQwNxXfZfNLeNPto9bF
+ RED8B2YwNUFYNrRN6XqdDDF4Ow==
+X-Google-Smtp-Source: ABdhPJx9j8jaKk0SHYTbKCx0BoxWfHX8shOvZfnhp+fngr2Vm+VvY8jAE6/0CHpoL2F9bSzB9L8uPw==
+X-Received: by 2002:a05:600c:4b86:: with SMTP id
+ e6mr12104393wmp.110.1627525092007; 
+ Wed, 28 Jul 2021 19:18:12 -0700 (PDT)
+Received: from [192.168.1.12] (host-80-41-121-59.as13285.net. [80.41.121.59])
+ by smtp.gmail.com with ESMTPSA id
+ k17sm1566804wrw.53.2021.07.28.19.18.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jul 2021 19:18:10 -0700 (PDT)
+Subject: Re: [early pull] drm/msm: drm-msm-next-2021-07-28 for v5.15
+To: Rob Clark <robdclark@gmail.com>, Jordan Crouse <jordan@cosmicpenguin.net>
+References: <SKuAxGshCZFzlguCiEJOU0kAFCJ9WDGK_qCmPESnrghqei0-VIp4DD5vL58OEJCq2B-AkvF1az0EedzkGjSNLQ==@protonmail.internalid>
+ <CAF6AEGumRk7H88bqV=H9Fb1SM0zPBo5B7NsCU3jFFKBYxf5k+Q@mail.gmail.com>
+ <7553f3cd-61c8-3ece-14ec-6c0cf4ae0296@linaro.org>
+ <CAF6AEGuJjH94s0ymARtEMUo2tBuaacx7e0nqOj7_j2SQQcUa9Q@mail.gmail.com>
+From: Caleb Connolly <caleb.connolly@linaro.org>
+Message-ID: <7f0f320b-fa07-b9d9-d7c7-715638086ed2@linaro.org>
+Date: Thu, 29 Jul 2021 03:18:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="17af00ada8db272817f17f5af"
+In-Reply-To: <CAF6AEGuJjH94s0ymARtEMUo2tBuaacx7e0nqOj7_j2SQQcUa9Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 29 Jul 2021 06:21:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,308 +78,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---17af00ada8db272817f17f5af
-Content-Type: text/plain; format=flowed; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
-
-On July 28, 2021 10:57:23 Matthew Auld <matthew.auld@intel.com> wrote:
-
-> No need to hand roll the set_placements stuff, now that that we have a
-> helper for this. Also no need to handle the -ENODEV case here, since
-> NULL mr implies missing device support, where the for_each_memory_region
-> helper will always skip over such regions.
->
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
 
 
-> ---
-> .../drm/i915/gem/selftests/i915_gem_mman.c    | 46 ++-----------------
-> 1 file changed, 4 insertions(+), 42 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c 
-> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> index 0b2b73d8a364..eed1c2c64e75 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> @@ -860,24 +860,6 @@ static bool can_mmap(struct drm_i915_gem_object *obj, 
-> enum i915_mmap_type type)
->  return !no_map;
-> }
->
-> -static void object_set_placements(struct drm_i915_gem_object *obj,
-> -  struct intel_memory_region **placements,
-> -  unsigned int n_placements)
-> -{
-> - GEM_BUG_ON(!n_placements);
-> -
-> - if (n_placements == 1) {
-> - struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> - struct intel_memory_region *mr = placements[0];
-> -
-> - obj->mm.placements = &i915->mm.regions[mr->id];
-> - obj->mm.n_placements = 1;
-> - } else {
-> - obj->mm.placements = placements;
-> - obj->mm.n_placements = n_placements;
-> - }
-> -}
-> -
-> #define expand32(x) (((x) << 0) | ((x) << 8) | ((x) << 16) | ((x) << 24))
-> static int __igt_mmap(struct drm_i915_private *i915,
->       struct drm_i915_gem_object *obj,
-> @@ -972,15 +954,10 @@ static int igt_mmap(void *arg)
->  struct drm_i915_gem_object *obj;
->  int err;
->
-> - obj = i915_gem_object_create_region(mr, sizes[i], 0, I915_BO_ALLOC_USER);
-> - if (obj == ERR_PTR(-ENODEV))
-> - continue;
-> -
-> + obj = __i915_gem_object_create_user(i915, sizes[i], &mr, 1);
->  if (IS_ERR(obj))
->  return PTR_ERR(obj);
->
-> - object_set_placements(obj, &mr, 1);
-> -
->  err = __igt_mmap(i915, obj, I915_MMAP_TYPE_GTT);
->  if (err == 0)
->  err = __igt_mmap(i915, obj, I915_MMAP_TYPE_WC);
-> @@ -1101,15 +1078,10 @@ static int igt_mmap_access(void *arg)
->  struct drm_i915_gem_object *obj;
->  int err;
->
-> - obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
-> - if (obj == ERR_PTR(-ENODEV))
-> - continue;
-> -
-> + obj = __i915_gem_object_create_user(i915, PAGE_SIZE, &mr, 1);
->  if (IS_ERR(obj))
->  return PTR_ERR(obj);
->
-> - object_set_placements(obj, &mr, 1);
-> -
->  err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_GTT);
->  if (err == 0)
->  err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_WB);
-> @@ -1248,15 +1220,10 @@ static int igt_mmap_gpu(void *arg)
->  struct drm_i915_gem_object *obj;
->  int err;
->
-> - obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
-> - if (obj == ERR_PTR(-ENODEV))
-> - continue;
-> -
-> + obj = __i915_gem_object_create_user(i915, PAGE_SIZE, &mr, 1);
->  if (IS_ERR(obj))
->  return PTR_ERR(obj);
->
-> - object_set_placements(obj, &mr, 1);
-> -
->  err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_GTT);
->  if (err == 0)
->  err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_WC);
-> @@ -1405,15 +1372,10 @@ static int igt_mmap_revoke(void *arg)
->  struct drm_i915_gem_object *obj;
->  int err;
->
-> - obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
-> - if (obj == ERR_PTR(-ENODEV))
-> - continue;
-> -
-> + obj = __i915_gem_object_create_user(i915, PAGE_SIZE, &mr, 1);
->  if (IS_ERR(obj))
->  return PTR_ERR(obj);
->
-> - object_set_placements(obj, &mr, 1);
-> -
->  err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_GTT);
->  if (err == 0)
->  err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_WC);
-> --
-> 2.26.3
+On 29/07/2021 02:02, Rob Clark wrote:
+> Jordan, any idea if more frequent frequency changes would for some
+> reason make a630 grumpy?  I was expecting it should be somewhat
+> similar to a618 (same GMU fw, etc).  The main result of that patch
+> should be clamping to min freq when gpu goes idle, and the toggling
+> back to devfreq provided freq on idle->active transition.  So there
+> might be more frequent freq transitions.
+> 
+> Caleb, I don't suppose you could somehow delay starting UI and get
+> some traces?  Something along the lines of:
+> 
+>    localhost ~ # cd /sys/kernel/debug/tracing/
+>    localhost /sys/kernel/debug/tracing # echo 1 > events/drm_msm_gpu/enable
+>    localhost /sys/kernel/debug/tracing # echo 1 > tracing_on
+>    localhost /sys/kernel/debug/tracing # cat trace_pipe
+Sure, here's the last ~1k lines of the trace logs: 
+https://paste.ubuntu.com/p/XMKjKDWxYg/
+And what I managed to get from dmesg before the crash (mostly the same 
+as before): https://paste.ubuntu.com/p/kGVtRHDWKH/
+> 
+> Does adding an 'if (1) return' at the top of msm_devfreq_idle() help?
+> That should bypass the clamping to min freq when the GPU isn't doing
+> anything and reduce the # of freq transitions.  I suppose we could
+> opt-in to this behavior on a per-gpu basis..
+Yeah, that seems to resolve the issue, although I got the following 
+probably unrelated (?) error on rebooting the device:
+[  134.994449] [drm:dpu_encoder_vsync_event_handler:1749] [dpu 
+error]invalid parameters
 
+I wonder if the PocoPhone F1 has the same problem...
+> 
+> BR,
+> -R
+> 
+> On Wed, Jul 28, 2021 at 5:35 PM Caleb Connolly
+> <caleb.connolly@linaro.org> wrote:
+>>
+>> Hi Rob,
+>>
+>> This series causes a fatal crash on my Oneplus 6, the device goes to
+>> Qualcomm crashdump mode shortly after reaching UI with the following errors:
+>>
+>> https://paste.ubuntu.com/p/HvjmzZYtgw/
+>>
+>> I did a git bisect and the patch ("drm/msm: Devfreq tuning") seems to be
+>> the cause of the crash, reverting it resolves the issue.
+>>
+>>
+>> On 28/07/2021 21:52, Rob Clark wrote:
+>>> Hi Dave & Daniel,
+>>>
+>>> An early pull for v5.15 (there'll be more coming in a week or two),
+>>> consisting of the drm/scheduler conversion and a couple other small
+>>> series that one was based one.  Mostly sending this now because IIUC
+>>> danvet wanted it in drm-next so he could rebase on it.  (Daniel, if
+>>> you disagree then speak up, and I'll instead include this in the main
+>>> pull request once that is ready.)
+>>>
+>>> This also has a core patch to drop drm_gem_object_put_locked() now
+>>> that the last use of it is removed.
+>>>
+>>> The following changes since commit ff1176468d368232b684f75e82563369208bc371:
+>>>
+>>>     Linux 5.14-rc3 (2021-07-25 15:35:14 -0700)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>     https://gitlab.freedesktop.org/drm/msm.git drm-msm-next-2021-07-28
+>>>
+>>> for you to fetch changes up to 4541e4f2225c30b0e9442be9eb2fb8b7086cdd1f:
+>>>
+>>>     drm/msm/gem: Mark active before pinning (2021-07-28 09:19:00 -0700)
+>>>
+>>> ----------------------------------------------------------------
+>>> Rob Clark (18):
+>>>         drm/msm: Let fences read directly from memptrs
+>>>         drm/msm: Signal fences sooner
+>>>         drm/msm: Split out devfreq handling
+>>>         drm/msm: Split out get_freq() helper
+>>>         drm/msm: Devfreq tuning
+>>>         drm/msm: Docs and misc cleanup
+>>>         drm/msm: Small submitqueue creation cleanup
+>>>         drm/msm: drop drm_gem_object_put_locked()
+>>>         drm: Drop drm_gem_object_put_locked()
+>>>         drm/msm/submit: Simplify out-fence-fd handling
+>>>         drm/msm: Consolidate submit bo state
+>>>         drm/msm: Track "seqno" fences by idr
+>>>         drm/msm: Return ERR_PTR() from submit_create()
+>>>         drm/msm: Conversion to drm scheduler
+>>>         drm/msm: Drop submit bo_list
+>>>         drm/msm: Drop struct_mutex in submit path
+>>>         drm/msm: Utilize gpu scheduler priorities
+>>>         drm/msm/gem: Mark active before pinning
+>>>
+>>>    drivers/gpu/drm/drm_gem.c                   |  22 --
+>>>    drivers/gpu/drm/msm/Kconfig                 |   1 +
+>>>    drivers/gpu/drm/msm/Makefile                |   1 +
+>>>    drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
+>>>    drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
+>>>    drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
+>>>    drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   6 +-
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
+>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
+>>>    drivers/gpu/drm/msm/msm_drv.c               |  30 ++-
+>>>    drivers/gpu/drm/msm/msm_fence.c             |  53 +----
+>>>    drivers/gpu/drm/msm/msm_fence.h             |  44 +++-
+>>>    drivers/gpu/drm/msm/msm_gem.c               |  94 +-------
+>>>    drivers/gpu/drm/msm/msm_gem.h               |  47 ++--
+>>>    drivers/gpu/drm/msm/msm_gem_submit.c        | 344 +++++++++++++++++-----------
+>>>    drivers/gpu/drm/msm/msm_gpu.c               | 220 ++++--------------
+>>>    drivers/gpu/drm/msm/msm_gpu.h               | 139 ++++++++++-
+>>>    drivers/gpu/drm/msm/msm_gpu_devfreq.c       | 203 ++++++++++++++++
+>>>    drivers/gpu/drm/msm/msm_rd.c                |   6 +-
+>>>    drivers/gpu/drm/msm/msm_ringbuffer.c        |  69 +++++-
+>>>    drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
+>>>    drivers/gpu/drm/msm/msm_submitqueue.c       |  53 +++--
+>>>    include/drm/drm_gem.h                       |   2 -
+>>>    include/uapi/drm/msm_drm.h                  |  14 +-
+>>>    26 files changed, 865 insertions(+), 536 deletions(-)
+>>>    create mode 100644 drivers/gpu/drm/msm/msm_gpu_devfreq.c
+>>>
+>>
+>> --
+>> Kind Regards,
+>> Caleb (they/them)
 
---17af00ada8db272817f17f5af
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
-w3.org/TR/html4/loose.dtd">
-<html>
-<body>
-<div dir=3D"auto">
-<div dir=3D"auto"><span style=3D"font-size: 12pt;">On July 28, 2021 10:57:2=
-3 Matthew Auld &lt;matthew.auld@intel.com&gt; wrote:</span></div><div id=3D=
-"aqm-original" style=3D"color: black;">
-<div><br></div>
-<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
-ex; border-left: 1px solid #808080; padding-left: 0.75ex;">
-<div dir=3D"auto">No need to hand roll the set_placements stuff, now that t=
-hat we have a</div>
-<div dir=3D"auto">helper for this. Also no need to handle the -ENODEV case =
-here, since</div>
-<div dir=3D"auto">NULL mr implies missing device support, where the for_eac=
-h_memory_region</div>
-<div dir=3D"auto">helper will always skip over such regions.</div>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">Signed-off-by: Matthew Auld &lt;matthew.auld@intel.com&gt=
-;</div>
-<div dir=3D"auto">Cc: Jason Ekstrand &lt;jason@jlekstrand.net&gt;</div></bl=
-ockquote></div><div dir=3D"auto"><br></div><div dir=3D"auto">Reviewed-by: J=
-ason Ekstrand &lt;jason@jlekstrand.net&gt;</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto"><br></div><div id=3D"aqm-original" style=3D"color: black=
-;" dir=3D"auto"><blockquote type=3D"cite" class=3D"gmail_quote" style=3D"ma=
-rgin: 0 0 0 0.75ex; border-left: 1px solid #808080; padding-left: 0.75ex;">=
-<div dir=3D"auto"></div>
-<div dir=3D"auto">---</div>
-<div dir=3D"auto">&nbsp;.../drm/i915/gem/selftests/i915_gem_mman.c &nbsp; &=
-nbsp;| 46 ++-----------------</div>
-<div dir=3D"auto">&nbsp;1 file changed, 4 insertions(+), 42 deletions(-)</d=
-iv>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_=
-mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c</div>
-<div dir=3D"auto">index 0b2b73d8a364..eed1c2c64e75 100644</div>
-<div dir=3D"auto">--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c<=
-/div>
-<div dir=3D"auto">+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c<=
-/div>
-<div dir=3D"auto">@@ -860,24 +860,6 @@ static bool can_mmap(struct drm_i915=
-_gem_object *obj, enum i915_mmap_type type)</div>
-<div dir=3D"auto">&nbsp;=09return !no_map;</div>
-<div dir=3D"auto">&nbsp;}</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-static void object_set_placements(struct drm_i915_gem_ob=
-ject *obj,</div>
-<div dir=3D"auto">-=09=09=09=09 &nbsp;struct intel_memory_region **placemen=
-ts,</div>
-<div dir=3D"auto">-=09=09=09=09 &nbsp;unsigned int n_placements)</div>
-<div dir=3D"auto">-{</div>
-<div dir=3D"auto">-=09GEM_BUG_ON(!n_placements);</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">-=09if (n_placements =3D=3D 1) {</div>
-<div dir=3D"auto">-=09=09struct drm_i915_private *i915 =3D to_i915(obj-&gt;=
-base.dev);</div>
-<div dir=3D"auto">-=09=09struct intel_memory_region *mr =3D placements[0];<=
-/div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">-=09=09obj-&gt;mm.placements =3D &amp;i915-&gt;mm.regions=
-[mr-&gt;id];</div>
-<div dir=3D"auto">-=09=09obj-&gt;mm.n_placements =3D 1;</div>
-<div dir=3D"auto">-=09} else {</div>
-<div dir=3D"auto">-=09=09obj-&gt;mm.placements =3D placements;</div>
-<div dir=3D"auto">-=09=09obj-&gt;mm.n_placements =3D n_placements;</div>
-<div dir=3D"auto">-=09}</div>
-<div dir=3D"auto">-}</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">&nbsp;#define expand32(x) (((x) &lt;&lt; 0) | ((x) &lt;&l=
-t; 8) | ((x) &lt;&lt; 16) | ((x) &lt;&lt; 24))</div>
-<div dir=3D"auto">&nbsp;static int __igt_mmap(struct drm_i915_private *i915=
-,</div>
-<div dir=3D"auto">&nbsp;=09=09 &nbsp; &nbsp; &nbsp;struct drm_i915_gem_obje=
-ct *obj,</div>
-<div dir=3D"auto">@@ -972,15 +954,10 @@ static int igt_mmap(void *arg)</div=
->
-<div dir=3D"auto">&nbsp;=09=09=09struct drm_i915_gem_object *obj;</div>
-<div dir=3D"auto">&nbsp;=09=09=09int err;</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-=09=09=09obj =3D i915_gem_object_create_region(mr, sizes=
-[i], 0, I915_BO_ALLOC_USER);</div>
-<div dir=3D"auto">-=09=09=09if (obj =3D=3D ERR_PTR(-ENODEV))</div>
-<div dir=3D"auto">-=09=09=09=09continue;</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">+=09=09=09obj =3D __i915_gem_object_create_user(i915, siz=
-es[i], &amp;mr, 1);</div>
-<div dir=3D"auto">&nbsp;=09=09=09if (IS_ERR(obj))</div>
-<div dir=3D"auto">&nbsp;=09=09=09=09return PTR_ERR(obj);</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-=09=09=09object_set_placements(obj, &amp;mr, 1);</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">&nbsp;=09=09=09err =3D __igt_mmap(i915, obj, I915_MMAP_TY=
-PE_GTT);</div>
-<div dir=3D"auto">&nbsp;=09=09=09if (err =3D=3D 0)</div>
-<div dir=3D"auto">&nbsp;=09=09=09=09err =3D __igt_mmap(i915, obj, I915_MMAP=
-_TYPE_WC);</div>
-<div dir=3D"auto">@@ -1101,15 +1078,10 @@ static int igt_mmap_access(void *=
-arg)</div>
-<div dir=3D"auto">&nbsp;=09=09struct drm_i915_gem_object *obj;</div>
-<div dir=3D"auto">&nbsp;=09=09int err;</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-=09=09obj =3D i915_gem_object_create_region(mr, PAGE_SIZ=
-E, 0, I915_BO_ALLOC_USER);</div>
-<div dir=3D"auto">-=09=09if (obj =3D=3D ERR_PTR(-ENODEV))</div>
-<div dir=3D"auto">-=09=09=09continue;</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">+=09=09obj =3D __i915_gem_object_create_user(i915, PAGE_S=
-IZE, &amp;mr, 1);</div>
-<div dir=3D"auto">&nbsp;=09=09if (IS_ERR(obj))</div>
-<div dir=3D"auto">&nbsp;=09=09=09return PTR_ERR(obj);</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-=09=09object_set_placements(obj, &amp;mr, 1);</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">&nbsp;=09=09err =3D __igt_mmap_access(i915, obj, I915_MMA=
-P_TYPE_GTT);</div>
-<div dir=3D"auto">&nbsp;=09=09if (err =3D=3D 0)</div>
-<div dir=3D"auto">&nbsp;=09=09=09err =3D __igt_mmap_access(i915, obj, I915_=
-MMAP_TYPE_WB);</div>
-<div dir=3D"auto">@@ -1248,15 +1220,10 @@ static int igt_mmap_gpu(void *arg=
-)</div>
-<div dir=3D"auto">&nbsp;=09=09struct drm_i915_gem_object *obj;</div>
-<div dir=3D"auto">&nbsp;=09=09int err;</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-=09=09obj =3D i915_gem_object_create_region(mr, PAGE_SIZ=
-E, 0, I915_BO_ALLOC_USER);</div>
-<div dir=3D"auto">-=09=09if (obj =3D=3D ERR_PTR(-ENODEV))</div>
-<div dir=3D"auto">-=09=09=09continue;</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">+=09=09obj =3D __i915_gem_object_create_user(i915, PAGE_S=
-IZE, &amp;mr, 1);</div>
-<div dir=3D"auto">&nbsp;=09=09if (IS_ERR(obj))</div>
-<div dir=3D"auto">&nbsp;=09=09=09return PTR_ERR(obj);</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-=09=09object_set_placements(obj, &amp;mr, 1);</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">&nbsp;=09=09err =3D __igt_mmap_gpu(i915, obj, I915_MMAP_T=
-YPE_GTT);</div>
-<div dir=3D"auto">&nbsp;=09=09if (err =3D=3D 0)</div>
-<div dir=3D"auto">&nbsp;=09=09=09err =3D __igt_mmap_gpu(i915, obj, I915_MMA=
-P_TYPE_WC);</div>
-<div dir=3D"auto">@@ -1405,15 +1372,10 @@ static int igt_mmap_revoke(void *=
-arg)</div>
-<div dir=3D"auto">&nbsp;=09=09struct drm_i915_gem_object *obj;</div>
-<div dir=3D"auto">&nbsp;=09=09int err;</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-=09=09obj =3D i915_gem_object_create_region(mr, PAGE_SIZ=
-E, 0, I915_BO_ALLOC_USER);</div>
-<div dir=3D"auto">-=09=09if (obj =3D=3D ERR_PTR(-ENODEV))</div>
-<div dir=3D"auto">-=09=09=09continue;</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">+=09=09obj =3D __i915_gem_object_create_user(i915, PAGE_S=
-IZE, &amp;mr, 1);</div>
-<div dir=3D"auto">&nbsp;=09=09if (IS_ERR(obj))</div>
-<div dir=3D"auto">&nbsp;=09=09=09return PTR_ERR(obj);</div>
-<div dir=3D"auto">&nbsp;</div>
-<div dir=3D"auto">-=09=09object_set_placements(obj, &amp;mr, 1);</div>
-<div dir=3D"auto">-</div>
-<div dir=3D"auto">&nbsp;=09=09err =3D __igt_mmap_revoke(i915, obj, I915_MMA=
-P_TYPE_GTT);</div>
-<div dir=3D"auto">&nbsp;=09=09if (err =3D=3D 0)</div>
-<div dir=3D"auto">&nbsp;=09=09=09err =3D __igt_mmap_revoke(i915, obj, I915_=
-MMAP_TYPE_WC);</div>
-<div dir=3D"auto">--&nbsp;</div>
-<div dir=3D"auto">2.26.3</div>
-</blockquote>
-</div><div dir=3D"auto"><br></div>
-</div></body>
-</html>
-
---17af00ada8db272817f17f5af--
-
+-- 
+Kind Regards,
+Caleb (they/them)
