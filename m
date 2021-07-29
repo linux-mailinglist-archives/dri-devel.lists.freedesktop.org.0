@@ -1,59 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B433D9B62
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 03:59:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1DF3D9B6E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 04:02:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72DA06E9AF;
-	Thu, 29 Jul 2021 01:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E39D6EB80;
+	Thu, 29 Jul 2021 02:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB326E3D3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 01:59:11 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id mt6so8018268pjb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jul 2021 18:59:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/EMnvbg1lkcKUNHoTGAUlLRl80RwVqD1WDQs78+Ryng=;
- b=k6SUCobB72pcz/N/YNU2hwg7WlEvp/BlMcHnGleM3omjfHWQIa1+xhHd/a6bR+2yPD
- i2YU3vMKtGA6/HQfNcOA+uWREHp/sdXbmjNhkGsSCWydHYsAIQGV0Zga4dZArmJQ+1Mm
- 1E69Wniy6jwlhqU0S9yG1ShDdDHmifyC4xuuqmsHqFAjG6JfcYFfeX3Kz7wjJr16bSRs
- qVWw3PgPtCdy8HPV+SiHiX86i3pUdtF8I+vxKFXMAofckp74a3Iy0DEGkxEa+bfUhSAy
- oGGpPcmIhfH7aEXRa3ulBTRsxtoKbVfj9hedqAQn0/sZJR2AJK9vqzPRNInfE5g6p5qD
- x7oQ==
-X-Gm-Message-State: AOAM531O0//DNmGtjj6xnJuOC1OqQdDWl5fEy93DrqcUE1zE30cayrlB
- kgujz6aiYIc66lvrdihIfZM=
-X-Google-Smtp-Source: ABdhPJwy46rGfGzBPHT0dDc2OF3JHAeIdHBXsVA3/Hjfoi4OURPDSpbVi+xEgy37JuU2Z3C+YFQFpw==
-X-Received: by 2002:aa7:93dc:0:b029:328:d6c9:cae7 with SMTP id
- y28-20020aa793dc0000b0290328d6c9cae7mr2579458pff.53.1627523950822; 
- Wed, 28 Jul 2021 18:59:10 -0700 (PDT)
-Received: from ?IPv6:2601:647:4000:d7:9eeb:60dc:7a3c:6558?
- ([2601:647:4000:d7:9eeb:60dc:7a3c:6558])
- by smtp.gmail.com with ESMTPSA id z16sm1344383pgu.21.2021.07.28.18.59.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 18:59:10 -0700 (PDT)
-Subject: Re: [PATCH 19/64] ip: Use struct_group() for memcpy() regions
-To: Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-20-keescook@chromium.org> <YQDxaYrHu0PeBIuX@kroah.com>
- <202107281358.8E12638@keescook>
-From: Bart Van Assche <bvanassche@acm.org>
-Message-ID: <45855f4f-f7cf-b7b3-bcd6-c9ebc3a55c64@acm.org>
-Date: Wed, 28 Jul 2021 18:59:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38A746E509;
+ Thu, 29 Jul 2021 02:02:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="298370385"
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="298370385"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 19:02:24 -0700
+X-IronPort-AV: E=Sophos;i="5.84,276,1620716400"; d="scan'208";a="417467952"
+Received: from dceraolo-linux.fm.intel.com ([10.1.27.145])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2021 19:02:22 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v6 00/15] drm/i915: Introduce Intel PXP
+Date: Wed, 28 Jul 2021 19:00:51 -0700
+Message-Id: <20210729020106.18346-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <202107281358.8E12638@keescook>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +42,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-block@vger.kernel.org,
- clang-built-linux@googlegroups.com, Keith Packard <keithpac@amazon.com>,
- linux-hardening@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Gaurav Kumar <kumar.gaurav@intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Juston Li <juston.li@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/28/21 2:01 PM, Kees Cook wrote:
-> On Wed, Jul 28, 2021 at 07:55:53AM +0200, Greg Kroah-Hartman wrote:
->>>  struct ethhdr {
->>> -	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
->>> -	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
->>> +	union {
->>> +		struct {
->>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
->>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
->>> +		};
->>> +		struct {
->>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
->>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
->>> +		} addrs;
->>
->> A union of the same fields in the same structure in the same way?
->>
->> Ah, because struct_group() can not be used here?  Still feels odd to see
->> in a userspace-visible header.
-> 
-> Yeah, there is some inconsistency here. I will clean this up for v2.
-> 
-> Is there a place we can put kernel-specific macros for use in UAPI
-> headers? (I need to figure out where things like __kernel_size_t get
-> defined...)
+PXP (Protected Xe Path) is an i915 component, available on
+GEN12+, that helps to establish the hardware protected session
+and manage the status of the alive software session, as well
+as its life cycle.
 
-How about using two memset() calls to clear h_dest[] and h_source[]
-instead of modifying the uapi header?
+Very minimal changes from v5:
 
-Thanks,
+- Update mei_pxp match code to look the same as mei_hdcp (no
+  functional/logical changes) and drop a couple of debug prints.
 
-Bart.
+- Rebase on top of object create_ext changes (removal of vanilla_object).
 
+Tested with: https://patchwork.freedesktop.org/series/87570/
+
+Cc: Gaurav Kumar <kumar.gaurav@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Juston Li <juston.li@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+
+Anshuman Gupta (2):
+  drm/i915/pxp: Add plane decryption support
+  drm/i915/pxp: black pixels on pxp disabled
+
+Daniele Ceraolo Spurio (7):
+  drm/i915/pxp: Define PXP component interface
+  drm/i915/pxp: define PXP device flag and kconfig
+  drm/i915/pxp: allocate a vcs context for pxp usage
+  drm/i915/pxp: set KCR reg init
+  drm/i915/pxp: interfaces for using protected objects
+  drm/i915/pxp: start the arb session on demand
+  drm/i915/pxp: enable PXP for integrated Gen12
+
+Huang, Sean Z (5):
+  drm/i915/pxp: Implement funcs to create the TEE channel
+  drm/i915/pxp: Create the arbitrary session after boot
+  drm/i915/pxp: Implement arb session teardown
+  drm/i915/pxp: Implement PXP irq handler
+  drm/i915/pxp: Enable PXP power management
+
+Vitaly Lubart (1):
+  mei: pxp: export pavp client to me client bus
+
+ drivers/gpu/drm/i915/Kconfig                  |  11 +
+ drivers/gpu/drm/i915/Makefile                 |   9 +
+ .../gpu/drm/i915/display/intel_atomic_plane.c |  25 ++
+ drivers/gpu/drm/i915/display/intel_display.c  |   4 +
+ .../drm/i915/display/intel_display_types.h    |   6 +
+ .../drm/i915/display/skl_universal_plane.c    |  49 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  68 ++++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |  18 ++
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  75 +++--
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  42 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  12 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   9 +
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   2 +
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  22 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   5 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |   7 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  15 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+ drivers/gpu/drm/i915/i915_drv.c               |   2 +
+ drivers/gpu/drm/i915/i915_drv.h               |   4 +
+ drivers/gpu/drm/i915/i915_pci.c               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |  48 ++++
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          | 268 ++++++++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  67 +++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c      | 141 +++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h      |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      | 100 +++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |  32 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |  40 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.h       |  23 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  | 172 +++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.h  |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 170 +++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.h      |  17 ++
+ .../drm/i915/pxp/intel_pxp_tee_interface.h    |  37 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  55 ++++
+ drivers/misc/mei/Kconfig                      |   2 +
+ drivers/misc/mei/Makefile                     |   1 +
+ drivers/misc/mei/pxp/Kconfig                  |  13 +
+ drivers/misc/mei/pxp/Makefile                 |   7 +
+ drivers/misc/mei/pxp/mei_pxp.c                | 229 +++++++++++++++
+ drivers/misc/mei/pxp/mei_pxp.h                |  18 ++
+ include/drm/i915_component.h                  |   1 +
+ include/drm/i915_pxp_tee_interface.h          |  45 +++
+ include/uapi/drm/i915_drm.h                   |  58 +++-
+ 48 files changed, 1940 insertions(+), 33 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee_interface.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+ create mode 100644 drivers/misc/mei/pxp/Kconfig
+ create mode 100644 drivers/misc/mei/pxp/Makefile
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.c
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.h
+ create mode 100644 include/drm/i915_pxp_tee_interface.h
+
+-- 
+2.32.0
 
