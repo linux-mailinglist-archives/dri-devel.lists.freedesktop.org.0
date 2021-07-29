@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879AD3DA979
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 18:53:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5292A3DA9AA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 19:07:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80EE26EDEF;
-	Thu, 29 Jul 2021 16:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 291F56EE03;
+	Thu, 29 Jul 2021 17:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCB36EDEF
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 16:53:37 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 8e371877-f08d-11eb-8d1a-0050568cd888;
- Thu, 29 Jul 2021 16:53:53 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 3FCF9194B1F;
- Thu, 29 Jul 2021 18:53:57 +0200 (CEST)
-Date: Thu, 29 Jul 2021 18:53:33 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH 0/7] drm: Extend COMPILE_TEST support to some ARM drivers
-Message-ID: <YQLdDTu4duXXQXAs@ravnborg.org>
-References: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B27EC6EDF1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 17:07:42 +0000 (UTC)
+X-UUID: 72c0bcfc042d45f99a5ead05c7acfcb8-20210730
+X-UUID: 72c0bcfc042d45f99a5ead05c7acfcb8-20210730
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 611625606; Fri, 30 Jul 2021 01:07:40 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 30 Jul 2021 01:07:39 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Fri, 30 Jul 2021 01:07:39 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Enric Balletbo i Serra
+ <enric.balletbo@collabora.com>, <fshao@chromium.org>
+Subject: [PATCH v5 0/6] Add Mediatek Soc DRM (vdosys0) support for mt8195
+Date: Fri, 30 Jul 2021 01:07:31 +0800
+Message-ID: <20210729170737.21424-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,48 +48,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomba@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-renesas-soc@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-imx@nxp.com,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, hsinyi@chromium.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+The hardware path of vdosys0 with eDP panel output need to go through
+by several modules, such as, OVL, RDMA, COLOR, CCORR, AAL, GAMMA,
+DITHER, DSC and MERGE.
 
-On Wed, Jul 28, 2021 at 06:37:29PM +0300, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series stems from subsystem-wide changes I wanted to
-> compile-test with an ARM64 cross-compiler. My laziness to fire a 32-bit
-> ARM build probably resulted in more time being spent writing these
-> patches, but hopefully they'll turn out to be useful for more people :-)
-> 
-> Patches 1/7 and 2/7 are fixes for compilation warnings on 64-bit
-> platforms in the omapdrm and sti-drm drivers. They are a dependency for
-> the Kconfig changes that follow to avoid introducing build warnings, but
-> could also be merged before.
-> 
-> Patches 3/7 to 7/7 enable compilation of the imx-dcss, omapdrm, sti-drm,
-> tegra-drm and tilcdc drivers on ARM64 with COMPILE_TEST. The patches are
-> independent from each other, so they can be picked by their respective
-> maintainers.
-> 
-> We could also extend test compilation to more architecture, but I didn't
-> want to remove all dependencies on ARM or ARM64 at this point for fear
-> or triggering build warnings that I wouldn't be able to catch locally.
-> If there's a consensus that fully relaxing the platform requirement is
-> better, I can submit a new version that does so and rely on the 0day bot
-> to catch issues.
-I have alpha, sparc64, and a few more so we can get pretty good coverage
-before it hits -next.
-If we enable more build coverage then please address all W=1 warnings
-first.
+Change in v5:
+- add power-domain property into vdosys0 and vdosys1 dts node.
+- add MT8195 prifix and remove unused VDO1 define in mt8195-mmsys.h
 
-I for once always builds with W=1 these days, and I see more and more
-warnings sneaking in again.
-So lets try to keep the noise level down.
+Change in v4:
+- extract dt-binding patches to another patch series
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=519597
+- squash DSC module into mtk_drm_ddp_comp.c
+- add coment and simplify MERGE config function
 
-	Sam
+Change in v3:
+- change mmsys and display dt-bindings document from txt to yaml
+- add MERGE additional description in display dt-bindings document
+- fix mboxes-cells number of vdosys0 node in dts
+- drop mutex eof convert define
+- remove pm_runtime apis in DSC and MERGE
+- change DSC and MERGE enum to alphabetic order
+
+Change in v2:
+- add DSC yaml file
+- add mt8195 drm driver porting parts in to one patch
+- remove useless define, variable, structure member and function
+- simplify DSC and MERGE file and switch threre order
+
+jason-jh.lin (6):
+  arm64: dts: mt8195: add display node for vdosys0
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys0
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys0
+  drm/mediatek: add mediatek-drm of vdosys0 support for mt8195
+  drm/mediatek: add DSC support for mt8195
+  drm/mediatek: add MERGE support for mt8195
+
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi    | 112 ++++++++
+ drivers/gpu/drm/mediatek/Makefile           |   1 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   8 +
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c   | 277 ++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |   6 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  62 +++++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   2 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  32 ++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   1 +
+ drivers/soc/mediatek/mt8195-mmsys.h         |  96 +++++++
+ drivers/soc/mediatek/mtk-mmsys.c            |  11 +
+ drivers/soc/mediatek/mtk-mutex.c            |  93 ++++++-
+ include/linux/soc/mediatek/mtk-mmsys.h      |   9 +
+ 13 files changed, 706 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_merge.c
+ create mode 100644 drivers/soc/mediatek/mt8195-mmsys.h
+
+-- 
+2.18.0
+
