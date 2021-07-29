@@ -2,60 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610DA3DA76A
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A743B3DA757
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4066EDC5;
-	Thu, 29 Jul 2021 15:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B14756EDBF;
+	Thu, 29 Jul 2021 15:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEA4B6EDC1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 15:21:32 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1627572100; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=9vrkoumq6q1TgFha9AGNQVZJSfElLRskcTl/pofgZuw=;
- b=vF0+f27CamSILcZgBgY9j/b2XSJRw9wQDU/0bYSjcjwHroewuqcvzS3UH3hawFRkYj1rwo/0
- IkwAcMkZrbgXmpP6VtEhh8cCelRsiUN4czlYSEKh5xRyHRfMC30Ae2ARYw6vPb3opjX2mQUW
- pUzOV6ZeiqTNBHskDi2uYy2xNE4=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 6102c7661dd16c87887b5046 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Jul 2021 15:21:10
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 31787C433D3; Thu, 29 Jul 2021 15:21:09 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 4BC58C4323A;
- Thu, 29 Jul 2021 15:21:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4BC58C4323A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v3 3/3] drm/msm/a6xx: Add support for Adreno 7c Gen 3 gpu
-Date: Thu, 29 Jul 2021 20:50:36 +0530
-Message-Id: <20210729204922.v3.3.I610377db0934b6b7deda532ec2bf786a02c38c01@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1627572036-28289-1-git-send-email-akhilpo@codeaurora.org>
-References: <1627572036-28289-1-git-send-email-akhilpo@codeaurora.org>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65AAA6EDBF
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 15:19:21 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id h14so7374749wrx.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 08:19:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CjnIYfzbrAsq4/rt2odciYbsieuyUeldlw/sTc3eAWs=;
+ b=Qv8NihFSFwZlUCIDc4aQrB90kXagzvpZHjMA7l5e1aNizhH+DMhfrjptm4Us9dDcie
+ COI2r+vVVtxI4cvtrMs9GsoUhwnVOc0v0D9sguXdggnXmZpuzykxAa+dA+YrAIojSiAE
+ 8/cd9JUdVjyO/zjjpv90YcuHFb+JMMW9gSq7mXH0jklyU1S0ecWUGFaKq5qWtZQoPA3h
+ gkofWS/r17J60vfaJo5bzrYj2Km3z92++Lw8hVwtrUIgcV8MocX6g+8qhHfZIzPuuRUk
+ q/m2AkPuycqIThvZiWxQ4MCZi/khZO1vWFJBUUYZNrw+JLeumxjlN1t6cckGZdZad9ls
+ zK2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CjnIYfzbrAsq4/rt2odciYbsieuyUeldlw/sTc3eAWs=;
+ b=kr9KcbOHjOPCIw6zmy9yclTBGxJTc8Z/RWSPss3qGY2XPdFSwj43iA9KLLwNbZEqK+
+ KDWrnNw8Ihf8WyUwpRmz3Q3hvMEvb185Ca2PIG5yrlD/v1O800Zjldke2f0/WIM4lkZ0
+ H6vIcR/jeogEBqDaDzryAnu0fGt+l+K6FCwqDaUXLUaYt8950l8timGNK45ci126EIr3
+ IDyVS8ZQxn7R0GuckIddt1GvbDN0+lHFBR7BtCUrQgfd/Hf8KkVdNZ0/UHoBiQ4rqVOo
+ UmGIcI3Zy5nUqJxtjMPgR6mgzdDOk9dmxMRuodkC8rGKHbWKPfoP7AeWOIlFvhAOpj8R
+ 4MpQ==
+X-Gm-Message-State: AOAM531nRvrqdpCz4jPtZyEZrOY8AX3gM8R6XDzSPM/ygcU3vGiqM2nc
+ O3gj15EOcLn83orpn7z1dcXjxxl6QjmyW7MrviU=
+X-Google-Smtp-Source: ABdhPJzY5RuoqLtDnABekm+oWYb2oEO0QWuLRjgrUZqqx7YUuQxE7P5z+21Up2hzZxa12v2i2OhVhO4X9aB2Xd+YGk4=
+X-Received: by 2002:adf:ea41:: with SMTP id j1mr5426783wrn.147.1627571959809; 
+ Thu, 29 Jul 2021 08:19:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <20210726233854.2453899-2-robdclark@gmail.com>
+ <50b181fe-6605-b7ac-36a6-8bcda2930e6f@gmail.com>
+ <CAF6AEGuNxi_aeYE37FT3a-atCUWgepxs-9EwxMfpiMaU7wgqdQ@mail.gmail.com>
+ <9edd7083-e6b3-b230-c273-8f2fbe76ca17@amd.com>
+ <703dc9c3-5657-432e-ca0b-25bdd67a2abd@gmail.com>
+ <CAF6AEGvSpvc2po93b2eKB2cSzx_a+BtPWhQgRs-1NFFZfUbJNw@mail.gmail.com>
+ <e5e71356-1c58-04ac-2609-70d268941b8d@amd.com>
+ <CAF6AEGu3NMyRp1pC5iZQoHhKhu_xBFBqkkfbG36dx8bVzYdWMA@mail.gmail.com>
+ <YQJSxEVUkZmfL5Cb@phenom.ffwll.local>
+In-Reply-To: <YQJSxEVUkZmfL5Cb@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 29 Jul 2021 08:23:28 -0700
+Message-ID: <CAF6AEGswVQx3Vtm=Oab3CsQw1fE-yf9y2_MB2wdx_e14FLNwXQ@mail.gmail.com>
+Subject: Re: [RFC 1/4] dma-fence: Add deadline awareness
+To: Rob Clark <robdclark@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthew Brost <matthew.brost@intel.com>, 
+ Rob Clark <robdclark@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Gustavo Padovan <gustavo@padovan.org>, 
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,347 +81,310 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>,
- Matthias Kaehlcke <mka@chromium.org>,
- Iskren Chernev <iskren.chernev@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds support for the gpu found in the Snapdragon 7c Gen 3
-compute platform. This gpu is similar to the exisiting a660 gpu with
-minor delta in the programing sequence. As the Adreno GPUs are moving
-away from a numeric chipid based naming scheme to a string, it was
-decided to use 0x06030500 as the gpu id of this gpu to communicate
-to the userspace driver.
+On Thu, Jul 29, 2021 at 12:03 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Jul 28, 2021 at 10:58:51AM -0700, Rob Clark wrote:
+> > On Wed, Jul 28, 2021 at 10:23 AM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> > >
+> > >
+> > >
+> > > Am 28.07.21 um 17:15 schrieb Rob Clark:
+> > > > On Wed, Jul 28, 2021 at 4:37 AM Christian K=C3=B6nig
+> > > > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > > >> Am 28.07.21 um 09:03 schrieb Christian K=C3=B6nig:
+> > > >>> Am 27.07.21 um 16:25 schrieb Rob Clark:
+> > > >>>> On Tue, Jul 27, 2021 at 12:11 AM Christian K=C3=B6nig
+> > > >>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> > > >>>>> Am 27.07.21 um 01:38 schrieb Rob Clark:
+> > > >>>>>> From: Rob Clark <robdclark@chromium.org>
+> > > >>>>>>
+> > > >>>>>> Add a way to hint to the fence signaler of an upcoming deadlin=
+e,
+> > > >>>>>> such as
+> > > >>>>>> vblank, which the fence waiter would prefer not to miss. This =
+is to
+> > > >>>>>> aid
+> > > >>>>>> the fence signaler in making power management decisions, like =
+boosting
+> > > >>>>>> frequency as the deadline approaches and awareness of missing
+> > > >>>>>> deadlines
+> > > >>>>>> so that can be factored in to the frequency scaling.
+> > > >>>>>>
+> > > >>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > >>>>>> ---
+> > > >>>>>>     drivers/dma-buf/dma-fence.c | 39
+> > > >>>>>> +++++++++++++++++++++++++++++++++++++
+> > > >>>>>>     include/linux/dma-fence.h   | 17 ++++++++++++++++
+> > > >>>>>>     2 files changed, 56 insertions(+)
+> > > >>>>>>
+> > > >>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma=
+-fence.c
+> > > >>>>>> index ce0f5eff575d..2e0d25ab457e 100644
+> > > >>>>>> --- a/drivers/dma-buf/dma-fence.c
+> > > >>>>>> +++ b/drivers/dma-buf/dma-fence.c
+> > > >>>>>> @@ -910,6 +910,45 @@ dma_fence_wait_any_timeout(struct dma_fen=
+ce
+> > > >>>>>> **fences, uint32_t count,
+> > > >>>>>>     }
+> > > >>>>>>     EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> > > >>>>>>
+> > > >>>>>> +
+> > > >>>>>> +/**
+> > > >>>>>> + * dma_fence_set_deadline - set desired fence-wait deadline
+> > > >>>>>> + * @fence:    the fence that is to be waited on
+> > > >>>>>> + * @deadline: the time by which the waiter hopes for the fenc=
+e to be
+> > > >>>>>> + *            signaled
+> > > >>>>>> + *
+> > > >>>>>> + * Inform the fence signaler of an upcoming deadline, such as
+> > > >>>>>> vblank, by
+> > > >>>>>> + * which point the waiter would prefer the fence to be signal=
+ed
+> > > >>>>>> by.  This
+> > > >>>>>> + * is intended to give feedback to the fence signaler to aid =
+in power
+> > > >>>>>> + * management decisions, such as boosting GPU frequency if a =
+periodic
+> > > >>>>>> + * vblank deadline is approaching.
+> > > >>>>>> + */
+> > > >>>>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t
+> > > >>>>>> deadline)
+> > > >>>>>> +{
+> > > >>>>>> +     unsigned long flags;
+> > > >>>>>> +
+> > > >>>>>> +     if (dma_fence_is_signaled(fence))
+> > > >>>>>> +             return;
+> > > >>>>>> +
+> > > >>>>>> +     spin_lock_irqsave(fence->lock, flags);
+> > > >>>>>> +
+> > > >>>>>> +     /* If we already have an earlier deadline, keep it: */
+> > > >>>>>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->fl=
+ags) &&
+> > > >>>>>> +         ktime_before(fence->deadline, deadline)) {
+> > > >>>>>> +             spin_unlock_irqrestore(fence->lock, flags);
+> > > >>>>>> +             return;
+> > > >>>>>> +     }
+> > > >>>>>> +
+> > > >>>>>> +     fence->deadline =3D deadline;
+> > > >>>>>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags);
+> > > >>>>>> +
+> > > >>>>>> +     spin_unlock_irqrestore(fence->lock, flags);
+> > > >>>>>> +
+> > > >>>>>> +     if (fence->ops->set_deadline)
+> > > >>>>>> +             fence->ops->set_deadline(fence, deadline);
+> > > >>>>>> +}
+> > > >>>>>> +EXPORT_SYMBOL(dma_fence_set_deadline);
+> > > >>>>>> +
+> > > >>>>>>     /**
+> > > >>>>>>      * dma_fence_init - Initialize a custom fence.
+> > > >>>>>>      * @fence: the fence to initialize
+> > > >>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fen=
+ce.h
+> > > >>>>>> index 6ffb4b2c6371..4e6cfe4e6fbc 100644
+> > > >>>>>> --- a/include/linux/dma-fence.h
+> > > >>>>>> +++ b/include/linux/dma-fence.h
+> > > >>>>>> @@ -88,6 +88,7 @@ struct dma_fence {
+> > > >>>>>>                 /* @timestamp replaced by @rcu on
+> > > >>>>>> dma_fence_release() */
+> > > >>>>>>                 struct rcu_head rcu;
+> > > >>>>>>         };
+> > > >>>>>> +     ktime_t deadline;
+> > > >>>>> Mhm, adding the flag sounds ok to me but I'm a bit hesitating a=
+dding
+> > > >>>>> the
+> > > >>>>> deadline as extra field here.
+> > > >>>>>
+> > > >>>>> We tuned the dma_fence structure intentionally so that it is on=
+ly 64
+> > > >>>>> bytes.
+> > > >>>> Hmm, then I guess you wouldn't be a fan of also adding an hrtime=
+r?
+> > > >>>>
+> > > >>>> We could push the ktime_t (and timer) down into the derived fenc=
+e
+> > > >>>> class, but I think there is going to need to be some extra stora=
+ge
+> > > >>>> *somewhere*.. maybe the fence signaler could get away with just
+> > > >>>> storing the nearest upcoming deadline per fence-context instead?
+> > > >>> I would just push that into the driver instead.
+> > > >>>
+> > > >>> You most likely don't want the deadline per fence anyway in compl=
+ex
+> > > >>> scenarios, but rather per frame. And a frame is usually composed =
+from
+> > > >>> multiple fences.
+> > > > Right, I ended up keeping track of the nearest deadline in patch 5/=
+4
+> > > > which added drm/msm support:
+> > > >
+> > > >    https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
+F%2Fpatchwork.freedesktop.org%2Fpatch%2F447138%2F&amp;data=3D04%7C01%7Cchri=
+stian.koenig%40amd.com%7Cce6ace85263d448bbc9f08d951d9f06c%7C3dd8961fe4884e6=
+08e11a82d994e183d%7C0%7C0%7C637630819606427306%7CUnknown%7CTWFpbGZsb3d8eyJW=
+IjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;s=
+data=3DameszAOlClaZNeUDlYr37ZdIytVXNgiEUKuctjXLqZ0%3D&amp;reserved=3D0
+> > > >
+> > > > But if we do have the ktime_t in dma_fence in dma_fence, we can add
+> > > > some checks and avoid calling back to the driver if a later deadlin=
+e
+> > > > is set on a fence that already has an earlier deadline.  OTOH I
+> > > > suppose I can push all that back to the driver to start, and we can
+> > > > revisit once we have more drivers implementing deadline support.
+> > >
+> > > I still think that all of this is rather specific to your use case an=
+d
+> > > have strong doubt that anybody else will implement that.
+> >
+> > i915 does already have a similar thing in it's hand-rolled atomic
+> > commit path.  So I think msm won't be the only one.  It should be also
+> > useful to the other mobile GPUs with a gpu vs kms driver split,
+> > although looking at the other gpu devfreq implementations, I don't
+> > think they've yet gotten to this point in the fine tuning..
+>
+> Yeah I have a dream that maybe i915 will use the atomic commit helpers, I
+> originally wrote them with i915 in mind :-) even had patches!
+>
+> I also think we'll need this eventually in other areas, Android also has
+> some hacks like this to make sure idle->first touch doesn't suck and
+> similar things.
 
-Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
----
+input-boost is another thing I have on my roadmap.. part of the solution is=
+:
 
-(no changes since v2)
+    commit 9bc95570175a7fbca29d86d22c54bbf399f4ad5a
+    Author:     Rob Clark <robdclark@chromium.org>
+    AuthorDate: Mon Jul 26 07:46:50 2021 -0700
+    Commit:     Rob Clark <robdclark@chromium.org>
+    CommitDate: Tue Jul 27 17:54:36 2021 -0700
 
-Changes in v2:
-- Introduce adreno_is_a660_family() (Rob)
-- Remove revn for 7c3 (Rob)
-- Remove CPR register programing since they are not required for 7c3
+        drm/msm: Devfreq tuning
 
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c      |  8 ++++++--
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h      |  1 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 32 ++++++++++++++++++++----------
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c      | 32 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/adreno_device.c | 27 +++++++++++++++++++------
- drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 18 ++++++++++++++++-
- 6 files changed, 98 insertions(+), 20 deletions(-)
+which gives the freq a bit of a nudge if the GPU has been idle for
+longer than a certain threshold.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index b349692..70ba3bf 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -519,7 +519,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
- 	if (!pdcptr)
- 		goto err;
- 
--	if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
-+	if (adreno_is_a650(adreno_gpu) || adreno_is_a660_family(adreno_gpu))
- 		pdc_in_aop = true;
- 	else if (adreno_is_a618(adreno_gpu) || adreno_is_a640(adreno_gpu))
- 		pdc_address_offset = 0x30090;
-@@ -933,6 +933,7 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
- 
- 	/* Use a known rate to bring up the GMU */
- 	clk_set_rate(gmu->core_clk, 200000000);
-+	clk_set_rate(gmu->hub_clk, 150000000);
- 	ret = clk_bulk_prepare_enable(gmu->nr_clocks, gmu->clocks);
- 	if (ret) {
- 		pm_runtime_put(gmu->gxpd);
-@@ -1393,6 +1394,9 @@ static int a6xx_gmu_clocks_probe(struct a6xx_gmu *gmu)
- 	gmu->core_clk = msm_clk_bulk_get_clock(gmu->clocks,
- 		gmu->nr_clocks, "gmu");
- 
-+	gmu->hub_clk = msm_clk_bulk_get_clock(gmu->clocks,
-+		gmu->nr_clocks, "hub");
-+
- 	return 0;
- }
- 
-@@ -1504,7 +1508,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	 * are otherwise unused by a660.
- 	 */
- 	gmu->dummy.size = SZ_4K;
--	if (adreno_is_a660(adreno_gpu)) {
-+	if (adreno_is_a660_family(adreno_gpu)) {
- 		ret = a6xx_gmu_memory_alloc(gmu, &gmu->debug, SZ_4K * 7, 0x60400000);
- 		if (ret)
- 			goto err_memory;
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 71dfa600..3c74f64 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -66,6 +66,7 @@ struct a6xx_gmu {
- 	int nr_clocks;
- 	struct clk_bulk_data *clocks;
- 	struct clk *core_clk;
-+	struct clk *hub_clk;
- 
- 	/* current performance index set externally */
- 	int current_perf_index;
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 0da1a66..1881e09 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -652,7 +652,7 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
- 		regs = a650_protect;
- 		count = ARRAY_SIZE(a650_protect);
- 		count_max = 48;
--	} else if (adreno_is_a660(adreno_gpu)) {
-+	} else if (adreno_is_a660_family(adreno_gpu)) {
- 		regs = a660_protect;
- 		count = ARRAY_SIZE(a660_protect);
- 		count_max = 48;
-@@ -694,6 +694,13 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
- 		uavflagprd_inv = 2;
- 	}
- 
-+	if (adreno_is_7c3(adreno_gpu)) {
-+		lower_bit = 1;
-+		amsbc = 1;
-+		rgb565_predicator = 1;
-+		uavflagprd_inv = 2;
-+	}
-+
- 	gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
- 		rgb565_predicator << 11 | amsbc << 4 | lower_bit << 1);
- 	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, lower_bit << 1);
-@@ -787,7 +794,7 @@ static bool a6xx_ucode_check_version(struct a6xx_gpu *a6xx_gpu,
- 		DRM_DEV_ERROR(&gpu->pdev->dev,
- 			"a650 SQE ucode is too old. Have version %x need at least %x\n",
- 			buf[0] & 0xfff, 0x095);
--	} else if (adreno_is_a660(adreno_gpu)) {
-+	} else if (adreno_is_a660_family(adreno_gpu)) {
- 		ret = true;
- 	} else {
- 		DRM_DEV_ERROR(&gpu->pdev->dev,
-@@ -941,7 +948,7 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 		gpu_write(gpu, REG_A6XX_CP_ROQ_THRESHOLDS_2, 0x010000c0);
- 	gpu_write(gpu, REG_A6XX_CP_ROQ_THRESHOLDS_1, 0x8040362c);
- 
--	if (adreno_is_a660(adreno_gpu))
-+	if (adreno_is_a660_family(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_CP_LPAC_PROG_FIFO_SIZE, 0x00000020);
- 
- 	/* Setting the mem pool size */
-@@ -950,10 +957,10 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	/* Setting the primFifo thresholds default values,
- 	 * and vccCacheSkipDis=1 bit (0x200) for A640 and newer
- 	*/
--	if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
--	else if (adreno_is_a640(adreno_gpu))
-+	if (adreno_is_a640(adreno_gpu) || adreno_is_7c3(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00200200);
-+	else if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
- 	else
- 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00180000);
- 
-@@ -990,13 +997,15 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	/* Protect registers from the CP */
- 	a6xx_set_cp_protect(gpu);
- 
--	if (adreno_is_a660(adreno_gpu)) {
-+	if (adreno_is_a660_family(adreno_gpu)) {
- 		gpu_write(gpu, REG_A6XX_CP_CHICKEN_DBG, 0x1);
- 		gpu_write(gpu, REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL, 0x0);
--		/* Set dualQ + disable afull for A660 GPU but not for A635 */
--		gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x66906);
- 	}
- 
-+	/* Set dualQ + disable afull for A660 GPU */
-+	if (adreno_is_a660(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x66906);
-+
- 	/* Enable expanded apriv for targets that support it */
- 	if (gpu->hw_apriv) {
- 		gpu_write(gpu, REG_A6XX_CP_APRIV_CNTL,
-@@ -1434,7 +1443,7 @@ static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
- 	/* On A660, the SCID programming for UCHE traffic is done in
- 	 * A6XX_GBIF_SCACHE_CNTL0[14:10]
- 	 */
--	if (adreno_is_a660(adreno_gpu))
-+	if (adreno_is_a660_family(adreno_gpu))
- 		gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL0, (0x1f << 10) |
- 			(1 << 8), (gpu_scid << 10) | (1 << 8));
- }
-@@ -1779,7 +1788,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 	 */
- 	info = adreno_info(config->rev);
- 
--	if (info && (info->revn == 650 || info->revn == 660))
-+	if (info && (info->revn == 650 || info->revn == 660 ||
-+			adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
- 		adreno_gpu->base.hw_apriv = true;
- 
- 	a6xx_llc_slices_init(pdev, a6xx_gpu);
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-index 9194337..1451c2b 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-@@ -382,6 +382,36 @@ static void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
- 	msg->cnoc_cmds_data[1][0] =  0x60000001;
- }
- 
-+static void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
-+{
-+	/*
-+	 * Send a single "off" entry just to get things running
-+	 * TODO: bus scaling
-+	 */
-+	msg->bw_level_num = 1;
-+
-+	msg->ddr_cmds_num = 3;
-+	msg->ddr_wait_bitmask = 0x07;
-+
-+	msg->ddr_cmds_addrs[0] = 0x50004;
-+	msg->ddr_cmds_addrs[1] = 0x50000;
-+	msg->ddr_cmds_addrs[2] = 0x50088;
-+
-+	msg->ddr_cmds_data[0][0] =  0x40000000;
-+	msg->ddr_cmds_data[0][1] =  0x40000000;
-+	msg->ddr_cmds_data[0][2] =  0x40000000;
-+
-+	/*
-+	 * These are the CX (CNOC) votes - these are used by the GMU but the
-+	 * votes are known and fixed for the target
-+	 */
-+	msg->cnoc_cmds_num = 1;
-+	msg->cnoc_wait_bitmask = 0x01;
-+
-+	msg->cnoc_cmds_addrs[0] = 0x5006c;
-+	msg->cnoc_cmds_data[0][0] =  0x40000000;
-+	msg->cnoc_cmds_data[1][0] =  0x60000001;
-+}
- static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
- {
- 	/* Send a single "off" entry since the 630 GMU doesn't do bus scaling */
-@@ -432,6 +462,8 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
- 		a640_build_bw_table(&msg);
- 	else if (adreno_is_a650(adreno_gpu))
- 		a650_build_bw_table(&msg);
-+	else if (adreno_is_7c3(adreno_gpu))
-+		adreno_7c3_build_bw_table(&msg);
- 	else if (adreno_is_a660(adreno_gpu))
- 		a660_build_bw_table(&msg);
- 	else
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 6dad801..7b9d605 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -8,8 +8,6 @@
- 
- #include "adreno_gpu.h"
- 
--#define ANY_ID 0xff
--
- bool hang_debug = false;
- MODULE_PARM_DESC(hang_debug, "Dump registers when hang is detected (can be slow!)");
- module_param_named(hang_debug, hang_debug, bool, 0600);
-@@ -300,6 +298,17 @@ static const struct adreno_info gpulist[] = {
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a660_zap.mdt",
- 		.hwcg = a660_hwcg,
-+	}, {
-+		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
-+		.name = "Adreno 7c Gen 3",
-+		.fw = {
-+			[ADRENO_FW_SQE] = "a660_sqe.fw",
-+			[ADRENO_FW_GMU] = "a660_gmu.bin",
-+		},
-+		.gmem = SZ_512K,
-+		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.init = a6xx_gpu_init,
-+		.hwcg = a660_hwcg,
- 	},
- };
- 
-@@ -325,6 +334,15 @@ static inline bool _rev_match(uint8_t entry, uint8_t id)
- 	return (entry == ANY_ID) || (entry == id);
- }
- 
-+bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2)
-+{
-+
-+	return _rev_match(rev1.core, rev2.core) &&
-+		_rev_match(rev1.major, rev2.major) &&
-+		_rev_match(rev1.minor, rev2.minor) &&
-+		_rev_match(rev1.patchid, rev2.patchid);
-+}
-+
- const struct adreno_info *adreno_info(struct adreno_rev rev)
- {
- 	int i;
-@@ -332,10 +350,7 @@ const struct adreno_info *adreno_info(struct adreno_rev rev)
- 	/* identify gpu: */
- 	for (i = 0; i < ARRAY_SIZE(gpulist); i++) {
- 		const struct adreno_info *info = &gpulist[i];
--		if (_rev_match(info->rev.core, rev.core) &&
--				_rev_match(info->rev.major, rev.major) &&
--				_rev_match(info->rev.minor, rev.minor) &&
--				_rev_match(info->rev.patchid, rev.patchid))
-+		if (adreno_cmp_rev(info->rev, rev))
- 			return info;
- 	}
- 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 8dbe0d1..6f8e7cc 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -42,6 +42,8 @@ struct adreno_rev {
- 	uint8_t  patchid;
- };
- 
-+#define ANY_ID 0xff
-+
- #define ADRENO_REV(core, major, minor, patchid) \
- 	((struct adreno_rev){ core, major, minor, patchid })
- 
-@@ -247,15 +249,29 @@ static inline int adreno_is_a650(struct adreno_gpu *gpu)
-        return gpu->revn == 650;
- }
- 
-+bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
-+
-+static inline int adreno_is_7c3(struct adreno_gpu *gpu)
-+{
-+	/* The order of args is important here to handle ANY_ID correctly */
-+       return adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), gpu->rev);
-+}
-+
- static inline int adreno_is_a660(struct adreno_gpu *gpu)
- {
-        return gpu->revn == 660;
- }
- 
-+static inline int adreno_is_a660_family(struct adreno_gpu *gpu)
-+{
-+       return adreno_is_a660(gpu) || adreno_is_7c3(gpu);
-+}
-+
- /* check for a650, a660, or any derivatives */
- static inline int adreno_is_a650_family(struct adreno_gpu *gpu)
- {
--       return gpu->revn == 650 || gpu->revn == 620 || gpu->revn == 660;
-+       return gpu->revn == 650 || gpu->revn == 620 ||
-+	       adreno_is_a660_family(gpu);
- }
- 
- int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value);
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation.
+But the other part is that if the GPU has been idle for more than 66ms
+(typical autosuspend delay for adreno) it will suspend.  For modern
+adreno's it takes ~2ms to "boot up" the GPU from suspend.  Which is
+something you want to take out of the submit/execbuf path if you are
+trying to reduce input-to-pageflip latency.
 
+We have a downstream patch that boosts the CPUs on input events (with
+a cooldown period to prevent spacebar-heater) and I have been thinking
+of something along those lines to trigger resuming the GPU.. it is
+straightforward enough for touch based devices, but gets more
+complicated with keyboard input.  In particular, some keys you want to
+trigger boost on key-release.  Ie. modifier keys (ctrl/shift/alt/etc..
+the "search" key on chromebooks, etc) you want to boost on
+key-release, not on key-press because unless you type *really* fast
+you'll be in the cooldown period when the key-release event happens.
+Unfortunately the kernel doesn't really know this "policy" sort of
+information about which keys should boost on press vs release.  So I
+think the long-term/upstream solution is to do input-boost in
+userspace.. sysfs already has all the knobs that a userspace
+input-boost daemon would need to twiddle, so no real need for this to
+be in the kernel.  I guess the only drawback is the sysfs knobs are a
+bit less standardized on the "desktop GPUs" which don't use devfreq.
+
+BR,
+-R
+
+> -Daniel
+>
+> >
+> > BR,
+> > -R
+> >
+> > > >> Thinking more about it we could probably kill the spinlock pointer=
+ and
+> > > >> make the flags 32bit if we absolutely need that here.
+> > > > If we had a 'struct dma_fence_context' we could push the spinlock, =
+ops
+> > > > pointer, and u64 context into that and replace with a single
+> > > > dma_fence_context ptr, fwiw
+> > >
+> > > That won't work. We have a lot of use cases where you can't allocate
+> > > memory, but must allocate a context.
+> > >
+> > > Christian.
+> > >
+> > > >
+> > > > BR,
+> > > > -R
+> > > >
+> > > >> But I still don't see the need for that, especially since most dri=
+vers
+> > > >> probably won't implement it.
+> > > >>
+> > > >> Regards,
+> > > >> Christian.
+> > > >>
+> > > >>> Regards,
+> > > >>> Christian.
+> > > >>>
+> > > >>>> BR,
+> > > >>>> -R
+> > > >>>>
+> > > >>>>> Regards,
+> > > >>>>> Christian.
+> > > >>>>>
+> > > >>>>>>         u64 context;
+> > > >>>>>>         u64 seqno;
+> > > >>>>>>         unsigned long flags;
+> > > >>>>>> @@ -99,6 +100,7 @@ enum dma_fence_flag_bits {
+> > > >>>>>>         DMA_FENCE_FLAG_SIGNALED_BIT,
+> > > >>>>>>         DMA_FENCE_FLAG_TIMESTAMP_BIT,
+> > > >>>>>>         DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> > > >>>>>> +     DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
+> > > >>>>>>         DMA_FENCE_FLAG_USER_BITS, /* must always be last membe=
+r */
+> > > >>>>>>     };
+> > > >>>>>>
+> > > >>>>>> @@ -261,6 +263,19 @@ struct dma_fence_ops {
+> > > >>>>>>          */
+> > > >>>>>>         void (*timeline_value_str)(struct dma_fence *fence,
+> > > >>>>>>                                    char *str, int size);
+> > > >>>>>> +
+> > > >>>>>> +     /**
+> > > >>>>>> +      * @set_deadline:
+> > > >>>>>> +      *
+> > > >>>>>> +      * Callback to allow a fence waiter to inform the fence
+> > > >>>>>> signaler of an
+> > > >>>>>> +      * upcoming deadline, such as vblank, by which point the
+> > > >>>>>> waiter would
+> > > >>>>>> +      * prefer the fence to be signaled by.  This is intended=
+ to
+> > > >>>>>> give feedback
+> > > >>>>>> +      * to the fence signaler to aid in power management
+> > > >>>>>> decisions, such as
+> > > >>>>>> +      * boosting GPU frequency.
+> > > >>>>>> +      *
+> > > >>>>>> +      * This callback is optional.
+> > > >>>>>> +      */
+> > > >>>>>> +     void (*set_deadline)(struct dma_fence *fence, ktime_t de=
+adline);
+> > > >>>>>>     };
+> > > >>>>>>
+> > > >>>>>>     void dma_fence_init(struct dma_fence *fence, const struct
+> > > >>>>>> dma_fence_ops *ops,
+> > > >>>>>> @@ -586,6 +601,8 @@ static inline signed long dma_fence_wait(s=
+truct
+> > > >>>>>> dma_fence *fence, bool intr)
+> > > >>>>>>         return ret < 0 ? ret : 0;
+> > > >>>>>>     }
+> > > >>>>>>
+> > > >>>>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t
+> > > >>>>>> deadline);
+> > > >>>>>> +
+> > > >>>>>>     struct dma_fence *dma_fence_get_stub(void);
+> > > >>>>>>     struct dma_fence *dma_fence_allocate_private_stub(void);
+> > > >>>>>>     u64 dma_fence_context_alloc(unsigned num);
+> > >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
