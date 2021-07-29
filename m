@@ -1,71 +1,157 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7223D9F6D
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 10:24:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E8C3D9F88
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 10:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51D206EA9A;
-	Thu, 29 Jul 2021 08:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98D1C6ECDB;
+	Thu, 29 Jul 2021 08:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 592C16EA9A
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 08:24:11 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id m13so9411055lfg.13
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 01:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=G+Xz0QEq5wz3RNVVo8FtNDcy65lKifkkcvU9k8GjVG8=;
- b=XdBbKBZqGy0FNSyHcp2Kg1khC3/H0yjS2T7iFC6ayZsW2nRlpIalCvFyocQmrmZO3t
- vSGsJbjPgC1f82y/m10k/Az93WquoJqxx3vg1Dj+15xw/5KKoUMCnpjtMI7HOSjv6yZa
- xeZescss1HHCxuM8lzVpuLD6TYnt/fxcT674IDVuURJTdEtEJuAyod56+cqZdrVVSK9O
- S8OKiAyUpgW3umuo5N+RGL9tWnLbeVtwgriUfZ7gwcmyyTzLyHCpCO5Wv0Azz1timtg+
- i3h5KDslFMfADob7YU1FAbcjQd9uQmvLBKsHXkYLDQ/+Xh38fz6mtcBQ2wt7EWUlwu/P
- GgLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=G+Xz0QEq5wz3RNVVo8FtNDcy65lKifkkcvU9k8GjVG8=;
- b=EKdYKRDJ0qvT9FdgfME5oyAosg3FQTrN09562XOqIv5P7oJ73TRvcRfIf1KTUgP0i+
- 2zPdxp7o/73cuEZKlHCUR5w4dIxdg3t8k9frzYEZ+PXsOkFuc1lSGEx7kfElXKb9dplp
- QqmZ3R5RB6DJou/FhyKi8Ltrx5MAWyHxwIvyapGf+l11H4OipELoextlV2As83WICX9q
- maSiXREN5/Lkdr2Hb19eReVJXb0pN+onNijzQtCtgpQzcSOBo8yXnxYlakaUE/mM5Lfv
- ZJcSsounuCzGDfhFZygRFR+FVvb47UcKI8CZnEzOriUMK2AIMNt0phlwBx9ZokTZWjL+
- hqqA==
-X-Gm-Message-State: AOAM533asOiNZf46iHiPASsZLlXnPIuKmVifhug80vstsvm8gSE2ixq5
- ElOGC9xH8CFulhE0TrHgUC4=
-X-Google-Smtp-Source: ABdhPJx3zQbUfVolfZXuorgwsMKZOlsC0XNccvgtZrhv2E6/ERdQqfPhXntVtLalwdv4tEmmeQr6Aw==
-X-Received: by 2002:a19:fc13:: with SMTP id a19mr2996482lfi.581.1627547049434; 
- Thu, 29 Jul 2021 01:24:09 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id h12sm108258ljq.41.2021.07.29.01.24.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 01:24:09 -0700 (PDT)
-Date: Thu, 29 Jul 2021 11:23:58 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
-Message-ID: <20210729112358.237651ff@eldfell>
-In-Reply-To: <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
-References: <20210726233854.2453899-1-robdclark@gmail.com>
- <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
- <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
- <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
- <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
- <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
- <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
- <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
- <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
- <eedfdc75-72f8-9150-584b-c5e9d16db180@amd.com>
- <20210728165700.38c39cf8@eldfell>
- <74e310fa-e544-889f-2389-5abe06f80eb8@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8E836ECDB
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 08:26:30 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16T8D4Wm018537; Thu, 29 Jul 2021 08:26:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=kyM+opt8INuvqnS6uFUM+1Zh9Cw45KythbT+VDLvPp4=;
+ b=e7fIvJof1TBEe7Bfs7IL7OEEuB2DyBLSZcqWecHAglh63mJdxZvKxcEA+yJuzgvSVP5s
+ /4xbgtqZtk6C0gKK+NO8+Yq3L1YLiLneUZyst5Gvqs72I1UJQSMR5vZHCFZ6cOPLqnS5
+ Z8Nw/VUpTRG/XW8GBRiBD+i5wvXXyb8cKqzqnmZ+vhgqGflH2AAaRdyhHseYtpk96bp/
+ Zsm5djNAidJoAyJQukyCy0uwZNuLUSvZ5k+SWsCor/B75G177aV6LUG39QmOgu1+IvjI
+ VGt29DqfrJ8vV1wWxT/b6MY82/v7tIHRWuCsklYCbKGjDtV/BgPmBGHT9CuzdgJs3VIq pA== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=kyM+opt8INuvqnS6uFUM+1Zh9Cw45KythbT+VDLvPp4=;
+ b=t6dOYKYf6SQ48P5vxQFpl0vZjfzgQhuyYGNhI32fjM5ENJ1V0bXJmq/BjebTqAM19XP2
+ itm12WXlbcY0HQyfmzpBysv54l0gcCGYQU9uhxyIIv8Vua0aWVF6Rw9x+NqNsZ3BYJOy
+ 9fCqRi9OloGiHrXpZyvX48ouw+85wjoEhWcHzvzOjMXEUcPJtSF5aBe/uyNWqr65Yy3P
+ f5iW8YbLnUFfTMT+9PZvZxpXHgE4fI+CnKxUHzDl0jlfEJEbwyrb8+zGlud0wVes38HF
+ EAB7WxkjILW/ya0qiOAo+kb4u+2L9BwilMXGM8i7daNxL7i41ecj4GYqXvkFLr8OUrs6 dA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3a3cdps9du-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 29 Jul 2021 08:26:26 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16T8Pcx1038516;
+ Thu, 29 Jul 2021 08:26:26 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
+ by aserp3020.oracle.com with ESMTP id 3a234btr5w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 29 Jul 2021 08:26:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nrto59E0Wq8/vJU2jmLvGYQvn5M9nGrj1DoEN5PNGnTQa4C1x/mVCdNFRAz4J6Z8M4PyFgpmpSYv0iYgZVfHFH5G2SvxAIF0zbIYVT+2NvBkLmfptrN3ss3rbCc7AAn07u9mcPLAJmKd9CxYUlkBrJ7BJcMz53hmFv7Qsh7k/vKmmNfcvOWshFS9pEvOWRRr8jo+Ysowr4txYyquBftLvacreEOPWW6Fumb91KzZPlBPcINobGSEl00yGOp5OsDZ1PO9vLAZOwJizjpLy39WxWv1wpbQExug3Cm8w1E0XQZI2lrzhEmQwD/1mhk500dxMy69KjCLcNg5FrZVg3qKkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kyM+opt8INuvqnS6uFUM+1Zh9Cw45KythbT+VDLvPp4=;
+ b=ZiH6Db8W/6ofzbWV8iX0YKR1PxNk1w/S8SR3os9TtUsfxeARTzs1JkqsQgMz5b/aFi54vUmf8uMEyNEYX/8SAhvzcIXaFLCKJBr8CpUebRamaRRYvMKe8XJ2D7h0lnHGZl6t+6nWCqzwWtPt/EpASXed6dAE5LEv44D6bzm8WRkNpWw4uAtxh6ulPQkCnNq0Os7iodG7ARBgPe9ElIobsTroIaiUl4zXa+j9+qY9nulg9/NMiVQNinekLAODeMbcZLtE034yHbOWlusfdgBNxkwEnOOOfboSc0DONc+GjVQ7R984OES3LnJ8EX/OrnKTzJfzRVmzZnI3td7VTvnepg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kyM+opt8INuvqnS6uFUM+1Zh9Cw45KythbT+VDLvPp4=;
+ b=O7ftGf+RCikJFKsfNWs5xAWuVF8Dl5tfAdFM0lgC6K639V88Z3QG4NIcRACQItl2z+EzdkjZITWJul5sKVs9YgHKHtsBa0B/atITMb5d69R4jKz7BgNcakTjuh7eFb+FUPABFebh0tAS+MrzsbfPRhIo3jPXAWntU7AQ/nhfF48=
+Authentication-Results: chromium.org; dkim=none (message not signed)
+ header.d=none;chromium.org; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1552.namprd10.prod.outlook.com
+ (2603:10b6:300:24::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.20; Thu, 29 Jul
+ 2021 08:26:24 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4352.032; Thu, 29 Jul 2021
+ 08:26:24 +0000
+Date: Thu, 29 Jul 2021 11:25:46 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
+Message-ID: <20210729082546.GY25548@kadam>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-3-keescook@chromium.org>
+ <20210728073556.GP1931@kadam> <202107281630.B0519DA@keescook>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202107281630.B0519DA@keescook>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0026.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::14)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/XsIW6p7OIJaoYdmP1AsQtia";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by
+ JN2P275CA0026.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4373.18 via Frontend Transport; Thu, 29 Jul 2021 08:26:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 87684f9c-81ad-4b85-2b60-08d9526a8d3b
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1552:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR10MB15526299AF160B228C50B7198EEB9@MWHPR10MB1552.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ziPfKNc1tVZELjg8XUks0dI5k0ZBLCvgFP1DLBdX4FGCEJmZWeqOcLvYvII/b5PdggMWnpIO0jXLTpDlpujZ+UPBR1yCujeZM94ypDqWIsPmJforK6JopsEniNIDG48guiEkju/dExlBMoRwzK/9xqsutRozkfJZTcXVHYf7aux0Jd9lv3fQMHBwK3U5q8qHFUX3nSU+TcjUPX16znZeVlFjHo8t5u/5lzXgmHHXZQosNHF2NXgf35xPssExEy68mOYgPjMBC+7sIgoMGHv1w/hQIkqNE+ePTU+DdJ0fS32V5S4k1aceDSp6JIGJrpbLpWENo2jEViyZ0MwkM+fJSxjemAO15Xt7gIx+Q9pqk7QVcw8TxkcH9rML2V/wnhyZHE3mZrdt9Kxbn2XbI7pc1UcVM+RG6GrNNTDS891uYudoLJnKQGAgo5cgS51TrWC9VrRz8tQkU8x4zq1IEu5chdiqIFbZKSYE1SoH1jaLrEkGYHJAHs88dgkAJPJEdP4D30vwDrBwt3RQdEnJWHkj/ajSY6DIenqvuyhUoIz0uYfKPKPoxuCT3kQH703Mmx68BrN36zwMwpkIiRmODjxiLZ4u3C6tAXCfvud91ctcViMTOnt5Cl7/0iAm9XrTzD5O6nmVnw3WiylGFvR/Zq2n77A3kUzUoHBsO7Peun7m3JEIfwPN50ySKGvJBnJk5ykHAXox/4K8/tg5TYNm7tp+5A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(136003)(39860400002)(376002)(346002)(396003)(33716001)(9686003)(55016002)(478600001)(33656002)(6666004)(66946007)(7416002)(6496006)(52116002)(44832011)(26005)(4326008)(956004)(6916009)(186003)(54906003)(316002)(66476007)(86362001)(38350700002)(558084003)(38100700002)(8676002)(9576002)(1076003)(8936002)(5660300002)(66556008)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RwA9D+eMh1VTnsHWOu6l+/ddd98Jib2pN0mqIMjIDQwJyP5VT9370/oFchfC?=
+ =?us-ascii?Q?qRZjrmHh/JylOjEoP26Av+ohi0oXTc/WZ0LJ1rLNZUU5EBXTssM2UMIQm/hW?=
+ =?us-ascii?Q?YzGpAVfnhua6DINEBIx9KtrhA3770ua21rrbmHtrGUn9dTtBWbOyyVaQR56U?=
+ =?us-ascii?Q?NYpZ7dtbxv6VrWsTKFwoWBrXYa1krgtc3jt/X+Cs+qhBexkoT5uJD9B9WzC4?=
+ =?us-ascii?Q?bLdPKNt5+ajegMGbfQwdlGJzQA3232dqr3miT86pobqAzvbtrJ07mW2ROY2s?=
+ =?us-ascii?Q?nW7YtHpuLTvujAkc/N4Msu5s4dsjsXwt5GG7UJFWYaZKNYDsXLI5c/PvyYrw?=
+ =?us-ascii?Q?0VjSvHhCqNAZ+M/ZIwWwmhZw6AnuizkuNAw9Q/oe4/wBVy+SVxPK/1UkNhMu?=
+ =?us-ascii?Q?mdeHm+FUe6oG2t4fzVbrvMsRjUQCD5GchofYRNb6rgxJfHEm9EeMJtlAVRhX?=
+ =?us-ascii?Q?Z7mSQVg6GyQRlkbT/9QslvdbjPdLUH2/F6lv6eXhezqelIevMLf5YMH/9CyQ?=
+ =?us-ascii?Q?fqOduhWrwTbyJ1KxqMa683fGRpYnbR90S0EFb1YnWEXKT4kGlFD6gjQPe19z?=
+ =?us-ascii?Q?OVRmFu7FORxV8FRH/k/PwD6Dl8KSlOcY//eqZwtu7n587ZXuyW+Qb5SFN/Bx?=
+ =?us-ascii?Q?Txmr52Y2JC+VCFryD/wp64ShAUgPfFlouCmQh6FdEX5ZognyyRG/YKu4FxdN?=
+ =?us-ascii?Q?lQQ/rE4ptJWNRSpnJikjWP165q+K7lJPtMTfIsNKFjGuA3Ne4ow9Tm9qR6XV?=
+ =?us-ascii?Q?I2yEEWlx2q4PtgePBv+pzuh5Ufbujl8BEwbRYXUUayN5Oz04uAjc0yw4Gt3z?=
+ =?us-ascii?Q?/Ga5XCBvwV4qUgKuQBVQdx08fg09JIy5K4BOFLWIyMEydsbRl6cXKD35siA5?=
+ =?us-ascii?Q?gbnkn/dw7tynsBCaepKZtH6te+WFBBKZgnWZDwlcWZUKDZ7yNopF47QrQbin?=
+ =?us-ascii?Q?Qvk8y0McjD6mHx8mV2NIyvcuPNlYANub14g3wAnxokG8D1pd2HgO2caxDNHC?=
+ =?us-ascii?Q?YfuRL0EPjvvzu6teKeW9StX/ZHq+vhVcHnqbhXlX0+iPcqFeqLYa59v7OB+8?=
+ =?us-ascii?Q?F4T6RTl/65Hg5Iyi/oDQtpqikL3bGsYh87KDcyvfPCkvIrI05mdAhT/Y8a42?=
+ =?us-ascii?Q?4flvtL3RrGqDnvneH6q2ipZBeWwGz0K7F5p5eRVlOBMW4f2lV4xsMMH6TIch?=
+ =?us-ascii?Q?bucwUgJarEFOalbEWVAwL8XE8Rjf7nJHmfe+Nf/UA96CLXCnbp+frGw1Pa+k?=
+ =?us-ascii?Q?fG5c+iVWg8eb1BNoW4G+i2D45cBIcsEwXecrpRcqDxKa+FF1HhIzrj27Rv18?=
+ =?us-ascii?Q?jTPoPwkD3PtPFqbmuIq2nuH1?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87684f9c-81ad-4b85-2b60-08d9526a8d3b
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2021 08:26:24.0920 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZoHloAbdKBp2wkdrt7HOY59ADdAXVfzDIbp9uJMZ0pcmKpRPXB9zcjsewO2Wjoo7I0b2WwvI7QyJDZ6Ls6iyaqfsLfQCU6RbrWuwH7BwbIE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1552
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10059
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ adultscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=858 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2107290055
+X-Proofpoint-GUID: UkpOdzQxQknQB1rmAJsPty-M5JC4D9u9
+X-Proofpoint-ORIG-GUID: UkpOdzQxQknQB1rmAJsPty-M5JC4D9u9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,117 +164,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
- Jack Zhang <Jack.Zhang1@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Lee Jones <lee.jones@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: linux-kbuild@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
+ Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/XsIW6p7OIJaoYdmP1AsQtia
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jul 28, 2021 at 04:33:18PM -0700, Kees Cook wrote:
+> 
+> Ah-ha, got it:
+> 
 
-On Wed, 28 Jul 2021 16:30:13 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Thanks, Kees!  Nice!
 
-> Am 28.07.21 um 15:57 schrieb Pekka Paalanen:
-> > On Wed, 28 Jul 2021 15:31:41 +0200
-> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> > =20
-> >> Am 28.07.21 um 15:24 schrieb Michel D=C3=A4nzer: =20
-> >>> On 2021-07-28 3:13 p.m., Christian K=C3=B6nig wrote: =20
-> >>>> Am 28.07.21 um 15:08 schrieb Michel D=C3=A4nzer: =20
-> >>>>> On 2021-07-28 1:36 p.m., Christian K=C3=B6nig wrote: =20
-> >>>>>> At least AMD hardware is already capable of flipping frames on GPU=
- events like finishing rendering (or uploading etc).
-> >>>>>>
-> >>>>>> By waiting in userspace on the CPU before send the frame to the ha=
-rdware you are completely killing of such features.
-> >>>>>>
-> >>>>>> For composing use cases that makes sense, but certainly not for fu=
-ll screen applications as far as I can see. =20
-> >>>>> Even for fullscreen, the current KMS API only allows queuing a sing=
-le page flip per CRTC, with no way to cancel or otherwise modify it. Theref=
-ore, a Wayland compositor has to set a deadline for the next refresh cycle,=
- and when the deadline passes, it has to select the best buffer available f=
-or the fullscreen surface. To make sure the flip will not miss the next ref=
-resh cycle, the compositor has to pick an idle buffer. If it picks a non-id=
-le buffer, and the pending rendering does not finish in time for vertical b=
-lank, the flip will be delayed by at least one refresh cycle, which results=
- in visible stuttering.
-> >>>>>
-> >>>>> (Until the deadline passes, the Wayland compositor can't even know =
-if a previously fullscreen surface will still be fullscreen for the next re=
-fresh cycle) =20
-> >>>> Well then let's extend the KMS API instead of hacking together worka=
-rounds in userspace. =20
-> >>> That's indeed a possible solution for the fullscreen / direct scanout=
- case.
-> >>>
-> >>> Not for the general compositing case though, since a compositor does =
-not want to composite multiple output frames per display refresh cycle, so =
-it has to make sure the one frame hits the target. =20
-> >> Yeah, that's true as well.
-> >>
-> >> At least as long as nobody invents a mechanism to do this decision on
-> >> the GPU instead. =20
-> > That would mean putting the whole window manager into the GPU. =20
->=20
-> Not really. You only need to decide if you want to use the new backing=20
-> store or the old one based on if the new surface is ready or not.
+regards,
+dan carpenter
 
-Except that a window content update in Wayland must be synchronised with
-all the possible and arbitrary other window system state changes, that
-will affect how and where other windows will get drawn *this frame*,
-how input events are routed, and more.
-
-But, if the window manager made sure that *only* window contents are
-about to change and *all* other state remains as it was, then it would
-be possible to let the GPU decide which frame it uses. As long as it
-also tells back which one it actually did, so that presentation
-feedback etc. can trigger the right Wayland events.
-
-Wayland has "atomic commits" to windows, and arbitrary protocol
-extensions can add arbitrary state to be tracked with it. A bit like KMS
-properties. Even atomic commits affecting multiple windows together are
-a thing, and they must be latched either all or none.
-
-So it's quite a lot of work to determine if one can allow the GPU to
-choose the buffer it will texture from, or not.
-
-
-Thanks,
-pq
-
---Sig_/XsIW6p7OIJaoYdmP1AsQtia
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmECZZ4ACgkQI1/ltBGq
-qqcYAg/+I51pd08BkpzGZ3k1g+HCC0qRSxehPuUveE/WiCkVFRrOpVC3zOCw5G4j
-c9BNZrbq+DptCDFizpnWcGCCycIcRKU7T9DEbTHOBD4NWCBrvbyGxcmT9SrrVzJy
-+T7B302KWoGFMlnRTGWfPgQveHTLKwJCPIwVp1hq0hNKIBGJpY38aULKFlYVSC3c
-ucgjtrWlgAI6uCzjbasSER4zMHUlE4XYfALX1xC+eBl7ZVVueThqS0u9VjghCGCT
-1xqp/Id8932CoXyHs7fXSWXL2zgA6uVcK1yhw+jFOZtSEM7qmMbQAWiExYvv1A6V
-WHx2JUJGLkNdVBRu2ZLmqtRDzj0PMCkXxwYtQ6y2T8xgwwSYET+wGFp9P4r48P4p
-4ApoJ5ZZlTZmsdUcnME2aCEf7tlGE79B/jRqahBYDjlrL9KO8velYga7baODmnXy
-bSfO1MQZ/sdY1jQFj8Dhnj23bX2OIlbphG2Dn1ZZfbmp3Ccq7w9OvcZDDBbA09SO
-t5McCGkFF4qUGgitDp/T97knMUdB78INcDYwgdf54Zb2IKhVHKSfmrcDL+qtZnlK
-W3yVGJf/ON+Eik1PppyZuUChTP8b6iyebEWjr7W4AIurRVRoHT8gE44b7IO80J05
-VBgRew3Zpcy5em1zCmpOcfyo0Qi2ggmRvK3l4tRgNPnSg3RB4TY=
-=dE6O
------END PGP SIGNATURE-----
-
---Sig_/XsIW6p7OIJaoYdmP1AsQtia--
