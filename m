@@ -2,35 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87683D9F99
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 10:30:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92AB3D9F4E
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 10:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 446586ECE8;
-	Thu, 29 Jul 2021 08:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4D5A6ECCB;
+	Thu, 29 Jul 2021 08:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D35C76ECA0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 08:29:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="276612153"
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="276612153"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 01:29:50 -0700
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="507013891"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 01:29:50 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC v1 4/4] drm/virtio: Probe and implement VIRTIO_GPU_F_OUT_FENCE
- feature
-Date: Thu, 29 Jul 2021 01:16:59 -0700
-Message-Id: <20210729081659.2255499-5-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
-References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3B03A6ECCB
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 08:17:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 7B59E20201D;
+ Thu, 29 Jul 2021 10:17:44 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id umwX2Eu5Zu4W; Thu, 29 Jul 2021 10:17:44 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id E115A20201A;
+ Thu, 29 Jul 2021 10:17:43 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1m91Ed-00145r-4F; Thu, 29 Jul 2021 10:17:43 +0200
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210726233854.2453899-1-robdclark@gmail.com>
+ <28ca4167-4a65-0ccc-36be-5fb017f6f49d@daenzer.net>
+ <CAF6AEGuhQ2=DSDaGGVwBz5O+FoZEjpgoVJOcFecpd--a9yDY1w@mail.gmail.com>
+ <99984703-c3ca-6aae-5888-5997d7046112@daenzer.net>
+ <CAJs_Fx4O4w5djx3-q5zja51-ko_nQ0X2nEk3qoZB_axpBVSrKA@mail.gmail.com>
+ <f6d73ec5-85f9-1b18-f2d2-a5f3b7333efa@gmail.com>
+ <c9ee242e-542e-e189-a1ec-c1be34d66c93@daenzer.net>
+ <04d44873-d8e6-6ae7-f0f9-17bcb484d697@amd.com>
+ <9d5f4415-d470-3bc1-7d52-61ba739706ae@daenzer.net>
+ <CAF6AEGu409eY9xznTAaBf2ZDcV_AaDELUzN2afWgiHwB_uBwqg@mail.gmail.com>
+ <YQJUKXgf/Q957fmy@phenom.ffwll.local>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [RFC 0/4] dma-fence: Deadline awareness
+Message-ID: <ff394f2b-b555-e80f-b685-d0d59e2bbe67@daenzer.net>
+Date: Thu, 29 Jul 2021 10:17:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
+In-Reply-To: <YQJUKXgf/Q957fmy@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,205 +61,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Roy Sun <Roy.Sun@amd.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If this feature is available, the virtio-gpu driver will take
-ownership of signalling the OUT_FENCE instead of drm core. As
-a result, the OUT_FENCE will no longer be signalled along with
-pageflip completion but at a later time.
+On 2021-07-29 9:09 a.m., Daniel Vetter wrote:
+> On Wed, Jul 28, 2021 at 08:34:13AM -0700, Rob Clark wrote:
+>> On Wed, Jul 28, 2021 at 6:24 AM Michel Dänzer <michel@daenzer.net> wrote:
+>>> On 2021-07-28 3:13 p.m., Christian König wrote:
+>>>> Am 28.07.21 um 15:08 schrieb Michel Dänzer:
+>>>>> On 2021-07-28 1:36 p.m., Christian König wrote:
+>>>>>> Am 27.07.21 um 17:37 schrieb Rob Clark:
+>>>>>>> On Tue, Jul 27, 2021 at 8:19 AM Michel Dänzer <michel@daenzer.net> wrote:
+>>>>>>>> On 2021-07-27 5:12 p.m., Rob Clark wrote:
+>>>>>>>>> On Tue, Jul 27, 2021 at 7:50 AM Michel Dänzer <michel@daenzer.net> wrote:
+>>>>>>>>>> On 2021-07-27 1:38 a.m., Rob Clark wrote:
+>>>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>>>>>>>
+>>>>>>>>>>> Based on discussion from a previous series[1] to add a "boost" mechanism
+>>>>>>>>>>> when, for example, vblank deadlines are missed.  Instead of a boost
+>>>>>>>>>>> callback, this approach adds a way to set a deadline on the fence, by
+>>>>>>>>>>> which the waiter would like to see the fence signalled.
+>>>>>>>>>>>
+>>>>>>>>>>> I've not yet had a chance to re-work the drm/msm part of this, but
+>>>>>>>>>>> wanted to send this out as an RFC in case I don't have a chance to
+>>>>>>>>>>> finish the drm/msm part this week.
+>>>>>>>>>>>
+>>>>>>>>>>> Original description:
+>>>>>>>>>>>
+>>>>>>>>>>> In some cases, like double-buffered rendering, missing vblanks can
+>>>>>>>>>>> trick the GPU into running at a lower frequence, when really we
+>>>>>>>>>>> want to be running at a higher frequency to not miss the vblanks
+>>>>>>>>>>> in the first place.
+>>>>>>>>>>>
+>>>>>>>>>>> This is partially inspired by a trick i915 does, but implemented
+>>>>>>>>>>> via dma-fence for a couple of reasons:
+>>>>>>>>>>>
+>>>>>>>>>>> 1) To continue to be able to use the atomic helpers
+>>>>>>>>>>> 2) To support cases where display and gpu are different drivers
+>>>>>>>>>>>
+>>>>>>>>>>> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fseries%2F90331%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C269b2df3e1dc4f0b856d08d951c8c768%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637630745091538563%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=eYaSOSS5wOngNAd9wufp5eWCx5GtAwo6GkultJgrjmA%3D&amp;reserved=0
+>>>>>>>>>> Unfortunately, none of these approaches will have the full intended effect once Wayland compositors start waiting for client buffers to become idle before using them for an output frame (to prevent output frames from getting delayed by client work). See https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.gnome.org%2FGNOME%2Fmutter%2F-%2Fmerge_requests%2F1880&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C269b2df3e1dc4f0b856d08d951c8c768%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637630745091538563%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=1ZkOzLqbiKSyCixGZ0u7Hd%2Fc1YnUZub%2F%2Fx7RuEclFKg%3D&amp;reserved=0 (shameless plug :) for a proof of concept of this for mutter. The boost will only affect the compositor's own GPU work, not the client work (which means no effect at all for fullscreen apps where the compositor can scan out the client buffers directly).
+>>>>>>>>>>
+>>>>>>>>> I guess you mean "no effect at all *except* for fullscreen..."?
+>>>>>>>> I meant what I wrote: The compositor will wait for the next buffer to become idle, so there's no boost from this mechanism for the client drawing to that buffer. And since the compositor does no drawing of its own in this case, there's no boost from that either.
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>> I'd perhaps recommend that wayland compositors, in cases where only a
+>>>>>>>>> single layer is changing, not try to be clever and just push the
+>>>>>>>>> update down to the kernel.
+>>>>>>>> Even just for the fullscreen direct scanout case, that would require some kind of atomic KMS API extension to allow queuing multiple page flips for the same CRTC.
+>>>>>>>>
+>>>>>>>> For other cases, this would also require a mechanism to cancel a pending atomic commit, for when another surface update comes in before the compositor's deadline, which affects the previously single updating surface as well.
+>>>>>>>>
+>>>>>>> Well, in the end, there is more than one compositor out there.. and if
+>>>>>>> some wayland compositors are going this route, they can also implement
+>>>>>>> the same mechanism in userspace using the sysfs that devfreq exports.
+>>>>>>>
+>>>>>>> But it sounds simpler to me for the compositor to have a sort of "game
+>>>>>>> mode" for fullscreen games.. I'm less worried about UI interactive
+>>>>>>> workloads, boosting the GPU freq upon sudden activity after a period
+>>>>>>> of inactivity seems to work reasonably well there.
+>>>>>> At least AMD hardware is already capable of flipping frames on GPU events like finishing rendering (or uploading etc).
+>>>>>>
+>>>>>> By waiting in userspace on the CPU before send the frame to the hardware you are completely killing of such features.
+>>>>>>
+>>>>>> For composing use cases that makes sense, but certainly not for full screen applications as far as I can see.
+>>>>> Even for fullscreen, the current KMS API only allows queuing a single page flip per CRTC, with no way to cancel or otherwise modify it. Therefore, a Wayland compositor has to set a deadline for the next refresh cycle, and when the deadline passes, it has to select the best buffer available for the fullscreen surface. To make sure the flip will not miss the next refresh cycle, the compositor has to pick an idle buffer. If it picks a non-idle buffer, and the pending rendering does not finish in time for vertical blank, the flip will be delayed by at least one refresh cycle, which results in visible stuttering.
+>>>>>
+>>>>> (Until the deadline passes, the Wayland compositor can't even know if a previously fullscreen surface will still be fullscreen for the next refresh cycle)
+>>>>
+>>>> Well then let's extend the KMS API instead of hacking together workarounds in userspace.
+>>>
+>>> That's indeed a possible solution for the fullscreen / direct scanout case.
+>>>
+>>> Not for the general compositing case though, since a compositor does not want to composite multiple output frames per display refresh cycle, so it has to make sure the one frame hits the target.
+>>
+>> I think solving the fullscreen game case is sufficient enough forward
+>> progress to be useful.  And the results I'm seeing[1] are sufficiently
+>> positive to convince me that dma-fence deadline support is the right
+>> thing to do.
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/gpu/drm/virtio/virtgpu_debugfs.c |  1 +
- drivers/gpu/drm/virtio/virtgpu_drv.c     |  1 +
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  2 ++
- drivers/gpu/drm/virtio/virtgpu_fence.c   |  9 +++++
- drivers/gpu/drm/virtio/virtgpu_kms.c     | 10 ++++--
- drivers/gpu/drm/virtio/virtgpu_plane.c   | 44 +++++++++++++++++++++++-
- 6 files changed, 64 insertions(+), 3 deletions(-)
+I'm not questioning that this approach helps when there's a direct chain of fences from the client to the page flip. I'm pointing out there will not always be such a chain.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-index c2b20e0ee030..7e3b519c8126 100644
---- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-@@ -52,6 +52,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
- 			    vgdev->has_resource_assign_uuid);
- 
- 	virtio_gpu_add_bool(m, "blob resources", vgdev->has_resource_blob);
-+	virtio_gpu_add_bool(m, "resource out fence", vgdev->has_out_fence);
- 	virtio_gpu_add_int(m, "cap sets", vgdev->num_capsets);
- 	virtio_gpu_add_int(m, "scanouts", vgdev->num_scanouts);
- 	if (vgdev->host_visible_region.len) {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index ed85a7863256..9490d0756285 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -172,6 +172,7 @@ static unsigned int features[] = {
- 	VIRTIO_GPU_F_EDID,
- 	VIRTIO_GPU_F_RESOURCE_UUID,
- 	VIRTIO_GPU_F_RESOURCE_BLOB,
-+	VIRTIO_GPU_F_OUT_FENCE,
- };
- static struct virtio_driver virtio_gpu_driver = {
- 	.feature_table = features,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 3c43856d4768..11b040adb609 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -139,6 +139,7 @@ struct virtio_gpu_fence {
- 	uint64_t fence_id;
- 	struct virtio_gpu_fence_driver *drv;
- 	struct list_head node;
-+	struct dma_fence *out_fence;
- };
- 
- struct virtio_gpu_vbuffer {
-@@ -233,6 +234,7 @@ struct virtio_gpu_device {
- 	bool has_resource_assign_uuid;
- 	bool has_resource_blob;
- 	bool has_host_visible;
-+	bool has_out_fence;
- 	struct virtio_shm_region host_visible_region;
- 	struct drm_mm host_visible_mm;
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
-index d28e25e8409b..5f64f1c14439 100644
---- a/drivers/gpu/drm/virtio/virtgpu_fence.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
-@@ -134,6 +134,9 @@ void virtio_gpu_fence_event_process(struct virtio_gpu_device *vgdev,
- 			if (signaled->f.context != curr->f.context)
- 				continue;
- 
-+			if (curr->out_fence)
-+				continue;
-+
- 			if (!dma_fence_is_later(&signaled->f, &curr->f))
- 				continue;
- 
-@@ -142,6 +145,12 @@ void virtio_gpu_fence_event_process(struct virtio_gpu_device *vgdev,
- 			dma_fence_put(&curr->f);
- 		}
- 
-+		if (signaled->out_fence) {
-+			dma_fence_signal(signaled->out_fence);
-+			dma_fence_put(signaled->out_fence);
-+			signaled->out_fence = NULL;
-+		}
-+
- 		dma_fence_signal_locked(&signaled->f);
- 		list_del(&signaled->node);
- 		dma_fence_put(&signaled->f);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index f3379059f324..610003d4752d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -156,6 +156,10 @@ int virtio_gpu_init(struct drm_device *dev)
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB)) {
- 		vgdev->has_resource_blob = true;
- 	}
-+	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_OUT_FENCE)) {
-+		vgdev->has_out_fence = true;
-+		vgdev->ddev->mode_config.deferred_out_fence = true;
-+	}
- 	if (virtio_get_shm_region(vgdev->vdev, &vgdev->host_visible_region,
- 				  VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
- 		if (!devm_request_mem_region(&vgdev->vdev->dev,
-@@ -176,11 +180,13 @@ int virtio_gpu_init(struct drm_device *dev)
- 			    (unsigned long)vgdev->host_visible_region.len);
- 	}
- 
--	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible\n",
-+	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible \
-+		 %cout_fence\n",
- 		 vgdev->has_virgl_3d    ? '+' : '-',
- 		 vgdev->has_edid        ? '+' : '-',
- 		 vgdev->has_resource_blob ? '+' : '-',
--		 vgdev->has_host_visible ? '+' : '-');
-+		 vgdev->has_host_visible ? '+' : '-',
-+		 vgdev->has_out_fence ? '+' : '-');
- 
- 	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index a49fd9480381..1be60516a632 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -27,6 +27,7 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_plane_helper.h>
-+#include <drm/drm_vblank.h>
- 
- #include "virtgpu_drv.h"
- 
-@@ -129,6 +130,45 @@ static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
- 					   objs, NULL);
- }
- 
-+static void virtio_gpu_resource_add_out_fence(struct drm_plane *plane,
-+					      struct virtio_gpu_output *output)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct drm_crtc_state *crtc_state;
-+	struct drm_pending_event *e;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_object_array *objs;
-+	struct virtio_gpu_fence *fence;
-+
-+	crtc_state = output->crtc.state;
-+	if (!crtc_state || !crtc_state->event)
-+		return;
-+
-+	e = &crtc_state->event->base;
-+	if (!e->fence)
-+		return;
-+
-+	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-+	if (!vgfb->fence) {
-+		dma_fence_signal(e->fence);
-+		return;
-+	}
-+
-+	fence = virtio_gpu_fence_alloc(vgdev);
-+	if (!fence)
-+		return;
-+
-+	objs = virtio_gpu_array_alloc(1);
-+	if (!objs)
-+		return;
-+
-+	fence->out_fence = dma_fence_get(e->fence);
-+	virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
-+	virtio_gpu_array_lock_resv(objs);
-+	virtio_gpu_cmd_resource_out_fence(vgdev, objs, fence);
-+}
-+
- static void virtio_gpu_resource_flush(struct drm_plane *plane,
- 				      uint32_t x, uint32_t y,
- 				      uint32_t width, uint32_t height)
-@@ -151,7 +191,6 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
- 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
- 					      width, height, objs, vgfb->fence);
- 		virtio_gpu_notify(vgdev);
--
- 		dma_fence_wait_timeout(&vgfb->fence->f, true,
- 				       msecs_to_jiffies(50));
- 		dma_fence_put(&vgfb->fence->f);
-@@ -232,6 +271,9 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
- 		}
- 	}
- 
-+	if (vgdev->has_out_fence && bo->guest_blob)
-+		virtio_gpu_resource_add_out_fence(plane, output);
-+
- 	virtio_gpu_resource_flush(plane,
- 				  rect.x1,
- 				  rect.y1,
+
+>> But maybe the solution to make this also useful for mutter
+
+It's not just mutter BTW. I understand gamescope has been doing this for some time already. And there seems to be consensus among developers of Wayland compositors that this is needed, so I expect at least all the major compositors to do this longer term.
+
+
+>> is to, once we have deadline support, extend it with an ioctl to the
+>> dma-fence fd so userspace can be the one setting the deadline.
+
+I was thinking in a similar direction.
+
+> atomic ioctl with TEST_ONLY and SET_DEADLINES? Still gives mutter the
+> option to bail out with an old frame if it's too late?
+
+This is a bit cryptic though, can you elaborate?
+
+
+> Also mutter would need to supply the deadline, because we need to fit the
+> rendering in still before the actual flip. So gets a bit quirky maybe ...
+
+That should be fine. mutter is already keeping track of how long its rendering takes.
+
+
 -- 
-2.30.2
-
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
