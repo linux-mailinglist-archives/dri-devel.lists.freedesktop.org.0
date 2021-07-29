@@ -2,45 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DF93DA7CE
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 167583DA7D2
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jul 2021 17:49:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB0AB6EDD3;
-	Thu, 29 Jul 2021 15:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42F4D6EDDB;
+	Thu, 29 Jul 2021 15:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDDA16EDD3;
- Thu, 29 Jul 2021 15:48:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="212904242"
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="212904242"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 08:48:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; d="scan'208";a="476443785"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga008.fm.intel.com with ESMTP; 29 Jul 2021 08:48:12 -0700
-Received: from [10.249.142.82] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.142.82])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 16TFmBTa024751; Thu, 29 Jul 2021 16:48:11 +0100
-Subject: Re: [PATCH 05/14] drm/i915/guc/slpc: Enable SLPC and add related H2G
- events
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210728211144.15322-1-vinay.belgaumkar@intel.com>
- <20210728211144.15322-6-vinay.belgaumkar@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <3848937b-9364-e3c6-b25f-72bafd5383cf@intel.com>
-Date: Thu, 29 Jul 2021 17:48:11 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EAF06EDD4
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 15:49:18 +0000 (UTC)
+X-UUID: 554b270ed48c4512b99b2dcd93a933d3-20210729
+X-UUID: 554b270ed48c4512b99b2dcd93a933d3-20210729
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1673660509; Thu, 29 Jul 2021 23:49:14 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 29 Jul 2021 23:49:13 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Thu, 29 Jul 2021 23:49:13 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Enric Balletbo Serra
+ <eballetbo@gmail.com>
+Subject: [PATCH v2 0/5] add mt8195 SoC DRM binding
+Date: Thu, 29 Jul 2021 23:49:07 +0800
+Message-ID: <20210729154912.20051-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <20210728211144.15322-6-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,358 +47,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+Cc: devicetree@vger.kernel.org, Jitao shi <jitao.shi@mediatek.com>,
+ fshao@chromium.org, David Airlie <airlied@linux.ie>, jason-jh.lin@mediatek.com,
+ singo.chang@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Fabien Parent <fparent@baylibre.com>,
+ nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Change in v2:
+- add power-domain property into mediatek,mmsys.yaml
+  and modify commit message.
 
+jason-jh.lin (5):
+  dt-bindings: arm: mediatek: mmsys: add mt8195 SoC binding
+  dt-bindings: mediatek: display: Change format to yaml
+  dt-bindings: mediatek: display: add MERGE additional description
+  dt-bindings: mediatek: add mediatek,dsc.yaml for mt8195 SoC binding
+  dt-bindings: mediatek: display: add mt8195 SoC binding
 
-On 28.07.2021 23:11, Vinay Belgaumkar wrote:
-> Add methods for interacting with GuC for enabling SLPC. Enable
-> SLPC after GuC submission has been established. GuC load will
-> fail if SLPC cannot be successfully initialized. Add various
-> helper methods to set/unset the parameters for SLPC. They can
-> be set using H2G calls or directly setting bits in the shared
-> data structure.
-> 
-> v2: Address several review comments, add new helpers for
-> decoding the SLPC min/max frequencies. Use masks instead of hardcoded
-> constants. (Michal W)
-> 
-> v3: Split global_state_to_string function, and check for positive
-> non-zero return value from intel_guc_send() (Michal W)
-> 
-> v4: Optimize the stringify function and other comments (Michal W)
-> 
-> v5: Enable slpc as well before declaring GuC submission status (Michal W)
-> 
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 226 ++++++++++++++++++
->  .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |   2 +
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  11 +
->  3 files changed, 239 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index 6d76ea4c0ace..da3e1f8844a9 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -45,6 +45,40 @@ void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc)
->  	slpc->selected = __guc_slpc_selected(guc);
->  }
->  
-> +static void slpc_mem_set_param(struct slpc_shared_data *data,
-> +				u32 id, u32 value)
-> +{
-> +	GEM_BUG_ON(id >= SLPC_MAX_OVERRIDE_PARAMETERS);
-> +	/*
-> +	 * When the flag bit is set, corresponding value will be read
-> +	 * and applied by SLPC.
-> +	 */
-> +	data->override_params.bits[id >> 5] |= (1 << (id % 32));
-> +	data->override_params.values[id] = value;
-> +}
-> +
-> +static void slpc_mem_set_enabled(struct slpc_shared_data *data,
-> +				u8 enable_id, u8 disable_id)
-> +{
-> +	/*
-> +	 * Enabling a param involves setting the enable_id
-> +	 * to 1 and disable_id to 0.
-> +	 */
-> +	slpc_mem_set_param(data, enable_id, 1);
-> +	slpc_mem_set_param(data, disable_id, 0);
-> +}
-> +
-> +static void slpc_mem_set_disabled(struct slpc_shared_data *data,
-> +				u8 enable_id, u8 disable_id)
-> +{
-> +	/*
-> +	 * Disabling a param involves setting the enable_id
-> +	 * to 0 and disable_id to 1.
-> +	 */
-> +	slpc_mem_set_param(data, disable_id, 1);
-> +	slpc_mem_set_param(data, enable_id, 0);
-> +}
-> +
->  static int slpc_shared_data_init(struct intel_guc_slpc *slpc)
->  {
->  	struct intel_guc *guc = slpc_to_guc(slpc);
-> @@ -63,6 +97,121 @@ static int slpc_shared_data_init(struct intel_guc_slpc *slpc)
->  	return err;
->  }
->  
-> +static u32 slpc_get_state(struct intel_guc_slpc *slpc)
-> +{
-> +	struct slpc_shared_data *data;
-> +
-> +	GEM_BUG_ON(!slpc->vma);
-> +
-> +	drm_clflush_virt_range(slpc->vaddr, sizeof(u32));
-> +	data = slpc->vaddr;
-> +
-> +	return data->header.global_state;
-> +}
-> +
-> +static bool slpc_is_running(struct intel_guc_slpc *slpc)
-> +{
-> +	return slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING;
-> +}
-> +
-> +static int guc_action_slpc_query(struct intel_guc *guc, u32 offset)
-> +{
-> +	u32 request[] = {
-> +		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
-> +		SLPC_EVENT(SLPC_EVENT_QUERY_TASK_STATE, 2),
-> +		offset,
-> +		0,
-> +	};
-> +	int ret;
-> +
-> +	ret = intel_guc_send(guc, request, ARRAY_SIZE(request));
-> +
-> +	return ret > 0 ? -EPROTO : ret;
-> +}
-> +
-> +static int slpc_query_task_state(struct intel_guc_slpc *slpc)
-> +{
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	u32 offset = intel_guc_ggtt_offset(guc, slpc->vma);
-> +	int ret;
-> +
-> +	ret = guc_action_slpc_query(guc, offset);
-> +	if (ret)
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |   8 +
+ .../display/mediatek/mediatek,disp.txt        | 219 ---------
+ .../display/mediatek/mediatek,disp.yaml       | 464 ++++++++++++++++++
+ .../display/mediatek/mediatek,dsc.yaml        |  73 +++
+ 4 files changed, 545 insertions(+), 219 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,disp.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
 
-unlikely(ret) ?
+-- 
+2.18.0
 
-> +		drm_err(&i915->drm, "Failed to query task state (%pe)\n",
-> +				ERR_PTR(ret));
-
-is this indent correct ?
-
-> +
-> +	drm_clflush_virt_range(slpc->vaddr, SLPC_PAGE_SIZE_BYTES);
-> +
-> +	return ret;
-> +}
-> +
-> +static const char *slpc_global_state_to_string(enum slpc_global_state state)
-> +{
-> +	switch (state) {
-> +	case SLPC_GLOBAL_STATE_NOT_RUNNING:
-> +		return "not running";
-> +	case SLPC_GLOBAL_STATE_INITIALIZING:
-> +		return "initializing";
-> +	case SLPC_GLOBAL_STATE_RESETTING:
-> +		return "resetting";
-> +	case SLPC_GLOBAL_STATE_RUNNING:
-> +		return "running";
-> +	case SLPC_GLOBAL_STATE_SHUTTING_DOWN:
-> +		return "shutting down";
-> +	case SLPC_GLOBAL_STATE_ERROR:
-> +		return "error";
-> +	default:
-> +		return "unknown";
-> +	}
-> +}
-> +
-> +static const char *slpc_get_state_string(struct intel_guc_slpc *slpc)
-> +{
-> +	return slpc_global_state_to_string(slpc_get_state(slpc));
-> +}
-> +
-> +static int guc_action_slpc_reset(struct intel_guc *guc, u32 offset)
-> +{
-> +	u32 request[] = {
-> +		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
-> +		SLPC_EVENT(SLPC_EVENT_RESET, 2),
-> +		offset,
-> +		0,
-> +	};
-> +	int ret;
-> +
-> +	ret = intel_guc_send(guc, request, ARRAY_SIZE(request));
-> +
-> +	return ret > 0 ? -EPROTO : ret;
-> +}
-> +
-> +static int slpc_reset(struct intel_guc_slpc *slpc)
-> +{
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +	u32 offset = intel_guc_ggtt_offset(guc, slpc->vma);
-> +	int ret;
-> +
-> +	ret = guc_action_slpc_reset(guc, offset);
-> +
-> +	if (unlikely(ret < 0)) {
-> +		drm_err(&i915->drm, "SLPC reset action failed (%pe)\n",
-> +					ERR_PTR(ret));
-
-same here
-
-> +		return ret;
-> +	}
-> +
-> +	if (!ret) {
-> +		if (wait_for(slpc_is_running(slpc), SLPC_RESET_TIMEOUT_MS)) {
-> +			drm_err(&i915->drm, "SLPC not enabled! State = %s\n",
-> +				  slpc_get_state_string(slpc));
-> +			return -EIO;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->  {
->  	GEM_BUG_ON(slpc->vma);
-> @@ -70,6 +219,83 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->  	return slpc_shared_data_init(slpc);
->  }
->  
-> +static u32 slpc_decode_min_freq(struct intel_guc_slpc *slpc)
-> +{
-> +	struct slpc_shared_data *data = slpc->vaddr;
-> +
-> +	GEM_BUG_ON(!slpc->vma);
-> +
-> +	return	DIV_ROUND_CLOSEST(
-
-double space  ^^
-
-> +		REG_FIELD_GET(SLPC_MIN_UNSLICE_FREQ_MASK,
-> +			data->task_state_data.freq) *
-> +		GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
-
-and here
-
-> +}
-> +
-> +static u32 slpc_decode_max_freq(struct intel_guc_slpc *slpc)
-> +{
-> +	struct slpc_shared_data *data = slpc->vaddr;
-> +
-> +	GEM_BUG_ON(!slpc->vma);
-> +
-> +	return	DIV_ROUND_CLOSEST(
-
-double space  ^^
-
-> +		REG_FIELD_GET(SLPC_MAX_UNSLICE_FREQ_MASK,
-> +			data->task_state_data.freq) *
-> +		GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
-> +}
-> +
-> +static void slpc_shared_data_reset(struct slpc_shared_data *data)
-> +{
-> +	memset(data, 0, sizeof(struct slpc_shared_data));
-> +
-> +	data->header.size = sizeof(struct slpc_shared_data);
-> +
-> +	/* Enable only GTPERF task, disable others */
-> +	slpc_mem_set_enabled(data, SLPC_PARAM_TASK_ENABLE_GTPERF,
-> +				SLPC_PARAM_TASK_DISABLE_GTPERF);
-> +
-> +	slpc_mem_set_disabled(data, SLPC_PARAM_TASK_ENABLE_BALANCER,
-> +				SLPC_PARAM_TASK_DISABLE_BALANCER);
-> +
-> +	slpc_mem_set_disabled(data, SLPC_PARAM_TASK_ENABLE_DCC,
-> +				SLPC_PARAM_TASK_DISABLE_DCC);
-> +}
-> +
-> +/*
-> + * intel_guc_slpc_enable() - Start SLPC
-> + * @slpc: pointer to intel_guc_slpc.
-> + *
-> + * SLPC is enabled by setting up the shared data structure and
-> + * sending reset event to GuC SLPC. Initial data is setup in
-> + * intel_guc_slpc_init. Here we send the reset event. We do
-> + * not currently need a slpc_disable since this is taken care
-> + * of automatically when a reset/suspend occurs and the GuC
-> + * CTB is destroyed.
-> + *
-> + * Return: 0 on success, non-zero error code on failure.
-> + */
-> +int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
-> +{
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	int ret;
-> +
-> +	GEM_BUG_ON(!slpc->vma);
-> +
-> +	slpc_shared_data_reset(slpc->vaddr);
-> +
-> +	ret = slpc_reset(slpc);
-> +	if (unlikely(ret < 0)) {
-> +		drm_err(&i915->drm, "SLPC Reset event returned (%pe)\n",
-> +				ERR_PTR(ret));
-> +		return ret;
-> +	}
-> +
-> +	ret = slpc_query_task_state(slpc);
-> +	if (unlikely(ret < 0))
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
->  void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
->  {
->  	if (!slpc->vma)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> index 8bd753167234..3cefe19b17b2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> @@ -8,6 +8,8 @@
->  
->  #include <linux/types.h>
->  
-> +#define SLPC_RESET_TIMEOUT_MS 5
-> +
->  struct intel_guc_slpc {
->  	struct i915_vma *vma;
->  	struct slpc_shared_data *vaddr;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index e6bd9406c7b2..3e0cd1f05e3b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -500,12 +500,21 @@ static int __uc_init_hw(struct intel_uc *uc)
->  	if (intel_uc_uses_guc_submission(uc))
->  		intel_guc_submission_enable(guc);
->  
-> +	if (intel_uc_uses_guc_slpc(uc)) {
-> +		ret = intel_guc_slpc_enable(&guc->slpc);
-> +		if (ret)
-> +			goto err_submission;
-> +	}
-> +
->  	drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
->  		 intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_GUC), guc->fw.path,
->  		 guc->fw.major_ver_found, guc->fw.minor_ver_found,
->  		 "submission",
->  		 enableddisabled(intel_uc_uses_guc_submission(uc)));
->  
-> +	drm_info(&i915->drm, "GuC SLPC: %s\n",
-> +		 enableddisabled(intel_uc_uses_guc_slpc(uc)));
-> +
->  	if (intel_uc_uses_huc(uc)) {
->  		drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
->  			 intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_HUC),
-> @@ -520,6 +529,8 @@ static int __uc_init_hw(struct intel_uc *uc)
->  	/*
->  	 * We've failed to load the firmware :(
->  	 */
-> +err_submission:
-> +	intel_guc_submission_disable(guc);
->  err_log_capture:
->  	__uc_capture_load_err_log(uc);
->  err_out:
-> 
-
-make sure checkpatch.pl is happy with indents, with that
-
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
