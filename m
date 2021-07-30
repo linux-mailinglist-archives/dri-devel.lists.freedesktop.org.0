@@ -1,60 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551683DB839
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 14:07:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AA33DB861
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 14:11:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CFBD6E2E1;
-	Fri, 30 Jul 2021 12:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9EB6E303;
+	Fri, 30 Jul 2021 12:11:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 855C16E2E1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 12:06:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1627646799;
- bh=FOQ3kf7nC91N2pAcyJy+ukr7C27FR3nQ3DekDqj8uEI=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=SlQlS2e/5cr5IQ2fa8QR7A4b+mf+myEnxGLmMZJMRsxc7C6QbaN6sxtPbeJ9DKjcQ
- KTKVbDH/GfqMcD9V/ooYsKa4KA0Vbhdx9noBM6+LD71cRA+6UXJPVBriHDvNN0DmKI
- yyEtUDQVHUJ5U48CFjKqPjhfuocD8p842IRX/jRs=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.152.200] ([217.61.152.200]) by web-mail.gmx.net
- (3c-app-gmx-bs05.server.lan [172.19.170.54]) (via HTTP); Fri, 30 Jul 2021
- 14:06:39 +0200
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E42306E303
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 12:11:04 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id j15so3897350uaa.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 05:11:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d1AP8LPdt5gLRcNBYwMWgjeQ1bzCQMAmgWKrYpeBe5c=;
+ b=tSykqA2aAyJJDqP7Ijt4zX6yauUoVY6t7gKr83KjMcL8h4wVj4KTiB6CmOqNFGU8hM
+ m1H0v1oFUGOLX9QVmXU9sI0vBbO7LAFjq4kSLvNZB6FTAQ+XJItjQ1b6GjcMJEs0cI8e
+ m/ajJMGmN1iLuREM6dpRAVHVRYTZ7KOegp0Ie9W30Kd0iOOE+ZGl4hoc+6Jh2L52ji0c
+ PKAdynEt7otVaaUvjTOBCMcoGm5cwjI/zKuNB3MpRv/OsB3WniNw1l9zFshwohCkqyXo
+ YsL/4A6jyz/xL/xZnjJ0CcvggV/qDRKMcTmuQXjM3C4L2DtL4fgD+A5SWD8+AMq73VdN
+ xAmg==
+X-Gm-Message-State: AOAM5304UVUTJOrwvX1lT2+7xNqkHqM2vS50fPSuaY8+xOg1q4sL+qxK
+ PRijcH8YxA27YqXcqr3ZDQ6SKKD7TNUIjK0yg4pm24hiPZM8Eg==
+X-Google-Smtp-Source: ABdhPJyJIDGhorRsiTqEzT0ML14O7jJqLNtZ9KfHFwW349DtL2Ol7UsTGiP4f+Vce5YzoGm5XXEPffA4L4axFg+WdnE=
+X-Received: by 2002:ab0:6710:: with SMTP id q16mr1321715uam.106.1627647063191; 
+ Fri, 30 Jul 2021 05:11:03 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <trinity-166e2707-ca11-4d84-803f-43732de72e2b-1627646799181@3c-app-gmx-bs05>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Aw: [PATCH v7 00/12] Clean up "mediatek,larb"
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Jul 2021 14:06:39 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20210730025238.22456-1-yong.wu@mediatek.com>
-References: <20210730025238.22456-1-yong.wu@mediatek.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:Ju8UvQ9aQQ211RZizAddcu/LK0Fbm40eWbtOgPOujam+ZiApQCh89ygqJKUfghzFx3Em+
- 2gYhue+9Tw2MD6gxpnG7k1n49GwJ96zbYr1t0dKh0XNlowbze19Bdjyh25AQrFqjwwEBD5zmvd83
- mhgHUGlB8Ek/ujixS17y/tmLUcS6lj6J3JAEdYwCmEJOBtpSoiNFM3NNFkq6C1Kia0XV7mTPl8vn
- vIhfuilUuastgrBdB7uKylodyw+GkvQKNLmACZ0chLIvF4sg96dcRXaudTEuldb+NRZCXQ2lp6Fe
- X4=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:A1JU1CJi+pQ=:iWEaNtvfYekBmQdj4p6NXW
- UCTDP5kHinGH0vNnqhIZRPdE39sbNxHrVO/p9Q24RiiXHAyeUJq8L+93SGGOg4tPCbdTxfiKV
- QNPWJF70uYhxy7mgbZlvInK5n6x9M1/K1gNBf3lccsTjt0t4n7WcI4NKCruv73h/djU0LVXne
- u+0SY70AaL3ley93WPeezkfjb8VSz88R2HcvX9McS6Od/X98F06af4B/GbOm1djPXU1SXfpKo
- KUIyySiyy6TRpyKROR56bXkdpixhsjixdqQCnx1NOPihzse8xL39ftyMRCoEojHVSiXTDrgV0
- wYLpEHQ3csdA1t3aEvcUXJrFC/iilayKyvXe9HrWP5LjD5hZlvX++dSXMC2bS+sjJ+eOU4CkG
- q5M0m7y1SLgWSah28VRg6keBpjwkiusGHwSeFrJBy9o+wBg7RZq2fwYkcq/79Mq9yixMZOoR6
- nhiymGdyIERrtxqU6M7A2syxtcjcXbLCmxadopF91xMgIPyRJLQmESawqxIuX/JKCRU8WnICX
- yaVOTYoq5ZT+yOg7fTBack7iK2KxkkNeuDn9dy/MhyU31tAOibr7pfGIyuHmU+MKjqOSn8sD2
- yJIhbYA42sZeUNd4oYzJMShnDHIkHHbMBy5uAgWrxznbOECqrG5/wUBFgzPZW93EAvMmi7d6r
- lk0vBXlmisYQWoMoO9WVZCx1Jf118gMwBc5emj7E35X/YicRI/KoVpTwSfgLVwFIUf/8E1yYK
- NxOYhTRYoQfJZSsRL/ySFrn1KZ2Wx9AntKI1JV3pQblcuhCCvu9yfmLU+oxe/6k6j32YmVzRy
- sVTI6932Tsaqfe0g/gNwzm3RroETnuenND43TwPhPdSsqPyflo=
+References: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210728153736.15240-4-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210728153736.15240-4-laurent.pinchart+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 30 Jul 2021 14:10:52 +0200
+Message-ID: <CAMuHMdWGf2rh2qF3WapeRcTo6nPfs06oLUq7aX+2d_g=6275uA@mail.gmail.com>
+Subject: Re: [PATCH 3/7] drm/imx/dcss: Enable COMPILE_TEST on all ARM64
+ platforms
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,29 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xia Jiang <xia.jiang@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joerg Roedel <joro@8bytes.org>, Evan Green <evgreen@chromium.org>,
- Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tiffany Lin <tiffany.lin@mediatek.com>,
- yi.kuo@mediatek.com, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, ming-fan.chen@mediatek.com,
- Mauro Carvalho Chehab <mchehab@kernel.org>, yong.wu@mediatek.com,
- anan.sun@mediatek.com, acourbot@chromium.org, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: Tomi Valkeinen <tomba@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ linux-tegra <linux-tegra@vger.kernel.org>, Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Full Series tested on BPI-R2/MT7623
+Hi Laurent,
 
-Tested-By: Frank Wunderlich <frank-w@public-files.de>
+On Wed, Jul 28, 2021 at 5:37 PM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> To extend test coverage, relax the dependency on ARCH_MXC to also enable
+> compilation when COMPILE_TEST is selected.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-regards Frank
+Thanks for your patch!
+
+> --- a/drivers/gpu/drm/imx/dcss/Kconfig
+> +++ b/drivers/gpu/drm/imx/dcss/Kconfig
+> @@ -3,7 +3,8 @@ config DRM_IMX_DCSS
+>         select IMX_IRQSTEER
+>         select DRM_KMS_CMA_HELPER
+>         select VIDEOMODE_HELPERS
+> -       depends on DRM && ARCH_MXC && ARM64
+> +       depends on DRM
+> +       depends on ARM64 && (ARCH_MXC || COMPILE_TEST)
+
+As you now have two depends statements, I think this would be easier
+to read by maintaining a strict separation between "hard" and "soft"
+dependencies:
+
+    depends on DRM && ARM64
+    depends on ARCH_MXC || COMPILE_TEST
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
