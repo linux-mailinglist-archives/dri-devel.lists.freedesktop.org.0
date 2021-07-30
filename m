@@ -1,89 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04C03DB646
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 11:48:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2F13DB648
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 11:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E856F408;
-	Fri, 30 Jul 2021 09:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 719806F40D;
+	Fri, 30 Jul 2021 09:49:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
- [IPv6:2607:f8b0:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C43B36F408
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 09:48:44 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id y4so8839901ilp.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/dHQgNBIhi4HkTxU3CwTUDPWzDD5PbqhD37IQU0N6H0=;
- b=PCyiKhrtP+4bA2hNBY9xB73NTn4teEkICoCNu5nT/QCwpVOrtM7l1yIlmGKdsrKJt4
- ljr0DJcOINJT+ha+bh4TManrgpsElkrCFaDTxE/JPu3lTQ/ki/aUOz+ZpwSd22qRkyVD
- QoyNfxh4BzyR7whcuWIW20o/iRgMSViXwu0zQO72RmeHqnGU0oD+pvhcxujHjRlo9BW/
- Y4xA5d7YRLcjOftxMgsgQyq1BvYF5rgorcHDH0dIWq/ZApTnaJji6wcAqLKMqZ5tOEsD
- Syb+C+7VXW5GOtz556zV3XXYRXwN+WFn8H82S8PsKLfrAvK/BDxs1chmuNVEcFJ9ZxLY
- NcRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/dHQgNBIhi4HkTxU3CwTUDPWzDD5PbqhD37IQU0N6H0=;
- b=gW9MVRg9U0wnYSTdP/VwOYLNiUudjoB8guSalqkb5wwR9ooL81+Ex/vB1uEDk3Pxzn
- PlAWvWMPUE6rXniupSI093mTtMuaKrS6WMepUM4uf4KTeq85WAIHdwBAoeZ4uUEamEfk
- hYcMWkOh9SiVf6f9fENsanVj6SArzEp6hNQa7MtFkq6R1/lGjQwuKEZqKZrE6WoKdBJy
- 9AZhdLeshn7MsurQbWv9DcKywbqh6aMwL22ppntbIZVgBx4E85ynbua9HnrYDMXbbZZF
- AyHnhclHQMLG0n2AwnWRMYuDLR3XJs2tiPjoDpTt4yQDdqPlG8xdWUUzb0Vt+YvXuRUh
- S3RQ==
-X-Gm-Message-State: AOAM531NgeFT/WeoB28X2Ftu+gw/e/Iw3L+n2Xy1T86Qziw8MtgwWfSm
- sP+LSgIdK+k2Ln9fQYbwxPRd0kzxm1DzSA==
-X-Google-Smtp-Source: ABdhPJxgmmMdDZOoGx56IPSJxwzZXhR4Xvhtmib4YqV6Npt1VDzjIiJYxCogffB9awxvQrNQyPGjOQ==
-X-Received: by 2002:a92:6d07:: with SMTP id i7mr1304876ilc.104.1627638523996; 
- Fri, 30 Jul 2021 02:48:43 -0700 (PDT)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com.
- [66.111.4.227])
- by smtp.gmail.com with ESMTPSA id h24sm798321ioj.32.2021.07.30.02.48.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 02:48:43 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailauth.nyi.internal (Postfix) with ESMTP id 97DF027C005B;
- Fri, 30 Jul 2021 05:48:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 30 Jul 2021 05:48:42 -0400
-X-ME-Sender: <xms:98oDYfw4AIGZbkS-15cy227JnO3H-m6lbq6sXeZza_9OXFO16dM7Uw>
- <xme:98oDYXTHkHiKDEEwMOxRPwCBZHz2q64175IadKG0h4ZWmgDDo8dS2Br6r9Gbd0zSM
- Hsw70UoclqQaWCm_w>
-X-ME-Received: <xmr:98oDYZV8J9c4xAT4ACTVFtzlN9WawQW2kiHbgf_4bt14T7MnMZL8ZBnv7lQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrheehgdduiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttdertd
- dttddvnecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhm
- rghilhdrtghomheqnecuggftrfgrthhtvghrnhepvdelieegudfggeevjefhjeevueevie
- etjeeikedvgfejfeduheefhffggedvgeejnecuvehluhhsthgvrhfuihiivgeptdenucfr
- rghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsoh
- hnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhg
- peepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:98oDYZhV_Wnjolu2Qy95wo79oqSS5lE3XQTM8Ol2m8bMVaqOts9Z8A>
- <xmx:98oDYRDGJ7Cum_44BwPjI6WevrZxs0rqIRNbEkt3BJJZT0leahDYuA>
- <xmx:98oDYSJRiLRSNPa1TkG5WLMkG_GQfkbsW3Sdq89uTtppJ3QC-JqxVg>
- <xmx:-coDYZZHDQ2qHuklUAYcrdl0qGUPXzbafW6xSCHzefYmpGT8u95JXTlgOCQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 30 Jul 2021 05:48:39 -0400 (EDT)
-Date: Fri, 30 Jul 2021 17:48:14 +0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH 2/2] drm: add lockdep assert to
- drm_is_current_master_locked
-Message-ID: <YQPK3jMU69WMsCjT@boqun-archlinux>
-References: <20210730041515.1430237-1-desmondcheongzx@gmail.com>
- <20210730041515.1430237-3-desmondcheongzx@gmail.com>
- <YQOXTW8kSHdNjhiY@boqun-archlinux>
- <35518f4b-5e4a-b284-1f86-5cba64941211@gmail.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6D966F40A;
+ Fri, 30 Jul 2021 09:49:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="276843196"
+X-IronPort-AV: E=Sophos;i="5.84,281,1620716400"; d="scan'208";a="276843196"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2021 02:49:06 -0700
+X-IronPort-AV: E=Sophos;i="5.84,281,1620716400"; d="scan'208";a="476909405"
+Received: from mpenny-mobl1.ger.corp.intel.com (HELO [10.213.234.2])
+ ([10.213.234.2])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2021 02:49:03 -0700
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: Check if engine has heartbeat
+ when closing a context
+To: John Harrison <john.c.harrison@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210729003400.151864-1-matthew.brost@intel.com>
+ <20210729003400.151864-2-matthew.brost@intel.com>
+ <eea0bdb7-681b-0acb-0b9c-041fb38a7119@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <1b75f6c6-e458-6bc7-f867-12f1b5b18af0@linux.intel.com>
+Date: Fri, 30 Jul 2021 10:49:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <35518f4b-5e4a-b284-1f86-5cba64941211@gmail.com>
+In-Reply-To: <eea0bdb7-681b-0acb-0b9c-041fb38a7119@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,118 +53,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, peterz@infradead.org, mingo@redhat.com,
- dri-devel@lists.freedesktop.org, skhan@linuxfoundation.org, longman@redhat.com,
- will@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 30, 2021 at 04:06:44PM +0800, Desmond Cheong Zhi Xi wrote:
-> On 30/7/21 2:08 pm, Boqun Feng wrote:
-> > On Fri, Jul 30, 2021 at 12:15:15PM +0800, Desmond Cheong Zhi Xi wrote:
-> > > In drm_is_current_master_locked, accessing drm_file.master should be
-> > > protected by either drm_file.master_lookup_lock or
-> > > drm_device.master_mutex. This was previously awkward to assert with
-> > > lockdep.
-> > > 
-> > > Following patch ("locking/lockdep: Provide lockdep_assert{,_once}()
-> > > helpers"), this assertion is now convenient so we add it in.
-> > > 
-> > > Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> > > ---
-> > >   drivers/gpu/drm/drm_auth.c | 6 +++---
-> > >   1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> > > index 9c24b8cc8e36..6f4d7ff23c80 100644
-> > > --- a/drivers/gpu/drm/drm_auth.c
-> > > +++ b/drivers/gpu/drm/drm_auth.c
-> > > @@ -63,9 +63,9 @@
-> > >   static bool drm_is_current_master_locked(struct drm_file *fpriv)
-> > >   {
-> > > -	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
-> > > -	 * should be held here.
-> > > -	 */
-> > > +	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
-> > > +			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
-> > > +
-> > 
-> > I think it's better to also add the lockdep_assert() of & (i.e. both
-> > held) in the updater side, and have comments pointing to each other.
-> > 
-> > Is it convenient to do in this patchset? If the updater side doesn't
-> > need to put the lockdep_assert() (maybe the lock acquire code and the
-> > update code are in the same function), it's still better to add some
-> 
-> Thanks for the feedback, Boqun.
-> 
-> Yeah, I think the updater side maybe doesn't need new lockdep_assert()
-> because what currently happens is either
-> 
-> 	lockdep_assert_held_once(&dev->master_mutex);
-> 	/* 6 lines of prep */
-> 	spin_lock(&fpriv->master_lookup_lock);
-> 	fpriv->master = new_value;
-> or
-> 	mutex_lock(&dev->master_mutex);
-> 	/* 3 lines of checks */
-> 		spin_lock(&file_priv->master_lookup_lock);
-> 		file_priv->master = new_value;
-> 
-> > comments like:
-> > 
-> > 	/*
-> > 	 * To update drm_file.master, both drm_file.master_lookup_lock
-> > 	 * and drm_device.master_mutex are needed, therefore holding
-> > 	 * either of them is safe and enough for the read side.
-> > 	 */
-> > 
-> > Just feel it's better to explain the lock design either in the
-> > lockdep_assert() or comments.
-> > 
-> 
-> But clarifying the lock design in the documentation sounds like a really
-> good idea.
-> 
-> Probably a good place for this would be in the kerneldoc where we also
-> explain the lifetime rules and usage of the pointer outside drm_auth.c:
-> 
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 726cfe0ff5f5..a3acb7ac3550 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -233,6 +233,10 @@ struct drm_file {
->  	 * this only matches &drm_device.master if the master is the currently
->  	 * active one.
->  	 *
-> +	 * To update @master, both &drm_device.master_mutex and
-> +	 * @master_lookup_lock need to be held, therefore holding either of
-> +	 * them is safe and enough for the read side.
-> +	 *
->  	 * When dereferencing this pointer, either hold struct
->  	 * &drm_device.master_mutex for the duration of the pointer's use, or
->  	 * use drm_file_get_master() if struct &drm_device.master_mutex is not
 
-Works for me ;-)
+On 30/07/2021 01:13, John Harrison wrote:
+> On 7/28/2021 17:34, Matthew Brost wrote:
+>> If an engine associated with a context does not have a heartbeat, ban it
+>> immediately. This is needed for GuC submission as a idle pulse doesn't
+>> kick the context off the hardware where it then can check for a
+>> heartbeat and ban the context.
 
-For the whole series, feel free to add:
+Pulse, that is a request with I915_PRIORITY_BARRIER, does not preempt a 
+running normal priority context?
 
-Acked-by: Boqun Feng <boqun.feng@gmail.com>
+Why does it matter then whether or not heartbeats are enabled - when 
+heartbeat just ends up sending the same engine pulse (eventually, with 
+raising priority)?
+
+> It's worse than this. If the engine in question is an individual 
+> physical engine then sending a pulse (with sufficiently high priority) 
+> will pre-empt the engine and kick the context off. However, the GuC 
+
+Why it is different for physical vs virtual, aren't both just 
+schedulable contexts with different engine masks for what GuC is 
+concerned? Oh, is it a matter of needing to send pulses to all engines 
+which comprise a virtual one?
+
+> scheduler does not have hacks in it to check the state of the heartbeat 
+> or whether a context is actually a zombie or not. Thus, the context will 
+> get resubmitted to the hardware after the pulse completes and 
+> effectively nothing will have happened.
+> 
+> I would assume that the DRM scheduler which we are meant to be switching 
+> to for execlist as well as GuC submission is also unlikely to have hacks 
+> for zombie contexts and tests for whether the i915 specific heartbeat 
+> has been disabled since the context became a zombie. So when that switch 
+> happens, this test will also fail in execlist mode as well as GuC mode.
+> 
+> The choices I see here are to simply remove persistence completely (it 
+> is a basically a bug that became UAPI because it wasn't caught soon 
+> enough!) or to implement it in a way that does not require hacks in the 
+> back end scheduler. Apparently, the DRM scheduler is expected to allow 
+> zombie contexts to persist until the DRM file handle is closed. So 
+> presumably we will have to go with option two.
+> 
+> That means flagging a context as being a zombie when it is closed but 
+> still active. The driver would then add it to a zombie list owned by the 
+> DRM client object. When that client object is closed, i915 would go 
+> through the list and genuinely kill all the contexts. No back end 
+> scheduler hacks required and no intimate knowledge of the i915 heartbeat 
+> mechanism required either.
+> 
+> John.
+> 
+> 
+>>
+>> This patch also updates intel_engine_has_heartbeat to be a vfunc as we
+>> now need to call this function on execlists virtual engines too.
+>>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   |  5 +++--
+>>   drivers/gpu/drm/i915/gt/intel_context_types.h |  2 ++
+>>   drivers/gpu/drm/i915/gt/intel_engine.h        | 21 ++-----------------
+>>   .../drm/i915/gt/intel_execlists_submission.c  | 14 +++++++++++++
+>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +++++-
+>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 --
+>>   6 files changed, 26 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> index 9c3672bac0e2..b8e01c5ba9e5 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> @@ -1090,8 +1090,9 @@ static void kill_engines(struct i915_gem_engines 
+>> *engines, bool ban)
+>>        */
+>>       for_each_gem_engine(ce, engines, it) {
+>>           struct intel_engine_cs *engine;
+>> +        bool local_ban = ban || !intel_engine_has_heartbeat(ce->engine);
+
+In any case (pending me understanding what's really going on there), why 
+would this check not be in kill_context with currently does this:
+
+	bool ban = (!i915_gem_context_is_persistent(ctx) ||
+		    !ctx->i915->params.enable_hangcheck);
+...
+		kill_engines(pos, ban);
+
+So whether to ban decision would be consolidated to one place.
+
+In fact, decision on whether to allow persistent is tied to 
+enable_hangcheck, which also drives hearbeat emission. So perhaps one 
+part of the correct fix is to extend the above (kill_context) ban 
+criteria to include hearbeat values anyway. Otherwise isn't it a simple 
+miss that this check fails to account to hearbeat disablement via sysfs?
 
 Regards,
-Boqun
 
+Tvrtko
+
+>> -        if (ban && intel_context_ban(ce, NULL))
+>> +        if (local_ban && intel_context_ban(ce, NULL))
+>>               continue;
+>>           /*
+>> @@ -1104,7 +1105,7 @@ static void kill_engines(struct i915_gem_engines 
+>> *engines, bool ban)
+>>           engine = active_engine(ce);
+>>           /* First attempt to gracefully cancel the context */
+>> -        if (engine && !__cancel_engine(engine) && ban)
+>> +        if (engine && !__cancel_engine(engine) && local_ban)
+>>               /*
+>>                * If we are unable to send a preemptive pulse to bump
+>>                * the context from the GPU, we have to resort to a full
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h 
+>> b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> index e54351a170e2..65f2eb2a78e4 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> @@ -55,6 +55,8 @@ struct intel_context_ops {
+>>       void (*reset)(struct intel_context *ce);
+>>       void (*destroy)(struct kref *kref);
+>> +    bool (*has_heartbeat)(const struct intel_engine_cs *engine);
+>> +
+>>       /* virtual engine/context interface */
+>>       struct intel_context *(*create_virtual)(struct intel_engine_cs 
+>> **engine,
+>>                           unsigned int count);
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h 
+>> b/drivers/gpu/drm/i915/gt/intel_engine.h
+>> index c2a5640ae055..1b11a808acc4 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+>> @@ -283,28 +283,11 @@ struct intel_context *
+>>   intel_engine_create_virtual(struct intel_engine_cs **siblings,
+>>                   unsigned int count);
+>> -static inline bool
+>> -intel_virtual_engine_has_heartbeat(const struct intel_engine_cs *engine)
+>> -{
+>> -    /*
+>> -     * For non-GuC submission we expect the back-end to look at the
+>> -     * heartbeat status of the actual physical engine that the work
+>> -     * has been (or is being) scheduled on, so we should only reach
+>> -     * here with GuC submission enabled.
+>> -     */
+>> -    GEM_BUG_ON(!intel_engine_uses_guc(engine));
+>> -
+>> -    return intel_guc_virtual_engine_has_heartbeat(engine);
+>> -}
+>> -
+>>   static inline bool
+>>   intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
+>>   {
+>> -    if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
+>> -        return false;
+>> -
+>> -    if (intel_engine_is_virtual(engine))
+>> -        return intel_virtual_engine_has_heartbeat(engine);
+>> +    if (engine->cops->has_heartbeat)
+>> +        return engine->cops->has_heartbeat(engine);
+>>       else
+>>           return READ_ONCE(engine->props.heartbeat_interval_ms);
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
+>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> index de5f9c86b9a4..18005b5546b6 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> @@ -3619,6 +3619,18 @@ virtual_get_sibling(struct intel_engine_cs 
+>> *engine, unsigned int sibling)
+>>       return ve->siblings[sibling];
+>>   }
+>> +static bool virtual_engine_has_heartbeat(const struct intel_engine_cs 
+>> *ve)
+>> +{
+>> +    struct intel_engine_cs *engine;
+>> +    intel_engine_mask_t tmp, mask = ve->mask;
+>> +
+>> +    for_each_engine_masked(engine, ve->gt, mask, tmp)
+>> +        if (READ_ONCE(engine->props.heartbeat_interval_ms))
+>> +            return true;
+>> +
+>> +    return false;
+>> +}
+>> +
+>>   static const struct intel_context_ops virtual_context_ops = {
+>>       .flags = COPS_HAS_INFLIGHT,
+>> @@ -3634,6 +3646,8 @@ static const struct intel_context_ops 
+>> virtual_context_ops = {
+>>       .enter = virtual_context_enter,
+>>       .exit = virtual_context_exit,
+>> +    .has_heartbeat = virtual_engine_has_heartbeat,
+>> +
+>>       .destroy = virtual_context_destroy,
+>>       .get_sibling = virtual_get_sibling,
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> index 89ff0e4b4bc7..ae70bff3605f 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> @@ -2168,6 +2168,8 @@ static int guc_virtual_context_alloc(struct 
+>> intel_context *ce)
+>>       return lrc_alloc(ce, engine);
+>>   }
+>> +static bool guc_virtual_engine_has_heartbeat(const struct 
+>> intel_engine_cs *ve);
+>> +
+>>   static const struct intel_context_ops virtual_guc_context_ops = {
+>>       .alloc = guc_virtual_context_alloc,
+>> @@ -2183,6 +2185,8 @@ static const struct intel_context_ops 
+>> virtual_guc_context_ops = {
+>>       .enter = guc_virtual_context_enter,
+>>       .exit = guc_virtual_context_exit,
+>> +    .has_heartbeat = guc_virtual_engine_has_heartbeat,
+>> +
+>>       .sched_disable = guc_context_sched_disable,
+>>       .destroy = guc_context_destroy,
+>> @@ -3029,7 +3033,7 @@ guc_create_virtual(struct intel_engine_cs 
+>> **siblings, unsigned int count)
+>>       return ERR_PTR(err);
+>>   }
+>> -bool intel_guc_virtual_engine_has_heartbeat(const struct 
+>> intel_engine_cs *ve)
+>> +static bool guc_virtual_engine_has_heartbeat(const struct 
+>> intel_engine_cs *ve)
+>>   {
+>>       struct intel_engine_cs *engine;
+>>       intel_engine_mask_t tmp, mask = ve->mask;
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>> index c7ef44fa0c36..c2afc3b88fd8 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>> @@ -29,8 +29,6 @@ void intel_guc_dump_active_requests(struct 
+>> intel_engine_cs *engine,
+>>                       struct i915_request *hung_rq,
+>>                       struct drm_printer *m);
+>> -bool intel_guc_virtual_engine_has_heartbeat(const struct 
+>> intel_engine_cs *ve);
+>> -
+>>   int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+>>                      atomic_t *wait_var,
+>>                      bool interruptible,
 > 
-> Best wishes,
-> Desmond
-> 
-> > Regards,
-> > Boqun
-> > 
-> > >   	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
-> > >   }
-> > > -- 
-> > > 2.25.1
-> > > 
-> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
