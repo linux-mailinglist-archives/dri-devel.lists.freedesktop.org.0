@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2F13DB648
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 11:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F333DB673
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 11:53:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 719806F40D;
-	Fri, 30 Jul 2021 09:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35EFC6F410;
+	Fri, 30 Jul 2021 09:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D966F40A;
- Fri, 30 Jul 2021 09:49:07 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="276843196"
-X-IronPort-AV: E=Sophos;i="5.84,281,1620716400"; d="scan'208";a="276843196"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2021 02:49:06 -0700
-X-IronPort-AV: E=Sophos;i="5.84,281,1620716400"; d="scan'208";a="476909405"
-Received: from mpenny-mobl1.ger.corp.intel.com (HELO [10.213.234.2])
- ([10.213.234.2])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2021 02:49:03 -0700
-Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: Check if engine has heartbeat
- when closing a context
-To: John Harrison <john.c.harrison@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20210729003400.151864-1-matthew.brost@intel.com>
- <20210729003400.151864-2-matthew.brost@intel.com>
- <eea0bdb7-681b-0acb-0b9c-041fb38a7119@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <1b75f6c6-e458-6bc7-f867-12f1b5b18af0@linux.intel.com>
-Date: Fri, 30 Jul 2021 10:49:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96506F410
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 09:53:00 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id k4so5585797wms.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9hNncW7kDG+JwLCE1KCQedAYc2ZPJ4lclsnnOfdg41I=;
+ b=UctVT09GV9nZEShUW3V0PhCXyUvym3tCY93hnp5XDrt4guel4mn2Vp9zQ9AwOnEc8m
+ TVGDH/zTexX6Gm1q+uIj9nV0fx0bjatv4csXE8lWSdyqQD/vi1RigBAfV7jnZktfbD3D
+ RZLp2D5hbgsq5zhPDT2whVG2isnx1C2JYLUk4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9hNncW7kDG+JwLCE1KCQedAYc2ZPJ4lclsnnOfdg41I=;
+ b=pofwyd9EfB9jfLGyd4JI5aSjbbPzmIUm6S4n1xboYPEV3XghXUFBeSM0hcGT+zb2je
+ GP6xnetEtG4JkLwSpYihV/OZbyaO9Jy6iDdN3sIPCwdGuVjwqKpi9y3FxWm2NK/Crkhn
+ lmnR2Wudgs2SfAm0ic5W/WO/njVBkX+3aHFCuVW2fmwPoyXxpasPkBWHYEQlmqar08la
+ n2lQVDMrZHJEAUWDMvoNf41g/ZBOa5ouIuennWet4hG0pQxABMwBYZAJvv+8cLghVnmd
+ zlPnU4glOl9KSy7s+fuEhtgS/7liNBb0RY3hUpXdvPyn1BdZv7s3ya4/qematU81ch6N
+ ZWdQ==
+X-Gm-Message-State: AOAM530T0OnSm1UqI8vKAnLNLffUchug5aSmXNkpYDuq6BrucAZvSWH8
+ AjINSAuOntkwmIoSrfskKPjPM3ShlEVbaw==
+X-Google-Smtp-Source: ABdhPJwKCzXRXyUtsjFGAFmBaOGrBPP3aXytLz9XUEANZGFwOS/xz4Xp0PLXARFm4bSqEml45F+yUw==
+X-Received: by 2002:a05:600c:4308:: with SMTP id
+ p8mr2156734wme.45.1627638779376; 
+ Fri, 30 Jul 2021 02:52:59 -0700 (PDT)
+Received: from wespe.ffwll.local ([2a02:168:57f4:0:14bf:8268:f662:5b91])
+ by smtp.gmail.com with ESMTPSA id z6sm1125529wmp.1.2021.07.30.02.52.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jul 2021 02:52:58 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: Fix oops in damage self-tests by mocking damage property
+Date: Fri, 30 Jul 2021 11:52:51 +0200
+Message-Id: <20210730095251.4343-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <eea0bdb7-681b-0acb-0b9c-041fb38a7119@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,251 +64,582 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+I've added a new check to make sure that drivers which insepct the
+damage property have it set up correctly, but somehow missed that this
+borke the damage selftest in the CI result noise.
 
-On 30/07/2021 01:13, John Harrison wrote:
-> On 7/28/2021 17:34, Matthew Brost wrote:
->> If an engine associated with a context does not have a heartbeat, ban it
->> immediately. This is needed for GuC submission as a idle pulse doesn't
->> kick the context off the hardware where it then can check for a
->> heartbeat and ban the context.
+Fix it up by mocking enough of drm_device and drm_plane so we can call
+drm_plane_enable_fb_damage_clips() to make the new check happy.
 
-Pulse, that is a request with I915_PRIORITY_BARRIER, does not preempt a 
-running normal priority context?
+Since there's a lot of duplicated mock code already copy-pasted into
+each test I've also refactored this a bit to trim it down.
 
-Why does it matter then whether or not heartbeats are enabled - when 
-heartbeat just ends up sending the same engine pulse (eventually, with 
-raising priority)?
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Fixes: c7fcbf251397 ("drm/plane: check that fb_damage is set up when used")
+Cc: José Roberto de Souza <jose.souza@intel.com> (v1)
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Cc: José Roberto de Souza <jose.souza@intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ .../drm/selftests/test-drm_damage_helper.c    | 287 +++++-------------
+ 1 file changed, 71 insertions(+), 216 deletions(-)
 
-> It's worse than this. If the engine in question is an individual 
-> physical engine then sending a pulse (with sufficiently high priority) 
-> will pre-empt the engine and kick the context off. However, the GuC 
+diff --git a/drivers/gpu/drm/selftests/test-drm_damage_helper.c b/drivers/gpu/drm/selftests/test-drm_damage_helper.c
+index 9d2bcdf8bc29..1b585c13e042 100644
+--- a/drivers/gpu/drm/selftests/test-drm_damage_helper.c
++++ b/drivers/gpu/drm/selftests/test-drm_damage_helper.c
+@@ -6,9 +6,37 @@
+ #define pr_fmt(fmt) "drm_damage_helper: " fmt
+ 
+ #include <drm/drm_damage_helper.h>
++#include <drm/drm_plane.h>
++#include <drm/drm_drv.h>
+ 
+ #include "test-drm_modeset_common.h"
+ 
++struct drm_driver mock_driver;
++struct drm_device mock_device;
++struct drm_object_properties mock_obj_props;
++struct drm_plane mock_plane;
++struct drm_property mock_prop;
++
++static void mock_setup(struct drm_plane_state *state)
++{
++	static bool setup_done = false;
++
++	state->plane = &mock_plane;
++
++	if (setup_done)
++		return;
++
++	/* just enough so that drm_plane_enable_fb_damage_clips() works */
++	mock_device.driver = &mock_driver;
++	mock_device.mode_config.prop_fb_damage_clips = &mock_prop;
++	mock_plane.dev = &mock_device;
++	mock_plane.base.properties = &mock_obj_props;
++	mock_prop.base.id = 1; /* 0 is an invalid id */
++	mock_prop.dev = &mock_device;
++
++	drm_plane_enable_fb_damage_clips(&mock_plane);
++}
++
+ static void set_plane_src(struct drm_plane_state *state, int x1, int y1, int x2,
+ 			  int y2)
+ {
+@@ -70,23 +98,29 @@ static bool check_damage_clip(struct drm_plane_state *state, struct drm_rect *r,
+ 	return true;
+ }
+ 
++const struct drm_framebuffer fb = {
++	.width = 2048,
++	.height = 2048
++};
++
++/* common mocked structs many tests need */
++#define MOCK_VARIABLES() \
++	struct drm_plane_state old_state; \
++	struct drm_plane_state state = { \
++		.crtc = ZERO_SIZE_PTR, \
++		.fb = (struct drm_framebuffer *) &fb, \
++		.visible = true, \
++	}; \
++	mock_setup(&old_state); \
++	mock_setup(&state);
++
+ int igt_damage_iter_no_damage(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src same as fb size. */
+ 	set_plane_src(&old_state, 0, 0, fb.width << 16, fb.height << 16);
+@@ -104,20 +138,10 @@ int igt_damage_iter_no_damage(void *ignored)
+ int igt_damage_iter_no_damage_fractional_src(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src has fractional part. */
+ 	set_plane_src(&old_state, 0x3fffe, 0x3fffe,
+@@ -137,20 +161,10 @@ int igt_damage_iter_no_damage_fractional_src(void *ignored)
+ int igt_damage_iter_no_damage_src_moved(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src moved since old plane state. */
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+@@ -169,20 +183,10 @@ int igt_damage_iter_no_damage_src_moved(void *ignored)
+ int igt_damage_iter_no_damage_fractional_src_moved(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src has fractional part and it moved since old plane state. */
+ 	set_plane_src(&old_state, 0x3fffe, 0x3fffe,
+@@ -202,20 +206,14 @@ int igt_damage_iter_no_damage_fractional_src_moved(void *ignored)
+ int igt_damage_iter_no_damage_not_visible(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
++	MOCK_VARIABLES();
+ 
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = false,
+-	};
++	state.visible = false;
++
++	mock_setup(&old_state);
+ 
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+@@ -231,19 +229,12 @@ int igt_damage_iter_no_damage_not_visible(void *ignored)
+ int igt_damage_iter_no_damage_no_crtc(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
++	MOCK_VARIABLES();
+ 
+-	struct drm_plane_state state = {
+-		.crtc = 0,
+-		.fb = &fb,
+-	};
++	state.crtc = NULL;
+ 
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+@@ -268,6 +259,8 @@ int igt_damage_iter_no_damage_no_fb(void *ignored)
+ 		.fb = 0,
+ 	};
+ 
++	mock_setup(&old_state);
++
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+ 	drm_atomic_helper_damage_iter_init(&iter, &old_state, &state);
+@@ -282,22 +275,12 @@ int igt_damage_iter_no_damage_no_fb(void *ignored)
+ int igt_damage_iter_simple_damage(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+@@ -318,22 +301,12 @@ int igt_damage_iter_simple_damage(void *ignored)
+ int igt_damage_iter_single_damage(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+@@ -353,22 +326,12 @@ int igt_damage_iter_single_damage(void *ignored)
+ int igt_damage_iter_single_damage_intersect_src(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+@@ -389,22 +352,12 @@ int igt_damage_iter_single_damage_intersect_src(void *ignored)
+ int igt_damage_iter_single_damage_outside_src(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+@@ -424,22 +377,12 @@ int igt_damage_iter_single_damage_outside_src(void *ignored)
+ int igt_damage_iter_single_damage_fractional_src(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src has fractional part. */
+ 	set_plane_src(&old_state, 0x40002, 0x40002,
+@@ -462,22 +405,12 @@ int igt_damage_iter_single_damage_fractional_src(void *ignored)
+ int igt_damage_iter_single_damage_intersect_fractional_src(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src has fractional part. */
+ 	set_plane_src(&old_state, 0x40002, 0x40002,
+@@ -501,22 +434,12 @@ int igt_damage_iter_single_damage_intersect_fractional_src(void *ignored)
+ int igt_damage_iter_single_damage_outside_fractional_src(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src has fractional part. */
+ 	set_plane_src(&old_state, 0x40002, 0x40002,
+@@ -539,22 +462,12 @@ int igt_damage_iter_single_damage_outside_fractional_src(void *ignored)
+ int igt_damage_iter_single_damage_src_moved(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src moved since old plane state. */
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+@@ -576,22 +489,12 @@ int igt_damage_iter_single_damage_src_moved(void *ignored)
+ int igt_damage_iter_single_damage_fractional_src_moved(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage;
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	/* Plane src with fractional part moved since old plane state. */
+ 	set_plane_src(&old_state, 0x3fffe, 0x3fffe,
+@@ -615,22 +518,12 @@ int igt_damage_iter_single_damage_fractional_src_moved(void *ignored)
+ int igt_damage_iter_damage(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage[2];
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+@@ -656,22 +549,12 @@ int igt_damage_iter_damage(void *ignored)
+ int igt_damage_iter_damage_one_intersect(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage[2];
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	set_plane_src(&old_state, 0x40002, 0x40002,
+ 		      0x40002 + (1024 << 16), 0x40002 + (768 << 16));
+@@ -699,22 +582,12 @@ int igt_damage_iter_damage_one_intersect(void *ignored)
+ int igt_damage_iter_damage_one_outside(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage[2];
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	set_plane_src(&old_state, 0, 0, 1024 << 16, 768 << 16);
+ 	set_plane_src(&state, 0, 0, 1024 << 16, 768 << 16);
+@@ -736,22 +609,12 @@ int igt_damage_iter_damage_one_outside(void *ignored)
+ int igt_damage_iter_damage_src_moved(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage[2];
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
+-
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = true,
+-	};
++	MOCK_VARIABLES();
+ 
+ 	set_plane_src(&old_state, 0x40002, 0x40002,
+ 		      0x40002 + (1024 << 16), 0x40002 + (768 << 16));
+@@ -775,22 +638,14 @@ int igt_damage_iter_damage_src_moved(void *ignored)
+ int igt_damage_iter_damage_not_visible(void *ignored)
+ {
+ 	struct drm_atomic_helper_damage_iter iter;
+-	struct drm_plane_state old_state;
+ 	struct drm_property_blob damage_blob;
+ 	struct drm_mode_rect damage[2];
+ 	struct drm_rect clip;
+ 	uint32_t num_hits = 0;
+ 
+-	struct drm_framebuffer fb = {
+-		.width = 2048,
+-		.height = 2048
+-	};
++	MOCK_VARIABLES();
+ 
+-	struct drm_plane_state state = {
+-		.crtc = ZERO_SIZE_PTR,
+-		.fb = &fb,
+-		.visible = false,
+-	};
++	state.visible = false;
+ 
+ 	set_plane_src(&old_state, 0x40002, 0x40002,
+ 		      0x40002 + (1024 << 16), 0x40002 + (768 << 16));
+-- 
+2.24.1
 
-Why it is different for physical vs virtual, aren't both just 
-schedulable contexts with different engine masks for what GuC is 
-concerned? Oh, is it a matter of needing to send pulses to all engines 
-which comprise a virtual one?
-
-> scheduler does not have hacks in it to check the state of the heartbeat 
-> or whether a context is actually a zombie or not. Thus, the context will 
-> get resubmitted to the hardware after the pulse completes and 
-> effectively nothing will have happened.
-> 
-> I would assume that the DRM scheduler which we are meant to be switching 
-> to for execlist as well as GuC submission is also unlikely to have hacks 
-> for zombie contexts and tests for whether the i915 specific heartbeat 
-> has been disabled since the context became a zombie. So when that switch 
-> happens, this test will also fail in execlist mode as well as GuC mode.
-> 
-> The choices I see here are to simply remove persistence completely (it 
-> is a basically a bug that became UAPI because it wasn't caught soon 
-> enough!) or to implement it in a way that does not require hacks in the 
-> back end scheduler. Apparently, the DRM scheduler is expected to allow 
-> zombie contexts to persist until the DRM file handle is closed. So 
-> presumably we will have to go with option two.
-> 
-> That means flagging a context as being a zombie when it is closed but 
-> still active. The driver would then add it to a zombie list owned by the 
-> DRM client object. When that client object is closed, i915 would go 
-> through the list and genuinely kill all the contexts. No back end 
-> scheduler hacks required and no intimate knowledge of the i915 heartbeat 
-> mechanism required either.
-> 
-> John.
-> 
-> 
->>
->> This patch also updates intel_engine_has_heartbeat to be a vfunc as we
->> now need to call this function on execlists virtual engines too.
->>
->> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_context.c   |  5 +++--
->>   drivers/gpu/drm/i915/gt/intel_context_types.h |  2 ++
->>   drivers/gpu/drm/i915/gt/intel_engine.h        | 21 ++-----------------
->>   .../drm/i915/gt/intel_execlists_submission.c  | 14 +++++++++++++
->>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +++++-
->>   .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 --
->>   6 files changed, 26 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> index 9c3672bac0e2..b8e01c5ba9e5 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> @@ -1090,8 +1090,9 @@ static void kill_engines(struct i915_gem_engines 
->> *engines, bool ban)
->>        */
->>       for_each_gem_engine(ce, engines, it) {
->>           struct intel_engine_cs *engine;
->> +        bool local_ban = ban || !intel_engine_has_heartbeat(ce->engine);
-
-In any case (pending me understanding what's really going on there), why 
-would this check not be in kill_context with currently does this:
-
-	bool ban = (!i915_gem_context_is_persistent(ctx) ||
-		    !ctx->i915->params.enable_hangcheck);
-...
-		kill_engines(pos, ban);
-
-So whether to ban decision would be consolidated to one place.
-
-In fact, decision on whether to allow persistent is tied to 
-enable_hangcheck, which also drives hearbeat emission. So perhaps one 
-part of the correct fix is to extend the above (kill_context) ban 
-criteria to include hearbeat values anyway. Otherwise isn't it a simple 
-miss that this check fails to account to hearbeat disablement via sysfs?
-
-Regards,
-
-Tvrtko
-
->> -        if (ban && intel_context_ban(ce, NULL))
->> +        if (local_ban && intel_context_ban(ce, NULL))
->>               continue;
->>           /*
->> @@ -1104,7 +1105,7 @@ static void kill_engines(struct i915_gem_engines 
->> *engines, bool ban)
->>           engine = active_engine(ce);
->>           /* First attempt to gracefully cancel the context */
->> -        if (engine && !__cancel_engine(engine) && ban)
->> +        if (engine && !__cancel_engine(engine) && local_ban)
->>               /*
->>                * If we are unable to send a preemptive pulse to bump
->>                * the context from the GPU, we have to resort to a full
->> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h 
->> b/drivers/gpu/drm/i915/gt/intel_context_types.h
->> index e54351a170e2..65f2eb2a78e4 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
->> @@ -55,6 +55,8 @@ struct intel_context_ops {
->>       void (*reset)(struct intel_context *ce);
->>       void (*destroy)(struct kref *kref);
->> +    bool (*has_heartbeat)(const struct intel_engine_cs *engine);
->> +
->>       /* virtual engine/context interface */
->>       struct intel_context *(*create_virtual)(struct intel_engine_cs 
->> **engine,
->>                           unsigned int count);
->> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h 
->> b/drivers/gpu/drm/i915/gt/intel_engine.h
->> index c2a5640ae055..1b11a808acc4 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
->> @@ -283,28 +283,11 @@ struct intel_context *
->>   intel_engine_create_virtual(struct intel_engine_cs **siblings,
->>                   unsigned int count);
->> -static inline bool
->> -intel_virtual_engine_has_heartbeat(const struct intel_engine_cs *engine)
->> -{
->> -    /*
->> -     * For non-GuC submission we expect the back-end to look at the
->> -     * heartbeat status of the actual physical engine that the work
->> -     * has been (or is being) scheduled on, so we should only reach
->> -     * here with GuC submission enabled.
->> -     */
->> -    GEM_BUG_ON(!intel_engine_uses_guc(engine));
->> -
->> -    return intel_guc_virtual_engine_has_heartbeat(engine);
->> -}
->> -
->>   static inline bool
->>   intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
->>   {
->> -    if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
->> -        return false;
->> -
->> -    if (intel_engine_is_virtual(engine))
->> -        return intel_virtual_engine_has_heartbeat(engine);
->> +    if (engine->cops->has_heartbeat)
->> +        return engine->cops->has_heartbeat(engine);
->>       else
->>           return READ_ONCE(engine->props.heartbeat_interval_ms);
->>   }
->> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
->> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> index de5f9c86b9a4..18005b5546b6 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> @@ -3619,6 +3619,18 @@ virtual_get_sibling(struct intel_engine_cs 
->> *engine, unsigned int sibling)
->>       return ve->siblings[sibling];
->>   }
->> +static bool virtual_engine_has_heartbeat(const struct intel_engine_cs 
->> *ve)
->> +{
->> +    struct intel_engine_cs *engine;
->> +    intel_engine_mask_t tmp, mask = ve->mask;
->> +
->> +    for_each_engine_masked(engine, ve->gt, mask, tmp)
->> +        if (READ_ONCE(engine->props.heartbeat_interval_ms))
->> +            return true;
->> +
->> +    return false;
->> +}
->> +
->>   static const struct intel_context_ops virtual_context_ops = {
->>       .flags = COPS_HAS_INFLIGHT,
->> @@ -3634,6 +3646,8 @@ static const struct intel_context_ops 
->> virtual_context_ops = {
->>       .enter = virtual_context_enter,
->>       .exit = virtual_context_exit,
->> +    .has_heartbeat = virtual_engine_has_heartbeat,
->> +
->>       .destroy = virtual_context_destroy,
->>       .get_sibling = virtual_get_sibling,
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> index 89ff0e4b4bc7..ae70bff3605f 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> @@ -2168,6 +2168,8 @@ static int guc_virtual_context_alloc(struct 
->> intel_context *ce)
->>       return lrc_alloc(ce, engine);
->>   }
->> +static bool guc_virtual_engine_has_heartbeat(const struct 
->> intel_engine_cs *ve);
->> +
->>   static const struct intel_context_ops virtual_guc_context_ops = {
->>       .alloc = guc_virtual_context_alloc,
->> @@ -2183,6 +2185,8 @@ static const struct intel_context_ops 
->> virtual_guc_context_ops = {
->>       .enter = guc_virtual_context_enter,
->>       .exit = guc_virtual_context_exit,
->> +    .has_heartbeat = guc_virtual_engine_has_heartbeat,
->> +
->>       .sched_disable = guc_context_sched_disable,
->>       .destroy = guc_context_destroy,
->> @@ -3029,7 +3033,7 @@ guc_create_virtual(struct intel_engine_cs 
->> **siblings, unsigned int count)
->>       return ERR_PTR(err);
->>   }
->> -bool intel_guc_virtual_engine_has_heartbeat(const struct 
->> intel_engine_cs *ve)
->> +static bool guc_virtual_engine_has_heartbeat(const struct 
->> intel_engine_cs *ve)
->>   {
->>       struct intel_engine_cs *engine;
->>       intel_engine_mask_t tmp, mask = ve->mask;
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
->> index c7ef44fa0c36..c2afc3b88fd8 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
->> @@ -29,8 +29,6 @@ void intel_guc_dump_active_requests(struct 
->> intel_engine_cs *engine,
->>                       struct i915_request *hung_rq,
->>                       struct drm_printer *m);
->> -bool intel_guc_virtual_engine_has_heartbeat(const struct 
->> intel_engine_cs *ve);
->> -
->>   int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
->>                      atomic_t *wait_var,
->>                      bool interruptible,
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
