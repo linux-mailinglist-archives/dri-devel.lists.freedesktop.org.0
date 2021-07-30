@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0CC3DC001
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 22:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F223DC032
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 23:26:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D726F4B0;
-	Fri, 30 Jul 2021 20:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1AA66E06D;
+	Fri, 30 Jul 2021 21:26:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDF696F4B0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 20:47:24 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id d73so17994676ybc.10
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 13:47:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/0jhFaIN74qXsSiikohXu8cl1HOkpOoIv692ywasfb4=;
- b=f5K+q+/Oav1k+ND8XrBFrsylqIwwScjanXzx54x+wWsM1L30VD11ldf0yyGhC6g7KY
- DkQgH6qE9CkgcEjm6N3PPIKFeHC51RjCMNgjyCK/Ku+wzxIs2V8vvlseAhpSTeH2FyQh
- FwdDA+Xe5Iv+cqI/5Vz1svm6MMJWWO1MlXmmhFOVpuVQSBvop2X4AiHx9Nx5TO2JzdOv
- X2p1LiNz4owqBu0jMURSKY8F5ohal27/DFW7J839MGvrGXWNDKKBqiE5SY0SdNQnxmIC
- ugOf4UlvuhnYk10moYg/rK2MR5989RxMz4VkdYixaorPPCX435aCyGqionTt7tHiylWv
- 9XZA==
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F116E06D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 21:26:45 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id nh14so5314992pjb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 14:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hsE2hgS9GrAHQOTt+kQkvTKMH3S+dU9Sqt4Efar72O8=;
+ b=F94dZsWNp2iD40tvsWV6uiF7yWgplZgsP650SHVBhpAQCZw+A6rvwC+FejZ8CUt91m
+ +Ushm9351aHKdXBTr63h0SeMBBrJsZbrrN6aV6ZAJuIvvGY68YzgGQHF2g/c76+Np5b3
+ CMjpjiR7Uah2pHGACbOL308OO+isR9+xvXRTs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/0jhFaIN74qXsSiikohXu8cl1HOkpOoIv692ywasfb4=;
- b=l+WZ1NC+RswwHOEKK+ABPIA1/pmSL/pEpBqUnfpO8zzLZC44YunNuJq6FNp7jjlzMp
- NncehscVyhTV2E2yRTLmr4/66++PGciOHOntiTxYj7TGwx5O273bSf1uT0fR2L8uJJIR
- 99IdjJuO7YLSfRQ/1/GlZB+p68fqxfxxYuHQHC3vdcNBQCfq8O6wlpzymoS7xP2iJ3mD
- LVyyB7G0bqbCXiFgaqHfgDjWAzvQqQQxdRz5kYdd5+CpxQnWH4etKX/pG1SVIgHNQtQY
- nkfdtAa7d1OJhCppVRJIBE0qA6aHAAI7bYPGaX3/beuUK7P1at64A75IxkeZAMcLU91V
- 6VuA==
-X-Gm-Message-State: AOAM5320wVioDNE5Ic/ZePFVMNddOMrJBqjsLyNtgMyQJ/Nmu1Ol1pXT
- 8yq/3AXGotIuamr9rzB1spUcJrcoHyptl1/l/P/JKA==
-X-Google-Smtp-Source: ABdhPJx/oaMRUi+rJ7Z7rv6fnGibfQ0yMvYpuQi7W+qHjbMi+UQmXv0MyKu1dcrOKPeHXBs23Hd2JO/NCMi+ib63UCE=
-X-Received: by 2002:a25:2155:: with SMTP id h82mr5794127ybh.177.1627678043828; 
- Fri, 30 Jul 2021 13:47:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hsE2hgS9GrAHQOTt+kQkvTKMH3S+dU9Sqt4Efar72O8=;
+ b=pvCco8Z8mBjvQRQ0sus0YfRjCq4apz9LO8ukX/Y5aksKN2cSDEo4W3i4ctaycAd7tb
+ xhJnVGGBsdHRlgNunMxABiOW9xqEnZpGQFT5C5QK+XFYapi6HhY6bkZbyDzW2XN+cswh
+ Ve0aIBuNtlZPykZ580RlZcCGblRb10rOjhVHfRIOS/Yhcc3giHH12Y4lx7/B0GJpuSj7
+ 7T+l+abGCRzHZ8IDMeC5aSauTt/th6rapddSFWP7eN3z6CfSNE/S4/F5SUB0cfKMDFq+
+ f1Anavqp0herx1zaoA/wpfpYHuxSKHRF6hLm7j5xUGoyNHqzXTyZ4NxvtvOyL355ExgF
+ CpEA==
+X-Gm-Message-State: AOAM531c7GwKOb7VxFfEMly+cX5D2URPsbDBWU5CVIEddKQiYojcX6/Z
+ Gpj+aeksdnmZXrwsPyt0LioKVw==
+X-Google-Smtp-Source: ABdhPJyzhHgl514JGa2ylBsI0JdjPCwuzopo8sRSF3F8GkDWE1rz8ntgfMMTqMJ08hYEZjlEvE1pBQ==
+X-Received: by 2002:a17:90b:1b06:: with SMTP id
+ nu6mr5215394pjb.192.1627680404625; 
+ Fri, 30 Jul 2021 14:26:44 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:3424:e0ac:5a92:d061])
+ by smtp.gmail.com with ESMTPSA id u21sm3484625pfh.163.2021.07.30.14.26.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jul 2021 14:26:44 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Steev Klimaszewski <steev@kali.org>,
+ Linus W <linus.walleij@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] eDP: Support probing eDP panels dynamically instead of
+ hardcoding
+Date: Fri, 30 Jul 2021 14:26:19 -0700
+Message-Id: <20210730212625.3071831-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.32.0.554.ge1b32706d8-goog
 MIME-Version: 1.0
-References: <20210729070330.41443-1-christian.koenig@amd.com>
- <20210729070330.41443-3-christian.koenig@amd.com>
- <YQJXi2JNZdH5DaR2@phenom.ffwll.local>
- <CALAqxLVN7RVz3+z1ZvkRHeb2=Y4KbpbTOw-8St0D+Lzt5U-cFw@mail.gmail.com>
-In-Reply-To: <CALAqxLVN7RVz3+z1ZvkRHeb2=Y4KbpbTOw-8St0D+Lzt5U-cFw@mail.gmail.com>
-From: Hridya Valsaraju <hridya@google.com>
-Date: Fri, 30 Jul 2021 13:46:48 -0700
-Message-ID: <CA+wgaPNVp4ci1otArWNA1k+TGdHYgwz-ObWR0M8YO5j+gCfmQQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dma-buf: nuke SW_SYNC debugfs files
-To: John Stultz <john.stultz@linaro.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Gustavo Padovan <gustavo@padovan.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- linux-media <linux-media@vger.kernel.org>, 
- Alistair Delva <adelva@google.com>, Sandeep Patil <sspatil@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,50 +77,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 29, 2021 at 9:52 PM John Stultz <john.stultz@linaro.org> wrote:
->
-> On Thu, Jul 29, 2021 at 12:24 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Thu, Jul 29, 2021 at 09:03:30AM +0200, Christian K=C3=B6nig wrote:
-> > > As we now knew controlling dma_fence synchronization from userspace i=
-s
-> > > extremely dangerous and can not only deadlock drivers but trivially a=
-lso the
-> > > whole kernel memory management.
-> > >
-> > > Entirely remove this option. We now have in kernel unit tests to exer=
-cise the
-> > > dma_fence framework and it's containers.
-> > >
-> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >
-> > There's also igts for this, and Android heavily uses this. So I'm not s=
-ure
-> > we can just nuke it.
->
-> Eeeeh... I don't think that's actually the case anymore. As of
-> android12-5.10 CONFIG_SW_SYNC is not turned on.
-> Further, Android is disabling debugfs in their kernels as it exposes
-> too much to userland.
->
-> That said, there still are some references to it:
->   https://cs.android.com/android/platform/superproject/+/master:system/co=
-re/libsync/sync.c;l=3D416
+The goal of this patch series is to move away from hardcoding exact
+eDP panels in device tree files. As discussed in the various patches
+in this series (I'm not repeating everything here), most eDP panels
+are 99% probable and we can get that last 1% by allowing two "power
+up" delays to be specified in the device tree file and then using the
+panel ID (found in the EDID) to look up additional power sequencing
+delays for the panel.
 
-Hello,
+This patch series is the logical contiunation of a previous patch
+series where I proposed solving this problem by adding a
+board-specific compatible string [1]. In the discussion that followed
+it sounded like people were open to something like the solution
+proposed in this new series.
 
-Like John mentioned, CONFIG_SW_SYNC is not turned on for the *-5.4 and
-newer branches in the Android Common Kernel. The references in AOSP
-are only in place to support devices with older kernels upgrading to
-newer Android versions.
+In version 2 I got rid of the idea that we could have a "fallback"
+compatible string that we'd use if we didn't recognize the ID in the
+EDID. This simplifies the bindings a lot and the implementation
+somewhat. As a result of not having a "fallback", though, I'm not
+confident in transitioning any existing boards over to this since the
+panel will totally fail to work if we don't recognize the ID from the
+EDID and I can't guarantee that I've seen every panel that might have
+shipped on an existing product. The plan is to use "edp-panel" only on
+new boards or new revisions of old boards where we can guarantee that
+every EDID that ships out of the factory has an ID in the table.
 
-Regards,
-Hridya
+Version 2 of this series is also rebased upon my other series for the
+Samsung ATNA33XC20 panel [2] since they both touch the "delay"
+structure and it seems likely that the Samsung panel series will land
+first.
 
->
-> But it looks like the actual users are only kselftest and igt?
->
-> Adding Alistair, Hridya and Sandeep in case they have more context.
->
-> thanks
-> -john
+[1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
+[2] https://lore.kernel.org/r/20210730154605.2843418-1-dianders@chromium.org/
+
+Changes in v2:
+- No longer allow fallback to panel-simple.
+- Add "-ms" suffix to delays.
+- Rebased atop revert of delays between GPIO & regulator
+- Don't support a "fallback" panel. Probed panels must be probed.
+- Not based on patch to copy "desc"--just allocate for probed panels.
+- Add "-ms" suffix to delays.
+
+Douglas Anderson (6):
+  dt-bindings: drm/panel-simple: Introduce generic eDP panels
+  drm/edid: Break out reading block 0 of the EDID
+  drm/edid: Allow the querying/working with the panel ID from the EDID
+  drm/panel-simple: Don't re-read the EDID every time we power off the
+    panel
+  drm/panel-simple: Split the delay structure out of the panel
+    description
+  drm/panel-simple: Implement generic "edp-panel"s probed by EDID
+
+ .../bindings/display/panel/panel-edp.yaml     | 188 ++++++++++
+ drivers/gpu/drm/drm_edid.c                    | 113 +++++-
+ drivers/gpu/drm/panel/panel-simple.c          | 352 +++++++++++++-----
+ include/drm/drm_edid.h                        |  47 +++
+ 4 files changed, 586 insertions(+), 114 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+
+-- 
+2.32.0.554.ge1b32706d8-goog
+
