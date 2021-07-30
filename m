@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8083DB0FF
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:07:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036A93DB10D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:16:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A49856F38A;
-	Fri, 30 Jul 2021 02:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC39C6F399;
+	Fri, 30 Jul 2021 02:16:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C196F38A
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:07:41 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id x15so11028061oic.9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 19:07:41 -0700 (PDT)
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7116F393;
+ Fri, 30 Jul 2021 02:16:34 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ o17-20020a4a64110000b0290263e1ba7ff9so2079349ooc.2; 
+ Thu, 29 Jul 2021 19:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D0jPV269cYXFuIt6Gg1NVjQqzHNY0R6AeOaqh70FYAY=;
- b=UQ4StuH+DV1mlw3qbMZgZqS0W/jM+IYyKqGTsK7CCyudOFJqjMOPgxs9vsqDnCJoP6
- 3pd66K8FNPBlfDWltlnHUrITBiNSdAYHMAkIMF/uihVNT34lYZ1wZQTJoPkulvWH737z
- LqETed/2CQQrr8NO4M78tvKViM2tHQba1IfU4RNitwiI7ZNg7IQlcW8tZ9Imes3oAN1B
- gAoU0lUFYw9Z0UflVLDQ3xNWDkqo988wH+chofI1wx4xmvnD3Vxjg86eRKarVb1SJVpV
- 3GViJpAf4i0F3TsyRuAXd/E+0oWzfua/5+WjRVLUBb5NU2Om9H0HD+h6nyrQ2t7aBs21
- C0rw==
+ :cc; bh=r3u8PQUkpqyAfITTKMU/qJ2G/2EJpG3EEGinj//3Afs=;
+ b=tg5rQwQiK8zzkJUED/kD6JpYtTsT9SrvcD6xRdoa2757QjF63ev5y2N+XJ5qlgG8+p
+ sss83n+F15YNmV2diB4LthkheWIIBOZvIC1NdxYNcjMRle0GPT3vL1TkzVdNwR8lG6i6
+ wYafo0prBA65/w4zZ9kSL8AsExt6QgoD98oMveQEmyy9tDKB3eqoqyanp+E5Wc6QHYO9
+ t8+VPFeg+r/hnUKvsZJg/X2MQWwGZvbYrMG68PNegaxsj0gAcnHF1lRoU3L6jcTXdzfz
+ BZh8hM6PNr1yENv+3cYBG/Myap5cAakangVQGzCx3ZCW1GYiyItqT/7SAy+9TQecE35Z
+ H1bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=D0jPV269cYXFuIt6Gg1NVjQqzHNY0R6AeOaqh70FYAY=;
- b=HizJahTkw1zaePKjocMVkVanDq+8f638w5i9rYUuc3ou5gekYgUcmWAjbHjX/umgLW
- mgutNHnXVCt1nt1yB+A3ZLV3bX2eealW3wNLTHvh2VceQnnrNL8Dow4ZDUkgxf5gOVEL
- 8XDy+taSSwRaZj4VUV6NCJWSPcx1PONVhIwqFAX6l5n9isj2N1B47QnFWLhK7DS0K8TL
- +/KFsIhOU4YF8WjTNfX+/oN/cEUC4Z1hzCgyZYOJJFAfMurizGBImspkzvl/PQcwKpW+
- rDQqYjkED7jLMwvgjthjCxZeqa7WCqlxE3YXjSwH1GKBtgeg009BgLNcRENZKK4enCtk
- 5s1g==
-X-Gm-Message-State: AOAM533YOt4qj1VxhYSbqvEX9sFbGF9uAwmfjnQYcMquiIP2mT9+7Mxi
- RRy3icrdmO2A2jRkssOW9b4Z4mM4bZDFy5WdRzk=
-X-Google-Smtp-Source: ABdhPJwn1lXSHIicKah+qYpBUM9Q2Dq+rb8SZH5updqv9NaItUsGju5BLBpFqdH7M/2dvwSSq7cs2Y5/1ISKMzJIlSU=
-X-Received: by 2002:a05:6808:1390:: with SMTP id
- c16mr178642oiw.123.1627610860403; 
- Thu, 29 Jul 2021 19:07:40 -0700 (PDT)
+ bh=r3u8PQUkpqyAfITTKMU/qJ2G/2EJpG3EEGinj//3Afs=;
+ b=CdbZ978SmxK+VZy2P1ckXpW91ug21u4cMUw//fUSwl/XoCQpZ//qvpZdYQmWue4yIm
+ LyguiuEJPoFH5zqSe6sxy9E3tvIm5XThrK2i9aKj6mj/piOk1ZWFH1TztF22osWh4djb
+ Pxvh/7kno7Pm/xQf0l18SJmSROkmv35rA3O4g7bs8UqX7mwXFFsrYW0XbBKELjMeTB4A
+ FPtug6XG34xyCD25Q51WUfl8DEH0UvuvNfJIN+8vmSnCBWqZLq91KGZnLdPRn/hAMJdv
+ qstX3MEXGfgiBMKbH38aKJtJ+xbzpSxmcBueumFzM/p1NY5EyB62BtEJxmq22XDl7RzJ
+ EqwQ==
+X-Gm-Message-State: AOAM530Cs47dlQ7vsCBgHjSHfQ+zU6tGkj4WhAaibvRQ4ZjIhokVW0Bj
+ pM8lgVMHzeEm1Iekp1e2NgJJZeNMbLwu5FaEssU=
+X-Google-Smtp-Source: ABdhPJzjHgsc3QEyOEGHs5oyuvmj8Levmp/MtXMPdKgDbjYeEbKZJ0MB0pdXtf1m2Eupyo6303rtDbWAE1q8yZWJznM=
+X-Received: by 2002:a4a:e3cb:: with SMTP id m11mr149850oov.72.1627611393386;
+ Thu, 29 Jul 2021 19:16:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-24-keescook@chromium.org>
-In-Reply-To: <20210727205855.411487-24-keescook@chromium.org>
+References: <20210729081814.1738-1-caihuoqing@baidu.com>
+In-Reply-To: <20210729081814.1738-1-caihuoqing@baidu.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 29 Jul 2021 22:07:29 -0400
-Message-ID: <CADnq5_Npb8uYvd+R4UHgf-w8-cQj3JoODjviJR_Y9w9wqJ71mQ@mail.gmail.com>
-Subject: Re: [PATCH 23/64] drm/amd/pm: Use struct_group() for memcpy() region
-To: Kees Cook <keescook@chromium.org>
+Date: Thu, 29 Jul 2021 22:16:22 -0400
+Message-ID: <CADnq5_Np+uyy2EHvXaGiv_AFiTZ=2WtwbAuFYz6hoVzz5JAkXA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix typo in comments
+To: Cai Huoqing <caihuoqing@baidu.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,264 +62,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kbuild@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- Linux Wireless List <linux-wireless@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-block@vger.kernel.org,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
- Network Development <netdev@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 5:17 PM Kees Cook <keescook@chromium.org> wrote:
+On Thu, Jul 29, 2021 at 4:18 AM Cai Huoqing <caihuoqing@baidu.com> wrote:
 >
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> intentionally writing across neighboring fields.
+> Remove the repeated word 'the' from comments
 >
-> Use struct_group() in structs:
->         struct atom_smc_dpm_info_v4_5
->         struct atom_smc_dpm_info_v4_6
->         struct atom_smc_dpm_info_v4_7
->         struct atom_smc_dpm_info_v4_10
->         PPTable_t
-> so the grouped members can be referenced together. This will allow
-> memcpy() and sizeof() to more easily reason about sizes, improve
-> readability, and avoid future warnings about writing beyond the end of
-> the first member.
->
-> "pahole" shows no size nor member offset changes to any structs.
-> "objdump -d" shows no object code changes.
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-These headers represent interfaces with firmware running on
-microcontrollers, so if the sizes or offsets change that could cause a
-problem.  That doesn't seem to be the case, but something to keep in
-mind.  Patch is:
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Feel free to take this through whatever tree makes sense.
+Applied.  Thanks!
 
-Alex
-
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  drivers/gpu/drm/amd/include/atomfirmware.h           |  9 ++++++++-
->  .../gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h    |  3 ++-
->  drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h  |  3 ++-
->  .../gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h   |  3 ++-
->  drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c    |  6 +++---
->  drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c      | 12 ++++++++----
->  drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c   |  6 +++---
->  7 files changed, 28 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/core/dc_resource.c             | 2 +-
+>  .../gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c | 2 +-
+>  .../drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c   | 2 +-
+>  .../gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c | 2 +-
+>  .../gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c | 2 +-
+>  .../gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c | 2 +-
+>  drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c | 4 ++--
+>  7 files changed, 8 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/gpu/drm/amd/include/atomfirmware.h
-> index 3811e58dd857..694dee9d2691 100644
-> --- a/drivers/gpu/drm/amd/include/atomfirmware.h
-> +++ b/drivers/gpu/drm/amd/include/atomfirmware.h
-> @@ -2081,6 +2081,7 @@ struct atom_smc_dpm_info_v4_5
->  {
->    struct   atom_common_table_header  table_header;
->      // SECTION: BOARD PARAMETERS
-> +  struct_group(dpm_info,
->      // I2C Control
->    struct smudpm_i2c_controller_config_v2  I2cControllers[8];
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> index 1596f6b7fed7..7f12ca902f7d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> @@ -1030,7 +1030,7 @@ bool resource_build_scaling_params(struct pipe_ctx *pipe_ctx)
 >
-> @@ -2159,7 +2160,7 @@ struct atom_smc_dpm_info_v4_5
->    uint32_t MvddRatio; // This is used for MVDD Vid workaround. It has 16 fractional bits (Q16.16)
+>         /* Timing borders are part of vactive that we are also supposed to skip in addition
+>          * to any stream dst offset. Since dm logic assumes dst is in addressable
+> -        * space we need to add the the left and top borders to dst offsets temporarily.
+> +        * space we need to add the left and top borders to dst offsets temporarily.
+>          * TODO: fix in DM, stream dst is supposed to be in vactive
+>          */
+>         pipe_ctx->stream->dst.x += timing->h_border_left;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+> index 799bae229e67..2091dd8c252d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
+> @@ -488,7 +488,7 @@ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
+>         log2_meta_req_bytes = 6; // meta request is 64b and is 8x8byte meta element
 >
->    uint32_t     BoardReserved[9];
-> -
-> +  );
->  };
+>         // each 64b meta request for dcn is 8x8 meta elements and
+> -       // a meta element covers one 256b block of the the data surface.
+> +       // a meta element covers one 256b block of the data surface.
+>         log2_meta_req_height = log2_blk256_height + 3; // meta req is 8x8 byte, each byte represent 1 blk256
+>         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
+>                         - log2_meta_req_height;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
+> index 6a6d5970d1d5..1a0c14e465fa 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
+> @@ -488,7 +488,7 @@ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
+>         log2_meta_req_bytes = 6; // meta request is 64b and is 8x8byte meta element
 >
->  struct atom_smc_dpm_info_v4_6
-> @@ -2168,6 +2169,7 @@ struct atom_smc_dpm_info_v4_6
->    // section: board parameters
->    uint32_t     i2c_padding[3];   // old i2c control are moved to new area
+>         // each 64b meta request for dcn is 8x8 meta elements and
+> -       // a meta element covers one 256b block of the the data surface.
+> +       // a meta element covers one 256b block of the data surface.
+>         log2_meta_req_height = log2_blk256_height + 3; // meta req is 8x8 byte, each byte represent 1 blk256
+>         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
+>                         - log2_meta_req_height;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+> index dc1c81a6e377..287e31052b30 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+> @@ -482,7 +482,7 @@ static void get_meta_and_pte_attr(
+>         log2_meta_req_bytes = 6; // meta request is 64b and is 8x8byte meta element
 >
-> +  struct_group(dpm_info,
->    uint16_t     maxvoltagestepgfx; // in mv(q2) max voltage step that smu will request. multiple steps are taken if voltage change exceeds this value.
->    uint16_t     maxvoltagestepsoc; // in mv(q2) max voltage step that smu will request. multiple steps are taken if voltage change exceeds this value.
+>         // each 64b meta request for dcn is 8x8 meta elements and
+> -       // a meta element covers one 256b block of the the data surface.
+> +       // a meta element covers one 256b block of the data surface.
+>         log2_meta_req_height = log2_blk256_height + 3; // meta req is 8x8 byte, each byte represent 1 blk256
+>         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
+>                         - log2_meta_req_height;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
+> index 04601a767a8f..0d934fae1c3a 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
+> @@ -549,7 +549,7 @@ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
+>         log2_meta_req_bytes = 6; // meta request is 64b and is 8x8byte meta element
 >
-> @@ -2246,12 +2248,14 @@ struct atom_smc_dpm_info_v4_6
+>                                  // each 64b meta request for dcn is 8x8 meta elements and
+> -                                // a meta element covers one 256b block of the the data surface.
+> +                                // a meta element covers one 256b block of the data surface.
+>         log2_meta_req_height = log2_blk256_height + 3; // meta req is 8x8 byte, each byte represent 1 blk256
+>         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
+>                 - log2_meta_req_height;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> index 3def093ef88e..c23905bc733a 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> @@ -563,7 +563,7 @@ static void get_meta_and_pte_attr(
+>         log2_meta_req_bytes = 6;        // meta request is 64b and is 8x8byte meta element
 >
->    // reserved
->    uint32_t   boardreserved[10];
-> +  );
->  };
+>         // each 64b meta request for dcn is 8x8 meta elements and
+> -       // a meta element covers one 256b block of the the data surface.
+> +       // a meta element covers one 256b block of the data surface.
+>         log2_meta_req_height = log2_blk256_height + 3;  // meta req is 8x8 byte, each byte represent 1 blk256
+>         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element - log2_meta_req_height;
+>         meta_req_width = 1 << log2_meta_req_width;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c b/drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c
+> index 414da64f5734..8f2b1684c231 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c
+> @@ -456,7 +456,7 @@ static void dml1_rq_dlg_get_row_heights(
+>         log2_meta_req_bytes = 6; /* meta request is 64b and is 8x8byte meta element */
 >
->  struct atom_smc_dpm_info_v4_7
->  {
->    struct   atom_common_table_header  table_header;
->      // SECTION: BOARD PARAMETERS
-> +  struct_group(dpm_info,
->      // I2C Control
->    struct smudpm_i2c_controller_config_v2  I2cControllers[8];
+>         /* each 64b meta request for dcn is 8x8 meta elements and
+> -        * a meta element covers one 256b block of the the data surface.
+> +        * a meta element covers one 256b block of the data surface.
+>          */
+>         log2_meta_req_height = log2_blk256_height + 3; /* meta req is 8x8 */
+>         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
+> @@ -718,7 +718,7 @@ static void get_surf_rq_param(
+>         log2_meta_req_bytes = 6; /* meta request is 64b and is 8x8byte meta element */
 >
-> @@ -2348,6 +2352,7 @@ struct atom_smc_dpm_info_v4_7
->    uint8_t      Padding8_Psi2;
->
->    uint32_t     BoardReserved[5];
-> +  );
->  };
->
->  struct smudpm_i2c_controller_config_v3
-> @@ -2478,6 +2483,7 @@ struct atom_smc_dpm_info_v4_10
->    struct   atom_common_table_header  table_header;
->
->    // SECTION: BOARD PARAMETERS
-> +  struct_group(dpm_info,
->    // Telemetry Settings
->    uint16_t GfxMaxCurrent; // in Amps
->    uint8_t   GfxOffset;     // in Amps
-> @@ -2524,6 +2530,7 @@ struct atom_smc_dpm_info_v4_10
->    uint16_t spare5;
->
->    uint32_t reserved[16];
-> +  );
->  };
->
->  /*
-> diff --git a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-> index 43d43d6addc0..8093a98800c3 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-> @@ -643,6 +643,7 @@ typedef struct {
->    // SECTION: BOARD PARAMETERS
->
->    // SVI2 Board Parameters
-> +  struct_group(v4_6,
->    uint16_t     MaxVoltageStepGfx; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
->    uint16_t     MaxVoltageStepSoc; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
->
-> @@ -728,10 +729,10 @@ typedef struct {
->    uint32_t     BoardVoltageCoeffB;    // decode by /1000
->
->    uint32_t     BoardReserved[7];
-> +  );
->
->    // Padding for MMHUB - do not modify this
->    uint32_t     MmHubPadding[8]; // SMU internal use
-> -
->  } PPTable_t;
->
->  typedef struct {
-> diff --git a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-> index 04752ade1016..0b4e6e907e95 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-> @@ -725,6 +725,7 @@ typedef struct {
->    uint32_t     Reserved[8];
->
->    // SECTION: BOARD PARAMETERS
-> +  struct_group(v4,
->    // I2C Control
->    I2cControllerConfig_t  I2cControllers[NUM_I2C_CONTROLLERS];
->
-> @@ -809,10 +810,10 @@ typedef struct {
->    uint8_t      Padding8_Loadline;
->
->    uint32_t     BoardReserved[8];
-> +  );
->
->    // Padding for MMHUB - do not modify this
->    uint32_t     MmHubPadding[8]; // SMU internal use
-> -
->  } PPTable_t;
->
->  typedef struct {
-> diff --git a/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h b/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-> index a017983ff1fa..5056d3728da8 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-> @@ -390,6 +390,7 @@ typedef struct {
->    uint32_t spare3[14];
->
->    // SECTION: BOARD PARAMETERS
-> +  struct_group(v4_10,
->    // Telemetry Settings
->    uint16_t GfxMaxCurrent; // in Amps
->    int8_t   GfxOffset;     // in Amps
-> @@ -444,7 +445,7 @@ typedef struct {
->
->    //reserved
->    uint32_t reserved[14];
-> -
-> +  );
->  } PPTable_t;
->
->  typedef struct {
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-> index 6ec8492f71f5..19951399cb33 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-> @@ -463,11 +463,11 @@ static int arcturus_append_powerplay_table(struct smu_context *smu)
->                         smc_dpm_table->table_header.format_revision,
->                         smc_dpm_table->table_header.content_revision);
->
-> +       BUILD_BUG_ON(sizeof(smc_pptable->v4_6) != sizeof(smc_dpm_table->dpm_info));
->         if ((smc_dpm_table->table_header.format_revision == 4) &&
->             (smc_dpm_table->table_header.content_revision == 6))
-> -               memcpy(&smc_pptable->MaxVoltageStepGfx,
-> -                      &smc_dpm_table->maxvoltagestepgfx,
-> -                      sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_6, maxvoltagestepgfx));
-> +               memcpy(&smc_pptable->v4_6, &smc_dpm_table->dpm_info,
-> +                      sizeof(smc_dpm_table->dpm_info));
->
->         return 0;
->  }
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-> index 59ea59acfb00..cb6665fbe319 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-> @@ -431,16 +431,20 @@ static int navi10_append_powerplay_table(struct smu_context *smu)
->
->         switch (smc_dpm_table->table_header.content_revision) {
->         case 5: /* nv10 and nv14 */
-> -               memcpy(smc_pptable->I2cControllers, smc_dpm_table->I2cControllers,
-> -                       sizeof(*smc_dpm_table) - sizeof(smc_dpm_table->table_header));
-> +               BUILD_BUG_ON(sizeof(smc_pptable->v4) !=
-> +                            sizeof(smc_dpm_table->dpm_info));
-> +               memcpy(&smc_pptable->v4, &smc_dpm_table->dpm_info,
-> +                      sizeof(smc_dpm_table->dpm_info));
->                 break;
->         case 7: /* nv12 */
->                 ret = amdgpu_atombios_get_data_table(adev, index, NULL, NULL, NULL,
->                                               (uint8_t **)&smc_dpm_table_v4_7);
->                 if (ret)
->                         return ret;
-> -               memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I2cControllers,
-> -                       sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_table_v4_7->table_header));
-> +               BUILD_BUG_ON(sizeof(smc_pptable->v4) !=
-> +                            sizeof(smc_dpm_table_v4_7->dpm_info));
-> +               memcpy(&smc_pptable->v4, &smc_dpm_table_v4_7->dpm_info,
-> +                      sizeof(smc_dpm_table_v4_7->dpm_info));
->                 break;
->         default:
->                 dev_err(smu->adev->dev, "smc_dpm_info with unsupported content revision %d!\n",
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> index 856eeaf293b8..c0645302fa50 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> @@ -407,11 +407,11 @@ static int aldebaran_append_powerplay_table(struct smu_context *smu)
->                         smc_dpm_table->table_header.format_revision,
->                         smc_dpm_table->table_header.content_revision);
->
-> +       BUILD_BUG_ON(sizeof(smc_pptable->v4_10) != sizeof(smc_dpm_table->dpm_info));
->         if ((smc_dpm_table->table_header.format_revision == 4) &&
->             (smc_dpm_table->table_header.content_revision == 10))
-> -               memcpy(&smc_pptable->GfxMaxCurrent,
-> -                      &smc_dpm_table->GfxMaxCurrent,
-> -                      sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_10, GfxMaxCurrent));
-> +               memcpy(&smc_pptable->v4_10, &smc_dpm_table->dpm_info,
-> +                      sizeof(smc_dpm_table->dpm_info));
->         return 0;
->  }
->
+>         /* each 64b meta request for dcn is 8x8 meta elements and
+> -        * a meta element covers one 256b block of the the data surface.
+> +        * a meta element covers one 256b block of the data surface.
+>          */
+>         log2_meta_req_height = log2_blk256_height + 3; /* meta req is 8x8 byte, each byte represent 1 blk256 */
+>         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
 > --
-> 2.30.2
+> 2.25.1
 >
