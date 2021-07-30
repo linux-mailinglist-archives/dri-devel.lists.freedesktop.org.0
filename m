@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1103DBE6E
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 20:35:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E9F3DBE6C
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 20:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBBBF6E446;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 981C26E43D;
 	Fri, 30 Jul 2021 18:35:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3C896E223
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 18:35:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A696E223
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 18:35:17 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 70B1D2027F;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CEAAA20280;
  Fri, 30 Jul 2021 18:35:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1627670115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FjyHyjZdyBWYIM7mraipnJKyiw6IEn/PnN7QQWIzX/U=;
- b=k+x2jS+pgSWF8sfSjTf+zKbpiCIiikjjPvGfg5YTv4czR+WUwdZl32ZMIMqZoaJjX5XRKU
- APrTfKaDjd730WlzpQKY/ppcetMg2/QNBdwDkNnu0tf4WENdaa5GY1P9byd3ww+vNNUGNT
- zzrJmPrJpoCcLVNlou38d3VbWZWmgqQ=
+ bh=p43CBtsf/cDCd4PD83jgvepFEMEDwuRvU7M91QajqAo=;
+ b=obXf33V9QNbkhnlwLX5GR9cHzkizI9bIdb9FSB0oIPOqJdibcoGzcbpzvEduPC/NUsjzMu
+ Q0ejIIyNQIyWvS6TstQxz8VLufF/oSYi8YwQK2lTZrgv/kq5nwOkdLd0nWWKNRpzTcn6Vf
+ dcVgCg66/P/zgnqBvHdK6Lyan538b5M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1627670115;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FjyHyjZdyBWYIM7mraipnJKyiw6IEn/PnN7QQWIzX/U=;
- b=+hgBFf3NZEujjC4Qs4u7cbsdLsGTx9tJVOT+51L+bbb7+AgL+en9Q/PzxKAKxxMIn5uPrE
- DORbx9l9LIiqRZDw==
+ bh=p43CBtsf/cDCd4PD83jgvepFEMEDwuRvU7M91QajqAo=;
+ b=FAWlXG05iHORjf4TQ8zdPI9+NYSss3utUaQp1ALSwVE7Mw7nEHFpBMmEFO1laKqpVL8+dF
+ 8erfG8NPYvrOTjAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E8E913C3B;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7714813C3B;
  Fri, 30 Jul 2021 18:35:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uNMOBmNGBGGUVAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8JfKG2NGBGGUVAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 30 Jul 2021 18:35:15 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch, noralf@tronnes.org, rodrigosiqueiramelo@gmail.com,
  melissa.srw@gmail.com, hamohammed.sa@gmail.com
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v3 4/5] drm/gud: Map framebuffer BOs with drm_gem_fb_vmap()
-Date: Fri, 30 Jul 2021 20:35:10 +0200
-Message-Id: <20210730183511.20080-5-tzimmermann@suse.de>
+Subject: [PATCH v3 5/5] drm/vkms: Map output framebuffer BOs with
+ drm_gem_fb_vmap()
+Date: Fri, 30 Jul 2021 20:35:11 +0200
+Message-Id: <20210730183511.20080-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210730183511.20080-1-tzimmermann@suse.de>
 References: <20210730183511.20080-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,67 +76,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Abstract the framebuffer details by mapping its BOs with a call
-to drm_gem_fb_vmap(). Unmap with drm_gem_fb_vunmap().
+Abstract the framebuffer details by mappings its BOs with a call
+to drm_gem_fb_vmap(). Unmap with drm_gem_fb_vunamp().
 
-The call to drm_gem_fb_vmap() ensures that all BOs are mapped
-correctly. Gud still only supports single-plane formats.
+Before, the output address with stored as raw pointer in the priv
+field of struct drm_writeback_job. Introduce the new type
+struct vkms_writeback_job, which holds the output mappings addresses
+while the writeback job is active.
 
-No functional changes.
+The patchset also cleans up some internal casting an setup of the
+output addresses. No functional changes.
+
+v3:
+	* free instances of struct vkms_writeback_job on cleanup
+	  or errors
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Noralf Trønnes <noralf@tronnes.org>
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/gud/gud_pipe.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vkms/vkms_composer.c  |  2 +-
+ drivers/gpu/drm/vkms/vkms_drv.h       |  6 +++++-
+ drivers/gpu/drm/vkms/vkms_writeback.c | 28 +++++++++++++++------------
+ 3 files changed, 22 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index 4d7a26b68a2e..7e009f562b30 100644
---- a/drivers/gpu/drm/gud/gud_pipe.c
-+++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -14,8 +14,8 @@
- #include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem.h>
- #include <drm/drm_gem_framebuffer_helper.h>
--#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_print.h>
- #include <drm/drm_rect.h>
- #include <drm/drm_simple_kms_helper.h>
-@@ -152,7 +152,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- {
- 	struct dma_buf_attachment *import_attach = fb->obj[0]->import_attach;
- 	u8 compression = gdrm->compression;
--	struct dma_buf_map map;
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index ead8fff81f30..49f109c3a2b3 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -257,7 +257,7 @@ void vkms_composer_worker(struct work_struct *work)
+ 		return;
+ 
+ 	if (wb_pending)
+-		vaddr_out = crtc_state->active_writeback;
++		vaddr_out = crtc_state->active_writeback->map[0].vaddr;
+ 
+ 	ret = compose_active_planes(&vaddr_out, primary_composer,
+ 				    crtc_state);
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 8c731b6dcba7..8bc9e3f52e1f 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -20,6 +20,10 @@
+ #define XRES_MAX  8192
+ #define YRES_MAX  8192
+ 
++struct vkms_writeback_job {
 +	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
- 	void *vaddr, *buf;
- 	size_t pitch, len;
- 	int ret = 0;
-@@ -162,11 +162,11 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 	if (len > gdrm->bulk_len)
- 		return -E2BIG;
++};
++
+ struct vkms_composer {
+ 	struct drm_framebuffer fb;
+ 	struct drm_rect src, dst;
+@@ -57,7 +61,7 @@ struct vkms_crtc_state {
+ 	int num_active_planes;
+ 	/* stack of active planes for crc computation, should be in z order */
+ 	struct vkms_plane_state **active_planes;
+-	void *active_writeback;
++	struct vkms_writeback_job *active_writeback;
  
--	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
-+	ret = drm_gem_fb_vmap(fb, map);
- 	if (ret)
- 		return ret;
+ 	/* below four are protected by vkms_output.composer_lock */
+ 	bool crc_pending;
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index 0935686475a0..425b6c6b8cad 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -65,41 +65,45 @@ static int vkms_wb_connector_get_modes(struct drm_connector *connector)
+ static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
+ 			       struct drm_writeback_job *job)
+ {
+-	struct drm_gem_object *gem_obj;
+-	struct dma_buf_map map;
++	struct vkms_writeback_job *vkmsjob;
+ 	int ret;
  
--	vaddr = map.vaddr + fb->offsets[0];
-+	vaddr = map[0].vaddr + fb->offsets[0];
+ 	if (!job->fb)
+ 		return 0;
  
- 	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
- 	if (ret)
-@@ -225,7 +225,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- end_cpu_access:
- 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
- vunmap:
--	drm_gem_shmem_vunmap(fb->obj[0], &map);
-+	drm_gem_fb_vunmap(fb, map);
+-	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
+-	ret = drm_gem_shmem_vmap(gem_obj, &map);
++	vkmsjob = kzalloc(sizeof(*vkmsjob), GFP_KERNEL);
++	if (!vkmsjob)
++		return -ENOMEM;
++
++	ret = drm_gem_fb_vmap(job->fb, vkmsjob->map);
+ 	if (ret) {
+ 		DRM_ERROR("vmap failed: %d\n", ret);
+-		return ret;
++		goto err_kfree;
+ 	}
  
- 	return ret;
+-	job->priv = map.vaddr;
++	job->priv = vkmsjob;
+ 
+ 	return 0;
++
++err_kfree:
++	kfree(vkmsjob);
++	return ret;
  }
+ 
+ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+ 				struct drm_writeback_job *job)
+ {
+-	struct drm_gem_object *gem_obj;
++	struct vkms_writeback_job *vkmsjob = job->priv;
+ 	struct vkms_device *vkmsdev;
+-	struct dma_buf_map map;
+ 
+ 	if (!job->fb)
+ 		return;
+ 
+-	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
+-	dma_buf_map_set_vaddr(&map, job->priv);
+-	drm_gem_shmem_vunmap(gem_obj, &map);
++	drm_gem_fb_vunmap(job->fb, vkmsjob->map);
+ 
+-	vkmsdev = drm_device_to_vkms_device(gem_obj->dev);
++	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
+ 	vkms_set_composer(&vkmsdev->output, false);
++	kfree(vkmsjob);
+ }
+ 
+ static void vkms_wb_atomic_commit(struct drm_connector *conn,
 -- 
 2.32.0
 
