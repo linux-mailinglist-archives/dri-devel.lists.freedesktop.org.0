@@ -2,41 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401433DB2F7
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 07:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078CA3DB318
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 08:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465626F3CE;
-	Fri, 30 Jul 2021 05:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9CAC6F3D1;
+	Fri, 30 Jul 2021 06:00:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D56E66F3CE
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 05:48:58 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id deebe3df-f0f9-11eb-8d1a-0050568cd888;
- Fri, 30 Jul 2021 05:49:14 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 6538B194B00;
- Fri, 30 Jul 2021 07:49:18 +0200 (CEST)
-Date: Fri, 30 Jul 2021 07:48:54 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: panel: Add Samsung S6E3FA2 panel
-Message-ID: <YQOSxj9uqQR6jHON@ravnborg.org>
-References: <20210725140339.2465677-1-alexeymin@postmarketos.org>
- <CACRpkdaaQeuVqJbczHndsgmmMv0NycwRDdzFTDwM=BJnc7SseQ@mail.gmail.com>
- <YQMr6slu/Nvt6UYr@robh.at.kernel.org>
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2646F3D1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 06:00:50 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id e5so9805283pld.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 23:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=AkhIE+Z/B9o86qJ2h9HZNEp9cxXi2bxRLjCixTXYrfc=;
+ b=Fh6OENhJi1c3RrFskVWW6a9K2LSOKkwhkO0I0QoeZawnKqIN6ZuzUUVNxbwiTtvNFz
+ bMVWqh2xIMpsrdYmeJhT9uFMA1by20wu3sM3OAADk1KBtfN4Uu2cssSA0TWKloIc9Vey
+ zfRQUlNDvpayDj2QUZLI50jUvarPm8pJnxzm8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AkhIE+Z/B9o86qJ2h9HZNEp9cxXi2bxRLjCixTXYrfc=;
+ b=gDVFhIkfWCEy1mGFnScxFVt9fNvODINHZnsYj97OMoRszhaa71zAJhQwqLRto+zt0+
+ ymvX3d2wOt/8rNwe7aWXxPIwr3wVk72CW5nXBYr0WfUadaMfU2JOOZ6iMh9vwbmz9q8J
+ 4JYxx00c0KRSQQhTfvXFsV2rGzHrzpO9KBN9IFD0t54fMUi947gmzgTKSDqohwQ+C9pu
+ ShxUhFUq0/jxuOoslZXdgltUfXolE5mTiMwZ3Xofo0lrAI1MDnTgacV0XxYoyf1vpDZw
+ RhZcsygvML7x6ypnuAupvFovJa1nMYusL5RDlCi8+5gCbfFWJ/qn0aIbzzmJ5eYaGMZJ
+ D9CA==
+X-Gm-Message-State: AOAM53126Qnp74aWnEV9X6md/ohpJd10T8bFNufR44FjO/WsXbZGqAWT
+ MZX/rMRBrjHIgYGq1jfWLAU51A==
+X-Google-Smtp-Source: ABdhPJyWC1FrO1Uo8OEqczQz/zwyPTutgGoQvmX1ca/HLGVAQy1qzKK0RhNumzH/6yied/9WmGxhOQ==
+X-Received: by 2002:a17:902:a411:b029:12b:a4eb:5fcc with SMTP id
+ p17-20020a170902a411b029012ba4eb5fccmr1190139plq.22.1627624850214; 
+ Thu, 29 Jul 2021 23:00:50 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id a22sm723870pfv.113.2021.07.29.23.00.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jul 2021 23:00:49 -0700 (PDT)
+Date: Thu, 29 Jul 2021 23:00:48 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
+ region
+Message-ID: <202107291952.C08EAE039B@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-2-keescook@chromium.org>
+ <20210728085921.GV5047@twin.jikos.cz> <20210728091434.GQ1931@kadam>
+ <c52a52d9-a9e0-5020-80fe-4aada39035d3@acm.org>
+ <20210728213730.GR5047@suse.cz> <YQJDCw01gSp1d1/M@kroah.com>
+ <20210729082039.GX25548@kadam>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YQMr6slu/Nvt6UYr@robh.at.kernel.org>
+In-Reply-To: <20210729082039.GX25548@kadam>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,37 +71,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
- <devicetree@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- " <~postmarketos/upstreaming@lists.sr.ht>,
- Alexey Minnekhanov <alexeymin@postmarketos.org>, phone-devel@vger.kernel.org
+Cc: Bart Van Assche <bvanassche@acm.org>, linux-kbuild@vger.kernel.org,
+ nborisov@suse.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
+ dsterba@suse.cz, linux-block@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Keith Packard <keithpac@amazon.com>,
+ linux-hardening@vger.kernel.org, netdev@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 29, 2021 at 04:30:02PM -0600, Rob Herring wrote:
-> On Mon, Jul 26, 2021 at 09:51:40AM +0200, Linus Walleij wrote:
-> > On Sun, Jul 25, 2021 at 4:04 PM Alexey Minnekhanov
-> > <alexeymin@postmarketos.org> wrote:
+On Thu, Jul 29, 2021 at 11:20:39AM +0300, Dan Carpenter wrote:
+> On Thu, Jul 29, 2021 at 07:56:27AM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Jul 28, 2021 at 11:37:30PM +0200, David Sterba wrote:
+> > > On Wed, Jul 28, 2021 at 02:37:20PM -0700, Bart Van Assche wrote:
+> > > > On 7/28/21 2:14 AM, Dan Carpenter wrote:
+> > > > > On Wed, Jul 28, 2021 at 10:59:22AM +0200, David Sterba wrote:
+> > > > >>>   drivers/media/platform/omap3isp/ispstat.c |  5 +--
+> > > > >>>   include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
+> > > > >>>   2 files changed, 36 insertions(+), 13 deletions(-)
+> > > > >>>
+> > > > >>> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> > > > >>> index 5b9b57f4d9bf..ea8222fed38e 100644
+> > > > >>> --- a/drivers/media/platform/omap3isp/ispstat.c
+> > > > >>> +++ b/drivers/media/platform/omap3isp/ispstat.c
+> > > > >>> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+> > > > >>>   int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+> > > > >>>   					struct omap3isp_stat_data_time32 *data)
+> > > > >>>   {
+> > > > >>> -	struct omap3isp_stat_data data64;
+> > > > >>> +	struct omap3isp_stat_data data64 = { };
+> > > > >>
+> > > > >> Should this be { 0 } ?
+> > > > >>
+> > > > >> We've seen patches trying to switch from { 0 } to {  } but the answer
+> > > > >> was that { 0 } is supposed to be used,
+> > > > >> http://www.ex-parrot.com/~chris/random/initialise.html 
+> > > > >>
+> > > > >> (from https://lore.kernel.org/lkml/fbddb15a-6e46-3f21-23ba-b18f66e3448a@suse.com/ )
+> > > > > 
+> > > > > In the kernel we don't care about portability so much.  Use the = { }
+> > > > > GCC extension.  If the first member of the struct is a pointer then
+> > > > > Sparse will complain about = { 0 }.
+> > > > 
+> > > > +1 for { }.
+> > > 
+> > > Oh, I thought the tendency is is to use { 0 } because that can also
+> > > intialize the compound members, by a "scalar 0" as it appears in the
+> > > code.
+> > > 
 > > 
-> > > The Samsung S6E3FA2 AMOLED cmd LCD panel is used on Samsung Galaxy
-> > > S5 (klte) phone.
-> > >
-> > > Signed-off-by: Alexey Minnekhanov <alexeymin@postmarketos.org>
+> > Holes in the structure might not be initialized to anything if you do
+> > either one of these as well.
 > > 
-> > Grr gmail put this in my spam folder, sorry for confused mails.
-> > 
-> > With Sam's comments addressed:
+> > Or did we finally prove that is not the case?  I can not remember
+> > anymore...
 > 
-> What comments? Sam's mails seem to have problems getting to the lists.
-New SMTP provider and I have yet to figure out why. Something with
-STARTTLS I think. At least dri-devel works bot nothing else..
+> Yep.  The C11 spec says that struct holes are initialized.
+> 
+> https://lore.kernel.org/netdev/20200731140452.GE24045@ziepe.ca/
 
-Not really what I like spending my time on.
+This is, unfortunately, misleading. The frustrating key word is
+"partial" in "updated in C11 to require zero'ing padding when doing
+partial initialization of aggregates". If one initializes _all_ the
+struct members ... the padding doesn't get initialized. :( (And until
+recently, _trailing_ padding wasn't getting initialized even when other
+paddings were.)
 
-	Sam
+I've tried to collect all the different ways the compiler might initialize
+a variable in this test:
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/tree/lib/test_stackinit.c?h=for-next/kspp
+
+FWIW, there's no difference between -std=gnu99 and -std=c11, and the
+test shows that padding is _not_ universally initialized (unless your
+compiler supports -ftrivial-auto-var-init=zero, which Clang does, and
+GCC will shortly[1]). Running this with GCC 10.3.0, I see this...
+
+As expected, having no initializer leaves padding (as well as members)
+uninitialized:
+
+stackinit: small_hole_none FAIL (uninit bytes: 24)
+stackinit: big_hole_none FAIL (uninit bytes: 128)
+stackinit: trailing_hole_none FAIL (uninit bytes: 32)
+
+Here, "zero" means  "= { };" and they get padding initialized:
+
+stackinit: small_hole_zero ok
+stackinit: big_hole_zero ok
+stackinit: trailing_hole_zero ok
+
+Here, "static_partial" means "= { .one_member = 0 };", and
+"dynamic_partial" means "= { .one_member = some_variable };". These are
+similarly initialized:
+
+stackinit: small_hole_static_partial ok
+stackinit: big_hole_static_partial ok
+stackinit: trailing_hole_static_partial ok
+
+stackinit: small_hole_dynamic_partial ok
+stackinit: big_hole_dynamic_partial ok
+stackinit: trailing_hole_dynamic_partial ok
+
+But when _all_ members are initialized, the padding is _not_:
+
+stackinit: small_hole_static_all FAIL (uninit bytes: 3)
+stackinit: big_hole_static_all FAIL (uninit bytes: 124)
+stackinit: trailing_hole_static_all FAIL (uninit bytes: 7)
+
+stackinit: small_hole_dynamic_all FAIL (uninit bytes: 3)
+stackinit: big_hole_dynamic_all FAIL (uninit bytes: 124)
+stackinit: trailing_hole_dynamic_all FAIL (uninit bytes: 7)
+
+As expected, assigning to members outside of initialization leaves
+padding uninitialized:
+
+stackinit: small_hole_runtime_partial FAIL (uninit bytes: 23)
+stackinit: big_hole_runtime_partial FAIL (uninit bytes: 127)
+stackinit: trailing_hole_runtime_partial FAIL (uninit bytes: 24)
+
+stackinit: small_hole_runtime_all FAIL (uninit bytes: 3)
+stackinit: big_hole_runtime_all FAIL (uninit bytes: 124)
+stackinit: trailing_hole_runtime_all FAIL (uninit bytes: 7)
+
+> What doesn't initialize struct holes is assignments:
+> 
+> 	struct foo foo = *bar;
+
+Right. Object to object assignments do not clear padding:
+
+stackinit: small_hole_assigned_copy XFAIL (uninit bytes: 3)
+stackinit: big_hole_assigned_copy XFAIL (uninit bytes: 124)
+stackinit: trailing_hole_assigned_copy XFAIL (uninit bytes: 7)
+
+And whole-object assignments of cast initializers follow the pattern of
+basic initializers, which makes sense given the behavior of initializers
+and direct assignment tests above. e.g.:
+	obj = (type){ .member = ... };
+
+stackinit: small_hole_assigned_static_partial ok
+stackinit: small_hole_assigned_dynamic_partial ok
+stackinit: big_hole_assigned_dynamic_partial ok
+stackinit: big_hole_assigned_static_partial ok
+stackinit: trailing_hole_assigned_dynamic_partial ok
+stackinit: trailing_hole_assigned_static_partial ok
+
+stackinit: small_hole_assigned_static_all FAIL (uninit bytes: 3)
+stackinit: small_hole_assigned_dynamic_all FAIL (uninit bytes: 3)
+stackinit: big_hole_assigned_static_all FAIL (uninit bytes: 124)
+stackinit: big_hole_assigned_dynamic_all FAIL (uninit bytes: 124)
+stackinit: trailing_hole_assigned_dynamic_all FAIL (uninit bytes: 7)
+stackinit: trailing_hole_assigned_static_all FAIL (uninit bytes: 7)
+
+So, yeah, it's not very stable.
+
+-Kees
+
+[1] https://gcc.gnu.org/pipermail/gcc-patches/2021-July/576341.html
+
+-- 
+Kees Cook
