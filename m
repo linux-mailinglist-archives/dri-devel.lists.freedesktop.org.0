@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06133DBA37
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 16:20:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2493DBAB3
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 16:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD416E3D2;
-	Fri, 30 Jul 2021 14:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED0C36F44B;
+	Fri, 30 Jul 2021 14:38:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD2996E2BC;
- Fri, 30 Jul 2021 14:19:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="276882042"
-X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; d="scan'208";a="276882042"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2021 07:19:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; d="scan'208";a="417979839"
-Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 30 Jul 2021 07:19:55 -0700
-Received: from kbuild by d053b881505b with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1m9TMg-000A2u-Br; Fri, 30 Jul 2021 14:19:54 +0000
-Date: Fri, 30 Jul 2021 22:19:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH] drm: mock_device can be static
-Message-ID: <20210730141948.GA11955@243d74413310>
-References: <20210730095251.4343-1-daniel.vetter@ffwll.ch>
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF5E46E03B;
+ Fri, 30 Jul 2021 14:38:06 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ i39-20020a9d17270000b02904cf73f54f4bso9733277ota.2; 
+ Fri, 30 Jul 2021 07:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=SI25ow92uZg+BEB0RQ5f76l9YsfOVkkwHkMuJVkTQbo=;
+ b=nm4KNOhAX8VAnpPT8J2+3gPGVJx389TFMyTRjhX1GK0PKsMo+5ydL2u2hu+ZwdrVCU
+ xLw6Pgq65ioerSCoN4qgMojjtq8JkGM4T3oDoGbGfOq1SbLJcG4nGPNTbW7Q1odLbhXb
+ po8ou6GMAi79k3Uwr+Ctk2LyJmDG96fLK8Gi83aE+tacL7aGE3B/G3GFqlYGFKng8z0U
+ btC8zhVBbKQ7UyocO06TiOKIAnFtK0dKIvQtJFWZy1jpy2RgrUIFMOrDp+JBDS3x2Fjx
+ 52oTEIqnEoR3JYvhn9Lw8vH4nYjG9EU73G9BYSOlNuM7F116E8UWnOrlPYEjPk8bEK2q
+ okiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SI25ow92uZg+BEB0RQ5f76l9YsfOVkkwHkMuJVkTQbo=;
+ b=TE8NbS25rocCuSdy1EcXOt93XtdmZNniKqrAZy6sJzck87t5Me/skC4cHUMD5WS7jR
+ Se8MAowX8Yd1o1QjPRtcC5C3oKaUB5uY2UyOrHjxUBiFpYFQYmg5KFaNoSPvPI0nV/ol
+ eEimHF1flxpONFt2IwqNuJAREn5nYos8rRO3jYmOfgJo0TreeLoXuj1PBweSETLBztvG
+ +lvINGdX4z4l29zo0DJcXjT2mLJwYNiGxSPrKQSAnozramKIDkP2iQbGM0+4uNydNqZH
+ pl9cOfXzn3XK9Jr1sPfNE8c8ur2FRCQBzSlNmtPRx/wCd8eKuFuNMa00AU+BBsacPRTv
+ LXJw==
+X-Gm-Message-State: AOAM5335SDGVnBKTXvvldIr4RCbXMNn2sRldgU8dafEvRmqpi60ti6r2
+ b3ISWfgw9PZ6otBQkkujBDmyjU5MKoHIKUz0oQs=
+X-Google-Smtp-Source: ABdhPJyp6Y5YIGa0VrmyMO+wfLAp/fxsN36Xdb5hvOSq9M3mXfE2z2vcjQmGShhZgxi19K0zkyBH9EQR8bYYK9iBaRo=
+X-Received: by 2002:a05:6830:1c2f:: with SMTP id
+ f15mr2283318ote.23.1627655886012; 
+ Fri, 30 Jul 2021 07:38:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210730095251.4343-1-daniel.vetter@ffwll.ch>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210730030347.13996-1-rdunlap@infradead.org>
+In-Reply-To: <20210730030347.13996-1-rdunlap@infradead.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 30 Jul 2021 10:37:54 -0400
+Message-ID: <CADnq5_PPYtdb17WLtgjeS3THXBeHw_DyMKueZ4LP8cVS1G8Tcw@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amdgpu: fix checking pmops when PM_SLEEP is not
+ enabled
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,41 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Linux-Next Mailing List <linux-next@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/selftests/test-drm_damage_helper.c:15:19: warning: symbol 'mock_device' was not declared. Should it be static?
-drivers/gpu/drm/selftests/test-drm_damage_helper.c:16:30: warning: symbol 'mock_obj_props' was not declared. Should it be static?
-drivers/gpu/drm/selftests/test-drm_damage_helper.c:17:18: warning: symbol 'mock_plane' was not declared. Should it be static?
-drivers/gpu/drm/selftests/test-drm_damage_helper.c:18:21: warning: symbol 'mock_prop' was not declared. Should it be static?
+Applied.  Thanks!
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
- test-drm_damage_helper.c |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Alex
 
-diff --git a/drivers/gpu/drm/selftests/test-drm_damage_helper.c b/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-index 1b585c13e042fe..1c19a5d3eefbf8 100644
---- a/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-+++ b/drivers/gpu/drm/selftests/test-drm_damage_helper.c
-@@ -12,10 +12,10 @@
- #include "test-drm_modeset_common.h"
- 
- struct drm_driver mock_driver;
--struct drm_device mock_device;
--struct drm_object_properties mock_obj_props;
--struct drm_plane mock_plane;
--struct drm_property mock_prop;
-+static struct drm_device mock_device;
-+static struct drm_object_properties mock_obj_props;
-+static struct drm_plane mock_plane;
-+static struct drm_property mock_prop;
- 
- static void mock_setup(struct drm_plane_state *state)
- {
+On Thu, Jul 29, 2021 at 11:03 PM Randy Dunlap <rdunlap@infradead.org> wrote=
+:
+>
+> 'pm_suspend_target_state' is only available when CONFIG_PM_SLEEP
+> is set/enabled. OTOH, when both SUSPEND and HIBERNATION are not set,
+> PM_SLEEP is not set, so this variable cannot be used.
+>
+> ../drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c: In function =E2=80=98amdgpu_=
+acpi_is_s0ix_active=E2=80=99:
+> ../drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1046:11: error: =E2=80=98pm_s=
+uspend_target_state=E2=80=99 undeclared (first use in this function); did y=
+ou mean =E2=80=98__KSYM_pm_suspend_target_state=E2=80=99?
+>     return pm_suspend_target_state =3D=3D PM_SUSPEND_TO_IDLE;
+>            ^~~~~~~~~~~~~~~~~~~~~~~
+>            __KSYM_pm_suspend_target_state
+>
+> Also use shorter IS_ENABLED(CONFIG_foo) notation for checking the
+> 2 config symbols.
+>
+> Fixes: 91b03fc6b50c ("drm/amdgpu: Check pmops for desired suspend state")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-next@vger.kernel.org
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> --- linext-20210729.orig/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> +++ linext-20210729/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> @@ -1040,7 +1040,7 @@ void amdgpu_acpi_detect(void)
+>   */
+>  bool amdgpu_acpi_is_s0ix_active(struct amdgpu_device *adev)
+>  {
+> -#if defined(CONFIG_AMD_PMC) || defined(CONFIG_AMD_PMC_MODULE)
+> +#if IS_ENABLED(CONFIG_AMD_PMC) && IS_ENABLED(CONFIG_PM_SLEEP)
+>         if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) {
+>                 if (adev->flags & AMD_IS_APU)
+>                         return pm_suspend_target_state =3D=3D PM_SUSPEND_=
+TO_IDLE;
