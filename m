@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036A93DB10D
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C933DB115
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC39C6F399;
-	Fri, 30 Jul 2021 02:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E106F39B;
+	Fri, 30 Jul 2021 02:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7116F393;
- Fri, 30 Jul 2021 02:16:34 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- o17-20020a4a64110000b0290263e1ba7ff9so2079349ooc.2; 
- Thu, 29 Jul 2021 19:16:34 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58E766F393;
+ Fri, 30 Jul 2021 02:17:49 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id t128so11144010oig.1;
+ Thu, 29 Jul 2021 19:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=r3u8PQUkpqyAfITTKMU/qJ2G/2EJpG3EEGinj//3Afs=;
- b=tg5rQwQiK8zzkJUED/kD6JpYtTsT9SrvcD6xRdoa2757QjF63ev5y2N+XJ5qlgG8+p
- sss83n+F15YNmV2diB4LthkheWIIBOZvIC1NdxYNcjMRle0GPT3vL1TkzVdNwR8lG6i6
- wYafo0prBA65/w4zZ9kSL8AsExt6QgoD98oMveQEmyy9tDKB3eqoqyanp+E5Wc6QHYO9
- t8+VPFeg+r/hnUKvsZJg/X2MQWwGZvbYrMG68PNegaxsj0gAcnHF1lRoU3L6jcTXdzfz
- BZh8hM6PNr1yENv+3cYBG/Myap5cAakangVQGzCx3ZCW1GYiyItqT/7SAy+9TQecE35Z
- H1bw==
+ :cc; bh=qrP3xidY8Mh11P8GyD1WMtmmIqlXlinIdn0lWjm42yo=;
+ b=sHq7mvXcn37j4SHeYMWk6vxoAQN9eoIw8COO88dnGtOqutD847d586ZQH5i9BRgS+c
+ P/bt8FDcKFJDBLvMC5EkSk4QYaTJMTXWunos0S27BcbwIYn8XTJfkWN3shhI+NAC+Ehx
+ O4NQfNVuY85DK6bgY/pBB//7966xdy3ii0LioKMHTKPdMU2BIM0Z6R/Myrr4n76/8S11
+ ZfhnI+ha1XUz22MC7zxTOdaRnNje5JoF04P8Wso2lcMNgvj0+CzKqmzEyWMfYMBHd6yu
+ WBtbCMTbnwjH1kUsT/bT7O0UYvaOpxCxxETBKZGpOpINjpHm028llrvzX6HJkrlfu8hD
+ 7YAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=r3u8PQUkpqyAfITTKMU/qJ2G/2EJpG3EEGinj//3Afs=;
- b=CdbZ978SmxK+VZy2P1ckXpW91ug21u4cMUw//fUSwl/XoCQpZ//qvpZdYQmWue4yIm
- LyguiuEJPoFH5zqSe6sxy9E3tvIm5XThrK2i9aKj6mj/piOk1ZWFH1TztF22osWh4djb
- Pxvh/7kno7Pm/xQf0l18SJmSROkmv35rA3O4g7bs8UqX7mwXFFsrYW0XbBKELjMeTB4A
- FPtug6XG34xyCD25Q51WUfl8DEH0UvuvNfJIN+8vmSnCBWqZLq91KGZnLdPRn/hAMJdv
- qstX3MEXGfgiBMKbH38aKJtJ+xbzpSxmcBueumFzM/p1NY5EyB62BtEJxmq22XDl7RzJ
- EqwQ==
-X-Gm-Message-State: AOAM530Cs47dlQ7vsCBgHjSHfQ+zU6tGkj4WhAaibvRQ4ZjIhokVW0Bj
- pM8lgVMHzeEm1Iekp1e2NgJJZeNMbLwu5FaEssU=
-X-Google-Smtp-Source: ABdhPJzjHgsc3QEyOEGHs5oyuvmj8Levmp/MtXMPdKgDbjYeEbKZJ0MB0pdXtf1m2Eupyo6303rtDbWAE1q8yZWJznM=
-X-Received: by 2002:a4a:e3cb:: with SMTP id m11mr149850oov.72.1627611393386;
- Thu, 29 Jul 2021 19:16:33 -0700 (PDT)
+ bh=qrP3xidY8Mh11P8GyD1WMtmmIqlXlinIdn0lWjm42yo=;
+ b=K5V/HmMueA3RJ/vEwQozPbeTjbBX+6I7tchZRtePol3Q7DfC95kx7aNthBlKHVCQ3n
+ 1ygbKM+8EjLMb/YWsepnJm6idqUor5TlOeIkVvM5lLMszJiWHqqluE5l38snC/kG4cpb
+ DdRfMdEibqBOK6wIPG8dUyb2T1PGoV7SrsRpeOtvA2+hdFol9WQdoJ9CHw44OLvaY8tG
+ 50sbksXaRbPlzSnyypdVCuQI5gmblgF6IhNyDtwwLWPnBdlo6NYkpdIkqOB6ryJUCnY+
+ vLjVwzEpUWVWbJZh1EBlywlKbnR8U2lg4BTxyMu/cjkYdFWMNXUAk6yxl33oyoPZdmdZ
+ iquw==
+X-Gm-Message-State: AOAM531tS6va9Z16i1ccoxpeVSdDNXlM7Fz9NYTxtfKxOEwlLbi4+Edi
+ viMQ3GnVYeS+iAEwBywevGCx3O4c1uR6oJRtReE=
+X-Google-Smtp-Source: ABdhPJxoFgVctq7V/LiC4ZvlHvmskoN91llj0GpNw2vInUp0BPFqOkc6DPjIF4AkB923tXGegLf3qkXRIECpyZlPbWE=
+X-Received: by 2002:aca:53ca:: with SMTP id h193mr303215oib.5.1627611468711;
+ Thu, 29 Jul 2021 19:17:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210729081814.1738-1-caihuoqing@baidu.com>
-In-Reply-To: <20210729081814.1738-1-caihuoqing@baidu.com>
+References: <20210729082046.1786-1-caihuoqing@baidu.com>
+In-Reply-To: <20210729082046.1786-1-caihuoqing@baidu.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 29 Jul 2021 22:16:22 -0400
-Message-ID: <CADnq5_Np+uyy2EHvXaGiv_AFiTZ=2WtwbAuFYz6hoVzz5JAkXA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix typo in comments
+Date: Thu, 29 Jul 2021 22:17:37 -0400
+Message-ID: <CADnq5_N3F=hkyZHSKd18DpoNuT_See-LKKAyw=zeSOLi8dunLQ@mail.gmail.com>
+Subject: Re: [PATCH] gpu/drm/radeon: Fix typo in comments
 To: Cai Huoqing <caihuoqing@baidu.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,130 +61,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ xinhui pan <Xinhui.Pan@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 29, 2021 at 4:18 AM Cai Huoqing <caihuoqing@baidu.com> wrote:
+Applied.  Thanks!
+
+Alex
+
+On Thu, Jul 29, 2021 at 4:21 AM Cai Huoqing <caihuoqing@baidu.com> wrote:
 >
 > Remove the repeated word 'the' from comments
 >
 > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-
-Applied.  Thanks!
-
 > ---
->  drivers/gpu/drm/amd/display/dc/core/dc_resource.c             | 2 +-
->  .../gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c | 2 +-
->  .../drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c   | 2 +-
->  .../gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c | 2 +-
->  .../gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c | 2 +-
->  .../gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c | 2 +-
->  drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c | 4 ++--
->  7 files changed, 8 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/radeon/atombios.h      | 4 ++--
+>  drivers/gpu/drm/radeon/r300_reg.h      | 2 +-
+>  drivers/gpu/drm/radeon/radeon_device.c | 2 +-
+>  drivers/gpu/drm/radeon/radeon_fence.c  | 2 +-
+>  drivers/gpu/drm/radeon/radeon_vm.c     | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-> index 1596f6b7fed7..7f12ca902f7d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-> @@ -1030,7 +1030,7 @@ bool resource_build_scaling_params(struct pipe_ctx *pipe_ctx)
+> diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/atombios.h
+> index 4b86e8b45009..83e8b8547f9b 100644
+> --- a/drivers/gpu/drm/radeon/atombios.h
+> +++ b/drivers/gpu/drm/radeon/atombios.h
+> @@ -2802,8 +2802,8 @@ ucMaxNBVoltageHigh:     Voltage regulator dependent PWM value. High 8 bits of  t
+>  ucMinNBVoltageHigh:     Voltage regulator dependent PWM value. High 8 bits of the value for the min voltage.Set this one to 0x00 if VC without PWM or no VC at all.
 >
->         /* Timing borders are part of vactive that we are also supposed to skip in addition
->          * to any stream dst offset. Since dm logic assumes dst is in addressable
-> -        * space we need to add the the left and top borders to dst offsets temporarily.
-> +        * space we need to add the left and top borders to dst offsets temporarily.
->          * TODO: fix in DM, stream dst is supposed to be in vactive
->          */
->         pipe_ctx->stream->dst.x += timing->h_border_left;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
-> index 799bae229e67..2091dd8c252d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20.c
-> @@ -488,7 +488,7 @@ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
->         log2_meta_req_bytes = 6; // meta request is 64b and is 8x8byte meta element
 >
->         // each 64b meta request for dcn is 8x8 meta elements and
-> -       // a meta element covers one 256b block of the the data surface.
-> +       // a meta element covers one 256b block of the data surface.
->         log2_meta_req_height = log2_blk256_height + 3; // meta req is 8x8 byte, each byte represent 1 blk256
->         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
->                         - log2_meta_req_height;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
-> index 6a6d5970d1d5..1a0c14e465fa 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_rq_dlg_calc_20v2.c
-> @@ -488,7 +488,7 @@ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
->         log2_meta_req_bytes = 6; // meta request is 64b and is 8x8byte meta element
+> -usInterNBVoltageLow:    Voltage regulator dependent PWM value. The value makes the the voltage >=Min NB voltage but <=InterNBVoltageHigh. Set this to 0x0000 if VC without PWM or no VC at all.
+> -usInterNBVoltageHigh:   Voltage regulator dependent PWM value. The value makes the the voltage >=InterNBVoltageLow but <=Max NB voltage.Set this to 0x0000 if VC without PWM or no VC at all.
+> +usInterNBVoltageLow:    Voltage regulator dependent PWM value. The value makes the voltage >=Min NB voltage but <=InterNBVoltageHigh. Set this to 0x0000 if VC without PWM or no VC at all.
+> +usInterNBVoltageHigh:   Voltage regulator dependent PWM value. The value makes the voltage >=InterNBVoltageLow but <=Max NB voltage.Set this to 0x0000 if VC without PWM or no VC at all.
+>  */
 >
->         // each 64b meta request for dcn is 8x8 meta elements and
-> -       // a meta element covers one 256b block of the the data surface.
-> +       // a meta element covers one 256b block of the data surface.
->         log2_meta_req_height = log2_blk256_height + 3; // meta req is 8x8 byte, each byte represent 1 blk256
->         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
->                         - log2_meta_req_height;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
-> index dc1c81a6e377..287e31052b30 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
-> @@ -482,7 +482,7 @@ static void get_meta_and_pte_attr(
->         log2_meta_req_bytes = 6; // meta request is 64b and is 8x8byte meta element
 >
->         // each 64b meta request for dcn is 8x8 meta elements and
-> -       // a meta element covers one 256b block of the the data surface.
-> +       // a meta element covers one 256b block of the data surface.
->         log2_meta_req_height = log2_blk256_height + 3; // meta req is 8x8 byte, each byte represent 1 blk256
->         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
->                         - log2_meta_req_height;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
-> index 04601a767a8f..0d934fae1c3a 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
-> @@ -549,7 +549,7 @@ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
->         log2_meta_req_bytes = 6; // meta request is 64b and is 8x8byte meta element
+> diff --git a/drivers/gpu/drm/radeon/r300_reg.h b/drivers/gpu/drm/radeon/r300_reg.h
+> index 00c0d2ba22d3..60d5413bafa1 100644
+> --- a/drivers/gpu/drm/radeon/r300_reg.h
+> +++ b/drivers/gpu/drm/radeon/r300_reg.h
+> @@ -353,7 +353,7 @@
+>  #       define R300_PVS_CNTL_1_PROGRAM_START_SHIFT   0
+>  #       define R300_PVS_CNTL_1_POS_END_SHIFT         10
+>  #       define R300_PVS_CNTL_1_PROGRAM_END_SHIFT     20
+> -/* Addresses are relative the the vertex program parameters area. */
+> +/* Addresses are relative the vertex program parameters area. */
+>  #define R300_VAP_PVS_CNTL_2                 0x22D4
+>  #       define R300_PVS_CNTL_2_PARAM_OFFSET_SHIFT 0
+>  #       define R300_PVS_CNTL_2_PARAM_COUNT_SHIFT  16
+> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+> index cec03238e14d..ac8c3251b616 100644
+> --- a/drivers/gpu/drm/radeon/radeon_device.c
+> +++ b/drivers/gpu/drm/radeon/radeon_device.c
+> @@ -406,7 +406,7 @@ void radeon_doorbell_free(struct radeon_device *rdev, u32 doorbell)
 >
->                                  // each 64b meta request for dcn is 8x8 meta elements and
-> -                                // a meta element covers one 256b block of the the data surface.
-> +                                // a meta element covers one 256b block of the data surface.
->         log2_meta_req_height = log2_blk256_height + 3; // meta req is 8x8 byte, each byte represent 1 blk256
->         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
->                 - log2_meta_req_height;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-> index 3def093ef88e..c23905bc733a 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-> @@ -563,7 +563,7 @@ static void get_meta_and_pte_attr(
->         log2_meta_req_bytes = 6;        // meta request is 64b and is 8x8byte meta element
->
->         // each 64b meta request for dcn is 8x8 meta elements and
-> -       // a meta element covers one 256b block of the the data surface.
-> +       // a meta element covers one 256b block of the data surface.
->         log2_meta_req_height = log2_blk256_height + 3;  // meta req is 8x8 byte, each byte represent 1 blk256
->         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element - log2_meta_req_height;
->         meta_req_width = 1 << log2_meta_req_width;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c b/drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c
-> index 414da64f5734..8f2b1684c231 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c
-> @@ -456,7 +456,7 @@ static void dml1_rq_dlg_get_row_heights(
->         log2_meta_req_bytes = 6; /* meta request is 64b and is 8x8byte meta element */
->
->         /* each 64b meta request for dcn is 8x8 meta elements and
-> -        * a meta element covers one 256b block of the the data surface.
-> +        * a meta element covers one 256b block of the data surface.
->          */
->         log2_meta_req_height = log2_blk256_height + 3; /* meta req is 8x8 */
->         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
-> @@ -718,7 +718,7 @@ static void get_surf_rq_param(
->         log2_meta_req_bytes = 6; /* meta request is 64b and is 8x8byte meta element */
->
->         /* each 64b meta request for dcn is 8x8 meta elements and
-> -        * a meta element covers one 256b block of the the data surface.
-> +        * a meta element covers one 256b block of the data surface.
->          */
->         log2_meta_req_height = log2_blk256_height + 3; /* meta req is 8x8 byte, each byte represent 1 blk256 */
->         log2_meta_req_width = log2_meta_req_bytes + 8 - log2_bytes_per_element
+>  /*
+>   * radeon_wb_*()
+> - * Writeback is the the method by which the the GPU updates special pages
+> + * Writeback is the method by which the GPU updates special pages
+>   * in memory with the status of certain GPU events (fences, ring pointers,
+>   * etc.).
+>   */
+> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+> index 18f2c2e0dfb3..e9c47ec28ade 100644
+> --- a/drivers/gpu/drm/radeon/radeon_fence.c
+> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
+> @@ -50,7 +50,7 @@
+>   * for GPU/CPU synchronization.  When the fence is written,
+>   * it is expected that all buffers associated with that fence
+>   * are no longer in use by the associated ring on the GPU and
+> - * that the the relevant GPU caches have been flushed.  Whether
+> + * that the relevant GPU caches have been flushed.  Whether
+>   * we use a scratch register or memory location depends on the asic
+>   * and whether writeback is enabled.
+>   */
+> diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
+> index 36a38adaaea9..bb53016f3138 100644
+> --- a/drivers/gpu/drm/radeon/radeon_vm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_vm.c
+> @@ -41,7 +41,7 @@
+>   * (uncached system pages).
+>   * Each VM has an ID associated with it and there is a page table
+>   * associated with each VMID.  When execting a command buffer,
+> - * the kernel tells the the ring what VMID to use for that command
+> + * the kernel tells the ring what VMID to use for that command
+>   * buffer.  VMIDs are allocated dynamically as commands are submitted.
+>   * The userspace drivers maintain their own address space and the kernel
+>   * sets up their pages tables accordingly when they submit their
 > --
 > 2.25.1
 >
