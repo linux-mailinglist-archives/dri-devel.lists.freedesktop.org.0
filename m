@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14F03DB126
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:31:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E57A3DB13B
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:39:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8715F6E213;
-	Fri, 30 Jul 2021 02:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 738BE6F39E;
+	Fri, 30 Jul 2021 02:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80F1E6E213
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:31:10 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id k1so9239792plt.12
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 19:31:10 -0700 (PDT)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5719A6F39E
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:39:25 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id j1so13001021pjv.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 19:39:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=fUqZ0NLVZxg4yvCXyE1lEs/e7e2cakQ+3GgW8pZJCvA=;
- b=etYre1AjERNhjyVA/9+2+oLRj921sU45jCtD5h5fRrioHVxndRb/wVYqd+Gvs/9PWN
- W5TIwCrEKVrSomZp1XNcHMR3yLthFd9Qftp86Ybrvy7SLYwhXBueLu90Yc4ejQUhYSOC
- pE6uT73BOuVftlnSqfS6+2EzGpdU+4QF+7NHo=
+ bh=NHuO3a4lOV1ak/eQfFp+AAaG2sMLeGDAKzyV4AOK0RE=;
+ b=j8UqRed6HOKlyVkSoS05EJXewa+eUCRzTuOxtwGX5fDIEozj4tBUf/Pb6CHGAaLmaA
+ 0lvkqjJ4PTgUwIVlwmbeuhhcBcZAYaZZ7EQBi+8oHJhkCGFeyBQklkhQLoPwf8W6+nzt
+ YRqHGvdjQepkZ10ZG9+WbgEXKCY3JTIc9WoQ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=fUqZ0NLVZxg4yvCXyE1lEs/e7e2cakQ+3GgW8pZJCvA=;
- b=tpfT+8FMXue7gVzSzvKsIzp02bvafzx6Y79oek/VtqK9OCLtlw3Yn/p10pRy5pZtUy
- QmyUlW1c2gaqoUUp2B6+I7Kr6V0AkfTj7Xb9cQa+2Av1rjJjPLqA1rUeqwe3golmrCmS
- dVFx41lPLfnwaTrpNFQBoFtPMbs0NyyhM/8phsq2CjpT1nwbuVNds7cDshozFg98qhKR
- eWuVnK16eDLSW34rf20xqGN1LmhwZP5KG82w9Qqw1cmawg4Lwgf9ohpyOO8MjpF3nGPZ
- FDf+FKQxx4HNrG/gZhyQweYddJ31gB3i2qk8HGeGk6J2ZI/D81gVHuLe0wBp5+btj1TI
- vujQ==
-X-Gm-Message-State: AOAM532MHXM9byq+6yI56P8E92uSarbyJ6n0r1rBty9/sec6MdsBuNAh
- NkyQgGtEftNU00oRGaUBopTLXA==
-X-Google-Smtp-Source: ABdhPJxIpjyYfp2wSF3KUcMBsoeqagBGHs5J6YJ1XjDsi8DNMVFxuffmFFgkMO9ZoPoLSYu5GHbnWw==
-X-Received: by 2002:a05:6a00:168a:b029:2fb:6bb0:aba with SMTP id
- k10-20020a056a00168ab02902fb6bb00abamr526959pfc.32.1627612270101; 
- Thu, 29 Jul 2021 19:31:10 -0700 (PDT)
+ bh=NHuO3a4lOV1ak/eQfFp+AAaG2sMLeGDAKzyV4AOK0RE=;
+ b=NNWvNaYar01O6v30Av/CBxr2IK9lkr29V/tsDCSSOm8p4DTK6c8rbkhrzHFMSbPEU4
+ gWBRCx5sqYLkWwmX/R0gQjaxFhuObRmm1xu/beWz6HIUovSFUfU8E7Oaxb+VMwsXutPn
+ 1G7yVEnmMdH83AFEFy5EcQDX+HoW5n+jHfsxjRno1okGRMBaVkJEY64sk59NFGoh7x0Z
+ yb+VwPjBd4v7BbP+ILFX+Ul0oLmi5kQrZ37jS738w3p5y2kRUliSNWmmei1qwc/ufiha
+ NpkEhOx5msRmvqXTSY4DjP2Xsn0MOrYhYY2T0qlebUwVAVyHt12rVUSlDoRH6MCdZw01
+ MN4w==
+X-Gm-Message-State: AOAM530o1mFwuUYjqFSTOCa8lOVZlH8/kOesS3RcihBMaeY7bcq4cu/H
+ lSKIuvC72zJ3Ian02olCb7/4uA==
+X-Google-Smtp-Source: ABdhPJzo5u8p9hbDXhUl8yhRH+ETwKt9UE7110pr1bIcu8dZOn97UljUZ8gMIyei6sG4Pc+UC9HyCw==
+X-Received: by 2002:a17:902:c409:b029:12c:8d18:a03 with SMTP id
+ k9-20020a170902c409b029012c8d180a03mr518065plk.81.1627612764988; 
+ Thu, 29 Jul 2021 19:39:24 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id q13sm218718pjq.10.2021.07.29.19.31.09
+ by smtp.gmail.com with ESMTPSA id x7sm195258pfn.70.2021.07.29.19.39.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 19:31:09 -0700 (PDT)
-Date: Thu, 29 Jul 2021 19:31:08 -0700
+ Thu, 29 Jul 2021 19:39:24 -0700 (PDT)
+Date: Thu, 29 Jul 2021 19:39:23 -0700
 From: Kees Cook <keescook@chromium.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
-Message-ID: <202107291845.1E1528D@keescook>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in
+ memcpy() at compile-time
+Message-ID: <202107291938.B26E4916@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-49-keescook@chromium.org>
- <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
+ <20210727205855.411487-35-keescook@chromium.org>
+ <d2f9f21c-4d6e-9458-5887-ca5166d07942@rasmusvillemoes.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
+In-Reply-To: <d2f9f21c-4d6e-9458-5887-ca5166d07942@rasmusvillemoes.dk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,73 +78,38 @@ Cc: linux-kbuild@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
-> On 7/27/21 1:58 PM, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
-> > 
-> > Add a struct_group() for the algs so that memset() can correctly reason
-> > about the size.
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >   drivers/block/drbd/drbd_main.c     | 3 ++-
-> >   drivers/block/drbd/drbd_protocol.h | 6 ++++--
-> >   drivers/block/drbd/drbd_receiver.c | 3 ++-
-> >   3 files changed, 8 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-> > index 55234a558e98..b824679cfcb2 100644
-> > --- a/drivers/block/drbd/drbd_main.c
-> > +++ b/drivers/block/drbd/drbd_main.c
-> > @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
-> >   	cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
-> >   	/* initialize verify_alg and csums_alg */
-> > -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
-> > +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
-> > +	memset(&p->algs, 0, sizeof(p->algs));
-> >   	if (get_ldev(peer_device->device)) {
-> >   		dc = rcu_dereference(peer_device->device->ldev->disk_conf);
-> > diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
-> > index dea59c92ecc1..a882b65ab5d2 100644
-> > --- a/drivers/block/drbd/drbd_protocol.h
-> > +++ b/drivers/block/drbd/drbd_protocol.h
-> > @@ -283,8 +283,10 @@ struct p_rs_param_89 {
-> >   struct p_rs_param_95 {
-> >   	u32 resync_rate;
-> > -	char verify_alg[SHARED_SECRET_MAX];
-> > -	char csums_alg[SHARED_SECRET_MAX];
-> > +	struct_group(algs,
-> > +		char verify_alg[SHARED_SECRET_MAX];
-> > +		char csums_alg[SHARED_SECRET_MAX];
-> > +	);
-> >   	u32 c_plan_ahead;
-> >   	u32 c_delay_target;
-> >   	u32 c_fill_target;
-> > diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-> > index 1f740e42e457..6df2539e215b 100644
-> > --- a/drivers/block/drbd/drbd_receiver.c
-> > +++ b/drivers/block/drbd/drbd_receiver.c
-> > @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
-> >   	/* initialize verify_alg and csums_alg */
-> >   	p = pi->data;
-> > -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
-> > +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
-> > +	memset(&p->algs, 0, sizeof(p->algs));
+On Wed, Jul 28, 2021 at 01:19:59PM +0200, Rasmus Villemoes wrote:
+> On 27/07/2021 22.58, Kees Cook wrote:
 > 
-> Using struct_group() introduces complexity. Has it been considered not to
-> modify struct p_rs_param_95 and instead to use two memset() calls instead of
-> one (one memset() call per member)?
+> > At its core, FORTIFY_SOURCE uses the compiler's __builtin_object_size()
+> > internal[0] to determine the available size at a target address based on
+> > the compile-time known structure layout details. It operates in two
+> > modes: outer bounds (0) and inner bounds (1). In mode 0, the size of the
+> > enclosing structure is used. In mode 1, the size of the specific field
+> > is used. For example:
+> > 
+> > 	struct object {
+> > 		u16 scalar1;	/* 2 bytes */
+> > 		char array[6];	/* 6 bytes */
+> > 		u64 scalar2;	/* 8 bytes */
+> > 		u32 scalar3;	/* 4 bytes */
+> > 	} instance;
+> > 
+> >
+> > __builtin_object_size(instance.array, 0) == 18, since the remaining size
+> > of the enclosing structure starting from "array" is 18 bytes (6 + 8 + 4).
+> 
+> I think the compiler would usually end up making that struct size 24,
+> with 4 bytes of trailing padding (at least when alignof(u64) is 8). In
+> that case, does __builtin_object_size(instance.array, 0) actually
+> evaluate to 18, or to 22? A quick test on x86-64 suggests the latter, so
+> the memcpy(, , 20) would not be a violation.
+> 
+> Perhaps it's better to base the example on something which doesn't have
+> potential trailing padding - so either add another 4 byte member, or
+> also make scalar2 u32.
 
-I went this direction because using two memset()s (or memcpy()s in other
-patches) changes the machine code. It's not much of a change, but it
-seems easier to justify "no binary changes" via the use of struct_group().
-
-If splitting the memset() is preferred, I can totally do that instead.
-:)
-
--Kees
+Yup, totally right. Thanks! I've fixed the example now for v2.
 
 -- 
 Kees Cook
