@@ -2,70 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0912C3DBD7A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 19:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B773DBDD6
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 19:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72A756E2D7;
-	Fri, 30 Jul 2021 17:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 042DD6E24D;
+	Fri, 30 Jul 2021 17:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABCFF6E2D7
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 17:08:16 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id r17so19234327lfe.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 10:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IV0tGa4+rpa0rWOKVy/RYqy1amnye8o4Jt6/b1EaRas=;
- b=C6FDsp9eo10MPB7h8sanJV5aN6A87Y6zvnhf4hLt8eXrk78vLYzMazC5TtOgLlOPY3
- q6Wjzc5G5DyLh+vBan4K/J3UkTpZk9Zz/tHyBwnmFN/5EodvKdl6FgMiGT62DUfWqlrJ
- CFHjvaoGeKrAtFractG9IPE4H024PaEN1hckYzkwZnlXcachhpXtQresnwHmLQ0ksg0x
- p4P3NNHOEMKY3qWIjd6qDKsCUDG0PnpKpr+TSZhFKtwgJbg2c8ef3I8Cpfsg3xrToL0H
- UgZn5Pr4DGCnZ1C0lX3+OMlNp5SKFXq2/hs7zv3T1TgDMiYGIhUNHql1vz9SGCm5BHse
- xWjg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94E686E24D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 17:37:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627666667;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vCAX2Kmv6swjeLPb8XTOG5P1FiP7p6CkcukVbAna/IY=;
+ b=FheBuScoPZwAcozpOcOOkFdxhmWFtMcU/3nQ8BnWr/u6GJMGHaWn2s/Cqiw3hYLTXjLn07
+ xN9rkzckwSnkKT1x+rk9jDhE0JgDEz24G3ZKISp21maR5M8FwmV8um2rWqWGnPMApG4QLX
+ 25hMY52TYMz68EhI1Ua8myBBe+pT3CM=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-OcPSNpxzMdiv6ukDlRG9PA-1; Fri, 30 Jul 2021 13:37:44 -0400
+X-MC-Unique: OcPSNpxzMdiv6ukDlRG9PA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ x12-20020a05620a14acb02903b8f9d28c19so6129548qkj.23
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 10:37:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IV0tGa4+rpa0rWOKVy/RYqy1amnye8o4Jt6/b1EaRas=;
- b=CoVwwtzVZcNR2ASZWyON/6Aa0WLWg25oixmjSk0kbVW05HE7EEXICPYt/6rWP/fTef
- +lX8kQj+9+Ge/jP2YreErKDYBQuXZqNfJp05m1SVYwh8jMkXYg6aZEqU74FIh/P8OslK
- +B+qwIf7d9wnFB9+0WwkM0LYJNy74ufpt+jjBWtIcYxGwygaRrjRegEgI0aQWwoZxQWs
- iANm2+pl2bsHCoBnD6QgSJE+lky4fMd83uFwcf5SrgmpONxTCkol+/MiM7cl6ad1Noh9
- Zmw68n1QT6elVdLZkNk450yigBMO24lIk9rpj7klRfOtSGjoMXU8YtnP/pnChj8Lam3j
- mnaA==
-X-Gm-Message-State: AOAM531cJUStbQ9hbjjYX+pbQuH2QGFQYGeeqMHsU8J/h+95tVZuSRqy
- vfxpxkVLEJIlY+KSrCQOorBjuXZXkGnDs5sY8HhQBA==
-X-Google-Smtp-Source: ABdhPJzj9IdxPOohHA8FDaGlITftqmCvtv1eT7HQAjqzz+pi/C9CDaOH613bJIBrdNXKsY/3pslb8syNjswLKo9CXgk=
-X-Received: by 2002:a05:6512:32aa:: with SMTP id
- q10mr2512533lfe.368.1627664894662; 
- Fri, 30 Jul 2021 10:08:14 -0700 (PDT)
+ h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=vCAX2Kmv6swjeLPb8XTOG5P1FiP7p6CkcukVbAna/IY=;
+ b=hNivn7NFPTtZFM/IO9QgYB7pi9g+hPIYV5B4yZLYXT939ZUbgFWEI4DfsjrdOylQu8
+ yikNs/li3l+rkWFZFtA1xzTbvQ6BuQxPMwE/AiTdcZakP9S8tIh3OphnrS0xvqYyM4ZD
+ pPSmI+4jCKBEfrKPtBP8ecpm1Nphltq5VkA/0MgtneUwQZCe0ezZRU9fhphh9seGeVGF
+ F+d8clbf7Lp5Zm+Jxxo8OLmunupl6KQ8zGJuAkysLvyBu0/bBddjc3CBAe1sGbhzbXtV
+ dpWyo8CzkIHH9N2XtcRqrl3H3Y20BknH5QhIVgDQc/4WlbcmG2rnZ/qJhOWr9bloHxDA
+ AsFw==
+X-Gm-Message-State: AOAM5307/4kYOKD2/LTaHRdc/r3cbx5R3kjvpRJmMJtuYApGcupEFroW
+ hPE+cZ/k8bkr6dWlab4vPWmF+ld8lvPlu/Zt/cNRRaB0ckJ4W2mFKXw39oQ45UJNyEzjDxFnGo8
+ QricjMqpMXTzlTDURZ9IZr40tBai9
+X-Received: by 2002:ac8:548a:: with SMTP id h10mr3208425qtq.89.1627666663763; 
+ Fri, 30 Jul 2021 10:37:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaE99KUbpDYu6wEAU0dWSDkIcZGkRC7mBhIpMTdzhBiTASsmfcotVAkvrC5BAu6v76Y1uh6Q==
+X-Received: by 2002:ac8:548a:: with SMTP id h10mr3208401qtq.89.1627666663488; 
+ Fri, 30 Jul 2021 10:37:43 -0700 (PDT)
+Received: from llong.remote.csb ([2601:191:8500:76c0::cdbc])
+ by smtp.gmail.com with ESMTPSA id a20sm896826qtp.19.2021.07.30.10.37.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Jul 2021 10:37:43 -0700 (PDT)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH 0/2] locking/lockdep, drm: apply new lockdep assert in
+ drm_auth.c
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, peterz@infradead.org, mingo@redhat.com,
+ will@kernel.org, boqun.feng@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210730041515.1430237-1-desmondcheongzx@gmail.com>
+Message-ID: <ac36ec31-df97-b2ce-39f1-182e6859a1a0@redhat.com>
+Date: Fri, 30 Jul 2021 13:37:41 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210727205855.411487-2-keescook@chromium.org>
- <20210728085921.GV5047@twin.jikos.cz> <20210728091434.GQ1931@kadam>
- <c52a52d9-a9e0-5020-80fe-4aada39035d3@acm.org> <20210728213730.GR5047@suse.cz>
- <YQJDCw01gSp1d1/M@kroah.com> <20210729082039.GX25548@kadam>
- <202107291952.C08EAE039B@keescook> <20210730083845.GD5047@suse.cz>
- <20210730090054.GX1931@kadam> <202107300937.C7016A82@keescook>
-In-Reply-To: <202107300937.C7016A82@keescook>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 30 Jul 2021 10:08:03 -0700
-Message-ID: <CAKwvOdmtKszUS0-OyGMHuhqjyXQC_283KOQOouWWtimYCvsAoA@mail.gmail.com>
-Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
- region
-To: Kees Cook <keescook@chromium.org>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, dsterba@suse.cz, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bart Van Assche <bvanassche@acm.org>, linux-hardening@vger.kernel.org, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Keith Packard <keithpac@amazon.com>, 
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, 
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev, 
- linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- clang-built-linux@googlegroups.com, nborisov@suse.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210730041515.1430237-1-desmondcheongzx@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=llong@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,46 +94,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 30, 2021 at 9:44 AM Kees Cook <keescook@chromium.org> wrote:
+On 7/30/21 12:15 AM, Desmond Cheong Zhi Xi wrote:
+> Hi,
 >
-> On Fri, Jul 30, 2021 at 12:00:54PM +0300, Dan Carpenter wrote:
-> > On Fri, Jul 30, 2021 at 10:38:45AM +0200, David Sterba wrote:
-> > > Then is explicit memset the only reliable way accross all compiler
-> > > flavors and supported versions?
-> > >
-> >
-> > The = { } initializer works.  It's only when you start partially
-> > initializing the struct that it doesn't initialize holes.
+> Following a discussion on the patch ("drm: use the lookup lock in
+> drm_is_current_master") [1], Peter Zijlstra proposed new lockdep_assert
+> helpers to make it convenient to compose lockdep checks together.
 >
-> No, partial works. It's when you _fully_ initialize the struct where the
-> padding doesn't get initialized. *sob*
+> This series includes the patch that introduces the new lockdep helpers,
+> then utilizes these helpers in drm_is_current_master_locked in the
+> following patch.
+>
+> Link: https://lore.kernel.org/lkml/20210722092929.244629-2-desmondcheongzx@gmail.com/ [1]
+>
+> Best wishes,
+> Desmond
+>
+> Desmond Cheong Zhi Xi (1):
+>    drm: add lockdep assert to drm_is_current_master_locked
+>
+> Peter Zijlstra (1):
+>    locking/lockdep: Provide lockdep_assert{,_once}() helpers
+>
+>   drivers/gpu/drm/drm_auth.c |  6 +++---
+>   include/linux/lockdep.h    | 41 +++++++++++++++++++-------------------
+>   2 files changed, 24 insertions(+), 23 deletions(-)
+>
+This patch series looks good to me.
 
-I'm pretty sure that this has more to do with whether or not the
-compiler applies SROA then observes uses of the individual members or
-not.
+Acked-by: Waiman Long <longman@redhat.com>
 
->
-> struct foo {
->         u8 flag;
->         /* padding */
->         void *ptr;
-> };
->
-> These are fine:
->
-> struct foo ok1 = { };
-> struct foo ok2 = { .flag = 7 };
-> struct foo ok3 = { .ptr = NULL };
->
-> This is not:
->
-> struct foo bad = { .flag = 7, .ptr = NULL };
->
-> (But, of course, it depends on padding size, compiler version, and
-> architecture. i.e. things remain unreliable.)
->
-> --
+Thanks!
 
--- 
-Thanks,
-~Nick Desaulniers
