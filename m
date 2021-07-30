@@ -1,84 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAA23DC11B
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 00:34:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F353DC17B
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 01:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8886E4CB;
-	Fri, 30 Jul 2021 22:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5636E4CF;
+	Fri, 30 Jul 2021 23:12:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DCDC6E4CB
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 22:34:42 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id b6so17239234pji.4
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 15:34:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=2B8bmMK1MWV0IKBzZFhJ4QQnRCCDWLQwwtmcrrRzShw=;
- b=UfW+Uyhy937lSOvlfCbvzUSHfPBdVvhcTOaILHqlmzjEQeZkE7CJS1pDjY85yLeTrk
- ZUbJvCXGnG9V4YR8YvLqiCoHxoAuC0RJHo8xznM5u3dhr6dkJI9BNq9mI/HgcDxL19UV
- T0+Bsg6O2a3etVDRUOMu6je3JU33B5pFqiYpolqwzc84ASrmmPyryuwH24+FPODl2NK0
- /jswqbw3cLYGC3s8tw+3+64iNj05CofMOCHjsjPmhNsSGF6fZGX5s2X6UpkAmOT82yEf
- KD+vMh5N6wzurqnoLV7GP3bDuQRiamzrkbH5J6wxueQVfjy9YKlsV1lqKUCTBLbTMy1G
- tbIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2B8bmMK1MWV0IKBzZFhJ4QQnRCCDWLQwwtmcrrRzShw=;
- b=BpbO9aJhhStm4OBPE5cgcFGPU0JlHmKVBLeIxqkmo/fnkNFEpn944sWkoFcS6A7PCw
- GeunMmAJc5Hpgr5H7UzMqCs+IvU5yspb/F6SvbixH6u0zDZOEt6Qc5pkRqUmcy14OHqL
- xGZp7yhZ3rOcdk1Z/q/ZWQDezr5vVyHoqxHQ8t4dC6a2BSnQuto0yowIPx11vHvg5B35
- CWgin4mHsvu4sGaW4V9c7Y0MMfmSi0HrueIpJVeco12oSLW79mydNWDEZN7WYHgc0wwD
- YOod2i0wucJVtRAsunROjzmc2E8Nnk7fldx8A5m4VYusxK1BwdFc6HAH5/HOpoAIx8uJ
- gE+g==
-X-Gm-Message-State: AOAM530mtmTSU1k6aXOs+rIcNGqIdd8JNZ3ichJDTsOxtrMpmD5jsuEU
- UFjEAySsEbgd0lHm49uLTr19Dg==
-X-Google-Smtp-Source: ABdhPJzSqN3B7Go3MtNjE9VY5h0clk+hYXj3ladZ5/S+PnXE8W92M9c05HKB4nGF1ekuX4eoULgjrQ==
-X-Received: by 2002:a17:90b:1bcc:: with SMTP id
- oa12mr5239612pjb.113.1627684481796; 
- Fri, 30 Jul 2021 15:34:41 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id b184sm3525033pfg.72.2021.07.30.15.34.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jul 2021 15:34:41 -0700 (PDT)
-Date: Fri, 30 Jul 2021 22:34:37 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Will Deacon <will@kernel.org>, Dave Young <dyoung@redhat.com>,
- Baoquan He <bhe@redhat.com>
-Subject: Re: [PATCH 07/11] treewide: Replace the use of mem_encrypt_active()
- with prot_guest_has()
-Message-ID: <YQR+ffO92gMfGDbs@google.com>
-References: <cover.1627424773.git.thomas.lendacky@amd.com>
- <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F7D6E4CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 23:12:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EA2A060F3A
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 23:12:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627686731;
+ bh=2z+8NiOD0PsDLOMtm7HEjTbuJVpHU6ddRaJfri7FY7E=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=c+xZEAwkAfCaXB84thTOnK86azedcbGJZg6LgZnAp0RXRuu5qxOpA1XZeyxpkVP/e
+ QHnJLu08FsLbt2pQkxE8kIW/m5RyTjgNPxiikaYG39JsLQSvNy7VekH2/T/moSEQxf
+ IqmgB2Af5lPnEB9v0i+IckkVfs4tT2txdBijXxUWh+C5oqJprX5t8L1dd+i3mEw/TB
+ 3MegHBaQx0XMlGGqhjIvoOYSy2UqWSYctzcoWh7X1jDThcNMXO3TyqbdbbgWxlK/HD
+ B7CZubJEO9D/27XR+wVvcXVbCsAoClo/QzxRrPWFp7cEjqYgqvAHHcsLqFVwK3PyqH
+ bcPZEHDKNNuNA==
+Received: by mail-ed1-f54.google.com with SMTP id d6so7714257edt.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 16:12:10 -0700 (PDT)
+X-Gm-Message-State: AOAM531TDZhSJkz8KxyxVEXaCTQsEr+odpJhdgQGK3/K+Y9A1ZAZnQbJ
+ lb+0kr22ODsLMhgpkKYqp1P2k07RsMB97eXdlA==
+X-Google-Smtp-Source: ABdhPJwzMUJR/ZabYWlF1LL28gEzoZTiGoDGAkO52lFCgwbh2C5iQsYAwy8BvnfSHaRhz0LxKs1qVHrJ3BJ0P0YrXfQ=
+X-Received: by 2002:aa7:c6d3:: with SMTP id b19mr5393041eds.303.1627686729430; 
+ Fri, 30 Jul 2021 16:12:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
+References: <20210729170737.21424-1-jason-jh.lin@mediatek.com>
+ <20210729170737.21424-6-jason-jh.lin@mediatek.com>
+In-Reply-To: <20210729170737.21424-6-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 31 Jul 2021 07:11:58 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-54wi6Ujvynyex30wY7vn_sV_=R5T3CBj77iYCCGQvGg@mail.gmail.com>
+Message-ID: <CAAOTY_-54wi6Ujvynyex30wY7vn_sV_=R5T3CBj77iYCCGQvGg@mail.gmail.com>
+Subject: Re: [PATCH v5 5/6] drm/mediatek: add DSC support for mt8195
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>, fshao@chromium.org, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ singo.chang@mediatek.com, DTML <devicetree@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,18 +69,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021, Tom Lendacky wrote:
-> @@ -451,7 +450,7 @@ void __init mem_encrypt_free_decrypted_mem(void)
->  	 * The unused memory range was mapped decrypted, change the encryption
->  	 * attribute from decrypted to encrypted before freeing it.
->  	 */
-> -	if (mem_encrypt_active()) {
-> +	if (sme_me_mask) {
+Hi, Jason:
 
-Any reason this uses sme_me_mask?  The helper it calls, __set_memory_enc_dec(),
-uses prot_guest_has(PATTR_MEM_ENCRYPT) so I assume it's available?
+jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B47=E6=9C=883=
+0=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=881:07=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> Add DSC into mtk_drm_ddp_comp to support for mt8195.
+>
+> DSC is designed for real-time systems with real-time compression,
+> transmission, decompression and display.
+> The DSC standard is a specification of the algorithms used for
+> compressing and decompressing image display streams, including
+> the specification of the syntax and semantics of the compressed
+> video bit stream.
+>
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+> This patch is base on [1]
+>
+> [1]add mt8195 SoC DRM binding
+> - https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D5195=
+97
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 46 +++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  2 +
+>  3 files changed, 49 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/dr=
+m/mediatek/mtk_drm_ddp_comp.c
+> index 75bc00e17fc4..6f4a9b8c9914 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -65,6 +65,12 @@
+>  #define DITHER_ADD_LSHIFT_G(x)                 (((x) & 0x7) << 4)
+>  #define DITHER_ADD_RSHIFT_G(x)                 (((x) & 0x7) << 0)
+>
+> +#define DISP_REG_DSC_CON                       0x0000
+> +#define DSC_EN                                 BIT(0)
+> +#define DSC_DUAL_INOUT                         BIT(2)
+> +#define DSC_BYPASS                             BIT(4)
+> +#define DSC_UFOE_SEL                           BIT(16)
+> +
+>  struct mtk_ddp_comp_dev {
+>         struct clk *clk;
+>         void __iomem *regs;
+> @@ -246,6 +252,35 @@ static void mtk_dither_stop(struct device *dev)
+>         writel_relaxed(0x0, priv->regs + DISP_DITHER_EN);
+>  }
+>
+> +static void mtk_dsc_config(struct device *dev, unsigned int w,
+> +                          unsigned int h, unsigned int vrefresh,
+> +                          unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> +{
+> +       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+> +
+> +       /* dsc bypass mode */
+> +       mtk_ddp_write_mask(cmdq_pkt, DSC_BYPASS, &priv->cmdq_reg, priv->r=
+egs,
+> +                          DISP_REG_DSC_CON, DSC_BYPASS);
+> +       mtk_ddp_write_mask(cmdq_pkt, DSC_UFOE_SEL, &priv->cmdq_reg, priv-=
+>regs,
+> +                          DISP_REG_DSC_CON, DSC_UFOE_SEL);
+> +       mtk_ddp_write_mask(cmdq_pkt, DSC_DUAL_INOUT, &priv->cmdq_reg, pri=
+v->regs,
+> +                          DISP_REG_DSC_CON, DSC_DUAL_INOUT);
+> +}
+> +
+> +static void mtk_dsc_start(struct device *dev)
+> +{
+> +       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+> +
+> +       writel_relaxed(DSC_EN, &priv->regs + DISP_REG_DSC_CON);
+> +}
+> +
+> +static void mtk_dsc_stop(struct device *dev)
+> +{
+> +       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+> +
+> +       writel_relaxed(0x0, priv->regs + DISP_REG_DSC_CON);
+> +}
+> +
+>  static const struct mtk_ddp_comp_funcs ddp_aal =3D {
+>         .clk_enable =3D mtk_ddp_clk_enable,
+>         .clk_disable =3D mtk_ddp_clk_disable,
+> @@ -284,6 +319,14 @@ static const struct mtk_ddp_comp_funcs ddp_dpi =3D {
+>         .stop =3D mtk_dpi_stop,
+>  };
+>
+> +static const struct mtk_ddp_comp_funcs ddp_dsc =3D {
+> +       .clk_enable =3D mtk_ddp_clk_enable,
+> +       .clk_disable =3D mtk_ddp_clk_disable,
+> +       .config =3D mtk_dsc_config,
+> +       .start =3D mtk_dsc_start,
+> +       .stop =3D mtk_dsc_stop,
+> +};
+> +
+>  static const struct mtk_ddp_comp_funcs ddp_dsi =3D {
+>         .start =3D mtk_dsi_ddp_start,
+>         .stop =3D mtk_dsi_ddp_stop,
+> @@ -356,6 +399,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_C=
+OMP_TYPE_MAX] =3D {
+>         [MTK_DISP_MUTEX] =3D "mutex",
+>         [MTK_DISP_OD] =3D "od",
+>         [MTK_DISP_BLS] =3D "bls",
+> +       [MTK_DISP_DSC] =3D "dsc",
 
->  		r = set_memory_encrypted(vaddr, npages);
->  		if (r) {
->  			pr_warn("failed to free unused decrypted pages\n");
+Would you please send a patch to make alphabetic order then apply this patc=
+h?
 
+>  };
+>
+>  struct mtk_ddp_comp_match {
+> @@ -374,6 +418,8 @@ static const struct mtk_ddp_comp_match mtk_ddp_matche=
+s[DDP_COMPONENT_ID_MAX] =3D {
+>         [DDP_COMPONENT_DITHER]  =3D { MTK_DISP_DITHER,    0, &ddp_dither =
+},
+>         [DDP_COMPONENT_DPI0]    =3D { MTK_DPI,            0, &ddp_dpi },
+>         [DDP_COMPONENT_DPI1]    =3D { MTK_DPI,            1, &ddp_dpi },
+> +       [DDP_COMPONENT_DSC0]    =3D { MTK_DISP_DSC,       0, &ddp_dsc },
+> +       [DDP_COMPONENT_DSC1]    =3D { MTK_DISP_DSC,       1, &ddp_dsc },
+>         [DDP_COMPONENT_DSI0]    =3D { MTK_DSI,            0, &ddp_dsi },
+>         [DDP_COMPONENT_DSI1]    =3D { MTK_DSI,            1, &ddp_dsi },
+>         [DDP_COMPONENT_DSI2]    =3D { MTK_DSI,            2, &ddp_dsi },
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/dr=
+m/mediatek/mtk_drm_ddp_comp.h
+> index bb914d976cf5..661fb620e266 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> @@ -34,6 +34,7 @@ enum mtk_ddp_comp_type {
+>         MTK_DISP_MUTEX,
+>         MTK_DISP_OD,
+>         MTK_DISP_BLS,
+> +       MTK_DISP_DSC,
+
+Ditto.
+
+>         MTK_DDP_COMP_TYPE_MAX,
+>  };
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
+iatek/mtk_drm_drv.c
+> index d6f6d1bdad85..0f6bb4bdc58a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -446,6 +446,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[=
+] =3D {
+>           .data =3D (void *)MTK_DISP_GAMMA, },
+>         { .compatible =3D "mediatek,mt8183-disp-dither",
+>           .data =3D (void *)MTK_DISP_DITHER },
+> +       { .compatible =3D "mediatek,mt8195-disp-dsc",
+> +         .data =3D (void *)MTK_DISP_DSC },
+
+I would like you move this patch before the patch "add mediatek-drm of
+vdosys0 support for mt8195" and move this part into that patch.
+
+Regards,
+Chun-Kuang.
+
+>         { .compatible =3D "mediatek,mt8173-disp-ufoe",
+>           .data =3D (void *)MTK_DISP_UFOE },
+>         { .compatible =3D "mediatek,mt2701-dsi",
+> --
+> 2.18.0
+>
