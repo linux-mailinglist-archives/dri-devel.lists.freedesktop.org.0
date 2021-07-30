@@ -2,172 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2879D3DBE19
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 20:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1313DBE24
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 20:13:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0924E6E42F;
-	Fri, 30 Jul 2021 18:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00EAF6E434;
+	Fri, 30 Jul 2021 18:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD3496E42F;
- Fri, 30 Jul 2021 18:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1627668620; x=1659204620;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=SXCHGRVkokNBBhM+e2r3BOByGl6swR1Ffa9TZY1kKCo=;
- b=LmHzPQhZG682vGIHgRDW+U5lw8R3gSlCiok4UCEySDeYpJUF1rHmvk/G
- VOafOTtSiTXwlnbmUeJ6Y/0motuHSpUtiPhg6cMKcDGMGW3Q4riCCLgUd
- Ctv2425NoiPnJE1hiFWCs1iiN7G5Z2Oa9bGk3lha4eLK5yzFJ4dgjlQPG
- QNGwrAS76XVj9F8lykIbkKZwC5aLv8JH78ZIqMWYf+qrOR+FF18uobHQv
- x7Ndk355i86ewPq9345LECvym1myvd1jeOF2bCENrUEe5x6cLunHZb2Kf
- ogxCOROaD58rROkGEvvWCKy3aq6PNP+btZc4Dmz22Hwuz0xfG+te+kgX9 Q==;
-IronPort-SDR: 9qNj91mrdveFNWLWa2cP1fpEKL7F2j/cFhbibRFrHOExGPgmrUk5EjW/R69AG8895mLwgOOLCw
- hspNzsNGCmm/1G/qBXRDEG0ma6wHX841iVZ/Jtcx5YaThj9V/RaPLSQN2c9p6r/AW38fFVzUJ0
- LHwsxLyi+6Yd7EwWpHO/IXvPkYtG+4OOKQd6cJokLAd7SWvqpg2hXNnigPT6tmbuPy/FKTWdTO
- mRQ1+574Y0kG32aeWtSWN3FE6B3oSS+lbFZoj94SIRLpD+d2z5ucX1+b8/LemMcPBqACGiPry4
- bC6tiZLsHm/iNdmTTFrJXYmH
-X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; d="scan'208";a="130458808"
-Received: from smtpout.microchip.com (HELO email.microchip.com)
- ([198.175.253.82])
- by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 30 Jul 2021 11:10:18 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B71A16E432;
+ Fri, 30 Jul 2021 18:13:26 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10061"; a="200350646"
+X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; d="scan'208";a="200350646"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2021 11:13:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; d="scan'208";a="477067995"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by fmsmga008.fm.intel.com with ESMTP; 30 Jul 2021 11:13:25 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 30 Jul 2021 11:10:17 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.71) with Microsoft SMTP Server
- (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2 via Frontend
- Transport; Fri, 30 Jul 2021 11:10:17 -0700
+ 15.1.2242.10; Fri, 30 Jul 2021 11:13:25 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10 via Frontend Transport; Fri, 30 Jul 2021 11:13:25 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.104)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.10; Fri, 30 Jul 2021 11:13:25 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HApO0bAZ94hToPZ1ptBwmqhzO9kvxDa7nrfeDGQK15pDMsLpBSdc2molVoW0+xec83yi8GqqhjNQ+W5Gp4x/OhWdgk8TSGWeNdxLS/vz48Le/zlGFnkzoUujkjbsvwBbWd+RCOQoTZSPKE8K38TJa3/DNwm1JlyPfIaBnfaJB/xwq0R/H4lDBg8ECabnzMeIMflL31YXv6MboHsr2WrIfcDV4K4NzeD0COKQ7ePS9N94MfqhOAhS4AoYPx4kzAS9mWX6W+rYh4L71UGDkVpgNcCs6d6+GRsnkSZX2f7fnPX5VnHdamzb3S0rHoHQpqkwr/PbcpdSimm6nDSMHMpOpw==
+ b=eM5FAVFoUVsnI/yElR8vMavmXcmsCn06DG8QqJcPtU45ZbrUXSBcJedeU/Ji8DfTM7w/EdYVhrtrVJM/CWOqVPUtw7UNE1r8z0RyRnh18nFux7foVtTeqipknxjQiwxnekVPhWMyKeKmsQtYKS0EZxACKc5VffSoaE2oQb6m2XCtWsUzqLVpB+4NpP4oEZPdAEckSQ7q9LET0NwdMkmwJxCzlOpGIaS7/4mCmqpPQ8ULyOCFy1S7UPjuTvvbvzuJY+RzeAwg7WdNf+/0O2GduBy4+NkTseY/DvzimSVztTDfd5vFp24WeAg6Di8k31nidl60/7LEwgz3yRd7J+crYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SXCHGRVkokNBBhM+e2r3BOByGl6swR1Ffa9TZY1kKCo=;
- b=MI6aGzzH8zUlWTpFzFfYDvm4LpdymR/A2SBsOGF8AhsqxlMZv6LSMrYuqs6WL7AdJlSYssEYzGPP15ZKm8n0F0y6adiX9RJn2lAjw7nAS3NKj/YrzD0D3oufIndvUQHf8HlthTKlDNSCy9aWrgS4/zjJ0Ugb+LnBXTQ5KQq67/nH/s4kmjBJvLa5obyjex0KFWedHfZf4IJWgscImajcvAGbfg4Jr7ul3/QwPn1abKJlJJAwDLlGkajm/xPPkqRnlQHnkn7VYjsi4cfmQP2qjLn3GvoYJmQoZ3odH7lH9OsHuqBORk5nzBYVuStcjGwlSMCyUc5X6gLd7oH4uZMjyA==
+ bh=U8g5rROSx9kN5zQzF5zLPUuOnmyNGORQ3ulqoazDTVM=;
+ b=FUJw6sa8MIZPbKICvdeE5yUkmEAeXMwrHT4YQtuyc5FcYPjMaC4CwEDp51BslmNtGAWY3OMG7P1xq+RKUi0rfuhdShLDTfVitCfVgukQxl9eB6Im6CkvX0JmfZFZ7ZIoWzckLsdBmJEOnzGWMbW5LLTBto+bo9IXG+YzucAraj04ypjAiFGeQRkF9MFmjzl+n9VGV34Xdg/ciOh1ApApYNtwnixKwljEeOVxk9owf7cL+j9R5Knkw1L6tKPoVdb0A/zM2IljulzE5CP0OGWyMsCIYQXRaZ5VE80awp5r4zsdmYU6eAap70ek0XF5imaY2TcKfl4XbiShNcNvOncwHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SXCHGRVkokNBBhM+e2r3BOByGl6swR1Ffa9TZY1kKCo=;
- b=em6mzt3lbZEPLK8jMzQ/n/zcXySqsb717fCSQ+znGhKGOOjEaqA8YB3YVuZvVdPRENFBhA1ieu/Om14I85QpEBMdwxgaLaayaOzcuhNoqOVn8XWlU0+LJ1rRO29am8nZjH6vmsW29w87WoRcTVlr9a2ehMVvMmf2rjtQBBsLuLo=
-Received: from BY5PR11MB4007.namprd11.prod.outlook.com (2603:10b6:a03:189::28)
- by SJ0PR11MB5184.namprd11.prod.outlook.com (2603:10b6:a03:2d5::5)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=U8g5rROSx9kN5zQzF5zLPUuOnmyNGORQ3ulqoazDTVM=;
+ b=eGsWF89gONOwAbIisO0h7E/Bj+IQbwKWa6K46MmzSeMmka+pQpYacy2e9YKtjEOOEeTj+pbbxdECIeixarYXVp+bxupJtTfZ1nLBsKYWakyImsRT8W1IT9pF3iUWux76PLBdC3ejOBZk0KF9cabijsZp6LHNme+rhktFGVIl4do=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
+ by PH0PR11MB5644.namprd11.prod.outlook.com (2603:10b6:510:ef::5) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Fri, 30 Jul
- 2021 18:10:15 +0000
-Received: from BY5PR11MB4007.namprd11.prod.outlook.com
- ([fe80::e478:6b2c:f71e:65bf]) by BY5PR11MB4007.namprd11.prod.outlook.com
- ([fe80::e478:6b2c:f71e:65bf%5]) with mapi id 15.20.4373.025; Fri, 30 Jul 2021
- 18:10:15 +0000
-From: <Dan.Sneddon@microchip.com>
-To: <tzimmermann@suse.de>, <Dan.Sneddon@microchip.com>, <sam@ravnborg.org>
-CC: <daniel@ffwll.ch>, <airlied@linux.ie>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <liviu.dudau@arm.com>, <brian.starkey@arm.com>,
- <bbrezillon@kernel.org>, <Nicolas.Ferre@microchip.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <stefan@agner.ch>, 
- <alison.wang@nxp.com>, <patrik.r.jakobsson@gmail.com>,
- <anitha.chrisanthus@intel.com>, <robdclark@gmail.com>,
- <edmund.j.dea@intel.com>, <sean@poorly.run>, <shawnguo@kernel.org>,
- <s.hauer@pengutronix.de>, <kernel@pengutronix.de>, <jyri.sarha@iki.fi>,
- <tomba@kernel.org>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>
-Subject: Re: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
-Thread-Topic: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ
- interfaces
-Thread-Index: AQHXg+V9u4IBzc/SHUWKaqikrAmiK6tY0cGAgAGDewCAAAg/gIAAAfQAgADTeQCAAKGWAA==
-Date: Fri, 30 Jul 2021 18:10:15 +0000
-Message-ID: <23a61afc-05d3-f7e8-712e-b443616026f9@microchip.com>
-References: <e28b1a2f-015c-c81b-eb64-5323df9ed35d@microchip.com>
- <YQF7bKyeup8n3awU@ravnborg.org>
- <3d2f6b84-dd07-d925-a8b8-2bfd5fc736d9@microchip.com>
- <YQGdxtV0BGZ8VOpm@ravnborg.org>
- <2f04b986-6b41-62f9-1587-23818b841655@suse.de>
- <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
- <YQGrMH36Udg3eKQY@ravnborg.org>
- <dcc5cd1e-d0de-bdda-32f3-623b85085756@microchip.com>
- <YQG5+/9lPexU3Dn3@ravnborg.org>
- <1df22406-2e91-c15a-49dc-1cf33522a142@suse.de>
- <YQMF8X7gwKE/c2/R@ravnborg.org>
- <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
- <5eaae583-3efb-837d-22b0-22369096400f@suse.de>
-In-Reply-To: <5eaae583-3efb-837d-22b0-22369096400f@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-authentication-results: suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 65bf69ef-1bc9-4b99-87b4-08d953854813
-x-ms-traffictypediagnostic: SJ0PR11MB5184:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SJ0PR11MB518465DB9DAC6F12557B3CBFE1EC9@SJ0PR11MB5184.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:327;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qulP29D5UyGrard2RfjfeKUsug33K0mThL9rmykjDmiVcJXHqoCQH/xHp+/DttXa5Z3NiLHshV5LErjM43llB82NAt1iLXc2Vd1mGUdCz4NIZTY8jeDm25x3SQASm/pXl2L2t88Y4wqBoeb+odB1Hw5zUPIYYQgiTXpwUilQUOtmsfzD2WrJWFsC4W7nVJtzcxQ6IWAtg/MHRSIc3ijUvVERxkTPzegTOksINkSi5bgF5rZgnj6WOLRkfdk+kNlziUi1fBCqf0IaoD1RGoscrih6o8dffwxwHUVKRTe+bS90jkwWC6sMLpGrzaww5Wg9ovmf38BzN71eWdrxnKaTTU4mkA7uIYQ3eY/A8fpElJypsUE6ahDLIlVzedALNbDymhOOVvRoXj3/eov6P9HiXVb/hHlNMj8KqCpMbdKHLagXbRlavO5Qkkr787pIP+evqN0C05b7RDe3AyFibZLCYBp9jF8Ykf/p7i3W2ysIq40vUK5SxQVGA5jILpHv2mHk9GPg/3OJRfM8KBoZ7OJ7L2cyKK9HK7n9kmI178h0H9gcDTkxlMYO+A1PsE8CoMVeCs5DKXWoGMllfaR51PRSQrDcThH1C+b6n2wsNpOZjoDPRX+BWXuNoiiI4gVyz4NhVYNh0oDYHE4Yy78wOtoLAwmLLb4z+D2SD/1mj/u1CNUcqLQ1XtMBw4qQndPFsas2E1tVcPsIe2AZR0mqCeN/PJUmlo92mMGLGAWEVErZl3Knbw1NbVx5pqvi8R/g5/4tEf/ZvpwUgtFN7S2SUAM8zw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4007.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(376002)(136003)(346002)(366004)(39860400002)(8676002)(2616005)(31686004)(2906002)(7416002)(8936002)(478600001)(186003)(66946007)(31696002)(66476007)(38070700005)(91956017)(66556008)(76116006)(66446008)(64756008)(71200400001)(110136005)(54906003)(83380400001)(36756003)(38100700002)(122000001)(53546011)(6506007)(6486002)(26005)(5660300002)(4326008)(6512007)(316002)(86362001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aXpNTFBzbVJzTWw4aHNtMldDRW9hRGxqZGFWQ0x3TU0wSW1MK1ZlVjV1VTlh?=
- =?utf-8?B?d2Vvd1IwUHgxSVA3TnF3VDFPRi9MQ3l0by9OazRuWkRnQzIwUis3Q1JlUHZz?=
- =?utf-8?B?YURvdFU4UzRNYzc4bE1hejUwVkdEbEhCMGIyU0Q1SFB6c1l2cEV3T1NGVVFj?=
- =?utf-8?B?RVgwL1FodjNPTS8xKzU2M1h3eFpHU1RpR2Zob1N6TWNuYy82OUs4WDRBZjhD?=
- =?utf-8?B?dUM5Si9wYUNEQTJSY1NVTC9xckdDVlVJZDRpRjN0c1BwaEVPeHN1Vzc4R2Vj?=
- =?utf-8?B?R2Z5dTM0cWNHTnJyUjBDZ2d5YzZHWTcxejRzTHNiRnVBaWR5WW5OTC9IRGVr?=
- =?utf-8?B?azBoMkJiWE5KdXNxeUNHOTN2Njlob1R6MnNQMFdCU1M2cHlyekNBcGNGWmI5?=
- =?utf-8?B?bFBzMXhjalNOblV1bEt3UzJUYitpRmZkOVFLNDFRcFV0STlzTmJscVJEZDBW?=
- =?utf-8?B?ZUl5UlovWkY3Nmk3ZGdEYzE5Ri80bFZLeUVpdmFlU0lvaVJqa3Z3bTZKZ255?=
- =?utf-8?B?SVorWDdYUG5DbVJ0bUJsQ3E2OVA2U0xyL1hKeDlYU0MrUTR0S1c2NVhiaG9t?=
- =?utf-8?B?b0tqd2QwK3BJcnFVRFpZUzlZVnUzVUora0lZTjBDTmU0SlpYVjVTZUJubmli?=
- =?utf-8?B?czNVR3hNcnFuVE8vb0NGUG5ZU1hYZnlTUzBlQitqMXF2Zk5UWU44WkhWOGVF?=
- =?utf-8?B?Kzg3VTR5UTA5V0tjYVdVdEZNQUt6SSthQVQ0QlhaZXUyNzZYNjRGVmRoK0RM?=
- =?utf-8?B?TUREa1BXUWdnVW1aOEVWMEJKK1BhQW1kVmcxc0RaMEh5cTg1K3JkaVpVOWh0?=
- =?utf-8?B?dnNmODJBbXFLVGZ1a1VUTGl4RGNBdGV4RmNOT3ZJdk5FMDMvWVF1Mm5KTGR1?=
- =?utf-8?B?NE9hUWNYMkJISXZRWWJnUExlN1RUcE81UUoyRzVROWRhUEJIY0cvY3RBRC9F?=
- =?utf-8?B?M2w2Nmhib1E2MkV3WHFkTGpGcnhDZmFXMXZwR0JUQTE2S2tZeGUzUlFEREJO?=
- =?utf-8?B?ZklCeWg0U00weVNCeUxRcWtxYnhmQThVMTNDZW9Cay9WSDJWUjhLUDkrVGNp?=
- =?utf-8?B?N0R4MFNBSVpIN2RmYXJ5ZGQ3TUZxUG1yRGFydVFNZjJMc0dpdUZ3NWtmMHE2?=
- =?utf-8?B?TVRpRDJmU3NUQW5DUnB2YkFTMlNFbEVSZW0wQ09tOG0zM3kyQUpKRk1OMXJx?=
- =?utf-8?B?V0wrV2dnTGVGb254UG1peVRiR09YRGtWN3JXOERJTTNZeU5IUkpBeU9JNXFI?=
- =?utf-8?B?VGFFSmtvZnUxcDNzQmFHR1VMbGxTZWJNdjhnZ1Z4NThjS2d3eTVLaDFMMVhz?=
- =?utf-8?B?WFlWR2p4NWlwaE1FRitJRUpHRUtjVHQyRHdScGdxY3diODd6aHA1Zk5uSG9H?=
- =?utf-8?B?cGo4WSt2OEt4R2NwemRINlA2cVZjcWJqbU8yMTU0Ym5ZYXBPQmhhV2xZL04y?=
- =?utf-8?B?WmplM3p4ZnZUNEVWSXFVSVlNc2NLcWV3U0tNWk5iYURuZngwWStackhja2Q1?=
- =?utf-8?B?SEN1aklZQU5xbEdEY0VLVTVVMEU5cXJwQmlvakwzcXR4OG8vVENwcDNhYjFI?=
- =?utf-8?B?aXU2OUcrNVJSSTEzeUt2dEFuVGNURzFtSFRoZXlCNXNVTjFCT2pPVEF3SW9h?=
- =?utf-8?B?aGFpMkFkUElDdTl1UE02M0hQaGtqQW0zeVVKN0gvRmVvbWhLYTZQamQvQnlE?=
- =?utf-8?B?c2luMlRNUWdpYnhOQ0FQNFU3Vmg5VmNKN0I0bmFoL3RkWWh4MHN1TGJ5MTBL?=
- =?utf-8?Q?axKIeF0A7eFghuGRFA=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C959F45F1774D444B853DE5776156DE5@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ 2021 18:13:23 +0000
+Received: from PH0PR11MB5642.namprd11.prod.outlook.com
+ ([fe80::c5a8:5a64:9118:95c4]) by PH0PR11MB5642.namprd11.prod.outlook.com
+ ([fe80::c5a8:5a64:9118:95c4%9]) with mapi id 15.20.4373.025; Fri, 30 Jul 2021
+ 18:13:23 +0000
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: Check if engine has heartbeat
+ when closing a context
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Matthew Brost
+ <matthew.brost@intel.com>, <intel-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>
+References: <20210729003400.151864-1-matthew.brost@intel.com>
+ <20210729003400.151864-2-matthew.brost@intel.com>
+ <eea0bdb7-681b-0acb-0b9c-041fb38a7119@intel.com>
+ <1b75f6c6-e458-6bc7-f867-12f1b5b18af0@linux.intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <e6e893a7-a0e2-0441-260f-75da3760de0b@intel.com>
+Date: Fri, 30 Jul 2021 11:13:20 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
+In-Reply-To: <1b75f6c6-e458-6bc7-f867-12f1b5b18af0@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+X-ClientProxiedBy: MW4PR03CA0077.namprd03.prod.outlook.com
+ (2603:10b6:303:b6::22) To PH0PR11MB5642.namprd11.prod.outlook.com
+ (2603:10b6:510:e5::13)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.221] (73.157.192.58) by
+ MW4PR03CA0077.namprd03.prod.outlook.com (2603:10b6:303:b6::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4373.17 via Frontend Transport; Fri, 30 Jul 2021 18:13:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec3d8de5-feb7-4671-8390-08d95385b7e6
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5644:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <PH0PR11MB56442B657D52D2E9359CD36CBDEC9@PH0PR11MB5644.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NnBHPxcNeEySZvkeEh5zzdYAqJwJwSGMc9TFPD7Lz1XCW5E47POhNko6vbNDy29+oREhaF8QgZ50jX3wKga6aggNxd4/Kusy4SNB7ILDoaSHhZgEv8skFE1HmmrTdgj48ikfCurTBPJqGBgIXd3oeF5l3nXm+5NQlD8IW42EUINhPfd3rNuMWgHwhnjZCQ6HqgtEDeVr+TdzEgp6K/4BmYJNdaKaf36ugJrUmd8IaOD8U+HeSdHGwxSCt/gKXYdNRfCLGdpP0aZ/zpf3kT/id0CtSm8K0RHIptY6YbuOCYtOeZAVnEy8P6XyIyKZqLZjkybrbflN90YE9ln6yyglyFf6Av7/OmZZi3j2WWVQqcgHjbHO1bAsVsPBvM+Fb/onQaeWF8/YOlLOiVWDzdi7iHNoeIgMmnQMeCCNXXxlzhpZvoS3UTnLZg66hgNa3CQbnZtMOHxD5bvA95ari8Mglk1GitM9mkCX/K/G6yHFN3vNailJFbpW/GXo01pB/8hY94slMZpc6bup21iKUd+3TPuFg5YGHysNymZNjS04dYxXvcaZOPOZmd9t4RJxCDfkc+GomqFIwCDr8CZonwohlGjC4PLcEh33SSaWK2N3nv0yz410GRhvbOXSSw9JVuSCrQMF8454rrLiPXqTGsovMCIWeyryuu43pp7fiJQJToJtNo6mAQoeD0CxN9WmymNwUDSsXOFoiEEsBImbHqssDiC1SCJvz7d3dDuMONbKukFu1L3BpKE29QOPEXXBEF39
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(376002)(346002)(366004)(39860400002)(8676002)(5660300002)(8936002)(86362001)(316002)(16576012)(31696002)(83380400001)(110136005)(31686004)(2906002)(66946007)(2616005)(966005)(66476007)(66556008)(478600001)(6486002)(36756003)(26005)(30864003)(53546011)(186003)(956004)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWVNZmZZcEJRTGZSTzNHZ1J0TWVFOHpZKzRBcDhXWjhJNU5mRjVrU1BxbUF4?=
+ =?utf-8?B?Z1JmdW01N1JFTFZ2em9GYjFMaTBuMFNPdWNVMlNldXAvTlgxU0lpYTZpMVZI?=
+ =?utf-8?B?cU0za3pUdmt0eW5TZTU0Z3VGOExEekN6S2duQW45cE53TFBPZzY1bFlJbVJX?=
+ =?utf-8?B?ZVJsZ3BvSVZnc1JseWl0QW8wTEdta09ZQjZjV2ZwR0FGZS9BZVlKV0NpSVAy?=
+ =?utf-8?B?WGFXbXJFUW9mdGxYMSs3UzJ5K3VXZW95RHpDR3E1ck9nc051aUhNNlNBTDBV?=
+ =?utf-8?B?QTVvWlZRaWxrTStsek4yOG5UYVJRVld1cVB3OGlqUUNlZzlXaTlKZTBUakEx?=
+ =?utf-8?B?aFlvcUtwYTdMVURkOUtsakRjejRWSjB0YjdqS0VGSGttanBHdGRHYitXcWc0?=
+ =?utf-8?B?cERTVDdUa3A1Rzk4ZGZ2MjJXS3VLUzZLV3hGbkgzc1FIQVVhdVp1MnZOWVc2?=
+ =?utf-8?B?ODJCVFFmQkhmMVBtRmRSWDdDODAvN0d0ZXBuU01Cd3gzRUVjM05sOFhDNXc3?=
+ =?utf-8?B?Q2hQNm1TeUJ5M3NXclJIaHVNYndRVm5tbThwL1RkRms3VUh3RkwxWndoUUV6?=
+ =?utf-8?B?dlljcDdZRndZWk9mcE8ycXlWVCtWUlNyZTRwSU5YWVdRK0dPTlNFd2lSdkU2?=
+ =?utf-8?B?ZGVhQmdpVEtjUnpUaXdSeWdNVGhBeEZScFBRcVRBZXFLUzYxazVveVNFWC8w?=
+ =?utf-8?B?TnBEeDl3bzVweUhRZVNqRFNvaWN4ZStCWllwazNPdTFBbTdxTHVIUXAxc1hq?=
+ =?utf-8?B?VTVKVjd2YzVRb2JJdnUyQ20vKzdvYkZ2YkFyak9QeGxzcktITm9zanRBTVk5?=
+ =?utf-8?B?TVRzU3RqRVMwajJXSmRuemR6bTQzUmxUYmZjbDUySWo5NkVPTnNGWjB6c2lS?=
+ =?utf-8?B?aUZqeTNyYUQ4M2t4Sjh4dE05Wng3WmVzNEYrZis0aGJQbTFaeFJsTnF1a2J2?=
+ =?utf-8?B?RU5hd1hvRUthb0VEcmFqOXFRS08yWWI1Y2UzVXV4SlJlL0hVMkRjVXlKbzVp?=
+ =?utf-8?B?MHR1a3ZlNGZoZGUyNTYrVXN2WWpsZzN6amYzN1UwQjYybkZmU09lRU9pNEJr?=
+ =?utf-8?B?Tkt3eW1keWVDN3Q4U2xnOEROZDZ6QUp1ZU1MZjhJRkltazRnRmhxTWQxY2FT?=
+ =?utf-8?B?Y2lTdEVwUkhPWFBHQTNFOWZVY3FIeC9RazJTcW82MnVjOXdiVTJVaDN5NU14?=
+ =?utf-8?B?K3U2VGppOWpyeEY3dFAvZFBRaGhkM1dEQm9xYXpWeGpzdFlhSUw4YlQrQkhh?=
+ =?utf-8?B?ZjFNaERKNUZSbHA3ekZtakVHYm92cFg0bkFMMURCSGZpOGYvbnVNSlRTTzFl?=
+ =?utf-8?B?L2lKd0F3NGlxS29jT2VYb210L2NLdkhpWWR3QlBBQkhLMndOalNjV3MyRUJM?=
+ =?utf-8?B?anYzVXQ0WE0vUXdWaWVXb09QY2t2S1RBVlVnbFVsYk5FZXhiVnN1TkVyYUM2?=
+ =?utf-8?B?TkhoQVFRb2czWllLdVV3OXFOVzFlbXlRb1lOK05oQmFpYW0wYklYdWpINVI2?=
+ =?utf-8?B?L0ZtMlozRlJNRG0yV0NXVTI1Z0dIdnNQbzRKYlZicFNJbXo3eHhEV0ZtMzFR?=
+ =?utf-8?B?TmkzUWJIWThqY0VoT1M2WUFoTEVtdjNVTy8wNUpkeWY0SWI4R1RZOGRnMU91?=
+ =?utf-8?B?azZ4a0I1bTZNSFNHZUhhSjVsRnJDRXZLMmx2SFZzd0FKSFpaRkNBc2FmTXU0?=
+ =?utf-8?B?S3RTbmlnSmpNVXl0N3U5UDdoTUxBTmxWeHpqbUNFSXZZNC84Qy9EL0VWSVMx?=
+ =?utf-8?Q?/J64nWTa5VzCfpqU8eFgMVy/0I8kBWl0NYygMts?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec3d8de5-feb7-4671-8390-08d95385b7e6
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4007.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65bf69ef-1bc9-4b99-87b4-08d953854813
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2021 18:10:15.2992 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VvbYBAbP+ldm/1uJP7JrFguSq00jqE/mdGMFlxGp0/M7ZEQL/7nMjHf8K9yKeNWDxqqIU9LQ4UILu82t4ifg15Fq6ge4ZeALCGqrWrfWxQY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5184
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2021 18:13:23.2063 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MoWEgLUJ/qO+nPIn4KFKf2tAbWthG30Zlu2CzARC7Z/pRH0r7oAFrGs3CadXWBUIQaw+c+qCB0iDSoZJZJSwIli9qGBrpdw7MRoRZp1en7U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5644
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,23 +158,300 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNy8zMC8yMSAxOjMxIEFNLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4gSGkgRGFuIGFu
-ZCBTYW0NCj4gDQo+IEFtIDI5LjA3LjIxIHVtIDIxOjU1IHNjaHJpZWIgRGFuLlNuZWRkb25AbWlj
-cm9jaGlwLmNvbToNCj4+IEhpIFRob21hcyBhbmQgU2FtLA0KPj4gT24gNy8yOS8yMSAxMjo0OCBQ
-TSwgU2FtIFJhdm5ib3JnIHdyb3RlOg0KPj4+IEVYVEVSTkFMIEVNQUlMOiBEbyBub3QgY2xpY2sg
-bGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IA0KPj4+IGtub3cgdGhlIGNvbnRl
-bnQgaXMgc2FmZQ0KPj4+DQo+Pj4gSGkgVGhvbWFzLA0KPj4+DQo+Pj4+DQo+Pj4+IEFyZSB5b3Ug
-c3VyZSwgeW91J3JlIHRlc3Rpbmcgd2l0aCB0aGUgbGF0ZXN0IGRybS1taXNjLW5leHQgb3IgZHJt
-LXRpcD8NCj4+Pj4gQmVjYXVzZSB1c2luZyBpcnFfZW5hYmxlZCBpcyBkZXByZWNhdGVkIGFuZCB0
-aGUgZmxhZyB3YXMgcmVjZW50bHkgDQo+Pj4+IHJlcGxhY2VkDQo+Pj4+IGJ5IGNvbW1pdCAxZTRj
-ZDc4ZWQ0OTMgKCJkcm06IERvbid0IHRlc3QgZm9yIElSUSBzdXBwb3J0IGluIFZCTEFOSyANCj4+
-Pj4gaW9jdGxzIikuDQo+Pg0KPj4gT2ssIE15IGZhdWx0IGZvciB0ZXN0aW5nIG9uIHRoZSB3cm9u
-ZyBicmFuY2guwqAgV2hlbiBJIHRlc3QgdGhpcyBwYXRjaCBvbg0KPj4gZHJtLW1pc2MtbmV4dCBp
-dCB3b3JrcyBncmVhdC7CoCBTb3JyeSBmb3IgdGhlIGNvbmZ1c2lvbiENCj4+DQo+Pj4NCj4+PiBJ
-IHdhcyBsb29raW5nIGF0IGRybS1taXNjLWZpeGVzIHdoaWNoIGRpZCBub3QgaGF2ZSB0aGlzIGNv
-bW1pdCA6LSgNCj4+PiBKdXN0IG15IHNpbGx5IGV4Y3VzZSB3aHkgSSB3YXMgY29udmluY2VkIHRo
-aXMgd2FzIHRoZSBpc3N1ZS4NCj4gDQo+IERvbid0IHdvcnJ5Lg0KPiANCj4gSSdsbCBhZGQgU2Ft
-J3MgUi1iIGFuZCBhIFRlc3RlZC1ieSBmcm9tIERhbiB0byB0aGUgcGF0Y2guIElzIHRoYXQgb2s/
-DQoNClRoZSB0ZXN0ZWQtYnkgd29ya3MgZm9yIG1lISAgVGhhbmtzIQ0KPiANCj4gQmVzdCByZWdh
-cmRzDQo+IFRob21hcw0KPiANCj4gDQo+Pj4NCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgU2FtDQo+
-Pj4NCj4+DQo+PiBCZXN0IHJlZ2FyZHMsDQo+PiBEYW4NCj4+DQo+IA0KDQo=
+On 7/30/2021 02:49, Tvrtko Ursulin wrote:
+> On 30/07/2021 01:13, John Harrison wrote:
+>> On 7/28/2021 17:34, Matthew Brost wrote:
+>>> If an engine associated with a context does not have a heartbeat, 
+>>> ban it
+>>> immediately. This is needed for GuC submission as a idle pulse doesn't
+>>> kick the context off the hardware where it then can check for a
+>>> heartbeat and ban the context.
+>
+> Pulse, that is a request with I915_PRIORITY_BARRIER, does not preempt 
+> a running normal priority context?
+>
+> Why does it matter then whether or not heartbeats are enabled - when 
+> heartbeat just ends up sending the same engine pulse (eventually, with 
+> raising priority)?
+The point is that the pulse is pointless. See the rest of my comments 
+below, specifically "the context will get resubmitted to the hardware 
+after the pulse completes". To re-iterate...
+
+Yes, it preempts the context. Yes, it does so whether heartbeats are 
+enabled or not. But so what? Who cares? You have preempted a context. It 
+is no longer running on the hardware. BUT IT IS STILL A VALID CONTEXT. 
+The backend scheduler will just resubmit it to the hardware as soon as 
+the pulse completes. The only reason this works at all is because of the 
+horrid hack in the execlist scheduler's back end implementation (in 
+__execlists_schedule_in):
+         if (unlikely(intel_context_is_closed(ce) &&
+                      !intel_engine_has_heartbeat(engine)))
+                 intel_context_set_banned(ce);
+
+The actual back end scheduler is saying "Is this a zombie context? Is 
+the heartbeat disabled? Then ban it". No other scheduler backend is 
+going to have knowledge of zombie context status or of the heartbeat 
+status. Nor are they going to call back into the higher levels of the 
+i915 driver to trigger a ban operation. Certainly a hardware implemented 
+scheduler is not going to be looking at private i915 driver information 
+to decide whether to submit a context or whether to tell the OS to kill 
+it off instead.
+
+For persistence to work with a hardware scheduler (or a non-Intel 
+specific scheduler such as the DRM one), the handling of zombie 
+contexts, banning, etc. *must* be done entirely in the front end. It 
+cannot rely on any backend hacks. That means you can't rely on any fancy 
+behaviour of pulses.
+
+If you want to ban a context then you must explicitly ban that context. 
+If you want to ban it at some later point then you need to track it at 
+the top level as a zombie and then explicitly ban that zombie at 
+whatever later point.
+
+
+>
+>> It's worse than this. If the engine in question is an individual 
+>> physical engine then sending a pulse (with sufficiently high 
+>> priority) will pre-empt the engine and kick the context off. However, 
+>> the GuC 
+>
+> Why it is different for physical vs virtual, aren't both just 
+> schedulable contexts with different engine masks for what GuC is 
+> concerned? Oh, is it a matter of needing to send pulses to all engines 
+> which comprise a virtual one?
+It isn't different. It is totally broken for both. It is potentially 
+more broken for virtual engines because of the question of which engine 
+to pulse. But as stated above, the pulse is pointless anyway so the 
+which engine question doesn't even matter.
+
+John.
+
+
+>
+>> scheduler does not have hacks in it to check the state of the 
+>> heartbeat or whether a context is actually a zombie or not. Thus, the 
+>> context will get resubmitted to the hardware after the pulse 
+>> completes and effectively nothing will have happened.
+>>
+>> I would assume that the DRM scheduler which we are meant to be 
+>> switching to for execlist as well as GuC submission is also unlikely 
+>> to have hacks for zombie contexts and tests for whether the i915 
+>> specific heartbeat has been disabled since the context became a 
+>> zombie. So when that switch happens, this test will also fail in 
+>> execlist mode as well as GuC mode.
+>>
+>> The choices I see here are to simply remove persistence completely 
+>> (it is a basically a bug that became UAPI because it wasn't caught 
+>> soon enough!) or to implement it in a way that does not require hacks 
+>> in the back end scheduler. Apparently, the DRM scheduler is expected 
+>> to allow zombie contexts to persist until the DRM file handle is 
+>> closed. So presumably we will have to go with option two.
+>>
+>> That means flagging a context as being a zombie when it is closed but 
+>> still active. The driver would then add it to a zombie list owned by 
+>> the DRM client object. When that client object is closed, i915 would 
+>> go through the list and genuinely kill all the contexts. No back end 
+>> scheduler hacks required and no intimate knowledge of the i915 
+>> heartbeat mechanism required either.
+>>
+>> John.
+>>
+>>
+>>>
+>>> This patch also updates intel_engine_has_heartbeat to be a vfunc as we
+>>> now need to call this function on execlists virtual engines too.
+>>>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   |  5 +++--
+>>>   drivers/gpu/drm/i915/gt/intel_context_types.h |  2 ++
+>>>   drivers/gpu/drm/i915/gt/intel_engine.h        | 21 
+>>> ++-----------------
+>>>   .../drm/i915/gt/intel_execlists_submission.c  | 14 +++++++++++++
+>>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +++++-
+>>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 --
+>>>   6 files changed, 26 insertions(+), 24 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> index 9c3672bac0e2..b8e01c5ba9e5 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> @@ -1090,8 +1090,9 @@ static void kill_engines(struct 
+>>> i915_gem_engines *engines, bool ban)
+>>>        */
+>>>       for_each_gem_engine(ce, engines, it) {
+>>>           struct intel_engine_cs *engine;
+>>> +        bool local_ban = ban || 
+>>> !intel_engine_has_heartbeat(ce->engine);
+>
+> In any case (pending me understanding what's really going on there), 
+> why would this check not be in kill_context with currently does this:
+>
+>     bool ban = (!i915_gem_context_is_persistent(ctx) ||
+>             !ctx->i915->params.enable_hangcheck);
+> ...
+>         kill_engines(pos, ban);
+>
+> So whether to ban decision would be consolidated to one place.
+>
+> In fact, decision on whether to allow persistent is tied to 
+> enable_hangcheck, which also drives hearbeat emission. So perhaps one 
+> part of the correct fix is to extend the above (kill_context) ban 
+> criteria to include hearbeat values anyway. Otherwise isn't it a 
+> simple miss that this check fails to account to hearbeat disablement 
+> via sysfs?
+>
+> Regards,
+>
+> Tvrtko
+>
+>>> -        if (ban && intel_context_ban(ce, NULL))
+>>> +        if (local_ban && intel_context_ban(ce, NULL))
+>>>               continue;
+>>>           /*
+>>> @@ -1104,7 +1105,7 @@ static void kill_engines(struct 
+>>> i915_gem_engines *engines, bool ban)
+>>>           engine = active_engine(ce);
+>>>           /* First attempt to gracefully cancel the context */
+>>> -        if (engine && !__cancel_engine(engine) && ban)
+>>> +        if (engine && !__cancel_engine(engine) && local_ban)
+>>>               /*
+>>>                * If we are unable to send a preemptive pulse to bump
+>>>                * the context from the GPU, we have to resort to a full
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h 
+>>> b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> index e54351a170e2..65f2eb2a78e4 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> @@ -55,6 +55,8 @@ struct intel_context_ops {
+>>>       void (*reset)(struct intel_context *ce);
+>>>       void (*destroy)(struct kref *kref);
+>>> +    bool (*has_heartbeat)(const struct intel_engine_cs *engine);
+>>> +
+>>>       /* virtual engine/context interface */
+>>>       struct intel_context *(*create_virtual)(struct intel_engine_cs 
+>>> **engine,
+>>>                           unsigned int count);
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h 
+>>> b/drivers/gpu/drm/i915/gt/intel_engine.h
+>>> index c2a5640ae055..1b11a808acc4 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+>>> @@ -283,28 +283,11 @@ struct intel_context *
+>>>   intel_engine_create_virtual(struct intel_engine_cs **siblings,
+>>>                   unsigned int count);
+>>> -static inline bool
+>>> -intel_virtual_engine_has_heartbeat(const struct intel_engine_cs 
+>>> *engine)
+>>> -{
+>>> -    /*
+>>> -     * For non-GuC submission we expect the back-end to look at the
+>>> -     * heartbeat status of the actual physical engine that the work
+>>> -     * has been (or is being) scheduled on, so we should only reach
+>>> -     * here with GuC submission enabled.
+>>> -     */
+>>> -    GEM_BUG_ON(!intel_engine_uses_guc(engine));
+>>> -
+>>> -    return intel_guc_virtual_engine_has_heartbeat(engine);
+>>> -}
+>>> -
+>>>   static inline bool
+>>>   intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
+>>>   {
+>>> -    if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
+>>> -        return false;
+>>> -
+>>> -    if (intel_engine_is_virtual(engine))
+>>> -        return intel_virtual_engine_has_heartbeat(engine);
+>>> +    if (engine->cops->has_heartbeat)
+>>> +        return engine->cops->has_heartbeat(engine);
+>>>       else
+>>>           return READ_ONCE(engine->props.heartbeat_interval_ms);
+>>>   }
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
+>>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> index de5f9c86b9a4..18005b5546b6 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> @@ -3619,6 +3619,18 @@ virtual_get_sibling(struct intel_engine_cs 
+>>> *engine, unsigned int sibling)
+>>>       return ve->siblings[sibling];
+>>>   }
+>>> +static bool virtual_engine_has_heartbeat(const struct 
+>>> intel_engine_cs *ve)
+>>> +{
+>>> +    struct intel_engine_cs *engine;
+>>> +    intel_engine_mask_t tmp, mask = ve->mask;
+>>> +
+>>> +    for_each_engine_masked(engine, ve->gt, mask, tmp)
+>>> +        if (READ_ONCE(engine->props.heartbeat_interval_ms))
+>>> +            return true;
+>>> +
+>>> +    return false;
+>>> +}
+>>> +
+>>>   static const struct intel_context_ops virtual_context_ops = {
+>>>       .flags = COPS_HAS_INFLIGHT,
+>>> @@ -3634,6 +3646,8 @@ static const struct intel_context_ops 
+>>> virtual_context_ops = {
+>>>       .enter = virtual_context_enter,
+>>>       .exit = virtual_context_exit,
+>>> +    .has_heartbeat = virtual_engine_has_heartbeat,
+>>> +
+>>>       .destroy = virtual_context_destroy,
+>>>       .get_sibling = virtual_get_sibling,
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 89ff0e4b4bc7..ae70bff3605f 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -2168,6 +2168,8 @@ static int guc_virtual_context_alloc(struct 
+>>> intel_context *ce)
+>>>       return lrc_alloc(ce, engine);
+>>>   }
+>>> +static bool guc_virtual_engine_has_heartbeat(const struct 
+>>> intel_engine_cs *ve);
+>>> +
+>>>   static const struct intel_context_ops virtual_guc_context_ops = {
+>>>       .alloc = guc_virtual_context_alloc,
+>>> @@ -2183,6 +2185,8 @@ static const struct intel_context_ops 
+>>> virtual_guc_context_ops = {
+>>>       .enter = guc_virtual_context_enter,
+>>>       .exit = guc_virtual_context_exit,
+>>> +    .has_heartbeat = guc_virtual_engine_has_heartbeat,
+>>> +
+>>>       .sched_disable = guc_context_sched_disable,
+>>>       .destroy = guc_context_destroy,
+>>> @@ -3029,7 +3033,7 @@ guc_create_virtual(struct intel_engine_cs 
+>>> **siblings, unsigned int count)
+>>>       return ERR_PTR(err);
+>>>   }
+>>> -bool intel_guc_virtual_engine_has_heartbeat(const struct 
+>>> intel_engine_cs *ve)
+>>> +static bool guc_virtual_engine_has_heartbeat(const struct 
+>>> intel_engine_cs *ve)
+>>>   {
+>>>       struct intel_engine_cs *engine;
+>>>       intel_engine_mask_t tmp, mask = ve->mask;
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h 
+>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>>> index c7ef44fa0c36..c2afc3b88fd8 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>>> @@ -29,8 +29,6 @@ void intel_guc_dump_active_requests(struct 
+>>> intel_engine_cs *engine,
+>>>                       struct i915_request *hung_rq,
+>>>                       struct drm_printer *m);
+>>> -bool intel_guc_virtual_engine_has_heartbeat(const struct 
+>>> intel_engine_cs *ve);
+>>> -
+>>>   int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+>>>                      atomic_t *wait_var,
+>>>                      bool interruptible,
+>>
+>> _______________________________________________
+>> Intel-gfx mailing list
+>> Intel-gfx@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
