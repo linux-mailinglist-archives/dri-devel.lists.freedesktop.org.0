@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E9F3DBE6C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 20:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E353DBE93
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 20:57:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 981C26E43D;
-	Fri, 30 Jul 2021 18:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91A4A6E43F;
+	Fri, 30 Jul 2021 18:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A696E223
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 18:35:17 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CEAAA20280;
- Fri, 30 Jul 2021 18:35:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627670115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p43CBtsf/cDCd4PD83jgvepFEMEDwuRvU7M91QajqAo=;
- b=obXf33V9QNbkhnlwLX5GR9cHzkizI9bIdb9FSB0oIPOqJdibcoGzcbpzvEduPC/NUsjzMu
- Q0ejIIyNQIyWvS6TstQxz8VLufF/oSYi8YwQK2lTZrgv/kq5nwOkdLd0nWWKNRpzTcn6Vf
- dcVgCg66/P/zgnqBvHdK6Lyan538b5M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627670115;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p43CBtsf/cDCd4PD83jgvepFEMEDwuRvU7M91QajqAo=;
- b=FAWlXG05iHORjf4TQ8zdPI9+NYSss3utUaQp1ALSwVE7Mw7nEHFpBMmEFO1laKqpVL8+dF
- 8erfG8NPYvrOTjAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7714813C3B;
- Fri, 30 Jul 2021 18:35:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8JfKG2NGBGGUVAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 30 Jul 2021 18:35:15 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, noralf@tronnes.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v3 5/5] drm/vkms: Map output framebuffer BOs with
- drm_gem_fb_vmap()
-Date: Fri, 30 Jul 2021 20:35:11 +0200
-Message-Id: <20210730183511.20080-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210730183511.20080-1-tzimmermann@suse.de>
-References: <20210730183511.20080-1-tzimmermann@suse.de>
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F09396E1E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 18:57:25 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id z26so14496637oih.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 11:57:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=R52SkjmgEOTUBqEHYa4AfMHcfuuZbXxc9uqTeblsMI4=;
+ b=cHDqg/JVMq/KqDermTQjYQh3zJXJCgTPV0eNVwov0YhCZHuLgysibPpi3PiXwC8AL/
+ r7BYwYGHH616M3q6D5LlbG06SRra2HKOgobDs6tHNk6qKcizFKqbOz2O8tuMAjVa0e98
+ AFfaruS7lNYtXfYX7BcUXNpVasZSMNkgguCmo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=R52SkjmgEOTUBqEHYa4AfMHcfuuZbXxc9uqTeblsMI4=;
+ b=RMGOUk+4OUyzN7WhZR+KlAvgt81V1/pQFG/1/16WyeUhfa4iQK+0x+8zTy4i0motH0
+ 8qnOwObUUT7t84IXFbpdHSZXSH88pONroZQ+E/DvafJDbPNNl/kJb0OZ/bRafGUXK709
+ 9LKq+u8EwLxHFwcHLSdBr9IGaygvOqwwrrKXcakT4J6f9C9tdqL6FGa4MdRV0XBwokL7
+ 9rtxZlw2aV2JfD3a13SNeXr838gWie3Rjrym6jwxVyxNirvdVXHWo5oXZlYYFesRLk0x
+ wZm39e3xEmUR+Ze9hmAUFMpPmokZtj/DhrqiAYaZ8VywCCijU2u2vXC7ImaY82SDrtyn
+ IvEQ==
+X-Gm-Message-State: AOAM533qYF99VLexrv87fzY3YyFsBm0QPCmhBk0S07sow5ZY7r5i+xTh
+ zRPUdmZq+6DbZydk8daWO7fPZLbP1AtnxQhSoS7KxA==
+X-Google-Smtp-Source: ABdhPJxNDgMIs+i6xUVmTNkHBOhTrdiS70/qH/dNqao4vmx6KI2snPhoSDEX5E4jN4uKjzYEP/Dq7jJoDsUvXCG78qo=
+X-Received: by 2002:a05:6808:619:: with SMTP id
+ y25mr3062792oih.166.1627671445211; 
+ Fri, 30 Jul 2021 11:57:25 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 30 Jul 2021 11:57:24 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1627507854-16733-1-git-send-email-khsieh@codeaurora.org>
+References: <1627507854-16733-1-git-send-email-khsieh@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Fri, 30 Jul 2021 11:57:24 -0700
+Message-ID: <CAE-0n51cNywB2ThQxqS4iX-d7wR+rYXt8P33o9cUq9J6tT915A@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: update is_connected status base on sink count
+ at dp_pm_resume()
+To: Kuogee Hsieh <khsieh@codeaurora.org>, agross@kernel.org,
+ bjorn.andersson@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Cc: abhinavk@codeaurora.org, aravindh@codeaurora.org, 
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,129 +72,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Abstract the framebuffer details by mappings its BOs with a call
-to drm_gem_fb_vmap(). Unmap with drm_gem_fb_vunamp().
+Quoting Kuogee Hsieh (2021-07-28 14:30:54)
+> Currently at dp_pm_resume() is_connected state is decided base on hpd connection
+> status only. This will put is_connected in wrongly "true" state at the scenario
+> that dongle attached to DUT but without hmdi cable connecting to it. Fix this
+> problem by adding read sink count from dongle and decided is_connected state base
+> on both sink count and hpd connection status.
+>
 
-Before, the output address with stored as raw pointer in the priv
-field of struct drm_writeback_job. Introduce the new type
-struct vkms_writeback_job, which holds the output mappings addresses
-while the writeback job is active.
+Please add a Fixes tag.
 
-The patchset also cleans up some internal casting an setup of the
-output addresses. No functional changes.
+> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 23 +++++++++++++++++++++--
+>  1 file changed, 21 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 2b660e9..9bcb261 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1308,6 +1308,17 @@ static int dp_display_remove(struct platform_device *pdev)
+>         return 0;
+>  }
+>
+> +static int dp_get_sink_count(struct dp_display_private *dp)
+> +{
+> +       u8 sink_count;
+> +
+> +       sink_count = drm_dp_read_sink_count(dp->aux);
 
-v3:
-	* free instances of struct vkms_writeback_job on cleanup
-	  or errors
+drm_dp_read_sink_count() returns an int, not a u8. Comparing a u8 to
+less than zero doesn't make any sense as it isn't signed.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/vkms/vkms_composer.c  |  2 +-
- drivers/gpu/drm/vkms/vkms_drv.h       |  6 +++++-
- drivers/gpu/drm/vkms/vkms_writeback.c | 28 +++++++++++++++------------
- 3 files changed, 22 insertions(+), 14 deletions(-)
+> +       if (sink_count < 0)
+> +               return 0;
+> +
+> +       return sink_count;
+> +}
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index ead8fff81f30..49f109c3a2b3 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -257,7 +257,7 @@ void vkms_composer_worker(struct work_struct *work)
- 		return;
- 
- 	if (wb_pending)
--		vaddr_out = crtc_state->active_writeback;
-+		vaddr_out = crtc_state->active_writeback->map[0].vaddr;
- 
- 	ret = compose_active_planes(&vaddr_out, primary_composer,
- 				    crtc_state);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 8c731b6dcba7..8bc9e3f52e1f 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -20,6 +20,10 @@
- #define XRES_MAX  8192
- #define YRES_MAX  8192
- 
-+struct vkms_writeback_job {
-+	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
-+};
-+
- struct vkms_composer {
- 	struct drm_framebuffer fb;
- 	struct drm_rect src, dst;
-@@ -57,7 +61,7 @@ struct vkms_crtc_state {
- 	int num_active_planes;
- 	/* stack of active planes for crc computation, should be in z order */
- 	struct vkms_plane_state **active_planes;
--	void *active_writeback;
-+	struct vkms_writeback_job *active_writeback;
- 
- 	/* below four are protected by vkms_output.composer_lock */
- 	bool crc_pending;
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 0935686475a0..425b6c6b8cad 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -65,41 +65,45 @@ static int vkms_wb_connector_get_modes(struct drm_connector *connector)
- static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
- 			       struct drm_writeback_job *job)
- {
--	struct drm_gem_object *gem_obj;
--	struct dma_buf_map map;
-+	struct vkms_writeback_job *vkmsjob;
- 	int ret;
- 
- 	if (!job->fb)
- 		return 0;
- 
--	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
--	ret = drm_gem_shmem_vmap(gem_obj, &map);
-+	vkmsjob = kzalloc(sizeof(*vkmsjob), GFP_KERNEL);
-+	if (!vkmsjob)
-+		return -ENOMEM;
-+
-+	ret = drm_gem_fb_vmap(job->fb, vkmsjob->map);
- 	if (ret) {
- 		DRM_ERROR("vmap failed: %d\n", ret);
--		return ret;
-+		goto err_kfree;
- 	}
- 
--	job->priv = map.vaddr;
-+	job->priv = vkmsjob;
- 
- 	return 0;
-+
-+err_kfree:
-+	kfree(vkmsjob);
-+	return ret;
- }
- 
- static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
- 				struct drm_writeback_job *job)
- {
--	struct drm_gem_object *gem_obj;
-+	struct vkms_writeback_job *vkmsjob = job->priv;
- 	struct vkms_device *vkmsdev;
--	struct dma_buf_map map;
- 
- 	if (!job->fb)
- 		return;
- 
--	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
--	dma_buf_map_set_vaddr(&map, job->priv);
--	drm_gem_shmem_vunmap(gem_obj, &map);
-+	drm_gem_fb_vunmap(job->fb, vkmsjob->map);
- 
--	vkmsdev = drm_device_to_vkms_device(gem_obj->dev);
-+	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
- 	vkms_set_composer(&vkmsdev->output, false);
-+	kfree(vkmsjob);
- }
- 
- static void vkms_wb_atomic_commit(struct drm_connector *conn,
--- 
-2.32.0
+We can drop this function and just have an int count in dp_pm_resume()
+that is compared to < 0 and then ignored.
 
+> +
+>  static int dp_pm_resume(struct device *dev)
+>  {
+>         struct platform_device *pdev = to_platform_device(dev);
+> @@ -1327,14 +1338,22 @@ static int dp_pm_resume(struct device *dev)
+>
+>         dp_catalog_ctrl_hpd_config(dp->catalog);
+>
+> -       status = dp_catalog_link_is_connected(dp->catalog);
+> +       /*
+> +        * set sink to normal operation mode -- D0
+> +        * before dpcd read
+> +        */
+> +       dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>
+> +       if ((status = dp_catalog_link_is_connected(dp->catalog)))
+> +               dp->link->sink_count = dp_get_sink_count(dp);
+
+Do we need to call drm_dp_read_sink_count_cap() as well?
+
+> +       else
+> +               dp->link->sink_count = 0;
+>         /*
+>          * can not declared display is connected unless
+>          * HDMI cable is plugged in and sink_count of
+>          * dongle become 1
+>          */
+> -       if (status && dp->link->sink_count)
+
+Is 'status' used anymore? If not, please remove it.
+
+> +       if (dp->link->sink_count)
+>                 dp->dp_display.is_connected = true;
+>         else
+>                 dp->dp_display.is_connected = false;
