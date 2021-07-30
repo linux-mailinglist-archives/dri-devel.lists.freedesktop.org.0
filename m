@@ -1,68 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB123DB4E1
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 10:06:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 635353DB512
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 10:32:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E07F89DA3;
-	Fri, 30 Jul 2021 08:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D99A6F3F6;
+	Fri, 30 Jul 2021 08:31:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE1AA89DA3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 08:06:50 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- e2-20020a17090a4a02b029016f3020d867so13237509pjh.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 01:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Zm9ze6NcDMmKTtzUJRmbUQg85ybXUDcN1daZdih1WjE=;
- b=onZBHEQbJavX+A5KRaetjgjzUwDmd3WCx9N9tbq25vGwq8nGrSKPYOUZvsmHEyOmWZ
- M+OOTZh5N2bVPdOJKKUW0J6lyGyB/gqr98pG3kRWp6HVtXZtkS3klXocUCX+WCWIt8oD
- +6eXSNqMZPOHcBKpetSx0mhW+ZpAp4LEt9PFIRVm/NHWfWJXAsy73etXU6K85KQHqWLb
- JaycqPhwfCq4En3t7KTHKtpBJWWDjmhnH8ugeLZwoW4SCKMBPDZWv3g69zS2Txoyi3z0
- /ajIPha64CrownvM58gbSPAOQ7kcQVbDTAw8K5AVvnznWduE+XeeQTiQbAed6jWcke8j
- jweA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Zm9ze6NcDMmKTtzUJRmbUQg85ybXUDcN1daZdih1WjE=;
- b=meFdOTHJXD0hywyv0GKroB9VkvPMw/x5ZU8gG7hKvUytRlemJrsyOf4tydhdMpxWfZ
- aTF/8bpcUE/0u/3IoGfz3q5cIkQFZDZEghiBUcAERx6AOwtGLp4ijp0V6g+OfYjRiJ6W
- WVVrbtn+9m/99S1osqRFLaqxRw0YNAkM5KVSDAn2/Bwci3pdKRdv2x6V8/4vS4PzYKm6
- q7XADkeTskd++sE4I+K2dwxeVF4bpjRRy18cH9NHzLQvCkj1jNde8XLvikpRbbg3OeFf
- bNNMCQeXsueFsf/cxtZYssHrNolKMS6tAqZhmSqsxknveXYX6fMiGoumjiIHMY6YcWDQ
- VqSw==
-X-Gm-Message-State: AOAM532qzjZ1W5Do7goncOpc9qXn4pr7FxXyadzbavQ1Dr1b4NnMs6IH
- nHCSdab029/JMzc2Wu0vda4=
-X-Google-Smtp-Source: ABdhPJyjRArgqkf3xuf3FtJ1loWdS7BbIoDktTv4OVnTPGAPLzlWFDLZqp+Y+Y7pidu7lZiihP0LDQ==
-X-Received: by 2002:a63:5506:: with SMTP id j6mr1211210pgb.19.1627632410498;
- Fri, 30 Jul 2021 01:06:50 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id e8sm1295050pfm.218.2021.07.30.01.06.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 01:06:49 -0700 (PDT)
-Subject: Re: [PATCH 2/2] drm: add lockdep assert to
- drm_is_current_master_locked
-To: Boqun Feng <boqun.feng@gmail.com>
-References: <20210730041515.1430237-1-desmondcheongzx@gmail.com>
- <20210730041515.1430237-3-desmondcheongzx@gmail.com>
- <YQOXTW8kSHdNjhiY@boqun-archlinux>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <35518f4b-5e4a-b284-1f86-5cba64941211@gmail.com>
-Date: Fri, 30 Jul 2021 16:06:44 +0800
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A566F3F5;
+ Fri, 30 Jul 2021 08:31:58 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 33F531FDBB;
+ Fri, 30 Jul 2021 08:31:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1627633916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4KNmGdX4j42EWGXTu1wwqwxtTy1FAmbC1xtjFG8i+0c=;
+ b=yOdPofC7QezghZeA/7yBJ/KRwYqg7+cuQjIfkiLLuCHTEYVpssdzkmIU8qxTVE3LtA2t/D
+ SLY/CIxEErwOWp1OjXbB5icay0WdRpVuLY++JQgOY91Xs9WEMjVY5Ah1yKgI6BD1axnmE0
+ 1NSChxIZGrg/k5h1yszTmUqVGMCePhY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1627633916;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4KNmGdX4j42EWGXTu1wwqwxtTy1FAmbC1xtjFG8i+0c=;
+ b=Dtbg4UOoXmeTHZKFxCCoSstCycJ0WH0xg3Hcc/AN9v2lFzINm/kNnG7sy5iri8E2X0mIaJ
+ Hj9rBnDdXyarFyBQ==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 846D31374D;
+ Fri, 30 Jul 2021 08:31:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id gAv4Hvu4A2FNFAAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Fri, 30 Jul 2021 08:31:55 +0000
+Subject: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
+To: Dan.Sneddon@microchip.com, sam@ravnborg.org
+References: <e28b1a2f-015c-c81b-eb64-5323df9ed35d@microchip.com>
+ <YQF7bKyeup8n3awU@ravnborg.org>
+ <3d2f6b84-dd07-d925-a8b8-2bfd5fc736d9@microchip.com>
+ <YQGdxtV0BGZ8VOpm@ravnborg.org>
+ <2f04b986-6b41-62f9-1587-23818b841655@suse.de>
+ <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
+ <YQGrMH36Udg3eKQY@ravnborg.org>
+ <dcc5cd1e-d0de-bdda-32f3-623b85085756@microchip.com>
+ <YQG5+/9lPexU3Dn3@ravnborg.org>
+ <1df22406-2e91-c15a-49dc-1cf33522a142@suse.de>
+ <YQMF8X7gwKE/c2/R@ravnborg.org>
+ <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <5eaae583-3efb-837d-22b0-22369096400f@suse.de>
+Date: Fri, 30 Jul 2021 10:31:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <YQOXTW8kSHdNjhiY@boqun-archlinux>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="yjnFarRLUdaazA6150bDZXU8b5959ycDD"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,109 +79,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, peterz@infradead.org, mingo@redhat.com,
- dri-devel@lists.freedesktop.org, skhan@linuxfoundation.org, longman@redhat.com,
- will@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Cc: airlied@linux.ie, liviu.dudau@arm.com, amd-gfx@lists.freedesktop.org,
+ anitha.chrisanthus@intel.com, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, edmund.j.dea@intel.com,
+ s.hauer@pengutronix.de, alison.wang@nxp.com, dri-devel@lists.freedesktop.org,
+ sean@poorly.run, linux-arm-kernel@lists.infradead.org, tomba@kernel.org,
+ bbrezillon@kernel.org, jyri.sarha@iki.fi, Nicolas.Ferre@microchip.com,
+ christian.koenig@amd.com, kernel@pengutronix.de, alexander.deucher@amd.com,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/7/21 2:08 pm, Boqun Feng wrote:
-> On Fri, Jul 30, 2021 at 12:15:15PM +0800, Desmond Cheong Zhi Xi wrote:
->> In drm_is_current_master_locked, accessing drm_file.master should be
->> protected by either drm_file.master_lookup_lock or
->> drm_device.master_mutex. This was previously awkward to assert with
->> lockdep.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--yjnFarRLUdaazA6150bDZXU8b5959ycDD
+Content-Type: multipart/mixed; boundary="p1nROP8ARC1uwryC8MEU3IPJXb5UTMgYH";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dan.Sneddon@microchip.com, sam@ravnborg.org
+Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
+ bbrezillon@kernel.org, Nicolas.Ferre@microchip.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
+ alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
+ anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
+ sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Message-ID: <5eaae583-3efb-837d-22b0-22369096400f@suse.de>
+Subject: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
+References: <e28b1a2f-015c-c81b-eb64-5323df9ed35d@microchip.com>
+ <YQF7bKyeup8n3awU@ravnborg.org>
+ <3d2f6b84-dd07-d925-a8b8-2bfd5fc736d9@microchip.com>
+ <YQGdxtV0BGZ8VOpm@ravnborg.org>
+ <2f04b986-6b41-62f9-1587-23818b841655@suse.de>
+ <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
+ <YQGrMH36Udg3eKQY@ravnborg.org>
+ <dcc5cd1e-d0de-bdda-32f3-623b85085756@microchip.com>
+ <YQG5+/9lPexU3Dn3@ravnborg.org>
+ <1df22406-2e91-c15a-49dc-1cf33522a142@suse.de>
+ <YQMF8X7gwKE/c2/R@ravnborg.org>
+ <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
+In-Reply-To: <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
+
+--p1nROP8ARC1uwryC8MEU3IPJXb5UTMgYH
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Dan and Sam
+
+Am 29.07.21 um 21:55 schrieb Dan.Sneddon@microchip.com:
+> Hi Thomas and Sam,
+> On 7/29/21 12:48 PM, Sam Ravnborg wrote:
+>> EXTERNAL EMAIL: Do not click links or open attachments unless you know=
+ the content is safe
 >>
->> Following patch ("locking/lockdep: Provide lockdep_assert{,_once}()
->> helpers"), this assertion is now convenient so we add it in.
+>> Hi Thomas,
 >>
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->> ---
->>   drivers/gpu/drm/drm_auth.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> Are you sure, you're testing with the latest drm-misc-next or drm-tip=
+?
+>>> Because using irq_enabled is deprecated and the flag was recently rep=
+laced
+>>> by commit 1e4cd78ed493 ("drm: Don't test for IRQ support in VBLANK io=
+ctls").
+>=20
+> Ok, My fault for testing on the wrong branch.  When I test this patch o=
+n
+> drm-misc-next it works great.  Sorry for the confusion!
+>=20
 >>
->> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
->> index 9c24b8cc8e36..6f4d7ff23c80 100644
->> --- a/drivers/gpu/drm/drm_auth.c
->> +++ b/drivers/gpu/drm/drm_auth.c
->> @@ -63,9 +63,9 @@
->>   
->>   static bool drm_is_current_master_locked(struct drm_file *fpriv)
->>   {
->> -	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
->> -	 * should be held here.
->> -	 */
->> +	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
->> +			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
->> +
-> 
-> I think it's better to also add the lockdep_assert() of & (i.e. both
-> held) in the updater side, and have comments pointing to each other.
-> 
-> Is it convenient to do in this patchset? If the updater side doesn't
-> need to put the lockdep_assert() (maybe the lock acquire code and the
-> update code are in the same function), it's still better to add some
+>> I was looking at drm-misc-fixes which did not have this commit :-(
+>> Just my silly excuse why I was convinced this was the issue.
 
-Thanks for the feedback, Boqun.
+Don't worry.
 
-Yeah, I think the updater side maybe doesn't need new lockdep_assert()
-because what currently happens is either
+I'll add Sam's R-b and a Tested-by from Dan to the patch. Is that ok?
 
-	lockdep_assert_held_once(&dev->master_mutex);
-	/* 6 lines of prep */
-	spin_lock(&fpriv->master_lookup_lock);
-	fpriv->master = new_value;
-or
-	mutex_lock(&dev->master_mutex);
-	/* 3 lines of checks */
-		spin_lock(&file_priv->master_lookup_lock);
-		file_priv->master = new_value;
+Best regards
+Thomas
 
-> comments like:
-> 
-> 	/*
-> 	 * To update drm_file.master, both drm_file.master_lookup_lock
-> 	 * and drm_device.master_mutex are needed, therefore holding
-> 	 * either of them is safe and enough for the read side.
-> 	 */
-> 
-> Just feel it's better to explain the lock design either in the
-> lockdep_assert() or comments.
-> 
 
-But clarifying the lock design in the documentation sounds like a really
-good idea.
-
-Probably a good place for this would be in the kerneldoc where we also
-explain the lifetime rules and usage of the pointer outside drm_auth.c:
-
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 726cfe0ff5f5..a3acb7ac3550 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -233,6 +233,10 @@ struct drm_file {
-  	 * this only matches &drm_device.master if the master is the currently
-  	 * active one.
-  	 *
-+	 * To update @master, both &drm_device.master_mutex and
-+	 * @master_lookup_lock need to be held, therefore holding either of
-+	 * them is safe and enough for the read side.
-+	 *
-  	 * When dereferencing this pointer, either hold struct
-  	 * &drm_device.master_mutex for the duration of the pointer's use, or
-  	 * use drm_file_get_master() if struct &drm_device.master_mutex is not
-
-Best wishes,
-Desmond
-
-> Regards,
-> Boqun
-> 
->>   	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
->>   }
->>   
->> -- 
->> 2.25.1
 >>
+>>           Sam
+>>
+>=20
+> Best regards,
+> Dan
+>=20
 
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--p1nROP8ARC1uwryC8MEU3IPJXb5UTMgYH--
+
+--yjnFarRLUdaazA6150bDZXU8b5959ycDD
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEDuPoFAwAAAAAACgkQlh/E3EQov+DU
+Hw//S+XTP8MCawWFcKViVdKyYx/8b76p5/pUrG0Ev2hYnWMZno4RedIRGQX1oj/g3EAYH9yIqXVX
+5R5NCwnGNJ+JVzgNA5L1/ELIiCuOXJ9hyhyCAbZaDpcLftS80P5BpwmP8h9m2GyRbEUk1XVtAeKI
+CzIgDTMczYNLdUAROSQ6WlwOn5OWXWhMCWmleg0Yt3e8xZGv+AXI+4ox04cOSLSEisVm1ZQyOYmr
+npbL85z8SkbxHw4TzTVFqAqovHSeTv+4KUJL7LB7Q3hPIMTDMRmzUP0az+gNBTCKxxgo+b+oH+1b
+M+kUuTF2Annxo26z5hvEZumIAW9zzfTHfIQTqjgFbm5AchgTxy3bSAYh2SH+9g0I3gLsEGz47brp
+lz1jyVV5XNunhO2cuVMEGtrM9AS/CiVmc1ixs9/2Be2dSs+S/6Yn0yHi/29XvJpNqcHVoVfPuPlP
+qgDpClVbr0dYNmjLMEfHx7zfAZ8+GJ3340VGBZ0gSuEguUMjg309+JapIqhEWauOEcMNdSZH6SXh
+om4+lQ1HIwbQjZCUxr8s23vuJ/7qV/fiBcnujXBRJ0H662iaWvfK6jmk4i1LUCLGtj5hSOzWS0+I
+iw6iZPBwbjfHvAflxgwtwJvxWeR0G7thQX5srKeza23607lk3PiFrHrfsuscJLysi+QELTFD9k5t
+GCM=
+=zl/v
+-----END PGP SIGNATURE-----
+
+--yjnFarRLUdaazA6150bDZXU8b5959ycDD--
