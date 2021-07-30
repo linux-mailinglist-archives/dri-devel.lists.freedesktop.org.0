@@ -1,45 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4B93DB38F
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 08:28:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B20863DB19A
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:57:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C5B46F3E3;
-	Fri, 30 Jul 2021 06:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09DE06E1A4;
+	Fri, 30 Jul 2021 02:57:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA846E1A4
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:55:42 +0000 (UTC)
-X-UUID: 0faf196a16e243c7aa01bd31fc46940f-20210730
-X-UUID: 0faf196a16e243c7aa01bd31fc46940f-20210730
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 2059840387; Fri, 30 Jul 2021 10:55:38 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Jul 2021 10:55:37 +0800
-Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Jul 2021 10:55:31 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski@canonical.com>, David Airlie <airlied@linux.ie>, Mauro
- Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v7 12/12] arm64: dts: mediatek: Get rid of mediatek,
- larb for MM nodes
-Date: Fri, 30 Jul 2021 10:52:38 +0800
-Message-ID: <20210730025238.22456-13-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210730025238.22456-1-yong.wu@mediatek.com>
-References: <20210730025238.22456-1-yong.wu@mediatek.com>
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE6B06E1A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:57:50 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ o44-20020a17090a0a2fb0290176ca3e5a2fso12377974pjo.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 19:57:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SFzRUhN6YLmKo+jXursxkunKR479Zn0dAlkG5jiWhjw=;
+ b=I1C+DiliccqD2S8FQuIkowtDYfAT8jO6cqdK3I3/Qi0zhAV6FADH1cF9j/dfQ/XyZP
+ 5/jyEoOev8YimdDZB6eQ2VStXoOaveQujuTJup/ustcoCaeRZZfR/rH9EVy71s7f1Jg+
+ fQeQPyONcwx0L2PszWsEh/rPuPRSYU51VxvO7O4/KNayMWsBMKnropT01PChLCh5iVtJ
+ NeTcwhxrOewxgKsg2hDmj41BOwrAFUb4XfvmotEc68oUSZB8ttX6PpOjsOyUIWAOVlvT
+ uNhToAsfim3PMGaWbHRQJJA9DxfHX2H641jNGjp4872i64dxDjLDhc1rwgKgD+gvpfJf
+ dmGg==
+X-Gm-Message-State: AOAM531bqUj58IXHkiCNrU435e5an5xGSQ8abDjY94KQ9gnNaG/jsXk0
+ l3ILwmBDe1dcLCrNrZyLeEQ=
+X-Google-Smtp-Source: ABdhPJzldFKnrfj3e7CDNRZJLltOGnPwYmMzIK1MKjkK0sFTGZWcKCldhGHbW6FmNfgZHfM78rnouA==
+X-Received: by 2002:a17:90a:c092:: with SMTP id o18mr691992pjs.3.1627613869863; 
+ Thu, 29 Jul 2021 19:57:49 -0700 (PDT)
+Received: from ?IPv6:2601:647:4000:d7:3f66:df55:a341:f79d?
+ ([2601:647:4000:d7:3f66:df55:a341:f79d])
+ by smtp.gmail.com with ESMTPSA id c15sm221003pfl.181.2021.07.29.19.57.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jul 2021 19:57:49 -0700 (PDT)
+Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
+To: Kees Cook <keescook@chromium.org>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-49-keescook@chromium.org>
+ <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
+ <202107291845.1E1528D@keescook>
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <0d71917d-967f-beaa-d83e-a60fa254627c@acm.org>
+Date: Thu, 29 Jul 2021 19:57:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
-X-Mailman-Approved-At: Fri, 30 Jul 2021 06:27:41 +0000
+In-Reply-To: <202107291845.1E1528D@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,220 +66,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xia Jiang <xia.jiang@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Will Deacon <will.deacon@arm.com>,
- dri-devel@lists.freedesktop.org, anthony.huang@mediatek.com,
- youlin.pei@mediatek.com, Nicolas Boichat <drinkcat@chromium.org>,
- Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
- Matthias Kaehlcke <mka@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Frank Wunderlich <frank-w@public-files.de>, yi.kuo@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- ming-fan.chen@mediatek.com, Tiffany Lin <tiffany.lin@mediatek.com>,
- yong.wu@mediatek.com, anan.sun@mediatek.com, srv_heupstream@mediatek.com,
- acourbot@chromium.org, linux-kernel@vger.kernel.org,
- Tomasz Figa <tfiga@chromium.org>, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>
+Cc: linux-kbuild@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
+ Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After adding device_link between the IOMMU consumer and smi,
-the mediatek,larb is unnecessary now.
+On 7/29/21 7:31 PM, Kees Cook wrote:
+> On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
+>> On 7/27/21 1:58 PM, Kees Cook wrote:
+>>> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+>>> field bounds checking for memset(), avoid intentionally writing across
+>>> neighboring fields.
+>>>
+>>> Add a struct_group() for the algs so that memset() can correctly reason
+>>> about the size.
+>>>
+>>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>>> ---
+>>>   drivers/block/drbd/drbd_main.c     | 3 ++-
+>>>   drivers/block/drbd/drbd_protocol.h | 6 ++++--
+>>>   drivers/block/drbd/drbd_receiver.c | 3 ++-
+>>>   3 files changed, 8 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+>>> index 55234a558e98..b824679cfcb2 100644
+>>> --- a/drivers/block/drbd/drbd_main.c
+>>> +++ b/drivers/block/drbd/drbd_main.c
+>>> @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
+>>>   	cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
+>>>   	/* initialize verify_alg and csums_alg */
+>>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
+>>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
+>>> +	memset(&p->algs, 0, sizeof(p->algs));
+>>>   	if (get_ldev(peer_device->device)) {
+>>>   		dc = rcu_dereference(peer_device->device->ldev->disk_conf);
+>>> diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
+>>> index dea59c92ecc1..a882b65ab5d2 100644
+>>> --- a/drivers/block/drbd/drbd_protocol.h
+>>> +++ b/drivers/block/drbd/drbd_protocol.h
+>>> @@ -283,8 +283,10 @@ struct p_rs_param_89 {
+>>>   struct p_rs_param_95 {
+>>>   	u32 resync_rate;
+>>> -	char verify_alg[SHARED_SECRET_MAX];
+>>> -	char csums_alg[SHARED_SECRET_MAX];
+>>> +	struct_group(algs,
+>>> +		char verify_alg[SHARED_SECRET_MAX];
+>>> +		char csums_alg[SHARED_SECRET_MAX];
+>>> +	);
+>>>   	u32 c_plan_ahead;
+>>>   	u32 c_delay_target;
+>>>   	u32 c_fill_target;
+>>> diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+>>> index 1f740e42e457..6df2539e215b 100644
+>>> --- a/drivers/block/drbd/drbd_receiver.c
+>>> +++ b/drivers/block/drbd/drbd_receiver.c
+>>> @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
+>>>   	/* initialize verify_alg and csums_alg */
+>>>   	p = pi->data;
+>>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
+>>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
+>>> +	memset(&p->algs, 0, sizeof(p->algs));
+>>
+>> Using struct_group() introduces complexity. Has it been considered not to
+>> modify struct p_rs_param_95 and instead to use two memset() calls instead of
+>> one (one memset() call per member)?
+> 
+> I went this direction because using two memset()s (or memcpy()s in other
+> patches) changes the machine code. It's not much of a change, but it
+> seems easier to justify "no binary changes" via the use of struct_group().
+> 
+> If splitting the memset() is preferred, I can totally do that instead.
+> :)
 
-CC: Matthias Brugger <matthias.bgg@gmail.com>
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Evan Green <evgreen@chromium.org>
-Tested-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8173.dtsi | 16 ----------------
- arch/arm64/boot/dts/mediatek/mt8183.dtsi |  6 ------
- 2 files changed, 22 deletions(-)
+I don't have a strong opinion about this. Lars, do you want to comment
+on this patch?
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-index 2f0fc1e317d7..cf5d26db82b8 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-@@ -1009,7 +1009,6 @@
- 				 <&mmsys CLK_MM_MUTEX_32K>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 		};
- 
- 		mdp_rdma1: rdma@14002000 {
-@@ -1019,7 +1018,6 @@
- 				 <&mmsys CLK_MM_MUTEX_32K>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_RDMA1>;
--			mediatek,larb = <&larb4>;
- 		};
- 
- 		mdp_rsz0: rsz@14003000 {
-@@ -1049,7 +1047,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WDMA>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WDMA>;
--			mediatek,larb = <&larb0>;
- 		};
- 
- 		mdp_wrot0: wrot@14007000 {
-@@ -1058,7 +1055,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WROT0>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WROT0>;
--			mediatek,larb = <&larb0>;
- 		};
- 
- 		mdp_wrot1: wrot@14008000 {
-@@ -1067,7 +1063,6 @@
- 			clocks = <&mmsys CLK_MM_MDP_WROT1>;
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			iommus = <&iommu M4U_PORT_MDP_WROT1>;
--			mediatek,larb = <&larb4>;
- 		};
- 
- 		ovl0: ovl@1400c000 {
-@@ -1077,7 +1072,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
- 		};
- 
-@@ -1088,7 +1082,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL1>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xd000 0x1000>;
- 		};
- 
-@@ -1099,7 +1092,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
- 		};
- 
-@@ -1110,7 +1102,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xf000 0x1000>;
- 		};
- 
-@@ -1121,7 +1112,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA2>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA2>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0 0x1000>;
- 		};
- 
-@@ -1132,7 +1122,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_WDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_WDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
- 		};
- 
-@@ -1143,7 +1132,6 @@
- 			power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
- 			clocks = <&mmsys CLK_MM_DISP_WDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_WDMA1>;
--			mediatek,larb = <&larb4>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x2000 0x1000>;
- 		};
- 
-@@ -1394,7 +1382,6 @@
- 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
- 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
- 			interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb1>;
- 			iommus = <&iommu M4U_PORT_HW_VDEC_MC_EXT>,
- 				 <&iommu M4U_PORT_HW_VDEC_PP_EXT>,
- 				 <&iommu M4U_PORT_HW_VDEC_AVC_MV_EXT>,
-@@ -1462,7 +1449,6 @@
- 			compatible = "mediatek,mt8173-vcodec-enc";
- 			reg = <0 0x18002000 0 0x1000>;	/* VENC_SYS */
- 			interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb3>;
- 			iommus = <&iommu M4U_PORT_VENC_RCPU>,
- 				 <&iommu M4U_PORT_VENC_REC>,
- 				 <&iommu M4U_PORT_VENC_BSDMA>,
-@@ -1490,7 +1476,6 @@
- 			clock-names = "jpgdec-smi",
- 				      "jpgdec";
- 			power-domains = <&spm MT8173_POWER_DOMAIN_VENC>;
--			mediatek,larb = <&larb3>;
- 			iommus = <&iommu M4U_PORT_JPGDEC_WDMA>,
- 				 <&iommu M4U_PORT_JPGDEC_BSDMA>;
- 		};
-@@ -1524,7 +1509,6 @@
- 				 <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
- 				 <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
- 				 <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
--			mediatek,larb = <&larb5>;
- 			mediatek,vpu = <&vpu>;
- 			clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
- 			clock-names = "venc_lt_sel";
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index ca8ad953de91..d21e1ffc9b35 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -1239,7 +1239,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0>;
- 			iommus = <&iommu M4U_PORT_DISP_OVL0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x8000 0x1000>;
- 		};
- 
-@@ -1250,7 +1249,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
- 			iommus = <&iommu M4U_PORT_DISP_2L_OVL0_LARB0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
- 		};
- 
-@@ -1261,7 +1259,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_OVL1_2L>;
- 			iommus = <&iommu M4U_PORT_DISP_2L_OVL1_LARB0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
- 		};
- 
-@@ -1272,7 +1269,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
--			mediatek,larb = <&larb0>;
- 			mediatek,rdma-fifo-size = <5120>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
- 		};
-@@ -1284,7 +1280,6 @@
- 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
- 			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
- 			iommus = <&iommu M4U_PORT_DISP_RDMA1>;
--			mediatek,larb = <&larb0>;
- 			mediatek,rdma-fifo-size = <2048>;
- 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
- 		};
-@@ -1439,7 +1434,6 @@
- 			compatible = "mediatek,mt8183-jpgenc", "mediatek,mtk-jpgenc";
- 			reg = <0 0x17030000 0 0x1000>;
- 			interrupts = <GIC_SPI 249 IRQ_TYPE_LEVEL_LOW>;
--			mediatek,larb = <&larb4>;
- 			iommus = <&iommu M4U_PORT_JPGENC_RDMA>,
- 				 <&iommu M4U_PORT_JPGENC_BSDMA>;
- 			power-domains = <&spm MT8183_POWER_DOMAIN_VENC>;
--- 
-2.18.0
+Thanks,
 
+Bart.
