@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635353DB512
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 10:32:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 273043DB522
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 10:41:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D99A6F3F6;
-	Fri, 30 Jul 2021 08:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D3F6F3FC;
+	Fri, 30 Jul 2021 08:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A566F3F5;
- Fri, 30 Jul 2021 08:31:58 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 33F531FDBB;
- Fri, 30 Jul 2021 08:31:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627633916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D21B56F3FC
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 08:41:32 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 3A8E01FDBC;
+ Fri, 30 Jul 2021 08:41:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1627634491;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4KNmGdX4j42EWGXTu1wwqwxtTy1FAmbC1xtjFG8i+0c=;
- b=yOdPofC7QezghZeA/7yBJ/KRwYqg7+cuQjIfkiLLuCHTEYVpssdzkmIU8qxTVE3LtA2t/D
- SLY/CIxEErwOWp1OjXbB5icay0WdRpVuLY++JQgOY91Xs9WEMjVY5Ah1yKgI6BD1axnmE0
- 1NSChxIZGrg/k5h1yszTmUqVGMCePhY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627633916;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ bh=Q5VtXhh5iSmysRELgw6/DxJ+Gj7wHi4sWZNfLM3x5SI=;
+ b=nZijUChYyt3l8+IQmonxJMZHIuUEfIAQzB7oBbZigVnXkYK/NyBO9B+g7LbWqN3d2/Rrtt
+ eHOGGQdCN5LkTDW9uXhGQmoCSEgl91rCcCmb5glsxNRumKrdaFywzGDGURVSolnbsgTNb6
+ 1cJiB/CIOwgEuPy2iCQd4GlQfbV4h1c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1627634491;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4KNmGdX4j42EWGXTu1wwqwxtTy1FAmbC1xtjFG8i+0c=;
- b=Dtbg4UOoXmeTHZKFxCCoSstCycJ0WH0xg3Hcc/AN9v2lFzINm/kNnG7sy5iri8E2X0mIaJ
- Hj9rBnDdXyarFyBQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 846D31374D;
- Fri, 30 Jul 2021 08:31:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id gAv4Hvu4A2FNFAAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Fri, 30 Jul 2021 08:31:55 +0000
-Subject: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
-To: Dan.Sneddon@microchip.com, sam@ravnborg.org
-References: <e28b1a2f-015c-c81b-eb64-5323df9ed35d@microchip.com>
- <YQF7bKyeup8n3awU@ravnborg.org>
- <3d2f6b84-dd07-d925-a8b8-2bfd5fc736d9@microchip.com>
- <YQGdxtV0BGZ8VOpm@ravnborg.org>
- <2f04b986-6b41-62f9-1587-23818b841655@suse.de>
- <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
- <YQGrMH36Udg3eKQY@ravnborg.org>
- <dcc5cd1e-d0de-bdda-32f3-623b85085756@microchip.com>
- <YQG5+/9lPexU3Dn3@ravnborg.org>
- <1df22406-2e91-c15a-49dc-1cf33522a142@suse.de>
- <YQMF8X7gwKE/c2/R@ravnborg.org>
- <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <5eaae583-3efb-837d-22b0-22369096400f@suse.de>
-Date: Fri, 30 Jul 2021 10:31:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ bh=Q5VtXhh5iSmysRELgw6/DxJ+Gj7wHi4sWZNfLM3x5SI=;
+ b=Z4MYoBJrjJWY+SVTj+NlOvwKoN39lEA6H+7Iq2rGEVfpGtoH548rv56fLf4/8on5mD1JsN
+ 6QWTZU5U8pK6udAg==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+ by relay2.suse.de (Postfix) with ESMTP id 212AFA3B8A;
+ Fri, 30 Jul 2021 08:41:31 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+ id 3D3B6DB284; Fri, 30 Jul 2021 10:38:45 +0200 (CEST)
+Date: Fri, 30 Jul 2021 10:38:45 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
+ region
+Message-ID: <20210730083845.GD5047@suse.cz>
+Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bart Van Assche <bvanassche@acm.org>,
+ linux-hardening@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Keith Packard <keithpac@amazon.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+ nborisov@suse.com
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-2-keescook@chromium.org>
+ <20210728085921.GV5047@twin.jikos.cz> <20210728091434.GQ1931@kadam>
+ <c52a52d9-a9e0-5020-80fe-4aada39035d3@acm.org>
+ <20210728213730.GR5047@suse.cz> <YQJDCw01gSp1d1/M@kroah.com>
+ <20210729082039.GX25548@kadam> <202107291952.C08EAE039B@keescook>
 MIME-Version: 1.0
-In-Reply-To: <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="yjnFarRLUdaazA6150bDZXU8b5959ycDD"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202107291952.C08EAE039B@keescook>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,127 +79,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, liviu.dudau@arm.com, amd-gfx@lists.freedesktop.org,
- anitha.chrisanthus@intel.com, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, edmund.j.dea@intel.com,
- s.hauer@pengutronix.de, alison.wang@nxp.com, dri-devel@lists.freedesktop.org,
- sean@poorly.run, linux-arm-kernel@lists.infradead.org, tomba@kernel.org,
- bbrezillon@kernel.org, jyri.sarha@iki.fi, Nicolas.Ferre@microchip.com,
- christian.koenig@amd.com, kernel@pengutronix.de, alexander.deucher@amd.com,
- shawnguo@kernel.org
+Reply-To: dsterba@suse.cz
+Cc: Bart Van Assche <bvanassche@acm.org>, linux-kbuild@vger.kernel.org,
+ nborisov@suse.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Keith Packard <keithpac@amazon.com>,
+ linux-hardening@vger.kernel.org, netdev@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yjnFarRLUdaazA6150bDZXU8b5959ycDD
-Content-Type: multipart/mixed; boundary="p1nROP8ARC1uwryC8MEU3IPJXb5UTMgYH";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dan.Sneddon@microchip.com, sam@ravnborg.org
-Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
- christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
- bbrezillon@kernel.org, Nicolas.Ferre@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
- alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
- anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
- sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Message-ID: <5eaae583-3efb-837d-22b0-22369096400f@suse.de>
-Subject: Re: [PATCH 03/14] drm/atmel-hlcdc: Convert to Linux IRQ interfaces
-References: <e28b1a2f-015c-c81b-eb64-5323df9ed35d@microchip.com>
- <YQF7bKyeup8n3awU@ravnborg.org>
- <3d2f6b84-dd07-d925-a8b8-2bfd5fc736d9@microchip.com>
- <YQGdxtV0BGZ8VOpm@ravnborg.org>
- <2f04b986-6b41-62f9-1587-23818b841655@suse.de>
- <793514f6-0270-771b-fe36-f82edf4e5fd2@microchip.com>
- <YQGrMH36Udg3eKQY@ravnborg.org>
- <dcc5cd1e-d0de-bdda-32f3-623b85085756@microchip.com>
- <YQG5+/9lPexU3Dn3@ravnborg.org>
- <1df22406-2e91-c15a-49dc-1cf33522a142@suse.de>
- <YQMF8X7gwKE/c2/R@ravnborg.org>
- <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
-In-Reply-To: <38656c7b-d9ad-c704-515e-f56582742532@microchip.com>
+On Thu, Jul 29, 2021 at 11:00:48PM -0700, Kees Cook wrote:
+> On Thu, Jul 29, 2021 at 11:20:39AM +0300, Dan Carpenter wrote:
+> > On Thu, Jul 29, 2021 at 07:56:27AM +0200, Greg Kroah-Hartman wrote:
+> > > On Wed, Jul 28, 2021 at 11:37:30PM +0200, David Sterba wrote:
+> > > > On Wed, Jul 28, 2021 at 02:37:20PM -0700, Bart Van Assche wrote:
+> > > > > On 7/28/21 2:14 AM, Dan Carpenter wrote:
+> > > > > > On Wed, Jul 28, 2021 at 10:59:22AM +0200, David Sterba wrote:
+> > > > > >>>   drivers/media/platform/omap3isp/ispstat.c |  5 +--
+> > > > > >>>   include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
+> > > > > >>>   2 files changed, 36 insertions(+), 13 deletions(-)
+> > > > > >>>
+> > > > > >>> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> > > > > >>> index 5b9b57f4d9bf..ea8222fed38e 100644
+> > > > > >>> --- a/drivers/media/platform/omap3isp/ispstat.c
+> > > > > >>> +++ b/drivers/media/platform/omap3isp/ispstat.c
+> > > > > >>> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+> > > > > >>>   int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+> > > > > >>>   					struct omap3isp_stat_data_time32 *data)
+> > > > > >>>   {
+> > > > > >>> -	struct omap3isp_stat_data data64;
+> > > > > >>> +	struct omap3isp_stat_data data64 = { };
+> > > > > >>
+> > > > > >> Should this be { 0 } ?
+> > > > > >>
+> > > > > >> We've seen patches trying to switch from { 0 } to {  } but the answer
+> > > > > >> was that { 0 } is supposed to be used,
+> > > > > >> http://www.ex-parrot.com/~chris/random/initialise.html 
+> > > > > >>
+> > > > > >> (from https://lore.kernel.org/lkml/fbddb15a-6e46-3f21-23ba-b18f66e3448a@suse.com/ )
+> > > > > > 
+> > > > > > In the kernel we don't care about portability so much.  Use the = { }
+> > > > > > GCC extension.  If the first member of the struct is a pointer then
+> > > > > > Sparse will complain about = { 0 }.
+> > > > > 
+> > > > > +1 for { }.
+> > > > 
+> > > > Oh, I thought the tendency is is to use { 0 } because that can also
+> > > > intialize the compound members, by a "scalar 0" as it appears in the
+> > > > code.
+> > > > 
+> > > 
+> > > Holes in the structure might not be initialized to anything if you do
+> > > either one of these as well.
+> > > 
+> > > Or did we finally prove that is not the case?  I can not remember
+> > > anymore...
+> > 
+> > Yep.  The C11 spec says that struct holes are initialized.
+> > 
+> > https://lore.kernel.org/netdev/20200731140452.GE24045@ziepe.ca/
+> 
+> This is, unfortunately, misleading. The frustrating key word is
+> "partial" in "updated in C11 to require zero'ing padding when doing
+> partial initialization of aggregates". If one initializes _all_ the
+> struct members ... the padding doesn't get initialized. :( (And until
+> recently, _trailing_ padding wasn't getting initialized even when other
+> paddings were.)
+> 
+> I've tried to collect all the different ways the compiler might initialize
+> a variable in this test:
+> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/tree/lib/test_stackinit.c?h=for-next/kspp
+> 
+> FWIW, there's no difference between -std=gnu99 and -std=c11, and the
+> test shows that padding is _not_ universally initialized (unless your
+> compiler supports -ftrivial-auto-var-init=zero, which Clang does, and
+> GCC will shortly[1]). Running this with GCC 10.3.0, I see this...
+> 
+> As expected, having no initializer leaves padding (as well as members)
+> uninitialized:
+> 
+> stackinit: small_hole_none FAIL (uninit bytes: 24)
+> stackinit: big_hole_none FAIL (uninit bytes: 128)
+> stackinit: trailing_hole_none FAIL (uninit bytes: 32)
+> 
+> Here, "zero" means  "= { };" and they get padding initialized:
+> 
+> stackinit: small_hole_zero ok
+> stackinit: big_hole_zero ok
+> stackinit: trailing_hole_zero ok
+> 
+> Here, "static_partial" means "= { .one_member = 0 };", and
+> "dynamic_partial" means "= { .one_member = some_variable };". These are
+> similarly initialized:
+> 
+> stackinit: small_hole_static_partial ok
+> stackinit: big_hole_static_partial ok
+> stackinit: trailing_hole_static_partial ok
+> 
+> stackinit: small_hole_dynamic_partial ok
+> stackinit: big_hole_dynamic_partial ok
+> stackinit: trailing_hole_dynamic_partial ok
+> 
+> But when _all_ members are initialized, the padding is _not_:
+> 
+> stackinit: small_hole_static_all FAIL (uninit bytes: 3)
+> stackinit: big_hole_static_all FAIL (uninit bytes: 124)
+> stackinit: trailing_hole_static_all FAIL (uninit bytes: 7)
+> 
+> stackinit: small_hole_dynamic_all FAIL (uninit bytes: 3)
+> stackinit: big_hole_dynamic_all FAIL (uninit bytes: 124)
+> stackinit: trailing_hole_dynamic_all FAIL (uninit bytes: 7)
+> 
+> As expected, assigning to members outside of initialization leaves
+> padding uninitialized:
+> 
+> stackinit: small_hole_runtime_partial FAIL (uninit bytes: 23)
+> stackinit: big_hole_runtime_partial FAIL (uninit bytes: 127)
+> stackinit: trailing_hole_runtime_partial FAIL (uninit bytes: 24)
+> 
+> stackinit: small_hole_runtime_all FAIL (uninit bytes: 3)
+> stackinit: big_hole_runtime_all FAIL (uninit bytes: 124)
+> stackinit: trailing_hole_runtime_all FAIL (uninit bytes: 7)
+> 
+> > What doesn't initialize struct holes is assignments:
+> > 
+> > 	struct foo foo = *bar;
+> 
+> Right. Object to object assignments do not clear padding:
+> 
+> stackinit: small_hole_assigned_copy XFAIL (uninit bytes: 3)
+> stackinit: big_hole_assigned_copy XFAIL (uninit bytes: 124)
+> stackinit: trailing_hole_assigned_copy XFAIL (uninit bytes: 7)
+> 
+> And whole-object assignments of cast initializers follow the pattern of
+> basic initializers, which makes sense given the behavior of initializers
+> and direct assignment tests above. e.g.:
+> 	obj = (type){ .member = ... };
+> 
+> stackinit: small_hole_assigned_static_partial ok
+> stackinit: small_hole_assigned_dynamic_partial ok
+> stackinit: big_hole_assigned_dynamic_partial ok
+> stackinit: big_hole_assigned_static_partial ok
+> stackinit: trailing_hole_assigned_dynamic_partial ok
+> stackinit: trailing_hole_assigned_static_partial ok
+> 
+> stackinit: small_hole_assigned_static_all FAIL (uninit bytes: 3)
+> stackinit: small_hole_assigned_dynamic_all FAIL (uninit bytes: 3)
+> stackinit: big_hole_assigned_static_all FAIL (uninit bytes: 124)
+> stackinit: big_hole_assigned_dynamic_all FAIL (uninit bytes: 124)
+> stackinit: trailing_hole_assigned_dynamic_all FAIL (uninit bytes: 7)
+> stackinit: trailing_hole_assigned_static_all FAIL (uninit bytes: 7)
+> 
+> So, yeah, it's not very stable.
 
---p1nROP8ARC1uwryC8MEU3IPJXb5UTMgYH
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Then is explicit memset the only reliable way accross all compiler
+flavors and supported versions?
 
-Hi Dan and Sam
-
-Am 29.07.21 um 21:55 schrieb Dan.Sneddon@microchip.com:
-> Hi Thomas and Sam,
-> On 7/29/21 12:48 PM, Sam Ravnborg wrote:
->> EXTERNAL EMAIL: Do not click links or open attachments unless you know=
- the content is safe
->>
->> Hi Thomas,
->>
->>>
->>> Are you sure, you're testing with the latest drm-misc-next or drm-tip=
-?
->>> Because using irq_enabled is deprecated and the flag was recently rep=
-laced
->>> by commit 1e4cd78ed493 ("drm: Don't test for IRQ support in VBLANK io=
-ctls").
->=20
-> Ok, My fault for testing on the wrong branch.  When I test this patch o=
-n
-> drm-misc-next it works great.  Sorry for the confusion!
->=20
->>
->> I was looking at drm-misc-fixes which did not have this commit :-(
->> Just my silly excuse why I was convinced this was the issue.
-
-Don't worry.
-
-I'll add Sam's R-b and a Tested-by from Dan to the patch. Is that ok?
-
-Best regards
-Thomas
-
-
->>
->>           Sam
->>
->=20
-> Best regards,
-> Dan
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---p1nROP8ARC1uwryC8MEU3IPJXb5UTMgYH--
-
---yjnFarRLUdaazA6150bDZXU8b5959ycDD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEDuPoFAwAAAAAACgkQlh/E3EQov+DU
-Hw//S+XTP8MCawWFcKViVdKyYx/8b76p5/pUrG0Ev2hYnWMZno4RedIRGQX1oj/g3EAYH9yIqXVX
-5R5NCwnGNJ+JVzgNA5L1/ELIiCuOXJ9hyhyCAbZaDpcLftS80P5BpwmP8h9m2GyRbEUk1XVtAeKI
-CzIgDTMczYNLdUAROSQ6WlwOn5OWXWhMCWmleg0Yt3e8xZGv+AXI+4ox04cOSLSEisVm1ZQyOYmr
-npbL85z8SkbxHw4TzTVFqAqovHSeTv+4KUJL7LB7Q3hPIMTDMRmzUP0az+gNBTCKxxgo+b+oH+1b
-M+kUuTF2Annxo26z5hvEZumIAW9zzfTHfIQTqjgFbm5AchgTxy3bSAYh2SH+9g0I3gLsEGz47brp
-lz1jyVV5XNunhO2cuVMEGtrM9AS/CiVmc1ixs9/2Be2dSs+S/6Yn0yHi/29XvJpNqcHVoVfPuPlP
-qgDpClVbr0dYNmjLMEfHx7zfAZ8+GJ3340VGBZ0gSuEguUMjg309+JapIqhEWauOEcMNdSZH6SXh
-om4+lQ1HIwbQjZCUxr8s23vuJ/7qV/fiBcnujXBRJ0H662iaWvfK6jmk4i1LUCLGtj5hSOzWS0+I
-iw6iZPBwbjfHvAflxgwtwJvxWeR0G7thQX5srKeza23607lk3PiFrHrfsuscJLysi+QELTFD9k5t
-GCM=
-=zl/v
------END PGP SIGNATURE-----
-
---yjnFarRLUdaazA6150bDZXU8b5959ycDD--
+E.g. for ioctls that get kernel memory (stack, kmalloc), partially
+initialize it and then call copy_to_user.
