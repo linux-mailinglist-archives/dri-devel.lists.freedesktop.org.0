@@ -1,40 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A71D3DBFB2
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 22:22:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A25713DBFEB
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 22:41:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0900B6F49E;
-	Fri, 30 Jul 2021 20:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 584536F4A2;
+	Fri, 30 Jul 2021 20:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFE16F4AA;
- Fri, 30 Jul 2021 20:22:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10061"; a="276939786"
-X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; d="scan'208";a="276939786"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2021 13:22:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,282,1620716400"; d="scan'208";a="499741716"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga001.jf.intel.com with ESMTP; 30 Jul 2021 13:22:12 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: [PATCH 14/14] drm/i915/guc/rc: Setup and enable GuCRC feature
-Date: Fri, 30 Jul 2021 13:21:19 -0700
-Message-Id: <20210730202119.23810-15-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20210730202119.23810-1-vinay.belgaumkar@intel.com>
-References: <20210730202119.23810-1-vinay.belgaumkar@intel.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FB476E24E;
+ Fri, 30 Jul 2021 20:41:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OYnCy3RLy1wUVgdOnUJ5oqA+ujB0SHgB7cU4ZD2GyG4NqKyV8PPlFWunlgKkG1XhtkOdE0qukfbGXaqXMyxIYGaflIxpmn3bNEiY1RZNBp3CKb/IWt9KKm6TeOiBQHYGbSBFsx6bGPYAocsTIyEft7d1Q4JmuioFx92oNwXpOSzjxCOx6MZaF+0BEiJMDxJudfwaxolzNb5vYUrbLRDb7yb+RK9EWf+GzzAy7wnCurutdfdBkJ/UozmojVMMZqP+zinW0nfKZRI0fOKSaWH2Y1OTVxyA5zi3zPf4lKLLr1z5LU4VEJQsWiz9r3ztrOdp11v1NqtwJ+2n3jvwmyed7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UbV8/6Y7u81cUCFtgr+I+DP0PfN8t1bD78AjCuJdtLQ=;
+ b=Cs+hgvud/HlZPRrX/FMG3Ixg/OLgtCAUJWqFy0vnKHxF5OXJ2z6Y3tsYkRoWnK3sgkn+gKj0DN2oAambVrWHJRP2CEiNvRCK6zXTAJvlI/b95hxuiEX/D8U6cHtrIndbM9qlJt88PTdyVCLf6Ds/8Zu7N3bX6/O4rphPM2Vm/JIfD2/TdR4GGY0CmfCeCAXGkIDBtPNQVue51f0dSQTUcuwDHPKLCyGlR52MffpgpBJ54ERYEQZXz7kh7xWXCRFfRYZYzDR4yk8U/gR+1TXnB1DJtNYBDl5NQdHe8+B473w4C9TKPBSkJU6Q8Ya3sYvZZyYH8PEh3Wed8Vkrrzz1YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UbV8/6Y7u81cUCFtgr+I+DP0PfN8t1bD78AjCuJdtLQ=;
+ b=GjmIPfwA2JFtUy8TISGfWOdMc98aquqAvwB/CEXVr/ZBP+gRZ27CZFog/KE8TVIUTG7UCHA1DBolhOGJxU+/LUgnicZ968JXQoQutQK9vqEMSFwd3sGm2zQuuHAtsQj1F5kcS27/i2zA1BdJDC/lna+FtUyfnC+j0g+k7hTLppY=
+Received: from DM6PR08CA0040.namprd08.prod.outlook.com (2603:10b6:5:1e0::14)
+ by CY4PR12MB1126.namprd12.prod.outlook.com (2603:10b6:903:3d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29; Fri, 30 Jul
+ 2021 20:41:39 +0000
+Received: from DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1e0:cafe::cf) by DM6PR08CA0040.outlook.office365.com
+ (2603:10b6:5:1e0::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend
+ Transport; Fri, 30 Jul 2021 20:41:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT037.mail.protection.outlook.com (10.13.172.122) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4373.18 via Frontend Transport; Fri, 30 Jul 2021 20:41:39 +0000
+Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.12; Fri, 30 Jul
+ 2021 15:41:38 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
+ (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.12; Fri, 30 Jul
+ 2021 13:41:38 -0700
+Received: from hwentlanryzen.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2242.12 via Frontend
+ Transport; Fri, 30 Jul 2021 15:41:37 -0500
+From: Harry Wentland <harry.wentland@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <ppaalanen@gmail.com>, <sebastian@sebastianwick.net>, <mcasas@google.com>,
+ <jshargo@google.com>, <Shashank.Sharma@amd.com>
+CC: <Deepak.Sharma@amd.com>, <Shirish.S@amd.com>, <Vitaly.Prosyak@amd.com>,
+ <aric.cyr@amd.com>, <Bhawanpreet.Lakha@amd.com>, <Krunoslav.Kovac@amd.com>,
+ <hersenxs.wu@amd.com>, <Nicholas.Kazlauskas@amd.com>,
+ <laurentiu.palcu@oss.nxp.com>, <ville.syrjala@linux.intel.com>, "Harry
+ Wentland" <harry.wentland@amd.com>
+Subject: [RFC PATCH v3 0/6] A drm_plane API to support HDR planes
+Date: Fri, 30 Jul 2021 16:41:28 -0400
+Message-ID: <20210730204134.21769-1-harry.wentland@amd.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 92c2d422-ba80-47a7-b0cf-08d9539a6e81
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1126:
+X-Microsoft-Antispam-PRVS: <CY4PR12MB112626FA76459398D55EE0918CEC9@CY4PR12MB1126.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mP3NnAOErf0bDCpPunqopfxc/+3VOClIhKiuGNcy52aVaRM0158fZtLf2AGd3q8S7haVvBuOEIlssfUawGZIkFc2dVD1I/ntfuln6b/r04fGTzteQVB9dx7cy8FxbT4BQxOsIiqhCCSbcRg3BY56e7hyMQvHBBajRvfKVpZNJPVfb/3O5CDjKBvX3ZsCpuG8Rf3mPpezc0J6L5WuQmrHWzKcpdC3PKKoofP5WNwBoVi2ieAH/fkfVYzjfXzI4HmKoaZy3vkZq6d3RbIptE8izdR7gib7PseHC/pxbj4sFN9nYNdc48JUJeXk9dCBor4s27YJNR9pB9ujfE3diy537NMdqng/GhfXYDxqT3zYM7KV0VrwK2Mcl+Dqwq3lS/HgZ0JeuqLEVts3/1OW5fDfRpiohPFuUAU5Xqt1zjgZPRz8VDAZqjamjM4nwo5pH3id2sgxlWprA5veaXQ0puHPoNKL7he6ezHQMYqrM81yRm3tplLGilET4cdG7o9D0pBPbbsHySlJHV4Da9Tik25E5yhMK7DOhV2aRPKso651oiZpUEZtmNd9djvvOugvT4ZWgA1XNovtmwdz1VFTShba9u+PcOWMrQxBAWNdKa7tNQCjeu/RRsLNHeehJAvKToQoyZ60yxR4g8oks2m/LOMM0KGdlet6gm/2aLT9qtfFOtNO8TGtGUkKLgQ7UyteVOvjUtA0YQICxvDm+bI3lOmLQFiQFir9G1pmqv1+aEAq41E=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(396003)(39860400002)(346002)(36840700001)(46966006)(2906002)(186003)(36860700001)(47076005)(478600001)(6666004)(86362001)(7696005)(81166007)(82740400003)(82310400003)(70586007)(70206006)(8676002)(4326008)(54906003)(26005)(8936002)(83380400001)(44832011)(110136005)(336012)(316002)(356005)(1076003)(426003)(5660300002)(6636002)(36756003)(2616005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2021 20:41:39.2828 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92c2d422-ba80-47a7-b0cf-08d9539a6e81
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,317 +115,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This feature hands over the control of HW RC6 to the GuC.
-GuC decides when to put HW into RC6 based on it's internal
-busyness algorithms.
+We are looking to enable HDR support for a couple of single-plane and
+multi-plane scenarios. To do this effectively we recommend new interfaces
+to drm_plane. The first patch gives a bit of background on HDR and why we
+propose these interfaces.
 
-GuCRC needs GuC submission to be enabled, and only
-supported on Gen12+ for now.
+This update is only changing the documentation, not the code. We feel
+that we are not close to anything resembling a consensus for the DRM/KMS
+API to support (multi-plane) HDR and would like to further the discussion
+on this.
 
-When GuCRC is enabled, do not set HW RC6. Use a H2G message
-to tell GuC to enable GuCRC. When disabling RC6, tell GuC to
-revert RC6 control back to KMD. KMD is still responsible for
-enabling everything related to Coarse Power Gating though.
+The most important bits in the RFC document are probably the sections on
+defining HW details and defining SW intentions. We are worried defining
+intricate HW details on the DRM/KMS level leads to a lot of complexity
+for compositors which can be avoided by rather defining SW intentions.
 
-v2: Address comments (Michal W)
-v3: Don't set hysterisis values when GuCRC is used (Matt Roper)
-v4: checkpatch()
+I will be off for the entire month of August with little time to follow
+this thread but would like to get my updated thoughts out for discussion
+anyways. Shashank Sharma will help support this discussion.
 
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/Makefile                 |  1 +
- drivers/gpu/drm/i915/gt/intel_rc6.c           | 47 +++++++----
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  6 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     | 80 +++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h     | 31 +++++++
- drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  2 +
- 8 files changed, 155 insertions(+), 15 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
+v3:
+ * Only doc updates (patch 1)
+   * Add sections on single-plane and multi-plane HDR
+   * Describe approach to define HW details vs approach to define SW intentions
+   * Link Jeremy Cline's excellent HDR summaries
+   * Outline intention behind overly verbose doc
+   * Describe FP16 use-case
+   * Clean up links
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index d8eac4468df9..3fc17f20d88e 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -186,6 +186,7 @@ i915-y += gt/uc/intel_uc.o \
- 	  gt/uc/intel_guc_fw.o \
- 	  gt/uc/intel_guc_log.o \
- 	  gt/uc/intel_guc_log_debugfs.o \
-+	  gt/uc/intel_guc_rc.o \
- 	  gt/uc/intel_guc_slpc.o \
- 	  gt/uc/intel_guc_submission.o \
- 	  gt/uc/intel_huc.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 259d7eb4e165..f6b914438a0b 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -62,20 +62,25 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
- 	u32 pg_enable;
- 	int i;
- 
--	/* 2b: Program RC6 thresholds.*/
--	set(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
--	set(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
-+	/*
-+	 * With GuCRC, these parameters are set by GuC
-+	 */
-+	if (!intel_uc_uses_guc_rc(&gt->uc)) {
-+		/* 2b: Program RC6 thresholds.*/
-+		set(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
-+		set(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
- 
--	set(uncore, GEN6_RC_EVALUATION_INTERVAL, 125000); /* 12500 * 1280ns */
--	set(uncore, GEN6_RC_IDLE_HYSTERSIS, 25); /* 25 * 1280ns */
--	for_each_engine(engine, rc6_to_gt(rc6), id)
--		set(uncore, RING_MAX_IDLE(engine->mmio_base), 10);
-+		set(uncore, GEN6_RC_EVALUATION_INTERVAL, 125000); /* 12500 * 1280ns */
-+		set(uncore, GEN6_RC_IDLE_HYSTERSIS, 25); /* 25 * 1280ns */
-+		for_each_engine(engine, rc6_to_gt(rc6), id)
-+			set(uncore, RING_MAX_IDLE(engine->mmio_base), 10);
- 
--	set(uncore, GUC_MAX_IDLE_COUNT, 0xA);
-+		set(uncore, GUC_MAX_IDLE_COUNT, 0xA);
- 
--	set(uncore, GEN6_RC_SLEEP, 0);
-+		set(uncore, GEN6_RC_SLEEP, 0);
- 
--	set(uncore, GEN6_RC6_THRESHOLD, 50000); /* 50/125ms per EI */
-+		set(uncore, GEN6_RC6_THRESHOLD, 50000); /* 50/125ms per EI */
-+	}
- 
- 	/*
- 	 * 2c: Program Coarse Power Gating Policies.
-@@ -98,11 +103,19 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
- 	set(uncore, GEN9_MEDIA_PG_IDLE_HYSTERESIS, 60);
- 	set(uncore, GEN9_RENDER_PG_IDLE_HYSTERESIS, 60);
- 
--	/* 3a: Enable RC6 */
--	rc6->ctl_enable =
--		GEN6_RC_CTL_HW_ENABLE |
--		GEN6_RC_CTL_RC6_ENABLE |
--		GEN6_RC_CTL_EI_MODE(1);
-+	/* 3a: Enable RC6
-+	 *
-+	 * With GuCRC, we do not enable bit 31 of RC_CTL,
-+	 * thus allowing GuC to control RC6 entry/exit fully instead.
-+	 * We will not set the HW ENABLE and EI bits
-+	 */
-+	if (!intel_guc_rc_enable(&gt->uc.guc))
-+		rc6->ctl_enable = GEN6_RC_CTL_RC6_ENABLE;
-+	else
-+		rc6->ctl_enable =
-+			GEN6_RC_CTL_HW_ENABLE |
-+			GEN6_RC_CTL_RC6_ENABLE |
-+			GEN6_RC_CTL_EI_MODE(1);
- 
- 	pg_enable =
- 		GEN9_RENDER_PG_ENABLE |
-@@ -513,6 +526,10 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
- {
- 	struct drm_i915_private *i915 = rc6_to_i915(rc6);
- 	struct intel_uncore *uncore = rc6_to_uncore(rc6);
-+	struct intel_gt *gt = rc6_to_gt(rc6);
-+
-+	/* Take control of RC6 back from GuC */
-+	intel_guc_rc_disable(&gt->uc.guc);
- 
- 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
- 	if (GRAPHICS_VER(i915) >= 9)
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-index ca538e5de940..8ff582222aff 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-@@ -135,6 +135,7 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_SET_CONTEXT_PREEMPTION_TIMEOUT = 0x1007,
- 	INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
- 	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
-+	INTEL_GUC_ACTION_SETUP_PC_GUCRC = 0x3004,
- 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
- 	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
- 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
-@@ -145,6 +146,11 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_LIMIT
- };
- 
-+enum intel_guc_rc_options {
-+	INTEL_GUCRC_HOST_CONTROL,
-+	INTEL_GUCRC_FIRMWARE_CONTROL,
-+};
-+
- enum intel_guc_preempt_options {
- 	INTEL_GUC_PREEMPT_OPTION_DROP_WORK_Q = 0x4,
- 	INTEL_GUC_PREEMPT_OPTION_DROP_SUBMIT_Q = 0x8,
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 13d162353b1a..fbfcae727d7f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -159,6 +159,7 @@ void intel_guc_init_early(struct intel_guc *guc)
- 	intel_guc_log_init_early(&guc->log);
- 	intel_guc_submission_init_early(guc);
- 	intel_guc_slpc_init_early(&guc->slpc);
-+	intel_guc_rc_init_early(guc);
- 
- 	mutex_init(&guc->send_mutex);
- 	spin_lock_init(&guc->irq_lock);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 7da11a0b6059..2e27fe59786b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -59,6 +59,8 @@ struct intel_guc {
- 
- 	bool submission_supported;
- 	bool submission_selected;
-+	bool rc_supported;
-+	bool rc_selected;
- 
- 	struct i915_vma *ads_vma;
- 	struct __guc_ads_blob *ads_blob;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-new file mode 100644
-index 000000000000..fc805d466d99
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#include "intel_guc_rc.h"
-+#include "gt/intel_gt.h"
-+#include "i915_drv.h"
-+
-+static bool __guc_rc_supported(struct intel_guc *guc)
-+{
-+	/* GuC RC is unavailable for pre-Gen12 */
-+	return guc->submission_supported &&
-+		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
-+}
-+
-+static bool __guc_rc_selected(struct intel_guc *guc)
-+{
-+	if (!intel_guc_rc_is_supported(guc))
-+		return false;
-+
-+	return guc->submission_selected;
-+}
-+
-+void intel_guc_rc_init_early(struct intel_guc *guc)
-+{
-+	guc->rc_supported = __guc_rc_supported(guc);
-+	guc->rc_selected = __guc_rc_selected(guc);
-+}
-+
-+static int guc_action_control_gucrc(struct intel_guc *guc, bool enable)
-+{
-+	u32 rc_mode = enable ? INTEL_GUCRC_FIRMWARE_CONTROL :
-+				INTEL_GUCRC_HOST_CONTROL;
-+	u32 action[] = {
-+		INTEL_GUC_ACTION_SETUP_PC_GUCRC,
-+		rc_mode
-+	};
-+	int ret;
-+
-+	ret = intel_guc_send(guc, action, ARRAY_SIZE(action));
-+	ret = ret > 0 ? -EPROTO : ret;
-+
-+	return ret;
-+}
-+
-+static int __guc_rc_control(struct intel_guc *guc, bool enable)
-+{
-+	struct intel_gt *gt = guc_to_gt(guc);
-+	struct drm_device *drm = &guc_to_gt(guc)->i915->drm;
-+	int ret;
-+
-+	if (!intel_uc_uses_guc_rc(&gt->uc))
-+		return -EOPNOTSUPP;
-+
-+	if (!intel_guc_is_ready(guc))
-+		return -EINVAL;
-+
-+	ret = guc_action_control_gucrc(guc, enable);
-+	if (ret) {
-+		drm_err(drm, "Failed to %s GuC RC (%pe)\n",
-+			enabledisable(enable), ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	drm_info(&gt->i915->drm, "GuC RC: %s\n",
-+		 enableddisabled(enable));
-+
-+	return 0;
-+}
-+
-+int intel_guc_rc_enable(struct intel_guc *guc)
-+{
-+	return __guc_rc_control(guc, true);
-+}
-+
-+int intel_guc_rc_disable(struct intel_guc *guc)
-+{
-+	return __guc_rc_control(guc, false);
-+}
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-new file mode 100644
-index 000000000000..57e86c337838
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#ifndef _INTEL_GUC_RC_H_
-+#define _INTEL_GUC_RC_H_
-+
-+#include "intel_guc_submission.h"
-+
-+void intel_guc_rc_init_early(struct intel_guc *guc);
-+
-+static inline bool intel_guc_rc_is_supported(struct intel_guc *guc)
-+{
-+	return guc->rc_supported;
-+}
-+
-+static inline bool intel_guc_rc_is_wanted(struct intel_guc *guc)
-+{
-+	return guc->submission_selected && intel_guc_rc_is_supported(guc);
-+}
-+
-+static inline bool intel_guc_rc_is_used(struct intel_guc *guc)
-+{
-+	return intel_guc_submission_is_used(guc) && intel_guc_rc_is_wanted(guc);
-+}
-+
-+int intel_guc_rc_enable(struct intel_guc *guc);
-+int intel_guc_rc_disable(struct intel_guc *guc);
-+
-+#endif
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-index 925a58ca6b94..866b462821c0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-@@ -7,6 +7,7 @@
- #define _INTEL_UC_H_
- 
- #include "intel_guc.h"
-+#include "intel_guc_rc.h"
- #include "intel_guc_submission.h"
- #include "intel_guc_slpc.h"
- #include "intel_huc.h"
-@@ -85,6 +86,7 @@ uc_state_checkers(guc, guc);
- uc_state_checkers(huc, huc);
- uc_state_checkers(guc, guc_submission);
- uc_state_checkers(guc, guc_slpc);
-+uc_state_checkers(guc, guc_rc);
- 
- #undef uc_state_checkers
- #undef __uc_state_checker
--- 
-2.25.0
+v2:
+ * Moved RFC from cover letter to kernel doc (Daniel Vetter)
+ * Created new color space property instead of abusing
+   color_encoding property (Ville)
+ * Elaborated on need for named transfer functions
+ * Expanded on reason for SDR luminance definition
+ * Dropped 'color' from transfer function naming
+ * Added output_transfer_function on crtc
+
+Bhawanpreet Lakha (3):
+  drm/color: Add transfer functions for HDR/SDR on drm_plane
+  drm/color: Add sdr boost property
+  drm/color: Add color space plane property
+
+Harry Wentland (3):
+  drm/doc: Color Management and HDR10 RFC
+  drm/color: Add output transfer function to crtc
+  drm/amd/display: reformat YCbCr-RGB conversion matrix
+
+ Documentation/gpu/rfc/color_intentions.drawio |   1 +
+ Documentation/gpu/rfc/color_intentions.svg    |   3 +
+ Documentation/gpu/rfc/colorpipe               |   1 +
+ Documentation/gpu/rfc/colorpipe.svg           |   3 +
+ Documentation/gpu/rfc/hdr-wide-gamut.rst      | 580 ++++++++++++++++++
+ Documentation/gpu/rfc/index.rst               |   1 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  17 +-
+ drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h   |  28 +-
+ .../gpu/drm/arm/display/komeda/komeda_crtc.c  |   7 +-
+ .../gpu/drm/arm/display/komeda/komeda_plane.c |   6 +-
+ drivers/gpu/drm/arm/malidp_crtc.c             |   7 +-
+ drivers/gpu/drm/arm/malidp_planes.c           |   6 +-
+ drivers/gpu/drm/armada/armada_crtc.c          |   5 +-
+ drivers/gpu/drm/armada/armada_overlay.c       |   6 +-
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    |   7 +-
+ drivers/gpu/drm/drm_atomic_uapi.c             |   8 +
+ drivers/gpu/drm/drm_color_mgmt.c              | 177 +++++-
+ drivers/gpu/drm/i915/display/intel_color.c    |  11 +-
+ drivers/gpu/drm/i915/display/intel_color.h    |   2 +-
+ drivers/gpu/drm/i915/display/intel_crtc.c     |   4 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c   |   6 +-
+ .../drm/i915/display/skl_universal_plane.c    |   6 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   9 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |   9 +-
+ drivers/gpu/drm/nouveau/dispnv04/overlay.c    |   6 +-
+ drivers/gpu/drm/nouveau/dispnv50/head.c       |  13 +-
+ drivers/gpu/drm/omapdrm/omap_crtc.c           |  10 +-
+ drivers/gpu/drm/omapdrm/omap_plane.c          |   6 +-
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |   7 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c   |   5 +-
+ drivers/gpu/drm/stm/ltdc.c                    |   8 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  10 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c            |   9 +-
+ drivers/gpu/drm/tidss/tidss_plane.c           |  10 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c                |  16 +-
+ include/drm/drm_color_mgmt.h                  |  49 +-
+ include/drm/drm_crtc.h                        |  20 +
+ include/drm/drm_plane.h                       |  47 +-
+ 39 files changed, 1074 insertions(+), 60 deletions(-)
+ create mode 100644 Documentation/gpu/rfc/color_intentions.drawio
+ create mode 100644 Documentation/gpu/rfc/color_intentions.svg
+ create mode 100644 Documentation/gpu/rfc/colorpipe
+ create mode 100644 Documentation/gpu/rfc/colorpipe.svg
+ create mode 100644 Documentation/gpu/rfc/hdr-wide-gamut.rst
+
+--
+2.32.0
 
