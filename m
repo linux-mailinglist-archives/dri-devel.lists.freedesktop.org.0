@@ -1,66 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36183DBC63
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 17:32:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C64A03DBC87
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 17:46:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD6536E1D8;
-	Fri, 30 Jul 2021 15:32:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29B96F461;
+	Fri, 30 Jul 2021 15:46:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B04FE6E1D8
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 15:32:33 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id b21so12868326ljo.13
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 08:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cuMBivazXPSSSnLg5TVHL25KvD4e4AyXmAdQoyFf5fI=;
- b=V0takgq4CkvNar1Q60JxHbTt1cqvFsAT2Ql1xCcWDlliF/9fK1Tk6u2NKjLJFi2NsP
- OtAUbjW/Hk6YTr3ZTfouOa43d0DCv4/nxXOIFvMh2o9s/LUtXhmtgHgxqNBlfkoO+0Ox
- d1GAjEOyAM0plTITbZ2w6WFa49Z5MRcmaq85CbQLNYZrVs9T1wQ8UUGFYid/G6OviM1d
- OMFu6dCu79GrtbGkEZtfmLAS5L0sYxR0jmS86rEcpL2kD9pJaHk0tbVbZ7ZyxkbmW+U+
- QcVQ4cI0n7yRxCSYVdO9PPaLX284Bky+u6/vpPnImSqzkgKcHLw7rJHQ0RyOSVMQVUfP
- ZxKw==
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3091A6F461
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 15:46:38 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ mz5-20020a17090b3785b0290176ecf64922so21393775pjb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 08:46:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Al3zU95t+cRa9Xq+Cnwa4MjCtmJk0IfPGeKxkOfMrWw=;
+ b=iFotTX5SQKrJqgrwj8NQQHxLjvjibMx5KyTlOaO0pgcCGYtt1T3OHLphg/L7EF/w8/
+ a5lv3WFBO3h40xIp8c5aKfET9wRqDcQ3rInjlocgz5wIxr84A5R7ZP0kB3Q1NN+6H34C
+ 6Dn3YqoEzPjI8Y0c40v/veZ+zWDZI8gPKoUHg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cuMBivazXPSSSnLg5TVHL25KvD4e4AyXmAdQoyFf5fI=;
- b=XjEGqGP3FIYtNDzXa2m/wIK4Za7HyTnnvoizAqOycYoXFFOydRrM0KHeLIcrONREbJ
- VIbDYQfIKszPOug0X2G53F1dsFMjCenWPtyxjNES4g/VarVOiSnyZX2+flTRKOzs0mZ9
- /AjUjMNr3Ozr0eFfRN4UIge/WAG0mzFLXFSjcLFBUfBKaMx2srAIjL18/4nd82aEURqN
- K3wSkPlMuLrHHMcF6zAM82BP2MEzhkdAeQxPfd5QbIoXoUaAqWPew9npQ26LC5nXNE46
- vkQCUfyZy0TdVmCqjB/IjyAJY08S5vyMmh7wJeTPmv/nYUk7PrLd5w/8px2CzHZ2Tw5j
- SUHg==
-X-Gm-Message-State: AOAM532+70RsXU8gSTq88h8Gct4cm+DzNCnS/bZF/eRdeUTDt8euwBcd
- MwESKIQigTCwpEWvbmXxWIsTGMZN3fHOHijQVBDs+w==
-X-Google-Smtp-Source: ABdhPJzhoAUM4a6+aRW2w5iC66nC+BulVEtoEK+XmW3hkTpBTQktpdSzzUsKFLM2RILR3UqcvgdkDUL260mhYjHoyJw=
-X-Received: by 2002:a2e:a911:: with SMTP id j17mr2005145ljq.341.1627659134322; 
- Fri, 30 Jul 2021 08:32:14 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Al3zU95t+cRa9Xq+Cnwa4MjCtmJk0IfPGeKxkOfMrWw=;
+ b=oH4tdi+5Y5LjG9Z9BImeMnwnmQxotqgcgpleFidx4dHOtZIrlMI9evlxqSDj0BB269
+ ubWts7/KK3mxT9LAIhp5WF4qKSXxM1h5F8bP0sSy/hMx7tHpW89Q/utIqn1ir3Uoh+a3
+ aWXImuc5rqBaAu4SwBzsBIMutmnE3dWudRt3ux4NzdZk7HuasN8rVsJ1dxhsRe5jK5p+
+ fPu1NrV7Keg6K3oviY25gPThrxXyutxZrJv+rYdAfr/xwGRuAtj5JyTFi0IrEtiwaJqp
+ OskwpbbjtwxnxoVCWh1mZy/0w90eHvrtd7IK4+gxERPaSOOGpXBrJ71uMRwEVGWh9Yuh
+ jfQA==
+X-Gm-Message-State: AOAM533p/PL/9aNpQiwaiVNWxR+3i1QnwoPKC8vHjt4DH0oOAlXQg8ZA
+ lavn6cy+NUY6hlSVxFkzUTOOoNfRSPg3yo8B
+X-Google-Smtp-Source: ABdhPJwfuNDfy7TwpDboUrkCy7S3fyCYpsKNYqiJcOmuCzyAD6S7KqF81wmUUp2kSa64MFFimzZKlA==
+X-Received: by 2002:a17:90a:5b18:: with SMTP id
+ o24mr3870789pji.230.1627659997829; 
+ Fri, 30 Jul 2021 08:46:37 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:3424:e0ac:5a92:d061])
+ by smtp.gmail.com with ESMTPSA id u188sm3175621pfc.115.2021.07.30.08.46.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jul 2021 08:46:37 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, steev@kali.org, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, bjorn.andersson@linaro.org,
+ daniel@ffwll.ch, airlied@linux.ie, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, rodrigo.vivi@intel.com,
+ sam@ravnborg.org, jonas@kwiboo.se, mripard@kernel.org,
+ thierry.reding@gmail.com, lyude@redhat.com, linus.walleij@linaro.org,
+ rajeevny@codeaurora.org, linux-arm-msm@vger.kernel.org,
+ a.hajda@samsung.com, tzimmermann@suse.de, narmstrong@baylibre.com,
+ Douglas Anderson <dianders@chromium.org>,
+ Sandeep Panda <spanda@codeaurora.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] drm/panel: atna33xc20: Fix the Samsung ATNA33XC20 panel
+Date: Fri, 30 Jul 2021 08:45:59 -0700
+Message-Id: <20210730154605.2843418-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.32.0.554.ge1b32706d8-goog
 MIME-Version: 1.0
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-49-keescook@chromium.org>
- <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
- <202107291845.1E1528D@keescook>
-In-Reply-To: <202107291845.1E1528D@keescook>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 30 Jul 2021 08:32:03 -0700
-Message-ID: <CAKwvOdn+G6y3_=YZgp51cL64XW=VGgt7C0Vt0ARZOkezPTn5WQ@mail.gmail.com>
-Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
-To: Kees Cook <keescook@chromium.org>
-Cc: Bart Van Assche <bvanassche@acm.org>, linux-hardening@vger.kernel.org, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Keith Packard <keithpac@amazon.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,79 +78,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 29, 2021 at 7:31 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
-> > On 7/27/21 1:58 PM, Kees Cook wrote:
-> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > field bounds checking for memset(), avoid intentionally writing across
-> > > neighboring fields.
-> > >
-> > > Add a struct_group() for the algs so that memset() can correctly reason
-> > > about the size.
-> > >
-> > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > ---
-> > >   drivers/block/drbd/drbd_main.c     | 3 ++-
-> > >   drivers/block/drbd/drbd_protocol.h | 6 ++++--
-> > >   drivers/block/drbd/drbd_receiver.c | 3 ++-
-> > >   3 files changed, 8 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-> > > index 55234a558e98..b824679cfcb2 100644
-> > > --- a/drivers/block/drbd/drbd_main.c
-> > > +++ b/drivers/block/drbd/drbd_main.c
-> > > @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
-> > >     cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
-> > >     /* initialize verify_alg and csums_alg */
-> > > -   memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
-> > > +   BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
-> > > +   memset(&p->algs, 0, sizeof(p->algs));
-> > >     if (get_ldev(peer_device->device)) {
-> > >             dc = rcu_dereference(peer_device->device->ldev->disk_conf);
-> > > diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
-> > > index dea59c92ecc1..a882b65ab5d2 100644
-> > > --- a/drivers/block/drbd/drbd_protocol.h
-> > > +++ b/drivers/block/drbd/drbd_protocol.h
-> > > @@ -283,8 +283,10 @@ struct p_rs_param_89 {
-> > >   struct p_rs_param_95 {
-> > >     u32 resync_rate;
-> > > -   char verify_alg[SHARED_SECRET_MAX];
-> > > -   char csums_alg[SHARED_SECRET_MAX];
-> > > +   struct_group(algs,
-> > > +           char verify_alg[SHARED_SECRET_MAX];
-> > > +           char csums_alg[SHARED_SECRET_MAX];
-> > > +   );
-> > >     u32 c_plan_ahead;
-> > >     u32 c_delay_target;
-> > >     u32 c_fill_target;
-> > > diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-> > > index 1f740e42e457..6df2539e215b 100644
-> > > --- a/drivers/block/drbd/drbd_receiver.c
-> > > +++ b/drivers/block/drbd/drbd_receiver.c
-> > > @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
-> > >     /* initialize verify_alg and csums_alg */
-> > >     p = pi->data;
-> > > -   memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
-> > > +   BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
-> > > +   memset(&p->algs, 0, sizeof(p->algs));
-> >
-> > Using struct_group() introduces complexity. Has it been considered not to
-> > modify struct p_rs_param_95 and instead to use two memset() calls instead of
-> > one (one memset() call per member)?
->
-> I went this direction because using two memset()s (or memcpy()s in other
-> patches) changes the machine code. It's not much of a change, but it
-> seems easier to justify "no binary changes" via the use of struct_group().
->
-> If splitting the memset() is preferred, I can totally do that instead.
-> :)
 
-I'm not sure that compilers can fold memsets of adjacent members. It
-might not matter, but you could wrap these members in a _named_ struct
-then simply use assignment for optimal codegen.
+The overall goal of this series is to make the Samsung ATNA33XC20
+panel work more properly. As part of this, we have:
+* A bugfix for the recently abstracted DP AUX backlight code.
+* A bugfix for the sequencing of the ti-sn65dsi86 bridge driver.
+* Removal of the panel from panel-simple and moving it to its own
+  driver.
 
+If the bugfixes look good but the rest of the series needs work then
+those could land early on their own. There's no real compile time
+dependency on the bugfixes, things are just glitchier without them.
+
+NOTE: this series will (slightly) conflict with my other recent series
+making eDP panels probable [1]. I'll re-post that one atop this
+one. It should be noted that the fact that the Samsung ATNA33XC20
+needs its own panel driver means that it _can't_ handled as a probed
+driver. I think this is fine, at least for now. I don't think it would
+be easy to make a unified design with this panel and other panels
+given that it's an AMOLED panel and has a whole bunch of different
+components on board.
+
+As discussed in IRC, the only difference in v2 is the addition of a
+"Fixes" tag to patch #3 and the collection of Reviews/Acks from Sean
+and Robert.
+
+If people feel that this is ready to land today then I can help land
+it (please let me know). Otherwise I'm happy for someone else to
+actually do the commit next week (I'm on vacation) or I can take it
+when I get back.
+
+[1] https://lore.kernel.org/r/20210723002146.1962910-1-dianders@chromium.org/
+
+Changes in v2:
+- Added Fixes tag as requested by Sam.
+
+Douglas Anderson (6):
+  drm/dp: Don't zero PWMGEN_BIT_COUNT when driver_pwm_freq_hz not
+    specified
+  drm/bridge: ti-sn65dsi86: Fix power off sequence
+  drm/bridge: ti-sn65dsi86: Add some 100 us delays
+  Revert "drm/panel-simple: Add Samsung ATNA33XC20"
+  Revert "drm/panel-simple: Support for delays between GPIO & regulator"
+  drm/panel: atna33xc20: Introduce the Samsung ATNA33XC20 panel
+
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         |  17 +-
+ drivers/gpu/drm/drm_dp_helper.c               |  10 +-
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 366 ++++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          |  61 ---
+ 6 files changed, 398 insertions(+), 69 deletions(-)
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
 
 -- 
-Thanks,
-~Nick Desaulniers
+2.32.0.554.ge1b32706d8-goog
+
