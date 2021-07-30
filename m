@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2731F3DB229
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 06:16:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 701603DB27D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 06:52:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED1B6F3C2;
-	Fri, 30 Jul 2021 04:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D439A6EC62;
+	Fri, 30 Jul 2021 04:52:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F14B6F3C2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 04:16:15 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id e5so9528588pld.6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 21:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RTjOUqNyS9qJHqvoohAwX/XHxdbP/hKwu8NmsnUvkUk=;
- b=ItslYacy27SJ4b7GiYhiajuZEYDADEadcPkuVsgi5WwJUhoyfK0Fl2xViA03tu0kop
- YdJ0lTZBf+On7uMIIM+OHbuG9nZnIlLenhsE/iUM8XkK53u9wqJdWCDVg46dSeIngd1X
- RstZYnskselzkrui5eZNfmEWGgWx4WBFYPxMsXP8D4Ur1kB9Y4G7Lc277PPWCzdflaoD
- Hxhm7XmzD7MMuvNdefGKbIBEWlvC/j5kvm2e+qnktZoFc61TY5xvkU+OGjC66YyUzlC6
- VvOqZyQM0KN4tEz9HvpWC9HqPOppbLQOinWaUFMzeIAlFkgfClRV1Xnr4vTzp6r09Sap
- EOoA==
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA456EC62
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 04:52:32 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id a26so15226195lfr.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 21:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ngOm50/YMKcUx0bA3+RSYUsPg/JdRRvBdoD4piFXpKk=;
+ b=C8Jp7VhFjs0rnaOQ+PhARQZcXBqL3li1M1opg2ctxUM+UW431Xc6w3HRU9jqMEn9J8
+ mjRiwwt+tWiXsLMDZKwx5ZLEtcnwodMbSLh35X6Dl8KI5jfLdkHovCiYFvU9yLOXdVzm
+ T56dTYyum/xZim2C5bWj64K+N+jV8WY66Rg5/Bwn91Sn/snbwb/x3RlTxcAU29gmNhjl
+ KgwS2oOAfASo09QS8QxiHdsYQiVobP5e9jTXOpOAtTaaFBAO8bP4tgRSWo5PZXJaTFyV
+ bU5CM0EvtNCO+75RkPo/2Iit3ZJTxAR2kkb3LF3KCQ+AcEjKYyubIAL6gsTqWn2Kh4aO
+ Xr+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RTjOUqNyS9qJHqvoohAwX/XHxdbP/hKwu8NmsnUvkUk=;
- b=EfOISlxVdMV4NPYzHZxmY4HplTX783ab9JUZaosVe2xJp+9Gs6GCvmmOB5aLn6f/aU
- oiD9dbnuT1yccvIXzXXWh3HzeKmNuRcXVJxRYPP+WpmuHuyDq/1CM9jNosDkFgRbaOvL
- A629aPJ7zxwbpf6GscK4rVyikheGPzd0dNVxd0J51VgKYZWKk7zO0ORaZRUz02n+hpQa
- E6FKtONM8cJlV0z1ohC4rtf5ecVs9DDqRmiP7Yl2iswVaUhccQjLDVIQcXQulFZ2Zw8D
- YI1GWwj9LXCqt5ZxYZlnPkBDYQ7xkGBjJFSc1viRPx+QtUBgFjcqCCeQfPaNoDoDYrKh
- +rnA==
-X-Gm-Message-State: AOAM532HNGHbeeeXeBrr7LZALSNy+WnbEakfVuXXtZzQfaaVfeT9zEm8
- lnE1ctYXclLRESxCFK/g1So=
-X-Google-Smtp-Source: ABdhPJx1Cyvaf1G7x7xeUkAAew6ARMZZiaOrBSX3yqgurse9uuMelADmfCI/veBFqg5uqoygkaJFYg==
-X-Received: by 2002:a17:90b:1645:: with SMTP id
- il5mr878098pjb.113.1627618574806; 
- Thu, 29 Jul 2021 21:16:14 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id t19sm439322pfg.216.2021.07.29.21.16.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 21:16:14 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, peterz@infradead.org, mingo@redhat.com,
- will@kernel.org, longman@redhat.com, boqun.feng@gmail.com
-Subject: [PATCH 2/2] drm: add lockdep assert to drm_is_current_master_locked
-Date: Fri, 30 Jul 2021 12:15:15 +0800
-Message-Id: <20210730041515.1430237-3-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210730041515.1430237-1-desmondcheongzx@gmail.com>
-References: <20210730041515.1430237-1-desmondcheongzx@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ngOm50/YMKcUx0bA3+RSYUsPg/JdRRvBdoD4piFXpKk=;
+ b=aiiNgt7ra6RKrPFLSZsMKiNYrM6E79knjjJIPG8evZL+IGvkNbVO/KO56MsV+aK03O
+ 6Q+n/x+QSqz6W/5p2SfMjmwR/6UfMFEHTYKjSGNOPvZbQOfIxj4FmxxuWKKURHm+wMaQ
+ W0vuMLQangPs4pzmutwIbojxuH21uTPEEIkjWsGiImvE0R3a4xD+eTzLZC5cXFahzg3H
+ UFRv9cnuaYx7QaGcdfknRzaforVW5XNznVV3xxWnURtaUdmt7fnsduJVlrBcwJ5K4yU3
+ wFfD3fQeWv3/fL4QgZjhW6ecpWpLYhrBy6jfTXqHYPL/O9fw0TBArzIPZNj4NgiOLk7H
+ 3SrQ==
+X-Gm-Message-State: AOAM531QB1ajiE1gwpGiZ+HXBDeINuOVOIwLYBFrm4av937hBe/tNPGs
+ w/mxkSp37859JzH5rKElnvK7rOetlkQ5yF1p+wamcA==
+X-Google-Smtp-Source: ABdhPJzDU5NmVnsCGCr2QxJh2cy55utwKVijKkr1tTD5MHrq+mqK18bOqc1KLFYSb9qZZ3DlCCOrI4gJHyxXUU4u7Zw=
+X-Received: by 2002:ac2:4a8d:: with SMTP id l13mr426511lfp.626.1627620751019; 
+ Thu, 29 Jul 2021 21:52:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210729070330.41443-1-christian.koenig@amd.com>
+ <20210729070330.41443-3-christian.koenig@amd.com>
+ <YQJXi2JNZdH5DaR2@phenom.ffwll.local>
+In-Reply-To: <YQJXi2JNZdH5DaR2@phenom.ffwll.local>
+From: John Stultz <john.stultz@linaro.org>
+Date: Thu, 29 Jul 2021 21:52:19 -0700
+Message-ID: <CALAqxLVN7RVz3+z1ZvkRHeb2=Y4KbpbTOw-8St0D+Lzt5U-cFw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dma-buf: nuke SW_SYNC debugfs files
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +65,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, skhan@linuxfoundation.org,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: Alistair Delva <adelva@google.com>, Sandeep Patil <sspatil@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>, Hridya Valsaraju <hridya@google.com>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_is_current_master_locked, accessing drm_file.master should be
-protected by either drm_file.master_lookup_lock or
-drm_device.master_mutex. This was previously awkward to assert with
-lockdep.
+On Thu, Jul 29, 2021 at 12:24 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Jul 29, 2021 at 09:03:30AM +0200, Christian K=C3=B6nig wrote:
+> > As we now knew controlling dma_fence synchronization from userspace is
+> > extremely dangerous and can not only deadlock drivers but trivially als=
+o the
+> > whole kernel memory management.
+> >
+> > Entirely remove this option. We now have in kernel unit tests to exerci=
+se the
+> > dma_fence framework and it's containers.
+> >
+> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> There's also igts for this, and Android heavily uses this. So I'm not sur=
+e
+> we can just nuke it.
 
-Following patch ("locking/lockdep: Provide lockdep_assert{,_once}()
-helpers"), this assertion is now convenient so we add it in.
+Eeeeh... I don't think that's actually the case anymore. As of
+android12-5.10 CONFIG_SW_SYNC is not turned on.
+Further, Android is disabling debugfs in their kernels as it exposes
+too much to userland.
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/gpu/drm/drm_auth.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+That said, there still are some references to it:
+  https://cs.android.com/android/platform/superproject/+/master:system/core=
+/libsync/sync.c;l=3D416
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 9c24b8cc8e36..6f4d7ff23c80 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -63,9 +63,9 @@
- 
- static bool drm_is_current_master_locked(struct drm_file *fpriv)
- {
--	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
--	 * should be held here.
--	 */
-+	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
-+			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
-+
- 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
- }
- 
--- 
-2.25.1
+But it looks like the actual users are only kselftest and igt?
 
+Adding Alistair, Hridya and Sandeep in case they have more context.
+
+thanks
+-john
