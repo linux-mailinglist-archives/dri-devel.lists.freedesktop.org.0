@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E57A3DB13B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:39:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 267F43DB389
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 08:27:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 738BE6F39E;
-	Fri, 30 Jul 2021 02:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E45F36EEA4;
+	Fri, 30 Jul 2021 06:27:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5719A6F39E
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:39:25 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id j1so13001021pjv.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jul 2021 19:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=NHuO3a4lOV1ak/eQfFp+AAaG2sMLeGDAKzyV4AOK0RE=;
- b=j8UqRed6HOKlyVkSoS05EJXewa+eUCRzTuOxtwGX5fDIEozj4tBUf/Pb6CHGAaLmaA
- 0lvkqjJ4PTgUwIVlwmbeuhhcBcZAYaZZ7EQBi+8oHJhkCGFeyBQklkhQLoPwf8W6+nzt
- YRqHGvdjQepkZ10ZG9+WbgEXKCY3JTIc9WoQ4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NHuO3a4lOV1ak/eQfFp+AAaG2sMLeGDAKzyV4AOK0RE=;
- b=NNWvNaYar01O6v30Av/CBxr2IK9lkr29V/tsDCSSOm8p4DTK6c8rbkhrzHFMSbPEU4
- gWBRCx5sqYLkWwmX/R0gQjaxFhuObRmm1xu/beWz6HIUovSFUfU8E7Oaxb+VMwsXutPn
- 1G7yVEnmMdH83AFEFy5EcQDX+HoW5n+jHfsxjRno1okGRMBaVkJEY64sk59NFGoh7x0Z
- yb+VwPjBd4v7BbP+ILFX+Ul0oLmi5kQrZ37jS738w3p5y2kRUliSNWmmei1qwc/ufiha
- NpkEhOx5msRmvqXTSY4DjP2Xsn0MOrYhYY2T0qlebUwVAVyHt12rVUSlDoRH6MCdZw01
- MN4w==
-X-Gm-Message-State: AOAM530o1mFwuUYjqFSTOCa8lOVZlH8/kOesS3RcihBMaeY7bcq4cu/H
- lSKIuvC72zJ3Ian02olCb7/4uA==
-X-Google-Smtp-Source: ABdhPJzo5u8p9hbDXhUl8yhRH+ETwKt9UE7110pr1bIcu8dZOn97UljUZ8gMIyei6sG4Pc+UC9HyCw==
-X-Received: by 2002:a17:902:c409:b029:12c:8d18:a03 with SMTP id
- k9-20020a170902c409b029012c8d180a03mr518065plk.81.1627612764988; 
- Thu, 29 Jul 2021 19:39:24 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id x7sm195258pfn.70.2021.07.29.19.39.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jul 2021 19:39:24 -0700 (PDT)
-Date: Thu, 29 Jul 2021 19:39:23 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in
- memcpy() at compile-time
-Message-ID: <202107291938.B26E4916@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-35-keescook@chromium.org>
- <d2f9f21c-4d6e-9458-5887-ca5166d07942@rasmusvillemoes.dk>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2D06F39C
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:53:30 +0000 (UTC)
+X-UUID: 57878119c16b4be6b327136db865f85d-20210730
+X-UUID: 57878119c16b4be6b327136db865f85d-20210730
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 643913909; Fri, 30 Jul 2021 10:53:24 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 30 Jul 2021 10:53:23 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 30 Jul 2021 10:53:16 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@canonical.com>, David Airlie <airlied@linux.ie>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v7 00/12] Clean up "mediatek,larb"
+Date: Fri, 30 Jul 2021 10:52:26 +0800
+Message-ID: <20210730025238.22456-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d2f9f21c-4d6e-9458-5887-ca5166d07942@rasmusvillemoes.dk>
+Content-Type: text/plain
+X-MTK: N
+X-Mailman-Approved-At: Fri, 30 Jul 2021 06:27:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,48 +49,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kbuild@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
- Keith Packard <keithpac@amazon.com>, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: Xia Jiang <xia.jiang@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Will Deacon <will.deacon@arm.com>,
+ dri-devel@lists.freedesktop.org, anthony.huang@mediatek.com,
+ youlin.pei@mediatek.com, Nicolas Boichat <drinkcat@chromium.org>,
+ Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
+ Matthias Kaehlcke <mka@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Frank Wunderlich <frank-w@public-files.de>, yi.kuo@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ ming-fan.chen@mediatek.com, Tiffany Lin <tiffany.lin@mediatek.com>,
+ yong.wu@mediatek.com, anan.sun@mediatek.com, srv_heupstream@mediatek.com,
+ acourbot@chromium.org, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 28, 2021 at 01:19:59PM +0200, Rasmus Villemoes wrote:
-> On 27/07/2021 22.58, Kees Cook wrote:
-> 
-> > At its core, FORTIFY_SOURCE uses the compiler's __builtin_object_size()
-> > internal[0] to determine the available size at a target address based on
-> > the compile-time known structure layout details. It operates in two
-> > modes: outer bounds (0) and inner bounds (1). In mode 0, the size of the
-> > enclosing structure is used. In mode 1, the size of the specific field
-> > is used. For example:
-> > 
-> > 	struct object {
-> > 		u16 scalar1;	/* 2 bytes */
-> > 		char array[6];	/* 6 bytes */
-> > 		u64 scalar2;	/* 8 bytes */
-> > 		u32 scalar3;	/* 4 bytes */
-> > 	} instance;
-> > 
-> >
-> > __builtin_object_size(instance.array, 0) == 18, since the remaining size
-> > of the enclosing structure starting from "array" is 18 bytes (6 + 8 + 4).
-> 
-> I think the compiler would usually end up making that struct size 24,
-> with 4 bytes of trailing padding (at least when alignof(u64) is 8). In
-> that case, does __builtin_object_size(instance.array, 0) actually
-> evaluate to 18, or to 22? A quick test on x86-64 suggests the latter, so
-> the memcpy(, , 20) would not be a violation.
-> 
-> Perhaps it's better to base the example on something which doesn't have
-> potential trailing padding - so either add another 4 byte member, or
-> also make scalar2 u32.
+MediaTek IOMMU block diagram always like below:
 
-Yup, totally right. Thanks! I've fixed the example now for v2.
+        M4U
+         |
+    smi-common
+         |
+  -------------
+  |         |  ...
+  |         |
+larb1     larb2
+  |         |
+vdec       venc
+
+All the consumer connect with smi-larb, then connect with smi-common.
+
+When the consumer works, it should enable the smi-larb's power which also
+need enable the smi-common's power firstly.
+
+Thus, Firstly, use the device link connect the consumer and the
+smi-larbs. then add device link between the smi-larb and smi-common.
+
+After adding the device_link, then "mediatek,larb" property can be removed.
+the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+the power and clock of smi-larb and smi-common.
+
+Base on v5.14-rc1, and a jpeg[1] and mdp[2] patchset.
+
+[1] https://lore.kernel.org/linux-mediatek/20210702102304.3346429-1-hsinyi@chromium.org/
+[2] https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
+
+Change notes:
+v7: 1) Fix a arm32 boot fail issue. reported from Frank.
+    2) Add a return fail in the mtk drm. suggested by Dafna.
+
+v6: https://lore.kernel.org/linux-mediatek/20210714025626.5528-1-yong.wu@mediatek.com/
+    1) rebase on v5.14-rc1.
+    2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
+    3) Remove the patches about using pm_runtime_resume_and_get since they have
+       already been merged by other patches.
+
+v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
+    1) Base v5.12-rc2.
+    2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
+    independent patch.
+
+v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/ 
+    base on v5.7-rc1.
+  1) Move drm PM patch before smi patchs.
+  2) Change builtin_platform_driver to module_platform_driver since we may need
+     build as module.
+  3) Rebase many patchset as above.
+
+v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+    1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+    2) Use device_is_bound to check whether the driver is ready from Matthias.    
+    3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+   reason in the commit message[3/14].
+    4) Add a display patch[12/14] into this series. otherwise it may affect
+   display HW fastlogo even though it don't happen in mt8183.
+   
+v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
+   1) rebase on v5.2-rc1.
+   2) Move adding device_link between the consumer and smi-larb into
+iommu_add_device from Robin.
+   3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+   4) Remove the shutdown callback in iommu.   
+
+v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
+
+Yong Wu (11):
+  dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
+  iommu/mediatek-v1: Free the existed fwspec if the master dev already
+    has
+  iommu/mediatek: Add probe_defer for smi-larb
+  iommu/mediatek: Add device_link between the consumer and the larb
+    devices
+  media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+  media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+  drm/mediatek: Get rid of mtk_smi_larb_get/put
+  media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+  memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+  arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
+  arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
+
+Yongqiang Niu (1):
+  drm/mediatek: Add pm runtime support for ovl and rdma
+
+ .../display/mediatek/mediatek,disp.txt        |  9 ----
+ .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
+ .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
+ .../bindings/media/mediatek-mdp.txt           |  8 ----
+ .../bindings/media/mediatek-vcodec.txt        |  4 --
+ arch/arm/boot/dts/mt2701.dtsi                 |  2 -
+ arch/arm/boot/dts/mt7623n.dtsi                |  5 --
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  9 +++-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 15 +++---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +-
+ drivers/iommu/mtk_iommu.c                     | 24 +++++++++-
+ drivers/iommu/mtk_iommu_v1.c                  | 31 ++++++++++++-
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +-----------------
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 46 +------------------
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 ++-------------
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 ++----------------
+ drivers/memory/mtk-smi.c                      | 14 ------
+ include/soc/mediatek/smi.h                    | 20 --------
+ 28 files changed, 92 insertions(+), 321 deletions(-)
 
 -- 
-Kees Cook
+2.18.0
+
+
