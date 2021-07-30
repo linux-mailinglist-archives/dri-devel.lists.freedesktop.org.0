@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23683DB0F5
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772F63DB0FC
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jul 2021 04:06:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B356F384;
-	Fri, 30 Jul 2021 02:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D5B16F388;
+	Fri, 30 Jul 2021 02:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBF06F37F;
- Fri, 30 Jul 2021 02:02:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="200186043"
-X-IronPort-AV: E=Sophos;i="5.84,280,1620716400"; d="scan'208";a="200186043"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2021 19:01:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,280,1620716400"; d="scan'208";a="664637799"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga006.fm.intel.com with ESMTP; 29 Jul 2021 19:01:59 -0700
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/14] drm/i915/guc/rc: Setup and enable GuCRC feature
-Date: Thu, 29 Jul 2021 19:01:07 -0700
-Message-Id: <20210730020107.31415-15-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20210730020107.31415-1-vinay.belgaumkar@intel.com>
-References: <20210730020107.31415-1-vinay.belgaumkar@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF076F388
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 02:05:58 +0000 (UTC)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA35289B;
+ Fri, 30 Jul 2021 04:05:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1627610756;
+ bh=h/AMwa7o15YWFsbTSYl6cbBTb0fevpAS0ux/e0h2pkU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HDm+DRT3PZyYyqSyFzYYC4GXCjKSeEoLIBa28adkH95xwDCe8qPKHcqbWA+rvWdRF
+ j6eW2raOyTij6gIe4rUe+dXlAvIZ+bWAJFDsy0s9bzmhgzJWhSz5Tm4+KfFCp2S+cI
+ aCxh3nR1UH/UsIVE/MWde6IvUHiBqpmFTsAO1HxI=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm: rcar-du: Allow importing non-contiguous dma-buf with
+ VSP
+Date: Fri, 30 Jul 2021 05:05:45 +0300
+Message-Id: <20210730020545.2697-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,322 +44,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This feature hands over the control of HW RC6 to the GuC.
-GuC decides when to put HW into RC6 based on it's internal
-busyness algorithms.
+On R-Car Gen3, the DU uses a separate IP core named VSP to perform DMA
+from memory and composition of planes. The DU hardware then only handles
+the video timings and the interface with the encoders. This differs from
+Gen2, where the DU included a composer with DMA engines.
 
-GuCRC needs GuC submission to be enabled, and only
-supported on Gen12+ for now.
+When sourcing from the VSP, the DU hardware performs no memory access,
+and thus has no requirements on imported dma-buf memory types. The GEM
+CMA helpers however still create a DMA mapping to the DU device, which
+isn't used. The mapping to the VSP is done when processing the atomic
+commits, in the plane .prepare_fb() handler.
 
-When GuCRC is enabled, do not set HW RC6. Use a H2G message
-to tell GuC to enable GuCRC. When disabling RC6, tell GuC to
-revert RC6 control back to KMD. KMD is still responsible for
-enabling everything related to Coarse Power Gating though.
+When the system uses an IOMMU, the VSP device is attached to it, which
+enables the VSP to use non physically contiguous memory. The DU, as it
+performs no memory access, isn't connected to the IOMMU. The GEM CMA
+drm_gem_cma_prime_import_sg_table() helper will in that case fail to map
+non-contiguous imported dma-bufs, as the DMA mapping to the DU device
+will have multiple entries in its sgtable. The prevents using non
+physically contiguous memory for display.
 
-v2: Address comments (Michal W)
-v3: Don't set hysterisis values when GuCRC is used (Matt Roper)
-v4: checkpatch()
+The DRM PRIME and GEM CMA helpers are designed to create the sgtable
+when the dma-buf is imported. By default, the device referenced by the
+drm_device is used to create the dma-buf attachment. Drivers can use a
+different device by using the drm_gem_prime_import_dev() function. While
+the DU has access to the VSP device, this won't help here, as different
+CRTCs use different VSP instances, connected to different IOMMU
+channels. The driver doesn't know at import time which CRTC a GEM object
+will be used, and thus can't select the right VSP device to pass to
+drm_gem_prime_import_dev().
 
-Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To support non-contiguous memory, implement a custom
+.gem_prime_import_sg_table() operation that accepts all imported dma-buf
+regardless of the number of scatterlist entries. The sgtable will be
+mapped to the VSP at .prepare_fb() time, which will reject the
+framebuffer if the VSP isn't connected to an IOMMU.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/i915/Makefile                 |  1 +
- drivers/gpu/drm/i915/gt/intel_rc6.c           | 47 +++++++----
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  6 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     | 80 +++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h     | 31 +++++++
- drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  2 +
- 8 files changed, 155 insertions(+), 15 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index d8eac4468df9..3fc17f20d88e 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -186,6 +186,7 @@ i915-y += gt/uc/intel_uc.o \
- 	  gt/uc/intel_guc_fw.o \
- 	  gt/uc/intel_guc_log.o \
- 	  gt/uc/intel_guc_log_debugfs.o \
-+	  gt/uc/intel_guc_rc.o \
- 	  gt/uc/intel_guc_slpc.o \
- 	  gt/uc/intel_guc_submission.o \
- 	  gt/uc/intel_huc.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 259d7eb4e165..f6b914438a0b 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -62,20 +62,25 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
- 	u32 pg_enable;
- 	int i;
+This can arguably be considered as a bit of a hack, as the GEM PRIME
+import still maps the dma-buf attachment to the DU, which isn't
+necessary. This is however not a big issue, as the DU isn't connected to
+any IOMMU, the DMA mapping thus doesn't waste any resource such as I/O
+memory space. Avoiding the mapping creation would require replacing the
+helpers completely, resulting in lots of code duplication. If this type
+of hardware setup was common we could create another set of helpers, but
+I don't think it would be worth it to support a single device.
+
+I have tested this patch with the cam application from libcamera, on a
+R-Car H3 ES2.x Salvator-XS board, importing buffers from the vimc
+driver:
+
+cam -c 'platform/vimc.0 Sensor B' \
+	-s pixelformat=BGR888,width=1440,height=900 \
+	-C -D HDMI-A-1
+
+A set of patches to add DRM/KMS output support to cam has been posted.
+Until it gets merged (hopefully soon), it can be found at [1].
+
+As cam doesn't support DRM/KMS scaling and overlay planes yet, the
+camera resolution needs to match the display resolution. Due to a
+peculiarity of the vimc driver, the resolution has to be divisible by 3,
+which may require changes to the resolution above depending on your
+monitor.
+
+A test patch is also needed for the kernel, to enable IOMMU support for
+the VSP, which isn't done by default (yet ?) in mainline. I have pushed
+a branch to [2] if anyone is interested.
+
+[1] https://lists.libcamera.org/pipermail/libcamera-devel/2021-July/022815.html
+[2] git://linuxtv.org/pinchartl/media.git drm/du/devel/gem/contig
+
+---
+Changes since v1:
+
+- Rewrote commit message to explain issue in more details
+- Duplicate the imported scatter gather table in
+  rcar_du_vsp_plane_prepare_fb()
+- Use separate loop counter j to avoid overwritting i
+- Update to latest drm_gem_cma API
+---
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c |  6 +++-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c | 49 +++++++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms.h |  7 ++++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 36 +++++++++++++++++---
+ 4 files changed, 92 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index cb34b1e477bc..d1f8d51a10fe 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -511,7 +511,11 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
  
--	/* 2b: Program RC6 thresholds.*/
--	set(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
--	set(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
-+	/*
-+	 * With GuCRC, these parameters are set by GuC
-+	 */
-+	if (!intel_uc_uses_guc_rc(&gt->uc)) {
-+		/* 2b: Program RC6 thresholds.*/
-+		set(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
-+		set(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
+ static const struct drm_driver rcar_du_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+-	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(rcar_du_dumb_create),
++	.dumb_create		= rcar_du_dumb_create,
++	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
++	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
++	.gem_prime_import_sg_table = rcar_du_gem_prime_import_sg_table,
++	.gem_prime_mmap		= drm_gem_prime_mmap,
+ 	.fops			= &rcar_du_fops,
+ 	.name			= "rcar-du",
+ 	.desc			= "Renesas R-Car Display Unit",
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index fdb8a0d127ad..7077af0886cf 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -19,6 +19,7 @@
+ #include <drm/drm_vblank.h>
  
--	set(uncore, GEN6_RC_EVALUATION_INTERVAL, 125000); /* 12500 * 1280ns */
--	set(uncore, GEN6_RC_IDLE_HYSTERSIS, 25); /* 25 * 1280ns */
--	for_each_engine(engine, rc6_to_gt(rc6), id)
--		set(uncore, RING_MAX_IDLE(engine->mmio_base), 10);
-+		set(uncore, GEN6_RC_EVALUATION_INTERVAL, 125000); /* 12500 * 1280ns */
-+		set(uncore, GEN6_RC_IDLE_HYSTERSIS, 25); /* 25 * 1280ns */
-+		for_each_engine(engine, rc6_to_gt(rc6), id)
-+			set(uncore, RING_MAX_IDLE(engine->mmio_base), 10);
+ #include <linux/device.h>
++#include <linux/dma-buf.h>
+ #include <linux/of_graph.h>
+ #include <linux/of_platform.h>
+ #include <linux/wait.h>
+@@ -325,6 +326,54 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
+  * Frame buffer
+  */
  
--	set(uncore, GUC_MAX_IDLE_COUNT, 0xA);
-+		set(uncore, GUC_MAX_IDLE_COUNT, 0xA);
- 
--	set(uncore, GEN6_RC_SLEEP, 0);
-+		set(uncore, GEN6_RC_SLEEP, 0);
- 
--	set(uncore, GEN6_RC6_THRESHOLD, 50000); /* 50/125ms per EI */
-+		set(uncore, GEN6_RC6_THRESHOLD, 50000); /* 50/125ms per EI */
-+	}
- 
- 	/*
- 	 * 2c: Program Coarse Power Gating Policies.
-@@ -98,11 +103,19 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
- 	set(uncore, GEN9_MEDIA_PG_IDLE_HYSTERESIS, 60);
- 	set(uncore, GEN9_RENDER_PG_IDLE_HYSTERESIS, 60);
- 
--	/* 3a: Enable RC6 */
--	rc6->ctl_enable =
--		GEN6_RC_CTL_HW_ENABLE |
--		GEN6_RC_CTL_RC6_ENABLE |
--		GEN6_RC_CTL_EI_MODE(1);
-+	/* 3a: Enable RC6
-+	 *
-+	 * With GuCRC, we do not enable bit 31 of RC_CTL,
-+	 * thus allowing GuC to control RC6 entry/exit fully instead.
-+	 * We will not set the HW ENABLE and EI bits
-+	 */
-+	if (!intel_guc_rc_enable(&gt->uc.guc))
-+		rc6->ctl_enable = GEN6_RC_CTL_RC6_ENABLE;
-+	else
-+		rc6->ctl_enable =
-+			GEN6_RC_CTL_HW_ENABLE |
-+			GEN6_RC_CTL_RC6_ENABLE |
-+			GEN6_RC_CTL_EI_MODE(1);
- 
- 	pg_enable =
- 		GEN9_RENDER_PG_ENABLE |
-@@ -513,6 +526,10 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
- {
- 	struct drm_i915_private *i915 = rc6_to_i915(rc6);
- 	struct intel_uncore *uncore = rc6_to_uncore(rc6);
-+	struct intel_gt *gt = rc6_to_gt(rc6);
-+
-+	/* Take control of RC6 back from GuC */
-+	intel_guc_rc_disable(&gt->uc.guc);
- 
- 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
- 	if (GRAPHICS_VER(i915) >= 9)
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-index ca538e5de940..8ff582222aff 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-@@ -135,6 +135,7 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_SET_CONTEXT_PREEMPTION_TIMEOUT = 0x1007,
- 	INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
- 	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
-+	INTEL_GUC_ACTION_SETUP_PC_GUCRC = 0x3004,
- 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
- 	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
- 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
-@@ -145,6 +146,11 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_LIMIT
- };
- 
-+enum intel_guc_rc_options {
-+	INTEL_GUCRC_HOST_CONTROL,
-+	INTEL_GUCRC_FIRMWARE_CONTROL,
++static const struct drm_gem_object_funcs rcar_du_gem_funcs = {
++	.free = drm_gem_cma_free_object,
++	.print_info = drm_gem_cma_print_info,
++	.get_sg_table = drm_gem_cma_get_sg_table,
++	.vmap = drm_gem_cma_vmap,
++	.mmap = drm_gem_cma_mmap,
++	.vm_ops = &drm_gem_cma_vm_ops,
 +};
 +
- enum intel_guc_preempt_options {
- 	INTEL_GUC_PREEMPT_OPTION_DROP_WORK_Q = 0x4,
- 	INTEL_GUC_PREEMPT_OPTION_DROP_SUBMIT_Q = 0x8,
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 13d162353b1a..fbfcae727d7f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -159,6 +159,7 @@ void intel_guc_init_early(struct intel_guc *guc)
- 	intel_guc_log_init_early(&guc->log);
- 	intel_guc_submission_init_early(guc);
- 	intel_guc_slpc_init_early(&guc->slpc);
-+	intel_guc_rc_init_early(guc);
- 
- 	mutex_init(&guc->send_mutex);
- 	spin_lock_init(&guc->irq_lock);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 7da11a0b6059..2e27fe59786b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -59,6 +59,8 @@ struct intel_guc {
- 
- 	bool submission_supported;
- 	bool submission_selected;
-+	bool rc_supported;
-+	bool rc_selected;
- 
- 	struct i915_vma *ads_vma;
- 	struct __guc_ads_blob *ads_blob;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-new file mode 100644
-index 000000000000..fc805d466d99
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#include "intel_guc_rc.h"
-+#include "gt/intel_gt.h"
-+#include "i915_drv.h"
-+
-+static bool __guc_rc_supported(struct intel_guc *guc)
++struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
++				struct dma_buf_attachment *attach,
++				struct sg_table *sgt)
 +{
-+	/* GuC RC is unavailable for pre-Gen12 */
-+	return guc->submission_supported &&
-+		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
-+}
-+
-+static bool __guc_rc_selected(struct intel_guc *guc)
-+{
-+	if (!intel_guc_rc_is_supported(guc))
-+		return false;
-+
-+	return guc->submission_selected;
-+}
-+
-+void intel_guc_rc_init_early(struct intel_guc *guc)
-+{
-+	guc->rc_supported = __guc_rc_supported(guc);
-+	guc->rc_selected = __guc_rc_selected(guc);
-+}
-+
-+static int guc_action_control_gucrc(struct intel_guc *guc, bool enable)
-+{
-+	u32 rc_mode = enable ? INTEL_GUCRC_FIRMWARE_CONTROL :
-+				INTEL_GUCRC_HOST_CONTROL;
-+	u32 action[] = {
-+		INTEL_GUC_ACTION_SETUP_PC_GUCRC,
-+		rc_mode
-+	};
++	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
++	struct drm_gem_cma_object *cma_obj;
++	struct drm_gem_object *gem_obj;
 +	int ret;
 +
-+	ret = intel_guc_send(guc, action, ARRAY_SIZE(action));
-+	ret = ret > 0 ? -EPROTO : ret;
++	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
++		return drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
 +
-+	return ret;
-+}
++	/* Create a CMA GEM buffer. */
++	cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
++	if (!cma_obj)
++		return ERR_PTR(-ENOMEM);
 +
-+static int __guc_rc_control(struct intel_guc *guc, bool enable)
-+{
-+	struct intel_gt *gt = guc_to_gt(guc);
-+	struct drm_device *drm = &guc_to_gt(guc)->i915->drm;
-+	int ret;
++	gem_obj = &cma_obj->base;
++	gem_obj->funcs = &rcar_du_gem_funcs;
 +
-+	if (!intel_uc_uses_guc_rc(&gt->uc))
-+		return -EOPNOTSUPP;
++	drm_gem_private_object_init(dev, gem_obj, attach->dmabuf->size);
++	cma_obj->map_noncoherent = false;
 +
-+	if (!intel_guc_is_ready(guc))
-+		return -EINVAL;
-+
-+	ret = guc_action_control_gucrc(guc, enable);
++	ret = drm_gem_create_mmap_offset(gem_obj);
 +	if (ret) {
-+		drm_err(drm, "Failed to %s GuC RC (%pe)\n",
-+			enabledisable(enable), ERR_PTR(ret));
-+		return ret;
++		drm_gem_object_release(gem_obj);
++		goto error;
 +	}
 +
-+	drm_info(&gt->i915->drm, "GuC RC: %s\n",
-+		 enableddisabled(enable));
++	cma_obj->paddr = 0;
++	cma_obj->sgt = sgt;
 +
-+	return 0;
++	return gem_obj;
++
++error:
++	kfree(cma_obj);
++	return ERR_PTR(ret);
 +}
 +
-+int intel_guc_rc_enable(struct intel_guc *guc)
-+{
-+	return __guc_rc_control(guc, true);
-+}
-+
-+int intel_guc_rc_disable(struct intel_guc *guc)
-+{
-+	return __guc_rc_control(guc, false);
-+}
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-new file mode 100644
-index 000000000000..57e86c337838
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#ifndef _INTEL_GUC_RC_H_
-+#define _INTEL_GUC_RC_H_
-+
-+#include "intel_guc_submission.h"
-+
-+void intel_guc_rc_init_early(struct intel_guc *guc);
-+
-+static inline bool intel_guc_rc_is_supported(struct intel_guc *guc)
-+{
-+	return guc->rc_supported;
-+}
-+
-+static inline bool intel_guc_rc_is_wanted(struct intel_guc *guc)
-+{
-+	return guc->submission_selected && intel_guc_rc_is_supported(guc);
-+}
-+
-+static inline bool intel_guc_rc_is_used(struct intel_guc *guc)
-+{
-+	return intel_guc_submission_is_used(guc) && intel_guc_rc_is_wanted(guc);
-+}
-+
-+int intel_guc_rc_enable(struct intel_guc *guc);
-+int intel_guc_rc_disable(struct intel_guc *guc);
-+
-+#endif
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-index 925a58ca6b94..866b462821c0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-@@ -7,6 +7,7 @@
- #define _INTEL_UC_H_
+ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			struct drm_mode_create_dumb *args)
+ {
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+index 8f5fff176754..789154e19535 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+@@ -12,10 +12,13 @@
  
- #include "intel_guc.h"
-+#include "intel_guc_rc.h"
- #include "intel_guc_submission.h"
- #include "intel_guc_slpc.h"
- #include "intel_huc.h"
-@@ -85,6 +86,7 @@ uc_state_checkers(guc, guc);
- uc_state_checkers(huc, huc);
- uc_state_checkers(guc, guc_submission);
- uc_state_checkers(guc, guc_slpc);
-+uc_state_checkers(guc, guc_rc);
+ #include <linux/types.h>
  
- #undef uc_state_checkers
- #undef __uc_state_checker
++struct dma_buf_attachment;
+ struct drm_file;
+ struct drm_device;
++struct drm_gem_object;
+ struct drm_mode_create_dumb;
+ struct rcar_du_device;
++struct sg_table;
+ 
+ struct rcar_du_format_info {
+ 	u32 fourcc;
+@@ -34,4 +37,8 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu);
+ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			struct drm_mode_create_dumb *args);
+ 
++struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
++				struct dma_buf_attachment *attach,
++				struct sg_table *sgt);
++
+ #endif /* __RCAR_DU_KMS_H__ */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 23e41c83c875..b7fc5b069cbc 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -187,17 +187,43 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
+ 		       struct sg_table sg_tables[3])
+ {
+ 	struct rcar_du_device *rcdu = vsp->dev;
+-	unsigned int i;
++	unsigned int i, j;
+ 	int ret;
+ 
+ 	for (i = 0; i < fb->format->num_planes; ++i) {
+ 		struct drm_gem_cma_object *gem = drm_fb_cma_get_gem_obj(fb, i);
+ 		struct sg_table *sgt = &sg_tables[i];
+ 
+-		ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr, gem->paddr,
+-				      gem->base.size);
+-		if (ret)
+-			goto fail;
++		if (gem->sgt) {
++			struct scatterlist *src;
++			struct scatterlist *dst;
++
++			/*
++			 * If the GEM buffer has a scatter gather table, it has
++			 * been imported from a dma-buf and has no physical
++			 * address as it might not be physically contiguous.
++			 * Copy the original scatter gather table to map it to
++			 * the VSP.
++			 */
++			ret = sg_alloc_table(sgt, gem->sgt->orig_nents,
++					     GFP_KERNEL);
++			if (ret)
++				goto fail;
++
++			src = gem->sgt->sgl;
++			dst = sgt->sgl;
++			for (j = 0; j < gem->sgt->orig_nents; ++j) {
++				sg_set_page(dst, sg_page(src), src->length,
++					    src->offset);
++				src = sg_next(src);
++				dst = sg_next(dst);
++			}
++		} else {
++			ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr,
++					      gem->paddr, gem->base.size);
++			if (ret)
++				goto fail;
++		}
+ 
+ 		ret = vsp1_du_map_sg(vsp->vsp, sgt);
+ 		if (ret) {
 -- 
-2.25.0
+Regards,
+
+Laurent Pinchart
 
