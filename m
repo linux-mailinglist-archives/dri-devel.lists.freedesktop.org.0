@@ -1,59 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F353DC17B
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 01:12:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ED13DC19E
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 01:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5636E4CF;
-	Fri, 30 Jul 2021 23:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C48A6E479;
+	Fri, 30 Jul 2021 23:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F7D6E4CF
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 23:12:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EA2A060F3A
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 23:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627686731;
- bh=2z+8NiOD0PsDLOMtm7HEjTbuJVpHU6ddRaJfri7FY7E=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=c+xZEAwkAfCaXB84thTOnK86azedcbGJZg6LgZnAp0RXRuu5qxOpA1XZeyxpkVP/e
- QHnJLu08FsLbt2pQkxE8kIW/m5RyTjgNPxiikaYG39JsLQSvNy7VekH2/T/moSEQxf
- IqmgB2Af5lPnEB9v0i+IckkVfs4tT2txdBijXxUWh+C5oqJprX5t8L1dd+i3mEw/TB
- 3MegHBaQx0XMlGGqhjIvoOYSy2UqWSYctzcoWh7X1jDThcNMXO3TyqbdbbgWxlK/HD
- B7CZubJEO9D/27XR+wVvcXVbCsAoClo/QzxRrPWFp7cEjqYgqvAHHcsLqFVwK3PyqH
- bcPZEHDKNNuNA==
-Received: by mail-ed1-f54.google.com with SMTP id d6so7714257edt.7
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 16:12:10 -0700 (PDT)
-X-Gm-Message-State: AOAM531TDZhSJkz8KxyxVEXaCTQsEr+odpJhdgQGK3/K+Y9A1ZAZnQbJ
- lb+0kr22ODsLMhgpkKYqp1P2k07RsMB97eXdlA==
-X-Google-Smtp-Source: ABdhPJwzMUJR/ZabYWlF1LL28gEzoZTiGoDGAkO52lFCgwbh2C5iQsYAwy8BvnfSHaRhz0LxKs1qVHrJ3BJ0P0YrXfQ=
-X-Received: by 2002:aa7:c6d3:: with SMTP id b19mr5393041eds.303.1627686729430; 
- Fri, 30 Jul 2021 16:12:09 -0700 (PDT)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1D386E34B
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 23:37:45 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627688266; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=4rmJMgcNP8dz11ZGS+KLyMRiboqVKCtFl+kC5KAnbF4=;
+ b=eiK70Y/lzcHnRTxpAIA107oBpYt9AAYF0cOD+WITEg/czAl02VTqnyFfGvSwzf/YEUlxm1bq
+ FshfyF6ae8E1Sy3MbdU8IhBkivzunTrmWiSVWGJ3aY4Y32fMl6aoa1PONXfpQH2+OUS4Thk5
+ rBZgX5zFdkDSf5ABHolz+d4B4Dk=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 61048d49b653fbdadd16cd49 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 30 Jul 2021 23:37:45
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3F2B5C433F1; Fri, 30 Jul 2021 23:37:44 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 29742C4338A;
+ Fri, 30 Jul 2021 23:37:42 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210729170737.21424-1-jason-jh.lin@mediatek.com>
- <20210729170737.21424-6-jason-jh.lin@mediatek.com>
-In-Reply-To: <20210729170737.21424-6-jason-jh.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 31 Jul 2021 07:11:58 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-54wi6Ujvynyex30wY7vn_sV_=R5T3CBj77iYCCGQvGg@mail.gmail.com>
-Message-ID: <CAAOTY_-54wi6Ujvynyex30wY7vn_sV_=R5T3CBj77iYCCGQvGg@mail.gmail.com>
-Subject: Re: [PATCH v5 5/6] drm/mediatek: add DSC support for mt8195
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>, fshao@chromium.org, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Hsin-Yi Wang <hsinyi@chromium.org>, 
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- singo.chang@mediatek.com, DTML <devicetree@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri, 30 Jul 2021 16:37:42 -0700
+From: abhinavk@codeaurora.org
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Stephen Boyd
+ <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ freedreno@lists.freedesktop.org
+Subject: Re: [Freedreno] [PATCH 1/5] drm/msm/dp: Remove global g_dp_display
+ variable
+In-Reply-To: <20210725042436.3967173-2-bjorn.andersson@linaro.org>
+References: <20210725042436.3967173-1-bjorn.andersson@linaro.org>
+ <20210725042436.3967173-2-bjorn.andersson@linaro.org>
+Message-ID: <51b482e276c6fedc91d70797aca35da6@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,168 +77,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
-
-jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B47=E6=9C=883=
-0=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=881:07=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Add DSC into mtk_drm_ddp_comp to support for mt8195.
->
-> DSC is designed for real-time systems with real-time compression,
-> transmission, decompression and display.
-> The DSC standard is a specification of the algorithms used for
-> compressing and decompressing image display streams, including
-> the specification of the syntax and semantics of the compressed
-> video bit stream.
->
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+On 2021-07-24 21:24, Bjorn Andersson wrote:
+> As the Qualcomm DisplayPort driver only supports a single instance of
+> the driver the commonly used struct dp_display is kept in a global
+> variable. As we introduce additional instances this obviously doesn't
+> work.
+> 
+> Replace this with a combination of existing references to adjacent
+> objects and drvdata.
+> 
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
-> This patch is base on [1]
->
-> [1]add mt8195 SoC DRM binding
-> - https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D5195=
-97
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 46 +++++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  2 +
->  3 files changed, 49 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/dr=
-m/mediatek/mtk_drm_ddp_comp.c
-> index 75bc00e17fc4..6f4a9b8c9914 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -65,6 +65,12 @@
->  #define DITHER_ADD_LSHIFT_G(x)                 (((x) & 0x7) << 4)
->  #define DITHER_ADD_RSHIFT_G(x)                 (((x) & 0x7) << 0)
->
-> +#define DISP_REG_DSC_CON                       0x0000
-> +#define DSC_EN                                 BIT(0)
-> +#define DSC_DUAL_INOUT                         BIT(2)
-> +#define DSC_BYPASS                             BIT(4)
-> +#define DSC_UFOE_SEL                           BIT(16)
-> +
->  struct mtk_ddp_comp_dev {
->         struct clk *clk;
->         void __iomem *regs;
-> @@ -246,6 +252,35 @@ static void mtk_dither_stop(struct device *dev)
->         writel_relaxed(0x0, priv->regs + DISP_DITHER_EN);
->  }
->
-> +static void mtk_dsc_config(struct device *dev, unsigned int w,
-> +                          unsigned int h, unsigned int vrefresh,
-> +                          unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+>  drivers/gpu/drm/msm/dp/dp_display.c | 78 ++++++++++++++---------------
+>  1 file changed, 37 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
+> b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 70b319a8fe83..8696b36d30e4 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -27,7 +27,6 @@
+>  #include "dp_audio.h"
+>  #include "dp_debug.h"
+> 
+> -static struct msm_dp *g_dp_display;
+>  #define HPD_STRING_SIZE 30
+> 
+>  enum {
+> @@ -122,6 +121,13 @@ static const struct of_device_id dp_dt_match[] = {
+>  	{}
+>  };
+> 
+> +static struct dp_display_private *dev_to_dp_display_private(struct 
+> device *dev)
 > +{
-> +       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+> +	struct msm_dp *dp = dev_get_drvdata(dev);
 > +
-> +       /* dsc bypass mode */
-> +       mtk_ddp_write_mask(cmdq_pkt, DSC_BYPASS, &priv->cmdq_reg, priv->r=
-egs,
-> +                          DISP_REG_DSC_CON, DSC_BYPASS);
-> +       mtk_ddp_write_mask(cmdq_pkt, DSC_UFOE_SEL, &priv->cmdq_reg, priv-=
->regs,
-> +                          DISP_REG_DSC_CON, DSC_UFOE_SEL);
-> +       mtk_ddp_write_mask(cmdq_pkt, DSC_DUAL_INOUT, &priv->cmdq_reg, pri=
-v->regs,
-> +                          DISP_REG_DSC_CON, DSC_DUAL_INOUT);
+> +	return container_of(dp, struct dp_display_private, dp_display);
 > +}
 > +
-> +static void mtk_dsc_start(struct device *dev)
-> +{
-> +       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
-> +
-> +       writel_relaxed(DSC_EN, &priv->regs + DISP_REG_DSC_CON);
-> +}
-> +
-> +static void mtk_dsc_stop(struct device *dev)
-> +{
-> +       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
-> +
-> +       writel_relaxed(0x0, priv->regs + DISP_REG_DSC_CON);
-> +}
-> +
->  static const struct mtk_ddp_comp_funcs ddp_aal =3D {
->         .clk_enable =3D mtk_ddp_clk_enable,
->         .clk_disable =3D mtk_ddp_clk_disable,
-> @@ -284,6 +319,14 @@ static const struct mtk_ddp_comp_funcs ddp_dpi =3D {
->         .stop =3D mtk_dpi_stop,
->  };
->
-> +static const struct mtk_ddp_comp_funcs ddp_dsc =3D {
-> +       .clk_enable =3D mtk_ddp_clk_enable,
-> +       .clk_disable =3D mtk_ddp_clk_disable,
-> +       .config =3D mtk_dsc_config,
-> +       .start =3D mtk_dsc_start,
-> +       .stop =3D mtk_dsc_stop,
-> +};
-> +
->  static const struct mtk_ddp_comp_funcs ddp_dsi =3D {
->         .start =3D mtk_dsi_ddp_start,
->         .stop =3D mtk_dsi_ddp_stop,
-> @@ -356,6 +399,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_C=
-OMP_TYPE_MAX] =3D {
->         [MTK_DISP_MUTEX] =3D "mutex",
->         [MTK_DISP_OD] =3D "od",
->         [MTK_DISP_BLS] =3D "bls",
-> +       [MTK_DISP_DSC] =3D "dsc",
+>  static int dp_add_event(struct dp_display_private *dp_priv, u32 event,
+>  						u32 data, u32 delay)
+>  {
+> @@ -198,14 +204,16 @@ static int dp_display_bind(struct device *dev,
+> struct device *master,
+>  			   void *data)
+>  {
+>  	int rc = 0;
+> -	struct dp_display_private *dp;
+> +	struct dp_display_private *dp = dev_to_dp_display_private(dev);
+>  	struct drm_device *drm;
+>  	struct msm_drm_private *priv;
+> 
+>  	drm = dev_get_drvdata(master);
+> 
+> -	dp = container_of(g_dp_display,
+> -			struct dp_display_private, dp_display);
+> +	if (!dp) {
+> +		DRM_ERROR("DP driver bind failed. Invalid driver data\n");
+> +		return -EINVAL;
+> +	}
+> 
+>  	dp->dp_display.drm_dev = drm;
+>  	priv = drm->dev_private;
+> @@ -240,12 +248,14 @@ static int dp_display_bind(struct device *dev,
+> struct device *master,
+>  static void dp_display_unbind(struct device *dev, struct device 
+> *master,
+>  			      void *data)
+>  {
+> -	struct dp_display_private *dp;
+> +	struct dp_display_private *dp = dev_to_dp_display_private(dev);
+>  	struct drm_device *drm = dev_get_drvdata(master);
+>  	struct msm_drm_private *priv = drm->dev_private;
+> 
+> -	dp = container_of(g_dp_display,
+> -			struct dp_display_private, dp_display);
+> +	if (!dp) {
+> +		DRM_ERROR("Invalid DP driver data\n");
+> +		return;
+> +	}
+> 
+>  	dp_power_client_deinit(dp->power);
+>  	dp_aux_unregister(dp->aux);
+> @@ -376,17 +386,14 @@ static void dp_display_host_deinit(struct
+> dp_display_private *dp)
+>  static int dp_display_usbpd_configure_cb(struct device *dev)
+>  {
+>  	int rc = 0;
+> -	struct dp_display_private *dp;
+> +	struct dp_display_private *dp = dev_to_dp_display_private(dev);
+> 
+> -	if (!dev) {
+> -		DRM_ERROR("invalid dev\n");
+> -		rc = -EINVAL;
+> +	if (!dp) {
+> +		DRM_ERROR("no driver data found\n");
+> +		rc = -ENODEV;
+>  		goto end;
+>  	}
+> 
+> -	dp = container_of(g_dp_display,
+> -			struct dp_display_private, dp_display);
+> -
+>  	dp_display_host_init(dp, false);
+> 
+>  	rc = dp_display_process_hpd_high(dp);
+> @@ -397,17 +404,14 @@ static int dp_display_usbpd_configure_cb(struct
+> device *dev)
+>  static int dp_display_usbpd_disconnect_cb(struct device *dev)
+>  {
+>  	int rc = 0;
+> -	struct dp_display_private *dp;
+> +	struct dp_display_private *dp = dev_to_dp_display_private(dev);
+> 
+> -	if (!dev) {
+> -		DRM_ERROR("invalid dev\n");
+> -		rc = -EINVAL;
+> +	if (!dp) {
+> +		DRM_ERROR("no driver data found\n");
+> +		rc = -ENODEV;
+>  		return rc;
+>  	}
+> 
+> -	dp = container_of(g_dp_display,
+> -			struct dp_display_private, dp_display);
+> -
+>  	dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+> 
+>  	return rc;
+> @@ -466,15 +470,15 @@ static int dp_display_usbpd_attention_cb(struct
+> device *dev)
+>  {
+>  	int rc = 0;
+>  	u32 sink_request;
+> -	struct dp_display_private *dp;
+> +	struct dp_display_private *dp = dev_to_dp_display_private(dev);
+> +	struct dp_usbpd *hpd;
+> 
+> -	if (!dev) {
+> -		DRM_ERROR("invalid dev\n");
+> -		return -EINVAL;
+> +	if (!dp) {
+> +		DRM_ERROR("no driver data found\n");
+> +		return -ENODEV;
+>  	}
+> 
+> -	dp = container_of(g_dp_display,
+> -			struct dp_display_private, dp_display);
+> +	hpd = dp->usbpd;
+hpd is unused here. It was removed with 
+https://patches.linaro.org/patch/416670/
 
-Would you please send a patch to make alphabetic order then apply this patc=
-h?
-
->  };
->
->  struct mtk_ddp_comp_match {
-> @@ -374,6 +418,8 @@ static const struct mtk_ddp_comp_match mtk_ddp_matche=
-s[DDP_COMPONENT_ID_MAX] =3D {
->         [DDP_COMPONENT_DITHER]  =3D { MTK_DISP_DITHER,    0, &ddp_dither =
-},
->         [DDP_COMPONENT_DPI0]    =3D { MTK_DPI,            0, &ddp_dpi },
->         [DDP_COMPONENT_DPI1]    =3D { MTK_DPI,            1, &ddp_dpi },
-> +       [DDP_COMPONENT_DSC0]    =3D { MTK_DISP_DSC,       0, &ddp_dsc },
-> +       [DDP_COMPONENT_DSC1]    =3D { MTK_DISP_DSC,       1, &ddp_dsc },
->         [DDP_COMPONENT_DSI0]    =3D { MTK_DSI,            0, &ddp_dsi },
->         [DDP_COMPONENT_DSI1]    =3D { MTK_DSI,            1, &ddp_dsi },
->         [DDP_COMPONENT_DSI2]    =3D { MTK_DSI,            2, &ddp_dsi },
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/dr=
-m/mediatek/mtk_drm_ddp_comp.h
-> index bb914d976cf5..661fb620e266 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> @@ -34,6 +34,7 @@ enum mtk_ddp_comp_type {
->         MTK_DISP_MUTEX,
->         MTK_DISP_OD,
->         MTK_DISP_BLS,
-> +       MTK_DISP_DSC,
-
-Ditto.
-
->         MTK_DDP_COMP_TYPE_MAX,
->  };
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index d6f6d1bdad85..0f6bb4bdc58a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -446,6 +446,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[=
-] =3D {
->           .data =3D (void *)MTK_DISP_GAMMA, },
->         { .compatible =3D "mediatek,mt8183-disp-dither",
->           .data =3D (void *)MTK_DISP_DITHER },
-> +       { .compatible =3D "mediatek,mt8195-disp-dsc",
-> +         .data =3D (void *)MTK_DISP_DSC },
-
-I would like you move this patch before the patch "add mediatek-drm of
-vdosys0 support for mt8195" and move this part into that patch.
-
-Regards,
-Chun-Kuang.
-
->         { .compatible =3D "mediatek,mt8173-disp-ufoe",
->           .data =3D (void *)MTK_DISP_UFOE },
->         { .compatible =3D "mediatek,mt2701-dsi",
-> --
-> 2.18.0
->
+> 
+>  	/* check for any test request issued by sink */
+>  	rc = dp_link_process_request(dp->link);
+> @@ -638,7 +642,7 @@ static int dp_hpd_unplug_handle(struct
+> dp_display_private *dp, u32 data)
+>  	dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, 
+> DP_TIMEOUT_5_SECOND);
+> 
+>  	/* signal the disconnect event early to ensure proper teardown */
+> -	dp_display_handle_plugged_change(g_dp_display, false);
+> +	dp_display_handle_plugged_change(&dp->dp_display, false);
+> 
+>  	/* enable HDP plug interrupt to prepare for next plugin */
+>  	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, 
+> true);
+> @@ -832,9 +836,7 @@ static int dp_display_prepare(struct msm_dp *dp)
+>  static int dp_display_enable(struct dp_display_private *dp, u32 data)
+>  {
+>  	int rc = 0;
+> -	struct msm_dp *dp_display;
+> -
+> -	dp_display = g_dp_display;
+> +	struct msm_dp *dp_display = &dp->dp_display;
+> 
+>  	if (dp_display->power_on) {
+>  		DRM_DEBUG_DP("Link already setup, return\n");
+> @@ -869,9 +871,7 @@ static int dp_display_post_enable(struct msm_dp 
+> *dp_display)
+> 
+>  static int dp_display_disable(struct dp_display_private *dp, u32 data)
+>  {
+> -	struct msm_dp *dp_display;
+> -
+> -	dp_display = g_dp_display;
+> +	struct msm_dp *dp_display = &dp->dp_display;
+> 
+>  	if (!dp_display->power_on)
+>  		return 0;
+> @@ -1229,14 +1229,13 @@ static int dp_display_probe(struct
+> platform_device *pdev)
+>  	}
+> 
+>  	mutex_init(&dp->event_mutex);
+> -	g_dp_display = &dp->dp_display;
+> 
+>  	/* Store DP audio handle inside DP display */
+> -	g_dp_display->dp_audio = dp->audio;
+> +	dp->dp_display.dp_audio = dp->audio;
+> 
+>  	init_completion(&dp->audio_comp);
+> 
+> -	platform_set_drvdata(pdev, g_dp_display);
+> +	platform_set_drvdata(pdev, &dp->dp_display);
+> 
+>  	rc = component_add(&pdev->dev, &dp_display_comp_ops);
+>  	if (rc) {
+> @@ -1249,10 +1248,7 @@ static int dp_display_probe(struct 
+> platform_device *pdev)
+> 
+>  static int dp_display_remove(struct platform_device *pdev)
+>  {
+> -	struct dp_display_private *dp;
+> -
+> -	dp = container_of(g_dp_display,
+> -			struct dp_display_private, dp_display);
+> +	struct dp_display_private *dp = platform_get_drvdata(pdev);
+> 
+>  	dp_display_deinit_sub_modules(dp);
