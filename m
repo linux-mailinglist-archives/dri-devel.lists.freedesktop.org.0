@@ -2,49 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C543DC1F6
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 02:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDC13DC3C1
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 08:10:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A27646F4D7;
-	Sat, 31 Jul 2021 00:25:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1FB36E53C;
+	Sat, 31 Jul 2021 06:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 430606F4D7
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 00:25:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED7572A3;
- Sat, 31 Jul 2021 02:25:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1627691116;
- bh=Se3omj1MbC8A2uCU/g3eF6EOHI8xJCoOcrDna0LOm8E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pKF8FZTQE9iBIPHxNDy/m4fYIqhpghC1iXTHNOvh9x9yEwdLAIklsw238YDe1IEWd
- c1sIGbc51lhSlEzfXa9xPDmasjYGVZrG4Qx5IN0VMMmmFkSPXZvW1PAuoW0WnN4I2S
- UI1H1SgYDaIXovWcA1JL3oON5rje2bkzoXdSWs3E=
-Date: Sat, 31 Jul 2021 03:25:07 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, linux-imx@nxp.com,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Subject: Re: [PATCH 1/7] drm/omap: Cast pointer to integer safely
-Message-ID: <YQSYYywcs3FpTn6u@pendragon.ideasonboard.com>
-References: <20210728153736.15240-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210728153736.15240-2-laurent.pinchart+renesas@ideasonboard.com>
- <69ac4474-3bbf-db72-3777-74c59f947d42@ideasonboard.com>
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1F76F4DA
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 00:53:32 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id x9so7696374qtw.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 17:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=o9Zdiw6K369prvk3D1uESThz5LudI1mAgV6OPbSiui4=;
+ b=h2hMncmKkWj53pRhHsbHhurfZQD1w4i3oFX/B692uVqckYYAi2zZme2KoRzKsPMFs8
+ IVJp/eTSPb42INlKKwKRQQt2C+laE+BDSI5cBQ6s2yCAAxNvesm3+L1xDk+7grBw9emX
+ QrDzOKU6c1PH+9n5MGB6/kUx4vv3qaWpksHU3mia746LfBAKQY1IvVX/YRIfqml3+/bn
+ X1RouMTvkQWMDl/LkDNHwlQ0tqFjMLPFokGtAkO4lBDYB4SqSO0VWHolf9PsW7dV93le
+ 31TV3OvTtAJl15eGCJdlNHfkhIkD0PbPPMCXhD12GnaAyfck0AakVQptzYxxij5YPAu/
+ ZGLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=o9Zdiw6K369prvk3D1uESThz5LudI1mAgV6OPbSiui4=;
+ b=MQKNeuut133LItrLkNEppyOaLHhoTrHuC0mM1zYmTCi/Hw6KOpTL1KtgoRLFn4u21c
+ D9jiy3SRgk5q3pJkhpPzJlE2rHH9rdmojPfsnEQRoGKqF5k/S+eiSMrqADKPudz5Jc9i
+ CxD0Kw5t0ApCCGn+zI7H60fHvvM/vfndcgzXp4QP5rNk2T0MqeWTDFSe+cSMnkM5BoEF
+ PChaLivcuspgjKu+B9JVgFLYdPBfjUdal7+Yr2w6tCSXNwQ5QHtFPclWsK7UWVe+ZgPj
+ YH7AVZGAW4G5DCm6MTt9dwMWBwUkdAyldWRYOnGELP1U+cxytoxgz8hOgVvzbfn4B3GH
+ iyqA==
+X-Gm-Message-State: AOAM530mfdhNzFVJ6grbUl6SmGAcbj/Z1jbNNR8y/S/fSxPWjLS72pvd
+ 2s6cJAOR4QYVw5cGv8fkVAI=
+X-Google-Smtp-Source: ABdhPJxWh7VVNCk59dlYyVv++IHEoDgiBt8VY3eOSyTVmyv8B2vh8OS7Cvj1Q9McN1xUv7+IVqXX7g==
+X-Received: by 2002:ac8:65c5:: with SMTP id t5mr4777693qto.157.1627692811397; 
+ Fri, 30 Jul 2021 17:53:31 -0700 (PDT)
+Received: from devbox (cpe-172-73-74-72.carolina.res.rr.com. [172.73.74.72])
+ by smtp.gmail.com with ESMTPSA id c11sm1356838qth.29.2021.07.30.17.53.30
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 30 Jul 2021 17:53:30 -0700 (PDT)
+Date: Fri, 30 Jul 2021 20:53:28 -0400
+From: Gregory Williams <gregwills85@gmail.com>
+To: airlied@redhat.com
+Cc: tzimmermann@suse.de, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH] DRM: ast: Fixed coding style issues of ast_mode.c
+Message-ID: <20210731005328.GA19016@devbox>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <69ac4474-3bbf-db72-3777-74c59f947d42@ideasonboard.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Sat, 31 Jul 2021 06:10:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,92 +70,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Removed space before comma, fixed if statements by putting trailing 
+statements on new line, fixed unsigned int declaration, and removed 
+not needed else statement after return.
 
-On Thu, Jul 29, 2021 at 09:13:17AM +0300, Tomi Valkeinen wrote:
-> On 28/07/2021 18:37, Laurent Pinchart wrote:
-> > On 64-bit platforms, the compiler complains that casting a void pointer
-> > to an unsigned int loses data. Cast the pointer to a uintptr_t unsigned
-> > to fix this.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >   drivers/gpu/drm/omapdrm/omap_drv.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-> > index f86e20578143..c05d3975cb31 100644
-> > --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> > +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> > @@ -572,7 +572,7 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
-> >   	priv->dss->mgr_ops_priv = priv;
-> >   
-> >   	soc = soc_device_match(omapdrm_soc_devices);
-> > -	priv->omaprev = soc ? (unsigned int)soc->data : 0;
-> > +	priv->omaprev = soc ? (uintptr_t)soc->data : 0;
-> >   	priv->wq = alloc_ordered_workqueue("omapdrm", 0);
-> >   
-> >   	mutex_init(&priv->list_lock);
-> > 
-> 
-> Looks fine, although the subject sounds odd. Why was the cast "unsafe"
-> before, and "safe" now?
+Signed-off-by: Gregory Williams <gregwills85@gmail.com>
+---
+ drivers/gpu/drm/ast/ast_mode.c | 31 ++++++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
-The result is indeed exactly the same. It was safe before, because we
-know the value won't exceed 32 bits. I'll s/safely/without generating a
-warning/.
-
-> There's also another bunch of warnings I see:
-
-I wonder how I missed those. Will fix.
-
-> drivers/gpu/drm/omapdrm/dss/dsi.c: In function ‘dsi_vc_send_long’:
-> drivers/gpu/drm/omapdrm/dss/dsi.c:7:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘size_t’ {aka ‘const long unsigned int’} [-Wformat=]
->      7 | #define DSS_SUBSYS_NAME "DSI"
->        |                         ^~~~~
-> drivers/gpu/drm/omapdrm/dss/dss.h:30:21: note: in expansion of macro ‘DSS_SUBSYS_NAME’
->     30 | #define pr_fmt(fmt) DSS_SUBSYS_NAME ": " fmt
->        |                     ^~~~~~~~~~~~~~~
-> ./include/linux/dynamic_debug.h:134:15: note: in expansion of macro ‘pr_fmt’
->    134 |   func(&id, ##__VA_ARGS__);  \
->        |               ^~~~~~~~~~~
-> ./include/linux/dynamic_debug.h:152:2: note: in expansion of macro ‘__dynamic_func_call’
->    152 |  __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
->        |  ^~~~~~~~~~~~~~~~~~~
-> ./include/linux/dynamic_debug.h:162:2: note: in expansion of macro ‘_dynamic_func_call’
->    162 |  _dynamic_func_call(fmt, __dynamic_pr_debug,  \
->        |  ^~~~~~~~~~~~~~~~~~
-> ./include/linux/printk.h:471:2: note: in expansion of macro ‘dynamic_pr_debug’
->    471 |  dynamic_pr_debug(fmt, ##__VA_ARGS__)
->        |  ^~~~~~~~~~~~~~~~
-> drivers/gpu/drm/omapdrm/dss/dss.h:36:2: note: in expansion of macro ‘pr_debug’
->     36 |  pr_debug(format, ## __VA_ARGS__)
->        |  ^~~~~~~~
-> drivers/gpu/drm/omapdrm/dss/dsi.c:2097:3: note: in expansion of macro ‘DSSDBG’
->   2097 |   DSSDBG("dsi_vc_send_long, %d bytes\n", msg->tx_len);
->        |   ^~~~~~
-> In file included from ./include/linux/printk.h:7,
->                   from ./include/linux/kernel.h:19,
->                   from drivers/gpu/drm/omapdrm/dss/dsi.c:9:
-> drivers/gpu/drm/omapdrm/dss/dsi.c: In function ‘dsi_vc_generic_read’:
-> ./include/linux/kern_levels.h:5:18: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘size_t’ {aka ‘const long unsigned int’} [-Wformat=]
->      5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
->        |                  ^~~~~~
-> ./include/linux/kern_levels.h:11:18: note: in expansion of macro ‘KERN_SOH’
->     11 | #define KERN_ERR KERN_SOH "3" /* error conditions */
->        |                  ^~~~~~~~
-> ./include/linux/printk.h:390:9: note: in expansion of macro ‘KERN_ERR’
->    390 |  printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->        |         ^~~~~~~~
-> drivers/gpu/drm/omapdrm/dss/dss.h:40:2: note: in expansion of macro ‘pr_err’
->     40 |  pr_err("omapdss " DSS_SUBSYS_NAME " error: " format, ##__VA_ARGS__)
->        |  ^~~~~~
-> drivers/gpu/drm/omapdrm/dss/dsi.c:2393:2: note: in expansion of macro ‘DSSERR’
->   2393 |  DSSERR("%s(vc %d, reqlen %d) failed\n", __func__,  vc, msg->tx_len);
->        |  ^~~~~~
-> 
-
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 36d9575aa27b..1310ed092073 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -275,7 +275,7 @@ static void ast_set_std_reg(struct ast_private *ast,
+ 	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x01, 0xdf, stdtable->seq[0]);
+ 	for (i = 1; i < 4; i++) {
+ 		jreg = stdtable->seq[i];
+-		ast_set_index_reg(ast, AST_IO_SEQ_PORT, (i + 1) , jreg);
++		ast_set_index_reg(ast, AST_IO_SEQ_PORT, (i + 1), jreg);
+ 	}
+ 
+ 	/* Set CRTC; except base address and offset */
+@@ -498,13 +498,15 @@ static void ast_set_sync_reg(struct ast_private *ast,
+ 
+ 	jreg  = ast_io_read8(ast, AST_IO_MISC_PORT_READ);
+ 	jreg &= ~0xC0;
+-	if (vbios_mode->enh_table->flags & NVSync) jreg |= 0x80;
+-	if (vbios_mode->enh_table->flags & NHSync) jreg |= 0x40;
++	if (vbios_mode->enh_table->flags & NVSync)
++		jreg |= 0x80;
++	if (vbios_mode->enh_table->flags & NHSync)
++		jreg |= 0x40;
+ 	ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, jreg);
+ }
+ 
+ static void ast_set_start_address_crt1(struct ast_private *ast,
+-				       unsigned offset)
++				       unsigned int offset)
+ {
+ 	u32 addr;
+ 
+@@ -1212,6 +1214,7 @@ static int ast_get_modes(struct drm_connector *connector)
+ 	struct edid *edid;
+ 	int ret;
+ 	bool flags = false;
++
+ 	if (ast->tx_chip_type == AST_TX_DP501) {
+ 		ast->dp501_maxclk = 0xff;
+ 		edid = kmalloc(128, GFP_KERNEL);
+@@ -1231,8 +1234,8 @@ static int ast_get_modes(struct drm_connector *connector)
+ 		ret = drm_add_edid_modes(connector, edid);
+ 		kfree(edid);
+ 		return ret;
+-	} else
+-		drm_connector_update_edid_property(&ast_connector->base, NULL);
++	}
++	drm_connector_update_edid_property(&ast_connector->base, NULL);
+ 	return 0;
+ }
+ 
+@@ -1272,19 +1275,24 @@ static enum drm_mode_status ast_mode_valid(struct drm_connector *connector,
+ 	}
+ 	switch (mode->hdisplay) {
+ 	case 640:
+-		if (mode->vdisplay == 480) flags = MODE_OK;
++		if (mode->vdisplay == 480)
++			flags = MODE_OK;
+ 		break;
+ 	case 800:
+-		if (mode->vdisplay == 600) flags = MODE_OK;
++		if (mode->vdisplay == 600)
++			flags = MODE_OK;
+ 		break;
+ 	case 1024:
+-		if (mode->vdisplay == 768) flags = MODE_OK;
++		if (mode->vdisplay == 768)
++			flags = MODE_OK;
+ 		break;
+ 	case 1280:
+-		if (mode->vdisplay == 1024) flags = MODE_OK;
++		if (mode->vdisplay == 1024)
++			flags = MODE_OK;
+ 		break;
+ 	case 1600:
+-		if (mode->vdisplay == 1200) flags = MODE_OK;
++		if (mode->vdisplay == 1200)
++			flags = MODE_OK;
+ 		break;
+ 	default:
+ 		return flags;
+@@ -1296,6 +1304,7 @@ static enum drm_mode_status ast_mode_valid(struct drm_connector *connector,
+ static void ast_connector_destroy(struct drm_connector *connector)
+ {
+ 	struct ast_connector *ast_connector = to_ast_connector(connector);
++
+ 	ast_i2c_destroy(ast_connector->i2c);
+ 	drm_connector_cleanup(connector);
+ }
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
