@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770D43DC85D
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 23:42:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F37623DC862
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 23:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2AE6E2A3;
-	Sat, 31 Jul 2021 21:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB66D6E906;
+	Sat, 31 Jul 2021 21:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
- [IPv6:2607:f8b0:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7EB76E8F2;
- Sat, 31 Jul 2021 21:42:32 +0000 (UTC)
-Received: by mail-il1-x12b.google.com with SMTP id r1so13010025iln.6;
- Sat, 31 Jul 2021 14:42:32 -0700 (PDT)
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4765A6E8FB;
+ Sat, 31 Jul 2021 21:42:39 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id h1so15809633iol.9;
+ Sat, 31 Jul 2021 14:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FVzAd0b7G06F+b9x5+FC/aHuzWCnZbaicUuNK8fUHeA=;
- b=im7afXLgSWUILaAASEAeZU/LwwVX1SZ6P517INeRbwmW2P/hFuwWJObGJH8hqMSqqj
- bcO77GbwKF8aa9UNSH2YQo6Jc0lfiHjybWGqyfM1sWZVmbaKm7G/AEhi94bV8Zauy049
- Mc95i1CHbX/T/92IWCD6PLmCQBaYSKTtRsvubIh5EWWT643Uxi5REtHwbJE/86rgawga
- 4ZhtIzDi0lp1xjpELCec1MWDNg9ujPcI7cUvV/MLyoEdv3egmEC7JVqd4/xyxS51uVCK
- NQeVFQBKnUxB2Pcpha9cPwMO41WTZ3+RSw+NZb9ZalXrRlTLV7nOTEq/dVxUdzkSsvbl
- KJwg==
+ bh=TarqHKb2wh9HC+czOpmfvpe+4WJMCMhoUET0HeAvQsg=;
+ b=ChHEB9cn1Lk8yB5rfWFQ1d5yu+CRBv6BPI2R74etPqUCzJgU0BAuSuspXSZXz7q+65
+ Rqx3mbokyv+23fwMzoEP10GrYIrqp9gsrU/wAzIo4KLqsW9Mp88Dp/k5PPfq/nyHPYqv
+ GAAP8fLAEu39c4S5vjxbaUPBTAgMrrpAOQPSwPUHnuzF7S1ZoZY3Hut+uNkJrpoFvsLr
+ ZLm8Yn/ZQDE3Y9R3QyKBW8vnjIMzh1/SrhbwUmlcqvS+PKPewpMtXyeHf08ev2WaqXaJ
+ 1sGc+yd14y5kw11gIiokecM+s+x7KNmonzI4UenSCXK29vNtwUfBomYKRpG06bIEhQXJ
+ D/VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FVzAd0b7G06F+b9x5+FC/aHuzWCnZbaicUuNK8fUHeA=;
- b=aJ+G5p7XNGjcH/58PwurQQFhDzgInzfkqVJgs9LM9Kzwrt4TZofhyUu6BGfVRAwiSq
- fMSoTaGThcldZTTroWiE9kKuIJdJ7knr0BwY+HtiQ/mcvUTrHNStMIMG9hW3RL705HWW
- TuvsYXk3VFTxEZsyrSAZcfatOlUs8Kg49H4Ebb78K6hIWahuVjZLVaSfrAZF79DDQs+7
- fcRaPCCAAua6ROxzufIuttlbpIn8gYKDJOQPkfqKjU9RTxwbMA6BaHjnOI9C07fQAc6F
- smbHnUKz8ePgELLT4r4JrgUxvpT8C0nTZFW0irJoicc+07GCug2BKbjg42b1rDjZxBnh
- AhXg==
-X-Gm-Message-State: AOAM531ngjEPPxftZJmYdpndsHEIJDLLSnqu40H2v8rBRj5JweCkbYhO
- 2sUxkC/Db2jLAL+aSvdiy68=
-X-Google-Smtp-Source: ABdhPJwOVDZdNuyCxOD9UoCaMWITVwXrdhXAHTL3qSQNIVo5TmDJ1ed0abVTIJeR08hq9h9Tw27odg==
-X-Received: by 2002:a92:d112:: with SMTP id a18mr5649773ilb.67.1627767752154; 
- Sat, 31 Jul 2021 14:42:32 -0700 (PDT)
+ bh=TarqHKb2wh9HC+czOpmfvpe+4WJMCMhoUET0HeAvQsg=;
+ b=JuRTHgEzL49rDWaId9HOCrBauQ236/DCB0VJPwGUZ8WdMPCoo7Gv3i28xd+CxKMvis
+ nv+L8Y8uAXYKBaJy1TjgmT8MQhJLN1kpKMym0B7ZxQXnr1dkJK0gYdYnmgOXShBumRo1
+ mXB2wJ4bt4/qL93B1Mo06CrU+neNhEBoUlt2eGovORTZLRjpoqbroMrvfOku+gBCo1qm
+ H5wEEMf7jIELYSZldxIz2diTtspNfazs5ZHH9PosKiq5xNfgHTVCq/DiHaN7BGGpbS2E
+ 3DaL+9e34+4wcerNYdK0q6eu42xYjpkF47y1Ao1XcNANMd1DBTvqIVgsdfnOakA2vXJx
+ wkvw==
+X-Gm-Message-State: AOAM531mgnalFg9/rZjgcRUTnviOMDvEI+5IAgQZce7KCS9sHK7us47o
+ F3DCszorQw1T+OIOk8aLjtY=
+X-Google-Smtp-Source: ABdhPJwVYVK0Xb4+Y+xg/kICohGw6QY3fg7nUx88vH0xZrpT+G5YyF7mdDH9vGymQy1CL8T8OS1Lig==
+X-Received: by 2002:a02:2a07:: with SMTP id w7mr7722468jaw.96.1627767758496;
+ Sat, 31 Jul 2021 14:42:38 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id q10sm3721040ion.3.2021.07.31.14.42.30
+ by smtp.googlemail.com with ESMTPSA id q10sm3721040ion.3.2021.07.31.14.42.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Jul 2021 14:42:31 -0700 (PDT)
+ Sat, 31 Jul 2021 14:42:38 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -57,18 +57,18 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Baron <jbaron@akamai.com>,
  Ashley Thomas <Ashley.Thomas2@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
  Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Wyatt Wood <Wyatt.Wood@amd.com>,
- Jim Cromie <jim.cromie@gmail.com>, Jessica Yu <jeyu@kernel.org>,
- Johan Hovold <johan@kernel.org>, Joe Perches <joe@perches.com>,
- Miguel Ojeda <ojeda@kernel.org>,
+ Wyatt Wood <Wyatt.Wood@amd.com>, Jim Cromie <jim.cromie@gmail.com>,
+ Johan Hovold <johan@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+ Joe Perches <joe@perches.com>, Miguel Ojeda <ojeda@kernel.org>,
  Nick Desaulniers <ndesaulniers@gooogle.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 2/7] moduleparam: add data member to struct kernel_param
-Date: Sat, 31 Jul 2021 15:41:59 -0600
-Message-Id: <20210731214211.657280-3-jim.cromie@gmail.com>
+Subject: [PATCH v4 3/7] dyndbg: add dyndbg-bitmap definer and callbacks
+Date: Sat, 31 Jul 2021 15:42:00 -0600
+Message-Id: <20210731214211.657280-4-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210731214211.657280-1-jim.cromie@gmail.com>
 References: <20210731214211.657280-1-jim.cromie@gmail.com>
@@ -89,65 +89,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a void* data member to the struct, to allow attaching private data
-that will be used soon by a setter method (via kp->data) to perform
-more elaborate actions.
+Add DEFINE_DYNDBG_BITMAP(name, var, bitmap_desc, @bit_descs) to allow
+users to define a /sys/module/*/parameter/name, and a mapping from
+bits[0-N] to the debug-class-prefixes that the author wishes to
+control.
 
-To attach the data at compile time, add new macros:
-module_param_cbd() derives from module_param_cb(), adding data param.
-It calls __module_param_call_wdata(), which has accepts new data
-param and inits .data with it. Re-define __module_param_call() using it.
+DEFINE_DYNDBG_BITMAP(debug_gvt, __gvt_debug,
+	"dyndbg bitmap desc",
+	{ "gvt:cmd: ",	"command processing" },
+	{ "gvt:core: ",	"core help" },
+	{ "gvt:dpy: ",	"display help" },
+	{ "gvt:el: ",	"help" },
+	{ "gvt:irq: ",	"help" },
+	{ "gvt:mm: ",	"help" },
+	{ "gvt:mmio: ", "help" },
+	{ "gvt:render: ", "help" },
+	{ "gvt:sched: ", "help" });
 
-Use of this new data member will be rare, it might be worth redoing
-this as a separate/sub-type to keep the base case.
+dynamic_debug.c: add 3 new elements:
+
+- int param_set_dyndbg() - not working yet, // __gvt_debug
+- int param_get_dyndbg()
+- struct param_ops_dyndbg
+
+Following the model of kernel/params.c STANDARD_PARAM_DEFS, All 3 are
+non-static and exported.
+
+dynamic_debug.h:
+
+extern the struct param_ops_dyndbg prototype.  This appears to be
+needed to reference the var, forex in i915_params.c
+
+TBD: set_dyndbg() works to enable categories, but fails to disable
+them.  This is because the code relied on having an old copy of the
+param (__gvt_debug) to detect +/- changes.  Rewriting the loop is
+probably easier than stashing the old state for change detection.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/linux/moduleparam.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ include/linux/dynamic_debug.h | 36 +++++++++++++++++++++++
+ lib/dynamic_debug.c           | 55 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 91 insertions(+)
 
-diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
-index eed280fae433..e9495b1e794d 100644
---- a/include/linux/moduleparam.h
-+++ b/include/linux/moduleparam.h
-@@ -78,6 +78,7 @@ struct kernel_param {
- 		const struct kparam_string *str;
- 		const struct kparam_array *arr;
- 	};
-+	void *data;
- };
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index dce631e678dd..677ad176b167 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -2,6 +2,8 @@
+ #ifndef _DYNAMIC_DEBUG_H
+ #define _DYNAMIC_DEBUG_H
  
- extern const struct kernel_param __start___param[], __stop___param[];
-@@ -175,6 +176,9 @@ struct kparam_array
- #define module_param_cb(name, ops, arg, perm)				      \
- 	__module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
- 
-+#define module_param_cbd(name, ops, arg, perm, data)				\
-+	__module_param_call_wdata(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0, data)
++#include <linux/moduleparam.h>
 +
- #define module_param_cb_unsafe(name, ops, arg, perm)			      \
- 	__module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1,    \
- 			    KERNEL_PARAM_FL_UNSAFE)
-@@ -284,14 +288,17 @@ struct kparam_array
+ #if defined(CONFIG_JUMP_LABEL)
+ #include <linux/jump_label.h>
+ #endif
+@@ -227,6 +229,40 @@ static inline int dynamic_debug_exec_queries(const char *query, const char *modn
+ 	return 0;
+ }
  
- /* This is the fundamental function for registering boot/module
-    parameters. */
--#define __module_param_call(prefix, name, ops, arg, perm, level, flags)	\
-+#define __module_param_call(prefix, name, ops, arg, perm, level, flags) \
-+	__module_param_call_wdata(prefix, name, ops, arg, perm, level, flags, NULL)
++static int param_set_dyndbg(const char *instr, struct kernel_param *kp)
++{ return 0; }
++static int param_get_dyndbg(char *buffer, struct kernel_param *kp)
++{ return 0; }
 +
-+#define __module_param_call_wdata(prefix, name, ops, arg, perm, level, flags, data) \
- 	/* Default value instead of permissions? */			\
- 	static const char __param_str_##name[] = prefix #name;		\
- 	static struct kernel_param __moduleparam_const __param_##name	\
- 	__used __section("__param")					\
- 	__aligned(__alignof__(struct kernel_param))			\
- 	= { __param_str_##name, THIS_MODULE, ops,			\
--	    VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg } }
-+	    VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg }, data }
+ #endif /* !CONFIG_DYNAMIC_DEBUG_CORE */
  
- /* Obsolete - use module_param_cb() */
- #define module_param_call(name, _set, _get, arg, perm)			\
++struct dyndbg_bitdesc {
++	/* bitpos is inferred from index in containing array */
++	char *prefix;
++	char *help;
++};
++
++/**
++ * DYNDBG_BITMAP_DESC(name, var, bitmap_desc, @bit_descs)
++ * @name: basename under /sys
++ * @var: C identifier to map
++ * @bitmap_desc: string summarizing dyndbg categories
++ * @bit_descs: list of struct dydbg_bitdesc initializations
++ *
++ * Defines the mapping of bits 0-N to categories/prefixes of
++ * debug-callsites to be controlled.
++ *
++ * Users should also call MODULE_PARM_DESC(name, bitmap_desc).
++ * Maybe we can invoke it on their behalf, but we want MOD-NAME to be
++ * correct, test soon.  may also need modname in name - "debug" will
++ * not be unique.
++ */
++#define DEFINE_DYNDBG_BITMAP(name, value, bitmap_desc, ...)	\
++	struct dyndbg_bitdesc dyndbg_classes_##name[] =		\
++	{ __VA_ARGS__, { NULL, NULL } };			\
++	module_param_cbd(name, &param_ops_dyndbg, value, 0644,	\
++			 &dyndbg_classes_##name);
++
++extern const struct kernel_param_ops param_ops_dyndbg;
++
+ #endif
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index cb5abb42c16a..045e1cf92c44 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -1154,3 +1154,58 @@ early_initcall(dynamic_debug_init);
+ 
+ /* Debugfs setup must be done later */
+ fs_initcall(dynamic_debug_init_control);
++
++#include <linux/moduleparam.h>
++
++#define OUR_QUERY_SIZE 128 /* typically need <40 */
++
++int param_set_dyndbg(const char *instr, const struct kernel_param *kp)
++{
++	unsigned int val;
++	unsigned long changes, result;
++	int rc, chgct = 0, totct = 0, bitpos, bitsmax;
++	char query[OUR_QUERY_SIZE];
++	struct dyndbg_bitdesc *bitmap = (struct dyndbg_bitdesc *) kp->data;
++
++	// pr_info("set_dyndbg: instr: %s curr: %d\n", instr, *kp->arg);
++
++	rc = kstrtouint(instr, 0, &val);
++	if (rc) {
++		pr_err("set_dyndbg: failed\n");
++		return -EINVAL;
++	}
++	result = val;
++	pr_info("set_dyndbg: result:0x%lx from %s\n", result, instr);
++
++	changes = result; // ^ __gvt_debug;
++
++	for (bitsmax = 0; bitmap[bitsmax].prefix; bitsmax++);
++
++	for_each_set_bit(bitpos, &changes, min(--bitsmax, 64)) {
++
++		sprintf(query, "format '^%s' %cp", bitmap[bitpos].prefix,
++			test_bit(bitpos, &result) ? '+' : '-');
++
++		chgct = dynamic_debug_exec_queries(query, "i915");
++
++		pr_info("bit-%d: %d changes on: %s\n", bitpos, chgct, query);
++		totct += chgct;
++	}
++	pr_info("total changes: %d\n", totct);
++	// __gvt_debug = result;
++	return 0;
++}
++EXPORT_SYMBOL(param_set_dyndbg);
++
++int param_get_dyndbg(char *buffer, const struct kernel_param *kp)
++{
++	return scnprintf(buffer, PAGE_SIZE, "%u\n",
++			 *((unsigned int *)kp->arg));
++}
++EXPORT_SYMBOL(param_get_dyndbg);
++
++const struct kernel_param_ops param_ops_dyndbg = {
++	.set = param_set_dyndbg,
++	.get = param_get_dyndbg,
++};
++EXPORT_SYMBOL(param_ops_dyndbg);
 -- 
 2.31.1
 
