@@ -2,79 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340513DC874
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 23:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12123DC88A
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 00:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E55C46E905;
-	Sat, 31 Jul 2021 21:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C99A86E878;
+	Sat, 31 Jul 2021 22:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
- [IPv6:2607:f8b0:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D5A6E939;
- Sat, 31 Jul 2021 21:43:05 +0000 (UTC)
-Received: by mail-il1-x12f.google.com with SMTP id j18so9992524ile.8;
- Sat, 31 Jul 2021 14:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Fjsw3W3/UmlQsTKfLEE1H6kTd7xaAkJp0etT9YYbz+I=;
- b=DUQOmqbS6V186tr3AR4AQ/htc0Bg66ZwKaVnDhi8fD4VVZlKCf/XiMXwkRotjoP/oD
- OlEohbOBL4Yoa9TdR+Rt4U35G0nEQ8KC1XEx4lPrsDTudjD848VcRX4MLxvsBeZw/1G1
- sTsh+9jmrH/+DkMS13G8ysj2cw3Gbc0Y/imnc903XG+ZXkdCSUgEye1gO5kadZ0NHB/7
- QoTZ/7GP4NjMU6SpCQNZxUXX0+r7NF0RdNFHb5ATQxh2tgpzFKgYwf2gNYLWlmt9BMSY
- cz2ik8KJfEIuoyTSo19BihMCTNQfO9StMfPsChEJF5EwgtM60BYWqB8C+i00hvEv47mX
- w6Wg==
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 317CA6E878
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 22:05:12 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id b21so18297546ljo.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 15:05:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eavS7+nVlKa3pE/nMERuVdSNOcLN0CSyw0CYPXJs2RE=;
+ b=oxTawDKtE7gUMCEZTGVhmlVv2Y3WYDP+FS3lOaHPAgoD7WcgQjYd0RzzaaCmE3977P
+ y2AZlp+prHKgerutQ7jx1R/cVL6lbK+WzauqEJucT+Izj+ziz0I0tc0O+XwvtPwksIj1
+ ukvPhZPy1rocK17IvtjWMFHZ1JmoIIqK4FLNFIt716WQ3Pie0UvlUCbiTbUjKG2RTcHV
+ 7aLptfufBWxUeUNmjY6/SgCFLiwOzAyRIGpCOm9JFIGiWEdzkbX1t7kvgcWoJlruvGQV
+ TNKC7K+DYoXaKkZDcceTWufkpcffdIMAe8eG+6751qHasEPk6w4m+/EI6Gd9NCUzZuvT
+ oxzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Fjsw3W3/UmlQsTKfLEE1H6kTd7xaAkJp0etT9YYbz+I=;
- b=jHyaa3yzQHrk8f78TjOdoGWjbk3dYjis6gUd7m1nGkQT3v1WTF+OafJX+KuS/uPrBy
- 93ovNyDydSJJ9oo3QIVOjVTjaUXlJpoH9tsVpC62aUZAY7y4iB0HTOeKx9j2acBz603V
- 8Sk8e2jKV2y8PzNUFqNSbPe2+2hVGgGHZqlT/VLRFbtzSEEMLnPuxQcbhgs/svn5pPdG
- Wj54rf04BPZSl8cU5lFleWLiZnIxnIaAjKrU5dteWFviicKlGIpNW8b9Hbiz375YWlS9
- FYkon1k5UQPm6DOWTTgrmWm0N3EoU7ycYXxIyGnBx8TlVPM6IuQ/uPH1MkGLyhvYdrsr
- kyFA==
-X-Gm-Message-State: AOAM530vRMd5GVmmRX02BynQO8F8r8K2IMTYmuWQ5OiNA72dsa8nQB9N
- bBqnAmYVEX1zak41m4bPAxlRPuFoGTSCzSgy
-X-Google-Smtp-Source: ABdhPJz/2EtrrYIqo1LVW1aQs2Xb4oaL2S+YhuZgVD/CT6F5x/mjSOje1mie7ejlt/ixr3AwR/U9tQ==
-X-Received: by 2002:a92:c7d0:: with SMTP id g16mr6296943ilk.278.1627767785160; 
- Sat, 31 Jul 2021 14:43:05 -0700 (PDT)
-Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id q10sm3721040ion.3.2021.07.31.14.43.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Jul 2021 14:43:04 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Baron <jbaron@akamai.com>,
- Ashley Thomas <Ashley.Thomas2@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Wyatt Wood <Wyatt.Wood@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Jim Cromie <jim.cromie@gmail.com>, Johan Hovold <johan@kernel.org>,
- Jessica Yu <jeyu@kernel.org>, Joe Perches <joe@perches.com>,
- Miguel Ojeda <ojeda@kernel.org>,
- Nick Desaulniers <ndesaulniers@gooogle.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 7/7] amdgpu: define a dydbg-bitmap to control categorized
- pr_debugs
-Date: Sat, 31 Jul 2021 15:42:04 -0600
-Message-Id: <20210731214211.657280-8-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210731214211.657280-1-jim.cromie@gmail.com>
-References: <20210731214211.657280-1-jim.cromie@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eavS7+nVlKa3pE/nMERuVdSNOcLN0CSyw0CYPXJs2RE=;
+ b=F/OB9tgJph0FcF/5/oEaASR4KdxygXnnFwSYfZ95iYnLGtd+1oHCotsBe6l2IhYkC6
+ 74Ofc3aQo1iv+v9WOwz5oAQa/rJKBFVc1rLpVhJLmRN+Wt3IygqJY0u2ukggqS+5NvFS
+ quRxOPNyOTT7GvZG6iUghW9rLkXF6PmIaG1OjGDiIq5IjBXlYOtG6KkMBgi1GiM7jIhM
+ tgkpxDPngwNVpJpIg14IcWEDxoPXiVMBaymfNLVZ4hmqY2V713W1/mZW2Msb7ujcEweO
+ WHdQMC2LqQ4Jy0ZWc6IFyfxAUQii4hj1OiVos8ucDuDFhp+qEV/NW6Ywl0ipRxfHWzzr
+ Fwmw==
+X-Gm-Message-State: AOAM533kqYeRWs9wKidgtjX1HzbCZjBvXxv5jMGjkRGkqdUMaCDW9Dzf
+ ig5MJrOMVBWT2XaTnXMPGBlrofQ1G/UmkPEB+ABWjg==
+X-Google-Smtp-Source: ABdhPJwTjpbUeZT+xrHLeSR/vD0UodSpw43lXDmx8pJiyALETra8HqJRQTMUGT7mTfcqIT7xDGsd2Eo06KRRqoQp1Bw=
+X-Received: by 2002:a2e:bc14:: with SMTP id b20mr6401323ljf.200.1627769110442; 
+ Sat, 31 Jul 2021 15:05:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210726115058.23729-1-nikita.shubin@maquefel.me>
+In-Reply-To: <20210726115058.23729-1-nikita.shubin@maquefel.me>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 1 Aug 2021 00:04:59 +0200
+Message-ID: <CACRpkdYeqJFFwkc6pfSrz3-gaN_PjjV52jstqzR2sMa+bxbMuQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] arm: ep93xx: CCF conversion
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Cc: Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, 
+ "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <alsa-devel@alsa-project.org>, Andrew Morton <akpm@linux-foundation.org>, 
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, 
+ Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" <dmaengine@vger.kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>, 
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, 
+ "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>, 
+ "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK,
+ TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ "open list:PWM SUBSYSTEM" <linux-pwm@vger.kernel.org>, 
+ "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Russell King <rmk+kernel@armlinux.org.uk>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ YiFei Zhu <yifeifz2@illinois.edu>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,73 +92,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-logger_types.h defines many DC_LOG_*() categorized debug wrappers.
-Many of these use DRM_DEBUG_*, so are controllable using drm.debug,
-but others use bare pr_debug()s, each with a different class-prefix
-matching "^[\w+]:"
+On Mon, Jul 26, 2021 at 1:51 PM Nikita Shubin <nikita.shubin@maquefel.me> wrote:
 
-Use DYNDBG_BITMAP_DESC() to create a parameter/debug_dc, and to define
-bits to control those pr_debugs by their category.
+> This series series of patches converts ep93xx to Common Clock Framework.
+>
+> It consists of preparation patches to use clk_prepare_enable where it is
+> needed, instead of clk_enable used in ep93xx drivers prior to CCF and
+> a patch converting mach-ep93xx/clock.c to CCF.
+>
+> Link: https://lore.kernel.org/patchwork/cover/1445563/
+> Link: https://lore.kernel.org/patchwork/patch/1435884/
+>
+> Alexander Sverdlin (7):
+>   iio: ep93xx: Prepare clock before using it
+>   spi: spi-ep93xx: Prepare clock before using it
+>   Input: ep93xx_keypad: Prepare clock before using it
+>   video: ep93xx: Prepare clock before using it
+>   dmaengine: ep93xx: Prepare clock before using it
+>   ASoC: cirrus: i2s: Prepare clock before using it
+>   pwm: ep93xx: Prepare clock before using it
+>
+> Nikita Shubin (1):
+>   ep93xx: clock: convert in-place to COMMON_CLK
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../gpu/drm/amd/display/dc/core/dc_debug.c    | 42 ++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
+This series is looking very good.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_debug.c b/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
-index 21be2a684393..3041e0c3d726 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
-@@ -36,8 +36,48 @@
- 
- #include "resource.h"
- 
--#define DC_LOGGER_INIT(logger)
-+/* define a drm.debug style dyndbg pr-debug control point */
-+unsigned long __debug_dc;
-+EXPORT_SYMBOL(__debug_dc);
-+
-+#define _help(key)	"\t\t" key " : help for " key "\n"
-+#define cmd_help(key)	{ .prefix = key, .help = "help for " key }
-+
-+/* Id like to do these inside DEFINE_DYNDBG_BITMAP, later */
-+#define MY_DYNDBG_PARM_DESC(name)					\
-+	"Enable debug output via /sys/module/amdgpu/parameters/" #name	\
-+	", where each bit enables a debug category.\n"			\
-+		_help("[SURFACE]:")					\
-+		_help("[CURSOR]:")					\
-+		_help("[PFLIP]:")					\
-+		_help("[VBLANK]:")					\
-+		_help("[HW_LINK_TRAINING]:")				\
-+		_help("[HW_AUDIO]:")					\
-+		_help("[SCALER]:")					\
-+		_help("[BIOS]:")					\
-+		_help("[BANDWIDTH_CALCS]:")				\
-+		_help("[DML]:")						\
-+		_help("[IF_TRACE]:")					\
-+		_help("[GAMMA]:")					\
-+		_help("[SMU_MSG]:")
-+MODULE_PARM_DESC(debug_dc, MY_DYNDBG_PARM_DESC(name));
-+
-+DEFINE_DYNDBG_BITMAP(debug_dc, &__debug_dc,
-+		     MY_DYNDBG_PARM_DESC(debug_dc),
-+		     cmd_help("[CURSOR]:"),
-+		     cmd_help("[PFLIP]:"),
-+		     cmd_help("[VBLANK]:"),
-+		     cmd_help("[HW_LINK_TRAINING]:"),
-+		     cmd_help("[HW_AUDIO]:"),
-+		     cmd_help("[SCALER]:"),
-+		     cmd_help("[BIOS]:"),
-+		     cmd_help("[BANDWIDTH_CALCS]:"),
-+		     cmd_help("[DML]:"),
-+		     cmd_help("[IF_TRACE]:"),
-+		     cmd_help("[GAMMA]:"),
-+		     cmd_help("[SMU_MSG]:"));
- 
-+#define DC_LOGGER_INIT(logger)
- 
- #define SURFACE_TRACE(...) do {\
- 		if (dc->debug.surface_trace) \
--- 
-2.31.1
+I suppose the per-subsystem patches can be picked up by
+each subsystem maintainer and then you can send the "big patch"
+to the SoC tree.
 
+Yours,
+Linus Walleij
