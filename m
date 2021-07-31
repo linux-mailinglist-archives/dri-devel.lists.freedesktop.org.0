@@ -2,67 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8DF3DC6D2
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 18:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4673DC796
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 20:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E296E6E165;
-	Sat, 31 Jul 2021 16:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF8BC896ED;
+	Sat, 31 Jul 2021 18:06:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3C6E6E165
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 16:07:19 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- mz5-20020a17090b3785b0290176ecf64922so25248038pjb.3
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 09:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=LG7zSyfSn36hr9Y31v8KfdvOMGtGx7avDWUzJUf+ldk=;
- b=lc3SluDT+VZvarfeA7YUQ+oIQyL3uD2Z7hSTADjmM2kuDJ5T/bSknB1khTprf/Zj/I
- YvlsAuu9r/jHXiXqyD3z8zhKwH4ooNWa4LIIdQvmGuLPJueYeZeOw5yfOtR6w3Orfayu
- X7UGIW0SSl68z771c65kEZubBaVOTEMEImtIs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=LG7zSyfSn36hr9Y31v8KfdvOMGtGx7avDWUzJUf+ldk=;
- b=dS8GUAliTBJ4CO+7ihMgT3w1I7G4so+du2wq+0xzrvTXy0PcjRvzHu8wTpmUlCKmOQ
- QcEjZlhCVNof9ESCJJvS+I4b62cpt3+wsNwdr2oKcc5TYXX/4d4YyArZBXpnLS/WbzB6
- KKFR4/2pJnACC1EzC7cDiQn9QGznG7P5VX1KbeBaCkTVQ0ZJ2Gu+WGwgqbebYHv2QV/P
- EtlM0jlVUKUx3LzN5px+PXoPQsc+8mFDJ+OzFAit5G9hLeYMOrlc1PWi+ciMm/cvavz5
- PnmaARzOXERzwHBPK8VZNImkU0oLofKuXsU3M1Amijwh1QE+ehsP5/2tUosjOPB0HF9P
- 50ZA==
-X-Gm-Message-State: AOAM533w7qka30QpjmDG7bDkDBSN51xa/q0UpUf5wEwbyu1ccP1f8R3M
- eG48YjL2vNpPF6LdHPN8GK8EPg==
-X-Google-Smtp-Source: ABdhPJzpVI9jyF73pL9aDmEauVhp5KKsoZrePmncq7sudEDatHwHMUSxgLnUds0Mz6ecfWmvyvBGPw==
-X-Received: by 2002:a63:f145:: with SMTP id o5mr1713333pgk.273.1627747639422; 
- Sat, 31 Jul 2021 09:07:19 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id x19sm6346863pfa.104.2021.07.31.09.07.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Jul 2021 09:07:18 -0700 (PDT)
-Date: Sat, 31 Jul 2021 09:07:17 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Ariel Elior <aelior@marvell.com>, GR-everest-linux-l2@marvell.com
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Keith Packard <keithpac@amazon.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 42/64] net: qede: Use memset_after() for counters
-Message-ID: <202107310901.CB470B8C9D@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-43-keescook@chromium.org>
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B20896ED
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 18:06:56 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 2115180a-f22a-11eb-8d1a-0050568cd888;
+ Sat, 31 Jul 2021 18:07:12 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 3FDE9194B35;
+ Sat, 31 Jul 2021 20:07:16 +0200 (CEST)
+Date: Sat, 31 Jul 2021 20:06:51 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ steev@kali.org, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, bjorn.andersson@linaro.org,
+ daniel@ffwll.ch, airlied@linux.ie, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, rodrigo.vivi@intel.com,
+ jonas@kwiboo.se, mripard@kernel.org, thierry.reding@gmail.com,
+ lyude@redhat.com, linus.walleij@linaro.org, rajeevny@codeaurora.org,
+ linux-arm-msm@vger.kernel.org, a.hajda@samsung.com,
+ tzimmermann@suse.de, narmstrong@baylibre.com,
+ Sandeep Panda <spanda@codeaurora.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] drm/panel: atna33xc20: Fix the Samsung ATNA33XC20
+ panel
+Message-ID: <YQWRO6gTFTtaWAIA@ravnborg.org>
+References: <20210730154605.2843418-1-dianders@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210727205855.411487-43-keescook@chromium.org>
+In-Reply-To: <20210730154605.2843418-1-dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,67 +61,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 01:58:33PM -0700, Kees Cook wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
+Hi Douglas,
+
+On Fri, Jul 30, 2021 at 08:45:59AM -0700, Douglas Anderson wrote:
 > 
-> Use memset_after() so memset() doesn't get confused about writing
-> beyond the destination member that is intended to be the starting point
-> of zeroing through the end of the struct.
+> The overall goal of this series is to make the Samsung ATNA33XC20
+> panel work more properly. As part of this, we have:
+> * A bugfix for the recently abstracted DP AUX backlight code.
+> * A bugfix for the sequencing of the ti-sn65dsi86 bridge driver.
+> * Removal of the panel from panel-simple and moving it to its own
+>   driver.
 > 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
-> The old code seems to be doing the wrong thing: starting from not the
-> first member, but sized for the whole struct. Which is correct?
-
-Quick ping on this question.
-
-The old code seems to be doing the wrong thing: it starts from the second
-member and writes beyond int_info, clobbering qede_lock:
-
-struct qede_dev {
-        ...
-        struct qed_int_info             int_info;
-
-        /* Smaller private variant of the RTNL lock */
-        struct mutex                    qede_lock;
-        ...
-
-
-struct qed_int_info {
-        struct msix_entry       *msix;
-        u8                      msix_cnt;
-
-        /* This should be updated by the protocol driver */
-        u8                      used_cnt;
-};
-
-Should this also clear the "msix" member, or should this not write
-beyond int_info? This patch does the latter.
-
--Kees
-
-> ---
->  drivers/net/ethernet/qlogic/qede/qede_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> If the bugfixes look good but the rest of the series needs work then
+> those could land early on their own. There's no real compile time
+> dependency on the bugfixes, things are just glitchier without them.
 > 
-> diff --git a/drivers/net/ethernet/qlogic/qede/qede_main.c b/drivers/net/ethernet/qlogic/qede/qede_main.c
-> index 01ac1e93d27a..309dfe8c94fb 100644
-> --- a/drivers/net/ethernet/qlogic/qede/qede_main.c
-> +++ b/drivers/net/ethernet/qlogic/qede/qede_main.c
-> @@ -2419,7 +2419,7 @@ static int qede_load(struct qede_dev *edev, enum qede_load_mode mode,
->  	goto out;
->  err4:
->  	qede_sync_free_irqs(edev);
-> -	memset(&edev->int_info.msix_cnt, 0, sizeof(struct qed_int_info));
-> +	memset_after(&edev->int_info, 0, msix);
->  err3:
->  	qede_napi_disable_remove(edev);
->  err2:
-> -- 
-> 2.30.2
+> NOTE: this series will (slightly) conflict with my other recent series
+> making eDP panels probable [1]. I'll re-post that one atop this
+> one. It should be noted that the fact that the Samsung ATNA33XC20
+> needs its own panel driver means that it _can't_ handled as a probed
+> driver. I think this is fine, at least for now. I don't think it would
+> be easy to make a unified design with this panel and other panels
+> given that it's an AMOLED panel and has a whole bunch of different
+> components on board.
 > 
+> As discussed in IRC, the only difference in v2 is the addition of a
+> "Fixes" tag to patch #3 and the collection of Reviews/Acks from Sean
+> and Robert.
+> 
+> If people feel that this is ready to land today then I can help land
+> it (please let me know). Otherwise I'm happy for someone else to
+> actually do the commit next week (I'm on vacation) or I can take it
+> when I get back.
+> 
+> [1] https://lore.kernel.org/r/20210723002146.1962910-1-dianders@chromium.org/
+> 
+> Changes in v2:
+> - Added Fixes tag as requested by Sam.
+> 
+> Douglas Anderson (6):
+>   drm/dp: Don't zero PWMGEN_BIT_COUNT when driver_pwm_freq_hz not
+>     specified
+>   drm/bridge: ti-sn65dsi86: Fix power off sequence
+>   drm/bridge: ti-sn65dsi86: Add some 100 us delays
+>   Revert "drm/panel-simple: Add Samsung ATNA33XC20"
+>   Revert "drm/panel-simple: Support for delays between GPIO & regulator"
+>   drm/panel: atna33xc20: Introduce the Samsung ATNA33XC20 panel
 
--- 
-Kees Cook
+I have now applied the first three patches to drm-misc-next.
+
+	Sam
