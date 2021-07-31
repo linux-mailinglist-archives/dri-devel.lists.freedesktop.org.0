@@ -1,67 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3692B3DC420
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 08:47:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 242F53DC49F
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 09:52:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0716E5A1;
-	Sat, 31 Jul 2021 06:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A69376E5C3;
+	Sat, 31 Jul 2021 07:52:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C65CA6E5A1
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 06:28:42 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- a4-20020a17090aa504b0290176a0d2b67aso23965014pjq.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jul 2021 23:28:42 -0700 (PDT)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0757A6E5C3
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 07:52:05 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ q17-20020a17090a2e11b02901757deaf2c8so17859106pjd.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 00:52:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding:content-language;
- bh=JI/AiDS71PLMhgUv0hBwFcFtgPLD6LDNF4PEDeob9ro=;
- b=MOr0BM39xVuj92jfaMMUBFIQ0dbZrOfjkySR61KBZFifIngNEgamqr8i6fT250V8Za
- dgE9kQMAB+H2ku+52DnI9evayG9+uQF7tBDAf7xl8fT8MSMQt73RTfvhJOC6H1GKhihE
- DWu0XwkEdr8zH0GWJsbOB8/MemoeIdaa1/u6zyicw/OxvaF1PKS9JV8W6CL3ev5TCk4w
- ms5NUqmAXXEd2V0DQp07UrKZQTTAGIqkvV4nFEduPgIFaBC2LOBe3Uq6MdOLxyHTnHov
- P2a1d0MclBg/nGeuSUTjkIylMUTlU+U6SeKEuwNdHJ4RBsdZyxslCJ65ORZjYDf9xRCx
- ggmg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LNinOfUJINPcfdOxhYvsgsalnU1GKLpLDBpG0mAohAc=;
+ b=TL/nDTwV7Ph7kC1oZk66wjgapAmGIuuvxKdZnyb2id6PMHXk3i4RURbvV6vN+GabZ0
+ 5nKC4XMdjCnAQdmdM1bcAxlR9PIybYesEm8AYOmglzQijYZkBb2VyLlLvLH9yYsbTsxK
+ 0yYvZVJMCN63zzu8VGgeKdHRVKCL470JVoFALEkpn7OJZaMW/ahykXkU4zwNGT5k8Tv0
+ 6/S0ja07q4MoAw3FheqVo8DTllRy/nT4EoMa9q6VINztElQPFRVb29cccLjZbzjSJsZR
+ eRQmfcJ/n+nCYCVe9b+BWYBJ1LgV2iHr85HIMojw7mv+BhnuuR98JOlFkfqah5ZiBbA8
+ idkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
- :mime-version:content-transfer-encoding:content-language;
- bh=JI/AiDS71PLMhgUv0hBwFcFtgPLD6LDNF4PEDeob9ro=;
- b=KK7tIE1INX441/X0gUkYrwyNm66cHcHv+BLQl6gTuBWXWTH2nUPxChKkavVCbWmjUy
- 2XPJteBmH3tplbopVjCHidOvoLXAGHDoxdMQGhvkTNkYKupNSZOzjJxgao/okVfjZjC/
- XDG93z5Zo6VybEC58vv+9ut7umyq1gI0e9Odb4IvuxyV2Xs9aN0OzXx3ETm4QnWjJeI3
- L+r1Evgvi85J12iDzSUclRfvpgEfN8Twkws5AS93hRVgWxxmO0zbS+vuvu2+fObJCAZQ
- iCSbvwMCC2EHLSzdu0qchtPNfekp2rWarLzJtsy2ppEFpXIkzHV1ybPW9KqSsY1Ot0pI
- /S2Q==
-X-Gm-Message-State: AOAM531odUGK74Oxt8H/EfIZ+qgBFx99ze5T50FCznthDnj5NblX1ZgS
- T4XlGL6jhB+g7igwPpHJigw=
-X-Google-Smtp-Source: ABdhPJzIpd2r4Hg0vSxNMPGAydkVCoSMg0Vn8hPVD1soJeL4Zhdd0jtTSvC5xzqIT+2msYDwWK3+KQ==
-X-Received: by 2002:a17:903:41c1:b029:12c:a3eb:21c with SMTP id
- u1-20020a17090341c1b029012ca3eb021cmr422810ple.72.1627712922486; 
- Fri, 30 Jul 2021 23:28:42 -0700 (PDT)
-Received: from [10.106.0.50] ([45.135.186.29])
- by smtp.gmail.com with ESMTPSA id p3sm4255848pjt.0.2021.07.30.23.28.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jul 2021 23:28:42 -0700 (PDT)
-To: thomas@winischhofer.net
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
-From: Li Tuo <islituo@gmail.com>
-Subject: [BUG] video: fbdev: sis: possible uninitialized-variable access in
- SiS_SetCRT2FIFO_300()
-Message-ID: <e0f988f3-f010-6299-d000-5c035e5f2e2e@gmail.com>
-Date: Sat, 31 Jul 2021 14:28:39 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LNinOfUJINPcfdOxhYvsgsalnU1GKLpLDBpG0mAohAc=;
+ b=FA8Rd2TqZFGKMkh2y+ylFzknxbU8Dm2AFrN8HcOF2a7rgodiaqIn//8ZsSEUOcRn5U
+ KJd3jL3oIkJif3KEJ9ByWTfeIKPU644H0GJhtFy14MZi4lBXuBTd6IctyctbvSKa4c+F
+ Xgh7v793D5YXMtmq8LYT/btvj1GgOm/+Lnbhz12aNH1cafiM553FAnNvMEDMDEV2T0hp
+ l8/hTcLnNUJ/1PMS0GRlv64fuZky3Z9h4oBCwm0h+MAh+JD6nV842Ekg+uV7re6ImUqk
+ gnrq3eZ4ifqrzjrwxcgGi/06Br4iE3NlL77R0+nng3pUlgJDwJLHGW0ox2Y2zBmPPYd6
+ Eg2w==
+X-Gm-Message-State: AOAM531a+kegmxLnaEliwu9U7l8GW3LM4755aYkV5sVkwhxZy5jSuBnV
+ 21lAb80dBx57AYshMzodTIU=
+X-Google-Smtp-Source: ABdhPJxEmyd/fVeOUjyk7iQ/WLxWnrDrhtacIwVjgE+LHn4GCwVnNtolqtkZfzUNk0y77xteCo9kSQ==
+X-Received: by 2002:a63:e405:: with SMTP id a5mr5864785pgi.150.1627717924655; 
+ Sat, 31 Jul 2021 00:52:04 -0700 (PDT)
+Received: from localhost.localdomain ([45.135.186.29])
+ by smtp.gmail.com with ESMTPSA id y15sm5470504pga.34.2021.07.31.00.52.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 31 Jul 2021 00:52:04 -0700 (PDT)
+From: Tuo Li <islituo@gmail.com>
+To: jejb@linux.ibm.com, martin.petersen@oracle.com, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, colin.king@canonical.com,
+ jiapeng.chong@linux.alibaba.com
+Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, baijiaju1990@gmail.com,
+ Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>
+Subject: [PATCH] scsi: csiostor: fix possible null-pointer dereference in
+ csio_eh_lun_reset_handler()
+Date: Sat, 31 Jul 2021 00:51:48 -0700
+Message-Id: <20210731075148.72494-1-islituo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Mailman-Approved-At: Sat, 31 Jul 2021 06:46:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,25 +76,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+The variable rn is checked in:
+  if (!rn)
 
-Our static analysis tool finds a possible uninitialized-variable access 
-in the sis driver in Linux 5.14.0-rc3:
+If rn is NULL, the program goes to the label fail:
+  fail:
+    CSIO_INC_STATS(rn, n_lun_rst_fail);
 
-At the beginning of the function SiS_SetCRT2FIFO_300(), the variable 
-modeidindex is not initialized.
-If the following conditions are false, it remains uninitialized.
-5346:    if(!SiS_Pr->CRT1UsesCustomMode)
-5438:    if(!SiS_Pr->UseCustomMode)
+However, rn is dereferenced in this macro:
+  #define CSIO_INC_STATS(elem, val) ((elem)->stats.val++)
 
-But it is accessed at:
-5466:    colorth = SiS_GetColorDepth(SiS_Pr,CRT2ModeNo,modeidindex) >> 1;
-
-I am not quite sure whether this possible uninitialized-variable access 
-is real and how to fix it if it is real.
-Any feedback would be appreciated, thanks!
+To fix this possible null-pointer dereference, the function returns
+FAILED directly if rn is NULL.
 
 Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Tuo Li <islituo@gmail.com>
+---
+ drivers/scsi/csiostor/csio_scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best wishes,
-Tuo Li
+diff --git a/drivers/scsi/csiostor/csio_scsi.c b/drivers/scsi/csiostor/csio_scsi.c
+index 56b9ad0a1ca0..df0bf8348860 100644
+--- a/drivers/scsi/csiostor/csio_scsi.c
++++ b/drivers/scsi/csiostor/csio_scsi.c
+@@ -2070,7 +2070,7 @@ csio_eh_lun_reset_handler(struct scsi_cmnd *cmnd)
+ 	struct csio_scsi_level_data sld;
+ 
+ 	if (!rn)
+-		goto fail;
++		return FAILED;
+ 
+ 	csio_dbg(hw, "Request to reset LUN:%llu (ssni:0x%x tgtid:%d)\n",
+ 		      cmnd->device->lun, rn->flowid, rn->scsi_id);
+-- 
+2.25.1
+
