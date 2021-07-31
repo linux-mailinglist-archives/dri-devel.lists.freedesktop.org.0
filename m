@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4673DC796
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 20:07:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBE03DC799
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 20:17:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8BC896ED;
-	Sat, 31 Jul 2021 18:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8B26E8D6;
+	Sat, 31 Jul 2021 18:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16B20896ED
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 18:06:56 +0000 (UTC)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8A8D6E8D6
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 18:17:54 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 2115180a-f22a-11eb-8d1a-0050568cd888;
- Sat, 31 Jul 2021 18:07:12 +0000 (UTC)
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id a2d695c2-f22b-11eb-9082-0050568c148b;
+ Sat, 31 Jul 2021 18:17:59 +0000 (UTC)
 Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 3FDE9194B35;
- Sat, 31 Jul 2021 20:07:16 +0200 (CEST)
-Date: Sat, 31 Jul 2021 20:06:51 +0200
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 5B9D2194B35;
+ Sat, 31 Jul 2021 20:18:14 +0200 (CEST)
+Date: Sat, 31 Jul 2021 20:17:49 +0200
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Douglas Anderson <dianders@chromium.org>
@@ -40,7 +40,7 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Sandeep Panda <spanda@codeaurora.org>, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 0/6] drm/panel: atna33xc20: Fix the Samsung ATNA33XC20
  panel
-Message-ID: <YQWRO6gTFTtaWAIA@ravnborg.org>
+Message-ID: <YQWTzXINXqDrfmOg@ravnborg.org>
 References: <20210730154605.2843418-1-dianders@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -62,7 +62,6 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Douglas,
-
 On Fri, Jul 30, 2021 at 08:45:59AM -0700, Douglas Anderson wrote:
 > 
 > The overall goal of this series is to make the Samsung ATNA33XC20
@@ -108,6 +107,8 @@ On Fri, Jul 30, 2021 at 08:45:59AM -0700, Douglas Anderson wrote:
 >   Revert "drm/panel-simple: Support for delays between GPIO & regulator"
 >   drm/panel: atna33xc20: Introduce the Samsung ATNA33XC20 panel
 
-I have now applied the first three patches to drm-misc-next.
+I have applied the last three patches to drm-misc-next too.
+The "select VIDEO_MODEHELPERS" in the last patch was not needed as we
+discussed on irc, so I deleted it while applying.
 
 	Sam
