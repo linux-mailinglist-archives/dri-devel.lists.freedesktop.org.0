@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A00F3DC27C
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 03:40:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EB33DC27A
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jul 2021 03:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA8E6F4F0;
-	Sat, 31 Jul 2021 01:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 217626F4EA;
+	Sat, 31 Jul 2021 01:40:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFCD6F4EB
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 01:40:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A8CA6F4E6
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 01:40:19 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB40B1207;
- Sat, 31 Jul 2021 03:40:14 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 109FD1242;
+ Sat, 31 Jul 2021 03:40:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1627695615;
- bh=Q9wrgM3TCwYDCYU7TYyM5sDp7SZaq5GSWOGy7+PHW48=;
+ s=mail; t=1627695617;
+ bh=v6U1+t1u4gSWPu73aab/v+EKdvJikWjSdfOUBf1iZ+c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DyZGIq+sfs4Jt8fWdFYtCnkTkKWw5jxgFYbwbARf0X/0neqpHdc9PwZWVEsSeiBnj
- fVxJIj5Yaxu4UA5+v60ekw/Jeb7yURL2lmz2uRdLVbCsNnIWJZYW0xon8A+xgfZRhn
- AS8dH1b7YadwZODS5W0J3HLreslhL1Ypgy2y0+WU=
+ b=lTK39X+9lHCRhSUzOnbOja1NaQ7x52S2NS0+7nHkMz9ZaXFNkqj29K3yA9OJUC6T0
+ hlPr71PA9nFIUQKqw7RK9d/BLB2m2EYwRJW0AQwiXWq+zE00bSzuWh/um9qY9NJCle
+ 430f9gobCoYFrqd1y1ywIA/xtLx6r6A3r/3mTeE0=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Tomi Valkeinen <tomba@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
@@ -33,9 +33,9 @@ Cc: Tomi Valkeinen <tomba@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Shawn Guo <shawnguo@kernel.org>,
  Alain VOLMAT-SCND-01 <alain.volmat@foss.st.com>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 7/9] drm/sti: Enable COMPILE_TEST on all architectures
-Date: Sat, 31 Jul 2021 04:39:52 +0300
-Message-Id: <20210731013954.11926-8-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 8/9] drm/tegra: Enable COMPILE_TEST on all architectures
+Date: Sat, 31 Jul 2021 04:39:53 +0300
+Message-Id: <20210731013954.11926-9-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210731013954.11926-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20210731013954.11926-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -56,8 +56,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To extend test coverage, relax the dependency on ARCH_STI or
-ARCH_MULTIPLATFORM to also enable compilation with COMPILE_TEST.
+To extend test coverage, support COMPILE_TEST on all architectures.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
@@ -65,23 +64,36 @@ Changes since v1:
 
 - Enable COMPILE_TEST on all architectures
 ---
- drivers/gpu/drm/sti/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tegra/Kconfig | 2 +-
+ drivers/gpu/host1x/Kconfig    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/Kconfig b/drivers/gpu/drm/sti/Kconfig
-index d0cfdd36b38f..4c88785a95a8 100644
---- a/drivers/gpu/drm/sti/Kconfig
-+++ b/drivers/gpu/drm/sti/Kconfig
-@@ -1,7 +1,8 @@
+diff --git a/drivers/gpu/drm/tegra/Kconfig b/drivers/gpu/drm/tegra/Kconfig
+index 5043dcaf1cf9..8eef9094d26a 100644
+--- a/drivers/gpu/drm/tegra/Kconfig
++++ b/drivers/gpu/drm/tegra/Kconfig
+@@ -1,7 +1,7 @@
  # SPDX-License-Identifier: GPL-2.0-only
- config DRM_STI
- 	tristate "DRM Support for STMicroelectronics SoC stiH4xx Series"
--	depends on OF && DRM && (ARCH_STI || ARCH_MULTIPLATFORM)
-+	depends on OF && DRM
-+	depends on ARCH_STI || ARCH_MULTIPLATFORM || COMPILE_TEST
- 	select RESET_CONTROLLER
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_CMA_HELPER
+ config DRM_TEGRA
+ 	tristate "NVIDIA Tegra DRM"
+-	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
++	depends on ARCH_TEGRA || COMPILE_TEST
+ 	depends on COMMON_CLK
+ 	depends on DRM
+ 	depends on OF
+diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
+index 6dab94adf25e..977a0ac54e93 100644
+--- a/drivers/gpu/host1x/Kconfig
++++ b/drivers/gpu/host1x/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config TEGRA_HOST1X
+ 	tristate "NVIDIA Tegra host1x driver"
+-	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
++	depends on ARCH_TEGRA || COMPILE_TEST
+ 	select IOMMU_IOVA
+ 	help
+ 	  Driver for the NVIDIA Tegra host1x hardware.
 -- 
 Regards,
 
