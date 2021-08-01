@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D040F3DCD07
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 19:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1B93DCD76
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 21:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE57F6E1A3;
-	Sun,  1 Aug 2021 17:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60BBB6E0B8;
+	Sun,  1 Aug 2021 19:43:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2516E1A3
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 17:59:08 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 2e21abd2-f2f2-11eb-9082-0050568c148b;
- Sun, 01 Aug 2021 17:59:13 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id DF666194B5A;
- Sun,  1 Aug 2021 19:59:29 +0200 (CEST)
-Date: Sun, 1 Aug 2021 19:59:03 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Li Tuo <islituo@gmail.com>
-Cc: thomas@winischhofer.net, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- baijiaju1990@gmail.com
-Subject: Re: [BUG] video: fbdev: sis: possible uninitialized-variable access
- in SiS_SetCRT2FIFO_300()
-Message-ID: <YQbg5yt0QUOC9dop@ravnborg.org>
-References: <e0f988f3-f010-6299-d000-5c035e5f2e2e@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8D56E0B8
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 19:43:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id CFE8A61078
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 19:43:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627847022;
+ bh=Jgqowb/DM0TkVA3ZXcNTKYMpqHatc+ntEEibnFPerfU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ZcLzebQL1jKCLE46r6WQxpeP2EKTurKPH+7Z35n2WJGZFAm77lEAy/yNdMRuD3tBn
+ /txGPfI+R6BY1O3RVOYnzt2LAVssC92zWyu1U7jwBWfb2wL/nlkIdaoRuS9skjjPAa
+ Yup1MYjy4u6VIuZrCoclKWCsS54X++AoCQqeYcuIRKnZ+vqFMxbegXbrp4EKiNhxiG
+ jHB+pDiZBn2LpWagdHZlnXcehhlXecsGG0bEOahtOfLdDV3qHFubo4ASzcBzjYF2iE
+ vCcRwYC97dVEiAR1FUFrGfGeKtqBZAniafOwnYHBydMQbf0o1VDXkdGTdynLQ6zX0e
+ d/CdvfmDgZcMw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id CC68060F47; Sun,  1 Aug 2021 19:43:42 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
+ parser -125
+Date: Sun, 01 Aug 2021 19:43:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mcmarius@gmx.net
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-205089-2300-VwjZQhyRz4@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
+References: <bug-205089-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e0f988f3-f010-6299-d000-5c035e5f2e2e@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,34 +69,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tuo Li,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
 
-On Sat, Jul 31, 2021 at 02:28:39PM +0800, Li Tuo wrote:
-> Hello,
-> 
-> Our static analysis tool finds a possible uninitialized-variable access in
-> the sis driver in Linux 5.14.0-rc3:
-> 
-> At the beginning of the function SiS_SetCRT2FIFO_300(), the variable
-> modeidindex is not initialized.
-> If the following conditions are false, it remains uninitialized.
-> 5346:    if(!SiS_Pr->CRT1UsesCustomMode)
-> 5438:    if(!SiS_Pr->UseCustomMode)
-> 
-> But it is accessed at:
-> 5466:    colorth = SiS_GetColorDepth(SiS_Pr,CRT2ModeNo,modeidindex) >> 1;
-> 
-> I am not quite sure whether this possible uninitialized-variable access is
-> real and how to fix it if it is real.
-> Any feedback would be appreciated, thanks!
+mcmarius@gmx.net changed:
 
-First, the report looks correct. There is a path where modeindex may not
-be initilized.
-But I find it very hard to care for such an ancient driver.
-If this was somethign we hit is real life we had heard about it - and
-the risk of introducing bugs is higher than the the cance that this
-fixes a real life bug.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mcmarius@gmx.net
 
-So my advice, find something more relevant to look at.
+--- Comment #16 from mcmarius@gmx.net ---
+i have the same problem with the kernel 5.11.22-2-MANJARO
 
-	Sam
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
