@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3403DC974
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 05:34:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2A63DC979
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 05:35:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E153C6EA3C;
-	Sun,  1 Aug 2021 03:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB746EA4C;
+	Sun,  1 Aug 2021 03:35:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
- [IPv6:2607:f8b0:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3E66E945;
- Sun,  1 Aug 2021 03:34:51 +0000 (UTC)
-Received: by mail-il1-x134.google.com with SMTP id i13so1538507ilm.11;
- Sat, 31 Jul 2021 20:34:51 -0700 (PDT)
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 575E96EA34;
+ Sun,  1 Aug 2021 03:35:52 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id z3so13415240ile.12;
+ Sat, 31 Jul 2021 20:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=TuTXg0e3clW+MMWqMjMwfJqjaNCb4Ct1FoSRnnKkgJ8=;
- b=kC3SpbfGQStvm0vYCDgFFccoBC/d4pOGgv6VuIWBrntvaxsyMaVZZc7hGtP30YQI8s
- CpKdVoYLqeToXu/D392uoc4+5J2Ld5hYGS3ZyFJ0kHkkzrzLPE1Z0lhYp736hbm421hN
- NdEjKol+y8rgsYVHqiqHTrw/Ef6lHfER8Vyk0Mg7H7uajPr4iM/nO4UyzopSTPAfA9Gn
- KMxwEwnPlQ8a07egcI5HuqEjtAiqxSZ0rf3Yr3iMi+0T6cIhhnpJbiHRfXGmjJAKWFpd
- JKlvxQaRcbXeBy0KM8d9guJrj/1vUFk3cG8mhmmy5DF4GPrqx/Q2lhgziM2U2TvocZ+3
- CoOA==
+ b=sPXROjnFoYm7RXY4aLJrzMtImBPW6ZMyQ9sMkh+rGUD+b1Ey12aNke2Qd6Pzph6XEI
+ Lgp5RMrZvUCaLTK5MeOUgUT9BSGuJ6tIK6comnx9GtBRJHAKfvezatG28fZUfj1bGtiA
+ iJEDqF4CW763DOKd+OL6ZgHVB93Kzyf3N4G/APGVLhypjn/sSvGpV2Rr6UFaSA/wUTVE
+ vz8RGP2PpPFVVVmZ+QnavW2WWLvl8cCfRCyxghePFgFEPpnQs+j4curKCG7YDZ+XQBZz
+ Bp326VQpi7fxQKRUBF0DsUi70FCesUvuCy2nIMEyFmBKbTVJSoPbc7uwF7eKWrtMyRwL
+ 4avw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=TuTXg0e3clW+MMWqMjMwfJqjaNCb4Ct1FoSRnnKkgJ8=;
- b=nXDE+imSQBNdlp5ltcZcf70W4vmYJ/NQuSgHscqd7o26jkzithriwJeG4JXc2qK2mY
- YHuBmgr65ggGYvJLD/E/zOempjBeJCe4+hvv7e4TAfjyMKliCMJAFBTa7vq3Z0JroxAJ
- 7pXzRdULBsHwbn18NNpAKDdLPPHeKeoduOmQh05ySVBG4SdWPWwFp9xsdj/eVJycOVET
- mDIkNvjRGzDD3VI3FLYWNH5bdyb6YWyFR4dqSxU5jPLmhp14vj8RPRw4HSgyIg+MuWyA
- NxByBA+mBNWlULsCRhYSvDPT4SNhqPyVuCUv8YDToC4sJTUlSFH1klRv0PIT561ECXkP
- POeA==
-X-Gm-Message-State: AOAM533kbazzMmDN96SK8FjO+FVUrl4NOfj26BPRtwLgNYlipmNyKvdP
- 7Oq8QDCVjL769A7j66EbzpvDZEVUh5t3Tbqf
-X-Google-Smtp-Source: ABdhPJwxzVLBZL+ZmF8QBZL4Gvbcc1RiS9N6/uHnbx0dzquWp60KZIHGDWSCoHisTkYzkl8QyZYx3g==
-X-Received: by 2002:a92:c54d:: with SMTP id a13mr4253873ilj.74.1627788890249; 
- Sat, 31 Jul 2021 20:34:50 -0700 (PDT)
+ b=FS2giTdQYgMpEIqqTiSZivdCfFZncBRlBoQE3XUsbY3eQWgR5tGiOdR9JjyyiWrGvh
+ rEiWNm6SAfVW7JRNxuI9lX0pwtih9V8WJNErYYWb8LxbbEmQaQaoQ5suBCPspkHBlSJx
+ Zf9HPM1M6WTSuYidUSVZ9lU7dxdNrS3hlG6WiPnjzGT4AFXfWW3Cl96b3HSBanWH/Efq
+ SI5nvUfbDg5ZZQXVjw7W9/2gaUg1L6oq3cyt7RUV+qIkcbLUMLTCrRKsGiozI7gL+Gxc
+ fpAQmhD+FKGv+ZjXhgY7id1MKBKA14wR88YAciAEar9L/B3OlybUNv7H8dQO2/ea2Zqj
+ FzNw==
+X-Gm-Message-State: AOAM531ZSRKV97amym8kSv4YMIRyBCjkqAaLOeGVuF/1My6eYZU1mPMD
+ hMG5QpR/vts/L1LQ2AO6EgP0Oep2farGEf2j
+X-Google-Smtp-Source: ABdhPJzhYDwh4Y5EpOWBn5vN+Ipha5HDFJAJOT1R4CjiWkZ1a+41Eg4cL2jSZjy+79qvwEQ52aHSvQ==
+X-Received: by 2002:a92:6d07:: with SMTP id i7mr3565334ilc.104.1627788951500; 
+ Sat, 31 Jul 2021 20:35:51 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id c1sm3366525ils.21.2021.07.31.20.34.49
+ by smtp.googlemail.com with ESMTPSA id h24sm4395848ioj.32.2021.07.31.20.35.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Jul 2021 20:34:49 -0700 (PDT)
+ Sat, 31 Jul 2021 20:35:51 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, seanpaul@chromium.org
+ intel-gfx@lists.freedesktop.org, seanpaul@chromium.org, jbaron@akamai.com
 Cc: Jim Cromie <jim.cromie@gmail.com>
 Subject: [PATCH] dyndbg: add special aux_print framework
-Date: Sat, 31 Jul 2021 21:34:32 -0600
-Message-Id: <20210801033432.831938-1-jim.cromie@gmail.com>
+Date: Sat, 31 Jul 2021 21:35:48 -0600
+Message-Id: <20210801033548.832022-1-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
