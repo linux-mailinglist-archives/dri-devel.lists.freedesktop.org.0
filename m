@@ -2,64 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF243DCC95
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 18:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D87D3DCCE4
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 19:19:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80CA26E0C5;
-	Sun,  1 Aug 2021 16:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB34C6E1F9;
+	Sun,  1 Aug 2021 17:19:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE086E0C5
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 16:04:58 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- j18-20020a17090aeb12b029017737e6c349so13403833pjz.0
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Aug 2021 09:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5SL+RQylcOWI34I2yhfIX6PZj28aHRgG2r+bmTmVtdk=;
- b=s6Lngi1YHRL5OsZ+HzBQ0aTBI7y0ccfNZ0iU6ajqBgyOLQWvMNFXKtrk5Tg98KsHBs
- +m3KCk1mljl0iesmLrf4sbeJvPY/aP+EiupF+lCnbuKm6lm5wNFy2ItzbOqaXo0C/IpF
- FD0so6fodUtbnx5h26jDqb1Jea26XVZ9N+/dRbeViaZ7pYXLkfcnb1L4hTVw46swmcas
- CUpacDilUvnuqdu2YW9AAMgGviu3ANewIUOq8XW2pJgVywD6HsxD71Sgm2ro2DQNlClC
- duDffcCniBcXgahJzsxw0gsLGSNIa1tzq5CS2hPdCUYiYU86U9Y5WAIYNjCUKjoCcHTe
- yCwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5SL+RQylcOWI34I2yhfIX6PZj28aHRgG2r+bmTmVtdk=;
- b=PiPwBhBL7WO4DhF6J7Dc+KYVkwTm1bslb2ak/4gtvll8wGnFedBgHKDsj5Q+JgFZzP
- WczxWMsmDENPFH4HrdbeACc0EYymrGezmMt1MNQWVb/+B+nnjQ+Pbu2AQBOM2Lhikqew
- XF0y0l3A7pFB6gnGHUSJt2TfzpisGv3ReniCScty6p3Cisj4Q1YLmKczfgbenemYdrd6
- NjD0ksQhkPXFhdcxU1AwXaBvbh7NUksDYcQ9CLdQNJbBgDrAY6hWmg8Gg2IKS1eWYyN8
- jkPi5GuZDM69He63ArV7XuJrbXmPpzWLiTVRqwJPARPdYgxmub7lljeRFFn5Q8rJjAFX
- hbMw==
-X-Gm-Message-State: AOAM531cXCE2Rh2IdqHWxzFx7nI7Au06VeqEXojT+WxiegGRgssOCQHv
- p1SRrp5GNowN6dbhrH+BXO4=
-X-Google-Smtp-Source: ABdhPJwbVcFaHrX080oCLbtIPHmLnsmqqFJrbKo9fteCN1SR/2rfkC9DHDJMFrJe02lIhLkP5gimHw==
-X-Received: by 2002:a05:6a00:148e:b029:331:5b07:c89a with SMTP id
- v14-20020a056a00148eb02903315b07c89amr13145814pfu.41.1627833898546; 
- Sun, 01 Aug 2021 09:04:58 -0700 (PDT)
-Received: from adolin ([49.207.203.94])
- by smtp.gmail.com with ESMTPSA id 26sm10113047pgx.72.2021.08.01.09.04.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Aug 2021 09:04:58 -0700 (PDT)
-Date: Sun, 1 Aug 2021 21:33:48 +0530
-From: Sumera Priyadarsini <sylphrenadin@gmail.com>
-To: melissa.srw@gmail.com
-Cc: rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com, daniel@ffwll.ch,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH V5 2/2] drm/vkms: Add support for virtual hardware mode
-Message-ID: <8881e29603540485e464d46f2ef1d15f8c4969cf.1627831087.git.sylphrenadin@gmail.com>
-References: <cover.1627831087.git.sylphrenadin@gmail.com>
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2051.outbound.protection.outlook.com [40.107.96.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 620446E18E;
+ Sun,  1 Aug 2021 17:19:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZZMOOb5j41esWGAMoc7uWwlxMHlIojAH2JXJ/hk2waa6WjnoQgvxjAlipR5LuN1Hd/2OxGNOtNKAW0+94AwnqNBAze/Seb3XDRAZKZ2FZODbwKQHW2haXdSzWf7oRMvDb9aL1wEuj34DDM3ptaHTw0qUR0aShndeibjLH3JwxN3qEtYGBZ78UVZHR7ev6wDSUhnvRNw+aEXDOPV/jIipB3VEaSI3p7/WlzpsgKVeVqhgJDeVLIzKi1M4MBOqo5SxaUYYmq212XS2N0JXNoC88UZ+WziIGgnWBB3rYNC3aOCYLnRf9ZFlxjYfJTs3zIXFx0fgUZAqEPOEB0P30BbXBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p+goaxgEZ8Go68mPw8QgvPAfymMsoCOssqgo+tCkIoU=;
+ b=eONv179FTyCrzgTAXpCq8RNIqilk2+nRu1ILNbbAVf2osED2MxCQGpIL5z30tU2LnroeoKzpLiUwu7hlntMtvq7F/1kwIB/9HSK9B+EDXVE5yLpUhjMgssk02dSXCY+5Ew7wYdSCH3zeKeIBO6SyKJOTeqt3VeZQwvfSXQKVfdpyz7rV0jg8h1Eg4KOuItaV1vrs8SFS/kD1G2ZW8PHPkSU3QJVAIsmuWZK5UGVM+fq2GaUh8no+OfflGhPpswHiVg34CE/CtjdcQ+BcKlInOiGpNQWcmiT9JfZMVqJsNSDXOV1Q08a+maARWkjUf1Q4VRgaYK7mo8+rZ7SOec4bWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p+goaxgEZ8Go68mPw8QgvPAfymMsoCOssqgo+tCkIoU=;
+ b=q0xf4RNdxPCybuUa8pIOalClL4lnlIs3D55eRohf+huAWKkvSNS0ZGFG+UDQcJ1eXWnA9wCdbbqOm4jmBDtMelqyYigFD9rCp1XIjjDOj2UNNdbTNTUkIsDZ8G/FfXSf6UeSEOFmFrWi4Tr7SD1igvGO6oZ632wAwzKVtVslAzI=
+Authentication-Results: tsinghua.edu.cn; dkim=none (message not signed)
+ header.d=none;tsinghua.edu.cn; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3903.namprd12.prod.outlook.com (2603:10b6:208:15a::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Sun, 1 Aug
+ 2021 17:19:08 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4373.026; Sun, 1 Aug 2021
+ 17:19:08 +0000
+Subject: Re: [PATCH] drm/amdgpu: fix possible null-pointer dereference in
+ amdgpu_ttm_tt_populate()
+To: Tuo Li <islituo@gmail.com>, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ sumit.semwal@linaro.org, airlied@redhat.com, Felix.Kuehling@amd.com,
+ Oak.Zeng@amd.com, nirmoy.das@amd.com, tzimmermann@suse.de,
+ Philip.Yang@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, baijiaju1990@gmail.com,
+ TOTE Robot <oslab@tsinghua.edu.cn>
+References: <20210731080437.74539-1-islituo@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <53ef6ff7-f793-5de4-4ab4-0efbfbfc0a54@amd.com>
+Date: Sun, 1 Aug 2021 19:19:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210731080437.74539-1-islituo@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: PR3P189CA0043.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:53::18) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1627831087.git.sylphrenadin@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:5926:2d3e:756a:8d42]
+ (2a02:908:1252:fb60:5926:2d3e:756a:8d42) by
+ PR3P189CA0043.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:53::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4373.20 via Frontend Transport; Sun, 1 Aug 2021 17:19:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d2910e0e-6e03-4ff8-a515-08d955107858
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3903:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3903706BA39E51121C48DF2283EE9@MN2PR12MB3903.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TgQZERCJp6PkOZ35ESf4dUYb1HmZL0u0ek8E/7ieEfmIUD9wg6dOCI6sk9k/TsD6U59C3N3F5rTqqKhp8AzU+/jueLNktpdbxrg27OzUX3hJ2zuX9BZgOa0Qz9ldba3PqDbsICa+0Ou2gISxV6UrBkwC0KON3t1hqYUuaaz5hqzC253EGjZi13iwyYOZrQmykBL4zuD56ik5V4GMV2ChqlEqBuomG2RhU5N9yUUUh9iUW33hK/jjM1wi/KNB1nNeN6CKbSJKpDY4f/KXSoTH4+GLtK1Phte0wh2bJth8FqZPypxjjdN3V2iqRlMcIedQAElvn40Z5e02xiPQkyXsVuekLZ8RcP+Hv1TRSyUkraqNlrT6o6UyTlDuNqb6rKVJJBSeMNtduyz3x8rpjTXJzL8MF9pYFBL5bVEF2uNwxl8u4Zx6B+EmO8b94n6avbHJ3yOYvznDcZ9zEsjsfBAXB5vf7fFWmJ7ysClFzMtYC4phhPaRKxLtbOzcLqQGhSlDkFFGclKrTob8A1rRxeOw8TVaPqb/5sz7IjRYQe1EoKbVchIFkPj2MNtYWZAtm5p3BxRg6thZtm5kGoxJL/Gi4Ft9pPHLgera9D4UyurZtbFqTyUl/UXV7YslN6DM5pzQtzn4sHdV+WajPgM/64gN6El93vHwNLpv2E7DSyxwQQnXUNg9Ek9SVI1ZVscEullil7V694Oojhv+OIRWL8a7sRUszeRDtmdxP2yZC9JIylkg8MX0itoBGHIPiBX5MF5n
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(366004)(136003)(396003)(346002)(2616005)(5660300002)(316002)(2906002)(31696002)(6636002)(66946007)(31686004)(478600001)(186003)(83380400001)(8676002)(36756003)(6486002)(7416002)(8936002)(921005)(38100700002)(66476007)(66556008)(4326008)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXhXVmgrNks1azNOME9ST3dJTUNnSXpSMFpxNXFGd2E0a294SUd0QmtFeTRE?=
+ =?utf-8?B?ZVdpMkZCVjJBMEZrcGdUK2FBUUwza1dubzNiSU9hUTdqbkxFaWVxcWlUckw5?=
+ =?utf-8?B?R1FGOHYveS80bW5peUtmNnhKd2dNM3d6emgrek1NNllmVmhmdmFrRHJuWEV4?=
+ =?utf-8?B?Rk40aElHUm96RnlrVncrVWROTGlCZ1orc2JzVXNMVDh1UkdlVkdORE8yTko4?=
+ =?utf-8?B?K1gwRHAvYWtNWHVBSG1mcVdJQVlydWRlUnd2OVMzRENaRVUwT0tCd0lTNzhR?=
+ =?utf-8?B?bURpcHpQQWJCbnNVc0w4MVo4ektEMVRlZVNxbUZFQ0ovWlB1ajkvdEFCZTVR?=
+ =?utf-8?B?T21tUVFOeGpDWFdhaEZBVmQxdGNjTmMxUTgrSXhEQzJ0OVhITW0yYXU0em82?=
+ =?utf-8?B?MytGWjVoSHBKSHhMRi9qbDlGL2lxWWJjeUlKd0JpWEE0bCtiQkxmaW5vOW54?=
+ =?utf-8?B?Zk14SkFvZmFBYnQybEh6cVdsRDZDQ0RIQm01Q1N1ZERpbmhaN3ZEYVZoZVNY?=
+ =?utf-8?B?OGo5Z05qTUhlZ0ZKM2VVWGcvaGJmK3VVNWZvL0JNRDdabS9vQ2oyVzU1Rnov?=
+ =?utf-8?B?c005RmpSNmo1cGphVzRLOWlQd2l2ejBmVFpPL2I2ajJUYzJObWxFaEl2NUN1?=
+ =?utf-8?B?ZkorRXZjK21GVDd5YzM3QkZUZnBMUnQ1RHV6YzJjZnVrUEdsY1c4L1FQSmZR?=
+ =?utf-8?B?NEtjY0RYbnZwa2JDUVlBbzZ4cGo1bTFtclBMYU9qeWpaZVZPREprb0lVbkdM?=
+ =?utf-8?B?a1p3aytxUTliOG0yNEQxZ0crY1dGSW1YaWhPR0JJNFBWb3JNVHM3U0NDazZZ?=
+ =?utf-8?B?N1IwdnVVR2xCNE95SENBVC9hSFFrMk9xbmw3bU9YQ09OMFF2OHhKNDlOcW5Q?=
+ =?utf-8?B?NlIxRDNmbmxLN0U1MGFlc2xZdTJMVm1xcVFmWjMxbmo1VDE5WC9rRW5YUGdt?=
+ =?utf-8?B?dlFyblVwSnMxWFk5TDYreGNzUk05SG1XQUduYmZlaTk2dmFvRTNzYmQ4c1Z1?=
+ =?utf-8?B?aUo2dWp4Mjkzd21PNm9neE5jVVlwa2VsaXRWM0UvdWZxNXR5RjBYQ21JZURE?=
+ =?utf-8?B?TzdNSExQVHlBL1lEcVcyQXZxbFozQnhXL01XcjQ0MDVwTDdEcURnYkZKNU0y?=
+ =?utf-8?B?ZzBTSXg3TjlZSHlsZFVGekUydk9nWEpOQjIwNHlvZDYrK0dLbEgvQVc0L3JT?=
+ =?utf-8?B?bHROWjJCOFhrdGtiS0FMbUtscFNObUM3cUJIeHZqMmxRak1WM2dGM3BGeTZq?=
+ =?utf-8?B?Sk5JUHdKY1BjMHJFWXBMTVloM1RHSnhVbnZnelJ0TFNqUnhFK01TS21QckxK?=
+ =?utf-8?B?WHBFb3g4aFlQcC9KQVdJdFc5ZWpaMGlBanozcGxTVnliK0FpaEJFeUR3aGg5?=
+ =?utf-8?B?MkhHR3V2T0ExWldOSEZyL1NndjVHWUFhR2lrNTE2bjNLT3B1am03amh6ZS9j?=
+ =?utf-8?B?WGpDZHgrM2czTGhYdHFtT3NSTENZbkM5M2NTMFZpbkpkelhKUTVXZThvYW0x?=
+ =?utf-8?B?Vmo0c0RKU2xyN2RPZFNRNngxNjdIeFk3L1RmcXZCNlJvbTV0Uy9rem4rS2xq?=
+ =?utf-8?B?OTFRUVExYmZOdXc2RDA5NFRDcWJ3NWhMR1MxQVlWT2U2NUxSeUJhNXFLeWs1?=
+ =?utf-8?B?amJsc1ZjVUZRNmpsZkdKcXA2NnNiaDNKbm5vVWNhc3F6ZkNQM0w3WGUyY2xx?=
+ =?utf-8?B?ODcwMnplZGlxYWswWVZURXlBMzRDd25OSnJoYTVlYThBYmg0NFJlZDVLQ3BP?=
+ =?utf-8?B?SXlyeHBocm1tVnkzandWaTF4NmVDMzBxWGh4VFE2cTR6S2p6WjUzeUVqRGh6?=
+ =?utf-8?B?b0JuSE15K1ppTXhtWVIyTjZ2YWM4Rm55cW9iQTA4dVFrTlpVUTA4cUdOZjh6?=
+ =?utf-8?Q?i3yefkGydU7BO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2910e0e-6e03-4ff8-a515-08d955107858
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2021 17:19:07.8737 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gZpsHNRmksJQEgwDc51E7nHOJPAvcGBda8I/bvdWONeqFldTYFqxQLbjdH58xDdt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3903
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,282 +141,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a virtual hardware or vblank-less mode as a module
-to enable VKMS to emulate virtual hardware drivers. This means
-no vertical blanking events occur and pageflips are completed
-arbitrarily and when required for updating the frame.
+Am 31.07.21 um 10:04 schrieb Tuo Li:
+> The variable ttm is assigned to the variable gtt, and the variable gtt
+> is checked in:
+>    if (gtt && gtt->userptr)
+>
+> This indicates that both ttm and gtt can be NULL.
+> If so, a null-pointer dereference will occur:
+>    if (ttm->page_flags & TTM_PAGE_FLAG_SG)
+>
+> Also, some null-pointer dereferences will occur in the function
+> ttm_pool_alloc() which is called in:
+>    return ttm_pool_alloc(&adev->mman.bdev.pool, ttm, ctx);
+>
+> To fix these possible null-pointer dereferences, the function returns
+> -EINVAL when ttm is NULL.
 
-Add a new drm_crtc_helper_funcs struct,
-vkms_virtual_crtc_helper_funcs() which holds the atomic helpers
-for virtual hardware mode. Rename the existing
-vkms_crtc_helper_funcs struct to vkms_vblank_crtc_helper_funcs
-which holds atomic helpers for the vblank mode.
-This makes the code flow clearer and testing
-virtual hardware mode.
+NAK, the NULL test is just a leftover from when the objects where distinct.
 
-Add a function vkms_crtc_composer() which calls the helper function,
-vkms_composer_common() for plane composition in vblank-less mode.
-vkms_crtc_composer() is directly called in the atomic hook in
-vkms_crtc_atomic_begin().
+Please remove the NULL test instead.
 
-However, some crc captures still use vblanks which causes the crc-based
-igt tests to crash. Currently, I am unsure about how to approach the
-one-shot implementation of crc reads so I am still working on that.
+Regards,
+Christian.
 
-This patchset has been tested with the igt tests- kms_writeback, kms_atomic
-, kms_lease, kms_flip, kms_pipe_get_crc and preserves results except for
-subtests related to crc reads and skips tests that rely on vertical
-blanking.
-
-The patch is based on Rodrigo Siqueira's
-patch(https://patchwork.freedesktop.org/patch/316851/?series=48469&rev=3)
-and the ensuing review.
-
-Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
----
-Changes in V5:
-- Move vkms_crtc_composer() to this patch(Melissa)
-- Add more clarification for "vblank-less" mode(Pekka)
-- Replace kzalloc() with kvmalloc() in compose_active_planes()
-to fix memory allocation error for output frame
-- Fix checkpatch warnings (Melissa)
-Changes in V3:
-- Refactor patchset(Melissa)
-Changes in V2:
-- Add atomic helper functions in a separate struct for virtual hardware
-mode (Daniel)
-- Remove spinlock across 'vkms_output->lock' in vkms_crtc.c(Daniel)
-- Add vkms_composer_common() (Daniel)
----
- drivers/gpu/drm/vkms/vkms_composer.c | 21 ++++++++++--
- drivers/gpu/drm/vkms/vkms_crtc.c     | 51 ++++++++++++++++++++--------
- drivers/gpu/drm/vkms/vkms_drv.c      | 16 ++++++---
- drivers/gpu/drm/vkms/vkms_drv.h      |  2 ++
- 4 files changed, 69 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index bf3d576db225..2988d5b49eb6 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -176,11 +176,12 @@ static int compose_active_planes(void **vaddr_out,
- {
- 	struct drm_framebuffer *fb = &primary_composer->fb;
- 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
-+
- 	const void *vaddr;
- 	int i;
- 
- 	if (!*vaddr_out) {
--		*vaddr_out = kzalloc(gem_obj->size, GFP_KERNEL);
-+		*vaddr_out = kvmalloc(gem_obj->size, GFP_KERNEL);
- 		if (!*vaddr_out) {
- 			DRM_ERROR("Cannot allocate memory for output frame.");
- 			return -ENOMEM;
-@@ -229,7 +230,7 @@ int vkms_composer_common(struct vkms_crtc_state *crtc_state,
- 
- 	if (ret) {
- 		if ((ret == -EINVAL || ret == -ENOMEM) && !wb_pending)
--			kfree(vaddr_out);
-+			kvfree(vaddr_out);
- 		return ret;
- 	}
- 
-@@ -241,7 +242,7 @@ int vkms_composer_common(struct vkms_crtc_state *crtc_state,
- 		crtc_state->wb_pending = false;
- 		spin_unlock_irq(&out->composer_lock);
- 	} else {
--		kfree(vaddr_out);
-+		kvfree(vaddr_out);
- 	}
- 
- 	return 0;
-@@ -295,6 +296,20 @@ void vkms_composer_worker(struct work_struct *work)
- 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
- }
- 
-+void vkms_crtc_composer(struct vkms_crtc_state *crtc_state)
-+{
-+	struct drm_crtc *crtc = crtc_state->base.crtc;
-+	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-+	u32 crc32 = 0;
-+	int ret;
-+
-+	ret = vkms_composer_common(crtc_state, out, crtc_state->wb_pending, &crc32);
-+	if (ret == -EINVAL)
-+		return;
-+
-+	drm_crtc_add_crc_entry(crtc, true, 0, &crc32);
-+}
-+
- static const char * const pipe_crc_sources[] = {"auto"};
- 
- const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 57bbd32e9beb..8477b33c4d09 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -222,20 +222,20 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 	return 0;
- }
- 
--static void vkms_crtc_atomic_enable(struct drm_crtc *crtc,
--				    struct drm_atomic_state *state)
-+static void vkms_vblank_crtc_atomic_enable(struct drm_crtc *crtc,
-+					   struct drm_atomic_state *state)
- {
- 	drm_crtc_vblank_on(crtc);
- }
- 
--static void vkms_crtc_atomic_disable(struct drm_crtc *crtc,
--				     struct drm_atomic_state *state)
-+static void vkms_vblank_crtc_atomic_disable(struct drm_crtc *crtc,
-+					    struct drm_atomic_state *state)
- {
- 	drm_crtc_vblank_off(crtc);
- }
- 
--static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
--				   struct drm_atomic_state *state)
-+static void vkms_vblank_crtc_atomic_begin(struct drm_crtc *crtc,
-+					  struct drm_atomic_state *state)
- {
- 	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
- 
-@@ -245,8 +245,8 @@ static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
- 	spin_lock_irq(&vkms_output->lock);
- }
- 
--static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
--				   struct drm_atomic_state *state)
-+static void vkms_vblank_crtc_atomic_flush(struct drm_crtc *crtc,
-+					  struct drm_atomic_state *state)
- {
- 	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
- 
-@@ -268,18 +268,38 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 	spin_unlock_irq(&vkms_output->lock);
- }
- 
--static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
-+/*
-+ * Crtc functions for virtual hardware/vblankless mode
-+ */
-+static void vkms_virtual_crtc_atomic_flush(struct drm_crtc *crtc,
-+					   struct drm_atomic_state *state)
-+{
-+	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc_state *vkms_state = to_vkms_crtc_state(crtc->state);
-+
-+	vkms_crtc_composer(vkms_state);
-+
-+	vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
-+}
-+
-+static const struct drm_crtc_helper_funcs vkms_vblank_crtc_helper_funcs = {
- 	.atomic_check	= vkms_crtc_atomic_check,
--	.atomic_begin	= vkms_crtc_atomic_begin,
--	.atomic_flush	= vkms_crtc_atomic_flush,
--	.atomic_enable	= vkms_crtc_atomic_enable,
--	.atomic_disable	= vkms_crtc_atomic_disable,
-+	.atomic_begin	= vkms_vblank_crtc_atomic_begin,
-+	.atomic_flush	= vkms_vblank_crtc_atomic_flush,
-+	.atomic_enable	= vkms_vblank_crtc_atomic_enable,
-+	.atomic_disable	= vkms_vblank_crtc_atomic_disable,
-+};
-+
-+static const struct drm_crtc_helper_funcs vkms_virtual_crtc_helper_funcs = {
-+	.atomic_check	= vkms_crtc_atomic_check,
-+	.atomic_flush	= vkms_virtual_crtc_atomic_flush,
- };
- 
- int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 		   struct drm_plane *primary, struct drm_plane *cursor)
- {
- 	struct vkms_output *vkms_out = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
- 	int ret;
- 
- 	ret = drm_crtc_init_with_planes(dev, crtc, primary, cursor,
-@@ -289,7 +309,10 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 		return ret;
- 	}
- 
--	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
-+	if (vkmsdev->config->virtual_hw)
-+		drm_crtc_helper_add(crtc, &vkms_virtual_crtc_helper_funcs);
-+	else
-+		drm_crtc_helper_add(crtc, &vkms_vblank_crtc_helper_funcs);
- 
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 0ffe5f0e33f7..ee78f5eef653 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -51,6 +51,10 @@ static bool enable_overlay;
- module_param_named(enable_overlay, enable_overlay, bool, 0444);
- MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
- 
-+static bool enable_virtual_hw;
-+module_param_named(enable_virtual_hw, enable_virtual_hw, bool, 0444);
-+MODULE_PARM_DESC(enable_virtual_hw, "Enable/Disable virtual hardware mode(vblank-less mode)");
-+
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
-@@ -98,6 +102,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
- 	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
- 	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
-+	seq_printf(m, "virtual_hw=%d\n", vkmsdev->config->virtual_hw);
- 
- 	return 0;
- }
-@@ -191,10 +196,12 @@ static int vkms_create(struct vkms_config *config)
- 		goto out_devres;
- 	}
- 
--	ret = drm_vblank_init(&vkms_device->drm, 1);
--	if (ret) {
--		DRM_ERROR("Failed to vblank\n");
--		goto out_devres;
-+	if (!vkms_device->config->virtual_hw) {
-+		ret = drm_vblank_init(&vkms_device->drm, 1);
-+		if (ret) {
-+			DRM_ERROR("Failed to vblank\n");
-+			goto out_devres;
-+		}
- 	}
- 
- 	ret = vkms_modeset_init(vkms_device);
-@@ -229,6 +236,7 @@ static int __init vkms_init(void)
- 	config->cursor = enable_cursor;
- 	config->writeback = enable_writeback;
- 	config->overlay = enable_overlay;
-+	config->virtual_hw = enable_virtual_hw;
- 
- 	return vkms_create(config);
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 01beba424f18..770594e07f0e 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -92,6 +92,7 @@ struct vkms_config {
- 	bool writeback;
- 	bool cursor;
- 	bool overlay;
-+	bool virtual_hw;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
- };
-@@ -136,6 +137,7 @@ int vkms_composer_common(struct vkms_crtc_state *crtc_state, struct vkms_output
- 			 bool wb_pending, uint32_t *crcs);
- void vkms_composer_worker(struct work_struct *work);
- void vkms_set_composer(struct vkms_output *out, bool enabled);
-+void vkms_crtc_composer(struct vkms_crtc_state *crtc_state);
- 
- /* Writeback */
- int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
--- 
-2.31.1
+>
+> Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+> Signed-off-by: Tuo Li <islituo@gmail.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 3a55f08e00e1..80440f799c09 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -1120,8 +1120,11 @@ static int amdgpu_ttm_tt_populate(struct ttm_device *bdev,
+>   	struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
+>   	struct amdgpu_ttm_tt *gtt = (void *)ttm;
+>   
+> +	if (ttm == NULL)
+> +		return -EINVAL;
+> +
+>   	/* user pages are bound by amdgpu_ttm_tt_pin_userptr() */
+> -	if (gtt && gtt->userptr) {
+> +	if (gtt->userptr) {
+>   		ttm->sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
+>   		if (!ttm->sg)
+>   			return -ENOMEM;
 
