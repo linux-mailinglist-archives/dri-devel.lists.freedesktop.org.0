@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE8B3DCB0A
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 12:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D063DCB1C
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 12:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 969076E82C;
-	Sun,  1 Aug 2021 10:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB7D76E0F4;
+	Sun,  1 Aug 2021 10:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 498716E82C
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 10:10:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id D8E26610A2
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 10:10:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A84E26E0F4
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 10:29:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 54A0161054
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 10:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627812652;
- bh=56XiH12fv7Y6v87XEN9H6CNEZZIWCvo52xzx4X07uHg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=N7u2s8WuHF9wf3ZJU893AU0Cf+u8L8SdzB/t8nAic0E9E/mX2qPfOxp9TZ+Y++wuq
- 14MLJcQpYYZg7EV26+ttoBYZdun0pBfycAc69oWx74OWUYlLcu39OimKGcHA+4KJY5
- sQRxBuB3UDIliKTstywlA1OjbHt2ntE6K1nUiUaMfxtm4yeU5sK4EidPMSBs1UrsVI
- UGEyTeX/vktQUb1gWwSMDVl9LrFaVwyxRjPQN1hzLLIk5SQ7H8MXWPXuTgTakqDRxd
- RM3txTrdGj13R621mNhKyf7w9eAHdClVnOX2K+d+B87j0ew4f35GEvmDBvBzoI8sl0
- Z8qmRyHOSXL8w==
+ s=k20201202; t=1627813747;
+ bh=p+V3UF5+vwBq9pk/C4NECi0RFSVZgouePFDxF5HG93E=;
+ h=From:To:Subject:Date:From;
+ b=ZPeUyQhYugKbh6Ol5HKeLfDeTxysqk2+dh8uCZu78XHPp5cOqlKevG9Jq5mueWyHv
+ IBruy/4qvGVPeOwu2RYqjsUveGn5uaCjDnhhQuHAO/F5Sr/mOhWGD+GHB4/UfbUUzX
+ UAdZRBLEkPB0RZFVyY1rZQ5kSMsO8rGBGfx9YSR9MiDw1k28eUKx9Yw6Oo+xkQcfXM
+ 441Bszsbk70Xf9wLS6HF75TwHkcqob9C65/AHSL4bWlXYjoI7W8QPRAIGxhSac2tKD
+ mjNUt1qMgC+YFvjHo655xYUZ+Axx5i3ODWS74kzliLjeuVaQL7ADIB0COC1bG6EM7Y
+ 6PeADosB5sXgA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id D0C3C60F4B; Sun,  1 Aug 2021 10:10:52 +0000 (UTC)
+ id 4BFFD60F4A; Sun,  1 Aug 2021 10:29:07 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
- more than 20secs aborting
-Date: Sun, 01 Aug 2021 10:10:52 +0000
+Subject: [Bug 213935] New: AMDGPU Renoir crash/freeze while using vaapi with
+ some video types in some apps - drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
+ *ERROR* Waiting for fences timed out!
+Date: Sun, 01 Aug 2021 10:29:06 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: icedragon.aw@web.de
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: plusfabi@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-211425-2300-JtLaFQtquh@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
-References: <bug-211425-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-213935-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -69,13 +70,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211425
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213935
 
-Andreas (icedragon.aw@web.de) changed:
+            Bug ID: 213935
+           Summary: AMDGPU Renoir crash/freeze while using vaapi with some
+                    video types in some apps -
+                    drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR*
+                    Waiting for fences timed out!
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.13.6
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: plusfabi@gmail.com
+        Regression: No
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|5.13.4                      |5.13.6
+Created attachment 298139
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298139&action=3Dedit
+dmesg
+
+Jul 31 09:50:49 helium kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
+*ERROR* Waiting for fences timed out!
+    Jul 31 09:50:52 helium kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
+R*
+ring gfx timeout, signaled seq=3D18739, emitted seq=3D18742
+    Jul 31 09:50:52 helium kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
+R*
+Process information: process com.github.rafo pid 4266 thread gjs:cs0 pid 43=
+20
+    Jul 31 09:50:52 helium kernel: amdgpu 0000:04:00.0:
+[drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring kiq_2.1.0 test failed
+(-110)
+    Jul 31 09:50:53 helium kernel: amdgpu 0000:04:00.0:
+[drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring kiq_2.1.0 test failed
+(-110)
+    Jul 31 09:50:53 helium kernel: [drm:amdgpu_gfx_enable_kcq.cold [amdgpu]]
+*ERROR* KCQ enable failed
+    Jul 31 09:50:53 helium kernel: [drm:amdgpu_device_ip_resume_phase2
+[amdgpu]] *ERROR* resume of IP block <gfx_v9_0> failed -110
+
+
+In certain situations I'm able to crash/freeze my system by playing mp4 vid=
+eos
+with (vaapi-acceleration) enabled. If the crash/freeze happens, the screen =
+goes
+black and the system isn't responding to any input. Sadly in this case it's=
+ at
+random if something was able to write output to the log. In most cases ther=
+e is
+nothing written about the crash in the log.
+
+
+My environment is=20
+GNOME in Wayland mode
+With native Wayland apps (in this Case Firefox and clapper
+(https://rafostar.github.io/clapper/)
+APU is an Ryzen 5 4500U
+
+
+For Firefox I'm not able to reliable recreate that bug. It happens at random
+while scrolling in twitter and reddit. Never happens in Netflix or Youtube =
+for
+example.
+
+Luckily I was able to recreate it with an app called clapper and a video
+provided by someone on reddit:=20
+https://cdn.discordapp.com/attachments/399812928854949890/87091033954859018=
+0/VID_20210731_124021.mp4
+
+Steps:
+1. Have GNOME running in Wayland mode and vaapi installed (check with=20
+'vainfo`)
+2. Install clapper
+3. Download the video
+4. Run the video in Clapper
+5. While running, launch the video again in clapper
+
+
+It should *not* create another instance of clapper, but try to re-launch the
+video in the same instance of clapper that was already running. You'll hear
+maybe a few sec of the audio, but your whole session is frozen and will ent=
+er
+an all black screen without possible recovery a few sec later.
+
+I'm able to recreate this with every Kernel I tested. So down to 5.8
 
 --=20
 You may reply to this email to add a comment.
