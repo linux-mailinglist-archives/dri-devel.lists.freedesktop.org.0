@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D063DCB1C
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 12:29:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A587F3DCB6A
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 13:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7D76E0F4;
-	Sun,  1 Aug 2021 10:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92EDC6E073;
+	Sun,  1 Aug 2021 11:41:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A84E26E0F4
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 10:29:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 54A0161054
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 10:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627813747;
- bh=p+V3UF5+vwBq9pk/C4NECi0RFSVZgouePFDxF5HG93E=;
- h=From:To:Subject:Date:From;
- b=ZPeUyQhYugKbh6Ol5HKeLfDeTxysqk2+dh8uCZu78XHPp5cOqlKevG9Jq5mueWyHv
- IBruy/4qvGVPeOwu2RYqjsUveGn5uaCjDnhhQuHAO/F5Sr/mOhWGD+GHB4/UfbUUzX
- UAdZRBLEkPB0RZFVyY1rZQ5kSMsO8rGBGfx9YSR9MiDw1k28eUKx9Yw6Oo+xkQcfXM
- 441Bszsbk70Xf9wLS6HF75TwHkcqob9C65/AHSL4bWlXYjoI7W8QPRAIGxhSac2tKD
- mjNUt1qMgC+YFvjHo655xYUZ+Axx5i3ODWS74kzliLjeuVaQL7ADIB0COC1bG6EM7Y
- 6PeADosB5sXgA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 4BFFD60F4A; Sun,  1 Aug 2021 10:29:07 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213935] New: AMDGPU Renoir crash/freeze while using vaapi with
- some video types in some apps - drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
- *ERROR* Waiting for fences timed out!
-Date: Sun, 01 Aug 2021 10:29:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: plusfabi@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-213935-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 706DE6E073
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 11:41:17 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ u9-20020a17090a1f09b029017554809f35so27455271pja.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Aug 2021 04:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=V7CbcU24c2EcgEh6gPwl360Lbo6a4Vh6iTk5nFSY/dA=;
+ b=qZkxBAhluE0p43cVISH+ol5q1lT+cnqxEql+NIpY08L6/PwowG/tSK7brsoB2dM+g4
+ IsHCS42s3dWQ01GIdqQ2VK4IM4bOGJ/yx24/hAOvNqWJwbxbsCpKnF2rkFffMdNgwFrC
+ 6NjZdCRVEFlKZINxUnEFV2Xkrte76bs6chq7lWN6s9gbkliRtcbETJiv3JjWBY+ROuau
+ 7QBHcX8eOM8aLEoJRqNtPiQlkpD6wYCOuSCf3CNuwnvCF9AIupQzAS+CZdWu+b/WV2XR
+ qiQPlqwMe4USOYxSrqo6WEDk1pAoQV5dne9UdThjajtzvP3R06+MzqdQCnGXvELPeNu9
+ 9QWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=V7CbcU24c2EcgEh6gPwl360Lbo6a4Vh6iTk5nFSY/dA=;
+ b=LOEzQh8KcRvpe1Y4jPblDPk8ccv7QMuNKO7OQRB50mHkCGnNmTBjPwXKpD2yokfbjr
+ zGBV25nfSDsBQcPl+tAeeiojI8FNn+ihaqd92WgTSdO9wmnqVCngBmUlp8Q380EwcDhb
+ Mgpw0PJ6EquhdmZeNy93XmrEbccOzB7CMpFRS8HBO0zTfMcQJnE2kAKNxaa/M25FuNGA
+ izu+LiPmCf6rKellwDGsNN+ggMHOyv8OBN6tJI1Hyn0aC/ku6e5l0DSMwUcXL/gsQB3P
+ XUeT9deK0/GXn3KINwNVzbTXTUEdfTLKEcK/LGNmVOybLhfYc1D+0ScOYjIqBjlBBj5m
+ CQUQ==
+X-Gm-Message-State: AOAM530PM4Xku2S2cnI2vC+ZK1CR+ESt28tJgJjEWgpgx7QZIgwrC3rS
+ VfBwXzb7KVHM7xkPMTVqKWz6zeO0ZY0sS3BMeEI=
+X-Google-Smtp-Source: ABdhPJydhwxZ12g/won3lYfp7ROJMWycWxQ5X9RiPATUxhjXxXP+UgIyRIZYxpjob21kv49ZmMn2kBq09Ob2FCmxc98=
+X-Received: by 2002:a63:1457:: with SMTP id 23mr1761825pgu.203.1627818076930; 
+ Sun, 01 Aug 2021 04:41:16 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210801085155.3170-1-len.baker@gmx.com>
+In-Reply-To: <20210801085155.3170-1-len.baker@gmx.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 1 Aug 2021 14:40:40 +0300
+Message-ID: <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
+To: Len Baker <len.baker@gmx.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Phil Reid <preid@electromag.com.au>, 
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ linux-staging@lists.linux.dev, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,99 +73,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213935
+On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
+>
+> strcpy() performs no bounds checking on the destination buffer. This
+> could result in linear overflows beyond the end of the buffer, leading
+> to all kinds of misbehaviors. So, this serie removes all strcpy uses
+> from the "staging/fbtft" subsystem.
+>
+> Also, refactor the code a bit to follow the kernel coding-style and
+> avoid unnecessary variable initialization.
 
-            Bug ID: 213935
-           Summary: AMDGPU Renoir crash/freeze while using vaapi with some
-                    video types in some apps -
-                    drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR*
-                    Waiting for fences timed out!
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.13.6
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: plusfabi@gmail.com
-        Regression: No
+I don't see patch 3 (even on lore.kernel.org).
 
-Created attachment 298139
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298139&action=3Dedit
-dmesg
+Greg, Geert, does it make sense to move this driver outside of staging?
+I would volunteer to maintain it there.
 
-Jul 31 09:50:49 helium kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
-*ERROR* Waiting for fences timed out!
-    Jul 31 09:50:52 helium kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
-R*
-ring gfx timeout, signaled seq=3D18739, emitted seq=3D18742
-    Jul 31 09:50:52 helium kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
-R*
-Process information: process com.github.rafo pid 4266 thread gjs:cs0 pid 43=
-20
-    Jul 31 09:50:52 helium kernel: amdgpu 0000:04:00.0:
-[drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring kiq_2.1.0 test failed
-(-110)
-    Jul 31 09:50:53 helium kernel: amdgpu 0000:04:00.0:
-[drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring kiq_2.1.0 test failed
-(-110)
-    Jul 31 09:50:53 helium kernel: [drm:amdgpu_gfx_enable_kcq.cold [amdgpu]]
-*ERROR* KCQ enable failed
-    Jul 31 09:50:53 helium kernel: [drm:amdgpu_device_ip_resume_phase2
-[amdgpu]] *ERROR* resume of IP block <gfx_v9_0> failed -110
+> Changelog v1 -> v2
+> - Add two new commits to clean the code.
+> - Use the "%*ph" format specifier instead of strscpy() function (Geert
+>   Uytterhoeven)
+>
+> Changelog v2 -> v3
+> - Change the initialization of the "j" variable in the "for" loop and
+>   update the code accordingly (Andy Shevchenko).
+> - Improve the commit message to inform that the "%*ph" replacement
+>   won't cut output earlier than requested (Andy Shevchenko).
+> - Don't remove the braces in the "if" statement due to the presence of
+>   the comment (Geert Uytterhoeven).
+>
+> Len Baker (3):
+>   staging/fbtft: Remove all strcpy() uses
+>   staging/fbtft: Remove unnecessary variable initialization
+>   staging/fbtft: Fix braces coding style
+>
+>  drivers/staging/fbtft/fbtft-core.c | 23 ++++++++++-------------
+>  1 file changed, 10 insertions(+), 13 deletions(-)
+>
+> --
+> 2.25.1
+>
 
 
-In certain situations I'm able to crash/freeze my system by playing mp4 vid=
-eos
-with (vaapi-acceleration) enabled. If the crash/freeze happens, the screen =
-goes
-black and the system isn't responding to any input. Sadly in this case it's=
- at
-random if something was able to write output to the log. In most cases ther=
-e is
-nothing written about the crash in the log.
-
-
-My environment is=20
-GNOME in Wayland mode
-With native Wayland apps (in this Case Firefox and clapper
-(https://rafostar.github.io/clapper/)
-APU is an Ryzen 5 4500U
-
-
-For Firefox I'm not able to reliable recreate that bug. It happens at random
-while scrolling in twitter and reddit. Never happens in Netflix or Youtube =
-for
-example.
-
-Luckily I was able to recreate it with an app called clapper and a video
-provided by someone on reddit:=20
-https://cdn.discordapp.com/attachments/399812928854949890/87091033954859018=
-0/VID_20210731_124021.mp4
-
-Steps:
-1. Have GNOME running in Wayland mode and vaapi installed (check with=20
-'vainfo`)
-2. Install clapper
-3. Download the video
-4. Run the video in Clapper
-5. While running, launch the video again in clapper
-
-
-It should *not* create another instance of clapper, but try to re-launch the
-video in the same instance of clapper that was already running. You'll hear
-maybe a few sec of the audio, but your whole session is frozen and will ent=
-er
-an all black screen without possible recovery a few sec later.
-
-I'm able to recreate this with every Kernel I tested. So down to 5.8
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+With Best Regards,
+Andy Shevchenko
