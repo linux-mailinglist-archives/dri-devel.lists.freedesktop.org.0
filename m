@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716AB3DC933
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 03:04:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3403DC974
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Aug 2021 05:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0322389428;
-	Sun,  1 Aug 2021 01:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E153C6EA3C;
+	Sun,  1 Aug 2021 03:34:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 185C889428
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 01:04:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C7E4760F9D
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Aug 2021 01:04:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627779867;
- bh=40pdlKueEyt7lev1UQagFt3c7F2SlDHQtUNBH7RZ1Y4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=gz+YZAu7r+tD84jNsvzwhhrZG4waE/zU56AJSw+qfAmSZUHqQfsCiXSyCae/mlZMZ
- LMaJytAe9eRVfZEzHQbehQZYjM/eskdfeW+Mw+pMpHDOZav4eKLXHYQ51mEj9Mk0gU
- oGax40VZop1I/sJWXtB5fsMnnH2vVD+o8L3nIxhHQm+Dv92kl3B3BjMfcBXapo4Bb/
- 1qEKEAGM7Av3leEc55vHAdaDsb1hpAXPs1DXg89F5YnvfxTSiBjP0LiWBYB5gd7jkx
- hPwrDlBciYfDsM8L4ZpAJu3Z8EfG2YMQlMaFIKydjOZwdWKr9rvtBmaeX657vH0EnT
- 0UHg2tnxfI4Rw==
-Received: by mail-ej1-f52.google.com with SMTP id cb3so2497021ejb.1
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jul 2021 18:04:27 -0700 (PDT)
-X-Gm-Message-State: AOAM5315wNolJ/nhjITbscVeidWTAz/VjDFQNhkuSvBNTBMRC3LHi7FF
- X7thdG+HtFcKmViEjV8jKY8NPqqdlvUMOLyyWw==
-X-Google-Smtp-Source: ABdhPJxChVMHTPtuXeIkTB7f77pLqBVLDVCfWKNw/m3lMjDr8wlREVH0WD35bnLA7EABAjNY/O6UQtfVK3j8dLRdHl8=
-X-Received: by 2002:a17:907:76cd:: with SMTP id
- kf13mr9706503ejc.310.1627779866352; 
- Sat, 31 Jul 2021 18:04:26 -0700 (PDT)
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3E66E945;
+ Sun,  1 Aug 2021 03:34:51 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id i13so1538507ilm.11;
+ Sat, 31 Jul 2021 20:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TuTXg0e3clW+MMWqMjMwfJqjaNCb4Ct1FoSRnnKkgJ8=;
+ b=kC3SpbfGQStvm0vYCDgFFccoBC/d4pOGgv6VuIWBrntvaxsyMaVZZc7hGtP30YQI8s
+ CpKdVoYLqeToXu/D392uoc4+5J2Ld5hYGS3ZyFJ0kHkkzrzLPE1Z0lhYp736hbm421hN
+ NdEjKol+y8rgsYVHqiqHTrw/Ef6lHfER8Vyk0Mg7H7uajPr4iM/nO4UyzopSTPAfA9Gn
+ KMxwEwnPlQ8a07egcI5HuqEjtAiqxSZ0rf3Yr3iMi+0T6cIhhnpJbiHRfXGmjJAKWFpd
+ JKlvxQaRcbXeBy0KM8d9guJrj/1vUFk3cG8mhmmy5DF4GPrqx/Q2lhgziM2U2TvocZ+3
+ CoOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TuTXg0e3clW+MMWqMjMwfJqjaNCb4Ct1FoSRnnKkgJ8=;
+ b=nXDE+imSQBNdlp5ltcZcf70W4vmYJ/NQuSgHscqd7o26jkzithriwJeG4JXc2qK2mY
+ YHuBmgr65ggGYvJLD/E/zOempjBeJCe4+hvv7e4TAfjyMKliCMJAFBTa7vq3Z0JroxAJ
+ 7pXzRdULBsHwbn18NNpAKDdLPPHeKeoduOmQh05ySVBG4SdWPWwFp9xsdj/eVJycOVET
+ mDIkNvjRGzDD3VI3FLYWNH5bdyb6YWyFR4dqSxU5jPLmhp14vj8RPRw4HSgyIg+MuWyA
+ NxByBA+mBNWlULsCRhYSvDPT4SNhqPyVuCUv8YDToC4sJTUlSFH1klRv0PIT561ECXkP
+ POeA==
+X-Gm-Message-State: AOAM533kbazzMmDN96SK8FjO+FVUrl4NOfj26BPRtwLgNYlipmNyKvdP
+ 7Oq8QDCVjL769A7j66EbzpvDZEVUh5t3Tbqf
+X-Google-Smtp-Source: ABdhPJwxzVLBZL+ZmF8QBZL4Gvbcc1RiS9N6/uHnbx0dzquWp60KZIHGDWSCoHisTkYzkl8QyZYx3g==
+X-Received: by 2002:a92:c54d:: with SMTP id a13mr4253873ilj.74.1627788890249; 
+ Sat, 31 Jul 2021 20:34:50 -0700 (PDT)
+Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
+ by smtp.googlemail.com with ESMTPSA id c1sm3366525ils.21.2021.07.31.20.34.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 31 Jul 2021 20:34:49 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, seanpaul@chromium.org
+Cc: Jim Cromie <jim.cromie@gmail.com>
+Subject: [PATCH] dyndbg: add special aux_print framework
+Date: Sat, 31 Jul 2021 21:34:32 -0600
+Message-Id: <20210801033432.831938-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210729154912.20051-1-jason-jh.lin@mediatek.com>
- <20210729154912.20051-3-jason-jh.lin@mediatek.com>
-In-Reply-To: <20210729154912.20051-3-jason-jh.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 1 Aug 2021 09:04:15 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9aiXUEk7wJA9DBCOx-P1zVBFC6fqF-BP2HdHyvkxFwqA@mail.gmail.com>
-Message-ID: <CAAOTY_9aiXUEk7wJA9DBCOx-P1zVBFC6fqF-BP2HdHyvkxFwqA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] dt-bindings: mediatek: display: Change format to
- yaml
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>,
- Enric Balletbo Serra <eballetbo@gmail.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Fabien Parent <fparent@baylibre.com>,
- Jitao shi <jitao.shi@mediatek.com>, fshao@chromium.org, 
- Nancy Lin <nancy.lin@mediatek.com>, singo.chang@mediatek.com, 
- DTML <devicetree@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,240 +71,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
+Sean Paul seanpaul@chromium.org proposed, in
+https://patchwork.freedesktop.org/series/78133/
+drm/trace: Mirror DRM debug logs to tracefs
 
-jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B47=E6=9C=882=
-9=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8811:49=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Change mediatek,dislpay.txt to mediatek,display.yaml
->
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> ---
->  .../display/mediatek/mediatek,disp.txt        | 219 ---------
->  .../display/mediatek/mediatek,disp.yaml       | 432 ++++++++++++++++++
->  2 files changed, 432 insertions(+), 219 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
-diatek,disp.txt
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
-diatek,disp.yaml
->
+The problem with the approach is that its built upon splitting
+drm_debug_enabled() into syslog & trace flavors, which clashes rather
+profoundly with the strategy of obsoleting it using dyndbg.
 
-[snip]
+Instead, this puts the print-to-trace decision after the is-it-enabled
+test (which is a noop), so it has near zero additional cost.
 
-> +
-> +  DISP function blocks
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +  A display stream starts at a source function block that reads pixel da=
-ta from
-> +  memory and ends with a sink function block that drives pixels on a dis=
-play
-> +  interface, or writes pixels back to memory. All DISP function blocks h=
-ave
-> +  their own register space, interrupt, and clock gate. The blocks that c=
-an
-> +  access memory additionally have to list the IOMMU and local arbiter th=
-ey are
-> +  connected to.
-> +
-> +properties:
-> +  compatible:
-> +    description: |
-> +      If the display function block of different soc have the same funct=
-ion,
-> +      you can use the same compatible name after it.
-> +      For example, if mt8183 COLOR function is the same as mt8173, then =
-the
-> +      compatible of mt8183 cholud be set as:
-> +      compatible =3D "mediatek,mt8183-disp-color", "mediatek,mt8173-disp=
--color";
-> +    oneOf:
-> +      # OVL: overlay (4 layers, blending, csc)
-> +      - items:
-> +          - const: mediatek,mt2701-disp-ovl
-> +      - items:
-> +          - const: mediatek,mt8173-disp-ovl
-> +      - items:
-> +          - const: mediatek,mt8183-disp-ovl
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt7623-disp-ovl
-> +              - mediatek,mt2712-disp-ovl
-> +          - enum:
-> +              - mediatek,mt2701-disp-ovl
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8192-disp-ovl
-> +          - enum:
-> +              - mediatek,mt8183-disp-ovl
-> +
-> +      # OVL2L: overlay (2 layers, blending, csc)
-> +      - items:
-> +          - const: mediatek,mt8183-disp-ovl-2l
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8192-disp-ovl-2l
-> +          - enum:
-> +              - mediatek,mt8183-disp-ovl-2l
-> +
-> +      # RDMA: read DMA / line buffer
-> +      - items:
-> +          - const: mediatek,mt2701-disp-rdma
-> +      - items:
-> +          - const: mediatek,mt8173-disp-rdma
-> +      - items:
-> +          - const: mediatek,mt8183-disp-rdma
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt7623-disp-rdma
-> +              - mediatek,mt2712-disp-rdma
-> +          - enum:
-> +              - mediatek,mt2701-disp-rdma
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8192-disp-rdma
-> +          - enum:
-> +              - mediatek,mt8183-disp-rdma
-> +
-> +      # WDMA: write DMA
-> +      - items:
-> +          - const: mediatek,mt8173-disp-wdma
-> +
-> +      # CCORR: color correction
-> +      - items:
-> +          - const: mediatek,mt8183-disp-ccorr
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8192-disp-ccorr
-> +          - enum:
-> +              - mediatek,mt8183-disp-ccorr
-> +
-> +      # COLOR: color processor
-> +      - items:
-> +          - const: mediatek,mt2701-disp-color
-> +      - items:
-> +          - const: mediatek,mt8167-disp-color
-> +      - items:
-> +          - const: mediatek,mt8173-disp-color
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt7623-disp-color
-> +              - mediatek,mt2712-disp-color
-> +          - enum:
-> +              - mediatek,mt2701-disp-color
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8183-disp-color
-> +              - mediatek,mt8192-disp-color
-> +          - enum:
-> +              - mediatek,mt8173-disp-color
-> +
-> +      # DITHER
-> +      - items:
-> +          - const: mediatek,mt8183-disp-dither
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8192-disp-dither
-> +          - enum:
-> +              - mediatek,mt8183-disp-dither
-> +
-> +      # AAL: adaptive ambient light controller
-> +      - items:
-> +          - const: mediatek,mt8173-disp-aal
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt2712-disp-aal
-> +              - mediatek,mt8183-disp-aal
-> +              - mediatek,mt8192-disp-aal
-> +          - enum:
-> +              - mediatek,mt8173-disp-aal
-> +
-> +      # GAMMA: gamma correction
-> +      - items:
-> +          - const: mediatek,mt8173-disp-gamma
-> +      - items:
-> +          - const: mediatek,mt8183-disp-gamma
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8192-disp-gamma
-> +          - enum:
-> +              - mediatek,mt8183-disp-gamma
-> +
-> +      # MERGE: merge streams from two RDMA sources
-> +
-> +      # POSTMASK: control round corner for display frame
-> +      - items:
-> +          - const: mediatek,mt8192-disp-postmask
-> +
-> +      # SPLIT: split stream to two encoders
-> +
-> +      # UFOE: data compression engine
-> +      - items:
-> +          - const: mediatek,mt8173-disp-ufoe
-> +
-> +      # DSI: see Documentation/devicetree/bindings/display/mediatek/medi=
-atek,dsi.txt for details.
-> +      - items:
-> +          - const: mediatek,mt2701-disp-dsi
-> +      - items:
-> +          - const: mediatek,mt8173-disp-dsi
-> +      - items:
-> +          - const: mediatek,mt8183-disp-dsi
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt7623-disp-dsi
-> +              - mediatek,mt2712-disp-dsi
-> +          - enum:
-> +              - mediatek,mt2701-disp-dsi
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8192-disp-dsi
-> +          - enum:
-> +              - mediatek,mt8183-disp-dsi
-> +
-> +      # DPI: see Documentation/devicetree/bindings/display/mediatek/medi=
-atek,dpi.yaml for details.
-> +      - items:
-> +          - const: mediatek,mt2701-disp-dpi
-> +      - items:
-> +          - const: mediatek,mt8173-disp-dpi
-> +      - items:
-> +          - const: mediatek,mt8183-disp-dpi
-> +      - items:
-> +          - const: mediatek,mt8192-disp-dpi
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt7623-disp-dpi
-> +              - mediatek,mt2712-disp-dpi
-> +          - enum:
-> +              - mediatek,mt2701-disp-dpi
-> +
-> +      # MUTEX: display mutex
-> +      - items:
-> +          - const: mediatek,mt2701-disp-mutex
-> +      - items:
-> +          - const: mediatek,mt2712-disp-mutex
-> +      - items:
-> +          - const: mediatek,mt8167-disp-mutex
-> +      - items:
-> +          - const: mediatek,mt8173-disp-mutex
-> +      - items:
-> +          - const: mediatek,mt8183-disp-mutex
-> +      - items:
-> +          - const: mediatek,mt8192-disp-mutex
-> +
-> +      # OD: overdrive
-> +      - items:
-> +          - const: mediatek,mt2712-disp-od
-> +      - items:
-> +          - const: mediatek,mt8173-disp-od
-> +
+This is preliminary, Proof-of-Concept, and about 2 hrs old.
+But its surprisingly simple:
 
-I think you should follow Rob's suggestion [1] to split each function
-block into one schema.
+ - add a new struct _ddebug member: (*aux_print)(char *format, ...)
+ - add a new S/special flag to check !!aux_print
+ - if S, invoke the function to handle the prepared vaf
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/patch/2021071517375=
-0.10852-2-jason-jh.lin@mediatek.com/
+It intrinsically allows any number of alternate printf-ish consumers,
+but only 1 active per callsite.  I have another patchset that
+eliminates some of the data redundancies like this, it can be
+extended.
 
-Regards,
-Chun-Kuang.
+It may also prove to be a generic way to implement the netdev & ibdev
+variants of __dynamic_pr_debug.
+
+It just needs a mechanism to set the per-callsite pointer to a
+printf-ish function to consume the pr_debug output, a tighter/better
+function prototype, and a wrapper on drm_trace_printf to bundle up the
+args and comport with the prototype, which can evolve to suit this 1st
+client.
+
+it is on top of:
+https://patchwork.freedesktop.org/series/92544/
+(v4 on lkml, v2 in patchwork)
+
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ include/linux/dynamic_debug.h |  7 ++++++-
+ lib/dynamic_debug.c           | 22 +++++++++++++++++++---
+ 2 files changed, 25 insertions(+), 4 deletions(-)
+
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 677ad176b167..0d068e8ed7aa 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -22,6 +22,7 @@ struct _ddebug {
+ 	const char *function;
+ 	const char *filename;
+ 	const char *format;
++	int (*aux_print)(char *, void *, void *);
+ 	unsigned int lineno:18;
+ 	/*
+ 	 * The flags field controls the behaviour at the callsite.
+@@ -29,7 +30,11 @@ struct _ddebug {
+ 	 * writes commands to <debugfs>/dynamic_debug/control
+ 	 */
+ #define _DPRINTK_FLAGS_NONE	0
+-#define _DPRINTK_FLAGS_PRINT	(1<<0) /* printk() a message using the format */
++#define _DPRINTK_FLAGS_PRINT		(1<<0) /* printk() a message */
++#define _DPRINTK_FLAGS_PRINT_AUX	(1<<5) /* call (*aux_print) */
++
++#define _DPRINTK_ENABLED (_DPRINTK_FLAGS_PRINT | _DPRINTK_FLAGS_PRINT_AUX)
++
+ #define _DPRINTK_FLAGS_INCL_MODNAME	(1<<1)
+ #define _DPRINTK_FLAGS_INCL_FUNCNAME	(1<<2)
+ #define _DPRINTK_FLAGS_INCL_LINENO	(1<<3)
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 045e1cf92c44..7bbdedabe6f1 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -85,6 +85,7 @@ static inline const char *trim_prefix(const char *path)
+ 
+ static struct { unsigned flag:8; char opt_char; } opt_array[] = {
+ 	{ _DPRINTK_FLAGS_PRINT, 'p' },
++	{ _DPRINTK_FLAGS_PRINT_AUX, 'S' },
+ 	{ _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
+ 	{ _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
+ 	{ _DPRINTK_FLAGS_INCL_LINENO, 'l' },
+@@ -206,10 +207,10 @@ static int ddebug_change(const struct ddebug_query *query,
+ 			if (newflags == dp->flags)
+ 				continue;
+ #ifdef CONFIG_JUMP_LABEL
+-			if (dp->flags & _DPRINTK_FLAGS_PRINT) {
+-				if (!(modifiers->flags & _DPRINTK_FLAGS_PRINT))
++			if (dp->flags & _DPRINTK_ENABLED) {
++				if (!(modifiers->flags & _DPRINTK_ENABLED))
+ 					static_branch_disable(&dp->key.dd_key_true);
+-			} else if (modifiers->flags & _DPRINTK_FLAGS_PRINT)
++			} else if (modifiers->flags & _DPRINTK_ENABLED)
+ 				static_branch_enable(&dp->key.dd_key_true);
+ #endif
+ 			dp->flags = newflags;
+@@ -639,6 +640,21 @@ void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
+ 
+ 	printk(KERN_DEBUG "%s%pV", dynamic_emit_prefix(descriptor, buf), &vaf);
+ 
++	if (descriptor->flags & _DPRINTK_FLAGS_PRINT_AUX) {
++		/* our model:
++		drm_trace_printf("%s%s[" DRM_NAME ":%ps] %pV",
++				 dev ? dev_name(dev) : "", dev ? " " : "",
++				 __builtin_return_address(0), &vaf);
++		*/
++		pr_info("reached check aux\n");
++
++		if (descriptor->aux_channel) {
++			pr_info("calling aux\n");
++			(*descriptor->aux_channel)
++				("%s[DRM_mumble :%ps] %pV", buf,
++				 __builtin_return_address(0), &vaf);
++		}
++	}
+ 	va_end(args);
+ }
+ EXPORT_SYMBOL(__dynamic_pr_debug);
+-- 
+2.31.1
+
