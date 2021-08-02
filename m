@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108E63DDCBC
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 17:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320313DDCBE
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 17:48:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2BFA6E1ED;
-	Mon,  2 Aug 2021 15:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D876E57A;
+	Mon,  2 Aug 2021 15:48:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77DAF6E1A5
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 15:48:41 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id oz16so31577526ejc.7
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 08:48:41 -0700 (PDT)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 494CC6E1ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 15:48:42 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id cf5so13573497edb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 08:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Nl7Irs71vJM1YfQMLmrkQe1rncHUCMW4+W0FSdH/emo=;
- b=bcjMHaD7lBwNjpUJnt6nNj2zB249DzfUhvbz9u+/apMCW+0TOjiaDcR7e6wjJP4blE
- 1cDLMlLMtPc53fSQMdvbIDOieZFZsnsjHjReAclPRyRrQP703FzDB2iZjsUsUY7LZTwy
- vV/cL/salYAXVBTUlW5UooVP+72gPE/alWICw=
+ bh=szer5ysTcN0cXhDZZ68P3ISHgJkdsGE6DidnebcKmQU=;
+ b=FYojloi1vR8bqCqvp5AnbTKZd/vwn+GJc9rZLMyrVsRZg38lHt2ATKDm8buUVXZUEN
+ keg/OdjCfLuP1Q7Z4ddXqROgiMbVEWQXbY/89QETjHaSBtkwmCHEWSGoXSJWizi4b+Vs
+ 0Ik+sUzVsZv2xy4n7psTEgx01Bfl6uG0/ilKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Nl7Irs71vJM1YfQMLmrkQe1rncHUCMW4+W0FSdH/emo=;
- b=j7kbVQ3TT7GcNXVhBppNvr4gKD/4OaZUO2u+2SlZO+ZgF/tIvRQJDqLviwKRiSFE+J
- DWyjnDqykLpQTuamjsJM3tqVaeIIZO3+lp37Ab3RxExNESLe2XL/dt6kIycIYcBJYcul
- N/Wmcs1M3utK6dQcBHL0Et3ramTwyzeytkC2S0U67EOuNtaRFeu65z1qbVC98um1Xnnq
- 9Nm8+Lc5F1IbA2oArAdu9fv5/TYm4Z/FYdBNxPvGkyBHROYh2iQStPnW8a+Z/YbNSdsi
- uTdkFi7+cIgdyKHkYr5Uaad1Z+QP2VaQbaKenWhH2ti1s7EtaQdNYusmgpIRcPvbjmJd
- twTw==
-X-Gm-Message-State: AOAM532plTcwNPUC9XGmaQQsERupfFYbb1HMkzelZK6mXjvtuDnwSYW0
- XjsmM5Z/MzMAmEZX9liso1/a9+TL5fX7fg==
-X-Google-Smtp-Source: ABdhPJx/cCVDqBdHmUYokXzmzYUV9HGcgFn2GtG5vbbgLNU2h9oB02+1PKbnd+07YJJ4b/aacFk2Qw==
-X-Received: by 2002:a17:906:85c2:: with SMTP id
- i2mr16083602ejy.397.1627919320016; 
+ bh=szer5ysTcN0cXhDZZ68P3ISHgJkdsGE6DidnebcKmQU=;
+ b=GLvfl8AZNcb+NL/FS/eWpY1kDBzzGNxpr64tMxt/84XhSXFS/X1ehLQRs/kbMlZy7u
+ 0AtNShNOWGuDUYdngoUyN7+bqF4YH9P5sFWUq3/dnDQe3PnPIy+21MfPq68763MML6o9
+ ZuJDfCothIIcOwvmiw3VMaGtbt0o2f1I3LziuyuldWn6hgl9baP+tWjo5euf0hy23e8l
+ 5nloFFe1fTb6YWPuUpYDt7Tn5SIPPrm7zoBthZIlt4JRZdix8lQSrSSPfluNiR6R8Awt
+ QZQEOGhEzVBhSVvQaf6+IKrFKZe1DOYWyWen1I0EBKpkeBUYwmqeywIgpGWxnRBkXgKU
+ 8hzg==
+X-Gm-Message-State: AOAM533nFqXkptFNN8ZowA6gm1I1mfEHVLa++Gy670C2mHKg/pROH594
+ zLwNJ5e/wEz96PxfOk/+cdm8oT+Kweadng==
+X-Google-Smtp-Source: ABdhPJzdDab5dBnvDZ4UFOAmOT/pHFp62h/kz4m2QFwX8hvzflphu6sbuoMXp9iaMfF8i5R3YBlEiQ==
+X-Received: by 2002:a05:6402:254b:: with SMTP id
+ l11mr19623420edb.157.1627919320903; 
  Mon, 02 Aug 2021 08:48:40 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m20sm5064020edv.67.2021.08.02.08.48.39
+ by smtp.gmail.com with ESMTPSA id m20sm5064020edv.67.2021.08.02.08.48.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 08:48:39 -0700 (PDT)
+ Mon, 02 Aug 2021 08:48:40 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
@@ -56,9 +56,9 @@ Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Matthew Auld <matthew.auld@intel.com>,
  Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
  Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-Subject: [PATCH 3/9] drm/i915: Use i915_gem_context_get_eb_vm in ctx_getparam
-Date: Mon,  2 Aug 2021 17:48:00 +0200
-Message-Id: <20210802154806.3710472-4-daniel.vetter@ffwll.ch>
+Subject: [PATCH 4/9] drm/i915: Add i915_gem_context_is_full_ppgtt
+Date: Mon,  2 Aug 2021 17:48:01 +0200
+Message-Id: <20210802154806.3710472-5-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210802154806.3710472-1-daniel.vetter@ffwll.ch>
 References: <20210802154806.3710472-1-daniel.vetter@ffwll.ch>
@@ -80,10 +80,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Consolidates the "which is the vm my execbuf runs in" code a bit. We
-do some get/put which isn't really required, but all the other users
-want the refcounting, and I figured doing a function just for this
-getparam to avoid 2 atomis is a bit much.
+And use it anywhere we have open-coded checks for ctx->vm that really
+only check for full ppgtt.
+
+Plus for paranoia add a GEM_BUG_ON that checks it's really only set
+when we have full ppgtt, just in case. gem_context->vm is different
+since it's NULL in ggtt mode, unlike intel_context->vm or gt->vm,
+which is always set.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Jon Bloomfield <jon.bloomfield@intel.com>
@@ -97,38 +100,78 @@ Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 Cc: Dave Airlie <airlied@redhat.com>
 Cc: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c           | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h           | 7 +++++++
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c        | 2 +-
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 4 ++--
+ 4 files changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index cff72679ad7c..6263563e15d6 100644
+index 6263563e15d6..a80b06c98dba 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -2124,6 +2124,7 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
- 	struct drm_i915_file_private *file_priv = file->driver_priv;
- 	struct drm_i915_gem_context_param *args = data;
- 	struct i915_gem_context *ctx;
-+	struct i915_address_space *vm;
- 	int ret = 0;
+@@ -1581,7 +1581,7 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
+ 	int err;
+ 	u32 id;
  
- 	ctx = i915_gem_context_lookup(file_priv, args->ctx_id);
-@@ -2133,12 +2134,10 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
- 	switch (args->param) {
- 	case I915_CONTEXT_PARAM_GTT_SIZE:
- 		args->size = 0;
--		rcu_read_lock();
--		if (rcu_access_pointer(ctx->vm))
--			args->value = rcu_dereference(ctx->vm)->total;
--		else
--			args->value = to_i915(dev)->ggtt.vm.total;
--		rcu_read_unlock();
-+		vm = i915_gem_context_get_eb_vm(ctx);
-+		args->value = vm->total;
-+		i915_vm_put(vm);
+-	if (!rcu_access_pointer(ctx->vm))
++	if (!i915_gem_context_is_full_ppgtt(ctx))
+ 		return -ENODEV;
+ 
+ 	rcu_read_lock();
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+index da6e8b506d96..37536a260e6e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+@@ -154,6 +154,13 @@ i915_gem_context_vm(struct i915_gem_context *ctx)
+ 	return rcu_dereference_protected(ctx->vm, lockdep_is_held(&ctx->mutex));
+ }
+ 
++static inline bool i915_gem_context_is_full_ppgtt(struct i915_gem_context *ctx)
++{
++	GEM_BUG_ON(!!rcu_access_pointer(ctx->vm) != HAS_FULL_PPGTT(ctx->i915));
 +
- 		break;
++	return !!rcu_access_pointer(ctx->vm);
++}
++
+ static inline struct i915_address_space *
+ i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
+ {
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 69e47b97d786..bdf2b5785a81 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -749,7 +749,7 @@ static int eb_select_context(struct i915_execbuffer *eb)
+ 		return PTR_ERR(ctx);
  
- 	case I915_CONTEXT_PARAM_NO_ERROR_CAPTURE:
+ 	eb->gem_context = ctx;
+-	if (rcu_access_pointer(ctx->vm))
++	if (i915_gem_context_is_full_ppgtt(ctx))
+ 		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+index d436ce7fa25c..5442b8e59629 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+@@ -838,7 +838,7 @@ static int igt_shared_ctx_exec(void *arg)
+ 				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
+ 				       ndwords, dw, max_dwords(obj),
+ 				       engine->name,
+-				       yesno(!!rcu_access_pointer(ctx->vm)),
++				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
+ 				       err);
+ 				intel_context_put(ce);
+ 				kernel_context_close(ctx);
+@@ -1417,7 +1417,7 @@ static int igt_ctx_readonly(void *arg)
+ 				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
+ 				       ndwords, dw, max_dwords(obj),
+ 				       ce->engine->name,
+-				       yesno(!!ctx_vm(ctx)),
++				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
+ 				       err);
+ 				i915_gem_context_unlock_engines(ctx);
+ 				goto out_file;
 -- 
 2.32.0
 
