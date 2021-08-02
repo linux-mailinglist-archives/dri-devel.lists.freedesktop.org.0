@@ -1,71 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5A43DD29C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 11:06:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5943DD2A1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 11:08:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBD1A6E4D4;
-	Mon,  2 Aug 2021 09:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9005F6E4C4;
+	Mon,  2 Aug 2021 09:08:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B708C6E4C4
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 09:06:04 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id x90so23454396ede.8
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 02:06:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=oxJndgLE6lX28KTzTdOmt6wyFjCj0QsAl5hI8H2qZbo=;
- b=LNs4PalSyCrTL8WX/hZUVMo46kNkgwEccY6ojxNVL+G6lP8oKR9Tl/YCOR0i41/TCU
- i8kfsZLPCc4cZzExQnd1M2W/B9GexDbVFuvn4O7JUKjXOToej/PqBJ3o3YRNB9Yzqd/S
- snnrWid+88NfbE/oZYkGCrfkAAO6VKJbLi58I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=oxJndgLE6lX28KTzTdOmt6wyFjCj0QsAl5hI8H2qZbo=;
- b=V0nD1xsp9Gh+AEWgBLf6p5Vy6L81sYD3EygroiL/I5xypbLBB66g7rGHRMZZWoWS5x
- qM2rQWAt/Py2NT8WwDxy8wvLYkCHbRisceU2eR+/LNICGW/zshiUiU1Tl8ffxS+aQTcJ
- 6E+WLmJoknwpoSxfGF1FcyiBZGIhG0NjGKMml5xq6DcUfMj7XdciQokzAGxs3nWGfP1l
- MWXW3yp8O9HnRetnxSlCUXPyp+pZNKvomqZZTIwXnVWofWyFe3pfIRST6/37hhzgftQ1
- wBJ53/PViEVEyfV3qL7AgTk1lhrYBxid1uCqILSDRSDqG3dKrwGRV2pL16Wtsy8qUJRS
- 9auA==
-X-Gm-Message-State: AOAM533hHNPTEXCkr74g3iLySUbgt/pAXn6gRxj5KfJDnpq+M3VIJTM7
- Inut2hVENi2+TRTom7cHLqr2pA==
-X-Google-Smtp-Source: ABdhPJw6ntP6e9WQ62UDJ24TF4J+HLi068ktBIDpVR9DRcBbZwQHACXLaEsw+62mMDWg+M1oCL7nDA==
-X-Received: by 2002:a05:6402:b72:: with SMTP id
- cb18mr17733432edb.290.1627895163290; 
- Mon, 02 Aug 2021 02:06:03 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i16sm5641177edr.38.2021.08.02.02.06.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 02:06:02 -0700 (PDT)
-Date: Mon, 2 Aug 2021 11:06:01 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>,
- dri-devel@lists.freedesktop.org, Tina Zhang <tina.zhang@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Message-ID: <YQe1eUxNvJZ9G200@phenom.ffwll.local>
-References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
- <YQPTo0D5SZfX44dn@phenom.ffwll.local>
- <22e9230f-8d12-9cad-7b89-8a2bc8c71e05@daenzer.net>
- <YQel+/qLNC/ga7Ez@phenom.ffwll.local>
- <9996e4d6-7335-9854-0505-83e114e4fbe6@daenzer.net>
+Received: from smtpbg604.qq.com (smtpbg604.qq.com [59.36.128.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AAD16E4C4
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 09:08:44 +0000 (UTC)
+X-QQ-mid: bizesmtp35t1627895191ted2cdx7
+Received: from [192.168.0.46] (unknown [113.89.245.207])
+ by esmtp6.qq.com (ESMTP) with 
+ id ; Mon, 02 Aug 2021 17:06:30 +0800 (CST)
+X-QQ-SSF: 00100000002000209000D00A0000000
+X-QQ-FEAT: d+oHhNLBBfvcM9LTcdSB8Adj0kc5pReWnlPm33ZAog4FdJxK8MP21EuAe64Wy
+ PtCAiOaDC3Q2UzquNOiJuPkPjbi0kzi9OYb/rUSwYCTSWsvEsOdHh2Ndj1pS2rT3lWBw8LZ
+ TmkT0xqZusgcCNQaQyrdzWjsYyE1LG+Kt76gflTAxsSiEPnSGz+5aqBrpFhJi46QBUqkRB1
+ xqBoxqvT5JJeoLzyAhLY/L1a7F3BwMGx43rF/RV5BmCvD2yyDHP9JpBb5YHYOsU84vymWeD
+ fIn0GVCxjPDsu6cgPjT6sAKMAxTUPnTON44oQub4b4oJNR/Gaakc0y9Mn+NQOntdiI2OD3v
+ FljGh95459zmYhebqWOiLziKMKirxN8zHwbplWC1TQtFryCfXA=
+X-QQ-GoodBg: 0
+Message-ID: <40f976d12b70919cc0fd0d7e8f6fc7fa16511cd4.camel@sipeed.com>+FA0FA08A731F7745
+Subject: Re: [PATCH 3/4] drm/tiny: add simple-dbi driver
+From: Icenowy Zheng <icenowy@sipeed.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob
+ Herring <robh+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Mon, 02 Aug 2021 17:06:30 +0800
+In-Reply-To: <20210802063538.75583-4-icenowy@sipeed.com>
+References: <20210802063538.75583-1-icenowy@sipeed.com>
+ <20210802063538.75583-4-icenowy@sipeed.com>
+Organization: Sipeed
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9996e4d6-7335-9854-0505-83e114e4fbe6@daenzer.net>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,136 +57,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 02, 2021 at 10:49:37AM +0200, Michel D�nzer wrote:
-> On 2021-08-02 9:59 a.m., Daniel Vetter wrote:
-> > On Fri, Jul 30, 2021 at 02:50:10PM +0200, Michel D�nzer wrote:
-> >> On 2021-07-30 12:25 p.m., Daniel Vetter wrote:
-> >>> On Thu, Jul 29, 2021 at 01:16:55AM -0700, Vivek Kasireddy wrote:
-> >>>> By separating the OUT_FENCE signalling from pageflip completion allows
-> >>>> a Guest compositor to start a new repaint cycle with a new buffer
-> >>>> instead of waiting for the old buffer to be free. 
-> >>>>
-> >>>> This work is based on the idea/suggestion from Simon and Pekka.
-> >>>>
-> >>>> This capability can be a solution for this issue:
-> >>>> https://gitlab.freedesktop.org/wayland/weston/-/issues/514
-> >>>>
-> >>>> Corresponding Weston MR:
-> >>>> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/668
-> >>>
-> >>> Uh I kinda wanted to discuss this a bit more before we jump into typing
-> >>> code, but well I guess not that much work yet.
-> >>>
-> >>> So maybe I'm not understanding the problem, but I think the fundamental
-> >>> underlying issue is that with KMS you can have at most 2 buffers
-> >>> in-flight, due to our queue depth limit of 1 pending flip.
-> >>>
-> >>> Unfortunately that means for virtual hw where it takes a few more
-> >>> steps/vblanks until the framebuffer actually shows up on screen and is
-> >>> scanned out, we suffer deeply. The usual fix for that is to drop the
-> >>> latency and increase throughput, and have more buffers in-flight. Which
-> >>> this patch tries to do.
-> >>
-> >> Per
-> >> https://gitlab.freedesktop.org/wayland/weston/-/issues/514#note_986797 ,
-> >> IMO the underlying issue is actually that the guest compositor repaint
-> >> cycle is not aligned with the host compositor one. If they were aligned,
-> >> the problem would not occur even without allowing multiple page flips in
-> >> flight, and latency would be lower.
-> > 
-> > Yeah my proposal here is under the premise that we do actually need to fix
-> > this with a deeper queue depth.
-> > 
-> >>> Now I think where we go wrong here is that we're trying to hack this up by
-> >>> defining different semantics for the out-fence and for the drm-event. Imo
-> >>> that's wrong, they're both meant to show eactly the same thing:
-> >>> - when is the new frame actually visible to the user (as in, eyeballs in a
-> >>>   human head, preferrably, not the time when we've handed the buffer off
-> >>>   to the virtual hw)
-> >>> - when is the previous buffer no longer being used by the scanout hw
-> >>>
-> >>> We do cheat a bit right now in so far that we assume they're both the
-> >>> same, as in, panel-side latency is currently the compositor's problem to
-> >>> figure out.
-> >>>
-> >>> So for virtual hw I think the timestamp and even completion really need to
-> >>> happen only when the buffer has been pushed through the entire
-> >>> virtualization chain, i.e. ideally we get the timestamp from the kms
-> >>> driver from the host side. Currently that's not done, so this is most
-> >>> likely quite broken already (virtio relies on the no-vblank auto event
-> >>> sending, which definitely doesn't wait for anything, or I'm completely
-> >>> missing something).
-> >>>
-> >>> I think instead of hacking up some ill-defined 1.5 queue depth support,
-> >>> what we should do is support queue depth > 1 properly. So:
-> >>>
-> >>> - Change atomic to support queue depth > 1, this needs to be a per-driver
-> >>>   thing due to a bunch of issues in driver code. Essentially drivers must
-> >>>   never look at obj->state pointers, and only ever look up state through
-> >>>   the passed-in drm_atomic_state * update container.
-> >>>
-> >>> - Aside: virtio should loose all it's empty hooks, there's no point in
-> >>>   that.
-> >>>
-> >>> - We fix virtio to send out the completion event at the end of this entire
-> >>>   pipeline, i.e. virtio code needs to take care of sending out the
-> >>>   crtc_state->event correctly.
-> >>>
-> >>> - We probably also want some kind of (maybe per-crtc) recommended queue
-> >>>   depth property so compositors know how many buffers to keep in flight.
-> >>>   Not sure about that.
-> >>
-> >> I'd say there would definitely need to be some kind of signal for the
-> >> display server that it should queue multiple flips, since this is
-> >> normally not desirable for latency. In other words, this wouldn't really
-> >> be useful on bare metal (in contrast to the ability to replace a pending
-> >> flip with a newer one).
-> > 
-> > Hm I was thinking that the compositor can tune this. If the round-trip
-> > latency (as measured by events) is too long to get full refresh rate, it
-> > can add more buffers to the queue. That's kinda why I think the returned
-> > event really must be accurate wrt actual display time (and old buffer
-> > release time), so that this computation in the compositor because a pretty
-> > simple
-> > 
-> > num_buffers = (flip_time - submit_time) / frame_time
-> > 
-> > With maybe some rounding up and averaging. You can also hit this when your
-> > 3d engine has an extremely deep pipeline (like some of the tiling
-> > renders have), where rendering just takes forever, but as long as you keep
-> > 2 frames in the renderer in-flight you can achieve full refresh rate (at a
-> > latency cost).
+在 2021-08-02星期一的 14:35 +0800，Icenowy Zheng写道：
+> Add a driver for generic MIPI DBI panels initialized with MIPI DCS
+> commands.
 > 
-> As long as a page flip submitted after vblank N can complete during
-> vblank N+1, full frame rate can be sustained[0]. User space can use as
-> many buffers as needed to keep the rendering pipeline busy.
+> Currently a ST7789V-based panel is added to it. This panel has its
+> configuration pre-programmed into the controller, so no vendor-
+> specific
+> configuration is needed.
 > 
-> [0] This is broken by the mis-aligned compositor repaint cycles: The
-> flip from the guest compositor misses the host compositor's cycle, so it
-> takes more than one display refresh cycle to complete.
+> Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
+> ---
+>  drivers/gpu/drm/tiny/Kconfig      |  12 ++
+>  drivers/gpu/drm/tiny/Makefile     |   1 +
+>  drivers/gpu/drm/tiny/simple-dbi.c | 244
+> ++++++++++++++++++++++++++++++
+>  3 files changed, 257 insertions(+)
+>  create mode 100644 drivers/gpu/drm/tiny/simple-dbi.c
 > 
-> 
-> > So kernel can't really tell you in all cases how many buffers you should
-> > have.
-> 
-> That's not exactly what I mean. Right now, KMS user space has to wait
-> for a flip to complete before submitting another one, or it gets EBUSY.
-> So if the kernel wants to allow multiple flips to be submitted, it has
-> to somehow tell user space that this is possible, or it'll never happen.
-> And the kernel should never advertise this for bare metal, since it's
-> not needed there (and undesirable).
+> diff --git a/drivers/gpu/drm/tiny/Kconfig
+> b/drivers/gpu/drm/tiny/Kconfig
+> index d31be274a2bd..6cfc57b68a46 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -144,6 +144,18 @@ config TINYDRM_REPAPER
+>  
+>           If M is selected the module will be called repaper.
+>  
+> +config TINYDRM_SIMPLE_DBI
+> +       tristate "DRM support for generic MIPI DBI panels"
+> +       depends on DRM && SPI
+> +       select DRM_KMS_HELPER
+> +       select DRM_KMS_CMA_HELPER
+> +       select DRM_MIPI_DBI
+> +       help
+> +         DRM driver for generic DBI panels that are MIPI DCS
+> compatible
+> +         and needs no vendor-specific setup commands.
+> +
+> +         If M is selected the module will be called simple-dbi.
+> +
+>  config TINYDRM_ST7586
+>         tristate "DRM support for Sitronix ST7586 display panels"
+>         depends on DRM && SPI
+> diff --git a/drivers/gpu/drm/tiny/Makefile
+> b/drivers/gpu/drm/tiny/Makefile
+> index e09942895c77..2553de651aa3 100644
+> --- a/drivers/gpu/drm/tiny/Makefile
+> +++ b/drivers/gpu/drm/tiny/Makefile
+> @@ -13,3 +13,4 @@ obj-$(CONFIG_TINYDRM_MI0283QT)                +=
+> mi0283qt.o
+>  obj-$(CONFIG_TINYDRM_REPAPER)          += repaper.o
+>  obj-$(CONFIG_TINYDRM_ST7586)           += st7586.o
+>  obj-$(CONFIG_TINYDRM_ST7735R)          += st7735r.o
+> +obj-$(CONFIG_TINYDRM_SIMPLE_DBI)       += simple-dbi.o
+> diff --git a/drivers/gpu/drm/tiny/simple-dbi.c
+> b/drivers/gpu/drm/tiny/simple-dbi.c
+> new file mode 100644
+> index 000000000000..2b207e43d500
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tiny/simple-dbi.c
+> @@ -0,0 +1,244 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * DRM driver for display panels with configuration preset and needs
+> only
+> + * standard MIPI DCS commands to bring up.
+> + *
+> + * Copyright (C) 2021 Sipeed
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/property.h>
+> +#include <linux/spi/spi.h>
+> +#include <video/mipi_display.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_managed.h>
+> +#include <drm/drm_mipi_dbi.h>
+> +
+> +#define MIPI_DCS_ADDRESS_MODE_BGR              BIT(3)
+> +#define MIPI_DCS_ADDRESS_MODE_REVERSE          BIT(5)
+> +#define MIPI_DCS_ADDRESS_MODE_RTL              BIT(6)
+> +#define MIPI_DCS_ADDRESS_MODE_BTT              BIT(7)
+> +
+> +struct simple_dbi_cfg {
+> +       const struct drm_display_mode mode;
+> +       unsigned int left_offset;
+> +       unsigned int top_offset;
+> +       bool inverted;
+> +       bool write_only;
+> +       bool bgr;
+> +       bool right_to_left;
+> +       bool bottom_to_top;
+> +};
+> +
+> +struct simple_dbi_priv {
+> +       struct mipi_dbi_dev dbidev;     /* Must be first for
+> .release() */
+> +       const struct simple_dbi_cfg *cfg;
+> +};
+> +
+> +static void simple_dbi_pipe_enable(struct drm_simple_display_pipe
+> *pipe,
+> +                               struct drm_crtc_state *crtc_state,
+> +                               struct drm_plane_state *plane_state)
+> +{
+> +       struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe-
+> >crtc.dev);
+> +       struct simple_dbi_priv *priv = container_of(dbidev,
+> +                                                   struct
+> simple_dbi_priv,
+> +                                                   dbidev);
+> +       struct mipi_dbi *dbi = &dbidev->dbi;
+> +       int ret, idx;
+> +       u8 addr_mode = 0x00;
+> +
+> +       if (!drm_dev_enter(pipe->crtc.dev, &idx))
+> +               return;
+> +
+> +       DRM_DEBUG_KMS("\n");
+> +
+> +       ret = mipi_dbi_poweron_reset(dbidev);
+> +       if (ret)
+> +               goto out_exit;
+> +
+> +       mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
+> +       msleep(5);
+> +
+> +       /* Currently tinydrm supports 16bit only now */
+> +       mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
+> +                        MIPI_DCS_PIXEL_FMT_16BIT);
+> +
+> +       if (priv->cfg->inverted)
+> +               mipi_dbi_command(dbi, MIPI_DCS_ENTER_INVERT_MODE);
+> +       else
+> +               mipi_dbi_command(dbi, MIPI_DCS_EXIT_INVERT_MODE);
+> +
+> +       if (priv->cfg->bgr)
+> +               addr_mode |= MIPI_DCS_ADDRESS_MODE_BGR;
+> +
+> +       if (priv->cfg->right_to_left)
+> +               addr_mode |= MIPI_DCS_ADDRESS_MODE_RTL;
+> +
+> +       if (priv->cfg->bottom_to_top)
+> +               addr_mode |= MIPI_DCS_ADDRESS_MODE_BTT;
+> +
+> +       switch (dbidev->rotation) {
+> +       default:
+> +               break;
+> +       case 90:
+> +               addr_mode ^= MIPI_DCS_ADDRESS_MODE_REVERSE;
+> +               addr_mode ^= MIPI_DCS_ADDRESS_MODE_RTL;
+> +               break;
+> +       case 180:
+> +               addr_mode ^= MIPI_DCS_ADDRESS_MODE_RTL;
+> +               addr_mode ^= MIPI_DCS_ADDRESS_MODE_BTT;
+> +               break;
+> +       case 270:
+> +               addr_mode ^= MIPI_DCS_ADDRESS_MODE_REVERSE;
+> +               addr_mode ^= MIPI_DCS_ADDRESS_MODE_BTT;
+> +               break;
+> +       }
+> +
+> +       mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
+> +
+> +       mipi_dbi_command(dbi, MIPI_DCS_ENTER_NORMAL_MODE);
+> +
+> +       mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
+> +
+> +       mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
+> +out_exit:
+> +       drm_dev_exit(idx);
+> +}
+> +
+> +static const struct drm_simple_display_pipe_funcs
+> simple_dbi_pipe_funcs = {
+> +       .enable         = simple_dbi_pipe_enable,
+> +       .disable        = mipi_dbi_pipe_disable,
+> +       .update         = mipi_dbi_pipe_update,
+> +       .prepare_fb     = drm_gem_simple_display_pipe_prepare_fb,
+> +};
+> +
+> +static const struct simple_dbi_cfg zsx154_b1206_cfg = {
+> +       .mode           = { DRM_SIMPLE_MODE(240, 240, 28, 28) },
+> +       .inverted       = true,
+> +       .write_only     = true,
+> +};
+> +
+> +DEFINE_DRM_GEM_CMA_FOPS(simple_dbi_fops);
+> +
+> +static const struct drm_driver simple_dbi_driver = {
+> +       .driver_features        = DRIVER_GEM | DRIVER_MODESET |
+> DRIVER_ATOMIC,
+> +       .fops                   = &simple_dbi_fops,
+> +       DRM_GEM_CMA_DRIVER_OPS_VMAP,
+> +       .debugfs_init           = mipi_dbi_debugfs_init,
+> +       .name                   = "simple-dbi",
+> +       .desc                   = "Generic MIPI-DCS compatible DBI
+> panel",
+> +       .date                   = "20210723",
+> +       .major                  = 1,
+> +       .minor                  = 0,
+> +};
+> +
+> +static const struct of_device_id simple_dbi_of_match[] = {
+> +       { .compatible = "zsx,zsx154-b1206", .data = &zsx154_b1206_cfg
+> },
+> +       { },
+> +}
 
-Oh the existence of the deep queue needs a getcap ofc.
+Oops, a missing semicolon here.
 
-Also, deep queues do exist in hw (including scheduling to the right
-frame), the benefit is reduced battery usage for e.g. video playback if
-you do the rendering for an entire set of frames and then just let the
-display show them.
+Thanks for CI robot to find out this.
 
-It costs latency ofc (or we need a cancellable queue, which once it's in
-hw is tricky).
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> +MODULE_DEVICE_TABLE(of, simple_dbi_of_match);
+> +
+> +static int simple_dbi_probe(struct spi_device *spi)
+> +{
+> +       struct device *dev = &spi->dev;
+> +       const struct simple_dbi_cfg *cfg;
+> +       struct mipi_dbi_dev *dbidev;
+> +       struct simple_dbi_priv *priv;
+> +       struct drm_device *drm;
+> +       struct mipi_dbi *dbi;
+> +       struct gpio_desc *dc;
+> +       u32 rotation = 0;
+> +       int ret;
+> +
+> +       cfg = device_get_match_data(&spi->dev);
+> +       if (!cfg)
+> +               cfg = (void *)spi_get_device_id(spi)->driver_data;
+> +
+> +       priv = devm_drm_dev_alloc(dev, &simple_dbi_driver,
+> +                                 struct simple_dbi_priv,
+> dbidev.drm);
+> +       if (IS_ERR(priv))
+> +               return PTR_ERR(priv);
+> +
+> +       dbidev = &priv->dbidev;
+> +       priv->cfg = cfg;
+> +
+> +       dbi = &dbidev->dbi;
+> +       drm = &dbidev->drm;
+> +
+> +       dbi->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +       if (IS_ERR(dbi->reset))
+> +               return dev_err_probe(dev, PTR_ERR(dbi->reset),
+> "Failed to get reset GPIO\n");
+> +
+> +       dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
+> +       if (IS_ERR(dc))
+> +               return dev_err_probe(dev, PTR_ERR(dc), "Failed to get
+> D/C GPIO\n");
+> +
+> +       dbidev->backlight = devm_of_find_backlight(dev);
+> +       if (IS_ERR(dbidev->backlight))
+> +               return PTR_ERR(dbidev->backlight);
+> +
+> +       device_property_read_u32(dev, "rotation", &rotation);
+> +
+> +       ret = mipi_dbi_spi_init(spi, dbi, dc);
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (cfg->write_only)
+> +               dbi->read_commands = NULL;
+> +
+> +       ret = mipi_dbi_dev_init(dbidev, &simple_dbi_pipe_funcs, &cfg-
+> >mode,
+> +                               rotation);
+> +       if (ret)
+> +               return ret;
+> +
+> +       drm_mode_config_reset(drm);
+> +
+> +       ret = drm_dev_register(drm, 0);
+> +       if (ret)
+> +               return ret;
+> +
+> +       spi_set_drvdata(spi, drm);
+> +
+> +       drm_fbdev_generic_setup(drm, 0);
+> +
+> +       return 0;
+> +}
+> +
+> +static int simple_dbi_remove(struct spi_device *spi)
+> +{
+> +       struct drm_device *drm = spi_get_drvdata(spi);
+> +
+> +       drm_dev_unplug(drm);
+> +       drm_atomic_helper_shutdown(drm);
+> +
+> +       return 0;
+> +}
+> +
+> +static void simple_dbi_shutdown(struct spi_device *spi)
+> +{
+> +       drm_atomic_helper_shutdown(spi_get_drvdata(spi));
+> +}
+> +
+> +static struct spi_driver simple_dbi_spi_driver = {
+> +       .driver = {
+> +               .name = "simple-dbi",
+> +               .of_match_table = simple_dbi_of_match,
+> +       },
+> +       .probe = simple_dbi_probe,
+> +       .remove = simple_dbi_remove,
+> +       .shutdown = simple_dbi_shutdown,
+> +};
+> +module_spi_driver(simple_dbi_spi_driver);
+> +
+> +MODULE_DESCRIPTION("Simple DBI panel DRM driver");
+> +MODULE_AUTHOR("Icenowy Zheng <icenowy@aosc.io>");
+> +MODULE_LICENSE("GPL");
+
+
