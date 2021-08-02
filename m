@@ -2,65 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1D33DD601
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 14:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD773DD73E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 15:36:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3C36E054;
-	Mon,  2 Aug 2021 12:51:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97EEF6E183;
+	Mon,  2 Aug 2021 13:35:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9DCC6E054
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 12:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627908662;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wAGb0/Z4wPD/t00pT7MzQ9nUgC0GYALOMMF7/kic3DI=;
- b=BGOLUhvdCDCBGGXWk63TrwM07qLjoICSbGuYnm0x3npNBzr+rPM0ghLCHyhNnFOeNou4jv
- 7bN96Ftol0JNOfAXQ977eFCi59Ofg08FUcDa/tlpZJKEMi6eYbUErfMuc+YwKhKYOmmATE
- CT+Ps86zHwlKpSP79X+u6sioOnBBwUs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-FqCGvq2aOn-P61k05Dyi-w-1; Mon, 02 Aug 2021 08:51:01 -0400
-X-MC-Unique: FqCGvq2aOn-P61k05Dyi-w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1CD51006C88;
- Mon,  2 Aug 2021 12:50:58 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 355E11000324;
- Mon,  2 Aug 2021 12:50:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3D72B180039F; Mon,  2 Aug 2021 14:50:56 +0200 (CEST)
-Date: Mon, 2 Aug 2021 14:50:56 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- dri-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- Simon Ser <contact@emersion.fr>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
- Tina Zhang <tina.zhang@intel.com>, Dongwon Kim <dongwon.kim@intel.com>
-Subject: Re: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Message-ID: <20210802125056.pdcfle4aziyjh32r@sirius.home.kraxel.org>
-References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
- <YQPTo0D5SZfX44dn@phenom.ffwll.local>
- <20210730133850.bbje7uxvrvsmuopt@sirius.home.kraxel.org>
- <YQe2RfK0wCY6Q2y/@phenom.ffwll.local>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBE06E17C;
+ Mon,  2 Aug 2021 13:35:56 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="210348405"
+X-IronPort-AV: E=Sophos;i="5.84,289,1620716400"; d="scan'208";a="210348405"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2021 06:35:55 -0700
+X-IronPort-AV: E=Sophos;i="5.84,289,1620716400"; d="scan'208";a="520567355"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2021 06:35:53 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: linux-fbdev@vger.kernel.org,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org
+Subject: [PATCH] fbdev/efifb: Release PCI device's runtime PM ref during FB
+ destroy
+Date: Mon,  2 Aug 2021 16:35:51 +0300
+Message-Id: <20210802133551.1904964-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <YQe2RfK0wCY6Q2y/@phenom.ffwll.local>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,40 +48,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+Atm the EFI FB driver gets a runtime PM reference for the associated GFX
+PCI device during driver probing and releases it only when removing the
+driver.
 
-> > That sounds sensible to me.  Fence the virtio commands, make sure (on
-> > the host side) the command completes only when the work is actually done
-> > not only submitted.  Has recently been added to qemu for RESOURCE_FLUSH
-> > (aka frontbuffer rendering) and doing the same for SET_SCANOUT (aka
-> > pageflipping), then send vblank events to userspace on command
-> > completion certainly makes sense.
-> 
-> Hm how does this all work? At least drm/virtio uses
-> drm_atomic_helper_dirtyfb, so both DIRTYFB ioctl and atomic flips all end
-> up in the same driver path for everything. Or do you just combine the
-> resource_flush with the flip as needed and let the host side figure it all
-> out? From a quick read of virtgpu_plane.c that seems to be the case ...
+When fbcon switches to the FB provided by the PCI device's driver (for
+instance i915/drmfb), the EFI FB will get only unregistered without the
+EFI FB driver getting unloaded, keeping the runtime PM reference
+acquired during driver probing. This reference will prevent the PCI
+driver from runtime suspending the device.
 
-virtio_gpu_primary_plane_update() will send RESOURCE_FLUSH only for
-DIRTYFB and both SET_SCANOUT + RESOURCE_FLUSH for page-flip, and I
-think for the page-flip case the host (aka qemu) doesn't get the
-"wait until old framebuffer is not in use any more" right yet.
+Fix this by releasing the RPM reference from the EFI FB's destroy hook,
+called when the FB gets unregistered.
 
-So we'll need a host-side fix for that and a guest-side fix to switch
-from a blocking wait on the fence to vblank events.
+Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/video/fbdev/efifb.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-> Also to make this work we don't just need the fence, we need the timestamp
-> (in a clock domain the guest can correct for ofc) of the host side kms
-> driver flip completion. If you just have the fence then the jitter from
-> going through all the layers will most likely make it unusable.
-
-Well, there are no timestamps in the virtio-gpu protocol ...
-
-Also I'm not sure they would be that helpful, any timing is *much* less
-predictable in a virtual machine, especially in case the host machine is
-loaded.
-
-take care,
-  Gerd
+diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+index 8ea8f079cde26..25cdea32b9633 100644
+--- a/drivers/video/fbdev/efifb.c
++++ b/drivers/video/fbdev/efifb.c
+@@ -47,6 +47,8 @@ static bool use_bgrt = true;
+ static bool request_mem_succeeded = false;
+ static u64 mem_flags = EFI_MEMORY_WC | EFI_MEMORY_UC;
+ 
++static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
++
+ static struct fb_var_screeninfo efifb_defined = {
+ 	.activate		= FB_ACTIVATE_NOW,
+ 	.height			= -1,
+@@ -243,6 +245,9 @@ static inline void efifb_show_boot_graphics(struct fb_info *info) {}
+ 
+ static void efifb_destroy(struct fb_info *info)
+ {
++	if (efifb_pci_dev)
++		pm_runtime_put(&efifb_pci_dev->dev);
++
+ 	if (info->screen_base) {
+ 		if (mem_flags & (EFI_MEMORY_UC | EFI_MEMORY_WC))
+ 			iounmap(info->screen_base);
+@@ -333,7 +338,6 @@ ATTRIBUTE_GROUPS(efifb);
+ 
+ static bool pci_dev_disabled;	/* FB base matches BAR of a disabled device */
+ 
+-static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
+ static struct resource *bar_resource;
+ static u64 bar_offset;
+ 
+@@ -603,8 +607,6 @@ static int efifb_remove(struct platform_device *pdev)
+ 	unregister_framebuffer(info);
+ 	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
+ 	framebuffer_release(info);
+-	if (efifb_pci_dev)
+-		pm_runtime_put(&efifb_pci_dev->dev);
+ 
+ 	return 0;
+ }
+-- 
+2.27.0
 
