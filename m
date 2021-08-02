@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408E23DE2F2
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 01:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8F03DE2FE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 01:22:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE5116E0FC;
-	Mon,  2 Aug 2021 23:16:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 909F56E134;
+	Mon,  2 Aug 2021 23:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE2D56E0FC
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 23:16:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C261160EE9
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 23:16:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9C196E134
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 23:22:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 78E6960EE8
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 23:22:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627946195;
- bh=0CE6qR/gop+OdKgxD/k5bSNptqvMl6JQUMWiGm6+tfw=;
+ s=k20201202; t=1627946521;
+ bh=3UoqdS3ZjZO9aG1FWGZpLNJXpg3edmkfj19jMqgZlag=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=JL0zMLYdH8Ohwr0tKC+IKekf9Qbx/szIeRH9N8fqiDCVhLUwEpH0OaP2BmrUBBOMe
- J3d2gpr0JPj+pzFs3AWElm9jmuiqcZnxjHChKTXJAQWwlWelFoGHHNcIj/UBCcLnlB
- h+/MMl4u+SZq16NuI3C67q2HZweSwyOitqWIgJD4HZT4Pqc+pJPJqABOSeKxHrUCDM
- UlgJqUlXToOjoMEgH6wjA7bNQI2Kc+VnewJDgfZWG6m3nFPYTIICwkoTRuYHNTfKLJ
- UtRDwZ81YzKbbrKn4oTHVbrTX8+pRytq8MdWuHIh/97vwkaZJ75slHtGja2GXC0iCN
- pDLNuM01n7y5A==
-Received: by mail-ed1-f47.google.com with SMTP id cf5so15127311edb.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 16:16:35 -0700 (PDT)
-X-Gm-Message-State: AOAM531ENKrzQ1THr1Re6MWL5Vvh6lHI9zz9BbB8S9uacYOxmQLL/HLT
- DVhocjDwqmMUI4hbCxTl35OHqymXIIls/QIg1Q==
-X-Google-Smtp-Source: ABdhPJxJAhueT9lDCmD6Pnv55JDItfMv10i4eCO+yqwvWYDC+oNsWVEH5yVZqBJ6i6TEgSsxIe1LvfnoD9+mHDpuKCw=
-X-Received: by 2002:aa7:c6d3:: with SMTP id b19mr21633222eds.303.1627946194379; 
- Mon, 02 Aug 2021 16:16:34 -0700 (PDT)
+ b=fZhBqZC5RN6LFgGTGAhcn9gnxLB6jXBYSgOOOb3AzHHBvQBRGi0ncfOX+8XzA3G+b
+ uRWDWytkUy+fILgu0GiBK/xlCsIiOBJQ/P3aTSYFsoynHfrSRGezrzY5rQRd+d1tgd
+ enAjzKNkNQdAzL+CTW3IRAwInHu8WyyFLBFFzk5EGN7hpEs6yf1f5A3PRM2jhtoJgN
+ aIa3A7EByOkol74HKb3UynsYZFhIl+Ut5hDk5XNUxCSB+Oropz9drSfdJcjcK1XQiv
+ X2tzH143UQee2M7iIboGmRrlKHp/F5y1/gSMFEAGvWufIPxVp2UVwvahkDHr0mtcln
+ Fb4lPigquJArA==
+Received: by mail-ej1-f53.google.com with SMTP id nd39so33500427ejc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 16:22:01 -0700 (PDT)
+X-Gm-Message-State: AOAM531x9HUmYQZDlq7vZmTs7yZtKIsPLxTgRwpxm6Wtp1zJgz7P8ng5
+ Mt1lC4mL3isOKU4tcnj69UThSP+cliqEce/d2Q==
+X-Google-Smtp-Source: ABdhPJzVHbdqkXZSKJFkdObdtrHHP6P1rJNANKJM5suYmF9hkJsLk9QTqNsPcHe3pRC+2S0r6+TIODJy9UBBYIcSj/0=
+X-Received: by 2002:a17:906:2451:: with SMTP id
+ a17mr17629191ejb.75.1627946520087; 
+ Mon, 02 Aug 2021 16:22:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <1627888227-5757-1-git-send-email-yongqiang.niu@mediatek.com>
- <1627888227-5757-2-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1627888227-5757-2-git-send-email-yongqiang.niu@mediatek.com>
+References: <20210714101141.2089082-1-enric.balletbo@collabora.com>
+ <20210714121116.v2.7.Idbb4727ddf00ba2fe796b630906baff10d994d89@changeid>
+In-Reply-To: <20210714121116.v2.7.Idbb4727ddf00ba2fe796b630906baff10d994d89@changeid>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 3 Aug 2021 07:16:23 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-7MNrO5my3_9EAeSVxtsVC-dGTZH31tph9TpY3faAdwQ@mail.gmail.com>
-Message-ID: <CAAOTY_-7MNrO5my3_9EAeSVxtsVC-dGTZH31tph9TpY3faAdwQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/mediatek: clear pending flag when cmdq packet is
- done.
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Fabien Parent <fparent@baylibre.com>, 
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- DTML <devicetree@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+Date: Tue, 3 Aug 2021 07:21:49 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__EA323tC+BswgTfx4EM9FF8Hf9AAkqoxuacuxQwr4SnA@mail.gmail.com>
+Message-ID: <CAAOTY__EA323tC+BswgTfx4EM9FF8Hf9AAkqoxuacuxQwr4SnA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] drm/mediatek: mtk_dsi: Reset the dsi0 hardware
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, Collabora Kernel ML <kernel@collabora.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, Eizan Miyamoto <eizan@chromium.org>, 
  "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Jitao Shi <jitao.shi@mediatek.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
  DRI Development <dri-devel@lists.freedesktop.org>, 
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- Hsin-Yi Wang <hsinyi@chromium.org>
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,129 +69,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
+Hi, Enric:
 
-Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2021=E5=B9=B48=E6=9C=
-=882=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:11=E5=AF=AB=E9=81=93=
-=EF=BC=9A
+Enric Balletbo i Serra <enric.balletbo@collabora.com> =E6=96=BC 2021=E5=B9=
+=B47=E6=9C=8814=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:12=E5=AF=AB=
+=E9=81=93=EF=BC=9A
 >
-> In cmdq mode, packet may be flushed before it is executed, so
-> the pending flag should be cleared after cmdq packet is done.
+> Reset dsi0 HW to default when power on. This prevents to have different
+> settingbetween the bootloader and the kernel.
 >
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> As not all Mediatek boards have the reset consumer configured in their
+> board description, also is not needed on all of them, the reset is option=
+al,
+> so the change is compatible with all boards.
+
+Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+
+>
+> Cc: Jitao Shi <jitao.shi@mediatek.com>
+> Suggested-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 51 +++++++++++++++++++++++++++=
-++----
->  1 file changed, 46 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index 4c25e33..2a2d43e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -267,6 +267,40 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void=
- *mssg)
->  {
->         struct mtk_drm_crtc *mtk_crtc =3D container_of(cl, struct mtk_drm=
-_crtc, cmdq_cl);
->         struct cmdq_cb_data *data =3D mssg;
-> +       struct mtk_crtc_state *state;
-> +       unsigned int i;
-> +
-> +       state =3D to_mtk_crtc_state(mtk_crtc->base.state);
-> +
-> +       if (state->pending_config) {
-
-No matter pending_config is true or not, it would be false after this.
-So we could simply drop this checking.
-
-> +               state->pending_config =3D false;
-> +       }
-> +
-> +       if (mtk_crtc->pending_planes) {
-> +               for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> +                       struct drm_plane *plane =3D &mtk_crtc->planes[i];
-> +                       struct mtk_plane_state *plane_state;
-> +
-> +                       plane_state =3D to_mtk_plane_state(plane->state);
-> +
-> +                       if (plane_state->pending.config)
-
-Ditto.
-
-> +                               plane_state->pending.config =3D false;
-> +               }
-> +               mtk_crtc->pending_planes =3D false;
-> +       }
-> +
-> +       if (mtk_crtc->pending_async_planes) {
-> +               for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> +                       struct drm_plane *plane =3D &mtk_crtc->planes[i];
-> +                       struct mtk_plane_state *plane_state;
-> +
-> +                       plane_state =3D to_mtk_plane_state(plane->state);
-> +
-> +                       if (plane_state->pending.async_config)
-
-Ditto.
-
-Regards,
-Chun-Kuang.
-
-> +                               plane_state->pending.async_config =3D fal=
-se;
-> +               }
-> +               mtk_crtc->pending_async_planes =3D false;
-> +       }
+> (no changes since v1)
 >
->         mtk_crtc->cmdq_vblank_cnt =3D 0;
->         mtk_drm_cmdq_pkt_destroy(mtk_crtc->cmdq_chan, data->pkt);
-> @@ -423,7 +457,8 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc=
-,
->                                     state->pending_vrefresh, 0,
->                                     cmdq_handle);
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> -               state->pending_config =3D false;
-> +               if (!cmdq_handle)
-> +                       state->pending_config =3D false;
->         }
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
+k/mtk_dsi.c
+> index ae403c67cbd9..d8b81e2ab841 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/of_platform.h>
+>  #include <linux/phy/phy.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/reset.h>
 >
->         if (mtk_crtc->pending_planes) {
-> @@ -443,9 +478,12 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crt=
-c,
->                                 mtk_ddp_comp_layer_config(comp, local_lay=
-er,
->                                                           plane_state,
->                                                           cmdq_handle);
-> -                       plane_state->pending.config =3D false;
-> +                       if (!cmdq_handle)
-> +                               plane_state->pending.config =3D false;
->                 }
-> -               mtk_crtc->pending_planes =3D false;
-> +
-> +               if (!cmdq_handle)
-> +                       mtk_crtc->pending_planes =3D false;
->         }
+>  #include <video/mipi_display.h>
+>  #include <video/videomode.h>
+> @@ -980,8 +981,10 @@ static int mtk_dsi_bind(struct device *dev, struct d=
+evice *master, void *data)
+>         struct mtk_dsi *dsi =3D dev_get_drvdata(dev);
 >
->         if (mtk_crtc->pending_async_planes) {
-> @@ -465,9 +503,12 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crt=
-c,
->                                 mtk_ddp_comp_layer_config(comp, local_lay=
-er,
->                                                           plane_state,
->                                                           cmdq_handle);
-> -                       plane_state->pending.async_config =3D false;
-> +                       if (!cmdq_handle)
-> +                               plane_state->pending.async_config =3D fal=
-se;
->                 }
-> -               mtk_crtc->pending_async_planes =3D false;
-> +
-> +               if (!cmdq_handle)
-> +                       mtk_crtc->pending_async_planes =3D false;
->         }
+>         ret =3D mtk_dsi_encoder_init(drm, dsi);
+> +       if (ret)
+> +               return ret;
+>
+> -       return ret;
+> +       return device_reset_optional(dev);
 >  }
 >
+>  static void mtk_dsi_unbind(struct device *dev, struct device *master,
 > --
-> 1.8.1.1.dirty
+> 2.30.2
 >
