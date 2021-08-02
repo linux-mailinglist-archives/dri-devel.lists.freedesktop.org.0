@@ -2,74 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477E23DD22F
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 10:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5B73DD232
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 10:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF086E169;
-	Mon,  2 Aug 2021 08:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A15F56E4AB;
+	Mon,  2 Aug 2021 08:43:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C53246E169;
- Mon,  2 Aug 2021 08:42:30 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D14C56E4A2;
+ Mon,  2 Aug 2021 08:43:27 +0000 (UTC)
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E82EB1FF41;
- Mon,  2 Aug 2021 08:42:28 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 74B8E21FE4;
+ Mon,  2 Aug 2021 08:43:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627893748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1627893805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VLJkLyS0iFpmlZrDlO4dUG2u4HydySx7OOBknMnDVvo=;
- b=bYoTcKX215KPV1eQlnfFLPot2GfsKV5dcuwQuJ9ecsCa+N4EO8x9yPOtI8jm3F+EB/vzxu
- +KlehEpk/B719w6xOtK9gD3QlnLxoKsXPUgErHZCVb6BwacpCo0v7N+QA4Q8k8e/HhH5ql
- vHuCgTtwV0Ue11hG14oxi07U00RBqDg=
+ bh=I5ZYz9fLgLtmet/AAJ94QSQ15N6Q3rn5L5Ro1hd+Mfc=;
+ b=2L1QOHbBgTXUBsWD++imkLfrbAa4lVuYclavhnRcZsrhKHarT/S0QbXgvG4ne0mUoZvAwE
+ 36VF+VBsldyD6WyTz8PZvYTiti9kpP8pivdIu4AkaKe9oZw6f3v/+OE4tlSmI7r+vXq/8J
+ vw3TbOhf2ZRT758XKSfwA3u8TD97lRg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627893748;
+ s=susede2_ed25519; t=1627893805;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VLJkLyS0iFpmlZrDlO4dUG2u4HydySx7OOBknMnDVvo=;
- b=ktt6eLeT0M0jz05x7EDpKfGyRdfu/9/9FuPqblw64n5QqH/2JPFhU0q5DzVyi9UvVnKaFQ
- DsWmr8207tA90jDw==
+ bh=I5ZYz9fLgLtmet/AAJ94QSQ15N6Q3rn5L5Ro1hd+Mfc=;
+ b=9Y/NZ5x28yXfcxius2pjcpZklB5bJnQ1Y1UddRKA5XRYNd0uozZCcRjoLlATYfnlmd8Z4d
+ qbNxIuTK1YLCcSDA==
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 3D8EE13882;
- Mon,  2 Aug 2021 08:42:28 +0000 (UTC)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id CED3713882;
+ Mon,  2 Aug 2021 08:43:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id M4YnDfSvB2EwDgAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Mon, 02 Aug 2021 08:42:28 +0000
-Subject: Re: [PATCH 00/14] drm: Make DRM's IRQ helpers legacy
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
- christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
- bbrezillon@kernel.org, nicolas.ferre@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
- alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
- anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
- sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+ by imap1.suse-dmz.suse.de with ESMTPSA id RAxGMSywB2F4DgAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Mon, 02 Aug 2021 08:43:24 +0000
+Subject: Re: [PATCH 01/14] drm/amdgpu: Convert to Linux IRQ interfaces
+To: Alex Deucher <alexdeucher@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@linux.ie>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Brian Starkey <brian.starkey@arm.com>,
+ Sam Ravnborg <sam@ravnborg.org>, bbrezillon@kernel.org,
+ nicolas.ferre@microchip.com,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Stefan Agner <stefan@agner.ch>,
+ alison.wang@nxp.com, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ anitha.chrisanthus@intel.com, Rob Clark <robdclark@gmail.com>,
+ edmund.j.dea@intel.com, Sean Paul <sean@poorly.run>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sascha Hauer <kernel@pengutronix.de>, jyri.sarha@iki.fi, tomba@kernel.org,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 References: <20210727182721.17981-1-tzimmermann@suse.de>
- <YQWbWjV5TYzp+5C4@ravnborg.org>
- <d50b3199-20fe-0ecb-ab7d-7425ad1d0f21@suse.de>
- <YQcDCVuSM2kLbQcI@ravnborg.org>
+ <20210727182721.17981-2-tzimmermann@suse.de>
+ <24a8b2ab-ef38-219b-99d4-806a44fa6aba@amd.com>
+ <CADnq5_MmPu=k3cc7JCg1iemkCDnoxR1T8PTD_VJn=58f5DwUNQ@mail.gmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <7cbd968e-caec-0fdb-8f23-f3fb11664ce3@suse.de>
-Date: Mon, 2 Aug 2021 10:42:27 +0200
+Message-ID: <0c321c93-ea2f-d12a-7057-5724d2d855bd@suse.de>
+Date: Mon, 2 Aug 2021 10:43:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <YQcDCVuSM2kLbQcI@ravnborg.org>
+In-Reply-To: <CADnq5_MmPu=k3cc7JCg1iemkCDnoxR1T8PTD_VJn=58f5DwUNQ@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="j44ztPryqGh1Sl1wWncDBLPSUvmHnlHRM"
+ boundary="PsjSchzCspKwsrvk5k9QQpuItNe3YAbAi"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,115 +93,194 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---j44ztPryqGh1Sl1wWncDBLPSUvmHnlHRM
-Content-Type: multipart/mixed; boundary="wtdo6GS3bhbopv6iuyySLWGZg3Vkoz6Ku";
+--PsjSchzCspKwsrvk5k9QQpuItNe3YAbAi
+Content-Type: multipart/mixed; boundary="VDtTFrcVvE2fwROOnsp9guKSMN1gIOB0M";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
- christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
- bbrezillon@kernel.org, nicolas.ferre@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
- alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
- anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
- sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Message-ID: <7cbd968e-caec-0fdb-8f23-f3fb11664ce3@suse.de>
-Subject: Re: [PATCH 00/14] drm: Make DRM's IRQ helpers legacy
+To: Alex Deucher <alexdeucher@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@linux.ie>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Brian Starkey <brian.starkey@arm.com>,
+ Sam Ravnborg <sam@ravnborg.org>, bbrezillon@kernel.org,
+ nicolas.ferre@microchip.com,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Stefan Agner <stefan@agner.ch>,
+ alison.wang@nxp.com, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ anitha.chrisanthus@intel.com, Rob Clark <robdclark@gmail.com>,
+ edmund.j.dea@intel.com, Sean Paul <sean@poorly.run>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sascha Hauer <kernel@pengutronix.de>, jyri.sarha@iki.fi, tomba@kernel.org,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Message-ID: <0c321c93-ea2f-d12a-7057-5724d2d855bd@suse.de>
+Subject: Re: [PATCH 01/14] drm/amdgpu: Convert to Linux IRQ interfaces
 References: <20210727182721.17981-1-tzimmermann@suse.de>
- <YQWbWjV5TYzp+5C4@ravnborg.org>
- <d50b3199-20fe-0ecb-ab7d-7425ad1d0f21@suse.de>
- <YQcDCVuSM2kLbQcI@ravnborg.org>
-In-Reply-To: <YQcDCVuSM2kLbQcI@ravnborg.org>
+ <20210727182721.17981-2-tzimmermann@suse.de>
+ <24a8b2ab-ef38-219b-99d4-806a44fa6aba@amd.com>
+ <CADnq5_MmPu=k3cc7JCg1iemkCDnoxR1T8PTD_VJn=58f5DwUNQ@mail.gmail.com>
+In-Reply-To: <CADnq5_MmPu=k3cc7JCg1iemkCDnoxR1T8PTD_VJn=58f5DwUNQ@mail.gmail.com>
 
---wtdo6GS3bhbopv6iuyySLWGZg3Vkoz6Ku
+--VDtTFrcVvE2fwROOnsp9guKSMN1gIOB0M
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sam
+Hi
 
-Am 01.08.21 um 22:24 schrieb Sam Ravnborg:
-> Hi Thomas,
+Am 28.07.21 um 16:03 schrieb Alex Deucher:
+> On Wed, Jul 28, 2021 at 6:27 AM Christian K=C3=B6nig
+> <christian.koenig@amd.com> wrote:
+>>
+>> Am 27.07.21 um 20:27 schrieb Thomas Zimmermann:
+>>> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+>>> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+>>> don't benefit from using it.
+>>>
+>>> DRM IRQ callbacks are now being called directly or inlined.
+>>>
+>>> The interrupt number returned by pci_msi_vector() is now stored
+>>> in struct amdgpu_irq. Calls to pci_msi_vector() can fail and return
+>>> a negative errno code. Abort initlaizaton in thi case. The DRM IRQ
+>>> midlayer does not handle this correctly.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>
+>> Alex needs to take a look at this as well, but of hand the patch is
+>> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>.
 >=20
->>>
->>> 1) IRQ_NOTCONNECTED
->>>
->>> We do not have this check in drm_irq today and we should avoid spread=
-ing
->>> it all over. We are either carrying it forever or we wil lsee patches=
+> Looks good to me as well:
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
->>> floating in to drop the check again.
->>> The current use in the kernel is minimal:
->>> https://elixir.bootlin.com/linux/latest/A/ident/IRQ_NOTCONNECTED
->>>
->>> So as a minimum drop it from atmel_hlcdc and preferably from the rest=
- as
->>> it is really not used. (Speaking as atmel_hlcdc maintainer)
->>
->> I'll drop it from atmel_hlcdc then.
->>
->> But saying that it's not used is not correct.
-> My point is the drm_irq do not check this - so adding this check add
-> something there was not needed/done before.
-
-What is being done at [1] is actually a check for unassigned interrupts. =
-
-It's just that both, test and errno code, are plain wrong. The patchset=20
-fixes this.
-
->=20
->>> 2) devm_request_irq()
->>>
->>> We are moving towards managed allocation so we do not fail to free
->>> resources. And an irq has a lifetime equal the device itself - so an
->>> obvious cnadidate for devm_request_irq.
->>> If we do not introduce it now we will see a revisit of this later.
->>> I can be convinced to wait with this as we will have to do much more =
-in
->>> each driver, but I cannot see any good arguments to avoid the more
->>> modern way to use devm_request_irq.
->>
->> I'll change this in atmel_hdlcd and maybe I can find trivial cases whe=
-re
->> devm_request_irq() can be used. But drivers that had an uninstall call=
-back
->> before should not have the cleanup logic altered by a patch as this on=
-e. I
->> suspect that most of the IRQ cleanup
->> is actually a vblank cleanup and should be done in response to
->> drm_vblank_init(). But that's again not something for this patchset he=
-re. We
->> cannot change multiple things at once and still expect any of it to wo=
-rk.
->>
->> I welcome the use of devm_ et al. But these changes are better done in=
- a
->> per-driver patchset that changes all of the driver to managed release.=
-
-> Fair enough, and fine with me.
-> I have yet to read through all patches - will do so in the coming week.=
-
-
-OK, thanks a lot. I'll send out a new revision soon, so maybe don't=20
-waste time with this one.
+Thanks a lot. Do you have comments on the changes to radeon?
 
 Best regards
 Thomas
 
-
-[1]=20
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_irq.c#=
-L111
-
-
-
 >=20
-> 	Sam
->=20
+>>
+>> Thanks,
+>> Christian.
+>>
+>>> ---
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  1 -
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 21 ++++++++++++++-------=
+
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h |  2 +-
+>>>    3 files changed, 15 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_drv.c
+>>> index 2bd13fc2541a..1e05b5aa94e7 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>> @@ -1775,7 +1775,6 @@ static const struct drm_driver amdgpu_kms_drive=
+r =3D {
+>>>        .open =3D amdgpu_driver_open_kms,
+>>>        .postclose =3D amdgpu_driver_postclose_kms,
+>>>        .lastclose =3D amdgpu_driver_lastclose_kms,
+>>> -     .irq_handler =3D amdgpu_irq_handler,
+>>>        .ioctls =3D amdgpu_ioctls_kms,
+>>>        .num_ioctls =3D ARRAY_SIZE(amdgpu_ioctls_kms),
+>>>        .dumb_create =3D amdgpu_mode_dumb_create,
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_irq.c
+>>> index 0d01cfaca77e..a36cdc7323f4 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+>>> @@ -46,7 +46,6 @@
+>>>    #include <linux/pci.h>
+>>>
+>>>    #include <drm/drm_crtc_helper.h>
+>>> -#include <drm/drm_irq.h>
+>>>    #include <drm/drm_vblank.h>
+>>>    #include <drm/amdgpu_drm.h>
+>>>    #include <drm/drm_drv.h>
+>>> @@ -184,7 +183,7 @@ void amdgpu_irq_disable_all(struct amdgpu_device =
+*adev)
+>>>     * Returns:
+>>>     * result of handling the IRQ, as defined by &irqreturn_t
+>>>     */
+>>> -irqreturn_t amdgpu_irq_handler(int irq, void *arg)
+>>> +static irqreturn_t amdgpu_irq_handler(int irq, void *arg)
+>>>    {
+>>>        struct drm_device *dev =3D (struct drm_device *) arg;
+>>>        struct amdgpu_device *adev =3D drm_to_adev(dev);
+>>> @@ -307,6 +306,7 @@ static void amdgpu_restore_msix(struct amdgpu_dev=
+ice *adev)
+>>>    int amdgpu_irq_init(struct amdgpu_device *adev)
+>>>    {
+>>>        int r =3D 0;
+>>> +     unsigned int irq;
+>>>
+>>>        spin_lock_init(&adev->irq.lock);
+>>>
+>>> @@ -349,15 +349,22 @@ int amdgpu_irq_init(struct amdgpu_device *adev)=
+
+>>>        INIT_WORK(&adev->irq.ih2_work, amdgpu_irq_handle_ih2);
+>>>        INIT_WORK(&adev->irq.ih_soft_work, amdgpu_irq_handle_ih_soft);=
+
+>>>
+>>> -     adev->irq.installed =3D true;
+>>> -     /* Use vector 0 for MSI-X */
+>>> -     r =3D drm_irq_install(adev_to_drm(adev), pci_irq_vector(adev->p=
+dev, 0));
+>>> +     /* Use vector 0 for MSI-X. */
+>>> +     r =3D pci_irq_vector(adev->pdev, 0);
+>>> +     if (r < 0)
+>>> +             return r;
+>>> +     irq =3D r;
+>>> +
+>>> +     /* PCI devices require shared interrupts. */
+>>> +     r =3D request_irq(irq, amdgpu_irq_handler, IRQF_SHARED, adev_to=
+_drm(adev)->driver->name,
+>>> +                     adev_to_drm(adev));
+>>>        if (r) {
+>>> -             adev->irq.installed =3D false;
+>>>                if (!amdgpu_device_has_dc_support(adev))
+>>>                        flush_work(&adev->hotplug_work);
+>>>                return r;
+>>>        }
+>>> +     adev->irq.installed =3D true;
+>>> +     adev->irq.irq =3D irq;
+>>>        adev_to_drm(adev)->max_vblank_count =3D 0x00ffffff;
+>>>
+>>>        DRM_DEBUG("amdgpu: irq initialized.\n");
+>>> @@ -368,7 +375,7 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
+>>>    void amdgpu_irq_fini_hw(struct amdgpu_device *adev)
+>>>    {
+>>>        if (adev->irq.installed) {
+>>> -             drm_irq_uninstall(&adev->ddev);
+>>> +             free_irq(adev->irq.irq, adev_to_drm(adev));
+>>>                adev->irq.installed =3D false;
+>>>                if (adev->irq.msi_enabled)
+>>>                        pci_free_irq_vectors(adev->pdev);
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_irq.h
+>>> index 78ad4784cc74..e9f2c11ea416 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
+>>> @@ -80,6 +80,7 @@ struct amdgpu_irq_src_funcs {
+>>>
+>>>    struct amdgpu_irq {
+>>>        bool                            installed;
+>>> +     unsigned int                    irq;
+>>>        spinlock_t                      lock;
+>>>        /* interrupt sources */
+>>>        struct amdgpu_irq_client        client[AMDGPU_IRQ_CLIENTID_MAX=
+];
+>>> @@ -100,7 +101,6 @@ struct amdgpu_irq {
+>>>    };
+>>>
+>>>    void amdgpu_irq_disable_all(struct amdgpu_device *adev);
+>>> -irqreturn_t amdgpu_irq_handler(int irq, void *arg);
+>>>
+>>>    int amdgpu_irq_init(struct amdgpu_device *adev);
+>>>    void amdgpu_irq_fini_sw(struct amdgpu_device *adev);
+>>
 
 --=20
 Thomas Zimmermann
@@ -205,27 +291,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---wtdo6GS3bhbopv6iuyySLWGZg3Vkoz6Ku--
+--VDtTFrcVvE2fwROOnsp9guKSMN1gIOB0M--
 
---j44ztPryqGh1Sl1wWncDBLPSUvmHnlHRM
+--PsjSchzCspKwsrvk5k9QQpuItNe3YAbAi
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEHr/MFAwAAAAAACgkQlh/E3EQov+AL
-ZBAAuTGejX2pXR6jVvpz2dMnan3xW9847gXwEr3z8n9w/QhNt6TtvOSUO0qjroj8bSDqVfYv9zDg
-Z2jwtFe3un8Nrt19BBILP4BPKksBt+lkaZ7u02wbUyV/HzY1j6VNiF+LnkHjEZ+G7G245R94JOOY
-pdr224mzNiN9K75oGK5ik5CmLAKoSm7v/okgPYWu7u2A+2+zZBWcK1Mf+bbIYiG24w/7B7B2UPU0
-JHE+udObafmq/4gzxsL6MmoCTaAoKTLO3iHpKNtVPVBnSEBMUaAMaaOMFwHWUiPOl5iOJIoKyPgG
-v15kvosV00PhZPrRWt8qWG1JelntAaUo2VpR+IjOea5a2h9aMCmBZE4qnpgLtI1t0pNkjis43z9R
-UxxqparLGxI+ejKUQrldhcgbSAK5+3ejbqh/L80Xcv5/Vof3FtgCYxOi2fxUBorceu0afl3fP5GJ
-91buuUh+8M3jSJgZmSgerG3Ppk3jCryKeW2NhLfgIn5MQzELWEi9lwE21b+7H9oyo1zn+zN39raq
-UbgCu05ASw9v9OF/R0wAa0ZxJm6RSx5R5snNgK/BzJWGvCxx3xBpTMj+eBl3+k341NIP72/GgGfY
-ioM+ts42y0a9t3co1HXZ719udvN77P9nQA7F6KAEvEpFPlgoC33CRXo/dYfrqixa0jzDHG88u7nP
-dJ4=
-=MZfj
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEHsCwFAwAAAAAACgkQlh/E3EQov+Dm
+nQ//R/Caj7yaimr9wM2UmBAHzaME1DOlVYAImXkh2gnTDN6adDkWktxtcNEgrcLitvnCX073Ic4n
+lTIQ/0KNHGOil7VQxhPYEaNcl2sy6igR9sn/PwUDvK2cF4KMCknw9ZHuCe8F8DWsne3GZSXcB7cV
+GIrFyXRTeJnQyYuH1ZvqsIIknxhzo8NdDTw/iF4F8qBHThObTIohceplLel7+7UF8EpDos3ukWMo
+vBzDpkLbGMhdh/0gm5cxQPEo21Lteu6fGa87peGRXyGBFlet5cX4eG+elkmzpFIW1PfvjX8dyQn0
+YiTr/C1Dob0tCsEejuUiIisvuEjkWnGOqg95+wwx9vsnZbp186eTj4KDXI9EFzWPPqHrB5C8hOhX
+77HXJnjhIqfzID/rUz7rKNgAhLw14MxpunKyXPyNm+9PS5Myp8QADAcvO4raJREMJCUwTP/eWQRv
+477/wM0bBTq8wrOycst0HPkVM8VSh9qdUTyWt1Q5JzAiSbjre3zknR2IVNcu2RnbaabyWKd5sXfl
+8h0bUBDoxzsKZ+tXqVUb4sZuFtvRWtKFxc9aKM6m4INtcs6Topqtyt3vovjC0cGRZ0OxRVJHdF+w
+SyRAsqz3m+NdAOPUMCC/ouDsBnpF69b+qFUKOEf1qqYghFioaTrTMiVaWQsPN3oYva/ParhFyLTo
+geU=
+=zdfM
 -----END PGP SIGNATURE-----
 
---j44ztPryqGh1Sl1wWncDBLPSUvmHnlHRM--
+--PsjSchzCspKwsrvk5k9QQpuItNe3YAbAi--
