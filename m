@@ -1,55 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A21C3DDCB3
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 17:48:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA2F3DDCB6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 17:48:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 675A16E02C;
-	Mon,  2 Aug 2021 15:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A9C6E040;
+	Mon,  2 Aug 2021 15:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD74D6E02C
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 15:48:38 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id y7so22863067eda.5
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 08:48:38 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2236E060
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 15:48:39 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id v20so11076278eda.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 08:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Je1GkPMHTo+2u31ib2roEhUY3F7SuIQc0J7TjsVwWiE=;
- b=JtER75F4sNtYTnisUXWM1Jpt8fpK4oFJWMPbt6n0NdDtc8HJg0oxyl0jacevLFg1ZW
- wjKyGJLcufdeHBmqYBRijdG+Mm/2CIEtlwzYGQmRM7NU9Yko5cgXavaNlnBslZ8VDfsY
- VrsXdrKE2zc6eq0nYLazSmnAnc1aBL4PSaJm0=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=VqZRQ+c8SxDVpAU3bLWG1pPTG4VXpxPAuTx45jDOor0=;
+ b=Zqu1ltir0Dkaau/5sC7rh83VXxC9fR6cbRE/K+59DlSJhToaHDuWQJsYquqqDl4zE6
+ b0cfocV9EQO1dZTkPwRjYQzub6z8DasRiNExiMDzH3G1df1D8Sm860MnTPuTRXdnhXTk
+ vApZV6dj1kWhj/pt57q8yZC2CDRC4DGRFlsfQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Je1GkPMHTo+2u31ib2roEhUY3F7SuIQc0J7TjsVwWiE=;
- b=mAUSX/FMiMTkcFAj7jpeykxfvC82FA7KlAKPXoqUs3Z4EI8IkFl4IfU7u4H5hSKPeF
- vmfoI3KvyLBSkN3/HRLgY39/piORuETXGYjreMnQR1rR0OV8XMUvObTffL2iH5Eh8v5B
- Zzl0mg51GfLWvzlKIFmzGFjeMXkua6QwBvZALNCeAGQCs4UDKYMQU5Y6nakG1ei9kolE
- gqf6ETWA8pVcQI5l9EsRzgGtC09zX3tKJQaMK0Jon+YoGijWp3/vzNi1F4mRLMxqkWVC
- 8yVLmFKC/ZF9dqn/1PM+yLWl4EBQpWDW8K5eMXpLY4jnsyGM2j0aElGK7uOXWFnomhZV
- 57nA==
-X-Gm-Message-State: AOAM531qdEvoNC7/2pNSmi+HxM7/Z3d+VSPnDRs+3rxbGHG9f1LcJceo
- OxgzYtjFG/uZ0qLKQH/RmFRqbXcn5bcnXA==
-X-Google-Smtp-Source: ABdhPJwD+GXYZNG8bHj/JTxK0aWduPIq/XEPD1FJQVGwUm9G3cmAudeX0rz7bTeVxC31HifIm4M3Yw==
-X-Received: by 2002:aa7:df09:: with SMTP id c9mr20488180edy.379.1627919317232; 
- Mon, 02 Aug 2021 08:48:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VqZRQ+c8SxDVpAU3bLWG1pPTG4VXpxPAuTx45jDOor0=;
+ b=Zxa79bGRhSFChgzAIofsww/bvIyHYfyPD/BpSYeu4ez0bFb1yqO/FPvIDBe0WLcJST
+ f413hZbSTNMlO7mcCy/EpIKIje1WO0A1EXL4XQQZEBKa76+BYNbbLK5AfRJ4SkYKWD1r
+ 6VDqgCWmUswO4Qt+IiGCgq675LqxvcbHrLFhKosS6n7XKULnm/uS3yYpcUY/LEv5l7yU
+ BzXDfJPUTkwO372NjEvnshzxx1VNm0OvzNJJjCZ1SNE0R5UEBi71ROsHp8o1UJUoLJSf
+ Xp1y8rD17WO99YjMA2skEpkjD4kwUT7VDTD21nv8hLpzzMXVB337FmOu8B7IUacOKpvn
+ xbLg==
+X-Gm-Message-State: AOAM532mSCMK9iCEf+xN8HUZcLlOUG9uxbYYrx+BJEfklHi4dzIegfZt
+ 3EMAVdB+XjTu39kgrEFjctrrOpvLfUxVcA==
+X-Google-Smtp-Source: ABdhPJwj25z0W56BiUvxc5ST1S/fnirdC0YGIJkXR2IW2y2pPsIbftLzTOpfXYrvCXPEZ6A2wysk2A==
+X-Received: by 2002:a05:6402:1396:: with SMTP id
+ b22mr20159747edv.380.1627919318089; 
+ Mon, 02 Aug 2021 08:48:38 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m20sm5064020edv.67.2021.08.02.08.48.36
+ by smtp.gmail.com with ESMTPSA id m20sm5064020edv.67.2021.08.02.08.48.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 08:48:36 -0700 (PDT)
+ Mon, 02 Aug 2021 08:48:37 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH 0/9] remove rcu support from i915_address_space
-Date: Mon,  2 Aug 2021 17:47:57 +0200
-Message-Id: <20210802154806.3710472-1-daniel.vetter@ffwll.ch>
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
+Subject: [PATCH 1/9] drm/i915: Drop code to handle set-vm races from execbuf
+Date: Mon,  2 Aug 2021 17:47:58 +0200
+Message-Id: <20210802154806.3710472-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210802154806.3710472-1-daniel.vetter@ffwll.ch>
+References: <20210802154806.3710472-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -68,64 +80,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Changing the vm from a finalized gem ctx is no longer possible, which
+means we don't have to check for that anymore.
 
-Jason wanted to do that as part of the scheduler series, but I object
-since rcu is very, very hard to review when adding, and much, much harder
-even to review when removing.
+I was pondering whether to keep the check as a WARN_ON, but things go
+boom real bad real fast if the vm of a vma is wrong. Plus we'd need to
+also get the ggtt vm for !full-ppgtt platforms. Ditching it all seemed
+like a better idea.
 
-This is because simply looking for __rcu pointer annotations and rcu
-functions isn't enough, rcu is also relied upon in many datastructures
-which have internally and rcu_read_lock protection (or at least the
-required amount of barriers), like xarray.
+References: ccbc1b97948a ("drm/i915/gem: Don't allow changing the VM on running contexts (v4)")
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-The other problem is that it inherits when chasing pointers, e.g.
-i915_gem_engines has an rcu pointer to intel_context, which has a non-rcu
-pointer to i915_address_space. But since we could look-up the entire chain
-under rcu i.e. engines->context[i]->vm this means more code to audit.
-
-The audit explodes pretty quickly.
-
-Anyway I'm reasonable confident I got them all in the current code, and
-slightly less confident that I managed to stitch together the full
-history.
-
-References to relevant commits throughout the series.
-
-Cheers, Daniel
-
-Daniel Vetter (9):
-  drm/i915: Drop code to handle set-vm races from execbuf
-  drm/i915: Rename i915_gem_context_get_vm_rcu to
-    i915_gem_context_get_eb_vm
-  drm/i915: Use i915_gem_context_get_eb_vm in ctx_getparam
-  drm/i915: Add i915_gem_context_is_full_ppgtt
-  drm/i915: Use i915_gem_context_get_eb_vm in intel_context_set_gem
-  drm/i915: Drop __rcu from gem_context->vm
-  drm/i915: use xa_lock/unlock for fpriv->vm_xa lookups
-  drm/i915: Stop rcu support for i915_address_space
-  drm/i915: Split out intel_context_create_user
-
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 82 ++++---------------
- drivers/gpu/drm/i915/gem/i915_gem_context.h   | 13 ++-
- .../gpu/drm/i915/gem/i915_gem_context_types.h |  2 +-
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 12 ++-
- .../gpu/drm/i915/gem/selftests/huge_pages.c   |  8 +-
- .../drm/i915/gem/selftests/i915_gem_context.c | 32 +++-----
- .../gpu/drm/i915/gem/selftests/mock_context.c |  2 +-
- drivers/gpu/drm/i915/gt/intel_context.c       | 22 ++++-
- drivers/gpu/drm/i915/gt/intel_context.h       |  2 +
- drivers/gpu/drm/i915/gt/intel_ggtt.c          |  1 -
- drivers/gpu/drm/i915/gt/intel_gtt.c           |  6 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h           |  2 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c  |  2 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  2 +-
- drivers/gpu/drm/i915/i915_drv.h               |  4 +-
- drivers/gpu/drm/i915/i915_trace.h             |  2 +-
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +-
- drivers/gpu/drm/i915/selftests/i915_vma.c     |  4 +-
- 18 files changed, 79 insertions(+), 123 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 538d9d2e52b7..69e47b97d786 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -775,11 +775,7 @@ static int __eb_add_lut(struct i915_execbuffer *eb,
+ 	/* Check that the context hasn't been closed in the meantime */
+ 	err = -EINTR;
+ 	if (!mutex_lock_interruptible(&ctx->lut_mutex)) {
+-		struct i915_address_space *vm = rcu_access_pointer(ctx->vm);
+-
+-		if (unlikely(vm && vma->vm != vm))
+-			err = -EAGAIN; /* user racing with ctx set-vm */
+-		else if (likely(!i915_gem_context_is_closed(ctx)))
++		if (likely(!i915_gem_context_is_closed(ctx)))
+ 			err = radix_tree_insert(&ctx->handles_vma, handle, vma);
+ 		else
+ 			err = -ENOENT;
 -- 
 2.32.0
 
