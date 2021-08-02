@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399663DD137
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 09:32:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B923DD14B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 09:36:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6376E6E488;
-	Mon,  2 Aug 2021 07:32:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A997889F85;
+	Mon,  2 Aug 2021 07:36:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17655.qiye.163.com (mail-m17655.qiye.163.com
- [59.111.176.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC026E488
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 07:32:47 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [36.152.145.182])
- by mail-m17655.qiye.163.com (Hmail) with ESMTPA id 717234014F;
- Mon,  2 Aug 2021 15:32:44 +0800 (CST)
-From: zhouchuangao <zhouchuangao@vivo.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
- John Clements <john.clements@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Jinzhou Su <Jinzhou.Su@amd.com>, Wenhui Sheng <Wenhui.Sheng@amd.com>,
- Victor Zhao <Victor.Zhao@amd.com>, Kevin Wang <kevin1.wang@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: zhouchuangao <zhouchuangao@vivo.com>
-Subject: [PATCH] gpu/drm/amd: Remove duplicated include of drm_drv.h
-Date: Mon,  2 Aug 2021 00:32:32 -0700
-Message-Id: <1627889555-56431-1-git-send-email-zhouchuangao@vivo.com>
-X-Mailer: git-send-email 2.7.4
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
- kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUJCSktWH0hPQ0JNGR9PHU
- 5LVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MjY6Shw*Gj9MPTMKKjY#KDIi
- NC4wFCxVSlVKTUlMQ0NCTk1OTUJMVTMWGhIXVQETFA4YEw4aFRwaFDsNEg0UVRgUFkVZV1kSC1lB
- WUhNVUpOSVVKT05VSkNJWVdZCAFZQUlOS083Bg++
-X-HM-Tid: 0a7b05c77c4eda01kuws717234014f
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 381A689F85
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 07:36:41 +0000 (UTC)
+Date: Mon, 02 Aug 2021 07:36:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1627889798;
+ bh=bjGffO3ZyKLdM/0/V0E+cpS4f8EA+Sr8NhZrFgsBfas=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=EiVi0SO5cR0KLiV0k3XsQkyqBrUOAnBZXLU44g3m5Lt2OSleOLOj20Pn3oEtY3CZQ
+ vtvPVeI9/yUkLHoMkJb3LUTTk0mNYVrUbO7xzhuCevx5l9SVOa0GzxzESp5hG0MWYS
+ dF1QUAw0QcyqF1vtAbis6q5TQSbruGnBPA7Kt8pYV+1ri2eG6jV2yQXyWfCydOvZzF
+ Ttpio6064MyHDDm4uwWHd3S3DminXTyqiLV2cNAZZiC0j6C81B65twXUif8pShgBbZ
+ QHTg8rBpDfmiMoNDXFDvDGBu+d3yZavPw53CJauqjtCZQRvYPiMADIVi+BrNT8IPLf
+ feWBiYSkNwxNQ==
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Cc: harry.wentland@amd.com, alexander.deucher@amd.com, michel@daenzer.net,
+ pekka.paalanen@collabora.com, daniel@fooishbar.org, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 7/7] drm/connector: add ref to drm_connector_get in
+ iter docs
+Message-ID: <TEH7vVN12SkH1d2BAwcP18Ho63wY_uGecogrNv7qEOs2fMGMmGyNpOsj5b_hZ3rW-s9XhLmM09ETMau1PQ3ifgDDCLqKZfPWzZcNrU1ohLE=@emersion.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,31 +52,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Duplicate include header file <drm/drm_drv.h>
-line 28: #include <drm/drm_drv.h>
-line 44: #include <drm/drm_drv.h>
-
-Signed-off-by: zhouchuangao <zhouchuangao@vivo.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index 3ec5099..05f864f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -41,8 +41,6 @@
- #include "amdgpu_securedisplay.h"
- #include "amdgpu_atomfirmware.h"
- 
--#include <drm/drm_drv.h>
--
- static int psp_sysfs_init(struct amdgpu_device *adev);
- static void psp_sysfs_fini(struct amdgpu_device *adev);
- 
--- 
-2.7.4
-
+Pushed this one doc patch with Daniel's R-b on IRC.
