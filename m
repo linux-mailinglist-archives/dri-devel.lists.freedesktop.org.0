@@ -1,71 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9AEB3DD1CA
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 10:14:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 004ED3DD1D7
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 10:20:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 013836E1E8;
-	Mon,  2 Aug 2021 08:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4776E128;
+	Mon,  2 Aug 2021 08:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02BC86E1E8
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 08:14:31 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id gs8so29454733ejc.13
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 01:14:31 -0700 (PDT)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5966E128
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 08:19:54 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id f13so23256012edq.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 01:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=PE4RYbJZOWZUBJDVeq0Rz16NnEWFmQCTiwuGf8uQPJU=;
- b=EK6ayXbXDxEXln5cqtNWlUXo2+2jdIwli15TPNlMQRocw7YqFiP3TwZ6WL16N/0gXg
- 5Nso5DyT5Nk7oBVxGjILIQv2ibwO04hxX4mM18MOz+p6nj2k4V2grEG3n5AY8fBfESeO
- mlSewur6XsVS5CgqZI6iWdWlpblYnYnbV2O7A=
+ :content-disposition:in-reply-to;
+ bh=k2M3E1/I35To1DKV8xwvEc0uxIw7K1vfrX7q1USy8WY=;
+ b=jLDdEKvJYEpruZWwxZaWEOC3nTcwcen2osnu2hkahtUoo5yTdnEpRByvOiIRSrmsy5
+ yUlmGEbEG94dBmktxpm+KWx/HgItbTCWxtLC0thrQKEBpqCkkRitdtuK+94wrygmL8XH
+ sOolEowWuWQyWQ5/3kBECIybPsHG75OGfeXXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=PE4RYbJZOWZUBJDVeq0Rz16NnEWFmQCTiwuGf8uQPJU=;
- b=idyGadduucCKw8tuK1EfCVxZnyNiur+1YLXKuOTiQqLqcqF9GNBhZrzzwwgE6dVUQp
- jz65Rr5SWUgneu3thtX9mLesz6KjXyQJnVS54gSi7tU81jX3Yy0PXeZnufKQi1A8j6Xj
- pXGN/9QVPyEy5tlVCxwKGnhpgup9xRS0XHeqGj1C+y5D98qPMbdjkUbiN3lHagTHZs38
- ulf4GL71vwwvmt3KkbMAf00bPTZtfioty19uk4oL06n8wjiwvme/rT+aCvlUaNJB0efF
- JYFAUReEVmM/fSZhX5UgfyhPzLNx/ny9edHLiUx235PbEL3dUkmGBExq3g4ippqHyxQ3
- QEIg==
-X-Gm-Message-State: AOAM532dYKooicKXcqvE0sLPfOE3TufvZhCmYWGXZqCg6z9RJ2XscyYZ
- ZawBoL59+C8DsaVI8dNJ1rjQDw==
-X-Google-Smtp-Source: ABdhPJx33TJ0GKIWrjddlYvuBww/fS3tLJPhvVAfTtUMn+nndqYhcrAvO6FngcqJfxepd6ypgESdqA==
-X-Received: by 2002:a17:907:20f2:: with SMTP id
- rh18mr14569578ejb.136.1627892070404; 
- Mon, 02 Aug 2021 01:14:30 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=k2M3E1/I35To1DKV8xwvEc0uxIw7K1vfrX7q1USy8WY=;
+ b=i5u7ylAQ1Ztf/PoEBhxpWX66PVFbfklLKKa+ZGgwRjwYdKX7AXaU6k4BbuDDPOuiTz
+ 9SFAkAoiqk5Dd9+q9zFvwaoEhxiSar/GNnfaToNr3lErcpbTHAtl3uAP0uT/HBBefJa3
+ 5sZ0Iai/ozLuDfC3btIr5+YPkDo6OmujLTKWOeINK72dpCFdaDxo2Skft6moekHYsjqd
+ dNWab/n/FKEztGuU47uxFwKgKMdxe1sg+r7p1c+zLnkQROtAtlId8HbI2VTA04l7BqM7
+ Ps8uXOB9hIGs5jpTrdhSDrRoAtPlUBqwxGD67v+bOABJeCxrxY3yEObe9u1tcTurUCdk
+ I39A==
+X-Gm-Message-State: AOAM5315FNgTDRvq022r/7mTERTyFnt3ROrRXfnkSFeCQ8kwWnTcalfK
+ 9A+9TZOWpx8vDAAvoiEzw6eQvA==
+X-Google-Smtp-Source: ABdhPJxUEt+/5IICOaJ2vLlAObMeFY7RwxcmvHfW35EZglSS/VO9qP0xL4n6szhO6uoqeRC/uRUz1w==
+X-Received: by 2002:a50:ec0a:: with SMTP id g10mr17876122edr.125.1627892392499; 
+ Mon, 02 Aug 2021 01:19:52 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z16sm5513462edr.51.2021.08.02.01.14.29
+ by smtp.gmail.com with ESMTPSA id l16sm4145025eje.67.2021.08.02.01.19.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 01:14:29 -0700 (PDT)
-Date: Mon, 2 Aug 2021 10:14:28 +0200
+ Mon, 02 Aug 2021 01:19:51 -0700 (PDT)
+Date: Mon, 2 Aug 2021 10:19:50 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Simon Ser <contact@emersion.fr>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- "Zhang, Tina" <tina.zhang@intel.com>,
- "Kim, Dongwon" <dongwon.kim@intel.com>,
- "Singh, Satyeshwar" <satyeshwar.singh@intel.com>
-Subject: Re: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Message-ID: <YQepZMFaCNLBNGx9@phenom.ffwll.local>
-References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
- <YQPTo0D5SZfX44dn@phenom.ffwll.local>
- <612fd31a51384cb28ac6da9db3e840ca@intel.com>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm: Fix typo in comments
+Message-ID: <YQeqps/xbOHSRpv1@phenom.ffwll.local>
+References: <20210730132729.376-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <612fd31a51384cb28ac6da9db3e840ca@intel.com>
+In-Reply-To: <20210730132729.376-1-caihuoqing@baidu.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,272 +71,738 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 02, 2021 at 06:51:33AM +0000, Kasireddy, Vivek wrote:
-> Hi Daniel,
+On Fri, Jul 30, 2021 at 09:27:29PM +0800, Cai Huoqing wrote:
+> fix typo for drm
 > 
-> > 
-> > On Thu, Jul 29, 2021 at 01:16:55AM -0700, Vivek Kasireddy wrote:
-> > > By separating the OUT_FENCE signalling from pageflip completion allows
-> > > a Guest compositor to start a new repaint cycle with a new buffer
-> > > instead of waiting for the old buffer to be free.
-> > >
-> > > This work is based on the idea/suggestion from Simon and Pekka.
-> > >
-> > > This capability can be a solution for this issue:
-> > > https://gitlab.freedesktop.org/wayland/weston/-/issues/514
-> > >
-> > > Corresponding Weston MR:
-> > > https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/668
-> > 
-> > Uh I kinda wanted to discuss this a bit more before we jump into typing
-> > code, but well I guess not that much work yet.
-> [Kasireddy, Vivek] Right, it wasn't a lot of work :)
+> v1->v2:
+> respin with the change "iff ==> implies that"
 > 
-> > 
-> > So maybe I'm not understanding the problem, but I think the fundamental
-> > underlying issue is that with KMS you can have at most 2 buffers
-> > in-flight, due to our queue depth limit of 1 pending flip.
-> [Kasireddy, Vivek] Let me summarize the problem again from the perspective of
-> both the Host (Weston) and Guest (Weston) compositors assuming a refresh-rate
-> of 60 -- which implies the Vblank/Vsync is generated every ~16.66 ms.
-> Host compositor:
-> - After a pageflip completion event, it starts its next repaint cycle by waiting for 9 ms
-> and then submits the atomic commit and at the tail end of its cycle sends a frame callback
-> event to all its clients (who registered and submitted frames) indicating to them to 
-> start their next redraw  -- giving them at-least ~16 ms to submit a new frame to be
-> included in its next repaint. Why a configurable 9 ms delay is needed is explained
-> in Pekka's blog post here:
-> https://ppaalanen.blogspot.com/2015/02/weston-repaint-scheduling.html
-> 
-> - It'll send a wl_buffer.release event for a client submitted previous buffer only
-> when the client has submitted a new buffer and:
-> a) When it hasn't started its repaint cycle yet OR
-> b) When it clears its old state after it gets a pageflip completion event -- if it had
-> flipped the client's buffer onto a hardware plane.
-> 
-> Guest compositor:
-> - After a pageflip completion is sent by Guest KMS, it takes about 10-12 ms for the 
-> Guest compositor to submit a new atomic commit. This time of 10-12 ms includes the
-> 9 ms wait -- just like the Host compositor -- for its clients to submit new buffers.
-> - When it gets a pageflip completion, it assumes that the previously submitted buffer
-> is free for re-use and uses it again -- resulting in the usage of only 2 out of a maximum
-> of 4 backbuffers included as part of the Mesa GBM surface implementation.
-> 
-> Guest KMS/Virtio-gpu/Qemu Wayland UI:
-> - Because no_vblank=true for Guest KMS and since the vblank event (which also serves
-> as the pageflip completion event for user-space) is sent right away after atomic commit,
-> as Gerd said, we use an internal dma-fence to block/wait the Guest KMS until we know for
-> sure that the Host is completely done using the buffer. To ensure this, we signal the dma-fence
-> only after the Host compositor sends a wl_buffer.release event or an equivalent signal.
-> 
-> The goal:
-> - Maintain full framerate even when the Guest scanout FB is flipped onto a hardware plane
-> on the Host -- regardless of either compositor's scheduling policy -- without making any
-> copies and ensuring that both Host and Guest are not accessing the buffer at the same time.
-> 
-> The problem:
-> - If the Host compositor flips the client's buffer (in this case Guest compositor's buffer) 
-> onto a hardware plane, then it can send a wl_buffer.release event for the previous buffer
-> only after it gets a pageflip completion. And, if the Guest compositor takes 10-12 ms to
-> submit a new buffer and given the fact that the Host compositor waits only for 9 ms, the
-> Guest compositor will miss the Host's repaint cycle resulting in halved frame-rate.
-> 
-> The solution:
-> - To ensure full framerate, the Guest compositor has to start it's repaint cycle (including
-> the 9 ms wait) when the Host compositor sends the frame callback event to its clients.
-> In order for this to happen, the dma-fence that the Guest KMS waits on -- before sending
-> pageflip completion -- cannot be tied to a wl_buffer.release event. This means that, the
-> Guest compositor has to be forced to use a new buffer for its next repaint cycle when it
-> gets a pageflip completion.
+> Reviewed-by: Daniel Vetter <daniel@ffwll.ch>
 
-Is that really the only solution?
+I did not give you a Reviewed-by: tag, please dont forge them. At least
+in the linux kernel an r-b tag is a fairly formal statement:
 
-If we fix the event timestamps so that both guest and host use the same
-timestamp, but then the guest starts 5ms (or something like that) earlier,
-then things should work too? I.e.
-- host compositor starts at (previous_frametime + 9ms)
-- guest compositor starts at (previous_frametime + 4ms)
+https://dri.freedesktop.org/docs/drm/process/submitting-patches.html?highlight=statement%20oversight#reviewer-s-statement-of-oversight
 
-Ofc this only works if the frametimes we hand out to both match _exactly_
-and are as high-precision as the ones on the host side. Which for many gpu
-drivers at least is the case, and all the ones you care about for sure :-)
+The more informal Acked-by is generally ok to add if you get something
+like "looks good to me", but better to ask for confirmation too in that
+case.
 
-But if the frametimes the guest receives are the no_vblank fake ones, then
-they'll be all over the place and this carefully tuned low-latency redraw
-loop falls apart. Aside fromm the fact that without tuning the guests to
-be earlier than the hosts, you're guaranteed to miss every frame (except
-when the timing wobbliness in the guest is big enough by chance to make
-the deadline on the oddball frame).
+I've removed it before pushing.
 
-> - The Weston MR I linked above does this by getting an out_fence fd and taking a reference
-> on all the FBs included in the atomic commit forcing the compositor to use new FBs for its
-> next repaint cycle. It releases the references when the out_fence is signalled later when
-> the Host compositor sends a wl_buffer.release event.
-> 
-> > 
-> > Unfortunately that means for virtual hw where it takes a few more
-> > steps/vblanks until the framebuffer actually shows up on screen and is
-> > scanned out, we suffer deeply. The usual fix for that is to drop the
-> > latency and increase throughput, and have more buffers in-flight. Which
-> > this patch tries to do.
-> > 
-> > Now I think where we go wrong here is that we're trying to hack this up by
-> > defining different semantics for the out-fence and for the drm-event. Imo
-> > that's wrong, they're both meant to show eactly the same thing:
-> > - when is the new frame actually visible to the user (as in, eyeballs in a
-> >   human head, preferrably, not the time when we've handed the buffer off
-> >   to the virtual hw)
-> > - when is the previous buffer no longer being used by the scanout hw
-> [Kasireddy, Vivek] Right, they both mean the same thing but I think using both
-> at the same time would be redundant in the case of Weston. That's why I am trying
-> to repurpose the usage of out_fence in this case by introducing a new capability
-> that may not be relevant for bare-metal KMS drivers but would be useful for
-> virtual KMS drivers.
-> 
-> > 
-> > We do cheat a bit right now in so far that we assume they're both the
-> > same, as in, panel-side latency is currently the compositor's problem to
-> > figure out.
-> > 
-> > So for virtual hw I think the timestamp and even completion really need to
-> > happen only when the buffer has been pushed through the entire
-> > virtualization chain, i.e. ideally we get the timestamp from the kms
-> > driver from the host side. Currently that's not done, so this is most
-> > likely quite broken already (virtio relies on the no-vblank auto event
-> > sending, which definitely doesn't wait for anything, or I'm completely
-> > missing something).
-> [Kasireddy, Vivek] You are right; virtio_gpu does use the no_vblank auto event but
-> as I mentioned above we do use an internal dma-fence to wait until the submitted
-> buffer is no longer used by the Host. In other words, we wait (in update_planes hook)
-> until we get an appropriate signal from the Host to proceed to make sure that we are
-> not rendering faster than what the Host can display.
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-Yeah that internal dma_fence really should be the flip completion event
-too. That's how this uapi is supposed to work.
-
-Once you have that then maybe weston magically works because it realizes
-that it misses the frames it's aiming for. Or at least there will be debug
-output about that I hope (I'm not sure the auto-tuning works/exists).
-
-> However, as you suggest below, we could set no_vblank=false and send the vblank/
-> pageflip completion event from the virtio-gpu driver instead of having the DRM
-> core send it. This can prevent the DRM core from signalling the out_fence as well
-> which is my intended objective and what my first patch tries to do. I'd still need the
-> new capability though to include the patch in Weston that deals with out_fence --
-> unless Weston upstream can accept the patch after reviewing it without this newly
-> added capability which would be redundant but it does solve my problem. Would
-> this be acceptable?
-
-out fence and flip completion event are exactly the same thing
-semantically. Well, before your patch here at least. So if you fix up the
-internal crtc->event handling then you fix up both. That's very much by
-design, because otherwise we'd have a bunch of kms drivers that only work
-on Android (which uses out-fence), and the others only work on dekstop
-linux (which uses flip completion drm_event). And probably very few that
-support both.
-
-> > I think instead of hacking up some ill-defined 1.5 queue depth support,
-> > what we should do is support queue depth > 1 properly. So:
-> > 
-> > - Change atomic to support queue depth > 1, this needs to be a per-driver
-> >   thing due to a bunch of issues in driver code. Essentially drivers must
-> >   never look at obj->state pointers, and only ever look up state through
-> >   the passed-in drm_atomic_state * update container.
-> > 
-> > - Aside: virtio should loose all it's empty hooks, there's no point in
-> >   that.
-> > 
-> > - We fix virtio to send out the completion event at the end of this entire
-> >   pipeline, i.e. virtio code needs to take care of sending out the
-> >   crtc_state->event correctly.
-> > 
-> > - We probably also want some kind of (maybe per-crtc) recommended queue
-> >   depth property so compositors know how many buffers to keep in flight.
-> >   Not sure about that.
-> > 
-> > It's a bit more work, but also a lot less hacking around infrastructure in
-> > dubious ways.
-> > 
-> > Thoughts?
-> [Kasireddy, Vivek] IIUC, you are suggesting that we should make it possible to
-> submit a new atomic commit even though the completion event for the previous
-> one has not come in yet. This may potentially solve my problem but it sounds very
-> disruptive and not very useful for bare-metal cases. It also means that the compositors,
-> DRM core and the drivers need to keep track of multiple states -- as opposed to new and
-> old -- for all objects such as crtcs, planes, etc and account for multiple completion events.
-> I guess it is doable but as you suggest it seems like a lot of work with many pitfalls ahead.
-
-Queue deeper than 1 has been an eventual goal for atomic since the start,
-we simply didn't get around to it.
-
-All the state handling and helpers are built to support that (but there
-could be more bugs). The only rule drivers must follow is that in their
-atomic_commit code they never look at the various obj->state pointers
-(like drm_crtc->state), since that might be the state of a subsequent
-commit. Instead they must only get the state through the drm_atomic_state
-structure. We've recently also updated all the helpers to pass that around
-everywhere (for other reasons), so the challenge here is only to fix up
-individual drivers. And maybe come up with some debug checks to make the
-obj->state pointers aren't used in atomic_commit.
-
-From a design pov I think your approach of hacking up the event machinery
-to slip in 2 commits while not actually using the 2 deep queue stuff like
-it's meant to be is much worse.
-
-On the userspace side I'm not sure why you need to keep track of more
-state. All you need to keep track is of more buffers in your retire/reuse
-list, but you have to do that with your proposal here too. So no
-difference at all there.
-
-Anyway it sounds like if the guest compositor would adjust it's deadline
-so that the guest and host compositor interleave correctly, then we should
-still be able to hit full refresh rate without a deeper queue. Has that
-been looked into?
+Pushed to drm-misc-next, thanks for your patch.
 -Daniel
 
+> ---
+>  drivers/gpu/drm/drm_aperture.c          |  2 +-
+>  drivers/gpu/drm/drm_atomic.c            |  2 +-
+>  drivers/gpu/drm/drm_atomic_helper.c     | 10 +++++-----
+>  drivers/gpu/drm/drm_atomic_uapi.c       |  6 +++---
+>  drivers/gpu/drm/drm_auth.c              |  2 +-
+>  drivers/gpu/drm/drm_bridge.c            |  2 +-
+>  drivers/gpu/drm/drm_bufs.c              |  2 +-
+>  drivers/gpu/drm/drm_cache.c             |  2 +-
+>  drivers/gpu/drm/drm_damage_helper.c     |  2 +-
+>  drivers/gpu/drm/drm_dp_helper.c         |  8 ++++----
+>  drivers/gpu/drm/drm_drv.c               |  4 ++--
+>  drivers/gpu/drm/drm_dsc.c               |  2 +-
+>  drivers/gpu/drm/drm_edid.c              |  4 ++--
+>  drivers/gpu/drm/drm_fb_helper.c         |  2 +-
+>  drivers/gpu/drm/drm_file.c              |  6 +++---
+>  drivers/gpu/drm/drm_format_helper.c     |  2 +-
+>  drivers/gpu/drm/drm_framebuffer.c       |  2 +-
+>  drivers/gpu/drm/drm_gem.c               |  4 ++--
+>  drivers/gpu/drm/drm_gem_atomic_helper.c |  4 ++--
+>  drivers/gpu/drm/drm_gem_shmem_helper.c  |  2 +-
+>  drivers/gpu/drm/drm_gem_vram_helper.c   |  2 +-
+>  drivers/gpu/drm/drm_hdcp.c              |  2 +-
+>  drivers/gpu/drm/drm_ioctl.c             |  4 ++--
+>  drivers/gpu/drm/drm_irq.c               |  2 +-
+>  drivers/gpu/drm/drm_mm.c                |  2 +-
+>  drivers/gpu/drm/drm_mode_object.c       |  2 +-
+>  drivers/gpu/drm/drm_modes.c             |  4 ++--
+>  drivers/gpu/drm/drm_plane.c             |  2 +-
+>  drivers/gpu/drm/drm_plane_helper.c      |  2 +-
+>  drivers/gpu/drm/drm_prime.c             |  2 +-
+>  drivers/gpu/drm/drm_probe_helper.c      |  2 +-
+>  drivers/gpu/drm/drm_property.c          |  2 +-
+>  drivers/gpu/drm/drm_scdc_helper.c       |  2 +-
+>  drivers/gpu/drm/drm_syncobj.c           |  2 +-
+>  drivers/gpu/drm/drm_vblank.c            | 12 ++++++------
+>  drivers/gpu/drm/drm_vma_manager.c       |  2 +-
+>  36 files changed, 58 insertions(+), 58 deletions(-)
 > 
-> Thanks,
-> Vivek
-> > 
-> > Cheers, Daniel
-> > 
-> > >
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > > Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> > > Cc: Simon Ser <contact@emersion.fr>
-> > > Cc: Michel Dänzer <michel@daenzer.net>
-> > > Cc: Tina Zhang <tina.zhang@intel.com>
-> > > Cc: Dongwon Kim <dongwon.kim@intel.com>
-> > >
-> > > Vivek Kasireddy (4):
-> > >   drm: Add a capability flag to support deferred out_fence signalling
-> > >   virtio-gpu uapi: Add VIRTIO_GPU_F_OUT_FENCE feature
-> > >   drm/virtio: Add VIRTIO_GPU_CMD_RESOURCE_OUT_FENCE cmd
-> > >   drm/virtio: Probe and implement VIRTIO_GPU_F_OUT_FENCE feature
-> > >
-> > >  drivers/gpu/drm/drm_file.c               | 11 +++---
-> > >  drivers/gpu/drm/drm_ioctl.c              |  3 ++
-> > >  drivers/gpu/drm/virtio/virtgpu_debugfs.c |  1 +
-> > >  drivers/gpu/drm/virtio/virtgpu_drv.c     |  1 +
-> > >  drivers/gpu/drm/virtio/virtgpu_drv.h     |  6 ++++
-> > >  drivers/gpu/drm/virtio/virtgpu_fence.c   |  9 +++++
-> > >  drivers/gpu/drm/virtio/virtgpu_kms.c     | 10 ++++--
-> > >  drivers/gpu/drm/virtio/virtgpu_plane.c   | 44 +++++++++++++++++++++++-
-> > >  drivers/gpu/drm/virtio/virtgpu_vq.c      | 17 +++++++++
-> > >  include/drm/drm_mode_config.h            |  9 +++++
-> > >  include/uapi/drm/drm.h                   |  1 +
-> > >  include/uapi/linux/virtio_gpu.h          | 12 +++++++
-> > >  12 files changed, 117 insertions(+), 7 deletions(-)
-> > >
-> > > --
-> > > 2.30.2
-> > >
-> > 
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
+> index 9ac39cf11694..74bd4a76b253 100644
+> --- a/drivers/gpu/drm/drm_aperture.c
+> +++ b/drivers/gpu/drm/drm_aperture.c
+> @@ -78,7 +78,7 @@
+>   *
+>   * Drivers that are susceptible to being removed by other drivers, such as
+>   * generic EFI or VESA drivers, have to register themselves as owners of their
+> - * given framebuffer memory. Ownership of the framebuffer memory is achived
+> + * given framebuffer memory. Ownership of the framebuffer memory is achieved
+>   * by calling devm_aperture_acquire_from_firmware(). On success, the driver
+>   * is the owner of the framebuffer range. The function fails if the
+>   * framebuffer is already by another driver. See below for an example.
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index d820423fac32..b127e30082ba 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -723,7 +723,7 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
+>   * clocks, scaler units, bandwidth and fifo limits shared among a group of
+>   * planes or CRTCs, and so on) it makes sense to model these as independent
+>   * objects. Drivers then need to do similar state tracking and commit ordering for
+> - * such private (since not exposed to userpace) objects as the atomic core and
+> + * such private (since not exposed to userspace) objects as the atomic core and
+>   * helpers already provide for connectors, planes and CRTCs.
+>   *
+>   * To make this easier on drivers the atomic core provides some support to track
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index f7bf1ea62d58..7ee480b6efde 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -634,7 +634,7 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+>  			 * connectors and a NULL mode.
+>  			 *
+>  			 * The other way around is true as well. enable != 0
+> -			 * iff connectors are attached and a mode is set.
+> +			 * implies that connectors are attached and a mode is set.
+>  			 */
+>  			new_crtc_state->mode_changed = true;
+>  			new_crtc_state->connectors_changed = true;
+> @@ -1686,7 +1686,7 @@ static void commit_work(struct work_struct *work)
+>  }
+>  
+>  /**
+> - * drm_atomic_helper_async_check - check if state can be commited asynchronously
+> + * drm_atomic_helper_async_check - check if state can be committed asynchronously
+>   * @dev: DRM device
+>   * @state: the driver state object
+>   *
+> @@ -1695,7 +1695,7 @@ static void commit_work(struct work_struct *work)
+>   * but just do in-place changes on the current state.
+>   *
+>   * It will return 0 if the commit can happen in an asynchronous fashion or error
+> - * if not. Note that error just mean it can't be commited asynchronously, if it
+> + * if not. Note that error just mean it can't be committed asynchronously, if it
+>   * fails the commit should be treated like a normal synchronous commit.
+>   */
+>  int drm_atomic_helper_async_check(struct drm_device *dev,
+> @@ -2583,7 +2583,7 @@ EXPORT_SYMBOL(drm_atomic_helper_commit_planes);
+>   *
+>   * This function can only be savely used when planes are not allowed to move
+>   * between different CRTCs because this function doesn't handle inter-CRTC
+> - * depencies. Callers need to ensure that either no such depencies exist,
+> + * dependencies. Callers need to ensure that either no such dependencies exist,
+>   * resolve them through ordering of commit calls or through some other means.
+>   */
+>  void
+> @@ -2720,7 +2720,7 @@ EXPORT_SYMBOL(drm_atomic_helper_cleanup_planes);
+>  /**
+>   * drm_atomic_helper_swap_state - store atomic state into current sw state
+>   * @state: atomic state
+> - * @stall: stall for preceeding commits
+> + * @stall: stall for preceding commits
+>   *
+>   * This function stores the atomic state into the current state pointers in all
+>   * driver objects. It should be called after all failing steps have been done
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 7e48d40600ff..909f31833181 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -48,7 +48,7 @@
+>   * in all its forms: The monster ATOMIC IOCTL itself, code for GET_PROPERTY and
+>   * SET_PROPERTY IOCTLs. Plus interface functions for compatibility helpers and
+>   * drivers which have special needs to construct their own atomic updates, e.g.
+> - * for load detect or similiar.
+> + * for load detect or similar.
+>   */
+>  
+>  /**
+> @@ -753,7 +753,7 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+>  		 * restore the state it wants on VT switch. So if the userspace
+>  		 * tries to change the link_status from GOOD to BAD, driver
+>  		 * silently rejects it and returns a 0. This prevents userspace
+> -		 * from accidently breaking  the display when it restores the
+> +		 * from accidentally breaking  the display when it restores the
+>  		 * state.
+>  		 */
+>  		if (state->link_status != DRM_LINK_STATUS_GOOD)
+> @@ -1064,7 +1064,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+>   * DOC: explicit fencing properties
+>   *
+>   * Explicit fencing allows userspace to control the buffer synchronization
+> - * between devices. A Fence or a group of fences are transfered to/from
+> + * between devices. A Fence or a group of fences are transferred to/from
+>   * userspace using Sync File fds and there are two DRM properties for that.
+>   * IN_FENCE_FD on each DRM Plane to send fences to the kernel and
+>   * OUT_FENCE_PTR on each DRM CRTC to receive fences from the kernel.
+> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> index 3a64a6a79ade..eba438027539 100644
+> --- a/drivers/gpu/drm/drm_auth.c
+> +++ b/drivers/gpu/drm/drm_auth.c
+> @@ -52,7 +52,7 @@
+>   *
+>   * In addition only one &drm_master can be the current master for a &drm_device.
+>   * It can be switched through the DROP_MASTER and SET_MASTER IOCTL, or
+> - * implicitly through closing/openeing the primary device node. See also
+> + * implicitly through closing/opening the primary device node. See also
+>   * drm_is_current_master().
+>   *
+>   * Clients can authenticate against the current master (if it matches their own)
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 044acd07c153..d4d447a8725a 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -972,7 +972,7 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
+>  	bridge_state->output_bus_cfg.flags = output_flags;
+>  
+>  	/*
+> -	 * Propage the output flags to the input end of the bridge. Again, it's
+> +	 * Propagate the output flags to the input end of the bridge. Again, it's
+>  	 * not necessarily what all bridges want, but that's what most of them
+>  	 * do, and by doing that by default we avoid forcing drivers to
+>  	 * duplicate the "dummy propagation" logic.
+> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+> index ae8e4d76209c..fcca21e8efac 100644
+> --- a/drivers/gpu/drm/drm_bufs.c
+> +++ b/drivers/gpu/drm/drm_bufs.c
+> @@ -1502,7 +1502,7 @@ int drm_legacy_freebufs(struct drm_device *dev, void *data,
+>   *
+>   * Maps the AGP, SG or PCI buffer region with vm_mmap(), and copies information
+>   * about each buffer into user space. For PCI buffers, it calls vm_mmap() with
+> - * offset equal to 0, which drm_mmap() interpretes as PCI buffers and calls
+> + * offset equal to 0, which drm_mmap() interprets as PCI buffers and calls
+>   * drm_mmap_dma().
+>   */
+>  int __drm_legacy_mapbufs(struct drm_device *dev, void *data, int *p,
+> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+> index 546599f19a93..30cc59fe6ef7 100644
+> --- a/drivers/gpu/drm/drm_cache.c
+> +++ b/drivers/gpu/drm/drm_cache.c
+> @@ -170,7 +170,7 @@ drm_clflush_virt_range(void *addr, unsigned long length)
+>  		for (; addr < end; addr += size)
+>  			clflushopt(addr);
+>  		clflushopt(end - 1); /* force serialisation */
+> -		mb(); /*Ensure that evry data cache line entry is flushed*/
+> +		mb(); /*Ensure that every data cache line entry is flushed*/
+>  		return;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
+> index 3a4126dc2520..dbc4312160a5 100644
+> --- a/drivers/gpu/drm/drm_damage_helper.c
+> +++ b/drivers/gpu/drm/drm_damage_helper.c
+> @@ -170,7 +170,7 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
+>  	int ret = 0;
+>  
+>  	/*
+> -	 * When called from ioctl, we are interruptable, but not when called
+> +	 * When called from ioctl, we are interruptible, but not when called
+>  	 * internally (ie. defio worker)
+>  	 */
+>  	drm_modeset_acquire_init(&ctx,
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index b5f75ca05774..ed3ed6d3da25 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -772,7 +772,7 @@ int drm_dp_downstream_max_tmds_clock(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+>  		 * It's left up to the driver to check the
+>  		 * DP dual mode adapter's max TMDS clock.
+>  		 *
+> -		 * Unfortunatley it looks like branch devices
+> +		 * Unfortunately it looks like branch devices
+>  		 * may not fordward that the DP dual mode i2c
+>  		 * access so we just usually get i2c nak :(
+>  		 */
+> @@ -1365,7 +1365,7 @@ static int drm_dp_i2c_msg_duration(const struct drm_dp_aux_msg *msg,
+>  }
+>  
+>  /*
+> - * Deterine how many retries should be attempted to successfully transfer
+> + * Determine how many retries should be attempted to successfully transfer
+>   * the specified message, based on the estimated durations of the
+>   * i2c and AUX transfers.
+>   */
+> @@ -1418,7 +1418,7 @@ static int drm_dp_i2c_do_msg(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+>  			/*
+>  			 * While timeouts can be errors, they're usually normal
+>  			 * behavior (for instance, when a driver tries to
+> -			 * communicate with a non-existant DisplayPort device).
+> +			 * communicate with a non-existent DisplayPort device).
+>  			 * Avoid spamming the kernel log with timeout errors.
+>  			 */
+>  			if (ret == -ETIMEDOUT)
+> @@ -3327,7 +3327,7 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
+>  	fxp = DIV_ROUND_CLOSEST(1000 * DP_EDP_BACKLIGHT_FREQ_BASE_KHZ, driver_pwm_freq_hz);
+>  
+>  	/* Use highest possible value of Pn for more granularity of brightness adjustment while
+> -	 * satifying the conditions below.
+> +	 * satisfying the conditions below.
+>  	 * - Pn is in the range of Pn_min and Pn_max
+>  	 * - F is in the range of 1 and 255
+>  	 * - FxP is within 25% of desired value.
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 8804ec7d3215..7a5097467ba5 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -249,7 +249,7 @@ void drm_minor_release(struct drm_minor *minor)
+>   * Finally when everything is up and running and ready for userspace the device
+>   * instance can be published using drm_dev_register().
+>   *
+> - * There is also deprecated support for initalizing device instances using
+> + * There is also deprecated support for initializing device instances using
+>   * bus-specific helpers and the &drm_driver.load callback. But due to
+>   * backwards-compatibility needs the device instance have to be published too
+>   * early, which requires unpretty global locking to make safe and is therefore
+> @@ -379,7 +379,7 @@ void drm_minor_release(struct drm_minor *minor)
+>   * shortcoming however, drm_dev_unplug() marks the drm_device as unplugged before
+>   * drm_atomic_helper_shutdown() is called. This means that if the disable code
+>   * paths are protected, they will not run on regular driver module unload,
+> - * possibily leaving the hardware enabled.
+> + * possibly leaving the hardware enabled.
+>   */
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/drm_dsc.c b/drivers/gpu/drm/drm_dsc.c
+> index ff602f7ec65b..46a3c1b62463 100644
+> --- a/drivers/gpu/drm/drm_dsc.c
+> +++ b/drivers/gpu/drm/drm_dsc.c
+> @@ -98,7 +98,7 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
+>  {
+>  	int i;
+>  
+> -	/* Protect against someone accidently changing struct size */
+> +	/* Protect against someone accidentally changing struct size */
+>  	BUILD_BUG_ON(sizeof(*pps_payload) !=
+>  		     DP_SDP_PPS_HEADER_PAYLOAD_BYTES_MINUS_1 + 1);
+>  
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 81d5f2524246..6325877c5fd6 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1919,7 +1919,7 @@ EXPORT_SYMBOL(drm_add_override_edid_modes);
+>   * level, drivers must make all reasonable efforts to expose it as an I2C
+>   * adapter and use drm_get_edid() instead of abusing this function.
+>   *
+> - * The EDID may be overridden using debugfs override_edid or firmare EDID
+> + * The EDID may be overridden using debugfs override_edid or firmware EDID
+>   * (drm_load_edid_firmware() and drm.edid_firmware parameter), in this priority
+>   * order. Having either of them bypasses actual EDID reads.
+>   *
+> @@ -5906,7 +5906,7 @@ drm_hdmi_vendor_infoframe_from_display_mode(struct hdmi_vendor_infoframe *frame,
+>  	 * (ie.vic==0 and s3d_struct==0) we will still send it if we
+>  	 * know that the sink can handle it. This is based on a
+>  	 * suggestion in HDMI 2.0 Appendix F. Apparently some sinks
+> -	 * have trouble realizing that they shuld switch from 3D to 2D
+> +	 * have trouble realizing that they should switch from 3D to 2D
+>  	 * mode if the source simply stops sending the infoframe when
+>  	 * it wants to switch from 3D to 2D.
+>  	 */
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index d77a24507d30..3ab078321045 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -565,7 +565,7 @@ struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
+>  		goto err_release;
+>  
+>  	/*
+> -	 * TODO: We really should be smarter here and alloc an apperture
+> +	 * TODO: We really should be smarter here and alloc an aperture
+>  	 * for each IORESOURCE_MEM resource helper->dev->dev has and also
+>  	 * init the ranges of the appertures based on the resources.
+>  	 * Note some drivers currently count on there being only 1 empty
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index ceb1a9723855..ed25168619fc 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -405,7 +405,7 @@ static int drm_open_helper(struct file *filp, struct drm_minor *minor)
+>   *
+>   * RETURNS:
+>   *
+> - * 0 on success or negative errno value on falure.
+> + * 0 on success or negative errno value on failure.
+>   */
+>  int drm_open(struct inode *inode, struct file *filp)
+>  {
+> @@ -548,7 +548,7 @@ EXPORT_SYMBOL(drm_release_noglobal);
+>   * @offset: offset to read
+>   *
+>   * This function must be used by drivers as their &file_operations.read
+> - * method iff they use DRM events for asynchronous signalling to userspace.
+> + * method if they use DRM events for asynchronous signalling to userspace.
+>   * Since events are used by the KMS API for vblank and page flip completion this
+>   * means all modern display drivers must use it.
+>   *
+> @@ -641,7 +641,7 @@ EXPORT_SYMBOL(drm_read);
+>   * @wait: poll waiter table
+>   *
+>   * This function must be used by drivers as their &file_operations.read method
+> - * iff they use DRM events for asynchronous signalling to userspace.  Since
+> + * if they use DRM events for asynchronous signalling to userspace.  Since
+>   * events are used by the KMS API for vblank and page flip completion this means
+>   * all modern display drivers must use it.
+>   *
+> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> index 0e885cd34107..5231104b1498 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -412,7 +412,7 @@ EXPORT_SYMBOL(drm_fb_blit_rect_dstclip);
+>   * of the display and the framebuffer mismatch, the copy function will
+>   * attempt to convert between them.
+>   *
+> - * See drm_fb_blit_rect_dstclip() for more inforamtion.
+> + * See drm_fb_blit_rect_dstclip() for more information.
+>   *
+>   * Returns:
+>   * 0 on success, or a negative error code otherwise.
+> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> index 4d01464b6f95..a8ad0da225a7 100644
+> --- a/drivers/gpu/drm/drm_framebuffer.c
+> +++ b/drivers/gpu/drm/drm_framebuffer.c
+> @@ -1090,7 +1090,7 @@ void drm_framebuffer_remove(struct drm_framebuffer *fb)
+>  
+>  	/*
+>  	 * drm ABI mandates that we remove any deleted framebuffers from active
+> -	 * useage. But since most sane clients only remove framebuffers they no
+> +	 * usage. But since most sane clients only remove framebuffers they no
+>  	 * longer need, try to optimize this away.
+>  	 *
+>  	 * Since we're holding a reference ourselves, observing a refcount of 1
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 68deb1de8235..6c102ba2d9ac 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -901,7 +901,7 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
+>  }
+>  
+>  /**
+> - * drm_gem_open - initalizes GEM file-private structures at devnode open time
+> + * drm_gem_open - initializes GEM file-private structures at devnode open time
+>   * @dev: drm_device which is being opened by userspace
+>   * @file_private: drm file-private structure to set up
+>   *
+> @@ -936,7 +936,7 @@ drm_gem_release(struct drm_device *dev, struct drm_file *file_private)
+>   * drm_gem_object_release - release GEM buffer object resources
+>   * @obj: GEM buffer object
+>   *
+> - * This releases any structures and resources used by @obj and is the invers of
+> + * This releases any structures and resources used by @obj and is the inverse of
+>   * drm_gem_object_init().
+>   */
+>  void
+> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+> index 26af09b959d4..86b3c676e0b1 100644
+> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+> @@ -52,7 +52,7 @@
+>   *
+>   * The helpers for shadow-buffered planes establish and release mappings,
+>   * and provide struct drm_shadow_plane_state, which stores the plane's mapping
+> - * for commit-tail functons.
+> + * for commit-tail functions.
+>   *
+>   * Shadow-buffered planes can easily be enabled by using the provided macros
+>   * %DRM_GEM_SHADOW_PLANE_FUNCS and %DRM_GEM_SHADOW_PLANE_HELPER_FUNCS.
+> @@ -374,7 +374,7 @@ EXPORT_SYMBOL(drm_gem_prepare_shadow_fb);
+>   * This function implements struct &drm_plane_helper_funcs.cleanup_fb.
+>   * This function unmaps all buffer objects of the plane's framebuffer.
+>   *
+> - * See drm_gem_prepare_shadow_fb() for more inforamtion.
+> + * See drm_gem_prepare_shadow_fb() for more information.
+>   */
+>  void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
+>  {
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index d5e6d4568f99..a61946374c82 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -368,7 +368,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+>  }
+>  
+>  /*
+> - * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM object
+> + * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
+>   * @shmem: shmem GEM object
+>   * @map: Kernel virtual address where the SHMEM GEM object was mapped
+>   *
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index 1e9b82e51a07..43cf7e887d1a 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -96,7 +96,7 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+>   * memory region. Call drm_gem_vram_offset() to retrieve this value. Typically
+>   * it's used to program the hardware's scanout engine for framebuffers, set
+>   * the cursor overlay's image for a mouse cursor, or use it as input to the
+> - * hardware's draing engine.
+> + * hardware's drawing engine.
+>   *
+>   * To access a buffer object's memory from the DRM driver, call
+>   * drm_gem_vram_vmap(). It maps the buffer into kernel address
+> diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
+> index 910108ccaae1..ca9b8f697202 100644
+> --- a/drivers/gpu/drm/drm_hdcp.c
+> +++ b/drivers/gpu/drm/drm_hdcp.c
+> @@ -280,7 +280,7 @@ static int drm_hdcp_request_srm(struct drm_device *drm_dev,
+>   * https://www.digital-cp.com/sites/default/files/specifications/HDCP%20on%20HDMI%20Specification%20Rev2_2_Final1.pdf
+>   *
+>   * Returns:
+> - * Count of the revoked KSVs or -ve error number incase of the failure.
+> + * Count of the revoked KSVs or -ve error number in case of the failure.
+>   */
+>  int drm_hdcp_check_ksvs_revoked(struct drm_device *drm_dev, u8 *ksvs,
+>  				u32 ksv_count)
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index f454e0424086..be4a52dc4d6f 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -426,7 +426,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
+>  }
+>  
+>  /**
+> - * drm_noop - DRM no-op ioctl implemntation
+> + * drm_noop - DRM no-op ioctl implementation
+>   * @dev: DRM device for the ioctl
+>   * @data: data pointer for the ioctl
+>   * @file_priv: DRM file for the ioctl call
+> @@ -446,7 +446,7 @@ int drm_noop(struct drm_device *dev, void *data,
+>  EXPORT_SYMBOL(drm_noop);
+>  
+>  /**
+> - * drm_invalid_op - DRM invalid ioctl implemntation
+> + * drm_invalid_op - DRM invalid ioctl implementation
+>   * @dev: DRM device for the ioctl
+>   * @data: data pointer for the ioctl
+>   * @file_priv: DRM file for the ioctl call
+> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+> index 201eae4bba6c..4a853011549a 100644
+> --- a/drivers/gpu/drm/drm_irq.c
+> +++ b/drivers/gpu/drm/drm_irq.c
+> @@ -72,7 +72,7 @@
+>   * The DRM core provides very simple support helpers to enable IRQ handling on a
+>   * device through the drm_irq_install() and drm_irq_uninstall() functions. This
+>   * only supports devices with a single interrupt on the main device stored in
+> - * &drm_device.dev and set as the device paramter in drm_dev_alloc().
+> + * &drm_device.dev and set as the device parameter in drm_dev_alloc().
+>   *
+>   * These IRQ helpers are strictly optional. Since these helpers don't automatically
+>   * clean up the requested interrupt like e.g. devm_request_irq() they're not really
+> diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+> index a4a04d246135..93d48a6f04ab 100644
+> --- a/drivers/gpu/drm/drm_mm.c
+> +++ b/drivers/gpu/drm/drm_mm.c
+> @@ -700,7 +700,7 @@ EXPORT_SYMBOL(drm_mm_replace_node);
+>   * interfaces. First a scan operation needs to be initialized with
+>   * drm_mm_scan_init() or drm_mm_scan_init_with_range(). The driver adds
+>   * objects to the roster, probably by walking an LRU list, but this can be
+> - * freely implemented. Eviction candiates are added using
+> + * freely implemented. Eviction candidates are added using
+>   * drm_mm_scan_add_block() until a suitable hole is found or there are no
+>   * further evictable objects. Eviction roster metadata is tracked in &struct
+>   * drm_mm_scan.
+> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+> index b26588b52795..86d9e907c0b2 100644
+> --- a/drivers/gpu/drm/drm_mode_object.c
+> +++ b/drivers/gpu/drm/drm_mode_object.c
+> @@ -91,7 +91,7 @@ void drm_mode_object_register(struct drm_device *dev,
+>  }
+>  
+>  /**
+> - * drm_mode_object_unregister - free a modeset identifer
+> + * drm_mode_object_unregister - free a modeset identifier
+>   * @dev: DRM device
+>   * @object: object to free
+>   *
+> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> index ae53ea624c73..1c72208d8133 100644
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -1542,7 +1542,7 @@ static int drm_mode_parse_cmdline_int(const char *delim, unsigned int *int_ret)
+>  
+>  	/*
+>  	 * delim must point to the '=', otherwise it is a syntax error and
+> -	 * if delim points to the terminating zero, then delim + 1 wil point
+> +	 * if delim points to the terminating zero, then delim + 1 will point
+>  	 * past the end of the string.
+>  	 */
+>  	if (*delim != '=')
+> @@ -1972,7 +1972,7 @@ int drm_mode_convert_umode(struct drm_device *dev,
+>  	out->flags = in->flags;
+>  	/*
+>  	 * Old xf86-video-vmware (possibly others too) used to
+> -	 * leave 'type' unititialized. Just ignore any bits we
+> +	 * leave 'type' uninitialized. Just ignore any bits we
+>  	 * don't like. It's a just hint after all, and more
+>  	 * useful for the kernel->userspace direction anyway.
+>  	 */
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index b373958ecb30..98ca1801253b 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -38,7 +38,7 @@
+>  /**
+>   * DOC: overview
+>   *
+> - * A plane represents an image source that can be blended with or overlayed on
+> + * A plane represents an image source that can be blended with or overlaid on
+>   * top of a CRTC during the scanout process. Planes take their input data from a
+>   * &drm_framebuffer object. The plane itself specifies the cropping and scaling
+>   * of that image, and where it is placed on the visible area of a display
+> diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
+> index 3aae7ea522f2..5b2d0ca03705 100644
+> --- a/drivers/gpu/drm/drm_plane_helper.c
+> +++ b/drivers/gpu/drm/drm_plane_helper.c
+> @@ -210,7 +210,7 @@ static int drm_primary_helper_update(struct drm_plane *plane, struct drm_crtc *c
+>  	 * We call set_config() directly here rather than using
+>  	 * drm_mode_set_config_internal.  We're reprogramming the same
+>  	 * connectors that were already in use, so we shouldn't need the extra
+> -	 * cross-CRTC fb refcounting to accomodate stealing connectors.
+> +	 * cross-CRTC fb refcounting to accommodate stealing connectors.
+>  	 * drm_mode_setplane() already handles the basic refcounting for the
+>  	 * framebuffers involved in this operation.
+>  	 */
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 2a54f86856af..3085858272c6 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -73,7 +73,7 @@
+>   * Thus the chain of references always flows in one direction, avoiding loops:
+>   * importing GEM object -> dma-buf -> exported GEM bo. A further complication
+>   * are the lookup caches for import and export. These are required to guarantee
+> - * that any given object will always have only one uniqe userspace handle. This
+> + * that any given object will always have only one unique userspace handle. This
+>   * is required to allow userspace to detect duplicated imports, since some GEM
+>   * drivers do fail command submissions if a given buffer object is listed more
+>   * than once. These import and export caches in &drm_prime_file_private only
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index e7e1ee2aa352..5606bca3caa8 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -757,7 +757,7 @@ EXPORT_SYMBOL(drm_kms_helper_poll_disable);
+>   * drm_kms_helper_poll_init - initialize and enable output polling
+>   * @dev: drm_device
+>   *
+> - * This function intializes and then also enables output polling support for
+> + * This function initializes and then also enables output polling support for
+>   * @dev. Drivers which do not have reliable hotplug support in hardware can use
+>   * this helper infrastructure to regularly poll such connectors for changes in
+>   * their connection state.
+> diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
+> index 27c824a6eb60..6c353c9dc772 100644
+> --- a/drivers/gpu/drm/drm_property.c
+> +++ b/drivers/gpu/drm/drm_property.c
+> @@ -434,7 +434,7 @@ EXPORT_SYMBOL(drm_property_add_enum);
+>  /**
+>   * drm_property_destroy - destroy a drm property
+>   * @dev: drm device
+> - * @property: property to destry
+> + * @property: property to destroy
+>   *
+>   * This function frees a property including any attached resources like
+>   * enumeration values.
+> diff --git a/drivers/gpu/drm/drm_scdc_helper.c b/drivers/gpu/drm/drm_scdc_helper.c
+> index 991b8c86d78d..48a382464d54 100644
+> --- a/drivers/gpu/drm/drm_scdc_helper.c
+> +++ b/drivers/gpu/drm/drm_scdc_helper.c
+> @@ -241,7 +241,7 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct i2c_adapter *adapter, bool set)
+>  	/*
+>  	 * The spec says that a source should wait minimum 1ms and maximum
+>  	 * 100ms after writing the TMDS config for clock ratio. Lets allow a
+> -	 * wait of upto 2ms here.
+> +	 * wait of up to 2ms here.
+>  	 */
+>  	usleep_range(1000, 2000);
+>  	return true;
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+> index 1c5b9ef6da37..c9a9d74f338c 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -725,7 +725,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+>  	return ret;
+>  }
+>  /**
+> - * drm_syncobj_open - initalizes syncobj file-private structures at devnode open time
+> + * drm_syncobj_open - initializes syncobj file-private structures at devnode open time
+>   * @file_private: drm file-private structure to set up
+>   *
+>   * Called at device open time, sets up the structure for handling refcounting
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index bba6781cc48f..977b6509bb4b 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -191,7 +191,7 @@ static u32 drm_max_vblank_count(struct drm_device *dev, unsigned int pipe)
+>  
+>  /*
+>   * "No hw counter" fallback implementation of .get_vblank_counter() hook,
+> - * if there is no useable hardware frame counter available.
+> + * if there is no usable hardware frame counter available.
+>   */
+>  static u32 drm_vblank_no_hw_counter(struct drm_device *dev, unsigned int pipe)
+>  {
+> @@ -905,7 +905,7 @@ drm_get_last_vbltimestamp(struct drm_device *dev, unsigned int pipe,
+>   * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
+>   * provide a barrier: Any writes done before calling
+>   * drm_crtc_handle_vblank() will be visible to callers of the later
+> - * functions, iff the vblank count is the same or a later one.
+> + * functions, if the vblank count is the same or a later one.
+>   *
+>   * See also &drm_vblank_crtc.count.
+>   *
+> @@ -968,7 +968,7 @@ static u64 drm_vblank_count_and_time(struct drm_device *dev, unsigned int pipe,
+>   * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
+>   * provide a barrier: Any writes done before calling
+>   * drm_crtc_handle_vblank() will be visible to callers of the later
+> - * functions, iff the vblank count is the same or a later one.
+> + * functions, if the vblank count is the same or a later one.
+>   *
+>   * See also &drm_vblank_crtc.count.
+>   */
+> @@ -1997,7 +1997,7 @@ EXPORT_SYMBOL(drm_handle_vblank);
+>   * and drm_crtc_vblank_count() or drm_crtc_vblank_count_and_time()
+>   * provide a barrier: Any writes done before calling
+>   * drm_crtc_handle_vblank() will be visible to callers of the later
+> - * functions, iff the vblank count is the same or a later one.
+> + * functions, if the vblank count is the same or a later one.
+>   *
+>   * See also &drm_vblank_crtc.count.
+>   *
+> @@ -2014,7 +2014,7 @@ EXPORT_SYMBOL(drm_crtc_handle_vblank);
+>   * Get crtc VBLANK count.
+>   *
+>   * \param dev DRM device
+> - * \param data user arguement, pointing to a drm_crtc_get_sequence structure.
+> + * \param data user argument, pointing to a drm_crtc_get_sequence structure.
+>   * \param file_priv drm file private for the user's open file descriptor
+>   */
+>  
+> @@ -2070,7 +2070,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
+>   * Queue a event for VBLANK sequence
+>   *
+>   * \param dev DRM device
+> - * \param data user arguement, pointing to a drm_crtc_queue_sequence structure.
+> + * \param data user argument, pointing to a drm_crtc_queue_sequence structure.
+>   * \param file_priv drm file private for the user's open file descriptor
+>   */
+>  
+> diff --git a/drivers/gpu/drm/drm_vma_manager.c b/drivers/gpu/drm/drm_vma_manager.c
+> index 4565319fa6b3..7de37f8c68fd 100644
+> --- a/drivers/gpu/drm/drm_vma_manager.c
+> +++ b/drivers/gpu/drm/drm_vma_manager.c
+> @@ -361,7 +361,7 @@ EXPORT_SYMBOL(drm_vma_node_revoke);
+>   * This is locked against concurrent access internally.
+>   *
+>   * RETURNS:
+> - * true iff @filp is on the list
+> + * true if @filp is on the list
+>   */
+>  bool drm_vma_node_is_allowed(struct drm_vma_offset_node *node,
+>  			     struct drm_file *tag)
+> -- 
+> 2.25.1
+> 
 
 -- 
 Daniel Vetter
