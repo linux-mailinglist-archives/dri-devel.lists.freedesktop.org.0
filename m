@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5403DD46A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 13:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B65B83DD46D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 13:01:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09BFF6E092;
-	Mon,  2 Aug 2021 11:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDFCA6E102;
+	Mon,  2 Aug 2021 11:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964196E092;
- Mon,  2 Aug 2021 11:01:06 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- b1-20020a17090a8001b029017700de3903so18601007pjn.1; 
- Mon, 02 Aug 2021 04:01:06 -0700 (PDT)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B036E102;
+ Mon,  2 Aug 2021 11:01:14 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id ca5so24613362pjb.5;
+ Mon, 02 Aug 2021 04:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+4PUslbRzXQEVcyLjM1+XzzP75b9QIYpCs6ACXDfVsQ=;
- b=PBNkxN6DWeczRn2gcRqifa1l8gMQiDGvhZH1FXQiXg2ttbO/odOC1ivcBqr8H01S0D
- jfsgV37/i8xj5A2z76bc+oO9ZiUJfPVGooTQzts+RmNLoQnUiSTCT/IOzHCYZ6yL6EQM
- cosIIp29pDNN1sbFff32hpjqpysYBO8OevzObUWgHJkyaoRN+pQMa6JSXmbMbWiY+z1r
- QmYH3s1ahk2DAjyNQuRCJ+0Nk4O55ASJjPnCD1sPHF3w09+As/JtRMHCHHjH0USSWBkI
- Pbnt60nBbzlkLd12fNE1rlrDN7KxV5ZOcIH0y243fIkNxLQT/aePqQtbY6syJf8z+A1u
- PSHg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SBgORfE72/F8bvZ2E4Lkq7+Ur0TIBEwAuizWaZ2J00o=;
+ b=nUF8d8HONixMnqI8KfeSi0XX6vf8czl8bmAdM5TZSurKWyLuq8slGlZ1u/ExTag0wL
+ +WL30oVTWsvET+Btxr2a673Ykcm181eET849f3aGJIpKEvwr93Y2UesTHhvG24sNhbMe
+ keTVOzXxcwRmlnoWysth40LzL80I6ca33GM/5GM/aiGZk7VbTx2XkHjpSu/L5Yndup13
+ myM+rAua1+qQ4fQHRvD1XZyBSCZ3jK1Vz77BruQvm++/e/2drm9tj5QadwfNcBw/GGNi
+ a86DwgmmBgqwyhkhfos8IjB3TQiTuI7UdDscFzzdq1VUtowC1HU0fh1f+1GKO7gDZxcs
+ 0JiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+4PUslbRzXQEVcyLjM1+XzzP75b9QIYpCs6ACXDfVsQ=;
- b=WMIsjmdPrlcmYN+/uw+TPWHzXLzdz8DzS7GXrh4tmUsfEmoDD8JJTMBylbYM9H9Nr9
- iybaqnGMTwmnBD6z3Tn/V+FywfHfuzyoG+2sNHparB082N9MFcyjQHz+EV3YyhlAHn3X
- QX/XfI48KdD0DSCKGhigFtZGWXcqzGk8XNTBOdolQdFLiMh+n7nPOUahuYYVrxnpF1eW
- IUplVX6fpHBdejycBHgtcC8eSpN77BRb4CuKFrtKDDdr+GAAdap3HIz7wh2wKdbftLr1
- SIoOvSUW57pGANv8FD3VzwpffDr2E/gJyIbMHEZKy+q0p6SkIMhgqcx4/hBpX7Irp6ht
- RcVQ==
-X-Gm-Message-State: AOAM5300VTVgT2X4SSiPXVdrWLNGsSowNwtk3vQEYOnY4vLK0mZdTQqe
- rUoqfF43IJ/sVKF8DwzkbMM=
-X-Google-Smtp-Source: ABdhPJxYoSbH1KU580oT99tsfY14kH5fvF22HdTQpqe2O21iFrCt95Z3GnyJlCAhxGz0r3wEDKlm0A==
-X-Received: by 2002:a17:903:22c6:b029:12c:8da8:fd49 with SMTP id
- y6-20020a17090322c6b029012c8da8fd49mr13360743plg.79.1627902066166; 
- Mon, 02 Aug 2021 04:01:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SBgORfE72/F8bvZ2E4Lkq7+Ur0TIBEwAuizWaZ2J00o=;
+ b=Dd/NKsYOspK+HuBfusijfIg93s4cvSFkfqhfGGuZQSMzYxw+0MDwk9zneLbAq18gVg
+ 0Hy0PEVdBD4OQ6Dk5QZ+6cIhNpLkQvGOccSKme6qsk6+tCs8SPI+oddgydhLMfSbBJFv
+ 41PJ5+fvqUUiApBUohYnDnRY8h0fRgDiAu+duIXkVkLRm0I+vX8vJ6qYobDcX26T89PT
+ dwh7WmP/1iF4kJBVhQRzsYQX1M3AKBl89ouCINJsZOhoTvAGEbq8yhCwiFMFx+4Dz1j1
+ ycCsFMEAfluhmIG+byx+AMGSViF8oN0A9AmATH1VEf0vsL2y4nt4VFfBwsXs42RlopDT
+ EVaA==
+X-Gm-Message-State: AOAM530rKLl0rK/GHXTFIfBAv7VH/igi1xVzbvCI3mKUUH6WcHYSMjYA
+ GK+M6tpik4GE8htgG8dw008=
+X-Google-Smtp-Source: ABdhPJwGS8bFSLMvhhOrzq+iAjlK4pB4O1Rc9eIPpiwmKOfHgMBD/1xSQLFZW4Vl2TiTSWMuYQnz0w==
+X-Received: by 2002:a17:90a:ab0b:: with SMTP id
+ m11mr16262296pjq.221.1627902074168; 
+ Mon, 02 Aug 2021 04:01:14 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id v30sm9709158pgk.25.2021.08.02.04.01.00
+ by smtp.gmail.com with ESMTPSA id v30sm9709158pgk.25.2021.08.02.04.01.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 04:01:05 -0700 (PDT)
+ Mon, 02 Aug 2021 04:01:13 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, peterz@infradead.org, mingo@redhat.com,
@@ -57,11 +56,13 @@ Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
  gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [RESEND PATCH v2 0/2] locking/lockdep,
- drm: apply new lockdep assert in drm_auth.c
-Date: Mon,  2 Aug 2021 18:59:55 +0800
-Message-Id: <20210802105957.77692-1-desmondcheongzx@gmail.com>
+Subject: [RESEND PATCH v2 1/2] locking/lockdep: Provide lockdep_assert{,
+ _once}() helpers
+Date: Mon,  2 Aug 2021 18:59:56 +0800
+Message-Id: <20210802105957.77692-2-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210802105957.77692-1-desmondcheongzx@gmail.com>
+References: <20210802105957.77692-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,40 +80,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+From: Peter Zijlstra <peterz@infradead.org>
 
-My bad for the resend. Adding cc: intel-gfx, and the maintainers and
-mailing lists for include/drm/drm_file.h.
+Extract lockdep_assert{,_once}() helpers to more easily write composite
+assertions like, for example:
 
-Following a discussion on the patch ("drm: use the lookup lock in
-drm_is_current_master") [1], Peter Zijlstra proposed new lockdep_assert
-helpers to make it convenient to compose lockdep checks together.
+	lockdep_assert(lockdep_is_held(&drm_device.master_mutex) ||
+		       lockdep_is_held(&drm_file.master_lookup_lock));
 
-This series includes the patch that introduces the new lockdep helpers,
-then utilizes these helpers in drm_is_current_master_locked in the
-following patch.
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Acked-by: Boqun Feng <boqun.feng@gmail.com>
+Acked-by: Waiman Long <longman@redhat.com>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+ include/linux/lockdep.h | 41 +++++++++++++++++++++--------------------
+ 1 file changed, 21 insertions(+), 20 deletions(-)
 
-v1 -> v2:
-Patch 2:
-- Updated the kerneldoc on the lock design of drm_file.master to explain
-the use of lockdep_assert(). As suggested by Boqun Feng.
-
-Link: https://lore.kernel.org/lkml/20210722092929.244629-2-desmondcheongzx@gmail.com/ [1]
-
-Best wishes,
-Desmond
-
-Desmond Cheong Zhi Xi (1):
-  drm: add lockdep assert to drm_is_current_master_locked
-
-Peter Zijlstra (1):
-  locking/lockdep: Provide lockdep_assert{,_once}() helpers
-
- drivers/gpu/drm/drm_auth.c |  6 +++---
- include/drm/drm_file.h     |  4 ++++
- include/linux/lockdep.h    | 41 +++++++++++++++++++-------------------
- 3 files changed, 28 insertions(+), 23 deletions(-)
-
+diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+index 5cf387813754..9fe165beb0f9 100644
+--- a/include/linux/lockdep.h
++++ b/include/linux/lockdep.h
+@@ -306,31 +306,29 @@ extern void lock_unpin_lock(struct lockdep_map *lock, struct pin_cookie);
+ 
+ #define lockdep_depth(tsk)	(debug_locks ? (tsk)->lockdep_depth : 0)
+ 
+-#define lockdep_assert_held(l)	do {					\
+-		WARN_ON(debug_locks &&					\
+-			lockdep_is_held(l) == LOCK_STATE_NOT_HELD);	\
+-	} while (0)
++#define lockdep_assert(cond)		\
++	do { WARN_ON(debug_locks && !(cond)); } while (0)
+ 
+-#define lockdep_assert_not_held(l)	do {				\
+-		WARN_ON(debug_locks &&					\
+-			lockdep_is_held(l) == LOCK_STATE_HELD);		\
+-	} while (0)
++#define lockdep_assert_once(cond)	\
++	do { WARN_ON_ONCE(debug_locks && !(cond)); } while (0)
+ 
+-#define lockdep_assert_held_write(l)	do {			\
+-		WARN_ON(debug_locks && !lockdep_is_held_type(l, 0));	\
+-	} while (0)
++#define lockdep_assert_held(l)		\
++	lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+ 
+-#define lockdep_assert_held_read(l)	do {				\
+-		WARN_ON(debug_locks && !lockdep_is_held_type(l, 1));	\
+-	} while (0)
++#define lockdep_assert_not_held(l)	\
++	lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
+ 
+-#define lockdep_assert_held_once(l)	do {				\
+-		WARN_ON_ONCE(debug_locks && !lockdep_is_held(l));	\
+-	} while (0)
++#define lockdep_assert_held_write(l)	\
++	lockdep_assert(lockdep_is_held_type(l, 0))
+ 
+-#define lockdep_assert_none_held_once()	do {				\
+-		WARN_ON_ONCE(debug_locks && current->lockdep_depth);	\
+-	} while (0)
++#define lockdep_assert_held_read(l)	\
++	lockdep_assert(lockdep_is_held_type(l, 1))
++
++#define lockdep_assert_held_once(l)		\
++	lockdep_assert_once(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
++
++#define lockdep_assert_none_held_once()		\
++	lockdep_assert_once(!current->lockdep_depth)
+ 
+ #define lockdep_recursing(tsk)	((tsk)->lockdep_recursion)
+ 
+@@ -407,6 +405,9 @@ extern int lock_is_held(const void *);
+ extern int lockdep_is_held(const void *);
+ #define lockdep_is_held_type(l, r)		(1)
+ 
++#define lockdep_assert(c)			do { } while (0)
++#define lockdep_assert_once(c)			do { } while (0)
++
+ #define lockdep_assert_held(l)			do { (void)(l); } while (0)
+ #define lockdep_assert_not_held(l)		do { (void)(l); } while (0)
+ #define lockdep_assert_held_write(l)		do { (void)(l); } while (0)
 -- 
 2.25.1
 
