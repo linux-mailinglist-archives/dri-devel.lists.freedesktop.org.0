@@ -2,79 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FCD3DDF6E
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 20:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47473DDFC2
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 21:01:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE1E6E1B6;
-	Mon,  2 Aug 2021 18:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E516E19C;
+	Mon,  2 Aug 2021 19:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
- [IPv6:2607:f8b0:4864:20::e31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAE766E19C;
- Mon,  2 Aug 2021 18:40:59 +0000 (UTC)
-Received: by mail-vs1-xe31.google.com with SMTP id u11so7605446vst.12;
- Mon, 02 Aug 2021 11:40:59 -0700 (PDT)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0046E19C;
+ Mon,  2 Aug 2021 19:00:55 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id n16so18712613oij.2;
+ Mon, 02 Aug 2021 12:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/JDTciPhpsppEZzll6/Pi+0di+r/qXoRaAHXje8rJcU=;
- b=S3aODv0PgPYOT/8F/bbj3dquc+grd5ZpsnpETdDqus+QDd2kunXjqcW/H3wovrtZ7U
- +p/U+UlX4tS+va3Vh4kEG1jnTdJm/dSxz2OKt0fiETASvNNpHjkhhOtNzXlyK8DLN12v
- kS3rjNgLkrexKp6uqhITyyaNgkWIJlivez5QIAA98ltBCV/OXBpgtJOMZppFm5RyK7Jt
- 7nRy1cd1pCvjH1FzxVDLnu4OLtlg+LuAbmUwgY9uWq6zgsay/t2dSTyJCw0No+lgsGBp
- zge03tBYC1O8JzoQev7AiQ9oBKwUCI8SQQ5TcoQRjvuqMJ8DWuwlUJnh8vyqHjkCog1v
- BPXw==
+ :cc; bh=nbrc0x7cBePFWpue6P0CQy4Z2rROhmn1R5Qbq29mtWk=;
+ b=mY2MMpizcw6Sj9yi5PQnA4xrr7aT0f6pxShy7s9f0RQOhanYcGVkoRA07y0Bsh/qdd
+ iw3MGtB6UYkz0tF6he4rhTl55dZGVYybvR8zgCA83a9FRZ1GBA49B+oXHnmoJ+g+bWrd
+ tieUmLjeOuOtAky2s6peDZa6+VRmk/G1HE+gUPm6KdCZV6QmQKaLHSRmkLssIocoUMlq
+ 1qE2c5pqlgz5udxH1R6ceMM2x8fGx9wiYYuCHZBuo+rniDizQeXX7eOOnGKsVfKDyvWy
+ ox2+aU/PmObjbPbBh7fasmhEbAAfrPoeQFAtm07GAuTKd1VKrPgESJoWOrFtNZb+Ztkv
+ 72EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/JDTciPhpsppEZzll6/Pi+0di+r/qXoRaAHXje8rJcU=;
- b=KVp8jf0X01T0FXYGs17ZGTzgUSjU20hoLGuIHEJTV/yUrgyuSy2s3ZxAVSMcOoEX6A
- C+0AW/ELvQeILPfT/7ToU5iImGMGZnGuIMMH0r8BU6tCx6hh1kXWeZBVOksU4KBYw/ca
- giaAWMhOEvbE//fTF2NaHisvZ4IW7r5aGDOfhlUo5pON88eTCXn4SubyUrqC+lYsAAwP
- Lsoff7ejZyHg1HljMJGlvJ1qVUOUmnYCsCkIKj2tBrbKEpRQKOgnMkv6wOWyzD4yE4lR
- X3dlyC5WKLbBpTbGL/2JQs8Y54NoKK0Tt+u2nND/ZbHxrGRz9ScQy1Rd3TEPtbYWXRSN
- AW7g==
-X-Gm-Message-State: AOAM530tnSQpiOn5PPp6Z8rhVqpRg8ZqkPrbyN1AnYSKCLTx5SWILoQb
- 9wvt36cwJo9kyPF+TI35PpzlkDwQINpd89oDwi0=
-X-Google-Smtp-Source: ABdhPJzaPWXcRFrinBModzRbebP+orB2U9FIw0YukoKvhxHaw/U/+j7xcsCnnRbrJfcujheOgU/OYeK28C0hEWg237I=
-X-Received: by 2002:a05:6102:2325:: with SMTP id
- b5mr7459900vsa.56.1627929658962; 
- Mon, 02 Aug 2021 11:40:58 -0700 (PDT)
+ bh=nbrc0x7cBePFWpue6P0CQy4Z2rROhmn1R5Qbq29mtWk=;
+ b=D5JKg+R4EuVo5i1amFriDkHMO43MyxavTRefrk638KJx5tPc/cn9aspUe0Dn8StBwo
+ iwK8P5ZJooVsxhaxdu3AqYKaJo7wMmjGXdNs1DERgSm2YetVDnS8N2D/ITYy5ZWROuvN
+ fA4nIExw2xpVbn81rgnCdl2gQzayKCxHlLgWuxXf7rRkxbzMnpPCPzV8M60yAyJoC9Rm
+ zAtuniixjurLNlAaWpprO4RIWWb0jxJOgHS6OGvEMC5MSc3memt9iMbykjh8pOr50Ku/
+ UCUehEFYj/T5JIMUF0UrQ8QyAgjzYmINNWczgvp3ysNEX0ZbPorXegSRjsxiJKeMFVCG
+ eoGw==
+X-Gm-Message-State: AOAM533mpGZwekf2xWXSuysiNC2KwuOQMq0jX7HzAZxJOB2AMdm/S1XE
+ j0KTiab9WEBm5z2gi0B6sdndYX/RmawpvyLLPLg=
+X-Google-Smtp-Source: ABdhPJzvruV9/L01NSfd/N3KeYc5cMMjB7KrWCYzZhNaVKsPAtHsNwOUIPCfEfaY2OjNgL+guDmnHj/A6MELoI80HOs=
+X-Received: by 2002:aca:53ca:: with SMTP id h193mr320764oib.5.1627930854745;
+ Mon, 02 Aug 2021 12:00:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210731214211.657280-1-jim.cromie@gmail.com>
- <20210731214211.657280-4-jim.cromie@gmail.com>
- <CACvgo509FWgNcBP9SPyuZV0Wey9sApmgB2Xa_+LJ4r91Cgqhgg@mail.gmail.com>
-In-Reply-To: <CACvgo509FWgNcBP9SPyuZV0Wey9sApmgB2Xa_+LJ4r91Cgqhgg@mail.gmail.com>
-From: jim.cromie@gmail.com
-Date: Mon, 2 Aug 2021 12:40:32 -0600
-Message-ID: <CAJfuBxzbKKnjfw72GVy531TOQjd9znqkoxOq_UTRZyxOyxXPXg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v4 3/7] dyndbg: add dyndbg-bitmap definer and
- callbacks
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
+References: <1627889555-56431-1-git-send-email-zhouchuangao@vivo.com>
+In-Reply-To: <1627889555-56431-1-git-send-email-zhouchuangao@vivo.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 2 Aug 2021 15:00:43 -0400
+Message-ID: <CADnq5_Peu054E8AOZ0Wo5Sg-ADR0F_pwaT6_e5PmN_ji3=BmWw@mail.gmail.com>
+Subject: Re: [PATCH] gpu/drm/amd: Remove duplicated include of drm_drv.h
+To: zhouchuangao <zhouchuangao@vivo.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, 
- Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Jason Baron <jbaron@akamai.com>, Ashley Thomas <Ashley.Thomas2@amd.com>, 
- Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, 
- Wyatt Wood <Wyatt.Wood@amd.com>, Johan Hovold <johan@kernel.org>,
- Jessica Yu <jeyu@kernel.org>, 
- Joe Perches <joe@perches.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Nick Desaulniers <ndesaulniers@gooogle.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, 
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- intel-gvt-dev@lists.freedesktop.org, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Hawking Zhang <Hawking.Zhang@amd.com>, John Clements <john.clements@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Jinzhou Su <Jinzhou.Su@amd.com>, Wenhui Sheng <Wenhui.Sheng@amd.com>, 
+ Victor Zhao <Victor.Zhao@amd.com>, Kevin Wang <kevin1.wang@amd.com>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,32 +75,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 2, 2021 at 10:24 AM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+On Mon, Aug 2, 2021 at 3:32 AM zhouchuangao <zhouchuangao@vivo.com> wrote:
 >
-> Hi Jim,
+> Duplicate include header file <drm/drm_drv.h>
+> line 28: #include <drm/drm_drv.h>
+> line 44: #include <drm/drm_drv.h>
 >
-> On Sat, 31 Jul 2021 at 22:42, Jim Cromie <jim.cromie@gmail.com> wrote:
->
-> > +struct dyndbg_bitdesc {
-> > +       /* bitpos is inferred from index in containing array */
-> > +       char *prefix;
-> > +       char *help;
-> AFAICT these two should also be constant, right?
->
->
-> > +int param_set_dyndbg(const char *instr, const struct kernel_param *kp)
-> > +{
-> > +       unsigned int val;
-> > +       unsigned long changes, result;
-> > +       int rc, chgct = 0, totct = 0, bitpos, bitsmax;
-> > +       char query[OUR_QUERY_SIZE];
-> > +       struct dyndbg_bitdesc *bitmap = (struct dyndbg_bitdesc *) kp->data;
-> > +
-> > +       // pr_info("set_dyndbg: instr: %s curr: %d\n", instr, *kp->arg);
-> Left-over debug code, here and below?
+> Signed-off-by: zhouchuangao <zhouchuangao@vivo.com>
 
-yup, all fixed up locally, with a version that fully works.
-thanks.
+Applied.  Thanks!
 
+Alex
+
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> -Emil
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> index 3ec5099..05f864f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+> @@ -41,8 +41,6 @@
+>  #include "amdgpu_securedisplay.h"
+>  #include "amdgpu_atomfirmware.h"
+>
+> -#include <drm/drm_drv.h>
+> -
+>  static int psp_sysfs_init(struct amdgpu_device *adev);
+>  static void psp_sysfs_fini(struct amdgpu_device *adev);
+>
+> --
+> 2.7.4
+>
