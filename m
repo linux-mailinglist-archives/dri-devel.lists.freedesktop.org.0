@@ -1,70 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CAEF3DD46F
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 13:01:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E68D03DD4F3
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 13:53:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45C726E204;
-	Mon,  2 Aug 2021 11:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8F96E0A0;
+	Mon,  2 Aug 2021 11:53:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57E296E204;
- Mon,  2 Aug 2021 11:01:21 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- q17-20020a17090a2e11b02901757deaf2c8so24272429pjd.0; 
- Mon, 02 Aug 2021 04:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9wyMs+rwX3ldqcYresSOjD4BweaQ/WnMH4Ky/VQDi2I=;
- b=Yc4FE9YjAWr9IC8sdF1L1QTKHbzv2l3QIYmiEecRKbBNneolptr9Pi3XzZU6rwfZCT
- 8O0thjHeEkHK3L1/Txx+ji8Mr513dnL+bfZDMwJt3YYdHu/09mkh0DkeVbUXrIisv81F
- 7YMYsvks+POltFmWXjm8TqCHeKU721PxvWx25P0sezJAC1cu2Kmi+w494F480GQ/FSHx
- ZSNFgsT45n6tUDl/ryzLi3U5pAvlm1nCCmxwKgvGjhO5XHayaPGgh8OVwCCgex6V1p10
- Isix8qFvOdtIwT36o1vcheb0yZayKW2fHYdpg9VklB8YLMQ+Gj0nlp/wRjfrxfM8ga9f
- KDHQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADB2D6E0A0
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 11:53:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1627905182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YqWzN6OYhFs4CSRT+cgSIcTdjyovh1lXT1MrhviGOqY=;
+ b=d/o2MIPhjc192Mxjki/+qs8i4yZuUb5vfpg101Zkp6CfAew0BroddBsCnfVtSBaF4QJymK
+ IDKSkvDlwPSSRSFJ91Fg/Sv6jtZZv7KlOVoJb2J8liLjKYjfhm9s/Q/SjB59MGftwGB/oR
+ irTPmwI9BiE8QfYiWRHsRa9oNwmRxqM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-86-8_98DkZjMi681WpcU-Ct1A-1; Mon, 02 Aug 2021 07:52:59 -0400
+X-MC-Unique: 8_98DkZjMi681WpcU-Ct1A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b13-20020a056402278db029039c013d5b80so8617079ede.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 04:52:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9wyMs+rwX3ldqcYresSOjD4BweaQ/WnMH4Ky/VQDi2I=;
- b=ZCokdd5iyz/ZxVtDJU0bGPZtIXuoGNX04qoFfJER7UF2HMZ9HYXhkncbcgxB4Gl5Ll
- EVu+adZ7/Z3WCIvnd/CZAeKnbx3TsW116vBpysixY6B7YnW6wg26V0HqDPDdCNicV3vl
- 9tVXNKb6czsz1PuAR5bITQfdL2I1k1u8IZLRQA0BwRhXbR+2RWhGNRpHge9TEiFoNVLA
- yo7b+BSRymySHLN1/oN86PZUMSIDhLYC99xNk/V7hUKTTzrKw4CTKgVS7s7ZYziR0MKb
- imrUkGgWpEbt01BmxI70vs2plqqDMb+L9XeLD3Z1zY3oZAU44J8quWWPzO9DQLEDLmM0
- XksA==
-X-Gm-Message-State: AOAM532x5l0PoOWSP1Qmmt4tAYSXH9D9VBECyoIcirBrM/YOhncz0QKi
- Gi/55ynRXtwErtl0CeI2z8M=
-X-Google-Smtp-Source: ABdhPJw3Zis0PZJdPsYef4VhN3d7rrLIYlB75L7nQeFiLyBly19H2n3lL4vzH8obKhGcJddjQi2ppw==
-X-Received: by 2002:a65:6a0a:: with SMTP id m10mr2267519pgu.145.1627902081017; 
- Mon, 02 Aug 2021 04:01:21 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id v30sm9709158pgk.25.2021.08.02.04.01.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 04:01:20 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, peterz@infradead.org, mingo@redhat.com,
- will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
- sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [RESEND PATCH v2 2/2] drm: add lockdep assert to
- drm_is_current_master_locked
-Date: Mon,  2 Aug 2021 18:59:57 +0800
-Message-Id: <20210802105957.77692-3-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210802105957.77692-1-desmondcheongzx@gmail.com>
-References: <20210802105957.77692-1-desmondcheongzx@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YqWzN6OYhFs4CSRT+cgSIcTdjyovh1lXT1MrhviGOqY=;
+ b=YISe6dNV0xI0yoEh6iJvDEJcoMxEmOFcEZIBFJK300KP6GqCwyL0zsGxRNRfpgRgcX
+ 9UvGYPo8xMq/m3FDITktEAHSKtL3J1uAOCkgidzlX21v9UMfdjK0G/Hrj63Qxq38B0Px
+ 8uxt9hmd1MFEtOdqKMNjrGXEI6kSQ7ZH53TCT2q2TKXgSebGdQ3DoCr3H+/xQyYF7NNX
+ L00YCC3GC8dTfSM0mokpizdIVFzFsh6EKKgWhU1TBRNAOUe2V7iarDYHFXMOaMOrf77u
+ WYG6Tu2aFCsMMWNMwvVVTlke6umFzENHtJMkomWxLvyChDGnn39GWmTtctRZxwGvQso9
+ mJZA==
+X-Gm-Message-State: AOAM531HsiSscz21q1eY5DICCXIzkxDZI+ZSbfHFxF9eode0VEXkkP3e
+ af5lYN9jCGi/K/E+FRh1mZ/oA7YKH6wDHW0v3EMEjx/VdrdLoUbnIj+DJIKZ160nWI29FAtxuu4
+ HJamIQq5ILsN/3ttytf8UGQ0iyaCK4ia1PmwoBuE1FuRkoPIksF1vRAV/TOnxsTmLBV1NAXLPxO
+ irw0Ja
+X-Received: by 2002:a05:6402:358d:: with SMTP id
+ y13mr18958178edc.80.1627905178365; 
+ Mon, 02 Aug 2021 04:52:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwO04tX7FsQhDsRHDlnSyyC41ST3Sfiev6K4k2wOgAsFpeTxHyIpAqqW4XkEO6NxLsrpcG69g==
+X-Received: by 2002:a05:6402:358d:: with SMTP id
+ y13mr18958157edc.80.1627905178113; 
+ Mon, 02 Aug 2021 04:52:58 -0700 (PDT)
+Received: from x1.localdomain ([81.30.35.201])
+ by smtp.gmail.com with ESMTPSA id dk18sm5984238edb.88.2021.08.02.04.52.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Aug 2021 04:52:57 -0700 (PDT)
+Subject: Re: [PATCH] drm/vbox: Convert to Linux IRQ interfaces
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20210706075011.9009-1-tzimmermann@suse.de>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <12fb7f27-0e1c-5f35-ca2e-5a34e7977f80@redhat.com>
+Date: Mon, 2 Aug 2021 13:52:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210706075011.9009-1-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,56 +90,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_is_current_master_locked, accessing drm_file.master should be
-protected by either drm_file.master_lookup_lock or
-drm_device.master_mutex. This was previously awkward to assert with
-lockdep.
+Hi,
 
-Following patch ("locking/lockdep: Provide lockdep_assert{,_once}()
-helpers"), this assertion is now convenient. So we add in the
-assertion and explain this lock design in the kerneldoc.
+On 7/6/21 9:50 AM, Thomas Zimmermann wrote:
+> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+> don't benefit from using it.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Acked-by: Boqun Feng <boqun.feng@gmail.com>
-Acked-by: Waiman Long <longman@redhat.com>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- drivers/gpu/drm/drm_auth.c | 6 +++---
- include/drm/drm_file.h     | 4 ++++
- 2 files changed, 7 insertions(+), 3 deletions(-)
+Thanks, patch looks good to me:
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 9c24b8cc8e36..6f4d7ff23c80 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -63,9 +63,9 @@
- 
- static bool drm_is_current_master_locked(struct drm_file *fpriv)
- {
--	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
--	 * should be held here.
--	 */
-+	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
-+			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
-+
- 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
- }
- 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 726cfe0ff5f5..a3acb7ac3550 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -233,6 +233,10 @@ struct drm_file {
- 	 * this only matches &drm_device.master if the master is the currently
- 	 * active one.
- 	 *
-+	 * To update @master, both &drm_device.master_mutex and
-+	 * @master_lookup_lock need to be held, therefore holding either of
-+	 * them is safe and enough for the read side.
-+	 *
- 	 * When dereferencing this pointer, either hold struct
- 	 * &drm_device.master_mutex for the duration of the pointer's use, or
- 	 * use drm_file_get_master() if struct &drm_device.master_mutex is not
--- 
-2.25.1
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+And to make sure things don't regress I've also given this a test spin:
+
+Tested-by: Hans de Goede <hdegoede@redhat.com>
+
+Note I assume that you will push this out do drmi-misc yourself
+(if you've not done so already given that this patch is somewhat old).
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  drivers/gpu/drm/vboxvideo/vbox_drv.c |  1 -
+>  drivers/gpu/drm/vboxvideo/vbox_drv.h |  1 -
+>  drivers/gpu/drm/vboxvideo/vbox_irq.c | 16 +++++++++++-----
+>  3 files changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> index 879a2445cc44..2b81cb259d23 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> @@ -184,7 +184,6 @@ static const struct drm_driver driver = {
+>  	.lastclose = drm_fb_helper_lastclose,
+>  
+>  	.fops = &vbox_fops,
+> -	.irq_handler = vbox_irq_handler,
+>  	.name = DRIVER_NAME,
+>  	.desc = DRIVER_DESC,
+>  	.date = DRIVER_DATE,
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.h b/drivers/gpu/drm/vboxvideo/vbox_drv.h
+> index ac7c2effc46f..4903b91d7fe4 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.h
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.h
+> @@ -145,7 +145,6 @@ void vbox_mm_fini(struct vbox_private *vbox);
+>  int vbox_irq_init(struct vbox_private *vbox);
+>  void vbox_irq_fini(struct vbox_private *vbox);
+>  void vbox_report_hotplug(struct vbox_private *vbox);
+> -irqreturn_t vbox_irq_handler(int irq, void *arg);
+>  
+>  /* vbox_hgsmi.c */
+>  void *hgsmi_buffer_alloc(struct gen_pool *guest_pool, size_t size,
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_irq.c b/drivers/gpu/drm/vboxvideo/vbox_irq.c
+> index b3ded68603ba..903a6c48ee8b 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_irq.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_irq.c
+> @@ -10,7 +10,8 @@
+>   */
+>  
+>  #include <linux/pci.h>
+> -#include <drm/drm_irq.h>
+> +
+> +#include <drm/drm_drv.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+>  #include "vbox_drv.h"
+> @@ -31,7 +32,7 @@ void vbox_report_hotplug(struct vbox_private *vbox)
+>  	schedule_work(&vbox->hotplug_work);
+>  }
+>  
+> -irqreturn_t vbox_irq_handler(int irq, void *arg)
+> +static irqreturn_t vbox_irq_handler(int irq, void *arg)
+>  {
+>  	struct drm_device *dev = (struct drm_device *)arg;
+>  	struct vbox_private *vbox = to_vbox_dev(dev);
+> @@ -170,16 +171,21 @@ static void vbox_hotplug_worker(struct work_struct *work)
+>  
+>  int vbox_irq_init(struct vbox_private *vbox)
+>  {
+> -	struct pci_dev *pdev = to_pci_dev(vbox->ddev.dev);
+> +	struct drm_device *dev = &vbox->ddev;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>  
+>  	INIT_WORK(&vbox->hotplug_work, vbox_hotplug_worker);
+>  	vbox_update_mode_hints(vbox);
+>  
+> -	return drm_irq_install(&vbox->ddev, pdev->irq);
+> +	/* PCI devices require shared interrupts. */
+> +	return request_irq(pdev->irq, vbox_irq_handler, IRQF_SHARED, dev->driver->name, dev);
+>  }
+>  
+>  void vbox_irq_fini(struct vbox_private *vbox)
+>  {
+> -	drm_irq_uninstall(&vbox->ddev);
+> +	struct drm_device *dev = &vbox->ddev;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +
+> +	free_irq(pdev->irq, dev);
+>  	flush_work(&vbox->hotplug_work);
+>  }
+> 
 
