@@ -2,41 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A7D3DD527
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 14:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F283DD5FA
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 14:50:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B66D6E037;
-	Mon,  2 Aug 2021 12:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F33908800A;
+	Mon,  2 Aug 2021 12:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1B32A6E037
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 12:06:39 +0000 (UTC)
-Received: from BC-Mail-Ex27.internal.baidu.com (unknown [172.31.51.21])
- by Forcepoint Email with ESMTPS id 02451D2C7872B8E207E8;
- Mon,  2 Aug 2021 20:06:36 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex27.internal.baidu.com (172.31.51.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 2 Aug 2021 20:06:35 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Mon, 2 Aug 2021 20:06:35 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, Cai Huoqing <caihuoqing@baidu.com>
-Subject: [PATCH v3] drm: Fix typo in comments
-Date: Mon, 2 Aug 2021 20:06:29 +0800
-Message-ID: <20210802120629.1478-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+X-Greylist: delayed 456 seconds by postgrey-1.36 at gabe;
+ Mon, 02 Aug 2021 12:50:18 UTC
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 209A08800A;
+ Mon,  2 Aug 2021 12:50:18 +0000 (UTC)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4Gdd265BJvz9sTV;
+ Mon,  2 Aug 2021 14:42:38 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hMLcQ9rc4PUn; Mon,  2 Aug 2021 14:42:38 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4Gdd253Z2xz9sRx;
+ Mon,  2 Aug 2021 14:42:37 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 4F4668B770;
+ Mon,  2 Aug 2021 14:42:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id bydFCkI05YiT; Mon,  2 Aug 2021 14:42:37 +0200 (CEST)
+Received: from [10.25.200.145] (po15451.idsi0.si.c-s.fr [10.25.200.145])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id D4A988B763;
+ Mon,  2 Aug 2021 14:42:36 +0200 (CEST)
+Subject: Re: [PATCH 07/11] treewide: Replace the use of mem_encrypt_active()
+ with prot_guest_has()
+To: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+Cc: Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Andi Kleen <ak@linux.intel.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Baoquan He <bhe@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Joerg Roedel <joro@8bytes.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Dave Young <dyoung@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Brijesh Singh <brijesh.singh@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>
+References: <cover.1627424773.git.thomas.lendacky@amd.com>
+ <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <ab2b910b-cd2a-d63b-f080-987d0bb4b5a5@csgroup.eu>
+Date: Mon, 2 Aug 2021 14:42:36 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex01.internal.baidu.com (10.127.64.11) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,745 +82,352 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fix typo for drm:
-*achived ==> achieved
-*userpace ==> userspace
-*commited ==> committed
-*depencies ==> dependencies
-*preceeding ==> preceding
-*similiar ==> similar
-*accidently ==> accidentally
-*transfered ==> transferred
-*openeing ==> opening
-*Propage ==> Propagate
-*interpretes ==> interprets
-*evry ==> every
-*interruptable ==> interruptible
-*Unfortunatley ==> Unfortunately
-*Deterine ==> Determine
-*non-existant ==> non-existent
-*satifying ==> satisfying
-*initalizing ==> initializing
-*possibily ==> possibly
-*accidently ==> accidentally
-*firmare ==> firmware
-*shuld ==> should
-*apperture ==> aperture
-*falure ==> failure
-*inforamtion ==> information
-*implemnt ==> implement
-*paramter ==> parameter
-*candiates ==> candidates
-*identifer ==> identifier
-*wil ==> will
-*overlayed ==> overlaid
-*accomodate ==> accommodate
-*uniqe ==> unique
-*intializes ==> initializes
-*useable ==> usable
-*arguement ==> argument
-*destry ==> destroy
-*savely ==> safely
-*Unsinged ==> Unsigned
-*unititialized ==> uninitialized
-*draing ==> drawing
-*invers ==> inverse
-*Enpoint ==> Endpointc
-*mimick ==> mimic
-*fo ==> for
-*functons ==> functions
 
-v1->v2:
-*respin with the change "iff ==> implies that"
-v2->v3:
-*revert the change of "iff" which means "if and only if"
-*remove "Reviewed-by:"
-*add other typo
-*update changelog
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/gpu/drm/drm_aperture.c            |  2 +-
- drivers/gpu/drm/drm_atomic.c              |  2 +-
- drivers/gpu/drm/drm_atomic_helper.c       | 14 +++++++-------
- drivers/gpu/drm/drm_atomic_uapi.c         |  6 +++---
- drivers/gpu/drm/drm_auth.c                |  2 +-
- drivers/gpu/drm/drm_bridge.c              |  2 +-
- drivers/gpu/drm/drm_bufs.c                |  2 +-
- drivers/gpu/drm/drm_cache.c               |  2 +-
- drivers/gpu/drm/drm_color_mgmt.c          |  2 +-
- drivers/gpu/drm/drm_damage_helper.c       |  2 +-
- drivers/gpu/drm/drm_dp_dual_mode_helper.c |  2 +-
- drivers/gpu/drm/drm_dp_helper.c           |  8 ++++----
- drivers/gpu/drm/drm_dp_mst_topology.c     |  2 +-
- drivers/gpu/drm/drm_drv.c                 |  4 ++--
- drivers/gpu/drm/drm_dsc.c                 |  2 +-
- drivers/gpu/drm/drm_edid.c                |  4 ++--
- drivers/gpu/drm/drm_fb_helper.c           |  4 ++--
- drivers/gpu/drm/drm_file.c                |  6 +++---
- drivers/gpu/drm/drm_format_helper.c       |  2 +-
- drivers/gpu/drm/drm_framebuffer.c         |  2 +-
- drivers/gpu/drm/drm_gem.c                 |  4 ++--
- drivers/gpu/drm/drm_gem_atomic_helper.c   |  4 ++--
- drivers/gpu/drm/drm_gem_shmem_helper.c    |  2 +-
- drivers/gpu/drm/drm_gem_vram_helper.c     |  2 +-
- drivers/gpu/drm/drm_ioctl.c               |  4 ++--
- drivers/gpu/drm/drm_irq.c                 |  2 +-
- drivers/gpu/drm/drm_mm.c                  |  2 +-
- drivers/gpu/drm/drm_mode_object.c         |  2 +-
- drivers/gpu/drm/drm_modes.c               |  4 ++--
- drivers/gpu/drm/drm_plane.c               |  2 +-
- drivers/gpu/drm/drm_plane_helper.c        |  2 +-
- drivers/gpu/drm/drm_prime.c               |  2 +-
- drivers/gpu/drm/drm_probe_helper.c        |  2 +-
- drivers/gpu/drm/drm_property.c            |  2 +-
- drivers/gpu/drm/drm_syncobj.c             |  2 +-
- drivers/gpu/drm/drm_vblank.c              |  6 +++---
- 36 files changed, 58 insertions(+), 58 deletions(-)
+Le 28/07/2021 à 00:26, Tom Lendacky a écrit :
+> Replace occurrences of mem_encrypt_active() with calls to prot_guest_has()
+> with the PATTR_MEM_ENCRYPT attribute.
 
-diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
-index 9ac39cf11694..74bd4a76b253 100644
---- a/drivers/gpu/drm/drm_aperture.c
-+++ b/drivers/gpu/drm/drm_aperture.c
-@@ -78,7 +78,7 @@
-  *
-  * Drivers that are susceptible to being removed by other drivers, such as
-  * generic EFI or VESA drivers, have to register themselves as owners of their
-- * given framebuffer memory. Ownership of the framebuffer memory is achived
-+ * given framebuffer memory. Ownership of the framebuffer memory is achieved
-  * by calling devm_aperture_acquire_from_firmware(). On success, the driver
-  * is the owner of the framebuffer range. The function fails if the
-  * framebuffer is already by another driver. See below for an example.
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index d820423fac32..b127e30082ba 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -723,7 +723,7 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
-  * clocks, scaler units, bandwidth and fifo limits shared among a group of
-  * planes or CRTCs, and so on) it makes sense to model these as independent
-  * objects. Drivers then need to do similar state tracking and commit ordering for
-- * such private (since not exposed to userpace) objects as the atomic core and
-+ * such private (since not exposed to userspace) objects as the atomic core and
-  * helpers already provide for connectors, planes and CRTCs.
-  *
-  * To make this easier on drivers the atomic core provides some support to track
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index f7bf1ea62d58..4d92036422ce 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1686,7 +1686,7 @@ static void commit_work(struct work_struct *work)
- }
- 
- /**
-- * drm_atomic_helper_async_check - check if state can be commited asynchronously
-+ * drm_atomic_helper_async_check - check if state can be committed asynchronously
-  * @dev: DRM device
-  * @state: the driver state object
-  *
-@@ -1695,7 +1695,7 @@ static void commit_work(struct work_struct *work)
-  * but just do in-place changes on the current state.
-  *
-  * It will return 0 if the commit can happen in an asynchronous fashion or error
-- * if not. Note that error just mean it can't be commited asynchronously, if it
-+ * if not. Note that error just mean it can't be committed asynchronously, if it
-  * fails the commit should be treated like a normal synchronous commit.
-  */
- int drm_atomic_helper_async_check(struct drm_device *dev,
-@@ -2193,10 +2193,10 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- EXPORT_SYMBOL(drm_atomic_helper_setup_commit);
- 
- /**
-- * drm_atomic_helper_wait_for_dependencies - wait for required preceeding commits
-+ * drm_atomic_helper_wait_for_dependencies - wait for required preceding commits
-  * @old_state: atomic state object with old state structures
-  *
-- * This function waits for all preceeding commits that touch the same CRTC as
-+ * This function waits for all preceding commits that touch the same CRTC as
-  * @old_state to both be committed to the hardware (as signalled by
-  * drm_atomic_helper_commit_hw_done()) and executed by the hardware (as signalled
-  * by calling drm_crtc_send_vblank_event() on the &drm_crtc_state.event).
-@@ -2581,9 +2581,9 @@ EXPORT_SYMBOL(drm_atomic_helper_commit_planes);
-  * This function is useful when plane updates should be done CRTC-by-CRTC
-  * instead of one global step like drm_atomic_helper_commit_planes() does.
-  *
-- * This function can only be savely used when planes are not allowed to move
-+ * This function can only be safely used when planes are not allowed to move
-  * between different CRTCs because this function doesn't handle inter-CRTC
-- * depencies. Callers need to ensure that either no such depencies exist,
-+ * dependencies. Callers need to ensure that either no such dependencies exist,
-  * resolve them through ordering of commit calls or through some other means.
-  */
- void
-@@ -2720,7 +2720,7 @@ EXPORT_SYMBOL(drm_atomic_helper_cleanup_planes);
- /**
-  * drm_atomic_helper_swap_state - store atomic state into current sw state
-  * @state: atomic state
-- * @stall: stall for preceeding commits
-+ * @stall: stall for preceding commits
-  *
-  * This function stores the atomic state into the current state pointers in all
-  * driver objects. It should be called after all failing steps have been done
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 7e48d40600ff..909f31833181 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -48,7 +48,7 @@
-  * in all its forms: The monster ATOMIC IOCTL itself, code for GET_PROPERTY and
-  * SET_PROPERTY IOCTLs. Plus interface functions for compatibility helpers and
-  * drivers which have special needs to construct their own atomic updates, e.g.
-- * for load detect or similiar.
-+ * for load detect or similar.
-  */
- 
- /**
-@@ -753,7 +753,7 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
- 		 * restore the state it wants on VT switch. So if the userspace
- 		 * tries to change the link_status from GOOD to BAD, driver
- 		 * silently rejects it and returns a 0. This prevents userspace
--		 * from accidently breaking  the display when it restores the
-+		 * from accidentally breaking  the display when it restores the
- 		 * state.
- 		 */
- 		if (state->link_status != DRM_LINK_STATUS_GOOD)
-@@ -1064,7 +1064,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
-  * DOC: explicit fencing properties
-  *
-  * Explicit fencing allows userspace to control the buffer synchronization
-- * between devices. A Fence or a group of fences are transfered to/from
-+ * between devices. A Fence or a group of fences are transferred to/from
-  * userspace using Sync File fds and there are two DRM properties for that.
-  * IN_FENCE_FD on each DRM Plane to send fences to the kernel and
-  * OUT_FENCE_PTR on each DRM CRTC to receive fences from the kernel.
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 3a64a6a79ade..eba438027539 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -52,7 +52,7 @@
-  *
-  * In addition only one &drm_master can be the current master for a &drm_device.
-  * It can be switched through the DROP_MASTER and SET_MASTER IOCTL, or
-- * implicitly through closing/openeing the primary device node. See also
-+ * implicitly through closing/opening the primary device node. See also
-  * drm_is_current_master().
-  *
-  * Clients can authenticate against the current master (if it matches their own)
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 11ec2846addb..a8ed66751c2d 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -982,7 +982,7 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
- 	bridge_state->output_bus_cfg.flags = output_flags;
- 
- 	/*
--	 * Propage the output flags to the input end of the bridge. Again, it's
-+	 * Propagate the output flags to the input end of the bridge. Again, it's
- 	 * not necessarily what all bridges want, but that's what most of them
- 	 * do, and by doing that by default we avoid forcing drivers to
- 	 * duplicate the "dummy propagation" logic.
-diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-index ae8e4d76209c..fcca21e8efac 100644
---- a/drivers/gpu/drm/drm_bufs.c
-+++ b/drivers/gpu/drm/drm_bufs.c
-@@ -1502,7 +1502,7 @@ int drm_legacy_freebufs(struct drm_device *dev, void *data,
-  *
-  * Maps the AGP, SG or PCI buffer region with vm_mmap(), and copies information
-  * about each buffer into user space. For PCI buffers, it calls vm_mmap() with
-- * offset equal to 0, which drm_mmap() interpretes as PCI buffers and calls
-+ * offset equal to 0, which drm_mmap() interprets as PCI buffers and calls
-  * drm_mmap_dma().
-  */
- int __drm_legacy_mapbufs(struct drm_device *dev, void *data, int *p,
-diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-index 546599f19a93..30cc59fe6ef7 100644
---- a/drivers/gpu/drm/drm_cache.c
-+++ b/drivers/gpu/drm/drm_cache.c
-@@ -170,7 +170,7 @@ drm_clflush_virt_range(void *addr, unsigned long length)
- 		for (; addr < end; addr += size)
- 			clflushopt(addr);
- 		clflushopt(end - 1); /* force serialisation */
--		mb(); /*Ensure that evry data cache line entry is flushed*/
-+		mb(); /*Ensure that every data cache line entry is flushed*/
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index bb14f488c8f6..c864c103ede6 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -52,7 +52,7 @@
-  *	&drm_crtc_state.degamma_lut.
-  *
-  * “DEGAMMA_LUT_SIZE”:
-- *	Unsinged range property to give the size of the lookup table to be set
-+ *	Unsigned range property to give the size of the lookup table to be set
-  *	on the DEGAMMA_LUT property (the size depends on the underlying
-  *	hardware). If drivers support multiple LUT sizes then they should
-  *	publish the largest size, and sub-sample smaller sized LUTs (e.g. for
-diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-index 3a4126dc2520..dbc4312160a5 100644
---- a/drivers/gpu/drm/drm_damage_helper.c
-+++ b/drivers/gpu/drm/drm_damage_helper.c
-@@ -170,7 +170,7 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
- 	int ret = 0;
- 
- 	/*
--	 * When called from ioctl, we are interruptable, but not when called
-+	 * When called from ioctl, we are interruptible, but not when called
- 	 * internally (ie. defio worker)
- 	 */
- 	drm_modeset_acquire_init(&ctx,
-diff --git a/drivers/gpu/drm/drm_dp_dual_mode_helper.c b/drivers/gpu/drm/drm_dp_dual_mode_helper.c
-index 9faf49354cab..cd4d2ae3b546 100644
---- a/drivers/gpu/drm/drm_dp_dual_mode_helper.c
-+++ b/drivers/gpu/drm/drm_dp_dual_mode_helper.c
-@@ -191,7 +191,7 @@ enum drm_dp_dual_mode_type drm_dp_dual_mode_detect(const struct drm_device *dev,
- 	 * Let's see if the adaptor is there the by reading the
- 	 * HDMI ID registers.
- 	 *
--	 * Note that type 1 DVI adaptors are not required to implemnt
-+	 * Note that type 1 DVI adaptors are not required to implement
- 	 * any registers, and that presents a problem for detection.
- 	 * If the i2c transfer is nacked, we may or may not be dealing
- 	 * with a type 1 DVI adaptor. Some other mechanism of detecting
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index b5f75ca05774..ed3ed6d3da25 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -772,7 +772,7 @@ int drm_dp_downstream_max_tmds_clock(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
- 		 * It's left up to the driver to check the
- 		 * DP dual mode adapter's max TMDS clock.
- 		 *
--		 * Unfortunatley it looks like branch devices
-+		 * Unfortunately it looks like branch devices
- 		 * may not fordward that the DP dual mode i2c
- 		 * access so we just usually get i2c nak :(
- 		 */
-@@ -1365,7 +1365,7 @@ static int drm_dp_i2c_msg_duration(const struct drm_dp_aux_msg *msg,
- }
- 
- /*
-- * Deterine how many retries should be attempted to successfully transfer
-+ * Determine how many retries should be attempted to successfully transfer
-  * the specified message, based on the estimated durations of the
-  * i2c and AUX transfers.
-  */
-@@ -1418,7 +1418,7 @@ static int drm_dp_i2c_do_msg(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
- 			/*
- 			 * While timeouts can be errors, they're usually normal
- 			 * behavior (for instance, when a driver tries to
--			 * communicate with a non-existant DisplayPort device).
-+			 * communicate with a non-existent DisplayPort device).
- 			 * Avoid spamming the kernel log with timeout errors.
- 			 */
- 			if (ret == -ETIMEDOUT)
-@@ -3327,7 +3327,7 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
- 	fxp = DIV_ROUND_CLOSEST(1000 * DP_EDP_BACKLIGHT_FREQ_BASE_KHZ, driver_pwm_freq_hz);
- 
- 	/* Use highest possible value of Pn for more granularity of brightness adjustment while
--	 * satifying the conditions below.
-+	 * satisfying the conditions below.
- 	 * - Pn is in the range of Pn_min and Pn_max
- 	 * - F is in the range of 1 and 255
- 	 * - FxP is within 25% of desired value.
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index ad0795afc21c..0e4171fe28ed 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -5894,7 +5894,7 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
- 				     DP_DSC_SUPPORT, &upstream_dsc, 1) != 1)
- 			return NULL;
- 
--		/* Enpoint decompression with DP-to-DP peer device */
-+		/* Endpoint decompression with DP-to-DP peer device */
- 		if ((endpoint_dsc & DP_DSC_DECOMPRESSION_IS_SUPPORTED) &&
- 		    (endpoint_fec & DP_FEC_CAPABLE) &&
- 		    (upstream_dsc & 0x2) /* DSC passthrough */)
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 8804ec7d3215..7a5097467ba5 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -249,7 +249,7 @@ void drm_minor_release(struct drm_minor *minor)
-  * Finally when everything is up and running and ready for userspace the device
-  * instance can be published using drm_dev_register().
-  *
-- * There is also deprecated support for initalizing device instances using
-+ * There is also deprecated support for initializing device instances using
-  * bus-specific helpers and the &drm_driver.load callback. But due to
-  * backwards-compatibility needs the device instance have to be published too
-  * early, which requires unpretty global locking to make safe and is therefore
-@@ -379,7 +379,7 @@ void drm_minor_release(struct drm_minor *minor)
-  * shortcoming however, drm_dev_unplug() marks the drm_device as unplugged before
-  * drm_atomic_helper_shutdown() is called. This means that if the disable code
-  * paths are protected, they will not run on regular driver module unload,
-- * possibily leaving the hardware enabled.
-+ * possibly leaving the hardware enabled.
-  */
- 
- /**
-diff --git a/drivers/gpu/drm/drm_dsc.c b/drivers/gpu/drm/drm_dsc.c
-index ff602f7ec65b..0381d5dbeb6a 100644
---- a/drivers/gpu/drm/drm_dsc.c
-+++ b/drivers/gpu/drm/drm_dsc.c
-@@ -98,7 +98,7 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
- {
- 	int i;
- 
--	/* Protect against someone accidently changing struct size */
-+	/* Protect against someone accidentlly changing struct size */
- 	BUILD_BUG_ON(sizeof(*pps_payload) !=
- 		     DP_SDP_PPS_HEADER_PAYLOAD_BYTES_MINUS_1 + 1);
- 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 81d5f2524246..6325877c5fd6 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1919,7 +1919,7 @@ EXPORT_SYMBOL(drm_add_override_edid_modes);
-  * level, drivers must make all reasonable efforts to expose it as an I2C
-  * adapter and use drm_get_edid() instead of abusing this function.
-  *
-- * The EDID may be overridden using debugfs override_edid or firmare EDID
-+ * The EDID may be overridden using debugfs override_edid or firmware EDID
-  * (drm_load_edid_firmware() and drm.edid_firmware parameter), in this priority
-  * order. Having either of them bypasses actual EDID reads.
-  *
-@@ -5906,7 +5906,7 @@ drm_hdmi_vendor_infoframe_from_display_mode(struct hdmi_vendor_infoframe *frame,
- 	 * (ie.vic==0 and s3d_struct==0) we will still send it if we
- 	 * know that the sink can handle it. This is based on a
- 	 * suggestion in HDMI 2.0 Appendix F. Apparently some sinks
--	 * have trouble realizing that they shuld switch from 3D to 2D
-+	 * have trouble realizing that they should switch from 3D to 2D
- 	 * mode if the source simply stops sending the infoframe when
- 	 * it wants to switch from 3D to 2D.
- 	 */
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index d77a24507d30..ad70d1453fd5 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -565,9 +565,9 @@ struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
- 		goto err_release;
- 
- 	/*
--	 * TODO: We really should be smarter here and alloc an apperture
-+	 * TODO: We really should be smarter here and alloc an aperture
- 	 * for each IORESOURCE_MEM resource helper->dev->dev has and also
--	 * init the ranges of the appertures based on the resources.
-+	 * init the ranges of the apertures based on the resources.
- 	 * Note some drivers currently count on there being only 1 empty
- 	 * aperture and fill this themselves, these will need to be dealt
- 	 * with somehow when fixing this.
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index ceb1a9723855..d1f3891d39b5 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -405,7 +405,7 @@ static int drm_open_helper(struct file *filp, struct drm_minor *minor)
-  *
-  * RETURNS:
-  *
-- * 0 on success or negative errno value on falure.
-+ * 0 on success or negative errno value on failure.
-  */
- int drm_open(struct inode *inode, struct file *filp)
- {
-@@ -880,9 +880,9 @@ EXPORT_SYMBOL(drm_send_event);
-  * @flags: file creation mode (O_RDWR etc)
-  *
-  * This create a new struct file that wraps a DRM file context around a
-- * DRM minor. This mimicks userspace opening e.g. /dev/dri/card0, but without
-+ * DRM minor. This mimics userspace opening e.g. /dev/dri/card0, but without
-  * invoking userspace. The struct file may be operated on using its f_op
-- * (the drm_device.driver.fops) to mimick userspace operations, or be supplied
-+ * (the drm_device.driver.fops) to mimic userspace operations, or be supplied
-  * to userspace facing functions as an internal/anonymous client.
-  *
-  * RETURNS:
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 0e885cd34107..5231104b1498 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -412,7 +412,7 @@ EXPORT_SYMBOL(drm_fb_blit_rect_dstclip);
-  * of the display and the framebuffer mismatch, the copy function will
-  * attempt to convert between them.
-  *
-- * See drm_fb_blit_rect_dstclip() for more inforamtion.
-+ * See drm_fb_blit_rect_dstclip() for more information.
-  *
-  * Returns:
-  * 0 on success, or a negative error code otherwise.
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 4d01464b6f95..a8ad0da225a7 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -1090,7 +1090,7 @@ void drm_framebuffer_remove(struct drm_framebuffer *fb)
- 
- 	/*
- 	 * drm ABI mandates that we remove any deleted framebuffers from active
--	 * useage. But since most sane clients only remove framebuffers they no
-+	 * usage. But since most sane clients only remove framebuffers they no
- 	 * longer need, try to optimize this away.
- 	 *
- 	 * Since we're holding a reference ourselves, observing a refcount of 1
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 68deb1de8235..6c102ba2d9ac 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -901,7 +901,7 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
- }
- 
- /**
-- * drm_gem_open - initalizes GEM file-private structures at devnode open time
-+ * drm_gem_open - initializes GEM file-private structures at devnode open time
-  * @dev: drm_device which is being opened by userspace
-  * @file_private: drm file-private structure to set up
-  *
-@@ -936,7 +936,7 @@ drm_gem_release(struct drm_device *dev, struct drm_file *file_private)
-  * drm_gem_object_release - release GEM buffer object resources
-  * @obj: GEM buffer object
-  *
-- * This releases any structures and resources used by @obj and is the invers of
-+ * This releases any structures and resources used by @obj and is the inverse of
-  * drm_gem_object_init().
-  */
- void
-diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-index 26af09b959d4..86b3c676e0b1 100644
---- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-@@ -52,7 +52,7 @@
-  *
-  * The helpers for shadow-buffered planes establish and release mappings,
-  * and provide struct drm_shadow_plane_state, which stores the plane's mapping
-- * for commit-tail functons.
-+ * for commit-tail functions.
-  *
-  * Shadow-buffered planes can easily be enabled by using the provided macros
-  * %DRM_GEM_SHADOW_PLANE_FUNCS and %DRM_GEM_SHADOW_PLANE_HELPER_FUNCS.
-@@ -374,7 +374,7 @@ EXPORT_SYMBOL(drm_gem_prepare_shadow_fb);
-  * This function implements struct &drm_plane_helper_funcs.cleanup_fb.
-  * This function unmaps all buffer objects of the plane's framebuffer.
-  *
-- * See drm_gem_prepare_shadow_fb() for more inforamtion.
-+ * See drm_gem_prepare_shadow_fb() for more information.
-  */
- void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
- {
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index d5e6d4568f99..a61946374c82 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -368,7 +368,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
- }
- 
- /*
-- * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM object
-+ * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
-  * @shmem: shmem GEM object
-  * @map: Kernel virtual address where the SHMEM GEM object was mapped
-  *
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 1e9b82e51a07..43cf7e887d1a 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -96,7 +96,7 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
-  * memory region. Call drm_gem_vram_offset() to retrieve this value. Typically
-  * it's used to program the hardware's scanout engine for framebuffers, set
-  * the cursor overlay's image for a mouse cursor, or use it as input to the
-- * hardware's draing engine.
-+ * hardware's drawing engine.
-  *
-  * To access a buffer object's memory from the DRM driver, call
-  * drm_gem_vram_vmap(). It maps the buffer into kernel address
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index f454e0424086..be4a52dc4d6f 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -426,7 +426,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- }
- 
- /**
-- * drm_noop - DRM no-op ioctl implemntation
-+ * drm_noop - DRM no-op ioctl implementation
-  * @dev: DRM device for the ioctl
-  * @data: data pointer for the ioctl
-  * @file_priv: DRM file for the ioctl call
-@@ -446,7 +446,7 @@ int drm_noop(struct drm_device *dev, void *data,
- EXPORT_SYMBOL(drm_noop);
- 
- /**
-- * drm_invalid_op - DRM invalid ioctl implemntation
-+ * drm_invalid_op - DRM invalid ioctl implementation
-  * @dev: DRM device for the ioctl
-  * @data: data pointer for the ioctl
-  * @file_priv: DRM file for the ioctl call
-diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
-index 201eae4bba6c..4a853011549a 100644
---- a/drivers/gpu/drm/drm_irq.c
-+++ b/drivers/gpu/drm/drm_irq.c
-@@ -72,7 +72,7 @@
-  * The DRM core provides very simple support helpers to enable IRQ handling on a
-  * device through the drm_irq_install() and drm_irq_uninstall() functions. This
-  * only supports devices with a single interrupt on the main device stored in
-- * &drm_device.dev and set as the device paramter in drm_dev_alloc().
-+ * &drm_device.dev and set as the device parameter in drm_dev_alloc().
-  *
-  * These IRQ helpers are strictly optional. Since these helpers don't automatically
-  * clean up the requested interrupt like e.g. devm_request_irq() they're not really
-diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-index a4a04d246135..93d48a6f04ab 100644
---- a/drivers/gpu/drm/drm_mm.c
-+++ b/drivers/gpu/drm/drm_mm.c
-@@ -700,7 +700,7 @@ EXPORT_SYMBOL(drm_mm_replace_node);
-  * interfaces. First a scan operation needs to be initialized with
-  * drm_mm_scan_init() or drm_mm_scan_init_with_range(). The driver adds
-  * objects to the roster, probably by walking an LRU list, but this can be
-- * freely implemented. Eviction candiates are added using
-+ * freely implemented. Eviction candidates are added using
-  * drm_mm_scan_add_block() until a suitable hole is found or there are no
-  * further evictable objects. Eviction roster metadata is tracked in &struct
-  * drm_mm_scan.
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index b26588b52795..86d9e907c0b2 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -91,7 +91,7 @@ void drm_mode_object_register(struct drm_device *dev,
- }
- 
- /**
-- * drm_mode_object_unregister - free a modeset identifer
-+ * drm_mode_object_unregister - free a modeset identifier
-  * @dev: DRM device
-  * @object: object to free
-  *
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index ae53ea624c73..3b77dfdaeaa0 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1542,7 +1542,7 @@ static int drm_mode_parse_cmdline_int(const char *delim, unsigned int *int_ret)
- 
- 	/*
- 	 * delim must point to the '=', otherwise it is a syntax error and
--	 * if delim points to the terminating zero, then delim + 1 wil point
-+	 * if delim points to the terminating zero, then delim + 1 will point
- 	 * past the end of the string.
- 	 */
- 	if (*delim != '=')
-@@ -1972,7 +1972,7 @@ int drm_mode_convert_umode(struct drm_device *dev,
- 	out->flags = in->flags;
- 	/*
- 	 * Old xf86-video-vmware (possibly others too) used to
--	 * leave 'type' unititialized. Just ignore any bits we
-+	 * leave 'type' uninititialized. Just ignore any bits we
- 	 * don't like. It's a just hint after all, and more
- 	 * useful for the kernel->userspace direction anyway.
- 	 */
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index b373958ecb30..98ca1801253b 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -38,7 +38,7 @@
- /**
-  * DOC: overview
-  *
-- * A plane represents an image source that can be blended with or overlayed on
-+ * A plane represents an image source that can be blended with or overlaid on
-  * top of a CRTC during the scanout process. Planes take their input data from a
-  * &drm_framebuffer object. The plane itself specifies the cropping and scaling
-  * of that image, and where it is placed on the visible area of a display
-diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
-index 3aae7ea522f2..5b2d0ca03705 100644
---- a/drivers/gpu/drm/drm_plane_helper.c
-+++ b/drivers/gpu/drm/drm_plane_helper.c
-@@ -210,7 +210,7 @@ static int drm_primary_helper_update(struct drm_plane *plane, struct drm_crtc *c
- 	 * We call set_config() directly here rather than using
- 	 * drm_mode_set_config_internal.  We're reprogramming the same
- 	 * connectors that were already in use, so we shouldn't need the extra
--	 * cross-CRTC fb refcounting to accomodate stealing connectors.
-+	 * cross-CRTC fb refcounting to accommodate stealing connectors.
- 	 * drm_mode_setplane() already handles the basic refcounting for the
- 	 * framebuffers involved in this operation.
- 	 */
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 2a54f86856af..3085858272c6 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -73,7 +73,7 @@
-  * Thus the chain of references always flows in one direction, avoiding loops:
-  * importing GEM object -> dma-buf -> exported GEM bo. A further complication
-  * are the lookup caches for import and export. These are required to guarantee
-- * that any given object will always have only one uniqe userspace handle. This
-+ * that any given object will always have only one unique userspace handle. This
-  * is required to allow userspace to detect duplicated imports, since some GEM
-  * drivers do fail command submissions if a given buffer object is listed more
-  * than once. These import and export caches in &drm_prime_file_private only
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index e7e1ee2aa352..5606bca3caa8 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -757,7 +757,7 @@ EXPORT_SYMBOL(drm_kms_helper_poll_disable);
-  * drm_kms_helper_poll_init - initialize and enable output polling
-  * @dev: drm_device
-  *
-- * This function intializes and then also enables output polling support for
-+ * This function initializes and then also enables output polling support for
-  * @dev. Drivers which do not have reliable hotplug support in hardware can use
-  * this helper infrastructure to regularly poll such connectors for changes in
-  * their connection state.
-diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
-index 27c824a6eb60..6c353c9dc772 100644
---- a/drivers/gpu/drm/drm_property.c
-+++ b/drivers/gpu/drm/drm_property.c
-@@ -434,7 +434,7 @@ EXPORT_SYMBOL(drm_property_add_enum);
- /**
-  * drm_property_destroy - destroy a drm property
-  * @dev: drm device
-- * @property: property to destry
-+ * @property: property to destroy
-  *
-  * This function frees a property including any attached resources like
-  * enumeration values.
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 1c5b9ef6da37..c9a9d74f338c 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -725,7 +725,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
- 	return ret;
- }
- /**
-- * drm_syncobj_open - initalizes syncobj file-private structures at devnode open time
-+ * drm_syncobj_open - initializes syncobj file-private structures at devnode open time
-  * @file_private: drm file-private structure to set up
-  *
-  * Called at device open time, sets up the structure for handling refcounting
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index bba6781cc48f..63ee3ea87478 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -191,7 +191,7 @@ static u32 drm_max_vblank_count(struct drm_device *dev, unsigned int pipe)
- 
- /*
-  * "No hw counter" fallback implementation of .get_vblank_counter() hook,
-- * if there is no useable hardware frame counter available.
-+ * if there is no usable hardware frame counter available.
-  */
- static u32 drm_vblank_no_hw_counter(struct drm_device *dev, unsigned int pipe)
- {
-@@ -2014,7 +2014,7 @@ EXPORT_SYMBOL(drm_crtc_handle_vblank);
-  * Get crtc VBLANK count.
-  *
-  * \param dev DRM device
-- * \param data user arguement, pointing to a drm_crtc_get_sequence structure.
-+ * \param data user argument, pointing to a drm_crtc_get_sequence structure.
-  * \param file_priv drm file private for the user's open file descriptor
-  */
- 
-@@ -2070,7 +2070,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
-  * Queue a event for VBLANK sequence
-  *
-  * \param dev DRM device
-- * \param data user arguement, pointing to a drm_crtc_queue_sequence structure.
-+ * \param data user argument, pointing to a drm_crtc_queue_sequence structure.
-  * \param file_priv drm file private for the user's open file descriptor
-  */
- 
--- 
-2.25.1
 
+What about 
+https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20210730114231.23445-1-will@kernel.org/ ?
+
+Christophe
+
+
+> 
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Dave Young <dyoung@redhat.com>
+> Cc: Baoquan He <bhe@redhat.com>
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>   arch/x86/kernel/head64.c                | 4 ++--
+>   arch/x86/mm/ioremap.c                   | 4 ++--
+>   arch/x86/mm/mem_encrypt.c               | 5 ++---
+>   arch/x86/mm/pat/set_memory.c            | 3 ++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 4 +++-
+>   drivers/gpu/drm/drm_cache.c             | 4 ++--
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 4 ++--
+>   drivers/gpu/drm/vmwgfx/vmwgfx_msg.c     | 6 +++---
+>   drivers/iommu/amd/iommu.c               | 3 ++-
+>   drivers/iommu/amd/iommu_v2.c            | 3 ++-
+>   drivers/iommu/iommu.c                   | 3 ++-
+>   fs/proc/vmcore.c                        | 6 +++---
+>   kernel/dma/swiotlb.c                    | 4 ++--
+>   13 files changed, 29 insertions(+), 24 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
+> index de01903c3735..cafed6456d45 100644
+> --- a/arch/x86/kernel/head64.c
+> +++ b/arch/x86/kernel/head64.c
+> @@ -19,7 +19,7 @@
+>   #include <linux/start_kernel.h>
+>   #include <linux/io.h>
+>   #include <linux/memblock.h>
+> -#include <linux/mem_encrypt.h>
+> +#include <linux/protected_guest.h>
+>   #include <linux/pgtable.h>
+>   
+>   #include <asm/processor.h>
+> @@ -285,7 +285,7 @@ unsigned long __head __startup_64(unsigned long physaddr,
+>   	 * there is no need to zero it after changing the memory encryption
+>   	 * attribute.
+>   	 */
+> -	if (mem_encrypt_active()) {
+> +	if (prot_guest_has(PATTR_MEM_ENCRYPT)) {
+>   		vaddr = (unsigned long)__start_bss_decrypted;
+>   		vaddr_end = (unsigned long)__end_bss_decrypted;
+>   		for (; vaddr < vaddr_end; vaddr += PMD_SIZE) {
+> diff --git a/arch/x86/mm/ioremap.c b/arch/x86/mm/ioremap.c
+> index 0f2d5ace5986..5e1c1f5cbbe8 100644
+> --- a/arch/x86/mm/ioremap.c
+> +++ b/arch/x86/mm/ioremap.c
+> @@ -693,7 +693,7 @@ static bool __init early_memremap_is_setup_data(resource_size_t phys_addr,
+>   bool arch_memremap_can_ram_remap(resource_size_t phys_addr, unsigned long size,
+>   				 unsigned long flags)
+>   {
+> -	if (!mem_encrypt_active())
+> +	if (!prot_guest_has(PATTR_MEM_ENCRYPT))
+>   		return true;
+>   
+>   	if (flags & MEMREMAP_ENC)
+> @@ -723,7 +723,7 @@ pgprot_t __init early_memremap_pgprot_adjust(resource_size_t phys_addr,
+>   {
+>   	bool encrypted_prot;
+>   
+> -	if (!mem_encrypt_active())
+> +	if (!prot_guest_has(PATTR_MEM_ENCRYPT))
+>   		return prot;
+>   
+>   	encrypted_prot = true;
+> diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
+> index 451de8e84fce..0f1533dbe81c 100644
+> --- a/arch/x86/mm/mem_encrypt.c
+> +++ b/arch/x86/mm/mem_encrypt.c
+> @@ -364,8 +364,7 @@ int __init early_set_memory_encrypted(unsigned long vaddr, unsigned long size)
+>   /*
+>    * SME and SEV are very similar but they are not the same, so there are
+>    * times that the kernel will need to distinguish between SME and SEV. The
+> - * sme_active() and sev_active() functions are used for this.  When a
+> - * distinction isn't needed, the mem_encrypt_active() function can be used.
+> + * sme_active() and sev_active() functions are used for this.
+>    *
+>    * The trampoline code is a good example for this requirement.  Before
+>    * paging is activated, SME will access all memory as decrypted, but SEV
+> @@ -451,7 +450,7 @@ void __init mem_encrypt_free_decrypted_mem(void)
+>   	 * The unused memory range was mapped decrypted, change the encryption
+>   	 * attribute from decrypted to encrypted before freeing it.
+>   	 */
+> -	if (mem_encrypt_active()) {
+> +	if (sme_me_mask) {
+>   		r = set_memory_encrypted(vaddr, npages);
+>   		if (r) {
+>   			pr_warn("failed to free unused decrypted pages\n");
+> diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+> index ad8a5c586a35..6925f2bb4be1 100644
+> --- a/arch/x86/mm/pat/set_memory.c
+> +++ b/arch/x86/mm/pat/set_memory.c
+> @@ -18,6 +18,7 @@
+>   #include <linux/libnvdimm.h>
+>   #include <linux/vmstat.h>
+>   #include <linux/kernel.h>
+> +#include <linux/protected_guest.h>
+>   
+>   #include <asm/e820/api.h>
+>   #include <asm/processor.h>
+> @@ -1986,7 +1987,7 @@ static int __set_memory_enc_dec(unsigned long addr, int numpages, bool enc)
+>   	int ret;
+>   
+>   	/* Nothing to do if memory encryption is not active */
+> -	if (!mem_encrypt_active())
+> +	if (!prot_guest_has(PATTR_MEM_ENCRYPT))
+>   		return 0;
+>   
+>   	/* Should not be working on unaligned addresses */
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index abb928894eac..8407224717df 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -38,6 +38,7 @@
+>   #include <drm/drm_probe_helper.h>
+>   #include <linux/mmu_notifier.h>
+>   #include <linux/suspend.h>
+> +#include <linux/protected_guest.h>
+>   
+>   #include "amdgpu.h"
+>   #include "amdgpu_irq.h"
+> @@ -1239,7 +1240,8 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>   	 * however, SME requires an indirect IOMMU mapping because the encryption
+>   	 * bit is beyond the DMA mask of the chip.
+>   	 */
+> -	if (mem_encrypt_active() && ((flags & AMD_ASIC_MASK) == CHIP_RAVEN)) {
+> +	if (prot_guest_has(PATTR_MEM_ENCRYPT) &&
+> +	    ((flags & AMD_ASIC_MASK) == CHIP_RAVEN)) {
+>   		dev_info(&pdev->dev,
+>   			 "SME is not compatible with RAVEN\n");
+>   		return -ENOTSUPP;
+> diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
+> index 546599f19a93..4d01d44012fd 100644
+> --- a/drivers/gpu/drm/drm_cache.c
+> +++ b/drivers/gpu/drm/drm_cache.c
+> @@ -31,7 +31,7 @@
+>   #include <linux/dma-buf-map.h>
+>   #include <linux/export.h>
+>   #include <linux/highmem.h>
+> -#include <linux/mem_encrypt.h>
+> +#include <linux/protected_guest.h>
+>   #include <xen/xen.h>
+>   
+>   #include <drm/drm_cache.h>
+> @@ -204,7 +204,7 @@ bool drm_need_swiotlb(int dma_bits)
+>   	 * Enforce dma_alloc_coherent when memory encryption is active as well
+>   	 * for the same reasons as for Xen paravirtual hosts.
+>   	 */
+> -	if (mem_encrypt_active())
+> +	if (prot_guest_has(PATTR_MEM_ENCRYPT))
+>   		return true;
+>   
+>   	for (tmp = iomem_resource.child; tmp; tmp = tmp->sibling)
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index dde8b35bb950..06ec95a650ba 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -29,7 +29,7 @@
+>   #include <linux/dma-mapping.h>
+>   #include <linux/module.h>
+>   #include <linux/pci.h>
+> -#include <linux/mem_encrypt.h>
+> +#include <linux/protected_guest.h>
+>   
+>   #include <drm/ttm/ttm_range_manager.h>
+>   #include <drm/drm_aperture.h>
+> @@ -634,7 +634,7 @@ static int vmw_dma_select_mode(struct vmw_private *dev_priv)
+>   		[vmw_dma_map_bind] = "Giving up DMA mappings early."};
+>   
+>   	/* TTM currently doesn't fully support SEV encryption. */
+> -	if (mem_encrypt_active())
+> +	if (prot_guest_has(PATTR_MEM_ENCRYPT))
+>   		return -EINVAL;
+>   
+>   	if (vmw_force_coherent)
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+> index 3d08f5700bdb..0c70573d3dce 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+> @@ -28,7 +28,7 @@
+>   #include <linux/kernel.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+> -#include <linux/mem_encrypt.h>
+> +#include <linux/protected_guest.h>
+>   
+>   #include <asm/hypervisor.h>
+>   
+> @@ -153,7 +153,7 @@ static unsigned long vmw_port_hb_out(struct rpc_channel *channel,
+>   	unsigned long msg_len = strlen(msg);
+>   
+>   	/* HB port can't access encrypted memory. */
+> -	if (hb && !mem_encrypt_active()) {
+> +	if (hb && !prot_guest_has(PATTR_MEM_ENCRYPT)) {
+>   		unsigned long bp = channel->cookie_high;
+>   
+>   		si = (uintptr_t) msg;
+> @@ -208,7 +208,7 @@ static unsigned long vmw_port_hb_in(struct rpc_channel *channel, char *reply,
+>   	unsigned long si, di, eax, ebx, ecx, edx;
+>   
+>   	/* HB port can't access encrypted memory */
+> -	if (hb && !mem_encrypt_active()) {
+> +	if (hb && !prot_guest_has(PATTR_MEM_ENCRYPT)) {
+>   		unsigned long bp = channel->cookie_low;
+>   
+>   		si = channel->cookie_high;
+> diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+> index 811a49a95d04..def63a8deab4 100644
+> --- a/drivers/iommu/amd/iommu.c
+> +++ b/drivers/iommu/amd/iommu.c
+> @@ -31,6 +31,7 @@
+>   #include <linux/irqdomain.h>
+>   #include <linux/percpu.h>
+>   #include <linux/io-pgtable.h>
+> +#include <linux/protected_guest.h>
+>   #include <asm/irq_remapping.h>
+>   #include <asm/io_apic.h>
+>   #include <asm/apic.h>
+> @@ -2178,7 +2179,7 @@ static int amd_iommu_def_domain_type(struct device *dev)
+>   	 * active, because some of those devices (AMD GPUs) don't have the
+>   	 * encryption bit in their DMA-mask and require remapping.
+>   	 */
+> -	if (!mem_encrypt_active() && dev_data->iommu_v2)
+> +	if (!prot_guest_has(PATTR_MEM_ENCRYPT) && dev_data->iommu_v2)
+>   		return IOMMU_DOMAIN_IDENTITY;
+>   
+>   	return 0;
+> diff --git a/drivers/iommu/amd/iommu_v2.c b/drivers/iommu/amd/iommu_v2.c
+> index f8d4ad421e07..ac359bc98523 100644
+> --- a/drivers/iommu/amd/iommu_v2.c
+> +++ b/drivers/iommu/amd/iommu_v2.c
+> @@ -16,6 +16,7 @@
+>   #include <linux/wait.h>
+>   #include <linux/pci.h>
+>   #include <linux/gfp.h>
+> +#include <linux/protected_guest.h>
+>   
+>   #include "amd_iommu.h"
+>   
+> @@ -741,7 +742,7 @@ int amd_iommu_init_device(struct pci_dev *pdev, int pasids)
+>   	 * When memory encryption is active the device is likely not in a
+>   	 * direct-mapped domain. Forbid using IOMMUv2 functionality for now.
+>   	 */
+> -	if (mem_encrypt_active())
+> +	if (prot_guest_has(PATTR_MEM_ENCRYPT))
+>   		return -ENODEV;
+>   
+>   	if (!amd_iommu_v2_supported())
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 5419c4b9f27a..ddbedb1b5b6b 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -23,6 +23,7 @@
+>   #include <linux/property.h>
+>   #include <linux/fsl/mc.h>
+>   #include <linux/module.h>
+> +#include <linux/protected_guest.h>
+>   #include <trace/events/iommu.h>
+>   
+>   static struct kset *iommu_group_kset;
+> @@ -127,7 +128,7 @@ static int __init iommu_subsys_init(void)
+>   		else
+>   			iommu_set_default_translated(false);
+>   
+> -		if (iommu_default_passthrough() && mem_encrypt_active()) {
+> +		if (iommu_default_passthrough() && prot_guest_has(PATTR_MEM_ENCRYPT)) {
+>   			pr_info("Memory encryption detected - Disabling default IOMMU Passthrough\n");
+>   			iommu_set_default_translated(false);
+>   		}
+> diff --git a/fs/proc/vmcore.c b/fs/proc/vmcore.c
+> index 9a15334da208..b466f543dc00 100644
+> --- a/fs/proc/vmcore.c
+> +++ b/fs/proc/vmcore.c
+> @@ -26,7 +26,7 @@
+>   #include <linux/vmalloc.h>
+>   #include <linux/pagemap.h>
+>   #include <linux/uaccess.h>
+> -#include <linux/mem_encrypt.h>
+> +#include <linux/protected_guest.h>
+>   #include <asm/io.h>
+>   #include "internal.h"
+>   
+> @@ -177,7 +177,7 @@ ssize_t __weak elfcorehdr_read(char *buf, size_t count, u64 *ppos)
+>    */
+>   ssize_t __weak elfcorehdr_read_notes(char *buf, size_t count, u64 *ppos)
+>   {
+> -	return read_from_oldmem(buf, count, ppos, 0, mem_encrypt_active());
+> +	return read_from_oldmem(buf, count, ppos, 0, prot_guest_has(PATTR_MEM_ENCRYPT));
+>   }
+>   
+>   /*
+> @@ -378,7 +378,7 @@ static ssize_t __read_vmcore(char *buffer, size_t buflen, loff_t *fpos,
+>   					    buflen);
+>   			start = m->paddr + *fpos - m->offset;
+>   			tmp = read_from_oldmem(buffer, tsz, &start,
+> -					       userbuf, mem_encrypt_active());
+> +					       userbuf, prot_guest_has(PATTR_MEM_ENCRYPT));
+>   			if (tmp < 0)
+>   				return tmp;
+>   			buflen -= tsz;
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index e50df8d8f87e..2e8dee23a624 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -34,7 +34,7 @@
+>   #include <linux/highmem.h>
+>   #include <linux/gfp.h>
+>   #include <linux/scatterlist.h>
+> -#include <linux/mem_encrypt.h>
+> +#include <linux/protected_guest.h>
+>   #include <linux/set_memory.h>
+>   #ifdef CONFIG_DEBUG_FS
+>   #include <linux/debugfs.h>
+> @@ -515,7 +515,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+>   	if (!mem)
+>   		panic("Can not allocate SWIOTLB buffer earlier and can't now provide you with the DMA bounce buffer");
+>   
+> -	if (mem_encrypt_active())
+> +	if (prot_guest_has(PATTR_MEM_ENCRYPT))
+>   		pr_warn_once("Memory encryption is active and system is using DMA bounce buffers\n");
+>   
+>   	if (mapping_size > alloc_size) {
+> 
