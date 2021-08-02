@@ -1,62 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556B93DD1F1
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 10:29:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2F13DD204
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 10:31:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 673156E046;
-	Mon,  2 Aug 2021 08:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 591A36E4A7;
+	Mon,  2 Aug 2021 08:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 849A36E046
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 08:29:00 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id n2so23306328eda.10
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 01:29:00 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D7188E84
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 08:31:28 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id gs8so29524140ejc.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 01:31:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=6aHkpuAyIDGQCRBIIGyBRwILPdoJwxLXbmX0xCorBCY=;
- b=do6cLaKtZEla5eJcly1kBGdcpuen1zo9ZcFXk4EVYPOdjBsgoD5/tPMd31CJO3LVUO
- ijdz/X/FmcB7ker97+kVqWyrn+1NLX8EsY92JU8WimZRkAzsCS+oPK5DVyXU1p7L3AKY
- Wl3nhO12fPmJrJ+0foP2izSQBQRpnfKV5NmCk=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=2KQi/PpUB7Y3JmHg1rJxCNCGs8vvEPZaQqU4vBqqxj0=;
+ b=HgHrrIbB878oj98KI0co1g6r02tGSh9g7VKDedPS39+9jjWZi3bKmqEcp8zzSZzf8l
+ CUIHisZ21o1fOMQj4SMZXwh2N3t32A4U9UWUcRJwVyN5wkDb9r3t86E6Z9tO9F1/gRZv
+ /Grst0h8i/kmjiopPhS0osukh5NAaw1iQR0RM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6aHkpuAyIDGQCRBIIGyBRwILPdoJwxLXbmX0xCorBCY=;
- b=DIJgb+TIeoJwla6gQXbeFjq0H6gRfTnYIMXfrxYAzgiCcvLxGYJ02CqkG3c8oB0PUk
- x2MDTO3k8GTfq9XDOw81FgT95KGpmuhhYhijfNx/Kp7zN/wDGiT81s49D+jZ8V8sKR//
- nhNF/3n6wc5wGYS4hBwfhDNSG0n9NkYSNGF2C+2O189nOy7vmuE/Zp6foq0F65G+Q2+K
- OZANF7ya17hqGlLC3DESS3KGKIItkp1c5zH+NSvnrpy8U9qLevH0rG/HbVpjWVAxFq4v
- WNZytdwHuNqvQZkkLRZZezAxHA0DwL0//qa47lqnUlI0AAOPbtn4tbNJFhJ/sev6fWka
- V0sA==
-X-Gm-Message-State: AOAM531cpcH6KzAJ4nC9HyU/qKB30oGcrEZ0nbZ9qZ1qbnTdP/wxMhfg
- GjwZ4JxPoyqjsbO1Ose+TkjFFw==
-X-Google-Smtp-Source: ABdhPJyCmz4M8/Dm0sdQP47GsUaSrldf8HX9I3exKMUlCo4gh8wgd1Q9uVoPXPyXqaRljTvzzPgb5Q==
-X-Received: by 2002:a05:6402:60e:: with SMTP id
- n14mr2329075edv.142.1627892939059; 
- Mon, 02 Aug 2021 01:28:59 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=2KQi/PpUB7Y3JmHg1rJxCNCGs8vvEPZaQqU4vBqqxj0=;
+ b=TUXWsVEa0Xx1BkzwhG9ANA+MmAs5ZmdU2xKjiqf24v5E7Z2hwak4/dv/lSCZZVzd7T
+ sT7mtfCr/0UF5ZvKFhDw1Lv4PejN/Z4mbPmYOg9lb3tQGZiisdfAk1crhfcSMxtp0woP
+ nhslrizF2kHHbZrIgn8wS+CWiUPxFoVIxMjeN3ak7R75PnMZykOzAODI0BM2PLhW3cG4
+ mM9uQQS4iVigXgUv17V2HTl3kKBtwdEof40q3ON3WXxG4B0brDhPLc2cwXQxryO+WGN/
+ XjMOWs9EOgW1bPVKoz0n9eZkePdr73V9rvXsf8XNzwVQslQMYOAqJEkBLLyQaDS5m0yY
+ d8vA==
+X-Gm-Message-State: AOAM531lWrdErimbSmACxFhEy+F8y02Rcer4eCqptH65f7tY+A2QwBkC
+ YlIouTH+Q3R+p9Vxj1GoDhMAPQ==
+X-Google-Smtp-Source: ABdhPJxQFaOHuhoAlTk/8r4Zhkzk4Wm3gRp+HcSLY10IzWI3V+1UMipvcAfeq6ZIhAqRFodwmjs63A==
+X-Received: by 2002:a17:906:32d6:: with SMTP id
+ k22mr14107178ejk.228.1627893087250; 
+ Mon, 02 Aug 2021 01:31:27 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z10sm4143681ejg.3.2021.08.02.01.28.58
+ by smtp.gmail.com with ESMTPSA id v8sm3078590ejy.79.2021.08.02.01.31.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Aug 2021 01:28:58 -0700 (PDT)
-Date: Mon, 2 Aug 2021 10:28:56 +0200
+ Mon, 02 Aug 2021 01:31:26 -0700 (PDT)
+Date: Mon, 2 Aug 2021 10:31:24 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Subject: Re: [PATCH v2] drm: document drm_mode_get_property
-Message-ID: <YQesyDB8kPIDzBUj@phenom.ffwll.local>
-References: <20210802072826.500078-1-contact@emersion.fr>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Zhenneng Li <lizhenneng@kylinos.cn>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/radeon: Update pitch for page flip
+Message-ID: <YQetXMaASz/F2EyS@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ Zhenneng Li <lizhenneng@kylinos.cn>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20210802074310.1526526-1-lizhenneng@kylinos.cn>
+ <e6e77cfb-4e6b-c30e-ae7c-ac84b82c9a75@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210802072826.500078-1-contact@emersion.fr>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e6e77cfb-4e6b-c30e-ae7c-ac84b82c9a75@amd.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,127 +84,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 02, 2021 at 07:28:35AM +0000, Simon Ser wrote:
-> It's not obvious what the fields mean and how they should be used.
-> The most important detail is the link to drm_property.flags, which
-> describes how property types work.
+On Mon, Aug 02, 2021 at 10:12:47AM +0200, Christian König wrote:
+> Am 02.08.21 um 09:43 schrieb Zhenneng Li:
+> > When primary bo is updated, crtc's pitch may
+> > have not been updated, this will lead to show
+> > disorder content when user changes display mode,
+> > we update crtc's pitch in page flip to avoid
+> > this bug.
+> > This refers to amdgpu's pageflip.
 > 
-> v2: document enum drm_mode_property_enum, add ref to "Modeset Base
-> Object Abstraction" (Daniel)
+> Alex is the expert to ask about that code, but I'm not sure if that is
+> really correct for the old hardware.
 > 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+> As far as I know the crtc's pitch should not change during a page flip, but
+> only during a full mode set.
+> 
+> So could you elaborate a bit more how you trigger this?
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
+legacy page_flip ioctl only verifies that the fb->format stays the same.
+It doesn't check anything else (afair never has), this is all up to
+drivers to verify.
+
+Personally I'd say add a check to reject this, since testing this and
+making sure it really works everywhere is probably a bit much on this old
+hw.
+-Daniel
+
 > 
-> I couldn't figure out how to linkify that ref, so it's not linkified.
+> Thanks,
+> Christian.
 > 
->  Documentation/gpu/drm-kms.rst |  2 ++
->  include/uapi/drm/drm_mode.h   | 60 ++++++++++++++++++++++++++++++++---
->  2 files changed, 58 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index 0cc21f6aaef5..1ef7951ded5e 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -159,6 +159,8 @@ KMS Core Structures and Functions
->  .. kernel-doc:: drivers/gpu/drm/drm_mode_config.c
->     :export:
->  
-> +.. _kms_base_object_abstraction:
-> +
->  Modeset Base Object Abstraction
->  ===============================
->  
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 98bf130feda5..90c55383f1ee 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -541,22 +541,74 @@ struct drm_mode_get_connector {
->   */
->  #define DRM_MODE_PROP_ATOMIC        0x80000000
->  
-> +/**
-> + * struct drm_mode_property_enum - Description for an enum/bitfield entry.
-> + * @value: numeric value for this enum entry.
-> + * @name: symbolic name for this enum entry.
-> + *
-> + * See struct drm_property_enum for details.
-> + */
->  struct drm_mode_property_enum {
->  	__u64 value;
->  	char name[DRM_PROP_NAME_LEN];
->  };
->  
-> +/**
-> + * struct drm_mode_get_property - Get property metadata.
-> + *
-> + * User-space can perform a GETPROPERTY ioctl to retrieve information about a
-> + * property. The same property may be attached to multiple objects, see
-> + * "Modeset Base Object Abstraction".
-> + *
-> + * The meaning of the @values_ptr field changes depending on the property type.
-> + * See &drm_property.flags for more details.
-> + *
-> + * The @enum_blob_ptr and @count_enum_blobs fields are only meaningful when the
-> + * property has the type &DRM_MODE_PROP_ENUM or &DRM_MODE_PROP_BITMASK. For
-> + * backwards compatibility, the kernel will always set @count_enum_blobs to
-> + * zero when the property has the type &DRM_MODE_PROP_BLOB. User-space must
-> + * ignore these two fields if the property has a different type.
-> + *
-> + * User-space is expected to retrieve values and enums by performing this ioctl
-> + * at least twice: the first time to retrieve the number of elements, the
-> + * second time to retrieve the elements themselves.
-> + *
-> + * To retrieve the number of elements, set @count_values and @count_enum_blobs
-> + * to zero, then call the ioctl. @count_values will be updated with the number
-> + * of elements. If the property has the type &DRM_MODE_PROP_ENUM or
-> + * &DRM_MODE_PROP_BITMASK, @count_enum_blobs will be updated as well.
-> + *
-> + * To retrieve the elements themselves, allocate an array for @values_ptr and
-> + * set @count_values to its capacity. If the property has the type
-> + * &DRM_MODE_PROP_ENUM or &DRM_MODE_PROP_BITMASK, allocate an array for
-> + * @enum_blob_ptr and set @count_enum_blobs to its capacity. Calling the ioctl
-> + * again will fill the arrays.
-> + */
->  struct drm_mode_get_property {
-> -	__u64 values_ptr; /* values and blob lengths */
-> -	__u64 enum_blob_ptr; /* enum and blob id ptrs */
-> +	/** @values_ptr: Pointer to a ``__u64`` array. */
-> +	__u64 values_ptr;
-> +	/** @enum_blob_ptr: Pointer to a struct drm_mode_property_enum array. */
-> +	__u64 enum_blob_ptr;
->  
-> +	/**
-> +	 * @prop_id: Object ID of the property which should be retrieved. Set
-> +	 * by the caller.
-> +	 */
->  	__u32 prop_id;
-> +	/**
-> +	 * @flags: ``DRM_MODE_PROP_*`` bitfield. See &drm_property.flags for
-> +	 * a definition of the flags.
-> +	 */
->  	__u32 flags;
-> +	/**
-> +	 * @name: Symbolic property name. User-space should use this field to
-> +	 * recognize properties.
-> +	 */
->  	char name[DRM_PROP_NAME_LEN];
->  
-> +	/** @count_values: Number of elements in @values_ptr. */
->  	__u32 count_values;
-> -	/* This is only used to count enum values, not blobs. The _blobs is
-> -	 * simply because of a historical reason, i.e. backwards compat. */
-> +	/** @count_enum_blobs: Number of elements in @enum_blob_ptr. */
->  	__u32 count_enum_blobs;
->  };
->  
-> -- 
-> 2.32.0
-> 
+> > 
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+> > ---
+> >   drivers/gpu/drm/radeon/evergreen.c | 8 +++++++-
+> >   1 file changed, 7 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/evergreen.c
+> > index 36a888e1b179..eeb590d2dec2 100644
+> > --- a/drivers/gpu/drm/radeon/evergreen.c
+> > +++ b/drivers/gpu/drm/radeon/evergreen.c
+> > @@ -28,6 +28,7 @@
+> >   #include <drm/drm_vblank.h>
+> >   #include <drm/radeon_drm.h>
+> > +#include <drm/drm_fourcc.h>
+> >   #include "atom.h"
+> >   #include "avivod.h"
+> > @@ -1414,10 +1415,15 @@ void evergreen_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base,
+> >   			 bool async)
+> >   {
+> >   	struct radeon_crtc *radeon_crtc = rdev->mode_info.crtcs[crtc_id];
+> > +	struct drm_framebuffer *fb = radeon_crtc->base.primary->fb;
+> > -	/* update the scanout addresses */
+> > +	/* flip at hsync for async, default is vsync */
+> >   	WREG32(EVERGREEN_GRPH_FLIP_CONTROL + radeon_crtc->crtc_offset,
+> >   	       async ? EVERGREEN_GRPH_SURFACE_UPDATE_H_RETRACE_EN : 0);
+> > +	/* update pitch */
+> > +	WREG32(EVERGREEN_GRPH_PITCH + radeon_crtc->crtc_offset,
+> > +	       fb->pitches[0] / fb->format->cpp[0]);
+> > +	/* update the scanout addresses */
+> >   	WREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS_HIGH + radeon_crtc->crtc_offset,
+> >   	       upper_32_bits(crtc_base));
+> >   	WREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS + radeon_crtc->crtc_offset,
+> > 
+> > No virus found
+> > 		Checked by Hillstone Network AntiVirus
 > 
 
 -- 
