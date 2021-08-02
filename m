@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39B63DE04A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 21:47:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5BF3DE09B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 22:21:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 295D06E042;
-	Mon,  2 Aug 2021 19:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C86546E595;
+	Mon,  2 Aug 2021 20:21:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807E86E042;
- Mon,  2 Aug 2021 19:47:45 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- h63-20020a9d14450000b02904ce97efee36so7907674oth.7; 
- Mon, 02 Aug 2021 12:47:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9EloOkH9EJL2F5NVL64VIZ4xshby4tOjlxB4NCrtzaE=;
- b=YU2FdXOVDyC9vBd/POQ0s2qvjquWWwE20se1+RvMKmlDq0dBYJma0nqgVqvwIV8HJl
- l4agtO93VMfr4nJTR6MLKRcQcVUWHkxmc5qZFypvONt6x6HJgESG/1CruDDgwpXAexQN
- VQHHDFFbhFW4bOOu8QYclQaFLxmYZeCq+DOoW90L5uoxl9HzdQvsaEWi3ubDdfDsDnsI
- nEf5nWcS9Q3EQUQphuqDmvfpDqDYNxHAglskj8yxiOpJ1PPUkdcqNCEOSjtK76yGnhpK
- Ch511V+T1dEk1KKNuanlFCIoMyOJQwCW8+VJVmCupPQSmuIceplm8NVR6GwCKcW+eNXx
- dzcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9EloOkH9EJL2F5NVL64VIZ4xshby4tOjlxB4NCrtzaE=;
- b=mZRxMW5bWh1I1JUhLl2B3vnlfn5XvhmAjYr+O9JewtDEvMOCuOeGJkL4PhTDi+uuF/
- Xi+81RxFwGP17E9mBjV5s/Q6TnGm6PyypRgHmphkVCQ2QUJRrv47DsQ73s1/O4Y2o1+Z
- qlG6G6aMRGraG7GBlrpry8pT9yGN3+d87cxWjcGeG0vnSjExXrfcRvFe9yBAttHf7jMC
- eLMwnLTBgQhJqP7lPT2t+O9V96ykVEF8ruK08NcywVmq0qdhzt9rUR+sd/1XX71lGSo6
- kD0T0VQVZE2n7Ryyt43mARH5os+6UxeZuE7k36jFVxb6cmsWutbs0G2aEpWgoBnsOLez
- uLwg==
-X-Gm-Message-State: AOAM531GOFCm8+lPKNjUJB3gBRamQNQnT//fREL5ThS8iroTtEO3qTk9
- oCvLydcoDhUmKfSeP6ZQ/fJMrYDinunIddnA7lA=
-X-Google-Smtp-Source: ABdhPJyxQMAgOK3LzYirZ79+WNjdqVnxB7JAikCoyYYkIZ1v0qE/3FWdwvn1LbhL3UIYqfuaA6qQX+uGWZL7Q0fGBT0=
-X-Received: by 2002:a05:6830:1c2f:: with SMTP id
- f15mr13038536ote.23.1627933664802; 
- Mon, 02 Aug 2021 12:47:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210728001119.12807-1-Ryan.Taylor@amd.com>
-In-Reply-To: <20210728001119.12807-1-Ryan.Taylor@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 2 Aug 2021 15:47:33 -0400
-Message-ID: <CADnq5_OLGOy2Q5+szu+L2ry+G2t-v2mqJQ29chaY9zT7Key1VQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] drm/amdgpu: modernize virtual display feature
-To: Ryan Taylor <Ryan.Taylor@amd.com>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, "Siqueira,
- Rodrigo" <rodrigo.siqueira@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4A416E595
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 20:21:38 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627935703; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=PfQwQqGamk2yhFVMH0cYk8jlQ4TdleftFj0Bcd2uREU=;
+ b=RL4TBhFOpdM+I7l+wSu34KZAGEn2UX2/FwulgO5ofwEgHTDxbWiD75mSqvINZBvB4w3yrCgu
+ bXjUn3QiKhC4/vvA7yBP2P7W0wwFqhGvmjQJ7ILNHq+Fu+NbV4D16XQqSr8LeOZvSRwIUyWK
+ 0Ev5Z5SIBwk9LpnphuHSQ8RrT1A=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 610853b038fa9bfe9c25abe1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 02 Aug 2021 20:21:04
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 648CEC43146; Mon,  2 Aug 2021 20:21:03 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A4D6BC433F1;
+ Mon,  2 Aug 2021 20:21:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A4D6BC433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ vkoul@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org
+Cc: abhinavk@codeaurora.org, aravindh@codeaurora.org, khsieh@codeaurora.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/msm/dp: update is_connected status base on sink count
+ at dp_pm_resume()
+Date: Mon,  2 Aug 2021 13:20:55 -0700
+Message-Id: <1627935655-4090-1-git-send-email-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,56 +72,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 8:11 PM Ryan Taylor <Ryan.Taylor@amd.com> wrote:
->
-> The amdgpu vkms interface provides a virtual KMS interface for several use
-> cases: devices without display hardware, platforms where the actual display
-> hardware is not useful (e.g., servers), SR-IOV virtual functions, device
-> emulation/simulation, and device bring up prior to display hardware being
-> usable. We previously emulated a legacy KMS interface, but there was a desire
-> to move to the atomic KMS interface. The vkms driver did everything we
-> needed, but we wanted KMS support natively in the driver without buffer
-> sharing and the ability to support an instance of VKMS per device. We first
-> looked at splitting vkms into a stub driver and a helper module that other
-> drivers could use to implement a virtual display, but this strategy ended up
-> being messy due to driver specific callbacks needed for buffer management.
-> Ultimately, it proved easier to import the vkms code as it mostly used core
-> drm helpers anyway.
+Currently at dp_pm_resume() is_connected state is decided base on hpd connection
+status only. This will put is_connected in wrongly "true" state at the scenario
+that dongle attached to DUT but without hmdi cable connecting to it. Fix this
+problem by adding read sink count from dongle and decided is_connected state base
+on both sink count and hpd connection status.
 
-Series is:
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Changes in v2:
+-- remove dp_get_sink_count() cand call drm_dp_read_sink_count()
 
->
-> Ryan Taylor (3):
->   drm/amdgpu: create amdgpu_vkms (v4)
->   drm/amdgpu: cleanup dce_virtual
->   drm/amdgpu: replace dce_virtual with amdgpu_vkms (v3)
->
->  drivers/gpu/drm/amd/amdgpu/Makefile      |   2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h      |   1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c  |   2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c   |   2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c | 641 +++++++++++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.h |  26 +
->  drivers/gpu/drm/amd/amdgpu/cik.c         |  10 +-
->  drivers/gpu/drm/amd/amdgpu/dce_virtual.c | 780 -----------------------
->  drivers/gpu/drm/amd/amdgpu/dce_virtual.h |  30 -
->  drivers/gpu/drm/amd/amdgpu/nv.c          |  22 +-
->  drivers/gpu/drm/amd/amdgpu/si.c          |   8 +-
->  drivers/gpu/drm/amd/amdgpu/soc15.c       |  10 +-
->  drivers/gpu/drm/amd/amdgpu/vi.c          |  14 +-
->  13 files changed, 703 insertions(+), 845 deletions(-)
->  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
->  create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.h
->  delete mode 100644 drivers/gpu/drm/amd/amdgpu/dce_virtual.c
->  delete mode 100644 drivers/gpu/drm/amd/amdgpu/dce_virtual.h
->
->
-> base-commit: e0186426a7efeb506164da7d4a56cfdaea38b380
-> --
-> 2.32.0
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+Fixes: d9aa6571b28ba ("drm/msm/dp: check sink_count before update is_connected status")
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 8b69114..6dcb78e 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1403,6 +1403,7 @@ static int dp_pm_resume(struct device *dev)
+ 	struct msm_dp *dp_display = platform_get_drvdata(pdev);
+ 	struct dp_display_private *dp;
+ 	u32 status;
++	int sink_count = 0;
+ 
+ 	dp = container_of(dp_display, struct dp_display_private, dp_display);
+ xlog(__func__, 1,0,0, dp->core_initialized, dp_display->power_on);
+@@ -1417,15 +1418,26 @@ xlog(__func__, 1,0,0, dp->core_initialized, dp_display->power_on);
+ 
+ 	dp_catalog_ctrl_hpd_config(dp->catalog);
+ 
+-	status = dp_catalog_link_is_connected(dp->catalog);
++	/*
++	 * set sink to normal operation mode -- D0
++	 * before dpcd read
++	 */
++	dp_link_psm_config(dp->link, &dp->panel->link_info, false);
++
++	/* if sink conencted, do dpcd read sink count */
++	if ((status = dp_catalog_link_is_connected(dp->catalog))) {
++		sink_count = drm_dp_read_sink_count(dp->aux);
++		if (sink_count < 0)
++			sink_count = 0;
++	}
+ 
++	dp->link->sink_count = sink_count;
+ 	/*
+ 	 * can not declared display is connected unless
+ 	 * HDMI cable is plugged in and sink_count of
+ 	 * dongle become 1
+ 	 */
+-xlog(__func__, 0x12,0,0, 0, dp->link->sink_count);
+-	if (status && dp->link->sink_count)
++	if (dp->link->sink_count)
+ 		dp->dp_display.is_connected = true;
+ 	else
+ 		dp->dp_display.is_connected = false;
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
