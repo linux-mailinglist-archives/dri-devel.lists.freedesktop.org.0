@@ -2,43 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DBB3DCE83
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 03:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D883DCE80
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 03:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1DB56E1C0;
-	Mon,  2 Aug 2021 01:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A69D6E321;
+	Mon,  2 Aug 2021 01:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Mon, 02 Aug 2021 01:19:13 UTC
-Received: from qq.com (smtpbg466.qq.com [59.36.132.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A520D6E1C0;
- Mon,  2 Aug 2021 01:19:13 +0000 (UTC)
-X-QQ-mid: bizesmtp52t1627866688thenr7zd
+Received: from qq.com (unknown [183.3.255.213])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28A3B6E321;
+ Mon,  2 Aug 2021 01:13:08 +0000 (UTC)
+X-QQ-mid: bizesmtp35t1627866745tr9qkghc
 Received: from localhost.localdomain (unknown [111.207.172.18])
  by esmtp6.qq.com (ESMTP) with 
- id ; Mon, 02 Aug 2021 09:11:27 +0800 (CST)
+ id ; Mon, 02 Aug 2021 09:12:24 +0800 (CST)
 X-QQ-SSF: 0140000000200020B000B00A0000000
-X-QQ-FEAT: +6B8mW4Q5UlEOGJRbn/vefQkiMD7uFH2kLCXIBGz2UFgLzqxssGn3DjLQIMl/
- xOl7xwZfESBvUnv5HBy3C5NxhUmPSh67ocW90WLMerWjkF7+1RNmifFIy3bYap+iLoJjRuZ
- 8+0ZCToqvt1Uwoup4r3QadPkeZHApn9SgI6ee9ICVOxGVarGyAVdZ9MS5PsOUEb8UvON0MX
- ZzBxHqE9S80T81MQUTu4QHzZSjHQ4xeSXXhYTn+gJD5eD4hCL/iPYVngFT4EwPPghzAN+hU
- xEK/u8Yz/LMVOFJ3RfDUklzscwozsu2m5RU5iuCLyCJmYKf9rfz/JOPwTvcz2nUlggcAqP1
- RgHeuLB0xm3lFg2RNg=
+X-QQ-FEAT: pj12pG4OO0lN2TVKiFsnfhUJ2pc+1YbNGXlokkjoLk1WNAhvav4jHs18p+9fX
+ 71zAshPlrFNYBxmNSYdzwPKf6LJhAdV8ZCQYDUpo0fyPTHe0zipbQrwz7vg/D0dCgpz09t8
+ 9XVvNEtOCg1Qai0BomeCwTj0JBGC2lYBUOXt+gDQs3D6hKJiF7ytVALYeRGXFWqycz8YB6t
+ GgeuafR9rXOaOwVxMG+MNXXg/rVRX/EUpFbal/iOvBylKVeA2xEBNTdP2XamBbrN5NkpuYr
+ dPgcZsyWWLLcINtfy7dJmdZTU6RaQh6N/FjHyffENEJPnPzHzKSSb4qdYDSU2e31JPfyj48
+ IxUOpbicMhsvR6i70iUsc11hNqf0w==
 X-QQ-GoodBg: 2
 From: zhaoxiao <zhaoxiao@uniontech.com>
 To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  zhaoxiao <zhaoxiao@uniontech.com>
-Subject: [PATCH] drm:This patch fixes the checkpatch.pl error to msm_drv.c
-Date: Mon,  2 Aug 2021 09:11:25 +0800
-Message-Id: <20210802011125.19177-1-zhaoxiao@uniontech.com>
+Subject: [PATCH v2] drm:Fixes the following checkpatch error:
+Date: Mon,  2 Aug 2021 09:12:22 +0800
+Message-Id: <20210802011222.19487-1-zhaoxiao@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign1
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign2
 X-QQ-Bgrelay: 1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,8 +55,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 ERROR: do not initialise statics to false
 
+FILE: :drivers/gpu/drm/msm/msm_drv.c:21:
+static bool reglog = false;
+
+FILE: :drivers/gpu/drm/msm/msm_drv.c:31:
+-bool dumpstate = false;
+
 Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
 ---
+v2: add the more detailed patch description
  drivers/gpu/drm/msm/msm_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
