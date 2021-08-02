@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF753DDD94
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 18:24:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B323DDDA4
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 18:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56DE16E489;
-	Mon,  2 Aug 2021 16:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8928D6E1D7;
+	Mon,  2 Aug 2021 16:27:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB056E1D7;
- Mon,  2 Aug 2021 16:24:30 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id t68so17111286qkf.8;
- Mon, 02 Aug 2021 09:24:30 -0700 (PDT)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 502556E083;
+ Mon,  2 Aug 2021 16:27:13 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id k7so17096479qki.11;
+ Mon, 02 Aug 2021 09:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PABonhkfz0MvRGA6imtUnPyjypKDIpW3LfF+TjLeY4o=;
- b=abqfi6gzVw+ynFGoz0A5rBsxqK7BLlHO4rmdg6nFQDPOxt1wwq12n3BaH9if/ZXaOn
- fYBfeuWw6VKmuxNwo13braCXtqReoz3+AR/o0ROfzVlpmzUbY5rAjA98AezOF7T5biLR
- 8Geu2xgl59mAwBEQQmdLzPWofp+8tv1cXKB8pbjhWgHG1USo3sD/vDSuS32yWER7r3Qj
- 9TYb0uNWFAm7UoMPqBtQVDJi3hDWqI2Xa2T501rI8fR7sLTB42NjdldQPfhSV+wdln68
- XgY1O0AGD94GK3KC9V2pfdQqV0j2lptAmzeLblBEIfuwNOuVp+9skRad2c4iTGTQVbUY
- xSzQ==
+ :cc; bh=hfG5pLLGBVmijGs7xD1CuYUYuRgtJdbg/w8jfytxMq8=;
+ b=KCMBWwrB7rl9OU23KgEVRMNrHkjI1UKzf688kWLXVEwgeNJcNUEFn/VqxfBmj/RpNi
+ fU7laMr621aEhNdbx+OdRBeG+gRjYLKUtX6YwfYdGH1jiOfiYbFh9RvqsE7G7X2Hcr6L
+ IJD1goHuBubu29rquTw+430JSLxAt+s34C3IcQXoIbHdotn0TAHF96EnLgoC091BV6D8
+ vKRxR4BW5FYKCX85Vyxg7ZVVfl6YOhLMldCnEvHDcsFJe8Fwf2EhaQjExoDYOarkFf0Y
+ O41YnyeQ9I6FHv+VtEkpTJAWuNqqcU0IxGZo2xIbPmfEF6kRc4gS1MBxUmJXU2e9LQ32
+ Knxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PABonhkfz0MvRGA6imtUnPyjypKDIpW3LfF+TjLeY4o=;
- b=B5sCHLz+WGj93CufMMAAvnVyVHhWvQ1+n2sBJO8VSpoO10KqaVrAlj7BAtiZniPJlL
- 6LxBYqNo41Q6LjOTC/KakMh8SEVvIeJwNSIsUgfyQXViHQMtG4eoCi9e+kSLqIMo5eDH
- +wK02ZubOYv0a6e0Ry4No9RCVuC3RNYNdtpl4GYOpJPVZfQOU9NVMsGdHcwQiwM/S6qP
- zltbeQIQwRE+WP5RIzBEnJssabbNkklrCVI5a9TxOrLFdFRXD0m1acrH5AOBiwSvLEID
- 3jua/IuibgUs/vsTsCS8UUKHWP8tqJUqqQksy5MsbAqakH0VM6/5rwU5JYXXHb4cPfKA
- T+yg==
-X-Gm-Message-State: AOAM530iL7q6LFrtFI3ZxQ4f+DxS00yxr2I/l3eFLJOyTAwq3BjDXIcO
- YqhX8NyOwKra7xgwTuneuzLG27BYSQWaSrxVWUM=
-X-Google-Smtp-Source: ABdhPJxSICDT7QAUlLZoant5eoxfyRFLmIvUQ/yn35oDDIe5fQ6jBLfy0/FXQELa3F92AS84FaoFLpUf/W6p/DuJ2FI=
-X-Received: by 2002:a37:64d:: with SMTP id 74mr16630354qkg.407.1627921470080; 
- Mon, 02 Aug 2021 09:24:30 -0700 (PDT)
+ bh=hfG5pLLGBVmijGs7xD1CuYUYuRgtJdbg/w8jfytxMq8=;
+ b=FE+hNV/OZ8RxANKDyK1j0t7XMWy42dPQcVL75fTn7+FhB5lMIflHAPvvspNvKPsgyA
+ wpBomfE1p2KKa7X/SkYVBlI+CqTEkn1o452DnDCUoF8PCxJvhfssXk8ZQ/i/aHkdBloJ
+ FnEo4f6UOIsYtHDc5VM3szwbq6cr7CHUAiPBhytVywnfveU2GcOlmzf72ws/9ukGiXKk
+ juGudpLWJojP+RSWX+L4c+ssDWMzCJ+EgJO7MOAkKNt9RJFKF+qOF1N26dbotEf9kCid
+ aaRJqDbjMZ8YUI0Hlct5K1LmlnWMWI34s7p0Sl+CXYyh628vN+dL7H7CfGbqi6cQz8Eb
+ 4hCA==
+X-Gm-Message-State: AOAM533NOW1YllP6LhUA+2YOv/oQJrgS+UbGq+HpE4QF1S9156dn/T3y
+ j7bhRrdV2w8Igt/gHQC8/xrHJJ7jo5dAe1Ed5o8=
+X-Google-Smtp-Source: ABdhPJw2gIhU+kR4Sx6iXg7nZweEAbd8+bVuItdW1omD41KUb06isEtVR9mByToT58siGUrRB/NUDTpHz2hl5JtZxys=
+X-Received: by 2002:a37:64d:: with SMTP id 74mr16642727qkg.407.1627921632473; 
+ Mon, 02 Aug 2021 09:27:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210731214211.657280-1-jim.cromie@gmail.com>
- <20210731214211.657280-4-jim.cromie@gmail.com>
-In-Reply-To: <20210731214211.657280-4-jim.cromie@gmail.com>
+ <20210731214211.657280-6-jim.cromie@gmail.com>
+In-Reply-To: <20210731214211.657280-6-jim.cromie@gmail.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 2 Aug 2021 17:24:18 +0100
-Message-ID: <CACvgo509FWgNcBP9SPyuZV0Wey9sApmgB2Xa_+LJ4r91Cgqhgg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v4 3/7] dyndbg: add dyndbg-bitmap definer and
- callbacks
+Date: Mon, 2 Aug 2021 17:27:01 +0100
+Message-ID: <CACvgo53iF4Gk3XhQAtogf52CBFuB9tDxp+Mp8A1UwcvEOQto6Q@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] i915/gvt: control pr_debug("gvt:")s with bits in
+ parameters/debug_gvt
 To: Jim Cromie <jim.cromie@gmail.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -64,11 +64,10 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jason Baron <jbaron@akamai.com>, Ashley Thomas <Ashley.Thomas2@amd.com>, 
  Qingqing Zhuo <qingqing.zhuo@amd.com>,
  Aurabindo Pillai <aurabindo.pillai@amd.com>, 
- Wyatt Wood <Wyatt.Wood@amd.com>, Johan Hovold <johan@kernel.org>,
- Jessica Yu <jeyu@kernel.org>, 
- Joe Perches <joe@perches.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Nick Desaulniers <ndesaulniers@gooogle.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, 
+ Wyatt Wood <Wyatt.Wood@amd.com>, Jessica Yu <jeyu@kernel.org>,
+ Johan Hovold <johan@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Nick Desaulniers <ndesaulniers@gooogle.com>, 
+ Joe Perches <joe@perches.com>, ML dri-devel <dri-devel@lists.freedesktop.org>, 
  "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
  amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
  intel-gvt-dev@lists.freedesktop.org, 
@@ -93,22 +92,19 @@ Hi Jim,
 
 On Sat, 31 Jul 2021 at 22:42, Jim Cromie <jim.cromie@gmail.com> wrote:
 
-> +struct dyndbg_bitdesc {
-> +       /* bitpos is inferred from index in containing array */
-> +       char *prefix;
-> +       char *help;
-AFAICT these two should also be constant, right?
+> DYNDBG_BITMAP_DESC(__gvt_debug, "dyndbg bitmap desc",
+>         { "gvt: cmd: ",  "command processing" },
+>         { "gvt: core: ", "core help" },
+>         { "gvt: dpy: ",  "display help" },
+>         { "gvt: el: ",   "help" },
+>         { "gvt: irq: ",  "help" },
+>         { "gvt: mm: ",   "help" },
+>         { "gvt: mmio: ", "help" },
+>         { "gvt: render: ", "help" },
+>         { "gvt: sched: " "help" });
+>
+Previous commit removed the space after the colon. The above example
+needs updating.
 
-
-> +int param_set_dyndbg(const char *instr, const struct kernel_param *kp)
-> +{
-> +       unsigned int val;
-> +       unsigned long changes, result;
-> +       int rc, chgct = 0, totct = 0, bitpos, bitsmax;
-> +       char query[OUR_QUERY_SIZE];
-> +       struct dyndbg_bitdesc *bitmap = (struct dyndbg_bitdesc *) kp->data;
-> +
-> +       // pr_info("set_dyndbg: instr: %s curr: %d\n", instr, *kp->arg);
-Left-over debug code, here and below?
-
+This concludes a casual read-through on my end. Hope it helps o/
 -Emil
