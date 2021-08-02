@@ -2,43 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D003DD3D2
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 12:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278353DD3EA
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Aug 2021 12:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C01FB6E3E5;
-	Mon,  2 Aug 2021 10:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7BF89FC5;
+	Mon,  2 Aug 2021 10:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from theia.8bytes.org (8bytes.org
- [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9631D6E3E5
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 10:35:48 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id C8EAC926; Mon,  2 Aug 2021 12:35:46 +0200 (CEST)
-Date: Mon, 2 Aug 2021 12:35:45 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Brijesh Singh <brijesh.singh@amd.com>, Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH 02/11] x86/sev: Add an x86 version of prot_guest_has()
-Message-ID: <YQfKgZEikvhgicws@8bytes.org>
-References: <cover.1627424773.git.thomas.lendacky@amd.com>
- <b3e929a77303dd47fd2adc2a1011009d3bfcee20.1627424774.git.thomas.lendacky@amd.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6D589FC5
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Aug 2021 10:36:30 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1mAVIk-000238-KJ; Mon, 02 Aug 2021 12:36:06 +0200
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1mAVIj-0007TR-0i; Mon, 02 Aug 2021 12:36:05 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Olof Johansson <olof@lixom.net>,
+ Rob Herring <robh+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, soc@kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, devicetree@vger.kernel.org,
+ Fabio Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v3 0/3] Mainline imx6 based SKOV boards
+Date: Mon,  2 Aug 2021 12:36:00 +0200
+Message-Id: <20210802103603.28607-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b3e929a77303dd47fd2adc2a1011009d3bfcee20.1627424774.git.thomas.lendacky@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,30 +59,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 27, 2021 at 05:26:05PM -0500, Tom Lendacky wrote:
-> Introduce an x86 version of the prot_guest_has() function. This will be
-> used in the more generic x86 code to replace vendor specific calls like
-> sev_active(), etc.
-> 
-> While the name suggests this is intended mainly for guests, it will
-> also be used for host memory encryption checks in place of sme_active().
-> 
-> The amd_prot_guest_has() function does not use EXPORT_SYMBOL_GPL for the
-> same reasons previously stated when changing sme_active(), sev_active and
-> sme_me_mask to EXPORT_SYBMOL:
->   commit 87df26175e67 ("x86/mm: Unbreak modules that rely on external PAGE_KERNEL availability")
->   commit 9d5f38ba6c82 ("x86/mm: Unbreak modules that use the DMA API")
-> 
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Co-developed-by: Andi Kleen <ak@linux.intel.com>
-> Signed-off-by: Andi Kleen <ak@linux.intel.com>
-> Co-developed-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-> Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+changes v3:
+- drop panel bindings patches, it is already in drm-misc-next
+- remove some new lines
+- reorder compatibles at the start of the nodes
+- use lowercase for hex value
+- add enable-active-high to the regulator-vcc-mmc-io and fix MMC voltage
+  configuration.
 
-Reviewed-by: Joerg Roedel <jroedel@suse.de>
+changes v2:
+- remove unnecessary newlines.
+- change linux,wakeup to wakeup-source
+- change switch@3 unit-address to @0
+- sort aliases alphabetically
+
+Mainline imx6 based DTs for SKOV A/S boards
+
+Oleksij Rempel (2):
+  dt-bindings: vendor-prefixes: Add an entry for SKOV A/S
+  dt-bindings: arm: fsl: add SKOV imx6q and imx6dl based boards
+
+Sam Ravnborg (1):
+  ARM: dts: add SKOV imx6q and imx6dl based boards
+
+ .../devicetree/bindings/arm/fsl.yaml          |   5 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/Makefile                    |   5 +
+ arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts    |  13 +
+ arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts    | 106 ++++
+ arch/arm/boot/dts/imx6q-skov-revc-lt2.dts     |  36 ++
+ arch/arm/boot/dts/imx6q-skov-revc-lt6.dts     | 128 +++++
+ .../dts/imx6q-skov-reve-mi1010ait-1cp1.dts    | 127 +++++
+ arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi  |  54 ++
+ arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi       | 476 ++++++++++++++++++
+ 10 files changed, 952 insertions(+)
+ create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
+ create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
+ create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
+ create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
+ create mode 100644 arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
+ create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
+ create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
+
+-- 
+2.30.2
+
