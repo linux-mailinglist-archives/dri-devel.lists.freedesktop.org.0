@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A06B3DEE99
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 14:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A91A3DEE9A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 14:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CBBE6E84F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C690F6E85C;
 	Tue,  3 Aug 2021 12:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F1F6E854
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 12:59:36 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12C4B6E853
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 12:59:37 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0E153200CD;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8B7E222018;
  Tue,  3 Aug 2021 12:59:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1627995575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YwMrprOEshldFA5MZJDSVCnYE/kuxkA8HL3ps9QmON8=;
- b=OBz8KvsLPi2UsZvLqdeC+Isrtp3T8zww3rq3X4Kruipr1RqlhtDkQO+0Oyq6A4PjyqmN+h
- 4jiO01/e+PSIxDtsdn4q/epnxZXftVOM6Ul8eBd/TMfdrDIztmQWwM1MwagUXEiHqB1Ewc
- 3PMZoIBvvLB4bR+Cv1bJqO6L083IUt8=
+ bh=hatzCU7MAd92Cp2BxJSc0myICfTLFNOJutpfJueW0Zo=;
+ b=PPbkqeJAf9pKm4zFD/SIO1UW9NBJkEhRHFGKkyQFQURLc8qErvrjosfeiqJn+MBf36amV7
+ 0nmOAlvb1WiO5b+4kYdLj31IowX2h2GZfQ19zeamZjCTEvcu4Pk1swdZVH6hbdU+PHkhvT
+ sHYh105cP1od8AYTeTrA4qnss5R1Iv4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1627995575;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YwMrprOEshldFA5MZJDSVCnYE/kuxkA8HL3ps9QmON8=;
- b=eNyKwYY2AcoRszMzwCSJAw0O8/EKhXnozHeNf2d8AGXgXJOEIUmvv+L0EbYZa9iAEzgami
- x8rOpkU+OiWLCnBw==
+ bh=hatzCU7MAd92Cp2BxJSc0myICfTLFNOJutpfJueW0Zo=;
+ b=lctOrizMWmWeJFl1DW4uckgBYWDj1evYt6OcIqTQuIbOl5fGej2SwDAwofbuFEjgibMbgv
+ 0PrdQ9DIDmP+LkDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C6A513CEF;
- Tue,  3 Aug 2021 12:59:34 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 149DC13CD6;
+ Tue,  3 Aug 2021 12:59:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wK7oILY9CWExZwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 03 Aug 2021 12:59:34 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id eF/AA7c9CWExZwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 03 Aug 2021 12:59:35 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, noralf@tronnes.org,
@@ -54,9 +54,9 @@ To: airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
 Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
  virtualization@lists.linux-foundation.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 08/11] drm/simpledrm: Use offset-adjusted shadow-plane mapping
-Date: Tue,  3 Aug 2021 14:59:25 +0200
-Message-Id: <20210803125928.27780-9-tzimmermann@suse.de>
+Subject: [PATCH 09/11] drm/udl: Use offset-adjusted shadow-plane mapping
+Date: Tue,  3 Aug 2021 14:59:26 +0200
+Message-Id: <20210803125928.27780-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210803125928.27780-1-tzimmermann@suse.de>
 References: <20210803125928.27780-1-tzimmermann@suse.de>
@@ -79,35 +79,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 For framebuffers with non-zero offset fields, shadow-plane helpers
 provide a pointer to the first byte of the contained data. Use it in
-simpledrm.
+udl.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/simpledrm.c | 4 ++--
+ drivers/gpu/drm/udl/udl_modeset.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 08ae66b1e6f5..481b48bde047 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -639,7 +639,7 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
--	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
-+	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
- 	struct drm_device *dev = &sdev->dev;
- 	int idx;
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 8a6b94b1511b..32232228dae9 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -379,7 +379,7 @@ udl_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
  
-@@ -677,7 +677,7 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
- 	struct drm_plane_state *plane_state = pipe->plane.state;
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
--	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
-+	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_device *dev = &sdev->dev;
- 	struct drm_rect clip;
+ 	udl->mode_buf_len = wrptr - buf;
+ 
+-	udl_handle_damage(fb, &shadow_plane_state->map[0], 0, 0, fb->width, fb->height);
++	udl_handle_damage(fb, &shadow_plane_state->data[0], 0, 0, fb->width, fb->height);
+ 
+ 	if (!crtc_state->mode_changed)
+ 		return;
+@@ -422,7 +422,7 @@ udl_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+ 		return;
+ 
+ 	if (drm_atomic_helper_damage_merged(old_plane_state, state, &rect))
+-		udl_handle_damage(fb, &shadow_plane_state->map[0], rect.x1, rect.y1,
++		udl_handle_damage(fb, &shadow_plane_state->data[0], rect.x1, rect.y1,
+ 				  rect.x2 - rect.x1, rect.y2 - rect.y1);
+ }
+ 
 -- 
 2.32.0
 
