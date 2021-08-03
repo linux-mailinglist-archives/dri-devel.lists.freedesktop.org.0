@@ -1,43 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7F13DF387
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 19:06:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E663DF3D6
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 19:20:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA8E589DEA;
-	Tue,  3 Aug 2021 17:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9FA56E8A9;
+	Tue,  3 Aug 2021 17:20:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34E6689DEA
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 17:06:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AE56A60F70;
- Tue,  3 Aug 2021 17:06:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628010404;
- bh=qEY8Bu/LLbSKucIMTa8orC3/EQ1DAHCTMNpr7WqWX0A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=AzU1mF40f+QNzvhYdWd5RSW8m4jScUOe5RDPBs391Y6TUXugBr4IJnGyWD7LS/iDE
- HJSRwEsI3F+KOyRRGYdjd4lQEx4JHPxLnmHGBfrccWDzjFLQ0wE3Rtf3FTjBVCLZ1Z
- C1bXZzZEaTUn1cNTJDrlKDwU/NSocSt9+sHc317pFOUwcMjV+PLjEV40M02c12V/Fb
- hrgbwIkIjwi4wwqfXHD3RbUd+dTcDEvbOrjQleigMROBs/YFRYqMrLS1GFfNdQpRfb
- cjk295OcxHbExULzjtKbr81q5NOT8WjF/njFHc4gsvaqVIt3AhTzQ3OrkDKvAYYpsD
- +bQUUTAdtKC1w==
-Date: Tue, 3 Aug 2021 12:06:42 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Huacai Chen <chenhuacai@loongson.cn>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Xuefeng Li <lixuefeng@loongson.cn>, Christoph Hellwig <hch@infradead.org>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 0/9] PCI/VGA: Rework default VGA device selection
-Message-ID: <20210803170642.GA1556172@bjorn-Precision-5520>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 370C76E8A2
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 17:20:38 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1628011241; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=6YH7f75Vb/8NA25/v2Dq53cOr2mRNK5ZyjGEWQjX8Dk=;
+ b=wjY2h03fB2RmYT9Rt+9EfHTOo6EpTQrS6RIjtd6cyZGLDS5aJYZvyxFDBEhzJ/ae182QuM/K
+ l8OAcpwYTnfexgab3TZ9Ad+wXvnql30u17QLd0ubfRQst2mcMM4GSDpgqfzczugnSuQgk3jK
+ KrVzT1EmaTPbLUiRbtTao+b8ya0=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 61097addb4dfc4b0ef09bc3a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 03 Aug 2021 17:20:29
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 9D3BEC4360C; Tue,  3 Aug 2021 17:20:27 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 26FABC433D3;
+ Tue,  3 Aug 2021 17:20:25 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAhV-H7pYbht=N7C8xpytYnn=MefyRfLDRPsY-56ObpBbJUuzA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 03 Aug 2021 10:20:25 -0700
+From: abhinavk@codeaurora.org
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, liviu.dudau@arm.com, brian.starkey@arm.com,
+ sam@ravnborg.org, bbrezillon@kernel.org, nicolas.ferre@microchip.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
+ alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
+ anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
+ sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org,
+ Dan.Sneddon@microchip.com, tomi.valkeinen@ideasonboard.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [Freedreno] [PATCH v2 07/14] drm/msm: Convert to Linux IRQ
+ interfaces
+In-Reply-To: <20210803090704.32152-8-tzimmermann@suse.de>
+References: <20210803090704.32152-1-tzimmermann@suse.de>
+ <20210803090704.32152-8-tzimmermann@suse.de>
+Message-ID: <f3649718c0c1093ed31a64bf4621ae3d@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,148 +82,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 24, 2021 at 05:30:02PM +0800, Huacai Chen wrote:
-> Hi, Bjorn,
+On 2021-08-03 02:06, Thomas Zimmermann wrote:
+> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+> don't benefit from using it.
 > 
-> On Sat, Jul 24, 2021 at 8:10 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> >
-> > On Fri, Jul 23, 2021 at 05:53:36PM +0800, Huacai Chen wrote:
-> > > Hi, Bjorn,
-> > >
-> > > On Fri, Jul 23, 2021 at 5:29 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > >
-> > > > From: Bjorn Helgaas <bhelgaas@google.com>
-> > > >
-> > > > This is a little bit of rework and extension of Huacai's nice work at [1].
-> > > >
-> > > > It moves the VGA arbiter to the PCI subsystem, fixes a few nits, and breaks
-> > > > a few pieces off Huacai's patch to make the main patch a little smaller.
-> > > >
-> > > > That last patch is still not very small, and it needs a commit log, as I
-> > > > mentioned at [2].
-> > > >
-> > > > All comments welcome!
-> > > >
-> > > > [1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
-> > > > [2] https://lore.kernel.org/r/20210720221923.GA43331@bjorn-Precision-5520
-> > > Thank you for your splitting. Your two questions are answered in the following.
-> > >
-> > > (1) explain why your initcall ordering is unusual.
-> > > The original problem happens on MIPS. vga_arb_device_init() and
-> > > pcibios_init() are both wrapped by subsys_initcall(). The order of
-> > > functions in the same level depends on the Makefile.
-> > >
-> > > TOP level Makefile:
-> > > drivers-y       := drivers/ sound/
-> > > ....
-> > > include arch/$(SRCARCH)/Makefile
-> > >
-> > > drivers/Makefile:
-> > > obj-$(CONFIG_ACPI)              += acpi/
-> > > ....
-> > > obj-y                           += gpu/
-> > >
-> > > arch/mips/Makefile:
-> > > drivers-$(CONFIG_PCI)           += arch/mips/pci/
-> > >
-> > > This makes pcibios_init() in arch/mips/pci/ placed after
-> > > vga_arb_device_init() in drivers/gpu. ACPI-based systems have no
-> > > problems because acpi_init() in drivers/acpi is placed before
-> > > vga_arb_device_init().
-> >
-> > Thanks for the above; that was helpful.  To summarize:
-> >
-> >   - On your system, the AST2500 bridge [1a03:1150] does not implement
-> >     PCI_BRIDGE_CTL_VGA [1].  This is perfectly legal but means the
-> >     legacy VGA resources won't reach downstream devices unless they're
-> >     included in the usual bridge windows.
-> >
-> >   - vga_arb_select_default_device() will set a device below such a
-> >     bridge as the default VGA device as long as it has PCI_COMMAND_IO
-> >     and PCI_COMMAND_MEMORY enabled.
-> >
-> >   - vga_arbiter_add_pci_device() is called for every VGA device,
-> >     either at boot-time or at hot-add time, and it will also set the
-> >     device as the default VGA device, but ONLY if all bridges leading
-> >     to it implement PCI_BRIDGE_CTL_VGA.
-> >
-> >   - This difference between vga_arb_select_default_device() and
-> >     vga_arbiter_add_pci_device() means that a device below an AST2500
-> >     or similar bridge can only be set as the default if it is
-> >     enumerated before vga_arb_device_init().
-> >
-> >   - On ACPI-based systems, PCI devices are enumerated by acpi_init(),
-> >     which runs before vga_arb_device_init().
-> >
-> >   - On non-ACPI systems, like your MIPS system, they are enumerated by
-> >     pcibios_init(), which typically runs *after*
-> >     vga_arb_device_init().
-> >
-> > So I think the critical change is actually that you made
-> > vga_arb_update_default_device(), which you call from
-> > vga_arbiter_add_pci_device(), set the default device even if it does
-> > not own the VGA resources because an upstream bridge doesn't implement
-> > PCI_BRIDGE_CTL_VGA, i.e.,
-> >
-> >   (vgadev->owns & VGA_RSRC_LEGACY_MASK) != VGA_RSRC_LEGACY_MASK
-> >
-> > Does that seem right?
->
-> Yes, that's right.
-
-I think that means I screwed up.  I somehow had it in my head that the
-hot-add path would never set the default VGA device.  But that is
-false.
-
-I still think we should move vgaarb.c to drivers/pci/ and get it more
-tightly integrated into the PCI core.
-
-BUT that's a lot of churn and obscures the simple change that fixes
-the problem for you.  So I think the first step should be the change
-to vga_arb_update_default_device() so it sets the default device even
-when the upstream bridge doesn't implement PCI_BRIDGE_CTL_VGA.
-
-That should be a relatively small change, and I think it's better to
-make the fix before embarking on major restructuring.
-
-> > [1] https://lore.kernel.org/r/CAAhV-H4pn53XC7qVvwM792ppkQRnjWpPDwmrhBv8twgQu0eabQ@mail.gmail.com
-> >
-> > > (2) explain the approach, which IIUC is basically to add the
-> > > vga_arb_select_default_device() functionality to
-> > > vga_arbiter_add_pci_device().
-> > > vga_arb_select_default_device() has only one chance to be called, we
-> > > want to make it be called every time a new vga device is added. So
-> > > rename it to vga_arb_update_default_device() and move the callsite to
-> > > vga_arbiter_add_pci_device().
-> > >
-> > > I think you know all the information which you need now. And you can
-> > > reorganize the commit message based on the existing one. As English is
-> > > not my first language, the updated commit message written by me may
-> > > still not be as good as you want.:)
-> > >
-> > > Huacai
-> > >
-> > > > Bjorn Helgaas (4):
-> > > >   PCI/VGA: Move vgaarb to drivers/pci
-> > > >   PCI/VGA: Replace full MIT license text with SPDX identifier
-> > > >   PCI/VGA: Use unsigned format string to print lock counts
-> > > >   PCI/VGA: Remove empty vga_arb_device_card_gone()
-> > > >
-> > > > Huacai Chen (5):
-> > > >   PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
-> > > >   PCI/VGA: Prefer vga_default_device()
-> > > >   PCI/VGA: Split out vga_arb_update_default_device()
-> > > >   PCI/VGA: Log bridge control messages when adding devices
-> > > >   PCI/VGA: Rework default VGA device selection
-> > > >
-> > > >  drivers/gpu/vga/Kconfig           |  19 ---
-> > > >  drivers/gpu/vga/Makefile          |   1 -
-> > > >  drivers/pci/Kconfig               |  19 +++
-> > > >  drivers/pci/Makefile              |   1 +
-> > > >  drivers/{gpu/vga => pci}/vgaarb.c | 269 ++++++++++++------------------
-> > > >  5 files changed, 126 insertions(+), 183 deletions(-)
-> > > >  rename drivers/{gpu/vga => pci}/vgaarb.c (90%)
-> > > >
-> > > > --
-> > > > 2.25.1
-> > > >
+> DRM IRQ callbacks are now being called directly or inlined.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c | 113 ++++++++++++++++++++--------------
+>  drivers/gpu/drm/msm/msm_kms.h |   2 +-
+>  2 files changed, 69 insertions(+), 46 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c 
+> b/drivers/gpu/drm/msm/msm_drv.c
+> index 1594ae39d54f..a332b09a5a11 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -14,7 +14,6 @@
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_ioctl.h>
+> -#include <drm/drm_irq.h>
+>  #include <drm/drm_prime.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_vblank.h>
+> @@ -201,6 +200,71 @@ void msm_rmw(void __iomem *addr, u32 mask, u32 or)
+>  	msm_writel(val | or, addr);
+>  }
+> 
+> +static irqreturn_t msm_irq(int irq, void *arg)
+> +{
+> +	struct drm_device *dev = arg;
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +
+> +	BUG_ON(!kms);
+> +
+> +	return kms->funcs->irq(kms);
+> +}
+> +
+> +static void msm_irq_preinstall(struct drm_device *dev)
+> +{
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +
+> +	BUG_ON(!kms);
+> +
+> +	kms->funcs->irq_preinstall(kms);
+> +}
+> +
+> +static int msm_irq_postinstall(struct drm_device *dev)
+> +{
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +
+> +	BUG_ON(!kms);
+> +
+> +	if (kms->funcs->irq_postinstall)
+> +		return kms->funcs->irq_postinstall(kms);
+> +
+> +	return 0;
+> +}
+> +
+> +static int msm_irq_install(struct drm_device *dev, unsigned int irq)
+> +{
+> +	int ret;
+> +
+> +	if (irq == IRQ_NOTCONNECTED)
+> +		return -ENOTCONN;
+> +
+> +	msm_irq_preinstall(dev);
+> +
+> +	ret = request_irq(irq, msm_irq, 0, dev->driver->name, dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = msm_irq_postinstall(dev);
+> +	if (ret) {
+> +		free_irq(irq, dev);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void msm_irq_uninstall(struct drm_device *dev)
+> +{
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +
+> +	kms->funcs->irq_uninstall(kms);
+> +	free_irq(kms->irq, dev);
+> +}
+> +
+>  struct msm_vblank_work {
+>  	struct work_struct work;
+>  	int crtc_id;
+> @@ -265,7 +329,7 @@ static int msm_drm_uninit(struct device *dev)
+>  	}
+> 
+>  	/* We must cancel and cleanup any pending vblank enable/disable
+> -	 * work before drm_irq_uninstall() to avoid work re-enabling an
+> +	 * work before msm_irq_uninstall() to avoid work re-enabling an
+>  	 * irq after uninstall has disabled it.
+>  	 */
+> 
+> @@ -294,7 +358,7 @@ static int msm_drm_uninit(struct device *dev)
+>  	drm_mode_config_cleanup(ddev);
+> 
+>  	pm_runtime_get_sync(dev);
+> -	drm_irq_uninstall(ddev);
+> +	msm_irq_uninstall(ddev);
+>  	pm_runtime_put_sync(dev);
+> 
+>  	if (kms && kms->funcs)
+> @@ -553,7 +617,7 @@ static int msm_drm_init(struct device *dev, const
+> struct drm_driver *drv)
+> 
+>  	if (kms) {
+>  		pm_runtime_get_sync(dev);
+> -		ret = drm_irq_install(ddev, kms->irq);
+> +		ret = msm_irq_install(ddev, kms->irq);
+>  		pm_runtime_put_sync(dev);
+>  		if (ret < 0) {
+>  			DRM_DEV_ERROR(dev, "failed to install IRQ handler\n");
+> @@ -662,43 +726,6 @@ static void msm_postclose(struct drm_device *dev,
+> struct drm_file *file)
+>  	context_close(ctx);
+>  }
+> 
+> -static irqreturn_t msm_irq(int irq, void *arg)
+> -{
+> -	struct drm_device *dev = arg;
+> -	struct msm_drm_private *priv = dev->dev_private;
+> -	struct msm_kms *kms = priv->kms;
+> -	BUG_ON(!kms);
+> -	return kms->funcs->irq(kms);
+> -}
+> -
+> -static void msm_irq_preinstall(struct drm_device *dev)
+> -{
+> -	struct msm_drm_private *priv = dev->dev_private;
+> -	struct msm_kms *kms = priv->kms;
+> -	BUG_ON(!kms);
+> -	kms->funcs->irq_preinstall(kms);
+> -}
+> -
+> -static int msm_irq_postinstall(struct drm_device *dev)
+> -{
+> -	struct msm_drm_private *priv = dev->dev_private;
+> -	struct msm_kms *kms = priv->kms;
+> -	BUG_ON(!kms);
+> -
+> -	if (kms->funcs->irq_postinstall)
+> -		return kms->funcs->irq_postinstall(kms);
+> -
+> -	return 0;
+> -}
+> -
+> -static void msm_irq_uninstall(struct drm_device *dev)
+> -{
+> -	struct msm_drm_private *priv = dev->dev_private;
+> -	struct msm_kms *kms = priv->kms;
+> -	BUG_ON(!kms);
+> -	kms->funcs->irq_uninstall(kms);
+> -}
+> -
+>  int msm_crtc_enable_vblank(struct drm_crtc *crtc)
+>  {
+>  	struct drm_device *dev = crtc->dev;
+> @@ -1051,10 +1078,6 @@ static const struct drm_driver msm_driver = {
+>  	.open               = msm_open,
+>  	.postclose           = msm_postclose,
+>  	.lastclose          = drm_fb_helper_lastclose,
+> -	.irq_handler        = msm_irq,
+> -	.irq_preinstall     = msm_irq_preinstall,
+> -	.irq_postinstall    = msm_irq_postinstall,
+> -	.irq_uninstall      = msm_irq_uninstall,
+>  	.dumb_create        = msm_gem_dumb_create,
+>  	.dumb_map_offset    = msm_gem_dumb_map_offset,
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+> diff --git a/drivers/gpu/drm/msm/msm_kms.h 
+> b/drivers/gpu/drm/msm/msm_kms.h
+> index 086a2d59b8c8..9de7c42e1071 100644
+> --- a/drivers/gpu/drm/msm/msm_kms.h
+> +++ b/drivers/gpu/drm/msm/msm_kms.h
+> @@ -150,7 +150,7 @@ struct msm_kms {
+>  	const struct msm_kms_funcs *funcs;
+>  	struct drm_device *dev;
+> 
+> -	/* irq number to be passed on to drm_irq_install */
+> +	/* irq number to be passed on to msm_irq_install */
+>  	int irq;
+> 
+>  	/* mapper-id used to request GEM buffer mapped for scanout: */
