@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AE73DEC87
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 13:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA503DEDB0
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 14:15:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077656E832;
-	Tue,  3 Aug 2021 11:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAFF6E140;
+	Tue,  3 Aug 2021 12:15:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD266E827;
- Tue,  3 Aug 2021 11:44:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9BF3661037;
- Tue,  3 Aug 2021 11:44:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627991060;
- bh=rQLv/S40genFcCp8j35vE+84x7LAi+HS53vlIythEyo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jiTXeTeljQ2VW+NA9sDe474Y71QNthxwiw9jYh18tABuhTU7K4j52o+tXQrIcooqe
- 3C/ZcvcE7o7eQU4ivNrCzRfrPqdZF8We/joSPKGhoDUuZFnM03FQpCdmrAhqv09TN1
- 8fymwl6Fd6irw7lxMA9zcAWe03prCqHxMh8xK3dz6DJaEazBKSoZKIOZcuFcACZi4j
- LdU0VQGtiN5w/7KSjfG7w/G1kz74mG8qtoQmOocP5Hh2721u6pIQ22SPGQdGHzm7lC
- WQtnOWp6YvoJL3LrbxrnlpxrOKQPbAeBLIFk3vAFt2S2qb+fHKST9YZPjOAg5EBFVx
- If+hnnanfZRbA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, Roman Li <Roman.Li@amd.com>,
- Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 9/9] drm/amdgpu/display: only enable aux
- backlight control for OLED panels
-Date: Tue,  3 Aug 2021 07:44:08 -0400
-Message-Id: <20210803114408.2252713-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210803114408.2252713-1-sashal@kernel.org>
-References: <20210803114408.2252713-1-sashal@kernel.org>
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D256E0C8
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 12:15:25 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ c7-20020a9d27870000b02904d360fbc71bso20408058otb.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Aug 2021 05:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NSOhii9Pkds7u2GLLF3iL2oicT+PRJhz5VYiGW29+Xo=;
+ b=UXznTkX+xqMFCKwMze5WemqhAaqiZIhOHsLv3VxYCKpKx6yF4aWDs631GpzUqFuveS
+ YKDbOaz77smSfgJCzdY3ZCGHXTk8Px8oDovkv63SwCKD3iM2rx44MfEkIxEhtTWZhQkU
+ LcrUY4RmnMole7YTQhywgNzubUKuzzeJ8G5zc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NSOhii9Pkds7u2GLLF3iL2oicT+PRJhz5VYiGW29+Xo=;
+ b=qE4b0ye0GZlLAFUix+ZZuLz4rb1IU4wV6LGf9CthTW55VKAPnjni2p3lxA5MFkS9jr
+ LiWkthvV9r8M/VKsnWoy7oPx5Sf+yQJRRbXUE7DeJpsaYqUbQyDwFXWN4HRvamupF0SV
+ Kva17w0PKEoLfIj33HFlENriyUAPllsTLqkFSg4/H5wSEUk4NbmE/XN+R43/CbHkHxKv
+ ZmISNeu5ucQLGkqF7yGLEc2Z5XaELuu+bloaBnj9wYxqHsMVfSUUoCwccVk2eTBk2gey
+ PgUbiFNiZot3AjWF+uNhrWsdLh6j79Fe1Du1CbhevangTcaWpE9cwf4NY5VyHgsMrU0P
+ nPiw==
+X-Gm-Message-State: AOAM531TjLWnUq9KUkLIXlBLzS0KDPvNgn5egQeplgYFCc5Tn1d7icMP
+ H39voihZNkifrDu8R5KOKtWGwGmSC2r+KXN8uMUL0xBWJqE=
+X-Google-Smtp-Source: ABdhPJyP2FFiHIAc61/QjnTCwg1Q1GuNdxtE70yGUdfwKMgBd/O/taiGCehBLR5MLMr4e4bIOqxcvGcfmqNHYefcFao=
+X-Received: by 2002:a9d:6d86:: with SMTP id x6mr15053453otp.188.1627992924277; 
+ Tue, 03 Aug 2021 05:15:24 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20210803051121.72017-1-matthew.brost@intel.com>
+In-Reply-To: <20210803051121.72017-1-matthew.brost@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 3 Aug 2021 14:15:13 +0200
+Message-ID: <CAKMK7uGOAx7xM=6nDGtLqqW7sf2Rjbj24hAu8U9NK9J2t5+LwQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Enable GuC submission by default on DG1
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,64 +64,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+On Tue, Aug 3, 2021 at 6:53 AM Matthew Brost <matthew.brost@intel.com> wrote:
+>
+> Minimum set of patches to enable GuC submission on DG1 and enable it by
+> default.
+>
+> A little difficult to test as IGTs do not work with DG1 due to a bunch
+> of uAPI features being disabled (e.g. relocations, caching memory
+> options, etc...).
 
-[ Upstream commit f2ad3accefc63e72e9932e141c21875cc04beec8 ]
+Matt Auld has an igt series which fixes a lot of this stuff, would be
+good to do at least a Test-With run with that.
 
-We've gotten a number of reports about backlight control not
-working on panels which indicate that they use aux backlight
-control.  A recent patch:
+Also I'm assuming that for ADL-P we'll get this equivalent patch set
+soon, and there we should be able to get real results?
+-Daniel
 
-commit 2d73eabe2984a435737498ab39bb1500a9ffe9a9
-Author: Camille Cho <Camille.Cho@amd.com>
-Date:   Thu Jul 8 18:28:37 2021 +0800
+>
+> Tested with the loading the driver and 'live' selftests. Submissions
+> seem to work.
+>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>
+> Daniele Ceraolo Spurio (1):
+>   drm/i915/guc: put all guc objects in lmem when available
+>
+> Matthew Brost (2):
+>   drm/i915/guc: Add DG1 GuC / HuC firmware defs
+>   drm/i915/guc: Enable GuC submission by default on DG1
+>
+> Venkata Sandeep Dhanalakota (1):
+>   drm/i915: Do not define vma on stack
+>
+>  drivers/gpu/drm/i915/gem/i915_gem_lmem.c  | 26 +++++++
+>  drivers/gpu/drm/i915/gem/i915_gem_lmem.h  |  4 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c    |  9 ++-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 11 ++-
+>  drivers/gpu/drm/i915/gt/uc/intel_huc.c    | 14 +++-
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.c     |  2 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c  | 90 ++++++++++++++++++++---
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h  |  2 +
+>  8 files changed, 138 insertions(+), 20 deletions(-)
+>
+> --
+> 2.28.0
+>
 
-    drm/amd/display: Only set default brightness for OLED
 
-    [Why]
-    We used to unconditionally set backlight path as AUX for panels capable
-    of backlight adjustment via DPCD in set default brightness.
-
-    [How]
-    This should be limited to OLED panel only since we control backlight via
-    PWM path for SDR mode in LCD HDR panel.
-
-    Reviewed-by: Krunoslav Kovac <krunoslav.kovac@amd.com>
-    Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-    Signed-off-by: Camille Cho <Camille.Cho@amd.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-
-Changes some other code to only use aux for backlight control on
-OLED panels.  The commit message seems to indicate that PWM should
-be used for SDR mode on HDR panels.  Do something similar for
-backlight control in general.  This may need to be revisited if and
-when HDR started to get used.
-
-Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1438
-Bug: https://bugzilla.kernel.org/show_bug.cgi?id=213715
-Reviewed-by: Roman Li <Roman.Li@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 6eb308670f48..8d537123e4ad 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2162,9 +2162,9 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
- 	max_cll = conn_base->hdr_sink_metadata.hdmi_type1.max_cll;
- 	min_cll = conn_base->hdr_sink_metadata.hdmi_type1.min_cll;
- 
--	if (caps->ext_caps->bits.oled == 1 ||
-+	if (caps->ext_caps->bits.oled == 1 /*||
- 	    caps->ext_caps->bits.sdr_aux_backlight_control == 1 ||
--	    caps->ext_caps->bits.hdr_aux_backlight_control == 1)
-+	    caps->ext_caps->bits.hdr_aux_backlight_control == 1*/)
- 		caps->aux_support = true;
- 
- 	if (amdgpu_backlight == 0)
 -- 
-2.30.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
