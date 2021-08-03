@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3184F3DF73C
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 00:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329BE3DF73D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 00:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8526E0E9;
-	Tue,  3 Aug 2021 22:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D17E6E0ED;
+	Tue,  3 Aug 2021 22:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 302A46E0E9
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 22:05:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="277558123"
-X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; d="scan'208";a="277558123"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F32056E117
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 22:05:54 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="277558129"
+X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; d="scan'208";a="277558129"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2021 15:05:51 -0700
-X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; d="scan'208";a="585154043"
+ 03 Aug 2021 15:05:54 -0700
+X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; d="scan'208";a="585154067"
 Received: from tdpeach-mobl.amr.corp.intel.com (HELO achrisan-desk3.intel.com)
  ([10.212.91.220])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2021 15:05:51 -0700
+ 03 Aug 2021 15:05:54 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  edmund.j.dea@intel.com
-Subject: [PATCH v2 6/8] drm/kmb: Corrected typo in handle_lcd_irq
-Date: Tue,  3 Aug 2021 15:04:50 -0700
-Message-Id: <20210803220452.52379-6-anitha.chrisanthus@intel.com>
+Subject: [PATCH v2 7/8] drm/kmb: Enable ADV bridge after modeset
+Date: Tue,  3 Aug 2021 15:04:51 -0700
+Message-Id: <20210803220452.52379-7-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210803220452.52379-1-anitha.chrisanthus@intel.com>
 References: <20210803220452.52379-1-anitha.chrisanthus@intel.com>
@@ -48,27 +48,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check for Overflow bits for layer3 in the irq handler.
+On KMB, ADV bridge must be programmed and powered on prior to
+MIPI DSI HW initialization.
 
-Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
+Fixes: 98521f4d4b4c ("drm/kmb: Mipi DSI part of the display driver")
 Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/kmb/kmb_dsi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index f54392ec4fab..bb7eca9e13ae 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -381,7 +381,7 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
- 		if (val & LAYER3_DMA_FIFO_UNDERFLOW)
- 			drm_dbg(&kmb->drm,
- 				"LAYER3:GL1 DMA UNDERFLOW val = 0x%lx", val);
--		if (val & LAYER3_DMA_FIFO_UNDERFLOW)
-+		if (val & LAYER3_DMA_FIFO_OVERFLOW)
- 			drm_dbg(&kmb->drm,
- 				"LAYER3:GL1 DMA OVERFLOW val = 0x%lx", val);
+diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
+index 5bc6c84073a3..1cca0fe6f35f 100644
+--- a/drivers/gpu/drm/kmb/kmb_dsi.c
++++ b/drivers/gpu/drm/kmb/kmb_dsi.c
+@@ -1341,6 +1341,7 @@ static void connect_lcd_to_mipi(struct kmb_dsi *kmb_dsi)
+ 		return;
  	}
+ 
++	drm_bridge_chain_enable(adv_bridge);
+ 	/* DISABLE MIPI->CIF CONNECTION */
+ 	regmap_write(msscam, MSS_MIPI_CIF_CFG, 0);
+ 
 -- 
 2.25.1
 
