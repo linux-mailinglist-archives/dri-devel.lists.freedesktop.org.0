@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E903DF7A9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 00:13:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B22C53DF799
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 00:13:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3CB06E961;
-	Tue,  3 Aug 2021 22:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 978106E94E;
+	Tue,  3 Aug 2021 22:12:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A8FF6E8E9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 625136E90D;
  Tue,  3 Aug 2021 22:11:58 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="193393489"
-X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; d="scan'208";a="193393489"
+X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="193393490"
+X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; d="scan'208";a="193393490"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Aug 2021 15:11:56 -0700
-X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; d="scan'208";a="511512744"
+X-IronPort-AV: E=Sophos;i="5.84,292,1620716400"; d="scan'208";a="511512748"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Aug 2021 15:11:56 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 42/46] drm/i915: Hold all parallel requests until last request,
- properly handle error
-Date: Tue,  3 Aug 2021 15:29:39 -0700
-Message-Id: <20210803222943.27686-43-matthew.brost@intel.com>
+Subject: [PATCH 43/46] drm/i915/guc: Handle errors in multi-lrc requests
+Date: Tue,  3 Aug 2021 15:29:40 -0700
+Message-Id: <20210803222943.27686-44-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210803222943.27686-1-matthew.brost@intel.com>
 References: <20210803222943.27686-1-matthew.brost@intel.com>
@@ -48,113 +47,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hold all parallel requests, via a submit fence, until the last request
-is generated. If an error occurs in the middle of generating the
-requests, skip the requests signal the backend of the error via a
-request flag.
+If an error occurs in the front end when multi-lrc requests are getting
+generated we need to skip these in the backend but we still need to
+emit the breadcrumbs seqno. An issues arrises because with multi-lrc
+breadcrumbs there is a handshake between the parent and children to make
+forwad progress. If all the requests are not present this handshake
+doesn't work. To work around this, if multi-lrc request has an error we
+skip the handshake but still emit the breadcrumbs seqno.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 40 +++++++++++++++++--
- drivers/gpu/drm/i915/i915_request.h           |  9 +++++
- 2 files changed, 45 insertions(+), 4 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 61 ++++++++++++++++++-
+ 1 file changed, 58 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 70784779872a..64af5c704ca7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -3351,7 +3351,12 @@ i915_gem_do_execbuffer(struct drm_device *dev,
- 	}
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index d61c45d1ac2c..cd1893edf43a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -4394,8 +4394,8 @@ static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
+ }
  
- 	if (out_fence) {
--		/* Move ownership to caller (i915_gem_execbuffer2_ioctl) */
-+		/*
-+		 * Move ownership to caller (i915_gem_execbuffer2_ioctl), this
-+		 * must be done before anything in this function can jump to the
-+		 * 'err_request' label so the caller can safely cleanup any
-+		 * errors.
-+		 */
- 		out_fence[batch_number] = dma_fence_get(&eb.request->fence);
+ static u32 *
+-emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+-						 u32 *cs)
++__emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
++						   u32 *cs)
+ {
+ 	struct intel_context *ce = rq->context;
+ 	u8 i;
+@@ -4423,6 +4423,41 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+ 				  get_children_go_addr(ce),
+ 				  0);
  
- 		/*
-@@ -3402,10 +3407,21 @@ i915_gem_do_execbuffer(struct drm_device *dev,
- 	err = eb_submit(&eb, batch, first, last);
- 
- err_request:
--	if (last)
-+	if (last || err)
- 		set_bit(I915_FENCE_FLAG_SUBMIT_PARALLEL,
- 			&eb.request->fence.flags);
- 
-+	/*
-+	 * If the execbuf IOCTL is generating more than 1 request, we hold all
-+	 * the requests until the last request has been generated in case any of
-+	 * the requests hit an error. If an error is hit the caller is
-+	 * responsible for flaging all the requests generated with an error. The
-+	 * caller is always responsible for releasing the fence on the first
-+	 * request.
-+	 */
-+	if (intel_context_is_parallel(eb.context) && first)
-+		i915_sw_fence_await(&eb.request->submit);
++	return cs;
++}
 +
- 	i915_request_get(eb.request);
- 	err = eb_request_add(&eb, err);
- 
-@@ -3498,7 +3514,7 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
- 	struct i915_gem_context *ctx;
- 	struct i915_gem_ww_ctx ww;
- 	struct intel_context *parent = NULL;
--	unsigned int num_batches = 1, i;
-+	unsigned int num_batches = 1, i = 0, j;
- 	bool is_parallel = false;
- 
- 	if (!check_buffer_count(count)) {
-@@ -3637,8 +3653,24 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
- 					     out_fences,
- 					     &ww);
- 
--	if (is_parallel)
-+	if (is_parallel) {
-+		/*
-+		 * Mark all requests generated with an error if any of the
-+		 * requests encountered an error.
-+		 */
-+		for (j = 0; err && j < i; ++j)
-+			if (out_fences[j]) {
-+				__i915_request_skip(to_request(out_fences[j]));
-+				set_bit(I915_FENCE_FLAG_SKIP_PARALLEL,
-+					&out_fences[j]->flags);
-+			}
++/*
++ * If this true, a submission of multi-lrc requests had an error and the
++ * requests need to be skipped. The front end (execuf IOCTL) should've called
++ * i915_request_skip which squashes the BB but we still need to emit the fini
++ * breadrcrumbs seqno write. At this point we don't know how many of the
++ * requests in the multi-lrc submission were generated so we can't do the
++ * handshake between the parent and children (e.g. if 4 requests should be
++ * generated but 2nd hit an error only 1 would be seen by the GuC backend).
++ * Simply skip the handshake, but still emit the breadcrumbd seqno, if an error
++ * has occurred on any of the requests in submission / relationship.
++ */
++static inline bool skip_handshake(struct i915_request *rq)
++{
++	return test_bit(I915_FENCE_FLAG_SKIP_PARALLEL, &rq->fence.flags);
++}
 +
-+		/* Release fence on first request generated */
-+		if (out_fences[0])
-+			i915_sw_fence_complete(&to_request(out_fences[0])->submit);
++static u32 *
++emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
++						 u32 *cs)
++{
++	struct intel_context *ce = rq->context;
 +
- 		mutex_unlock(&parent->parallel_submit);
++	GEM_BUG_ON(!intel_context_is_parent(ce));
++
++	if (unlikely(skip_handshake(rq))) {
++		memset(cs, 0, sizeof(u32) *
++		       (ce->engine->emit_fini_breadcrumb_dw - 6));
++		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
++	} else {
++		cs = __emit_fini_breadcrumb_parent_no_preempt_mid_batch(rq, cs);
 +	}
- 
- 	/*
- 	 * Now that we have begun execution of the batchbuffer, we ignore
-diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-index d6d5bf0a5eb5..7f3f66ddf21b 100644
---- a/drivers/gpu/drm/i915/i915_request.h
-+++ b/drivers/gpu/drm/i915/i915_request.h
-@@ -153,6 +153,15 @@ enum {
- 	 * tail.
- 	 */
- 	I915_FENCE_FLAG_SUBMIT_PARALLEL,
 +
-+	/*
-+	 * I915_FENCE_FLAG_SKIP_PARALLEL - request with a context in a
-+	 * parent-child relationship (parallel submission, multi-lrc) that
-+	 * hit an error while generating requests in the execbuf IOCTL.
-+	 * Indicates this request should be skipped as another request in
-+	 * submission / relationship encoutered an error.
-+	 */
-+	I915_FENCE_FLAG_SKIP_PARALLEL,
- };
+ 	/* Emit fini breadcrumb */
+ 	cs = gen8_emit_ggtt_write(cs,
+ 				  rq->fence.seqno,
+@@ -4439,7 +4474,8 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+ }
  
- /**
+ static u32 *
+-emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs)
++__emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
++						  u32 *cs)
+ {
+ 	struct intel_context *ce = rq->context;
+ 
+@@ -4465,6 +4501,25 @@ emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs
+ 	*cs++ = get_children_go_addr(ce->parent);
+ 	*cs++ = 0;
+ 
++	return cs;
++}
++
++static u32 *
++emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
++						u32 *cs)
++{
++	struct intel_context *ce = rq->context;
++
++	GEM_BUG_ON(!intel_context_is_child(ce));
++
++	if (unlikely(skip_handshake(rq))) {
++		memset(cs, 0, sizeof(u32) *
++		       (ce->engine->emit_fini_breadcrumb_dw - 6));
++		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
++	} else {
++		cs = __emit_fini_breadcrumb_child_no_preempt_mid_batch(rq, cs);
++	}
++
+ 	/* Emit fini breadcrumb */
+ 	cs = gen8_emit_ggtt_write(cs,
+ 				  rq->fence.seqno,
 -- 
 2.28.0
 
