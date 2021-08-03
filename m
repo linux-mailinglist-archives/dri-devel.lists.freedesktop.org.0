@@ -1,67 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A283DE69F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 08:18:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C763DE707
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 09:11:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA306E416;
-	Tue,  3 Aug 2021 06:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A71F16E420;
+	Tue,  3 Aug 2021 07:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 525506E416
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 06:18:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10064"; a="213632413"
-X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; d="scan'208";a="213632413"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2021 23:18:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; d="scan'208";a="669836826"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga005.fm.intel.com with ESMTP; 02 Aug 2021 23:18:50 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Mon, 2 Aug 2021 23:18:49 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Mon, 2 Aug 2021 23:18:48 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.010;
- Mon, 2 Aug 2021 23:18:48 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Pekka
- Paalanen <ppaalanen@gmail.com>, Simon Ser <contact@emersion.fr>,
- =?iso-8859-1?Q?Michel_D=E4nzer?= <michel@daenzer.net>, "Zhang, Tina"
- <tina.zhang@intel.com>, "Kim, Dongwon" <dongwon.kim@intel.com>
-Subject: RE: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Thread-Topic: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Thread-Index: AQHXhFPnN1B4zkQxMkK/V9zRY5/TqKtbxyyAgAA1+gCABGu4gIAAPeQAgAASv4A=
-Date: Tue, 3 Aug 2021 06:18:48 +0000
-Message-ID: <bede286bbe80421585cc9b9dd798bfe6@intel.com>
-References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
- <YQPTo0D5SZfX44dn@phenom.ffwll.local>
- <20210730133850.bbje7uxvrvsmuopt@sirius.home.kraxel.org>
- <YQe2RfK0wCY6Q2y/@phenom.ffwll.local>
- <20210802125056.pdcfle4aziyjh32r@sirius.home.kraxel.org>
-In-Reply-To: <20210802125056.pdcfle4aziyjh32r@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
+ [IPv6:2607:f8b0:4864:20::c30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A02156E159
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 06:54:30 +0000 (UTC)
+Received: by mail-oo1-xc30.google.com with SMTP id
+ s21-20020a4ae5550000b02902667598672bso4977229oot.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Aug 2021 23:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4oJ/jweDfhBNzYtl7cCA85MSZCoSaUkH+H3AHvOTrdo=;
+ b=Q7T8lrKRMiZFhbrH9Kuj8YjWlp/32J2eatqWjLvhxKq44gIXSIzEQvxjiIZjc3yow+
+ zEYXSXoLaPPcRGipX/YZKT0Zxh7KLEhgBgFIG1jQCxNqrLPpzdPHEo47vsOHoj5xzz8W
+ dpHISSOI6dWGOyKASL3fgvTNxRG+WQkmLDlv90px5w9kxPskULngQ3jV/T9espPH3S3f
+ pA+Ua687K1nU9mEDWLzhz/cGz70XczyR0ZGS+m+ckoxI/M6yZBon84Yw4hXQIq4Q4UZL
+ FnmMDdvwJbj/EnOqU+ymrGUJz2bMk+igczHoaCX3jWuSWTgV6ZulI/cZCpS4E8jcE3nS
+ lotg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4oJ/jweDfhBNzYtl7cCA85MSZCoSaUkH+H3AHvOTrdo=;
+ b=BwDa+x9JU0ZDBKxK1OdiyjjBpbLlVhjNW/oPMQXD3iJssko4zBZOZj67cj26au/Pts
+ nvUiSMelcE+xXIPh61TbqJD4gPqE0e2KdlQnmLDn5BBIaY0U0IaYT0jRnHJx9Ywp57Hz
+ Ur04OPw7s5hHUHUG7i0iOp8cWlx80wcwcP+taoKkiH4l2Y1FcLtyaAGQaQh+FcYo9FpD
+ MkF+adRAs+vcV/8jvGFUPWLoLWz+5T54YPcAg3YWtOcwAWBkP8DxS9Gd3JSFVqCcGnlk
+ qrE4G4tixTZct9f+TMLbKuXq9Y7m/BXw8WiHLLY9JnOx7QvimHKVV3wGhjfG6un2Vwdm
+ sd/Q==
+X-Gm-Message-State: AOAM530359vgTtz0l9qi6SRaNZtYc5jpSpehBUCcHjs4l1yf7sgsCfbS
+ bB9gaBfsPO2TNBBjS0Soqpc2pKpfocUy9agkBHU=
+X-Google-Smtp-Source: ABdhPJw/KFzh4RBceTHLwY8pNWrudKwrxWElPQzZu7APABTp0flCbC3wsOnBm6xHXk3rYBJL9ROwC5q00Dp2Iiuka+4=
+X-Received: by 2002:a4a:5dc6:: with SMTP id w189mr13495446ooa.1.1627973669935; 
+ Mon, 02 Aug 2021 23:54:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAM43=SNDAcS952MZpsiD2Z-WU9Bd0EPv=7Z86i7FGdvDtsSXdQ@mail.gmail.com>
+ <20210802112904.110028a4@ws>
+In-Reply-To: <20210802112904.110028a4@ws>
+From: Mikael Pettersson <mikpelinux@gmail.com>
+Date: Tue, 3 Aug 2021 08:54:18 +0200
+Message-ID: <CAM43=SP2TUUfo2bUiu+5fvKvT1gn0e4vofoX3zDP1pV_qnv+BA@mail.gmail.com>
+Subject: Re: [BISECTED] 5.14.0-rc4 broke drm/ttm when !CONFIG_DEBUG_FS
+To: Duncan <j.duncan@cox.net>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Linux Kernel list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Tue, 03 Aug 2021 07:11:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,80 +70,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gerd,
-
->=20
->   Hi,
->=20
-> > > That sounds sensible to me.  Fence the virtio commands, make sure (on
-> > > the host side) the command completes only when the work is actually d=
-one
-> > > not only submitted.  Has recently been added to qemu for RESOURCE_FLU=
-SH
-> > > (aka frontbuffer rendering) and doing the same for SET_SCANOUT (aka
-> > > pageflipping), then send vblank events to userspace on command
-> > > completion certainly makes sense.
+On Mon, Aug 2, 2021 at 8:29 PM Duncan <j.duncan@cox.net> wrote:
+>
+> [Not subscribed so please CC me.  Manual quoting after using lore's
+> in-reply-to functionality.  First time doing that so hope I got it
+> right.]
+>
+> Mikael Pettersson <mikpelinux@gmail.com> wrote...
+> > Booting 5.14.0-rc4 on my box with Radeon graphics breaks with
 > >
-> > Hm how does this all work? At least drm/virtio uses
-> > drm_atomic_helper_dirtyfb, so both DIRTYFB ioctl and atomic flips all e=
-nd
-> > up in the same driver path for everything. Or do you just combine the
-> > resource_flush with the flip as needed and let the host side figure it =
-all
-> > out? From a quick read of virtgpu_plane.c that seems to be the case ...
->=20
-> virtio_gpu_primary_plane_update() will send RESOURCE_FLUSH only for
-> DIRTYFB and both SET_SCANOUT + RESOURCE_FLUSH for page-flip, and I
-> think for the page-flip case the host (aka qemu) doesn't get the
-> "wait until old framebuffer is not in use any more" right yet.
-[Kasireddy, Vivek] As you know, with the GTK UI backend and this patch seri=
-es:=20
-https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg06745.html
-we do create a sync file fd -- after the Blit -- and wait (adding it to Qem=
-u's main
-event loop) for it to ensure that the Guest scanout FB is longer in use on =
-the Host.
-This mechanism works in a similarly way for both frontbuffer DIRTYFB case a=
-nd
-also the double-buffer case.=20
+> > [drm:radeon_ttm_init [radeon]] *ERROR* failed initializing buffer
+> > object driver(-19).
+> > radeon 0000:01:00.0: Fatal error during GPU init
+>
+> Seeing this here too.  amdgpu on polaris-11, on an old amd-fx6100
+> system.
+>
+> > after which the screen goes black for the rest of kernel boot
+> > and early user-space init.
+>
+> *NOT* seeing that.  However, I have boot messages turned on by default
+> and I see them as usual, only it stays in vga-console mode instead of
+> switching to framebuffer after early-boot. I'm guessing MP has a
+> high-res boot-splash which doesn't work in vga mode, thus the
+> black-screen until the login shows up.
 
-The out_fence work is only relevant for the future Wayland UI backend thoug=
-h.
+Yes, I have the Fedora boot splash enabled.
 
->=20
-> So we'll need a host-side fix for that and a guest-side fix to switch
-> from a blocking wait on the fence to vblank events.
-[Kasireddy, Vivek] Do you see any concerns with the blocking wait? And, are=
- you
-suggesting that we use a vblank timer? Not sure if that would be needed bec=
-ause it
-would not align with the render/draw signals used with GTK. And, the DRM co=
-re
-does send out an event -- immediately after the blocking wait -- to Guest c=
-ompositor
-as no_vblank=3Dtrue.
+> > Once the console login shows up the screen is in some legacy low-res
+> > mode and Xorg can't be started.
+> >
+> > A git bisect between v5.14-rc3 (good) and v5.14-rc4 (bad) identified
+> >
+> > # first bad commit: [69de4421bb4c103ef42a32bafc596e23918c106f]
+> > drm/ttm: Initialize debugfs from ttm_global_init()
+> >
+> > Reverting that from 5.14.0-rc4 gives me a working kernel again.
+> >
+> > Note that I have
+> > # CONFIG_DEBUG_FS is not set
+>
+> That all matches here, including the unset CONFIG_DEBUG_FS and
+> confirming the revert on 5.14.0-rc4 works.
 
->=20
-> > Also to make this work we don't just need the fence, we need the timest=
-amp
-> > (in a clock domain the guest can correct for ofc) of the host side kms
-> > driver flip completion. If you just have the fence then the jitter from
-> > going through all the layers will most likely make it unusable.
->=20
-> Well, there are no timestamps in the virtio-gpu protocol ...
->=20
-> Also I'm not sure they would be that helpful, any timing is *much* less
-> predictable in a virtual machine, especially in case the host machine is
-> loaded.
-[Kasireddy, Vivek] I agree; I think sharing the Host timestamps with the Gu=
-est or=20
-vice-versa may not be useful. We have not run into any problems without the=
-se so far.
-
-Thanks,
-Vivek
-
->=20
-> take care,
->   Gerd
-
+Thanks for the confirmation.
