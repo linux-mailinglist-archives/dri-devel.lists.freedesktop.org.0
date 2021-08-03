@@ -2,47 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F783DE9C6
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 11:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CFA3DEA59
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 12:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E58C6E4F9;
-	Tue,  3 Aug 2021 09:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E4689F4F;
+	Tue,  3 Aug 2021 10:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09BC06E48D;
- Tue,  3 Aug 2021 09:38:22 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 2E4CEC800B5;
- Tue,  3 Aug 2021 11:38:20 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id j5zpKJ9d8Toa; Tue,  3 Aug 2021 11:38:19 +0200 (CEST)
-Received: from [192.168.178.30] (host-212-18-30-247.customer.m-online.net
- [212.18.30.247])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id 64657C80073;
- Tue,  3 Aug 2021 11:38:19 +0200 (CEST)
-From: Werner Sembach <wse@tuxedocomputers.com>
-Subject: New uAPI for color management proposal and feedback request v2
-To: "Deucher, Alexander" <alexander.deucher@amd.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Message-ID: <e452775c-5b95-bbfd-e818-f1480f556336@tuxedocomputers.com>
-Date: Tue, 3 Aug 2021 11:38:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80D6F89F35;
+ Tue,  3 Aug 2021 10:05:25 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10064"; a="210534556"
+X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; 
+ d="asc'?scan'208";a="210534556"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2021 03:05:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; 
+ d="asc'?scan'208";a="441111523"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
+ by fmsmga007.fm.intel.com with ESMTP; 03 Aug 2021 03:05:21 -0700
+Date: Tue, 3 Aug 2021 17:43:15 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Wang, Zhi A" <zhi.a.wang@intel.com>
+Subject: Re: refactor the i915 GVT support
+Message-ID: <20210803094315.GF13928@zhen-hp.sh.intel.com>
+References: <20210721155355.173183-1-hch@lst.de>
+ <DM4PR11MB55496531B246A4604FC86998CAE49@DM4PR11MB5549.namprd11.prod.outlook.com>
+ <20210722112636.wj277vqhg4dez5ug@sirius.home.kraxel.org>
+ <20210727121224.GA2145868@nvidia.com>
+ <DM4PR11MB5549EC882AA6076F3468274DCAEA9@DM4PR11MB5549.namprd11.prod.outlook.com>
+ <20210728175925.GU1721383@nvidia.com>
+ <20210729072022.GB31896@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="tfmLD+Hxjexp/STe"
+Content-Disposition: inline
+In-Reply-To: <20210729072022.GB31896@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,38 +63,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Greetings,
 
-Original proposal: https://www.mail-archive.com/amd-gfx@lists.freedesktop.org/msg62387.html
+--tfmLD+Hxjexp/STe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Abstract: Add "preferred color format", "active color format", "active bpc", and "active Broadcast RGB" drm properties,
-to control color information send to the monitor.
+On 2021.07.29 09:20:22 +0200, Christoph Hellwig wrote:
+> On Wed, Jul 28, 2021 at 02:59:25PM -0300, Jason Gunthorpe wrote:
+> > On Wed, Jul 28, 2021 at 01:38:58PM +0000, Wang, Zhi A wrote:
+> >=20
+> > > I guess those APIs you were talking about are KVM-only. For other
+> > > hypervisors, e.g. Xen, ARCN cannot use the APIs you mentioned. Not
+> > > sure if you have already noticed that VFIO is KVM-only right now.
+> >=20
+> > There is very little hard connection between VFIO and KVM, so no, I
+> > don't think that is completely true.
+>=20
+> The only connection is the SET_KVM notifier as far as I can tell.
+> Which is used by a total of two drivers, including i915/gvt.  That
+> being said gvt does not only use vfio, but also does quite a few
+> direct cals to KVM.
 
-It seems that the "preferred-" properties is not what is actually the most useful for the userspace devs.
+yeah, we mostly combined VFIO into hypervisor specific thing before,
+e.g interface to set vgpu edid, etc. along with kvm specific calls.
 
-Preferable (Note: with only a sample size of 2 people) would be a "force color format" property. If the color format is
-not available for the current Monitor and GPU combo. the TEST_ONLY check should fail and the property should not be setable.
+>=20
+> > In an event, an in-tree version of other hypervisor support for GVT
+> > needs to go through enabling VFIO support so that the existing API
+> > multiplexers we have can be used properly, not adding a shim layer
+> > trying to recreate VFIO inside a GPU driver.
+>=20
+> Yes.  And if we go back to actually looking at the series a lot of
+> it just removes entirely pointless indirect calls that go to generic
+> code and not even the kvm code, or questionable data structure designs.
+> If we were to support another upstream hypervisor we'd just need to
+> union a few fields in struct intel_gpu and maybe introduce a few
+> methods.  Preferably in a way that avoids expensive indirect calls
+> in the fast path.
 
-This however opens another problem: When a Monitor is disconnected and a new one is connected, the drm properties do not
-get resetted. So if the old monitor did allow to set for example ycbcr420, but the new monitor does not support this
-color format at all, it will stay permanently black until the drm property is set to a correct value by hand. This is
-not an expected behavior imho.
+ok, agree on that.
 
-So a discussion questions: Does it make sense that connector properties are keep for different Monitors?
+Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
 
-If no: On connecting a new Monitor all atomic drm properties should be reset to a default value.
+Thanks a lot for this effort!
 
-I have an idea how this could be implemented (correct me if i'm wrong): When an atomic property is attached it get
-assigned an inital value. But if I understood the docu correctly, this value is ignored because atomic properties use
-the getter and setter methods when their values are read or written. My implementation suggestion would be to iterate
-over all attached atomic properties once a new monitor is connected and reset them to this initial value, which should
-be unchanged since initialization? This assumes that besides the initial value being unused it's still a sane default
-for all drivers.
+--tfmLD+Hxjexp/STe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Kind Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Werner Sembach
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYQkPqQAKCRCxBBozTXgY
+J28fAKCfkK2e0YsTNF5bkYm4ywfcUrVyUwCfTp2OmZlILsmRQlQHqq/BzcFaawY=
+=TyW6
+-----END PGP SIGNATURE-----
 
+--tfmLD+Hxjexp/STe--
