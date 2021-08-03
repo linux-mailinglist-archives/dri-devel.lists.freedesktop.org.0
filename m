@@ -1,47 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADAA3DE9F9
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 11:49:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FCD3DE9C4
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 11:37:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B3A26E5A0;
-	Tue,  3 Aug 2021 09:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7F96E817;
+	Tue,  3 Aug 2021 09:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC916E53E;
- Tue,  3 Aug 2021 09:49:10 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10064"; a="235578849"
-X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; 
- d="asc'?scan'208";a="235578849"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2021 02:49:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; 
- d="asc'?scan'208";a="479414890"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
- by fmsmga008.fm.intel.com with ESMTP; 03 Aug 2021 02:49:07 -0700
-Date: Tue, 3 Aug 2021 17:27:01 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.a.wang@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 01/21] drm/i915/gvt: integrate into the main Makefile
-Message-ID: <20210803092701.GE13928@zhen-hp.sh.intel.com>
-References: <20210721155355.173183-1-hch@lst.de>
- <20210721155355.173183-2-hch@lst.de>
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 473E36E5B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 09:37:32 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id b21so27373215ljo.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Aug 2021 02:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SK6Ob07YJlX0nTWImG5cDSOjubg9maW6J2sNRF3yaOY=;
+ b=FBF9KtmjCa4uE0h2AteVPxiHyctdT6XJKIMbXtjO/tEd2nTSV/YeGyPiRGpkuIvk4D
+ MIsUvmdLlN3oN6mclWG7afHoXK1c0LZjelfP0qDlPGcdSNdDBmBndm2Wjg2EFLjBi1sQ
+ NW8SX1btq/CrnfYYRiGJRs/IQHazS4i8tNYH1NJBnBtQGSHrv5cZJkHSdmCXPVZmenua
+ ikIpDlNesEvw+jbsMZ/kYJWaEh1Oxgu4eltNTq+dQAVMq3x+D5m1idjwyeQjL4/mqJ8Q
+ XpT0GMgKd7iBnpTACGTS/qZReSNt1jD/grlVuRsommifNHDzZgq1Co7tOou7ch99y/6v
+ HiYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SK6Ob07YJlX0nTWImG5cDSOjubg9maW6J2sNRF3yaOY=;
+ b=dQpb4UJAiBm3GD1/ugXl8TUDTaEH2pXBhi3kSt+IrJO7bgMU5G9m4hjAxz3qH7gPeN
+ MrUdQApWElWvmIuBTb36RQ9e3Ptla3hi8/uTI3l+f6hsILiqgVzmf3gO4VtkPQYe4lmR
+ SZ16Gm3ZcJ6/jU1FuGe+rxXExl+n+Eh8D+L1QB9M+BUsV5ePFWIKl4Xvc8MUNxIegbl0
+ iezHveFRw/arC6mVRsjOrbZ8pmkoLIJqNCpcEdXQsyvQtB9FXvK4Js+63XSKOLumqpWG
+ V+4B47mjuAjxHZAUQLUKApkOq6Zi7c/xOsxpEAgW1alDbGzySelYmZ3slll6tXe58iS0
+ z1gA==
+X-Gm-Message-State: AOAM531w44DYmn5DRxi7dHTKrHVtq8s1wA6yYzQnyQa5MKiDKR8RterO
+ 4NwDckrZJQuDNOse1X3Bm3XYwg==
+X-Google-Smtp-Source: ABdhPJwfzeu1HZdLhzyas+uFWAQ6XGdYcgkubYxUqCC4cyCTAVYruEGRSEc4hbVySR5Fttx49rvpQw==
+X-Received: by 2002:a05:651c:2051:: with SMTP id
+ t17mr13734385ljo.118.1627983450529; 
+ Tue, 03 Aug 2021 02:37:30 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id g17sm748572lfv.210.2021.08.03.02.37.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Aug 2021 02:37:30 -0700 (PDT)
+Subject: Re: [PATCH v2 07/14] drm/msm: Convert to Linux IRQ interfaces
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, alexander.deucher@amd.com, christian.koenig@amd.com,
+ liviu.dudau@arm.com, brian.starkey@arm.com, sam@ravnborg.org,
+ bbrezillon@kernel.org, nicolas.ferre@microchip.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
+ alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
+ anitha.chrisanthus@intel.com, robdclark@gmail.com, edmund.j.dea@intel.com,
+ sean@poorly.run, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, jyri.sarha@iki.fi, tomba@kernel.org,
+ Dan.Sneddon@microchip.com, tomi.valkeinen@ideasonboard.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+References: <20210803090704.32152-1-tzimmermann@suse.de>
+ <20210803090704.32152-8-tzimmermann@suse.de>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <1f5f285a-b923-16ff-2ca1-6f92e22ffcab@linaro.org>
+Date: Tue, 3 Aug 2021 12:37:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="VB1oQhYtJt8uuzk+"
-Content-Disposition: inline
-In-Reply-To: <20210721155355.173183-2-hch@lst.de>
+In-Reply-To: <20210803090704.32152-8-tzimmermann@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,122 +85,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 03/08/2021 12:06, Thomas Zimmermann wrote:
+> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+> don't benefit from using it.
+> 
+> DRM IRQ callbacks are now being called directly or inlined.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
---VB1oQhYtJt8uuzk+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On 2021.07.21 17:53:35 +0200, Christoph Hellwig wrote:
-> Remove the separately included Makefile and just use the relative
-> reference from the main i915 Makefile as for source files in other
-> subdirectories.
->
+Rob should probably also give his blessing on this patch though.
 
-We agreed to make gvt mostly self-contained in its own directory
-before. Although I don't think we would change files much later, but
-still need to get ack from i915 maintainers.
-
-Thanks
-
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/gpu/drm/i915/Makefile     | 29 ++++++++++++++++++++++++-----
->  drivers/gpu/drm/i915/gvt/Makefile |  9 ---------
->  drivers/gpu/drm/i915/gvt/trace.h  |  2 +-
->  3 files changed, 25 insertions(+), 15 deletions(-)
->  delete mode 100644 drivers/gpu/drm/i915/gvt/Makefile
->=20
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 4f22cac1c49b..2153f67705b8 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -289,11 +289,30 @@ i915-$(CONFIG_DRM_I915_SELFTEST) +=3D \
-> =20
->  # virtual gpu code
->  i915-y +=3D i915_vgpu.o
+>   drivers/gpu/drm/msm/msm_drv.c | 113 ++++++++++++++++++++--------------
+>   drivers/gpu/drm/msm/msm_kms.h |   2 +-
+>   2 files changed, 69 insertions(+), 46 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 1594ae39d54f..a332b09a5a11 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -14,7 +14,6 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_file.h>
+>   #include <drm/drm_ioctl.h>
+> -#include <drm/drm_irq.h>
+>   #include <drm/drm_prime.h>
+>   #include <drm/drm_of.h>
+>   #include <drm/drm_vblank.h>
+> @@ -201,6 +200,71 @@ void msm_rmw(void __iomem *addr, u32 mask, u32 or)
+>   	msm_writel(val | or, addr);
+>   }
+>   
+> +static irqreturn_t msm_irq(int irq, void *arg)
+> +{
+> +	struct drm_device *dev = arg;
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +
+> +	BUG_ON(!kms);
+> +
+> +	return kms->funcs->irq(kms);
+> +}
+> +
+> +static void msm_irq_preinstall(struct drm_device *dev)
+> +{
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +
+> +	BUG_ON(!kms);
+> +
+> +	kms->funcs->irq_preinstall(kms);
+> +}
+> +
+> +static int msm_irq_postinstall(struct drm_device *dev)
+> +{
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +
+> +	BUG_ON(!kms);
+> +
+> +	if (kms->funcs->irq_postinstall)
+> +		return kms->funcs->irq_postinstall(kms);
+> +
+> +	return 0;
+> +}
+> +
+> +static int msm_irq_install(struct drm_device *dev, unsigned int irq)
+> +{
+> +	int ret;
+> +
+> +	if (irq == IRQ_NOTCONNECTED)
+> +		return -ENOTCONN;
+> +
+> +	msm_irq_preinstall(dev);
+> +
+> +	ret = request_irq(irq, msm_irq, 0, dev->driver->name, dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = msm_irq_postinstall(dev);
+> +	if (ret) {
+> +		free_irq(irq, dev);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void msm_irq_uninstall(struct drm_device *dev)
+> +{
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct msm_kms *kms = priv->kms;
+> +
+> +	kms->funcs->irq_uninstall(kms);
+> +	free_irq(kms->irq, dev);
+> +}
+> +
+>   struct msm_vblank_work {
+>   	struct work_struct work;
+>   	int crtc_id;
+> @@ -265,7 +329,7 @@ static int msm_drm_uninit(struct device *dev)
+>   	}
+>   
+>   	/* We must cancel and cleanup any pending vblank enable/disable
+> -	 * work before drm_irq_uninstall() to avoid work re-enabling an
+> +	 * work before msm_irq_uninstall() to avoid work re-enabling an
+>   	 * irq after uninstall has disabled it.
+>   	 */
+>   
+> @@ -294,7 +358,7 @@ static int msm_drm_uninit(struct device *dev)
+>   	drm_mode_config_cleanup(ddev);
+>   
+>   	pm_runtime_get_sync(dev);
+> -	drm_irq_uninstall(ddev);
+> +	msm_irq_uninstall(ddev);
+>   	pm_runtime_put_sync(dev);
+>   
+>   	if (kms && kms->funcs)
+> @@ -553,7 +617,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   
+>   	if (kms) {
+>   		pm_runtime_get_sync(dev);
+> -		ret = drm_irq_install(ddev, kms->irq);
+> +		ret = msm_irq_install(ddev, kms->irq);
+>   		pm_runtime_put_sync(dev);
+>   		if (ret < 0) {
+>   			DRM_DEV_ERROR(dev, "failed to install IRQ handler\n");
+> @@ -662,43 +726,6 @@ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
+>   	context_close(ctx);
+>   }
+>   
+> -static irqreturn_t msm_irq(int irq, void *arg)
+> -{
+> -	struct drm_device *dev = arg;
+> -	struct msm_drm_private *priv = dev->dev_private;
+> -	struct msm_kms *kms = priv->kms;
+> -	BUG_ON(!kms);
+> -	return kms->funcs->irq(kms);
+> -}
 > -
-> -ifeq ($(CONFIG_DRM_I915_GVT),y)
-> -i915-y +=3D intel_gvt.o
-> -include $(src)/gvt/Makefile
-> -endif
-> +i915-$(CONFIG_DRM_I915_GVT) +=3D \
-> +	intel_gvt.o \
-> +	gvt/gvt.o \
-> +	gvt/aperture_gm.o \
-> +	gvt/handlers.o \
-> +	gvt/vgpu.o \
-> +	gvt/trace_points.o \
-> +	gvt/firmware.o \
-> +	gvt/interrupt.o \
-> +	gvt/gtt.o \
-> +	gvt/cfg_space.o \
-> +	gvt/opregion.o \
-> +	gvt/mmio.o \
-> +	gvt/display.o \
-> +	gvt/edid.o \
-> +	gvt/execlist.o \
-> +	gvt/scheduler.o \
-> +	gvt/sched_policy.o \
-> +	gvt/mmio_context.o \
-> +	gvt/cmd_parser.o \
-> +	gvt/debugfs.o \
-> +	gvt/fb_decoder.o \
-> +	gvt/dmabuf.o \
-> +	gvt/page_track.o
-> =20
->  obj-$(CONFIG_DRM_I915) +=3D i915.o
->  obj-$(CONFIG_DRM_I915_GVT_KVMGT) +=3D gvt/kvmgt.o
-> diff --git a/drivers/gpu/drm/i915/gvt/Makefile b/drivers/gpu/drm/i915/gvt=
-/Makefile
-> deleted file mode 100644
-> index ea8324abc784..000000000000
-> --- a/drivers/gpu/drm/i915/gvt/Makefile
-> +++ /dev/null
-> @@ -1,9 +0,0 @@
-> -# SPDX-License-Identifier: GPL-2.0
-> -GVT_DIR :=3D gvt
-> -GVT_SOURCE :=3D gvt.o aperture_gm.o handlers.o vgpu.o trace_points.o fir=
-mware.o \
-> -	interrupt.o gtt.o cfg_space.o opregion.o mmio.o display.o edid.o \
-> -	execlist.o scheduler.o sched_policy.o mmio_context.o cmd_parser.o debug=
-fs.o \
-> -	fb_decoder.o dmabuf.o page_track.o
+> -static void msm_irq_preinstall(struct drm_device *dev)
+> -{
+> -	struct msm_drm_private *priv = dev->dev_private;
+> -	struct msm_kms *kms = priv->kms;
+> -	BUG_ON(!kms);
+> -	kms->funcs->irq_preinstall(kms);
+> -}
 > -
-> -ccflags-y				+=3D -I $(srctree)/$(src) -I $(srctree)/$(src)/$(GVT_DIR)/
-> -i915-y					+=3D $(addprefix $(GVT_DIR)/, $(GVT_SOURCE))
-> diff --git a/drivers/gpu/drm/i915/gvt/trace.h b/drivers/gpu/drm/i915/gvt/=
-trace.h
-> index 6d787750d279..348f57f8301d 100644
-> --- a/drivers/gpu/drm/i915/gvt/trace.h
-> +++ b/drivers/gpu/drm/i915/gvt/trace.h
-> @@ -379,5 +379,5 @@ TRACE_EVENT(render_mmio,
->  #undef TRACE_INCLUDE_PATH
->  #define TRACE_INCLUDE_PATH .
->  #undef TRACE_INCLUDE_FILE
-> -#define TRACE_INCLUDE_FILE trace
-> +#define TRACE_INCLUDE_FILE gvt/trace
->  #include <trace/define_trace.h>
-> --=20
-> 2.30.2
->=20
-> _______________________________________________
-> intel-gvt-dev mailing list
-> intel-gvt-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
+> -static int msm_irq_postinstall(struct drm_device *dev)
+> -{
+> -	struct msm_drm_private *priv = dev->dev_private;
+> -	struct msm_kms *kms = priv->kms;
+> -	BUG_ON(!kms);
+> -
+> -	if (kms->funcs->irq_postinstall)
+> -		return kms->funcs->irq_postinstall(kms);
+> -
+> -	return 0;
+> -}
+> -
+> -static void msm_irq_uninstall(struct drm_device *dev)
+> -{
+> -	struct msm_drm_private *priv = dev->dev_private;
+> -	struct msm_kms *kms = priv->kms;
+> -	BUG_ON(!kms);
+> -	kms->funcs->irq_uninstall(kms);
+> -}
+> -
+>   int msm_crtc_enable_vblank(struct drm_crtc *crtc)
+>   {
+>   	struct drm_device *dev = crtc->dev;
+> @@ -1051,10 +1078,6 @@ static const struct drm_driver msm_driver = {
+>   	.open               = msm_open,
+>   	.postclose           = msm_postclose,
+>   	.lastclose          = drm_fb_helper_lastclose,
+> -	.irq_handler        = msm_irq,
+> -	.irq_preinstall     = msm_irq_preinstall,
+> -	.irq_postinstall    = msm_irq_postinstall,
+> -	.irq_uninstall      = msm_irq_uninstall,
+>   	.dumb_create        = msm_gem_dumb_create,
+>   	.dumb_map_offset    = msm_gem_dumb_map_offset,
+>   	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+> index 086a2d59b8c8..9de7c42e1071 100644
+> --- a/drivers/gpu/drm/msm/msm_kms.h
+> +++ b/drivers/gpu/drm/msm/msm_kms.h
+> @@ -150,7 +150,7 @@ struct msm_kms {
+>   	const struct msm_kms_funcs *funcs;
+>   	struct drm_device *dev;
+>   
+> -	/* irq number to be passed on to drm_irq_install */
+> +	/* irq number to be passed on to msm_irq_install */
+>   	int irq;
+>   
+>   	/* mapper-id used to request GEM buffer mapped for scanout: */
+> 
 
---VB1oQhYtJt8uuzk+
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYQkL2gAKCRCxBBozTXgY
-J/5cAJ9pYxk2Ta7nNyfkoU3IN2SErPcQnACfTJy/bnXqPaXazunMj0R8cAC1kzI=
-=KO+V
------END PGP SIGNATURE-----
-
---VB1oQhYtJt8uuzk+--
+-- 
+With best wishes
+Dmitry
