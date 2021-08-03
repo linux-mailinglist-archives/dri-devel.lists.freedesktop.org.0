@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CFA3DEA59
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 12:05:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 467EB3DEAAF
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Aug 2021 12:17:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39E4689F4F;
-	Tue,  3 Aug 2021 10:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C47A89F97;
+	Tue,  3 Aug 2021 10:17:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D6F89F35;
- Tue,  3 Aug 2021 10:05:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10064"; a="210534556"
-X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; 
- d="asc'?scan'208";a="210534556"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2021 03:05:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,291,1620716400"; 
- d="asc'?scan'208";a="441111523"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
- by fmsmga007.fm.intel.com with ESMTP; 03 Aug 2021 03:05:21 -0700
-Date: Tue, 3 Aug 2021 17:43:15 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Zhenyu Wang <zhenyuw@linux.intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Wang, Zhi A" <zhi.a.wang@intel.com>
-Subject: Re: refactor the i915 GVT support
-Message-ID: <20210803094315.GF13928@zhen-hp.sh.intel.com>
-References: <20210721155355.173183-1-hch@lst.de>
- <DM4PR11MB55496531B246A4604FC86998CAE49@DM4PR11MB5549.namprd11.prod.outlook.com>
- <20210722112636.wj277vqhg4dez5ug@sirius.home.kraxel.org>
- <20210727121224.GA2145868@nvidia.com>
- <DM4PR11MB5549EC882AA6076F3468274DCAEA9@DM4PR11MB5549.namprd11.prod.outlook.com>
- <20210728175925.GU1721383@nvidia.com>
- <20210729072022.GB31896@lst.de>
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C29D889F97
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Aug 2021 10:17:00 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id n6so27504755ljp.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Aug 2021 03:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iqd7quPL1WYvjaIscp231slV4CSuWpyxNWeRMDXfDYg=;
+ b=hAw6QdSzz7ht2/95djyPnaSN1wPcm03tQEHPZQOhjkZZ06m0qLZQ44+PP6R246pz5V
+ bh3TQU9CXAP/ndO+GRcOKItNNlFhNQd7ce1tHN+8S1CwQ16FXRlaCVXVKyw642eryo+y
+ znsLS7rHYmSH1iJIkz9L5/LGSUHUaN3gqLuky/msFbV90u7uWMHDN7y3fuI5bWBEipiJ
+ /cb4yxqU6EFglSuCPVXwmaXpHS76eMCIigJmzc1axzpFvM7ql93yXhgZEXRC7/nOQVcr
+ ule8g+oCvCFPDCYgTnuivtNOaRBumY6ZCTt6n7MZ914wNIQB7MtScFYXK6Or/0gPINSo
+ Kupw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iqd7quPL1WYvjaIscp231slV4CSuWpyxNWeRMDXfDYg=;
+ b=XNOYuyWofbvLMqejEORNeU37TgwsXOVzmz+WkSPAuFvxdCvnZNAQD3UgfeBUhjrI1X
+ XlVMR6mzQ9CnFqkWhjeVOylUS5Cmw6WEzq8K43bhwW6bydO1K43iy758Xivmxr1QWGAo
+ OU062a/LIxXWImRzaeY68JWFtLogA5H9U9s9Qp57hS2Nfe8dIby8hmIjgM1kktT9kC6f
+ SsEAbmOVub5xJFIWLIKrIaDcoHopunqZ4gLnJIScZKVgFFT6ejuma6xwD75E8IzFE9Cu
+ 7mI+IUrPBwW5zx4kQDk3p/28YnPp6z5Hvqhxk2tM4tC0NoT2kDRsQZVkVafmmbJk4NR7
+ jIZg==
+X-Gm-Message-State: AOAM53172v9nH5sIVXP9ZGRiX7oH4Lvwxl3uqpo6c49HtqFz3uBlUlMo
+ T1i19EqtfiJ+2f06wcF0rnfxAA==
+X-Google-Smtp-Source: ABdhPJz+HsxrfCrKNjb3P8l6jxnieC81OoQVe1N7Ze95vFfOKAy8ODChxM+W81OweuRIvqqNwpPHxQ==
+X-Received: by 2002:a2e:7c19:: with SMTP id x25mr2700834ljc.169.1627985819081; 
+ Tue, 03 Aug 2021 03:16:59 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id y10sm1056692ljj.10.2021.08.03.03.16.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Aug 2021 03:16:58 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <abhinavk@codeaurora.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH v3 0/4] drm/msm/dpu: always use mdp device to scale bandwidth
+Date: Tue,  3 Aug 2021 13:16:55 +0300
+Message-Id: <20210803101657.1072358-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="tfmLD+Hxjexp/STe"
-Content-Disposition: inline
-In-Reply-To: <20210729072022.GB31896@lst.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,63 +69,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In 5.13 the DPU driver was changed to vote on the bus bandwidth for all
+the soc families, however suggested [1] dts changes were for some reason
+not merged at that time. Let's merge them now.
 
---tfmLD+Hxjexp/STe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If the bootloader does not setup the bus vote, clock might not be
+enabled before the driver votes on the MDP bus bandwidth. Originally bus
+votes were static and happened in MDSS hadling code, while now they are
+dynamic and are moved to the MDP handling code, thus bus clocks also
+should belong to the MDP device.
 
-On 2021.07.29 09:20:22 +0200, Christoph Hellwig wrote:
-> On Wed, Jul 28, 2021 at 02:59:25PM -0300, Jason Gunthorpe wrote:
-> > On Wed, Jul 28, 2021 at 01:38:58PM +0000, Wang, Zhi A wrote:
-> >=20
-> > > I guess those APIs you were talking about are KVM-only. For other
-> > > hypervisors, e.g. Xen, ARCN cannot use the APIs you mentioned. Not
-> > > sure if you have already noticed that VFIO is KVM-only right now.
-> >=20
-> > There is very little hard connection between VFIO and KVM, so no, I
-> > don't think that is completely true.
->=20
-> The only connection is the SET_KVM notifier as far as I can tell.
-> Which is used by a total of two drivers, including i915/gvt.  That
-> being said gvt does not only use vfio, but also does quite a few
-> direct cals to KVM.
+[1] https://lore.kernel.org/linux-arm-msm/04b4612dfd3f651ead068725409211a0@codeaurora.org/
 
-yeah, we mostly combined VFIO into hypervisor specific thing before,
-e.g interface to set vgpu edid, etc. along with kvm specific calls.
+Changes since v2:
+ - Dropped merged patches
+ - Rephrased commit message for sm8250.
 
->=20
-> > In an event, an in-tree version of other hypervisor support for GVT
-> > needs to go through enabling VFIO support so that the existing API
-> > multiplexers we have can be used properly, not adding a shim layer
-> > trying to recreate VFIO inside a GPU driver.
->=20
-> Yes.  And if we go back to actually looking at the series a lot of
-> it just removes entirely pointless indirect calls that go to generic
-> code and not even the kvm code, or questionable data structure designs.
-> If we were to support another upstream hypervisor we'd just need to
-> union a few fields in struct intel_gpu and maybe introduce a few
-> methods.  Preferably in a way that avoids expensive indirect calls
-> in the fast path.
+Changes since v1:
+ - Add dts changes as requested by Kalyan Thota
 
-ok, agree on that.
+----------------------------------------------------------------
+Dmitry Baryshkov (2):
+      arm64: dts: sdm845: move bus clock to mdp node for sdm845 target
+      arm64: dts: sm8250: remove bus clock from the mdss node for sm8250 target
 
-Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+ arch/arm64/boot/dts/qcom/sdm845.dtsi | 8 ++++----
+ arch/arm64/boot/dts/qcom/sm8250.dtsi | 3 +--
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-Thanks a lot for this effort!
-
---tfmLD+Hxjexp/STe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYQkPqQAKCRCxBBozTXgY
-J28fAKCfkK2e0YsTNF5bkYm4ywfcUrVyUwCfTp2OmZlILsmRQlQHqq/BzcFaawY=
-=TyW6
------END PGP SIGNATURE-----
-
---tfmLD+Hxjexp/STe--
