@@ -1,74 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB953E086E
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 21:00:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3A63E08E8
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 21:37:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEAA06E44D;
-	Wed,  4 Aug 2021 18:59:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 888826E223;
+	Wed,  4 Aug 2021 19:37:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4B86E438
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 18:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628103592;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=m6Y9wLKgvbcBXmzq59WFKbPsBB9KXRj1k5gZ7Uo0zgM=;
- b=icQX1Ams6B2JTt9m+5XXi+9DByF93OdInlih0qJhTCjc80sJXmpSpibjSfPDVO4s6yB/YG
- 4iRqqY+AfVQxUBlVq5wXg92GU6TbjPcKQ22vcBKkudD1o2Vb7d++wnQKN/VTr0gCno88DD
- HNqb1Z9uL0wZ7WzFLdlVJD+zLJVCLlk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-0UFW88YzPVeOWvwe-opJRw-1; Wed, 04 Aug 2021 14:59:51 -0400
-X-MC-Unique: 0UFW88YzPVeOWvwe-opJRw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r125-20020a1c2b830000b0290197a4be97b7so952795wmr.9
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 11:59:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m6Y9wLKgvbcBXmzq59WFKbPsBB9KXRj1k5gZ7Uo0zgM=;
- b=mtlm5yRK38ObQjK7NihZeFJko2CawDmPHZfOqyQ/YwaNURLpVveYFgClRWRFmW3pRN
- QTVKBfaBZJc0iozbLj6VeyCcJJetnRGcpIaNEdmq3hsmfblkpdcz909hXxq1SnF4Jodb
- 7oVxYGjXBIrATZ7ZK7IK8nuF0akUwnYatqg2MXUOw+2guRRew6/Kbre9bHsMiIJ2GQby
- A5fciBAWVqCfXxdnHL7T75rSblFH3rm7PLMwXtD3wDErNBCXXZSWcUEfzeVOy5+s6Ift
- SJk/UQZRViMbc5+iWcBDpOpiVl/Ph88saIeoPyd9MzR2tCkpQQ8DcBJJpZfgjvrS2LW5
- gztA==
-X-Gm-Message-State: AOAM533Bdsr0HTaXpmZPBtdwBd8ChdyyM0DZj2+mM4RaiODvjWooWP5m
- 56Q/QZxh3/7kNfqPQC/4Dn4R+7A9p5uT24XkiUBfk1rdUe1gwWgfmymZUha976GO4VJqcm6trID
- pHkxhp7DVLP+miB+OxVXvTSiINrwam+htAGxtvGUGLwGj
-X-Received: by 2002:a1c:4c:: with SMTP id 73mr11093301wma.139.1628103590252;
- Wed, 04 Aug 2021 11:59:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhSQsWnmHBJ0c+6q+9oNf5P9jAy2HMqrpqSesVTuGeJ7py4jp3l1Ku85Qc9jxKYKufAhOS69CECl/Kud9SaJo=
-X-Received: by 2002:a1c:4c:: with SMTP id 73mr11093289wma.139.1628103590064;
- Wed, 04 Aug 2021 11:59:50 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 294556E223;
+ Wed,  4 Aug 2021 19:37:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="193589690"
+X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; d="scan'208";a="193589690"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2021 12:37:51 -0700
+X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; d="scan'208";a="637097050"
+Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2021 12:37:51 -0700
+Date: Wed, 4 Aug 2021 19:37:49 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Do not define vma on stack
+Message-ID: <20210804193749.GA87546@DUT151-ICLU.fm.intel.com>
+References: <20210803051121.72017-1-matthew.brost@intel.com>
+ <20210803051121.72017-2-matthew.brost@intel.com>
 MIME-Version: 1.0
-References: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
- <20210804141049.499767-1-kherbst@redhat.com>
- <CAK8P3a136c_L3yVn-841Sbfib9UMOf1M-pk+2SqWt0wD2zfRKQ@mail.gmail.com>
- <CACO55tsLpURTm=Jf=4gRVtYQbit5h2OBYw_MFb6Vf1PFvTV7dw@mail.gmail.com>
-In-Reply-To: <CACO55tsLpURTm=Jf=4gRVtYQbit5h2OBYw_MFb6Vf1PFvTV7dw@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 4 Aug 2021 20:59:39 +0200
-Message-ID: <CACO55tuy5Am9zbcR490KWYYAg7MguBN5m82vbjzifGN5KpGbxw@mail.gmail.com>
-Subject: Re: [PATCH] depend on BACKLIGHT_CLASS_DEVICE for more devices
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Lyude Paul <lyude@redhat.com>, 
- Ben Skeggs <bskeggs@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, 
- Daniel Vetter <daniel@ffwll.ch>, ML nouveau <nouveau@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210803051121.72017-2-matthew.brost@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,39 +47,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 4, 2021 at 4:43 PM Karol Herbst <kherbst@redhat.com> wrote:
->
-> On Wed, Aug 4, 2021 at 4:19 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> >
-> > On Wed, Aug 4, 2021 at 4:10 PM Karol Herbst <kherbst@redhat.com> wrote:
-> > >
-> > > playing around a little bit with this, I think the original "select
-> > > BACKLIGHT_CLASS_DEVICE" is fine. Atm we kind of have this weird mix of
-> > > drivers selecting and others depending on it. We could of course convert
-> > > everything over to depend, and break those cycling dependency issues with
-> > > this.
-> > >
-> > > Anyway this change on top of my initial patch is enough to make Kconfig
-> > > happy and has the advantage of not having to mess with the deps of nouveau
-> > > too much.
-> >
-> > Looks good to me. We'd probably want to make the BACKLIGHT_CLASS_DEVICE
-> > option itself 'default FB || DRM' though, to ensure that defconfigs
-> > keep working.
-> >
->
-> okay cool. Will send out a proper updated patch series soonish.
->
+On Mon, Aug 02, 2021 at 10:11:18PM -0700, Matthew Brost wrote:
+> From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+> 
+> Defining vma on stack can cause stack overflow, if
+> vma gets populated with new fields.
+> 
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+> Signef-off-by: Matthew Brost <matthew.brost@intel.com>
 
-mhh, actually that breaks drivers selecting FB_BACKLIGHT as now
-BACKLIGHT_CLASS_DEVICE might be disabled :(
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-somehow it doesn't feel like worth the effort converting it all over
-to depend.. dunno.
-
-Atm I would just use "select" in nouveau and deal with the conversion
-later once somebody gets annoyed enough or so...
-
-> >       Arnd
-> >
-
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 18 +++++++++---------
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h |  2 ++
+>  2 files changed, 11 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> index 3a16d08608a5..f632dbd32b42 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> @@ -413,20 +413,20 @@ static void uc_fw_bind_ggtt(struct intel_uc_fw *uc_fw)
+>  {
+>  	struct drm_i915_gem_object *obj = uc_fw->obj;
+>  	struct i915_ggtt *ggtt = __uc_fw_to_gt(uc_fw)->ggtt;
+> -	struct i915_vma dummy = {
+> -		.node.start = uc_fw_ggtt_offset(uc_fw),
+> -		.node.size = obj->base.size,
+> -		.pages = obj->mm.pages,
+> -		.vm = &ggtt->vm,
+> -	};
+> +	struct i915_vma *dummy = &uc_fw->dummy;
+> +
+> +	dummy->node.start = uc_fw_ggtt_offset(uc_fw);
+> +	dummy->node.size = obj->base.size;
+> +	dummy->pages = obj->mm.pages;
+> +	dummy->vm = &ggtt->vm;
+>  
+>  	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
+> -	GEM_BUG_ON(dummy.node.size > ggtt->uc_fw.size);
+> +	GEM_BUG_ON(dummy->node.size > ggtt->uc_fw.size);
+>  
+>  	/* uc_fw->obj cache domains were not controlled across suspend */
+> -	drm_clflush_sg(dummy.pages);
+> +	drm_clflush_sg(dummy->pages);
+>  
+> -	ggtt->vm.insert_entries(&ggtt->vm, &dummy, I915_CACHE_NONE, 0);
+> +	ggtt->vm.insert_entries(&ggtt->vm, dummy, I915_CACHE_NONE, 0);
+>  }
+>  
+>  static void uc_fw_unbind_ggtt(struct intel_uc_fw *uc_fw)
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> index 99bb1fe1af66..693cc0ebcd63 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> @@ -10,6 +10,7 @@
+>  #include "intel_uc_fw_abi.h"
+>  #include "intel_device_info.h"
+>  #include "i915_gem.h"
+> +#include "i915_vma.h"
+>  
+>  struct drm_printer;
+>  struct drm_i915_private;
+> @@ -75,6 +76,7 @@ struct intel_uc_fw {
+>  	bool user_overridden;
+>  	size_t size;
+>  	struct drm_i915_gem_object *obj;
+> +	struct i915_vma dummy;
+>  
+>  	/*
+>  	 * The firmware build process will generate a version header file with major and
+> -- 
+> 2.28.0
+> 
