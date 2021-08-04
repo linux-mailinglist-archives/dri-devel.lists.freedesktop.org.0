@@ -1,63 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6293E0823
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 20:48:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EDE3E084E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 20:50:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E8636E11F;
-	Wed,  4 Aug 2021 18:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5EF6E434;
+	Wed,  4 Aug 2021 18:50:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1DD6E11F
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 18:48:21 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- j18-20020a17090aeb12b029017737e6c349so6480903pjz.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 11:48:21 -0700 (PDT)
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90AD86EA51
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 18:50:31 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id z18so5258817ybg.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 11:50:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CzG2FRpQq4GQGHqHEFpqswVyF/E6iIZT1I4e0pVCjrs=;
- b=z1V1AlsXLpzTdRc8PHs4TyChd/8FJo1XFk/J2zB1DdxzoGe2weHUR7mKLtY0a+vDFG
- EyeH8XRGCdkxmHI5tHr0edh0fUHr5HVhQzPvoeqX+wo5/F3Qo4iaDmdFsooGd9ruKPYy
- 2JjGcQtengX4nD8apulzOwhlx19zbo4vS320dfJgM7JjS/djQWNLugNNPRyDMAD1XmQZ
- lYw4aDvm24VMzQEDmFUoxagDNb1d5hSZ8lBGdZFlYByb+dw1QOuYIhuN12pXD74xGz1v
- z2tXXkdiJv7rOeSXjkMptDzvYlSu4ViIITwPpqBHbH+lJOr0aHGu4QizFEH1zFqjadW3
- CVlg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nnWPot3vtcxM+9mBkA7EsLftdmsLwvJ1NJsdykuuxGY=;
+ b=uiaUlBAODW2LsdZ3Das8opfzcsFXHXT0aiqTsE1jy0GbpjTOpXlkCUo8j3srr0Gg+X
+ v6ItYg8A01ue7CDk7mhvUH5dWmYOYgNmTHITArg38e4x5m3Z2MCXkKtbsfuouIFkbrbU
+ af7RQGorc3zh693tTD3F6Uj6s8etNzyuHOOkDFDUMD+thRYETVuryI+3godtzKL/przV
+ b3W1+nuIDItd2vp/du4JH/sTfrQbnkYXexZaDeqhH1uBqdRDVk10Q/mKvmJtcr9b1hrJ
+ +VSULxicCZ4E2qLq9CZt/vfSM+u0SkSvjaRnwr7DYIoO1oQUztLPGm7lWtRB0JB5U4F3
+ GwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CzG2FRpQq4GQGHqHEFpqswVyF/E6iIZT1I4e0pVCjrs=;
- b=JmEXVs0FlRCU93CHIzmImxn+m7M1gK74K6DsAA5JD9Te8bl0bSHBIWUf7smKQLElS4
- v6IJttaeUVTxNoqcxLPss3tlFRzog59N0BvVwazjJZSHCP4avC/mGpLhfyz9aQqh5UTo
- eUmirYDZAJL1RLY9q/AnMcQkFNW1XZIsG4uC+T7Sw9Go+Si3w8aZTiOCic1WD9IHfKhP
- pbmzPOiFwsEemrH5TH76Cq2w207Q+onnB63dVtclsp5h7t0Vm639WB7o5jmb8fWtrrJh
- 6Wyy3rF+rWjVndl1nzqbZObtbaS5tW/Vnh1wbGYx3p5RupGfTBLaFuWw/cPkUa0OOW4b
- Jycw==
-X-Gm-Message-State: AOAM5326v0xkF83dGMqSjEhROZkF4wCU03kZfZS4GnL55ofmuzTADPnF
- 7IY3gbePmE7cEKAXzSEVZB1Iw+np3Ldu2VSc
-X-Google-Smtp-Source: ABdhPJxcqa7wdIBOqnzmHkXV2lApX+tDbn3/yS7HsXZZ54THd7GgBR5wRkM+waRxxNAL5mDhrM1RgQ==
-X-Received: by 2002:a62:1609:0:b029:3ab:afdb:acf3 with SMTP id
- 9-20020a6216090000b02903abafdbacf3mr1074565pfw.43.1628102900434; 
- Wed, 04 Aug 2021 11:48:20 -0700 (PDT)
-Received: from omlet.lan ([134.134.139.85])
- by smtp.gmail.com with ESMTPSA id h5sm3693004pfv.145.2021.08.04.11.48.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 11:48:20 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: dri-devel@lists.freedesktop.org
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>
-Subject: [PATCH] docs/drm: Add a new bullet to the uAPI requirements
-Date: Wed,  4 Aug 2021 13:48:16 -0500
-Message-Id: <20210804184816.623950-1-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nnWPot3vtcxM+9mBkA7EsLftdmsLwvJ1NJsdykuuxGY=;
+ b=csREVSBMWLl4KH50aIDL/W58Xu1R1aoWZu4Kmmkt4wBde4C5SuAuatYbJ4g+zcXwat
+ oG8gzixj5Xkof+wGF/1CHVN4x6YKxks5JkyRRRrljHwm6EwNimXPXIljZhGK89OHqiVu
+ 8ryeH+qrM3o6AhruLx/lT/IwT8RTcwK2VXeWz6+Rzbfm3MglpbuxExNio/NWlr5QryR0
+ z8oDRWiTjSRTI4WPRkZO2qSA//U0rh7nBln2H+Fhs9GwwTmwNzkvd/lX2UgNmI2b7cW7
+ crTuIkp0LX8okUKGqSOaNK0xWzDL4K1mKxJFOArDwSFK4Ie6kQq1uBVUO1v5+BeFwWLo
+ GEHQ==
+X-Gm-Message-State: AOAM532GSVVEszL+O98XV8DC+L6ebLiHJJQMnIieLyNsc6l2TiOUYw6s
+ u1Jv/CL89kx3ReM9jyiDl7nKr7BOMb8iG0mtgYePLPzg9FSrlg6H
+X-Google-Smtp-Source: ABdhPJw4rK+q4pHtmoD5OLSWFeSRg6rVOeYKUJj/H9vaGBvtTJpcIslQYnjo6kFBabrIHH8bIWLNihGcqjPDbcNzWqk=
+X-Received: by 2002:a25:ced0:: with SMTP id x199mr962088ybe.323.1628103030377; 
+ Wed, 04 Aug 2021 11:50:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210804184816.623950-1-jason@jlekstrand.net>
+In-Reply-To: <20210804184816.623950-1-jason@jlekstrand.net>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 4 Aug 2021 13:50:19 -0500
+Message-ID: <CAOFGe97sfQn_g5c8wTKEt8g+EWK+w9ktzUTrPGs1LY9sJP_i=Q@mail.gmail.com>
+Subject: Re: [PATCH] docs/drm: Add a new bullet to the uAPI requirements
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +66,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While tracking down various bits of i915 uAPI, it's been difficult to
-find the userspace much of the time because no one bothers to mention it
-in commit messages.  Require the kernel patch to be a one-stop shop for
-finding the various bits which were used to justify the new uAPI.
+On Wed, Aug 4, 2021 at 1:48 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+>
+> While tracking down various bits of i915 uAPI, it's been difficult to
+> find the userspace much of the time because no one bothers to mention it
+> in commit messages.  Require the kernel patch to be a one-stop shop for
+> finding the various bits which were used to justify the new uAPI.
+>
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Dave Airlie <airlied@redhat.com>
+> ---
+>  Documentation/gpu/drm-uapi.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 199afb503ab1..82f780bc3fce 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -109,6 +109,11 @@ leads to a few additional requirements:
+>    userspace patches land. uAPI always flows from the kernel, doing things the
+>    other way round risks divergence of the uAPI definitions and header files.
+>
+> +- The kernel patch which adds the new uAPI **must** reference the patch series
+> +  or merge requests in the userspaces project which use the new uAPI and
 
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Dave Airlie <airlied@redhat.com>
----
- Documentation/gpu/drm-uapi.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+Locally, I've done s/project which use/projects which demonstrate/
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 199afb503ab1..82f780bc3fce 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -109,6 +109,11 @@ leads to a few additional requirements:
-   userspace patches land. uAPI always flows from the kernel, doing things the
-   other way round risks divergence of the uAPI definitions and header files.
- 
-+- The kernel patch which adds the new uAPI **must** reference the patch series
-+  or merge requests in the userspaces project which use the new uAPI and
-+  against which the review was done so that future developers can find all of
-+  the pieces which tie together.
-+
- These are fairly steep requirements, but have grown out from years of shared
- pain and experience with uAPI added hastily, and almost always regretted about
- just as fast. GFX devices change really fast, requiring a paradigm shift and
--- 
-2.31.1
+--Jason
 
+> +  against which the review was done so that future developers can find all of
+> +  the pieces which tie together.
+> +
+>  These are fairly steep requirements, but have grown out from years of shared
+>  pain and experience with uAPI added hastily, and almost always regretted about
+>  just as fast. GFX devices change really fast, requiring a paradigm shift and
+> --
+> 2.31.1
+>
