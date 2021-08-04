@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587353DFCA1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 10:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45CD3DFD16
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 10:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF836EA14;
-	Wed,  4 Aug 2021 08:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEE886EA12;
+	Wed,  4 Aug 2021 08:39:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D876EA10;
- Wed,  4 Aug 2021 08:17:11 +0000 (UTC)
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 04 Aug 2021 01:17:10 -0700
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12B406EA11;
+ Wed,  4 Aug 2021 08:39:13 +0000 (UTC)
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 04 Aug 2021 01:39:13 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 04 Aug 2021 01:17:08 -0700
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 04 Aug 2021 01:39:12 -0700
 X-QCInternal: smtphost
 Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg02-blr.qualcomm.com with ESMTP; 04 Aug 2021 13:46:33 +0530
+ by ironmsg02-blr.qualcomm.com with ESMTP; 04 Aug 2021 14:08:36 +0530
 Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 428CA4BA7; Wed,  4 Aug 2021 01:16:32 -0700 (PDT)
+ id EAE404C72; Wed,  4 Aug 2021 01:38:34 -0700 (PDT)
 From: Kalyan Thota <kalyan_t@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
@@ -30,9 +30,9 @@ Cc: Kalyan Thota <kalyan_t@codeaurora.org>, linux-kernel@vger.kernel.org,
  robdclark@gmail.com, dianders@chromium.org, mkrishn@codeaurora.org,
  saiprakash.ranjan@codeaurora.org, rnayak@codeaurora.org,
  stable@vger.kernel.org
-Subject: [v3] drm/msm/disp/dpu1: add safe lut config in dpu driver
-Date: Wed,  4 Aug 2021 01:16:30 -0700
-Message-Id: <1628064990-6990-1-git-send-email-kalyan_t@codeaurora.org>
+Subject: [Resend v3] drm/msm/disp/dpu1: add safe lut config in dpu driver
+Date: Wed,  4 Aug 2021 01:38:33 -0700
+Message-Id: <1628066313-9717-1-git-send-email-kalyan_t@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,16 +63,17 @@ such as eMMC and NVMe.
 Validated this change on SC7280, With this change eMMC performance
 has improved significantly.
 
-Changes in v1:
+Changes in v2:
 - Add fixes tag (Sai)
 - CC stable kernel (Dimtry)
 
-Changes in v2:
+Changes in v3:
 - Correct fixes tag with appropriate hash (stephen)
+- Resend patch adding reviewed by tag
 
-Fixes: 591e34a091d1 (drm/msm/disp/dpu1: add support for display
-for SC7280 target)
+Fixes: 591e34a091d1 ("drm/msm/disp/dpu1: add support for display for SC7280 target")
 Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Tested-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org> (sc7280, sc7180)
 ---
  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 5 +++++
