@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8263E02F0
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 16:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E013E0312
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 16:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEFA36EA7D;
-	Wed,  4 Aug 2021 14:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5A66EA92;
+	Wed,  4 Aug 2021 14:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2CE26EA7D;
- Wed,  4 Aug 2021 14:19:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A52D160F22;
- Wed,  4 Aug 2021 14:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628086789;
- bh=UhV/SQfdLBYTc9D9nBIqPDxNpUescq5pja8sCC7bUhg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=GqW+Ix8bE9Xpa1PchSe10rwy9phm1XMd4MtWpBN7X3eojLy8JN6KQp9n/43TFtwni
- 80y7yvlPbt9DWFp/kScILAMs5dZoVWsxp5peA10/x5cfZa5vObdwIDWpX0jkQFvYaT
- 2MgpL23FyoaDUNhgSS2nyNLYahv0fdWor9n5QSwmUSsJLUvt7JoCZyDZ33EVspregL
- jDwdyiYhAt5flGpgHfIHdpgTM1ACwW61TYHC6twk5Khz9kuXn/Gp2H4ZEQb28P8yN1
- FPN6Bs7CKtVW8/Ig8CE1Yf1LpEy2t7/uIkXgk1gg65UZJGajHvq52xvBjKFLdOLOay
- vieUvKuAW7pSw==
-Received: by mail-wr1-f52.google.com with SMTP id m12so2425912wru.12;
- Wed, 04 Aug 2021 07:19:49 -0700 (PDT)
-X-Gm-Message-State: AOAM532RJzvXLFVUPEin+dbxhNfM6nUr1g/OjHFLgARD5LnkXCHSCACW
- SrtoCDFn105dsRIs5uhm7Sz3+BU7PPTraNXtolU=
-X-Google-Smtp-Source: ABdhPJz4webvoPA0EIBz9Nqvki0G4OjA8pvIy/LkSY3nQYdB4tbtdSxD94XNSCYZc0/wF2Fsa+T9PiEhNiWOJgXVQLE=
-X-Received: by 2002:adf:e107:: with SMTP id t7mr29131713wrz.165.1628086788270; 
- Wed, 04 Aug 2021 07:19:48 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDC0E6EA83
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 14:25:30 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id b13so2497120wrs.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 07:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oQuykCSU14ER7aPsdknDej3VA3if5Vgjwk83wDTNP4U=;
+ b=c+1Com2d9MSmj+7DRCIbNDCR0CNSe2ror5XQ1lFkF6zn/tr5+S1X7nlsKUExjuOfU1
+ mCQ8x9rwazZPwiV5jDd7Ms+wD2Ztp/bKlh0bhyttBxfHUhxiC325N61A5XM3FzK7qFF3
+ lXgMFwgk5auZkuHPHa8isJsZ7OLi35r6+fm7M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oQuykCSU14ER7aPsdknDej3VA3if5Vgjwk83wDTNP4U=;
+ b=SMD2+1z6QlRb9Q5YUn3Jbowxg6Er5DQoNp+cIdKtIPwhTOQaKHa8FcR08RgH3xlikb
+ zfdUOPM9+LauRJWV+kNqsfZkGOpCmBxh4BniAIXVpe5A2sw9qxalZc4rlZ1T9WWURWTl
+ po8YPAG5ZxqbO/6iV49IVDOLfwtWQU2h/gnuG+cAHuHbznLxu82+Q+6kyjYNk77mC7Rb
+ FX2MjhWwf8RfO804kXHENOPcQ4hRRbBQFIL+V39edF6xqyWBxm/CXMMj4zZSmjg2wRNm
+ RA37WvWBSx+7h37+61n0HTk9zQOSZpchnGsZjMaY+1c16U4rUF0lVegR0aiTfuZJg5tg
+ dQow==
+X-Gm-Message-State: AOAM5321UOKDkLrD3GSB3LpnSuTO98VL0JXhBZRHthnBBH0Qg5l3Rv/I
+ z4jIalN67GreINmDTSv8s0KAzg==
+X-Google-Smtp-Source: ABdhPJy8fcbEbDT8RNWR//usYi0ul/CStS9yFX4fX4X1i0akAs306zpAA9prmx83fdgLH0bDFbkdlg==
+X-Received: by 2002:adf:cf0c:: with SMTP id o12mr29065841wrj.143.1628087129232; 
+ Wed, 04 Aug 2021 07:25:29 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b6sm3222682wrn.9.2021.08.04.07.25.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Aug 2021 07:25:27 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH 0/9] remove rcu support from i915_address_space
+Date: Wed,  4 Aug 2021 16:25:13 +0200
+Message-Id: <20210804142522.4113021-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
- <20210804141049.499767-1-kherbst@redhat.com>
-In-Reply-To: <20210804141049.499767-1-kherbst@redhat.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 4 Aug 2021 16:19:32 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a136c_L3yVn-841Sbfib9UMOf1M-pk+2SqWt0wD2zfRKQ@mail.gmail.com>
-Message-ID: <CAK8P3a136c_L3yVn-841Sbfib9UMOf1M-pk+2SqWt0wD2zfRKQ@mail.gmail.com>
-Subject: Re: [PATCH] depend on BACKLIGHT_CLASS_DEVICE for more devices
-To: Karol Herbst <kherbst@redhat.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Lyude Paul <lyude@redhat.com>, 
- Ben Skeggs <bskeggs@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, 
- Daniel Vetter <daniel@ffwll.ch>, ML nouveau <nouveau@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,20 +68,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 4, 2021 at 4:10 PM Karol Herbst <kherbst@redhat.com> wrote:
->
-> playing around a little bit with this, I think the original "select
-> BACKLIGHT_CLASS_DEVICE" is fine. Atm we kind of have this weird mix of
-> drivers selecting and others depending on it. We could of course convert
-> everything over to depend, and break those cycling dependency issues with
-> this.
->
-> Anyway this change on top of my initial patch is enough to make Kconfig
-> happy and has the advantage of not having to mess with the deps of nouveau
-> too much.
+Hi all,
 
-Looks good to me. We'd probably want to make the BACKLIGHT_CLASS_DEVICE
-option itself 'default FB || DRM' though, to ensure that defconfigs
-keep working.
+Next round with some fixes:
+- missed a conversion, 0day spotted it running sparse
+- missed virtual engines in the last patch, intel-gfx-ci spotted that too
+  (except it was mostly filtered out by a bogus cibuglog entry, so took a
+  while to realize what's going on).
 
-      Arnd
+Old version:
+
+https://lore.kernel.org/dri-devel/20210802154806.3710472-1-daniel.vetter@ffwll.ch/
+
+Cheers, Daniel
+
+Daniel Vetter (9):
+  drm/i915: Drop code to handle set-vm races from execbuf
+  drm/i915: Rename i915_gem_context_get_vm_rcu to
+    i915_gem_context_get_eb_vm
+  drm/i915: Use i915_gem_context_get_eb_vm in ctx_getparam
+  drm/i915: Add i915_gem_context_is_full_ppgtt
+  drm/i915: Use i915_gem_context_get_eb_vm in intel_context_set_gem
+  drm/i915: Drop __rcu from gem_context->vm
+  drm/i915: use xa_lock/unlock for fpriv->vm_xa lookups
+  drm/i915: Stop rcu support for i915_address_space
+  drm/i915: Split out intel_context_create_user
+
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 86 ++++---------------
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   | 13 ++-
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |  2 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 12 ++-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  8 +-
+ .../drm/i915/gem/selftests/i915_gem_context.c | 34 +++-----
+ .../gpu/drm/i915/gem/selftests/mock_context.c |  2 +-
+ drivers/gpu/drm/i915/gt/intel_context.c       | 22 ++++-
+ drivers/gpu/drm/i915/gt/intel_context.h       |  2 +
+ drivers/gpu/drm/i915/gt/intel_engine.h        |  4 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 21 ++++-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  1 -
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  6 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  2 +-
+ drivers/gpu/drm/i915/i915_drv.h               |  4 +-
+ drivers/gpu/drm/i915/i915_trace.h             |  2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_vma.c     |  4 +-
+ 20 files changed, 105 insertions(+), 128 deletions(-)
+
+-- 
+2.32.0
+
