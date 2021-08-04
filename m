@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7643E09CF
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 23:03:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A76C23E09DC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 23:10:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEDA6EA32;
-	Wed,  4 Aug 2021 21:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D9CD89C3B;
+	Wed,  4 Aug 2021 21:10:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E0416E432
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 21:03:27 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id p145so5755239ybg.6
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 14:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CyeKjKtoo9LoSd8Ka8M+GcyT9q9AB1Q66au6WOGmIu8=;
- b=QOgxNkaWKKyNO5qwEAGPVjVHQU2HHIWNpHskRmVAAVZacLU8CDl2sHjiVHfkecCDAD
- EGVwrQgz/ONC8DatBMXsP+ggp6b9tl0qK+IGkqT6V/sgBMB3m+LP0qSIxULbW76/FyRu
- F7qqZYG/i/8YupmS7IVwYdhlQWjNr1ycL22Wg+xb/Aac25zzPlK+1iH3uPyAih22MUzo
- zPDGriYbgSihlN7BbyUlvPdwe8kux768j6PeZW9KWBj+y4qysW6Brn2e2J1KG0fWJUc9
- W5Wc9JdX40S+qrejo2mcvF1FuFrCb1TyAxDEf0yCo0qAPoLz5r8n3nsqG+Vt2FHQKG4U
- h0RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CyeKjKtoo9LoSd8Ka8M+GcyT9q9AB1Q66au6WOGmIu8=;
- b=LS6k76LN4seihYFRfNU7e4mC33ZstDDPUV+dqhm4UcXpfAU6NYCFLHM3Qqa/00AtRe
- zGMx4RVqyv00h37NYcjOUjQZCKzAY5tpt/W+I37P/HsUVWDgcj+v7J/TX6qVU7hCNti9
- rg1o9AUp0PoBuLQwtjtQOEtMjBJdYt+9O1TFmyvwSkAZ1+qo1fBsL0Ptz3uGtbHgMjaZ
- T0tniXyBPbBbH1pV0RtglXNH0jGzpPIgEtm+S/SF4b0adlJIBiCngc7w2gcOnV2WB6Ox
- 3gd9qd4vubv3W0ZWTy7pGENp/IZHPT4vUzDr1CfG2urssgn1VwpHq9R/+aAdzBauWHEv
- rz5A==
-X-Gm-Message-State: AOAM533TcfxTCmw4NmeWbCDKyWaFIkyckFcZous1em55MHH9bBPjNScO
- 6p8xxbLrK/4llmV/PxQ6Z9l3IvRCqUBqSh3U67hhag==
-X-Google-Smtp-Source: ABdhPJx4D532aHvf28UN5ogYmIBkrzQd5oszq1iQNc6mbV1wwkUv/3ic7VceumFl/dA5J6RsWAW0VJy0Bj8j8uaKnKg=
-X-Received: by 2002:a25:680b:: with SMTP id d11mr1696970ybc.241.1628111006488; 
- Wed, 04 Aug 2021 14:03:26 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 410CE894D4;
+ Wed,  4 Aug 2021 21:10:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 04F0661037;
+ Wed,  4 Aug 2021 21:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1628111409;
+ bh=AR7/8fSFLxcOU7ReweR1RJMUzQ2C6A8WBiBQgmubyxA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=bstBTAnhv749RIOm/8A++1zEJoVPLjeLJya1QeLgs+5os8XLqTX8NVxd11Jh5ne0X
+ 25RPg0sHRCshpt2JG73ht7Xyx5dhtErx1V8I9gCVolzqz237y6uQ98P1D4u3g0FnEH
+ SnynInM+s3bEItadObYqiqLFG2NHBPRBkZeJYWhW+F5BV7++MeLDhNP+rF+X86XxpF
+ aTbuCPg58JahZq3d68NRMmRAd9W2YnbjIVMfIoU5tbkiNR5tQSdrSe1ht84Lr9Z5cl
+ 3geDZMkh8EWExQ4h3Kl04ZTQUyVWVA3XrMvZJNdyBdMaZiSkIusjDlYx8q+EiUfTyf
+ 7lV0W67V/+P6g==
+Received: by mail-wm1-f53.google.com with SMTP id
+ f9-20020a05600c1549b029025b0f5d8c6cso4779995wmg.4; 
+ Wed, 04 Aug 2021 14:10:08 -0700 (PDT)
+X-Gm-Message-State: AOAM531+r8if8hXS6xqzu66HckzJDuSlukU09vW6PnZRUjjIP/ZuT5FM
+ Vu+Q0VQlXCJmeKWWjTc0COHhqDeJ9j21Ogvb2t8=
+X-Google-Smtp-Source: ABdhPJxawV1DUFGq0xf4c1YWGB9f0ICNgrFaDVK4nvjPq8GUrxtQnE1yV12ZR4xxG8yzQp9mNDGQvEuc2xvVrRg4gF8=
+X-Received: by 2002:a7b:ce10:: with SMTP id m16mr11140796wmc.75.1628111407639; 
+ Wed, 04 Aug 2021 14:10:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210804204147.2070-1-rdunlap@infradead.org>
-In-Reply-To: <20210804204147.2070-1-rdunlap@infradead.org>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 4 Aug 2021 16:03:15 -0500
-Message-ID: <CAOFGe95raX2O3aKBvTPhKy19aOA96yp0=6hp4nsg6T8x9OBj5A@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/i915: fix i915_globals_exit() section mismatch
- error
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Intel GFX <intel-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+References: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
+ <20210804141049.499767-1-kherbst@redhat.com>
+ <CAK8P3a136c_L3yVn-841Sbfib9UMOf1M-pk+2SqWt0wD2zfRKQ@mail.gmail.com>
+ <CACO55tsLpURTm=Jf=4gRVtYQbit5h2OBYw_MFb6Vf1PFvTV7dw@mail.gmail.com>
+ <CACO55tuy5Am9zbcR490KWYYAg7MguBN5m82vbjzifGN5KpGbxw@mail.gmail.com>
+In-Reply-To: <CACO55tuy5Am9zbcR490KWYYAg7MguBN5m82vbjzifGN5KpGbxw@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Wed, 4 Aug 2021 23:09:51 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3hZ7X5+kM5E+_Y+COUp49Kt6iDjiqMFtimiSbPk4byzQ@mail.gmail.com>
+Message-ID: <CAK8P3a3hZ7X5+kM5E+_Y+COUp49Kt6iDjiqMFtimiSbPk4byzQ@mail.gmail.com>
+Subject: Re: [PATCH] depend on BACKLIGHT_CLASS_DEVICE for more devices
+To: Karol Herbst <kherbst@redhat.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Lyude Paul <lyude@redhat.com>, 
+ Ben Skeggs <bskeggs@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, ML nouveau <nouveau@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,50 +66,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 4, 2021 at 3:41 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+On Wed, Aug 4, 2021 at 8:59 PM Karol Herbst <kherbst@redhat.com> wrote:
+> On Wed, Aug 4, 2021 at 4:43 PM Karol Herbst <kherbst@redhat.com> wrote:
+> > On Wed, Aug 4, 2021 at 4:19 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> > > On Wed, Aug 4, 2021 at 4:10 PM Karol Herbst <kherbst@redhat.com> wrote:
+> > > >
+> > > > playing around a little bit with this, I think the original "select
+> > > > BACKLIGHT_CLASS_DEVICE" is fine. Atm we kind of have this weird mix of
+> > > > drivers selecting and others depending on it. We could of course convert
+> > > > everything over to depend, and break those cycling dependency issues with
+> > > > this.
+> > > >
+> > > > Anyway this change on top of my initial patch is enough to make Kconfig
+> > > > happy and has the advantage of not having to mess with the deps of nouveau
+> > > > too much.
+> > >
+> > > Looks good to me. We'd probably want to make the BACKLIGHT_CLASS_DEVICE
+> > > option itself 'default FB || DRM' though, to ensure that defconfigs
+> > > keep working.
+> > >
+> >
+> > okay cool. Will send out a proper updated patch series soonish.
+> >
 >
-> Fix modpost Section mismatch error in i915_globals_exit().
-> Since both an __init function and an __exit function can call
-> i915_globals_exit(), any function that i915_globals_exit() calls
-> should not be marked as __init or __exit. I.e., it needs to be
-> available for either of them.
->
-> WARNING: modpost: vmlinux.o(.text+0x8b796a): Section mismatch in reference from the function i915_globals_exit() to the function .exit.text:__i915_globals_flush()
-> The function i915_globals_exit() references a function in an exit section.
-> Often the function __i915_globals_flush() has valid usage outside the exit section
-> and the fix is to remove the __exit annotation of __i915_globals_flush.
->
-> ERROR: modpost: Section mismatches detected.
-> Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.
+> mhh, actually that breaks drivers selecting FB_BACKLIGHT as now
+> BACKLIGHT_CLASS_DEVICE might be disabled :(
 
-My gut says we actually want to back-port
-https://lore.kernel.org/dri-devel/YPk3OCMrhg7UlU6T@phenom.ffwll.local/
-instead.  Daniel, thoughts?
+Are you sure? It should already be the case that any driver that selects
+FB_BACKLIGHT either 'depends on BACKLIGHT_CLASS_DEVICE'
+or 'select BACKLIGHT_CLASS_DEVICE'.
 
---Jason
+If you change all the 'select BACKLIGHT_CLASS_DEVICE' to 'depends
+on', I don't see a problem with doing 'select FB_BACKLIGHT' from
+those.
 
->
-> Fixes: 1354d830cb8f ("drm/i915: Call i915_globals_exit() if pci_register_device() fails")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/i915/i915_globals.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> --- linext-2021-0804.orig/drivers/gpu/drm/i915/i915_globals.c
-> +++ linext-2021-0804/drivers/gpu/drm/i915/i915_globals.c
-> @@ -138,7 +138,7 @@ void i915_globals_unpark(void)
->         atomic_inc(&active);
->  }
->
-> -static void __exit __i915_globals_flush(void)
-> +static void  __i915_globals_flush(void)
->  {
->         atomic_inc(&active); /* skip shrinking */
->
+I have applied your patch to my randconfig tree and built a few dozen
+kernels, don't see any regressions so far, but will let it run over night.
+
+      Arnd
