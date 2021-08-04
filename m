@@ -2,81 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28123E04AB
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 17:46:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8BE3E04B1
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 17:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A84DD6EAC0;
-	Wed,  4 Aug 2021 15:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F8E6E3EC;
+	Wed,  4 Aug 2021 15:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9158C6EAC1
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 15:46:51 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id m12so2741638wru.12
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 08:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=J49YuwjHy2NOI3/UOq5v3ZkPSTtuAE8eHm0+63f8mt0=;
- b=KKCQHWgX85/6DkpOCs44CvbaGognlL5uAllvJp6ktA0cfVBb2a0VLnwQKQFEPMJSGt
- IjipCXmpd3p/rMnJU3NKfgXJYiI9so2/XFXEJe0cMMXp5zNxiUTtF1sDuts9Tiehmw9Y
- QvzEEfotIqIv3605wLYfTmRJgR2g55rCpxkxc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=J49YuwjHy2NOI3/UOq5v3ZkPSTtuAE8eHm0+63f8mt0=;
- b=sxKJGcP/rplviTCj2RwpdkXZF1LV5o3yTflk43pvWu25waa2kCBzDKZR9WsyHPI+b/
- KOyjgp9DO3fTMigs1fTdkI9pGS/9e3/fKAnOE5k2eRvLPgt07SJ8NPAspVJqIC6oiqwG
- DoKFqppdQz2MlgOB/2vzRZ/rmDuPoK80s/Stg0yO428M4a5AodWV/8WE9B1YXx1caHSY
- YZNS+PctBTGtTd80MO9vQ3/k3HIfKSLeAgDuB5Osf4CjxgkOd0cdR/KHOyOToa5mapD/
- 3X4vlSAv6FcBTDlFPbamm6RprCGrwpZk2AJUl2sNsZdHe0bo+0HFhrgq0JLr2AYlul19
- pyYg==
-X-Gm-Message-State: AOAM530hRCxT6Dv5AChzEp45q4dpLe3nohAvZVIugjLwM/C+mr4w6rRc
- C+UNbZeRkOKSu/xw+9Ev05R+IQ==
-X-Google-Smtp-Source: ABdhPJzFNOQREtlSZqHizztAPtbXsy+1Xtqkjpp3JnfkEup7uznIjBJWXvQVSfLGYMfdqxnxjiISOg==
-X-Received: by 2002:a5d:59ab:: with SMTP id p11mr30422wrr.238.1628092009803;
- Wed, 04 Aug 2021 08:46:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p15sm2638112wmi.29.2021.08.04.08.46.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 08:46:48 -0700 (PDT)
-Date: Wed, 4 Aug 2021 17:46:40 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Zhenneng Li <lizhenneng@kylinos.cn>,
- Alex Deucher <alexander.deucher@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/radeon: Update pitch for page flip
-Message-ID: <YQq2YAi4w79JNO4H@phenom.ffwll.local>
-Mail-Followup-To: Alex Deucher <alexdeucher@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Zhenneng Li <lizhenneng@kylinos.cn>,
- Alex Deucher <alexander.deucher@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20210802074310.1526526-1-lizhenneng@kylinos.cn>
- <e6e77cfb-4e6b-c30e-ae7c-ac84b82c9a75@amd.com>
- <YQetXMaASz/F2EyS@phenom.ffwll.local>
- <CADnq5_PDtEn1y5HJBRHXw8o11LVwSRDKNtQgZtN5u0CW5ZspnQ@mail.gmail.com>
- <6a34fcc3-0aa3-85ff-21c4-86b9b5a48fd5@daenzer.net>
- <CADnq5_MJ=m2_VvzCQ7wJaFx2=OfFfLpoJtc_Ofb+a-v3eujtXg@mail.gmail.com>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80AF66E3EC
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 15:48:16 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1628092099; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=U04zS4aQmZ0a5D68P4sb04QFg2j4jgMCiJPHHK81Tac=;
+ b=CqCEFn065jbthlpEHx/NpUEsGGE2RueHBtbVnL/OFjFCU9y0/00Q/nnwmrIiIFqQDY+MzfYF
+ Sr/3odaO8JAKj5SAf8fW3qXr1fZ0CRpIgK01AlmQSMVrcksv5661ybOgXkx8zS1j+qlVGbZf
+ OY/acntrD603G3bhwcMtqqZLSlg=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 610ab6b53f14248172f609b5 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 04 Aug 2021 15:48:05
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 68760C43217; Wed,  4 Aug 2021 15:48:05 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2AD84C433F1;
+ Wed,  4 Aug 2021 15:48:04 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_MJ=m2_VvzCQ7wJaFx2=OfFfLpoJtc_Ofb+a-v3eujtXg@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 04 Aug 2021 08:48:04 -0700
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: agross@kernel.org, bjorn.andersson@linaro.org, robdclark@gmail.com,
+ sean@poorly.run, vkoul@kernel.org, abhinavk@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drm/msm/dp: update is_connected status base on sink
+ count at dp_pm_resume()
+In-Reply-To: <CAE-0n51yNrmrqgDrkj2+c2Bx-bYxNs1m2pQBxvVkSpBH2hxzoA@mail.gmail.com>
+References: <1628007913-29892-1-git-send-email-khsieh@codeaurora.org>
+ <CAE-0n51yNrmrqgDrkj2+c2Bx-bYxNs1m2pQBxvVkSpBH2hxzoA@mail.gmail.com>
+Message-ID: <ab2a7aadb6ada58246ec972c4938c627@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,68 +75,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 03, 2021 at 10:49:39AM -0400, Alex Deucher wrote:
-> On Tue, Aug 3, 2021 at 4:34 AM Michel Dänzer <michel@daenzer.net> wrote:
-> >
-> > On 2021-08-02 4:51 p.m., Alex Deucher wrote:
-> > > On Mon, Aug 2, 2021 at 4:31 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >>
-> > >> On Mon, Aug 02, 2021 at 10:12:47AM +0200, Christian König wrote:
-> > >>> Am 02.08.21 um 09:43 schrieb Zhenneng Li:
-> > >>>> When primary bo is updated, crtc's pitch may
-> > >>>> have not been updated, this will lead to show
-> > >>>> disorder content when user changes display mode,
-> > >>>> we update crtc's pitch in page flip to avoid
-> > >>>> this bug.
-> > >>>> This refers to amdgpu's pageflip.
-> > >>>
-> > >>> Alex is the expert to ask about that code, but I'm not sure if that is
-> > >>> really correct for the old hardware.
-> > >>>
-> > >>> As far as I know the crtc's pitch should not change during a page flip, but
-> > >>> only during a full mode set.
-> > >>>
-> > >>> So could you elaborate a bit more how you trigger this?
-> > >>
-> > >> legacy page_flip ioctl only verifies that the fb->format stays the same.
-> > >> It doesn't check anything else (afair never has), this is all up to
-> > >> drivers to verify.
-> > >>
-> > >> Personally I'd say add a check to reject this, since testing this and
-> > >> making sure it really works everywhere is probably a bit much on this old
-> > >> hw.
-> > >
-> > > If just the pitch changed, that probably wouldn't be much of a
-> > > problem, but if the pitch is changing, that probably implies other
-> > > stuff has changed as well and we'll just be chasing changes.  I agree
-> > > it would be best to just reject anything other than updating the
-> > > scanout address.
-> >
-> > FWIW, that means page flipping cannot be used in some cases which work fine by changing the pitch, which can result in tearing: https://gitlab.freedesktop.org/xorg/xserver/-/issues/839 (which says the i915 driver handles this as well).
-> >
+On 2021-08-03 12:05, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-08-03 09:25:13)
+>> Currently at dp_pm_resume() is_connected state is decided base on hpd 
+>> connection
+>> status only. This will put is_connected in wrongly "true" state at the 
+>> scenario
+>> that dongle attached to DUT but without hmdi cable connecting to it. 
+>> Fix this
+>> problem by adding read sink count from dongle and decided is_connected 
+>> state base
+>> on both sink count and hpd connection status.
+>> 
+>> Changes in v2:
+>> -- remove dp_get_sink_count() cand call drm_dp_read_sink_count()
+>> 
+>> Changes in v3:
+>> -- delete status local variable from dp_pm_resume()
+>> 
+>> Fixes: d9aa6571b28ba ("drm/msm/dp: check sink_count before update 
+>> is_connected status")
+>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+>> ---
+>>  drivers/gpu/drm/msm/dp/dp_display.c | 18 +++++++++++++++---
+>>  1 file changed, 15 insertions(+), 3 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
+>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 78c5301..0f39256 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1313,7 +1313,7 @@ static int dp_pm_resume(struct device *dev)
+>>         struct platform_device *pdev = to_platform_device(dev);
+>>         struct msm_dp *dp_display = platform_get_drvdata(pdev);
+>>         struct dp_display_private *dp;
+>> -       u32 status;
+>> +       int sink_count = 0;
+>> 
+>>         dp = container_of(dp_display, struct dp_display_private, 
+>> dp_display);
+>> 
+>> @@ -1327,14 +1327,26 @@ static int dp_pm_resume(struct device *dev)
+>> 
+>>         dp_catalog_ctrl_hpd_config(dp->catalog);
+>> 
+>> -       status = dp_catalog_link_is_connected(dp->catalog);
+>> +       /*
+>> +        * set sink to normal operation mode -- D0
+>> +        * before dpcd read
+>> +        */
+>> +       dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>> +
+>> +       /* if sink conencted, do dpcd read sink count */
 > 
-> Ok.  In that case, @Zhenneng can you update all of the pitch in all of
-> the page_flip functions in radeon rather than just the evergreen one?
+> s/conencted/connected/
+> 
+> This also just says what the code is doing. Why do we only read the 
+> sink
+> count if the link is connected? Can we read the sink count even if the
+> link isn't connected and then consider sink count as 0 if trying to 
+> read
+> fails?
+> 
+yes, we can do that.
+But it will suffer aux time out and retry.
+i think it is better to avoid this overhead by check connection first.
 
-atomic drivers handle this fairly ok-ish, since we have a proper
-atomic_check there.
-
-For legacy kms I just wouldn't bother, too many corners to validate. But
-also if you're bored, just do it :-)
--Daniel
-
-> 
-> Thanks,
-> 
-> Alex
-> 
-> 
-> >
-> > --
-> > Earthling Michel Dänzer               |               https://redhat.com
-> > Libre software enthusiast             |             Mesa and X developer
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>> +       if (dp_catalog_link_is_connected(dp->catalog)) {
+>> +               sink_count = drm_dp_read_sink_count(dp->aux);
+>> +               if (sink_count < 0)
+>> +                       sink_count = 0;
+>> +       }
+>> 
+>> +       dp->link->sink_count = sink_count;
+>>         /*
+>>          * can not declared display is connected unless
+>>          * HDMI cable is plugged in and sink_count of
+>>          * dongle become 1
+>>          */
+>> -       if (status && dp->link->sink_count)
+>> +       if (dp->link->sink_count)
+>>                 dp->dp_display.is_connected = true;
+>>         else
+>>                 dp->dp_display.is_connected = false;
