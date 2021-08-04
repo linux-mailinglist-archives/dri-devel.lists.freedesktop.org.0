@@ -1,59 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B738F3E01DD
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 15:24:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E93563E02CF
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 16:08:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE7356EA78;
-	Wed,  4 Aug 2021 13:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B55016E0A6;
+	Wed,  4 Aug 2021 14:08:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7D36EA78
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 13:24:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 16A0560FC3
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 13:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628083479;
- bh=dkFVgzENAhIuMDD3EPKvc4IYVCejszu10vnfgpPMdr0=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=sEG4hDOv9qYoud5qJBLpAI1vildTf4WUCf4kjTIty0WFhFQZNoh8J2u/eEC/B6w95
- sk6RI8sixOfq+KX7+o+FX9kg1sPCTSMTKAvqmSznrk3Ysidy5CWWbAkaVP8GAs723V
- 6nEeO/DVetuioh294vBD4uaLhxiFVUlJ8Fg4aQkAAF6olXH3sqVEIRNS79nP9wpHy3
- euNJjeB/IARaB8WsfkQ/hPV/dowY/Dm/xelN7kHQ3IDK3RjERXOP7w3U2PPCTKdcnb
- 8CJDF67tQWMUnuv1efgHxBrys3Rya5OfsJI+NjAF1nRnFACWn2LUnx0w79t2Ebq8dv
- uDQuDEVERNu2A==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 14348603BE; Wed,  4 Aug 2021 13:24:39 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Wed, 04 Aug 2021 13:24:38 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: me@jeromec.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-JMxTvYeWcF@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 761 seconds by postgrey-1.36 at gabe;
+ Wed, 04 Aug 2021 14:08:13 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 758686E0A6
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 14:08:13 +0000 (UTC)
+Received: from mail-wm1-f45.google.com ([209.85.128.45]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MmkjY-1mtio33Lh0-00juoX for <dri-devel@lists.freedesktop.org>; Wed, 04
+ Aug 2021 15:55:29 +0200
+Received: by mail-wm1-f45.google.com with SMTP id u15so1270391wmj.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 06:55:26 -0700 (PDT)
+X-Gm-Message-State: AOAM5329B2bcHXdnpClCGlsR2JEscTiRYmfTnz66xg9id8xYSLBHQoWF
+ +5ZCIQlEhv8VVnDyfAY65ahWFF9bmU0Uan0JlAY=
+X-Google-Smtp-Source: ABdhPJwDFsHBF22f8Wqozeaut6UIlHtczJbkX0G3MU6rJlQNmQa5Uqm62X/H+k4KrenEDbOxO68Jg/vZ6B5uO0dsHAk=
+X-Received: by 2002:a1c:208e:: with SMTP id g136mr9939159wmg.142.1628085325875; 
+ Wed, 04 Aug 2021 06:55:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210804043439.11757-1-o.rempel@pengutronix.de>
+In-Reply-To: <20210804043439.11757-1-o.rempel@pengutronix.de>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 4 Aug 2021 15:55:10 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0285V=N5HPS5grOTQ+q1HF8J6_PsxCLgLvYMsD0hVeUg@mail.gmail.com>
+Message-ID: <CAK8P3a0285V=N5HPS5grOTQ+q1HF8J6_PsxCLgLvYMsD0hVeUg@mail.gmail.com>
+Subject: Re: [PATCH v34 0/3] Mainline imx6 based SKOV boards
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, 
+ Olof Johansson <olof@lixom.net>, Rob Herring <robh+dt@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ SoC Team <soc@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, DTML <devicetree@vger.kernel.org>, 
+ Fabio Estevam <festevam@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Fyd0Gge/K/clP2iiDnSoAH9YF2Ip59sdPbDc5mbmeglV7VzAGGs
+ B7IFVknCrc0kp/1lD+0n2UeVEeERNsNDkAdcSJiKHQBGcrbQDDlHYgQ1PvUi1/62xtPTJ0X
+ rTye3SqRnKCujVQZrI56TyZmvw+UlSgm29Rl4bnXKoWuKtJnRJ43hfrE5s8xnCcKdfEzPrL
+ oMORCJswy8Hihoj2WArVA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vqQCBJzaWa0=:VdCNxpRHoTjL/GbGvfYHZY
+ M/fhSLQKgyGjrrvXENWemZ6PRwUw7DpcqrkadJ2PifR2eT6UE8/phOLsds7Mz7jLHsmrLMkSE
+ IgiXIkMGZvlvV+6eNvuK/rLD7hUAuy9reCKeN1/55LxdFfT32DwrDkfEWCksHdiLSuHhgy3ox
+ VjJLCCCilRNZR2Tt1ShxY/lEOehZh9jIaitQdpxVoVFWC0ExS2PQSGgwHHeLvY7MZWb3RVJB6
+ 3zWT7qd59NbmCj2LRKZs6T7WJJeSr8xha3f1ycKmt/LR1xkQnTjAY0oCOeQRFIrqcvlyRQfQt
+ T3wn4jhFYbePbXRJZqrvzhd7vqQJA1HcYz8hqLuZyRp1lYQ05tfSyHDKZQaVn70PVRdTNf4CL
+ bm4ugo/Hb0HcFfxJKpmiK9smK4XowqJAk/RqX9rWaZsukRIceVTRBDTvFD7g01bGOrrWB688r
+ sXJMAtkMZcLF3xVraLbewDpyF8X8DBfBsLkxqwjKu9vZhcwEqTj1CYptIKuIne07JFfmpjq3Y
+ NztExkkhBxGGBVnk5iqy9sI1ssZLXuVcT9D3ue1N3Zk5XbVLkQ4jrs5AIUnsnv+Jv+vHnqkuD
+ uxtM/QC3+GLSlCSC1osDzji2K5FLyQmLCcPawg//bP6NeMeLPZb+jjwCSQCupAMjtYLA/xiwa
+ 5VAHwuZPWgjnSnbyDuao4cYxdIwcAagcPDJ0PHx5fgRcWdLn8bHbxajNfARL1vdbNYB/3WV+h
+ 3IkHd6XJl105MowX0mNNegKtpvrOy0PKYrjg+ObiCQ5qPsBpXSikWJ97+VoeFX/4NGFDoVEnN
+ ayIlcsOzOFC4t7NcMTHzZkeAgONZ9lAc4oe7Ey7FMCExUMV3picYDfFP3n46kw0lbGhsW7eFw
+ JkhvQDg+SzBn8OAN28Trl3wH25K2vablfKs1pA5N7XSHQNKzoK0y3Po7XL3DywiksUq7bkm9f
+ VEQI8UMt9EAuytf1PgIHiiXuhPT6EmLgM0J+X2gyGwssxwqnEfRIA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,24 +82,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
+On Wed, Aug 4, 2021 at 6:36 AM Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+>
+> changes v4:
+> - add vref-supply to adc@0
+> - split gpio assignment for the mdio node
 
---- Comment #36 from Jerome C (me@jeromec.com) ---
-I've been watching linux-next and noticed that this commit=20
+Hi Oleksij,
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/=
-drivers/gpu/drm/amd?id=3D65660ad349fd947feb16b45ff9231f2ceaf44318
+I've dropped the series from the soc patchwork, since this looks like
+something that
+should go through the i.MX tree. Please make it clear from the cover
+letter and from
+the 'to' list what you want to happen with the patches, and who should take care
+of them.
 
-was posted on linux-next back between 5.10-5.11, I don't remember but it ke=
-eps
-getting pushed back and not mainlined...
+Any patches that are meant for platform maintainers should not get sent to
+soc@kernel.org. If you think you need me to review the patches, you can
+send them cc my personal address.
 
-I think this is why the issues are still here and none of AMD are respondin=
-g to
-this now since comment 29
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+      Arnd
