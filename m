@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3E13E07AB
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 20:33:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6293E0823
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 20:48:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED235893EB;
-	Wed,  4 Aug 2021 18:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E8636E11F;
+	Wed,  4 Aug 2021 18:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E2A6E434
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 18:33:36 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 8496dbbf-f552-11eb-8d1a-0050568cd888;
- Wed, 04 Aug 2021 18:33:52 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 365E9194B00;
- Wed,  4 Aug 2021 20:33:58 +0200 (CEST)
-Date: Wed, 4 Aug 2021 20:33:30 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
- christian.koenig@amd.com, liviu.dudau@arm.com,
- brian.starkey@arm.com, bbrezillon@kernel.org,
- nicolas.ferre@microchip.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, stefan@agner.ch, alison.wang@nxp.com,
- patrik.r.jakobsson@gmail.com, anitha.chrisanthus@intel.com,
- robdclark@gmail.com, edmund.j.dea@intel.com, sean@poorly.run,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- jyri.sarha@iki.fi, tomba@kernel.org, Dan.Sneddon@microchip.com,
- tomi.valkeinen@ideasonboard.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 11/14] drm/tilcdc: Convert to Linux IRQ interfaces
-Message-ID: <YQrdelvqiiv6On8r@ravnborg.org>
-References: <20210803090704.32152-1-tzimmermann@suse.de>
- <20210803090704.32152-12-tzimmermann@suse.de>
- <YQlZ+EQVbO9N3Mla@ravnborg.org>
- <896793e5-f5a8-fe74-1d8f-3dd1450d3fae@suse.de>
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1DD6E11F
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 18:48:21 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ j18-20020a17090aeb12b029017737e6c349so6480903pjz.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 11:48:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CzG2FRpQq4GQGHqHEFpqswVyF/E6iIZT1I4e0pVCjrs=;
+ b=z1V1AlsXLpzTdRc8PHs4TyChd/8FJo1XFk/J2zB1DdxzoGe2weHUR7mKLtY0a+vDFG
+ EyeH8XRGCdkxmHI5tHr0edh0fUHr5HVhQzPvoeqX+wo5/F3Qo4iaDmdFsooGd9ruKPYy
+ 2JjGcQtengX4nD8apulzOwhlx19zbo4vS320dfJgM7JjS/djQWNLugNNPRyDMAD1XmQZ
+ lYw4aDvm24VMzQEDmFUoxagDNb1d5hSZ8lBGdZFlYByb+dw1QOuYIhuN12pXD74xGz1v
+ z2tXXkdiJv7rOeSXjkMptDzvYlSu4ViIITwPpqBHbH+lJOr0aHGu4QizFEH1zFqjadW3
+ CVlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CzG2FRpQq4GQGHqHEFpqswVyF/E6iIZT1I4e0pVCjrs=;
+ b=JmEXVs0FlRCU93CHIzmImxn+m7M1gK74K6DsAA5JD9Te8bl0bSHBIWUf7smKQLElS4
+ v6IJttaeUVTxNoqcxLPss3tlFRzog59N0BvVwazjJZSHCP4avC/mGpLhfyz9aQqh5UTo
+ eUmirYDZAJL1RLY9q/AnMcQkFNW1XZIsG4uC+T7Sw9Go+Si3w8aZTiOCic1WD9IHfKhP
+ pbmzPOiFwsEemrH5TH76Cq2w207Q+onnB63dVtclsp5h7t0Vm639WB7o5jmb8fWtrrJh
+ 6Wyy3rF+rWjVndl1nzqbZObtbaS5tW/Vnh1wbGYx3p5RupGfTBLaFuWw/cPkUa0OOW4b
+ Jycw==
+X-Gm-Message-State: AOAM5326v0xkF83dGMqSjEhROZkF4wCU03kZfZS4GnL55ofmuzTADPnF
+ 7IY3gbePmE7cEKAXzSEVZB1Iw+np3Ldu2VSc
+X-Google-Smtp-Source: ABdhPJxcqa7wdIBOqnzmHkXV2lApX+tDbn3/yS7HsXZZ54THd7GgBR5wRkM+waRxxNAL5mDhrM1RgQ==
+X-Received: by 2002:a62:1609:0:b029:3ab:afdb:acf3 with SMTP id
+ 9-20020a6216090000b02903abafdbacf3mr1074565pfw.43.1628102900434; 
+ Wed, 04 Aug 2021 11:48:20 -0700 (PDT)
+Received: from omlet.lan ([134.134.139.85])
+ by smtp.gmail.com with ESMTPSA id h5sm3693004pfv.145.2021.08.04.11.48.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Aug 2021 11:48:20 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: dri-devel@lists.freedesktop.org
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>
+Subject: [PATCH] docs/drm: Add a new bullet to the uAPI requirements
+Date: Wed,  4 Aug 2021 13:48:16 -0500
+Message-Id: <20210804184816.623950-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <896793e5-f5a8-fe74-1d8f-3dd1450d3fae@suse.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,36 +73,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-On Wed, Aug 04, 2021 at 08:30:41PM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 03.08.21 um 17:00 schrieb Sam Ravnborg:
-> > Hi Thomas,
-> > 
-> > On Tue, Aug 03, 2021 at 11:07:01AM +0200, Thomas Zimmermann wrote:
-> > > Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
-> > > IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
-> > > don't benefit from using it.
-> > > 
-> > > DRM IRQ callbacks are now being called directly or inlined.
-> > > 
-> > > Calls to platform_get_irq() can fail with a negative errno code.
-> > > Abort initialization in this case. The DRM IRQ midlayer does not
-> > > handle this case correctly.
-> > 
-> > I cannot see why the irq_enabled flag is needed here, and the changelog
-> > do not help me.
-> > What do I miss?
-> 
-> That's a good point. Usually, only the DRM IRQ helpers use irq_enabled in
-> struct drm_device. It'll become legacy and we can ignore it for the driver
-> conversion.
-> 
-> The exception is tilcdc, which also uses irq_enabled to make its error
-> rollback work correctly. So I duplicated the state in the local private
-> structure.
-> 
-> I'll add this explanation to the commit message.
-With this added:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+While tracking down various bits of i915 uAPI, it's been difficult to
+find the userspace much of the time because no one bothers to mention it
+in commit messages.  Require the kernel patch to be a one-stop shop for
+finding the various bits which were used to justify the new uAPI.
+
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@redhat.com>
+---
+ Documentation/gpu/drm-uapi.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 199afb503ab1..82f780bc3fce 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -109,6 +109,11 @@ leads to a few additional requirements:
+   userspace patches land. uAPI always flows from the kernel, doing things the
+   other way round risks divergence of the uAPI definitions and header files.
+ 
++- The kernel patch which adds the new uAPI **must** reference the patch series
++  or merge requests in the userspaces project which use the new uAPI and
++  against which the review was done so that future developers can find all of
++  the pieces which tie together.
++
+ These are fairly steep requirements, but have grown out from years of shared
+ pain and experience with uAPI added hastily, and almost always regretted about
+ just as fast. GFX devices change really fast, requiring a paradigm shift and
+-- 
+2.31.1
+
