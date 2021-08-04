@@ -1,120 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDA03E02E8
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 16:18:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D13E23E02D4
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 16:11:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF1C76EA6A;
-	Wed,  4 Aug 2021 14:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE1056E216;
+	Wed,  4 Aug 2021 14:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 526 seconds by postgrey-1.36 at gabe;
- Wed, 04 Aug 2021 14:18:31 UTC
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9CB66EA6A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 14:18:31 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210804140942euoutp0155b728ad4dda5161436fcfb12a81db47~YH8HTNqwO1217112171euoutp01M
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 14:09:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20210804140942euoutp0155b728ad4dda5161436fcfb12a81db47~YH8HTNqwO1217112171euoutp01M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1628086182;
- bh=m5cyyo60a8j1iH/dVWQLYkbI/ZFi/aG+i1z6H4Obo1g=;
- h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=lm8Utu4hLUZNguwrjCQbDacZSNRMWvVj/YshPr//xzraDSDfnG2YuhCe1xZX6y11A
- f2g5lILsXTkan0sezukf+FmAFS3tWpcsfw2J91hkI/2qtAxrAXaGRKwimwkMaYPLz4
- X8JA4DzWQAiFx6BN8PxIiiOWs59YK6I1y+eQ/5S4=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20210804140942eucas1p2a22adcabc3c207f3cb2b512fc69c0789~YH8G3abOR2902329023eucas1p2R;
- Wed,  4 Aug 2021 14:09:42 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id E6.5E.56448.5AF9A016; Wed,  4
- Aug 2021 15:09:41 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20210804140941eucas1p2d4d4ec491074530c714797523aec05ea~YH8GCdgqR2900629006eucas1p2Q;
- Wed,  4 Aug 2021 14:09:41 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210804140941eusmtrp2870860b802248745446daabbb22d7d96~YH8GBdQCp1266512665eusmtrp2j;
- Wed,  4 Aug 2021 14:09:41 +0000 (GMT)
-X-AuditID: cbfec7f5-d53ff7000002dc80-b4-610a9fa56c7b
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id E5.45.31287.5AF9A016; Wed,  4
- Aug 2021 15:09:41 +0100 (BST)
-Received: from [192.168.0.14] (unknown [106.210.131.79]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210804140939eusmtip131e5008e60b206fa2a8cf3eef6e9f59e~YH8ESoAh92281322813eusmtip1x;
- Wed,  4 Aug 2021 14:09:39 +0000 (GMT)
-From: "a.hajda" <a.hajda@samsung.com>
-Subject: Re: [PATCH v2 0/8] drm/bridge: Make panel and bridge probe order
- consistent
-To: Maxime Ripard <maxime@cerno.tech>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Thierry Reding <thierry.reding@gmail.com>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Jernej Skrabec <jernej.skrabec@gmail.com>, Neil
- Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>, Robert
- Foss <robert.foss@linaro.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <cc638e20-aa7c-7014-f70b-1bb68e629d87@samsung.com>
-Date: Wed, 4 Aug 2021 16:09:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6FCE6E216
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 14:10:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628086257;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vDjxvCXPaN+5/k0w+fY3Yqj54cOWLInWRCxwK9/1kSg=;
+ b=MynPrC22NSvv787lzm6QwjODmf01djsChcHbO/k52biTqx0iGhKLekBgKN6G81tvkXXqM4
+ se+l9suitfGNp2qXlrSFhnNJl7Zfun29rmUCu0Sa6iia5+5198FREOQA7FOmx4tPCBI3bb
+ SYVemPaRunay67QVq5v1t15cDUbuRWQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-527-kSN--TzuMzCjdpZUJkLwFg-1; Wed, 04 Aug 2021 10:10:56 -0400
+X-MC-Unique: kSN--TzuMzCjdpZUJkLwFg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ a9-20020a0560000509b029015485b95d0cso874573wrf.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 07:10:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vDjxvCXPaN+5/k0w+fY3Yqj54cOWLInWRCxwK9/1kSg=;
+ b=H504RSekucvdi7akIKgGsx5Bh3XvWgcvDhRmsl0yBDYb5MI986SRO+hIzfczCpx/kP
+ FEleEcQzQlNkKWecZP6nhNjhwohG9g7X0GjqI5jmHaL0yHDcvFAN+e1STwFCiOvR0Bx1
+ g27VcpfgP9IuIE4czWx9xB/ilAXQoWX+GfzXwFNioHu0PlaCYvTqiqV4jS1/jY9z/nqn
+ oVziE+gJejxgis8abjk+H7xDMSVgezmPEPD7nWd95oHs8BY/EO87H6GS8dWIKq0/vyPn
+ 7786Z470nltT/K/6+cvPtiwW6S5HFrsj0w1LfwBiTTMnJ8UOKugzAmK6ZR1lRAZbvL2z
+ lI9w==
+X-Gm-Message-State: AOAM532jlj0krqRqNsOXV1WZxoqJc1fvIPCj92cN5fTGoDG1mdPXgZhi
+ KpeButEEyWO+F+SjClSXvhbXtHCszYWfXOYV5m9pRXeChQESxkznAH+4kxt2wdemuAq/9vGVslg
+ CkGEa9zl4l6oWqUG8z5SEK06op1AV
+X-Received: by 2002:a7b:c255:: with SMTP id b21mr28240805wmj.100.1628086255242; 
+ Wed, 04 Aug 2021 07:10:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwv/BscaEU9xSkgsqbKKdLLWxpw8zS8J8c7lgfIoTdZVleH/nu5P0+UGoxW5ZzSsXcTq5LHQw==
+X-Received: by 2002:a7b:c255:: with SMTP id b21mr28240785wmj.100.1628086255032; 
+ Wed, 04 Aug 2021 07:10:55 -0700 (PDT)
+Received: from kherbst.pingu.com (ip1f10bb48.dynamic.kabel-deutschland.de.
+ [31.16.187.72])
+ by smtp.gmail.com with ESMTPSA id j140sm2484098wmj.37.2021.08.04.07.10.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Aug 2021 07:10:54 -0700 (PDT)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Karol Herbst <kherbst@redhat.com>, Arnd Bergmann <arnd@kernel.org>,
+ Lyude Paul <lyude@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Daniel Vetter <daniel@ffwll.ch>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] depend on BACKLIGHT_CLASS_DEVICE for more devices
+Date: Wed,  4 Aug 2021 16:10:49 +0200
+Message-Id: <20210804141049.499767-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
+References: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210728133229.2247965-1-maxime@cerno.tech>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCKsWRmVeSWpSXmKPExsWy7djPc7pL53MlGmxbaGPRe+4kk8XyM+uY
- La58fc9m8Xz+OkaLk2+uslh0TlzCbnF51xw2i4Uft7JYzPjxj9HiUF+0xadZD5ktVvzcymjx
- c9c8FostbyayOvB5vL/Ryu5x59x5No+ds+6ye8zumMnqsXjPSyaPExMuMXncubaHzWP7twes
- HvNOBnrc7z7O5LFk2lU2j82nqz0+b5IL4I3isklJzcksSy3St0vgyvi5dwtbwTuBijcLFzM3
- MJ7g7WLk5JAQMJFYsesCcxcjF4eQwApGid07lrBAOF8YJV5/7IDKfGaU2HF2P2MXIwdYy+2l
- whDx5YwSsx9sYIdw3jJK3Dr5CqyITUBVYvEZN5AVwgJhEjMWrAKrERH4zSzR0P2PDSTBLOAo
- cXPqMVYQm1fATmLBvffMIL0sAioSM9ZFgIRFBSIlzu9ewAJRIihxcuYTMJtTwFLi6qMGFogx
- 4hK3nsxngrDlJba/nQN2tITAKU6JV88XMEP86SLx5P8OdghbWOLV8S1QtozE/50QzRIC9RL3
- V7RANXcwSmzdsBOq2VrizrlfbCDHMQtoSqzfpQ8RdpR403aZCRIofBI33gpC3MAnMWnbdGaI
- MK9ER5sQRLWixP2zW6EGikssvfCVbQKj0iwkn81C8s0sJN/MQti7gJFlFaN4amlxbnpqsXFe
- arlecWJucWleul5yfu4mRmBCPP3v+NcdjCtefdQ7xMjEwXiIUYKDWUmEN/QGR6IQb0piZVVq
- UX58UWlOavEhRmkOFiVx3l1b18QLCaQnlqRmp6YWpBbBZJk4OKUamBpmdT3PWJp270PN3Qmz
- xForSv49vdHrc0ZUIOxB/MQAjudns3h5jhvkzg1Y8f8Aa/kG1aOJxzb+FtZ0y1i43l2ZedcW
- 96mPj0/OXetjLj4vsaVfb8cqO3Z/vh6fv56eF844s99cnqf68fgS751pjCc3TtVisPHy7nzR
- dPGi+8cfXI1ykVoZAkeaLbuUXigFF8ntqtHRUXNkFV+r6HQuqm+LGvP5vOA98+c+KVlidGnG
- /NxPuT/cohRcLkQdtQrosY/vM4m6OOnT5VdMX48ElEpLXko8WpEcplzbqbWbL2G+efzfpnWH
- tBq2CLvbp/5s+Dep6nudsIG+gNiGX1U7Ije4lb5eM4nDX0et4d0SJZbijERDLeai4kQAEymL
- 9vcDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKIsWRmVeSWpSXmKPExsVy+t/xu7pL53MlGhzZzGnRe+4kk8XyM+uY
- La58fc9m8Xz+OkaLk2+uslh0TlzCbnF51xw2i4Uft7JYzPjxj9HiUF+0xadZD5ktVvzcymjx
- c9c8FostbyayOvB5vL/Ryu5x59x5No+ds+6ye8zumMnqsXjPSyaPExMuMXncubaHzWP7twes
- HvNOBnrc7z7O5LFk2lU2j82nqz0+b5IL4I3SsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQz
- NDaPtTIyVdK3s0lJzcksSy3St0vQy/i5dwtbwTuBijcLFzM3MJ7g7WLk4JAQMJG4vVS4i5GL
- Q0hgKaNEf9815i5GTqC4uMTu+W+hbGGJP9e62CCKXjNKrD53hA2kmU1AVWLxGTeQGmGBMIkZ
- C1axg9giAn+ZJSa81gWxmQUcJW5OPcYKYgsJWEhc2LENzOYVsJNYcO89M8gYFgEViRnrIkDC
- ogKREp8XvIIqEZQ4OfMJC4jNKWApcfVRAwvESDOJeZsfMkPY4hK3nsxngrDlJba/ncM8gVFo
- FpL2WUhaZiFpmYWkZQEjyypGkdTS4tz03GJDveLE3OLSvHS95PzcTYzA+N927OfmHYzzXn3U
- O8TIxMF4iFGCg1lJhDf0BkeiEG9KYmVValF+fFFpTmrxIUZToHcmMkuJJucDE1BeSbyhmYGp
- oYmZpYGppZmxkjjv1rlr4oUE0hNLUrNTUwtSi2D6mDg4pRqYKq+famZ9Ex2ia+KWJiD9Skdx
- 6V3NbYt2v086sX1tyxLG7Ad+7//Ny25W/GF94tyM9ddDNlivz/9wy9RdXb8vTqnIkCFneVnl
- Tvu9Vts2d65s7ZewO3Kr6ETx4cLo/rUfFRsmPmt4sv/oUpVqrjj3/qxMHj2XKdKnk7mfF0TH
- /km9fMGtZqHBd759m0pTmHazSO5e1PNjntMC2dwJZ6LlvhVc/chUmDGrQSH94n7xr6vmT7Gq
- 9W5X4hb7Pf/dT/7pjypLz4aWB55ZIb5Kou/TR4c7MX6adT2fBCoFLczPJpc/ZygVfmE3wanP
- 1/Bh4OO2kmWMLjv9V20rtbyp7KAQr/JYwSGzgvGVZb5S4AYlluKMREMt5qLiRADxOvneiAMA
- AA==
-X-CMS-MailID: 20210804140941eucas1p2d4d4ec491074530c714797523aec05ea
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210804140941eucas1p2d4d4ec491074530c714797523aec05ea
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210804140941eucas1p2d4d4ec491074530c714797523aec05ea
-References: <20210728133229.2247965-1-maxime@cerno.tech>
- <CGME20210804140941eucas1p2d4d4ec491074530c714797523aec05ea@eucas1p2.samsung.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,52 +88,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+playing around a little bit with this, I think the original "select
+BACKLIGHT_CLASS_DEVICE" is fine. Atm we kind of have this weird mix of
+drivers selecting and others depending on it. We could of course convert
+everything over to depend, and break those cycling dependency issues with
+this.
 
-I have been busy with other tasks, and I did not follow the list last 
-time, so sorry for my late response.
+Anyway this change on top of my initial patch is enough to make Kconfig
+happy and has the advantage of not having to mess with the deps of nouveau
+too much.
 
-On 28.07.2021 15:32, Maxime Ripard wrote:
-> Hi,
-> 
-> We've encountered an issue with the RaspberryPi DSI panel that prevented the
-> whole display driver from probing.
-> 
-> The issue is described in detail in the commit 7213246a803f ("drm/vc4: dsi:
-> Only register our component once a DSI device is attached"), but the basic idea
-> is that since the panel is probed through i2c, there's no synchronization
-> between its probe and the registration of the MIPI-DSI host it's attached to.
-> 
-> We initially moved the component framework registration to the MIPI-DSI Host
-> attach hook to make sure we register our component only when we have a DSI
-> device attached to our MIPI-DSI host, and then use lookup our DSI device in our
-> bind hook.
-> 
-> However, all the DSI bridges controlled through i2c are only registering their
-> associated DSI device in their bridge attach hook, meaning with our change
+Cc: Arnd Bergmann <arnd@kernel.org>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: nouveau@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/bridge/Kconfig    | 2 +-
+ drivers/gpu/drm/fsl-dcu/Kconfig   | 2 +-
+ drivers/gpu/drm/gud/Kconfig       | 2 +-
+ drivers/gpu/drm/nouveau/Kconfig   | 2 +-
+ drivers/platform/x86/Kconfig      | 4 ++--
+ drivers/staging/olpc_dcon/Kconfig | 2 +-
+ drivers/usb/misc/Kconfig          | 2 +-
+ drivers/video/fbdev/Kconfig       | 2 +-
+ 8 files changed, 9 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 431b6e12a81f..dc68532ede38 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -173,9 +173,9 @@ config DRM_NXP_PTN3460
+ config DRM_PARADE_PS8622
+ 	tristate "Parade eDP/LVDS bridge"
+ 	depends on OF
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	select DRM_PANEL
+ 	select DRM_KMS_HELPER
+-	select BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  Parade eDP-LVDS bridge chip driver.
+ 
+diff --git a/drivers/gpu/drm/fsl-dcu/Kconfig b/drivers/gpu/drm/fsl-dcu/Kconfig
+index d7dd8ba90e3a..79bfd7e6f6dc 100644
+--- a/drivers/gpu/drm/fsl-dcu/Kconfig
++++ b/drivers/gpu/drm/fsl-dcu/Kconfig
+@@ -2,7 +2,7 @@
+ config DRM_FSL_DCU
+ 	tristate "DRM Support for Freescale DCU"
+ 	depends on DRM && OF && ARM && COMMON_CLK
+-	select BACKLIGHT_CLASS_DEVICE
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	select DRM_KMS_HELPER
+ 	select DRM_KMS_CMA_HELPER
+ 	select DRM_PANEL
+diff --git a/drivers/gpu/drm/gud/Kconfig b/drivers/gpu/drm/gud/Kconfig
+index 1c8601bf4d91..91a118928af7 100644
+--- a/drivers/gpu/drm/gud/Kconfig
++++ b/drivers/gpu/drm/gud/Kconfig
+@@ -3,10 +3,10 @@
+ config DRM_GUD
+ 	tristate "GUD USB Display"
+ 	depends on DRM && USB
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	select LZ4_COMPRESS
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_SHMEM_HELPER
+-	select BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  This is a DRM display driver for GUD USB Displays or display
+ 	  adapters.
+diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
+index 2e159b0ea7fb..afb3eede8e2b 100644
+--- a/drivers/gpu/drm/nouveau/Kconfig
++++ b/drivers/gpu/drm/nouveau/Kconfig
+@@ -2,12 +2,12 @@
+ config DRM_NOUVEAU
+ 	tristate "Nouveau (NVIDIA) cards"
+ 	depends on DRM && PCI && MMU
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	select IOMMU_API
+ 	select FW_LOADER
+ 	select DRM_KMS_HELPER
+ 	select DRM_TTM
+ 	select DRM_TTM_HELPER
+-	select BACKLIGHT_CLASS_DEVICE
+ 	select ACPI_VIDEO if ACPI && X86 && INPUT
+ 	select X86_PLATFORM_DEVICES if ACPI && X86
+ 	select ACPI_WMI if ACPI && X86
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 7d385c3b2239..278368985fb2 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -838,7 +838,7 @@ config SAMSUNG_LAPTOP
+ config SAMSUNG_Q10
+ 	tristate "Samsung Q10 Extras"
+ 	depends on ACPI
+-	select BACKLIGHT_CLASS_DEVICE
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  This driver provides support for backlight control on Samsung Q10
+ 	  and related laptops, including Dell Latitude X200.
+@@ -935,7 +935,7 @@ config ACPI_CMPC
+ 	tristate "CMPC Laptop Extras"
+ 	depends on ACPI && INPUT
+ 	depends on RFKILL || RFKILL=n
+-	select BACKLIGHT_CLASS_DEVICE
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  Support for Intel Classmate PC ACPI devices, including some
+ 	  keys as input device, backlight device, tablet and accelerometer
+diff --git a/drivers/staging/olpc_dcon/Kconfig b/drivers/staging/olpc_dcon/Kconfig
+index d1a0dea09ef0..a9f36538d7ab 100644
+--- a/drivers/staging/olpc_dcon/Kconfig
++++ b/drivers/staging/olpc_dcon/Kconfig
+@@ -4,7 +4,7 @@ config FB_OLPC_DCON
+ 	depends on OLPC && FB
+ 	depends on I2C
+ 	depends on GPIO_CS5535 && ACPI
+-	select BACKLIGHT_CLASS_DEVICE
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  In order to support very low power operation, the XO laptop uses a
+ 	  secondary Display CONtroller, or DCON.  This secondary controller
+diff --git a/drivers/usb/misc/Kconfig b/drivers/usb/misc/Kconfig
+index 8f1144359012..6f769a1616f0 100644
+--- a/drivers/usb/misc/Kconfig
++++ b/drivers/usb/misc/Kconfig
+@@ -132,7 +132,7 @@ config USB_FTDI_ELAN
+ 
+ config USB_APPLEDISPLAY
+ 	tristate "Apple Cinema Display support"
+-	select BACKLIGHT_CLASS_DEVICE
++	depends on BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  Say Y here if you want to control the backlight of Apple Cinema
+ 	  Displays over USB. This driver provides a sysfs interface.
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index d33c5cd684c0..b4d5837b61de 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -187,7 +187,7 @@ config FB_MACMODES
+ config FB_BACKLIGHT
+ 	tristate
+ 	depends on FB
+-	select BACKLIGHT_CLASS_DEVICE
++	depends on BACKLIGHT_CLASS_DEVICE
+ 
+ config FB_MODE_HELPERS
+ 	bool "Enable Video Mode Handling Helpers"
+-- 
+2.31.1
 
-I guess this is incorrect. I have promoted several times the pattern 
-that device driver shouldn't expose its interfaces (for example 
-component_add, drm_panel_add, drm_bridge_add) until it gathers all 
-required dependencies. In this particular case bridges should defer 
-probe until DSI bus becomes available. I guess this way the patch you 
-reverts would work.
-
-I advised few times this pattern in case of DSI hosts, apparently I 
-didn't notice the similar issue can appear in case of bridges. Or there 
-is something I have missed???
-
-Anyway there are already eleven(?) bridge drivers using this pattern. I 
-wonder if fixing it would be difficult, or if it expose other issues???
-The patches should be quite straightforward - move 
-of_find_mipi_dsi_host_by_node and mipi_dsi_device_register_full to probe 
-time.
-
-Finally I think that if we will not fix these bridge drivers we will 
-encounter another set of issues with new platforms connecting "DSI host 
-drivers assuming this pattern" and "i2c/dsi device drivers assuming 
-pattern already present in the bridges".
-
-Regards
-Andrzej
