@@ -2,36 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3A63E08E8
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 21:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCE53E097A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 22:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 888826E223;
-	Wed,  4 Aug 2021 19:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225396E463;
+	Wed,  4 Aug 2021 20:41:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 294556E223;
- Wed,  4 Aug 2021 19:37:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="193589690"
-X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; d="scan'208";a="193589690"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2021 12:37:51 -0700
-X-IronPort-AV: E=Sophos;i="5.84,295,1620716400"; d="scan'208";a="637097050"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2021 12:37:51 -0700
-Date: Wed, 4 Aug 2021 19:37:49 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Do not define vma on stack
-Message-ID: <20210804193749.GA87546@DUT151-ICLU.fm.intel.com>
-References: <20210803051121.72017-1-matthew.brost@intel.com>
- <20210803051121.72017-2-matthew.brost@intel.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C58786E463;
+ Wed,  4 Aug 2021 20:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=f9gSgEz86yFFQ7CEO9gWv946kye+BSxNr15YYmTIIXs=; b=f0EXkLpLotyGgBVVyg/MPMzSlF
+ LikWAmrnOndI5J5MFM5sTgNa2lbW5/Ss/CBg+cDayuEShzqnOVS9XwYspfWfRdcas5pn4WgYFYLD1
+ kaKaCzE5di9CjUHC5WDLjzEyjnil2p+ynAD4YEDuyfNJDcvgE1/qGmXQAOoF4aC4MR5FVskoHASlp
+ 7jQiMD+LhqqHgoFQmB9Xgw/l0yJqNbOWEu1HYUr7mwt3JNxfxHJ601QnhSXyoAtjfYDqX6HT8VpDX
+ lJE+fku0pDff+4p5pqsjV3meVjN6Tr0hLbpjevBvWpNKhMM+w9TvDL8rG0OJhyAQiITf1xVDGTcvM
+ HhGoo6sQ==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mBNi1-007QAy-Pu; Wed, 04 Aug 2021 20:41:50 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH -next] drm/i915: fix i915_globals_exit() section mismatch error
+Date: Wed,  4 Aug 2021 13:41:47 -0700
+Message-Id: <20210804204147.2070-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210803051121.72017-2-matthew.brost@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,78 +56,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 02, 2021 at 10:11:18PM -0700, Matthew Brost wrote:
-> From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-> 
-> Defining vma on stack can cause stack overflow, if
-> vma gets populated with new fields.
-> 
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-> Signef-off-by: Matthew Brost <matthew.brost@intel.com>
+Fix modpost Section mismatch error in i915_globals_exit().
+Since both an __init function and an __exit function can call
+i915_globals_exit(), any function that i915_globals_exit() calls
+should not be marked as __init or __exit. I.e., it needs to be
+available for either of them.
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+WARNING: modpost: vmlinux.o(.text+0x8b796a): Section mismatch in reference from the function i915_globals_exit() to the function .exit.text:__i915_globals_flush()
+The function i915_globals_exit() references a function in an exit section.
+Often the function __i915_globals_flush() has valid usage outside the exit section
+and the fix is to remove the __exit annotation of __i915_globals_flush.
 
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 18 +++++++++---------
->  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h |  2 ++
->  2 files changed, 11 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> index 3a16d08608a5..f632dbd32b42 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> @@ -413,20 +413,20 @@ static void uc_fw_bind_ggtt(struct intel_uc_fw *uc_fw)
->  {
->  	struct drm_i915_gem_object *obj = uc_fw->obj;
->  	struct i915_ggtt *ggtt = __uc_fw_to_gt(uc_fw)->ggtt;
-> -	struct i915_vma dummy = {
-> -		.node.start = uc_fw_ggtt_offset(uc_fw),
-> -		.node.size = obj->base.size,
-> -		.pages = obj->mm.pages,
-> -		.vm = &ggtt->vm,
-> -	};
-> +	struct i915_vma *dummy = &uc_fw->dummy;
-> +
-> +	dummy->node.start = uc_fw_ggtt_offset(uc_fw);
-> +	dummy->node.size = obj->base.size;
-> +	dummy->pages = obj->mm.pages;
-> +	dummy->vm = &ggtt->vm;
->  
->  	GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
-> -	GEM_BUG_ON(dummy.node.size > ggtt->uc_fw.size);
-> +	GEM_BUG_ON(dummy->node.size > ggtt->uc_fw.size);
->  
->  	/* uc_fw->obj cache domains were not controlled across suspend */
-> -	drm_clflush_sg(dummy.pages);
-> +	drm_clflush_sg(dummy->pages);
->  
-> -	ggtt->vm.insert_entries(&ggtt->vm, &dummy, I915_CACHE_NONE, 0);
-> +	ggtt->vm.insert_entries(&ggtt->vm, dummy, I915_CACHE_NONE, 0);
->  }
->  
->  static void uc_fw_unbind_ggtt(struct intel_uc_fw *uc_fw)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-> index 99bb1fe1af66..693cc0ebcd63 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-> @@ -10,6 +10,7 @@
->  #include "intel_uc_fw_abi.h"
->  #include "intel_device_info.h"
->  #include "i915_gem.h"
-> +#include "i915_vma.h"
->  
->  struct drm_printer;
->  struct drm_i915_private;
-> @@ -75,6 +76,7 @@ struct intel_uc_fw {
->  	bool user_overridden;
->  	size_t size;
->  	struct drm_i915_gem_object *obj;
-> +	struct i915_vma dummy;
->  
->  	/*
->  	 * The firmware build process will generate a version header file with major and
-> -- 
-> 2.28.0
-> 
+ERROR: modpost: Section mismatches detected.
+Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.
+
+Fixes: 1354d830cb8f ("drm/i915: Call i915_globals_exit() if pci_register_device() fails")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/i915/i915_globals.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- linext-2021-0804.orig/drivers/gpu/drm/i915/i915_globals.c
++++ linext-2021-0804/drivers/gpu/drm/i915/i915_globals.c
+@@ -138,7 +138,7 @@ void i915_globals_unpark(void)
+ 	atomic_inc(&active);
+ }
+ 
+-static void __exit __i915_globals_flush(void)
++static void  __i915_globals_flush(void)
+ {
+ 	atomic_inc(&active); /* skip shrinking */
+ 
