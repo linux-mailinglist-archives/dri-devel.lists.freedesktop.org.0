@@ -1,70 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269193DFC12
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 09:27:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DDE3DFC1A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Aug 2021 09:30:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063176E9EE;
-	Wed,  4 Aug 2021 07:27:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A53666E9F2;
+	Wed,  4 Aug 2021 07:30:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 716F46E9EE
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 07:27:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10065"; a="299456546"
-X-IronPort-AV: E=Sophos;i="5.84,293,1620716400"; d="scan'208";a="299456546"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2021 00:27:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,293,1620716400"; d="scan'208";a="441570038"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga007.fm.intel.com with ESMTP; 04 Aug 2021 00:27:01 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Wed, 4 Aug 2021 00:27:00 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Wed, 4 Aug 2021 00:27:00 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.010;
- Wed, 4 Aug 2021 00:27:00 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-CC: Daniel Vetter <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Pekka Paalanen <ppaalanen@gmail.com>,
- Simon Ser <contact@emersion.fr>, =?iso-8859-1?Q?Michel_D=E4nzer?=
- <michel@daenzer.net>, "Zhang, Tina" <tina.zhang@intel.com>, "Kim, Dongwon"
- <dongwon.kim@intel.com>
-Subject: RE: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Thread-Topic: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Thread-Index: AQHXhFPnN1B4zkQxMkK/V9zRY5/TqKtbxyyAgAA1+gCABGu4gIAAPeQAgAASv4CAASwBgIAAjWCQ
-Date: Wed, 4 Aug 2021 07:27:00 +0000
-Message-ID: <48d7f260adcc4c3e8dac28ec19bcf998@intel.com>
-References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
- <YQPTo0D5SZfX44dn@phenom.ffwll.local>
- <20210730133850.bbje7uxvrvsmuopt@sirius.home.kraxel.org>
- <YQe2RfK0wCY6Q2y/@phenom.ffwll.local>
- <20210802125056.pdcfle4aziyjh32r@sirius.home.kraxel.org>
- <bede286bbe80421585cc9b9dd798bfe6@intel.com>
- <20210803075147.n5rbmdsrbhh5auk5@sirius.home.kraxel.org>
-In-Reply-To: <20210803075147.n5rbmdsrbhh5auk5@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 949A56E9F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 07:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1628062222;
+ bh=P4wBvc85h3fXlWdQcXelaLmQpD4A4GD47g72UVNj57I=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=MY1RIEdV/YTZijOtU6ffuHajpvE/20+zoOy4oMIA9PMA3e8aXwTzaWPC7MBwPQv9v
+ zxZzXV80UaXChtfhqATFIYAKu67BsJ6Bz3v1inyeOEs2eNHmfydh/xW8GT3DvjbbGy
+ U9jSZDDOEcU1R6ZK2AfZFBmrKJZJ899NQx7CctXU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [217.61.147.17] ([217.61.147.17]) by web-mail.gmx.net
+ (3c-app-gmx-bap67.server.lan [172.19.172.67]) (via HTTP); Wed, 4 Aug 2021
+ 09:30:21 +0200
 MIME-Version: 1.0
+Message-ID: <trinity-a5eeacb8-1625-4111-b613-19ee1609b902-1628062221917@3c-app-gmx-bap67>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Philipp
+ Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Jassi Brar <jassisinghbrar@gmail.com>, Yongqiang
+ Niu <yongqiang.niu@mediatek.com>, Fabien Parent <fparent@baylibre.com>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, Hsin-Yi Wang
+ <hsinyi@chromium.org>
+Subject: Aw: [PATCH v8, 2/2] soc: mediatek: mmsys: Add mt8192 mmsys routing
+ table
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 4 Aug 2021 09:30:21 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <1627894773-23872-3-git-send-email-yongqiang.niu@mediatek.com>
+References: <1627894773-23872-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1627894773-23872-3-git-send-email-yongqiang.niu@mediatek.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:FTFMR063lUiqNFEXMYKR9Nt6kBJb+tvRQII2gEh1asf4eB17tIoXkk2zLgq9ZD1OfoZwa
+ zwQa5mpCvFQBtgET6CZ/J7NtfPT9Bk8eILs7hs9zUEJ356V/YkowKCFFYgFuC5vh804RgGRtvI7S
+ nN/4NVGY4SKwh3JwOyAbL5N6eyxGAapF+Qt7UbVMzOun+eMRCx/q2qjqlGp3A92+tmr3Oxt4iFpr
+ WxfpR8duyZViNpCMnmrdQSeLBnDM9/A+UnMfbmH4lXNI18H4pcGPM373s5b5GEWpkg89+mJ5Ihsq
+ mQ=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pe3B7hYMLN8=:xYFKFGHPzPUBrVYDFk7erl
+ jCyPvToDYyqeGdTfuO5erRCplUODZQ2TuJJTXrNllkHHVX+Q/xgVq0GKWHQV3KLGEreWxpo7d
+ XuU/FRHqPq7uKnltpXonljHTWVPtSv+lp2tPV0+wDrTSU5vYIsrnacPtTmNg2KfT2xbuSKBIJ
+ g35lTXsvY70UqFgAtB5vAwdu6cvSdM1vEZFeBpbdJDDdPdVRnh77ajOPurEJTqVU+MO3PlP6e
+ VkRPJx0RikfPKW7fd6qRXqGal/KDecSIIxzjFCltzjLYdiYF+XRYwOzKeSGR95hMMMggCdMz8
+ iYtXCF1kkmI1b/gGBNPqktDysHJYfO6xC1mUr7zdhtpxS70PkdPdSKP/S/Q2PmzlrXpIPaPdv
+ 7F3/a30PnTmhxNZElXqCoFQJbFirK3s7LfuzbysOw5tuaTZpqF122rvWqEY6z/RdKlKIxsYKW
+ wPieYJYeNVnxgFZkdRfMjwEANhdYzIJkXUaiFwOKT4OydA9m1lie++9HLB7/ew7Irdhr/+2rI
+ 7xhz9zJtLT2d4i/64rW2kLhXWhraE7ZVKhbJtN21MRQ2eGC/VjY1ItEqfKl14UyNEL/CA/1ps
+ FlNKtiSJATQq/OkmLx0fiub23Mve1SBSNWj3XfP8ZsLlAIXg86oaBmnaaTyK3av+huAJ2RRtC
+ uZCpWZVNQUG02nrYcaOWBMtHWW3s4s/QfEcDp6rD05SgwQxnB04FXWgv3u8pDFGevUh4Xiu71
+ iiUOreyBgptkJa63QoxIL6RfHndWbwa8g8Cu+gMb6g4gxL2i7vV5zVXWV2oln6MXZt5fAtt5a
+ Dbie10PssSR6fDvZdVRpeDDnnoQ4EbTxssHUiZY1tjOlujPB48=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,89 +82,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gerd,
+Hi
 
->=20
-> > > virtio_gpu_primary_plane_update() will send RESOURCE_FLUSH only for
-> > > DIRTYFB and both SET_SCANOUT + RESOURCE_FLUSH for page-flip, and I
-> > > think for the page-flip case the host (aka qemu) doesn't get the
-> > > "wait until old framebuffer is not in use any more" right yet.
-> > [Kasireddy, Vivek] As you know, with the GTK UI backend and this patch =
-series:
-> > https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg06745.html
-> > we do create a sync file fd -- after the Blit -- and wait (adding it to=
- Qemu's main
-> > event loop) for it to ensure that the Guest scanout FB is longer in use=
- on the Host.
-> > This mechanism works in a similarly way for both frontbuffer DIRTYFB ca=
-se and
-> > also the double-buffer case.
->=20
-> Well, we don't explicitly wait on the old framebuffer.  Not fully sure
-> this is actually needed, maybe the command ordering (SET_SCANOUT goes
-> first) is enough.
-[Kasireddy, Vivek] When the sync file fd is signaled, the new FB can be con=
-sidered done/free
-on the Host; and, when this new FB becomes the old FB -- after another FB i=
-s submitted
-by the Guest -- we don't need to explicitly wait as we already did that in =
-the previous
-cycle.=20
+can you please test if your device still work after applying this
 
-Strictly speaking, in the double-buffered Guest case, we should be waiting =
-for the
-sync file fd of the old FB and not the new one. However, if we do this, we =
-saw that
-the Guest will render faster (~90 FPS) than what the Host can consume (~60 =
-FPS)
-resulting in unnecessary GPU cycles. And, in addition, we can't be certain =
-about
-whether a Guest is using double-buffering or single as we noticed that Wind=
-ows
-Guests tend to switch between single and double-buffering at runtime based =
-on
-the damage, etc.
+https://patchwork.kernel.org/project/linux-mediatek/patch/20210729070549.5514-1-linux@fw-web.de/
 
->=20
-> > > So we'll need a host-side fix for that and a guest-side fix to switch
-> > > from a blocking wait on the fence to vblank events.
-> > [Kasireddy, Vivek] Do you see any concerns with the blocking wait?
->=20
-> Well, it's sync vs. async for userspace.
->=20
-> With the blocking wait the userspace ioctl (PAGE_FLIP or the atomic
-> version of it) will return when the host is done.
->=20
-> Without the blocking wait the userspace ioctl will return right away and
-> userspace can do something else until the host is done (and the vbland
-> event is sent to notify userspace).
-[Kasireddy, Vivek] Right, but upstream Weston -- and I am guessing Mutter a=
-s well --=20
-almost always choose DRM_MODE_ATOMIC_NONBLOCK. In this case, the
-atomic ioctl call would not block and the blocking wait will instead happen=
- in the
-commit_work/commit_tail workqueue thread.
+and
 
->=20
-> > And, are you
-> > suggesting that we use a vblank timer?
->=20
-> I think we should send the vblank event when the RESOURCE_FLUSH fence
-> signals the host is done.
-[Kasireddy, Vivek] That is how it works now:
-        drm_atomic_helper_commit_planes(dev, old_state, 0);
+duplicate value constants in your routes?
 
-        drm_atomic_helper_commit_modeset_enables(dev, old_state);
+e.g. changing
 
-        drm_atomic_helper_fake_vblank(old_state);
++		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
++		MT8192_DISP_OVL0_2L_MOUT_EN, MT8192_OVL0_MOUT_EN_DISP_RDMA0,
 
-The blocking wait is in the plane_update hook called by drm_atomic_helper_c=
-ommit_planes()
-and immediately after that the fake vblank is sent.
+to
 
-Thanks,
-Vivek
->=20
-> take care,
->   Gerd
++		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
++		MT8192_DISP_OVL0_2L_MOUT_EN, MT8192_OVL0_MOUT_EN_DISP_RDMA0,
++		MT8192_OVL0_MOUT_EN_DISP_RDMA0
 
+regards Frank
