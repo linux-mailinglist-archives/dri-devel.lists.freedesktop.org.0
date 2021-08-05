@@ -2,47 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312113E13B9
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 13:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5CD3E13ED
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 13:31:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD04E6E9DA;
-	Thu,  5 Aug 2021 11:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3DC6E9DE;
+	Thu,  5 Aug 2021 11:31:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E8B6E9D7
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 11:19:50 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1mBbPf-00080h-Iu; Thu, 05 Aug 2021 13:19:47 +0200
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1mBbPf-0003XV-0y; Thu, 05 Aug 2021 13:19:47 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: =?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
- Sam Ravnborg <sam@ravnborg.org>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] drm/panel: simple: add LOGIC Technologies
- LTTD800480070-L6WH-RT
-Date: Thu,  5 Aug 2021 13:19:44 +0200
-Message-Id: <20210805111944.13533-3-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210805111944.13533-1-o.rempel@pengutronix.de>
-References: <20210805111944.13533-1-o.rempel@pengutronix.de>
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744B46E9DE
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 11:31:15 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ s22-20020a17090a1c16b0290177caeba067so14039079pjs.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 04:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1EBdlg+wpGirHMmu5NpOXKP/wpVDNvTG7/9oMG8+2TA=;
+ b=T79QxJMtJoS/ivMj3isDIYFd3/N4RCbbexFX0t1h5SX7XCPJG6tVru285TppZwWOPr
+ eLuiWgak/SzvfxCMeG4cPfdLrPhJqkei5DRf6ZfGgL9tMjJQUU38jij0zr3xLU9j28GH
+ wxfrOOBirApBfwqn3CSRucedRnCy4DrbFvNCcuCVWrZTZGGI0aVTm2TaHqUgjtJ+3/B2
+ o31M0RBmSU/3x1RSNNGpOTtPvljeBXNQA+T3C1RHfEAJiEwBKlcRs9swRZXo1g/mYEAb
+ 0E8+4cxeJ9g6UfZ3uLjnb3l6p4N2oyMhLblsE4yoUBW/dejL05N4IYqb4X0fwpxGMZhh
+ CqwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1EBdlg+wpGirHMmu5NpOXKP/wpVDNvTG7/9oMG8+2TA=;
+ b=JNAbkxEQX1X5JlOE+P2gwfjkUSeUrNRj+uGugEgNFcKhp1QYiM4omSnR4bXrhYEtP3
+ c4Z5FexoqPwmJ16/8py5COMZbEgPYWyAdZxyMZWcdyUiUKNZ2tA5Dw+8ra61qAbMHNXv
+ D/5+XVxkb7IdVXb69PyJvtxfqLjLCMmSgZh6S6V+aTgZW2xY5c7MftBXk6+08ToCTPDo
+ 4y4scbZVlIrra/yXpdRInmzOwqLeS7/uRIOiB0Ye3QZ/OjHIa+ejqMXIGQZng6JAiPcY
+ /T8gOqkLnZOBNTCf7PeROtuDge+MBVsMfBqx/zbhMfTzGOtqYNqGutS2g3ChrtOJk7iP
+ mRZA==
+X-Gm-Message-State: AOAM533txY1Z1lK3A6tPIAnsQs83VwBng+OjSF7q07j/fpm5YFc64MdW
+ +Q/s3e4RiQRHss5R2eaum3+YSR5X5HreLlpACUg=
+X-Google-Smtp-Source: ABdhPJycCBqrY8XWLy+kVBb39vmiLH0ofV3jMCfOLQaWBv1ztWFo31bVO/8lk7CARMZbV+WTkAuumbYsSupxETjz690=
+X-Received: by 2002:a17:90a:b10b:: with SMTP id
+ z11mr14989609pjq.181.1628163074988; 
+ Thu, 05 Aug 2021 04:31:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20210801085155.3170-1-len.baker@gmx.com>
+ <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
+ <YQvJB5s1zY2yO87D@kroah.com>
+In-Reply-To: <YQvJB5s1zY2yO87D@kroah.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 5 Aug 2021 14:30:35 +0300
+Message-ID: <CAHp75VeUH3+dZ6scREA-sZz8-7AF_MLobde+2-eZJz=MsxaW0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Len Baker <len.baker@gmx.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Phil Reid <preid@electromag.com.au>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ linux-staging@lists.linux.dev, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,72 +75,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Søren Andersen <san@skov.dk>
+On Thu, Aug 5, 2021 at 2:18 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Sun, Aug 01, 2021 at 02:40:40PM +0300, Andy Shevchenko wrote:
+> > On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
+> > >
+> > > strcpy() performs no bounds checking on the destination buffer. This
+> > > could result in linear overflows beyond the end of the buffer, leading
+> > > to all kinds of misbehaviors. So, this serie removes all strcpy uses
+> > > from the "staging/fbtft" subsystem.
+> > >
+> > > Also, refactor the code a bit to follow the kernel coding-style and
+> > > avoid unnecessary variable initialization.
+> >
+> > I don't see patch 3 (even on lore.kernel.org).
+> >
+> > Greg, Geert, does it make sense to move this driver outside of staging?
+>
+> If you clean up everything that needs to be done, yes, please do.
 
-Add support for the LOGIC Technologies, Inc LTTD800480070-L6WH-RT
+Do we have a clear TODO for that?
 
-Co-Developed-by: Søren Andersen <san@skov.dk>
-Co-Developed-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Søren Andersen <san@skov.dk>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- drivers/gpu/drm/panel/panel-simple.c | 35 ++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+The current one has the item which is not feasible to achieve in
+reasonable time. Some of those drivers won't be converted to tiny DRM.
+So the idea is to keep this out of staging in the maintenance phase
+(as it currently states, i.e. no new drivers accepted).  For the rest
+I'm not sure what else can be done (checkpatch? coccinelle?).
+Actually the first sentence in this paragraph is a motivation for
+moving out of staging.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 58ba26dbf852..b48ed9db1ac0 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2967,6 +2967,38 @@ static const struct panel_desc logictechno_lt170410_2whc = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct drm_display_mode logictechno_lttd800480070_l6wh_rt_mode = {
-+	.clock = 33000,
-+	.hdisplay = 800,
-+	.hsync_start = 800 + 154,
-+	.hsync_end = 800 + 154 + 3,
-+	.htotal = 800 + 154 + 3 + 43,
-+	.vdisplay = 480,
-+	.vsync_start = 480 + 47,
-+	.vsync_end = 480 + 47 + 3,
-+	.vtotal = 480 + 47 + 3 + 20,
-+	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-+};
-+
-+static const struct panel_desc logictechno_lttd800480070_l6wh_rt = {
-+	.modes = &logictechno_lttd800480070_l6wh_rt_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 154,
-+		.height = 86,
-+	},
-+	.delay = {
-+		.prepare = 45,
-+		.enable = 100,
-+		.disable = 100,
-+		.unprepare = 45
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct drm_display_mode mitsubishi_aa070mc01_mode = {
- 	.clock = 30400,
- 	.hdisplay = 800,
-@@ -4492,6 +4524,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "logictechno,lt170410-2whc",
- 		.data = &logictechno_lt170410_2whc,
-+	}, {
-+		.compatible = "logictechno,lttd800480070-l6wh-rt",
-+		.data = &logictechno_lttd800480070_l6wh_rt,
- 	}, {
- 		.compatible = "mitsubishi,aa070mc01-ca1",
- 		.data = &mitsubishi_aa070mc01,
 -- 
-2.30.2
-
+With Best Regards,
+Andy Shevchenko
