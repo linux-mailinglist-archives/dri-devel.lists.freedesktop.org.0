@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCFB3E13B0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 13:18:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C47923E13B7
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 13:19:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C6D16E9D6;
-	Thu,  5 Aug 2021 11:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C64DF6E9D8;
+	Thu,  5 Aug 2021 11:19:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95C0F6E9D6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 11:18:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DABF0600EF;
- Thu,  5 Aug 2021 11:18:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1628162313;
- bh=DdQzlZ8vWjMbBjovaP8o9XoM1Irb0BPSwOEizsTvoPY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=T6Y4IlN3BosamOneCduHXzFLrjeCTqR+kC/hL+fUn1zkZ0KB99FGtBi6f/bzJ+22a
- QBynemR7NZnbRCiVATHQfiIj9HKfnefJ5FhngZBbZKqyqgI9BbIsCQ7E7nUjBdmWKA
- g3Fwl4+4xKHj5kn8lTkB6F2mJr5E7nyWBOqM09hk=
-Date: Thu, 5 Aug 2021 13:18:31 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Len Baker <len.baker@gmx.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Phil Reid <preid@electromag.com.au>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- linux-staging@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
-Message-ID: <YQvJB5s1zY2yO87D@kroah.com>
-References: <20210801085155.3170-1-len.baker@gmx.com>
- <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E41956E9D7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 11:19:49 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1mBbPf-00080f-AY; Thu, 05 Aug 2021 13:19:47 +0200
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1mBbPd-0003XC-Nb; Thu, 05 Aug 2021 13:19:45 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] mainline panels used on Skov boards 
+Date: Thu,  5 Aug 2021 13:19:42 +0200
+Message-Id: <20210805111944.13533-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,23 +55,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 01, 2021 at 02:40:40PM +0300, Andy Shevchenko wrote:
-> On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
-> >
-> > strcpy() performs no bounds checking on the destination buffer. This
-> > could result in linear overflows beyond the end of the buffer, leading
-> > to all kinds of misbehaviors. So, this serie removes all strcpy uses
-> > from the "staging/fbtft" subsystem.
-> >
-> > Also, refactor the code a bit to follow the kernel coding-style and
-> > avoid unnecessary variable initialization.
-> 
-> I don't see patch 3 (even on lore.kernel.org).
-> 
-> Greg, Geert, does it make sense to move this driver outside of staging?
+changes v2:
+- set connector_type to DRM_MODE_CONNECTOR_DPI for the
+  logictechno_lttd800480070_l6wh_rt panel
 
-If you clean up everything that needs to be done, yes, please do.
+Sam Ravnborg (1):
+  drm/panel: simple: add Multi-Innotechnology MI1010AIT-1CP1
 
-thanks,
+Søren Andersen (1):
+  drm/panel: simple: add LOGIC Technologies LTTD800480070-L6WH-RT
 
-greg k-h
+ drivers/gpu/drm/panel/panel-simple.c | 69 ++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
+
+-- 
+2.30.2
+
