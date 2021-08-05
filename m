@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DBA3E15A7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 15:27:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 976533E15CD
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 15:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB4489E63;
-	Thu,  5 Aug 2021 13:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 570446EA4D;
+	Thu,  5 Aug 2021 13:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
- [IPv6:2607:f8b0:4864:20::c35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F26489E63
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 13:27:26 +0000 (UTC)
-Received: by mail-oo1-xc35.google.com with SMTP id
- t1-20020a4a54010000b02902638ef0f883so1294796ooa.11
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 06:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Qalves52XLJ7vOzp6TLw36xWZEzh27ZO+8Xjdq0smJo=;
- b=Xg+W1IE5Ssz6GXZHPkJ/ntmsbR5J/6Unp8BgOGq1KC6EtahsTDHNutF/BXcPNK64Xd
- gqs5SRJZh4ZqkGqBT39oAYIjQeCqTU7XfOvVNJ0BvdjM6S6lXMQvchoYvnCL+FGqmCZE
- iYgAK1TIJwyAzn51Q+NIyMOnXv9+jFDjnk3Ww=
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92A476EA4D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 13:36:08 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id y34so11106604lfa.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 06:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=30uracpthIuXSs44lu6RRxWBv7NJjXzBaQjU8TB5510=;
+ b=M/nP1CM7xn+CZ7274z8465Yq2jf1/nVPXJZvFxFte+iStx8VnQzGCydzYwV9YZ3qy/
+ gi1PXGbBbs5VP7TKvXrabWmLYmPeGBazgZwyQAYFHrELvuVr+pFw1pCo6EgU4ftFslUE
+ ftS58qvHPqAbZB6Li/DVMVhdK7saB3qktcqvII94alvZpJD4MBWqyi79yTlXv8G1WH4q
+ uG3zZ20UNTUFzyoymNHt8ocDr/X3LRpbCg3U4zrYMxzp9LORkhCZe3phYxq1Wf377x7Q
+ SppvoPu7U/pBFw4MbqqqEVMvhm8I9OJPOu4bzzX7YnMPZmsu/c9yilWQhdXpdznDfHhw
+ /HdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Qalves52XLJ7vOzp6TLw36xWZEzh27ZO+8Xjdq0smJo=;
- b=k9PwZV8pDG/XZXd1F9EYKERnyfo+MH0PNCRvHiS7ZrnoAgkxPJEk/1UKmbzaNOHirW
- YiqiSeDqAxO/KrvSdgxdz8qJg2Q/6tSUm21uqBrZC3x1wQANnA7iz8PbVC/qF0d5/9t+
- 0inpUKBpQZElcO0lK7Gfz4lQwipAZJYEDH4qgCXCbFYuHTcCDY9exjloD/SQVWDum8PX
- kUqZs2S2heEh9n1TPou1Moqr6Ob6BVLJh4xmuxw3V723QPhdKXI2b5J9QSgxnstj1H/q
- IRHTqpDHc0N81BPonuszcx2nwZ4m5swnGbwI/8th3PsJt+G3x5zLamRg4+ysBBIQ4o3l
- +Oog==
-X-Gm-Message-State: AOAM532VrqDvPZOATz4lMdC2M9ouA1zi9cOpeOTcirWyh4UUj0dKeHks
- Lurtipwoh6XRTjo5pxw9xksUmamaKZqCRgkXqQBy4A==
-X-Google-Smtp-Source: ABdhPJwdiWRyV6Abe33vo73yoJf4LzwhPZ4TtR31ItS5xOzjfO9OeNix/2PTEIfa21GRYE1Zw9naL7DKQnQkF40GwCw=
-X-Received: by 2002:a4a:b402:: with SMTP id y2mr1161405oon.89.1628170045983;
- Thu, 05 Aug 2021 06:27:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=30uracpthIuXSs44lu6RRxWBv7NJjXzBaQjU8TB5510=;
+ b=odDHhlYAX7nHWJjhaOROpi1eE0zYO+glmfoI/iuLEoLUzuvJH7AfhBb1rhkT2+JHhn
+ 2gO9IdiJzceDbufPWRvqUrG0ZmwztXaBXyBsOHK4EhrTIxX09hLj6Wu9RXslBljHq73Z
+ ucbJhlZvzzqZXqEEAAOScceL9KOiPe2hWz1+yVP+v9LwQlJnD6tZQjcg0ZBiC8sfp0Ub
+ 60ZDXGSnWRiHJp033fcKALyWaIPmNyYu9IO/WJm+rf+pmIKCaNj+vk+6DqqR9FHTpvWp
+ 3yXKlETBjSN411+EFvA4ZycuddR3RTOvsM59sbWM3TQBCeySKbyqz9zd+x0kVncDr3iq
+ EUXg==
+X-Gm-Message-State: AOAM533ePBWwXa07572J12aAsIF+wc5gONri8WgJiaZJMvvi5cWPS+fJ
+ vMDkU2MmNGqbGF6RBxNgikk=
+X-Google-Smtp-Source: ABdhPJw2fPHEeV+vd6pzesnCmhAxkmBbMI0INtbdI/2mGN2zSGItLyeYPaCet25Itf6BhkoHATeH+A==
+X-Received: by 2002:a19:5202:: with SMTP id m2mr247398lfb.581.1628170566923;
+ Thu, 05 Aug 2021 06:36:06 -0700 (PDT)
+Received: from nergzd-desktop.localdomain ([62.122.67.26])
+ by smtp.gmail.com with ESMTPSA id t3sm516232lfe.241.2021.08.05.06.36.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Aug 2021 06:36:06 -0700 (PDT)
+From: Markuss Broks <markuss.broks@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: linus.walleij@linaro.org, phone-devel@vger.kernel.org,
+ Markuss Broks <markuss.broks@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH 0/2] Add support for Samsung S6D27A1 display panel
+Date: Thu,  5 Aug 2021 16:33:40 +0300
+Message-Id: <20210805133343.27032-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <YQmG6EbBherV+8px@ravnborg.org>
+References: <YQmG6EbBherV+8px@ravnborg.org>
 MIME-Version: 1.0
-References: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
- <20210805104705.862416-16-daniel.vetter@ffwll.ch>
- <67fa5409-df0d-df5f-161e-695394bd7eba@amd.com>
-In-Reply-To: <67fa5409-df0d-df5f-161e-695394bd7eba@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 5 Aug 2021 15:27:14 +0200
-Message-ID: <CAKMK7uHYD9NXugkRQkeJ8qwHWF-tXP54+PMOexcvV7QqyrOcDw@mail.gmail.com>
-Subject: Re: [PATCH v5 15/20] drm/sched: Check locking in
- drm_sched_job_await_implicit
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>, 
- Daniel Vetter <daniel.vetter@intel.com>, Luben Tuikov <luben.tuikov@amd.com>, 
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,56 +76,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 5, 2021 at 3:19 PM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
->
-> Am 05.08.21 um 12:47 schrieb Daniel Vetter:
-> > You really need to hold the reservation here or all kinds of funny
-> > things can happen between grabbing the dependencies and inserting the
-> > new fences.
-> >
-> > Acked-by: Melissa Wen <mwen@igalia.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Luben Tuikov <luben.tuikov@amd.com>
-> > Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
->
-> The function name in the subject line should be updated, apart from that
-> feel free to add my rb to this patch.
+Add support for Samsung Mobile Displays(SMD) Samsung S6D27A1 panel.
+This display panel is used on Samsung mobile devices such as
+Samsung Galaxy Ace 2 (GT-I8160) also known as Codina.
 
-Fixed locally and r-b added, I think the later parts of this series
-will need to be resent anyway. Thanks for your review.
--Daniel
+Markuss Broks (2):
+  drm/panel: Add DT bindings for Samsung S6D27A1 display panel
+  drm/panel: s6d27a1: Add driver for Samsung S6D27A1 display panel
 
->
-> Christian.
->
-> > ---
-> >   drivers/gpu/drm/scheduler/sched_main.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> > index 49e507f91ec0..1abb40b07324 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -715,6 +715,8 @@ int drm_sched_job_add_implicit_dependencies(struct =
-drm_sched_job *job,
-> >       struct dma_fence **fences;
-> >       unsigned int i, fence_count;
-> >
-> > +     dma_resv_assert_held(obj->resv);
-> > +
-> >       if (!write) {
-> >               struct dma_fence *fence =3D dma_resv_get_excl_unlocked(ob=
-j->resv);
-> >
->
+ .../display/panel/samsung,s6d27a1.yaml        |  97 ++++++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-samsung-s6d27a1.c | 323 ++++++++++++++++++
+ 4 files changed, 432 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6d27a1.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
 
+-- 
+2.32.0
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
