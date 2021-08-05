@@ -1,53 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFE73E1CC4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 21:33:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8453E1CC9
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 21:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73D5B6E894;
-	Thu,  5 Aug 2021 19:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF5FD6EB34;
+	Thu,  5 Aug 2021 19:34:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E76496E894
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 19:33:26 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 04ed92f2-f624-11eb-9082-0050568c148b;
- Thu, 05 Aug 2021 19:33:32 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 3F9FF194B05;
- Thu,  5 Aug 2021 21:33:49 +0200 (CEST)
-Date: Thu, 5 Aug 2021 21:33:20 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Xin Ji <xji@analogixsemi.com>
-Cc: Robert Foss <robert.foss@linaro.org>,
- Nicolas Boichat <drinkcat@google.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Dan Carpenter <dan.carpenter@oracle.com>,
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 862176EB34
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 19:34:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 003CD6044F;
+ Thu,  5 Aug 2021 19:34:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1628192068;
+ bh=fwKKY6bFMJDEL2FPKkqHpTNMBchlx7gUmuOL3vFnpa0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KopAm7IudIT4aRfoUq561wLhRN2vUeBsXMGygdGnhFy1c1HTMsOuYfS6HaX8o+l0E
+ aHCqfATzorWjqjHq3JwQf8JNapgt7V7nWfpppLaJ3V8RKg9/gsH93m3vM1dit0myg+
+ 5cTiwH08XuCqdH6JxUDx7cV5mB84BUOxBb4HIOL8=
+Date: Thu, 5 Aug 2021 21:34:25 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Rob Herring <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Torsten Duwe <duwe@lst.de>,
- Vasily Khoruzhick <anarsoul@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Bernie Liang <bliang@analogixsemi.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devel@driverdev.osuosl.org, Qilin Wen <qwen@analogixsemi.com>
-Subject: Re: [PATCH v1 1/1] drm/bridge: anx7625: Tune K value for IVO panel
-Message-ID: <YQw9AKozQCPzk1wh@ravnborg.org>
-References: <a565cb1662d2f8300905a369c575e19176fd8e4c.1628148418.git.xji@analogixsemi.com>
+ Sam Ravnborg <sam@ravnborg.org>, list@opendingux.net,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drivers core: Export
+ driver_deferred_probe_check_state()
+Message-ID: <YQw9QVwL6we3dsrS@kroah.com>
+References: <20210805192110.90302-1-paul@crapouillou.net>
+ <20210805192110.90302-2-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a565cb1662d2f8300905a369c575e19176fd8e4c.1628148418.git.xji@analogixsemi.com>
+In-Reply-To: <20210805192110.90302-2-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,17 +53,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 05, 2021 at 03:30:55PM +0800, Xin Ji wrote:
-> IVO panel require less input video clock variation than video clock
-> variation in DP CTS spec.
+On Thu, Aug 05, 2021 at 09:21:08PM +0200, Paul Cercueil wrote:
+> Export this function as a GPL symbol, so that it can be used from
+> modules.
 > 
-> This patch decreases the K value of ANX7625 which will shrink eDP Tx
-> video clock variation to meet IVO panel's requirement.
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/base/dd.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index daeb9b5763ae..658f1527a58b 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -296,6 +296,7 @@ int driver_deferred_probe_check_state(struct device *dev)
+>  
+>  	return -EPROBE_DEFER;
+>  }
+> +EXPORT_SYMBOL_GPL(driver_deferred_probe_check_state);
 
-Looks good, I assume someone else (Robert) picks this.
+Drivers should never need to mess with this, it is for only a small set
+of busses to use only.
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Why do you think this is needed by a driver?
 
-	Sam
+thanks,
+
+greg k-h
