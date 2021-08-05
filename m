@@ -2,97 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEF03E1A71
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 19:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1923E1B07
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 20:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CDB46EB1F;
-	Thu,  5 Aug 2021 17:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00F216E862;
+	Thu,  5 Aug 2021 18:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69F16EB21
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 17:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628184798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fDWzWOKY9gRGQIrv08IMtQtjh7HeqqaHb9oXpUOEXe8=;
- b=eC3FS9Aw7QQBMNMjzjJEZ8LsCwvKj5t6UR14iFeTUMhTJyUAPlTBQRDE7hJphgDA6WGUjO
- MTzqJpgHefL8fVjeab+XapV7jTJKskROSKfXSJGT7S3j8PfZ1bUTlpbEfV4NLHkgTieviP
- oVjxgWu6eAElLnMjl964QKT4qvxVRW0=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-4YYKQOnMP2OGzu14qm59dg-1; Thu, 05 Aug 2021 13:33:15 -0400
-X-MC-Unique: 4YYKQOnMP2OGzu14qm59dg-1
-Received: by mail-oi1-f198.google.com with SMTP id
- z13-20020a056808064db029025cce343487so3060103oih.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 10:33:15 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 029426E3EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 18:14:40 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id u13so8278131lje.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 11:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1trO0cpGKN3+/lgO6GyM0AvZf7CokD2vczVT+ofcBes=;
+ b=Gw+9WwZDL4EANAb2g3+ASwPMHWmn0qy3KLkauW7qCj/EDBxMdtrIeaSYVgKXWjrNa8
+ e4RoJzhJU92BkyVRpX9kmhK0dXzAgjGPYxlHFxsaqPUDbVKQHcZ5r+ipHFEtrZuvPyCK
+ 9GzP0WFrIk/uS7tk0M6UVM52VKpqygcAiNB24=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=fDWzWOKY9gRGQIrv08IMtQtjh7HeqqaHb9oXpUOEXe8=;
- b=Say53MAt+F8tg8I/USrm+dxguJuTy0DbC4JAMVDt9ZWC3L6Rx+ZHdvzvHdEyfhUYkr
- KZM3Oyr9508K1kCh1NhIaH0fBxWSPNcaarrBKaEX+YuQAfCANXQuZV4RE2QTjfuHKUxi
- NF6iG6RhWWeRblOKLtGTL4R2TeoPLXnTgKpGMaetlOqTllln3Tp8Qo4MGZs0fXVWB2Qb
- erCLL05wulUhaoaEmMgTL07CSnVxX2ze3jbRZo50wbkSakhgYmRO0ZuVFcV/6pL6fYUU
- t3Lk9tWHs9pTumM0BOmzjp0DtUnQ53Ash+QGDYIyP+9JKXcCnRVFc7nvV7c+s2tO6/vP
- YXeg==
-X-Gm-Message-State: AOAM530Ho79Gcs7vjP0mmq/98e4M8zD2Ezj/OmDNHY6FIY7gDEUqto78
- M/G48Ev5Si86KSMBBV9dX/o47BZN3Q5WCNqv6BcaQz99giGekWc98Try+JvkWvjhik50cc8mhih
- oDfK8E1HIbxA3XmWGs3sWxlmqAtgb
-X-Received: by 2002:a9d:4e16:: with SMTP id p22mr4456211otf.173.1628184794761; 
- Thu, 05 Aug 2021 10:33:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgne5vH4F/tdkjcY9nwVFcfF47fNX2nFmDPhfapXicykX6MF2W8wxSNajz6keH3dZKwbyTaw==
-X-Received: by 2002:a9d:4e16:: with SMTP id p22mr4456177otf.173.1628184794507; 
- Thu, 05 Aug 2021 10:33:14 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id 50sm1021773oti.31.2021.08.05.10.33.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 10:33:14 -0700 (PDT)
-Date: Thu, 5 Aug 2021 11:33:11 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Cornelia Huck
- <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
- <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
- dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>, Eric
- Farman <farman@linux.ibm.com>, Harald Freudenberger <freude@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, Jani
- Nikula <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
- linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>, Peter
- Oberparleiter <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Vineeth Vijayan
- <vneethv@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>, "Raj, Ashok"
- <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>, Leon Romanovsky
- <leonro@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, Yishai Hadas
- <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [PATCH v3 09/14] vfio/pci: Change vfio_pci_try_bus_reset() to
- use the dev_set
-Message-ID: <20210805113311.65a16bba.alex.williamson@redhat.com>
-In-Reply-To: <20210805114701.GC1672295@nvidia.com>
-References: <0-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
- <9-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
- <20210803103406.5e1be269.alex.williamson@redhat.com>
- <20210803164152.GC1721383@nvidia.com>
- <20210803105225.2ee7dac2.alex.williamson@redhat.com>
- <20210805114701.GC1672295@nvidia.com>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1trO0cpGKN3+/lgO6GyM0AvZf7CokD2vczVT+ofcBes=;
+ b=dtbwaZ8ajSRi4GYLz68+qgyBQ9YXa3pcQ3Z/EmrtoqLF1u19X0V55rTYHtfApx8fIq
+ hTq38GLrcjL9f74Y9UWcmuk6/bTGQofjeM0kFvDtZmfeocXC7DEZPkdpwoAvPVoNv2JY
+ /fETTCpLhzfeeaPaGVR4sBSml1AkQ9BCU5j4oRByybCVbF8AbhUQ7+U3Ay8tEiJsTDOI
+ pVnd3AIeaF7r6hgdKJH1ePF8UQ6acHxRoaoKtId8y+roWiIlpsGIl+xo9LIvZYIyYGw+
+ v6QFDXo3gTrzN/6Eg8BhNCOZp6X0H43IIXCxJm2FsAxcsABCsUsZOeLa03j/MyECxjX9
+ FrLg==
+X-Gm-Message-State: AOAM530P17eEKLWANtaUUpM4NRpMJDPcpDSHwhRrYad7V/0F+qujjbkK
+ F7grGQTGvPqQbz4cTc3uv+VGYHsxo8G+Lshxyak=
+X-Google-Smtp-Source: ABdhPJxm852H6KM/TbgROE9YB0UkWq64vDdYNF2H0qVphUATc9uAhwcR9xkCjdkh7heU4vsJjESb3A==
+X-Received: by 2002:a2e:888f:: with SMTP id k15mr4053358lji.326.1628187279005; 
+ Thu, 05 Aug 2021 11:14:39 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com.
+ [209.85.167.48])
+ by smtp.gmail.com with ESMTPSA id u3sm238095lfu.151.2021.08.05.11.14.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Aug 2021 11:14:37 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id c16so12865161lfc.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 11:14:37 -0700 (PDT)
+X-Received: by 2002:ac2:4885:: with SMTP id x5mr4483190lfc.487.1628187277276; 
+ Thu, 05 Aug 2021 11:14:37 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CAPM=9twko1gCNTB3CPf7CAQqWFayMj=1fa3ZoEwwviDFhF48kQ@mail.gmail.com>
+In-Reply-To: <CAPM=9twko1gCNTB3CPf7CAQqWFayMj=1fa3ZoEwwviDFhF48kQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 5 Aug 2021 11:14:21 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgYq=EpNmDPNVxnBX+HpjNcQg50DSjuxZuK0UbZjh-pnQ@mail.gmail.com>
+Message-ID: <CAHk-=wgYq=EpNmDPNVxnBX+HpjNcQg50DSjuxZuK0UbZjh-pnQ@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 5.14-rc4
+To: Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="0000000000004a842905c8d3e487"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,259 +78,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 Aug 2021 08:47:01 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+--0000000000004a842905c8d3e487
+Content-Type: text/plain; charset="UTF-8"
 
-> On Tue, Aug 03, 2021 at 10:52:25AM -0600, Alex Williamson wrote:
-> > On Tue, 3 Aug 2021 13:41:52 -0300
-> > Jason Gunthorpe <jgg@nvidia.com> wrote:  
-> > > On Tue, Aug 03, 2021 at 10:34:06AM -0600, Alex Williamson wrote:  
-> > > > I think the vfio_pci_find_reset_target() function needs to be re-worked
-> > > > to just tell us true/false that it's ok to reset the provided device,
-> > > > not to anoint an arbitrary target device.  Thanks,    
-> > > 
-> > > Yes, though this logic is confusing, why do we need to check if any
-> > > device needs a reset at this point? If we are being asked to reset
-> > > vdev shouldn't vdev needs_reset?
-> > > 
-> > > Or is the function more of a 'synchronize pending reset' kind of
-> > > thing?  
-> > 
-> > Yes, the latter.  For instance think about a multi-function PCI device
-> > such as a GPU.  The functions have dramatically different capabilities,
-> > some might have function level reset abilities and others not.  We want
-> > to be able to trigger a bus reset as the last device of the set is
-> > released, no matter the order they're released and no matter the
-> > capabilities of the device we're currently processing.  Thanks,  
-> 
-> I worked on this for awhile, I think this is much clearer about what
-> this algorithm is trying to do:
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> index 5d6db93d6c680f..e418bcbb68facc 100644
-> --- a/drivers/vfio/pci/vfio_pci.c
-> +++ b/drivers/vfio/pci/vfio_pci.c
-> @@ -223,7 +223,7 @@ static void vfio_pci_probe_mmaps(struct vfio_pci_device *vdev)
->  	}
->  }
->  
-> -static void vfio_pci_try_bus_reset(struct vfio_pci_device *vdev);
-> +static bool vfio_pci_dev_set_try_reset(struct vfio_device_set *dev_set);
->  static void vfio_pci_disable(struct vfio_pci_device *vdev);
->  static int vfio_pci_try_zap_and_vma_lock_cb(struct pci_dev *pdev, void *data);
->  
-> @@ -404,6 +404,9 @@ static void vfio_pci_disable(struct vfio_pci_device *vdev)
->  	struct vfio_pci_ioeventfd *ioeventfd, *ioeventfd_tmp;
->  	int i, bar;
->  
-> +	/* For needs_reset */
-> +	lockdep_assert_held(&vdev->vdev.dev_set->lock);
-> +
->  	/* Stop the device from further DMA */
->  	pci_clear_master(pdev);
->  
-> @@ -487,9 +490,7 @@ static void vfio_pci_disable(struct vfio_pci_device *vdev)
->  out:
->  	pci_disable_device(pdev);
->  
-> -	vfio_pci_try_bus_reset(vdev);
-> -
-> -	if (!disable_idle_d3)
-> +	if (!vfio_pci_dev_set_try_reset(vdev->vdev.dev_set) && !disable_idle_d3)
->  		vfio_pci_set_power_state(vdev, PCI_D3hot);
->  }
->  
-> @@ -2145,36 +2146,6 @@ static struct pci_driver vfio_pci_driver = {
->  	.err_handler		= &vfio_err_handlers,
->  };
->  
-> -static int vfio_pci_get_unused_devs(struct pci_dev *pdev, void *data)
-> -{
-> -	struct vfio_devices *devs = data;
-> -	struct vfio_device *device;
-> -	struct vfio_pci_device *vdev;
-> -
-> -	if (devs->cur_index == devs->max_index)
-> -		return -ENOSPC;
-> -
-> -	device = vfio_device_get_from_dev(&pdev->dev);
-> -	if (!device)
-> -		return -EINVAL;
-> -
-> -	if (pci_dev_driver(pdev) != &vfio_pci_driver) {
-> -		vfio_device_put(device);
-> -		return -EBUSY;
-> -	}
-> -
-> -	vdev = container_of(device, struct vfio_pci_device, vdev);
-> -
-> -	/* Fault if the device is not unused */
-> -	if (device->open_count) {
-> -		vfio_device_put(device);
-> -		return -EBUSY;
-> -	}
-> -
-> -	devs->devices[devs->cur_index++] = vdev;
-> -	return 0;
-> -}
-> -
->  static int vfio_pci_try_zap_and_vma_lock_cb(struct pci_dev *pdev, void *data)
->  {
->  	struct vfio_devices *devs = data;
-> @@ -2208,79 +2179,86 @@ static int vfio_pci_try_zap_and_vma_lock_cb(struct pci_dev *pdev, void *data)
->  	return 0;
->  }
->  
-> +static int vfio_pci_is_device_in_set(struct pci_dev *pdev, void *data)
-> +{
-> +	struct vfio_device_set *dev_set = data;
-> +	struct vfio_device *cur;
-> +
-> +	lockdep_assert_held(&dev_set->lock);
-> +
-> +	list_for_each_entry(cur, &dev_set->device_list, dev_set_list)
-> +		if (cur->dev == &pdev->dev)
-> +			return 0;
-> +	return -EBUSY;
-> +}
-> +
-> +static bool vfio_pci_dev_set_needs_reset(struct vfio_device_set *dev_set)
+This might possibly have been fixed already by the previous drm pull,
+but I wanted to report it anyway, just in case.
 
-Slight nit on the name here since we're essentially combining
-needs_reset along with the notion of the device being unused.  I'm not
-sure, maybe "should_reset"?  Otherwise it looks ok.  Thanks,
+It happened after an uptime of over a week, so it might not be trivial
+to reproduce.
 
-Alex
+It's a NULL pointer dereference in dc_stream_retain() with the code being
 
-> +{
-> +	struct vfio_pci_device *cur;
-> +	bool needs_reset = false;
-> +
-> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list) {
-> +		/* No VFIO device in the set can have an open device FD */
-> +		if (cur->vdev.open_count)
-> +			return false;
-> +		needs_reset |= cur->needs_reset;
-> +	}
-> +	return needs_reset;
-> +}
-> +
->  /*
-> - * If a bus or slot reset is available for the provided device and:
-> + * If a bus or slot reset is available for the provided dev_set and:
->   *  - All of the devices affected by that bus or slot reset are unused
-> - *    (!refcnt)
->   *  - At least one of the affected devices is marked dirty via
->   *    needs_reset (such as by lack of FLR support)
-> - * Then attempt to perform that bus or slot reset.  Callers are required
-> - * to hold vdev->dev_set->lock, protecting the bus/slot reset group from
-> - * concurrent opens.  A vfio_device reference is acquired for each device
-> - * to prevent unbinds during the reset operation.
-> - *
-> - * NB: vfio-core considers a group to be viable even if some devices are
-> - * bound to drivers like pci-stub or pcieport.  Here we require all devices
-> - * to be bound to vfio_pci since that's the only way we can be sure they
-> - * stay put.
-> + * Then attempt to perform that bus or slot reset.
-> + * Returns true if the dev_set was reset.
->   */
-> -static void vfio_pci_try_bus_reset(struct vfio_pci_device *vdev)
-> +static bool vfio_pci_dev_set_try_reset(struct vfio_device_set *dev_set)
->  {
-> -	struct vfio_devices devs = { .cur_index = 0 };
-> -	int i = 0, ret = -EINVAL;
-> -	bool slot = false;
-> -	struct vfio_pci_device *tmp;
-> +	struct vfio_pci_device *cur;
-> +	struct pci_dev *pdev;
-> +	int ret;
->  
-> -	if (!pci_probe_reset_slot(vdev->pdev->slot))
-> -		slot = true;
-> -	else if (pci_probe_reset_bus(vdev->pdev->bus))
-> -		return;
-> +	lockdep_assert_held(&dev_set->lock);
->  
-> -	if (vfio_pci_for_each_slot_or_bus(vdev->pdev, vfio_pci_count_devs,
-> -					  &i, slot) || !i)
-> -		return;
-> +	/*
-> +	 * By definition all PCI devices in the dev_set share the same PCI
-> +	 * reset, so any pci_dev will have the same outcomes for
-> +	 * pci_probe_reset_*() and pci_reset_bus().
-> +	 */
-> +	pdev = list_first_entry(&dev_set->device_list, struct vfio_pci_device,
-> +				vdev.dev_set_list)->pdev;
->  
-> -	devs.max_index = i;
-> -	devs.devices = kcalloc(i, sizeof(struct vfio_device *), GFP_KERNEL);
-> -	if (!devs.devices)
-> -		return;
-> +	/* Reset of the dev_set is possible */
-> +	if (pci_probe_reset_slot(pdev->slot) && pci_probe_reset_bus(pdev->bus))
-> +		return false;
->  
-> -	if (vfio_pci_for_each_slot_or_bus(vdev->pdev,
-> -					  vfio_pci_get_unused_devs,
-> -					  &devs, slot))
-> -		goto put_devs;
-> +	if (!vfio_pci_dev_set_needs_reset(dev_set))
-> +		return false;
->  
-> -	/* Does at least one need a reset? */
-> -	for (i = 0; i < devs.cur_index; i++) {
-> -		tmp = devs.devices[i];
-> -		if (tmp->needs_reset) {
-> -			ret = pci_reset_bus(vdev->pdev);
-> -			break;
-> -		}
-> +	/*
-> +	 * vfio-core considers a group to be viable and will create a
-> +	 * vfio_device even if some devices are bound to drivers like pci-stub
-> +	 * or pcieport. Here we require all PCI devices to be inside our dev_set
-> +	 * since that ensures they stay put and that every driver controlling
-> +	 * the device can co-ordinate with the device reset.
-> +	 */
-> +	if (vfio_pci_for_each_slot_or_bus(pdev, vfio_pci_is_device_in_set,
-> +					  dev_set,
-> +					  !pci_probe_reset_slot(pdev->slot)))
-> +		return false;
-> +
-> +	ret = pci_reset_bus(pdev);
-> +	if (ret)
-> +		return false;
-> +
-> +	list_for_each_entry(cur, &dev_set->device_list, vdev.dev_set_list) {
-> +		cur->needs_reset = false;
-> +		if (!disable_idle_d3)
-> +			vfio_pci_set_power_state(cur, PCI_D3hot);
->  	}
-> -
-> -put_devs:
-> -	for (i = 0; i < devs.cur_index; i++) {
-> -		tmp = devs.devices[i];
-> -
-> -		/*
-> -		 * If reset was successful, affected devices no longer need
-> -		 * a reset and we should return all the collateral devices
-> -		 * to low power.  If not successful, we either didn't reset
-> -		 * the bus or timed out waiting for it, so let's not touch
-> -		 * the power state.
-> -		 */
-> -		if (!ret) {
-> -			tmp->needs_reset = false;
-> -
-> -			if (tmp != vdev && !disable_idle_d3)
-> -				vfio_pci_set_power_state(tmp, PCI_D3hot);
-> -		}
-> -
-> -		vfio_device_put(&tmp->vdev);
-> -	}
-> -
-> -	kfree(devs.devices);
-> +	return true;
->  }
->  
->  static void __exit vfio_pci_cleanup(void)
-> 
+        lock xadd %eax,0x390(%rdi) <-- trapping instruction
 
+and that's just the
+
+        kref_get(&stream->refcount);
+
+with a NULL 'stream' argument.
+
+  Call Trace:
+   dc_resource_state_copy_construct+0x13f/0x190 [amdgpu]
+   amdgpu_dm_atomic_commit_tail+0xd5/0x1540 [amdgpu]
+   commit_tail+0x97/0x180 [drm_kms_helper]
+   process_one_work+0x1df/0x3a0
+
+the oops is followed by a stream of
+
+  [drm:amdgpu_dm_atomic_check [amdgpu]] *ERROR* [CRTC:55:crtc-1]
+hw_done or flip_done timed out
+
+and the machine was not usable afterwards.
+
+lspci says this is a
+
+ 49:00.0 VGA compatible controller [0300]:
+   Advanced Micro Devices, Inc. [AMD/ATI] Ellesmere
+   [Radeon RX 470/480/570/570X/580/580X/590]
+   [1002:67df] (rev e7) (prog-if 00 [VGA controller])
+
+Full oops in the attachment, but I think the above is all the really
+salient details.
+
+                   Linus
+
+--0000000000004a842905c8d3e487
+Content-Type: application/octet-stream; name=amd-gpu-ooops
+Content-Disposition: attachment; filename=amd-gpu-ooops
+Content-Transfer-Encoding: base64
+Content-ID: <f_krz8naen0>
+X-Attachment-Id: f_krz8naen0
+
+CiAgQlVHOiBrZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlLCBhZGRyZXNzOiAwMDAwMDAw
+MDAwMDAwMzkwCiAgI1BGOiBzdXBlcnZpc29yIHdyaXRlIGFjY2VzcyBpbiBrZXJuZWwgbW9kZQog
+ICNQRjogZXJyb3JfY29kZSgweDAwMDIpIC0gbm90LXByZXNlbnQgcGFnZQogIFBHRCAwIFA0RCAw
+IAogIE9vcHM6IDAwMDIgWyMxXSBTTVAgTk9QVEkKICBDUFU6IDQ4IFBJRDogNDE1MjM3MiBDb21t
+OiBrd29ya2VyL3UxMjg6MCBOb3QgdGFpbnRlZCA1LjE0LjAtcmMyLTAwMzEyLWczYzdhZGRjMDUy
+NjUgIzcKICBIYXJkd2FyZSBuYW1lOiBHaWdhYnl0ZSBUZWNobm9sb2d5IENvLiwgTHRkLiBUUlg0
+MCBBT1JVUyBNQVNURVIvVFJYNDAgQU9SVVMgTUFTVEVSLCBCSU9TIEY1YyAwMy8wNS8yMDIwCiAg
+V29ya3F1ZXVlOiBldmVudHNfdW5ib3VuZCBjb21taXRfd29yayBbZHJtX2ttc19oZWxwZXJdCiAg
+UklQOiAwMDEwOmRjX3N0cmVhbV9yZXRhaW4rMHhmLzB4NDAgW2FtZGdwdV0KICBDb2RlOiAxOSAw
+MCA3MiAwYSBiOCAwMiAwMCAwMCAwMCA4MyAzZSAwMSA3NSAwNSBiOCAwMSAwMCAwMCAwMCA4OSA4
+NyAzYyAwMyAwMCAwMCBjMyA5MCAwZiAxZiA0NCAwMCAwMCBiZSAwMSAwMCAwMCAwMCBiOCAwMSAw
+MCAwMCAwMCA8ZjA+IDBmIGMxIDg3IDkwIDAzIDAwIDAwIDg1IGMwIDc0IDA4IDhkIDQ4IDAxIDA5
+IGMxIDc4IDA2IGMzIGJlIDAyCiAgUlNQOiAwMDE4OmZmZmZhMTc0MTJmMjdiNTAgRUZMQUdTOiAw
+MDAxMDI0NgogIFJBWDogMDAwMDAwMDAwMDAwMDAwMSBSQlg6IGZmZmY5YWEzNTU1YTAwMDAgUkNY
+OiAwMDAwMDAwMDAwMDAwMDAwCiAgUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogMDAwMDAwMDAw
+MDAwMDAwMSBSREk6IDAwMDAwMDAwMDAwMDAwMDAKICBSQlA6IGZmZmZhMTc0MTJmMjdlNjAgUjA4
+OiAwMDAwMDAwMDAwMDIwMDAwIFIwOTogMDAwMDAwMDAwMDAwMDBjMAogIFIxMDogMDAwMDAwMDAw
+MDAwMDAwMCBSMTE6IDAwMDAwMDAwMDAwMDAwMDUgUjEyOiBmZmZmOWFhMzU1NWEwMDAwCiAgUjEz
+OiBmZmZmOWFhMzU1NWEwMDUwIFIxNDogMDAwMDAwMDAwMDAwMDAwMSBSMTU6IDAwMDAwMDAwMDAw
+MDAwMDAKICBGUzogIDAwMDAwMDAwMDAwMDAwMDAoMDAwMCkgR1M6ZmZmZjlhYWNiZWMwMDAwMCgw
+MDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwCiAgQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAw
+IENSMDogMDAwMDAwMDA4MDA1MDAzMwogIENSMjogMDAwMDAwMDAwMDAwMDM5MCBDUjM6IDAwMDAw
+MDAxMTNmNjAwMDAgQ1I0OiAwMDAwMDAwMDAwMzUwZWUwCiAgQ2FsbCBUcmFjZToKICAgZGNfcmVz
+b3VyY2Vfc3RhdGVfY29weV9jb25zdHJ1Y3QrMHgxM2YvMHgxOTAgW2FtZGdwdV0KICAgYW1kZ3B1
+X2RtX2F0b21pY19jb21taXRfdGFpbCsweGQ1LzB4MTU0MCBbYW1kZ3B1XQogICBjb21taXRfdGFp
+bCsweDk3LzB4MTgwIFtkcm1fa21zX2hlbHBlcl0KICAgcHJvY2Vzc19vbmVfd29yaysweDFkZi8w
+eDNhMAogICB3b3JrZXJfdGhyZWFkKzB4MjZkLzB4NGEwCiAgIGt0aHJlYWQrMHgxNDMvMHgxNjAK
+ICAgcmV0X2Zyb21fZm9yaysweDIyLzB4MzAKICBNb2R1bGVzIGxpbmtlZCBpbjogdWlucHV0IHJm
+Y29tbSB4dF9DSEVDS1NVTSB4dF9NQVNRVUVSQURFIHh0X2Nvbm50cmFjayBpcHRfUkVKRUNUIG5m
+X25hdF90ZnRwIG5mX2Nvbm50cmFja190ZnRwIGJyaWRnZSBzdHAgbGxjIG5mdF9vYmpyZWYgbmZf
+Y29ubnRyYWNrX25ldGJpb3NfbnMgbmZfY29ubnRyYWNrX2Jyb2FkY2FzdCBuZnRfZmliX2luZXQg
+bmZ0X2ZpYl9pcHY0IG5mdF9maWJfaXB2NiBuZnRfZmliIG5mdF9yZWplY3RfaW5ldCBuZl9yZWpl
+Y3RfaXB2NCBuZl9yZWplY3RfaXB2NiBuZnRfcmVqZWN0IG5mdF9jdCBuZnRfY2hhaW5fbmF0IGlw
+NnRhYmxlX25hdCBpcDZ0YWJsZV9tYW5nbGUgaXA2dGFibGVfcmF3IGlwNnRhYmxlX3NlY3VyaXR5
+IGlwdGFibGVfbmF0IG5mX25hdCBuZl9jb25udHJhY2sgbmZfZGVmcmFnX2lwdjYgbmZfZGVmcmFn
+X2lwdjQgaXB0YWJsZV9tYW5nbGUgaXB0YWJsZV9yYXcgaXB0YWJsZV9zZWN1cml0eSBpcF9zZXQg
+bmZfdGFibGVzIGxpYmNyYzMyYyBuZm5ldGxpbmsgaXA2dGFibGVfZmlsdGVyIGlwNl90YWJsZXMg
+aXB0YWJsZV9maWx0ZXIgY21hYyBibmVwIGl0ODcgaHdtb25fdmlkIHN1bnJwYyB2ZmF0IGZhdCBp
+d2xtdm0gd21pX2Jtb2YgbXhtX3dtaSBtYWM4MDIxMSBsaWJhcmM0IGJ0dXNiIGJ0cnRsIGJ0YmNt
+IGJ0aW50ZWwgYmx1ZXRvb3RoIGpveWRldiBzbmRfaGRhX2NvZGVjX2hkbWkgZWNkaF9nZW5lcmlj
+IGVjYyBzbmRfaGRhX2ludGVsIHNuZF91c2JfYXVkaW8gc25kX2ludGVsX2RzcGNmZyBpd2x3aWZp
+IHNuZF91c2JtaWRpX2xpYiBzbmRfaGRhX2NvZGVjIHNuZF9yYXdtaWRpIG1jIHBjc3BrciBzbmRf
+aHdkZXAgY2ZnODAyMTEgc25kX3NlcSBzbmRfaGRhX2NvcmUgc25kX3NlcV9kZXZpY2Ugc25kX3Bj
+bSByZmtpbGwgc25kX3RpbWVyIHNuZCBzb3VuZGNvcmUgazEwdGVtcCBpMmNfcGlpeDQgd21pIGFj
+cGlfY3B1ZnJlcSB6cmFtIGlwX3RhYmxlcyBkbV9jcnlwdAogICBoaWRfbG9naXRlY2hfaGlkcHAg
+aGlkX2xvZ2l0ZWNoX2RqIGFtZGdwdSBkcm1fdHRtX2hlbHBlciB0dG0gaW9tbXVfdjIgZ3B1X3Nj
+aGVkIGNyY3QxMGRpZl9wY2xtdWwgY3JjMzJfcGNsbXVsIGRybV9rbXNfaGVscGVyIGNyYzMyY19p
+bnRlbCBzeXNjb3B5YXJlYSBzeXNmaWxscmVjdCBzeXNpbWdibHQgZmJfc3lzX2ZvcHMgZ2hhc2hf
+Y2xtdWxuaV9pbnRlbCBkcm0gaWdiIGF0bGFudGljIGRjYSBtYWNzZWMgaTJjX2FsZ29fYml0IG52
+bWUgY2NwIHNwNTEwMF90Y28gbnZtZV9jb3JlIHBpbmN0cmxfYW1kIGZ1c2UKICBDUjI6IDAwMDAw
+MDAwMDAwMDAzOTAKICAtLS1bIGVuZCB0cmFjZSAwOGIyYmMwYzUzOTUwNWNjIF0tLS0KCmZvbGxv
+d2VkIGJ5CgogIFtkcm06YW1kZ3B1X2RtX2F0b21pY19jaGVjayBbYW1kZ3B1XV0gKkVSUk9SKiBb
+Q1JUQzo1NTpjcnRjLTFdIGh3X2RvbmUgb3IgZmxpcF9kb25lIHRpbWVkIG91dAogIFtkcm06YW1k
+Z3B1X2RtX2F0b21pY19jaGVjayBbYW1kZ3B1XV0gKkVSUk9SKiBbQ1JUQzo1NTpjcnRjLTFdIGh3
+X2RvbmUgb3IgZmxpcF9kb25lIHRpbWVkIG91dAogIFtkcm06YW1kZ3B1X2RtX2F0b21pY19jaGVj
+ayBbYW1kZ3B1XV0gKkVSUk9SKiBbQ1JUQzo1NTpjcnRjLTFdIGh3X2RvbmUgb3IgZmxpcF9kb25l
+IHRpbWVkIG91dAogIC4uLgo=
+--0000000000004a842905c8d3e487--
