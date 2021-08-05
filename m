@@ -2,72 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B783E0D4F
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 06:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7293E0D5B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 06:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 939B589E01;
-	Thu,  5 Aug 2021 04:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 276C589CB3;
+	Thu,  5 Aug 2021 04:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3C8B89E01;
- Thu,  5 Aug 2021 04:32:59 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- o2-20020a9d22020000b0290462f0ab0800so3887995ota.11; 
- Wed, 04 Aug 2021 21:32:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WPmSYKxM3hDxf4j2HGMY4KEBqM5rWpME+JCZGt0gVjw=;
- b=d6lgTlgZ4XtRuTrGFwjnfu6FMANDeGYNkF3HVRgAEz3zNJWeXPay2/77o5xUFwchyy
- fZ+RxFE6PKyFPBCA/PrBqv7fb7Ru/8F66ANYljfjpCZek/EgK9BnwwHV0KtaiOXGOBHC
- awwvqO+5eU4YhGFJjXO4OaZpU6kBceP9x20lc/jksWMCQHnZ8orlDNKyp4wj86imwnCD
- 6YKPbF79Crl7D4d2jD8s0rV9wTcK0I3OjHVcLIxaFULDXF9ynJoOKulQ9ZfLCD/pGLv1
- zFEDI6x2G+joB+ZOQckwYoiMZ1LQcX9rian6mNKcuPDevnN7/eoOCrSnqHj1w21TH/v7
- BVog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WPmSYKxM3hDxf4j2HGMY4KEBqM5rWpME+JCZGt0gVjw=;
- b=lQQzjMORBMHxMXBSrntUCAwQriRgvp7Hu/isFVAZQ9Bkdd05TjidmpThzXqh61cAKZ
- Z2FR9OyflO/aQTOTtXod4a7Zg6huUbO6TVfd7DsDWmh3uYg73sEAGobd7ssKvyE3uNZf
- luSgL4I/wUWJDU6aEosY+pAqlbzDGaP0mp68om+ZxTHQTnnH0gFp9ekCTfmcjqidrZVK
- 1lBqi0qAlvFfoSZlqTux7F3CsTOn3jd7Lw7m9rK4MvOMg11Owqbj9DyKiPBr+UIaXldl
- CHx0hW/EqFUW8xiadI8DSUcQuffkZPvLepNeXWIf5BDXoPlTPvDVP2eR4clg4ouTuFXY
- X5Rw==
-X-Gm-Message-State: AOAM532j8qeZSzxHGTeDS7/eIwvm2QDasO6QAQROrU3JLfd+Hgv8pPct
- 97lmRemSdeqvrTTICAS6iYclToc91Zi1HhlacH0=
-X-Google-Smtp-Source: ABdhPJxVoTU6a30brhTf1IeElqkRglO5k+x+tHkN0DLsz3Nd4Duri9Cmng8GzMH9mtkqISPNR9a5gCNiMTCPSizufzw=
-X-Received: by 2002:a9d:70c3:: with SMTP id w3mr2216613otj.311.1628137979011; 
- Wed, 04 Aug 2021 21:32:59 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF4D389CB3
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 04:37:08 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1mBV7x-00047c-P1; Thu, 05 Aug 2021 06:37:05 +0200
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1mBV7w-0006RY-F7; Thu, 05 Aug 2021 06:37:04 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/2] drm/panel: simple: add Multi-Innotechnology
+ MI1010AIT-1CP1
+Date: Thu,  5 Aug 2021 06:37:01 +0200
+Message-Id: <20210805043702.24715-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210804015132.29617-1-islituo@gmail.com>
- <f515880f-17f8-66b3-20d9-c1a46a252463@amd.com>
-In-Reply-To: <f515880f-17f8-66b3-20d9-c1a46a252463@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 5 Aug 2021 00:32:47 -0400
-Message-ID: <CADnq5_MSp=PAqbaTrS771ssKJzVpT2LyDTjZCSx2hh-DFo3MXg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: drop redundant null-pointer checks in
- amdgpu_ttm_tt_populate() and amdgpu_ttm_tt_unpopulate()
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Tuo Li <islituo@gmail.com>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, 
- xinhui pan <Xinhui.Pan@amd.com>, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Dave Airlie <airlied@redhat.com>, 
- "Kuehling, Felix" <Felix.Kuehling@amd.com>, Oak Zeng <Oak.Zeng@amd.com>, 
- Nirmoy Das <nirmoy.das@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- "Yang, Philip" <Philip.Yang@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- linux-media <linux-media@vger.kernel.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jia-Ju Bai <baijiaju1990@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,50 +57,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+From: Sam Ravnborg <sam@ravnborg.org>
 
-Alex
+The Multi Innotechnology is a 10.1" 1280x800 panel.
 
-On Wed, Aug 4, 2021 at 2:49 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
->
-> Am 04.08.21 um 03:51 schrieb Tuo Li:
-> > The varialbe gtt in the function amdgpu_ttm_tt_populate() and
-> > amdgpu_ttm_tt_unpopulate() is guaranteed to be not NULL in the context.
-> > Thus the null-pointer checks are redundant and can be dropped.
-> >
-> > Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-> > Signed-off-by: Tuo Li <islituo@gmail.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_ttm.c
-> > index 3a55f08e00e1..719539bd6c44 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > @@ -1121,7 +1121,7 @@ static int amdgpu_ttm_tt_populate(struct ttm_devi=
-ce *bdev,
-> >       struct amdgpu_ttm_tt *gtt =3D (void *)ttm;
-> >
-> >       /* user pages are bound by amdgpu_ttm_tt_pin_userptr() */
-> > -     if (gtt && gtt->userptr) {
-> > +     if (gtt->userptr) {
-> >               ttm->sg =3D kzalloc(sizeof(struct sg_table), GFP_KERNEL);
-> >               if (!ttm->sg)
-> >                       return -ENOMEM;
-> > @@ -1146,7 +1146,7 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_d=
-evice *bdev,
-> >       struct amdgpu_ttm_tt *gtt =3D (void *)ttm;
-> >       struct amdgpu_device *adev;
-> >
-> > -     if (gtt && gtt->userptr) {
-> > +     if (gtt->userptr) {
-> >               amdgpu_ttm_tt_set_user_pages(ttm, NULL);
-> >               kfree(ttm->sg);
-> >               ttm->sg =3D NULL;
->
+The datasheet did not specify specific values for sync, back, front porch.
+The values are a best guess based on values for similar panels.
+
+Co-Developed-by: Sam Ravnborg <sam@ravnborg.org>
+Co-Developed-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 21939d4352cf..fda79a986d12 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3033,6 +3033,37 @@ static const struct panel_desc mitsubishi_aa070mc01 = {
+ 	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+ };
+ 
++static const struct display_timing multi_inno_mi1010ait_1cp_timing = {
++	.pixelclock = { 68900000, 70000000, 73400000 },
++	.hactive = { 1280, 1280, 1280 },
++	.hfront_porch = { 30, 60, 71 },
++	.hback_porch = { 30, 60, 71 },
++	.hsync_len = { 10, 10, 48 },
++	.vactive = { 800, 800, 800 },
++	.vfront_porch = { 5, 10, 10 },
++	.vback_porch = { 5, 10, 10 },
++	.vsync_len = { 5, 6, 13 },
++	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
++		 DISPLAY_FLAGS_DE_HIGH,
++};
++
++static const struct panel_desc multi_inno_mi1010ait_1cp = {
++	.timings = &multi_inno_mi1010ait_1cp_timing,
++	.num_timings = 1,
++	.bpc = 8,
++	.size = {
++		.width = 217,
++		.height = 136,
++	},
++	.delay = {
++		.enable = 50,
++		.disable = 50,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
++	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++};
++
+ static const struct display_timing nec_nl12880bc20_05_timing = {
+ 	.pixelclock = { 67000000, 71000000, 75000000 },
+ 	.hactive = { 1280, 1280, 1280 },
+@@ -4464,6 +4495,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "mitsubishi,aa070mc01-ca1",
+ 		.data = &mitsubishi_aa070mc01,
++	}, {
++		.compatible = "multi-inno,mi1010ait-1cp",
++		.data = &multi_inno_mi1010ait_1cp,
+ 	}, {
+ 		.compatible = "nec,nl12880bc20-05",
+ 		.data = &nec_nl12880bc20_05,
+-- 
+2.30.2
+
