@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B356B3E1B80
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 20:40:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2565B3E1BB4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 20:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73BAF6E408;
-	Thu,  5 Aug 2021 18:40:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96FD66EB28;
+	Thu,  5 Aug 2021 18:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65C546E408;
- Thu,  5 Aug 2021 18:40:10 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C66901FE76;
- Thu,  5 Aug 2021 18:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1628188808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=waXWZeZbrZpwHf6cYwfpj1aXbKeZESlw3gmddpo7AUQ=;
- b=ROQ6P81aVCCQP8QJ0Js562/Ql+bZfOW+PoMt5lyNw87DtTXnUT5K4f4ZhtNiayX7hmRoqR
- jzkXVvX+M2AEaIVa23cHWsw8jd6lmnqNAeDJ7afEN2PAuIGkLEExUoQSlFocow3KSTzQqg
- mBBVyAXc7OFGKpNQVtAyQo/p+Fn1tww=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1628188808;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=waXWZeZbrZpwHf6cYwfpj1aXbKeZESlw3gmddpo7AUQ=;
- b=I82DmhCeMzvNTawziO+fZLsYOetHQL2Rg83CN/qu3vxEqbyrbbbCksOgjkJtEEklSgA3Ec
- /SCVS5CcTobHy5Dg==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 8668013A5D;
- Thu,  5 Aug 2021 18:40:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id t7MMH4gwDGHkfQAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Thu, 05 Aug 2021 18:40:08 +0000
-Subject: Re: [PATCH v4 3/4] drm/shmem-helpers: Allocate wc pages on x86
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
- <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
- <0e4eefe0-9282-672c-7678-8d3162de35e3@suse.de>
- <YPpxh0QhILXESykX@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <ea741e89-6ed0-fe7d-6462-7ca01b14c4b9@suse.de>
-Date: Thu, 5 Aug 2021 20:40:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6536EB28
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 18:50:44 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id e19so11164697ejs.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 11:50:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2j8GypBg1lwZCMqPRAhi18yzlw9Dx0/0JNmaPl31yQU=;
+ b=b1qrJ2Y8rC9hl0zvq833pleey9cWiSFC9YvFPyJEOA+ZtXN9LtLWJ1ecVsc4XzO2TR
+ SB4PGR1wv3Nz4oC8TgvmygIqTDtvkFEDDOdITpiDo0YxXUzrcgziA+ExzIetkz0hH2EF
+ 3tRTaoQxNiyquFMUeWvgZU68E+MO9F9GnNviVDONNusnF8E7TpKiWlt36uKIxWkn98k4
+ wxZOrJBw8SNNnNur95hMsuKw0OKs2LUubT0SfkaW7ZrQIT0Nt8ND08vjr4LosiPvJ6vy
+ /JppNh8AEEpRUO+ICvx+wTiiubmXk8yettSIHw9v0oHD/z4rU1ccm+/qegPe3k+vhpCj
+ TDOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2j8GypBg1lwZCMqPRAhi18yzlw9Dx0/0JNmaPl31yQU=;
+ b=W4Wi/QVNdnaKVl6HuI4EAIp9LYdpGVcyFEJm0OKX+VLF2AFnN54CETW+BvfOKFjJcA
+ DWp/UpJbcUBJE36nnj5eliItgE2mDYtWxtU6rkokyUJp3lu7HXCXpY2/vHlVEzKOaXsa
+ snnw1M4Rgew8LD4+TE1kMu62yc5SdQE0ucppyhtbYPjEbigq4qHH4gUGFQFiK9XvX6Hx
+ 5L0JpVTP1EzEgapCgwgW+C6AXzIADJ2dj0KEPMdJJ3jFtvuD3FC3ZJZMywpfKyb+2Jsi
+ yJIqqnWHn21ZlglzxomChmpneaJpH4TcR3ESh3SoZaik8GEfghuPk1dN1gTKKufriP1X
+ v7Hg==
+X-Gm-Message-State: AOAM5326ekJTY+C0sqVUOc/0fKR10KSkhAWfBYgdMzDhGe8xrpBLySnr
+ ix1hYJIaM78LQ4Sh6JygcsxXNbSrwz4o/0Ja
+X-Google-Smtp-Source: ABdhPJw4OLpxupfMIMMTfPKVgRF1XjDBpxCm/kQiKX3LlE7aoBDcPj+kpiO7pBD/o2tqdncs+FTecg==
+X-Received: by 2002:a17:907:2096:: with SMTP id
+ pv22mr6371552ejb.443.1628189442820; 
+ Thu, 05 Aug 2021 11:50:42 -0700 (PDT)
+Received: from xps7590.fritz.box ([2a02:2454:3e5:b700:d36e:2c7:3619:687])
+ by smtp.gmail.com with ESMTPSA id x42sm2716461edy.86.2021.08.05.11.50.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Aug 2021 11:50:42 -0700 (PDT)
+From: Robert Foss <robert.foss@linaro.org>
+To: ple@baylibre.com, narmstrong@baylibre.com, a.hajda@samsung.com,
+ robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v1] drm: bridge: it66121: Check drm_bridge_attach retval
+Date: Thu,  5 Aug 2021 20:50:39 +0200
+Message-Id: <20210805185039.402178-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <YPpxh0QhILXESykX@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="GDOaXABZ9cXJXn60nZxob2czYg06HXaQS"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,123 +73,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---GDOaXABZ9cXJXn60nZxob2czYg06HXaQS
-Content-Type: multipart/mixed; boundary="hvSqbUatCvThoUwY9hDhBeC551W4wEtm0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <ea741e89-6ed0-fe7d-6462-7ca01b14c4b9@suse.de>
-Subject: Re: [PATCH v4 3/4] drm/shmem-helpers: Allocate wc pages on x86
-References: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
- <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
- <0e4eefe0-9282-672c-7678-8d3162de35e3@suse.de>
- <YPpxh0QhILXESykX@phenom.ffwll.local>
-In-Reply-To: <YPpxh0QhILXESykX@phenom.ffwll.local>
+The return value of drm_bridge_attach() is ignored during
+the it66121_bridge_attach() call, which is incorrect.
 
---hvSqbUatCvThoUwY9hDhBeC551W4wEtm0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Fixes: 988156dc2fc9 ("drm: bridge: add it66121 driver")
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+---
+ drivers/gpu/drm/bridge/ite-it66121.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Hi
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 7149ed40af83..2f2a09adb4bc 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -536,6 +536,8 @@ static int it66121_bridge_attach(struct drm_bridge *bridge,
+ 		return -EINVAL;
+ 
+ 	ret = drm_bridge_attach(bridge->encoder, ctx->next_bridge, bridge, flags);
++	if (ret)
++		return ret;
+ 
+ 	ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+ 				IT66121_CLK_BANK_PWROFF_RCLK, 0);
+-- 
+2.30.2
 
-Am 23.07.21 um 09:36 schrieb Daniel Vetter:
->=20
-> The real fix is to get at the architecture-specific wc allocator, which=
- is
-> currently not something that's exposed, but hidden within the dma api. =
-I
-> think having this stick out like this is better than hiding it behind f=
-ake
-> generic code (like we do with drm_clflush, which defacto also only real=
-ly
-> works on x86).
->=20
-> Also note that ttm has the exact same ifdef in its page allocator, but =
-it
-> does fall back to using dma_alloc_coherent on other platforms.
-
-If this fixes a real problem and there's no full solution yet, let's=20
-take what we have. So if you can extract the essence of this comment=20
-into a TODO comment that tells how to fix the issue, fell free to add my
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->> Best regard
->> Thomas
->>
->>> +
->>>    	shmem->pages =3D pages;
->>>    	return 0;
->>> @@ -203,6 +212,11 @@ static void drm_gem_shmem_put_pages_locked(struc=
-t drm_gem_shmem_object *shmem)
->>>    	if (--shmem->pages_use_count > 0)
->>>    		return;
->>> +#ifdef CONFIG_X86
->>> +	if (shmem->map_wc)
->>> +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
->>> +#endif
->>> +
->>>    	drm_gem_put_pages(obj, shmem->pages,
->>>    			  shmem->pages_mark_dirty_on_put,
->>>    			  shmem->pages_mark_accessed_on_put);
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---hvSqbUatCvThoUwY9hDhBeC551W4wEtm0--
-
---GDOaXABZ9cXJXn60nZxob2czYg06HXaQS
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEMMIcFAwAAAAAACgkQlh/E3EQov+D+
-NQ/7Bt4FLIlW0dFG2DEbpeNGYaL+gv3LgX8u2uoo5UiZxLibSUfBAX6usZd/ZJzohiBVKsNINnkC
-WY5fvH+zA+O412ESs8JM4J3zjIQrccEpLAUjFImbaNtb+0E1DHHeK8aDqIW2eGvLtAeFvGs8BSqA
-/HxdxOxkp5VuzFIb+YplUrxnFpDVzhb/AbbTtGIXR5+sh59Fe0ZLXcLyF1abx4fAauVbvLIo4Ux0
-Tnbfucu+5pekvn/4D5nv3zfR9JigPKd4CsB9ucU3xpSEEg7242FWsvA413TEAPusdtmZx55Lh14r
-07b7uw6GccWtj6kWFjNJ3AGAEIDagjhxRLJl9pHHSSvjyMKkzHgf4NhhM5o7Go86jgPXTaAZggil
-yHDFzRaOHi7dXtSi3ceCfSN4zHdq2aGRqRUqCEDm7V9deZh48ntVR9oXVoAYhoTuSGNtq5BDEGNP
-/gq6zoORg5lsLyS7F9ILRx6oRzWkzYV+F6hcSQIft9VgOT4lAC6IHDhC4gyDeUuiVmkU5lbB0E7v
-c8BhnfkXj8T7vvvrh3X4mFTPJoXmc4RffvuPYgN/CtF3sRbpmSZ7R3JfkfrJGVSC4gCuHICrMbr4
-aDwe77kZ7t2DGXR6bv7O8gBzr4kLVVqUGiI08MTimuNMbEKXLewZxZyT24NoqMdvYyrLG7FTq6ne
-O8Y=
-=+dRj
------END PGP SIGNATURE-----
-
---GDOaXABZ9cXJXn60nZxob2czYg06HXaQS--
