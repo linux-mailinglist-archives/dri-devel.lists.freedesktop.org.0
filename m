@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A6E3E1D9C
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 22:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC423E1D97
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 22:52:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6A6F6EB42;
-	Thu,  5 Aug 2021 20:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 366996EB4C;
+	Thu,  5 Aug 2021 20:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78C656EB55
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799C46EB63
  for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 20:52:33 +0000 (UTC)
-X-UUID: e1c342739d2f4840abcdd614d58b0019-20210806
-X-UUID: e1c342739d2f4840abcdd614d58b0019-20210806
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 88391470; Fri, 06 Aug 2021 04:52:29 +0800
+X-UUID: 9e7363177526435bb6256399225bb5fb-20210806
+X-UUID: 9e7363177526435bb6256399225bb5fb-20210806
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 77012542; Fri, 06 Aug 2021 04:52:29 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 6 Aug 2021 04:52:27 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 6 Aug 2021 04:52:28 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Fri, 6 Aug 2021 04:52:27 +0800
+ Frontend Transport; Fri, 6 Aug 2021 04:52:28 +0800
 From: jason-jh.lin <jason-jh.lin@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
@@ -36,9 +36,9 @@ CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Fabien
  <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 1/7] arm64: dts: mt8195: add display node for vdosys0
-Date: Fri, 6 Aug 2021 04:52:20 +0800
-Message-ID: <20210805205226.24880-2-jason-jh.lin@mediatek.com>
+Subject: [PATCH v6 2/7] soc: mediatek: add mtk-mmsys support for mt8195 vdosys0
+Date: Fri, 6 Aug 2021 04:52:21 +0800
+Message-ID: <20210805205226.24880-3-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210805205226.24880-1-jason-jh.lin@mediatek.com>
 References: <20210805205226.24880-1-jason-jh.lin@mediatek.com>
@@ -60,149 +60,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add display node for vdosys0.
+Add mt8195 vdosys0 clock driver name and routing table to
+the driver data of mtk-mmsys.
 
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 ---
-This patch is based on [1][2][3][4]
+This patch is base on [1]
 
-[1]arm64: dts: Add Mediatek SoC MT8195 and evaluation board dts and Makefile
-- https://patchwork.kernel.org/project/linux-mediatek/patch/20210601075350.31515-2-seiya.wang@mediatek.com/
-[2]arm64: dts: mt8195: add IOMMU and smi nodes
-- https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
-[3]arm64: dts: mt8195: add gce node
-- https://patchwork.kernel.org/project/linux-mediatek/patch/20210705053429.4380-4-jason-jh.lin@mediatek.com/
-[4]add mt8195 SoC DRM binding
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=527069
+[1] dt-bindings: arm: mediatek: mmsys: add mt8195 SoC binding
+https://patchwork.kernel.org/project/linux-mediatek/patch/20210805171346.24249-2-jason-jh.lin@mediatek.com/
 ---
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 112 +++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
+ drivers/soc/mediatek/mt8195-mmsys.h    | 96 ++++++++++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c       | 11 +++
+ include/linux/soc/mediatek/mtk-mmsys.h |  9 +++
+ 3 files changed, 116 insertions(+)
+ create mode 100644 drivers/soc/mediatek/mt8195-mmsys.h
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index 04d3e95175fa..4fa47cb2bede 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -1155,9 +1155,121 @@
- 			#clock-cells = <1>;
- 		};
+diff --git a/drivers/soc/mediatek/mt8195-mmsys.h b/drivers/soc/mediatek/mt8195-mmsys.h
+new file mode 100644
+index 000000000000..9339a786ec5d
+--- /dev/null
++++ b/drivers/soc/mediatek/mt8195-mmsys.h
+@@ -0,0 +1,96 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++#ifndef __SOC_MEDIATEK_MT8195_MMSYS_H
++#define __SOC_MEDIATEK_MT8195_MMSYS_H
++
++#define MT8195_VDO0_OVL_MOUT_EN					0xf14
++#define MT8195_MOUT_DISP_OVL0_TO_DISP_RDMA0			BIT(0)
++#define MT8195_MOUT_DISP_OVL0_TO_DISP_WDMA0			BIT(1)
++#define MT8195_MOUT_DISP_OVL0_TO_DISP_OVL1			BIT(2)
++#define MT8195_MOUT_DISP_OVL1_TO_DISP_RDMA1			BIT(4)
++#define MT8195_MOUT_DISP_OVL1_TO_DISP_WDMA1			BIT(5)
++#define MT8195_MOUT_DISP_OVL1_TO_DISP_OVL0			BIT(6)
++
++#define MT8195_VDO0_SEL_IN					0xf34
++#define MT8195_SEL_IN_VPP_MERGE_FROM_DSC_WRAP0_OUT		(0 << 0)
++#define MT8195_SEL_IN_VPP_MERGE_FROM_DISP_DITHER1		(1 << 0)
++#define MT8195_SEL_IN_VPP_MERGE_FROM_VDO1_VIRTUAL0		(2 << 0)
++#define MT8195_SEL_IN_DSC_WRAP0_IN_FROM_DISP_DITHER0		(0 << 4)
++#define MT8195_SEL_IN_DSC_WRAP0_IN_FROM_VPP_MERGE		(1 << 4)
++#define MT8195_SEL_IN_DSC_WRAP1_IN_FROM_DISP_DITHER1		(0 << 5)
++#define MT8195_SEL_IN_DSC_WRAP1_IN_FROM_VPP_MERGE		(1 << 5)
++#define MT8195_SEL_IN_SINA_VIRTUAL0_FROM_VPP_MERGE		(0 << 8)
++#define MT8195_SEL_IN_SINA_VIRTUAL0_FROM_DSC_WRAP1_OUT		(1 << 8)
++#define MT8195_SEL_IN_SINB_VIRTUAL0_FROM_DSC_WRAP0_OUT		(0 << 9)
++#define MT8195_SEL_IN_DP_INTF0_FROM_DSC_WRAP1_OUT		(0 << 12)
++#define MT8195_SEL_IN_DP_INTF0_FROM_VPP_MERGE			(1 << 12)
++#define MT8195_SEL_IN_DP_INTF0_FROM_VDO1_VIRTUAL0		(2 << 12)
++#define MT8195_SEL_IN_DSI0_FROM_DSC_WRAP0_OUT			(0 << 16)
++#define MT8195_SEL_IN_DSI0_FROM_DISP_DITHER0			(1 << 16)
++#define MT8195_SEL_IN_DSI1_FROM_DSC_WRAP1_OUT			(0 << 17)
++#define MT8195_SEL_IN_DSI1_FROM_VPP_MERGE			(1 << 17)
++#define MT8195_SEL_IN_DISP_WDMA1_FROM_DISP_OVL1			(0 << 20)
++#define MT8195_SEL_IN_DISP_WDMA1_FROM_VPP_MERGE			(1 << 20)
++#define MT8195_SEL_IN_DSC_WRAP1_OUT_FROM_DSC_WRAP1_IN		(0 << 21)
++#define MT8195_SEL_IN_DSC_WRAP1_OUT_FROM_DISP_DITHER1		(1 << 21)
++#define MT8195_SEL_IN_DISP_WDMA0_FROM_DISP_OVL0			(0 << 22)
++#define MT8195_SEL_IN_DISP_WDMA0_FROM_VPP_MERGE			(1 << 22)
++
++#define MT8195_VDO0_SEL_OUT					0xf38
++#define MT8195_SOUT_DISP_DITHER0_TO_DSC_WRAP0_IN		(0 << 0)
++#define MT8195_SOUT_DISP_DITHER0_TO_DSI0			(1 << 0)
++#define MT8195_SOUT_DISP_DITHER1_TO_DSC_WRAP1_IN		(0 << 1)
++#define MT8195_SOUT_DISP_DITHER1_TO_VPP_MERGE			(1 << 1)
++#define MT8195_SOUT_DISP_DITHER1_TO_DSC_WRAP1_OUT		(2 << 1)
++#define MT8195_SOUT_VDO1_VIRTUAL0_TO_VPP_MERGE			(0 << 4)
++#define MT8195_SOUT_VDO1_VIRTUAL0_TO_DP_INTF0			(1 << 4)
++#define MT8195_SOUT_VPP_MERGE_TO_DSI1				(0 << 8)
++#define MT8195_SOUT_VPP_MERGE_TO_DP_INTF0			(1 << 8)
++#define MT8195_SOUT_VPP_MERGE_TO_SINA_VIRTUAL0			(2 << 8)
++#define MT8195_SOUT_VPP_MERGE_TO_DISP_WDMA1			(3 << 8)
++#define MT8195_SOUT_VPP_MERGE_TO_DSC_WRAP0_IN			(4 << 8)
++#define MT8195_SOUT_VPP_MERGE_TO_DSC_WRAP1_IN			(0 << 11)
++#define MT8195_SOUT_VPP_MERGE_TO_DISP_WDMA0			(1 << 11)
++#define MT8195_SOUT_DSC_WRAP0_OUT_TO_DSI0			(0 << 12)
++#define MT8195_SOUT_DSC_WRAP0_OUT_TO_SINB_VIRTUAL0		(1 << 12)
++#define MT8195_SOUT_DSC_WRAP0_OUT_TO_VPP_MERGE			(2 << 12)
++#define MT8195_SOUT_DSC_WRAP1_OUT_TO_DSI1			(0 << 16)
++#define MT8195_SOUT_DSC_WRAP1_OUT_TO_DP_INTF0			(1 << 16)
++#define MT8195_SOUT_DSC_WRAP1_OUT_TO_SINA_VIRTUAL0		(2 << 16)
++#define MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE			(3 << 16)
++
++static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[] = {
++	{
++		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
++		MT8195_VDO0_OVL_MOUT_EN, MT8195_MOUT_DISP_OVL0_TO_DISP_RDMA0
++	}, {
++		DDP_COMPONENT_OVL1, DDP_COMPONENT_RDMA1,
++		MT8195_VDO0_OVL_MOUT_EN, MT8195_MOUT_DISP_OVL1_TO_DISP_RDMA1
++	}, {
++		DDP_COMPONENT_DSC0, DDP_COMPONENT_MERGE0,
++		MT8195_VDO0_SEL_IN, MT8195_SEL_IN_VPP_MERGE_FROM_DSC_WRAP0_OUT
++	}, {
++		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSC0,
++		MT8195_VDO0_SEL_IN, MT8195_SEL_IN_DSC_WRAP0_IN_FROM_DISP_DITHER0
++	}, {
++		DDP_COMPONENT_DSC0, DDP_COMPONENT_DSI0,
++		MT8195_VDO0_SEL_IN, MT8195_SEL_IN_DSI0_FROM_DSC_WRAP0_OUT
++	}, {
++		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
++		MT8195_VDO0_SEL_IN, MT8195_SEL_IN_DSI0_FROM_DISP_DITHER0
++	}, {
++		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSC0,
++		MT8195_VDO0_SEL_OUT, MT8195_SOUT_DISP_DITHER0_TO_DSC_WRAP0_IN
++	}, {
++		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
++		MT8195_VDO0_SEL_OUT, MT8195_SOUT_DISP_DITHER0_TO_DSI0
++	}, {
++		DDP_COMPONENT_DSC0, DDP_COMPONENT_DSI0,
++		MT8195_VDO0_SEL_OUT, MT8195_SOUT_DSC_WRAP0_OUT_TO_DSI0
++	}, {
++		DDP_COMPONENT_DSC0, DDP_COMPONENT_MERGE0,
++		MT8195_VDO0_SEL_OUT, MT8195_SOUT_DSC_WRAP0_OUT_TO_VPP_MERGE
++	}
++};
++
++#endif /* __SOC_MEDIATEK_MT8195_MMSYS_H */
+diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+index 080660ef11bf..1fb241750897 100644
+--- a/drivers/soc/mediatek/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mtk-mmsys.c
+@@ -13,6 +13,7 @@
+ #include "mtk-mmsys.h"
+ #include "mt8167-mmsys.h"
+ #include "mt8183-mmsys.h"
++#include "mt8195-mmsys.h"
  
-+		ovl0: disp_ovl@1c000000 {
-+			compatible = "mediatek,mt8195-disp-ovl",
-+				     "mediatek,mt8183-disp-ovl";
-+			reg = <0 0x1c000000 0 0x1000>;
-+			interrupts = <GIC_SPI 636 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DISP_OVL0>;
-+			iommus = <&iommu_vdo M4U_PORT_L0_DISP_OVL0_RDMA0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c00XXXX 0x0000 0x1000>;
-+		};
+ static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
+ 	.clk_driver = "clk-mt2701-mm",
+@@ -52,6 +53,12 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
+ 	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
+ };
+ 
++static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
++	.clk_driver = "clk-mt8195-vdo0",
++	.routes = mmsys_mt8195_routing_table,
++	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
++};
 +
-+		rdma0: disp_rdma@1c002000 {
-+			compatible = "mediatek,mt8195-disp-rdma";
-+			reg = <0 0x1c002000 0 0x1000>;
-+			interrupts = <GIC_SPI 638 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DISP_RDMA0>;
-+			iommus = <&iommu_vdo M4U_PORT_L0_DISP_RDMA0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c00XXXX 0x2000 0x1000>;
-+		};
-+
-+		color0: disp_color@1c003000 {
-+			compatible = "mediatek,mt8195-disp-color",
-+				     "mediatek,mt8173-disp-color";
-+			reg = <0 0x1c003000 0 0x1000>;
-+			interrupts = <GIC_SPI 639 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DISP_COLOR0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c00XXXX 0x3000 0x1000>;
-+		};
-+
-+		ccorr0: disp_ccorr@1c004000 {
-+			compatible = "mediatek,mt8195-disp-ccorr",
-+				     "mediatek,mt8183-disp-ccorr";
-+			reg = <0 0x1c004000 0 0x1000>;
-+			interrupts = <GIC_SPI 640 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DISP_CCORR0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c00XXXX 0x4000 0x1000>;
-+		};
-+
-+		aal0: disp_aal@1c005000 {
-+			compatible = "mediatek,mt8195-disp-aal",
-+				     "mediatek,mt8173-disp-aal";
-+			reg = <0 0x1c005000 0 0x1000>;
-+			interrupts = <GIC_SPI 641 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DISP_AAL0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c00XXXX 0x5000 0x1000>;
-+		};
-+
-+		gamma0: disp_gamma@1c006000 {
-+			compatible = "mediatek,mt8195-disp-gamma",
-+				     "mediatek,mt8173-disp-gamma";
-+			reg = <0 0x1c006000 0 0x1000>;
-+			interrupts = <GIC_SPI 642 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DISP_GAMMA0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c00XXXX 0x6000 0x1000>;
-+		};
-+
-+		dither0: disp_dither@1c007000 {
-+			compatible = "mediatek,mt8195-disp-dither",
-+				     "mediatek,mt8183-disp-dither";
-+			reg = <0 0x1c007000 0 0x1000>;
-+			interrupts = <GIC_SPI 643 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DISP_DITHER0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c00XXXX 0x7000 0x1000>;
-+		};
-+
-+		dsc0: disp_dsc_wrap@1c009000 {
-+			compatible = "mediatek,mt8195-disp-dsc";
-+			reg = <0 0x1c009000 0 0x1000>;
-+			interrupts = <GIC_SPI 645 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DSC_WRAP0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c00XXXX 0x9000 0x1000>;
-+		};
-+
-+		merge0: disp_vpp_merge0@1c014000 {
-+			compatible = "mediatek,mt8195-disp-merge";
-+			reg = <0 0x1c014000 0 0x1000>;
-+			interrupts = <GIC_SPI 656 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_VPP_MERGE0>;
-+			mediatek,gce-client-reg =
-+				 <&gce1 SUBSYS_1c01XXXX 0x4000 0x1000>;
-+		};
-+
-+		mutex: disp_mutex0@1c016000 {
-+			compatible = "mediatek,mt8195-disp-mutex";
-+			reg = <0 0x1c016000 0 0x1000>;
-+			reg-names = "vdo0_mutex";
-+			interrupts = <GIC_SPI 658 IRQ_TYPE_LEVEL_HIGH 0>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			clocks = <&vdosys0 CLK_VDO0_DISP_MUTEX0>;
-+			clock-names = "vdo0_mutex";
-+			mediatek,gce-events =
-+				 <CMDQ_EVENT_VDO0_DISP_STREAM_DONE_0>;
-+		};
-+
- 		vdosys0: syscon@1c01a000 {
- 			compatible = "mediatek,mt8195-vdosys0", "syscon";
- 			reg = <0 0x1c01a000 0 0x1000>;
-+			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+			mboxes = <&gce1 0 CMDQ_THR_PRIO_4>;
- 			#clock-cells = <1>;
- 		};
+ struct mtk_mmsys {
+ 	void __iomem *regs;
+ 	const struct mtk_mmsys_driver_data *data;
+@@ -157,6 +164,10 @@ static const struct of_device_id of_match_mtk_mmsys[] = {
+ 		.compatible = "mediatek,mt8183-mmsys",
+ 		.data = &mt8183_mmsys_driver_data,
+ 	},
++	{
++		.compatible = "mediatek,mt8195-vdosys0",
++		.data = &mt8195_vdosys0_driver_data,
++	},
+ 	{ }
+ };
+ 
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index 2228bf6133da..01bedfb08094 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -39,6 +39,15 @@ enum mtk_ddp_comp_id {
+ 	DDP_COMPONENT_UFOE,
+ 	DDP_COMPONENT_WDMA0,
+ 	DDP_COMPONENT_WDMA1,
++	DDP_COMPONENT_MERGE0,
++	DDP_COMPONENT_MERGE1,
++	DDP_COMPONENT_MERGE2,
++	DDP_COMPONENT_MERGE3,
++	DDP_COMPONENT_MERGE4,
++	DDP_COMPONENT_MERGE5,
++	DDP_COMPONENT_DSC0,
++	DDP_COMPONENT_DSC1,
++	DDP_COMPONENT_DP_INTF0,
+ 	DDP_COMPONENT_ID_MAX,
+ };
  
 -- 
 2.18.0
