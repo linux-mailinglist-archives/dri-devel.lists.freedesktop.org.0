@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6017C3E16B5
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 16:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F563E16AF
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 16:14:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 336736EA7B;
-	Thu,  5 Aug 2021 14:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 865EF6EA7F;
+	Thu,  5 Aug 2021 14:14:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
- [81.169.146.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2F506EA81
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 14:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628172483;
+ [85.215.255.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C59336EA75
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 14:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628172484;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=7GSF524XRGutxpaRL6DFfJqyF0DFQEzvjjQ9jeOGxB0=;
- b=BooYge95UZsrYoIy4hqoHstoAWQXqvPa0IXyxpHwMtSYd+THqrTcanwHTJKfhkiLFh
- zfoVpvqtIYgQ5yB2a/ni1wSH5lJBdTtooRDVLhhlR+dUdBBST0R4j9cU9kvukAN0LgTA
- SfvO92RZK4PFlDibiLrkAPUSS+KY3QQ0BUeF9talW+LYrXxxwF/qjg+HpLxsDhLKvZ1U
- V2CIu9l4O81AlPH90GhPbRJkIYLmCBWPaSCzhvEaOrYx+WnG8f3IcU6cixMEZ0f8T7vP
- gQxFNRwhi2AYRngs2AFj9RIhNQe+LjHCNqpnEG4QkQEkDM7rrGUGECOJxyZNf1HG/vUQ
- Sx5Q==
+ bh=K0sFdrnmJtU+HNf5UqSpAGXxaDpXX2cDTnFEZZMJfDU=;
+ b=XolgD4QWcXvg1GfDR4Z3iFZtT4W0u9Zx++3vA8KDNyyHcf7L3SeBY9QRBCT9mCLvBM
+ 1kYboOqKMIvnxzdsEAlaS2UXaF+niHQa1JRRNvHGmOSQcWJX6XJa07Cq7Ikj+V+hCT4H
+ 4V6IXpU1AxHEK5cEc1OhLgrR712Pq1k+PDSBOXiNX1oBx/DOyRKRBBV1BONduVIpyPkA
+ /WsUpQTtW+8pX+LYhhLn2JJ6R0jT5kiG0DowE2d0TezGxqiExgzB4e9RA7tMYMHCJwvV
+ Dq05p84v0kz9WMPWAfPy+4azQbOLL1rlpurZ90/eh2ZHO4O6DDa2D0ddy6ZrgcjMQ/Yb
+ xSvA==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdbLzk="
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.31.0 DYNA|AUTH)
- with ESMTPSA id Q02727x75E82784
+ with ESMTPSA id Q02727x75E83785
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Thu, 5 Aug 2021 16:08:02 +0200 (CEST)
+ Thu, 5 Aug 2021 16:08:03 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
@@ -53,10 +53,11 @@ To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
  linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
  Paul Boddie <paul@boddie.org.uk>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 4/8] dt-bindings: display: Add ingenic-jz4780-hdmi DT Schema
-Date: Thu,  5 Aug 2021 16:07:53 +0200
-Message-Id: <0eee16fbffd34319a9ade49d39c12b005568ef57.1628172477.git.hns@goldelico.com>
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 5/8] MIPS: DTS: jz4780: account for Synopsys HDMI driver
+ and LCD controller
+Date: Thu,  5 Aug 2021 16:07:54 +0200
+Message-Id: <4784fa1d458e64024b10822f22d83c3f0e518408.1628172477.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1628172477.git.hns@goldelico.com>
 References: <cover.1628172477.git.hns@goldelico.com>
@@ -77,108 +78,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+From: Paul Boddie <paul@boddie.org.uk>
 
-Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-Based on .txt binding from Zubair Lutfullah Kakakhel
+A specialisation of the generic Synopsys HDMI driver is employed for JZ4780
+HDMI support. This requires a new driver, plus device tree and configuration
+modifications.
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Paul Boddie <paul@boddie.org.uk>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org
 ---
- .../bindings/display/ingenic-jz4780-hdmi.yaml | 82 +++++++++++++++++++
- 1 file changed, 82 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+ arch/mips/boot/dts/ingenic/jz4780.dtsi | 45 ++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-new file mode 100644
-index 0000000000000..a545ff8704ebd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-@@ -0,0 +1,82 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/ingenic-jz4780-hdmi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+index 9e34f433b9b58..4cbc6a4db6cda 100644
+--- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
++++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+@@ -424,6 +424,51 @@ i2c4: i2c@10054000 {
+ 		status = "disabled";
+ 	};
+ 
++	hdmi: hdmi@10180000 {
++		compatible = "ingenic,jz4780-dw-hdmi";
++		reg = <0x10180000 0x8000>;
++		reg-io-width = <4>;
 +
-+title: Bindings for Ingenic JZ4780 HDMI Transmitter
++		clocks = <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
++		clock-names = "isfr" , "iahb";
 +
-+maintainers:
-+  - H. Nikolaus Schaller <hns@goldelico.com>
++		assigned-clocks = <&cgu JZ4780_CLK_HDMI>;
++		assigned-clock-rates = <27000000>;
 +
-+description: |
-+  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys DesignWare HDMI 1.4
-+  TX controller IP with accompanying PHY IP.
++		interrupt-parent = <&intc>;
++		interrupts = <3>;
 +
-+allOf:
-+  - $ref: panel/panel-common.yaml#
++		/* ddc-i2c-bus = <&i2c4>; */
 +
-+properties:
-+  compatible:
-+    items:
-+      - const: ingenic,jz4780-hdmi
++		status = "disabled";
++	};
 +
-+  reg:
-+    maxItems: 1
-+    description: the address & size of the LCD controller registers
++	lcdc0: lcdc0@13050000 {
++		compatible = "ingenic,jz4780-lcd";
++		reg = <0x13050000 0x1800>;
 +
-+  reg-io-width:
-+    const: 4
++		clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
++		clock-names = "lcd", "lcd_pclk";
 +
-+  interrupts:
-+    maxItems: 1
-+    description: Specifies the interrupt provided by parent
++		interrupt-parent = <&intc>;
++		interrupts = <31>;
 +
-+  clocks:
-+    maxItems: 2
-+    description: Clock specifiers for isrf and iahb clocks
++		status = "disabled";
++	};
 +
-+  clock-names:
-+    items:
-+      - const: isfr
-+      - const: iahb
++	lcdc1: lcdc1@130a0000 {
++		compatible = "ingenic,jz4780-lcd";
++		reg = <0x130a0000 0x1800>;
 +
-+  ddc-i2c-bus: true
-+  ports: true
++		clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD1PIXCLK>;
++		clock-names = "lcd", "lcd_pclk";
 +
-+required:
-+    - compatible
-+    - clocks
-+    - clock-names
-+    - ports
-+    - reg-io-width
++		interrupt-parent = <&intc>;
++		interrupts = <31>;
 +
-+additionalProperties: false
++		status = "disabled";
++	};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/clock/jz4780-cgu.h>
-+
-+    hdmi: hdmi@10180000 {
-+        compatible = "ingenic,jz4780-hdmi";
-+        reg = <0x10180000 0x8000>;
-+        reg-io-width = <4>;
-+        ddc-i2c-bus = <&i2c4>;
-+        interrupt-parent = <&intc>;
-+        interrupts = <3>;
-+        clocks = <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
-+        clock-names = "isfr", "iahb";
-+
-+        ports {
-+            hdmi_in: port {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+                hdmi_in_lcd: endpoint@0 {
-+                    reg = <0>;
-+                    remote-endpoint = <&jz4780_out_hdmi>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+ 	nemc: nemc@13410000 {
+ 		compatible = "ingenic,jz4780-nemc", "simple-mfd";
+ 		reg = <0x13410000 0x10000>;
 -- 
 2.31.1
 
