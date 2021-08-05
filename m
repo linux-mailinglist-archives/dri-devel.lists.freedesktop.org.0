@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4966F3E1327
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 12:48:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 945C53E133B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 12:48:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F38C6E97A;
-	Thu,  5 Aug 2021 10:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4C1689CAA;
+	Thu,  5 Aug 2021 10:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D00BF6E9A3
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 10:47:24 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id gs8so8724473ejc.13
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 03:47:24 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABF9D6E9AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 10:47:25 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id i6so7745388edu.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 03:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jSzJFH8CtxTJYEXcCZZIbr2vCkG9eURdQPO2UTEKnBM=;
- b=ayI8hGndL92HshvSFXNFZ0Lc8C4Aysey6TTy9xUBOIGjEiQywtqJB6PF96tdkgDZ2l
- wibdOONFuc1ptidH5N9sZf+EOc+VO64/5FoMngFp+wDvf6rNgBZOE87s+ZA2LgYHKrot
- 11rc7PxMuWEcdU0tdJjtMlYmDpYdWg750L3K8=
+ bh=SrBx4CBwHL4LCxd/L17wD9kVL8jLKB/ia22GTxIDDNY=;
+ b=Hy0KTKLZNoa/0p5YbWam97oduG3xEHgFvf3KJ7OW6urEcjBQEmnW47jE26EYT9tONi
+ AOjmbGVjns3OczDXzOYeQAUtqcx6LrSb7skgBK/gRmxAsI+YfQ82w9eojV/S6zR13zhT
+ d5sUZXwRYVbAA0ax9g/Pl0ocECKvmfP++9Eis=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jSzJFH8CtxTJYEXcCZZIbr2vCkG9eURdQPO2UTEKnBM=;
- b=bqEEyEkY8kn7oy2B70mIjFRZq5v2DBZCqYQ4Z2rpfjP0g0POTv+Ud+IGcRSVLNzdlY
- MJpEJUW6YQ5qQxWU+duEfpi86fbc/azHYHu/Z1FRO/D470Dr7vvViIZhWUUEPXY3PL8/
- 2L+sAJ3jzSNBnQpv8hMVoxQkv2+d759Fdhg694Cfg9Vfqsh+9Z5OdyOTYoK6aoVe1D0k
- QiKEgIqcv0usvv7vsE1Jca8zKnVmzVa+EaqCHraTAe1F2rX1lqM+wqOfec5/WliQ0cmz
- O7EUkeC93Y3rWjOE2omRxFJV0sxkKnE24n0j7pQFJp4C3aNt5r33OmcBwTtfu2HqKCPT
- +jrQ==
-X-Gm-Message-State: AOAM531RLKkoS9h1sGyuj28orvYGTCCEdtM8s9ALTec3lmIQohSrN8P+
- AXQ9Hdk55H8H/1r9a24bYzgJhCGXPYzCuw==
-X-Google-Smtp-Source: ABdhPJxpyljfbXPxATlcHpARHjEIH7oeB91EwoMvWsvYfgqp1K5k09Ko2eLFP/1UgvQ1s0WMr1+EkA==
-X-Received: by 2002:a17:906:e089:: with SMTP id
- gh9mr4309138ejb.80.1628160443331; 
- Thu, 05 Aug 2021 03:47:23 -0700 (PDT)
+ bh=SrBx4CBwHL4LCxd/L17wD9kVL8jLKB/ia22GTxIDDNY=;
+ b=LtxGdd/ViJPdzhFP1m8nSn/Y+CwmSfPkCiIX3aL933BRMv6XqEaP89ZH/HZe7i4IoB
+ gBfOrlcjVzWsMc74QCRVsAypaW9hW1QVZjDKtJ9+PNH5bW0hjEGGrRceTNMMLgUprFPA
+ 0lb86SgiPbI9XMpXlpSr+CdNTlGrnBX0hwhcgiQ2HzqYUbPCOQvrLTSMttWfMnoKza7S
+ 4s+qQCzdu4iQ2lTsG+MZ03IHwMqijmhnqIy7DP3DDGfDMxGZHRTB0F9UE3jsvbEXagQL
+ SXqBzyeit26eaEXTAUkPO4D2DGxZo2ItLjqVc+sLe1Wm7zO4nUIxbvj8E1j5ByNW6/DH
+ 9BTQ==
+X-Gm-Message-State: AOAM533v/rQ5Ob5GCVDQSbCUey7Gz1JdSar5LegVUi/l6/ri3/Uk08BH
+ sKSCDZgROZ6jydEZJnEqHlqMwTO5iDOxTA==
+X-Google-Smtp-Source: ABdhPJxcatNB3uMDIlS/IvkYf0eyNei/2iL2TzILdhJkT0UazEGiJemXJK1mqin9u7Tajl5QAxeK/Q==
+X-Received: by 2002:a05:6402:124e:: with SMTP id
+ l14mr5899834edw.356.1628160444153; 
+ Thu, 05 Aug 2021 03:47:24 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p5sm1578809ejl.73.2021.08.05.03.47.22
+ by smtp.gmail.com with ESMTPSA id p5sm1578809ejl.73.2021.08.05.03.47.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Aug 2021 03:47:22 -0700 (PDT)
+ Thu, 05 Aug 2021 03:47:23 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Lucas Stach <l.stach@pengutronix.de>, Melissa Wen <mwen@igalia.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v5 13/20] drm/gem: Delete gem array fencing helpers
-Date: Thu,  5 Aug 2021 12:46:58 +0200
-Message-Id: <20210805104705.862416-14-daniel.vetter@ffwll.ch>
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH v5 14/20] drm/sched: Don't store self-dependencies
+Date: Thu,  5 Aug 2021 12:46:59 +0200
+Message-Id: <20210805104705.862416-15-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
 References: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
@@ -78,143 +77,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Integrated into the scheduler now and all users converted over.
+This is essentially part of drm_sched_dependency_optimized(), which
+only amdgpu seems to make use of. Use it a bit more.
 
+This would mean that as-is amdgpu can't use the dependency helpers, at
+least not with the current approach amdgpu has for deciding whether a
+vm_flush is needed. Since amdgpu also has very special rules around
+implicit fencing it can't use those helpers either, and adding a
+drm_sched_job_await_fence_always or similar for amdgpu wouldn't be too
+onerous. That way the special case handling for amdgpu sticks even
+more out and we have higher chances that reviewers that go across all
+drivers wont miss it.
+
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Acked-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
 Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 ---
- drivers/gpu/drm/drm_gem.c | 96 ---------------------------------------
- include/drm/drm_gem.h     |  5 --
- 2 files changed, 101 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 09c820045859..37e2e2820f08 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1272,99 +1272,3 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
- 	ww_acquire_fini(acquire_ctx);
- }
- EXPORT_SYMBOL(drm_gem_unlock_reservations);
--
--/**
-- * drm_gem_fence_array_add - Adds the fence to an array of fences to be
-- * waited on, deduplicating fences from the same context.
-- *
-- * @fence_array: array of dma_fence * for the job to block on.
-- * @fence: the dma_fence to add to the list of dependencies.
-- *
-- * This functions consumes the reference for @fence both on success and error
-- * cases.
-- *
-- * Returns:
-- * 0 on success, or an error on failing to expand the array.
-- */
--int drm_gem_fence_array_add(struct xarray *fence_array,
--			    struct dma_fence *fence)
--{
--	struct dma_fence *entry;
--	unsigned long index;
--	u32 id = 0;
--	int ret;
--
--	if (!fence)
--		return 0;
--
--	/* Deduplicate if we already depend on a fence from the same context.
--	 * This lets the size of the array of deps scale with the number of
--	 * engines involved, rather than the number of BOs.
--	 */
--	xa_for_each(fence_array, index, entry) {
--		if (entry->context != fence->context)
--			continue;
--
--		if (dma_fence_is_later(fence, entry)) {
--			dma_fence_put(entry);
--			xa_store(fence_array, index, fence, GFP_KERNEL);
--		} else {
--			dma_fence_put(fence);
--		}
--		return 0;
--	}
--
--	ret = xa_alloc(fence_array, &id, fence, xa_limit_32b, GFP_KERNEL);
--	if (ret != 0)
--		dma_fence_put(fence);
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_gem_fence_array_add);
--
--/**
-- * drm_gem_fence_array_add_implicit - Adds the implicit dependencies tracked
-- * in the GEM object's reservation object to an array of dma_fences for use in
-- * scheduling a rendering job.
-- *
-- * This should be called after drm_gem_lock_reservations() on your array of
-- * GEM objects used in the job but before updating the reservations with your
-- * own fences.
-- *
-- * @fence_array: array of dma_fence * for the job to block on.
-- * @obj: the gem object to add new dependencies from.
-- * @write: whether the job might write the object (so we need to depend on
-- * shared fences in the reservation object).
-- */
--int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
--				     struct drm_gem_object *obj,
--				     bool write)
--{
--	int ret;
--	struct dma_fence **fences;
--	unsigned int i, fence_count;
--
--	if (!write) {
--		struct dma_fence *fence =
--			dma_resv_get_excl_unlocked(obj->resv);
--
--		return drm_gem_fence_array_add(fence_array, fence);
--	}
--
--	ret = dma_resv_get_fences(obj->resv, NULL,
--						&fence_count, &fences);
--	if (ret || !fence_count)
--		return ret;
--
--	for (i = 0; i < fence_count; i++) {
--		ret = drm_gem_fence_array_add(fence_array, fences[i]);
--		if (ret)
--			break;
--	}
--
--	for (; i < fence_count; i++)
--		dma_fence_put(fences[i]);
--	kfree(fences);
--	return ret;
--}
--EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 35e7f44c2a75..e55a767188af 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -407,11 +407,6 @@ int drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
- 			      struct ww_acquire_ctx *acquire_ctx);
- void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
- 				 struct ww_acquire_ctx *acquire_ctx);
--int drm_gem_fence_array_add(struct xarray *fence_array,
--			    struct dma_fence *fence);
--int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
--				     struct drm_gem_object *obj,
--				     bool write);
- int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
- 			    u32 handle, u64 *offset);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index f77456929139..49e507f91ec0 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -660,6 +660,13 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+ 	if (!fence)
+ 		return 0;
  
++	/* if it's a fence from us it's guaranteed to be earlier */
++	if (fence->context == job->entity->fence_context ||
++	    fence->context == job->entity->fence_context + 1) {
++		dma_fence_put(fence);
++		return 0;
++	}
++
+ 	/* Deduplicate if we already depend on a fence from the same context.
+ 	 * This lets the size of the array of deps scale with the number of
+ 	 * engines involved, rather than the number of BOs.
 -- 
 2.32.0
 
