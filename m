@@ -1,37 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E4E3E1464
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 14:05:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5873E1472
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 14:08:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD93A6E9F9;
-	Thu,  5 Aug 2021 12:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF48A6EA06;
+	Thu,  5 Aug 2021 12:08:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9F56E9F9;
- Thu,  5 Aug 2021 12:05:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="214120406"
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; d="scan'208";a="214120406"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2021 05:05:20 -0700
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; d="scan'208";a="442372145"
-Received: from tanzeelu-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.202.73])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2021 05:05:18 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Zhen Han <zhen.han@intel.com>
-Subject: [PATCH] drm/i915: Be more gentle when exiting non-persistent contexts
-Date: Thu,  5 Aug 2021 13:05:09 +0100
-Message-Id: <20210805120509.2270455-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8216EA06
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 12:08:21 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id e19so9148238ejs.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 05:08:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=QINYPdftC+kwfMyU4cvPF8EQviKOBFY1YcdjIjIWydc=;
+ b=HjfxWSVW5lNuMaN6QaFwDuUbGOhV1kjbN4HVu9uCr/gZwDi1jjj8n2aE/vsMIVHRPN
+ dKlTLx7Zt/m9wYeA8l/WItrIvtZqpqWa5OwzAPM0x+5AeDCNtYTzqNPy3iFVHJd5O0hs
+ gHfqKHPbTQ1DjMwqcmQm6HCJ+8iMKRiI5IE/s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QINYPdftC+kwfMyU4cvPF8EQviKOBFY1YcdjIjIWydc=;
+ b=WkenS9RxwopvXE67Yx1OPiKtLLsvV9CldZADSZ4hpsjMJq9rX8DJplCta8BxsEYvSh
+ BTh5/w6FFuqMxoj2/aMcgjsp9ZYrXn1XQg2cL7xmZ+p3/O1EnKY/oogikzYnzBE6OFcs
+ GqP9ak9RdWqmno4LoBy0dBEd7a1CeLtgjiekNUxphL62ITWw6hTGUNfR4cxIdrXHuOqJ
+ SsVyiRpfB4yugCsZT25ye/WVa5rf/s1UkNRbICkSk/fxFA0JktSt92OGj+DgrqqSorBH
+ Kb63nBE1+3xspg2m33tDeh1Cs1inSisTLdELDVaCOAQMfEFTW1s8EWT4a9Fc3/9qsEhY
+ xvVw==
+X-Gm-Message-State: AOAM533cR++FlEk0c+cVZKvxa9Bxbobco9k9x+gyaoCL24QnO9+gTAkK
+ ZfzFEYaRCauK/VIN5uMqxtMVcw==
+X-Google-Smtp-Source: ABdhPJy3pwTebRqN7tUmJaBSLzYBh+B+2mrDYXcF+2iJDtWLTWcWUF93GDMaf0hkWLWyUggTP3CK7A==
+X-Received: by 2002:a17:906:a24c:: with SMTP id
+ bi12mr4508766ejb.530.1628165299735; 
+ Thu, 05 Aug 2021 05:08:19 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id cz3sm2191553edb.11.2021.08.05.05.08.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Aug 2021 05:08:19 -0700 (PDT)
+Date: Thu, 5 Aug 2021 14:08:17 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Simon Ser <contact@emersion.fr>, "Zhang, Tina" <tina.zhang@intel.com>,
+ "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "Singh, Satyeshwar" <satyeshwar.singh@intel.com>
+Subject: Re: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
+ capability
+Message-ID: <YQvUsYgKxPM/2KZm@phenom.ffwll.local>
+References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
+ <YQPTo0D5SZfX44dn@phenom.ffwll.local>
+ <612fd31a51384cb28ac6da9db3e840ca@intel.com>
+ <YQepZMFaCNLBNGx9@phenom.ffwll.local>
+ <fa53f9db229e481784bfe3a61a195fd3@intel.com>
+ <1b96e91f-d65c-a155-8c8c-8a4326733c4e@daenzer.net>
+ <CAKMK7uH7gy7x-MrN7EWwwdsZKn-i5XB5Wie_ueRXXdnx5Yhefw@mail.gmail.com>
+ <8722db11a6d245259c15ca2262a40d07@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <8722db11a6d245259c15ca2262a40d07@intel.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,306 +86,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Thu, Aug 05, 2021 at 04:15:27AM +0000, Kasireddy, Vivek wrote:
+> Hi Daniel,
+> 
+> > > >>> The solution:
+> > > >>> - To ensure full framerate, the Guest compositor has to start it's repaint cycle
+> > (including
+> > > >>> the 9 ms wait) when the Host compositor sends the frame callback event to its
+> > clients.
+> > > >>> In order for this to happen, the dma-fence that the Guest KMS waits on -- before
+> > sending
+> > > >>> pageflip completion -- cannot be tied to a wl_buffer.release event. This means that,
+> > the
+> > > >>> Guest compositor has to be forced to use a new buffer for its next repaint cycle
+> > when it
+> > > >>> gets a pageflip completion.
+> > > >>
+> > > >> Is that really the only solution?
+> > > > [Kasireddy, Vivek] There are a few others I mentioned here:
+> > > > https://gitlab.freedesktop.org/wayland/weston/-/issues/514#note_986572
+> > > > But I think none of them are as compelling as this one.
+> > > >
+> > > >>
+> > > >> If we fix the event timestamps so that both guest and host use the same
+> > > >> timestamp, but then the guest starts 5ms (or something like that) earlier,
+> > > >> then things should work too? I.e.
+> > > >> - host compositor starts at (previous_frametime + 9ms)
+> > > >> - guest compositor starts at (previous_frametime + 4ms)
+> > > >>
+> > > >> Ofc this only works if the frametimes we hand out to both match _exactly_
+> > > >> and are as high-precision as the ones on the host side. Which for many gpu
+> > > >> drivers at least is the case, and all the ones you care about for sure :-)
+> > > >>
+> > > >> But if the frametimes the guest receives are the no_vblank fake ones, then
+> > > >> they'll be all over the place and this carefully tuned low-latency redraw
+> > > >> loop falls apart. Aside fromm the fact that without tuning the guests to
+> > > >> be earlier than the hosts, you're guaranteed to miss every frame (except
+> > > >> when the timing wobbliness in the guest is big enough by chance to make
+> > > >> the deadline on the oddball frame).
+> > > > [Kasireddy, Vivek] The Guest and Host use different event timestamps as we don't
+> > > > share these between the Guest and the Host. It does not seem to be causing any other
+> > > > problems so far but we did try the experiment you mentioned (i.e., adjusting the
+> > delays)
+> > > > and it works. However, this patch series is meant to fix the issue without having to
+> > tweak
+> > > > anything (delays) because we can't do this for every compositor out there.
+> > >
+> > > Maybe there could be a mechanism which allows the compositor in the guest to
+> > automatically adjust its repaint cycle as needed.
+> > >
+> > > This might even be possible without requiring changes in each compositor, by adjusting
+> > the vertical blank periods in the guest to be aligned with the host compositor repaint
+> > cycles. Not sure about that though.
+> > >
+> > > Even if not, both this series or making it possible to queue multiple flips require
+> > corresponding changes in each compositor as well to have any effect.
+> > 
+> > Yeah from all the discussions and tests done it sounds even with a
+> > deeper queue we have big coordination issues between the guest and
+> > host compositor (like the example that the guest is now rendering at
+> > 90fps instead of 60fps like the host).
+> [Kasireddy, Vivek] Oh, I think you are referring to my reply to Gerd. That 90 FPS vs 
+> 60 FPS problem is a completely different issue that is associated with Qemu GTK UI
+> backend. With the GTK backend -- and also with SDL backend -- we Blit the Guest
+> scanout FB onto one of the backbuffers managed by EGL. 
+> 
+> I am trying to add a new Qemu Wayland UI backend so that we can eliminate that Blit
+> and thereby have a truly zero-copy solution. And, this is there I am running into the 
+> halved frame-rate issue -- the current problem.
 
-When a non-persistent context exits we currently mark it as banned in
-order to trigger fast termination of any outstanding GPU jobs it may have
-left running.
+Yes, that's what I referenced. But I disagree that it's a different
+problem. The underlying problem in both cases is that the guest and host
+compositor free-wheel instead of rendering in sync. It's just that
+depending upon how exactly the flip completion event on the gues side
+plays out you either get guest rendering that's faster than the host-side
+60fps, or guest rendering that's much slower than the host-side 60fps.
 
-In doing so we apply a very strict 1ms limit in which the left over job
-has to preempt before we issues an engine resets.
+The fundamental problem in both cases is that they don't run in lockstep.
+If you fix that, through fixing the timestamp and even reporting most
+likely, you should be able to fix both bugs.
 
-Some workloads are not able to cleanly preempt in that time window and it
-can be argued that it would instead be better to give them a bit more
-grace since avoiding engine resets is generally preferrable.
+> > Hence my gut feeling reaction that first we need to get these two
+> > compositors aligned in their timings, which propobably needs
+> > consistent vblank periods/timestamps across them (plus/minux
+> > guest/host clocksource fun ofc). Without this any of the next steps
+> > will simply not work because there's too much jitter by the time the
+> > guest compositor gets the flip completion events.
+> [Kasireddy, Vivek] Timings are not a problem and do not significantly
+> affect the repaint cycles from what I have seen so far.
+> 
+> > 
+> > Once we have solid events I think we should look into statically
+> > tuning guest/host compositor deadlines (like you've suggested in a
+> > bunch of places) to consisently make that deadline and hit 60 fps.
+> > With that we can then look into tuning this automatically and what to
+> > do when e.g. switching between copying and zero-copy on the host side
+> > (which might be needed in some cases) and how to handle all that.
+> [Kasireddy, Vivek] As I confirm here: https://gitlab.freedesktop.org/wayland/weston/-/issues/514#note_984065
+> tweaking the deadlines works (i.e., we get 60 FPS) as we expect. However,
+> I feel that this zero-copy solution I am trying to create should be independent
+> of compositors' deadlines, delays or other scheduling parameters.
 
-To achieve this the patch splits handling of banned contexts from simply
-closed non-persistent ones and then applies different timeouts for both
-and also extends the criteria which determines if a request should be
-scheduled back in after preemption or not.
+That's not how compositors work nowadays. Your problem is that you don't
+have the guest/host compositor in sync. zero-copy only changes the timing,
+so it changes things from "rendering way too many frames" to "rendering
+way too few frames".
 
-15ms preempt timeout grace is given to exited non-persistent contexts
-which have been empirically tested to satisfy customers requirements
-and still provides reasonably quick cleanup post exit.
+We need to fix the timing/sync issue here first, not paper over it with
+hacks.
 
-v2:
- * Streamline fast path checks.
+Only, and I really mean only, when that shows that it's simply impossible
+to hit 60fps with zero-copy and the guest/host fully aligned should we
+look into making the overall pipeline deeper.
 
-v3:
- * Simplify by using only schedulable status.
- * Increase timeout to 20ms.
+> > Only when that all shows that we just can't hit 60fps consistently and
+> > really need 3 buffers in flight should we look at deeper kms queues.
+> > And then we really need to implement them properly and not with a
+> > mismatch between drm_event an out-fence signalling. These quick hacks
+> > are good for experiments, but there's a pile of other things we need
+> > to do first. At least that's how I understand the problem here right
+> > now.
+> [Kasireddy, Vivek] Experiments done so far indicate that we can hit 59 FPS consistently
+> -- in a zero-copy way independent of compositors' delays/deadlines -- with this
+> patch series + the Weston MR I linked in the cover letter. The main reason why this
+> works is because we relax the assumption that when the Guest compositor gets a
+> pageflip completion event that it could reuse the old FB it submitted in the previous
+> atomic flip and instead force it to use a new one. And, we send the pageflip completion
+> event to the Guest when the Host compositor sends a frame callback event. Lastly,
+> we use the (deferred) out_fence as just a mechanism to tell the Guest compositor when
+> it can release references on old FBs so that they can be reused again.
+> 
+> With that being said, the only question is how can we accomplish the above in an upstream
+> acceptable way without regressing anything particularly on bare-metal. Its not clear if just
+> increasing the queue depth would work or not but I think the Guest compositor has to be told
+> when it can start its repaint cycle and when it can assume the old FB is no longer in use.
+> On bare-metal -- and also with VKMS as of today -- a pageflip completion indicates both.
+> In other words, Vblank event is the same as Flip done, which makes sense on bare-metal.
+> But if we were to have two events at-least for VKMS: vblank to indicate to Guest to start
+> repaint and flip_done to indicate to drop references on old FBs, I think this problem can
+> be solved even without increasing the queue depth. Can this be acceptable?
 
-v4:
- * Fix live_execlists selftest.
+That's just another flavour of your "increase queue depth without
+increasing the atomic queue depth" approach. I still think the underlying
+fundamental issue is a timing confusion, and the fact that adjusting the
+timings fixes things too kinda proves that. So we need to fix that in a
+clean way, not by shuffling things around semi-randomly until the specific
+config we tests works.
 
-v5:
- * Fix logic in kill_engines.
+Iow I think we need a solution here which both slows down the 90fps to
+60fps for the blit case, and the 30fps speed up to 60fps for the zerocopy
+case. Because the host might need to switch transparently between blt and
+zerocopy for various reasons.
+-Daniel
 
-v6:
- * Rebase.
+> Thanks,
+> Vivek
+> > 
+> > Cheers, Daniel
+> > 
+> > >
+> > >
+> > > --
+> > > Earthling Michel Dänzer               |               https://redhat.com
+> > > Libre software enthusiast             |             Mesa and X developer
+> > 
+> > 
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Zhen Han <zhen.han@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 22 +++++++++++++------
- drivers/gpu/drm/i915/gt/intel_context.c       |  2 ++
- drivers/gpu/drm/i915/gt/intel_context.h       | 17 +++++++++++++-
- drivers/gpu/drm/i915/gt/intel_context_types.h |  1 +
- .../drm/i915/gt/intel_execlists_submission.c  | 11 ++++++++--
- drivers/gpu/drm/i915/gt/selftest_execlists.c  | 20 +++++++++++------
- drivers/gpu/drm/i915/i915_request.c           |  2 +-
- 7 files changed, 57 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index cff72679ad7c..21fe5d4057ab 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1065,7 +1065,8 @@ static struct intel_engine_cs *active_engine(struct intel_context *ce)
- 	return engine;
- }
- 
--static void kill_engines(struct i915_gem_engines *engines, bool ban)
-+static void
-+kill_engines(struct i915_gem_engines *engines, bool ban, bool persistent)
- {
- 	struct i915_gem_engines_iter it;
- 	struct intel_context *ce;
-@@ -1079,8 +1080,15 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
- 	 */
- 	for_each_gem_engine(ce, engines, it) {
- 		struct intel_engine_cs *engine;
-+		bool skip = false;
-+
-+		if (ban)
-+			skip = intel_context_ban(ce, NULL);
-+		else if (!persistent)
-+			skip = !intel_context_clear_schedulable(ce);
- 
--		if (ban && intel_context_ban(ce, NULL))
-+		/* Already previously banned or made non-schedulable? */
-+		if (skip)
- 			continue;
- 
- 		/*
-@@ -1093,7 +1101,7 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
- 		engine = active_engine(ce);
- 
- 		/* First attempt to gracefully cancel the context */
--		if (engine && !__cancel_engine(engine) && ban)
-+		if (engine && !__cancel_engine(engine) && (ban || !persistent))
- 			/*
- 			 * If we are unable to send a preemptive pulse to bump
- 			 * the context from the GPU, we have to resort to a full
-@@ -1105,8 +1113,6 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
- 
- static void kill_context(struct i915_gem_context *ctx)
- {
--	bool ban = (!i915_gem_context_is_persistent(ctx) ||
--		    !ctx->i915->params.enable_hangcheck);
- 	struct i915_gem_engines *pos, *next;
- 
- 	spin_lock_irq(&ctx->stale.lock);
-@@ -1119,7 +1125,8 @@ static void kill_context(struct i915_gem_context *ctx)
- 
- 		spin_unlock_irq(&ctx->stale.lock);
- 
--		kill_engines(pos, ban);
-+		kill_engines(pos, !ctx->i915->params.enable_hangcheck,
-+			     i915_gem_context_is_persistent(ctx));
- 
- 		spin_lock_irq(&ctx->stale.lock);
- 		GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
-@@ -1165,7 +1172,8 @@ static void engines_idle_release(struct i915_gem_context *ctx,
- 
- kill:
- 	if (list_empty(&engines->link)) /* raced, already closed */
--		kill_engines(engines, true);
-+		kill_engines(engines, true,
-+			     i915_gem_context_is_persistent(ctx));
- 
- 	i915_sw_fence_commit(&engines->fence);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 745e84c72c90..bc1701ef1578 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -382,6 +382,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
- 	ce->ring = NULL;
- 	ce->ring_size = SZ_4K;
- 
-+	__set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
-+
- 	ewma_runtime_init(&ce->runtime.avg);
- 
- 	ce->vm = i915_vm_get(engine->gt->vm);
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-index c41098950746..5b50716654dd 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context.h
-@@ -251,7 +251,22 @@ static inline bool intel_context_is_banned(const struct intel_context *ce)
- 
- static inline bool intel_context_set_banned(struct intel_context *ce)
- {
--	return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
-+	bool banned = test_and_set_bit(CONTEXT_BANNED, &ce->flags);
-+
-+	if (!banned)
-+		clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
-+
-+	return banned;
-+}
-+
-+static inline bool intel_context_clear_schedulable(struct intel_context *ce)
-+{
-+	return test_and_clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
-+}
-+
-+static inline bool intel_context_is_schedulable(const struct intel_context *ce)
-+{
-+	return test_bit(CONTEXT_SCHEDULABLE, &ce->flags);
- }
- 
- static inline bool intel_context_ban(struct intel_context *ce,
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index e54351a170e2..3306c70c9c54 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -112,6 +112,7 @@ struct intel_context {
- #define CONTEXT_FORCE_SINGLE_SUBMISSION	7
- #define CONTEXT_NOPREEMPT		8
- #define CONTEXT_LRCA_DIRTY		9
-+#define CONTEXT_SCHEDULABLE		10  /* Unless banned or non-persistent closed. */
- 
- 	struct {
- 		u64 timeout_us;
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index de5f9c86b9a4..778f3cda3c71 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -478,7 +478,7 @@ __execlists_schedule_in(struct i915_request *rq)
- 		     !intel_engine_has_heartbeat(engine)))
- 		intel_context_set_banned(ce);
- 
--	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
-+	if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
- 		reset_active(rq, engine);
- 
- 	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
-@@ -1222,12 +1222,19 @@ static void record_preemption(struct intel_engine_execlists *execlists)
- static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
- 					    const struct i915_request *rq)
- {
-+	struct intel_context *ce;
-+
- 	if (!rq)
- 		return 0;
- 
-+	ce = rq->context;
-+
- 	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
--	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
-+	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
- 		return 1;
-+	/* Longer grace for closed non-persistent contexts to avoid resets. */
-+	else if (unlikely(!intel_context_is_schedulable(ce)))
-+		return 20;
- 
- 	return READ_ONCE(engine->props.preempt_timeout_ms);
- }
-diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-index f12ffe797639..da36c015caf4 100644
---- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-@@ -2050,6 +2050,12 @@ struct live_preempt_cancel {
- 	struct preempt_client a, b;
- };
- 
-+static void context_clear_banned(struct intel_context *ce)
-+{
-+	clear_bit(CONTEXT_BANNED, &ce->flags);
-+	set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
-+}
-+
- static int __cancel_active0(struct live_preempt_cancel *arg)
- {
- 	struct i915_request *rq;
-@@ -2068,7 +2074,7 @@ static int __cancel_active0(struct live_preempt_cancel *arg)
- 	if (IS_ERR(rq))
- 		return PTR_ERR(rq);
- 
--	clear_bit(CONTEXT_BANNED, &rq->context->flags);
-+	context_clear_banned(rq->context);
- 	i915_request_get(rq);
- 	i915_request_add(rq);
- 	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
-@@ -2112,7 +2118,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
- 	if (IS_ERR(rq[0]))
- 		return PTR_ERR(rq[0]);
- 
--	clear_bit(CONTEXT_BANNED, &rq[0]->context->flags);
-+	context_clear_banned(rq[0]->context);
- 	i915_request_get(rq[0]);
- 	i915_request_add(rq[0]);
- 	if (!igt_wait_for_spinner(&arg->a.spin, rq[0])) {
-@@ -2128,7 +2134,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
- 		goto out;
- 	}
- 
--	clear_bit(CONTEXT_BANNED, &rq[1]->context->flags);
-+	context_clear_banned(rq[1]->context);
- 	i915_request_get(rq[1]);
- 	err = i915_request_await_dma_fence(rq[1], &rq[0]->fence);
- 	i915_request_add(rq[1]);
-@@ -2183,7 +2189,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
- 	if (IS_ERR(rq[0]))
- 		return PTR_ERR(rq[0]);
- 
--	clear_bit(CONTEXT_BANNED, &rq[0]->context->flags);
-+	context_clear_banned(rq[0]->context);
- 	i915_request_get(rq[0]);
- 	i915_request_add(rq[0]);
- 	if (!igt_wait_for_spinner(&arg->a.spin, rq[0])) {
-@@ -2197,7 +2203,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
- 		goto out;
- 	}
- 
--	clear_bit(CONTEXT_BANNED, &rq[1]->context->flags);
-+	context_clear_banned(rq[1]->context);
- 	i915_request_get(rq[1]);
- 	err = i915_request_await_dma_fence(rq[1], &rq[0]->fence);
- 	i915_request_add(rq[1]);
-@@ -2273,7 +2279,7 @@ static int __cancel_hostile(struct live_preempt_cancel *arg)
- 	if (IS_ERR(rq))
- 		return PTR_ERR(rq);
- 
--	clear_bit(CONTEXT_BANNED, &rq->context->flags);
-+	context_clear_banned(rq->context);
- 	i915_request_get(rq);
- 	i915_request_add(rq);
- 	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
-@@ -2329,7 +2335,7 @@ static int __cancel_fail(struct live_preempt_cancel *arg)
- 	if (IS_ERR(rq))
- 		return PTR_ERR(rq);
- 
--	clear_bit(CONTEXT_BANNED, &rq->context->flags);
-+	context_clear_banned(rq->context);
- 	i915_request_get(rq);
- 	i915_request_add(rq);
- 	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index ce446716d092..b1a9bec83339 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -583,7 +583,7 @@ bool __i915_request_submit(struct i915_request *request)
- 		goto active;
- 	}
- 
--	if (unlikely(intel_context_is_banned(request->context)))
-+	if (unlikely(!intel_context_is_schedulable(request->context)))
- 		i915_request_set_error_once(request, -EIO);
- 
- 	if (unlikely(fatal_error(request->fence.error)))
 -- 
-2.30.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
