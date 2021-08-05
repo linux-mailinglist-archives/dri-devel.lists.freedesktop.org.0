@@ -2,98 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897653E14DF
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 14:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8163E14EE
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 14:41:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3246E863;
-	Thu,  5 Aug 2021 12:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31CC56EA2D;
+	Thu,  5 Aug 2021 12:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2739D6E863
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 12:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628167035;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NRFpagrypVV+BGgRFYp8N3LV+BiQcza7EUvR3XzPQfA=;
- b=Iwx5I6RtoS742T/de+SiVyHR+fj3CdH/O6p1Rio9VrKQWqQThJwS5Kn15S8OgI/SbW+qrK
- UAUsVjuUwfStK4KoTWiXhML3MCQsEbLXYfxknKWpcmumAzgO+cnMMZ2u7xT2cfApl4ioe1
- rbE4tbu4IwzaZdAVJd6TSD4EL8Mwh8c=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-YwvjEcrpPEWJgD2LH9YGtA-1; Thu, 05 Aug 2021 08:37:13 -0400
-X-MC-Unique: YwvjEcrpPEWJgD2LH9YGtA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o26-20020a05600c511ab0290252d0248251so1540512wms.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 05:37:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=NRFpagrypVV+BGgRFYp8N3LV+BiQcza7EUvR3XzPQfA=;
- b=tAptFyk+kn50NOG7pwK2zaLR26iln/LhrJEH1UFhJWAO9NrYEUEI8lusZRXv96GFoJ
- clsGkPmwS1k8Xx/jVP8lyiCdMtMjdzGxaGUrzBQ9HWq1Xe/qf/iLymvbNAW3RiXqtl4S
- HfVhJ4EkVEQ+DKcBv6rVLk9AH0yvPmy2UN11XU1MOXC63geAwUWEBj3hphQjzrFDD6zD
- OcYwieyi0nVT44MJI3tJ7r0iOXzgYkHWajxQp5B1l1ZmaHTgZo+OtaMTvvOkWmsECfZF
- NvZtZhBuMOcM8lkIOVqoZ5Y0pRzEgF2LysJ9CElhDnYKzviuY5cd2ufO4U9rMQa0rqLN
- f9yw==
-X-Gm-Message-State: AOAM5329bvG2lnlQNinpncC0Ku5o9jBJRIIubbeX8il6NkfKWMkN1pfb
- AUesf6oVupDXudZm4BNX+SOJ/dK5qV5/UNCa5+7wbAwKv1Q2niv0eVA3os+DhRr1g5Z9coQeJ0M
- NZ/FRs8B0tp6wSSaDMP3pAa11cN5X
-X-Received: by 2002:a5d:4f0c:: with SMTP id c12mr5169958wru.63.1628167032717; 
- Thu, 05 Aug 2021 05:37:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLHu+SrQzVLrFOrCnDgagxvjKpgeH23p69mYneoScqalozuO0wL4WFwc163DLzD2q1Rkkonw==
-X-Received: by 2002:a5d:4f0c:: with SMTP id c12mr5169935wru.63.1628167032543; 
- Thu, 05 Aug 2021 05:37:12 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id b6sm7164149wrn.9.2021.08.05.05.37.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Aug 2021 05:37:11 -0700 (PDT)
-Subject: Re: [PATCH v3 07/14] vfio/platform: Use open_device() instead of open
- coding a refcnt scheme
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Daniel Vetter <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
- dri-devel@lists.freedesktop.org, Eric Farman <farman@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Jason Herne <jjherne@linux.ibm.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
- linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>
-Cc: "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>,
- Leon Romanovsky <leonro@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
- Yishai Hadas <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw@linux.intel.com>
-References: <7-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <17c13ccc-8a4a-d784-4237-0014ade1f4fc@redhat.com>
-Date: Thu, 5 Aug 2021 14:37:09 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9056EA2D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 12:41:31 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <a.fatoum@pengutronix.de>)
+ id 1mBcgj-0000aH-O7; Thu, 05 Aug 2021 14:41:29 +0200
+Subject: Re: [PATCH v2 1/2] drm/panel: simple: add Multi-Innotechnology
+ MI1010AIT-1CP1
+To: Oleksij Rempel <o.rempel@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: =?UTF-8?Q?Ulrich_=c3=96lmann?= <u.oelmann@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20210805111944.13533-1-o.rempel@pengutronix.de>
+ <20210805111944.13533-2-o.rempel@pengutronix.de>
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Message-ID: <babc1e28-e3e4-a848-7471-a015f0f54932@pengutronix.de>
+Date: Thu, 5 Aug 2021 14:41:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <7-v3-6c9e19cc7d44+15613-vfio_reflck_jgg@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210805111944.13533-2-o.rempel@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,163 +56,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+On 05.08.21 13:19, Oleksij Rempel wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
+> 
+> The Multi Innotechnology is a 10.1" 1280x800 panel.
+> 
+> The datasheet did not specify specific values for sync, back, front porch.
+> The values are a best guess based on values for similar panels.
+> 
+> Co-Developed-by: Sam Ravnborg <sam@ravnborg.org>
+> Co-Developed-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-On 7/29/21 2:49 AM, Jason Gunthorpe wrote:
-> Platform simply wants to run some code when the device is first
-> opened/last closed. Use the core framework and locking for this.  Aside
-> from removing a bit of code this narrows the locking scope from a global
-> lock.
->
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-
-Thanks
-
-Eric
+Reviewed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 
 > ---
->  drivers/vfio/platform/vfio_platform_common.c  | 79 ++++++++-----------
->  drivers/vfio/platform/vfio_platform_private.h |  1 -
->  2 files changed, 32 insertions(+), 48 deletions(-)
->
-> diff --git a/drivers/vfio/platform/vfio_platform_common.c b/drivers/vfio/platform/vfio_platform_common.c
-> index bdde8605178cd2..6af7ce7d619c25 100644
-> --- a/drivers/vfio/platform/vfio_platform_common.c
-> +++ b/drivers/vfio/platform/vfio_platform_common.c
-> @@ -218,65 +218,52 @@ static int vfio_platform_call_reset(struct vfio_platform_device *vdev,
->  	return -EINVAL;
->  }
+>  drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 1b80290c2b53..58ba26dbf852 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -3033,6 +3033,37 @@ static const struct panel_desc mitsubishi_aa070mc01 = {
+>  	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  };
 >  
-> -static void vfio_platform_release(struct vfio_device *core_vdev)
-> +static void vfio_platform_close_device(struct vfio_device *core_vdev)
->  {
->  	struct vfio_platform_device *vdev =
->  		container_of(core_vdev, struct vfio_platform_device, vdev);
-> +	const char *extra_dbg = NULL;
-> +	int ret;
->  
-> -	mutex_lock(&driver_lock);
-> -
-> -	if (!(--vdev->refcnt)) {
-> -		const char *extra_dbg = NULL;
-> -		int ret;
-> -
-> -		ret = vfio_platform_call_reset(vdev, &extra_dbg);
-> -		if (ret && vdev->reset_required) {
-> -			dev_warn(vdev->device, "reset driver is required and reset call failed in release (%d) %s\n",
-> -				 ret, extra_dbg ? extra_dbg : "");
-> -			WARN_ON(1);
-> -		}
-> -		pm_runtime_put(vdev->device);
-> -		vfio_platform_regions_cleanup(vdev);
-> -		vfio_platform_irq_cleanup(vdev);
-> +	ret = vfio_platform_call_reset(vdev, &extra_dbg);
-> +	if (WARN_ON(ret && vdev->reset_required)) {
-> +		dev_warn(
-> +			vdev->device,
-> +			"reset driver is required and reset call failed in release (%d) %s\n",
-> +			ret, extra_dbg ? extra_dbg : "");
->  	}
-> -
-> -	mutex_unlock(&driver_lock);
-> +	pm_runtime_put(vdev->device);
-> +	vfio_platform_regions_cleanup(vdev);
-> +	vfio_platform_irq_cleanup(vdev);
->  }
->  
-> -static int vfio_platform_open(struct vfio_device *core_vdev)
-> +static int vfio_platform_open_device(struct vfio_device *core_vdev)
->  {
->  	struct vfio_platform_device *vdev =
->  		container_of(core_vdev, struct vfio_platform_device, vdev);
-> +	const char *extra_dbg = NULL;
->  	int ret;
->  
-> -	mutex_lock(&driver_lock);
-> -
-> -	if (!vdev->refcnt) {
-> -		const char *extra_dbg = NULL;
-> -
-> -		ret = vfio_platform_regions_init(vdev);
-> -		if (ret)
-> -			goto err_reg;
-> +	ret = vfio_platform_regions_init(vdev);
-> +	if (ret)
-> +		return ret;
->  
-> -		ret = vfio_platform_irq_init(vdev);
-> -		if (ret)
-> -			goto err_irq;
-> +	ret = vfio_platform_irq_init(vdev);
-> +	if (ret)
-> +		goto err_irq;
->  
-> -		ret = pm_runtime_get_sync(vdev->device);
-> -		if (ret < 0)
-> -			goto err_rst;
-> +	ret = pm_runtime_get_sync(vdev->device);
-> +	if (ret < 0)
-> +		goto err_rst;
->  
-> -		ret = vfio_platform_call_reset(vdev, &extra_dbg);
-> -		if (ret && vdev->reset_required) {
-> -			dev_warn(vdev->device, "reset driver is required and reset call failed in open (%d) %s\n",
-> -				 ret, extra_dbg ? extra_dbg : "");
-> -			goto err_rst;
-> -		}
-> +	ret = vfio_platform_call_reset(vdev, &extra_dbg);
-> +	if (ret && vdev->reset_required) {
-> +		dev_warn(
-> +			vdev->device,
-> +			"reset driver is required and reset call failed in open (%d) %s\n",
-> +			ret, extra_dbg ? extra_dbg : "");
-> +		goto err_rst;
->  	}
-> -
-> -	vdev->refcnt++;
-> -
-> -	mutex_unlock(&driver_lock);
->  	return 0;
->  
->  err_rst:
-> @@ -284,8 +271,6 @@ static int vfio_platform_open(struct vfio_device *core_vdev)
->  	vfio_platform_irq_cleanup(vdev);
->  err_irq:
->  	vfio_platform_regions_cleanup(vdev);
-> -err_reg:
-> -	mutex_unlock(&driver_lock);
->  	return ret;
->  }
->  
-> @@ -616,8 +601,8 @@ static int vfio_platform_mmap(struct vfio_device *core_vdev, struct vm_area_stru
->  
->  static const struct vfio_device_ops vfio_platform_ops = {
->  	.name		= "vfio-platform",
-> -	.open		= vfio_platform_open,
-> -	.release	= vfio_platform_release,
-> +	.open_device	= vfio_platform_open_device,
-> +	.close_device	= vfio_platform_close_device,
->  	.ioctl		= vfio_platform_ioctl,
->  	.read		= vfio_platform_read,
->  	.write		= vfio_platform_write,
-> diff --git a/drivers/vfio/platform/vfio_platform_private.h b/drivers/vfio/platform/vfio_platform_private.h
-> index dfb834c1365946..520d2a8e8375b2 100644
-> --- a/drivers/vfio/platform/vfio_platform_private.h
-> +++ b/drivers/vfio/platform/vfio_platform_private.h
-> @@ -48,7 +48,6 @@ struct vfio_platform_device {
->  	u32				num_regions;
->  	struct vfio_platform_irq	*irqs;
->  	u32				num_irqs;
-> -	int				refcnt;
->  	struct mutex			igate;
->  	const char			*compat;
->  	const char			*acpihid;
+> +static const struct display_timing multi_inno_mi1010ait_1cp_timing = {
+> +	.pixelclock = { 68900000, 70000000, 73400000 },
+> +	.hactive = { 1280, 1280, 1280 },
+> +	.hfront_porch = { 30, 60, 71 },
+> +	.hback_porch = { 30, 60, 71 },
+> +	.hsync_len = { 10, 10, 48 },
+> +	.vactive = { 800, 800, 800 },
+> +	.vfront_porch = { 5, 10, 10 },
+> +	.vback_porch = { 5, 10, 10 },
+> +	.vsync_len = { 5, 6, 13 },
+> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
+> +		 DISPLAY_FLAGS_DE_HIGH,
+> +};
+> +
+> +static const struct panel_desc multi_inno_mi1010ait_1cp = {
+> +	.timings = &multi_inno_mi1010ait_1cp_timing,
+> +	.num_timings = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 217,
+> +		.height = 136,
+> +	},
+> +	.delay = {
+> +		.enable = 50,
+> +		.disable = 50,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+>  static const struct display_timing nec_nl12880bc20_05_timing = {
+>  	.pixelclock = { 67000000, 71000000, 75000000 },
+>  	.hactive = { 1280, 1280, 1280 },
+> @@ -4464,6 +4495,9 @@ static const struct of_device_id platform_of_match[] = {
+>  	}, {
+>  		.compatible = "mitsubishi,aa070mc01-ca1",
+>  		.data = &mitsubishi_aa070mc01,
+> +	}, {
+> +		.compatible = "multi-inno,mi1010ait-1cp",
+> +		.data = &multi_inno_mi1010ait_1cp,
+>  	}, {
+>  		.compatible = "nec,nl12880bc20-05",
+>  		.data = &nec_nl12880bc20_05,
+> 
 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
