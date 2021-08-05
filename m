@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CF83E0D0E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 06:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C673E0D1A
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 06:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC36F89FF9;
-	Thu,  5 Aug 2021 04:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5652A89D7F;
+	Thu,  5 Aug 2021 04:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 416C989FF9
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 04:15:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="201240161"
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; d="scan'208";a="201240161"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2021 21:15:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; d="scan'208";a="585838854"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2021 21:15:28 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Wed, 4 Aug 2021 21:15:27 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Wed, 4 Aug 2021 21:15:27 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.010;
- Wed, 4 Aug 2021 21:15:27 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, =?utf-8?B?TWljaGVsIETDpG56ZXI=?=
- <michel@daenzer.net>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Gerd
- Hoffmann" <kraxel@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>, "Simon
- Ser" <contact@emersion.fr>, "Zhang, Tina" <tina.zhang@intel.com>, "Kim,
- Dongwon" <dongwon.kim@intel.com>, "Singh, Satyeshwar"
- <satyeshwar.singh@intel.com>
-Subject: RE: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Thread-Topic: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
- capability
-Thread-Index: AQHXhFPnN1B4zkQxMkK/V9zRY5/TqKtbxyyAgABF0uCABEyGAIAAS7kwgAE7RYCAAd/fgP//+PQw
-Date: Thu, 5 Aug 2021 04:15:27 +0000
-Message-ID: <8722db11a6d245259c15ca2262a40d07@intel.com>
-References: <20210729081659.2255499-1-vivek.kasireddy@intel.com>
- <YQPTo0D5SZfX44dn@phenom.ffwll.local>
- <612fd31a51384cb28ac6da9db3e840ca@intel.com>
- <YQepZMFaCNLBNGx9@phenom.ffwll.local>
- <fa53f9db229e481784bfe3a61a195fd3@intel.com>
- <1b96e91f-d65c-a155-8c8c-8a4326733c4e@daenzer.net>
- <CAKMK7uH7gy7x-MrN7EWwwdsZKn-i5XB5Wie_ueRXXdnx5Yhefw@mail.gmail.com>
-In-Reply-To: <CAKMK7uH7gy7x-MrN7EWwwdsZKn-i5XB5Wie_ueRXXdnx5Yhefw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F0D489D77;
+ Thu,  5 Aug 2021 04:24:30 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id o20so5713625oiw.12;
+ Wed, 04 Aug 2021 21:24:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Mx4Kord6zTXQ2AHtUR9gYl7dYZ7Wm3q9Z8baSsaWGGk=;
+ b=tx3oPsKCPCGoYBND6Nhy63gACxEMsk32s07E9h3lw+/pYBIuBPplIfUFkXFlI4au6p
+ gP1u2FR7KqdUcBmv9n1wNQWri5wwnDAJqHNj4FI+J5BNooAHLc06cHGN+OD/+xGSsjWz
+ lycXhkXl5KW81Y9GUzTlscc2Ru5j8SN0tLRHRn6xcQkZEOxlwNrA10mL0dZaZw3OuKJV
+ +ePLlKaXbPXTVpoiUvNXZy/1z8VE1ofpExczaMVlzzyvDM1BL3yE0ohmlErmAiA6vgP9
+ G1gQlEgbMcPuzOlP4EmuJCxpn/XhkhSop1px/nFqDO8C5vO3sh/DG06qBXfKLy19AOTa
+ +PqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Mx4Kord6zTXQ2AHtUR9gYl7dYZ7Wm3q9Z8baSsaWGGk=;
+ b=Upj/bsyAkifnkPir2oX5cPppt+GKyUvIZ5dnSSHcT0KZCIhtUVdNB6RrOqOHqjxY5O
+ nsWmb6An7vwK12UDCY4+eqERVX+S4mqGzmWlMpdd3E8hpTQzfi3AeVMhSKzVrrlurei2
+ ViPrEoneCL1cWJsKsBlkon2C1TsbAQtZ7uohQGlVdmNqvPeWtQ6plApIk9fYx5aLBJKT
+ nCye7NahA0NMTZKKkjvLxRKkbtf64qhPT1LJzUEydWsqHWOBqjbGXjIxSO12KjtPFRC7
+ +gcKe9J/rwxYCpcKiMtr7uS3NcvuvnUrAxafgJpjXOkznjr/Pp4vH3DI8TtIGIZ0WzgP
+ ir2w==
+X-Gm-Message-State: AOAM532dxSeSodybLLMnzUpHZXwhmUxMYCeA2yGb4TtmmFNsLR6pmbu3
+ u9mVLqnDr4GrXR2qcBjzHNndi5hpEsMQmz8dmSU=
+X-Google-Smtp-Source: ABdhPJzjbm3lm2cdyTcXr/QdAdYMm09SzmciQV1kx6z/cMRGFL/YK5/2sBJ8IyV2aJ0QMeVuU3dLOnceKtvVqt3ZBN0=
+X-Received: by 2002:a05:6808:6d2:: with SMTP id
+ m18mr2034781oih.120.1628137469637; 
+ Wed, 04 Aug 2021 21:24:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210804023842.1996299-1-lizhenneng@kylinos.cn>
+In-Reply-To: <20210804023842.1996299-1-lizhenneng@kylinos.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 5 Aug 2021 00:24:18 -0400
+Message-ID: <CADnq5_N349bj0OrNTHRZuWDrHSRanCRJqhMb0NS97o3rNfCiiw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/radeon: Update pitch for page flip
+To: Zhenneng Li <lizhenneng@kylinos.cn>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,132 +74,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLA0KDQo+ID4gPj4+IFRoZSBzb2x1dGlvbjoNCj4gPiA+Pj4gLSBUbyBlbnN1cmUg
-ZnVsbCBmcmFtZXJhdGUsIHRoZSBHdWVzdCBjb21wb3NpdG9yIGhhcyB0byBzdGFydCBpdCdzIHJl
-cGFpbnQgY3ljbGUNCj4gKGluY2x1ZGluZw0KPiA+ID4+PiB0aGUgOSBtcyB3YWl0KSB3aGVuIHRo
-ZSBIb3N0IGNvbXBvc2l0b3Igc2VuZHMgdGhlIGZyYW1lIGNhbGxiYWNrIGV2ZW50IHRvIGl0cw0K
-PiBjbGllbnRzLg0KPiA+ID4+PiBJbiBvcmRlciBmb3IgdGhpcyB0byBoYXBwZW4sIHRoZSBkbWEt
-ZmVuY2UgdGhhdCB0aGUgR3Vlc3QgS01TIHdhaXRzIG9uIC0tIGJlZm9yZQ0KPiBzZW5kaW5nDQo+
-ID4gPj4+IHBhZ2VmbGlwIGNvbXBsZXRpb24gLS0gY2Fubm90IGJlIHRpZWQgdG8gYSB3bF9idWZm
-ZXIucmVsZWFzZSBldmVudC4gVGhpcyBtZWFucyB0aGF0LA0KPiB0aGUNCj4gPiA+Pj4gR3Vlc3Qg
-Y29tcG9zaXRvciBoYXMgdG8gYmUgZm9yY2VkIHRvIHVzZSBhIG5ldyBidWZmZXIgZm9yIGl0cyBu
-ZXh0IHJlcGFpbnQgY3ljbGUNCj4gd2hlbiBpdA0KPiA+ID4+PiBnZXRzIGEgcGFnZWZsaXAgY29t
-cGxldGlvbi4NCj4gPiA+Pg0KPiA+ID4+IElzIHRoYXQgcmVhbGx5IHRoZSBvbmx5IHNvbHV0aW9u
-Pw0KPiA+ID4gW0thc2lyZWRkeSwgVml2ZWtdIFRoZXJlIGFyZSBhIGZldyBvdGhlcnMgSSBtZW50
-aW9uZWQgaGVyZToNCj4gPiA+IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5k
-L3dlc3Rvbi8tL2lzc3Vlcy81MTQjbm90ZV85ODY1NzINCj4gPiA+IEJ1dCBJIHRoaW5rIG5vbmUg
-b2YgdGhlbSBhcmUgYXMgY29tcGVsbGluZyBhcyB0aGlzIG9uZS4NCj4gPiA+DQo+ID4gPj4NCj4g
-PiA+PiBJZiB3ZSBmaXggdGhlIGV2ZW50IHRpbWVzdGFtcHMgc28gdGhhdCBib3RoIGd1ZXN0IGFu
-ZCBob3N0IHVzZSB0aGUgc2FtZQ0KPiA+ID4+IHRpbWVzdGFtcCwgYnV0IHRoZW4gdGhlIGd1ZXN0
-IHN0YXJ0cyA1bXMgKG9yIHNvbWV0aGluZyBsaWtlIHRoYXQpIGVhcmxpZXIsDQo+ID4gPj4gdGhl
-biB0aGluZ3Mgc2hvdWxkIHdvcmsgdG9vPyBJLmUuDQo+ID4gPj4gLSBob3N0IGNvbXBvc2l0b3Ig
-c3RhcnRzIGF0IChwcmV2aW91c19mcmFtZXRpbWUgKyA5bXMpDQo+ID4gPj4gLSBndWVzdCBjb21w
-b3NpdG9yIHN0YXJ0cyBhdCAocHJldmlvdXNfZnJhbWV0aW1lICsgNG1zKQ0KPiA+ID4+DQo+ID4g
-Pj4gT2ZjIHRoaXMgb25seSB3b3JrcyBpZiB0aGUgZnJhbWV0aW1lcyB3ZSBoYW5kIG91dCB0byBi
-b3RoIG1hdGNoIF9leGFjdGx5Xw0KPiA+ID4+IGFuZCBhcmUgYXMgaGlnaC1wcmVjaXNpb24gYXMg
-dGhlIG9uZXMgb24gdGhlIGhvc3Qgc2lkZS4gV2hpY2ggZm9yIG1hbnkgZ3B1DQo+ID4gPj4gZHJp
-dmVycyBhdCBsZWFzdCBpcyB0aGUgY2FzZSwgYW5kIGFsbCB0aGUgb25lcyB5b3UgY2FyZSBhYm91
-dCBmb3Igc3VyZSA6LSkNCj4gPiA+Pg0KPiA+ID4+IEJ1dCBpZiB0aGUgZnJhbWV0aW1lcyB0aGUg
-Z3Vlc3QgcmVjZWl2ZXMgYXJlIHRoZSBub192YmxhbmsgZmFrZSBvbmVzLCB0aGVuDQo+ID4gPj4g
-dGhleSdsbCBiZSBhbGwgb3ZlciB0aGUgcGxhY2UgYW5kIHRoaXMgY2FyZWZ1bGx5IHR1bmVkIGxv
-dy1sYXRlbmN5IHJlZHJhdw0KPiA+ID4+IGxvb3AgZmFsbHMgYXBhcnQuIEFzaWRlIGZyb21tIHRo
-ZSBmYWN0IHRoYXQgd2l0aG91dCB0dW5pbmcgdGhlIGd1ZXN0cyB0bw0KPiA+ID4+IGJlIGVhcmxp
-ZXIgdGhhbiB0aGUgaG9zdHMsIHlvdSdyZSBndWFyYW50ZWVkIHRvIG1pc3MgZXZlcnkgZnJhbWUg
-KGV4Y2VwdA0KPiA+ID4+IHdoZW4gdGhlIHRpbWluZyB3b2JibGluZXNzIGluIHRoZSBndWVzdCBp
-cyBiaWcgZW5vdWdoIGJ5IGNoYW5jZSB0byBtYWtlDQo+ID4gPj4gdGhlIGRlYWRsaW5lIG9uIHRo
-ZSBvZGRiYWxsIGZyYW1lKS4NCj4gPiA+IFtLYXNpcmVkZHksIFZpdmVrXSBUaGUgR3Vlc3QgYW5k
-IEhvc3QgdXNlIGRpZmZlcmVudCBldmVudCB0aW1lc3RhbXBzIGFzIHdlIGRvbid0DQo+ID4gPiBz
-aGFyZSB0aGVzZSBiZXR3ZWVuIHRoZSBHdWVzdCBhbmQgdGhlIEhvc3QuIEl0IGRvZXMgbm90IHNl
-ZW0gdG8gYmUgY2F1c2luZyBhbnkgb3RoZXINCj4gPiA+IHByb2JsZW1zIHNvIGZhciBidXQgd2Ug
-ZGlkIHRyeSB0aGUgZXhwZXJpbWVudCB5b3UgbWVudGlvbmVkIChpLmUuLCBhZGp1c3RpbmcgdGhl
-DQo+IGRlbGF5cykNCj4gPiA+IGFuZCBpdCB3b3Jrcy4gSG93ZXZlciwgdGhpcyBwYXRjaCBzZXJp
-ZXMgaXMgbWVhbnQgdG8gZml4IHRoZSBpc3N1ZSB3aXRob3V0IGhhdmluZyB0bw0KPiB0d2Vhaw0K
-PiA+ID4gYW55dGhpbmcgKGRlbGF5cykgYmVjYXVzZSB3ZSBjYW4ndCBkbyB0aGlzIGZvciBldmVy
-eSBjb21wb3NpdG9yIG91dCB0aGVyZS4NCj4gPg0KPiA+IE1heWJlIHRoZXJlIGNvdWxkIGJlIGEg
-bWVjaGFuaXNtIHdoaWNoIGFsbG93cyB0aGUgY29tcG9zaXRvciBpbiB0aGUgZ3Vlc3QgdG8NCj4g
-YXV0b21hdGljYWxseSBhZGp1c3QgaXRzIHJlcGFpbnQgY3ljbGUgYXMgbmVlZGVkLg0KPiA+DQo+
-ID4gVGhpcyBtaWdodCBldmVuIGJlIHBvc3NpYmxlIHdpdGhvdXQgcmVxdWlyaW5nIGNoYW5nZXMg
-aW4gZWFjaCBjb21wb3NpdG9yLCBieSBhZGp1c3RpbmcNCj4gdGhlIHZlcnRpY2FsIGJsYW5rIHBl
-cmlvZHMgaW4gdGhlIGd1ZXN0IHRvIGJlIGFsaWduZWQgd2l0aCB0aGUgaG9zdCBjb21wb3NpdG9y
-IHJlcGFpbnQNCj4gY3ljbGVzLiBOb3Qgc3VyZSBhYm91dCB0aGF0IHRob3VnaC4NCj4gPg0KPiA+
-IEV2ZW4gaWYgbm90LCBib3RoIHRoaXMgc2VyaWVzIG9yIG1ha2luZyBpdCBwb3NzaWJsZSB0byBx
-dWV1ZSBtdWx0aXBsZSBmbGlwcyByZXF1aXJlDQo+IGNvcnJlc3BvbmRpbmcgY2hhbmdlcyBpbiBl
-YWNoIGNvbXBvc2l0b3IgYXMgd2VsbCB0byBoYXZlIGFueSBlZmZlY3QuDQo+IA0KPiBZZWFoIGZy
-b20gYWxsIHRoZSBkaXNjdXNzaW9ucyBhbmQgdGVzdHMgZG9uZSBpdCBzb3VuZHMgZXZlbiB3aXRo
-IGENCj4gZGVlcGVyIHF1ZXVlIHdlIGhhdmUgYmlnIGNvb3JkaW5hdGlvbiBpc3N1ZXMgYmV0d2Vl
-biB0aGUgZ3Vlc3QgYW5kDQo+IGhvc3QgY29tcG9zaXRvciAobGlrZSB0aGUgZXhhbXBsZSB0aGF0
-IHRoZSBndWVzdCBpcyBub3cgcmVuZGVyaW5nIGF0DQo+IDkwZnBzIGluc3RlYWQgb2YgNjBmcHMg
-bGlrZSB0aGUgaG9zdCkuDQpbS2FzaXJlZGR5LCBWaXZla10gT2gsIEkgdGhpbmsgeW91IGFyZSBy
-ZWZlcnJpbmcgdG8gbXkgcmVwbHkgdG8gR2VyZC4gVGhhdCA5MCBGUFMgdnMgDQo2MCBGUFMgcHJv
-YmxlbSBpcyBhIGNvbXBsZXRlbHkgZGlmZmVyZW50IGlzc3VlIHRoYXQgaXMgYXNzb2NpYXRlZCB3
-aXRoIFFlbXUgR1RLIFVJDQpiYWNrZW5kLiBXaXRoIHRoZSBHVEsgYmFja2VuZCAtLSBhbmQgYWxz
-byB3aXRoIFNETCBiYWNrZW5kIC0tIHdlIEJsaXQgdGhlIEd1ZXN0DQpzY2Fub3V0IEZCIG9udG8g
-b25lIG9mIHRoZSBiYWNrYnVmZmVycyBtYW5hZ2VkIGJ5IEVHTC4gDQoNCkkgYW0gdHJ5aW5nIHRv
-IGFkZCBhIG5ldyBRZW11IFdheWxhbmQgVUkgYmFja2VuZCBzbyB0aGF0IHdlIGNhbiBlbGltaW5h
-dGUgdGhhdCBCbGl0DQphbmQgdGhlcmVieSBoYXZlIGEgdHJ1bHkgemVyby1jb3B5IHNvbHV0aW9u
-LiBBbmQsIHRoaXMgaXMgdGhlcmUgSSBhbSBydW5uaW5nIGludG8gdGhlIA0KaGFsdmVkIGZyYW1l
-LXJhdGUgaXNzdWUgLS0gdGhlIGN1cnJlbnQgcHJvYmxlbS4NCg0KPiANCj4gSGVuY2UgbXkgZ3V0
-IGZlZWxpbmcgcmVhY3Rpb24gdGhhdCBmaXJzdCB3ZSBuZWVkIHRvIGdldCB0aGVzZSB0d28NCj4g
-Y29tcG9zaXRvcnMgYWxpZ25lZCBpbiB0aGVpciB0aW1pbmdzLCB3aGljaCBwcm9wb2JhYmx5IG5l
-ZWRzDQo+IGNvbnNpc3RlbnQgdmJsYW5rIHBlcmlvZHMvdGltZXN0YW1wcyBhY3Jvc3MgdGhlbSAo
-cGx1cy9taW51eA0KPiBndWVzdC9ob3N0IGNsb2Nrc291cmNlIGZ1biBvZmMpLiBXaXRob3V0IHRo
-aXMgYW55IG9mIHRoZSBuZXh0IHN0ZXBzDQo+IHdpbGwgc2ltcGx5IG5vdCB3b3JrIGJlY2F1c2Ug
-dGhlcmUncyB0b28gbXVjaCBqaXR0ZXIgYnkgdGhlIHRpbWUgdGhlDQo+IGd1ZXN0IGNvbXBvc2l0
-b3IgZ2V0cyB0aGUgZmxpcCBjb21wbGV0aW9uIGV2ZW50cy4NCltLYXNpcmVkZHksIFZpdmVrXSBU
-aW1pbmdzIGFyZSBub3QgYSBwcm9ibGVtIGFuZCBkbyBub3Qgc2lnbmlmaWNhbnRseQ0KYWZmZWN0
-IHRoZSByZXBhaW50IGN5Y2xlcyBmcm9tIHdoYXQgSSBoYXZlIHNlZW4gc28gZmFyLg0KDQo+IA0K
-PiBPbmNlIHdlIGhhdmUgc29saWQgZXZlbnRzIEkgdGhpbmsgd2Ugc2hvdWxkIGxvb2sgaW50byBz
-dGF0aWNhbGx5DQo+IHR1bmluZyBndWVzdC9ob3N0IGNvbXBvc2l0b3IgZGVhZGxpbmVzIChsaWtl
-IHlvdSd2ZSBzdWdnZXN0ZWQgaW4gYQ0KPiBidW5jaCBvZiBwbGFjZXMpIHRvIGNvbnNpc2VudGx5
-IG1ha2UgdGhhdCBkZWFkbGluZSBhbmQgaGl0IDYwIGZwcy4NCj4gV2l0aCB0aGF0IHdlIGNhbiB0
-aGVuIGxvb2sgaW50byB0dW5pbmcgdGhpcyBhdXRvbWF0aWNhbGx5IGFuZCB3aGF0IHRvDQo+IGRv
-IHdoZW4gZS5nLiBzd2l0Y2hpbmcgYmV0d2VlbiBjb3B5aW5nIGFuZCB6ZXJvLWNvcHkgb24gdGhl
-IGhvc3Qgc2lkZQ0KPiAod2hpY2ggbWlnaHQgYmUgbmVlZGVkIGluIHNvbWUgY2FzZXMpIGFuZCBo
-b3cgdG8gaGFuZGxlIGFsbCB0aGF0Lg0KW0thc2lyZWRkeSwgVml2ZWtdIEFzIEkgY29uZmlybSBo
-ZXJlOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93ZXN0b24vLS9pc3N1
-ZXMvNTE0I25vdGVfOTg0MDY1DQp0d2Vha2luZyB0aGUgZGVhZGxpbmVzIHdvcmtzIChpLmUuLCB3
-ZSBnZXQgNjAgRlBTKSBhcyB3ZSBleHBlY3QuIEhvd2V2ZXIsDQpJIGZlZWwgdGhhdCB0aGlzIHpl
-cm8tY29weSBzb2x1dGlvbiBJIGFtIHRyeWluZyB0byBjcmVhdGUgc2hvdWxkIGJlIGluZGVwZW5k
-ZW50DQpvZiBjb21wb3NpdG9ycycgZGVhZGxpbmVzLCBkZWxheXMgb3Igb3RoZXIgc2NoZWR1bGlu
-ZyBwYXJhbWV0ZXJzLg0KDQo+IE9ubHkgd2hlbiB0aGF0IGFsbCBzaG93cyB0aGF0IHdlIGp1c3Qg
-Y2FuJ3QgaGl0IDYwZnBzIGNvbnNpc3RlbnRseSBhbmQNCj4gcmVhbGx5IG5lZWQgMyBidWZmZXJz
-IGluIGZsaWdodCBzaG91bGQgd2UgbG9vayBhdCBkZWVwZXIga21zIHF1ZXVlcy4NCj4gQW5kIHRo
-ZW4gd2UgcmVhbGx5IG5lZWQgdG8gaW1wbGVtZW50IHRoZW0gcHJvcGVybHkgYW5kIG5vdCB3aXRo
-IGENCj4gbWlzbWF0Y2ggYmV0d2VlbiBkcm1fZXZlbnQgYW4gb3V0LWZlbmNlIHNpZ25hbGxpbmcu
-IFRoZXNlIHF1aWNrIGhhY2tzDQo+IGFyZSBnb29kIGZvciBleHBlcmltZW50cywgYnV0IHRoZXJl
-J3MgYSBwaWxlIG9mIG90aGVyIHRoaW5ncyB3ZSBuZWVkDQo+IHRvIGRvIGZpcnN0LiBBdCBsZWFz
-dCB0aGF0J3MgaG93IEkgdW5kZXJzdGFuZCB0aGUgcHJvYmxlbSBoZXJlIHJpZ2h0DQo+IG5vdy4N
-CltLYXNpcmVkZHksIFZpdmVrXSBFeHBlcmltZW50cyBkb25lIHNvIGZhciBpbmRpY2F0ZSB0aGF0
-IHdlIGNhbiBoaXQgNTkgRlBTIGNvbnNpc3RlbnRseQ0KLS0gaW4gYSB6ZXJvLWNvcHkgd2F5IGlu
-ZGVwZW5kZW50IG9mIGNvbXBvc2l0b3JzJyBkZWxheXMvZGVhZGxpbmVzIC0tIHdpdGggdGhpcw0K
-cGF0Y2ggc2VyaWVzICsgdGhlIFdlc3RvbiBNUiBJIGxpbmtlZCBpbiB0aGUgY292ZXIgbGV0dGVy
-LiBUaGUgbWFpbiByZWFzb24gd2h5IHRoaXMNCndvcmtzIGlzIGJlY2F1c2Ugd2UgcmVsYXggdGhl
-IGFzc3VtcHRpb24gdGhhdCB3aGVuIHRoZSBHdWVzdCBjb21wb3NpdG9yIGdldHMgYQ0KcGFnZWZs
-aXAgY29tcGxldGlvbiBldmVudCB0aGF0IGl0IGNvdWxkIHJldXNlIHRoZSBvbGQgRkIgaXQgc3Vi
-bWl0dGVkIGluIHRoZSBwcmV2aW91cw0KYXRvbWljIGZsaXAgYW5kIGluc3RlYWQgZm9yY2UgaXQg
-dG8gdXNlIGEgbmV3IG9uZS4gQW5kLCB3ZSBzZW5kIHRoZSBwYWdlZmxpcCBjb21wbGV0aW9uDQpl
-dmVudCB0byB0aGUgR3Vlc3Qgd2hlbiB0aGUgSG9zdCBjb21wb3NpdG9yIHNlbmRzIGEgZnJhbWUg
-Y2FsbGJhY2sgZXZlbnQuIExhc3RseSwNCndlIHVzZSB0aGUgKGRlZmVycmVkKSBvdXRfZmVuY2Ug
-YXMganVzdCBhIG1lY2hhbmlzbSB0byB0ZWxsIHRoZSBHdWVzdCBjb21wb3NpdG9yIHdoZW4NCml0
-IGNhbiByZWxlYXNlIHJlZmVyZW5jZXMgb24gb2xkIEZCcyBzbyB0aGF0IHRoZXkgY2FuIGJlIHJl
-dXNlZCBhZ2Fpbi4NCg0KV2l0aCB0aGF0IGJlaW5nIHNhaWQsIHRoZSBvbmx5IHF1ZXN0aW9uIGlz
-IGhvdyBjYW4gd2UgYWNjb21wbGlzaCB0aGUgYWJvdmUgaW4gYW4gdXBzdHJlYW0NCmFjY2VwdGFi
-bGUgd2F5IHdpdGhvdXQgcmVncmVzc2luZyBhbnl0aGluZyBwYXJ0aWN1bGFybHkgb24gYmFyZS1t
-ZXRhbC4gSXRzIG5vdCBjbGVhciBpZiBqdXN0DQppbmNyZWFzaW5nIHRoZSBxdWV1ZSBkZXB0aCB3
-b3VsZCB3b3JrIG9yIG5vdCBidXQgSSB0aGluayB0aGUgR3Vlc3QgY29tcG9zaXRvciBoYXMgdG8g
-YmUgdG9sZA0Kd2hlbiBpdCBjYW4gc3RhcnQgaXRzIHJlcGFpbnQgY3ljbGUgYW5kIHdoZW4gaXQg
-Y2FuIGFzc3VtZSB0aGUgb2xkIEZCIGlzIG5vIGxvbmdlciBpbiB1c2UuDQpPbiBiYXJlLW1ldGFs
-IC0tIGFuZCBhbHNvIHdpdGggVktNUyBhcyBvZiB0b2RheSAtLSBhIHBhZ2VmbGlwIGNvbXBsZXRp
-b24gaW5kaWNhdGVzIGJvdGguDQpJbiBvdGhlciB3b3JkcywgVmJsYW5rIGV2ZW50IGlzIHRoZSBz
-YW1lIGFzIEZsaXAgZG9uZSwgd2hpY2ggbWFrZXMgc2Vuc2Ugb24gYmFyZS1tZXRhbC4NCkJ1dCBp
-ZiB3ZSB3ZXJlIHRvIGhhdmUgdHdvIGV2ZW50cyBhdC1sZWFzdCBmb3IgVktNUzogdmJsYW5rIHRv
-IGluZGljYXRlIHRvIEd1ZXN0IHRvIHN0YXJ0DQpyZXBhaW50IGFuZCBmbGlwX2RvbmUgdG8gaW5k
-aWNhdGUgdG8gZHJvcCByZWZlcmVuY2VzIG9uIG9sZCBGQnMsIEkgdGhpbmsgdGhpcyBwcm9ibGVt
-IGNhbg0KYmUgc29sdmVkIGV2ZW4gd2l0aG91dCBpbmNyZWFzaW5nIHRoZSBxdWV1ZSBkZXB0aC4g
-Q2FuIHRoaXMgYmUgYWNjZXB0YWJsZT8NCg0KVGhhbmtzLA0KVml2ZWsNCj4gDQo+IENoZWVycywg
-RGFuaWVsDQo+IA0KPiA+DQo+ID4NCj4gPiAtLQ0KPiA+IEVhcnRobGluZyBNaWNoZWwgRMOkbnpl
-ciAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICBodHRwczovL3JlZGhhdC5jb20NCj4gPiBM
-aWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBh
-bmQgWCBkZXZlbG9wZXINCj4gDQo+IA0KPiANCj4gLS0NCj4gRGFuaWVsIFZldHRlcg0KPiBTb2Z0
-d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24NCj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gN
-Cg==
+On Tue, Aug 3, 2021 at 10:39 PM Zhenneng Li <lizhenneng@kylinos.cn> wrote:
+>
+>
+> When primary bo is updated, crtc's pitch may
+> have not been updated, this will lead to show
+> disorder content when user changes display mode,
+> we update crtc's pitch in page flip to avoid
+> this bug.
+> This refers to amdgpu's pageflip.
+>
+> v1->v2:
+> Update all of the pitch in all of the page_flip functions
+> in radeon rather than just the evergreen one.
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+> ---
+>  drivers/gpu/drm/radeon/evergreen.c | 8 +++++++-
+>  drivers/gpu/drm/radeon/r100.c      | 5 +++++
+>  drivers/gpu/drm/radeon/rs600.c     | 8 +++++++-
+>  drivers/gpu/drm/radeon/rv770.c     | 8 +++++++-
+>  4 files changed, 26 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/=
+evergreen.c
+> index 36a888e1b179..eeb590d2dec2 100644
+> --- a/drivers/gpu/drm/radeon/evergreen.c
+> +++ b/drivers/gpu/drm/radeon/evergreen.c
+> @@ -28,6 +28,7 @@
+>
+>  #include <drm/drm_vblank.h>
+>  #include <drm/radeon_drm.h>
+> +#include <drm/drm_fourcc.h>
+>
+>  #include "atom.h"
+>  #include "avivod.h"
+> @@ -1414,10 +1415,15 @@ void evergreen_page_flip(struct radeon_device *rd=
+ev, int crtc_id, u64 crtc_base,
+>                          bool async)
+>  {
+>         struct radeon_crtc *radeon_crtc =3D rdev->mode_info.crtcs[crtc_id=
+];
+> +       struct drm_framebuffer *fb =3D radeon_crtc->base.primary->fb;
+>
+> -       /* update the scanout addresses */
+> +       /* flip at hsync for async, default is vsync */
+>         WREG32(EVERGREEN_GRPH_FLIP_CONTROL + radeon_crtc->crtc_offset,
+>                async ? EVERGREEN_GRPH_SURFACE_UPDATE_H_RETRACE_EN : 0);
+> +       /* update pitch */
+> +       WREG32(EVERGREEN_GRPH_PITCH + radeon_crtc->crtc_offset,
+> +              fb->pitches[0] / fb->format->cpp[0]);
+> +       /* update the scanout addresses */
+>         WREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS_HIGH + radeon_crtc-=
+>crtc_offset,
+>                upper_32_bits(crtc_base));
+>         WREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS + radeon_crtc->crtc=
+_offset,
+> diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.=
+c
+> index ba724198b72e..1268854552ff 100644
+> --- a/drivers/gpu/drm/radeon/r100.c
+> +++ b/drivers/gpu/drm/radeon/r100.c
+> @@ -162,6 +162,7 @@ void r100_wait_for_vblank(struct radeon_device *rdev,=
+ int crtc)
+>  void r100_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_ba=
+se, bool async)
+>  {
+>         struct radeon_crtc *radeon_crtc =3D rdev->mode_info.crtcs[crtc_id=
+];
+> +       struct drm_framebuffer *fb =3D radeon_crtc->base.primary->fb;
+>         u32 tmp =3D ((u32)crtc_base) | RADEON_CRTC_OFFSET__OFFSET_LOCK;
+>         int i;
+>
+> @@ -169,6 +170,10 @@ void r100_page_flip(struct radeon_device *rdev, int =
+crtc_id, u64 crtc_base, bool
+>         /* update the scanout addresses */
+>         WREG32(RADEON_CRTC_OFFSET + radeon_crtc->crtc_offset, tmp);
+>
+> +       /* update pitch */
+> +       WREG32(RADEON_CRTC_PITCH + radeon_crtc->crtc_offset,
+> +              fb->pitches[0] / fb->format->cpp[0]);
+> +
+
+This needs the follow formatting (from radeon_legacy_crtc.c):
+        pitch_pixels =3D fb->pitches[0] / fb->format->cpp[0];
+        crtc_pitch =3D DIV_ROUND_UP(pitch_pixels * fb->format->cpp[0] * 8,
+                              fb->format->cpp[0] * 8 * 8);
+        crtc_pitch |=3D crtc_pitch << 16;
+WREG32(RADEON_CRTC_PITCH + radeon_crtc->crtc_offset, crtc_pitch);
+
+With that fixed,
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+>         /* Wait for update_pending to go high. */
+>         for (i =3D 0; i < rdev->usec_timeout; i++) {
+>                 if (RREG32(RADEON_CRTC_OFFSET + radeon_crtc->crtc_offset)=
+ & RADEON_CRTC_OFFSET__GUI_TRIG_OFFSET)
+> diff --git a/drivers/gpu/drm/radeon/rs600.c b/drivers/gpu/drm/radeon/rs60=
+0.c
+> index b2d22e25eee1..b87dd551e939 100644
+> --- a/drivers/gpu/drm/radeon/rs600.c
+> +++ b/drivers/gpu/drm/radeon/rs600.c
+> @@ -41,6 +41,7 @@
+>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_vblank.h>
+> +#include <drm/drm_fourcc.h>
+>
+>  #include "atom.h"
+>  #include "radeon.h"
+> @@ -118,6 +119,7 @@ void avivo_wait_for_vblank(struct radeon_device *rdev=
+, int crtc)
+>  void rs600_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_b=
+ase, bool async)
+>  {
+>         struct radeon_crtc *radeon_crtc =3D rdev->mode_info.crtcs[crtc_id=
+];
+> +       struct drm_framebuffer *fb =3D radeon_crtc->base.primary->fb;
+>         u32 tmp =3D RREG32(AVIVO_D1GRPH_UPDATE + radeon_crtc->crtc_offset=
+);
+>         int i;
+>
+> @@ -125,9 +127,13 @@ void rs600_page_flip(struct radeon_device *rdev, int=
+ crtc_id, u64 crtc_base, boo
+>         tmp |=3D AVIVO_D1GRPH_UPDATE_LOCK;
+>         WREG32(AVIVO_D1GRPH_UPDATE + radeon_crtc->crtc_offset, tmp);
+>
+> -       /* update the scanout addresses */
+> +       /* flip at hsync for async, default is vsync */
+>         WREG32(AVIVO_D1GRPH_FLIP_CONTROL + radeon_crtc->crtc_offset,
+>                async ? AVIVO_D1GRPH_SURFACE_UPDATE_H_RETRACE_EN : 0);
+> +       /* update pitch */
+> +       WREG32(AVIVO_D1GRPH_PITCH + radeon_crtc->crtc_offset,
+> +              fb->pitches[0] / fb->format->cpp[0]);
+> +       /* update the scanout addresses */
+>         WREG32(AVIVO_D1GRPH_SECONDARY_SURFACE_ADDRESS + radeon_crtc->crtc=
+_offset,
+>                (u32)crtc_base);
+>         WREG32(AVIVO_D1GRPH_PRIMARY_SURFACE_ADDRESS + radeon_crtc->crtc_o=
+ffset,
+> diff --git a/drivers/gpu/drm/radeon/rv770.c b/drivers/gpu/drm/radeon/rv77=
+0.c
+> index 74499307285b..e592e57be1bb 100644
+> --- a/drivers/gpu/drm/radeon/rv770.c
+> +++ b/drivers/gpu/drm/radeon/rv770.c
+> @@ -32,6 +32,7 @@
+>
+>  #include <drm/drm_device.h>
+>  #include <drm/radeon_drm.h>
+> +#include <drm/drm_fourcc.h>
+>
+>  #include "atom.h"
+>  #include "avivod.h"
+> @@ -809,6 +810,7 @@ u32 rv770_get_xclk(struct radeon_device *rdev)
+>  void rv770_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_b=
+ase, bool async)
+>  {
+>         struct radeon_crtc *radeon_crtc =3D rdev->mode_info.crtcs[crtc_id=
+];
+> +       struct drm_framebuffer *fb =3D radeon_crtc->base.primary->fb;
+>         u32 tmp =3D RREG32(AVIVO_D1GRPH_UPDATE + radeon_crtc->crtc_offset=
+);
+>         int i;
+>
+> @@ -816,9 +818,13 @@ void rv770_page_flip(struct radeon_device *rdev, int=
+ crtc_id, u64 crtc_base, boo
+>         tmp |=3D AVIVO_D1GRPH_UPDATE_LOCK;
+>         WREG32(AVIVO_D1GRPH_UPDATE + radeon_crtc->crtc_offset, tmp);
+>
+> -       /* update the scanout addresses */
+> +       /* flip at hsync for async, default is vsync */
+>         WREG32(AVIVO_D1GRPH_FLIP_CONTROL + radeon_crtc->crtc_offset,
+>                async ? AVIVO_D1GRPH_SURFACE_UPDATE_H_RETRACE_EN : 0);
+> +       /* update pitch */
+> +       WREG32(AVIVO_D1GRPH_PITCH + radeon_crtc->crtc_offset,
+> +              fb->pitches[0] / fb->format->cpp[0]);
+> +       /* update the scanout addresses */
+>         if (radeon_crtc->crtc_id) {
+>                 WREG32(D2GRPH_SECONDARY_SURFACE_ADDRESS_HIGH, upper_32_bi=
+ts(crtc_base));
+>                 WREG32(D2GRPH_PRIMARY_SURFACE_ADDRESS_HIGH, upper_32_bits=
+(crtc_base));
+> --
+> 2.25.1
+>
+> Content-type: Text/plain
+>
+> No virus found
+>                 Checked by Hillstone Network AntiVirus
