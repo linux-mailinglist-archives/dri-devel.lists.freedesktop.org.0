@@ -1,52 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3FF3E13F8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 13:37:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBB73E13FD
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 13:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C08C6E064;
-	Thu,  5 Aug 2021 11:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9128D6E107;
+	Thu,  5 Aug 2021 11:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F14E46E064
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 11:37:03 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4GgRQx6y6Wz9sRR;
- Thu,  5 Aug 2021 21:36:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
- s=201909; t=1628163418;
- bh=LUuDWZ6QjdYX5SUcL0rg4SU99LJt8O7kFIHfniH4Wkg=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=SF7x/1BvF/du6tR1e3AqhoEFXeAMJ23q3ppFOuDYEK6+ht3SZq2BGm0VpBTQhnKiX
- c69CtfwbXEyopOpWkMlhoaZaNy7MBcjvFgi441GQPs8JoNSbaypcrSiMU40xfYUL8t
- f9mZrC/0/S9Sd0Sks9Q6ztffcNH3z15sejK3Mrq6GIC9o5cgKjNUdNCU7s+JyZXP+k
- m7V2vyizjbFsWr3PDpb/VJj0/lHDkB5dWIo6L1vPnRk6HtSQ+cZceBM9r0fWUQuSIl
- t/rcwuCY/XD4brZ4tPPAIPKwBGgNhCg1BsOkubGmrACsiPv8a+bTpGKspwCElp7iAD
- /yfmCkkp5M+aw==
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Keith Packard <keithpac@amazon.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
- <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 58/64] powerpc: Split memset() to avoid multi-field
- overflow
-In-Reply-To: <20210727205855.411487-59-keescook@chromium.org>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-59-keescook@chromium.org>
-Date: Thu, 05 Aug 2021 21:36:54 +1000
-Message-ID: <87czqsnmw9.fsf@mpe.ellerman.id.au>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EF556E107
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 11:38:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BBDD960C51;
+ Thu,  5 Aug 2021 11:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1628163488;
+ bh=ugZWR/yfSjuppoNeY9Xc2waupdhAYEJVcwZWQy5UVz8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jSxJyvEDQq7T5RXxWwCfec8wKcUrnEsXVl0F8bbzoQOPMTzfxNygKG6Z2GxA1ZtOi
+ I0R1FQDy8bchr8WX0iVDP/0ZUOfavf/29fRyRCn8K7r5Vsy5oKA2wl5ayitsYgk8VW
+ YZSKECv4rjzH4gnbyJ8lUYB7jlyFwyFTOCqOfctk=
+Date: Thu, 5 Aug 2021 13:38:05 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Len Baker <len.baker@gmx.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Phil Reid <preid@electromag.com.au>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ linux-staging@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
+Message-ID: <YQvNnf0o9w4fdVjr@kroah.com>
+References: <20210801085155.3170-1-len.baker@gmx.com>
+ <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
+ <YQvJB5s1zY2yO87D@kroah.com>
+ <CAHp75VeUH3+dZ6scREA-sZz8-7AF_MLobde+2-eZJz=MsxaW0Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VeUH3+dZ6scREA-sZz8-7AF_MLobde+2-eZJz=MsxaW0Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,36 +57,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kees Cook <keescook@chromium.org> writes:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
->
-> Instead of writing across a field boundary with memset(), move the call
-> to just the array, and an explicit zeroing of the prior field.
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  drivers/macintosh/smu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
-> index 94fb63a7b357..59ce431da7ef 100644
-> --- a/drivers/macintosh/smu.c
-> +++ b/drivers/macintosh/smu.c
-> @@ -848,7 +848,8 @@ int smu_queue_i2c(struct smu_i2c_cmd *cmd)
->  	cmd->read = cmd->info.devaddr & 0x01;
->  	switch(cmd->info.type) {
->  	case SMU_I2C_TRANSFER_SIMPLE:
-> -		memset(&cmd->info.sublen, 0, 4);
-> +		cmd->info.sublen = 0;
-> +		memset(&cmd->info.subaddr, 0, 3);
->  		break;
->  	case SMU_I2C_TRANSFER_COMBINED:
->  		cmd->info.devaddr &= 0xfe;
-> -- 
-> 2.30.2
+On Thu, Aug 05, 2021 at 02:30:35PM +0300, Andy Shevchenko wrote:
+> On Thu, Aug 5, 2021 at 2:18 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Sun, Aug 01, 2021 at 02:40:40PM +0300, Andy Shevchenko wrote:
+> > > On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
+> > > >
+> > > > strcpy() performs no bounds checking on the destination buffer. This
+> > > > could result in linear overflows beyond the end of the buffer, leading
+> > > > to all kinds of misbehaviors. So, this serie removes all strcpy uses
+> > > > from the "staging/fbtft" subsystem.
+> > > >
+> > > > Also, refactor the code a bit to follow the kernel coding-style and
+> > > > avoid unnecessary variable initialization.
+> > >
+> > > I don't see patch 3 (even on lore.kernel.org).
+> > >
+> > > Greg, Geert, does it make sense to move this driver outside of staging?
+> >
+> > If you clean up everything that needs to be done, yes, please do.
+> 
+> Do we have a clear TODO for that?
+> 
+> The current one has the item which is not feasible to achieve in
+> reasonable time. Some of those drivers won't be converted to tiny DRM.
+> So the idea is to keep this out of staging in the maintenance phase
+> (as it currently states, i.e. no new drivers accepted).  For the rest
+> I'm not sure what else can be done (checkpatch? coccinelle?).
+> Actually the first sentence in this paragraph is a motivation for
+> moving out of staging.
 
-Reviewed-by: Michael Ellerman <mpe@ellerman.id.au>
+Take it up with the DRM developers/maintainers.  If they approve for
+this to move out of staging without being converted over to use tiny
+DRM, then I am fine to move it out.
 
-cheers
+thnks,
+
+greg k-h
