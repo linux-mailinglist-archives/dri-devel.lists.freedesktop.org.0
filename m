@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E1D3E1C8A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 21:21:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE913E1C8B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 21:21:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A97E46EB2F;
-	Thu,  5 Aug 2021 19:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9B536EB30;
+	Thu,  5 Aug 2021 19:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42B9E6EB2F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 19:21:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 761506EB30
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 19:21:29 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Rob Herring <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
@@ -20,9 +20,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: list@opendingux.net, linux-kernel@vger.kernel.org,
  linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 1/2] drivers core: Export driver_deferred_probe_check_state()
-Date: Thu,  5 Aug 2021 21:21:08 +0200
-Message-Id: <20210805192110.90302-2-paul@crapouillou.net>
+Subject: [PATCH 2/2] gpu/drm: ingenic: Add workaround for disabled drivers
+Date: Thu,  5 Aug 2021 21:21:09 +0200
+Message-Id: <20210805192110.90302-3-paul@crapouillou.net>
 In-Reply-To: <20210805192110.90302-1-paul@crapouillou.net>
 References: <20210805192110.90302-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -42,26 +42,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Export this function as a GPL symbol, so that it can be used from
-modules.
+When the drivers of remote devices (e.g. HDMI chip) are disabled in the
+config, we want the ingenic-drm driver to be able to probe nonetheless
+with the other devices (e.g. internal LCD panel) that are enabled.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/base/dd.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index daeb9b5763ae..658f1527a58b 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -296,6 +296,7 @@ int driver_deferred_probe_check_state(struct device *dev)
- 
- 	return -EPROBE_DEFER;
- }
-+EXPORT_SYMBOL_GPL(driver_deferred_probe_check_state);
- 
- static void deferred_probe_timeout_work_func(struct work_struct *work)
- {
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index d261f7a03b18..5e1fdbb0ba6b 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -1058,6 +1058,18 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	for (i = 0; ; i++) {
+ 		ret = drm_of_find_panel_or_bridge(dev->of_node, 0, i, &panel, &bridge);
+ 		if (ret) {
++			/*
++			 * Workaround for the case where the drivers for the
++			 * remote devices are not enabled. When that happens,
++			 * drm_of_find_panel_or_bridge() returns -EPROBE_DEFER
++			 * endlessly, which prevents the ingenic-drm driver from
++			 * working at all.
++			 */
++			if (ret == -EPROBE_DEFER) {
++				ret = driver_deferred_probe_check_state(dev);
++				if (ret == -ENODEV || ret == -ETIMEDOUT)
++					continue;
++			}
+ 			if (ret == -ENODEV)
+ 				break; /* we're done */
+ 			if (ret != -EPROBE_DEFER)
 -- 
 2.30.2
 
