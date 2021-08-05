@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8353E1D8A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 22:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9103E1D84
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 22:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7A76EB59;
-	Thu,  5 Aug 2021 20:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 649C96EB4D;
+	Thu,  5 Aug 2021 20:45:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D652B6EB5A
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 20:46:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 475046EB4E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 20:45:54 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1628196365; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1628196354; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=QT0rCAMjsSGPZ3jKRP4o9QdSlxRce5w6tIBucvgc3v4=;
- b=oG/o49FZIZP42EDX/RV0OxeiljzVCceAlhyv1pfNIyuI6AadV80fqdIHUNC5BjFlabAK5btw
- 4eg4Cs+2KcQeYrBGAPYPhgB1sC4rLvCefvrqGinLzbE7IdPWBP8RqJmU5dwXe+/m1mPSV1IZ
- I0MxaR/NfRcZ1z5yGNx1VjV8TpY=
+ bh=ZxTP6JRziBe0d3OYdPu+QV7jsMwY92MwIt2M0EBJS6c=;
+ b=fFCdD84p1zGA6Er7zQtrndjMu5Z5qus1iTs8B/SLTuD1cEd7VCjtP62axGlXEfUbc9kpvH/v
+ eeV06yXBD2eK+kUXfIAQtCi2ADX+j8k7WYJhpwQSxPxSJC1DFkYbsmmBBcCqsufIb91Xuy/q
+ qVRzHtIjYtkfczITtYT8q2xHstY=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 610c4dff1b76afb446ce70f0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 05 Aug 2021 20:45:51
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 610c4e018c78eaf80886ab4b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 05 Aug 2021 20:45:53
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 0F533C43147; Thu,  5 Aug 2021 20:45:50 +0000 (UTC)
+ id D6E54C4323A; Thu,  5 Aug 2021 20:45:52 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -39,9 +39,9 @@ Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 292FFC433F1;
- Thu,  5 Aug 2021 20:45:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 292FFC433F1
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6F1A1C4338A;
+ Thu,  5 Aug 2021 20:45:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6F1A1C4338A
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -53,10 +53,10 @@ Cc: Kuogee Hsieh <khsieh@codeaurora.org>, abhinavk@codeaurora.org,
  aravindh@codeaurora.org, airlied@linux.ie, daniel@ffwll.ch,
  bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/6] drm/msm/dp: return correct edid checksum after
- corrupted edid checksum read
-Date: Thu,  5 Aug 2021 13:44:54 -0700
-Message-Id: <1628196295-7382-6-git-send-email-khsieh@codeaurora.org>
+Subject: [PATCH v3 6/6] drm/msm/dp: do not end dp link training until video is
+ ready
+Date: Thu,  5 Aug 2021 13:44:55 -0700
+Message-Id: <1628196295-7382-7-git-send-email-khsieh@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1628196295-7382-1-git-send-email-khsieh@codeaurora.org>
 References: <1628196295-7382-1-git-send-email-khsieh@codeaurora.org>
@@ -75,41 +75,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Response with correct edid checksum saved at connector after corrupted edid
-checksum read. This fixes Link Layer CTS cases 4.2.2.3, 4.2.2.6.
+Initialize both pre-emphasis and voltage swing level to 0 before
+start link training and do not end link training until video is
+ready to reduce the period between end of link training and video
+start to meet Link Layer CTS requirement.  Some dongle main link
+symbol may become unlocked again if host did not end link training
+soon enough after completion of link training 2. Host have to re
+train main link if loss of symbol locked detected before end link
+training so that the coming video stream can be transmitted to sink
+properly. This fixes Link Layer CTS cases 4.3.2.1, 4.3.2.2, 4.3.2.3
+and 4.3.2.4.
+
+Changes in v3:
+-- merge retrain link if loss of symbol locked happen into this patch
+-- replace dp_ctrl_loss_symbol_lock() with dp_ctrl_channel_eq_ok()
 
 Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
 ---
- drivers/gpu/drm/msm/dp/dp_panel.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_ctrl.c | 56 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 41 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 88196f7..0fdb551 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -271,7 +271,7 @@ static u8 dp_panel_get_edid_checksum(struct edid *edid)
- {
- 	struct edid *last_block;
- 	u8 *raw_edid;
--	bool is_edid_corrupt;
-+	bool is_edid_corrupt = false;
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 0002805..ffed523 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1484,6 +1484,9 @@ static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
  
- 	if (!edid) {
- 		DRM_ERROR("invalid edid input\n");
-@@ -303,7 +303,12 @@ void dp_panel_handle_sink_request(struct dp_panel *dp_panel)
- 	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
+ 	dp_ctrl_push_idle(&ctrl->dp_ctrl);
  
- 	if (panel->link->sink_request & DP_TEST_LINK_EDID_READ) {
--		u8 checksum = dp_panel_get_edid_checksum(dp_panel->edid);
-+		u8 checksum;
++	ctrl->link->phy_params.p_level = 0;
++	ctrl->link->phy_params.v_level = 0;
 +
-+		if (dp_panel->edid)
-+			checksum = dp_panel_get_edid_checksum(dp_panel->edid);
-+		else
-+			checksum = dp_panel->connector->real_edid_checksum;
+ 	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
  
- 		dp_link_send_edid_checksum(panel->link, checksum);
- 		dp_link_send_test_response(panel->link);
+ 	ret = dp_ctrl_setup_main_link(ctrl, &training_step);
+@@ -1636,6 +1639,16 @@ static bool dp_ctrl_clock_recovery_any_ok(
+ 	return drm_dp_clock_recovery_ok(link_status, reduced_cnt);
+ }
+ 
++static bool dp_ctrl_channel_eq_ok(struct dp_ctrl_private *ctrl)
++{
++	u8 link_status[DP_LINK_STATUS_SIZE];
++	int num_lanes = ctrl->link->link_params.num_lanes;
++
++	dp_ctrl_read_link_status(ctrl, link_status);
++
++	return drm_dp_channel_eq_ok(link_status, num_lanes);
++}
++
+ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ {
+ 	int rc = 0;
+@@ -1671,6 +1684,9 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 		ctrl->link->link_params.rate,
+ 		ctrl->link->link_params.num_lanes, ctrl->dp_ctrl.pixel_rate);
+ 
++	ctrl->link->phy_params.p_level = 0;
++	ctrl->link->phy_params.v_level = 0;
++
+ 	rc = dp_ctrl_enable_mainlink_clocks(ctrl);
+ 	if (rc)
+ 		return rc;
+@@ -1736,17 +1752,19 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 	if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN)
+ 		return rc;
+ 
+-	/* stop txing train pattern */
+-	dp_ctrl_clear_training_pattern(ctrl);
++	if (rc == 0) {  /* link train successfully */
++		/*
++		 * do not stop train pattern here
++		 * stop link training at on_stream
++		 * to pass compliance test
++		 */
++	} else  {
++		/*
++		 * link training failed
++		 * end txing train pattern here
++		 */
++		dp_ctrl_clear_training_pattern(ctrl);
+ 
+-	/*
+-	 * keep transmitting idle pattern until video ready
+-	 * to avoid main link from loss of sync
+-	 */
+-	if (rc == 0)  /* link train successfully */
+-		dp_ctrl_push_idle(dp_ctrl);
+-	else  {
+-		/* link training failed */
+ 		dp_ctrl_deinitialize_mainlink(ctrl);
+ 		rc = -ECONNRESET;
+ 	}
+@@ -1754,9 +1772,15 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 	return rc;
+ }
+ 
++static int dp_ctrl_link_retrain(struct dp_ctrl_private *ctrl)
++{
++	int training_step = DP_TRAINING_NONE;
++
++	return dp_ctrl_setup_main_link(ctrl, &training_step);
++}
++
+ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
+ {
+-	u32 rate = 0;
+ 	int ret = 0;
+ 	bool mainlink_ready = false;
+ 	struct dp_ctrl_private *ctrl;
+@@ -1766,10 +1790,6 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
+ 
+ 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+ 
+-	rate = ctrl->panel->link_info.rate;
+-
+-	ctrl->link->link_params.rate = rate;
+-	ctrl->link->link_params.num_lanes = ctrl->panel->link_info.num_lanes;
+ 	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
+ 
+ 	DRM_DEBUG_DP("rate=%d, num_lanes=%d, pixel_rate=%d\n",
+@@ -1784,6 +1804,12 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
+ 		}
+ 	}
+ 
++	if (!dp_ctrl_channel_eq_ok(ctrl))
++		dp_ctrl_link_retrain(ctrl);
++
++	/* stop txing train pattern to end link training */
++	dp_ctrl_clear_training_pattern(ctrl);
++
+ 	ret = dp_ctrl_enable_stream_clocks(ctrl);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
