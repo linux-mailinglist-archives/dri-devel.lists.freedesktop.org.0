@@ -2,39 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDE93E199A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 18:32:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71253E1A0E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 19:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 641C16E7D2;
-	Thu,  5 Aug 2021 16:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34D5B6EB18;
+	Thu,  5 Aug 2021 17:08:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 534A66E7D2;
- Thu,  5 Aug 2021 16:32:19 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="212339108"
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; d="scan'208";a="212339108"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2021 09:32:17 -0700
-X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; d="scan'208";a="503478449"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2021 09:32:16 -0700
-Date: Thu, 5 Aug 2021 16:32:15 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Zhen Han <zhen.han@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Be more gentle when exiting
- non-persistent contexts
-Message-ID: <20210805163215.GA100505@DUT151-ICLU.fm.intel.com>
-References: <20210805120509.2270455-1-tvrtko.ursulin@linux.intel.com>
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C80816EB14
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 17:08:19 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id p38so12580190lfa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 10:08:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u5iij8rID6SAk24Gs2UckGpZrRbqv5ALWYEAvBtS4mY=;
+ b=HihlEB7QQCsFTB7m+r/iDAPKeJlly9uHAUNgUoNvFpkED6Sq13q3A39T6yGWWvyIRM
+ dHl1lYp/dNL8tb/8x4AWFOcv8iz6BEvrNoR64kXCnCZLIMTyTq+PkC7iYjUFeALvzr6o
+ lDvDD/6cEGkrzj64tBO8X+WosK1kMz7JfhNZucPvOqktE+lxFMshAFEqUPl5v6ZXWzxS
+ o5XKKsmeSZLNvtyI39w8UpqAPOY3t96adfVB1G0BAhsVJcZe1vrjSi9TKLzKhrkQFcll
+ YI6EUT38/GEpLaFDHpYR1+dPktXbqWlLFdXfcaIkMu8Lt+YeoDlTbwYyUi1Yw9/IUzPV
+ zudg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u5iij8rID6SAk24Gs2UckGpZrRbqv5ALWYEAvBtS4mY=;
+ b=UfIpCo3HwXGQZDJWwHD9YrPzxxbGnor1cTPZ0PwWzhG8tClq8umIyngUs06HiYqvF5
+ oTU5AjmgYBCE1Iqj4LxhllBOpW8NbmxJ6Ov8OG+OfhnwqFgOlYmfINXoLEytSNqkaoJr
+ P1w41He806hQRYDrBedlLGxaoKk5Mvf16NxTlS2gWxwrEeHARB++xZVfUmEFBwUGlTc6
+ GXlpblwwyusdbBEj6nFqWmXWYI52bZWSzFFjbQL4tHU9f3ZBwtEwZiqVgMtHzKWRD0py
+ +ZeAn3BtaeguxhmRUZX3PACjVGmvaXVRxAKz/b7IrQFwIJuNBySoVw6xtXzebz+7NdBp
+ u/TA==
+X-Gm-Message-State: AOAM532jdEghfko4w+Kub9McWZfwBXraFwHD15HlEIJPaiiNGSM80Ale
+ rWjljz6qpS+vQ7h8NTdyamrJ3w==
+X-Google-Smtp-Source: ABdhPJx+iKXMxN1ZaUHnr/vBFWgK62YDFCoxXE2ugla5zcpEvl/+wWZVyK8vcLL/S3SfYk6G/g+yAw==
+X-Received: by 2002:a19:e00a:: with SMTP id x10mr4679538lfg.536.1628183298064; 
+ Thu, 05 Aug 2021 10:08:18 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id v19sm568935lfg.134.2021.08.05.10.08.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Aug 2021 10:08:17 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH v5] drm/msm/dsi: add continuous clock support for 7nm PHY
+Date: Thu,  5 Aug 2021 20:08:17 +0300
+Message-Id: <20210805170817.3337665-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210805120509.2270455-1-tvrtko.ursulin@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,326 +74,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 05, 2021 at 01:05:09PM +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> When a non-persistent context exits we currently mark it as banned in
-> order to trigger fast termination of any outstanding GPU jobs it may have
-> left running.
-> 
-> In doing so we apply a very strict 1ms limit in which the left over job
-> has to preempt before we issues an engine resets.
-> 
-> Some workloads are not able to cleanly preempt in that time window and it
-> can be argued that it would instead be better to give them a bit more
-> grace since avoiding engine resets is generally preferrable.
-> 
-> To achieve this the patch splits handling of banned contexts from simply
-> closed non-persistent ones and then applies different timeouts for both
-> and also extends the criteria which determines if a request should be
-> scheduled back in after preemption or not.
-> 
-> 15ms preempt timeout grace is given to exited non-persistent contexts
-> which have been empirically tested to satisfy customers requirements
-> and still provides reasonably quick cleanup post exit.
-> 
+Unlike previous generations, 7nm PHYs are required to collaborate with
+the host for conitnuos clock mode. Add changes neccessary to enable
+continuous clock mode in the 7nm DSI PHYs.
 
-I think you need to rework your thinking here a bit as this a very
-execlists specific solution and the GuC needs to be considered.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes since v4:
+ - Fix the comment regarding msm_dsi_phy_set_continuous_clock()
 
-> v2:
->  * Streamline fast path checks.
-> 
-> v3:
->  * Simplify by using only schedulable status.
->  * Increase timeout to 20ms.
-> 
-> v4:
->  * Fix live_execlists selftest.
-> 
-> v5:
->  * Fix logic in kill_engines.
-> 
-> v6:
->  * Rebase.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Zhen Han <zhen.han@intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c   | 22 +++++++++++++------
->  drivers/gpu/drm/i915/gt/intel_context.c       |  2 ++
->  drivers/gpu/drm/i915/gt/intel_context.h       | 17 +++++++++++++-
->  drivers/gpu/drm/i915/gt/intel_context_types.h |  1 +
->  .../drm/i915/gt/intel_execlists_submission.c  | 11 ++++++++--
->  drivers/gpu/drm/i915/gt/selftest_execlists.c  | 20 +++++++++++------
->  drivers/gpu/drm/i915/i915_request.c           |  2 +-
->  7 files changed, 57 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index cff72679ad7c..21fe5d4057ab 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -1065,7 +1065,8 @@ static struct intel_engine_cs *active_engine(struct intel_context *ce)
->  	return engine;
->  }
->  
-> -static void kill_engines(struct i915_gem_engines *engines, bool ban)
-> +static void
-> +kill_engines(struct i915_gem_engines *engines, bool ban, bool persistent)
->  {
->  	struct i915_gem_engines_iter it;
->  	struct intel_context *ce;
-> @@ -1079,8 +1080,15 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
->  	 */
->  	for_each_gem_engine(ce, engines, it) {
->  		struct intel_engine_cs *engine;
-> +		bool skip = false;
-> +
-> +		if (ban)
-> +			skip = intel_context_ban(ce, NULL);
-> +		else if (!persistent)
-> +			skip = !intel_context_clear_schedulable(ce);
+Changes since v3:
+ - Invert the DSI_LANE_CTRL_HS_REQ_SEL_PHY bit logic, as noted by
+   Abhinav.
 
-schedulable doesn't hook into the backend at all, while
-intel_context_ban does. In the case of GuC submission intel_context_ban
-changes to preemption timeout to 1 us and disables scheduling resulting
-in the context getting kicked off the hardware immediately. You likely
-need to update intel_context_clear_schedulable to use the same vfunc as
-intel_context_ban() but accept an argument for the value of the
-preemption timeout. For a ban user a lower value, for clearing
-schedulable use a higher value.
+Changes since v2:
+ - Really drop msm_dsi_phy_needs_hs_phy_sel()
 
->  
-> -		if (ban && intel_context_ban(ce, NULL))
-> +		/* Already previously banned or made non-schedulable? */
-> +		if (skip)
->  			continue;
->  
->  		/*
-> @@ -1093,7 +1101,7 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
->  		engine = active_engine(ce);
->  
->  		/* First attempt to gracefully cancel the context */
-> -		if (engine && !__cancel_engine(engine) && ban)
-> +		if (engine && !__cancel_engine(engine) && (ban || !persistent))
->  			/*
->  			 * If we are unable to send a preemptive pulse to bump
->  			 * the context from the GPU, we have to resort to a full
-> @@ -1105,8 +1113,6 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
->  
->  static void kill_context(struct i915_gem_context *ctx)
->  {
-> -	bool ban = (!i915_gem_context_is_persistent(ctx) ||
-> -		    !ctx->i915->params.enable_hangcheck);
->  	struct i915_gem_engines *pos, *next;
->  
->  	spin_lock_irq(&ctx->stale.lock);
-> @@ -1119,7 +1125,8 @@ static void kill_context(struct i915_gem_context *ctx)
->  
->  		spin_unlock_irq(&ctx->stale.lock);
->  
-> -		kill_engines(pos, ban);
-> +		kill_engines(pos, !ctx->i915->params.enable_hangcheck,
-> +			     i915_gem_context_is_persistent(ctx));
->  
->  		spin_lock_irq(&ctx->stale.lock);
->  		GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
-> @@ -1165,7 +1172,8 @@ static void engines_idle_release(struct i915_gem_context *ctx,
->  
->  kill:
->  	if (list_empty(&engines->link)) /* raced, already closed */
-> -		kill_engines(engines, true);
-> +		kill_engines(engines, true,
-> +			     i915_gem_context_is_persistent(ctx));
->  
->  	i915_sw_fence_commit(&engines->fence);
->  }
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> index 745e84c72c90..bc1701ef1578 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -382,6 +382,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
->  	ce->ring = NULL;
->  	ce->ring_size = SZ_4K;
->  
-> +	__set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
-> +
->  	ewma_runtime_init(&ce->runtime.avg);
->  
->  	ce->vm = i915_vm_get(engine->gt->vm);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-> index c41098950746..5b50716654dd 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
-> @@ -251,7 +251,22 @@ static inline bool intel_context_is_banned(const struct intel_context *ce)
->  
->  static inline bool intel_context_set_banned(struct intel_context *ce)
->  {
-> -	return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
-> +	bool banned = test_and_set_bit(CONTEXT_BANNED, &ce->flags);
-> +
-> +	if (!banned)
-> +		clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
-> +
-> +	return banned;
-> +}
-> +
-> +static inline bool intel_context_clear_schedulable(struct intel_context *ce)
-> +{
-> +	return test_and_clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
-> +}
-> +
-> +static inline bool intel_context_is_schedulable(const struct intel_context *ce)
-> +{
-> +	return test_bit(CONTEXT_SCHEDULABLE, &ce->flags);
->  }
->  
->  static inline bool intel_context_ban(struct intel_context *ce,
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> index e54351a170e2..3306c70c9c54 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> @@ -112,6 +112,7 @@ struct intel_context {
->  #define CONTEXT_FORCE_SINGLE_SUBMISSION	7
->  #define CONTEXT_NOPREEMPT		8
->  #define CONTEXT_LRCA_DIRTY		9
-> +#define CONTEXT_SCHEDULABLE		10  /* Unless banned or non-persistent closed. */
->  
->  	struct {
->  		u64 timeout_us;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index de5f9c86b9a4..778f3cda3c71 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -478,7 +478,7 @@ __execlists_schedule_in(struct i915_request *rq)
->  		     !intel_engine_has_heartbeat(engine)))
->  		intel_context_set_banned(ce);
->  
-> -	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
-> +	if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
->  		reset_active(rq, engine);
->  
->  	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
-> @@ -1222,12 +1222,19 @@ static void record_preemption(struct intel_engine_execlists *execlists)
->  static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
->  					    const struct i915_request *rq)
->  {
-> +	struct intel_context *ce;
-> +
->  	if (!rq)
->  		return 0;
->  
-> +	ce = rq->context;
-> +
->  	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
-> -	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
-> +	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
->  		return 1;
-> +	/* Longer grace for closed non-persistent contexts to avoid resets. */
-> +	else if (unlikely(!intel_context_is_schedulable(ce)))
-> +		return 20;
+Changes since v1:
+ - Remove the need for a separate msm_dsi_phy_needs_hs_phy_sel() call
+ - Fix setting continuous clock for a dual DSI case.
+---
+ drivers/gpu/drm/msm/dsi/dsi.h             |  3 ++-
+ drivers/gpu/drm/msm/dsi/dsi.xml.h         |  1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c        | 12 ++++++++----
+ drivers/gpu/drm/msm/dsi/dsi_manager.c     |  4 ++--
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  9 +++++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 17 +++++++++++++++++
+ 7 files changed, 40 insertions(+), 7 deletions(-)
 
-Likely want a define for '1' and '20' too.
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+index 9b8e9b07eced..58e63bf34fe9 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.h
+@@ -109,7 +109,7 @@ int msm_dsi_host_enable(struct mipi_dsi_host *host);
+ int msm_dsi_host_disable(struct mipi_dsi_host *host);
+ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+-			bool is_dual_dsi);
++			bool is_dual_dsi, struct msm_dsi_phy *phy);
+ int msm_dsi_host_power_off(struct mipi_dsi_host *host);
+ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+ 				  const struct drm_display_mode *mode);
+@@ -175,6 +175,7 @@ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
+ void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy);
+ int msm_dsi_phy_pll_restore_state(struct msm_dsi_phy *phy);
+ void msm_dsi_phy_snapshot(struct msm_disp_state *disp_state, struct msm_dsi_phy *phy);
++bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable);
+ 
+ #endif /* __DSI_CONNECTOR_H__ */
+ 
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+index eadbcc78fd72..473c81605054 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+@@ -518,6 +518,7 @@ static inline uint32_t DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(uint32_t val)
+ #define DSI_LANE_STATUS_DLN0_DIRECTION				0x00010000
+ 
+ #define REG_DSI_LANE_CTRL					0x000000a8
++#define DSI_LANE_CTRL_HS_REQ_SEL_PHY				0x01000000
+ #define DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST			0x10000000
+ 
+ #define REG_DSI_LANE_SWAP_CTRL					0x000000ac
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index ed504fe5074f..3558e5cd400f 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -834,7 +834,7 @@ static inline enum dsi_cmd_dst_format dsi_get_cmd_fmt(
+ }
+ 
+ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+-			struct msm_dsi_phy_shared_timings *phy_shared_timings)
++			struct msm_dsi_phy_shared_timings *phy_shared_timings, struct msm_dsi_phy *phy)
+ {
+ 	u32 flags = msm_host->mode_flags;
+ 	enum mipi_dsi_pixel_format mipi_fmt = msm_host->format;
+@@ -929,6 +929,10 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+ 
+ 	if (!(flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)) {
+ 		lane_ctrl = dsi_read(msm_host, REG_DSI_LANE_CTRL);
++
++		if (msm_dsi_phy_set_continuous_clock(phy, enable))
++			lane_ctrl &= ~DSI_LANE_CTRL_HS_REQ_SEL_PHY;
++
+ 		dsi_write(msm_host, REG_DSI_LANE_CTRL,
+ 			lane_ctrl | DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST);
+ 	}
+@@ -2354,7 +2358,7 @@ static void msm_dsi_sfpb_config(struct msm_dsi_host *msm_host, bool enable)
+ 
+ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+-			bool is_dual_dsi)
++			bool is_dual_dsi, struct msm_dsi_phy *phy)
+ {
+ 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+ 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+@@ -2394,7 +2398,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 
+ 	dsi_timing_setup(msm_host, is_dual_dsi);
+ 	dsi_sw_reset(msm_host);
+-	dsi_ctrl_config(msm_host, true, phy_shared_timings);
++	dsi_ctrl_config(msm_host, true, phy_shared_timings, phy);
+ 
+ 	if (msm_host->disp_en_gpio)
+ 		gpiod_set_value(msm_host->disp_en_gpio, 1);
+@@ -2425,7 +2429,7 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
+ 		goto unlock_ret;
+ 	}
+ 
+-	dsi_ctrl_config(msm_host, false, NULL);
++	dsi_ctrl_config(msm_host, false, NULL, NULL);
+ 
+ 	if (msm_host->disp_en_gpio)
+ 		gpiod_set_value(msm_host->disp_en_gpio, 0);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index 4ebfedc4a9ac..1b89fef8f805 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -381,7 +381,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+ 	if (ret)
+ 		goto phy_en_fail;
+ 
+-	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi);
++	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi, msm_dsi->phy);
+ 	if (ret) {
+ 		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
+ 		goto host_on_fail;
+@@ -389,7 +389,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+ 
+ 	if (is_dual_dsi && msm_dsi1) {
+ 		ret = msm_dsi_host_power_on(msm_dsi1->host,
+-				&phy_shared_timings[DSI_1], is_dual_dsi);
++				&phy_shared_timings[DSI_1], is_dual_dsi, msm_dsi1->phy);
+ 		if (ret) {
+ 			pr_err("%s: power on host1 failed, %d\n",
+ 							__func__, ret);
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index 6ca6bfd4809b..723d2eeafa69 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -835,6 +835,15 @@ void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
+ 		phy->usecase = uc;
+ }
+ 
++/* Returns true if we have to clear DSI_LANE_CTRL.HS_REQ_SEL_PHY */
++bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
++{
++	if (!phy || !phy->cfg->ops.set_continuous_clock)
++		return false;
++
++	return phy->cfg->ops.set_continuous_clock(phy, enable);
++}
++
+ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
+ 	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
+ {
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+index 5b0feef87127..43dee28450b4 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+@@ -24,6 +24,7 @@ struct msm_dsi_phy_ops {
+ 	void (*disable)(struct msm_dsi_phy *phy);
+ 	void (*save_pll_state)(struct msm_dsi_phy *phy);
+ 	int (*restore_pll_state)(struct msm_dsi_phy *phy);
++	bool (*set_continuous_clock)(struct msm_dsi_phy *phy, bool enable);
+ };
+ 
+ struct msm_dsi_phy_cfg {
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+index 7c23d4c47338..a78a0c45d101 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+@@ -932,6 +932,21 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy *phy,
+ 	return 0;
+ }
+ 
++static bool dsi_7nm_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
++{
++	void __iomem *base = phy->base;
++	u32 data;
++
++	data = dsi_phy_read(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1);
++	if (enable)
++		data |= BIT(5) | BIT(6);
++	else
++		data &= ~(BIT(5) | BIT(6));
++	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1, data);
++
++	return enable;
++}
++
+ static void dsi_7nm_phy_disable(struct msm_dsi_phy *phy)
+ {
+ 	void __iomem *base = phy->base;
+@@ -972,6 +987,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+ 		.pll_init = dsi_pll_7nm_init,
+ 		.save_pll_state = dsi_7nm_pll_save_state,
+ 		.restore_pll_state = dsi_7nm_pll_restore_state,
++		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+ 	},
+ 	.min_pll_rate = 600000000UL,
+ #ifdef CONFIG_64BIT
+@@ -998,6 +1014,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs = {
+ 		.pll_init = dsi_pll_7nm_init,
+ 		.save_pll_state = dsi_7nm_pll_save_state,
+ 		.restore_pll_state = dsi_7nm_pll_restore_state,
++		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+ 	},
+ 	.min_pll_rate = 1000000000UL,
+ 	.max_pll_rate = 3500000000UL,
+-- 
+2.30.2
 
-Matt
-
->  
->  	return READ_ONCE(engine->props.preempt_timeout_ms);
->  }
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> index f12ffe797639..da36c015caf4 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> @@ -2050,6 +2050,12 @@ struct live_preempt_cancel {
->  	struct preempt_client a, b;
->  };
->  
-> +static void context_clear_banned(struct intel_context *ce)
-> +{
-> +	clear_bit(CONTEXT_BANNED, &ce->flags);
-> +	set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
-> +}
-> +
->  static int __cancel_active0(struct live_preempt_cancel *arg)
->  {
->  	struct i915_request *rq;
-> @@ -2068,7 +2074,7 @@ static int __cancel_active0(struct live_preempt_cancel *arg)
->  	if (IS_ERR(rq))
->  		return PTR_ERR(rq);
->  
-> -	clear_bit(CONTEXT_BANNED, &rq->context->flags);
-> +	context_clear_banned(rq->context);
->  	i915_request_get(rq);
->  	i915_request_add(rq);
->  	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
-> @@ -2112,7 +2118,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
->  	if (IS_ERR(rq[0]))
->  		return PTR_ERR(rq[0]);
->  
-> -	clear_bit(CONTEXT_BANNED, &rq[0]->context->flags);
-> +	context_clear_banned(rq[0]->context);
->  	i915_request_get(rq[0]);
->  	i915_request_add(rq[0]);
->  	if (!igt_wait_for_spinner(&arg->a.spin, rq[0])) {
-> @@ -2128,7 +2134,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
->  		goto out;
->  	}
->  
-> -	clear_bit(CONTEXT_BANNED, &rq[1]->context->flags);
-> +	context_clear_banned(rq[1]->context);
->  	i915_request_get(rq[1]);
->  	err = i915_request_await_dma_fence(rq[1], &rq[0]->fence);
->  	i915_request_add(rq[1]);
-> @@ -2183,7 +2189,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
->  	if (IS_ERR(rq[0]))
->  		return PTR_ERR(rq[0]);
->  
-> -	clear_bit(CONTEXT_BANNED, &rq[0]->context->flags);
-> +	context_clear_banned(rq[0]->context);
->  	i915_request_get(rq[0]);
->  	i915_request_add(rq[0]);
->  	if (!igt_wait_for_spinner(&arg->a.spin, rq[0])) {
-> @@ -2197,7 +2203,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
->  		goto out;
->  	}
->  
-> -	clear_bit(CONTEXT_BANNED, &rq[1]->context->flags);
-> +	context_clear_banned(rq[1]->context);
->  	i915_request_get(rq[1]);
->  	err = i915_request_await_dma_fence(rq[1], &rq[0]->fence);
->  	i915_request_add(rq[1]);
-> @@ -2273,7 +2279,7 @@ static int __cancel_hostile(struct live_preempt_cancel *arg)
->  	if (IS_ERR(rq))
->  		return PTR_ERR(rq);
->  
-> -	clear_bit(CONTEXT_BANNED, &rq->context->flags);
-> +	context_clear_banned(rq->context);
->  	i915_request_get(rq);
->  	i915_request_add(rq);
->  	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
-> @@ -2329,7 +2335,7 @@ static int __cancel_fail(struct live_preempt_cancel *arg)
->  	if (IS_ERR(rq))
->  		return PTR_ERR(rq);
->  
-> -	clear_bit(CONTEXT_BANNED, &rq->context->flags);
-> +	context_clear_banned(rq->context);
->  	i915_request_get(rq);
->  	i915_request_add(rq);
->  	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index ce446716d092..b1a9bec83339 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -583,7 +583,7 @@ bool __i915_request_submit(struct i915_request *request)
->  		goto active;
->  	}
->  
-> -	if (unlikely(intel_context_is_banned(request->context)))
-> +	if (unlikely(!intel_context_is_schedulable(request->context)))
->  		i915_request_set_error_once(request, -EIO);
->  
->  	if (unlikely(fatal_error(request->fence.error)))
-> -- 
-> 2.30.2
-> 
