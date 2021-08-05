@@ -2,68 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25C93E1268
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 12:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2863E128E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 12:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE6F6E50C;
-	Thu,  5 Aug 2021 10:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 884646E529;
+	Thu,  5 Aug 2021 10:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 961D76E4E8
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 10:16:54 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- u21-20020a17090a8915b02901782c36f543so4650039pjn.4
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 03:16:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uxYTdS6bgnfx+2Ini0fwp3kDF4xi+vc1vXsFnljggKE=;
- b=JtEg/md2Yb41+lcJXe0vA8ZSpStUi8dmGPgMckSn8GNINukwB+ruPr97a/iHlXfhPz
- tAalqCJiLpoS195wRcmC8yJvRMyKPo/YkNrM9NUBQ2qlfOc32ztPM7YldPLNnk3r+PeA
- jdJ1aVLKQrfpCupHt43bipmklPq+GVI+oImgws/r3M096q3leCRSbAFXiiW5+twDCZ5a
- C5vHVCdnP1TIvdOukQbc6Mi22tGiMGQ2oTQe3tyyEN92JHvwC4mFFCg/DNPGApK+EZmt
- 0x+2mcC8l2PXBFQ9R22X/soj19riBMzXr/o7Vz5pLl1imicG2uHNDO4TwmW2gvW7T3+Y
- ybbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uxYTdS6bgnfx+2Ini0fwp3kDF4xi+vc1vXsFnljggKE=;
- b=gaEhwbhKrSvotosUUkffMC4HRsYMaTtqNLimJm7nXfq4FUfxyuHTVdUsJb4uE1omd2
- 6oVH1VF3Amvop1KV3oDC9kRUuE0b8d6TjaMY5V0JbdVuH19GIPljvOc0mh7RlIi7g3y0
- yH+nEsFBhMhCiKCdPQmy55r4hPIBJ6QS5U7A5F1XFkV/OKQnLNZd4VxgNk4l1E8kDreF
- DumP47PRB+I1WGMipz3Vkzy2slW0k/AjQ4MUKitpK+Ofbi7RBjjPLFToYZzfRrkupMRV
- nLMT6FdXE655oTSaOimSWaGkvqgPAK9Ey7kOTIoZTFSuYqJ/Jj7aOCbuCe5r5r/oIT0N
- L61Q==
-X-Gm-Message-State: AOAM530JmivMzrOWLxX8vHeEkW1SstbJk0+nC9wdkLVoZvFRpnK8f9dh
- jB1enC8sl46oUHFv7ZOV9QAI9tHcz/CQ6pOvE3k=
-X-Google-Smtp-Source: ABdhPJzQdp79YDSUT7pRlIuSy1Usr2PJofPj14rvaki1F07Zhcat3klZF8hM1ON/1nirWpPekkeKplXaq4gQ26K/OTY=
-X-Received: by 2002:a17:90b:33c5:: with SMTP id
- lk5mr14831776pjb.129.1628158614242; 
- Thu, 05 Aug 2021 03:16:54 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0826C6E529;
+ Thu,  5 Aug 2021 10:22:57 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10066"; a="277873379"
+X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; d="scan'208";a="277873379"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2021 03:22:56 -0700
+X-IronPort-AV: E=Sophos;i="5.84,296,1620716400"; d="scan'208";a="480779902"
+Received: from ppietrus-mobl1.ger.corp.intel.com (HELO [10.252.51.65])
+ ([10.252.51.65])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2021 03:22:54 -0700
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next
+Message-ID: <e460fece-cfd9-6aa4-37c1-0fb1b473196d@linux.intel.com>
+Date: Thu, 5 Aug 2021 12:22:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <1627098243-2742-1-git-send-email-dillon.minfei@gmail.com>
-In-Reply-To: <1627098243-2742-1-git-send-email-dillon.minfei@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 5 Aug 2021 13:16:14 +0300
-Message-ID: <CAHp75Vc5fJM-UiBiosAiTraq=6P0AFefmw1rmtFcvyWVb6rfLA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Add ilitek ili9341 panel driver
-To: dillon.minfei@gmail.com
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
- kbuild-all@lists.01.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- devicetree <devicetree@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,36 +54,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 24, 2021 at 6:46 AM <dillon.minfei@gmail.com> wrote:
->
-> From: Dillon Min <dillon.minfei@gmail.com>
->
-> Since the st,sf-tc240t-9370-t dts binding already exist in stm32f429-disco.dts
-> but, the panel driver didn't get accepted from mainline. it's time to submit
-> patch fot it.
->
-> This driver can support two different interface by different dts bindings:
-> - spi+dpi, use spi to configure register, dpi for graphic data.
->   st,sf-tc240t-9370-t
-> - only spi, just like tiny/ili9341.c (actually, this part is copy from tiny)
->   adafruit,yx240qv29
+drm-misc-next-2021-08-05:
+drm-misc-next for v5.15:
 
-...
+UAPI Changes:
 
-> I was submited the first patch last year, you can find it at [1].
+Cross-subsystem Changes:
 
-submitted
+Core Changes:
+- Assorted docbook updates.
+- Unbreak damage selftests.
+- Define DRM_FORMAT_MAX_PLANES, maximum planes for a planar format.
+- Add gem fb vmap/vunmap helpers, use them in gud and vkms drivers.
 
-> this patch has one major difference from that one, which is replace the low
-> level communication way, from spi_sync() to mipi_dbi_{command,
-> command_stackbuf}() interface, referred from Linus's patch [2].
+Driver Changes:
+- Bridge fixes for ti-sn65dsi86.
+- Use a full-featured driver for ATNA33XC20 to get backlight right,
+  instead of the simple panel driver.
+- Assorted fixes to pl111,.
+- Support E Ink VB3300-KCA panel.
+- Add support for Gopher 2b LCD and ilitek ili9341 panels.
+The following changes since commit 04d505de7f82c8f2daa6139b460b05dc01e354e0:
 
-Can you shed a light on the road map here.
-I have the SPI panel (tiny) based on the ILI9341 and I'm using
-actually mi0283qt driver. With yours we will have 3 (three!) drivers
-for the same chip. I really do not want this. Without road map on the
-prospective of these all drivers, NAK.
+  Merge tag 'amd-drm-next-5.15-2021-07-29' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2021-07-30 16:48:35 +1000)
 
--- 
-With Best Regards,
-Andy Shevchenko
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-08-05
+
+for you to fetch changes up to 5a04227326b04c15b015181772f5c853172fdb68:
+
+  drm/panel: Add ilitek ili9341 panel driver (2021-08-05 11:09:23 +0200)
+
+----------------------------------------------------------------
+drm-misc-next for v5.15:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+- Assorted docbook updates.
+- Unbreak damage selftests.
+- Define DRM_FORMAT_MAX_PLANES, maximum planes for a planar format.
+- Add gem fb vmap/vunmap helpers, use them in gud and vkms drivers.
+
+Driver Changes:
+- Bridge fixes for ti-sn65dsi86.
+- Use a full-featured driver for ATNA33XC20 to get backlight right,
+  instead of the simple panel driver.
+- Assorted fixes to pl111,.
+- Support E Ink VB3300-KCA panel.
+- Add support for Gopher 2b LCD and ilitek ili9341 panels.
+
+----------------------------------------------------------------
+Alistair Francis (1):
+      drm/panel: Add support for E Ink VB3300-KCA
+
+Artjom Vejsel (2):
+      dt-bindings: Add DT bindings for QiShenglong Gopher 2b panel
+      drm/panel-simple: add Gopher 2b LCD panel
+
+Cai Huoqing (2):
+      drm/pl111: Remove unused including <linux/version.h>
+      drm: Fix typo in comments
+
+Daniel Vetter (1):
+      drm: Fix oops in damage self-tests by mocking damage property
+
+Desmond Cheong Zhi Xi (1):
+      drm: clean up unused kerneldoc in drm_lease.c
+
+Dillon Min (2):
+      dt-bindings: display: panel: Add ilitek ili9341 panel bindings
+      drm/panel: Add ilitek ili9341 panel driver
+
+Douglas Anderson (6):
+      drm/dp: Don't zero PWMGEN_BIT_COUNT when driver_pwm_freq_hz not specified
+      drm/bridge: ti-sn65dsi86: Fix power off sequence
+      drm/bridge: ti-sn65dsi86: Add some 100 us delays
+      Revert "drm/panel-simple: Add Samsung ATNA33XC20"
+      Revert "drm/panel-simple: Support for delays between GPIO & regulator"
+      drm/panel: atna33xc20: Introduce the Samsung ATNA33XC20 panel
+
+Gregory Williams (1):
+      DRM: ast: Fixed coding style issues of ast_mode.c
+
+Simon Ser (2):
+      drm/connector: add ref to drm_connector_get in iter docs
+      drm: document drm_mode_get_property
+
+Thomas Zimmermann (5):
+      drm: Define DRM_FORMAT_MAX_PLANES
+      drm/gem: Provide drm_gem_fb_{vmap,vunmap}()
+      drm/gem: Clear mapping addresses for unused framebuffer planes
+      drm/gud: Map framebuffer BOs with drm_gem_fb_vmap()
+      drm/vkms: Map output framebuffer BOs with drm_gem_fb_vmap()
+
+ .../bindings/display/panel/ilitek,ili9341.yaml     |  78 ++
+ .../bindings/display/panel/panel-simple.yaml       |   4 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ Documentation/gpu/drm-kms.rst                      |   2 +
+ drivers/gpu/drm/ast/ast_mode.c                     |  31 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  17 +-
+ drivers/gpu/drm/drm_aperture.c                     |   2 +-
+ drivers/gpu/drm/drm_atomic.c                       |   2 +-
+ drivers/gpu/drm/drm_atomic_helper.c                |  10 +-
+ drivers/gpu/drm/drm_atomic_uapi.c                  |   6 +-
+ drivers/gpu/drm/drm_auth.c                         |   2 +-
+ drivers/gpu/drm/drm_bridge.c                       |   2 +-
+ drivers/gpu/drm/drm_bufs.c                         |   2 +-
+ drivers/gpu/drm/drm_cache.c                        |   2 +-
+ drivers/gpu/drm/drm_damage_helper.c                |   2 +-
+ drivers/gpu/drm/drm_dp_helper.c                    |  18 +-
+ drivers/gpu/drm/drm_drv.c                          |   4 +-
+ drivers/gpu/drm/drm_dsc.c                          |   2 +-
+ drivers/gpu/drm/drm_edid.c                         |   4 +-
+ drivers/gpu/drm/drm_fb_helper.c                    |   2 +-
+ drivers/gpu/drm/drm_file.c                         |   6 +-
+ drivers/gpu/drm/drm_format_helper.c                |   2 +-
+ drivers/gpu/drm/drm_framebuffer.c                  |   2 +-
+ drivers/gpu/drm/drm_gem.c                          |   4 +-
+ drivers/gpu/drm/drm_gem_atomic_helper.c            |  39 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c       |  95 ++-
+ drivers/gpu/drm/drm_gem_shmem_helper.c             |   2 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c              |   2 +-
+ drivers/gpu/drm/drm_hdcp.c                         |   2 +-
+ drivers/gpu/drm/drm_ioctl.c                        |   4 +-
+ drivers/gpu/drm/drm_irq.c                          |   2 +-
+ drivers/gpu/drm/drm_lease.c                        | 131 +---
+ drivers/gpu/drm/drm_mm.c                           |   2 +-
+ drivers/gpu/drm/drm_mode_object.c                  |   2 +-
+ drivers/gpu/drm/drm_modes.c                        |   4 +-
+ drivers/gpu/drm/drm_plane.c                        |   2 +-
+ drivers/gpu/drm/drm_plane_helper.c                 |   2 +-
+ drivers/gpu/drm/drm_prime.c                        |   2 +-
+ drivers/gpu/drm/drm_probe_helper.c                 |   2 +-
+ drivers/gpu/drm/drm_property.c                     |   2 +-
+ drivers/gpu/drm/drm_scdc_helper.c                  |   2 +-
+ drivers/gpu/drm/drm_syncobj.c                      |   2 +-
+ drivers/gpu/drm/drm_vblank.c                       |  12 +-
+ drivers/gpu/drm/drm_vma_manager.c                  |   2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |  10 +-
+ drivers/gpu/drm/panel/Kconfig                      |  23 +
+ drivers/gpu/drm/panel/Makefile                     |   2 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c       | 792 +++++++++++++++++++++
+ drivers/gpu/drm/panel/panel-samsung-atna33xc20.c   | 366 ++++++++++
+ drivers/gpu/drm/panel/panel-simple.c               | 134 ++--
+ drivers/gpu/drm/pl111/pl111_display.c              |   1 -
+ drivers/gpu/drm/pl111/pl111_drv.c                  |   1 -
+ drivers/gpu/drm/selftests/test-drm_damage_helper.c | 287 ++------
+ drivers/gpu/drm/vkms/vkms_composer.c               |   2 +-
+ drivers/gpu/drm/vkms/vkms_drv.h                    |   6 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c              |  28 +-
+ include/drm/drm_connector.h                        |   5 +
+ include/drm/drm_fourcc.h                           |  13 +-
+ include/drm/drm_framebuffer.h                      |   8 +-
+ include/drm/drm_gem_atomic_helper.h                |   3 +-
+ include/drm/drm_gem_framebuffer_helper.h           |   6 +
+ include/uapi/drm/drm_mode.h                        |  60 +-
+ 62 files changed, 1716 insertions(+), 552 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
