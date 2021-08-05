@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4413E0EE1
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 09:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0373E0E4F
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 08:28:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07E189CBE;
-	Thu,  5 Aug 2021 07:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 953DB89F2D;
+	Thu,  5 Aug 2021 06:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 154AC6E1E0
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 05:52:28 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <a.fatoum@pengutronix.de>)
- id 1mBWIs-0002Qu-BG; Thu, 05 Aug 2021 07:52:26 +0200
-Subject: Re: [PATCH v1 1/2] drm/panel: simple: add Multi-Innotechnology
- MI1010AIT-1CP1
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: =?UTF-8?Q?Ulrich_=c3=96lmann?= <u.oelmann@pengutronix.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20210805043702.24715-1-o.rempel@pengutronix.de>
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Message-ID: <1462f001-a01f-9634-744c-8981f72663f6@pengutronix.de>
-Date: Thu, 5 Aug 2021 07:52:24 +0200
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84E0A89F2D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 06:28:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F11FF61029;
+ Thu,  5 Aug 2021 06:28:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1628144916;
+ bh=k6bsxY/D73lQ+HaYdrBBsUHM9IGpDMOqYLXB6rXEp04=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=GBX4c28J+oXZ9o09msSFsub9Qgrf98bhF8NFfqc4rKfQ/6zFa6gr5f20TYkYYEFU1
+ o2GIkHyvuoSgADTGQKmJoo3KajDIbmfzqgsXEX5h6aXjzxRyWLEOUVjQLWQMpU26+U
+ dfgtzcFK5YntjrFwm+04k5+1S7tzEgXH3JSRFBGRSrIKK9oPcBSlLHpku5dcWrZaV+
+ nI4QPyF0zcxS4Sl/j0WbAkBru69xoFEqjLBmY3Kt7Pe82dUg1P35O+/sLkS1RWUAPX
+ ACUyiwxzy+9XT+NQb5WjhihzSO6NIoB7UhO/sdjKiP0NZRonHPIocI7VLEPY4hqltj
+ W6QR1di7co5rQ==
+Subject: Re: [PATCH v2 1/9] drm/omap: Use correct printk format specifiers for
+ size_t
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-renesas-soc@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, linux-imx@nxp.com,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>,
+ Alain VOLMAT-SCND-01 <alain.volmat@foss.st.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>
+References: <20210731013954.11926-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210731013954.11926-2-laurent.pinchart+renesas@ideasonboard.com>
+From: Tomi Valkeinen <tomba@kernel.org>
+Message-ID: <5ebe0407-5da0-69c2-08d9-dd382f1fd44e@kernel.org>
+Date: Thu, 5 Aug 2021 09:28:31 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210805043702.24715-1-o.rempel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210731013954.11926-2-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
-X-Mailman-Approved-At: Thu, 05 Aug 2021 07:06:58 +0000
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,93 +62,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Oleksij,
-
-On 05.08.21 06:37, Oleksij Rempel wrote:
-> From: Sam Ravnborg <sam@ravnborg.org>
+On 31/07/2021 04:39, Laurent Pinchart wrote:
+> The correct format specifier for size_t is %zu. Using %d (or %u)
+> generates a warning on 64-bit platforms. Fix it.
 > 
-> The Multi Innotechnology is a 10.1" 1280x800 panel.
-> 
-> The datasheet did not specify specific values for sync, back, front porch.
-> The values are a best guess based on values for similar panels.
-> 
-> Co-Developed-by: Sam Ravnborg <sam@ravnborg.org>
-> Co-Developed-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
+>   drivers/gpu/drm/omapdrm/dss/dsi.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 21939d4352cf..fda79a986d12 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3033,6 +3033,37 @@ static const struct panel_desc mitsubishi_aa070mc01 = {
->  	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
->  };
->  
-> +static const struct display_timing multi_inno_mi1010ait_1cp_timing = {
-> +	.pixelclock = { 68900000, 70000000, 73400000 },
-> +	.hactive = { 1280, 1280, 1280 },
-> +	.hfront_porch = { 30, 60, 71 },
-> +	.hback_porch = { 30, 60, 71 },
-> +	.hsync_len = { 10, 10, 48 },
-> +	.vactive = { 800, 800, 800 },
-> +	.vfront_porch = { 5, 10, 10 },
-> +	.vback_porch = { 5, 10, 10 },
-> +	.vsync_len = { 5, 6, 13 },
-> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-> +		 DISPLAY_FLAGS_DE_HIGH,
-> +};
-
-Here you specify DISPLAY_FLAGS_DE_HIGH.
-
-> +
-> +static const struct panel_desc multi_inno_mi1010ait_1cp = {
-> +	.timings = &multi_inno_mi1010ait_1cp_timing,
-> +	.num_timings = 1,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 217,
-> +		.height = 136,
-> +	},
-> +	.delay = {
-> +		.enable = 50,
-> +		.disable = 50,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-
-And here DRM_BUS_FLAG_DE_HIGH. I see that some other panels do this too
-and some only specify one of them. Do you know if they are redundant
-or one of them is ignored?
-
-Cheers,
-Ahmad
-
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
->  static const struct display_timing nec_nl12880bc20_05_timing = {
->  	.pixelclock = { 67000000, 71000000, 75000000 },
->  	.hactive = { 1280, 1280, 1280 },
-> @@ -4464,6 +4495,9 @@ static const struct of_device_id platform_of_match[] = {
->  	}, {
->  		.compatible = "mitsubishi,aa070mc01-ca1",
->  		.data = &mitsubishi_aa070mc01,
-> +	}, {
-> +		.compatible = "multi-inno,mi1010ait-1cp",
-> +		.data = &multi_inno_mi1010ait_1cp,
->  	}, {
->  		.compatible = "nec,nl12880bc20-05",
->  		.data = &nec_nl12880bc20_05,
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index 5f1722b040f4..503b5d4bf2c2 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -2094,7 +2094,7 @@ static int dsi_vc_send_long(struct dsi_data *dsi, int vc,
+>   	u8 b1, b2, b3, b4;
+>   
+>   	if (dsi->debug_write)
+> -		DSSDBG("dsi_vc_send_long, %d bytes\n", msg->tx_len);
+> +		DSSDBG("dsi_vc_send_long, %zu bytes\n", msg->tx_len);
+>   
+>   	/* len + header */
+>   	if (dsi->vc[vc].tx_fifo_size * 32 * 4 < msg->tx_len + 4) {
+> @@ -2390,7 +2390,7 @@ static int dsi_vc_generic_read(struct omap_dss_device *dssdev, int vc,
+>   
+>   	return 0;
+>   err:
+> -	DSSERR("%s(vc %d, reqlen %d) failed\n", __func__,  vc, msg->tx_len);
+> +	DSSERR("%s(vc %d, reqlen %zu) failed\n", __func__,  vc, msg->tx_len);
+>   	return r;
+>   }
+>   
 > 
 
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+  Tomi
