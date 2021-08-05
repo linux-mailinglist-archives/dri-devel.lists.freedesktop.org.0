@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333AA3E177E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 17:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFEF3E178A
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 17:06:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BD856EA91;
-	Thu,  5 Aug 2021 15:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDF296EAB9;
+	Thu,  5 Aug 2021 15:06:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC1F86EA91
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 15:04:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD527E04;
- Thu,  5 Aug 2021 17:04:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1628175896;
- bh=TEJORNSttP9WWJ4+Duss24NQytGVgycAdaJHtji+RJg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wWF7sGskHUTcMF1oSUefAiPeLWc0md5mV5Z1rg9pU7EAfAjWrqa3XbE8MVQZfkjm9
- WEbUGfYCJqmHGbBhryEnmaxbw6xd8Tsl+x51s7XOqfJobUtG7ndmHIMVgAC9JCzdVp
- FwAjt8CyGMsQ1EIWAK7ZuuGjgAeY6gkKdtDU5S1w=
-Date: Thu, 5 Aug 2021 18:04:44 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, devicetree@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
- letux-kernel@openphoenux.org, Paul Boddie <paul@boddie.org.uk>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 8/8] [RFC] drm/ingenic: convert to component framework
- for jz4780 hdmi
-Message-ID: <YQv+DC5yTEGlJYuD@pendragon.ideasonboard.com>
-References: <cover.1628172477.git.hns@goldelico.com>
- <77554dd2612f418f6ab74a8be06c82b71410e0e6.1628172477.git.hns@goldelico.com>
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C756EAB9
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 15:06:51 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id u25so7759861oiv.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 08:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nldFCRREWDgv9Sz96vuS5wVnx7A75t+USz3dEw/9ctY=;
+ b=K6hR2AkSvdxCLU1q0bYixc2xpESvsazcTUisA9QumzrmQPtmSRfEaQPuYSJgy2Tc7o
+ +zMS1xGPnvd67IMDt60ylJEReykZADlRCcvswVI8OQTsF2n3iUv5ioZDGg8b4/0a+kJ4
+ VvvSgZEgGmDKeYm5PXX7ui1SAbwl7gRHrl7o4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nldFCRREWDgv9Sz96vuS5wVnx7A75t+USz3dEw/9ctY=;
+ b=EOctfrBG3hmX54jQDsCc9EbXLJGI6ySdNUqrJLV4eKPtVus+hHrVj0x3UKQlQ7ZyoC
+ vWBiOToLKZzCL6IuQYh2WcuhKTyF1AatGuxYj/s97/uyZ8NNzNXr/Bi9aBiM//CEf8oS
+ QnXLMgll+if/RYB0rfPC8JVQPMZZ+RL+kZMNTS0SGDHq9q9Qs3k2GELlL+lVIG6Bp1ao
+ 6eogWG9oZMITDl0DrfT+zjDjFhqZ4vCL/4BbLTfVxChKs5zH4Eu+aAYgVjX/SYT/IW1/
+ r5TrVAvRKGFuJYp7g7PwPdbOMNlMfDpmSPIPerVT00gWfcfXKvz3PNtUxyItTK0LmIvR
+ vqGg==
+X-Gm-Message-State: AOAM531axqkUEUYg3lEIYQMX+18daaq8h6/WAP7zNYE/ODyoYSjnQcCF
+ F3NNIOcTUthPpScF6R9q7MQAItlcbp79Ln7Njb4DTQ==
+X-Google-Smtp-Source: ABdhPJzzRHsNQy3uox7Snerlk2bqd6n1CMCcKzlMbMKtQKreCi707H+eJeE3pU9cJF8gZTPK0SseO2WE9oKU632KJy4=
+X-Received: by 2002:a54:4015:: with SMTP id x21mr1811610oie.128.1628176010612; 
+ Thu, 05 Aug 2021 08:06:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <77554dd2612f418f6ab74a8be06c82b71410e0e6.1628172477.git.hns@goldelico.com>
+References: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
+ <20210805104705.862416-15-daniel.vetter@ffwll.ch>
+ <f883e6af-284c-9400-ca3d-b5192d11fb01@amd.com>
+ <CAKMK7uEVbTOuJVvQDybFM+9x4LUP+ojcCzWfkp4sau3oX7fjXQ@mail.gmail.com>
+ <32f5f17d-9c2b-c6e3-9809-4100bcadf21c@amd.com>
+In-Reply-To: <32f5f17d-9c2b-c6e3-9809-4100bcadf21c@amd.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 5 Aug 2021 17:06:39 +0200
+Message-ID: <CAKMK7uHhUTPzBXSYZfJr8ZtqcT3xqg6ZzhOoc12Dgi+aVDZNYw@mail.gmail.com>
+Subject: Re: [PATCH v5 14/20] drm/sched: Don't store self-dependencies
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Lucas Stach <l.stach@pengutronix.de>, 
+ Melissa Wen <mwen@igalia.com>, Daniel Vetter <daniel.vetter@intel.com>, 
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,124 +74,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
+On Thu, Aug 5, 2021 at 3:57 PM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
+> Am 05.08.21 um 15:25 schrieb Daniel Vetter:
+> > On Thu, Aug 5, 2021 at 3:18 PM Christian K=C3=B6nig <christian.koenig@a=
+md.com> wrote:
+> >>
+> >>
+> >> Am 05.08.21 um 12:46 schrieb Daniel Vetter:
+> >>> This is essentially part of drm_sched_dependency_optimized(), which
+> >>> only amdgpu seems to make use of. Use it a bit more.
+> >>>
+> >>> This would mean that as-is amdgpu can't use the dependency helpers, a=
+t
+> >>> least not with the current approach amdgpu has for deciding whether a
+> >>> vm_flush is needed. Since amdgpu also has very special rules around
+> >>> implicit fencing it can't use those helpers either, and adding a
+> >>> drm_sched_job_await_fence_always or similar for amdgpu wouldn't be to=
+o
+> >>> onerous. That way the special case handling for amdgpu sticks even
+> >>> more out and we have higher chances that reviewers that go across all
+> >>> drivers wont miss it.
+> >> Well you should probably drop the sentence about the vm_flush, this is
+> >> completely unrelated.
+> >>
+> >> Additional to that I still don't think that this is a good idea.
+> >> Dependency handling is something completely driver specific.
+> >>
+> >> E.g. even when you have submitted jobs back to back they still might
+> >> need a cache flush in between and that is not only for amdgpu like thi=
+s.
+> >>
+> >> What you can do is to optimize for while looking at the fences later o=
+n
+> >> and then note that you have done so and what the last hw fence is you
+> >> used instead.
+> > Out of 6 drivers using drm/sched 5 can use this. When we get i915
+> > over, that one will be added to the list. amdgpu can't use any of this
+> > anyway due to the vm_id allocation requirements, which is why I
+> > mention that. Also note that all the callbacks are still there, so you
+> > can just ignore this all and still build your own. Like amdgpu does.
+>
+> The VMID allocation stuff is rather easy to handle, that's why I noted
+> we should remove that sentence.
+>
+> The problematic stuff is handling the cache flush and pipeline sync
+> which you make impossible with this here.
 
-Thank you for the patch.
+Well the vmid is tied to the flush, but yeah the commit message
+doesn't make this clear.
 
-On Thu, Aug 05, 2021 at 04:07:57PM +0200, H. Nikolaus Schaller wrote:
-> This patch attempts to convert the ingenic-dw-hdmi driver
-> into a version that uses the component framework.
+> > So I'm not sure what exactly your object is, aside from "this doesn't
+> > fit for amdgpu", which a) I know b) the commit message explains c)
+> > doesn't actually hurt amdgpu in the slightest. And we still get the
+> > benefit that for most drivers it's a nice optimization.
+>
+> Well exactly that's what I wanted to avoid. We still can use this in
+> amdgpu even with the VMID allocation stuff and I still hope to do so.
+>
+> Can't we add this as a wrapper or similar?
 
-Why ? What problem would this solve ?
+This patch is not the only thing that will prevent you from using
+these helpers, because amdgpu also needs to keep track of all the
+fences in the xarray, which these helpers don't - they get cleared out
+as we hand them off to the scheduler. So it's more surgery than just
+not having this, and I'm honestly not sure it's worth it since you'd
+need to duplicate quite a bit more than just the functions to add
+dependencies.
+-Daniel
 
-> Unfortunately the new version does not work.
-> 
-> Debugging shows that ingenic_dw_hdmi_bind() is never called.
-> 
-> Suggestions for reasons and fixes are welcome.
-> 
-> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
-> Co-authored-by: Paul Boddie <paul@boddie.org.uk>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> ---
->  drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 57 ++++++++++++++++++-----
->  1 file changed, 46 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
-> index 61e7a57d7cec1..a5ba0b69baa8c 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
-> @@ -1,17 +1,24 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /* Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
-> - * Copyright (C) 2019, 2020 Paul Boddie <paul@boddie.org.uk>
-> + * Copyright (C) 2019, 2020, 2021 Paul Boddie <paul@boddie.org.uk>
->   *
->   * Derived from dw_hdmi-imx.c with i.MX portions removed.
-> - * Probe and remove operations derived from rcar_dw_hdmi.c.
->   */
->  
-> +#include <linux/component.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
->  
->  #include <drm/bridge/dw_hdmi.h>
->  #include <drm/drm_of.h>
-> +#include <drm/drm_modeset_helper_vtables.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +struct ingenic_dw_hdmi_encoder {
-> +	struct drm_encoder encoder;
-> +	struct dw_hdmi *hdmi;
-> +};
->  
->  static const struct dw_hdmi_mpll_config ingenic_mpll_cfg[] = {
->  	{ 45250000,  { { 0x01e0, 0x0000 }, { 0x21e1, 0x0000 }, { 0x41e2, 0x0000 } } },
-> @@ -87,24 +94,52 @@ static const struct of_device_id ingenic_dw_hdmi_dt_ids[] = {
->  };
->  MODULE_DEVICE_TABLE(of, ingenic_dw_hdmi_dt_ids);
->  
-> -static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
-> +static int ingenic_dw_hdmi_bind(struct device *dev, struct device *master,
-> +				void *data)
->  {
-> -	struct dw_hdmi *hdmi;
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	struct drm_device *drm = data;
-> +	struct drm_encoder *enc;
-> +	struct ingenic_dw_hdmi_encoder *hdmi_encoder;
->  
-> -	hdmi = dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
-> -	if (IS_ERR(hdmi))
-> -		return PTR_ERR(hdmi);
-> +	hdmi_encoder = drmm_simple_encoder_alloc(drm, struct ingenic_dw_hdmi_encoder,
-> +						 encoder, DRM_MODE_ENCODER_TMDS);
-> +	if (IS_ERR(hdmi_encoder))
-> +		return PTR_ERR(hdmi_encoder);
->  
-> -	platform_set_drvdata(pdev, hdmi);
-> +	enc = &hdmi_encoder->encoder;
-> +	drm_encoder_helper_add(enc, NULL);
-> +	hdmi_encoder->hdmi = dw_hdmi_bind(pdev, enc, &ingenic_dw_hdmi_plat_data);
-> +
-> +	if (IS_ERR(hdmi_encoder->hdmi))
-> +		return PTR_ERR(hdmi_encoder->hdmi);
-> +
-> +	dev_set_drvdata(dev, hdmi_encoder->hdmi);
->  
->  	return 0;
->  }
->  
-> -static int ingenic_dw_hdmi_remove(struct platform_device *pdev)
-> +static void ingenic_dw_hdmi_unbind(struct device *dev, struct device *master,
-> +				   void *data)
-> +{
-> +	struct dw_hdmi *hdmi = dev_get_drvdata(dev);
-> +
-> +	dw_hdmi_unbind(hdmi);
-> +}
-> +
-> +static const struct component_ops ingenic_dw_hdmi_ops = {
-> +	.bind	= ingenic_dw_hdmi_bind,
-> +	.unbind	= ingenic_dw_hdmi_unbind,
-> +};
-> +
-> +static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
->  {
-> -	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
-> +	return component_add(&pdev->dev, &ingenic_dw_hdmi_ops);
-> +}
->  
-> -	dw_hdmi_remove(hdmi);
-> +static int ingenic_dw_hdmi_remove(struct platform_device *pdev)
-> +{
-> +	component_del(&pdev->dev, &ingenic_dw_hdmi_ops);
->  
->  	return 0;
->  }
+-Daniel
 
--- 
-Regards,
+> Christian.
+>
+> > -Daniel
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> >>> Acked-by: Melissa Wen <mwen@igalia.com>
+> >>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> >>> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> >>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >>> Cc: Luben Tuikov <luben.tuikov@amd.com>
+> >>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> >>> Cc: Alex Deucher <alexander.deucher@amd.com>
+> >>> ---
+> >>>    drivers/gpu/drm/scheduler/sched_main.c | 7 +++++++
+> >>>    1 file changed, 7 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm=
+/scheduler/sched_main.c
+> >>> index f77456929139..49e507f91ec0 100644
+> >>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> >>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> >>> @@ -660,6 +660,13 @@ int drm_sched_job_add_dependency(struct drm_sche=
+d_job *job,
+> >>>        if (!fence)
+> >>>                return 0;
+> >>>
+> >>> +     /* if it's a fence from us it's guaranteed to be earlier */
+> >>> +     if (fence->context =3D=3D job->entity->fence_context ||
+> >>> +         fence->context =3D=3D job->entity->fence_context + 1) {
+> >>> +             dma_fence_put(fence);
+> >>> +             return 0;
+> >>> +     }
+> >>> +
+> >>>        /* Deduplicate if we already depend on a fence from the same c=
+ontext.
+> >>>         * This lets the size of the array of deps scale with the numb=
+er of
+> >>>         * engines involved, rather than the number of BOs.
+> >
+>
 
-Laurent Pinchart
+
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
