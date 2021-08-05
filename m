@@ -2,73 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40B13E0A53
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 00:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDF23E0CD1
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 05:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E942289B62;
-	Wed,  4 Aug 2021 22:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79F1C89FC9;
+	Thu,  5 Aug 2021 03:37:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54BE89B62
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Aug 2021 22:26:42 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id n12so3908490wrr.2
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Aug 2021 15:26:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Ll00s9hj+iL2sDPp+dnWRGZXX8AXUCwsi3s4Us7a8K0=;
- b=P7wOFvr+Cn6/yIA0GopzZJj4gfEGesbzMe8DZed2krVhMiTJhx1HKBBvqT9WfRoMIQ
- /OEnn0SXtamMtQVxSku6ZEU7hNjF3rKV9yBpV8/CPovqlp981sUW/PljnKGy7LTQFpHg
- vF6CHE0HY+14gxIHX4RSQHn2LUgFvxzsTnT+4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Ll00s9hj+iL2sDPp+dnWRGZXX8AXUCwsi3s4Us7a8K0=;
- b=Xm8HNcNFTjmLRt+Me+EPrwRIJQMjqGQoSAV28S1tDi2TwC55Vo7/3pa1/+BtPNzErL
- akEMW5shbzGyyyZv0YMa4BO8onpRmWaGozh5/hESvKxgBAOWr1b87qW7wgF/w0xQ4AoZ
- 0piqb7ZZruPyIzl8qj0aFBpNXiSOogSnG615yEOeIuU9lxRb8HQqQ/gX5gJ7hNfPG8cX
- tfHzTfNhG4IC92AB2tvycTbZ/4eGQ3szMGEUX8/oCP9BDHHi++Eak80ogELimIwMeF7m
- kg+Sn5SC5j5ZyqYg16f5WBCNVjaaU4ZdlxUondpbTh7RNsP5MwRdDWV/qfj7og0mFNR4
- yWSw==
-X-Gm-Message-State: AOAM530i1bpFJs9OSptzybiXk6FVjQdIbj97ctCv7Sm9PjF2Vrk5sGnx
- zY8fKZuYqi72zWCRVL/VyfaTLw==
-X-Google-Smtp-Source: ABdhPJw5i4WTaDoCtTtftuA2X/5DnjIy9YNnrFx1bWpfOkGqR6sEL9ld+DRSqTxB1WmELaXaVds01Q==
-X-Received: by 2002:a5d:518a:: with SMTP id k10mr1501167wrv.400.1628116001390; 
- Wed, 04 Aug 2021 15:26:41 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c10sm7691570wml.44.2021.08.04.15.26.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 15:26:40 -0700 (PDT)
-Date: Thu, 5 Aug 2021 00:26:38 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH 2/2] drm/i915: delete gpu reloc code
-Message-ID: <YQsUHqd0/ik0lp6W@phenom.ffwll.local>
-References: <20210803124833.3817354-1-daniel.vetter@ffwll.ch>
- <20210803124833.3817354-2-daniel.vetter@ffwll.ch>
- <CAOFGe96KzKv_3FusLXirDdUHXn9YoNcmgEQS_QNLkRBSGPBVpQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2080.outbound.protection.outlook.com [40.107.92.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08F4289FA9;
+ Thu,  5 Aug 2021 03:37:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TlHCouTOouNHYDRhPsgPFxqexNEca8xU2KjC8kz7PD+7quflpEDSV4V4as906cJzOsT2J3p8QzLpt0X6a2bsDh3SZpy2rjFruy0KgHYyMO4UP3v2QUrDPFfAVV2iiWTZKR3MqUwLtTGdrOVQz35n6NRCZzJjvDUio2y2JlMxKTxtEftO78X4ha64SSxog+fYLwQydFmQUygdtjPfHAoEG8ityBX8Dfhu2xwbzywLCp/xkmnkegdOJkq/r8jwf7Un6N7xAOoA7SNHyt/RlN5yW1tGlrIZSAMlRwLGjPhIAF1jSarGGMdp44Dl20tkQlLCFGRqN9ZWjMwvBLJ1pGsY/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tEdrKJCVeM5SiWhP2zxtWaRYi3p/El/k9C7KGAjcoLQ=;
+ b=JyZFoU5u5/WEJq977gQlqn62Ut9nmN4MVg8vHuuJ1J2vXaZCQ1owvvOnC6EqX6sYTuHIEaJJhmSX7NhR8livH1XXDCFAnIVBqKcYQmsfpRZK6V5qlXIcjluhoL8m5pqP0npsRHtDs+gAsfC0TLZx8Hx9fhfZMHan3HkVf5y19CV9Af8+gedHWB2MlnIjQKd3oeVxhYFaX7i8la8o4dbOikR8BQJW5V25XQx8Hk/p44PLsNoMEqxvr+xMPwTj0UoMcmrvYzglOsFABZbry6NM8j39OktyGbxYuIiAyYezFyb5/oKrCTPr5ieFVojd7rfcTYL97zMqjsbGk6AvlTjhAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tEdrKJCVeM5SiWhP2zxtWaRYi3p/El/k9C7KGAjcoLQ=;
+ b=BTQwMjMpnCCJZ5kbxuR0UvxNtkbzgnWgh/Sg+Q7wsqRCRtCCgq7w/XpczM9hwpxavaW5jp+6BhtIyZYMcxGRVymbuDoRnqsISBkjlTcUkIyTjuU9hJ592rRStx7r199ldqYtpklF90gvJ72O212qILynIYD+bMwPtpDDCM+LK1k=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
+ by BL1PR12MB5159.namprd12.prod.outlook.com (2603:10b6:208:318::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.21; Thu, 5 Aug
+ 2021 03:37:05 +0000
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::5dfc:ea54:4a18:89f5]) by BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::5dfc:ea54:4a18:89f5%4]) with mapi id 15.20.4394.017; Thu, 5 Aug 2021
+ 03:37:05 +0000
+From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-5.14
+Date: Wed,  4 Aug 2021 23:36:49 -0400
+Message-Id: <20210805033649.4091-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.31.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOFGe96KzKv_3FusLXirDdUHXn9YoNcmgEQS_QNLkRBSGPBVpQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0120.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::35) To BL1PR12MB5144.namprd12.prod.outlook.com
+ (2603:10b6:208:316::6)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (192.161.79.246) by
+ BL1PR13CA0120.namprd13.prod.outlook.com (2603:10b6:208:2b9::35) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.10 via Frontend
+ Transport; Thu, 5 Aug 2021 03:37:04 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 95f8d841-75dc-485a-d8b5-08d957c24b47
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5159:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB51593A6972EF991E112C89B2F7F29@BL1PR12MB5159.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dRYM7N/GsEvj3e/ux1NINZKzr4y/uq0f/hAsoq/ZXK72B6A35oq9f6brcdM8kklE2/ZE+eiqQ12/zTmFUm7QnaGWRQJ0hZToVdyoWTzJh0BIQyd9qvUns2lLWevBIRTpCZSmPkB8MTzFmEO3IABdHMlEocy85o6WRfxcwjUX9KJ1t6hRDu0H4XuizF2wlsMhFx1DBjMHrG53Nmxen4u/Zq9cLCXuBvuRaqllnZYehQiIqf9q8lu3uURieDbi8nza9IkEjjzoC1yDyPPn9IWBDvRmf0cjqhK0VwwHIOps/BReRFN9rmJmiX9fOrRfBY9T4bb7hkzFVMJI2/foCWaReNG3NjRd/3ysHiiX3IcLlCyLwXJCWcehlx97cmYmBAG+MfyZLkGpZdR+chCMsAJ1f0h8QnQePoiJsy+hekpJ3yFJkuNgCJfuAmre5WYvzZwbOvOIRfJvHxXLPhOzE3acqH6rZhw3lHSeFx1tGZMOdwhyvLOQ58X6StNwSiiPm4kAm1QKaKjhzHIJbyLAQ0T2Ft33/RnjWQCe7eS08Q2SoUohdlOjxyphOG7MG3cUlaVCFcIVYyeoGwEhqeU+T1bvC+ZXeEwCdcHjvvdQnr6i+GvZvJfQb86p8cCKnpb0sBWYlj8fFl1F5mv4g7Uf0KuB47FFtsqllOMoqiMXrJctfofiZPs521xMyzO4oq04EVj4Q2fGhtdDGc3KxydZ8NEMYUteBNHVOcULnOqFlwvR6HY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(366004)(39860400002)(136003)(966005)(2616005)(38350700002)(316002)(2906002)(6506007)(38100700002)(478600001)(956004)(6486002)(4326008)(52116002)(5660300002)(6512007)(1076003)(66476007)(86362001)(66556008)(186003)(66946007)(8936002)(6666004)(26005)(8676002)(36756003)(83380400001)(357404004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TnHXnTeGuBnPYa1/pKF1dgb95FU+fgxwbdNt1P/H6FnHzW4XZ4GrHFRRL7CT?=
+ =?us-ascii?Q?s8Y4sWsz7mNLjBb88hYPejB+UovE6GxLlRB1McOKoAOiY58eR1keLcEOAYCe?=
+ =?us-ascii?Q?gAxqjoFiNEsUuI+9/k5mNlBCLhoDNOAJhKDynt5SV3ij+QyilNreNEymB4eH?=
+ =?us-ascii?Q?hfaaBhJY+iZoYBx+1cmnVcxWdD5ZEgmM8wcdvfQlT88uwjNJDlpPGX10hlYn?=
+ =?us-ascii?Q?z86JlN85LFKTgW76vHDFNnKXu0V0EK0vG67ITTXvJHH5q1UGgh2tFSumCqUq?=
+ =?us-ascii?Q?9qqGx7W37QLGjQIkJQPe2qp0/DO5ythQMFM0WF2s+QLHakLiw5ZTqHE1xayt?=
+ =?us-ascii?Q?kNqt4Wz8JmqPXQ/PK5PnqoJ4hKwlxkj1MJqX96TMXY8pF6QceVZ0nQJ8Bo+f?=
+ =?us-ascii?Q?h2VT6DnEcBzsa0IP2YFFMj82aBeR5oGe/cAcpd2VFuRkOiflbEsj9b3hgyhE?=
+ =?us-ascii?Q?ScX5tFPT3IOKCmyxJne2oYaE9fZOaGLvpLWcMjttqYXqcq2XNwfeTQ6nNcPt?=
+ =?us-ascii?Q?z8Alf0dAISQ8Fa7JiQnjVlxGiKQMOtIzrdX4y/gh7YHsj1HB36TvjhHyWPqh?=
+ =?us-ascii?Q?HWSNAphWzfzIci5U2WJZPzJwPBo4O0fGVoerdkR3XoD9d3L2K3zuFJ09y6Wg?=
+ =?us-ascii?Q?ruqE6EFXZBjv546JrTKVu2WCAfUIUMAx/oz+AjPQMhY+LK/tp+1mZgfmNPHx?=
+ =?us-ascii?Q?N4TP/LUV3l99XUCuQAhp1t1X6NH+7opcSm85lrljjqniPlVEvZiN5SG2OmpJ?=
+ =?us-ascii?Q?aOsJhvikWAjsfWMKLadbXqOslb+CFj1mUUJZiv93ARVGnHodOCkajD88PkuQ?=
+ =?us-ascii?Q?3HY4dP94plhEsxpdtJjuvuqK1KgTrZSnc7cCy0fxwURRA3eCKXR/R/OmU3ZZ?=
+ =?us-ascii?Q?IB1rDKqB9rDZLcgM/+bR/h4cy5WAXu6xiotjIkhwdaIl577klr7EoAGqgoYe?=
+ =?us-ascii?Q?/JHObD8a+OA/yDS/+Z69wjSJvGDs8I/2LRD7thzd3RO2aNh6c0mkOUN9M6Q8?=
+ =?us-ascii?Q?Ce3mRaSGbh3Vuw6W0d45W+8DtJchCJxT4+t/UnXABarnBa3l1RNV3sMlLJp8?=
+ =?us-ascii?Q?N+GuDTzpTtxwgCDRBnPQuBdRtrT3RytZI0dg9EjsQFnZIMlP182sGUCxNIwY?=
+ =?us-ascii?Q?+myyXLX0/FnEeej3QbTrcvslWQy2hN25/5X6XwL1a00frRpBJLQWpKOAL7VA?=
+ =?us-ascii?Q?96w/KKzQXbKHeTc64Ou1mR8/zn8pPifrWYgYEk7W8o/USKU81bbSBe6a7xYS?=
+ =?us-ascii?Q?NbS3rruPw2unD9WN2bRFcpk2WUrqfw4Iff6Im29y1qHpXZTJMXeA5a2M+Gss?=
+ =?us-ascii?Q?PbVpUb8sc+cFSk0nvMoRp34e?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95f8d841-75dc-485a-d8b5-08d957c24b47
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2021 03:37:05.0755 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aQBoDwcG6cjBZ03p9+qzE1+KggQfWMTNjYvIeoGu4OB7zwE1wPDd22JWq2W1DOPqex4o3k1V2IK1/1XMqNqKbg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5159
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,494 +122,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 03, 2021 at 10:47:10AM -0500, Jason Ekstrand wrote:
-> Both are
-> 
-> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+Hi Dave, Daniel,
 
-CI is happy, I guess you got all the igt changes indeed. Both pushed
-thanks for reviewing.
--Daniel
+Fixes for 5.14.
 
-> 
-> On Tue, Aug 3, 2021 at 7:49 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > It's already removed, this just garbage collects it all.
-> >
-> > v2: Rebase over s/GEN/GRAPHICS_VER/
-> >
-> > v3: Also ditch eb.reloc_pool and eb.reloc_context (Maarten)
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-> > Cc: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > ---
-> >  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 360 +-----------------
-> >  .../drm/i915/selftests/i915_live_selftests.h  |   1 -
-> >  2 files changed, 1 insertion(+), 360 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > index e4dc4c3b4df3..98e25efffb59 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > @@ -277,16 +277,8 @@ struct i915_execbuffer {
-> >                 bool has_llc : 1;
-> >                 bool has_fence : 1;
-> >                 bool needs_unfenced : 1;
-> > -
-> > -               struct i915_request *rq;
-> > -               u32 *rq_cmd;
-> > -               unsigned int rq_size;
-> > -               struct intel_gt_buffer_pool_node *pool;
-> >         } reloc_cache;
-> >
-> > -       struct intel_gt_buffer_pool_node *reloc_pool; /** relocation pool for -EDEADLK handling */
-> > -       struct intel_context *reloc_context;
-> > -
-> >         u64 invalid_flags; /** Set of execobj.flags that are invalid */
-> >
-> >         u64 batch_len; /** Length of batch within object */
-> > @@ -1035,8 +1027,6 @@ static void eb_release_vmas(struct i915_execbuffer *eb, bool final)
-> >
-> >  static void eb_destroy(const struct i915_execbuffer *eb)
-> >  {
-> > -       GEM_BUG_ON(eb->reloc_cache.rq);
-> > -
-> >         if (eb->lut_size > 0)
-> >                 kfree(eb->buckets);
-> >  }
-> > @@ -1048,14 +1038,6 @@ relocation_target(const struct drm_i915_gem_relocation_entry *reloc,
-> >         return gen8_canonical_addr((int)reloc->delta + target->node.start);
-> >  }
-> >
-> > -static void reloc_cache_clear(struct reloc_cache *cache)
-> > -{
-> > -       cache->rq = NULL;
-> > -       cache->rq_cmd = NULL;
-> > -       cache->pool = NULL;
-> > -       cache->rq_size = 0;
-> > -}
-> > -
-> >  static void reloc_cache_init(struct reloc_cache *cache,
-> >                              struct drm_i915_private *i915)
-> >  {
-> > @@ -1068,7 +1050,6 @@ static void reloc_cache_init(struct reloc_cache *cache,
-> >         cache->has_fence = cache->graphics_ver < 4;
-> >         cache->needs_unfenced = INTEL_INFO(i915)->unfenced_needs_alignment;
-> >         cache->node.flags = 0;
-> > -       reloc_cache_clear(cache);
-> >  }
-> >
-> >  static inline void *unmask_page(unsigned long p)
-> > @@ -1090,48 +1071,10 @@ static inline struct i915_ggtt *cache_to_ggtt(struct reloc_cache *cache)
-> >         return &i915->ggtt;
-> >  }
-> >
-> > -static void reloc_cache_put_pool(struct i915_execbuffer *eb, struct reloc_cache *cache)
-> > -{
-> > -       if (!cache->pool)
-> > -               return;
-> > -
-> > -       /*
-> > -        * This is a bit nasty, normally we keep objects locked until the end
-> > -        * of execbuffer, but we already submit this, and have to unlock before
-> > -        * dropping the reference. Fortunately we can only hold 1 pool node at
-> > -        * a time, so this should be harmless.
-> > -        */
-> > -       i915_gem_ww_unlock_single(cache->pool->obj);
-> > -       intel_gt_buffer_pool_put(cache->pool);
-> > -       cache->pool = NULL;
-> > -}
-> > -
-> > -static void reloc_gpu_flush(struct i915_execbuffer *eb, struct reloc_cache *cache)
-> > -{
-> > -       struct drm_i915_gem_object *obj = cache->rq->batch->obj;
-> > -
-> > -       GEM_BUG_ON(cache->rq_size >= obj->base.size / sizeof(u32));
-> > -       cache->rq_cmd[cache->rq_size] = MI_BATCH_BUFFER_END;
-> > -
-> > -       i915_gem_object_flush_map(obj);
-> > -       i915_gem_object_unpin_map(obj);
-> > -
-> > -       intel_gt_chipset_flush(cache->rq->engine->gt);
-> > -
-> > -       i915_request_add(cache->rq);
-> > -       reloc_cache_put_pool(eb, cache);
-> > -       reloc_cache_clear(cache);
-> > -
-> > -       eb->reloc_pool = NULL;
-> > -}
-> > -
-> >  static void reloc_cache_reset(struct reloc_cache *cache, struct i915_execbuffer *eb)
-> >  {
-> >         void *vaddr;
-> >
-> > -       if (cache->rq)
-> > -               reloc_gpu_flush(eb, cache);
-> > -
-> >         if (!cache->vaddr)
-> >                 return;
-> >
-> > @@ -1313,295 +1256,6 @@ static void clflush_write32(u32 *addr, u32 value, unsigned int flushes)
-> >                 *addr = value;
-> >  }
-> >
-> > -static int reloc_move_to_gpu(struct i915_request *rq, struct i915_vma *vma)
-> > -{
-> > -       struct drm_i915_gem_object *obj = vma->obj;
-> > -       int err;
-> > -
-> > -       assert_vma_held(vma);
-> > -
-> > -       if (obj->cache_dirty & ~obj->cache_coherent)
-> > -               i915_gem_clflush_object(obj, 0);
-> > -       obj->write_domain = 0;
-> > -
-> > -       err = i915_request_await_object(rq, vma->obj, true);
-> > -       if (err == 0)
-> > -               err = i915_vma_move_to_active(vma, rq, EXEC_OBJECT_WRITE);
-> > -
-> > -       return err;
-> > -}
-> > -
-> > -static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
-> > -                            struct intel_engine_cs *engine,
-> > -                            struct i915_vma *vma,
-> > -                            unsigned int len)
-> > -{
-> > -       struct reloc_cache *cache = &eb->reloc_cache;
-> > -       struct intel_gt_buffer_pool_node *pool = eb->reloc_pool;
-> > -       struct i915_request *rq;
-> > -       struct i915_vma *batch;
-> > -       u32 *cmd;
-> > -       int err;
-> > -
-> > -       if (!pool) {
-> > -               pool = intel_gt_get_buffer_pool(engine->gt, PAGE_SIZE,
-> > -                                               cache->has_llc ?
-> > -                                               I915_MAP_WB :
-> > -                                               I915_MAP_WC);
-> > -               if (IS_ERR(pool))
-> > -                       return PTR_ERR(pool);
-> > -       }
-> > -       eb->reloc_pool = NULL;
-> > -
-> > -       err = i915_gem_object_lock(pool->obj, &eb->ww);
-> > -       if (err)
-> > -               goto err_pool;
-> > -
-> > -       cmd = i915_gem_object_pin_map(pool->obj, pool->type);
-> > -       if (IS_ERR(cmd)) {
-> > -               err = PTR_ERR(cmd);
-> > -               goto err_pool;
-> > -       }
-> > -       intel_gt_buffer_pool_mark_used(pool);
-> > -
-> > -       memset32(cmd, 0, pool->obj->base.size / sizeof(u32));
-> > -
-> > -       batch = i915_vma_instance(pool->obj, vma->vm, NULL);
-> > -       if (IS_ERR(batch)) {
-> > -               err = PTR_ERR(batch);
-> > -               goto err_unmap;
-> > -       }
-> > -
-> > -       err = i915_vma_pin_ww(batch, &eb->ww, 0, 0, PIN_USER | PIN_NONBLOCK);
-> > -       if (err)
-> > -               goto err_unmap;
-> > -
-> > -       if (engine == eb->context->engine) {
-> > -               rq = i915_request_create(eb->context);
-> > -       } else {
-> > -               struct intel_context *ce = eb->reloc_context;
-> > -
-> > -               if (!ce) {
-> > -                       ce = intel_context_create(engine);
-> > -                       if (IS_ERR(ce)) {
-> > -                               err = PTR_ERR(ce);
-> > -                               goto err_unpin;
-> > -                       }
-> > -
-> > -                       i915_vm_put(ce->vm);
-> > -                       ce->vm = i915_vm_get(eb->context->vm);
-> > -                       eb->reloc_context = ce;
-> > -               }
-> > -
-> > -               err = intel_context_pin_ww(ce, &eb->ww);
-> > -               if (err)
-> > -                       goto err_unpin;
-> > -
-> > -               rq = i915_request_create(ce);
-> > -               intel_context_unpin(ce);
-> > -       }
-> > -       if (IS_ERR(rq)) {
-> > -               err = PTR_ERR(rq);
-> > -               goto err_unpin;
-> > -       }
-> > -
-> > -       err = intel_gt_buffer_pool_mark_active(pool, rq);
-> > -       if (err)
-> > -               goto err_request;
-> > -
-> > -       err = reloc_move_to_gpu(rq, vma);
-> > -       if (err)
-> > -               goto err_request;
-> > -
-> > -       err = eb->engine->emit_bb_start(rq,
-> > -                                       batch->node.start, PAGE_SIZE,
-> > -                                       cache->graphics_ver > 5 ? 0 : I915_DISPATCH_SECURE);
-> > -       if (err)
-> > -               goto skip_request;
-> > -
-> > -       assert_vma_held(batch);
-> > -       err = i915_request_await_object(rq, batch->obj, false);
-> > -       if (err == 0)
-> > -               err = i915_vma_move_to_active(batch, rq, 0);
-> > -       if (err)
-> > -               goto skip_request;
-> > -
-> > -       rq->batch = batch;
-> > -       i915_vma_unpin(batch);
-> > -
-> > -       cache->rq = rq;
-> > -       cache->rq_cmd = cmd;
-> > -       cache->rq_size = 0;
-> > -       cache->pool = pool;
-> > -
-> > -       /* Return with batch mapping (cmd) still pinned */
-> > -       return 0;
-> > -
-> > -skip_request:
-> > -       i915_request_set_error_once(rq, err);
-> > -err_request:
-> > -       i915_request_add(rq);
-> > -err_unpin:
-> > -       i915_vma_unpin(batch);
-> > -err_unmap:
-> > -       i915_gem_object_unpin_map(pool->obj);
-> > -err_pool:
-> > -       eb->reloc_pool = pool;
-> > -       return err;
-> > -}
-> > -
-> > -static bool reloc_can_use_engine(const struct intel_engine_cs *engine)
-> > -{
-> > -       return engine->class != VIDEO_DECODE_CLASS || GRAPHICS_VER(engine->i915) != 6;
-> > -}
-> > -
-> > -static u32 *reloc_gpu(struct i915_execbuffer *eb,
-> > -                     struct i915_vma *vma,
-> > -                     unsigned int len)
-> > -{
-> > -       struct reloc_cache *cache = &eb->reloc_cache;
-> > -       u32 *cmd;
-> > -
-> > -       if (cache->rq_size > PAGE_SIZE/sizeof(u32) - (len + 1))
-> > -               reloc_gpu_flush(eb, cache);
-> > -
-> > -       if (unlikely(!cache->rq)) {
-> > -               int err;
-> > -               struct intel_engine_cs *engine = eb->engine;
-> > -
-> > -               /* If we need to copy for the cmdparser, we will stall anyway */
-> > -               if (eb_use_cmdparser(eb))
-> > -                       return ERR_PTR(-EWOULDBLOCK);
-> > -
-> > -               if (!reloc_can_use_engine(engine)) {
-> > -                       engine = engine->gt->engine_class[COPY_ENGINE_CLASS][0];
-> > -                       if (!engine)
-> > -                               return ERR_PTR(-ENODEV);
-> > -               }
-> > -
-> > -               err = __reloc_gpu_alloc(eb, engine, vma, len);
-> > -               if (unlikely(err))
-> > -                       return ERR_PTR(err);
-> > -       }
-> > -
-> > -       cmd = cache->rq_cmd + cache->rq_size;
-> > -       cache->rq_size += len;
-> > -
-> > -       return cmd;
-> > -}
-> > -
-> > -static inline bool use_reloc_gpu(struct i915_vma *vma)
-> > -{
-> > -       if (DBG_FORCE_RELOC == FORCE_GPU_RELOC)
-> > -               return true;
-> > -
-> > -       if (DBG_FORCE_RELOC)
-> > -               return false;
-> > -
-> > -       return !dma_resv_test_signaled(vma->resv, true);
-> > -}
-> > -
-> > -static unsigned long vma_phys_addr(struct i915_vma *vma, u32 offset)
-> > -{
-> > -       struct page *page;
-> > -       unsigned long addr;
-> > -
-> > -       GEM_BUG_ON(vma->pages != vma->obj->mm.pages);
-> > -
-> > -       page = i915_gem_object_get_page(vma->obj, offset >> PAGE_SHIFT);
-> > -       addr = PFN_PHYS(page_to_pfn(page));
-> > -       GEM_BUG_ON(overflows_type(addr, u32)); /* expected dma32 */
-> > -
-> > -       return addr + offset_in_page(offset);
-> > -}
-> > -
-> > -static int __reloc_entry_gpu(struct i915_execbuffer *eb,
-> > -                             struct i915_vma *vma,
-> > -                             u64 offset,
-> > -                             u64 target_addr)
-> > -{
-> > -       const unsigned int ver = eb->reloc_cache.graphics_ver;
-> > -       unsigned int len;
-> > -       u32 *batch;
-> > -       u64 addr;
-> > -
-> > -       if (ver >= 8)
-> > -               len = offset & 7 ? 8 : 5;
-> > -       else if (ver >= 4)
-> > -               len = 4;
-> > -       else
-> > -               len = 3;
-> > -
-> > -       batch = reloc_gpu(eb, vma, len);
-> > -       if (batch == ERR_PTR(-EDEADLK))
-> > -               return -EDEADLK;
-> > -       else if (IS_ERR(batch))
-> > -               return false;
-> > -
-> > -       addr = gen8_canonical_addr(vma->node.start + offset);
-> > -       if (ver >= 8) {
-> > -               if (offset & 7) {
-> > -                       *batch++ = MI_STORE_DWORD_IMM_GEN4;
-> > -                       *batch++ = lower_32_bits(addr);
-> > -                       *batch++ = upper_32_bits(addr);
-> > -                       *batch++ = lower_32_bits(target_addr);
-> > -
-> > -                       addr = gen8_canonical_addr(addr + 4);
-> > -
-> > -                       *batch++ = MI_STORE_DWORD_IMM_GEN4;
-> > -                       *batch++ = lower_32_bits(addr);
-> > -                       *batch++ = upper_32_bits(addr);
-> > -                       *batch++ = upper_32_bits(target_addr);
-> > -               } else {
-> > -                       *batch++ = (MI_STORE_DWORD_IMM_GEN4 | (1 << 21)) + 1;
-> > -                       *batch++ = lower_32_bits(addr);
-> > -                       *batch++ = upper_32_bits(addr);
-> > -                       *batch++ = lower_32_bits(target_addr);
-> > -                       *batch++ = upper_32_bits(target_addr);
-> > -               }
-> > -       } else if (ver >= 6) {
-> > -               *batch++ = MI_STORE_DWORD_IMM_GEN4;
-> > -               *batch++ = 0;
-> > -               *batch++ = addr;
-> > -               *batch++ = target_addr;
-> > -       } else if (IS_I965G(eb->i915)) {
-> > -               *batch++ = MI_STORE_DWORD_IMM_GEN4;
-> > -               *batch++ = 0;
-> > -               *batch++ = vma_phys_addr(vma, offset);
-> > -               *batch++ = target_addr;
-> > -       } else if (ver >= 4) {
-> > -               *batch++ = MI_STORE_DWORD_IMM_GEN4 | MI_USE_GGTT;
-> > -               *batch++ = 0;
-> > -               *batch++ = addr;
-> > -               *batch++ = target_addr;
-> > -       } else if (ver >= 3 &&
-> > -                  !(IS_I915G(eb->i915) || IS_I915GM(eb->i915))) {
-> > -               *batch++ = MI_STORE_DWORD_IMM | MI_MEM_VIRTUAL;
-> > -               *batch++ = addr;
-> > -               *batch++ = target_addr;
-> > -       } else {
-> > -               *batch++ = MI_STORE_DWORD_IMM;
-> > -               *batch++ = vma_phys_addr(vma, offset);
-> > -               *batch++ = target_addr;
-> > -       }
-> > -
-> > -       return true;
-> > -}
-> > -
-> > -static int __maybe_unused reloc_entry_gpu(struct i915_execbuffer *eb,
-> > -                           struct i915_vma *vma,
-> > -                           u64 offset,
-> > -                           u64 target_addr)
-> > -{
-> > -       if (eb->reloc_cache.vaddr)
-> > -               return false;
-> > -
-> > -       if (!use_reloc_gpu(vma))
-> > -               return false;
-> > -
-> > -       return __reloc_entry_gpu(eb, vma, offset, target_addr);
-> > -}
-> > -
-> >  static u64
-> >  relocate_entry(struct i915_vma *vma,
-> >                const struct drm_i915_gem_relocation_entry *reloc,
-> > @@ -3166,8 +2820,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >         eb.exec = exec;
-> >         eb.vma = (struct eb_vma *)(exec + args->buffer_count + 1);
-> >         eb.vma[0].vma = NULL;
-> > -       eb.reloc_pool = eb.batch_pool = NULL;
-> > -       eb.reloc_context = NULL;
-> > +       eb.batch_pool = NULL;
-> >
-> >         eb.invalid_flags = __EXEC_OBJECT_UNKNOWN_FLAGS;
-> >         reloc_cache_init(&eb.reloc_cache, eb.i915);
-> > @@ -3265,9 +2918,6 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >
-> >         batch = eb.batch->vma;
-> >
-> > -       /* All GPU relocation batches must be submitted prior to the user rq */
-> > -       GEM_BUG_ON(eb.reloc_cache.rq);
-> > -
-> >         /* Allocate a request for this batch buffer nice and early. */
-> >         eb.request = i915_request_create(eb.context);
-> >         if (IS_ERR(eb.request)) {
-> > @@ -3358,10 +3008,6 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >
-> >         if (eb.batch_pool)
-> >                 intel_gt_buffer_pool_put(eb.batch_pool);
-> > -       if (eb.reloc_pool)
-> > -               intel_gt_buffer_pool_put(eb.reloc_pool);
-> > -       if (eb.reloc_context)
-> > -               intel_context_put(eb.reloc_context);
-> >  err_engine:
-> >         eb_put_engine(&eb);
-> >  err_context:
-> > @@ -3475,7 +3121,3 @@ end:;
-> >         kvfree(exec2_list);
-> >         return err;
-> >  }
-> > -
-> > -#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-> > -#include "selftests/i915_gem_execbuffer.c"
-> > -#endif
-> > diff --git a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-> > index e2fd1b61af71..c0386fb4e286 100644
-> > --- a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-> > +++ b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-> > @@ -38,7 +38,6 @@ selftest(gem, i915_gem_live_selftests)
-> >  selftest(evict, i915_gem_evict_live_selftests)
-> >  selftest(hugepages, i915_gem_huge_page_live_selftests)
-> >  selftest(gem_contexts, i915_gem_context_live_selftests)
-> > -selftest(gem_execbuf, i915_gem_execbuffer_live_selftests)
-> >  selftest(client, i915_gem_client_blt_live_selftests)
-> >  selftest(gem_migrate, i915_gem_migrate_live_selftests)
-> >  selftest(reset, intel_reset_live_selftests)
-> > --
-> > 2.32.0
-> >
+The following changes since commit d28e2568ac26fff351c846bf74ba6ca5dded733e:
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+  Merge tag 'amd-drm-fixes-5.14-2021-07-28' of https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-07-29 17:20:29 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.14-2021-08-04
+
+for you to fetch changes up to 574fdb20f3e2b001eeddcaf4f16a5c8258243323:
+
+  drm/amdgpu: add DID for beige goby (2021-08-03 16:59:16 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.14-2021-08-04:
+
+amdgpu:
+- Fix potential out-of-bounds read when updating GPUVM mapping
+- Renoir powergating fix
+- Yellow Carp updates
+- 8K fix for navi1x
+- Beige Goby updates and new DIDs
+- Fix DMUB firmware version output
+- EDP fix
+- pmops config fix
+
+----------------------------------------------------------------
+Bing Guo (2):
+      drm/amd/display: Fix Dynamic bpp issue with 8K30 with Navi 1X
+      drm/amd/display: Increase stutter watermark for dcn303
+
+Chengming Gui (1):
+      drm/amdgpu: add DID for beige goby
+
+Jude Shih (1):
+      drm/amd/display: Fix resetting DCN3.1 HW when resuming from S4
+
+Qingqing Zhuo (1):
+      drm/amd/display: workaround for hard hang on HPD on native DP
+
+Randy Dunlap (1):
+      drm/amdgpu: fix checking pmops when PM_SLEEP is not enabled
+
+Shirish S (1):
+      drm/amdgpu/display: fix DMUB firmware version info
+
+Wesley Chalmers (1):
+      drm/amd/display: Assume LTTPR interop for DCN31+
+
+Xiaomeng Hou (1):
+      drm/amd/pm: update yellow carp pmfw interface version
+
+Yifan Zhang (1):
+      drm/amdgpu: fix the doorbell missing when in CGPG issue for renoir.
+
+xinhui pan (1):
+      drm/amdgpu: Fix out-of-bounds read when update mapping
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c            |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c             |  7 +++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h      |  3 ++-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c               | 21 ++++++++++++++++++++-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   |  2 +-
+ .../drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c   |  4 +++-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c    | 21 ++-------------------
+ drivers/gpu/drm/amd/display/dc/dc.h                 |  2 ++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c   |  2 +-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c   | 20 ++++++++++++++++++++
+ .../gpu/drm/amd/display/dc/dcn303/dcn303_resource.c |  4 ++--
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c   | 16 ++++++++++++++++
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c   |  8 +++++---
+ drivers/gpu/drm/amd/pm/inc/smu_v13_0.h              |  2 +-
+ 14 files changed, 83 insertions(+), 31 deletions(-)
