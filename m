@@ -2,69 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BD93E12DB
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 12:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7C93E12F0
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 12:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E4336E578;
-	Thu,  5 Aug 2021 10:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF86A6E5C5;
+	Thu,  5 Aug 2021 10:46:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
- [IPv6:2607:f8b0:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 732656E578
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 10:42:56 +0000 (UTC)
-Received: by mail-il1-x136.google.com with SMTP id x7so4586224ilh.10
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 03:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5CC+qqYzxNbX02yW8rXrZN1nsewW7OQh6pCCNQCnBFA=;
- b=LEd7dmKXHX4KDfaael/nb3KzkXU/tGl4vxxbobYo40113u3FNcYgtEepeQjEKRaStJ
- x0IHVyDg/65VM4KYpkmM6y2vfO++w3bW3EOwwhU1FR5UL2kWHhrZCiClZ3n3uhJQuvZX
- vQpqup26DbCBcqcOPK4SCCd8OqTD/QXvHEpBXqmuh/SFvuJqVIR0c1jFQvdurOOoiruw
- 0Tnn6t4RXNPJ3MrCM3D1KZSKrI1QpDu7yavU/v/LGLewPAI+t6Zog3kCb60lx8x90+up
- KHgPke6ByhzFZuWpFkPlY6j9fIVI7knjtHTkZ0bC1V0v1IIotZMxXHIEwkHvOkjdGJ5p
- K89w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5CC+qqYzxNbX02yW8rXrZN1nsewW7OQh6pCCNQCnBFA=;
- b=PMQ5+3ZAMLdYruOvB5E9hnxrvAMzjUXqUuLs1CqXXxttZpbHuF+YEBRdtP+hYMv5kM
- Q4GSaeA5M6LmBY45IdpSQcIS235PDN0PeaZ336+JVQqPEEt3glOfUF9VjBbjC0FXYgxi
- mzshbHNOnMz2Aik/C3jd7uwO4rhzkPvJxWp/zwXFEmvo1xwIxOwxcMFGAwptg0AdS4rD
- 7v/tlttmF+AJmqmmMogyvjnBITbDFfmvBm7oKMlP7Nlk6Tr4jr9dW0TvS4r3QYfwlO/o
- 80fwz2sZi+M/wIOWHCdUy4wPYet85jbbv9gDELTOj2glG2ZJCp/xsvqSHl5MfMRXVQUI
- SQtg==
-X-Gm-Message-State: AOAM530ddfUXoSYTHCaeDNM/dTKSEG2mmw+B2LPayOV3asnwZ/DYwsvG
- 7/bcDnj/v0YjX+oE+spC5rpi0q919kXH/cdRrnI=
-X-Google-Smtp-Source: ABdhPJwTqaerJZpRejApHmZ+A8EHtxdWMpoIrp7SBBXp/NRJpTNn+aMXl4SQ6RSi6J+yvY9u14nAqrih4a1io1Tid9g=
-X-Received: by 2002:a05:6e02:1905:: with SMTP id
- w5mr57891ilu.270.1628160175852; 
- Thu, 05 Aug 2021 03:42:55 -0700 (PDT)
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 128766E5C5;
+ Thu,  5 Aug 2021 10:46:10 +0000 (UTC)
+X-UUID: 3aead53055cf4b128297025a3ac8fefb-20210805
+X-CPASD-INFO: da93797b55bf4459b5115d9c3a60f804@rbFzU2RrZZJhVaSyg3eAc4JmYWFlkFm
+ ydZtWYJRoXFSVhH5xTWJsXVKBfG5QZWNdYVN_eGpQYl9gZFB5i3-XblBgXoZgUZB3s6NzU2dnZw==
+X-CPASD-FEATURE: 0.0
+X-CLOUD-ID: da93797b55bf4459b5115d9c3a60f804
+X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, EXT:0.0, OB:0.0,
+ URL:-5, T
+ VAL:177.0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:395.0, IP:-2.0, MAL:0.0,
+ ATTNUM:0
+ .0, PHF:-5.0, PHC:-5.0, SPF:4.0, EDMS:-3, IPLABEL:4480.0, FROMTO:0, AD:0,
+ FFOB:0.0, CF
+ OB:0.0, SPC:0.0, SIG:-5, AUF:1, DUF:7720, ACD:2, DCD:104, SL:0, AG:0, CFC:0.814,
+ CFSR:0 .032,UAT:0,RAF:0,VERSION:2.3.4
+X-CPASD-ID: 3aead53055cf4b128297025a3ac8fefb-20210805
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1, 1
+X-UUID: 3aead53055cf4b128297025a3ac8fefb-20210805
+X-User: lizhenneng@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by nksmu.kylinos.cn
+ (envelope-from <lizhenneng@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1615833078; Thu, 05 Aug 2021 18:44:27 +0800
+From: Zhenneng Li <lizhenneng@kylinos.cn>
+To: 
+Cc: Zhenneng Li <lizhenneng@kylinos.cn>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/radeon: Update pitch for page flip
+Date: Thu,  5 Aug 2021 18:45:57 +0800
+Message-Id: <20210805104557.306886-1-lizhenneng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1627098243-2742-1-git-send-email-dillon.minfei@gmail.com>
- <CAHp75Vc5fJM-UiBiosAiTraq=6P0AFefmw1rmtFcvyWVb6rfLA@mail.gmail.com>
-In-Reply-To: <CAHp75Vc5fJM-UiBiosAiTraq=6P0AFefmw1rmtFcvyWVb6rfLA@mail.gmail.com>
-From: Dillon Min <dillon.minfei@gmail.com>
-Date: Thu, 5 Aug 2021 18:42:20 +0800
-Message-ID: <CAL9mu0+_fTTS8rBv63-PQ0H1M=yg4EtZwYXqORNRhHL0U8_KxA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Add ilitek ili9341 panel driver
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
- kbuild-all@lists.01.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- devicetree <devicetree@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Peter Robinson <pbrobinson@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed;
+	boundary="Add_By_Label_Mail_Nextpart_001"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,69 +64,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy
+--Add_By_Label_Mail_Nextpart_001
+Content-Type: text/plain;
+Content-Transfer-Encoding: 8bit
 
-Thanks for your question.
 
-On Thu, 5 Aug 2021 at 18:16, Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
->
-> On Sat, Jul 24, 2021 at 6:46 AM <dillon.minfei@gmail.com> wrote:
-> >
-> > From: Dillon Min <dillon.minfei@gmail.com>
-> >
-> > Since the st,sf-tc240t-9370-t dts binding already exist in stm32f429-disco.dts
-> > but, the panel driver didn't get accepted from mainline. it's time to submit
-> > patch fot it.
-> >
-> > This driver can support two different interface by different dts bindings:
-> > - spi+dpi, use spi to configure register, dpi for graphic data.
-> >   st,sf-tc240t-9370-t
-> > - only spi, just like tiny/ili9341.c (actually, this part is copy from tiny)
-> >   adafruit,yx240qv29
->
-> ...
->
-> > I was submited the first patch last year, you can find it at [1].
->
-> submitted
+When primary bo is updated, crtc's pitch may
+have not been updated, this will lead to show
+disorder content when user changes display mode,
+we update crtc's pitch in page flip to avoid
+this bug.
+This refers to amdgpu's pageflip.
 
-Thanks.
+v1->v2:
+Update all of the pitch in all of the page_flip functions
+in radeon rather than just the evergreen one.
 
->
-> > this patch has one major difference from that one, which is replace the low
-> > level communication way, from spi_sync() to mipi_dbi_{command,
-> > command_stackbuf}() interface, referred from Linus's patch [2].
->
-> Can you shed a light on the road map here.
+v2->v3:
+Update pitch set method for r100 according to
+radeon_legacy_crtc.c
 
-Personally, I'd like to merge tiny/mi0283qt.c, tiny/ili9341.c(already
-done) into this driver later
-(keep original author, copyright, dts compatible string).
-then remove these two drivers under tiny, but it's up to Sam and
-Laurent agreement.
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+---
+ drivers/gpu/drm/radeon/evergreen.c | 8 +++++++-
+ drivers/gpu/drm/radeon/r100.c      | 9 +++++++++
+ drivers/gpu/drm/radeon/rs600.c     | 8 +++++++-
+ drivers/gpu/drm/radeon/rv770.c     | 8 +++++++-
+ 4 files changed, 30 insertions(+), 3 deletions(-)
 
-For long term, just like Peter suggested, let all panel based on
-ili9xxx with single-dbi or dbi & dpi interface to be supported by
-single ilitek-ili9xxx.c, something like panel/panel-simple.c
- (panel/panel-ilitek-ili9322c, tiny/ili9225.c, tiny/ili9486.c,
-tiny/mi0283qt.c, etc).
-it's also needs maintainers permission.
+diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/evergreen.c
+index 36a888e1b179..eeb590d2dec2 100644
+--- a/drivers/gpu/drm/radeon/evergreen.c
++++ b/drivers/gpu/drm/radeon/evergreen.c
+@@ -28,6 +28,7 @@
+ 
+ #include <drm/drm_vblank.h>
+ #include <drm/radeon_drm.h>
++#include <drm/drm_fourcc.h>
+ 
+ #include "atom.h"
+ #include "avivod.h"
+@@ -1414,10 +1415,15 @@ void evergreen_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base,
+ 			 bool async)
+ {
+ 	struct radeon_crtc *radeon_crtc = rdev->mode_info.crtcs[crtc_id];
++	struct drm_framebuffer *fb = radeon_crtc->base.primary->fb;
+ 
+-	/* update the scanout addresses */
++	/* flip at hsync for async, default is vsync */
+ 	WREG32(EVERGREEN_GRPH_FLIP_CONTROL + radeon_crtc->crtc_offset,
+ 	       async ? EVERGREEN_GRPH_SURFACE_UPDATE_H_RETRACE_EN : 0);
++	/* update pitch */
++	WREG32(EVERGREEN_GRPH_PITCH + radeon_crtc->crtc_offset,
++	       fb->pitches[0] / fb->format->cpp[0]);
++	/* update the scanout addresses */
+ 	WREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS_HIGH + radeon_crtc->crtc_offset,
+ 	       upper_32_bits(crtc_base));
+ 	WREG32(EVERGREEN_GRPH_PRIMARY_SURFACE_ADDRESS + radeon_crtc->crtc_offset,
+diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
+index ba724198b72e..2dd85ba1faa2 100644
+--- a/drivers/gpu/drm/radeon/r100.c
++++ b/drivers/gpu/drm/radeon/r100.c
+@@ -162,6 +162,8 @@ void r100_wait_for_vblank(struct radeon_device *rdev, int crtc)
+ void r100_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base, bool async)
+ {
+ 	struct radeon_crtc *radeon_crtc = rdev->mode_info.crtcs[crtc_id];
++	uint32_t crtc_pitch, pitch_pixels;
++	struct drm_framebuffer *fb = radeon_crtc->base.primary->fb;
+ 	u32 tmp = ((u32)crtc_base) | RADEON_CRTC_OFFSET__OFFSET_LOCK;
+ 	int i;
+ 
+@@ -169,6 +171,13 @@ void r100_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base, bool
+ 	/* update the scanout addresses */
+ 	WREG32(RADEON_CRTC_OFFSET + radeon_crtc->crtc_offset, tmp);
+ 
++	/* update pitch */
++	pitch_pixels = fb->pitches[0] / fb->format->cpp[0];
++	crtc_pitch = DIV_ROUND_UP(pitch_pixels * fb->format->cpp[0] * 8,
++				  fb->format->cpp[0] * 8 * 8);
++	crtc_pitch |= crtc_pitch << 16;
++	WREG32(RADEON_CRTC_PITCH + radeon_crtc->crtc_offset, crtc_pitch);
++
+ 	/* Wait for update_pending to go high. */
+ 	for (i = 0; i < rdev->usec_timeout; i++) {
+ 		if (RREG32(RADEON_CRTC_OFFSET + radeon_crtc->crtc_offset) & RADEON_CRTC_OFFSET__GUI_TRIG_OFFSET)
+diff --git a/drivers/gpu/drm/radeon/rs600.c b/drivers/gpu/drm/radeon/rs600.c
+index b2d22e25eee1..b87dd551e939 100644
+--- a/drivers/gpu/drm/radeon/rs600.c
++++ b/drivers/gpu/drm/radeon/rs600.c
+@@ -41,6 +41,7 @@
+ 
+ #include <drm/drm_device.h>
+ #include <drm/drm_vblank.h>
++#include <drm/drm_fourcc.h>
+ 
+ #include "atom.h"
+ #include "radeon.h"
+@@ -118,6 +119,7 @@ void avivo_wait_for_vblank(struct radeon_device *rdev, int crtc)
+ void rs600_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base, bool async)
+ {
+ 	struct radeon_crtc *radeon_crtc = rdev->mode_info.crtcs[crtc_id];
++	struct drm_framebuffer *fb = radeon_crtc->base.primary->fb;
+ 	u32 tmp = RREG32(AVIVO_D1GRPH_UPDATE + radeon_crtc->crtc_offset);
+ 	int i;
+ 
+@@ -125,9 +127,13 @@ void rs600_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base, boo
+ 	tmp |= AVIVO_D1GRPH_UPDATE_LOCK;
+ 	WREG32(AVIVO_D1GRPH_UPDATE + radeon_crtc->crtc_offset, tmp);
+ 
+-	/* update the scanout addresses */
++	/* flip at hsync for async, default is vsync */
+ 	WREG32(AVIVO_D1GRPH_FLIP_CONTROL + radeon_crtc->crtc_offset,
+ 	       async ? AVIVO_D1GRPH_SURFACE_UPDATE_H_RETRACE_EN : 0);
++	/* update pitch */
++	WREG32(AVIVO_D1GRPH_PITCH + radeon_crtc->crtc_offset,
++	       fb->pitches[0] / fb->format->cpp[0]);
++	/* update the scanout addresses */
+ 	WREG32(AVIVO_D1GRPH_SECONDARY_SURFACE_ADDRESS + radeon_crtc->crtc_offset,
+ 	       (u32)crtc_base);
+ 	WREG32(AVIVO_D1GRPH_PRIMARY_SURFACE_ADDRESS + radeon_crtc->crtc_offset,
+diff --git a/drivers/gpu/drm/radeon/rv770.c b/drivers/gpu/drm/radeon/rv770.c
+index 74499307285b..e592e57be1bb 100644
+--- a/drivers/gpu/drm/radeon/rv770.c
++++ b/drivers/gpu/drm/radeon/rv770.c
+@@ -32,6 +32,7 @@
+ 
+ #include <drm/drm_device.h>
+ #include <drm/radeon_drm.h>
++#include <drm/drm_fourcc.h>
+ 
+ #include "atom.h"
+ #include "avivod.h"
+@@ -809,6 +810,7 @@ u32 rv770_get_xclk(struct radeon_device *rdev)
+ void rv770_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base, bool async)
+ {
+ 	struct radeon_crtc *radeon_crtc = rdev->mode_info.crtcs[crtc_id];
++	struct drm_framebuffer *fb = radeon_crtc->base.primary->fb;
+ 	u32 tmp = RREG32(AVIVO_D1GRPH_UPDATE + radeon_crtc->crtc_offset);
+ 	int i;
+ 
+@@ -816,9 +818,13 @@ void rv770_page_flip(struct radeon_device *rdev, int crtc_id, u64 crtc_base, boo
+ 	tmp |= AVIVO_D1GRPH_UPDATE_LOCK;
+ 	WREG32(AVIVO_D1GRPH_UPDATE + radeon_crtc->crtc_offset, tmp);
+ 
+-	/* update the scanout addresses */
++	/* flip at hsync for async, default is vsync */
+ 	WREG32(AVIVO_D1GRPH_FLIP_CONTROL + radeon_crtc->crtc_offset,
+ 	       async ? AVIVO_D1GRPH_SURFACE_UPDATE_H_RETRACE_EN : 0);
++	/* update pitch */
++	WREG32(AVIVO_D1GRPH_PITCH + radeon_crtc->crtc_offset,
++	       fb->pitches[0] / fb->format->cpp[0]);
++	/* update the scanout addresses */
+ 	if (radeon_crtc->crtc_id) {
+ 		WREG32(D2GRPH_SECONDARY_SURFACE_ADDRESS_HIGH, upper_32_bits(crtc_base));
+ 		WREG32(D2GRPH_PRIMARY_SURFACE_ADDRESS_HIGH, upper_32_bits(crtc_base));
+-- 
+2.25.1
 
-> I have the SPI panel (tiny) based on the ILI9341 and I'm using
-> actually mi0283qt driver. With yours we will have 3 (three!) drivers
-> for the same chip. I really do not want this. Without road map on the
-> prospective of these all drivers, NAK.
 
-Yes, it will make users confused if there are three different drivers
-for the same chip.
-I'll continue to work on this driver.
+--Add_By_Label_Mail_Nextpart_001
 
-Thanks again for point this out.
+Content-type: Text/plain
 
-Best Regards
-Dillon
+No virus found
+		Checked by Hillstone Network AntiVirus
 
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+--Add_By_Label_Mail_Nextpart_001--
