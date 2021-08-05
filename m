@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343133E0EE2
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 09:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4413E0EE1
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Aug 2021 09:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33A8B89F53;
-	Thu,  5 Aug 2021 07:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F07E189CBE;
+	Thu,  5 Aug 2021 07:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D692789E1D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 05:44:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 154AC6E1E0
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Aug 2021 05:52:28 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <a.fatoum@pengutronix.de>)
- id 1mBWBQ-0001es-OB; Thu, 05 Aug 2021 07:44:44 +0200
-Subject: Re: [PATCH v1 2/2] drm/panel: simple: add LOGIC Technologies
- LTTD800480070-L6WH-RT
+ id 1mBWIs-0002Qu-BG; Thu, 05 Aug 2021 07:52:26 +0200
+Subject: Re: [PATCH v1 1/2] drm/panel: simple: add Multi-Innotechnology
+ MI1010AIT-1CP1
 To: Oleksij Rempel <o.rempel@pengutronix.de>,
  Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>, =?UTF-8?Q?S=c3=b8ren_Ander?=
- =?UTF-8?Q?sen?= <san@skov.dk>, Sam Ravnborg <sam@ravnborg.org>
+Cc: =?UTF-8?Q?Ulrich_=c3=96lmann?= <u.oelmann@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 References: <20210805043702.24715-1-o.rempel@pengutronix.de>
- <20210805043702.24715-2-o.rempel@pengutronix.de>
 From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Message-ID: <a72ad0e5-fb60-e19b-710e-7afbcb157f4f@pengutronix.de>
-Date: Thu, 5 Aug 2021 07:44:41 +0200
+Message-ID: <1462f001-a01f-9634-744c-8981f72663f6@pengutronix.de>
+Date: Thu, 5 Aug 2021 07:52:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210805043702.24715-2-o.rempel@pengutronix.de>
+In-Reply-To: <20210805043702.24715-1-o.rempel@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -59,80 +59,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Oleksi,
+Hello Oleksij,
 
 On 05.08.21 06:37, Oleksij Rempel wrote:
-> From: Søren Andersen <san@skov.dk>
+> From: Sam Ravnborg <sam@ravnborg.org>
 > 
-> Add support for the LOGIC Technologies, Inc LTTD800480070-L6WH-RT
+> The Multi Innotechnology is a 10.1" 1280x800 panel.
 > 
-> Co-Developed-by: Søren Andersen <san@skov.dk>
+> The datasheet did not specify specific values for sync, back, front porch.
+> The values are a best guess based on values for similar panels.
+> 
 > Co-Developed-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Søren Andersen <san@skov.dk>
+> Co-Developed-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
 > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 > ---
 >  drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++
 >  1 file changed, 34 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index fda79a986d12..e5213a610ae9 100644
+> index 21939d4352cf..fda79a986d12 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2967,6 +2967,37 @@ static const struct panel_desc logictechno_lt170410_2whc = {
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> @@ -3033,6 +3033,37 @@ static const struct panel_desc mitsubishi_aa070mc01 = {
+>  	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
 >  };
 >  
-> +static const struct drm_display_mode logictechno_lttd800480070_l6wh_rt_mode = {
-> +	.clock = 33000,
-> +	.hdisplay = 800,
-> +	.hsync_start = 800 + 154,
-> +	.hsync_end = 800 + 154 + 3,
-> +	.htotal = 800 + 154 + 3 + 43,
-> +	.vdisplay = 480,
-> +	.vsync_start = 480 + 47,
-> +	.vsync_end = 480 + 47 + 3,
-> +	.vtotal = 480 + 47 + 3 + 20,
-> +	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> +static const struct display_timing multi_inno_mi1010ait_1cp_timing = {
+> +	.pixelclock = { 68900000, 70000000, 73400000 },
+> +	.hactive = { 1280, 1280, 1280 },
+> +	.hfront_porch = { 30, 60, 71 },
+> +	.hback_porch = { 30, 60, 71 },
+> +	.hsync_len = { 10, 10, 48 },
+> +	.vactive = { 800, 800, 800 },
+> +	.vfront_porch = { 5, 10, 10 },
+> +	.vback_porch = { 5, 10, 10 },
+> +	.vsync_len = { 5, 6, 13 },
+> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
+> +		 DISPLAY_FLAGS_DE_HIGH,
 > +};
+
+Here you specify DISPLAY_FLAGS_DE_HIGH.
+
 > +
-> +static const struct panel_desc logictechno_lttd800480070_l6wh_rt = {
-> +	.modes = &logictechno_lttd800480070_l6wh_rt_mode,
-> +	.num_modes = 1,
+> +static const struct panel_desc multi_inno_mi1010ait_1cp = {
+> +	.timings = &multi_inno_mi1010ait_1cp_timing,
+> +	.num_timings = 1,
 > +	.bpc = 8,
 > +	.size = {
-> +		.width = 154,
-> +		.height = 86,
+> +		.width = 217,
+> +		.height = 136,
 > +	},
 > +	.delay = {
-> +		.prepare = 45,
-> +		.enable = 100,
-> +		.disable = 100,
-> +		.unprepare = 45
+> +		.enable = 50,
+> +		.disable = 50,
 > +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-> +	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
 
-This lacks a .connector_type. I think recent kernels warn about that?
+And here DRM_BUS_FLAG_DE_HIGH. I see that some other panels do this too
+and some only specify one of them. Do you know if they are redundant
+or one of them is ignored?
 
 Cheers,
 Ahmad
 
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 > +};
 > +
->  static const struct drm_display_mode mitsubishi_aa070mc01_mode = {
->  	.clock = 30400,
->  	.hdisplay = 800,
-> @@ -4492,6 +4523,9 @@ static const struct of_device_id platform_of_match[] = {
->  	}, {
->  		.compatible = "logictechno,lt170410-2whc",
->  		.data = &logictechno_lt170410_2whc,
-> +	}, {
-> +		.compatible = "logictechno,lttd800480070-l6wh-rt",
-> +		.data = &logictechno_lttd800480070_l6wh_rt,
+>  static const struct display_timing nec_nl12880bc20_05_timing = {
+>  	.pixelclock = { 67000000, 71000000, 75000000 },
+>  	.hactive = { 1280, 1280, 1280 },
+> @@ -4464,6 +4495,9 @@ static const struct of_device_id platform_of_match[] = {
 >  	}, {
 >  		.compatible = "mitsubishi,aa070mc01-ca1",
 >  		.data = &mitsubishi_aa070mc01,
+> +	}, {
+> +		.compatible = "multi-inno,mi1010ait-1cp",
+> +		.data = &multi_inno_mi1010ait_1cp,
+>  	}, {
+>  		.compatible = "nec,nl12880bc20-05",
+>  		.data = &nec_nl12880bc20_05,
 > 
 
 
