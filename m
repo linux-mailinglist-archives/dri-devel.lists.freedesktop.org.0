@@ -1,40 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135A23E22E1
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 07:30:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A7D3E231D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 08:03:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C39BA6EA29;
-	Fri,  6 Aug 2021 05:30:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEA2689AC9;
+	Fri,  6 Aug 2021 06:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 645366EA29;
- Fri,  6 Aug 2021 05:30:35 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="214041534"
-X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; d="scan'208";a="214041534"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2021 22:30:30 -0700
-X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; d="scan'208";a="481274635"
-Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 05 Aug 2021 22:30:30 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: daniel.vetter@intel.com, chris.p.wilson@intel.com,
- thomas.hellstrom@intel.com, paulo.r.zanoni@intel.com
-Subject: [RFC 2/2] drm/doc/rfc: VM_BIND uapi definition
-Date: Thu,  5 Aug 2021 22:30:32 -0700
-Message-Id: <20210806053032.2462-3-niranjana.vishwanathapura@intel.com>
-X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
-In-Reply-To: <20210806053032.2462-1-niranjana.vishwanathapura@intel.com>
-References: <20210806053032.2462-1-niranjana.vishwanathapura@intel.com>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6FB989AC9
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Aug 2021 06:03:13 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ a192-20020a1c7fc90000b0290253b32e8796so6726688wmd.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Aug 2021 23:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=6H+0hcm8l7aLIS2xe0QY8OrUwt8WXy+M0IZiWZTDT/4=;
+ b=ijo0XQNguBvEBbqPFuapHSzDKkdhBjs4bMQanuaouAtLj2nd/+YcxB6WjU+Bn82y4/
+ vf7kk4i3Sgjrb7u22jcQBE2wbsAvOjajQabWl7h2nHynd++3ZfL+XRHD6Odj1HOpMQxf
+ IGXJTXMHgDFPJGNSLjtbWJ4CwMv96GJZMaVKGc0SnY0Hu+qjQnepTByrWBxr5rJvLEfA
+ jJyRf3+vwDC1D7icTLOaGxU2Yotmgyg7FmOsWeI+B+ykp2kwPOSx3ytXCVSvK+yc8Lmd
+ 9wq1n4UNG1K5kCIxVc0qqRlwOjCvf0aBR3AfaJ1coZs5ycHyZBuMj2uurpW1qvzjhO1f
+ +j6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=6H+0hcm8l7aLIS2xe0QY8OrUwt8WXy+M0IZiWZTDT/4=;
+ b=mKphc5c4gbJ3xz6UGJCDDdT4KQwJUq3wA5TPPaufitZAt5ZyWOh0RBZb/nTTU7tS21
+ CtQPnj9VVzw2APri4fhcNXC2/YGNwiayyR7SrW6+49kHKm/srVB5vK9bFfheMF/2HVqk
+ hSvH3uwpN3t3zPwa+ENqefogRrmUbtVREkZG5DCWD7K4lLuOgEJrbNO2D6byEZglPvUp
+ vv+2ouMKaTL9JgJS8VvBGgNUdD2cuXGK3PyxhCvhGY3QrvjB8fJMmI6fLtAGcX584JwE
+ 5OqOHyWumSYy2WPzMSxKnGfE7vHiJK/XsW+yW+xFvyzL2mRCSo6TkDk176TFoUUV5Hr9
+ gzHA==
+X-Gm-Message-State: AOAM530LA58awRN6Ns/TrfeKaqB5gkGBvVPNVzrGU3KPOfy1XweS3G11
+ y/kYXVUGn9715I1s3q7ZtMUhC4cXQ/n8NIcUvB0=
+X-Google-Smtp-Source: ABdhPJype5gSl8B6cXIO8ZkqsC+9SfaYUqWVDfxpeoT5UvlPOUQsZIqgz5McybWazUHKmZTP0YNXosncKH5oDz/tGhg=
+X-Received: by 2002:a1c:a709:: with SMTP id q9mr18222417wme.23.1628229791651; 
+ Thu, 05 Aug 2021 23:03:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 6 Aug 2021 16:03:00 +1000
+Message-ID: <CAPM=9txE4jnHDV9B2PWfieMJjdFv0C7=Zc=MovOtJ6sKN2AuYg@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.14-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,151 +65,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VM_BIND and GEM_WAIT_USER_FENCE uapi document
+Hi Linus,
 
-Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
----
- Documentation/gpu/rfc/i915_vm_bind.h   | 113 +++++++++++++++++++++++++
- Documentation/gpu/rfc/i915_vm_bind.rst |   6 ++
- 2 files changed, 119 insertions(+)
- create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+Regular weekly fixes pull, live from a Brisbane lockdown with kids at home.
 
-diff --git a/Documentation/gpu/rfc/i915_vm_bind.h b/Documentation/gpu/rfc/i915_vm_bind.h
-new file mode 100644
-index 000000000000..3aaf66e62aa0
---- /dev/null
-+++ b/Documentation/gpu/rfc/i915_vm_bind.h
-@@ -0,0 +1,113 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+/* VM_BIND feature availability through drm_i915_getparam */
-+#define I915_PARAM_HAS_VM_BIND          59
-+
-+/**
-+ * struct drm_i915_gem_vm_bind - VA to object/buffer mapping to [un]bind.
-+ */
-+struct drm_i915_gem_vm_bind {
-+	/** vm to [un]bind **/
-+	__u32 vm_id;
-+
-+	/** BO handle or file descriptor. 'fd' to -1 for system pages (SVM) **/
-+	union {
-+		__u32 handle;
-+		__s32 fd;
-+	}
-+
-+	/** VA start to [un]bind **/
-+	__u64 start;
-+
-+	/** Offset in object to [un]bind **/
-+	__u64 offset;
-+
-+	/** VA length to [un]bind **/
-+	__u64 length;
-+
-+	/** Flags **/
-+	__u64 flags;
-+	/** Bind the mapping immediately instead of during next submission */
-+#define I915_GEM_VM_BIND_IMMEDIATE   (1 << 0)
-+	/** Read-only mapping */
-+#define I915_GEM_VM_BIND_READONLY    (1 << 1)
-+	/** Capture this mapping in the dump upon GPU error */
-+#define I915_GEM_VM_BIND_CAPTURE     (1 << 2)
-+
-+	/**
-+	 * Zero-terminated chain of extensions.
-+	 *
-+	 * No current extensions defined; mbz.
-+	 */
-+	__u64 extensions;
-+};
-+
-+/**
-+ * struct drm_i915_vm_bind_ext_sync_fence - Bind completion signaling extension.
-+ */
-+struct drm_i915_vm_bind_ext_sync_fence {
-+#define I915_VM_BIND_EXT_SYNC_FENCE     0
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+
-+	/** User/Memory fence address */
-+	__u64 addr;
-+
-+	/** User/Memory fence value to be written after bind completion */
-+	__u64 val;
-+};
-+
-+/**
-+ * struct drm_i915_gem_wait_user_fence
-+ *
-+ * Wait on user/memory fence. User/Memory fence can be woken up either by,
-+ *    1. GPU context indicated by 'ctx_id', or,
-+ *    2. Kerrnel driver async worker upon I915_UFENCE_WAIT_SOFT.
-+ *       'ctx_id' is ignored when this flag is set.
-+ *
-+ * Wakeup when below condition is true.
-+ * (*addr & MASK) OP (VALUE & MASK)
-+ *
-+ */
-+struct drm_i915_gem_wait_user_fence {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	__u64 extensions;
-+
-+	/** User/Memory fence address */
-+	__u64 addr;
-+
-+	/** Id of the Context which will signal the fence. */
-+	__u32 ctx_id;
-+
-+	/** Wakeup condition operator */
-+	__u16 op;
-+#define I915_UFENCE_WAIT_EQ      0
-+#define I915_UFENCE_WAIT_NEQ     1
-+#define I915_UFENCE_WAIT_GT      2
-+#define I915_UFENCE_WAIT_GTE     3
-+#define I915_UFENCE_WAIT_LT      4
-+#define I915_UFENCE_WAIT_LTE     5
-+#define I915_UFENCE_WAIT_BEFORE  6
-+#define I915_UFENCE_WAIT_AFTER   7
-+
-+	/** Flags */
-+	__u16 flags;
-+#define I915_UFENCE_WAIT_SOFT    0x1
-+#define I915_UFENCE_WAIT_ABSTIME 0x2
-+
-+	/** Wakeup value */
-+	__u64 value;
-+
-+	/** Wakeup mask */
-+	__u64 mask;
-+#define I915_UFENCE_WAIT_U8     0xffu
-+#define I915_UFENCE_WAIT_U16    0xffffu
-+#define I915_UFENCE_WAIT_U32    0xfffffffful
-+#define I915_UFENCE_WAIT_U64    0xffffffffffffffffull
-+
-+	/** Timeout */
-+	__s64 timeout;
-+};
-diff --git a/Documentation/gpu/rfc/i915_vm_bind.rst b/Documentation/gpu/rfc/i915_vm_bind.rst
-index dbc35262a554..dc843e32a1cd 100644
---- a/Documentation/gpu/rfc/i915_vm_bind.rst
-+++ b/Documentation/gpu/rfc/i915_vm_bind.rst
-@@ -117,6 +117,12 @@ VM_BIND interface can be used to map system memory directly (without gem BO
- abstraction) using the HMM interface.
- 
- 
-+UAPI
-+=====
-+Uapi definiton can be found here:
-+.. kernel-doc:: Documentation/gpu/rfc/i915_vm_bind.h
-+
-+
- Links:
- ======
- - Reference WIP VM_BIND implementation can be found here.
--- 
-2.21.0.rc0.32.g243a4c7e27
+A big bunch of scattered amdgpu fixes, but they are all pretty small,
+minor i915 fixes, kmb, and one vmwgfx regression fixes, all pretty
+quiet for this time.
 
+Dave.
+
+drm-fixes-2021-08-06:
+drm fixes for 5.14-rc5
+
+amdgpu:
+- Fix potential out-of-bounds read when updating GPUVM mapping
+- Renoir powergating fix
+- Yellow Carp updates
+- 8K fix for navi1x
+- Beige Goby updates and new DIDs
+- Fix DMUB firmware version output
+- EDP fix
+- pmops config fix
+
+i915:
+- Call i915_globals_exit if pci_register_device fails
+- (follow on fix for section mismatch)
+- Correct SFC_DONE register offset
+
+kmb:
+- DMA fix
+- driver date/version macros
+
+vmwgfx:
+- Fix I/O memory access on 64-bit systems
+The following changes since commit c500bee1c5b2f1d59b1081ac879d73268ab0ff17:
+
+  Linux 5.14-rc4 (2021-08-01 17:04:17 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-08-06
+
+for you to fetch changes up to d186f9c28008810d8f984d6bdd1c07757048ed63:
+
+  Merge tag 'amd-drm-fixes-5.14-2021-08-05' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-08-06
+11:22:09 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.14-rc5
+
+amdgpu:
+- Fix potential out-of-bounds read when updating GPUVM mapping
+- Renoir powergating fix
+- Yellow Carp updates
+- 8K fix for navi1x
+- Beige Goby updates and new DIDs
+- Fix DMUB firmware version output
+- EDP fix
+- pmops config fix
+
+i915:
+- Call i915_globals_exit if pci_register_device fails
+- (follow on fix for section mismatch)
+- Correct SFC_DONE register offset
+
+kmb:
+- DMA fix
+- driver date/version macros
+
+vmwgfx:
+- Fix I/O memory access on 64-bit systems
+
+----------------------------------------------------------------
+Bing Guo (2):
+      drm/amd/display: Fix Dynamic bpp issue with 8K30 with Navi 1X
+      drm/amd/display: Increase stutter watermark for dcn303
+
+Chengming Gui (1):
+      drm/amdgpu: add DID for beige goby
+
+Dave Airlie (3):
+      Merge tag 'drm-misc-fixes-2021-08-04' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2021-08-04' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'amd-drm-fixes-5.14-2021-08-05' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Edmund Dea (2):
+      drm/kmb: Enable LCD DMA for low TVDDCV
+      drm/kmb: Define driver date and major/minor version
+
+Jason Ekstrand (1):
+      drm/i915: Call i915_globals_exit() if pci_register_device() fails
+
+Jude Shih (1):
+      drm/amd/display: Fix resetting DCN3.1 HW when resuming from S4
+
+Matt Roper (1):
+      drm/i915: Correct SFC_DONE register offset
+
+Qingqing Zhuo (1):
+      drm/amd/display: workaround for hard hang on HPD on native DP
+
+Randy Dunlap (2):
+      drm/i915: fix i915_globals_exit() section mismatch error
+      drm/amdgpu: fix checking pmops when PM_SLEEP is not enabled
+
+Shirish S (1):
+      drm/amdgpu/display: fix DMUB firmware version info
+
+Wesley Chalmers (1):
+      drm/amd/display: Assume LTTPR interop for DCN31+
+
+Xiaomeng Hou (1):
+      drm/amd/pm: update yellow carp pmfw interface version
+
+Yifan Zhang (1):
+      drm/amdgpu: fix the doorbell missing when in CGPG issue for renoir.
+
+Zack Rusin (1):
+      drm/vmwgfx: Fix a 64bit regression on svga3
+
+xinhui pan (1):
+      drm/amdgpu: Fix out-of-bounds read when update mapping
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  7 +++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h     |  3 ++-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              | 21 ++++++++++++++++++++-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  2 +-
+ .../drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c  |  4 +++-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   | 21 ++-------------------
+ drivers/gpu/drm/amd/display/dc/dc.h                |  2 ++
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c  |  2 +-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  | 20 ++++++++++++++++++++
+ .../drm/amd/display/dc/dcn303/dcn303_resource.c    |  4 ++--
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  | 16 ++++++++++++++++
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c  |  8 +++++---
+ drivers/gpu/drm/amd/pm/inc/smu_v13_0.h             |  2 +-
+ drivers/gpu/drm/i915/i915_globals.c                |  4 ++--
+ drivers/gpu/drm/i915/i915_pci.c                    |  1 +
+ drivers/gpu/drm/i915/i915_reg.h                    |  2 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                      | 22 ++++++++++++++++++----
+ drivers/gpu/drm/kmb/kmb_drv.h                      |  5 +++++
+ drivers/gpu/drm/kmb/kmb_plane.c                    | 15 +++++++++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  2 +-
+ 21 files changed, 124 insertions(+), 41 deletions(-)
