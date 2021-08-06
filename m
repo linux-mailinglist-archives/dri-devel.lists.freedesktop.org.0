@@ -1,68 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40D83E2901
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 13:00:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E443E2907
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 13:01:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D04EC6E17A;
-	Fri,  6 Aug 2021 11:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E82496E8BD;
+	Fri,  6 Aug 2021 11:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60DE56E17A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Aug 2021 11:00:41 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- e2-20020a17090a4a02b029016f3020d867so17071992pjh.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Aug 2021 04:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bqezZ2/HwBTxC4hfR4A8RkBTbm8B6r0iUtltdIvH/WQ=;
- b=wPfCjiqa1MALuiJUaKW5iy1FtNfG6I7bAdM+tcLUlHzl2neknstN3PG01WGezIG4Wn
- AX67+2Wo1cV03hBdnAJyve/wr3U++Sv2+IO4fFRMwBMjg3MlY4LMXxnv9cUYr0J/w8ME
- l0Btb8iRsW/UikCqCHgTYoJAbfIOOSYrxH6UeL81fCtnPOMXF1pOCqAmkKk5chBEiw6Z
- yaTEYJbWUNoVt4HmP/4ut1Oa6QtRxGJUZVSJkrVVIiTdIOwLidoVSJUVDDptJehoEaTE
- KjoaWncKZEYbCPNeDiBQIxq744EGlx7PnATR24qZV2yaDdvpXGHuLHdVuLaLwuvlgthS
- ag0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bqezZ2/HwBTxC4hfR4A8RkBTbm8B6r0iUtltdIvH/WQ=;
- b=Z9FbI66lTkQgIPO6V8N9mjdpLYyJpoHGXfQhe2L0ODpg7ASBMxx7o5PLX5TaqVeB7y
- +WFMnQC6eODERGx+9tIaHrrm6+jBuA2uAhrlr8Pbo/7UuCzhWRFQByfEHtVrYu7fOq4b
- M2e+8V+3greMYgUUnr4CxqzBbfnsojMZ4qF4ZBW5Dx1vz86ZvfHPqREupfA+IFJYvQlC
- SKqVFOZsr8kS6Wr4SCWS8lvlWCYXG3HroxUry/EcPog3rUdZ32gyT+OTDfG/OTfJdE70
- C4Yl5aI4cxwJSnL+grY4OUznXfhDg4VumUFjT68KfBG+Ud8KyGA7Z+3KYu3fOs9It46K
- mw5g==
-X-Gm-Message-State: AOAM531UHbfXYbyOOq516m7hzk5SmCRoLjTMDKtjYfIQdO5me9XfeDsJ
- mIagkBkYb3GozqfIQgjbPP93R0OTfnrhFzR/o2lzhw==
-X-Google-Smtp-Source: ABdhPJx2mx/FDsh5/262RxdOPkT6ydnEP3Uh2S21vtAYPtUS+Wn/DcQtgQAbZX/mXgpJQMdt+fMf5UfYoS3PcG5G/uw=
-X-Received: by 2002:a63:494f:: with SMTP id y15mr876560pgk.185.1628247641017; 
- Fri, 06 Aug 2021 04:00:41 -0700 (PDT)
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89EA36E8BD
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Aug 2021 11:01:43 +0000 (UTC)
+Date: Fri, 06 Aug 2021 13:01:33 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 2/2] gpu/drm: ingenic: Add workaround for disabled drivers
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rob Herring <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, list@opendingux.net,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Message-Id: <LYZEXQ.9UWPIAZCVXIK@crapouillou.net>
+In-Reply-To: <YQ0MU/GcLkPLiy5C@kroah.com>
+References: <20210805192110.90302-1-paul@crapouillou.net>
+ <20210805192110.90302-3-paul@crapouillou.net> <YQw9hjZll4QmYVLX@kroah.com>
+ <3HUDXQ.7RBGD4FUHR2F@crapouillou.net> <YQ0MU/GcLkPLiy5C@kroah.com>
 MIME-Version: 1.0
-References: <20210806104407.2208538-1-xji@analogixsemi.com>
-In-Reply-To: <20210806104407.2208538-1-xji@analogixsemi.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 6 Aug 2021 13:00:30 +0200
-Message-ID: <CAG3jFyuB-PJc5S+jPiBH8_shyWR_05JTBiO802+tg+8RvBQUcg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: anx7625: Tune K value for IVO panel
-To: Xin Ji <xji@analogixsemi.com>
-Cc: Nicolas Boichat <drinkcat@google.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Dan Carpenter <dan.carpenter@oracle.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Sam Ravnborg <sam@ravnborg.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Torsten Duwe <duwe@lst.de>, Vasily Khoruzhick <anarsoul@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Bernie Liang <bliang@analogixsemi.com>, Qilin Wen <qwen@analogixsemi.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, devel@driverdev.osuosl.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,4 +44,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next
+Hi Greg,
+
+Le ven., ao=FBt 6 2021 at 12:17:55 +0200, Greg Kroah-Hartman=20
+<gregkh@linuxfoundation.org> a =E9crit :
+> On Thu, Aug 05, 2021 at 10:05:27PM +0200, Paul Cercueil wrote:
+>>  Hi Greg,
+>>=20
+>>  Le jeu., ao=FBt 5 2021 at 21:35:34 +0200, Greg Kroah-Hartman
+>>  <gregkh@linuxfoundation.org> a =E9crit :
+>>  > On Thu, Aug 05, 2021 at 09:21:09PM +0200, Paul Cercueil wrote:
+>>  > >  When the drivers of remote devices (e.g. HDMI chip) are=20
+>> disabled in
+>>  > > the
+>>  > >  config, we want the ingenic-drm driver to be able to probe
+>>  > > nonetheless
+>>  > >  with the other devices (e.g. internal LCD panel) that are=20
+>> enabled.
+>>  > >
+>>  > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  > >  ---
+>>  > >   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 12 ++++++++++++
+>>  > >   1 file changed, 12 insertions(+)
+>>  > >
+>>  > >  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  > > b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  > >  index d261f7a03b18..5e1fdbb0ba6b 100644
+>>  > >  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  > >  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  > >  @@ -1058,6 +1058,18 @@ static int ingenic_drm_bind(struct=20
+>> device
+>>  > > *dev, bool has_components)
+>>  > >   	for (i =3D 0; ; i++) {
+>>  > >   		ret =3D drm_of_find_panel_or_bridge(dev->of_node, 0, i,=20
+>> &panel,
+>>  > > &bridge);
+>>  > >   		if (ret) {
+>>  > >  +			/*
+>>  > >  +			 * Workaround for the case where the drivers for the
+>>  > >  +			 * remote devices are not enabled. When that happens,
+>>  > >  +			 * drm_of_find_panel_or_bridge() returns -EPROBE_DEFER
+>>  > >  +			 * endlessly, which prevents the ingenic-drm driver from
+>>  > >  +			 * working at all.
+>>  > >  +			 */
+>>  > >  +			if (ret =3D=3D -EPROBE_DEFER) {
+>>  > >  +				ret =3D driver_deferred_probe_check_state(dev);
+>>  > >  +				if (ret =3D=3D -ENODEV || ret =3D=3D -ETIMEDOUT)
+>>  > >  +					continue;
+>>  > >  +			}
+>>  >
+>>  > So you are mucking around with devices on other busses within this
+>>  > driver?  What could go wrong?  :(
+>>=20
+>>  I'm doing the same thing as everybody else. This is the DRM driver,=20
+>> and
+>>  there is a driver for the external HDMI chip which gives us a DRM=20
+>> bridge
+>>  that we can obtain from the device tree.
+>=20
+> But then why do you need to call this function that is there for a=20
+> bus,
+> not for a driver.
+
+The documentation disagrees with you :)
+
+And, if that has any weight, this solution was proposed by Rob.
+
+>>  > Please use the existing driver core functionality for this type of
+>>  > thing, it is not unique, no need for this function to be called.
+>>=20
+>>  I'm not sure you understand what I'm doing here. This driver calls
+>>  drm_of_find_panel_or_bridge(), without guarantee that the driver=20
+>> for the
+>>  remote device (connected via DT graph) has been enabled in the=20
+>> kernel
+>>  config. In that case it will always return -EPROBE_DEFER and the=20
+>> ingenic-drm
+>>  driver will never probe.
+>>=20
+>>  This patch makes sure that the driver can probe if the HDMI driver=20
+>> has been
+>>  disabled in the kernel config, nothing more.
+>=20
+> That should not be an issue as you do not care if the config is=20
+> enabled,
+> you just want to do something in the future if the driver shows up,
+> right?
+
+Well, the DRM subsystem doesn't really seem to handle hotplug of=20
+hardware. Right now all the drivers for the connected hardware need to=20
+probe before the main DRM driver. So I need to know that a remote=20
+device (connected via DT graph) will never probe.
+
+Give me a of_graph_remote_device_driver_will_never_probe() and I'll use=20
+that.
+
+> Much like the device link code, have you looked at that?
+
+I don't see how that would help in any way. The device link code would=20
+allow me to set a dependency between the remote hardware (HDMI chip,=20
+provider) and the LCD controller (consumer), but I already have that=20
+dependency though the DT graph. What I need is a way for the consumer=20
+to continue probing if the provider is not going to probe.
+
+Cheers,
+-Paul
+
+
