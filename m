@@ -1,42 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0BCE3E2188
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 04:31:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 600AA3E21F0
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 04:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E33656E99F;
-	Fri,  6 Aug 2021 02:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B187F6EB67;
+	Fri,  6 Aug 2021 02:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from qq.com (smtpbg476.qq.com [59.36.132.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 605306E7D1;
- Fri,  6 Aug 2021 02:31:35 +0000 (UTC)
-X-QQ-mid: bizesmtp48t1628217051too04ab3
-Received: from localhost.localdomain (unknown [111.207.172.18])
- by esmtp6.qq.com (ESMTP) with 
- id ; Fri, 06 Aug 2021 10:30:49 +0800 (CST)
-X-QQ-SSF: 0140000000200020C000B00B0000000
-X-QQ-FEAT: qEuLDdMiAwGKHL+Wg0BUhCvrpVoKG7VEAOgcB/U0rdhkCM8wsDD4kOdYOpECF
- fkiVWPmZWVx/yGc+v/lveUhPM0X4QrGl9KjxBYMfEbyj87Tp2GIY5ZFICuvzN4zDr3gVOcH
- rRMhS+JBb1NV41KHkZu++ZQndX4RA+NFB8K9FyGd+Ri0v6eONA2CycS8fReZTIGWsNySfAs
- ICnkPbxcW5g9yp5Lu64Prvt4pfsXiP5Tf7jenn34S1fnfHTyMnIXFHJppQX0dVY1Gx/d/Hs
- Sj/UJr4GsOJ+Q6peFDnOhXHhoTl+W3z1h35ve1mRvjGm3Ez4tISNl+LKhlgtbgsf3CXQ==
-X-QQ-GoodBg: 2
-From: zhaoxiao <zhaoxiao@uniontech.com>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- zhaoxiao <zhaoxiao@uniontech.com>
-Subject: [PATCH v2] drm/drv: Remove initialization of static variables
-Date: Fri,  6 Aug 2021 10:30:47 +0800
-Message-Id: <20210806023047.24386-1-zhaoxiao@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign5
-X-QQ-Bgrelay: 1
+Received: from out30-54.freemail.mail.aliyun.com
+ (out30-54.freemail.mail.aliyun.com [115.124.30.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C180A6EB67
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Aug 2021 02:58:04 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R931e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04426;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0Ui5fk1-_1628218668; 
+Received: from
+ j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0Ui5fk1-_1628218668) by smtp.aliyun-inc.com(127.0.0.1);
+ Fri, 06 Aug 2021 10:58:01 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: hjc@rock-chips.com
+Cc: heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] drm/rockchip: dsi: make hstt_table static
+Date: Fri,  6 Aug 2021 10:57:44 +0800
+Message-Id: <1628218664-14230-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,45 +46,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Address the following checkpatch errors:
-ERROR: do not initialise statics to false
+This symbol is not used outside of dw-mipi-dsi-rockchip.c, so marks
+it static.
 
-FILE: :drivers/gpu/drm/msm/msm_drv.c:21:
--static bool reglog = false;
+Fix the following sparse warning:
 
-FILE: :drivers/gpu/drm/msm/msm_drv.c:31:
--bool dumpstate = false;
+drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c:646:13: warning: symbol
+'hstt_table' was not declared. Should it be static?
 
-Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
-v2: change the patch description 
- drivers/gpu/drm/msm/msm_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 9b8fa2ad0d84..d9ca4bc9620b 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -59,7 +59,7 @@ static const struct drm_mode_config_helper_funcs mode_config_helper_funcs = {
- };
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index a2262be..12fa3db 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -643,7 +643,7 @@ struct hstt {
+ }
  
- #ifdef CONFIG_DRM_MSM_REGISTER_LOGGING
--static bool reglog = false;
-+static bool reglog;
- MODULE_PARM_DESC(reglog, "Enable register read/write logging");
- module_param(reglog, bool, 0600);
- #else
-@@ -76,7 +76,7 @@ static char *vram = "16m";
- MODULE_PARM_DESC(vram, "Configure VRAM size (for devices without IOMMU/GPUMMU)");
- module_param(vram, charp, 0);
- 
--bool dumpstate = false;
-+bool dumpstate;
- MODULE_PARM_DESC(dumpstate, "Dump KMS state on errors");
- module_param(dumpstate, bool, 0600);
- 
+ /* Table A-3 High-Speed Transition Times */
+-struct hstt hstt_table[] = {
++static struct hstt hstt_table[] = {
+ 	HSTT(  90,  32, 20,  26, 13),
+ 	HSTT( 100,  35, 23,  28, 14),
+ 	HSTT( 110,  32, 22,  26, 13),
 -- 
-2.20.1
-
-
+1.8.3.1
 
