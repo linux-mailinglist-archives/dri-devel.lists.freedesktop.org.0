@@ -2,69 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FEF23E2FB1
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 21:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D453E2FD4
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 21:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D99386EC22;
-	Fri,  6 Aug 2021 19:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E3D66E07B;
+	Fri,  6 Aug 2021 19:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C235C6EC20
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Aug 2021 19:11:00 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- a5-20020a05683012c5b029036edcf8f9a6so10065657otq.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Aug 2021 12:11:00 -0700 (PDT)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 513BB6EC25
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Aug 2021 19:47:06 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ z9-20020a9d62c90000b0290462f0ab0800so805662otk.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Aug 2021 12:47:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wwdLLncHcQmn8V0lQ1zikWkAtZyXR0Qt+eajA4TCzA4=;
- b=XKyxQcIlOnuQAAkYeR6VX0Kvl3HkpnxBkVEqfVZCebg/cEsFG79uFfPr3PyZy89atW
- LEP/WPUfqnt3pr3aPsv2H+BfZdZS27Uyda3jC/4O3TStB98BCcVzMQlowxrucMnSwSU/
- bTjdlXsGGL8qhKGgN6yJROmPWIE+/2YbAB/ew=
+ :cc; bh=qMbkmaYIi53EaKTYX/oaTUUreJ9sDJkDzJWTl2L73LY=;
+ b=PooACIvY0oGDglUGQroUhWI6axGYNz0dZ1JEEhwYyGoKQcDKbqeqt0UTFPWWdt0Mnw
+ NbOgcjusepYe3zVNp4EBtOF4GNkG4XNNIQMXBzPO29I+3vREHO8wGKbOcN3spMzHTSlu
+ 7lQYyjKPwEsVqiIn52D2b0hEaEd5slESdW33Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wwdLLncHcQmn8V0lQ1zikWkAtZyXR0Qt+eajA4TCzA4=;
- b=Vv2HxtlUctvQrisEtKsl9GCiZi23IxehUiPwGE39Fg9UYpGvbAsIfMArxIJ3Rkk+k8
- v5KnVeNs7sZ1U6rXGTwML/7JUiSUB5jnNVA+Lazr3qR19jRqEBn2V+bnUrBvr9dB5q5H
- rMic40QQG6UR+teH5wVOSHRRuNt8zNoQNuCCHf4zxhjCweZvWqL0J0q4V+d1uoQPQoGa
- uDikvNY8u563alxa9v8elikPFcPuTdG7p+kDJfnlXIKpdluVNLX0Of7Dfn1W9vM64u9N
- +iuQdjI02iIQZWs2fEEMDUQRtppeCCZpla1L2Dc+u0tXE1x2Y+ClCFBhjsr1q7ZjhRx9
- lrSA==
-X-Gm-Message-State: AOAM531tb/jtt/FbgjOM1YWKmG7B+vVz6Vjon/yo1pKJumb5svvu9od+
- zR20WF7XUC2aySog20jVpsfAB7mLjNIa6wowqlGR4Q==
-X-Google-Smtp-Source: ABdhPJwTzyaYRYgqMYelT348bKx7Zt4moB1xmD2AXEay6/jj3T1D9DIuQ1CF2V9UCsSlAhSbmsjMDnxFmmoGKgH/4YY=
-X-Received: by 2002:a9d:27a4:: with SMTP id c33mr8845841otb.281.1628277060095; 
- Fri, 06 Aug 2021 12:11:00 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=qMbkmaYIi53EaKTYX/oaTUUreJ9sDJkDzJWTl2L73LY=;
+ b=V2RCwdRQSgeOkC8Cfi0htiQV9Hp3ggHhUJ7uwgyZDKo+1HnyDVa6ikJkDMUkMOBngx
+ H9rH6Onu1hjkq4Jz/Uv7SuLqoWncr3AY3Gc3BEJ9nYi4FVVwkPbVKham/r+XUYTVX/ls
+ zzxugIxyc29ZZB4QSijyOnqeFh1GCDP5p9D3ZTEWEwvLcPxo7um6s2qTgtgzxprptrIr
+ YWsbabmpPXzDD8lwiiHs4AhRD3+aQimRfYuEPpp5xF/NHNejjs/FbcUzzBcATVBpp527
+ x28QQ6EzXj5VxqLKX2ZdplPFWbqwkQZ6WvYlo2wp9SjgrLbTdDG87yTYzQMgIGDVAyVl
+ YisA==
+X-Gm-Message-State: AOAM532BNmeFi+CNY3atY7OlBVk7XhwAcaIbZ3FRNIpFMMG5/3w5orOa
+ 0TP3TMB8AQnThHFDudLM6cRL/hdU6pGxNSz3Jhz/GA==
+X-Google-Smtp-Source: ABdhPJy2JJx2XwDDPCJNz2HP5JcMDn4FH7RM4iIJz3I/4zailitAxXYTzfLcmWDMaoAXrwQHXYnI8Uy5v7sRYtR3a84=
+X-Received: by 2002:a05:6830:2802:: with SMTP id
+ w2mr8697253otu.303.1628279225341; 
+ Fri, 06 Aug 2021 12:47:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
- <20210805104705.862416-3-daniel.vetter@ffwll.ch>
- <CAF6AEGvkmZhcPWP58VnL1OXAeJ5tg7v13xkkiYBwkpBi1YiT4g@mail.gmail.com>
- <CAKMK7uG3gRNfYinM51UVAUckV9ZgN3mgRnJd8E9tERani9b1JQ@mail.gmail.com>
- <CAF6AEGuqxb5jEtpQi-aNvjSfPaq0gasH2TLZ+5O836ov9qw+3w@mail.gmail.com>
- <CAKMK7uH2v2x+=Ct-v-2RCVXez4MzjMvhh4yCs_f8HPvYa+DXcA@mail.gmail.com>
- <CAF6AEGuX6UgXpCJqvo4kT3j5zYeuRBYTtMWM8yz0x_tOb1rm4w@mail.gmail.com>
-In-Reply-To: <CAF6AEGuX6UgXpCJqvo4kT3j5zYeuRBYTtMWM8yz0x_tOb1rm4w@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 6 Aug 2021 21:10:49 +0200
-Message-ID: <CAKMK7uF-CswLD8E8=gwLAKhKCFcD2KMwdzjjod+JmGGk2TiZUw@mail.gmail.com>
-Subject: Re: [PATCH v5 02/20] drm/msm: Fix drm/sched point of no return rules
-To: Rob Clark <robdclark@gmail.com>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Rob Clark <robdclark@chromium.org>, 
- Sean Paul <sean@poorly.run>, Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+References: <20210729003400.151864-1-matthew.brost@intel.com>
+ <20210729003400.151864-2-matthew.brost@intel.com>
+ <eea0bdb7-681b-0acb-0b9c-041fb38a7119@intel.com>
+ <1b75f6c6-e458-6bc7-f867-12f1b5b18af0@linux.intel.com>
+ <e6e893a7-a0e2-0441-260f-75da3760de0b@intel.com>
+ <58cb6331-813a-7007-dac5-65a2f2ad344e@linux.intel.com>
+ <b3d7ae68-ce4b-ec2c-c70d-9f81e2ea07d7@intel.com>
+In-Reply-To: <b3d7ae68-ce4b-ec2c-c70d-9f81e2ea07d7@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 6 Aug 2021 21:46:54 +0200
+Message-ID: <CAKMK7uF_xBt2WTLkyWf0tfwtzpbFEigZLMUqy4tHQXx47fJRBQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: Check if engine has heartbeat
+ when closing a context
+To: John Harrison <john.c.harrison@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,215 +74,440 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 6, 2021 at 8:57 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Fri, Aug 6, 2021 at 11:41 AM Daniel Vetter <daniel.vetter@ffwll.ch> wr=
-ote:
-> >
-> > On Fri, Aug 6, 2021 at 7:15 PM Rob Clark <robdclark@gmail.com> wrote:
-> > >
-> > > On Fri, Aug 6, 2021 at 9:42 AM Daniel Vetter <daniel.vetter@ffwll.ch>=
- wrote:
-> > > >
-> > > > On Fri, Aug 6, 2021 at 12:58 AM Rob Clark <robdclark@gmail.com> wro=
-te:
-> > > > >
-> > > > > On Thu, Aug 5, 2021 at 3:47 AM Daniel Vetter <daniel.vetter@ffwll=
-.ch> wrote:
-> > > > > >
-> > > > > > Originally drm_sched_job_init was the point of no return, after=
- which
-> > > > > > drivers must submit a job. I've split that up, which allows us =
-to fix
-> > > > > > this issue pretty easily.
-> > > > > >
-> > > > > > Only thing we have to take care of is to not skip to error path=
-s after
-> > > > > > that. Other drivers do this the same for out-fence and similar =
-things.
-> > > > > >
-> > > > > > Fixes: 1d8a5ca436ee ("drm/msm: Conversion to drm scheduler")
-> > > > > > Cc: Rob Clark <robdclark@chromium.org>
-> > > > > > Cc: Rob Clark <robdclark@gmail.com>
-> > > > > > Cc: Sean Paul <sean@poorly.run>
-> > > > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > > > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > > > > > Cc: linux-arm-msm@vger.kernel.org
-> > > > > > Cc: dri-devel@lists.freedesktop.org
-> > > > > > Cc: freedreno@lists.freedesktop.org
-> > > > > > Cc: linux-media@vger.kernel.org
-> > > > > > Cc: linaro-mm-sig@lists.linaro.org
-> > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/msm/msm_gem_submit.c | 15 +++++++--------
-> > > > > >  1 file changed, 7 insertions(+), 8 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu=
-/drm/msm/msm_gem_submit.c
-> > > > > > index 6d6c44f0e1f3..d0ed4ddc509e 100644
-> > > > > > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> > > > > > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> > > > > > @@ -52,9 +52,6 @@ static struct msm_gem_submit *submit_create(s=
-truct drm_device *dev,
-> > > > > >                 return ERR_PTR(ret);
-> > > > > >         }
-> > > > > >
-> > > > > > -       /* FIXME: this is way too early */
-> > > > > > -       drm_sched_job_arm(&job->base);
-> > > > > > -
-> > > > > >         xa_init_flags(&submit->deps, XA_FLAGS_ALLOC);
-> > > > > >
-> > > > > >         kref_init(&submit->ref);
-> > > > > > @@ -883,6 +880,9 @@ int msm_ioctl_gem_submit(struct drm_device =
-*dev, void *data,
-> > > > > >
-> > > > > >         submit->user_fence =3D dma_fence_get(&submit->base.s_fe=
-nce->finished);
-> > > > > >
-> > > > > > +       /* point of no return, we _have_ to submit no matter wh=
-at */
-> > > > > > +       drm_sched_job_arm(&submit->base);
-> > > > > > +
-> > > > > >         /*
-> > > > > >          * Allocate an id which can be used by WAIT_FENCE ioctl=
- to map back
-> > > > > >          * to the underlying fence.
-> > > > > > @@ -892,17 +892,16 @@ int msm_ioctl_gem_submit(struct drm_devic=
-e *dev, void *data,
-> > > > > >         if (submit->fence_id < 0) {
-> > > > > >                 ret =3D submit->fence_id =3D 0;
-> > > > > >                 submit->fence_id =3D 0;
-> > > > > > -               goto out;
-> > > > > >         }
-> > > > > >
-> > > > > > -       if (args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
-> > > > > > +       if (ret =3D=3D 0 && args->flags & MSM_SUBMIT_FENCE_FD_O=
-UT) {
-> > > > > >                 struct sync_file *sync_file =3D sync_file_creat=
-e(submit->user_fence);
-> > > > > >                 if (!sync_file) {
-> > > > > >                         ret =3D -ENOMEM;
-> > > > > > -                       goto out;
-> > > > > > +               } else {
-> > > > > > +                       fd_install(out_fence_fd, sync_file->fil=
-e);
-> > > > > > +                       args->fence_fd =3D out_fence_fd;
-> > > > > >                 }
-> > > > > > -               fd_install(out_fence_fd, sync_file->file);
-> > > > > > -               args->fence_fd =3D out_fence_fd;
-> > > > >
-> > > > > I wonder if instead we should (approximately) undo "drm/msm/submi=
-t:
-> > > > > Simplify out-fence-fd handling" so that the point that it could f=
-ail
-> > > > > is moved up ahead of the drm_sched_job_arm()?
-> > > >
-> > > > Hm yeah. Up to you how you want to paint this shed, I think either =
-is fine.
-> > > >
-> > > > > Also, does the dma_fence_get() work before drm_sched_job_arm()?  =
-From
-> > > > > a quick look, it looks like it won't, but I'm still playing catch=
-up
-> > > > > and haven't had a chance to look at your entire series.  If it do=
-esn't
-> > > > > work before drm_sched_job_arm(), then there is really no way to
-> > > > > prevent a error path between the fence-init and job-submit.
-> > > >
-> > > > Yes. I thought I've checked that I put the _arm() in the right spot=
-,
-> > > > but I guess I screwed up and you need the fence before the point wh=
-ere
-> > > > I've put the job_arm()? And yes the error path cannot be avoided fo=
-r
-> > > > out-fences, that's what I tried to explain in the commit message.
-> > > >
-> > > > > But, prior to your series, wouldn't a failure after
-> > > > > drm_sched_job_init() but before the job is submitted just burn a
-> > > > > fence-id, and otherwise carry on it's merry way?
-> > > >
-> > > > Maybe? I'm not sure whether the scheduler gets confused about the g=
-ap
-> > > > and freak out abou that. I'm fairly new to that code and learning
-> > > > (which is part why I'm working on it). Since you look up in
-> > > > fences/syncobj after job_init() it should be pretty easy to whip up=
- a
-> > > > testcase and see what happens. Also as long as nothing fails you wo=
-n't
-> > > > see an issue, that's for sure.
-> > >
-> > > fair.. I'll try to come up with a test case.. pre-scheduler-conversio=
-n
-> > > it wasn't a problem to fail after the fence seqno was allocated (well=
-,
-> > > I guess you might have problems if you had 2^31 failures in a row)
-> >
-> > Yeah one thing drm/sched forces you to do is have a very clear notion
-> > about the point of no return in your submit ioctl. Which I think is a
-> > Very Good Thing, at least looking at i915 execbuf where the point of
-> > no return is a multi-stage thing with such interesting intermediate
-> > points like "we submit the ruquest but without actually running the
-> > batchbuffer". The downside is that the submit ioctl isn't perfectly
-> > transaction anymore, but I don't think that matters for tha tail
-> > stuff, which is generally just some out-fence installing. That
-> > generally never fails.
->
-> So I hacked up:
->
-> ------
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c
-> b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 3aa6351d2101..88e66dbc9515 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -176,6 +176,7 @@ struct drm_sched_fence
-> *drm_sched_fence_create(struct drm_sched_entity *entity,
->         fence->sched =3D entity->rq->sched;
->         spin_lock_init(&fence->lock);
->
-> +       seq =3D atomic_inc_return(&entity->fence_seq);
->         seq =3D atomic_inc_return(&entity->fence_seq);
->         dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->                        &fence->lock, entity->fence_context, seq);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index fcc601962e92..583e85adbbe0 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -593,6 +593,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
->         if (!job->s_fence)
->                 return -ENOMEM;
->         job->id =3D atomic64_inc_return(&sched->job_id_count);
-> +       job->id =3D atomic64_inc_return(&sched->job_id_count);
->
->         INIT_LIST_HEAD(&job->list);
->
-> ------
->
-> (I guess the job->id part shouldn't really be needed, that looks like
-> it is only used by amdgpu)
->
-> This didn't cause any problems that I could see.  So I don't *think* a
-> failure after drm_sched_job_init() is really problematic, as long as
-> things are serialized between drm_sched_job_init() and
-> drm_sched_entity_push_job().
->
-> I also noticed that in the atomic commit path, the out-fences are
-> initialized before atomic-check.. so there should be plenty of
-> precedent for skipping fence seqno's.
+Seen this fly by and figured I dropped a few thoughts in here. At the
+likely cost of looking a bit out of whack :-)
 
-Oh I think I remember now. The reason why the split into init/arm is
-so that you can keep your critical section only around job_arm() and
-push_job(). My very first version just pulled the jobs_init() of that
-for most drivers to where I needed it, and that would result in a bit
-chaos because the fences would signal out of order potentially. But
-yeah I guess bailing out is fine with the scheduler.
+On Fri, Aug 6, 2021 at 8:01 PM John Harrison <john.c.harrison@intel.com> wrote:
+> On 8/2/2021 02:40, Tvrtko Ursulin wrote:
+> > On 30/07/2021 19:13, John Harrison wrote:
+> >> On 7/30/2021 02:49, Tvrtko Ursulin wrote:
+> >>> On 30/07/2021 01:13, John Harrison wrote:
+> >>>> On 7/28/2021 17:34, Matthew Brost wrote:
+> >>>>> If an engine associated with a context does not have a heartbeat,
+> >>>>> ban it
+> >>>>> immediately. This is needed for GuC submission as a idle pulse
+> >>>>> doesn't
+> >>>>> kick the context off the hardware where it then can check for a
+> >>>>> heartbeat and ban the context.
+> >>>
+> >>> Pulse, that is a request with I915_PRIORITY_BARRIER, does not
+> >>> preempt a running normal priority context?
+> >>>
+> >>> Why does it matter then whether or not heartbeats are enabled - when
+> >>> heartbeat just ends up sending the same engine pulse (eventually,
+> >>> with raising priority)?
+> >> The point is that the pulse is pointless. See the rest of my comments
+> >> below, specifically "the context will get resubmitted to the hardware
+> >> after the pulse completes". To re-iterate...
+> >>
+> >> Yes, it preempts the context. Yes, it does so whether heartbeats are
+> >> enabled or not. But so what? Who cares? You have preempted a context.
+> >> It is no longer running on the hardware. BUT IT IS STILL A VALID
+> >> CONTEXT.
+> >
+> > It is valid yes, and it even may be the current ABI so another
+> > question is whether it is okay to change that.
+> >
+> >> The backend scheduler will just resubmit it to the hardware as soon
+> >> as the pulse completes. The only reason this works at all is because
+> >> of the horrid hack in the execlist scheduler's back end
+> >> implementation (in __execlists_schedule_in):
+> >>          if (unlikely(intel_context_is_closed(ce) &&
+> >>                       !intel_engine_has_heartbeat(engine)))
+> >>                  intel_context_set_banned(ce);
+> >
+> > Right, is the above code then needed with this patch - when ban is
+> > immediately applied on the higher level?
+> >
+> >> The actual back end scheduler is saying "Is this a zombie context? Is
+> >> the heartbeat disabled? Then ban it". No other scheduler backend is
+> >> going to have knowledge of zombie context status or of the heartbeat
+> >> status. Nor are they going to call back into the higher levels of the
+> >> i915 driver to trigger a ban operation. Certainly a hardware
+> >> implemented scheduler is not going to be looking at private i915
+> >> driver information to decide whether to submit a context or whether
+> >> to tell the OS to kill it off instead.
+> >>
+> >> For persistence to work with a hardware scheduler (or a non-Intel
+> >> specific scheduler such as the DRM one), the handling of zombie
+> >> contexts, banning, etc. *must* be done entirely in the front end. It
+> >> cannot rely on any backend hacks. That means you can't rely on any
+> >> fancy behaviour of pulses.
+> >>
+> >> If you want to ban a context then you must explicitly ban that
+> >> context. If you want to ban it at some later point then you need to
+> >> track it at the top level as a zombie and then explicitly ban that
+> >> zombie at whatever later point.
+> >
+> > I am still trying to understand it all. If I go by the commit message:
+> >
+> > """
+> > This is needed for GuC submission as a idle pulse doesn't
+> > kick the context off the hardware where it then can check for a
+> > heartbeat and ban the context.
+> > """
+> >
+> > That did not explain things for me. Sentence does not appear to make
+> > sense. Now, it seems "kick off the hardware" is meant as revoke and
+> > not just preempt. Which is fine, perhaps just needs to be written more
+> > explicitly. But the part of checking for heartbeat after idle pulse
+> > does not compute for me. It is the heartbeat which emits idle pulses,
+> > not idle pulse emitting heartbeats.
+> I am in agreement that the commit message is confusing and does not
+> explain either the problem or the solution.
+>
+>
+> >
+> >
+> > But anyway, I can buy the handling at the front end story completely.
+> > It makes sense. We just need to agree that a) it is okay to change the
+> > ABI and b) remove the backend check from execlists if it is not needed
+> > any longer.
+> >
+> > And if ABI change is okay then commit message needs to talk about it
+> > loudly and clearly.
+> I don't think we have a choice. The current ABI is not and cannot ever
+> be compatible with any scheduler external to i915. It cannot be
+> implemented with a hardware scheduler such as the GuC and it cannot be
+> implemented with an external software scheduler such as the DRM one.
 
-Do you want me to tune down the commit message a bit, it's not a must
-to submit the job, but just makes a bit more sense than bailing out
-with a fence seqno reserved?
+So generally on linux we implement helper libraries, which means
+massive flexibility everywhere.
+
+https://blog.ffwll.ch/2016/12/midlayers-once-more-with-feeling.html
+
+So it shouldn't be an insurmountable problem to make this happen even
+with drm/scheduler, we can patch it up.
+
+Whether that's justified is another question.
+
+> My view is that any implementation involving knowledge of the heartbeat
+> is fundamentally broken.
+>
+> According to Daniel Vetter, the DRM ABI on this subject is that an
+> actively executing context should persist until the DRM file handle is
+> closed. That seems like a much more plausible and simple ABI than one
+
+DRM ABI is maybe a bit an overkill statement. It's more "what other
+drivers do", but it's generally a good idea to not ignore that :-)
+
+> that says 'if the heartbeat is running then a context will persist
+> forever, if the heartbeat is not running then it will be killed
+> immediately, if the heart was running but then stops running then the
+> context will be killed on the next context switch, ...'. And if I
+> understand it correctly, the current ABI allows a badly written user app
+> to cause a denial of service by leaving contexts permanently running an
+> infinite loop on the hardware even after the app has been killed! How
+> can that ever be considered a good idea?
+
+We're not going to support changing all these settings at runtime.
+There's just not point in trying to make that work race-free, it
+either adds complexity to the code for no reason, or it adds overhead
+to the code for no reason.
+
+Yes I know existing customers and all that, but
+- they can change this stuff, and when they change it while anyting is
+in-flight they get to keep the pieces. These options taint the kernel
+for a reason (and if they don't, that should be fixed)
+- quite a few around heartbeat and compute support as we've merged a
+while ago hang by design when trying to smash them into drm rules.
+We're not going to fix that, and we should not use any existing such
+assumptions as justification for code changes.
+
+Wrt infinitely running: Right now nothing is allowed to run forever,
+because hangcheck will step in and kill that job. Once we add compute
+mode ctx flag we'll require killing on process exit to stop escape.
+
+> Therefore, the context close implementation should be to add an active
+> context to a zombie list. If a context is in zombie state and its last
+> request completes then the context can be immediately killed at that
+> point. Otherwise, on DRM handle close, we go through the zombie list and
+> immediately kill all contexts.
+>
+> Simple, clean, no back-end scheduler hacks, no reliance on heartbeats or
+> pulses. Also no opportunity for rogue (or just badly written) user
+> processes to leave zombie contexts running on the hardware forever and
+> causing a denial of service attack. If the host process is killed, all
+> of its GPU processes are also killed irrespective of what dodgy context
+> flags they may or may not have set.
+
+Uh, the intel_context state machine is already a bit too complex, and
+the implementation lacks a bunch of barriers at least from the cursor
+look I've given it thus far.
+
+So if we really need to make that more complex with more states then I
+think someone needs to come up with an actual clean design, with
+proper state transitions and all the barriers (or really, a design
+which doesn't need barriers). This is going to be work.
 -Daniel
---=20
+
+>
+> John.
+>
+>
+> >
+> > Or perhaps there is no ABI change? I am not really clear how does
+> > setting banned status propagate to the GuC backend. I mean at which
+> > point does i915 ends up passing that info to the firmware?
+> >
+> > Regards,
+> >
+> > Tvrtko
+> >
+> >>
+> >>
+> >>>
+> >>>> It's worse than this. If the engine in question is an individual
+> >>>> physical engine then sending a pulse (with sufficiently high
+> >>>> priority) will pre-empt the engine and kick the context off.
+> >>>> However, the GuC
+> >>>
+> >>> Why it is different for physical vs virtual, aren't both just
+> >>> schedulable contexts with different engine masks for what GuC is
+> >>> concerned? Oh, is it a matter of needing to send pulses to all
+> >>> engines which comprise a virtual one?
+> >> It isn't different. It is totally broken for both. It is potentially
+> >> more broken for virtual engines because of the question of which
+> >> engine to pulse. But as stated above, the pulse is pointless anyway
+> >> so the which engine question doesn't even matter.
+> >>
+> >> John.
+> >>
+> >>
+> >>>
+> >>>> scheduler does not have hacks in it to check the state of the
+> >>>> heartbeat or whether a context is actually a zombie or not. Thus,
+> >>>> the context will get resubmitted to the hardware after the pulse
+> >>>> completes and effectively nothing will have happened.
+> >>>>
+> >>>> I would assume that the DRM scheduler which we are meant to be
+> >>>> switching to for execlist as well as GuC submission is also
+> >>>> unlikely to have hacks for zombie contexts and tests for whether
+> >>>> the i915 specific heartbeat has been disabled since the context
+> >>>> became a zombie. So when that switch happens, this test will also
+> >>>> fail in execlist mode as well as GuC mode.
+> >>>>
+> >>>> The choices I see here are to simply remove persistence completely
+> >>>> (it is a basically a bug that became UAPI because it wasn't caught
+> >>>> soon enough!) or to implement it in a way that does not require
+> >>>> hacks in the back end scheduler. Apparently, the DRM scheduler is
+> >>>> expected to allow zombie contexts to persist until the DRM file
+> >>>> handle is closed. So presumably we will have to go with option two.
+> >>>>
+> >>>> That means flagging a context as being a zombie when it is closed
+> >>>> but still active. The driver would then add it to a zombie list
+> >>>> owned by the DRM client object. When that client object is closed,
+> >>>> i915 would go through the list and genuinely kill all the contexts.
+> >>>> No back end scheduler hacks required and no intimate knowledge of
+> >>>> the i915 heartbeat mechanism required either.
+> >>>>
+> >>>> John.
+> >>>>
+> >>>>
+> >>>>>
+> >>>>> This patch also updates intel_engine_has_heartbeat to be a vfunc
+> >>>>> as we
+> >>>>> now need to call this function on execlists virtual engines too.
+> >>>>>
+> >>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> >>>>> ---
+> >>>>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   |  5 +++--
+> >>>>>   drivers/gpu/drm/i915/gt/intel_context_types.h |  2 ++
+> >>>>>   drivers/gpu/drm/i915/gt/intel_engine.h        | 21
+> >>>>> ++-----------------
+> >>>>>   .../drm/i915/gt/intel_execlists_submission.c  | 14 +++++++++++++
+> >>>>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +++++-
+> >>>>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 --
+> >>>>>   6 files changed, 26 insertions(+), 24 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>> index 9c3672bac0e2..b8e01c5ba9e5 100644
+> >>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>> @@ -1090,8 +1090,9 @@ static void kill_engines(struct
+> >>>>> i915_gem_engines *engines, bool ban)
+> >>>>>        */
+> >>>>>       for_each_gem_engine(ce, engines, it) {
+> >>>>>           struct intel_engine_cs *engine;
+> >>>>> +        bool local_ban = ban ||
+> >>>>> !intel_engine_has_heartbeat(ce->engine);
+> >>>
+> >>> In any case (pending me understanding what's really going on there),
+> >>> why would this check not be in kill_context with currently does this:
+> >>>
+> >>>     bool ban = (!i915_gem_context_is_persistent(ctx) ||
+> >>>             !ctx->i915->params.enable_hangcheck);
+> >>> ...
+> >>>         kill_engines(pos, ban);
+> >>>
+> >>> So whether to ban decision would be consolidated to one place.
+> >>>
+> >>> In fact, decision on whether to allow persistent is tied to
+> >>> enable_hangcheck, which also drives hearbeat emission. So perhaps
+> >>> one part of the correct fix is to extend the above (kill_context)
+> >>> ban criteria to include hearbeat values anyway. Otherwise isn't it a
+> >>> simple miss that this check fails to account to hearbeat disablement
+> >>> via sysfs?
+> >>>
+> >>> Regards,
+> >>>
+> >>> Tvrtko
+> >>>
+> >>>>> -        if (ban && intel_context_ban(ce, NULL))
+> >>>>> +        if (local_ban && intel_context_ban(ce, NULL))
+> >>>>>               continue;
+> >>>>>           /*
+> >>>>> @@ -1104,7 +1105,7 @@ static void kill_engines(struct
+> >>>>> i915_gem_engines *engines, bool ban)
+> >>>>>           engine = active_engine(ce);
+> >>>>>           /* First attempt to gracefully cancel the context */
+> >>>>> -        if (engine && !__cancel_engine(engine) && ban)
+> >>>>> +        if (engine && !__cancel_engine(engine) && local_ban)
+> >>>>>               /*
+> >>>>>                * If we are unable to send a preemptive pulse to bump
+> >>>>>                * the context from the GPU, we have to resort to a
+> >>>>> full
+> >>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >>>>> b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >>>>> index e54351a170e2..65f2eb2a78e4 100644
+> >>>>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >>>>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >>>>> @@ -55,6 +55,8 @@ struct intel_context_ops {
+> >>>>>       void (*reset)(struct intel_context *ce);
+> >>>>>       void (*destroy)(struct kref *kref);
+> >>>>> +    bool (*has_heartbeat)(const struct intel_engine_cs *engine);
+> >>>>> +
+> >>>>>       /* virtual engine/context interface */
+> >>>>>       struct intel_context *(*create_virtual)(struct
+> >>>>> intel_engine_cs **engine,
+> >>>>>                           unsigned int count);
+> >>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h
+> >>>>> b/drivers/gpu/drm/i915/gt/intel_engine.h
+> >>>>> index c2a5640ae055..1b11a808acc4 100644
+> >>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> >>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> >>>>> @@ -283,28 +283,11 @@ struct intel_context *
+> >>>>>   intel_engine_create_virtual(struct intel_engine_cs **siblings,
+> >>>>>                   unsigned int count);
+> >>>>> -static inline bool
+> >>>>> -intel_virtual_engine_has_heartbeat(const struct intel_engine_cs
+> >>>>> *engine)
+> >>>>> -{
+> >>>>> -    /*
+> >>>>> -     * For non-GuC submission we expect the back-end to look at the
+> >>>>> -     * heartbeat status of the actual physical engine that the work
+> >>>>> -     * has been (or is being) scheduled on, so we should only reach
+> >>>>> -     * here with GuC submission enabled.
+> >>>>> -     */
+> >>>>> -    GEM_BUG_ON(!intel_engine_uses_guc(engine));
+> >>>>> -
+> >>>>> -    return intel_guc_virtual_engine_has_heartbeat(engine);
+> >>>>> -}
+> >>>>> -
+> >>>>>   static inline bool
+> >>>>>   intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
+> >>>>>   {
+> >>>>> -    if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
+> >>>>> -        return false;
+> >>>>> -
+> >>>>> -    if (intel_engine_is_virtual(engine))
+> >>>>> -        return intel_virtual_engine_has_heartbeat(engine);
+> >>>>> +    if (engine->cops->has_heartbeat)
+> >>>>> +        return engine->cops->has_heartbeat(engine);
+> >>>>>       else
+> >>>>>           return READ_ONCE(engine->props.heartbeat_interval_ms);
+> >>>>>   }
+> >>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>>>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>>>> index de5f9c86b9a4..18005b5546b6 100644
+> >>>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>>>> @@ -3619,6 +3619,18 @@ virtual_get_sibling(struct intel_engine_cs
+> >>>>> *engine, unsigned int sibling)
+> >>>>>       return ve->siblings[sibling];
+> >>>>>   }
+> >>>>> +static bool virtual_engine_has_heartbeat(const struct
+> >>>>> intel_engine_cs *ve)
+> >>>>> +{
+> >>>>> +    struct intel_engine_cs *engine;
+> >>>>> +    intel_engine_mask_t tmp, mask = ve->mask;
+> >>>>> +
+> >>>>> +    for_each_engine_masked(engine, ve->gt, mask, tmp)
+> >>>>> +        if (READ_ONCE(engine->props.heartbeat_interval_ms))
+> >>>>> +            return true;
+> >>>>> +
+> >>>>> +    return false;
+> >>>>> +}
+> >>>>> +
+> >>>>>   static const struct intel_context_ops virtual_context_ops = {
+> >>>>>       .flags = COPS_HAS_INFLIGHT,
+> >>>>> @@ -3634,6 +3646,8 @@ static const struct intel_context_ops
+> >>>>> virtual_context_ops = {
+> >>>>>       .enter = virtual_context_enter,
+> >>>>>       .exit = virtual_context_exit,
+> >>>>> +    .has_heartbeat = virtual_engine_has_heartbeat,
+> >>>>> +
+> >>>>>       .destroy = virtual_context_destroy,
+> >>>>>       .get_sibling = virtual_get_sibling,
+> >>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> >>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> >>>>> index 89ff0e4b4bc7..ae70bff3605f 100644
+> >>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> >>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> >>>>> @@ -2168,6 +2168,8 @@ static int guc_virtual_context_alloc(struct
+> >>>>> intel_context *ce)
+> >>>>>       return lrc_alloc(ce, engine);
+> >>>>>   }
+> >>>>> +static bool guc_virtual_engine_has_heartbeat(const struct
+> >>>>> intel_engine_cs *ve);
+> >>>>> +
+> >>>>>   static const struct intel_context_ops virtual_guc_context_ops = {
+> >>>>>       .alloc = guc_virtual_context_alloc,
+> >>>>> @@ -2183,6 +2185,8 @@ static const struct intel_context_ops
+> >>>>> virtual_guc_context_ops = {
+> >>>>>       .enter = guc_virtual_context_enter,
+> >>>>>       .exit = guc_virtual_context_exit,
+> >>>>> +    .has_heartbeat = guc_virtual_engine_has_heartbeat,
+> >>>>> +
+> >>>>>       .sched_disable = guc_context_sched_disable,
+> >>>>>       .destroy = guc_context_destroy,
+> >>>>> @@ -3029,7 +3033,7 @@ guc_create_virtual(struct intel_engine_cs
+> >>>>> **siblings, unsigned int count)
+> >>>>>       return ERR_PTR(err);
+> >>>>>   }
+> >>>>> -bool intel_guc_virtual_engine_has_heartbeat(const struct
+> >>>>> intel_engine_cs *ve)
+> >>>>> +static bool guc_virtual_engine_has_heartbeat(const struct
+> >>>>> intel_engine_cs *ve)
+> >>>>>   {
+> >>>>>       struct intel_engine_cs *engine;
+> >>>>>       intel_engine_mask_t tmp, mask = ve->mask;
+> >>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> >>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> >>>>> index c7ef44fa0c36..c2afc3b88fd8 100644
+> >>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> >>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> >>>>> @@ -29,8 +29,6 @@ void intel_guc_dump_active_requests(struct
+> >>>>> intel_engine_cs *engine,
+> >>>>>                       struct i915_request *hung_rq,
+> >>>>>                       struct drm_printer *m);
+> >>>>> -bool intel_guc_virtual_engine_has_heartbeat(const struct
+> >>>>> intel_engine_cs *ve);
+> >>>>> -
+> >>>>>   int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+> >>>>>                      atomic_t *wait_var,
+> >>>>>                      bool interruptible,
+> >>>>
+> >>>> _______________________________________________
+> >>>> Intel-gfx mailing list
+> >>>> Intel-gfx@lists.freedesktop.org
+> >>>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> >>
+>
+
+
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
