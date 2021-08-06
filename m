@@ -1,119 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEB83E28DC
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 12:44:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B453E28D9
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 12:44:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8240A6E869;
-	Fri,  6 Aug 2021 10:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A0206E8FC;
+	Fri,  6 Aug 2021 10:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2106.outbound.protection.outlook.com [40.107.212.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3DC6E869
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Aug 2021 10:44:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WSTHSLTe4VJwTQVT2ADP0YblAEGmTnU2wadmXuH5YxvIkszdXWLGH/nnHHfve+1iPT4NxiEtv+Q5EX9PUazXvHcTFPrX+GBsMQArtWzm8fyKl/aDmgvxOO061zmqEYHn2Ld8cAKPC6jqolf1sIxUHjh9aFFs8KeWqWqcGY8P6E6WlJDlj87JHn10NG+jk7ITU9WKkjBS+h7uuqbH2iOKr8sMFeP70icOBdyAXoS+ILFRRXOm5FhBjXQSTpYxFTTjW8psaPzmVkVJpAS6oKEAjn3Z9c1+dutVOGKwJGeuuY2OG9kKr+LdwAKR/TLHqGVtpaz3fkiv5jYrc+Op2Z7oDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WheNvOQb7m5Nb2xbnVsY1/4nzMe7gWxmw7EIWbYnNb0=;
- b=mZfWO46ns920ceWEUhpiDhLXL8d7SmXHZElvdgbnJq+vd3esf5XN74WKYfGBK5PRbUBQph4pBfXLZpMsDA4lS35vIhbOpCKe4TUSn7qbAO85wb0AuZzfjmEod4mLsa/MDCxPiYDbFC/29Arcojz2r+zspKTeH5cMYLonnDqJ7rrCZJf/5eakQKlxllxqIMPncAs+AcSv8E9TsuLcQGZRwbV/5u5FFRpjVtVDtfalxd0ZYIRO0uO40WfjK/2FIWZxpmTLw9+UBdHET7RbgaBBOldN03dLTc0KBjlQlSI43Fshk3YGOqPyX5W3GERkq4rb+N71UINEbsLVQVPskel3sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WheNvOQb7m5Nb2xbnVsY1/4nzMe7gWxmw7EIWbYnNb0=;
- b=2kDruD6PD4TBqhlQYQrec553vOwYuSE0IUy7yEgtA8cyl70242m4nxdDUU3yRe3H6i1xgaiUnrrynFvxlKFajqhM+kx4L2jrZgwQkJv0kzcnXseqcA5bdIrdh21d9s9kCXPPZHCpGm1ys0arbhF1E/FsxraUInYjiVSoCm/aOwY=
-Authentication-Results: analogixsemi.com; dkim=none (message not signed)
- header.d=none;analogixsemi.com; dmarc=none action=none
- header.from=analogixsemi.com;
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by BYAPR04MB4584.namprd04.prod.outlook.com (2603:10b6:a03:16::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.19; Fri, 6 Aug
- 2021 10:44:34 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::5c0e:fbe5:2bd6:ec6]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::5c0e:fbe5:2bd6:ec6%3]) with mapi id 15.20.4394.019; Fri, 6 Aug 2021
- 10:44:34 +0000
-From: Xin Ji <xji@analogixsemi.com>
-To: robert.foss@linaro.org,
-	drinkcat@google.com,
-	a.hajda@samsung.com
-Cc: narmstrong@baylibre.com, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, dan.carpenter@oracle.com, airlied@linux.ie,
- daniel@ffwll.ch, boris.brezillon@collabora.com, sam@ravnborg.org,
- hsinyi@chromium.org, duwe@lst.de, anarsoul@gmail.com,
- m.szyprowski@samsung.com, bliang@analogixsemi.com, qwen@analogixsemi.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devel@driverdev.osuosl.org, Xin Ji <xji@analogixsemi.com>
-Subject: [PATCH v2] drm/bridge: anx7625: Tune K value for IVO panel
-Date: Fri,  6 Aug 2021 18:44:07 +0800
-Message-Id: <20210806104407.2208538-1-xji@analogixsemi.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HKAPR04CA0012.apcprd04.prod.outlook.com
- (2603:1096:203:d0::22) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33FF96E869;
+ Fri,  6 Aug 2021 10:44:37 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="214078384"
+X-IronPort-AV: E=Sophos;i="5.84,300,1620716400"; d="scan'208";a="214078384"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2021 03:44:36 -0700
+X-IronPort-AV: E=Sophos;i="5.84,300,1620716400"; d="scan'208";a="442888146"
+Received: from tylerlew-mobl.ger.corp.intel.com (HELO [10.213.236.253])
+ ([10.213.236.253])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2021 03:44:34 -0700
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Be more gentle when exiting
+ non-persistent contexts
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Zhen Han <zhen.han@intel.com>
+References: <20210805120509.2270455-1-tvrtko.ursulin@linux.intel.com>
+ <20210805163215.GA100505@DUT151-ICLU.fm.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <1e6d35e6-6e19-a980-a1b9-d3f4da3c9778@linux.intel.com>
+Date: Fri, 6 Aug 2021 11:44:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from anxtwsw-Precision-3640-Tower (60.251.58.79) by
- HKAPR04CA0012.apcprd04.prod.outlook.com (2603:1096:203:d0::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.15 via Frontend Transport; Fri, 6 Aug 2021 10:44:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4289bf28-1872-4e4e-d695-08d958c72da3
-X-MS-TrafficTypeDiagnostic: BYAPR04MB4584:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR04MB4584FDD7945F263A9294F0FCC7F39@BYAPR04MB4584.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C6zww95OaxL5Xwgt4mc/VF2oFWLNxYJqIz5c39W9vfpEh636LJW0AH0KeuKEwI93eHkICZfq8uGAy7XM5PavNQL8zdvZPq0eIBfl42+RxdjEwFiEPTqne8YOn/cVGx/JPa6gqpK30038/Xiq9CEve5ERLe/4n4/q0IC/9lJvenGLnJHp7sqjPFLtCNGo/gZOe/juuLfUBI3fIAnmIGZpaCLL4OX2SvLOpCjSoGC4+YSfjI8j+8Xva5g/Um+8QOMig+SrLS+2z/EEdpPPEYLEGNoglUfd/BmSmUSbqf2W6cjNvK29srq8QAPDJsDBLEbBrkRPsufba+e0/PEkVcpsGy2XTeFRqFQEOjTd6rdqaBzp57i4MaXbzUzgutCOBqP7wIde7tZiLJmcIfniQRCl6uP/P31AcmMHwY68Un0LBJrVVfy2N0pyAYh28hfs7pmSvqjR0Lftpg6cfDpfZ/qOjo2gHFZX8RP3mzvgV7m/5hrs0khzswojfQH+eg4WeNyB2cK2jLiTyW6qc69DhygIwK2Ksc2P9oNAaOO3SjOLSJtwaQLNVv2ilySZUBr8X5ebP8uVQl9Z2Dm0XL+oa6gatG4vKK6Drg5LrpdDKiu6nIrcNW9JDE+CJM2HaQ1X3CMbZjO89isJnCLkkAFPjCO9lXeT79ABgxRT4owQ7pHOQxNgY45jcZ3F8lcHOLdLDI8ZXfV/xt+qYHREw6bnIl4HsA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(39840400004)(366004)(396003)(346002)(136003)(8936002)(6486002)(956004)(26005)(5660300002)(2616005)(66556008)(316002)(8676002)(66476007)(38100700002)(38350700002)(1076003)(186003)(86362001)(66946007)(107886003)(7416002)(6666004)(55236004)(6496006)(36756003)(4326008)(478600001)(52116002)(2906002)(83380400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mgfCQbizHrEp9NPfW9thSSBcJRVrWG5dzeOX0mf8uAMppfVXORHcTkzfLpVh?=
- =?us-ascii?Q?bOzn/noWwmvJHSnyTaeKKEgU30MAKhOzT1PQ8kg94hC4FHbpO8AG40RJw20O?=
- =?us-ascii?Q?xLHzYeTSj6816SWWiMzmjlU3+JU/+r2LuKM0hy75WixN7PoFioHUb1ziLDVn?=
- =?us-ascii?Q?RIvZ0OE79DVWsxTLQGCZBowKqalV13yoDAH3yL2uPkozEzFqrI6MqhUeCdUr?=
- =?us-ascii?Q?p25HfrDfh35FX7+keAIS9DAnH+rCtcsZgnBg29/m8q1oQI+yCeUoUF2yFTlH?=
- =?us-ascii?Q?bkIRtfsgAlg4qIiDZ3G2ZSJ1c25KqOv/RtEqGQG8k+nQ+N/MP62n9cCYbTgS?=
- =?us-ascii?Q?vFmEGmgqWvMI9O20nLxQx77lNYGa6b16FuF0ioeuRhQ29TsSg02gdfUkyUGq?=
- =?us-ascii?Q?Sn2EAFXMdnNBjdrAtM9uuUABvs9doXgJbj3dislXZJ5IiPo7VEeDG/7cw2O9?=
- =?us-ascii?Q?klTKgv3P943fcJXPytjKz/9NdU4Mpw45hPJf2B2kvBZmqIxsMP5DsxSoJo9G?=
- =?us-ascii?Q?h3oLZ5padTrWpOpgCFbTKVrnjMokA/pSQcWnHw1NX/+9LzNj8bRauWyiQsZ8?=
- =?us-ascii?Q?n+bPd4ec/cS8Jsr4v6/jT2qkw9xwmf7C4rp1Stlp2gmimc2m1pJN9v3s4j1f?=
- =?us-ascii?Q?BnaAIJ3PkjscHSYwh/guj+/r8OZ8SyFBahd5YzVBjEtTiHLVK8Q70G4vL7WN?=
- =?us-ascii?Q?1hvZhKkIK+8OfT4/9P+V75Ks8DvmrU1sAA/iGfUpkbd8PynGQT3PirrjReiJ?=
- =?us-ascii?Q?q4WgzU/EEcr2thz5nIRVTHyLFjbqQBASm/YS/ag9QdMYBcY6+ea4u6SXvYFT?=
- =?us-ascii?Q?ZedWVY3cZrPY0SYCIumYpbX8swrV09q76XtIfUG4C56t7gdBd0myfNxUaHAy?=
- =?us-ascii?Q?tSZgc5OPInJIkap0wOHQF4iGRqYRPr9jF06TQu7Xp7jLVGqc3G1eXLWTcaGP?=
- =?us-ascii?Q?RkfpprVWqAwqxNwXpYE6T79JhnjZ+FSRh4NSEJV/RHcM3JopnyTCSQqlvrYO?=
- =?us-ascii?Q?EvtVuhENCt+9Y84DA8hNmaIsz0RnxHXfMEHHlUg6PoiFfzgEU381FFMMXmQc?=
- =?us-ascii?Q?3NhYAaICyTzFt6bHS+nA1Sy456zXdrW7PVqw6pkeXLlLPTQeTuwx0svAODNK?=
- =?us-ascii?Q?iCzSdrFMhzNdI6AcRc14eSWuZzaNfykIocww2PcFamOUlWBGCHCzmyaYZqLm?=
- =?us-ascii?Q?6kMnMd++PR3dlTFMPv4KHOuK8GOOfNg08/GE97/Rc/eVH3YlSzQ1+RKhe19X?=
- =?us-ascii?Q?4hIswpnaY3KWjkI5wJLiNNxwOSbOuwML5jwp59ZK5ef54vezn5c6dRrispEA?=
- =?us-ascii?Q?uGfTOY4Zl7SObi3n0jJ96N3k?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4289bf28-1872-4e4e-d695-08d958c72da3
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2021 10:44:33.9692 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mR9pnNfKgs5Nl5DtOD5raDTAtlBv6fNfTbF7rWE5kocgGCmWHnbnWT2CcGX2Z5wrQhOnXCVRHxBH9tAXcgxhNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4584
+In-Reply-To: <20210805163215.GA100505@DUT151-ICLU.fm.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,76 +56,344 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-IVO panel require less input video clock variation than video clock
-variation in DP CTS spec.
 
-This patch decreases the K value of ANX7625 which will shrink eDP Tx
-video clock variation to meet IVO panel's requirement.
+On 05/08/2021 17:32, Matthew Brost wrote:
+> On Thu, Aug 05, 2021 at 01:05:09PM +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> When a non-persistent context exits we currently mark it as banned in
+>> order to trigger fast termination of any outstanding GPU jobs it may have
+>> left running.
+>>
+>> In doing so we apply a very strict 1ms limit in which the left over job
+>> has to preempt before we issues an engine resets.
+>>
+>> Some workloads are not able to cleanly preempt in that time window and it
+>> can be argued that it would instead be better to give them a bit more
+>> grace since avoiding engine resets is generally preferrable.
+>>
+>> To achieve this the patch splits handling of banned contexts from simply
+>> closed non-persistent ones and then applies different timeouts for both
+>> and also extends the criteria which determines if a request should be
+>> scheduled back in after preemption or not.
+>>
+>> 15ms preempt timeout grace is given to exited non-persistent contexts
+>> which have been empirically tested to satisfy customers requirements
+>> and still provides reasonably quick cleanup post exit.
+>>
+> 
+> I think you need to rework your thinking here a bit as this a very
+> execlists specific solution and the GuC needs to be considered.
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Xin Ji <xji@analogixsemi.com>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 24 ++++++++++++++++++++---
- drivers/gpu/drm/bridge/analogix/anx7625.h |  4 +++-
- 2 files changed, 24 insertions(+), 4 deletions(-)
+Slipped my mind GuC patches were merged in the meantime. (This patch 
+predates that.) But I think wording in the commit message is fine. It is 
+just the implementation that now has to handle the GuC as well.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index a3d82377066b..9b9e3984dd38 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -384,6 +384,25 @@ static int anx7625_odfc_config(struct anx7625_data *ctx,
- 	return ret;
- }
- 
-+/*
-+ * The MIPI source video data exist large variation (e.g. 59Hz ~ 61Hz),
-+ * anx7625 defined K ratio for matching MIPI input video clock and
-+ * DP output video clock. Increase K value can match bigger video data
-+ * variation. IVO panel has small variation than DP CTS spec, need
-+ * decrease the K value.
-+ */
-+static int anx7625_set_k_value(struct anx7625_data *ctx)
-+{
-+	struct edid *edid = (struct edid *)ctx->slimport_edid_p.edid_raw_data;
-+
-+	if (edid->mfg_id[0] == IVO_MID0 && edid->mfg_id[1] == IVO_MID1)
-+		return anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
-+					 MIPI_DIGITAL_ADJ_1, 0x3B);
-+
-+	return anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
-+				 MIPI_DIGITAL_ADJ_1, 0x3D);
-+}
-+
- static int anx7625_dsi_video_timing_config(struct anx7625_data *ctx)
- {
- 	struct device *dev = &ctx->client->dev;
-@@ -470,9 +489,8 @@ static int anx7625_dsi_video_timing_config(struct anx7625_data *ctx)
- 			MIPI_PLL_N_NUM_15_8, (n >> 8) & 0xff);
- 	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client, MIPI_PLL_N_NUM_7_0,
- 			(n & 0xff));
--	/* Diff */
--	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
--			MIPI_DIGITAL_ADJ_1, 0x3D);
-+
-+	anx7625_set_k_value(ctx);
- 
- 	ret |= anx7625_odfc_config(ctx, post_divider - 1);
- 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 034c3840028f..6dcf64c703f9 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -210,7 +210,9 @@
- #define  MIPI_VIDEO_STABLE_CNT           0x0A
- 
- #define  MIPI_LANE_CTRL_10               0x0F
--#define  MIPI_DIGITAL_ADJ_1   0x1B
-+#define  MIPI_DIGITAL_ADJ_1     0x1B
-+#define  IVO_MID0               0x26
-+#define  IVO_MID1               0xCF
- 
- #define  MIPI_PLL_M_NUM_23_16   0x1E
- #define  MIPI_PLL_M_NUM_15_8    0x1F
--- 
-2.25.1
+>> v2:
+>>   * Streamline fast path checks.
+>>
+>> v3:
+>>   * Simplify by using only schedulable status.
+>>   * Increase timeout to 20ms.
+>>
+>> v4:
+>>   * Fix live_execlists selftest.
+>>
+>> v5:
+>>   * Fix logic in kill_engines.
+>>
+>> v6:
+>>   * Rebase.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Zhen Han <zhen.han@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 22 +++++++++++++------
+>>   drivers/gpu/drm/i915/gt/intel_context.c       |  2 ++
+>>   drivers/gpu/drm/i915/gt/intel_context.h       | 17 +++++++++++++-
+>>   drivers/gpu/drm/i915/gt/intel_context_types.h |  1 +
+>>   .../drm/i915/gt/intel_execlists_submission.c  | 11 ++++++++--
+>>   drivers/gpu/drm/i915/gt/selftest_execlists.c  | 20 +++++++++++------
+>>   drivers/gpu/drm/i915/i915_request.c           |  2 +-
+>>   7 files changed, 57 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> index cff72679ad7c..21fe5d4057ab 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> @@ -1065,7 +1065,8 @@ static struct intel_engine_cs *active_engine(struct intel_context *ce)
+>>   	return engine;
+>>   }
+>>   
+>> -static void kill_engines(struct i915_gem_engines *engines, bool ban)
+>> +static void
+>> +kill_engines(struct i915_gem_engines *engines, bool ban, bool persistent)
+>>   {
+>>   	struct i915_gem_engines_iter it;
+>>   	struct intel_context *ce;
+>> @@ -1079,8 +1080,15 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+>>   	 */
+>>   	for_each_gem_engine(ce, engines, it) {
+>>   		struct intel_engine_cs *engine;
+>> +		bool skip = false;
+>> +
+>> +		if (ban)
+>> +			skip = intel_context_ban(ce, NULL);
+>> +		else if (!persistent)
+>> +			skip = !intel_context_clear_schedulable(ce);
+> 
+> schedulable doesn't hook into the backend at all, while
+> intel_context_ban does. In the case of GuC submission intel_context_ban
+> changes to preemption timeout to 1 us and disables scheduling resulting
+> in the context getting kicked off the hardware immediately. You likely
+> need to update intel_context_clear_schedulable to use the same vfunc as
+> intel_context_ban() but accept an argument for the value of the
+> preemption timeout. For a ban user a lower value, for clearing
+> schedulable use a higher value.
 
+Okay I'll have a look. Might go back to closed flag as opposed to 
+schedulable as well since I don't quite like schedulable being the odd 
+one out.
+
+> 
+>>   
+>> -		if (ban && intel_context_ban(ce, NULL))
+>> +		/* Already previously banned or made non-schedulable? */
+>> +		if (skip)
+>>   			continue;
+>>   
+>>   		/*
+>> @@ -1093,7 +1101,7 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+>>   		engine = active_engine(ce);
+>>   
+>>   		/* First attempt to gracefully cancel the context */
+>> -		if (engine && !__cancel_engine(engine) && ban)
+>> +		if (engine && !__cancel_engine(engine) && (ban || !persistent))
+>>   			/*
+>>   			 * If we are unable to send a preemptive pulse to bump
+>>   			 * the context from the GPU, we have to resort to a full
+>> @@ -1105,8 +1113,6 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
+>>   
+>>   static void kill_context(struct i915_gem_context *ctx)
+>>   {
+>> -	bool ban = (!i915_gem_context_is_persistent(ctx) ||
+>> -		    !ctx->i915->params.enable_hangcheck);
+>>   	struct i915_gem_engines *pos, *next;
+>>   
+>>   	spin_lock_irq(&ctx->stale.lock);
+>> @@ -1119,7 +1125,8 @@ static void kill_context(struct i915_gem_context *ctx)
+>>   
+>>   		spin_unlock_irq(&ctx->stale.lock);
+>>   
+>> -		kill_engines(pos, ban);
+>> +		kill_engines(pos, !ctx->i915->params.enable_hangcheck,
+>> +			     i915_gem_context_is_persistent(ctx));
+>>   
+>>   		spin_lock_irq(&ctx->stale.lock);
+>>   		GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
+>> @@ -1165,7 +1172,8 @@ static void engines_idle_release(struct i915_gem_context *ctx,
+>>   
+>>   kill:
+>>   	if (list_empty(&engines->link)) /* raced, already closed */
+>> -		kill_engines(engines, true);
+>> +		kill_engines(engines, true,
+>> +			     i915_gem_context_is_persistent(ctx));
+>>   
+>>   	i915_sw_fence_commit(&engines->fence);
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+>> index 745e84c72c90..bc1701ef1578 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>> @@ -382,6 +382,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+>>   	ce->ring = NULL;
+>>   	ce->ring_size = SZ_4K;
+>>   
+>> +	__set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
+>> +
+>>   	ewma_runtime_init(&ce->runtime.avg);
+>>   
+>>   	ce->vm = i915_vm_get(engine->gt->vm);
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+>> index c41098950746..5b50716654dd 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+>> @@ -251,7 +251,22 @@ static inline bool intel_context_is_banned(const struct intel_context *ce)
+>>   
+>>   static inline bool intel_context_set_banned(struct intel_context *ce)
+>>   {
+>> -	return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
+>> +	bool banned = test_and_set_bit(CONTEXT_BANNED, &ce->flags);
+>> +
+>> +	if (!banned)
+>> +		clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
+>> +
+>> +	return banned;
+>> +}
+>> +
+>> +static inline bool intel_context_clear_schedulable(struct intel_context *ce)
+>> +{
+>> +	return test_and_clear_bit(CONTEXT_SCHEDULABLE, &ce->flags);
+>> +}
+>> +
+>> +static inline bool intel_context_is_schedulable(const struct intel_context *ce)
+>> +{
+>> +	return test_bit(CONTEXT_SCHEDULABLE, &ce->flags);
+>>   }
+>>   
+>>   static inline bool intel_context_ban(struct intel_context *ce,
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> index e54351a170e2..3306c70c9c54 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> @@ -112,6 +112,7 @@ struct intel_context {
+>>   #define CONTEXT_FORCE_SINGLE_SUBMISSION	7
+>>   #define CONTEXT_NOPREEMPT		8
+>>   #define CONTEXT_LRCA_DIRTY		9
+>> +#define CONTEXT_SCHEDULABLE		10  /* Unless banned or non-persistent closed. */
+>>   
+>>   	struct {
+>>   		u64 timeout_us;
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> index de5f9c86b9a4..778f3cda3c71 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> @@ -478,7 +478,7 @@ __execlists_schedule_in(struct i915_request *rq)
+>>   		     !intel_engine_has_heartbeat(engine)))
+>>   		intel_context_set_banned(ce);
+>>   
+>> -	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
+>> +	if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
+>>   		reset_active(rq, engine);
+>>   
+>>   	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+>> @@ -1222,12 +1222,19 @@ static void record_preemption(struct intel_engine_execlists *execlists)
+>>   static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
+>>   					    const struct i915_request *rq)
+>>   {
+>> +	struct intel_context *ce;
+>> +
+>>   	if (!rq)
+>>   		return 0;
+>>   
+>> +	ce = rq->context;
+>> +
+>>   	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
+>> -	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
+>> +	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
+>>   		return 1;
+>> +	/* Longer grace for closed non-persistent contexts to avoid resets. */
+>> +	else if (unlikely(!intel_context_is_schedulable(ce)))
+>> +		return 20;
+> 
+> Likely want a define for '1' and '20' too.
+
+Since the addition of GuC yeah, true.
+
+Regards,
+
+Tvrtko
+
+> 
+> Matt
+> 
+>>   
+>>   	return READ_ONCE(engine->props.preempt_timeout_ms);
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>> index f12ffe797639..da36c015caf4 100644
+>> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>> @@ -2050,6 +2050,12 @@ struct live_preempt_cancel {
+>>   	struct preempt_client a, b;
+>>   };
+>>   
+>> +static void context_clear_banned(struct intel_context *ce)
+>> +{
+>> +	clear_bit(CONTEXT_BANNED, &ce->flags);
+>> +	set_bit(CONTEXT_SCHEDULABLE, &ce->flags);
+>> +}
+>> +
+>>   static int __cancel_active0(struct live_preempt_cancel *arg)
+>>   {
+>>   	struct i915_request *rq;
+>> @@ -2068,7 +2074,7 @@ static int __cancel_active0(struct live_preempt_cancel *arg)
+>>   	if (IS_ERR(rq))
+>>   		return PTR_ERR(rq);
+>>   
+>> -	clear_bit(CONTEXT_BANNED, &rq->context->flags);
+>> +	context_clear_banned(rq->context);
+>>   	i915_request_get(rq);
+>>   	i915_request_add(rq);
+>>   	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
+>> @@ -2112,7 +2118,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
+>>   	if (IS_ERR(rq[0]))
+>>   		return PTR_ERR(rq[0]);
+>>   
+>> -	clear_bit(CONTEXT_BANNED, &rq[0]->context->flags);
+>> +	context_clear_banned(rq[0]->context);
+>>   	i915_request_get(rq[0]);
+>>   	i915_request_add(rq[0]);
+>>   	if (!igt_wait_for_spinner(&arg->a.spin, rq[0])) {
+>> @@ -2128,7 +2134,7 @@ static int __cancel_active1(struct live_preempt_cancel *arg)
+>>   		goto out;
+>>   	}
+>>   
+>> -	clear_bit(CONTEXT_BANNED, &rq[1]->context->flags);
+>> +	context_clear_banned(rq[1]->context);
+>>   	i915_request_get(rq[1]);
+>>   	err = i915_request_await_dma_fence(rq[1], &rq[0]->fence);
+>>   	i915_request_add(rq[1]);
+>> @@ -2183,7 +2189,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
+>>   	if (IS_ERR(rq[0]))
+>>   		return PTR_ERR(rq[0]);
+>>   
+>> -	clear_bit(CONTEXT_BANNED, &rq[0]->context->flags);
+>> +	context_clear_banned(rq[0]->context);
+>>   	i915_request_get(rq[0]);
+>>   	i915_request_add(rq[0]);
+>>   	if (!igt_wait_for_spinner(&arg->a.spin, rq[0])) {
+>> @@ -2197,7 +2203,7 @@ static int __cancel_queued(struct live_preempt_cancel *arg)
+>>   		goto out;
+>>   	}
+>>   
+>> -	clear_bit(CONTEXT_BANNED, &rq[1]->context->flags);
+>> +	context_clear_banned(rq[1]->context);
+>>   	i915_request_get(rq[1]);
+>>   	err = i915_request_await_dma_fence(rq[1], &rq[0]->fence);
+>>   	i915_request_add(rq[1]);
+>> @@ -2273,7 +2279,7 @@ static int __cancel_hostile(struct live_preempt_cancel *arg)
+>>   	if (IS_ERR(rq))
+>>   		return PTR_ERR(rq);
+>>   
+>> -	clear_bit(CONTEXT_BANNED, &rq->context->flags);
+>> +	context_clear_banned(rq->context);
+>>   	i915_request_get(rq);
+>>   	i915_request_add(rq);
+>>   	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
+>> @@ -2329,7 +2335,7 @@ static int __cancel_fail(struct live_preempt_cancel *arg)
+>>   	if (IS_ERR(rq))
+>>   		return PTR_ERR(rq);
+>>   
+>> -	clear_bit(CONTEXT_BANNED, &rq->context->flags);
+>> +	context_clear_banned(rq->context);
+>>   	i915_request_get(rq);
+>>   	i915_request_add(rq);
+>>   	if (!igt_wait_for_spinner(&arg->a.spin, rq)) {
+>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>> index ce446716d092..b1a9bec83339 100644
+>> --- a/drivers/gpu/drm/i915/i915_request.c
+>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>> @@ -583,7 +583,7 @@ bool __i915_request_submit(struct i915_request *request)
+>>   		goto active;
+>>   	}
+>>   
+>> -	if (unlikely(intel_context_is_banned(request->context)))
+>> +	if (unlikely(!intel_context_is_schedulable(request->context)))
+>>   		i915_request_set_error_once(request, -EIO);
+>>   
+>>   	if (unlikely(fatal_error(request->fence.error)))
+>> -- 
+>> 2.30.2
+>>
