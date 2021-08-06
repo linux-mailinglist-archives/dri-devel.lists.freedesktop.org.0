@@ -2,41 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C49E3E2A46
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 14:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B41B3E2A6E
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Aug 2021 14:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF516E17D;
-	Fri,  6 Aug 2021 12:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A8E6E0F4;
+	Fri,  6 Aug 2021 12:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 075276E17D
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Aug 2021 12:04:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 55456610C7;
- Fri,  6 Aug 2021 12:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628251474;
- bh=oh8vZSeti7z+6lrd4yUmtleREOw9yY5uVacEw5hK/vQ=;
- h=From:To:Cc:Subject:Date:From;
- b=lifmlj4XGvcur7tIkGK+Ce8W2qo43OU0/tcG8LQPusmrl8qU4/MlLXVK+MYxpy0ui
- c1TLt1vPWp0Z2k4/fgETE+kfprVlFu+1r3jozehlZfk9gAiM1//XBtMpFMSjU59U+i
- T8VyaR8NKQMP8A2GgJed3K4VuIXb4ZSAdD7Ln3gnypke5R3KN3xf8K5v2Fk+/X5Dv1
- I9WuRNfh5OUwl11frgk8SWx23iDQHIX7PpetdKznB7knOakpZownxcAHiGDP/Yv+7f
- RW2BL7te/0yeakCdAitzE1y3f4RnA9Ncm0D5aWeJtgH0BhRd8L+rrh13JgaGZ0opyZ
- xutbYT/yZfNjw==
-From: Mark Brown <broonie@kernel.org>
-To: Dave Airlie <airlied@linux.ie>,
-	DRI <dri-devel@lists.freedesktop.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Chengming Gui <Jack.Gui@amd.com>, Tao Zhou <tao.zhou1@amd.com>
-Subject: linux-next: manual merge of the drm tree with the drm-fixes tree
-Date: Fri,  6 Aug 2021 13:04:17 +0100
-Message-Id: <20210806120417.49878-1-broonie@kernel.org>
-X-Mailer: git-send-email 2.20.1
+X-Greylist: delayed 490 seconds by postgrey-1.36 at gabe;
+ Fri, 06 Aug 2021 12:15:23 UTC
+Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
+ [213.80.101.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1BE6E0F4;
+ Fri,  6 Aug 2021 12:15:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 52C0A3F6EE;
+ Fri,  6 Aug 2021 14:07:11 +0200 (CEST)
+Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="NCzq7Mtg";
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.223
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.223 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.124,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PF3H0VQjJTPe; Fri,  6 Aug 2021 14:07:10 +0200 (CEST)
+Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 9BFCB3F6E1;
+ Fri,  6 Aug 2021 14:07:09 +0200 (CEST)
+Received: from [192.168.0.209] (unknown [192.55.54.49])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 28670360060;
+ Fri,  6 Aug 2021 14:07:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1628251628; bh=2cZ4OVwp4XiVl+gsAKy+wLNP7Fciza7YvMb1BLQE16Q=;
+ h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+ b=NCzq7Mtgv2HHU1reJ+uJMQHRtswn1T1WnE7O9CygmR9RQtxNfNZL3P0mg2DttNScp
+ w761qQ0ye9hXC8LBjjistCT5wxy87lHXJgfAMcrbTxx8HhdESAuTA2jbypSfR2WqYq
+ kU18baIrtNQ+GjBtOyRJBt1K5K1C08G1QodGd4o0=
+Subject: Re: [Intel-gfx] [PATCH 0/4] Enable GuC submission by default on DG1
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+To: Matthew Brost <matthew.brost@intel.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20210803051121.72017-1-matthew.brost@intel.com>
+ <CAKMK7uGOAx7xM=6nDGtLqqW7sf2Rjbj24hAu8U9NK9J2t5+LwQ@mail.gmail.com>
+ <20210803172623.GA82856@DUT151-ICLU.fm.intel.com>
+ <b20f28eb-9efc-3d4e-57fa-c52c255063a5@shipmail.org>
+Message-ID: <e7d35ec6-8129-5edd-2e94-df33bae3d92d@shipmail.org>
+Date: Fri, 6 Aug 2021 14:07:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <b20f28eb-9efc-3d4e-57fa-c52c255063a5@shipmail.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,48 +78,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
 
-Today's linux-next merge of the drm tree got a conflict in:
+On 8/6/21 1:34 PM, Thomas Hellström (Intel) wrote:
+> Hi,
+>
+> On 8/3/21 7:26 PM, Matthew Brost wrote:
+>> On Tue, Aug 03, 2021 at 02:15:13PM +0200, Daniel Vetter wrote:
+>>> On Tue, Aug 3, 2021 at 6:53 AM Matthew Brost 
+>>> <matthew.brost@intel.com> wrote:
+>>>> Minimum set of patches to enable GuC submission on DG1 and enable 
+>>>> it by
+>>>> default.
+>>>>
+>>>> A little difficult to test as IGTs do not work with DG1 due to a bunch
+>>>> of uAPI features being disabled (e.g. relocations, caching memory
+>>>> options, etc...).
+>>> Matt Auld has an igt series which fixes a lot of this stuff, would be
+>>> good to do at least a Test-With run with that.
+>>>
+> It looks like Maarten now merged Matt's series to IGT.
+>
+> There is a series on IGT trybot with pending work to have some igt 
+> tests support relocations,
+>
+> https://patchwork.freedesktop.org/series/92043/
+>
+> One of the tests that have WIP fixes is gem_exec_whisper, and that 
+> particular test has historically shown occasional hangs with GuC 
+> submission on DG1 so it would be very desirable if we could make that 
+> test in particular work (I haven't verified that that's the case) 
+> reliably.
+>
+> Also the following series:
+>
+> https://patchwork.freedesktop.org/series/93455/
+>
+> tries a bit harder to get some more tests running, squashing the above 
+> series on top of latest IGT.
+>
+> Thanks,
+> /Thomas
+>
+And also while we're working on getting igt adapted to uapi changes and 
+to get more LMEM coverage in there, an IMO relevant test case to run 
+manually is "piglit quick"on top of DG1-enabled OpenGL checking for 
+regressions and significant changes in execution time.
 
-  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-
-between commit:
-
-  e00f543d3596 ("drm/amdgpu: add DID for beige goby")
-
-from the drm-fixes tree and commit:
-
-  a8f706966b92 ("drm/amdgpu: add pci device id for cyan_skillfish")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+/Thomas
 
 
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 5ed8381ae0f5,d637b0536f84..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@@ -1213,13 -1212,9 +1212,16 @@@ static const struct pci_device_id pciid
-  	{0x1002, 0x740F, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_ALDEBARAN|AMD_EXP_HW_SUPPORT},
-  	{0x1002, 0x7410, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_ALDEBARAN|AMD_EXP_HW_SUPPORT},
-  
- +	/* BEIGE_GOBY */
- +	{0x1002, 0x7420, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_BEIGE_GOBY},
- +	{0x1002, 0x7421, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_BEIGE_GOBY},
- +	{0x1002, 0x7422, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_BEIGE_GOBY},
- +	{0x1002, 0x7423, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_BEIGE_GOBY},
- +	{0x1002, 0x743F, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_BEIGE_GOBY},
- +
-+ 	/* CYAN_SKILLFISH */
-+ 	{0x1002, 0x13FE, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_CYAN_SKILLFISH|AMD_IS_APU},
-+ 
-  	{0, 0, 0}
-  };
-  
