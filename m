@@ -1,48 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF09F3E3488
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Aug 2021 11:57:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E25503E358B
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Aug 2021 15:31:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6204C6E02F;
-	Sat,  7 Aug 2021 09:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B31D989AA7;
+	Sat,  7 Aug 2021 13:31:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A7EB6E02F
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Aug 2021 09:57:03 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id da9e078d-f765-11eb-8d1a-0050568cd888;
- Sat, 07 Aug 2021 09:57:19 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 04CDF194B7A;
- Sat,  7 Aug 2021 11:57:28 +0200 (CEST)
-Date: Sat, 7 Aug 2021 11:56:59 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: lichenyang <lichenyang@loongson.cn>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, devel@linuxdriverproject.org,
- Huacai Chen <chenhuacai@kernel.org>
-Subject: Re: [PATCH v4 3/3] drm/loongson: Add interrupt driver for LS7A
-Message-ID: <YQ5Y650wDABR5TAV@ravnborg.org>
-References: <20210730094148.620768-1-lichenyang@loongson.cn>
- <20210730094148.620768-3-lichenyang@loongson.cn>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6E3899E8
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Aug 2021 13:31:21 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l34-20020a05600c1d22b02902573c214807so10943282wms.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Aug 2021 06:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=30uracpthIuXSs44lu6RRxWBv7NJjXzBaQjU8TB5510=;
+ b=BO8bcpN1CIWN0qYdxusjoibcUU67AZWWmWilv+lZwrVsDPJleQ9ekpLFEjW7YW03HZ
+ gJP1goMCAonYPOfB++ZDgr0Pm2oRgiQAY4oTO3e0kFNTelCkRLn3NE1uiTARcJFWqT1H
+ yEisMEZAUL3Shh1uCuzbs7P8lawCq8mWFWfkFcZJEueY6yMUsHFfs8gTAQDm4Wtbfggq
+ glZAo0z7mdPSUazEbB2jDMTv6itSKqP9y5x6nW9Y/4RXde3ERHXP8xQceQfM9nKt10q9
+ IIEbi5NMP8rkuuTk+akfQqNkhHHZoATtrmqcqL7qYanRVnsCx2KpEs0CDLhxPiXqxpqa
+ 6t3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=30uracpthIuXSs44lu6RRxWBv7NJjXzBaQjU8TB5510=;
+ b=pjM0elwm5F4tFZbpsuJLh1Mif7U3oL8HxDi9iHJFm6rSMKjtHKyq/48KwuJ706VsDW
+ Yj3caR2lDwz9uP2MjM75JZoE4ali3t5TJxlgMVTNQEZuuhI/1r772NFqZhVcRGtHFlOK
+ kLnn7Jj94SFNL2HVLqgbTMh/i9tOGkFdQNEBJSE1w+RzIVzGX5tfsMoSJpexItZkVNDz
+ 5q/d8mez8LOjlwkohuSxR6fabWfO3p60jmWCP64MJVcD8Od6TEwJzAceR6e5IrnxeMY0
+ tzzrd/bb1nTtguYwCYSa1aHN1tOabmY6DZ29G0qNPHS61UJuXDdAwZWZN1sZX13tybdr
+ YPsQ==
+X-Gm-Message-State: AOAM533VFkq9G+uCZaM+fhvobBFegky/G6XjOkq78PaVhG8RxrPFu8dG
+ Qw8XRJ3OLBNKBM7rnxX7aUY=
+X-Google-Smtp-Source: ABdhPJwdkY7aIdXNZw3I4FK3IgMpiEezPwawBNuDlPLqTlDrV6SKa/gC1/V+bA6Gy4eIvJ8+36kIqQ==
+X-Received: by 2002:a1c:7fd3:: with SMTP id
+ a202mr25834149wmd.150.1628343080296; 
+ Sat, 07 Aug 2021 06:31:20 -0700 (PDT)
+Received: from nergzd-desktop.localdomain ([62.122.67.26])
+ by smtp.gmail.com with ESMTPSA id x12sm13254454wrt.35.2021.08.07.06.31.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Aug 2021 06:31:20 -0700 (PDT)
+From: Markuss Broks <markuss.broks@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: thierry.reding@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linus.walleij@linaro.org,
+ phone-devel@vger.kernel.org, Markuss Broks <markuss.broks@gmail.com>
+Subject: [PATCH 0/2] Add support for Samsung S6D27A1 display panel
+Date: Sat,  7 Aug 2021 16:31:09 +0300
+Message-Id: <20210807133111.5935-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <YQw7M7OF6OZLcLjk@ravnborg.org>
+References: <YQw7M7OF6OZLcLjk@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210730094148.620768-3-lichenyang@loongson.cn>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,32 +76,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi lichenyang,
+Add support for Samsung Mobile Displays(SMD) Samsung S6D27A1 panel.
+This display panel is used on Samsung mobile devices such as
+Samsung Galaxy Ace 2 (GT-I8160) also known as Codina.
 
-On Fri, Jul 30, 2021 at 05:41:48PM +0800, lichenyang wrote:
-> Add LS7A DC vsync interrupt enable and close function, and
-> register irq_handler function interface.
-> Add vbrank event processing flow.
-s/vbrank/vblank/
+Markuss Broks (2):
+  drm/panel: Add DT bindings for Samsung S6D27A1 display panel
+  drm/panel: s6d27a1: Add driver for Samsung S6D27A1 display panel
 
-> 
-> v4:
-> - Replace drm_irq_install with devm_request_irq.
-> - Delete the irq_ hooks in drm_driver.
-> 
-> v3:
-> - Improve code readability.
-> - Use the to_pci_dev function to get pci_dev.
-> 
-> v2:
-> - Added error handling in the loongson_drm_load function.
-> 
-> Signed-off-by: lichenyang <lichenyang@loongson.cn>
+ .../display/panel/samsung,s6d27a1.yaml        |  97 ++++++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-samsung-s6d27a1.c | 323 ++++++++++++++++++
+ 4 files changed, 432 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6d27a1.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
 
-Patch looks good,
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+-- 
+2.32.0
 
-But then I am not to fluent in the vblank stuff, so I hope someone else
-takes a look too.
-
-	Sam
