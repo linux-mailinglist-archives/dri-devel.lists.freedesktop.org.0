@@ -1,67 +1,116 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B266F3E38E6
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 07:11:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E13543E3ABE
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 16:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B30889D2E;
-	Sun,  8 Aug 2021 05:11:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7D0B8984F;
+	Sun,  8 Aug 2021 14:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
- [85.215.255.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78A8A89CC1
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 05:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628399450;
- s=strato-dkim-0002; d=goldelico.com;
- h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
- From:Subject:Sender;
- bh=AgNhKnnrM28zue4mAUQn3VQlXQfVMSZE6+Kj8AD2hck=;
- b=paUoKBoTD+FnyOT6CdORWc51RHSRQjKeW3qR+eKbCchtmlj8HFs74GpMvt+j5qYTMi
- 05kutkVU+SuDO6tSEbW15Tcb9KroPve7+Qv2piDev6l7wXUBPnTvFQAcLMTWdY8nvqNh
- PJUiXEsMui/FlWS95bjZkWfkY0cS595qqao+u4OAegUQdqNUvfy50hTs7Ax7nSt9wIQf
- NzifeEGG7XbM29Xhi66QjK5ttNnf95U/A45VH2/1orplGBZGK15hUP43T7VXY6Tse8FQ
- WCRB0XQiou+mduAPe+qnmRWko8uWeWo9Y0a7JSCvKpzHDjiOjlg7jAo8hQizkLtBDgcn
- zqiQ==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdcKVX0"
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.31.0 DYNA|AUTH)
- with ESMTPSA id Q02727x785AnEyk
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Sun, 8 Aug 2021 07:10:49 +0200 (CEST)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
- Paul Boddie <paul@boddie.org.uk>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 9/9] drm/ingenic: add some jz4780 specific features
-Date: Sun,  8 Aug 2021 07:10:43 +0200
-Message-Id: <aebcc6c5340f755268af268725939b1e59a83472.1628399442.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1628399442.git.hns@goldelico.com>
-References: <cover.1628399442.git.hns@goldelico.com>
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2050.outbound.protection.outlook.com [40.107.212.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A93BF89057;
+ Sun,  8 Aug 2021 08:54:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ltAfO6wUtANh+zL/ZQnDO5y8UitwD8XouNNvG9YwJ4bTBcqDgJrHGWeePRK5vFsIJtCiXvtWw3MxdV7H/gSyk7JQ9aSUIdJulckFAFTTfoOGyJub7L2pJO2GweyzMCe1DwD6K5YP4gP1oCJEYJULwflEu+sidxINvMHwYLmSnQuNPusgJ2KkZdoxbuA8Lq+nqx/Ncfydlq+/6C9xsAyfSnmvP+HKj5ufXn3VCKUOogRdOC0LWybnK3876XfDAMhxNuYRfIcsj77vS/oq52uKrBmK+rCv1Iu46K9da23gT9m9FhwlGTM5nsRNJU9xNurW+GTojzCQeEPbP4f+HNyzsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L/RGAJknooE9Djhl97guu1XK/xCdaQ/XCwgF7v9kTkA=;
+ b=AIQUAoyBC+oUGEftsdtvwQEa6CV1ffIi2uhI0N/u7n3vKppZf9W1m8zH7ZEUHaf0Ds6Jqdt7y2PZUUMYSFMXixMM82J8gLXbu8HsRmG6gv2vo0taf4fNeSlFkX29BaM4+6owYiTPGKLWwzTEcRS1sKZ9gFvbcEWJQfFxOfl4jo0a6K11dzDfJjntmbZ1wCZ3IHf1bJj6f/WvpgnkjLk/XUsym1CNaB+ewDVict1kt5/2HrvAMQTyBNBSizWu6OWEDDMw6Hu57Xt+a7VXjUKexHUB/s7hmQzPZvc/BVTvEF4Il58lxYix1QUbiNXeConVlb1xzC5GvmmVuJVm65Ms+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L/RGAJknooE9Djhl97guu1XK/xCdaQ/XCwgF7v9kTkA=;
+ b=jtelv8o7qEr51w+a8U9gdOYQ/UQrZJ7nMjCymzk68G7Z05z3l4OOJW2P8EIbTeGC7t9brKONoT7fS+9CfjbWtig+PgJwxYOwUA44sLITwnccYdjcenb4kXsbMnQZB9nAh4OoG5ggYhZUSfQU8Ii0q7hg0F3kp3sX98odaC2iQS5Vg/jqH06G9U6PhX3As6mYm4Ee2T4O8wSxad0TChJaSq3Z/rk7r2hjiHejTisHLH0293efaoBlUj/Qb5/2LIekDKTrJwGDGTQYSp7XV2xKn/80OFoBrM3xSbngjEXEhmIHJ9I6vzPD60udrs7IS4tZfxwmvgIGXfROY8TmgyrASQ==
+Received: from DM6PR07CA0058.namprd07.prod.outlook.com (2603:10b6:5:74::35) by
+ DM5PR12MB2519.namprd12.prod.outlook.com (2603:10b6:4:b5::22) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4394.21; Sun, 8 Aug 2021 08:54:48 +0000
+Received: from DM6NAM11FT064.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:74:cafe::70) by DM6PR07CA0058.outlook.office365.com
+ (2603:10b6:5:74::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.16 via Frontend
+ Transport; Sun, 8 Aug 2021 08:54:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; linux.ibm.com; dkim=none (message not signed)
+ header.d=none;linux.ibm.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT064.mail.protection.outlook.com (10.13.172.234) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4394.16 via Frontend Transport; Sun, 8 Aug 2021 08:54:47 +0000
+Received: from [172.27.14.153] (172.20.187.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 8 Aug
+ 2021 08:54:36 +0000
+Subject: Re: [PATCH v4 01/14] vfio/samples: Remove module get/put
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, "Tony
+ Krowiak" <akrowiak@linux.ibm.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Christian Borntraeger <borntraeger@de.ibm.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
+ <dri-devel@lists.freedesktop.org>, Eric Auger <eric.auger@redhat.com>, "Eric
+ Farman" <farman@linux.ibm.com>, Harald Freudenberger <freude@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ <intel-gfx@lists.freedesktop.org>, <intel-gvt-dev@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Jason Herne
+ <jjherne@linux.ibm.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ <kvm@vger.kernel.org>, Kirti Wankhede <kwankhede@nvidia.com>,
+ <linux-doc@vger.kernel.org>, <linux-s390@vger.kernel.org>, Matthew Rosato
+ <mjrosato@linux.ibm.com>, Peter Oberparleiter <oberpar@linux.ibm.com>, "Halil
+ Pasic" <pasic@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, "Vineeth
+ Vijayan" <vneethv@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>
+CC: "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>, "Leon
+ Romanovsky" <leonro@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>, "Zhenyu
+ Wang" <zhenyuw@linux.intel.com>
+References: <1-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+Message-ID: <a5fc93a0-4634-d0aa-8b4c-0dc28b1459d5@nvidia.com>
+Date: Sun, 8 Aug 2021 11:54:29 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cd05e1ac-103b-44ad-f4b0-08d95a4a2d08
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2519:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB251973393625C9941809DC86DEF59@DM5PR12MB2519.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HMlVj7ZIwwFIMUcH2+f0d0OXjAUrrhiU3h94vgUvO2v7qAA/YfrcsQqC+1zln3SrU/ouSVNwC7V2i9y70Uo4Gcek1w1enXHzjk0LP6FFcJ75tPvKFIuzEXS0KSMuxkGQC2AKWEFOsPfdsYmfVQoGdXBIhEjtPwRppfIs97EPZFpk1DXI/0JeijB3Z9i04zRo4M6yhjaIqQgrkXmzTAV3pwge/ffLEYEQB2A4oJcysiInetbWj3o3Mez029RuNINaMflxQtA+vdczf878zVNwuLhkjwrdIP0p0Ke0+ODMIiYje6zOkK0nV1K+R0tdp/X6rCymuUE5lmfR+6XA9PaiiRpzE6X4vf29jJL0IvIdK2VntnQ441PqopO3/X453MwInKNqssLqDINGXoXlFFLe0MEdQ+1JAxuSfl2SpL8nWUyz6QwMlEkv4fG7Mh7T4uLBEErAvgkYAMRzdFcYVyN3eU/bXvsU4ffTJ0l3N8ZwpCouKoCfeAR9bEI4sGllKi7N2hnWVcILrJYaCuAU8LFRQPCGVN4nuaFTaj+xaHP4wn1y2uIW7ProRfouxSRx/q6E3RirEQn9LqUtd8x72A+fB6G4u+4N0Qp+IYKps5GlkzfQR6ARLgchuzi0JX3IhFyN/ICSwltNAODYOcjEiv6VpCUYsuGYuKRBIF+H4rT+MVjVNSa4yxzdEsAe13NMERdBSlW5iwLMwgWQ19ZToTNcQW7Jt8VZyUUDZhaG2tbf3n3YQXZyqsX/szMmxmaiTXzGVrq+23B60aJoBb26wkWoLwjM+ewgf3edzrObFMA1NhA=
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(396003)(39860400002)(136003)(46966006)(36840700001)(31696002)(478600001)(7636003)(316002)(4326008)(356005)(16576012)(86362001)(2616005)(31686004)(47076005)(7406005)(110136005)(7416002)(82740400003)(54906003)(36860700001)(70586007)(5660300002)(426003)(70206006)(921005)(8676002)(8936002)(82310400003)(336012)(4744005)(186003)(6666004)(26005)(2906002)(53546011)(36756003)(83380400001)(36906005)(16526019)(43740500002)(2101003)(83996005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2021 08:54:47.8057 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd05e1ac-103b-44ad-f4b0-08d95a4a2d08
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT064.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2519
+X-Mailman-Approved-At: Sun, 08 Aug 2021 14:16:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,109 +126,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Boddie <paul@boddie.org.uk>
 
-The jz4780 has some features which need initialization
-according to the vendor kernel.
+On 8/6/2021 4:18 AM, Jason Gunthorpe wrote:
+> The patch to move the get/put to core and the patch to convert the samples
+> to use vfio_device crossed in a way that this was missed. When both
+> patches are together the samples do not need their own get/put.
+>
+> Fixes: 437e41368c01 ("vfio/mdpy: Convert to use vfio_register_group_dev()")
+> Fixes: 681c1615f891 ("vfio/mbochs: Convert to use vfio_register_group_dev()")
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   samples/vfio-mdev/mbochs.c | 4 ----
+>   samples/vfio-mdev/mdpy.c   | 4 ----
+>   2 files changed, 8 deletions(-)
 
-Signed-off-by: Paul Boddie <paul@boddie.org.uk>
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 39 +++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+Looks good,
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 33ce3794aa126..f3b1b10bc079b 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -69,6 +69,10 @@ struct jz_soc_info {
- 	bool needs_dev_clk;
- 	bool has_osd;
- 	bool map_noncoherent;
-+	bool has_alpha;
-+	bool has_pcfg;
-+	bool has_recover;
-+	bool has_rgbc;
- 	bool use_extended_hwdesc;
- 	unsigned int hwdesc_size;
- 	unsigned int max_width, max_height;
-@@ -671,6 +675,9 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 		    | JZ_LCD_CFG_SPL_DISABLE | JZ_LCD_CFG_REV_DISABLE;
- 	}
- 
-+	if (priv->soc_info->has_recover)
-+		cfg |= JZ_LCD_CFG_RECOVER_FIFO_UNDERRUN;
-+
- 	/* set use of the 8-word descriptor and OSD foreground usage. */
- 	if (priv->soc_info->use_extended_hwdesc)
- 		cfg |= JZ_LCD_CFG_DESCRIPTOR_8;
-@@ -1208,6 +1215,25 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	if (soc_info->has_osd)
- 		regmap_set_bits(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
- 
-+	if (soc_info->has_alpha)
-+		regmap_set_bits(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_ALPHAEN);
-+
-+	/* Magic values from the vendor kernel for the priority thresholds. */
-+	if (soc_info->has_pcfg)
-+		regmap_write(priv->map, JZ_REG_LCD_PCFG,
-+			     JZ_LCD_PCFG_PRI_MODE |
-+			     JZ_LCD_PCFG_HP_BST_16 |
-+			     (511 << JZ_LCD_PCFG_THRESHOLD2_OFFSET) |
-+			     (400 << JZ_LCD_PCFG_THRESHOLD1_OFFSET) |
-+			     (256 << JZ_LCD_PCFG_THRESHOLD0_OFFSET));
-+
-+	/* RGB output control may be superfluous. */
-+	if (soc_info->has_rgbc)
-+		regmap_write(priv->map, JZ_REG_LCD_RGBC,
-+			     JZ_LCD_RGBC_RGB_FORMAT_ENABLE |
-+			     JZ_LCD_RGBC_ODD_RGB |
-+			     JZ_LCD_RGBC_EVEN_RGB);
-+
- 	mutex_init(&priv->clk_mutex);
- 	priv->clock_nb.notifier_call = ingenic_drm_update_pixclk;
- 
-@@ -1355,6 +1381,9 @@ static const struct jz_soc_info jz4740_soc_info = {
- 	.needs_dev_clk = true,
- 	.has_osd = false,
- 	.map_noncoherent = false,
-+	.has_pcfg = false,
-+	.has_recover = false,
-+	.has_rgbc = false,
- 	.hwdesc_size = sizeof(struct ingenic_dma_hwdesc),
- 	.max_width = 800,
- 	.max_height = 600,
-@@ -1368,6 +1397,9 @@ static const struct jz_soc_info jz4725b_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
- 	.map_noncoherent = false,
-+	.has_pcfg = false,
-+	.has_recover = false,
-+	.has_rgbc = false,
- 	.hwdesc_size = sizeof(struct ingenic_dma_hwdesc),
- 	.max_width = 800,
- 	.max_height = 600,
-@@ -1382,6 +1414,9 @@ static const struct jz_soc_info jz4770_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
- 	.map_noncoherent = true,
-+	.has_pcfg = false,
-+	.has_recover = false,
-+	.has_rgbc = false,
- 	.hwdesc_size = sizeof(struct ingenic_dma_hwdesc),
- 	.max_width = 1280,
- 	.max_height = 720,
-@@ -1395,6 +1430,10 @@ static const struct jz_soc_info jz4770_soc_info = {
- static const struct jz_soc_info jz4780_soc_info = {
- 	.needs_dev_clk = true,
- 	.has_osd = true,
-+	.has_alpha = true,
-+	.has_pcfg = true,
-+	.has_recover = true,
-+	.has_rgbc = true,
- 	.use_extended_hwdesc = true,
- 	.hwdesc_size = sizeof(struct ingenic_dma_hwdesc_ext),
- 	.max_width = 4096,
--- 
-2.31.1
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+
 
