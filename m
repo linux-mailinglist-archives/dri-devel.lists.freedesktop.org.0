@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D36B3E3C75
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 21:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019463E3C7C
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 21:12:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E27289AF3;
-	Sun,  8 Aug 2021 19:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D25789AEB;
+	Sun,  8 Aug 2021 19:12:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F039C89AF3
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:09:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id C50D260FC2
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:09:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628449798;
- bh=Hb8jYDSoRDcTDB6lIKleeecUosct2vYirerRED8aq8E=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=VBdrjRfZDPi4KrwF96NxKiCbQwW73MjuEOYrIvIcpWk3Lq8qSpW8ze3iKJO3/g7+X
- p+EnaaBVPfRjwwOP6/tdnvQDIgDlizU7vTjqjtXynIwUpGDp2Wo1Ivg4haZibX5DA2
- J0b3xupK/G+phNP/nXI5NssiK/QsMSTCKIRyVamCpK/5HwfPRk3PTtOmYMYQxhnUi5
- syCbQVH/wwndOm4iTrmRIej3ULMQzyT1ftULbv1y7lYpQO9DCGbGSaiUYHmpKSfrTy
- PFpsfVv82JCM2Bm+wAxD4SrVlkqlgiH5GTlinrkrOJPeSLdmwVegbtZuBNYRgWt5wj
- B5Ft7WL+AgC0A==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id C20A660FC4; Sun,  8 Aug 2021 19:09:58 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214001] [bisected][regression] After commit "drm/ttm:
- Initialize debugfs from ttm_global_init()" kernels without debugfs explicitly
- set to 'allow all' fail to boot
-Date: Sun, 08 Aug 2021 19:09:58 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: untaintableangel@hotmail.co.uk
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_regression
-Message-ID: <bug-214001-2300-iRMjc6hUW8@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214001-2300@https.bugzilla.kernel.org/>
-References: <bug-214001-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4772E89AEB
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628449941;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=8x7srcrmZ1/WCTZQFJiINnCxHY92TZ+clMgKoK3VcnA=;
+ b=fLeFneLbNeeb+PnUH/azqY+B8iMLLvtOfkUrr7G0dLp4r2fbGkNPez1CDCjmrE4Vmq
+ ZEtwuBG3l+9iYZvLaYHD4BZe3Bt0T+pc54NQN4i/ESD48R7evi5HVt2WY/c5FuIB9Wsy
+ UlQEWEE1gJrpRWNcpJQMLIyfP5xz9bACzuN8Vl+ERC/bmwOr2KkBPBCuf67igbF0amr6
+ VBXb0SNEu4105pt4/PvgHhQIR/mYUKfes96HIDvTc+Da6TKsJtcKk9kfv7J5ZoDNIeyB
+ AeSdx/VrKr+E9YLw2CxwWSy/DHnmNl+7SoaBoEV4pIJc8iyj/dnjgYVgxew64zkoUQpO
+ wqkQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43u3mM="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.31.0 DYNA|AUTH)
+ with ESMTPSA id Q02727x78JCLGc2
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Sun, 8 Aug 2021 21:12:21 +0200 (CEST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH 8/8] drm/ingenic: Attach bridge chain to encoders
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <2C83670F-3586-435B-8374-C3CC1C791391@goldelico.com>
+Date: Sun, 8 Aug 2021 21:12:20 +0200
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Paul Boddie <paul@boddie.org.uk>, list@opendingux.net,
+ Sam Ravnborg <sam@ravnborg.org>, linux-mips <linux-mips@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Message-Id: <137A13EE-9E0E-469E-BE43-677349478A58@goldelico.com>
+References: <20210808134526.119198-1-paul@crapouillou.net>
+ <20210808134526.119198-9-paul@crapouillou.net>
+ <2AEC5953-FE54-4DD5-88B7-783C4D9E23B2@goldelico.com>
+ <4OBJXQ.DA6PDYNSVNYV1@crapouillou.net>
+ <2C83670F-3586-435B-8374-C3CC1C791391@goldelico.com>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,16 +71,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214001
 
-Linux_Chemist (untaintableangel@hotmail.co.uk) changed:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Regression|No                          |Yes
+> Am 08.08.2021 um 21:06 schrieb H. Nikolaus Schaller =
+<hns@goldelico.com>:
+>=20
+>=20
+>=20
+>> Am 08.08.2021 um 21:04 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>=20
+>> Hi Nikolaus,
+>>=20
+>> Le dim., ao=C3=BBt 8 2021 at 20:57:09 +0200, H. Nikolaus Schaller =
+<hns@goldelico.com> a =C3=A9crit :
+>>> Hi Paul,
+>>> all other patches apply cleanly but this one fails on top of =
+v5.14-rc4.
+>>> What base are you using?
+>>> BR and thanks,
+>>> Nikolaus
+>>=20
+>> The base is drm-misc (https://cgit.freedesktop.org/drm/drm-misc), =
+branch drm-misc-next.
+>=20
+> Ok, fine!
 
---=20
-You may reply to this email to add a comment.
+Contains 3 patches for drm/ingenic and after taking them first, I can =
+apply the series.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Again, BR and thanks,
+Nikolaus
+
