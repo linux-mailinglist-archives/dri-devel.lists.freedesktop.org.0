@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C963E3A8C
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 15:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF903E3A8F
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 15:46:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A6F89A8B;
-	Sun,  8 Aug 2021 13:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFF8C89A98;
+	Sun,  8 Aug 2021 13:46:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29BF589A8B
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 13:45:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 309C189A98
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 13:46:04 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
@@ -20,9 +20,9 @@ Cc: "H . Nikolaus Schaller" <hns@goldelico.com>,
  Sam Ravnborg <sam@ravnborg.org>, linux-mips@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 1/8] drm/ingenic: Remove dead code
-Date: Sun,  8 Aug 2021 15:45:19 +0200
-Message-Id: <20210808134526.119198-2-paul@crapouillou.net>
+Subject: [PATCH 2/8] drm/ingenic: Simplify code by using hwdescs array
+Date: Sun,  8 Aug 2021 15:45:20 +0200
+Message-Id: <20210808134526.119198-3-paul@crapouillou.net>
 In-Reply-To: <20210808134526.119198-1-paul@crapouillou.net>
 References: <20210808134526.119198-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -42,29 +42,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The priv->ipu_plane would get a different value further down the code,
-without the first assigned value being read first; so the first
-assignation can be dropped.
+Instead of having one 'hwdesc' variable for the plane #0 and one for the
+plane #1, use a 'hwdesc[2]' array, where the DMA hardware descriptors
+are indexed by the plane's number.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 38 ++++++++++++-----------
+ 1 file changed, 20 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index d261f7a03b18..e42eb43d8020 100644
+index e42eb43d8020..bc71ba44ccf4 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -984,9 +984,6 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	priv->dma_hwdescs->hwdesc_pal.cmd = JZ_LCD_CMD_ENABLE_PAL
- 		| (sizeof(priv->dma_hwdescs->palette) / 4);
+@@ -49,8 +49,7 @@ struct ingenic_dma_hwdesc {
+ } __aligned(16);
  
--	if (soc_info->has_osd)
--		priv->ipu_plane = drm_plane_from_index(drm, 0);
--
- 	primary = priv->soc_info->has_osd ? &priv->f1 : &priv->f0;
+ struct ingenic_dma_hwdescs {
+-	struct ingenic_dma_hwdesc hwdesc_f0;
+-	struct ingenic_dma_hwdesc hwdesc_f1;
++	struct ingenic_dma_hwdesc hwdesc[2];
+ 	struct ingenic_dma_hwdesc hwdesc_pal;
+ 	u16 palette[256] __aligned(16);
+ };
+@@ -141,6 +140,13 @@ static inline struct ingenic_drm *drm_nb_get_priv(struct notifier_block *nb)
+ 	return container_of(nb, struct ingenic_drm, clock_nb);
+ }
  
- 	drm_plane_helper_add(primary, &ingenic_drm_plane_helper_funcs);
++static inline dma_addr_t dma_hwdesc_addr(const struct ingenic_drm *priv, bool use_f1)
++{
++	u32 offset = offsetof(struct ingenic_dma_hwdescs, hwdesc[use_f1]);
++
++	return priv->dma_hwdescs_phys + offset;
++}
++
+ static int ingenic_drm_update_pixclk(struct notifier_block *nb,
+ 				     unsigned long action,
+ 				     void *data)
+@@ -562,6 +568,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 	struct ingenic_dma_hwdesc *hwdesc;
+ 	unsigned int width, height, cpp, offset;
+ 	dma_addr_t addr;
++	bool use_f1;
+ 	u32 fourcc;
+ 
+ 	if (newstate && newstate->fb) {
+@@ -569,16 +576,14 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 			drm_fb_cma_sync_non_coherent(&priv->drm, oldstate, newstate);
+ 
+ 		crtc_state = newstate->crtc->state;
++		use_f1 = priv->soc_info->has_osd && plane != &priv->f0;
+ 
+ 		addr = drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
+ 		width = newstate->src_w >> 16;
+ 		height = newstate->src_h >> 16;
+ 		cpp = newstate->fb->format->cpp[0];
+ 
+-		if (!priv->soc_info->has_osd || plane == &priv->f0)
+-			hwdesc = &priv->dma_hwdescs->hwdesc_f0;
+-		else
+-			hwdesc = &priv->dma_hwdescs->hwdesc_f1;
++		hwdesc = &priv->dma_hwdescs->hwdesc[use_f1];
+ 
+ 		hwdesc->addr = addr;
+ 		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
+@@ -591,9 +596,9 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 			if (fourcc == DRM_FORMAT_C8)
+ 				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_pal);
+ 			else
+-				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
++				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc[0]);
+ 
+-			priv->dma_hwdescs->hwdesc_f0.next = priv->dma_hwdescs_phys + offset;
++			priv->dma_hwdescs->hwdesc[0].next = priv->dma_hwdescs_phys + offset;
+ 
+ 			crtc_state->color_mgmt_changed = fourcc == DRM_FORMAT_C8;
+ 		}
+@@ -964,20 +969,17 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 
+ 
+ 	/* Configure DMA hwdesc for foreground0 plane */
+-	dma_hwdesc_phys_f0 = priv->dma_hwdescs_phys
+-		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
+-	priv->dma_hwdescs->hwdesc_f0.next = dma_hwdesc_phys_f0;
+-	priv->dma_hwdescs->hwdesc_f0.id = 0xf0;
++	dma_hwdesc_phys_f0 = dma_hwdesc_addr(priv, 0);
++	priv->dma_hwdescs->hwdesc[0].next = dma_hwdesc_phys_f0;
++	priv->dma_hwdescs->hwdesc[0].id = 0xf0;
+ 
+ 	/* Configure DMA hwdesc for foreground1 plane */
+-	dma_hwdesc_phys_f1 = priv->dma_hwdescs_phys
+-		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f1);
+-	priv->dma_hwdescs->hwdesc_f1.next = dma_hwdesc_phys_f1;
+-	priv->dma_hwdescs->hwdesc_f1.id = 0xf1;
++	dma_hwdesc_phys_f1 = dma_hwdesc_addr(priv, 1);
++	priv->dma_hwdescs->hwdesc[1].next = dma_hwdesc_phys_f1;
++	priv->dma_hwdescs->hwdesc[1].id = 0xf1;
+ 
+ 	/* Configure DMA hwdesc for palette */
+-	priv->dma_hwdescs->hwdesc_pal.next = priv->dma_hwdescs_phys
+-		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
++	priv->dma_hwdescs->hwdesc_pal.next = dma_hwdesc_phys_f0;
+ 	priv->dma_hwdescs->hwdesc_pal.id = 0xc0;
+ 	priv->dma_hwdescs->hwdesc_pal.addr = priv->dma_hwdescs_phys
+ 		+ offsetof(struct ingenic_dma_hwdescs, palette);
 -- 
 2.30.2
 
