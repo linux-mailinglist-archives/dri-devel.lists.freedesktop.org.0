@@ -2,59 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987B83E3C7E
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 21:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15C63E3C95
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 21:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB9C89ABA;
-	Sun,  8 Aug 2021 19:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 120E78989A;
+	Sun,  8 Aug 2021 19:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77CD889ABA
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:18:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 48C846054E
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:18:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628450282;
- bh=+xFD91bL0ilDLAHwP6CPHFZoP70wSyDL/oNdeiPsBzc=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=cHRohv0Pqnd4nS+Lm2oWinH+t/QTnmm5RyyeGz/nz+Rqa+QJkbgm1K5Ztk2j/tKxy
- 9Wj3E/8HHL/HWrpDFmuB3hPulvnpAOaXa8z8BI4JsWvdABfwKpdY0v/ptquSMeYsyb
- tolpZAW7QjOaM9jgDHstXS+Bz9/B0vixXeawiu1qxIFc+RIIquH01phmPP8SE/HfrO
- 0rITuqBOqMaoX+y2XaLJ+C0xG3jMe7yflc7BtoeElPk6Mc0clGZZ7lucl2B++iN5jS
- joZXeQMtYdxErw/bve5XYAAmRz2YRGa5Q4VG54f6T/mACI5Q7jhFyYejce/moxG/G1
- cwudDOCXUlrtA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3F2A760FD8; Sun,  8 Aug 2021 19:18:02 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214001] [bisected][regression] After commit "drm/ttm:
- Initialize debugfs from ttm_global_init()" kernels without debugfs explicitly
- set to 'allow all' fail to boot
-Date: Sun, 08 Aug 2021 19:18:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: untaintableangel@hotmail.co.uk
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214001-2300-FbLOkMqpjr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214001-2300@https.bugzilla.kernel.org/>
-References: <bug-214001-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from smtp.smtpout.orange.fr (smtp05.smtpout.orange.fr
+ [80.12.242.127])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD1EC8989A
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:57:40 +0000 (UTC)
+Received: from [192.168.1.18] ([90.126.253.178]) by mwinf5d25 with ME
+ id f7q42500E3riaq2037q5nP; Sun, 08 Aug 2021 21:50:08 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 08 Aug 2021 21:50:08 +0200
+X-ME-IP: 90.126.253.178
+Subject: Re: [PATCH 3/8] drm/ingenic: Use standard
+ drm_atomic_helper_commit_tail
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: "H . Nikolaus Schaller" <hns@goldelico.com>,
+ Paul Boddie <paul@boddie.org.uk>, list@opendingux.net,
+ Sam Ravnborg <sam@ravnborg.org>, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210808134526.119198-1-paul@crapouillou.net>
+ <20210808134526.119198-4-paul@crapouillou.net>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <f3b761ed-4e71-e8b8-f2b5-f4f7f1547fed@wanadoo.fr>
+Date: Sun, 8 Aug 2021 21:50:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210808134526.119198-4-paul@crapouillou.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,41 +54,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214001
+Le 08/08/2021 à 15:45, Paul Cercueil a écrit :
+> By making the CRTC's .vblank_enable() function return an error when it
+> is known that the hardware won't deliver a VBLANK, we can drop the
+> ingenic_drm_atomic_helper_commit_tail() function and use the standard
+> drm_atomic_helper_commit_tail() function instead.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 28 ++++-------------------
+>   1 file changed, 4 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index bc71ba44ccf4..3ed7c27a8dde 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -706,29 +706,6 @@ static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
+>   	}
+>   }
+>   
+> -static void ingenic_drm_atomic_helper_commit_tail(struct drm_atomic_state *old_state)
+> -{
+> -	/*
+> -	 * Just your regular drm_atomic_helper_commit_tail(), but only calls
+> -	 * drm_atomic_helper_wait_for_vblanks() if priv->no_vblank.
+> -	 */
+> -	struct drm_device *dev = old_state->dev;
+> -	struct ingenic_drm *priv = drm_device_get_priv(dev);
+> -
+> -	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> -
+> -	drm_atomic_helper_commit_planes(dev, old_state, 0);
+> -
+> -	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> -
+> -	drm_atomic_helper_commit_hw_done(old_state);
+> -
+> -	if (!priv->no_vblank)
+> -		drm_atomic_helper_wait_for_vblanks(dev, old_state);
+> -
+> -	drm_atomic_helper_cleanup_planes(dev, old_state);
+> -}
+> 
 
---- Comment #1 from Linux_Chemist (untaintableangel@hotmail.co.uk) ---
-As an addendum, I suppose a slight source of confusion is the info for=20
+Hi,
+if this function is removed, shouldn't:
+   static struct drm_mode_config_helper_funcs 
+ingenic_drm_mode_config_helpers = {
+   	.atomic_commit_tail = ingenic_drm_atomic_helper_commit_tail,
+   };
+be updated as well?
 
-CONFIG_DEBUG_FS which reads:
+I've not seen it in the serie.
 
-"debugfs is a virtual file system that kernel developers use to put
-debugging files into. Enable this option to be able to read and
-write to these files.
-
-For detailed documentation on the debugfs API, see
-Documentation/filesystems/.
-
-If unsure, say N."
-
-which implies: a) that it isn't strictly necessary to have enabled in order=
- to
-boot/run normally (highlighting this bug) and b) that you would have zero n=
-eed
-for it if you weren't reading/writing to these debugging files.=20
-
-
-To then have the option to enable debugfs but only run minimally with
-CONFIG_DEBUG_FS_ALLOW_NONE:
-"Access is off. Clients get -PERM when trying to create nodes in
-debugfs tree and debugfs is not registered as a filesystem.
-Client can then back-off or continue without debugfs access."
-
-leaves the question of 'why have it on and set to "allow none" rather than =
-off
-completely?'
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Just my 2v.
+CJ
