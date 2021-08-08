@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458003E3A89
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 15:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C963E3A8C
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 15:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5592B89A7A;
-	Sun,  8 Aug 2021 13:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6A6F89A8B;
+	Sun,  8 Aug 2021 13:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60FCA89A7A
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 13:45:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29BF589A8B
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 13:45:57 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
@@ -20,9 +20,11 @@ Cc: "H . Nikolaus Schaller" <hns@goldelico.com>,
  Sam Ravnborg <sam@ravnborg.org>, linux-mips@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 0/8] gpu/drm: ingenic-drm: Various improvements
-Date: Sun,  8 Aug 2021 15:45:18 +0200
-Message-Id: <20210808134526.119198-1-paul@crapouillou.net>
+Subject: [PATCH 1/8] drm/ingenic: Remove dead code
+Date: Sun,  8 Aug 2021 15:45:19 +0200
+Message-Id: <20210808134526.119198-2-paul@crapouillou.net>
+In-Reply-To: <20210808134526.119198-1-paul@crapouillou.net>
+References: <20210808134526.119198-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -40,34 +42,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The priv->ipu_plane would get a different value further down the code,
+without the first assigned value being read first; so the first
+assignation can be dropped.
 
-This patchset rework the ingenic-drm driver, improving the code in
-various places.
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-The most important change is the last patch, which updates the
-ingenic-drm driver to use a top-level bridge per output, making use of
-the bus format and flag negociation implemented in the bridge code. All
-the external bridges are now attached with
-DRM_BRIDGE_ATTACH_NO_CONNECTOR.
-
-Cheers,
--Paul
-
-Paul Cercueil (8):
-  drm/ingenic: Remove dead code
-  drm/ingenic: Simplify code by using hwdescs array
-  drm/ingenic: Use standard drm_atomic_helper_commit_tail
-  drm/ingenic: Add support for private objects
-  drm/ingenic: Move IPU scale settings to private state
-  drm/ingenic: Set DMA descriptor chain register when starting CRTC
-  drm/ingenic: Upload palette before frame
-  drm/ingenic: Attach bridge chain to encoders
-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 287 ++++++++++++++++------
- drivers/gpu/drm/ingenic/ingenic-ipu.c     | 127 ++++++++--
- 2 files changed, 322 insertions(+), 92 deletions(-)
-
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index d261f7a03b18..e42eb43d8020 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -984,9 +984,6 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	priv->dma_hwdescs->hwdesc_pal.cmd = JZ_LCD_CMD_ENABLE_PAL
+ 		| (sizeof(priv->dma_hwdescs->palette) / 4);
+ 
+-	if (soc_info->has_osd)
+-		priv->ipu_plane = drm_plane_from_index(drm, 0);
+-
+ 	primary = priv->soc_info->has_osd ? &priv->f1 : &priv->f0;
+ 
+ 	drm_plane_helper_add(primary, &ingenic_drm_plane_helper_funcs);
 -- 
 2.30.2
 
