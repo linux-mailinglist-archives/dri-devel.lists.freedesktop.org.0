@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176C13E3A9C
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 15:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80CDA3E3A9F
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 15:46:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB8DA89B98;
-	Sun,  8 Aug 2021 13:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63A5989B9A;
+	Sun,  8 Aug 2021 13:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3D8B89B98
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 13:46:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCF289B9A
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 13:46:43 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
@@ -20,9 +20,9 @@ Cc: "H . Nikolaus Schaller" <hns@goldelico.com>,
  Sam Ravnborg <sam@ravnborg.org>, linux-mips@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 7/8] drm/ingenic: Upload palette before frame
-Date: Sun,  8 Aug 2021 15:45:25 +0200
-Message-Id: <20210808134526.119198-8-paul@crapouillou.net>
+Subject: [PATCH 8/8] drm/ingenic: Attach bridge chain to encoders
+Date: Sun,  8 Aug 2021 15:45:26 +0200
+Message-Id: <20210808134526.119198-9-paul@crapouillou.net>
 In-Reply-To: <20210808134526.119198-1-paul@crapouillou.net>
 References: <20210808134526.119198-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -42,168 +42,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When using C8 color mode, make sure that the palette is always uploaded
-before a frame; otherwise the very first frame will have wrong colors.
+Attach a top-level bridge to each encoder, which will be used for
+negociating the bus format and flags.
 
-Do that by changing the link order of the DMA descriptors.
+All the bridges are now attached with DRM_BRIDGE_ATTACH_NO_CONNECTOR.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 69 +++++++++++++++++++----
- 1 file changed, 59 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 92 +++++++++++++++++------
+ 1 file changed, 70 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 2eef174165a2..7ae48ead3ab6 100644
+index 7ae48ead3ab6..09d5dd298078 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -65,6 +65,7 @@ struct jz_soc_info {
- 
- struct ingenic_drm_private_state {
- 	struct drm_private_state base;
-+	bool use_palette;
+@@ -21,6 +21,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
+ #include <drm/drm_color_mgmt.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_crtc_helper.h>
+@@ -107,6 +108,19 @@ struct ingenic_drm {
+ 	struct drm_private_obj private_obj;
  };
  
- struct ingenic_drm {
-@@ -112,6 +113,30 @@ to_ingenic_drm_priv_state(struct drm_private_state *state)
- 	return container_of(state, struct ingenic_drm_private_state, base);
++struct ingenic_drm_bridge {
++	struct drm_encoder encoder;
++	struct drm_bridge bridge, *next_bridge;
++
++	struct drm_bus_cfg bus_cfg;
++};
++
++static inline struct ingenic_drm_bridge *
++to_ingenic_drm_bridge(struct drm_encoder *encoder)
++{
++	return container_of(encoder, struct ingenic_drm_bridge, encoder);
++}
++
+ static inline struct ingenic_drm_private_state *
+ to_ingenic_drm_priv_state(struct drm_private_state *state)
+ {
+@@ -679,11 +693,10 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ {
+ 	struct ingenic_drm *priv = drm_device_get_priv(encoder->dev);
+ 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+-	struct drm_connector *conn = conn_state->connector;
+-	struct drm_display_info *info = &conn->display_info;
++	struct ingenic_drm_bridge *bridge = to_ingenic_drm_bridge(encoder);
+ 	unsigned int cfg, rgbcfg = 0;
+ 
+-	priv->panel_is_sharp = info->bus_flags & DRM_BUS_FLAG_SHARP_SIGNALS;
++	priv->panel_is_sharp = bridge->bus_cfg.flags & DRM_BUS_FLAG_SHARP_SIGNALS;
+ 
+ 	if (priv->panel_is_sharp) {
+ 		cfg = JZ_LCD_CFG_MODE_SPECIAL_TFT_1 | JZ_LCD_CFG_REV_POLARITY;
+@@ -696,19 +709,19 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 		cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
+ 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+ 		cfg |= JZ_LCD_CFG_VSYNC_ACTIVE_LOW;
+-	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
++	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
+ 		cfg |= JZ_LCD_CFG_DE_ACTIVE_LOW;
+-	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
++	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+ 		cfg |= JZ_LCD_CFG_PCLK_FALLING_EDGE;
+ 
+ 	if (!priv->panel_is_sharp) {
+-		if (conn->connector_type == DRM_MODE_CONNECTOR_TV) {
++		if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV) {
+ 			if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+ 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_I;
+ 			else
+ 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_P;
+ 		} else {
+-			switch (*info->bus_formats) {
++			switch (bridge->bus_cfg.format) {
+ 			case MEDIA_BUS_FMT_RGB565_1X16:
+ 				cfg |= JZ_LCD_CFG_MODE_GENERIC_16BIT;
+ 				break;
+@@ -734,20 +747,29 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
  }
  
-+static struct ingenic_drm_private_state *
-+ingenic_drm_get_priv_state(struct ingenic_drm *priv, struct drm_atomic_state *state)
+-static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
+-					    struct drm_crtc_state *crtc_state,
+-					    struct drm_connector_state *conn_state)
++static int ingenic_drm_bridge_attach(struct drm_bridge *bridge,
++				     enum drm_bridge_attach_flags flags)
 +{
-+	struct drm_private_state *priv_state;
++	struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
 +
-+	priv_state = drm_atomic_get_private_obj_state(state, &priv->private_obj);
-+	if (IS_ERR(priv_state))
-+		return ERR_CAST(priv_state);
-+
-+	return to_ingenic_drm_priv_state(priv_state);
++	return drm_bridge_attach(bridge->encoder, ib->next_bridge,
++				 &ib->bridge, flags);
 +}
 +
-+static struct ingenic_drm_private_state *
-+ingenic_drm_get_new_priv_state(struct ingenic_drm *priv, struct drm_atomic_state *state)
-+{
-+	struct drm_private_state *priv_state;
-+
-+	priv_state = drm_atomic_get_new_private_obj_state(state, &priv->private_obj);
-+	if (!priv_state)
-+		return NULL;
-+
-+	return to_ingenic_drm_priv_state(priv_state);
-+}
-+
- static bool ingenic_drm_writeable_reg(struct device *dev, unsigned int reg)
++static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
++					   struct drm_bridge_state *bridge_state,
++					   struct drm_crtc_state *crtc_state,
++					   struct drm_connector_state *conn_state)
  {
- 	switch (reg) {
-@@ -159,6 +184,13 @@ static inline dma_addr_t dma_hwdesc_addr(const struct ingenic_drm *priv, bool us
- 	return priv->dma_hwdescs_phys + offset;
- }
+-	struct drm_display_info *info = &conn_state->connector->display_info;
+ 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
++	struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
  
-+static inline dma_addr_t dma_hwdesc_pal_addr(const struct ingenic_drm *priv)
-+{
-+	u32 offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_pal);
+-	if (info->num_bus_formats != 1)
+-		return -EINVAL;
++	ib->bus_cfg = bridge_state->output_bus_cfg;
+ 
+ 	if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV)
+ 		return 0;
+ 
+-	switch (*info->bus_formats) {
++	switch (bridge_state->output_bus_cfg.format) {
+ 	case MEDIA_BUS_FMT_RGB888_3X8:
+ 	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
+ 		/*
+@@ -911,8 +933,16 @@ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
+ };
+ 
+ static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs = {
+-	.atomic_mode_set	= ingenic_drm_encoder_atomic_mode_set,
+-	.atomic_check		= ingenic_drm_encoder_atomic_check,
++	.atomic_mode_set        = ingenic_drm_encoder_atomic_mode_set,
++};
 +
-+	return priv->dma_hwdescs_phys + offset;
-+}
-+
- static int ingenic_drm_update_pixclk(struct notifier_block *nb,
- 				     unsigned long action,
- 				     void *data)
-@@ -181,11 +213,19 @@ static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
- 					   struct drm_atomic_state *state)
- {
- 	struct ingenic_drm *priv = drm_crtc_get_priv(crtc);
-+	struct ingenic_drm_private_state *priv_state;
-+
-+	priv_state = ingenic_drm_get_new_priv_state(priv, state);
-+	if (WARN_ON(!priv_state))
-+		return;
++static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
++	.attach			= ingenic_drm_bridge_attach,
++	.atomic_check		= ingenic_drm_bridge_atomic_check,
++	.atomic_reset		= drm_atomic_helper_bridge_reset,
++	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
++	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
+ };
  
- 	regmap_write(priv->map, JZ_REG_LCD_STATE, 0);
+ static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
+@@ -958,7 +988,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	struct drm_plane *primary;
+ 	struct drm_bridge *bridge;
+ 	struct drm_panel *panel;
++	struct drm_connector *connector;
+ 	struct drm_encoder *encoder;
++	struct ingenic_drm_bridge *ib;
+ 	struct drm_device *drm;
+ 	void __iomem *base;
+ 	long parent_rate;
+@@ -1146,20 +1178,36 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
+ 								 DRM_MODE_CONNECTOR_DPI);
  
- 	/* Set address of our DMA descriptor chain */
--	regmap_write(priv->map, JZ_REG_LCD_DA0, dma_hwdesc_addr(priv, 0));
-+	if (priv_state->use_palette)
-+		regmap_write(priv->map, JZ_REG_LCD_DA0, dma_hwdesc_pal_addr(priv));
-+	else
-+		regmap_write(priv->map, JZ_REG_LCD_DA0, dma_hwdesc_addr(priv, 0));
- 	regmap_write(priv->map, JZ_REG_LCD_DA1, dma_hwdesc_addr(priv, 1));
- 
- 	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
-@@ -391,6 +431,7 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
- 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
- 										 plane);
- 	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
-+	struct ingenic_drm_private_state *priv_state;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_crtc *crtc = new_plane_state->crtc ?: old_plane_state->crtc;
- 	int ret;
-@@ -403,6 +444,10 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
- 
-+	priv_state = ingenic_drm_get_priv_state(priv, state);
-+	if (IS_ERR(priv_state))
-+		return PTR_ERR(priv_state);
-+
- 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
- 						  DRM_PLANE_HELPER_NO_SCALING,
- 						  DRM_PLANE_HELPER_NO_SCALING,
-@@ -421,6 +466,9 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
- 	     (new_plane_state->src_h >> 16) != new_plane_state->crtc_h))
- 		return -EINVAL;
- 
-+	priv_state->use_palette = new_plane_state->fb &&
-+		new_plane_state->fb->format->format == DRM_FORMAT_C8;
-+
- 	/*
- 	 * Require full modeset if enabling or disabling a plane, or changing
- 	 * its position, size or depth.
-@@ -580,10 +628,11 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
- 	struct drm_plane_state *newstate = drm_atomic_get_new_plane_state(state, plane);
- 	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state, plane);
-+	struct ingenic_drm_private_state *priv_state;
- 	struct drm_crtc_state *crtc_state;
- 	struct ingenic_dma_hwdesc *hwdesc;
--	unsigned int width, height, cpp, offset;
--	dma_addr_t addr;
-+	unsigned int width, height, cpp;
-+	dma_addr_t addr, next_addr;
- 	bool use_f1;
- 	u32 fourcc;
- 
-@@ -599,23 +648,23 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 		height = newstate->src_h >> 16;
- 		cpp = newstate->fb->format->cpp[0];
- 
-+		priv_state = ingenic_drm_get_new_priv_state(priv, state);
-+		if (priv_state && priv_state->use_palette)
-+			next_addr = dma_hwdesc_pal_addr(priv);
-+		else
-+			next_addr = dma_hwdesc_addr(priv, use_f1);
-+
- 		hwdesc = &priv->dma_hwdescs->hwdesc[use_f1];
- 
- 		hwdesc->addr = addr;
- 		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
-+		hwdesc->next = next_addr;
- 
- 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
- 			fourcc = newstate->fb->format->format;
- 
- 			ingenic_drm_plane_config(priv->dev, plane, fourcc);
- 
--			if (fourcc == DRM_FORMAT_C8)
--				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_pal);
--			else
--				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc[0]);
--
--			priv->dma_hwdescs->hwdesc[0].next = priv->dma_hwdescs_phys + offset;
--
- 			crtc_state->color_mgmt_changed = fourcc == DRM_FORMAT_C8;
+-		encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_DPI, NULL);
+-		if (IS_ERR(encoder)) {
+-			ret = PTR_ERR(encoder);
++		ib = drmm_encoder_alloc(drm, struct ingenic_drm_bridge, encoder,
++					NULL, DRM_MODE_ENCODER_DPI, NULL);
++		if (IS_ERR(ib)) {
++			ret = PTR_ERR(ib);
+ 			dev_err(dev, "Failed to init encoder: %d\n", ret);
+ 			return ret;
  		}
  
+-		encoder->possible_crtcs = 1;
++		encoder = &ib->encoder;
++		encoder->possible_crtcs = drm_crtc_mask(&priv->crtc);
+ 
+ 		drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
+ 
+-		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+-		if (ret)
++		ib->bridge.funcs = &ingenic_drm_bridge_funcs;
++		ib->next_bridge = bridge;
++
++		ret = drm_bridge_attach(encoder, &ib->bridge, NULL,
++					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++		if (ret) {
++			dev_err(dev, "Unable to attach bridge\n");
+ 			return ret;
++		}
++
++		connector = drm_bridge_connector_init(drm, encoder);
++		if (IS_ERR(connector)) {
++			dev_err(dev, "Unable to init connector\n");
++			return PTR_ERR(connector);
++		}
++
++		drm_connector_attach_encoder(connector, encoder);
+ 	}
+ 
+ 	drm_for_each_encoder(encoder, drm) {
 -- 
 2.30.2
 
