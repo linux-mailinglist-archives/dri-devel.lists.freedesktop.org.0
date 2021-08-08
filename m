@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4A93E38C8
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 07:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06C53E38D1
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 07:11:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D123589C9C;
-	Sun,  8 Aug 2021 05:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3C489CBA;
+	Sun,  8 Aug 2021 05:10:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
- [85.215.255.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B7189CA4
+Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
+ [85.215.255.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBEF689C9C
  for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 05:10:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628399446;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628399447;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=PNoL+uPVa/EtHg8cMcNNaXbR5Yr+tlsCZB8IjNiOBAo=;
- b=EMwa6Zi+2gKe46WDGWYJfc+FooZ3M2xEL7EEicEIC+rDD89LQOtLZMXfV0OYdSD//o
- /8SphPjWpRVaXr+EPdYgfNumTvrjNcKzL84c6xByh52dBOSmtf/jNWpkbKJbcNLaBsp3
- Q+gOAZEasFKGySFkBjuNctUWm7tJYt5E+7NNgqn27V3fF3UEVwrbEAwrjJGrZ7jNH7xk
- laSgIWh53+OYRK8yoY+fgsKG3CVnNvMhnpj5svE7B93yBTNoCxtnF9AU58VQ2AVqzkfk
- B5Z0AEbkMfvEQOpmsBiHjh4f/Rlxs45R1l0SmMKszbe5tSTNMH3wWodNZcxfM+K8YaPK
- G6ww==
+ bh=bcLy1r4nngvg+j5KdIbFLVEmsuOC0SZ/YVnOsM4Td4c=;
+ b=BldyMxyO+SEVhXc6WHN3ZOG1SDAKZUdZb2guIN9J8+oQ/GQpnQvDogLf1jpb/chG/G
+ QxgooUCavtJJdQEUbUaGDOVDtrk40/lIViCALvWYiELqYyjaVhMZVFHCWyu/qMbd6rOy
+ M/QUP06yQAOqrvqW5eQ8kfGVYdlemuyuggGQLzX0w5ujYGVwmjk0F0IBrFxbbxa/SKPa
+ UWnqaOQBuISPAVGdNkXXALBzaMETtbEXGRkgxqZ0I5ASh6uWNWfAphTyGHcmtHr3idrn
+ Hc+aPn6khwjAOK9fkt4FR/M0Uvo34eI/rshLlRlnZA9Z/ygcnjtbfpk7e2tqIko9Wth2
+ s+AQ==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdcKVX0"
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.31.0 DYNA|AUTH)
- with ESMTPSA id Q02727x785AjEye
+ with ESMTPSA id Q02727x785AkEyf
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Sun, 8 Aug 2021 07:10:45 +0200 (CEST)
+ Sun, 8 Aug 2021 07:10:46 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
@@ -54,9 +54,9 @@ Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
  linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
  Paul Boddie <paul@boddie.org.uk>, Jonas Karlman <jonas@kwiboo.se>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 3/9] drm/ingenic: Add jz4780 Synopsys HDMI driver
-Date: Sun,  8 Aug 2021 07:10:37 +0200
-Message-Id: <7a87980d496f8ee937ac732278a2a2256f25023b.1628399442.git.hns@goldelico.com>
+Subject: [PATCH v3 4/9] drm/ingenic: Add support for JZ4780 and HDMI output
+Date: Sun,  8 Aug 2021 07:10:38 +0200
+Message-Id: <a6e22bc621d5fcbc7e6ab8f011c8d190e6e8d1c7.1628399442.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1628399442.git.hns@goldelico.com>
 References: <cover.1628399442.git.hns@goldelico.com>
@@ -79,174 +79,402 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Paul Boddie <paul@boddie.org.uk>
 
-A specialisation of the generic Synopsys HDMI driver is employed for JZ4780
-HDMI support. This requires a new driver, plus device tree and configuration
-modifications.
+Add support for the LCD controller present on JZ4780 SoCs.
+This SoC uses 8-byte descriptors which extend the current
+4-byte descriptors used for other Ingenic SoCs.
+
+Also, add special handling for HDMI-A connectors.
+
+For some reason, only the primary planes are working
+properly. As soon as the overlay plane is enabled
+things go south :P
+
+Tested on MIPS Creator CI20 board.
 
 Signed-off-by: Paul Boddie <paul@boddie.org.uk>
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- drivers/gpu/drm/ingenic/Kconfig           |   9 ++
- drivers/gpu/drm/ingenic/Makefile          |   1 +
- drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 121 ++++++++++++++++++++++
- 3 files changed, 131 insertions(+)
- create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 119 +++++++++++++++++++---
+ drivers/gpu/drm/ingenic/ingenic-drm.h     |  42 ++++++++
+ 2 files changed, 148 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
-index 3b57f8be007c4..4c7d311fbefff 100644
---- a/drivers/gpu/drm/ingenic/Kconfig
-+++ b/drivers/gpu/drm/ingenic/Kconfig
-@@ -25,4 +25,13 @@ config DRM_INGENIC_IPU
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index d9a793c314c1e..33ce3794aa126 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -6,6 +6,7 @@
  
- 	  The Image Processing Unit (IPU) will appear as a second primary plane.
+ #include "ingenic-drm.h"
  
-+config DRM_INGENIC_DW_HDMI
-+	bool "Ingenic specific support for Synopsys DW HDMI"
-+	depends on MACH_JZ4780
-+	select DRM_DW_HDMI
-+	help
-+	  Choose this option to enable Synopsys DesignWare HDMI based driver.
-+	  If you want to enable HDMI on Ingenic JZ4780 based SoC, you should
-+	  select this option..
++#include <linux/bitfield.h>
+ #include <linux/component.h>
+ #include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+@@ -56,13 +57,24 @@ struct ingenic_dma_hwdescs {
+ 	u16 palette[256] __aligned(16);
+ };
+ 
++struct ingenic_dma_hwdesc_ext {
++	struct ingenic_dma_hwdesc base;
++	u32 offsize;
++	u32 pagewidth;
++	u32 cpos;
++	u32 dessize;
++} __packed;
 +
- endif
-diff --git a/drivers/gpu/drm/ingenic/Makefile b/drivers/gpu/drm/ingenic/Makefile
-index d313326bdddbb..3db9888a6c046 100644
---- a/drivers/gpu/drm/ingenic/Makefile
-+++ b/drivers/gpu/drm/ingenic/Makefile
-@@ -1,3 +1,4 @@
- obj-$(CONFIG_DRM_INGENIC) += ingenic-drm.o
- ingenic-drm-y = ingenic-drm-drv.o
- ingenic-drm-$(CONFIG_DRM_INGENIC_IPU) += ingenic-ipu.o
-+ingenic-drm-$(CONFIG_DRM_INGENIC_DW_HDMI) += ingenic-dw-hdmi.o
-diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
-new file mode 100644
-index 0000000000000..61e7a57d7cec1
---- /dev/null
-+++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
-@@ -0,0 +1,121 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
-+ * Copyright (C) 2019, 2020 Paul Boddie <paul@boddie.org.uk>
-+ *
-+ * Derived from dw_hdmi-imx.c with i.MX portions removed.
-+ * Probe and remove operations derived from rcar_dw_hdmi.c.
-+ */
+ struct jz_soc_info {
+ 	bool needs_dev_clk;
+ 	bool has_osd;
+ 	bool map_noncoherent;
++	bool use_extended_hwdesc;
++	unsigned int hwdesc_size;
+ 	unsigned int max_width, max_height;
+ 	const u32 *formats_f0, *formats_f1;
+ 	unsigned int num_formats_f0, num_formats_f1;
++	unsigned int max_reg;
+ };
+ 
+ struct ingenic_drm {
+@@ -118,12 +130,11 @@ static bool ingenic_drm_writeable_reg(struct device *dev, unsigned int reg)
+ 	}
+ }
+ 
+-static const struct regmap_config ingenic_drm_regmap_config = {
++static struct regmap_config ingenic_drm_regmap_config = {
+ 	.reg_bits = 32,
+ 	.val_bits = 32,
+ 	.reg_stride = 4,
+ 
+-	.max_register = JZ_REG_LCD_SIZE1,
+ 	.writeable_reg = ingenic_drm_writeable_reg,
+ };
+ 
+@@ -582,7 +593,40 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 			hwdesc = &priv->dma_hwdescs->hwdesc_f1;
+ 
+ 		hwdesc->addr = addr;
+-		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
++		hwdesc->cmd = JZ_LCD_CMD_FRM_ENABLE | JZ_LCD_CMD_EOF_IRQ |
++			      (width * height * cpp / 4);
 +
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
++		if (priv->soc_info->use_extended_hwdesc) {
++			struct ingenic_dma_hwdesc_ext *hwdesc_ext;
 +
-+#include <drm/bridge/dw_hdmi.h>
-+#include <drm/drm_of.h>
++			/* Extended 8-byte descriptor */
++			hwdesc_ext = (struct ingenic_dma_hwdesc_ext *) hwdesc;
++			hwdesc_ext->cpos = 0;
++			hwdesc_ext->offsize = 0;
++			hwdesc_ext->pagewidth = 0;
 +
-+static const struct dw_hdmi_mpll_config ingenic_mpll_cfg[] = {
-+	{ 45250000,  { { 0x01e0, 0x0000 }, { 0x21e1, 0x0000 }, { 0x41e2, 0x0000 } } },
-+	{ 92500000,  { { 0x0140, 0x0005 }, { 0x2141, 0x0005 }, { 0x4142, 0x0005 } } },
-+	{ 148500000, { { 0x00a0, 0x000a }, { 0x20a1, 0x000a }, { 0x40a2, 0x000a } } },
-+	{ 216000000, { { 0x00a0, 0x000a }, { 0x2001, 0x000f }, { 0x4002, 0x000f } } },
-+	{ ~0UL,      { { 0x0000, 0x0000 }, { 0x0000, 0x0000 }, { 0x0000, 0x0000 } } }
++			switch (newstate->fb->format->format) {
++			case DRM_FORMAT_XRGB1555:
++				hwdesc_ext->cpos |= JZ_LCD_CPOS_RGB555;
++				fallthrough;
++			case DRM_FORMAT_RGB565:
++				hwdesc_ext->cpos |= JZ_LCD_CPOS_BPP_15_16;
++				break;
++			case DRM_FORMAT_XRGB8888:
++				hwdesc_ext->cpos |= JZ_LCD_CPOS_BPP_18_24;
++				break;
++			}
++			hwdesc_ext->cpos |= JZ_LCD_CPOS_PREMULTIPLY_LCD |
++					    (JZ_LCD_CPOS_COEFFICIENT_1_ALPHA1 <<
++					     JZ_LCD_CPOS_COEFFICIENT_OFFSET);
++
++			hwdesc_ext->dessize =
++				(0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
++				FIELD_PREP(JZ_LCD_DESSIZE_HEIGHT_MASK <<
++					   JZ_LCD_DESSIZE_HEIGHT_OFFSET, height - 1) |
++				FIELD_PREP(JZ_LCD_DESSIZE_WIDTH_MASK <<
++					   JZ_LCD_DESSIZE_WIDTH_OFFSET, width - 1);
++		}
+ 
+ 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+ 			fourcc = newstate->fb->format->format;
+@@ -612,8 +656,12 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+ 	struct drm_connector *conn = conn_state->connector;
+ 	struct drm_display_info *info = &conn->display_info;
++	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+ 	unsigned int cfg, rgbcfg = 0;
+ 
++	if (info->num_bus_formats)
++		bus_format = info->bus_formats[0];
++
+ 	priv->panel_is_sharp = info->bus_flags & DRM_BUS_FLAG_SHARP_SIGNALS;
+ 
+ 	if (priv->panel_is_sharp) {
+@@ -623,6 +671,10 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 		    | JZ_LCD_CFG_SPL_DISABLE | JZ_LCD_CFG_REV_DISABLE;
+ 	}
+ 
++	/* set use of the 8-word descriptor and OSD foreground usage. */
++	if (priv->soc_info->use_extended_hwdesc)
++		cfg |= JZ_LCD_CFG_DESCRIPTOR_8;
++
+ 	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+ 		cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
+ 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+@@ -639,7 +691,7 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 			else
+ 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_P;
+ 		} else {
+-			switch (*info->bus_formats) {
++			switch (bus_format) {
+ 			case MEDIA_BUS_FMT_RGB565_1X16:
+ 				cfg |= JZ_LCD_CFG_MODE_GENERIC_16BIT;
+ 				break;
+@@ -665,19 +717,23 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+ 	regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
+ }
+ 
+-static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
+-					    struct drm_crtc_state *crtc_state,
+-					    struct drm_connector_state *conn_state)
++static int
++ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
++				 struct drm_crtc_state *crtc_state,
++				 struct drm_connector_state *conn_state)
+ {
+ 	struct drm_display_info *info = &conn_state->connector->display_info;
+ 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+ 
++	switch (conn_state->connector->connector_type) {
++	case DRM_MODE_CONNECTOR_TV:
++	case DRM_MODE_CONNECTOR_HDMIA:
++		return 0;
++	}
++
+ 	if (info->num_bus_formats != 1)
+ 		return -EINVAL;
+ 
+-	if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV)
+-		return 0;
+-
+ 	switch (*info->bus_formats) {
+ 	case MEDIA_BUS_FMT_RGB888_3X8:
+ 	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
+@@ -881,6 +937,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	struct drm_panel *panel;
+ 	struct drm_encoder *encoder;
+ 	struct drm_device *drm;
++	struct regmap_config regmap_config;
+ 	void __iomem *base;
+ 	long parent_rate;
+ 	unsigned int i, clone_mask = 0;
+@@ -934,8 +991,10 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 		return PTR_ERR(base);
+ 	}
+ 
++	regmap_config = ingenic_drm_regmap_config;
++	regmap_config.max_register = soc_info->max_reg;
+ 	priv->map = devm_regmap_init_mmio(dev, base,
+-					  &ingenic_drm_regmap_config);
++					  &regmap_config);
+ 	if (IS_ERR(priv->map)) {
+ 		dev_err(dev, "Failed to create regmap\n");
+ 		return PTR_ERR(priv->map);
+@@ -1147,7 +1206,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 
+ 	/* Enable OSD if available */
+ 	if (soc_info->has_osd)
+-		regmap_write(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
++		regmap_set_bits(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
+ 
+ 	mutex_init(&priv->clk_mutex);
+ 	priv->clock_nb.notifier_call = ingenic_drm_update_pixclk;
+@@ -1296,41 +1355,63 @@ static const struct jz_soc_info jz4740_soc_info = {
+ 	.needs_dev_clk = true,
+ 	.has_osd = false,
+ 	.map_noncoherent = false,
++	.hwdesc_size = sizeof(struct ingenic_dma_hwdesc),
+ 	.max_width = 800,
+ 	.max_height = 600,
+ 	.formats_f1 = jz4740_formats,
+ 	.num_formats_f1 = ARRAY_SIZE(jz4740_formats),
+ 	/* JZ4740 has only one plane */
++	.max_reg = JZ_REG_LCD_SIZE1,
+ };
+ 
+ static const struct jz_soc_info jz4725b_soc_info = {
+ 	.needs_dev_clk = false,
+ 	.has_osd = true,
+ 	.map_noncoherent = false,
++	.hwdesc_size = sizeof(struct ingenic_dma_hwdesc),
+ 	.max_width = 800,
+ 	.max_height = 600,
+ 	.formats_f1 = jz4725b_formats_f1,
+ 	.num_formats_f1 = ARRAY_SIZE(jz4725b_formats_f1),
+ 	.formats_f0 = jz4725b_formats_f0,
+ 	.num_formats_f0 = ARRAY_SIZE(jz4725b_formats_f0),
++	.max_reg = JZ_REG_LCD_SIZE1,
+ };
+ 
+ static const struct jz_soc_info jz4770_soc_info = {
+ 	.needs_dev_clk = false,
+ 	.has_osd = true,
+ 	.map_noncoherent = true,
++	.hwdesc_size = sizeof(struct ingenic_dma_hwdesc),
+ 	.max_width = 1280,
+ 	.max_height = 720,
+ 	.formats_f1 = jz4770_formats_f1,
+ 	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
+ 	.formats_f0 = jz4770_formats_f0,
+ 	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
++	.max_reg = JZ_REG_LCD_SIZE1,
 +};
 +
-+static const struct dw_hdmi_curr_ctrl ingenic_cur_ctr[] = {
-+	/*pixelclk     bpp8    bpp10   bpp12 */
-+	{ 54000000,  { 0x091c, 0x091c, 0x06dc } },
-+	{ 58400000,  { 0x091c, 0x06dc, 0x06dc } },
-+	{ 72000000,  { 0x06dc, 0x06dc, 0x091c } },
-+	{ 74250000,  { 0x06dc, 0x0b5c, 0x091c } },
-+	{ 118800000, { 0x091c, 0x091c, 0x06dc } },
-+	{ 216000000, { 0x06dc, 0x0b5c, 0x091c } },
-+	{ ~0UL,      { 0x0000, 0x0000, 0x0000 } },
-+};
++static const struct jz_soc_info jz4780_soc_info = {
++	.needs_dev_clk = true,
++	.has_osd = true,
++	.use_extended_hwdesc = true,
++	.hwdesc_size = sizeof(struct ingenic_dma_hwdesc_ext),
++	.max_width = 4096,
++	.max_height = 2048,
++	/* REVISIT: do we support formats different from jz4770? */
++	.formats_f1 = jz4770_formats_f1,
++	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
++	.formats_f0 = jz4770_formats_f0,
++	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
++	.max_reg = JZ_REG_LCD_PCFG,
+ };
+ 
+ static const struct of_device_id ingenic_drm_of_match[] = {
+ 	{ .compatible = "ingenic,jz4740-lcd", .data = &jz4740_soc_info },
+ 	{ .compatible = "ingenic,jz4725b-lcd", .data = &jz4725b_soc_info },
+ 	{ .compatible = "ingenic,jz4770-lcd", .data = &jz4770_soc_info },
++	{ .compatible = "ingenic,jz4780-lcd", .data = &jz4780_soc_info },
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, ingenic_drm_of_match);
+@@ -1349,10 +1430,16 @@ static int ingenic_drm_init(void)
+ {
+ 	int err;
+ 
++	if (IS_ENABLED(CONFIG_DRM_INGENIC_DW_HDMI)) {
++		err = platform_driver_register(ingenic_dw_hdmi_driver_ptr);
++		if (err)
++			return err;
++	}
 +
-+/*
-+ * Resistance term 133Ohm Cfg
-+ * PREEMP config 0.00
-+ * TX/CK level 10
-+ */
-+static const struct dw_hdmi_phy_config ingenic_phy_config[] = {
-+	/*pixelclk   symbol   term   vlev */
-+	{ 216000000, 0x800d, 0x0005, 0x01ad},
-+	{ ~0UL,      0x0000, 0x0000, 0x0000}
-+};
+ 	if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU)) {
+ 		err = platform_driver_register(ingenic_ipu_driver_ptr);
+ 		if (err)
+-			return err;
++			goto err_hdmi_unreg;
+ 	}
+ 
+ 	err = platform_driver_register(&ingenic_drm_driver);
+@@ -1364,6 +1451,10 @@ static int ingenic_drm_init(void)
+ err_ipu_unreg:
+ 	if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU))
+ 		platform_driver_unregister(ingenic_ipu_driver_ptr);
++err_hdmi_unreg:
++	if (IS_ENABLED(CONFIG_DRM_INGENIC_DW_HDMI))
++		platform_driver_unregister(ingenic_dw_hdmi_driver_ptr);
 +
-+static enum drm_mode_status
-+ingenic_dw_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-+			   const struct drm_display_info *info,
-+			   const struct drm_display_mode *mode)
-+{
-+	if (mode->clock < 13500)
-+		return MODE_CLOCK_LOW;
-+	/* FIXME: Hardware is capable of 270MHz, but setup data is missing. */
-+	if (mode->clock > 216000)
-+		return MODE_CLOCK_HIGH;
+ 	return err;
+ }
+ module_init(ingenic_drm_init);
+@@ -1372,6 +1463,8 @@ static void ingenic_drm_exit(void)
+ {
+ 	platform_driver_unregister(&ingenic_drm_driver);
+ 
++	if (IS_ENABLED(CONFIG_DRM_INGENIC_DW_HDMI))
++		platform_driver_unregister(ingenic_dw_hdmi_driver_ptr);
+ 	if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU))
+ 		platform_driver_unregister(ingenic_ipu_driver_ptr);
+ }
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.h b/drivers/gpu/drm/ingenic/ingenic-drm.h
+index 22654ac1dde1c..13dbc5d25c3b0 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm.h
++++ b/drivers/gpu/drm/ingenic/ingenic-drm.h
+@@ -44,8 +44,11 @@
+ #define JZ_REG_LCD_XYP1				0x124
+ #define JZ_REG_LCD_SIZE0			0x128
+ #define JZ_REG_LCD_SIZE1			0x12c
++#define JZ_REG_LCD_PCFG				0x2c0
+ 
+ #define JZ_LCD_CFG_SLCD				BIT(31)
++#define JZ_LCD_CFG_DESCRIPTOR_8			BIT(28)
++#define JZ_LCD_CFG_RECOVER_FIFO_UNDERRUN	BIT(25)
+ #define JZ_LCD_CFG_PS_DISABLE			BIT(23)
+ #define JZ_LCD_CFG_CLS_DISABLE			BIT(22)
+ #define JZ_LCD_CFG_SPL_DISABLE			BIT(21)
+@@ -63,6 +66,7 @@
+ #define JZ_LCD_CFG_DE_ACTIVE_LOW		BIT(9)
+ #define JZ_LCD_CFG_VSYNC_ACTIVE_LOW		BIT(8)
+ #define JZ_LCD_CFG_18_BIT			BIT(7)
++#define JZ_LCD_CFG_24_BIT			BIT(6)
+ #define JZ_LCD_CFG_PDW				(BIT(5) | BIT(4))
+ 
+ #define JZ_LCD_CFG_MODE_GENERIC_16BIT		0
+@@ -132,6 +136,7 @@
+ #define JZ_LCD_CMD_SOF_IRQ			BIT(31)
+ #define JZ_LCD_CMD_EOF_IRQ			BIT(30)
+ #define JZ_LCD_CMD_ENABLE_PAL			BIT(28)
++#define JZ_LCD_CMD_FRM_ENABLE			BIT(26)
+ 
+ #define JZ_LCD_SYNC_MASK			0x3ff
+ 
+@@ -153,6 +158,7 @@
+ #define JZ_LCD_RGBC_EVEN_BGR			(0x5 << 0)
+ 
+ #define JZ_LCD_OSDC_OSDEN			BIT(0)
++#define JZ_LCD_OSDC_ALPHAEN			BIT(2)
+ #define JZ_LCD_OSDC_F0EN			BIT(3)
+ #define JZ_LCD_OSDC_F1EN			BIT(4)
+ 
+@@ -176,6 +182,41 @@
+ #define JZ_LCD_SIZE01_WIDTH_LSB			0
+ #define JZ_LCD_SIZE01_HEIGHT_LSB		16
+ 
++#define JZ_LCD_DESSIZE_ALPHA_OFFSET		24
++#define JZ_LCD_DESSIZE_HEIGHT_OFFSET		12
++#define JZ_LCD_DESSIZE_WIDTH_OFFSET		0
++#define JZ_LCD_DESSIZE_HEIGHT_MASK		0xfff
++#define JZ_LCD_DESSIZE_WIDTH_MASK		0xfff
 +
-+	return MODE_OK;
-+}
++/* TODO: 4,5 and 7 match the above BPP */
++#define JZ_LCD_CPOS_BPP_15_16			(4 << 27)
++#define JZ_LCD_CPOS_BPP_18_24			(5 << 27)
++#define JZ_LCD_CPOS_BPP_30			(7 << 27)
++#define JZ_LCD_CPOS_RGB555			BIT(30)
++#define JZ_LCD_CPOS_PREMULTIPLY_LCD		BIT(26)
++#define JZ_LCD_CPOS_COEFFICIENT_OFFSET		24
++#define JZ_LCD_CPOS_COEFFICIENT_0		0
++#define JZ_LCD_CPOS_COEFFICIENT_1		1
++#define JZ_LCD_CPOS_COEFFICIENT_ALPHA1		2
++#define JZ_LCD_CPOS_COEFFICIENT_1_ALPHA1	3
 +
-+static bool
-+ingenic_dw_hdmi_mode_fixup(struct drm_bridge *bridge,
-+			   const struct drm_display_mode *mode,
-+			   struct drm_display_mode *adjusted_mode)
-+{
-+	adjusted_mode->flags |= (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-+	adjusted_mode->flags &= ~(DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
++#define JZ_LCD_RGBC_RGB_PADDING			BIT(15)
++#define JZ_LCD_RGBC_RGB_PADDING_FIRST		BIT(14)
++#define JZ_LCD_RGBC_422				BIT(8)
++#define JZ_LCD_RGBC_RGB_FORMAT_ENABLE		BIT(7)
 +
-+	return true;
-+}
++#define JZ_LCD_PCFG_PRI_MODE			BIT(31)
++#define JZ_LCD_PCFG_HP_BST_4			(0 << 28)
++#define JZ_LCD_PCFG_HP_BST_8			(1 << 28)
++#define JZ_LCD_PCFG_HP_BST_16			(2 << 28)
++#define JZ_LCD_PCFG_HP_BST_32			(3 << 28)
++#define JZ_LCD_PCFG_HP_BST_64			(4 << 28)
++#define JZ_LCD_PCFG_HP_BST_16_CONT		(5 << 28)
++#define JZ_LCD_PCFG_HP_BST_DISABLE		(7 << 28)
++#define JZ_LCD_PCFG_THRESHOLD2_OFFSET		18
++#define JZ_LCD_PCFG_THRESHOLD1_OFFSET		9
++#define JZ_LCD_PCFG_THRESHOLD0_OFFSET		0
 +
-+static const struct drm_bridge_timings ingenic_dw_hdmi_timings = {
-+	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
-+};
-+
-+static struct dw_hdmi_plat_data ingenic_dw_hdmi_plat_data = {
-+	.mpll_cfg   = ingenic_mpll_cfg,
-+	.cur_ctr    = ingenic_cur_ctr,
-+	.phy_config = ingenic_phy_config,
-+	.mode_valid = ingenic_dw_hdmi_mode_valid,
-+	.mode_fixup = ingenic_dw_hdmi_mode_fixup,
-+	.timings    = &ingenic_dw_hdmi_timings,
-+};
-+
-+static const struct of_device_id ingenic_dw_hdmi_dt_ids[] = {
-+	{ .compatible = "ingenic,jz4780-dw-hdmi" },
-+	{ /* Sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, ingenic_dw_hdmi_dt_ids);
-+
-+static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
-+{
-+	struct dw_hdmi *hdmi;
-+
-+	hdmi = dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
-+	if (IS_ERR(hdmi))
-+		return PTR_ERR(hdmi);
-+
-+	platform_set_drvdata(pdev, hdmi);
-+
-+	return 0;
-+}
-+
-+static int ingenic_dw_hdmi_remove(struct platform_device *pdev)
-+{
-+	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
-+
-+	dw_hdmi_remove(hdmi);
-+
-+	return 0;
-+}
-+
-+static struct platform_driver ingenic_dw_hdmi_driver = {
-+	.probe  = ingenic_dw_hdmi_probe,
-+	.remove = ingenic_dw_hdmi_remove,
-+	.driver = {
-+		.name = "dw-hdmi-ingenic",
-+		.of_match_table = ingenic_dw_hdmi_dt_ids,
-+	},
-+};
-+
-+struct platform_driver *ingenic_dw_hdmi_driver_ptr = &ingenic_dw_hdmi_driver;
+ struct device;
+ struct drm_plane;
+ struct drm_plane_state;
+@@ -187,5 +228,6 @@ void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *plane);
+ bool ingenic_drm_map_noncoherent(const struct device *dev);
+ 
+ extern struct platform_driver *ingenic_ipu_driver_ptr;
++extern struct platform_driver *ingenic_dw_hdmi_driver_ptr;
+ 
+ #endif /* DRIVERS_GPU_DRM_INGENIC_INGENIC_DRM_H */
 -- 
 2.31.1
 
