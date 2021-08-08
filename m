@@ -2,45 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CFF3E3CB2
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 22:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C53663E3D07
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 00:22:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E735289A60;
-	Sun,  8 Aug 2021 20:23:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC0089A91;
+	Sun,  8 Aug 2021 22:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp05.smtpout.orange.fr
- [80.12.242.127])
- by gabe.freedesktop.org (Postfix) with ESMTP id AC29189A60
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 20:22:59 +0000 (UTC)
-Received: from [192.168.1.18] ([90.126.253.178]) by mwinf5d25 with ME
- id f8FT2500A3riaq2038FTyY; Sun, 08 Aug 2021 22:15:28 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 08 Aug 2021 22:15:28 +0200
-X-ME-IP: 90.126.253.178
-Subject: Re: [PATCH 3/8] drm/ingenic: Use standard
- drm_atomic_helper_commit_tail
-To: Paul Cercueil <paul@crapouillou.net>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ACBD89A91
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 22:22:48 +0000 (UTC)
+Date: Mon, 09 Aug 2021 00:22:38 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 2/8] drm/ingenic: Simplify code by using hwdescs array
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  "H . Nikolaus Schaller" <hns@goldelico.com>, Paul Boddie
  <paul@boddie.org.uk>, list@opendingux.net, Sam Ravnborg <sam@ravnborg.org>,
  linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
+Message-Id: <QTKJXQ.E7AFQWHL9BRJ3@crapouillou.net>
+In-Reply-To: <d6db6de0-dcc8-b0f0-439d-7a5f69ac4c62@suse.de>
 References: <20210808134526.119198-1-paul@crapouillou.net>
- <20210808134526.119198-4-paul@crapouillou.net>
- <f3b761ed-4e71-e8b8-f2b5-f4f7f1547fed@wanadoo.fr>
- <ENEJXQ.6TCYILUOPORD@crapouillou.net>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Message-ID: <0571e7f1-86b2-e673-6347-abf2d79da4c8@wanadoo.fr>
-Date: Sun, 8 Aug 2021 22:15:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210808134526.119198-3-paul@crapouillou.net>
+ <d6db6de0-dcc8-b0f0-439d-7a5f69ac4c62@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <ENEJXQ.6TCYILUOPORD@crapouillou.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,81 +44,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 08/08/2021 à 22:09, Paul Cercueil a écrit :
-> Hi Christophe,
-> 
-> Le dim., août 8 2021 at 21:50:04 +0200, Christophe JAILLET 
-> <christophe.jaillet@wanadoo.fr> a écrit :
->> Le 08/08/2021 à 15:45, Paul Cercueil a écrit :
->>> By making the CRTC's .vblank_enable() function return an error when it
->>> is known that the hardware won't deliver a VBLANK, we can drop the
->>> ingenic_drm_atomic_helper_commit_tail() function and use the standard
->>> drm_atomic_helper_commit_tail() function instead.
->>>
->>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>> ---
->>>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 28 ++++-------------------
->>>   1 file changed, 4 insertions(+), 24 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c 
->>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>> index bc71ba44ccf4..3ed7c27a8dde 100644
->>> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>> @@ -706,29 +706,6 @@ static int 
->>> ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
->>>       }
->>>   }
->>>   -static void ingenic_drm_atomic_helper_commit_tail(struct 
->>> drm_atomic_state *old_state)
->>> -{
->>> -    /*
->>> -     * Just your regular drm_atomic_helper_commit_tail(), but only 
->>> calls
->>> -     * drm_atomic_helper_wait_for_vblanks() if priv->no_vblank.
->>> -     */
->>> -    struct drm_device *dev = old_state->dev;
->>> -    struct ingenic_drm *priv = drm_device_get_priv(dev);
->>> -
->>> -    drm_atomic_helper_commit_modeset_disables(dev, old_state);
->>> -
->>> -    drm_atomic_helper_commit_planes(dev, old_state, 0);
->>> -
->>> -    drm_atomic_helper_commit_modeset_enables(dev, old_state);
->>> -
->>> -    drm_atomic_helper_commit_hw_done(old_state);
->>> -
->>> -    if (!priv->no_vblank)
->>> -        drm_atomic_helper_wait_for_vblanks(dev, old_state);
->>> -
->>> -    drm_atomic_helper_cleanup_planes(dev, old_state);
->>> -}
->>>
->>
->> Hi,
->> if this function is removed, shouldn't:
->>   static struct drm_mode_config_helper_funcs 
->> ingenic_drm_mode_config_helpers = {
->>       .atomic_commit_tail = ingenic_drm_atomic_helper_commit_tail,
->>   };
->> be updated as well?
->>
->> I've not seen it in the serie.
-> 
-> It is there though :) At the bottom of this very patch.
-> 
+Hi Thomas,
 
-My email client played me some tricks, apparently!
-Sorry for the noise.
+Le dim., ao=FBt 8 2021 at 20:42:53 +0200, Thomas Zimmermann=20
+<tzimmermann@suse.de> a =E9crit :
+> Hi
+>=20
+> Am 08.08.21 um 15:45 schrieb Paul Cercueil:
+>> Instead of having one 'hwdesc' variable for the plane #0 and one for=20
+>> the
+>> plane #1, use a 'hwdesc[2]' array, where the DMA hardware descriptors
+>> are indexed by the plane's number.
+>>=20
+>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>> ---
+>>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 38=20
+>> ++++++++++++-----------
+>>   1 file changed, 20 insertions(+), 18 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
+>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> index e42eb43d8020..bc71ba44ccf4 100644
+>> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> @@ -49,8 +49,7 @@ struct ingenic_dma_hwdesc {
+>>   } __aligned(16);
+>>   =7F  struct ingenic_dma_hwdescs {
+>> -	struct ingenic_dma_hwdesc hwdesc_f0;
+>> -	struct ingenic_dma_hwdesc hwdesc_f1;
+>> +	struct ingenic_dma_hwdesc hwdesc[2];
+>>   	struct ingenic_dma_hwdesc hwdesc_pal;
+>>   	u16 palette[256] __aligned(16);
+>>   };
+>> @@ -141,6 +140,13 @@ static inline struct ingenic_drm=20
+>> *drm_nb_get_priv(struct notifier_block *nb)
+>>   	return container_of(nb, struct ingenic_drm, clock_nb);
+>>   }
+>>   =7F+static inline dma_addr_t dma_hwdesc_addr(const struct=20
+>> ingenic_drm *priv, bool use_f1)
+>=20
+> Using the plane index instead of a boolean would be more aligned to=20
+> the way this function is being used.
 
-CJ
+Alright, I can do that.
 
->> Just my 2v.
->> CJ
-> 
-> Cheers,
-> -Paul
-> 
-> 
-> 
+>> +{
+>> +	u32 offset =3D offsetof(struct ingenic_dma_hwdescs, hwdesc[use_f1]);
+>=20
+> use_f1 is a function parameter. Is offsetof guaranteed to be=20
+> evaluated at runtime?
+
+The offsetof() macro could be defined like this:
+#define offsetof(type, elm) ((size_t) &((type *) 0)->elm)
+
+So I don't see a reason why this couldn't be evaluated at runtime, yes.=20
+It's just that the value of "offset" is not known at compilation time=20
+(unless the compiler does some constant propagation). In practice=20
+though, this code works fine.
+
+>> +
+>> +	return priv->dma_hwdescs_phys + offset;
+>> +}
+>> +
+>>   static int ingenic_drm_update_pixclk(struct notifier_block *nb,
+>>   				     unsigned long action,
+>>   				     void *data)
+>> @@ -562,6 +568,7 @@ static void=20
+>> ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>>   	struct ingenic_dma_hwdesc *hwdesc;
+>>   	unsigned int width, height, cpp, offset;
+>>   	dma_addr_t addr;
+>> +	bool use_f1;
+>>   	u32 fourcc;
+>>   =7F  	if (newstate && newstate->fb) {
+>> @@ -569,16 +576,14 @@ static void=20
+>> ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>>   			drm_fb_cma_sync_non_coherent(&priv->drm, oldstate, newstate);
+>>   =7F  		crtc_state =3D newstate->crtc->state;
+>> +		use_f1 =3D priv->soc_info->has_osd && plane !=3D &priv->f0;
+>>   =7F  		addr =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
+>>   		width =3D newstate->src_w >> 16;
+>>   		height =3D newstate->src_h >> 16;
+>>   		cpp =3D newstate->fb->format->cpp[0];
+>>   =7F-		if (!priv->soc_info->has_osd || plane =3D=3D &priv->f0)
+>> -			hwdesc =3D &priv->dma_hwdescs->hwdesc_f0;
+>> -		else
+>> -			hwdesc =3D &priv->dma_hwdescs->hwdesc_f1;
+>> +		hwdesc =3D &priv->dma_hwdescs->hwdesc[use_f1];
+>=20
+> Maybe add a helper that looks up the hwdesc field for a given plane?
+
+Sure.
+
+>>   =7F  		hwdesc->addr =3D addr;
+>>   		hwdesc->cmd =3D JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
+>> @@ -591,9 +596,9 @@ static void=20
+>> ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>>   			if (fourcc =3D=3D DRM_FORMAT_C8)
+>>   				offset =3D offsetof(struct ingenic_dma_hwdescs, hwdesc_pal);
+>>   			else
+>> -				offset =3D offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
+>> +				offset =3D offsetof(struct ingenic_dma_hwdescs, hwdesc[0]);
+>>   =7F-			priv->dma_hwdescs->hwdesc_f0.next =3D priv->dma_hwdescs_phys +=20
+>> offset;
+>> +			priv->dma_hwdescs->hwdesc[0].next =3D priv->dma_hwdescs_phys +=20
+>> offset;
+>=20
+> Maybe priv->dma_hwdescs_phys + offset could be computed in a more=20
+> flexible helper than dma_hwdesc_addr().
+>=20
+>>   =7F  			crtc_state->color_mgmt_changed =3D fourcc =3D=3D DRM_FORMAT_C8=
+;
+>>   		}
+>> @@ -964,20 +969,17 @@ static int ingenic_drm_bind(struct device=20
+>> *dev, bool has_components)
+>>   =7F  =7F  	/* Configure DMA hwdesc for foreground0 plane */
+>> -	dma_hwdesc_phys_f0 =3D priv->dma_hwdescs_phys
+>> -		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
+>> -	priv->dma_hwdescs->hwdesc_f0.next =3D dma_hwdesc_phys_f0;
+>> -	priv->dma_hwdescs->hwdesc_f0.id =3D 0xf0;
+>> +	dma_hwdesc_phys_f0 =3D dma_hwdesc_addr(priv, 0);
+>> +	priv->dma_hwdescs->hwdesc[0].next =3D dma_hwdesc_phys_f0;
+>> +	priv->dma_hwdescs->hwdesc[0].id =3D 0xf0;
+>>   =7F  	/* Configure DMA hwdesc for foreground1 plane */
+>> -	dma_hwdesc_phys_f1 =3D priv->dma_hwdescs_phys
+>> -		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f1);
+>> -	priv->dma_hwdescs->hwdesc_f1.next =3D dma_hwdesc_phys_f1;
+>> -	priv->dma_hwdescs->hwdesc_f1.id =3D 0xf1;
+>> +	dma_hwdesc_phys_f1 =3D dma_hwdesc_addr(priv, 1);
+>> +	priv->dma_hwdescs->hwdesc[1].next =3D dma_hwdesc_phys_f1;
+>> +	priv->dma_hwdescs->hwdesc[1].id =3D 0xf1;
+>>   =7F  	/* Configure DMA hwdesc for palette */
+>> -	priv->dma_hwdescs->hwdesc_pal.next =3D priv->dma_hwdescs_phys
+>> -		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
+>> +	priv->dma_hwdescs->hwdesc_pal.next =3D dma_hwdesc_phys_f0;
+>>   	priv->dma_hwdescs->hwdesc_pal.id =3D 0xc0;
+>>   	priv->dma_hwdescs->hwdesc_pal.addr =3D priv->dma_hwdescs_phys
+>>   		+ offsetof(struct ingenic_dma_hwdescs, palette);
+>>=20
+>=20
+> Could the setup in these three blocks be moved into a common helper?
+
+Yes.
+
+Thanks for the review.
+
+Cheers,
+-Paul
+
 
