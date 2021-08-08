@@ -1,32 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CDA3E3A9F
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 15:46:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D45E3E3AA4
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 15:50:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63A5989B9A;
-	Sun,  8 Aug 2021 13:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 404D589A75;
+	Sun,  8 Aug 2021 13:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCF289B9A
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 13:46:43 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: "H . Nikolaus Schaller" <hns@goldelico.com>,
- Paul Boddie <paul@boddie.org.uk>, list@opendingux.net,
- Sam Ravnborg <sam@ravnborg.org>, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 8/8] drm/ingenic: Attach bridge chain to encoders
-Date: Sun,  8 Aug 2021 15:45:26 +0200
-Message-Id: <20210808134526.119198-9-paul@crapouillou.net>
-In-Reply-To: <20210808134526.119198-1-paul@crapouillou.net>
-References: <20210808134526.119198-1-paul@crapouillou.net>
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A8489A75
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 13:49:56 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ m10-20020a17090a34cab0290176b52c60ddso25577993pjf.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Aug 2021 06:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=0Vlv4O+CiiGfTw/zofpUFed/v1n2oDY9+Y7Uzfj16wM=;
+ b=KYiVC2VHaB71+mhgVAfQCeIDzoIcjQDknjKITc4iiH5+k9Gm88kp8ZtojDjeBlGOUj
+ mQKOcFpLEOiU7ietPDo9fXihVtjcUzZSHmosSIc5fzV5dPpx9FMLwlzxusrkT3dwZBLw
+ dY5OuHrGxD9YfHbtq73Ps9FcS/XDFG5CRGWJxvkPiBrNn5iCe5Z0DFoSMBkPdLWwvrnD
+ FtCkZ0jhnZxQHR2IX0hM8Ph4Qf9EuSWKb30dBa1YIThdKyfzWlhVL8MCxNpiewEqYW8a
+ 5F+aQomnJnbAweXPkas5lUL5vrDJmuOvrQ2kP40TofmnSXRxzoEvYuUko3QJmHmtNXr9
+ rc3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=0Vlv4O+CiiGfTw/zofpUFed/v1n2oDY9+Y7Uzfj16wM=;
+ b=sD8g0KdMNz+MB0zl/41dwfCGhnLO9IHoRamKHSHXhW2Q3nquDRPq/mRduTUun0hOOn
+ svcK0unqbA3i8PT/XqGgLEAWFMFOZJYkwHORr5wOU8ZG2ZSoU+hXsETsOw5H0LOp45NM
+ 77/zLXWgGVfkVkoDbUPdTumgEizQsbj4SUEe/Tn/72CK6BIgJr/6MX0kCJ1Bj7UGpVAy
+ grfBMZEyniCMAvEXeU7z2ZVTs09DYOcubRR2t8Xe2szuijeqQRl0pG0/gzUOvPUcAD70
+ xv9awhzWl/QQe/xtBCHOwGZ9PNQB4DqmbAhtNg/4hI+k9oaPNXdroxI0SFcRzQIDml/h
+ 2gpg==
+X-Gm-Message-State: AOAM533G9WmwssQMw84jzcwdezkfmKfh4DMSTgT1nnMOkx5Mcf+lPce0
+ Z77eW//B1E6rObXQEjsoKtAK+g==
+X-Google-Smtp-Source: ABdhPJzgiNdBxlMSy7McgB8x2BvYMF00cwvkEtpi2GPLT1TEg8DH/SM0TQ9ph+jndb0I53Nrmn3pYg==
+X-Received: by 2002:a63:5119:: with SMTP id f25mr190692pgb.271.1628430596514; 
+ Sun, 08 Aug 2021 06:49:56 -0700 (PDT)
+Received: from dragon (80.251.214.228.16clouds.com. [80.251.214.228])
+ by smtp.gmail.com with ESMTPSA id r10sm16554406pff.7.2021.08.08.06.49.54
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Sun, 08 Aug 2021 06:49:56 -0700 (PDT)
+Date: Sun, 8 Aug 2021 21:49:51 +0800
+From: Shawn Guo <shawn.guo@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 2/2] drm/panel: Add Truly NT35521 panel driver
+Message-ID: <20210808134950.GC6795@dragon>
+References: <20210804081352.30595-1-shawn.guo@linaro.org>
+ <20210804081352.30595-3-shawn.guo@linaro.org>
+ <YQq/LOWEgTIk9zIT@ravnborg.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YQq/LOWEgTIk9zIT@ravnborg.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,195 +78,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Attach a top-level bridge to each encoder, which will be used for
-negociating the bus format and flags.
+Hi Sam,
 
-All the bridges are now attached with DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+On Wed, Aug 04, 2021 at 06:24:12PM +0200, Sam Ravnborg wrote:
+> Hi Shawn,
+> 
+> see a few comments in the following.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 92 +++++++++++++++++------
- 1 file changed, 70 insertions(+), 22 deletions(-)
+Thanks for the review comments!  All of them will be addressed in v2.
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 7ae48ead3ab6..09d5dd298078 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -21,6 +21,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_color_mgmt.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
-@@ -107,6 +108,19 @@ struct ingenic_drm {
- 	struct drm_private_obj private_obj;
- };
- 
-+struct ingenic_drm_bridge {
-+	struct drm_encoder encoder;
-+	struct drm_bridge bridge, *next_bridge;
-+
-+	struct drm_bus_cfg bus_cfg;
-+};
-+
-+static inline struct ingenic_drm_bridge *
-+to_ingenic_drm_bridge(struct drm_encoder *encoder)
-+{
-+	return container_of(encoder, struct ingenic_drm_bridge, encoder);
-+}
-+
- static inline struct ingenic_drm_private_state *
- to_ingenic_drm_priv_state(struct drm_private_state *state)
- {
-@@ -679,11 +693,10 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(encoder->dev);
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
--	struct drm_connector *conn = conn_state->connector;
--	struct drm_display_info *info = &conn->display_info;
-+	struct ingenic_drm_bridge *bridge = to_ingenic_drm_bridge(encoder);
- 	unsigned int cfg, rgbcfg = 0;
- 
--	priv->panel_is_sharp = info->bus_flags & DRM_BUS_FLAG_SHARP_SIGNALS;
-+	priv->panel_is_sharp = bridge->bus_cfg.flags & DRM_BUS_FLAG_SHARP_SIGNALS;
- 
- 	if (priv->panel_is_sharp) {
- 		cfg = JZ_LCD_CFG_MODE_SPECIAL_TFT_1 | JZ_LCD_CFG_REV_POLARITY;
-@@ -696,19 +709,19 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 		cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
- 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
- 		cfg |= JZ_LCD_CFG_VSYNC_ACTIVE_LOW;
--	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
-+	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
- 		cfg |= JZ_LCD_CFG_DE_ACTIVE_LOW;
--	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
-+	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
- 		cfg |= JZ_LCD_CFG_PCLK_FALLING_EDGE;
- 
- 	if (!priv->panel_is_sharp) {
--		if (conn->connector_type == DRM_MODE_CONNECTOR_TV) {
-+		if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV) {
- 			if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_I;
- 			else
- 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_P;
- 		} else {
--			switch (*info->bus_formats) {
-+			switch (bridge->bus_cfg.format) {
- 			case MEDIA_BUS_FMT_RGB565_1X16:
- 				cfg |= JZ_LCD_CFG_MODE_GENERIC_16BIT;
- 				break;
-@@ -734,20 +747,29 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 	regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
- }
- 
--static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
--					    struct drm_crtc_state *crtc_state,
--					    struct drm_connector_state *conn_state)
-+static int ingenic_drm_bridge_attach(struct drm_bridge *bridge,
-+				     enum drm_bridge_attach_flags flags)
-+{
-+	struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
-+
-+	return drm_bridge_attach(bridge->encoder, ib->next_bridge,
-+				 &ib->bridge, flags);
-+}
-+
-+static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
-+					   struct drm_bridge_state *bridge_state,
-+					   struct drm_crtc_state *crtc_state,
-+					   struct drm_connector_state *conn_state)
- {
--	struct drm_display_info *info = &conn_state->connector->display_info;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+	struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
- 
--	if (info->num_bus_formats != 1)
--		return -EINVAL;
-+	ib->bus_cfg = bridge_state->output_bus_cfg;
- 
- 	if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV)
- 		return 0;
- 
--	switch (*info->bus_formats) {
-+	switch (bridge_state->output_bus_cfg.format) {
- 	case MEDIA_BUS_FMT_RGB888_3X8:
- 	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
- 		/*
-@@ -911,8 +933,16 @@ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
- };
- 
- static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs = {
--	.atomic_mode_set	= ingenic_drm_encoder_atomic_mode_set,
--	.atomic_check		= ingenic_drm_encoder_atomic_check,
-+	.atomic_mode_set        = ingenic_drm_encoder_atomic_mode_set,
-+};
-+
-+static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
-+	.attach			= ingenic_drm_bridge_attach,
-+	.atomic_check		= ingenic_drm_bridge_atomic_check,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
- };
- 
- static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
-@@ -958,7 +988,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	struct drm_plane *primary;
- 	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
-+	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
-+	struct ingenic_drm_bridge *ib;
- 	struct drm_device *drm;
- 	void __iomem *base;
- 	long parent_rate;
-@@ -1146,20 +1178,36 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
- 								 DRM_MODE_CONNECTOR_DPI);
- 
--		encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_DPI, NULL);
--		if (IS_ERR(encoder)) {
--			ret = PTR_ERR(encoder);
-+		ib = drmm_encoder_alloc(drm, struct ingenic_drm_bridge, encoder,
-+					NULL, DRM_MODE_ENCODER_DPI, NULL);
-+		if (IS_ERR(ib)) {
-+			ret = PTR_ERR(ib);
- 			dev_err(dev, "Failed to init encoder: %d\n", ret);
- 			return ret;
- 		}
- 
--		encoder->possible_crtcs = 1;
-+		encoder = &ib->encoder;
-+		encoder->possible_crtcs = drm_crtc_mask(&priv->crtc);
- 
- 		drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
- 
--		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
--		if (ret)
-+		ib->bridge.funcs = &ingenic_drm_bridge_funcs;
-+		ib->next_bridge = bridge;
-+
-+		ret = drm_bridge_attach(encoder, &ib->bridge, NULL,
-+					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+		if (ret) {
-+			dev_err(dev, "Unable to attach bridge\n");
- 			return ret;
-+		}
-+
-+		connector = drm_bridge_connector_init(drm, encoder);
-+		if (IS_ERR(connector)) {
-+			dev_err(dev, "Unable to init connector\n");
-+			return PTR_ERR(connector);
-+		}
-+
-+		drm_connector_attach_encoder(connector, encoder);
- 	}
- 
- 	drm_for_each_encoder(encoder, drm) {
--- 
-2.30.2
+Shawn
 
+> On Wed, Aug 04, 2021 at 04:13:52PM +0800, Shawn Guo wrote:
+> > It adds a drm driver for Truly NT35521 5.24" 1280x720 DSI panel, which
+> > can be found on Sony Xperia M4 Aqua phone.  The panel backlight is
+> > managed through DSI link.
+> > 
+> > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> > ---
+> >  drivers/gpu/drm/panel/Kconfig               |   9 +
+> >  drivers/gpu/drm/panel/Makefile              |   1 +
+> >  drivers/gpu/drm/panel/panel-truly-nt35521.c | 491 ++++++++++++++++++++
+> >  3 files changed, 501 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/panel/panel-truly-nt35521.c
