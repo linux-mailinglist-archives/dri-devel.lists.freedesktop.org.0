@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019463E3C7C
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 21:12:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 987B83E3C7E
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Aug 2021 21:18:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D25789AEB;
-	Sun,  8 Aug 2021 19:12:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB9C89ABA;
+	Sun,  8 Aug 2021 19:18:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [85.215.255.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4772E89AEB
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:12:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628449941;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=8x7srcrmZ1/WCTZQFJiINnCxHY92TZ+clMgKoK3VcnA=;
- b=fLeFneLbNeeb+PnUH/azqY+B8iMLLvtOfkUrr7G0dLp4r2fbGkNPez1CDCjmrE4Vmq
- ZEtwuBG3l+9iYZvLaYHD4BZe3Bt0T+pc54NQN4i/ESD48R7evi5HVt2WY/c5FuIB9Wsy
- UlQEWEE1gJrpRWNcpJQMLIyfP5xz9bACzuN8Vl+ERC/bmwOr2KkBPBCuf67igbF0amr6
- VBXb0SNEu4105pt4/PvgHhQIR/mYUKfes96HIDvTc+Da6TKsJtcKk9kfv7J5ZoDNIeyB
- AeSdx/VrKr+E9YLw2CxwWSy/DHnmNl+7SoaBoEV4pIJc8iyj/dnjgYVgxew64zkoUQpO
- wqkQ==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43u3mM="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.31.0 DYNA|AUTH)
- with ESMTPSA id Q02727x78JCLGc2
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Sun, 8 Aug 2021 21:12:21 +0200 (CEST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH 8/8] drm/ingenic: Attach bridge chain to encoders
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <2C83670F-3586-435B-8374-C3CC1C791391@goldelico.com>
-Date: Sun, 8 Aug 2021 21:12:20 +0200
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Paul Boddie <paul@boddie.org.uk>, list@opendingux.net,
- Sam Ravnborg <sam@ravnborg.org>, linux-mips <linux-mips@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77CD889ABA
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:18:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 48C846054E
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Aug 2021 19:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1628450282;
+ bh=+xFD91bL0ilDLAHwP6CPHFZoP70wSyDL/oNdeiPsBzc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=cHRohv0Pqnd4nS+Lm2oWinH+t/QTnmm5RyyeGz/nz+Rqa+QJkbgm1K5Ztk2j/tKxy
+ 9Wj3E/8HHL/HWrpDFmuB3hPulvnpAOaXa8z8BI4JsWvdABfwKpdY0v/ptquSMeYsyb
+ tolpZAW7QjOaM9jgDHstXS+Bz9/B0vixXeawiu1qxIFc+RIIquH01phmPP8SE/HfrO
+ 0rITuqBOqMaoX+y2XaLJ+C0xG3jMe7yflc7BtoeElPk6Mc0clGZZ7lucl2B++iN5jS
+ joZXeQMtYdxErw/bve5XYAAmRz2YRGa5Q4VG54f6T/mACI5Q7jhFyYejce/moxG/G1
+ cwudDOCXUlrtA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 3F2A760FD8; Sun,  8 Aug 2021 19:18:02 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214001] [bisected][regression] After commit "drm/ttm:
+ Initialize debugfs from ttm_global_init()" kernels without debugfs explicitly
+ set to 'allow all' fail to boot
+Date: Sun, 08 Aug 2021 19:18:02 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: untaintableangel@hotmail.co.uk
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214001-2300-FbLOkMqpjr@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214001-2300@https.bugzilla.kernel.org/>
+References: <bug-214001-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <137A13EE-9E0E-469E-BE43-677349478A58@goldelico.com>
-References: <20210808134526.119198-1-paul@crapouillou.net>
- <20210808134526.119198-9-paul@crapouillou.net>
- <2AEC5953-FE54-4DD5-88B7-783C4D9E23B2@goldelico.com>
- <4OBJXQ.DA6PDYNSVNYV1@crapouillou.net>
- <2C83670F-3586-435B-8374-C3CC1C791391@goldelico.com>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3445.104.21)
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,34 +70,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214001
+
+--- Comment #1 from Linux_Chemist (untaintableangel@hotmail.co.uk) ---
+As an addendum, I suppose a slight source of confusion is the info for=20
+
+CONFIG_DEBUG_FS which reads:
+
+"debugfs is a virtual file system that kernel developers use to put
+debugging files into. Enable this option to be able to read and
+write to these files.
+
+For detailed documentation on the debugfs API, see
+Documentation/filesystems/.
+
+If unsure, say N."
+
+which implies: a) that it isn't strictly necessary to have enabled in order=
+ to
+boot/run normally (highlighting this bug) and b) that you would have zero n=
+eed
+for it if you weren't reading/writing to these debugging files.=20
 
 
-> Am 08.08.2021 um 21:06 schrieb H. Nikolaus Schaller =
-<hns@goldelico.com>:
->=20
->=20
->=20
->> Am 08.08.2021 um 21:04 schrieb Paul Cercueil <paul@crapouillou.net>:
->>=20
->> Hi Nikolaus,
->>=20
->> Le dim., ao=C3=BBt 8 2021 at 20:57:09 +0200, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->>> Hi Paul,
->>> all other patches apply cleanly but this one fails on top of =
-v5.14-rc4.
->>> What base are you using?
->>> BR and thanks,
->>> Nikolaus
->>=20
->> The base is drm-misc (https://cgit.freedesktop.org/drm/drm-misc), =
-branch drm-misc-next.
->=20
-> Ok, fine!
+To then have the option to enable debugfs but only run minimally with
+CONFIG_DEBUG_FS_ALLOW_NONE:
+"Access is off. Clients get -PERM when trying to create nodes in
+debugfs tree and debugfs is not registered as a filesystem.
+Client can then back-off or continue without debugfs access."
 
-Contains 3 patches for drm/ingenic and after taking them first, I can =
-apply the series.
+leaves the question of 'why have it on and set to "allow none" rather than =
+off
+completely?'
 
-Again, BR and thanks,
-Nikolaus
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
