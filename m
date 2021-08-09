@@ -1,70 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B57F3E3ECB
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 06:20:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1963B3E3F3D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 07:10:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4026589A74;
-	Mon,  9 Aug 2021 04:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B0289AD2;
+	Mon,  9 Aug 2021 05:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32C0E89A74
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 04:20:27 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id a8so25910392pjk.4
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Aug 2021 21:20:27 -0700 (PDT)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4DDE89AD2
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 05:10:35 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id d17so15081722plr.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Aug 2021 22:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=sCRNReZaLDOQvPH4KjWdDvX5jH3hpYmDMhYSFZyyI+4=;
- b=Y2cgxiqH5ucNbGsSAAImYyUocfH0pYvQ/coZ86iqCrsJkzlYSWBx9tWk+1NJaVnNV2
- hQvTaDaiMT1AtbVhZH1MeUdyfYKcUgIJr4GqqxvL4RUGLOCTseH1Ztae8tRkA81HhuWZ
- 9M4m1GSf5oXE71XG2tpY3yFNX/KfI0M7YpkAhOBlROHeD3w6m3R5rG2zXdbvu6fXSYZz
- 7Endw//3IknW/uOq95mGC8mbGd2212mbqesZ542mHDDzBVM5TQaYKTwNUsyD+URf3hzf
- LtMKFVSGfyJBo+PCFWJfCRfzwbKwQ7OKeRBkD44kvXAIEGl9W3IXExeJBvI/59b6GhD8
- KRUQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=bfUA2dfTdnWy7owueak2d2BBuP+5ggo63PNQbXg9bzE=;
+ b=Cfe9rJ837P8KTfwuV/5W7iiaVQyE1YjQNfYn0rKTVHU76ZZYHhl8hxh8YBjxJRxXxw
+ W1Pr9jKZyyDaV645NypdApCbNShTvncQ1cn1dr8TGR7pZC7NarOz85ko6dPIbfm/CIU/
+ f5+Ds5hJZOSE8wubFYtQQ7/ocSnCLomJyiC4snJQ3orTqn1r0DUWOe1QwnEDirtdzEcx
+ NCj7MDMnI9qK+7HftimklBs4FXOBy0k7uab0aluG16l/IynmASPNa9WRskecrYVzlUG7
+ Tr1jN1mfWSjOEqsaMbfffIuqvI3TsbhxUhx1tjX+Yii662Itq00dybkGd4g0SbSSSa1f
+ b6+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=sCRNReZaLDOQvPH4KjWdDvX5jH3hpYmDMhYSFZyyI+4=;
- b=c7ICwJNMJ30zOEBMQtkjPfYsIxo9iGYy4eapjK2KB27Bit4pJwmKVP0gyjhLXWqsXc
- GYOAk2T31NXmzJ8I4A5WUX5a4aJfP0ygeb5QiKwS2yGV1snZJjk36BgjsUOPQKcaDNsk
- Hlexv83waOvGTeRe4Z8rNBT4AqXPhTn5252K8Lq61IHkQWlw8110NP2yr8ne4qKQNq6B
- Eiszdtthg/Tw50qaVxjY2FKxo0BHc8rbzQZQg879w3ov6yP0P+KsSQeRKrDkJ/MPbtrf
- RmHg/PmC1GrcoJ9nHd7p3ucOEedxVpOVMvq/vIONb+CSOa7IhuLawh0w/SFO0k15qJd3
- iSvw==
-X-Gm-Message-State: AOAM532KKyKZFY7PzPCtZqI8r6tKTQkfu4g17SJF1W2tHYGiFZrZsqQH
- Uz2H3mupl5gjChLqz6ed/3ciFQ==
-X-Google-Smtp-Source: ABdhPJw45E670g4FSxxD+rVM8EYpeAPwFPVtdr+ur4PMyAaH0Tk3nJXWf7iYnvPpAzNVE33FMf5Gkw==
-X-Received: by 2002:a17:902:8648:b029:129:dda4:ddc2 with SMTP id
- y8-20020a1709028648b0290129dda4ddc2mr10796851plt.4.1628482826555; 
- Sun, 08 Aug 2021 21:20:26 -0700 (PDT)
-Received: from dragon (80.251.214.228.16clouds.com. [80.251.214.228])
- by smtp.gmail.com with ESMTPSA id q19sm17263736pfk.49.2021.08.08.21.20.23
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 08 Aug 2021 21:20:26 -0700 (PDT)
-Date: Mon, 9 Aug 2021 12:20:19 +0800
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=bfUA2dfTdnWy7owueak2d2BBuP+5ggo63PNQbXg9bzE=;
+ b=gdwyoqCo87rDC8Ys57LwBbcGUFHqQDxeNVyRspXcufUaEMF6ZpLKTNOhecik3lR1IR
+ duKXzPqhSu0pkjmcooVl2vW3PmhAz0P5o3zkNlSySW/GDYKFwGTNvG4+cdRrFt/oMTwT
+ VKClHN5ifx3xfRFwgAxT6WS6SSGn5hSk9JD7rxzprM01E89EkwcRQ1kkvWgCR7SkYoup
+ 73MB6OIKfSJH9qLfIlDqpeuQj+W72OFyslFIu0xS7XF96yraLwaToiqbl6BWA4rvmfby
+ FmaOdT/hhXC62+Agz8k2OJ5+sqhx+5lyxUKif1lL/jlUOiz/u+VbwlvFJBSNNTpQakIs
+ aLHA==
+X-Gm-Message-State: AOAM530SQNOzxsGxaTeHlFzBhOYSU+heKI/yGq2/X3F0SrqHJ9VacqSB
+ C4PSHKrs6eyGu4aqMI3PufRyFA==
+X-Google-Smtp-Source: ABdhPJyjI9cyeTEe16lm05RIWz7l5Ip/lo0xiq9kg2hmD9U2pcCuCbC+y2IW1odl9UFS7tYUkaKhlA==
+X-Received: by 2002:a17:90b:1209:: with SMTP id
+ gl9mr809952pjb.148.1628485835061; 
+ Sun, 08 Aug 2021 22:10:35 -0700 (PDT)
+Received: from localhost.localdomain (80.251.214.228.16clouds.com.
+ [80.251.214.228])
+ by smtp.gmail.com with ESMTPSA id e35sm20420219pjk.28.2021.08.08.22.10.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Aug 2021 22:10:34 -0700 (PDT)
 From: Shawn Guo <shawn.guo@linaro.org>
-To: Stephan Gerhold <stephan@gerhold.net>
-Cc: Konrad Dybcio <konradybcio@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel@ffwll.ch>,
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Stephan Gerhold <stephan@gerhold.net>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/panel: Add Truly NT35521 panel driver
-Message-ID: <20210809042018.GD6795@dragon>
-References: <20210804081352.30595-1-shawn.guo@linaro.org>
- <20210804081352.30595-3-shawn.guo@linaro.org>
- <YQqDb5eFqIx8tvAL@gerhold.net> <20210808134456.GB6795@dragon>
- <YQ/4WkA9ajpQx06A@gerhold.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YQ/4WkA9ajpQx06A@gerhold.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Shawn Guo <shawn.guo@linaro.org>
+Subject: [PATCH v2 0/2] Add Sony Tulip Truly NT35521 panel support
+Date: Mon,  9 Aug 2021 13:10:06 +0800
+Message-Id: <20210809051008.6172-1-shawn.guo@linaro.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,22 +70,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 08, 2021 at 05:29:30PM +0200, Stephan Gerhold wrote:
-> > 2) The driver works good, if the kernel is launched via "fastboot boot".
-> >    But if the kernel is flashed to eMMC and launched by bootloader with
-> >    splash screen, kernel will fail to bring up the panel.  After kernel
-> >    boots up, a blank & unblank cycle can get panel work though.
-> > 
-> > The problem 2) is not driver generator related.  @Konrad, did you see
-> > it on asus-z00t-tm5p5-n35596 driver?
-> > 
-> 
-> Do you have CONFIG_DRM_MSM=y (built-in) instead of =m (module) maybe?
-> I think a similar issue exists on MSM8916 but it does not happen
-> for some reason if CONFIG_DRM_MSM=m instead of =y. Somehow having it
-> load later during the boot process fixes some things there.
+It adds driver for Sony Tulip Truly NT35521 5.24" 1280x720 DSI panel,
+which can be found on Sony Xperia M4 Aqua phone.
 
-Indeed!  I have CONFIG_DRM_MSM=y in my build, and changing it to module
-removes the problem.  Thanks much for the hint, Stephan!
+Changes for v2:
+- Add `port` node into bindings.
+- Re-create the driver using linux-mdss-dsi-panel-driver-generator[1].
+- Rename the driver to include Sony Tulip.
+- Model 5V control GPIOs with regulators.
+- Rename Backlight GPIO as "backlight-gpios".
 
-Shawn
+[1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
+
+Shawn Guo (2):
+  dt-bindings: display: Add Sony Tulip Truly NT35521 panel support
+  drm/panel: Add Sony Tulip Truly NT35521 driver
+
+ .../panel/sony,tulip-truly-nt35521.yaml       |  72 +++
+ drivers/gpu/drm/panel/Kconfig                 |  10 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../panel/panel-sony-tulip-truly-nt35521.c    | 552 ++++++++++++++++++
+ 4 files changed, 635 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
+
+-- 
+2.17.1
+
