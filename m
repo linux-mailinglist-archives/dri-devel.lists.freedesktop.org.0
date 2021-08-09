@@ -1,63 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970FF3E4A9A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 19:13:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B64FD3E4AAC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 19:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5F9B89C07;
-	Mon,  9 Aug 2021 17:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A639C89C1B;
+	Mon,  9 Aug 2021 17:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9C989BB3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 17:12:59 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- k5-20020a05600c1c85b02902e699a4d20cso516999wms.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 10:12:59 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82F1A89C21
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 17:17:31 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id b11so6266596wrx.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 10:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=XWCA+v0WSlffcmsf71Mb+Guh1y1XEERFp2o2JBykQDM=;
- b=TetCEtGyQKuviOqT9eSGJ8IveAynez9vPkg+sPIvXBl4uiEJC8mvDTehySCJpPYalm
- W7L8NLhgcvVmvFD3v0iNBLnUb2M6Yqgri8wz9G3ZU9u5SF85BpluB+F+FcLA2yN3WzJQ
- FmAhei2IsMjPbJVS+sy4bO3jEzT/glyeho5nY=
+ bh=56hgnoAhzHdDc1cs1XVk2H6+sv2Sz+YDCei80cOwmMA=;
+ b=WLvb5u2Rfe+5bsepCteXy6TasOSHOjltDjVDU7UFx4uubj1bzBmcIBGoi+V0w4b2fj
+ nD/0Z63ngylSpPpF+hximpwIvekvRiM6z5uY7re2aupFpcR1olkeXXdTG0MuGWGAB4Jx
+ IGPlecUnWmyr6wKwc/IW14wIRWadN7XCCtbD8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=XWCA+v0WSlffcmsf71Mb+Guh1y1XEERFp2o2JBykQDM=;
- b=mNBefY8gD68G8FRAyrha/ixSGfPIjnfVb45IHu7F97DApqXm99kyIGfQM2bJtL7C+N
- 7mlektD1iXxb7aboI7pXkn5/2wfLMF+PEwmhl3NlNcRWJyYfdKP+fMK7QStC2dqVf/uX
- YZgvV8it4cLThjlZwpxcr9D5Q4lib6QMmv1R7nfAn68H7kzLVRDIpon6Ed8JJG1vm3NN
- goC5L38Kk9Enfg52Wwx622yKAAlbA+Ii6EQNyKpx3gBQxlaJR7r/4lGBNQ0UZG0VXQRF
- 5QWNUUlgZzYPEwExvHGU58CYmv/mJ/E9zE4gDq2C5pkrOn6yd8DZfg4h4c5Y7F+rNksU
- /Bzw==
-X-Gm-Message-State: AOAM530GKsv/SHa6gVRiwUPB0+zIZLiSl/bbiLjynaODbdyGiMjREILN
- g9ybiElMo1wxzSirsZyrEcxMTQ==
-X-Google-Smtp-Source: ABdhPJxM0nZ/MJxXi7xe2+iV3Pd3iDqXxEFz+KW/qZ66WdmXmWWFB4x/3z6DNI/rMuqZG+YD8zg22A==
-X-Received: by 2002:a1c:1bcd:: with SMTP id
- b196mr17677310wmb.160.1628529178157; 
- Mon, 09 Aug 2021 10:12:58 -0700 (PDT)
+ bh=56hgnoAhzHdDc1cs1XVk2H6+sv2Sz+YDCei80cOwmMA=;
+ b=ZgoMfsfWuKPYT2CphHXSUXdIQg/i83lsOQzeqQBb4pgAMmD94O7MSz/Y+ebUNM1lLi
+ lbUwqeFkDQYMn0jCWGJA2mtNl2Yac/uy1J3yjdGNupCtRxldccmJ+BJgnIcIEWBg3fg9
+ 0CMsZCmvv+oJ3RKpjPFGan006qpwhC103DDCl0BuwEmw3PeB5mHrSshUIib5EzhMTcgY
+ FtLSPe5FZAdjyI4du58qj2Nncj+ncN84giTYWeEebd0OkFHwsu4l/dyjmXuGETD7Z5AY
+ zkTw9x6O0Ecj5xjRkYxot7y3gYnoQt0KVlpQAFQVykIWw5BvIPT/u0DzCgJysrhmbE+c
+ PEig==
+X-Gm-Message-State: AOAM530LpBbGXECJxbfecyM5r9RRa2iy8pkFDb944AJx0ML/ljhHUGL5
+ XaENvnjzUw+jPcTtbzg5eHGxf2IJOvtEmw==
+X-Google-Smtp-Source: ABdhPJxk7AlU3wcf7Nr+gRtEfYPU/qsSXA9JaaD5mcF6v6cVaP4f27Ri9sY2bsEtCtqTAiv26rJCGw==
+X-Received: by 2002:adf:dd47:: with SMTP id u7mr8727537wrm.425.1628529449817; 
+ Mon, 09 Aug 2021 10:17:29 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z13sm1967649wmf.46.2021.08.09.10.12.57
+ by smtp.gmail.com with ESMTPSA id g6sm8536319wmq.42.2021.08.09.10.17.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 10:12:57 -0700 (PDT)
-Date: Mon, 9 Aug 2021 19:12:56 +0200
+ Mon, 09 Aug 2021 10:17:29 -0700 (PDT)
+Date: Mon, 9 Aug 2021 19:17:27 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Matthew Brost <matthew.brost@intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 41/46] drm/i915: Eliminate unnecessary VMA
- calls for multi-BB submission
-Message-ID: <YRFiGA9ZdaGigp07@phenom.ffwll.local>
+Subject: Re: [Intel-gfx] [PATCH 46/46] drm/i915/guc: Add delay before
+ disabling scheduling on contexts
+Message-ID: <YRFjJy/7eWLo/eaL@phenom.ffwll.local>
 References: <20210803222943.27686-1-matthew.brost@intel.com>
- <20210803222943.27686-42-matthew.brost@intel.com>
- <YRFg4OL0bvPITfwY@phenom.ffwll.local>
+ <20210803222943.27686-47-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YRFg4OL0bvPITfwY@phenom.ffwll.local>
+In-Reply-To: <20210803222943.27686-47-matthew.brost@intel.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,471 +71,910 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 07:07:44PM +0200, Daniel Vetter wrote:
-> On Tue, Aug 03, 2021 at 03:29:38PM -0700, Matthew Brost wrote:
-> > Certain VMA functions in the execbuf IOCTL only need to be called on
-> > first or last BB of a multi-BB submission. eb_relocate() on the first
+On Tue, Aug 03, 2021 at 03:29:43PM -0700, Matthew Brost wrote:
+> Some workloads use lots of contexts that continually pin / unpin
+> contexts. With GuC submission an unpin translates to a schedule disable
+> H2G which puts pressure on both the i915 and GuC. A schedule disable can
+> also block future requests from being submitted until the operation
+> completes. None of this is ideal.
 > 
-> eb_relocate should be outright disallowed on multi lrc execbuf ioctl.
-> There's no users of that left, and it does substantially simplify the
-> entire locking problem if we outright disallow that.
+> Add a configurable, via debugfs, delay period before the schedule
+> disable is issued. Default delay period is 1 second. The delay period is
+> skipped if more than 3/4 of the guc_ids are in use.
 > 
-> > and eb_release_vmas() on the last. Doing so will save CPU / GPU cycles.
+> This patch also updates the selftests to turn off this delay period as
+> this extra time would likely cause many selftests to fail. Follow up
+> patches will fix all the selftests and enable the delay period.
 > 
-> Yah for our mix of pin/unpin vs dma_resv_lock/unlock. Now with the current
-> unpin design this move is ok, but we want/need to switch vma over to
-> dma_resv_lock. And then it gets really nasty, because you run into a ton
-> of problems.
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-To give a bit more context of how much this is all nasty: When you publish
-a fence, which thanks to rcu lookup of dma_resv happens when you install a
-fence, not when you unlock the dma_resv_lock, you're not allowed to
-allocate _any_ memory anymore until you're request has finished executing.
-This means no allocating anything, including kmalloc for your i915_request
-struct for the remaining batches, or the composite fence or anything else
-you might do.
+I think this is more evidence that we should just pin/unpin context at
+create/destruction time. The current scheme doesn't really work that well
+and causes way more pain than benefits it seems.
 
-userptr also makes this requirement even more fun with additional
-serialization requirements against mmu notifier invalidations.
-
-The current execbuf code is a mess in this regard, and the idea is to fix
-this with the conversion to drm/sched, because that has a very clear point
-of no return. With the design you're pushing you're essentially making
-this problem unfixable.
+If anyone screams, and that's a big if aside of some igts, we can come up
+with a proper scheme to evict contexts without pin/unpin and layer hacks
+over that misdesign.
 -Daniel
 
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c   |   2 +-
+>  .../i915/gem/selftests/i915_gem_coherency.c   |   2 +-
+>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   2 +-
+>  .../drm/i915/gem/selftests/i915_gem_mman.c    |   2 +-
+>  .../drm/i915/gem/selftests/i915_gem_object.c  |   2 +-
+>  drivers/gpu/drm/i915/gt/intel_context.c       |   2 +
+>  drivers/gpu/drm/i915/gt/intel_context.h       |   9 +
+>  drivers/gpu/drm/i915/gt/intel_context_types.h |   8 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   7 +
+>  .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |  28 ++
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 322 +++++++++++++++++-
+>  .../i915/gt/uc/selftest_guc_flow_control.c    |  19 +-
+>  drivers/gpu/drm/i915/i915_selftest.h          |   2 +
+>  drivers/gpu/drm/i915/i915_trace.h             |  10 +
+>  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   2 +-
+>  drivers/gpu/drm/i915/selftests/i915_perf.c    |   2 +-
+>  drivers/gpu/drm/i915/selftests/i915_request.c |   2 +-
+>  drivers/gpu/drm/i915/selftests/i915_vma.c     |   2 +-
+>  18 files changed, 405 insertions(+), 20 deletions(-)
 > 
-> To more I read this the less I like this :-/
-> -Daniel
-> 
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 127 +++++++++++-------
-> >  .../i915/gem/selftests/i915_gem_execbuffer.c  |  14 +-
-> >  2 files changed, 83 insertions(+), 58 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > index ecdb583cc2eb..70784779872a 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > @@ -270,7 +270,7 @@ struct i915_execbuffer {
-> >  	/** list of vma that have execobj.relocation_count */
-> >  	struct list_head relocs;
-> >  
-> > -	struct i915_gem_ww_ctx ww;
-> > +	struct i915_gem_ww_ctx *ww;
-> >  
-> >  	/**
-> >  	 * Track the most recently used object for relocations, as we
-> > @@ -448,7 +448,7 @@ eb_pin_vma(struct i915_execbuffer *eb,
-> >  		pin_flags |= PIN_GLOBAL;
-> >  
-> >  	/* Attempt to reuse the current location if available */
-> > -	err = i915_vma_pin_ww(vma, &eb->ww, 0, 0, pin_flags);
-> > +	err = i915_vma_pin_ww(vma, eb->ww, 0, 0, pin_flags);
-> >  	if (err == -EDEADLK)
-> >  		return err;
-> >  
-> > @@ -457,11 +457,11 @@ eb_pin_vma(struct i915_execbuffer *eb,
-> >  			return err;
-> >  
-> >  		/* Failing that pick any _free_ space if suitable */
-> > -		err = i915_vma_pin_ww(vma, &eb->ww,
-> > -					     entry->pad_to_size,
-> > -					     entry->alignment,
-> > -					     eb_pin_flags(entry, ev->flags) |
-> > -					     PIN_USER | PIN_NOEVICT);
-> > +		err = i915_vma_pin_ww(vma, eb->ww,
-> > +				      entry->pad_to_size,
-> > +				      entry->alignment,
-> > +				      eb_pin_flags(entry, ev->flags) |
-> > +				      PIN_USER | PIN_NOEVICT);
-> >  		if (unlikely(err))
-> >  			return err;
-> >  	}
-> > @@ -643,9 +643,9 @@ static int eb_reserve_vma(struct i915_execbuffer *eb,
-> >  			return err;
-> >  	}
-> >  
-> > -	err = i915_vma_pin_ww(vma, &eb->ww,
-> > -			   entry->pad_to_size, entry->alignment,
-> > -			   eb_pin_flags(entry, ev->flags) | pin_flags);
-> > +	err = i915_vma_pin_ww(vma, eb->ww,
-> > +			      entry->pad_to_size, entry->alignment,
-> > +			      eb_pin_flags(entry, ev->flags) | pin_flags);
-> >  	if (err)
-> >  		return err;
-> >  
-> > @@ -940,7 +940,7 @@ static int eb_lock_vmas(struct i915_execbuffer *eb)
-> >  		struct eb_vma *ev = &eb->vma[i];
-> >  		struct i915_vma *vma = ev->vma;
-> >  
-> > -		err = i915_gem_object_lock(vma->obj, &eb->ww);
-> > +		err = i915_gem_object_lock(vma->obj, eb->ww);
-> >  		if (err)
-> >  			return err;
-> >  	}
-> > @@ -1020,12 +1020,13 @@ eb_get_vma(const struct i915_execbuffer *eb, unsigned long handle)
-> >  	}
-> >  }
-> >  
-> > -static void eb_release_vmas(struct i915_execbuffer *eb, bool final)
-> > +static void eb_release_vmas(struct i915_execbuffer *eb, bool final,
-> > +			    bool unreserve)
-> >  {
-> >  	const unsigned int count = eb->buffer_count;
-> >  	unsigned int i;
-> >  
-> > -	for (i = 0; i < count; i++) {
-> > +	for (i = 0; unreserve && i < count; i++) {
-> >  		struct eb_vma *ev = &eb->vma[i];
-> >  		struct i915_vma *vma = ev->vma;
-> >  
-> > @@ -1237,7 +1238,7 @@ static void *reloc_iomap(struct drm_i915_gem_object *obj,
-> >  		if (err)
-> >  			return ERR_PTR(err);
-> >  
-> > -		vma = i915_gem_object_ggtt_pin_ww(obj, &eb->ww, NULL, 0, 0,
-> > +		vma = i915_gem_object_ggtt_pin_ww(obj, eb->ww, NULL, 0, 0,
-> >  						  PIN_MAPPABLE |
-> >  						  PIN_NONBLOCK /* NOWARN */ |
-> >  						  PIN_NOEVICT);
-> > @@ -1361,7 +1362,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
-> >  	}
-> >  	eb->reloc_pool = NULL;
-> >  
-> > -	err = i915_gem_object_lock(pool->obj, &eb->ww);
-> > +	err = i915_gem_object_lock(pool->obj, eb->ww);
-> >  	if (err)
-> >  		goto err_pool;
-> >  
-> > @@ -1380,7 +1381,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
-> >  		goto err_unmap;
-> >  	}
-> >  
-> > -	err = i915_vma_pin_ww(batch, &eb->ww, 0, 0, PIN_USER | PIN_NONBLOCK);
-> > +	err = i915_vma_pin_ww(batch, eb->ww, 0, 0, PIN_USER | PIN_NONBLOCK);
-> >  	if (err)
-> >  		goto err_unmap;
-> >  
-> > @@ -1402,7 +1403,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
-> >  			eb->reloc_context = ce;
-> >  		}
-> >  
-> > -		err = intel_context_pin_ww(ce, &eb->ww);
-> > +		err = intel_context_pin_ww(ce, eb->ww);
-> >  		if (err)
-> >  			goto err_unpin;
-> >  
-> > @@ -2017,8 +2018,8 @@ static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb,
-> >  	}
-> >  
-> >  	/* We may process another execbuffer during the unlock... */
-> > -	eb_release_vmas(eb, false);
-> > -	i915_gem_ww_ctx_fini(&eb->ww);
-> > +	eb_release_vmas(eb, false, true);
-> > +	i915_gem_ww_ctx_fini(eb->ww);
-> >  
-> >  	if (rq) {
-> >  		/* nonblocking is always false */
-> > @@ -2062,7 +2063,7 @@ static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb,
-> >  		err = eb_reinit_userptr(eb);
-> >  
-> >  err_relock:
-> > -	i915_gem_ww_ctx_init(&eb->ww, true);
-> > +	i915_gem_ww_ctx_init(eb->ww, true);
-> >  	if (err)
-> >  		goto out;
-> >  
-> > @@ -2119,8 +2120,8 @@ static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb,
-> >  
-> >  err:
-> >  	if (err == -EDEADLK) {
-> > -		eb_release_vmas(eb, false);
-> > -		err = i915_gem_ww_ctx_backoff(&eb->ww);
-> > +		eb_release_vmas(eb, false, true);
-> > +		err = i915_gem_ww_ctx_backoff(eb->ww);
-> >  		if (!err)
-> >  			goto repeat_validate;
-> >  	}
-> > @@ -2152,7 +2153,7 @@ static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb,
-> >  	return err;
-> >  }
-> >  
-> > -static int eb_relocate_parse(struct i915_execbuffer *eb)
-> > +static int eb_relocate_parse(struct i915_execbuffer *eb, bool first)
-> >  {
-> >  	int err;
-> >  	struct i915_request *rq = NULL;
-> > @@ -2189,14 +2190,16 @@ static int eb_relocate_parse(struct i915_execbuffer *eb)
-> >  	/* only throttle once, even if we didn't need to throttle */
-> >  	throttle = false;
-> >  
-> > -	err = eb_validate_vmas(eb);
-> > -	if (err == -EAGAIN)
-> > -		goto slow;
-> > -	else if (err)
-> > -		goto err;
-> > +	if (first) {
-> > +		err = eb_validate_vmas(eb);
-> > +		if (err == -EAGAIN)
-> > +			goto slow;
-> > +		else if (err)
-> > +			goto err;
-> > +	}
-> >  
-> >  	/* The objects are in their final locations, apply the relocations. */
-> > -	if (eb->args->flags & __EXEC_HAS_RELOC) {
-> > +	if (eb->args->flags & __EXEC_HAS_RELOC && first) {
-> >  		struct eb_vma *ev;
-> >  
-> >  		list_for_each_entry(ev, &eb->relocs, reloc_link) {
-> > @@ -2211,13 +2214,13 @@ static int eb_relocate_parse(struct i915_execbuffer *eb)
-> >  			goto slow;
-> >  	}
-> >  
-> > -	if (!err)
-> > +	if (!err && first)
-> >  		err = eb_parse(eb);
-> >  
-> >  err:
-> >  	if (err == -EDEADLK) {
-> > -		eb_release_vmas(eb, false);
-> > -		err = i915_gem_ww_ctx_backoff(&eb->ww);
-> > +		eb_release_vmas(eb, false, true);
-> > +		err = i915_gem_ww_ctx_backoff(eb->ww);
-> >  		if (!err)
-> >  			goto retry;
-> >  	}
-> > @@ -2398,7 +2401,7 @@ shadow_batch_pin(struct i915_execbuffer *eb,
-> >  	if (IS_ERR(vma))
-> >  		return vma;
-> >  
-> > -	err = i915_vma_pin_ww(vma, &eb->ww, 0, 0, flags);
-> > +	err = i915_vma_pin_ww(vma, eb->ww, 0, 0, flags);
-> >  	if (err)
-> >  		return ERR_PTR(err);
-> >  
-> > @@ -2412,7 +2415,7 @@ static struct i915_vma *eb_dispatch_secure(struct i915_execbuffer *eb, struct i9
-> >  	 * batch" bit. Hence we need to pin secure batches into the global gtt.
-> >  	 * hsw should have this fixed, but bdw mucks it up again. */
-> >  	if (eb->batch_flags & I915_DISPATCH_SECURE)
-> > -		return i915_gem_object_ggtt_pin_ww(vma->obj, &eb->ww, NULL, 0, 0, 0);
-> > +		return i915_gem_object_ggtt_pin_ww(vma->obj, eb->ww, NULL, 0, 0, 0);
-> >  
-> >  	return NULL;
-> >  }
-> > @@ -2458,7 +2461,7 @@ static int eb_parse(struct i915_execbuffer *eb)
-> >  		eb->batch_pool = pool;
-> >  	}
-> >  
-> > -	err = i915_gem_object_lock(pool->obj, &eb->ww);
-> > +	err = i915_gem_object_lock(pool->obj, eb->ww);
-> >  	if (err)
-> >  		goto err;
-> >  
-> > @@ -2666,7 +2669,7 @@ static struct i915_request *eb_pin_engine(struct i915_execbuffer *eb, bool throt
-> >  	 * GGTT space, so do this first before we reserve a seqno for
-> >  	 * ourselves.
-> >  	 */
-> > -	err = intel_context_pin_ww(ce, &eb->ww);
-> > +	err = intel_context_pin_ww(ce, eb->ww);
-> >  	if (err)
-> >  		return ERR_PTR(err);
-> >  
-> > @@ -3218,7 +3221,8 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >  		       unsigned int batch_number,
-> >  		       struct dma_fence *in_fence,
-> >  		       struct dma_fence *exec_fence,
-> > -		       struct dma_fence **out_fence)
-> > +		       struct dma_fence **out_fence,
-> > +		       struct i915_gem_ww_ctx *ww)
-> >  {
-> >  	struct drm_i915_private *i915 = to_i915(dev);
-> >  	struct i915_execbuffer eb;
-> > @@ -3239,7 +3243,8 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >  
-> >  	eb.exec = exec;
-> >  	eb.vma = (struct eb_vma *)(exec + args->buffer_count + 1);
-> > -	eb.vma[0].vma = NULL;
-> > +	if (first)
-> > +		eb.vma[0].vma = NULL;
-> >  	eb.reloc_pool = eb.batch_pool = NULL;
-> >  	eb.reloc_context = NULL;
-> >  
-> > @@ -3251,6 +3256,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >  	eb.batch_len = args->batch_len;
-> >  	eb.trampoline = NULL;
-> >  	eb.composite_fence = NULL;
-> > +	eb.ww = ww;
-> >  
-> >  	eb.fences = NULL;
-> >  	eb.num_fences = 0;
-> > @@ -3269,9 +3275,14 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >  	if (err)
-> >  		goto err_ext;
-> >  
-> > -	err = eb_create(&eb);
-> > -	if (err)
-> > -		goto err_ext;
-> > +	if (first) {
-> > +		err = eb_create(&eb);
-> > +		if (err)
-> > +			goto err_ext;
-> > +	} else {
-> > +		eb.lut_size = -eb.buffer_count;
-> > +	}
-> > +
-> >  
-> >  	GEM_BUG_ON(!eb.lut_size);
-> >  
-> > @@ -3286,15 +3297,22 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >  	if (unlikely(err))
-> >  		goto err_context;
-> >  
-> > -	err = eb_lookup_vmas(&eb);
-> > -	if (err) {
-> > -		eb_release_vmas(&eb, true);
-> > -		goto err_engine;
-> > +	if (first) {
-> > +		err = eb_lookup_vmas(&eb);
-> > +		if (err) {
-> > +			eb_release_vmas(&eb, true, true);
-> > +			goto err_engine;
-> > +		}
-> > +
-> > +	} else {
-> > +		eb.batch = &eb.vma[eb.batch_index];
-> >  	}
-> >  
-> > -	i915_gem_ww_ctx_init(&eb.ww, true);
-> >  
-> > -	err = eb_relocate_parse(&eb);
-> > +	if (first)
-> > +		i915_gem_ww_ctx_init(eb.ww, true);
-> > +
-> > +	err = eb_relocate_parse(&eb, first);
-> >  	if (err) {
-> >  		/*
-> >  		 * If the user expects the execobject.offset and
-> > @@ -3307,7 +3325,8 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >  		goto err_vma;
-> >  	}
-> >  
-> > -	ww_acquire_done(&eb.ww.ctx);
-> > +	if (first)
-> > +		ww_acquire_done(&eb.ww->ctx);
-> >  
-> >  	batch = eb.batch->vma;
-> >  
-> > @@ -3410,11 +3429,12 @@ i915_gem_do_execbuffer(struct drm_device *dev,
-> >  	i915_request_put(eb.request);
-> >  
-> >  err_vma:
-> > -	eb_release_vmas(&eb, true);
-> > +	eb_release_vmas(&eb, true, err || last);
-> >  	if (eb.trampoline)
-> >  		i915_vma_unpin(eb.trampoline);
-> >  	WARN_ON(err == -EDEADLK);
-> > -	i915_gem_ww_ctx_fini(&eb.ww);
-> > +	if (err || last)
-> > +		i915_gem_ww_ctx_fini(eb.ww);
-> >  
-> >  	if (eb.batch_pool)
-> >  		intel_gt_buffer_pool_put(eb.batch_pool);
-> > @@ -3476,6 +3496,7 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
-> >  	const size_t count = args->buffer_count;
-> >  	int err;
-> >  	struct i915_gem_context *ctx;
-> > +	struct i915_gem_ww_ctx ww;
-> >  	struct intel_context *parent = NULL;
-> >  	unsigned int num_batches = 1, i;
-> >  	bool is_parallel = false;
-> > @@ -3602,7 +3623,8 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
-> >  				     0,
-> >  				     in_fence,
-> >  				     exec_fence,
-> > -				     out_fences);
-> > +				     out_fences,
-> > +				     &ww);
-> >  
-> >  	for (i = 1; err == 0 && i < num_batches; i++)
-> >  		err = i915_gem_do_execbuffer(dev, file, args, exec2_list,
-> > @@ -3612,7 +3634,8 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
-> >  					     i,
-> >  					     NULL,
-> >  					     NULL,
-> > -					     out_fences);
-> > +					     out_fences,
-> > +					     &ww);
-> >  
-> >  	if (is_parallel)
-> >  		mutex_unlock(&parent->parallel_submit);
-> > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_execbuffer.c
-> > index 16162fc2782d..710d2700e5b4 100644
-> > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_execbuffer.c
-> > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_execbuffer.c
-> > @@ -32,11 +32,11 @@ static int __igt_gpu_reloc(struct i915_execbuffer *eb,
-> >  	if (IS_ERR(vma))
-> >  		return PTR_ERR(vma);
-> >  
-> > -	err = i915_gem_object_lock(obj, &eb->ww);
-> > +	err = i915_gem_object_lock(obj, eb->ww);
-> >  	if (err)
-> >  		return err;
-> >  
-> > -	err = i915_vma_pin_ww(vma, &eb->ww, 0, 0, PIN_USER | PIN_HIGH);
-> > +	err = i915_vma_pin_ww(vma, eb->ww, 0, 0, PIN_USER | PIN_HIGH);
-> >  	if (err)
-> >  		return err;
-> >  
-> > @@ -106,10 +106,12 @@ static int __igt_gpu_reloc(struct i915_execbuffer *eb,
-> >  static int igt_gpu_reloc(void *arg)
-> >  {
-> >  	struct i915_execbuffer eb;
-> > +	struct i915_gem_ww_ctx ww;
-> >  	struct drm_i915_gem_object *scratch;
-> >  	int err = 0;
-> >  	u32 *map;
-> >  
-> > +	eb.ww = &ww;
-> >  	eb.i915 = arg;
-> >  
-> >  	scratch = i915_gem_object_create_internal(eb.i915, 4096);
-> > @@ -141,20 +143,20 @@ static int igt_gpu_reloc(void *arg)
-> >  		eb.reloc_pool = NULL;
-> >  		eb.reloc_context = NULL;
-> >  
-> > -		i915_gem_ww_ctx_init(&eb.ww, false);
-> > +		i915_gem_ww_ctx_init(eb.ww, false);
-> >  retry:
-> > -		err = intel_context_pin_ww(eb.context, &eb.ww);
-> > +		err = intel_context_pin_ww(eb.context, eb.ww);
-> >  		if (!err) {
-> >  			err = __igt_gpu_reloc(&eb, scratch);
-> >  
-> >  			intel_context_unpin(eb.context);
-> >  		}
-> >  		if (err == -EDEADLK) {
-> > -			err = i915_gem_ww_ctx_backoff(&eb.ww);
-> > +			err = i915_gem_ww_ctx_backoff(eb.ww);
-> >  			if (!err)
-> >  				goto retry;
-> >  		}
-> > -		i915_gem_ww_ctx_fini(&eb.ww);
-> > +		i915_gem_ww_ctx_fini(eb.ww);
-> >  
-> >  		if (eb.reloc_pool)
-> >  			intel_gt_buffer_pool_put(eb.reloc_pool);
-> > -- 
-> > 2.28.0
-> > 
-> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index b199d59bd2c4..1553287e5491 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -1298,7 +1298,7 @@ static void engines_idle_release(struct i915_gem_context *ctx,
+>  		int err;
+>  
+>  		/* serialises with execbuf */
+> -		set_bit(CONTEXT_CLOSED_BIT, &ce->flags);
+> +		intel_context_close(ce);
+>  		if (!intel_context_pin_if_active(ce))
+>  			continue;
+>  
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
+> index 13b088cc787e..a666d7e610f5 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
+> @@ -434,5 +434,5 @@ int i915_gem_coherency_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_gem_coherency),
+>  	};
+>  
+> -	return i915_subtests(tests, i915);
+> +	return i915_live_subtests(tests, i915);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> index ffae7df5e4d7..2c92afa9d608 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> @@ -474,5 +474,5 @@ int i915_gem_dmabuf_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_dmabuf_import_same_driver_lmem_smem),
+>  	};
+>  
+> -	return i915_subtests(tests, i915);
+> +	return i915_live_subtests(tests, i915);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> index b20f5621f62b..4745c78a48de 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> @@ -1414,5 +1414,5 @@ int i915_gem_mman_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_mmap_gpu),
+>  	};
+>  
+> -	return i915_subtests(tests, i915);
+> +	return i915_live_subtests(tests, i915);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
+> index 740ee8086a27..ae1361c7c4cf 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
+> @@ -95,5 +95,5 @@ int i915_gem_object_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_gem_huge),
+>  	};
+>  
+> -	return i915_subtests(tests, i915);
+> +	return i915_live_subtests(tests, i915);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> index 8e90a4a0b7b0..96643040defd 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> @@ -472,6 +472,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+>  	ce->guc_id = GUC_INVALID_LRC_ID;
+>  	INIT_LIST_HEAD(&ce->guc_id_link);
+>  
+> +	INIT_LIST_HEAD(&ce->guc_sched_disable_link);
+> +
+>  	mutex_init(&ce->parallel_submit);
+>  	ce->fence_context = dma_fence_context_alloc(1);
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+> index a302599e436a..f4c9036f7f03 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> @@ -215,6 +215,15 @@ static inline bool intel_context_is_barrier(const struct intel_context *ce)
+>  	return test_bit(CONTEXT_BARRIER_BIT, &ce->flags);
+>  }
+>  
+> +static inline void intel_context_close(struct intel_context *ce)
+> +{
+> +	set_bit(CONTEXT_CLOSED_BIT, &ce->flags);
+> +
+> +	trace_intel_context_close(ce);
+> +	if (ce->ops->close)
+> +		ce->ops->close(ce);
+> +}
+> +
+>  static inline bool intel_context_is_closed(const struct intel_context *ce)
+>  {
+>  	return test_bit(CONTEXT_CLOSED_BIT, &ce->flags);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> index 8af9ace4c052..53f00657a45c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> @@ -11,6 +11,7 @@
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
+>  #include <linux/types.h>
+> +#include <linux/ktime.h>
+>  
+>  #include "i915_active_types.h"
+>  #include "i915_sw_fence.h"
+> @@ -38,6 +39,7 @@ struct intel_context_ops {
+>  	int (*alloc)(struct intel_context *ce);
+>  
+>  	void (*ban)(struct intel_context *ce, struct i915_request *rq);
+> +	void (*close)(struct intel_context *ce);
+>  
+>  	int (*pre_pin)(struct intel_context *ce, struct i915_gem_ww_ctx *ww);
+>  	int (*pin)(struct intel_context *ce);
+> @@ -203,6 +205,12 @@ struct intel_context {
+>  	 */
+>  	struct list_head guc_id_link;
+>  
+> +	/*
+> +	 * GuC schedule disable link / time
+> +	 */
+> +	struct list_head guc_sched_disable_link;
+> +	ktime_t guc_sched_disable_time;
+> +
+>  	/* GuC context blocked fence */
+>  	struct i915_sw_fence guc_blocked;
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> index 30a0f364db8f..90b5b657d411 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> @@ -60,6 +60,7 @@ struct intel_guc {
+>  	struct ida guc_ids;
+>  	u32 num_guc_ids;
+>  	u32 max_guc_ids;
+> +	u32 guc_ids_in_use[GUC_SUBMIT_ENGINE_MAX];
+>  	unsigned long *guc_ids_bitmap;
+>  #define MAX_GUC_ID_ORDER	(order_base_2(MAX_ENGINE_INSTANCE + 1))
+>  	struct list_head guc_id_list_no_ref[MAX_GUC_ID_ORDER + 1];
+> @@ -69,6 +70,12 @@ struct intel_guc {
+>  	struct list_head destroyed_contexts;
+>  	struct intel_gt_pm_unpark_work destroy_worker;
+>  
+> +	spinlock_t sched_disable_lock;	/* protects schedule disable list */
+> +	struct list_head sched_disable_list;
+> +	struct hrtimer sched_disable_timer;
+> +#define SCHED_DISABLE_DELAY_NS	1000000000
+> +	u64 sched_disable_delay_ns;
+> +
+>  	bool submission_supported;
+>  	bool submission_selected;
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> index 7c479c5e7b3a..53a6f3da6cce 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> @@ -80,12 +80,40 @@ static int guc_num_id_set(void *data, u64 val)
+>  }
+>  DEFINE_SIMPLE_ATTRIBUTE(guc_num_id_fops, guc_num_id_get, guc_num_id_set, "%lld\n");
+>  
+> +static int guc_sched_disable_delay_ns_get(void *data, u64 *val)
+> +{
+> +	struct intel_guc *guc = data;
+> +
+> +	if (!intel_guc_submission_is_used(guc))
+> +		return -ENODEV;
+> +
+> +	*val = guc->sched_disable_delay_ns;
+> +
+> +	return 0;
+> +}
+> +
+> +static int guc_sched_disable_delay_ns_set(void *data, u64 val)
+> +{
+> +	struct intel_guc *guc = data;
+> +
+> +	if (!intel_guc_submission_is_used(guc))
+> +		return -ENODEV;
+> +
+> +	guc->sched_disable_delay_ns = val;
+> +
+> +	return 0;
+> +}
+> +DEFINE_SIMPLE_ATTRIBUTE(guc_sched_disable_delay_ns_fops,
+> +			guc_sched_disable_delay_ns_get,
+> +			guc_sched_disable_delay_ns_set, "%lld\n");
+> +
+>  void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
+>  {
+>  	static const struct debugfs_gt_file files[] = {
+>  		{ "guc_info", &guc_info_fops, NULL },
+>  		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
+>  		{ "guc_num_id", &guc_num_id_fops, NULL },
+> +		{ "guc_sched_disable_delay_ns", &guc_sched_disable_delay_ns_fops, NULL },
+>  	};
+>  
+>  	if (!intel_guc_is_supported(guc))
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index cd1893edf43a..dc0d6a099bee 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -654,11 +654,15 @@ int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+>  	return (timeout < 0) ? timeout : 0;
+>  }
+>  
+> +static void sched_disable_contexts_flush(struct intel_guc *guc);
+> +
+>  int intel_guc_wait_for_idle(struct intel_guc *guc, long timeout)
+>  {
+>  	if (!intel_uc_uses_guc_submission(&guc_to_gt(guc)->uc))
+>  		return 0;
+>  
+> +	sched_disable_contexts_flush(guc);
+> +
+>  	return intel_guc_wait_for_pending_msg(guc,
+>  					      &guc->outstanding_submission_g2h,
+>  					      true, timeout);
+> @@ -1135,6 +1139,7 @@ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce);
+>  static void guc_signal_context_fence(struct intel_context *ce);
+>  static void guc_cancel_context_requests(struct intel_context *ce);
+>  static void guc_blocked_fence_complete(struct intel_context *ce);
+> +static void sched_disable_context_delete(struct intel_context *ce);
+>  
+>  static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+>  {
+> @@ -1160,6 +1165,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+>  		deregister = context_wait_for_deregister_to_register(ce);
+>  		banned = context_banned(ce);
+>  		init_sched_state(ce);
+> +		sched_disable_context_delete(ce);
+>  
+>  		if (pending_enable || destroyed || deregister) {
+>  			atomic_dec(&guc->outstanding_submission_g2h);
+> @@ -1299,6 +1305,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+>  
+>  	intel_gt_park_heartbeats(guc_to_gt(guc));
+>  	disable_submission(guc);
+> +	hrtimer_cancel(&guc->sched_disable_timer);
+>  	guc->interrupts.disable(guc);
+>  
+>  	/* Flush IRQ handler */
+> @@ -1656,6 +1663,8 @@ static void guc_lrcd_reg_fini(struct intel_guc *guc);
+>  
+>  static void destroy_worker_func(struct work_struct *w);
+>  
+> +static enum hrtimer_restart sched_disable_timer_func(struct hrtimer *hrtimer);
+> +
+>  /*
+>   * Set up the memory resources to be shared with the GuC (via the GGTT)
+>   * at firmware loading time.
+> @@ -1687,6 +1696,13 @@ int intel_guc_submission_init(struct intel_guc *guc)
+>  	INIT_LIST_HEAD(&guc->destroyed_contexts);
+>  	intel_gt_pm_unpark_work_init(&guc->destroy_worker, destroy_worker_func);
+>  
+> +	spin_lock_init(&guc->sched_disable_lock);
+> +	INIT_LIST_HEAD(&guc->sched_disable_list);
+> +	hrtimer_init(&guc->sched_disable_timer, CLOCK_MONOTONIC,
+> +		     HRTIMER_MODE_REL);
+> +	guc->sched_disable_timer.function = sched_disable_timer_func;
+> +	guc->sched_disable_delay_ns = SCHED_DISABLE_DELAY_NS;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1852,6 +1868,12 @@ static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
+>  	if (unlikely(ret < 0))
+>  		return ret;
+>  
+> +	if (intel_context_is_parent(ce))
+> +		guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC] +=
+> +			order_base_2(ce->guc_number_children + 1);
+> +	else
+> +		guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_SINGLE_LRC]++;
+> +
+>  	ce->guc_id = ret;
+>  	return 0;
+>  }
+> @@ -1860,13 +1882,18 @@ static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
+>  {
+>  	GEM_BUG_ON(intel_context_is_child(ce));
+>  	if (!context_guc_id_invalid(ce)) {
+> -		if (intel_context_is_parent(ce))
+> +		if (intel_context_is_parent(ce)) {
+> +			guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC] -=
+> +				order_base_2(ce->guc_number_children + 1);
+>  			bitmap_release_region(guc->guc_ids_bitmap, ce->guc_id,
+>  					      order_base_2(ce->guc_number_children
+>  							   + 1));
+> -		else
+> +		} else {
+> +			guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_SINGLE_LRC]--;
+>  			ida_simple_remove(&guc->guc_ids, ce->guc_id);
+> +		}
+>  		clr_lrc_desc_registered(guc, ce->guc_id);
+> +
+>  		set_context_guc_id_invalid(ce);
+>  	}
+>  	if (!list_empty(&ce->guc_id_link))
+> @@ -1931,9 +1958,13 @@ static int steal_guc_id(struct intel_guc *guc, struct intel_context *ce,
+>  			 * from another context that has more guc_id that itself.
+>  			 */
+>  			if (cn_o2 != ce_o2) {
+> +				guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC] -=
+> +					order_base_2(cn->guc_number_children + 1);
+>  				bitmap_release_region(guc->guc_ids_bitmap,
+>  						      cn->guc_id,
+>  						      cn_o2);
+> +				guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC] +=
+> +					order_base_2(ce->guc_number_children + 1);
+>  				bitmap_allocate_region(guc->guc_ids_bitmap,
+>  						       ce->guc_id,
+>  						       ce_o2);
+> @@ -2538,7 +2569,7 @@ static void guc_context_unpin(struct intel_context *ce)
+>  	__guc_context_unpin(ce);
+>  
+>  	if (likely(!intel_context_is_barrier(ce)))
+> -		intel_engine_pm_put(ce->engine);
+> +		intel_engine_pm_put_async(ce->engine);
+>  }
+>  
+>  static void guc_context_post_unpin(struct intel_context *ce)
+> @@ -2665,11 +2696,11 @@ static void guc_parent_context_unpin(struct intel_context *ce)
+>  
+>  	for_each_engine_masked(engine, ce->engine->gt,
+>  			       ce->engine->mask, tmp)
+> -		intel_engine_pm_put(engine);
+> +		intel_engine_pm_put_async(engine);
+>  	for_each_child(ce, child)
+>  		for_each_engine_masked(engine, child->engine->gt,
+>  				       child->engine->mask, tmp)
+> -			intel_engine_pm_put(engine);
+> +			intel_engine_pm_put_async(engine);
+>  }
+>  
+>  static void __guc_context_sched_enable(struct intel_guc *guc,
+> @@ -2788,6 +2819,8 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
+>  
+>  	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>  
+> +	sched_disable_context_delete(ce);
+> +
+>  	with_intel_runtime_pm(runtime_pm, wakeref)
+>  		__guc_context_sched_disable(guc, ce, guc_id);
+>  
+> @@ -2914,8 +2947,202 @@ static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
+>  								     1);
+>  		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>  	}
+> +
+> +	sched_disable_context_delete(ce);
+> +}
+> +
+> +#define next_sched_disable_time(guc, now, ce) \
+> +	(guc->sched_disable_delay_ns - \
+> +	 (ktime_to_ns(now) - ktime_to_ns(ce->guc_sched_disable_time)))
+> +static void ____sched_disable_context_delete(struct intel_guc *guc,
+> +					     struct intel_context *ce)
+> +{
+> +	bool is_first;
+> +
+> +	lockdep_assert_held(&guc->sched_disable_lock);
+> +	GEM_BUG_ON(intel_context_is_child(ce));
+> +	GEM_BUG_ON(list_empty(&ce->guc_sched_disable_link));
+> +
+> +	is_first = list_is_first(&ce->guc_sched_disable_link,
+> +				 &guc->sched_disable_list);
+> +	list_del_init(&ce->guc_sched_disable_link);
+> +	if (list_empty(&guc->sched_disable_list)) {
+> +		hrtimer_try_to_cancel(&guc->sched_disable_timer);
+> +	} else if (is_first) {
+> +		struct intel_context *first =
+> +			list_first_entry(&guc->sched_disable_list,
+> +					 typeof(*first),
+> +					 guc_sched_disable_link);
+> +		u64 next_time = next_sched_disable_time(guc, ktime_get(),
+> +							first);
+> +
+> +		hrtimer_start(&guc->sched_disable_timer,
+> +			      ns_to_ktime(next_time),
+> +			      HRTIMER_MODE_REL_PINNED);
+> +	}
+> +}
+> +
+> +static void __sched_disable_context_delete(struct intel_guc *guc,
+> +					   struct intel_context *ce)
+> +{
+> +	lockdep_assert_held(&guc->sched_disable_lock);
+> +	GEM_BUG_ON(intel_context_is_child(ce));
+> +
+> +	if (!list_empty(&ce->guc_sched_disable_link)) {
+> +		intel_context_sched_disable_unpin(ce);
+> +		____sched_disable_context_delete(guc, ce);
+> +	}
+> +}
+> +
+> +static void sched_disable_context_delete(struct intel_context *ce)
+> +{
+> +	struct intel_guc *guc = ce_to_guc(ce);
+> +	unsigned long flags;
+> +
+> +	GEM_BUG_ON(intel_context_is_child(ce));
+> +
+> +	if (!list_empty(&ce->guc_sched_disable_link)) {
+> +		spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> +		__sched_disable_context_delete(guc, ce);
+> +		spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> +	}
+> +}
+> +
+> +static void sched_disable_context_add(struct intel_guc *guc,
+> +				      struct intel_context *ce)
+> +{
+> +	unsigned long flags;
+> +
+> +	GEM_BUG_ON(intel_context_is_child(ce));
+> +	GEM_BUG_ON(!list_empty(&ce->guc_sched_disable_link));
+> +
+> +	ce->guc_sched_disable_time = ktime_get();
+> +
+> +	spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> +	if (list_empty(&guc->sched_disable_list))
+> +		hrtimer_start(&guc->sched_disable_timer,
+> +			      ns_to_ktime(guc->sched_disable_delay_ns),
+> +			      HRTIMER_MODE_REL_PINNED);
+> +	list_add_tail(&ce->guc_sched_disable_link, &guc->sched_disable_list);
+> +	spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> +}
+> +
+> +static void sched_disable_contexts_flush(struct intel_guc *guc)
+> +{
+> +	struct intel_runtime_pm *runtime_pm = &guc_to_gt(guc)->i915->runtime_pm;
+> +	struct intel_context *ce, *cn;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> +
+> +	list_for_each_entry_safe_reverse(ce, cn, &guc->sched_disable_list,
+> +					 guc_sched_disable_link) {
+> +		intel_wakeref_t wakeref;
+> +		bool enabled;
+> +		u16 guc_id;
+> +
+> +		list_del_init(&ce->guc_sched_disable_link);
+> +
+> +		spin_lock(&ce->guc_state.lock);
+> +		enabled = context_enabled(ce);
+> +		if (unlikely(!enabled || submission_disabled(guc))) {
+> +			if (enabled)
+> +				clr_context_enabled(ce);
+> +			spin_unlock(&ce->guc_state.lock);
+> +			intel_context_sched_disable_unpin(ce);
+> +			continue;
+> +		}
+> +		if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
+> +			spin_unlock(&ce->guc_state.lock);
+> +			continue;
+> +		}
+> +		guc_id = prep_context_pending_disable(ce);
+> +		spin_unlock(&ce->guc_state.lock);
+> +
+> +		with_intel_runtime_pm(runtime_pm, wakeref)
+> +			__guc_context_sched_disable(guc, ce, guc_id);
+> +	}
+> +
+> +	hrtimer_try_to_cancel(&guc->sched_disable_timer);
+> +
+> +	spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+>  }
+>  
+> +#define should_sched_be_disabled(guc, now, ce) \
+> +	((ktime_to_ns(now) - ktime_to_ns(ce->guc_sched_disable_time)) > \
+> +	(guc->sched_disable_delay_ns / 4) * 3)
+> +static enum hrtimer_restart sched_disable_timer_func(struct hrtimer *hrtimer)
+> +{
+> +	struct intel_guc *guc = container_of(hrtimer, struct intel_guc,
+> +					     sched_disable_timer);
+> +	struct intel_runtime_pm *runtime_pm = &guc_to_gt(guc)->i915->runtime_pm;
+> +	struct intel_context *ce, *cn;
+> +	unsigned long flags;
+> +	ktime_t now;
+> +
+> +	if (list_empty(&guc->sched_disable_list))
+> +		return HRTIMER_NORESTART;
+> +
+> +	now = ktime_get();
+> +
+> +	spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> +
+> +	list_for_each_entry_safe_reverse(ce, cn, &guc->sched_disable_list,
+> +					 guc_sched_disable_link) {
+> +		intel_wakeref_t wakeref;
+> +		bool enabled;
+> +		u16 guc_id;
+> +
+> +		/*
+> +		 * If a context has been waiting for 3/4 of its delay or more,
+> +		 * issue the schedule disable. Using this heuristic allows more
+> +		 * than 1 context to have its scheduling disabled when this
+> +		 * timer is run.
+> +		 */
+> +		if (!should_sched_be_disabled(guc, now, ce))
+> +			break;
+> +
+> +		list_del_init(&ce->guc_sched_disable_link);
+> +
+> +		spin_lock(&ce->guc_state.lock);
+> +		enabled = context_enabled(ce);
+> +		if (unlikely(!enabled || submission_disabled(guc))) {
+> +			if (enabled)
+> +				clr_context_enabled(ce);
+> +			spin_unlock(&ce->guc_state.lock);
+> +			intel_context_sched_disable_unpin(ce);
+> +			continue;
+> +		}
+> +		if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
+> +			spin_unlock(&ce->guc_state.lock);
+> +			continue;
+> +		}
+> +		guc_id = prep_context_pending_disable(ce);
+> +		spin_unlock(&ce->guc_state.lock);
+> +
+> +		with_intel_runtime_pm(runtime_pm, wakeref)
+> +			__guc_context_sched_disable(guc, ce, guc_id);
+> +	}
+> +
+> +	if (!list_empty(&guc->sched_disable_list)) {
+> +		struct intel_context *first =
+> +			list_first_entry(&guc->sched_disable_list,
+> +					 typeof(*first),
+> +					 guc_sched_disable_link);
+> +		u64 next_time = next_sched_disable_time(guc, now, first);
+> +
+> +		hrtimer_forward(hrtimer, now, ns_to_ktime(next_time));
+> +		spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> +
+> +		return HRTIMER_RESTART;
+> +	} else {
+> +		spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> +
+> +		return HRTIMER_NORESTART;
+> +	}
+> +}
+> +
+> +#define guc_id_pressure(max, in_use)	(in_use > (max / 4) * 3)
+>  static void guc_context_sched_disable(struct intel_context *ce)
+>  {
+>  	struct intel_guc *guc = ce_to_guc(ce);
+> @@ -2924,8 +3151,14 @@ static void guc_context_sched_disable(struct intel_context *ce)
+>  	intel_wakeref_t wakeref;
+>  	u16 guc_id;
+>  	bool enabled;
+> +	int guc_id_index = intel_context_is_parent(ce) ?
+> +		GUC_SUBMIT_ENGINE_MULTI_LRC : GUC_SUBMIT_ENGINE_SINGLE_LRC;
+> +	int max_guc_ids = intel_context_is_parent(ce) ?
+> +	       NUMBER_MULTI_LRC_GUC_ID(guc) :
+> +	       guc->num_guc_ids - NUMBER_MULTI_LRC_GUC_ID(guc);
+>  
+>  	GEM_BUG_ON(intel_context_is_child(ce));
+> +	GEM_BUG_ON(!list_empty(&ce->guc_sched_disable_link));
+>  
+>  	if (submission_disabled(guc) || context_guc_id_invalid(ce) ||
+>  	    !lrc_desc_registered(guc, ce->guc_id)) {
+> @@ -2936,6 +3169,18 @@ static void guc_context_sched_disable(struct intel_context *ce)
+>  	if (!context_enabled(ce))
+>  		goto unpin;
+>  
+> +	/*
+> +	 * If no guc_id pressure and the context isn't closed we delay the
+> +	 * schedule disable to not to continuously disable / enable scheduling
+> +	 * putting pressure on both the i915 and GuC. Delay is configurable via
+> +	 * debugfs, default 1s.
+> +	 */
+> +	if (!guc_id_pressure(max_guc_ids, guc->guc_ids_in_use[guc_id_index]) &&
+> +	    !intel_context_is_closed(ce) && guc->sched_disable_delay_ns) {
+> +		sched_disable_context_add(guc, ce);
+> +		return;
+> +	}
+> +
+>  	spin_lock_irqsave(&ce->guc_state.lock, flags);
+>  
+>  	/*
+> @@ -3294,6 +3539,58 @@ static void remove_from_context(struct i915_request *rq)
+>  	i915_request_notify_execute_cb_imm(rq);
+>  }
+>  
+> +static void __guc_context_close(struct intel_guc *guc,
+> +				struct intel_context *ce)
+> +{
+> +	lockdep_assert_held(&guc->sched_disable_lock);
+> +	GEM_BUG_ON(intel_context_is_child(ce));
+> +
+> +	if (!list_empty(&ce->guc_sched_disable_link)) {
+> +		struct intel_runtime_pm *runtime_pm =
+> +			ce->engine->uncore->rpm;
+> +		intel_wakeref_t wakeref;
+> +		bool enabled;
+> +		u16 guc_id;
+> +
+> +		spin_lock(&ce->guc_state.lock);
+> +		enabled = context_enabled(ce);
+> +		if (unlikely(!enabled || submission_disabled(guc))) {
+> +			if (enabled)
+> +				clr_context_enabled(ce);
+> +			spin_unlock(&ce->guc_state.lock);
+> +			intel_context_sched_disable_unpin(ce);
+> +			goto update_list;
+> +		}
+> +		if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
+> +			spin_unlock(&ce->guc_state.lock);
+> +			goto update_list;
+> +		}
+> +		guc_id = prep_context_pending_disable(ce);
+> +		spin_unlock(&ce->guc_state.lock);
+> +
+> +		with_intel_runtime_pm(runtime_pm, wakeref)
+> +			__guc_context_sched_disable(guc, ce, guc_id);
+> +update_list:
+> +		____sched_disable_context_delete(guc, ce);
+> +	}
+> +}
+> +
+> +static void guc_context_close(struct intel_context *ce)
+> +{
+> +	struct intel_guc *guc = ce_to_guc(ce);
+> +	unsigned long flags;
+> +
+> +	/*
+> +	 * If we close the context and a schedule disable is pending a delay, do
+> +	 * it immediately.
+> +	 */
+> +	if (!list_empty(&ce->guc_sched_disable_link)) {
+> +		spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> +		__guc_context_close(guc, ce);
+> +		spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> +	}
+> +}
+> +
+>  static struct intel_context *
+>  guc_create_parallel(struct intel_engine_cs **engines,
+>  		    unsigned int num_siblings,
+> @@ -3308,6 +3605,7 @@ static const struct intel_context_ops guc_context_ops = {
+>  	.post_unpin = guc_context_post_unpin,
+>  
+>  	.ban = guc_context_ban,
+> +	.close = guc_context_close,
+>  
+>  	.cancel_request = guc_context_cancel_request,
+>  
+> @@ -3538,6 +3836,10 @@ static int guc_request_alloc(struct i915_request *rq)
+>  
+>  	rq->reserved_space -= GUC_REQUEST_SIZE;
+>  
+> +	GEM_BUG_ON(!list_empty(&ce->guc_sched_disable_link) &&
+> +		   atomic_read(&ce->pin_count) < 3);
+> +	sched_disable_context_delete(ce);
+> +
+>  	/*
+>  	 * guc_ids are exhausted or a heuristic is met indicating too many
+>  	 * guc_ids are waiting on requests with submission dependencies (not
+> @@ -3667,7 +3969,7 @@ static void guc_virtual_context_unpin(struct intel_context *ce)
+>  	__guc_context_unpin(ce);
+>  
+>  	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
+> -		intel_engine_pm_put(engine);
+> +		intel_engine_pm_put_async(engine);
+>  }
+>  
+>  static void guc_virtual_context_enter(struct intel_context *ce)
+> @@ -3708,6 +4010,7 @@ static const struct intel_context_ops virtual_guc_context_ops = {
+>  	.post_unpin = guc_context_post_unpin,
+>  
+>  	.ban = guc_context_ban,
+> +	.close = guc_context_close,
+>  
+>  	.cancel_request = guc_context_cancel_request,
+>  
+> @@ -3819,6 +4122,7 @@ static const struct intel_context_ops virtual_parent_context_ops = {
+>  	.post_unpin = guc_parent_context_post_unpin,
+>  
+>  	.ban = guc_context_ban,
+> +	.close = guc_context_close,
+>  
+>  	.enter = guc_virtual_context_enter,
+>  	.exit = guc_virtual_context_exit,
+> @@ -4924,7 +5228,11 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
+>  	drm_printf(p, "GuC Number Outstanding Submission G2H: %u\n",
+>  		   atomic_read(&guc->outstanding_submission_g2h));
+>  	drm_printf(p, "GuC Number GuC IDs: %d\n", guc->num_guc_ids);
+> -	drm_printf(p, "GuC Max Number GuC IDs: %d\n\n", guc->max_guc_ids);
+> +	drm_printf(p, "GuC Max Number GuC IDs: %d\n", guc->max_guc_ids);
+> +	drm_printf(p, "GuC single-lrc GuC IDs in use: %d\n",
+> +		   guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_SINGLE_LRC]);
+> +	drm_printf(p, "GuC multi-lrc GuC IDs in use: %d\n",
+> +		   guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC]);
+>  	drm_printf(p, "GuC max context registered: %u\n\n",
+>  		   guc->lrcd_reg.max_idx);
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c
+> index 9cfecf9d368e..ad70b3159ce4 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c
+> @@ -174,7 +174,8 @@ static int multi_lrc_not_blocked(struct intel_gt *gt, bool flow_control)
+>  #define NUM_RQ_PER_CONTEXT	2
+>  #define HEARTBEAT_INTERVAL	1500
+>  
+> -static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids, bool hang)
+> +static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids,
+> +					bool hang, bool sched_disable_delay)
+>  {
+>  	struct intel_gt *gt = arg;
+>  	struct intel_guc *guc = &gt->uc.guc;
+> @@ -203,6 +204,9 @@ static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids, bool hang
+>  	if (limit_guc_ids)
+>  		guc->num_guc_ids = NUM_GUC_ID;
+>  
+> +	if (sched_disable_delay)
+> +		guc->sched_disable_delay_ns = SCHED_DISABLE_DELAY_NS / 5;
+> +
+>  	ce = intel_context_create(intel_selftest_find_any_engine(gt));
+>  	if (IS_ERR(ce)) {
+>  		ret = PTR_ERR(ce);
+> @@ -391,6 +395,7 @@ static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids, bool hang
+>  	guc->num_guc_ids = guc->max_guc_ids;
+>  	guc->gse_hang_expected = false;
+>  	guc->inject_bad_sched_disable = false;
+> +	guc->sched_disable_delay_ns = 0;
+>  	kfree(contexts);
+>  
+>  	return ret;
+> @@ -398,17 +403,22 @@ static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids, bool hang
+>  
+>  static int intel_guc_flow_control_guc_ids(void *arg)
+>  {
+> -	return __intel_guc_flow_control_guc(arg, true, false);
+> +	return __intel_guc_flow_control_guc(arg, true, false, false);
+> +}
+> +
+> +static int intel_guc_flow_control_guc_ids_sched_disable_delay(void *arg)
+> +{
+> +	return __intel_guc_flow_control_guc(arg, true, false, true);
+>  }
+>  
+>  static int intel_guc_flow_control_lrcd_reg(void *arg)
+>  {
+> -	return __intel_guc_flow_control_guc(arg, false, false);
+> +	return __intel_guc_flow_control_guc(arg, false, false, false);
+>  }
+>  
+>  static int intel_guc_flow_control_hang_state_machine(void *arg)
+>  {
+> -	return __intel_guc_flow_control_guc(arg, true, true);
+> +	return __intel_guc_flow_control_guc(arg, true, true, false);
+>  }
+>  
+>  #define NUM_RQ_STRESS_CTBS	0x4000
+> @@ -861,6 +871,7 @@ int intel_guc_flow_control(struct drm_i915_private *i915)
+>  	static const struct i915_subtest tests[] = {
+>  		SUBTEST(intel_guc_flow_control_stress_ctbs),
+>  		SUBTEST(intel_guc_flow_control_guc_ids),
+> +		SUBTEST(intel_guc_flow_control_guc_ids_sched_disable_delay),
+>  		SUBTEST(intel_guc_flow_control_lrcd_reg),
+>  		SUBTEST(intel_guc_flow_control_hang_state_machine),
+>  		SUBTEST(intel_guc_flow_control_multi_lrc_guc_ids),
+> diff --git a/drivers/gpu/drm/i915/i915_selftest.h b/drivers/gpu/drm/i915/i915_selftest.h
+> index f54de0499be7..bf464db7affe 100644
+> --- a/drivers/gpu/drm/i915/i915_selftest.h
+> +++ b/drivers/gpu/drm/i915/i915_selftest.h
+> @@ -92,12 +92,14 @@ int __i915_subtests(const char *caller,
+>  			T, ARRAY_SIZE(T), data)
+>  #define i915_live_subtests(T, data) ({ \
+>  	typecheck(struct drm_i915_private *, data); \
+> +	(data)->gt.uc.guc.sched_disable_delay_ns = 0; \
+>  	__i915_subtests(__func__, \
+>  			__i915_live_setup, __i915_live_teardown, \
+>  			T, ARRAY_SIZE(T), data); \
+>  })
+>  #define intel_gt_live_subtests(T, data) ({ \
+>  	typecheck(struct intel_gt *, data); \
+> +	(data)->uc.guc.sched_disable_delay_ns = 0; \
+>  	__i915_subtests(__func__, \
+>  			__intel_gt_live_setup, __intel_gt_live_teardown, \
+>  			T, ARRAY_SIZE(T), data); \
+> diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
+> index 806ad688274b..57ba7065d5ab 100644
+> --- a/drivers/gpu/drm/i915/i915_trace.h
+> +++ b/drivers/gpu/drm/i915/i915_trace.h
+> @@ -933,6 +933,11 @@ DEFINE_EVENT(intel_context, intel_context_reset,
+>  	     TP_ARGS(ce)
+>  );
+>  
+> +DEFINE_EVENT(intel_context, intel_context_close,
+> +	     TP_PROTO(struct intel_context *ce),
+> +	     TP_ARGS(ce)
+> +);
+> +
+>  DEFINE_EVENT(intel_context, intel_context_ban,
+>  	     TP_PROTO(struct intel_context *ce),
+>  	     TP_ARGS(ce)
+> @@ -1035,6 +1040,11 @@ trace_intel_context_reset(struct intel_context *ce)
+>  {
+>  }
+>  
+> +static inline void
+> +trace_intel_context_close(struct intel_context *ce)
+> +{
+> +}
+> +
+>  static inline void
+>  trace_intel_context_ban(struct intel_context *ce)
+>  {
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> index f843a5040706..d54c280217fe 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> @@ -2112,5 +2112,5 @@ int i915_gem_gtt_live_selftests(struct drm_i915_private *i915)
+>  
+>  	GEM_BUG_ON(offset_in_page(i915->ggtt.vm.total));
+>  
+> -	return i915_subtests(tests, i915);
+> +	return i915_live_subtests(tests, i915);
+>  }
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_perf.c b/drivers/gpu/drm/i915/selftests/i915_perf.c
+> index 9e9a6cb1d9e5..86bad00cca95 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_perf.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_perf.c
+> @@ -431,7 +431,7 @@ int i915_perf_live_selftests(struct drm_i915_private *i915)
+>  	if (err)
+>  		return err;
+>  
+> -	err = i915_subtests(tests, i915);
+> +	err = i915_live_subtests(tests, i915);
+>  
+>  	destroy_empty_config(&i915->perf);
+>  
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+> index d67710d10615..afbf88865a8b 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_request.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+> @@ -1693,7 +1693,7 @@ int i915_request_live_selftests(struct drm_i915_private *i915)
+>  	if (intel_gt_is_wedged(&i915->gt))
+>  		return 0;
+>  
+> -	return i915_subtests(tests, i915);
+> +	return i915_live_subtests(tests, i915);
+>  }
+>  
+>  static int switch_to_kernel_sync(struct intel_context *ce, int err)
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
+> index dd0607254a95..f4b157451851 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
+> @@ -1085,5 +1085,5 @@ int i915_vma_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_vma_remapped_gtt),
+>  	};
+>  
+> -	return i915_subtests(tests, i915);
+> +	return i915_live_subtests(tests, i915);
+>  }
 > -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> 2.28.0
+> 
 
 -- 
 Daniel Vetter
