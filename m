@@ -2,53 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883D53E4907
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 17:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B343E492D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 17:50:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE55B8984D;
-	Mon,  9 Aug 2021 15:40:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F87899BC;
+	Mon,  9 Aug 2021 15:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69FD8984D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 15:40:11 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id 188so26388246ioa.8
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 08:40:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=As94hk4XEdH5kfCbYz6LcUTvcmBGi03P0gCwR26CciE=;
- b=j2xiQ/IjQHm5auNFKISxB4L0JgyeMgEeUwk2aJPmFMTMzeEixC1fU8OgHvNzBHGrMN
- JfX4ej4lv2yeNQednMrV8Enq8dJAaf5qeXloJYVX51RuipOmUZ3m79V5GjOaPpL/hLSn
- rFoQT6eL0rc615MPAL9U+UXOdztdEHBg4Ur2dAsqxd7xG5Uao7p0Ge5cKbcTeXDF1Lsy
- +3I2qhFuVOCrPqBpLhhfbXHLbJ88WIWzeDKq4Brfyuf/T7VsZlO8XmwBzCIac/DlsyqE
- mv6tc8zw4gkfADEboSbhDvGL12c3aINKIiOMl8FpxAcGo3a/SEjPrsFCmmVk30cl4ExW
- JiCw==
-X-Gm-Message-State: AOAM530rsQGyXwZ0vv8FJlT5x2RdsXnSvNtLakAlUR6zpX+LSXRat9RC
- nemJmitH7zfI/izuRgwcOw==
-X-Google-Smtp-Source: ABdhPJwElvvFchy8n+O48fkEeMa07Kd4ZxR0GXYipP579UkeMGnPqKGkEc9DguQ5ddfmH74/SBXViA==
-X-Received: by 2002:a5d:8990:: with SMTP id m16mr9628iol.170.1628523610558;
- Mon, 09 Aug 2021 08:40:10 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id d9sm10370303ilu.9.2021.08.09.08.40.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 08:40:09 -0700 (PDT)
-Received: (nullmailer pid 3895391 invoked by uid 1000);
- Mon, 09 Aug 2021 15:40:08 -0000
-From: Rob Herring <robh@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-In-Reply-To: <20210808035053.58074-1-dmitry.baryshkov@linaro.org>
-References: <20210808035053.58074-1-dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: add bindings for the Sharp LS060T1SX01
- panel
-Date: Mon, 09 Aug 2021 09:40:08 -0600
-Message-Id: <1628523608.142555.3895390.nullmailer@robh.at.kernel.org>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06690899BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 15:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=DZUnWySGeUahJi5WC6HpQoyS/LjeB2Nf/wPJVD05awU=; b=dS4JB/VHV7AOUvXo3n3AmTbWMi
+ frNw7ESZbqMf2lzFA8r2/8zeHQjcHq7dOK4PXu00WROKva7SmQquk9UigeKw+aCsOTHxf1McqRjxm
+ yDD+6zvdnOQdKBM6Zldm4AwqaHciriLZcglV13+AMc+XCCNevcfuZnFQmGa9Cae/M6tOaJ/q6Uz2c
+ +kLwvLWjNu++fZHYw36p6/ww8dIieI6VsIBApNx0plDXSdamfnA2fgg2N7yk/iVYGnJDl025aWqNu
+ 7CThxcg/CJsa4ttAZm6yStWe5EswTWKOOgKji1F8mQClqRjBUBdY/140kbamC7ruUQ0r5Nju2FYyt
+ 9D2LGkDg==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mD7Wj-00B8zg-F5; Mon, 09 Aug 2021 15:49:43 +0000
+Subject: Re: [PATCH] dma-buf: Fix a few typos in dma-buf documentation
+To: Gal Pressman <galpress@amazon.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, christian.koenig@amd.com
+Cc: linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20210809122247.15869-1-galpress@amazon.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <b8c08a61-63bc-aa34-6045-ccfdc3983e6a@infradead.org>
+Date: Mon, 9 Aug 2021 08:49:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+MIME-Version: 1.0
+In-Reply-To: <20210809122247.15869-1-galpress@amazon.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,40 +57,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 08 Aug 2021 06:50:52 +0300, Dmitry Baryshkov wrote:
-> Add devicetree bindings for the Sharp LS060T1SX01 6.0" FullHD panel
-> using NT35695 driver. This panel can be found i.e. in the Dragonboard
-> Display Adapter bundle.
+On 8/9/21 5:22 AM, Gal Pressman wrote:
+> Fix a few typos in the documentation:
+> - Remove an extraneous 'or'
+> - 'unpins' -> 'unpin'
+> - 'braket' -> 'bracket'
+> - 'mappinsg' -> 'mappings'
+> - 'fullfills' -> 'fulfills'
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Gal Pressman <galpress@amazon.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
 > ---
->  .../display/panel/sharp,ls060t1sx01.yaml      | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,ls060t1sx01.yaml
+>   include/linux/dma-buf.h | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index efdc56b9d95f..772403352767 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -54,7 +54,7 @@ struct dma_buf_ops {
+>   	 * device), and otherwise need to fail the attach operation.
+>   	 *
+>   	 * The exporter should also in general check whether the current
+> -	 * allocation fullfills the DMA constraints of the new device. If this
+> +	 * allocation fulfills the DMA constraints of the new device. If this
+>   	 * is not the case, and the allocation cannot be moved, it should also
+>   	 * fail the attach operation.
+>   	 *
+> @@ -146,7 +146,7 @@ struct dma_buf_ops {
+>   	 *
+>   	 * Returns:
+>   	 *
+> -	 * A &sg_table scatter list of or the backing storage of the DMA buffer,
+> +	 * A &sg_table scatter list of the backing storage of the DMA buffer,
+>   	 * already mapped into the device address space of the &device attached
+>   	 * with the provided &dma_buf_attachment. The addresses and lengths in
+>   	 * the scatter list are PAGE_SIZE aligned.
+> @@ -168,7 +168,7 @@ struct dma_buf_ops {
+>   	 *
+>   	 * This is called by dma_buf_unmap_attachment() and should unmap and
+>   	 * release the &sg_table allocated in @map_dma_buf, and it is mandatory.
+> -	 * For static dma_buf handling this might also unpins the backing
+> +	 * For static dma_buf handling this might also unpin the backing
+>   	 * storage if this is the last mapping of the DMA buffer.
+>   	 */
+>   	void (*unmap_dma_buf)(struct dma_buf_attachment *,
+> @@ -237,7 +237,7 @@ struct dma_buf_ops {
+>   	 * This callback is used by the dma_buf_mmap() function
+>   	 *
+>   	 * Note that the mapping needs to be incoherent, userspace is expected
+> -	 * to braket CPU access using the DMA_BUF_IOCTL_SYNC interface.
+> +	 * to bracket CPU access using the DMA_BUF_IOCTL_SYNC interface.
+>   	 *
+>   	 * Because dma-buf buffers have invariant size over their lifetime, the
+>   	 * dma-buf core checks whether a vma is too large and rejects such
+> @@ -464,7 +464,7 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
+>   
+>   /**
+>    * dma_buf_attachment_is_dynamic - check if a DMA-buf attachment uses dynamic
+> - * mappinsg
+> + * mappings
+>    * @attach: the DMA-buf attachment to check
+>    *
+>    * Returns true if a DMA-buf importer wants to call the map/unmap functions with
 > 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/display/panel/sharp,ls060t1sx01.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/display/panel/sharp,ls060t1sx01.yaml#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sharp,ls060t1sx01.yaml: duplicate '$id' value 'http://devicetree.org/schemas/display/panel/sharp,ls043t1le01.yaml#'
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1514772
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+-- 
+~Randy
 
