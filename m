@@ -2,63 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494D73E4081
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 08:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CC63E3E04
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 04:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C82989B83;
-	Mon,  9 Aug 2021 06:52:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 053FB8999C;
+	Mon,  9 Aug 2021 02:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E161489ACD;
- Mon,  9 Aug 2021 02:34:22 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id t68so16870768qkf.8;
- Sun, 08 Aug 2021 19:34:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mvNc8KEp40u8XM5bp+0t7D+wLd2rEwsp3dCzstYaaGU=;
- b=nlnkEnMrOuWtZqj+HBSQ8uXnTHHiGWsAH91m80fdrlrjvhbG6KKsH/L1/cCrsJCJek
- tj0YvgVhbLKLhUb3+0LoTDv0L7y1Svp/+7uw5+5T+0Erv7OgmER/988Hn4S7WL0oIrJf
- k3vkisJuJ1k+oO2hXaaVhXHA2hJSaDkHEeIZKlxF13GwV0TxXXAzId+VInnpji6lfQCV
- HClkQXSnm5+z7MpwJtWPfXuwvhcH/8bpKY7SHHUQ/dAbc8BwJvpq+qfV41ov6kmiLJLY
- 2XVrsBtP+nR81+YDVYufYi5L6GUBuxVzvTdzkWbswSvuW54/tFHLjxNhNhkBaQIUab+i
- rPZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mvNc8KEp40u8XM5bp+0t7D+wLd2rEwsp3dCzstYaaGU=;
- b=TF0vBt3NGotDw/UyqsQjWyrbr4/BVJkSD3hW8ciS+DFWOVhkDNTVs0cRe1BlRMK1ec
- +OI//chZ9mAiUZt2bW9U0JFhMTgf33vYfXKx4l+yi6piyd6/L5A32Ug5MuHtBr+Oqnfb
- WNPfHZno5P9toAJhUbPag7E71Zbe7tjascZ9sWo97meoHVVeHws9MD5j9NXLtbcTRR0M
- l8VbISa4rFKAqJRo8H16UCbcYbkeC0ISwJEH+/jm/nJYjZVMVsbrcgGAHGuDfrHjUu/+
- k4i5m0XWpaTu5G96lT7zBRPdKYEU2S4Dn4pY8IZiGr5DMF9HTvWiZAE4PS2B4fk7UfLp
- /DGg==
-X-Gm-Message-State: AOAM531v0EAYI7W0Vo3cEm+/lb3wnNLMBU2/VnJiSOHL1oMtfuBcF5yn
- Bn0LmOZITHxQhWcB7ppzsSo=
-X-Google-Smtp-Source: ABdhPJzY2bUH6lQr8pQrRnAPmCymeUJuoWEhinskSxMJQ5axmW91ZJ55W+jSIReeuOVzOHoElT86RQ==
-X-Received: by 2002:a37:4641:: with SMTP id t62mr20756456qka.389.1628476461792; 
- Sun, 08 Aug 2021 19:34:21 -0700 (PDT)
-Received: from localhost.localdomain (ip70-186-197-128.hr.hr.cox.net.
- [70.186.197.128])
- by smtp.gmail.com with ESMTPSA id u6sm9085018qkp.49.2021.08.08.19.34.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Aug 2021 19:34:21 -0700 (PDT)
-From: Julius Victorian <julius.victorian.home@gmail.com>
-To: airlied@linux.ie
-Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- linux-kernel@vger.kernel.org, rodrigo.vivi@intel.com, daniel@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Julius <julius.victorian.home@gmail.com>
-Subject: [PATCH] DRM: i915: i915_perf: Fixed compiler warning
-Date: Sun,  8 Aug 2021 22:33:42 -0400
-Message-Id: <20210809023342.377422-1-julius.victorian.home@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 531BE8999C;
+ Mon,  9 Aug 2021 02:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=VeEVmBRhzJwW70EXgz8gikTw4yYG1nvlogdYjeiVpsY=; b=YnLj9xWw2JGrkNfvnL7ajlkaWO
+ OHfCYu/H3paOjWTTm3R9Q0TCUKc4/sJW1WLNiJsJU2Yjmqd99cewf3FtAWx9HaYethq0DtxYoImb/
+ MH9PcVwK9EWewy+TqcYJjsicQzTDdswWnvcR2fXKUzKNd3Y58skkHlMi7eu+R332A+7Qy7oQ1dOiB
+ Mztv7CK9aqmBuhrUoxVMMJ3Rq06r89SM8rRiI9TTF2a8lVflfX7Us0tz1O3klXf2P0eDTXSbMMtG8
+ Q4Uc7Q5AgJRlJOHanwYxwAgZfPt5jfbzh+qtXC3WwRHRf9T0+A3aYGNAeoWCFrke4Ej9mIlAmDKgG
+ u/vM7qSg==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mCvOb-00GxMm-Mr; Mon, 09 Aug 2021 02:52:09 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Wyatt Wood <wyatt.wood@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: use do-while-0 for DC_TRACE_LEVEL_MESSAGE()
+Date: Sun,  8 Aug 2021 19:52:08 -0700
+Message-Id: <20210809025208.10182-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 09 Aug 2021 06:52:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,28 +57,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Julius <julius.victorian.home@gmail.com>
+Building with W=1 complains about an empty 'else' statement, so use the
+usual do-nothing-while-0 loop to quieten this warning.
 
-Fixed compiler warning: "left shift of negative value"
+../drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:113:53: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
+  113 |                                 *state, retry_count);
 
-Signed-off-by: Julius Victorian <julius.victorian.home@gmail.com>
+Fixes: b30eda8d416c ("drm/amd/display: Add ETW log to dmub_psr_get_state")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Wyatt Wood <wyatt.wood@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/i915/i915_perf.c | 2 +-
+ drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index 9f94914958c3..7b852974241e 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -2804,7 +2804,7 @@ get_default_sseu_config(struct intel_sseu *out_sseu,
- 		 * all available subslices per slice.
- 		 */
- 		out_sseu->subslice_mask =
--			~(~0 << (hweight8(out_sseu->subslice_mask) / 2));
-+			~(~0U << (hweight8(out_sseu->subslice_mask) / 2));
- 		out_sseu->slice_mask = 0x1;
- 	}
- }
--- 
-2.30.2
-
+--- linux-next-20210806.orig/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
++++ linux-next-20210806/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+@@ -29,7 +29,7 @@
+ #include "dmub/dmub_srv.h"
+ #include "core_types.h"
+ 
+-#define DC_TRACE_LEVEL_MESSAGE(...) /* do nothing */
++#define DC_TRACE_LEVEL_MESSAGE(...)	do {} while (0) /* do nothing */
+ 
+ #define MAX_PIPES 6
+ 
