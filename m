@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8ED3E4C5D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E623E4C55
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:47:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DA689D5B;
-	Mon,  9 Aug 2021 18:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D823A89CE1;
+	Mon,  9 Aug 2021 18:47:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE81589CF3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 18:47:33 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id l4so10397252ljq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 11:47:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2NuxqmTu26gL3l0KkBiFI+twGVwEKQUzOymEfYqPCgE=;
- b=chGUOJuhRFDNXzj5UO+Am5G7jevsTd4p5lJaKcuiu84LcpkXFjLYvQl40q/2gFqkzv
- 6kFaUN+lrh1B1E7rGamU0ODBMyVbw38WCMgHAv0vHac1z/KI+5Q9kS33SZw5Vyx10/Ep
- UV7Ib6D63UM3WRIM5+/5E08s5szxuE/4fIe8/3z9iRn24JUg4VEqUNxzt5XkoVQU0D0L
- mghkTR7bTCbaTsiMMLSPa/Ixnnd2trvyv2GuAfGMSdOq6dRR2KMTuSqUKAwPvVQqJETz
- aoLU/nBl220qp6TU6JN1BMeql3CfUFPOFF9RX6GzHz0JDtUSMewH/iMSVyboggoNhURF
- eJVQ==
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6371E89CE1
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 18:47:26 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id u25so24941850oiv.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 11:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=cXI+igpSfU/NETZkXoiO6O25NLP0pE4hyuw4IlxRggI=;
+ b=Uwi/Gey/PRIwX5SG8XBtfB5kKo2iiaBmmjjBbIqvGwz0bDMfH8lojZ3KZIgHQsnVBu
+ GNGTpJ71r33iVU0jIBzib/zj8l0EkMcsQuzR82Kj0rM+hSvWoQ+HyhML/6ej0iddy+HP
+ dwX5E3L4GQsXDNTQ4vvsXbvdsiBhFlGDPgB24=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2NuxqmTu26gL3l0KkBiFI+twGVwEKQUzOymEfYqPCgE=;
- b=ACkQfqFEzgbWKX6VnttumWBPzH4XtV/bdv2mUNDVt8sjWExD09jGOH9iNq8sLL1nUx
- NAuWDqNI+4K2YmGMY59aps4ItvuTrbDaXv2wzzYfCYnHRLscoA6Bhip9nLOOLw6LWxyk
- PJmQEBp5kb2xHgo4YKwvhpTu4H4BRwPDUWl6lBnWWeFHVV+sOOc1qSz1Abrz6UHNMXY+
- YiIV2rWNZz9xFVPRuUgC2tOplrMX1V5hzUXef0frK74Oyw4CUKT97kn0zvT1CtvaFqtS
- BWoolgooHdteEP8bl0+GgTh3vvMaldLpNdBACl8P3+DgnWFzbBvNfogfNxkNRilL735T
- RrLA==
-X-Gm-Message-State: AOAM530xGHUhgSY8BE5cFlh5K3+cQ/8RdMeSozr5kxz6Us4ZW3wvXt54
- yPwroMZ1YyNiUTn3zmYaQDBa+w==
-X-Google-Smtp-Source: ABdhPJzJnB5U4u591lVj1+c6c6KwFiZ9TZO9UgDBRg5Qs3oG4DlxPwKndxaiWr2bC9w1fwjE1D8xyQ==
-X-Received: by 2002:a2e:7d08:: with SMTP id y8mr17007417ljc.314.1628534851967; 
- Mon, 09 Aug 2021 11:47:31 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id u22sm1216128lff.270.2021.08.09.11.47.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 11:47:31 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [PATCH v2 2/2] drm/panel: Add support for Sharp LS060T1SX01 panel
-Date: Mon,  9 Aug 2021 21:47:12 +0300
-Message-Id: <20210809184712.203791-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210809184712.203791-1-dmitry.baryshkov@linaro.org>
-References: <20210809184712.203791-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cXI+igpSfU/NETZkXoiO6O25NLP0pE4hyuw4IlxRggI=;
+ b=aS8a0rJJV+30Ee/EXkAhdgKVTHeAlR2Znkxqy5A9Vm/QkLfPRt1OENAreBFkJtrFHo
+ i3KBbtx2HjXL5CzvumvycRiiXZ14BQXNBI4ItHnUC3IEjt1EHXdjHcQgl2kFHSQhbYop
+ sJdqNid+lpq8PTHx2YrA1AfRC7P1wbZ+WqsfQsVnDbTTIJNen0r3ZfWJqdOObZefBrMc
+ eSyUI1fBlOQRduJf5gghBwiqN4V6a9JUL509EOTeeZFwfTLc0f0m9qoaWNZVM0yhuFnr
+ vqKi3XOctyg74pNrPIOLGnM9s5X2tlG2U9LlYlq8xUYLvxZsgiqo2K0qOYT0tuJbhlwQ
+ 6vZw==
+X-Gm-Message-State: AOAM530AI7/2POfG4DuLs53b0czi7YLxoemi1wBuBamIGqgPTayNdbZb
+ 5yVful0nmflFfs+RXWLqKdy0/8+LUbdC8ay6SVEY6w==
+X-Google-Smtp-Source: ABdhPJwzYeBUlxMaN3/K63of5iCSQURETgri16yBG9wuG6zArB/xMZUUgT6FOpuusXhhjNPAc6rMEd4F91I/o109/ag=
+X-Received: by 2002:a05:6808:147:: with SMTP id h7mr463234oie.14.1628534845621; 
+ Mon, 09 Aug 2021 11:47:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210806201852.1345184-1-daniel.vetter@ffwll.ch>
+ <17b2342e218.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
+In-Reply-To: <17b2342e218.2817.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 9 Aug 2021 20:47:14 +0200
+Message-ID: <CAKMK7uF+Q9s5WkN_aJxNWp5Xajcv3=ooDZhq09Hbsg-nr-AWyA@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Release ctx->syncobj on final put,
+ not on ctx close
+To: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, 
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, 
+ Matthew Auld <matthew.auld@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>, 
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,331 +77,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver to support Sharp LS06T1SX01 FullHD panel. The panel uses
-nt35695 driver IC. For example this LCD module can be found in the
-kwaek.ca Dragonboard Display Adapter Bundle.
+On Sun, Aug 8, 2021 at 2:56 AM Jason Ekstrand <jason@jlekstrand.net> wrote:
+>
+> On August 6, 2021 15:18:59 Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+>> gem context refcounting is another exercise in least locking design it
+>> seems, where most things get destroyed upon context closure (which can
+>> race with anything really). Only the actual memory allocation and the
+>> locks survive while holding a reference.
+>>
+>> This tripped up Jason when reimplementing the single timeline feature
+>> in
+>>
+>> commit 00dae4d3d35d4f526929633b76e00b0ab4d3970d
+>> Author: Jason Ekstrand <jason@jlekstrand.net>
+>> Date:   Thu Jul 8 10:48:12 2021 -0500
+>>
+>>     drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)
+>>
+>> We could fix the bug by holding ctx->mutex, but it's cleaner to just
+>
+>
+> What bug is this fixing, exactly?
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/panel/Kconfig                 |  10 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-sharp-ls060t1sx01.c   | 274 ++++++++++++++++++
- 3 files changed, 285 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
+Oh lol I was all busy ranting and not explaining :-) I found it while
+auditing other context stuff, so that other patch has the longer
+commit message with more history, but that patch is also now tied into
+the vm-dercuify, so short summary: You put the syncobj in context
+close (i.e. CTX_DESTRY ioctl or close(drmfd)), not in the final
+kref_put. Which means you're open to a use-after-free if you race
+against an execbuf. ctx->vm is equally broken (but for other ioctl),
+once this fix here is merged I send out the ctx->vm fix because that's
+tied into the vm-dercuify now due to conflicts.
+-Daniel
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 4894913936e9..08f85a5ff738 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -451,6 +451,16 @@ config DRM_PANEL_SHARP_LS043T1LE01
- 	  Say Y here if you want to enable support for Sharp LS043T1LE01 qHD
- 	  (540x960) DSI panel as found on the Qualcomm APQ8074 Dragonboard
- 
-+config DRM_PANEL_SHARP_LS060T1SX01
-+	tristate "Sharp LS060T1SX01 FullHD video mode panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for Sharp LS060T1SX01 6.0"
-+	  FullHD (1080x1920) DSI panel as found in Dragonboard Display Adapter
-+	  Bundle.
-+
- config DRM_PANEL_SITRONIX_ST7701
- 	tristate "Sitronix ST7701 panel driver"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index cae4d976c069..7dd6bd755e13 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -47,6 +47,7 @@ obj-$(CONFIG_DRM_PANEL_SEIKO_43WVF1G) += panel-seiko-43wvf1g.o
- obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
- obj-$(CONFIG_DRM_PANEL_SHARP_LS037V7DW01) += panel-sharp-ls037v7dw01.o
- obj-$(CONFIG_DRM_PANEL_SHARP_LS043T1LE01) += panel-sharp-ls043t1le01.o
-+obj-$(CONFIG_DRM_PANEL_SHARP_LS060T1SX01) += panel-sharp-ls060t1sx01.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-new file mode 100644
-index 000000000000..4fece00e6156
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-@@ -0,0 +1,274 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Copyright (c) 2021 Linaro Ltd.
-+// Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
-+//   Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+struct sharp_ls060 {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct regulator *supply;
-+	struct gpio_desc *reset_gpio;
-+	bool prepared;
-+};
-+
-+static inline struct sharp_ls060 *to_sharp_ls060(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct sharp_ls060, panel);
-+}
-+
-+#define dsi_dcs_write_seq(dsi, seq...) ({				\
-+		static const u8 d[] = { seq };				\
-+									\
-+		mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
-+	})
-+
-+static void sharp_ls060_reset(struct sharp_ls060 *ctx)
-+{
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(10000, 11000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(10000, 11000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(10000, 11000);
-+}
-+
-+static int sharp_ls060_on(struct sharp_ls060 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	ret = dsi_dcs_write_seq(dsi, 0xbb, 0x13);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to send command: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to send command: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(120);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display on: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(50);
-+
-+	return 0;
-+}
-+
-+static int sharp_ls060_off(struct sharp_ls060 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display off: %d\n", ret);
-+		return ret;
-+	}
-+	usleep_range(2000, 3000);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(121);
-+
-+	return 0;
-+}
-+
-+static int sharp_ls060_prepare(struct drm_panel *panel)
-+{
-+	struct sharp_ls060 *ctx = to_sharp_ls060(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (ctx->prepared)
-+		return 0;
-+
-+	ret = regulator_enable(ctx->supply);
-+	if (ret < 0)
-+		return ret;
-+
-+	sharp_ls060_reset(ctx);
-+
-+	ret = sharp_ls060_on(ctx);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+		regulator_disable(ctx->supply);
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+		return ret;
-+	}
-+
-+	ctx->prepared = true;
-+	return 0;
-+}
-+
-+static int sharp_ls060_unprepare(struct drm_panel *panel)
-+{
-+	struct sharp_ls060 *ctx = to_sharp_ls060(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (!ctx->prepared)
-+		return 0;
-+
-+	ret = sharp_ls060_off(ctx);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+
-+	regulator_disable(ctx->supply);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+
-+	ctx->prepared = false;
-+	return 0;
-+}
-+
-+static const struct drm_display_mode sharp_ls060_mode = {
-+	.clock = (1080 + 96 + 16 + 64) * (1920 + 4 + 1 + 16) * 60 / 1000,
-+	.hdisplay = 1080,
-+	.hsync_start = 1080 + 96,
-+	.hsync_end = 1080 + 96 + 16,
-+	.htotal = 1080 + 96 + 16 + 64,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 4,
-+	.vsync_end = 1920 + 4 + 1,
-+	.vtotal = 1920 + 4 + 1 + 16,
-+	.width_mm = 75,
-+	.height_mm = 132,
-+};
-+
-+static int sharp_ls060_get_modes(struct drm_panel *panel,
-+				 struct drm_connector *connector)
-+{
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &sharp_ls060_mode);
-+	if (!mode)
-+		return -ENOMEM;
-+
-+	drm_mode_set_name(mode);
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs sharp_ls060_panel_funcs = {
-+	.prepare = sharp_ls060_prepare,
-+	.unprepare = sharp_ls060_unprepare,
-+	.get_modes = sharp_ls060_get_modes,
-+};
-+
-+static int sharp_ls060_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct sharp_ls060 *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->supply = devm_regulator_get(dev, "avdd");
-+	if (IS_ERR(ctx->supply))
-+		return PTR_ERR(ctx->supply);
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_EOT_PACKET |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+
-+	drm_panel_init(&ctx->panel, dev, &sharp_ls060_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	ret = drm_panel_of_backlight(&ctx->panel);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int sharp_ls060_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct sharp_ls060 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-+
-+	drm_panel_remove(&ctx->panel);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id sharp_ls060t1sx01_of_match[] = {
-+	{ .compatible = "sharp,ls060t1sx01" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, sharp_ls060t1sx01_of_match);
-+
-+static struct mipi_dsi_driver sharp_ls060_driver = {
-+	.probe = sharp_ls060_probe,
-+	.remove = sharp_ls060_remove,
-+	.driver = {
-+		.name = "panel-sharp-ls060t1sx01",
-+		.of_match_table = sharp_ls060t1sx01_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(sharp_ls060_driver);
-+
-+MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
-+MODULE_DESCRIPTION("DRM driver for Sharp LS060T1SX01 1080p video mode dsi panel");
-+MODULE_LICENSE("GPL v2");
--- 
-2.30.2
+>
+> --Jason
+>
+>>
+>> make the context object actually invariant over its _entire_ lifetime.
+>>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>> Fixes: 00dae4d3d35d ("drm/i915: Implement SINGLE_TIMELINE with a syncobj=
+ (v4)")
+>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@intel.com>
+>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>> Cc: Dave Airlie <airlied@redhat.com>
+>> ---
+>>  drivers/gpu/drm/i915/gem/i915_gem_context.c | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/d=
+rm/i915/gem/i915_gem_context.c
+>> index 754b9b8d4981..93ba0197d70a 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> @@ -940,6 +940,9 @@ void i915_gem_context_release(struct kref *ref)
+>>   trace_i915_context_free(ctx);
+>>   GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
+>>
+>> + if (ctx->syncobj)
+>> + drm_syncobj_put(ctx->syncobj);
+>> +
+>>   mutex_destroy(&ctx->engines_mutex);
+>>   mutex_destroy(&ctx->lut_mutex);
+>>
+>> @@ -1159,9 +1162,6 @@ static void context_close(struct i915_gem_context =
+*ctx)
+>>   if (vm)
+>>   i915_vm_close(vm);
+>>
+>> - if (ctx->syncobj)
+>> - drm_syncobj_put(ctx->syncobj);
+>> -
+>>   ctx->file_priv =3D ERR_PTR(-EBADF);
+>>
+>>   /*
+>> --
+>> 2.32.0
+>
+>
 
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
