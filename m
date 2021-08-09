@@ -1,76 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BF93E449F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 13:23:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC813E44E0
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 13:29:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99CD68994D;
-	Mon,  9 Aug 2021 11:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 002BB899B7;
+	Mon,  9 Aug 2021 11:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5EB8994D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 11:23:24 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 6D8F421ED4;
- Mon,  9 Aug 2021 11:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1628508202;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XEHaigBd+p4Kdq3FOyfyiQahnEWWgwrbyI9p3sYy9Jg=;
- b=FUJg+QaU7zw3qTf6t8q9Qr96X0Utqfsl+nS4wyhc9/5vWZMS539Of9T5SM02pWzim1Cnda
- RMrFBB4C9IiCbCzLy7hKe0Nw5kCTqLiYUG2RwoYyBydeMv59tIlgL5Vpa/xsWEDauKkWvj
- 09N1MMAWFSlJkFOi7ijKkWYVWovvXhs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1628508202;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XEHaigBd+p4Kdq3FOyfyiQahnEWWgwrbyI9p3sYy9Jg=;
- b=4VeRarVySJZv/AlngzeBW/O6mbVTRAHHGwmwBsPvaCbeLhv85RY/VfIGPtUkorqnnpUTKq
- o+aHpptVRlTrrwAw==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
- by relay2.suse.de (Postfix) with ESMTP id 53C44A3B8E;
- Mon,  9 Aug 2021 11:23:22 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
- id BAE5EDA880; Mon,  9 Aug 2021 13:20:30 +0200 (CEST)
-Date: Mon, 9 Aug 2021 13:20:30 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Keith Packard <keithpac@amazon.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
-Message-ID: <20210809112030.GM5047@suse.cz>
-Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
- linux-hardening@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Keith Packard <keithpac@amazon.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-48-keescook@chromium.org>
- <20210728094215.GX5047@twin.jikos.cz>
- <202107281455.2A0753F5@keescook> <20210729103337.GS5047@suse.cz>
- <202107310822.31BEB6E543@keescook>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 500C48997E;
+ Mon,  9 Aug 2021 11:29:45 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="212812229"
+X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; d="scan'208";a="212812229"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2021 04:29:44 -0700
+X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; d="scan'208";a="514915165"
+Received: from scotter-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.9.32])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2021 04:29:42 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202107310822.31BEB6E543@keescook>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210721155355.173183-5-hch@lst.de>
+References: <20210721155355.173183-1-hch@lst.de>
+ <20210721155355.173183-5-hch@lst.de>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+To: Christoph Hellwig <hch@lst.de>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.a.wang@intel.com>
+Subject: Re: [PATCH 04/21] drm/i915/gvt: move the gvt code into kvmgt.ko
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <162850857939.5634.17747219922172884449@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Mon, 09 Aug 2021 14:29:39 +0300
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,38 +51,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 31, 2021 at 08:25:51AM -0700, Kees Cook wrote:
-> On Thu, Jul 29, 2021 at 12:33:37PM +0200, David Sterba wrote:
-> > On Wed, Jul 28, 2021 at 02:56:31PM -0700, Kees Cook wrote:
-> > > On Wed, Jul 28, 2021 at 11:42:15AM +0200, David Sterba wrote:
-> > > > On Tue, Jul 27, 2021 at 01:58:38PM -0700, Kees Cook wrote:
-> > > > >  	}
-> > > > >  	if (need_reset) {
-> > > > > -		memset(&item->generation_v2, 0,
-> > > > > -			sizeof(*item) - offsetof(struct btrfs_root_item,
-> > > > > -					generation_v2));
-> > > > > -
-> > > > 
-> > > > Please add
-> > > > 		/* Clear all members from generation_v2 onwards */
-> > > > 
-> > > > > +		memset_after(item, 0, level);
-> > > 
-> > > Perhaps there should be another helper memset_starting()? That would
-> > > make these cases a bit more self-documenting.
-> > 
-> > That would be better, yes.
-> > 
-> > > +		memset_starting(item, 0, generation_v2);
-> > 
-> > memset_from?
-> 
-> For v2, I bikeshed this to "memset_startat" since "from" is semantically
-> close to "source" which I thought might be confusing. (I, too, did not
-> like "starting".) :)
+Quoting Christoph Hellwig (2021-07-21 18:53:38)
+> Instead of having an option to build the gvt code into the main i915
+> module, just move it into the kvmgt.ko module.  This only requires
+> a new struct with three entries that the main i915 module needs to
+> request before enabling VGPU passthrough operations.
+>=20
+> This also conveniently streamlines the GVT initialization and avoids
+> the need for the global device pointer.
+>=20
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-memset_startat works for me, thanks.
+Hi,
+
+Thanks for putting the work into this. This conversion has been
+requested for a long time. For clarity, should we call the module
+i915_kvmgt?
+
+How far would we be from dynamically modprobing/rmmoding the kvmgt
+module in order to eliminate the enable_gvt parameter?
+
+<SNIP>
+
+> +
+> +/*
+> + * Exported here so that the exports only get created when GVT support is
+> + * actually enabled.
+> + */
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_alloc, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_create_shmem, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_init, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_ggtt_pin_ww, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_pin_map, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_object_set_to_cpu_domain, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(__i915_gem_object_flush_map, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(__i915_gem_object_set_pages, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_gtt_insert, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_prime_export, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_ww_ctx_init, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_ww_ctx_backoff, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_gem_ww_ctx_fini, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_ppgtt_create, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_request_add, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_request_create, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_request_wait, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_reserve_fence, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_unreserve_fence, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_vm_release, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(i915_vma_move_to_active, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(intel_context_create, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(intel_context_unpin, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(__intel_context_do_pin, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(intel_ring_begin, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(intel_runtime_pm_get, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(intel_runtime_pm_put_unchecked, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(intel_uncore_forcewake_for_reg, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(intel_uncore_forcewake_get, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(intel_uncore_forcewake_put, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(shmem_pin_map, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(shmem_unpin_map, I915_GVT);
+> +EXPORT_SYMBOL_NS_GPL(__px_dma, I915_GVT);
+
+This list is also a concern. At the least the double underscore
+functions should be eliminated from being exported.
+
+Zhi and Zhenyu, can we have some further patches to clean that up?
+
+Regards, Joonas
