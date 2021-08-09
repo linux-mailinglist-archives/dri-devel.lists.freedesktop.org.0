@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B633E3DB0
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 03:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808143E3DA8
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 03:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 290C989A5E;
-	Mon,  9 Aug 2021 01:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7BF1899C7;
+	Mon,  9 Aug 2021 01:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36AFF8991D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A104489954
  for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 01:35:16 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5B4E466;
- Mon,  9 Aug 2021 03:35:14 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1953F15AD;
+ Mon,  9 Aug 2021 03:35:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1628472914;
- bh=P5AHXfL6ScRebgzfAsWzms7NTl2b6bI+Lk+GgtWILs8=;
+ s=mail; t=1628472915;
+ bh=uPTqI+wt42NxiDt0epVcyDyxExLe/uUbaEMPLoiYNrI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ejO6kJvDB7pLxc346tq61MH7imrt706E+aPdamK4FycWbxD1BGgvbkh9STkcNFN//
- cQh7XeyIe37nzl71NDqRWVT6c5zv0JW3BbAVbbhbwn5ALxWKXHqDuI2cBQyFACL1OM
- CKa9PM01lS4XK438KBmpWycQbx/D4mOd2fpbldkk=
+ b=TVYrXZAseb8wysgEspFkDzzMT9/fQFqq+QeYG2mI7f0bcG0ogC8EeEyS6qew3xAqo
+ eek+8wHj8Rjp3KaxdN69pY8fa+PAi2gnX4KA3i2/MEiEzKOxgjmU7Rg1BJbh5P4TPe
+ TtCM8JJ08p8kCsxWAyJ4qnZlv3xvLwEOz/1Mc19M=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Michal Simek <michal.simek@xilinx.com>,
  Jianqiang Chen <jianqian@xilinx.com>
-Subject: [PATCH 25/36] drm: xlnx: zynqmp_dpsub: Register AUX bus at bridge
- attach time
-Date: Mon,  9 Aug 2021 04:34:46 +0300
-Message-Id: <20210809013457.11266-26-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 26/36] drm: xlnx: zynqmp_dpsub: Move DP bridge init to
+ zynqmp_dp_probe()
+Date: Mon,  9 Aug 2021 04:34:47 +0300
+Message-Id: <20210809013457.11266-27-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809013457.11266-1-laurent.pinchart@ideasonboard.com>
 References: <20210809013457.11266-1-laurent.pinchart@ideasonboard.com>
@@ -51,132 +51,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prepare for operating as a standalone DP bridge with the DRM device
-implemented in the PL, move registration of the AUX bus to bridge attach
-time, as that's the earliest point when a DRM device is available.
-
-The DRM device pointer stored in zynqmp_dp isn't used anymore, drop it.
+There's no need to delay bridge initialization, move it to
+zynqmp_dp_probe() and drop the zynqmp_dp_drm_init() function.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 41 +++++++++++++++++++-------------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dp.c  | 30 ++++++++++++------------------
+ drivers/gpu/drm/xlnx/zynqmp_dp.h  |  1 -
+ drivers/gpu/drm/xlnx/zynqmp_kms.c |  6 +-----
+ 3 files changed, 13 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 72fe3b7fb78e..e40ddfd27ff0 100644
+index e40ddfd27ff0..360175b8fc1f 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -275,7 +275,6 @@ struct zynqmp_dp_config {
-  * struct zynqmp_dp - Xilinx DisplayPort core
-  * @dev: device structure
-  * @dpsub: Display subsystem
-- * @drm: DRM core
-  * @iomem: device I/O memory for register access
-  * @reset: reset controller
-  * @irq: irq
-@@ -296,7 +295,6 @@ struct zynqmp_dp_config {
- struct zynqmp_dp {
- 	struct device *dev;
- 	struct zynqmp_dpsub *dpsub;
--	struct drm_device *drm;
- 	void __iomem *iomem;
- 	struct reset_control *reset;
- 	int irq;
-@@ -1056,7 +1054,7 @@ static int zynqmp_dp_aux_init(struct zynqmp_dp *dp)
+@@ -1609,27 +1609,10 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
+  * Initialization & Cleanup
+  */
  
- 	dp->aux.name = "ZynqMP DP AUX";
- 	dp->aux.dev = dp->dev;
--	dp->aux.drm_dev = dp->drm;
-+	dp->aux.drm_dev = dp->bridge.dev;
- 	dp->aux.transfer = zynqmp_dp_aux_transfer;
+-int zynqmp_dp_drm_init(struct zynqmp_dpsub *dpsub)
+-{
+-	struct zynqmp_dp *dp = dpsub->dp;
+-	struct drm_bridge *bridge = &dp->bridge;
+-
+-	dp->config.misc0 &= ~ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK;
+-	zynqmp_dp_set_format(dp, NULL, ZYNQMP_DPSUB_FORMAT_RGB, 8);
+-
+-	/* Initialize the bridge. */
+-	bridge->funcs = &zynqmp_dp_bridge_funcs;
+-	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
+-		    | DRM_BRIDGE_OP_HPD;
+-	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
+-	dpsub->bridge = bridge;
+-
+-	return 0;
+-}
+-
+ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
+ {
+ 	struct platform_device *pdev = to_platform_device(dpsub->dev);
++	struct drm_bridge *bridge;
+ 	struct zynqmp_dp *dp;
+ 	struct resource *res;
+ 	int ret;
+@@ -1672,6 +1655,14 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
+ 	if (ret)
+ 		goto err_reset;
  
- 	return drm_dp_aux_register(&dp->aux);
-@@ -1282,14 +1280,35 @@ static int zynqmp_dp_bridge_attach(struct drm_bridge *bridge,
- 	struct zynqmp_dp *dp = bridge_to_dp(bridge);
++	/* Initialize the bridge. */
++	bridge = &dp->bridge;
++	bridge->funcs = &zynqmp_dp_bridge_funcs;
++	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
++		    | DRM_BRIDGE_OP_HPD;
++	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
++	dpsub->bridge = bridge;
++
+ 	/*
+ 	 * Acquire the next bridge in the chain. Ignore errors caused by port@5
+ 	 * not being connected for backward-compatibility with older DTs.
+@@ -1682,6 +1673,9 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
+ 		goto err_reset;
+ 
+ 	/* Initialize the hardware. */
++	dp->config.misc0 &= ~ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK;
++	zynqmp_dp_set_format(dp, NULL, ZYNQMP_DPSUB_FORMAT_RGB, 8);
++
+ 	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
+ 			ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
+ 	zynqmp_dp_set(dp, ZYNQMP_DP_PHY_RESET, ZYNQMP_DP_PHY_RESET_ALL_RESET);
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.h b/drivers/gpu/drm/xlnx/zynqmp_dp.h
+index 4507740093f6..736d810fa16f 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.h
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.h
+@@ -20,7 +20,6 @@ struct zynqmp_dpsub;
+ void zynqmp_dp_enable_vblank(struct zynqmp_dp *dp);
+ void zynqmp_dp_disable_vblank(struct zynqmp_dp *dp);
+ 
+-int zynqmp_dp_drm_init(struct zynqmp_dpsub *dpsub);
+ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm);
+ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub);
+ 
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+index 54358f1f51e5..51903bc1de2b 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+@@ -347,7 +347,7 @@ int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub)
+ 	struct drm_connector *connector;
  	int ret;
  
-+	/* Initialize and register the AUX adapter. */
-+	ret = zynqmp_dp_aux_init(dp);
-+	if (ret) {
-+		dev_err(dp->dev, "failed to initialize DP aux\n");
-+		return ret;
-+	}
-+
- 	if (dp->next_bridge) {
- 		ret = drm_bridge_attach(bridge->encoder, dp->next_bridge,
- 					bridge, flags);
- 		if (ret < 0)
--			return ret;
-+			goto error;
- 	}
+-	/* Create the planes and the CRTC, and nitialize the DP encoder. */
++	/* Create the planes and the CRTC. */
+ 	ret = zynqmp_dpsub_create_planes(dpsub);
+ 	if (ret)
+ 		return ret;
+@@ -358,10 +358,6 @@ int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub)
  
-+	/* Now that initialisation is complete, enable interrupts. */
-+	zynqmp_dp_write(dp, ZYNQMP_DP_INT_EN, ZYNQMP_DP_INT_ALL);
-+
- 	return 0;
-+
-+error:
-+	zynqmp_dp_aux_cleanup(dp);
-+	return ret;
-+}
-+
-+static void zynqmp_dp_bridge_detach(struct drm_bridge *bridge)
-+{
-+	struct zynqmp_dp *dp = bridge_to_dp(bridge);
-+
-+	zynqmp_dp_aux_cleanup(dp);
- }
+ 	zynqmp_dpsub_map_crtc_to_plane(dpsub);
  
- static int zynqmp_dp_bridge_mode_valid(struct drm_bridge *bridge,
-@@ -1494,6 +1513,7 @@ static struct edid *zynqmp_dp_bridge_get_edid(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs zynqmp_dp_bridge_funcs = {
- 	.attach = zynqmp_dp_bridge_attach,
-+	.detach = zynqmp_dp_bridge_detach,
- 	.mode_valid = zynqmp_dp_bridge_mode_valid,
- 	.atomic_enable = zynqmp_dp_bridge_atomic_enable,
- 	.atomic_disable = zynqmp_dp_bridge_atomic_disable,
-@@ -1593,7 +1613,6 @@ int zynqmp_dp_drm_init(struct zynqmp_dpsub *dpsub)
- {
- 	struct zynqmp_dp *dp = dpsub->dp;
- 	struct drm_bridge *bridge = &dp->bridge;
--	int ret;
- 
- 	dp->config.misc0 &= ~ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK;
- 	zynqmp_dp_set_format(dp, NULL, ZYNQMP_DPSUB_FORMAT_RGB, 8);
-@@ -1605,16 +1624,6 @@ int zynqmp_dp_drm_init(struct zynqmp_dpsub *dpsub)
- 	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
- 	dpsub->bridge = bridge;
- 
--	/* Initialize and register the AUX adapter. */
--	ret = zynqmp_dp_aux_init(dp);
--	if (ret) {
--		dev_err(dp->dev, "failed to initialize DP aux\n");
+-	ret = zynqmp_dp_drm_init(dpsub);
+-	if (ret)
 -		return ret;
--	}
 -
--	/* Now that initialisation is complete, enable interrupts. */
--	zynqmp_dp_write(dp, ZYNQMP_DP_INT_EN, ZYNQMP_DP_INT_ALL);
--
- 	return 0;
- }
- 
-@@ -1632,7 +1641,6 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 	dp->dev = &pdev->dev;
- 	dp->dpsub = dpsub;
- 	dp->status = connector_status_disconnected;
--	dp->drm = drm;
- 
- 	INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
- 
-@@ -1718,7 +1726,6 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
- 	disable_irq(dp->irq);
- 
- 	cancel_delayed_work_sync(&dp->hpd_work);
--	zynqmp_dp_aux_cleanup(dp);
- 
- 	zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
- 	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
+ 	/* Create the encoder and attach the bridge. */
+ 	encoder->possible_crtcs |= drm_crtc_mask(&dpsub->crtc);
+ 	drm_simple_encoder_init(&dpsub->drm, encoder, DRM_MODE_ENCODER_NONE);
 -- 
 Regards,
 
