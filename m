@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3CC3E3DA7
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 03:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E53B3E3DA9
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 03:35:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6044D899BE;
-	Mon,  9 Aug 2021 01:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1AB899D5;
+	Mon,  9 Aug 2021 01:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFA9E8991D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 01:35:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 981718991D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 01:35:12 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 537D31D72;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4CB0E04;
  Mon,  9 Aug 2021 03:35:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1628472910;
- bh=oJ71SJUsQJ61oul+ffwS2OWXZgPrVRFJKeBz4iWIBGQ=;
+ s=mail; t=1628472911;
+ bh=aCT7DlhWrPkaXntHdVdiSZUUTXELFCYKAHwqhD5dGGQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=szsma+1l1N4+vzMx2YFfJqU6i7bsWSYAZ4Wegbb6T5Cn6o+TSWn/5i90u8384/6hP
- LUcRzTKXy1ynjG9CTThEmANBTeDi9uI5rhSyHLX/w3L1zHkW1g0rNtDsnlLnj4MhCq
- pdvhwTHxxl8BlMa8PFwxCUC3iNT/0au8hJiX1uyo=
+ b=R/q/Knr5Mf5ku1Clv+qk57aIyrw8bz05+xLe6OsriTmW+bNccb/nY67qpbAUVixGW
+ YBTONzR0v8Mooo0rg7l1tpKP6o0ecv86f+g6nEF5l9rpIwuSn44d+nUfU0YDJ8WKDq
+ FHslJ15dvCGt3TA1/ZGJaKKiso3tgUWibZvMdYCw=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Michal Simek <michal.simek@xilinx.com>,
  Jianqiang Chen <jianqian@xilinx.com>
-Subject: [PATCH 16/36] drm: xlnx: zynqmp_dpsub: Pass format info to
- zynqmp_disp_layer_set_format()
-Date: Mon,  9 Aug 2021 04:34:37 +0300
-Message-Id: <20210809013457.11266-17-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 17/36] drm: xlnx: zynqmp_dpsub: Remplace hardcoded values with
+ ARRAY_SIZE()
+Date: Mon,  9 Aug 2021 04:34:38 +0300
+Message-Id: <20210809013457.11266-18-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809013457.11266-1-laurent.pinchart@ideasonboard.com>
 References: <20210809013457.11266-1-laurent.pinchart@ideasonboard.com>
@@ -51,49 +51,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The zynqmp_disp_layer_set_format() function only needs format
-information, not a full plane state. Get the necessary info from the
-plane state in the caller and pass it to zynqmp_disp_layer_set_format().
-This prepares for calling the function from non-DRM code. This doesn't
-introduce any functional change.
+Use the ARRAY_SIZE() macro to iterate over arrays, instead of hardcoding
+their size. This makes the code less error-prone should the array size
+change.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 9b36dcc4ffd9..54aa9772e9b9 100644
+index 54aa9772e9b9..4767d3a7929a 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -1036,15 +1036,13 @@ static void zynqmp_disp_layer_disable(struct zynqmp_disp_layer *layer)
- /**
-  * zynqmp_disp_layer_set_format - Set the layer format
-  * @layer: The layer
-- * @state: The plane state
-+ * @info: The format info
-  *
-- * Set the format for @layer based on @state->fb->format. The layer must be
-- * disabled.
-+ * Set the format for @layer to @info. The layer must be disabled.
-  */
- static void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
--					 struct drm_plane_state *state)
-+					 const struct drm_format_info *info)
+@@ -1217,7 +1217,7 @@ static int zynqmp_disp_create_planes(struct zynqmp_disp *disp)
+ 	unsigned int i, j;
+ 	int ret;
+ 
+-	for (i = 0; i < ZYNQMP_DISP_NUM_LAYERS; i++) {
++	for (i = 0; i < ARRAY_SIZE(disp->layers); i++) {
+ 		struct zynqmp_disp_layer *layer = &disp->layers[i];
+ 		enum drm_plane_type type;
+ 		u32 *drm_formats;
+@@ -1288,7 +1288,7 @@ static void zynqmp_disp_destroy_layers(struct zynqmp_disp *disp)
  {
--	const struct drm_format_info *info = state->fb->format;
  	unsigned int i;
  
- 	layer->disp_fmt = zynqmp_disp_layer_find_format(layer, info->format);
-@@ -1185,7 +1183,7 @@ zynqmp_disp_plane_atomic_update(struct drm_plane *plane,
- 		if (old_state->fb)
- 			zynqmp_disp_layer_disable(layer);
+-	for (i = 0; i < ZYNQMP_DISP_NUM_LAYERS; i++)
++	for (i = 0; i < ARRAY_SIZE(disp->layers); i++)
+ 		zynqmp_disp_layer_release_dma(disp, &disp->layers[i]);
+ }
  
--		zynqmp_disp_layer_set_format(layer, new_state);
-+		zynqmp_disp_layer_set_format(layer, new_state->fb->format);
- 	}
+@@ -1350,7 +1350,7 @@ static int zynqmp_disp_create_layers(struct zynqmp_disp *disp)
+ 	unsigned int i;
+ 	int ret;
  
- 	zynqmp_disp_layer_update(layer, new_state);
+-	for (i = 0; i < ZYNQMP_DISP_NUM_LAYERS; i++) {
++	for (i = 0; i < ARRAY_SIZE(disp->layers); i++) {
+ 		struct zynqmp_disp_layer *layer = &disp->layers[i];
+ 
+ 		layer->id = i;
+@@ -1587,7 +1587,7 @@ static void zynqmp_disp_map_crtc_to_plane(struct zynqmp_disp *disp)
+ 	u32 possible_crtcs = drm_crtc_mask(&disp->crtc);
+ 	unsigned int i;
+ 
+-	for (i = 0; i < ZYNQMP_DISP_NUM_LAYERS; i++)
++	for (i = 0; i < ARRAY_SIZE(disp->layers); i++)
+ 		disp->layers[i].plane.possible_crtcs = possible_crtcs;
+ }
+ 
 -- 
 Regards,
 
