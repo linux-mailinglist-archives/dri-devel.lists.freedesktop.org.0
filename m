@@ -1,63 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C47C3E46A8
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 15:31:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6361D3E46AE
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 15:32:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B6A89B99;
-	Mon,  9 Aug 2021 13:30:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33E4789B29;
+	Mon,  9 Aug 2021 13:31:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4126989B7D;
- Mon,  9 Aug 2021 13:30:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1234561040;
- Mon,  9 Aug 2021 13:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628515855;
- bh=3Q+Y76mabCBAkeS1OkTLTBG6PO19Eb+uHYKiEoMf0rc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=aykCzZcVQyfJZbqutziyiWp5pX2Phw84+xn9RYd5qb9P5wBQcbZFW6eAm/pPM9Ew6
- tpUrj0CpsCmYmTT5jVWMx4ZYKtT39aJVyQH1ketghOvZhQwLPEGcVaGhqfHY3yXdV+
- OKPx1TGNOYLN5eyA1IAwewopTb3BISluGMoVYDf2hnBjb7ONWpHZuArr3pyJS63TKN
- Wvf760llZoqNTOYU3L5ub9DIEPWH2AKKOYLSC0Sn4aOceZ0XBNo+PNTR5EyKUuePiM
- fZXSZe7eatqySpm5foEFGe304cGSs404nlJejOEO9uT5TgGDn4YqAosEf66DsL9kLZ
- SBH96J32zDT/A==
-Received: by mail-wm1-f43.google.com with SMTP id
- o1-20020a05600c5101b02902e676fe1f04so2981343wms.1; 
- Mon, 09 Aug 2021 06:30:54 -0700 (PDT)
-X-Gm-Message-State: AOAM531i1pSJZlNssTZbAYXa+24cikz3LhF9aQb51rHqDuy+R4CcS4UD
- bYL6ceoSRz9RV3B1VSxAGWSQFEg/XjzRB/iFBYY=
-X-Google-Smtp-Source: ABdhPJxl4QPAglGMMc6y1IGMVOChD84KKdMB8PjGKNXhkhWJ/ORYqy5JYUFXKgx8V4dc9Ov25B5IISYTC15U0yrTqRs=
-X-Received: by 2002:a05:600c:3641:: with SMTP id
- y1mr16521594wmq.43.1628515853670; 
- Mon, 09 Aug 2021 06:30:53 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4404B89B29;
+ Mon,  9 Aug 2021 13:31:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278441572"
+X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; d="scan'208";a="278441572"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2021 06:31:51 -0700
+X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; d="scan'208";a="502764423"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2021 06:31:49 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: linux-fbdev@vger.kernel.org,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v2] fbdev/efifb: Release PCI device's runtime PM ref during FB
+ destroy
+Date: Mon,  9 Aug 2021 16:31:46 +0300
+Message-Id: <20210809133146.2478382-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210802133551.1904964-1-imre.deak@intel.com>
+References: <20210802133551.1904964-1-imre.deak@intel.com>
 MIME-Version: 1.0
-References: <20210723224617.3088886-1-kherbst@redhat.com>
- <CAK8P3a3u_jsxQW4dPXtsdKkw1mjKXL-h=qN1SGHytvUMPf3fPw@mail.gmail.com>
- <CACO55tuNWk6emjnnukgv9h-9jbpVP564Ogmi7TGbybc9n5v+ZQ@mail.gmail.com>
- <CAK8P3a1BceSaiqkTf+9Pr4Br-G3kgqD4ztwiaS7fxNiUg9t7Dg@mail.gmail.com>
- <CACO55tsoi2akTKvFdz3p48UHRjFXDW7dUnOM8qVePBFWet-3UQ@mail.gmail.com>
- <CACO55tuceMUz2pgOM23wvcmtaTqbo6S6rCB+mfLptqJRt=fMWA@mail.gmail.com>
- <CAK8P3a3+AD02-8nbULMdae2Hc=hJ+-Zb_CL+bHF-9oGieYiZWQ@mail.gmail.com>
- <CACO55tswMuDE9u3asU2Ls7BhA0uKGGarLk+E-WTD6MVnLwc3tw@mail.gmail.com>
- <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
- <87tujyoitk.fsf@intel.com>
-In-Reply-To: <87tujyoitk.fsf@intel.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 9 Aug 2021 15:30:38 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a30acg_FX9iHqftKeVmS=L81bqYw3XMQJ8=1fP5aU7jMQ@mail.gmail.com>
-Message-ID: <CAK8P3a30acg_FX9iHqftKeVmS=L81bqYw3XMQJ8=1fP5aU7jMQ@mail.gmail.com>
-Subject: Re: [PATCH] nouveau: make backlight support non optional
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Karol Herbst <kherbst@redhat.com>,
- ML nouveau <nouveau@lists.freedesktop.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,36 +51,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 9, 2021 at 3:20 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Sat, 24 Jul 2021, Arnd Bergmann <arnd@kernel.org> wrote:
-> > On Sat, Jul 24, 2021 at 4:14 PM Karol Herbst <kherbst@redhat.com> wrote:
-> >>
-> >> we use the MXM_WMI in code. We also have to keep arm in mind and not
-> >> break stuff there. So I will try to play around with your changes and
-> >> see how that goes.
-> >
-> > Ok, should find any randconfig build failures for arm, arm64 or x86 over the
-> > weekend. I also this on linux-next today
-> >
-> > ld: drivers/gpu/drm/i915/display/intel_panel.o: in function
-> > `intel_backlight_device_register':
-> > intel_panel.c:(.text+0x2804): undefined reference to `backlight_device_register'
-> > ld: intel_panel.c:(.text+0x284e): undefined reference to
-> > `backlight_device_register'
-> > ld: drivers/gpu/drm/i915/display/intel_panel.o: in function
-> > `intel_backlight_device_unregister':
-> > intel_panel.c:(.text+0x28b1): undefined reference to
-> > `backlight_device_unregister'
-> >
-> > and I added this same thing there to see how it goes:
->
-> Last I checked (and it was a while a go) you really had to make all
-> users of BACKLIGHT_CLASS_DEVICE depend not select it, otherwise you end
-> up with recursive dependencies.
+Atm the EFI FB platform driver gets a runtime PM reference for the
+associated GFX PCI device during probing the EFI FB platform device and
+releases it only when the platform device gets unbound.
 
-Yes, that is correct. It turns out that my randconfig tree already had a local
-patch to change most of the other users (everything outside of drivers/gpu)
-to 'depends on'.
+When fbcon switches to the FB provided by the PCI device's driver (for
+instance i915/drmfb), the EFI FB will get only unregistered without the
+EFI FB platform device getting unbound, keeping the runtime PM reference
+acquired during the platform device probing. This reference will prevent
+the PCI driver from runtime suspending the device.
 
-      Arnd
+Fix this by releasing the RPM reference from the EFI FB's destroy hook,
+called when the FB gets unregistered.
+
+While at it assert that pm_runtime_get_sync() didn't fail.
+
+v2:
+- Move pm_runtime_get_sync() before register_framebuffer() to avoid its
+  race wrt. efifb_destroy()->pm_runtime_put(). (Daniel)
+- Assert that pm_runtime_get_sync() didn't fail.
+- Clarify commit message wrt. platform/PCI device/driver and driver
+  removal vs. device unbinding.
+
+Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/video/fbdev/efifb.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+index 8ea8f079cde26..edca3703b9640 100644
+--- a/drivers/video/fbdev/efifb.c
++++ b/drivers/video/fbdev/efifb.c
+@@ -47,6 +47,8 @@ static bool use_bgrt = true;
+ static bool request_mem_succeeded = false;
+ static u64 mem_flags = EFI_MEMORY_WC | EFI_MEMORY_UC;
+ 
++static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
++
+ static struct fb_var_screeninfo efifb_defined = {
+ 	.activate		= FB_ACTIVATE_NOW,
+ 	.height			= -1,
+@@ -243,6 +245,9 @@ static inline void efifb_show_boot_graphics(struct fb_info *info) {}
+ 
+ static void efifb_destroy(struct fb_info *info)
+ {
++	if (efifb_pci_dev)
++		pm_runtime_put(&efifb_pci_dev->dev);
++
+ 	if (info->screen_base) {
+ 		if (mem_flags & (EFI_MEMORY_UC | EFI_MEMORY_WC))
+ 			iounmap(info->screen_base);
+@@ -333,7 +338,6 @@ ATTRIBUTE_GROUPS(efifb);
+ 
+ static bool pci_dev_disabled;	/* FB base matches BAR of a disabled device */
+ 
+-static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
+ static struct resource *bar_resource;
+ static u64 bar_offset;
+ 
+@@ -569,17 +573,22 @@ static int efifb_probe(struct platform_device *dev)
+ 		pr_err("efifb: cannot allocate colormap\n");
+ 		goto err_groups;
+ 	}
++
++	if (efifb_pci_dev)
++		WARN_ON(pm_runtime_get_sync(&efifb_pci_dev->dev) < 0);
++
+ 	err = register_framebuffer(info);
+ 	if (err < 0) {
+ 		pr_err("efifb: cannot register framebuffer\n");
+-		goto err_fb_dealoc;
++		goto err_put_rpm_ref;
+ 	}
+ 	fb_info(info, "%s frame buffer device\n", info->fix.id);
+-	if (efifb_pci_dev)
+-		pm_runtime_get_sync(&efifb_pci_dev->dev);
+ 	return 0;
+ 
+-err_fb_dealoc:
++err_put_rpm_ref:
++	if (efifb_pci_dev)
++		pm_runtime_put(&efifb_pci_dev->dev);
++
+ 	fb_dealloc_cmap(&info->cmap);
+ err_groups:
+ 	sysfs_remove_groups(&dev->dev.kobj, efifb_groups);
+@@ -603,8 +612,6 @@ static int efifb_remove(struct platform_device *pdev)
+ 	unregister_framebuffer(info);
+ 	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
+ 	framebuffer_release(info);
+-	if (efifb_pci_dev)
+-		pm_runtime_put(&efifb_pci_dev->dev);
+ 
+ 	return 0;
+ }
+-- 
+2.27.0
+
