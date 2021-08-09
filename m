@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAE43E4C5C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A45B3E4C5E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5707E89CE3;
-	Mon,  9 Aug 2021 18:47:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ACF289D53;
+	Mon,  9 Aug 2021 18:47:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 600B089CE3
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C7D89CE3
  for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 18:47:32 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id m9so25053080ljp.7
+Received: by mail-lj1-x22f.google.com with SMTP id m18so13781538ljo.1
  for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 11:47:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xUec3r5h0Yf1GVOfo79Nmw5vtoHWTeLeIGZ7Wbs+czs=;
- b=ytMzuEMLdq+4fO/i3YjOzv6wtmp4E4UdwKWpqBmwvNCEJSdvX0SqbeP8zK5p8BF9cP
- LyW0/WZEjKl5r94GPEGezJK8tmi0RVc4d/OtgEWbsKqkptbqRCNa6dMlgOHr3VCnBNGh
- cNYZ92TS/157tp9zzrPDAjbWNlBkwHwc3/Snt4x18L8yZe/fyYDtT2MZPcdWATMSSS7M
- Gfs1gKigSbsy0rJrB6DUxC2wvXxzaKzTTxq4NVI/aNnOVIBRVk6gZcI9P5I7WF7aG/Lb
- aRQPquhQRw9CQvh+Gqx6O9foRYPuVApF1M++AESTf81uHk5PJ40xCR6mpImpjrm8w2N3
- InTQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=XZ7wnRewIwdMbAhi6z99aJQ8I92BR91L6EtQWC5lXLk=;
+ b=QYmhbNeklYsTQNZNZ4xmRjXFSBl2e/AslyltQrPzSxXrISl5MG2cRFdalf7DZboO98
+ 0fVxNfnWIuFQch+bJdtbYV7E2pqZhjK42hTZeXLrlhMjiRWfc9JOKRirUvbokHk0r+Jv
+ I0FoakPlNVEiEkgA1Yd8mVdwoS5lE8iTSfyW7g13dek6iwZj8bmv6OWG9RFA43l/zGRi
+ yBCMnefnAO50s39Bsb0pXGzblujuX69TCU3KGmfUUW/1LDRAv4ggDMasmE6CT/8CfW0Q
+ CBrYE8Jm6eBTSBL4YSw+q1bkHOJb/NiqXBlmxe5jQpezIvgE4nxKtV0QwpQhiWoEiSna
+ 070g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xUec3r5h0Yf1GVOfo79Nmw5vtoHWTeLeIGZ7Wbs+czs=;
- b=f5woUrH2ICIP6DGt3QlzK69XLRBvyTm8A1zm+zXLprFq0N2mbcIm/QqGjwHKqSPTSQ
- eyI/UFaeveUPs2n7abF5v0IimHofkNT0aC1nVObl5SVEN8I+zfq907ZEGb2klBbx36uF
- ZjHjuP57KzOc17h1g8OC5LbPZzn7XpNSEDF1iEcSFyQSl6EYvNhsl/QfYgELQWZmuz8p
- t9QTxhW8oM2k0z5u6YDY3THqYTYZXrlKf3IW1MlecZP0xSGUjs3Wbd27gxoad6LJlQbY
- u+LyJqbf3vktwJDw2o7ARZ3Dvl3Hgkr/XU3moG0H/5jWFmYBmPVtSnS0FHust58C8dZm
- tRNA==
-X-Gm-Message-State: AOAM533LoY33yxH//t7sWMcpBgiOdcDhUwpwqkoATmTDqaFbvykwCsHT
- qkIS4TmpVgdttY13TGizV+FAOg==
-X-Google-Smtp-Source: ABdhPJzBx3kclUH4ijbuYY+bcSZYOZzCsOcVxnsmQPiqZjnK7kw8JzhXnikmPLBMjXWcr9MmjSkt4A==
-X-Received: by 2002:a2e:b0cd:: with SMTP id g13mr655984ljl.270.1628534850704; 
- Mon, 09 Aug 2021 11:47:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=XZ7wnRewIwdMbAhi6z99aJQ8I92BR91L6EtQWC5lXLk=;
+ b=OJfMsIT9On+F0ullb9SmaQ9x9G7dJNn6GvSOt5xtYVrfoWXZPfBCOcnECHA5RLnRe3
+ rcrvXiJsnvDjmrtxAXPLMgbdaLLALNJPg+Ys3rWtZdpFLo28MGTUUNfjMd2ILDdapu3x
+ 6xKPPc+7f3fY/ccmmBChfS5GfJrET98VdjXqeyEPTwrd4FiLSzT1JA2Ftwp9B8+WNv9Z
+ 864p3bIcywmoDxpXeyM3IzFuh3t2fhPTNV6iqxp24d0usU7e3+Oafqp7dUcl2+bRjBNG
+ fgkBOPcjNyCYf+fDXr6QHMIjc2Q3YGdDthy8m+VjJChDW1MEg+2vBbC7IDyRBzt0W60+
+ k2+g==
+X-Gm-Message-State: AOAM5328Z6yqmol8NXoFuDPD9IXCUrDvF3l8IatE0pi/vM7npx/kUtIB
+ 5jWhQM6i6u5cGiqBv+It+2NqaA==
+X-Google-Smtp-Source: ABdhPJz/V7rTl2AffWzwR22OpmuG8lB69f2RXqXmtlUIko33wPoasjUUXyrvmz3BI4xpGOEJSk1PQg==
+X-Received: by 2002:a2e:85cc:: with SMTP id h12mr10194756ljj.55.1628534851303; 
+ Mon, 09 Aug 2021 11:47:31 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id u22sm1216128lff.270.2021.08.09.11.47.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -51,10 +51,13 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org
-Subject: [PATCH v2 0/2] Add support for Sharp LS060T1SX01 panel
-Date: Mon,  9 Aug 2021 21:47:10 +0300
-Message-Id: <20210809184712.203791-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 1/2] dt-bindings: add bindings for the Sharp LS060T1SX01
+ panel
+Date: Mon,  9 Aug 2021 21:47:11 +0300
+Message-Id: <20210809184712.203791-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210809184712.203791-1-dmitry.baryshkov@linaro.org>
+References: <20210809184712.203791-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,23 +75,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver to support Sharp LS06T1SX01 6.0" FullHD panel found e.g. in
-the kwaek.ca Dragonboard Display Adapter Bundle.
+Add devicetree bindings for the Sharp LS060T1SX01 6.0" FullHD panel
+using NT35695 driver. This panel can be found i.e. in the Dragonboard
+Display Adapter bundle.
 
-Changes since v1:
- - Fix the id in the schema file
-
-----------------------------------------------------------------
-Dmitry Baryshkov (2):
-      dt-bindings: add bindings for the Sharp LS060T1SX01 panel
-      drm/panel: Add support for Sharp LS060T1SX01 panel
-
- .../bindings/display/panel/sharp,ls060t1sx01.yaml  |  51 ++++
- drivers/gpu/drm/panel/Kconfig                      |  10 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c    | 274 +++++++++++++++++++++
- 4 files changed, 336 insertions(+)
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ .../display/panel/sharp,ls060t1sx01.yaml      | 51 +++++++++++++++++++
+ 1 file changed, 51 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,ls060t1sx01.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/sharp,ls060t1sx01.yaml b/Documentation/devicetree/bindings/display/panel/sharp,ls060t1sx01.yaml
+new file mode 100644
+index 000000000000..c4af5e7f6f39
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/sharp,ls060t1sx01.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/sharp,ls060t1sx01.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sharp Microelectronics 6.0" FullHD TFT LCD panel
++
++maintainers:
++  - Dmitry Baryskov <dmitry.baryshkov@linaro.org>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: sharp,ls060t1sx01
++
++  reg: true
++  backlight: true
++  reset-gpios: true
++  port: true
++
++  avdd-supply:
++    description: handle of the regulator that provides the supply voltage
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "sharp,ls060t1sx01";
++            reg = <0>;
++            avdd-supply = <&pm8941_l22>;
++            backlight = <&backlight>;
++            reset-gpios = <&pm8916_gpios 25 GPIO_ACTIVE_LOW>;
++        };
++    };
++
++...
+-- 
+2.30.2
 
