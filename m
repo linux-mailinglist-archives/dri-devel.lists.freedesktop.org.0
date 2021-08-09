@@ -1,64 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2D43E4A71
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 19:03:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C283E4A7F
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 19:05:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 722FE89AC3;
-	Mon,  9 Aug 2021 17:03:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 950FC89BBD;
+	Mon,  9 Aug 2021 17:05:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE5289AC3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 17:03:26 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id k29so9569414wrd.7
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 10:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qTS4RDGHHPzSJVC9IIAhjVwRHlhQrfuaK7eVpTB+Pn8=;
- b=hHiwNGSZ807OaXO4M0SyRUnZUA2LvRWMsoO89aDnsMapxUMaeOTxHmJ9s71Mj3snZN
- ECe/1gImx5Hg36NLkDumY2/FBOEBSw+zc5txkhfIzpftPd6HkOnj9uhwH5ISDP71sBxc
- 1TWf2CiHbGI6fYYxn7eULpoUoKAWXSWDDdmi8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qTS4RDGHHPzSJVC9IIAhjVwRHlhQrfuaK7eVpTB+Pn8=;
- b=E+hNscBCWG6UgWplGc0YD40uqpbAjQXydDWpaU4qKVYTYwlchy2+aF2XSDvH8SUoBz
- f9QNuG3CemEf71UMNRNjkylbe1tvbO2KQcIaRG3SlTWFT5FOxX5mNydeUP7Y/etn97em
- cnebqx+jEGYQ4KfBYEporT8otNMMyeSthRbhODs3YuC8N/P8Y9p4gIz0/GxUhcmqCydg
- pUwyuQQzgtViwXH7e2rxXWuOpG5IxP0anQim89rnam+ONxdAW7DAvPtXa6dRBUDfpYoV
- 7MsOXtMzGZ1Y5pZPXFWuyWZMjGqARIFeROxd8mhi88u4RJMIYq2qRSrPC4oDzoFmDtui
- d6UQ==
-X-Gm-Message-State: AOAM533jnbnGBRYghggCUEH8kJcaNDQQgxzb1/9VzOYjuZeaE1U0yLSW
- XJQl9JhyDO6GWktqeU/XKBdk9A==
-X-Google-Smtp-Source: ABdhPJwjNSmjY07Js55ZwXGBL4LZkz3dgTXPn1dwR3Y+foNtAR78n6ZOror7mRoqX6PxzB76IHp6OQ==
-X-Received: by 2002:a5d:51d2:: with SMTP id n18mr4035678wrv.325.1628528605032; 
- Mon, 09 Aug 2021 10:03:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e11sm88985wrm.80.2021.08.09.10.03.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 10:03:24 -0700 (PDT)
-Date: Mon, 9 Aug 2021 19:03:22 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 23/46] drm/i915/guc: Insert submit fences
- between requests in parent-child relationship
-Message-ID: <YRFf2sXXog566+8c@phenom.ffwll.local>
-References: <20210803222943.27686-1-matthew.brost@intel.com>
- <20210803222943.27686-24-matthew.brost@intel.com>
- <YRFYquq9BnZgPLuY@phenom.ffwll.local>
- <20210809163948.GA122898@DUT151-ICLU.fm.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 035EB89BBD;
+ Mon,  9 Aug 2021 17:05:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1CFFE60EDF;
+ Mon,  9 Aug 2021 17:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1628528714;
+ bh=RMEf6LXCfJbK+5TTchOmMqltVVe9V4z4Y8ERl5RAQFM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bZ4bYvr9of3IX6/kJXELIQD0M2qMjKO/Tan+GITh8wWQ1xSzJ15p8SsyetE3oiIzO
+ WyMXatW+Of8xKEO76q4JvIbfaWjyTrAmrDnTn03Q503o1YabO6BzpzyD9tdCVwzs5I
+ eH4f56y7dm5DgKRASUgB9iQ13s+qNMpQhL6oc/4sFQk0CdetzetYY7mJA3DwCXK1qW
+ 5uSLMUin1RmapmmEFqeNsfczb85mWu1PRd2oq13lek/PmL4Wzw3iacr0/KIB6Orr97
+ eMicvuMLzITfHMHptVFn045cthfAOhVRD1nrz8TIKUivzvKoiTlrQWzD/flcYUY50Z
+ ESCe01X25SoOQ==
+Date: Mon, 9 Aug 2021 18:05:08 +0100
+From: Will Deacon <will@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Georgi Djakov <djakov@kernel.org>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, Akhil P Oommen <akhilpo@codeaurora.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Kristian H Kristensen <hoegsberg@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [Freedreno] [PATCH 0/3] iommu/drm/msm: Allow non-coherent
+ masters to use system cache
+Message-ID: <20210809170508.GB1589@willie-the-truck>
+References: <cover.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <20210728140052.GB22887@mms-0441>
+ <8b2742c8891abe4fec3664730717a089@codeaurora.org>
+ <20210802105544.GA27657@willie-the-truck>
+ <CAF6AEGvtpFu8st=ZFNoKjP9YsAenciLxL1zMFi_iqMCvdby73w@mail.gmail.com>
+ <20210802151409.GE28735@willie-the-truck>
+ <CAF6AEGtzvyEUm0Fc8QT5t9KNK7i0FbFyi7zDM2_PMCzZBp7qbw@mail.gmail.com>
+ <20210809145651.GC1458@willie-the-truck>
+ <CAF6AEGsSUojA=V0n2iRWTCn++buqN=Eoxo0r3=+=PBu1O=H-AQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210809163948.GA122898@DUT151-ICLU.fm.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <CAF6AEGsSUojA=V0n2iRWTCn++buqN=Eoxo0r3=+=PBu1O=H-AQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,270 +75,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 04:39:48PM +0000, Matthew Brost wrote:
-> On Mon, Aug 09, 2021 at 06:32:42PM +0200, Daniel Vetter wrote:
-> > On Tue, Aug 03, 2021 at 03:29:20PM -0700, Matthew Brost wrote:
-> > > The GuC must receive requests in the order submitted for contexts in a
-> > > parent-child relationship to function correctly. To ensure this, insert
-> > > a submit fence between the current request and last request submitted
-> > > for requests / contexts in a parent child relationship. This is
-> > > conceptually similar to a single timeline.
-> > > 
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: John Harrison <John.C.Harrison@Intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/gt/intel_context.c       |   2 +
-> > >  drivers/gpu/drm/i915/gt/intel_context.h       |   5 +
-> > >  drivers/gpu/drm/i915/gt/intel_context_types.h |   3 +
-> > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   3 +-
-> > >  drivers/gpu/drm/i915/i915_request.c           | 120 ++++++++++++++----
-> > >  5 files changed, 105 insertions(+), 28 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > > index bb4c14656067..98ef2d0f7a39 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > > @@ -487,6 +487,8 @@ void intel_context_fini(struct intel_context *ce)
-> > >  {
-> > >  	struct intel_context *child, *next;
-> > >  
-> > > +	if (ce->last_rq)
-> > > +		i915_request_put(ce->last_rq);
-> > >  	if (ce->timeline)
-> > >  		intel_timeline_put(ce->timeline);
-> > >  	i915_vm_put(ce->vm);
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-> > > index 7ce3b3d2edb7..a302599e436a 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_context.h
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_context.h
-> > > @@ -60,6 +60,11 @@ intel_context_to_parent(struct intel_context *ce)
-> > >  	return intel_context_is_child(ce) ? ce->parent : ce;
-> > >  }
-> > >  
-> > > +static inline bool intel_context_is_parallel(struct intel_context *ce)
-> > > +{
-> > > +	return intel_context_is_child(ce) || intel_context_is_parent(ce);
-> > > +}
-> > > +
-> > >  void intel_context_bind_parent_child(struct intel_context *parent,
-> > >  				     struct intel_context *child);
-> > >  
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > > index 9665cb31bab0..f4fc81f64921 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > > @@ -225,6 +225,9 @@ struct intel_context {
-> > >  	 */
-> > >  	u8 guc_prio;
-> > >  	u32 guc_prio_count[GUC_CLIENT_PRIORITY_NUM];
-> > > +
-> > > +	/* Last request submitted on a parent */
-> > > +	struct i915_request *last_rq;
-> > >  };
-> > >  
-> > >  #endif /* __INTEL_CONTEXT_TYPES__ */
-> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > index d1d4a1e59e8d..1cb382f7d79d 100644
-> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > @@ -820,8 +820,7 @@ static inline int rq_prio(const struct i915_request *rq)
-> > >  
-> > >  static inline bool is_multi_lrc_rq(struct i915_request *rq)
-> > >  {
-> > > -	return intel_context_is_child(rq->context) ||
-> > > -		intel_context_is_parent(rq->context);
-> > > +	return intel_context_is_parallel(rq->context);
-> > >  }
-> > >  
-> > >  /*
-> > > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> > > index ce446716d092..2e51c8999088 100644
-> > > --- a/drivers/gpu/drm/i915/i915_request.c
-> > > +++ b/drivers/gpu/drm/i915/i915_request.c
-> > > @@ -1546,36 +1546,62 @@ i915_request_await_object(struct i915_request *to,
-> > >  	return ret;
-> > >  }
-> > >  
-> > > +static inline bool is_parallel_rq(struct i915_request *rq)
-> > > +{
-> > > +	return intel_context_is_parallel(rq->context);
-> > > +}
-> > > +
-> > > +static inline struct intel_context *request_to_parent(struct i915_request *rq)
-> > > +{
-> > > +	return intel_context_to_parent(rq->context);
-> > > +}
-> > > +
-> > >  static struct i915_request *
-> > > -__i915_request_add_to_timeline(struct i915_request *rq)
-> > > +__i915_request_ensure_parallel_ordering(struct i915_request *rq,
-> > > +					struct intel_timeline *timeline)
-> > >  {
-> > > -	struct intel_timeline *timeline = i915_request_timeline(rq);
-> > >  	struct i915_request *prev;
-> > >  
-> > > -	/*
-> > > -	 * Dependency tracking and request ordering along the timeline
-> > > -	 * is special cased so that we can eliminate redundant ordering
-> > > -	 * operations while building the request (we know that the timeline
-> > > -	 * itself is ordered, and here we guarantee it).
-> > > -	 *
-> > > -	 * As we know we will need to emit tracking along the timeline,
-> > > -	 * we embed the hooks into our request struct -- at the cost of
-> > > -	 * having to have specialised no-allocation interfaces (which will
-> > > -	 * be beneficial elsewhere).
-> > > -	 *
-> > > -	 * A second benefit to open-coding i915_request_await_request is
-> > > -	 * that we can apply a slight variant of the rules specialised
-> > > -	 * for timelines that jump between engines (such as virtual engines).
-> > > -	 * If we consider the case of virtual engine, we must emit a dma-fence
-> > > -	 * to prevent scheduling of the second request until the first is
-> > > -	 * complete (to maximise our greedy late load balancing) and this
-> > > -	 * precludes optimising to use semaphores serialisation of a single
-> > > -	 * timeline across engines.
-> > > -	 */
-> > > +	GEM_BUG_ON(!is_parallel_rq(rq));
-> > > +
-> > > +	prev = request_to_parent(rq)->last_rq;
-> > > +	if (prev) {
-> > > +		if (!__i915_request_is_complete(prev)) {
-> > > +			i915_sw_fence_await_sw_fence(&rq->submit,
-> > > +						     &prev->submit,
-> > > +						     &rq->submitq);
-> > > +
-> > > +			if (rq->engine->sched_engine->schedule)
-> > > +				__i915_sched_node_add_dependency(&rq->sched,
-> > > +								 &prev->sched,
-> > > +								 &rq->dep,
-> > > +								 0);
-> > > +		}
-> > > +		i915_request_put(prev);
-> > > +	}
-> > > +
-> > > +	request_to_parent(rq)->last_rq = i915_request_get(rq);
-> > > +
-> > > +	return to_request(__i915_active_fence_set(&timeline->last_request,
-> > > +						  &rq->fence));
-> > > +}
-> > > +
-> > > +static struct i915_request *
-> > > +__i915_request_ensure_ordering(struct i915_request *rq,
-> > > +			       struct intel_timeline *timeline)
-> > > +{
-> > > +	struct i915_request *prev;
-> > > +
-> > > +	GEM_BUG_ON(is_parallel_rq(rq));
-> > > +
-> > >  	prev = to_request(__i915_active_fence_set(&timeline->last_request,
-> > >  						  &rq->fence));
-> > > +
-> > >  	if (prev && !__i915_request_is_complete(prev)) {
-> > >  		bool uses_guc = intel_engine_uses_guc(rq->engine);
-> > > +		bool pow2 = is_power_of_2(READ_ONCE(prev->engine)->mask |
-> > > +					  rq->engine->mask);
-> > > +		bool same_context = prev->context == rq->context;
-> > >  
-> > >  		/*
-> > >  		 * The requests are supposed to be kept in order. However,
-> > > @@ -1583,13 +1609,11 @@ __i915_request_add_to_timeline(struct i915_request *rq)
-> > >  		 * is used as a barrier for external modification to this
-> > >  		 * context.
-> > >  		 */
-> > > -		GEM_BUG_ON(prev->context == rq->context &&
-> > > +		GEM_BUG_ON(same_context &&
-> > >  			   i915_seqno_passed(prev->fence.seqno,
-> > >  					     rq->fence.seqno));
-> > >  
-> > > -		if ((!uses_guc &&
-> > > -		     is_power_of_2(READ_ONCE(prev->engine)->mask | rq->engine->mask)) ||
-> > > -		    (uses_guc && prev->context == rq->context))
-> > > +		if ((same_context && uses_guc) || (!uses_guc && pow2))
-> > >  			i915_sw_fence_await_sw_fence(&rq->submit,
-> > >  						     &prev->submit,
-> > >  						     &rq->submitq);
-> > > @@ -1604,6 +1628,50 @@ __i915_request_add_to_timeline(struct i915_request *rq)
-> > >  							 0);
-> > >  	}
-> > >  
-> > > +	return prev;
-> > > +}
-> > > +
-> > > +static struct i915_request *
-> > > +__i915_request_add_to_timeline(struct i915_request *rq)
-> > > +{
-> > > +	struct intel_timeline *timeline = i915_request_timeline(rq);
-> > > +	struct i915_request *prev;
-> > > +
-> > > +	/*
-> > > +	 * Dependency tracking and request ordering along the timeline
-> > > +	 * is special cased so that we can eliminate redundant ordering
-> > > +	 * operations while building the request (we know that the timeline
-> > > +	 * itself is ordered, and here we guarantee it).
-> > > +	 *
-> > > +	 * As we know we will need to emit tracking along the timeline,
-> > > +	 * we embed the hooks into our request struct -- at the cost of
-> > > +	 * having to have specialised no-allocation interfaces (which will
-> > > +	 * be beneficial elsewhere).
-> > > +	 *
-> > > +	 * A second benefit to open-coding i915_request_await_request is
-> > > +	 * that we can apply a slight variant of the rules specialised
-> > > +	 * for timelines that jump between engines (such as virtual engines).
-> > > +	 * If we consider the case of virtual engine, we must emit a dma-fence
-> > > +	 * to prevent scheduling of the second request until the first is
-> > > +	 * complete (to maximise our greedy late load balancing) and this
-> > > +	 * precludes optimising to use semaphores serialisation of a single
-> > > +	 * timeline across engines.
-> > > +	 *
-> > 
-> > Can we put a big FIXME in here that this should all be resolved with a
-> > proper interface which passes the entire thing down to the backend?
-> > 
-> > Or is that no longer (or wasn't ever) the long-term goal?
+On Mon, Aug 09, 2021 at 09:57:08AM -0700, Rob Clark wrote:
+> On Mon, Aug 9, 2021 at 7:56 AM Will Deacon <will@kernel.org> wrote:
+> > On Mon, Aug 02, 2021 at 06:36:04PM -0700, Rob Clark wrote:
+> > > On Mon, Aug 2, 2021 at 8:14 AM Will Deacon <will@kernel.org> wrote:
+> > > > On Mon, Aug 02, 2021 at 08:08:07AM -0700, Rob Clark wrote:
+> > > > > On Mon, Aug 2, 2021 at 3:55 AM Will Deacon <will@kernel.org> wrote:
+> > > > > > On Thu, Jul 29, 2021 at 10:08:22AM +0530, Sai Prakash Ranjan wrote:
+> > > > > > > On 2021-07-28 19:30, Georgi Djakov wrote:
+> > > > > > > > On Mon, Jan 11, 2021 at 07:45:02PM +0530, Sai Prakash Ranjan wrote:
+> > > > > > > > > commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag")
+> > > > > > > > > removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
+> > > > > > > > > the memory type setting required for the non-coherent masters to use
+> > > > > > > > > system cache. Now that system cache support for GPU is added, we will
+> > > > > > > > > need to set the right PTE attribute for GPU buffers to be sys cached.
+> > > > > > > > > Without this, the system cache lines are not allocated for GPU.
+> > > > > > > > >
+> > > > > > > > > So the patches in this series introduces a new prot flag IOMMU_LLC,
+> > > > > > > > > renames IO_PGTABLE_QUIRK_ARM_OUTER_WBWA to IO_PGTABLE_QUIRK_PTW_LLC
+> > > > > > > > > and makes GPU the user of this protection flag.
+> > > > > > > >
+> > > > > > > > Thank you for the patchset! Are you planning to refresh it, as it does
+> > > > > > > > not apply anymore?
+> > > > > > > >
+> > > > > > >
+> > > > > > > I was waiting on Will's reply [1]. If there are no changes needed, then
+> > > > > > > I can repost the patch.
+> > > > > >
+> > > > > > I still think you need to handle the mismatched alias, no? You're adding
+> > > > > > a new memory type to the SMMU which doesn't exist on the CPU side. That
+> > > > > > can't be right.
+> > > > > >
+> > > > >
+> > > > > Just curious, and maybe this is a dumb question, but what is your
+> > > > > concern about mismatched aliases?  I mean the cache hierarchy on the
+> > > > > GPU device side (anything beyond the LLC) is pretty different and
+> > > > > doesn't really care about the smmu pgtable attributes..
+> > > >
+> > > > If the CPU accesses a shared buffer with different attributes to those which
+> > > > the device is using then you fall into the "mismatched memory attributes"
+> > > > part of the Arm architecture. It's reasonably unforgiving (you should go and
+> > > > read it) and in some cases can apply to speculative accesses as well, but
+> > > > the end result is typically loss of coherency.
+> > >
+> > > Ok, I might have a few other sections to read first to decipher the
+> > > terminology..
+> > >
+> > > But my understanding of LLC is that it looks just like system memory
+> > > to the CPU and GPU (I think that would make it "the point of
+> > > coherence" between the GPU and CPU?)  If that is true, shouldn't it be
+> > > invisible from the point of view of different CPU mapping options?
+> >
+> > You could certainly build a system where mismatched attributes don't cause
+> > loss of coherence, but as it's not guaranteed by the architecture and the
+> > changes proposed here affect APIs which are exposed across SoCs, then I
+> > don't think it helps much.
+> >
 > 
-> I now you mentioned this in the past but I really don't think this all
-> that great of an idea as it would be a pretty intrusive change and not
-> sure what the real benefit is.
+> Hmm, the description of the new mapping flag is that it applies only
+> to transparent outer level cache:
 > 
-> However, when we move the DRM scheduler this can be dropped because the
-> ordering of jobs on a sched_entity.
+> +/*
+> + * Non-coherent masters can use this page protection flag to set cacheable
+> + * memory attributes for only a transparent outer level of cache, also known as
+> + * the last-level or system cache.
+> + */
+> +#define IOMMU_LLC      (1 << 6)
+> 
+> But I suppose we could call it instead IOMMU_QCOM_LLC or something
+> like that to make it more clear that it is not necessarily something
+> that would work with a different outer level cache implementation?
 
-See further down. Your current design deadlocks - or well, can deadlock. I
-think at least.
--Daniel
+... or we could just deal with the problem so that other people can reuse
+the code. I haven't really understood the reluctance to solve this properly.
 
-> 
-> Matt
-> 
-> > -Daniel
-> > 
-> > > +	 * We do not order parallel submission requests on the timeline as each
-> > > +	 * parallel submission context has its own timeline and the ordering
-> > > +	 * rules for parallel requests are that they must be submitted in the
-> > > +	 * order received from the execbuf IOCTL. So rather than using the
-> > > +	 * timeline we store a pointer to last request submitted in the
-> > > +	 * relationship in the gem context and insert a submission fence
-> > > +	 * between that request and request passed into this function or
-> > > +	 * alternatively we use completion fence if gem context has a single
-> > > +	 * timeline and this is the first submission of an execbuf IOCTL.
-> > > +	 */
-> > > +	if (likely(!is_parallel_rq(rq)))
-> > > +		prev = __i915_request_ensure_ordering(rq, timeline);
-> > > +	else
-> > > +		prev = __i915_request_ensure_parallel_ordering(rq, timeline);
-> > > +
-> > >  	/*
-> > >  	 * Make sure that no request gazumped us - if it was allocated after
-> > >  	 * our i915_request_alloc() and called __i915_request_add() before
-> > > -- 
-> > > 2.28.0
-> > > 
-> > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+Am I missing some reason this isn't solvable?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Will
