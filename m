@@ -2,63 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E073E4C1E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80503E4C20
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:29:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C702D89C93;
-	Mon,  9 Aug 2021 18:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B38E89C99;
+	Mon,  9 Aug 2021 18:29:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BF7D89C84;
- Mon,  9 Aug 2021 18:28:38 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- d10-20020a9d4f0a0000b02904f51c5004e3so14655900otl.9; 
- Mon, 09 Aug 2021 11:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Q+P56kv9bQ232dCkEySITmYOrGM+KOpFmBwsjS+8fhg=;
- b=WkUUG5bGWhQhQe25Xl2P/LeoFg4SyCoanFWnc4QYT6bgwTvHi/lBciWY3nGzny5EXU
- /31VZJ92VmwAG20/xpLWe2+qAEDLYEvHRNvAd50DMMdyc5LhAcXEXqQPwLQCzRtW4HXk
- P3UJSuYeNCRSw/O+V7DFdHFiOTwUlHEfSHyf5B1JBjgETFpleeSPNA+8LvFD9vAtHGKr
- RlDMOii0yNXocGLSrJeHi34l6CfBQRwUj9BnmNQQY02giQQXFNXhMpawjstNaiIFjthw
- tkh+fRm+brKZjJCrTC8HRtHBCIgMxB0KNyavNUylFzby84MH5vrwYaF8LAKS3EkxTlRz
- lLfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q+P56kv9bQ232dCkEySITmYOrGM+KOpFmBwsjS+8fhg=;
- b=WaMNUWRDfBtUj2IMs+f5p9/FVdVpMePl93t5FRrSOGcwDgl0L9G9uwfja1HTe6xGAg
- mh08YOsLawVgLmX3ncvLrYIDvqPO6/e7f9/ajV9+cEphb/+iSJ55IdZGx/S+xVY/fQlt
- p79r4klxBzH7gzYSzihg5fSYNeoy4ErpPkfMYJhIGv7Yp33Nn/6+YqN7k9/Ev+PA5nGb
- l6MzPcjUHjC7WI3FiD5hK863nY5gT9AFovLAVLvUrs2VmRb12s58SmIUhzDk5ausTN5j
- HHho12yXWAhuzDFS26mfpMXdAxwq5zShK3WeofrvKg53jZg3BMwlMMKFCkYzTcA/8sJ0
- 4ygg==
-X-Gm-Message-State: AOAM531/DDU7eoqTASbA1mKhbLiaq1aEQ3DXRIGguVO5e4zqrwWruHSs
- oJLJRzNaOtYKQAkkTzbiEkHJCqee2GOa4HLI38c=
-X-Google-Smtp-Source: ABdhPJyxsj5BZ1EB1iq1I8ieuBouSFvT1j8rHAFbxVO0Ltlury2vfDp5FYTHZsMeFpDw5r15HE2o2srv5b0dj7T5nFI=
-X-Received: by 2002:a9d:70c3:: with SMTP id w3mr17546162otj.311.1628533718180; 
- Mon, 09 Aug 2021 11:28:38 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE5389C83;
+ Mon,  9 Aug 2021 18:29:01 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="214738035"
+X-IronPort-AV: E=Sophos;i="5.84,308,1620716400"; d="scan'208";a="214738035"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2021 11:29:00 -0700
+X-IronPort-AV: E=Sophos;i="5.84,308,1620716400"; d="scan'208";a="638547163"
+Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2021 11:29:00 -0700
+Date: Mon, 9 Aug 2021 18:28:58 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 13/46] drm/i915: Add logical engine mapping
+Message-ID: <20210809182858.GA123591@DUT151-ICLU.fm.intel.com>
+References: <20210803222943.27686-1-matthew.brost@intel.com>
+ <20210803222943.27686-14-matthew.brost@intel.com>
+ <YRE7dEqqG0hSAfjp@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20210807233842.13545-1-rdunlap@infradead.org>
-In-Reply-To: <20210807233842.13545-1-rdunlap@infradead.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 9 Aug 2021 14:28:27 -0400
-Message-ID: <CADnq5_PDnbDU04pHQYm8AeyXGPshAQuH1OmCgEyRLXaCMPwRYQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix kernel-doc warnings on non-kernel-doc
- comments
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel test robot <lkp@intel.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Dennis Li <Dennis.Li@amd.com>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRE7dEqqG0hSAfjp@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,72 +49,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 7, 2021 at 7:38 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Don't use "begin kernel-doc notation" (/**) for comments that are
-> not kernel-doc. This eliminates warnings reported by the 0day bot.
->
-> drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c:89: warning: This comment starts =
-with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/k=
-ernel-doc.rst
->     * This shader is used to clear VGPRS and LDS, and also write the inpu=
-t
-> drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c:209: warning: This comment starts=
- with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/=
-kernel-doc.rst
->     * The below shaders are used to clear SGPRS, and also write the input
-> drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c:301: warning: This comment starts=
- with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/=
-kernel-doc.rst
->     * This shader is used to clear the uninitiated sgprs after the above
->
-> Fixes: 0e0036c7d13b ("drm/amdgpu: fix no full coverage issue for gprs ini=
-tialization")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: Dennis Li <Dennis.Li@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
+On Mon, Aug 09, 2021 at 04:28:04PM +0200, Daniel Vetter wrote:
+> On Tue, Aug 03, 2021 at 03:29:10PM -0700, Matthew Brost wrote:
+> > Add logical engine mapping. This is required for split-frame, as
+> > workloads need to be placed on engines in a logically contiguous manner.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 60 ++++++++++++++++---
+> >  drivers/gpu/drm/i915/gt/intel_engine_types.h  |  1 +
+> >  .../drm/i915/gt/intel_execlists_submission.c  |  1 +
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  2 +-
+> >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 21 +------
+> >  5 files changed, 56 insertions(+), 29 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > index 0d9105a31d84..4d790f9a65dd 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > @@ -290,7 +290,8 @@ static void nop_irq_handler(struct intel_engine_cs *engine, u16 iir)
+> >  	GEM_DEBUG_WARN_ON(iir);
+> >  }
+> >  
+> > -static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+> > +static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
+> > +			      u8 logical_instance)
+> >  {
+> >  	const struct engine_info *info = &intel_engines[id];
+> >  	struct drm_i915_private *i915 = gt->i915;
+> > @@ -334,6 +335,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+> >  
+> >  	engine->class = info->class;
+> >  	engine->instance = info->instance;
+> > +	engine->logical_mask = BIT(logical_instance);
+> >  	__sprint_engine_name(engine);
+> >  
+> >  	engine->props.heartbeat_interval_ms =
+> > @@ -572,6 +574,37 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+> >  	return info->engine_mask;
+> >  }
+> >  
+> > +static void populate_logical_ids(struct intel_gt *gt, u8 *logical_ids,
+> > +				 u8 class, const u8 *map, u8 num_instances)
+> > +{
+> > +	int i, j;
+> > +	u8 current_logical_id = 0;
+> > +
+> > +	for (j = 0; j < num_instances; ++j) {
+> > +		for (i = 0; i < ARRAY_SIZE(intel_engines); ++i) {
+> > +			if (!HAS_ENGINE(gt, i) ||
+> > +			    intel_engines[i].class != class)
+> > +				continue;
+> > +
+> > +			if (intel_engines[i].instance == map[j]) {
+> > +				logical_ids[intel_engines[i].instance] =
+> > +					current_logical_id++;
+> > +				break;
+> > +			}
+> > +		}
+> > +	}
+> > +}
+> > +
+> > +static void setup_logical_ids(struct intel_gt *gt, u8 *logical_ids, u8 class)
+> > +{
+> > +	int i;
+> > +	u8 map[MAX_ENGINE_INSTANCE + 1];
+> > +
+> > +	for (i = 0; i < MAX_ENGINE_INSTANCE + 1; ++i)
+> > +		map[i] = i;
+> > +	populate_logical_ids(gt, logical_ids, class, map, ARRAY_SIZE(map));
+> > +}
+> > +
+> >  /**
+> >   * intel_engines_init_mmio() - allocate and prepare the Engine Command Streamers
+> >   * @gt: pointer to struct intel_gt
+> > @@ -583,7 +616,8 @@ int intel_engines_init_mmio(struct intel_gt *gt)
+> >  	struct drm_i915_private *i915 = gt->i915;
+> >  	const unsigned int engine_mask = init_engine_mask(gt);
+> >  	unsigned int mask = 0;
+> > -	unsigned int i;
+> > +	unsigned int i, class;
+> > +	u8 logical_ids[MAX_ENGINE_INSTANCE + 1];
+> >  	int err;
+> >  
+> >  	drm_WARN_ON(&i915->drm, engine_mask == 0);
+> > @@ -593,15 +627,23 @@ int intel_engines_init_mmio(struct intel_gt *gt)
+> >  	if (i915_inject_probe_failure(i915))
+> >  		return -ENODEV;
+> >  
+> > -	for (i = 0; i < ARRAY_SIZE(intel_engines); i++) {
+> > -		if (!HAS_ENGINE(gt, i))
+> > -			continue;
+> > +	for (class = 0; class < MAX_ENGINE_CLASS + 1; ++class) {
+> > +		setup_logical_ids(gt, logical_ids, class);
+> >  
+> > -		err = intel_engine_setup(gt, i);
+> > -		if (err)
+> > -			goto cleanup;
+> > +		for (i = 0; i < ARRAY_SIZE(intel_engines); ++i) {
+> > +			u8 instance = intel_engines[i].instance;
+> > +
+> > +			if (intel_engines[i].class != class ||
+> > +			    !HAS_ENGINE(gt, i))
+> > +				continue;
+> >  
+> > -		mask |= BIT(i);
+> > +			err = intel_engine_setup(gt, i,
+> > +						 logical_ids[instance]);
+> > +			if (err)
+> > +				goto cleanup;
+> > +
+> > +			mask |= BIT(i);
+> > +		}
+> >  	}
+> >  
+> >  	/*
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > index ed91bcff20eb..85e5c9a9e502 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > @@ -266,6 +266,7 @@ struct intel_engine_cs {
+> >  	unsigned int guc_id;
+> >  
+> >  	intel_engine_mask_t mask;
+> > +	intel_engine_mask_t logical_mask;
+> 
+> Kerneldoc at least for new stuff. Bonus points if you get the
+> struct/header file up to speed (with dummy/fixme comments if need be) so
 
-Applied.  Thanks!
+Sure can add Kerneldoc for new variables. Def don't have time to get all
+structs kerneldoc up to speed at moment as by backlog is about a mile
+long. Perhaps after we get all of GuC submission upstream I can take
+sometime to go through all the structures and update the DoC.
 
-Alex
+Matt
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c |    6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> --- linux-next-20210806.orig/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c
-> +++ linux-next-20210806/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c
-> @@ -85,7 +85,7 @@ static const struct soc15_reg_golden gol
->         SOC15_REG_GOLDEN_VALUE(GC, 0, regTCI_CNTL_3, 0xff, 0x20),
->  };
->
-> -/**
-> +/*
->   * This shader is used to clear VGPRS and LDS, and also write the input
->   * pattern into the write back buffer, which will be used by driver to
->   * check whether all SIMDs have been covered.
-> @@ -206,7 +206,7 @@ const struct soc15_reg_entry vgpr_init_r
->         { SOC15_REG_ENTRY(GC, 0, regCOMPUTE_STATIC_THREAD_MGMT_SE7), 0xff=
-ffffff },
->  };
->
-> -/**
-> +/*
->   * The below shaders are used to clear SGPRS, and also write the input
->   * pattern into the write back buffer. The first two dispatch should be
->   * scheduled simultaneously which make sure that all SGPRS could be
-> @@ -302,7 +302,7 @@ const struct soc15_reg_entry sgpr96_init
->         { SOC15_REG_ENTRY(GC, 0, regCOMPUTE_STATIC_THREAD_MGMT_SE7), 0xff=
-ffffff },
->  };
->
-> -/**
-> +/*
->   * This shader is used to clear the uninitiated sgprs after the above
->   * two dispatches, because of hardware feature, dispath 0 couldn't clear
->   * top hole sgprs. Therefore need 4 waves per SIMD to cover these sgprs
+> we can include it into our overall html hierarchy).
+> -Daniel
+> 
+> >  
+> >  	u8 class;
+> >  	u8 instance;
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > index de5f9c86b9a4..baa1797af1c8 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > @@ -3879,6 +3879,7 @@ execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+> >  
+> >  		ve->siblings[ve->num_siblings++] = sibling;
+> >  		ve->base.mask |= sibling->mask;
+> > +		ve->base.logical_mask |= sibling->logical_mask;
+> >  
+> >  		/*
+> >  		 * All physical engines must be compatible for their emission
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > index 6926919bcac6..9f5f43a16182 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > @@ -176,7 +176,7 @@ static void guc_mapping_table_init(struct intel_gt *gt,
+> >  	for_each_engine(engine, gt, id) {
+> >  		u8 guc_class = engine_class_to_guc_class(engine->class);
+> >  
+> > -		system_info->mapping_table[guc_class][engine->instance] =
+> > +		system_info->mapping_table[guc_class][ilog2(engine->logical_mask)] =
+> >  			engine->instance;
+> >  	}
+> >  }
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 310116f40509..dec757d319a2 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -1795,23 +1795,6 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
+> >  	return __guc_action_deregister_context(guc, guc_id, loop);
+> >  }
+> >  
+> > -static intel_engine_mask_t adjust_engine_mask(u8 class, intel_engine_mask_t mask)
+> > -{
+> > -	switch (class) {
+> > -	case RENDER_CLASS:
+> > -		return mask >> RCS0;
+> > -	case VIDEO_ENHANCEMENT_CLASS:
+> > -		return mask >> VECS0;
+> > -	case VIDEO_DECODE_CLASS:
+> > -		return mask >> VCS0;
+> > -	case COPY_ENGINE_CLASS:
+> > -		return mask >> BCS0;
+> > -	default:
+> > -		MISSING_CASE(class);
+> > -		return 0;
+> > -	}
+> > -}
+> > -
+> >  static void guc_context_policy_init(struct intel_engine_cs *engine,
+> >  				    struct guc_lrc_desc *desc)
+> >  {
+> > @@ -1952,8 +1935,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+> >  
+> >  	desc = __get_lrc_desc(guc, ce->guc_lrcd_reg_idx);
+> >  	desc->engine_class = engine_class_to_guc_class(engine->class);
+> > -	desc->engine_submit_mask = adjust_engine_mask(engine->class,
+> > -						      engine->mask);
+> > +	desc->engine_submit_mask = engine->logical_mask;
+> >  	desc->hw_context_desc = ce->lrc.lrca;
+> >  	ce->guc_prio = map_i915_prio_to_guc_prio(prio);
+> >  	desc->priority = ce->guc_prio;
+> > @@ -3978,6 +3960,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+> >  		}
+> >  
+> >  		ve->base.mask |= sibling->mask;
+> > +		ve->base.logical_mask |= sibling->logical_mask;
+> >  
+> >  		if (n != 0 && ve->base.class != sibling->class) {
+> >  			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
+> > -- 
+> > 2.28.0
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
