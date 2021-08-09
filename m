@@ -1,41 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFC23E41C0
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 10:43:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBDF3E4234
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 11:11:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D4D89803;
-	Mon,  9 Aug 2021 08:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 011D3898C0;
+	Mon,  9 Aug 2021 09:11:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2DD897EB;
- Mon,  9 Aug 2021 08:43:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5850C61019;
- Mon,  9 Aug 2021 08:43:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1628498593;
- bh=vhFRMUfry1hcL4yr1bTOCWEQeeGGHpAHF1gbIyRTBBQ=;
- h=Subject:To:Cc:From:Date:From;
- b=EIWEVF+9qj9wybKPqyYsSzOQX7kJxdhrbvpLAqiMI6e4afsEzu2F5DOjf3qcvK7Ct
- 8Z6JqCu+w9mdkm6w3R52zR2A6XQJPBLX22tEcZ1y/owY+KJVihizWc/YxmfTV0QkJ0
- efsUkzUeyDLFksNilwtJzdX8G7KsGmp7oY7TqDZk=
-Subject: Patch "drm/amdgpu: fix checking pmops when PM_SLEEP is not enabled"
- has been added to the 5.13-stable tree
-To: Xinhui.Pan@amd.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- rdunlap@infradead.org
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 09 Aug 2021 10:43:02 +0200
-Message-ID: <1628498582207164@kroah.com>
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDB84898C0
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 09:11:49 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id F0AE01F1; Mon,  9 Aug 2021 11:11:46 +0200 (CEST)
+Date: Mon, 9 Aug 2021 11:11:42 +0200
+From: "joro@8bytes.org" <joro@8bytes.org>
+To: Yong Wu =?utf-8?B?KOWQtOWLhyk=?= <Yong.Wu@mediatek.com>
+Cc: "dafna.hirschfeld@collabora.com" <dafna.hirschfeld@collabora.com>,
+ srv_heupstream <srv_heupstream@mediatek.com>,
+ "krzysztof.kozlowski@canonical.com" <krzysztof.kozlowski@canonical.com>,
+ Youlin Pei =?utf-8?B?KOijtOWPi+aelyk=?= <youlin.pei@mediatek.com>,
+ Anan Sun =?utf-8?B?KOWtmeWuieWuiSk=?= <Anan.Sun@mediatek.com>,
+ "tfiga@chromium.org" <tfiga@chromium.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Xia Jiang =?utf-8?B?KOaxn+mcnik=?= <Xia.Jiang@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "eizan@chromium.org" <eizan@chromium.org>,
+ Yi Kuo =?utf-8?B?KOmDreaHvyk=?= <Yi.Kuo@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "evgreen@chromium.org" <evgreen@chromium.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Tiffany Lin =?utf-8?B?KOael+aFp+ePiik=?= <tiffany.lin@mediatek.com>,
+ Anthony Huang =?utf-8?B?KOm7g+W7uuWYiSk=?= <Anthony.Huang@mediatek.com>,
+ "acourbot@chromium.org" <acourbot@chromium.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "drinkcat@chromium.org" <drinkcat@chromium.org>,
+ "hsinyi@chromium.org" <hsinyi@chromium.org>,
+ Ming-Fan Chen =?utf-8?B?KOmZs+aYjuaxjik=?= <Ming-Fan.Chen@mediatek.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "frank-w@public-files.de" <frank-w@public-files.de>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "will.deacon@arm.com" <will.deacon@arm.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "mka@chromium.org" <mka@chromium.org>
+Subject: Re: [PATCH v7 00/12] Clean up "mediatek,larb"
+Message-ID: <YRDxTmvA9PcSRQUe@8bytes.org>
+References: <20210730025238.22456-1-yong.wu@mediatek.com>
+ <YQfALZNWyw8VKODp@8bytes.org>
+ <ed099698f63bec6771561bcad7022dbff184ce7f.camel@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+In-Reply-To: <ed099698f63bec6771561bcad7022dbff184ce7f.camel@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,76 +76,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Aug 09, 2021 at 08:30:03AM +0000, Yong Wu (吴勇) wrote:
+> Thanks very much for your confirm. I will your Ack for iommu part in
+> the next version.
 
-This is a note to let you know that I've just added the patch titled
+Note that my ack is conditional on the premise that Matthias has
+reviewed the IOMMU parts.
 
-    drm/amdgpu: fix checking pmops when PM_SLEEP is not enabled
+Thanks,
 
-to the 5.13-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-amdgpu-fix-checking-pmops-when-pm_sleep-is-not-enabled.patch
-and it can be found in the queue-5.13 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 5706cb3c910cc8283f344bc37a889a8d523a2c6d Mon Sep 17 00:00:00 2001
-From: Randy Dunlap <rdunlap@infradead.org>
-Date: Thu, 29 Jul 2021 20:03:47 -0700
-Subject: drm/amdgpu: fix checking pmops when PM_SLEEP is not enabled
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Randy Dunlap <rdunlap@infradead.org>
-
-commit 5706cb3c910cc8283f344bc37a889a8d523a2c6d upstream.
-
-'pm_suspend_target_state' is only available when CONFIG_PM_SLEEP
-is set/enabled. OTOH, when both SUSPEND and HIBERNATION are not set,
-PM_SLEEP is not set, so this variable cannot be used.
-
-../drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c: In function ‘amdgpu_acpi_is_s0ix_active’:
-../drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1046:11: error: ‘pm_suspend_target_state’ undeclared (first use in this function); did you mean ‘__KSYM_pm_suspend_target_state’?
-    return pm_suspend_target_state == PM_SUSPEND_TO_IDLE;
-           ^~~~~~~~~~~~~~~~~~~~~~~
-           __KSYM_pm_suspend_target_state
-
-Also use shorter IS_ENABLED(CONFIG_foo) notation for checking the
-2 config symbols.
-
-Fixes: 91e273712ab8dd ("drm/amdgpu: Check pmops for desired suspend state")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-next@vger.kernel.org
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -904,7 +904,7 @@ void amdgpu_acpi_fini(struct amdgpu_devi
-  */
- bool amdgpu_acpi_is_s0ix_supported(struct amdgpu_device *adev)
- {
--#if defined(CONFIG_AMD_PMC) || defined(CONFIG_AMD_PMC_MODULE)
-+#if IS_ENABLED(CONFIG_AMD_PMC) && IS_ENABLED(CONFIG_PM_SLEEP)
- 	if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) {
- 		if (adev->flags & AMD_IS_APU)
- 			return pm_suspend_target_state == PM_SUSPEND_TO_IDLE;
-
-
-Patches currently in stable-queue which might be from rdunlap@infradead.org are
-
-queue-5.13/drm-i915-fix-i915_globals_exit-section-mismatch-erro.patch
-queue-5.13/drm-amdgpu-fix-checking-pmops-when-pm_sleep-is-not-enabled.patch
+	Joerg
