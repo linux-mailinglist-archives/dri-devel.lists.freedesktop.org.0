@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5DB3E4C88
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE0E3E4C8B
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:59:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2142689D39;
-	Mon,  9 Aug 2021 18:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 252BB89D00;
+	Mon,  9 Aug 2021 18:59:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4C578953E;
- Mon,  9 Aug 2021 18:58:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="300345500"
-X-IronPort-AV: E=Sophos;i="5.84,308,1620716400"; d="scan'208";a="300345500"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2021 11:58:25 -0700
-X-IronPort-AV: E=Sophos;i="5.84,308,1620716400"; d="scan'208";a="674372374"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2021 11:58:24 -0700
-Date: Mon, 9 Aug 2021 18:58:23 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 16/46] drm/i915/guc: Implement GuC
- parent-child context pin / unpin functions
-Message-ID: <20210809185823.GA123728@DUT151-ICLU.fm.intel.com>
-References: <20210803222943.27686-1-matthew.brost@intel.com>
- <20210803222943.27686-17-matthew.brost@intel.com>
- <YRFHDuw1OjuTUxh0@phenom.ffwll.local>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F62E89D00
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 18:59:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F49560FE3;
+ Mon,  9 Aug 2021 18:59:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1628535543;
+ bh=S0RgmCBdI1dbiqAimstrJEuW072G2RP/9teOq+ZKJ8I=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=VsiijoOt+eWYgZlBVPueoOaEhsFmdX+6yYAXDtSb8eqZxMUUq6K41LcO0s0YKZdLh
+ x9TU0rPHWxQkens1v1x2y6H1IWQttUIM2CFTm/+qTks5pxSxcowXFa2zjiMlWcziL5
+ dCGkoUTVboafAslZLlFEMOVnODJbiatWHZrF12JLATKBHNGoi44fbG8mVZ4ZMt9WlE
+ RW9PxVKOWW8hqP1WwNZpc9EtoVMz5Tu5cIwcGhy5ZHd5PPErZRkAvbLlXFCFmmcJwk
+ sEEKsfGnMInzaTD6HigFiEPkst9Ln/ySeakhJ98mR2WirH0S0XVk6LAvNwkGB7ho2n
+ pE+cPKsgZ1zpA==
+Date: Mon, 9 Aug 2021 13:59:01 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: Huacai Chen <chenhuacai@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Xuefeng Li <lixuefeng@loongson.cn>, Christoph Hellwig <hch@infradead.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 0/9] PCI/VGA: Rework default VGA device selection
+Message-ID: <20210809185901.GA2176971@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YRFHDuw1OjuTUxh0@phenom.ffwll.local>
+In-Reply-To: <20210803170642.GA1556172@bjorn-Precision-5520>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,859 +53,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 05:17:34PM +0200, Daniel Vetter wrote:
-> On Tue, Aug 03, 2021 at 03:29:13PM -0700, Matthew Brost wrote:
-> > Implement GuC parent-child context pin / unpin functions in which in any
-> > contexts in the relationship are pinned all the contexts are pinned. The
-> > parent owns most of the pinning / unpinning process and the children
-> > direct any pins / unpins to the parent.
+On Tue, Aug 03, 2021 at 12:06:44PM -0500, Bjorn Helgaas wrote:
+> On Sat, Jul 24, 2021 at 05:30:02PM +0800, Huacai Chen wrote:
+> > Hi, Bjorn,
 > > 
-> > Patch implements a number of unused functions that will be connected
-> > later in the series.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_context.c       | 187 ++++++++++++++++--
-> >  drivers/gpu/drm/i915/gt/intel_context.h       |  43 +---
-> >  drivers/gpu/drm/i915/gt/intel_context_types.h |   4 +-
-> >  .../drm/i915/gt/intel_execlists_submission.c  |  25 ++-
-> >  drivers/gpu/drm/i915/gt/intel_lrc.c           |  26 +--
-> >  drivers/gpu/drm/i915/gt/intel_lrc.h           |   6 +-
-> >  .../gpu/drm/i915/gt/intel_ring_submission.c   |   5 +-
-> >  drivers/gpu/drm/i915/gt/mock_engine.c         |   4 +-
-> >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 183 +++++++++++++++--
-> >  9 files changed, 371 insertions(+), 112 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > index 8cb92b10b547..bb4c14656067 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > @@ -158,8 +158,8 @@ static void __ring_retire(struct intel_ring *ring)
-> >  	intel_ring_unpin(ring);
-> >  }
-> >  
-> > -static int intel_context_pre_pin(struct intel_context *ce,
-> > -				 struct i915_gem_ww_ctx *ww)
-> > +static int __intel_context_pre_pin(struct intel_context *ce,
-> > +				   struct i915_gem_ww_ctx *ww)
-> >  {
-> >  	int err;
-> >  
-> > @@ -190,7 +190,7 @@ static int intel_context_pre_pin(struct intel_context *ce,
-> >  	return err;
-> >  }
-> >  
-> > -static void intel_context_post_unpin(struct intel_context *ce)
-> > +static void __intel_context_post_unpin(struct intel_context *ce)
-> >  {
-> >  	if (ce->state)
-> >  		__context_unpin_state(ce->state);
-> > @@ -199,13 +199,85 @@ static void intel_context_post_unpin(struct intel_context *ce)
-> >  	__ring_retire(ce->ring);
-> >  }
-> >  
-> > -int __intel_context_do_pin_ww(struct intel_context *ce,
-> > -			      struct i915_gem_ww_ctx *ww)
-> > +static int intel_context_pre_pin(struct intel_context *ce,
-> > +				 struct i915_gem_ww_ctx *ww)
-> >  {
-> > -	bool handoff = false;
-> > -	void *vaddr;
-> > +	struct intel_context *child;
-> > +	int err, i = 0;
-> > +
-> > +	GEM_BUG_ON(intel_context_is_child(ce));
-> > +
-> > +	for_each_child(ce, child) {
-> > +		err = __intel_context_pre_pin(child, ww);
-> > +		if (unlikely(err))
-> > +			goto unwind;
-> > +		++i;
-> > +	}
-> > +
-> > +	err = __intel_context_pre_pin(ce, ww);
-> > +	if (unlikely(err))
-> > +		goto unwind;
-> > +
-> > +	return 0;
-> > +
-> > +unwind:
-> > +	for_each_child(ce, child) {
-> > +		if (!i--)
-> > +			break;
-> > +		__intel_context_post_unpin(ce);
-> > +	}
-> > +
-> > +	return err;
-> > +}
-> > +
-> > +static void intel_context_post_unpin(struct intel_context *ce)
-> > +{
-> > +	struct intel_context *child;
-> > +
-> > +	GEM_BUG_ON(intel_context_is_child(ce));
-> > +
-> > +	for_each_child(ce, child)
-> > +		__intel_context_post_unpin(child);
-> > +
-> > +	__intel_context_post_unpin(ce);
-> > +}
-> > +
-> > +static int __do_ww_lock(struct intel_context *ce,
-> > +			struct i915_gem_ww_ctx *ww)
-> > +{
-> > +	int err = i915_gem_object_lock(ce->timeline->hwsp_ggtt->obj, ww);
-> > +
-> > +	if (!err && ce->ring->vma->obj)
-> > +		err = i915_gem_object_lock(ce->ring->vma->obj, ww);
-> > +	if (!err && ce->state)
-> > +		err = i915_gem_object_lock(ce->state->obj, ww);
-> > +
-> > +	return err;
-> > +}
-> > +
-> > +static int do_ww_lock(struct intel_context *ce,
-> > +		      struct i915_gem_ww_ctx *ww)
-> > +{
-> > +	struct intel_context *child;
-> >  	int err = 0;
-> >  
-> > +	GEM_BUG_ON(intel_context_is_child(ce));
-> > +
-> > +	for_each_child(ce, child) {
-> > +		err = __do_ww_lock(child, ww);
-> > +		if (unlikely(err))
-> > +			return err;
-> > +	}
-> > +
-> > +	return __do_ww_lock(ce, ww);
-> > +}
-> > +
-> > +static int __intel_context_do_pin_ww(struct intel_context *ce,
-> > +				     struct i915_gem_ww_ctx *ww)
-> > +{
-> > +	bool handoff = false;
-> > +	int err;
-> > +
-> >  	if (unlikely(!test_bit(CONTEXT_ALLOC_BIT, &ce->flags))) {
-> >  		err = intel_context_alloc_state(ce);
-> >  		if (err)
-> > @@ -217,14 +289,11 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
-> >  	 * refcount for __intel_context_active(), which prevent a lock
-> >  	 * inversion of ce->pin_mutex vs dma_resv_lock().
-> >  	 */
-> > +	err = do_ww_lock(ce, ww);
-> > +	if (err)
-> > +		return err;
-> >  
-> > -	err = i915_gem_object_lock(ce->timeline->hwsp_ggtt->obj, ww);
-> > -	if (!err && ce->ring->vma->obj)
-> > -		err = i915_gem_object_lock(ce->ring->vma->obj, ww);
-> > -	if (!err && ce->state)
-> > -		err = i915_gem_object_lock(ce->state->obj, ww);
-> > -	if (!err)
-> > -		err = intel_context_pre_pin(ce, ww);
-> > +	err = intel_context_pre_pin(ce, ww);
-> >  	if (err)
-> >  		return err;
-> >  
-> > @@ -232,7 +301,7 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
-> >  	if (err)
-> >  		goto err_ctx_unpin;
-> >  
-> > -	err = ce->ops->pre_pin(ce, ww, &vaddr);
-> > +	err = ce->ops->pre_pin(ce, ww);
-> >  	if (err)
-> >  		goto err_release;
-> >  
-> > @@ -250,7 +319,7 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
-> >  		if (unlikely(err))
-> >  			goto err_unlock;
-> >  
-> > -		err = ce->ops->pin(ce, vaddr);
-> > +		err = ce->ops->pin(ce);
-> >  		if (err) {
-> >  			intel_context_active_release(ce);
-> >  			goto err_unlock;
-> > @@ -290,7 +359,7 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
-> >  	return err;
-> >  }
-> >  
-> > -int __intel_context_do_pin(struct intel_context *ce)
-> > +static int __intel_context_do_pin(struct intel_context *ce)
-> >  {
-> >  	struct i915_gem_ww_ctx ww;
-> >  	int err;
-> > @@ -337,7 +406,7 @@ static void __intel_context_retire(struct i915_active *active)
-> >  		 intel_context_get_avg_runtime_ns(ce));
-> >  
-> >  	set_bit(CONTEXT_VALID_BIT, &ce->flags);
-> > -	intel_context_post_unpin(ce);
-> > +	__intel_context_post_unpin(ce);
-> >  	intel_context_put(ce);
-> >  }
-> >  
-> > @@ -562,6 +631,88 @@ void intel_context_bind_parent_child(struct intel_context *parent,
-> >  	child->parent = parent;
-> >  }
-> >  
-> > +static inline int ____intel_context_pin(struct intel_context *ce)
-> > +{
-> > +	if (likely(intel_context_pin_if_active(ce)))
-> > +		return 0;
-> > +
-> > +	return __intel_context_do_pin(ce);
-> > +}
-> > +
-> > +static inline int __intel_context_pin_ww(struct intel_context *ce,
-> > +					 struct i915_gem_ww_ctx *ww)
-> > +{
-> > +	if (likely(intel_context_pin_if_active(ce)))
-> > +		return 0;
-> > +
-> > +	return __intel_context_do_pin_ww(ce, ww);
-> > +}
-> > +
-> > +static inline void __intel_context_unpin(struct intel_context *ce)
-> > +{
-> > +	if (!ce->ops->sched_disable) {
-> > +		__intel_context_do_unpin(ce, 1);
-> > +	} else {
-> > +		/*
-> > +		 * Move ownership of this pin to the scheduling disable which is
-> > +		 * an async operation. When that operation completes the above
-> > +		 * intel_context_sched_disable_unpin is called potentially
-> > +		 * unpinning the context.
-> > +		 */
-> > +		while (!atomic_add_unless(&ce->pin_count, -1, 1)) {
-> > +			if (atomic_cmpxchg(&ce->pin_count, 1, 2) == 1) {
+> > On Sat, Jul 24, 2021 at 8:10 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > >
+> > > On Fri, Jul 23, 2021 at 05:53:36PM +0800, Huacai Chen wrote:
+> > > > Hi, Bjorn,
+> > > >
+> > > > On Fri, Jul 23, 2021 at 5:29 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > >
+> > > > > From: Bjorn Helgaas <bhelgaas@google.com>
+> > > > >
+> > > > > This is a little bit of rework and extension of Huacai's nice work at [1].
+> > > > >
+> > > > > It moves the VGA arbiter to the PCI subsystem, fixes a few nits, and breaks
+> > > > > a few pieces off Huacai's patch to make the main patch a little smaller.
+> > > > >
+> > > > > That last patch is still not very small, and it needs a commit log, as I
+> > > > > mentioned at [2].
+> > > > >
+> > > > > All comments welcome!
+> > > > >
+> > > > > [1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
+> > > > > [2] https://lore.kernel.org/r/20210720221923.GA43331@bjorn-Precision-5520
+> > > > Thank you for your splitting. Your two questions are answered in the following.
+> > > >
+> > > > (1) explain why your initcall ordering is unusual.
+> > > > The original problem happens on MIPS. vga_arb_device_init() and
+> > > > pcibios_init() are both wrapped by subsys_initcall(). The order of
+> > > > functions in the same level depends on the Makefile.
+> > > >
+> > > > TOP level Makefile:
+> > > > drivers-y       := drivers/ sound/
+> > > > ....
+> > > > include arch/$(SRCARCH)/Makefile
+> > > >
+> > > > drivers/Makefile:
+> > > > obj-$(CONFIG_ACPI)              += acpi/
+> > > > ....
+> > > > obj-y                           += gpu/
+> > > >
+> > > > arch/mips/Makefile:
+> > > > drivers-$(CONFIG_PCI)           += arch/mips/pci/
+> > > >
+> > > > This makes pcibios_init() in arch/mips/pci/ placed after
+> > > > vga_arb_device_init() in drivers/gpu. ACPI-based systems have no
+> > > > problems because acpi_init() in drivers/acpi is placed before
+> > > > vga_arb_device_init().
+> > >
+> > > Thanks for the above; that was helpful.  To summarize:
+> > >
+> > >   - On your system, the AST2500 bridge [1a03:1150] does not implement
+> > >     PCI_BRIDGE_CTL_VGA [1].  This is perfectly legal but means the
+> > >     legacy VGA resources won't reach downstream devices unless they're
+> > >     included in the usual bridge windows.
+> > >
+> > >   - vga_arb_select_default_device() will set a device below such a
+> > >     bridge as the default VGA device as long as it has PCI_COMMAND_IO
+> > >     and PCI_COMMAND_MEMORY enabled.
+> > >
+> > >   - vga_arbiter_add_pci_device() is called for every VGA device,
+> > >     either at boot-time or at hot-add time, and it will also set the
+> > >     device as the default VGA device, but ONLY if all bridges leading
+> > >     to it implement PCI_BRIDGE_CTL_VGA.
+> > >
+> > >   - This difference between vga_arb_select_default_device() and
+> > >     vga_arbiter_add_pci_device() means that a device below an AST2500
+> > >     or similar bridge can only be set as the default if it is
+> > >     enumerated before vga_arb_device_init().
+> > >
+> > >   - On ACPI-based systems, PCI devices are enumerated by acpi_init(),
+> > >     which runs before vga_arb_device_init().
+> > >
+> > >   - On non-ACPI systems, like your MIPS system, they are enumerated by
+> > >     pcibios_init(), which typically runs *after*
+> > >     vga_arb_device_init().
+> > >
+> > > So I think the critical change is actually that you made
+> > > vga_arb_update_default_device(), which you call from
+> > > vga_arbiter_add_pci_device(), set the default device even if it does
+> > > not own the VGA resources because an upstream bridge doesn't implement
+> > > PCI_BRIDGE_CTL_VGA, i.e.,
+> > >
+> > >   (vgadev->owns & VGA_RSRC_LEGACY_MASK) != VGA_RSRC_LEGACY_MASK
+> > >
+> > > Does that seem right?
+> >
+> > Yes, that's right.
 > 
-> Uh man lockless algorithms.
+> I think that means I screwed up.  I somehow had it in my head that the
+> hot-add path would never set the default VGA device.  But that is
+> false.
 > 
-> Unless this comes:
-> - with essentially an academic looking paper that describes the abstract
->   model of the lockless algorithm and proves it against the linux kernel
->   meory model.
+> I still think we should move vgaarb.c to drivers/pci/ and get it more
+> tightly integrated into the PCI core.
 > 
-> - lockless stuff generally needs barriers, and those barriers must be all
->   documented. This means a) a comment next to each barrier in the code b)
->   pointing to its counterparty c) with the overall design also explained
->   in the kerneldoc for those datastructres.
+> BUT that's a lot of churn and obscures the simple change that fixes
+> the problem for you.  So I think the first step should be the change
+> to vga_arb_update_default_device() so it sets the default device even
+> when the upstream bridge doesn't implement PCI_BRIDGE_CTL_VGA.
 > 
->   If you don't know where your barriers are, see above point about "it
->   should look more like an academic paper in the commit message"
-> 
-> - hard perf data about how this is absolutely required, based on a
->   real-world use-case (which then sometimes justifies a microbenchmark
->   metric for the details, but it always needs to be real-world based). And
->   also a throughrough explainer how the perf issue isn't fixable through
->   better design. If that's not doable, just protect the state machine with
->   a big dumb lock and move on.
-> 
-> - Also, because the current code is in such bad shape wrt lockless
->   algorithms and premature optimizations: Overall complexity should go
->   down (it's way too high right now), so pay down your new lockless trick
->   by removing one of the existing ones that we only have because we can.
-> 
-> Yes this is steep, but we're way out in the woods here and need to smoehow
-> get back.
+> That should be a relatively small change, and I think it's better to
+> make the fix before embarking on major restructuring.
 
-See below FIXME. At one point all of this was hidden in the backend but
-the dma-resv patches that landed upstream completely broke the layering,
-hence the need for the code here.
+To make sure this doesn't get lost: I'm hoping you can separate out
+and post the small patch to vga_arb_update_default_device().
 
-I guess I don't really understand what mean when you say lockless alg
-needs barriers, if the atomic functions are not really atomic wouldn't
-the world be broken?
+I can look at the move/restructure stuff later.
 
-Also here I don't think it is really as simple as grab big dump lock for
-a variety of reasons, at least with the current dynamic pin / unpin code
-in place. If we move a perma-pinned contexts this could be cleaned up
-then.
-
-Matt
-
-> -Daniel
-> 
-> > +				ce->ops->sched_disable(ce);
-> > +				break;
-> > +			}
-> > +		}
-> > +	}
-> > +}
-> > +
-> > +/*
-> > + * FIXME: This is ugly, these branches are only needed for parallel contexts in
-> > + * GuC submission. Basically the idea is if any of the contexts, that are
-> > + * configured for parallel submission, are pinned all the contexts need to be
-> > + * pinned in order to register these contexts with the GuC. We are adding the
-> > + * layer here while it should probably be pushed to the backend via a vfunc. But
-> > + * since we already have ce->pin + a layer atop it is confusing. Definitely
-> > + * needs a bit of rework how to properly layer / structure this code path. What
-> > + * is in place works but is not ideal.
-> > + */
-> > +int intel_context_pin(struct intel_context *ce)
-> > +{
-> > +	if (intel_context_is_child(ce)) {
-> > +		if (!atomic_fetch_add(1, &ce->pin_count))
-> > +			return ____intel_context_pin(ce->parent);
-> > +		else
-> > +			return 0;
-> > +	} else {
-> > +		return ____intel_context_pin(ce);
-> > +	}
-> > +}
-> > +
-> > +int intel_context_pin_ww(struct intel_context *ce,
-> > +			 struct i915_gem_ww_ctx *ww)
-> > +{
-> > +	if (intel_context_is_child(ce)) {
-> > +		if (!atomic_fetch_add(1, &ce->pin_count))
-> > +			return __intel_context_pin_ww(ce->parent, ww);
-> > +		else
-> > +			return 0;
-> > +	} else {
-> > +		return __intel_context_pin_ww(ce, ww);
-> > +	}
-> > +}
-> > +
-> > +void intel_context_unpin(struct intel_context *ce)
-> > +{
-> > +	if (intel_context_is_child(ce)) {
-> > +		if (atomic_fetch_add(-1, &ce->pin_count) == 1)
-> > +			__intel_context_unpin(ce->parent);
-> > +	} else {
-> > +		__intel_context_unpin(ce);
-> > +	}
-> > +}
-> > +
-> >  #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-> >  #include "selftest_context.c"
-> >  #endif
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-> > index ad6ce5ac4824..c208691fc87d 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context.h
-> > @@ -110,31 +110,15 @@ static inline void intel_context_unlock_pinned(struct intel_context *ce)
-> >  	mutex_unlock(&ce->pin_mutex);
-> >  }
-> >  
-> > -int __intel_context_do_pin(struct intel_context *ce);
-> > -int __intel_context_do_pin_ww(struct intel_context *ce,
-> > -			      struct i915_gem_ww_ctx *ww);
-> > -
-> >  static inline bool intel_context_pin_if_active(struct intel_context *ce)
-> >  {
-> >  	return atomic_inc_not_zero(&ce->pin_count);
-> >  }
-> >  
-> > -static inline int intel_context_pin(struct intel_context *ce)
-> > -{
-> > -	if (likely(intel_context_pin_if_active(ce)))
-> > -		return 0;
-> > -
-> > -	return __intel_context_do_pin(ce);
-> > -}
-> > -
-> > -static inline int intel_context_pin_ww(struct intel_context *ce,
-> > -				       struct i915_gem_ww_ctx *ww)
-> > -{
-> > -	if (likely(intel_context_pin_if_active(ce)))
-> > -		return 0;
-> > +int intel_context_pin(struct intel_context *ce);
-> >  
-> > -	return __intel_context_do_pin_ww(ce, ww);
-> > -}
-> > +int intel_context_pin_ww(struct intel_context *ce,
-> > +			 struct i915_gem_ww_ctx *ww);
-> >  
-> >  static inline void __intel_context_pin(struct intel_context *ce)
-> >  {
-> > @@ -146,28 +130,11 @@ void __intel_context_do_unpin(struct intel_context *ce, int sub);
-> >  
-> >  static inline void intel_context_sched_disable_unpin(struct intel_context *ce)
-> >  {
-> > +	GEM_BUG_ON(intel_context_is_child(ce));
-> >  	__intel_context_do_unpin(ce, 2);
-> >  }
-> >  
-> > -static inline void intel_context_unpin(struct intel_context *ce)
-> > -{
-> > -	if (!ce->ops->sched_disable) {
-> > -		__intel_context_do_unpin(ce, 1);
-> > -	} else {
-> > -		/*
-> > -		 * Move ownership of this pin to the scheduling disable which is
-> > -		 * an async operation. When that operation completes the above
-> > -		 * intel_context_sched_disable_unpin is called potentially
-> > -		 * unpinning the context.
-> > -		 */
-> > -		while (!atomic_add_unless(&ce->pin_count, -1, 1)) {
-> > -			if (atomic_cmpxchg(&ce->pin_count, 1, 2) == 1) {
-> > -				ce->ops->sched_disable(ce);
-> > -				break;
-> > -			}
-> > -		}
-> > -	}
-> > -}
-> > +void intel_context_unpin(struct intel_context *ce);
-> >  
-> >  void intel_context_enter_engine(struct intel_context *ce);
-> >  void intel_context_exit_engine(struct intel_context *ce);
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > index 66b22b370a72..eb82be15b7a2 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > @@ -39,8 +39,8 @@ struct intel_context_ops {
-> >  
-> >  	void (*ban)(struct intel_context *ce, struct i915_request *rq);
-> >  
-> > -	int (*pre_pin)(struct intel_context *ce, struct i915_gem_ww_ctx *ww, void **vaddr);
-> > -	int (*pin)(struct intel_context *ce, void *vaddr);
-> > +	int (*pre_pin)(struct intel_context *ce, struct i915_gem_ww_ctx *ww);
-> > +	int (*pin)(struct intel_context *ce);
-> >  	void (*unpin)(struct intel_context *ce);
-> >  	void (*post_unpin)(struct intel_context *ce);
-> >  
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > index baa1797af1c8..fc74ca28f245 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > @@ -2554,16 +2554,17 @@ static void execlists_submit_request(struct i915_request *request)
-> >  static int
-> >  __execlists_context_pre_pin(struct intel_context *ce,
-> >  			    struct intel_engine_cs *engine,
-> > -			    struct i915_gem_ww_ctx *ww, void **vaddr)
-> > +			    struct i915_gem_ww_ctx *ww)
-> >  {
-> >  	int err;
-> >  
-> > -	err = lrc_pre_pin(ce, engine, ww, vaddr);
-> > +	err = lrc_pre_pin(ce, engine, ww);
-> >  	if (err)
-> >  		return err;
-> >  
-> >  	if (!__test_and_set_bit(CONTEXT_INIT_BIT, &ce->flags)) {
-> > -		lrc_init_state(ce, engine, *vaddr);
-> > +		lrc_init_state(ce, engine, ce->lrc_reg_state -
-> > +			       LRC_STATE_OFFSET / sizeof(*ce->lrc_reg_state));
-> >  
-> >  		 __i915_gem_object_flush_map(ce->state->obj, 0, engine->context_size);
-> >  	}
-> > @@ -2572,15 +2573,14 @@ __execlists_context_pre_pin(struct intel_context *ce,
-> >  }
-> >  
-> >  static int execlists_context_pre_pin(struct intel_context *ce,
-> > -				     struct i915_gem_ww_ctx *ww,
-> > -				     void **vaddr)
-> > +				     struct i915_gem_ww_ctx *ww)
-> >  {
-> > -	return __execlists_context_pre_pin(ce, ce->engine, ww, vaddr);
-> > +	return __execlists_context_pre_pin(ce, ce->engine, ww);
-> >  }
-> >  
-> > -static int execlists_context_pin(struct intel_context *ce, void *vaddr)
-> > +static int execlists_context_pin(struct intel_context *ce)
-> >  {
-> > -	return lrc_pin(ce, ce->engine, vaddr);
-> > +	return lrc_pin(ce, ce->engine);
-> >  }
-> >  
-> >  static int execlists_context_alloc(struct intel_context *ce)
-> > @@ -3570,20 +3570,19 @@ static int virtual_context_alloc(struct intel_context *ce)
-> >  }
-> >  
-> >  static int virtual_context_pre_pin(struct intel_context *ce,
-> > -				   struct i915_gem_ww_ctx *ww,
-> > -				   void **vaddr)
-> > +				   struct i915_gem_ww_ctx *ww)
-> >  {
-> >  	struct virtual_engine *ve = container_of(ce, typeof(*ve), context);
-> >  
-> >  	 /* Note: we must use a real engine class for setting up reg state */
-> > -	return __execlists_context_pre_pin(ce, ve->siblings[0], ww, vaddr);
-> > +	return __execlists_context_pre_pin(ce, ve->siblings[0], ww);
-> >  }
-> >  
-> > -static int virtual_context_pin(struct intel_context *ce, void *vaddr)
-> > +static int virtual_context_pin(struct intel_context *ce)
-> >  {
-> >  	struct virtual_engine *ve = container_of(ce, typeof(*ve), context);
-> >  
-> > -	return lrc_pin(ce, ve->siblings[0], vaddr);
-> > +	return lrc_pin(ce, ve->siblings[0]);
-> >  }
-> >  
-> >  static void virtual_context_enter(struct intel_context *ce)
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> > index bb4af4977920..c466fc966005 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> > @@ -947,30 +947,30 @@ void lrc_reset(struct intel_context *ce)
-> >  int
-> >  lrc_pre_pin(struct intel_context *ce,
-> >  	    struct intel_engine_cs *engine,
-> > -	    struct i915_gem_ww_ctx *ww,
-> > -	    void **vaddr)
-> > +	    struct i915_gem_ww_ctx *ww)
-> >  {
-> > +	void *vaddr;
-> >  	GEM_BUG_ON(!ce->state);
-> >  	GEM_BUG_ON(!i915_vma_is_pinned(ce->state));
-> >  
-> > -	*vaddr = i915_gem_object_pin_map(ce->state->obj,
-> > -					 i915_coherent_map_type(ce->engine->i915,
-> > -								ce->state->obj,
-> > -								false) |
-> > -					 I915_MAP_OVERRIDE);
-> > +	vaddr = i915_gem_object_pin_map(ce->state->obj,
-> > +					i915_coherent_map_type(ce->engine->i915,
-> > +							       ce->state->obj,
-> > +							       false) |
-> > +					I915_MAP_OVERRIDE);
-> >  
-> > -	return PTR_ERR_OR_ZERO(*vaddr);
-> > +	ce->lrc_reg_state = vaddr + LRC_STATE_OFFSET;
-> > +
-> > +	return PTR_ERR_OR_ZERO(vaddr);
-> >  }
-> >  
-> >  int
-> >  lrc_pin(struct intel_context *ce,
-> > -	struct intel_engine_cs *engine,
-> > -	void *vaddr)
-> > +	struct intel_engine_cs *engine)
-> >  {
-> > -	ce->lrc_reg_state = vaddr + LRC_STATE_OFFSET;
-> > -
-> >  	if (!__test_and_set_bit(CONTEXT_INIT_BIT, &ce->flags))
-> > -		lrc_init_state(ce, engine, vaddr);
-> > +		lrc_init_state(ce, engine,
-> > +			       (void *)ce->lrc_reg_state - LRC_STATE_OFFSET);
-> >  
-> >  	ce->lrc.lrca = lrc_update_regs(ce, engine, ce->ring->tail);
-> >  	return 0;
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.h b/drivers/gpu/drm/i915/gt/intel_lrc.h
-> > index 7f697845c4cf..837fcf00270d 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_lrc.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_lrc.h
-> > @@ -38,12 +38,10 @@ void lrc_destroy(struct kref *kref);
-> >  int
-> >  lrc_pre_pin(struct intel_context *ce,
-> >  	    struct intel_engine_cs *engine,
-> > -	    struct i915_gem_ww_ctx *ww,
-> > -	    void **vaddr);
-> > +	    struct i915_gem_ww_ctx *ww);
-> >  int
-> >  lrc_pin(struct intel_context *ce,
-> > -	struct intel_engine_cs *engine,
-> > -	void *vaddr);
-> > +	struct intel_engine_cs *engine);
-> >  void lrc_unpin(struct intel_context *ce);
-> >  void lrc_post_unpin(struct intel_context *ce);
-> >  
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> > index 2958e2fae380..f4f301bfb9f7 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-> > @@ -472,8 +472,7 @@ static int ring_context_init_default_state(struct intel_context *ce,
-> >  }
-> >  
-> >  static int ring_context_pre_pin(struct intel_context *ce,
-> > -				struct i915_gem_ww_ctx *ww,
-> > -				void **unused)
-> > +				struct i915_gem_ww_ctx *ww)
-> >  {
-> >  	struct i915_address_space *vm;
-> >  	int err = 0;
-> > @@ -576,7 +575,7 @@ static int ring_context_alloc(struct intel_context *ce)
-> >  	return 0;
-> >  }
-> >  
-> > -static int ring_context_pin(struct intel_context *ce, void *unused)
-> > +static int ring_context_pin(struct intel_context *ce)
-> >  {
-> >  	return 0;
-> >  }
-> > diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
-> > index 2c1af030310c..826b5d7a4573 100644
-> > --- a/drivers/gpu/drm/i915/gt/mock_engine.c
-> > +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-> > @@ -167,12 +167,12 @@ static int mock_context_alloc(struct intel_context *ce)
-> >  }
-> >  
-> >  static int mock_context_pre_pin(struct intel_context *ce,
-> > -				struct i915_gem_ww_ctx *ww, void **unused)
-> > +				struct i915_gem_ww_ctx *ww)
-> >  {
-> >  	return 0;
-> >  }
-> >  
-> > -static int mock_context_pin(struct intel_context *ce, void *unused)
-> > +static int mock_context_pin(struct intel_context *ce)
-> >  {
-> >  	return 0;
-> >  }
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index dec757d319a2..c5c73c42bcf7 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -1905,6 +1905,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
-> >  
-> >  	GEM_BUG_ON(!engine->mask);
-> >  	GEM_BUG_ON(context_guc_id_invalid(ce));
-> > +	GEM_BUG_ON(intel_context_is_child(ce));
-> >  
-> >  	/*
-> >  	 * Ensure LRC + CT vmas are is same region as write barrier is done
-> > @@ -2008,15 +2009,13 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
-> >  
-> >  static int __guc_context_pre_pin(struct intel_context *ce,
-> >  				 struct intel_engine_cs *engine,
-> > -				 struct i915_gem_ww_ctx *ww,
-> > -				 void **vaddr)
-> > +				 struct i915_gem_ww_ctx *ww)
-> >  {
-> > -	return lrc_pre_pin(ce, engine, ww, vaddr);
-> > +	return lrc_pre_pin(ce, engine, ww);
-> >  }
-> >  
-> >  static int __guc_context_pin(struct intel_context *ce,
-> > -			     struct intel_engine_cs *engine,
-> > -			     void *vaddr)
-> > +			     struct intel_engine_cs *engine)
-> >  {
-> >  	if (i915_ggtt_offset(ce->state) !=
-> >  	    (ce->lrc.lrca & CTX_GTT_ADDRESS_MASK))
-> > @@ -2027,20 +2026,33 @@ static int __guc_context_pin(struct intel_context *ce,
-> >  	 * explaination of why.
-> >  	 */
-> >  
-> > -	return lrc_pin(ce, engine, vaddr);
-> > +	return lrc_pin(ce, engine);
-> > +}
-> > +
-> > +static void __guc_context_unpin(struct intel_context *ce)
-> > +{
-> > +	lrc_unpin(ce);
-> > +}
-> > +
-> > +static void __guc_context_post_unpin(struct intel_context *ce)
-> > +{
-> > +	lrc_post_unpin(ce);
-> >  }
-> >  
-> >  static int guc_context_pre_pin(struct intel_context *ce,
-> > -			       struct i915_gem_ww_ctx *ww,
-> > -			       void **vaddr)
-> > +			       struct i915_gem_ww_ctx *ww)
-> >  {
-> > -	return __guc_context_pre_pin(ce, ce->engine, ww, vaddr);
-> > +	return __guc_context_pre_pin(ce, ce->engine, ww);
-> >  }
-> >  
-> > -static int guc_context_pin(struct intel_context *ce, void *vaddr)
-> > +static int guc_context_pin(struct intel_context *ce)
-> >  {
-> > -	int ret = __guc_context_pin(ce, ce->engine, vaddr);
-> > +	int ret;
-> >  
-> > +	GEM_BUG_ON(intel_context_is_parent(ce) ||
-> > +		   intel_context_is_child(ce));
-> > +
-> > +	ret = __guc_context_pin(ce, ce->engine);
-> >  	if (likely(!ret && !intel_context_is_barrier(ce)))
-> >  		intel_engine_pm_get(ce->engine);
-> >  
-> > @@ -2054,7 +2066,7 @@ static void guc_context_unpin(struct intel_context *ce)
-> >  	GEM_BUG_ON(context_enabled(ce));
-> >  
-> >  	unpin_guc_id(guc, ce, true);
-> > -	lrc_unpin(ce);
-> > +	__guc_context_unpin(ce);
-> >  
-> >  	if (likely(!intel_context_is_barrier(ce)))
-> >  		intel_engine_pm_put(ce->engine);
-> > @@ -2062,7 +2074,141 @@ static void guc_context_unpin(struct intel_context *ce)
-> >  
-> >  static void guc_context_post_unpin(struct intel_context *ce)
-> >  {
-> > -	lrc_post_unpin(ce);
-> > +	__guc_context_post_unpin(ce);
-> > +}
-> > +
-> > +/* Future patches will use this function */
-> > +__maybe_unused
-> > +static int guc_parent_context_pre_pin(struct intel_context *ce,
-> > +				      struct i915_gem_ww_ctx *ww)
-> > +{
-> > +	struct intel_context *child;
-> > +	int err, i = 0, j = 0;
-> > +
-> > +	for_each_child(ce, child) {
-> > +		err = i915_active_acquire(&child->active);
-> > +		if (unlikely(err))
-> > +			goto unwind_active;
-> > +		++i;
-> > +	}
-> > +
-> > +	for_each_child(ce, child) {
-> > +		err = __guc_context_pre_pin(child, child->engine, ww);
-> > +		if (unlikely(err))
-> > +			goto unwind_pre_pin;
-> > +		++j;
-> > +	}
-> > +
-> > +	err = __guc_context_pre_pin(ce, ce->engine, ww);
-> > +	if (unlikely(err))
-> > +		goto unwind_pre_pin;
-> > +
-> > +	return 0;
-> > +
-> > +unwind_pre_pin:
-> > +	for_each_child(ce, child) {
-> > +		if (!j--)
-> > +			break;
-> > +		__guc_context_post_unpin(child);
-> > +	}
-> > +
-> > +unwind_active:
-> > +	for_each_child(ce, child) {
-> > +		if (!i--)
-> > +			break;
-> > +		i915_active_release(&child->active);
-> > +	}
-> > +
-> > +	return err;
-> > +}
-> > +
-> > +/* Future patches will use this function */
-> > +__maybe_unused
-> > +static void guc_parent_context_post_unpin(struct intel_context *ce)
-> > +{
-> > +	struct intel_context *child;
-> > +
-> > +	for_each_child(ce, child)
-> > +		__guc_context_post_unpin(child);
-> > +	__guc_context_post_unpin(ce);
-> > +
-> > +	for_each_child(ce, child) {
-> > +		intel_context_get(child);
-> > +		i915_active_release(&child->active);
-> > +		intel_context_put(child);
-> > +	}
-> > +}
-> > +
-> > +/* Future patches will use this function */
-> > +__maybe_unused
-> > +static int guc_parent_context_pin(struct intel_context *ce)
-> > +{
-> > +	int ret, i = 0, j = 0;
-> > +	struct intel_context *child;
-> > +	struct intel_engine_cs *engine;
-> > +	intel_engine_mask_t tmp;
-> > +
-> > +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> > +
-> > +	for_each_child(ce, child) {
-> > +		ret = __guc_context_pin(child, child->engine);
-> > +		if (unlikely(ret))
-> > +			goto unwind_pin;
-> > +		++i;
-> > +	}
-> > +	ret = __guc_context_pin(ce, ce->engine);
-> > +	if (unlikely(ret))
-> > +		goto unwind_pin;
-> > +
-> > +	for_each_child(ce, child)
-> > +		if (test_bit(CONTEXT_LRCA_DIRTY, &child->flags)) {
-> > +			set_bit(CONTEXT_LRCA_DIRTY, &ce->flags);
-> > +			break;
-> > +		}
-> > +
-> > +	for_each_engine_masked(engine, ce->engine->gt,
-> > +			       ce->engine->mask, tmp)
-> > +		intel_engine_pm_get(engine);
-> > +	for_each_child(ce, child)
-> > +		for_each_engine_masked(engine, child->engine->gt,
-> > +				       child->engine->mask, tmp)
-> > +			intel_engine_pm_get(engine);
-> > +
-> > +	return 0;
-> > +
-> > +unwind_pin:
-> > +	for_each_child(ce, child) {
-> > +		if (++j > i)
-> > +			break;
-> > +		__guc_context_unpin(child);
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +/* Future patches will use this function */
-> > +__maybe_unused
-> > +static void guc_parent_context_unpin(struct intel_context *ce)
-> > +{
-> > +	struct intel_context *child;
-> > +	struct intel_engine_cs *engine;
-> > +	intel_engine_mask_t tmp;
-> > +
-> > +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> > +	GEM_BUG_ON(context_enabled(ce));
-> > +
-> > +	unpin_guc_id(ce_to_guc(ce), ce, true);
-> > +	for_each_child(ce, child)
-> > +		__guc_context_unpin(child);
-> > +	__guc_context_unpin(ce);
-> > +
-> > +	for_each_engine_masked(engine, ce->engine->gt,
-> > +			       ce->engine->mask, tmp)
-> > +		intel_engine_pm_put(engine);
-> > +	for_each_child(ce, child)
-> > +		for_each_engine_masked(engine, child->engine->gt,
-> > +				       child->engine->mask, tmp)
-> > +			intel_engine_pm_put(engine);
-> >  }
-> >  
-> >  static void __guc_context_sched_enable(struct intel_guc *guc,
-> > @@ -2993,18 +3139,17 @@ static int guc_request_alloc(struct i915_request *rq)
-> >  }
-> >  
-> >  static int guc_virtual_context_pre_pin(struct intel_context *ce,
-> > -				       struct i915_gem_ww_ctx *ww,
-> > -				       void **vaddr)
-> > +				       struct i915_gem_ww_ctx *ww)
-> >  {
-> >  	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> >  
-> > -	return __guc_context_pre_pin(ce, engine, ww, vaddr);
-> > +	return __guc_context_pre_pin(ce, engine, ww);
-> >  }
-> >  
-> > -static int guc_virtual_context_pin(struct intel_context *ce, void *vaddr)
-> > +static int guc_virtual_context_pin(struct intel_context *ce)
-> >  {
-> >  	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> > -	int ret = __guc_context_pin(ce, engine, vaddr);
-> > +	int ret = __guc_context_pin(ce, engine);
-> >  	intel_engine_mask_t tmp, mask = ce->engine->mask;
-> >  
-> >  	if (likely(!ret))
-> > @@ -3024,7 +3169,7 @@ static void guc_virtual_context_unpin(struct intel_context *ce)
-> >  	GEM_BUG_ON(intel_context_is_barrier(ce));
-> >  
-> >  	unpin_guc_id(guc, ce, true);
-> > -	lrc_unpin(ce);
-> > +	__guc_context_unpin(ce);
-> >  
-> >  	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
-> >  		intel_engine_pm_put(engine);
-> > -- 
-> > 2.28.0
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> > > [1] https://lore.kernel.org/r/CAAhV-H4pn53XC7qVvwM792ppkQRnjWpPDwmrhBv8twgQu0eabQ@mail.gmail.com
+> > >
+> > > > (2) explain the approach, which IIUC is basically to add the
+> > > > vga_arb_select_default_device() functionality to
+> > > > vga_arbiter_add_pci_device().
+> > > > vga_arb_select_default_device() has only one chance to be called, we
+> > > > want to make it be called every time a new vga device is added. So
+> > > > rename it to vga_arb_update_default_device() and move the callsite to
+> > > > vga_arbiter_add_pci_device().
+> > > >
+> > > > I think you know all the information which you need now. And you can
+> > > > reorganize the commit message based on the existing one. As English is
+> > > > not my first language, the updated commit message written by me may
+> > > > still not be as good as you want.:)
+> > > >
+> > > > Huacai
+> > > >
+> > > > > Bjorn Helgaas (4):
+> > > > >   PCI/VGA: Move vgaarb to drivers/pci
+> > > > >   PCI/VGA: Replace full MIT license text with SPDX identifier
+> > > > >   PCI/VGA: Use unsigned format string to print lock counts
+> > > > >   PCI/VGA: Remove empty vga_arb_device_card_gone()
+> > > > >
+> > > > > Huacai Chen (5):
+> > > > >   PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
+> > > > >   PCI/VGA: Prefer vga_default_device()
+> > > > >   PCI/VGA: Split out vga_arb_update_default_device()
+> > > > >   PCI/VGA: Log bridge control messages when adding devices
+> > > > >   PCI/VGA: Rework default VGA device selection
+> > > > >
+> > > > >  drivers/gpu/vga/Kconfig           |  19 ---
+> > > > >  drivers/gpu/vga/Makefile          |   1 -
+> > > > >  drivers/pci/Kconfig               |  19 +++
+> > > > >  drivers/pci/Makefile              |   1 +
+> > > > >  drivers/{gpu/vga => pci}/vgaarb.c | 269 ++++++++++++------------------
+> > > > >  5 files changed, 126 insertions(+), 183 deletions(-)
+> > > > >  rename drivers/{gpu/vga => pci}/vgaarb.c (90%)
+> > > > >
+> > > > > --
+> > > > > 2.25.1
+> > > > >
