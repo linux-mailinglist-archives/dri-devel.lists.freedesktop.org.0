@@ -1,39 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10103E3DE9
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 04:26:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 494D73E4081
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 08:52:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60A59898EA;
-	Mon,  9 Aug 2021 02:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C82989B83;
+	Mon,  9 Aug 2021 06:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0608898EA
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 02:26:16 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2705466;
- Mon,  9 Aug 2021 04:26:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1628475974;
- bh=0j3xIcBMMx2xvG/0J+Nes3vW+Ahm9KWHVtJsisg00qk=;
- h=Date:From:To:Cc:Subject:From;
- b=f73eqkjwIJMx33Zbf+qTrB91/UYJRg+LY9MFVQZyKSzull+izug/nGCUP3C2dIXvT
- Q/N/MACnRy4VwO/g1d8suf8+sMTOD7WdRCStKf1UjwjLRM2op29ovhwCdHApSwZoLh
- GX+z4dNsEd6W3sPa+0Y1CQLuX6VWESefctIRI7aY=
-Date: Mon, 9 Aug 2021 05:26:13 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Jianqiang Chen <jianqian@xilinx.com>,
- Michal Simek <michal.simek@xilinx.com>
-Subject: [GIT PULL FOR v5.15] Xilinx ZynqMP DPSUB miscellaneous fixes
-Message-ID: <YRCSRZZV1HZYPvaG@pendragon.ideasonboard.com>
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E161489ACD;
+ Mon,  9 Aug 2021 02:34:22 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id t68so16870768qkf.8;
+ Sun, 08 Aug 2021 19:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mvNc8KEp40u8XM5bp+0t7D+wLd2rEwsp3dCzstYaaGU=;
+ b=nlnkEnMrOuWtZqj+HBSQ8uXnTHHiGWsAH91m80fdrlrjvhbG6KKsH/L1/cCrsJCJek
+ tj0YvgVhbLKLhUb3+0LoTDv0L7y1Svp/+7uw5+5T+0Erv7OgmER/988Hn4S7WL0oIrJf
+ k3vkisJuJ1k+oO2hXaaVhXHA2hJSaDkHEeIZKlxF13GwV0TxXXAzId+VInnpji6lfQCV
+ HClkQXSnm5+z7MpwJtWPfXuwvhcH/8bpKY7SHHUQ/dAbc8BwJvpq+qfV41ov6kmiLJLY
+ 2XVrsBtP+nR81+YDVYufYi5L6GUBuxVzvTdzkWbswSvuW54/tFHLjxNhNhkBaQIUab+i
+ rPZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mvNc8KEp40u8XM5bp+0t7D+wLd2rEwsp3dCzstYaaGU=;
+ b=TF0vBt3NGotDw/UyqsQjWyrbr4/BVJkSD3hW8ciS+DFWOVhkDNTVs0cRe1BlRMK1ec
+ +OI//chZ9mAiUZt2bW9U0JFhMTgf33vYfXKx4l+yi6piyd6/L5A32Ug5MuHtBr+Oqnfb
+ WNPfHZno5P9toAJhUbPag7E71Zbe7tjascZ9sWo97meoHVVeHws9MD5j9NXLtbcTRR0M
+ l8VbISa4rFKAqJRo8H16UCbcYbkeC0ISwJEH+/jm/nJYjZVMVsbrcgGAHGuDfrHjUu/+
+ k4i5m0XWpaTu5G96lT7zBRPdKYEU2S4Dn4pY8IZiGr5DMF9HTvWiZAE4PS2B4fk7UfLp
+ /DGg==
+X-Gm-Message-State: AOAM531v0EAYI7W0Vo3cEm+/lb3wnNLMBU2/VnJiSOHL1oMtfuBcF5yn
+ Bn0LmOZITHxQhWcB7ppzsSo=
+X-Google-Smtp-Source: ABdhPJzY2bUH6lQr8pQrRnAPmCymeUJuoWEhinskSxMJQ5axmW91ZJ55W+jSIReeuOVzOHoElT86RQ==
+X-Received: by 2002:a37:4641:: with SMTP id t62mr20756456qka.389.1628476461792; 
+ Sun, 08 Aug 2021 19:34:21 -0700 (PDT)
+Received: from localhost.localdomain (ip70-186-197-128.hr.hr.cox.net.
+ [70.186.197.128])
+ by smtp.gmail.com with ESMTPSA id u6sm9085018qkp.49.2021.08.08.19.34.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Aug 2021 19:34:21 -0700 (PDT)
+From: Julius Victorian <julius.victorian.home@gmail.com>
+To: airlied@linux.ie
+Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ linux-kernel@vger.kernel.org, rodrigo.vivi@intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Julius <julius.victorian.home@gmail.com>
+Subject: [PATCH] DRM: i915: i915_perf: Fixed compiler warning
+Date: Sun,  8 Aug 2021 22:33:42 -0400
+Message-Id: <20210809023342.377422-1-julius.victorian.home@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 09 Aug 2021 06:52:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,47 +74,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+From: Julius <julius.victorian.home@gmail.com>
 
-The following changes since commit 49f7844b08844ac7029f997702099c552566262b:
+Fixed compiler warning: "left shift of negative value"
 
-  Merge tag 'drm-misc-next-2021-08-05' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2021-08-06 06:59:30 +1000)
+Signed-off-by: Julius Victorian <julius.victorian.home@gmail.com>
+---
+ drivers/gpu/drm/i915/i915_perf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  git://linuxtv.org/pinchartl/media.git tags/drm-xilinx-dpsub-20210809
-
-for you to fetch changes up to 6ebfd22c969044bda7b5c3f0a20a958c7ff656b9:
-
-  drm/xlnx/zynqmp_disp: Fix incorrectly named enum 'zynqmp_disp_layer_id' (2021-08-09 02:28:05 +0300)
-
-----------------------------------------------------------------
-- Miscellaneous fixes in ZynqMP DPSUB driver
-
-----------------------------------------------------------------
-Dylan Yip (1):
-      drm: xlnx: zynqmp_dpsub: Update dependencies for ZynqMP DP
-
-Laurent Pinchart (4):
-      drm: xlnx: zynqmp_dpsub: Pass disp structure to all internal functions
-      drm: xlnx: zynqmp_dpsub: Fix graphics layer blending
-      drm: xlnx: zynqmp_dpsub: Add global alpha support
-      drm: xlnx: zynqmp_dpsub: Expose plane ordering to userspace
-
-Lee Jones (1):
-      drm/xlnx/zynqmp_disp: Fix incorrectly named enum 'zynqmp_disp_layer_id'
-
-Quanyang Wang (3):
-      drm: xlnx: zynqmp_dpsub: Call pm_runtime_get_sync before setting pixel clock
-      drm: xlnx: zynqmp: release reset to DP controller before accessing DP registers
-      drm: xlnx: zynqmp: Add zynqmp_disp_layer_is_video() to simplify the code
-
- drivers/gpu/drm/xlnx/Kconfig       |   2 +
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 322 ++++++++++++++++++-------------------
- drivers/gpu/drm/xlnx/zynqmp_dp.c   |  22 +--
- 3 files changed, 174 insertions(+), 172 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+index 9f94914958c3..7b852974241e 100644
+--- a/drivers/gpu/drm/i915/i915_perf.c
++++ b/drivers/gpu/drm/i915/i915_perf.c
+@@ -2804,7 +2804,7 @@ get_default_sseu_config(struct intel_sseu *out_sseu,
+ 		 * all available subslices per slice.
+ 		 */
+ 		out_sseu->subslice_mask =
+-			~(~0 << (hweight8(out_sseu->subslice_mask) / 2));
++			~(~0U << (hweight8(out_sseu->subslice_mask) / 2));
+ 		out_sseu->slice_mask = 0x1;
+ 	}
+ }
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
