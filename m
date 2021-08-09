@@ -2,78 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510D23E4E3B
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 23:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16E83E4EC9
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 23:56:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D19589D9A;
-	Mon,  9 Aug 2021 21:04:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4DB89DDD;
+	Mon,  9 Aug 2021 21:56:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D75689D9A;
- Mon,  9 Aug 2021 21:04:28 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- m36-20020a05600c3b24b02902e67543e17aso605518wms.0; 
- Mon, 09 Aug 2021 14:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yMxT0uvgD2aUIEwbe5mo6YkR7gd5DznbXHMmSr6Ytlg=;
- b=oD8EdJzLnZTvXNBs8WpuddvcWy4/QKVi/nIuDv4QH2tHogldFOXfRW2qVMztrtZ29t
- ZEbV8BKzIYAf/W7tt9BUJTHhBlfFlnLlq9jnDUZ2Boi5lp5h5dnf7h15pc+Eyo7IjTjm
- 6KgjwI6Rk/2EBUdiQQ6H0d+wD56fD24ZZGSdsRQgDH2FR7lHdvGGVVF4F+C8ju95YULZ
- 2kv9Iwplstx4C6vupUALnU2EW0M/1WU6IXKMDqiJcb+JzcR8c+aFh6I3xRXa1ioiO8wF
- 9wzrQ7WTMGweV6aW8noe9cK6Pfr1ig3wyzzIVp1eljNXJ0G46BdD+J3re7+zMl6xNCdu
- vFRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yMxT0uvgD2aUIEwbe5mo6YkR7gd5DznbXHMmSr6Ytlg=;
- b=O+OdOtIciOcHVmYDk0LX6PJbkwDy0w3pgWH0SckSpFFENzpDvbxOXSzgustef7MDGu
- hbVmd/gnOO2Y6E5Agaljq7ugNSDNBI5A2jsnEf2V7YG3J3SDVlvXXfrC9jJw6P4fZYSe
- kADGGe0u/4JrfOzVICh4j2Rrjm5WP/vntbbq41VWbf1edXR6kYybF0inpyZTwsjGThbw
- 0DZRi45DSLRXV8ruBK5FNmekgMkpcDDOZlpX4/uQr48oC1/XGBFppmmE2HWSRC9yH7KT
- v9pFdoGmVkhTj5DW2C51rRMoogc8EKoxBdaYxA5iSS3RwmyOYc1IiVLDObmyykboqn4G
- +Jow==
-X-Gm-Message-State: AOAM532jdhE6COBxPO1T5vIlpo9eoe//D13GrJH/cnw9CllneLJj+1RT
- b/yNk95TPOWhErGO7U5GrE8mzp8pZF6OaoZ0O5g=
-X-Google-Smtp-Source: ABdhPJxomHOLhjLpwAzPb8XcjVxOfTAiGypEEBhpChhtyEOpB1znTPfyWmTWbgY6N/fTzNyvwB+Uq1ggHqVUHIysgzw=
-X-Received: by 2002:a1c:4b18:: with SMTP id y24mr1026100wma.49.1628543066439; 
- Mon, 09 Aug 2021 14:04:26 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2062.outbound.protection.outlook.com [40.107.220.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B9A89DB8;
+ Mon,  9 Aug 2021 21:55:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Nzg0JsJe3+u5NO7aRkKN43ICh00ZXDe+OW0A/RD+LlkuqiLbY1DiZIZ4GRoqcQ0HfrFjnlrql/9bLYpYcdcki+UkmR8suztzR8D7Ofvrs/qtBc0JEC2MLS8Uj9b+nysfWTlozzkLTBDZE+EuiXOt43VOWTTMe5u55Eqz/1pgAHj5iWrDsezF6QeAFuQOGQQHqyT2zq8opGmwl21gpHb7TeTSz+MAKWrcbiec8ze8ROsQ2/4qiOz/J8XJCQ96HGWfTGfw7LdXcq+5erG9O0JNlXONqoJ1gzXfXPJdu4RjEbSbavorWVnGzHtIJZEomBNICCA2fKXPQynPfVFe7WO5KA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qjfqcuynl6MNwWd/ZCoVZg3ncqANglufLbMbDorr4IU=;
+ b=Eb5d+tU/FMpC17fcA7BgpwhTd6835rEtKJcRmEEujF3wEqDplREPU+VwQi4GUQG/WInOQGQvrU6vcpNJ10PEYJs3Z8z9dXlsd01NMq3KVysnNHTW1f3hbDXYOnCcuM5naCStFg4Cq45qJnuHh1qNfZT2zZjNVCzQWiZRIvrGcItUqQgq3rB9QrndI2S3GhcaKOUoI7Mm47JXy3O+vdcSMbaOAmrffV8pjZxsZ9hdiu24b/LfeojqdICMK6OtkW6K7b9bmqTVczsOTqtAEcME66aGbdwR4AyqJ6BAmB88zxSQWptANlVu5PxJqpsqMR7QNc9u8hYxr5WkuziVd+fBUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qjfqcuynl6MNwWd/ZCoVZg3ncqANglufLbMbDorr4IU=;
+ b=FSu0tPPV2gwlr3Lx/QgZ8K7q+i6UTH800vC3B/j13KkRO4q11lhf8CsgVCTAE1Afmq9X19QEvU7K86G5wtvIKaSvoxY4CZ83uzbbzyCtuC56huvJQ5jaWMywx+Hpitpemfmt19cEiO+rG0DC6Ea9WR61BFiGYd1louHCe8DLLxE=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
+ by DM4PR12MB5295.namprd12.prod.outlook.com (2603:10b6:5:39f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Mon, 9 Aug
+ 2021 21:55:56 +0000
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::73:2581:970b:3208]) by DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::73:2581:970b:3208%3]) with mapi id 15.20.4394.023; Mon, 9 Aug 2021
+ 21:55:56 +0000
+Subject: Re: [PATCH 07/11] treewide: Replace the use of mem_encrypt_active()
+ with prot_guest_has()
+To: Sean Christopherson <seanjc@google.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
+ Andi Kleen <ak@linux.intel.com>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Will Deacon <will@kernel.org>, Dave Young <dyoung@redhat.com>,
+ Baoquan He <bhe@redhat.com>
+References: <cover.1627424773.git.thomas.lendacky@amd.com>
+ <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
+ <YQR+ffO92gMfGDbs@google.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <a8a6a63e-3bb7-47a1-1427-55633f1bf211@amd.com>
+Date: Mon, 9 Aug 2021 16:55:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <YQR+ffO92gMfGDbs@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN7P220CA0014.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:806:123::19) To DM4PR12MB5229.namprd12.prod.outlook.com
+ (2603:10b6:5:398::12)
 MIME-Version: 1.0
-References: <20210729183942.2839925-1-robdclark@gmail.com>
- <1a38a590-a64e-58ef-1bbf-0ae49c004d05@linaro.org>
- <CAF6AEGs5dzA7kfO89Uqbh3XmorXoEa=fpW+unk5_oaihHm479Q@mail.gmail.com>
- <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
- <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
- <b7334a1a-c4ad-da90-03b4-0d19e1811b13@linaro.org>
- <CAF6AEGv0WWB3Z1hmXf8vxm1_-d7fsNBRcaQF35aE2JXcJn8-cA@mail.gmail.com>
- <8aa590be-6a9f-9343-e897-18e86ea48202@linaro.org>
- <CAF6AEGtd_5jKhixp6h+NnN8-aqjBHTLopRozASE73oT3rfnFHA@mail.gmail.com>
- <6eefedb2-9e59-56d2-7703-2faf6cb0ca3a@codeaurora.org>
- <CAF6AEGvhqPHWNK=6GYz+Mu5aKe8+iE4_Teem6o=X6eiANhWsPg@mail.gmail.com>
- <83ecbe74-caf0-6c42-e6f5-4887b3b534c6@linaro.org>
- <53d3e5b7-9dc0-a806-70e9-b9b5ff877462@codeaurora.org>
- <CAJs_Fx4brw8j8Wk5ethSrhTHC+Kj0=cWga4q69Cv6JA6L8cDxA@mail.gmail.com>
- <7c354c1a-d528-ed77-586b-881cc3df4563@linaro.org>
-In-Reply-To: <7c354c1a-d528-ed77-586b-881cc3df4563@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 9 Aug 2021 14:08:41 -0700
-Message-ID: <CAF6AEGtRHa4udfZMmdozTcXU-SkF8Cr_ASbgWbVDESKQVr=spQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
-To: Caleb Connolly <caleb.connolly@linaro.org>
-Cc: Rob Clark <robdclark@chromium.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, Jonathan Marek <jonathan@marek.ca>, 
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>, 
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sharat Masetty <smasetty@codeaurora.org>, 
- open list <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.30.241] (165.204.77.1) by
+ SN7P220CA0014.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4394.15 via Frontend Transport; Mon, 9 Aug 2021 21:55:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0c9c3def-6ac3-4a7f-ad85-08d95b807723
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5295:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM4PR12MB5295F82C01BEDC78DB002AEAECF69@DM4PR12MB5295.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: va1GgnlgkQoGJwHV4u/vWPT7qTpos8azTAmvWS6mQTBalS5XDFQ7rPECEiFxbzhVX4g9ynz6AYUXHBRPGK/BG4lHF214foWL5qc8Ipuv0n5mmNDzMO6Hv31jefLDxr2WadSnaBSsjhcOlIOeTWLFx35539aLQslnZfOQcrR9HIQ/6Jd3qwyUn+WpQhxX+RMaadPnpPiWvT9tSAdv9jKY2wvGt+n0iyJAStAkjw27F0ml616aW8od/L4TyCN/Rsf541EY8pzky7JXzvLU7/IGPLbkS9Hvxze0OonQm7R88g9MhsEH3AoxCa1Dm0lfC8HR3hmxX1uEP24QfIQXKcPZfwRKBPLq0NW1sw827/Ze3N7ol42kAYvvUSlkfJ1fdqtgA1kGUUXPxnFYsMw2nJtU9v6jqjnhxQynBDVvxyErLtGxsYZAlEmTNvdX+nmrFLK4DICPDMozvwfe4Oj00+8tawhx77i/3HhvN/VZYNdWL+sJYOkHz2yNX+Lwy5LNmgFVKmK14mEy7WoQSf1Xy8xi5vf+Mxe7pordAYQihwWwnshQp3BI/u3xhBqUxlGblRIQPkCHfOBx98RbAX43hywnlXnNdkX/s+2X2x6Pi/xKfx8gAVBEPaD5OgvLqBbD091GXXkIopa3grc0gvtmehCybzehCkXBaWrV8m3OjyvmpEFoODxwI3Yf98qWX4ZcfLXnsmSKLIhNbAq0Hm0Db0p2zYqIPigk2iJAVqz1CHGYfUQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(136003)(396003)(346002)(39860400002)(956004)(16576012)(186003)(6486002)(8936002)(31696002)(86362001)(8676002)(53546011)(7406005)(54906003)(7416002)(478600001)(316002)(2906002)(4326008)(6916009)(26005)(2616005)(36756003)(66556008)(38100700002)(31686004)(4744005)(5660300002)(66476007)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YmZMNW96ZEk2QzY2UndOajg2OTJLTVYzanlKMlhka2FENy9NeEFGRXJETkdQ?=
+ =?utf-8?B?aWtaNU9oOCtFYkhVWnJpME9QQTdwT3Q2cXdlT1lxRzhuTHkwdmFaT2p1Y1NU?=
+ =?utf-8?B?VFVveHVIdERHcXNDOGs3Rks1dXlGeUhsc2FqT1BDTlZkNFRuQndsQTl0OFo4?=
+ =?utf-8?B?UllFdXU3RWVUOUFoSnkrOUE5SDVmVCs1YVV1SytqVHNEQW1zQnA1VnIwQW5Q?=
+ =?utf-8?B?TGpld0lkSWZOWEw2OThaZlY3NGs5RG5vSTlKRkFlbUxveThTL2dEM0g3dVpv?=
+ =?utf-8?B?TzZXWkl4WkRhZFViMTc5dk43UHVqRlNWTVdHRDM3N1BRelVrbHVhaDM4N09u?=
+ =?utf-8?B?Rm0wcVRTYS9wSzRhZEdUUkVBRTAyb01zUkdsU1pNRlhPanpvdXlBd2RLV2NJ?=
+ =?utf-8?B?RWN0YjRZTXVSVG1tK0k5cFRuRkd5Z1hiRFJ3dGNYQnU5dUtqVDl4aGtWemhz?=
+ =?utf-8?B?czdBOG4zSzZhQ3ZhK2Z3R2Z3c2xDVnRqc0VyWFZIeThXR054LzF4QTlOMXg3?=
+ =?utf-8?B?N1h2bDRieDB0VEczcXpTSjNyTUJkY3ZtNVB1amhjTmVGQXdUWlVVcVk0L0FF?=
+ =?utf-8?B?N1Q0L1pxUHljbjBXZHY2TWNMZGpUSTlra3ZHV2NNdWE0bmNoVFNvWEtHanR5?=
+ =?utf-8?B?Y3BsTUdwODJXSjhDMS9oNSt0WExzMDUyYkdzWFE3Mm9ZUmdsRy9BYnZjM2R0?=
+ =?utf-8?B?RFVuWlBheFpWejN6S09HSVQwNnA0WVJGZUhkUnhIamhGN1dQajgwSWtLNlVO?=
+ =?utf-8?B?a0JpbTNQWTZUZHRlRkZKWlg5TnpTcE9yN1BmZmN3WE01YXgwMjlJMSs1cXdx?=
+ =?utf-8?B?QzVOMUtoeWN4bytkVjByd0drZlJBNmFtblluOEwvMEpMcGl2T3I4c2tYbERZ?=
+ =?utf-8?B?U014OFVoRUVxSGl1RGo4YnhTSTFrcUQ4ZmYwMSszc2x3OFovZEhLUnFWSlRk?=
+ =?utf-8?B?aDNJWnJwaFhTUTEvZitBMkZPRkZPNE1xc1Z6aC9JaFdrOFFQbUlkb2hJOGlH?=
+ =?utf-8?B?MG9iL01CbERyeWtHRDJTd3pUVDlMS3hod2tNVW1qbTRJN2pzbzRIS0cxSXg3?=
+ =?utf-8?B?cVhLZzdZbjAzMmIwL0VvcStiQkJVSEVuMmw3cFkwQmw0Yzh5Z0tSWlVQNXp6?=
+ =?utf-8?B?cTM4bGx3cjVtV0ZBU1dOZlN3eEJNVk9NdDBaMG4wWEpPeU1mdmJrbmhVM2VJ?=
+ =?utf-8?B?RkMvZ0M2TDkxQXdnbWxKbWN6UkdIaS8wdDFZS1hGRXdsZ2JRcU9PREhOMmp0?=
+ =?utf-8?B?Wk9LcFk4eWQyV3BJTTNyMEl1Y2YrL0JPTDRWckd6OUFLbjBGZmFFbGdja2N5?=
+ =?utf-8?B?KzQ3WE8rODBHSDRxLytmSXBFbDZVL3R1TStDM1ZicjVKOG9aU0tWZGVLb1Fa?=
+ =?utf-8?B?Y1hjUGFscjNhUjRaV25ldllCdGthamREMVFiZ3Q2UThMTTNCbThLNlVnb0g1?=
+ =?utf-8?B?ZXQ1R0tZWWZkL1RjTlYzY2J3NncvNXplQSttT3R1MjFrZDJXSDd2WFhNMUJx?=
+ =?utf-8?B?VXlyQmNFSDR2VzhRVTFUK1V4M3h5L3l6WnNPZ0lteFprQkhNK1JTS3h2cmxq?=
+ =?utf-8?B?YTdMVjd4Nm9zYkdiMit1bGF3VlJIdHdlQUdRMFVvQzlKWktFeWJ3bVFvVlhr?=
+ =?utf-8?B?Y3E2dVFvK2NROUdqZXJmWEtWYStMTW42bWR5K2g2aERiOVRHZytIWGtqQ0tZ?=
+ =?utf-8?B?clhaZVV3blo0L2dRbDJYMUM0QmVFTGQyRjVjenYrN0xoeVhYblUzcFJHb3lu?=
+ =?utf-8?Q?hU5Nt3rVA6gzUChUx3/nd3C3z1WuFX1/ao0tSAJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c9c3def-6ac3-4a7f-ad85-08d95b807723
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2021 21:55:56.4514 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gVMUdJrJtSzpeS/OVG6KXOyXh5yqKz+0hfHnt6FLUw5aHfd3whCwKAMeR092Kk8k7apxnVxc1jIYxygM9OqnpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5295
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,342 +150,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 9, 2021 at 1:35 PM Caleb Connolly <caleb.connolly@linaro.org> wrote:
->
->
->
-> On 09/08/2021 18:58, Rob Clark wrote:
-> > On Mon, Aug 9, 2021 at 10:28 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
-> >>
-> >> On 8/9/2021 9:48 PM, Caleb Connolly wrote:
-> >>>
-> >>>
-> >>> On 09/08/2021 17:12, Rob Clark wrote:
-> >>>> On Mon, Aug 9, 2021 at 7:52 AM Akhil P Oommen <akhilpo@codeaurora.org>
-> >>>> wrote:
-> >>>>>
-> >>>>> On 8/8/2021 10:22 PM, Rob Clark wrote:
-> >>>>>> On Sun, Aug 8, 2021 at 7:33 AM Caleb Connolly
-> >>>>>> <caleb.connolly@linaro.org> wrote:
-> >>>>>>>
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> On 07/08/2021 21:04, Rob Clark wrote:
-> >>>>>>>> On Sat, Aug 7, 2021 at 12:21 PM Caleb Connolly
-> >>>>>>>> <caleb.connolly@linaro.org> wrote:
-> >>>>>>>>>
-> >>>>>>>>> Hi Rob, Akhil,
-> >>>>>>>>>
-> >>>>>>>>> On 29/07/2021 21:53, Rob Clark wrote:
-> >>>>>>>>>> On Thu, Jul 29, 2021 at 1:28 PM Caleb Connolly
-> >>>>>>>>>> <caleb.connolly@linaro.org> wrote:
-> >>>>>>>>>>>
-> >>>>>>>>>>>
-> >>>>>>>>>>>
-> >>>>>>>>>>> On 29/07/2021 21:24, Rob Clark wrote:
-> >>>>>>>>>>>> On Thu, Jul 29, 2021 at 1:06 PM Caleb Connolly
-> >>>>>>>>>>>> <caleb.connolly@linaro.org> wrote:
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> Hi Rob,
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> I've done some more testing! It looks like before that patch
-> >>>>>>>>>>>>> ("drm/msm: Devfreq tuning") the GPU would never get above
-> >>>>>>>>>>>>> the second frequency in the OPP table (342MHz) (at least, not
-> >>>>>>>>>>>>> in glxgears). With the patch applied it would more
-> >>>>>>>>>>>>> aggressively jump up to the max frequency which seems to be
-> >>>>>>>>>>>>> unstable at the default regulator voltages.
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> *ohh*, yeah, ok, that would explain it
-> >>>>>>>>>>>>
-> >>>>>>>>>>>>> Hacking the pm8005 s1 regulator (which provides VDD_GFX) up
-> >>>>>>>>>>>>> to 0.988v (instead of the stock 0.516v) makes the GPU stable
-> >>>>>>>>>>>>> at the higher frequencies.
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> Applying this patch reverts the behaviour, and the GPU never
-> >>>>>>>>>>>>> goes above 342MHz in glxgears, losing ~30% performance in
-> >>>>>>>>>>>>> glxgear.
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> I think (?) that enabling CPR support would be the proper
-> >>>>>>>>>>>>> solution to this - that would ensure that the regulators run
-> >>>>>>>>>>>>> at the voltage the hardware needs to be stable.
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> Is hacking the voltage higher (although ideally not quite
-> >>>>>>>>>>>>> that high) an acceptable short term solution until we have
-> >>>>>>>>>>>>> CPR? Or would it be safer to just not make use of the higher
-> >>>>>>>>>>>>> frequencies on a630 for now?
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> tbh, I'm not sure about the regulator stuff and CPR.. Bjorn is
-> >>>>>>>>>>>> already
-> >>>>>>>>>>>> on CC and I added sboyd, maybe one of them knows better.
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> In the short term, removing the higher problematic OPPs from
-> >>>>>>>>>>>> dts might
-> >>>>>>>>>>>> be a better option than this patch (which I'm dropping), since
-> >>>>>>>>>>>> there
-> >>>>>>>>>>>> is nothing stopping other workloads from hitting higher OPPs.
-> >>>>>>>>>>> Oh yeah that sounds like a more sensible workaround than mine .
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> I'm slightly curious why I didn't have problems at higher OPPs
-> >>>>>>>>>>>> on my
-> >>>>>>>>>>>> c630 laptop (sdm850)
-> >>>>>>>>>>> Perhaps you won the sillicon lottery - iirc sdm850 is binned
-> >>>>>>>>>>> for higher clocks as is out of the factory.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Would it be best to drop the OPPs for all devices? Or just
-> >>>>>>>>>>> those affected? I guess it's possible another c630 might
-> >>>>>>>>>>> crash where yours doesn't?
-> >>>>>>>>>>
-> >>>>>>>>>> I've not heard any reports of similar issues from the handful of
-> >>>>>>>>>> other
-> >>>>>>>>>> folks with c630's on #aarch64-laptops.. but I can't really say
-> >>>>>>>>>> if that
-> >>>>>>>>>> is luck or not.
-> >>>>>>>>> It looks like this affects at least the OnePlus 6 and PocoPhone
-> >>>>>>>>> F1, I've done some more poking and the following diff
-> >>>>>>>>> seems to fix the stability issues completely, it seems the delay
-> >>>>>>>>> is required to let the update propagate.
-> >>>>>>>>>
-> >>>>>>>>> This doesn't feel like the right fix, but hopefully it's enough
-> >>>>>>>>> to come up with a better solution than disabling the new
-> >>>>>>>>> devfreq behaviour on a630.
-> >>>>>>>>>
-> >>>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >>>>>>>>> b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >>>>>>>>> index d7cec7f0dde0..69e2a5e84dae 100644
-> >>>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >>>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >>>>>>>>> @@ -139,6 +139,10 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu,
-> >>>>>>>>> struct dev_pm_opp *opp)
-> >>>>>>>>>                      return;
-> >>>>>>>>>              }
-> >>>>>>>>>
-> >>>>>>>>> +       dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
-> >>>>>>>>> +
-> >>>>>>>>> +       usleep_range(300, 500);
-> >>>>>>>>> +
-> >>>>>>>>
-> >>>>>
-> >>>>> I am a bit confused. We don't define a power domain for gpu in dt,
-> >>>>> correct? Then what exactly set_opp do here? Do you think this usleep is
-> >>>>> what is helping here somehow to mask the issue?
-> >>> The power domains (for cx and gx) are defined in the GMU DT, the OPPs in
-> >>> the GPU DT. For the sake of simplicity I'll refer to the lowest
-> >>> frequency (257000000) and OPP level (RPMH_REGULATOR_LEVEL_LOW_SVS) as
-> >>> the "min" state, and the highest frequency (710000000) and OPP level
-> >>> (RPMH_REGULATOR_LEVEL_TURBO_L1) as the "max" state. These are defined in
-> >>> sdm845.dtsi under the gpu node.
-> >>>
-> >>> The new devfreq behaviour unmasks what I think is a driver bug, it
-> >>> inadvertently puts much more strain on the GPU regulators than they
-> >>> usually get. With the new behaviour the GPU jumps from it's min state to
-> >>> the max state and back again extremely rapidly under workloads as small
-> >>> as refreshing UI. Where previously the GPU would rarely if ever go above
-> >>> 342MHz when interacting with the device, it now jumps between min and
-> >>> max many times per second.
-> >>>
-> >>> If my understanding is correct, the current implementation of the GMU
-> >>> set freq is the following:
-> >>>    - Get OPP for frequency to set
-> >>>    - Push the frequency to the GMU - immediately updating the core clock
-> >>>    - Call dev_pm_opp_set_opp() which triggers a notify chain, this winds
-> >>> up somewhere in power management code and causes the gx regulator level
-> >>> to be updated
-> >>
-> >> Nope. dev_pm_opp_set_opp() sets the bandwidth for gpu and nothing else.
-> >> We were using a different api earlier which got deprecated -
-> >> dev_pm_opp_set_bw().
-> Huh ok, thanks for the correction. So it's the GMU writes in this function which cause the regulator to be adjusted?
-> >
-> > Hmm, ok, if this is just setting icc vote, the order shouldn't be too important.
-> >
-> > I guess GMU then is the one that is controlling the regulator(s) to
-> > ensure adequate voltage for the requested freq?
-> >
-> > But the GMU fw should be the same for a618 and a630, md5sum of what
-> > I'm using (from linux-firmware):
-> >
-> >    ab20135f7adf48e0f344282a37da80e4  a630_gmu.bin
-> Same here.
-> >
-> >>>
-> >>> The regulator will then take some time to reach it's new voltage level
-> >>> and stabilise. I believe that rapid transitions between min and max
-> >>> state - in combination with the increased current load from the GPU core
-> >>> - lead to the regulator becoming unstable (e.g. when it's requested to
-> >>> transition from it's lowest to highest levels immediately after
-> >>> transitioning down), the unstable voltage causes the GPU to crash.
-> >>>
-> >>> Sillicon lottery will of course play a role here - this is very much an
-> >>> edge case and would definitely be different on a per-device and even
-> >>> per-unit basis.
-> >>>>
-> >>>> Hmm, I thought "opp-level = RPMH_REGULATOR_LEVEL_*" did *something*,
-> >>>> but tbh I'm not sure exactly what..
-> >>>>
-> >>>>> I feel we should just leave the new dcvs feature (shall we call it NAP?)
-> >>>>> disabled for a630 (and 10ms devfreq interval), until this is root
-> >>>>> caused.
-> >>> I believe this hacky workaround expresses the root cause of the issue
-> >>> quite clearly, by setting the OPP first and allowing the gx regulator to
-> >>> become stable before telling the GPU to change clock speeds, we avoid
-> >>> the edge case and prevent the crashes.
-> >>>
-> >>> I took some rough measurements by adding logging to msm_devfreq_idle and
-> >>> causing UI updates for ~20 seconds and that function is being called
-> >>> about 30 times per second, this means the GPU is transitioning between
-> >>> min (idle) state and max (active / boost) state at that frequency and
-> >>> causing the issue I described above. It's likely that the usleep is
-> >>> helping to mask this behaviour.
-> >>>
-> >>> I hope this serves as a slightly better explanation of what I perceive
-> >>> to be the issue, I realise my previous explanations were not very
-> >>> adequate, I apologise for all the noise.
-> >>>>
-> >>>> I suppose "NAP" is a reasonable name.
-> >>>>
-> >>>> But I think that reverting to previous behavior would not be enough,
-> >>>> there is nothing stopping devfreq from jumping from min to max freq,
-> >>>> which AFAIU should be enough to trigger this.  I guess that there just
-> >>>> hasn't been enough testing with different game workloads on those
-> >>>> phones to trigger this.
-> >>> Ack
-> >>>>
-> >>>> That said, I haven't seen similar issues on my sdm850 laptop, where I
-> >>>> defn have triggered mix->max freq transitions.. I guess it would be
-> >>>> interesting to know if this issue could be reproduced on db845c, or if
-> >>>> it really is board specific?
-> >>> My db845c arrives this week, I'll definitely try and reproduce this.
-> >>>>
-> >>>> To workaround, I think we'd need to implement some way to limit that
-> >>>> maximum frequency jump (and then use delayed work to continue ramping
-> >>>> up the freq over time until we hit the target).. which seems like a
-> >>>> lot of work if this is just a board(s) specific workaround and isn't
-> >>>> needed once CPR is supported
-> >>> Based on my reasoning above, I came up with the following: reducing
-> >>> thrashing by preventing rapid idle/active transitions. The minimum
-> >>> active time of 30ms was just used for testing, I think some number
-> >>> between 2 and 4 frames would be a sensible choice - the higher the safer.
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >>> b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >>> index d7cec7f0dde0..87f2d1085c3e 100644
-> >>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> >>> @@ -139,6 +139,8 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct
-> >>> dev_pm_opp *opp)
-> >>>                   return;
-> >>>           }
-> >>>
-> >>> +       dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
-> >>> +
-> >>>           gmu_write(gmu, REG_A6XX_GMU_DCVS_ACK_OPTION, 0);
-> >>>
-> >>>           gmu_write(gmu, REG_A6XX_GMU_DCVS_PERF_SETTING,
-> >>> @@ -158,7 +160,6 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct
-> >>> dev_pm_opp *opp)
-> >>>           if (ret)
-> >>>                   dev_err(gmu->dev, "GMU set GPU frequency error: %d\n",
-> >>> ret);
-> >>>
-> >>> -       dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
-> >>>           pm_runtime_put(gmu->dev);
-> >>>    }
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> >>> index 0e4b45bff2e6..0e2293bcb46d 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> >>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> >>> @@ -99,8 +99,8 @@ struct msm_gpu_devfreq {
-> >>>           /** time: Time of last sampling period. */
-> >>>           ktime_t time;
-> >>>
-> >>> -       /** idle_time: Time of last transition to idle: */
-> >>> -       ktime_t idle_time;
-> >>> +       /** transition_time: Time of last transition between
-> >>> idle/active: */
-> >>> +       ktime_t transition_time;
-> >>>
-> >>>           /**
-> >>>            * idle_freq:
-> >>> diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> >>> b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> >>> index 0a1ee20296a2..774a7be33e7a 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> >>> +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-> >>> @@ -157,7 +157,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
-> >>>            */
-> >>>           mutex_lock(&df->devfreq->lock);
-> >>>
-> >>> -       idle_time = ktime_to_ms(ktime_sub(ktime_get(), df->idle_time));
-> >>> +       idle_time = ktime_to_ms(ktime_sub(ktime_get(),
-> >>> df->transition_time));
-> >>>
-> >>>           /*
-> >>>            * If we've been idle for a significant fraction of a polling
-> >>> @@ -168,7 +168,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
-> >>>                   target_freq *= 2;
-> >>>           }
-> >>>
-> >>> -       df->idle_freq = 0;
-> >>> +       df->transition_time = ktime_get();;
-> >>>
-> >>>           msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
-> >>>
-> >>> @@ -185,6 +185,16 @@ void msm_devfreq_idle(struct msm_gpu *gpu)
-> >>>    {
-> >>>           struct msm_gpu_devfreq *df = &gpu->devfreq;
-> >>>           unsigned long idle_freq, target_freq = 0;
-> >>> +       unsigned int active_time;
-> >>> +
-> >>> +       active_time = ktime_to_ms(ktime_sub(ktime_get(),
-> >>> df->transition_time));
-> >>> +       /*
-> >>> +        * Don't go back to idle unless we've been active for at least 30ms
-> >>> +        * to avoid thrashing.
-> >>
-> >> This basically defeats the purpose of this feature! At least, we should
-> >> keep this '30' gpu specific. Does a Kconfig makes sense here?? BTW, if
-> >> 300us was helping you earlier why do you want it to be 30ms now?
-> Previously I thought that the issue was related to specifically the transition from idle/active, hence sleeping to let
-> the regulator catch up, whilst that masked the issue it didn't *fix* it, I now think it's actually due to the repeated
-> transition between idle and active states.
->
-> Enforcing that the GPU stay active for at least two frames should still give the intended goal of reducing latency and
-> more reliably fixes the issue.
->
-> AFAIU from reading the commit description, the goal of the devfreq tuning is to reduce latency by quickly bursting up
-> when there's user activity, by telling the GPU to stay active for longer we shouldn't impede this behaviour at all.
+On 7/30/21 5:34 PM, Sean Christopherson wrote:
+> On Tue, Jul 27, 2021, Tom Lendacky wrote:
+>> @@ -451,7 +450,7 @@ void __init mem_encrypt_free_decrypted_mem(void)
+>>  	 * The unused memory range was mapped decrypted, change the encryption
+>>  	 * attribute from decrypted to encrypted before freeing it.
+>>  	 */
+>> -	if (mem_encrypt_active()) {
+>> +	if (sme_me_mask) {
+> 
+> Any reason this uses sme_me_mask?  The helper it calls, __set_memory_enc_dec(),
+> uses prot_guest_has(PATTR_MEM_ENCRYPT) so I assume it's available?
 
-Well, there are a couple parts to it.. one thing it was intended to
-fix was a bad devfreq behavior I was seeing with, for example, games
-that throttle themselves to 30fps, so rendering one 16ms frame every
-other vblank cycle.. previously devfreq would ramp up to max just as
-it was at the end of rendering a frame, and then sit there at fmax
-while GPU was doing nothing for the next 16ms, and then ramp back down
-to fmin just as the GPU got some more work to do.  So it was nearly
-180deg out of phase with where you'd want it to be
-increasing/decreasing GPU freq.
+Probably just a slip on my part. I was debating at one point calling the
+helper vs. referencing the variables/functions directly in the
+mem_encrypt.c file.
 
-The longer polling interval is meant to smooth that out, with clamping
-to fmin while GPU is idle to offset the fact that it would take the
-GPU longer to ramp down (and it otherwise being pointless to keep the
-GPU at a high freq when it isn't doing anything), and boosting above
-what freq devfreq would have picked if the gpu had been idle for a
-while (to offset the longer ramp up on user input).
+Thanks,
+Tom
 
-So the 30ms delay for clamping to fmin would defeat one part of that.
-
-We could perhaps somehow disable the clamping to fmin for certain
-boards and/or gpus, which would possibly lose a bit of power savings
-but otherwise be ok.  But I'm not clear whether this is a board
-specific issue (ie. are these phones using different PMICs compared to
-sdm850 laptops and db845c?  Or is there some difference in what power
-rail is powering the GPU?)
-
-I think it was mentioned earlier that CPR should help (AFAIU that is
-some sort of hw closed loop voltage regulation?) so maybe this is just
-a short term workaround?
-
-BR,
--R
+> 
+>>  		r = set_memory_encrypted(vaddr, npages);
+>>  		if (r) {
+>>  			pr_warn("failed to free unused decrypted pages\n");
+> 
