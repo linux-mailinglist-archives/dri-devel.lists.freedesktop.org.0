@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963773E3DAF
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 03:36:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759793E3DAA
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 03:35:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B61689A16;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D9A6899D4;
 	Mon,  9 Aug 2021 01:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D1389954
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80FB68997E
  for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 01:35:17 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8178D17C7;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E96B23897;
  Mon,  9 Aug 2021 03:35:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1628472915;
- bh=Az0iE2XH3bC6CXifJi2HFqVLiQL5hGqsXXWPVXhY3ME=;
+ s=mail; t=1628472916;
+ bh=37U/NqmW/gA6HttG+JiwJcwYidGDobdcLNWx3AdK8gM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Rez6KnSJnpWfCOI7k08TC/cJ+5A1VYEHH9l05KebQGoIxPGnkHzfrHmP7VEBq3dyB
- y0IgQgKMv4SDRSZqfvd4abJhyNXRWX850Wna3+kLYz+RI+ovF/Stwz/99WFYjTuR3V
- gAUy4YyRexK1Cy2mVEeNy5A4qS6+PGV2frcUtGc8=
+ b=MSWkC3nDJwb71tzxw6h4zRwC5e1j78Flyrg+COQpJ5ucibf2UYMEycUZ7XZPFkyYN
+ Ls4nO+eLsgkMyCgd/7pZ1LkwAlUZOa8n7IMGszYuReGUHP5HXKEEs2vqqyHVI3takS
+ yeIjnimFXjtWQz/1cmCon1DSDfS0ahgI60Q+dIY8=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
 Cc: Michal Simek <michal.simek@xilinx.com>,
  Jianqiang Chen <jianqian@xilinx.com>
-Subject: [PATCH 27/36] drm: xlnx: zynqmp_dpsub: Manage DP and DISP allocations
- manually
-Date: Mon,  9 Aug 2021 04:34:48 +0300
-Message-Id: <20210809013457.11266-28-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 28/36] drm: xlnx: zynqmp_dpsub: Move all DRM init and cleanup
+ to zynqmp_kms.c
+Date: Mon,  9 Aug 2021 04:34:49 +0300
+Message-Id: <20210809013457.11266-29-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809013457.11266-1-laurent.pinchart@ideasonboard.com>
 References: <20210809013457.11266-1-laurent.pinchart@ideasonboard.com>
@@ -51,303 +51,360 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The zynqmp_disp and zynqmp_dp structures are allocated with
-drmm_kzalloc(). While this simplifies management of memory, it requires
-a DRM device, which will not be available at probe time when the DP
-bridge will be used standalone, with a DRM device in the PL. To prepare
-for this, switch to manual allocation for zynqmp_disp and zynqmp_dp. The
-cleanup still uses the DRM managed infrastructure, but one level up, at
-the top level. This will be addressed separately.
+Continue the isolation of DRM/KMS code by moving all DRM init and
+cleanup from zynqmp_dpsub.c to zynqmp_kms.c.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c  | 34 +++++++++++++++++++----------
- drivers/gpu/drm/xlnx/zynqmp_disp.h  |  3 +--
- drivers/gpu/drm/xlnx/zynqmp_dp.c    | 30 +++++++++++++++----------
- drivers/gpu/drm/xlnx/zynqmp_dp.h    |  3 +--
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 17 +++++++++++++--
- 5 files changed, 57 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 120 +-------------------------
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h |   5 --
+ drivers/gpu/drm/xlnx/zynqmp_kms.c   | 126 +++++++++++++++++++++++++++-
+ drivers/gpu/drm/xlnx/zynqmp_kms.h   |   5 +-
+ 4 files changed, 130 insertions(+), 126 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index cc07cb2a4d0f..5c39df0fbe59 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -12,7 +12,6 @@
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
--#include <drm/drm_managed.h>
- #include <drm/drm_plane.h>
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+index e98e7e3b37d7..75209272ccb2 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+@@ -18,125 +18,15 @@
+ #include <linux/slab.h>
  
- #include <linux/clk.h>
-@@ -21,6 +20,7 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-+#include <linux/slab.h>
- 
- #include "zynqmp_disp.h"
- #include "zynqmp_disp_regs.h"
-@@ -1220,7 +1220,7 @@ int zynqmp_disp_setup_clock(struct zynqmp_disp *disp,
-  * Initialization & Cleanup
-  */
- 
--int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
-+int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub)
- {
- 	struct platform_device *pdev = to_platform_device(dpsub->dev);
- 	struct zynqmp_disp *disp;
-@@ -1228,38 +1228,48 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 	struct resource *res;
- 	int ret;
- 
--	disp = drmm_kzalloc(drm, sizeof(*disp), GFP_KERNEL);
-+	disp = kzalloc(sizeof(*disp), GFP_KERNEL);
- 	if (!disp)
- 		return -ENOMEM;
- 
- 	disp->dev = &pdev->dev;
- 	disp->dpsub = dpsub;
- 
--	dpsub->disp = disp;
--
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "blend");
- 	disp->blend.base = devm_ioremap_resource(disp->dev, res);
--	if (IS_ERR(disp->blend.base))
--		return PTR_ERR(disp->blend.base);
-+	if (IS_ERR(disp->blend.base)) {
-+		ret = PTR_ERR(disp->blend.base);
-+		goto error;
-+	}
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "av_buf");
- 	disp->avbuf.base = devm_ioremap_resource(disp->dev, res);
--	if (IS_ERR(disp->avbuf.base))
--		return PTR_ERR(disp->avbuf.base);
-+	if (IS_ERR(disp->avbuf.base)) {
-+		ret = PTR_ERR(disp->avbuf.base);
-+		goto error;
-+	}
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "aud");
- 	disp->audio.base = devm_ioremap_resource(disp->dev, res);
--	if (IS_ERR(disp->audio.base))
--		return PTR_ERR(disp->audio.base);
-+	if (IS_ERR(disp->audio.base)) {
-+		ret = PTR_ERR(disp->audio.base);
-+		goto error;
-+	}
- 
- 	ret = zynqmp_disp_create_layers(disp);
- 	if (ret)
--		return ret;
-+		goto error;
- 
- 	layer = &disp->layers[ZYNQMP_DPSUB_LAYER_VID];
- 	dpsub->dma_align = 1 << layer->dmas[0].chan->device->copy_align;
- 
-+	dpsub->disp = disp;
-+
- 	return 0;
-+
-+error:
-+	kfree(disp);
-+	return ret;
- }
- 
- void zynqmp_disp_remove(struct zynqmp_dpsub *dpsub)
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.h b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-index 663f7d67c78f..9b8b202224d9 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.h
-@@ -25,7 +25,6 @@
- #define ZYNQMP_DISP_MAX_DMA_BIT				44
- 
- struct device;
--struct drm_device;
- struct drm_format_info;
- struct drm_plane_state;
- struct platform_device;
-@@ -60,7 +59,7 @@ void zynqmp_disp_layer_set_format(struct zynqmp_disp_layer *layer,
- int zynqmp_disp_layer_update(struct zynqmp_disp_layer *layer,
- 			     struct drm_plane_state *state);
- 
--int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm);
-+int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub);
- void zynqmp_disp_remove(struct zynqmp_dpsub *dpsub);
- 
- #endif /* _ZYNQMP_DISP_H_ */
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 360175b8fc1f..25cde59b1e05 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -14,7 +14,6 @@
- #include <drm/drm_device.h>
- #include <drm/drm_dp_helper.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_managed.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_of.h>
- 
-@@ -26,6 +25,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/phy/phy.h>
- #include <linux/reset.h>
-+#include <linux/slab.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/drm_bridge_connector.h>
+-#include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+-#include <drm/drm_fb_helper.h>
+-#include <drm/drm_fourcc.h>
+-#include <drm/drm_gem_cma_helper.h>
+-#include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_managed.h>
+-#include <drm/drm_mode_config.h>
+-#include <drm/drm_probe_helper.h>
+-#include <drm/drm_vblank.h>
++#include <drm/drm_modeset_helper.h>
  
  #include "zynqmp_disp.h"
  #include "zynqmp_dp.h"
-@@ -1609,7 +1609,7 @@ static irqreturn_t zynqmp_dp_irq_handler(int irq, void *data)
-  * Initialization & Cleanup
-  */
+ #include "zynqmp_dpsub.h"
+ #include "zynqmp_kms.h"
  
--int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
-+int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
- {
- 	struct platform_device *pdev = to_platform_device(dpsub->dev);
- 	struct drm_bridge *bridge;
-@@ -1617,7 +1617,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 	struct resource *res;
- 	int ret;
- 
--	dp = drmm_kzalloc(drm, sizeof(*dp), GFP_KERNEL);
-+	dp = kzalloc(sizeof(*dp), GFP_KERNEL);
- 	if (!dp)
- 		return -ENOMEM;
- 
-@@ -1627,29 +1627,32 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 
- 	INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
- 
--	dpsub->dp = dp;
+-/* -----------------------------------------------------------------------------
+- * Dumb Buffer & Framebuffer Allocation
+- */
 -
- 	/* Acquire all resources (IOMEM, IRQ and PHYs). */
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
- 	dp->iomem = devm_ioremap_resource(dp->dev, res);
--	if (IS_ERR(dp->iomem))
--		return PTR_ERR(dp->iomem);
-+	if (IS_ERR(dp->iomem)) {
-+		ret = PTR_ERR(dp->iomem);
-+		goto err_free;
-+	}
- 
- 	dp->irq = platform_get_irq(pdev, 0);
--	if (dp->irq < 0)
--		return dp->irq;
-+	if (dp->irq < 0) {
-+		ret = dp->irq;
-+		goto err_free;
-+	}
- 
- 	dp->reset = devm_reset_control_get(dp->dev, NULL);
- 	if (IS_ERR(dp->reset)) {
- 		if (PTR_ERR(dp->reset) != -EPROBE_DEFER)
- 			dev_err(dp->dev, "failed to get reset: %ld\n",
- 				PTR_ERR(dp->reset));
--		return PTR_ERR(dp->reset);
-+		ret = PTR_ERR(dp->reset);
-+		goto err_free;
- 	}
- 
- 	ret = zynqmp_dp_reset(dp, false);
- 	if (ret < 0)
+-static int zynqmp_dpsub_dumb_create(struct drm_file *file_priv,
+-				    struct drm_device *drm,
+-				    struct drm_mode_create_dumb *args)
+-{
+-	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
+-	unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+-
+-	/* Enforce the alignment constraints of the DMA engine. */
+-	args->pitch = ALIGN(pitch, dpsub->dma_align);
+-
+-	return drm_gem_cma_dumb_create_internal(file_priv, drm, args);
+-}
+-
+-static struct drm_framebuffer *
+-zynqmp_dpsub_fb_create(struct drm_device *drm, struct drm_file *file_priv,
+-		       const struct drm_mode_fb_cmd2 *mode_cmd)
+-{
+-	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
+-	struct drm_mode_fb_cmd2 cmd = *mode_cmd;
+-	unsigned int i;
+-
+-	/* Enforce the alignment constraints of the DMA engine. */
+-	for (i = 0; i < ARRAY_SIZE(cmd.pitches); ++i)
+-		cmd.pitches[i] = ALIGN(cmd.pitches[i], dpsub->dma_align);
+-
+-	return drm_gem_fb_create(drm, file_priv, &cmd);
+-}
+-
+-static const struct drm_mode_config_funcs zynqmp_dpsub_mode_config_funcs = {
+-	.fb_create		= zynqmp_dpsub_fb_create,
+-	.atomic_check		= drm_atomic_helper_check,
+-	.atomic_commit		= drm_atomic_helper_commit,
+-};
+-
+-/* -----------------------------------------------------------------------------
+- * DRM/KMS Driver
+- */
+-
+-DEFINE_DRM_GEM_CMA_FOPS(zynqmp_dpsub_drm_fops);
+-
+-static const struct drm_driver zynqmp_dpsub_drm_driver = {
+-	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
+-					  DRIVER_ATOMIC,
+-
+-	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
+-
+-	.fops				= &zynqmp_dpsub_drm_fops,
+-
+-	.name				= "zynqmp-dpsub",
+-	.desc				= "Xilinx DisplayPort Subsystem Driver",
+-	.date				= "20130509",
+-	.major				= 1,
+-	.minor				= 0,
+-};
+-
+-static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
+-{
+-	struct drm_device *drm = &dpsub->drm;
+-	int ret;
+-
+-	/* Initialize mode config, vblank and the KMS poll helper. */
+-	ret = drmm_mode_config_init(drm);
+-	if (ret < 0)
 -		return ret;
-+		goto err_free;
- 
- 	ret = zynqmp_dp_phy_probe(dp);
- 	if (ret)
-@@ -1699,6 +1702,8 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 	if (ret < 0)
- 		goto err_phy_exit;
- 
-+	dpsub->dp = dp;
-+
- 	dev_dbg(dp->dev, "ZynqMP DisplayPort Tx probed with %u lanes\n",
- 		dp->num_lanes);
- 
-@@ -1708,7 +1713,8 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 	zynqmp_dp_phy_exit(dp);
- err_reset:
- 	zynqmp_dp_reset(dp, true);
 -
-+err_free:
-+	kfree(dp);
- 	return ret;
- }
+-	drm->mode_config.funcs = &zynqmp_dpsub_mode_config_funcs;
+-	drm->mode_config.min_width = 0;
+-	drm->mode_config.min_height = 0;
+-	drm->mode_config.max_width = ZYNQMP_DISP_MAX_WIDTH;
+-	drm->mode_config.max_height = ZYNQMP_DISP_MAX_HEIGHT;
+-
+-	ret = drm_vblank_init(drm, 1);
+-	if (ret)
+-		return ret;
+-
+-	drm_kms_helper_poll_init(drm);
+-
+-	ret = zynqmp_dpsub_kms_init(dpsub);
+-	if (ret < 0)
+-		goto err_poll_fini;
+-
+-	/* Reset all components and register the DRM device. */
+-	drm_mode_config_reset(drm);
+-
+-	ret = drm_dev_register(drm, 0);
+-	if (ret < 0)
+-		goto err_poll_fini;
+-
+-	/* Initialize fbdev generic emulation. */
+-	drm_fbdev_generic_setup(drm, 24);
+-
+-	return 0;
+-
+-err_poll_fini:
+-	drm_kms_helper_poll_fini(drm);
+-	return ret;
+-}
+-
+ /* -----------------------------------------------------------------------------
+  * Power Management
+  */
+@@ -319,14 +209,8 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+ static int zynqmp_dpsub_remove(struct platform_device *pdev)
+ {
+ 	struct zynqmp_dpsub *dpsub = platform_get_drvdata(pdev);
+-	struct drm_device *drm = &dpsub->drm;
  
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.h b/drivers/gpu/drm/xlnx/zynqmp_dp.h
-index 736d810fa16f..f077d7fbd0ad 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.h
-@@ -12,7 +12,6 @@
- #ifndef _ZYNQMP_DP_H_
- #define _ZYNQMP_DP_H_
+-	if (dpsub->connector)
+-		drm_bridge_connector_disable_hpd(dpsub->connector);
+-
+-	drm_dev_unregister(drm);
+-	drm_atomic_helper_shutdown(drm);
+-	drm_kms_helper_poll_fini(drm);
++	zynqmp_dpsub_drm_cleanup(dpsub);
  
--struct drm_device;
- struct platform_device;
- struct zynqmp_dp;
- struct zynqmp_dpsub;
-@@ -20,7 +19,7 @@ struct zynqmp_dpsub;
- void zynqmp_dp_enable_vblank(struct zynqmp_dp *dp);
- void zynqmp_dp_disable_vblank(struct zynqmp_dp *dp);
+ 	zynqmp_disp_remove(dpsub);
+ 	zynqmp_dp_remove(dpsub);
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+index cfd4a2a5cfae..1778092e0829 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
++++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+@@ -74,11 +74,6 @@ struct zynqmp_dpsub {
+ 	unsigned int dma_align;
+ };
  
--int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm);
-+int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub);
- void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub);
+-static inline struct zynqmp_dpsub *to_zynqmp_dpsub(struct drm_device *drm)
+-{
+-	return container_of(drm, struct zynqmp_dpsub, drm);
+-}
+-
+ bool zynqmp_dpsub_audio_enabled(struct zynqmp_dpsub *dpsub);
+ unsigned int zynqmp_dpsub_get_audio_clk_rate(struct zynqmp_dpsub *dpsub);
  
- #endif /* _ZYNQMP_DP_H_ */
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 6f4e78b2a7c0..e98e7e3b37d7 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -15,6 +15,7 @@
- #include <linux/of_reserved_mem.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/slab.h>
- 
- #include <drm/drm_atomic_helper.h>
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+index 51903bc1de2b..7b6af07baad4 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+@@ -15,12 +15,19 @@
  #include <drm/drm_bridge_connector.h>
-@@ -246,6 +247,14 @@ static int zynqmp_dpsub_init_clocks(struct zynqmp_dpsub *dpsub)
- 	return 0;
- }
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
+ #include <drm/drm_encoder.h>
++#include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_managed.h>
++#include <drm/drm_mode_config.h>
+ #include <drm/drm_plane.h>
+ #include <drm/drm_plane_helper.h>
++#include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
  
-+static void zynqmp_dpsub_release(struct drm_device *drm, void *res)
+@@ -34,6 +41,11 @@
+ #include "zynqmp_dpsub.h"
+ #include "zynqmp_kms.h"
+ 
++static inline struct zynqmp_dpsub *to_zynqmp_dpsub(struct drm_device *drm)
 +{
-+	struct zynqmp_dpsub *dpsub = res;
-+
-+	kfree(dpsub->disp);
-+	kfree(dpsub->dp);
++	return container_of(drm, struct zynqmp_dpsub, drm);
 +}
 +
- static int zynqmp_dpsub_probe(struct platform_device *pdev)
- {
- 	struct zynqmp_dpsub *dpsub;
-@@ -257,6 +266,10 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
- 	if (IS_ERR(dpsub))
- 		return PTR_ERR(dpsub);
+ /* -----------------------------------------------------------------------------
+  * DRM Planes
+  */
+@@ -338,10 +350,65 @@ void zynqmp_dpsub_handle_vblank(struct zynqmp_dpsub *dpsub)
+ }
  
-+	ret = drmm_add_action(&dpsub->drm, zynqmp_dpsub_release, dpsub);
+ /* -----------------------------------------------------------------------------
+- * Initialization
++ * Dumb Buffer & Framebuffer Allocation
+  */
+ 
+-int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub)
++static int zynqmp_dpsub_dumb_create(struct drm_file *file_priv,
++				    struct drm_device *drm,
++				    struct drm_mode_create_dumb *args)
++{
++	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
++	unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
++
++	/* Enforce the alignment constraints of the DMA engine. */
++	args->pitch = ALIGN(pitch, dpsub->dma_align);
++
++	return drm_gem_cma_dumb_create_internal(file_priv, drm, args);
++}
++
++static struct drm_framebuffer *
++zynqmp_dpsub_fb_create(struct drm_device *drm, struct drm_file *file_priv,
++		       const struct drm_mode_fb_cmd2 *mode_cmd)
++{
++	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
++	struct drm_mode_fb_cmd2 cmd = *mode_cmd;
++	unsigned int i;
++
++	/* Enforce the alignment constraints of the DMA engine. */
++	for (i = 0; i < ARRAY_SIZE(cmd.pitches); ++i)
++		cmd.pitches[i] = ALIGN(cmd.pitches[i], dpsub->dma_align);
++
++	return drm_gem_fb_create(drm, file_priv, &cmd);
++}
++
++static const struct drm_mode_config_funcs zynqmp_dpsub_mode_config_funcs = {
++	.fb_create		= zynqmp_dpsub_fb_create,
++	.atomic_check		= drm_atomic_helper_check,
++	.atomic_commit		= drm_atomic_helper_commit,
++};
++
++/* -----------------------------------------------------------------------------
++ * DRM/KMS Driver
++ */
++
++DEFINE_DRM_GEM_CMA_FOPS(zynqmp_dpsub_drm_fops);
++
++const struct drm_driver zynqmp_dpsub_drm_driver = {
++	.driver_features		= DRIVER_MODESET | DRIVER_GEM |
++					  DRIVER_ATOMIC,
++
++	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(zynqmp_dpsub_dumb_create),
++
++	.fops				= &zynqmp_dpsub_drm_fops,
++
++	.name				= "zynqmp-dpsub",
++	.desc				= "Xilinx DisplayPort Subsystem Driver",
++	.date				= "20130509",
++	.major				= 1,
++	.minor				= 0,
++};
++
++static int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub)
+ {
+ 	struct drm_encoder *encoder = &dpsub->encoder;
+ 	struct drm_connector *connector;
+@@ -387,3 +454,58 @@ int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub)
+ 
+ 	return 0;
+ }
++
++int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
++{
++	struct drm_device *drm = &dpsub->drm;
++	int ret;
++
++	/* Initialize mode config, vblank and the KMS poll helper. */
++	ret = drmm_mode_config_init(drm);
 +	if (ret < 0)
 +		return ret;
 +
- 	dpsub->dev = &pdev->dev;
- 	platform_set_drvdata(pdev, dpsub);
++	drm->mode_config.funcs = &zynqmp_dpsub_mode_config_funcs;
++	drm->mode_config.min_width = 0;
++	drm->mode_config.min_height = 0;
++	drm->mode_config.max_width = ZYNQMP_DISP_MAX_WIDTH;
++	drm->mode_config.max_height = ZYNQMP_DISP_MAX_HEIGHT;
++
++	ret = drm_vblank_init(drm, 1);
++	if (ret)
++		return ret;
++
++	drm_kms_helper_poll_init(drm);
++
++	ret = zynqmp_dpsub_kms_init(dpsub);
++	if (ret < 0)
++		goto err_poll_fini;
++
++	/* Reset all components and register the DRM device. */
++	drm_mode_config_reset(drm);
++
++	ret = drm_dev_register(drm, 0);
++	if (ret < 0)
++		goto err_poll_fini;
++
++	/* Initialize fbdev generic emulation. */
++	drm_fbdev_generic_setup(drm, 24);
++
++	return 0;
++
++err_poll_fini:
++	drm_kms_helper_poll_fini(drm);
++	return ret;
++}
++
++void zynqmp_dpsub_drm_cleanup(struct zynqmp_dpsub *dpsub)
++{
++	struct drm_device *drm = &dpsub->drm;
++
++	if (dpsub->connector)
++		drm_bridge_connector_disable_hpd(dpsub->connector);
++
++	drm_dev_unregister(drm);
++	drm_atomic_helper_shutdown(drm);
++	drm_kms_helper_poll_fini(drm);
++}
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.h b/drivers/gpu/drm/xlnx/zynqmp_kms.h
+index a8934b1abb05..8074148fd429 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_kms.h
++++ b/drivers/gpu/drm/xlnx/zynqmp_kms.h
+@@ -14,8 +14,11 @@
  
-@@ -275,11 +288,11 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
- 	 * DP should be probed first so that the zynqmp_disp can set the output
- 	 * format accordingly.
- 	 */
--	ret = zynqmp_dp_probe(dpsub, &dpsub->drm);
-+	ret = zynqmp_dp_probe(dpsub);
- 	if (ret)
- 		goto err_pm;
+ struct zynqmp_dpsub;
  
--	ret = zynqmp_disp_probe(dpsub, &dpsub->drm);
-+	ret = zynqmp_disp_probe(dpsub);
- 	if (ret)
- 		goto err_dp;
++extern const struct drm_driver zynqmp_dpsub_drm_driver;
++
+ void zynqmp_dpsub_handle_vblank(struct zynqmp_dpsub *dpsub);
  
+-int zynqmp_dpsub_kms_init(struct zynqmp_dpsub *dpsub);
++int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub);
++void zynqmp_dpsub_drm_cleanup(struct zynqmp_dpsub *dpsub);
+ 
+ #endif /* _ZYNQMP_KMS_H_ */
 -- 
 Regards,
 
