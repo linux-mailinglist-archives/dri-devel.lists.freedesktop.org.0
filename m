@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6361D3E46AE
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 15:32:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC053E46BF
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 15:35:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E4789B29;
-	Mon,  9 Aug 2021 13:31:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4248E89B84;
+	Mon,  9 Aug 2021 13:35:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4404B89B29;
- Mon,  9 Aug 2021 13:31:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278441572"
-X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; d="scan'208";a="278441572"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2021 06:31:51 -0700
-X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; d="scan'208";a="502764423"
-Received: from ideak-desk.fi.intel.com ([10.237.68.141])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2021 06:31:49 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: linux-fbdev@vger.kernel.org,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH v2] fbdev/efifb: Release PCI device's runtime PM ref during FB
- destroy
-Date: Mon,  9 Aug 2021 16:31:46 +0300
-Message-Id: <20210809133146.2478382-1-imre.deak@intel.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210802133551.1904964-1-imre.deak@intel.com>
-References: <20210802133551.1904964-1-imre.deak@intel.com>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB2589B66
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 13:35:30 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id l18so21510670wrv.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 06:35:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=+0sxNpY/K7UyqNpJvek/IxO49u/aQ+FK/4qrP06M2Kk=;
+ b=T+xdWMJdh7ZaMBTZlWCpEehY6OGDHUS6n4tg75qhmvr0wS4T5Rlt5E67haMSEfvA6t
+ mlNXxPhQW/NZP4N2mEKTSDOedJZZV9PBvdkHawBUzOGQtw4vMQVPOHJaq88Nced6VPpt
+ UImY6gjWWXGTdMFnW3l5dhE4mK1OH3rUB0JQo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+0sxNpY/K7UyqNpJvek/IxO49u/aQ+FK/4qrP06M2Kk=;
+ b=HBpYa2646/OfZom4U7e2zc1yj2l47krsDNLxCRNubvxNuiQ/RKr8l0qi9ukLlU69gI
+ hVKFeg6KXqU9ykhpx3SnG3be5tQOOj6MAw1NbWKa6HSSD5T5YbXuZqMXo+bCdHpPAejL
+ DhtZdHYOVeDVAgVHhGgz7X0r3r7vl2awUe5ki1Mo6bPS2EQP7gNXxttrof4Q3BZ/HKlt
+ 3DR8nxvViIOO3j0rulwNrjh5Kz9w+0OjfUQeqMl7u6/ItZ3fBl1ZH6ovTLg/A36z0+xM
+ zxP+/blMaUzmLCQZWZoLW79QSMMJCJndq3bOyADTUWrXqtBTGeAeOCLzpLD5qpu8c/pd
+ qJDg==
+X-Gm-Message-State: AOAM530Qi9Ndr50ejJkLVrX+3CfCzskt1Mvg5r28tJQTwRSxX9EsJ5RF
+ hWW+zJVTuJtxQ8g2dsAfJW6BMQ==
+X-Google-Smtp-Source: ABdhPJx5pvN2wz6/bQZztes5ujHsZIJiugvXiksjjTGxWD7zYoR4PBy6RuASBW96GLu3+FLztXd7kw==
+X-Received: by 2002:a5d:4cc6:: with SMTP id c6mr24509617wrt.383.1628516128771; 
+ Mon, 09 Aug 2021 06:35:28 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h2sm8305957wmm.33.2021.08.09.06.35.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Aug 2021 06:35:28 -0700 (PDT)
+Date: Mon, 9 Aug 2021 15:35:26 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/3] drm/i915/guc: Fix several issues related to resets /
+ request cancelation
+Message-ID: <YREvHrUa/m8H97Io@phenom.ffwll.local>
+References: <20210808180757.81440-1-matthew.brost@intel.com>
+ <20210808180757.81440-2-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210808180757.81440-2-matthew.brost@intel.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,104 +71,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Atm the EFI FB platform driver gets a runtime PM reference for the
-associated GFX PCI device during probing the EFI FB platform device and
-releases it only when the platform device gets unbound.
+On Sun, Aug 08, 2021 at 11:07:55AM -0700, Matthew Brost wrote:
+> Resets are notoriously hard to get fully working and notoriously racey,
+> especially with selftests / IGTs that do all sorts of wild things that
+> would be near impossible to hit during normal use cases. Even though
+> likely impossible to hit, anything selftests / IGTs uncover needs to be
+> fixed. This patch addresses 7 such issues.
+> 
+> 1. A small race that could result in incorrect accounting of the number
+> of outstanding G2H. Basically prior to this patch we did not increment
+> the number of outstanding G2H if we encoutered a GT reset while sending
+> a H2G. This was incorrect as the context state had already been updated
+> to anticipate a G2H response thus the counter should be incremented.
+> 
+> 2. When unwinding requests on a reset context, if other requests in the
+> context are in the priority list the requests could be resubmitted out
+> of seqno order. Traverse the list of active requests in reserve and
+> append to the head of the priority list to fix this.
+> 
+> 3. Don't drop ce->guc_active.lock when unwinding a context after reset.
+> At one point we had to drop this because of a lock inversion but that is
+> no longer the case. It is much safer to hold the lock so let's do that.
+> 
+> 4. Prior to this patch the blocked context counter was cleared on
+> init_sched_state (used during registering a context & resets) which is
+> incorrect. This state needs to be persistent or the counter can read the
+> incorrect value.
+> 
+> 5. Flush the work queue for GuC generated G2H messages during a GT reset.
+> 
+> 6. Do not clear enable during a context reset if a schedule enable is in
+> flight.
+> 
+> 7. When unblocking a context, do not enable scheduling if the context is
+> banned.
 
-When fbcon switches to the FB provided by the PCI device's driver (for
-instance i915/drmfb), the EFI FB will get only unregistered without the
-EFI FB platform device getting unbound, keeping the runtime PM reference
-acquired during the platform device probing. This reference will prevent
-the PCI driver from runtime suspending the device.
+I think each of the above should be a separate patch. I think it would
+also be good if each fix references the commits that introduced/changed
+something.
 
-Fix this by releasing the RPM reference from the EFI FB's destroy hook,
-called when the FB gets unregistered.
+Most of this stuff is extremely hard to get right, and unfortunately our
+current code is way too fond of lockless trickery (which really isn't a
+great idea in the reset code). We need to apply as much care as possible
+here.
 
-While at it assert that pm_runtime_get_sync() didn't fail.
+Also expect me to ask a lot of annoying questions about all the atomic_t
+you touch :-)
+-Daniel
 
-v2:
-- Move pm_runtime_get_sync() before register_framebuffer() to avoid its
-  race wrt. efifb_destroy()->pm_runtime_put(). (Daniel)
-- Assert that pm_runtime_get_sync() didn't fail.
-- Clarify commit message wrt. platform/PCI device/driver and driver
-  removal vs. device unbinding.
 
-Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/video/fbdev/efifb.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+> 
+> Fixes: f4eb1f3fe946 ("drm/i915/guc: Ensure G2H response has space in buffer")
+> Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
+> Fixes: eb5e7da736f3 ("drm/i915/guc: Reset implementation for new GuC interface")
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: <stable@vger.kernel.org>
+> ---
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 43 ++++++++++++-------
+>  1 file changed, 27 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 87d8dc8f51b9..cd8df078ca87 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -152,7 +152,7 @@ static inline void init_sched_state(struct intel_context *ce)
+>  {
+>  	/* Only should be called from guc_lrc_desc_pin() */
+>  	atomic_set(&ce->guc_sched_state_no_lock, 0);
+> -	ce->guc_state.sched_state = 0;
+> +	ce->guc_state.sched_state &= SCHED_STATE_BLOCKED_MASK;
+>  }
+>  
+>  static inline bool
+> @@ -360,11 +360,13 @@ static int guc_submission_send_busy_loop(struct intel_guc *guc,
+>  {
+>  	int err;
+>  
+> -	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> -
+> -	if (!err && g2h_len_dw)
+> +	if (g2h_len_dw)
+>  		atomic_inc(&guc->outstanding_submission_g2h);
+>  
+> +	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> +	if (err == -EBUSY && g2h_len_dw)
+> +		atomic_dec(&guc->outstanding_submission_g2h);
+> +
+>  	return err;
+>  }
+>  
+> @@ -725,6 +727,11 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+>  			wait_for_reset(guc, &guc->outstanding_submission_g2h);
+>  		} while (!list_empty(&guc->ct.requests.incoming));
+>  	}
+> +
+> +	/* Flush any GuC generated G2H */
+> +	while (!list_empty(&guc->ct.requests.incoming))
+> +		msleep(1);
+> +
+>  	scrub_guc_desc_for_outstanding_g2h(guc);
+>  }
+>  
+> @@ -797,14 +804,13 @@ __unwind_incomplete_requests(struct intel_context *ce)
+>  
+>  	spin_lock_irqsave(&sched_engine->lock, flags);
+>  	spin_lock(&ce->guc_active.lock);
+> -	list_for_each_entry_safe(rq, rn,
+> -				 &ce->guc_active.requests,
+> -				 sched.link) {
+> +	list_for_each_entry_safe_reverse(rq, rn,
+> +					 &ce->guc_active.requests,
+> +					 sched.link) {
+>  		if (i915_request_completed(rq))
+>  			continue;
+>  
+>  		list_del_init(&rq->sched.link);
+> -		spin_unlock(&ce->guc_active.lock);
+>  
+>  		__i915_request_unsubmit(rq);
+>  
+> @@ -816,10 +822,8 @@ __unwind_incomplete_requests(struct intel_context *ce)
+>  		}
+>  		GEM_BUG_ON(i915_sched_engine_is_empty(sched_engine));
+>  
+> -		list_add_tail(&rq->sched.link, pl);
+> +		list_add(&rq->sched.link, pl);
+>  		set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
+> -
+> -		spin_lock(&ce->guc_active.lock);
+>  	}
+>  	spin_unlock(&ce->guc_active.lock);
+>  	spin_unlock_irqrestore(&sched_engine->lock, flags);
+> @@ -828,17 +832,23 @@ __unwind_incomplete_requests(struct intel_context *ce)
+>  static void __guc_reset_context(struct intel_context *ce, bool stalled)
+>  {
+>  	struct i915_request *rq;
+> +	unsigned long flags;
+>  	u32 head;
+>  
+>  	intel_context_get(ce);
+>  
+>  	/*
+> -	 * GuC will implicitly mark the context as non-schedulable
+> -	 * when it sends the reset notification. Make sure our state
+> -	 * reflects this change. The context will be marked enabled
+> -	 * on resubmission.
+> +	 * GuC will implicitly mark the context as non-schedulable when it sends
+> +	 * the reset notification. Make sure our state reflects this change. The
+> +	 * context will be marked enabled on resubmission. A small window exists
+> +	 * where the context could be block & unblocked (scheduling enable) while
+> +	 * this reset was inflight. If a scheduling enable is already is in
+> +	 * flight do not clear the enable.
+>  	 */
+> -	clr_context_enabled(ce);
+> +	spin_lock_irqsave(&ce->guc_state.lock, flags);
+> +	if (!context_pending_enable(ce))
+> +		clr_context_enabled(ce);
+> +	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>  
+>  	rq = intel_context_find_active_request(ce);
+>  	if (!rq) {
+> @@ -1562,6 +1572,7 @@ static void guc_context_unblock(struct intel_context *ce)
+>  	spin_lock_irqsave(&ce->guc_state.lock, flags);
+>  
+>  	if (unlikely(submission_disabled(guc) ||
+> +		     intel_context_is_banned(ce) ||
+>  		     !intel_context_is_pinned(ce) ||
+>  		     context_pending_disable(ce) ||
+>  		     context_blocked(ce) > 1)) {
+> -- 
+> 2.28.0
+> 
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index 8ea8f079cde26..edca3703b9640 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -47,6 +47,8 @@ static bool use_bgrt = true;
- static bool request_mem_succeeded = false;
- static u64 mem_flags = EFI_MEMORY_WC | EFI_MEMORY_UC;
- 
-+static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
-+
- static struct fb_var_screeninfo efifb_defined = {
- 	.activate		= FB_ACTIVATE_NOW,
- 	.height			= -1,
-@@ -243,6 +245,9 @@ static inline void efifb_show_boot_graphics(struct fb_info *info) {}
- 
- static void efifb_destroy(struct fb_info *info)
- {
-+	if (efifb_pci_dev)
-+		pm_runtime_put(&efifb_pci_dev->dev);
-+
- 	if (info->screen_base) {
- 		if (mem_flags & (EFI_MEMORY_UC | EFI_MEMORY_WC))
- 			iounmap(info->screen_base);
-@@ -333,7 +338,6 @@ ATTRIBUTE_GROUPS(efifb);
- 
- static bool pci_dev_disabled;	/* FB base matches BAR of a disabled device */
- 
--static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
- static struct resource *bar_resource;
- static u64 bar_offset;
- 
-@@ -569,17 +573,22 @@ static int efifb_probe(struct platform_device *dev)
- 		pr_err("efifb: cannot allocate colormap\n");
- 		goto err_groups;
- 	}
-+
-+	if (efifb_pci_dev)
-+		WARN_ON(pm_runtime_get_sync(&efifb_pci_dev->dev) < 0);
-+
- 	err = register_framebuffer(info);
- 	if (err < 0) {
- 		pr_err("efifb: cannot register framebuffer\n");
--		goto err_fb_dealoc;
-+		goto err_put_rpm_ref;
- 	}
- 	fb_info(info, "%s frame buffer device\n", info->fix.id);
--	if (efifb_pci_dev)
--		pm_runtime_get_sync(&efifb_pci_dev->dev);
- 	return 0;
- 
--err_fb_dealoc:
-+err_put_rpm_ref:
-+	if (efifb_pci_dev)
-+		pm_runtime_put(&efifb_pci_dev->dev);
-+
- 	fb_dealloc_cmap(&info->cmap);
- err_groups:
- 	sysfs_remove_groups(&dev->dev.kobj, efifb_groups);
-@@ -603,8 +612,6 @@ static int efifb_remove(struct platform_device *pdev)
- 	unregister_framebuffer(info);
- 	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
- 	framebuffer_release(info);
--	if (efifb_pci_dev)
--		pm_runtime_put(&efifb_pci_dev->dev);
- 
- 	return 0;
- }
 -- 
-2.27.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
