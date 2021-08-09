@@ -1,40 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50793E4C06
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:21:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C1D3E4C19
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 20:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0F58899E7;
-	Mon,  9 Aug 2021 18:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C18668924F;
+	Mon,  9 Aug 2021 18:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80E2089948;
- Mon,  9 Aug 2021 18:20:54 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="201929031"
-X-IronPort-AV: E=Sophos;i="5.84,308,1620716400"; d="scan'208";a="201929031"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2021 11:20:52 -0700
-X-IronPort-AV: E=Sophos;i="5.84,308,1620716400"; d="scan'208";a="525373222"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2021 11:20:52 -0700
-Date: Mon, 9 Aug 2021 18:20:51 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 11/46] drm/i915/guc: Don't call
- switch_to_kernel_context with GuC submission
-Message-ID: <20210809182051.GA123521@DUT151-ICLU.fm.intel.com>
-References: <20210803222943.27686-1-matthew.brost@intel.com>
- <20210803222943.27686-12-matthew.brost@intel.com>
- <YRE7NTxl0RIY7EbG@phenom.ffwll.local>
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82AD78924F;
+ Mon,  9 Aug 2021 18:27:52 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id o20so24824355oiw.12;
+ Mon, 09 Aug 2021 11:27:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4mNkfoQ58OXkFxY5lXT0JLBnZKMBlmPjenNWxHTzG5U=;
+ b=HDi1+VGiQq4I0uS40zFvgbSs8RSxYe0sbWq3bJu/Bh/F5NZONXb8z9Wo2hupnakHQv
+ A4Tct8GU+hqFrZD3cR9w+n/3P8+nk9a9imS4Uq4XlePYvIckSXTs9eZ2+zHtMcqy3sQA
+ cpIGgkvpw8Y5C6el2nlFYfCHpg/v4OE97spIvpsgKawGEp49hGU3fzApUTbdUHCkP5Qw
+ 5DKUf47+LEbRqLCFcF5Gwi6KJvdDXCPrVTreYbedsJ1xmDgFidKujl/SoLGp08gDYpql
+ sWaH+3gWW1XVj6QJloLbVWkKS91lpuaZk0OLQ98yNCTp+B3EFEdU/iFQ8sWjdkLbC+4U
+ zgzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4mNkfoQ58OXkFxY5lXT0JLBnZKMBlmPjenNWxHTzG5U=;
+ b=OkSqortaHGIfAB8w7XX0Qma5KIZ6l1a1vGqOcFvJiwpMtPWDVxWfehZJfdakTNlzLP
+ U+KQWKzQGL0TAgtgGjEexCiz92WcZZqml3orHHwI7S2oY+sRfeuuORrA+smmLwQng9Kj
+ Ua3LSuw0FNiZoBj4miPiTFOIFAxez688BeLkWoR3kf9UPg1gI0GNkCaXzwRMhK9qU9GZ
+ cXggYXflJeVNBCI+a0l+Rw4Pqxd6XgaSBDCE/Bn58dtEc8KHiPrqQFrouHfbYgltWgZB
+ ZGm5Ltw/AIcEDfBDNuhQi8uEtJJsT++9D0DTh4Z6FPFap0Rm4io7cODYTMLA+nK1tXe4
+ gxNA==
+X-Gm-Message-State: AOAM5308a0JxRmLVJuN+R/ag9oKhwUaqW3TYtZDAViV64R5/SUERsz3W
+ rysY4MbpjczvlUAg/tA7MwEimqoWCsXpfJyq0ig=
+X-Google-Smtp-Source: ABdhPJw73VZa3ndUg9SSCAZTIxbMDiQHT+SywD30VuGs1/DnYxFu+7itTeGa/riMDHRl1ljZqNkD9Oo3pA/WtNcYnDo=
+X-Received: by 2002:a05:6808:1390:: with SMTP id
+ c16mr16992375oiw.123.1628533671832; 
+ Mon, 09 Aug 2021 11:27:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YRE7NTxl0RIY7EbG@phenom.ffwll.local>
+References: <20210809025208.10182-1-rdunlap@infradead.org>
+In-Reply-To: <20210809025208.10182-1-rdunlap@infradead.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 9 Aug 2021 14:27:40 -0400
+Message-ID: <CADnq5_OrWJSLNMJwZ8jY-RPTZRLHhxhOcoaxE5HFdu3qKfyqBw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: use do-while-0 for
+ DC_TRACE_LEVEL_MESSAGE()
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Wyatt Wood <wyatt.wood@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,87 +76,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 04:27:01PM +0200, Daniel Vetter wrote:
-> On Tue, Aug 03, 2021 at 03:29:08PM -0700, Matthew Brost wrote:
-> > Calling switch_to_kernel_context isn't needed if the engine PM reference
-> > is taken while all contexts are pinned. By not calling
-> > switch_to_kernel_context we save on issuing a request to the engine.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_engine_pm.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> > index 1f07ac4e0672..58099de6bf07 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> > @@ -162,6 +162,10 @@ static bool switch_to_kernel_context(struct intel_engine_cs *engine)
-> >  	unsigned long flags;
-> >  	bool result = true;
-> >  
-> > +	/* No need to switch_to_kernel_context if GuC submission */
-> 
-> Maybe whack a big FIXME on here that we should unravel this properly.
-
-Sure, can add a FIXME here.
-
-> Currently the execlist backend assumptions are leaked all over the place,
-> leading to stuff like this. Which means extremely fragile code.
+On Sun, Aug 8, 2021 at 10:52 PM Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-
-Yes, this something required for execlists implemented in what should be
-generic code. 
-
-> I currently don't have a great idea on how exactly we should do that, but
-> oh well.
-
-Me either, it will be a process.
-
-> 
-> btw just in case we ever want to make guc lrc properly evictable (which as
-> the og use-case for this function, way, way back), would we need to fully
-
-Can you explain what you mean by fully evictable? Not getting what you
-mean in this context.
-
-> unregister them from guc? At least I'm assuming there's no other trick
-
-If scheduling is disabled on the context (currently done on unpin) you are
-free move anything around as the GuC is guaranteed not to touch the
-context state. If on re-pin something has moved (e.g. the LRC vaddr is
-different), you need to unregister and re-register the context with the
-GuC.
-
-> like the below one.
-> 
-> Another aside: How does the perf/OA patching work on GuC?
+> Building with W=3D1 complains about an empty 'else' statement, so use the
+> usual do-nothing-while-0 loop to quieten this warning.
 >
+> ../drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:113:53: warnin=
+g: suggest braces around empty body in an 'else' statement [-Wempty-body]
+>   113 |                                 *state, retry_count);
+>
+> Fixes: b30eda8d416c ("drm/amd/display: Add ETW log to dmub_psr_get_state"=
+)
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Wyatt Wood <wyatt.wood@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Leo Li <sunpeng.li@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 
-Not my area of expertise but perf somewhat a WIP. The plan is for the
-GuC to write out some stats to HWSP I think? John Harrison is working to
-get this fully implemented.
+Applied.  Thanks!
 
-OA is working afaik, with Umesh Nerlige Ramappa being the expert here.
+Alex
 
-Matt
-
-> Anyway, patch looks legit:
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> 
-> > +	if (intel_engine_uses_guc(engine))
-> > +		return true;
-> > +
-> >  	/* GPU is pointing to the void, as good as in the kernel context. */
-> >  	if (intel_gt_is_wedged(engine->gt))
-> >  		return true;
-> > -- 
-> > 2.28.0
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> ---
+>  drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> --- linux-next-20210806.orig/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.=
+c
+> +++ linux-next-20210806/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+> @@ -29,7 +29,7 @@
+>  #include "dmub/dmub_srv.h"
+>  #include "core_types.h"
+>
+> -#define DC_TRACE_LEVEL_MESSAGE(...) /* do nothing */
+> +#define DC_TRACE_LEVEL_MESSAGE(...)    do {} while (0) /* do nothing */
+>
+>  #define MAX_PIPES 6
+>
