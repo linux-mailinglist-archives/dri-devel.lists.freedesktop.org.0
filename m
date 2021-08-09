@@ -2,46 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CC63E3E04
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 04:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B57F3E3ECB
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Aug 2021 06:20:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 053FB8999C;
-	Mon,  9 Aug 2021 02:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4026589A74;
+	Mon,  9 Aug 2021 04:20:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 531BE8999C;
- Mon,  9 Aug 2021 02:52:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=VeEVmBRhzJwW70EXgz8gikTw4yYG1nvlogdYjeiVpsY=; b=YnLj9xWw2JGrkNfvnL7ajlkaWO
- OHfCYu/H3paOjWTTm3R9Q0TCUKc4/sJW1WLNiJsJU2Yjmqd99cewf3FtAWx9HaYethq0DtxYoImb/
- MH9PcVwK9EWewy+TqcYJjsicQzTDdswWnvcR2fXKUzKNd3Y58skkHlMi7eu+R332A+7Qy7oQ1dOiB
- Mztv7CK9aqmBuhrUoxVMMJ3Rq06r89SM8rRiI9TTF2a8lVflfX7Us0tz1O3klXf2P0eDTXSbMMtG8
- Q4Uc7Q5AgJRlJOHanwYxwAgZfPt5jfbzh+qtXC3WwRHRf9T0+A3aYGNAeoWCFrke4Ej9mIlAmDKgG
- u/vM7qSg==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mCvOb-00GxMm-Mr; Mon, 09 Aug 2021 02:52:09 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Wyatt Wood <wyatt.wood@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/amd/display: use do-while-0 for DC_TRACE_LEVEL_MESSAGE()
-Date: Sun,  8 Aug 2021 19:52:08 -0700
-Message-Id: <20210809025208.10182-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C0E89A74
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Aug 2021 04:20:27 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id a8so25910392pjk.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Aug 2021 21:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=sCRNReZaLDOQvPH4KjWdDvX5jH3hpYmDMhYSFZyyI+4=;
+ b=Y2cgxiqH5ucNbGsSAAImYyUocfH0pYvQ/coZ86iqCrsJkzlYSWBx9tWk+1NJaVnNV2
+ hQvTaDaiMT1AtbVhZH1MeUdyfYKcUgIJr4GqqxvL4RUGLOCTseH1Ztae8tRkA81HhuWZ
+ 9M4m1GSf5oXE71XG2tpY3yFNX/KfI0M7YpkAhOBlROHeD3w6m3R5rG2zXdbvu6fXSYZz
+ 7Endw//3IknW/uOq95mGC8mbGd2212mbqesZ542mHDDzBVM5TQaYKTwNUsyD+URf3hzf
+ LtMKFVSGfyJBo+PCFWJfCRfzwbKwQ7OKeRBkD44kvXAIEGl9W3IXExeJBvI/59b6GhD8
+ KRUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=sCRNReZaLDOQvPH4KjWdDvX5jH3hpYmDMhYSFZyyI+4=;
+ b=c7ICwJNMJ30zOEBMQtkjPfYsIxo9iGYy4eapjK2KB27Bit4pJwmKVP0gyjhLXWqsXc
+ GYOAk2T31NXmzJ8I4A5WUX5a4aJfP0ygeb5QiKwS2yGV1snZJjk36BgjsUOPQKcaDNsk
+ Hlexv83waOvGTeRe4Z8rNBT4AqXPhTn5252K8Lq61IHkQWlw8110NP2yr8ne4qKQNq6B
+ Eiszdtthg/Tw50qaVxjY2FKxo0BHc8rbzQZQg879w3ov6yP0P+KsSQeRKrDkJ/MPbtrf
+ RmHg/PmC1GrcoJ9nHd7p3ucOEedxVpOVMvq/vIONb+CSOa7IhuLawh0w/SFO0k15qJd3
+ iSvw==
+X-Gm-Message-State: AOAM532KKyKZFY7PzPCtZqI8r6tKTQkfu4g17SJF1W2tHYGiFZrZsqQH
+ Uz2H3mupl5gjChLqz6ed/3ciFQ==
+X-Google-Smtp-Source: ABdhPJw45E670g4FSxxD+rVM8EYpeAPwFPVtdr+ur4PMyAaH0Tk3nJXWf7iYnvPpAzNVE33FMf5Gkw==
+X-Received: by 2002:a17:902:8648:b029:129:dda4:ddc2 with SMTP id
+ y8-20020a1709028648b0290129dda4ddc2mr10796851plt.4.1628482826555; 
+ Sun, 08 Aug 2021 21:20:26 -0700 (PDT)
+Received: from dragon (80.251.214.228.16clouds.com. [80.251.214.228])
+ by smtp.gmail.com with ESMTPSA id q19sm17263736pfk.49.2021.08.08.21.20.23
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Sun, 08 Aug 2021 21:20:26 -0700 (PDT)
+Date: Mon, 9 Aug 2021 12:20:19 +0800
+From: Shawn Guo <shawn.guo@linaro.org>
+To: Stephan Gerhold <stephan@gerhold.net>
+Cc: Konrad Dybcio <konradybcio@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 2/2] drm/panel: Add Truly NT35521 panel driver
+Message-ID: <20210809042018.GD6795@dragon>
+References: <20210804081352.30595-1-shawn.guo@linaro.org>
+ <20210804081352.30595-3-shawn.guo@linaro.org>
+ <YQqDb5eFqIx8tvAL@gerhold.net> <20210808134456.GB6795@dragon>
+ <YQ/4WkA9ajpQx06A@gerhold.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YQ/4WkA9ajpQx06A@gerhold.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,36 +80,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Building with W=1 complains about an empty 'else' statement, so use the
-usual do-nothing-while-0 loop to quieten this warning.
+On Sun, Aug 08, 2021 at 05:29:30PM +0200, Stephan Gerhold wrote:
+> > 2) The driver works good, if the kernel is launched via "fastboot boot".
+> >    But if the kernel is flashed to eMMC and launched by bootloader with
+> >    splash screen, kernel will fail to bring up the panel.  After kernel
+> >    boots up, a blank & unblank cycle can get panel work though.
+> > 
+> > The problem 2) is not driver generator related.  @Konrad, did you see
+> > it on asus-z00t-tm5p5-n35596 driver?
+> > 
+> 
+> Do you have CONFIG_DRM_MSM=y (built-in) instead of =m (module) maybe?
+> I think a similar issue exists on MSM8916 but it does not happen
+> for some reason if CONFIG_DRM_MSM=m instead of =y. Somehow having it
+> load later during the boot process fixes some things there.
 
-../drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:113:53: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-  113 |                                 *state, retry_count);
+Indeed!  I have CONFIG_DRM_MSM=y in my build, and changing it to module
+removes the problem.  Thanks much for the hint, Stephan!
 
-Fixes: b30eda8d416c ("drm/amd/display: Add ETW log to dmub_psr_get_state")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Wyatt Wood <wyatt.wood@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- linux-next-20210806.orig/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-+++ linux-next-20210806/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-@@ -29,7 +29,7 @@
- #include "dmub/dmub_srv.h"
- #include "core_types.h"
- 
--#define DC_TRACE_LEVEL_MESSAGE(...) /* do nothing */
-+#define DC_TRACE_LEVEL_MESSAGE(...)	do {} while (0) /* do nothing */
- 
- #define MAX_PIPES 6
- 
+Shawn
