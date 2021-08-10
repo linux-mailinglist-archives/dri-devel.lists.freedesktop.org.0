@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107813E5686
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFC13E569A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C67989E01;
-	Tue, 10 Aug 2021 09:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3293C89F63;
+	Tue, 10 Aug 2021 09:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 348CC89E01;
- Tue, 10 Aug 2021 09:16:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F3C166056B;
- Tue, 10 Aug 2021 09:16:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628586986;
- bh=hG1PKIfUobySTRl3kToyKQWcPI+bWs/Llfdg4HtV8Lc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mOAHGE6mrYyzdYOiATqBh3ctWbADLleThoclue/CxW6EWM3taq8sQYiRgsVZlnr09
- pTsO2mPLnhhPRbGIXVu+JQJ2eRglxQu799oybVa190XqsKer2qr7WDXFO6on/S0RdX
- rcaqL3+aDwZeiOVHzyEQ/0bEATuepbIqh1CLsdxN/hNFhyRgjwfkEBZW+iEoIap9QV
- Gx8IBDY7U01l8JCBcG53fyX1QSncT2DWzpjXp4GoKw3IIKzCKbj/Cy16Vee4V4RCDg
- +Y0VAfWigUKKCWw/eJynPJN7yEgpHxV4zOqqDEZ+BI+3XY4Utiq060cAGEHVTTGNQv
- PykOiqiyVk43A==
-Date: Tue, 10 Aug 2021 10:16:19 +0100
-From: Will Deacon <will@kernel.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Cc: Rob Clark <robdclark@gmail.com>,
- "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Jordan Crouse <jcrouse@codeaurora.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS , Joerg Roedel <joro@8bytes.org>,
- " <iommu@lists.linux-foundation.org>, 
- Kristian H Kristensen <hoegsberg@google.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, 
- Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [Freedreno] [PATCH 0/3] iommu/drm/msm: Allow non-coherent
- masters to use system cache
-Message-ID: <20210810091619.GA2494@willie-the-truck>
-References: <20210802105544.GA27657@willie-the-truck>
- <CAF6AEGvtpFu8st=ZFNoKjP9YsAenciLxL1zMFi_iqMCvdby73w@mail.gmail.com>
- <20210802151409.GE28735@willie-the-truck>
- <CAF6AEGtzvyEUm0Fc8QT5t9KNK7i0FbFyi7zDM2_PMCzZBp7qbw@mail.gmail.com>
- <20210809145651.GC1458@willie-the-truck>
- <CAF6AEGsSUojA=V0n2iRWTCn++buqN=Eoxo0r3=+=PBu1O=H-AQ@mail.gmail.com>
- <20210809170508.GB1589@willie-the-truck>
- <CAF6AEGtmZ3LzAJdtnKDQDbEN-a6_JgdN-fZ96pkU3dZqkiW91g@mail.gmail.com>
- <20210809174022.GA1840@willie-the-truck>
- <76bfd0b4248148dfbf9d174ddcb4c2a2@codeaurora.org>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 372E189F61
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:18:24 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id l18so25320803wrv.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 02:18:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=9hufEZjAKEFWJ8zzrYpN2mq0/S0tL+FK2DPnSWxnaRE=;
+ b=h7/0o8nH5A81QtmMyJFyPtoadcVMEUgNFxSIW9ar22BgJI2zR9uZmEtkigbftZHRXk
+ ouYgsyqGLqIhUgzILc2B9K/2TukTMggxfnSOvNuIDBLRWMk+Y5eFhuU6FQVha6LEu2i9
+ KB+MxsYwn3SB2QPqgAn3fyM3WPfaazYnOZGfI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9hufEZjAKEFWJ8zzrYpN2mq0/S0tL+FK2DPnSWxnaRE=;
+ b=gpvmARbSPVtSgk0S+pcH9O7545x2cX8wcwKmLqenc31a9irpUJNpLNibDujhEj8PhJ
+ T+BUhoTwCckdchOfnWZUKLtYqhHIC/nnv/D/qgDnIC/Gu/VeIYLqfzahT5wmJ9vlUhci
+ 5e+Icks8cI4RxuKrTY4IOtQTx5g2qXC48ckwEhlEk7XjkAViwJa4jByOXLzQkNqAz6qz
+ W7wznd+idxfTbdEZFDYN15hxkDBa0HP0hZX6UdgaFWsrqLq8iWI2+w8xmOksbP270t4H
+ n4os1vRwiZYt9cHBgQIwI6cCz9Xam9guG11a/wLk+Qp9ffNk9wqHnLMVffBcSZxl3SNe
+ EcGA==
+X-Gm-Message-State: AOAM533QH9rqS0kn3vcGl3Rfu06/U7B6oGczfiNQl7NXdhttsOjwZBm7
+ KwC3H89uVhrcMitefLeLwwXJ6w==
+X-Google-Smtp-Source: ABdhPJyzoHKcTY2XeOC/z9B48LXleZqKaupfp9bqRd8mG6ZqFBDLBluOYdH6/OLo2bK+Tx3ZN1KJQQ==
+X-Received: by 2002:a05:6000:104f:: with SMTP id
+ c15mr3095509wrx.357.1628587102558; 
+ Tue, 10 Aug 2021 02:18:22 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n186sm2404761wme.40.2021.08.10.02.18.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Aug 2021 02:18:21 -0700 (PDT)
+Date: Tue, 10 Aug 2021 11:18:20 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 20/46] drm/i915/guc: Add hang check to GuC submit engine
+Message-ID: <YRJEXOUtdyi2yD5N@phenom.ffwll.local>
+References: <20210803222943.27686-1-matthew.brost@intel.com>
+ <20210803222943.27686-21-matthew.brost@intel.com>
+ <YRFLPfzsAgFqqytd@phenom.ffwll.local>
+ <20210809190558.GA123848@DUT151-ICLU.fm.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <76bfd0b4248148dfbf9d174ddcb4c2a2@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210809190558.GA123848@DUT151-ICLU.fm.intel.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,47 +74,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 11:17:40PM +0530, Sai Prakash Ranjan wrote:
-> On 2021-08-09 23:10, Will Deacon wrote:
-> > On Mon, Aug 09, 2021 at 10:18:21AM -0700, Rob Clark wrote:
-> > > On Mon, Aug 9, 2021 at 10:05 AM Will Deacon <will@kernel.org> wrote:
-> > > > On Mon, Aug 09, 2021 at 09:57:08AM -0700, Rob Clark wrote:
-> > > > > But I suppose we could call it instead IOMMU_QCOM_LLC or something
-> > > > > like that to make it more clear that it is not necessarily something
-> > > > > that would work with a different outer level cache implementation?
-> > > >
-> > > > ... or we could just deal with the problem so that other people can reuse
-> > > > the code. I haven't really understood the reluctance to solve this properly.
-> > > >
-> > > > Am I missing some reason this isn't solvable?
+On Mon, Aug 09, 2021 at 07:05:58PM +0000, Matthew Brost wrote:
+> On Mon, Aug 09, 2021 at 05:35:25PM +0200, Daniel Vetter wrote:
+> > On Tue, Aug 03, 2021 at 03:29:17PM -0700, Matthew Brost wrote:
+> > > The heartbeat uses a single instance of a GuC submit engine (GSE) to do
+> > > the hang check. As such if a different GSE's state machine hangs, the
+> > > heartbeat cannot detect this hang. Add timer to each GSE which in turn
+> > > can disable all submissions if it is hung.
 > > > 
-> > > Oh, was there another way to solve it (other than foregoing setting
-> > > INC_OCACHE in the pgtables)?  Maybe I misunderstood, is there a
-> > > corresponding setting on the MMU pgtables side of things?
+> > > Cc: John Harrison <John.C.Harrison@Intel.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > ---
+> > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 36 +++++++++++++++++++
+> > >  .../i915/gt/uc/intel_guc_submission_types.h   |  3 ++
+> > >  2 files changed, 39 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > index afb9b4bb8971..2d8296bcc583 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > @@ -105,15 +105,21 @@ static bool tasklet_blocked(struct guc_submit_engine *gse)
+> > >  	return test_bit(GSE_STATE_TASKLET_BLOCKED, &gse->flags);
+> > >  }
+> > >  
+> > > +/* 2 seconds seems like a reasonable timeout waiting for a G2H */
+> > > +#define MAX_TASKLET_BLOCKED_NS	2000000000
+> > >  static void set_tasklet_blocked(struct guc_submit_engine *gse)
+> > >  {
+> > >  	lockdep_assert_held(&gse->sched_engine.lock);
+> > > +	hrtimer_start_range_ns(&gse->hang_timer,
+> > > +			       ns_to_ktime(MAX_TASKLET_BLOCKED_NS), 0,
+> > > +			       HRTIMER_MODE_REL_PINNED);
+> > >  	set_bit(GSE_STATE_TASKLET_BLOCKED, &gse->flags);
 > > 
-> > Right -- we just need to program the CPU's MMU with the matching memory
-> > attributes! It's a bit more fiddly if you're just using ioremap_wc()
-> > though, as it's usually the DMA API which handles the attributes under
-> > the
-> > hood.
+> > So with drm/scheduler the reset handling is assumed to be
+> > single-threaded, and there's quite complex rules around that. I've
+> > recently worked with Boris Brezillion to clarify all this a bit and
+> > improve docs. Does this all still work in that glorious future? Might be
+> > good to at least sprinkle some comments/thoughts around in the commit
+> > message about the envisaged future direction for all this stuff, to keep
+> > people in the loop. Especially future people.
 > > 
-> > Anyway, sorry, I should've said that explicitly earlier on. We've done
-> > this
-> > sort of thing in the Android tree so I assumed Sai knew what needed to
-> > be
-> > done and then I didn't think to explain to you :(
+> > Ofc plan is still to just largely land all this.
 > > 
+> > Also: set_bit is an unordered atomic, which means you need barriers, which
+> > meanes ... *insert the full rant about justifying/documenting lockless
+> > algorithms from earlier *
+> >
 > 
-> Right I was aware of that but even in the android tree there is no user :)
+> lockdep_assert_held(&gse->sched_engine.lock);
+> 
+> Not lockless. Also spin locks act as barriers, right?
 
-I'm assuming there are vendor modules using it there, otherwise we wouldn't
-have been asked to put it in. Since you work at Qualcomm, maybe you could
-talk to your colleagues (Isaac and Patrick) directly?
+Well if that spinlock is protecting that bit then that's good, but then it
+shouldn't be an atomic set_bit. In that case:
+- either make the entire bitfield non-atomic so it's clear there's boring
+  dumb locking going on
+- or split out your new bit into a separate field so that there's no false
+  sharing with the existing bitfield state machinery, and add a kernel doc
+  to that field explaining the locking
 
-> I think we can't have a new memory type without any user right in upstream
-> like android tree?
+set_bit itself is atomic and unordered, so means you need barriers and all
+that. If you don't have a lockless algorithm, don't use atomic bitops to
+avoid confusing readers because set_bit/test_bit sets of all the warning
+bells.
 
-Correct. But I don't think we should be adding IOMMU_* anything upstream
-if we don't have a user.
+And yes it's annoying that for bitops the atomic ones don't have an
+atomic_ prefix. The non-atomic ones have a __ prefix. This is honestly why
+I don't think we should use bitfields as much as we do, because the main
+use-case for them is when you have bitfields which are longer than 64bits.
+They come from the cpumask world, and linux supports a lot of cpus.
 
-Will
+Open-coding non-atomic simple bitfields with the usual C operators is
+perfectly fine and legible imo. But that part is maybe more a bikeshed.
+
+> > But I think this all falls out with the removal of the guc-id allocation
+> > scheme?
+> 
+> Yes, this patch is getting deleted.
+
+That works too :-)
+-Daniel
+
+> 
+> Matt
+> 
+> > -Daniel
+> > 
+> > >  }
+> > >  
+> > >  static void __clr_tasklet_blocked(struct guc_submit_engine *gse)
+> > >  {
+> > >  	lockdep_assert_held(&gse->sched_engine.lock);
+> > > +	hrtimer_cancel(&gse->hang_timer);
+> > >  	clear_bit(GSE_STATE_TASKLET_BLOCKED, &gse->flags);
+> > >  }
+> > >  
+> > > @@ -1028,6 +1034,7 @@ static void disable_submission(struct intel_guc *guc)
+> > >  		if (__tasklet_is_enabled(&sched_engine->tasklet)) {
+> > >  			GEM_BUG_ON(!guc->ct.enabled);
+> > >  			__tasklet_disable_sync_once(&sched_engine->tasklet);
+> > > +			hrtimer_try_to_cancel(&guc->gse[i]->hang_timer);
+> > >  			sched_engine->tasklet.callback = NULL;
+> > >  		}
+> > >  	}
+> > > @@ -3750,6 +3757,33 @@ static void guc_sched_engine_destroy(struct kref *kref)
+> > >  	kfree(gse);
+> > >  }
+> > >  
+> > > +static enum hrtimer_restart gse_hang(struct hrtimer *hrtimer)
+> > > +{
+> > > +	struct guc_submit_engine *gse =
+> > > +		container_of(hrtimer, struct guc_submit_engine, hang_timer);
+> > > +	struct intel_guc *guc = gse->sched_engine.private_data;
+> > > +
+> > > +#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+> > > +	if (guc->gse_hang_expected)
+> > > +		drm_dbg(&guc_to_gt(guc)->i915->drm,
+> > > +			"GSE[%i] hung, disabling submission", gse->id);
+> > > +	else
+> > > +		drm_err(&guc_to_gt(guc)->i915->drm,
+> > > +			"GSE[%i] hung, disabling submission", gse->id);
+> > > +#else
+> > > +	drm_err(&guc_to_gt(guc)->i915->drm,
+> > > +		"GSE[%i] hung, disabling submission", gse->id);
+> > > +#endif
+> > > +
+> > > +	/*
+> > > +	 * Tasklet not making forward progress, disable submission which in turn
+> > > +	 * will kick in the heartbeat to do a full GPU reset.
+> > > +	 */
+> > > +	disable_submission(guc);
+> > > +
+> > > +	return HRTIMER_NORESTART;
+> > > +}
+> > > +
+> > >  static void guc_submit_engine_init(struct intel_guc *guc,
+> > >  				   struct guc_submit_engine *gse,
+> > >  				   int id)
+> > > @@ -3767,6 +3801,8 @@ static void guc_submit_engine_init(struct intel_guc *guc,
+> > >  	sched_engine->retire_inflight_request_prio =
+> > >  		guc_retire_inflight_request_prio;
+> > >  	sched_engine->private_data = guc;
+> > > +	hrtimer_init(&gse->hang_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> > > +	gse->hang_timer.function = gse_hang;
+> > >  	gse->id = id;
+> > >  }
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission_types.h
+> > > index a5933e07bdd2..eae2e9725ede 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission_types.h
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission_types.h
+> > > @@ -6,6 +6,8 @@
+> > >  #ifndef _INTEL_GUC_SUBMISSION_TYPES_H_
+> > >  #define _INTEL_GUC_SUBMISSION_TYPES_H_
+> > >  
+> > > +#include <linux/xarray.h>
+> > > +
+> > >  #include "gt/intel_engine_types.h"
+> > >  #include "gt/intel_context_types.h"
+> > >  #include "i915_scheduler_types.h"
+> > > @@ -41,6 +43,7 @@ struct guc_submit_engine {
+> > >  	unsigned long flags;
+> > >  	int total_num_rq_with_no_guc_id;
+> > >  	atomic_t num_guc_ids_not_ready;
+> > > +	struct hrtimer hang_timer;
+> > >  	int id;
+> > >  
+> > >  	/*
+> > > -- 
+> > > 2.28.0
+> > > 
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
