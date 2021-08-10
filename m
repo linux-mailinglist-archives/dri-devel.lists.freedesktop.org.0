@@ -2,77 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5CF43E7C02
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 17:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F133E7C43
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 17:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 072CF89CC1;
-	Tue, 10 Aug 2021 15:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94D6989C3B;
+	Tue, 10 Aug 2021 15:30:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-0.canonical.com
- (smtp-relay-canonical-0.canonical.com [185.125.188.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF1889CBC
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 15:20:37 +0000 (UTC)
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPS id 9EF763F23A
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 15:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1628608835;
- bh=j9DOWe5Q6j3DUs1eHs4nfI997kH7LOvieiXjqOQd8tQ=;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
- To:Cc:Content-Type;
- b=ndodUjKIl7UEba2kmwqwopzNPWA1+9qfJPk7dziyjb3pkFI4GmKcR8eOPzJNeHHxa
- 8uwIFbf9NxkIsVh/2+LM8sPytbUx+qkFVAqmAhLF+MaBWBje1/pK12YMXFMtiO6uCG
- iBnw1tQx1C45hXT2Qa8CYiVdmgtyeyT4xKTyZ462IhTve/OLSEqi+H7KkSUIj/17/a
- QqgP5K5Amf/oCInBOJkpAc7eHW2QsQuzQIJC7GHzQ3P3eaeVQ7SGmLyslVLmhLMR7y
- S7nv+W0YQovWsbaRDF40B1EZGjAIJqHHF0Bn3jQnnVLE7L6h1ASlhu9huVpIyB/nOv
- X+t9hTZ9kk3fw==
-Received: by mail-ed1-f72.google.com with SMTP id
- l3-20020aa7c3030000b02903bccf1897f9so10901295edq.19
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 08:20:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=j9DOWe5Q6j3DUs1eHs4nfI997kH7LOvieiXjqOQd8tQ=;
- b=A/HrCAsK4TI1wldKCRlvsJoWaCE2keZFXe1A3ccaeHwBOtI0cUenCFQWPyX2ApcaB3
- cTc3cj18kblRkq5uc5C8M+eXaSsKDQcWWAg6b75YhFgi+IOWMuoBBB1BlkYESi34wkzL
- sMXUpAw28LtkgOcKr1w2jX8+gD+hOp32SVDqHiTqru3X3XHmW0DmDpRXTRt1GNqhliac
- t2CBiYJEhKotpvWM1dR3PLKiZF1kuAVb1HhbHVSf7X7iLOM5o0CtAJt4W0PJz1mvqYX8
- Y2egPeNEUQyF91PtUMPiH5X9TFeAyFfg94KwbL3ndr1LdD5mjx88GlISsfA9sqMoKe2X
- ylvQ==
-X-Gm-Message-State: AOAM532q/r0ERmQy6ysiuh+lDfQWWigmg6D0gSMeTU2UwFHHI0rE/NVW
- B5k6SPpXI2Rwp8owZwMxpXQHgcdDVMC5IidzpEh4yTUtL4jxVtqaHo2VdJiit7FPRrkFhqp3Lhb
- D51vZOe1QCH5DNIFuY+dGuroaw6ED1nFihzmZqkahhF7Fyiu0NOCXsWZ9UTZj3Q==
-X-Received: by 2002:aa7:cdcf:: with SMTP id h15mr5626387edw.45.1628608835218; 
- Tue, 10 Aug 2021 08:20:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuZy47wtwcB9Gw+55XBurmzvrA0vkpYUNh3X8h7fQCjQ2uHs9ZCGRVLmEL1d4FvH35E7Wn+sTyo5Af4znxNJ0=
-X-Received: by 2002:aa7:cdcf:: with SMTP id h15mr5626352edw.45.1628608834872; 
- Tue, 10 Aug 2021 08:20:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210802133551.1904964-1-imre.deak@intel.com>
- <20210809133146.2478382-1-imre.deak@intel.com>
- <20210810083629.GA2517380@ideak-desk.fi.intel.com>
- <CADnq5_Pjz2gP2465S1aEzKMZXiSB2WqEPUdkpqh58XzJcKLu+g@mail.gmail.com>
-In-Reply-To: <CADnq5_Pjz2gP2465S1aEzKMZXiSB2WqEPUdkpqh58XzJcKLu+g@mail.gmail.com>
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Tue, 10 Aug 2021 23:20:23 +0800
-Message-ID: <CAAd53p7N0Z+7hNmomaqRSWhzDjhOnwhgn6oPHQ_b4mep=xzTwg@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v2] fbdev/efifb: Release PCI device's runtime
- PM ref during FB destroy
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Imre Deak <imre.deak@intel.com>, 
- "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4179B89C3B
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 15:30:02 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1628609411; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=HgKakaRiW9LgKPRH3JPzKe8BzZrBQ8j/TWIYvdkiy94=;
+ b=jOI1d6ZQCbffaEbyQKUuMrkWoep+SHW8uU+COa3pZq9fW5bvgkUlzsNMdpsqFl15DgS5GJ0L
+ 5oL+R6f5bcCKe0qHnIv2doW1qS1Y0do5tRd5xt5uTu2FU/g2z44tlT6hvgNNgTVQgRb1g+By
+ AHLT1QfUw24m1ywSw0//vwfFUQk=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 61129b5a91487ad520207547 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 10 Aug 2021 15:29:30
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 538ABC433F1; Tue, 10 Aug 2021 15:29:29 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 7C5ABC433F1;
+ Tue, 10 Aug 2021 15:29:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7C5ABC433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ vkoul@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org
+Cc: abhinavk@codeaurora.org, aravindh@codeaurora.org, khsieh@codeaurora.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/msm/dp: add drm debug logs to dp_pm_resume/suspend
+Date: Tue, 10 Aug 2021 08:29:22 -0700
+Message-Id: <1628609362-2109-1-git-send-email-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,123 +71,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 10, 2021 at 10:49 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Tue, Aug 10, 2021 at 4:36 AM Imre Deak <imre.deak@intel.com> wrote:
-> >
-> > Hi Kai-Heng, Alex,
-> >
-> > could you add your ack if the fix looks ok and you're ok if I push it to
-> > the i915 tree?
-> >
->
-> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Changes in V2:
+-- correct Fixes text
+-- drop commit text
 
-Acked-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Fixes: 601f0479c583 ("drm/msm/dp: add logs across DP driver for ease of debugging")
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
->
-> > Thanks,
-> > Imre
-> >
-> > On Mon, Aug 09, 2021 at 04:31:46PM +0300, Imre Deak wrote:
-> > > Atm the EFI FB platform driver gets a runtime PM reference for the
-> > > associated GFX PCI device during probing the EFI FB platform device and
-> > > releases it only when the platform device gets unbound.
-> > >
-> > > When fbcon switches to the FB provided by the PCI device's driver (for
-> > > instance i915/drmfb), the EFI FB will get only unregistered without the
-> > > EFI FB platform device getting unbound, keeping the runtime PM reference
-> > > acquired during the platform device probing. This reference will prevent
-> > > the PCI driver from runtime suspending the device.
-> > >
-> > > Fix this by releasing the RPM reference from the EFI FB's destroy hook,
-> > > called when the FB gets unregistered.
-> > >
-> > > While at it assert that pm_runtime_get_sync() didn't fail.
-> > >
-> > > v2:
-> > > - Move pm_runtime_get_sync() before register_framebuffer() to avoid its
-> > >   race wrt. efifb_destroy()->pm_runtime_put(). (Daniel)
-> > > - Assert that pm_runtime_get_sync() didn't fail.
-> > > - Clarify commit message wrt. platform/PCI device/driver and driver
-> > >   removal vs. device unbinding.
-> > >
-> > > Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
-> > > Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
-> > > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > > ---
-> > >  drivers/video/fbdev/efifb.c | 21 ++++++++++++++-------
-> > >  1 file changed, 14 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> > > index 8ea8f079cde26..edca3703b9640 100644
-> > > --- a/drivers/video/fbdev/efifb.c
-> > > +++ b/drivers/video/fbdev/efifb.c
-> > > @@ -47,6 +47,8 @@ static bool use_bgrt = true;
-> > >  static bool request_mem_succeeded = false;
-> > >  static u64 mem_flags = EFI_MEMORY_WC | EFI_MEMORY_UC;
-> > >
-> > > +static struct pci_dev *efifb_pci_dev;        /* dev with BAR covering the efifb */
-> > > +
-> > >  static struct fb_var_screeninfo efifb_defined = {
-> > >       .activate               = FB_ACTIVATE_NOW,
-> > >       .height                 = -1,
-> > > @@ -243,6 +245,9 @@ static inline void efifb_show_boot_graphics(struct fb_info *info) {}
-> > >
-> > >  static void efifb_destroy(struct fb_info *info)
-> > >  {
-> > > +     if (efifb_pci_dev)
-> > > +             pm_runtime_put(&efifb_pci_dev->dev);
-> > > +
-> > >       if (info->screen_base) {
-> > >               if (mem_flags & (EFI_MEMORY_UC | EFI_MEMORY_WC))
-> > >                       iounmap(info->screen_base);
-> > > @@ -333,7 +338,6 @@ ATTRIBUTE_GROUPS(efifb);
-> > >
-> > >  static bool pci_dev_disabled;        /* FB base matches BAR of a disabled device */
-> > >
-> > > -static struct pci_dev *efifb_pci_dev;        /* dev with BAR covering the efifb */
-> > >  static struct resource *bar_resource;
-> > >  static u64 bar_offset;
-> > >
-> > > @@ -569,17 +573,22 @@ static int efifb_probe(struct platform_device *dev)
-> > >               pr_err("efifb: cannot allocate colormap\n");
-> > >               goto err_groups;
-> > >       }
-> > > +
-> > > +     if (efifb_pci_dev)
-> > > +             WARN_ON(pm_runtime_get_sync(&efifb_pci_dev->dev) < 0);
-> > > +
-> > >       err = register_framebuffer(info);
-> > >       if (err < 0) {
-> > >               pr_err("efifb: cannot register framebuffer\n");
-> > > -             goto err_fb_dealoc;
-> > > +             goto err_put_rpm_ref;
-> > >       }
-> > >       fb_info(info, "%s frame buffer device\n", info->fix.id);
-> > > -     if (efifb_pci_dev)
-> > > -             pm_runtime_get_sync(&efifb_pci_dev->dev);
-> > >       return 0;
-> > >
-> > > -err_fb_dealoc:
-> > > +err_put_rpm_ref:
-> > > +     if (efifb_pci_dev)
-> > > +             pm_runtime_put(&efifb_pci_dev->dev);
-> > > +
-> > >       fb_dealloc_cmap(&info->cmap);
-> > >  err_groups:
-> > >       sysfs_remove_groups(&dev->dev.kobj, efifb_groups);
-> > > @@ -603,8 +612,6 @@ static int efifb_remove(struct platform_device *pdev)
-> > >       unregister_framebuffer(info);
-> > >       sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
-> > >       framebuffer_release(info);
-> > > -     if (efifb_pci_dev)
-> > > -             pm_runtime_put(&efifb_pci_dev->dev);
-> > >
-> > >       return 0;
-> > >  }
-> > > --
-> > > 2.27.0
-> > >
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 8a85613..870b926 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1284,6 +1284,9 @@ static int dp_pm_resume(struct device *dev)
+ 
+ 	mutex_lock(&dp->event_mutex);
+ 
++	DRM_DEBUG_DP("Before, core_inited=%d power_on=%d\n",
++			dp->core_initialized, dp_display->power_on);
++
+ 	/* start from disconnected state */
+ 	dp->hpd_state = ST_DISCONNECTED;
+ 
+@@ -1315,6 +1318,10 @@ static int dp_pm_resume(struct device *dev)
+ 	else
+ 		dp->dp_display.is_connected = false;
+ 
++	DRM_DEBUG_DP("After, sink_count=%d is_connected=%d core_inited=%d power_on=%d\n",
++			dp->link->sink_count, dp->dp_display.is_connected,
++			dp->core_initialized, dp_display->power_on);
++
+ 	mutex_unlock(&dp->event_mutex);
+ 
+ 	return 0;
+@@ -1330,6 +1337,9 @@ static int dp_pm_suspend(struct device *dev)
+ 
+ 	mutex_lock(&dp->event_mutex);
+ 
++	DRM_DEBUG_DP("Before, core_inited=%d power_on=%d\n",
++			dp->core_initialized, dp_display->power_on);
++
+ 	if (dp->core_initialized == true) {
+ 		/* mainlink enabled */
+ 		if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+@@ -1343,6 +1353,9 @@ static int dp_pm_suspend(struct device *dev)
+ 	/* host_init will be called at pm_resume */
+ 	dp->core_initialized = false;
+ 
++	DRM_DEBUG_DP("After, core_inited=%d power_on=%d\n",
++			dp->core_initialized, dp_display->power_on);
++
+ 	mutex_unlock(&dp->event_mutex);
+ 
+ 	return 0;
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
