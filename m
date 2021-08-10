@@ -2,40 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91AF3E5590
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 10:36:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519793E55AF
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 10:40:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED1C89A56;
-	Tue, 10 Aug 2021 08:36:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D266389BC0;
+	Tue, 10 Aug 2021 08:40:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E81989A56;
- Tue, 10 Aug 2021 08:36:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278608875"
-X-IronPort-AV: E=Sophos;i="5.84,309,1620716400"; d="scan'208";a="278608875"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2021 01:36:35 -0700
-X-IronPort-AV: E=Sophos;i="5.84,309,1620716400"; d="scan'208";a="525949750"
-Received: from ideak-desk.fi.intel.com ([10.237.68.141])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2021 01:36:32 -0700
-Date: Tue, 10 Aug 2021 11:36:29 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: linux-fbdev@vger.kernel.org, Kai-Heng Feng <kai.heng.feng@canonical.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH v2] fbdev/efifb: Release PCI device's runtime
- PM ref during FB destroy
-Message-ID: <20210810083629.GA2517380@ideak-desk.fi.intel.com>
-References: <20210802133551.1904964-1-imre.deak@intel.com>
- <20210809133146.2478382-1-imre.deak@intel.com>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9976D89BC0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 08:40:22 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id i4so7689957wru.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 01:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=cKbU9FcikmLQJ8ei5FqM01XsNg7Lhvb/CqBLRSs+e6Y=;
+ b=dyIuT2n2VcPiM/RBZyvglfDmYnDB6Khh/nbdE68r8gYpY/a2NOrDaGfZLTs1W/+53t
+ vXS/cZ/tC1I9/7dqHtnrmgMvWpGq9dGx95D1TIug5tn0JH7x68v/1Ix3ehVQ3mzJinRI
+ GUr9/F01AqBZbk8e0i4kbq2w26FwQ6BX+66Fo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=cKbU9FcikmLQJ8ei5FqM01XsNg7Lhvb/CqBLRSs+e6Y=;
+ b=L7kO/G9oyCipRkMNbWQBNjRnlxSUv20/hPZQaReGEGFTJd+l80KypuksqH1SQt6uxp
+ 4D7A2zEQgIrsfREH5Q1JN/A75Q10mtc1scJsxEMzNYIIwJHkRZmoYDYQ75eWgGwBG49C
+ zXSXDQfNyFArTS8Xe+e8eKUgXL9gIi9mWOADzXzISbuQCbwePhg298w53xidbC7vk9W0
+ gQozv6Q6zLF67/lf/J2pGZbGFiyDbdscFvmiYaFKV1o5iankjIWGGOaW6EEkNZEjFhMu
+ vKr3nrcBcmEPp0wfW9n2e6cYN2dYeMluiM16FUUgjIVpDcQdJjNnKthGx29OOQodNISw
+ sDHw==
+X-Gm-Message-State: AOAM532ILG7+vahPQtDLfk/wKeacu5M0Fxj8rX8RghQmjBnXw5OmeQxm
+ fzLNV8md/V/Cqy/31k6PVNkB7w==
+X-Google-Smtp-Source: ABdhPJza6SgqUQMLMWRHmcm7FQ9wXAO72W40L4Idi8UXF8r5IQoBj3uhgCeKhzBt6M/C31Jpx7GRDw==
+X-Received: by 2002:adf:ee4e:: with SMTP id w14mr29754692wro.15.1628584821138; 
+ Tue, 10 Aug 2021 01:40:21 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c15sm22801342wrw.93.2021.08.10.01.40.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Aug 2021 01:40:20 -0700 (PDT)
+Date: Tue, 10 Aug 2021 10:40:18 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Hridya Valsaraju <hridya@google.com>, John Stultz <john.stultz@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ Android Kernel Team <kernel-team@android.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] dma-buf: heaps: Set allocation limit for system heap
+Message-ID: <YRI7cqWXM545iMzO@phenom.ffwll.local>
+Mail-Followup-To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ John Stultz <john.stultz@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ lkml <linux-kernel@vger.kernel.org>,
+ Android Kernel Team <kernel-team@android.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20210722190747.1986614-1-hridya@google.com>
+ <CALAqxLVLMt7rbJBQtFBw-ikBAjKrVgfS8=Nu6NFQbp_gq1m22Q@mail.gmail.com>
+ <CA+wgaPOQmY4H9n302YspKuLk9iq9vBzdWBTu19EUUsiQYTUOzQ@mail.gmail.com>
+ <CAO_48GFS5SsdNCwOp6Jb+nmZJ+SdNkQkq628VhxXRGSLVeP0Yg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210809133146.2478382-1-imre.deak@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO_48GFS5SsdNCwOp6Jb+nmZJ+SdNkQkq628VhxXRGSLVeP0Yg@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,113 +97,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kai-Heng, Alex,
+On Tue, Aug 10, 2021 at 01:54:41PM +0530, Sumit Semwal wrote:
+> Hi Hridya,
+> 
+> Apologies for the delay in responding.
+> 
+> On Wed, 4 Aug 2021 at 03:09, Hridya Valsaraju <hridya@google.com> wrote:
+> 
+> > On Mon, Aug 2, 2021 at 7:18 PM John Stultz <john.stultz@linaro.org> wrote:
+> > >
+> > > On Thu, Jul 22, 2021 at 12:07 PM Hridya Valsaraju <hridya@google.com>
+> > wrote:
+> > > > This patch limits the size of total memory that can be requested in a
+> > > > single allocation from the system heap. This would prevent a
+> > > > buggy/malicious client from depleting system memory by requesting for
+> > an
+> > > > extremely large allocation which might destabilize the system.
+> > > >
+> > > > The limit is set to half the size of the device's total RAM which is
+> > the
+> > > > same as what was set by the deprecated ION system heap.
+> > > >
+> > > > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > >
+> > > Seems sane to me, unless folks have better suggestions for allocation
+> > limits.
+> > >
+> > > Reviewed-by: John Stultz <john.stultz@linaro.org>
+> >
+> > Thank you for taking a look John!
+> >
+> Looks good to me; I will apply it to drm-misc today.
 
-could you add your ack if the fix looks ok and you're ok if I push it to
-the i915 tree?
+Please don't, this doesn't really solve anything:
+- it's easy to bypass, just allocate more buffers to get over the limit
+- resource limit plan is cgroups, not hand-rolled limits in every
+  allocator
+- the ttm "max half of system memory" is for pinned memory, to work around
+  locking inversion issues between dma_resv_lock and core mm shrinkers. It
+  does not actually impose an overall allocation limit, you can allocate
+  ttm bo until your entire memory (and swap) are full. Christian König has
+  merged a patch set to lift this by reworking the shrinker interaction,
+  but it had to be reverted again because of some fallout I can't remember
+  offhand. dma_resv_lock vs shrinkers is very tricky.
 
-Thanks,
-Imre
+So if you want resource limits then you really want cgroups here.
 
-On Mon, Aug 09, 2021 at 04:31:46PM +0300, Imre Deak wrote:
-> Atm the EFI FB platform driver gets a runtime PM reference for the
-> associated GFX PCI device during probing the EFI FB platform device and
-> releases it only when the platform device gets unbound.
+Cheers, Daniel
+
 > 
-> When fbcon switches to the FB provided by the PCI device's driver (for
-> instance i915/drmfb), the EFI FB will get only unregistered without the
-> EFI FB platform device getting unbound, keeping the runtime PM reference
-> acquired during the platform device probing. This reference will prevent
-> the PCI driver from runtime suspending the device.
 > 
-> Fix this by releasing the RPM reference from the EFI FB's destroy hook,
-> called when the FB gets unregistered.
+> >
+> > Regards,
+> > Hridya
+> >
+> > >
+> > > thanks
+> > > -john
+> >
+> Best,
+> Sumit.
 > 
-> While at it assert that pm_runtime_get_sync() didn't fail.
-> 
-> v2:
-> - Move pm_runtime_get_sync() before register_framebuffer() to avoid its
->   race wrt. efifb_destroy()->pm_runtime_put(). (Daniel)
-> - Assert that pm_runtime_get_sync() didn't fail.
-> - Clarify commit message wrt. platform/PCI device/driver and driver
->   removal vs. device unbinding.
-> 
-> Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
-> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/video/fbdev/efifb.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> index 8ea8f079cde26..edca3703b9640 100644
-> --- a/drivers/video/fbdev/efifb.c
-> +++ b/drivers/video/fbdev/efifb.c
-> @@ -47,6 +47,8 @@ static bool use_bgrt = true;
->  static bool request_mem_succeeded = false;
->  static u64 mem_flags = EFI_MEMORY_WC | EFI_MEMORY_UC;
->  
-> +static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
-> +
->  static struct fb_var_screeninfo efifb_defined = {
->  	.activate		= FB_ACTIVATE_NOW,
->  	.height			= -1,
-> @@ -243,6 +245,9 @@ static inline void efifb_show_boot_graphics(struct fb_info *info) {}
->  
->  static void efifb_destroy(struct fb_info *info)
->  {
-> +	if (efifb_pci_dev)
-> +		pm_runtime_put(&efifb_pci_dev->dev);
-> +
->  	if (info->screen_base) {
->  		if (mem_flags & (EFI_MEMORY_UC | EFI_MEMORY_WC))
->  			iounmap(info->screen_base);
-> @@ -333,7 +338,6 @@ ATTRIBUTE_GROUPS(efifb);
->  
->  static bool pci_dev_disabled;	/* FB base matches BAR of a disabled device */
->  
-> -static struct pci_dev *efifb_pci_dev;	/* dev with BAR covering the efifb */
->  static struct resource *bar_resource;
->  static u64 bar_offset;
->  
-> @@ -569,17 +573,22 @@ static int efifb_probe(struct platform_device *dev)
->  		pr_err("efifb: cannot allocate colormap\n");
->  		goto err_groups;
->  	}
-> +
-> +	if (efifb_pci_dev)
-> +		WARN_ON(pm_runtime_get_sync(&efifb_pci_dev->dev) < 0);
-> +
->  	err = register_framebuffer(info);
->  	if (err < 0) {
->  		pr_err("efifb: cannot register framebuffer\n");
-> -		goto err_fb_dealoc;
-> +		goto err_put_rpm_ref;
->  	}
->  	fb_info(info, "%s frame buffer device\n", info->fix.id);
-> -	if (efifb_pci_dev)
-> -		pm_runtime_get_sync(&efifb_pci_dev->dev);
->  	return 0;
->  
-> -err_fb_dealoc:
-> +err_put_rpm_ref:
-> +	if (efifb_pci_dev)
-> +		pm_runtime_put(&efifb_pci_dev->dev);
-> +
->  	fb_dealloc_cmap(&info->cmap);
->  err_groups:
->  	sysfs_remove_groups(&dev->dev.kobj, efifb_groups);
-> @@ -603,8 +612,6 @@ static int efifb_remove(struct platform_device *pdev)
->  	unregister_framebuffer(info);
->  	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
->  	framebuffer_release(info);
-> -	if (efifb_pci_dev)
-> -		pm_runtime_put(&efifb_pci_dev->dev);
->  
->  	return 0;
->  }
 > -- 
-> 2.27.0
+> Thanks and regards,
 > 
+> Sumit Semwal (he / him)
+> Tech Lead - LCG, Vertical Technologies
+> Linaro.org │ Open source software for ARM SoCs
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
