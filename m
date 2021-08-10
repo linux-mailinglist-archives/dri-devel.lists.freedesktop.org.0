@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AC03E5A26
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 14:41:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7C93E5A68
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 14:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A188981D;
-	Tue, 10 Aug 2021 12:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC9E89686;
+	Tue, 10 Aug 2021 12:51:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AFDE8981D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 12:41:45 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id d1so20820568pll.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 05:41:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:subject:date:message-id:in-reply-to:references;
- bh=jEv32BiVnu7fQqSnvPGcx5ruZj5V0HnF2prfpKqxjn4=;
- b=0mjhlmrZSBz51JqUD9OH0DhuZBRxI34vxDlxoSVsklAlLVx+DB4RYGu4wXSCPJo6bE
- 0Rj1Ffse8Rzx2ep4AxTlkweNF25Z6t+4LZO9PAdFTLPcQXwbra9BkRNXLHiVKaTsNc0S
- +ixAQQ2i6aJthqyAUcHvnh8fjB5XaFTimMRxJcK8KBdSEvIxfGKjYcbv5RpgW2yA029b
- ZfALDvV0HR4/2en03DYTmB2UEgKkjXlvfeQd+NIYlDc4ILWvxdqWUoEG+deW7Q3HdAV6
- XilWTUU3kgXGlUtEyArDUU12hOt0M0ah1oK3apBp/eiU70CaaFA9B1cMk20hy53/fqj7
- I6rw==
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7843489686
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 12:51:39 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id z20so4129232lfd.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 05:51:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=COWCMGHIbMOml8oSzWr/dWDbmo5VnvHeIUlohNVVgbA=;
+ b=GgpnMPCih9w2+JFm1yn7J9s/amiSzIA7+c25pxNxAUCaicDRMluo90cki8m5iLTPF8
+ yXwaUEfjsTM0D/fjrDnVWnC2ir6tPXRZvytSsBO/XHB+qkcDHSA2ycrx8xmR8Icc/rcm
+ e12+e9A+5QBvwKORXO9ffMvGL5FcC+EMczIaQMSURwlK+W8aS7wH3QxMmDbSXkjoZV03
+ 3xMCYgOJlCSut6+x/Rqe3BBrGbbhvoqPRBnLsmjVT0FLjts1PkJWQ07jt5aBhg11M3vF
+ g6dFW1cCKjIdTtGrm2Qpd5CbcKDgwgg6rNHcqMiv6XDqW4pRo/+k1hksDEpesz/FUWY5
+ ijJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references;
- bh=jEv32BiVnu7fQqSnvPGcx5ruZj5V0HnF2prfpKqxjn4=;
- b=a6lpzOO5zgp7iXvt6ZmiFKK0iMr3IDd460c0dMg4BqhID5IcEkdTmO/iTK3fUTPzOn
- llxnM230FlovNhjE9S5CR5VSTtvFO6eP2gzlSBRloY9ULRaFw221cSTnbHnMrJn5ZYzY
- ZBkU3M9+YyDXBzLSCys+3f07hkMzSQQY7QujtBCp370t8Aq/SGQbhW0s+MP1KHmsDBOT
- XdlhJvphCbhVtrpxouLGW0l4RAY6gGtC20tehL9R5IcWQHrBJLaiaDhJNgdSPctKY4bi
- hnQld/CsbQHoMxUtAAwQZQjBz1TYQ6l0uqyBwIz+wzSb18/BGAma3Oz2A9dxcsAJflSn
- Bb7A==
-X-Gm-Message-State: AOAM5329vFLh9i+gMCK6ses84A+4oz6Kc9QWAUEjSXoCycY1lFfvrvEb
- MeD2U3MUnZpCOreT5939jsvoFA==
-X-Google-Smtp-Source: ABdhPJxAEsdQRashpCRGsGTtR9hGQpKEX2bQMXc4GZMfve1VZFx9ipQvlCg0rOzK62MK+kdtLSnIMw==
-X-Received: by 2002:a65:55c6:: with SMTP id k6mr188593pgs.129.1628599305051;
- Tue, 10 Aug 2021 05:41:45 -0700 (PDT)
-Received: from ubuntu.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id y12sm23851561pfr.68.2021.08.10.05.41.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 05:41:44 -0700 (PDT)
-From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-To: pihsun@chromium.org, drinkcat@google.com, marcheu@chromium.org,
- jitao.shi@mediatek.com, thierry.reding@gmail.com, sam@ravnborg.org,
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: Add inx Himax8279d MIPI-DSI LCD panel driver
-Date: Tue, 10 Aug 2021 20:41:40 +0800
-Message-Id: <20210810124140.16937-1-xiazhengqiao@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210412080134.24598-1-xiazhengqiao@huaqin.corp-partner.google.com>
-References: <20210412080134.24598-1-xiazhengqiao@huaqin.corp-partner.google.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=COWCMGHIbMOml8oSzWr/dWDbmo5VnvHeIUlohNVVgbA=;
+ b=MF4jRpN1CXoazkwgn814Y03KKcujbOj/WsKF61NRntXfeBPl+ywxJ0+XcWhdFi1K3m
+ iDavUdS2zBwOUw7dVfkfkjL6Z3fQboRsbxV7/4CCzRmxX2xOxM+kWH0t1qGDMbCBDrZm
+ fYKT0noJooeTGohAKmKLJzn8WGlThFlw4Thm4qNd8TA//K4sCzAGoGyB8Gu9wDY0lwxF
+ SbVLNBJdkSX2YK9BHKQ6TU6dK6JZVjs6BMWClm9le9UUqze6pgWb+cJI7YHpGSuHI7ix
+ K+I6QvZuXt3g+ia+2l0/f59OM+AQEo51LduE76KzD6KIElx1ARF6TJh/L20LazBek8dT
+ JIhw==
+X-Gm-Message-State: AOAM533aOnSruU6XW4+40hOguiXGz1iCIHOxklbczpIOLMsBs9O4U5rA
+ j9VdWmv6KuFyOnzM5rrTZQ1u4oNUFBZu64IL9Vs5Gg==
+X-Google-Smtp-Source: ABdhPJx9IsgfsTOT8THkhkunUTedenh0kP5K6wZ864dEuCRjcGxI/3CsvwqdSFqCuqShDKeibW0Taqk3bG/qjmKS84A=
+X-Received: by 2002:a19:c7cd:: with SMTP id
+ x196mr21304513lff.465.1628599897540; 
+ Tue, 10 Aug 2021 05:51:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210722044155.864600-1-javierm@redhat.com>
+In-Reply-To: <20210722044155.864600-1-javierm@redhat.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 10 Aug 2021 14:51:26 +0200
+Message-ID: <CACRpkdY9UNYEs3w3JHLR78OmPSA+wkLb=FDP5kXdWTZpxnRU1g@mail.gmail.com>
+Subject: Re: [PATCH] drivers/firmware: fix sysfb depends to prevent build
+ failures
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Peter Robinson <pbrobinson@gmail.com>, kernel test robot <lkp@intel.com>,
+ Borislav Petkov <bp@suse.de>, Dinh Nguyen <dinguyen@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ He Ying <heying24@huawei.com>, John Stultz <john.stultz@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, 
+ Nicolas Saenz Julienne <nsaenz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,10 +76,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Jul 22, 2021 at 6:42 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
 
-could you help to review this patch? This patch has been applied to our devices which use
+> The Generic System Framebuffers support is built when the COMPILE_TEST
+> option is enabled. But this wrongly assumes that all the architectures
+> declare a struct screen_info.
+>
+> This is true for most architectures, but at least the following do not:
+> arc, m68k, microblaze, openrisc, parisc and s390.
+>
+> By attempting to make this compile testeable on all architectures, it
+> leads to linking errors as reported by the kernel test robot for parisc:
+>
+>   All errors (new ones prefixed by >>):
+>
+>      hppa-linux-ld: drivers/firmware/sysfb.o: in function `sysfb_init':
+>      (.init.text+0x24): undefined reference to `screen_info'
+>   >> hppa-linux-ld: (.init.text+0x28): undefined reference to `screen_info'
+>
+> To prevent these errors only allow sysfb to be built on systems that are
+> going to need it, which are x86 BIOS and EFI.
+>
+> The EFI Kconfig symbol is used instead of (ARM || ARM64 || RISC) because
+> some of these architectures only declare a struct screen_info if EFI is
+> enabled. And also, because the sysfb code is only used for EFI on these
+> architectures. For !EFI the "simple-framebuffer" device is registered by
+> OF when parsing the Device Tree Blob (if a DT node for this is defined).
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-INX 2081101qfh032011-53g 1200x1920 video panel and it works well.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-thanks.
+I don't know who picks up firmware patches though, I would send them
+to soc@kernel.org if nothing else works.
+
+Yours,
+Linus Walleij
