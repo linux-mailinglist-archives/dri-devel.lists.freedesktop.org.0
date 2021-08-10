@@ -1,40 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8443E85F4
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 00:07:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FC23E8625
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 00:42:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19CB26E05C;
-	Tue, 10 Aug 2021 22:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF856E059;
+	Tue, 10 Aug 2021 22:42:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0C889FD9;
- Tue, 10 Aug 2021 22:07:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="202172943"
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="202172943"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2021 15:07:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="445386938"
-Received: from jhli-desk1.jf.intel.com ([10.54.74.156])
- by fmsmga007.fm.intel.com with ESMTP; 10 Aug 2021 15:07:42 -0700
-From: Juston Li <juston.li@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: seanpaul@chromium.org, anshuman.gupta@intel.com, ramalingam.c@intel.com,
- rodrigo.vivi@intel.com, Juston Li <juston.li@intel.com>
-Subject: [Intel-gfx] [PATCH v2 3/3] drm/i915/hdcp: reuse rx_info for mst
- stream type1 capability check
-Date: Tue, 10 Aug 2021 15:07:30 -0700
-Message-Id: <20210810220730.136927-4-juston.li@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210810220730.136927-1-juston.li@intel.com>
-References: <20210810220730.136927-1-juston.li@intel.com>
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E24E889862
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 22:32:15 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id h10so430715qtj.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 15:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IVKwhyg5AzTrj5Xr1hZ4KWRmZdbFFP1eiKArCMM9pzQ=;
+ b=kMzKvyM7Loc2Seu+yjDAggIqexhPusiNdPDi3KNaP5dOf7ubrKXspzTLZd8K1mte7D
+ /CUWDSp+885bU3phswxEX/evd3x6xZi39AFKORpapSvXqn+pi1L5NJEuN33YQzsHTgm6
+ UW+ihkZWY5fzTHGNTPWqTwCOTfqzA2dVwHVAg84yaCXL7gH+DPiHD1RuQwV7cm9dcaSc
+ a1QkPfVgIdXkcjl6okTBRVixkHzaqGyC0p9wiZRzjWquIj9keJNvzakWpFYzurB5g5vz
+ cniCMJmFeDODPNVctJpV1YMDDNvDaOpB0aFMJSxfXFzajnejgP2FtTHs4wLhJjZkGaKI
+ 9xvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IVKwhyg5AzTrj5Xr1hZ4KWRmZdbFFP1eiKArCMM9pzQ=;
+ b=q+ZE5M2b8ez6RKTzAIC8J78m8t/3hLInjBuIXV0sx2WvTA2Hcz0iEwjYsFRhQFt/Pr
+ 824hM7SscV5cEPO16c76Y+F/wm0y6uX4V92dD+gz/cqLigN+L6C6uricyIONJ27lzwUt
+ 8xWehduuOuWymdhsFntO3Z6/fzsDJwdvJG6SoKyCpkoVS0x4scRAae4IR+dotPrBtirR
+ XOts7QBxEXCvWaFO4+b7yPO8++yAwCRc7Tt0/d8BM6jkc2uqphK/6oXPTL4eRSeGH0Y6
+ KQyhWhKKruXQ2mnLdaxyUdjNeeBaMoz9fFAZpLvtbjIXq4PrErcjw7GN+//lmxFrkVPP
+ auOw==
+X-Gm-Message-State: AOAM531MJ5LSiaTzkXJTpdR0RQE2rRMt8KzODuqJuzfbMLgB43sbIXYA
+ apdu+3jUleN14B1zT0WBKP0=
+X-Google-Smtp-Source: ABdhPJy1JiDO1hiht2G6W9aRmXkmQFgXz6D6Em1RbxlWD8JKIAMWOsTeeZ0U2Yd5wjw45pQGJz3+Iw==
+X-Received: by 2002:a05:622a:1350:: with SMTP id
+ w16mr17133150qtk.295.1628634734818; 
+ Tue, 10 Aug 2021 15:32:14 -0700 (PDT)
+Received: from master-laptop.sparksnet
+ ([2601:153:980:85b1:e0b4:e07a:5fc6:c67f])
+ by smtp.gmail.com with ESMTPSA id b1sm8804662qtq.12.2021.08.10.15.32.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Aug 2021 15:32:14 -0700 (PDT)
+From: Peter Geis <pgwipeout@gmail.com>
+To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jagan Teki <jagan@amarulasolutions.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+Cc: Peter Geis <pgwipeout@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: [BUG] dw-mipi-dsi-rockchip display corruption with dsi panel
+Date: Tue, 10 Aug 2021 18:31:24 -0400
+Message-Id: <20210810223123.2174596-1-pgwipeout@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 10 Aug 2021 22:42:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,200 +77,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some MST docking stations, rx_info can only be read after
-RepeaterAuth_Send_ReceiverID_List and the RxStatus READY bit is set
-otherwise the read will return -EIO.
+Good Evening,
 
-This behavior causes the mst stream type1 capability test to fail to
-read rx_info and determine if the topology supports type1 and fallback
-to type0.
+I've been attempting to light off the feiyang fy07024di26a30d panel on
+the rockpro64. This is the official panel from the Pine64 store.
+I've confirmed it works with the downstream kernel on both the rk3399
+and rk3566, but on the mainline driver the display is partially
+corrupted (see attached photo: [1]).
 
-To fix this, check for type1 capability when we receive rx_info within
-the AKE flow when we read RepeaterAuth_Send_ReceiverID_List instead
-of an explicit read just for type1 capability checking.
+As you can see, the left half of the display is fine, but the right half
+of the display is corrupted with the pixels smearing horizontally.
 
-This does require moving where we set stream_types to after
-hdcp2_authenticate_sink() when we get rx_info but this occurs before we
-do hdcp2_propagate_stream_management_info.
+I saw when the panel was added, some additional code was added to
+handle burst mode in the sun6_mipi_dsi driver [2].
+I've seen that the dw-mipi-dsi driver appears to already support burst
+mode and I can't find anything out of place there.
+I also haven't had much success finding anything obviously different in
+the downstream driver vs the upstream driver that would explain this.
 
-Also, legacy HDCP 2.0/2.1 are not type 1 capable either so check for
-that as well.
+Attached below is the in-progress dts changes for an example of how the
+panel is plugged in.
 
-Signed-off-by: Juston Li <juston.li@intel.com>
----
- .../drm/i915/display/intel_display_types.h    |  2 +
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 39 ---------------
- drivers/gpu/drm/i915/display/intel_hdcp.c     | 47 +++++++++----------
- 3 files changed, 23 insertions(+), 65 deletions(-)
+I admit, I have little understanding of the mipi-dsi internal workings,
+so I'm reaching out to the experts on how to correct this.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index dbdfe54d0340..c8b687ff0374 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -516,6 +516,8 @@ struct intel_hdcp {
- 	enum transcoder cpu_transcoder;
- 	/* Only used for DP MST stream encryption */
- 	enum transcoder stream_transcoder;
+Thank you for your time,
+Peter Geis
+
+[1] https://photos.app.goo.gl/LBA9M2WcweGaEb4cA
+[2] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20181116163916.29621-1-jagan@amarulasolutions.com/
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
+index 687a5afa5d2c..af55a30297ae 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
+@@ -20,6 +20,13 @@ chosen {
+ 		stdout-path = "serial2:1500000n8";
+ 	};
+ 
++	backlight: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm0 0 1000000 0>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <128>;
++	};
 +
-+	bool topology_type1_capable;
+ 	clkin_gmac: external-gmac-clock {
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <125000000>;
+@@ -69,7 +76,7 @@ diy_led: led-1 {
+ 
+ 	fan: pwm-fan {
+ 		compatible = "pwm-fan";
+-		cooling-levels = <0 150 200 255>;
++		cooling-levels = <0 100 150 255>;
+ 		#cooling-cells = <2>;
+ 		fan-supply = <&vcc12v_dcin>;
+ 		pwms = <&pwm1 0 50000 0>;
+@@ -220,6 +227,16 @@ vdd_log: vdd-log {
+ 		regulator-max-microvolt = <1700000>;
+ 		vin-supply = <&vcc5v0_sys>;
+ 	};
++
++	avdd: avdd {
++		compatible = "regulator-fixed";
++		regulator-name = "avdd";
++		regulator-always-on;
++		regulator-boot-on;
++		regulator-min-microvolt = <11000000>;
++		regulator-max-microvolt = <11000000>;
++		vin-supply = <&vcc3v3_s0>;
++	};
  };
  
- struct intel_connector {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-index 526fd58b9b51..2d39af63ec9b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-@@ -478,23 +478,6 @@ int intel_dp_hdcp2_write_msg(struct intel_digital_port *dig_port,
- 	return size;
- }
+ &cpu_l0 {
+@@ -428,8 +445,8 @@ regulator-state-mem {
  
--static int
--get_rxinfo_hdcp_1_dev_downstream(struct intel_digital_port *dig_port, bool *hdcp_1_x)
--{
--	u8 rx_info[HDCP_2_2_RXINFO_LEN];
--	int ret;
--
--	ret = drm_dp_dpcd_read(&dig_port->dp.aux,
--			       DP_HDCP_2_2_REG_RXINFO_OFFSET,
--			       (void *)rx_info, HDCP_2_2_RXINFO_LEN);
--
--	if (ret != HDCP_2_2_RXINFO_LEN)
--		return ret >= 0 ? -EIO : ret;
--
--	*hdcp_1_x = HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) ? true : false;
--	return 0;
--}
--
- static
- ssize_t get_receiver_id_list_rx_info(struct intel_digital_port *dig_port, u32 *dev_cnt, u8 *byte)
- {
-@@ -664,27 +647,6 @@ int intel_dp_hdcp2_capable(struct intel_digital_port *dig_port,
- 	return 0;
- }
+ 			vcc3v0_touch: LDO_REG2 {
+ 				regulator-name = "vcc3v0_touch";
+-				regulator-always-on;
+-				regulator-boot-on;
++//				regulator-always-on;
++//				regulator-boot-on;
+ 				regulator-min-microvolt = <3000000>;
+ 				regulator-max-microvolt = <3000000>;
+ 				regulator-state-mem {
+@@ -518,8 +535,8 @@ regulator-state-mem {
  
--static
--int intel_dp_mst_streams_type1_capable(struct intel_connector *connector,
--				       bool *capable)
--{
--	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
--	int ret;
--	bool hdcp_1_x;
--
--	ret = get_rxinfo_hdcp_1_dev_downstream(dig_port, &hdcp_1_x);
--	if (ret) {
--		drm_dbg_kms(&i915->drm,
--			    "[%s:%d] failed to read RxInfo ret=%d\n",
--			    connector->base.name, connector->base.base.id, ret);
--		return ret;
--	}
--
--	*capable = !hdcp_1_x;
--	return 0;
--}
--
- static const struct intel_hdcp_shim intel_dp_hdcp_shim = {
- 	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
- 	.read_bksv = intel_dp_hdcp_read_bksv,
-@@ -833,7 +795,6 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
- 	.stream_2_2_encryption = intel_dp_mst_hdcp2_stream_encryption,
- 	.check_2_2_link = intel_dp_mst_hdcp2_check_link,
- 	.hdcp_2_2_capable = intel_dp_hdcp2_capable,
--	.streams_type1_capable = intel_dp_mst_streams_type1_capable,
- 	.protocol = HDCP_PROTOCOL_DP,
+ 			vcc3v3_s0: SWITCH_REG2 {
+ 				regulator-name = "vcc3v3_s0";
+-				regulator-always-on;
+-				regulator-boot-on;
++//				regulator-always-on;
++//				regulator-boot-on;
+ 				regulator-state-mem {
+ 					regulator-off-in-suspend;
+ 				};
+@@ -593,6 +610,19 @@ fusb0: typec-portc@22 {
+ 		vbus-supply = <&vcc5v0_typec>;
+ 		status = "okay";
+ 	};
++
++	touch: touchscreen@5d {
++		compatible = "goodix,gt911";
++		reg = <0x5d>;
++		AVDD28-supply = <&vcc3v0_touch>;
++		VDDIO-supply = <&vcc3v0_touch>;
++		interrupt-parent = <&gpio4>;
++		interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
++		irq-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
++		reset-gpios = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
++//		touchscreen-inverted-x;
++//		touchscreen-inverted-y;
++	};
  };
  
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index ebc2e32aec0b..fa6a60faa6a7 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -33,21 +33,6 @@ static int intel_conn_to_vcpi(struct intel_connector *connector)
- 	return connector->port	? connector->port->vcpi.vcpi : 0;
- }
+ &i2s0 {
+@@ -628,6 +658,88 @@ &io_domains {
+ 	gpio1830-supply = <&vcc_3v0>;
+ };
  
--static bool
--intel_streams_type1_capable(struct intel_connector *connector)
--{
--	const struct intel_hdcp_shim *shim = connector->hdcp.shim;
--	bool capable = false;
--
--	if (!shim)
--		return capable;
--
--	if (shim->streams_type1_capable)
--		shim->streams_type1_capable(connector, &capable);
--
--	return capable;
--}
--
- /*
-  * intel_hdcp_required_content_stream selects the most highest common possible HDCP
-  * content_type for all streams in DP MST topology because security f/w doesn't
-@@ -86,7 +71,7 @@ intel_hdcp_required_content_stream(struct intel_digital_port *dig_port)
- 		if (conn_dig_port != dig_port)
- 			continue;
- 
--		if (!enforce_type0 && !intel_streams_type1_capable(connector))
-+		if (!enforce_type0 && !connector->hdcp.topology_type1_capable)
- 			enforce_type0 = true;
- 
- 		data->streams[data->k].stream_id = intel_conn_to_vcpi(connector);
-@@ -1632,6 +1617,14 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
- 		return -EINVAL;
- 	}
- 
-+	/*
-+	 * A topology is not Type 1 capable if it contains a downstream device
-+	 * that is HDCP 1.x or Legacy HDCP 2.0/2.1 compliant.
-+	 */
-+	hdcp->topology_type1_capable =
-+		!HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) &&
-+		!HDCP_2_2_HDCP_2_0_REP_CONNECTED(rx_info[1]);
++&mipi_dsi {
++	status = "okay";
++	clock-master;
 +
- 	/* Converting and Storing the seq_num_v to local variable as DWORD */
- 	seq_num_v =
- 		drm_hdcp_be24_to_cpu((const u8 *)msgs.recvid_list.seq_num_v);
-@@ -1871,11 +1864,23 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
-+	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret = 0, i, tries = 3;
- 
- 	for (i = 0; i < tries && !dig_port->hdcp_auth_status; i++) {
- 		ret = hdcp2_authenticate_sink(connector);
- 		if (!ret) {
-+			/* Stream which requires encryption */
-+			if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
-+				data->k = 1;
-+				data->streams[0].stream_type = hdcp->content_type;
-+			} else {
-+				ret = intel_hdcp_required_content_stream(dig_port);
-+				if (ret)
-+					return ret;
-+			}
++	ports {
++		mipi_out: port@1 {
++			reg = <1>;
 +
- 			ret = hdcp2_propagate_stream_management_info(connector);
- 			if (ret) {
- 				drm_dbg_kms(&i915->drm,
-@@ -1931,16 +1936,6 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
- 		    connector->base.name, connector->base.base.id,
- 		    hdcp->content_type);
- 
--	/* Stream which requires encryption */
--	if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
--		data->k = 1;
--		data->streams[0].stream_type = hdcp->content_type;
--	} else {
--		ret = intel_hdcp_required_content_stream(dig_port);
--		if (ret)
--			return ret;
--	}
--
- 	ret = hdcp2_authenticate_and_encrypt(connector);
- 	if (ret) {
- 		drm_dbg_kms(&i915->drm, "HDCP2 Type%d  Enabling Failed. (%d)\n",
--- 
-2.31.1
-
++			mipi_out_panel: endpoint {
++				remote-endpoint = <&mipi_in_panel>;
++			};
++		};
++	};
++
++	mipi_panel: panel@0 {
++		compatible = "feiyang,fy07024di26a30d";
++		reg = <0>;
++		backlight = <&backlight>;
++		reset-gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>;
++//		enable-gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>;
++		width-mm = <154>;
++		height-mm = <86>;
++		rotation = <0>;
++		avdd-supply = <&avdd>;
++		dvdd-supply = <&vcc3v3_s0>;
++
++		display-timings {
++			native-mode = <&timing0>;
++			timing0: timing0 {
++				clock-frequency = <50000000>;
++				hactive = <1024>;
++				vactive = <600>;
++				hfront-porch = <160>;
++				hback-porch = <160>;
++				hsync-len = <10>;
++				vback-porch = <23>;
++				vfront-porch = <12>;
++				vsync-len = <1>;
++				hsync-active = <0>;
++				vsync-active = <0>;
++				pixelclk-active = <0>;
++				de-active = <0>;
++			};
++		};
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				mipi_in_panel: endpoint {
++					remote-endpoint = <&mipi_out_panel>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				mipi1_in_panel: endpoint@1 {
++					remote-endpoint = <&mipi1_out_panel>;
++				};
++			};
++		};
++	};
++};
++
++&mipi_dsi1 {
++	status = "okay";
++
++	ports {
++		mipi1_out: port@1 {
++			reg = <1>;
++
++			mipi1_out_panel: endpoint {
++				remote-endpoint = <&mipi1_in_panel>;
++			};
++		};
++	};
++};
++
+ &pcie0 {
+ 	ep-gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>;
+ 	num-lanes = <4>;
