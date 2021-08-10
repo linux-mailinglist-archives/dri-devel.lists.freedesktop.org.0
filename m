@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A0C3E5059
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 02:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7943E5098
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 03:24:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC6B189DA4;
-	Tue, 10 Aug 2021 00:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30FFA89DF9;
+	Tue, 10 Aug 2021 01:24:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D03A89DA2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 00:28:49 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- 61-20020a9d0d430000b02903eabfc221a9so20121424oti.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 17:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=HRoKBbC120mpZO7Rwf3yY2Wqv2ZDw0SsZhaaP3iG9Kw=;
- b=b7oTI7pXK4UvT/slNhXBHpYCZP7+MeBmfeSSbjI/aKYSqGEunyiYcIMcqA1eq8BC+H
- oBPqmdPIA6cv0p6LCUDFdtUC2mXrZd5B+ZzB5di1KJyFAwfYBrwtoEgy2bp7dQ9B6FCr
- yJ+hAioIV+wD6A0vvTE08xu163VL+w/zKRi7k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=HRoKBbC120mpZO7Rwf3yY2Wqv2ZDw0SsZhaaP3iG9Kw=;
- b=ZHXK40wVgvBVJWWxjberq6Pn6aiOjDt1C5Ol+eu9fq0nPgUtkLSA1ko50cEuKzkmZ7
- 1rYIqeivyL1yxBZ1R2fypxI+5bf0BVVvCre8W6j8HZcjU+YjfDhZzaNtEjHjRCrnqqft
- pb6VseRimVMUzNRqUnFMJHGjaTVYsgnQDpinF9qniPhKNgMH+ASomk6j4/k5mA8WSIAN
- unlEDyQVJ4IDW/ugo4fedYzOXP8VhSvf3vbmTH9cY+j5fDX6n3t90wM0P/KVmUc1jqtX
- MnpP2uEq0s0o34LOWaOJin0fjguMDlRB0SCqBgwU41pKITFhHVWVMZ05B/ULQRnvLiuV
- jS8Q==
-X-Gm-Message-State: AOAM531c0zxHlc/Vd3CtaqyiGhXVvNRJzNxKqivMuEF4VOo/1/4i4f/x
- JaYiY8GnGoJEuEPZ16HtTq4FxJ9jDA7SKKAfbpTCtQ==
-X-Google-Smtp-Source: ABdhPJxoo8NK9wFlwHerqC8A8M68otlXDKJXzE8FXoEI3Z9Tb47KJ4Do1b1frIJJ5Zy4cKOXDh55LHg6NY73iIRVaGI=
-X-Received: by 2002:a05:6830:1490:: with SMTP id
- s16mr19010939otq.233.1628555328400; 
- Mon, 09 Aug 2021 17:28:48 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 9 Aug 2021 17:28:47 -0700
+Received: from qq.com (smtpbg466.qq.com [59.36.132.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 759AC89DF9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 01:24:00 +0000 (UTC)
+X-QQ-mid: bizesmtp36t1628558589ti3iesph
+Received: from localhost.localdomain (unknown [111.207.172.18])
+ by esmtp6.qq.com (ESMTP) with 
+ id ; Tue, 10 Aug 2021 09:23:07 +0800 (CST)
+X-QQ-SSF: 0140000000200020C000B00A0000000
+X-QQ-FEAT: q17Yoz/cMVqR4uTtLfutpf48qcsdxQjuDlUpWWh0NC4VeWbQIS/Rmlnvkm4j3
+ YnxPUmqXHrwVKY0hObWnNURoZPiRDiSzgY0bKDBe5F0G+LdIwVIVc7aweL9eEU0uhJze6/U
+ AacmjOuV6+1F/UW1q6TOIiJO8piJI0mu/vO3+o86Td52Ke+gVp26BsYFefefgKO2QKxIpPB
+ SiNzbWwDH2LUSfW8ii2IQoKgZnzr2lkKY85zIh2X1JaFqoHsD6LXMi0VXLEJJXWauyqv/DM
+ F7/50IIUczMI8n2s6mQ5zcdIg6zSB6GE/m+KB/aPfBABffppsZlQZUJRz4BbvrdYfg9zC/L
+ CPP+S6Q
+X-QQ-GoodBg: 2
+From: zhaoxiao <zhaoxiao@uniontech.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, nirmoy.das@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, zhaoxiao <zhaoxiao@uniontech.com>
+Subject: [PATCH] drm/amd/display: remove variable backlight
+Date: Tue, 10 Aug 2021 09:23:04 +0800
+Message-Id: <20210810012304.28068-1-zhaoxiao@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1628546337-15517-1-git-send-email-khsieh@codeaurora.org>
-References: <1628546337-15517-1-git-send-email-khsieh@codeaurora.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Mon, 9 Aug 2021 17:28:47 -0700
-Message-ID: <CAE-0n52Ebezuek_HrBHRFVyUv28aj=F+6FqnBkZZLMYwUa8veA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: add drm debug logs to dp_pm_resume/suspend
-To: Kuogee Hsieh <khsieh@codeaurora.org>, agross@kernel.org,
- bjorn.andersson@linaro.org, 
- robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
-Cc: abhinavk@codeaurora.org, aravindh@codeaurora.org, 
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign6
+X-QQ-Bgrelay: 1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,10 +55,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2021-08-09 14:58:57)
-> Add drm debug logs to dp_pm_resume and dp_pm_suspend to help
-> debug suspend/resume issues.
->
-> Fixes: 355ab7428f09 ("drm/msm/dp: add debug logs to dp_pm_resume/suspend")
+The variable backlight is being initialized with a value that
+is never read, it is being re-assigned immediately afterwards.
+Clean up the code by removing the need for variable backlight.
 
-BTW, I have no idea what commit this is. Best to probably just drop it?
+Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
+---
+ drivers/gpu/drm/amd/display/dc/dce/dce_abm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_abm.c b/drivers/gpu/drm/amd/display/dc/dce/dce_abm.c
+index 874b132fe1d7..0808433185f8 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dce_abm.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dce_abm.c
+@@ -177,23 +177,21 @@ static void dce_abm_init(struct abm *abm, uint32_t backlight)
+ static unsigned int dce_abm_get_current_backlight(struct abm *abm)
+ {
+ 	struct dce_abm *abm_dce = TO_DCE_ABM(abm);
+-	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
+ 
+ 	/* return backlight in hardware format which is unsigned 17 bits, with
+ 	 * 1 bit integer and 16 bit fractional
+ 	 */
+-	return backlight;
++	return REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
+ }
+ 
+ static unsigned int dce_abm_get_target_backlight(struct abm *abm)
+ {
+ 	struct dce_abm *abm_dce = TO_DCE_ABM(abm);
+-	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
+ 
+ 	/* return backlight in hardware format which is unsigned 17 bits, with
+ 	 * 1 bit integer and 16 bit fractional
+ 	 */
+-	return backlight;
++	return REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
+ }
+ 
+ static bool dce_abm_set_level(struct abm *abm, uint32_t level)
+-- 
+2.20.1
+
+
+
