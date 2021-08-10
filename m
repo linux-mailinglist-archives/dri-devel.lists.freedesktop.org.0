@@ -1,39 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96A53E5119
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 04:39:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 795373E5136
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 04:55:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37A5E89E03;
-	Tue, 10 Aug 2021 02:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4513189E11;
+	Tue, 10 Aug 2021 02:55:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 443 seconds by postgrey-1.36 at gabe;
- Tue, 10 Aug 2021 02:39:53 UTC
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C200589E03
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 02:39:53 +0000 (UTC)
-Received: from inva020.nxp.com (localhost [127.0.0.1])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 320741A065C;
- Tue, 10 Aug 2021 04:32:28 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com
- (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id EF6D81A05B5;
- Tue, 10 Aug 2021 04:32:27 +0200 (CEST)
-Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
- by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id
- 81DC4183AD28; Tue, 10 Aug 2021 10:32:26 +0800 (+08)
-From: Sandor.yu@nxp.com
-To: liviu.dudau@arm.com, brian.starkey@arm.com, airlied@linux.ie,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Cc: Sandor.yu@nxp.com
-Subject: [PATCH] drm/arm/malidp: fix mode_valid couldn't cull invalid modes
- issue
-Date: Tue, 10 Aug 2021 10:43:31 +0800
-Message-Id: <20210810024331.14050-1-Sandor.yu@nxp.com>
-X-Mailer: git-send-email 2.17.1
-X-Virus-Scanned: ClamAV using ClamSMTP
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7A9F89E11
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 02:55:09 +0000 (UTC)
+X-UUID: 34f00fbfa95a4143b3bffdda92a649cd-20210810
+X-UUID: 34f00fbfa95a4143b3bffdda92a649cd-20210810
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 897857737; Tue, 10 Aug 2021 10:55:05 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 10 Aug 2021 10:55:04 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 10 Aug 2021 10:55:03 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Enric Balletbo i Serra
+ <enric.balletbo@collabora.com>, <fshao@chromium.org>
+CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Fabien
+ Parent <fparent@baylibre.com>, <hsinyi@chromium.org>, "jason-jh . lin"
+ <jason-jh.lin@mediatek.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ <nancy.lin@mediatek.com>, <singo.chang@mediatek.com>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v2] drm/mediatek: add AAL output size configuration
+Date: Tue, 10 Aug 2021 10:55:03 +0800
+Message-ID: <20210810025503.16353-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,34 +58,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sandor Yu <Sandor.yu@nxp.com>
+To avoid the output width and height is incorrect,
+AAL_OUTPUT_SIZE configuration should be set.
 
-In function malidp_crtc_mode_valid, mode->crtc_mode = 0 when run
-in drm_helper_probe_single_connector_modes.
-Invalid video modes are not culled
-and all modes move to the connector's modes list.
-It is not expected by mode_valid.
-
-Replace mode->crtc_clock with mode->clock to fix the issue.
-
-Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+Fixes: 0664d1392c26 ("drm/mediatek: Add AAL engine basic function")
+Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 ---
- drivers/gpu/drm/arm/malidp_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Change in v2:
+- fix to one line
+---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/arm/malidp_crtc.c b/drivers/gpu/drm/arm/malidp_crtc.c
-index 494075ddbef6..55890334385d 100644
---- a/drivers/gpu/drm/arm/malidp_crtc.c
-+++ b/drivers/gpu/drm/arm/malidp_crtc.c
-@@ -31,7 +31,7 @@ static enum drm_mode_status malidp_crtc_mode_valid(struct drm_crtc *crtc,
- 	 * check that the hardware can drive the required clock rate,
- 	 * but skip the check if the clock is meant to be disabled (req_rate = 0)
- 	 */
--	long rate, req_rate = mode->crtc_clock * 1000;
-+	long rate, req_rate = mode->clock * 1000;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index 75bc00e17fc4..50d20562e612 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -34,6 +34,7 @@
  
- 	if (req_rate) {
- 		rate = clk_round_rate(hwdev->pxlclk, req_rate);
+ #define DISP_AAL_EN				0x0000
+ #define DISP_AAL_SIZE				0x0030
++#define DISP_AAL_OUTPUT_SIZE			0x04d8
+ 
+ #define DISP_DITHER_EN				0x0000
+ #define DITHER_EN				BIT(0)
+@@ -197,6 +198,7 @@ static void mtk_aal_config(struct device *dev, unsigned int w,
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+ 	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs, DISP_AAL_SIZE);
++	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs, DISP_AAL_OUTPUT_SIZE);
+ }
+ 
+ static void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
 -- 
-2.17.1
+2.18.0
 
