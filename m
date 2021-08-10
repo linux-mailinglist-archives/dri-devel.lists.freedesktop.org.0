@@ -2,42 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADA63E5895
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 12:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940013E5897
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 12:51:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49B4189FE3;
-	Tue, 10 Aug 2021 10:50:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A9FF89FF9;
+	Tue, 10 Aug 2021 10:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from qq.com (smtpbg480.qq.com [59.36.132.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98DBB89FEA;
- Tue, 10 Aug 2021 10:50:05 +0000 (UTC)
-X-QQ-mid: bizesmtp38t1628592561t3i6idy1
-Received: from localhost.localdomain (unknown [124.126.19.250])
- by esmtp6.qq.com (ESMTP) with 
- id ; Tue, 10 Aug 2021 18:49:19 +0800 (CST)
-X-QQ-SSF: 0140000000200030C000B00A0000000
-X-QQ-FEAT: G6zDt5+RCFLACr9ra9b07AMSF+tXSXWxZrOY4hjm3B28zxywUvx8NsQnG5OWs
- arJeiUYfiB8F1y7m9rXI2FI12dJ1oW2uwMY98Y8uySq6oXO/RrPUU4STU1t0lqoYV5JM7v3
- uF4NsBhglssNWYGsjF0wuUPSytdW9qm7F998ZNraV2LYxbuI49Dr3bj+iYyZ6h25AU7kiPm
- CLG1HziyT8gdVONkKAN1p8ekk7vn5JQW47zhepzL2Vd011/LOHx+BGGuaoGPADQ/v//Ef1h
- rCzp2356lhx1wOJhCXcrjPDBT0c+6b4Xbitmbf1V3jgbxOLSJbR2D0FS1eZ1Ot9e3bLTfrO
- 1SgR1/wJgcItukMLDhwz4T0anV8qw==
-X-QQ-GoodBg: 2
-From: zhaoxiao <zhaoxiao@uniontech.com>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- zhaoxiao <zhaoxiao@uniontech.com>
-Subject: [PATCH v3] drm/msm: Remove initialization of static variables
-Date: Tue, 10 Aug 2021 18:49:14 +0800
-Message-Id: <20210810104914.29419-1-zhaoxiao@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D49E989FF9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 10:50:59 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id r6so3393660wrt.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 03:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UjcQ833lT/aJptZfrw9hQKL4FPcGR8PiWebdUPXSJeU=;
+ b=QLICahorFCqZb0nwa/xfPxgp+SwqjwsduDVvp68ONCB2q6tuwCIRyOGTql2Nk/jdXu
+ cGzQbkIuCSFKMAt4wQMY8EJCFiX0yc7BbbCuEytkC1Du4B4JKGFLqwBQk1hkkxo9bPfT
+ tHGsUQO7bOG8O/l4hizs6CK9uhwNwkobBYvbI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=UjcQ833lT/aJptZfrw9hQKL4FPcGR8PiWebdUPXSJeU=;
+ b=OzIC8Ol0pEBr2nbVw0R87LmdTs7E9/WoKAHQn6qKNdE5ETY5yYU45z1+DV+aer99Dw
+ i3lEcFWt39Eel14VHaqYBE9YveM71elWkd2SFXZI8S5AEeK4g54ZmZ5ztFF1VdZY+qY4
+ uVzEaMTJpyEyNm0S5nsDvqzu8CY1k5OShqWJv+xYzdfU6tSjxT10FB/LF8V3SmrBTWyL
+ 3Jw4bm2z7kgTZ16+EMnJ7r2bS/DRDAGgw7Rszio51+mKxTCXvbMEjGobamufzWk1noaJ
+ EZqAF+py5g8Wslia42fc3emv6dp8oRA6TZTeyIlEo46TiqOn1bEe+yZe7A+T5EBsyoao
+ ek7A==
+X-Gm-Message-State: AOAM530vROBd0PoHvlfnVOLsX1idMFboFOAYe7h/hebWnro08EEHprq/
+ 6iwXxJI+3YNynoKqVy3rFGG/bQ==
+X-Google-Smtp-Source: ABdhPJwadDDSepM4dFIctzwo2oVmdlLip3FAYIKQ7XOeRTJbsc/eSjnn053RxVvmreoH9uiYszl70Q==
+X-Received: by 2002:a05:6000:2c6:: with SMTP id
+ o6mr30300055wry.241.1628592658369; 
+ Tue, 10 Aug 2021 03:50:58 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x9sm2432255wmj.41.2021.08.10.03.50.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Aug 2021 03:50:57 -0700 (PDT)
+Date: Tue, 10 Aug 2021 12:50:55 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@linux.ie>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warnings after merge of the drm tree
+Message-ID: <YRJaD51xR8rQ2ga+@phenom.ffwll.local>
+Mail-Followup-To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Dave Airlie <airlied@linux.ie>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+References: <20210603193242.1ce99344@canb.auug.org.au>
+ <20210708122048.534c1c4d@canb.auug.org.au>
+ <20210810192636.625220ae@canb.auug.org.au>
+ <YRJRju/zo5YiF1EB@phenom.ffwll.local>
+ <20210810203859.128649fc@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign2
-X-QQ-Bgrelay: 1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210810203859.128649fc@canb.auug.org.au>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,45 +85,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Address the following checkpatch errors:
-ERROR: do not initialise statics to false
+On Tue, Aug 10, 2021 at 08:38:59PM +1000, Stephen Rothwell wrote:
+> Hi Daniel,
+> 
+> On Tue, 10 Aug 2021 12:14:38 +0200 Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > Matt Auld is on vacation, and the other issue is that the tree where this
+> > is from isn't in linux-next. So will take a bit to get sorted in
+> > linux-next.
+> 
+> Those warnings are now coming from Linus' tree (some time before
+> v5.14-rc1).  I first mentioned them on June 3.
 
-FILE: :drivers/gpu/drm/msm/msm_drv.c:21:
--static bool reglog = false;
-
-FILE: :drivers/gpu/drm/msm/msm_drv.c:31:
--bool dumpstate = false;
-
-Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
----
-v3: Subject should start out with drm/msm, not drm/drv 
- drivers/gpu/drm/msm/msm_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 9b8fa2ad0d84..d9ca4bc9620b 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -59,7 +59,7 @@ static const struct drm_mode_config_helper_funcs mode_config_helper_funcs = {
- };
- 
- #ifdef CONFIG_DRM_MSM_REGISTER_LOGGING
--static bool reglog = false;
-+static bool reglog;
- MODULE_PARM_DESC(reglog, "Enable register read/write logging");
- module_param(reglog, bool, 0600);
- #else
-@@ -76,7 +76,7 @@ static char *vram = "16m";
- MODULE_PARM_DESC(vram, "Configure VRAM size (for devices without IOMMU/GPUMMU)");
- module_param(vram, charp, 0);
- 
--bool dumpstate = false;
-+bool dumpstate;
- MODULE_PARM_DESC(dumpstate, "Dump KMS state on errors");
- module_param(dumpstate, bool, 0600);
- 
+Uh that's not good, I missed that. I'll look into it.
+-Daniel
 -- 
-2.20.1
-
-
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
