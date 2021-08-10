@@ -1,44 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9873E8647
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 01:01:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6993E8658
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 01:11:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75D1D8946E;
-	Tue, 10 Aug 2021 23:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B77F789708;
+	Tue, 10 Aug 2021 23:11:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E92E98946E;
- Tue, 10 Aug 2021 23:01:30 +0000 (UTC)
-Received: from [10.0.20.6] (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 159FD1F578;
- Wed, 11 Aug 2021 01:01:28 +0200 (CEST)
-Subject: Re: [PATCH v2 2/2] drm/msm/dsi: add support for dsi test pattern
- generator
-To: Abhinav Kumar <abhinavk@codeaurora.org>, dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org,
- nganji@codeaurora.org, aravindh@codeaurora.org, khsieh@codeaurora.org,
- dmitry.baryshkov@linaro.org
-References: <1626922232-29105-1-git-send-email-abhinavk@codeaurora.org>
- <1626922232-29105-2-git-send-email-abhinavk@codeaurora.org>
-From: Marijn Suijten <marijn.suijten@somainline.org>
-Message-ID: <6f4f6a68-6da2-2cf7-4772-3947b287be10@somainline.org>
-Date: Wed, 11 Aug 2021 01:01:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB1989708
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 23:11:38 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1mDauC-0002FT-8x; Wed, 11 Aug 2021 01:11:32 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Sandy Huang <hjc@rock-chips.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jagan Teki <jagan@amarulasolutions.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Peter Geis <pgwipeout@gmail.com>
+Cc: Peter Geis <pgwipeout@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: Re: [BUG] dw-mipi-dsi-rockchip display corruption with dsi panel
+Date: Wed, 11 Aug 2021 01:11:29 +0200
+Message-ID: <3455830.ypAZr3mf50@diego>
+In-Reply-To: <20210810223123.2174596-1-pgwipeout@gmail.com>
+References: <20210810223123.2174596-1-pgwipeout@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1626922232-29105-2-git-send-email-abhinavk@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,157 +47,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhinav,
+Hi Peter,
 
-On 7/22/21 4:50 AM, Abhinav Kumar wrote:
-> During board bringups its useful to have a DSI test pattern
-> generator to isolate a DPU vs a DSI issue and focus on the relevant
-> hardware block.
+Am Mittwoch, 11. August 2021, 00:31:24 CEST schrieb Peter Geis:
+> Good Evening,
 > 
-> To facilitate this, add an API which triggers the DSI controller
-> test pattern. The expected output is a rectangular checkered pattern.
+> I've been attempting to light off the feiyang fy07024di26a30d panel on
+> the rockpro64. This is the official panel from the Pine64 store.
+> I've confirmed it works with the downstream kernel on both the rk3399
+> and rk3566, but on the mainline driver the display is partially
+> corrupted (see attached photo: [1]).
 > 
-> This has been validated on a single DSI video mode panel by calling it
-> right after drm_panel_enable() which is also the ideal location to use
-> this as the DSI host and the panel have been initialized by then.
+> As you can see, the left half of the display is fine, but the right half
+> of the display is corrupted with the pixels smearing horizontally.
 > 
-> Further validation on dual DSI and command mode panel is pending.
-> If there are any fix ups needed for those, it shall be applied on top
-> of this change.
+> I saw when the panel was added, some additional code was added to
+> handle burst mode in the sun6_mipi_dsi driver [2].
+> I've seen that the dw-mipi-dsi driver appears to already support burst
+> mode and I can't find anything out of place there.
+> I also haven't had much success finding anything obviously different in
+> the downstream driver vs the upstream driver that would explain this.
 > 
-> Changes in v2:
->   - generate the new dsi.xml.h and update the bitfield names
+> Attached below is the in-progress dts changes for an example of how the
+> panel is plugged in.
+
+is that really a dual-dsi panel needing two dsi controllers to drive it?
+
+With that tiny resultion of 1024x600 I definitly wouldn't expect this,
+in contrast to say the 2048x1536 dual-dsi displays used in the
+Gru-Scarlet ChromeOS tablets.
+
+So maybe just drop the 2nd dsi controller connection in a first step?
+Because I really don't think that is the case on the hardware.
+
+The dual-dsi setup means that you have one vop supplying half of its
+display data to each of the 2 involved dsi controllers. And you're missing
+in fact half of your display data.
+
+
+Heiko
+
+
+
+> I admit, I have little understanding of the mipi-dsi internal workings,
+> so I'm reaching out to the experts on how to correct this.
 > 
-> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
-
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-
-And tested on Sony phones powered by MSM8956, SDM630, and SM6125.
-
-> ---
->   drivers/gpu/drm/msm/dsi/dsi.h         |  3 ++
->   drivers/gpu/drm/msm/dsi/dsi_host.c    | 61 +++++++++++++++++++++++++++++++++++
->   drivers/gpu/drm/msm/dsi/dsi_manager.c | 13 ++++++++
->   3 files changed, 77 insertions(+)
+> Thank you for your time,
+> Peter Geis
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> index 9b8e9b0..663ccbd 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -84,6 +84,7 @@ void msm_dsi_manager_setup_encoder(int id);
->   int msm_dsi_manager_register(struct msm_dsi *msm_dsi);
->   void msm_dsi_manager_unregister(struct msm_dsi *msm_dsi);
->   bool msm_dsi_manager_validate_current_config(u8 id);
-> +void msm_dsi_manager_tpg_enable(void);
->   
->   /* msm dsi */
->   static inline bool msm_dsi_device_connected(struct msm_dsi *msm_dsi)
-> @@ -148,6 +149,8 @@ int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host);
->   int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_dual_dsi);
->   int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_dual_dsi);
->   void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
-> +void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host);
+> [1] https://photos.app.goo.gl/LBA9M2WcweGaEb4cA
+> [2] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20181116163916.29621-1-jagan@amarulasolutions.com/
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
+> index 687a5afa5d2c..af55a30297ae 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
+> @@ -20,6 +20,13 @@ chosen {
+>  		stdout-path = "serial2:1500000n8";
+>  	};
+>  
+> +	backlight: backlight {
+> +		compatible = "pwm-backlight";
+> +		pwms = <&pwm0 0 1000000 0>;
+> +		brightness-levels = <0 4 8 16 32 64 128 255>;
+> +		default-brightness-level = <128>;
+> +	};
 > +
->   /* dsi phy */
->   struct msm_dsi_phy;
->   struct msm_dsi_phy_shared_timings {
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index ed504fe..e0a3581 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -2495,3 +2495,64 @@ void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_ho
->   
->   	pm_runtime_put_sync(&msm_host->pdev->dev);
->   }
+>  	clkin_gmac: external-gmac-clock {
+>  		compatible = "fixed-clock";
+>  		clock-frequency = <125000000>;
+> @@ -69,7 +76,7 @@ diy_led: led-1 {
+>  
+>  	fan: pwm-fan {
+>  		compatible = "pwm-fan";
+> -		cooling-levels = <0 150 200 255>;
+> +		cooling-levels = <0 100 150 255>;
+>  		#cooling-cells = <2>;
+>  		fan-supply = <&vcc12v_dcin>;
+>  		pwms = <&pwm1 0 50000 0>;
+> @@ -220,6 +227,16 @@ vdd_log: vdd-log {
+>  		regulator-max-microvolt = <1700000>;
+>  		vin-supply = <&vcc5v0_sys>;
+>  	};
 > +
-> +static void msm_dsi_host_video_test_pattern_setup(struct msm_dsi_host *msm_host)
-> +{
-> +	u32 reg;
+> +	avdd: avdd {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "avdd";
+> +		regulator-always-on;
+> +		regulator-boot-on;
+> +		regulator-min-microvolt = <11000000>;
+> +		regulator-max-microvolt = <11000000>;
+> +		vin-supply = <&vcc3v3_s0>;
+> +	};
+>  };
+>  
+>  &cpu_l0 {
+> @@ -428,8 +445,8 @@ regulator-state-mem {
+>  
+>  			vcc3v0_touch: LDO_REG2 {
+>  				regulator-name = "vcc3v0_touch";
+> -				regulator-always-on;
+> -				regulator-boot-on;
+> +//				regulator-always-on;
+> +//				regulator-boot-on;
+>  				regulator-min-microvolt = <3000000>;
+>  				regulator-max-microvolt = <3000000>;
+>  				regulator-state-mem {
+> @@ -518,8 +535,8 @@ regulator-state-mem {
+>  
+>  			vcc3v3_s0: SWITCH_REG2 {
+>  				regulator-name = "vcc3v3_s0";
+> -				regulator-always-on;
+> -				regulator-boot-on;
+> +//				regulator-always-on;
+> +//				regulator-boot-on;
+>  				regulator-state-mem {
+>  					regulator-off-in-suspend;
+>  				};
+> @@ -593,6 +610,19 @@ fusb0: typec-portc@22 {
+>  		vbus-supply = <&vcc5v0_typec>;
+>  		status = "okay";
+>  	};
 > +
-> +	reg = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
+> +	touch: touchscreen@5d {
+> +		compatible = "goodix,gt911";
+> +		reg = <0x5d>;
+> +		AVDD28-supply = <&vcc3v0_touch>;
+> +		VDDIO-supply = <&vcc3v0_touch>;
+> +		interrupt-parent = <&gpio4>;
+> +		interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
+> +		irq-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
+> +		reset-gpios = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
+> +//		touchscreen-inverted-x;
+> +//		touchscreen-inverted-y;
+> +	};
+>  };
+>  
+>  &i2s0 {
+> @@ -628,6 +658,88 @@ &io_domains {
+>  	gpio1830-supply = <&vcc_3v0>;
+>  };
+>  
+> +&mipi_dsi {
+> +	status = "okay";
+> +	clock-master;
 > +
-> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_VIDEO_INIT_VAL, 0xff);
-> +	/* draw checkered rectangle pattern */
-> +	dsi_write(msm_host, REG_DSI_TPG_MAIN_CONTROL,
-> +			DSI_TPG_MAIN_CONTROL_CHECKERED_RECTANGLE_PATTERN);
-> +	/* use 24-bit RGB test pttern */
-
-
-pattern*
-
-> +	dsi_write(msm_host, REG_DSI_TPG_VIDEO_CONFIG,
-> +			DSI_TPG_VIDEO_CONFIG_BPP(VIDEO_CONFIG_24BPP) |
-> +			DSI_TPG_VIDEO_CONFIG_RGB);
+> +	ports {
+> +		mipi_out: port@1 {
+> +			reg = <1>;
 > +
-> +	reg |= DSI_TEST_PATTERN_GEN_CTRL_VIDEO_PATTERN_SEL(VID_MDSS_GENERAL_PATTERN);
-> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, reg);
+> +			mipi_out_panel: endpoint {
+> +				remote-endpoint = <&mipi_in_panel>;
+> +			};
+> +		};
+> +	};
 > +
-> +	DBG("Video test pattern setup done\n");
-> +}
+> +	mipi_panel: panel@0 {
+> +		compatible = "feiyang,fy07024di26a30d";
+> +		reg = <0>;
+> +		backlight = <&backlight>;
+> +		reset-gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>;
+> +//		enable-gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>;
+> +		width-mm = <154>;
+> +		height-mm = <86>;
+> +		rotation = <0>;
+> +		avdd-supply = <&avdd>;
+> +		dvdd-supply = <&vcc3v3_s0>;
 > +
-> +static void msm_dsi_host_cmd_test_pattern_setup(struct msm_dsi_host *msm_host)
-> +{
-> +	u32 reg;
+> +		display-timings {
+> +			native-mode = <&timing0>;
+> +			timing0: timing0 {
+> +				clock-frequency = <50000000>;
+> +				hactive = <1024>;
+> +				vactive = <600>;
+> +				hfront-porch = <160>;
+> +				hback-porch = <160>;
+> +				hsync-len = <10>;
+> +				vback-porch = <23>;
+> +				vfront-porch = <12>;
+> +				vsync-len = <1>;
+> +				hsync-active = <0>;
+> +				vsync-active = <0>;
+> +				pixelclk-active = <0>;
+> +				de-active = <0>;
+> +			};
+> +		};
 > +
-> +	reg = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
 > +
-> +	/* initial value for test pattern */
-> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_MDP_INIT_VAL0, 0xff);
+> +			port@0 {
+> +				reg = <0>;
 > +
-> +	reg |= DSI_TEST_PATTERN_GEN_CTRL_CMD_MDP_STREAM0_PATTERN_SEL(CMD_MDP_MDSS_GENERAL_PATTERN);
+> +				mipi_in_panel: endpoint {
+> +					remote-endpoint = <&mipi_out_panel>;
+> +				};
+> +			};
 > +
-> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, reg);
-> +	/* draw checkered rectangle pattern */
-> +	dsi_write(msm_host, REG_DSI_TPG_MAIN_CONTROL2,
-> +			DSI_TPG_MAIN_CONTROL2_CMD_MDP0_CHECKERED_RECTANGLE_PATTERN);
+> +			port@1 {
+> +				reg = <1>;
 > +
-> +	DBG("Cmd test pattern setup done\n");
-> +}
+> +				mipi1_in_panel: endpoint@1 {
+> +					remote-endpoint = <&mipi1_out_panel>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
 > +
-> +void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host)
-> +{
-> +	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> +	bool is_video_mode = !!(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO);
-> +	u32 reg;
+> +&mipi_dsi1 {
+> +	status = "okay";
 > +
-> +	if (is_video_mode)
-> +		msm_dsi_host_video_test_pattern_setup(msm_host);
-> +	else
-> +		msm_dsi_host_cmd_test_pattern_setup(msm_host);
+> +	ports {
+> +		mipi1_out: port@1 {
+> +			reg = <1>;
 > +
-> +	reg = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
-> +	/* enable the test pattern generator */
-> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, (reg | DSI_TEST_PATTERN_GEN_CTRL_EN));
+> +			mipi1_out_panel: endpoint {
+> +				remote-endpoint = <&mipi1_in_panel>;
+> +			};
+> +		};
+> +	};
+> +};
 > +
-> +	/* for command mode need to trigger one frame from tpg */
-> +	if (!is_video_mode)
-> +		dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER,
-> +				DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER_SW_TRIGGER);
-> +}
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index 4ebfedc..db80de6 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -441,6 +441,19 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
->   	return;
->   }
->   
-> +void msm_dsi_manager_tpg_enable(void)
-> +{
-> +	struct msm_dsi *m_dsi = dsi_mgr_get_dsi(DSI_0);
-> +	struct msm_dsi *s_dsi = dsi_mgr_get_dsi(DSI_1);
-> +
-> +	/* if dual dsi, trigger tpg on master first then slave */
-> +	if (m_dsi) {
-> +		msm_dsi_host_test_pattern_en(m_dsi->host);
-> +		if (IS_DUAL_DSI() && s_dsi)
-> +			msm_dsi_host_test_pattern_en(s_dsi->host);
-> +	}
-> +}
-> +
->   static void dsi_mgr_bridge_enable(struct drm_bridge *bridge)
->   {
->   	int id = dsi_mgr_bridge_get_id(bridge);
+>  &pcie0 {
+>  	ep-gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>;
+>  	num-lanes = <4>;
 > 
 
-Marijn
+
+
+
