@@ -2,62 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90BD3E53EE
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 08:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342E73E549E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 09:52:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C97789EB7;
-	Tue, 10 Aug 2021 06:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5318E89D9B;
+	Tue, 10 Aug 2021 07:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 106B189EB7
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 06:53:20 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id b13so24817349wrs.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 23:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=iPGkjUvZLLyYA/rI7LQMHBhVSnRtl5Sh6agt6OGXXRI=;
- b=eshl9EANZAwtl1b60zu4KnShHvq+aFbzT1Mx9sWBTny7GsutzlfGeKOznPS6ws/N+n
- BS7uy5+thImiXwLJIWHG80V0SRBNGHeDwnRIMAsQdLXSdFhI2Yag72UK2txu+JBC0kS6
- 00xGeI9TwmQhUHv3nh4t/uqXfboLzzqv3sDm0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iPGkjUvZLLyYA/rI7LQMHBhVSnRtl5Sh6agt6OGXXRI=;
- b=o2l5oZ9oobdR2Gd/sSRAHt1EopnnqgCXhJ2hH5Sqc/tdQgz0ho/CuvviEwAGaUMQ6/
- o/41Hh3fDSmpml0m1M2Ln05PLR36O80uIXeoJJ97E7jgx51bSpyxvblivW+IeWy7uJO2
- Eudc/RXNC2voAd0EQd5zhHO4MsbnGmdD9G6WvNNOFEYATMX2ORaYnutcUhgsQ84C4Pw/
- SCQ71PdKzDr7/gMAIeSxNjs1kOz68QKOWOcBdOnxOsEgIxVD0Em77qwVizHoykqxOX+J
- jeNPZKlhfKhZMdU0WxNL9/M6m/bYJoDH1qYsrAuU3QdErYK4qaMZDR32BSmNNi2Q35Bc
- i20w==
-X-Gm-Message-State: AOAM531sgRawHBCFy5U8Rbm/gLsqN7pKy15hvE7DRlujuwf0/B4SpTG0
- mrYiUP3zk+7uF+HLQNYy7k+0Sw==
-X-Google-Smtp-Source: ABdhPJxAsuKsEaB+h3jbybVR7twSsd6XqRIOb6aAPxDL281biRsnniYeTNRw2Ivdh2zwnphlRvWbHw==
-X-Received: by 2002:a5d:6945:: with SMTP id r5mr11470948wrw.202.1628578398477; 
- Mon, 09 Aug 2021 23:53:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e3sm8450226wro.15.2021.08.09.23.53.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 23:53:17 -0700 (PDT)
-Date: Tue, 10 Aug 2021 08:53:16 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 14/46] drm/i915: Expose logical engine instance to user
-Message-ID: <YRIiXL1sToOPMveN@phenom.ffwll.local>
-References: <20210803222943.27686-1-matthew.brost@intel.com>
- <20210803222943.27686-15-matthew.brost@intel.com>
- <YRE77nFgpGQUX/Sc@phenom.ffwll.local>
- <20210809183701.GA123627@DUT151-ICLU.fm.intel.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD5A389D9B
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 07:52:45 +0000 (UTC)
+Date: Tue, 10 Aug 2021 09:52:36 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [Letux-kernel] [PATCH 8/8] drm/ingenic: Attach bridge chain to
+ encoders
+To: Paul Boddie <paul@boddie.org.uk>
+Cc: "H. Nikolaus Schaller" <hns@goldelico.com>, David Airlie
+ <airlied@linux.ie>, linux-mips <linux-mips@vger.kernel.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ list@opendingux.net, Sam Ravnborg <sam@ravnborg.org>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
+Message-Id: <OV5MXQ.C3JR71EBG5P51@crapouillou.net>
+In-Reply-To: <2242071.3D3ZAXhqrE@jason>
+References: <20210808134526.119198-1-paul@crapouillou.net>
+ <5DADB00D-1E0E-4B3A-86CE-4E98A5DC04DE@goldelico.com>
+ <0TYKXQ.YAJ6UYG2GTXS1@crapouillou.net> <2242071.3D3ZAXhqrE@jason>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210809183701.GA123627@DUT151-ICLU.fm.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,118 +46,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 06:37:01PM +0000, Matthew Brost wrote:
-> On Mon, Aug 09, 2021 at 04:30:06PM +0200, Daniel Vetter wrote:
-> > On Tue, Aug 03, 2021 at 03:29:11PM -0700, Matthew Brost wrote:
-> > > Expose logical engine instance to user via query engine info IOCTL. This
-> > > is required for split-frame workloads as these needs to be placed on
-> > > engines in a logically contiguous order. The logical mapping can change
-> > > based on fusing. Rather than having user have knowledge of the fusing we
-> > > simply just expose the logical mapping with the existing query engine
-> > > info IOCTL.
-> > > 
-> > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > 
-> > Uapi must have a link to the userspace MR/patch set using this, and to the
-> > igt patch set validating it.
-> > 
-> 
-> Have an IGT:
-> https://patchwork.freedesktop.org/patch/447008/?series=93071&rev=1
-> 
-> Not sure when the media UMD is going to be updated upstream to use this.
-> Does that mean I can't merge this until the media UMD is ready? Seems
-> like it but isn't that a circular dependency? How can the media team
-> develop for a new uAPI that isn't in the kernel yet?
+Hi Paul,
 
-Yes and no. Full explainer here:
+Le mar., ao=FBt 10 2021 at 01:17:20 +0200, Paul Boddie=20
+<paul@boddie.org.uk> a =E9crit :
+> On Monday, 9 August 2021 18:22:12 CEST Paul Cercueil wrote:
+>>=20
+>>  Le lun., ao=FBt 9 2021 at 13:14:03 +0200, H. Nikolaus Schaller
+> <hns@goldelico.com> a =E9crit :
+>>  >
+>>  > quick feedback: our HDMI on top compiles fine after fixing 2 merge
+>>  > conflicts, but dos not yet work.
+>>  > Will need some spare time with access to the CI20 board to=20
+>> research
+>>  > the issue, i.e. can not give feedback immediately.
+>>=20
+>>  Alright, no problem. I'll be back home in about 2 weeks and then I=20
+>> can
+>>  test on my CI20 as well.
+>=20
+> Just for reference, I looked into this initialisation failure. The=20
+> HDMI
+> peripheral driver gets initialised satisfactorily...
+>=20
+> dw-hdmi-ingenic 10180000.hdmi: Detected HDMI TX controller v1.31a=20
+> with HDCP
+> (DWC HDMI 3D TX PHY)
+> dw-hdmi-ingenic 10180000.hdmi: registered DesignWare HDMI I2C bus=20
+> driver
+>=20
+> But then the reported error occurs in the DRM driver:
+>=20
+> ingenic-drm 13050000.lcdc0: Unable to init connector
+> ingenic-drm: probe of 13050000.lcdc0 failed with error -22
+>=20
+> This originates in a call to drm_bridge_connector_init from=20
+> ingenic_drm_bind:
+>=20
+> connector =3D drm_bridge_connector_init(drm, encoder);
+>=20
+> The invoked function iterates over the registered bridges, one of=20
+> which seems
+> to be the HDMI peripheral (it has bridge operations defined=20
+> identically to
+> those specified in the Synopsys driver), but the type member of the=20
+> drm_bridge
+> structure is set to 0 (DRM_MODE_CONNECTOR_Unknown).
+>=20
+> I might expect the bridge to expose a type acquired from its=20
+> connector, but I
+> don't see this propagation occurring in the Synopsys driver:=20
+> dw_hdmi_probe
+> sets the bridge operations and other members of the drm_bridge=20
+> structure, but
+> it doesn't set the type.
+>=20
+> Also, it might be possible that dw_hdmi_connector_detect (exposed as=20
+> the
+> detect operation) is not getting called, and this would explain why=20
+> the
+> bridge's connector member does not have the connector_type set,=20
+> either (since
+> it is also set to 0).
 
-https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
+ From what I understand the last bridge in the chained list is supposed=20
+to set the connector type. The HDMI driver's probe function should get=20
+a pointer to the next bridge in the queue and attach it (see how=20
+ite-it66121.c does it). The last bridge in the queue should be=20
+"hdmi-connector" (display-connector.c) which will effectively set the=20
+connector type.
 
-In the drm subsystem this is pretty much the only rule where if you break
-it the book will be thrown at you with extreme prejudice.
+Cheers,
+-Paul
 
-Also wrt circular: If the umd aren't set up to test their branches against
-kernel branches they need to fix their stuff. I know that internally
-that's not been done, and its a disaster, but in upstream there's no room
-for excuses. Both kernel and userspace needs to be in branches until it's
-ready for merging.
 
-> For what it is worth the downstream release is already using this.
-
-Yeah which is another problem, shipping new uapi in downstream before it's
-in upstream is decidedly not great.
--Daniel
-
-> 
-> Matt
-> 
-> > Ideally in each patch, since it's way too hard to unfortunately find the
-> > cover letter late on.
-> > 
-> > Jason even went as far as making this a hard requirement because he wasted
-> > a bit too much time trying to find the userspace for new uapi:
-> > 
-> > https://lore.kernel.org/dri-devel/20210804185704.624883-1-jason@jlekstrand.net/
-> > 
-> > Cheers, Daniel
-> > 
-> > >---
-> > >  drivers/gpu/drm/i915/i915_query.c | 2 ++
-> > >  include/uapi/drm/i915_drm.h       | 8 +++++++-
-> > >  2 files changed, 9 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> > > index e49da36c62fb..8a72923fbdba 100644
-> > > --- a/drivers/gpu/drm/i915/i915_query.c
-> > > +++ b/drivers/gpu/drm/i915/i915_query.c
-> > > @@ -124,7 +124,9 @@ query_engine_info(struct drm_i915_private *i915,
-> > >  	for_each_uabi_engine(engine, i915) {
-> > >  		info.engine.engine_class = engine->uabi_class;
-> > >  		info.engine.engine_instance = engine->uabi_instance;
-> > > +		info.flags = I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE;
-> > >  		info.capabilities = engine->uabi_capabilities;
-> > > +		info.logical_instance = ilog2(engine->logical_mask);
-> > >  
-> > >  		if (copy_to_user(info_ptr, &info, sizeof(info)))
-> > >  			return -EFAULT;
-> > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> > > index 7f13d241417f..ef72e07fe08c 100644
-> > > --- a/include/uapi/drm/i915_drm.h
-> > > +++ b/include/uapi/drm/i915_drm.h
-> > > @@ -2706,14 +2706,20 @@ struct drm_i915_engine_info {
-> > >  
-> > >  	/** @flags: Engine flags. */
-> > >  	__u64 flags;
-> > > +#define I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE		(1 << 0)
-> > >  
-> > >  	/** @capabilities: Capabilities of this engine. */
-> > >  	__u64 capabilities;
-> > >  #define I915_VIDEO_CLASS_CAPABILITY_HEVC		(1 << 0)
-> > >  #define I915_VIDEO_AND_ENHANCE_CLASS_CAPABILITY_SFC	(1 << 1)
-> > >  
-> > > +	/** @logical_instance: Logical instance of engine */
-> > > +	__u16 logical_instance;
-> > > +
-> > >  	/** @rsvd1: Reserved fields. */
-> > > -	__u64 rsvd1[4];
-> > > +	__u16 rsvd1[3];
-> > > +	/** @rsvd2: Reserved fields. */
-> > > +	__u64 rsvd2[3];
-> > >  };
-> > >  
-> > >  /**
-> > > -- 
-> > > 2.28.0
-> > > 
-> > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
