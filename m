@@ -1,64 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3B33E5863
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 12:32:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 833323E5865
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 12:33:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78C8E89FCA;
-	Tue, 10 Aug 2021 10:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE4889E32;
+	Tue, 10 Aug 2021 10:33:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4028B89E32
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 10:32:26 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id q10so2316123wro.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 03:32:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ceF787XykobiKFl8nUZkZybECG7Qcx4aPsB3UadAVfo=;
- b=kTceJzaqI1QKetcgfB3NATboog2n6ZAoQsp54/Lo5HqY3EopbPL+7wFLtqdMDf4TRJ
- lMiEDJXKR+mEncOqQXi3JDfJo4p8wVXqg98lWQv7NHTrXBbE3llWTpQdTHUMxBkH6FA7
- Qgz+IBu9SyGOOVJMMN6+0JqcO7zahPCrhD1dc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ceF787XykobiKFl8nUZkZybECG7Qcx4aPsB3UadAVfo=;
- b=A4tWYegretTqGTRPQUNFIB1jnkkL2wzyFissUlhMyQgoWRgXqnJNZy4Ouk6gVZTBLz
- KmA92Kb7yTswVrS4AD1u7Ca/dcToeXP5rWRaPpDy8gVZs51DgbOZrnE6lsAsYU286ar5
- JXUBCP1kBzn3YQykNYQYU+njWgV7luj+PSRgszqJQczFrgdVsX5JxrrMgxmgPyANxE61
- 7BlSL4PyPWm6QVTWfB+OQ7GaGJJRbzFPpvGozyMhiBOkXH6nGxv58odtOVZftQzeNEip
- tgJLoxV13u+osqZNkRrnEQKgW8TQPMLOKIdQ4i0WbXTKgrlL56S2pQA0RndIJo74/ikT
- cGyg==
-X-Gm-Message-State: AOAM533Kn9XAwwsASpd918wbDIZG+FGSPpii/BgiGLN2qCdmhEETn5Yt
- vZqOSzajN4wI4OXyuzDryQnAKA==
-X-Google-Smtp-Source: ABdhPJzb3vKThNnKotOE71wkIlkyvJ4nF0paekpufoemMlJRM2MBbPZ9YOF0jYJRZpWf3xWsBb3foA==
-X-Received: by 2002:adf:fc50:: with SMTP id e16mr31267950wrs.382.1628591544442; 
- Tue, 10 Aug 2021 03:32:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p8sm2260801wme.22.2021.08.10.03.32.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 03:32:23 -0700 (PDT)
-Date: Tue, 10 Aug 2021 12:32:22 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B033189E32
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 10:33:13 +0000 (UTC)
+Date: Tue, 10 Aug 2021 12:33:04 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 2/2] gpu/drm: ingenic: Add workaround for disabled drivers
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
+ <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, David Airlie
+ <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>, list@opendingux.net,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] drm/i915/guc: Fix several issues related to resets /
- request cancelation
-Message-ID: <YRJVtu0PWUVNJ7u4@phenom.ffwll.local>
-References: <20210808180757.81440-1-matthew.brost@intel.com>
- <20210808180757.81440-2-matthew.brost@intel.com>
- <YREvHrUa/m8H97Io@phenom.ffwll.local>
- <20210809193522.GA124273@DUT151-ICLU.fm.intel.com>
+Message-Id: <4BDMXQ.S6A97ME8XJUV@crapouillou.net>
+In-Reply-To: <YRJIb8ofHe8r5g1z@phenom.ffwll.local>
+References: <20210805192110.90302-1-paul@crapouillou.net>
+ <20210805192110.90302-3-paul@crapouillou.net> <YQw9hjZll4QmYVLX@kroah.com>
+ <3HUDXQ.7RBGD4FUHR2F@crapouillou.net> <YQ0MU/GcLkPLiy5C@kroah.com>
+ <LYZEXQ.9UWPIAZCVXIK@crapouillou.net> <YRJIb8ofHe8r5g1z@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210809193522.GA124273@DUT151-ICLU.fm.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,218 +45,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 07:35:22PM +0000, Matthew Brost wrote:
-> On Mon, Aug 09, 2021 at 03:35:26PM +0200, Daniel Vetter wrote:
-> > On Sun, Aug 08, 2021 at 11:07:55AM -0700, Matthew Brost wrote:
-> > > Resets are notoriously hard to get fully working and notoriously racey,
-> > > especially with selftests / IGTs that do all sorts of wild things that
-> > > would be near impossible to hit during normal use cases. Even though
-> > > likely impossible to hit, anything selftests / IGTs uncover needs to be
-> > > fixed. This patch addresses 7 such issues.
-> > > 
-> > > 1. A small race that could result in incorrect accounting of the number
-> > > of outstanding G2H. Basically prior to this patch we did not increment
-> > > the number of outstanding G2H if we encoutered a GT reset while sending
-> > > a H2G. This was incorrect as the context state had already been updated
-> > > to anticipate a G2H response thus the counter should be incremented.
-> > > 
-> > > 2. When unwinding requests on a reset context, if other requests in the
-> > > context are in the priority list the requests could be resubmitted out
-> > > of seqno order. Traverse the list of active requests in reserve and
-> > > append to the head of the priority list to fix this.
-> > > 
-> > > 3. Don't drop ce->guc_active.lock when unwinding a context after reset.
-> > > At one point we had to drop this because of a lock inversion but that is
-> > > no longer the case. It is much safer to hold the lock so let's do that.
-> > > 
-> > > 4. Prior to this patch the blocked context counter was cleared on
-> > > init_sched_state (used during registering a context & resets) which is
-> > > incorrect. This state needs to be persistent or the counter can read the
-> > > incorrect value.
-> > > 
-> > > 5. Flush the work queue for GuC generated G2H messages during a GT reset.
-> > > 
-> > > 6. Do not clear enable during a context reset if a schedule enable is in
-> > > flight.
-> > > 
-> > > 7. When unblocking a context, do not enable scheduling if the context is
-> > > banned.
-> > 
-> > I think each of the above should be a separate patch. I think it would
-> > also be good if each fix references the commits that introduced/changed
-> > something.
-> >
-> 
-> Sure, just was trying to cheat and make our lives easier with less
-> patches to backport into DII.
->  
-> > Most of this stuff is extremely hard to get right, and unfortunately our
-> > current code is way too fond of lockless trickery (which really isn't a
-> > great idea in the reset code). We need to apply as much care as possible
-> > here.
-> >
-> 
-> Yep, resets are hard. It is hard because like ten other async things
-> (e.g. a new submission, registering a context, banning a context,
-> canceling a request, processing a G2H, trying to idle the GPU, unpinning
-> a context) can all be happening at the same time. Hopefully when we move
-> the DRM scheduler we can remove some of these async operations,
-> perma-pinned contexts would also help too. Have a story for that + a
-> story to simplify the locking.
+Hi Daniel,
 
-A bit an aside, but drm/sched has a pretty solid story around resets,
-including what to do if your reset domain escalates (probably more useful
-for the execlist backend than GuC) and how it's all synchronized.
+Le mar., ao=FBt 10 2021 at 11:35:43 +0200, Daniel Vetter=20
+<daniel@ffwll.ch> a =E9crit :
+> On Fri, Aug 06, 2021 at 01:01:33PM +0200, Paul Cercueil wrote:
+>>  Hi Greg,
+>>=20
+>>  Le ven., ao=FBt 6 2021 at 12:17:55 +0200, Greg Kroah-Hartman
+>>  <gregkh@linuxfoundation.org> a =E9crit :
+>>  > On Thu, Aug 05, 2021 at 10:05:27PM +0200, Paul Cercueil wrote:
+>>  > >  Hi Greg,
+>>  > >
+>>  > >  Le jeu., ao=FBt 5 2021 at 21:35:34 +0200, Greg Kroah-Hartman
+>>  > >  <gregkh@linuxfoundation.org> a =E9crit :
+>>  > >  > On Thu, Aug 05, 2021 at 09:21:09PM +0200, Paul Cercueil=20
+>> wrote:
+>>  > >  > >  When the drivers of remote devices (e.g. HDMI chip) are
+>>  > > disabled in
+>>  > >  > > the
+>>  > >  > >  config, we want the ingenic-drm driver to be able to probe
+>>  > >  > > nonetheless
+>>  > >  > >  with the other devices (e.g. internal LCD panel) that are
+>>  > > enabled.
+>>  > >  > >
+>>  > >  > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  > >  > >  ---
+>>  > >  > >   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 12=20
+>> ++++++++++++
+>>  > >  > >   1 file changed, 12 insertions(+)
+>>  > >  > >
+>>  > >  > >  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  > >  > > b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  > >  > >  index d261f7a03b18..5e1fdbb0ba6b 100644
+>>  > >  > >  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  > >  > >  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  > >  > >  @@ -1058,6 +1058,18 @@ static int ingenic_drm_bind(struct
+>>  > > device
+>>  > >  > > *dev, bool has_components)
+>>  > >  > >   	for (i =3D 0; ; i++) {
+>>  > >  > >   		ret =3D drm_of_find_panel_or_bridge(dev->of_node, 0, i,
+>>  > > &panel,
+>>  > >  > > &bridge);
+>>  > >  > >   		if (ret) {
+>>  > >  > >  +			/*
+>>  > >  > >  +			 * Workaround for the case where the drivers for the
+>>  > >  > >  +			 * remote devices are not enabled. When that happens,
+>>  > >  > >  +			 * drm_of_find_panel_or_bridge() returns -EPROBE_DEFER
+>>  > >  > >  +			 * endlessly, which prevents the ingenic-drm driver=20
+>> from
+>>  > >  > >  +			 * working at all.
+>>  > >  > >  +			 */
+>>  > >  > >  +			if (ret =3D=3D -EPROBE_DEFER) {
+>>  > >  > >  +				ret =3D driver_deferred_probe_check_state(dev);
+>>  > >  > >  +				if (ret =3D=3D -ENODEV || ret =3D=3D -ETIMEDOUT)
+>>  > >  > >  +					continue;
+>>  > >  > >  +			}
+>>  > >  >
+>>  > >  > So you are mucking around with devices on other busses=20
+>> within this
+>>  > >  > driver?  What could go wrong?  :(
+>>  > >
+>>  > >  I'm doing the same thing as everybody else. This is the DRM=20
+>> driver,
+>>  > > and
+>>  > >  there is a driver for the external HDMI chip which gives us a=20
+>> DRM
+>>  > > bridge
+>>  > >  that we can obtain from the device tree.
+>>  >
+>>  > But then why do you need to call this function that is there for=20
+>> a bus,
+>>  > not for a driver.
+>>=20
+>>  The documentation disagrees with you :)
+>>=20
+>>  And, if that has any weight, this solution was proposed by Rob.
+>>=20
+>>  > >  > Please use the existing driver core functionality for this=20
+>> type of
+>>  > >  > thing, it is not unique, no need for this function to be=20
+>> called.
+>>  > >
+>>  > >  I'm not sure you understand what I'm doing here. This driver=20
+>> calls
+>>  > >  drm_of_find_panel_or_bridge(), without guarantee that the=20
+>> driver
+>>  > > for the
+>>  > >  remote device (connected via DT graph) has been enabled in the
+>>  > > kernel
+>>  > >  config. In that case it will always return -EPROBE_DEFER and=20
+>> the
+>>  > > ingenic-drm
+>>  > >  driver will never probe.
+>>  > >
+>>  > >  This patch makes sure that the driver can probe if the HDMI=20
+>> driver
+>>  > > has been
+>>  > >  disabled in the kernel config, nothing more.
+>>  >
+>>  > That should not be an issue as you do not care if the config is=20
+>> enabled,
+>>  > you just want to do something in the future if the driver shows=20
+>> up,
+>>  > right?
+>>=20
+>>  Well, the DRM subsystem doesn't really seem to handle hotplug of=20
+>> hardware.
+>>  Right now all the drivers for the connected hardware need to probe=20
+>> before
+>>  the main DRM driver. So I need to know that a remote device=20
+>> (connected via
+>>  DT graph) will never probe.
+>>=20
+>>  Give me a of_graph_remote_device_driver_will_never_probe() and I'll=20
+>> use
+>>  that.
+>>=20
+>>  > Much like the device link code, have you looked at that?
+>>=20
+>>  I don't see how that would help in any way. The device link code=20
+>> would allow
+>>  me to set a dependency between the remote hardware (HDMI chip,=20
+>> provider) and
+>>  the LCD controller (consumer), but I already have that dependency=20
+>> though the
+>>  DT graph. What I need is a way for the consumer to continue probing=20
+>> if the
+>>  provider is not going to probe.
+>=20
+> Is this actually a legit use-case?
+>=20
+> Like you have hw with a bunch of sub-devices linked, and you decided=20
+> to
+> disable some of them, which makes the driver not load.
 
-I do need to review the barriers for when you permanently wedge an engine,
-and the support for that isn't well encapsulated nor documented. But it's
-there (amdgpu uses that when the reset fails, kinda like we do), and
-that's about the only gap I've found thus far around drm/sched reset
-support.
+Yes. I'm facing that issue with a board that has a LCD panel and a HDMI=20
+controller (IT66121). I have a "flasher" program for all the Ingenic=20
+boards, that's basically just a Linux kernel + initramfs booted over=20
+USB (device). I can't realistically enable every single driver for all=20
+the hardware that's on these boards while still having a tiny=20
+footprint. And I shouldn't have to care about it either.
 
-So should all be substantially clarified once we get there.
--Daniel
+> Why should we care? Is that hdmi driver really that big that we have=20
+> to
+> support this use-case?
 
-> 
-> > Also expect me to ask a lot of annoying questions about all the atomic_t
-> > you touch :-)
-> 
-> Looking forward to it.
-> 
-> Matt
-> 
-> > -Daniel
-> > 
-> > 
-> > > 
-> > > Fixes: f4eb1f3fe946 ("drm/i915/guc: Ensure G2H response has space in buffer")
-> > > Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
-> > > Fixes: eb5e7da736f3 ("drm/i915/guc: Reset implementation for new GuC interface")
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: <stable@vger.kernel.org>
-> > > ---
-> > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 43 ++++++++++++-------
-> > >  1 file changed, 27 insertions(+), 16 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > index 87d8dc8f51b9..cd8df078ca87 100644
-> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > @@ -152,7 +152,7 @@ static inline void init_sched_state(struct intel_context *ce)
-> > >  {
-> > >  	/* Only should be called from guc_lrc_desc_pin() */
-> > >  	atomic_set(&ce->guc_sched_state_no_lock, 0);
-> > > -	ce->guc_state.sched_state = 0;
-> > > +	ce->guc_state.sched_state &= SCHED_STATE_BLOCKED_MASK;
-> > >  }
-> > >  
-> > >  static inline bool
-> > > @@ -360,11 +360,13 @@ static int guc_submission_send_busy_loop(struct intel_guc *guc,
-> > >  {
-> > >  	int err;
-> > >  
-> > > -	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
-> > > -
-> > > -	if (!err && g2h_len_dw)
-> > > +	if (g2h_len_dw)
-> > >  		atomic_inc(&guc->outstanding_submission_g2h);
-> > >  
-> > > +	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
-> > > +	if (err == -EBUSY && g2h_len_dw)
-> > > +		atomic_dec(&guc->outstanding_submission_g2h);
-> > > +
-> > >  	return err;
-> > >  }
-> > >  
-> > > @@ -725,6 +727,11 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
-> > >  			wait_for_reset(guc, &guc->outstanding_submission_g2h);
-> > >  		} while (!list_empty(&guc->ct.requests.incoming));
-> > >  	}
-> > > +
-> > > +	/* Flush any GuC generated G2H */
-> > > +	while (!list_empty(&guc->ct.requests.incoming))
-> > > +		msleep(1);
-> > > +
-> > >  	scrub_guc_desc_for_outstanding_g2h(guc);
-> > >  }
-> > >  
-> > > @@ -797,14 +804,13 @@ __unwind_incomplete_requests(struct intel_context *ce)
-> > >  
-> > >  	spin_lock_irqsave(&sched_engine->lock, flags);
-> > >  	spin_lock(&ce->guc_active.lock);
-> > > -	list_for_each_entry_safe(rq, rn,
-> > > -				 &ce->guc_active.requests,
-> > > -				 sched.link) {
-> > > +	list_for_each_entry_safe_reverse(rq, rn,
-> > > +					 &ce->guc_active.requests,
-> > > +					 sched.link) {
-> > >  		if (i915_request_completed(rq))
-> > >  			continue;
-> > >  
-> > >  		list_del_init(&rq->sched.link);
-> > > -		spin_unlock(&ce->guc_active.lock);
-> > >  
-> > >  		__i915_request_unsubmit(rq);
-> > >  
-> > > @@ -816,10 +822,8 @@ __unwind_incomplete_requests(struct intel_context *ce)
-> > >  		}
-> > >  		GEM_BUG_ON(i915_sched_engine_is_empty(sched_engine));
-> > >  
-> > > -		list_add_tail(&rq->sched.link, pl);
-> > > +		list_add(&rq->sched.link, pl);
-> > >  		set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
-> > > -
-> > > -		spin_lock(&ce->guc_active.lock);
-> > >  	}
-> > >  	spin_unlock(&ce->guc_active.lock);
-> > >  	spin_unlock_irqrestore(&sched_engine->lock, flags);
-> > > @@ -828,17 +832,23 @@ __unwind_incomplete_requests(struct intel_context *ce)
-> > >  static void __guc_reset_context(struct intel_context *ce, bool stalled)
-> > >  {
-> > >  	struct i915_request *rq;
-> > > +	unsigned long flags;
-> > >  	u32 head;
-> > >  
-> > >  	intel_context_get(ce);
-> > >  
-> > >  	/*
-> > > -	 * GuC will implicitly mark the context as non-schedulable
-> > > -	 * when it sends the reset notification. Make sure our state
-> > > -	 * reflects this change. The context will be marked enabled
-> > > -	 * on resubmission.
-> > > +	 * GuC will implicitly mark the context as non-schedulable when it sends
-> > > +	 * the reset notification. Make sure our state reflects this change. The
-> > > +	 * context will be marked enabled on resubmission. A small window exists
-> > > +	 * where the context could be block & unblocked (scheduling enable) while
-> > > +	 * this reset was inflight. If a scheduling enable is already is in
-> > > +	 * flight do not clear the enable.
-> > >  	 */
-> > > -	clr_context_enabled(ce);
-> > > +	spin_lock_irqsave(&ce->guc_state.lock, flags);
-> > > +	if (!context_pending_enable(ce))
-> > > +		clr_context_enabled(ce);
-> > > +	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-> > >  
-> > >  	rq = intel_context_find_active_request(ce);
-> > >  	if (!rq) {
-> > > @@ -1562,6 +1572,7 @@ static void guc_context_unblock(struct intel_context *ce)
-> > >  	spin_lock_irqsave(&ce->guc_state.lock, flags);
-> > >  
-> > >  	if (unlikely(submission_disabled(guc) ||
-> > > +		     intel_context_is_banned(ce) ||
-> > >  		     !intel_context_is_pinned(ce) ||
-> > >  		     context_pending_disable(ce) ||
-> > >  		     context_blocked(ce) > 1)) {
-> > > -- 
-> > > 2.28.0
-> > > 
-> > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+DRM maintainers work with what embedded devs would call "infinite=20
+resources". It annoys me that CONFIG_DRM pulls the I2C code even though=20
+I may just have a LCD panel, and it annoys me that I have to enable=20
+support for hardware that I'm not even planning to use, just so that=20
+the DRM driver works for the hardware I do want to use.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> I know it's possible to do this, that doesn't mean it's a good idea.
+> There's inifinitely more randconfigs that don't boot on my machine=20
+> here
+> for various reasons than the ones that do boot. We don't have "fixes"=20
+> for
+> all of these to make things still work, despite user misconfiguring=20
+> their
+> kernel.
+
+I understand, you can't really expect random configs to work every=20
+time. But it should still be possible to disable drivers for *optional*=20
+hardware in the config and end up with a working system.
+
+Cheers,
+-Paul
+
+
