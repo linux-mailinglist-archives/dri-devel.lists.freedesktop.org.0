@@ -1,130 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6753C3E5BE2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 15:38:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B04C3E5C35
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 15:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19EC589954;
-	Tue, 10 Aug 2021 13:38:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C750089F33;
+	Tue, 10 Aug 2021 13:52:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2063.outbound.protection.outlook.com [40.107.244.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 213668914D;
- Tue, 10 Aug 2021 13:38:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ROFUpHFo/lptgaxiOc5uWSG6lrXiH2+X1XrV3kGb+DGQOMnMuNBTfb21PTUk7QbhHxG37/nFlH+GV+p3Sb6ZU0Rfj42NTcMk8ZciQ192ABj12od33wA352aJ81zoyW3WjSdkrsNcPGXwpjT2EiqRetSD28JQerXOuk5ukWv1UzXgCOV8JiQcMqEL2lAihmpaSbnBT7fTnmXY+7D21ozJnHMnqk57c255SD5dEa6Pa3i8T8WFABhuiwpchXojGN87CjcW/GBzQMe5GvrLuhwQGrRxRAmXHcevuTqZh+Zmoy1A6kaonOtsuMAPeuBe4RBSKJGIeWH3AesSof51gbc5yA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PK5HgIdMrmPsehlYvByn45BBh+0SB0cHqI6EuBDN6yE=;
- b=IDA53FUezfOnri8WsMH7iHj0J+Kk/CEFAKWI0L0OCSW+e+eAaE+sTD+YgVdxgHvaN0GGT7uiHlPqVmEn7gLtiCs9KeFOULlpVoWD4MHYxXi9NDkkEqMVEcgnuEoKP0MI1Hl2WMAOR2nTYazGjY8WdBLVJ5kZqPTOzDQsVs0NfSGOjYCgc/AXtfwEOFMYf0KJ1izhsXVvRNfzEnd4Qpo3UUTe6Sajx4ulxbI/HU+bYzIvKEBAFdJ4Www9WzJmE/mkQlDPpY7LMbpF9xTHxYRVcYDb/oHlxl2HCWRQHOiy0p/YzihgSeubVaE7fDPx0cpXvQB1dpiOgw9P1Gll7dFfPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PK5HgIdMrmPsehlYvByn45BBh+0SB0cHqI6EuBDN6yE=;
- b=bUajm5rG2jWNt2PzSK1BoQwj5uP/EYpRDi25D0r6+6wYXBXJFdsBwXXmSKjvq9KnTSCUj1UPlinnBJyCyzzflwVjFuvjWaCwZpgr2d0X2pgt5VFIf/m6ZOdkwjYXvyLiBVX7Yrn01rczNo3mv79gs4oxF6hWpO+KI5AwEJTsY6U=
-Received: from DM5PR12MB2469.namprd12.prod.outlook.com (2603:10b6:4:af::38) by
- DM6PR12MB3578.namprd12.prod.outlook.com (2603:10b6:5:3c::33) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4394.19; Tue, 10 Aug 2021 13:38:23 +0000
-Received: from DM5PR12MB2469.namprd12.prod.outlook.com
- ([fe80::453c:6ded:8973:744e]) by DM5PR12MB2469.namprd12.prod.outlook.com
- ([fe80::453c:6ded:8973:744e%4]) with mapi id 15.20.4394.023; Tue, 10 Aug 2021
- 13:38:23 +0000
-From: "Chen, Guchun" <Guchun.Chen@amd.com>
-To: Tuo Li <islituo@gmail.com>, "Wentland, Harry" <Harry.Wentland@amd.com>,
- "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "Cyr, Aric" <Aric.Cyr@amd.com>, "Lei,
- Jun" <Jun.Lei@amd.com>, "Zhuo, Qingqing" <Qingqing.Zhuo@amd.com>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>, "Lee, Alvin" <Alvin.Lee2@amd.com>,
- "Stempen, Vladimir" <Vladimir.Stempen@amd.com>, "isabel.zhang@amd.com"
- <isabel.zhang@amd.com>, "Lee, Sung" <Sung.Lee@amd.com>, Po-Yu Hsieh Paul
- <Paul.Hsieh@amd.com>, "Wood, Wyatt" <Wyatt.Wood@amd.com>
-CC: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "baijiaju1990@gmail.com" <baijiaju1990@gmail.com>, TOTE Robot
- <oslab@tsinghua.edu.cn>
-Subject: RE: [PATCH] drm/display: fix possible null-pointer dereference in
- dcn10_set_clock()
-Thread-Topic: [PATCH] drm/display: fix possible null-pointer dereference in
- dcn10_set_clock()
-Thread-Index: AQHXjeglZkZAXnMBCku6KnVHbqk3DqtsvJ3Q
-Date: Tue, 10 Aug 2021 13:38:23 +0000
-Message-ID: <DM5PR12MB2469A884396F6018F8437E22F1F79@DM5PR12MB2469.namprd12.prod.outlook.com>
-References: <20210810092004.291429-1-islituo@gmail.com>
-In-Reply-To: <20210810092004.291429-1-islituo@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2021-08-10T13:38:16Z; 
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=471c243a-90ef-480c-b3e0-ab721cc8f59c;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cd03e364-6f94-4b13-2547-08d95c041ff2
-x-ms-traffictypediagnostic: DM6PR12MB3578:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB357808B589DD47133B89645AF1F79@DM6PR12MB3578.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GulHyxHbtZsKABbXCQktixTEq+rLz4m6TPSN6pJ6SUtW8UWWRm7kZB4SI5M838BgIFRFjT0uaXy96V9dVDAoTJmvYhgtkLuRQ4XPpTAdVFPRya2qUj7LeLYuwuTF7LSEpg9wITdYxgXcF9nICwQLflGc7f/GEJcEQwPOI6cp+iufU8aAgOSs2TKQsuCcOkiOM2nJJNXIz+Jhholwrxak08RPYFWAXebRYV/guMVjARueyK145oE0HNS72UH1haZ0qp4qGWTsShK2mAf9Guu2I0GosO+RQso1Nf9yuO0OTH18mA2L+wbE1P0Nr9+f/jPlddLCkbWVqR/Amtbg/PwjDOUHzrYEmS3pH/hwopIU0tC4CRjXer3pIK3J9+YcpNYWSTngNVJyoUgTS7V6SPtl4p2LL7Ma5j5xw5u0v3GBE9NYHUzZxLO7IIJJ8SfCORuiuuf2CfXd7EvDIi2ybQXod7w5t4yqA7UMPklTn9bs4eiPgeRkFzvgYrVEGMYampIXaEIiMGl7ol00Sv7IcTclHmZ3ERnKWrBMutydnU3VSDa2p4oIlVmZPt4uIemRgA4DBIxK9uj7R42wTWHMUpzG+vB3kPYFUV4Vtjw8LY5UpGz8jG9Hhoc/DJPw1ba6STiCyGd3fawUbIcrMNVWs7YQKmaDzh+ZJCTaNY+Jsopwk6L+pRd2RgGZMOVewb0vyYuiqoj2jZsRfYWMnj9HM2v0i50kcBhGnECqep/NA+ka2ac=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB2469.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(366004)(396003)(136003)(346002)(52536014)(110136005)(38100700002)(26005)(186003)(64756008)(316002)(38070700005)(66446008)(2906002)(76116006)(66556008)(66476007)(4326008)(54906003)(66946007)(122000001)(83380400001)(8936002)(9686003)(921005)(55016002)(71200400001)(86362001)(6636002)(478600001)(6506007)(33656002)(8676002)(5660300002)(7696005)(53546011);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Ns9Yh/lfYGUBU31baPejvx/bd7TIBt5hweYGQv68f0b43YdusBlwj3koqNqN?=
- =?us-ascii?Q?72mJDgvOTbn2q9kMKkRUmXW66De9kjL5BWf5SwaYSLmpzlwTqnGWm7j8ZEmk?=
- =?us-ascii?Q?eKqJxhukiFYQtd3kIY83kn8GdUBFbEI5LJg4g9a6nosmq8Mk2RwlSAL0rpfc?=
- =?us-ascii?Q?7v2sLOysuDgYLY9NXwS5bsoJnLef8IUpLRXN5T3ykdd/bgJ5jJk3v79Fj6Md?=
- =?us-ascii?Q?Magz82pG6d/my9uW5LNWSYJrBWkXpwAhnSqgS0JNAWSd/5tERyliWotzslsg?=
- =?us-ascii?Q?UNIJ3BSO8Cw8B4g5bidNy+RmjzPtBCRoJpBXKeb5+uaUH4TgrKEFD2x4JTZR?=
- =?us-ascii?Q?w4BSGD7EZ1ssu7w8HNIt9L68FEXr4RYUhjyLg3smCx/INcrVUUdI5hF/GNCl?=
- =?us-ascii?Q?t5WwFqY+ZkO3xXhKd9sHVAj9XyOTH6TsdgipTD8ICL8bu0KOKnaZwEcBLznl?=
- =?us-ascii?Q?v1+d4Sc06B4QUGCUqKfuJzKwtrMBrbNzLdm4bB5IlS2SFUtcCra0rAO0Qtvd?=
- =?us-ascii?Q?CSrkwQ41WNGYuEfe9ehXnN8Y4GZiJ6MUXVE1nGB3A/9eMrbi58IsJmE2eH57?=
- =?us-ascii?Q?B8ZdUJ/cliuW647DAo4EX44tLPGcpzRUx8jtUJYbdKd2pmpe6+nGee8/hs33?=
- =?us-ascii?Q?hdzsS8qI+qOTfYLx4ePwBUmaG+zHTGaKuMvn3QshM+kHmP9zOuG10iO9hYFv?=
- =?us-ascii?Q?PveVI4vFqlBBptO1Msgo9bLdfXp8X+4/QhQPQRHWYQV8U0HPutIDQsVg//WY?=
- =?us-ascii?Q?OihohBko/LPpzRbCJp+efiPjM8+uXAX1hoRrU9w0KjyNXe8eK8YZREZsxjEy?=
- =?us-ascii?Q?Y06/Fdgvjv1ZLzsZHNmm96zOzQyI09rZXV7a8MTiEc6FahaLFXG3xIDHE6+t?=
- =?us-ascii?Q?ESzEaRelDpwoYaUhzxgeerNTovOuptRj3QHLWuNwJQErmx0W30vWF+T4bzYe?=
- =?us-ascii?Q?6OtjAg9H1VaRkfInoKGXPi3OAv+VZLo25TJLerYp9Pp473xS1zjubjac3aHE?=
- =?us-ascii?Q?esv+MsAlKvKxeUyytMZ/YRNPLdksy/9IAK+WP+ywfCM1DcOtG7QFVnmtOB2W?=
- =?us-ascii?Q?bW/pf5cGBi/neR0jrdL7S7t2l6xUcBq5/BBBPPCnA/5x2UBi07FOs6vbDU3r?=
- =?us-ascii?Q?Vgi/bZ/dP1THF1zzMHKdLoA/Vfq6cEvQ8d8aWeGitpJYl3NEo+tVbezvsu4t?=
- =?us-ascii?Q?ZrKxj9ZrOWSFmBWXD/bySPFW0x4yHWpbRkQxILiDmdG5kds5Xd02E2E4IwhB?=
- =?us-ascii?Q?KHnhky5pKorgDngazGRTDvZMk4PFNq8Ykhm2gj1PsopctOjU6TG8wOW8L+ta?=
- =?us-ascii?Q?qVLbrrvUa99CNcN7E0OCwyfD?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 161F389F33;
+ Tue, 10 Aug 2021 13:52:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="194494942"
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="194494942"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2021 06:52:07 -0700
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="526153354"
+Received: from aktiwary-mobl3.amr.corp.intel.com (HELO localhost)
+ ([10.249.40.8])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2021 06:52:02 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org, 
+Subject: [PULL] drm-intel-next
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Tue, 10 Aug 2021 16:51:58 +0300
+Message-ID: <87a6lpo1a9.fsf@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2469.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd03e364-6f94-4b13-2547-08d95c041ff2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2021 13:38:23.4183 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WcxVqlFOIPLoeX1uKrKCHqxDw0BL5Kgka+Go66ZYyaRVJxr/FL63SsFS4k/ObojyLsI3FoIVw5bOnxhZJAV/xg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3578
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,71 +52,348 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
 
-Thanks for your patch.
+Hi Dave & Daniel -
 
-I suggest moving the check of function pointer dc->clk_mgr->funcs->get_cloc=
-k earlier, and return early if it's NULL, as if it's NULL, it's meaningless=
- to continue the clock setting.
+drm-intel-next-2021-08-10-1:
+drm/i915 changes for v5.15:
 
-....
-if (!dc->clk_mgr || !dc->clk_mgr->funcs->get_clock)
- 	return DC_FAIL_UNSUPPORTED_1;
+Features:
+- Basic DG2 platform enabling (Matt, Animesh, Gwan-gyeong, Jos=C3=A9)
+- Add PSF GV point support for display bandwidth calculation (Stan)
+- Add platform release id version support (Lucas)
+- Add support for forcing DSC BPP for testing (Vandita, Patnana)
 
-dc->clk_mgr->funcs->get_clock(dc->clk_mgr,
- 	context, clock_type, &clock_cfg);
-....
+Refactoring and cleanups:
+- Remove CNL support completely (Lucas)
+- Revid/stepping cleanup (Matt, Anusha)
+- Make display stepping check upper bounds exclusive (Matt)
+- Remove old GEN macros (Lucas)
+- Refactor DG1 interrupt handler (Paulo)
+- Refactor DMC stepping info (Anusha)
 
-Regards,
-Guchun
+Fixes:
+- Fix XELPD color capability reporting; it's not yet enabled (Uma)
+- Fix DG1 memory bandwidth computation (Clint)
+- Fix mux on certain HP laptops (Kai-Heng)
+- Various display workarounds (Jos=C3=A9, Matt, Imre)
+- Fix error state dumps wrt SFC_DONE (Matt)
+- Fix DG1 and XEPLD audio power domains (Anshuman)
+- Fix ADL-P and ADL-S ddi buf translation tables (Matt)
+- Fix DP/HDMI modeset sequences causing issues on ADL-P (Jos=C3=A9)
+- PSR2 fixes (Jos=C3=A9)
+- Fix DP MST modeset with FEC on TGL+
+- Fix MBUS DBOX A credits on ADL-P (Jos=C3=A9)
+- Fix DP PHY test training set programming (Khaled)
+- Fix dgfx pcode uncore init done wait (Badal)
+- Fix DSC disable fuse check on GLK (Lucas)
+- Fix shared dpll mismatch for bigjoiner secondary pipe (Manasi)
+- Fix ADL-P underrun recovery (Matt)
+- Fix permissions on FEC support debugfs file (Vandita)
 
------Original Message-----
-From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Tuo Li
-Sent: Tuesday, August 10, 2021 5:20 PM
-To: Wentland, Harry <Harry.Wentland@amd.com>; Li, Sun peng (Leo) <Sunpeng.L=
-i@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christi=
-an <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; airlied@li=
-nux.ie; daniel@ffwll.ch; Cyr, Aric <Aric.Cyr@amd.com>; Lei, Jun <Jun.Lei@am=
-d.com>; Zhuo, Qingqing <Qingqing.Zhuo@amd.com>; Siqueira, Rodrigo <Rodrigo.=
-Siqueira@amd.com>; Lee, Alvin <Alvin.Lee2@amd.com>; Stempen, Vladimir <Vlad=
-imir.Stempen@amd.com>; isabel.zhang@amd.com; Lee, Sung <Sung.Lee@amd.com>; =
-Po-Yu Hsieh Paul <Paul.Hsieh@amd.com>; Wood, Wyatt <Wyatt.Wood@amd.com>
-Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-k=
-ernel@vger.kernel.org; baijiaju1990@gmail.com; Tuo Li <islituo@gmail.com>; =
-TOTE Robot <oslab@tsinghua.edu.cn>
-Subject: [PATCH] drm/display: fix possible null-pointer dereference in dcn1=
-0_set_clock()
+Misc:
+- Backmerge drm-next (Rodrigo)
+- Bump RKL and TGL DMC firmware version (Anusha)
 
-The variable dc->clk_mgr is checked in:
-  if (dc->clk_mgr && dc->clk_mgr->funcs->get_clock)
+BR,
+Jani.
 
-This indicates dc->clk_mgr can be NULL.
-However, it is dereferenced in:
-  if (!dc->clk_mgr->funcs->get_clock)
+The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
 
-To fix this possible null-pointer dereference, check dc->clk_mgr before der=
-eferencing it.
+  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
 
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-Signed-off-by: Tuo Li <islituo@gmail.com>
----
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/dr=
-ivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-index c545eddabdcc..3a7c7c7efa68 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-@@ -3635,7 +3635,7 @@ enum dc_status dcn10_set_clock(struct dc *dc,
- 				dc->clk_mgr->funcs->get_clock(dc->clk_mgr,
- 						context, clock_type, &clock_cfg);
-=20
--	if (!dc->clk_mgr->funcs->get_clock)
-+	if (dc->clk_mgr && !dc->clk_mgr->funcs->get_clock)
- 		return DC_FAIL_UNSUPPORTED_1;
-=20
- 	if (clk_khz > clock_cfg.max_clock_khz)
---
-2.25.1
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2021-08-1=
+0-1
+
+for you to fetch changes up to 3bfa7d40ce736ffbbfe07127061f54b359ee2b12:
+
+  drm/i915/dg2: Add support for new DG2-G11 revid 0x5 (2021-08-06 09:03:10 =
+-0700)
+
+----------------------------------------------------------------
+drm/i915 changes for v5.15:
+
+Features:
+- Basic DG2 platform enabling (Matt, Animesh, Gwan-gyeong, Jos=C3=A9)
+- Add PSF GV point support for display bandwidth calculation (Stan)
+- Add platform release id version support (Lucas)
+- Add support for forcing DSC BPP for testing (Vandita, Patnana)
+
+Refactoring and cleanups:
+- Remove CNL support completely (Lucas)
+- Revid/stepping cleanup (Matt, Anusha)
+- Make display stepping check upper bounds exclusive (Matt)
+- Remove old GEN macros (Lucas)
+- Refactor DG1 interrupt handler (Paulo)
+- Refactor DMC stepping info (Anusha)
+
+Fixes:
+- Fix XELPD color capability reporting; it's not yet enabled (Uma)
+- Fix DG1 memory bandwidth computation (Clint)
+- Fix mux on certain HP laptops (Kai-Heng)
+- Various display workarounds (Jos=C3=A9, Matt, Imre)
+- Fix error state dumps wrt SFC_DONE (Matt)
+- Fix DG1 and XEPLD audio power domains (Anshuman)
+- Fix ADL-P and ADL-S ddi buf translation tables (Matt)
+- Fix DP/HDMI modeset sequences causing issues on ADL-P (Jos=C3=A9)
+- PSR2 fixes (Jos=C3=A9)
+- Fix DP MST modeset with FEC on TGL+
+- Fix MBUS DBOX A credits on ADL-P (Jos=C3=A9)
+- Fix DP PHY test training set programming (Khaled)
+- Fix dgfx pcode uncore init done wait (Badal)
+- Fix DSC disable fuse check on GLK (Lucas)
+- Fix shared dpll mismatch for bigjoiner secondary pipe (Manasi)
+- Fix ADL-P underrun recovery (Matt)
+- Fix permissions on FEC support debugfs file (Vandita)
+
+Misc:
+- Backmerge drm-next (Rodrigo)
+- Bump RKL and TGL DMC firmware version (Anusha)
+
+----------------------------------------------------------------
+Animesh Manna (1):
+      drm/i915/dg2: Update to bigjoiner path
+
+Anshuman Gupta (2):
+      drm/i915/debugfs: DISPLAY_VER 13 lpsp capability
+      drm/i915/dg1: Adjust the AUDIO power domain
+
+Anusha Srivatsa (5):
+      drm/i915/step: s/<platform>_revid_tbl/<platform>_revids
+      drm/i915/step: Add macro magic for handling steps
+      drm/i915/dmc: Change intel_get_stepping_info()
+      drm/i915/firmware: Update to DMC v2.12 on TGL
+      drm/i915/firmware: Update to DMC v2.03 on RKL
+
+Badal Nilawar (1):
+      drm/i915: dgfx cards need to wait on pcode's uncore init done
+
+Clint Taylor (1):
+      drm/i915/dg1: Compute MEM Bandwidth using MCHBAR
+
+Gwan-gyeong Mun (1):
+      drm/i915/dg2: Update lane disable power state during PSR
+
+Imre Deak (2):
+      drm/i915/adlp: Add workaround to disable CMTG clock gating
+      drm/i915: Apply CMTG clock disabling WA while DPLL0 is enabled
+
+Jani Nikula (1):
+      drm/i915/plane: add intel_plane_helper_add() helper
+
+Jos=C3=A9 Roberto de Souza (10):
+      drm/i915/display: Settle on "adl-x" in WA comments
+      drm/i915: Limit Wa_22010178259 to affected platforms
+      drm/i915/display/xelpd: Extend Wa_14011508470
+      drm/i915/display/adl_p: Implement PSR changes
+      drm/i915/display: Disable FBC when PSR2 is enabled display 12 and new=
+er
+      drm/i915/dg2: Add DG2 to the PSR2 defeature list
+      drm/i915/display/psr2: Mark as updated all planes that intersect with=
+ pipe_clip
+      drm/i915/display/psr2: Fix cursor updates using legacy apis
+      drm/i915/display: Disable audio, DRRS and PSR before planes
+      drm/i915/display/adl_p: Correctly program MBUS DBOX A credits
+
+Kai-Heng Feng (1):
+      drm/i915: Invoke another _DSM to enable MUX on HP Workstation laptops
+
+Khaled Almahallawy (1):
+      drm/i915/dp: DPTX writes Swing/Pre-emphs(DPCD 0x103-0x106) requested =
+during PHY Layer testing
+
+Lucas De Marchi (33):
+      drm/i915: do not abbreviate version in debugfs
+      drm/i915: Add release id version
+      drm/i915: do not abbreviate version in debugfs
+      drm/i915: Add release id version
+      drm/i915: Add XE_HP initial definitions
+      drm/i915/xehpsdv: add initial XeHP SDV definitions
+      drm/i915: fix not reading DSC disable fuse in GLK
+      drm/i915/display: split DISPLAY_VER 9 and 10 in intel_setup_outputs()
+      drm/i915/display: remove PORT_F workaround for CNL
+      drm/i915/display: remove explicit CNL handling from intel_cdclk.c
+      drm/i915/display: remove explicit CNL handling from intel_color.c
+      drm/i915/display: remove explicit CNL handling from intel_combo_phy.c
+      drm/i915/display: remove explicit CNL handling from intel_crtc.c
+      drm/i915/display: remove explicit CNL handling from intel_ddi.c
+      drm/i915/display: remove explicit CNL handling from intel_display_deb=
+ugfs.c
+      drm/i915/display: remove explicit CNL handling from intel_dmc.c
+      drm/i915/display: remove explicit CNL handling from intel_dp.c
+      drm/i915/display: remove explicit CNL handling from intel_dpll_mgr.c
+      drm/i915/display: remove explicit CNL handling from intel_vdsc.c
+      drm/i915/display: remove explicit CNL handling from skl_universal_pla=
+ne.c
+      drm/i915/display: remove explicit CNL handling from intel_display_pow=
+er.c
+      drm/i915/display: remove CNL ddi buf translation tables
+      drm/i915/display: rename CNL references in skl_scaler.c
+      drm/i915: remove explicit CNL handling from i915_irq.c
+      drm/i915: remove explicit CNL handling from intel_pm.c
+      drm/i915: remove explicit CNL handling from intel_pch.c
+      drm/i915: remove explicit CNL handling from intel_wopcm.c
+      drm/i915: rename CNL references in intel_dram.c
+      drm/i915: replace random CNL comments
+      drm/i915: switch num_scalers/num_sprites to consider DISPLAY_VER
+      drm/i915: remove GRAPHICS_VER =3D=3D 10
+      drm/i915: rename/remove CNL registers
+      drm/i915: finish removal of CNL
+
+Manasi Navare (1):
+      drm/i915/display: Fix shared dpll mismatch for bigjoiner slave
+
+Matt Roper (40):
+      drm/i915: Handle cdclk crawling flag in standard manner
+      drm/i915: Make pre-production detection use direct revid comparison
+      drm/i915/skl: Use revid->stepping tables
+      drm/i915/kbl: Drop pre-production revision from stepping table
+      drm/i915/bxt: Use revid->stepping tables
+      drm/i915/glk: Use revid->stepping tables
+      drm/i915/icl: Use revid->stepping tables
+      drm/i915/jsl_ehl: Use revid->stepping tables
+      drm/i915/rkl: Use revid->stepping tables
+      drm/i915/dg1: Use revid->stepping tables
+      drm/i915/cnl: Drop all workarounds
+      drm/i915/icl: Drop workarounds that only apply to pre-production step=
+pings
+      Merge branch 'topic/revid_steppings' into drm-intel-next
+      drm/i915/adl_s: Wa_14011765242 is also needed on A1 display stepping
+      drm/i915/rkl: Wa_1409767108 also applies to RKL
+      drm/i915/rkl: Wa_1408330847 no longer applies to RKL
+      drm/i915: Make display workaround upper bounds exclusive
+      drm/i915/dg2: add DG2 platform info
+      Merge branch 'topic/xehp-dg2-definitions-2021-07-21' into drm-intel-n=
+ext
+      drm/i915/dg2: Add fake PCH
+      drm/i915/dg2: Add cdclk table and reference clock
+      drm/i915/dg2: Skip shared DPLL handling
+      drm/i915/dg2: Don't wait for AUX power well enable ACKs
+      drm/i915/dg2: Setup display outputs
+      drm/i915/dg2: Add dbuf programming
+      drm/i915/dg2: Don't program BW_BUDDY registers
+      drm/i915/dg2: Don't read DRAM info
+      drm/i915/dg2: DG2 has fixed memory bandwidth
+      drm/i915/dg2: Classify DG2 PHY types
+      drm/i915: Program chicken bit during DP MST sequence on TGL+
+      drm/i915/adl_p: Allow underrun recovery when possible
+      drm/i915/adl_s: Update ddi buf translation tables
+      drm/i915/adl_p: Add ddi buf translation tables for combo PHY
+      drm/i915/dg2: Add MPLLB programming for SNPS PHY
+      drm/i915/dg2: Add MPLLB programming for HDMI
+      drm/i915/dg2: Add vswing programming for SNPS phys
+      drm/i915/dg2: Update modeset sequences
+      drm/i915/dg2: Wait for SNPS PHY calibration during display init
+      drm/i915: Correct SFC_DONE register offset
+      drm/i915/dg2: Add support for new DG2-G11 revid 0x5
+
+Patnana Venkata Sai (1):
+      drm/i915/display/dsc: Add Per connector debugfs node for DSC BPP enab=
+le
+
+Paulo Zanoni (1):
+      drm/i915: Fork DG1 interrupt handler
+
+Rodrigo Vivi (2):
+      Merge drm/drm-next into drm-intel-next
+      drm/i915/bios: Fix ports mask
+
+Stanislav Lisovskiy (2):
+      drm/i915: Extend QGV point restrict mask to 0x3
+      drm/i915: Implement PSF GV point support
+
+Uma Shankar (1):
+      drm/i915/display/xelpd: Fix incorrect color capability reporting
+
+Vandita Kulkarni (2):
+      drm/i915/display: Add write permissions for fec support
+      drm/i915/display/dsc: Force dsc BPP
+
+ drivers/gpu/drm/i915/Makefile                      |    1 +
+ drivers/gpu/drm/i915/display/i9xx_plane.c          |    2 +-
+ drivers/gpu/drm/i915/display/icl_dsi.c             |   46 +-
+ drivers/gpu/drm/i915/display/intel_acpi.c          |   19 +
+ drivers/gpu/drm/i915/display/intel_acpi.h          |    3 +
+ drivers/gpu/drm/i915/display/intel_atomic_plane.c  |    7 +-
+ drivers/gpu/drm/i915/display/intel_atomic_plane.h  |    3 +-
+ drivers/gpu/drm/i915/display/intel_audio.c         |    4 +-
+ drivers/gpu/drm/i915/display/intel_bios.c          |   11 +-
+ drivers/gpu/drm/i915/display/intel_bw.c            |  178 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c         |  107 +-
+ drivers/gpu/drm/i915/display/intel_color.c         |    5 +-
+ drivers/gpu/drm/i915/display/intel_combo_phy.c     |  106 +-
+ drivers/gpu/drm/i915/display/intel_crt.c           |    3 +
+ drivers/gpu/drm/i915/display/intel_crtc.c          |   10 +-
+ drivers/gpu/drm/i915/display/intel_cursor.c        |   12 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |  630 +++--
+ drivers/gpu/drm/i915/display/intel_ddi.h           |    4 +-
+ drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c | 2475 +++++++++++-----=
+----
+ drivers/gpu/drm/i915/display/intel_ddi_buf_trans.h |   70 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |  371 ++-
+ drivers/gpu/drm/i915/display/intel_display.h       |    1 +
+ .../gpu/drm/i915/display/intel_display_debugfs.c   |  118 +-
+ drivers/gpu/drm/i915/display/intel_display_power.c |  568 ++---
+ drivers/gpu/drm/i915/display/intel_display_power.h |   15 +-
+ drivers/gpu/drm/i915/display/intel_display_types.h |   32 +-
+ drivers/gpu/drm/i915/display/intel_dmc.c           |  232 +-
+ drivers/gpu/drm/i915/display/intel_dmc.h           |   23 +-
+ drivers/gpu/drm/i915/display/intel_dp.c            |   65 +-
+ drivers/gpu/drm/i915/display/intel_dp_aux.c        |    1 -
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |   43 +-
+ drivers/gpu/drm/i915/display/intel_dpll.c          |   12 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |  627 ++---
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.h      |    3 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c           |  219 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c         |   96 +-
+ drivers/gpu/drm/i915/display/intel_fdi.c           |   25 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c         |    4 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c          |   53 +-
+ drivers/gpu/drm/i915/display/intel_lvds.c          |    4 +-
+ drivers/gpu/drm/i915/display/intel_opregion.c      |    3 +
+ drivers/gpu/drm/i915/display/intel_psr.c           |  265 ++-
+ drivers/gpu/drm/i915/display/intel_quirks.c        |   34 +
+ drivers/gpu/drm/i915/display/intel_sdvo.c          |    4 +-
+ drivers/gpu/drm/i915/display/intel_snps_phy.c      |  862 +++++++
+ drivers/gpu/drm/i915/display/intel_snps_phy.h      |   35 +
+ drivers/gpu/drm/i915/display/intel_sprite.c        |    2 +-
+ drivers/gpu/drm/i915/display/intel_tc.c            |   34 +-
+ drivers/gpu/drm/i915/display/intel_tc.h            |    2 +
+ drivers/gpu/drm/i915/display/intel_tv.c            |   13 +-
+ drivers/gpu/drm/i915/display/intel_vbt_defs.h      |    2 +-
+ drivers/gpu/drm/i915/display/intel_vdsc.c          |    5 +-
+ drivers/gpu/drm/i915/display/intel_vga.c           |    3 +
+ drivers/gpu/drm/i915/display/skl_scaler.c          |   49 +-
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |   28 +-
+ drivers/gpu/drm/i915/display/vlv_dsi.c             |   13 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |    1 -
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c        |    2 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        |  111 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                     |    2 +-
+ drivers/gpu/drm/i915/i915_debugfs.c                |    8 +-
+ drivers/gpu/drm/i915/i915_drv.c                    |   17 +-
+ drivers/gpu/drm/i915/i915_drv.h                    |  165 +-
+ drivers/gpu/drm/i915/i915_irq.c                    |  170 +-
+ drivers/gpu/drm/i915/i915_pci.c                    |  138 +-
+ drivers/gpu/drm/i915/i915_perf.c                   |   22 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |  404 ++--
+ drivers/gpu/drm/i915/intel_device_info.c           |   43 +-
+ drivers/gpu/drm/i915/intel_device_info.h           |   16 +-
+ drivers/gpu/drm/i915/intel_dram.c                  |   42 +-
+ drivers/gpu/drm/i915/intel_pch.c                   |    8 +-
+ drivers/gpu/drm/i915/intel_pch.h                   |    2 +
+ drivers/gpu/drm/i915/intel_pm.c                    |  284 ++-
+ drivers/gpu/drm/i915/intel_sideband.c              |   13 +-
+ drivers/gpu/drm/i915/intel_sideband.h              |    2 +-
+ drivers/gpu/drm/i915/intel_step.c                  |  149 +-
+ drivers/gpu/drm/i915/intel_step.h                  |   33 +-
+ drivers/gpu/drm/i915/intel_uncore.c                |    2 +-
+ drivers/gpu/drm/i915/intel_wopcm.c                 |   10 +-
+ 79 files changed, 5320 insertions(+), 3886 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_snps_phy.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_snps_phy.h
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
