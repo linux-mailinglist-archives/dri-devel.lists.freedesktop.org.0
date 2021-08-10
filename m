@@ -1,47 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF113E56CD
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:26:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9953E56D4
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:27:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D998898E8;
-	Tue, 10 Aug 2021 09:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D753889F6E;
+	Tue, 10 Aug 2021 09:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0356A898E8
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:26:42 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4GkSJG0sQKz9sT6;
- Tue, 10 Aug 2021 19:26:37 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1628587598;
- bh=ujxBT6JOzhQsnjHTTGJrV5DnVKi8jPWIZ+grZbTmO34=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YDXp3moxuPwwVAV440zscERSPPjtkIRQ6ltbaBAUp9iU6rtb3raxDt2JUaFiGKiIm
- DPqgooaOlGBh61fThk8btufWzy4wxkwZfxobVitddkbHwRTfDylg/6mcrqTRLbK110
- DlK0klQ9Yz5h/2EOcvy2vjeu/sxQLk3/e5W3hDqQKzkqNAq1ktQcB+3AjFQ+VP6SkC
- me3ujyeyIwHdoz+6ZgGWfOK6bxmRVWLdt2ilVMwjzxcqfY5gMXG0LQC08sEFMNhDJh
- r2wm2FfW0NCF6nysJWV3Vr8gEz/X3MEcrkHXMtGetHUkZPQiFkdLkXmtmccCmaWVlp
- YRvzD1Aeu456w==
-Date: Tue, 10 Aug 2021 19:26:36 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Matthew Auld <matthew.auld@intel.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build warnings after merge of the drm tree
-Message-ID: <20210810192636.625220ae@canb.auug.org.au>
-In-Reply-To: <20210708122048.534c1c4d@canb.auug.org.au>
-References: <20210603193242.1ce99344@canb.auug.org.au>
- <20210708122048.534c1c4d@canb.auug.org.au>
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6700D89F6E
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:27:35 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id h14so25312827wrx.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 02:27:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=rxuq78HRH9YiicuEdJxMJKebWpbzctBdlaMXm6LQeYg=;
+ b=DwN0cyFB/RBfR9A8ba1CPpeLxN7mI6KpP8+uUA+Bcj7qnMO0XcHYi+CVzICY99DKT4
+ qc/ZafbdkyS71nGyLKaZSngUPsy91X3voOcAGAQqjUDo7Sf0J8Uin36yqoH4fbDIihLO
+ IcZjdaV61n1VTvoaGiVretzSwip1Y1l20aYQM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rxuq78HRH9YiicuEdJxMJKebWpbzctBdlaMXm6LQeYg=;
+ b=YHnhCU+MEvLderKWSHrBnN4Ywc2L7rbS5yUusVcyWLP+8hnomzp/nVBcUTEJiWHzTH
+ Nz9efIJ7rpMhfs/59ahQGnjUNSYokUmTCTzgNhR2jTFaa7yia/JSDgpcLNlDlLYqdSU3
+ qcuUccxU22eMCc8vQ7rzMlLHUEKVg8xx/yvqI6QJQuT+sdlRhdtepZdanGEpoduIyPPJ
+ EaYUPuG/CnjqnpnZtIuwAGC72Y5SDzlsjno81nFefcU/bX58T8pQGF3A/a19TkUfW4Y4
+ mQXLtVnVc15sFedUurrG8VDAwcVWZyQIL45Z6AwYqrsXYRMnPsyToWYO948QRSJbyTqR
+ AQjA==
+X-Gm-Message-State: AOAM5310RoY3iCAJF3iOtxJuOSV4bTDiF6/Os0qR7QWOGHam+qWWdJuh
+ fEqwTSiaoMnwUbgjHTY3zIei1O7Yp9lH3g==
+X-Google-Smtp-Source: ABdhPJzrUWHKleqEle5r5ol5lJ5JHjOAEfoyqqjm6zxEfy0J2UXE8yqSUK3W7R2/euOsspKPGgActw==
+X-Received: by 2002:adf:d085:: with SMTP id y5mr29489175wrh.272.1628587653827; 
+ Tue, 10 Aug 2021 02:27:33 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id a9sm22530827wrv.37.2021.08.10.02.27.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Aug 2021 02:27:33 -0700 (PDT)
+Date: Tue, 10 Aug 2021 11:27:31 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 25/46] drm/i915/guc: Update debugfs for GuC multi-lrc
+Message-ID: <YRJGg0iQidHxA41e@phenom.ffwll.local>
+References: <20210803222943.27686-1-matthew.brost@intel.com>
+ <20210803222943.27686-26-matthew.brost@intel.com>
+ <YRFZnGNvmHPr6DTL@phenom.ffwll.local>
+ <20210809191311.GA123935@DUT151-ICLU.fm.intel.com>
+ <YRJFmw4BTJi/UIWf@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/PdFYQG0PzTCvSx0s5gcPuCo";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRJFmw4BTJi/UIWf@phenom.ffwll.local>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,68 +74,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/PdFYQG0PzTCvSx0s5gcPuCo
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Aug 10, 2021 at 11:23:39AM +0200, Daniel Vetter wrote:
+> On Mon, Aug 09, 2021 at 07:13:11PM +0000, Matthew Brost wrote:
+> > On Mon, Aug 09, 2021 at 06:36:44PM +0200, Daniel Vetter wrote:
+> > > On Tue, Aug 03, 2021 at 03:29:22PM -0700, Matthew Brost wrote:
+> > > > Display the workqueue status in debugfs for GuC contexts that are in
+> > > > parent-child relationship.
+> > > > 
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 56 +++++++++++++------
+> > > >  1 file changed, 39 insertions(+), 17 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > index 30df1c8db491..44a7582c9aed 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > @@ -4527,31 +4527,53 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
+> > > >  		gse_log_submission_info(guc->gse[i], p, i);
+> > > >  }
+> > > >  
+> > > > +static inline void guc_log_context(struct drm_printer *p,
+> > > > +				   struct intel_context *ce)
+> > > > +{
+> > > > +	drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id);
+> > > > +	drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> > > > +	drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+> > > > +		   ce->ring->head,
+> > > > +		   ce->lrc_reg_state[CTX_RING_HEAD]);
+> > > > +	drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+> > > > +		   ce->ring->tail,
+> > > > +		   ce->lrc_reg_state[CTX_RING_TAIL]);
+> > > > +	drm_printf(p, "\t\tContext Pin Count: %u\n",
+> > > > +		   atomic_read(&ce->pin_count));
+> > > > +	drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> > > > +		   atomic_read(&ce->guc_id_ref));
+> > > > +	drm_printf(p, "\t\tNumber Requests Not Ready: %u\n",
+> > > > +		   atomic_read(&ce->guc_num_rq_not_ready));
+> > > > +	drm_printf(p, "\t\tSchedule State: 0x%x, 0x%x\n\n",
+> > > > +		   ce->guc_state.sched_state,
+> > > > +		   atomic_read(&ce->guc_sched_state_no_lock));
+> > > 
+> > > It's all debugfs, but I think proper locking even there is good. It at
+> > > least reduces the confusion when the locking scheme is largely
+> > > undocumented. Also given how much we have rcu for everything would be good
+> > > to double-check all pointer dererences are properly protected.
+> > >
+> > 
+> > Not sure if I 100% follow this but I don't think any of the pointers
+> > dref here are RCU protected. Certainly none of the GuC ones are.
+> > 
+> > Will double before the next respin though.
+> > 
+> > > > +}
+> > > > +
+> > > >  void intel_guc_submission_print_context_info(struct intel_guc *guc,
+> > > >  					     struct drm_printer *p)
+> > > >  {
+> > > >  	struct intel_context *ce;
+> > > >  	unsigned long index;
+> > > >  	xa_for_each(&guc->context_lookup, index, ce) {
+> > > 
+> > > xa_for_each doesn't provide any guarantees, so doesn't protect against
+> > > concurrent removeal or anything like that. We need to do better than that.
+> > 
+> > https://elixir.bootlin.com/linux/latest/source/include/linux/xarray.h#L498
+> > 'It is safe to modify the array during the iteration.'
+> 
+> The xarray. Not the thing you're dereferencing, because the xarray only
+> stores pointers, not your data structure. So yeah correct statement is
+> that it doesn't provide you any guarantees beyond "the iterator wont be
+> confused if the xarray itself is modified during iteration". Which isn't
+> what you need here, you need a lot more.
 
-Hi all,
+Or spelled out: The pointer you get could become immediately meaningless,
+before you can look at it, due to a concurrent removal/release. All the
+xa_for_each guarantees you is that on the next round you get the next
+pointer, until you got them all (plus/minus concurrent changes). But that
+next pointer could have become meaningless right away too.
 
-On Thu, 8 Jul 2021 12:20:48 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->
-> On Thu, 3 Jun 2021 19:32:42 +1000 Stephen Rothwell <sfr@canb.auug.org.au>=
- wrote:
-> >
-> > After merging the drm tree, today's linux-next build (htmldocs) produced
-> > these warnings:
-> >=20
-> > Documentation/gpu/driver-uapi.rst:2412: WARNING: Duplicate C declaratio=
-n, also defined at gpu/rfc/i915_gem_lmem:1393.
-> > Declaration is '.. c:enum:: drm_i915_gem_memory_class'.
-> > Documentation/gpu/driver-uapi.rst:2484: WARNING: Duplicate C declaratio=
-n, also defined at gpu/rfc/i915_gem_lmem:2484.
-> > Declaration is '.. c:struct:: drm_i915_gem_memory_class_instance'.
-> > Documentation/gpu/driver-uapi.rst:7: WARNING: Duplicate C declaration, =
-also defined at gpu/rfc/i915_gem_lmem:7.
-> > Declaration is '.. c:struct:: drm_i915_memory_region_info'.
-> > Documentation/gpu/driver-uapi.rst:2531: WARNING: Duplicate C declaratio=
-n, also defined at gpu/rfc/i915_gem_lmem:2531.
-> > Declaration is '.. c:struct:: drm_i915_query_memory_regions'.
-> > Documentation/gpu/driver-uapi.rst:2595: WARNING: Duplicate C declaratio=
-n, also defined at gpu/rfc/i915_gem_lmem:1393.
-> > Declaration is '.. c:struct:: drm_i915_gem_create_ext'.
-> > Documentation/gpu/driver-uapi.rst:2615: WARNING: Duplicate C declaratio=
-n, also defined at gpu/rfc/i915_gem_lmem:1393.
-> > Declaration is '.. c:struct:: drm_i915_gem_create_ext_memory_regions'.
-> >=20
-> > Introduced by (one or more of) commits
-> >=20
-> >   0c1a77cbdafb ("drm/doc: add section for driver uAPI")
-> >   2bc9c04ea702 ("drm/doc/rfc: i915 DG1 uAPI")
-> >   727ecd99a4c9 ("drm/doc/rfc: drop the i915_gem_lmem.h header") =20
->=20
-> I am still getting these warning.
+So you need your own locking to make use of these pointers you got and
+make sure they're not immediately meaningless before your loop body even
+started.
 
-Still getting them ...
+One of the reasons why I think this is so important is that debugfs files
+nest a lot of loops fairly often, so are good cheat-sheet for the locking
+if it happens to be undocumented (which also shouldn't be the case). Ofc
+if there's no locking in debugfs, no cheat-sheet :-)
 
---=20
-Cheers,
-Stephen Rothwell
+Cheers, Daniel
 
---Sig_/PdFYQG0PzTCvSx0s5gcPuCo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+> -Daniel
+> 
+> > 
+> > Matt
+> > 
+> > > -Daniel
+> > > 
+> > > > -		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id);
+> > > > -		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> > > > -		drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+> > > > -			   ce->ring->head,
+> > > > -			   ce->lrc_reg_state[CTX_RING_HEAD]);
+> > > > -		drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+> > > > -			   ce->ring->tail,
+> > > > -			   ce->lrc_reg_state[CTX_RING_TAIL]);
+> > > > -		drm_printf(p, "\t\tContext Pin Count: %u\n",
+> > > > -			   atomic_read(&ce->pin_count));
+> > > > -		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> > > > -			   atomic_read(&ce->guc_id_ref));
+> > > > -		drm_printf(p, "\t\tNumber Requests Not Ready: %u\n",
+> > > > -			   atomic_read(&ce->guc_num_rq_not_ready));
+> > > > -		drm_printf(p, "\t\tSchedule State: 0x%x, 0x%x\n\n",
+> > > > -			   ce->guc_state.sched_state,
+> > > > -			   atomic_read(&ce->guc_sched_state_no_lock));
+> > > > +		GEM_BUG_ON(intel_context_is_child(ce));
+> > > >  
+> > > > +		guc_log_context(p, ce);
+> > > >  		guc_log_context_priority(p, ce);
+> > > > +
+> > > > +		if (intel_context_is_parent(ce)) {
+> > > > +			struct guc_process_desc *desc = __get_process_desc(ce);
+> > > > +			struct intel_context *child;
+> > > > +
+> > > > +			drm_printf(p, "\t\tWQI Head: %u\n",
+> > > > +				   READ_ONCE(desc->head));
+> > > > +			drm_printf(p, "\t\tWQI Tail: %u\n",
+> > > > +				   READ_ONCE(desc->tail));
+> > > > +			drm_printf(p, "\t\tWQI Status: %u\n\n",
+> > > > +				   READ_ONCE(desc->wq_status));
+> > > > +
+> > > > +			for_each_child(ce, child)
+> > > > +				guc_log_context(p, child);
+> > > > +		}
+> > > >  	}
+> > > >  }
+> > > >  
+> > > > -- 
+> > > > 2.28.0
+> > > > 
+> > > 
+> > > -- 
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmESRkwACgkQAVBC80lX
-0Gwu0Qf7BXVjF6CjiHSUhDtdaw/dtje+vQ8f84zqbdnWnbZHD7nOhIY/KfRmrYBe
-PbzQpbbdTfyJA8a9af8K4HK7SOhnjQa4kabi4RtfQGhRip9Hgb+9Y2yGH4yzddFI
-YnunPgO5yPm+PY/nLJZXNBZoJ6S0/yxxkcT9Q8BQD08JzzKSHKMBwbWv5R52sh88
-UCWzU297m4gD+eGdIZKvWY80xG6z+MWZZLvvZ2FU66MRxtLyuOImrvVGJ8bQoGWo
-5QZTtJ+SjJf/NUKlxZ0ZY3pXr8S7jSvssHiOQP85UrrHdcMUxa2AmK0I+sIaCeNZ
-oZCU81MNFfsxvrJMZCSo+h7lKrh87A==
-=Q0bJ
------END PGP SIGNATURE-----
-
---Sig_/PdFYQG0PzTCvSx0s5gcPuCo--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
