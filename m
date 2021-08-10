@@ -1,37 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6993E8658
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 01:11:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF99D3E866B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 01:24:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B77F789708;
-	Tue, 10 Aug 2021 23:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF0D989EB8;
+	Tue, 10 Aug 2021 23:24:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB1989708
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 23:11:38 +0000 (UTC)
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1mDauC-0002FT-8x; Wed, 11 Aug 2021 01:11:32 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Sandy Huang <hjc@rock-chips.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Jagan Teki <jagan@amarulasolutions.com>,
- Thierry Reding <thierry.reding@gmail.com>, Peter Geis <pgwipeout@gmail.com>
-Cc: Peter Geis <pgwipeout@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: Re: [BUG] dw-mipi-dsi-rockchip display corruption with dsi panel
-Date: Wed, 11 Aug 2021 01:11:29 +0200
-Message-ID: <3455830.ypAZr3mf50@diego>
-In-Reply-To: <20210810223123.2174596-1-pgwipeout@gmail.com>
-References: <20210810223123.2174596-1-pgwipeout@gmail.com>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0488972D
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 23:24:36 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1628637879; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=zx8YddFJh59+5EnrQhywAgtFI/9rzkZOrxfXUeR4R9I=;
+ b=VCwSoqFVG1i4w5ivHjA4enEzVQn22pg1/MB6zkQrS61JidNfifrKC24q4KhnIFmyTEfjoXNI
+ Udj6PEMwABhE3QyIRSxQj2qjYN/rQqI2L1YE38pNFw8toEyq6SUajk+xnyV8Vg/T5xkRtCpX
+ yFrQmiKTPDc8Ch7mopz8Jic1bCc=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 61130aad7ee60409779d45c1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 10 Aug 2021 23:24:29
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 8217FC433D3; Tue, 10 Aug 2021 23:24:28 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4FB33C433D3;
+ Tue, 10 Aug 2021 23:24:26 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 10 Aug 2021 16:24:26 -0700
+From: abhinavk@codeaurora.org
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: add support for dsi test pattern
+ generator
+In-Reply-To: <1cc300dc-7647-0431-fe05-d5504c337652@somainline.org>
+References: <1624993464-20447-1-git-send-email-abhinavk@codeaurora.org>
+ <61cdcd07-5bff-a8ae-7156-b85b9c6c8801@somainline.org>
+ <f6235d170811ad02bf6321dcb5ef3568@codeaurora.org>
+ <1cc300dc-7647-0431-fe05-d5504c337652@somainline.org>
+Message-ID: <82699a2eb95fa619e772551f2a500921@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,234 +76,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Peter,
+Hi Marijn
 
-Am Mittwoch, 11. August 2021, 00:31:24 CEST schrieb Peter Geis:
-> Good Evening,
+Thanks for reviewing and testing the latest patchset.
+
+On 2021-08-10 15:59, Marijn Suijten wrote:
+> Hi Abhinav,
 > 
-> I've been attempting to light off the feiyang fy07024di26a30d panel on
-> the rockpro64. This is the official panel from the Pine64 store.
-> I've confirmed it works with the downstream kernel on both the rk3399
-> and rk3566, but on the mainline driver the display is partially
-> corrupted (see attached photo: [1]).
+> On 7/16/21 2:01 AM, abhinavk@codeaurora.org wrote:
+>> Hi Marijn
+>> 
+>> Sorry for the late response.
 > 
-> As you can see, the left half of the display is fine, but the right half
-> of the display is corrupted with the pixels smearing horizontally.
 > 
-> I saw when the panel was added, some additional code was added to
-> handle burst mode in the sun6_mipi_dsi driver [2].
-> I've seen that the dw-mipi-dsi driver appears to already support burst
-> mode and I can't find anything out of place there.
-> I also haven't had much success finding anything obviously different in
-> the downstream driver vs the upstream driver that would explain this.
+> Apologies from my side as well.
 > 
-> Attached below is the in-progress dts changes for an example of how the
-> panel is plugged in.
-
-is that really a dual-dsi panel needing two dsi controllers to drive it?
-
-With that tiny resultion of 1024x600 I definitly wouldn't expect this,
-in contrast to say the 2048x1536 dual-dsi displays used in the
-Gru-Scarlet ChromeOS tablets.
-
-So maybe just drop the 2nd dsi controller connection in a first step?
-Because I really don't think that is the case on the hardware.
-
-The dual-dsi setup means that you have one vop supplying half of its
-display data to each of the 2 involved dsi controllers. And you're missing
-in fact half of your display data.
-
-
-Heiko
-
-
-
-> I admit, I have little understanding of the mipi-dsi internal workings,
-> so I'm reaching out to the experts on how to correct this.
+> [...]
 > 
-> Thank you for your time,
-> Peter Geis
+>>>> +static void msm_dsi_host_cmd_test_pattern_setup(struct msm_dsi_host
+>>>> *msm_host)
+>>>> +{
+>>>> +	u32 reg;
+>>>> +
+>>>> +	reg = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
+>>>> +
+>>>> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_MDP_INIT_VAL0,
+>>>> 0xff);
+>>>> +
+>>>> +	reg |= (0x3 << 0x8);
+>>>> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, reg);
+>>>> +	/* draw checkered rectangle pattern */
+>>>> +	dsi_write(msm_host, REG_DSI_TPG_MAIN_CONTROL2, (0x1 << 0x7));
+>>> 
+>>> 
+>>> How about BIT(7)?
+>> 
+>> You mean BIT(7) of REG_DSI_TPG_MAIN_CONTROL2? Thats what this is 
+>> right?
+>> Did you mean some other bit?
 > 
-> [1] https://photos.app.goo.gl/LBA9M2WcweGaEb4cA
-> [2] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20181116163916.29621-1-jagan@amarulasolutions.com/
 > 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-> index 687a5afa5d2c..af55a30297ae 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-> @@ -20,6 +20,13 @@ chosen {
->  		stdout-path = "serial2:1500000n8";
->  	};
->  
-> +	backlight: backlight {
-> +		compatible = "pwm-backlight";
-> +		pwms = <&pwm0 0 1000000 0>;
-> +		brightness-levels = <0 4 8 16 32 64 128 255>;
-> +		default-brightness-level = <128>;
-> +	};
-> +
->  	clkin_gmac: external-gmac-clock {
->  		compatible = "fixed-clock";
->  		clock-frequency = <125000000>;
-> @@ -69,7 +76,7 @@ diy_led: led-1 {
->  
->  	fan: pwm-fan {
->  		compatible = "pwm-fan";
-> -		cooling-levels = <0 150 200 255>;
-> +		cooling-levels = <0 100 150 255>;
->  		#cooling-cells = <2>;
->  		fan-supply = <&vcc12v_dcin>;
->  		pwms = <&pwm1 0 50000 0>;
-> @@ -220,6 +227,16 @@ vdd_log: vdd-log {
->  		regulator-max-microvolt = <1700000>;
->  		vin-supply = <&vcc5v0_sys>;
->  	};
-> +
-> +	avdd: avdd {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "avdd";
-> +		regulator-always-on;
-> +		regulator-boot-on;
-> +		regulator-min-microvolt = <11000000>;
-> +		regulator-max-microvolt = <11000000>;
-> +		vin-supply = <&vcc3v3_s0>;
-> +	};
->  };
->  
->  &cpu_l0 {
-> @@ -428,8 +445,8 @@ regulator-state-mem {
->  
->  			vcc3v0_touch: LDO_REG2 {
->  				regulator-name = "vcc3v0_touch";
-> -				regulator-always-on;
-> -				regulator-boot-on;
-> +//				regulator-always-on;
-> +//				regulator-boot-on;
->  				regulator-min-microvolt = <3000000>;
->  				regulator-max-microvolt = <3000000>;
->  				regulator-state-mem {
-> @@ -518,8 +535,8 @@ regulator-state-mem {
->  
->  			vcc3v3_s0: SWITCH_REG2 {
->  				regulator-name = "vcc3v3_s0";
-> -				regulator-always-on;
-> -				regulator-boot-on;
-> +//				regulator-always-on;
-> +//				regulator-boot-on;
->  				regulator-state-mem {
->  					regulator-off-in-suspend;
->  				};
-> @@ -593,6 +610,19 @@ fusb0: typec-portc@22 {
->  		vbus-supply = <&vcc5v0_typec>;
->  		status = "okay";
->  	};
-> +
-> +	touch: touchscreen@5d {
-> +		compatible = "goodix,gt911";
-> +		reg = <0x5d>;
-> +		AVDD28-supply = <&vcc3v0_touch>;
-> +		VDDIO-supply = <&vcc3v0_touch>;
-> +		interrupt-parent = <&gpio4>;
-> +		interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
-> +		irq-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
-> +		reset-gpios = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
-> +//		touchscreen-inverted-x;
-> +//		touchscreen-inverted-y;
-> +	};
->  };
->  
->  &i2s0 {
-> @@ -628,6 +658,88 @@ &io_domains {
->  	gpio1830-supply = <&vcc_3v0>;
->  };
->  
-> +&mipi_dsi {
-> +	status = "okay";
-> +	clock-master;
-> +
-> +	ports {
-> +		mipi_out: port@1 {
-> +			reg = <1>;
-> +
-> +			mipi_out_panel: endpoint {
-> +				remote-endpoint = <&mipi_in_panel>;
-> +			};
-> +		};
-> +	};
-> +
-> +	mipi_panel: panel@0 {
-> +		compatible = "feiyang,fy07024di26a30d";
-> +		reg = <0>;
-> +		backlight = <&backlight>;
-> +		reset-gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>;
-> +//		enable-gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>;
-> +		width-mm = <154>;
-> +		height-mm = <86>;
-> +		rotation = <0>;
-> +		avdd-supply = <&avdd>;
-> +		dvdd-supply = <&vcc3v3_s0>;
-> +
-> +		display-timings {
-> +			native-mode = <&timing0>;
-> +			timing0: timing0 {
-> +				clock-frequency = <50000000>;
-> +				hactive = <1024>;
-> +				vactive = <600>;
-> +				hfront-porch = <160>;
-> +				hback-porch = <160>;
-> +				hsync-len = <10>;
-> +				vback-porch = <23>;
-> +				vfront-porch = <12>;
-> +				vsync-len = <1>;
-> +				hsync-active = <0>;
-> +				vsync-active = <0>;
-> +				pixelclk-active = <0>;
-> +				de-active = <0>;
-> +			};
-> +		};
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +
-> +				mipi_in_panel: endpoint {
-> +					remote-endpoint = <&mipi_out_panel>;
-> +				};
-> +			};
-> +
-> +			port@1 {
-> +				reg = <1>;
-> +
-> +				mipi1_in_panel: endpoint@1 {
-> +					remote-endpoint = <&mipi1_out_panel>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mipi_dsi1 {
-> +	status = "okay";
-> +
-> +	ports {
-> +		mipi1_out: port@1 {
-> +			reg = <1>;
-> +
-> +			mipi1_out_panel: endpoint {
-> +				remote-endpoint = <&mipi1_in_panel>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
->  &pcie0 {
->  	ep-gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>;
->  	num-lanes = <4>;
+> I meant to replace (0x1 << 0x7) with BIT(7), but replacing it with
+> DSI_TPG_MAIN_CONTROL2_CMD_MDP0_CHECKERED_RECTANGLE_PATTERN is even
+> better, thanks.
+> 
+>> 
+>>> 
+>>> On SM6125 this seems to change the color intensity of the pattern; it
+>>> is always colored lines of a few pixels wide alternating R, B and G
+>>> from left to right.  Is it possible to document the meaning and
+>>> available values of these registers, especially if they differ 
+>>> between
+>>> SoC / DSI block?
+>>> 
+>> 
+>> I have requested access for SM6125, will check this register on that 
+>> to
+>> see if there
+>> is any difference.
+>> 
+>> Are you saying you are not seeing a rectangular checkered pattern 
+>> while
+>> testing?
+> 
+> 
+> Correct.  It's fixed now, and this patch already proves its
+> usefulness!  We had two minor configuration issues, and are now seeing
+> the squares just like on the other SoCs.  Meaning we can finally move
+> on to configuring the DPU, thanks!
 > 
 
+Thats good to know !
 
+>> Also are you testing on command mode or video mode?
+> 
+> 
+> Command mode, if it's still worth anything.
+Thats good to know too, as I had not been able to test command mode.
+> 
+>> As requested by Rob, I will add the bit definitions and update the
+>> dsi.xml.h in the
+>> next patchset for the registers and the bits which I am using here.
+>> 
+>> With that the meaning of these bits will be more clear.
+>> 
+>> I dont think I will be able to document all the bits because the goal 
+>> of
+>> this patch
+>> was only to draw a test pattern to help with validation. Different 
+>> bits
+>> of the REG_DSI_TPG_MAIN_CONTROL2
+>> register only draw different patterns so the goal wasnt that we can 
+>> draw
+>> any pattern, it was just to
+>> draw some pattern on the screen.
+>> 
+>> When we add support for all other patterns, we can expose those bits 
+>> as
+>> well but it should not
+>> be required in my opinion.
+> 
+> 
+> Understandable.  I'm curious if other patterns are useful in certain
+> situations, like DSC?  Other than that, knowing that the DSI and PHY
+> is correct is good enough for us.
 
+The TPG in this patch is only for the DSI block which is after the DSC 
+block.
+So any pattern we pick from the DSI_TPG_MAIN_CONTROL2 register (using 
+any other bit)
+will only look different visually but will still be from DSI and no 
+other block.
+So it will not help to validate DSC block individually.
 
+> 
+>> 
+>>> Kind regards,
+>>> Marijn
+>>> 
+>>>> +	DBG("Cmd test pattern setup done\n");
+>>>> +}
+>>> [...]
+> 
+> 
+> Thanks!
+> Marijn
