@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1293E86C5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 01:52:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5363E86C9
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 01:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832886E06E;
-	Tue, 10 Aug 2021 23:52:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFD3F6E075;
+	Tue, 10 Aug 2021 23:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43AE26E067;
- Tue, 10 Aug 2021 23:52:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="215006871"
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="215006871"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6A76E072;
+ Tue, 10 Aug 2021 23:52:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="215006874"
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="215006874"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2021 16:52:28 -0700
+ 10 Aug 2021 16:52:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="460567787"
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="460567798"
 Received: from jhli-desk1.jf.intel.com ([10.54.74.156])
- by orsmga007.jf.intel.com with ESMTP; 10 Aug 2021 16:52:28 -0700
+ by orsmga007.jf.intel.com with ESMTP; 10 Aug 2021 16:52:29 -0700
 From: Juston Li <juston.li@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: seanpaul@chromium.org, anshuman.gupta@intel.com, ramalingam.c@intel.com,
  rodrigo.vivi@intel.com, Juston Li <juston.li@intel.com>
-Subject: [Intel-gfx] [PATCH v3 2/3] drm/i915/hdcp: read RxInfo once when
- reading RepeaterAuth_Send_ReceiverID_List
-Date: Tue, 10 Aug 2021 16:52:11 -0700
-Message-Id: <20210810235212.138721-3-juston.li@intel.com>
+Subject: [Intel-gfx] [PATCH v3 3/3] drm/i915/hdcp: reuse rx_info for mst
+ stream type1 capability check
+Date: Tue, 10 Aug 2021 16:52:12 -0700
+Message-Id: <20210810235212.138721-4-juston.li@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210810235212.138721-1-juston.li@intel.com>
 References: <20210810235212.138721-1-juston.li@intel.com>
@@ -50,129 +50,213 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When reading RepeaterAuth_Send_ReceiverID_List, RxInfo is read by itself
-once to retrieve the DEVICE_COUNT to calculate the size of the
-ReceiverID list then read a second time as a part of reading ReceiverID
-list.
+On some MST docking stations, rx_info can only be read after
+RepeaterAuth_Send_ReceiverID_List and the RxStatus READY bit is set
+otherwise the read will return -EIO.
 
-On some MST docking stations, RxInfo can only be read after the RxStatus
-READY bit is set otherwise the read will return -EIO. The spec states that
-the READY bit should be cleared as soon as RxInfo has been read.
+This behavior causes the mst stream type1 capability test to fail to
+read rx_info and determine if the topology supports type1 and fallback
+to type0.
 
-In this case, the first RxInfo read succeeds but after the READY bit is
-cleared, the second read fails.
+To fix this, check for type1 capability when we receive rx_info within
+the AKE flow when we read RepeaterAuth_Send_ReceiverID_List instead
+of an explicit read just for type1 capability checking.
 
-Fix it by reading RxInfo once and storing it before reading the rest of
-RepeaterAuth_Send_ReceiverID_List once we know the size.
+This does require moving where we set stream_types to after
+hdcp2_authenticate_sink() when we get rx_info but this occurs before we
+do hdcp2_propagate_stream_management_info.
 
-Modify get_receiver_id_list_size() to read and store RxInfo in the
-message buffer and also parse DEVICE_COUNT so we know the size of
-RepeaterAuth_Send_ReceiverID_List.
+Also, legacy HDCP 2.0/2.1 are not type 1 capable either so check for
+that as well.
 
-Afterwards, retrieve the rest of the message at the offset for
-seq_num_V.
-
-Changes in v4:
-- rebase and edit commit message
-
-Changes in v3:
-- remove comment
-
-Changes in v2:
-- remove unnecessary moving of drm_i915_private from patch 1
+Changes since v2:
+ - Remove no longer used variables in _intel_hdcp2_enable()
 
 Signed-off-by: Juston Li <juston.li@intel.com>
-Acked-by: Anshuman Gupta <anshuman.gupta@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 30 ++++++++++----------
- include/drm/drm_dp_helper.h                  |  2 +-
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ .../drm/i915/display/intel_display_types.h    |  2 +
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 39 ---------------
+ drivers/gpu/drm/i915/display/intel_hdcp.c     | 49 ++++++++-----------
+ 3 files changed, 23 insertions(+), 67 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index dbdfe54d0340..c8b687ff0374 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -516,6 +516,8 @@ struct intel_hdcp {
+ 	enum transcoder cpu_transcoder;
+ 	/* Only used for DP MST stream encryption */
+ 	enum transcoder stream_transcoder;
++
++	bool topology_type1_capable;
+ };
+ 
+ struct intel_connector {
 diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-index 1d0096654776..526fd58b9b51 100644
+index 526fd58b9b51..2d39af63ec9b 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-@@ -496,11 +496,10 @@ get_rxinfo_hdcp_1_dev_downstream(struct intel_digital_port *dig_port, bool *hdcp
+@@ -478,23 +478,6 @@ int intel_dp_hdcp2_write_msg(struct intel_digital_port *dig_port,
+ 	return size;
  }
  
- static
--ssize_t get_receiver_id_list_size(struct intel_digital_port *dig_port)
-+ssize_t get_receiver_id_list_rx_info(struct intel_digital_port *dig_port, u32 *dev_cnt, u8 *byte)
- {
+-static int
+-get_rxinfo_hdcp_1_dev_downstream(struct intel_digital_port *dig_port, bool *hdcp_1_x)
+-{
 -	u8 rx_info[HDCP_2_2_RXINFO_LEN];
--	u32 dev_cnt;
- 	ssize_t ret;
-+	u8 *rx_info = byte;
- 
- 	ret = drm_dp_dpcd_read(&dig_port->dp.aux,
- 			       DP_HDCP_2_2_REG_RXINFO_OFFSET,
-@@ -508,15 +507,11 @@ ssize_t get_receiver_id_list_size(struct intel_digital_port *dig_port)
- 	if (ret != HDCP_2_2_RXINFO_LEN)
- 		return ret >= 0 ? -EIO : ret;
- 
--	dev_cnt = (HDCP_2_2_DEV_COUNT_HI(rx_info[0]) << 4 |
-+	*dev_cnt = (HDCP_2_2_DEV_COUNT_HI(rx_info[0]) << 4 |
- 		   HDCP_2_2_DEV_COUNT_LO(rx_info[1]));
- 
--	if (dev_cnt > HDCP_2_2_MAX_DEVICE_COUNT)
--		dev_cnt = HDCP_2_2_MAX_DEVICE_COUNT;
+-	int ret;
 -
--	ret = sizeof(struct hdcp2_rep_send_receiverid_list) -
--		HDCP_2_2_RECEIVER_IDS_MAX_LEN +
--		(dev_cnt * HDCP_2_2_RECEIVER_ID_LEN);
-+	if (*dev_cnt > HDCP_2_2_MAX_DEVICE_COUNT)
-+		*dev_cnt = HDCP_2_2_MAX_DEVICE_COUNT;
- 
- 	return ret;
+-	ret = drm_dp_dpcd_read(&dig_port->dp.aux,
+-			       DP_HDCP_2_2_REG_RXINFO_OFFSET,
+-			       (void *)rx_info, HDCP_2_2_RXINFO_LEN);
+-
+-	if (ret != HDCP_2_2_RXINFO_LEN)
+-		return ret >= 0 ? -EIO : ret;
+-
+-	*hdcp_1_x = HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) ? true : false;
+-	return 0;
+-}
+-
+ static
+ ssize_t get_receiver_id_list_rx_info(struct intel_digital_port *dig_port, u32 *dev_cnt, u8 *byte)
+ {
+@@ -664,27 +647,6 @@ int intel_dp_hdcp2_capable(struct intel_digital_port *dig_port,
+ 	return 0;
  }
-@@ -534,6 +529,7 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
- 	const struct hdcp2_dp_msg_data *hdcp2_msg_data;
- 	ktime_t msg_end = ktime_set(0, 0);
- 	bool msg_expired;
-+	u32 dev_cnt;
  
- 	hdcp2_msg_data = get_hdcp2_dp_msg_data(msg_id);
- 	if (!hdcp2_msg_data)
-@@ -546,17 +542,21 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
+-static
+-int intel_dp_mst_streams_type1_capable(struct intel_connector *connector,
+-				       bool *capable)
+-{
+-	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+-	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+-	int ret;
+-	bool hdcp_1_x;
+-
+-	ret = get_rxinfo_hdcp_1_dev_downstream(dig_port, &hdcp_1_x);
+-	if (ret) {
+-		drm_dbg_kms(&i915->drm,
+-			    "[%s:%d] failed to read RxInfo ret=%d\n",
+-			    connector->base.name, connector->base.base.id, ret);
+-		return ret;
+-	}
+-
+-	*capable = !hdcp_1_x;
+-	return 0;
+-}
+-
+ static const struct intel_hdcp_shim intel_dp_hdcp_shim = {
+ 	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
+ 	.read_bksv = intel_dp_hdcp_read_bksv,
+@@ -833,7 +795,6 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+ 	.stream_2_2_encryption = intel_dp_mst_hdcp2_stream_encryption,
+ 	.check_2_2_link = intel_dp_mst_hdcp2_check_link,
+ 	.hdcp_2_2_capable = intel_dp_hdcp2_capable,
+-	.streams_type1_capable = intel_dp_mst_streams_type1_capable,
+ 	.protocol = HDCP_PROTOCOL_DP,
+ };
  
- 	hdcp->cp_irq_count_cached = atomic_read(&hdcp->cp_irq_count);
+diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+index ebc2e32aec0b..1a2a98e2c6e3 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+@@ -33,21 +33,6 @@ static int intel_conn_to_vcpi(struct intel_connector *connector)
+ 	return connector->port	? connector->port->vcpi.vcpi : 0;
+ }
  
-+	/* DP adaptation msgs has no msg_id */
-+	byte++;
-+
- 	if (msg_id == HDCP_2_2_REP_SEND_RECVID_LIST) {
--		ret = get_receiver_id_list_size(dig_port);
-+		ret = get_receiver_id_list_rx_info(dig_port, &dev_cnt, byte);
- 		if (ret < 0)
- 			return ret;
+-static bool
+-intel_streams_type1_capable(struct intel_connector *connector)
+-{
+-	const struct intel_hdcp_shim *shim = connector->hdcp.shim;
+-	bool capable = false;
+-
+-	if (!shim)
+-		return capable;
+-
+-	if (shim->streams_type1_capable)
+-		shim->streams_type1_capable(connector, &capable);
+-
+-	return capable;
+-}
+-
+ /*
+  * intel_hdcp_required_content_stream selects the most highest common possible HDCP
+  * content_type for all streams in DP MST topology because security f/w doesn't
+@@ -86,7 +71,7 @@ intel_hdcp_required_content_stream(struct intel_digital_port *dig_port)
+ 		if (conn_dig_port != dig_port)
+ 			continue;
  
--		size = ret;
-+		byte += ret;
-+		size = sizeof(struct hdcp2_rep_send_receiverid_list) -
-+		HDCP_2_2_RXINFO_LEN - HDCP_2_2_RECEIVER_IDS_MAX_LEN +
-+		(dev_cnt * HDCP_2_2_RECEIVER_ID_LEN);
+-		if (!enforce_type0 && !intel_streams_type1_capable(connector))
++		if (!enforce_type0 && !connector->hdcp.topology_type1_capable)
+ 			enforce_type0 = true;
+ 
+ 		data->streams[data->k].stream_id = intel_conn_to_vcpi(connector);
+@@ -1632,6 +1617,14 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
+ 		return -EINVAL;
  	}
--	bytes_to_recv = size - 1;
  
--	/* DP adaptation msgs has no msg_id */
--	byte++;
-+	bytes_to_recv = size - 1;
++	/*
++	 * A topology is not Type 1 capable if it contains a downstream device
++	 * that is HDCP 1.x or Legacy HDCP 2.0/2.1 compliant.
++	 */
++	hdcp->topology_type1_capable =
++		!HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) &&
++		!HDCP_2_2_HDCP_2_0_REP_CONNECTED(rx_info[1]);
++
+ 	/* Converting and Storing the seq_num_v to local variable as DWORD */
+ 	seq_num_v =
+ 		drm_hdcp_be24_to_cpu((const u8 *)msgs.recvid_list.seq_num_v);
+@@ -1871,11 +1864,23 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+ {
+ 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+ 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
++	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
++	struct intel_hdcp *hdcp = &connector->hdcp;
+ 	int ret = 0, i, tries = 3;
  
- 	while (bytes_to_recv) {
- 		len = bytes_to_recv > DP_AUX_MAX_PAYLOAD_BYTES ?
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 3f2715eb965f..7476e7c6d0be 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1413,7 +1413,7 @@ enum drm_dp_phy {
- #define DP_HDCP_2_2_LC_INIT_OFFSET		DP_HDCP_2_2_REG_RN_OFFSET
- #define DP_HDCP_2_2_LC_SEND_LPRIME_OFFSET	DP_HDCP_2_2_REG_LPRIME_OFFSET
- #define DP_HDCP_2_2_SKE_SEND_EKS_OFFSET		DP_HDCP_2_2_REG_EDKEY_KS_OFFSET
--#define DP_HDCP_2_2_REP_SEND_RECVID_LIST_OFFSET	DP_HDCP_2_2_REG_RXINFO_OFFSET
-+#define DP_HDCP_2_2_REP_SEND_RECVID_LIST_OFFSET	DP_HDCP_2_2_REG_SEQ_NUM_V_OFFSET
- #define DP_HDCP_2_2_REP_SEND_ACK_OFFSET		DP_HDCP_2_2_REG_V_OFFSET
- #define DP_HDCP_2_2_REP_STREAM_MANAGE_OFFSET	DP_HDCP_2_2_REG_SEQ_NUM_M_OFFSET
- #define DP_HDCP_2_2_REP_STREAM_READY_OFFSET	DP_HDCP_2_2_REG_MPRIME_OFFSET
+ 	for (i = 0; i < tries && !dig_port->hdcp_auth_status; i++) {
+ 		ret = hdcp2_authenticate_sink(connector);
+ 		if (!ret) {
++			/* Stream which requires encryption */
++			if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
++				data->k = 1;
++				data->streams[0].stream_type = hdcp->content_type;
++			} else {
++				ret = intel_hdcp_required_content_stream(dig_port);
++				if (ret)
++					return ret;
++			}
++
+ 			ret = hdcp2_propagate_stream_management_info(connector);
+ 			if (ret) {
+ 				drm_dbg_kms(&i915->drm,
+@@ -1921,9 +1926,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+ 
+ static int _intel_hdcp2_enable(struct intel_connector *connector)
+ {
+-	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+ 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+-	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+ 	struct intel_hdcp *hdcp = &connector->hdcp;
+ 	int ret;
+ 
+@@ -1931,16 +1934,6 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
+ 		    connector->base.name, connector->base.base.id,
+ 		    hdcp->content_type);
+ 
+-	/* Stream which requires encryption */
+-	if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
+-		data->k = 1;
+-		data->streams[0].stream_type = hdcp->content_type;
+-	} else {
+-		ret = intel_hdcp_required_content_stream(dig_port);
+-		if (ret)
+-			return ret;
+-	}
+-
+ 	ret = hdcp2_authenticate_and_encrypt(connector);
+ 	if (ret) {
+ 		drm_dbg_kms(&i915->drm, "HDCP2 Type%d  Enabling Failed. (%d)\n",
 -- 
 2.31.1
 
