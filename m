@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9FBF3E586C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 12:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633233E5874
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 12:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648E489FDB;
-	Tue, 10 Aug 2021 10:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D77EB898F5;
+	Tue, 10 Aug 2021 10:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B938889FC5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 10:33:55 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id 6so539190wme.5
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 03:33:55 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA42898F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 10:36:31 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 203-20020a1c00d40000b02902e6a4e244e4so563662wma.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 03:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=OaJmdgEp3QTwYAWlpVTyUztKhEOmPrL3HSrfFe8B/wk=;
- b=ILdF5A2TkAVWmUIUWU8mTtivs21ZpMnLCHnQ8Qo/VJqflDpMdr/82ZOpHkvnJZGg1K
- vIGrBOkVRmXQMbVjQnOYjcQ2611GNGMd2ABcJlOq6InXDrmkcEyv0Us7ZHV9jkwbXFlp
- 3R4eHlgGEotKu2jJFJQ9sxFtCP6C8acPCR1wc=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=406Pfr5R/LtUft8lne98RJjI6XyjkDdwuzXaHYRrFSE=;
+ b=O4tfeZGNiVQgg2vXvvsSx7Wm/2vju0wZcMZMuiQGHOn1xf/N7IydF9/p1w8QUte1Rg
+ RwhaVXiVteo9rBxIayycTJC+APM1QpWQp35++uWwXCzjWBkruQxbY8wgvpUmo/p6+Ibs
+ JuDf4lV4oGh7ukCxqlo/WxmRuJpjqF22iLJk4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OaJmdgEp3QTwYAWlpVTyUztKhEOmPrL3HSrfFe8B/wk=;
- b=J8fZkgoU6os8RSVctsOQ6hPp2lXDDBYU11T4543xGLp4JDc5LjVUMnVGH3/s34egP0
- 5vOE4+iSndurgNP37nH2+augYbKl+WHG9y891hu2Aa0eON9leY6zG9BJIwXMxub+cUvS
- 8k/L/ErCJhT0TdcgSEh3pnuAK0jif7cy6aD/ka4tg0FbIKuhSOe20eHnFSe8PdGvEVVi
- DuGagkXk4n9i+iiEqEvDwGl4UGzkY6nc0aZVi2QkrKWNNSKxZV+HwhEzIjeO8ADGG4Wm
- d4syeHRCJYaBCvcfE7CB3KR95mD9qy7YPtV/Fattm+PftsF4dDDCjDDohpxbjEL0fDdD
- 9AZQ==
-X-Gm-Message-State: AOAM5320tVy2Nx0KSnFdfB8RiIIDJWNSPCimfQWsXDapLbNjs1T+OB9F
- Ljm7KuBb5wxDviwSrGELB5UjkQ==
-X-Google-Smtp-Source: ABdhPJwhpgbbeSpaqq1kenoEfApvijwRr0Ccn20YLx/9rmy8sqoEoxR/XAplTUFsOFNjnlmBU5MMpw==
-X-Received: by 2002:a05:600c:213:: with SMTP id 19mr3978077wmi.2.1628591634230; 
- Tue, 10 Aug 2021 03:33:54 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=406Pfr5R/LtUft8lne98RJjI6XyjkDdwuzXaHYRrFSE=;
+ b=CjukrmXFY0OWSWvs2D7VtLPOFID1OSXz8R9ei8+bL4F8yVFHfxEhIrXv2TyJr1nK/H
+ CihIK+D/Gp6fX794x0JDcYjyFm2IKP8AwYgiuzXMZxDYooz9Eeb7tvJQTGbYtFzOj8L0
+ MdBGySyxM4OM9NePzVUbyVh3saeaamgCneyCd/0o5ASkAbRxubG6l9DCjCNHc4bCrHUW
+ cwGbVdtNWmMnk4Atm9MCRCg86hYvkWOAvAb+eF3bcJb83jaoFeZdE6nrnHhhZwpE3R2D
+ Y6cSqMBWI8XFgXNk9TD61z2tHHOLTKuG1kKVzpXGr2yw8QLbI2KSlzVddC26glcB4vYe
+ b0Nw==
+X-Gm-Message-State: AOAM5336/Dpl6lmKPRyo70yVcULSSwF2WcuKYoypJEBCLlhR/QMNOdd5
+ 8Ysy5ecwcyHfyb5Jd5fqKFPlRO0csIepvA==
+X-Google-Smtp-Source: ABdhPJwBAGMd61sy1d0UT+SK2W1IttWcrJ9Ep2d3M8qcc9kZpj30TfVW3zAWJbUuHBTB8+QEX+sl1A==
+X-Received: by 2002:a1c:27c2:: with SMTP id n185mr21260947wmn.20.1628591790195; 
+ Tue, 10 Aug 2021 03:36:30 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t1sm2429782wma.25.2021.08.10.03.33.53
+ by smtp.gmail.com with ESMTPSA id h4sm5472404wrb.16.2021.08.10.03.36.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 03:33:53 -0700 (PDT)
-Date: Tue, 10 Aug 2021 12:33:51 +0200
+ Tue, 10 Aug 2021 03:36:29 -0700 (PDT)
+Date: Tue, 10 Aug 2021 12:36:27 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Matthew Brost <matthew.brost@intel.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 2/3] drm/i915/selftests: Fix memory
- corruption in live_lrc_isolation
-Message-ID: <YRJWD4pI5mW+gyoR@phenom.ffwll.local>
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/selftests: Add initial GuC
+ selftest for scrubbing lost G2H
+Message-ID: <YRJWq4bI4hpY631U@phenom.ffwll.local>
 References: <20210808180757.81440-1-matthew.brost@intel.com>
- <20210808180757.81440-3-matthew.brost@intel.com>
- <YREv3mwWxH6cN9I7@phenom.ffwll.local>
- <20210809193739.GA124301@DUT151-ICLU.fm.intel.com>
+ <20210808180757.81440-4-matthew.brost@intel.com>
+ <YRE1sP6aelWMJaY8@phenom.ffwll.local>
+ <20210809194129.GA124324@DUT151-ICLU.fm.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210809193739.GA124301@DUT151-ICLU.fm.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210809194129.GA124324@DUT151-ICLU.fm.intel.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,96 +77,309 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 07:37:39PM +0000, Matthew Brost wrote:
-> On Mon, Aug 09, 2021 at 03:38:38PM +0200, Daniel Vetter wrote:
-> > On Sun, Aug 08, 2021 at 11:07:56AM -0700, Matthew Brost wrote:
-> > > GuC submission has exposed an existing memory corruption in
-> > > live_lrc_isolation. We believe that some writes to the watchdog offsets
-> > > in the LRC (0x178 & 0x17c) can result in trashing of portions of the
-> > > address space. With GuC submission there are additional objects which
-> > > can move the context redzone into the space that is trashed. To
-> > > workaround this avoid poisoning the watchdog.
-> > 
-> > A Bspec reference here would be good (we can quote anything that's marked
-> > for public release, so doesn't have one of the IP markers).
-> >
-> 
-> Let me see what I dig up in the bspec.
-> 
-> BTW - Hopefully we can root cause this soon with a proper fix.
-
-Well if it's work-in-progress duct-tape without reference that's fine
-too, then perhaps sprinkle a JIRA number here (just not the full link,
-intel IT doesn't like those leaking). Just something that in a few months
-when someone reads that code they can stitch together the story again.
--Daniel
-
->  
-> > Also I think the above should be replicated in condensed form instead of
-> > the XXX comment.
-> >
-> 
-> Sure.
-> 
-> Matt
-> 
-> > With those: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> since I
-> > definitely have enough clue here for a detailed review.
-> > -Daniel
-> > 
+On Mon, Aug 09, 2021 at 07:41:29PM +0000, Matthew Brost wrote:
+> On Mon, Aug 09, 2021 at 04:03:28PM +0200, Daniel Vetter wrote:
+> > On Sun, Aug 08, 2021 at 11:07:57AM -0700, Matthew Brost wrote:
+> > > While debugging an issue with full GT resets I went down a rabbit hole
+> > > thinking the scrubbing of lost G2H wasn't working correctly. This proved
+> > > to be incorrect as this was working just fine but this chase inspired me
+> > > to write a selftest to prove that this works. This simple selftest
+> > > injects errors dropping various G2H and then issues a full GT reset
+> > > proving that the scrubbing of these G2H doesn't blow up.
 > > > 
 > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > > > ---
-> > >  drivers/gpu/drm/i915/gt/selftest_lrc.c | 29 +++++++++++++++++++++++++-
-> > >  1 file changed, 28 insertions(+), 1 deletion(-)
+> > >  drivers/gpu/drm/i915/gt/intel_context_types.h |   4 +
+> > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  18 +++
+> > >  drivers/gpu/drm/i915/gt/uc/selftest_guc.c     | 126 ++++++++++++++++++
+> > >  .../drm/i915/selftests/i915_live_selftests.h  |   1 +
+> > >  .../i915/selftests/intel_scheduler_helpers.c  |  12 ++
+> > >  .../i915/selftests/intel_scheduler_helpers.h  |   2 +
+> > >  6 files changed, 163 insertions(+)
+> > >  create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc.c
 > > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> > > index b0977a3b699b..6500e9fce8a0 100644
-> > > --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> > > +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> > > @@ -1074,6 +1074,32 @@ record_registers(struct intel_context *ce,
-> > >  	goto err_after;
-> > >  }
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > index e54351a170e2..fec5ff7ef168 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > @@ -198,6 +198,10 @@ struct intel_context {
+> > >  	 */
+> > >  	u8 guc_prio;
+> > >  	u32 guc_prio_count[GUC_CLIENT_PRIORITY_NUM];
+> > > +
+> > 
+> > I know the existing stuff isn't following this at all, but for anything
+> > new we really should put some kerneldoc into structures. This probably
+> > means you need to open-code the #ifdef here, since this macro will likely
+> > upset kerneldoc parsing.
+> > 
+> 
+> Ok, got it.
+> 
+> > > +	I915_SELFTEST_DECLARE(bool drop_schedule_enable);
+> > > +	I915_SELFTEST_DECLARE(bool drop_schedule_disable);
+> > > +	I915_SELFTEST_DECLARE(bool drop_deregister);
+> > >  };
 > > >  
-> > > +static u32 safe_offset(u32 offset, u32 reg)
-> > > +{
-> > > +	/* XXX skip testing of watchdog */
-> > > +	if (offset == 0x178 || offset == 0x17c)
-> > > +		reg = 0;
-> > > +
-> > > +	return reg;
-> > > +}
-> > > +
-> > > +static int get_offset_mask(struct intel_engine_cs *engine)
-> > > +{
-> > > +	if (GRAPHICS_VER(engine->i915) < 12)
-> > > +		return 0xfff;
-> > > +
-> > > +	switch (engine->class) {
-> > > +	default:
-> > > +	case RENDER_CLASS:
-> > > +		return 0x07ff;
-> > > +	case COPY_ENGINE_CLASS:
-> > > +		return 0x0fff;
-> > > +	case VIDEO_DECODE_CLASS:
-> > > +	case VIDEO_ENHANCEMENT_CLASS:
-> > > +		return 0x3fff;
+> > >  #endif /* __INTEL_CONTEXT_TYPES__ */
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > index cd8df078ca87..d13dc56bae43 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > @@ -2618,6 +2618,11 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+> > >  
+> > >  	trace_intel_context_deregister_done(ce);
+> > >  
+> > > +	if (I915_SELFTEST_ONLY(ce->drop_deregister)) {
+> > > +		I915_SELFTEST_DECLARE(ce->drop_deregister = false;)
+> > 
+> > This macro wrapping is quite nasty, can't we just #ifdef this? Especially
+> > the _DECLARE name really doesn't expect a statement.
+> >
+> 
+> Had it like that originally then remember these marcos and in the past
+> people have complained when I didn't use them, so yes pretty much a
+> bikeshed. I personally like the ifdef myself.
+
+I think the plain #ifdef is much clearer in the code. The
+I915_SELFTEST_ONLY macro makes some sense to compile stuff out in some
+cases and make sure it's wrapped in unlikely when enabled, and often
+that's good enough. But not here.
+
+Also because it breaks kerneldoc I don't like the macro really in structs
+either. Anything that discourages people from writing solid comments is
+Not Good at All :-) So another reason to not like I915_SELFTEST_DECLARE()
+macro.
+-Daniel
+
+> 
+> Matt
+>  
+> > Aside from these bikesheds I don't have a much to say on the test logic
+> > itself, since I'm far from knowledgable on guc stuff ...
+> > -Daniel
+> > 
+> > 
+> > > +		return 0;
 > > > +	}
+> > > +
+> > >  	if (context_wait_for_deregister_to_register(ce)) {
+> > >  		struct intel_runtime_pm *runtime_pm =
+> > >  			&ce->engine->gt->i915->runtime_pm;
+> > > @@ -2672,10 +2677,19 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+> > >  	trace_intel_context_sched_done(ce);
+> > >  
+> > >  	if (context_pending_enable(ce)) {
+> > > +		if (I915_SELFTEST_ONLY(ce->drop_schedule_enable)) {
+> > > +			I915_SELFTEST_DECLARE(ce->drop_schedule_enable = false;)
+> > > +			return 0;
+> > > +		}
+> > >  		clr_context_pending_enable(ce);
+> > >  	} else if (context_pending_disable(ce)) {
+> > >  		bool banned;
+> > >  
+> > > +		if (I915_SELFTEST_ONLY(ce->drop_schedule_disable)) {
+> > > +			I915_SELFTEST_DECLARE(ce->drop_schedule_disable = false;)
+> > > +			return 0;
+> > > +		}
+> > > +
+> > >  		/*
+> > >  		 * Unpin must be done before __guc_signal_context_fence,
+> > >  		 * otherwise a race exists between the requests getting
+> > > @@ -3047,3 +3061,7 @@ bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve)
+> > >  
+> > >  	return false;
+> > >  }
+> > > +
+> > > +#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+> > > +#include "selftest_guc.c"
+> > > +#endif
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> > > new file mode 100644
+> > > index 000000000000..46ca6554f65d
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> > > @@ -0,0 +1,126 @@
+> > > +// SPDX-License-Identifier: MIT
+> > > +/*
+> > > + * Copyright �� 2021 Intel Corporation
+> > > + */
+> > > +
+> > > +#include "selftests/intel_scheduler_helpers.h"
+> > > +
+> > > +static struct i915_request *nop_user_request(struct intel_context *ce,
+> > > +					     struct i915_request *from)
+> > > +{
+> > > +	struct i915_request *rq;
+> > > +	int ret;
+> > > +
+> > > +	rq = intel_context_create_request(ce);
+> > > +	if (IS_ERR(rq))
+> > > +		return rq;
+> > > +
+> > > +	if (from) {
+> > > +		ret = i915_sw_fence_await_dma_fence(&rq->submit,
+> > > +						    &from->fence, 0,
+> > > +						    I915_FENCE_GFP);
+> > > +		if (ret < 0) {
+> > > +			i915_request_put(rq);
+> > > +			return ERR_PTR(ret);
+> > > +		}
+> > > +	}
+> > > +
+> > > +	i915_request_get(rq);
+> > > +	i915_request_add(rq);
+> > > +
+> > > +	return rq;
 > > > +}
 > > > +
-> > >  static struct i915_vma *load_context(struct intel_context *ce, u32 poison)
-> > >  {
-> > >  	struct i915_vma *batch;
-> > > @@ -1117,7 +1143,8 @@ static struct i915_vma *load_context(struct intel_context *ce, u32 poison)
-> > >  		len = (len + 1) / 2;
-> > >  		*cs++ = MI_LOAD_REGISTER_IMM(len);
-> > >  		while (len--) {
-> > > -			*cs++ = hw[dw];
-> > > +			*cs++ = safe_offset(hw[dw] & get_offset_mask(ce->engine),
-> > > +					    hw[dw]);
-> > >  			*cs++ = poison;
-> > >  			dw += 2;
-> > >  		}
+> > > +static int intel_guc_scrub_ctbs(void *arg)
+> > > +{
+> > > +	struct intel_gt *gt = arg;
+> > > +	int ret = 0;
+> > > +	int i;
+> > > +	struct i915_request *last[3] = {NULL, NULL, NULL}, *rq;
+> > > +	intel_wakeref_t wakeref;
+> > > +	struct intel_engine_cs *engine;
+> > > +	struct intel_context *ce;
+> > > +
+> > > +	wakeref = intel_runtime_pm_get(gt->uncore->rpm);
+> > > +	engine = intel_selftest_find_any_engine(gt);
+> > > +
+> > > +	/* Submit requests and inject errors forcing G2H to be dropped */
+> > > +	for (i = 0; i < 3; ++i) {
+> > > +		ce = intel_context_create(engine);
+> > > +		if (IS_ERR(ce)) {
+> > > +			ret = PTR_ERR(ce);
+> > > +			pr_err("Failed to create context, %d: %d\n", i, ret);
+> > > +			goto err;
+> > > +		}
+> > > +
+> > > +		switch(i) {
+> > > +		case 0:
+> > > +			ce->drop_schedule_enable = true;
+> > > +			break;
+> > > +		case 1:
+> > > +			ce->drop_schedule_disable = true;
+> > > +			break;
+> > > +		case 2:
+> > > +			ce->drop_deregister = true;
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		rq = nop_user_request(ce, NULL);
+> > > +		intel_context_put(ce);
+> > > +
+> > > +		if (IS_ERR(rq)) {
+> > > +			ret = PTR_ERR(rq);
+> > > +			pr_err("Failed to create request, %d: %d\n", i, ret);
+> > > +			goto err;
+> > > +		}
+> > > +
+> > > +		last[i] = rq;
+> > > +	}
+> > > +
+> > > +	for (i = 0; i < 3; ++i) {
+> > > +		ret = i915_request_wait(last[i], 0, HZ);
+> > > +		if (ret < 0) {
+> > > +			pr_err("Last request failed to complete: %d\n", ret);
+> > > +			goto err;
+> > > +		}
+> > > +		i915_request_put(last[i]);
+> > > +		last[i] = NULL;
+> > > +	}
+> > > +
+> > > +	/* Force all H2G / G2H to be submitted / processed */
+> > > +	intel_gt_retire_requests(gt);
+> > > +	msleep(500);
+> > > +
+> > > +	/* Scrub missing G2H */
+> > > +	intel_gt_handle_error(engine->gt, -1, 0, "selftest reset");
+> > > +
+> > > +	ret = intel_gt_wait_for_idle(gt, HZ);
+> > > +	if (ret < 0) {
+> > > +		pr_err("GT failed to idle: %d\n", ret);
+> > > +		goto err;
+> > > +	}
+> > > +
+> > > +err:
+> > > +	for (i = 0; i < 3; ++i)
+> > > +		if (last[i])
+> > > +			i915_request_put(last[i]);
+> > > +	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +int intel_guc_live_selftests(struct drm_i915_private *i915)
+> > > +{
+> > > +	static const struct i915_subtest tests[] = {
+> > > +		SUBTEST(intel_guc_scrub_ctbs),
+> > > +	};
+> > > +	struct intel_gt *gt = &i915->gt;
+> > > +
+> > > +	if (intel_gt_is_wedged(gt))
+> > > +		return 0;
+> > > +
+> > > +	if (!intel_uc_uses_guc_submission(&gt->uc))
+> > > +		return 0;
+> > > +
+> > > +	return intel_gt_live_subtests(tests, gt);
+> > > +}
+> > > diff --git a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+> > > index cfa5c4165a4f..3cf6758931f9 100644
+> > > --- a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+> > > +++ b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+> > > @@ -47,5 +47,6 @@ selftest(execlists, intel_execlists_live_selftests)
+> > >  selftest(ring_submission, intel_ring_submission_live_selftests)
+> > >  selftest(perf, i915_perf_live_selftests)
+> > >  selftest(slpc, intel_slpc_live_selftests)
+> > > +selftest(guc, intel_guc_live_selftests)
+> > >  /* Here be dragons: keep last to run last! */
+> > >  selftest(late_gt_pm, intel_gt_pm_late_selftests)
+> > > diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+> > > index 4b328346b48a..310fb83c527e 100644
+> > > --- a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+> > > +++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+> > > @@ -14,6 +14,18 @@
+> > >  #define REDUCED_PREEMPT		10
+> > >  #define WAIT_FOR_RESET_TIME	10000
+> > >  
+> > > +struct intel_engine_cs *intel_selftest_find_any_engine(struct intel_gt *gt)
+> > > +{
+> > > +	struct intel_engine_cs *engine;
+> > > +	enum intel_engine_id id;
+> > > +
+> > > +	for_each_engine(engine, gt, id)
+> > > +		return engine;
+> > > +
+> > > +	pr_err("No valid engine found!\n");
+> > > +	return NULL;
+> > > +}
+> > > +
+> > >  int intel_selftest_modify_policy(struct intel_engine_cs *engine,
+> > >  				 struct intel_selftest_saved_policy *saved,
+> > >  				 u32 modify_type)
+> > > diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+> > > index 35c098601ac0..ae60bb507f45 100644
+> > > --- a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+> > > +++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+> > > @@ -10,6 +10,7 @@
+> > >  
+> > >  struct i915_request;
+> > >  struct intel_engine_cs;
+> > > +struct intel_gt;
+> > >  
+> > >  struct intel_selftest_saved_policy {
+> > >  	u32 flags;
+> > > @@ -23,6 +24,7 @@ enum selftest_scheduler_modify {
+> > >  	SELFTEST_SCHEDULER_MODIFY_FAST_RESET,
+> > >  };
+> > >  
+> > > +struct intel_engine_cs *intel_selftest_find_any_engine(struct intel_gt *gt);
+> > >  int intel_selftest_modify_policy(struct intel_engine_cs *engine,
+> > >  				 struct intel_selftest_saved_policy *saved,
+> > >  				 enum selftest_scheduler_modify modify_type);
 > > > -- 
 > > > 2.28.0
 > > > 
