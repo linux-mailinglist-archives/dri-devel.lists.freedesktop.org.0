@@ -2,34 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067623E85EE
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 00:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871EA3E85F1
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 00:07:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0AE689EBB;
-	Tue, 10 Aug 2021 22:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3C7389F61;
+	Tue, 10 Aug 2021 22:07:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00D1A89EBB;
- Tue, 10 Aug 2021 22:07:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="202172925"
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="202172925"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8860889F38;
+ Tue, 10 Aug 2021 22:07:39 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="202172935"
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="202172935"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2021 15:07:36 -0700
+ 10 Aug 2021 15:07:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="445386912"
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="445386921"
 Received: from jhli-desk1.jf.intel.com ([10.54.74.156])
- by fmsmga007.fm.intel.com with ESMTP; 10 Aug 2021 15:07:35 -0700
+ by fmsmga007.fm.intel.com with ESMTP; 10 Aug 2021 15:07:39 -0700
 From: Juston Li <juston.li@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: seanpaul@chromium.org, anshuman.gupta@intel.com, ramalingam.c@intel.com,
  rodrigo.vivi@intel.com, Juston Li <juston.li@intel.com>
-Subject: [Intel-gfx] [PATCH v2 0/3] drm/i915/hdcp: HDCP2.2 MST dock fixes
-Date: Tue, 10 Aug 2021 15:07:27 -0700
-Message-Id: <20210810220730.136927-1-juston.li@intel.com>
+Subject: [Intel-gfx] [PATCH v2 1/3] drm/i915/hdcp: update cp_irq_count_cached
+ in intel_dp_hdcp2_read_msg()
+Date: Tue, 10 Aug 2021 15:07:28 -0700
+Message-Id: <20210810220730.136927-2-juston.li@intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210810220730.136927-1-juston.li@intel.com>
+References: <20210810220730.136927-1-juston.li@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,39 +50,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes to get HDCP2.2 over MST working on MST docking stations with
-certain behaviors that cause the current flow to fail.
-Tested with Dell WD-19 and Lenovo ThinkPad USB Type-C Dock Gen 2.
+Update cp_irq_count_cached when reading messages rather than when
+writing a message to make sure the value is up to date and not
+stale from a previously handled CP_IRQ.
 
-These fixes should make the flow more robust to handle behaviors that as
-far as I can tell are unclear in the HDCP spec:
+AKE flow  doesn't always respond to a read with a ACK write msg.
+E.g. AKE_Send_Pairing_Info will "timeout" because we received
+a CP_IRQ for reading AKE_Send_H_Prime but no write occurred between that
+and reading AKE_Send_Pairing_Info so cp_irq_count_cached is stale
+causing the wait to return right away rather than waiting for a new
+CP_IRQ.
 
-RxInfo contains repeater topology information needed for MST. The
-behavior on these docks is that this can only be read during 
-RepeaterAuth_Send_ReceiverID_List when the RxStatus READY bit is set
-otherwise the dock will return NACK. It seems these docks treat
-reading this range at any other time as invalid when the READY bit
-isn't set possibly because it could be stale. The HDCP spec also states
-the READY bit is cleared after RxInfo is read.
+Signed-off-by: Juston Li <juston.li@intel.com>
+Acked-by: Anshuman Gupta <anshuman.gupta@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-These fixes address this behavior by only reading RxInfo once during the 
-AKE flow and reusing that data.
-
-Changes since v1:
- - Fix subject line for 3/3
-
-Juston Li (3):
-  drm/i915/hdcp: update cp_irq_count_cached in intel_dp_hdcp2_read_msg()
-  drm/i915/hdcp: read RxInfo once when reading
-    RepeaterAuth_Send_ReceiverID_List
-  drm/i915/hdcp: reuse rx_info for mst stream type1 capability check
-
- .../drm/i915/display/intel_display_types.h    |  2 +
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 77 +++++--------------
- drivers/gpu/drm/i915/display/intel_hdcp.c     | 47 +++++------
- include/drm/drm_dp_helper.h                   |  2 +-
- 4 files changed, 43 insertions(+), 85 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+index d697d169e8c1..1d0096654776 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+@@ -446,8 +446,6 @@ static
+ int intel_dp_hdcp2_write_msg(struct intel_digital_port *dig_port,
+ 			     void *buf, size_t size)
+ {
+-	struct intel_dp *dp = &dig_port->dp;
+-	struct intel_hdcp *hdcp = &dp->attached_connector->hdcp;
+ 	unsigned int offset;
+ 	u8 *byte = buf;
+ 	ssize_t ret, bytes_to_write, len;
+@@ -463,8 +461,6 @@ int intel_dp_hdcp2_write_msg(struct intel_digital_port *dig_port,
+ 	bytes_to_write = size - 1;
+ 	byte++;
+ 
+-	hdcp->cp_irq_count_cached = atomic_read(&hdcp->cp_irq_count);
+-
+ 	while (bytes_to_write) {
+ 		len = bytes_to_write > DP_AUX_MAX_PAYLOAD_BYTES ?
+ 				DP_AUX_MAX_PAYLOAD_BYTES : bytes_to_write;
+@@ -530,6 +526,8 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
+ 			    u8 msg_id, void *buf, size_t size)
+ {
+ 	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
++	struct intel_dp *dp = &dig_port->dp;
++	struct intel_hdcp *hdcp = &dp->attached_connector->hdcp;
+ 	unsigned int offset;
+ 	u8 *byte = buf;
+ 	ssize_t ret, bytes_to_recv, len;
+@@ -546,6 +544,8 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	hdcp->cp_irq_count_cached = atomic_read(&hdcp->cp_irq_count);
++
+ 	if (msg_id == HDCP_2_2_REP_SEND_RECVID_LIST) {
+ 		ret = get_receiver_id_list_size(dig_port);
+ 		if (ret < 0)
 -- 
 2.31.1
 
