@@ -2,76 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699DB3E58A2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 12:53:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD0F3E58B2
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 12:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B10C6E02C;
-	Tue, 10 Aug 2021 10:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A7F89FF6;
+	Tue, 10 Aug 2021 10:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17D06E02C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 10:53:01 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id h14so25632538wrx.10
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 03:53:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=dGr4OpahiJSvodIctRAnZeil+wLyJaWaF52+xI/7opo=;
- b=TQNEkwJUG6bvxyz6jSRPh4VR9P5PlJvtcvsNVLPdQWwVcNzzfzKquVpL6nvKyQoJe0
- 849AFp0+70bbRQvM5kIc1yr19kZQSkLaLIBhxWRdr3lThQRWDspeC6rGzCCAXigR5Oa2
- Y40vtMpjL67aYJEpt56yLvLZLYvWf1HpKTgRI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=dGr4OpahiJSvodIctRAnZeil+wLyJaWaF52+xI/7opo=;
- b=JKz4dgEWxStTN33ZWLOigemzJFnFjsnR2OIXFcHcCncVY196rq5bwiTqTec4VrZswW
- pwASoxmvl0RcStBIjS2G6ZJs+UrDkhzCFwOILCh5oqQm9yZIow3iTOE/Cfsrt3HG4bb0
- WrJaXXHItys0u5ciFkwkHdQON9c+87lunXvmu8I6pSc6c53pmQFP/tfAEG0zI+qChNA4
- CK0cOdJXdNr1ybdPQmK2UYvvJdN3I4Q0QUD/CgTmeZJ6SzKA3t2P1n1oRuJkQHBa5iTQ
- ax9hDR6/V9SjCRy029Hhk6984ltchWHiR7hOt+lt5YT23dgZ/qEImm9zyc7e41lY4V1m
- elqA==
-X-Gm-Message-State: AOAM533eRDNuFXSBdw2Rhfb5VMYIKC1VoR9Py8xUl5OZ2mcpVbnPcj+d
- FLEnydzOqS1q7n6yhnuDbQ7hFA==
-X-Google-Smtp-Source: ABdhPJyIdqQOV6KKDQOqlfqV2bwGRKXRAlFWiXR9867ACpTZLJ4ZCNddVsdLEJ7SwpdVO1aTv9G3zw==
-X-Received: by 2002:a5d:4c91:: with SMTP id z17mr2721224wrs.54.1628592780451; 
- Tue, 10 Aug 2021 03:53:00 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j2sm2848239wmi.36.2021.08.10.03.52.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 03:52:59 -0700 (PDT)
-Date: Tue, 10 Aug 2021 12:52:58 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, list@opendingux.net,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/2] gpu/drm: ingenic: Add workaround for disabled drivers
-Message-ID: <YRJaitqOK+0vN4jg@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- list@opendingux.net, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20210805192110.90302-1-paul@crapouillou.net>
- <20210805192110.90302-3-paul@crapouillou.net>
- <YQw9hjZll4QmYVLX@kroah.com> <3HUDXQ.7RBGD4FUHR2F@crapouillou.net>
- <YQ0MU/GcLkPLiy5C@kroah.com> <LYZEXQ.9UWPIAZCVXIK@crapouillou.net>
- <YRJLNHXR0PhykBwL@kroah.com> <RNDMXQ.0B7HA1RXU7TB@crapouillou.net>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8222989FF6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 10:58:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 757DC20201C;
+ Tue, 10 Aug 2021 12:58:01 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id r9H_7ZftF1Ah; Tue, 10 Aug 2021 12:57:57 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id CB99620201A;
+ Tue, 10 Aug 2021 12:57:56 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1mDPSF-001gct-Fy; Tue, 10 Aug 2021 12:57:55 +0200
+To: Daniel Vetter <daniel@ffwll.ch>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Simon Ser <contact@emersion.fr>, "Zhang, Tina" <tina.zhang@intel.com>,
+ "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "Singh, Satyeshwar" <satyeshwar.singh@intel.com>
+References: <612fd31a51384cb28ac6da9db3e840ca@intel.com>
+ <YQepZMFaCNLBNGx9@phenom.ffwll.local>
+ <fa53f9db229e481784bfe3a61a195fd3@intel.com>
+ <1b96e91f-d65c-a155-8c8c-8a4326733c4e@daenzer.net>
+ <CAKMK7uH7gy7x-MrN7EWwwdsZKn-i5XB5Wie_ueRXXdnx5Yhefw@mail.gmail.com>
+ <8722db11a6d245259c15ca2262a40d07@intel.com>
+ <YQvUsYgKxPM/2KZm@phenom.ffwll.local>
+ <47938a95ac0640cbb1b713ff1a48dd8d@intel.com>
+ <YRE4jaQsOYNsLb+1@phenom.ffwll.local>
+ <dfb19f81e9a04bfcadd1b010dfd67edc@intel.com>
+ <YRI5PZiGXjbjlBO2@phenom.ffwll.local>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [RFC v1 0/4] drm: Add support for DRM_CAP_DEFERRED_OUT_FENCE
+ capability
+Message-ID: <a565666e-818d-b85b-b570-c30b57979d01@daenzer.net>
+Date: Tue, 10 Aug 2021 12:57:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <YRI5PZiGXjbjlBO2@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <RNDMXQ.0B7HA1RXU7TB@crapouillou.net>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,159 +71,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 10, 2021 at 12:40:39PM +0200, Paul Cercueil wrote:
-> Hi Greg,
+On 2021-08-10 10:30 a.m., Daniel Vetter wrote:
+> On Tue, Aug 10, 2021 at 08:21:09AM +0000, Kasireddy, Vivek wrote:
+>>> On Fri, Aug 06, 2021 at 07:27:13AM +0000, Kasireddy, Vivek wrote:
+>>>>>>>
+>>>>>>> Hence my gut feeling reaction that first we need to get these two
+>>>>>>> compositors aligned in their timings, which propobably needs
+>>>>>>> consistent vblank periods/timestamps across them (plus/minux
+>>>>>>> guest/host clocksource fun ofc). Without this any of the next steps
+>>>>>>> will simply not work because there's too much jitter by the time the
+>>>>>>> guest compositor gets the flip completion events.
+>>>>>> [Kasireddy, Vivek] Timings are not a problem and do not significantly
+>>>>>> affect the repaint cycles from what I have seen so far.
+>>>>>>
+>>>>>>>
+>>>>>>> Once we have solid events I think we should look into statically
+>>>>>>> tuning guest/host compositor deadlines (like you've suggested in a
+>>>>>>> bunch of places) to consisently make that deadline and hit 60 fps.
+>>>>>>> With that we can then look into tuning this automatically and what to
+>>>>>>> do when e.g. switching between copying and zero-copy on the host side
+>>>>>>> (which might be needed in some cases) and how to handle all that.
+>>>>>> [Kasireddy, Vivek] As I confirm here:
+>>> https://gitlab.freedesktop.org/wayland/weston/-
+>>>>> /issues/514#note_984065
+>>>>>> tweaking the deadlines works (i.e., we get 60 FPS) as we expect. However,
+>>>>>> I feel that this zero-copy solution I am trying to create should be independent
+>>>>>> of compositors' deadlines, delays or other scheduling parameters.
+>>>>>
+>>>>> That's not how compositors work nowadays. Your problem is that you don't
+>>>>> have the guest/host compositor in sync. zero-copy only changes the timing,
+>>>>> so it changes things from "rendering way too many frames" to "rendering
+>>>>> way too few frames".
+>>>>>
+>>>>> We need to fix the timing/sync issue here first, not paper over it with
+>>>>> hacks.
+>>>> [Kasireddy, Vivek] What I really meant is that the zero-copy solution should be
+>>>> independent of the scheduling policies to ensure that it works with all compositors.
+>>>>  IIUC, Weston for example uses the vblank/pageflip completion timestamp, the
+>>>> configurable repaint-window value, refresh-rate, etc to determine when to start
+>>>> its next repaint -- if there is any damage:
+>>>> timespec_add_nsec(&output->next_repaint, stamp, refresh_nsec);
+>>>> timespec_add_msec(&output->next_repaint, &output->next_repaint, -compositor-
+>>>> repaint_msec);
+>>>>
+>>>> And, in the case of VKMS, since there is no real hardware, the timestamp is always:
+>>>> now = ktime_get();
+>>>> send_vblank_event(dev, e, seq, now);
+>>>
+>>> vkms has been fixed since a while to fake high-precision timestamps like
+>>> from a real display.
+>> [Kasireddy, Vivek] IIUC, that might be one of the reasons why the Guest does not need 
+>> to have the same timestamp as that of the Host -- to work as expected.
+>>
+>>>
+>>>> When you say that the Guest/Host compositor need to stay in sync, are you
+>>>> suggesting that we need to ensure that the vblank timestamp on the Host
+>>>> needs to be shared and be the same on the Guest and a vblank/pageflip
+>>>> completion for the Guest needs to be sent at exactly the same time it is sent
+>>>> on the Host? If yes, I'd say that we do send the pageflip completion to Guest
+>>>> around the same time a vblank is generated on the Host but it does not help
+>>>> because the Guest compositor would only have 9 ms to submit a new frame
+>>>> and if the Host is running Mutter, the Guest would only have 2 ms.
+>>>> (https://gitlab.freedesktop.org/wayland/weston/-/issues/514#note_984341)
+>>>
+>>> Not at the same time, but the same timestamp. And yes there is some fun
+>>> there, which is I think the fundamental issue. Or at least some of the
+>>> compositor experts seem to think so, and it makes sense to me.
+>> [Kasireddy, Vivek] It is definitely possible that if the timestamp is messed up, then
+>> the Guest repaint cycle would be affected. However, I do not believe that is the case
+>> here given the debug and instrumentation data we collected and scrutinized. Hopefully,
+>> compositor experts could chime in to shed some light on this matter.
+>>
+>>>
+>>>>>
+>>>>> Only, and I really mean only, when that shows that it's simply impossible
+>>>>> to hit 60fps with zero-copy and the guest/host fully aligned should we
+>>>>> look into making the overall pipeline deeper.
+>>>> [Kasireddy, Vivek] From all the experiments conducted so far and given the
+>>>> discussion associated with https://gitlab.freedesktop.org/wayland/weston/-/issues/514
+>>>> I think we have already established that in order for a zero-copy solution to work
+>>>> reliably, the Guest compositor needs to start its repaint cycle when the Host
+>>>> compositor sends a frame callback event to its clients.
+>>>>
+>>>>>
+>>>>>>> Only when that all shows that we just can't hit 60fps consistently and
+>>>>>>> really need 3 buffers in flight should we look at deeper kms queues.
+>>>>>>> And then we really need to implement them properly and not with a
+>>>>>>> mismatch between drm_event an out-fence signalling. These quick hacks
+>>>>>>> are good for experiments, but there's a pile of other things we need
+>>>>>>> to do first. At least that's how I understand the problem here right
+>>>>>>> now.
+>>>>>> [Kasireddy, Vivek] Experiments done so far indicate that we can hit 59 FPS
+>>> consistently
+>>>>>> -- in a zero-copy way independent of compositors' delays/deadlines -- with this
+>>>>>> patch series + the Weston MR I linked in the cover letter. The main reason why this
+>>>>>> works is because we relax the assumption that when the Guest compositor gets a
+>>>>>> pageflip completion event that it could reuse the old FB it submitted in the previous
+>>>>>> atomic flip and instead force it to use a new one. And, we send the pageflip
+>>> completion
+>>>>>> event to the Guest when the Host compositor sends a frame callback event. Lastly,
+>>>>>> we use the (deferred) out_fence as just a mechanism to tell the Guest compositor
+>>> when
+>>>>>> it can release references on old FBs so that they can be reused again.
+>>>>>>
+>>>>>> With that being said, the only question is how can we accomplish the above in an
+>>>>> upstream
+>>>>>> acceptable way without regressing anything particularly on bare-metal. Its not clear
+>>> if
+>>>>> just
+>>>>>> increasing the queue depth would work or not but I think the Guest compositor has to
+>>> be
+>>>>> told
+>>>>>> when it can start its repaint cycle and when it can assume the old FB is no longer in
+>>> use.
+>>>>>> On bare-metal -- and also with VKMS as of today -- a pageflip completion indicates
+>>>>> both.
+>>>>>> In other words, Vblank event is the same as Flip done, which makes sense on bare-
+>>> metal.
+>>>>>> But if we were to have two events at-least for VKMS: vblank to indicate to Guest to
+>>> start
+>>>>>> repaint and flip_done to indicate to drop references on old FBs, I think this problem
+>>> can
+>>>>>> be solved even without increasing the queue depth. Can this be acceptable?
+>>>>>
+>>>>> That's just another flavour of your "increase queue depth without
+>>>>> increasing the atomic queue depth" approach. I still think the underlying
+>>>>> fundamental issue is a timing confusion, and the fact that adjusting the
+>>>>> timings fixes things too kinda proves that. So we need to fix that in a
+>>>>> clean way, not by shuffling things around semi-randomly until the specific
+>>>>> config we tests works.
+>>>> [Kasireddy, Vivek] This issue is not due to a timing or timestamp mismatch. We
+>>>> have carefully instrumented both the Host and Guest compositors and measured
+>>>> the latencies at each step. The relevant debug data only points to the scheduling
+>>>> policy -- of both Host and Guest compositors -- playing a role in Guest rendering
+>>>> at 30 FPS.
+>>>
+>>> Hm but that essentially means that the events your passing around have an
+>>> even more ad-hoc implementation specific meaning: Essentially it's the
+>>> kick-off for the guest's repaint loop? That sounds even worse for a kms
+>>> uapi extension.
+>> [Kasireddy, Vivek] The pageflip completion event/vblank event indeed serves as the
+>> kick-off for a compositor's (both Guest and Host) repaint loop. AFAICT, Weston 
+>> works that way and even if we increase the queue depth to solve this problem, I don't
+>> think it'll help because the arrival of this event always indicates to a compositor to
+>> start its repaint cycle again and assume that the previous buffers are all free.
 > 
-> Le mar., août 10 2021 at 11:47:32 +0200, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> a écrit :
-> > On Fri, Aug 06, 2021 at 01:01:33PM +0200, Paul Cercueil wrote:
-> > >  Hi Greg,
-> > > 
-> > >  Le ven., août 6 2021 at 12:17:55 +0200, Greg Kroah-Hartman
-> > >  <gregkh@linuxfoundation.org> a écrit :
-> > >  > On Thu, Aug 05, 2021 at 10:05:27PM +0200, Paul Cercueil wrote:
-> > >  > >  Hi Greg,
-> > >  > >
-> > >  > >  Le jeu., août 5 2021 at 21:35:34 +0200, Greg Kroah-Hartman
-> > >  > >  <gregkh@linuxfoundation.org> a écrit :
-> > >  > >  > On Thu, Aug 05, 2021 at 09:21:09PM +0200, Paul Cercueil
-> > > wrote:
-> > >  > >  > >  When the drivers of remote devices (e.g. HDMI chip) are
-> > >  > > disabled in
-> > >  > >  > > the
-> > >  > >  > >  config, we want the ingenic-drm driver to be able to probe
-> > >  > >  > > nonetheless
-> > >  > >  > >  with the other devices (e.g. internal LCD panel) that are
-> > >  > > enabled.
-> > >  > >  > >
-> > >  > >  > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > >  > >  > >  ---
-> > >  > >  > >   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 12
-> > > ++++++++++++
-> > >  > >  > >   1 file changed, 12 insertions(+)
-> > >  > >  > >
-> > >  > >  > >  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  > >  > > b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  > >  > >  index d261f7a03b18..5e1fdbb0ba6b 100644
-> > >  > >  > >  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  > >  > >  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  > >  > >  @@ -1058,6 +1058,18 @@ static int ingenic_drm_bind(struct
-> > >  > > device
-> > >  > >  > > *dev, bool has_components)
-> > >  > >  > >   	for (i = 0; ; i++) {
-> > >  > >  > >   		ret = drm_of_find_panel_or_bridge(dev->of_node, 0, i,
-> > >  > > &panel,
-> > >  > >  > > &bridge);
-> > >  > >  > >   		if (ret) {
-> > >  > >  > >  +			/*
-> > >  > >  > >  +			 * Workaround for the case where the drivers for the
-> > >  > >  > >  +			 * remote devices are not enabled. When that happens,
-> > >  > >  > >  +			 * drm_of_find_panel_or_bridge() returns -EPROBE_DEFER
-> > >  > >  > >  +			 * endlessly, which prevents the ingenic-drm driver
-> > > from
-> > >  > >  > >  +			 * working at all.
-> > >  > >  > >  +			 */
-> > >  > >  > >  +			if (ret == -EPROBE_DEFER) {
-> > >  > >  > >  +				ret = driver_deferred_probe_check_state(dev);
-> > >  > >  > >  +				if (ret == -ENODEV || ret == -ETIMEDOUT)
-> > >  > >  > >  +					continue;
-> > >  > >  > >  +			}
-> > >  > >  >
-> > >  > >  > So you are mucking around with devices on other busses
-> > > within this
-> > >  > >  > driver?  What could go wrong?  :(
-> > >  > >
-> > >  > >  I'm doing the same thing as everybody else. This is the DRM
-> > > driver,
-> > >  > > and
-> > >  > >  there is a driver for the external HDMI chip which gives us a
-> > > DRM
-> > >  > > bridge
-> > >  > >  that we can obtain from the device tree.
-> > >  >
-> > >  > But then why do you need to call this function that is there for
-> > > a bus,
-> > >  > not for a driver.
-> > > 
-> > >  The documentation disagrees with you :)
-> > > 
-> > >  And, if that has any weight, this solution was proposed by Rob.
-> > > 
-> > >  > >  > Please use the existing driver core functionality for this
-> > > type of
-> > >  > >  > thing, it is not unique, no need for this function to be
-> > > called.
-> > >  > >
-> > >  > >  I'm not sure you understand what I'm doing here. This driver
-> > > calls
-> > >  > >  drm_of_find_panel_or_bridge(), without guarantee that the
-> > > driver
-> > >  > > for the
-> > >  > >  remote device (connected via DT graph) has been enabled in the
-> > >  > > kernel
-> > >  > >  config. In that case it will always return -EPROBE_DEFER and
-> > > the
-> > >  > > ingenic-drm
-> > >  > >  driver will never probe.
-> > >  > >
-> > >  > >  This patch makes sure that the driver can probe if the HDMI
-> > > driver
-> > >  > > has been
-> > >  > >  disabled in the kernel config, nothing more.
-> > >  >
-> > >  > That should not be an issue as you do not care if the config is
-> > > enabled,
-> > >  > you just want to do something in the future if the driver shows
-> > > up,
-> > >  > right?
-> > > 
-> > >  Well, the DRM subsystem doesn't really seem to handle hotplug of
-> > > hardware.
-> > >  Right now all the drivers for the connected hardware need to probe
-> > > before
-> > >  the main DRM driver. So I need to know that a remote device
-> > > (connected via
-> > >  DT graph) will never probe.
-> > 
-> > But you never really know that.  That is what the recent driver core
-> > changes were all about, to handle this very issue.  Only when the child
-> > device shows up will you need to care about it.
-> > 
-> > >  Give me a of_graph_remote_device_driver_will_never_probe() and I'll
-> > > use
-> > >  that.
-> > > 
-> > >  > Much like the device link code, have you looked at that?
-> > > 
-> > >  I don't see how that would help in any way. The device link code
-> > > would allow
-> > >  me to set a dependency between the remote hardware (HDMI chip,
-> > > provider) and
-> > >  the LCD controller (consumer), but I already have that dependency
-> > > though the
-> > >  DT graph. What I need is a way for the consumer to continue probing
-> > > if the
-> > >  provider is not going to probe.
-> > 
-> > But again, you never know that, probing is async, and could happen in a
-> > few milliseconds, or a few hours, your driver should never care about
-> > this at all.
-> > 
-> > Just knowing if the kernel configuration is something is not the
-> > solution here, please fix this properly like all other driver
-> > interactions are in the kernel tree.
-> 
-> A proper fix means reworking the DRM core so that it supports hot-plugging
-> bridges. Until then there is nothing else I can do.
+> I thought this is how simple compositors work, and weston has since a
+> while it's own timer, which is based on the timestamp it gets (at on
+> drivers with vblank support), so that it starts the repaint loop a few ms
+> before the next vblank. And not immediately when it receives the old page
+> flip completion event.
 
-The conflict is that drm wants to load the entire driver, including any
-bridges.
+As long as it's a fixed timer, there's still a risk that the guest compositor repaint cycle runs too late for the host one (unless the guest cycle happens to be scheduled significantly earlier than the host one).
 
-Paul wants to load just the driver parts he wants to put into the image.
+Note that current mutter Git main (to become the 41 release this autumn) uses dynamic scheduling of its repaint cycle based on how long the last 16 frames took to draw and present. In theory, this could automatically schedule the guest cycle early enough for the host one.
 
-This doesn't work well together.
--Daniel
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Earthling Michel DÃ¤nzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
