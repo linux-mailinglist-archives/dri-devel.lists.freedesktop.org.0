@@ -2,83 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACB93E5C57
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 15:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997863E5C97
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 16:11:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A6589FD3;
-	Tue, 10 Aug 2021 13:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F173289728;
+	Tue, 10 Aug 2021 14:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CBCD89F9F;
- Tue, 10 Aug 2021 13:55:52 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id d1so21103504pll.1;
- Tue, 10 Aug 2021 06:55:52 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB06989728
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 14:11:01 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id c24so15069596lfi.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 07:11:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=T5ai1h/BwkBlGJ4rm56PcMexvwYuHmzph6yr1FpzTao=;
- b=AfREYWBMW7HIKqL4q0JUGmAHOluslFavWgX1knqdC7WfNH2cyvF2GGIGdjZqXNfUY2
- +GWnJRg6JevMrNPi2EBOj6y6bZrrZSQsYL9GxLmcscMU64y/dOctYzZZKnjdy/RGElJ7
- 8SvlQo7dKJImzgrNqPh6dxqgqXGTFPPowuHYtWvAb8FJWHMOYHL+3cxXqvpRqjQSvYMO
- WY9D6nXdRTzET059n73UIl5Lsrlnq2gvMMA3NWLLdHVo4fvAfIIvl0njmmhWuOGZA2pY
- vCyIvdeTkJvIjn+nWhbD5ENQTckhF86/edY7CIgkmNKtGP7Wc3RIx4QuZq9vNdu7O4pT
- mDcQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=Q4ynKSZrlzxY6UgcjVFs5XU8y4Ot1KDO144fUqq/Tac=;
+ b=WHkasInhxybnCNi2BzTg0K/0mK03T6Bj4uam9z5/GOep7FpH/K4xqY7oQZOyLMVVuz
+ JrYl6NIFigl+r/dqpCFY512f1JAi49eIMEBjPDAmQQIhhyIsXWfaNFDHGKO2mHeM4ZS6
+ SLMy9T9TcPlo6SosnTnaR3M7khZtSd0zyZEtKB4zGZKh8um1UxRFrbSQ50SEt/zWYoc5
+ gyHexvD6k6FNmYvrCTl0T0eCth2wDBpc9sAqipC2vZEv6OgwL/H9+WvuCYhsUSTboV0U
+ d4v0mo2CLSPO9csjdafZHEHLNyGERz8WgdrhTw1TMHf1LmYvA4qfUt+L1p+OKQuPNO3r
+ Dt7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language;
- bh=T5ai1h/BwkBlGJ4rm56PcMexvwYuHmzph6yr1FpzTao=;
- b=evv8dNtNaMGQ/GPQ5PcdPTWig3tXiauLlAqGfz0sQcwyGeaS5pv/T84i9uy+Fx7p3r
- u+KuNbgGqfzhYYwsUmG2lMCspVIpivbcLTOwkGCQljK2LY4NhcByoCOod9D9aBXGDPnC
- Or2bvGVO17yS/MJsAsjni1A2IbgX7ppSUbg8j7Vy/DUQUTL9c2XJzW48sSGHtsY4rl8k
- 2u3u+hLjLLMWMo5munMv24oAjsuFIzpvEg0wMMpAJ1CcG2mPVtuhcQkN8NVm2Xm71TzL
- LwqF/h6kUy+5qxshL8e7EZ/l5hobVMRncr2lOrCkGBsvIL9DfzleG8Uh/aDK5buLaA1j
- 16pQ==
-X-Gm-Message-State: AOAM531mNJQFIMuWbZrKfvzYMfLCxSovIxxk8d/wGVa0qe3JX8muhmXi
- QXkth/i0KxBfWe/MlcUdenQ=
-X-Google-Smtp-Source: ABdhPJw+/WljnCGV2Q7sJ4421bNVf6OOqXQdcLB0iSJFUj7e/t66aXEA4rIxB5ZDYC+ovwUAU6JyEg==
-X-Received: by 2002:a17:90a:804a:: with SMTP id
- e10mr15491454pjw.12.1628603751881; 
- Tue, 10 Aug 2021 06:55:51 -0700 (PDT)
-Received: from [10.157.0.70] ([85.203.23.10])
- by smtp.gmail.com with ESMTPSA id x16sm12572516pfr.89.2021.08.10.06.55.45
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Q4ynKSZrlzxY6UgcjVFs5XU8y4Ot1KDO144fUqq/Tac=;
+ b=m899q6XyN8FgjvITaKn8BDe0SjRkMWy+AwodXamLhL0FhgSBLAtk8XO0CaT3OycgKx
+ wbxiAIu53IG+VJXxGMvhHidnCYVcVPHdi2tCMxbrCXLH3f1Pdif8hOM3p63yls5Ie2mf
+ fEQSGOlRIYEUjptwBRANIXvzwvR8CXOn9RNcdli6NIsNT+fvpn8n7xEadATVvlsUxLbN
+ CU5RdWZbj7lHey1bhz02t6WEX5T11MA25WO8MFxLr4ruSR0lgvHkxMvx8lMdJqn4nFmI
+ XYY+nunSdvWUdyZDuRDX+ivFW2uwivBRO0MfrMP3CzwrJZixV1UeJ80x7mcwA5iw+EqS
+ HTkA==
+X-Gm-Message-State: AOAM532CCQu1jhrL2jYdeK4I/O5Yf0KAIu+RIvvkKwGmSfO0PXD4zmKc
+ chHVehczH2Bow66tkpa+FSU=
+X-Google-Smtp-Source: ABdhPJzqsS/2yGBkKpw4N+uQCqgP93F3TlP9ctQLZkS9vGFH7yjMmyd3O9i9iRV6/1t+B6QpdjlOmA==
+X-Received: by 2002:a05:6512:6d3:: with SMTP id
+ u19mr14671130lff.483.1628604658642; 
+ Tue, 10 Aug 2021 07:10:58 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.232])
+ by smtp.gmail.com with ESMTPSA id i3sm1470644lfr.217.2021.08.10.07.10.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Aug 2021 06:55:51 -0700 (PDT)
-Subject: Re: [PATCH] drm/display: fix possible null-pointer dereference in
- dcn10_set_clock()
-To: "Chen, Guchun" <Guchun.Chen@amd.com>,
- "Wentland, Harry" <Harry.Wentland@amd.com>,
- "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "Cyr, Aric" <Aric.Cyr@amd.com>,
- "Lei, Jun" <Jun.Lei@amd.com>, "Zhuo, Qingqing" <Qingqing.Zhuo@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- "Lee, Alvin" <Alvin.Lee2@amd.com>,
- "Stempen, Vladimir" <Vladimir.Stempen@amd.com>,
- "isabel.zhang@amd.com" <isabel.zhang@amd.com>, "Lee, Sung"
- <Sung.Lee@amd.com>, Po-Yu Hsieh Paul <Paul.Hsieh@amd.com>,
- "Wood, Wyatt" <Wyatt.Wood@amd.com>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "baijiaju1990@gmail.com" <baijiaju1990@gmail.com>,
- TOTE Robot <oslab@tsinghua.edu.cn>
-References: <20210810092004.291429-1-islituo@gmail.com>
- <DM5PR12MB2469A884396F6018F8437E22F1F79@DM5PR12MB2469.namprd12.prod.outlook.com>
-From: Tuo Li <islituo@gmail.com>
-Message-ID: <b652ceb9-9211-1a73-29a8-5469fe4485d7@gmail.com>
-Date: Tue, 10 Aug 2021 21:55:39 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Tue, 10 Aug 2021 07:10:57 -0700 (PDT)
+Subject: Re: [syzbot] general protection fault in udmabuf_create
+To: syzbot <syzbot+e9cd3122a37c5d6c51e8@syzkaller.appspotmail.com>,
+ christian.koenig@amd.com, dongwon.kim@intel.com,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+ syzkaller-bugs@googlegroups.com, vivek.kasireddy@intel.com
+References: <000000000000263db905c934be32@google.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <d7bd2585-ef80-d2ab-c474-acbe238c54a0@gmail.com>
+Date: Tue, 10 Aug 2021 17:10:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <DM5PR12MB2469A884396F6018F8437E22F1F79@DM5PR12MB2469.namprd12.prod.outlook.com>
-Content-Type: multipart/alternative;
- boundary="------------F18C593468E0683DE5594DC0"
+In-Reply-To: <000000000000263db905c934be32@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,175 +80,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------F18C593468E0683DE5594DC0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On 8/10/21 4:47 PM, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    7999516e20bd Add linux-next specific files for 20210806
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=10f15f8e300000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=2f518e910b029c31
+> dashboard link: https://syzkaller.appspot.com/bug?extid=e9cd3122a37c5d6c51e8
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.1
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1181099a300000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11b6fce9300000
+> 
+> The issue was bisected to:
+> 
+> commit 16c243e99d335e1ef3059871897119affc98b493
+> Author: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> Date:   Wed Jun 9 18:29:15 2021 +0000
+> 
+>      udmabuf: Add support for mapping hugepages (v4)
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12f73dc9300000
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=11f73dc9300000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16f73dc9300000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+e9cd3122a37c5d6c51e8@syzkaller.appspotmail.com
+> Fixes: 16c243e99d33 ("udmabuf: Add support for mapping hugepages (v4)")
+> 
+> general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN
+> KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+> CPU: 0 PID: 6603 Comm: syz-executor127 Not tainted 5.14.0-rc4-next-20210806-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> RIP: 0010:_compound_head include/linux/page-flags.h:187 [inline]
+> RIP: 0010:get_page include/linux/mm.h:1203 [inline]
+> RIP: 0010:udmabuf_create+0x664/0x16f0 drivers/dma-buf/udmabuf.c:236
+> Code: 03 48 89 84 24 90 00 00 00 e9 38 01 00 00 e8 23 7a f7 fc 4d 89 f4 49 c1 e4 06 4c 03 24 24 49 8d 7c 24 08 48 89 f8 48 c1 e8 03 <42> 80 3c 38 00 0f 85 d3 0d 00 00 4d 8b 6c 24 08 31 ff 4c 89 eb 83
+> RSP: 0018:ffffc90002d7fc70 EFLAGS: 00010202
+> RAX: 0000000000000001 RBX: 0000000000000000 RCX: 0000000000000000
+> RDX: ffff888023f69c80 RSI: ffffffff847e4f3d RDI: 0000000000000008
+> RBP: 0000000000000000 R08: fffffffffffff000 R09: 0000000000000000
+> R10: ffffffff847e50f5 R11: 0000000000000000 R12: 0000000000000000
+> R13: 0000000000000000 R14: 0000000000000000 R15: dffffc0000000000
+> FS:  0000000000935300(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 000000002000020c CR3: 0000000018d16000 CR4: 00000000001506f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>   udmabuf_ioctl_create drivers/dma-buf/udmabuf.c:305 [inline]
 
-Thanks for your feedback. We will prepare a V2 patch according to your advice.
+The problem is wrong error handling:
 
-Best wishes,
-Tuo Li
+	hpage = find_get_page_flags(mapping, pgoff, FGP_ACCESSED);
+	if (IS_ERR(hpage)) {
+		ret = PTR_ERR(hpage);
+		goto err;
+	}
 
+find_get_page_flags() return NULL on failure, so this patch should work:
 
-On 2021/8/10 21:38, Chen, Guchun wrote:
-> [Public]
->
-> Thanks for your patch.
->
-> I suggest moving the check of function pointer dc->clk_mgr->funcs->get_clock earlier, and return early if it's NULL, as if it's NULL, it's meaningless to continue the clock setting.
->
-> ....
-> if (!dc->clk_mgr || !dc->clk_mgr->funcs->get_clock)
->   	return DC_FAIL_UNSUPPORTED_1;
->
-> dc->clk_mgr->funcs->get_clock(dc->clk_mgr,
->   	context, clock_type, &clock_cfg);
-> ....
->
-> Regards,
-> Guchun
->
-> -----Original Message-----
-> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Tuo Li
-> Sent: Tuesday, August 10, 2021 5:20 PM
-> To: Wentland, Harry <Harry.Wentland@amd.com>; Li, Sun peng (Leo) <Sunpeng.Li@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; airlied@linux.ie; daniel@ffwll.ch; Cyr, Aric <Aric.Cyr@amd.com>; Lei, Jun <Jun.Lei@amd.com>; Zhuo, Qingqing <Qingqing.Zhuo@amd.com>; Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>; Lee, Alvin <Alvin.Lee2@amd.com>; Stempen, Vladimir <Vladimir.Stempen@amd.com>; isabel.zhang@amd.com; Lee, Sung <Sung.Lee@amd.com>; Po-Yu Hsieh Paul <Paul.Hsieh@amd.com>; Wood, Wyatt <Wyatt.Wood@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; baijiaju1990@gmail.com; Tuo Li <islituo@gmail.com>; TOTE Robot <oslab@tsinghua.edu.cn>
-> Subject: [PATCH] drm/display: fix possible null-pointer dereference in dcn10_set_clock()
->
-> The variable dc->clk_mgr is checked in:
->    if (dc->clk_mgr && dc->clk_mgr->funcs->get_clock)
->
-> This indicates dc->clk_mgr can be NULL.
-> However, it is dereferenced in:
->    if (!dc->clk_mgr->funcs->get_clock)
->
-> To fix this possible null-pointer dereference, check dc->clk_mgr before dereferencing it.
->
-> Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-> Signed-off-by: Tuo Li <islituo@gmail.com>
-> ---
->   drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> index c545eddabdcc..3a7c7c7efa68 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> @@ -3635,7 +3635,7 @@ enum dc_status dcn10_set_clock(struct dc *dc,
->   				dc->clk_mgr->funcs->get_clock(dc->clk_mgr,
->   						context, clock_type, &clock_cfg);
->   
-> -	if (!dc->clk_mgr->funcs->get_clock)
-> +	if (dc->clk_mgr && !dc->clk_mgr->funcs->get_clock)
->   		return DC_FAIL_UNSUPPORTED_1;
->   
->   	if (clk_khz > clock_cfg.max_clock_khz)
-> --
-> 2.25.1
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 8df761a10251..c57a609db75b 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -227,8 +227,8 @@ static long udmabuf_create(struct miscdevice *device,
+  				if (!hpage) {
+  					hpage = find_get_page_flags(mapping, pgoff,
+  								    FGP_ACCESSED);
+-					if (IS_ERR(hpage)) {
+-						ret = PTR_ERR(hpage);
++					if (!hpage) {
++						ret = -EINVAL;
+  						goto err;
+  					}
+  				}
+
+I am not sure about ret value in case of failure, so I am looking for 
+any reviews :)
 
 
---------------F18C593468E0683DE5594DC0
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+>   udmabuf_ioctl+0x152/0x2c0 drivers/dma-buf/udmabuf.c:336
+>   vfs_ioctl fs/ioctl.c:51 [inline]
+>   __do_sys_ioctl fs/ioctl.c:874 [inline]
+>   __se_sys_ioctl fs/ioctl.c:860 [inline]
+>   __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
+>   do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>   do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+>   entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-PGh0bWw+DQogIDxoZWFkPg0KICAgIDxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04Ij4NCiAgPC9oZWFkPg0KICA8Ym9k
-eT4NCiAgICA8cHJlPlRoYW5rcyBmb3IgeW91ciBmZWVkYmFjay4gV2Ugd2lsbCBwcmVwYXJl
-IGEgVjIgcGF0Y2ggYWNjb3JkaW5nIHRvIHlvdXIgYWR2aWNlLg0KDQpCZXN0IHdpc2hlcywN
-ClR1byBMaQ0KPC9wcmU+DQogICAgPGJyPg0KICAgIDxkaXYgY2xhc3M9Im1vei1jaXRlLXBy
-ZWZpeCI+T24gMjAyMS84LzEwIDIxOjM4LCBDaGVuLCBHdWNodW4gd3JvdGU6PGJyPg0KICAg
-IDwvZGl2Pg0KICAgIDxibG9ja3F1b3RlIHR5cGU9ImNpdGUiDQpjaXRlPSJtaWQ6RE01UFIx
-Mk1CMjQ2OUE4ODQzOTZGNjAxOEY4NDM3RTIyRjFGNzlARE01UFIxMk1CMjQ2OS5uYW1wcmQx
-Mi5wcm9kLm91dGxvb2suY29tIj4NCiAgICAgIDxwcmUgY2xhc3M9Im1vei1xdW90ZS1wcmUi
-IHdyYXA9IiI+W1B1YmxpY10NCg0KVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KDQpJIHN1Z2dl
-c3QgbW92aW5nIHRoZSBjaGVjayBvZiBmdW5jdGlvbiBwb2ludGVyIGRjLSZndDtjbGtfbWdy
-LSZndDtmdW5jcy0mZ3Q7Z2V0X2Nsb2NrIGVhcmxpZXIsIGFuZCByZXR1cm4gZWFybHkgaWYg
-aXQncyBOVUxMLCBhcyBpZiBpdCdzIE5VTEwsIGl0J3MgbWVhbmluZ2xlc3MgdG8gY29udGlu
-dWUgdGhlIGNsb2NrIHNldHRpbmcuDQoNCi4uLi4NCmlmICghZGMtJmd0O2Nsa19tZ3IgfHwg
-IWRjLSZndDtjbGtfbWdyLSZndDtmdW5jcy0mZ3Q7Z2V0X2Nsb2NrKQ0KIAlyZXR1cm4gRENf
-RkFJTF9VTlNVUFBPUlRFRF8xOw0KDQpkYy0mZ3Q7Y2xrX21nci0mZ3Q7ZnVuY3MtJmd0O2dl
-dF9jbG9jayhkYy0mZ3Q7Y2xrX21nciwNCiAJY29udGV4dCwgY2xvY2tfdHlwZSwgJmFtcDtj
-bG9ja19jZmcpOw0KLi4uLg0KDQpSZWdhcmRzLA0KR3VjaHVuDQoNCi0tLS0tT3JpZ2luYWwg
-TWVzc2FnZS0tLS0tDQpGcm9tOiBhbWQtZ2Z4IDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZj
-MjM5NkUiIGhyZWY9Im1haWx0bzphbWQtZ2Z4LWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnIj4mbHQ7YW1kLWdmeC1ib3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyZndDs8L2E+
-IE9uIEJlaGFsZiBPZiBUdW8gTGkNClNlbnQ6IFR1ZXNkYXksIEF1Z3VzdCAxMCwgMjAyMSA1
-OjIwIFBNDQpUbzogV2VudGxhbmQsIEhhcnJ5IDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZj
-MjM5NkUiIGhyZWY9Im1haWx0bzpIYXJyeS5XZW50bGFuZEBhbWQuY29tIj4mbHQ7SGFycnku
-V2VudGxhbmRAYW1kLmNvbSZndDs8L2E+OyBMaSwgU3VuIHBlbmcgKExlbykgPGEgY2xhc3M9
-Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOlN1bnBlbmcuTGlAYW1kLmNv
-bSI+Jmx0O1N1bnBlbmcuTGlAYW1kLmNvbSZndDs8L2E+OyBEZXVjaGVyLCBBbGV4YW5kZXIg
-PGEgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOkFsZXhhbmRl
-ci5EZXVjaGVyQGFtZC5jb20iPiZsdDtBbGV4YW5kZXIuRGV1Y2hlckBhbWQuY29tJmd0Ozwv
-YT47IEtvZW5pZywgQ2hyaXN0aWFuIDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5NkUi
-IGhyZWY9Im1haWx0bzpDaHJpc3RpYW4uS29lbmlnQGFtZC5jb20iPiZsdDtDaHJpc3RpYW4u
-S29lbmlnQGFtZC5jb20mZ3Q7PC9hPjsgUGFuLCBYaW5odWkgPGEgY2xhc3M9Im1vei10eHQt
-bGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOlhpbmh1aS5QYW5AYW1kLmNvbSI+Jmx0O1hp
-bmh1aS5QYW5AYW1kLmNvbSZndDs8L2E+OyA8YSBjbGFzcz0ibW96LXR4dC1saW5rLWFiYnJl
-dmlhdGVkIiBocmVmPSJtYWlsdG86YWlybGllZEBsaW51eC5pZSI+YWlybGllZEBsaW51eC5p
-ZTwvYT47IDxhIGNsYXNzPSJtb3otdHh0LWxpbmstYWJicmV2aWF0ZWQiIGhyZWY9Im1haWx0
-bzpkYW5pZWxAZmZ3bGwuY2giPmRhbmllbEBmZndsbC5jaDwvYT47IEN5ciwgQXJpYyA8YSBj
-bGFzcz0ibW96LXR4dC1saW5rLXJmYzIzOTZFIiBocmVmPSJtYWlsdG86QXJpYy5DeXJAYW1k
-LmNvbSI+Jmx0O0FyaWMuQ3lyQGFtZC5jb20mZ3Q7PC9hPjsgTGVpLCBKdW4gPGEgY2xhc3M9
-Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOkp1bi5MZWlAYW1kLmNvbSI+
-Jmx0O0p1bi5MZWlAYW1kLmNvbSZndDs8L2E+OyBaaHVvLCBRaW5ncWluZyA8YSBjbGFzcz0i
-bW96LXR4dC1saW5rLXJmYzIzOTZFIiBocmVmPSJtYWlsdG86UWluZ3FpbmcuWmh1b0BhbWQu
-Y29tIj4mbHQ7UWluZ3FpbmcuWmh1b0BhbWQuY29tJmd0OzwvYT47IFNpcXVlaXJhLCBSb2Ry
-aWdvIDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5NkUiIGhyZWY9Im1haWx0bzpSb2Ry
-aWdvLlNpcXVlaXJhQGFtZC5jb20iPiZsdDtSb2RyaWdvLlNpcXVlaXJhQGFtZC5jb20mZ3Q7
-PC9hPjsgTGVlLCBBbHZpbiA8YSBjbGFzcz0ibW96LXR4dC1saW5rLXJmYzIzOTZFIiBocmVm
-PSJtYWlsdG86QWx2aW4uTGVlMkBhbWQuY29tIj4mbHQ7QWx2aW4uTGVlMkBhbWQuY29tJmd0
-OzwvYT47IFN0ZW1wZW4sIFZsYWRpbWlyIDxhIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5
-NkUiIGhyZWY9Im1haWx0bzpWbGFkaW1pci5TdGVtcGVuQGFtZC5jb20iPiZsdDtWbGFkaW1p
-ci5TdGVtcGVuQGFtZC5jb20mZ3Q7PC9hPjsgPGEgY2xhc3M9Im1vei10eHQtbGluay1hYmJy
-ZXZpYXRlZCIgaHJlZj0ibWFpbHRvOmlzYWJlbC56aGFuZ0BhbWQuY29tIj5pc2FiZWwuemhh
-bmdAYW1kLmNvbTwvYT47IExlZSwgU3VuZyA8YSBjbGFzcz0ibW96LXR4dC1saW5rLXJmYzIz
-OTZFIiBocmVmPSJtYWlsdG86U3VuZy5MZWVAYW1kLmNvbSI+Jmx0O1N1bmcuTGVlQGFtZC5j
-b20mZ3Q7PC9hPjsgUG8tWXUgSHNpZWggUGF1bCA8YSBjbGFzcz0ibW96LXR4dC1saW5rLXJm
-YzIzOTZFIiBocmVmPSJtYWlsdG86UGF1bC5Ic2llaEBhbWQuY29tIj4mbHQ7UGF1bC5Ic2ll
-aEBhbWQuY29tJmd0OzwvYT47IFdvb2QsIFd5YXR0IDxhIGNsYXNzPSJtb3otdHh0LWxpbmst
-cmZjMjM5NkUiIGhyZWY9Im1haWx0bzpXeWF0dC5Xb29kQGFtZC5jb20iPiZsdDtXeWF0dC5X
-b29kQGFtZC5jb20mZ3Q7PC9hPg0KQ2M6IDxhIGNsYXNzPSJtb3otdHh0LWxpbmstYWJicmV2
-aWF0ZWQiIGhyZWY9Im1haWx0bzphbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyI+YW1k
-LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc8L2E+OyA8YSBjbGFzcz0ibW96LXR4dC1saW5r
-LWFiYnJldmlhdGVkIiBocmVmPSJtYWlsdG86ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZyI+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzwvYT47IDxhIGNsYXNzPSJt
-b3otdHh0LWxpbmstYWJicmV2aWF0ZWQiIGhyZWY9Im1haWx0bzpsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnIj5saW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPC9hPjsgPGEgY2xh
-c3M9Im1vei10eHQtbGluay1hYmJyZXZpYXRlZCIgaHJlZj0ibWFpbHRvOmJhaWppYWp1MTk5
-MEBnbWFpbC5jb20iPmJhaWppYWp1MTk5MEBnbWFpbC5jb208L2E+OyBUdW8gTGkgPGEgY2xh
-c3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOmlzbGl0dW9AZ21haWwu
-Y29tIj4mbHQ7aXNsaXR1b0BnbWFpbC5jb20mZ3Q7PC9hPjsgVE9URSBSb2JvdCA8YSBjbGFz
-cz0ibW96LXR4dC1saW5rLXJmYzIzOTZFIiBocmVmPSJtYWlsdG86b3NsYWJAdHNpbmdodWEu
-ZWR1LmNuIj4mbHQ7b3NsYWJAdHNpbmdodWEuZWR1LmNuJmd0OzwvYT4NClN1YmplY3Q6IFtQ
-QVRDSF0gZHJtL2Rpc3BsYXk6IGZpeCBwb3NzaWJsZSBudWxsLXBvaW50ZXIgZGVyZWZlcmVu
-Y2UgaW4gZGNuMTBfc2V0X2Nsb2NrKCkNCg0KVGhlIHZhcmlhYmxlIGRjLSZndDtjbGtfbWdy
-IGlzIGNoZWNrZWQgaW46DQogIGlmIChkYy0mZ3Q7Y2xrX21nciAmYW1wOyZhbXA7IGRjLSZn
-dDtjbGtfbWdyLSZndDtmdW5jcy0mZ3Q7Z2V0X2Nsb2NrKQ0KDQpUaGlzIGluZGljYXRlcyBk
-Yy0mZ3Q7Y2xrX21nciBjYW4gYmUgTlVMTC4NCkhvd2V2ZXIsIGl0IGlzIGRlcmVmZXJlbmNl
-ZCBpbjoNCiAgaWYgKCFkYy0mZ3Q7Y2xrX21nci0mZ3Q7ZnVuY3MtJmd0O2dldF9jbG9jaykN
-Cg0KVG8gZml4IHRoaXMgcG9zc2libGUgbnVsbC1wb2ludGVyIGRlcmVmZXJlbmNlLCBjaGVj
-ayBkYy0mZ3Q7Y2xrX21nciBiZWZvcmUgZGVyZWZlcmVuY2luZyBpdC4NCg0KUmVwb3J0ZWQt
-Ynk6IFRPVEUgUm9ib3QgPGEgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0i
-bWFpbHRvOm9zbGFiQHRzaW5naHVhLmVkdS5jbiI+Jmx0O29zbGFiQHRzaW5naHVhLmVkdS5j
-biZndDs8L2E+DQpTaWduZWQtb2ZmLWJ5OiBUdW8gTGkgPGEgY2xhc3M9Im1vei10eHQtbGlu
-ay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOmlzbGl0dW9AZ21haWwuY29tIj4mbHQ7aXNsaXR1
-b0BnbWFpbC5jb20mZ3Q7PC9hPg0KLS0tDQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
-L2RjL2RjbjEwL2RjbjEwX2h3X3NlcXVlbmNlci5jIHwgMiArLQ0KIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2h3X3NlcXVlbmNlci5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2h3X3NlcXVlbmNl
-ci5jDQppbmRleCBjNTQ1ZWRkYWJkY2MuLjNhN2M3YzdlZmE2OCAxMDA2NDQNCi0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9od19zZXF1ZW5jZXIu
-Yw0KKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2h3
-X3NlcXVlbmNlci5jDQpAQCAtMzYzNSw3ICszNjM1LDcgQEAgZW51bSBkY19zdGF0dXMgZGNu
-MTBfc2V0X2Nsb2NrKHN0cnVjdCBkYyAqZGMsDQogCQkJCWRjLSZndDtjbGtfbWdyLSZndDtm
-dW5jcy0mZ3Q7Z2V0X2Nsb2NrKGRjLSZndDtjbGtfbWdyLA0KIAkJCQkJCWNvbnRleHQsIGNs
-b2NrX3R5cGUsICZhbXA7Y2xvY2tfY2ZnKTsNCiANCi0JaWYgKCFkYy0mZ3Q7Y2xrX21nci0m
-Z3Q7ZnVuY3MtJmd0O2dldF9jbG9jaykNCisJaWYgKGRjLSZndDtjbGtfbWdyICZhbXA7JmFt
-cDsgIWRjLSZndDtjbGtfbWdyLSZndDtmdW5jcy0mZ3Q7Z2V0X2Nsb2NrKQ0KIAkJcmV0dXJu
-IERDX0ZBSUxfVU5TVVBQT1JURURfMTsNCiANCiAJaWYgKGNsa19raHogJmd0OyBjbG9ja19j
-ZmcubWF4X2Nsb2NrX2toeikNCi0tDQoyLjI1LjENCjwvcHJlPg0KICAgIDwvYmxvY2txdW90
-ZT4NCiAgICA8YnI+DQogIDwvYm9keT4NCjwvaHRtbD4NCg==
---------------F18C593468E0683DE5594DC0--
+
+With regards,
+Pavel Skripkin
