@@ -1,68 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207933E7CA3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 17:43:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBC83E7CB3
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 17:47:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAB6389854;
-	Tue, 10 Aug 2021 15:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6008889857;
+	Tue, 10 Aug 2021 15:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD8E89854
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 15:43:43 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- f9-20020a05600c1549b029025b0f5d8c6cso2283477wmg.4
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 08:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Tnip+r7F4/z9nn06tEEoEy64A1xUTKQDwuabyuo00UM=;
- b=WFhliwfjNR2UDPKQ34rKuWI+89TaHhjfBnqx7mgsmLWTGj0kWTpIRdfCn0RAf5yZMq
- ctaRSKwnCN79tthvYKQIPZuOIaijo85HV7IUUKjhS5k8fXyPW37kPnKwJbA+nslOYWfK
- pRcTaQjZ4sV2QohldWjVy2hjuEmAgQI+qK5v8N/cD6UTKT2b0X/0qucByhO5BV9VVNWO
- 95xO/eKpv4+F6np2HjDePsmmeuutoo8lZJgZt0vAzDCR+A1IagjEpvWocpQ0SjrT9PrT
- zWDbgRpSWpMHgj2An2JMBRRDJappLMoCefGkbsPPmVvBrcEK+g+LVCpI2TzpzWy8+7Do
- H7PQ==
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
+ [209.85.217.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E65789857
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 15:47:27 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id h17so7886314vsu.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 08:47:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Tnip+r7F4/z9nn06tEEoEy64A1xUTKQDwuabyuo00UM=;
- b=frWvXTsaCMiIcfYNqEs2BciFkZ8vQlN2nQ0Wg9mKXW7G6+GzFMMojn/2LHRbwsmPhQ
- xysgw6TW9mMlx2xj498/rTqX1JPlGcuUG/Wyu91uZez2dkK1RiyOYrrTQZB0EABi9Ex1
- RM5TisSIp8MVwOp2U4w0wUsWe4Epmd6BeCsZDogacmb3UAc3C+Ht+Y7QNq8qfYeY584f
- niq0yRNO5/wFTSv0/5K0I6RE5LegYd46TSDxW4IskSzufFMFj/LMIN7LqcqTuH0pkvho
- W2z+1oyOvGNxyP2q8M3c4qDSdcW2jcrdFlXTTSKnE/KF5h40BHNpPch9gYqI7/0zf/pJ
- qJnw==
-X-Gm-Message-State: AOAM531X/ep0Q7HT67x0LPoqjFJ79Z4LSRMZw9SpcPtGap5j3DNALfyc
- ojyoOcELYVswhgI3zVtKvx8=
-X-Google-Smtp-Source: ABdhPJyrXFtiWBZX/iqpMUwvql9VImtTVKBhvmPwpU94sRaJwTVHz5jyvnjwfgfPUDUJxv0ZdvbxNw==
-X-Received: by 2002:a1c:f405:: with SMTP id z5mr5382798wma.33.1628610221497;
- Tue, 10 Aug 2021 08:43:41 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id w18sm25620287wrg.68.2021.08.10.08.43.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 08:43:40 -0700 (PDT)
-Date: Tue, 10 Aug 2021 17:46:06 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <mperttunen@nvidia.com>, Rob Herring <robh+dt@kernel.org>
-Cc: jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: Add YAML bindings for Host1x and NVDEC
-Message-ID: <YRKfPuf0SLU9RXgU@orome.fritz.box>
-References: <20210806123450.2970777-1-mperttunen@nvidia.com>
- <20210806123450.2970777-2-mperttunen@nvidia.com>
- <YRKengKZmFtgsIZy@orome.fritz.box>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6XjmLk6mWOnDrQJChBOtb9nT2UATia9v6R/MbDfH/4E=;
+ b=JXjNjodJox4LttQjjq/zBQ5l7OAlXg1w4kuTjoUFiJZAVXy8DkFouwatlITtLqPMof
+ dbR0UsRLPavPoPQMDIaMN+fe5R07NfFIlp+hHIoqtQMG7v2ifBgO+PiizvtiMi9lzL35
+ YrcdhHXTgUAAlSQlnEni2aW0JoQmZTDlCQTiMrXNRmsvrr3GZR7sPhg0P+j6wefCzr/e
+ H01yyvTcULZ6HutYkjEDVROX6S68cUyCCn9/+XuzeLM1mwzqbrJP8Xn817xMEY3BM5ca
+ ykWWQf+drqQ2l65QlXSzT4dIASv3OlKfiB1pXWtT+H36GEdfhAIPy7fNMk6UfAUPPEst
+ 3DuA==
+X-Gm-Message-State: AOAM533zcPSbaiEXVOMMjkTHrfrcRNtcZEOoyguZhyxCBYWQZGZoqIT8
+ jwTBb8M4HNjPGN6MCv2z9ga/rkfKAM7mpb6SwiacGQl+GEyWBQ==
+X-Google-Smtp-Source: ABdhPJz85S0D3vYuAnxqYxxyQzVXcSB2pzj4im/IFU5oWvW8d7+alU8aU7wRXPzGDmEmAHeE+/FCM62ekBYfh1qrSuE=
+X-Received: by 2002:a67:e2c7:: with SMTP id i7mr21905760vsm.3.1628610445957;
+ Tue, 10 Aug 2021 08:47:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="G//wZ862ek2PTEA7"
-Content-Disposition: inline
-In-Reply-To: <YRKengKZmFtgsIZy@orome.fritz.box>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+References: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210520065046.28978-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210520065046.28978-3-laurent.pinchart+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 10 Aug 2021 17:47:14 +0200
+Message-ID: <CAMuHMdWdbS2tFh9LP8hqUT-3nRqKf_k_8N3ZeiUSiBEgYhjDxQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] drm: rcar-du: lvds: Convert to DRM panel bridge
+ helper
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,55 +60,297 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Laurent,
 
---G//wZ862ek2PTEA7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, May 20, 2021 at 8:51 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> Replace the manual panel handling with usage of the DRM panel bridge
+> helper. This simplifies the driver, and brings support for
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR as an added bonus.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-On Tue, Aug 10, 2021 at 05:43:26PM +0200, Thierry Reding wrote:
-> On Fri, Aug 06, 2021 at 03:34:48PM +0300, Mikko Perttunen wrote:
-[...]
-> > diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra2=
-10-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra21=
-0-nvdec.yaml
-[...]
-> > +if:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: nvidia,tegra194-host1x
-> > +then:
-> > +  properties:
-> > +    nvidia,instance:
-> > +      items:
-> > +        - description: 0 for NVDEC0, or 1 for NVDEC1
->=20
-> I know we had discussed this before, but looking at the driver patch, I
-> don't actually see this being used now, so I wonder if we still need it.
+Thanks for your patch, which is now commit e9e056949c927e5b ("drm:
+rcar-du: lvds: Convert to DRM panel bridge helper") in drm-next.
 
-Oh, nevermind, upon closer inspection, I do see it used in the driver.
+This causes the following scary messages in the kernel log on Ebisu-4D:
 
-Thierry
+[drm:drm_bridge_attach] *ERROR* failed to attach bridge
+/soc/lvds-encoder@feb90100 to encoder None-66: -22
+renesas_sdhi_internal_dmac ee100000.mmc: mmc1 base at
+0x00000000ee100000, max clock rate 200 MHz
+rcar-du feb00000.display: failed to initialize encoder
+/soc/lvds-encoder@feb90100 on output 3 (-22), skipping
+renesas_sdhi_internal_dmac ee120000.mmc: mmc2 base at
+0x00000000ee120000, max clock rate 200 MHz
+------------[ cut here ]------------
+renesas_sdhi_internal_dmac ee160000.mmc: mmc0 base at
+0x00000000ee160000, max clock rate 200 MHz
+possible_clones mismatch: [ENCODER:62:None-62] mask=0x1
+possible_clones=0x3 vs. [ENCODER:66:None-66] mask=0x4
+possible_clones=0x3
+WARNING: CPU: 1 PID: 68 at drivers/gpu/drm/drm_mode_config.c:583
+drm_mode_config_validate+0x3cc/0x4c8
+CPU: 1 PID: 68 Comm: kworker/u4:2 Not tainted
+5.14.0-rc3-arm64-renesas-00324-ge9e056949c92 #1277
+Hardware name: Renesas Ebisu-4D board based on r8a77990 (DT)
+Workqueue: events_unbound deferred_probe_work_func
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+pc : drm_mode_config_validate+0x3cc/0x4c8
+lr : drm_mode_config_validate+0x3cc/0x4c8
+sp : ffff80001239ba80
+x29: ffff80001239ba90 x28: ffff00000801c005 x27: 0000000000000001
+x26: ffff000009de8868 x25: 000000000000001f x24: ffff00000a490f80
+mmc0: new HS400 MMC card at address 0001
+x23: ffff000009de8868 x22: ffff800011029ea0 x21: ffff800011029e20
+x20: ffff000009de8018 x19: ffff00000a490b80 x18: 0000000000000020
+x17: 7364766c2f636f73 x16: 0000000000004a12 x15: ffff00000892df38
+x14: 0000000000000000 x13: 0000000000000003 x12: ffff8000113e3a80
+x11: 0000000000000001 x10: 0000000000000078
+mmcblk0: mmc0:0001 BGSD3R 29.1 GiB
+ x9 : ffff800011172994
+x8 : 0000000000000000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : 0000000000000000 x4 : 0000000000000003 x3 : 0000000000000000
+x2 : ffff8000113e38d8 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ drm_mode_config_validate+0x3cc/0x4c8
+ drm_dev_register+0x174/0x208
+ rcar_du_probe+0xc4/0x110
+ platform_probe+0x64/0xd0
+ really_probe+0x134/0x2e8
+ __driver_probe_device+0x74/0xd8
+ driver_probe_device+0x3c/0xe0
+ __device_attach_driver+0xa8/0xf0
+ bus_for_each_drv+0x74/0xc8
+ __device_attach+0xec/0x148
+ device_initial_probe+0x10/0x18
+ bus_probe_device+0x98/0xa0
+mmcblk0boot0: mmc0:0001 BGSD3R 16.0 MiB
+ deferred_probe_work_func+0x88/0xc0
+ process_one_work+0x284/0x6d0
+ worker_thread+0x48/0x418
+ kthread+0x14c/0x158
+ ret_from_fork+0x10/0x18
+irq event stamp: 27688
+hardirqs last  enabled at (27687): [<ffff800010104424>] vprintk_emit+0x2f4/0x2f8
+hardirqs last disabled at (27688): [<ffff800010ca4eb4>] el1_dbg+0x24/0x88
+mmcblk0boot1: mmc0:0001 BGSD3R 16.0 MiB
+softirqs last  enabled at (27616): [<ffff8000100104ac>] _stext+0x4ac/0x620
+softirqs last disabled at (27607): [<ffff80001008ffdc>] irq_exit+0x1b4/0x1c0
+---[ end trace 6e42cb0428a6481b ]---
+------------[ cut here ]------------
+mmcblk0rpmb: mmc0:0001 BGSD3R 4.00 MiB, chardev (243:0)
+possible_clones mismatch: [ENCODER:64:None-64] mask=0x2
+possible_clones=0x3 vs. [ENCODER:66:None-66] mask=0x4
+possible_clones=0x3
+WARNING: CPU: 1 PID: 68 at drivers/gpu/drm/drm_mode_config.c:583
+drm_mode_config_validate+0x3cc/0x4c8
+CPU: 1 PID: 68 Comm: kworker/u4:2 Tainted: G        W
+5.14.0-rc3-arm64-renesas-00324-ge9e056949c92 #1277
+Hardware name: Renesas Ebisu-4D board based on r8a77990 (DT)
+Workqueue: events_unbound deferred_probe_work_func
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+pc : drm_mode_config_validate+0x3cc/0x4c8
+lr : drm_mode_config_validate+0x3cc/0x4c8
+sp : ffff80001239ba80
+x29: ffff80001239ba90 x28: ffff00000801c005 x27: 0000000000000001
+x26: ffff000009de8868 x25: 000000000000001f x24: ffff00000a490f80
+x23: ffff000009de8868 x22: ffff800011029ea0 x21: ffff800011029e20
+x20: ffff000009de8018 x19: ffff00000a490d80 x18: 0000000000000010
+x17: 746978655f717269 x16: 205d3e6364666638 x15: 076c0763075f0765
+x14: 000000000000014d x13: ffff00000892df38 x12: 00000000ffffffea
+x11: ffff800011453b70 x10: ffff80001143bb30 x9 : ffff80001143bb88
+x8 : 0000000000000000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : 0000000000000000 x4 : 0000000000000003 x3 : 0000000000000000
+x2 : ffff8000113e38d8 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ drm_mode_config_validate+0x3cc/0x4c8
+ drm_dev_register+0x174/0x208
+ rcar_du_probe+0xc4/0x110
+ platform_probe+0x64/0xd0
+ really_probe+0x134/0x2e8
+ __driver_probe_device+0x74/0xd8
+ driver_probe_device+0x3c/0xe0
+ __device_attach_driver+0xa8/0xf0
+ bus_for_each_drv+0x74/0xc8
+ __device_attach+0xec/0x148
+ device_initial_probe+0x10/0x18
+ bus_probe_device+0x98/0xa0
+ deferred_probe_work_func+0x88/0xc0
+ process_one_work+0x284/0x6d0
+ worker_thread+0x48/0x418
+ kthread+0x14c/0x158
+ ret_from_fork+0x10/0x18
+irq event stamp: 27858
+hardirqs last  enabled at (27857): [<ffff800010103e84>]
+console_unlock+0x4d4/0x638
+hardirqs last disabled at (27858): [<ffff800010ca4eb4>] el1_dbg+0x24/0x88
+softirqs last  enabled at (27822): [<ffff8000100104ac>] _stext+0x4ac/0x620
+softirqs last disabled at (27817): [<ffff80001008ffdc>] irq_exit+0x1b4/0x1c0
+---[ end trace 6e42cb0428a6481c ]---
+------------[ cut here ]------------
+possible_clones mismatch: [ENCODER:66:None-66] mask=0x4
+possible_clones=0x3 vs. [ENCODER:62:None-62] mask=0x1
+possible_clones=0x3
+WARNING: CPU: 1 PID: 68 at drivers/gpu/drm/drm_mode_config.c:583
+drm_mode_config_validate+0x3cc/0x4c8
+CPU: 1 PID: 68 Comm: kworker/u4:2 Tainted: G        W
+5.14.0-rc3-arm64-renesas-00324-ge9e056949c92 #1277
+Hardware name: Renesas Ebisu-4D board based on r8a77990 (DT)
+Workqueue: events_unbound deferred_probe_work_func
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+pc : drm_mode_config_validate+0x3cc/0x4c8
+lr : drm_mode_config_validate+0x3cc/0x4c8
+sp : ffff80001239ba80
+x29: ffff80001239ba90 x28: ffff00000801c005 x27: 0000000000000001
+x26: ffff000009de8868 x25: 000000000000001f x24: ffff00000a490b80
+x23: ffff000009de8868 x22: ffff800011029ea0 x21: ffff800011029e20
+x20: ffff000009de8018 x19: ffff00000a490f80 x18: 0000000000000010
+x17: 746978655f717269 x16: 205d3e6364666638 x15: 076c0763075f0765
+x14: 0000000000000179 x13: ffff00000892df38 x12: 00000000ffffffea
+x11: ffff800011453b70 x10: ffff80001143bb30 x9 : ffff80001143bb88
+x8 : 0000000000000000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : 0000000000000000 x4 : 0000000000000003 x3 : 0000000000000000
+x2 : ffff8000113e38d8 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ drm_mode_config_validate+0x3cc/0x4c8
+ drm_dev_register+0x174/0x208
+ rcar_du_probe+0xc4/0x110
+ platform_probe+0x64/0xd0
+ really_probe+0x134/0x2e8
+ __driver_probe_device+0x74/0xd8
+ driver_probe_device+0x3c/0xe0
+ __device_attach_driver+0xa8/0xf0
+ bus_for_each_drv+0x74/0xc8
+ __device_attach+0xec/0x148
+ device_initial_probe+0x10/0x18
+ bus_probe_device+0x98/0xa0
+ deferred_probe_work_func+0x88/0xc0
+ process_one_work+0x284/0x6d0
+ worker_thread+0x48/0x418
+ kthread+0x14c/0x158
+ ret_from_fork+0x10/0x18
+irq event stamp: 27888
+hardirqs last  enabled at (27887): [<ffff800010103e84>]
+console_unlock+0x4d4/0x638
+hardirqs last disabled at (27888): [<ffff800010ca4eb4>] el1_dbg+0x24/0x88
+softirqs last  enabled at (27866): [<ffff8000100104ac>] _stext+0x4ac/0x620
+softirqs last disabled at (27861): [<ffff80001008ffdc>] irq_exit+0x1b4/0x1c0
+---[ end trace 6e42cb0428a6481d ]---
+------------[ cut here ]------------
+possible_clones mismatch: [ENCODER:66:None-66] mask=0x4
+possible_clones=0x3 vs. [ENCODER:64:None-64] mask=0x2
+possible_clones=0x3
+WARNING: CPU: 1 PID: 68 at drivers/gpu/drm/drm_mode_config.c:583
+drm_mode_config_validate+0x3cc/0x4c8
+CPU: 1 PID: 68 Comm: kworker/u4:2 Tainted: G        W
+5.14.0-rc3-arm64-renesas-00324-ge9e056949c92 #1277
+Hardware name: Renesas Ebisu-4D board based on r8a77990 (DT)
+Workqueue: events_unbound deferred_probe_work_func
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+pc : drm_mode_config_validate+0x3cc/0x4c8
+lr : drm_mode_config_validate+0x3cc/0x4c8
+sp : ffff80001239ba80
+x29: ffff80001239ba90 x28: ffff00000801c005 x27: 0000000000000001
+x26: ffff000009de8868 x25: 000000000000001f x24: ffff00000a490d80
+x23: ffff000009de8868 x22: ffff800011029ea0 x21: ffff800011029e20
+x20: ffff000009de8018 x19: ffff00000a490f80 x18: 0000000000000010
+x17: 746978655f717269 x16: 205d3e6364666638 x15: 076c0763075f0765
+x14: 00000000000001a5 x13: ffff00000892df38 x12: 00000000ffffffea
+x11: ffff800011453b70 x10: ffff80001143bb30 x9 : ffff80001143bb88
+x8 : 0000000000000000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : 0000000000000000 x4 : 0000000000000003 x3 : 0000000000000000
+x2 : ffff8000113e38d8 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ drm_mode_config_validate+0x3cc/0x4c8
+ drm_dev_register+0x174/0x208
+ rcar_du_probe+0xc4/0x110
+ platform_probe+0x64/0xd0
+ really_probe+0x134/0x2e8
+ __driver_probe_device+0x74/0xd8
+ driver_probe_device+0x3c/0xe0
+ __device_attach_driver+0xa8/0xf0
+ bus_for_each_drv+0x74/0xc8
+ __device_attach+0xec/0x148
+ device_initial_probe+0x10/0x18
+ bus_probe_device+0x98/0xa0
+ deferred_probe_work_func+0x88/0xc0
+ process_one_work+0x284/0x6d0
+ worker_thread+0x48/0x418
+ kthread+0x14c/0x158
+ ret_from_fork+0x10/0x18
+irq event stamp: 27924
+hardirqs last  enabled at (27923): [<ffff800010103e84>]
+console_unlock+0x4d4/0x638
+hardirqs last disabled at (27924): [<ffff800010ca4eb4>] el1_dbg+0x24/0x88
+softirqs last  enabled at (27902): [<ffff8000100104ac>] _stext+0x4ac/0x620
+softirqs last disabled at (27891): [<ffff80001008ffdc>] irq_exit+0x1b4/0x1c0
+---[ end trace 6e42cb0428a6481e ]---
+------------[ cut here ]------------
+Bogus possible_clones: [ENCODER:66:None-66] possible_clones=0x3 (full
+encoder mask=0x1f)
+WARNING: CPU: 1 PID: 68 at drivers/gpu/drm/drm_mode_config.c:594
+drm_mode_config_validate+0x150/0x4c8
+CPU: 1 PID: 68 Comm: kworker/u4:2 Tainted: G        W
+5.14.0-rc3-arm64-renesas-00324-ge9e056949c92 #1277
+Hardware name: Renesas Ebisu-4D board based on r8a77990 (DT)
+Workqueue: events_unbound deferred_probe_work_func
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+pc : drm_mode_config_validate+0x150/0x4c8
+lr : drm_mode_config_validate+0x150/0x4c8
+sp : ffff80001239ba80
+x29: ffff80001239ba90 x28: ffff00000801c005 x27: 0000000000000001
+x26: ffff000009de8868 x25: 000000000000001f x24: ffff000009de8860
+x23: ffff000009de8868 x22: ffff800011029ea0 x21: ffff800011029e20
+x20: ffff000009de8018 x19: ffff00000a490f80 x18: 0000000000000010
+x17: 203378303d73656e x16: 6f6c635f656c6269 x15: 0720072007200720
+x14: 00000000000001d1 x13: ffff00000892df38 x12: 00000000ffffffea
+x11: ffff800011453b70 x10: ffff80001143bb30 x9 : ffff80001143bb88
+x8 : 0000000000000000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : 0000000000000000 x4 : 0000000000000003 x3 : 0000000000000000
+x2 : ffff8000113e38d8 x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+ drm_mode_config_validate+0x150/0x4c8
+ drm_dev_register+0x174/0x208
+ rcar_du_probe+0xc4/0x110
+ platform_probe+0x64/0xd0
+ really_probe+0x134/0x2e8
+ __driver_probe_device+0x74/0xd8
+ driver_probe_device+0x3c/0xe0
+ __device_attach_driver+0xa8/0xf0
+ bus_for_each_drv+0x74/0xc8
+ __device_attach+0xec/0x148
+ device_initial_probe+0x10/0x18
+ bus_probe_device+0x98/0xa0
+ deferred_probe_work_func+0x88/0xc0
+ process_one_work+0x284/0x6d0
+ worker_thread+0x48/0x418
+ kthread+0x14c/0x158
+ ret_from_fork+0x10/0x18
+irq event stamp: 27966
+hardirqs last  enabled at (27965): [<ffff800010103e84>]
+console_unlock+0x4d4/0x638
+hardirqs last disabled at (27966): [<ffff800010ca4eb4>] el1_dbg+0x24/0x88
+softirqs last  enabled at (27940): [<ffff8000100104ac>] _stext+0x4ac/0x620
+softirqs last disabled at (27927): [<ffff80001008ffdc>] irq_exit+0x1b4/0x1c0
+---[ end trace 6e42cb0428a6481f ]---
+[drm] Initialized rcar-du 1.0.0 20130110 for feb00000.display on minor 0
+drm] Device feb00000.display probed
+Console: switching to colour frame buffer device 128x48
+rcar-du feb00000.display: [drm] fb0: rcar-du frame buffer device
 
---G//wZ862ek2PTEA7
-Content-Type: application/pgp-signature; name="signature.asc"
+Reverting this commit fixes the issue.
+Note that I have no actual display device attached, so I do not know
+if display out really works.
+Salvator-X(S) seems to be fine, with the same disclaimer.
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmESnz4ACgkQ3SOs138+
-s6EJSxAAqldttFWwp75vXQGSE+6i/aroYKOoS4UVyngCFgy5tqkb3cqF9pzYR0YN
-8brXcJ5o3shp4eB6xw6e61l9jPNRnlFR2FOdAilfZwTg0qSm+e+ENv6inuT2hDZz
-J+TOBZ9iFtZlk3h6Fl4bdPM7w9oL0EOuxnnpj+bBvWcct5PcNnjXTwek2CRARo80
-kI/42mAq70BKAAjuDxKIbBXkSW1k90Vf2pqUfNDYSL5ZQvZdwMUT8jn/9B8GXReG
-bmkha6XzHxjOZWNSf+obibcOf+aHVsHpkrMT6DmYr8/KZEZ2GZLnQannPE2kJuFe
-NuDCcl2b1sfOLWdDh8DIY6Zun8DD6U0tjH26dP3H0Eh0eQcDSkvay/0K8bO7U3s5
-yiMQaKONk925Z5vZV25lr+PQ6rz7SuSf7ycluvzeGiNmBLIgcpGNPK1e4AP0lWBL
-wLgsYJdNqD3rlIac2bi0zawsQzbFe3p1/KM/5B3RClu2qMd1PYED1I2CqFuv/oot
-LjOTnWDaXxg6bTDntW4RQKr8hb3LW473TOrtbB179LifDv/8Gh+FxINc1iDZD+FA
-Fvhb6uY22wnXNRJJlldjFXnFnw+zpogSchIUmiCKdwGakTYSN6f/nyZci5LLJ7Yy
-F0KXZu5eSVebEIrGHntdQR/3CA900incMHwhAyfNCz/DqzOUJYI=
-=odc8
------END PGP SIGNATURE-----
+                        Geert
 
---G//wZ862ek2PTEA7--
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
