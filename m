@@ -1,79 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438BA3E537F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 08:27:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 026B23E5397
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 08:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C303489D87;
-	Tue, 10 Aug 2021 06:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6DEB89DD2;
+	Tue, 10 Aug 2021 06:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A68D89D87
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 06:27:29 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id i4so7250808wru.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 23:27:29 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3386F89DE5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 06:36:30 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id u1so2227896wmm.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Aug 2021 23:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=GiCRq9oiIUoYtaK/RUZid1gDex+gXMLXotTaeNIUmiA=;
- b=TSLt8sQv3KMNzzPS3fSD/gdF+b63+EbUkwUJzjp0hhlGdZUZ7Rd/AoOvp0uJmLSyth
- idWsFEWNxLZHMkE7N0Us6P8gpIMwEjBGSYsiiNKmOb86eZDu77SO4PLc1ir83QOgXCk1
- f5jZQSvinIlEibg/HrnX+nJfX9P07P/P7Zz7k=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=tq/ZfJxJ4o9XW0D8lGP3optZ9s4krIpDn/Ho2XsObnk=;
+ b=ZiNN+BTQU6R0yAB8HkocPrYmvASBip5jESBOb46ALhzzRZW0ATkoLGNXDBUTV77pky
+ fNtTIxlNuz+dqD4gHOq9HUOjv19cTs9KZ+TOpqg6aaFc8eN4I4+I2hQ15kS+efaL7IXF
+ 5z1vNwbz/T7yZ4veOO9cYKOtLnYnM5UH4FWz0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=GiCRq9oiIUoYtaK/RUZid1gDex+gXMLXotTaeNIUmiA=;
- b=P+pzbatZ1xyHplkxDUn9xrtxG1i5ov7gKMiwUwK8Yj25QZTVK7lJm+aKOVCNHoh4+F
- XgKqkIBx7Rrg8ZIppyRTAyq0DPY2joh38ksUz/2db/Rre6TEO+iIbz4iaTnRmK8ni5U5
- fCQMxG+zLEfeUlw8bh7DtS+COr5plLOoPIFzupNAtEAxI558l+rWVF5rPhly1jsAW4hU
- TgKAdjOvokVF8mhbWWFxjfS9VQhPhbDOoBtT3jOjMZcgQZr32Ygrp63MehyGMDmytryZ
- Y6tXBnVd5EXfNwFna/kghIdC1cxzJXV7RrJnbobwj4DE9pPnmbmi3LyGsUDopl9yJnKA
- 8JNA==
-X-Gm-Message-State: AOAM532BvXs4tbkizN40djRfEaUfFOC3O+KD6z0vwloyHvXKEIWRJrob
- Y/ERZ5f5SjcPEON5m5+6q4Duaw==
-X-Google-Smtp-Source: ABdhPJzwYtfos5qmwNgPH3qxN41P8KJZR3M++G+4LLPpLcVuvruDMmm0ZBtRneBZ640axXBl0KJ93g==
-X-Received: by 2002:a5d:6948:: with SMTP id r8mr15347886wrw.136.1628576847772; 
- Mon, 09 Aug 2021 23:27:27 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tq/ZfJxJ4o9XW0D8lGP3optZ9s4krIpDn/Ho2XsObnk=;
+ b=Yg0uxWZya2l3FrojhNbv+IM+doLI3EqPBdQdkbLhjN4vjRTbBhLtO84QXSXGyyPIge
+ cX6CSNo2+JOiLbUtNos68k+uNJt5R6gxu4T0EBW6gYSQaGNb2C/n5xhwAW3c+gW1HshI
+ q7QIJk7QNNkwHM3NKNpzpVyIINd79mIq8vrQj4z2qFlXTLkIUnwmHOTU4GZqnqW7GsCW
+ 3vZ9aKe3Ky64vGNgEtK/dQEkZlphuUMOo0f1p8ILoPNuuYPjVHeB/HcEm//Cv/beqSf4
+ C0IbjbHWwd3msmbtlYtzovKnYzK9J47Hky6kt5USNgBRXr3cgeIVMxsbO8UrFwucMyYk
+ taog==
+X-Gm-Message-State: AOAM533oSV+0e8TInHWo62XPRHe0SXVrgdd7pbaaGVQOYsYEy+5p1+mQ
+ N+7IGp4Mw1VOUd4x7++7/h0jZg==
+X-Google-Smtp-Source: ABdhPJyudzdGmrOTCbjB/oK34/a8AVwMuAXfAJoeZ7GaC2EmK9tZEeYXI2QccmTtxh93ER3dvpyQEQ==
+X-Received: by 2002:a05:600c:510d:: with SMTP id
+ o13mr7361379wms.123.1628577388115; 
+ Mon, 09 Aug 2021 23:36:28 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g16sm26620083wro.63.2021.08.09.23.27.26
+ by smtp.gmail.com with ESMTPSA id d15sm23607562wri.96.2021.08.09.23.36.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Aug 2021 23:27:27 -0700 (PDT)
-Date: Tue, 10 Aug 2021 08:27:25 +0200
+ Mon, 09 Aug 2021 23:36:27 -0700 (PDT)
+Date: Tue, 10 Aug 2021 08:36:25 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [Intel-gfx] linux-next: Signed-off-by missing for commit in the
- drm-intel tree
-Message-ID: <YRIcTTsEF0Kg7F8K@phenom.ffwll.local>
-Mail-Followup-To: Matt Roper <matthew.d.roper@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20210715141854.1ad4a956@canb.auug.org.au>
- <162823181614.15830.10618174106053255881@jlahtine-mobl.ger.corp.intel.com>
- <YRE2RwQ6XlUqbgmn@phenom.ffwll.local>
- <20210809161939.GS1556418@mdroper-desk1.amr.corp.intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: Check if engine has heartbeat
+ when closing a context
+Message-ID: <YRIeaQjEVrTFpKlW@phenom.ffwll.local>
+References: <20210729003400.151864-1-matthew.brost@intel.com>
+ <20210729003400.151864-2-matthew.brost@intel.com>
+ <eea0bdb7-681b-0acb-0b9c-041fb38a7119@intel.com>
+ <1b75f6c6-e458-6bc7-f867-12f1b5b18af0@linux.intel.com>
+ <e6e893a7-a0e2-0441-260f-75da3760de0b@intel.com>
+ <58cb6331-813a-7007-dac5-65a2f2ad344e@linux.intel.com>
+ <b3d7ae68-ce4b-ec2c-c70d-9f81e2ea07d7@intel.com>
+ <CAKMK7uF_xBt2WTLkyWf0tfwtzpbFEigZLMUqy4tHQXx47fJRBQ@mail.gmail.com>
+ <f47d3478-be0f-9dc3-2ffe-728d92347cb8@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210809161939.GS1556418@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <f47d3478-be0f-9dc3-2ffe-728d92347cb8@intel.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,74 +83,465 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 09, 2021 at 09:19:39AM -0700, Matt Roper wrote:
-> On Mon, Aug 09, 2021 at 04:05:59PM +0200, Daniel Vetter wrote:
-> > On Fri, Aug 06, 2021 at 09:36:56AM +0300, Joonas Lahtinen wrote:
-> > > Hi Matt,
-> > > 
-> > > Always use the dim tooling when applying patches, it will do the right
-> > > thing with regards to adding the S-o-b.
+On Mon, Aug 09, 2021 at 04:12:52PM -0700, John Harrison wrote:
+> On 8/6/2021 12:46, Daniel Vetter wrote:
+> > Seen this fly by and figured I dropped a few thoughts in here. At the
+> > likely cost of looking a bit out of whack :-)
 > > 
-> > fd.o server rejects any pushes that haven't been done by dim, so how did
-> > this get through?
+> > On Fri, Aug 6, 2021 at 8:01 PM John Harrison <john.c.harrison@intel.com> wrote:
+> > > On 8/2/2021 02:40, Tvrtko Ursulin wrote:
+> > > > On 30/07/2021 19:13, John Harrison wrote:
+> > > > > On 7/30/2021 02:49, Tvrtko Ursulin wrote:
+> > > > > > On 30/07/2021 01:13, John Harrison wrote:
+> > > > > > > On 7/28/2021 17:34, Matthew Brost wrote:
+> > > > > > > > If an engine associated with a context does not have a heartbeat,
+> > > > > > > > ban it
+> > > > > > > > immediately. This is needed for GuC submission as a idle pulse
+> > > > > > > > doesn't
+> > > > > > > > kick the context off the hardware where it then can check for a
+> > > > > > > > heartbeat and ban the context.
+> > > > > > Pulse, that is a request with I915_PRIORITY_BARRIER, does not
+> > > > > > preempt a running normal priority context?
+> > > > > > 
+> > > > > > Why does it matter then whether or not heartbeats are enabled - when
+> > > > > > heartbeat just ends up sending the same engine pulse (eventually,
+> > > > > > with raising priority)?
+> > > > > The point is that the pulse is pointless. See the rest of my comments
+> > > > > below, specifically "the context will get resubmitted to the hardware
+> > > > > after the pulse completes". To re-iterate...
+> > > > > 
+> > > > > Yes, it preempts the context. Yes, it does so whether heartbeats are
+> > > > > enabled or not. But so what? Who cares? You have preempted a context.
+> > > > > It is no longer running on the hardware. BUT IT IS STILL A VALID
+> > > > > CONTEXT.
+> > > > It is valid yes, and it even may be the current ABI so another
+> > > > question is whether it is okay to change that.
+> > > > 
+> > > > > The backend scheduler will just resubmit it to the hardware as soon
+> > > > > as the pulse completes. The only reason this works at all is because
+> > > > > of the horrid hack in the execlist scheduler's back end
+> > > > > implementation (in __execlists_schedule_in):
+> > > > >           if (unlikely(intel_context_is_closed(ce) &&
+> > > > >                        !intel_engine_has_heartbeat(engine)))
+> > > > >                   intel_context_set_banned(ce);
+> > > > Right, is the above code then needed with this patch - when ban is
+> > > > immediately applied on the higher level?
+> > > > 
+> > > > > The actual back end scheduler is saying "Is this a zombie context? Is
+> > > > > the heartbeat disabled? Then ban it". No other scheduler backend is
+> > > > > going to have knowledge of zombie context status or of the heartbeat
+> > > > > status. Nor are they going to call back into the higher levels of the
+> > > > > i915 driver to trigger a ban operation. Certainly a hardware
+> > > > > implemented scheduler is not going to be looking at private i915
+> > > > > driver information to decide whether to submit a context or whether
+> > > > > to tell the OS to kill it off instead.
+> > > > > 
+> > > > > For persistence to work with a hardware scheduler (or a non-Intel
+> > > > > specific scheduler such as the DRM one), the handling of zombie
+> > > > > contexts, banning, etc. *must* be done entirely in the front end. It
+> > > > > cannot rely on any backend hacks. That means you can't rely on any
+> > > > > fancy behaviour of pulses.
+> > > > > 
+> > > > > If you want to ban a context then you must explicitly ban that
+> > > > > context. If you want to ban it at some later point then you need to
+> > > > > track it at the top level as a zombie and then explicitly ban that
+> > > > > zombie at whatever later point.
+> > > > I am still trying to understand it all. If I go by the commit message:
+> > > > 
+> > > > """
+> > > > This is needed for GuC submission as a idle pulse doesn't
+> > > > kick the context off the hardware where it then can check for a
+> > > > heartbeat and ban the context.
+> > > > """
+> > > > 
+> > > > That did not explain things for me. Sentence does not appear to make
+> > > > sense. Now, it seems "kick off the hardware" is meant as revoke and
+> > > > not just preempt. Which is fine, perhaps just needs to be written more
+> > > > explicitly. But the part of checking for heartbeat after idle pulse
+> > > > does not compute for me. It is the heartbeat which emits idle pulses,
+> > > > not idle pulse emitting heartbeats.
+> > > I am in agreement that the commit message is confusing and does not
+> > > explain either the problem or the solution.
+> > > 
+> > > 
+> > > > 
+> > > > But anyway, I can buy the handling at the front end story completely.
+> > > > It makes sense. We just need to agree that a) it is okay to change the
+> > > > ABI and b) remove the backend check from execlists if it is not needed
+> > > > any longer.
+> > > > 
+> > > > And if ABI change is okay then commit message needs to talk about it
+> > > > loudly and clearly.
+> > > I don't think we have a choice. The current ABI is not and cannot ever
+> > > be compatible with any scheduler external to i915. It cannot be
+> > > implemented with a hardware scheduler such as the GuC and it cannot be
+> > > implemented with an external software scheduler such as the DRM one.
+> > So generally on linux we implement helper libraries, which means
+> > massive flexibility everywhere.
+> > 
+> > https://blog.ffwll.ch/2016/12/midlayers-once-more-with-feeling.html
+> > 
+> > So it shouldn't be an insurmountable problem to make this happen even
+> > with drm/scheduler, we can patch it up.
+> > 
+> > Whether that's justified is another question.
+> Helper libraries won't work with a hardware scheduler.
+
+Hm I guess I misunderstood then what exactly the hold-up is. This entire
+discussion feels at least a bit like "heartbeat is unchangeable and guc
+must fit", which is pretty much the midlayer mistake. We need to figure
+out an implementation that works with GuC of the goals of the uapi,
+instead of assuming that the current heartbeat is the only possible way to
+achieve that.
+
+Or I'm just very confused about what the problem is.
+
+> > > My view is that any implementation involving knowledge of the heartbeat
+> > > is fundamentally broken.
+> > > 
+> > > According to Daniel Vetter, the DRM ABI on this subject is that an
+> > > actively executing context should persist until the DRM file handle is
+> > > closed. That seems like a much more plausible and simple ABI than one
+> > DRM ABI is maybe a bit an overkill statement. It's more "what other
+> > drivers do", but it's generally a good idea to not ignore that :-)
+> > 
+> > > that says 'if the heartbeat is running then a context will persist
+> > > forever, if the heartbeat is not running then it will be killed
+> > > immediately, if the heart was running but then stops running then the
+> > > context will be killed on the next context switch, ...'. And if I
+> > > understand it correctly, the current ABI allows a badly written user app
+> > > to cause a denial of service by leaving contexts permanently running an
+> > > infinite loop on the hardware even after the app has been killed! How
+> > > can that ever be considered a good idea?
+> > We're not going to support changing all these settings at runtime.
+> > There's just not point in trying to make that work race-free, it
+> > either adds complexity to the code for no reason, or it adds overhead
+> > to the code for no reason.
+> > 
+> > Yes I know existing customers and all that, but
+> > - they can change this stuff, and when they change it while anyting is
+> > in-flight they get to keep the pieces. These options taint the kernel
+> > for a reason (and if they don't, that should be fixed)
+> > - quite a few around heartbeat and compute support as we've merged a
+> > while ago hang by design when trying to smash them into drm rules.
+> > We're not going to fix that, and we should not use any existing such
+> > assumptions as justification for code changes.
+> > 
+> > Wrt infinitely running: Right now nothing is allowed to run forever,
+> > because hangcheck will step in and kill that job. Once we add compute
+> > mode ctx flag we'll require killing on process exit to stop escape.
+> If the infinite loop is pre-emptible then the heartbeat won't kill it off.
+> It will just run forever. Okay, it won't be a huge denial of service because
+> other work can pre-empt and run. However, you are down one timeslice
+> execution slot at that priority level. You have also permanently lost
+> whatever memory is allocated and in use by that workload.
+
+Ok I think I'm definitely lost.
+
+Right now, in upstream, you can't run forever without regularly calling
+execbuf to stuff new work in. So it will die out, it wont be persistent
+for very long.
+
+> > > Therefore, the context close implementation should be to add an active
+> > > context to a zombie list. If a context is in zombie state and its last
+> > > request completes then the context can be immediately killed at that
+> > > point. Otherwise, on DRM handle close, we go through the zombie list and
+> > > immediately kill all contexts.
+> > > 
+> > > Simple, clean, no back-end scheduler hacks, no reliance on heartbeats or
+> > > pulses. Also no opportunity for rogue (or just badly written) user
+> > > processes to leave zombie contexts running on the hardware forever and
+> > > causing a denial of service attack. If the host process is killed, all
+> > > of its GPU processes are also killed irrespective of what dodgy context
+> > > flags they may or may not have set.
+> > Uh, the intel_context state machine is already a bit too complex, and
+> > the implementation lacks a bunch of barriers at least from the cursor
+> > look I've given it thus far.
+> > 
+> > So if we really need to make that more complex with more states then I
+> > think someone needs to come up with an actual clean design, with
+> > proper state transitions and all the barriers (or really, a design
+> > which doesn't need barriers). This is going to be work.
+> > -Daniel
+> Personally, I would rather just drop the whole persistence/zombie idea
+> completely. If you close your context then you should expect that context to
+> be destroyed and any outstanding workloads killed off. If you wanted the
+> results then you should have waited for them.
 > 
-> I definitely used dim for all of these patches, but I'm not sure how I
-> lost my s-o-b on this one.  Maybe when I edited the commit message after
-> 'dim extract-tags' I accidentally deleted an extra line when I removed
-> the extract-tags marker?  It's the only patch where the line is missing,
-> so it's almost certainly human error on my part rather than something
-> dim did wrong.
+> If we do have to support some level of persistence then it doesn't seem like
+> tracking closed contexts should be especially complex. Not sure why it would
+> need special barriers either.
 
-Yeah that's an expected failure model, and dim is supposed to catch that
-by rechecking for sobs when you push. See dim_push_branch ->
-checkpatch_commit_push_range in dim. So you can hand-edit stuff however
-you want, dim /should/ catch it when pushing. That it didn't is kinda
-confusing and I'd like to know why that slipped through.
+Frankly I think I'm lost, and I think the confusion (for me at least)
+starts with what the current uapi is.
 
-> > Matt, can you pls figure out and type up the patch to
-> > plug that hole?
-> 
-> Are you referring to a patch for dim here?  The i915 patch has already
-> landed, so we can't change its commit message now.
+Can someone please document that, with kerneldoc in the uapi header
+ideally? Once we have that defined I think we can have an actual
+discussion about what exactly this should look like with GuC (and also
+eventually with drm/scheduler), and which parts of the uapi are just
+artifacts of the current implementation, and which parts actually matter.
 
-Yeah dim, not drm-intel, that can't be fixed anymore because it's all
-baked in.
+Otherwise I think we're just spinning wheels a bit much here.
 -Daniel
 
 > 
+> John.
 > 
-> Matt
-> 
-> > 
-> > Thanks, Daniel
-> > 
+> > > John.
 > > > 
-> > > Regards, Joonas
 > > > 
-> > > Quoting Stephen Rothwell (2021-07-15 07:18:54)
-> > > > Hi all,
+> > > > Or perhaps there is no ABI change? I am not really clear how does
+> > > > setting banned status propagate to the GuC backend. I mean at which
+> > > > point does i915 ends up passing that info to the firmware?
 > > > > 
-> > > > Commit
+> > > > Regards,
 > > > > 
-> > > >   db47fe727e1f ("drm/i915/step: s/<platform>_revid_tbl/<platform>_revids")
+> > > > Tvrtko
 > > > > 
-> > > > is missing a Signed-off-by from its committer.
-> > > > 
-> > > > -- 
-> > > > Cheers,
-> > > > Stephen Rothwell
+> > > > > 
+> > > > > > > It's worse than this. If the engine in question is an individual
+> > > > > > > physical engine then sending a pulse (with sufficiently high
+> > > > > > > priority) will pre-empt the engine and kick the context off.
+> > > > > > > However, the GuC
+> > > > > > Why it is different for physical vs virtual, aren't both just
+> > > > > > schedulable contexts with different engine masks for what GuC is
+> > > > > > concerned? Oh, is it a matter of needing to send pulses to all
+> > > > > > engines which comprise a virtual one?
+> > > > > It isn't different. It is totally broken for both. It is potentially
+> > > > > more broken for virtual engines because of the question of which
+> > > > > engine to pulse. But as stated above, the pulse is pointless anyway
+> > > > > so the which engine question doesn't even matter.
+> > > > > 
+> > > > > John.
+> > > > > 
+> > > > > 
+> > > > > > > scheduler does not have hacks in it to check the state of the
+> > > > > > > heartbeat or whether a context is actually a zombie or not. Thus,
+> > > > > > > the context will get resubmitted to the hardware after the pulse
+> > > > > > > completes and effectively nothing will have happened.
+> > > > > > > 
+> > > > > > > I would assume that the DRM scheduler which we are meant to be
+> > > > > > > switching to for execlist as well as GuC submission is also
+> > > > > > > unlikely to have hacks for zombie contexts and tests for whether
+> > > > > > > the i915 specific heartbeat has been disabled since the context
+> > > > > > > became a zombie. So when that switch happens, this test will also
+> > > > > > > fail in execlist mode as well as GuC mode.
+> > > > > > > 
+> > > > > > > The choices I see here are to simply remove persistence completely
+> > > > > > > (it is a basically a bug that became UAPI because it wasn't caught
+> > > > > > > soon enough!) or to implement it in a way that does not require
+> > > > > > > hacks in the back end scheduler. Apparently, the DRM scheduler is
+> > > > > > > expected to allow zombie contexts to persist until the DRM file
+> > > > > > > handle is closed. So presumably we will have to go with option two.
+> > > > > > > 
+> > > > > > > That means flagging a context as being a zombie when it is closed
+> > > > > > > but still active. The driver would then add it to a zombie list
+> > > > > > > owned by the DRM client object. When that client object is closed,
+> > > > > > > i915 would go through the list and genuinely kill all the contexts.
+> > > > > > > No back end scheduler hacks required and no intimate knowledge of
+> > > > > > > the i915 heartbeat mechanism required either.
+> > > > > > > 
+> > > > > > > John.
+> > > > > > > 
+> > > > > > > 
+> > > > > > > > This patch also updates intel_engine_has_heartbeat to be a vfunc
+> > > > > > > > as we
+> > > > > > > > now need to call this function on execlists virtual engines too.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > > > > ---
+> > > > > > > >    drivers/gpu/drm/i915/gem/i915_gem_context.c   |  5 +++--
+> > > > > > > >    drivers/gpu/drm/i915/gt/intel_context_types.h |  2 ++
+> > > > > > > >    drivers/gpu/drm/i915/gt/intel_engine.h        | 21
+> > > > > > > > ++-----------------
+> > > > > > > >    .../drm/i915/gt/intel_execlists_submission.c  | 14 +++++++++++++
+> > > > > > > >    .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +++++-
+> > > > > > > >    .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 --
+> > > > > > > >    6 files changed, 26 insertions(+), 24 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > > > > > > b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > > > > > > index 9c3672bac0e2..b8e01c5ba9e5 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > > > > > > @@ -1090,8 +1090,9 @@ static void kill_engines(struct
+> > > > > > > > i915_gem_engines *engines, bool ban)
+> > > > > > > >         */
+> > > > > > > >        for_each_gem_engine(ce, engines, it) {
+> > > > > > > >            struct intel_engine_cs *engine;
+> > > > > > > > +        bool local_ban = ban ||
+> > > > > > > > !intel_engine_has_heartbeat(ce->engine);
+> > > > > > In any case (pending me understanding what's really going on there),
+> > > > > > why would this check not be in kill_context with currently does this:
+> > > > > > 
+> > > > > >      bool ban = (!i915_gem_context_is_persistent(ctx) ||
+> > > > > >              !ctx->i915->params.enable_hangcheck);
+> > > > > > ...
+> > > > > >          kill_engines(pos, ban);
+> > > > > > 
+> > > > > > So whether to ban decision would be consolidated to one place.
+> > > > > > 
+> > > > > > In fact, decision on whether to allow persistent is tied to
+> > > > > > enable_hangcheck, which also drives hearbeat emission. So perhaps
+> > > > > > one part of the correct fix is to extend the above (kill_context)
+> > > > > > ban criteria to include hearbeat values anyway. Otherwise isn't it a
+> > > > > > simple miss that this check fails to account to hearbeat disablement
+> > > > > > via sysfs?
+> > > > > > 
+> > > > > > Regards,
+> > > > > > 
+> > > > > > Tvrtko
+> > > > > > 
+> > > > > > > > -        if (ban && intel_context_ban(ce, NULL))
+> > > > > > > > +        if (local_ban && intel_context_ban(ce, NULL))
+> > > > > > > >                continue;
+> > > > > > > >            /*
+> > > > > > > > @@ -1104,7 +1105,7 @@ static void kill_engines(struct
+> > > > > > > > i915_gem_engines *engines, bool ban)
+> > > > > > > >            engine = active_engine(ce);
+> > > > > > > >            /* First attempt to gracefully cancel the context */
+> > > > > > > > -        if (engine && !__cancel_engine(engine) && ban)
+> > > > > > > > +        if (engine && !__cancel_engine(engine) && local_ban)
+> > > > > > > >                /*
+> > > > > > > >                 * If we are unable to send a preemptive pulse to bump
+> > > > > > > >                 * the context from the GPU, we have to resort to a
+> > > > > > > > full
+> > > > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > > > > > > b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > > > > > > index e54351a170e2..65f2eb2a78e4 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > > > > > > @@ -55,6 +55,8 @@ struct intel_context_ops {
+> > > > > > > >        void (*reset)(struct intel_context *ce);
+> > > > > > > >        void (*destroy)(struct kref *kref);
+> > > > > > > > +    bool (*has_heartbeat)(const struct intel_engine_cs *engine);
+> > > > > > > > +
+> > > > > > > >        /* virtual engine/context interface */
+> > > > > > > >        struct intel_context *(*create_virtual)(struct
+> > > > > > > > intel_engine_cs **engine,
+> > > > > > > >                            unsigned int count);
+> > > > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > > > > > > b/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > > > > > > index c2a5640ae055..1b11a808acc4 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> > > > > > > > @@ -283,28 +283,11 @@ struct intel_context *
+> > > > > > > >    intel_engine_create_virtual(struct intel_engine_cs **siblings,
+> > > > > > > >                    unsigned int count);
+> > > > > > > > -static inline bool
+> > > > > > > > -intel_virtual_engine_has_heartbeat(const struct intel_engine_cs
+> > > > > > > > *engine)
+> > > > > > > > -{
+> > > > > > > > -    /*
+> > > > > > > > -     * For non-GuC submission we expect the back-end to look at the
+> > > > > > > > -     * heartbeat status of the actual physical engine that the work
+> > > > > > > > -     * has been (or is being) scheduled on, so we should only reach
+> > > > > > > > -     * here with GuC submission enabled.
+> > > > > > > > -     */
+> > > > > > > > -    GEM_BUG_ON(!intel_engine_uses_guc(engine));
+> > > > > > > > -
+> > > > > > > > -    return intel_guc_virtual_engine_has_heartbeat(engine);
+> > > > > > > > -}
+> > > > > > > > -
+> > > > > > > >    static inline bool
+> > > > > > > >    intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
+> > > > > > > >    {
+> > > > > > > > -    if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
+> > > > > > > > -        return false;
+> > > > > > > > -
+> > > > > > > > -    if (intel_engine_is_virtual(engine))
+> > > > > > > > -        return intel_virtual_engine_has_heartbeat(engine);
+> > > > > > > > +    if (engine->cops->has_heartbeat)
+> > > > > > > > +        return engine->cops->has_heartbeat(engine);
+> > > > > > > >        else
+> > > > > > > >            return READ_ONCE(engine->props.heartbeat_interval_ms);
+> > > > > > > >    }
+> > > > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > > > > b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > > > > index de5f9c86b9a4..18005b5546b6 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > > > > @@ -3619,6 +3619,18 @@ virtual_get_sibling(struct intel_engine_cs
+> > > > > > > > *engine, unsigned int sibling)
+> > > > > > > >        return ve->siblings[sibling];
+> > > > > > > >    }
+> > > > > > > > +static bool virtual_engine_has_heartbeat(const struct
+> > > > > > > > intel_engine_cs *ve)
+> > > > > > > > +{
+> > > > > > > > +    struct intel_engine_cs *engine;
+> > > > > > > > +    intel_engine_mask_t tmp, mask = ve->mask;
+> > > > > > > > +
+> > > > > > > > +    for_each_engine_masked(engine, ve->gt, mask, tmp)
+> > > > > > > > +        if (READ_ONCE(engine->props.heartbeat_interval_ms))
+> > > > > > > > +            return true;
+> > > > > > > > +
+> > > > > > > > +    return false;
+> > > > > > > > +}
+> > > > > > > > +
+> > > > > > > >    static const struct intel_context_ops virtual_context_ops = {
+> > > > > > > >        .flags = COPS_HAS_INFLIGHT,
+> > > > > > > > @@ -3634,6 +3646,8 @@ static const struct intel_context_ops
+> > > > > > > > virtual_context_ops = {
+> > > > > > > >        .enter = virtual_context_enter,
+> > > > > > > >        .exit = virtual_context_exit,
+> > > > > > > > +    .has_heartbeat = virtual_engine_has_heartbeat,
+> > > > > > > > +
+> > > > > > > >        .destroy = virtual_context_destroy,
+> > > > > > > >        .get_sibling = virtual_get_sibling,
+> > > > > > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > > > > > b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > > > > > index 89ff0e4b4bc7..ae70bff3605f 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > > > > > @@ -2168,6 +2168,8 @@ static int guc_virtual_context_alloc(struct
+> > > > > > > > intel_context *ce)
+> > > > > > > >        return lrc_alloc(ce, engine);
+> > > > > > > >    }
+> > > > > > > > +static bool guc_virtual_engine_has_heartbeat(const struct
+> > > > > > > > intel_engine_cs *ve);
+> > > > > > > > +
+> > > > > > > >    static const struct intel_context_ops virtual_guc_context_ops = {
+> > > > > > > >        .alloc = guc_virtual_context_alloc,
+> > > > > > > > @@ -2183,6 +2185,8 @@ static const struct intel_context_ops
+> > > > > > > > virtual_guc_context_ops = {
+> > > > > > > >        .enter = guc_virtual_context_enter,
+> > > > > > > >        .exit = guc_virtual_context_exit,
+> > > > > > > > +    .has_heartbeat = guc_virtual_engine_has_heartbeat,
+> > > > > > > > +
+> > > > > > > >        .sched_disable = guc_context_sched_disable,
+> > > > > > > >        .destroy = guc_context_destroy,
+> > > > > > > > @@ -3029,7 +3033,7 @@ guc_create_virtual(struct intel_engine_cs
+> > > > > > > > **siblings, unsigned int count)
+> > > > > > > >        return ERR_PTR(err);
+> > > > > > > >    }
+> > > > > > > > -bool intel_guc_virtual_engine_has_heartbeat(const struct
+> > > > > > > > intel_engine_cs *ve)
+> > > > > > > > +static bool guc_virtual_engine_has_heartbeat(const struct
+> > > > > > > > intel_engine_cs *ve)
+> > > > > > > >    {
+> > > > > > > >        struct intel_engine_cs *engine;
+> > > > > > > >        intel_engine_mask_t tmp, mask = ve->mask;
+> > > > > > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> > > > > > > > b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> > > > > > > > index c7ef44fa0c36..c2afc3b88fd8 100644
+> > > > > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> > > > > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> > > > > > > > @@ -29,8 +29,6 @@ void intel_guc_dump_active_requests(struct
+> > > > > > > > intel_engine_cs *engine,
+> > > > > > > >                        struct i915_request *hung_rq,
+> > > > > > > >                        struct drm_printer *m);
+> > > > > > > > -bool intel_guc_virtual_engine_has_heartbeat(const struct
+> > > > > > > > intel_engine_cs *ve);
+> > > > > > > > -
+> > > > > > > >    int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+> > > > > > > >                       atomic_t *wait_var,
+> > > > > > > >                       bool interruptible,
+> > > > > > > _______________________________________________
+> > > > > > > Intel-gfx mailing list
+> > > > > > > Intel-gfx@lists.freedesktop.org
+> > > > > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 > > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
 > 
-> -- 
-> Matt Roper
-> Graphics Software Engineer
-> VTT-OSGC Platform Enablement
-> Intel Corporation
-> (916) 356-2795
 
 -- 
 Daniel Vetter
