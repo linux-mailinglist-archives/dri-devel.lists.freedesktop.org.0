@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32DDE3E8312
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 20:35:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B05873E8313
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 20:36:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DDD889FEA;
-	Tue, 10 Aug 2021 18:35:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1233D89ACD;
+	Tue, 10 Aug 2021 18:36:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6455F89FEA
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 18:35:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3614B60E97
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 18:35:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA4E89ACD
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 18:36:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id D638A60E78
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 18:36:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628620543;
- bh=7/2GzcqMlE5jIyjsWLOBfjJFj5TSv4WZ+KARFwyt+uo=;
+ s=k20201202; t=1628620585;
+ bh=98orzASxgL3MPrpdzMgR698T2m/yRV9rvTjivZTEuv8=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Ft9x0P4dK2rlkIIqKgVKnmA4aDwhzsr+cnRboCa3jAD9VDFRcSAmcLvXFW2xh3sXK
- TfSkwAcP6IVFVujpCosiNZiZJmD6XZO0o1+j4lnL/uxFHLwUq1p/gTqVrE5YmT/UAn
- ahVA+r6Et+9GdITTrb/mT4yHOtPaU1TZ25DbtfKa5uJR7UerjragsuxTvnPhEc20XX
- KM0+BYEnL5MyE2YfHB/IRikZbJ+XpEl3krhu21FZmj8BWr+wTNp2i2JATHNFBo5F3V
- q5BABm450htDMAj9ZtSQZK9xZAnb066Nq1J/oePcBGaAzsCKxCDu/jncTqVYta7mQc
- LXC6K251MHUug==
+ b=ETMPULYPSlj2OFX8jGr6wzcGApxRNOxqEQSQ7Dokknfql01uBN7IsqOqXhZnsbiGD
+ DEVCh/uXC9CCJDC4oOVuanDCq1g2d0zyudqUWdUREpOLSuHucPOhr4H55TmJ3BKbi+
+ RM7M1SBfRTQA4OyVOZPGlUmibx8ZOOFJ9T0sqOEz+HoI51whhToZqfeGuvn3hQCMzo
+ f19gBqREnDIHViKDjEQzwUoenLN8aQQBCiXZbfOVLUW2s3hE2WhbCeiee5Ki67nU+8
+ fVtAY5PeoS9bxFVjAAdGJblgucsUB9fIGc5qExhq/nQbR0WPTXotEWwluYdXzyTq+s
+ F88T/wB02qleA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 2F87C60E9A; Tue, 10 Aug 2021 18:35:43 +0000 (UTC)
+ id D35B260E9A; Tue, 10 Aug 2021 18:36:25 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 214029] [NAVI] Several memory leaks in amdgpu and ttm
-Date: Tue, 10 Aug 2021 18:35:42 +0000
+Date: Tue, 10 Aug 2021 18:36:25 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,7 +45,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-214029-2300-Ncv3uy9SnQ@https.bugzilla.kernel.org/>
+Message-ID: <bug-214029-2300-PlT1sZ7Dvo@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-214029-2300@https.bugzilla.kernel.org/>
 References: <bug-214029-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,10 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D214029
 
---- Comment #1 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 298267
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298267&action=3Dedit
-output of kmemleak (kernel 5.14-rc5, AMD FX-8370)
+--- Comment #2 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 298269
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298269&action=3Dedit
+kernel .config (kernel 5.14-rc5, AMD FX-8370)
 
 --=20
 You may reply to this email to add a comment.
