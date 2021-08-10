@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05873E8313
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 20:36:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8A13E8323
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 20:45:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1233D89ACD;
-	Tue, 10 Aug 2021 18:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A3889FD1;
+	Tue, 10 Aug 2021 18:45:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA4E89ACD
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 18:36:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id D638A60E78
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 18:36:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628620585;
- bh=98orzASxgL3MPrpdzMgR698T2m/yRV9rvTjivZTEuv8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ETMPULYPSlj2OFX8jGr6wzcGApxRNOxqEQSQ7Dokknfql01uBN7IsqOqXhZnsbiGD
- DEVCh/uXC9CCJDC4oOVuanDCq1g2d0zyudqUWdUREpOLSuHucPOhr4H55TmJ3BKbi+
- RM7M1SBfRTQA4OyVOZPGlUmibx8ZOOFJ9T0sqOEz+HoI51whhToZqfeGuvn3hQCMzo
- f19gBqREnDIHViKDjEQzwUoenLN8aQQBCiXZbfOVLUW2s3hE2WhbCeiee5Ki67nU+8
- fVtAY5PeoS9bxFVjAAdGJblgucsUB9fIGc5qExhq/nQbR0WPTXotEWwluYdXzyTq+s
- F88T/wB02qleA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id D35B260E9A; Tue, 10 Aug 2021 18:36:25 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214029] [NAVI] Several memory leaks in amdgpu and ttm
-Date: Tue, 10 Aug 2021 18:36:25 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-214029-2300-PlT1sZ7Dvo@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214029-2300@https.bugzilla.kernel.org/>
-References: <bug-214029-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7690689FD1;
+ Tue, 10 Aug 2021 18:45:09 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="276002924"
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="276002924"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2021 11:45:08 -0700
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; d="scan'208";a="515946770"
+Received: from pdmuelle-desk2.amr.corp.intel.com (HELO
+ skuppusw-mobl5.amr.corp.intel.com) ([10.213.166.202])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2021 11:45:06 -0700
+Subject: Re: [PATCH 07/11] treewide: Replace the use of mem_encrypt_active()
+ with prot_guest_has()
+To: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+Cc: Borislav Petkov <bp@alien8.de>, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Will Deacon <will@kernel.org>, Dave Young <dyoung@redhat.com>,
+ Baoquan He <bhe@redhat.com>
+References: <cover.1627424773.git.thomas.lendacky@amd.com>
+ <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
+From: "Kuppuswamy, Sathyanarayanan"
+ <sathyanarayanan.kuppuswamy@linux.intel.com>
+Message-ID: <166f30d8-9abb-02de-70d8-6e97f44f85df@linux.intel.com>
+Date: Tue, 10 Aug 2021 11:45:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,15 +69,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214029
 
---- Comment #2 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 298269
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298269&action=3Dedit
-kernel .config (kernel 5.14-rc5, AMD FX-8370)
 
---=20
-You may reply to this email to add a comment.
+On 7/27/21 3:26 PM, Tom Lendacky wrote:
+> diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
+> index de01903c3735..cafed6456d45 100644
+> --- a/arch/x86/kernel/head64.c
+> +++ b/arch/x86/kernel/head64.c
+> @@ -19,7 +19,7 @@
+>   #include <linux/start_kernel.h>
+>   #include <linux/io.h>
+>   #include <linux/memblock.h>
+> -#include <linux/mem_encrypt.h>
+> +#include <linux/protected_guest.h>
+>   #include <linux/pgtable.h>
+>   
+>   #include <asm/processor.h>
+> @@ -285,7 +285,7 @@ unsigned long __head __startup_64(unsigned long physaddr,
+>   	 * there is no need to zero it after changing the memory encryption
+>   	 * attribute.
+>   	 */
+> -	if (mem_encrypt_active()) {
+> +	if (prot_guest_has(PATTR_MEM_ENCRYPT)) {
+>   		vaddr = (unsigned long)__start_bss_decrypted;
+>   		vaddr_end = (unsigned long)__end_bss_decrypted;
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+Since this change is specific to AMD, can you replace PATTR_MEM_ENCRYPT with
+prot_guest_has(PATTR_SME) || prot_guest_has(PATTR_SEV). It is not used in
+TDX.
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
