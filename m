@@ -1,108 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A4C3E56E6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:32:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CF03E571B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:35:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC4C89E3B;
-	Tue, 10 Aug 2021 09:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F19989A0E;
+	Tue, 10 Aug 2021 09:35:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D377389E3B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:31:59 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- d131-20020a1c1d890000b02902516717f562so2050769wmd.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 02:31:59 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E197889A0E
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:35:47 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ k5-20020a05600c1c85b02902e699a4d20cso2056187wms.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 02:35:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=Fq/OAyt9tR1z4LnLP6//tUkpUqlQ4V8PVc64GMxq34c=;
- b=FoY37oazvgJBwObkVJeS7apdeD0ExW53Tna+FSuiQK4P0tA0pxBfIFVNeXp/mYxLy1
- JTOmNxXkeraPJw/epdbG44H8BgWTvRiZrYrx+12/bsBmYc06OmTN7THcP+8+9wWk2u89
- i5eBj+6DBxjZY9v96ExCbIcUCRB5iFyjyJK84=
+ :in-reply-to; bh=SnObdE2PiNGsfRPS46ERfps2QDWQ5wa/Co24Nmz1JjU=;
+ b=cp/oeAnU7T0jp0ojUWOu943VdAyYxVRio84CZBhy//vwBoDNwzoSMaYu9qpvOzPrRN
+ W768lgBCaFweAhqZFtdUxwD2igKIKKOTiqmJNS4HOIu4zx1QixY1mtSBuIuEiEIc47Vp
+ gMIUJVsmbIWOwYhvFtUy79MDszZQbwHQYkABY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :content-transfer-encoding:in-reply-to;
- bh=Fq/OAyt9tR1z4LnLP6//tUkpUqlQ4V8PVc64GMxq34c=;
- b=ulcv1BcD+9ABIO8x/XrmoekQa5bDqufJPek7yWIthpsxKV3zvnTkvctSQptqq2NQYX
- cRZIKuKHdQkofTaTRgp7u6lKzWO8eKmkBdVvYdpLH9NEc2HBYzUCQluFULMyDlAkvLhM
- KpKS0WdFwjUoTjc/hvBaT3pCKZd+mma0YB0J+7Zhp+tdnp8U3xywkwLsWCMA1ntk6KI3
- f7viTaYqZdy21cZ9ra5qcUrHbaAqvIT4MhFMleESKaxLf5mTG8rFxOeA1V06p0UUFm7o
- gfMRY0TRhOi8ETZ9DC6e4PIMouLvdcbh2l3jSziHiy8CDuE1P4xIj8MLum0W2/OfEdPW
- cGoA==
-X-Gm-Message-State: AOAM530Q5tYE5iSI8SYSh6vIZJ4ftmKa2/PR1g1Y/wMwZXFjs1WPM/mD
- EzIIzaPJO9zuX8y0z3F33Ezw+Q==
-X-Google-Smtp-Source: ABdhPJzvZkH5pcJd6qwMb5LXZEjwx9xzqNaGqoFLYYda0Vgzpy45V7iyyowtXSubND6b/zl1tYBDlQ==
-X-Received: by 2002:a05:600c:2215:: with SMTP id
- z21mr14300862wml.141.1628587918406; 
- Tue, 10 Aug 2021 02:31:58 -0700 (PDT)
+ bh=SnObdE2PiNGsfRPS46ERfps2QDWQ5wa/Co24Nmz1JjU=;
+ b=TF2VVG0DW9OCjjzvhrRIAsmClG9uJv7FelbwXLSd1Fbe3PgyKOQw6Dq2+n+wbFFao5
+ 9oHwOrlpAWcrFERURk7QAR9uqyTpmxqCDxKdFGbwAYbx5Qivoic2JaktsNg8B4RlrsmV
+ iYgsw1/GL+vDPugJ18vLLPCzQX91ypIcTaPkZfMbtzWoQRR4Fk6t4oyUzvr+Wet5B2HX
+ OIsxGYfqNdk5b4J7DrGTbTD0PtWBBuLLzFZyPZBFg5FpC70woG5Wb+DhNWlxS5VwMkv5
+ VT0JlDvKhbI5f8jcOG9iH5neFil6//fREs3CZ0wNXbVqbrC+A8W3g7x7Iy0OUdQutLXQ
+ oIUA==
+X-Gm-Message-State: AOAM5321/CwiHPREYRQTkGi7bofyQOfPK4aHK3OSuB2NId4JNRoZ6VLp
+ yx0/jQ1a9HQ61XroFw7VTMz51Q==
+X-Google-Smtp-Source: ABdhPJyvRhUq0NEH1QoEWA28YXT5OY37p60cM+3r20SU+7tVWsNXreGNSoTdzpkn9DfRdlOiMDeq/w==
+X-Received: by 2002:a1c:95:: with SMTP id 143mr21623788wma.29.1628588146347;
+ Tue, 10 Aug 2021 02:35:46 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s13sm2186328wmc.47.2021.08.10.02.31.57
+ by smtp.gmail.com with ESMTPSA id t8sm23805252wmj.5.2021.08.10.02.35.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 02:31:57 -0700 (PDT)
-Date: Tue, 10 Aug 2021 11:31:55 +0200
+ Tue, 10 Aug 2021 02:35:45 -0700 (PDT)
+Date: Tue, 10 Aug 2021 11:35:43 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Paul Cercueil <paul@crapouillou.net>
-Cc: "H. Nikolaus Schaller" <hns@goldelico.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, devicetree@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
- letux-kernel@openphoenux.org, Paul Boddie <paul@boddie.org.uk>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 8/8] [RFC] drm/ingenic: convert to component framework
- for jz4780 hdmi
-Message-ID: <YRJHiydE2+6P81hg@phenom.ffwll.local>
+ Sam Ravnborg <sam@ravnborg.org>, list@opendingux.net,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] gpu/drm: ingenic: Add workaround for disabled drivers
+Message-ID: <YRJIb8ofHe8r5g1z@phenom.ffwll.local>
 Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- David Airlie <airlied@linux.ie>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, devicetree@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
- letux-kernel@openphoenux.org, Paul Boddie <paul@boddie.org.uk>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
-References: <cover.1628172477.git.hns@goldelico.com>
- <77554dd2612f418f6ab74a8be06c82b71410e0e6.1628172477.git.hns@goldelico.com>
- <YQv+DC5yTEGlJYuD@pendragon.ideasonboard.com>
- <BDF501D1-BA1D-4866-8EAF-3862F6CEC6F4@goldelico.com>
- <8XJDXQ.X70C5WOD0QB7@crapouillou.net>
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ list@opendingux.net, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20210805192110.90302-1-paul@crapouillou.net>
+ <20210805192110.90302-3-paul@crapouillou.net>
+ <YQw9hjZll4QmYVLX@kroah.com> <3HUDXQ.7RBGD4FUHR2F@crapouillou.net>
+ <YQ0MU/GcLkPLiy5C@kroah.com> <LYZEXQ.9UWPIAZCVXIK@crapouillou.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8XJDXQ.X70C5WOD0QB7@crapouillou.net>
+In-Reply-To: <LYZEXQ.9UWPIAZCVXIK@crapouillou.net>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -119,56 +87,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 05, 2021 at 06:17:32PM +0200, Paul Cercueil wrote:
-> Hi Nikolaus and Laurent,
+On Fri, Aug 06, 2021 at 01:01:33PM +0200, Paul Cercueil wrote:
+> Hi Greg,
 > 
-> Le jeu., août 5 2021 at 18:07:20 +0200, H. Nikolaus Schaller
-> <hns@goldelico.com> a écrit :
-> > Hi Laurent,
-> > 
-> > >  Am 05.08.2021 um 17:04 schrieb Laurent Pinchart
-> > > <laurent.pinchart@ideasonboard.com>:
+> Le ven., août 6 2021 at 12:17:55 +0200, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> a écrit :
+> > On Thu, Aug 05, 2021 at 10:05:27PM +0200, Paul Cercueil wrote:
+> > >  Hi Greg,
 > > > 
-> > >  Hi Nikolaus,
+> > >  Le jeu., août 5 2021 at 21:35:34 +0200, Greg Kroah-Hartman
+> > >  <gregkh@linuxfoundation.org> a écrit :
+> > >  > On Thu, Aug 05, 2021 at 09:21:09PM +0200, Paul Cercueil wrote:
+> > >  > >  When the drivers of remote devices (e.g. HDMI chip) are
+> > > disabled in
+> > >  > > the
+> > >  > >  config, we want the ingenic-drm driver to be able to probe
+> > >  > > nonetheless
+> > >  > >  with the other devices (e.g. internal LCD panel) that are
+> > > enabled.
+> > >  > >
+> > >  > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > >  > >  ---
+> > >  > >   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 12 ++++++++++++
+> > >  > >   1 file changed, 12 insertions(+)
+> > >  > >
+> > >  > >  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> > >  > > b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> > >  > >  index d261f7a03b18..5e1fdbb0ba6b 100644
+> > >  > >  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> > >  > >  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> > >  > >  @@ -1058,6 +1058,18 @@ static int ingenic_drm_bind(struct
+> > > device
+> > >  > > *dev, bool has_components)
+> > >  > >   	for (i = 0; ; i++) {
+> > >  > >   		ret = drm_of_find_panel_or_bridge(dev->of_node, 0, i,
+> > > &panel,
+> > >  > > &bridge);
+> > >  > >   		if (ret) {
+> > >  > >  +			/*
+> > >  > >  +			 * Workaround for the case where the drivers for the
+> > >  > >  +			 * remote devices are not enabled. When that happens,
+> > >  > >  +			 * drm_of_find_panel_or_bridge() returns -EPROBE_DEFER
+> > >  > >  +			 * endlessly, which prevents the ingenic-drm driver from
+> > >  > >  +			 * working at all.
+> > >  > >  +			 */
+> > >  > >  +			if (ret == -EPROBE_DEFER) {
+> > >  > >  +				ret = driver_deferred_probe_check_state(dev);
+> > >  > >  +				if (ret == -ENODEV || ret == -ETIMEDOUT)
+> > >  > >  +					continue;
+> > >  > >  +			}
+> > >  >
+> > >  > So you are mucking around with devices on other busses within this
+> > >  > driver?  What could go wrong?  :(
 > > > 
-> > >  Thank you for the patch.
-> > > 
-> > >  On Thu, Aug 05, 2021 at 04:07:57PM +0200, H. Nikolaus Schaller
-> > > wrote:
-> > > >  This patch attempts to convert the ingenic-dw-hdmi driver
-> > > >  into a version that uses the component framework.
-> > > 
-> > >  Why ? What problem would this solve ?
+> > >  I'm doing the same thing as everybody else. This is the DRM driver,
+> > > and
+> > >  there is a driver for the external HDMI chip which gives us a DRM
+> > > bridge
+> > >  that we can obtain from the device tree.
 > > 
-> > Well, it was suggested in a v1 we did post several months ago. I have
-> > not
-> > looked up by whom and do not exactly remember the reasons.
-> > 
-> > We now simply thought that it is common style since dome dw-hdmi drivers
-> > make use of it but some others don't. And we got it working without.
-> > 
-> > If it is not needed/requested by anyone, we can drop it from v3 (or add
-> > later).
+> > But then why do you need to call this function that is there for a bus,
+> > not for a driver.
 > 
-> I don't remember exactly TBH - the only reason to use a component is to have
-> access to the main driver's "drm_device" structure. The IPU needs it for
-> instance, to register planes; but I don't think this HDMI driver needs it as
-> it registers a bridge.
+> The documentation disagrees with you :)
+> 
+> And, if that has any weight, this solution was proposed by Rob.
+> 
+> > >  > Please use the existing driver core functionality for this type of
+> > >  > thing, it is not unique, no need for this function to be called.
+> > > 
+> > >  I'm not sure you understand what I'm doing here. This driver calls
+> > >  drm_of_find_panel_or_bridge(), without guarantee that the driver
+> > > for the
+> > >  remote device (connected via DT graph) has been enabled in the
+> > > kernel
+> > >  config. In that case it will always return -EPROBE_DEFER and the
+> > > ingenic-drm
+> > >  driver will never probe.
+> > > 
+> > >  This patch makes sure that the driver can probe if the HDMI driver
+> > > has been
+> > >  disabled in the kernel config, nothing more.
+> > 
+> > That should not be an issue as you do not care if the config is enabled,
+> > you just want to do something in the future if the driver shows up,
+> > right?
+> 
+> Well, the DRM subsystem doesn't really seem to handle hotplug of hardware.
+> Right now all the drivers for the connected hardware need to probe before
+> the main DRM driver. So I need to know that a remote device (connected via
+> DT graph) will never probe.
+> 
+> Give me a of_graph_remote_device_driver_will_never_probe() and I'll use
+> that.
+> 
+> > Much like the device link code, have you looked at that?
+> 
+> I don't see how that would help in any way. The device link code would allow
+> me to set a dependency between the remote hardware (HDMI chip, provider) and
+> the LCD controller (consumer), but I already have that dependency though the
+> DT graph. What I need is a way for the consumer to continue probing if the
+> provider is not going to probe.
 
-Imo for bridges/panels we really should move _away_ from component, not
-towards it. If there's a gap in the bridge/panel api (I think there's some
-patches floating around exactly to make this more a multi-step process for
-reasons like the above) then we need to fix that.
+Is this actually a legit use-case?
 
-Unfortunately the dw-hdmi and also dw-dsi drivers are very much built on
-top of component.c and side-step the bridge stuff quite a lot. That
-results in quite bad integration pains all around as we add more users of
-these.
+Like you have hw with a bunch of sub-devices linked, and you decided to
+disable some of them, which makes the driver not load.
 
-The other unfortunate thing is that there's not many people working in
-this area, so fundamental improvements to the core design take a long time
-to make and then even longer to roll out. It's a bit a tough spot, but
-also, help very much welcome :-)
+Why should we care? Is that hdmi driver really that big that we have to
+support this use-case?
+
+I know it's possible to do this, that doesn't mean it's a good idea.
+There's inifinitely more randconfigs that don't boot on my machine here
+for various reasons than the ones that do boot. We don't have "fixes" for
+all of these to make things still work, despite user misconfiguring their
+kernel.
 -Daniel
 -- 
 Daniel Vetter
