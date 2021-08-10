@@ -1,62 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E693E7BAF
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 17:06:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5F73E5E5D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 16:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5287889D5C;
-	Tue, 10 Aug 2021 15:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDAEF897E4;
+	Tue, 10 Aug 2021 14:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48A8789D5C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 15:06:00 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id n11so13289498wmd.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 08:06:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EiaRP5nKVN3eYhGn+fGCZKXIcj8hysSd3L7v5vRl4NM=;
- b=McV0nm7rlkmws34VEbAkYmdc0ljQChSYCGXBf5xP7DgaveFc8WblDfZeWY3JrY0r4I
- fpQ4lCXB5J/JwxiXKrsY2b0sWZAM7/Vo5PkHGO9kJ1f9tl1BvSvy8chNYfI9x/SXlWQn
- DF0tmcMjtqr48q3QOtvhgQgYc+sIjHMWXbB80=
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52F1F897C3;
+ Tue, 10 Aug 2021 14:49:00 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ y23-20020a4a62570000b029028727ffa408so3412751oog.5; 
+ Tue, 10 Aug 2021 07:49:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lsM74LGQdwKcOOf8FqPV9S8g1kidgq4fXYEQaQYkzBw=;
+ b=gfH5nspkpPkuAmf0v8/++cM8edO2l0gEiNXFyf9Rme9pQjN2NGyTD3TRALfidXdofb
+ xirSOeOw3Fhha/DgUX2GHODdBHhJaOz0tPdPDEdcskYvTvbK0m/NJbaiOMztzHtO0BfK
+ 6tlgFHt8FYHamLCAX+DUaw2rSnUqY0RaYQBWlbEWqwK8OVeLOZqZPUW/OrZBMPRh1+47
+ LVaT/B03EYhlrYFKxwxH6ETGWGFY9CVNjmYV+oe56fRWwLF+lEwxVHiF0X+cvNG67USp
+ IYKFBZisJjs0NKedNYjplvHaeJa31e2tlw9A9Y9zuct7hKetUUTKwkUhBPuFNuF5PYwh
+ N4xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EiaRP5nKVN3eYhGn+fGCZKXIcj8hysSd3L7v5vRl4NM=;
- b=DgcG5IIZP2ogGOweT03mvg8tKEN3v8WoMt/40HD8KsJzTAgmW7rMz+ZNbyQtNvrYZo
- llHSkMZfZHb1e/oZGlsVDXRnxoDSZuGSvjt98VTPuUKBLdwl6HigDfKAylMIMT7+FZC8
- PYCYQDXnkXrVJHos7W3WM6VpSNTZ+pjvX4lUoGkroVbZkPE1QxSbCCC1STYYQWztDP7A
- 0mv5UEPuCTpLrwVLSBLALv2LbPJXRAhOfi/gzI41/69PRXIu8+j+rxJGd/i8LtWTCQ8a
- 0HrqTemQdyxnJbfKs7n4kqbEI/TFT2+r0J9QCheAV91E+7xvCMOCATMjWOfyDIBBIXXb
- +Tkg==
-X-Gm-Message-State: AOAM530fY31uhs5JapFb2xrp1GiFuZjIKFxGFvFZwYFg9RAuwS/fV4L5
- 4KW98XBCxMxd8VgBZPtWHEVgHOZiNQr50g==
-X-Google-Smtp-Source: ABdhPJyTwGjPbtuXRguvfdwvzwz/D+PmlGeoH29UHfxaa2otQRo2eZzPfOE2pZmaRRLT76TZIntxzA==
-X-Received: by 2002:a1c:20c5:: with SMTP id g188mr3574666wmg.142.1628607958627; 
- Tue, 10 Aug 2021 08:05:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y13sm4590403wmj.27.2021.08.10.08.05.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 08:05:58 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Matthew Auld <matthew.auld@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH] drm/doc/rfc: drop lmem uapi section
-Date: Tue, 10 Aug 2021 16:27:48 +0200
-Message-Id: <20210810142748.1983271-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210810123408.1870870-1-daniel.vetter@ffwll.ch>
-References: <20210810123408.1870870-1-daniel.vetter@ffwll.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lsM74LGQdwKcOOf8FqPV9S8g1kidgq4fXYEQaQYkzBw=;
+ b=Z1yvnWp9eYtpRUdWmODF1Fq0pJrsycOKwaef5/PRM9hJ0U09A0d5XIBWs3KeHyjCaY
+ nMDw8NiOC5+Vw9N5gLgVmmCtaDfCAR05jBu1IRvRSF1ZSgl8SNAT2QBvTQRut8yGu3L5
+ eCifY5NIcucQJIYN9myg4gsYCnfxvZNp85Kx0vgi822BGeGUvhDdZSylel+Xv81ZTAoD
+ Gsw6Mqtsl0ZaAiEbD3EUcN3Bp1GerI4r2IpAjQmsbl3kNCAospeOKMiKwOAdGu/cpKem
+ ZK2xr8n0km649mk0J8qNqfhQRMWnzQ4DsWcGD+CUh6QQPPyL9YloVb3tthD9qpaMmIqn
+ TriA==
+X-Gm-Message-State: AOAM532KLSX+BOpvGmVda7bc7ws/ldeLsSIp8jdEx52DNKQUVT5/x1RS
+ NURboD5cgMNZ7L3u40Bwms5Vi61TyyteizRZnfM=
+X-Google-Smtp-Source: ABdhPJzIAm+EOG6KiSLzJgnJqp+2NTOLJ4ifPln6rlixx8lUqfef4a5XWVDuiaB+Q2wFtfzSTt5pMnrHTfTA4D7uBiQ=
+X-Received: by 2002:a4a:c989:: with SMTP id u9mr7092050ooq.61.1628606939631;
+ Tue, 10 Aug 2021 07:48:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210802133551.1904964-1-imre.deak@intel.com>
+ <20210809133146.2478382-1-imre.deak@intel.com>
+ <20210810083629.GA2517380@ideak-desk.fi.intel.com>
+In-Reply-To: <20210810083629.GA2517380@ideak-desk.fi.intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 10 Aug 2021 10:48:48 -0400
+Message-ID: <CADnq5_Pjz2gP2465S1aEzKMZXiSB2WqEPUdkpqh58XzJcKLu+g@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v2] fbdev/efifb: Release PCI device's runtime
+ PM ref during FB destroy
+To: Imre Deak <imre.deak@intel.com>
+Cc: "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>, 
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,150 +75,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We still have quite a bit more work to do with overall reworking of
-the ttm-based dg1 code, but the uapi stuff is now finalized with the
-latest pull. So remove that.
+On Tue, Aug 10, 2021 at 4:36 AM Imre Deak <imre.deak@intel.com> wrote:
+>
+> Hi Kai-Heng, Alex,
+>
+> could you add your ack if the fix looks ok and you're ok if I push it to
+> the i915 tree?
+>
 
-This also fixes kerneldoc build warnings because we've included the
-same headers in two places, resulting in sphinx complaining about
-duplicated symbols. This regression has been created when we moved the
-uapi definitions to the real include/uapi/ folder in 727ecd99a4c9
-("drm/doc/rfc: drop the i915_gem_lmem.h header")
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-v2: Fix a few references that I missed, the htmldocs build took
-forever.
-
-Acked-by: Jason Ekstrand <jason@jlekstrand.net>
-Tested-by Stephen Rothwell <sfr@canb.auug.org.au> (v1)
-References: https://lore.kernel.org/dri-devel/20210603193242.1ce99344@canb.auug.org.au/
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Fixes: 727ecd99a4c9 ("drm/doc/rfc: drop the i915_gem_lmem.h header")
-Cc: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- Documentation/gpu/rfc/i915_gem_lmem.rst | 109 ------------------------
- 1 file changed, 109 deletions(-)
-
-diff --git a/Documentation/gpu/rfc/i915_gem_lmem.rst b/Documentation/gpu/rfc/i915_gem_lmem.rst
-index 675ba8620d66..b421a3c1806e 100644
---- a/Documentation/gpu/rfc/i915_gem_lmem.rst
-+++ b/Documentation/gpu/rfc/i915_gem_lmem.rst
-@@ -18,114 +18,5 @@ real, with all the uAPI bits is:
-         * Route shmem backend over to TTM SYSTEM for discrete
-         * TTM purgeable object support
-         * Move i915 buddy allocator over to TTM
--        * MMAP ioctl mode(see `I915 MMAP`_)
--        * SET/GET ioctl caching(see `I915 SET/GET CACHING`_)
- * Send RFC(with mesa-dev on cc) for final sign off on the uAPI
- * Add pciid for DG1 and turn on uAPI for real
--
--New object placement and region query uAPI
--==========================================
--Starting from DG1 we need to give userspace the ability to allocate buffers from
--device local-memory. Currently the driver supports gem_create, which can place
--buffers in system memory via shmem, and the usual assortment of other
--interfaces, like dumb buffers and userptr.
--
--To support this new capability, while also providing a uAPI which will work
--beyond just DG1, we propose to offer three new bits of uAPI:
--
--DRM_I915_QUERY_MEMORY_REGIONS
-------------------------------
--New query ID which allows userspace to discover the list of supported memory
--regions(like system-memory and local-memory) for a given device. We identify
--each region with a class and instance pair, which should be unique. The class
--here would be DEVICE or SYSTEM, and the instance would be zero, on platforms
--like DG1.
--
--Side note: The class/instance design is borrowed from our existing engine uAPI,
--where we describe every physical engine in terms of its class, and the
--particular instance, since we can have more than one per class.
--
--In the future we also want to expose more information which can further
--describe the capabilities of a region.
--
--.. kernel-doc:: include/uapi/drm/i915_drm.h
--        :functions: drm_i915_gem_memory_class drm_i915_gem_memory_class_instance drm_i915_memory_region_info drm_i915_query_memory_regions
--
--GEM_CREATE_EXT
----------------
--New ioctl which is basically just gem_create but now allows userspace to provide
--a chain of possible extensions. Note that if we don't provide any extensions and
--set flags=0 then we get the exact same behaviour as gem_create.
--
--Side note: We also need to support PXP[1] in the near future, which is also
--applicable to integrated platforms, and adds its own gem_create_ext extension,
--which basically lets userspace mark a buffer as "protected".
--
--.. kernel-doc:: include/uapi/drm/i915_drm.h
--        :functions: drm_i915_gem_create_ext
--
--I915_GEM_CREATE_EXT_MEMORY_REGIONS
------------------------------------
--Implemented as an extension for gem_create_ext, we would now allow userspace to
--optionally provide an immutable list of preferred placements at creation time,
--in priority order, for a given buffer object.  For the placements we expect
--them each to use the class/instance encoding, as per the output of the regions
--query. Having the list in priority order will be useful in the future when
--placing an object, say during eviction.
--
--.. kernel-doc:: include/uapi/drm/i915_drm.h
--        :functions: drm_i915_gem_create_ext_memory_regions
--
--One fair criticism here is that this seems a little over-engineered[2]. If we
--just consider DG1 then yes, a simple gem_create.flags or something is totally
--all that's needed to tell the kernel to allocate the buffer in local-memory or
--whatever. However looking to the future we need uAPI which can also support
--upcoming Xe HP multi-tile architecture in a sane way, where there can be
--multiple local-memory instances for a given device, and so using both class and
--instance in our uAPI to describe regions is desirable, although specifically
--for DG1 it's uninteresting, since we only have a single local-memory instance.
--
--Existing uAPI issues
--====================
--Some potential issues we still need to resolve.
--
--I915 MMAP
-----------
--In i915 there are multiple ways to MMAP GEM object, including mapping the same
--object using different mapping types(WC vs WB), i.e multiple active mmaps per
--object. TTM expects one MMAP at most for the lifetime of the object. If it
--turns out that we have to backpedal here, there might be some potential
--userspace fallout.
--
--I915 SET/GET CACHING
----------------------
--In i915 we have set/get_caching ioctl. TTM doesn't let us to change this, but
--DG1 doesn't support non-snooped pcie transactions, so we can just always
--allocate as WB for smem-only buffers.  If/when our hw gains support for
--non-snooped pcie transactions then we must fix this mode at allocation time as
--a new GEM extension.
--
--This is related to the mmap problem, because in general (meaning, when we're
--not running on intel cpus) the cpu mmap must not, ever, be inconsistent with
--allocation mode.
--
--Possible idea is to let the kernel picks the mmap mode for userspace from the
--following table:
--
--smem-only: WB. Userspace does not need to call clflush.
--
--smem+lmem: We only ever allow a single mode, so simply allocate this as uncached
--memory, and always give userspace a WC mapping. GPU still does snooped access
--here(assuming we can't turn it off like on DG1), which is a bit inefficient.
--
--lmem only: always WC
--
--This means on discrete you only get a single mmap mode, all others must be
--rejected. That's probably going to be a new default mode or something like
--that.
--
--Links
--=====
--[1] https://patchwork.freedesktop.org/series/86798/
--
--[2] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/5599#note_553791
--- 
-2.32.0
-
+> Thanks,
+> Imre
+>
+> On Mon, Aug 09, 2021 at 04:31:46PM +0300, Imre Deak wrote:
+> > Atm the EFI FB platform driver gets a runtime PM reference for the
+> > associated GFX PCI device during probing the EFI FB platform device and
+> > releases it only when the platform device gets unbound.
+> >
+> > When fbcon switches to the FB provided by the PCI device's driver (for
+> > instance i915/drmfb), the EFI FB will get only unregistered without the
+> > EFI FB platform device getting unbound, keeping the runtime PM reference
+> > acquired during the platform device probing. This reference will prevent
+> > the PCI driver from runtime suspending the device.
+> >
+> > Fix this by releasing the RPM reference from the EFI FB's destroy hook,
+> > called when the FB gets unregistered.
+> >
+> > While at it assert that pm_runtime_get_sync() didn't fail.
+> >
+> > v2:
+> > - Move pm_runtime_get_sync() before register_framebuffer() to avoid its
+> >   race wrt. efifb_destroy()->pm_runtime_put(). (Daniel)
+> > - Assert that pm_runtime_get_sync() didn't fail.
+> > - Clarify commit message wrt. platform/PCI device/driver and driver
+> >   removal vs. device unbinding.
+> >
+> > Fixes: a6c0fd3d5a8b ("efifb: Ensure graphics device for efifb stays at PCI D0")
+> > Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > ---
+> >  drivers/video/fbdev/efifb.c | 21 ++++++++++++++-------
+> >  1 file changed, 14 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+> > index 8ea8f079cde26..edca3703b9640 100644
+> > --- a/drivers/video/fbdev/efifb.c
+> > +++ b/drivers/video/fbdev/efifb.c
+> > @@ -47,6 +47,8 @@ static bool use_bgrt = true;
+> >  static bool request_mem_succeeded = false;
+> >  static u64 mem_flags = EFI_MEMORY_WC | EFI_MEMORY_UC;
+> >
+> > +static struct pci_dev *efifb_pci_dev;        /* dev with BAR covering the efifb */
+> > +
+> >  static struct fb_var_screeninfo efifb_defined = {
+> >       .activate               = FB_ACTIVATE_NOW,
+> >       .height                 = -1,
+> > @@ -243,6 +245,9 @@ static inline void efifb_show_boot_graphics(struct fb_info *info) {}
+> >
+> >  static void efifb_destroy(struct fb_info *info)
+> >  {
+> > +     if (efifb_pci_dev)
+> > +             pm_runtime_put(&efifb_pci_dev->dev);
+> > +
+> >       if (info->screen_base) {
+> >               if (mem_flags & (EFI_MEMORY_UC | EFI_MEMORY_WC))
+> >                       iounmap(info->screen_base);
+> > @@ -333,7 +338,6 @@ ATTRIBUTE_GROUPS(efifb);
+> >
+> >  static bool pci_dev_disabled;        /* FB base matches BAR of a disabled device */
+> >
+> > -static struct pci_dev *efifb_pci_dev;        /* dev with BAR covering the efifb */
+> >  static struct resource *bar_resource;
+> >  static u64 bar_offset;
+> >
+> > @@ -569,17 +573,22 @@ static int efifb_probe(struct platform_device *dev)
+> >               pr_err("efifb: cannot allocate colormap\n");
+> >               goto err_groups;
+> >       }
+> > +
+> > +     if (efifb_pci_dev)
+> > +             WARN_ON(pm_runtime_get_sync(&efifb_pci_dev->dev) < 0);
+> > +
+> >       err = register_framebuffer(info);
+> >       if (err < 0) {
+> >               pr_err("efifb: cannot register framebuffer\n");
+> > -             goto err_fb_dealoc;
+> > +             goto err_put_rpm_ref;
+> >       }
+> >       fb_info(info, "%s frame buffer device\n", info->fix.id);
+> > -     if (efifb_pci_dev)
+> > -             pm_runtime_get_sync(&efifb_pci_dev->dev);
+> >       return 0;
+> >
+> > -err_fb_dealoc:
+> > +err_put_rpm_ref:
+> > +     if (efifb_pci_dev)
+> > +             pm_runtime_put(&efifb_pci_dev->dev);
+> > +
+> >       fb_dealloc_cmap(&info->cmap);
+> >  err_groups:
+> >       sysfs_remove_groups(&dev->dev.kobj, efifb_groups);
+> > @@ -603,8 +612,6 @@ static int efifb_remove(struct platform_device *pdev)
+> >       unregister_framebuffer(info);
+> >       sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
+> >       framebuffer_release(info);
+> > -     if (efifb_pci_dev)
+> > -             pm_runtime_put(&efifb_pci_dev->dev);
+> >
+> >       return 0;
+> >  }
+> > --
+> > 2.27.0
+> >
