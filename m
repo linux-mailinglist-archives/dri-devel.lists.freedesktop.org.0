@@ -1,102 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBD73E8488
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 22:45:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 464E63E8506
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 23:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91ED18985A;
-	Tue, 10 Aug 2021 20:45:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA58897CD;
+	Tue, 10 Aug 2021 21:15:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEFBB8985A
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 20:45:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1628628308;
+Received: from smtp2.de.opalstack.com (smtp2.de.opalstack.com
+ [139.162.136.213])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83AA89829
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 21:15:22 +0000 (UTC)
+Received: from jason.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
+ by smtp2.de.opalstack.com (Postfix) with ESMTPSA id B8ED6127D44;
+ Tue, 10 Aug 2021 21:15:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=boddie.org.uk;
+ s=dkim; t=1628630120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jm4hDlZW2+lt/+00DUA4vehj6I12Iwa0HYTtWzie7Uo=;
- b=Kx5Pg9Ka5oNbIUKY+Z4MD4iPQdNmmt1l/p+gY28PkyZyBPj9hOCFCmngirE8FtQg68HGX4
- SgfiEFsdZvTCEyxnx56/pc/a3CiswtHGJijJJoMKA/HPFF3uFtuOYNx9yg9iUQ1MIufBrS
- Ae1KFH9Z4XtTSm+OBKSWn/oaeogqP90=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-XVjy0xgIMEONrGmKZL1gtw-1; Tue, 10 Aug 2021 16:45:05 -0400
-X-MC-Unique: XVjy0xgIMEONrGmKZL1gtw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- f10-20020a0ccc8a0000b02903521ac3b9d7so8639984qvl.15
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 13:45:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=jm4hDlZW2+lt/+00DUA4vehj6I12Iwa0HYTtWzie7Uo=;
- b=qrrd/v2617kr4ScqE+6UWb5RgdvpR6zTaGT2r9gzOjkhfTwfSr2m8Ca9nyRFXVl3GD
- DY8XIz4ke1KMPNgzE50tl+dc+b/rnBTUP5+BRvYz9cT3cp37dStdq7a1pZD19uNapUNQ
- z0xkUzGLuAbReyY30HypSXtVotooUmoGgfNZw+NOqZbNrG2z5gTPpekrm5/CQMFN+PgJ
- CjoLrzRXeqt8t8bIQHdLjQlRYfEMkbyqOPL5rdOm2OWwyPCvnzkxuGrsA75BnycYhqK4
- FDT7D+S6O/6hNqfMSGoSJYBlALLDnPVYi0BbXl29MTUhSEYBJOzOU2WXgAipAPhqqki3
- 5fkQ==
-X-Gm-Message-State: AOAM531xA6ruv5Bu8fPzxnPwqZfEroQ/3Ts74stekjcSc8FNN5DQ36Yz
- f4lcOzaBb0lKQf8a4N2X3bTFFDwH+/H1AbWGx3f1NBF3Lm5ZSY0Ji9vjfLTwxOw39/2KYoTwMD9
- 7COgAJU8rZU85kTa16t0DOfiJg1l9
-X-Received: by 2002:a05:622a:305:: with SMTP id
- q5mr26310834qtw.154.1628628304593; 
- Tue, 10 Aug 2021 13:45:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6HnJP7hH696mP7ZotxnBEIMBZEbFiTUglmNYhZApY3y8z+Fq5g3ssaaRHk/L70d0QaJrbuw==
-X-Received: by 2002:a05:622a:305:: with SMTP id
- q5mr26310790qtw.154.1628628304340; 
- Tue, 10 Aug 2021 13:45:04 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id f11sm3824174qtf.45.2021.08.10.13.45.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 13:45:03 -0700 (PDT)
-Message-ID: <2012d26bb2bece43e65ce435e6ba03f1d8767f61.camel@redhat.com>
-Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected end
- device
-From: Lyude Paul <lyude@redhat.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Cc: "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>, "Wentland, Harry"
- <Harry.Wentland@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Wu, Hersen"
- <hersenxs.wu@amd.com>, Juston Li <juston.li@intel.com>, Imre Deak
- <imre.deak@intel.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?=
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- Sean Paul <sean@poorly.run>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Siqueira, Rodrigo"
- <Rodrigo.Siqueira@amd.com>,  "Pillai, Aurabindo"
- <Aurabindo.Pillai@amd.com>, Eryk Brol <eryk.brol@amd.com>, Bas
- Nieuwenhuizen <bas@basnieuwenhuizen.nl>,  "Cornij, Nikola"
- <Nikola.Cornij@amd.com>, Jani Nikula <jani.nikula@intel.com>, Manasi Navare
- <manasi.d.navare@intel.com>, Ankit Nautiyal <ankit.k.nautiyal@intel.com>, 
- =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>, Sean Paul
- <seanpaul@chromium.org>, Ben Skeggs <bskeggs@redhat.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Date: Tue, 10 Aug 2021 16:45:01 -0400
-In-Reply-To: <SJ0PR12MB550410E529057F59023153D9FCF19@SJ0PR12MB5504.namprd12.prod.outlook.com>
-References: <20210720160342.11415-1-Wayne.Lin@amd.com>
- <20210720160342.11415-3-Wayne.Lin@amd.com>
- <69a5f39580f0d3519468f45ecbfd50d7ad1b3036.camel@redhat.com>
- <292d6ead03d6afe54f81d52f705e38bbf9feb7bd.camel@redhat.com>
- <SJ0PR12MB550410E529057F59023153D9FCF19@SJ0PR12MB5504.namprd12.prod.outlook.com>
-Organization: Red Hat
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
+ bh=7hFFJwU21ENsBkO8LzpFRzh6F0cRYBvrYDtycYF0BS0=;
+ b=PKLd8TFZ9avw8wN7ibfnzjpe7Du5SYhghj++qBLvffTtNgjA0rXAr+XAVqBIXkiBFAoXXO
+ YQMLxg+GgP2NGO1dz4W42MfVRH2xtfy4tTpQdUAWq2fzj2nfmjp3ncxY6QsCgpk+0KCuAd
+ ggb2apw1LtL0bzem3K3ndgsnPVMT+Ag=
+From: Paul Boddie <paul@boddie.org.uk>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: "H. Nikolaus Schaller" <hns@goldelico.com>, David Airlie <airlied@linux.ie>,
+ linux-mips <linux-mips@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ list@opendingux.net, Sam Ravnborg <sam@ravnborg.org>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
+Subject: Re: [Letux-kernel] [PATCH 8/8] drm/ingenic: Attach bridge chain to
+ encoders
+Date: Tue, 10 Aug 2021 23:15:12 +0200
+Message-ID: <1766447.FbDIzoYTkO@jason>
+In-Reply-To: <OV5MXQ.C3JR71EBG5P51@crapouillou.net>
+References: <20210808134526.119198-1-paul@crapouillou.net>
+ <2242071.3D3ZAXhqrE@jason> <OV5MXQ.C3JR71EBG5P51@crapouillou.net>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.55
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,249 +60,337 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2021-08-04 at 07:13 +0000, Lin, Wayne wrote:
-> [Public]
-> 
-> > -----Original Message-----
-> > From: Lyude Paul <lyude@redhat.com>
-> > Sent: Wednesday, August 4, 2021 8:09 AM
-> > To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org
-> > Cc: Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Wentland, Harry <
-> > Harry.Wentland@amd.com>; Zuo, Jerry
-> > <Jerry.Zuo@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Juston Li <
-> > juston.li@intel.com>; Imre Deak <imre.deak@intel.com>;
-> > Ville Syrjälä <ville.syrjala@linux.intel.com>; Wentland, Harry <
-> > Harry.Wentland@amd.com>; Daniel Vetter <daniel.vetter@ffwll.ch>;
-> > Sean Paul <sean@poorly.run>; Maarten Lankhorst <
-> > maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
-> > Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@linux.ie>;
-> > Daniel Vetter <daniel@ffwll.ch>; Deucher,
-> > Alexander <Alexander.Deucher@amd.com>; Siqueira, Rodrigo <
-> > Rodrigo.Siqueira@amd.com>; Pillai, Aurabindo
-> > <Aurabindo.Pillai@amd.com>; Eryk Brol <eryk.brol@amd.com>; Bas
-> > Nieuwenhuizen <bas@basnieuwenhuizen.nl>; Cornij, Nikola
-> > <Nikola.Cornij@amd.com>; Jani Nikula <jani.nikula@intel.com>; Manasi
-> > Navare <manasi.d.navare@intel.com>; Ankit Nautiyal
-> > <ankit.k.nautiyal@intel.com>; José Roberto de Souza
-> > <jose.souza@intel.com>; Sean Paul <seanpaul@chromium.org>; Ben Skeggs
-> > <bskeggs@redhat.com>; stable@vger.kernel.org
-> > Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected
-> > end device
-> > 
-> > On Tue, 2021-08-03 at 19:58 -0400, Lyude Paul wrote:
-> > > On Wed, 2021-07-21 at 00:03 +0800, Wayne Lin wrote:
-> > > > [Why]
-> > > > Currently, we will create connectors for all output ports no matter
-> > > > it's connected or not. However, in MST, we can only determine
-> > > > whether an output port really stands for a "connector" till it is
-> > > > connected and check its peer device type as an end device.
-> > > 
-> > > What is this commit trying to solve exactly? e.g. is AMD currently
-> > > running into issues with there being too many DRM connectors or
-> > > something like that?
-> > > Ideally this is behavior I'd very much like us to keep as-is unless
-> > > there's good reason to change it.
-> Hi Lyude,
-> Really appreciate for your time to elaborate in such detail. Thanks!
-> 
-> I come up with this commit because I observed something confusing when I was
-> analyzing
-> MST connectors' life cycle. Take the topology instance you mentioned below
-> 
-> Root MSTB -> Output_Port 1 -> MSTB 1.1 ->Output_Port 1(Connected w/ display)
->                     |                                                    -
-> >Output_Port 2 (Disconnected)
->                     -> Output_Port 2 -> MSTB 2.1 ->Output_Port 1
-> (Disconnected)
->                                                                           ->
-> Output_Port 2 (Disconnected)
-> Which is exactly the topology of Startech DP 1-to-4 hub. There are 3 1-to-2
-> branch chips
-> within this hub. With our MST implementation today, we'll create drm
-> connectors for all
-> output ports. Hence, we totally create 6 drm connectors here. However,
-> Output ports of
-> Root MSTB are not connected to a stream sink. They are connected with branch
-> devices.
-> Thus, creating drm connector for such port looks a bit strange to me and
-> increases
-> complexity to tracking drm connectors.  My thought is we only need to create
-> drm
-> connector for those connected end device. Once output port is connected then
-> we can
-> determine whether to add on a drm connector for this port based on the peer
-> device type.
-> Hence, this commit doesn't try to break the locking logic but add more
-> constraints when
-> We try to add drm connector. Please correct me if I misunderstand anything
-> here. Thanks!
+On Tuesday, 10 August 2021 09:52:36 CEST Paul Cercueil wrote:
+>=20
+> Le mar., ao=FBt 10 2021 at 01:17:20 +0200, Paul Boddie <paul@boddie.org.u=
+k> a=20
+=E9crit :
+> >=20
+> > But then the reported error occurs in the DRM driver:
+> >=20
+> > ingenic-drm 13050000.lcdc0: Unable to init connector
+> > ingenic-drm: probe of 13050000.lcdc0 failed with error -22
+> >=20
+> > This originates in a call to drm_bridge_connector_init from
+> > ingenic_drm_bind:
+> >=20
+> > connector =3D drm_bridge_connector_init(drm, encoder);
+> >=20
+> > The invoked function iterates over the registered bridges, one of
+> > which seems to be the HDMI peripheral (it has bridge operations defined
+> > identically to those specified in the Synopsys driver), but the type
+> > member of the drm_bridge structure is set to 0
+> > (DRM_MODE_CONNECTOR_Unknown).
 
-Sorry-I will respond to this soon, some more stuff came up at work so it might
-take me a day or two
+Although I had fancy ideas about finding the connector node in the device t=
+ree=20
+and populating the necessary type details on the bridge, I decided to just =
+add=20
+the following to the Synopsys driver's dw_hdmi_probe function:
 
-> > > 
-> > > Some context here btw - there's a lot of subtleties with MST locking
-> > > that isn't immediately obvious. It's been a while since I wrote this
-> > > code, but if I recall correctly one of those subtleties is that trying
-> > > to create/destroy connectors on the fly when ports change types
-> > > introduces a lot of potential issues with locking and some very
-> > > complicated state transitions. Note that because we maintain the
-> > > topology as much as possible across suspend/resumes this means there's
-> > > a lot of potential state transitions with drm_dp_mst_port and
-> > > drm_dp_mst_branch we need to handle that would typically be impossible
-> > > to run into otherwise.
-> > > 
-> > > An example of this, if we were to try to prune connectors based on PDT
-> > > on the fly: assume we have a simple topology like this
-> > > 
-> > > Root MSTB -> Port 1 -> MSTB 1.1 (Connected w/ display)
-> > >           -> Port 2 -> MSTB 2.1
-> > > 
-> > > We suspend the system, unplug MSTB 1.1, and then resume. Once the
-> > > system starts reprobing, it will notice that MSTB 1.1 has been
-> > > disconnected. Since we no longer have a PDT, we decide to unregister
-> > > our connector. But there's a catch! We had a display connected to MSTB
-> > > 1.1, so even after unregistering the connector it's going to stay
-> > > around until userspace has committed a new mode with the connector
-> > > disabled.
-> > > 
-> > > Now - assuming we're still in the same spot in the resume processs,
-> > > let's assume somehow MSTB 1.1 is suddenly plugged back in. Once we've
-> > > finished responding to the hotplug event, we will have created a
-> > > connector for it. Now we've hit a bug - userspace hasn't removed the
-> > > previous zombie connector which means we have references to the
-> > > drm_dp_mst_port in our atomic state and potentially also our payload
-> > > tables (?? unsure about this one).
-> > 
-> > Whoops. One thing I totally forgot to mention here: the reason this is a
-> > problem is because we'd now have two drm_connectors
-> > which both have the same drm_dp_mst_port pointer.
-> > 
-> > > 
-> > > So then how do we manage to add/remove connectors for input connectors
-> > > on the fly? Well, that's one of the fun normally-impossible state
-> > > transitions I mentioned before. According to the spec input ports are
-> > > always disconnected, so we'll never receive a CSN for them. This means
-> I think input ports' DisplayPort_Device_Plug_Status field is still set to 1?
-> But yes,
-> according to DP1.4 spec 2.11.9.3, when MST device whose DPRX detected the
-> connection status change shall broadcast CSN downstream only. Hence, we'll
-> never
-> receive a CSN for this case.
-> > > in theory the only possible way we could have a connector go from
-> > > being an input connector to an output connector connector would be if
-> > > the entire topology was swapped out during suspend/resume, and the
-> > > input/output ports in the two topologies topology happen to be in
-> > > different places.
-> > > Since we only have to reprobe once during resume before we get
-> > > hotplugging enabled, we're guaranteed this state transition will only
-> > > happen once in this state - which means the second replug I described
-> > > in the previous paragraph can never happen.
-> > > 
-> > > Note that while I don't actually know if there's topologies with input
-> > > ports at indexes other than 0, since the specification isn't super
-> > > clear on this bit we play it safe and assume it is possible.
-> Based on DP1.4 spec 2.5.1. Physical input ports are assigned smaller port
-> numbers than physical output ports. For concentrator product, if there are 2
-> input ports of it's branch device, then their port numbers are port 0 & port
-> 1
-> which can refer to figure 2-122 of DP1.4.
-> > > 
-> > > Anyway-this is -all- based off my memory, so please point out anything
-> > > here that I've explained that doesn't make sense or doesn't seem
-> > > correct :). It's totally possible I might have misremembered something.
-> Thanks again Lyude! Much appreciated for your time and help! And please
-> correct me if I misunderstand anything here : )
-> > > 
-> > > > 
-> > > > In current code, we have chance to create connectors for output
-> > > > ports connected with branch device and these are redundant connectors.
-> > > > e.g.
-> > > > StarTech 1-to-4 DP hub is constructed by internal 2 layer 1-to-2
-> > > > branch devices. Creating connectors for such internal output ports
-> > > > are redundant.
-> > > > 
-> > > > [How]
-> > > > Put constraint on creating connector for connected end device only.
-> > > > 
-> > > > Fixes: 6f85f73821f6 ("drm/dp_mst: Add basic topology reprobing when
-> > > > resuming")
-> > > > Cc: Juston Li <juston.li@intel.com>
-> > > > Cc: Imre Deak <imre.deak@intel.com>
-> > > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > Cc: Harry Wentland <hwentlan@amd.com>
-> > > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > Cc: Sean Paul <sean@poorly.run>
-> > > > Cc: Lyude Paul <lyude@redhat.com>
-> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > Cc: David Airlie <airlied@linux.ie>
-> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > > Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> > > > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > > > Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
-> > > > Cc: Eryk Brol <eryk.brol@amd.com>
-> > > > Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> > > > Cc: Nikola Cornij <nikola.cornij@amd.com>
-> > > > Cc: Wayne Lin <Wayne.Lin@amd.com>
-> > > > Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
-> > > > Cc: Jani Nikula <jani.nikula@intel.com>
-> > > > Cc: Manasi Navare <manasi.d.navare@intel.com>
-> > > > Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> > > > Cc: "José Roberto de Souza" <jose.souza@intel.com>
-> > > > Cc: Sean Paul <seanpaul@chromium.org>
-> > > > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Cc: <stable@vger.kernel.org> # v5.5+
-> > > > Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_dp_mst_topology.c | 7 ++++++-
-> > > >  1 file changed, 6 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > index 51cd7f74f026..f13c7187b07f 100644
-> > > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > @@ -2474,7 +2474,8 @@ drm_dp_mst_handle_link_address_port(struct
-> > > > drm_dp_mst_branch *mstb,
-> > > > 
-> > > >         if (port->connector)
-> > > >                 drm_modeset_unlock(&mgr->base.lock);
-> > > > -       else if (!port->input)
-> > > > +       else if (!port->input && port->pdt != DP_PEER_DEVICE_NONE &&
-> > > > +                drm_dp_mst_is_end_device(port->pdt, port->mcs))
-> > > >                 drm_dp_mst_port_add_connector(mstb, port);
-> > > > 
-> > > >         if (send_link_addr && port->mstb) { @@ -2557,6 +2558,10 @@
-> > > > drm_dp_mst_handle_conn_stat(struct
-> > > > drm_dp_mst_branch
-> > > > *mstb,
-> > > >                 dowork = false;
-> > > >         }
-> > > > 
-> > > > +       if (!port->input && !port->connector && new_pdt !=
-> > > > DP_PEER_DEVICE_NONE &&
-> > > > +           drm_dp_mst_is_end_device(new_pdt, new_mcs))
-> > > > +               create_connector = true;
-> > > > +
-> > > >         if (port->connector)
-> > > >                 drm_modeset_unlock(&mgr->base.lock);
-> > > >         else if (create_connector)
-> > > 
-> > 
-> > --
-> > Cheers,
-> >  Lyude Paul (she/her)
-> >  Software Engineer at Red Hat
-> Regards,
-> Wayne Lin
-> 
+hdmi->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+This then lets the above invocation succeed and the Ingenic DRM driver=20
+initialises. However, I get "Input Not Supported" on my display.
+
+Conveniently, when indicating the necessary boot arguments...
+
+env set bootargs ... drm.debug=3D0x3f
+
+=2E..as suggested to me on a previous occasion, the /sys/kernel/debug/dri/0/
+state file indicates the following:
+
+plane[31]: plane-0
+        crtc=3Dcrtc-0
+        fb=3D36  =20
+                allocated by =3D Xorg
+                refcount=3D2
+                format=3DXR24 little-endian (0x34325258)
+                modifier=3D0x0
+                size=3D1280x1024
+                layers:=20
+                        size[0]=3D1280x1024
+                        pitch[0]=3D5120
+                        offset[0]=3D0
+                        obj[0]:=20
+                                name=3D0
+                                refcount=3D3
+                                start=3D00010000
+                                size=3D5242880
+                                imported=3Dno
+                                paddr=3D0x00c00000
+                                vaddr=3D3eb0c080
+        crtc-pos=3D1280x1024+0+0
+        src-pos=3D1280.000000x1024.000000+0.000000+0.000000
+        rotation=3D1
+        normalized-zpos=3D0
+        color-encoding=3DITU-R BT.601 YCbCr
+        color-range=3DYCbCr limited range
+plane[33]: plane-1
+        crtc=3D(null)
+        fb=3D0
+        crtc-pos=3D0x0+0+0
+        src-pos=3D0.000000x0.000000+0.000000+0.000000
+        rotation=3D1
+        normalized-zpos=3D0
+        color-encoding=3DITU-R BT.601 YCbCr
+        color-range=3DYCbCr limited range
+crtc[32]: crtc-0
+        enable=3D1
+        active=3D1
+        self_refresh_active=3D0
+        planes_changed=3D0
+        mode_changed=3D0
+        active_changed=3D0
+        connectors_changed=3D0
+        color_mgmt_changed=3D0
+        plane_mask=3D1
+        connector_mask=3D1
+        encoder_mask=3D1
+        mode: "": 60 108000 1280 1328 1440 1688 1024 1025 1028 1066 0x0 0x5
+connector[35]: HDMI-A-1
+        crtc=3Dcrtc-0
+        self_refresh_aware=3D0
+
+I suspect that we may be dealing with an incompatible bus format again, but=
+ I=20
+may be quite wrong about that, too.
+
+Here is the result of running modetest using...
+
+sudo ./modetest -D /dev/dri/card0 -M ingenic-drm
+
+Encoders:
+id      crtc    type    possible crtcs  possible clones
+34      32      DPI     0x00000001      0x00000001
+
+Connectors:
+id      encoder status          name            size (mm)       modes  =20
+encoders
+35      34      connected       HDMI-A-1        340x270         17      34
+  modes:
+        index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+  #0 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags:=
+=20
+phsync, pvsync; type: preferred, driver
+  #1 1280x1024 75.02 1280 1296 1440 1688 1024 1025 1028 1066 135000 flags:=
+=20
+phsync, pvsync; type: driver
+  #2 1280x960 60.00 1280 1376 1488 1800 960 961 964 1000 108000 flags: phsy=
+nc,=20
+pvsync; type: driver
+  #3 1152x864 75.00 1152 1216 1344 1600 864 865 868 900 108000 flags: phsyn=
+c,=20
+pvsync; type: driver
+  #4 1024x768 75.03 1024 1040 1136 1312 768 769 772 800 78750 flags: phsync=
+,=20
+pvsync; type: driver
+  #5 1024x768 70.07 1024 1048 1184 1328 768 771 777 806 75000 flags: nhsync=
+,=20
+nvsync; type: driver
+  #6 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags: nhsync=
+,=20
+nvsync; type: driver
+  #7 832x624 74.55 832 864 928 1152 624 625 628 667 57284 flags: nhsync,=20
+nvsync; type: driver
+  #8 800x600 75.00 800 816 896 1056 600 601 604 625 49500 flags: phsync,=20
+pvsync; type: driver
+  #9 800x600 72.19 800 856 976 1040 600 637 643 666 50000 flags: phsync,=20
+pvsync; type: driver
+  #10 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags: phsync,=20
+pvsync; type: driver
+  #11 800x600 56.25 800 824 896 1024 600 601 603 625 36000 flags: phsync,=20
+pvsync; type: driver
+  #12 640x480 75.00 640 656 720 840 480 481 484 500 31500 flags: nhsync,=20
+nvsync; type: driver
+  #13 640x480 72.81 640 664 704 832 480 489 492 520 31500 flags: nhsync,=20
+nvsync; type: driver
+  #14 640x480 66.67 640 704 768 864 480 483 486 525 30240 flags: nhsync,=20
+nvsync; type: driver
+  #15 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags: nhsync,=20
+nvsync; type: driver
+  #16 720x400 70.08 720 738 846 900 400 412 414 449 28320 flags: nhsync,=20
+pvsync; type: driver
+  props:
+        1 EDID:=20
+                flags: immutable blob
+                blobs:
+
+                value: =20
+                        00ffffffffffff00047232ad01010101
+                        2d0e010380221b782aaea5a6544c9926
+                        145054bfef0081808140714f01010101
+                        010101010101302a009851002a403070
+                        1300520e1100001e000000ff00343435
+                        3030353444454330300a000000fc0041
+                        4c313731350a202020202020000000fd
+                        00384c1e520e000a2020202020200051
+        2 DPMS:=20
+                flags: enum
+                enums: On=3D0 Standby=3D1 Suspend=3D2 Off=3D3
+                value: 3
+        5 link-status:
+                flags: enum
+                enums: Good=3D0 Bad=3D1
+                value: 0
+        6 non-desktop:
+                flags: immutable range
+                values: 0 1
+                value: 0
+        4 TILE:=20
+                flags: immutable blob
+                blobs:
+
+                value:
+        20 CRTC_ID:
+                flags: object
+                value: 32
+
+CRTCs:
+id      fb      pos     size
+32      36      (0,0)   (1280x1024)
+  #0  60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags: phsync,=20
+pvsync; type:
+  props:
+        22 ACTIVE:
+                flags: range
+                values: 0 1
+                value: 0
+        23 MODE_ID:
+                flags: blob
+                blobs:
+
+                value: =20
+                        e0a5010000053005a005980600000004
+                        010404042a0400003c00000005000000
+                        00000000000000000000000000000000
+                        00000000000000000000000000000000
+                        00000000
+        19 OUT_FENCE_PTR:
+                flags: range
+                values: 0 18446744073709551615
+                value: 0
+        24 VRR_ENABLED:
+                flags: range
+                values: 0 1
+                value: 0
+        28 GAMMA_LUT:
+                flags: blob
+                blobs:
+
+                value:
+        29 GAMMA_LUT_SIZE:
+                flags: immutable range
+                values: 0 4294967295
+                value: 256
+
+Planes:
+id      crtc    fb      CRTC x,y        x,y     gamma size      possible cr=
+tcs
+31      32      36      0,0             0,0     0               0x00000001
+  formats: XR15 RG16 RG24 XR24 XR30
+  props:
+        8 type:=20
+                flags: immutable enum
+                enums: Overlay=3D0 Primary=3D1 Cursor=3D2
+                value: 1
+        17 FB_ID:
+                flags: object
+                value: 36
+        18 IN_FENCE_FD:
+                flags: signed range
+                values: -1 2147483647
+                value: -1
+        20 CRTC_ID:
+                flags: object
+                value: 32
+        13 CRTC_X:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        14 CRTC_Y:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        15 CRTC_W:
+                flags: range
+                values: 0 2147483647
+                value: 1280
+        16 CRTC_H:
+                flags: range
+                values: 0 2147483647
+                value: 1024
+        9 SRC_X:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        10 SRC_Y:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        11 SRC_W:
+                flags: range
+                values: 0 4294967295
+                value: 83886080
+        12 SRC_H:
+                flags: range
+                values: 0 4294967295
+                value: 67108864
+33      0       0       0,0             0,0     0               0x00000001
+  formats: C8   XR15 RG16 RG24 XR24 XR30
+  props:
+        8 type:=20
+                flags: immutable enum
+                enums: Overlay=3D0 Primary=3D1 Cursor=3D2
+                value: 0
+        17 FB_ID:
+                flags: object
+                value: 0
+        18 IN_FENCE_FD:
+                flags: signed range
+                values: -1 2147483647
+                value: -1
+        20 CRTC_ID:
+                flags: object
+                value: 0
+        13 CRTC_X:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        14 CRTC_Y:
+                flags: signed range
+                values: -2147483648 2147483647
+                value: 0
+        15 CRTC_W:
+                flags: range
+                values: 0 2147483647
+                value: 0
+        16 CRTC_H:
+                flags: range
+                values: 0 2147483647
+                value: 0
+        9 SRC_X:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        10 SRC_Y:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        11 SRC_W:
+                flags: range
+                values: 0 4294967295
+                value: 0
+        12 SRC_H:
+                flags: range
+                values: 0 4294967295
+                value: 0
+
+=46rame buffers:
+id      size    pitch
+
+Just in case that means anything to anyone.
+
+Paul
+
 
