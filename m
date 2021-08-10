@@ -2,44 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE4D3E5758
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BC83E578E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:54:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5102B89F73;
-	Tue, 10 Aug 2021 09:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8212E89F24;
+	Tue, 10 Aug 2021 09:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5728F89F73
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:47:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B20A60200;
- Tue, 10 Aug 2021 09:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1628588855;
- bh=e03BlMVYHl8jLdQdL13/8a0pZ7iHK6pfRSDI9mf2oRc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dcdr1tQhGEpaf6pyU509b+kONQMNNedh785mipfKnXxvTtm9Dq5wZaPcbo+nxag/n
- KnVYKpNRvte6JcvZpYty+nSglBJYgtLePLs5goq5HfJnR774pePfaZBHjUb98fsbDq
- c3Qc2kkU122F8nTxjLXCFiLHJeiD/LXMX0qSDQTw=
-Date: Tue, 10 Aug 2021 11:47:32 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Rob Herring <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, list@opendingux.net,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/2] gpu/drm: ingenic: Add workaround for disabled drivers
-Message-ID: <YRJLNHXR0PhykBwL@kroah.com>
-References: <20210805192110.90302-1-paul@crapouillou.net>
- <20210805192110.90302-3-paul@crapouillou.net>
- <YQw9hjZll4QmYVLX@kroah.com> <3HUDXQ.7RBGD4FUHR2F@crapouillou.net>
- <YQ0MU/GcLkPLiy5C@kroah.com> <LYZEXQ.9UWPIAZCVXIK@crapouillou.net>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586BD89F24
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:54:46 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1628589286; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=60vq8IZG6c8Gs1cuSWU7oo0+DBbyu3c+ZH4aBblmawM=;
+ b=E0amdOA/2bwWDp4+FrVanJQTDe8GNKUBWu5+JdV3pw05vPr1xBqz6o3PX+5TxJ8T1Pgx94/q
+ eLlV7Zg9GgcKjgcrw8SQXo9wRUUfAggEUyP+CZ49ZvHjMAAyBdsJjDU9AzigluTCoTFOjfOh
+ RRVlCdNhSZkAvJoxL4h8uJSEk84=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 61124ce37ee604097765fbce (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 10 Aug 2021 09:54:43
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 00FF6C43217; Tue, 10 Aug 2021 09:54:42 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 05E71C4338A;
+ Tue, 10 Aug 2021 09:54:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <LYZEXQ.9UWPIAZCVXIK@crapouillou.net>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 10 Aug 2021 15:24:41 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>, "Isaac J. Manjarres"
+ <isaacm@codeaurora.org>, freedreno <freedreno@lists.freedesktop.org>, Jordan
+ Crouse <jcrouse@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Akhil P Oommen
+ <akhilpo@codeaurora.org>, dri-devel <dri-devel@lists.freedesktop.org>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>, "list@263.net:IOMMU
+ DRIVERS , Joerg Roedel <joro@8bytes.org>,"
+ <iommu@lists.linux-foundation.org>, Kristian H Kristensen
+ <hoegsberg@google.com>, Daniel Vetter <daniel@ffwll.ch>, Sean Paul
+ <sean@poorly.run>, "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [Freedreno] [PATCH 0/3] iommu/drm/msm: Allow non-coherent masters
+ to use system cache
+In-Reply-To: <20210810091619.GA2494@willie-the-truck>
+References: <20210802105544.GA27657@willie-the-truck>
+ <CAF6AEGvtpFu8st=ZFNoKjP9YsAenciLxL1zMFi_iqMCvdby73w@mail.gmail.com>
+ <20210802151409.GE28735@willie-the-truck>
+ <CAF6AEGtzvyEUm0Fc8QT5t9KNK7i0FbFyi7zDM2_PMCzZBp7qbw@mail.gmail.com>
+ <20210809145651.GC1458@willie-the-truck>
+ <CAF6AEGsSUojA=V0n2iRWTCn++buqN=Eoxo0r3=+=PBu1O=H-AQ@mail.gmail.com>
+ <20210809170508.GB1589@willie-the-truck>
+ <CAF6AEGtmZ3LzAJdtnKDQDbEN-a6_JgdN-fZ96pkU3dZqkiW91g@mail.gmail.com>
+ <20210809174022.GA1840@willie-the-truck>
+ <76bfd0b4248148dfbf9d174ddcb4c2a2@codeaurora.org>
+ <20210810091619.GA2494@willie-the-truck>
+Message-ID: <5b6953c5afdf566c248a2da59f91d9de@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,120 +91,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 06, 2021 at 01:01:33PM +0200, Paul Cercueil wrote:
-> Hi Greg,
+On 2021-08-10 14:46, Will Deacon wrote:
+> On Mon, Aug 09, 2021 at 11:17:40PM +0530, Sai Prakash Ranjan wrote:
+>> On 2021-08-09 23:10, Will Deacon wrote:
+>> > On Mon, Aug 09, 2021 at 10:18:21AM -0700, Rob Clark wrote:
+>> > > On Mon, Aug 9, 2021 at 10:05 AM Will Deacon <will@kernel.org> wrote:
+>> > > > On Mon, Aug 09, 2021 at 09:57:08AM -0700, Rob Clark wrote:
+>> > > > > But I suppose we could call it instead IOMMU_QCOM_LLC or something
+>> > > > > like that to make it more clear that it is not necessarily something
+>> > > > > that would work with a different outer level cache implementation?
+>> > > >
+>> > > > ... or we could just deal with the problem so that other people can reuse
+>> > > > the code. I haven't really understood the reluctance to solve this properly.
+>> > > >
+>> > > > Am I missing some reason this isn't solvable?
+>> > >
+>> > > Oh, was there another way to solve it (other than foregoing setting
+>> > > INC_OCACHE in the pgtables)?  Maybe I misunderstood, is there a
+>> > > corresponding setting on the MMU pgtables side of things?
+>> >
+>> > Right -- we just need to program the CPU's MMU with the matching memory
+>> > attributes! It's a bit more fiddly if you're just using ioremap_wc()
+>> > though, as it's usually the DMA API which handles the attributes under
+>> > the
+>> > hood.
+>> >
+>> > Anyway, sorry, I should've said that explicitly earlier on. We've done
+>> > this
+>> > sort of thing in the Android tree so I assumed Sai knew what needed to
+>> > be
+>> > done and then I didn't think to explain to you :(
+>> >
+>> 
+>> Right I was aware of that but even in the android tree there is no 
+>> user :)
 > 
-> Le ven., août 6 2021 at 12:17:55 +0200, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> a écrit :
-> > On Thu, Aug 05, 2021 at 10:05:27PM +0200, Paul Cercueil wrote:
-> > >  Hi Greg,
-> > > 
-> > >  Le jeu., août 5 2021 at 21:35:34 +0200, Greg Kroah-Hartman
-> > >  <gregkh@linuxfoundation.org> a écrit :
-> > >  > On Thu, Aug 05, 2021 at 09:21:09PM +0200, Paul Cercueil wrote:
-> > >  > >  When the drivers of remote devices (e.g. HDMI chip) are
-> > > disabled in
-> > >  > > the
-> > >  > >  config, we want the ingenic-drm driver to be able to probe
-> > >  > > nonetheless
-> > >  > >  with the other devices (e.g. internal LCD panel) that are
-> > > enabled.
-> > >  > >
-> > >  > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > >  > >  ---
-> > >  > >   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 12 ++++++++++++
-> > >  > >   1 file changed, 12 insertions(+)
-> > >  > >
-> > >  > >  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  > > b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  > >  index d261f7a03b18..5e1fdbb0ba6b 100644
-> > >  > >  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  > >  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > >  > >  @@ -1058,6 +1058,18 @@ static int ingenic_drm_bind(struct
-> > > device
-> > >  > > *dev, bool has_components)
-> > >  > >   	for (i = 0; ; i++) {
-> > >  > >   		ret = drm_of_find_panel_or_bridge(dev->of_node, 0, i,
-> > > &panel,
-> > >  > > &bridge);
-> > >  > >   		if (ret) {
-> > >  > >  +			/*
-> > >  > >  +			 * Workaround for the case where the drivers for the
-> > >  > >  +			 * remote devices are not enabled. When that happens,
-> > >  > >  +			 * drm_of_find_panel_or_bridge() returns -EPROBE_DEFER
-> > >  > >  +			 * endlessly, which prevents the ingenic-drm driver from
-> > >  > >  +			 * working at all.
-> > >  > >  +			 */
-> > >  > >  +			if (ret == -EPROBE_DEFER) {
-> > >  > >  +				ret = driver_deferred_probe_check_state(dev);
-> > >  > >  +				if (ret == -ENODEV || ret == -ETIMEDOUT)
-> > >  > >  +					continue;
-> > >  > >  +			}
-> > >  >
-> > >  > So you are mucking around with devices on other busses within this
-> > >  > driver?  What could go wrong?  :(
-> > > 
-> > >  I'm doing the same thing as everybody else. This is the DRM driver,
-> > > and
-> > >  there is a driver for the external HDMI chip which gives us a DRM
-> > > bridge
-> > >  that we can obtain from the device tree.
-> > 
-> > But then why do you need to call this function that is there for a bus,
-> > not for a driver.
+> I'm assuming there are vendor modules using it there, otherwise we 
+> wouldn't
+> have been asked to put it in. Since you work at Qualcomm, maybe you 
+> could
+> talk to your colleagues (Isaac and Patrick) directly?
 > 
-> The documentation disagrees with you :)
-> 
-> And, if that has any weight, this solution was proposed by Rob.
-> 
-> > >  > Please use the existing driver core functionality for this type of
-> > >  > thing, it is not unique, no need for this function to be called.
-> > > 
-> > >  I'm not sure you understand what I'm doing here. This driver calls
-> > >  drm_of_find_panel_or_bridge(), without guarantee that the driver
-> > > for the
-> > >  remote device (connected via DT graph) has been enabled in the
-> > > kernel
-> > >  config. In that case it will always return -EPROBE_DEFER and the
-> > > ingenic-drm
-> > >  driver will never probe.
-> > > 
-> > >  This patch makes sure that the driver can probe if the HDMI driver
-> > > has been
-> > >  disabled in the kernel config, nothing more.
-> > 
-> > That should not be an issue as you do not care if the config is enabled,
-> > you just want to do something in the future if the driver shows up,
-> > right?
-> 
-> Well, the DRM subsystem doesn't really seem to handle hotplug of hardware.
-> Right now all the drivers for the connected hardware need to probe before
-> the main DRM driver. So I need to know that a remote device (connected via
-> DT graph) will never probe.
 
-But you never really know that.  That is what the recent driver core
-changes were all about, to handle this very issue.  Only when the child
-device shows up will you need to care about it.
+Right I will check with them regarding the vendor modules in android.
 
-> Give me a of_graph_remote_device_driver_will_never_probe() and I'll use
-> that.
+>> I think we can't have a new memory type without any user right in 
+>> upstream
+>> like android tree?
 > 
-> > Much like the device link code, have you looked at that?
+> Correct. But I don't think we should be adding IOMMU_* anything 
+> upstream
+> if we don't have a user.
 > 
-> I don't see how that would help in any way. The device link code would allow
-> me to set a dependency between the remote hardware (HDMI chip, provider) and
-> the LCD controller (consumer), but I already have that dependency though the
-> DT graph. What I need is a way for the consumer to continue probing if the
-> provider is not going to probe.
 
-But again, you never know that, probing is async, and could happen in a
-few milliseconds, or a few hours, your driver should never care about
-this at all.
+Agreed, once we have the fix for GPU crash I can continue further on 
+using
+this properly.
 
-Just knowing if the kernel configuration is something is not the
-solution here, please fix this properly like all other driver
-interactions are in the kernel tree.
+Thanks,
+Sai
 
-thanks,
-
-greg k-h
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
