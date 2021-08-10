@@ -2,66 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CF03E571B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE4D3E5758
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 11:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F19989A0E;
-	Tue, 10 Aug 2021 09:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5102B89F73;
+	Tue, 10 Aug 2021 09:47:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E197889A0E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:35:47 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- k5-20020a05600c1c85b02902e699a4d20cso2056187wms.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 02:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=SnObdE2PiNGsfRPS46ERfps2QDWQ5wa/Co24Nmz1JjU=;
- b=cp/oeAnU7T0jp0ojUWOu943VdAyYxVRio84CZBhy//vwBoDNwzoSMaYu9qpvOzPrRN
- W768lgBCaFweAhqZFtdUxwD2igKIKKOTiqmJNS4HOIu4zx1QixY1mtSBuIuEiEIc47Vp
- gMIUJVsmbIWOwYhvFtUy79MDszZQbwHQYkABY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=SnObdE2PiNGsfRPS46ERfps2QDWQ5wa/Co24Nmz1JjU=;
- b=TF2VVG0DW9OCjjzvhrRIAsmClG9uJv7FelbwXLSd1Fbe3PgyKOQw6Dq2+n+wbFFao5
- 9oHwOrlpAWcrFERURk7QAR9uqyTpmxqCDxKdFGbwAYbx5Qivoic2JaktsNg8B4RlrsmV
- iYgsw1/GL+vDPugJ18vLLPCzQX91ypIcTaPkZfMbtzWoQRR4Fk6t4oyUzvr+Wet5B2HX
- OIsxGYfqNdk5b4J7DrGTbTD0PtWBBuLLzFZyPZBFg5FpC70woG5Wb+DhNWlxS5VwMkv5
- VT0JlDvKhbI5f8jcOG9iH5neFil6//fREs3CZ0wNXbVqbrC+A8W3g7x7Iy0OUdQutLXQ
- oIUA==
-X-Gm-Message-State: AOAM5321/CwiHPREYRQTkGi7bofyQOfPK4aHK3OSuB2NId4JNRoZ6VLp
- yx0/jQ1a9HQ61XroFw7VTMz51Q==
-X-Google-Smtp-Source: ABdhPJyvRhUq0NEH1QoEWA28YXT5OY37p60cM+3r20SU+7tVWsNXreGNSoTdzpkn9DfRdlOiMDeq/w==
-X-Received: by 2002:a1c:95:: with SMTP id 143mr21623788wma.29.1628588146347;
- Tue, 10 Aug 2021 02:35:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t8sm23805252wmj.5.2021.08.10.02.35.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Aug 2021 02:35:45 -0700 (PDT)
-Date: Tue, 10 Aug 2021 11:35:43 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5728F89F73
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 09:47:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B20A60200;
+ Tue, 10 Aug 2021 09:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1628588855;
+ bh=e03BlMVYHl8jLdQdL13/8a0pZ7iHK6pfRSDI9mf2oRc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dcdr1tQhGEpaf6pyU509b+kONQMNNedh785mipfKnXxvTtm9Dq5wZaPcbo+nxag/n
+ KnVYKpNRvte6JcvZpYty+nSglBJYgtLePLs5goq5HfJnR774pePfaZBHjUb98fsbDq
+ c3Qc2kkU122F8nTxjLXCFiLHJeiD/LXMX0qSDQTw=
+Date: Tue, 10 Aug 2021 11:47:32 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Paul Cercueil <paul@crapouillou.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+Cc: Rob Herring <robh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Sam Ravnborg <sam@ravnborg.org>, list@opendingux.net,
  linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH 2/2] gpu/drm: ingenic: Add workaround for disabled drivers
-Message-ID: <YRJIb8ofHe8r5g1z@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- list@opendingux.net, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <YRJLNHXR0PhykBwL@kroah.com>
 References: <20210805192110.90302-1-paul@crapouillou.net>
  <20210805192110.90302-3-paul@crapouillou.net>
  <YQw9hjZll4QmYVLX@kroah.com> <3HUDXQ.7RBGD4FUHR2F@crapouillou.net>
@@ -71,7 +40,6 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <LYZEXQ.9UWPIAZCVXIK@crapouillou.net>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,7 +145,11 @@ On Fri, Aug 06, 2021 at 01:01:33PM +0200, Paul Cercueil wrote:
 > Right now all the drivers for the connected hardware need to probe before
 > the main DRM driver. So I need to know that a remote device (connected via
 > DT graph) will never probe.
-> 
+
+But you never really know that.  That is what the recent driver core
+changes were all about, to handle this very issue.  Only when the child
+device shows up will you need to care about it.
+
 > Give me a of_graph_remote_device_driver_will_never_probe() and I'll use
 > that.
 > 
@@ -189,21 +161,14 @@ On Fri, Aug 06, 2021 at 01:01:33PM +0200, Paul Cercueil wrote:
 > DT graph. What I need is a way for the consumer to continue probing if the
 > provider is not going to probe.
 
-Is this actually a legit use-case?
+But again, you never know that, probing is async, and could happen in a
+few milliseconds, or a few hours, your driver should never care about
+this at all.
 
-Like you have hw with a bunch of sub-devices linked, and you decided to
-disable some of them, which makes the driver not load.
+Just knowing if the kernel configuration is something is not the
+solution here, please fix this properly like all other driver
+interactions are in the kernel tree.
 
-Why should we care? Is that hdmi driver really that big that we have to
-support this use-case?
+thanks,
 
-I know it's possible to do this, that doesn't mean it's a good idea.
-There's inifinitely more randconfigs that don't boot on my machine here
-for various reasons than the ones that do boot. We don't have "fixes" for
-all of these to make things still work, despite user misconfiguring their
-kernel.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+greg k-h
