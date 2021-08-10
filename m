@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155523E5CCF
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 16:15:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 782223E5CE0
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Aug 2021 16:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 855346E038;
-	Tue, 10 Aug 2021 14:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6A3E6E039;
+	Tue, 10 Aug 2021 14:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCB726E038;
- Tue, 10 Aug 2021 14:15:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9355D61008;
- Tue, 10 Aug 2021 14:15:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF0B86E039;
+ Tue, 10 Aug 2021 14:15:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 96FB960F94;
+ Tue, 10 Aug 2021 14:15:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628604936;
- bh=2z1U4KI0QJU1RNa4Mg2/avK8MKmjpq+OPBD0fFEoDhs=;
+ s=k20201202; t=1628604954;
+ bh=mLwimhvPJUaM0AzE3Rie3EShPwzzNOWD2+XmNKUdug8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hvZjIVix7GbOiYkA9XYB7IAmbzwKXEXlieB6SihorkP3/952kWB/Fjh2hrXVE1yEf
- 56TcFSwdfGVXRYvIOSwItNpPR9U1geTx4ng82liqSg6j1tJGM2VxyxAKhOUWbf5o+O
- aCjltSI94oMOQaZwSqx5eMWWpEmgvzO5ync45Zpgm8t7Xuxye2b6gPINcnisZl027i
- R5np1n0LpbVCXtuhEPMl+nRhPUMvgTU6G5P/sEHC29sQynILp7ligHjKiXd6Glhofk
- Kn1cVd29dn2kyoza1dnK+XU9o8BJJ+lh5QBRujCjZ0qDkRVpKYlV5Ly2LcnxjawdQQ
- 4klj4Eo5Av8tg==
+ b=bg0ApHyrpF6vIXdGLpztjfImK4DzpHyrab/h75NbNJFKqB0ZuDm7DvkpjqavnbmFU
+ FZS/+ljByP8fHxGmM+petpu+cc4tZZQo9X3BMo5g7soNIaiCHuLnGM5UPYTG3qUTA7
+ OTfPax769XNgUsJ/yrkSdsk75lZF/xUk1DMzI3ui9KFzCkP9dt5UNCaBcnWOy7OkZp
+ 6xmph6L+KwlAskOynlNZnVE9pl5aGJAD1OkRDPwiLGUwdvlN/F/BFk/h9Od8Ycxj3L
+ isf/Qy9FYdr1I3xPXnyImXTHQFTxBKx5PLEdDZh/9/eR33V5kXnRxRk6Ax1TT3rvhK
+ BMNDgOwVuNziQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Qingqing Zhuo <qingqing.zhuo@amd.com>, Hersen Wu <hersenxs.wu@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
+Cc: Yifan Zhang <yifan1.zhang@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.13 23/24] drm/amd/display: workaround for hard hang
- on HPD on native DP
-Date: Tue, 10 Aug 2021 10:15:04 -0400
-Message-Id: <20210810141505.3117318-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 12/20] drm/amdgpu: fix the doorbell missing when
+ in CGPG issue for renoir.
+Date: Tue, 10 Aug 2021 10:15:30 -0400
+Message-Id: <20210810141538.3117707-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210810141505.3117318-1-sashal@kernel.org>
-References: <20210810141505.3117318-1-sashal@kernel.org>
+In-Reply-To: <20210810141538.3117707-1-sashal@kernel.org>
+References: <20210810141538.3117707-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,45 +56,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qingqing Zhuo <qingqing.zhuo@amd.com>
+From: Yifan Zhang <yifan1.zhang@amd.com>
 
-[ Upstream commit c4152b297d56d3696ad0a9003169bc5b98ad7b72 ]
+[ Upstream commit 1c0539a6fc8a4a4b77278e35d763073890de96b9 ]
 
-[Why]
-HPD disable and enable sequences are not mutually exclusive
-on Linux. For HPDs that spans over 1s (i.e. HPD low = 1s),
-part of the disable sequence (specifically, a request to SMU
-to lower refclk) could come right before the call to PHY
-enable, causing DMUB to access an unresponsive PHY
-and thus a hard hang on the system.
+If GC has entered CGPG, ringing doorbell > first page doesn't wakeup GC.
+Enlarge CP_MEC_DOORBELL_RANGE_UPPER to workaround this issue.
 
-[How]
-Disable 48mhz refclk off on native DP.
-
-Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
-index 75ba86f951f8..7bbedb6b4a9e 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
-@@ -66,9 +66,11 @@ int rn_get_active_display_cnt_wa(
- 	for (i = 0; i < context->stream_count; i++) {
- 		const struct dc_stream_state *stream = context->streams[i];
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index fb15e8b5af32..ac3a88197b2f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -1271,6 +1271,16 @@ static bool is_raven_kicker(struct amdgpu_device *adev)
+ 		return false;
+ }
  
-+		/* Extend the WA to DP for Linux*/
- 		if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A ||
- 				stream->signal == SIGNAL_TYPE_DVI_SINGLE_LINK ||
--				stream->signal == SIGNAL_TYPE_DVI_DUAL_LINK)
-+				stream->signal == SIGNAL_TYPE_DVI_DUAL_LINK ||
-+				stream->signal == SIGNAL_TYPE_DISPLAY_PORT)
- 			tmds_present = true;
++static bool check_if_enlarge_doorbell_range(struct amdgpu_device *adev)
++{
++	if ((adev->asic_type == CHIP_RENOIR) &&
++	    (adev->gfx.me_fw_version >= 0x000000a5) &&
++	    (adev->gfx.me_feature_version >= 52))
++		return true;
++	else
++		return false;
++}
++
+ static void gfx_v9_0_check_if_need_gfxoff(struct amdgpu_device *adev)
+ {
+ 	if (gfx_v9_0_should_disable_gfxoff(adev->pdev))
+@@ -3619,7 +3629,16 @@ static int gfx_v9_0_kiq_init_register(struct amdgpu_ring *ring)
+ 	if (ring->use_doorbell) {
+ 		WREG32_SOC15(GC, 0, mmCP_MEC_DOORBELL_RANGE_LOWER,
+ 					(adev->doorbell_index.kiq * 2) << 2);
+-		WREG32_SOC15(GC, 0, mmCP_MEC_DOORBELL_RANGE_UPPER,
++		/* If GC has entered CGPG, ringing doorbell > first page
++		 * doesn't wakeup GC. Enlarge CP_MEC_DOORBELL_RANGE_UPPER to
++		 * workaround this issue. And this change has to align with firmware
++		 * update.
++		 */
++		if (check_if_enlarge_doorbell_range(adev))
++			WREG32_SOC15(GC, 0, mmCP_MEC_DOORBELL_RANGE_UPPER,
++					(adev->doorbell.size - 4));
++		else
++			WREG32_SOC15(GC, 0, mmCP_MEC_DOORBELL_RANGE_UPPER,
+ 					(adev->doorbell_index.userqueue_end * 2) << 2);
  	}
  
 -- 
