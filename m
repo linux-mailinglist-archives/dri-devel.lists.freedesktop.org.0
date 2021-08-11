@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEAD3E9B54
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 01:51:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5FF3E9B59
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 01:51:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44C356E200;
-	Wed, 11 Aug 2021 23:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1A4C6E201;
+	Wed, 11 Aug 2021 23:51:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FAFF6E1F9;
- Wed, 11 Aug 2021 23:51:01 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- u21-20020a17090a8915b02901782c36f543so12307989pjn.4; 
- Wed, 11 Aug 2021 16:51:01 -0700 (PDT)
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F7A16E201;
+ Wed, 11 Aug 2021 23:51:04 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id bo18so6371525pjb.0;
+ Wed, 11 Aug 2021 16:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pOu/fILHgt+GHJ+t3LqOqvToD4GhAEtXIH4LNz022yE=;
- b=OkYnTFE5LQCWTSV+vCVRV1ljIhlzqPvGYsIHL6dIOUfIKFcM6itQeLlu7/ryrZMI4/
- VsJJBKl6ZLSVYBLA4jae2Vup29c616ibhlt81IbiXbAOYiIcvdFY05z7QY99dEtnxVpK
- gJaIfwK0Wl/hua7x2ks+tHZ2fJvF15ZApFMpfK31ie1bpusWvki5U3gBh1+B3MK1YWE7
- 9RYSUA26LK8e8qYZBCL2GxmS97cv7yfdOfjDVS51Er3kHMUFJ1qGEDQXksyJyfH4jOZ2
- m+H5eTise9xNcf2vBtqdfUM07+sC9+u3ndnH8+FTtz60FtV7XSTeGPRfzftPI2b/FoKT
- g6rw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=IqetlxJQH0ljhEzbSRKQFzu7rZWHhAi/EdZURPQQ3To=;
+ b=tKGMDYzvqsSm1bXhOeAsc4+dTrkzKeunk1S5y4XY4Lfq2+FDkkLNnnfdIcLClY5xG/
+ lnIODU/oy3SLUh9w0jS5WL9Em9jEtJj6NpusS2Ofet5pRAmv305sU9niN60cIpK8MgRZ
+ bxHsHj6UM9jGg89cyB0CciRN0wG3oFW96QIjNY+SfFwapsK7Ha5uGbV148pZnD/1GPr8
+ 5sVzo4rljImLP8LtYhImG0QBoj2dkO5gCV4i67emkf/4Qj9+AFT0qXTbFANtaY15cPP7
+ XRSKn3QXYNh144LUZVSaqkUd2XLSBBh8oUu7OxmGSnY2T1sau6xJ9atiIra8+CximkJl
+ zEzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pOu/fILHgt+GHJ+t3LqOqvToD4GhAEtXIH4LNz022yE=;
- b=e64LVm7jnzx/JIVZ7/y4RdoO0sLFCmPai7NfydYEEYt4Dh+3FM8cbd9fJ5u5sPUtzf
- auU0ArocGwps5Uix+3qcTk3KgPEWCxlaACkcP8zyKM2DseBMS6RwJWQck1RJIoI9kgCj
- lIc138AgzEjN7EUoDuVJobJv2fE3YIqGwrGANUvT2SiBlKxS/dt7b5SlQJNZ90JxNj1w
- IZ5yk5Iv3penM8WcRXxM6uOdbuMN+2gnGQdUYFLHxRW3WHMBrSQsl2Fr2L+SX19PyQya
- /35V6HNNRrALdWBT88PP3OAAITcgFep84o7BFRIA66k5mLGFfczsG5Z0KVYg/KMAbeoA
- QGkg==
-X-Gm-Message-State: AOAM530YpYw7FXI1pMqI3N9WIBZ4NniKVwIrKs0Lnx0kwZ8AR6kW5S8H
- TRUPd/udbuso0QVUUlU3gtDxPMOeYrAZAA==
-X-Google-Smtp-Source: ABdhPJxsDsAj6f4o1hLwy9wQiiHTMfq9dR2jISGP1yYFkJGtHFr8DO4z6bmlY0t9hkpcwVd5R12EZQ==
-X-Received: by 2002:a17:90a:d702:: with SMTP id
- y2mr1177478pju.127.1628725860621; 
- Wed, 11 Aug 2021 16:51:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=IqetlxJQH0ljhEzbSRKQFzu7rZWHhAi/EdZURPQQ3To=;
+ b=cYDNWCAqOrD/mDyY2g0hZwqiqp66BlzAPPjS+D8tegBXJsoskw5e/MmoMkCoyjEsRU
+ CXTdBYiqnl3Kx6RxcMcrWx0Dy5N4dd5R2atAT+7JHrkpCy/l1IsVukHcyP8vSnM26hfr
+ sjjbGZzugzph+ZwIs8uT4XBCCP8wHLmZMlC4kJMiY+XlF1IoK7YQBqMHDQR15kLvHmpu
+ lRHamJnlXGVSXBUTvc4jy4w7PGUDYfwcVtLqmTLF6B+qmqsQzeAcFBEYQbvHVfDpx1os
+ vg6Pr1a3UEGrmWqit2qneH0rhERbGnD52e5esORdZao3pLaGgUPhV6gM7Rx74Co443MM
+ DHVw==
+X-Gm-Message-State: AOAM532wGbBNcksCgJKdKNCmKzCHN3fSITvoz7lZ1939wI7j5fqYr25i
+ ByrmgkV0l9kPOnDvf6s+IkYaUFMT20cpUQ==
+X-Google-Smtp-Source: ABdhPJzRdBfwV7Mf9hAZec+YTQSgigWYzf3lb1xKO81xK8cSWjhr82Ro+zhTkBsFk5Vr9fhwW6n2Fw==
+X-Received: by 2002:a17:90a:6684:: with SMTP id
+ m4mr13287665pjj.127.1628725863447; 
+ Wed, 11 Aug 2021 16:51:03 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- l6sm724199pff.74.2021.08.11.16.50.59
+ by smtp.gmail.com with ESMTPSA id q1sm750673pfn.6.2021.08.11.16.51.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Aug 2021 16:50:59 -0700 (PDT)
+ Wed, 11 Aug 2021 16:51:02 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Stephen Boyd <swboyd@chromium.org>,
  Douglas Anderson <dianders@chromium.org>,
- Rob Clark <robdclark@chromium.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Clark <robdclark@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org (open list),
- Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH 0/4] drm/msm+ti-sn65dsi86: Fix NO_CONNECTOR fallout
-Date: Wed, 11 Aug 2021 16:52:46 -0700
-Message-Id: <20210811235253.924867-1-robdclark@gmail.com>
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/4] drm/bridge: ti-sn65dsi86: Avoid creating multiple
+ connectors
+Date: Wed, 11 Aug 2021 16:52:47 -0700
+Message-Id: <20210811235253.924867-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210811235253.924867-1-robdclark@gmail.com>
+References: <20210811235253.924867-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,25 +86,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-The first patch fixes breakage in drm-next for the ti eDP bridge (which
-is used on nearly all the snapdragon windows laptops and chromebooks).
-The second add drm/msm NO_CONNECTOR support, and the final two add
-NO_CONNECTOR support to the ti eDP bridge.
+If we created our own connector because the driver does not support the
+NO_CONNECTOR flag, we don't want the downstream bridge to *also* create
+a connector.  And if this driver did pass the NO_CONNECTOR flag (and we
+supported that mode) this would change nothing.
 
-Would be nice to get at least the first one into drm-next kinda soonish
-since at the moment a lot of things are broken.
+Fixes: 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Rob Clark (4):
-  drm/bridge: ti-sn65dsi86: Avoid creating multiple connectors
-  drm/msm/dsi: Support NO_CONNECTOR bridges
-  drm/bridge: ti-sn65dsi86: Implement bridge->mode_valid()
-  drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 61 ++++++++++++++++++++++-----
- drivers/gpu/drm/msm/Kconfig           |  2 +
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 41 ++++++++++++------
- 3 files changed, 81 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 9bf889302bcc..5d3b30b2f547 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -736,6 +736,9 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 	}
+ 	pdata->dsi = dsi;
+ 
++	/* We never want the next bridge to *also* create a connector: */
++	flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
++
+ 	/* Attach the next bridge */
+ 	ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
+ 				&pdata->bridge, flags);
 -- 
 2.31.1
 
