@@ -2,31 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566063E96C7
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 19:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C50E53E96D7
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 19:29:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7DEF6E188;
-	Wed, 11 Aug 2021 17:24:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2210E6E18E;
+	Wed, 11 Aug 2021 17:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10DC96E188
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:24:01 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: "H . Nikolaus Schaller" <hns@goldelico.com>,
- Paul Boddie <paul@boddie.org.uk>, Sam Ravnborg <sam@ravnborg.org>,
- list@opendingux.net, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v2 6/6] drm/ingenic: Attach bridge chain to encoders
-Date: Wed, 11 Aug 2021 19:23:09 +0200
-Message-Id: <20210811172309.314287-7-paul@crapouillou.net>
-In-Reply-To: <20210811172309.314287-1-paul@crapouillou.net>
-References: <20210811172309.314287-1-paul@crapouillou.net>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD36A6E18E
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:28:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10073"; a="300767232"
+X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="300767232"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2021 10:28:54 -0700
+X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="507102151"
+Received: from dut151-iclu.fm.intel.com ([10.105.23.69])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2021 10:28:54 -0700
+Date: Wed, 11 Aug 2021 17:28:53 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: gfx-internal-devel@eclists.intel.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/9] drm/i915/guc: Fix blocked context accounting
+Message-ID: <20210811172853.GA296946@DUT151-ICLU.fm.intel.com>
+References: <20210811011622.255784-1-matthew.brost@intel.com>
+ <20210811011622.255784-2-matthew.brost@intel.com>
+ <YROm3Ep+RpKHQcL/@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YROm3Ep+RpKHQcL/@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,195 +49,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Attach a top-level bridge to each encoder, which will be used for
-negociating the bus format and flags.
+On Wed, Aug 11, 2021 at 12:30:52PM +0200, Daniel Vetter wrote:
+> On Wed, Aug 11, 2021 at 01:16:14AM +0000, Matthew Brost wrote:
+> > Prior to this patch the blocked context counter was cleared on
+> > init_sched_state (used during registering a context & resets) which is
+> > incorrect. This state needs to be persistent or the counter can read the
+> > incorrect value resulting in scheduling never getting enabled again.
+> > 
+> > Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
+> 
 
-All the bridges are now attached with DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+Ah, relized I sent this series to the wrong list, let's stop replying to
+rev of series after this patch.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 92 +++++++++++++++++------
- 1 file changed, 70 insertions(+), 22 deletions(-)
+> Tiny bikeshed on that commit, but for SCHED_STATE_BLOCKED_MASK you want
+> GENMASK. Also SCHED_STATE_BLOCKED is usually called
+> SCHED_STATE_BLOCKED_BIAS or similar if you put a counter into that field.
+> 
+> But also ... we can't afford a separate counter? Is all the bitshifting
+> actually worth the space savings? With a separate counter your bugfix
+> below would look a lot more reasonable too.
+> 
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 6f860f2e11c4..cdbdc4d5cc96 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -21,6 +21,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_color_mgmt.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
-@@ -108,6 +109,19 @@ struct ingenic_drm {
- 	struct drm_private_obj private_obj;
- };
- 
-+struct ingenic_drm_bridge {
-+	struct drm_encoder encoder;
-+	struct drm_bridge bridge, *next_bridge;
-+
-+	struct drm_bus_cfg bus_cfg;
-+};
-+
-+static inline struct ingenic_drm_bridge *
-+to_ingenic_drm_bridge(struct drm_encoder *encoder)
-+{
-+	return container_of(encoder, struct ingenic_drm_bridge, encoder);
-+}
-+
- static inline struct ingenic_drm_private_state *
- to_ingenic_drm_priv_state(struct drm_private_state *state)
- {
-@@ -668,11 +682,10 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(encoder->dev);
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
--	struct drm_connector *conn = conn_state->connector;
--	struct drm_display_info *info = &conn->display_info;
-+	struct ingenic_drm_bridge *bridge = to_ingenic_drm_bridge(encoder);
- 	unsigned int cfg, rgbcfg = 0;
- 
--	priv->panel_is_sharp = info->bus_flags & DRM_BUS_FLAG_SHARP_SIGNALS;
-+	priv->panel_is_sharp = bridge->bus_cfg.flags & DRM_BUS_FLAG_SHARP_SIGNALS;
- 
- 	if (priv->panel_is_sharp) {
- 		cfg = JZ_LCD_CFG_MODE_SPECIAL_TFT_1 | JZ_LCD_CFG_REV_POLARITY;
-@@ -685,19 +698,19 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 		cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
- 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
- 		cfg |= JZ_LCD_CFG_VSYNC_ACTIVE_LOW;
--	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
-+	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
- 		cfg |= JZ_LCD_CFG_DE_ACTIVE_LOW;
--	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
-+	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
- 		cfg |= JZ_LCD_CFG_PCLK_FALLING_EDGE;
- 
- 	if (!priv->panel_is_sharp) {
--		if (conn->connector_type == DRM_MODE_CONNECTOR_TV) {
-+		if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV) {
- 			if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_I;
- 			else
- 				cfg |= JZ_LCD_CFG_MODE_TV_OUT_P;
- 		} else {
--			switch (*info->bus_formats) {
-+			switch (bridge->bus_cfg.format) {
- 			case MEDIA_BUS_FMT_RGB565_1X16:
- 				cfg |= JZ_LCD_CFG_MODE_GENERIC_16BIT;
- 				break;
-@@ -723,20 +736,29 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 	regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
- }
- 
--static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
--					    struct drm_crtc_state *crtc_state,
--					    struct drm_connector_state *conn_state)
-+static int ingenic_drm_bridge_attach(struct drm_bridge *bridge,
-+				     enum drm_bridge_attach_flags flags)
-+{
-+	struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
-+
-+	return drm_bridge_attach(bridge->encoder, ib->next_bridge,
-+				 &ib->bridge, flags);
-+}
-+
-+static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
-+					   struct drm_bridge_state *bridge_state,
-+					   struct drm_crtc_state *crtc_state,
-+					   struct drm_connector_state *conn_state)
- {
--	struct drm_display_info *info = &conn_state->connector->display_info;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+	struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
- 
--	if (info->num_bus_formats != 1)
--		return -EINVAL;
-+	ib->bus_cfg = bridge_state->output_bus_cfg;
- 
- 	if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV)
- 		return 0;
- 
--	switch (*info->bus_formats) {
-+	switch (bridge_state->output_bus_cfg.format) {
- 	case MEDIA_BUS_FMT_RGB888_3X8:
- 	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
- 		/*
-@@ -900,8 +922,16 @@ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
- };
- 
- static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs = {
--	.atomic_mode_set	= ingenic_drm_encoder_atomic_mode_set,
--	.atomic_check		= ingenic_drm_encoder_atomic_check,
-+	.atomic_mode_set        = ingenic_drm_encoder_atomic_mode_set,
-+};
-+
-+static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
-+	.attach			= ingenic_drm_bridge_attach,
-+	.atomic_check		= ingenic_drm_bridge_atomic_check,
-+	.atomic_reset		= drm_atomic_helper_bridge_reset,
-+	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
- };
- 
- static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
-@@ -976,7 +1006,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	struct drm_plane *primary;
- 	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
-+	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
-+	struct ingenic_drm_bridge *ib;
- 	struct drm_device *drm;
- 	void __iomem *base;
- 	long parent_rate;
-@@ -1154,20 +1186,36 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
- 								 DRM_MODE_CONNECTOR_DPI);
- 
--		encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_DPI, NULL);
--		if (IS_ERR(encoder)) {
--			ret = PTR_ERR(encoder);
-+		ib = drmm_encoder_alloc(drm, struct ingenic_drm_bridge, encoder,
-+					NULL, DRM_MODE_ENCODER_DPI, NULL);
-+		if (IS_ERR(ib)) {
-+			ret = PTR_ERR(ib);
- 			dev_err(dev, "Failed to init encoder: %d\n", ret);
- 			return ret;
- 		}
- 
--		encoder->possible_crtcs = 1;
-+		encoder = &ib->encoder;
-+		encoder->possible_crtcs = drm_crtc_mask(&priv->crtc);
- 
- 		drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
- 
--		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
--		if (ret)
-+		ib->bridge.funcs = &ingenic_drm_bridge_funcs;
-+		ib->next_bridge = bridge;
-+
-+		ret = drm_bridge_attach(encoder, &ib->bridge, NULL,
-+					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+		if (ret) {
-+			dev_err(dev, "Unable to attach bridge\n");
- 			return ret;
-+		}
-+
-+		connector = drm_bridge_connector_init(drm, encoder);
-+		if (IS_ERR(connector)) {
-+			dev_err(dev, "Unable to init connector\n");
-+			return PTR_ERR(connector);
-+		}
-+
-+		drm_connector_attach_encoder(connector, encoder);
- 	}
- 
- 	drm_for_each_encoder(encoder, drm) {
--- 
-2.30.2
+Could add a counter I suppose. A lot of this clean up can be done over
+time. 
 
+> 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Cc: <stable@vger.kernel.org>
+> > ---
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 87d8dc8f51b9..69faa39da178 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -152,7 +152,7 @@ static inline void init_sched_state(struct intel_context *ce)
+> >  {
+> >  	/* Only should be called from guc_lrc_desc_pin() */
+> >  	atomic_set(&ce->guc_sched_state_no_lock, 0);
+> 
+> atomic_t without barriers or anything like that. tsk, tsk.
+> 
+> Do we really need this?
+> 
+> Also I looked through the callchain of init_sched_state and I couldn't
+> find any locking, nor any description about ownership that would explain
+> why there's no locking.
+> 
+> E.g. scrub_guc_desc_for_outstanding_g2h has an xa_for_each with no
+> protection. No idea how that one works. I also couldn't figure out how
+
+In both the reset and context registration cases it is guaranteed no one
+else can be touching this context. We can get a lock inversion if use
+this lock while registering the context, thus we don't use it there.
+All this locking complexity is going to be greatly reduced when we move
+to the DRM scheduler + have a task to clean up the locking then.
+
+> anything else in there is protected (no spinlocks to be seen anywhere at
+> least).
+> 
+> And then there's stuff like this:
+> 
+> 		/* Flush context */
+> 		spin_lock_irqsave(&ce->guc_state.lock, flags);
+> 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> 
+> This pattern seems very common, and it freaks me out.
+> 
+
+I wrote some doc up on this in one of my initial posts. It is basically
+seal a bunch of races flying around related to resets. Cycling the lock
+guarantees that contexts can see that reset is in flight and not send
+out a H2G that requires a G2H response. Losing a G2H is fatal as we
+depend on that response to take further action (e.g. release a fence, do
+a put, etc...). 
+
+> Finally none of the locking or consistency rules are explained in the
+> kerneldoc (or even comments) in the relevant datastructures, which is not
+> great.
+
+Like I said, I have a patch for documentation but it hasn't made it into
+the kernel yet. I'll include the doc patch in my next spin of the parallel
+submission code.
+
+> 
+> > -	ce->guc_state.sched_state = 0;
+> > +	ce->guc_state.sched_state &= SCHED_STATE_BLOCKED_MASK;
+> 
+> The patch itself matches the commit message and makes sense. But like I
+> said, would be cleaner I think if it's just a separate counter.
+>
+
+Can clean this in the future.
+
+Matt
+
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> >  }
+> >  
+> >  static inline bool
+> > -- 
+> > 2.32.0
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
