@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243273E9B5D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 01:51:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4CE3E9B5F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 01:51:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE866E20B;
-	Wed, 11 Aug 2021 23:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3656E20F;
+	Wed, 11 Aug 2021 23:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA636E203;
- Wed, 11 Aug 2021 23:51:10 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id u15so2726655ple.2;
- Wed, 11 Aug 2021 16:51:10 -0700 (PDT)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B40F6E207;
+ Wed, 11 Aug 2021 23:51:12 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id k2so4830917plk.13;
+ Wed, 11 Aug 2021 16:51:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4Fb0UCEpX2hncAMMM+CVKUm3ptCtK2quo6PKUWz1gmE=;
- b=KoNiW8+Jp1FOFuNjlM7BjA29+/t2rZrZlR5toKTQrNfCrsL5Db/Pc8SOGuRaMceY3F
- lAcabFH8poaSyRbqMK6WI+p2Pj8xbHJanhgbTKfobbpkxtilQqDyY1HvD+S5x5HU97LD
- XapVHT3sA9RJEhHicGmmAXhe8Rn4r4UceqVnb8te9UnvVBVgS/+ASqrvgwjXzglCIia1
- TN4PbTXuUCvmDQpn+JFl+vqKyJrwAN/14JmdIISl0qnbQ80YiKjXHaU8w3CiSOS/qwm4
- qDugD9sss262vQ6IHOavNfXsxpAfu6XnGqb3Yeob5aF/Ujty0Wk4buM/biQv34vjl+27
- h/iw==
+ bh=04WJj5s3tctrSwR8Sz6N1WyD9Un9NfxweT900BICdVM=;
+ b=ne9DzUb+oQO4z6rDjwVGCE9QmlLYsujxft75FhYrqw6dKpJVnnuAf4c+a7U+3CE3Pp
+ M3V3z9TSE50E4H12+sSkPYWgBiqNmOoMkuu+FNSVD/NZeWsuCd1cfMoFsyBB//ayEBs7
+ CuIy1Znix+tRa6+ApM51ahJCVzMkSVP/gmo31jYDk6A/WOM973ZXwqTw/Fr27pYWm5PT
+ widI0YQHAsDmBpolqOAz/YkViZfW5A82VJAQlrge7gYXZWdPJBOis8uzM20JYDlnFvBl
+ 2n/qcGeZfV7jPa0C87rAdjZyN98MpEVZ+U4qwM3wtDsSx52nbMtuu/9s0ffZQEHGJShG
+ wmdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4Fb0UCEpX2hncAMMM+CVKUm3ptCtK2quo6PKUWz1gmE=;
- b=NNN30CCfnYJzcQ3yDiNunWpbqE7MQ5sppbq19066eDB9zSLcYbl1Fm4GlFXe9i55ye
- c2wA8IxqG727+wyr4KXNtmaHDBK9MFyrT+k7glFtCrCzL480EbZODw7rrHdwwfci/isV
- 68fFU4cfZzTfYnzZ3NtZOngAfa7Wf501RQ+y4T7m10fPcdtNV49GLGmywMOR1SgiUju4
- CmQtgvgLPTumdMTzQnn8WTo0B8QvSMjqOFHi6740wgXVn6TzoMi1YDUfPcsFs1kocAUo
- rOS6r6DVn1k5fqvSo99iej6DnLuleuc+aSzfnsnpylkIvsSZFcFQphB97XROD34MBau7
- KQLg==
-X-Gm-Message-State: AOAM533pvweweTkXAIoCLyVnIAh6qOamZuKKVmkVAX+Z6ajXqi+MhNh8
- UmnVwTtKEXPWP0yOYO0OsbiUNDuZjhjEAg==
-X-Google-Smtp-Source: ABdhPJwO4Bx01d9wfp9gJdAKnj0Rh7KBf/4YtO0bD4U4QnLVZFytwRCFRg7H3VUCEIf+YQJVPDJ9Og==
-X-Received: by 2002:a62:78d0:0:b029:3dd:8fc1:2797 with SMTP id
- t199-20020a6278d00000b02903dd8fc12797mr1186803pfc.65.1628725869151; 
- Wed, 11 Aug 2021 16:51:09 -0700 (PDT)
+ bh=04WJj5s3tctrSwR8Sz6N1WyD9Un9NfxweT900BICdVM=;
+ b=hRGoWn/j2O9Ayzmo7XKrYEXI1orxQquicfhxqreNc5gCVdeUKY80infIOufmEf2PLz
+ RLUnEBMn8ux19rQ6KaohlNORuVUNQmde/+z28YXPsuPKhZtyI3H7dzXBHgL4UsI4zgtD
+ 553fsnjvVM30SIFYLeDuBgeahk9syz75+A51w87162NekIhO+GC1Y601pj32PpofRND1
+ dTTntkcTD1VkFcFAUZRcoI0FwJ8K94gLuEImYMSlKxTNl/p2C0RiC4+kU7U1ZKvgBYR9
+ MHtqdXMx10GTaxlxScXEUs/hPysCh49sTXg0B3fRrMuqNBa93kKqyFxtzaEcI1Es/cJ9
+ Z+Uw==
+X-Gm-Message-State: AOAM532qN7PjvArDGDOMuf2LWG8ZtBTFx2e2Z+ZBRUiQx+8UnB9EnQRJ
+ 0cA6yR5VfNC5l77Pv7W8T5ZqiibKvIc9JQ==
+X-Google-Smtp-Source: ABdhPJw1q2RqS/5nMBmm9zC4l9pNzGk/XZcfLbMnn089P0iE1maQfoZnavDOwU1JF/CdkIXCuGM6Xw==
+X-Received: by 2002:a65:6441:: with SMTP id s1mr1164917pgv.214.1628725871203; 
+ Wed, 11 Aug 2021 16:51:11 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- r9sm255420pfh.135.2021.08.11.16.51.07
+ j16sm727463pfi.165.2021.08.11.16.51.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Aug 2021 16:51:08 -0700 (PDT)
+ Wed, 11 Aug 2021 16:51:10 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
@@ -60,9 +59,9 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 3/4] drm/bridge: ti-sn65dsi86: Implement bridge->mode_valid()
-Date: Wed, 11 Aug 2021 16:52:49 -0700
-Message-Id: <20210811235253.924867-4-robdclark@gmail.com>
+Subject: [PATCH 4/4] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
+Date: Wed, 11 Aug 2021 16:52:50 -0700
+Message-Id: <20210811235253.924867-5-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210811235253.924867-1-robdclark@gmail.com>
 References: <20210811235253.924867-1-robdclark@gmail.com>
@@ -85,71 +84,75 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-For the brave new world of bridges not creating their own connectors, we
-need to implement the max clock limitation via bridge->mode_valid()
-instead of connector->mode_valid().
+Slightly awkward to fish out the display_info when we aren't creating
+own connector.  But I don't see an obvious better way.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 34 +++++++++++++++++++++++----
+ 1 file changed, 29 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 5d3b30b2f547..38dcc49eccaf 100644
+index 38dcc49eccaf..dc8112bab3d3 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -595,6 +595,15 @@ static struct auxiliary_driver ti_sn_aux_driver = {
- 	.id_table = ti_sn_aux_id_table,
- };
+@@ -693,9 +693,11 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ 		return ret;
+ 	}
  
-+static enum drm_mode_status check_mode(const struct drm_display_mode *mode)
-+{
-+	/* maximum supported resolution is 4K at 60 fps */
-+	if (mode->clock > 594000)
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * DRM Connector Operations
-  */
-@@ -616,11 +625,7 @@ static enum drm_mode_status
- ti_sn_bridge_connector_mode_valid(struct drm_connector *connector,
- 				  struct drm_display_mode *mode)
- {
--	/* maximum supported resolution is 4K at 60 fps */
--	if (mode->clock > 594000)
--		return MODE_CLOCK_HIGH;
--
--	return MODE_OK;
-+	return check_mode(mode);
+-	ret = ti_sn_bridge_connector_init(pdata);
+-	if (ret < 0)
+-		goto err_conn_init;
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
++		ret = ti_sn_bridge_connector_init(pdata);
++		if (ret < 0)
++			goto err_conn_init;
++	}
+ 
+ 	/*
+ 	 * TODO: ideally finding host resource and dsi dev registration needs
+@@ -757,7 +759,8 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
+ err_dsi_attach:
+ 	mipi_dsi_device_unregister(dsi);
+ err_dsi_host:
+-	drm_connector_cleanup(&pdata->connector);
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
++		drm_connector_cleanup(&pdata->connector);
+ err_conn_init:
+ 	drm_dp_aux_unregister(&pdata->aux);
+ 	return ret;
+@@ -806,9 +809,30 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
+ 	regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
  }
  
- static struct drm_connector_helper_funcs ti_sn_bridge_connector_helper_funcs = {
-@@ -763,6 +768,14 @@ static void ti_sn_bridge_detach(struct drm_bridge *bridge)
- 	drm_dp_aux_unregister(&bridge_to_ti_sn65dsi86(bridge)->aux);
- }
- 
-+static enum drm_mode_status
-+ti_sn_bridge_mode_valid(struct drm_bridge *bridge,
-+			const struct drm_display_info *info,
-+			const struct drm_display_mode *mode)
-+{
-+	return check_mode(mode);
-+}
-+
- static void ti_sn_bridge_disable(struct drm_bridge *bridge)
++/*
++ * Find the connector and fish out the bpc from display_info.  It would
++ * be nice if we could get this instead from drm_bridge_state, but that
++ * doesn't yet appear to be the case.
++ */
+ static unsigned int ti_sn_bridge_get_bpp(struct ti_sn65dsi86 *pdata)
  {
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-@@ -1118,6 +1131,7 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
- static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
- 	.attach = ti_sn_bridge_attach,
- 	.detach = ti_sn_bridge_detach,
-+	.mode_valid = ti_sn_bridge_mode_valid,
- 	.pre_enable = ti_sn_bridge_pre_enable,
- 	.enable = ti_sn_bridge_enable,
- 	.disable = ti_sn_bridge_disable,
+-	if (pdata->connector.display_info.bpc <= 6)
++	struct drm_bridge *bridge = &pdata->bridge;
++	struct drm_connector_list_iter conn_iter;
++	struct drm_connector *connector;
++	unsigned bpc = 0;
++
++	drm_connector_list_iter_begin(bridge->dev, &conn_iter);
++	drm_for_each_connector_iter(connector, &conn_iter) {
++		if (drm_connector_has_possible_encoder(connector, bridge->encoder)) {
++			bpc = connector->display_info.bpc;
++			break;
++		}
++	}
++	drm_connector_list_iter_end(&conn_iter);
++
++	WARN_ON(bpc == 0);
++
++	if (bpc <= 6)
+ 		return 18;
+ 	else
+ 		return 24;
 -- 
 2.31.1
 
