@@ -2,51 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14B73E8D3B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 11:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4063E8D4F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 11:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD3A86E0EE;
-	Wed, 11 Aug 2021 09:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 014E96E0F8;
+	Wed, 11 Aug 2021 09:36:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FF4C6E0EE
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 09:27:27 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4CA5360F55
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 09:27:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628674047;
- bh=tuvddNBNvoHJ5bBz78nfvkY+HnC5kb/RTz6/xvxTlBM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=tWQ57BL360wpbVFNJHwth5OLCCal0D8256xNmq86TsklMFv2RN4NNpWbg2OIn9Tmw
- KMRcYEM34/I3fBL3raVJ8XuYebhaH3TdFuQwlR7Wc4NGnzKMHlRiEH5+6YUSVWocNy
- wTSxyRJN24O76V0bMfEbMyxEdgNmXKpz1XRHLkHZ50Wn69czYrvQdgZl6Pkh9tO0NR
- ZTG8pcluCA2NGn3C7DIx3kNKAYpyr+p65ne/5nVziBX9OrQNU793LdnyQJmQj1MH0j
- IZ7V+g9e/1X+xgR3pPQJ64chGb9uNlSTaL4ETocpdpDZWIHdodKqdeKYu1dQFfDn3F
- MpzdbPILyioTA==
-Received: by mail-il1-f181.google.com with SMTP id r6so1077292ilt.13
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 02:27:27 -0700 (PDT)
-X-Gm-Message-State: AOAM533fI3oHyujaoEqG9fhzqFnnt3BVWnU+e0ZeXlKpdTPK94IU5dJq
- TD33CtgMCy4hmdfOjZxyp+Oz9ufoVExSk1eli1o=
-X-Google-Smtp-Source: ABdhPJxkGhkvKZ9QYl0F2FacPSRF/zugCW9rfrkdBmcFx+4fh+iGvNaClEIQj3WVis0UTHj1Iv36bkgpGgNZ+XeYQs8=
-X-Received: by 2002:a05:6e02:13a1:: with SMTP id
- h1mr235074ilo.126.1628674046732; 
- Wed, 11 Aug 2021 02:27:26 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C55A6E0F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 09:36:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628674565;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yiNoHAcyou5Ou5txT8iiagT+7oEX1cAH3gpbVtY4zz4=;
+ b=dftK5sFXrennQ6xQ4ggjHzA+RUMX1XIgocx9LzJJuPT49XLgLpS0Qzi+nmB/cS95VBZdQZ
+ G9LVOpzVf91bczS1fIOmoilB4D9WWESx96jiGDCvo7EHEZ5srbf/v3uQ8CY/c3gnWqwNcH
+ yug2NhjC5eDs8PDwBb01YOm6rLgpRU4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-h_CveXh8MYqqsgCZvVLxhQ-1; Wed, 11 Aug 2021 05:36:04 -0400
+X-MC-Unique: h_CveXh8MYqqsgCZvVLxhQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E78CD801A92;
+ Wed, 11 Aug 2021 09:35:59 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F2FB9620DE;
+ Wed, 11 Aug 2021 09:35:51 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
+ Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
+ <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
+ dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>, Eric
+ Farman <farman@linux.ibm.com>, Harald Freudenberger
+ <freude@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, Jani Nikula
+ <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org, Kirti
+ Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>, Peter
+ Oberparleiter <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Vineeth Vijayan
+ <vneethv@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>
+Cc: "Raj, Ashok" <ashok.raj@intel.com>, Christoph Hellwig <hch@lst.de>, Leon
+ Romanovsky <leonro@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw@linux.intel.com>
+Subject: Re: [PATCH v4 08/14] vfio/pci: Move to the device set infrastructure
+In-Reply-To: <8-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com>
+Organization: Red Hat GmbH
+References: <8-v4-9ea22c5e6afb+1adf-vfio_reflck_jgg@nvidia.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Wed, 11 Aug 2021 11:35:50 +0200
+Message-ID: <87zgtouxvt.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20210810195906.22220-1-dmoulding@me.com>
- <20210810195906.22220-2-dmoulding@me.com>
-In-Reply-To: <20210810195906.22220-2-dmoulding@me.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 11 Aug 2021 17:27:15 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6h1f==zLF+dcdigx-ttAEuar3=uSvJAtDJLm5LSN54+A@mail.gmail.com>
-Message-ID: <CAAhV-H6h1f==zLF+dcdigx-ttAEuar3=uSvJAtDJLm5LSN54+A@mail.gmail.com>
-Subject: Re: [PATCH 1/1] drm: ttm: Don't bail from ttm_global_init if
- debugfs_create_dir fails
-To: Dan Moulding <dmoulding@me.com>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- ray.huang@amd.com, jason@jlekstrand.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +81,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested-by: Huacai Chen <chenhuacai@loongson.cn>
+On Thu, Aug 05 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-On Wed, Aug 11, 2021 at 6:42 AM Dan Moulding <dmoulding@me.com> wrote:
+> From: Yishai Hadas <yishaih@nvidia.com>
 >
-> In 69de4421bb4c ("drm/ttm: Initialize debugfs from
-> ttm_global_init()"), ttm_global_init was changed so that if creation
-> of the debugfs global root directory fails, ttm_global_init will bail
-> out early and return an error, leading to initialization failure of
-> DRM drivers. However, not every system will be using debugfs. On such
-> a system, debugfs directory creation can be expected to fail, but DRM
-> drivers must still be usable. This changes it so that if creation of
-> TTM's debugfs root directory fails, then no biggie: keep calm and
-> carry on.
+> PCI wants to have the usual open/close_device() logic with the slight
+> twist that the open/close_device() must be done under a singelton lock
+> shared by all of the vfio_devices that are in the PCI "reset group".
 >
-> Fixes: 69de4421bb4c ("drm/ttm: Initialize debugfs from ttm_global_init()")
-> Signed-off-by: Dan Moulding <dmoulding@me.com>
+> The reset group, and thus the device set, is determined by what devices
+> pci_reset_bus() touches, which is either the entire bus or only the slot.
+>
+> Rely on the core code to do everything reflck was doing and delete reflck
+> entirely.
+>
+> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  drivers/gpu/drm/ttm/ttm_device.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index 74e3b460132b..2df59b3c2ea1 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -78,9 +78,7 @@ static int ttm_global_init(void)
->
->         ttm_debugfs_root = debugfs_create_dir("ttm", NULL);
->         if (IS_ERR(ttm_debugfs_root)) {
-> -               ret = PTR_ERR(ttm_debugfs_root);
->                 ttm_debugfs_root = NULL;
-> -               goto out;
->         }
->
->         /* Limit the number of pages in the pool to about 50% of the total
-> --
-> 2.31.1
->
+>  drivers/vfio/pci/vfio_pci.c         | 162 +++++++---------------------
+>  drivers/vfio/pci/vfio_pci_private.h |   7 --
+>  2 files changed, 37 insertions(+), 132 deletions(-)
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
