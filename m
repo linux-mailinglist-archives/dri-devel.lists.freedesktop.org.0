@@ -1,65 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999A63E99B9
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 22:36:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D772E3E99C9
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 22:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E255891D4;
-	Wed, 11 Aug 2021 20:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9B689177;
+	Wed, 11 Aug 2021 20:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE5989115;
- Wed, 11 Aug 2021 20:34:19 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- z9-20020a9d62c90000b0290462f0ab0800so4871390otk.11; 
- Wed, 11 Aug 2021 13:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Rzd2Vkj46k5v3BAQCLAT3X/kdS/UT4sWDbrVlizoCHI=;
- b=W61s8/OLb0eTl3ggZRiamq+PrLDOHy7nPOUZzTR7yVkWwNf7iQRIkIVkq1DTfyCVqd
- Ssmp2c1cmMe4aVlsRNFap/BZG4MxO3gslbHjCYjzCE4r86z2sNrraGUFSD+VMd5EpNww
- YSCAmk1gs+Py9t4HyH8HHcHM4Ti8W84YLaXSE0cvtCzRYfj4FG1/CKLKTXBZe6kioyZQ
- 1dXfA+hc1x71Y1efvfIBkux6o30Vx8Q9nERGhIkAvDs++PVxoQALdapEcE7mtKQ9pXj9
- 8r/EePzFzxpcu6rNgwGEZ7sI8r2YnqRK8vWeQhHJ/taAE7BCDXu/Wfe/0qVAGaHmdg4L
- RcLg==
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B41E28951B
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 20:39:49 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ h63-20020a9d14450000b02904ce97efee36so4921197oth.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 13:39:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=0Nc4dbze1UiRTeZtZjRzQEhvFahux2f34ScECRTRd14=;
+ b=RaTKJI59CC3c94oNFMBO58g1w0ZmdBqkPUdbPlK6zt9Gkak5R/qNpzAFj48JK131Bo
+ +AzvfX4Z7IWCJsztRlZJLgQvT7Sy7FtQ21+0f62yj6dVuhUw4j7KhTFD9PtiiyP5kjLn
+ P990wx6of1F/4W/uG+IiXIEqqF0qdHFyWnk3Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Rzd2Vkj46k5v3BAQCLAT3X/kdS/UT4sWDbrVlizoCHI=;
- b=Ftn582bM02abpmTw36cKuMEYbWvcqVhyhkht5fHgNjqlXrG/XRNHN3dGw0b7Om8W3D
- jUIp3H3FN3Fk+5AwdML+vejGOz0W+suAhtBUyKnhJJA1EEsp3sKSFK28wcdYQZJBHGTM
- KMrAXY1rk+7SVL5vfFVGdzzYXA/VXzcdNGJQ9zuNsaVRXLaCyLIIZAR4INrv6OmoTFOB
- ajtERMm9FkUm/6ami9nq43oyNTnCG1R0F3z4VqO9Fl1P5Lk46IFnb0dS3f5CnV2/ZVKj
- RMXqSlmWVaFRA1cFHZ9Em7RxetGo4TiMW+ATJ763kgXfRBz2FYDa5tzH2c6uY7tQBkaG
- YdhQ==
-X-Gm-Message-State: AOAM530Xifuf0KWeJzAdMA2zxlnvLd/LZz6JLrf7XhMgh2qxYw7O4/jZ
- 6lPVX9B3EgR3TU9sL39xj8XO2NfcCq2nmCxmfNzh+oZ/
-X-Google-Smtp-Source: ABdhPJxCc6pnAfq3N8Ma0NNQO02OkNZ7jmBnpMryVISzycaIaaOYJ57SE6tfbcf3ekw49uwiKpvqMfp+iyXZS1lX+Ro=
-X-Received: by 2002:a05:6830:1e78:: with SMTP id
- m24mr614888otr.23.1628714058493; 
- Wed, 11 Aug 2021 13:34:18 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=0Nc4dbze1UiRTeZtZjRzQEhvFahux2f34ScECRTRd14=;
+ b=X1cttzSwga7sMUkCr+pwy2JLfKmN7mk0WnIl6fedbeH6QtKXvQ7z9n1n4GiAMl8nWJ
+ FnU3qRItVLLf0Zn8tOMrIwnXFc5piVgVx183W+me2RTF4OP3dW7GU4FFGSxglLT7xCOy
+ z0K5+39fwUd6Nz1vLXuebFU5824qsRLJl2XzrPdP43uPyaZ47mog7e0mYiWu4FvvMU0t
+ yIGPIaqgv8b3cFHtIHfJb34HYzM3pk5ic0KyA2dVhZ2tOKHxfTlWVCOGA+3XbF+rd+V/
+ D+lf/Stj8aUDmDSmgAegu6xr5YM5XkJATmKSTgpRcWbj+spW+mVvqz9MTdW5cLmBkt3/
+ lZlg==
+X-Gm-Message-State: AOAM531u8VkWlwhHqemlAcBNsY9+IRNTEmr5P0boKk9rms/WNryt5fCB
+ gJf6pmUJU/XLR9Q8w86zzAVZdGnltO38NDt5fmdGIw==
+X-Google-Smtp-Source: ABdhPJyimh1HTNJBFXXZHBBvKyYLkEHxV+CSvaHtv2RWM31z94v7y8gMhzWxEOHfwUnawB+tq2ZdiW77ofdWu+RJ9H0=
+X-Received: by 2002:a05:6830:1490:: with SMTP id
+ s16mr628380otq.233.1628714389030; 
+ Wed, 11 Aug 2021 13:39:49 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 Aug 2021 13:39:48 -0700
 MIME-Version: 1.0
-References: <20210811165211.6811-1-michel@daenzer.net>
- <20210811165211.6811-2-michel@daenzer.net>
-In-Reply-To: <20210811165211.6811-2-michel@daenzer.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 11 Aug 2021 16:34:07 -0400
-Message-ID: <CADnq5_OhcTdPNnHU_9iY73H-dxhnjq6igy7NvHw1AeknEXkeYg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/amdgpu: Use mod_delayed_work in JPEG/UVD/VCE/VCN
- ring_end_use hooks
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+In-Reply-To: <CAF6AEGttQ6iiXSG78fksDo6utfa3VFwFG5yXkk9XEr=+aEL95Q@mail.gmail.com>
+References: <20210624000304.16281-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20210624000304.16281-5-laurent.pinchart+renesas@ideasonboard.com>
+ <CAE-0n52Mw-ZzdqwKeEX2-WP6NyqdXvfzq=KeZJug9A-NiVo8aw@mail.gmail.com>
+ <YRO/W8ZAuYEVs2MF@pendragon.ideasonboard.com>
+ <CAF6AEGttQ6iiXSG78fksDo6utfa3VFwFG5yXkk9XEr=+aEL95Q@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Wed, 11 Aug 2021 13:39:48 -0700
+Message-ID: <CAE-0n53Cc3iPvnnzDs8bV=7DrQro4NYYyzuD_9kHg+-o33u0SA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] drm/bridge: ti-sn65dsi86: Wrap panel with
+ panel-bridge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rob Clark <robdclark@gmail.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,112 +80,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 11, 2021 at 12:52 PM Michel D=C3=A4nzer <michel@daenzer.net> wr=
-ote:
+Quoting Rob Clark (2021-08-11 09:20:30)
+> On Wed, Aug 11, 2021 at 5:15 AM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Stephen,
+> >
+> > On Tue, Aug 10, 2021 at 10:26:33PM -0700, Stephen Boyd wrote:
+> > > Quoting Laurent Pinchart (2021-06-23 17:03:02)
+> > > > To simplify interfacing with the panel, wrap it in a panel-bridge and
+> > > > let the DRM bridge helpers handle chaining of operations.
+> > > >
+> > > > This also prepares for support of DRM_BRIDGE_ATTACH_NO_CONNECTOR, which
+> > > > requires all components in the display pipeline to be represented by
+> > > > bridges.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > > ---
+> > >
+> > > With this patch applied I get two eDP devices on Lazor sc7180 (it is the
+> > > arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor*.dts files if you're
+> > > looking for more info). As far as I can tell, we should only have one
+> > > eDP device on the board, for the bridge.
+> > >
+> > > localhost ~ # ls -l /sys/class/drm/card1-eDP*
+> > > lrwxrwxrwx. 1 root root 0 Aug 10 22:24 /sys/class/drm/card1-eDP-1 ->
+> > > ../../devices/platform/soc@0/ae00000.mdss/drm/card1/card1-eDP-1
+> > > lrwxrwxrwx. 1 root root 0 Aug 10 22:24 /sys/class/drm/card1-eDP-2 ->
+> > > ../../devices/platform/soc@0/ae00000.mdss/drm/card1/card1-eDP-2
+> >
+> > Indeed.
+> >
+> > Does the display driver use the DRM connector bridge helper and
+> > DRM_BRIDGE_ATTACH_NO_CONNECTOR on that platform ?
+> >
 >
-> From: Michel D=C3=A4nzer <mdaenzer@redhat.com>
+> There haven't been any recent changes about how we attach the bridge,
+> it doesn't pass DRM_BRIDGE_ATTACH_NO_CONNECTOR.. tbh I've not been
+> having time to follow too closely the recent changes with bridge stuff
+> myself.
 >
-> In contrast to schedule_delayed_work, this pushes back the work if it
-> was already scheduled before. Specific behaviour change:
+> But now with this patch we have both the ti bridge and the panel
+> bridge creating a connector..  removing the connector created by the
+> ti bridge "fixes" things, but not sure if that would break something
+> on other platforms.  I guess there should now always be a panel
+> bridge, so removing ti_sn_bridge_connector_init() would be a sane
+> thing to do?
 >
-> Before:
->
-> The scheduled work ran ~1 second after the first time ring_end_use was
-> called, even if the ring was used again during that second.
->
-> After:
->
-> The scheduled work runs ~1 second after the last time ring_end_use is
-> called.
->
-> Inspired by the corresponding change in amdgpu_gfx_off_ctrl. While I
-> haven't run into specific issues in this case, the new behaviour makes
-> more sense to me.
->
-> Signed-off-by: Michel D=C3=A4nzer <mdaenzer@redhat.com>
 
-Makes sense to me.  Applied the series.
+So this patch works. We don't want to make the connector in this driver
+for the next bridge because this driver is making the connector. I guess
+eventually we'll drop this flag when this driver stops making the
+connector here?
 
-Thanks!
+---8<---
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index cd0fccdd8dfd..a8d4818484aa 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -741,7 +741,7 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
 
-Alex
-
-
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c  | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c  | 2 +-
->  drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c    | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_jpeg.c
-> index 8996cb4ed57a..2c0040153f6c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c
-> @@ -110,7 +110,7 @@ void amdgpu_jpeg_ring_begin_use(struct amdgpu_ring *r=
-ing)
->  void amdgpu_jpeg_ring_end_use(struct amdgpu_ring *ring)
->  {
->         atomic_dec(&ring->adev->jpeg.total_submission_cnt);
-> -       schedule_delayed_work(&ring->adev->jpeg.idle_work, JPEG_IDLE_TIME=
-OUT);
-> +       mod_delayed_work(system_wq, &ring->adev->jpeg.idle_work, JPEG_IDL=
-E_TIMEOUT);
->  }
->
->  int amdgpu_jpeg_dec_ring_test_ring(struct amdgpu_ring *ring)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_uvd.c
-> index 0f576f294d8a..b6b1d7eeb8e5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> @@ -1283,7 +1283,7 @@ void amdgpu_uvd_ring_begin_use(struct amdgpu_ring *=
-ring)
->  void amdgpu_uvd_ring_end_use(struct amdgpu_ring *ring)
->  {
->         if (!amdgpu_sriov_vf(ring->adev))
-> -               schedule_delayed_work(&ring->adev->uvd.idle_work, UVD_IDL=
-E_TIMEOUT);
-> +               mod_delayed_work(system_wq, &ring->adev->uvd.idle_work, U=
-VD_IDLE_TIMEOUT);
->  }
->
->  /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_vce.c
-> index 1ae7f824adc7..2253c18a6688 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-> @@ -401,7 +401,7 @@ void amdgpu_vce_ring_begin_use(struct amdgpu_ring *ri=
-ng)
->  void amdgpu_vce_ring_end_use(struct amdgpu_ring *ring)
->  {
->         if (!amdgpu_sriov_vf(ring->adev))
-> -               schedule_delayed_work(&ring->adev->vce.idle_work, VCE_IDL=
-E_TIMEOUT);
-> +               mod_delayed_work(system_wq, &ring->adev->vce.idle_work, V=
-CE_IDLE_TIMEOUT);
->  }
->
->  /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c b/drivers/gpu/drm/amd/=
-amdgpu/vcn_v1_0.c
-> index 284bb42d6c86..d5937ab5ac80 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-> @@ -1874,7 +1874,7 @@ void vcn_v1_0_set_pg_for_begin_use(struct amdgpu_ri=
-ng *ring, bool set_clocks)
->
->  void vcn_v1_0_ring_end_use(struct amdgpu_ring *ring)
->  {
-> -       schedule_delayed_work(&ring->adev->vcn.idle_work, VCN_IDLE_TIMEOU=
-T);
-> +       mod_delayed_work(system_wq, &ring->adev->vcn.idle_work, VCN_IDLE_=
-TIMEOUT);
->         mutex_unlock(&ring->adev->vcn.vcn1_jpeg1_workaround);
->  }
->
-> --
-> 2.32.0
->
+ 	/* Attach the next bridge */
+ 	ret = drm_bridge_attach(bridge->encoder, pdata->next_bridge,
+-				&pdata->bridge, flags);
++				&pdata->bridge, flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 	if (ret < 0)
+ 		goto err_dsi_detach;
