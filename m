@@ -1,58 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A11C3E97F3
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 20:52:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD413E9864
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 21:11:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D23A6E1A3;
-	Wed, 11 Aug 2021 18:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 926438920E;
+	Wed, 11 Aug 2021 19:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24FCD6E1A3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 18:52:00 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id t3so3867832plg.9
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 11:52:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=u+NqNQJXFf5VMDea9SqmxIiAq1Aqxjz2mlCFVqeoTl0=;
- b=oMvp1HpefuupopvGopPeUKqD0gZ5vPHMoEA4/9uU+wrzPTE00yWYu89LCGj/SgpiGZ
- VR5EyaC3wY0AQ4EXPSDxhNks+Yd9WOO5RIqMTeS3JZUjyhuchXqy3WJsWH2rnWgsdrya
- LkGNwZ9fpGkMr+R7vU6gMMlhDOC/vR6JT1L1nqbBL78Xyt3bt3Zw/zkQYs02uZexavnD
- OS83n0rS7q/5TKqZh5enIHYSwS6b2k/hjjg2PIOvMEChKy15q3hRy/DQ1TZ0RHn2XryE
- T7XVs/1p+K+8KxH8qKcwQe5nm2dXR9cG0w9vjYjAMtvYHYhqpbUQ2uNvs4tG1mOwMdhr
- eCuQ==
-X-Gm-Message-State: AOAM532SnynkqjPizmMSlaOlmCZPUK6aXa8UDQmELrxsBino0Z/80ZEF
- JRKaJKaf//Qjx8E9Z0S2Ng==
-X-Google-Smtp-Source: ABdhPJw2EUF+rrg+K5zpy3SmJDclmp5BOOvJMKX5mwcfU9Q7hj+SPfmwbPaHXNTErwiV+X8SsIfbsw==
-X-Received: by 2002:a17:90a:6c45:: with SMTP id
- x63mr11869591pjj.0.1628707919654; 
- Wed, 11 Aug 2021 11:51:59 -0700 (PDT)
-Received: from robh.at.kernel.org ([208.184.162.215])
- by smtp.gmail.com with ESMTPSA id g4sm197697pgs.42.2021.08.11.11.51.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Aug 2021 11:51:59 -0700 (PDT)
-Received: (nullmailer pid 86823 invoked by uid 1000);
- Wed, 11 Aug 2021 18:51:56 -0000
-Date: Wed, 11 Aug 2021 12:51:56 -0600
-From: Rob Herring <robh@kernel.org>
-To: Shawn Guo <shawn.guo@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add Truly NT35521 panel
- support
-Message-ID: <YRQcTLK1ffM1TEbX@robh.at.kernel.org>
-References: <20210804081352.30595-1-shawn.guo@linaro.org>
- <20210804081352.30595-2-shawn.guo@linaro.org>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2048.outbound.protection.outlook.com [40.107.92.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26C926E1A5;
+ Wed, 11 Aug 2021 19:11:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YPrmBlV9ZBcK/HBtAqDDhpPjDx32UsCDayAxVwOQycdWBzWwUjghnL2eICAX9ExTMad16lTXJ1RozSd/cCLo2yyTm1l/cnEg2e9lHXafy87kyIYs10SwaOV3SIbg+cFr3aXr9BPRjXrXqeEKCVYsgYUas/qjpvzBumfeJnCFEAdDoYvWbNIs/wZSEn+zTf0We+eDK2qdwmbowhkd2yfd+kFuSk88jm73MejgaviTDw26CJQXZX8jBYPDolO5QS6WFIL8zq98MsddG652mUs5jr4365R6YRNpD3RfcGUg0WVxG0W3oeN8XvvZl7H1Am7QIt99YjXwUJyqAx299AoPPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rl7KFKZV1zkmSYKbw/elQVg5fNcQ/vB8Vy9kpruRA6I=;
+ b=WnJZwX4hEj8r+TcuVpFfPdhN0GwzmI4Dm0IbMjb/A2w5i597ozWZ3w6JVncuKESvqibdEz8cwu7eaaa3AeP41Ibv5/CShrVcdMOsWeTF2gO9biEcdStTVZIAOD26vqYgO2STRyfVJlRv3WXjAQZh94Bt0BbEVLUyCyuwwotG5p/GfWhqglVvHgIaQ7AOz7PyHUpU2oYgnIlTktx0wlMzksv//3kPM3LOJcjs5E5N3J+3qtfuoG4TRgSeFH0oqx4pczWQSyCPC7oHUhSdS56jfUi8sRQGZUPclUUwaV09cgs3cWUMTjsm/RG1fUTfm0FlhamBlJO5YpsncLGl2MhWYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rl7KFKZV1zkmSYKbw/elQVg5fNcQ/vB8Vy9kpruRA6I=;
+ b=0RYmr9vUcUHSbu9+0tedDg3s929DY0Xcm3jF5tpJnqIAAfEFVpzTQhrVa9kc38dsFU/U4EGM6bSZR3XsO7sxrOfJK+4xgN7w4dp6Qm03TF8Rkuedd20HepuNjF2aGcEXCa5bC0O1oG8T2rbwcmN2C47YTxPCQlJDfx/GIcmDqbM=
+Received: from BN6PR18CA0010.namprd18.prod.outlook.com (2603:10b6:404:121::20)
+ by BL1PR12MB5110.namprd12.prod.outlook.com (2603:10b6:208:312::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.14; Wed, 11 Aug
+ 2021 19:11:14 +0000
+Received: from BN8NAM11FT026.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:121:cafe::74) by BN6PR18CA0010.outlook.office365.com
+ (2603:10b6:404:121::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.14 via Frontend
+ Transport; Wed, 11 Aug 2021 19:11:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT026.mail.protection.outlook.com (10.13.177.51) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4415.16 via Frontend Transport; Wed, 11 Aug 2021 19:11:14 +0000
+Received: from RErrabolDevMach.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.12; Wed, 11 Aug
+ 2021 14:11:12 -0500
+From: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <bhelgaas@google.com>, <linux-pci@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+CC: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
+Subject: [PATCH] Whitelist AMD host bridge device(s) to enable P2P DMA
+Date: Wed, 11 Aug 2021 14:11:04 -0500
+Message-ID: <20210811191104.21919-1-Ramesh.Errabolu@amd.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210804081352.30595-2-shawn.guo@linaro.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 55842ebe-cec1-4948-db34-08d95cfbc9bc
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5110:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5110BCAE331E09650F5EF470E3F89@BL1PR12MB5110.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: s/nnSI6gMEnjkYpGnzL061/YMhdap1XM/eE8UXPPsvkLBx4q0mnjGY6sGQzvllXIi/rRwg2erFfsJC1OM9ES7v/yzvlo4sHLTi+d7qUwV7tKaMVPdyBRivS60dglhSwifccCHoKzqVlTMCShH9c4uyKej++YWsaQDfB9EfJTwcfsH32t4eRTVPE3PxTJDDqQlC8efPDhQ5ulJIMBYxMxZ2K0i7xthkHhpvb31yAgzQtCEcUQM0jzKMX8AQFrOpVGzjEolnfe/UcrQMapVUu6zrtT0Sm+CD0BPTzZAdRRxH6IXpQwzR+8xK8BqhdEiCjRD0ggL3XtOuPWdbsxKHIkKQVU4cyiCgf52aNIyib/uQWGmXKZ1Raif/l4qmODuYw6OLoayRDHqts5QoY4iSgrnbgz+ddu0kWvt+5w73BC0qFShPDHBT6Sn+lT/rmJwOXYzizst61NXDbIh5/Mmu/WV6NQ9Rek0Cgg8IvlQImZjI6kFNYFFGttNNL86IUXLv4iMl7jaCkElVDMGAZbWujHBMyQw//QwoOyWLH3HaF/x+XKy56dVQlT4lq2CH/J/QA9NSqAxWE4P0Z283bbKyrl9bJREHkq5mcZodmKubDNJoRr5bl0JqJcgF2s9U6KzFqOWqXBqn/JrIZ4ciaQu1AmeeRZ36Rs5cVzFADNJI93S/+TU8U5SWSUxC1FF0zjDslTc9GAUunLfaMm3/jJmOGwC+Nv7BsRsgM/lMHvEWqhbceqG4Bha1UjY+MnMOCLjY57WdKRuVpHCxIQVGEqz2Bcmw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(136003)(39860400002)(396003)(46966006)(36840700001)(86362001)(16526019)(2906002)(82740400003)(6666004)(7696005)(478600001)(316002)(8936002)(186003)(34020700004)(2616005)(26005)(8676002)(47076005)(336012)(70206006)(70586007)(36756003)(4326008)(36860700001)(5660300002)(1076003)(356005)(110136005)(81166007)(426003)(82310400003)(4744005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2021 19:11:14.0340 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55842ebe-cec1-4948-db34-08d95cfbc9bc
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT026.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,90 +107,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 04, 2021 at 04:13:51PM +0800, Shawn Guo wrote:
-> The Truly NT35521 is a 5.24" 1280x720 DSI panel, and the backlight is
-> managed through DSI link.
-> 
-> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
-> ---
->  .../bindings/display/panel/truly,nt35521.yaml | 62 +++++++++++++++++++
->  1 file changed, 62 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/truly,nt35521.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/truly,nt35521.yaml b/Documentation/devicetree/bindings/display/panel/truly,nt35521.yaml
-> new file mode 100644
-> index 000000000000..4727c3df6eb8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/truly,nt35521.yaml
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/truly,nt35521.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Truly NT35521 5.24" 1280x720 MIPI-DSI Panel
-> +
-> +maintainers:
-> +  - Shawn Guo <shawn.guo@linaro.org>
-> +
-> +description: |
-> +  The Truly NT35521 is a 5.24" 1280x720 MIPI-DSI panel.  The panel backlight
-> +  is managed through DSI link.
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: truly,nt35521
-> +
-> +  reg: true
-> +
-> +  reset-gpios: true
-> +
-> +  enable-gpios: true
-> +
-> +  pwr-positive5-gpios:
-> +    maxItems: 1
-> +
-> +  pwr-negative5-gpios:
-> +    maxItems: 1
+Current implementation will disallow P2P DMA if the participating
+devices belong to different root complexes. Implementation allows
+this default behavior to be overridden for whitelisted devices. The
+patch adds an AMD host bridge to be whitelisted
 
-Are these +/-5V supplies? If so, they should be modeled with 
-gpio-regulator perhaps unless the panel connection could only ever be 
-GPIOs.
+Signed-off-by: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
+---
+ drivers/pci/p2pdma.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-> +  - enable-gpios
-> +  - pwr-positive5-gpios
-> +  - pwr-negative5-gpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        panel@0 {
-> +            compatible = "truly,nt35521";
-> +            reg = <0>;
-> +            reset-gpios = <&msmgpio 25 GPIO_ACTIVE_LOW>;
-> +            pwr-positive5-gpios = <&msmgpio 114 GPIO_ACTIVE_HIGH>;
-> +            pwr-negative5-gpios = <&msmgpio 17 GPIO_ACTIVE_HIGH>;
-> +            enable-gpios = <&msmgpio 10 GPIO_ACTIVE_HIGH>;
-> +        };
-> +    };
-> +...
-> -- 
-> 2.17.1
-> 
-> 
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 196382630363..7003bb9faf23 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -305,6 +305,8 @@ static const struct pci_p2pdma_whitelist_entry {
+ 	{PCI_VENDOR_ID_INTEL,	0x2032, 0},
+ 	{PCI_VENDOR_ID_INTEL,	0x2033, 0},
+ 	{PCI_VENDOR_ID_INTEL,	0x2020, 0},
++	/* AMD Host Bridge Devices */
++	{PCI_VENDOR_ID_AMD,	0x1480, 0},
+ 	{}
+ };
+ 
+-- 
+2.31.1
+
