@@ -1,72 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8C03E9B04
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 00:43:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5497B3E9B1C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 01:05:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4167E6E1F2;
-	Wed, 11 Aug 2021 22:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 593436E1E9;
+	Wed, 11 Aug 2021 23:05:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
- [IPv6:2607:f8b0:4864:20::c2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9476E1F2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 22:43:27 +0000 (UTC)
-Received: by mail-oo1-xc2a.google.com with SMTP id
- y23-20020a4a62570000b029028727ffa408so1183658oog.5
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 15:43:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=04cS4A0eo56m0oGnqXAn6XieM9vnDgHVg0ePStjOpRE=;
- b=Ny9jH+ZqN70nJmx35HOVsWRmUNHLTcIMbQ4OPBPxuVKg1AXmmD/J3JYkA8clW6Fu1S
- AK1RB1feliPJZzwB/Fmg/QX9YE6IPSMl1qQDZSOKssPiRCEha+1pTe3RahhLJCFXvA8x
- CNOvChGVdULSIY3++xOU1GoO5GVwzPcJ2C2ug=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=04cS4A0eo56m0oGnqXAn6XieM9vnDgHVg0ePStjOpRE=;
- b=cJcvPXoRwU/5fkNFD9NiJdPTecrFWEWSwjGse40OeS0P26FJFS2kNJZGvTvDsTWfjU
- 5dgW3KY29EuyOJ1f2DpHyVY+COePQDPYb84euxpchyhqmRPE9I+wRuTmhnicXT3LhpIi
- 2BxTiVmLST2eMMYfGcnzKPaaN+24hZKuVBcS6l0aTbNaq1MbMhNTkOZUPhaqptpGVcf+
- gbW79RfjzG4KxYbbItndwQNHjfvwA3eBvSbVXH+538V8/8lHiYh8oiX7bmuPqCT6GV+O
- yDE9CGFNmSsAJ2gbTrHRE7NhpXA9xWvLEIqRCeYRAz6IaPghCsy/s3L4YsyuNMHyKu/0
- pzqA==
-X-Gm-Message-State: AOAM532gVQblSYti0OASiMjue+nwqOO+pBpPyuA4mWg43GshAkS+Zwk6
- quFOP9j2cne8gaa9CVIrJlvWmDP4+WkNu2TTcIaH7A==
-X-Google-Smtp-Source: ABdhPJwDBd0j6rLWyuqknaqcd4wiONq8hvPaCYnmxA5iAPWlPegrYBqNU5bWVcEIXniwp0iJ+ZQkovWKiVqeqpoxBcc=
-X-Received: by 2002:a4a:3651:: with SMTP id p17mr773111ooe.92.1628721806915;
- Wed, 11 Aug 2021 15:43:26 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 Aug 2021 15:43:26 -0700
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 605AE6E1E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 23:05:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CAAFE6108C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 23:05:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1628723143;
+ bh=LBkFZQCUVSz/Rhx1ZP4O8O+xC4njvVvDFWJMqfhUzZc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=N7j+EgSapAyF+E2AEGflrSJiCZjpXiN2JMJWDRznUA/NrxH+lurInjTi1MtNpy85D
+ xrJ7HqMEM0cEO5JzCgW2Lz0DffXyBVfrtxqKIXiAn6i5bBxbOSn+zcxVG6d6GvMMrK
+ bVWXu4t+swt1Ylq/HkupY0NqVEegG6CVxnygcST8s+n1CW6/WYqUrUQkxfr5m2S/ow
+ pMTVv8JkSs5Lvg++Yqzdkq9L51sUm711vSUAPRNPiIeTBhtJ5goF6+14H2UfZQX2Vu
+ cZcu3ctNnysA4Km0Q2sG4gehaPE1JbwKv5poy95kXoLmCCFE/qu1rkqhn293tb2X4e
+ qMsycz3wt/GRg==
+Received: by mail-ej1-f50.google.com with SMTP id yk17so7480867ejb.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 16:05:43 -0700 (PDT)
+X-Gm-Message-State: AOAM5335ysrwQrKpH0/2g4HYczfZhVEG47H71miE1cpeI41Ytummsabc
+ YVZKGy3EOOVnoVoI1PSkOoHV096YJGZm5zE4yQ==
+X-Google-Smtp-Source: ABdhPJyl3xEbZZiTrI86cuk97OLZ4BOIdeT1gJvH8o+OFIusAC3qYu99JLfekICMO5HYVUlnTIbMmIkwRgDjMX6NUW0=
+X-Received: by 2002:a17:906:fcd7:: with SMTP id
+ qx23mr818236ejb.267.1628723142314; 
+ Wed, 11 Aug 2021 16:05:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YRRR2BWZP8SlskW/@pendragon.ideasonboard.com>
-References: <20210624000304.16281-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210624000304.16281-5-laurent.pinchart+renesas@ideasonboard.com>
- <CAE-0n52Mw-ZzdqwKeEX2-WP6NyqdXvfzq=KeZJug9A-NiVo8aw@mail.gmail.com>
- <YRO/W8ZAuYEVs2MF@pendragon.ideasonboard.com>
- <CAF6AEGttQ6iiXSG78fksDo6utfa3VFwFG5yXkk9XEr=+aEL95Q@mail.gmail.com>
- <CAE-0n53Cc3iPvnnzDs8bV=7DrQro4NYYyzuD_9kHg+-o33u0SA@mail.gmail.com>
- <CAF6AEGs=uOC7Fb0sHJG+iR=d7ORnRhRn-K_ogrKDwzuN=9qAhA@mail.gmail.com>
- <YRRR2BWZP8SlskW/@pendragon.ideasonboard.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Wed, 11 Aug 2021 15:43:26 -0700
-Message-ID: <CAE-0n53MW+_nmBcNbTVU-5LQj+a2zOFUCFCC2OAMXWTGfQP7xg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] drm/bridge: ti-sn65dsi86: Wrap panel with
- panel-bridge
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Clark <robdclark@gmail.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- Douglas Anderson <dianders@chromium.org>,
- Jagan Teki <jagan@amarulasolutions.com>, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Andrzej Hajda <a.hajda@samsung.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>, 
- Robert Foss <robert.foss@linaro.org>, linux-renesas-soc@vger.kernel.org
+References: <20210810025503.16353-1-jason-jh.lin@mediatek.com>
+In-Reply-To: <20210810025503.16353-1-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 12 Aug 2021 07:05:31 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8+wnXxetnvijkc1FCN=bPuq8sO4psoTpjT9gS-4nieMw@mail.gmail.com>
+Message-ID: <CAAOTY_8+wnXxetnvijkc1FCN=bPuq8sO4psoTpjT9gS-4nieMw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/mediatek: add AAL output size configuration
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>, fshao@chromium.org, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Fabien Parent <fparent@baylibre.com>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Nancy Lin <nancy.lin@mediatek.com>, singo.chang@mediatek.com, 
+ DTML <devicetree@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,15 +70,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2021-08-11 15:40:24)
-> On Wed, Aug 11, 2021 at 01:51:28PM -0700, Rob Clark wrote:
-> >
-> > I kinda think *all* bridges that create a connector (whether optional
-> > or not) should OR in NO_CONNECTOR when attaching the next downstream
-> > bridge.. since you never want multiple connectors
->
-> Yes, that sounds reasonable to me. Stephen, would you like to set a
-> patch ?
->
+Hi, Jason:
 
-Sure I'll send a proper patch for this bridge driver.
+jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B48=E6=9C=881=
+0=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=8810:55=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> To avoid the output width and height is incorrect,
+> AAL_OUTPUT_SIZE configuration should be set.
+
+Applied to mediatek-drm-fixes [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
+
+Regards,
+Chun-Kuang.
+
+>
+> Fixes: 0664d1392c26 ("drm/mediatek: Add AAL engine basic function")
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+> Change in v2:
+> - fix to one line
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/dr=
+m/mediatek/mtk_drm_ddp_comp.c
+> index 75bc00e17fc4..50d20562e612 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -34,6 +34,7 @@
+>
+>  #define DISP_AAL_EN                            0x0000
+>  #define DISP_AAL_SIZE                          0x0030
+> +#define DISP_AAL_OUTPUT_SIZE                   0x04d8
+>
+>  #define DISP_DITHER_EN                         0x0000
+>  #define DITHER_EN                              BIT(0)
+> @@ -197,6 +198,7 @@ static void mtk_aal_config(struct device *dev, unsign=
+ed int w,
+>         struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+>
+>         mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs,=
+ DISP_AAL_SIZE);
+> +       mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs,=
+ DISP_AAL_OUTPUT_SIZE);
+>  }
+>
+>  static void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state =
+*state)
+> --
+> 2.18.0
+>
