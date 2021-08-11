@@ -1,60 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745503E8D67
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 11:43:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7985E3E8D7F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 11:48:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 301B06E0FD;
-	Wed, 11 Aug 2021 09:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDFA86E102;
+	Wed, 11 Aug 2021 09:48:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C816E0FD
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 09:43:18 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id m12so2118356wru.12
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 02:43:18 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 042286E103
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 09:48:04 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id r6so2191511wrt.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 02:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=8qsJMoMusEBZS1skzUgBSb+YWAAoCzV88LAQW/oYAvk=;
- b=knBiwVWfL/31M4lVR+QMzuhoxLsMAAIch55NOr1iXuHTchgDAPv5Fxczt6K1gQGEWN
- wNpSDaLaMDdy18qIL4TSU+sfaP5XqEuqSKO1mjPP1Iv5rPhOE3diAiY5RO9cJExPoSmf
- 6GnpD8PIC9tIfNsfcBPzNFlYT9RtNrYgLEm0M=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ODZcfL88nEna9jnx6MeSXB765F0RXBgR99zQotJA1Pg=;
+ b=RySFRDAgx0nFdxb2V3wpXVxMXPO/SiilkFlctM/MlDhtqARVV/T3BUY7IoiL7ZDyCo
+ AF2JRnrcTlJOEvAfLumcYXSk9pQFcidFuRqOjwN+BUJcSsQG2coOxeDkgJUh51055TPv
+ 0doA2RAX1UwtY71jv1jDib0GBGGgLOjRoLt4k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8qsJMoMusEBZS1skzUgBSb+YWAAoCzV88LAQW/oYAvk=;
- b=Pq0cEZ54nBYpvNczjuXAuv47oKI8c0YlCndvAGQASDtCVtVIJxZGJlH1pInl6PqQup
- GTkUWCmlLDWKtBfpis0I+O3t/Eh7c/x3c2gjS74ubJS/0BRLhr2bScprPUpWccjXQwQx
- NMht/6MOihOS1SkxiBlndOQdjtZBpz/Hm/tMxXDXWUb6fCAFLs4Kg58DyuqzpXcQCtua
- ZWyPlbJnO9pcsiPhXCKuEhRBcWZYKGE8dgCtjymlKGaP/d49pfDYkBbUt5fhlT0Uipif
- TLjrRbdRKfo4v8+52T8V9kNtarmoBsnWaYt1Ftv8oiLqDV2zKYLu1XlRIYNTJmvxQZcU
- xMLg==
-X-Gm-Message-State: AOAM5323o/04/KkS8ZqR3jSAw9DapCXX6cWkcqB+rJInDBes/h5n7FgO
- DaFirNmWb4ooqz4pC8pv4eKzxr+mE3N3Rg==
-X-Google-Smtp-Source: ABdhPJzZZAJQm721ShL9/Zid8bjOQA9pWiqq4MpRuhY9YE0xxBxcgxURy8RzCn/1KXAtaiyymqbCtg==
-X-Received: by 2002:a05:6000:1805:: with SMTP id
- m5mr20950375wrh.265.1628674997315; 
- Wed, 11 Aug 2021 02:43:17 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ODZcfL88nEna9jnx6MeSXB765F0RXBgR99zQotJA1Pg=;
+ b=lJa4D8uJRjdsJ3S0NWZEzp4/a9HvGe2W0bDzCPSVvjFNekGsmduQJ+68RGc0CYnEkM
+ XYzIUZ4Srmr2RXvqHNnrODkj62IJiyJqFI6AH1ua/fW07vK/COR8UXknQcu8CDxWZsdt
+ ShXiiEFYZnCO0W/KdlQdzSnPBvNYo4WidkaaivLt2M3x3iOO8RpwSmLCZqAQHNe4h58a
+ w2Zf1SZD1TsMN6fRqLc6aBpCaeB3AstwiPRbrWQL42XWAnbtfiSiQ1J+GHmrEWDr6ch3
+ YleJWSBSxK+38ikNm4p/4oux7/IV+/qAALNurgv5HmjsdesWSyQyDxxM/fWSUa1bALIh
+ Em4g==
+X-Gm-Message-State: AOAM533DQa7a9CYL57i4uIijCH4S7DbKhzhDjLIoAgJaTzxjFk0ORoMI
+ 60xIaORrGR5kmCLH0iyuLDZstw==
+X-Google-Smtp-Source: ABdhPJxSalMkFMHC3mOT3puaFVGTb6omXC7nqX4zfFlwQf7LNl1KZTQjAqi7Rn8bt6sOQIlc3u0HPg==
+X-Received: by 2002:adf:ab0e:: with SMTP id q14mr2791183wrc.171.1628675282490; 
+ Wed, 11 Aug 2021 02:48:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v17sm26275917wrt.87.2021.08.11.02.43.16
+ by smtp.gmail.com with ESMTPSA id i21sm5641963wrb.62.2021.08.11.02.48.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Aug 2021 02:43:16 -0700 (PDT)
-Date: Wed, 11 Aug 2021 11:43:15 +0200
+ Wed, 11 Aug 2021 02:48:01 -0700 (PDT)
+Date: Wed, 11 Aug 2021 11:48:00 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: John Cox <jc@kynesim.co.uk>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: How to obtain a drm lease from X for overlay planes as well as a
- primary plane?
-Message-ID: <YRObs1/iDhgCbMo8@phenom.ffwll.local>
-References: <34a5hg1rb804h8d1471apktsgl5v9n9u1e@4ax.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: [Intel-gfx] linux-next: Signed-off-by missing for commit in the
+ drm-intel tree
+Message-ID: <YROc0KkBbuAwrx0f@phenom.ffwll.local>
+Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+References: <20210715141854.1ad4a956@canb.auug.org.au>
+ <162823181614.15830.10618174106053255881@jlahtine-mobl.ger.corp.intel.com>
+ <YRE2RwQ6XlUqbgmn@phenom.ffwll.local>
+ <20210809161939.GS1556418@mdroper-desk1.amr.corp.intel.com>
+ <YRIcTTsEF0Kg7F8K@phenom.ffwll.local> <8735rgo3hi.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <34a5hg1rb804h8d1471apktsgl5v9n9u1e@4ax.com>
+In-Reply-To: <8735rgo3hi.fsf@intel.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,40 +91,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 10, 2021 at 05:57:31PM +0100, John Cox wrote:
-> Hi all
+On Wed, Aug 11, 2021 at 10:16:41AM +0300, Jani Nikula wrote:
+> On Tue, 10 Aug 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Mon, Aug 09, 2021 at 09:19:39AM -0700, Matt Roper wrote:
+> >> On Mon, Aug 09, 2021 at 04:05:59PM +0200, Daniel Vetter wrote:
+> >> > On Fri, Aug 06, 2021 at 09:36:56AM +0300, Joonas Lahtinen wrote:
+> >> > > Hi Matt,
+> >> > > 
+> >> > > Always use the dim tooling when applying patches, it will do the right
+> >> > > thing with regards to adding the S-o-b.
+> >> > 
+> >> > fd.o server rejects any pushes that haven't been done by dim, so how did
+> >> > this get through?
+> >> 
+> >> I definitely used dim for all of these patches, but I'm not sure how I
+> >> lost my s-o-b on this one.  Maybe when I edited the commit message after
+> >> 'dim extract-tags' I accidentally deleted an extra line when I removed
+> >> the extract-tags marker?  It's the only patch where the line is missing,
+> >> so it's almost certainly human error on my part rather than something
+> >> dim did wrong.
+> >
+> > Yeah that's an expected failure model, and dim is supposed to catch that
+> > by rechecking for sobs when you push. See dim_push_branch ->
+> > checkpatch_commit_push_range in dim. So you can hand-edit stuff however
+> > you want, dim /should/ catch it when pushing. That it didn't is kinda
+> > confusing and I'd like to know why that slipped through.
 > 
-> I am on a Raspberry Pi, I want to display fullscreen video and have a
-> couple of overlay planes to display controls / subtitles etc. The h/w
-> can certainly do this.  I need to be able to do this from a starting
-> point where X is running.
-> 
-> I can successfully find X's output & crtc and grab that using
-> xcb_randr_create_lease and use that handle to display video. So far so
-> good.  But I also want to have overlay planes for subtitles etc.  The
-> handle I've got from the lease only seems to have a PRIMARY & a CURSOR
-> plane attached so I can't get anything there.
+> One of the failures that happened here was that the commit was part of a
+> topic branch that was merged and pushed directly. All merges should
+> happen via pull requests on the list, and applied (preferrably by
+> maintainers or at least with their acks recorded on the merge) using dim
+> apply-pull which should also have the checks.
 
-I think X just gives you a legacy lease for the crtc, and the kernel
-automatically adds the primary plane and cursor plane (if they exist) to
-that lease. Unless X is patched to enable plane support and add those all
-explicitly to the lease I don't think there's a way for that.
+Ah yes if the merge is applied directly instead of using apply-pull then
+that's not good. I guess that's why we have the rule that only maintainers
+should handle topic branches ...
 
-For wayland this is still in the works, so might be good if you check
-there that your use-case is properly supported. Protocol MR is here:
+Not sure how we can fix this in dim? Maybe a check whether the patches
+your pushing contain a merge commit, which prompts an additional query
+like
 
-https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/67
+"Merge commits should only be done by repo maintainers, not committers.
+Confirm that you are a maintainer of $repo?"
 
-> How should I be going about getting some more planes to use for
-> overlays? Pointers to documentation / examples gratefully received - so
-> far my google-foo has failed to find anything that works.
+It's not the first time this slipped through and caused some fun. Similar
+to how we have the confirmation check if you push a lot of patches.
+
+Thoughts?
+-Daniel
+
+
 > 
-> I'm sorry if this is the wrong place to ask, but if there is a better
-> place please say and I'll go there.
 > 
-> Many thanks
+> BR,
+> Jani.
 > 
-> John Cox
+> >
+> >> > Matt, can you pls figure out and type up the patch to
+> >> > plug that hole?
+> >> 
+> >> Are you referring to a patch for dim here?  The i915 patch has already
+> >> landed, so we can't change its commit message now.
+> >
+> > Yeah dim, not drm-intel, that can't be fixed anymore because it's all
+> > baked in.
+> > -Daniel
+> >
+> >> 
+> >> 
+> >> Matt
+> >> 
+> >> > 
+> >> > Thanks, Daniel
+> >> > 
+> >> > > 
+> >> > > Regards, Joonas
+> >> > > 
+> >> > > Quoting Stephen Rothwell (2021-07-15 07:18:54)
+> >> > > > Hi all,
+> >> > > > 
+> >> > > > Commit
+> >> > > > 
+> >> > > >   db47fe727e1f ("drm/i915/step: s/<platform>_revid_tbl/<platform>_revids")
+> >> > > > 
+> >> > > > is missing a Signed-off-by from its committer.
+> >> > > > 
+> >> > > > -- 
+> >> > > > Cheers,
+> >> > > > Stephen Rothwell
+> >> > 
+> >> > -- 
+> >> > Daniel Vetter
+> >> > Software Engineer, Intel Corporation
+> >> > http://blog.ffwll.ch
+> >> 
+> >> -- 
+> >> Matt Roper
+> >> Graphics Software Engineer
+> >> VTT-OSGC Platform Enablement
+> >> Intel Corporation
+> >> (916) 356-2795
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
 
 -- 
 Daniel Vetter
