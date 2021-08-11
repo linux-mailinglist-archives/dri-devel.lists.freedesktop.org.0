@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73BB03E8E75
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 12:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1859F3E8E77
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 12:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2CA89760;
-	Wed, 11 Aug 2021 10:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1486E115;
+	Wed, 11 Aug 2021 10:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A852891CC
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 10:21:47 +0000 (UTC)
-Date: Wed, 11 Aug 2021 10:21:42 +0000
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE296E115
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 10:22:42 +0000 (UTC)
+Date: Wed, 11 Aug 2021 10:22:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1628677304;
- bh=bDk/wMqwMCPs55BFKu9MMkPMlAs8hEprV+MTnJ3E6w8=;
+ s=protonmail; t=1628677360;
+ bh=fFv6ZGpgid4MXbgxFI3m1V1NGWNooU/fG7oArX8VObk=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=JWX8fT9mXOA2s8/SlX7kNNAPfmpsbbt+cN1IRJmg6+b+6Fz1XyPEpR7/78cgkw/Zd
- j0q84kycARWwiy+T8sGwqDM8nD7O0I4mDXUOHabvOFYUuimnhDM6aBEjJni2MD0S+b
- gtajsgKG9hVnkWWcOFyK6IyuvlRozW0PRU9HG9gjyHLlMxnI0yEC29ocyAXg2BIGk+
- 22qd4zVxpQBS5Y5JkUMIA/KrMk/Az9fWXJ+aqTK/vZGxyC6BsXKv0s4WPdxcu7MnU9
- fibuSmPBM+R36bBVmu6Z6j9AbmIBgQz6J9r3ScYKESEQsQxEshUvh9ZGdugWtWVLEU
- 3MUUmkUfrECxg==
-To: Daniel Vetter <daniel@ffwll.ch>
+ b=tB0uoy6zZuMrG3Fwi5KuFjBnKoUG5DjCuSJkBezxyYcpKqam01IrXbLkWF90PBJFZ
+ 54juitDsOt6aHQ4FjxXiDuu+7W2kAWAxLgKA36cPWanTDConyAhNe7x5B/Jp5CmQW9
+ ZZ9/EvcMFhQ9ZI872GEpIot6trH4NDfvor/tvcJe9kxNiF9m0wgVHv/mjCjY4e51v6
+ ezNzwtv4jxTq6bk9fjxfjc4nH1kjPpsh/+FdcCGpKOkbd2AOcyqBojEu7u3u7H/pmM
+ Mwtkb7KHUU6l+NsMquwtNrrHLRJlChEKEcy9WAxbQP1Rk3QHMdC2tmJ73VTwOrqPoe
+ AOCI+aNLqe8TQ==
+To: John Cox <jc@kynesim.co.uk>
 From: Simon Ser <contact@emersion.fr>
-Cc: John Cox <jc@kynesim.co.uk>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
 Subject: Re: How to obtain a drm lease from X for overlay planes as well as a
  primary plane?
-Message-ID: <Af-nitVw-cgVIRn4hPB53-PwBSuaSqzaoUQA5H6kUF6BXVYJ5noiTAE6E1K0Q_aL_PxpA08bNQuxOKbSfSHQtSR-OOUtMtyrkLfSFBT7hDE=@emersion.fr>
-In-Reply-To: <YRObs1/iDhgCbMo8@phenom.ffwll.local>
+Message-ID: <6jWplco0jml0gylXZig6cLBcACGz10c8CyGyX4FNyIBZh6lAiL_ZV_Ao3oVH0YdW5qgFXKgZF2Xk_kcAMKY47qyTQfpElvJxKCwmOG72Q6E=@emersion.fr>
+In-Reply-To: <1j87hgl0vgbns96eooqsmnqg0jar5b7hr6@4ax.com>
 References: <34a5hg1rb804h8d1471apktsgl5v9n9u1e@4ax.com>
  <YRObs1/iDhgCbMo8@phenom.ffwll.local>
+ <1j87hgl0vgbns96eooqsmnqg0jar5b7hr6@4ax.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -57,22 +58,11 @@ Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, August 11th, 2021 at 11:43, Daniel Vetter <daniel@ffwll.ch> w=
-rote:
+On Wednesday, August 11th, 2021 at 12:19, John Cox <jc@kynesim.co.uk> wrote=
+:
 
-> For wayland this is still in the works, so might be good if you check
-> there that your use-case is properly supported. Protocol MR is here:
->
-> https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests=
-/67
+> That MR seems to be done so is probably an inappropriate
+> place to ask - where would you recommend as an appropriate forum?
 
-The client requests a connector, and the compositor will decide which
-resources to lease. This may or may not include overlay planes. The
-connector you're interested in may or may not be available for lease.
-
-What's your use-case? Why not use an xdg_toplevel and wl_subsurface?
-
-DRM leases are not a good idea for regular applications. They don't
-properly integrate with the rest of the desktop, and won't get input
-events. Letting the compositor deal with KMS planes is the preferred
-approach.
+For Wayland related questions, you can ask on IRC or on the
+wayland-devel mailing list.
