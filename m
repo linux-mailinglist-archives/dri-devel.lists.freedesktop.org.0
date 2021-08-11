@@ -1,147 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA30F3E8D8A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 11:50:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E413E8D9B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 11:55:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0D36E105;
-	Wed, 11 Aug 2021 09:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 610DD6E10F;
+	Wed, 11 Aug 2021 09:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2068.outbound.protection.outlook.com [40.107.243.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 816056E105
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 09:49:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HU6GDycg/vtU70MUc9qkh/J6F2uGSnt/jryvQ2k79NCWypkOxew3POzvGgkD7c8YnwrFwHyS0ce5uzS9K1hRhoM4h0NTltMrzEbqPrfUowJVtySlzUhaHw9YYIURlJB+UE0EJINT/Y7ideQqTTNezV6jqGuXUlx0RELGa3YDwYKq9i216qWluLkntisrnCzhlolrp/fjHrT3Mh41jyhA9RvMuF7an/9d9zyo2NLQ1hdQWewKqe7Nfj0Ht/ZFMYWPO1qmjqJEUhf/pkS4nnEiKQBkRpzQL9IH8WgCaBvbaBumH1nHFOOwHXXRzdDp6WTeE7q6QiQ/O7S8V1DAlkeLJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sKK4Yt0UGclAYmd3tcFdS8LOjAkhkjOlED4xcP69WEY=;
- b=BBp9IvG2V+8QkBrp/SM0b9RuvsUrjpCcYBgb8u2uooROjUszkjGKr6wkeL+y7821xjRsTchIvC253wUUAq6mEhveh3RZ99T4Sy88ZgUb8EanaeVhptRgqMPSLO7Spz47Ptb+/cevfFfbxHHm9zZBEAZYK+0nNwvnSwENpp94PdfWBukfnJHliCpJzu1NvQi0S+fQBwZiPGVXeEu00UqVSnjZfVCdm9+QcgvzK0Jh1iMCcZU8IQFQL/kW3lUCSRFCXJa1lxRe7BeXFAVGaPPOJb1mGTnwZzTBBGxYqqPd4XlPGRGhqXYZF0MjxExwVIrzv/x42OnMOV4sHL7PVXtNoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sKK4Yt0UGclAYmd3tcFdS8LOjAkhkjOlED4xcP69WEY=;
- b=seDUP7p8l8H0FH8x7nXLgLayqoc/XzDOBLGbgn5X8EsSm3Dk741UyD8vimk5ezB11GwgcBHHvsp9GuEokXz8aVKCB4NWreUpCgoYdKeYTF7G9aNBXU58XTij1g1YklGO+KQGdIE8bDAuoLf0+ZaqJUapez5Lr4jAvH+EJPXWT6w=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.15; Wed, 11 Aug
- 2021 09:49:49 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::6904:392c:9ae3:171a]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::6904:392c:9ae3:171a%7]) with mapi id 15.20.4415.014; Wed, 11 Aug 2021
- 09:49:49 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: Lyude Paul <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>, "Wentland, Harry"
- <Harry.Wentland@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Wu, Hersen"
- <hersenxs.wu@amd.com>, Juston Li <juston.li@intel.com>, Imre Deak
- <imre.deak@intel.com>, =?utf-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, Sean
- Paul <sean@poorly.run>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- "Pillai, Aurabindo" <Aurabindo.Pillai@amd.com>, Eryk Brol
- <eryk.brol@amd.com>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>, "Cornij,
- Nikola" <Nikola.Cornij@amd.com>, Jani Nikula <jani.nikula@intel.com>, Manasi
- Navare <manasi.d.navare@intel.com>, Ankit Nautiyal
- <ankit.k.nautiyal@intel.com>, =?utf-8?B?Sm9zw6kgUm9iZXJ0byBkZSBTb3V6YQ==?=
- <jose.souza@intel.com>, Sean Paul <seanpaul@chromium.org>, Ben Skeggs
- <bskeggs@redhat.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH 2/4] drm/dp_mst: Only create connector for connected end
- device
-Thread-Topic: [PATCH 2/4] drm/dp_mst: Only create connector for connected end
- device
-Thread-Index: AQHXfYEpm/MeaPGH2E6B0m5vczxJpqtii8QAgAAC/4CAAGEtwIAKZjuAgADamDA=
-Date: Wed, 11 Aug 2021 09:49:49 +0000
-Message-ID: <CO6PR12MB5489274038BFF71A80EA9ECEFCF89@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20210720160342.11415-1-Wayne.Lin@amd.com>
- <20210720160342.11415-3-Wayne.Lin@amd.com>
- <69a5f39580f0d3519468f45ecbfd50d7ad1b3036.camel@redhat.com>
- <292d6ead03d6afe54f81d52f705e38bbf9feb7bd.camel@redhat.com>
- <SJ0PR12MB550410E529057F59023153D9FCF19@SJ0PR12MB5504.namprd12.prod.outlook.com>
- <2012d26bb2bece43e65ce435e6ba03f1d8767f61.camel@redhat.com>
-In-Reply-To: <2012d26bb2bece43e65ce435e6ba03f1d8767f61.camel@redhat.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=5468a720-a65c-45c2-9503-53d93552490e;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP
- 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2021-08-11T09:47:55Z;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e6dde850-4457-47bd-5d65-08d95cad5c4d
-x-ms-traffictypediagnostic: CO6PR12MB5444:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CO6PR12MB5444B7AF74E5B7CA5BFC5CDAFCF89@CO6PR12MB5444.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ujlGHV8O9Gfz+L/k6Zq2+Lzw9T0N+4wERviYQtOK4MntDYGQqg3KRgL0F+1DjdTHKEXWOaJBwXxoCgG59iuJZtQXw8sOvBTRseaupvswSaUeZyUmzsoqahuQ9mVNNuZv0HU2S2qYNaGriJhrUqC6P54Z2ehbm4LxQAu1qeYnQBtezv6TDHCHQ4CXSV3y5gqPWN3IYiOocMR29M6SWUo32Fe0z4biiQ/dYNh/MJv0eFe9IjjvLPhrjIvd/4q2BgBMR8anD9OMsIv7QsfRXaZgdWR42TBzzhIIJWczx+9GAtFE3olkT4TNfLWNykenTaRdoEhdA0gne+06byB4DCLFndSbW3YsoDSzh9avy2LILtMXHaJUfAJkcccEsdcA3gjI9k5NzPSkKBqVAjJeeCrw6ozew3eGya6V0yxqJ6Yzo3ohYlIxnFdx8c7tJnllfpmjCDuF50UxqGB5h+cLNHFz4mISeG7TCkEJmE3/6uGyPPD55vwGe7elRPxLGeskeBTYlY5RG/jC/5ibXZQmvlH29UcddFf+hI2TFbXyjOwzSiSICKS7lD4/7UFQefQS5zwnqaqUoAlgg6TqGGeYkwXQ7TBomHclAzIrnArKOZpr+JAm0J86+JXcqCkF1ZkafhmkWXj7Pi1WXzla4h2CAV0jB7cRxdOcQ+6YZTt0xAX3a4zvkp4nLHjhtPA/I4yG8xVLgW75TAnW6Ylf+p8F1Rxs7A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(8936002)(7416002)(8676002)(52536014)(122000001)(478600001)(54906003)(66446008)(66946007)(33656002)(4326008)(66556008)(38100700002)(110136005)(316002)(53546011)(6506007)(38070700005)(64756008)(26005)(55016002)(9686003)(186003)(7696005)(71200400001)(30864003)(86362001)(66574015)(83380400001)(76116006)(66476007)(5660300002)(2906002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TkU4dmZFQm8wQW1EaG56MTkrc2Vaa1BQWkNOVXdoczZuVEY3N3kxT05ZSTNz?=
- =?utf-8?B?bDlpRFU4NlpzTWltUHIxSWNLd25rZGN4Qk5yZVlZaGNValRxbEhFY0p6SEpq?=
- =?utf-8?B?Y1gybkxZcnA1TWVtT0RlMGpmbXgrbkl4MFAvd0lrM1BqWnprbFFGdGtLTTVX?=
- =?utf-8?B?Y0ExS05pT2dLVWhsdGRwcGxSOHhYWFpsWDA2UldESkdZMkRnd3pEOVBKL0tW?=
- =?utf-8?B?aXI4ZkJUeDcxa1hkUjdSWWdIeU1FVjJzZjZlOEE3c3ZGaHdROWYvQk5aazBL?=
- =?utf-8?B?dUxYeG9PV2o5L2wxYlBOa1FYRHFodGVLMXVyVzk2S0VJclNHdXdMV2NxN0tF?=
- =?utf-8?B?MDRiTXBXWUdDQ01PUEJKQVJiaC85RHVuUmhXUmxQR2xyT1V2TXBsZmxSSVYr?=
- =?utf-8?B?dVJnc3lmV2JlWm9ZOVhNL1ZkdU5FNXhQcWZVeTY2bkFhVGIydDB3eEt4Y0dz?=
- =?utf-8?B?YnpYOGxFV2VGWSs5TDNqTWNtWVVvNFFrYnRRMldjTjRoYW9rRTZ2SEZWbXcv?=
- =?utf-8?B?Z2MzcjVoWlJNaS9GVlhIZ2svQjdIZGI4SVBPaFMra0hFQWZRVkJYRURLVm1B?=
- =?utf-8?B?aUp5bFlvNVlmOEhGY0xEKzFQNHRPbzVGL3VTeFNockIxMDFjeVdxYTV0dEk3?=
- =?utf-8?B?RFM2dTB0WGNVbFl2Rms3bTh6WGRXSEd6N3lWT1NEVGs3a0QyUGxMNDl0OGp0?=
- =?utf-8?B?QVo5R0hmb2ZVTlNkTVdERXRXL3lMTHV2ZXdQLzUvV1V3bm1BVGhyczROYzRh?=
- =?utf-8?B?cUlCeEpVZHZKOXAyYUcwU0J0TWZPa2ZWWDBsZ3h3NEtSN0Y2OU5IU0pLUWNi?=
- =?utf-8?B?c3o0WGh0VnNyTXhWMXkxK0lKQVdGdlI3NlVmOHB6OWVtRHl1SXo2QXFkcmJE?=
- =?utf-8?B?WFNwcVkvRkJlOEVNM3lXV1FOVjNVTmVWSXltZW1ZZDVoVUphejVCZExmVTgr?=
- =?utf-8?B?Y2o1dE50ek9TSSs0OWQwUytVM2pKazdDcFQvbWdKajRRSGpweW9PbEY5TGhS?=
- =?utf-8?B?cCtuck15ZGE4V1VvYXRsSS9aSzMrbkc5eWdTQTkrcUtBTjE0UHFPbjd2bUYx?=
- =?utf-8?B?OExmVllpbi9FYnlhcXVqbnltVWVYRkF4VmxPN0MrYnBjQWZFd2xXRXdmZjh3?=
- =?utf-8?B?QjFTK1ExTmdUMWZ3RWZPdWFrTVRFZkl0UDl6RStHUGQ1QlhJdjVZMmxUNUFY?=
- =?utf-8?B?ekJQK1RvQnU3Q0d5eFZLbEVmd2Iyak5aNWFqQlRaVC93cmFvK2lkSXhEYk9p?=
- =?utf-8?B?bVF1dGZTOUFzRnBjaXNoSW1YZWlCWEsvbTZPQTNHWjBDRjZpaW1BY2tvWEZ0?=
- =?utf-8?B?QUpMTjNodVZZVi9GN21LbGh4dEtmSUZFWHM4WjMybXZnTmRoU0llZkx1RW1j?=
- =?utf-8?B?TElXazByS2I1bDBZUStDSUU1SnFvVStFaVdWWU0xUGJlL2JoeGo2K3YzVjBG?=
- =?utf-8?B?NmJwQTRwRzV6OWphcUk5UzhOWWZKTnZZd2w1ZFRLL29TR0cxVjVUb21ORFNj?=
- =?utf-8?B?a21NSDJRKzMwZmtDMllQTFgwN0xvYnlsaXZTTzkxYWxiRXcvUUwrS0xzSnVx?=
- =?utf-8?B?c01Ld3N3YlU2dTFUVDJkNS9vYy9CT0RvMlQ5NDF6TFVxRjYzVVMyRy9XZllI?=
- =?utf-8?B?QzBaMlJlWkdMa2FNUTZNdVQ1UnEyY1RrTS9pNnZDV2RRQVA2c092UEtseW1j?=
- =?utf-8?B?SHY2VzNtWk5meHRHV09Ma1dXS1ZOeEhzYVZEWjQ1T3NsbEJmZFpocGFNS2lG?=
- =?utf-8?Q?U4TWFdnz0u/itCzlDs=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71EA56E110
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 09:55:52 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ i10-20020a05600c354ab029025a0f317abfso3966921wmq.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 02:55:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=mnLR29LqmufK89yWiT5us6eJUUjsRV30FREgKM2aHXs=;
+ b=PUn4ficfOAUf/hihL4rNhTxxDgjCVSdusWEud+JmrfH05uxds8TuCAHWGKsyrfAuow
+ lSc3573JkK+aCAv/p9dzmDpuFyJkPduPWlZb/Fpax6jXCInNS8ZZF8gaOWIUaRlA6NnP
+ HniDbC9JuT6jpMTumatKtXwZI/sijLC8odNe0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mnLR29LqmufK89yWiT5us6eJUUjsRV30FREgKM2aHXs=;
+ b=XMa7ZzBAktICkWF7A0I3O6sw7x7cW8RACJgqr3SudQglkiB3RC6hUsNO+DwqYeC/Z9
+ VvhZW7DI9EzAb9TY8upief4DkFFpf/jENFOkHJhH/VI6VVx1O71Xg0qt2TQJE1Gr2TKj
+ 2LuSuTRqqgaGR/rZTG/twDzzpt6Ukxl9gf802gDIlXcps1AtCntZQzn0MK92GPBgik4Z
+ h0qt41lyimyTXuJpZ+XA5f+98k/F08FYhopwmkDovGPHaQscw7tzpb/KqiGKvVEDaF2I
+ 8+qbZrZKdgreKRuCwBWxKLGwAVJGIyBdVk+mcQ7/zqvYrMW3tZSOywgk3k3KWMJqF5D7
+ Gnpg==
+X-Gm-Message-State: AOAM530Muq6U/Jx5THAsZHC5ol2dZZrh1BskYPnAt8cW0vjFVFYQeTo+
+ NWa/38pDFUd3a6g+HsaWU+mYLQ==
+X-Google-Smtp-Source: ABdhPJyxyekhUjz4HOQt+jKGPCjPRPuQgypNpPc1fcpe6gItPc4HQhJmTAJjpQEkb+/s/9DEu3nsHA==
+X-Received: by 2002:a1c:f206:: with SMTP id s6mr9036104wmc.15.1628675750484;
+ Wed, 11 Aug 2021 02:55:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x18sm23032390wmc.17.2021.08.11.02.55.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Aug 2021 02:55:49 -0700 (PDT)
+Date: Wed, 11 Aug 2021 11:55:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 46/46] drm/i915/guc: Add delay before
+ disabling scheduling on contexts
+Message-ID: <YROepEK1+Go/y4I0@phenom.ffwll.local>
+References: <20210803222943.27686-1-matthew.brost@intel.com>
+ <20210803222943.27686-47-matthew.brost@intel.com>
+ <YRFjJy/7eWLo/eaL@phenom.ffwll.local>
+ <20210809193226.GA124227@DUT151-ICLU.fm.intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6dde850-4457-47bd-5d65-08d95cad5c4d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Aug 2021 09:49:49.3673 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rpv5GkpgfJWpXj5yx+Hlh0fQdyHmKGj2X+GkkXR5HTHccNJ5OFV+n6atgsMdoNiXO7Za06bpLnnnaHbffj4xtg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5444
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210809193226.GA124227@DUT151-ICLU.fm.intel.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,245 +75,945 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1B1YmxpY10NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMeXVkZSBQ
-YXVsIDxseXVkZUByZWRoYXQuY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIEF1Z3VzdCAxMSwgMjAy
-MSA0OjQ1IEFNDQo+IFRvOiBMaW4sIFdheW5lIDxXYXluZS5MaW5AYW1kLmNvbT47IGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gQ2M6IEthemxhdXNrYXMsIE5pY2hvbGFzIDxOaWNo
-b2xhcy5LYXpsYXVza2FzQGFtZC5jb20+OyBXZW50bGFuZCwgSGFycnkgPEhhcnJ5LldlbnRsYW5k
-QGFtZC5jb20+OyBadW8sIEplcnJ5DQo+IDxKZXJyeS5adW9AYW1kLmNvbT47IFd1LCBIZXJzZW4g
-PGhlcnNlbnhzLnd1QGFtZC5jb20+OyBKdXN0b24gTGkgPGp1c3Rvbi5saUBpbnRlbC5jb20+OyBJ
-bXJlIERlYWsgPGltcmUuZGVha0BpbnRlbC5jb20+Ow0KPiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxl
-LnN5cmphbGFAbGludXguaW50ZWwuY29tPjsgRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBm
-ZndsbC5jaD47IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPjsgTWFhcnRlbiBMYW5raG9yc3QN
-Cj4gPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT47IE1heGltZSBSaXBhcmQgPG1y
-aXBhcmRAa2VybmVsLm9yZz47IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-PjsNCj4gRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPjsgRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPjsgRGV1Y2hlciwgQWxleGFuZGVyIDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQu
-Y29tPjsgU2lxdWVpcmEsDQo+IFJvZHJpZ28gPFJvZHJpZ28uU2lxdWVpcmFAYW1kLmNvbT47IFBp
-bGxhaSwgQXVyYWJpbmRvIDxBdXJhYmluZG8uUGlsbGFpQGFtZC5jb20+OyBFcnlrIEJyb2wgPGVy
-eWsuYnJvbEBhbWQuY29tPjsgQmFzDQo+IE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVp
-emVuLm5sPjsgQ29ybmlqLCBOaWtvbGEgPE5pa29sYS5Db3JuaWpAYW1kLmNvbT47IEphbmkgTmlr
-dWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+OyBNYW5hc2kNCj4gTmF2YXJlIDxtYW5hc2kuZC5u
-YXZhcmVAaW50ZWwuY29tPjsgQW5raXQgTmF1dGl5YWwgPGFua2l0LmsubmF1dGl5YWxAaW50ZWwu
-Y29tPjsgSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRlbC5jb20+Ow0KPiBT
-ZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9yZz47IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVk
-aGF0LmNvbT47IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCAy
-LzRdIGRybS9kcF9tc3Q6IE9ubHkgY3JlYXRlIGNvbm5lY3RvciBmb3IgY29ubmVjdGVkIGVuZCBk
-ZXZpY2UNCj4NCj4gT24gV2VkLCAyMDIxLTA4LTA0IGF0IDA3OjEzICswMDAwLCBMaW4sIFdheW5l
-IHdyb3RlOg0KPiA+IFtQdWJsaWNdDQo+ID4NCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
-LS0tDQo+ID4gPiBGcm9tOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPg0KPiA+ID4gU2Vu
-dDogV2VkbmVzZGF5LCBBdWd1c3QgNCwgMjAyMSA4OjA5IEFNDQo+ID4gPiBUbzogTGluLCBXYXlu
-ZSA8V2F5bmUuTGluQGFtZC5jb20+OyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+
-ID4gPiBDYzogS2F6bGF1c2thcywgTmljaG9sYXMgPE5pY2hvbGFzLkthemxhdXNrYXNAYW1kLmNv
-bT47IFdlbnRsYW5kLA0KPiA+ID4gSGFycnkgPCBIYXJyeS5XZW50bGFuZEBhbWQuY29tPjsgWnVv
-LCBKZXJyeSA8SmVycnkuWnVvQGFtZC5jb20+OyBXdSwNCj4gPiA+IEhlcnNlbiA8aGVyc2VueHMu
-d3VAYW1kLmNvbT47IEp1c3RvbiBMaSA8IGp1c3Rvbi5saUBpbnRlbC5jb20+OyBJbXJlDQo+ID4g
-PiBEZWFrIDxpbXJlLmRlYWtAaW50ZWwuY29tPjsgVmlsbGUgU3lyasOkbMOkDQo+ID4gPiA8dmls
-bGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+OyBXZW50bGFuZCwgSGFycnkgPA0KPiA+ID4gSGFy
-cnkuV2VudGxhbmRAYW1kLmNvbT47IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwu
-Y2g+Ow0KPiA+ID4gU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+OyBNYWFydGVuIExhbmtob3Jz
-dCA8DQo+ID4gPiBtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+OyBNYXhpbWUgUmlw
-YXJkDQo+ID4gPiA8bXJpcGFyZEBrZXJuZWwub3JnPjsgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+OyBEYXZpZA0KPiA+ID4gQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPjsg
-RGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPjsgRGV1Y2hlciwNCj4gPiA+IEFsZXhhbmRl
-ciA8QWxleGFuZGVyLkRldWNoZXJAYW1kLmNvbT47IFNpcXVlaXJhLCBSb2RyaWdvIDwNCj4gPiA+
-IFJvZHJpZ28uU2lxdWVpcmFAYW1kLmNvbT47IFBpbGxhaSwgQXVyYWJpbmRvDQo+ID4gPiA8QXVy
-YWJpbmRvLlBpbGxhaUBhbWQuY29tPjsgRXJ5ayBCcm9sIDxlcnlrLmJyb2xAYW1kLmNvbT47IEJh
-cw0KPiA+ID4gTmlldXdlbmh1aXplbiA8YmFzQGJhc25pZXV3ZW5odWl6ZW4ubmw+OyBDb3JuaWos
-IE5pa29sYQ0KPiA+ID4gPE5pa29sYS5Db3JuaWpAYW1kLmNvbT47IEphbmkgTmlrdWxhIDxqYW5p
-Lm5pa3VsYUBpbnRlbC5jb20+OyBNYW5hc2kNCj4gPiA+IE5hdmFyZSA8bWFuYXNpLmQubmF2YXJl
-QGludGVsLmNvbT47IEFua2l0IE5hdXRpeWFsDQo+ID4gPiA8YW5raXQuay5uYXV0aXlhbEBpbnRl
-bC5jb20+OyBKb3PDqSBSb2JlcnRvIGRlIFNvdXphDQo+ID4gPiA8am9zZS5zb3V6YUBpbnRlbC5j
-b20+OyBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9yZz47IEJlbg0KPiA+ID4gU2tlZ2dz
-IDxic2tlZ2dzQHJlZGhhdC5jb20+OyBzdGFibGVAdmdlci5rZXJuZWwub3JnDQo+ID4gPiBTdWJq
-ZWN0OiBSZTogW1BBVENIIDIvNF0gZHJtL2RwX21zdDogT25seSBjcmVhdGUgY29ubmVjdG9yIGZv
-cg0KPiA+ID4gY29ubmVjdGVkIGVuZCBkZXZpY2UNCj4gPiA+DQo+ID4gPiBPbiBUdWUsIDIwMjEt
-MDgtMDMgYXQgMTk6NTggLTA0MDAsIEx5dWRlIFBhdWwgd3JvdGU6DQo+ID4gPiA+IE9uIFdlZCwg
-MjAyMS0wNy0yMSBhdCAwMDowMyArMDgwMCwgV2F5bmUgTGluIHdyb3RlOg0KPiA+ID4gPiA+IFtX
-aHldDQo+ID4gPiA+ID4gQ3VycmVudGx5LCB3ZSB3aWxsIGNyZWF0ZSBjb25uZWN0b3JzIGZvciBh
-bGwgb3V0cHV0IHBvcnRzIG5vDQo+ID4gPiA+ID4gbWF0dGVyIGl0J3MgY29ubmVjdGVkIG9yIG5v
-dC4gSG93ZXZlciwgaW4gTVNULCB3ZSBjYW4gb25seQ0KPiA+ID4gPiA+IGRldGVybWluZSB3aGV0
-aGVyIGFuIG91dHB1dCBwb3J0IHJlYWxseSBzdGFuZHMgZm9yIGEgImNvbm5lY3RvciINCj4gPiA+
-ID4gPiB0aWxsIGl0IGlzIGNvbm5lY3RlZCBhbmQgY2hlY2sgaXRzIHBlZXIgZGV2aWNlIHR5cGUg
-YXMgYW4gZW5kIGRldmljZS4NCj4gPiA+ID4NCj4gPiA+ID4gV2hhdCBpcyB0aGlzIGNvbW1pdCB0
-cnlpbmcgdG8gc29sdmUgZXhhY3RseT8gZS5nLiBpcyBBTUQgY3VycmVudGx5DQo+ID4gPiA+IHJ1
-bm5pbmcgaW50byBpc3N1ZXMgd2l0aCB0aGVyZSBiZWluZyB0b28gbWFueSBEUk0gY29ubmVjdG9y
-cyBvcg0KPiA+ID4gPiBzb21ldGhpbmcgbGlrZSB0aGF0Pw0KPiA+ID4gPiBJZGVhbGx5IHRoaXMg
-aXMgYmVoYXZpb3IgSSdkIHZlcnkgbXVjaCBsaWtlIHVzIHRvIGtlZXAgYXMtaXMNCj4gPiA+ID4g
-dW5sZXNzIHRoZXJlJ3MgZ29vZCByZWFzb24gdG8gY2hhbmdlIGl0Lg0KPiA+IEhpIEx5dWRlLA0K
-PiA+IFJlYWxseSBhcHByZWNpYXRlIGZvciB5b3VyIHRpbWUgdG8gZWxhYm9yYXRlIGluIHN1Y2gg
-ZGV0YWlsLiBUaGFua3MhDQo+ID4NCj4gPiBJIGNvbWUgdXAgd2l0aCB0aGlzIGNvbW1pdCBiZWNh
-dXNlIEkgb2JzZXJ2ZWQgc29tZXRoaW5nIGNvbmZ1c2luZyB3aGVuDQo+ID4gSSB3YXMgYW5hbHl6
-aW5nIE1TVCBjb25uZWN0b3JzJyBsaWZlIGN5Y2xlLiBUYWtlIHRoZSB0b3BvbG9neSBpbnN0YW5j
-ZQ0KPiA+IHlvdSBtZW50aW9uZWQgYmVsb3cNCj4gPg0KPiA+IFJvb3QgTVNUQiAtPiBPdXRwdXRf
-UG9ydCAxIC0+IE1TVEIgMS4xIC0+T3V0cHV0X1BvcnQgMShDb25uZWN0ZWQgdy8NCj4gPiBkaXNw
-bGF5KQ0KPiA+ICAgICAgICAgICAgICAgICAgICAgfA0KPiA+IC0NCj4gPiA+T3V0cHV0X1BvcnQg
-MiAoRGlzY29ubmVjdGVkKQ0KPiA+ICAgICAgICAgICAgICAgICAgICAgLT4gT3V0cHV0X1BvcnQg
-MiAtPiBNU1RCIDIuMSAtPk91dHB1dF9Qb3J0IDENCj4gPiAoRGlzY29ubmVjdGVkKQ0KPiA+DQo+
-ID4gLT4gT3V0cHV0X1BvcnQgMiAoRGlzY29ubmVjdGVkKSBXaGljaCBpcyBleGFjdGx5IHRoZSB0
-b3BvbG9neSBvZg0KPiA+IFN0YXJ0ZWNoIERQIDEtdG8tNCBodWIuIFRoZXJlIGFyZSAzIDEtdG8t
-MiBicmFuY2ggY2hpcHMgd2l0aGluIHRoaXMNCj4gPiBodWIuIFdpdGggb3VyIE1TVCBpbXBsZW1l
-bnRhdGlvbiB0b2RheSwgd2UnbGwgY3JlYXRlIGRybSBjb25uZWN0b3JzDQo+ID4gZm9yIGFsbCBv
-dXRwdXQgcG9ydHMuIEhlbmNlLCB3ZSB0b3RhbGx5IGNyZWF0ZSA2IGRybSBjb25uZWN0b3JzIGhl
-cmUuDQo+ID4gSG93ZXZlciwgT3V0cHV0IHBvcnRzIG9mIFJvb3QgTVNUQiBhcmUgbm90IGNvbm5l
-Y3RlZCB0byBhIHN0cmVhbSBzaW5rLg0KPiA+IFRoZXkgYXJlIGNvbm5lY3RlZCB3aXRoIGJyYW5j
-aCBkZXZpY2VzLg0KPiA+IFRodXMsIGNyZWF0aW5nIGRybSBjb25uZWN0b3IgZm9yIHN1Y2ggcG9y
-dCBsb29rcyBhIGJpdCBzdHJhbmdlIHRvIG1lDQo+ID4gYW5kIGluY3JlYXNlcyBjb21wbGV4aXR5
-IHRvIHRyYWNraW5nIGRybSBjb25uZWN0b3JzLiAgTXkgdGhvdWdodCBpcyB3ZQ0KPiA+IG9ubHkg
-bmVlZCB0byBjcmVhdGUgZHJtIGNvbm5lY3RvciBmb3IgdGhvc2UgY29ubmVjdGVkIGVuZCBkZXZp
-Y2UuIE9uY2UNCj4gPiBvdXRwdXQgcG9ydCBpcyBjb25uZWN0ZWQgdGhlbiB3ZSBjYW4gZGV0ZXJt
-aW5lIHdoZXRoZXIgdG8gYWRkIG9uIGEgZHJtDQo+ID4gY29ubmVjdG9yIGZvciB0aGlzIHBvcnQg
-YmFzZWQgb24gdGhlIHBlZXIgZGV2aWNlIHR5cGUuDQo+ID4gSGVuY2UsIHRoaXMgY29tbWl0IGRv
-ZXNuJ3QgdHJ5IHRvIGJyZWFrIHRoZSBsb2NraW5nIGxvZ2ljIGJ1dCBhZGQgbW9yZQ0KPiA+IGNv
-bnN0cmFpbnRzIHdoZW4gV2UgdHJ5IHRvIGFkZCBkcm0gY29ubmVjdG9yLiBQbGVhc2UgY29ycmVj
-dCBtZSBpZiBJDQo+ID4gbWlzdW5kZXJzdGFuZCBhbnl0aGluZyBoZXJlLiBUaGFua3MhDQo+DQo+
-IFNvcnJ5LUkgd2lsbCByZXNwb25kIHRvIHRoaXMgc29vbiwgc29tZSBtb3JlIHN0dWZmIGNhbWUg
-dXAgYXQgd29yayBzbyBpdCBtaWdodCB0YWtlIG1lIGEgZGF5IG9yIHR3bw0KTm8gd29ycmllcy4g
-TXVjaCBhcHByZWNpYXRlZCBmb3IgeW91ciB0aW1lIQ0KPg0KPiA+ID4gPg0KPiA+ID4gPiBTb21l
-IGNvbnRleHQgaGVyZSBidHcgLSB0aGVyZSdzIGEgbG90IG9mIHN1YnRsZXRpZXMgd2l0aCBNU1QN
-Cj4gPiA+ID4gbG9ja2luZyB0aGF0IGlzbid0IGltbWVkaWF0ZWx5IG9idmlvdXMuIEl0J3MgYmVl
-biBhIHdoaWxlIHNpbmNlIEkNCj4gPiA+ID4gd3JvdGUgdGhpcyBjb2RlLCBidXQgaWYgSSByZWNh
-bGwgY29ycmVjdGx5IG9uZSBvZiB0aG9zZSBzdWJ0bGV0aWVzDQo+ID4gPiA+IGlzIHRoYXQgdHJ5
-aW5nIHRvIGNyZWF0ZS9kZXN0cm95IGNvbm5lY3RvcnMgb24gdGhlIGZseSB3aGVuIHBvcnRzDQo+
-ID4gPiA+IGNoYW5nZSB0eXBlcyBpbnRyb2R1Y2VzIGEgbG90IG9mIHBvdGVudGlhbCBpc3N1ZXMg
-d2l0aCBsb2NraW5nIGFuZA0KPiA+ID4gPiBzb21lIHZlcnkgY29tcGxpY2F0ZWQgc3RhdGUgdHJh
-bnNpdGlvbnMuIE5vdGUgdGhhdCBiZWNhdXNlIHdlDQo+ID4gPiA+IG1haW50YWluIHRoZSB0b3Bv
-bG9neSBhcyBtdWNoIGFzIHBvc3NpYmxlIGFjcm9zcyBzdXNwZW5kL3Jlc3VtZXMNCj4gPiA+ID4g
-dGhpcyBtZWFucyB0aGVyZSdzIGEgbG90IG9mIHBvdGVudGlhbCBzdGF0ZSB0cmFuc2l0aW9ucyB3
-aXRoDQo+ID4gPiA+IGRybV9kcF9tc3RfcG9ydCBhbmQgZHJtX2RwX21zdF9icmFuY2ggd2UgbmVl
-ZCB0byBoYW5kbGUgdGhhdCB3b3VsZA0KPiA+ID4gPiB0eXBpY2FsbHkgYmUgaW1wb3NzaWJsZSB0
-byBydW4gaW50byBvdGhlcndpc2UuDQo+ID4gPiA+DQo+ID4gPiA+IEFuIGV4YW1wbGUgb2YgdGhp
-cywgaWYgd2Ugd2VyZSB0byB0cnkgdG8gcHJ1bmUgY29ubmVjdG9ycyBiYXNlZCBvbg0KPiA+ID4g
-PiBQRFQgb24gdGhlIGZseTogYXNzdW1lIHdlIGhhdmUgYSBzaW1wbGUgdG9wb2xvZ3kgbGlrZSB0
-aGlzDQo+ID4gPiA+DQo+ID4gPiA+IFJvb3QgTVNUQiAtPiBQb3J0IDEgLT4gTVNUQiAxLjEgKENv
-bm5lY3RlZCB3LyBkaXNwbGF5KQ0KPiA+ID4gPiAgICAgICAgICAgLT4gUG9ydCAyIC0+IE1TVEIg
-Mi4xDQo+ID4gPiA+DQo+ID4gPiA+IFdlIHN1c3BlbmQgdGhlIHN5c3RlbSwgdW5wbHVnIE1TVEIg
-MS4xLCBhbmQgdGhlbiByZXN1bWUuIE9uY2UgdGhlDQo+ID4gPiA+IHN5c3RlbSBzdGFydHMgcmVw
-cm9iaW5nLCBpdCB3aWxsIG5vdGljZSB0aGF0IE1TVEIgMS4xIGhhcyBiZWVuDQo+ID4gPiA+IGRp
-c2Nvbm5lY3RlZC4gU2luY2Ugd2Ugbm8gbG9uZ2VyIGhhdmUgYSBQRFQsIHdlIGRlY2lkZSB0bw0K
-PiA+ID4gPiB1bnJlZ2lzdGVyIG91ciBjb25uZWN0b3IuIEJ1dCB0aGVyZSdzIGEgY2F0Y2ghIFdl
-IGhhZCBhIGRpc3BsYXkNCj4gPiA+ID4gY29ubmVjdGVkIHRvIE1TVEIgMS4xLCBzbyBldmVuIGFm
-dGVyIHVucmVnaXN0ZXJpbmcgdGhlIGNvbm5lY3Rvcg0KPiA+ID4gPiBpdCdzIGdvaW5nIHRvIHN0
-YXkgYXJvdW5kIHVudGlsIHVzZXJzcGFjZSBoYXMgY29tbWl0dGVkIGEgbmV3IG1vZGUNCj4gPiA+
-ID4gd2l0aCB0aGUgY29ubmVjdG9yIGRpc2FibGVkLg0KPiA+ID4gPg0KPiA+ID4gPiBOb3cgLSBh
-c3N1bWluZyB3ZSdyZSBzdGlsbCBpbiB0aGUgc2FtZSBzcG90IGluIHRoZSByZXN1bWUNCj4gPiA+
-ID4gcHJvY2Vzc3MsIGxldCdzIGFzc3VtZSBzb21laG93IE1TVEIgMS4xIGlzIHN1ZGRlbmx5IHBs
-dWdnZWQgYmFjaw0KPiA+ID4gPiBpbi4gT25jZSB3ZSd2ZSBmaW5pc2hlZCByZXNwb25kaW5nIHRv
-IHRoZSBob3RwbHVnIGV2ZW50LCB3ZSB3aWxsDQo+ID4gPiA+IGhhdmUgY3JlYXRlZCBhIGNvbm5l
-Y3RvciBmb3IgaXQuIE5vdyB3ZSd2ZSBoaXQgYSBidWcgLSB1c2Vyc3BhY2UNCj4gPiA+ID4gaGFz
-bid0IHJlbW92ZWQgdGhlIHByZXZpb3VzIHpvbWJpZSBjb25uZWN0b3Igd2hpY2ggbWVhbnMgd2Ug
-aGF2ZQ0KPiA+ID4gPiByZWZlcmVuY2VzIHRvIHRoZSBkcm1fZHBfbXN0X3BvcnQgaW4gb3VyIGF0
-b21pYyBzdGF0ZSBhbmQNCj4gPiA+ID4gcG90ZW50aWFsbHkgYWxzbyBvdXIgcGF5bG9hZCB0YWJs
-ZXMgKD8/IHVuc3VyZSBhYm91dCB0aGlzIG9uZSkuDQo+ID4gPg0KPiA+ID4gV2hvb3BzLiBPbmUg
-dGhpbmcgSSB0b3RhbGx5IGZvcmdvdCB0byBtZW50aW9uIGhlcmU6IHRoZSByZWFzb24gdGhpcw0K
-PiA+ID4gaXMgYSBwcm9ibGVtIGlzIGJlY2F1c2Ugd2UnZCBub3cgaGF2ZSB0d28gZHJtX2Nvbm5l
-Y3RvcnMgd2hpY2ggYm90aA0KPiA+ID4gaGF2ZSB0aGUgc2FtZSBkcm1fZHBfbXN0X3BvcnQgcG9p
-bnRlci4NCj4gPiA+DQo+ID4gPiA+DQo+ID4gPiA+IFNvIHRoZW4gaG93IGRvIHdlIG1hbmFnZSB0
-byBhZGQvcmVtb3ZlIGNvbm5lY3RvcnMgZm9yIGlucHV0DQo+ID4gPiA+IGNvbm5lY3RvcnMgb24g
-dGhlIGZseT8gV2VsbCwgdGhhdCdzIG9uZSBvZiB0aGUgZnVuDQo+ID4gPiA+IG5vcm1hbGx5LWlt
-cG9zc2libGUgc3RhdGUgdHJhbnNpdGlvbnMgSSBtZW50aW9uZWQgYmVmb3JlLg0KPiA+ID4gPiBB
-Y2NvcmRpbmcgdG8gdGhlIHNwZWMgaW5wdXQgcG9ydHMgYXJlIGFsd2F5cyBkaXNjb25uZWN0ZWQs
-IHNvDQo+ID4gPiA+IHdlJ2xsIG5ldmVyIHJlY2VpdmUgYSBDU04gZm9yIHRoZW0uIFRoaXMgbWVh
-bnMNCj4gPiBJIHRoaW5rIGlucHV0IHBvcnRzJyBEaXNwbGF5UG9ydF9EZXZpY2VfUGx1Z19TdGF0
-dXMgZmllbGQgaXMgc3RpbGwgc2V0IHRvIDE/DQo+ID4gQnV0IHllcywNCj4gPiBhY2NvcmRpbmcg
-dG8gRFAxLjQgc3BlYyAyLjExLjkuMywgd2hlbiBNU1QgZGV2aWNlIHdob3NlIERQUlggZGV0ZWN0
-ZWQNCj4gPiB0aGUgY29ubmVjdGlvbiBzdGF0dXMgY2hhbmdlIHNoYWxsIGJyb2FkY2FzdCBDU04g
-ZG93bnN0cmVhbSBvbmx5Lg0KPiA+IEhlbmNlLCB3ZSdsbCBuZXZlciByZWNlaXZlIGEgQ1NOIGZv
-ciB0aGlzIGNhc2UuDQo+ID4gPiA+IGluIHRoZW9yeSB0aGUgb25seSBwb3NzaWJsZSB3YXkgd2Ug
-Y291bGQgaGF2ZSBhIGNvbm5lY3RvciBnbyBmcm9tDQo+ID4gPiA+IGJlaW5nIGFuIGlucHV0IGNv
-bm5lY3RvciB0byBhbiBvdXRwdXQgY29ubmVjdG9yIGNvbm5lY3RvciB3b3VsZCBiZQ0KPiA+ID4g
-PiBpZiB0aGUgZW50aXJlIHRvcG9sb2d5IHdhcyBzd2FwcGVkIG91dCBkdXJpbmcgc3VzcGVuZC9y
-ZXN1bWUsIGFuZA0KPiA+ID4gPiB0aGUgaW5wdXQvb3V0cHV0IHBvcnRzIGluIHRoZSB0d28gdG9w
-b2xvZ2llcyB0b3BvbG9neSBoYXBwZW4gdG8gYmUNCj4gPiA+ID4gaW4gZGlmZmVyZW50IHBsYWNl
-cy4NCj4gPiA+ID4gU2luY2Ugd2Ugb25seSBoYXZlIHRvIHJlcHJvYmUgb25jZSBkdXJpbmcgcmVz
-dW1lIGJlZm9yZSB3ZSBnZXQNCj4gPiA+ID4gaG90cGx1Z2dpbmcgZW5hYmxlZCwgd2UncmUgZ3Vh
-cmFudGVlZCB0aGlzIHN0YXRlIHRyYW5zaXRpb24gd2lsbA0KPiA+ID4gPiBvbmx5IGhhcHBlbiBv
-bmNlIGluIHRoaXMgc3RhdGUgLSB3aGljaCBtZWFucyB0aGUgc2Vjb25kIHJlcGx1ZyBJDQo+ID4g
-PiA+IGRlc2NyaWJlZCBpbiB0aGUgcHJldmlvdXMgcGFyYWdyYXBoIGNhbiBuZXZlciBoYXBwZW4u
-DQo+ID4gPiA+DQo+ID4gPiA+IE5vdGUgdGhhdCB3aGlsZSBJIGRvbid0IGFjdHVhbGx5IGtub3cg
-aWYgdGhlcmUncyB0b3BvbG9naWVzIHdpdGgNCj4gPiA+ID4gaW5wdXQgcG9ydHMgYXQgaW5kZXhl
-cyBvdGhlciB0aGFuIDAsIHNpbmNlIHRoZSBzcGVjaWZpY2F0aW9uIGlzbid0DQo+ID4gPiA+IHN1
-cGVyIGNsZWFyIG9uIHRoaXMgYml0IHdlIHBsYXkgaXQgc2FmZSBhbmQgYXNzdW1lIGl0IGlzIHBv
-c3NpYmxlLg0KPiA+IEJhc2VkIG9uIERQMS40IHNwZWMgMi41LjEuIFBoeXNpY2FsIGlucHV0IHBv
-cnRzIGFyZSBhc3NpZ25lZCBzbWFsbGVyDQo+ID4gcG9ydCBudW1iZXJzIHRoYW4gcGh5c2ljYWwg
-b3V0cHV0IHBvcnRzLiBGb3IgY29uY2VudHJhdG9yIHByb2R1Y3QsIGlmDQo+ID4gdGhlcmUgYXJl
-IDIgaW5wdXQgcG9ydHMgb2YgaXQncyBicmFuY2ggZGV2aWNlLCB0aGVuIHRoZWlyIHBvcnQgbnVt
-YmVycw0KPiA+IGFyZSBwb3J0IDAgJiBwb3J0DQo+ID4gMQ0KPiA+IHdoaWNoIGNhbiByZWZlciB0
-byBmaWd1cmUgMi0xMjIgb2YgRFAxLjQuDQo+ID4gPiA+DQo+ID4gPiA+IEFueXdheS10aGlzIGlz
-IC1hbGwtIGJhc2VkIG9mZiBteSBtZW1vcnksIHNvIHBsZWFzZSBwb2ludCBvdXQNCj4gPiA+ID4g
-YW55dGhpbmcgaGVyZSB0aGF0IEkndmUgZXhwbGFpbmVkIHRoYXQgZG9lc24ndCBtYWtlIHNlbnNl
-IG9yDQo+ID4gPiA+IGRvZXNuJ3Qgc2VlbSBjb3JyZWN0IDopLiBJdCdzIHRvdGFsbHkgcG9zc2li
-bGUgSSBtaWdodCBoYXZlIG1pc3JlbWVtYmVyZWQgc29tZXRoaW5nLg0KPiA+IFRoYW5rcyBhZ2Fp
-biBMeXVkZSEgTXVjaCBhcHByZWNpYXRlZCBmb3IgeW91ciB0aW1lIGFuZCBoZWxwISBBbmQNCj4g
-PiBwbGVhc2UgY29ycmVjdCBtZSBpZiBJIG1pc3VuZGVyc3RhbmQgYW55dGhpbmcgaGVyZSA6ICkN
-Cj4gPiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEluIGN1cnJlbnQgY29kZSwgd2UgaGF2ZSBj
-aGFuY2UgdG8gY3JlYXRlIGNvbm5lY3RvcnMgZm9yIG91dHB1dA0KPiA+ID4gPiA+IHBvcnRzIGNv
-bm5lY3RlZCB3aXRoIGJyYW5jaCBkZXZpY2UgYW5kIHRoZXNlIGFyZSByZWR1bmRhbnQgY29ubmVj
-dG9ycy4NCj4gPiA+ID4gPiBlLmcuDQo+ID4gPiA+ID4gU3RhclRlY2ggMS10by00IERQIGh1YiBp
-cyBjb25zdHJ1Y3RlZCBieSBpbnRlcm5hbCAyIGxheWVyIDEtdG8tMg0KPiA+ID4gPiA+IGJyYW5j
-aCBkZXZpY2VzLiBDcmVhdGluZyBjb25uZWN0b3JzIGZvciBzdWNoIGludGVybmFsIG91dHB1dA0K
-PiA+ID4gPiA+IHBvcnRzIGFyZSByZWR1bmRhbnQuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBbSG93
-XQ0KPiA+ID4gPiA+IFB1dCBjb25zdHJhaW50IG9uIGNyZWF0aW5nIGNvbm5lY3RvciBmb3IgY29u
-bmVjdGVkIGVuZCBkZXZpY2Ugb25seS4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEZpeGVzOiA2Zjg1
-ZjczODIxZjYgKCJkcm0vZHBfbXN0OiBBZGQgYmFzaWMgdG9wb2xvZ3kgcmVwcm9iaW5nDQo+ID4g
-PiA+ID4gd2hlbg0KPiA+ID4gPiA+IHJlc3VtaW5nIikNCj4gPiA+ID4gPiBDYzogSnVzdG9uIExp
-IDxqdXN0b24ubGlAaW50ZWwuY29tPg0KPiA+ID4gPiA+IENjOiBJbXJlIERlYWsgPGltcmUuZGVh
-a0BpbnRlbC5jb20+DQo+ID4gPiA+ID4gQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFs
-YUBsaW51eC5pbnRlbC5jb20+DQo+ID4gPiA+ID4gQ2M6IEhhcnJ5IFdlbnRsYW5kIDxod2VudGxh
-bkBhbWQuY29tPg0KPiA+ID4gPiA+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZm
-d2xsLmNoPg0KPiA+ID4gPiA+IENjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4NCj4gPiA+
-ID4gPiBDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4NCj4gPiA+ID4gPiBDYzogTWFh
-cnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4NCj4gPiA+
-ID4gPiBDYzogTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPg0KPiA+ID4gPiA+IENj
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gPiA+ID4gPiBDYzog
-RGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPg0KPiA+ID4gPiA+IENjOiBEYW5pZWwgVmV0
-dGVyIDxkYW5pZWxAZmZ3bGwuY2g+DQo+ID4gPiA+ID4gQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFu
-ZGVyLmRldWNoZXJAYW1kLmNvbT4NCj4gPiA+ID4gPiBDYzogTmljaG9sYXMgS2F6bGF1c2thcyA8
-bmljaG9sYXMua2F6bGF1c2thc0BhbWQuY29tPg0KPiA+ID4gPiA+IENjOiBSb2RyaWdvIFNpcXVl
-aXJhIDxSb2RyaWdvLlNpcXVlaXJhQGFtZC5jb20+DQo+ID4gPiA+ID4gQ2M6IEF1cmFiaW5kbyBQ
-aWxsYWkgPGF1cmFiaW5kby5waWxsYWlAYW1kLmNvbT4NCj4gPiA+ID4gPiBDYzogRXJ5ayBCcm9s
-IDxlcnlrLmJyb2xAYW1kLmNvbT4NCj4gPiA+ID4gPiBDYzogQmFzIE5pZXV3ZW5odWl6ZW4gPGJh
-c0BiYXNuaWV1d2VuaHVpemVuLm5sPg0KPiA+ID4gPiA+IENjOiBOaWtvbGEgQ29ybmlqIDxuaWtv
-bGEuY29ybmlqQGFtZC5jb20+DQo+ID4gPiA+ID4gQ2M6IFdheW5lIExpbiA8V2F5bmUuTGluQGFt
-ZC5jb20+DQo+ID4gPiA+ID4gQ2M6ICJWaWxsZSBTeXJqw6Rsw6QiIDx2aWxsZS5zeXJqYWxhQGxp
-bnV4LmludGVsLmNvbT4NCj4gPiA+ID4gPiBDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGlu
-dGVsLmNvbT4NCj4gPiA+ID4gPiBDYzogTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJlQGlu
-dGVsLmNvbT4NCj4gPiA+ID4gPiBDYzogQW5raXQgTmF1dGl5YWwgPGFua2l0LmsubmF1dGl5YWxA
-aW50ZWwuY29tPg0KPiA+ID4gPiA+IENjOiAiSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSIgPGpvc2Uu
-c291emFAaW50ZWwuY29tPg0KPiA+ID4gPiA+IENjOiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9t
-aXVtLm9yZz4NCj4gPiA+ID4gPiBDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPg0K
-PiA+ID4gPiA+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+ID4gPiA+ID4g
-Q2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY1LjUrDQo+ID4gPiA+ID4gU2lnbmVkLW9m
-Zi1ieTogV2F5bmUgTGluIDxXYXluZS5MaW5AYW1kLmNvbT4NCj4gPiA+ID4gPiAtLS0NCj4gPiA+
-ID4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYyB8IDcgKysrKysrLQ0K
-PiA+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
-DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9k
-cF9tc3RfdG9wb2xvZ3kuYw0KPiA+ID4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3Rf
-dG9wb2xvZ3kuYw0KPiA+ID4gPiA+IGluZGV4IDUxY2Q3Zjc0ZjAyNi4uZjEzYzcxODdiMDdmIDEw
-MDY0NA0KPiA+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5
-LmMNCj4gPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5j
-DQo+ID4gPiA+ID4gQEAgLTI0NzQsNyArMjQ3NCw4IEBAIGRybV9kcF9tc3RfaGFuZGxlX2xpbmtf
-YWRkcmVzc19wb3J0KHN0cnVjdA0KPiA+ID4gPiA+IGRybV9kcF9tc3RfYnJhbmNoICptc3RiLA0K
-PiA+ID4gPiA+DQo+ID4gPiA+ID4gICAgICAgICBpZiAocG9ydC0+Y29ubmVjdG9yKQ0KPiA+ID4g
-PiA+ICAgICAgICAgICAgICAgICBkcm1fbW9kZXNldF91bmxvY2soJm1nci0+YmFzZS5sb2NrKTsN
-Cj4gPiA+ID4gPiAtICAgICAgIGVsc2UgaWYgKCFwb3J0LT5pbnB1dCkNCj4gPiA+ID4gPiArICAg
-ICAgIGVsc2UgaWYgKCFwb3J0LT5pbnB1dCAmJiBwb3J0LT5wZHQgIT0NCj4gPiA+ID4gPiArRFBf
-UEVFUl9ERVZJQ0VfTk9ORSAmJg0KPiA+ID4gPiA+ICsgICAgICAgICAgICAgICAgZHJtX2RwX21z
-dF9pc19lbmRfZGV2aWNlKHBvcnQtPnBkdCwgcG9ydC0+bWNzKSkNCj4gPiA+ID4gPiAgICAgICAg
-ICAgICAgICAgZHJtX2RwX21zdF9wb3J0X2FkZF9jb25uZWN0b3IobXN0YiwgcG9ydCk7DQo+ID4g
-PiA+ID4NCj4gPiA+ID4gPiAgICAgICAgIGlmIChzZW5kX2xpbmtfYWRkciAmJiBwb3J0LT5tc3Ri
-KSB7IEBAIC0yNTU3LDYgKzI1NTgsMTANCj4gPiA+ID4gPiBAQCBkcm1fZHBfbXN0X2hhbmRsZV9j
-b25uX3N0YXQoc3RydWN0DQo+ID4gPiA+ID4gZHJtX2RwX21zdF9icmFuY2gNCj4gPiA+ID4gPiAq
-bXN0YiwNCj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgZG93b3JrID0gZmFsc2U7DQo+ID4gPiA+
-ID4gICAgICAgICB9DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiArICAgICAgIGlmICghcG9ydC0+aW5w
-dXQgJiYgIXBvcnQtPmNvbm5lY3RvciAmJiBuZXdfcGR0ICE9DQo+ID4gPiA+ID4gRFBfUEVFUl9E
-RVZJQ0VfTk9ORSAmJg0KPiA+ID4gPiA+ICsgICAgICAgICAgIGRybV9kcF9tc3RfaXNfZW5kX2Rl
-dmljZShuZXdfcGR0LCBuZXdfbWNzKSkNCj4gPiA+ID4gPiArICAgICAgICAgICAgICAgY3JlYXRl
-X2Nvbm5lY3RvciA9IHRydWU7DQo+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICAgICAgICAgaWYgKHBv
-cnQtPmNvbm5lY3RvcikNCj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgZHJtX21vZGVzZXRfdW5s
-b2NrKCZtZ3ItPmJhc2UubG9jayk7DQo+ID4gPiA+ID4gICAgICAgICBlbHNlIGlmIChjcmVhdGVf
-Y29ubmVjdG9yKQ0KPiA+ID4gPg0KPiA+ID4NCj4gPiA+IC0tDQo+ID4gPiBDaGVlcnMsDQo+ID4g
-PiAgTHl1ZGUgUGF1bCAoc2hlL2hlcikNCj4gPiA+ICBTb2Z0d2FyZSBFbmdpbmVlciBhdCBSZWQg
-SGF0DQo+ID4gUmVnYXJkcywNCj4gPiBXYXluZSBMaW4NCj4gPg0KPg0KPiAtLQ0KPiBDaGVlcnMs
-DQo+ICBMeXVkZSBQYXVsIChzaGUvaGVyKQ0KPiAgU29mdHdhcmUgRW5naW5lZXIgYXQgUmVkIEhh
-dA0KLS0NClJlZ2FyZHMsDQpXYXluZSBMaW4NCg0K
+On Mon, Aug 09, 2021 at 07:32:26PM +0000, Matthew Brost wrote:
+> On Mon, Aug 09, 2021 at 07:17:27PM +0200, Daniel Vetter wrote:
+> > On Tue, Aug 03, 2021 at 03:29:43PM -0700, Matthew Brost wrote:
+> > > Some workloads use lots of contexts that continually pin / unpin
+> > > contexts. With GuC submission an unpin translates to a schedule disable
+> > > H2G which puts pressure on both the i915 and GuC. A schedule disable can
+> > > also block future requests from being submitted until the operation
+> > > completes. None of this is ideal.
+> > > 
+> > > Add a configurable, via debugfs, delay period before the schedule
+> > > disable is issued. Default delay period is 1 second. The delay period is
+> > > skipped if more than 3/4 of the guc_ids are in use.
+> > > 
+> > > This patch also updates the selftests to turn off this delay period as
+> > > this extra time would likely cause many selftests to fail. Follow up
+> > > patches will fix all the selftests and enable the delay period.
+> > > 
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > 
+> > I think this is more evidence that we should just pin/unpin context at
+> > create/destruction time. The current scheme doesn't really work that well
+> > and causes way more pain than benefits it seems.
+> > 
+> 
+> Well that choice is above my pay grade, but for what it is worth it
+> would simplify the GuC backend quite a bit if we perma-pin contexts. By
+> quite a bit, I actually mean a lot of complexity goes away.
+> 
+> In the meantime I think we probably need this code though to avoid
+> trashes on the scheduling enable / disable.
+
+The trouble is that you muck around with the context close state bit,
+which is one of these lockless trickeries where my cursory analysis (just
+a few days in total of randomly stumbling over it when reading other code)
+strongly suggests it's busted.
+
+I really don't want to build more on top, especially not without careful
+review and all that.
+
+Also since this is a perf claim, the commit message needs some numbers.
+
+Finally even if we decide to make contexts properly evictable, we need a
+different scheme anyway. As you realized the current active tracking is
+kinda backwards because it unpins immediately when no longer in use.
+-Daniel
+
+> 
+> Matt
+> 
+> > If anyone screams, and that's a big if aside of some igts, we can come up
+> > with a proper scheme to evict contexts without pin/unpin and layer hacks
+> > over that misdesign.
+> > -Daniel
+> > 
+> > > ---
+> > >  drivers/gpu/drm/i915/gem/i915_gem_context.c   |   2 +-
+> > >  .../i915/gem/selftests/i915_gem_coherency.c   |   2 +-
+> > >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   2 +-
+> > >  .../drm/i915/gem/selftests/i915_gem_mman.c    |   2 +-
+> > >  .../drm/i915/gem/selftests/i915_gem_object.c  |   2 +-
+> > >  drivers/gpu/drm/i915/gt/intel_context.c       |   2 +
+> > >  drivers/gpu/drm/i915/gt/intel_context.h       |   9 +
+> > >  drivers/gpu/drm/i915/gt/intel_context_types.h |   8 +
+> > >  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   7 +
+> > >  .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |  28 ++
+> > >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 322 +++++++++++++++++-
+> > >  .../i915/gt/uc/selftest_guc_flow_control.c    |  19 +-
+> > >  drivers/gpu/drm/i915/i915_selftest.h          |   2 +
+> > >  drivers/gpu/drm/i915/i915_trace.h             |  10 +
+> > >  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   2 +-
+> > >  drivers/gpu/drm/i915/selftests/i915_perf.c    |   2 +-
+> > >  drivers/gpu/drm/i915/selftests/i915_request.c |   2 +-
+> > >  drivers/gpu/drm/i915/selftests/i915_vma.c     |   2 +-
+> > >  18 files changed, 405 insertions(+), 20 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > index b199d59bd2c4..1553287e5491 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > > @@ -1298,7 +1298,7 @@ static void engines_idle_release(struct i915_gem_context *ctx,
+> > >  		int err;
+> > >  
+> > >  		/* serialises with execbuf */
+> > > -		set_bit(CONTEXT_CLOSED_BIT, &ce->flags);
+> > > +		intel_context_close(ce);
+> > >  		if (!intel_context_pin_if_active(ce))
+> > >  			continue;
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
+> > > index 13b088cc787e..a666d7e610f5 100644
+> > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
+> > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_coherency.c
+> > > @@ -434,5 +434,5 @@ int i915_gem_coherency_live_selftests(struct drm_i915_private *i915)
+> > >  		SUBTEST(igt_gem_coherency),
+> > >  	};
+> > >  
+> > > -	return i915_subtests(tests, i915);
+> > > +	return i915_live_subtests(tests, i915);
+> > >  }
+> > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> > > index ffae7df5e4d7..2c92afa9d608 100644
+> > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+> > > @@ -474,5 +474,5 @@ int i915_gem_dmabuf_live_selftests(struct drm_i915_private *i915)
+> > >  		SUBTEST(igt_dmabuf_import_same_driver_lmem_smem),
+> > >  	};
+> > >  
+> > > -	return i915_subtests(tests, i915);
+> > > +	return i915_live_subtests(tests, i915);
+> > >  }
+> > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > index b20f5621f62b..4745c78a48de 100644
+> > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > @@ -1414,5 +1414,5 @@ int i915_gem_mman_live_selftests(struct drm_i915_private *i915)
+> > >  		SUBTEST(igt_mmap_gpu),
+> > >  	};
+> > >  
+> > > -	return i915_subtests(tests, i915);
+> > > +	return i915_live_subtests(tests, i915);
+> > >  }
+> > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
+> > > index 740ee8086a27..ae1361c7c4cf 100644
+> > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
+> > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
+> > > @@ -95,5 +95,5 @@ int i915_gem_object_live_selftests(struct drm_i915_private *i915)
+> > >  		SUBTEST(igt_gem_huge),
+> > >  	};
+> > >  
+> > > -	return i915_subtests(tests, i915);
+> > > +	return i915_live_subtests(tests, i915);
+> > >  }
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> > > index 8e90a4a0b7b0..96643040defd 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> > > @@ -472,6 +472,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+> > >  	ce->guc_id = GUC_INVALID_LRC_ID;
+> > >  	INIT_LIST_HEAD(&ce->guc_id_link);
+> > >  
+> > > +	INIT_LIST_HEAD(&ce->guc_sched_disable_link);
+> > > +
+> > >  	mutex_init(&ce->parallel_submit);
+> > >  	ce->fence_context = dma_fence_context_alloc(1);
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+> > > index a302599e436a..f4c9036f7f03 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> > > @@ -215,6 +215,15 @@ static inline bool intel_context_is_barrier(const struct intel_context *ce)
+> > >  	return test_bit(CONTEXT_BARRIER_BIT, &ce->flags);
+> > >  }
+> > >  
+> > > +static inline void intel_context_close(struct intel_context *ce)
+> > > +{
+> > > +	set_bit(CONTEXT_CLOSED_BIT, &ce->flags);
+> > > +
+> > > +	trace_intel_context_close(ce);
+> > > +	if (ce->ops->close)
+> > > +		ce->ops->close(ce);
+> > > +}
+> > > +
+> > >  static inline bool intel_context_is_closed(const struct intel_context *ce)
+> > >  {
+> > >  	return test_bit(CONTEXT_CLOSED_BIT, &ce->flags);
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > index 8af9ace4c052..53f00657a45c 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > @@ -11,6 +11,7 @@
+> > >  #include <linux/list.h>
+> > >  #include <linux/mutex.h>
+> > >  #include <linux/types.h>
+> > > +#include <linux/ktime.h>
+> > >  
+> > >  #include "i915_active_types.h"
+> > >  #include "i915_sw_fence.h"
+> > > @@ -38,6 +39,7 @@ struct intel_context_ops {
+> > >  	int (*alloc)(struct intel_context *ce);
+> > >  
+> > >  	void (*ban)(struct intel_context *ce, struct i915_request *rq);
+> > > +	void (*close)(struct intel_context *ce);
+> > >  
+> > >  	int (*pre_pin)(struct intel_context *ce, struct i915_gem_ww_ctx *ww);
+> > >  	int (*pin)(struct intel_context *ce);
+> > > @@ -203,6 +205,12 @@ struct intel_context {
+> > >  	 */
+> > >  	struct list_head guc_id_link;
+> > >  
+> > > +	/*
+> > > +	 * GuC schedule disable link / time
+> > > +	 */
+> > > +	struct list_head guc_sched_disable_link;
+> > > +	ktime_t guc_sched_disable_time;
+> > > +
+> > >  	/* GuC context blocked fence */
+> > >  	struct i915_sw_fence guc_blocked;
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > index 30a0f364db8f..90b5b657d411 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > @@ -60,6 +60,7 @@ struct intel_guc {
+> > >  	struct ida guc_ids;
+> > >  	u32 num_guc_ids;
+> > >  	u32 max_guc_ids;
+> > > +	u32 guc_ids_in_use[GUC_SUBMIT_ENGINE_MAX];
+> > >  	unsigned long *guc_ids_bitmap;
+> > >  #define MAX_GUC_ID_ORDER	(order_base_2(MAX_ENGINE_INSTANCE + 1))
+> > >  	struct list_head guc_id_list_no_ref[MAX_GUC_ID_ORDER + 1];
+> > > @@ -69,6 +70,12 @@ struct intel_guc {
+> > >  	struct list_head destroyed_contexts;
+> > >  	struct intel_gt_pm_unpark_work destroy_worker;
+> > >  
+> > > +	spinlock_t sched_disable_lock;	/* protects schedule disable list */
+> > > +	struct list_head sched_disable_list;
+> > > +	struct hrtimer sched_disable_timer;
+> > > +#define SCHED_DISABLE_DELAY_NS	1000000000
+> > > +	u64 sched_disable_delay_ns;
+> > > +
+> > >  	bool submission_supported;
+> > >  	bool submission_selected;
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> > > index 7c479c5e7b3a..53a6f3da6cce 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> > > @@ -80,12 +80,40 @@ static int guc_num_id_set(void *data, u64 val)
+> > >  }
+> > >  DEFINE_SIMPLE_ATTRIBUTE(guc_num_id_fops, guc_num_id_get, guc_num_id_set, "%lld\n");
+> > >  
+> > > +static int guc_sched_disable_delay_ns_get(void *data, u64 *val)
+> > > +{
+> > > +	struct intel_guc *guc = data;
+> > > +
+> > > +	if (!intel_guc_submission_is_used(guc))
+> > > +		return -ENODEV;
+> > > +
+> > > +	*val = guc->sched_disable_delay_ns;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int guc_sched_disable_delay_ns_set(void *data, u64 val)
+> > > +{
+> > > +	struct intel_guc *guc = data;
+> > > +
+> > > +	if (!intel_guc_submission_is_used(guc))
+> > > +		return -ENODEV;
+> > > +
+> > > +	guc->sched_disable_delay_ns = val;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +DEFINE_SIMPLE_ATTRIBUTE(guc_sched_disable_delay_ns_fops,
+> > > +			guc_sched_disable_delay_ns_get,
+> > > +			guc_sched_disable_delay_ns_set, "%lld\n");
+> > > +
+> > >  void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
+> > >  {
+> > >  	static const struct debugfs_gt_file files[] = {
+> > >  		{ "guc_info", &guc_info_fops, NULL },
+> > >  		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
+> > >  		{ "guc_num_id", &guc_num_id_fops, NULL },
+> > > +		{ "guc_sched_disable_delay_ns", &guc_sched_disable_delay_ns_fops, NULL },
+> > >  	};
+> > >  
+> > >  	if (!intel_guc_is_supported(guc))
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > index cd1893edf43a..dc0d6a099bee 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > @@ -654,11 +654,15 @@ int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+> > >  	return (timeout < 0) ? timeout : 0;
+> > >  }
+> > >  
+> > > +static void sched_disable_contexts_flush(struct intel_guc *guc);
+> > > +
+> > >  int intel_guc_wait_for_idle(struct intel_guc *guc, long timeout)
+> > >  {
+> > >  	if (!intel_uc_uses_guc_submission(&guc_to_gt(guc)->uc))
+> > >  		return 0;
+> > >  
+> > > +	sched_disable_contexts_flush(guc);
+> > > +
+> > >  	return intel_guc_wait_for_pending_msg(guc,
+> > >  					      &guc->outstanding_submission_g2h,
+> > >  					      true, timeout);
+> > > @@ -1135,6 +1139,7 @@ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce);
+> > >  static void guc_signal_context_fence(struct intel_context *ce);
+> > >  static void guc_cancel_context_requests(struct intel_context *ce);
+> > >  static void guc_blocked_fence_complete(struct intel_context *ce);
+> > > +static void sched_disable_context_delete(struct intel_context *ce);
+> > >  
+> > >  static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+> > >  {
+> > > @@ -1160,6 +1165,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+> > >  		deregister = context_wait_for_deregister_to_register(ce);
+> > >  		banned = context_banned(ce);
+> > >  		init_sched_state(ce);
+> > > +		sched_disable_context_delete(ce);
+> > >  
+> > >  		if (pending_enable || destroyed || deregister) {
+> > >  			atomic_dec(&guc->outstanding_submission_g2h);
+> > > @@ -1299,6 +1305,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+> > >  
+> > >  	intel_gt_park_heartbeats(guc_to_gt(guc));
+> > >  	disable_submission(guc);
+> > > +	hrtimer_cancel(&guc->sched_disable_timer);
+> > >  	guc->interrupts.disable(guc);
+> > >  
+> > >  	/* Flush IRQ handler */
+> > > @@ -1656,6 +1663,8 @@ static void guc_lrcd_reg_fini(struct intel_guc *guc);
+> > >  
+> > >  static void destroy_worker_func(struct work_struct *w);
+> > >  
+> > > +static enum hrtimer_restart sched_disable_timer_func(struct hrtimer *hrtimer);
+> > > +
+> > >  /*
+> > >   * Set up the memory resources to be shared with the GuC (via the GGTT)
+> > >   * at firmware loading time.
+> > > @@ -1687,6 +1696,13 @@ int intel_guc_submission_init(struct intel_guc *guc)
+> > >  	INIT_LIST_HEAD(&guc->destroyed_contexts);
+> > >  	intel_gt_pm_unpark_work_init(&guc->destroy_worker, destroy_worker_func);
+> > >  
+> > > +	spin_lock_init(&guc->sched_disable_lock);
+> > > +	INIT_LIST_HEAD(&guc->sched_disable_list);
+> > > +	hrtimer_init(&guc->sched_disable_timer, CLOCK_MONOTONIC,
+> > > +		     HRTIMER_MODE_REL);
+> > > +	guc->sched_disable_timer.function = sched_disable_timer_func;
+> > > +	guc->sched_disable_delay_ns = SCHED_DISABLE_DELAY_NS;
+> > > +
+> > >  	return 0;
+> > >  }
+> > >  
+> > > @@ -1852,6 +1868,12 @@ static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> > >  	if (unlikely(ret < 0))
+> > >  		return ret;
+> > >  
+> > > +	if (intel_context_is_parent(ce))
+> > > +		guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC] +=
+> > > +			order_base_2(ce->guc_number_children + 1);
+> > > +	else
+> > > +		guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_SINGLE_LRC]++;
+> > > +
+> > >  	ce->guc_id = ret;
+> > >  	return 0;
+> > >  }
+> > > @@ -1860,13 +1882,18 @@ static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> > >  {
+> > >  	GEM_BUG_ON(intel_context_is_child(ce));
+> > >  	if (!context_guc_id_invalid(ce)) {
+> > > -		if (intel_context_is_parent(ce))
+> > > +		if (intel_context_is_parent(ce)) {
+> > > +			guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC] -=
+> > > +				order_base_2(ce->guc_number_children + 1);
+> > >  			bitmap_release_region(guc->guc_ids_bitmap, ce->guc_id,
+> > >  					      order_base_2(ce->guc_number_children
+> > >  							   + 1));
+> > > -		else
+> > > +		} else {
+> > > +			guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_SINGLE_LRC]--;
+> > >  			ida_simple_remove(&guc->guc_ids, ce->guc_id);
+> > > +		}
+> > >  		clr_lrc_desc_registered(guc, ce->guc_id);
+> > > +
+> > >  		set_context_guc_id_invalid(ce);
+> > >  	}
+> > >  	if (!list_empty(&ce->guc_id_link))
+> > > @@ -1931,9 +1958,13 @@ static int steal_guc_id(struct intel_guc *guc, struct intel_context *ce,
+> > >  			 * from another context that has more guc_id that itself.
+> > >  			 */
+> > >  			if (cn_o2 != ce_o2) {
+> > > +				guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC] -=
+> > > +					order_base_2(cn->guc_number_children + 1);
+> > >  				bitmap_release_region(guc->guc_ids_bitmap,
+> > >  						      cn->guc_id,
+> > >  						      cn_o2);
+> > > +				guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC] +=
+> > > +					order_base_2(ce->guc_number_children + 1);
+> > >  				bitmap_allocate_region(guc->guc_ids_bitmap,
+> > >  						       ce->guc_id,
+> > >  						       ce_o2);
+> > > @@ -2538,7 +2569,7 @@ static void guc_context_unpin(struct intel_context *ce)
+> > >  	__guc_context_unpin(ce);
+> > >  
+> > >  	if (likely(!intel_context_is_barrier(ce)))
+> > > -		intel_engine_pm_put(ce->engine);
+> > > +		intel_engine_pm_put_async(ce->engine);
+> > >  }
+> > >  
+> > >  static void guc_context_post_unpin(struct intel_context *ce)
+> > > @@ -2665,11 +2696,11 @@ static void guc_parent_context_unpin(struct intel_context *ce)
+> > >  
+> > >  	for_each_engine_masked(engine, ce->engine->gt,
+> > >  			       ce->engine->mask, tmp)
+> > > -		intel_engine_pm_put(engine);
+> > > +		intel_engine_pm_put_async(engine);
+> > >  	for_each_child(ce, child)
+> > >  		for_each_engine_masked(engine, child->engine->gt,
+> > >  				       child->engine->mask, tmp)
+> > > -			intel_engine_pm_put(engine);
+> > > +			intel_engine_pm_put_async(engine);
+> > >  }
+> > >  
+> > >  static void __guc_context_sched_enable(struct intel_guc *guc,
+> > > @@ -2788,6 +2819,8 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
+> > >  
+> > >  	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> > >  
+> > > +	sched_disable_context_delete(ce);
+> > > +
+> > >  	with_intel_runtime_pm(runtime_pm, wakeref)
+> > >  		__guc_context_sched_disable(guc, ce, guc_id);
+> > >  
+> > > @@ -2914,8 +2947,202 @@ static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
+> > >  								     1);
+> > >  		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> > >  	}
+> > > +
+> > > +	sched_disable_context_delete(ce);
+> > > +}
+> > > +
+> > > +#define next_sched_disable_time(guc, now, ce) \
+> > > +	(guc->sched_disable_delay_ns - \
+> > > +	 (ktime_to_ns(now) - ktime_to_ns(ce->guc_sched_disable_time)))
+> > > +static void ____sched_disable_context_delete(struct intel_guc *guc,
+> > > +					     struct intel_context *ce)
+> > > +{
+> > > +	bool is_first;
+> > > +
+> > > +	lockdep_assert_held(&guc->sched_disable_lock);
+> > > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > > +	GEM_BUG_ON(list_empty(&ce->guc_sched_disable_link));
+> > > +
+> > > +	is_first = list_is_first(&ce->guc_sched_disable_link,
+> > > +				 &guc->sched_disable_list);
+> > > +	list_del_init(&ce->guc_sched_disable_link);
+> > > +	if (list_empty(&guc->sched_disable_list)) {
+> > > +		hrtimer_try_to_cancel(&guc->sched_disable_timer);
+> > > +	} else if (is_first) {
+> > > +		struct intel_context *first =
+> > > +			list_first_entry(&guc->sched_disable_list,
+> > > +					 typeof(*first),
+> > > +					 guc_sched_disable_link);
+> > > +		u64 next_time = next_sched_disable_time(guc, ktime_get(),
+> > > +							first);
+> > > +
+> > > +		hrtimer_start(&guc->sched_disable_timer,
+> > > +			      ns_to_ktime(next_time),
+> > > +			      HRTIMER_MODE_REL_PINNED);
+> > > +	}
+> > > +}
+> > > +
+> > > +static void __sched_disable_context_delete(struct intel_guc *guc,
+> > > +					   struct intel_context *ce)
+> > > +{
+> > > +	lockdep_assert_held(&guc->sched_disable_lock);
+> > > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > > +
+> > > +	if (!list_empty(&ce->guc_sched_disable_link)) {
+> > > +		intel_context_sched_disable_unpin(ce);
+> > > +		____sched_disable_context_delete(guc, ce);
+> > > +	}
+> > > +}
+> > > +
+> > > +static void sched_disable_context_delete(struct intel_context *ce)
+> > > +{
+> > > +	struct intel_guc *guc = ce_to_guc(ce);
+> > > +	unsigned long flags;
+> > > +
+> > > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > > +
+> > > +	if (!list_empty(&ce->guc_sched_disable_link)) {
+> > > +		spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> > > +		__sched_disable_context_delete(guc, ce);
+> > > +		spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> > > +	}
+> > > +}
+> > > +
+> > > +static void sched_disable_context_add(struct intel_guc *guc,
+> > > +				      struct intel_context *ce)
+> > > +{
+> > > +	unsigned long flags;
+> > > +
+> > > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > > +	GEM_BUG_ON(!list_empty(&ce->guc_sched_disable_link));
+> > > +
+> > > +	ce->guc_sched_disable_time = ktime_get();
+> > > +
+> > > +	spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> > > +	if (list_empty(&guc->sched_disable_list))
+> > > +		hrtimer_start(&guc->sched_disable_timer,
+> > > +			      ns_to_ktime(guc->sched_disable_delay_ns),
+> > > +			      HRTIMER_MODE_REL_PINNED);
+> > > +	list_add_tail(&ce->guc_sched_disable_link, &guc->sched_disable_list);
+> > > +	spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> > > +}
+> > > +
+> > > +static void sched_disable_contexts_flush(struct intel_guc *guc)
+> > > +{
+> > > +	struct intel_runtime_pm *runtime_pm = &guc_to_gt(guc)->i915->runtime_pm;
+> > > +	struct intel_context *ce, *cn;
+> > > +	unsigned long flags;
+> > > +
+> > > +	spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> > > +
+> > > +	list_for_each_entry_safe_reverse(ce, cn, &guc->sched_disable_list,
+> > > +					 guc_sched_disable_link) {
+> > > +		intel_wakeref_t wakeref;
+> > > +		bool enabled;
+> > > +		u16 guc_id;
+> > > +
+> > > +		list_del_init(&ce->guc_sched_disable_link);
+> > > +
+> > > +		spin_lock(&ce->guc_state.lock);
+> > > +		enabled = context_enabled(ce);
+> > > +		if (unlikely(!enabled || submission_disabled(guc))) {
+> > > +			if (enabled)
+> > > +				clr_context_enabled(ce);
+> > > +			spin_unlock(&ce->guc_state.lock);
+> > > +			intel_context_sched_disable_unpin(ce);
+> > > +			continue;
+> > > +		}
+> > > +		if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
+> > > +			spin_unlock(&ce->guc_state.lock);
+> > > +			continue;
+> > > +		}
+> > > +		guc_id = prep_context_pending_disable(ce);
+> > > +		spin_unlock(&ce->guc_state.lock);
+> > > +
+> > > +		with_intel_runtime_pm(runtime_pm, wakeref)
+> > > +			__guc_context_sched_disable(guc, ce, guc_id);
+> > > +	}
+> > > +
+> > > +	hrtimer_try_to_cancel(&guc->sched_disable_timer);
+> > > +
+> > > +	spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> > >  }
+> > >  
+> > > +#define should_sched_be_disabled(guc, now, ce) \
+> > > +	((ktime_to_ns(now) - ktime_to_ns(ce->guc_sched_disable_time)) > \
+> > > +	(guc->sched_disable_delay_ns / 4) * 3)
+> > > +static enum hrtimer_restart sched_disable_timer_func(struct hrtimer *hrtimer)
+> > > +{
+> > > +	struct intel_guc *guc = container_of(hrtimer, struct intel_guc,
+> > > +					     sched_disable_timer);
+> > > +	struct intel_runtime_pm *runtime_pm = &guc_to_gt(guc)->i915->runtime_pm;
+> > > +	struct intel_context *ce, *cn;
+> > > +	unsigned long flags;
+> > > +	ktime_t now;
+> > > +
+> > > +	if (list_empty(&guc->sched_disable_list))
+> > > +		return HRTIMER_NORESTART;
+> > > +
+> > > +	now = ktime_get();
+> > > +
+> > > +	spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> > > +
+> > > +	list_for_each_entry_safe_reverse(ce, cn, &guc->sched_disable_list,
+> > > +					 guc_sched_disable_link) {
+> > > +		intel_wakeref_t wakeref;
+> > > +		bool enabled;
+> > > +		u16 guc_id;
+> > > +
+> > > +		/*
+> > > +		 * If a context has been waiting for 3/4 of its delay or more,
+> > > +		 * issue the schedule disable. Using this heuristic allows more
+> > > +		 * than 1 context to have its scheduling disabled when this
+> > > +		 * timer is run.
+> > > +		 */
+> > > +		if (!should_sched_be_disabled(guc, now, ce))
+> > > +			break;
+> > > +
+> > > +		list_del_init(&ce->guc_sched_disable_link);
+> > > +
+> > > +		spin_lock(&ce->guc_state.lock);
+> > > +		enabled = context_enabled(ce);
+> > > +		if (unlikely(!enabled || submission_disabled(guc))) {
+> > > +			if (enabled)
+> > > +				clr_context_enabled(ce);
+> > > +			spin_unlock(&ce->guc_state.lock);
+> > > +			intel_context_sched_disable_unpin(ce);
+> > > +			continue;
+> > > +		}
+> > > +		if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
+> > > +			spin_unlock(&ce->guc_state.lock);
+> > > +			continue;
+> > > +		}
+> > > +		guc_id = prep_context_pending_disable(ce);
+> > > +		spin_unlock(&ce->guc_state.lock);
+> > > +
+> > > +		with_intel_runtime_pm(runtime_pm, wakeref)
+> > > +			__guc_context_sched_disable(guc, ce, guc_id);
+> > > +	}
+> > > +
+> > > +	if (!list_empty(&guc->sched_disable_list)) {
+> > > +		struct intel_context *first =
+> > > +			list_first_entry(&guc->sched_disable_list,
+> > > +					 typeof(*first),
+> > > +					 guc_sched_disable_link);
+> > > +		u64 next_time = next_sched_disable_time(guc, now, first);
+> > > +
+> > > +		hrtimer_forward(hrtimer, now, ns_to_ktime(next_time));
+> > > +		spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> > > +
+> > > +		return HRTIMER_RESTART;
+> > > +	} else {
+> > > +		spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> > > +
+> > > +		return HRTIMER_NORESTART;
+> > > +	}
+> > > +}
+> > > +
+> > > +#define guc_id_pressure(max, in_use)	(in_use > (max / 4) * 3)
+> > >  static void guc_context_sched_disable(struct intel_context *ce)
+> > >  {
+> > >  	struct intel_guc *guc = ce_to_guc(ce);
+> > > @@ -2924,8 +3151,14 @@ static void guc_context_sched_disable(struct intel_context *ce)
+> > >  	intel_wakeref_t wakeref;
+> > >  	u16 guc_id;
+> > >  	bool enabled;
+> > > +	int guc_id_index = intel_context_is_parent(ce) ?
+> > > +		GUC_SUBMIT_ENGINE_MULTI_LRC : GUC_SUBMIT_ENGINE_SINGLE_LRC;
+> > > +	int max_guc_ids = intel_context_is_parent(ce) ?
+> > > +	       NUMBER_MULTI_LRC_GUC_ID(guc) :
+> > > +	       guc->num_guc_ids - NUMBER_MULTI_LRC_GUC_ID(guc);
+> > >  
+> > >  	GEM_BUG_ON(intel_context_is_child(ce));
+> > > +	GEM_BUG_ON(!list_empty(&ce->guc_sched_disable_link));
+> > >  
+> > >  	if (submission_disabled(guc) || context_guc_id_invalid(ce) ||
+> > >  	    !lrc_desc_registered(guc, ce->guc_id)) {
+> > > @@ -2936,6 +3169,18 @@ static void guc_context_sched_disable(struct intel_context *ce)
+> > >  	if (!context_enabled(ce))
+> > >  		goto unpin;
+> > >  
+> > > +	/*
+> > > +	 * If no guc_id pressure and the context isn't closed we delay the
+> > > +	 * schedule disable to not to continuously disable / enable scheduling
+> > > +	 * putting pressure on both the i915 and GuC. Delay is configurable via
+> > > +	 * debugfs, default 1s.
+> > > +	 */
+> > > +	if (!guc_id_pressure(max_guc_ids, guc->guc_ids_in_use[guc_id_index]) &&
+> > > +	    !intel_context_is_closed(ce) && guc->sched_disable_delay_ns) {
+> > > +		sched_disable_context_add(guc, ce);
+> > > +		return;
+> > > +	}
+> > > +
+> > >  	spin_lock_irqsave(&ce->guc_state.lock, flags);
+> > >  
+> > >  	/*
+> > > @@ -3294,6 +3539,58 @@ static void remove_from_context(struct i915_request *rq)
+> > >  	i915_request_notify_execute_cb_imm(rq);
+> > >  }
+> > >  
+> > > +static void __guc_context_close(struct intel_guc *guc,
+> > > +				struct intel_context *ce)
+> > > +{
+> > > +	lockdep_assert_held(&guc->sched_disable_lock);
+> > > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > > +
+> > > +	if (!list_empty(&ce->guc_sched_disable_link)) {
+> > > +		struct intel_runtime_pm *runtime_pm =
+> > > +			ce->engine->uncore->rpm;
+> > > +		intel_wakeref_t wakeref;
+> > > +		bool enabled;
+> > > +		u16 guc_id;
+> > > +
+> > > +		spin_lock(&ce->guc_state.lock);
+> > > +		enabled = context_enabled(ce);
+> > > +		if (unlikely(!enabled || submission_disabled(guc))) {
+> > > +			if (enabled)
+> > > +				clr_context_enabled(ce);
+> > > +			spin_unlock(&ce->guc_state.lock);
+> > > +			intel_context_sched_disable_unpin(ce);
+> > > +			goto update_list;
+> > > +		}
+> > > +		if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
+> > > +			spin_unlock(&ce->guc_state.lock);
+> > > +			goto update_list;
+> > > +		}
+> > > +		guc_id = prep_context_pending_disable(ce);
+> > > +		spin_unlock(&ce->guc_state.lock);
+> > > +
+> > > +		with_intel_runtime_pm(runtime_pm, wakeref)
+> > > +			__guc_context_sched_disable(guc, ce, guc_id);
+> > > +update_list:
+> > > +		____sched_disable_context_delete(guc, ce);
+> > > +	}
+> > > +}
+> > > +
+> > > +static void guc_context_close(struct intel_context *ce)
+> > > +{
+> > > +	struct intel_guc *guc = ce_to_guc(ce);
+> > > +	unsigned long flags;
+> > > +
+> > > +	/*
+> > > +	 * If we close the context and a schedule disable is pending a delay, do
+> > > +	 * it immediately.
+> > > +	 */
+> > > +	if (!list_empty(&ce->guc_sched_disable_link)) {
+> > > +		spin_lock_irqsave(&guc->sched_disable_lock, flags);
+> > > +		__guc_context_close(guc, ce);
+> > > +		spin_unlock_irqrestore(&guc->sched_disable_lock, flags);
+> > > +	}
+> > > +}
+> > > +
+> > >  static struct intel_context *
+> > >  guc_create_parallel(struct intel_engine_cs **engines,
+> > >  		    unsigned int num_siblings,
+> > > @@ -3308,6 +3605,7 @@ static const struct intel_context_ops guc_context_ops = {
+> > >  	.post_unpin = guc_context_post_unpin,
+> > >  
+> > >  	.ban = guc_context_ban,
+> > > +	.close = guc_context_close,
+> > >  
+> > >  	.cancel_request = guc_context_cancel_request,
+> > >  
+> > > @@ -3538,6 +3836,10 @@ static int guc_request_alloc(struct i915_request *rq)
+> > >  
+> > >  	rq->reserved_space -= GUC_REQUEST_SIZE;
+> > >  
+> > > +	GEM_BUG_ON(!list_empty(&ce->guc_sched_disable_link) &&
+> > > +		   atomic_read(&ce->pin_count) < 3);
+> > > +	sched_disable_context_delete(ce);
+> > > +
+> > >  	/*
+> > >  	 * guc_ids are exhausted or a heuristic is met indicating too many
+> > >  	 * guc_ids are waiting on requests with submission dependencies (not
+> > > @@ -3667,7 +3969,7 @@ static void guc_virtual_context_unpin(struct intel_context *ce)
+> > >  	__guc_context_unpin(ce);
+> > >  
+> > >  	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
+> > > -		intel_engine_pm_put(engine);
+> > > +		intel_engine_pm_put_async(engine);
+> > >  }
+> > >  
+> > >  static void guc_virtual_context_enter(struct intel_context *ce)
+> > > @@ -3708,6 +4010,7 @@ static const struct intel_context_ops virtual_guc_context_ops = {
+> > >  	.post_unpin = guc_context_post_unpin,
+> > >  
+> > >  	.ban = guc_context_ban,
+> > > +	.close = guc_context_close,
+> > >  
+> > >  	.cancel_request = guc_context_cancel_request,
+> > >  
+> > > @@ -3819,6 +4122,7 @@ static const struct intel_context_ops virtual_parent_context_ops = {
+> > >  	.post_unpin = guc_parent_context_post_unpin,
+> > >  
+> > >  	.ban = guc_context_ban,
+> > > +	.close = guc_context_close,
+> > >  
+> > >  	.enter = guc_virtual_context_enter,
+> > >  	.exit = guc_virtual_context_exit,
+> > > @@ -4924,7 +5228,11 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
+> > >  	drm_printf(p, "GuC Number Outstanding Submission G2H: %u\n",
+> > >  		   atomic_read(&guc->outstanding_submission_g2h));
+> > >  	drm_printf(p, "GuC Number GuC IDs: %d\n", guc->num_guc_ids);
+> > > -	drm_printf(p, "GuC Max Number GuC IDs: %d\n\n", guc->max_guc_ids);
+> > > +	drm_printf(p, "GuC Max Number GuC IDs: %d\n", guc->max_guc_ids);
+> > > +	drm_printf(p, "GuC single-lrc GuC IDs in use: %d\n",
+> > > +		   guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_SINGLE_LRC]);
+> > > +	drm_printf(p, "GuC multi-lrc GuC IDs in use: %d\n",
+> > > +		   guc->guc_ids_in_use[GUC_SUBMIT_ENGINE_MULTI_LRC]);
+> > >  	drm_printf(p, "GuC max context registered: %u\n\n",
+> > >  		   guc->lrcd_reg.max_idx);
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c
+> > > index 9cfecf9d368e..ad70b3159ce4 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c
+> > > @@ -174,7 +174,8 @@ static int multi_lrc_not_blocked(struct intel_gt *gt, bool flow_control)
+> > >  #define NUM_RQ_PER_CONTEXT	2
+> > >  #define HEARTBEAT_INTERVAL	1500
+> > >  
+> > > -static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids, bool hang)
+> > > +static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids,
+> > > +					bool hang, bool sched_disable_delay)
+> > >  {
+> > >  	struct intel_gt *gt = arg;
+> > >  	struct intel_guc *guc = &gt->uc.guc;
+> > > @@ -203,6 +204,9 @@ static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids, bool hang
+> > >  	if (limit_guc_ids)
+> > >  		guc->num_guc_ids = NUM_GUC_ID;
+> > >  
+> > > +	if (sched_disable_delay)
+> > > +		guc->sched_disable_delay_ns = SCHED_DISABLE_DELAY_NS / 5;
+> > > +
+> > >  	ce = intel_context_create(intel_selftest_find_any_engine(gt));
+> > >  	if (IS_ERR(ce)) {
+> > >  		ret = PTR_ERR(ce);
+> > > @@ -391,6 +395,7 @@ static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids, bool hang
+> > >  	guc->num_guc_ids = guc->max_guc_ids;
+> > >  	guc->gse_hang_expected = false;
+> > >  	guc->inject_bad_sched_disable = false;
+> > > +	guc->sched_disable_delay_ns = 0;
+> > >  	kfree(contexts);
+> > >  
+> > >  	return ret;
+> > > @@ -398,17 +403,22 @@ static int __intel_guc_flow_control_guc(void *arg, bool limit_guc_ids, bool hang
+> > >  
+> > >  static int intel_guc_flow_control_guc_ids(void *arg)
+> > >  {
+> > > -	return __intel_guc_flow_control_guc(arg, true, false);
+> > > +	return __intel_guc_flow_control_guc(arg, true, false, false);
+> > > +}
+> > > +
+> > > +static int intel_guc_flow_control_guc_ids_sched_disable_delay(void *arg)
+> > > +{
+> > > +	return __intel_guc_flow_control_guc(arg, true, false, true);
+> > >  }
+> > >  
+> > >  static int intel_guc_flow_control_lrcd_reg(void *arg)
+> > >  {
+> > > -	return __intel_guc_flow_control_guc(arg, false, false);
+> > > +	return __intel_guc_flow_control_guc(arg, false, false, false);
+> > >  }
+> > >  
+> > >  static int intel_guc_flow_control_hang_state_machine(void *arg)
+> > >  {
+> > > -	return __intel_guc_flow_control_guc(arg, true, true);
+> > > +	return __intel_guc_flow_control_guc(arg, true, true, false);
+> > >  }
+> > >  
+> > >  #define NUM_RQ_STRESS_CTBS	0x4000
+> > > @@ -861,6 +871,7 @@ int intel_guc_flow_control(struct drm_i915_private *i915)
+> > >  	static const struct i915_subtest tests[] = {
+> > >  		SUBTEST(intel_guc_flow_control_stress_ctbs),
+> > >  		SUBTEST(intel_guc_flow_control_guc_ids),
+> > > +		SUBTEST(intel_guc_flow_control_guc_ids_sched_disable_delay),
+> > >  		SUBTEST(intel_guc_flow_control_lrcd_reg),
+> > >  		SUBTEST(intel_guc_flow_control_hang_state_machine),
+> > >  		SUBTEST(intel_guc_flow_control_multi_lrc_guc_ids),
+> > > diff --git a/drivers/gpu/drm/i915/i915_selftest.h b/drivers/gpu/drm/i915/i915_selftest.h
+> > > index f54de0499be7..bf464db7affe 100644
+> > > --- a/drivers/gpu/drm/i915/i915_selftest.h
+> > > +++ b/drivers/gpu/drm/i915/i915_selftest.h
+> > > @@ -92,12 +92,14 @@ int __i915_subtests(const char *caller,
+> > >  			T, ARRAY_SIZE(T), data)
+> > >  #define i915_live_subtests(T, data) ({ \
+> > >  	typecheck(struct drm_i915_private *, data); \
+> > > +	(data)->gt.uc.guc.sched_disable_delay_ns = 0; \
+> > >  	__i915_subtests(__func__, \
+> > >  			__i915_live_setup, __i915_live_teardown, \
+> > >  			T, ARRAY_SIZE(T), data); \
+> > >  })
+> > >  #define intel_gt_live_subtests(T, data) ({ \
+> > >  	typecheck(struct intel_gt *, data); \
+> > > +	(data)->uc.guc.sched_disable_delay_ns = 0; \
+> > >  	__i915_subtests(__func__, \
+> > >  			__intel_gt_live_setup, __intel_gt_live_teardown, \
+> > >  			T, ARRAY_SIZE(T), data); \
+> > > diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
+> > > index 806ad688274b..57ba7065d5ab 100644
+> > > --- a/drivers/gpu/drm/i915/i915_trace.h
+> > > +++ b/drivers/gpu/drm/i915/i915_trace.h
+> > > @@ -933,6 +933,11 @@ DEFINE_EVENT(intel_context, intel_context_reset,
+> > >  	     TP_ARGS(ce)
+> > >  );
+> > >  
+> > > +DEFINE_EVENT(intel_context, intel_context_close,
+> > > +	     TP_PROTO(struct intel_context *ce),
+> > > +	     TP_ARGS(ce)
+> > > +);
+> > > +
+> > >  DEFINE_EVENT(intel_context, intel_context_ban,
+> > >  	     TP_PROTO(struct intel_context *ce),
+> > >  	     TP_ARGS(ce)
+> > > @@ -1035,6 +1040,11 @@ trace_intel_context_reset(struct intel_context *ce)
+> > >  {
+> > >  }
+> > >  
+> > > +static inline void
+> > > +trace_intel_context_close(struct intel_context *ce)
+> > > +{
+> > > +}
+> > > +
+> > >  static inline void
+> > >  trace_intel_context_ban(struct intel_context *ce)
+> > >  {
+> > > diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> > > index f843a5040706..d54c280217fe 100644
+> > > --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> > > +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> > > @@ -2112,5 +2112,5 @@ int i915_gem_gtt_live_selftests(struct drm_i915_private *i915)
+> > >  
+> > >  	GEM_BUG_ON(offset_in_page(i915->ggtt.vm.total));
+> > >  
+> > > -	return i915_subtests(tests, i915);
+> > > +	return i915_live_subtests(tests, i915);
+> > >  }
+> > > diff --git a/drivers/gpu/drm/i915/selftests/i915_perf.c b/drivers/gpu/drm/i915/selftests/i915_perf.c
+> > > index 9e9a6cb1d9e5..86bad00cca95 100644
+> > > --- a/drivers/gpu/drm/i915/selftests/i915_perf.c
+> > > +++ b/drivers/gpu/drm/i915/selftests/i915_perf.c
+> > > @@ -431,7 +431,7 @@ int i915_perf_live_selftests(struct drm_i915_private *i915)
+> > >  	if (err)
+> > >  		return err;
+> > >  
+> > > -	err = i915_subtests(tests, i915);
+> > > +	err = i915_live_subtests(tests, i915);
+> > >  
+> > >  	destroy_empty_config(&i915->perf);
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+> > > index d67710d10615..afbf88865a8b 100644
+> > > --- a/drivers/gpu/drm/i915/selftests/i915_request.c
+> > > +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+> > > @@ -1693,7 +1693,7 @@ int i915_request_live_selftests(struct drm_i915_private *i915)
+> > >  	if (intel_gt_is_wedged(&i915->gt))
+> > >  		return 0;
+> > >  
+> > > -	return i915_subtests(tests, i915);
+> > > +	return i915_live_subtests(tests, i915);
+> > >  }
+> > >  
+> > >  static int switch_to_kernel_sync(struct intel_context *ce, int err)
+> > > diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
+> > > index dd0607254a95..f4b157451851 100644
+> > > --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
+> > > +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
+> > > @@ -1085,5 +1085,5 @@ int i915_vma_live_selftests(struct drm_i915_private *i915)
+> > >  		SUBTEST(igt_vma_remapped_gtt),
+> > >  	};
+> > >  
+> > > -	return i915_subtests(tests, i915);
+> > > +	return i915_live_subtests(tests, i915);
+> > >  }
+> > > -- 
+> > > 2.28.0
+> > > 
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
