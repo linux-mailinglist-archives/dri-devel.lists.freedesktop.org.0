@@ -1,32 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80603E8791
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 03:16:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FC73E8792
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 03:16:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B784D6E07F;
-	Wed, 11 Aug 2021 01:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0326E081;
+	Wed, 11 Aug 2021 01:16:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECAFA89D77
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 01:16:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="202211825"
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="202211825"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C29D89D77
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 01:16:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="202211826"
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="202211826"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Aug 2021 18:16:28 -0700
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="675603975"
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="675603977"
 Received: from dut151-iclu.fm.intel.com ([10.105.23.69])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Aug 2021 18:16:28 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <gfx-internal-devel@eclists.intel.com>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 0/9] Clean up some CI failures for GuC submission
-Date: Wed, 11 Aug 2021 01:16:13 +0000
-Message-Id: <20210811011622.255784-1-matthew.brost@intel.com>
+Subject: [PATCH 1/9] drm/i915/guc: Fix blocked context accounting
+Date: Wed, 11 Aug 2021 01:16:14 +0000
+Message-Id: <20210811011622.255784-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210811011622.255784-1-matthew.brost@intel.com>
+References: <20210811011622.255784-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,46 +46,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Resets are notoriously hard to get fully working and notoriously racey,
-especially with selftests / IGTs that do all sorts of wild things that
-would be near impossible to hit during normal use cases. Even though
-likely impossible to hit, anything selftests / IGTs uncover needs to be
-fixed. This series addresses 7 such issues, adds a workaround to a
-selftest, and add another selftest to prove scrubbing of G2H during a
-reset works. 
+Prior to this patch the blocked context counter was cleared on
+init_sched_state (used during registering a context & resets) which is
+incorrect. This state needs to be persistent or the counter can read the
+incorrect value resulting in scheduling never getting enabled again.
 
-v2:
- (Daniel Vetter)
-  - Split fixes into individual patches
-  - A kernel doc
-  - A VLK ref for selftest workaround
- (Checkpatch)
-  - Fix warnings
-
+Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: <stable@vger.kernel.org>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Matthew Brost (9):
-  drm/i915/guc: Fix blocked context accounting
-  drm/i915/guc: outstanding G2H accounting
-  drm/i915/guc: Unwind context requests in reverse order
-  drm/i915/guc: Don't drop ce->guc_active.lock when unwinding context
-  drm/i915/guc: Flush the work queue for GuC generated G2H
-  drm/i915/guc: Do not clear enable during reset in an enable is
-    inflight
-  drm/i915/guc: Don't enable scheduling on a banned context
-  drm/i915/selftests: Fix memory corruption in live_lrc_isolation
-  drm/i915/selftests: Add initial GuC selftest for scrubbing lost G2H
-
- drivers/gpu/drm/i915/gt/intel_context_types.h |  18 +++
- drivers/gpu/drm/i915/gt/selftest_lrc.c        |  29 +++-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  69 +++++++---
- drivers/gpu/drm/i915/gt/uc/selftest_guc.c     | 126 ++++++++++++++++++
- .../drm/i915/selftests/i915_live_selftests.h  |   1 +
- .../i915/selftests/intel_scheduler_helpers.c  |  12 ++
- .../i915/selftests/intel_scheduler_helpers.h  |   2 +
- 7 files changed, 239 insertions(+), 18 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc.c
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 87d8dc8f51b9..69faa39da178 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -152,7 +152,7 @@ static inline void init_sched_state(struct intel_context *ce)
+ {
+ 	/* Only should be called from guc_lrc_desc_pin() */
+ 	atomic_set(&ce->guc_sched_state_no_lock, 0);
+-	ce->guc_state.sched_state = 0;
++	ce->guc_state.sched_state &= SCHED_STATE_BLOCKED_MASK;
+ }
+ 
+ static inline bool
 -- 
 2.32.0
 
