@@ -1,141 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA993E9511
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 17:53:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4E43E9728
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 19:57:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7406C88F58;
-	Wed, 11 Aug 2021 15:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30B526E187;
+	Wed, 11 Aug 2021 17:57:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2063.outbound.protection.outlook.com [40.107.101.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F9088F58;
- Wed, 11 Aug 2021 15:53:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TVxXJjaHSdRiohwAE+8zNVbsf3D54dQHusnRJVSSwi4FlpEM6/7A8MLTjQ8ByxSEs8bNYlvTx8hmaWEVY/PCx06TI7GboiiErn4WKFLfuFaOENpCcCoKbgDEBNyP+4K6TkJWZKtdZweUNlb5x2vfuYb8afG0nN2PebS9PhOLj3Bu35Mo65vXIlY76mNIPmZ+V1JivRGDt3ANe1vcYFb14gyJEdwPnbpsKFcHFuzptTMh9gU8rJJXNhYjl4l/puSwUuDPsDr1ZOSmqsJbB7QJPr0J6ZP6BDDixl29W90sgSn96S/iLiQ46pk1n+fKxuPiIngydBdw4ZBLWUHoIRcijg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C49rqTyfz3/bdpRcw7lWMxc9BXCwJJccswQylOwMjKA=;
- b=RAqKTMcfArEHEAUu7QneQjF7TcJn1x6wgtwcpOT/7iy8vqK6M9LMcD8R60lIieMP33wo9ZCzC87YbWZo7klVfW2fzaNraEIE7pFfm8MBO5TNLEpQ3cPZz5MSDNRPzxstu27UnhRB9lrlVGNDxRZqof7ndWT05vKzKhkWgPA7DAVvwHe6FEfPWwfQMareaJD+J/5mps/q+/uxVzGUfjutgkbde6i3wK6gg8IZ2L4tqIaPzdJehcnPvjMzi+8tqc0I4FHkoVUUOm4z0/cfkr8Y6PRAvjlAYPuKAA9NKLB7qdKgGRjB961IQpj5WE+8YKu2n49OL0xYEL7BZC6OxSF4wA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C49rqTyfz3/bdpRcw7lWMxc9BXCwJJccswQylOwMjKA=;
- b=0L7NJW1lPcU0elmdj23auZMGESKK2ZOB1uoaFPWc5tkKmv26YZw3humrz816GR/KZ4Mnzjr4NswnpH22OuGrGFsFjX1CDWEcvq6LemIppHbCds9P1Jl74AzeylVmzMiKYwklN43zkQaRRMp+GivmZuKXEvk7g+ELQJMP6PfUs+8=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
- by DM8PR12MB5431.namprd12.prod.outlook.com (2603:10b6:8:34::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4415.16; Wed, 11 Aug 2021 15:52:58 +0000
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::d560:d21:cd59:9418]) by DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::d560:d21:cd59:9418%6]) with mapi id 15.20.4415.016; Wed, 11 Aug 2021
- 15:52:58 +0000
-Subject: Re: [PATCH 07/11] treewide: Replace the use of mem_encrypt_active()
- with prot_guest_has()
-To: "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc: "Kuppuswamy, Sathyanarayanan"
- <sathyanarayanan.kuppuswamy@linux.intel.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
- Andi Kleen <ak@linux.intel.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, Andy Lutomirski
- <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Will Deacon <will@kernel.org>, Dave Young <dyoung@redhat.com>,
- Baoquan He <bhe@redhat.com>
-References: <cover.1627424773.git.thomas.lendacky@amd.com>
- <029791b24c6412f9427cfe6ec598156c64395964.1627424774.git.thomas.lendacky@amd.com>
- <166f30d8-9abb-02de-70d8-6e97f44f85df@linux.intel.com>
- <4b885c52-f70a-147e-86bd-c71a8f4ef564@amd.com>
- <20210811121917.ghxi7g4mctuybhbk@box.shutemov.name>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <0a819549-e481-c004-7da8-82ba427b13ce@amd.com>
-Date: Wed, 11 Aug 2021 10:52:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210811121917.ghxi7g4mctuybhbk@box.shutemov.name>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN1PR12CA0061.namprd12.prod.outlook.com
- (2603:10b6:802:20::32) To DM4PR12MB5229.namprd12.prod.outlook.com
- (2603:10b6:5:398::12)
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34CFD6E13C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 13:47:23 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id n123so2326766qkn.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 06:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=toxicpanda-com.20150623.gappssmtp.com; s=20150623;
+ h=to:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=Fm7+XHPXZJAAHRQX8HAqbif6yDHgyzf9iE8QP5xkcUo=;
+ b=XalUVSrEgpHQZzdUR7+8TdBjJ1cyMPHIVgyBlUH6ORQhIgC2F+Cd6RN0QYDKO0VpWZ
+ 6CCOFvRzfKSyQA0SkmeNNS/ghtsL+if4HlZlm6QuVGkl4l1WcAb7gw+bo6nZkaBcYmyO
+ TSG7st7ZP1N1f+DcoCcLX8yVSaPLm36/203NG7DE+WImvDrmPWkcHyaSPIb8xbskZb64
+ Ffbkto8H1TgoCGm2QQhDYGesMHzhex5rLsuZHDg3bCDmVEMEwnEPqcZvzCzAS9fdgTAK
+ A40frH7qSETKBpt0Pwd1/r2tqsDeyI4TtJ6ASAY2hsRk0mwlkxSGQI4+umpMVUchF4FX
+ JjGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=Fm7+XHPXZJAAHRQX8HAqbif6yDHgyzf9iE8QP5xkcUo=;
+ b=a1tLl6CUlPngvtHfTu1sHUWrmYMCNflp2jgZVMxNiWGAmvpBf1fwizaOTvDNZFxgdg
+ m3wuIRJYayGLlZtUy4UZ6qgGQWaZlnjL+1gIDuP30IPRSsUxDtdFwWZl6XMLpvrPziKx
+ FxCeNChQoKbfn1qOVFYL5ApaiPzVoFGHNkDUAkDiiukZbyRzfEjYzH7pdUubyjike3Bd
+ u9jY3kSvThtbNtdwZHp5OdXdiQqOj91mue36xyjZnKGH9V+y+oP+3SCJZ5j1NxeGu83T
+ CSGu9SKKPT1f5nnTLPGOBEk96V1fLeLnCTrtSn0lJ9A0tLHbTYIpPpmXMlQ+NVMIUUE5
+ /sFg==
+X-Gm-Message-State: AOAM53159k393ClwoCQHwoWO8pR1/qrJs8A0jVwbods+t+dzq1meBVHw
+ Q4xMYoFr29K/zODK/puBjeY/JQ==
+X-Google-Smtp-Source: ABdhPJwXPuJlsp/yR/WEcBR8nC8Z7LFDTwgTIFwdrxaYMn3xydogpOWRYQJ9ZqjQ/9DHfIWlUsFQXQ==
+X-Received: by 2002:a37:e20f:: with SMTP id g15mr20851650qki.450.1628689642038; 
+ Wed, 11 Aug 2021 06:47:22 -0700 (PDT)
+Received: from [192.168.1.45] (cpe-174-109-172-136.nc.res.rr.com.
+ [174.109.172.136])
+ by smtp.gmail.com with ESMTPSA id b22sm4274604qtr.2.2021.08.11.06.47.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Aug 2021 06:47:21 -0700 (PDT)
+To: dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ ray.huang@amd.com
+From: Josef Bacik <josef@toxicpanda.com>
+Subject: Consistently reproduce-able warning
+Message-ID: <f14b920e-da26-66c7-0da1-92215a976337@toxicpanda.com>
+Date: Wed, 11 Aug 2021 09:47:20 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.241] (165.204.77.1) by
- SN1PR12CA0061.namprd12.prod.outlook.com (2603:10b6:802:20::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4415.16 via Frontend Transport; Wed, 11 Aug 2021 15:52:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7e687563-770c-45e3-d65c-08d95ce0175c
-X-MS-TrafficTypeDiagnostic: DM8PR12MB5431:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM8PR12MB543199BEF36F29E3840ABFD6ECF89@DM8PR12MB5431.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lIs6pFyzfEbI1sSDg110Vyq4ekjEacZhpksNjWqlRVa3iscvvqsWl0yYG/1eyCmYp76Raq8v57Gb/CVJw3Azw8HEQVoEaq5Thx2vbGcOq+o252Owo5UvK6qWL25Zrxi8PuOD3hkirYlIuN16HwHgscJSl1gkfhWWJ+tgIjOCuy9IPlRr/w0GuiLta5pf3Pa5xgeet6tYJ4Bl0qidOz5Dg/DeXaiHaslXYoShv4gf36GqOZjt7OVBHL0CcUKLLE5BX9vEjcLs9L8xzJ3LIZNbgD6sF4TiQc1NVgI2If0QT0apr4XF7PVFWbuBKbMWORwiq/k3DVPSMmRvQJ0Sj4ajUMUfiYed3phlTw0ma14v/MLar3DXPEMPkoraDDkVTFqJCmqlLNaCMiJ7KWn4G7ABOiaOw/PtDkREBrgfp7y1pXpmiTAxJ37f8nv7FTSaIqwOQYle7zjdxABeFkOUGiKVWHAIV3VwjsPtva/gytPiDXBngieb9pNTfqjqslUcpbquE5VNNfzrQpo/mAUPWTCW7/Hu8mXZISL0/1jRU1di2XEp2fpD8BMclqx6M8wtgBunrnc/I0MFR3YU0rkTsHRNeKbOzP5toHxiiXBWgQ3YTYCUDO+cUAajBP/GCFAyXDaEU46ApzPiWI8GMXC3jj1A8O5dVEWbP8I9AF4Irnk5vptD4uwvHRigvbpgHaUrIYn47H+vNKBD29pKWeFXdsPc2Ndusema059/N0MezM6QHA4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(346002)(39860400002)(376002)(396003)(26005)(2616005)(66476007)(66556008)(478600001)(38100700002)(186003)(66946007)(36756003)(54906003)(31696002)(6486002)(8676002)(8936002)(7406005)(4326008)(316002)(6916009)(2906002)(86362001)(7416002)(5660300002)(31686004)(83380400001)(956004)(53546011)(16576012)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?REY0eis4c2JROTJ4U0pDcCs5UWZGaVA1c2RGRkNPVm1JakVBWHRjRUt0aWpO?=
- =?utf-8?B?RHBlQkppQklNUWJVSEptUWtuc0xLaDlDRW13TUhlWjdBRDd2T29YQWZxOUNx?=
- =?utf-8?B?d2Q5VlBTYzVYVWYxMUd1eTlpajIyUlJqdlluL0pFMW8veDg0YlNqZDkvUGh0?=
- =?utf-8?B?S2d4aHFCS3pMUDJPS2trYitORnRkNTJ0ZWZrV3ZUR3FVcXBZUWVwcjV0djYw?=
- =?utf-8?B?M1dvRWxodmZOeGhXak1ZYXgyMms1YjZUUDMvbFNxeFRkY0NsUC8vNDVGMDA2?=
- =?utf-8?B?TjhaYnRvUUhnZEcvbkh5RHl0Y2N5L1pQZ0IzNzZLYTBDeEdHNXVueWJIQzRx?=
- =?utf-8?B?a1lFd1h0QnVnM0h2SC9HTFpZMXorMnZtNkdKZHREb0dFbzZyZXNOd29vVkx4?=
- =?utf-8?B?ZTFpTVgwV2NKcU50bTFsbjlJT1UwMTFsdnZlYkw1QzJrQ3YxTm96ZHZXZk5E?=
- =?utf-8?B?bU93UThGNmwzVGRGdFFiTURIS2xBcTJkQ1MwOUlTSGwwbDZIU0QrTzBHZVBx?=
- =?utf-8?B?WmhDZVZ3ZlNLcGt1Ujdsd0VRd0RwQVFHdjBIL09vOGtGMHZiMHpNNnVQc2Z3?=
- =?utf-8?B?R0NFVi9XVDNqWHlja01PMVdSdjA4cWVEVWtJKzdpV2JkUzJOZURRSmNTbnA3?=
- =?utf-8?B?RlVlT0xpQ2FNRkpQUUhNMHUyRHkrcENpSk55LzFWTTEzMGxQSlRNL3dBYVl1?=
- =?utf-8?B?ZjZTY09yb1AwMXI3T3dMT1lnakhscUVkYXl3WUNZOEJ4c3NFUjhMbDdKTE11?=
- =?utf-8?B?YU1oT1FVaGZiNGUvL29nRzM0RWE1Ujl5RXpwL2VwRVJtczl3Q2xLQldwdlQ0?=
- =?utf-8?B?L0wwU25xQjQ2NUVubDVZbUZIRUpUUks2MUUrKzBWZ1Vzak1KYk04V3hybTZM?=
- =?utf-8?B?RXZEQnNhMmtXTHE4Sm1LVjFlT3J2UFFuYVVGVXRxS3R4MUQzeHdLdGZYQk5F?=
- =?utf-8?B?YUk4ZFRaVUJVKzBCS0xTek56YzZRVzMrbndMb0RNYituWUZWMlJVZFc5bW00?=
- =?utf-8?B?WFBDRTJzMGZ1K0Vka0FxRng3QURCSjFLVkhoczF4dElOWWFrdjdUVm5Uekox?=
- =?utf-8?B?Sm5tbmRXUDNSUmdRWHNKdTNIS1ZhUDdCOS8zS2d5dlpSNzJ2Y2JYR2czdTFU?=
- =?utf-8?B?KytSTHByeEtQVEhtVXZHcFN4STQyaXRzbmFqSnYzbFdMeGVCdjgyd2VIOU1H?=
- =?utf-8?B?cjJJVjVXZUZCeWRTcnM3TFVHZHloYkRCQXFKcTBrTEtqbUtGeEMxYWl1YzlE?=
- =?utf-8?B?bUdocE55ZERNRGNXc2s2eGFxTVNaZEhEaldVbkRNMkZVODB5NjlHM1FKOEJ1?=
- =?utf-8?B?dDZ5eGpMMUFaOWZWV2NsMWRPMkhUN1Y3ZHZpNHdKcEVNZXVZRzM1UFhpcTQx?=
- =?utf-8?B?SFlhbUhOZGsvTmRoK2paWWZpUkNOSVl2T0JoUUxkMGlYUFlrV3dkcGw2VDZC?=
- =?utf-8?B?b0kxN2p5TUx4SVJIQmFxWnpmaURudU9RaU1MZW1uY1BqSitLR1FoZUtud0NC?=
- =?utf-8?B?Zkc2d1UvLzZ5YnZBQlhrem9iVnVOWkVMV3BTTmJTY01qdkxMNXRrYTVNMDhK?=
- =?utf-8?B?NHBMZGdWQU96b3pIamxYMGE0bk4wUjdTS1RiR2dnbTMyU3JpdXZlMS8wcTNa?=
- =?utf-8?B?Ykk3NGYvaFFEb1ROUTV2YUhsVDYxWUJhTkxBc2NWdEF6QXNxaTBoSXovSnEy?=
- =?utf-8?B?RkN6Y1ZCUEJTcTNOdmV6ZXRhZ3lGTlJUSUh6K0dwK3lrUnkxcENHZUpYY2s1?=
- =?utf-8?Q?ypRlcF5FeAfEhWsnoICXRzLomNBmaC1bm+lcTDj?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e687563-770c-45e3-d65c-08d95ce0175c
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2021 15:52:58.7420 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 584esTti7o/5qkD1Os1NRjUfCdW4Sj5anUfUsR50eGnvfwGD5aGvUGjrOq3sJcZZ9e+qkr0NVlAYoU1YOAdy5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5431
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 11 Aug 2021 17:57:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,92 +75,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/11/21 7:19 AM, Kirill A. Shutemov wrote:
-> On Tue, Aug 10, 2021 at 02:48:54PM -0500, Tom Lendacky wrote:
->> On 8/10/21 1:45 PM, Kuppuswamy, Sathyanarayanan wrote:
->>>
->>>
->>> On 7/27/21 3:26 PM, Tom Lendacky wrote:
->>>> diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
->>>> index de01903c3735..cafed6456d45 100644
->>>> --- a/arch/x86/kernel/head64.c
->>>> +++ b/arch/x86/kernel/head64.c
->>>> @@ -19,7 +19,7 @@
->>>>   #include <linux/start_kernel.h>
->>>>   #include <linux/io.h>
->>>>   #include <linux/memblock.h>
->>>> -#include <linux/mem_encrypt.h>
->>>> +#include <linux/protected_guest.h>
->>>>   #include <linux/pgtable.h>
->>>>     #include <asm/processor.h>
->>>> @@ -285,7 +285,7 @@ unsigned long __head __startup_64(unsigned long
->>>> physaddr,
->>>>        * there is no need to zero it after changing the memory encryption
->>>>        * attribute.
->>>>        */
->>>> -    if (mem_encrypt_active()) {
->>>> +    if (prot_guest_has(PATTR_MEM_ENCRYPT)) {
->>>>           vaddr = (unsigned long)__start_bss_decrypted;
->>>>           vaddr_end = (unsigned long)__end_bss_decrypted;
->>>
->>>
->>> Since this change is specific to AMD, can you replace PATTR_MEM_ENCRYPT with
->>> prot_guest_has(PATTR_SME) || prot_guest_has(PATTR_SEV). It is not used in
->>> TDX.
->>
->> This is a direct replacement for now.
-> 
-> With current implementation of prot_guest_has() for TDX it breaks boot for
-> me.
-> 
-> Looking at code agains, now I *think* the reason is accessing a global
-> variable from __startup_64() inside TDX version of prot_guest_has().
-> 
-> __startup_64() is special. If you access any global variable you need to
-> use fixup_pointer(). See comment before __startup_64().
-> 
-> I'm not sure how you get away with accessing sme_me_mask directly from
-> there. Any clues? Maybe just a luck and complier generates code just right
-> for your case, I donno.
+Hello,
 
-Hmm... yeah, could be that the compiler is using rip-relative addressing
-for it because it lives in the .data section?
+I have nightly tests that run on VM's against our btrfs devel tree, and I'm 
+getting this warning every day
 
-For the static variables in mem_encrypt_identity.c I did an assembler rip
-relative LEA, but probably could have passed physaddr to sme_enable() and
-used a fixup_pointer() style function, instead.
+[15522.437976] ------------[ cut here ]------------
+[15522.438356] WARNING: CPU: 0 PID: 2334448 at drivers/gpu/drm/ttm/ttm_bo.c:512 
+ttm_bo_release+0x4f9/0x5c0 [ttm]
+[15522.439322] Modules linked in: dm_thin_pool dm_persistent_data dm_bio_prison 
+dm_log_writes dm_dust dm_flakey loop nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 
+nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct 
+nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip6_tables 
+nft_compat ip_set rfkill nf_tables nfnetlink joydev iTCO_wdt iTCO_vendor_support 
+intel_rapl_msr virtio_balloon intel_rapl_common snd_hda_codec_generic lpc_ich 
+snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hwdep snd_hda_core snd_pcm 
+snd_timer snd soundcore i2c_i801 i2c_smbus zram ip_tables xfs crct10dif_pclmul 
+crc32_pclmul crc32c_intel qxl drm_ttm_helper ttm drm_kms_helper 
+ghash_clmulni_intel cec serio_raw virtio_blk qemu_fw_cfg drm
+[15522.445295] CPU: 0 PID: 2334448 Comm: kworker/0:6 Tainted: G        W 
+5.12.0-rc1+ #155
+[15522.446187] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 
+1.13.0-2.fc32 04/01/2014
+[15522.447066] Workqueue: events qxl_gc_work [qxl]
+[15522.447546] RIP: 0010:ttm_bo_release+0x4f9/0x5c0 [ttm]
+[15522.448093] Code: ff 48 8b bd e8 fe ff ff b9 30 75 00 00 31 d2 be 01 00 00 00 
+e8 a8 98 5b c9 48 8b 45 e0 e9 fb fe ff ff 4c 89 e8 e9 f3 fe ff ff <0f> 0b c7 85 
+94 00 00 00 00 00 00 00 48 8b 3c 24 48 8d 75 08 31 d2
+[15522.450625] RSP: 0018:ffffaaf6c14d3d80 EFLAGS: 00010202
+[15522.451134] RAX: 0000000000000001 RBX: 0000000000000002 RCX: 0000000000000000
+[15522.451896] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffffffc039d168
+[15522.452641] RBP: ffff9a028335f648 R08: 0000000000000000 R09: 0000000000000000
+[15522.453387] R10: 0000000000000000 R11: ffff9a0282367488 R12: ffff9a02920b4c00
+[15522.454233] R13: ffff9a0292208d90 R14: ffff9a028335f6b0 R15: ffff9a02920b4700
+[15522.454936] FS:  0000000000000000(0000) GS:ffff9a02fbc00000(0000) 
+knlGS:0000000000000000
+[15522.455938] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[15522.456508] CR2: 00007f2c2fe34000 CR3: 00000001112be001 CR4: 0000000000370ef0
+[15522.456910] Call Trace:
+[15522.457055]  qxl_bo_unref+0x31/0x50 [qxl]
+[15522.457293]  qxl_release_free_list+0x52/0xa0 [qxl]
+[15522.457563]  qxl_release_free+0x76/0xe0 [qxl]
+[15522.457821]  qxl_garbage_collect+0xbd/0x170 [qxl]
+[15522.458086]  process_one_work+0x26e/0x570
+[15522.458320]  worker_thread+0x55/0x3c0
+[15522.458526]  ? process_one_work+0x570/0x570
+[15522.458776]  kthread+0x137/0x150
+[15522.458961]  ? __kthread_bind_mask+0x60/0x60
+[15522.459199]  ret_from_fork+0x1f/0x30
+[15522.459407] irq event stamp: 0
+[15522.459580] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[15522.459935] hardirqs last disabled at (0): [] copy_process+0x8c4/0x1ca0
+[15522.460385] softirqs last  enabled at (0): [] copy_process+0x8c4/0x1ca0
+[15522.460835] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[15522.461179] ---[ end trace d46763407dcdfb0a ]---
 
-> 
-> A separate point is that TDX version of prot_guest_has() relies on
-> cpu_feature_enabled() which is not ready at this point.
+You can find the full dmesg here
 
-Does TDX have to do anything special to make memory able to be shared with
-the hypervisor?  You might have to use something that is available earlier
-than cpu_feature_enabled() in that case (should you eventually support
-kvmclock).
+http://toxicpanda.com/results/josefbacik/xfstests2/btrfs_compression/08-11-2021-06:56:57/btrfs/022.dmesg.html
 
-> 
-> I think __bss_decrypted fixup has to be done if sme_me_mask is non-zero.
-> Or just do it uncoditionally because it's NOP for sme_me_mask == 0.
+I had hit this before and just turned off drm because it was going almost 
+constantly, but I accidentally turned it back on when messing with my config. 
+Can you guys get this fixed, it messes with my test results as kernel warnings 
+show up as failures.  I can run whatever debug stuff you want me to run, like I 
+said these run every night and it reproduces all the time.  Thanks,
 
-For SNP, we'll have to additionally call the HV to update the RMP to make
-the memory shared. But that could also be done unconditionally since the
-early_snp_set_memory_shared() routine will check for SNP before doing
-anything.
-
-Thanks,
-Tom
-
-> 
->> I think the change you're requesting
->> should be done as part of the TDX support patches so it's clear why it is
->> being changed.
->>
->> But, wouldn't TDX still need to do something with this shared/unencrypted
->> area, though? Or since it is shared, there's actually nothing you need to
->> do (the bss decrpyted section exists even if CONFIG_AMD_MEM_ENCRYPT is not
->> configured)?
-> 
-> AFAICS, only kvmclock uses __bss_decrypted. We don't enable kvmclock in
-> TDX at the moment. It may change in the future.
-> 
+Josef
