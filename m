@@ -2,39 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5363E86C9
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 01:52:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7E43E8712
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 02:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFD3F6E075;
-	Tue, 10 Aug 2021 23:52:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 817F96E063;
+	Wed, 11 Aug 2021 00:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6A76E072;
- Tue, 10 Aug 2021 23:52:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="215006874"
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="215006874"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2021 16:52:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="460567798"
-Received: from jhli-desk1.jf.intel.com ([10.54.74.156])
- by orsmga007.jf.intel.com with ESMTP; 10 Aug 2021 16:52:29 -0700
-From: Juston Li <juston.li@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: seanpaul@chromium.org, anshuman.gupta@intel.com, ramalingam.c@intel.com,
- rodrigo.vivi@intel.com, Juston Li <juston.li@intel.com>
-Subject: [Intel-gfx] [PATCH v3 3/3] drm/i915/hdcp: reuse rx_info for mst
- stream type1 capability check
-Date: Tue, 10 Aug 2021 16:52:12 -0700
-Message-Id: <20210810235212.138721-4-juston.li@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210810235212.138721-1-juston.li@intel.com>
-References: <20210810235212.138721-1-juston.li@intel.com>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D4B6E063
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 00:13:02 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1628640785; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=Z/494PJccCYTOlJ/bn/7QtP5uBxFdSACn3ge8hoXvIw=;
+ b=se2ZbzXFIyQlKW4GmDXSI+nsUSC5c19RA1GMQe7m5nwGlX+6gYM3xbWDAHsLMso6eSvjItkL
+ 4olhIMv6RsMmlXumg6MZ2MsVQZrLMnuyHeNMqQe7qPj0DjIPypHDLwKCt0E0y8LXYfBxIyMT
+ mG+ZeUdlk9ddhZDeh0RC+d3oSd4=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 611315fb66ff107904883f78 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 11 Aug 2021 00:12:43
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id BA3D4C43217; Wed, 11 Aug 2021 00:12:42 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6608AC433D3;
+ Wed, 11 Aug 2021 00:12:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 10 Aug 2021 17:12:38 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Jonathan Marek
+ <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v5] drm/msm/dsi: add continuous clock support for 7nm PHY
+In-Reply-To: <20210805170817.3337665-1-dmitry.baryshkov@linaro.org>
+References: <20210805170817.3337665-1-dmitry.baryshkov@linaro.org>
+Message-ID: <60f750e156b3b0f775e04f65d752224e@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,213 +74,260 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some MST docking stations, rx_info can only be read after
-RepeaterAuth_Send_ReceiverID_List and the RxStatus READY bit is set
-otherwise the read will return -EIO.
+On 2021-08-05 10:08, Dmitry Baryshkov wrote:
+> Unlike previous generations, 7nm PHYs are required to collaborate with
+> the host for conitnuos clock mode. Add changes neccessary to enable
+/continuous
+/necessary
+> continuous clock mode in the 7nm DSI PHYs.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> Changes since v4:
+>  - Fix the comment regarding msm_dsi_phy_set_continuous_clock()
+> 
+> Changes since v3:
+>  - Invert the DSI_LANE_CTRL_HS_REQ_SEL_PHY bit logic, as noted by
+>    Abhinav.
+> 
+> Changes since v2:
+>  - Really drop msm_dsi_phy_needs_hs_phy_sel()
+> 
+> Changes since v1:
+>  - Remove the need for a separate msm_dsi_phy_needs_hs_phy_sel() call
+>  - Fix setting continuous clock for a dual DSI case.
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi.h             |  3 ++-
+>  drivers/gpu/drm/msm/dsi/dsi.xml.h         |  1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c        | 12 ++++++++----
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c     |  4 ++--
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c     |  9 +++++++++
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h     |  1 +
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 17 +++++++++++++++++
+>  7 files changed, 40 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
+> b/drivers/gpu/drm/msm/dsi/dsi.h
+> index 9b8e9b07eced..58e63bf34fe9 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+> @@ -109,7 +109,7 @@ int msm_dsi_host_enable(struct mipi_dsi_host 
+> *host);
+>  int msm_dsi_host_disable(struct mipi_dsi_host *host);
+>  int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+>  			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+> -			bool is_dual_dsi);
+> +			bool is_dual_dsi, struct msm_dsi_phy *phy);
+>  int msm_dsi_host_power_off(struct mipi_dsi_host *host);
+>  int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+>  				  const struct drm_display_mode *mode);
+> @@ -175,6 +175,7 @@ int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy 
+> *phy,
+>  void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy);
+>  int msm_dsi_phy_pll_restore_state(struct msm_dsi_phy *phy);
+>  void msm_dsi_phy_snapshot(struct msm_disp_state *disp_state, struct
+> msm_dsi_phy *phy);
+> +bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool 
+> enable);
+> 
+>  #endif /* __DSI_CONNECTOR_H__ */
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> index eadbcc78fd72..473c81605054 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> @@ -518,6 +518,7 @@ static inline uint32_t
+> DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(uint32_t val)
+>  #define DSI_LANE_STATUS_DLN0_DIRECTION				0x00010000
+> 
+>  #define REG_DSI_LANE_CTRL					0x000000a8
+> +#define DSI_LANE_CTRL_HS_REQ_SEL_PHY				0x01000000
+>  #define DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST			0x10000000
+> 
+>  #define REG_DSI_LANE_SWAP_CTRL					0x000000ac
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index ed504fe5074f..3558e5cd400f 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -834,7 +834,7 @@ static inline enum dsi_cmd_dst_format 
+> dsi_get_cmd_fmt(
+>  }
+> 
+>  static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool 
+> enable,
+> -			struct msm_dsi_phy_shared_timings *phy_shared_timings)
+> +			struct msm_dsi_phy_shared_timings *phy_shared_timings, struct
+> msm_dsi_phy *phy)
+>  {
+>  	u32 flags = msm_host->mode_flags;
+>  	enum mipi_dsi_pixel_format mipi_fmt = msm_host->format;
+> @@ -929,6 +929,10 @@ static void dsi_ctrl_config(struct msm_dsi_host
+> *msm_host, bool enable,
+> 
+>  	if (!(flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)) {
+>  		lane_ctrl = dsi_read(msm_host, REG_DSI_LANE_CTRL);
+> +
+> +		if (msm_dsi_phy_set_continuous_clock(phy, enable))
+> +			lane_ctrl &= ~DSI_LANE_CTRL_HS_REQ_SEL_PHY;
+> +
+>  		dsi_write(msm_host, REG_DSI_LANE_CTRL,
+>  			lane_ctrl | DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST);
+>  	}
 
-This behavior causes the mst stream type1 capability test to fail to
-read rx_info and determine if the topology supports type1 and fallback
-to type0.
+While checking downstream code and the HPG, the sequence seems to be to 
+program ctrl bits first
+and then the PHY bits. Here its reverse. I think it should still work 
+but to maintain consistency,
+can we change the order here to program controller first and then call 
+msm_dsi_phy_set_continuous_clock?
 
-To fix this, check for type1 capability when we receive rx_info within
-the AKE flow when we read RepeaterAuth_Send_ReceiverID_List instead
-of an explicit read just for type1 capability checking.
+Unrelated to this change itself but while reviewing the sequence, I just 
+observed we never clear the continuous
+clk bits during disable(). In other words the disable sequence just 
+clears the controller and comes out.
+As a follow up, I will plan to clean up this a bit.
 
-This does require moving where we set stream_types to after
-hdcp2_authenticate_sink() when we get rx_info but this occurs before we
-do hdcp2_propagate_stream_management_info.
 
-Also, legacy HDCP 2.0/2.1 are not type 1 capable either so check for
-that as well.
-
-Changes since v2:
- - Remove no longer used variables in _intel_hdcp2_enable()
-
-Signed-off-by: Juston Li <juston.li@intel.com>
----
- .../drm/i915/display/intel_display_types.h    |  2 +
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 39 ---------------
- drivers/gpu/drm/i915/display/intel_hdcp.c     | 49 ++++++++-----------
- 3 files changed, 23 insertions(+), 67 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index dbdfe54d0340..c8b687ff0374 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -516,6 +516,8 @@ struct intel_hdcp {
- 	enum transcoder cpu_transcoder;
- 	/* Only used for DP MST stream encryption */
- 	enum transcoder stream_transcoder;
-+
-+	bool topology_type1_capable;
- };
- 
- struct intel_connector {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-index 526fd58b9b51..2d39af63ec9b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-@@ -478,23 +478,6 @@ int intel_dp_hdcp2_write_msg(struct intel_digital_port *dig_port,
- 	return size;
- }
- 
--static int
--get_rxinfo_hdcp_1_dev_downstream(struct intel_digital_port *dig_port, bool *hdcp_1_x)
--{
--	u8 rx_info[HDCP_2_2_RXINFO_LEN];
--	int ret;
--
--	ret = drm_dp_dpcd_read(&dig_port->dp.aux,
--			       DP_HDCP_2_2_REG_RXINFO_OFFSET,
--			       (void *)rx_info, HDCP_2_2_RXINFO_LEN);
--
--	if (ret != HDCP_2_2_RXINFO_LEN)
--		return ret >= 0 ? -EIO : ret;
--
--	*hdcp_1_x = HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) ? true : false;
--	return 0;
--}
--
- static
- ssize_t get_receiver_id_list_rx_info(struct intel_digital_port *dig_port, u32 *dev_cnt, u8 *byte)
- {
-@@ -664,27 +647,6 @@ int intel_dp_hdcp2_capable(struct intel_digital_port *dig_port,
- 	return 0;
- }
- 
--static
--int intel_dp_mst_streams_type1_capable(struct intel_connector *connector,
--				       bool *capable)
--{
--	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
--	int ret;
--	bool hdcp_1_x;
--
--	ret = get_rxinfo_hdcp_1_dev_downstream(dig_port, &hdcp_1_x);
--	if (ret) {
--		drm_dbg_kms(&i915->drm,
--			    "[%s:%d] failed to read RxInfo ret=%d\n",
--			    connector->base.name, connector->base.base.id, ret);
--		return ret;
--	}
--
--	*capable = !hdcp_1_x;
--	return 0;
--}
--
- static const struct intel_hdcp_shim intel_dp_hdcp_shim = {
- 	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
- 	.read_bksv = intel_dp_hdcp_read_bksv,
-@@ -833,7 +795,6 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
- 	.stream_2_2_encryption = intel_dp_mst_hdcp2_stream_encryption,
- 	.check_2_2_link = intel_dp_mst_hdcp2_check_link,
- 	.hdcp_2_2_capable = intel_dp_hdcp2_capable,
--	.streams_type1_capable = intel_dp_mst_streams_type1_capable,
- 	.protocol = HDCP_PROTOCOL_DP,
- };
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index ebc2e32aec0b..1a2a98e2c6e3 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -33,21 +33,6 @@ static int intel_conn_to_vcpi(struct intel_connector *connector)
- 	return connector->port	? connector->port->vcpi.vcpi : 0;
- }
- 
--static bool
--intel_streams_type1_capable(struct intel_connector *connector)
--{
--	const struct intel_hdcp_shim *shim = connector->hdcp.shim;
--	bool capable = false;
--
--	if (!shim)
--		return capable;
--
--	if (shim->streams_type1_capable)
--		shim->streams_type1_capable(connector, &capable);
--
--	return capable;
--}
--
- /*
-  * intel_hdcp_required_content_stream selects the most highest common possible HDCP
-  * content_type for all streams in DP MST topology because security f/w doesn't
-@@ -86,7 +71,7 @@ intel_hdcp_required_content_stream(struct intel_digital_port *dig_port)
- 		if (conn_dig_port != dig_port)
- 			continue;
- 
--		if (!enforce_type0 && !intel_streams_type1_capable(connector))
-+		if (!enforce_type0 && !connector->hdcp.topology_type1_capable)
- 			enforce_type0 = true;
- 
- 		data->streams[data->k].stream_id = intel_conn_to_vcpi(connector);
-@@ -1632,6 +1617,14 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
- 		return -EINVAL;
- 	}
- 
-+	/*
-+	 * A topology is not Type 1 capable if it contains a downstream device
-+	 * that is HDCP 1.x or Legacy HDCP 2.0/2.1 compliant.
-+	 */
-+	hdcp->topology_type1_capable =
-+		!HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) &&
-+		!HDCP_2_2_HDCP_2_0_REP_CONNECTED(rx_info[1]);
-+
- 	/* Converting and Storing the seq_num_v to local variable as DWORD */
- 	seq_num_v =
- 		drm_hdcp_be24_to_cpu((const u8 *)msgs.recvid_list.seq_num_v);
-@@ -1871,11 +1864,23 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
-+	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret = 0, i, tries = 3;
- 
- 	for (i = 0; i < tries && !dig_port->hdcp_auth_status; i++) {
- 		ret = hdcp2_authenticate_sink(connector);
- 		if (!ret) {
-+			/* Stream which requires encryption */
-+			if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
-+				data->k = 1;
-+				data->streams[0].stream_type = hdcp->content_type;
-+			} else {
-+				ret = intel_hdcp_required_content_stream(dig_port);
-+				if (ret)
-+					return ret;
-+			}
-+
- 			ret = hdcp2_propagate_stream_management_info(connector);
- 			if (ret) {
- 				drm_dbg_kms(&i915->drm,
-@@ -1921,9 +1926,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
- 
- static int _intel_hdcp2_enable(struct intel_connector *connector)
- {
--	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
--	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret;
- 
-@@ -1931,16 +1934,6 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
- 		    connector->base.name, connector->base.base.id,
- 		    hdcp->content_type);
- 
--	/* Stream which requires encryption */
--	if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
--		data->k = 1;
--		data->streams[0].stream_type = hdcp->content_type;
--	} else {
--		ret = intel_hdcp_required_content_stream(dig_port);
--		if (ret)
--			return ret;
--	}
--
- 	ret = hdcp2_authenticate_and_encrypt(connector);
- 	if (ret) {
- 		drm_dbg_kms(&i915->drm, "HDCP2 Type%d  Enabling Failed. (%d)\n",
--- 
-2.31.1
-
+> @@ -2354,7 +2358,7 @@ static void msm_dsi_sfpb_config(struct
+> msm_dsi_host *msm_host, bool enable)
+> 
+>  int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+>  			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+> -			bool is_dual_dsi)
+> +			bool is_dual_dsi, struct msm_dsi_phy *phy)
+>  {
+>  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>  	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+> @@ -2394,7 +2398,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host 
+> *host,
+> 
+>  	dsi_timing_setup(msm_host, is_dual_dsi);
+>  	dsi_sw_reset(msm_host);
+> -	dsi_ctrl_config(msm_host, true, phy_shared_timings);
+> +	dsi_ctrl_config(msm_host, true, phy_shared_timings, phy);
+> 
+>  	if (msm_host->disp_en_gpio)
+>  		gpiod_set_value(msm_host->disp_en_gpio, 1);
+> @@ -2425,7 +2429,7 @@ int msm_dsi_host_power_off(struct mipi_dsi_host 
+> *host)
+>  		goto unlock_ret;
+>  	}
+> 
+> -	dsi_ctrl_config(msm_host, false, NULL);
+> +	dsi_ctrl_config(msm_host, false, NULL, NULL);
+> 
+>  	if (msm_host->disp_en_gpio)
+>  		gpiod_set_value(msm_host->disp_en_gpio, 0);
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index 4ebfedc4a9ac..1b89fef8f805 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -381,7 +381,7 @@ static void dsi_mgr_bridge_pre_enable(struct
+> drm_bridge *bridge)
+>  	if (ret)
+>  		goto phy_en_fail;
+> 
+> -	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], 
+> is_dual_dsi);
+> +	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id],
+> is_dual_dsi, msm_dsi->phy);
+>  	if (ret) {
+>  		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
+>  		goto host_on_fail;
+> @@ -389,7 +389,7 @@ static void dsi_mgr_bridge_pre_enable(struct
+> drm_bridge *bridge)
+> 
+>  	if (is_dual_dsi && msm_dsi1) {
+>  		ret = msm_dsi_host_power_on(msm_dsi1->host,
+> -				&phy_shared_timings[DSI_1], is_dual_dsi);
+> +				&phy_shared_timings[DSI_1], is_dual_dsi, msm_dsi1->phy);
+>  		if (ret) {
+>  			pr_err("%s: power on host1 failed, %d\n",
+>  							__func__, ret);
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> index 6ca6bfd4809b..723d2eeafa69 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> @@ -835,6 +835,15 @@ void msm_dsi_phy_set_usecase(struct msm_dsi_phy 
+> *phy,
+>  		phy->usecase = uc;
+>  }
+> 
+> +/* Returns true if we have to clear DSI_LANE_CTRL.HS_REQ_SEL_PHY */
+> +bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool 
+> enable)
+> +{
+> +	if (!phy || !phy->cfg->ops.set_continuous_clock)
+> +		return false;
+> +
+> +	return phy->cfg->ops.set_continuous_clock(phy, enable);
+> +}
+> +
+>  int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
+>  	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
+>  {
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> index 5b0feef87127..43dee28450b4 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> @@ -24,6 +24,7 @@ struct msm_dsi_phy_ops {
+>  	void (*disable)(struct msm_dsi_phy *phy);
+>  	void (*save_pll_state)(struct msm_dsi_phy *phy);
+>  	int (*restore_pll_state)(struct msm_dsi_phy *phy);
+> +	bool (*set_continuous_clock)(struct msm_dsi_phy *phy, bool enable);
+>  };
+> 
+>  struct msm_dsi_phy_cfg {
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index 7c23d4c47338..a78a0c45d101 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -932,6 +932,21 @@ static int dsi_7nm_phy_enable(struct msm_dsi_phy 
+> *phy,
+>  	return 0;
+>  }
+> 
+> +static bool dsi_7nm_set_continuous_clock(struct msm_dsi_phy *phy, bool 
+> enable)
+> +{
+> +	void __iomem *base = phy->base;
+> +	u32 data;
+> +
+> +	data = dsi_phy_read(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1);
+Do you want to leave one blank line here?
+> +	if (enable)
+> +		data |= BIT(5) | BIT(6);
+> +	else
+> +		data &= ~(BIT(5) | BIT(6));
+and here?
+> +	dsi_phy_write(base + REG_DSI_7nm_PHY_CMN_LANE_CTRL1, data);
+> +
+> +	return enable;
+> +}
+> +
+>  static void dsi_7nm_phy_disable(struct msm_dsi_phy *phy)
+>  {
+>  	void __iomem *base = phy->base;
+> @@ -972,6 +987,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs = {
+>  		.pll_init = dsi_pll_7nm_init,
+>  		.save_pll_state = dsi_7nm_pll_save_state,
+>  		.restore_pll_state = dsi_7nm_pll_restore_state,
+> +		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+>  	},
+>  	.min_pll_rate = 600000000UL,
+>  #ifdef CONFIG_64BIT
+> @@ -998,6 +1014,7 @@ const struct msm_dsi_phy_cfg dsi_phy_7nm_8150_cfgs 
+> = {
+>  		.pll_init = dsi_pll_7nm_init,
+>  		.save_pll_state = dsi_7nm_pll_save_state,
+>  		.restore_pll_state = dsi_7nm_pll_restore_state,
+> +		.set_continuous_clock = dsi_7nm_set_continuous_clock,
+>  	},
+>  	.min_pll_rate = 1000000000UL,
+>  	.max_pll_rate = 3500000000UL,
