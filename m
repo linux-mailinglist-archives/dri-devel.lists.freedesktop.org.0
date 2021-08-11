@@ -2,40 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD203E9721
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 19:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B07C33E971F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 19:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5054898AA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AFF5896ED;
 	Wed, 11 Aug 2021 17:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE8A89264;
- Wed, 11 Aug 2021 17:55:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10073"; a="195454680"
-X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="195454680"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2021 10:55:16 -0700
-X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="672997553"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.69])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2021 10:55:15 -0700
-Date: Wed, 11 Aug 2021 17:55:14 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 14/46] drm/i915: Expose logical engine instance to user
-Message-ID: <20210811175514.GA297147@DUT151-ICLU.fm.intel.com>
-References: <20210803222943.27686-1-matthew.brost@intel.com>
- <20210803222943.27686-15-matthew.brost@intel.com>
- <YRE77nFgpGQUX/Sc@phenom.ffwll.local>
- <20210809183701.GA123627@DUT151-ICLU.fm.intel.com>
- <YRIiXL1sToOPMveN@phenom.ffwll.local>
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
+ [IPv6:2607:f8b0:4864:20::f34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB94E896ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:55:30 +0000 (UTC)
+Received: by mail-qv1-xf34.google.com with SMTP id bl13so1605860qvb.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 10:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UBSfdzuf86UwC0KLjgG7VaVWu7uNU9511WDLsb+xbb4=;
+ b=czX51fZuMrGz3z0G+Y6miA1NOGclNGSAmWv7sw+g//pnRRq3Ap3biQ3by5z4QMKi0k
+ SSHonz+oiQLyALt/9XC7O0LC9y9c8NgZgj5W0AFUe+gh6Ev02QZGBipthvqDjSTm6v5l
+ RhoKYmSdjta17JIVJOs+uXC3cQ+tAHtqDo+0s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UBSfdzuf86UwC0KLjgG7VaVWu7uNU9511WDLsb+xbb4=;
+ b=ed9Wlfxwx9ujM5+WGzKGOo5iUPqHZEdssYtXomA2NoKXFkrbypuyx+BsJgzVAWWfeE
+ c7Hq8khy02RJGmmll5K3CGsUsA1UW6iUriuQCSEz1Ke9pyjm0l3bnH4fev2irTvTFvef
+ RxuXYfCKH9j+Wemy1iS+q2CJvG4xDJ/yYiBGvWQch8XK2zXne0ns0ZgTTccoxg9O4L74
+ c099ztqA1jDhLTetoS6l6AkWpuInTvfOvuaRC6lYLtg+cdhLnEoLmlVSLrPQrrEaL5Fj
+ SjwgZu/bwWyDxgIwtpa1Wwc9gCESMdV6MqDbfdgqCnySVtLHts3/pxpJFs1hRDC6g/V+
+ nJNA==
+X-Gm-Message-State: AOAM532s8WUrTsdGG6p2VW8P65bRccrSNxxoYZ5+3XFr/l22YINVgZdH
+ 3wGCAlrToBOAspdNDKDugl14Hg==
+X-Google-Smtp-Source: ABdhPJwLTkj8oC9xCS2JhFmBoMoUWB0LsiHewNZAnE6RZY/ZS+tb0zWFgfDkyLtp+1iYpcJocFOCxw==
+X-Received: by 2002:a05:6214:c6d:: with SMTP id
+ t13mr24447956qvj.22.1628704530027; 
+ Wed, 11 Aug 2021 10:55:30 -0700 (PDT)
+Received: from markyacoub.nyc.corp.google.com
+ ([2620:0:1003:416:dbca:c030:2b4a:66b4])
+ by smtp.gmail.com with ESMTPSA id k66sm2603574qke.43.2021.08.11.10.55.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Aug 2021 10:55:29 -0700 (PDT)
+From: Mark Yacoub <markyacoub@chromium.org>
+To: seanpaul@chromium.org, abhinavk@codeaurora.org, robdclark@chromium.org,
+ irlied@linux.ie, dri-devel@lists.freedesktop.org
+Cc: Mark Yacoub <markyacoub@google.com>, Mark Yacoub <markyacoub@chromium.org>
+Subject: [PATCH] drm: Copy drm_wait_vblank request and copy_to_user before
+ return.
+Date: Wed, 11 Aug 2021 13:55:25 -0400
+Message-Id: <20210811175525.2125964-1-markyacoub@chromium.org>
+X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YRIiXL1sToOPMveN@phenom.ffwll.local>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,130 +70,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 10, 2021 at 08:53:16AM +0200, Daniel Vetter wrote:
-> On Mon, Aug 09, 2021 at 06:37:01PM +0000, Matthew Brost wrote:
-> > On Mon, Aug 09, 2021 at 04:30:06PM +0200, Daniel Vetter wrote:
-> > > On Tue, Aug 03, 2021 at 03:29:11PM -0700, Matthew Brost wrote:
-> > > > Expose logical engine instance to user via query engine info IOCTL. This
-> > > > is required for split-frame workloads as these needs to be placed on
-> > > > engines in a logically contiguous order. The logical mapping can change
-> > > > based on fusing. Rather than having user have knowledge of the fusing we
-> > > > simply just expose the logical mapping with the existing query engine
-> > > > info IOCTL.
-> > > > 
-> > > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > 
-> > > Uapi must have a link to the userspace MR/patch set using this, and to the
-> > > igt patch set validating it.
-> > > 
-> > 
-> > Have an IGT:
-> > https://patchwork.freedesktop.org/patch/447008/?series=93071&rev=1
-> > 
-> > Not sure when the media UMD is going to be updated upstream to use this.
-> > Does that mean I can't merge this until the media UMD is ready? Seems
-> > like it but isn't that a circular dependency? How can the media team
-> > develop for a new uAPI that isn't in the kernel yet?
-> 
-> Yes and no. Full explainer here:
-> 
-> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
-> 
-> In the drm subsystem this is pretty much the only rule where if you break
-> it the book will be thrown at you with extreme prejudice.
->
+From: Mark Yacoub <markyacoub@google.com>
 
-Well I don't want a book thrown at, new here and trying to play by the
-rules.
+[Why]
+Userspace should get back a copy of the request that's been modified
+even when drm_wait_vblank_ioctl returns a failure.
 
-> Also wrt circular: If the umd aren't set up to test their branches against
-> kernel branches they need to fix their stuff. I know that internally
-> that's not been done, and its a disaster, but in upstream there's no room
-> for excuses. Both kernel and userspace needs to be in branches until it's
-> ready for merging.
-> 
+Rationale:
+drm_wait_vblank_ioctl modifies the request and expects the user to read
+back. When the type is RELATIVE, it modifies it to ABSOLUTE and updates
+the sequence to become current_vblank_count + sequence (which was
+relative), not it becomes absolute.
+drmWaitVBlank (in libdrm), expects this to be the case as it modifies
+the request to be Absolute as it expects the sequence to would have been
+updated.
 
-Ok, looks like a have a few things to learn. I'll coordinate with the
-media team on this. Likely won't have links to the UMD in the next spin
-but I'll have a branch for them to prep their patches on.
+The change is in compat_drm_wait_vblank, which is called by
+drm_compat_ioctl. This change of copying the data back regardless of the
+return number makes it en par with drm_ioctl, which always copies the
+data before returning.
 
-Matt
+[How]
+Copy the drm_wait_vblank request.
+Return from the function after everything has been copied to user.
 
-> > For what it is worth the downstream release is already using this.
-> 
-> Yeah which is another problem, shipping new uapi in downstream before it's
-> in upstream is decidedly not great.
-> -Daniel
-> 
-> > 
-> > Matt
-> > 
-> > > Ideally in each patch, since it's way too hard to unfortunately find the
-> > > cover letter late on.
-> > > 
-> > > Jason even went as far as making this a hard requirement because he wasted
-> > > a bit too much time trying to find the userspace for new uapi:
-> > > 
-> > > https://lore.kernel.org/dri-devel/20210804185704.624883-1-jason@jlekstrand.net/
-> > > 
-> > > Cheers, Daniel
-> > > 
-> > > >---
-> > > >  drivers/gpu/drm/i915/i915_query.c | 2 ++
-> > > >  include/uapi/drm/i915_drm.h       | 8 +++++++-
-> > > >  2 files changed, 9 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> > > > index e49da36c62fb..8a72923fbdba 100644
-> > > > --- a/drivers/gpu/drm/i915/i915_query.c
-> > > > +++ b/drivers/gpu/drm/i915/i915_query.c
-> > > > @@ -124,7 +124,9 @@ query_engine_info(struct drm_i915_private *i915,
-> > > >  	for_each_uabi_engine(engine, i915) {
-> > > >  		info.engine.engine_class = engine->uabi_class;
-> > > >  		info.engine.engine_instance = engine->uabi_instance;
-> > > > +		info.flags = I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE;
-> > > >  		info.capabilities = engine->uabi_capabilities;
-> > > > +		info.logical_instance = ilog2(engine->logical_mask);
-> > > >  
-> > > >  		if (copy_to_user(info_ptr, &info, sizeof(info)))
-> > > >  			return -EFAULT;
-> > > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> > > > index 7f13d241417f..ef72e07fe08c 100644
-> > > > --- a/include/uapi/drm/i915_drm.h
-> > > > +++ b/include/uapi/drm/i915_drm.h
-> > > > @@ -2706,14 +2706,20 @@ struct drm_i915_engine_info {
-> > > >  
-> > > >  	/** @flags: Engine flags. */
-> > > >  	__u64 flags;
-> > > > +#define I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE		(1 << 0)
-> > > >  
-> > > >  	/** @capabilities: Capabilities of this engine. */
-> > > >  	__u64 capabilities;
-> > > >  #define I915_VIDEO_CLASS_CAPABILITY_HEVC		(1 << 0)
-> > > >  #define I915_VIDEO_AND_ENHANCE_CLASS_CAPABILITY_SFC	(1 << 1)
-> > > >  
-> > > > +	/** @logical_instance: Logical instance of engine */
-> > > > +	__u16 logical_instance;
-> > > > +
-> > > >  	/** @rsvd1: Reserved fields. */
-> > > > -	__u64 rsvd1[4];
-> > > > +	__u16 rsvd1[3];
-> > > > +	/** @rsvd2: Reserved fields. */
-> > > > +	__u64 rsvd2[3];
-> > > >  };
-> > > >  
-> > > >  /**
-> > > > -- 
-> > > > 2.28.0
-> > > > 
-> > > 
-> > > -- 
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Fixes: IGT:kms_flip::modeset-vs-vblank-race-interruptible
+Tested on ChromeOS Trogdor(msm)
+
+Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+---
+ drivers/gpu/drm/drm_ioc32.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_ioc32.c b/drivers/gpu/drm/drm_ioc32.c
+index d29907955ff79..275b860df8fbe 100644
+--- a/drivers/gpu/drm/drm_ioc32.c
++++ b/drivers/gpu/drm/drm_ioc32.c
+@@ -855,17 +855,19 @@ static int compat_drm_wait_vblank(struct file *file, unsigned int cmd,
+ 	req.request.sequence = req32.request.sequence;
+ 	req.request.signal = req32.request.signal;
+ 	err = drm_ioctl_kernel(file, drm_wait_vblank_ioctl, &req, DRM_UNLOCKED);
+-	if (err)
+-		return err;
+ 
+ 	req32.reply.type = req.reply.type;
+ 	req32.reply.sequence = req.reply.sequence;
+ 	req32.reply.tval_sec = req.reply.tval_sec;
+ 	req32.reply.tval_usec = req.reply.tval_usec;
++	/* drm_wait_vblank_ioctl modifies Request, update their values here as well. */
++	req32.request.type = req.request.type;
++	req32.request.sequence = req.request.sequence;
++	req32.request.signal = req.request.signal;
+ 	if (copy_to_user(argp, &req32, sizeof(req32)))
+ 		return -EFAULT;
+ 
+-	return 0;
++	return err;
+ }
+ 
+ #if defined(CONFIG_X86)
+-- 
+2.33.0.rc1.237.g0d66db33f3-goog
+
