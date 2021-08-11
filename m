@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0C43E8E63
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 12:20:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73BB03E8E75
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 12:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D331C6E113;
-	Wed, 11 Aug 2021 10:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2CA89760;
+	Wed, 11 Aug 2021 10:21:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2A16E113
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 10:19:58 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id r7so2381270wrs.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 03:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:references:in-reply-to
- :user-agent:mime-version:content-transfer-encoding;
- bh=fWiOtp65j6ssZNxHyD2igKvxSIm1NT5hchkrDwQldjo=;
- b=O96KAHcNxTNxd5swvaYJFYgecRRmnkg1ErfKmZqvKytunrfC2SUlgDrX97TMX0KZFX
- QL+sjio9725fd5T055qVmuFLirlfbZUfoCOEDtPSmBiBw6msyIDDFQB0rw2lDXHBlcAT
- D1LmtS1Nmi8sRrzyOQiq8KanXZ9MGvlThbqDqOj5pv0eziNYQPNcFmP5kN2H58NBkEZ1
- dZyxtgVu1avxZsF1ipmb+E83uVKemFG7aCgMx7ISPO5jdf8FMQ/eVcySNU82rH1GIMIO
- ZvfQDXBZSUFqK9VV8t36pIbsyA/V0xop3fM9KGa3AbnpT7ZvSc+wWXahNr+wtB8VsubZ
- wn+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:references
- :in-reply-to:user-agent:mime-version:content-transfer-encoding;
- bh=fWiOtp65j6ssZNxHyD2igKvxSIm1NT5hchkrDwQldjo=;
- b=CbEcqTy2KCU/iZakKv6VIGayd76FYF03quBgP1+4NDKjBsLxQnDqzXzGKiGEcMJb4A
- kzNUU2cRUXCcMA/vUsXo9AZHJ/bPYihjYJh5kLfMzSLHSo1U8ig5q7aUpXqk0lovMCxI
- kqJcVpt6E9E1xRYNQosnMPKRkU4wz5g4/JK6SqtQrWxDA9BEz7js2m7HZh5Q2mHB4U9i
- tyghlfS5O/hNdwDr3y5O2KCIVQdMsy1L3h0AWowCQ8a0G8RbNB9utleCPV5g1ecZBBoo
- brG7P4wuipaLCmt7W/DslwcEQ3d/UdTJFxQKH4/wq/wAR1qKguOQVmmRDbSDihEJKO/E
- hvIA==
-X-Gm-Message-State: AOAM530zWh5xfFuClX+f5oG5GOaVrAwhg7kTe3u2WFrTbv3f5sqIOS8Q
- AVAUzEpz7aQ7rdwRM+Ljm9y9Rb7tNPCUcb1F
-X-Google-Smtp-Source: ABdhPJzeiR8sGjDHAuhvI3N7c5gptKM/yGdTbXCyFvWPcrdFVRJxvHYHSpdi19Xuox06yYPJn1E22A==
-X-Received: by 2002:a5d:6484:: with SMTP id o4mr36122855wri.75.1628677196831; 
- Wed, 11 Aug 2021 03:19:56 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net
- (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
- by smtp.gmail.com with ESMTPSA id c15sm26654619wrw.93.2021.08.11.03.19.56
- (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
- Wed, 11 Aug 2021 03:19:56 -0700 (PDT)
-From: John Cox <jc@kynesim.co.uk>
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
+ [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A852891CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 10:21:47 +0000 (UTC)
+Date: Wed, 11 Aug 2021 10:21:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1628677304;
+ bh=bDk/wMqwMCPs55BFKu9MMkPMlAs8hEprV+MTnJ3E6w8=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=JWX8fT9mXOA2s8/SlX7kNNAPfmpsbbt+cN1IRJmg6+b+6Fz1XyPEpR7/78cgkw/Zd
+ j0q84kycARWwiy+T8sGwqDM8nD7O0I4mDXUOHabvOFYUuimnhDM6aBEjJni2MD0S+b
+ gtajsgKG9hVnkWWcOFyK6IyuvlRozW0PRU9HG9gjyHLlMxnI0yEC29ocyAXg2BIGk+
+ 22qd4zVxpQBS5Y5JkUMIA/KrMk/Az9fWXJ+aqTK/vZGxyC6BsXKv0s4WPdxcu7MnU9
+ fibuSmPBM+R36bBVmu6Z6j9AbmIBgQz6J9r3ScYKESEQsQxEshUvh9ZGdugWtWVLEU
+ 3MUUmkUfrECxg==
 To: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Cc: John Cox <jc@kynesim.co.uk>, dri-devel@lists.freedesktop.org
 Subject: Re: How to obtain a drm lease from X for overlay planes as well as a
  primary plane?
-Date: Wed, 11 Aug 2021 11:19:56 +0100
-Message-ID: <1j87hgl0vgbns96eooqsmnqg0jar5b7hr6@4ax.com>
+Message-ID: <Af-nitVw-cgVIRn4hPB53-PwBSuaSqzaoUQA5H6kUF6BXVYJ5noiTAE6E1K0Q_aL_PxpA08bNQuxOKbSfSHQtSR-OOUtMtyrkLfSFBT7hDE=@emersion.fr>
+In-Reply-To: <YRObs1/iDhgCbMo8@phenom.ffwll.local>
 References: <34a5hg1rb804h8d1471apktsgl5v9n9u1e@4ax.com>
  <YRObs1/iDhgCbMo8@phenom.ffwll.local>
-In-Reply-To: <YRObs1/iDhgCbMo8@phenom.ffwll.local>
-User-Agent: ForteAgent/8.00.32.1272
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,54 +53,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->On Tue, Aug 10, 2021 at 05:57:31PM +0100, John Cox wrote:
->> Hi all
->>=20
->> I am on a Raspberry Pi, I want to display fullscreen video and have a
->> couple of overlay planes to display controls / subtitles etc. The h/w
->> can certainly do this.  I need to be able to do this from a starting
->> point where X is running.
->>=20
->> I can successfully find X's output & crtc and grab that using
->> xcb_randr_create_lease and use that handle to display video. So far so
->> good.  But I also want to have overlay planes for subtitles etc.  The
->> handle I've got from the lease only seems to have a PRIMARY & a CURSOR
->> plane attached so I can't get anything there.
+On Wednesday, August 11th, 2021 at 11:43, Daniel Vetter <daniel@ffwll.ch> w=
+rote:
+
+> For wayland this is still in the works, so might be good if you check
+> there that your use-case is properly supported. Protocol MR is here:
 >
->I think X just gives you a legacy lease for the crtc, and the kernel
->automatically adds the primary plane and cursor plane (if they exist) to
->that lease. Unless X is patched to enable plane support and add those =
-all
->explicitly to the lease I don't think there's a way for that.
+> https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests=
+/67
 
-Bother. So near and yet so far. Thanks for the info.
+The client requests a connector, and the compositor will decide which
+resources to lease. This may or may not include overlay planes. The
+connector you're interested in may or may not be available for lease.
 
->For wayland this is still in the works, so might be good if you check
->there that your use-case is properly supported. Protocol MR is here:
->
->https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_request=
-s/67
+What's your use-case? Why not use an xdg_toplevel and wl_subsurface?
 
-In overall protocol terms that doesn't seem so different from what X
-does and I am far too inexperienced in Wayland / DRM to understand the
-subtleties.  That MR seems to be done so is probably an inappropriate
-place to ask - where would you recommend as an appropriate forum?
-
-Many thanks
-
-John Cox
-
->> How should I be going about getting some more planes to use for
->> overlays? Pointers to documentation / examples gratefully received - =
-so
->> far my google-foo has failed to find anything that works.
->>=20
->> I'm sorry if this is the wrong place to ask, but if there is a better
->> place please say and I'll go there.
->>=20
->> Many thanks
->>=20
->> John Cox
+DRM leases are not a good idea for regular applications. They don't
+properly integrate with the rest of the desktop, and won't get input
+events. Letting the compositor deal with KMS planes is the preferred
+approach.
