@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8953E8F85
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 13:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F9B3E8F98
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 13:41:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27ED689836;
-	Wed, 11 Aug 2021 11:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 797CF89DB5;
+	Wed, 11 Aug 2021 11:40:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA02289836;
- Wed, 11 Aug 2021 11:35:43 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id e15so2266120plh.8;
- Wed, 11 Aug 2021 04:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ocNu8t+0vPe8xDuDrmXUgxK/R5Hfv7t0v2kfkL1QOgA=;
- b=B+dx6gtSem9LSUSvN8E6giOkQHucQX2rfdWvdRiGZVmSPgioJxHNzz96Wv/7YAzK/m
- JyrlpDgL5bOF6eMtXkydeAbLGqIVrhMrKIOcRV1PJmBbaTyLJ7prchjvpW3b/9EJ4Gcf
- ateFz6QnoBeY6tSGD7pStGh857XyHpTJPAPNYmXPvvaf8f6DMcrxqyD04zVorltoKP3z
- E9/BFvyIJiHW/R/cj3ZR88UE93OebnOpVaMGRh8SMPHgat07me51s6HqtWI7CNWbMEe0
- xEtnFJU2f52n+5cz37RdDZfaSwfAZp2z2D4FqRC4OCW3n6bDmRvJZFMhXfWD/Tci4rTh
- 0rZA==
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 954CC89DB5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 11:40:49 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id r7so2685848wrs.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 04:40:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:references:in-reply-to
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=ksE4Yef7EXrAl6J+KdDiGZXmp8mWHX+sgp2DgQdhvGU=;
+ b=hol06Leh/3I710iZ5xMyw2tS3JTqSyoJHuXJNwElDQboTqLUlZsIntqhIOp0dSXL9R
+ E1J7MGCo+87sHjb54u8+EMj8uDHmwWuREmO+wtcb04onD8ty3Rd/XC2+5qRXi2Jl+5PB
+ OEdWcP+2lMJ4V7typjy61t6saW5X5MNXg5TOJ45lWrdgdi2cxt70/qAzeQi2/Bh8n7rr
+ /n+be+41FkZ9ic/HtKhOlxLBR9By+daIkr1/LtAqV/PWDYEA5/FH8RVHe64S9cwZX6Hy
+ ozKQ3xDr3gla7LOl+iKmbJnCRIv36g466A+7AHBXO3EapiLAHaRgWHjSw1b7VV12jbDD
+ NDgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ocNu8t+0vPe8xDuDrmXUgxK/R5Hfv7t0v2kfkL1QOgA=;
- b=uSzWJV/eezSxder5xeW2IWtL58T22pc0rawYu8az8YGJuTSwoW6HQn34lrDTFU8i1k
- t6SR+BeuuuuM9TUbR8R6YHU5gh+1OibyrUh/pcYs4Ts/ModE9w9j5aj2EHFwwGndYWw8
- WzilqUHWRbgk8KT40nBAJpZFRKzS7TJkSehoC2pmE7uCMECrsa5gaPgGD8a3ThOyzjTV
- PeQEGWSyK1bLwanMdUfyLAkqRaAxTOjtbhx3nPIcVgwcNjKrv+h5CC3z6vdpOProyuoW
- s8OXGMYDrl/htM8TpjBsQ2jZtRR/dpOYtbZbO3abxufR4VDJ0OFUMwnlq7AodhbXAPV4
- v8ug==
-X-Gm-Message-State: AOAM531csZKWm9wz7LhBB8V1pGz2aZJd8PVICXY1ZgkpanoW5CHUSj7W
- iAB3CwEToen9qMbuuP8ri30=
-X-Google-Smtp-Source: ABdhPJz2SBVANXMZ07VbSSh4pznTgoL/y9wtPx7R4CwSyd5hF9Ctj75Fuud9mXAdwAvfcZj7S9//6A==
-X-Received: by 2002:a17:902:8543:b029:12d:461f:a6a8 with SMTP id
- d3-20020a1709028543b029012d461fa6a8mr3905116plo.1.1628681743298; 
- Wed, 11 Aug 2021 04:35:43 -0700 (PDT)
-Received: from localhost.localdomain ([45.135.186.103])
- by smtp.gmail.com with ESMTPSA id c12sm26423669pfl.56.2021.08.11.04.35.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Aug 2021 04:35:42 -0700 (PDT)
-From: Tuo Li <islituo@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, luben.tuikov@amd.com,
- tzimmermann@suse.de, sam@ravnborg.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, baijiaju1990@gmail.com,
- Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>
-Subject: [PATCH] gpu: drm: amd: amdgpu: amdgpu_i2c: fix possible
- uninitialized-variable access in amdgpu_i2c_router_select_ddc_port()
-Date: Wed, 11 Aug 2021 04:34:58 -0700
-Message-Id: <20210811113458.6940-1-islituo@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+ :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+ bh=ksE4Yef7EXrAl6J+KdDiGZXmp8mWHX+sgp2DgQdhvGU=;
+ b=QgfJw4CUGzaJ+3x0Sg43FtQnExKrGhm11EJjacL6seQ7Q4LHtSEXDkSd9RDkBAaDaS
+ xpB9d6AVBVacuPgxdl+beFUg9WhpVHTOibilqyykyPKTncZhD3VgBrKkt3gB1rflMvxo
+ uGd9oF7zTcty7iNSSm4NBxjpd3n5wNxP2a259dorZmoGIMCKE8uwMHVlwgqE7Uj4DtRZ
+ oj5YEyXDpt0pR/6VJhAHDzuk2u/g4mYZ2iCT/EJquhmNEcRhkPJoBZjA+SfF0WPUXQUW
+ bentL5Sy1qGiLB3ru554Xc3LYhtAet/P2pTihpswHmghp/YveoAdlQynVRRv9gC5X/4e
+ PsYw==
+X-Gm-Message-State: AOAM530Vx1m/BbHpeNCG73wk0owgJzg0L0FeiJX4ghfuZ1iasQD6XmOU
+ D4oFgtbZlVDzaDjRNeFnBruMcZzQz2DcB3cQ
+X-Google-Smtp-Source: ABdhPJyb7J1BkhmyH/vBw5jxoTKahdwDEBuMWx/GmGeVQ+eVFx6gThhjMVIsWhR7sH21/JurcjZP9w==
+X-Received: by 2002:a5d:6389:: with SMTP id p9mr37080466wru.1.1628682047869;
+ Wed, 11 Aug 2021 04:40:47 -0700 (PDT)
+Received: from CTHALPA.outer.uphall.net
+ (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+ by smtp.gmail.com with ESMTPSA id d8sm27087015wrv.20.2021.08.11.04.40.47
+ (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+ Wed, 11 Aug 2021 04:40:47 -0700 (PDT)
+From: John Cox <jc@kynesim.co.uk>
+To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: Re: How to obtain a drm lease from X for overlay planes as well as a
+ primary plane?
+Date: Wed, 11 Aug 2021 12:40:47 +0100
+Message-ID: <cmc7hghfjaekbsu6e15hbolbteanadmlla@4ax.com>
+References: <34a5hg1rb804h8d1471apktsgl5v9n9u1e@4ax.com>
+ <YRObs1/iDhgCbMo8@phenom.ffwll.local>
+ <Af-nitVw-cgVIRn4hPB53-PwBSuaSqzaoUQA5H6kUF6BXVYJ5noiTAE6E1K0Q_aL_PxpA08bNQuxOKbSfSHQtSR-OOUtMtyrkLfSFBT7hDE=@emersion.fr>
+In-Reply-To: <Af-nitVw-cgVIRn4hPB53-PwBSuaSqzaoUQA5H6kUF6BXVYJ5noiTAE6E1K0Q_aL_PxpA08bNQuxOKbSfSHQtSR-OOUtMtyrkLfSFBT7hDE=@emersion.fr>
+User-Agent: ForteAgent/8.00.32.1272
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,38 +77,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The variable val is declared without initialization, and its address is 
-passed to amdgpu_i2c_get_byte(). In this function, the value of val is 
-accessed in:
-  DRM_DEBUG("i2c 0x%02x 0x%02x read failed\n",
-       addr, *val);
+Hi
 
-Also, when amdgpu_i2c_get_byte() returns, val may remain uninitialized, 
-but it is accessed in:
-  val &= ~amdgpu_connector->router.ddc_mux_control_pin;
+>On Wednesday, August 11th, 2021 at 11:43, Daniel Vetter =
+<daniel@ffwll.ch> wrote:
+>
+>> For wayland this is still in the works, so might be good if you check
+>> there that your use-case is properly supported. Protocol MR is here:
+>>
+>> =
+https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests=
+/67
+>
+>The client requests a connector, and the compositor will decide which
+>resources to lease. This may or may not include overlay planes. The
+>connector you're interested in may or may not be available for lease.
 
-To fix this possible uninitialized-variable access, initialize val to 0 in
-amdgpu_i2c_router_select_ddc_port().
+=46air point
 
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-Signed-off-by: Tuo Li <islituo@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>What's your use-case?
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-index bca4dddd5a15..82608df43396 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-@@ -339,7 +339,7 @@ static void amdgpu_i2c_put_byte(struct amdgpu_i2c_chan *i2c_bus,
- void
- amdgpu_i2c_router_select_ddc_port(const struct amdgpu_connector *amdgpu_connector)
- {
--	u8 val;
-+	u8 val = 0;
- 
- 	if (!amdgpu_connector->router.ddc_valid)
- 		return;
--- 
-2.25.1
+Raspberry Pi displaying video with subtitles or other controls.  I was
+thinking of the fullscreen case but if zero copy video can be made to
+work to the main desktop then that would even better.
 
+If displaying 4k video the Pi does not have enough bandwidth left for a
+single frame copy, convert or merge so I need hardware scaling,
+composition & display taking the raw video frame (its in a dmabuf).  The
+raw video is in a somewhat unique format, I'd expect the other layers to
+be ARGB.  The Pi h/w can do this and I believe I can make it work via
+DRM if I own the screen so that was where I started.
+
+>Why not use an xdg_toplevel and wl_subsurface?
+
+Probably because I am woefully underinformed about how I should be doing
+stuff properly.  Please feel free to point me in the correct direction -
+any example that takes NV12 video (it isn't NV12 but if NV12 works then
+SAND can probably be made to too) would be a great start.  Also Wayland
+hasn't yet come to the Pi though it will shortly be using mutter.
+
+>DRM leases are not a good idea for regular applications. They don't
+>properly integrate with the rest of the desktop, and won't get input
+>events. Letting the compositor deal with KMS planes is the preferred
+>approach.
+
+If that can be made to work then I agree I would like to do it like
+that.
+
+Many thanks for the response.
+
+John Cox
