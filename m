@@ -2,48 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31793E934B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 16:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A323E937C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 16:19:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D887B6E0F7;
-	Wed, 11 Aug 2021 14:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAB26E145;
+	Wed, 11 Aug 2021 14:19:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7146E0F7;
- Wed, 11 Aug 2021 14:09:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="194716609"
-X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="194716609"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2021 07:09:20 -0700
-X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="503506436"
-Received: from gdthomps-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.255.37.76])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2021 07:09:18 -0700
-Date: Wed, 11 Aug 2021 10:09:17 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [Intel-gfx] linux-next: Signed-off-by missing for commit in the
- drm-intel tree
-Message-ID: <YRPaDYtUxXO4hzTI@intel.com>
-References: <20210715141854.1ad4a956@canb.auug.org.au>
- <162823181614.15830.10618174106053255881@jlahtine-mobl.ger.corp.intel.com>
- <YRE2RwQ6XlUqbgmn@phenom.ffwll.local>
- <20210809161939.GS1556418@mdroper-desk1.amr.corp.intel.com>
- <YRIcTTsEF0Kg7F8K@phenom.ffwll.local> <8735rgo3hi.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8735rgo3hi.fsf@intel.com>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DADAF6E145
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 14:19:45 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1628691590; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=XzBMOZVZwkTAmFQiNb6R9u+25lfLgcGvjVnxo+nKgHs=;
+ b=sa5XocfLK8dEIb3/jZpP9WyDi4Zs/rRbpISyqRa3TC0BVdtOcliqhMAzQX5XXdt/VI/qUpPH
+ AZwPokDXlBVOxdnAPAQT0rFKXLxvcpCmJ7us0y4TNNLB7t6HjzVwXWSHWXkvKOYHOumI67ns
+ NDbUtcAF4q89KiqE48BvUfB+NgI=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 6113dc4b76c3a9a17263a877 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 11 Aug 2021 14:18:51
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 72346C43217; Wed, 11 Aug 2021 14:18:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 07AABC433D3;
+ Wed, 11 Aug 2021 14:18:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 07AABC433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>, 
+ linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
+Cc: Rob Clark <robdclark@gmail.com>, Douglas Anderson <dianders@chromium.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Jonathan Marek <jonathan@marek.ca>, Matthias Kaehlcke <mka@chromium.org>,
+ Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/2] arm64: dts: qcom: sc7280: Add gpu support
+Date: Wed, 11 Aug 2021 19:48:35 +0530
+Message-Id: <1628691516-33624-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,95 +76,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 11, 2021 at 10:16:41AM +0300, Jani Nikula wrote:
-> On Tue, 10 Aug 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Mon, Aug 09, 2021 at 09:19:39AM -0700, Matt Roper wrote:
-> >> On Mon, Aug 09, 2021 at 04:05:59PM +0200, Daniel Vetter wrote:
-> >> > On Fri, Aug 06, 2021 at 09:36:56AM +0300, Joonas Lahtinen wrote:
-> >> > > Hi Matt,
-> >> > > 
-> >> > > Always use the dim tooling when applying patches, it will do the right
-> >> > > thing with regards to adding the S-o-b.
-> >> > 
-> >> > fd.o server rejects any pushes that haven't been done by dim, so how did
-> >> > this get through?
-> >> 
-> >> I definitely used dim for all of these patches, but I'm not sure how I
-> >> lost my s-o-b on this one.  Maybe when I edited the commit message after
-> >> 'dim extract-tags' I accidentally deleted an extra line when I removed
-> >> the extract-tags marker?  It's the only patch where the line is missing,
-> >> so it's almost certainly human error on my part rather than something
-> >> dim did wrong.
-> >
-> > Yeah that's an expected failure model, and dim is supposed to catch that
-> > by rechecking for sobs when you push. See dim_push_branch ->
-> > checkpatch_commit_push_range in dim. So you can hand-edit stuff however
-> > you want, dim /should/ catch it when pushing. That it didn't is kinda
-> > confusing and I'd like to know why that slipped through.
-> 
-> One of the failures that happened here was that the commit was part of a
-> topic branch that was merged and pushed directly. All merges should
-> happen via pull requests on the list, and applied (preferrably by
-> maintainers or at least with their acks recorded on the merge) using dim
-> apply-pull which should also have the checks.
+Add the necessary dt nodes for gpu support in sc7280.
 
-My bad. I have asked Matt to go ahead with the topic branch.
-So it is an ack, which didn't get recorded.
-But I didn't expect this case of missing dim checks with this flow.
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
 
-Sorry,
-Rodrigo.
+Changes in v4:
+- Removed the dependency on gpucc bindings (Stephen)
+- Reordered GPU's opp table
 
-> 
-> 
-> BR,
-> Jani.
-> 
-> >
-> >> > Matt, can you pls figure out and type up the patch to
-> >> > plug that hole?
-> >> 
-> >> Are you referring to a patch for dim here?  The i915 patch has already
-> >> landed, so we can't change its commit message now.
-> >
-> > Yeah dim, not drm-intel, that can't be fixed anymore because it's all
-> > baked in.
-> > -Daniel
-> >
-> >> 
-> >> 
-> >> Matt
-> >> 
-> >> > 
-> >> > Thanks, Daniel
-> >> > 
-> >> > > 
-> >> > > Regards, Joonas
-> >> > > 
-> >> > > Quoting Stephen Rothwell (2021-07-15 07:18:54)
-> >> > > > Hi all,
-> >> > > > 
-> >> > > > Commit
-> >> > > > 
-> >> > > >   db47fe727e1f ("drm/i915/step: s/<platform>_revid_tbl/<platform>_revids")
-> >> > > > 
-> >> > > > is missing a Signed-off-by from its committer.
-> >> > > > 
-> >> > > > -- 
-> >> > > > Cheers,
-> >> > > > Stephen Rothwell
-> >> > 
-> >> > -- 
-> >> > Daniel Vetter
-> >> > Software Engineer, Intel Corporation
-> >> > http://blog.ffwll.ch
-> >> 
-> >> -- 
-> >> Matt Roper
-> >> Graphics Software Engineer
-> >> VTT-OSGC Platform Enablement
-> >> Intel Corporation
-> >> (916) 356-2795
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Changes in v3:
+- Re-ordered the nodes based on address (Stephen)
+- Added the patch for gpu cooling to the stack.
+
+Changes in v2:
+- formatting update and removed a duplicate header (Stephen)
+
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 115 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 115 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 029723a..b9006d8 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -592,6 +592,85 @@
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
++		gpu@3d00000 {
++			compatible = "qcom,adreno-635.0", "qcom,adreno";
++			#stream-id-cells = <16>;
++			reg = <0 0x03d00000 0 0x40000>,
++			      <0 0x03d9e000 0 0x1000>,
++			      <0 0x03d61000 0 0x800>;
++			reg-names = "kgsl_3d0_reg_memory",
++				    "cx_mem",
++				    "cx_dbgc";
++			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++			iommus = <&adreno_smmu 0 0x401>;
++			operating-points-v2 = <&gpu_opp_table>;
++			qcom,gmu = <&gmu>;
++			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
++			interconnect-names = "gfx-mem";
++
++			gpu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-315000000 {
++					opp-hz = /bits/ 64 <315000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
++					opp-peak-kBps = <1804000>;
++				};
++
++				opp-450000000 {
++					opp-hz = /bits/ 64 <450000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
++					opp-peak-kBps = <4068000>;
++				};
++
++				opp-550000000 {
++					opp-hz = /bits/ 64 <550000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
++					opp-peak-kBps = <6832000>;
++				};
++			};
++		};
++
++		gmu: gmu@3d69000 {
++			compatible="qcom,adreno-gmu-635.0", "qcom,adreno-gmu";
++			reg = <0 0x03d6a000 0 0x34000>,
++				<0 0x3de0000 0 0x10000>,
++				<0 0x0b290000 0 0x10000>;
++			reg-names = "gmu", "rscc", "gmu_pdc";
++			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hfi", "gmu";
++			clocks = <&gpucc 5>,
++					<&gpucc 8>,
++					<&gcc GCC_DDRSS_GPU_AXI_CLK>,
++					<&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++					<&gpucc 2>,
++					<&gpucc 15>,
++					<&gpucc 11>;
++			clock-names = "gmu",
++				      "cxo",
++				      "axi",
++				      "memnoc",
++				      "ahb",
++				      "hub",
++				      "smmu_vote";
++			power-domains = <&gpucc 0>,
++					<&gpucc 1>;
++			power-domain-names = "cx",
++					     "gx";
++			iommus = <&adreno_smmu 5 0x400>;
++			operating-points-v2 = <&gmu_opp_table>;
++
++			gmu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-200000000 {
++					opp-hz = /bits/ 64 <200000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++				};
++			};
++		};
++
+ 		gpucc: clock-controller@3d90000 {
+ 			compatible = "qcom,sc7280-gpucc";
+ 			reg = <0 0x03d90000 0 0x9000>;
+@@ -606,6 +685,42 @@
+ 			#power-domain-cells = <1>;
+ 		};
+ 
++		adreno_smmu: iommu@3da0000 {
++			compatible = "qcom,sc7280-smmu-500", "qcom,adreno-smmu", "arm,mmu-500";
++			reg = <0 0x03da0000 0 0x20000>;
++			#iommu-cells = <2>;
++			#global-interrupts = <2>;
++			interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 675 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>;
++
++			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++					<&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
++					<&gpucc 2>,
++					<&gpucc 11>,
++					<&gpucc 5>,
++					<&gpucc 15>,
++					<&gpucc 13>;
++			clock-names = "gcc_gpu_memnoc_gfx_clk",
++					"gcc_gpu_snoc_dvm_gfx_clk",
++					"gpu_cc_ahb_clk",
++					"gpu_cc_hlos1_vote_gpu_smmu_clk",
++					"gpu_cc_cx_gmu_clk",
++					"gpu_cc_hub_cx_int_clk",
++					"gpu_cc_hub_aon_clk";
++
++			power-domains = <&gpucc 0>;
++		};
++
+ 		stm@6002000 {
+ 			compatible = "arm,coresight-stm", "arm,primecell";
+ 			reg = <0 0x06002000 0 0x1000>,
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation.
+
