@@ -2,69 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A8D3E93A6
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 16:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6515D3E9404
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 16:53:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B5C46E14D;
-	Wed, 11 Aug 2021 14:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8DE06E122;
+	Wed, 11 Aug 2021 14:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70B226E14B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 14:24:30 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1628691872; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=LrA6avLsL15J+FSi8cAmvkPQKQs+fVN8Fyj0kQlmJf0=;
- b=uZYQ1Q4HTKTosNzJXcDmw6WnCzALYLRQgclkf/PBr4F7jJba0UgsGkzEwF/wVStzz1Cg4yJX
- 6mIjLI2iznKwHM+WkSeWp4NXgvF/W0O2T2QHswj2Rum3ML9a4vjCutxKMElzXQtBXwXy70ai
- FoKWO3ZaybrEwkfvKkdtQygYp4M=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 6113dd8bb14e7e2ecb7f2c5b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 11 Aug 2021 14:24:11
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 9A7F9C43217; Wed, 11 Aug 2021 14:24:11 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3437EC43460;
- Wed, 11 Aug 2021 14:24:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3437EC43460
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org,
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>, 
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
-Cc: Jordan Crouse <jordan@cosmicpenguin.net>,
- Matthias Kaehlcke <mka@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/2] arm64: dts: qcom: sc7280: Add gpu thermal zone cooling
- support
-Date: Wed, 11 Aug 2021 19:53:55 +0530
-Message-Id: <1628691835-36958-2-git-send-email-akhilpo@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1628691835-36958-1-git-send-email-akhilpo@codeaurora.org>
-References: <1628691835-36958-1-git-send-email-akhilpo@codeaurora.org>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 979AB6E122;
+ Wed, 11 Aug 2021 14:53:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="215164148"
+X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="215164148"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2021 07:53:41 -0700
+X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="571158048"
+Received: from watoney1-mobl.amr.corp.intel.com (HELO
+ skuppusw-mobl5.amr.corp.intel.com) ([10.209.129.121])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2021 07:53:40 -0700
+Subject: Re: [PATCH 01/11] mm: Introduce a function to check for
+ virtualization protection features
+To: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+Cc: Borislav Petkov <bp@alien8.de>, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>
+References: <cover.1627424773.git.thomas.lendacky@amd.com>
+ <cbc875b1d2113225c2b44a2384d5b303d0453cf7.1627424774.git.thomas.lendacky@amd.com>
+From: "Kuppuswamy, Sathyanarayanan"
+ <sathyanarayanan.kuppuswamy@linux.intel.com>
+Message-ID: <805946e3-5138-3565-65eb-3cb8ac6f0b3e@linux.intel.com>
+Date: Wed, 11 Aug 2021 07:53:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <cbc875b1d2113225c2b44a2384d5b303d0453cf7.1627424774.git.thomas.lendacky@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,107 +62,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
 
-Add cooling-cells property and the cooling maps for the gpu thermal
-zones to support GPU thermal cooling.
 
-Signed-off-by: Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
-Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
+On 7/27/21 3:26 PM, Tom Lendacky wrote:
+> diff --git a/include/linux/protected_guest.h b/include/linux/protected_guest.h
+> new file mode 100644
+> index 000000000000..f8ed7b72967b
+> --- /dev/null
+> +++ b/include/linux/protected_guest.h
+> @@ -0,0 +1,32 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Protected Guest (and Host) Capability checks
+> + *
+> + * Copyright (C) 2021 Advanced Micro Devices, Inc.
+> + *
+> + * Author: Tom Lendacky<thomas.lendacky@amd.com>
+> + */
+> +
+> +#ifndef _PROTECTED_GUEST_H
+> +#define _PROTECTED_GUEST_H
+> +
+> +#ifndef __ASSEMBLY__
 
-(no changes since v1)
+Can you include headers for bool type and false definition?
 
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+--- a/include/linux/protected_guest.h
++++ b/include/linux/protected_guest.h
+@@ -12,6 +12,9 @@
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index b9006d8..cd2bbf0 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -592,7 +592,7 @@
- 			qcom,bcm-voters = <&apps_bcm_voter>;
- 		};
- 
--		gpu@3d00000 {
-+		gpu: gpu@3d00000 {
- 			compatible = "qcom,adreno-635.0", "qcom,adreno";
- 			#stream-id-cells = <16>;
- 			reg = <0 0x03d00000 0 0x40000>,
-@@ -607,6 +607,7 @@
- 			qcom,gmu = <&gmu>;
- 			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
- 			interconnect-names = "gfx-mem";
-+			#cooling-cells = <2>;
- 
- 			gpu_opp_table: opp-table {
- 				compatible = "operating-points-v2";
-@@ -2523,16 +2524,16 @@
- 		};
- 
- 		gpuss0-thermal {
--			polling-delay-passive = <0>;
-+			polling-delay-passive = <100>;
- 			polling-delay = <0>;
- 
- 			thermal-sensors = <&tsens1 1>;
- 
- 			trips {
- 				gpuss0_alert0: trip-point0 {
--					temperature = <90000>;
-+					temperature = <95000>;
- 					hysteresis = <2000>;
--					type = "hot";
-+					type = "passive";
- 				};
- 
- 				gpuss0_crit: gpuss0-crit {
-@@ -2541,19 +2542,26 @@
- 					type = "critical";
- 				};
- 			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&gpuss0_alert0>;
-+					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
- 		};
- 
- 		gpuss1-thermal {
--			polling-delay-passive = <0>;
-+			polling-delay-passive = <100>;
- 			polling-delay = <0>;
- 
- 			thermal-sensors = <&tsens1 2>;
- 
- 			trips {
- 				gpuss1_alert0: trip-point0 {
--					temperature = <90000>;
-+					temperature = <95000>;
- 					hysteresis = <2000>;
--					type = "hot";
-+					type = "passive";
- 				};
- 
- 				gpuss1_crit: gpuss1-crit {
-@@ -2562,6 +2570,13 @@
- 					type = "critical";
- 				};
- 			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&gpuss1_alert0>;
-+					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
- 		};
- 
- 		nspss0-thermal {
+  #ifndef __ASSEMBLY__
+
++#include <linux/types.h>
++#include <linux/stddef.h>
+
+Otherwise, I see following errors in multi-config auto testing.
+
+include/linux/protected_guest.h:40:15: error: unknown type name 'bool'
+include/linux/protected_guest.h:40:63: error: 'false' undeclared (first use in this functi
+
+
+> +
+> +#define PATTR_MEM_ENCRYPT		0	/* Encrypted memory */
+> +#define PATTR_HOST_MEM_ENCRYPT		1	/* Host encrypted memory */
+> +#define PATTR_GUEST_MEM_ENCRYPT		2	/* Guest encrypted memory */
+> +#define PATTR_GUEST_PROT_STATE		3	/* Guest encrypted state */
+> +
+> +#ifdef CONFIG_ARCH_HAS_PROTECTED_GUEST
+> +
+> +#include <asm/protected_guest.h>
+> +
+> +#else	/* !CONFIG_ARCH_HAS_PROTECTED_GUEST */
+> +
+> +static inline bool prot_guest_has(unsigned int attr) { return false; }
+> +
+> +#endif	/* CONFIG_ARCH_HAS_PROTECTED_GUEST */
+> +
+> +#endif	/* __ASSEMBLY__ */
+> +
+> +#endif	/* _PROTECTED_GUEST_H */
+
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation.
-
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
