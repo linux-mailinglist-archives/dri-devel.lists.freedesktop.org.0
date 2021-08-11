@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734233E888E
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 05:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F31D3E8900
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 05:48:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE8526E09C;
-	Wed, 11 Aug 2021 03:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C2E6E09E;
+	Wed, 11 Aug 2021 03:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31A676E09C;
- Wed, 11 Aug 2021 03:03:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="215028866"
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="215028866"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2021 20:03:45 -0700
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="484650711"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.205])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2021 20:03:43 -0700
-Date: Wed, 11 Aug 2021 08:35:45 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Juston Li <juston.li@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org, anshuman.gupta@intel.com, rodrigo.vivi@intel.com
-Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/i915/hdcp: reuse rx_info for mst
- stream type1 capability check
-Message-ID: <20210811030533.GC16096@intel.com>
-References: <20210810235212.138721-1-juston.li@intel.com>
- <20210810235212.138721-4-juston.li@intel.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5B4C6E09E;
+ Wed, 11 Aug 2021 03:48:51 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id x14so1479721edr.12;
+ Tue, 10 Aug 2021 20:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=DRmn/zkTQmygN4gcRB0A09Eou/i2TXzWeXUFraSIqFg=;
+ b=VZnlxnrPHGyNidVXu7SgDTse5YKaLnZa3POZF9I+5V9i+GK35xFv+mGYKiB1sb4azt
+ XJZq1w/3I5gcwRtrjNKTGDivieAKz3uVSkwHAeZpVoSdbBOjScj0RRUBd95vaRok+ySn
+ AmYz11vd/6Oqp/H7xGAIrCcxlUA3fkKtRXEARBpgx1T4m9tgrQ0yCH09UHK2cu503d9e
+ aNPqGo4JBI5QrhlJtkoIR0f3J5cbLaRSebNuS0qElVAIqUkrz3iu4yhkn5m6J8XDPunJ
+ SA/vAMIDZfjV3fpwJlj80USA0FPX4afFmmjuEFQgGq6Gc/mGmyL4R8rf4HD5HONwCB8b
+ LQ3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=DRmn/zkTQmygN4gcRB0A09Eou/i2TXzWeXUFraSIqFg=;
+ b=bsUIBHa0EvzMEX7lAhD0u89gg8q+HenacpYipE78HjQ/trxGtxRfgBivE0DNGQRIQ+
+ RT9ilQoCBi/28F+j66TFH3H2jItSqi2xvZVYZuFq/G/2FXyMcnAcOuueabH53xQnJTqA
+ 7h5Z3+IA6k8NsZsxeCAEv6Z6JcPYeptKtO5rguq7mIebh6tg6eXR2mPimTexDcryEIok
+ pbiBqAdMM75ayQRFn+MDUW6PtHPtmxkYwtyT6ZR5bJ8YyHUX4lj5+7e+SOjywN1sYUn5
+ FC5UzSWlB/dYHM1JrI8KYBIv/C4BVEOl0p96c4jyjSdUXUl5HSjtfwfFKu/d6l6EAMpb
+ 4XDQ==
+X-Gm-Message-State: AOAM5307BWVx/DoK/QYWaBAWfHCqf3/FxZShPsKpopsI6C5nP2UBo0VE
+ QpkraGai5OJHYIwBNMg0yS4bRqZEaSXlfenTZeOYRDefBy8=
+X-Google-Smtp-Source: ABdhPJwPq0m3ZuS0WzmxT9j5Z2VJifg3B08XUqMOPov31QvzORJEpGtKtdiHlgrzKFkzDkt4VoaIZ3fwZ9VSP02peF8=
+X-Received: by 2002:a05:6402:1289:: with SMTP id
+ w9mr8931171edv.127.1628653730281; 
+ Tue, 10 Aug 2021 20:48:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210810235212.138721-4-juston.li@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 11 Aug 2021 13:48:39 +1000
+Message-ID: <CAPM=9tyT17Qbd0b46Xap=vGhiicTKko7qCEsFJwOBVsb=_2axA@mail.gmail.com>
+Subject: missing signoff on drm-intel-gt-next pull
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,218 +67,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-08-10 at 16:52:12 -0700, Juston Li wrote:
-> On some MST docking stations, rx_info can only be read after
-> RepeaterAuth_Send_ReceiverID_List and the RxStatus READY bit is set
-> otherwise the read will return -EIO.
-> 
-> This behavior causes the mst stream type1 capability test to fail to
-> read rx_info and determine if the topology supports type1 and fallback
-> to type0.
-> 
-> To fix this, check for type1 capability when we receive rx_info within
-> the AKE flow when we read RepeaterAuth_Send_ReceiverID_List instead
-> of an explicit read just for type1 capability checking.
-> 
-> This does require moving where we set stream_types to after
-> hdcp2_authenticate_sink() when we get rx_info but this occurs before we
-> do hdcp2_propagate_stream_management_info.
-> 
-> Also, legacy HDCP 2.0/2.1 are not type 1 capable either so check for
-> that as well.
-> 
-> Changes since v2:
->  - Remove no longer used variables in _intel_hdcp2_enable()
+dim: db47fe727e1f ("drm/i915/step:
+s/<platform>_revid_tbl/<platform>_revids"): committer Signed-off-by
+missing.
 
-LGTM.
+I'm not sure how much pain it is to fix that up, but
+commit db47fe727e1fc516cf60fc9ab8299605ef3c2d54
+Author: Anusha Srivatsa <anusha.srivatsa@intel.com>
+Commit: Matt Roper <matthew.d.roper@intel.com>
 
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-> 
-> Signed-off-by: Juston Li <juston.li@intel.com>
-> ---
->  .../drm/i915/display/intel_display_types.h    |  2 +
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 39 ---------------
->  drivers/gpu/drm/i915/display/intel_hdcp.c     | 49 ++++++++-----------
->  3 files changed, 23 insertions(+), 67 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index dbdfe54d0340..c8b687ff0374 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -516,6 +516,8 @@ struct intel_hdcp {
->  	enum transcoder cpu_transcoder;
->  	/* Only used for DP MST stream encryption */
->  	enum transcoder stream_transcoder;
-> +
-> +	bool topology_type1_capable;
->  };
->  
->  struct intel_connector {
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> index 526fd58b9b51..2d39af63ec9b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> @@ -478,23 +478,6 @@ int intel_dp_hdcp2_write_msg(struct intel_digital_port *dig_port,
->  	return size;
->  }
->  
-> -static int
-> -get_rxinfo_hdcp_1_dev_downstream(struct intel_digital_port *dig_port, bool *hdcp_1_x)
-> -{
-> -	u8 rx_info[HDCP_2_2_RXINFO_LEN];
-> -	int ret;
-> -
-> -	ret = drm_dp_dpcd_read(&dig_port->dp.aux,
-> -			       DP_HDCP_2_2_REG_RXINFO_OFFSET,
-> -			       (void *)rx_info, HDCP_2_2_RXINFO_LEN);
-> -
-> -	if (ret != HDCP_2_2_RXINFO_LEN)
-> -		return ret >= 0 ? -EIO : ret;
-> -
-> -	*hdcp_1_x = HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) ? true : false;
-> -	return 0;
-> -}
-> -
->  static
->  ssize_t get_receiver_id_list_rx_info(struct intel_digital_port *dig_port, u32 *dev_cnt, u8 *byte)
->  {
-> @@ -664,27 +647,6 @@ int intel_dp_hdcp2_capable(struct intel_digital_port *dig_port,
->  	return 0;
->  }
->  
-> -static
-> -int intel_dp_mst_streams_type1_capable(struct intel_connector *connector,
-> -				       bool *capable)
-> -{
-> -	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-> -	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> -	int ret;
-> -	bool hdcp_1_x;
-> -
-> -	ret = get_rxinfo_hdcp_1_dev_downstream(dig_port, &hdcp_1_x);
-> -	if (ret) {
-> -		drm_dbg_kms(&i915->drm,
-> -			    "[%s:%d] failed to read RxInfo ret=%d\n",
-> -			    connector->base.name, connector->base.base.id, ret);
-> -		return ret;
-> -	}
-> -
-> -	*capable = !hdcp_1_x;
-> -	return 0;
-> -}
-> -
->  static const struct intel_hdcp_shim intel_dp_hdcp_shim = {
->  	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
->  	.read_bksv = intel_dp_hdcp_read_bksv,
-> @@ -833,7 +795,6 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
->  	.stream_2_2_encryption = intel_dp_mst_hdcp2_stream_encryption,
->  	.check_2_2_link = intel_dp_mst_hdcp2_check_link,
->  	.hdcp_2_2_capable = intel_dp_hdcp2_capable,
-> -	.streams_type1_capable = intel_dp_mst_streams_type1_capable,
->  	.protocol = HDCP_PROTOCOL_DP,
->  };
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index ebc2e32aec0b..1a2a98e2c6e3 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -33,21 +33,6 @@ static int intel_conn_to_vcpi(struct intel_connector *connector)
->  	return connector->port	? connector->port->vcpi.vcpi : 0;
->  }
->  
-> -static bool
-> -intel_streams_type1_capable(struct intel_connector *connector)
-> -{
-> -	const struct intel_hdcp_shim *shim = connector->hdcp.shim;
-> -	bool capable = false;
-> -
-> -	if (!shim)
-> -		return capable;
-> -
-> -	if (shim->streams_type1_capable)
-> -		shim->streams_type1_capable(connector, &capable);
-> -
-> -	return capable;
-> -}
-> -
->  /*
->   * intel_hdcp_required_content_stream selects the most highest common possible HDCP
->   * content_type for all streams in DP MST topology because security f/w doesn't
-> @@ -86,7 +71,7 @@ intel_hdcp_required_content_stream(struct intel_digital_port *dig_port)
->  		if (conn_dig_port != dig_port)
->  			continue;
->  
-> -		if (!enforce_type0 && !intel_streams_type1_capable(connector))
-> +		if (!enforce_type0 && !connector->hdcp.topology_type1_capable)
->  			enforce_type0 = true;
->  
->  		data->streams[data->k].stream_id = intel_conn_to_vcpi(connector);
-> @@ -1632,6 +1617,14 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
->  		return -EINVAL;
->  	}
->  
-> +	/*
-> +	 * A topology is not Type 1 capable if it contains a downstream device
-> +	 * that is HDCP 1.x or Legacy HDCP 2.0/2.1 compliant.
-> +	 */
-> +	hdcp->topology_type1_capable =
-> +		!HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) &&
-> +		!HDCP_2_2_HDCP_2_0_REP_CONNECTED(rx_info[1]);
-> +
->  	/* Converting and Storing the seq_num_v to local variable as DWORD */
->  	seq_num_v =
->  		drm_hdcp_be24_to_cpu((const u8 *)msgs.recvid_list.seq_num_v);
-> @@ -1871,11 +1864,23 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
->  {
->  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
-> +	struct intel_hdcp *hdcp = &connector->hdcp;
->  	int ret = 0, i, tries = 3;
->  
->  	for (i = 0; i < tries && !dig_port->hdcp_auth_status; i++) {
->  		ret = hdcp2_authenticate_sink(connector);
->  		if (!ret) {
-> +			/* Stream which requires encryption */
-> +			if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
-> +				data->k = 1;
-> +				data->streams[0].stream_type = hdcp->content_type;
-> +			} else {
-> +				ret = intel_hdcp_required_content_stream(dig_port);
-> +				if (ret)
-> +					return ret;
-> +			}
-> +
->  			ret = hdcp2_propagate_stream_management_info(connector);
->  			if (ret) {
->  				drm_dbg_kms(&i915->drm,
-> @@ -1921,9 +1926,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
->  
->  static int _intel_hdcp2_enable(struct intel_connector *connector)
->  {
-> -	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> -	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
->  	struct intel_hdcp *hdcp = &connector->hdcp;
->  	int ret;
->  
-> @@ -1931,16 +1934,6 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
->  		    connector->base.name, connector->base.base.id,
->  		    hdcp->content_type);
->  
-> -	/* Stream which requires encryption */
-> -	if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
-> -		data->k = 1;
-> -		data->streams[0].stream_type = hdcp->content_type;
-> -	} else {
-> -		ret = intel_hdcp_required_content_stream(dig_port);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -
->  	ret = hdcp2_authenticate_and_encrypt(connector);
->  	if (ret) {
->  		drm_dbg_kms(&i915->drm, "HDCP2 Type%d  Enabling Failed. (%d)\n",
-> -- 
-> 2.31.1
-> 
+    drm/i915/step: s/<platform>_revid_tbl/<platform>_revids
+
+    Simplify the stepping info array name.
+
+    Cc: Jani Nikula <jani.nikula@linux.intel.com>
+    Signed-off-by: Anusha Srivatsa <anusha.srivatsa@intel.com>
+    Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+    Link: https://patchwork.freedesktop.org/patch/msgid/20210713193635.3390052-2-matthew.d.roper@intel.com
+
+It's definitely missing an S-o-b by anyone who handled the patch.
+
+Let me know if it's insanely painful to fix that.
+Dave.
