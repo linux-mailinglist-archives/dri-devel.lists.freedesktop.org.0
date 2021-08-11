@@ -2,65 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5A93E89BB
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 07:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B573E89F2
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 07:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0E316E0AA;
-	Wed, 11 Aug 2021 05:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 482E989EF7;
+	Wed, 11 Aug 2021 05:56:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3B8E6E0AA
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 05:26:34 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- b25-20020a4ac2990000b0290263aab95660so370810ooq.13
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Aug 2021 22:26:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=jKw0GFQ6ES1SXq7f3K/KZLMXlxNSWW1xnzU/Bn2f5/U=;
- b=oQglrCuBdilvHbZV6KUJUzMJ3zfGeJpnr+USDtU7GzXcNH9zYQ5E/abys4BpNU6qmI
- nDMndzuYQNIZ891UVmMRHcnnLGpXbW2QK/XzoahnCunjGkoJL+JNU1dm5xFBgjJjryzl
- F2HTsGbGYGW+M5iDuPg8o1bV6G1IKGnHufPUI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=jKw0GFQ6ES1SXq7f3K/KZLMXlxNSWW1xnzU/Bn2f5/U=;
- b=pBHqymE8xKI1d+NFt456y2CUrfwrwz+N2LHM9QyJDS9YBnKpauNsu+2+7HRbOYEuoG
- Fmm0WW7nposaWn1uqMYeWRNJaarymbgl/G+23XsXwsN72NkYDYsHE0zYJ4WTIyP6L2SI
- JOPt/QSOUz3uF3gkwzoJ0GKPPGKWbvExcqVUfBPww+daeGkeAPqhqflI+SaqBWh+DoDt
- xFt4V5l5OKNwdRSX2xQhOBx9tjgEK7R23YF5www1MmX8b5qyUbGDoa7IahZGmLjur/4D
- bdh/xeMR1ubRU+DPB6rDmzXR8iMG+eYCngtSUBvdejsfPQPq+TELlKgkJf8hJL6w/91B
- zBnA==
-X-Gm-Message-State: AOAM530JufUangfSYXz7xJhT1/AahIj4nBqSRYzz2M4TgjbsgGYF2/H/
- OoMRfCgdPKXX0sdcb5pcRKuj8kVUJ9yvwTC6q3dPtA==
-X-Google-Smtp-Source: ABdhPJxodrz0DuJFGpejWPyD/CG1hN1z7rUNEXCtuHnaaSzfGEoDRmUwje3DWqyQLr9U6pCrk+syW4tO5VWwCAajHMI=
-X-Received: by 2002:a4a:96e1:: with SMTP id t30mr20991495ooi.16.1628659593721; 
- Tue, 10 Aug 2021 22:26:33 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 10 Aug 2021 22:26:33 -0700
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA7F89CAA;
+ Wed, 11 Aug 2021 05:56:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="300649408"
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="300649408"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2021 22:56:37 -0700
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="516413329"
+Received: from mtiebout-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.53.238])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2021 22:56:33 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20210624000304.16281-5-laurent.pinchart+renesas@ideasonboard.com>
-References: <20210624000304.16281-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210624000304.16281-5-laurent.pinchart+renesas@ideasonboard.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Tue, 10 Aug 2021 22:26:33 -0700
-Message-ID: <CAE-0n52Mw-ZzdqwKeEX2-WP6NyqdXvfzq=KeZJug9A-NiVo8aw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] drm/bridge: ti-sn65dsi86: Wrap panel with
- panel-bridge
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- dri-devel@lists.freedesktop.org
-Cc: Douglas Anderson <dianders@chromium.org>,
- Jagan Teki <jagan@amarulasolutions.com>, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Andrzej Hajda <a.hajda@samsung.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>, 
- Robert Foss <robert.foss@linaro.org>, linux-renesas-soc@vger.kernel.org, 
- robdclark@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YRIcTTsEF0Kg7F8K@phenom.ffwll.local>
+References: <20210715141854.1ad4a956@canb.auug.org.au>
+ <162823181614.15830.10618174106053255881@jlahtine-mobl.ger.corp.intel.com>
+ <YRE2RwQ6XlUqbgmn@phenom.ffwll.local>
+ <20210809161939.GS1556418@mdroper-desk1.amr.corp.intel.com>
+ <YRIcTTsEF0Kg7F8K@phenom.ffwll.local>
+To: Daniel Vetter <daniel@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [Intel-gfx] linux-next: Signed-off-by missing for commit in the
+ drm-intel tree
+Cc: DRI <dri-devel@lists.freedesktop.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Dave Airlie <airlied@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <162866138994.4210.10598129488916811422@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Wed, 11 Aug 2021 08:56:29 +0300
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,25 +61,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2021-06-23 17:03:02)
-> To simplify interfacing with the panel, wrap it in a panel-bridge and
-> let the DRM bridge helpers handle chaining of operations.
->
-> This also prepares for support of DRM_BRIDGE_ATTACH_NO_CONNECTOR, which
-> requires all components in the display pipeline to be represented by
-> bridges.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
++ Dave as FYI
 
-With this patch applied I get two eDP devices on Lazor sc7180 (it is the
-arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor*.dts files if you're
-looking for more info). As far as I can tell, we should only have one
-eDP device on the board, for the bridge.
-
-localhost ~ # ls -l /sys/class/drm/card1-eDP*
-lrwxrwxrwx. 1 root root 0 Aug 10 22:24 /sys/class/drm/card1-eDP-1 ->
-../../devices/platform/soc@0/ae00000.mdss/drm/card1/card1-eDP-1
-lrwxrwxrwx. 1 root root 0 Aug 10 22:24 /sys/class/drm/card1-eDP-2 ->
-../../devices/platform/soc@0/ae00000.mdss/drm/card1/card1-eDP-2
+Quoting Daniel Vetter (2021-08-10 09:27:25)
+> On Mon, Aug 09, 2021 at 09:19:39AM -0700, Matt Roper wrote:
+> > On Mon, Aug 09, 2021 at 04:05:59PM +0200, Daniel Vetter wrote:
+> > > On Fri, Aug 06, 2021 at 09:36:56AM +0300, Joonas Lahtinen wrote:
+> > > > Hi Matt,
+> > > >=20
+> > > > Always use the dim tooling when applying patches, it will do the ri=
+ght
+> > > > thing with regards to adding the S-o-b.
+> > >=20
+> > > fd.o server rejects any pushes that haven't been done by dim, so how =
+did
+> > > this get through?
+> >=20
+> > I definitely used dim for all of these patches, but I'm not sure how I
+> > lost my s-o-b on this one.  Maybe when I edited the commit message after
+> > 'dim extract-tags' I accidentally deleted an extra line when I removed
+> > the extract-tags marker?  It's the only patch where the line is missing,
+> > so it's almost certainly human error on my part rather than something
+> > dim did wrong.
+>=20
+> Yeah that's an expected failure model, and dim is supposed to catch that
+> by rechecking for sobs when you push. See dim_push_branch ->
+> checkpatch_commit_push_range in dim. So you can hand-edit stuff however
+> you want, dim /should/ catch it when pushing. That it didn't is kinda
+> confusing and I'd like to know why that slipped through.
+>=20
+> > > Matt, can you pls figure out and type up the patch to
+> > > plug that hole?
+> >=20
+> > Are you referring to a patch for dim here?  The i915 patch has already
+> > landed, so we can't change its commit message now.
+>=20
+> Yeah dim, not drm-intel, that can't be fixed anymore because it's all
+> baked in.
+> -Daniel
+>=20
+> >=20
+> >=20
+> > Matt
+> >=20
+> > >=20
+> > > Thanks, Daniel
+> > >=20
+> > > >=20
+> > > > Regards, Joonas
+> > > >=20
+> > > > Quoting Stephen Rothwell (2021-07-15 07:18:54)
+> > > > > Hi all,
+> > > > >=20
+> > > > > Commit
+> > > > >=20
+> > > > >   db47fe727e1f ("drm/i915/step: s/<platform>_revid_tbl/<platform>=
+_revids")
+> > > > >=20
+> > > > > is missing a Signed-off-by from its committer.
+> > > > >=20
+> > > > > --=20
+> > > > > Cheers,
+> > > > > Stephen Rothwell
+> > >=20
+> > > --=20
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> >=20
+> > --=20
+> > Matt Roper
+> > Graphics Software Engineer
+> > VTT-OSGC Platform Enablement
+> > Intel Corporation
+> > (916) 356-2795
+>=20
+> --=20
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
