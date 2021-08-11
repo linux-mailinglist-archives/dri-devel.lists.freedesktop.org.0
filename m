@@ -1,50 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55A63E87ED
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 04:11:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DDE3E8801
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 04:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA6336E072;
-	Wed, 11 Aug 2021 02:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 060C16E091;
+	Wed, 11 Aug 2021 02:28:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 224DB6E094
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 02:10:46 +0000 (UTC)
-X-UUID: 89966532e8f84ccdb97b40083c660280-20210811
-X-UUID: 89966532e8f84ccdb97b40083c660280-20210811
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 270879707; Wed, 11 Aug 2021 10:10:41 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 11 Aug 2021 10:10:40 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 11 Aug 2021 10:10:39 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-CC: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jassi Brar
- <jassisinghbrar@gmail.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Dennis YC Hsieh
- <dennis-yc.hsieh@mediatek.com>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, Hsin-Yi Wang
- <hsinyi@chromium.org>
-Subject: [PATCH v9, 5/5] drm/mediatek: add support for mediatek SOC MT8192
-Date: Wed, 11 Aug 2021 10:10:02 +0800
-Message-ID: <1628647802-5127-6-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1628647802-5127-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1628647802-5127-1-git-send-email-yongqiang.niu@mediatek.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2FB86E091;
+ Wed, 11 Aug 2021 02:28:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="194625931"
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="194625931"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2021 19:28:50 -0700
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="484643927"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.205])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2021 19:28:48 -0700
+Date: Wed, 11 Aug 2021 08:00:49 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Juston Li <juston.li@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, anshuman.gupta@intel.com, rodrigo.vivi@intel.com
+Subject: Re: [Intel-gfx] [PATCH v3 1/3] drm/i915/hdcp: update
+ cp_irq_count_cached in intel_dp_hdcp2_read_msg()
+Message-ID: <20210811023047.GA16096@intel.com>
+References: <20210810235212.138721-1-juston.li@intel.com>
+ <20210810235212.138721-2-juston.li@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210810235212.138721-2-juston.li@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,203 +51,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add support for mediatek SOC MT8192
+On 2021-08-10 at 16:52:10 -0700, Juston Li wrote:
+> Update cp_irq_count_cached when reading messages rather than when
+> writing a message to make sure the value is up to date and not
+> stale from a previously handled CP_IRQ.
+> 
+> AKE flow  doesn't always respond to a read with a ACK write msg.
+> E.g. AKE_Send_Pairing_Info will "timeout" because we received
+> a CP_IRQ for reading AKE_Send_H_Prime but no write occurred between that
+> and reading AKE_Send_Pairing_Info so cp_irq_count_cached is stale
+> causing the wait to return right away rather than waiting for a new
+> CP_IRQ.
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_ccorr.c |  6 +++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c   | 20 +++++++++++++++
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c  |  6 +++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c    | 42 +++++++++++++++++++++++++++++++
- 4 files changed, 74 insertions(+)
+LGTM.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-index 141cb36..3a53ebc 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
-@@ -205,9 +205,15 @@ static int mtk_disp_ccorr_remove(struct platform_device *pdev)
- 	.matrix_bits = 10,
- };
- 
-+static const struct mtk_disp_ccorr_data mt8192_ccorr_driver_data = {
-+	.matrix_bits = 11,
-+};
-+
- static const struct of_device_id mtk_disp_ccorr_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt8183-disp-ccorr",
- 	  .data = &mt8183_ccorr_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-ccorr",
-+	  .data = &mt8192_ccorr_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_ccorr_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index fa9d799..ba4d157 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -454,6 +454,22 @@ static int mtk_disp_ovl_remove(struct platform_device *pdev)
- 	.fmt_rgb565_is_0 = true,
- };
- 
-+static const struct mtk_disp_ovl_data mt8192_ovl_driver_data = {
-+	.addr = DISP_REG_OVL_ADDR_MT8173,
-+	.gmc_bits = 10,
-+	.layer_nr = 4,
-+	.fmt_rgb565_is_0 = true,
-+	.smi_id_en = true,
-+};
-+
-+static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
-+	.addr = DISP_REG_OVL_ADDR_MT8173,
-+	.gmc_bits = 10,
-+	.layer_nr = 2,
-+	.fmt_rgb565_is_0 = true,
-+	.smi_id_en = true,
-+};
-+
- static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
- 	  .data = &mt2701_ovl_driver_data},
-@@ -463,6 +479,10 @@ static int mtk_disp_ovl_remove(struct platform_device *pdev)
- 	  .data = &mt8183_ovl_driver_data},
- 	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
- 	  .data = &mt8183_ovl_2l_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-ovl",
-+	  .data = &mt8192_ovl_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-ovl-2l",
-+	  .data = &mt8192_ovl_2l_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_ovl_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index 705f28c..a2386aa 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -353,6 +353,10 @@ static int mtk_disp_rdma_remove(struct platform_device *pdev)
- 	.fifo_size = 5 * SZ_1K,
- };
- 
-+static const struct mtk_disp_rdma_data mt8192_rdma_driver_data = {
-+	.fifo_size = 5 * SZ_1K,
-+};
-+
- static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = &mt2701_rdma_driver_data},
-@@ -360,6 +364,8 @@ static int mtk_disp_rdma_remove(struct platform_device *pdev)
- 	  .data = &mt8173_rdma_driver_data},
- 	{ .compatible = "mediatek,mt8183-disp-rdma",
- 	  .data = &mt8183_rdma_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-rdma",
-+	  .data = &mt8192_rdma_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_rdma_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index b46bdb8..8465da1 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -147,6 +147,25 @@
- 	DDP_COMPONENT_DPI0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_OVL_2L0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_POSTMASK0,
-+	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DSI0,
-+};
-+
-+static const enum mtk_ddp_comp_id mt8192_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_2L2,
-+	DDP_COMPONENT_RDMA4,
-+	DDP_COMPONENT_DPI0,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -186,6 +205,13 @@
- 	.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
-+	.main_path = mt8192_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
-+	.ext_path = mt8192_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8192_mtk_ddp_ext),
-+};
-+
- static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
-@@ -404,22 +430,32 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = (void *)MTK_DISP_OVL },
- 	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
- 	  .data = (void *)MTK_DISP_OVL_2L },
-+	{ .compatible = "mediatek,mt8192-disp-ovl",
-+	  .data = (void *)MTK_DISP_OVL },
-+	{ .compatible = "mediatek,mt8192-disp-ovl-2l",
-+	  .data = (void *)MTK_DISP_OVL_2L },
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8183-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
-+	{ .compatible = "mediatek,mt8192-disp-rdma",
-+	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-wdma",
- 	  .data = (void *)MTK_DISP_WDMA },
- 	{ .compatible = "mediatek,mt8183-disp-ccorr",
- 	  .data = (void *)MTK_DISP_CCORR },
-+	{ .compatible = "mediatek,mt8192-disp-ccorr",
-+	  .data = (void *)MTK_DISP_CCORR },
- 	{ .compatible = "mediatek,mt2701-disp-color",
- 	  .data = (void *)MTK_DISP_COLOR },
- 	{ .compatible = "mediatek,mt8173-disp-color",
- 	  .data = (void *)MTK_DISP_COLOR },
- 	{ .compatible = "mediatek,mt8173-disp-aal",
- 	  .data = (void *)MTK_DISP_AAL},
-+	{ .compatible = "mediatek,mt8192-disp-aal",
-+	  .data = (void *)MTK_DISP_AAL},
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
- 	{ .compatible = "mediatek,mt8183-disp-gamma",
-@@ -448,12 +484,16 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8183-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8192-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt2701-disp-pwm",
- 	  .data = (void *)MTK_DISP_BLS },
- 	{ .compatible = "mediatek,mt8173-disp-pwm",
- 	  .data = (void *)MTK_DISP_PWM },
- 	{ .compatible = "mediatek,mt8173-disp-od",
- 	  .data = (void *)MTK_DISP_OD },
-+	{ .compatible = "mediatek,mt8192-disp-postmask",
-+	  .data = (void *)MTK_DISP_POSTMASK },
- 	{ }
- };
- 
-@@ -468,6 +508,8 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = &mt8173_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8183-mmsys",
- 	  .data = &mt8183_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8192-mmsys",
-+	  .data = &mt8192_mmsys_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
--- 
-1.8.1.1.dirty
-
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+> 
+> Signed-off-by: Juston Li <juston.li@intel.com>
+> Acked-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> index d697d169e8c1..1d0096654776 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> @@ -446,8 +446,6 @@ static
+>  int intel_dp_hdcp2_write_msg(struct intel_digital_port *dig_port,
+>  			     void *buf, size_t size)
+>  {
+> -	struct intel_dp *dp = &dig_port->dp;
+> -	struct intel_hdcp *hdcp = &dp->attached_connector->hdcp;
+>  	unsigned int offset;
+>  	u8 *byte = buf;
+>  	ssize_t ret, bytes_to_write, len;
+> @@ -463,8 +461,6 @@ int intel_dp_hdcp2_write_msg(struct intel_digital_port *dig_port,
+>  	bytes_to_write = size - 1;
+>  	byte++;
+>  
+> -	hdcp->cp_irq_count_cached = atomic_read(&hdcp->cp_irq_count);
+> -
+>  	while (bytes_to_write) {
+>  		len = bytes_to_write > DP_AUX_MAX_PAYLOAD_BYTES ?
+>  				DP_AUX_MAX_PAYLOAD_BYTES : bytes_to_write;
+> @@ -530,6 +526,8 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
+>  			    u8 msg_id, void *buf, size_t size)
+>  {
+>  	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> +	struct intel_dp *dp = &dig_port->dp;
+> +	struct intel_hdcp *hdcp = &dp->attached_connector->hdcp;
+>  	unsigned int offset;
+>  	u8 *byte = buf;
+>  	ssize_t ret, bytes_to_recv, len;
+> @@ -546,6 +544,8 @@ int intel_dp_hdcp2_read_msg(struct intel_digital_port *dig_port,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> +	hdcp->cp_irq_count_cached = atomic_read(&hdcp->cp_irq_count);
+> +
+>  	if (msg_id == HDCP_2_2_REP_SEND_RECVID_LIST) {
+>  		ret = get_receiver_id_list_size(dig_port);
+>  		if (ret < 0)
+> -- 
+> 2.31.1
+> 
