@@ -2,33 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D003E9729
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 19:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27923E96B5
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 19:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63886E190;
-	Wed, 11 Aug 2021 17:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA6089718;
+	Wed, 11 Aug 2021 17:23:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 453 seconds by postgrey-1.36 at gabe;
- Wed, 11 Aug 2021 17:06:05 UTC
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E197D6E183
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:06:05 +0000 (UTC)
-Received: from hellwig.intra.ispras.ru (unknown [10.10.2.182])
- by mail.ispras.ru (Postfix) with ESMTPS id DA74440A2BD8;
- Wed, 11 Aug 2021 16:58:26 +0000 (UTC)
-From: Evgeny Novikov <novikov@ispras.ru>
-To: dri-devel@lists.freedesktop.org
-Cc: Evgeny Novikov <novikov@ispras.ru>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Kirill Shilimanov <kirill.shilimanov@huawei.com>
-Subject: [PATCH] video: fbdev: w100fb: Reset global state
-Date: Wed, 11 Aug 2021 19:58:26 +0300
-Message-Id: <20210811165826.23752-1-novikov@ispras.ru>
-X-Mailer: git-send-email 2.26.2
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 752E28972C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:23:18 +0000 (UTC)
+From: Paul Cercueil <paul@crapouillou.net>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Cc: "H . Nikolaus Schaller" <hns@goldelico.com>,
+ Paul Boddie <paul@boddie.org.uk>, Sam Ravnborg <sam@ravnborg.org>,
+ list@opendingux.net, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v2 0/6] drm/ingenic: Various improvements v2
+Date: Wed, 11 Aug 2021 19:23:03 +0200
+Message-Id: <20210811172309.314287-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 11 Aug 2021 17:57:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,60 +40,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-w100fb_probe() did not reset the global state to its initial state. This
-can result in invocation of iounmap() even when there was not the
-appropriate successful call of ioremap(). For instance, this may be the
-case if first probe fails after two successful ioremap() while second
-probe fails when first ioremap() fails. The similar issue is with
-w100fb_remove(). The patch fixes both bugs.
+Hi,
 
-Found by Linux Driver Verification project (linuxtesting.org).
+A V2 of my patchset for the ingenic-drm driver.
 
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-Co-developed-by: Kirill Shilimanov <kirill.shilimanov@huawei.com>
-Signed-off-by: Kirill Shilimanov <kirill.shilimanov@huawei.com>
----
- drivers/video/fbdev/w100fb.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+The patches "drm/ingenic: Remove dead code" and
+"drm/ingenic: Use standard drm_atomic_helper_commit_tail"
+that were present in V1 have been merged in drm-misc-next,
+so they are not in this V2.
 
-diff --git a/drivers/video/fbdev/w100fb.c b/drivers/video/fbdev/w100fb.c
-index d96ab28f8ce4..4e641a780726 100644
---- a/drivers/video/fbdev/w100fb.c
-+++ b/drivers/video/fbdev/w100fb.c
-@@ -770,12 +770,18 @@ static int w100fb_probe(struct platform_device *pdev)
- 		fb_dealloc_cmap(&info->cmap);
- 		kfree(info->pseudo_palette);
- 	}
--	if (remapped_fbuf != NULL)
-+	if (remapped_fbuf != NULL) {
- 		iounmap(remapped_fbuf);
--	if (remapped_regs != NULL)
-+		remapped_fbuf = NULL;
-+	}
-+	if (remapped_regs != NULL) {
- 		iounmap(remapped_regs);
--	if (remapped_base != NULL)
-+		remapped_regs = NULL;
-+	}
-+	if (remapped_base != NULL) {
- 		iounmap(remapped_base);
-+		remapped_base = NULL;
-+	}
- 	if (info)
- 		framebuffer_release(info);
- 	return err;
-@@ -795,8 +801,11 @@ static int w100fb_remove(struct platform_device *pdev)
- 	fb_dealloc_cmap(&info->cmap);
- 
- 	iounmap(remapped_base);
-+	remapped_base = NULL;
- 	iounmap(remapped_regs);
-+	remapped_regs = NULL;
- 	iounmap(remapped_fbuf);
-+	remapped_fbuf = NULL;
- 
- 	framebuffer_release(info);
- 
+Changelog:
+
+[PATCH 1/6]:
+    dma_hwdesc_addr() extended to support palette hwdesc. The palette
+    hwdesc is now hwdesc[3] to simplify things. Add
+    ingenic_drm_configure_hwdesc*() functions to factorize code.
+
+Cheers,
+-Paul
+
+Paul Cercueil (6):
+  drm/ingenic: Simplify code by using hwdescs array
+  drm/ingenic: Add support for private objects
+  drm/ingenic: Move IPU scale settings to private state
+  drm/ingenic: Set DMA descriptor chain register when starting CRTC
+  drm/ingenic: Upload palette before frame
+  drm/ingenic: Attach bridge chain to encoders
+
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 278 +++++++++++++++++-----
+ drivers/gpu/drm/ingenic/ingenic-ipu.c     | 127 ++++++++--
+ 2 files changed, 333 insertions(+), 72 deletions(-)
+
 -- 
-2.26.2
+2.30.2
 
