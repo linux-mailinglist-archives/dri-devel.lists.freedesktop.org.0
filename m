@@ -1,52 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6515D3E9404
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 16:53:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9883E9455
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 17:15:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8DE06E122;
-	Wed, 11 Aug 2021 14:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58D76E0DB;
+	Wed, 11 Aug 2021 15:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 979AB6E122;
- Wed, 11 Aug 2021 14:53:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="215164148"
-X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="215164148"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2021 07:53:41 -0700
-X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="571158048"
-Received: from watoney1-mobl.amr.corp.intel.com (HELO
- skuppusw-mobl5.amr.corp.intel.com) ([10.209.129.121])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2021 07:53:40 -0700
-Subject: Re: [PATCH 01/11] mm: Introduce a function to check for
- virtualization protection features
-To: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-Cc: Borislav Petkov <bp@alien8.de>, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>
-References: <cover.1627424773.git.thomas.lendacky@amd.com>
- <cbc875b1d2113225c2b44a2384d5b303d0453cf7.1627424774.git.thomas.lendacky@amd.com>
-From: "Kuppuswamy, Sathyanarayanan"
- <sathyanarayanan.kuppuswamy@linux.intel.com>
-Message-ID: <805946e3-5138-3565-65eb-3cb8ac6f0b3e@linux.intel.com>
-Date: Wed, 11 Aug 2021 07:53:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.11.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFA126E0DB;
+ Wed, 11 Aug 2021 15:15:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="214872527"
+X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="214872527"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2021 08:15:25 -0700
+X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; d="scan'208";a="672904533"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2021 08:15:25 -0700
+Date: Wed, 11 Aug 2021 08:15:24 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: [Intel-gfx] linux-next: Signed-off-by missing for commit in the
+ drm-intel tree
+Message-ID: <20210811151524.GE1556418@mdroper-desk1.amr.corp.intel.com>
+References: <20210715141854.1ad4a956@canb.auug.org.au>
+ <162823181614.15830.10618174106053255881@jlahtine-mobl.ger.corp.intel.com>
+ <YRE2RwQ6XlUqbgmn@phenom.ffwll.local>
+ <20210809161939.GS1556418@mdroper-desk1.amr.corp.intel.com>
+ <YRIcTTsEF0Kg7F8K@phenom.ffwll.local> <8735rgo3hi.fsf@intel.com>
+ <YROc0KkBbuAwrx0f@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <cbc875b1d2113225c2b44a2384d5b303d0453cf7.1627424774.git.thomas.lendacky@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YROc0KkBbuAwrx0f@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,66 +60,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Aug 11, 2021 at 11:48:00AM +0200, Daniel Vetter wrote:
+> On Wed, Aug 11, 2021 at 10:16:41AM +0300, Jani Nikula wrote:
+> > On Tue, 10 Aug 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > On Mon, Aug 09, 2021 at 09:19:39AM -0700, Matt Roper wrote:
+> > >> On Mon, Aug 09, 2021 at 04:05:59PM +0200, Daniel Vetter wrote:
+> > >> > On Fri, Aug 06, 2021 at 09:36:56AM +0300, Joonas Lahtinen wrote:
+> > >> > > Hi Matt,
+> > >> > > 
+> > >> > > Always use the dim tooling when applying patches, it will do the right
+> > >> > > thing with regards to adding the S-o-b.
+> > >> > 
+> > >> > fd.o server rejects any pushes that haven't been done by dim, so how did
+> > >> > this get through?
+> > >> 
+> > >> I definitely used dim for all of these patches, but I'm not sure how I
+> > >> lost my s-o-b on this one.  Maybe when I edited the commit message after
+> > >> 'dim extract-tags' I accidentally deleted an extra line when I removed
+> > >> the extract-tags marker?  It's the only patch where the line is missing,
+> > >> so it's almost certainly human error on my part rather than something
+> > >> dim did wrong.
+> > >
+> > > Yeah that's an expected failure model, and dim is supposed to catch that
+> > > by rechecking for sobs when you push. See dim_push_branch ->
+> > > checkpatch_commit_push_range in dim. So you can hand-edit stuff however
+> > > you want, dim /should/ catch it when pushing. That it didn't is kinda
+> > > confusing and I'd like to know why that slipped through.
+> > 
+> > One of the failures that happened here was that the commit was part of a
+> > topic branch that was merged and pushed directly. All merges should
+> > happen via pull requests on the list, and applied (preferrably by
+> > maintainers or at least with their acks recorded on the merge) using dim
+> > apply-pull which should also have the checks.
+> 
+> Ah yes if the merge is applied directly instead of using apply-pull then
+> that's not good. I guess that's why we have the rule that only maintainers
+> should handle topic branches ...
+
+Hmm, I wasn't aware of this rule.  I double checked with Rodrigo before
+doing so and he thought merging a branch directly to intel-next and
+gt-next with the foundational definitions and tables should be an okay
+approach here (and he did an extra backmerge in preparation to make sure
+it went smoothly).
+
+Anyway, definitely my fault; I'll keep this in mind for the future.
 
 
-On 7/27/21 3:26 PM, Tom Lendacky wrote:
-> diff --git a/include/linux/protected_guest.h b/include/linux/protected_guest.h
-> new file mode 100644
-> index 000000000000..f8ed7b72967b
-> --- /dev/null
-> +++ b/include/linux/protected_guest.h
-> @@ -0,0 +1,32 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Protected Guest (and Host) Capability checks
-> + *
-> + * Copyright (C) 2021 Advanced Micro Devices, Inc.
-> + *
-> + * Author: Tom Lendacky<thomas.lendacky@amd.com>
-> + */
-> +
-> +#ifndef _PROTECTED_GUEST_H
-> +#define _PROTECTED_GUEST_H
-> +
-> +#ifndef __ASSEMBLY__
+Matt
 
-Can you include headers for bool type and false definition?
-
---- a/include/linux/protected_guest.h
-+++ b/include/linux/protected_guest.h
-@@ -12,6 +12,9 @@
-
-  #ifndef __ASSEMBLY__
-
-+#include <linux/types.h>
-+#include <linux/stddef.h>
-
-Otherwise, I see following errors in multi-config auto testing.
-
-include/linux/protected_guest.h:40:15: error: unknown type name 'bool'
-include/linux/protected_guest.h:40:63: error: 'false' undeclared (first use in this functi
-
-
-> +
-> +#define PATTR_MEM_ENCRYPT		0	/* Encrypted memory */
-> +#define PATTR_HOST_MEM_ENCRYPT		1	/* Host encrypted memory */
-> +#define PATTR_GUEST_MEM_ENCRYPT		2	/* Guest encrypted memory */
-> +#define PATTR_GUEST_PROT_STATE		3	/* Guest encrypted state */
-> +
-> +#ifdef CONFIG_ARCH_HAS_PROTECTED_GUEST
-> +
-> +#include <asm/protected_guest.h>
-> +
-> +#else	/* !CONFIG_ARCH_HAS_PROTECTED_GUEST */
-> +
-> +static inline bool prot_guest_has(unsigned int attr) { return false; }
-> +
-> +#endif	/* CONFIG_ARCH_HAS_PROTECTED_GUEST */
-> +
-> +#endif	/* __ASSEMBLY__ */
-> +
-> +#endif	/* _PROTECTED_GUEST_H */
+> 
+> Not sure how we can fix this in dim? Maybe a check whether the patches
+> your pushing contain a merge commit, which prompts an additional query
+> like
+> 
+> "Merge commits should only be done by repo maintainers, not committers.
+> Confirm that you are a maintainer of $repo?"
+> 
+> It's not the first time this slipped through and caused some fun. Similar
+> to how we have the confirmation check if you push a lot of patches.
+> 
+> Thoughts?
+> -Daniel
+> 
+> 
+> > 
+> > 
+> > BR,
+> > Jani.
+> > 
+> > >
+> > >> > Matt, can you pls figure out and type up the patch to
+> > >> > plug that hole?
+> > >> 
+> > >> Are you referring to a patch for dim here?  The i915 patch has already
+> > >> landed, so we can't change its commit message now.
+> > >
+> > > Yeah dim, not drm-intel, that can't be fixed anymore because it's all
+> > > baked in.
+> > > -Daniel
+> > >
+> > >> 
+> > >> 
+> > >> Matt
+> > >> 
+> > >> > 
+> > >> > Thanks, Daniel
+> > >> > 
+> > >> > > 
+> > >> > > Regards, Joonas
+> > >> > > 
+> > >> > > Quoting Stephen Rothwell (2021-07-15 07:18:54)
+> > >> > > > Hi all,
+> > >> > > > 
+> > >> > > > Commit
+> > >> > > > 
+> > >> > > >   db47fe727e1f ("drm/i915/step: s/<platform>_revid_tbl/<platform>_revids")
+> > >> > > > 
+> > >> > > > is missing a Signed-off-by from its committer.
+> > >> > > > 
+> > >> > > > -- 
+> > >> > > > Cheers,
+> > >> > > > Stephen Rothwell
+> > >> > 
+> > >> > -- 
+> > >> > Daniel Vetter
+> > >> > Software Engineer, Intel Corporation
+> > >> > http://blog.ffwll.ch
+> > >> 
+> > >> -- 
+> > >> Matt Roper
+> > >> Graphics Software Engineer
+> > >> VTT-OSGC Platform Enablement
+> > >> Intel Corporation
+> > >> (916) 356-2795
+> > 
+> > -- 
+> > Jani Nikula, Intel Open Source Graphics Center
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
