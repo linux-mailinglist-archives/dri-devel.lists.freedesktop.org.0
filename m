@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363113E8AEA
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 09:16:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0504A3E8AF3
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Aug 2021 09:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 958686E0BE;
-	Wed, 11 Aug 2021 07:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20BEC6E0C4;
+	Wed, 11 Aug 2021 07:20:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A53F6E0BC;
- Wed, 11 Aug 2021 07:16:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="215059441"
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="215059441"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC0EA6E0C4;
+ Wed, 11 Aug 2021 07:20:21 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="202255302"
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="202255302"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2021 00:16:48 -0700
-X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="516568446"
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2021 00:20:20 -0700
+X-IronPort-AV: E=Sophos;i="5.84,311,1620716400"; d="scan'208";a="516569110"
 Received: from fbrausse-mobl.ger.corp.intel.com (HELO localhost)
  ([10.251.209.112])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2021 00:16:44 -0700
+ 11 Aug 2021 00:20:15 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [Intel-gfx] linux-next: Signed-off-by missing for commit in the
- drm-intel tree
-In-Reply-To: <YRIcTTsEF0Kg7F8K@phenom.ffwll.local>
+To: Kuogee Hsieh <khsieh@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org
+Cc: Kuogee Hsieh <khsieh@codeaurora.org>, abhinavk@codeaurora.org,
+ aravindh@codeaurora.org, airlied@linux.ie, daniel@ffwll.ch,
+ bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/6] add fixes to pass DP Link Layer compliance test
+ cases
+In-Reply-To: <1628196295-7382-1-git-send-email-khsieh@codeaurora.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210715141854.1ad4a956@canb.auug.org.au>
- <162823181614.15830.10618174106053255881@jlahtine-mobl.ger.corp.intel.com>
- <YRE2RwQ6XlUqbgmn@phenom.ffwll.local>
- <20210809161939.GS1556418@mdroper-desk1.amr.corp.intel.com>
- <YRIcTTsEF0Kg7F8K@phenom.ffwll.local>
-Date: Wed, 11 Aug 2021 10:16:41 +0300
-Message-ID: <8735rgo3hi.fsf@intel.com>
+References: <1628196295-7382-1-git-send-email-khsieh@codeaurora.org>
+Date: Wed, 11 Aug 2021 10:20:12 +0300
+Message-ID: <87zgtomor7.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,86 +53,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Aug 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Mon, Aug 09, 2021 at 09:19:39AM -0700, Matt Roper wrote:
->> On Mon, Aug 09, 2021 at 04:05:59PM +0200, Daniel Vetter wrote:
->> > On Fri, Aug 06, 2021 at 09:36:56AM +0300, Joonas Lahtinen wrote:
->> > > Hi Matt,
->> > > 
->> > > Always use the dim tooling when applying patches, it will do the right
->> > > thing with regards to adding the S-o-b.
->> > 
->> > fd.o server rejects any pushes that haven't been done by dim, so how did
->> > this get through?
->> 
->> I definitely used dim for all of these patches, but I'm not sure how I
->> lost my s-o-b on this one.  Maybe when I edited the commit message after
->> 'dim extract-tags' I accidentally deleted an extra line when I removed
->> the extract-tags marker?  It's the only patch where the line is missing,
->> so it's almost certainly human error on my part rather than something
->> dim did wrong.
->
-> Yeah that's an expected failure model, and dim is supposed to catch that
-> by rechecking for sobs when you push. See dim_push_branch ->
-> checkpatch_commit_push_range in dim. So you can hand-edit stuff however
-> you want, dim /should/ catch it when pushing. That it didn't is kinda
-> confusing and I'd like to know why that slipped through.
+On Thu, 05 Aug 2021, Kuogee Hsieh <khsieh@codeaurora.org> wrote:
+> add fixes to pass DP Link Layer compliance test cases
 
-One of the failures that happened here was that the commit was part of a
-topic branch that was merged and pushed directly. All merges should
-happen via pull requests on the list, and applied (preferrably by
-maintainers or at least with their acks recorded on the merge) using dim
-apply-pull which should also have the checks.
-
+Nitpick, please also include the approriate subject prefix to the cover
+letter, e.g. "drm/msm" or "drm/msm/dp". Helps with mail filtering. :)
 
 BR,
 Jani.
 
 >
->> > Matt, can you pls figure out and type up the patch to
->> > plug that hole?
->> 
->> Are you referring to a patch for dim here?  The i915 patch has already
->> landed, so we can't change its commit message now.
+> Kuogee Hsieh (6):
+>   drm/msm/dp: use dp_ctrl_off_link_stream during PHY compliance test run
+>   drm/msm/dp: reduce link rate if failed at link training 1
+>   drm/msm/dp: reset aux controller after dp_aux_cmd_fifo_tx() failed.
+>   drm/msm/dp: replug event is converted into an unplug followed by an
+>     plug events
+>   drm/msm/dp: return correct edid checksum after corrupted edid checksum
+>     read
+>   drm/msm/dp: do not end dp link training until video is ready
 >
-> Yeah dim, not drm-intel, that can't be fixed anymore because it's all
-> baked in.
-> -Daniel
->
->> 
->> 
->> Matt
->> 
->> > 
->> > Thanks, Daniel
->> > 
->> > > 
->> > > Regards, Joonas
->> > > 
->> > > Quoting Stephen Rothwell (2021-07-15 07:18:54)
->> > > > Hi all,
->> > > > 
->> > > > Commit
->> > > > 
->> > > >   db47fe727e1f ("drm/i915/step: s/<platform>_revid_tbl/<platform>_revids")
->> > > > 
->> > > > is missing a Signed-off-by from its committer.
->> > > > 
->> > > > -- 
->> > > > Cheers,
->> > > > Stephen Rothwell
->> > 
->> > -- 
->> > Daniel Vetter
->> > Software Engineer, Intel Corporation
->> > http://blog.ffwll.ch
->> 
->> -- 
->> Matt Roper
->> Graphics Software Engineer
->> VTT-OSGC Platform Enablement
->> Intel Corporation
->> (916) 356-2795
+>  drivers/gpu/drm/msm/dp/dp_aux.c     |   3 +
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 137 +++++++++++++++++++++++-------------
+>  drivers/gpu/drm/msm/dp/dp_display.c |  14 ++--
+>  drivers/gpu/drm/msm/dp/dp_panel.c   |   9 ++-
+>  4 files changed, 102 insertions(+), 61 deletions(-)
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
