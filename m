@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7678C3E9B9A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 02:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED50A3E9BA5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 02:31:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 922526E20E;
-	Thu, 12 Aug 2021 00:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D62096E209;
+	Thu, 12 Aug 2021 00:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 938EA6E209
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 00:25:12 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- d10-20020a9d4f0a0000b02904f51c5004e3so5584232otl.9
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:25:12 -0700 (PDT)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07DAA6E210
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 00:31:12 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ r16-20020a0568304190b02904f26cead745so5596276otu.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:31:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=aBF5XsmOwLOwhoJ7V4vA+C2s7+F6s8RQ06qQNUqSroI=;
- b=h+56UWETmWksgXZ6odjCSUhkS60nq9twTFk5O3iDfPkw9SlJ2Q9MC4k1YZ13wA9QSI
- cz2Pc3wlRcNYEKwZ643eM+MtGzStloEbEFNy4YhjnGGkil5U0nH2pe9f1iubEMhKDwtU
- PwWNtWc+gGsmqzXBvFg2DTN9n6mT6P+9a9T3Y=
+ bh=PLCgWUlIwJKxfCShn29qzVeYMAxb9Jy6/zN3VIhO6gc=;
+ b=F+OYirtrBGe89AnSkLHY5okk962mMXPAjiVYp3bwDE3Y0e6yJEGiSoJa1Amx7Jm/zz
+ fSUSKYN5T+ZdYRgOOq1FEn2NxKXPC+HEYR9HYicAEF4RmfkFpX5U9cbrlwF+eUFD03FY
+ Tq0DAX9aAxh4iU/4ulEK/J7zMULXUXeWovJbg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=aBF5XsmOwLOwhoJ7V4vA+C2s7+F6s8RQ06qQNUqSroI=;
- b=VZa7pzUXAY8ZGpXG7ov56W3AYA8QMdebJRyCMlVaB/6gP32FPScA0/RfywQoRKItvJ
- UaNUXDbF7/ME69Spu9dozUQx1VS8tTYKEbRl8vycEtS51CWP0mH4DOc83HGCmOfKpf9K
- bTGBOvGESA/ER44HMMqdLsfiPc/ovvtHFfc20M8a/tm7UIKZZEyT0o/tFtFhz1Nz2iab
- 09oUHMcOwzkAKyHnh/qopC4d5u9HqOzzZe7GtQJcDUgBs3epCSsFgciGgEaDroRjS3Ol
- MkFzrwE2jK6Q/Lu+WQ350s1SpqF8UvGKWzWbtRYX8v+hhtI4aNvd6B2ZAeOz+5XbUYVf
- pv5Q==
-X-Gm-Message-State: AOAM530Ow7ojaONDhPn3y/f6ZFhFGZdu28Qc4zhpU2SLEc8K47UFrJxM
- XqGONdNLLdQAVTSP5OyyAyNcCBljRXoL5+IFrBRYcA==
-X-Google-Smtp-Source: ABdhPJx0FoYmfQ9zAKiWN4L09yMr9AcpGP2BwH3WsltDn0CSuMhuEFOx+zQVeSaXHI+pNsLrGV3maXsnDszKO/B14Ss=
-X-Received: by 2002:a9d:5542:: with SMTP id h2mr1268834oti.25.1628727911938;
- Wed, 11 Aug 2021 17:25:11 -0700 (PDT)
+ bh=PLCgWUlIwJKxfCShn29qzVeYMAxb9Jy6/zN3VIhO6gc=;
+ b=ZpVcOygXehjdOo2dd7N4vTBSPggGQzckUOoc93Lt0mOhCT9a7XnioK7lv8LOdkm+67
+ A0rdzfz+yRlSGL8p/JfiqtdzyG/haPr42bQK+24qXO3dW3U5Ggm2SVkLttDJW3c2gvwT
+ bOrFPhFyoswaJQw+lkv691ZFtlAXxksuDDYzQAkqqnP2fy8VBn4cpufJpqYV6Rgq1Y+L
+ r6F2V1H8ucClEsLp358PFBYUgkeZMc/nEfTpStkkgC3GfjLvzhZmzSow9uspFHKWq/s9
+ tu0HSs9jpstSgaVi/aeEoSlH+TGZKOsb3ER918bMTyvHMFTk3Fla5bCDMbt3dddjbaQ7
+ Hyow==
+X-Gm-Message-State: AOAM531WawajNvA9TX0cpkoTiCaSXA9S0RM/zHSdMZc12qjj/r+HWT1Y
+ eplkbi0EFO8M6eK8jrEdyYVyNg1GrSJT0clo9ZS/JQ==
+X-Google-Smtp-Source: ABdhPJyG97deqUVD5kKCSHP4TSJP+P7NfrbuOt/mh2i4whlYEQ588RKKNWLWiM2kuB+OHQvyR9jjX5MbyQcTVdydZn8=
+X-Received: by 2002:a9d:5542:: with SMTP id h2mr1286181oti.25.1628728271301;
+ Wed, 11 Aug 2021 17:31:11 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 Aug 2021 17:25:11 -0700
+ HTTPREST; Wed, 11 Aug 2021 17:31:10 -0700
 MIME-Version: 1.0
-In-Reply-To: <20210811235253.924867-2-robdclark@gmail.com>
-References: <20210811235253.924867-1-robdclark@gmail.com>
- <20210811235253.924867-2-robdclark@gmail.com>
+In-Reply-To: <1628726882-27841-3-git-send-email-sbillaka@codeaurora.org>
+References: <1628726882-27841-1-git-send-email-sbillaka@codeaurora.org>
+ <1628726882-27841-3-git-send-email-sbillaka@codeaurora.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Wed, 11 Aug 2021 17:25:11 -0700
-Message-ID: <CAE-0n51mqTwUdT1cmL=ubcFppFZ8GwerPBWCJ2QsyRtzG9vkjw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/bridge: ti-sn65dsi86: Avoid creating multiple
- connectors
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@chromium.org>, 
- Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, 
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Jagan Teki <jagan@amarulasolutions.com>, 
+Date: Wed, 11 Aug 2021 17:31:10 -0700
+Message-ID: <CAE-0n50RF7fCC+Vic9DpT6gjcYrmTzd+7M6Y9SAhgLoD=_Sq7Q@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] dt-bindings: Add SC7280 compatible string
+To: Sankeerth Billakanti <sbillaka@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org
+Cc: robdclark@gmail.com, seanpaul@chromium.org, kalyan_t@codeaurora.org, 
+ abhinavk@codeaurora.org, dianders@chromium.org, khsieh@codeaurora.org, 
+ mkrishn@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,19 +73,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Rob Clark (2021-08-11 16:52:47)
-> From: Rob Clark <robdclark@chromium.org>
+Quoting Sankeerth Billakanti (2021-08-11 17:08:02)
+> The Qualcomm SC7280 platform supports an eDP controller, add
+> compatible string for it to msm/binding.
 >
-> If we created our own connector because the driver does not support the
-> NO_CONNECTOR flag, we don't want the downstream bridge to *also* create
-> a connector.  And if this driver did pass the NO_CONNECTOR flag (and we
-> supported that mode) this would change nothing.
->
-> Fixes: 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Signed-off-by: Sankeerth Billakanti <sbillaka@codeaurora.org>
 > ---
+>  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index 64d8d9e..23b78ac 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -17,6 +17,9 @@ properties:
+>    compatible:
+>      enum:
+>        - qcom,sc7180-dp
+> +      - qcom,sc8180x-dp
+> +      - qcom,sc8180x-edp
+> +      - qcom,sc7280-edp
 
-Thanks for saving me the packaging effort.
+Please sort this alphabetically.
 
-Reported-by: Stephen Boyd <swboyd@chromium.org>
-Tested-by: Stephen Boyd <swboyd@chromium.org>
+         - qcom,sc7180-dp
+         - qcom,sc7280-edp
+         - qcom,sc8180x-dp
+         - qcom,sc8180x-edp
+
+>
+>    reg:
+>      maxItems: 1
