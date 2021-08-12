@@ -1,74 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A9B3EAB81
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 22:08:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B79F3EABDA
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 22:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9596E479;
-	Thu, 12 Aug 2021 20:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8B3E6E47A;
+	Thu, 12 Aug 2021 20:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 148EB6E471
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 20:08:27 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id r6so7305373ilt.13
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 13:08:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1bGQrduUL+m7VKRi0v0z85Q4dsnPpu6fOOpwbY1ffcA=;
- b=VkYCJom5pQdEVeQHfD3XlI4ousGOTHyxeSAvOpfTqiA6czSNTcbk54qIadf6AzTflf
- tuEyhtjXasOIcoOn/irN1qhAoj5mL8+7JP3Rmt1aqlq9OrRyvlUJ/JFa2Yo1lYJkNVUW
- aiVQWCBmqdke9ohe/yMCVhVBFLWk1Eag9+qWc=
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B01D6E47A
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 20:34:48 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id oa17so11829530pjb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 13:34:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VVVjPWX6jcSp1gRrqICXCN1mOR2j3DjUtUf/9alZY3Y=;
+ b=NTqEWkzJUOw2ZlXrzJrnIL4WSEmuEgL12Njv6P7CcRtEgYmBlih9RSajBqOAsK3ZM9
+ V8PKTjIDKQL5gRifoAkZtS4W9g6QfcOZDuhy32XfekzezTvgaxz9ET1610rZWUUP2u2U
+ CpWA9hnw6LmYuMtytVwNwMUMN1Hdq++j3+zwa2BoEKUlPkbsPEMqxUguO83zPZyK/RoC
+ llVctLxu5z3Zs/gqEnHBUmKIvqBMampzJ4RBkPflBaMu5m9uN7KS9ywlVqCZEIFmIwsj
+ yQAM51w3Ib4rKerBpFgY6GRmGXqs7RIhf3HvQuDqrh2MA1Q5r+7Z2DkB/6lKTf3wXwE7
+ mRkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1bGQrduUL+m7VKRi0v0z85Q4dsnPpu6fOOpwbY1ffcA=;
- b=HxkHpBAFtV3j1PJA9EApX5QXtMw1yuXVB43xSDwCqDaChAK2/zQf4T/HeRF4xzKb7l
- jdGXazRd8OD/Wlz0mT50DSZex3AvXPB+5y7CHcUCVBKw9kp+YCF+pqvAk3xS5NIlnwqz
- VMXV+nC0S1rbpHDtodRAuli3OF+WxkIvfzXbDl8+ovtgyG4KeWckREHUzW5znuGG4Bo5
- dWXlD+aKNVj3P38JrY5SsKDnHs1eZfAmn8x31ZMbilBK41gip1oiU1cPaQ1fr7wcAW8+
- qMB1Ic/OHHM8RtlfyFYFi6ol2L1YBFMeNrDkND5IpU/U2lXhAhgTsbZcKf6wntI+c2Yb
- FCsQ==
-X-Gm-Message-State: AOAM531QDX42p4762F13pXWHG8RekRD8ECDgampfXQKlOPi4ZqOZqA2c
- kVhlXqyEm3e1xJd/mc6mWBWFc4pRd5Mt5w==
-X-Google-Smtp-Source: ABdhPJwB8hgI048/FzE8/LHeBBkn7CmQ5qW4d39kepqxuYMt39W4srv1tYrRrDqEn58AeXYB91/f2Q==
-X-Received: by 2002:a92:ad0d:: with SMTP id w13mr258201ilh.168.1628798906170; 
- Thu, 12 Aug 2021 13:08:26 -0700 (PDT)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com.
- [209.85.166.174])
- by smtp.gmail.com with ESMTPSA id e1sm2077815ils.76.2021.08.12.13.08.24
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Aug 2021 13:08:25 -0700 (PDT)
-Received: by mail-il1-f174.google.com with SMTP id y3so8355227ilm.6
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 13:08:24 -0700 (PDT)
-X-Received: by 2002:a05:6e02:d49:: with SMTP id
- h9mr223667ilj.229.1628798904325; 
- Thu, 12 Aug 2021 13:08:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VVVjPWX6jcSp1gRrqICXCN1mOR2j3DjUtUf/9alZY3Y=;
+ b=AlVqmxjydkEOXaqt6l7nus/6K6NPVb664e6yEuRAaf2xl7waiN3irWOKp0DumWqOTa
+ ByEhnrtmn8TCRR6ih9vwPFS0PXbvsU8/jaV8F0bdDAy3IYMQbf2M2IUgcxNCV29JeQYJ
+ 7mj3nvR/v7DLGVO+vffxS+WOHLOZBV92oz7JD7ZW43g4LztMm1nZ6bDLBSgS/mP86/i2
+ gSOqpkdODPQJK0tBL9I8PhsqF/KP3A33yu0buksVdg0Zn/tgxWdcw2Ct+Hv3GceZpO38
+ ozsiMvz0WG/NrGDppGxtSjTZgFpmOxlPusVpjlv8qDiBvBrZ9YyWlau5dd97LhQZ0KXg
+ S0jA==
+X-Gm-Message-State: AOAM531GjjNFbVucZN+Wbg39dDvuz+C6JPYWxTDRW1TO89ZaWZ+Fy8K9
+ bys2GMZXJpaTFJDEtOmqIhJIKemcs9B1xSa6
+X-Google-Smtp-Source: ABdhPJxDromVb70j3SOsWGyuE45OdCGJRLAQxvA5DgMW3jezwPixi6sfC0TTSj4bEQmvD9f9JziRlQ==
+X-Received: by 2002:a63:ce54:: with SMTP id r20mr5534412pgi.164.1628800487085; 
+ Thu, 12 Aug 2021 13:34:47 -0700 (PDT)
+Received: from omlet.lan ([134.134.137.86])
+ by smtp.gmail.com with ESMTPSA id h5sm3404482pfv.131.2021.08.12.13.34.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Aug 2021 13:34:46 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: dri-devel@lists.freedesktop.org
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH 1/2] drm/ttm: ttm_bo_device is now ttm_device
+Date: Thu, 12 Aug 2021 15:34:42 -0500
+Message-Id: <20210812203443.1725307-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210811235253.924867-1-robdclark@gmail.com>
- <20210811235253.924867-5-robdclark@gmail.com>
- <YRV10ew/Lr8GPzEv@pendragon.ideasonboard.com>
-In-Reply-To: <YRV10ew/Lr8GPzEv@pendragon.ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 12 Aug 2021 13:08:11 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xd9fizYdxfXYOkpJ_1fZcHp3-ROJ7k4iPg0g0RQ_+A3Q@mail.gmail.com>
-Message-ID: <CAD=FV=Xd9fizYdxfXYOkpJ_1fZcHp3-ROJ7k4iPg0g0RQ_+A3Q@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Rob Clark <robdclark@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>, 
- Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@chromium.org>, 
- Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, 
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,51 +72,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Laurent,
+These names were changed in
 
-On Thu, Aug 12, 2021 at 12:26 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Rob,
->
-> Thank you for the patch.
->
-> On Wed, Aug 11, 2021 at 04:52:50PM -0700, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Slightly awkward to fish out the display_info when we aren't creating
-> > own connector.  But I don't see an obvious better way.
->
-> We need a bit more than this, to support the NO_CONNECTOR case, the
-> bridge has to implement a few extra operations, and set the bridge .ops
-> field. I've submitted two patches to do so a while ago:
->
-> - [RFC PATCH 08/11] drm/bridge: ti-sn65dsi86: Implement bridge connector operations ([1])
+commit 8af8a109b34fa88b8b91f25d11485b37d37549c3
+Author: Christian König <christian.koenig@amd.com>
+Date:   Thu Oct 1 14:51:40 2020 +0200
 
-Rob asked me about this over IRC, so if he left it out and it's needed
-then it's my fault. However, I don't believe it's needed until your
-series making this bridge chip support full DP. For the the eDP case
-the bridge chip driver in ToT no longer queries the EDID itself. It
-simply provides an AUX bus to the panel driver and the panel driver
-queries the EDID. I think that means we don't need to add
-DRM_BRIDGE_OP_EDID, right?
+    drm/ttm: device naming cleanup
 
-I was also wondering if in the full DP case we should actually model
-the physical DP jack as a drm_bridge and have it work the same way. It
-would get probed via the DP AUX bus just like a panel. I seem to
-remember Stephen Boyd was talking about modeling the DP connector as a
-drm_bridge because it would allow us to handle the fact that some TCPC
-chips could only support HBR2 whereas others could support HBR3. Maybe
-it would end up being a fairly elegant solution?
+But he missed a couple of them.
 
-> - [RFC PATCH 09/11] drm/bridge: ti-sn65dsi86: Make connector creation optional ([2])
->
-> The second patch is similar to the first half of this patch, but misses
-> the cleanup code. I'll try to rebase this and resubmit, but it may take
-> a bit of time.
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Christian König <christian.koenig@amd.com>
+Fixes: 8af8a109b34f ("drm/ttm: device naming cleanup")
+---
+ Documentation/gpu/drm-mm.rst | 2 +-
+ include/drm/ttm/ttm_tt.h     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Whoops! You're right that Rob's patch won't work at all because we'll
-just hit the "Fix bridge driver to make connector optional!" case. I
-should have noticed that. :(
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index d5a73fa2c9ef..8126beadc7df 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -37,7 +37,7 @@ TTM initialization
+     This section is outdated.
+ 
+ Drivers wishing to support TTM must pass a filled :c:type:`ttm_bo_driver
+-<ttm_bo_driver>` structure to ttm_bo_device_init, together with an
++<ttm_bo_driver>` structure to ttm_device_init, together with an
+ initialized global reference to the memory manager.  The ttm_bo_driver
+ structure contains several fields with function pointers for
+ initializing the TTM, allocating and freeing memory, waiting for command
+diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+index 818680c6a8ed..0d97967bf955 100644
+--- a/include/drm/ttm/ttm_tt.h
++++ b/include/drm/ttm/ttm_tt.h
+@@ -31,7 +31,7 @@
+ #include <drm/ttm/ttm_caching.h>
+ #include <drm/ttm/ttm_kmap_iter.h>
+ 
+-struct ttm_bo_device;
++struct ttm_device;
+ struct ttm_tt;
+ struct ttm_resource;
+ struct ttm_buffer_object;
+-- 
+2.31.1
 
--Doug
