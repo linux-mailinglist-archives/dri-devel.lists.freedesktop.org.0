@@ -2,59 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D222A3EAC44
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 23:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D5F3EAD45
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 00:38:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C19EE6E47E;
-	Thu, 12 Aug 2021 21:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED106E454;
+	Thu, 12 Aug 2021 22:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30346E47E
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 21:10:53 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id o126so6351505ybo.7
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 14:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pXv3QyEw50y6AyOsD2V+PjO6ve1Tpw796AybsnM1TaM=;
- b=N+6IzEkigg8yk1I83UtQuU9x0LnAIN2x/VSjDX0D40adCDNItUs6FHZhgSg8nZx//O
- j/8rKR9xPjwX3fetop4sIlK/pvM00O8aN0cw0iqpWCWe/6liNAYjIVXoREE2ydc/ZrYa
- 25bsxeiuxpuAjlK4LF3s+5o6m+XAyB6aR0Q6fDVp6l1Haz5Qb1hIWx6/+UReKNkk843V
- jy0V9+jDvnp9cihDzuPHkrR4NJF+W23LCFp75GjPmwjgrydqSyyek/je/eS7/W1GdQdV
- EBOPup2aap6EkUKPLPWhf8zij87hSaQOdLpgUmbKAo7gxUAz/HA5mcZgeGN+0owzEScl
- aGLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pXv3QyEw50y6AyOsD2V+PjO6ve1Tpw796AybsnM1TaM=;
- b=UAMW8FbdSZzYS7IQ3hl3JkfWDVisBJiBxJtftRYZ8psAQ64SyIu8ykAqJiH3tsCzjC
- T+BKrvODb7ZB/Sv7hIyA4+C4wzq1JcyIx8lh6TcAmi96j/UrVNZdpmmfe2ElGEpuigza
- TOmSfM+G+/TKvNiX6wl3c9CabR+3BzlXJp0dc+6aAE+ZwkAIAuJuB+ezMJczwK1BqolR
- epW/3wCIJJFrr9RUHCrSSc7J4WWhVOiWhdGL67kdKkXmYmRZ8rpmP/1T2/JVW/+RDIYC
- U8Mg4V45QvROPqOjOFCx0WgQ3Vk+VnrhEE6wD2mzfA2hZyAUmFaDGKYNkgHHlnwEU73x
- XptQ==
-X-Gm-Message-State: AOAM531yall2UHkbYsfPYHho/r57tDz3f2onyDhCalBhSwENVKT3EY0A
- 8+Rgd+H3M2FFRP7gGu6H+e76y9aYE6Ckk5XHOIciGA==
-X-Google-Smtp-Source: ABdhPJwvzwq4puA1Jw+2CTP0/jOiFL8KL+52NhiWe5JA9KWmqpPTtYa0WwVyGkp2OHSyPj0wUCvO9BhvVzKAPJQPs1I=
-X-Received: by 2002:a25:ab54:: with SMTP id u78mr7178701ybi.139.1628802652711; 
- Thu, 12 Aug 2021 14:10:52 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE3D6E454
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 22:38:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="215492928"
+X-IronPort-AV: E=Sophos;i="5.84,317,1620716400"; d="scan'208";a="215492928"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2021 15:38:19 -0700
+X-IronPort-AV: E=Sophos;i="5.84,317,1620716400"; d="scan'208";a="485622749"
+Received: from dut151-iclu.fm.intel.com ([10.105.23.69])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2021 15:38:19 -0700
+Date: Thu, 12 Aug 2021 22:38:18 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: gfx-internal-devel@eclists.intel.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 5/9] drm/i915/guc: Flush the work queue for GuC generated
+ G2H
+Message-ID: <20210812223818.GA649455@DUT151-ICLU.fm.intel.com>
+References: <20210811011622.255784-1-matthew.brost@intel.com>
+ <20210811011622.255784-6-matthew.brost@intel.com>
+ <YRUsEAowykuHCjUM@phenom.ffwll.local>
+ <20210812152330.GA480603@DUT151-ICLU.fm.intel.com>
+ <YRV6y4vFc2UWE3zp@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20210812124452.622233-1-maarten.lankhorst@linux.intel.com>
- <20210812124452.622233-2-maarten.lankhorst@linux.intel.com>
- <CAKMK7uGMqYbiqZqV4gUy1KMbBCX=ZAGf-vT69SP9LbZU3hcSiQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uGMqYbiqZqV4gUy1KMbBCX=ZAGf-vT69SP9LbZU3hcSiQ@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 12 Aug 2021 16:10:41 -0500
-Message-ID: <CAOFGe97N1-6wuP0FxvsYkXknBFW3PaU69kGqAGbJh+o8L53zrA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/i915: Add pci ids and uapi for DG1
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- intel-gfx <intel-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRV6y4vFc2UWE3zp@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,82 +52,251 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 12, 2021 at 9:49 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On Thu, Aug 12, 2021 at 2:44 PM Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com> wrote:
-> >
-> > DG1 has support for local memory, which requires the usage of the
-> > lmem placement extension for creating bo's, and memregion queries
-> > to obtain the size. Because of this, those parts of the uapi are
-> > no longer guarded behind FAKE_LMEM.
-> >
-> > According to the pull request referenced below, mesa should be mostly
-> > ready for DG1. VK_EXT_memory_budget is not hooked up yet, but we
-> > should definitely just enable the uapi parts by default.
-> >
-> > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > References: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/11584
-> > Cc: Jordan Justen jordan.l.justen@intel.com
-> > Cc: Jason Ekstrand jason@jlekstrand.net
->
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Thu, Aug 12, 2021 at 09:47:23PM +0200, Daniel Vetter wrote:
+> On Thu, Aug 12, 2021 at 03:23:30PM +0000, Matthew Brost wrote:
+> > On Thu, Aug 12, 2021 at 04:11:28PM +0200, Daniel Vetter wrote:
+> > > On Wed, Aug 11, 2021 at 01:16:18AM +0000, Matthew Brost wrote:
+> > > > Flush the work queue for GuC generated G2H messages durinr a GT reset.
+> > > > This is accomplished by spinning on the the list of outstanding G2H to
+> > > > go empty.
+> > > > 
+> > > > Fixes: eb5e7da736f3 ("drm/i915/guc: Reset implementation for new GuC interface")
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > Cc: <stable@vger.kernel.org>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 5 +++++
+> > > >  1 file changed, 5 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > index 3cd2da6f5c03..e5eb2df11b4a 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > @@ -727,6 +727,11 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+> > > >  			wait_for_reset(guc, &guc->outstanding_submission_g2h);
+> > > >  		} while (!list_empty(&guc->ct.requests.incoming));
+> > > >  	}
+> > > > +
+> > > > +	/* Flush any GuC generated G2H */
+> > > > +	while (!list_empty(&guc->ct.requests.incoming))
+> > > > +		msleep(20);
+> > > 
+> > > flush_work or flush_workqueue, beacuse that comes with lockdep
+> > > annotations. Dont hand-roll stuff like this if at all possible.
+> > 
+> > lockdep puked when used that.
+> 
+> Lockdep tends to be right ... So we definitely want that, but maybe a
+> different flavour, or there's something wrong with the workqueue setup.
+> 
 
-Acked-by: Jason Ekstrand <jason@jlekstrand.net>
+Here is a dependency chain that lockdep doesn't like.
 
->
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_create.c | 3 ---
-> >  drivers/gpu/drm/i915/i915_pci.c            | 1 +
-> >  drivers/gpu/drm/i915/i915_query.c          | 3 ---
-> >  3 files changed, 1 insertion(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > index 23fee13a3384..1d341b8c47c0 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > @@ -347,9 +347,6 @@ static int ext_set_placements(struct i915_user_extension __user *base,
-> >  {
-> >         struct drm_i915_gem_create_ext_memory_regions ext;
-> >
-> > -       if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
-> > -               return -ENODEV;
-> > -
-> >         if (copy_from_user(&ext, base, sizeof(ext)))
-> >                 return -EFAULT;
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> > index 1bbd09ad5287..93ccdc6bbd03 100644
-> > --- a/drivers/gpu/drm/i915/i915_pci.c
-> > +++ b/drivers/gpu/drm/i915/i915_pci.c
-> > @@ -1115,6 +1115,7 @@ static const struct pci_device_id pciidlist[] = {
-> >         INTEL_RKL_IDS(&rkl_info),
-> >         INTEL_ADLS_IDS(&adl_s_info),
-> >         INTEL_ADLP_IDS(&adl_p_info),
-> > +       INTEL_DG1_IDS(&dg1_info),
-> >         {0, 0, 0}
-> >  };
-> >  MODULE_DEVICE_TABLE(pci, pciidlist);
-> > diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> > index e49da36c62fb..5e2b909827f4 100644
-> > --- a/drivers/gpu/drm/i915/i915_query.c
-> > +++ b/drivers/gpu/drm/i915/i915_query.c
-> > @@ -432,9 +432,6 @@ static int query_memregion_info(struct drm_i915_private *i915,
-> >         u32 total_length;
-> >         int ret, id, i;
-> >
-> > -       if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
-> > -               return -ENODEV;
-> > -
-> >         if (query_item->flags != 0)
-> >                 return -EINVAL;
-> >
-> > --
-> > 2.32.0
-> >
->
->
-> --
+fs_reclaim_acquire -> &gt->reset.mutex (shrinker)
+workqueue -> fs_reclaim_acquire (error capture in workqueue)
+&gt->reset.mutex -> workqueue (reset)
+
+In practice I don't think we couldn't ever hit this but lockdep does
+looks right here. Trying to work out how to fix this. We really need to
+all G2H to done being processed before we proceed during a reset or we
+have races. Have a few ideas of how to handle this but can't convince
+myself any of them are fully safe.
+
+Splat below:
+
+[  154.625989] ======================================================
+[  154.632195] WARNING: possible circular locking dependency detected
+[  154.638393] 5.14.0-rc5-guc+ #50 Tainted: G     U
+[  154.643991] ------------------------------------------------------
+[  154.650196] i915_selftest/1673 is trying to acquire lock:
+[  154.655621] ffff8881079cb918 ((work_completion)(&ct->requests.worker)){+.+.}-{0:0}, at: __flush_work+0x350/0x4d0
+[  154.665826]
+               but task is already holding lock:
+[  154.671682] ffff8881079cbfb8 (&gt->reset.mutex){+.+.}-{3:3}, at: intel_gt_reset+0xf0/0x300 [i915]
+[  154.680659]
+               which lock already depends on the new lock.
+
+[  154.688857]
+               the existing dependency chain (in reverse order) is:
+[  154.696365]
+               -> #2 (&gt->reset.mutex){+.+.}-{3:3}:
+[  154.702571]        lock_acquire+0xd2/0x300
+[  154.706695]        i915_gem_shrinker_taints_mutex+0x2d/0x50 [i915]
+[  154.712959]        intel_gt_init_reset+0x61/0x80 [i915]
+[  154.718258]        intel_gt_init_early+0xe6/0x120 [i915]
+[  154.723648]        i915_driver_probe+0x592/0xdc0 [i915]
+[  154.728942]        i915_pci_probe+0x43/0x1c0 [i915]
+[  154.733891]        pci_device_probe+0x9b/0x110
+[  154.738362]        really_probe+0x1a6/0x3a0
+[  154.742568]        __driver_probe_device+0xf9/0x170
+[  154.747468]        driver_probe_device+0x19/0x90
+[  154.752114]        __driver_attach+0x99/0x170
+[  154.756492]        bus_for_each_dev+0x73/0xc0
+[  154.760870]        bus_add_driver+0x14b/0x1f0
+[  154.765248]        driver_register+0x67/0xb0
+[  154.769542]        i915_init+0x18/0x8c [i915]
+[  154.773964]        do_one_initcall+0x53/0x2e0
+[  154.778343]        do_init_module+0x56/0x210
+[  154.782639]        load_module+0x25fc/0x29f0
+[  154.786934]        __do_sys_finit_module+0xae/0x110
+[  154.791835]        do_syscall_64+0x38/0xc0
+[  154.795958]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+[  154.801558]
+               -> #1 (fs_reclaim){+.+.}-{0:0}:
+[  154.807241]        lock_acquire+0xd2/0x300
+[  154.811361]        fs_reclaim_acquire+0x9e/0xd0
+[  154.815914]        kmem_cache_alloc_trace+0x30/0x790
+[  154.820899]        i915_gpu_coredump_alloc+0x53/0x1a0 [i915]
+[  154.826649]        i915_gpu_coredump+0x39/0x560 [i915]
+[  154.831866]        i915_capture_error_state+0xa/0x70 [i915]
+[  154.837513]        intel_guc_context_reset_process_msg+0x174/0x1f0 [i915]
+[  154.844383]        ct_incoming_request_worker_func+0x130/0x1b0 [i915]
+[  154.850898]        process_one_work+0x264/0x590
+[  154.855451]        worker_thread+0x4b/0x3a0
+[  154.859655]        kthread+0x147/0x170
+[  154.863428]        ret_from_fork+0x1f/0x30
+[  154.867548]
+               -> #0 ((work_completion)(&ct->requests.worker)){+.+.}-{0:0}:
+[  154.875747]        check_prev_add+0x90/0xc30
+[  154.880042]        __lock_acquire+0x1643/0x2110
+[  154.884595]        lock_acquire+0xd2/0x300
+[  154.888715]        __flush_work+0x373/0x4d0
+[  154.892920]        intel_guc_submission_reset_prepare+0xf3/0x340 [i915]
+[  154.899606]        intel_uc_reset_prepare+0x40/0x50 [i915]
+[  154.905166]        reset_prepare+0x55/0x60 [i915]
+[  154.909946]        intel_gt_reset+0x11c/0x300 [i915]
+[  154.914984]        do_device_reset+0x13/0x20 [i915]
+[  154.919936]        check_whitelist_across_reset+0x166/0x250 [i915]
+[  154.926212]        live_reset_whitelist.cold+0x6a/0x7a [i915]
+[  154.932037]        __i915_subtests.cold+0x20/0x74 [i915]
+[  154.937428]        __run_selftests.cold+0x96/0xee [i915]
+[  154.942816]        i915_live_selftests+0x2c/0x60 [i915]
+[  154.948125]        i915_pci_probe+0x93/0x1c0 [i915]
+[  154.953076]        pci_device_probe+0x9b/0x110
+[  154.957545]        really_probe+0x1a6/0x3a0
+[  154.961749]        __driver_probe_device+0xf9/0x170
+[  154.966653]        driver_probe_device+0x19/0x90
+[  154.971290]        __driver_attach+0x99/0x170
+[  154.975671]        bus_for_each_dev+0x73/0xc0
+[  154.980053]        bus_add_driver+0x14b/0x1f0
+[  154.984431]        driver_register+0x67/0xb0
+[  154.988725]        i915_init+0x18/0x8c [i915]
+[  154.993149]        do_one_initcall+0x53/0x2e0
+[  154.997527]        do_init_module+0x56/0x210
+[  155.001822]        load_module+0x25fc/0x29f0
+[  155.006118]        __do_sys_finit_module+0xae/0x110
+[  155.011019]        do_syscall_64+0x38/0xc0
+[  155.015139]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+[  155.020729]
+               other info that might help us debug this:
+
+[  155.028752] Chain exists of:
+                 (work_completion)(&ct->requests.worker) --> fs_reclaim --> &gt->reset.mutex
+
+[  155.041294]  Possible unsafe locking scenario:
+
+[  155.047240]        CPU0                    CPU1
+[  155.051791]        ----                    ----
+[  155.056344]   lock(&gt->reset.mutex);
+[  155.060026]                                lock(fs_reclaim);
+[  155.065706]                                lock(&gt->reset.mutex);
+[  155.071912]   lock((work_completion)(&ct->requests.worker));
+[  155.077595]
+                *** DEADLOCK ***
+
+[  155.083534] 2 locks held by i915_selftest/1673:
+[  155.088086]  #0: ffff888103851240 (&dev->mutex){....}-{3:3}, at: __driver_attach+0x8e/0x170
+[  155.096460]  #1: ffff8881079cbfb8 (&gt->reset.mutex){+.+.}-{3:3}, at: intel_gt_reset+0xf0/0x300 [i915]
+[  155.105845]
+               stack backtrace:
+[  155.110223] CPU: 6 PID: 1673 Comm: i915_selftest Tainted: G     U            5.14.0-rc5-guc+ #50
+[  155.119035] Hardware name: Intel Corporation Tiger Lake Client Platform/TigerLake U LPDDR4/4x T4 RVP, BIOS TGLSFWI1.R00.3425.A00.2010162309 10/16/2020
+[  155.132530] Call Trace:
+[  155.134999]  dump_stack_lvl+0x57/0x7d
+[  155.138690]  check_noncircular+0x12d/0x150
+[  155.142814]  check_prev_add+0x90/0xc30
+[  155.146587]  __lock_acquire+0x1643/0x2110
+[  155.150618]  lock_acquire+0xd2/0x300
+[  155.154218]  ? __flush_work+0x350/0x4d0
+[  155.158073]  ? __lock_acquire+0x5f3/0x2110
+[  155.162194]  __flush_work+0x373/0x4d0
+[  155.165883]  ? __flush_work+0x350/0x4d0
+[  155.169739]  ? mark_held_locks+0x49/0x70
+[  155.173686]  ? _raw_spin_unlock_irqrestore+0x50/0x70
+[  155.178679]  intel_guc_submission_reset_prepare+0xf3/0x340 [i915]
+[  155.184857]  ? _raw_spin_unlock_irqrestore+0x50/0x70
+[  155.189843]  intel_uc_reset_prepare+0x40/0x50 [i915]
+[  155.194891]  reset_prepare+0x55/0x60 [i915]
+[  155.199145]  intel_gt_reset+0x11c/0x300 [i915]
+[  155.203657]  ? _raw_spin_unlock_irqrestore+0x3d/0x70
+[  155.208641]  ? do_engine_reset+0x10/0x10 [i915]
+[  155.213243]  do_device_reset+0x13/0x20 [i915]
+[  155.217664]  check_whitelist_across_reset+0x166/0x250 [i915]
+[  155.223415]  live_reset_whitelist.cold+0x6a/0x7a [i915]
+[  155.228725]  __i915_subtests.cold+0x20/0x74 [i915]
+[  155.233593]  ? __i915_live_teardown+0x50/0x50 [i915]
+[  155.238644]  ? __intel_gt_live_setup+0x30/0x30 [i915]
+[  155.243773]  __run_selftests.cold+0x96/0xee [i915]
+[  155.248646]  i915_live_selftests+0x2c/0x60 [i915]
+[  155.253425]  i915_pci_probe+0x93/0x1c0 [i915]
+[  155.257854]  ? _raw_spin_unlock_irqrestore+0x3d/0x70
+[  155.262839]  pci_device_probe+0x9b/0x110
+[  155.266785]  really_probe+0x1a6/0x3a0
+[  155.270467]  __driver_probe_device+0xf9/0x170
+[  155.274846]  driver_probe_device+0x19/0x90
+[  155.278968]  __driver_attach+0x99/0x170
+[  155.282824]  ? __device_attach_driver+0xd0/0xd0
+[  155.287376]  ? __device_attach_driver+0xd0/0xd0
+[  155.291928]  bus_for_each_dev+0x73/0xc0
+[  155.295792]  bus_add_driver+0x14b/0x1f0
+[  155.299648]  driver_register+0x67/0xb0
+[  155.303419]  i915_init+0x18/0x8c [i915]
+[  155.307328]  ? 0xffffffffa0188000
+[  155.310669]  do_one_initcall+0x53/0x2e0
+[  155.314525]  ? rcu_read_lock_sched_held+0x4d/0x80
+[  155.319253]  ? kmem_cache_alloc_trace+0x5ad/0x790
+[  155.323982]  do_init_module+0x56/0x210
+[  155.327754]  load_module+0x25fc/0x29f0
+[  155.331528]  ? __do_sys_finit_module+0xae/0x110
+[  155.336081]  __do_sys_finit_module+0xae/0x110
+[  155.340462]  do_syscall_64+0x38/0xc0
+[  155.344060]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[  155.349137] RIP: 0033:0x7efc4496389d
+[  155.352735] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d c3 f5 0c 00 f7 d8 64 89 01 48
+[  155.371530] RSP: 002b:00007ffeb3e23218 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+[  155.379123] RAX: ffffffffffffffda RBX: 0000557664b72240 RCX: 00007efc4496389d
+[  155.386282] RDX: 0000000000000000 RSI: 0000557664b69610 RDI: 0000000000000004
+[  155.393443] RBP: 0000000000000020 R08: 00007ffeb3e21ff0 R09: 0000557664b682f0
+[  155.400603] R10: 00007ffeb3e23360 R11: 0000000000000246 R12: 0000557664b69610
+[  155.407761] R13: 0000000000000000 R14: 0000557664b6ada0 R15: 0000557664b72240
+
+> This is the major reason why inventing any wheels locally in the kernel
+> isn't a good idea - aside from the duplicated code because likely there is
+> a solution for whatever you need. There's all the validation tools,
+> careful thought about semantics (especially around races) and all that
+> stuff that you're always missing on your hand-rolled thing. Aside from
+> anything hand-rolled is much harder to read, since intent isn't clear.
+> -Daniel
+> 
+> 
+> > 
+> > Matt
+> > 
+> > > -Daniel
+> > > 
+> > > > +
+> > > >  	scrub_guc_desc_for_outstanding_g2h(guc);
+> > > >  }
+> > > >  
+> > > > -- 
+> > > > 2.32.0
+> > > > 
+> > > 
+> > > -- 
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> 
+> -- 
 > Daniel Vetter
 > Software Engineer, Intel Corporation
 > http://blog.ffwll.ch
