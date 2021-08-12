@@ -1,76 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFBF3EAC1D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 22:51:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8605E3EAC34
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 23:06:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B364E6E483;
-	Thu, 12 Aug 2021 20:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7BFB89533;
+	Thu, 12 Aug 2021 21:06:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
- [IPv6:2607:f8b0:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED016E47E
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 20:51:27 +0000 (UTC)
-Received: by mail-il1-x12f.google.com with SMTP id y3so8491250ilm.6
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 13:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3ZW1F160xjgvVTZH6mN2PNrOraONDIFvuUTyJLurpfM=;
- b=mcBwEpGRXaT0MgQ7pqa8NiL7Eb3vyTjw2YOg+6dGn9Dme8SMPucCFOd+dRZqUifC/R
- d2+8wvhoNy3C2lGIE26gMla0F0ENG43CwsQYhufGzIw+yHP05VNXyeyJW2B2NF9judO4
- QNjkeLLrZ65wZuclJ+lnOHSUMDMPB1yLDzu1g=
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F378924C
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 21:06:19 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id i6so11894979edu.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 14:06:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=I99Rm3vYyuXWO4M46J9nrtZRiop6Y5gP8n0n32WFEJY=;
+ b=g84/X+3Aq2Q5Whxoqd+W/03kvJ3u2jtydYospvuvkI0F00AdUp0M/gHVfImEFcNKYx
+ swztgH0LIh89NJ31qjxLtkLgXws5RfPdIjcJjusb16+k0yKk0td9BBYDE2PrF8ykifu8
+ iba75DaER32iG3FW6HdJroSSJPE/KNBbyHakfjCXI/HsOGhGxJT/W6Z76q7IqI9Sgonj
+ heTEd4xNwhzAX6R222byaBycwqmonFhkNhx5JW4O09ZQY2xe6HUk5R2WyJt1fNrOKX64
+ B9Dy4Okwixzs9xVKSkK2jZmFIaEpDtj7Dd5531+CTd2L13A6u0xizayGhw7jCZawEt44
+ znQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3ZW1F160xjgvVTZH6mN2PNrOraONDIFvuUTyJLurpfM=;
- b=uG+QtI4JPZnWhn2ojKYh+kB/fmFGJoCQsaUF+bpam1fKv1m51PvrEUf5tr/oBbuURF
- erZds+bqWZgZ+yfkCUen/+hgUbqfTTH726no3VHQhkTY8ZicNfhAX/J1VPjweI7FPt0S
- qKmMejFlCl5+HYA7NlFFzQo8rCYFi2upsQUNsYNTSWAVW7G4Xdt7zcETqAhi3T0FFZqF
- 0hWS9q16ITBoV54f5+YSWFCbf+tyhDUK/ez850ZRLmjEdHrx7rCkCJmGzIHDzyqMwvI8
- cycO+FbPqZNHIpSyQ/xFnPGcakaEECJjKVxc4PsiOCSn1hBkVnCFG23oPCAwPw7ByLwo
- pwEQ==
-X-Gm-Message-State: AOAM530Zy9EziR6FLeU7nXm+ixLZkXgeMJTJqiBDoDKDQJWjrG/8ao2R
- B7Sw7LjFTt0K9WldX2YRPlV9iOI4I6r5tA==
-X-Google-Smtp-Source: ABdhPJyhgnS18wyxWZZfzckskhQTNcpYSFaFdlNXGFZfrPXBqe+lGpWUhz3SXR4abMqI/468m/J4Hw==
-X-Received: by 2002:a92:d586:: with SMTP id a6mr327624iln.283.1628801486241;
- Thu, 12 Aug 2021 13:51:26 -0700 (PDT)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com.
- [209.85.166.51])
- by smtp.gmail.com with ESMTPSA id w10sm1847666ioc.55.2021.08.12.13.51.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Aug 2021 13:51:25 -0700 (PDT)
-Received: by mail-io1-f51.google.com with SMTP id s184so10313990ios.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 13:51:25 -0700 (PDT)
-X-Received: by 2002:a05:6602:713:: with SMTP id
- f19mr4618750iox.140.1628801484808; 
- Thu, 12 Aug 2021 13:51:24 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=I99Rm3vYyuXWO4M46J9nrtZRiop6Y5gP8n0n32WFEJY=;
+ b=mwbZrG8vQJ+xDpCI3+aHA4FN95sYli9YsVsPeNsDWWocV0UhEOixb1WVF0xma/+Jia
+ rV9wkXgY1KnWL2MZeF6c6+otIAh+I7Hu+Lbn3ydIganZWVb0lzCds0NXu5OGkGRPnxk1
+ 0Uyn3hYEwJbemQOh51eWuGg9z2sX3Eo0E/D6ErZa9TLvKa4W/P4SnZ724du684lb/nOZ
+ rduYCgGwg4cNohlpwtMeuoJPiiJHhACqp4/Qakqmll6eU0D0mLCpC6aZm7EiOjvX1Q98
+ 9iM+ZyItyDdPlkAxAhbw7si5+mzwalMl2ZRGrkAxbBhBdn+XxTG0cU7lmk41DueFAY+K
+ c7qw==
+X-Gm-Message-State: AOAM53250mH7oiSkPWnytzL2EUehFZg/kQxYN/mMrS5CjFIua/iTPyGW
+ R0Eptq+diYXeGifLI0+lTFskjAJC82Fe2AvUMBW7akf3fQ4=
+X-Google-Smtp-Source: ABdhPJxyhLdLUUWFrxN4kPHRuaTpJrv+AMAak31w4gi/HUq6uKINsDqLqMeSykY4e+9HYr6omHHqeqoeBDWl1Wy5ntc=
+X-Received: by 2002:a05:6402:44:: with SMTP id
+ f4mr7953946edu.220.1628802378386; 
+ Thu, 12 Aug 2021 14:06:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210723150944.528c10af@canb.auug.org.au>
- <20210723053418.fizdbfnu4if2hs5x@pengutronix.de>
- <CAMuHMdUCWdys_Xgh0wSuUX9coNFEics6rwnRWrx8f=OW0AYHEA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUCWdys_Xgh0wSuUX9coNFEics6rwnRWrx8f=OW0AYHEA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 12 Aug 2021 13:51:12 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WxwVQ5o3C8QkRe4BQwhQMimme1tX_2x-+Vw-BRm5D9jA@mail.gmail.com>
-Message-ID: <CAD=FV=WxwVQ5o3C8QkRe4BQwhQMimme1tX_2x-+Vw-BRm5D9jA@mail.gmail.com>
-Subject: Re: linux-next: build failure after merge of the driver-core tree
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Stephen Rothwell <sfr@canb.auug.org.au>, Greg KH <greg@kroah.com>,
- Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 13 Aug 2021 07:06:07 +1000
+Message-ID: <CAPM=9txa94qbYbskxeTA=8YvkFE+0AMK8Mow+KYV_xkfCfQSzQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.14-rc6
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,93 +65,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hey Linus,
 
-On Tue, Aug 10, 2021 at 5:13 AM Geert Uytterhoeven <geert@linux-m68k.org> w=
-rote:
->
-> On Fri, Jul 23, 2021 at 7:35 AM Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> > On Fri, Jul 23, 2021 at 03:09:44PM +1000, Stephen Rothwell wrote:
-> > > After merging the driver-core tree, today's linux-next build (arm
-> > > multi_v7_defconfig) failed like this:
-> > >
-> > > drivers/gpu/drm/drm_dp_aux_bus.c:106:13: error: initialization of 'vo=
-id (*)(struct device *)' from incompatible pointer type 'int (*)(struct dev=
-ice *)' [-Werror=3Dincompatible-pointer-types]
-> > >   106 |  .remove  =3D dp_aux_ep_remove,
-> > >       |             ^~~~~~~~~~~~~~~~
-> > > drivers/gpu/drm/drm_dp_aux_bus.c:106:13: note: (near initialization f=
-or 'dp_aux_bus_type.remove')
-> > >
-> > > Caused by commit
-> > >
-> > >   aeb33699fc2c ("drm: Introduce the DP AUX bus")
-> > >
-> > > from the drm tree interacting with commit
-> > >
-> > >   fc7a6209d571 ("bus: Make remove callback return void")
-> > >
-> > > from the driver-core tree.
-> > >
-> > > I applied the following merge fix patch.
-> > >
-> > > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > Date: Fri, 23 Jul 2021 14:58:25 +1000
-> > > Subject: [PATCH] fix for "drm: Introduce the DP AUX bus"
-> > >
-> > > interaction with "bus: Make remove callback return void"
-> > >
-> > > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > ---
-> > >  drivers/gpu/drm/drm_dp_aux_bus.c | 5 +----
-> > >  1 file changed, 1 insertion(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_dp_aux_bus.c b/drivers/gpu/drm/drm_d=
-p_aux_bus.c
-> > > index e49a70f3691b..298ea7a49591 100644
-> > > --- a/drivers/gpu/drm/drm_dp_aux_bus.c
-> > > +++ b/drivers/gpu/drm/drm_dp_aux_bus.c
-> > > @@ -67,9 +67,8 @@ static int dp_aux_ep_probe(struct device *dev)
-> > >   *
-> > >   * Calls through to the endpoint driver remove.
-> > >   *
-> > > - * Return: 0 if no error or negative error code.
-> > >   */
-> > > -static int dp_aux_ep_remove(struct device *dev)
-> > > +static void dp_aux_ep_remove(struct device *dev)
-> > >  {
-> > >       struct dp_aux_ep_driver *aux_ep_drv =3D to_dp_aux_ep_drv(dev->d=
-river);
-> > >       struct dp_aux_ep_device *aux_ep =3D to_dp_aux_ep_dev(dev);
-> > > @@ -77,8 +76,6 @@ static int dp_aux_ep_remove(struct device *dev)
-> > >       if (aux_ep_drv->remove)
-> > >               aux_ep_drv->remove(aux_ep);
-> > >       dev_pm_domain_detach(dev, true);
-> > > -
-> > > -     return 0;
-> > >  }
-> >
-> > This looks right.
-> >
-> > Greg provided a tag containing fc7a6209d571 ("bus: Make remove callback
-> > return void") at
-> >
-> >         git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-cor=
-e.git tags/bus_remove_return_void-5.15
-> >
-> > (see https://lore.kernel.org/lkml/YPkwQwf0dUKnGA7L@kroah.com).
-> >
-> > It would be great if this could be merged into the drm tree with the
-> > above diff squashed into the merge commit.
->
-> +1.
+Another week, another set of pretty regular fixes, nothing really
+stands out too much.
 
-I looked at trying to do this but I think it's beyond the scope of
-privileges that I'm granted as a drm_misc committer (not a drm_misc
-maintainer). Adding the official maintainers [1].
-Maarten/Maxime/Thomas would this be something you could do?
+Dave.
 
-[1] https://drm.pages.freedesktop.org/maintainer-tools/repositories.html
+drm-fixes-2021-08-13:
+drm fixes for 5.14-rc6
 
--Doug
+amdgpu:
+- Yellow carp update
+- RAS EEPROM fixes
+- BACO/BOCO fixes
+- Fix a memory leak in an error path
+- Freesync fix
+- VCN harvesting fix
+- Display fixes
+
+i915:
+- GVT fix for Windows VM hang.
+- Display fix of 12 BPC bits for display 12 and newer.
+- Don't try to access some media register for fused off domains.
+- Fix kerneldoc build warnings.
+
+mediatek:
+- Fix dpi bridge bug.
+- Fix cursor plane no update.
+
+meson:
+- Fix colors when booting with HDR
+The following changes since commit 36a21d51725af2ce0700c6ebcb6b9594aac658a6:
+
+  Linux 5.14-rc5 (2021-08-08 13:49:31 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-08-13
+
+for you to fetch changes up to a1fa72683166b3c69511d5f2ffb37b9f49f48fea:
+
+  Merge tag 'drm-misc-fixes-2021-08-12' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2021-08-13
+06:37:40 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.14-rc6
+
+amdgpu:
+- Yellow carp update
+- RAS EEPROM fixes
+- BACO/BOCO fixes
+- Fix a memory leak in an error path
+- Freesync fix
+- VCN harvesting fix
+- Display fixes
+
+i915:
+- GVT fix for Windows VM hang.
+- Display fix of 12 BPC bits for display 12 and newer.
+- Don't try to access some media register for fused off domains.
+- Fix kerneldoc build warnings.
+
+mediatek:
+- Fix dpi bridge bug.
+- Fix cursor plane no update.
+
+meson:
+- Fix colors when booting with HDR
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      drm/amdgpu: don't enable baco on boco platforms in runpm
+      drm/amdgpu: handle VCN instances when harvesting (v2)
+
+Ankit Nautiyal (1):
+      drm/i915/display: Fix the 12 BPC bits for PIPE_MISC reg
+
+Anson Jacob (1):
+      drm/amd/display: use GFP_ATOMIC in amdgpu_dm_irq_schedule_work
+
+Christian Hewitt (1):
+      drm/meson: fix colour distortion from HDR set during vendor u-boot
+
+Christophe JAILLET (1):
+      drm/amd/pm: Fix a memory leak in an error handling path in
+'vangogh_tables_init()'
+
+Daniel Vetter (1):
+      drm/doc/rfc: drop lmem uapi section
+
+Dave Airlie (4):
+      Merge tag 'mediatek-drm-fixes-5.14' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes
+      Merge tag 'amd-drm-fixes-5.14-2021-08-11' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2021-08-12' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'drm-misc-fixes-2021-08-12' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+Eric Bernstein (1):
+      drm/amd/display: Remove invalid assert for ODM + MPC case
+
+Frank Wunderlich (1):
+      drm/mediatek: dpi: Fix NULL dereference in mtk_dpi_bridge_atomic_check
+
+Hsin-Yi Wang (1):
+      drm/mediatek: mtk-dpi: Set out_fmt from config if not the last bridge
+
+John Clements (1):
+      drm/amdgpu: set RAS EEPROM address from VBIOS
+
+Kenneth Feng (1):
+      drm/amd/pm: bug fix for the runtime pm BACO
+
+Matt Roper (1):
+      drm/i915: Only access SFC_DONE when media domain is not fused off
+
+Rodrigo Vivi (1):
+      Merge tag 'gvt-fixes-2021-08-10' of
+https://github.com/intel/gvt-linux into drm-intel-fixes
+
+Solomon Chiu (1):
+      drm/amdgpu: Add preferred mode in modeset when freesync video
+mode's enabled.
+
+Xiaomeng Hou (1):
+      drm/amd/pm: update smu v13.0.1 firmware header
+
+Zhenyu Wang (1):
+      drm/i915/gvt: Fix cached atomics setting for Windows VM
+
+jason-jh.lin (1):
+      drm/mediatek: Fix cursor plane no update
+
+ Documentation/gpu/rfc/i915_gem_lmem.rst            | 109 ---------------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c   |  40 ++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h   |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  12 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |   4 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   7 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c  |   2 +-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |   1 -
+ drivers/gpu/drm/amd/include/atomfirmware.h         |   2 +-
+ drivers/gpu/drm/amd/pm/inc/smu_v13_0_1_pmfw.h      |   4 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |  34 +++++--
+ drivers/gpu/drm/i915/gvt/handlers.c                |   1 +
+ drivers/gpu/drm/i915/gvt/mmio_context.c            |   2 +
+ drivers/gpu/drm/i915/i915_gpu_error.c              |  19 +++-
+ drivers/gpu/drm/i915/i915_reg.h                    |  16 ++-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |   6 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |   3 -
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c           |  60 +++++++-----
+ drivers/gpu/drm/meson/meson_registers.h            |   5 +
+ drivers/gpu/drm/meson/meson_viu.c                  |   7 +-
+ 23 files changed, 175 insertions(+), 167 deletions(-)
