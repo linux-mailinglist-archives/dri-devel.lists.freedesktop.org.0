@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7963E9E8B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 08:31:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A243E9E9F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 08:31:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C896E28B;
-	Thu, 12 Aug 2021 06:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 060F76E2DC;
+	Thu, 12 Aug 2021 06:31:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-DM6-obe.outbound.protection.outlook.com
  (mail-dm6nam11on2056.outbound.protection.outlook.com [40.107.223.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A51D6E284;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9355F6E1FB;
  Thu, 12 Aug 2021 06:31:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j1R3Nd0NeepOVUB1AjMuFbDOnR1XTAArnhQW+J1YP+Emq7AI9CtJ441o53lvhjCTBZcOFuDvQepm9qUedLs+X81jNiWIYjTCEfEa9wLdbyy+9ZJbw/LCv0vtTIHLKIvcXebfjdTMS/EML1B2zeTJ45oM300W3CCnoO+4Or9AA+74eL6/w6lgJ0taNvQUAaptvw6bmW0BByekvdfxcF4q12M3qHGrJar8NMnxD+rFQE9rg8ZFIzqM0qwW8hmAs8chKPi4+VP007xrxGSHZnJKG/tJrcbYbV+8spfdKaJFCCNECOwc9OjoUhQ34fwj0t7F5B+GGvC7ZmEg4z9dhnPcEw==
+ b=fXBW1NXUBoZVQv1IY3JYEy9QetubdreVd4S6En5Lw4xs+3MKwnozJILedUXB2EYf9YfPR4ibOvZ9LlAGF/avhnc4UGGpkF/aptJG7iorFDvCrTM3zgJr5z52pz0ddjnXbYMO5Gm/TmFj9VyAPMcK0YzzQlwSGXlBSDczs+pOuC6j+dqlOn6Nv6tesZX9LRBbptBRIo1Ye5aj+DojZe4F9qI5c3FV+UmGrfDbfGjgWvFn5GNcyrEIRv3zXP8UvJTGoieEbSFYm0t6+vGkQrkU+rb4s0WPNpDEflPxe0o1gmiJZRCr10WaDMXZMr+2lDPKmWgWjjmVOa9u8od7z0MJdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QbIH0RG19WjqRtYErQGXbqkeBpy9Wm45+s+c0rtHmno=;
- b=fGdM1H3BreFZhfbLK9jgGSEj5k70ulnTbHv5/Y/Osd4Z7DIQN4Xgn0RuNeGG5sZG4dshkFRly8JdDNmRyM7qDTRVpvCT8PWUuOrrLEbFZCVDC0ENZAxgbYZcwBDqJ08dZZv+k//bOJpayMaA53FjFZ91n7mBlmkEJeJ+YRjRWXc9O/n725SoVVyGZMPDEEF7XNyArZ/tjS7ljviqPicKDc+uZvsnRAMLrGGb2IwUUxkZgqOTd4NyGxG5C7LxFHP9tjs38shq0rhHcy96TRjrA6ivV+kL3jp266q5haQLlRKWvDgKSNDDxMbGm8gcTXUZq8/oU2gZLmDDGLv1GVu1gg==
+ bh=/JYNbIZyT4GsemXLmS0c1O12FNYR+CKGj4BBJeppL5Q=;
+ b=Et5NpZNp6baPuoO1eo3/+HoNUaFi1qAFbcizlX1n3SsFAG7F7tIAdZ10BOx4j9wIgV3vd73lgMRMZ9/GCPOEO2kSK2UQfZAJ2W1iiXLinAE2p0ZEL52Aeaef77PSZfo3AEvyC1V8lk2/LqxEEJ/g/LKUuv78SzsNwRUBDl1IIDRekYLFhbzenF9tD005r66+8urK5rmVvhtjHW+CQrTmzbZhSMGBfBPdKEMi7Ol+X7IWomElD0kLJJQ6b1XXEKn2XuJ6y/oOZaGRR9y5+I9dlieym9tBxLHLITzKxixxROKE/ADFdyoCp7qYV5tuaO/B843T4yFfxH9kJvzl6ekNNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QbIH0RG19WjqRtYErQGXbqkeBpy9Wm45+s+c0rtHmno=;
- b=y4/PM1BH3URJ220U3wtNdtq/toncxWAeKfpL/zZvAZznA5tLSS0QzVdYSvc+Z1elUyOgfBEKrnb26M3Nt1rM5pd32Q7k8XYjTw//fkIYgJnW977vaXFUSWzJxEi4RTWNQ1KeOMaJr+gCycqkBuApDzMS4vVo1kMuLWSD348sQas=
+ bh=/JYNbIZyT4GsemXLmS0c1O12FNYR+CKGj4BBJeppL5Q=;
+ b=W5t7Tfju5mavhj1U2HXUYuU2qDZoLSx3m7KYTy9MNpcG/N0QL3Q55vyoMJHuHiH1GTemT/NUCKBzw3rc2Y1LP7OHWaC1sfbmT50tWLsmV+CBK3ZAKgVPTlLjXw7P1Dm3X7k3Hv9EkcUJZf93+wFs8+kgAjo8FtBh9Asq1iG4jqk=
 Authentication-Results: linux-foundation.org; dkim=none (message not signed)
  header.d=none;linux-foundation.org; dmarc=none action=none
  header.from=amd.com;
@@ -44,10 +44,9 @@ To: akpm@linux-foundation.org, Felix.Kuehling@amd.com, linux-mm@kvack.org,
  rcampbell@nvidia.com, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  jgg@nvidia.com, jglisse@redhat.com
-Subject: [PATCH v5 08/13] mm: call pgmap->ops->page_free for DEVICE_GENERIC
- pages
-Date: Thu, 12 Aug 2021 01:30:55 -0500
-Message-Id: <20210812063100.31997-9-alex.sierra@amd.com>
+Subject: [PATCH v5 09/13] lib: test_hmm add ioctl to get zone device type
+Date: Thu, 12 Aug 2021 01:30:56 -0500
+Message-Id: <20210812063100.31997-10-alex.sierra@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210812063100.31997-1-alex.sierra@amd.com>
 References: <20210812063100.31997-1-alex.sierra@amd.com>
@@ -61,54 +60,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from alex-MS-7B09.amd.com (165.204.78.1) by
  SN7PR18CA0026.namprd18.prod.outlook.com (2603:10b6:806:f3::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4415.17 via Frontend Transport; Thu, 12 Aug 2021 06:31:24 +0000
+ 15.20.4415.17 via Frontend Transport; Thu, 12 Aug 2021 06:31:25 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fe7e6296-da94-4496-94df-08d95d5aced3
+X-MS-Office365-Filtering-Correlation-Id: 7f273485-be94-4762-106f-08d95d5acf39
 X-MS-TrafficTypeDiagnostic: SN1PR12MB2448:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB2448675FCE4DDF3F7CEBCF98FDF99@SN1PR12MB2448.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:418;
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2448857460FFF2EA02361D1EFDF99@SN1PR12MB2448.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jgzVj+zAbabtjuECnCjvLhhZx6yUgUSxfqSpQufxTlg49flzt66VfCSDGUwTlckRjWbAL4i2h2I2hvkHHk3+XtYUmv+tmoYLaz1c1hXJXOND/kSqCFxXhTFajfWfGYcg9nPoAcNoNSydnuw2hkeVJZKhvZgE3kv4zTuGMl9Xytah03Z2RV8ivuByF80llff/V7s+J0YbB7tFCuvDGcHsNdSUPzeNDFmQtQLrUOoRqTHxJ0V6UQt7Tq+baZCLhPxX3do2wglOpUGhOqzzIMtqS/8D5firizLYcxU8d6QaTNDv9LfKs3xrm3IhULC+j697RJfkHjQ8p920bY0PMkxdJQ+uWBC/5luv5wSHO8ElxpRj19qglGDdFn96fWrMTWe3aoX5a6Z6Y2RM3IRfmZSIW7a3rZxROTwj6ytFkjl7A1vEwOTq0axEjYJZPbKjy2XDaJtw8xOL9Vh39nxNwt1bINIqGTl1qmlUeS8/4TOGHaQM+LknFRPPAlZkSISSkHRr2gPoUcXCz+wEIO7kzVcF/UgqVBqnwepUUUsap1Iq2Lhutp0oaREHsNqmdtN/XTHLAm+DSm3iaflK0YxACpskYm87uJxmZQMyOkZ33liSllmF9uv6HIbtYyfeX63SkoGNB+ns5cVEibMxoa/2DiRTnKnDy/sQc/XJ6PDQPlTgoafA9Wdc7FJiOMwgDty0yJ+5Oru4HU/BbmnaXoc/DeTIWbBrEHrVNw4NJVP91J7C+/c=
+X-Microsoft-Antispam-Message-Info: /PbL72d9snV/S9kCgd1XEIgwHDVafD7+zf+IUQNDYm1czKMkgulr9/r5G7P7fA7ftRcdC30lOGpVmthUL3zQaGH4K3Cgmg1QYt+BLKfp5wdVaWozf42IP1ZC056x8yc8O+p9VZ/p/lq9x0lwJMPs27NYpQJN8mIRJb52Twz5+TuLgKd+EA556ePXJSdW/3w2514nz307CqiENlQ76NFiWWNhIJ5Br4fjiYu9sHuMUZMNFTtdFsyKZBms/9SZq6b+N+EYUBvITtLAQvS8PaeRsFkXTS8tJKs2Kuu/yG17hS6ILLir5xaFA6ktJi9PHUDSA0YjuO01cJ33sfbTmUWiv6yYqIdWcXtEGkUt9ebUmKe51ywatqmZP3fHGCQB4EDmPrO5OgyuHvwn9xUQeSenGuQkXxuVabUnKD0Xh2+JNTck8CMXmEh3P2zpfL70kJs65c1lO4mgCghAjlTE1f9Xyg2YoS8MG0Ros51cQDlOjlCWOOeBBfIyx+qOmy0Mk2yAZmzprXdAqNkblX3xcNYBlFpkcJvK98VgwVTfKr3gd+PRF1dduY/czuUI57CvBQu+L87vJXNcZnBbC+JdfG3zGm6ShVJjQ46Ijw6KKdsx3+BiYLldzWEjoTWAJ9LExwzT21alJerrQpVA5S6MSRQDfMCLd4k2S6ni84EldueFdFW6uzQ2aDRle1tuzq0GHlzL
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SA0PR12MB4430.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(396003)(366004)(136003)(346002)(38350700002)(6666004)(186003)(66556008)(66946007)(2616005)(478600001)(83380400001)(38100700002)(8676002)(26005)(44832011)(2906002)(66476007)(956004)(52116002)(7416002)(1076003)(4326008)(4744005)(86362001)(36756003)(6486002)(8936002)(5660300002)(316002)(7696005)(41533002);
+ SFS:(4636009)(376002)(39860400002)(396003)(366004)(136003)(346002)(38350700002)(6666004)(186003)(66556008)(66946007)(2616005)(478600001)(83380400001)(38100700002)(8676002)(26005)(44832011)(2906002)(66476007)(956004)(52116002)(7416002)(1076003)(4326008)(86362001)(36756003)(6486002)(8936002)(5660300002)(316002)(7696005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?75T3Xt+E83/XHEtZNlzQ68wKeLm/5awOhobviOBPZ64xyW/0kiLrSROCCRoC?=
- =?us-ascii?Q?35K1rm7M+XjW2nsPAS+/+AoBKOCm30QPFgdgi/o10ySL/Jh3ONongbvERO7e?=
- =?us-ascii?Q?foK6yxQ6fRj5+mwanruRiYxo4BCMMMyvcCkQ8Xdz7jpAxozAm6C0CiZZOI1C?=
- =?us-ascii?Q?Sw+c0Opru9SmBgUSWc0DDSYEk7BiLb3QB1iF+9ip0ZgaH2PDXioPuI/kxhbV?=
- =?us-ascii?Q?1X5AHptQfw85B3jJM1P7fO2+xW/Ab5+gwsJOiY5xxNel+jwWSdnmOJ8LBNrP?=
- =?us-ascii?Q?hkaSiIRaiFPJhOAh+nywzw1qdem6RfUKcdwJdS2GLf9Q3WRzo0CG6Bb2EERW?=
- =?us-ascii?Q?z1tUWko3BkLtmdAlzNwIj7XgAgx4fdvrrrGeYjNm2VXhFa2VP/2G2/o/aZXh?=
- =?us-ascii?Q?NWqpDvk08g87jfc/hO0SM21KYNC25LcGgiMekqVMGaPue7FPh1PmI8HOcvjE?=
- =?us-ascii?Q?mOcZ+ksAu4v4cFRckHzoO2GhnsaxAwd2gaVno2AC1u3aEcB397YZW9Uxne4S?=
- =?us-ascii?Q?CSih4K/azGvlotWRU3MQrRnWcwXNHPrriWb0w/HYEKTE/LH2K+Rb/CuVKmyA?=
- =?us-ascii?Q?IvywMSgf6A184YVEZSwh3Zvc524zRLnRlTugsVuxmYa/zRB94lJxOoWU0+5q?=
- =?us-ascii?Q?+/v4/a/gT2Ck/TFGnvnJEOkVxfFgmF3IGeslRHZ2QHOZrpYsW4QcCq2nIgJH?=
- =?us-ascii?Q?qFY7gdawz9uWYprHwUTualT4dD9qcBBWtu/e0W7FlHXl+0cWTakCuTlPiOZy?=
- =?us-ascii?Q?Qwy84IbWe9mxhW+rsgSIGl2Qo8R52OxvnVNGyoXFIm7rV34HytFwp26hB9Bm?=
- =?us-ascii?Q?TbSbA6hCJt18eCwuZBL+B8pQLN2yCUzk1YBQsijeMi/diopc/PAAp7F0hHf6?=
- =?us-ascii?Q?gzcorf9yKTKFi0O1bCkU6skBHhWY4fSU1ic9kWJbQD5VTgVp1LjjEjQExbMk?=
- =?us-ascii?Q?70kl1WVrNx4pYujh8HJHi8u0J4VoZ7QolDInxZFYUeRup/uCnfT9SAYe2n+H?=
- =?us-ascii?Q?FHOX3lfRnS35DAMTniBqB+X2eKTlFXC18gdgNsvxiDWxKaUHxbK6qaOctXl1?=
- =?us-ascii?Q?mifQGXA0S6bvxt5GIR28XimD420/2oYjakGu+r3+Y8C+JUA66ibOmOiZE672?=
- =?us-ascii?Q?gUkNoJxccrB9cWfDFdbqOyY/U9e9wUBCLvROMEktoTG+FuknBJtt0shNDeF0?=
- =?us-ascii?Q?34OP79fw/+k/jAfQ4Eg/lReiuFP5tbD5WGyOI31IYYKhjtug5sWRCJv3QaQ2?=
- =?us-ascii?Q?4WqqWG610bcEcCZb4v02HqOls3j3Jk2nyzSxynH588uBuLk90prZ+sEaZHXP?=
- =?us-ascii?Q?xeDNdwJ1LK3bfFF907DPh+H4?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?J9vZEI2f/bSXkMt8lE3+xSx1n6w89cIXFPeXBzXrI90q1qBsqrSQ8QgczYnm?=
+ =?us-ascii?Q?ebPmBYggX04oKlZWQE+8AOQGYQW5QnuyxGFaFEmYzb96mEquOQKip3h5rDro?=
+ =?us-ascii?Q?lvzCRJPOU35nmVRLICXJq9w4XWjeDYETBx2qu2EBM77uQKRbJNMVGXsSOzQ9?=
+ =?us-ascii?Q?mTGwp+hVMOm+DUC2lWeo3kp0vV4OscJG9MINhdfIk5rfIFAdM/czt+sF60u4?=
+ =?us-ascii?Q?Zs7DrT6jrGR0hnvmTwTt6SC9IRMrhtHIrWvodsV71XBuchORTP95RSpiYOAh?=
+ =?us-ascii?Q?3aTdePiwss+OFqYYYSkd4r+5B85UlQ2KVH1jqmIkh/obl5YJaq4GihnAW3OC?=
+ =?us-ascii?Q?D93CKoqjzIAAFlJwbyJphcbVx4X+EoUsMhDpj7QnOfIpQFAGtiQPf1J2eItP?=
+ =?us-ascii?Q?G5vcQuwU/w7smf944/yeNHvBYm0vZ5I9n+vX8MVq8v51hsP4Wd137K5Q9MXJ?=
+ =?us-ascii?Q?n1T89z2bQNPGmXdl2OUjrvMM8ehNvcXHwxa/2/GbenWvH+er0o+PCUY1cKlw?=
+ =?us-ascii?Q?A6QkBADYVKMsZxO3eap+m6FjFPCk2DW9lLPHo/c0rGdtW0yjv5wuI2sWIewv?=
+ =?us-ascii?Q?DyM0KHLMaL3WGLE152wp+eBWd9WWCDJpNorhCvRSqJGFQGhuCF5b7ifBe0i0?=
+ =?us-ascii?Q?gbRyVncgyHtbQZM1o5vKA+5h61e6dnwhZ6scgo3Y5AyfHPgicJORgqhlwP+r?=
+ =?us-ascii?Q?koR9MWyyrc4sNNRBVc5gpXpmnTTIFDH/rDj5/ORUi+AvHJ/hJ7uXb6a0DcpM?=
+ =?us-ascii?Q?Cz1RTJ1w6S0Ph3BhGKNaFTRVXKvoJhCgjjvGv4u6sxt4ORCqdA8iMNx5VsI5?=
+ =?us-ascii?Q?wmDk3JP8NR1otK9feX3HsVyhbt19spZmShyYUc7UeUiMLXehc9mSMYOTVGkD?=
+ =?us-ascii?Q?95f1KRrcI0czRTS8MlKR1AecAARoYDkM3hD5YSqEh6o162QJ9liD1h2J7gOT?=
+ =?us-ascii?Q?IdKohC1+NMp72hXD/mI2EsfrHhHrg9RC+9P7D97RpKjwRy5hFHg9M7Nfw2wd?=
+ =?us-ascii?Q?OG+M/8Uh0nVYxueN/5MJTHc2rYMJpWyXVgv1WMOaopxtuFoBrzv0S9Flt6Mq?=
+ =?us-ascii?Q?t1Wq0NKSWaCZ/XKAxDqBojeZOvu7lwpuB7wYSMOGM7JxSZOyQjVqII2OYuGQ?=
+ =?us-ascii?Q?6MBMpHBAJdH7156X0ewmWCqEvHvsXtCDnJaW+E/sdl5Kb3M8yQybaGce0x4q?=
+ =?us-ascii?Q?SrIrjtpoiaDN8YfJWiRWPL7OYmnD6EFyH6bzi1dVNsYQIOoaMY+A5ZdijdXz?=
+ =?us-ascii?Q?PyPN/fMPS0L/mo9dARh1/4J8HjHPgO72IQ65oVCF1uqjYbB2hHEcYFLohaQA?=
+ =?us-ascii?Q?r/952kaH4bUMjU08XZ8wNflX?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe7e6296-da94-4496-94df-08d95d5aced3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f273485-be94-4762-106f-08d95d5acf39
 X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4430.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2021 06:31:24.9238 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2021 06:31:25.5943 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2XL0ShGrsK+YWunWNFjBl5URZTfMXQq49G7lZk6HZc0IJlDirKNxdXH17Ls9t6xqWfdWVM9O0ObrteXD/k4H+A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2nd1p0qoCZFgifYLU80V7+wD1yc3j6HOaHe0R6utkozNZfd55Ke6/v5yrZJ/BRU+Z2eNXlN9XwrR76VOmOHvgw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2448
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,37 +124,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MEMORY_DEVICE_GENERIC case to free_zone_device_page callback.
-Device generic type memory case is now able to free its pages properly.
+new ioctl cmd added to query zone device type. This will be
+used once the test_hmm adds zone device generic type.
 
 Signed-off-by: Alex Sierra <alex.sierra@amd.com>
 ---
- mm/memremap.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ lib/test_hmm.c      | 15 ++++++++++++++-
+ lib/test_hmm_uapi.h |  7 +++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/mm/memremap.c b/mm/memremap.c
-index 614b3d600e95..6c884e2542a9 100644
---- a/mm/memremap.c
-+++ b/mm/memremap.c
-@@ -438,7 +438,7 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
- EXPORT_SYMBOL_GPL(get_dev_pagemap);
+diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+index 6998f10350ea..3cd91ca31dd7 100644
+--- a/lib/test_hmm.c
++++ b/lib/test_hmm.c
+@@ -82,6 +82,7 @@ struct dmirror_chunk {
+ struct dmirror_device {
+ 	struct cdev		cdevice;
+ 	struct hmm_devmem	*devmem;
++	unsigned int            zone_device_type;
  
- #ifdef CONFIG_DEV_PAGEMAP_OPS
--static void free_device_private_page(struct page *page)
-+static void free_device_page(struct page *page)
- {
+ 	unsigned int		devmem_capacity;
+ 	unsigned int		devmem_count;
+@@ -468,6 +469,7 @@ static bool dmirror_allocate_chunk(struct dmirror_device *mdevice,
+ 	if (IS_ERR(res))
+ 		goto err_devmem;
  
- 	__ClearPageWaiters(page);
-@@ -477,7 +477,8 @@ void free_zone_device_page(struct page *page)
- 		wake_up_var(&page->_refcount);
- 		return;
- 	case MEMORY_DEVICE_PRIVATE:
--		free_device_private_page(page);
-+	case MEMORY_DEVICE_GENERIC:
-+		free_device_page(page);
- 		return;
++	mdevice->zone_device_type = HMM_DMIRROR_MEMORY_DEVICE_PRIVATE;
+ 	devmem->pagemap.type = MEMORY_DEVICE_PRIVATE;
+ 	devmem->pagemap.range.start = res->start;
+ 	devmem->pagemap.range.end = res->end;
+@@ -912,6 +914,15 @@ static int dmirror_snapshot(struct dmirror *dmirror,
+ 	return ret;
+ }
+ 
++static int dmirror_get_device_type(struct dmirror *dmirror,
++			    struct hmm_dmirror_cmd *cmd)
++{
++	mutex_lock(&dmirror->mutex);
++	cmd->zone_device_type = dmirror->mdevice->zone_device_type;
++	mutex_unlock(&dmirror->mutex);
++
++	return 0;
++}
+ static long dmirror_fops_unlocked_ioctl(struct file *filp,
+ 					unsigned int command,
+ 					unsigned long arg)
+@@ -952,7 +963,9 @@ static long dmirror_fops_unlocked_ioctl(struct file *filp,
+ 	case HMM_DMIRROR_SNAPSHOT:
+ 		ret = dmirror_snapshot(dmirror, &cmd);
+ 		break;
+-
++	case HMM_DMIRROR_GET_MEM_DEV_TYPE:
++		ret = dmirror_get_device_type(dmirror, &cmd);
++		break;
  	default:
- 		return;
+ 		return -EINVAL;
+ 	}
+diff --git a/lib/test_hmm_uapi.h b/lib/test_hmm_uapi.h
+index 670b4ef2a5b6..ee88701793d5 100644
+--- a/lib/test_hmm_uapi.h
++++ b/lib/test_hmm_uapi.h
+@@ -26,6 +26,7 @@ struct hmm_dmirror_cmd {
+ 	__u64		npages;
+ 	__u64		cpages;
+ 	__u64		faults;
++	__u64		zone_device_type;
+ };
+ 
+ /* Expose the address space of the calling process through hmm device file */
+@@ -33,6 +34,7 @@ struct hmm_dmirror_cmd {
+ #define HMM_DMIRROR_WRITE		_IOWR('H', 0x01, struct hmm_dmirror_cmd)
+ #define HMM_DMIRROR_MIGRATE		_IOWR('H', 0x02, struct hmm_dmirror_cmd)
+ #define HMM_DMIRROR_SNAPSHOT		_IOWR('H', 0x03, struct hmm_dmirror_cmd)
++#define HMM_DMIRROR_GET_MEM_DEV_TYPE	_IOWR('H', 0x04, struct hmm_dmirror_cmd)
+ 
+ /*
+  * Values returned in hmm_dmirror_cmd.ptr for HMM_DMIRROR_SNAPSHOT.
+@@ -60,4 +62,9 @@ enum {
+ 	HMM_DMIRROR_PROT_DEV_PRIVATE_REMOTE	= 0x30,
+ };
+ 
++enum {
++	/* 0 is reserved to catch uninitialized type fields */
++	HMM_DMIRROR_MEMORY_DEVICE_PRIVATE = 1,
++};
++
+ #endif /* _LIB_TEST_HMM_UAPI_H */
 -- 
 2.32.0
 
