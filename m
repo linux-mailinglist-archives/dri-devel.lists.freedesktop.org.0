@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F173EA904
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 19:01:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8273EA91F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 19:07:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A751896A3;
-	Thu, 12 Aug 2021 17:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF2A6E42E;
+	Thu, 12 Aug 2021 17:07:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51E2D896A3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 17:01:49 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id ff9e8f40-fb8e-11eb-9082-0050568c148b;
- Thu, 12 Aug 2021 17:01:55 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 0332A194B81;
- Thu, 12 Aug 2021 19:01:52 +0200 (CEST)
-Date: Thu, 12 Aug 2021 19:01:44 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- John Stultz <john.stultz@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH 4/4] drm/vgem: use shmem helpers
-Message-ID: <YRVT+B69l74Lk4+A@ravnborg.org>
-References: <20210812131412.2487363-1-daniel.vetter@ffwll.ch>
- <20210812131412.2487363-4-daniel.vetter@ffwll.ch>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA5C76E42E;
+ Thu, 12 Aug 2021 17:07:45 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id 6so5025752wme.5;
+ Thu, 12 Aug 2021 10:07:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HFRt0wziwCpQcCnxa537F+IhhJf27Jkl+Fr+dlW4BP0=;
+ b=YsAymJhgfctdXRrVg5tCsE+2YeenjK9nfl4ERVAjKtDmFCPeCKagM97Ff4NpvIUByR
+ 61XBCorWB5JK9Rl0XgUcQavCgtbf5fFnNoYQP0diFgFVtYbQYjp3GDmqXR4fut+2taF9
+ NJrA6Sa/owdJ6iIuPHloHY1WBSVi34aa7Ia/djsgw8Yi2x9SEG/r9sXrfqbPpJzub0eu
+ 3WysqIm1j2HeaZ4S9VeuI0mTWJLcoDiv1+nrvZ/OadgYHUaj4/zjaUCAhGZlsYsoYzz7
+ +QYINKKPBFa2qcjMcYEhlIS65FDrJ7eCkRGZt8Po5onm9MsFOWC6K1TLsXL5kQXO45Iv
+ E0xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HFRt0wziwCpQcCnxa537F+IhhJf27Jkl+Fr+dlW4BP0=;
+ b=K8ZaRqAEx9KEbEC9UnArMWP4qBgraXRIhVWIDioYOMhwCYZgXyUAf88ERj7/KIUygS
+ Ql3geS8Eth8+mEQNT93gZo4Of4WCoWBql6kRwIjtmuBEt0j1teqcxmqcvfwY1jkEmxkg
+ LdLIWlzeM3Fb9JEqt/yJL766/lMKSRA02ofc5g6I2lpDiXq5CuAnm8uxtV1EmEBVBdPm
+ O+nM/JQi3TgC71MhvWjLKvJ+5p6TYdHxwBIKXc4o2Ik8RIvm/eUiSFZgagwj4f7Vryf5
+ r0t0OmJa7sQFiQUz+IZfrQUOZnA5XwuC1L1T5iXM+E1ya7qDvnyqIMq3GHOXphmflpGi
+ nSJQ==
+X-Gm-Message-State: AOAM530xRrytYm2l9+wps8TxmCTYRYHfrvvOl2Vi70Z5IZSqU7lRNcxR
+ A+QcwddqhBFZdbgOBc0MpY6fQOBvfXQjDqZ+ltM=
+X-Google-Smtp-Source: ABdhPJyyvzqMX+VE9EN3SxNGu4zLM6L6KBs2315nlwOIz/s+gUJnha7d6qfPVv7ZNVJFR06ap6Ku+MhKhxa66YJOyO0=
+X-Received: by 2002:a05:600c:c5:: with SMTP id u5mr2296366wmm.49.1628788064120; 
+ Thu, 12 Aug 2021 10:07:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210812131412.2487363-4-daniel.vetter@ffwll.ch>
+References: <20210811235253.924867-1-robdclark@gmail.com>
+ <20210811235253.924867-2-robdclark@gmail.com>
+ <CAD=FV=V8RjS3+3L=_NxeuE8vGoFpPnK2NP+QT9WUYExDG_GY-g@mail.gmail.com>
+In-Reply-To: <CAD=FV=V8RjS3+3L=_NxeuE8vGoFpPnK2NP+QT9WUYExDG_GY-g@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 12 Aug 2021 10:11:59 -0700
+Message-ID: <CAF6AEGsiOC0rweuuRF5yC+ssPzF6Sz5Y=tgYHbgTx+km3eCu=Q@mail.gmail.com>
+Subject: Re: [PATCH 1/4] drm/bridge: ti-sn65dsi86: Avoid creating multiple
+ connectors
+To: Doug Anderson <dianders@chromium.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Stephen Boyd <swboyd@chromium.org>, 
+ Rob Clark <robdclark@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,17 +78,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Thu, Aug 12, 2021 at 9:55 AM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Wed, Aug 11, 2021 at 4:51 PM Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > If we created our own connector because the driver does not support the
+> > NO_CONNECTOR flag, we don't want the downstream bridge to *also* create
+> > a connector.  And if this driver did pass the NO_CONNECTOR flag (and we
+> > supported that mode) this would change nothing.
+> >
+> > Fixes: 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge")
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Tested-by: Douglas Anderson <dianders@chromium.org>
+>
+> I'm going to apply this one to drm-misc/drm-misc-next and push since
+> it's a fix and we're before -rc6, then I'll take a look at the later
+> patches in the series.
+>
 
-On Thu, Aug 12, 2021 at 03:14:12PM +0200, Daniel Vetter wrote:
-> Aside from deleting lots of code the real motivation here is to switch
-> the mmap over to VM_PFNMAP, to be more consistent with what real gpu
-> drivers do. They're all VM_PFNMP, which means get_user_pages doesn't
-> work, and even if you try and there's a struct page behind that,
-> touching it and mucking around with its refcount can upset drivers
-> real bad.
-The only thing I understood of all this complicated stuff was "deleting
-lots of code" which is a good thing.
-You may want to s/VM_PFNMP/VM_PFNMAP/ before you push this.
+Thanks.. this is the only one with some urgency, the rest can wait
+until next cycle.  (And the bridge vs msm patches can land
+independently, I've tested the different possible combinations)
 
-	Sam
+BR,
+-R
