@@ -1,72 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9803EAB02
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 21:29:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2684E3EAB14
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 21:35:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 080A86E459;
-	Thu, 12 Aug 2021 19:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 177376E452;
+	Thu, 12 Aug 2021 19:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA5F06E45D
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 19:29:25 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- k5-20020a05600c1c85b02902e699a4d20cso5354218wms.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 12:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=PwnarB9Hsk8rWLa1EFppI8N3ZwQbA79XO0sGP5n+o4s=;
- b=EQWz/z0WbgSIqJOdreuC2j9GpACsC/fidpu4zh3rmKelAUnrJtNvISKSCDnFMFkB/3
- ZG1CpvXl6JpEZJGzqNCWlzeMoVX0WvtvyhPZtKLYB6bwCWQUqB+aO4pYd/MMQiIrxpEa
- YtGOgnRWSiLhvP6Ixjplj6glIRYt/vCrSJ0/0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=PwnarB9Hsk8rWLa1EFppI8N3ZwQbA79XO0sGP5n+o4s=;
- b=LhgJ65PSLMyymYMWZcPB4FGUzf514Y1MfTirZFy+XBuXxwPCB0YHz936BKEW439zNz
- Kj1CIoFxR4tgyVrT8syNdLw4lFBKmA07mWD/XkWU3gMin96LbKNj3KC1DpO7FSQHFw7M
- bSyp/9tw62l1KygTKE9B4xMEFOdgPDPGpCowCcoPMCR4E73+rXLv3Iw87c5D8fwFPIKk
- LkWY7Hliu9OspJ8OVhe5XlOWLiDedAfBMZ+pUsySXnk+HGBjscsJPvQSpMH4VYm9UZU1
- 5jN9j6w26f5XVQT8NuUpf/dQfgn/4Lvn+uTukLAIafISP8MhxgNquNNOagG9BjhPFNfj
- RDzg==
-X-Gm-Message-State: AOAM530QsNkFkPuRCvd6gPX2my8aJanVYX09nZCPr+nIAicDOYwyFQL0
- 6YAsKpYUf5o+OSlXExHLs14OPvJcbAeidQ==
-X-Google-Smtp-Source: ABdhPJzFa0sPdX8nnl+3cilN+tka6w0zCwZ32CKFR4AhNGnNzC9nxs9m6cRvPlNkytR2CeqyZxpdnA==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr121651wmi.60.1628796564531;
- Thu, 12 Aug 2021 12:29:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i8sm6403254wma.7.2021.08.12.12.29.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 12:29:24 -0700 (PDT)
-Date: Thu, 12 Aug 2021 21:29:22 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>,
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08CBA6E450;
+ Thu, 12 Aug 2021 19:35:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="301020085"
+X-IronPort-AV: E=Sophos;i="5.84,316,1620716400"; d="scan'208";a="301020085"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2021 12:34:53 -0700
+X-IronPort-AV: E=Sophos;i="5.84,316,1620716400"; d="scan'208";a="528004273"
+Received: from msvoboda-mobl1.ger.corp.intel.com (HELO [10.252.37.133])
+ ([10.252.37.133])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2021 12:34:51 -0700
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 13/20] drm/gem: Delete gem array fencing helpers
-Message-ID: <YRV2ki1DbxwKqGFt@phenom.ffwll.local>
-References: <20210805104705.862416-1-daniel.vetter@ffwll.ch>
- <20210805104705.862416-14-daniel.vetter@ffwll.ch>
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next
+Message-ID: <1cf2d7fc-402d-1852-574a-21cbbd2eaebf@linux.intel.com>
+Date: Thu, 12 Aug 2021 21:34:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210805104705.862416-14-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,153 +54,257 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 05, 2021 at 12:46:58PM +0200, Daniel Vetter wrote:
-> Integrated into the scheduler now and all users converted over.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
+Last drm-misc-next for next kernel release!
 
-Some acks would be great here.
--Daniel
+drm-misc-next-2021-08-12:
+drm-misc-next for v5.15:
 
-> ---
->  drivers/gpu/drm/drm_gem.c | 96 ---------------------------------------
->  include/drm/drm_gem.h     |  5 --
->  2 files changed, 101 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 09c820045859..37e2e2820f08 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1272,99 +1272,3 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
->  	ww_acquire_fini(acquire_ctx);
->  }
->  EXPORT_SYMBOL(drm_gem_unlock_reservations);
-> -
-> -/**
-> - * drm_gem_fence_array_add - Adds the fence to an array of fences to be
-> - * waited on, deduplicating fences from the same context.
-> - *
-> - * @fence_array: array of dma_fence * for the job to block on.
-> - * @fence: the dma_fence to add to the list of dependencies.
-> - *
-> - * This functions consumes the reference for @fence both on success and error
-> - * cases.
-> - *
-> - * Returns:
-> - * 0 on success, or an error on failing to expand the array.
-> - */
-> -int drm_gem_fence_array_add(struct xarray *fence_array,
-> -			    struct dma_fence *fence)
-> -{
-> -	struct dma_fence *entry;
-> -	unsigned long index;
-> -	u32 id = 0;
-> -	int ret;
-> -
-> -	if (!fence)
-> -		return 0;
-> -
-> -	/* Deduplicate if we already depend on a fence from the same context.
-> -	 * This lets the size of the array of deps scale with the number of
-> -	 * engines involved, rather than the number of BOs.
-> -	 */
-> -	xa_for_each(fence_array, index, entry) {
-> -		if (entry->context != fence->context)
-> -			continue;
-> -
-> -		if (dma_fence_is_later(fence, entry)) {
-> -			dma_fence_put(entry);
-> -			xa_store(fence_array, index, fence, GFP_KERNEL);
-> -		} else {
-> -			dma_fence_put(fence);
-> -		}
-> -		return 0;
-> -	}
-> -
-> -	ret = xa_alloc(fence_array, &id, fence, xa_limit_32b, GFP_KERNEL);
-> -	if (ret != 0)
-> -		dma_fence_put(fence);
-> -
-> -	return ret;
-> -}
-> -EXPORT_SYMBOL(drm_gem_fence_array_add);
-> -
-> -/**
-> - * drm_gem_fence_array_add_implicit - Adds the implicit dependencies tracked
-> - * in the GEM object's reservation object to an array of dma_fences for use in
-> - * scheduling a rendering job.
-> - *
-> - * This should be called after drm_gem_lock_reservations() on your array of
-> - * GEM objects used in the job but before updating the reservations with your
-> - * own fences.
-> - *
-> - * @fence_array: array of dma_fence * for the job to block on.
-> - * @obj: the gem object to add new dependencies from.
-> - * @write: whether the job might write the object (so we need to depend on
-> - * shared fences in the reservation object).
-> - */
-> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
-> -				     struct drm_gem_object *obj,
-> -				     bool write)
-> -{
-> -	int ret;
-> -	struct dma_fence **fences;
-> -	unsigned int i, fence_count;
-> -
-> -	if (!write) {
-> -		struct dma_fence *fence =
-> -			dma_resv_get_excl_unlocked(obj->resv);
-> -
-> -		return drm_gem_fence_array_add(fence_array, fence);
-> -	}
-> -
-> -	ret = dma_resv_get_fences(obj->resv, NULL,
-> -						&fence_count, &fences);
-> -	if (ret || !fence_count)
-> -		return ret;
-> -
-> -	for (i = 0; i < fence_count; i++) {
-> -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
-> -		if (ret)
-> -			break;
-> -	}
-> -
-> -	for (; i < fence_count; i++)
-> -		dma_fence_put(fences[i]);
-> -	kfree(fences);
-> -	return ret;
-> -}
-> -EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 35e7f44c2a75..e55a767188af 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -407,11 +407,6 @@ int drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
->  			      struct ww_acquire_ctx *acquire_ctx);
->  void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
->  				 struct ww_acquire_ctx *acquire_ctx);
-> -int drm_gem_fence_array_add(struct xarray *fence_array,
-> -			    struct dma_fence *fence);
-> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
-> -				     struct drm_gem_object *obj,
-> -				     bool write);
->  int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
->  			    u32 handle, u64 *offset);
->  
-> -- 
-> 2.32.0
-> 
+UAPI Changes:
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cross-subsystem Changes:
+- Add lockdep_assert(once) helpers.
+
+Core Changes:
+- Add lockdep assert to drm_is_current_master_locked.
+- Fix typos in dma-buf documentation.
+- Mark drm irq midlayer as legacy only.
+- Fix GPF in udmabuf_create.
+- Rename member to correct value in drm_edid.h
+
+Driver Changes:
+- Build fix to make nouveau build with NOUVEAU_BACKLIGHT.
+- Add MI101AIT-ICP1, LTTD800480070-L6WWH-RT panels.
+- Assorted fixes to bridge/it66121, anx7625.
+- Add custom crtc_state to simple helpers, and use it to
+  convert pll handling in mgag200 to atomic.
+- Convert drivers to use offset-adjusted framebuffer bo mappings.
+- Assorted small fixes and fix for a use-after-free in vmwgfx.
+- Convert remaining callers of non-legacy drivers to use linux irqs directly.
+- Small cleanup in ingenic.
+- Small fixes to virtio and ti-sn65dsi86.
+The following changes since commit 5a04227326b04c15b015181772f5c853172fdb68:
+
+  drm/panel: Add ilitek ili9341 panel driver (2021-08-05 11:09:23 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-08-12
+
+for you to fetch changes up to c7782443a88926a4f938f0193041616328cf2db2:
+
+  drm/bridge: ti-sn65dsi86: Avoid creating multiple connectors (2021-08-12 09:56:09 -0700)
+
+----------------------------------------------------------------
+drm-misc-next for v5.15:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+- Add lockdep_assert(once) helpers.
+
+Core Changes:
+- Add lockdep assert to drm_is_current_master_locked.
+- Fix typos in dma-buf documentation.
+- Mark drm irq midlayer as legacy only.
+- Fix GPF in udmabuf_create.
+- Rename member to correct value in drm_edid.h
+
+Driver Changes:
+- Build fix to make nouveau build with NOUVEAU_BACKLIGHT.
+- Add MI101AIT-ICP1, LTTD800480070-L6WWH-RT panels.
+- Assorted fixes to bridge/it66121, anx7625.
+- Add custom crtc_state to simple helpers, and use it to
+  convert pll handling in mgag200 to atomic.
+- Convert drivers to use offset-adjusted framebuffer bo mappings.
+- Assorted small fixes and fix for a use-after-free in vmwgfx.
+- Convert remaining callers of non-legacy drivers to use linux irqs directly.
+- Small cleanup in ingenic.
+- Small fixes to virtio and ti-sn65dsi86.
+
+----------------------------------------------------------------
+Baokun Li (2):
+      drm/vmwgfx: Use list_move_tail instead of list_del/list_add_tail in vmwgfx_cmdbuf.c
+      drm/vmwgfx: Use list_move_tail instead of list_del/list_add_tail in vmwgfx_cmdbuf_res.c
+
+Cai Huoqing (2):
+      drm/vmwgfx: Make use of PFN_ALIGN/PFN_UP helper macro
+      drm/vmwgfx: Replace "vmw_num_pages" with "PFN_UP"
+
+David Stevens (1):
+      drm/virtio: set non-cross device blob uuid_state
+
+Desmond Cheong Zhi Xi (2):
+      drm: add lockdep assert to drm_is_current_master_locked
+      drm/vmwgfx: fix potential UAF in vmwgfx_surface.c
+
+Gal Pressman (1):
+      dma-buf: Fix a few typos in dma-buf documentation
+
+Lucas De Marchi (1):
+      drm/edid: fix edid field name
+
+Paul Cercueil (2):
+      drm/ingenic: Remove dead code
+      drm/ingenic: Use standard drm_atomic_helper_commit_tail
+
+Pavel Skripkin (1):
+      udmabuf: fix general protection fault in udmabuf_create
+
+Peter Zijlstra (1):
+      locking/lockdep: Provide lockdep_assert{,_once}() helpers
+
+Randy Dunlap (1):
+      drm: nouveau: fix disp.c build when NOUVEAU_BACKLIGHT is not enabled
+
+Rob Clark (1):
+      drm/bridge: ti-sn65dsi86: Avoid creating multiple connectors
+
+Robert Foss (1):
+      drm: bridge: it66121: Check drm_bridge_attach retval
+
+Sam Ravnborg (1):
+      drm/panel: simple: add Multi-Innotechnology MI1010AIT-1CP1
+
+Shaokun Zhang (1):
+      drm/vmwgfx: Remove the repeated declaration
+
+SÃ¸ren Andersen (1):
+      drm/panel: simple: add LOGIC Technologies LTTD800480070-L6WH-RT
+
+Thomas Zimmermann (38):
+      drm/mgag200: Select clock in PLL update functions
+      drm/mgag200: Return errno codes from PLL compute functions
+      drm/mgag200: Remove P_ARRAY_SIZE
+      drm/mgag200: Split PLL setup into compute and update functions
+      drm/mgag200: Introduce separate variable for PLL S parameter
+      drm/mgag200: Store values (not bits) in struct mgag200_pll_values
+      drm/mgag200: Split PLL compute functions by device type
+      drm/mgag200: Split PLL compute function for G200SE by rev
+      drm/mgag200: Declare PLL clock constants static const
+      drm/mgag200: Abstract pixel PLL via struct mgag200_pll
+      drm/simple-kms: Support custom CRTC state
+      drm/mgag200: Introduce custom CRTC state
+      drm/mgag200: Compute PLL values during atomic check
+      drm/gem: Provide offset-adjusted framebuffer BO mappings
+      drm/ast: Use offset-adjusted shadow-plane mappings
+      drm/gud: Get offset-adjusted mapping from drm_gem_fb_vmap()
+      drm/hyperv: Use offset-adjusted shadow-plane mappings
+      drm/mgag200: Use offset-adjusted shadow-plane mappings
+      drm/cirrus: Use offset-adjusted shadow-plane mappings
+      drm/gm12u320: Use offset-adjusted shadow-plane mappings
+      drm/simpledrm: Use offset-adjusted shadow-plane mapping
+      drm/udl: Use offset-adjusted shadow-plane mapping
+      drm/vbox: Use offset-adjusted shadow-plane mappings
+      drm/vkms: Use offset-adjusted shadow-plane mappings and output
+      drm/amdgpu: Convert to Linux IRQ interfaces
+      drm/arm/hdlcd: Convert to Linux IRQ interfaces
+      drm/atmel-hlcdc: Convert to Linux IRQ interfaces
+      drm/fsl-dcu: Convert to Linux IRQ interfaces
+      drm/gma500: Convert to Linux IRQ interfaces
+      drm/kmb: Convert to Linux IRQ interfaces
+      drm/msm: Convert to Linux IRQ interfaces
+      drm/mxsfb: Convert to Linux IRQ interfaces
+      drm/radeon: Convert to Linux IRQ interfaces
+      drm/tidss: Convert to Linux IRQ interfaces
+      drm/tilcdc: Convert to Linux IRQ interfaces
+      drm/vc4: Convert to Linux IRQ interfaces
+      drm: Remove unused devm_drm_irq_install()
+      drm: IRQ midlayer is now legacy
+
+Xin Ji (1):
+      drm/bridge: anx7625: Tune K value for IVO panel
+
+ drivers/dma-buf/udmabuf.c                          |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |  21 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h            |   2 +-
+ drivers/gpu/drm/arm/hdlcd_drv.c                    | 174 ++--
+ drivers/gpu/drm/arm/hdlcd_drv.h                    |   1 +
+ drivers/gpu/drm/ast/ast_mode.c                     |   2 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c       |  80 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |  24 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.h          |   4 +-
+ drivers/gpu/drm/bridge/ite-it66121.c               |   2 +
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |   3 +
+ drivers/gpu/drm/drm_auth.c                         |   6 +-
+ drivers/gpu/drm/drm_gem_atomic_helper.c            |   2 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c       |  17 +-
+ drivers/gpu/drm/drm_irq.c                          |  95 +-
+ drivers/gpu/drm/drm_legacy_misc.c                  |   3 +-
+ drivers/gpu/drm/drm_simple_kms_helper.c            |  39 +-
+ drivers/gpu/drm/drm_vblank.c                       |   8 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c          |  78 +-
+ drivers/gpu/drm/gma500/power.c                     |   1 +
+ drivers/gpu/drm/gma500/psb_drv.c                   |   8 +-
+ drivers/gpu/drm/gma500/psb_drv.h                   |   5 -
+ drivers/gpu/drm/gma500/psb_irq.c                   |  26 +-
+ drivers/gpu/drm/gma500/psb_irq.h                   |   4 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |   5 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c        |   4 +-
+ drivers/gpu/drm/i810/i810_dma.c                    |   3 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  31 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                      |  26 +-
+ drivers/gpu/drm/mga/mga_dma.c                      |   2 +-
+ drivers/gpu/drm/mga/mga_drv.h                      |   1 -
+ drivers/gpu/drm/mgag200/Makefile                   |   2 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.h              |  63 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c             | 781 ++--------------
+ drivers/gpu/drm/mgag200/mgag200_pll.c              | 992 +++++++++++++++++++++
+ drivers/gpu/drm/mgag200/mgag200_reg.h              |   9 +-
+ drivers/gpu/drm/msm/msm_drv.c                      | 113 ++-
+ drivers/gpu/drm/msm/msm_kms.h                      |   2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |  81 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.h                  |   2 +
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |   8 +-
+ drivers/gpu/drm/panel/panel-simple.c               |  69 ++
+ drivers/gpu/drm/r128/r128_cce.c                    |   3 +-
+ drivers/gpu/drm/radeon/radeon_drv.c                |   4 -
+ drivers/gpu/drm/radeon/radeon_irq_kms.c            |  44 +-
+ drivers/gpu/drm/radeon/radeon_kms.h                |   4 -
+ drivers/gpu/drm/tidss/tidss_drv.c                  |  15 +-
+ drivers/gpu/drm/tidss/tidss_drv.h                  |   2 +
+ drivers/gpu/drm/tidss/tidss_irq.c                  |  27 +-
+ drivers/gpu/drm/tidss/tidss_irq.h                  |   4 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c                |  51 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h                |   3 +
+ drivers/gpu/drm/tiny/cirrus.c                      |   4 +-
+ drivers/gpu/drm/tiny/gm12u320.c                    |   4 +-
+ drivers/gpu/drm/tiny/simpledrm.c                   |   4 +-
+ drivers/gpu/drm/udl/udl_modeset.c                  |   4 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c              |   2 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                      |   4 -
+ drivers/gpu/drm/vc4/vc4_drv.h                      |   8 +-
+ drivers/gpu/drm/vc4/vc4_irq.c                      |  48 +-
+ drivers/gpu/drm/vc4/vc4_v3d.c                      |  17 +-
+ drivers/gpu/drm/via/via_mm.c                       |   3 +-
+ drivers/gpu/drm/virtio/virtgpu_prime.c             |   2 +
+ drivers/gpu/drm/vkms/vkms_composer.c               |   2 +-
+ drivers/gpu/drm/vkms/vkms_drv.h                    |   1 +
+ drivers/gpu/drm/vkms/vkms_plane.c                  |   2 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c              |   2 +-
+ .../gpu/drm/vmwgfx/device_include/vm_basic_types.h |  13 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |   5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c             |   5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c         |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c            |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_mob.c                |   5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c                |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c             |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c            |   4 +-
+ include/drm/drm_device.h                           |  18 +-
+ include/drm/drm_drv.h                              |  44 +-
+ include/drm/drm_edid.h                             |   2 +-
+ include/drm/drm_file.h                             |   4 +
+ include/drm/drm_gem_atomic_helper.h                |   8 +
+ include/drm/drm_gem_framebuffer_helper.h           |   3 +-
+ include/drm/drm_irq.h                              |  32 -
+ include/drm/drm_legacy.h                           |   3 +
+ include/drm/drm_simple_kms_helper.h                |  27 +
+ include/linux/dma-buf.h                            |  10 +-
+ include/linux/lockdep.h                            |  41 +-
+ 91 files changed, 1975 insertions(+), 1338 deletions(-)
+ create mode 100644 drivers/gpu/drm/mgag200/mgag200_pll.c
+ delete mode 100644 include/drm/drm_irq.h
