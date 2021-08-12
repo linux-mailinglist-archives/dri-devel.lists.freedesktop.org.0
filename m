@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0753E9B8E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 02:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7678C3E9B9A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 02:25:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33F9F6E203;
-	Thu, 12 Aug 2021 00:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 922526E20E;
+	Thu, 12 Aug 2021 00:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D296E203
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 00:20:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C984A610A3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 00:20:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628727606;
- bh=8WwHn/zMxj39QrM8VdRSIm8zdth6Umf39XRXeWVmE6k=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=BPdorrsEj599FTpV2LS39F6Tkr7571nFfRknfLNvvlprN33+Mdmtk2FkntqYaOqT9
- xLaKybLKzih4HlHo05atceeZjxSNlu8GRKunLtv0Vy7MSBt3ZZehXaCqTAYDXKzUBQ
- Q3TtQ9dv+zW/TQv76lpXgVnEKnszkaB5MW1qUP1EmhTQjA0M2Cibm2POPpniTuIlnB
- PRPoRAiIrFUblWwJrrZpoPjv9At7Cnqo7JNagMZn5ikS/M/QqSLAUogbQ3YFVF+xbx
- /3SYgtHKDKew0Ctay6GJfjgMOtbqVniX9ov11YaLOCPp4Kc925XF3m/ssLUqBR/MaL
- JudwvfnNexlYA==
-Received: by mail-ed1-f48.google.com with SMTP id bo19so6570950edb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:20:06 -0700 (PDT)
-X-Gm-Message-State: AOAM531ynwprL7057PSPBIvQlNuR0P58m8vWxJbzYojvulJ1OQBw7xyu
- lQBXwTL4U+I727GWJTuZKVnlnLXL3R6PFxoxrw==
-X-Google-Smtp-Source: ABdhPJxKHb7wCRP3M/rwctlj0eB86IcbWXjn8UwsLLYmcTXsasU1mLRWPrWTRtopKhZ4g6A4oAdieVECbfuvx3wokHw=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr2005613edt.219.1628727605357; 
- Wed, 11 Aug 2021 17:20:05 -0700 (PDT)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 938EA6E209
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 00:25:12 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ d10-20020a9d4f0a0000b02904f51c5004e3so5584232otl.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Aug 2021 17:25:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=aBF5XsmOwLOwhoJ7V4vA+C2s7+F6s8RQ06qQNUqSroI=;
+ b=h+56UWETmWksgXZ6odjCSUhkS60nq9twTFk5O3iDfPkw9SlJ2Q9MC4k1YZ13wA9QSI
+ cz2Pc3wlRcNYEKwZ643eM+MtGzStloEbEFNy4YhjnGGkil5U0nH2pe9f1iubEMhKDwtU
+ PwWNtWc+gGsmqzXBvFg2DTN9n6mT6P+9a9T3Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=aBF5XsmOwLOwhoJ7V4vA+C2s7+F6s8RQ06qQNUqSroI=;
+ b=VZa7pzUXAY8ZGpXG7ov56W3AYA8QMdebJRyCMlVaB/6gP32FPScA0/RfywQoRKItvJ
+ UaNUXDbF7/ME69Spu9dozUQx1VS8tTYKEbRl8vycEtS51CWP0mH4DOc83HGCmOfKpf9K
+ bTGBOvGESA/ER44HMMqdLsfiPc/ovvtHFfc20M8a/tm7UIKZZEyT0o/tFtFhz1Nz2iab
+ 09oUHMcOwzkAKyHnh/qopC4d5u9HqOzzZe7GtQJcDUgBs3epCSsFgciGgEaDroRjS3Ol
+ MkFzrwE2jK6Q/Lu+WQ350s1SpqF8UvGKWzWbtRYX8v+hhtI4aNvd6B2ZAeOz+5XbUYVf
+ pv5Q==
+X-Gm-Message-State: AOAM530Ow7ojaONDhPn3y/f6ZFhFGZdu28Qc4zhpU2SLEc8K47UFrJxM
+ XqGONdNLLdQAVTSP5OyyAyNcCBljRXoL5+IFrBRYcA==
+X-Google-Smtp-Source: ABdhPJx0FoYmfQ9zAKiWN4L09yMr9AcpGP2BwH3WsltDn0CSuMhuEFOx+zQVeSaXHI+pNsLrGV3maXsnDszKO/B14Ss=
+X-Received: by 2002:a9d:5542:: with SMTP id h2mr1268834oti.25.1628727911938;
+ Wed, 11 Aug 2021 17:25:11 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 Aug 2021 17:25:11 -0700
 MIME-Version: 1.0
-References: <1628646468-29775-1-git-send-email-yongqiang.niu@mediatek.com>
- <1628646468-29775-2-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1628646468-29775-2-git-send-email-yongqiang.niu@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 12 Aug 2021 08:19:54 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-qigNtPJETHsE8YaVqxctrZ7Y+a31f5eqOVHXPowuucw@mail.gmail.com>
-Message-ID: <CAAOTY_-qigNtPJETHsE8YaVqxctrZ7Y+a31f5eqOVHXPowuucw@mail.gmail.com>
-Subject: Re: [PATCH v4] drm/mediatek: clear pending flag when cmdq packet is
- done.
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Fabien Parent <fparent@baylibre.com>, 
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- DTML <devicetree@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- Hsin-Yi Wang <hsinyi@chromium.org>
+In-Reply-To: <20210811235253.924867-2-robdclark@gmail.com>
+References: <20210811235253.924867-1-robdclark@gmail.com>
+ <20210811235253.924867-2-robdclark@gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Wed, 11 Aug 2021 17:25:11 -0700
+Message-ID: <CAE-0n51mqTwUdT1cmL=ubcFppFZ8GwerPBWCJ2QsyRtzG9vkjw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] drm/bridge: ti-sn65dsi86: Avoid creating multiple
+ connectors
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@chromium.org>, 
+ Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jagan Teki <jagan@amarulasolutions.com>, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,120 +76,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
-
-Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2021=E5=B9=B48=E6=9C=
-=8811=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=889:48=E5=AF=AB=E9=81=93=
-=EF=BC=9A
+Quoting Rob Clark (2021-08-11 16:52:47)
+> From: Rob Clark <robdclark@chromium.org>
 >
-> In cmdq mode, packet may be flushed before it is executed, so
-> the pending flag should be cleared after cmdq packet is done.
-
-Applied to mediatek-drm-next [1], thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
-
-Regards,
-Chun-Kuang.
-
+> If we created our own connector because the driver does not support the
+> NO_CONNECTOR flag, we don't want the downstream bridge to *also* create
+> a connector.  And if this driver did pass the NO_CONNECTOR flag (and we
+> supported that mode) this would change nothing.
 >
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> Fixes: 4e5763f03e10 ("drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 47 +++++++++++++++++++++++++++=
-++----
->  1 file changed, 42 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index 4c25e33..89f093d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -267,6 +267,36 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void=
- *mssg)
->  {
->         struct mtk_drm_crtc *mtk_crtc =3D container_of(cl, struct mtk_drm=
-_crtc, cmdq_cl);
->         struct cmdq_cb_data *data =3D mssg;
-> +       struct mtk_crtc_state *state;
-> +       unsigned int i;
-> +
-> +       state =3D to_mtk_crtc_state(mtk_crtc->base.state);
-> +
-> +       state->pending_config =3D false;
-> +
-> +       if (mtk_crtc->pending_planes) {
-> +               for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> +                       struct drm_plane *plane =3D &mtk_crtc->planes[i];
-> +                       struct mtk_plane_state *plane_state;
-> +
-> +                       plane_state =3D to_mtk_plane_state(plane->state);
-> +
-> +                       plane_state->pending.config =3D false;
-> +               }
-> +               mtk_crtc->pending_planes =3D false;
-> +       }
-> +
-> +       if (mtk_crtc->pending_async_planes) {
-> +               for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> +                       struct drm_plane *plane =3D &mtk_crtc->planes[i];
-> +                       struct mtk_plane_state *plane_state;
-> +
-> +                       plane_state =3D to_mtk_plane_state(plane->state);
-> +
-> +                       plane_state->pending.async_config =3D false;
-> +               }
-> +               mtk_crtc->pending_async_planes =3D false;
-> +       }
->
->         mtk_crtc->cmdq_vblank_cnt =3D 0;
->         mtk_drm_cmdq_pkt_destroy(mtk_crtc->cmdq_chan, data->pkt);
-> @@ -423,7 +453,8 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crtc=
-,
->                                     state->pending_vrefresh, 0,
->                                     cmdq_handle);
->
-> -               state->pending_config =3D false;
-> +               if (!cmdq_handle)
-> +                       state->pending_config =3D false;
->         }
->
->         if (mtk_crtc->pending_planes) {
-> @@ -443,9 +474,12 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crt=
-c,
->                                 mtk_ddp_comp_layer_config(comp, local_lay=
-er,
->                                                           plane_state,
->                                                           cmdq_handle);
-> -                       plane_state->pending.config =3D false;
-> +                       if (!cmdq_handle)
-> +                               plane_state->pending.config =3D false;
->                 }
-> -               mtk_crtc->pending_planes =3D false;
-> +
-> +               if (!cmdq_handle)
-> +                       mtk_crtc->pending_planes =3D false;
->         }
->
->         if (mtk_crtc->pending_async_planes) {
-> @@ -465,9 +499,12 @@ static void mtk_crtc_ddp_config(struct drm_crtc *crt=
-c,
->                                 mtk_ddp_comp_layer_config(comp, local_lay=
-er,
->                                                           plane_state,
->                                                           cmdq_handle);
-> -                       plane_state->pending.async_config =3D false;
-> +                       if (!cmdq_handle)
-> +                               plane_state->pending.async_config =3D fal=
-se;
->                 }
-> -               mtk_crtc->pending_async_planes =3D false;
-> +
-> +               if (!cmdq_handle)
-> +                       mtk_crtc->pending_async_planes =3D false;
->         }
->  }
->
-> --
-> 1.8.1.1.dirty
->
+
+Thanks for saving me the packaging effort.
+
+Reported-by: Stephen Boyd <swboyd@chromium.org>
+Tested-by: Stephen Boyd <swboyd@chromium.org>
