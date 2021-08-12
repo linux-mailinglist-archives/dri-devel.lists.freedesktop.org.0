@@ -2,31 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BE13EA4D6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 14:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464B33EA517
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 15:03:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 095616E3EF;
-	Thu, 12 Aug 2021 12:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE786E3F2;
+	Thu, 12 Aug 2021 13:03:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 7717 seconds by postgrey-1.36 at gabe;
- Thu, 12 Aug 2021 12:44:56 UTC
-Received: from mblankhorst.nl (mblankhorst.nl
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2244D6E092;
- Thu, 12 Aug 2021 12:44:56 +0000 (UTC)
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH 2/2] drm/i915: Add pci ids and uapi for DG1
-Date: Thu, 12 Aug 2021 14:44:52 +0200
-Message-Id: <20210812124452.622233-2-maarten.lankhorst@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210812124452.622233-1-maarten.lankhorst@linux.intel.com>
-References: <20210812124452.622233-1-maarten.lankhorst@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1EA16E3F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 13:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1628773387;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DKpf/0+DIYzPA8g/kIfiTfdbDVBDOHdhW43GSvoV9v0=;
+ b=bzrK7LRnEqAYxbY/jQ19rRffBI1OBjKXANbye0YjtD7vbi0pFuSCnPxfKzdg/RyeLLtkta
+ TRArVq206c95DGFpxxYnE0kna/dmF3Cj4xgPyAV27quq+iJU0BSE9I+nei82z2kRd4MNJv
+ D7Uhc0PDGVwZtJAwZOpJGsaQV70XkIQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-tHAJUioaN32GX5LAx_vbFg-1; Thu, 12 Aug 2021 09:03:06 -0400
+X-MC-Unique: tHAJUioaN32GX5LAx_vbFg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B33A71B2C997;
+ Thu, 12 Aug 2021 13:03:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CAA5669ED;
+ Thu, 12 Aug 2021 13:03:05 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D111D1800922; Thu, 12 Aug 2021 15:03:03 +0200 (CEST)
+Date: Thu, 12 Aug 2021 15:03:03 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: David Stevens <stevensd@chromium.org>
+Cc: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/virtio: support mapping exported vram
+Message-ID: <20210812130303.jymu3tkhfmn6xvm5@sirius.home.kraxel.org>
+References: <20210716035501.3099919-1-stevensd@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210716035501.3099919-1-stevensd@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,65 +68,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DG1 has support for local memory, which requires the usage of the
-lmem placement extension for creating bo's, and memregion queries
-to obtain the size. Because of this, those parts of the uapi are
-no longer guarded behind FAKE_LMEM.
+  Hi,
 
-According to the pull request referenced below, mesa should be mostly
-ready for DG1. VK_EXT_memory_budget is not hooked up yet, but we
-should definitely just enable the uapi parts by default.
+> +static struct sg_table *virtgpu_gem_map_dma_buf(
+> +		struct dma_buf_attachment *attach,
+> +		enum dma_data_direction dir)
 
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/11584
-Cc: Jordan Justen jordan.l.justen@intel.com
-Cc: Jason Ekstrand jason@jlekstrand.net
----
- drivers/gpu/drm/i915/gem/i915_gem_create.c | 3 ---
- drivers/gpu/drm/i915/i915_pci.c            | 1 +
- drivers/gpu/drm/i915/i915_query.c          | 3 ---
- 3 files changed, 1 insertion(+), 6 deletions(-)
+checkpatch doesn't like that:
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index 23fee13a3384..1d341b8c47c0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -347,9 +347,6 @@ static int ext_set_placements(struct i915_user_extension __user *base,
- {
- 	struct drm_i915_gem_create_ext_memory_regions ext;
- 
--	if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
--		return -ENODEV;
--
- 	if (copy_from_user(&ext, base, sizeof(ext)))
- 		return -EFAULT;
- 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 1bbd09ad5287..93ccdc6bbd03 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1115,6 +1115,7 @@ static const struct pci_device_id pciidlist[] = {
- 	INTEL_RKL_IDS(&rkl_info),
- 	INTEL_ADLS_IDS(&adl_s_info),
- 	INTEL_ADLP_IDS(&adl_p_info),
-+	INTEL_DG1_IDS(&dg1_info),
- 	{0, 0, 0}
- };
- MODULE_DEVICE_TABLE(pci, pciidlist);
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index e49da36c62fb..5e2b909827f4 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -432,9 +432,6 @@ static int query_memregion_info(struct drm_i915_private *i915,
- 	u32 total_length;
- 	int ret, id, i;
- 
--	if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
--		return -ENODEV;
--
- 	if (query_item->flags != 0)
- 		return -EINVAL;
- 
--- 
-2.32.0
+-:47: CHECK:OPEN_ENDED_LINE: Lines should not end with a '('
+#47: FILE: drivers/gpu/drm/virtio/virtgpu_prime.c:46:
++static struct sg_table *virtgpu_gem_map_dma_buf(
+
+> +{
+> +	struct drm_gem_object *obj = attach->dmabuf->priv;
+> +	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+> +
+> +	if (virtio_gpu_is_vram(bo))
+> +		return virtio_gpu_vram_map_dma_buf(bo, attach->dev, dir);
+> +
+> +	return drm_gem_map_dma_buf(attach, dir);
+> +}
+> +
+> +static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
+> +				      struct sg_table *sgt,
+> +				      enum dma_data_direction dir)
+> +{
+> +	struct drm_gem_object *obj = attach->dmabuf->priv;
+> +	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+> +
+> +	if (virtio_gpu_is_vram(bo))
+> +		virtio_gpu_vram_unmap_dma_buf(attach->dev, sgt, dir);
+> +	else
+> +		drm_gem_unmap_dma_buf(attach, sgt, dir);
+> +}
+
+Minor nit:  Can we use the same logic in both functions?  I like the
+virtgpu_gem_map_dma_buf variant (without else) more.
+
+Otherwise looks sane to me.
+
+thanks,
+  Gerd
 
