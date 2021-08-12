@@ -1,48 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3313B3EA203
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 11:26:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D672D3EA22C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Aug 2021 11:38:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93D816E3AA;
-	Thu, 12 Aug 2021 09:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26FAF6E3B7;
+	Thu, 12 Aug 2021 09:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id A41CB6E3AA
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 09:26:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id D23AC20201B;
- Thu, 12 Aug 2021 11:26:34 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id TkZ1FcLJEcwf; Thu, 12 Aug 2021 11:26:30 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 5295820201A;
- Thu, 12 Aug 2021 11:26:30 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1mE6yq-0001ax-Tb; Thu, 12 Aug 2021 11:26:28 +0200
-To: Mark Yacoub <markyacoub@chromium.org>, seanpaul@chromium.org,
- abhinavk@codeaurora.org, robdclark@chromium.org, irlied@linux.ie,
- dri-devel@lists.freedesktop.org
-Cc: Mark Yacoub <markyacoub@google.com>
-References: <20210811175525.2125964-1-markyacoub@chromium.org>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] drm: Copy drm_wait_vblank request and copy_to_user before
- return.
-Message-ID: <de7e8dc0-b73d-f6c2-e017-121b5dc0df83@daenzer.net>
-Date: Thu, 12 Aug 2021 11:26:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0CC6E3B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 09:38:34 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 1947edd5-fb51-11eb-8d1a-0050568cd888;
+ Thu, 12 Aug 2021 09:38:50 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 4E384194B69;
+ Thu, 12 Aug 2021 11:38:36 +0200 (CEST)
+Date: Thu, 12 Aug 2021 11:38:28 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Steev Klimaszewski <steev@kali.org>,
+ Linus W <linus.walleij@linaro.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 0/6] eDP: Support probing eDP panels dynamically
+ instead of hardcoding
+Message-ID: <YRTsFNTn/T8fLxyB@ravnborg.org>
+References: <20210730212625.3071831-1-dianders@chromium.org>
+ <YQmp3mGpLW+ELxAC@ravnborg.org>
+ <CAD=FV=XxOXJEgq7SiOVwSo2eWEbekQqutucFP=MmrrtmStXxog@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210811175525.2125964-1-markyacoub@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=XxOXJEgq7SiOVwSo2eWEbekQqutucFP=MmrrtmStXxog@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,72 +64,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-08-11 7:55 p.m., Mark Yacoub wrote:
-> From: Mark Yacoub <markyacoub@google.com>
+Hi Doug,
+On Mon, Aug 09, 2021 at 03:18:03PM -0700, Doug Anderson wrote:
+> Hi,
 > 
-> [Why]
-> Userspace should get back a copy of the request that's been modified
-> even when drm_wait_vblank_ioctl returns a failure.
+> On Tue, Aug 3, 2021 at 1:41 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> >
+> > Hi Douglas,
+> >
+> > On Fri, Jul 30, 2021 at 02:26:19PM -0700, Douglas Anderson wrote:
+> > > The goal of this patch series is to move away from hardcoding exact
+> > > eDP panels in device tree files. As discussed in the various patches
+> > > in this series (I'm not repeating everything here), most eDP panels
+> > > are 99% probable and we can get that last 1% by allowing two "power
+> > > up" delays to be specified in the device tree file and then using the
+> > > panel ID (found in the EDID) to look up additional power sequencing
+> > > delays for the panel.
+> >
+> > Have you considered a new driver for edp panels?
+> > panel-edp.c?
+> >
+> > There will be some duplicate code from pnale-simple - but the same can
+> > be said by the other panel drivers too.
+> > In the end I think it is better to separate them so we end up with two
+> > less complex panel drivers rather than one do-it-all panel driver.
+> >
+> > I have not looked in detail how this would look like, but my first
+> > impression is that we should split it out.
 > 
-> Rationale:
-> drm_wait_vblank_ioctl modifies the request and expects the user to read
-> back. When the type is RELATIVE, it modifies it to ABSOLUTE and updates
-> the sequence to become current_vblank_count + sequence (which was
-> relative), not it becomes absolute.
-> drmWaitVBlank (in libdrm), expects this to be the case as it modifies
-> the request to be Absolute as it expects the sequence to would have been
-> updated.
-> 
-> The change is in compat_drm_wait_vblank, which is called by
-> drm_compat_ioctl. This change of copying the data back regardless of the
-> return number makes it en par with drm_ioctl, which always copies the
-> data before returning.
-> 
-> [How]
-> Copy the drm_wait_vblank request.
-> Return from the function after everything has been copied to user.
-> 
-> Fixes: IGT:kms_flip::modeset-vs-vblank-race-interruptible
-> Tested on ChromeOS Trogdor(msm)
-> 
-> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-> ---
->  drivers/gpu/drm/drm_ioc32.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_ioc32.c b/drivers/gpu/drm/drm_ioc32.c
-> index d29907955ff79..275b860df8fbe 100644
-> --- a/drivers/gpu/drm/drm_ioc32.c
-> +++ b/drivers/gpu/drm/drm_ioc32.c
-> @@ -855,17 +855,19 @@ static int compat_drm_wait_vblank(struct file *file, unsigned int cmd,
->  	req.request.sequence = req32.request.sequence;
->  	req.request.signal = req32.request.signal;
->  	err = drm_ioctl_kernel(file, drm_wait_vblank_ioctl, &req, DRM_UNLOCKED);
-> -	if (err)
-> -		return err;
->  
->  	req32.reply.type = req.reply.type;
->  	req32.reply.sequence = req.reply.sequence;
->  	req32.reply.tval_sec = req.reply.tval_sec;
->  	req32.reply.tval_usec = req.reply.tval_usec;
-> +	/* drm_wait_vblank_ioctl modifies Request, update their values here as well. */
-> +	req32.request.type = req.request.type;
-> +	req32.request.sequence = req.request.sequence;
-> +	req32.request.signal = req.request.signal;
+> I certainly could, but my argument against it is that really it's the
+> exact same set of eDP panels that would be supported by both drivers.
 
-The added assignments are superfluous, since req32.reply and req32.request are members of the same union.
+The idea was to move all eDP panels to the new driver.
 
+My hope it that we can make panel-simple handle a more more narrow set
+of panels. eDP capable displays are IMO not simple panels.
 
->  	if (copy_to_user(argp, &req32, sizeof(req32)))
->  		return -EFAULT;
->  
-> -	return 0;
-> +	return err;
->  }
+Likewise DSI capable panels could also be pulled out of panel-simple.
 
-The other changes look correct.
+This would continue to duplicate some code - but we have a lot of
+duplicated code across the various panels and the best way forward
+would be to implement more helpers that can be used by the drivers.
 
-
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+	Sam - who is trying to recover form the deadly man flu...
