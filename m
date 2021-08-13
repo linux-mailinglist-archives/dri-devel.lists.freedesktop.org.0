@@ -2,69 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FB43EBD67
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 22:31:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663823EBD7B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 22:38:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 093BD6E8E1;
-	Fri, 13 Aug 2021 20:30:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF0656E8D4;
+	Fri, 13 Aug 2021 20:37:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B106E8E7
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 20:30:51 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id by4so17265472edb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 13:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=e4GpIWEL2H3MSyASFsMc5nh7IOxuZ7y0MLkJwo2jpPY=;
- b=OUBYHAGjJxRK1KptkEsO/xhjaclNna4I/q9WVopZ19B7zgXvelhLPCEel3IvrVjhEX
- QDpEoEkaXg2V8TPxrr4FeNtjr8d09EGn+u4R7s1DoXIxAzo4Ku3zTz2WQigNEwzx7VHc
- l7v8l/adiWFKHh9bx/zAkKwwDNdAfqB//9E/o=
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3F8B6E8D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 20:37:57 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id
+ n1-20020a9d1e810000b0290514da4485e4so10724745otn.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 13:37:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=e4GpIWEL2H3MSyASFsMc5nh7IOxuZ7y0MLkJwo2jpPY=;
- b=pp+VK3f2yDZ3jsxpyIXyYrnZZGOIze8onFqO8cKPE+G5mDXmriK03hr9wDHxF9hGn5
- mwY49Ij3EvX/PiHLXh0w9RdjqscV+EXe70buR6PqyQwJCEseSqNg2+V/1zJBMdHlf8lb
- ef3qZmCP7BY2wXuZoBodeQ0/j+uvgYJliZXssHNPMldxqys/JhyBVH3kxPMagYRBM6Tl
- l9xga45FhFbuAc7LigN9Z1w5n3lGco6wejfMxqw7RsfhSl4QC0nt1H4/Ef9OXcP3af8i
- NXN9qzXc475ZEpDLGh0aOpJY4LO+8aWlHx+NrgcT9JkyT5CiMdVnsjVcAC008lkxpy8c
- HoGA==
-X-Gm-Message-State: AOAM533AC6GBgrtH8/WJgDtj0U9JqH45BinWD1QuqBe1VPK2PvpoYB7t
- cnTktWAknNbeHgY+85ew6oRxsiDa6gCSUQ==
-X-Google-Smtp-Source: ABdhPJyRkhrAemsdwwGKEf6RxHTV1ZW5iz9c/0P1++RbGWVxYMGEKUj+z2DSw4rmF0QWI4l18y+0fg==
-X-Received: by 2002:a05:6402:7ce:: with SMTP id
- u14mr3215345edy.61.1628886649701; 
- Fri, 13 Aug 2021 13:30:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y17sm1347027edv.51.2021.08.13.13.30.48
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Uge++jdV8hZVuGx4sX1iqwS2v7HWDBN7pZ3sxa513Os=;
+ b=sx6i0462BqY3k3yJ4Uu5DkGhVOY3liY2FcYXyxLYbaclI55JfPP2B3IegAPSnen+AE
+ LOaxY8eTJ9/EP++Itf+01LlrmNT1nhZYfRpfBDCSpPetGaqE+bUilPmDRzTCPK/FzTcC
+ 9h2fllx5flYkBgsX/8ZEbWg6nrdSMBIRirgVRf+KFdW9ZsyGcVkzbgVKEGgofrsyzuUn
+ CqGLMv876DMf+0x+W2qCVDFiMXAM9QGvKPXKmEWGfpzr8RqcIwfsQk3lTE3y7blX+SK2
+ lLw6LdVXhhC1qA1YeT8LG7BWD2TnA/tI5XBbAquS2zn4stAgPbB4LnhWp/5nGlVXkNIB
+ oabQ==
+X-Gm-Message-State: AOAM533as2aRBJlW+/JmWNFx0EKk2ducI4VDle8oDZGBTVTLcSzhSSCB
+ GCODfliBOwta71bZtiaWqg==
+X-Google-Smtp-Source: ABdhPJxkGTxumL5M/sOxVEzvH3QItuiwmNWSlWwzGAvPgpKvViQ6pXGErpUvZNomsJ9KIoggkjynVw==
+X-Received: by 2002:a9d:38f:: with SMTP id f15mr3540263otf.253.1628887076804; 
+ Fri, 13 Aug 2021 13:37:56 -0700 (PDT)
+Received: from robh.at.kernel.org
+ (2603-8080-2a06-ed00-7254-0b80-dd3c-00c6.res6.spectrum.com.
+ [2603:8080:2a06:ed00:7254:b80:dd3c:c6])
+ by smtp.gmail.com with ESMTPSA id k2sm529367otp.2.2021.08.13.13.37.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 13:30:49 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-Subject: [PATCH 11/11] drm/i915: Stop rcu support for i915_address_space
-Date: Fri, 13 Aug 2021 22:30:33 +0200
-Message-Id: <20210813203033.3179400-11-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
-References: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
+ Fri, 13 Aug 2021 13:37:55 -0700 (PDT)
+Received: (nullmailer pid 3987020 invoked by uid 1000);
+ Fri, 13 Aug 2021 20:37:54 -0000
+Date: Fri, 13 Aug 2021 15:37:54 -0500
+From: Rob Herring <robh@kernel.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, jonathanh@nvidia.com,
+ airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: Add YAML bindings for Host1x and NVDEC
+Message-ID: <YRbYImV8V+DElpy7@robh.at.kernel.org>
+References: <20210806123450.2970777-1-mperttunen@nvidia.com>
+ <20210806123450.2970777-2-mperttunen@nvidia.com>
+ <YRKengKZmFtgsIZy@orome.fritz.box>
+ <c06df24f-989b-fdfe-ea04-867de1aa8828@nvidia.com>
+ <YRKlA7aBYOuElXDe@orome.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRKlA7aBYOuElXDe@orome.fritz.box>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,282 +72,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The full audit is quite a bit of work:
+On Tue, Aug 10, 2021 at 06:10:43PM +0200, Thierry Reding wrote:
+> On Tue, Aug 10, 2021 at 06:50:26PM +0300, Mikko Perttunen wrote:
+> > On 10.8.2021 18.43, Thierry Reding wrote:
+> > > On Fri, Aug 06, 2021 at 03:34:48PM +0300, Mikko Perttunen wrote:
+> > > > Convert the original Host1x bindings to YAML and add new bindings for
+> > > > NVDEC, now in a more appropriate location. The old text bindings
+> > > > for Host1x and engines are still kept at display/tegra/ since they
+> > > > encompass a lot more engines that haven't been converted over yet.
+> > > > 
+> > > > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> > > > ---
+> > > > v2:
+> > > > * Fix issues pointed out in v1
+> > > > * Add T194 nvidia,instance property
+> > > > ---
+> > > >   .../gpu/host1x/nvidia,tegra20-host1x.yaml     | 131 ++++++++++++++++++
+> > > >   .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 109 +++++++++++++++
+> > > >   MAINTAINERS                                   |   1 +
+> > > >   3 files changed, 241 insertions(+)
+> > > >   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra20-host1x.yaml
+> > > >   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+> > > 
+> > > Can we split off the NVDEC bindings addition into a separate patch? I've
+> > > been working on converting the existing host1x bindings in full to json-
+> > > schema and this partial conversion would conflict with that effort.
+> > > 
+> > > I assume that NVDEC itself validates properly even if host1x hasn't been
+> > > converted yet?
+> > 
+> > Sure. I thought I had some problems with this before but can't see any now.
+> > 
+> > > 
+> > > > diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..fc535bb7aee0
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+> > > > @@ -0,0 +1,109 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra210-nvdec.yaml#"
+> > > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > > > +
+> > > > +title: Device tree binding for NVIDIA Tegra NVDEC
+> > > > +
+> > > > +description: |
+> > > > +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
+> > > > +  and newer chips. It is located on the Host1x bus and typically
+> > > > +  programmed through Host1x channels.
+> > > > +
+> > > > +maintainers:
+> > > > +  - Thierry Reding <treding@gmail.com>
+> > > > +  - Mikko Perttunen <mperttunen@nvidia.com>
+> > > > +
+> > > > +properties:
+> > > > +  $nodename:
+> > > > +    pattern: "^nvdec@[0-9a-f]*$"
+> > > > +
+> > > > +  compatible:
+> > > > +    enum:
+> > > > +      - nvidia,tegra210-nvdec
+> > > > +      - nvidia,tegra186-nvdec
+> > > > +      - nvidia,tegra194-nvdec
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clocks:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clock-names:
+> > > > +    items:
+> > > > +      - const: nvdec
+> > > > +
+> > > > +  resets:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  reset-names:
+> > > > +    items:
+> > > > +      - const: nvdec
+> > > > +
+> > > > +  power-domains:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  iommus:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interconnects:
+> > > > +    items:
+> > > > +      - description: DMA read memory client
+> > > > +      - description: DMA read 2 memory client
+> > > > +      - description: DMA write memory client
+> > > > +
+> > > > +  interconnect-names:
+> > > > +    items:
+> > > > +      - const: dma-mem
+> > > > +      - const: read2
+> > > 
+> > > The convention that we've used so far has been to start numbering these
+> > > at 0 and use a dash, so this would be "read-1".
+> > 
+> > Will fix.
+> > 
+> > > 
+> > > > +      - const: write
+> > > > +
+> > > > +required:
+> > > > +  - compatible
+> > > > +  - reg
+> > > > +  - clocks
+> > > > +  - clock-names
+> > > > +  - resets
+> > > > +  - reset-names
+> > > > +  - power-domains
+> > > > +
+> > > > +if:
+> > > > +  properties:
+> > > > +    compatible:
+> > > > +      contains:
+> > > > +        const: nvidia,tegra194-host1x
+> > > > +then:
+> > > > +  properties:
+> > > > +    nvidia,instance:
+> > > > +      items:
+> > > > +        - description: 0 for NVDEC0, or 1 for NVDEC1
+> > > 
+> > > I know we had discussed this before, but looking at the driver patch, I
+> > > don't actually see this being used now, so I wonder if we still need it.
+> > > 
+> > > > +additionalProperties: true
+> > > 
+> > > Maybe this should have a comment noting that this should really be
+> > > unevaluatedProperties: false, but we can't use that because the tooling
+> > > doesn't support it yet?
 
-- i915_dpt has very simple lifetime (somehow we create a display pagetable vm
-  per object, so its _very_ simple, there's only ever a single vma in there),
-  and uses i915_vm_close(), which internally does a i915_vm_put(). No rcu.
+Use 'unevaluatedProperties: false'. There's support in jsonschema pkg 
+master now, so we should have support working soon. I've run it with the 
+kernel tree as well. I was surprised there weren't many issues...
 
-  Aside: wtf is i915_dpt doing in the intel_display.c garbage collector as a new
-  feature, instead of added as a separate file with some clean-ish interface.
+'additionalProperties: true' should only ever be used for incomplete 
+collections of properties (i.e. common bindings). I haven't come up with 
+a meta-schema to check this. We'd probably need to point to different 
+meta-schemas.
 
-  Also, i915_dpt unfortunately re-introduces some coding patterns from
-  pre-dma_resv_lock conversion times.
+> > 
+> > I can add such a comment if desired. Honestly, I don't really know what
+> > 'unevaluatedProperties' means or does -- the explanation in
+> > example-schema.yaml doesn't seem like it's relevant here and I cannot find
+> > any other documentation.
+> 
+> It's basically like additionalProperties, except that it applies to
+> properties evaluated via if: blocks.
+> 
+> So with additionalProperties: false, the presence of the nvidia,instance
+> property in a Tegra194 DTS file would cause a validation failure because
+> it's a property that was not defined in the properties: block.
+> 
+> With unevaluatedProperties: false, on the other hand, the properties
+> that are defined in the if: block above will become a evaluated
+> properties and therefore a Tegra194 DTS with the nvidia,instance
+> property present would succeed validation. Unless, of course, if it
+> contained additional properties that are not defined in any of the
+> properties: blocks (either unconditional or conditional ones).
+> 
+> So in other words, the additionalProperties schema applies to all
+> unconditionally defined properties, whereas unevaluatedProperties
+> applies to all (conditionally and unconditionally) defined properties.
 
-- i915_gem_proto_ctx is fully refcounted and no rcu, all protected by
-  fpriv->proto_context_lock.
+I generally discourage only defining the properties in an if/then. 
+Partly because unevaluatedProperties wasn't implemented. I guess if a 
+property is only allowed in the 'then' case, it makes sense. But if the 
+property is just different constraints for then and else, then I'd 
+define it in the main section.
 
-- i915_gem_context is itself rcu protected, and that might leak to anything it
-  points at. Before
-
-	commit cf977e18610e66e48c31619e7e0cfa871be9eada
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Wed Dec 2 11:21:40 2020 +0000
-
-	    drm/i915/gem: Spring clean debugfs
-
-  and
-
-	commit db80a1294c231b6ac725085f046bb2931e00c9db
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Mon Jan 18 11:08:54 2021 +0000
-
-	    drm/i915/gem: Remove per-client stats from debugfs/i915_gem_objects
-
-  we had a bunch of debugfs files that relied on rcu protecting everything, but
-  those are gone now. The main one was removed even earlier with
-
-  There doesn't seem to be anything left that's actually protecting
-  stuff now that the ctx->vm itself is invariant. See
-
-	commit ccbc1b97948ab671335e950271e39766729736c3
-	Author: Jason Ekstrand <jason@jlekstrand.net>
-	Date:   Thu Jul 8 10:48:30 2021 -0500
-
-	    drm/i915/gem: Don't allow changing the VM on running contexts (v4)
-
-  Note that we drop the vm refcount before the final release of the gem context
-  refcount, so this is all very dangerous even without rcu. Note that aside from
-  later on creating new engines (a defunct feature) and debug output we're never
-  looked at gem_ctx->vm for anything functional, hence why this is ok.
-  Fingers crossed.
-
-  Preceeding patches removed all vestiges of rcu use from gem_ctx->vm
-  derferencing to make it clear it's really not used.
-
-  The gem_ctx->rcu protection was introduced in
-
-	commit a4e7ccdac38ec8335d9e4e2656c1a041c77feae1
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Fri Oct 4 14:40:09 2019 +0100
-
-	    drm/i915: Move context management under GEM
-
-  The commit message is somewhat entertaining because it fails to
-  mention this fact completely, and compensates that by an in-commit
-  changelog entry that claims that ctx->vm is protected by ctx->mutex.
-  Which was the case _before_ this commit, but no longer after it.
-
-- intel_context holds a full reference. Unfortunately intel_context is also rcu
-  protected and the reference to the ->vm is dropped before the
-  rcu barrier - only the kfree is delayed. So again we need to check
-  whether that leaks anywhere on the intel_context->vm. RCU is only
-  used to protect intel_context sitting on the breadcrumb lists, which
-  don't look at the vm anywhere, so we are fine.
-
-  Nothing else relies on rcu protection of intel_context and hence is
-  fully protected by the kref refcount alone, which protects
-  intel_context->vm in turn.
-
-  The breadcrumbs rcu usage was added in
-
-	commit c744d50363b714783bbc88d986cc16def13710f7
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Thu Nov 26 14:04:06 2020 +0000
-
-	    drm/i915/gt: Split the breadcrumb spinlock between global and contexts
-
-  its parent commit added the intel_context rcu protection:
-
-	commit 14d1eaf08845c534963c83f754afe0cb14cb2512
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Thu Nov 26 14:04:05 2020 +0000
-
-	    drm/i915/gt: Protect context lifetime with RCU
-
-  given some credence to my claim that I've actually caught them all.
-
-- drm_i915_gem_object's shares_resv_from pointer has a full refcount to the
-  dma_resv, which is a sub-refcount that's released after the final
-  i915_vm_put() has been called. Safe.
-
-  Aside: Maybe we should have a struct dma_resv_shared which is just dma_resv +
-  kref as a stand-alone thing. It's a pretty useful pattern which other drivers
-  might want to copy.
-
-  For a bit more context see
-
-	commit 4d8151ae5329cf50781a02fd2298a909589a5bab
-	Author: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-	Date:   Tue Jun 1 09:46:41 2021 +0200
-
-	    drm/i915: Don't free shared locks while shared
-
-- the fpriv->vm_xa was relying on rcu_read_lock for lookup, but that
-  was updated in a prep patch too to just be a spinlock-protected
-  lookup.
-
-- intel_gt->vm is set at driver load in intel_gt_init() and released
-  in intel_gt_driver_release(). There seems to be some issue that
-  in some error paths this is called twice, but otherwise no rcu to be
-  found anywhere. This was added in the below commit, which
-  unfortunately doesn't explain why this complication exists.
-
-	commit e6ba76480299a0d77c51d846f7467b1673aad25b
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Sat Dec 21 16:03:24 2019 +0000
-
-	    drm/i915: Remove i915->kernel_context
-
-  The proper fix most likely for this is to start using drmm_ at large
-  scale, but that's also huge amounts of work.
-
-- i915_vma->vm is some real pain, because rcu is rcu protected, at
-  least in the vma lookup in the context lookup cache in
-  eb_lookup_vma(). This was added in
-
-	commit 4ff4b44cbb70c269259958cbcc48d7b8a2cb9ec8
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Fri Jun 16 15:05:16 2017 +0100
-
-	    drm/i915: Store a direct lookup from object handle to vma
-
-  This was changed to a radix tree from the hashtable in, but with the
-  locking unchanged, in
-
-	commit d1b48c1e7184d9bc4ae6d7f9fe2eed9efed11ffc
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Wed Aug 16 09:52:08 2017 +0100
-
-	    drm/i915: Replace execbuf vma ht with an idr
-
-  In
-
-	commit 93159e12353c2a47e5576d642845a91fa00530bf
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Mon Mar 23 09:28:41 2020 +0000
-
-	    drm/i915/gem: Avoid gem_context->mutex for simple vma lookup
-
-  the locking was changed from dev->struct_mutex to rcu, which added
-  the requirement to rcu protect i915_vma. Somehow this was missed in
-  review (or I'm completely blind).
-
-  Irrespective of all that the vma lookup cache rcu_read_lock grabs a
-  full reference of the vma and the rcu doesn't leak further. So no
-  impact on i915_address_space from that.
-
-  I have not found any other rcu use for i915_vma, but given that it
-  seems broken I also didn't bother to do a careful in-depth audit.
-
-Alltogether there's nothing left in-tree anymore which requires that a
-pointer deref to an i915_address_space is safe undre rcu_read_lock
-only.
-
-rcu protection of i915_address_space was introduced in
-
-commit b32fa811156328aea5a3c2ff05cc096490382456
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Thu Jun 20 19:37:05 2019 +0100
-
-    drm/i915/gtt: Defer address space cleanup to an RCU worker
-
-by mixing up a bugfixing (i915_address_space needs to be released from
-a worker) with enabling rcu support. The commit message also seems
-somewhat confused, because it talks about cleanup of WC pages
-requiring sleep, while the code and linked bugzilla are about a
-requirement to take dev->struct_mutex (which yes sleeps but it's a
-much more specific problem). Since final kref_put can be called from
-pretty much anywhere (including hardirq context through the
-scheduler's i915_active cleanup) we need a worker here. Hence that
-part must be kept.
-
-Ideally all these reclaim workers should have some kind of integration
-with our shrinkers, but for some of these it's rather tricky. Anyway,
-that's a preexisting condition in the codeebase that we wont fix in
-this patch here.
-
-We also remove the rcu_barrier in ggtt_cleanup_hw added in
-
-commit 60a4233a4952729089e4df152e730f8f4d0e82ce
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Mon Jul 29 14:24:12 2019 +0100
-
-    drm/i915: Flush the i915_vm_release before ggtt shutdown
-
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
----
- drivers/gpu/drm/i915/gt/intel_ggtt.c | 1 -
- drivers/gpu/drm/i915/gt/intel_gtt.c  | 6 +++---
- drivers/gpu/drm/i915/gt/intel_gtt.h  | 2 +-
- 3 files changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index de3ac58fceec..8d71f67926f1 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -727,7 +727,6 @@ static void ggtt_cleanup_hw(struct i915_ggtt *ggtt)
- 
- 	atomic_set(&ggtt->vm.open, 0);
- 
--	rcu_barrier(); /* flush the RCU'ed__i915_vm_release */
- 	flush_workqueue(ggtt->vm.i915->wq);
- 
- 	mutex_lock(&ggtt->vm.mutex);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index e137dd32b5b8..a0c2b952aa57 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -155,7 +155,7 @@ void i915_vm_resv_release(struct kref *kref)
- static void __i915_vm_release(struct work_struct *work)
- {
- 	struct i915_address_space *vm =
--		container_of(work, struct i915_address_space, rcu.work);
-+		container_of(work, struct i915_address_space, release_work);
- 
- 	vm->cleanup(vm);
- 	i915_address_space_fini(vm);
-@@ -171,7 +171,7 @@ void i915_vm_release(struct kref *kref)
- 	GEM_BUG_ON(i915_is_ggtt(vm));
- 	trace_i915_ppgtt_release(vm);
- 
--	queue_rcu_work(vm->i915->wq, &vm->rcu);
-+	queue_work(vm->i915->wq, &vm->release_work);
- }
- 
- void i915_address_space_init(struct i915_address_space *vm, int subclass)
-@@ -185,7 +185,7 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
- 	if (!kref_read(&vm->resv_ref))
- 		kref_init(&vm->resv_ref);
- 
--	INIT_RCU_WORK(&vm->rcu, __i915_vm_release);
-+	INIT_WORK(&vm->release_work, __i915_vm_release);
- 	atomic_set(&vm->open, 1);
- 
- 	/*
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index bc7153018ebd..5b539bd7645d 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -213,7 +213,7 @@ struct i915_vma_ops {
- 
- struct i915_address_space {
- 	struct kref ref;
--	struct rcu_work rcu;
-+	struct work_struct release_work;
- 
- 	struct drm_mm mm;
- 	struct intel_gt *gt;
--- 
-2.32.0
-
+Rob 
