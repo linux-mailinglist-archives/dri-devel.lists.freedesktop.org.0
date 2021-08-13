@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62AF3EBDA9
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 22:55:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB0B3EBDAB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 22:55:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2C76E8DA;
-	Fri, 13 Aug 2021 20:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5C1D6E8DD;
+	Fri, 13 Aug 2021 20:55:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88EF56E8DA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 20:54:55 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- 61-20020a9d0d430000b02903eabfc221a9so13647837oti.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 13:54:55 -0700 (PDT)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 315EE6E8DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 20:55:19 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id u10so17802602oiw.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 13:55:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=e7obZQIXIJ90oiyGQcBq80Z6Ly8ShtrfGKC2ujXAAi8=;
- b=Oc+mQAuBztlBl10Zx0yTRUS3cXLVNYAQsAi29Wf+j6sRvgjZBb1qxtNtcv/OLAhZ5+
- FvXBbavpNRJKgEesNrDGLPOAKN2sxey1Y4Lsu65XCuInLv82s0Kzk1+OksqV9YTlmysm
- vaqeo+ZZzFbLZoXZ5QmHAoRCyrOALMbTY5ZgR7vwjoEK48wGOyUiVGGlLwHxKyTo/PF3
- ezEsu7t2sP23CL+ycaOFIybN//4E/u42a+kiG/yZk6dj7bTZM1F/SNgWttK1XSrULwjb
- N/l1gXYnarjCIkMcwIq0fmvka8TVEWHhfprrGL8gjlEyGp71mfEGE/J4YVZ5JeKywwD9
- Uhng==
-X-Gm-Message-State: AOAM532IGiNIFLRqsOI8KWWEMMkQPFJb0KDoCUHLif1F+2n4ApOsu5B/
- xLxCOhkWxdT5mnPDlqpx5w==
-X-Google-Smtp-Source: ABdhPJx74xgDqvGtsahOfUGt/xUyVop0aeUbpm+X9Wn69ZuvwCkE5MQ2rgYziIKt37zWV07IwPlToA==
-X-Received: by 2002:a05:6830:44a8:: with SMTP id
- r40mr3611829otv.222.1628888094843; 
- Fri, 13 Aug 2021 13:54:54 -0700 (PDT)
+ bh=7BO2ChIUuNpq3WeTk0/EByYq5NnLR/krREfPVXHnjWs=;
+ b=EEIr7sKyMfHAcnkMNbfEyUczx72yns+nfrGJVQMHqr2XSEO3tR6Sy54BD0wurPqQ1H
+ H6cKYUlT1e+lUaTW/sWVDRVg0Nqzmc3u+TNUfkS2WI6Yemrbhf9PMEViI/pSr9FF8D+G
+ GVmw7vvNIXFU79RDAyk+3FfhDpMLuJ5KQwglUS/JkhFUrmawmlw2dvAn6smDf3PSCoqx
+ To0ig1bs0N7p0ma0dk9iTQBeogXUDGv34xldTDb1GUMYMUVR42w6ZoNBMiMGUuWzd0wP
+ 62LOJOD4aY4Q6Fod3Ppf5BxGLdO3PfrcaH4BTqaErPfPp1vHGrTmp+UlJqzD0Hip+9Zb
+ bRLw==
+X-Gm-Message-State: AOAM531WY4bzL4KPWHAfzAqr2PX/J5auRXlf1QKapF11xYyaCKFJmbDJ
+ NLI83sJ9SAfh80LOB2KaFQ==
+X-Google-Smtp-Source: ABdhPJzneb8YgUnhnQwPss2jCeHxOJcbK7td+ujVZXi3MHUQPfw/T/R3qMeWlG2j5d5ErA2Mpsy6cQ==
+X-Received: by 2002:a05:6808:8c7:: with SMTP id
+ k7mr3725650oij.53.1628888118504; 
+ Fri, 13 Aug 2021 13:55:18 -0700 (PDT)
 Received: from robh.at.kernel.org
  (2603-8080-2a06-ed00-a2a6-2d62-395f-9378.res6.spectrum.com.
  [2603:8080:2a06:ed00:a2a6:2d62:395f:9378])
- by smtp.gmail.com with ESMTPSA id o26sm534396otk.77.2021.08.13.13.54.53
+ by smtp.gmail.com with ESMTPSA id m9sm481841ooe.32.2021.08.13.13.55.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 13:54:53 -0700 (PDT)
-Received: (nullmailer pid 4015418 invoked by uid 1000);
- Fri, 13 Aug 2021 20:54:52 -0000
-Date: Fri, 13 Aug 2021 15:54:52 -0500
+ Fri, 13 Aug 2021 13:55:17 -0700 (PDT)
+Received: (nullmailer pid 4016157 invoked by uid 1000);
+ Fri, 13 Aug 2021 20:55:16 -0000
+Date: Fri, 13 Aug 2021 15:55:16 -0500
 From: Rob Herring <robh@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Michal Simek <michal.simek@xilinx.com>, Jianqiang Chen <jianqian@xilinx.com>,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH 01/36] dt-bindings: display: xlnx: zynqmp-dpsub: Add OF
- graph ports
-Message-ID: <YRbcHBZn5QX5Q5mQ@robh.at.kernel.org>
-References: <20210809013457.11266-1-laurent.pinchart@ideasonboard.com>
- <20210809013457.11266-2-laurent.pinchart@ideasonboard.com>
+To: Shawn Guo <shawn.guo@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: Add Sony Tulip Truly
+ NT35521 panel support
+Message-ID: <YRbcNJHLkvmoG+TM@robh.at.kernel.org>
+References: <20210809051008.6172-1-shawn.guo@linaro.org>
+ <20210809051008.6172-2-shawn.guo@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210809013457.11266-2-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20210809051008.6172-2-shawn.guo@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,15 +72,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 09 Aug 2021 04:34:22 +0300, Laurent Pinchart wrote:
-> The DPSUB doesn't live in isolation, but is connected to the
-> programmable logic for live inputs and outputs, and also has a
-> DisplayPort output. Model all those using OF graph.
+On Mon, 09 Aug 2021 13:10:07 +0800, Shawn Guo wrote:
+> The Sony Tulip Truly NT35521 is a 5.24" 1280x720 DSI panel, which can
+> be found on Sony Xperia M4 Aqua phone.  The backlight is managed
+> through DSI link.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
 > ---
->  .../display/xlnx/xlnx,zynqmp-dpsub.yaml       | 67 +++++++++++++++++++
->  1 file changed, 67 insertions(+)
+>  .../panel/sony,tulip-truly-nt35521.yaml       | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
