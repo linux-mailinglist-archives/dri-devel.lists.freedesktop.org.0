@@ -1,114 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4493EB0D5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 08:58:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A08EA3EB018
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 08:32:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E65036E53C;
-	Fri, 13 Aug 2021 06:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 762466E4DD;
+	Fri, 13 Aug 2021 06:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60041.outbound.protection.outlook.com [40.107.6.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3212389CFA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 06:27:22 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2068.outbound.protection.outlook.com [40.107.93.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C8526E4CD;
+ Fri, 13 Aug 2021 06:32:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WGvJf4kHmEE9ORVUg5aus7soYyBHqZvmy+Mo1Rg7iK39+Dgj+0mgsV33k0SHJw6sMF+iDGacXOMPZOfxOWBNpo0+nidXMpvaqTxEeHroLnxbsRicyYs5gdo1Zu+rZaHwoYTRcQS6Ws63ebL4aFxF98i7LTXKnaL1GHMYBvLxevgvDAo6J2DO1kxPxXWH4bgPSwtv1oMzT6hy8kEImg1rlvehhNEmhTUCIwDF8YvhH3G3WBF+HDpu56AFcS2AVXTKmznSsxZBlDdtvF3YcJbQNi4+qSHqzvbHdzFKURwcAbsKnkynDeQbnQsKidXdqHNnpbOwB1uaHXRmTmh0dNfEkA==
+ b=fAqHGAtxyPhCp/xLUnmdbI1JOEL6NRP9sRI7kqyw/C+vAmqGtH8EVZmAwakhpeEXeKD5Lfz2ZuLwydJ3s5KTF/geRbFc5lYMdNrrS29TuZxZ8r1TK6LuvYSA6bjel0NcfXXvYQ8XRtXEi7+aos+4Q3bp2xwBi7vgMOe5q2Hcci8zyy75BVqHjXOl/iXMGaZ/Kpn/HQITZbiRRfNQeGBlNiYcaMG2t7zQFRE8o2zNM5Jo3/GfXb5NfBTgNB/6vWvKH13uMFOGmZcDSb+VW7wINgsW7ZHULk9M5ZivL776bcfoPf3zwXtbjFxJT+h+e+5KQzTjzvOsunFs8tHEgGmcSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ju51WA1pXCrlmyJq81DY2scEE5T92Wxu9ch8PKCuG9Q=;
- b=InUwBlxoOraDqLCeSFUAp1i0uIXnW5D22Ox1H9zr3QODLlZCp9AyvwsoKNTVp94d7Qzkh63+4RfWut0OtvTEayUvp2efv3wAS1R9tJEnPShZ8bJTI/qaO+MWkSKY7iNq6uCi1XZS/fejD/AaOfkVzsdPYZShdruj922RGzW2UG/fbY2BQoLuTtHBhl/uVm7uZ6xA0M6qkPes6vyCAVbJSi91d9h9N1+Cwnmpl3UgjD2G825yAN93WH4rcCFPnXBGA/YX2jiOvTRDbDHIZOnjRwlHzhX01ul0AVpAos8yMu3U+YKt188VtP2ZqFDiSAWsWY3Wyz+h9e+spdfcm4ikkA==
+ bh=WonmvqEiug6jc57fMTf30E+WOAD6E2j+AWBiBhOkmzo=;
+ b=iWPZlNsAc9zpuyuoC9Mq1DV/3JQYRPdMmp058OVujST0rN2Zm5riukCgNdZ8rAYUkYOmhp6tm+Q4ZhYHFnBjiD30B1gE0CiivxJJikukx1ZjJgZeRKMugcZu/JG7Kkfy8GxBZbe8dk5ecq4Ucl4Vv24DfwoRABsv5Cu34JhaH42MfALFT0OywaKQQFRNsv1NQI7peL5Eh4fC2iLklYfLKwXkLZwHSQf+PwapNXrFIaphZ4K8XnvqMU73x+srq4XG8fX/hsl7N8vunkEs7E7yuDXHiFZ7MgCtAtiWYfJw4ekyg/cDWGlOguhU02ihBqZ0JRCUjx5OmaBCc064/IZh6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kococonnector.com; dmarc=pass action=none
- header.from=kococonnector.com; dkim=pass header.d=kococonnector.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=KoCoConnector.onmicrosoft.com; s=selector2-KoCoConnector-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ju51WA1pXCrlmyJq81DY2scEE5T92Wxu9ch8PKCuG9Q=;
- b=KwQPcOvR+Vj8pp4pyuCd3/b1G6skT4cwCnOqJZlv1nUCbd61lIPyLEIJ6n3M7+JPF0es12GdKTS33kq3b8hM5QIB9rPc2uCxvjoEGhPirLJ62YSGe1ZK7JD/nlXwoFZYrrfrOzQirdqryERCa0UQ/8uRYWSIvHo6j8CqndKTocQ=
-Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=kococonnector.com;
-Received: from AM9PR09MB4884.eurprd09.prod.outlook.com (2603:10a6:20b:281::9)
- by AM0PR09MB3299.eurprd09.prod.outlook.com (2603:10a6:208:16c::32)
+ bh=WonmvqEiug6jc57fMTf30E+WOAD6E2j+AWBiBhOkmzo=;
+ b=D1cMM5V6yhxVJI1cLsnj9R+xXSXuSYocJEjHEKmsDv4myb07E6KOlYsNoAG/ok0SWzqpOP66+I09yRNzVowAHbhlJAkdwDg5MN3xqLMP0HbkuEeDznob465o78itsMBgv1wSvVKk6ia3xcUHd691e/llrmxnDsN5K1+ioAKgCdE=
+Authentication-Results: linux-foundation.org; dkim=none (message not signed)
+ header.d=none;linux-foundation.org; dmarc=none action=none
+ header.from=amd.com;
+Received: from SA0PR12MB4430.namprd12.prod.outlook.com (2603:10b6:806:70::20)
+ by SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.19; Fri, 13 Aug
- 2021 06:27:20 +0000
-Received: from AM9PR09MB4884.eurprd09.prod.outlook.com
- ([fe80::35c9:eaa2:9d67:9ec1]) by AM9PR09MB4884.eurprd09.prod.outlook.com
- ([fe80::35c9:eaa2:9d67:9ec1%6]) with mapi id 15.20.4415.019; Fri, 13 Aug 2021
- 06:27:20 +0000
-From: Oliver Graute <oliver.graute@kococonnector.com>
-To: gregkh@linuxfoundation.org
-Cc: oliver.graute@gmail.com, Oliver Graute <oliver.graute@kococonnector.com>,
- Carlis <zhangxuezhi1@yulong.com>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v1] fbtft: fb_st7789v: added reset on init_display()
-Date: Fri, 13 Aug 2021 08:25:10 +0200
-Message-Id: <20210813062511.14537-1-oliver.graute@kococonnector.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: AM9P192CA0006.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:21d::11) To AM9PR09MB4884.eurprd09.prod.outlook.com
- (2603:10a6:20b:281::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Fri, 13 Aug
+ 2021 06:32:02 +0000
+Received: from SA0PR12MB4430.namprd12.prod.outlook.com
+ ([fe80::e828:5445:a5aa:94cb]) by SA0PR12MB4430.namprd12.prod.outlook.com
+ ([fe80::e828:5445:a5aa:94cb%5]) with mapi id 15.20.4415.019; Fri, 13 Aug 2021
+ 06:32:02 +0000
+From: Alex Sierra <alex.sierra@amd.com>
+To: akpm@linux-foundation.org, Felix.Kuehling@amd.com, linux-mm@kvack.org,
+ rcampbell@nvidia.com, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, hch@lst.de,
+ jgg@nvidia.com, jglisse@redhat.com
+Subject: [PATCH v6 00/13] Support DEVICE_GENERIC memory in migrate_vma_*
+Date: Fri, 13 Aug 2021 01:31:37 -0500
+Message-Id: <20210813063150.2938-1-alex.sierra@amd.com>
+X-Mailer: git-send-email 2.32.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7PR18CA0026.namprd18.prod.outlook.com
+ (2603:10b6:806:f3::18) To SA0PR12MB4430.namprd12.prod.outlook.com
+ (2603:10b6:806:70::20)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (2.207.138.2) by
- AM9P192CA0006.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::11) with Microsoft
+Received: from alex-MS-7B09.amd.com (165.204.78.1) by
+ SN7PR18CA0026.namprd18.prod.outlook.com (2603:10b6:806:f3::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4415.17 via Frontend Transport; Fri, 13 Aug 2021 06:27:19 +0000
+ 15.20.4415.17 via Frontend Transport; Fri, 13 Aug 2021 06:32:02 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef8700f8-573c-4097-9f08-08d95e236784
-X-MS-TrafficTypeDiagnostic: AM0PR09MB3299:
+X-MS-Office365-Filtering-Correlation-Id: 4da46a32-f002-4c74-b60c-08d95e240fd2
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2718:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR09MB3299AAEE4903319036D9D75CEBFA9@AM0PR09MB3299.eurprd09.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <SN6PR12MB27181874A5CB4B96A77AF240FDFA9@SN6PR12MB2718.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: b2Fx6N+M4AQJ/vZeHWLV54D+VqpFWq76p7bnCU2kDW1dOQVhu/e6rDbh/Rbxx+gRjCZ4bHTlKuuVNFZ1nDi87sxqJQXXtbfKGWhYAWfwyTB4MC7j+1VGadV5AowLKxQpKyYJMiFadaEgYSwNQ7N0oWN+21Dmsys04xYtL64/oewpTZ2dtuxKXLiSrpIvzf5fpLgoNfBmSUSitnxZEH7yjdSObogzp11Qo6/6+h6+39dKe8VDAZir5WxvtXu3q7tfZ+/IGnmU0lq6xS0UUfTmWRfyvnuJ4edKFAeP7scd4KYUa/L7Zmll3T7py1B8CoC++wFF5w9Ou6AtrMv8PLQVxIEKL2WXQyM7WS133MQpH3ZrnCOtieOhhnXcliHIXMgz25T/YajITWGgRvrGYwTpRg95dinBl8iveOoNcYY8kRjscJCkF+pcyZ/69Ns6L4VtxCQ1lp84/VyrDfULiXlPVetH3ZVeZmvVKtbo6Q9HRQAIchG+WygyM+KN8sp1CWLf7YVF6tSbdpBecBYMvvOqYv2WtMAd2acuo+dpLfLkiJwyU3ICiDQ7eUbYJfk/zIGxKBqdUusvCGdw4N/5+L4wzH7NwyV3bbifDY8rsfoeTrcGZnJSoN3wOVe7t+7bsLy+CXPFAJXEVX0rfGOjGtFqjmqv5bMdmjkglSmsEBFhvzHfSKuoVv/FnlQ2FL5npFVPdqElEqyRHCc/9/Y3DOhalA==
+X-Microsoft-Antispam-Message-Info: sq01c+VaHwGjv16eSuxsHuKVHOH7n0vob5laqd+xGfsbGeLjTIRaubSZkixUZkh7qERLwwEi5amqPGe1v2+USSYgS6+GF9ugHkYIFg8vwHrK/vULIcahsknLYxLkXYotgRnjXftZqnvXhHXySGljtxBC2jnBI0lJ91/u94iGKvNHE/SPrlPNi/xvJuDaqi5t0wlZoelFNQAke0yfTT0PVjr9M0Zh4osOkdUJ+1LvJO4+/b9YD1LQ82yRMfGHxbjDZAnDmGiTCXz+RcP9bizZROOpabtmTShQkyPM4BJcR79Gf2fqICabl7VxCs6R7ANPVIr2WYg3STKkC7sHIa61i0nB+uvMXuSSLCgXG8PILwyKkgx+UScO8KWNCbNUUrJkZ5gBP/yod6USB6T0VDScevkvDdz8Oi9p+wNpbbOYeAsRpRARcZXqpI44qtv65Xec4Og+Yr/Ws//uMv8+14Bux840W5SRcXgYy6g5e6XaFpnoWnsMfZbeMeYoUMWa8/QR6xTcE/yCyedjgfwE3vBfIts24Rww+4K2w6Kw3sNFW8M8rAGbTR27tAuTZc3WRqmaZOrLYvx62Zu04XH30KycIzDPONPUgSTL7W4I7izr9rXZhvUedeHc1BOoqlTcaeUWsX8DGS8wWfdNtYXAshFE3Nt43ft9dpfxfjlg9XPSZEGrf/2HyS++65tOvx8lrmNON8QJBuhpMGmGYTasHF+bV9LtmVHCCduMXlSSV8suIUy3rtce0VQvJcfD4tNgqgLHnS8cCNeM4EiqACANzmzO456BLKSGDg97B8SXCGcCa+L2fiivxoAMHL0vJpf5nVgoN8A23Q72gZExOgWBySLNQ7EyULr9q7iuvlnj8PKKAwE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR09MB4884.eurprd09.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(136003)(346002)(396003)(39830400003)(366004)(2616005)(66556008)(38100700002)(44832011)(66476007)(4744005)(38350700002)(8676002)(316002)(6666004)(54906003)(1076003)(5660300002)(26005)(956004)(66946007)(86362001)(6496006)(52116002)(6916009)(8936002)(36756003)(6486002)(186003)(508600001)(2906002)(4326008);
+ IPV:NLI; SFV:NSPM; H:SA0PR12MB4430.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(366004)(396003)(376002)(136003)(39860400002)(956004)(44832011)(30864003)(2616005)(6486002)(4326008)(86362001)(1076003)(5660300002)(478600001)(8676002)(38100700002)(8936002)(316002)(38350700002)(7416002)(2906002)(66946007)(6666004)(36756003)(66476007)(186003)(26005)(7696005)(52116002)(966005)(66556008)(83380400001)(41533002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Jp2C2m5vN5MMYsdVlUW6d6rc4Oiq25mnH/qFlGCw63cxqq+BH46bsP4vDUyj?=
- =?us-ascii?Q?lA8qpoocD39WpHPbl3Caq2VMCw8vjTTKTOdxB1yRAr99x+2yNxY7Gr22Sw7z?=
- =?us-ascii?Q?KeDUFkqu2CAhtifrTyGi36jF2Yogg8hrR218AOggQPGjosqfWK+Y5XqQFmVY?=
- =?us-ascii?Q?Pwxoo4OS3FHrkszTSQlsuCDoDGpI41y2NNKsnDk1fNG8XlylIIhw4/5iavDD?=
- =?us-ascii?Q?NklMVCZV5dgJnSWq9Zwk3iEAUH3PaHO8XNcGEoSSp5N1OZlxkLibrKhVheLA?=
- =?us-ascii?Q?+1hKeOmDK83GpuSZlgfIf0GwRYcjYVkyxNOuAV7bAO6SbAJ2I8ukhZJkFdk1?=
- =?us-ascii?Q?hEIjW07iuNPznGozTy2qW3T6jIcIZy+UUjA6h9xWdOPiaeLBovttlaJIr+OI?=
- =?us-ascii?Q?gbTqQghng6pPq66dWLbpm5f0aftmmJ+w5GvRocD4DUL5aVqwRrPHjaEj8IWe?=
- =?us-ascii?Q?LBpfLwlHlQVZrMCnxHaJYADBxNqaUik2Pats6469b5gFEPPuHxLcJF5EltHq?=
- =?us-ascii?Q?MdbW7ZKEiwkuDJvGG6u4dg15boDii9j8dbUmTvIif8Mzt3iUDvgAjM4KgoEt?=
- =?us-ascii?Q?svPbaozM/RW/QgLUkaYbIzsrAdwZQL2Fgp2Wl9FwAg8BJ/s2BIw9BPO7/Lix?=
- =?us-ascii?Q?TXyzPV5Of1YztjjKBHqBg5FCpsVc+lwAOFjmJDHtB6RXHCt8Oq7kcEI/8XpK?=
- =?us-ascii?Q?fVTSk8uCLE8BZ9OJeeiyS0GnzG0B5mebcEa45F1YDCNv//no7hU6ud2w9lOW?=
- =?us-ascii?Q?qoG9r3xb9PlmmBBdWo4blkJJpeaLYisZAsAtFs3KUwHccoMbRLEo6YaOBE9j?=
- =?us-ascii?Q?ExE8+o72LsezTWKR72fH8/zlWgnEmjBZ+N5WyV99P/EF7VxI5Ay17vJdaE9E?=
- =?us-ascii?Q?gbi2VvEHQQv7O11Dc7xksSRPSk1e62Jh/MfEBrBwv2PELPCz6nSn+QX0P42Z?=
- =?us-ascii?Q?9d/4k+z6Bp9lMjPPwKWr0Xa24l6G2U0O20WMQbZZPSMhtzbOm1QexP+ZBMzc?=
- =?us-ascii?Q?PMSkY/Ri3Qcfp4PVtmW8fvk4Cb407E6OxJ6cZYIHuJADj7k9t1N6diaT+b06?=
- =?us-ascii?Q?yGFAhzur3+uYSMaBd4z6Dds5tF4pZFvUFfuXtgzCrkpa1RwoGiIaYvvVEGf7?=
- =?us-ascii?Q?7gw/xAWWAOzTspkoZySRrwOlS2XjQG4T52wMTOkK8HpC14muJRoEM12SyE9E?=
- =?us-ascii?Q?dCF63xKaOAlJFJeCQKLqtTR5GvgWH9IeuRqfLFokymEp377i8mh9kHTFJSJO?=
- =?us-ascii?Q?1Irq8Yhj6gMpVGr9BO7VMgRSNlDKLKSZxaUrcWKnG3TNtdu+H3RP8GtFDrxr?=
- =?us-ascii?Q?nRqYnuMMA48eYTnBWZt5NcWl?=
-X-OriginatorOrg: kococonnector.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef8700f8-573c-4097-9f08-08d95e236784
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4884.eurprd09.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UE5VSy9PVmlpakk1WXJRMytOaFJnU3JyWWJoODRvV2JYOG9hOTNZVk55MTdE?=
+ =?utf-8?B?a1RQM3EzSE1RTjMrUEVKVjBQRENXdmdSUkhnNXNva0QzbDdkZTUxbkxyR081?=
+ =?utf-8?B?TnJDaVZNRms0WEZscUxURXkvM0Q4Mmk3SmRLY09BeHQxdVdvNjd0SG1yZlRy?=
+ =?utf-8?B?MzFhanp3Ky9rOFpQenJ4d1NPTXJ4bUd4S0lOWlhQTkNwWXBZdUlFVHIxTFNr?=
+ =?utf-8?B?NHNMTUtndHVuNXN2c01GMEFGWkptUTNOUFhWcUU1RnNJcDlkOFVGQUQ2M0g1?=
+ =?utf-8?B?MlNNK0ljVmVFa1lIL3kvdWlDeVFnN0JjMFB4OFV2a2gxNS9CUGtNNHNUaXdn?=
+ =?utf-8?B?YWdZTGFNa3c4WjBDR21PRGtuMFVqU29UUGZZT0ZLTnNEM1FHbG1LZjI3Tm1H?=
+ =?utf-8?B?SlcxaC85dmFPT2JmTi9lV0ZUSWRVVHZqVlpiSGo0SjFvYWxqSDZTUEM0UXla?=
+ =?utf-8?B?VUVJM3h1bzV6Vk83REx4RkpxTURZc3VUbzljM3NGZW5pb1QyQVFwSHh4NEtU?=
+ =?utf-8?B?NWFqdmxCZVFzazZOTUJTdzNMTEVvM3QyOTRlbDByc25lZ2JFbi9qREdnWHMr?=
+ =?utf-8?B?WTVTa2k3OUgvZWYybGlvTVVpWXJaWEpjT1lTZTc5L0xSNHJYeEtkRm1MaWRv?=
+ =?utf-8?B?Skw0bVZpNWx5cFQ5U2ZQclVnZ1Y3cUx6YVJLN1BDWldrdXFwS2x0R01TYzdL?=
+ =?utf-8?B?S3pucW56TVJ4WTVWU0FGUVE2Vlg2cS9CUWxwMW13c3lYbzFvU2FtRHpWODUy?=
+ =?utf-8?B?c2pTMVhzY1I5RFR3TlErMmtKUXM0Z1NkR0IvMEx4eU90eGVIalNFYTVONHk3?=
+ =?utf-8?B?RjA3UDVIckFITjdOK2RiUFlpalhWSjQ2OEltaU5GNG9oK3Q4Wi9WbEZnMnlN?=
+ =?utf-8?B?blpzd0RHSzJFUDlTYkVsUy9Felk2MXhoOXB5aHRwUVRZN3lxZEo4S0orcHhi?=
+ =?utf-8?B?ZU9NUFdwZ1NMTjJaMnZkVW9nV25icmRpNGZVZytWOHN0cll3SGtoSTVGSDhs?=
+ =?utf-8?B?eUxSSzFsM0RFTWVZdWd6ZjRpYmswL1ZsSU1FOUZkZmxHNjkyd1ovSGFPeUx4?=
+ =?utf-8?B?dmdTWXp1UFcxWFRCWnZDMUlpZlNLOEQ1ZXJtUTFXSjg5VG0wNWdSNkZBUzNG?=
+ =?utf-8?B?eGk1UUE3bEtXWEREQTBTZjJrVTQxR3hvMElOaUZvaTcrSkhBZy96enVwY25m?=
+ =?utf-8?B?Ny9LYURzdi8vRzRwdS9qcDI2YVA5RVRreTBHK3NTeXh1Ty9obml0ME9sM21F?=
+ =?utf-8?B?Mk53ekd3YXlnWFdnMXdVQ1lMT3FaemV1eWhYZXhVN1RRYWhTQXpGdWNQU0xt?=
+ =?utf-8?B?TmZtREc3T1ZkTGZ4azlLa0xFclZUV0RUVU9MUGpqby93eVdOTWNKdnlZeSta?=
+ =?utf-8?B?OExLeHYwdENnTnYxbDZaMHYzdVl0cG00K2lwK3pRTjUvVlZ4K1ExNi9rc0JT?=
+ =?utf-8?B?YWxoRDE1cEswQVJrUXlOTGIraTd1cHoyMTRtNllUOGpnLzU4bHJOM0NoK3hR?=
+ =?utf-8?B?aWJTcTgrUTRSNDFpOGMvZHY2VFNVd1QwT0FaRDR3RGJLWURNVkgwekowakd6?=
+ =?utf-8?B?cWo2NmREUGRGYkU4THBYSFVRMEpMYnNhcFR0YkcvdTFRWDJ3ZWhib1V6enJ3?=
+ =?utf-8?B?a0RoTVNkVFFzbG1EK2JzbzVHV01JQW1qRGt1YUk3a29jRUp2R2V0OE5pdklE?=
+ =?utf-8?B?NEI3L1p1M1lZTmRWeWUyTUpYT1BuOW9TanB6VVVYUS9FcmxoN1BpNWZkSC9s?=
+ =?utf-8?Q?cx/CCgrElNcmNRTErRXjbeA2LZQenjKedNaueOq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4da46a32-f002-4c74-b60c-08d95e240fd2
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4430.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2021 06:27:20.4640 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2021 06:32:02.8425 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 59845429-0644-4099-bd7e-17fba65a2f2b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1UP1208Cs6Vg1UrM6oFUmK/YRwHIhinjJ+gIno57u00qjAGqKUCx4EmdrbJ7VRvAgrCSF26PafKbyAcdG2VkhBhbN+up/0vy5qOeMXdbcnE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB3299
-X-Mailman-Approved-At: Fri, 13 Aug 2021 06:58:01 +0000
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ncn3fBvBn0tSeMCVy/B2Gy9ZCWVpBM2ZnnPG/VMRUQoijMwvhOirYUGTnPtRyoT2qwgxYq9UoOROsCr/P9gjug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2718
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,30 +129,268 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-staging: fbtft: fb_st7789v: reset display before initialization
+v1:
+AMD is building a system architecture for the Frontier supercomputer with a
+coherent interconnect between CPUs and GPUs. This hardware architecture allows
+the CPUs to coherently access GPU device memory. We have hardware in our labs
+and we are working with our partner HPE on the BIOS, firmware and software
+for delivery to the DOE.
 
-In rare cases the display is flipped or mirrored. This was observed more
-often in a low temperature environment. A clean reset on init_display()
-should help to get registers in a sane state.
+The system BIOS advertises the GPU device memory (aka VRAM) as SPM
+(special purpose memory) in the UEFI system address map. The amdgpu driver looks
+it up with lookup_resource and registers it with devmap as MEMORY_DEVICE_GENERIC
+using devm_memremap_pages.
 
-Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
----
- drivers/staging/fbtft/fb_st7789v.c | 2 ++
- 1 file changed, 2 insertions(+)
+Now we're trying to migrate data to and from that memory using the migrate_vma_*
+helpers so we can support page-based migration in our unified memory allocations,
+while also supporting CPU access to those pages.
 
-diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-index 3a280cc1892c..0a2dbed9ffc7 100644
---- a/drivers/staging/fbtft/fb_st7789v.c
-+++ b/drivers/staging/fbtft/fb_st7789v.c
-@@ -82,6 +82,8 @@ enum st7789v_command {
- {
- 	int rc;
+This patch series makes a few changes to make MEMORY_DEVICE_GENERIC pages behave
+correctly in the migrate_vma_* helpers. We are looking for feedback about this
+approach. If we're close, what's needed to make our patches acceptable upstream?
+If we're not close, any suggestions how else to achieve what we are trying to do
+(i.e. page migration and coherent CPU access to VRAM)?
 
-+	par->fbtftops.reset(par);
-+
- 	rc = init_tearing_effect_line(par);
- 	if (rc)
- 		return rc;
+This work is based on HMM and our SVM memory manager that was recently upstreamed
+to Dave Airlie's drm-next branch
+https://cgit.freedesktop.org/drm/drm/log/?h=drm-next
+On top of that we did some rework of our VRAM management for migrations to remove
+some incorrect assumptions, allow partially successful migrations and GPU memory
+mappings that mix pages in VRAM and system memory.
+https://lore.kernel.org/dri-devel/20210527205606.2660-6-Felix.Kuehling@amd.com/T/#r996356015e295780eb50453e7dbd5d0d68b47cbc
+
+v2:
+This patch series version has merged "[RFC PATCH v3 0/2]
+mm: remove extra ZONE_DEVICE struct page refcount" patch series made by
+Ralph Campbell. It also applies at the top of these series, our changes
+to support device generic type in migration_vma helpers.
+This has been tested in systems with device memory that has coherent
+access by CPU.
+
+Also addresses the following feedback made in v1:
+- Isolate in one patch kernel/resource.c modification, based
+on Christoph's feedback.
+- Add helpers check for generic and private type to avoid
+duplicated long lines.
+
+v3:
+- Include cover letter from v1.
+- Rename dax_layout_is_idle_page func to dax_page_unused in patch
+ext4/xfs: add page refcount helper.
+
+v4:
+- Add support for zone device generic type in lib/test_hmm and
+tool/testing/selftest/vm/hmm-tests.
+- Add missing page refcount helper to fuse/dax.c. This was included in
+one of Ralph Campbell's patches.
+
+v5:
+- Cosmetic changes on patches 3, 5 and 13
+- A bug was found while running one of the xfstest (generic/413) used to
+validate fs_dax device type. This was first introduced by patch: "mm: remove
+extra ZONE_DEVICE struct page refcount" whic is part of these patch series.
+The bug was showed as WARNING message at try_grab_page function call, due to
+a page refcounter equal to zero. Part of "mm: remove extra ZONE_DEVICE struct
+page refcount" changes, was to initialize page refcounter to zero. Therefore,
+a special condition was added to try_grab_page on this v5, were it checks for
+device zone pages too. It is included in the same patch.
+
+This is how mm changes from these patch series have been validated:
+- hmm-tests were run using device private and device generic types. This last,
+just added in these patch series. efi_fake_mem was used to mimic SPM memory
+for device generic.
+- xfstests tool was used to validate fs-dax device type and page refcounter
+changes. DAX configuration was used along with emulated Persisten Memory set as
+memmap=4G!4G memmap=4G!9G. xfstests were run from ext4 and generic lists. Some
+of them, did not run due to limitations in configuration. Ex. test not
+supporting specific file system or DAX mode.
+Only three tests failed, generic/356/357 and ext4/049. However, these failures
+were consistent before and after applying these patch series.
+xfstest configuration:
+TEST_DEV=/dev/pmem0
+TEST_DIR=/mnt/ram0
+SCRATCH_DEV=/dev/pmem1
+SCRATCH_MNT=/mnt/ram1
+TEST_FS_MOUNT_OPTS="-o dax"
+EXT_MOUNT_OPTIONS="-o dax"
+MKFS_OPTIONS="-b4096"
+xfstest passed list:
+Ext4:
+001,003,005,021,022,023,025,026,030,031,032,036,037,038,042,043,044,271,306
+Generic:
+1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,20,21,22,23,24,25,28,29,30,31,32,33,35,37,
+50,52,53,58,60,61,62,63,64,67,69,70,71,75,76,78,79,80,82,84,86,87,88,91,92,94,
+96,97,98,99,103,105,112,113,114,117,120,124,126,129,130,131,135,141,169,184,
+198,207,210,211,212,213,214,215,221,223,225,228,236,237,240,244,245,246,247,
+248,249,255,257,258,263,277,286,294,306,307,308,309,313,315,316,318,319,337,
+346,360,361,371,375,377,379,380,383,384,385,386,389,391,392,393,394,400,401,
+403,404,406,409,410,411,412,413,417,420,422,423,424,425,426,427,428
+
+v6:
+- These patch series was rebased on amd-staging-drm-next, which in turn is
+based on v5.13:
+https://gitlab.freedesktop.org/agd5f/linux/-/tree/amd-staging-drm-next
+- Handle null pointers in dmirror_allocate_chunk at test_hmm.c
+- Here's a link to the repo including these patch series:
+https://github.com/RadeonOpenCompute/ROCK-Kernel-Driver/tree/alexsierrag/device_generic
+
+- CONFIGS required to run hmm-tests and xfstest with no special Hardware.
+For hmm-tests:
+CONFIG_EFI_FAKE_MEMMAP=y
+CONFIG_EFI_SOFT_RESERVE=y
+CONFIG_TEST_HMM=m
+CONFIG_RUNTIME_TESTING_MENU=y
+
+For xfstest using emulated persistant memory:
+CONFIG_X86_PMEM_LEGACY=y
+CONFIG_LIBNVDIMM=y
+CONFIG_BLK_DEV_PMEM=y
+CONFIG_FS_DAX=y
+CONFIG_DAX_DRIVER=y
+CONFIG_VIRTIO_FS=y
+
+HMM configs for both hmm-test and xfstest:
+CONFIG_ZONE_DEVICE=y
+CONFIG_HMM_MIRROR=y
+CONFIG_MMU_NOTIFIER=y
+CONFIG_DEVICE_PRIVATE=y 
+
+- Kernel parameters to run hmm-tests and xfstests.
+These tests require to either emulate persistent memory (EPM) for xfstests or
+fake special memory purpose (FSPM) for hmm-tests device generic type
+configuration. This is achieved by using system memory for both purposes.
+The idea is to reserve ranges of physical address by passing specific kernel
+parameters. Make sure your kernel has built with the proper CONFIGS mentioned
+above. Once you reserve memory ranges through these two mechanisms, they
+cannot be used by the kernel as regular system memory. Until these kernel
+parameters are removed. Both mechanisms use similar parameters to define
+physical address and size. FSPM, however, uses a third field which is the
+attribute value. Here’s the syntax for both:
+FSPM: efi_fake_mem= nn[KMG]@ss[KMG]:aa
+EPM: memmap=nn[KMG]!ss[KMG]
+'nn' defines the size (in GB) of memory reserved 
+'mm' physical/usable start address. This can be taken from BIOS-e820 mem table
+'aa' specify attribute. SPM attribute is EFI_MEMORY_SP(0x40000)
+[KMG]: refers to kilo, mega, giga
+To find an available memory region address, you could look into BIOS-e820 mem
+table. Usually this is printed at kernel boot (dmesg). At this table, make sure
+you choose ranges marked as 'usable' and has at least the same or more range
+size as your desired reservation. Ex. Range below has a size of 13GB, from a
+total of 16GB of system memory.
+[ 0.000000] BIOS-e820: [mem 0x0000000100000000-0x000000044eafffff] usable
+
+In our testing, we require two ranges of 4GB each for xfstests. And two more of
+1GB each for hmm-tests. Total of 10GB.
+
+Based on range above we set these two kernel parameters as follows:
+EPM:
+memmap=4G!4G memmap=4G!9G
+FSPM:
+efi_fake_mem=1G@0x200000000:0x40000,1G@0x340000000:0x40000
+We alternate one EPM reserve (4GB) and one FSPM (1GB). Starting @4GB address.
+These kernel parameters can be passed by editing grub file. Under "/etc/default/grub".
+GRUB_CMDLINE_LINUX="memmap=4G!4G memmap=4G!9G
+efi_fake_mem=1G@0x200000000:0x40000,1G@0x340000000:0x40000"
+Once you have modified this file, don’t forget to update the grub.
+$sudo update-grub
+
+After booting with these parameters applied, you should see the new ranges
+defined at the "extended physical RAM map" table. This is printed at boot:
+reserve setup_data: [mem 0x0000000100000000-0x00000001ffffffff] persistent (type 12)
+
+reserve setup_data: [mem 0x0000000200000000-0x000000023fffffff] soft reserved
+
+reserve setup_data: [mem 0x0000000240000000-0x000000033fffffff] persistent (type 12)
+
+reserve setup_data: [mem 0x0000000340000000-0x000000037fffffff] soft reserved
+
+As you see, EPM ranges are now labeled as Persistent (type 12) and FSPM ranges
+as soft reserved. 
+
+- Setting and running hmm-tests
+These tests can now be run either with device private or device generic types.
+This last, by setting Special Purpose Memory.
+To manually run them, on your kernel directory go to:
+$cd tools/testing/selftests/vm/
+
+To run device private, enter:
+$sudo ./test_hmm.sh smoke
+
+To run device generic, you must pass the physical start addresses for both SP
+regions. In this example, these can be taken from above’s table labeled with
+"soft reserved":
+$sudo ./test_hmm.sh smoke 0x200000000 0x340000000
+
+The same hmm-tests are executed for both device types.
+
+- Setting and running xfstest
+Clone xfstests-dev repo
+$git clone git://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git
+$cd xfstests-dev
+$make
+$sudo make install
+
+On xfstests-dev directory, create a local.config file with the following
+information:
+TEST_DEV=/dev/pmem0
+TEST_DIR=/mnt/ram0
+SCRATCH_DEV=/dev/pmem1
+SCRATCH_MNT=/mnt/ram1
+TEST_FS_MOUNT_OPTS="-o dax"
+EXT_MOUNT_OPTIONS="-o dax"
+MKFS_OPTIONS="-b4096"
+
+Create mounting directories:
+$sudo mkdir /mnt/ram0
+$sudo mkdir /mnt/ram1
+
+Everytime you boot, you need to create ext4 file system for the emulated
+persistent memory partitions.
+$sudo mkfs.ext4 /dev/pmem0
+$sudo mkfs.ext4 /dev/pmem1
+
+To run the tests:
+$sudo ./check -g quick
+
+Alex Sierra (11):
+  kernel: resource: lookup_resource as exported symbol
+  drm/amdkfd: add SPM support for SVM
+  drm/amdkfd: generic type as sys mem on migration to ram
+  include/linux/mm.h: helpers to check zone device generic type
+  mm: add generic type support to migrate_vma helpers
+  mm: call pgmap->ops->page_free for DEVICE_GENERIC pages
+  lib: test_hmm add ioctl to get zone device type
+  lib: test_hmm add module param for zone device type
+  lib: add support for device generic type in test_hmm
+  tools: update hmm-test to support device generic type
+  tools: update test_hmm script to support SP config
+
+Ralph Campbell (2):
+  ext4/xfs: add page refcount helper
+  mm: remove extra ZONE_DEVICE struct page refcount
+
+ arch/powerpc/kvm/book3s_hv_uvmem.c       |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  22 ++-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c   |   2 +-
+ fs/dax.c                                 |   8 +-
+ fs/ext4/inode.c                          |   5 +-
+ fs/fuse/dax.c                            |   4 +-
+ fs/xfs/xfs_file.c                        |   4 +-
+ include/linux/dax.h                      |  10 +
+ include/linux/memremap.h                 |   7 +-
+ include/linux/mm.h                       |  21 +-
+ kernel/resource.c                        |   1 +
+ lib/test_hmm.c                           | 237 +++++++++++++++--------
+ lib/test_hmm_uapi.h                      |  16 ++
+ mm/internal.h                            |   8 +
+ mm/memremap.c                            |  69 ++-----
+ mm/migrate.c                             |  23 ++-
+ mm/page_alloc.c                          |   3 +
+ mm/swap.c                                |  45 +----
+ tools/testing/selftests/vm/hmm-tests.c   | 142 ++++++++++++--
+ tools/testing/selftests/vm/test_hmm.sh   |  20 +-
+ 20 files changed, 411 insertions(+), 238 deletions(-)
+
 -- 
-2.17.1
+2.32.0
 
