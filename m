@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27F23EB78B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CF23EB78E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:18:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7F496E85C;
-	Fri, 13 Aug 2021 15:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6EEB6E855;
+	Fri, 13 Aug 2021 15:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
- [IPv6:2607:f8b0:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 176486E855;
- Fri, 13 Aug 2021 15:18:21 +0000 (UTC)
-Received: by mail-il1-x134.google.com with SMTP id v16so429648ilo.10;
- Fri, 13 Aug 2021 08:18:21 -0700 (PDT)
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0206E855;
+ Fri, 13 Aug 2021 15:18:44 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id v2so4999338ilg.12;
+ Fri, 13 Aug 2021 08:18:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=kmHsDnFQwSbOnRKSJ1vga0OhlV8P3CEw6FanKWDIy40=;
- b=qIbqu8wzK9qscBpWltQp8Aqr7ZhvcWfH00SA9TSKhLsih6XkgvJlb5dNCPZed0Y428
- Ho9kklpRcc605c6T72bBSWIARlvwz6S7qW6/EB2v9AzlnwEnCt4tBKAIyLP9rU0PPNrp
- g3BK80iUG+n9gtrPKO/FIXQZ4WwxEYPcEjITnr0EOQAxWaM9N5L2+Y5p0JA6yuX+MxPS
- tDVYwgCJzRl0ib2fQcvHzAgnsI6uG1j9gbzjOnTDbxOGUtqwa5JVOUPgjsj6mUgOmkDt
- ccAO7IhwbTHmgHfSsi7c415C+GNOvmKLu+LI7+1dDq+wni4CY4abL0Ozr+W7lgGKA0oE
- MZGQ==
+ bh=y3NByVIzuR3Rg/aPLIKVF1n0drDE97HGQ1NdBQG6G8o=;
+ b=QnpkQH2HVm3ojYjzdiaaChBK+Emp8SfXFNRUbvXdbvrp78tb/00b1DQhs7B7tZTZhH
+ BRp7vLkfbTBajWqS8jLdZfKMk2ScXlSjh5ecWh4jeqANdgxBVMzwUr/rRL4tyanLlCZ4
+ Tip74R9NTZ/HieXKcZU6WmEeFZNBWhphySMvkzJcRdMhA9w27jGqAjk4W4XTbTz68xZ/
+ h5Ck0SmVxzK9MUbFSPJCc98suiMsDXQ6P5NNzrsjptDlWSLSNyenlt2KhI8PVIFwLAgo
+ rD5180F/GONDqegJeaNyY47boYZsGgshH8p5lewH5/lxWtPEEaiG8RPUFJr55uU/K56v
+ VKjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kmHsDnFQwSbOnRKSJ1vga0OhlV8P3CEw6FanKWDIy40=;
- b=tDNKxVC01un7DSrPklKC2bWSZFTeT3aXpomkV6t1aWlYvSVVzK6Jvxt+Iu9i13kYle
- RbLTzuf/FExIajzkg5uhCLgyVgAoOKdqISyXhKykT3/ViJgiSEdJWJc5mMgp30HeTZ23
- mlS1IOgZzzlV71UzuSTTXNAxj+DXP7xGXzpZHjZFCTyGSF55vmoJ4peFDdehUhvDQRN0
- 6Hik02m1NvAkYPGC5XBp+rQhXyDEBDewP43dsI3SB1PBKbd1/9BLGLhhjuBBEV9/tIAU
- 9JotigZIg4c90a7WkTkexfvbU1xS9xJOEO0oe05QCPF+azXXt2n1gqn0I9nqwOZsb6sZ
- S7+w==
-X-Gm-Message-State: AOAM531VRzJswO0cxJumPg2KSmzRPoFiZeqt4keWJHcB4bmWdo4ZnN11
- wfoVn+DT2/hqveObtCjwHhI=
-X-Google-Smtp-Source: ABdhPJwBNjPAE8rcwIYw12ZbQ/+Re07hAKDo5N1F+WYwa4O8yCRZyySYX3DIgMz+s16zrzA6MI5NXA==
-X-Received: by 2002:a92:5407:: with SMTP id i7mr2235589ilb.264.1628867900266; 
- Fri, 13 Aug 2021 08:18:20 -0700 (PDT)
+ bh=y3NByVIzuR3Rg/aPLIKVF1n0drDE97HGQ1NdBQG6G8o=;
+ b=HcnWOky9mXMAmU91wsqXimd7Lih5UR8j2vPXb/uDACX4Dft4AjAhALksJ4eOKX6JBs
+ eMPL5WQjAKN6796QqBy8pju13qyOJlfzTiUxOKXoq2qIr3r00hQMGjjag0XMa5nw0xIx
+ ClPOEhiu2nvlxjDsQ/ObYOEjftEJYAuhSU5Y0Ifn6EhT2Hnfn1dt7Q0l4ZRIxPbPdMRU
+ BRmqTpOJtQ8qnlsvuzSWc5nsNpHabUqVK61jF1OgZhDAispCaCMcob/V0CGPVFFEtoi1
+ jc3RIGrdPKEZda5+1GCQZnbEFDqolQZtcAXKgyYGVY8hU+w7HpJ1WCyH2wwU6OjV8RQL
+ naqA==
+X-Gm-Message-State: AOAM531X34r538f8CHjmSPqN3vCqZ2Qi2DXFUobqH+hEWHQiCqx6LjC2
+ 3z1qbAn/koieAiZ/n1jiuk4=
+X-Google-Smtp-Source: ABdhPJzOROBmh/lPhbT34lBXsdIT6CwShQg8mlGrV0CnlXBeIDRyYZ1lyN4m6M2KBiUOmmVhCnMbRA==
+X-Received: by 2002:a05:6e02:6d2:: with SMTP id
+ p18mr2153126ils.44.1628867923564; 
+ Fri, 13 Aug 2021 08:18:43 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id d4sm921145ilo.29.2021.08.13.08.18.17
+ by smtp.googlemail.com with ESMTPSA id d4sm921145ilo.29.2021.08.13.08.18.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 08:18:19 -0700 (PDT)
+ Fri, 13 Aug 2021 08:18:43 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: gregkh@linuxfoundation.org, seanpaul@chromium.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -60,13 +61,13 @@ To: gregkh@linuxfoundation.org, seanpaul@chromium.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Baron <jbaron@akamai.com>,
  Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
  Huang Rui <ray.huang@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Chengming Gui <Jack.Gui@amd.com>, John Clements <john.clements@amd.com>,
- Jim Cromie <jim.cromie@gmail.com>, Kevin Wang <kevin1.wang@amd.com>,
- Ashley Thomas <Ashley.Thomas2@amd.com>, Wyatt Wood <Wyatt.Wood@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Jessica Yu <jeyu@kernel.org>,
- Johan Hovold <johan@kernel.org>, Joe Perches <joe@perches.com>,
- Nick Desaulniers <ndesaulniers@gooogle.com>,
+ Chengming Gui <Jack.Gui@amd.com>, Aaron Liu <aaron.liu@amd.com>,
+ Jim Cromie <jim.cromie@gmail.com>, John Clements <john.clements@amd.com>,
+ Kevin Wang <kevin1.wang@amd.com>, Ashley Thomas <Ashley.Thomas2@amd.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, Wyatt Wood <Wyatt.Wood@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Johan Hovold <johan@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+ Nick Desaulniers <ndesaulniers@gooogle.com>, Joe Perches <joe@perches.com>,
  Miguel Ojeda <ojeda@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
  Masahiro Yamada <masahiroy@kernel.org>,
  Peter Zijlstra <peterz@infradead.org>,
@@ -75,21 +76,20 @@ To: gregkh@linuxfoundation.org, seanpaul@chromium.org,
  Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
  Thomas Gleixner <tglx@linutronix.de>,
  Vitor Massaru Iha <vitor@massaru.org>, Sedat Dilek <sedat.dilek@gmail.com>,
- Changbin Du <changbin.du@intel.com>, Marco Elver <elver@google.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
+ Zhen Lei <thunder.leizhen@huawei.com>, Marco Elver <elver@google.com>,
  Jarkko Sakkinen <jarkko@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Johannes Berg <johannes.berg@intel.com>,
- Patricia Alfonso <trishalfonso@google.com>,
- Arvind Sankar <nivedita@alum.mit.edu>, Arnd Bergmann <arnd@arndb.de>,
- Jiri Olsa <jolsa@kernel.org>, Palmer Dabbelt <palmerdabbelt@google.com>,
+ Alexander Potapenko <glider@google.com>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Patricia Alfonso <trishalfonso@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Arvind Sankar <nivedita@alum.mit.edu>,
+ Johannes Berg <johannes.berg@intel.com>, Arnd Bergmann <arnd@arndb.de>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 1/9] drm/print: fixup spelling in a comment
-Date: Fri, 13 Aug 2021 09:17:09 -0600
-Message-Id: <20210813151734.1236324-2-jim.cromie@gmail.com>
+Subject: [PATCH v5 2/9] moduleparam: add data member to struct kernel_param
+Date: Fri, 13 Aug 2021 09:17:10 -0600
+Message-Id: <20210813151734.1236324-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210813151734.1236324-1-jim.cromie@gmail.com>
 References: <20210813151734.1236324-1-jim.cromie@gmail.com>
@@ -110,26 +110,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-s/prink/printk/ - no functional changes
+Add a const void* data member to the struct, to allow attaching
+private data that will be used soon by a setter method (via kp->data)
+to perform more elaborate actions.
+
+To attach the data at compile time, add new macros:
+
+module_param_cbd() derives from module_param_cb(), adding data param,
+and latter is redefined to use former.
+
+It calls __module_param_call_wdata(), which accepts a new data param
+and inits .data with it. Re-define __module_param_call() to use it.
+
+Use of this new data member will be rare, it might be worth redoing
+this as a separate/sub-type to de-bloat the base case.
+
+---
+v4+:
+. const void* data - <emil.l.velikov@gmail.com>
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/drm/drm_print.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/moduleparam.h | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 9b66be54dd16..15a089a87c22 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -327,7 +327,7 @@ static inline bool drm_debug_enabled(enum drm_debug_category category)
- /*
-  * struct device based logging
-  *
-- * Prefer drm_device based logging over device or prink based logging.
-+ * Prefer drm_device based logging over device or printk based logging.
-  */
+diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
+index eed280fae433..878387e0b2d9 100644
+--- a/include/linux/moduleparam.h
++++ b/include/linux/moduleparam.h
+@@ -78,6 +78,7 @@ struct kernel_param {
+ 		const struct kparam_string *str;
+ 		const struct kparam_array *arr;
+ 	};
++	const void *data;
+ };
  
- __printf(3, 4)
+ extern const struct kernel_param __start___param[], __stop___param[];
+@@ -175,6 +176,9 @@ struct kparam_array
+ #define module_param_cb(name, ops, arg, perm)				      \
+ 	__module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
+ 
++#define module_param_cbd(name, ops, arg, perm, data)				\
++	__module_param_call_wdata(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0, data)
++
+ #define module_param_cb_unsafe(name, ops, arg, perm)			      \
+ 	__module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1,    \
+ 			    KERNEL_PARAM_FL_UNSAFE)
+@@ -284,14 +288,17 @@ struct kparam_array
+ 
+ /* This is the fundamental function for registering boot/module
+    parameters. */
+-#define __module_param_call(prefix, name, ops, arg, perm, level, flags)	\
++#define __module_param_call(prefix, name, ops, arg, perm, level, flags) \
++	__module_param_call_wdata(prefix, name, ops, arg, perm, level, flags, NULL)
++
++#define __module_param_call_wdata(prefix, name, ops, arg, perm, level, flags, data) \
+ 	/* Default value instead of permissions? */			\
+ 	static const char __param_str_##name[] = prefix #name;		\
+ 	static struct kernel_param __moduleparam_const __param_##name	\
+ 	__used __section("__param")					\
+ 	__aligned(__alignof__(struct kernel_param))			\
+ 	= { __param_str_##name, THIS_MODULE, ops,			\
+-	    VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg } }
++	    VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg }, data }
+ 
+ /* Obsolete - use module_param_cb() */
+ #define module_param_call(name, _set, _get, arg, perm)			\
 -- 
 2.31.1
 
