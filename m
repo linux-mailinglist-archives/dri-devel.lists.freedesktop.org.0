@@ -1,41 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35FB3EB6EB
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 16:44:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5363EB708
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 16:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4682F6E83F;
-	Fri, 13 Aug 2021 14:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82F866E83B;
+	Fri, 13 Aug 2021 14:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E266E83F;
- Fri, 13 Aug 2021 14:43:54 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10075"; a="212454812"
-X-IronPort-AV: E=Sophos;i="5.84,319,1620716400"; d="scan'208";a="212454812"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2021 07:43:54 -0700
-X-IronPort-AV: E=Sophos;i="5.84,319,1620716400"; d="scan'208";a="447069633"
-Received: from pheino-mobl.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
- ([10.249.254.189])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2021 07:43:52 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>
-Subject: [PATCH v2 2/2] drm/ttm, drm/i915: Update ttm_move_memcpy for async use
-Date: Fri, 13 Aug 2021 16:43:31 +0200
-Message-Id: <20210813144331.372957-3-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210813144331.372957-1-thomas.hellstrom@linux.intel.com>
-References: <20210813144331.372957-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC5A26E83B
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 14:53:09 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id k2so12252142plk.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 07:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W750PVMZgiWGTiNJlB3UJ+AorGIAQwDaKf6ieffQwJg=;
+ b=MUt/4SwxB3Y3F64qVzsUw2vp25wFxb9ArneoB+cnEB2Z40tXVJKSIkmqrauq7S7GlH
+ QJ8QalTtGctl+re5BA/01stwUYjUYvs2rpmFKFUD8kqykahXXT9BNET3nObTLqtdoA+q
+ f93qYsGrDs1R0NdLLFN3bNYtJjc2KdxdodV3n0rTnLIQj+J9WC4b9v81YmXg/YdiAPHd
+ Ch39mPmNOzMTzvx4kvdaKZqqQcUtvl192WxjT8t8s7utHG6eyRi/WvL0B1MwoJW180Cx
+ cS2KK4TpsOsm8rPoq7658vLlLys+wE/DIQYWuDSBaLLMuFV0Dfr21ubjpCR54zLE+Fze
+ PvFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W750PVMZgiWGTiNJlB3UJ+AorGIAQwDaKf6ieffQwJg=;
+ b=QrlHsljQbncgJL68QUp0ayE+dNCsJuOM6GPrXA3WInMd9Qx2KV+EEc+aoCKfBJRlet
+ oHYZP3AUH+XEeYeU9yODqFFMea02n1jfBj4zUn737THF8P7QJ6L095Z7qKM5tGdoFDD3
+ COt4RksGf48mbURZGXn+5qbXSTBitx5mJ3OcIGoQynxxp62AMW8g6D3+8xY1TMHXl2tJ
+ MwH3gB8RHTASvcVDZQBElFE1tjrJUSr6UDnZd7nJ2/Hi7g9qlN4ctHsxQ2R4jNNYi/SX
+ TChvwgQOZQPUnkYbkHj9s5pMp/PmZ51PVtaiAzsTQLEZHjAo9s6thUQC3ncJ8Q/YCNdh
+ QWAA==
+X-Gm-Message-State: AOAM531TXN8pYZZOMw2rEPYrhPaAC/kZ+4o5PmIoxS7NU60o9rSf7Gbd
+ BOrvIDMCv0xDjIRMdOXQN/MGhbYjww0BhA==
+X-Google-Smtp-Source: ABdhPJzfhdG1AfZsh6YAv1gIu7OgVFF0mG2fGSODYY0+jgUPzF2N6AJAYj0r+P8mUiX5i/pTd+bE0g==
+X-Received: by 2002:a17:903:3109:b029:12d:3160:a815 with SMTP id
+ w9-20020a1709033109b029012d3160a815mr2304245plc.45.1628866389300; 
+ Fri, 13 Aug 2021 07:53:09 -0700 (PDT)
+Received: from nj08008nbu.spreadtrum.com ([117.18.48.102])
+ by smtp.gmail.com with ESMTPSA id e12sm2524787pfc.214.2021.08.13.07.53.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 13 Aug 2021 07:53:08 -0700 (PDT)
+From: Kevin Tang <kevin3.tang@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ mark.rutland@arm.com, kevin3.tang@gmail.com, pony1.wu@gmail.com
+Cc: orsonzhai@gmail.com, zhang.lyra@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH v6 0/6] Add Unisoc's drm kms module
+Date: Fri, 13 Aug 2021 22:52:56 +0800
+Message-Id: <20210813145302.3933-1-kevin3.tang@gmail.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,118 +73,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The buffer object argument to ttm_move_memcpy was only used to
-determine whether the destination memory should be cleared only
-or whether we should copy data. Replace it with a "clear" bool, and
-update the callers.
+ChangeList:
+RFC v1:
+1. only upstream modeset and atomic at first commit.
+2. remove some unused code;
+3. use alpha and blend_mode properties;
+3. add yaml support;
+4. remove auto-adaptive panel driver;
+5. bugfix
 
-The intention here is to be able to use ttm_move_memcpy() async under
-a dma-fence as a fallback if an accelerated blit fails in a security-
-critical path where data might leak if the blit is not properly
-performed. For that purpose the bo is an unsuitable argument since
-its relevant members might already have changed at call time.
+RFC v2:
+1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
+2. remove gem drivers, use generic CMA handlers
+3. remove redundant "module_init", all the sub modules loading by KMS
 
-Finally, update the ttm_move_memcpy kerneldoc that seems to have
-ended up with a stale version.
+RFC v3:
+1. multi crtc&encoder design have problem, so rollback to v1
 
-Cc: Christian König <christian.koenig@amd.com>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c |  2 +-
- drivers/gpu/drm/ttm/ttm_bo_util.c       | 20 ++++++++++----------
- include/drm/ttm/ttm_bo_driver.h         |  2 +-
- 3 files changed, 12 insertions(+), 12 deletions(-)
+RFC v4:
+1. update to gcc-linaro-7.5.0
+2. update to Linux 5.6-rc3
+3. remove pm_runtime support
+4. add COMPILE_TEST, remove unused kconfig
+5. "drm_dev_put" on drm_unbind
+6. fix some naming convention issue
+7. remove semaphore lock for crtc flip
+8. remove static variables
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index d07de18529ab..6995c66cbe21 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -518,7 +518,7 @@ static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
- 						 obj->ttm.cached_io_st,
- 						 src_reg->region.start);
- 
--		ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-+		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 763fa6f4e07d..5c20d0541cc3 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -78,22 +78,21 @@ void ttm_mem_io_free(struct ttm_device *bdev,
- 
- /**
-  * ttm_move_memcpy - Helper to perform a memcpy ttm move operation.
-- * @bo: The struct ttm_buffer_object.
-- * @new_mem: The struct ttm_resource we're moving to (copy destination).
-- * @new_iter: A struct ttm_kmap_iter representing the destination resource.
-+ * @clear: Whether to clear rather than copy.
-+ * @num_pages: Number of pages of the operation.
-+ * @dst_iter: A struct ttm_kmap_iter representing the destination resource.
-  * @src_iter: A struct ttm_kmap_iter representing the source resource.
-  *
-  * This function is intended to be able to move out async under a
-  * dma-fence if desired.
-  */
--void ttm_move_memcpy(struct ttm_buffer_object *bo,
-+void ttm_move_memcpy(bool clear,
- 		     u32 num_pages,
- 		     struct ttm_kmap_iter *dst_iter,
- 		     struct ttm_kmap_iter *src_iter)
- {
- 	const struct ttm_kmap_iter_ops *dst_ops = dst_iter->ops;
- 	const struct ttm_kmap_iter_ops *src_ops = src_iter->ops;
--	struct ttm_tt *ttm = bo->ttm;
- 	struct dma_buf_map src_map, dst_map;
- 	pgoff_t i;
- 
-@@ -102,10 +101,7 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
- 		return;
- 
- 	/* Don't move nonexistent data. Clear destination instead. */
--	if (src_ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm))) {
--		if (ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
--			return;
--
-+	if (clear) {
- 		for (i = 0; i < num_pages; ++i) {
- 			dst_ops->map_local(dst_iter, &dst_map, i);
- 			if (dst_map.is_iomem)
-@@ -149,6 +145,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 		struct ttm_kmap_iter_linear_io io;
- 	} _dst_iter, _src_iter;
- 	struct ttm_kmap_iter *dst_iter, *src_iter;
-+	bool clear;
- 	int ret = 0;
- 
- 	if (ttm && ((ttm->page_flags & TTM_PAGE_FLAG_SWAPPED) ||
-@@ -172,7 +169,10 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 		goto out_src_iter;
- 	}
- 
--	ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-+	clear = src_iter->ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm));
-+	if (!(clear && ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC)))
-+		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
-+
- 	src_copy = *src_mem;
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
- 
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 68d6069572aa..5f087575194b 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -322,7 +322,7 @@ int ttm_bo_tt_bind(struct ttm_buffer_object *bo, struct ttm_resource *mem);
-  */
- void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
- 
--void ttm_move_memcpy(struct ttm_buffer_object *bo,
-+void ttm_move_memcpy(bool clear,
- 		     u32 num_pages,
- 		     struct ttm_kmap_iter *dst_iter,
- 		     struct ttm_kmap_iter *src_iter);
+RFC v5:
+1. optimize encoder and connector code implementation
+2. use "platform_get_irq" and "platform_get_resource"
+3. drop useless function return type, drop unless debug log
+4. custom properties should be separate, so drop it
+5. use DRM_XXX replase pr_xxx
+6. drop dsi&dphy hal callback ops
+7. drop unless callback ops checking
+8. add comments for sprd dpu structure
+
+RFC v6:
+1. Access registers via readl/writel
+2. Checking for unsupported KMS properties (format, rotation, blend_mode, etc) on plane_check ops
+3. Remove always true checks for dpu core ops
+
+RFC v7:
+1. Fix DTC unit name warnings
+2. Fix the problem of maintainers
+3. Call drmm_mode_config_init to mode config init
+4. Embed drm_device in sprd_drm and use devm_drm_dev_alloc
+5. Replace DRM_XXX with drm_xxx on KMS module, but not suitable for other subsystems
+6. Remove plane_update stuff, dpu handles all the HW update in crtc->atomic_flush
+7. Dsi&Dphy Code structure adjustment, all move to "sprd/"
+
+v0:
+1. Remove dpu_core_ops stuff layer for sprd drtc driver, but dpu_layer need to keeping.
+   Because all the HW update in crtc->atomic_flush, we need temporary storage all layers for
+   the dpu pageflip of atomic_flush.
+2. Add ports subnode with port@X.
+
+v1:
+1. Remove dphy and dsi graph binding, merge the dphy driver into the dsi.
+2. Add commit messages for Unisoc's virtual nodes.
+
+v2:
+1. Use drm_xxx to replace all DRM_XXX.
+2. Use kzalloc to replace devm_kzalloc for sprd_dsi/sprd_dpu structure init.
+3. Remove dpu_core_ops midlayer.
+
+v3:
+1. Remove dpu_layer midlayer and commit layers by aotmic_update
+
+v4:
+1. Move the devm_drm_dev_alloc to master_ops->bind function.
+2. The managed drmm_mode_config_init() it is no longer necessary for drivers to explicitly call drm_mode_config_cleanup, so delete it.
+3. Use drmm_helpers to allocate crtc ,planes and encoder.
+4. Move allocate crtc ,planes, encoder to bind funtion.
+5. Move rotation enum definitions to crtc layer reg bitfields.
+
+v5:
+1. Remove subdir-ccflgas-y for Makefile.
+2. Keep the selects sorted by alphabet for Kconfig.
+3. Fix the checkpatch warnings.
+4. Use mode_set_nofb instead of mode_valid callback.
+5. Follow the OF-Graph bindings, use of_graph_get_port_by_id instead of of_parse_phandle.
+6. Use zpos to represent the layer position.
+7. Rebase to last drm misc branch.
+8. Remove panel_in port for dsi node.
+9. Drop the dsi ip file prefix.
+10. Add Signed-off-by for dsi&dphy patch.
+11. Use the mode_flags of mipi_dsi_device to setup crtc DPI and EDPI mode.
+
+v6:
+1. Disable and clear interrupts before register dpu IRQ
+2. Init dpi config used by crtc_state->adjusted_mode on mode_set_nofb
+3. Remove enable_irq and disable_irq function call.
+4. Remove drm_format_info function call.
+5. Redesign the way to access the dsi register.
+6. Reduce the dsi_context member variables.
+
+Kevin Tang (6):
+  dt-bindings: display: add Unisoc's drm master bindings
+  drm/sprd: add Unisoc's drm kms master
+  dt-bindings: display: add Unisoc's dpu bindings
+  drm/sprd: add Unisoc's drm display controller driver
+  dt-bindings: display: add Unisoc's mipi dsi controller bindings
+  drm/sprd: add Unisoc's drm mipi dsi&dphy driver
+
+ .../display/sprd/sprd,display-subsystem.yaml  |   64 +
+ .../display/sprd/sprd,sharkl3-dpu.yaml        |   77 +
+ .../display/sprd/sprd,sharkl3-dsi-host.yaml   |   88 ++
+ drivers/gpu/drm/Kconfig                       |    2 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/sprd/Kconfig                  |   13 +
+ drivers/gpu/drm/sprd/Makefile                 |    6 +
+ drivers/gpu/drm/sprd/megacores_pll.c          |  317 +++++
+ drivers/gpu/drm/sprd/megacores_pll.h          |  146 ++
+ drivers/gpu/drm/sprd/sprd_dpu.c               |  954 +++++++++++++
+ drivers/gpu/drm/sprd/sprd_dpu.h               |  109 ++
+ drivers/gpu/drm/sprd/sprd_drm.c               |  207 +++
+ drivers/gpu/drm/sprd/sprd_drm.h               |   19 +
+ drivers/gpu/drm/sprd/sprd_dsi.c               | 1260 +++++++++++++++++
+ drivers/gpu/drm/sprd/sprd_dsi.h               |   94 ++
+ 15 files changed, 3357 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
+ create mode 100644 drivers/gpu/drm/sprd/Kconfig
+ create mode 100644 drivers/gpu/drm/sprd/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
+ create mode 100644 drivers/gpu/drm/sprd/megacores_pll.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
+
 -- 
-2.31.1
+2.29.0
 
