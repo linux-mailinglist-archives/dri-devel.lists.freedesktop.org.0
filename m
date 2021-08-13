@@ -2,59 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3587C3EB974
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2003EB97A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66DC489310;
-	Fri, 13 Aug 2021 15:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2A06E870;
+	Fri, 13 Aug 2021 15:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D956E870
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 15:48:54 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id c24so20575118lfi.11
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:48:54 -0700 (PDT)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588E46E870
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 15:49:09 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id nt11so15926832pjb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fb6jfu2/G4QkMlWGyBK3jfNAWXGH0CC9y/nA9LWGHy4=;
- b=G1iP+a4vaGH0IxTicJ5t0yaOy79VZWEKMGhnfii16ScskORME/xmg99izKimPk8QN3
- jwWajxi/HE54sb9WmLtoetCvhtG/9X06SEu8v5M2vvten+zs9CqSznHR8cLFQ+hxFOjY
- jyba1aWlcKCH2x91LlNbD0rZDE7mTxariNtso=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=wwWCtmitPIziHrsVDs3e/WXMsT5Htg5FsOmnBCodSj8=;
+ b=IYdotH9NOHI+p6YKBepbynbdJfSmXJkJybgDCe1TtlsZi9d8s2ARhtWMwxaW4OtCLq
+ bFaaxwtms7kw7v0QGyAhrDtCCioiCLcGglpFR8y2So3ynzX/1/r1QDH+OpSsyD4XSNXW
+ e09KeqUi7PPKNy3dHFxjXD1hHHD+rZWpC+hMA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fb6jfu2/G4QkMlWGyBK3jfNAWXGH0CC9y/nA9LWGHy4=;
- b=mMnXjdWg7d2vrnknqXt4skt6uIIvvIE3rVwHEgEY2p+rvfLahEO+NzcLbXlAFIad9l
- sccCjmQpa4wJCyg4fi80Wh/4RfOmlz5satwfKNeDION1BNvVWct+C8aDtbptyuEtU5JM
- 21ULPKvhBX6Zyj6g/yCdM3aFfFZgQ1Lxllc8SErFPKPwmRVYd4ZHzA4xShTuiz+I3qic
- bS6Uv+1jqlnnL38+7H/EY2rvi3NRvPyHAAJrj1jWPmAh/5j3/6JdaVjDmht2zckoxKY2
- W8jvUEG5YAluR0jTMxNOoF45+Ft7mQ4H4OSnd8QvVyc4GX0JqLCwWYTnyeT1Cw0R8jci
- Di5A==
-X-Gm-Message-State: AOAM531aGdi/qAPRzm8aESgxT+FejJyBULX0cFNS2r7XWDks18gcmxzV
- 5Zlz+2bZ+UfmYHVfx6p9CwXaYiOqAOqMOajyP94GQg==
-X-Google-Smtp-Source: ABdhPJxExrRr2JJWFnNf/8fWix4b0kkItNPl4sspptOXrBc8VLA9pDO0SLjB79iURWNtRS9gGwb5VdyBfx4fvTQ26CY=
-X-Received: by 2002:a05:6512:398e:: with SMTP id
- j14mr2140007lfu.573.1628869733082; 
- Fri, 13 Aug 2021 08:48:53 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wwWCtmitPIziHrsVDs3e/WXMsT5Htg5FsOmnBCodSj8=;
+ b=Ht20O1Y4jJPXMRVu4oabZRR49k/NHMkBeak/pj/qaUAhklIpBM2lrvgMtTux07dppT
+ nIcp/UjMOjQCVL1yVoMCPXo+Pmlnzmk10u5buPj0luvVs8+lu/rJNjix6hKVns52UVrw
+ nNmWQXj22XUB3Rpvm9ODS3A0KAdL5qMuk18Nrzu5reeHMjnxptEI8Xnxr7w6r1GcA87P
+ ZvWOW2EQzw3L6QUoVlWGtKHvK4PPQFgFj/ILzxpL8iRcA5LFO/7+HxJh5w8FeksFyQXa
+ BCTIEdiqu4YfuKTOE4qlSHAbWVLI8o01WnFVxkxg19OmZurUYA3cKumXYQsnZk3mLMZ3
+ 0o/w==
+X-Gm-Message-State: AOAM530NndSNx2OcdBdXY2UvMkumsxHe/xdsrqRNXMc9vTjeQx6iV1zU
+ hdiz3v/7dhw8hOBe9ZF98FPNNA==
+X-Google-Smtp-Source: ABdhPJyv0yGI/+CjV3WSksJoELQp2QfXxshGvk60ssRFFyGXixHmNtvKKEOi+49tFIULL6ceroPwFw==
+X-Received: by 2002:a05:6a00:150d:b029:3c8:e86e:79ec with SMTP id
+ q13-20020a056a00150db02903c8e86e79ecmr3123596pfu.62.1628869748959; 
+ Fri, 13 Aug 2021 08:49:08 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id u21sm2725385pfh.163.2021.08.13.08.49.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Aug 2021 08:49:08 -0700 (PDT)
+Date: Fri, 13 Aug 2021 08:49:07 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: linux-hardening@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Keith Packard <keithpac@amazon.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 10/64] lib80211: Use struct_group() for memcpy() region
+Message-ID: <202108130846.EC339BCA@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-11-keescook@chromium.org>
+ <a9c8ae9e05cfe2679cd8a7ef0ab20b66cf38b930.camel@sipsolutions.net>
 MIME-Version: 1.0
-References: <20210811175525.2125964-1-markyacoub@chromium.org>
- <20210812194917.1703356-1-markyacoub@chromium.org>
- <4ab4548f-34fc-27cb-928e-af2b8ab78b1b@daenzer.net>
-In-Reply-To: <4ab4548f-34fc-27cb-928e-af2b8ab78b1b@daenzer.net>
-From: Mark Yacoub <markyacoub@chromium.org>
-Date: Fri, 13 Aug 2021 11:48:42 -0400
-Message-ID: <CAJUqKUp6zrioRy4aK_ySM+1EMWfZqX1P-_u2RGsGB9PCBXLSAQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: Copy drm_wait_vblank to user before returning
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, 
- abhinavk@codeaurora.org, Rob Clark <robdclark@chromium.org>, airlied@linux.ie, 
- Mark Yacoub <markyacoub@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a9c8ae9e05cfe2679cd8a7ef0ab20b66cf38b930.camel@sipsolutions.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,53 +81,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for your review Michel!
-@MAINTAINER, could you please strip the Change-Id when applying.
-Thanks!
+On Fri, Aug 13, 2021 at 10:04:09AM +0200, Johannes Berg wrote:
+> On Tue, 2021-07-27 at 13:58 -0700, Kees Cook wrote:
+> > 
+> > +++ b/include/linux/ieee80211.h
+> > @@ -297,9 +297,11 @@ static inline u16 ieee80211_sn_sub(u16 sn1, u16 sn2)
+> >  struct ieee80211_hdr {
+> >  	__le16 frame_control;
+> >  	__le16 duration_id;
+> > -	u8 addr1[ETH_ALEN];
+> > -	u8 addr2[ETH_ALEN];
+> > -	u8 addr3[ETH_ALEN];
+> > +	struct_group(addrs,
+> > +		u8 addr1[ETH_ALEN];
+> > +		u8 addr2[ETH_ALEN];
+> > +		u8 addr3[ETH_ALEN];
+> > +	);
+> >  	__le16 seq_ctrl;
+> >  	u8 addr4[ETH_ALEN];
+> >  } __packed __aligned(2);
+> 
+> This file isn't really just lib80211, it's also used by everyone else
+> for 802.11, but I guess that's OK - after all, this doesn't really
+> result in any changes here.
+> 
+> > +++ b/net/wireless/lib80211_crypt_ccmp.c
+> > @@ -136,7 +136,8 @@ static int ccmp_init_iv_and_aad(const struct ieee80211_hdr *hdr,
+> >  	pos = (u8 *) hdr;
+> >  	aad[0] = pos[0] & 0x8f;
+> >  	aad[1] = pos[1] & 0xc7;
+> > -	memcpy(aad + 2, hdr->addr1, 3 * ETH_ALEN);
+> > +	BUILD_BUG_ON(sizeof(hdr->addrs) != 3 * ETH_ALEN);
+> > +	memcpy(aad + 2, &hdr->addrs, ETH_ALEN);
+> 
+> 
+> However, how is it you don't need the same change in net/mac80211/wpa.c?
+> 
+> We have three similar instances:
+> 
+>         /* AAD (extra authenticate-only data) / masked 802.11 header
+>          * FC | A1 | A2 | A3 | SC | [A4] | [QC] */
+>         put_unaligned_be16(len_a, &aad[0]);
+>         put_unaligned(mask_fc, (__le16 *)&aad[2]);
+>         memcpy(&aad[4], &hdr->addr1, 3 * ETH_ALEN);
+> 
+> 
+> and
+> 
+>         memcpy(&aad[4], &hdr->addr1, 3 * ETH_ALEN);
+> 
+> and
+> 
+>         memcpy(aad + 2, &hdr->addr1, 3 * ETH_ALEN);
+> 
+> so those should also be changed, it seems?
 
-On Fri, Aug 13, 2021 at 3:33 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
->
-> On 2021-08-12 9:49 p.m., Mark Yacoub wrote:
-> > From: Mark Yacoub <markyacoub@google.com>
-> >
-> > [Why]
-> > Userspace should get back a copy of drm_wait_vblank that's been modifie=
-d
-> > even when drm_wait_vblank_ioctl returns a failure.
-> >
-> > Rationale:
-> > drm_wait_vblank_ioctl modifies the request and expects the user to read
-> > it back. When the type is RELATIVE, it modifies it to ABSOLUTE and upda=
-tes
-> > the sequence to become current_vblank_count + sequence (which was
-> > RELATIVE), but now it became ABSOLUTE.
-> > drmWaitVBlank (in libdrm) expects this to be the case as it modifies
-> > the request to be Absolute so it expects the sequence to would have bee=
-n
-> > updated.
-> >
-> > The change is in compat_drm_wait_vblank, which is called by
-> > drm_compat_ioctl. This change of copying the data back regardless of th=
-e
-> > return number makes it en par with drm_ioctl, which always copies the
-> > data before returning.
-> >
-> > [How]
-> > Return from the function after everything has been copied to user.
-> >
-> > Fixes: IGT:kms_flip::modeset-vs-vblank-race-interruptible
-> > Tested on ChromeOS Trogdor(msm)
-> >
-> > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-> > Change-Id: I98da279a5f1329c66a9d1e06b88d40b247b51313
->
-> With the Gerrit Change-Id removed,
->
-> Reviewed-by: Michel D=C3=A4nzer <mdaenzer@redhat.com>
->
->
-> --
-> Earthling Michel D=C3=A4nzer               |               https://redhat=
-.com
-> Libre software enthusiast             |             Mesa and X developer
+Ah! Yes, thanks for pointing this out. During earlier development I split
+the "cross-field write" changes from the "cross-field read" changes, and
+it looks like I missed moving lib80211_crypt_ccmp.c into that portion of
+the series (which I haven't posted nor finished -- it's lower priority
+than fixing the cross-field writes).
+
+> In which case I'd probably prefer to do this separately from the staging
+> drivers ...
+
+Agreed. Sorry for the noise on that part. I will double-check the other
+patches.
+
+-- 
+Kees Cook
