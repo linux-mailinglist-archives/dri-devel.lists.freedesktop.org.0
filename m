@@ -2,63 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E703EBD54
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 22:30:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF34C3EBD56
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 22:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5EAA6E8CF;
-	Fri, 13 Aug 2021 20:30:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1565D6E8D6;
+	Fri, 13 Aug 2021 20:30:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A720A6E8D1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 20:30:42 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id v2so6736556edq.10
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 13:30:42 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1D5B6E8D1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 20:30:43 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id b7so17200526edu.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 13:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bs10p23sJWJDZZNCcTGppQo97upc2uTkLgGG89DVdpg=;
- b=lJKNKsFyyvM8zMfy4wA0T+fIu2tMRlj6ys+Bf+FsZsPSjQbLhLKGrLJXrKhc/wIZ/g
- s5J/n9o5G0Qb0qrLXI0/OBk4ZfatHjDW7SQN7/qYyWx28ZRv1DctU7HGeZ+NoyfzBOie
- HLLE2sWC5m+kE9jEa9vdsGgiTvK1N+xQwmJ7A=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1tzQoJk2Vxo3bdO8JMvHymsLoOVGe9IUEBg7fmejmSM=;
+ b=E4xfGf+kkRkDDhWKr20asokxo+TwFXhbpjwT92tHle5Tav8BBh3RJNFRc/sGl5/Qz1
+ +8RQ0o3IC6fJ6lci+4vo8GDKXnOfgTeG+c1B080igyQ6pnAFt4sG+9DdHhWpOMQqeLE1
+ rb2uCbzSfeWKXjPllWJrNvrIax2vmeit/He9E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bs10p23sJWJDZZNCcTGppQo97upc2uTkLgGG89DVdpg=;
- b=X9bLd5A/3u3TolLOaHtco0Ib8I5LmGiJypcFRuIKQ/vbQIsh5Pss6H05t6bPGRFj7h
- fagDO1yyMgXlROXThlBzWcuLv59moOQUJlHfMFpzSSGJ/kfseq6JxlyGjvwgnRoxKSAA
- DoZGn/xATPgUhy9pYoJYrBfVCio/j/pHBNnuxa+r9ZQ74+Ovu0AwXb1y1pejPW/kM7PU
- EmpTxsWzwDEMeGzL2CnhrtE8wGEI6oiPdog0AhTrnxiYrNEJgzagFDRjXIwkCdat+6Sd
- Vg/VQ93OhD5X7SHC8WYRuxwo9YVEoHF2s1GTlAx3Q/71JNHWr21MS9OhX5STZc5slJe3
- ytow==
-X-Gm-Message-State: AOAM5323Cod/ShSGM6d6dLvzVn8AzkYy0nd3id/XwmOwFm4uiyEOq5hn
- VPFNMUw/PGQe0qVacuaCUfxUYC1rE/fZww==
-X-Google-Smtp-Source: ABdhPJxA4fCN9NdWYxER76qUyb+wPQxhwzQPLAHzBZ1m+WoT5XfAdOLM1dlaTJkHSyazHnCzVRQhAw==
-X-Received: by 2002:aa7:c795:: with SMTP id n21mr5272461eds.182.1628886641125; 
- Fri, 13 Aug 2021 13:30:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1tzQoJk2Vxo3bdO8JMvHymsLoOVGe9IUEBg7fmejmSM=;
+ b=niWtyu0Ox+Qa9H4SCLgMeNvtNAlTEVkHLChTKP8XrULQB/VHXgNkL6+Ed24jvyMldl
+ dhwdCcls6V49+qWPKU9vsiS4akXJ+8qFGLGkExt70BOxjYZ3uivn/Qjc0TKJP+tn4/8W
+ ODSxTTjT5q6T4FAhNxAg+dJ+fPeaE2mLtIAke/6j0Qg7HLB3YvfRWzAWW2k0Len4GKZW
+ tRUToJloPDZNy5c9lkQrk8KJMi0RmM8dOOEFiZdOjEamWuT8StDo55qX3IqaLifjYc21
+ RPSXtupmsE573rQHPgaXBFrqcDxqNx9qLPm2z/EW8FzoDHRGgdhOpDLazISJA76TCNiD
+ nh3g==
+X-Gm-Message-State: AOAM532UXX+GObzBXEp4HYrVy1BR87jKBkRFKliUNdYQYwXSzaNMGRQL
+ 5EuDk+lXrYztKRcHgDxuNhqp8Y+ZTw++wQ==
+X-Google-Smtp-Source: ABdhPJyHwb0nDIsdVRzzydLDO7+timEIsg3kAQVTYQkX0GjtKt0x6Q556BGtINF0J0mPtEmhAqGTDQ==
+X-Received: by 2002:a05:6402:445:: with SMTP id
+ p5mr5385530edw.208.1628886642004; 
+ Fri, 13 Aug 2021 13:30:42 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y17sm1347027edv.51.2021.08.13.13.30.40
+ by smtp.gmail.com with ESMTPSA id y17sm1347027edv.51.2021.08.13.13.30.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 13:30:40 -0700 (PDT)
+ Fri, 13 Aug 2021 13:30:41 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  Daniel Vetter <daniel.vetter@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
  Chris Wilson <chris@chris-wilson.co.uk>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
  Matthew Auld <matthew.auld@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
  Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-Subject: [PATCH 01/11] drm/i915: Release i915_gem_context from a worker
-Date: Fri, 13 Aug 2021 22:30:23 +0200
-Message-Id: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
+ Dave Airlie <airlied@redhat.com>
+Subject: [PATCH 02/11] drm/i915: Release ctx->syncobj on final put,
+ not on ctx close
+Date: Fri, 13 Aug 2021 22:30:24 +0200
+Message-Id: <20210813203033.3179400-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
+References: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -77,96 +83,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only reason for this really is the i915_gem_engines->fence
-callback engines_notify(), which exists purely as a fairly funky
-reference counting scheme for that. Otherwise all other callers are
-from process context, and generally fairly benign locking context.
+gem context refcounting is another exercise in least locking design it
+seems, where most things get destroyed upon context closure (which can
+race with anything really). Only the actual memory allocation and the
+locks survive while holding a reference.
 
-Unfortunately untangling that requires some major surgery, and we have
-a few i915_gem_context reference counting bugs that need fixing, and
-they blow in the current hardirq calling context, so we need a
-stop-gap measure.
+This tripped up Jason when reimplementing the single timeline feature
+in
 
-Put a FIXME comment in when this should be removable again.
+commit 00dae4d3d35d4f526929633b76e00b0ab4d3970d
+Author: Jason Ekstrand <jason@jlekstrand.net>
+Date:   Thu Jul 8 10:48:12 2021 -0500
+
+    drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)
+
+We could fix the bug by holding ctx->mutex in execbuf and clear the
+pointer (again while holding the mutex) context_close, but it's
+cleaner to just make the context object actually invariant over its
+_entire_ lifetime. This way any other ioctl that's potentially racing,
+but holding a full reference, can still rely on ctx->syncobj being
+an immutable pointer. Which without this change, is not the case.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Fixes: 00dae4d3d35d ("drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)")
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@intel.com>
 Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c       | 13 +++++++++++--
- drivers/gpu/drm/i915/gem/i915_gem_context_types.h | 12 ++++++++++++
- 2 files changed, 23 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index fd169cf2f75a..051bc357ff65 100644
+index 051bc357ff65..5a053cf14948 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -986,9 +986,10 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
- 	return err;
- }
- 
--void i915_gem_context_release(struct kref *ref)
-+static void i915_gem_context_release_work(struct work_struct *work)
- {
--	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
-+	struct i915_gem_context *ctx = container_of(work, typeof(*ctx),
-+						    release_work);
- 
+@@ -994,6 +994,9 @@ static void i915_gem_context_release_work(struct work_struct *work)
  	trace_i915_context_free(ctx);
  	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
-@@ -1002,6 +1003,13 @@ void i915_gem_context_release(struct kref *ref)
- 	kfree_rcu(ctx, rcu);
- }
  
-+void i915_gem_context_release(struct kref *ref)
-+{
-+	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
++	if (ctx->syncobj)
++		drm_syncobj_put(ctx->syncobj);
 +
-+	queue_work(ctx->i915->wq, &ctx->release_work);
-+}
-+
- static inline struct i915_gem_engines *
- __context_engines_static(const struct i915_gem_context *ctx)
- {
-@@ -1303,6 +1311,7 @@ i915_gem_create_context(struct drm_i915_private *i915,
- 	ctx->sched = pc->sched;
- 	mutex_init(&ctx->mutex);
- 	INIT_LIST_HEAD(&ctx->link);
-+	INIT_WORK(&ctx->release_work, i915_gem_context_release_work);
+ 	mutex_destroy(&ctx->engines_mutex);
+ 	mutex_destroy(&ctx->lut_mutex);
  
- 	spin_lock_init(&ctx->stale.lock);
- 	INIT_LIST_HEAD(&ctx->stale.engines);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-index 94c03a97cb77..0c38789bd4a8 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-@@ -288,6 +288,18 @@ struct i915_gem_context {
- 	 */
- 	struct kref ref;
+@@ -1220,9 +1223,6 @@ static void context_close(struct i915_gem_context *ctx)
+ 	if (vm)
+ 		i915_vm_close(vm);
  
-+	/**
-+	 * @release_work:
-+	 *
-+	 * Work item for deferred cleanup, since i915_gem_context_put() tends to
-+	 * be called from hardirq context.
-+	 *
-+	 * FIXME: The only real reason for this is &i915_gem_engines.fence, all
-+	 * other callers are from process context and need at most some mild
-+	 * shuffling to pull the i915_gem_context_put() call out of a spinlock.
-+	 */
-+	struct work_struct release_work;
-+
- 	/**
- 	 * @rcu: rcu_head for deferred freeing.
- 	 */
+-	if (ctx->syncobj)
+-		drm_syncobj_put(ctx->syncobj);
+-
+ 	ctx->file_priv = ERR_PTR(-EBADF);
+ 
+ 	/*
 -- 
 2.32.0
 
