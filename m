@@ -1,68 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E803EB31B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 11:03:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD6F3EB407
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 12:29:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE326E58E;
-	Fri, 13 Aug 2021 09:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30B796E5A9;
+	Fri, 13 Aug 2021 10:29:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEF746E58E;
- Fri, 13 Aug 2021 09:02:40 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- qe12-20020a17090b4f8c00b00179321cbae7so4473517pjb.2; 
- Fri, 13 Aug 2021 02:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=O8WE4JThttpC0auzAMsH7OUVsbA+QtrsjGiuV7h3U84=;
- b=OEmLLlIzDteGG9Dhu0ASxOzJvr3+7CAUaXkCKVJaeO9WeM44o7ujRgwJ8jn842LJFY
- ufzi88H3ffOMaRfm5WIYCS6oEV6z/Ci5ZhnJD/s9uVrYGDdOIa/MJnv3gVqbnbQU3WGY
- LfJ2BCkh41/Ck5+SrcjS2RmBeOrZAKAEIsSjNu894bwi6p93N+JVR0XSvA+831BjWKyV
- vScPI10Jp30cAVfZAA6sPDZwNEoJ20vd7ONTgcILNJQWyzwyDb3kVHTYNrO3aX+Y5ufc
- Lu+nt6stw9tVAVB2DU3DrKWGYAY9hM4Io7JC6slFIAzM6173AxnW50LHpKIdqYrTU9hZ
- 3JtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=O8WE4JThttpC0auzAMsH7OUVsbA+QtrsjGiuV7h3U84=;
- b=eoFXzdgH2fMdGcQrngPJoNEKOJCLAlCyhwcE5BGhdavGSRmmn2AEHzQZ5JPGmaRvBW
- UXLyCDBPM9OT5Tnnh8UUxm6/pRFcPG+p9gxkX+K+9XrqUcR1Olrh2D4+JfjU9sWxyp8X
- ZK6Xb0B46TAec8uCgUH3944sXkK0qbux+LQnsokFFKIJAkYHnicX9qhlI0cA64/HuvEo
- AYMRRlAh+zrRU/0UKXjRM/L5qkzrU6zS/QcJx2gC0pRXM6A+n7k6QPubRRxO51PukdF3
- 8NJzper+JiOl/3BoOvuwtVsN73kjayLxrVcYGwPF3pCZe0CMXaEXRlZN5kkANBe0Y8JT
- nolg==
-X-Gm-Message-State: AOAM530PnIF20b24NluzmtyHaiEsYQgOnymqkrUeSSyZ3vXCqb7D1DSA
- wD71SxqcbIR60wbysmU7keY=
-X-Google-Smtp-Source: ABdhPJxCoxOtjobzjtFOX6Y1yM1ByjOfNZ3FaL0wJWPc7CI4WWs/SqYk4RakQhnBFzlFI/y5LUJafw==
-X-Received: by 2002:a63:460d:: with SMTP id t13mr1441285pga.41.1628845360624; 
- Fri, 13 Aug 2021 02:02:40 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id 31sm1818428pgy.26.2021.08.13.02.02.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 02:02:40 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- intel-gfx@lists.freedesktop.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH 2/2] drm: unexport drm_ioctl_permit
-Date: Fri, 13 Aug 2021 16:54:50 +0800
-Message-Id: <20210813085450.32494-3-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210813085450.32494-1-desmondcheongzx@gmail.com>
-References: <20210813085450.32494-1-desmondcheongzx@gmail.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 81A606E5A5;
+ Fri, 13 Aug 2021 10:29:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id B1BA320201B;
+ Fri, 13 Aug 2021 12:29:21 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id 0p1l-mWD0BLT; Fri, 13 Aug 2021 12:29:21 +0200 (CEST)
+Received: from kaveri (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 601C320201A;
+ Fri, 13 Aug 2021 12:29:21 +0200 (CEST)
+Received: from daenzer by kaveri with local (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1mEURE-0000ua-9l; Fri, 13 Aug 2021 12:29:20 +0200
+From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: Cancel delayed work when GFXOFF is disabled
+Date: Fri, 13 Aug 2021 12:29:20 +0200
+Message-Id: <20210813102920.3458-1-michel@daenzer.net>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210811165211.6811-1-michel@daenzer.net>
+References: <20210811165211.6811-1-michel@daenzer.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,61 +55,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the last user of drm_ioctl_permit was removed, and it's now only
-used in drm_ioctl.c, unexport the symbol.
+From: Michel Dänzer <mdaenzer@redhat.com>
 
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+schedule_delayed_work does not push back the work if it was already
+scheduled before, so amdgpu_device_delay_enable_gfx_off ran ~100 ms
+after the first time GFXOFF was disabled and re-enabled, even if GFXOFF
+was disabled and re-enabled again during those 100 ms.
+
+This resulted in frame drops / stutter with the upcoming mutter 41
+release on Navi 14, due to constantly enabling GFXOFF in the HW and
+disabling it again (for getting the GPU clock counter).
+
+To fix this, call cancel_delayed_work_sync when GFXOFF transitions from
+enabled to disabled. This makes sure the delayed work will be scheduled
+as intended in the reverse case.
+
+In order to avoid a deadlock, amdgpu_device_delay_enable_gfx_off needs
+to use mutex_trylock instead of mutex_lock.
+
+v2:
+* Use cancel_delayed_work_sync & mutex_trylock instead of
+  mod_delayed_work.
+
+Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
 ---
- drivers/gpu/drm/drm_ioctl.c | 15 +--------------
- include/drm/drm_ioctl.h     |  1 -
- 2 files changed, 1 insertion(+), 15 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 ++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c    | 13 +++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h    |  3 +++
+ 3 files changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index eb4ec3fab7d1..fe271f6f96ab 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -522,19 +522,7 @@ int drm_version(struct drm_device *dev, void *data,
- 	return err;
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index f3fd5ec710b6..8b025f70706c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -2777,7 +2777,16 @@ static void amdgpu_device_delay_enable_gfx_off(struct work_struct *work)
+ 	struct amdgpu_device *adev =
+ 		container_of(work, struct amdgpu_device, gfx.gfx_off_delay_work.work);
  
--/**
-- * drm_ioctl_permit - Check ioctl permissions against caller
-- *
-- * @flags: ioctl permission flags.
-- * @file_priv: Pointer to struct drm_file identifying the caller.
-- *
-- * Checks whether the caller is allowed to run an ioctl with the
-- * indicated permissions.
-- *
-- * Returns:
-- * Zero if allowed, -EACCES otherwise.
-- */
--int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
-+static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
- {
- 	/* ROOT_ONLY is only for CAP_SYS_ADMIN */
- 	if (unlikely((flags & DRM_ROOT_ONLY) && !capable(CAP_SYS_ADMIN)))
-@@ -557,7 +545,6 @@ int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
+-	mutex_lock(&adev->gfx.gfx_off_mutex);
++	/* mutex_lock could deadlock with cancel_delayed_work_sync in amdgpu_gfx_off_ctrl. */
++	if (!mutex_trylock(&adev->gfx.gfx_off_mutex)) {
++		/* If there's a bug which causes amdgpu_gfx_off_ctrl to be called with enable=true
++		 * when adev->gfx.gfx_off_req_count is already 0, we might race with that.
++		 * Re-schedule to make sure gfx off will be re-enabled in the HW eventually.
++		 */
++		schedule_delayed_work(&adev->gfx.gfx_off_delay_work, AMDGPU_GFX_OFF_DELAY_ENABLE);
++		return;
++	}
++
+ 	if (!adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
+ 		if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, true))
+ 			adev->gfx.gfx_off_state = true;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+index a0be0772c8b3..da4c46db3093 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+@@ -28,9 +28,6 @@
+ #include "amdgpu_rlc.h"
+ #include "amdgpu_ras.h"
  
- 	return 0;
- }
--EXPORT_SYMBOL(drm_ioctl_permit);
+-/* delay 0.1 second to enable gfx off feature */
+-#define GFX_OFF_DELAY_ENABLE         msecs_to_jiffies(100)
+-
+ /*
+  * GPU GFX IP block helpers function.
+  */
+@@ -569,9 +566,13 @@ void amdgpu_gfx_off_ctrl(struct amdgpu_device *adev, bool enable)
+ 		adev->gfx.gfx_off_req_count--;
  
- #define DRM_IOCTL_DEF(ioctl, _func, _flags)	\
- 	[DRM_IOCTL_NR(ioctl)] = {		\
-diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
-index 13a68cdcea36..fd29842127e5 100644
---- a/include/drm/drm_ioctl.h
-+++ b/include/drm/drm_ioctl.h
-@@ -174,7 +174,6 @@ struct drm_ioctl_desc {
- 		.name = #ioctl						\
- 	}
+ 	if (enable && !adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
+-		schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_OFF_DELAY_ENABLE);
+-	} else if (!enable && adev->gfx.gfx_off_state) {
+-		if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, false)) {
++		schedule_delayed_work(&adev->gfx.gfx_off_delay_work, AMDGPU_GFX_OFF_DELAY_ENABLE);
++	} else if (!enable) {
++		if (adev->gfx.gfx_off_req_count == 1 && !adev->gfx.gfx_off_state)
++			cancel_delayed_work_sync(&adev->gfx.gfx_off_delay_work);
++
++		if (adev->gfx.gfx_off_state &&
++		    !amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, false)) {
+ 			adev->gfx.gfx_off_state = false;
  
--int drm_ioctl_permit(u32 flags, struct drm_file *file_priv);
- long drm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
- long drm_ioctl_kernel(struct file *, drm_ioctl_t, void *, u32);
- #ifdef CONFIG_COMPAT
+ 			if (adev->gfx.funcs->init_spm_golden) {
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
+index d43fe2ed8116..dcdb505bb7f4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
+@@ -32,6 +32,9 @@
+ #include "amdgpu_rlc.h"
+ #include "soc15.h"
+ 
++/* delay 0.1 second to enable gfx off feature */
++#define AMDGPU_GFX_OFF_DELAY_ENABLE msecs_to_jiffies(100)
++
+ /* GFX current status */
+ #define AMDGPU_GFX_NORMAL_MODE			0x00000000L
+ #define AMDGPU_GFX_SAFE_MODE			0x00000001L
 -- 
-2.25.1
+2.32.0
 
