@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6483EB434
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 12:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889C43EB435
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 12:43:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 847E06E5BF;
-	Fri, 13 Aug 2021 10:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADCC36E5C1;
+	Fri, 13 Aug 2021 10:43:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 341BB6E5BF;
- Fri, 13 Aug 2021 10:43:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="213689793"
-X-IronPort-AV: E=Sophos;i="5.84,318,1620716400"; d="scan'208";a="213689793"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2021 03:43:41 -0700
-X-IronPort-AV: E=Sophos;i="5.84,318,1620716400"; d="scan'208";a="528489253"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536066E5C1;
+ Fri, 13 Aug 2021 10:43:50 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="301126390"
+X-IronPort-AV: E=Sophos;i="5.84,318,1620716400"; d="scan'208";a="301126390"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2021 03:43:49 -0700
+X-IronPort-AV: E=Sophos;i="5.84,318,1620716400"; d="scan'208";a="485889250"
 Received: from cgearing-mobl.ger.corp.intel.com (HELO localhost)
  ([10.251.209.226])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2021 03:43:38 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2021 03:43:44 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: jani.nikula@intel.com,
 	Manasi Navare <manasi.d.navare@intel.com>
-Subject: [PATCH 2/4] drm/dp: use more of the extended receiver cap
-Date: Fri, 13 Aug 2021 13:43:20 +0300
-Message-Id: <ab2ca82226fd954a61a5674cf0531508bd18cef7.1628851334.git.jani.nikula@intel.com>
+Subject: [PATCH 3/4] drm/dp: add LTTPR DP 2.0 DPCD addresses
+Date: Fri, 13 Aug 2021 13:43:21 +0300
+Message-Id: <074474ab47fd9195223324b65546d4824ab04769.1628851334.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1628851334.git.jani.nikula@intel.com>
 References: <cover.1628851334.git.jani.nikula@intel.com>
@@ -51,29 +51,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend the use of extended receiver cap at 0x2200 to cover
-MAIN_LINK_CHANNEL_CODING_CAP in 0x2206, in case an implementation hides
-the DP 2.0 128b/132b channel encoding cap.
+DP 2.0 brings some new DPCD addresses for PHY repeaters.
 
 Cc: Manasi Navare <manasi.d.navare@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/drm_dp_helper.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 9b2a2961fca8..9389f92cb944 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -608,7 +608,7 @@ static u8 drm_dp_downstream_port_count(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- static int drm_dp_read_extended_dpcd_caps(struct drm_dp_aux *aux,
- 					  u8 dpcd[DP_RECEIVER_CAP_SIZE])
- {
--	u8 dpcd_ext[6];
-+	u8 dpcd_ext[DP_MAIN_LINK_CHANNEL_CODING + 1];
- 	int ret;
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 1d5b3dbb6e56..f3a61341011d 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1319,6 +1319,10 @@ struct drm_panel;
+ #define DP_MAX_LANE_COUNT_PHY_REPEATER			    0xf0004 /* 1.4a */
+ #define DP_Repeater_FEC_CAPABILITY			    0xf0004 /* 1.4 */
+ #define DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT		    0xf0005 /* 1.4a */
++#define DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER	    0xf0006 /* 2.0 */
++# define DP_PHY_REPEATER_128B132B_SUPPORTED		    (1 << 0)
++/* See DP_128B132B_SUPPORTED_LINK_RATES for values */
++#define DP_PHY_REPEATER_128B132B_RATES			    0xf0007 /* 2.0 */
  
- 	/*
+ enum drm_dp_phy {
+ 	DP_PHY_DPRX,
 -- 
 2.20.1
 
