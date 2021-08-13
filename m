@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5363EB708
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 16:53:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BADB73EB709
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 16:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82F866E83B;
-	Fri, 13 Aug 2021 14:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12FF6E83D;
+	Fri, 13 Aug 2021 14:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5A26E83B
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 14:53:09 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id k2so12252142plk.13
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 07:53:09 -0700 (PDT)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40C8B6E83D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 14:53:13 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id k2so12252304plk.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 07:53:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W750PVMZgiWGTiNJlB3UJ+AorGIAQwDaKf6ieffQwJg=;
- b=MUt/4SwxB3Y3F64qVzsUw2vp25wFxb9ArneoB+cnEB2Z40tXVJKSIkmqrauq7S7GlH
- QJ8QalTtGctl+re5BA/01stwUYjUYvs2rpmFKFUD8kqykahXXT9BNET3nObTLqtdoA+q
- f93qYsGrDs1R0NdLLFN3bNYtJjc2KdxdodV3n0rTnLIQj+J9WC4b9v81YmXg/YdiAPHd
- Ch39mPmNOzMTzvx4kvdaKZqqQcUtvl192WxjT8t8s7utHG6eyRi/WvL0B1MwoJW180Cx
- cS2KK4TpsOsm8rPoq7658vLlLys+wE/DIQYWuDSBaLLMuFV0Dfr21ubjpCR54zLE+Fze
- PvFg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pL2wYs0FKur1p37EfD6cIh4PXL/x/Qnvjj6a9pn8Rhw=;
+ b=h7cENKxZEnoofdhZJ03Qq8eNuRX0S3Me4Jps+pVeFVBcQ0XPvsOwdv6flA1v7aPDrA
+ dSfY1AiCUCphwPswRuc2n8le3NNp/7hKWFbqo/FNvBNP3thY8Fx8YLw9ECfT37gWgiuk
+ 1vr3Yr6BsbZvn6n2ICtC80pgtRvERmcWDKB/xkQy4W0IkHBhvmV279oBu2N4VNaV62ip
+ cHCSGNGTCBTK4XivsEyNUkq8np5NcN5MizbsjCfwyojaaGRWkNlhMOoKm6yuwwe6dmWE
+ CYAovDMOBj0YdtTOtfO5tKHW1qdsxHwgXlIhqa03dV5fwx2QV1j3uo7XfNGD0EVm7SNB
+ +48Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W750PVMZgiWGTiNJlB3UJ+AorGIAQwDaKf6ieffQwJg=;
- b=QrlHsljQbncgJL68QUp0ayE+dNCsJuOM6GPrXA3WInMd9Qx2KV+EEc+aoCKfBJRlet
- oHYZP3AUH+XEeYeU9yODqFFMea02n1jfBj4zUn737THF8P7QJ6L095Z7qKM5tGdoFDD3
- COt4RksGf48mbURZGXn+5qbXSTBitx5mJ3OcIGoQynxxp62AMW8g6D3+8xY1TMHXl2tJ
- MwH3gB8RHTASvcVDZQBElFE1tjrJUSr6UDnZd7nJ2/Hi7g9qlN4ctHsxQ2R4jNNYi/SX
- TChvwgQOZQPUnkYbkHj9s5pMp/PmZ51PVtaiAzsTQLEZHjAo9s6thUQC3ncJ8Q/YCNdh
- QWAA==
-X-Gm-Message-State: AOAM531TXN8pYZZOMw2rEPYrhPaAC/kZ+4o5PmIoxS7NU60o9rSf7Gbd
- BOrvIDMCv0xDjIRMdOXQN/MGhbYjww0BhA==
-X-Google-Smtp-Source: ABdhPJzfhdG1AfZsh6YAv1gIu7OgVFF0mG2fGSODYY0+jgUPzF2N6AJAYj0r+P8mUiX5i/pTd+bE0g==
-X-Received: by 2002:a17:903:3109:b029:12d:3160:a815 with SMTP id
- w9-20020a1709033109b029012d3160a815mr2304245plc.45.1628866389300; 
- Fri, 13 Aug 2021 07:53:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pL2wYs0FKur1p37EfD6cIh4PXL/x/Qnvjj6a9pn8Rhw=;
+ b=dd+BkEtR7KnmGoEih5Ehfntj2AEPCb+Lf74XBzgViRcaQQ7Z3DhRkoy582MbcXh9A0
+ 5Qe2jZWCgDKRWGfzGngiCWWgVGkX+ILOsJVFsvo2+oVDnudRmpy5SIyPtJL3DGUA28Z0
+ cHZ227lh5HYdWl1D/uMgN7X7DMTrgOj4uwYGpwHU4SyE3YWojPLdfcqM9J43Ar+buvQI
+ us/1v6E7Rp0L30Nv3wjPddy8luxtyjdotDTiDM2olsLeE5G7krfc7mqQYyOSEKyd0GCf
+ lARI6EdNvA2UyV7Kyf2p3VKM5mTtD1DYjzfhQY6cgs40N/OAYyl0IvSi9vj184QVmoUi
+ 7Qdw==
+X-Gm-Message-State: AOAM530c2qVMeaAlTRSP8sZzNrI6jtDwt28xMnYaYOEDG6ze28cC7lWL
+ dJqU48rmJqzwzkXidkozmBE=
+X-Google-Smtp-Source: ABdhPJxaLK8LOm5wpEdxBUPzSmm8Vj9ZBJ+E8vXwPUTThKILurLluyq8CTdziFAJ2+iQv8rlPiwuKg==
+X-Received: by 2002:a17:902:bd47:b029:12b:fbb7:1f9d with SMTP id
+ b7-20020a170902bd47b029012bfbb71f9dmr2422488plx.22.1628866392911; 
+ Fri, 13 Aug 2021 07:53:12 -0700 (PDT)
 Received: from nj08008nbu.spreadtrum.com ([117.18.48.102])
- by smtp.gmail.com with ESMTPSA id e12sm2524787pfc.214.2021.08.13.07.53.05
+ by smtp.gmail.com with ESMTPSA id e12sm2524787pfc.214.2021.08.13.07.53.09
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 13 Aug 2021 07:53:08 -0700 (PDT)
+ Fri, 13 Aug 2021 07:53:12 -0700 (PDT)
 From: Kevin Tang <kevin3.tang@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
  airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
  mark.rutland@arm.com, kevin3.tang@gmail.com, pony1.wu@gmail.com
 Cc: orsonzhai@gmail.com, zhang.lyra@gmail.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v6 0/6] Add Unisoc's drm kms module
-Date: Fri, 13 Aug 2021 22:52:56 +0800
-Message-Id: <20210813145302.3933-1-kevin3.tang@gmail.com>
+Subject: [PATCH v6 1/6] dt-bindings: display: add Unisoc's drm master bindings
+Date: Fri, 13 Aug 2021 22:52:57 +0800
+Message-Id: <20210813145302.3933-2-kevin3.tang@gmail.com>
 X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20210813145302.3933-1-kevin3.tang@gmail.com>
+References: <20210813145302.3933-1-kevin3.tang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,141 +75,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ChangeList:
-RFC v1:
-1. only upstream modeset and atomic at first commit.
-2. remove some unused code;
-3. use alpha and blend_mode properties;
-3. add yaml support;
-4. remove auto-adaptive panel driver;
-5. bugfix
+From: Kevin Tang <kevin.tang@unisoc.com>
 
-RFC v2:
-1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
-2. remove gem drivers, use generic CMA handlers
-3. remove redundant "module_init", all the sub modules loading by KMS
+The Unisoc DRM master device is a virtual device needed to list all
+DPU devices or other display interface nodes that comprise the
+graphics subsystem
 
-RFC v3:
-1. multi crtc&encoder design have problem, so rollback to v1
+Unisoc's display pipeline have several components as below
+description, multi display controllers and corresponding physical
+interfaces.
+For different display scenarios, dpu0 and dpu1 maybe binding to
+different encoder.
 
-RFC v4:
-1. update to gcc-linaro-7.5.0
-2. update to Linux 5.6-rc3
-3. remove pm_runtime support
-4. add COMPILE_TEST, remove unused kconfig
-5. "drm_dev_put" on drm_unbind
-6. fix some naming convention issue
-7. remove semaphore lock for crtc flip
-8. remove static variables
+E.g:
+  dpu0 and dpu1 both binding to DSI for dual mipi-dsi display;
+  dpu0 binding to DSI for primary display, and dpu1 binding to DP for
+  external display;
 
-RFC v5:
-1. optimize encoder and connector code implementation
-2. use "platform_get_irq" and "platform_get_resource"
-3. drop useless function return type, drop unless debug log
-4. custom properties should be separate, so drop it
-5. use DRM_XXX replase pr_xxx
-6. drop dsi&dphy hal callback ops
-7. drop unless callback ops checking
-8. add comments for sprd dpu structure
-
-RFC v6:
-1. Access registers via readl/writel
-2. Checking for unsupported KMS properties (format, rotation, blend_mode, etc) on plane_check ops
-3. Remove always true checks for dpu core ops
-
-RFC v7:
-1. Fix DTC unit name warnings
-2. Fix the problem of maintainers
-3. Call drmm_mode_config_init to mode config init
-4. Embed drm_device in sprd_drm and use devm_drm_dev_alloc
-5. Replace DRM_XXX with drm_xxx on KMS module, but not suitable for other subsystems
-6. Remove plane_update stuff, dpu handles all the HW update in crtc->atomic_flush
-7. Dsi&Dphy Code structure adjustment, all move to "sprd/"
-
-v0:
-1. Remove dpu_core_ops stuff layer for sprd drtc driver, but dpu_layer need to keeping.
-   Because all the HW update in crtc->atomic_flush, we need temporary storage all layers for
-   the dpu pageflip of atomic_flush.
-2. Add ports subnode with port@X.
-
-v1:
-1. Remove dphy and dsi graph binding, merge the dphy driver into the dsi.
-2. Add commit messages for Unisoc's virtual nodes.
-
-v2:
-1. Use drm_xxx to replace all DRM_XXX.
-2. Use kzalloc to replace devm_kzalloc for sprd_dsi/sprd_dpu structure init.
-3. Remove dpu_core_ops midlayer.
-
-v3:
-1. Remove dpu_layer midlayer and commit layers by aotmic_update
-
-v4:
-1. Move the devm_drm_dev_alloc to master_ops->bind function.
-2. The managed drmm_mode_config_init() it is no longer necessary for drivers to explicitly call drm_mode_config_cleanup, so delete it.
-3. Use drmm_helpers to allocate crtc ,planes and encoder.
-4. Move allocate crtc ,planes, encoder to bind funtion.
-5. Move rotation enum definitions to crtc layer reg bitfields.
-
-v5:
-1. Remove subdir-ccflgas-y for Makefile.
-2. Keep the selects sorted by alphabet for Kconfig.
-3. Fix the checkpatch warnings.
-4. Use mode_set_nofb instead of mode_valid callback.
-5. Follow the OF-Graph bindings, use of_graph_get_port_by_id instead of of_parse_phandle.
-6. Use zpos to represent the layer position.
-7. Rebase to last drm misc branch.
-8. Remove panel_in port for dsi node.
-9. Drop the dsi ip file prefix.
-10. Add Signed-off-by for dsi&dphy patch.
-11. Use the mode_flags of mipi_dsi_device to setup crtc DPI and EDPI mode.
-
-v6:
-1. Disable and clear interrupts before register dpu IRQ
-2. Init dpi config used by crtc_state->adjusted_mode on mode_set_nofb
-3. Remove enable_irq and disable_irq function call.
-4. Remove drm_format_info function call.
-5. Redesign the way to access the dsi register.
-6. Reduce the dsi_context member variables.
-
-Kevin Tang (6):
-  dt-bindings: display: add Unisoc's drm master bindings
-  drm/sprd: add Unisoc's drm kms master
-  dt-bindings: display: add Unisoc's dpu bindings
-  drm/sprd: add Unisoc's drm display controller driver
-  dt-bindings: display: add Unisoc's mipi dsi controller bindings
-  drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-
- .../display/sprd/sprd,display-subsystem.yaml  |   64 +
- .../display/sprd/sprd,sharkl3-dpu.yaml        |   77 +
- .../display/sprd/sprd,sharkl3-dsi-host.yaml   |   88 ++
- drivers/gpu/drm/Kconfig                       |    2 +
- drivers/gpu/drm/Makefile                      |    1 +
- drivers/gpu/drm/sprd/Kconfig                  |   13 +
- drivers/gpu/drm/sprd/Makefile                 |    6 +
- drivers/gpu/drm/sprd/megacores_pll.c          |  317 +++++
- drivers/gpu/drm/sprd/megacores_pll.h          |  146 ++
- drivers/gpu/drm/sprd/sprd_dpu.c               |  954 +++++++++++++
- drivers/gpu/drm/sprd/sprd_dpu.h               |  109 ++
- drivers/gpu/drm/sprd/sprd_drm.c               |  207 +++
- drivers/gpu/drm/sprd/sprd_drm.h               |   19 +
- drivers/gpu/drm/sprd/sprd_dsi.c               | 1260 +++++++++++++++++
- drivers/gpu/drm/sprd/sprd_dsi.h               |   94 ++
- 15 files changed, 3357 insertions(+)
+Cc: Orson Zhai <orsonzhai@gmail.com>
+Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../display/sprd/sprd,display-subsystem.yaml  | 64 +++++++++++++++++++
+ 1 file changed, 64 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml
- create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
- create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
- create mode 100644 drivers/gpu/drm/sprd/Kconfig
- create mode 100644 drivers/gpu/drm/sprd/Makefile
- create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
- create mode 100644 drivers/gpu/drm/sprd/megacores_pll.h
- create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
- create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
- create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
- create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
 
+diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml
+new file mode 100644
+index 000000000..3d107e943
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml
+@@ -0,0 +1,64 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sprd/sprd,display-subsystem.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Unisoc DRM master device
++
++maintainers:
++  - Kevin Tang <kevin.tang@unisoc.com>
++
++description: |
++  The Unisoc DRM master device is a virtual device needed to list all
++  DPU devices or other display interface nodes that comprise the
++  graphics subsystem.
++
++  Unisoc's display pipeline have several components as below description,
++  multi display controllers and corresponding physical interfaces.
++  For different display scenarios, dpu0 and dpu1 maybe binding to different
++  encoder.
++
++  E.g:
++  dpu0 and dpu1 both binding to DSI for dual mipi-dsi display;
++  dpu0 binding to DSI for primary display, and dpu1 binding to DP for external display;
++
++          +-----------------------------------------+
++          |                                         |
++          |                            +---------+  |
++  +----+  |   +----+    +---------+    |DPHY/CPHY|  |   +------+
++  |    +----->+dpu0+--->+MIPI|DSI +--->+Combo    +----->+Panel0|
++  |AXI |  |   +----+    +---------+    +---------+  |   +------+
++  |    |  |                  ^                      |
++  |    |  |                  |                      |
++  |    |  |      +-----------+                      |
++  |    |  |      |                                  |
++  |APB |  |   +--+-+    +-----------+    +---+      |   +------+
++  |    +----->+dpu1+--->+DisplayPort+--->+PHY+--------->+Panel1|
++  |    |  |   +----+    +-----------+    +---+      |   +------+
++  +----+  |                                         |
++          +-----------------------------------------+
++
++properties:
++  compatible:
++    const: sprd,display-subsystem
++
++  ports:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description:
++      Should contain a list of phandles pointing to display interface port
++      of DPU devices.
++
++required:
++  - compatible
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    display-subsystem {
++        compatible = "sprd,display-subsystem";
++        ports = <&dpu_out>;
++    };
++
 -- 
 2.29.0
 
