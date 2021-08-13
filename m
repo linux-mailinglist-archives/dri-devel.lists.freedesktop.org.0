@@ -2,75 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19AE63EB987
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA363EB9A9
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 18:00:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1D46E874;
-	Fri, 13 Aug 2021 15:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA666E872;
+	Fri, 13 Aug 2021 16:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7B0A89B01
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 15:51:12 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id q10so13944989wro.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:51:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=chmAAuuu9/imXcL05QrcQEYuvIcsA2PuEr2bsNmWeMk=;
- b=YXNQ1jJxmMfb4W6F0Ii5J6L9JrznTqUjOcuFAqOOrX6uBrOVpgkK22QocovoZ8l10V
- qau/1XGthmja7EiXttRCYcn6dncQJxnTAlO0kX6joAsSq5pqJchTi7vuTc8ezgGzlkG9
- 1rPG2lPmD4puppEecPzIS3+snUwBW4xNT4PhM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=chmAAuuu9/imXcL05QrcQEYuvIcsA2PuEr2bsNmWeMk=;
- b=dwgjDx3/kX6HvYVOzaPsWiH6pJcVU70dW89fy2OUMzh/9QaPa5qH6WosKAa42zT6pF
- mCheEVbRDxNI9AnDg2n63m96oYNRtu8BWYEHLwEK82bR3PIy4PH3/+jL87e2wUFnziFc
- ViecEksIpJXHDqn/kmwoxba+HswtGN52BvruCc0SnPhWPbnjWwVPxhSJJYlM/8PZPW6b
- i5fv2MATvM0HDfxhHKT/jGt2ND8lfvX9DSZ+gix066KyXVEnOpi26Y0LXE4FSLD8+VTZ
- tW7KiHZObACaCkKg02eOJ68nrysSuh/G8470qgNkZ/GyD5PKth8Z2AEVBKa8P7LLicNn
- zH0A==
-X-Gm-Message-State: AOAM532abpR92C7JcFOy9wNgbs945Jbs2p86ujfSxdXRcubRyJKhBjX8
- gU4ucwylYKO/YJqdQ97pEHgNMA==
-X-Google-Smtp-Source: ABdhPJxmL/0BdkkgG1cfg0Kb8lawu3ocVEXGdInJyWEC5vjU11a4bxLVspErgkAcGWROUTwh6G7ozg==
-X-Received: by 2002:a5d:66d1:: with SMTP id k17mr3944388wrw.102.1628869871300; 
- Fri, 13 Aug 2021 08:51:11 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z13sm1942615wrs.71.2021.08.13.08.51.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 08:51:10 -0700 (PDT)
-Date: Fri, 13 Aug 2021 17:51:08 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- intel-gfx@lists.freedesktop.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 2/2] drm: unexport drm_ioctl_permit
-Message-ID: <YRaU7EB5shTUMZZ7@phenom.ffwll.local>
-Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
- skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210813085450.32494-1-desmondcheongzx@gmail.com>
- <20210813085450.32494-3-desmondcheongzx@gmail.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2E03C6E872;
+ Fri, 13 Aug 2021 16:00:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 604BC20201B;
+ Fri, 13 Aug 2021 18:00:46 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id 20kUUH7leddE; Fri, 13 Aug 2021 18:00:46 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 054A920201A;
+ Fri, 13 Aug 2021 18:00:46 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1mEZbx-000E81-46; Fri, 13 Aug 2021 18:00:45 +0200
+To: "Lazar, Lijo" <lijo.lazar@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210811165211.6811-1-michel@daenzer.net>
+ <20210813102920.3458-1-michel@daenzer.net>
+ <f26f7350-79d6-e56f-bf69-fb1bf231208c@amd.com>
+ <ff3c9ad3-ba7a-ef7b-d82e-27fa76c33979@daenzer.net>
+ <9ec17598-0b51-014c-c633-2e4e74c863e9@amd.com>
+ <31c9a190-8329-383e-bbea-3520add4d16a@daenzer.net>
+ <3ab84437-d4f6-c979-ef7f-d29dcf35eedb@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH] drm/amdgpu: Cancel delayed work when GFXOFF is disabled
+Message-ID: <faf05193-c33a-167d-c727-280686dd7dae@daenzer.net>
+Date: Fri, 13 Aug 2021 18:00:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210813085450.32494-3-desmondcheongzx@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <3ab84437-d4f6-c979-ef7f-d29dcf35eedb@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,71 +64,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 13, 2021 at 04:54:50PM +0800, Desmond Cheong Zhi Xi wrote:
-> Since the last user of drm_ioctl_permit was removed, and it's now only
-> used in drm_ioctl.c, unexport the symbol.
+On 2021-08-13 5:07 p.m., Lazar, Lijo wrote:
 > 
-> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> 
+> On 8/13/2021 8:10 PM, Michel Dänzer wrote:
+>> On 2021-08-13 4:14 p.m., Lazar, Lijo wrote:
+>>> On 8/13/2021 7:04 PM, Michel Dänzer wrote:
+>>>> On 2021-08-13 1:50 p.m., Lazar, Lijo wrote:
+>>>>> On 8/13/2021 3:59 PM, Michel Dänzer wrote:
+>>>>>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>>>>>
+>>>>>> schedule_delayed_work does not push back the work if it was already
+>>>>>> scheduled before, so amdgpu_device_delay_enable_gfx_off ran ~100 ms
+>>>>>> after the first time GFXOFF was disabled and re-enabled, even if GFXOFF
+>>>>>> was disabled and re-enabled again during those 100 ms.
+>>>>>>
+>>>>>> This resulted in frame drops / stutter with the upcoming mutter 41
+>>>>>> release on Navi 14, due to constantly enabling GFXOFF in the HW and
+>>>>>> disabling it again (for getting the GPU clock counter).
+>>>>>>
+>>>>>> To fix this, call cancel_delayed_work_sync when GFXOFF transitions from
+>>>>>> enabled to disabled. This makes sure the delayed work will be scheduled
+>>>>>> as intended in the reverse case.
+>>>>>>
+>>>>>> In order to avoid a deadlock, amdgpu_device_delay_enable_gfx_off needs
+>>>>>> to use mutex_trylock instead of mutex_lock.
+>>>>>>
+>>>>>> v2:
+>>>>>> * Use cancel_delayed_work_sync & mutex_trylock instead of
+>>>>>>      mod_delayed_work.
+>>>>>>
+>>>>>> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 ++++++++++-
+>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c    | 13 +++++++------
+>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h    |  3 +++
+>>>>>>     3 files changed, 20 insertions(+), 7 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>>>> index f3fd5ec710b6..8b025f70706c 100644
+>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>>>> @@ -2777,7 +2777,16 @@ static void amdgpu_device_delay_enable_gfx_off(struct work_struct *work)
+>>>>>>         struct amdgpu_device *adev =
+>>>>>>             container_of(work, struct amdgpu_device, gfx.gfx_off_delay_work.work);
+>>>>>>     -    mutex_lock(&adev->gfx.gfx_off_mutex);
+>>>>>> +    /* mutex_lock could deadlock with cancel_delayed_work_sync in amdgpu_gfx_off_ctrl. */
+>>>>>> +    if (!mutex_trylock(&adev->gfx.gfx_off_mutex)) {
+>>>>>> +        /* If there's a bug which causes amdgpu_gfx_off_ctrl to be called with enable=true
+>>>>>> +         * when adev->gfx.gfx_off_req_count is already 0, we might race with that.
+>>>>>> +         * Re-schedule to make sure gfx off will be re-enabled in the HW eventually.
+>>>>>> +         */
+>>>>>> +        schedule_delayed_work(&adev->gfx.gfx_off_delay_work, AMDGPU_GFX_OFF_DELAY_ENABLE);
+>>>>>> +        return;
+>>>>>
+>>>>> This is not needed and is just creating another thread to contend for mutex.
+>>>>
+>>>> Still not sure what you mean by that. What other thread?
+>>>
+>>> Sorry, I meant it schedules another workitem and delays GFXOFF enablement further. For ex: if it was another function like gfx_off_status holding the lock at the time of check.
+>>>
+>>>>
+>>>>> The checks below take care of enabling gfxoff correctly. If it's already in gfx_off state, it doesn't do anything. So I don't see why this change is needed.
+>>>>
+>>>> mutex_trylock is needed to prevent the deadlock discussed before and below.
+>>>>
+>>>> schedule_delayed_work is needed due to this scenario hinted at by the comment:
+>>>>
+>>>> 1. amdgpu_gfx_off_ctrl locks mutex, calls schedule_delayed_work
+>>>> 2. amdgpu_device_delay_enable_gfx_off runs, calls mutex_trylock, which fails
+>>>>
+>>>> GFXOFF would never get re-enabled in HW in this case (until amdgpu_gfx_off_ctrl calls schedule_delayed_work again).
+>>>>
+>>>> (cancel_delayed_work_sync guarantees there's no pending delayed work when it returns, even if amdgpu_device_delay_enable_gfx_off calls schedule_delayed_work)
+>>>>
+>>>
+>>> I think we need to explain based on the original code before. There is an asssumption here that the only other contention of this mutex is with the gfx_off_ctrl function.
+>>
+>> Not really.
+>>
+>>
+>>> As far as I understand if the work has already started running when schedule_delayed_work is called, it will insert another in the work queue after delay. Based on that understanding I didn't find a problem with the original code.
+>>
+>> Original code as in without this patch or the mod_delayed_work patch? If so, the problem is not when the work has already started running. It's that when it hasn't started running yet, schedule_delayed_work doesn't change the timeout for the already scheduled work, so it ends up enabling GFXOFF earlier than intended (and thus at all in scenarios when it's not supposed to).
+>>
+> 
+> I meant the original implementation of amdgpu_device_delay_enable_gfx_off().
+> 
+> 
+> If you indeed want to use _sync, there is a small problem with this implementation also which is roughly equivalent to the original problem you faced.
+> 
+> amdgpu_gfx_off_ctrl(disable) locks mutex
+> calls cancel_delayed_work_sync
+> amdgpu_device_delay_enable_gfx_off already started running
+>     mutex_trylock fails and schedules another one
+> amdgpu_gfx_off_ctrl(enable)
+>     schedules_delayed_work() - Delay is not extended, it's the same as when it's rearmed from work item.
 
-Applied to drm-misc-next for 5.16, thanks for your patch.
--Daniel
 
-> ---
->  drivers/gpu/drm/drm_ioctl.c | 15 +--------------
->  include/drm/drm_ioctl.h     |  1 -
->  2 files changed, 1 insertion(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index eb4ec3fab7d1..fe271f6f96ab 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -522,19 +522,7 @@ int drm_version(struct drm_device *dev, void *data,
->  	return err;
->  }
->  
-> -/**
-> - * drm_ioctl_permit - Check ioctl permissions against caller
-> - *
-> - * @flags: ioctl permission flags.
-> - * @file_priv: Pointer to struct drm_file identifying the caller.
-> - *
-> - * Checks whether the caller is allowed to run an ioctl with the
-> - * indicated permissions.
-> - *
-> - * Returns:
-> - * Zero if allowed, -EACCES otherwise.
-> - */
-> -int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
-> +static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
->  {
->  	/* ROOT_ONLY is only for CAP_SYS_ADMIN */
->  	if (unlikely((flags & DRM_ROOT_ONLY) && !capable(CAP_SYS_ADMIN)))
-> @@ -557,7 +545,6 @@ int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
->  
->  	return 0;
->  }
-> -EXPORT_SYMBOL(drm_ioctl_permit);
->  
->  #define DRM_IOCTL_DEF(ioctl, _func, _flags)	\
->  	[DRM_IOCTL_NR(ioctl)] = {		\
-> diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
-> index 13a68cdcea36..fd29842127e5 100644
-> --- a/include/drm/drm_ioctl.h
-> +++ b/include/drm/drm_ioctl.h
-> @@ -174,7 +174,6 @@ struct drm_ioctl_desc {
->  		.name = #ioctl						\
->  	}
->  
-> -int drm_ioctl_permit(u32 flags, struct drm_file *file_priv);
->  long drm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
->  long drm_ioctl_kernel(struct file *, drm_ioctl_t, void *, u32);
->  #ifdef CONFIG_COMPAT
-> -- 
-> 2.25.1
-> 
+This cannot happen. When cancel_delayed_work_sync returns, it guarantees that the delayed work is not scheduled
+, even if amdgpu_device_delay_enable_gfx_off called schedule_delayed_work. In other words, it cancels that as well.
+
+
+> Probably, overthinking about the solution. Looking back, mod_ version is simpler :). May be just delay it further everytime there is a call with enable instead of doing it only for req_cnt==0?
+
+That has some issues as well:
+
+* Still prone to the "amdgpu_device_delay_enable_gfx_off re-enables GFXOFF immediately after amdgpu_gfx_off_ctrl dropped req_count to 0" race if the former starts running between when the latter locks the mutex and calls mod_delayed_work.
+* If the work is not scheduled yet, mod_delayed_work would schedule it, even if req_count > 0, in which case it couldn't actually enable GFXOFF.
+
+Conceptually, making sure the work is never scheduled while req_count > 0 seems cleaner to me. It's the same principle as in the JPEG/UVD/VCE/VCN ring functions (which are presumably hotter paths than these amdgpu_gfx_off functions) I needlessly modified in patch 2.
+
+(It also means amdgpu_device_delay_enable_gfx_off technically no longer needs to test req_count or gfx_off_state; I can spin a v3 for that if desired)
+
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
