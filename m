@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0D03EBBF5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 20:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89123EBBFE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 20:24:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B38336E8C1;
-	Fri, 13 Aug 2021 18:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5B86E8C3;
+	Fri, 13 Aug 2021 18:24:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42F986E8C1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 18:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=rq6VfTjLJfvWeGU0hw3GUv7MRF3dGVPTx8dKGrBFFlo=; 
- t=1628878789; x=1630088389; b=JRnQtgxFlGTbMR5zX8JHDVgC1e4/VVVtObrwsdiEGJHr3gj
- fg6f7H4h4fej2RkzsnqdMZGvE/vYJPnL1VZ8yby4rwWCR+qSKffoUI2tdJC+Yb+l0wstYcHb0Fex6
- N7hmWtF+/sLXIWWCrLk4Fjc/ue3U+zbYwSw/uKyXXYDgJF0QGj9VCTIS8JG2+we5V+Nh/ZFoFbbgf
- cFPZzJ/2AOis1G3WLz74CCNFAeaaJ8aJ935yGQGUiBm3fQL6TNgFaK363Xta3zR94Lp4EMO4QodmD
- 4mB/RYtmLIi3Ai2SoJFti5ot+ElHjq6gLx2BfsGOiAcP598P/1gE5JE1S5HHIfwA==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2) (envelope-from <johannes@sipsolutions.net>)
- id 1mEbmM-00ALlG-5g; Fri, 13 Aug 2021 20:19:38 +0200
-Message-ID: <465daabf002e098f0a24cf07f72a69d7e20c7440.camel@sipsolutions.net>
-Subject: Re: [PATCH 39/64] mac80211: Use memset_after() to clear tx status
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Kees Cook <keescook@chromium.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski
- <kuba@kernel.org>,  "Gustavo A. R. Silva" <gustavoars@kernel.org>, Keith
- Packard <keithpac@amazon.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
- linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com, 
- linux-hardening@vger.kernel.org
-Date: Fri, 13 Aug 2021 20:19:36 +0200
-In-Reply-To: <202108130907.FD09C6B@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-40-keescook@chromium.org>
- <202107310852.551B66EE32@keescook>
- <bb01e784dddf6a297025981a2a000a4d3fdaf2ba.camel@sipsolutions.net>
- <202108130907.FD09C6B@keescook>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B42966E8C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 18:24:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 56EE4610CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 18:24:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1628879052;
+ bh=Pq6UZTIzUVq6uBL9h0g13DIO7GHFqO3RxtJlE80iGM0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=j+yaUiZFvFRRYC7HyVo/XCw0XkuSyQgEB8oejYZ3AkuVibR028JCeuZqwjwmY769x
+ t6k0Du7zJa//3gp4hhW2u3yojp/F0P9llMlG5iHcX1+kp+wjMCQZh6tKQij9q4XnvJ
+ uxGsapu8YC9hOQAF7alSFSTE+maTeuqwMHc/UlQtsBBIJHxWS8upnk6LhVgnaJM+Ps
+ KMJVJmWAHQMX5OaAixJQjrdK81o31p/cb19IQGqGe64HezMrH6h00lSEoYiuLlv8jx
+ Hl+sJyQB10XQd5T9GprcPVrmqq+w3EsW/Y/t/m42v77JhNTFCvRJusuXR4xnrbBYU+
+ 7r6csO+MzKjLQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 4E7B360EE7; Fri, 13 Aug 2021 18:24:12 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214001] [bisected][regression] After commit "drm/ttm:
+ Initialize debugfs from ttm_global_init()" kernels without debugfs explicitly
+ set to 'allow all' fail to boot
+Date: Fri, 13 Aug 2021 18:24:12 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(Other)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: untaintableangel@hotmail.co.uk
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214001-2300-5cxax72eI0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214001-2300@https.bugzilla.kernel.org/>
+References: <bug-214001-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,25 +70,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2021-08-13 at 09:08 -0700, Kees Cook wrote:
-> > 
-> > The common helper should also clear ack_signal, but that was broken by
-> > commit e3e1a0bcb3f1 ("mac80211: reduce IEEE80211_TX_MAX_RATES"), because
-> > that commit changed the order of the fields and updated carl9170 and p54
-> > properly but not the common helper...
-> 
-> It looks like p54 actually uses the rates, which is why it does this
-> manually. I can't see why carl9170 does this manually, though.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214001
 
-mac80211 also uses the rates later again on status reporting, it just
-expects the # of attempts to be filled etc. I haven't looked at
-carl9170, but I would expect it to do something there and do it
-correctly, even though old it's a well-written driver and uses mac80211
-rate control, so this would need to be correct for decent performance.
+--- Comment #3 from Linux_Chemist (untaintableangel@hotmail.co.uk) ---
+Thanks for your comment, Duncan!
+Yes, I'm on a customised kernel that has a lot removed (including debugfs as
+you can tell) and also amdgpu (RX 5700).=20
+There's usually a bug in a testing RC every few releases, I just report them
+here after bisecting; seems the right place for it even if it's not lol=20=
+=20
+Caught a nice bug last release cycle with the memory reservation for the bi=
+os
+(https://www.phoronix.com/scan.php?page=3Dnews_item&px=3DLinux-Always-Reser=
+ve-1MB)
 
-But I guess it could be that the helper could be used because the rates
-were already handed to the firmware, and the code was just copy/pasted
-from p54 (the drivers were, IIRC, developed by the same folks)
+(I wasn't sure to file this one under an AMD ("non-intel") specific 'video'=
+ bug
+but the commit was for 'drivers/gpu/drm/ttm' which I assume is agnostic. I
+don't know what it's for or whether only amdgpu/radeon makes use of it to s=
+ay
+but it is interesting that the 3 of us have similar hardware.)
+I can confirm all my .configs have had CONFIG_VGA_CONSOLE=3Dy in it (though=
+ a lot
+of fallback stuff pulled out that probably stops me getting the legacy low-=
+res
+VGA mode you mention, c'est la vie)
 
-johannes
+But anyways as you say, the ability to create a bootable kernel only become=
+s an
+issue from the commit in question when not having CONFIG_DEBUG_FS=3Dy (and
+CONFIG_DEBUG_FS_ALLOW_ALL=3Dy along with that)
 
+Don't get me wrong, it's not a showstopper 'massive bug' because you can al=
+ways
+put debugfs + 'allow all' into your kernel, I did so and am happily on rc5 =
+now,
+but that's why I'd like a consensus to be known or shared (i.e. change the
+wording for the kconfig options) about whether a lot of things are expecting
+debugfs to be there in some form now - is it now an 'essential' part of the
+kernel? Or should things that rely on it fail gracefully if they don't find=
+ it?
+Either it's essential and this isn't a bug and there needs to be clarificat=
+ion
+that debugfs should always be there in some form, or this is a bug and the
+commit needs tweaked to account for debugfs not being there or there in a
+diminished capacity.=20=20=20=20
+
+It is a bit silly that even CONFIG_DEBUG_FS_ALLOW_NONE wouldn't work for th=
+is
+bug because that seems like it should be providing that 'fail gracefully'
+mechanism to debugfs being 'there' but 'don't bother with it'.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
