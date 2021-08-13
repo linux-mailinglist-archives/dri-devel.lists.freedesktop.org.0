@@ -1,71 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBAA3EB9CD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 18:08:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FE73EBA2F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 18:36:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F37E6E876;
-	Fri, 13 Aug 2021 16:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D54B06E889;
+	Fri, 13 Aug 2021 16:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDD46E876
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 16:08:49 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id bo18so16076440pjb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 09:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Zb6hESOPAPpsYQTxj6uunL70me57Ohn5RtlRGa2hRIU=;
- b=bt0deawY8VgLg78fejbazYxtQGqnJJ+YkSz5IoTYnQ5LuF//jd0UR5Pt6RCob2ruwg
- L7XvtJcs+LMzfCUDh81Ba+1wBbHDlsnlh6IiZoditm2+zMGPr5c1K/absUN+/4ZuN2lB
- hqNu9nLcRyjmucoSbEUpC/VFf1vXe3dcafsIk=
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBFD36E889
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 16:36:19 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ f12-20020a05600c4e8c00b002e6bdd6ffe2so4267684wmq.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 09:36:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k/unfGG7boShaQnBZTjeWb6L7ezxIs4AzIdOoHVH6Jk=;
+ b=SjbFbUpYtS+J0ujRt+A5RE1tIn5EziFk+gvUeGZC54fjSuGHHhgWfXe2mlnSIV6/Y1
+ KCQdYeIP86KGtEqzh73p3gLOm/8MgSwa+vhdtN2QMzh5TLbk4usG8iQXIR1CajztHr3X
+ Syzo0nbcCT9nSqS4OFRMwjKk7wDLbGeg6AkutdzRpWWp//9Qef6cFz+enrsaHto+znTC
+ 5R4HKkJoKMrwg358k++rvrvXCLrPpp+251+rAerodX+w6FUME/YQPy1C7vlqMXuoDW7w
+ LJhcPePFk6a8xyoG33br5Zml+JfEKFRnLAs3MIYl7LyL7J8VZdczN6NTj2x+Y7z6RX0G
+ UPKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Zb6hESOPAPpsYQTxj6uunL70me57Ohn5RtlRGa2hRIU=;
- b=L8K6ZNc1GPfEMmOwAkxoIDOXyv1SmuplQmlC1egVTp4L3YmvGxNRwywcbHR1vex8sj
- qmJcZNUL6OXNsbUlS+iL+STT0DRXAI01PBSHf+4IXCbqvceWrylSBVs1fI1l1F89WqPL
- xBu8PyHix5Cm6XZGg71pYN6NMjG6dqCI1oU9S1ygXAN5q7reGhU1O9YjsxTTs+nTl6tn
- DerkRudUrCfxqkl/Pi3ZV7yOgGpn+3eK8cz97eHqBm+TtrOw1b2VZm73EO+nrC9tmZSH
- uoHwk/xcyDtHmRABQU1IAqEvvoSLqQDVHBAyPKT+MXv7yDz/ZHsx4etcNamJ55JWX3Vb
- b15A==
-X-Gm-Message-State: AOAM533CY9x5zkcAHU4DY1cNz8KUP+V4gFj1iI8KV5PSixWWASQ3k9jI
- Uch0W/HRSjl4D9UBr2ot3ye1vg==
-X-Google-Smtp-Source: ABdhPJzO/EBStKGp8NBzLlcdP5+lTA2rI0q06EsQcV9US+8Rtvv2vMu7llrU0u1jr9BMG5zMLdkcVQ==
-X-Received: by 2002:a05:6a00:1803:b029:3cd:d5c1:f718 with SMTP id
- y3-20020a056a001803b02903cdd5c1f718mr3121899pfa.22.1628870928766; 
- Fri, 13 Aug 2021 09:08:48 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id y64sm3224461pgy.32.2021.08.13.09.08.47
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k/unfGG7boShaQnBZTjeWb6L7ezxIs4AzIdOoHVH6Jk=;
+ b=HCjwjIty90Ee1LD3n+gXtKcovx3wLf/iPCgik7p/qSYW9TQnYnobMYfY5BFmMOyhhe
+ L2i7PxR5CyVTht31gGBHTf389fZ31dgVkPmdLslO59AycurK8DaM/0Nu9SWkKmmiZCkO
+ mCvrkt66y4ouRhYYKkwFIE3WKKbbYhUWfwwdSq7ueqjdXUIifWuC78b3+/BE8FOFtpaD
+ MzipY4aBxc4MHUCx765yCpEITx0wCYwNGZR/RHcTecO1hwAPhfkBhpykNBb1In5ROfkp
+ 99SprZXJ86uYqAnVWROpklBf9CKDl6qb0dj0JpcZQfvJ8xtD+XPvjRxLYk/VbfZn0YRs
+ RElA==
+X-Gm-Message-State: AOAM533AwKtiPQVAQwmaGKqq71G6O6GLovngdReaCV+Wyv/ytMwi+ppT
+ wrU97TAwOIA/me/Wc01JCwM=
+X-Google-Smtp-Source: ABdhPJwHdWd/8g3Q0zoWVubbkpRNTmluDdpLphAT3vZh35G0CtGsmCLit025TiZHZTSRRjAESv3H7g==
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr3566110wmc.150.1628872578279; 
+ Fri, 13 Aug 2021 09:36:18 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id s12sm2099923wru.41.2021.08.13.09.36.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 09:08:48 -0700 (PDT)
-Date: Fri, 13 Aug 2021 09:08:47 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Keith Packard <keithpac@amazon.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 39/64] mac80211: Use memset_after() to clear tx status
-Message-ID: <202108130907.FD09C6B@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-40-keescook@chromium.org>
- <202107310852.551B66EE32@keescook>
- <bb01e784dddf6a297025981a2a000a4d3fdaf2ba.camel@sipsolutions.net>
+ Fri, 13 Aug 2021 09:36:17 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org
+Subject: [GIT PULL] drm/tegra: Changes for v5.15-rc1
+Date: Fri, 13 Aug 2021 18:36:16 +0200
+Message-Id: <20210813163616.2822355-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bb01e784dddf6a297025981a2a000a4d3fdaf2ba.camel@sipsolutions.net>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,47 +71,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 13, 2021 at 09:40:07AM +0200, Johannes Berg wrote:
-> On Sat, 2021-07-31 at 08:55 -0700, Kees Cook wrote:
-> > On Tue, Jul 27, 2021 at 01:58:30PM -0700, Kees Cook wrote:
-> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > field bounds checking for memset(), avoid intentionally writing across
-> > > neighboring fields.
-> > > 
-> > > Use memset_after() so memset() doesn't get confused about writing
-> > > beyond the destination member that is intended to be the starting point
-> > > of zeroing through the end of the struct.
-> > > 
-> > > Note that the common helper, ieee80211_tx_info_clear_status(), does NOT
-> > > clear ack_signal, but the open-coded versions do. All three perform
-> > > checks that the ack_signal position hasn't changed, though.
-> > 
-> > Quick ping on this question: there is a mismatch between the common
-> > helper and the other places that do this. Is there a bug here?
-> 
-> Yes.
-> 
-> The common helper should also clear ack_signal, but that was broken by
-> commit e3e1a0bcb3f1 ("mac80211: reduce IEEE80211_TX_MAX_RATES"), because
-> that commit changed the order of the fields and updated carl9170 and p54
-> properly but not the common helper...
+Hi Dave,
 
-It looks like p54 actually uses the rates, which is why it does this
-manually. I can't see why carl9170 does this manually, though.
+The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
 
-> It doesn't actually matter much because ack_signal is normally filled in
-> afterwards, and even if it isn't, it's just for statistics.
-> 
-> The correct thing to do here would be to
-> 
-> 	memset_after(&info->status, 0, rates);
+  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
 
-Sounds good; I will adjust these (and drop the BULID_BUG_ONs, as you
-suggest in the next email).
+are available in the Git repository at:
 
-Thanks!
+  ssh://git.freedesktop.org/git/tegra/linux.git tags/drm/tegra/for-5.15-rc1
 
--Kees
+for you to fetch changes up to fed0289394173509b3150617e17739d0094ce88e:
 
--- 
-Kees Cook
+  gpu: host1x: debug: Dump DMASTART and DMAEND register (2021-08-13 18:23:32 +0200)
+
+Once you've merged these I plan to push the libdrm changes which are
+going to use this new ABI and which also contain some basic sanity tests
+that we want to start running for regression testing.
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+drm/tegra: Changes for v5.15-rc1
+
+The bulk of these changes is a more modern ABI that can be efficiently
+used on newer SoCs as well as older ones. The userspace parts for this
+are available here:
+
+  - libdrm support: https://gitlab.freedesktop.org/tagr/drm/-/commits/drm-tegra-uabi-v8
+  - VAAPI driver: https://github.com/cyndis/vaapi-tegra-driver
+
+In addition, existing userspace from the grate reverse-engineering
+project has been updated to use this new ABI:
+
+  - X11 driver: https://github.com/grate-driver/xf86-video-opentegra
+  - 3D driver: https://github.com/grate-driver/grate
+
+Other than that, there's also support for display memory bandwidth
+management for various generations and a bit of cleanup.
+
+----------------------------------------------------------------
+Dmitry Osipenko (2):
+      drm/tegra: dc: Support memory bandwidth management
+      drm/tegra: dc: Extend debug stats with total number of events
+
+Mikko Perttunen (15):
+      gpu: host1x: Add DMA fence implementation
+      gpu: host1x: Add no-recovery mode
+      gpu: host1x: Add job release callback
+      gpu: host1x: Add support for syncpoint waits in CDMA pushbuffer
+      gpu: host1x: Add option to skip firewall for a job
+      drm/tegra: Extract tegra_gem_lookup()
+      drm/tegra: Add new UAPI to header
+      drm/tegra: Boot VIC during runtime PM resume
+      drm/tegra: Allocate per-engine channel in core code
+      drm/tegra: Implement new UAPI
+      drm/tegra: Implement syncpoint management UAPI
+      drm/tegra: Implement syncpoint wait UAPI
+      drm/tegra: Implement job submission part of new UAPI
+      drm/tegra: Add job firewall
+      drm/tegra: Bump driver version
+
+Thierry Reding (3):
+      gpu: host1x: debug: Use dma_addr_t more consistently
+      gpu: host1x: debug: Dump only relevant parts of CDMA push buffer
+      gpu: host1x: debug: Dump DMASTART and DMAEND register
+
+ drivers/gpu/drm/tegra/Kconfig              |   1 +
+ drivers/gpu/drm/tegra/Makefile             |   3 +
+ drivers/gpu/drm/tegra/dc.c                 | 358 ++++++++++++++++-
+ drivers/gpu/drm/tegra/dc.h                 |  17 +
+ drivers/gpu/drm/tegra/drm.c                |  98 +++--
+ drivers/gpu/drm/tegra/drm.h                |  12 +
+ drivers/gpu/drm/tegra/firewall.c           | 254 ++++++++++++
+ drivers/gpu/drm/tegra/gem.c                |  13 +
+ drivers/gpu/drm/tegra/gem.h                |   2 +
+ drivers/gpu/drm/tegra/plane.c              | 117 ++++++
+ drivers/gpu/drm/tegra/plane.h              |  16 +
+ drivers/gpu/drm/tegra/submit.c             | 625 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/tegra/submit.h             |  21 +
+ drivers/gpu/drm/tegra/uapi.c               | 338 ++++++++++++++++
+ drivers/gpu/drm/tegra/uapi.h               |  58 +++
+ drivers/gpu/drm/tegra/vic.c                | 112 +++---
+ drivers/gpu/host1x/Makefile                |   1 +
+ drivers/gpu/host1x/cdma.c                  |  58 ++-
+ drivers/gpu/host1x/fence.c                 | 168 ++++++++
+ drivers/gpu/host1x/fence.h                 |  13 +
+ drivers/gpu/host1x/hw/channel_hw.c         |  87 +++-
+ drivers/gpu/host1x/hw/debug_hw.c           |  32 +-
+ drivers/gpu/host1x/hw/debug_hw_1x01.c      |   8 +-
+ drivers/gpu/host1x/hw/debug_hw_1x06.c      |  16 +-
+ drivers/gpu/host1x/hw/hw_host1x02_uclass.h |  12 +
+ drivers/gpu/host1x/hw/hw_host1x04_uclass.h |  12 +
+ drivers/gpu/host1x/hw/hw_host1x05_uclass.h |  12 +
+ drivers/gpu/host1x/hw/hw_host1x06_uclass.h |  12 +
+ drivers/gpu/host1x/hw/hw_host1x07_uclass.h |  12 +
+ drivers/gpu/host1x/intr.c                  |   9 +
+ drivers/gpu/host1x/intr.h                  |   2 +
+ drivers/gpu/host1x/job.c                   |  98 +++--
+ drivers/gpu/host1x/job.h                   |  16 +
+ drivers/gpu/host1x/syncpt.c                |   2 +
+ drivers/gpu/host1x/syncpt.h                |  12 +
+ include/linux/host1x.h                     |  27 +-
+ include/uapi/drm/tegra_drm.h               | 425 ++++++++++++++++++--
+ 37 files changed, 2882 insertions(+), 197 deletions(-)
+ create mode 100644 drivers/gpu/drm/tegra/firewall.c
+ create mode 100644 drivers/gpu/drm/tegra/submit.c
+ create mode 100644 drivers/gpu/drm/tegra/submit.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi.h
+ create mode 100644 drivers/gpu/host1x/fence.c
+ create mode 100644 drivers/gpu/host1x/fence.h
