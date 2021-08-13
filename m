@@ -1,40 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEC83EB747
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:00:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCBF3EB75A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:04:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6C26E849;
-	Fri, 13 Aug 2021 15:00:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4243C6E848;
+	Fri, 13 Aug 2021 15:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8646E849
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 15:00:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BDF7E610F7;
- Fri, 13 Aug 2021 15:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1628866850;
- bh=6RC6vslFjh+wQ8aj4nLqwnEjlCwuuO/dIriJN4spDOU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Q5nskbAqluCwv1ZaznzfE/fQY3JWn0B9SKicAEJHrm1haXbQ7RCSqc434mUzOfsgK
- NfZJgizQZaTPiMBKMfZMtfogIhi79RFVigtolj9VowNQTi+PbWl9uNoVSBqXuDC6xN
- dXkf2sPnSL6UO+rmXL97gx0jg3QDbn/4pRNDU7tM=
-Date: Fri, 13 Aug 2021 17:00:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Oliver Graute <oliver.graute@kococonnector.com>
-Cc: oliver.graute@gmail.com, Carlis <zhangxuezhi1@yulong.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] staging: fbtft: fb_st7789v: reset display before
- initialization
-Message-ID: <YRaJH5Sj+X4Z3xH/@kroah.com>
-References: <20210813125928.3734-1-oliver.graute@kococonnector.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 58CAA6E848;
+ Fri, 13 Aug 2021 15:03:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id AD1DE20201B;
+ Fri, 13 Aug 2021 17:03:55 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id ETYiRXdf4Gu5; Fri, 13 Aug 2021 17:03:51 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id A87E120201A;
+ Fri, 13 Aug 2021 17:03:50 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1mEYir-000Dnl-Sf; Fri, 13 Aug 2021 17:03:49 +0200
+To: zhaoxiao <zhaoxiao@uniontech.com>, airlied@linux.ie
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, David1.Zhou@amd.com, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20210813085434.3890-1-zhaoxiao@uniontech.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH] drm: radeon: r600_dma: Replace cpu_to_le32() by
+ lower_32_bits()
+Message-ID: <54590a79-7047-cd6f-0f54-a005bdc69769@daenzer.net>
+Date: Fri, 13 Aug 2021 17:03:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210813125928.3734-1-oliver.graute@kococonnector.com>
+In-Reply-To: <20210813085434.3890-1-zhaoxiao@uniontech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,58 +58,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 13, 2021 at 02:59:27PM +0200, Oliver Graute wrote:
-> In rare cases the display is flipped or mirrored. This was observed more
-> often in a low temperature environment. A clean reset on init_display()
-> should help to get registers in a sane state.
+On 2021-08-13 10:54 a.m., zhaoxiao wrote:
+> This patch fixes the following sparse errors:
+> drivers/gpu/drm/radeon/r600_dma.c:247:30: warning: incorrect type in assignment (different base types)
+> drivers/gpu/drm/radeon/r600_dma.c:247:30:    expected unsigned int volatile [usertype]
+> drivers/gpu/drm/radeon/r600_dma.c:247:30:    got restricted __le32 [usertype]
 > 
-> Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
+> Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
 > ---
->  drivers/staging/fbtft/fb_st7789v.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/radeon/r600_dma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-> index 3a280cc1892c..0a2dbed9ffc7 100644
-> --- a/drivers/staging/fbtft/fb_st7789v.c
-> +++ b/drivers/staging/fbtft/fb_st7789v.c
-> @@ -82,6 +82,8 @@ enum st7789v_command {
->  {
->  	int rc;
-> 
-> +	par->fbtftops.reset(par);
-> +
->  	rc = init_tearing_effect_line(par);
->  	if (rc)
->  		return rc;
-> -- 
-> 2.17.1
-> 
+> diff --git a/drivers/gpu/drm/radeon/r600_dma.c b/drivers/gpu/drm/radeon/r600_dma.c
+> index fb65e6fb5c4f..a2d0b1edcd22 100644
+> --- a/drivers/gpu/drm/radeon/r600_dma.c
+> +++ b/drivers/gpu/drm/radeon/r600_dma.c
+> @@ -244,7 +244,7 @@ int r600_dma_ring_test(struct radeon_device *rdev,
+>  	gpu_addr = rdev->wb.gpu_addr + index;
+>  
+>  	tmp = 0xCAFEDEAD;
+> -	rdev->wb.wb[index/4] = cpu_to_le32(tmp);
+> +	rdev->wb.wb[index/4] = lower_32_bits(tmp);
+>  
+>  	r = radeon_ring_lock(rdev, ring, 4);
+>  	if (r) {
 > 
 
-Hi,
+Seems better to mark rdev->wb.wb as little endian instead. It's read with le32_to_cpu (with some exceptions which look like bugs), which would result in 0xADEDFECA like this.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+-- 
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
