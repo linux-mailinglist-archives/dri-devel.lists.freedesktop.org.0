@@ -1,118 +1,130 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12EF3EBA64
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 18:51:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 199913EBA82
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 18:59:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C86489B46;
-	Fri, 13 Aug 2021 16:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B226E88E;
+	Fri, 13 Aug 2021 16:59:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2047.outbound.protection.outlook.com [40.107.243.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E87126E888;
- Fri, 13 Aug 2021 16:51:21 +0000 (UTC)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2071.outbound.protection.outlook.com [40.107.212.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C42F16E888;
+ Fri, 13 Aug 2021 16:59:50 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iG3U4UdjCnbwR7fQvk3BbmSdghExiOXpMiq5rNQR04rseB7KRX3+Ueh4dWxK/qFpYT5LvBTBtN79cQabJJXKUBfHHM+cD7bIWjsrml5Lzkq/xC6Xm9QoFLtGRXiwu+j9I8SsLtmsecHSY7nLQVOrfw7/JwA4QijjcBUAzsVadxhLX+Y0Bakw1X1hp3qPPceHqtbetOLNOBERxY9092q92aauRKRvb2NeX64uuqeMnWJV5L9I0Onk/n+JBWbipiXnqdPPDXOrwjhl6L0Mxo6EfPxkBS9XDzJAg95Gj7g3+sjRnDeMqoXVH6K7YrQqr7HNk51UebRgPdncqLlu67/cPQ==
+ b=YecWqdxpsUyhpB1XAJVOmdJO6pp43+eN37KdIh9u8lCdySkg5f7E5AA95L9jlKPvGyRWb8xcYfXGpz4RZqS5vzIjc/AixahbV0V6vQ5vVCbAs1htAyusl4QRNQEnrvkcHMPob6Wc4yByOvCYQVpooxq2Tp9voFShxje7t55jQnIWeDvlWCzxe/Q3yRfWFzpyBZGLR1YKIqaHj8GA+Ngf7OPqT4x2IbM+2C+wAeEG8WrWZQj2V9oq3mW6v1V6jZiSfDNWnznMx5NwiGWhkdwrsFXiHJPvezyBLwzy8CN9pq4l88yEVrQ9uGNFfZu8pEtrHcfUAUSF1OubcaA5WxXO2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mjdQcN5AnKZKPNs2H4C/GI6DbZvQJaYuN3XK3UFfuJ8=;
- b=YizfFDvk2UD22RqxP8uV/yO8Lqz07jE8wAnQz1WVYvP/7AWewLIPCR3K4Ee9Zq/g/xyZ6KoUjN1hAOi3DMKu9EE32zu0ihCwov1ArrKsLqa7RumsGdpawa67e99lB4l+cGAEt6zvwmuQABPKL9MKh+VpKBYMwuB004XruzEhHPwjsC2C5QM66ijr0/vNWUNTc2UdoYdpUf6jzqUGo+qlj9aHIfbu+hWxMf52g7/S/1/l1mlYzvP1/F38Rri8S9UKKifBGug70voW4j+Dyo4s8KRwxf2fAJs0XjxxVixNqkUZVkoY4Xin7I/pqq5GcYhUxtsvM527WyWVTVSNlPk2kg==
+ bh=BWzTLcRgQIBHZlbZOTVWx1Rv9q0wGjrnFS2LFcomRVM=;
+ b=O6+Nx+/iaAY60NOM2EKEKVXtCuzvCLFmpWGnqxO6DQ0l3o9WISBB8QkUhYuhWyF/90Eco7dgAz4S0vDIIXEgkZH/573AVDfP/I8/sTC0h4E1MHGYdsTw/Z2XIeMq8PNpXjC25yyHPwBfCdqv6H2bKgFDOM/QrE06uj2iKbVJgIEKkDaImxFOgkbP6e6WnaT3z0Rg6AR+ra24QV1sPp09B8I+gwfnSrMGW8KmVHXKzWo8LxbuwDN5XhkncNxTsfuCJNeEQ2Io8HpPO1QlmEKw1URD/kBqZRZglTiDD/Q8TZDE0YBfWAlSjGw9nLUA6fbYI9F6TZBXkzY5OI8eOpegOQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mjdQcN5AnKZKPNs2H4C/GI6DbZvQJaYuN3XK3UFfuJ8=;
- b=LPfBlT9MAXmfuk4F6tb4TbnOBQGVHa5Vv2Ol5QNIcUBKTfmrZSMo/a08Oyx3cfG4hyzt15ZPadmVvTwQsXYkGUTdAvzyiCDOBb13wlO94ep8/mq86LX0hIqVIKKz3GoiDRiag+BSCV5YMt7MeDFYlSU/lldqkWG9z7nOOH1+bqY=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
- by BL1PR12MB5109.namprd12.prod.outlook.com (2603:10b6:208:309::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.13; Fri, 13 Aug
- 2021 16:51:20 +0000
-Received: from BL1PR12MB5144.namprd12.prod.outlook.com
- ([fe80::5dfc:ea54:4a18:89f5]) by BL1PR12MB5144.namprd12.prod.outlook.com
- ([fe80::5dfc:ea54:4a18:89f5%5]) with mapi id 15.20.4415.020; Fri, 13 Aug 2021
- 16:51:20 +0000
-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd drm-next-5.15
-Date: Fri, 13 Aug 2021 12:51:02 -0400
-Message-Id: <20210813165102.5086-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset=UTF-8
+ bh=BWzTLcRgQIBHZlbZOTVWx1Rv9q0wGjrnFS2LFcomRVM=;
+ b=GP2tPUUoOmnmbDnKYTQ/sRPzj1ugGRdcBqma7+D9V5ordvm1GHahoKzFCuNmn0ORbxaWukZCi8ReJ1cA3nGxtzI4INF+oGj0HVLbCPRHXBD+Qsiimv8toD2aO7rOlfUsQaHiDsw2eU4rBCRjqL3tYHiQrFtuL4QBjuLa8WobFOQ=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
+ by DM6PR12MB5518.namprd12.prod.outlook.com (2603:10b6:5:1b9::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.14; Fri, 13 Aug
+ 2021 16:59:47 +0000
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::d560:d21:cd59:9418]) by DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::d560:d21:cd59:9418%6]) with mapi id 15.20.4415.019; Fri, 13 Aug 2021
+ 16:59:47 +0000
+From: Tom Lendacky <thomas.lendacky@amd.com>
+To: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+Cc: Borislav Petkov <bp@alien8.de>, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, Andy Lutomirski <luto@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Dave Young <dyoung@redhat.com>, David Airlie <airlied@linux.ie>,
+ Heiko Carstens <hca@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Paul Mackerras <paulus@samba.org>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Will Deacon <will@kernel.org>
+Subject: [PATCH v2 00/12] Implement generic prot_guest_has() helper function
+Date: Fri, 13 Aug 2021 11:59:19 -0500
+Message-Id: <cover.1628873970.git.thomas.lendacky@amd.com>
+X-Mailer: git-send-email 2.32.0
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0148.namprd03.prod.outlook.com
- (2603:10b6:408:fe::33) To BL1PR12MB5144.namprd12.prod.outlook.com
- (2603:10b6:208:316::6)
+Content-Type: text/plain
+X-ClientProxiedBy: SA0PR11CA0181.namprd11.prod.outlook.com
+ (2603:10b6:806:1bc::6) To DM4PR12MB5229.namprd12.prod.outlook.com
+ (2603:10b6:5:398::12)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from tr4.amd.com (165.204.84.11) by
- BN9PR03CA0148.namprd03.prod.outlook.com (2603:10b6:408:fe::33) with Microsoft
+Received: from tlendack-t1.amd.com (165.204.77.1) by
+ SA0PR11CA0181.namprd11.prod.outlook.com (2603:10b6:806:1bc::6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4415.16 via Frontend Transport; Fri, 13 Aug 2021 16:51:19 +0000
+ 15.20.4415.15 via Frontend Transport; Fri, 13 Aug 2021 16:59:45 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e106e7b2-78a0-4b20-a911-08d95e7a9331
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5109:
+X-MS-Office365-Filtering-Correlation-Id: a40d64de-b98f-4120-9263-08d95e7bc1bf
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5518:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB51092D34CEB2EDACA977F953F7FA9@BL1PR12MB5109.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1265;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB5518687F1DE01326E42EEAB2ECFA9@DM6PR12MB5518.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P40dQQw3UXax87bp7PNO+nPjBhJIpXFQr+faK4bESROlKNuf+Qll1J4ruloN9eRsuDnlWHotl4r9cctYK7pi70bqhsMILi4T21HFGt/6yc5AIzCSPuzh1gZAkK2Q39MyEpKWzbTUkDtiZ3j4Jbnonq6uhXQcW/yfG/37gzq1D5xuHAlVx8uLjKZUH3UuZXNuKJdbTms6bNCJpqR5+d08Vi70CsUxZbvf1mPlxXoA2GeZImQIXINHLV6fJ7BhxmDxzPkVAvzqqzNluEBsIMPW5KCzcKFfoeKB30MVEEPi8oRYO7Tj5EnvFsU92Ih3dDSOZSNpzY4Zc3kG7ee5BgnUcicFAzFXaU+s6/UgRSXpmRPXKT3hdWjnU1+DkC2qt6wKKczR6GxpKUzgP44330TfqW9YkEKxMWuy3cOtoBV+O6MdW+Uh9urRV0rxjeCQgCUdlhAHAjE58NurW0yakGVqQmq1d3tnu+Rjjad5B18eIhsKeP3Zs/KulHh6hD3cdILi+1ZsXAW5pXSs7Q3cq/uz4Ot7AjqBYdUfAgTH+i02TMODW1jG+FY0SM2Y5NTqekESbym4DU8A2xl5g2nyjXacfMhN+FXsh8bzHl3SDu8kJoFaWGBvBAWdxgNOERBR8tTwaac61BR/H+6Xk3JCqrTM81wf2ms0fT2pbHoTwUvqmodGMOnt8podtTvzpLl2NQ6/588wq2j+LKoDAQqfBPzS6A==
+X-Microsoft-Antispam-Message-Info: 0Tlc8p598j4x5j/Lp8tz9PLueR/DIMP/xJV8yoxqvGn3wufIX0iALoCSnB6xHvPaobgaxv5qA/ym4kTHjgj17Gg88m3kGRKzi1O2/OixN85iUGAxMqmOtAy/9dKVRJz8FB02/S2vY5Ghg/KFhOluMg0Lsfi7dQrTapoBm9uFuUBXdDvALipbFlkAQQz3/d+m2YNVoESsNfxicYs4umn7mzKSbUK6Lew8LB2JraprUxxyhfneCxbTRivywfHGt/qSATpYGzlrRpH5o7AErQPorPyTVblM6rfCySZ1+aS/oQFsFeO0gYP3rNbF3tPgmfOBeKDfeGB8vHzMwO64vHxkVrJ8CB4U9kFQQvLplo3nsw5u7CZrmFMNUPbaY0BIwOr6u1Fpqu8Mg1LWq8todTYpPv5ocir6Fu0kvxX5ARwhC9IC5vzXPHGUBIx2JXT8RuszsxDL9+GRreLgCTR6DwCva/oVBP1x6/NFDEUXnwsyY4PcRS1gT152ddDfCkGJj7O0IX84ktid4Csby4zQIoYjcLBNmbAFY2EdkcDx5aPgfBSRtOUe8Cw+xyc7TLgWzLyocW9BN5fI2vmczOGQBlH4HAMn2iUhJe7dPe1xDI+N28M0dTjgT72Y6FNRvuCEe9B+QkZIr0tBoW8ezEZRkejd37kPxZFAo0S0bl52kt8r3+1iOoWZPKtxC1fPu6p0FsMhW4i9mtcpw70c21FAuvmzJ73pr2wOU96NCigUcLKhFjb+lbV4+m0KRyqOlKMZXgKqjQgS2u9O0WEFn2m41O6N4uLCwIoM798gbQC9vCMHiZ0tCJPzqvzg21mXgARxlNtEbZOxMH2J8zFNCo5vTlBt4Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(376002)(39860400002)(366004)(136003)(38350700002)(38100700002)(4326008)(8676002)(316002)(966005)(66556008)(66946007)(26005)(66476007)(1076003)(5660300002)(2906002)(956004)(83380400001)(2616005)(6486002)(6666004)(186003)(8936002)(7696005)(86362001)(36756003)(66574015)(478600001)(52116002);
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(136003)(346002)(396003)(376002)(66946007)(66476007)(966005)(66556008)(478600001)(921005)(7696005)(8936002)(8676002)(26005)(52116002)(6666004)(36756003)(186003)(86362001)(2906002)(7406005)(7416002)(83380400001)(2616005)(38100700002)(956004)(38350700002)(5660300002)(4326008)(6486002)(316002)(54906003)(41533002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NUI0cXNxRGhheHJXcUtoQldEa2ZWaXJEYWlLN3UwOWJhblF1YlRTZ09RQWEv?=
- =?utf-8?B?NzZhNUFTbE1zYW1lVG9la2c3NGRLcldPdnkrNGlzMEF4OFBiU0s5YjgyaU5s?=
- =?utf-8?B?dCtmc3A2bTQrL0ZnMGdNZnpNc3p3N2dsSXNhQkF1UVczc3pTekdLUVBxMVVz?=
- =?utf-8?B?RTROZUxrU04rcmhGOUJ4ZC9IK3RMaStWU0hOUmxRaTBIMm9UUjFyVGhKbCs0?=
- =?utf-8?B?VGlBNHNSb0gxUHBhY0g5UGJvRVltMXdIRXpYenhyaVpxQ1Y3aEttRlRaaWFu?=
- =?utf-8?B?RFFteGxGV0RscW9VU1hmRU51L1g2ZTZRSTdRTm53SUFiZ0YxYWE1VU1zR3BN?=
- =?utf-8?B?ckRqZXJmaERlRk90VGwrRHNkUjZkREp5ODJodENUalJpMlFkZEpVdUEvQmp2?=
- =?utf-8?B?S1NHNzI2eDJPbmFnSitrVndXWlo3czFZZnNnUjJuQWxIUndwMVpEMEFkQ3B0?=
- =?utf-8?B?NGIvajVZR0grTWVGQnBmdnB3WnlDdVl3M2RjNEQ2a0s3TWdXRTdpZjg5Qith?=
- =?utf-8?B?Tjg5bW5qVVBzM2Z6N1JmWUJwaUNZbVA5WHBxS2x5UEpNMk54YkhhZDI1VmVp?=
- =?utf-8?B?eDArTHFZL09lbHBYME9DTzZyemI0V0xDaWgyUGl6c3M4QWgzSWFScVlIQVlm?=
- =?utf-8?B?MHJ1U3h5R2szcUFhOHlzQ1pSck5YNXpWOXEwMHRtazlQVWF4VEU2UHFGSExr?=
- =?utf-8?B?US9SN0taV1o3OU9xWHJiYW9RU3RGdUMvbUtJOFpFNEZIZHlTUldoazBjcWQ4?=
- =?utf-8?B?T1d1UG92NHJQVzkzM0VTcWU3U0svUkpxZGpMaGpaL01ROS9kLzd0WHNvSlZ1?=
- =?utf-8?B?bCtFdkMrNDhwTFN5NlE5eEpGemdUbmVNL1ZOMTVXK2pzVXM0NENTalNMM0Rs?=
- =?utf-8?B?aytlY1J5eTkydkJsbGRmU1J2VlBGZWJEdWhremV3MkkySDg3WU01WFZxMkhv?=
- =?utf-8?B?SEtwU1FrdEl3ckFFQTJRdkhybzVGMGV6dGVQVXRMN2Q2WjZJdlpqcmticFhS?=
- =?utf-8?B?VXI0SDQ3bTVsSm9SeGthdmFLNDhYOU5ubEh3TjUvUm10TGFTQzlZMHdYOWht?=
- =?utf-8?B?dlE3RktSc1oybURXdm9vMklGRlRydmlDQ29ZVStRVXp6WlBLZXZIUkxFVUNQ?=
- =?utf-8?B?enpDYkxLWHQxM2RiZDlPQWQ5blljZ2RMN2hZN1NhNjlQWXZ6Mm5HRUJIVFVM?=
- =?utf-8?B?QXdoQkxMaEl6NjBTWVpjNlJmOEpHaU43d2RxSjhLaXh6Z0M3cmhzRURkamZ3?=
- =?utf-8?B?UDlLUy9Ccks0VUxtQWZlSnFmc25nMUIwYnpqUVdVMjdJaDhPTTJNbERpbWtX?=
- =?utf-8?B?K0NDR1FLOHgvYi9yMXQxemhidExEUERSc1pkY2d5Z0tBRkpvYlp2dHA3YlZE?=
- =?utf-8?B?TGx4OHNFRURjZEl3SHl5LzZzUGpTYmN3NG5BN09nL0dZejRaME4rc2NyT1hq?=
- =?utf-8?B?b3RGWmEvd1lPbHg0Z2FCTmJxNVMyMEM5dHFwcm9nQmRRdkZmcU1UZEI0UlRR?=
- =?utf-8?B?QWV5bDhIUS9pN1FQZTRtR0pGVHBQL3lEakthRGd1WTIreEVudzc5M0FZVXFZ?=
- =?utf-8?B?NWF0eUtrR0VMRzV4Y2NVUnlKeFhBbUNic29KemROVWd1a0NCWmNSMmFGbWx0?=
- =?utf-8?B?cDdBdnFuNXRCTUE4OXlsc1lKbUd5cmsvNVozYmxrcHBMTzczNTN6NUtoeFZn?=
- =?utf-8?B?WGk1VlBoVkJ6WkZKRkNmWFR5SVB0QU9kRjFWVGwvdWFTNnNBYXEvQmdUakVK?=
- =?utf-8?Q?ssnWeSV8GQqSZewurf0fKbFxTcuQjd4gkDu73Yc?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+cNFt6anDiaWU3AK+8p9O5t7ynHjjKJp3ojthH0Zk8QoI1GDqL0paf3WfbCs?=
+ =?us-ascii?Q?73rxogGxgP4TYedg+o6cTXd9khz40t+q/+OeHEOu4VQ4Yv/+v8FtTe2QSgjL?=
+ =?us-ascii?Q?yRZJf+yxILobMp7Bjiv4EVi627qpSOHMGRUwWUqV9ynDmkRo+7t//+hS+CJI?=
+ =?us-ascii?Q?RR5Her4lR+fGWnN+2vEW4K3FmgQIiER12JR04HDzCq9gmA/D5XowL9HDjVAe?=
+ =?us-ascii?Q?DKxJ9eQsLDRRaoW8FvbXSxAAoSc4uyNKRTHDxOyK3HIRAXA0PsbUXRFfo8eq?=
+ =?us-ascii?Q?inRp1efyQCjYK+3DQ9kA8XShY8XWoqbaoXrCDXND59RzA+QAC4nsc9T8aNcT?=
+ =?us-ascii?Q?fjsNR+dGuZS2mHV0LEdxH5SFYaYVuydfPrxCPN75Tm+VCwE9XW0NV6YM/JEw?=
+ =?us-ascii?Q?ASc0/c3ORcbHePik8bwpkI+H1NwxozpE/G7Gc85XAdjolNoNtOoD/p59XSyF?=
+ =?us-ascii?Q?9ExR//vLRXCVwAetqc6YuODZ2MW29Kmv4ehHjKHZ37b0z4amJK1nnHoQSYzj?=
+ =?us-ascii?Q?iWv0BnqNdcxTY8gbqnsk0vdLDOR6J08a3CES7G6TaQS9ZoBqXQZqi1twUGfI?=
+ =?us-ascii?Q?YB4Wsxm44D4OiX4gBTRnjxP4o9+ACdYCisktYhvrs0ua/iDh/KEG7BN9lEKV?=
+ =?us-ascii?Q?dYlbO1h0p03SkPZr0I+zqVtJ5qELEYGFEAK8qjXcjI5RXk/oMSFOLWN5P4GD?=
+ =?us-ascii?Q?T5t3JIoVeF+2MJ/5WHVGL3YD4Bf3jRwo7hk5B0BEhbjHME1GhuUmqmN7OPil?=
+ =?us-ascii?Q?/r+DEeYN4ktk6aWvDyX56obhpICoyDzauv9fMhw8UBiJUhhen2WrbAgEk95Z?=
+ =?us-ascii?Q?TlZLN7Td3jf8FkNKUqlaVzyju+FRUTMFgr6tI+Hv4e7NDnxeMTnakJiuZG1z?=
+ =?us-ascii?Q?pov8I2uOLmtVukMxymrdRNpkcnnPBPwKv+Gr0MlFN9jUE3M6exCvuYmete6K?=
+ =?us-ascii?Q?y+7X1F1Zq258SCGZozazKkg4QUEnc/FO3vgiKM6TpxWi4d9sKoU81fXWKxS8?=
+ =?us-ascii?Q?/TM1+2tgxiF9i2KfH0Wi3vHhBuYsnUV7NpQQGpYRuVHdDr2J1VvERZb2zhEI?=
+ =?us-ascii?Q?R0IW4z22+5fol3PBZ3iEIJHYLLZmEEINbZ9czrabrNQFqBxlwGSC3SDEqW/C?=
+ =?us-ascii?Q?3RlndvmCdqL97VywfrGRrHgIRjbh8tKxcKnWhOutVuKiEK4HcuocFACAVGgs?=
+ =?us-ascii?Q?lpLqjiGRfdU81J+46M+4YA0QEKBtf2W43cDhzKt4pZDxg6NPyZpvZYAhSL5Q?=
+ =?us-ascii?Q?ETk9hARbR8CH3+OR/9xsEeBZbKd1QBOyrVXYFnkZH47vmnHQzWzxfdyoFtzW?=
+ =?us-ascii?Q?w+LYu/MDYFySZ0nakn5+az9P?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e106e7b2-78a0-4b20-a911-08d95e7a9331
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a40d64de-b98f-4120-9263-08d95e7bc1bf
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2021 16:51:20.0472 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2021 16:59:47.5605 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mwHgW74i2E5ms8EGaHa6ilVC8ePNPpXFMrMK0AvOYAcDb5B/7nJBrLJ8f9CpewcBPiIYo0cVD4HLHJeyaB84Xg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5109
+X-MS-Exchange-CrossTenant-UserPrincipalName: nYp6yT+9lSoVV7NLlbbh020IR6qxssckMjTIgYmpR7D6u6pyPE7XxnAMYb5IEyfY+PXxRhCV//fDcjgg9wtbPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5518
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,148 +140,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+This patch series provides a generic helper function, prot_guest_has(),
+to replace the sme_active(), sev_active(), sev_es_active() and
+mem_encrypt_active() functions.
 
-Updates for 5.15.  Mostly bug fixes and cleanups.
+It is expected that as new protected virtualization technologies are
+added to the kernel, they can all be covered by a single function call
+instead of a collection of specific function calls all called from the
+same locations.
 
-The following changes since commit a43e2a0e11491b73e2acaa27ee74d6c3b86deac0:
+The powerpc and s390 patches have been compile tested only. Can the
+folks copied on this series verify that nothing breaks for them.
 
-  drm/amdkfd: Allow querying SVM attributes that are clear (2021-08-06 16:12:32 -0400)
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Baoquan He <bhe@redhat.com>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Dave Young <dyoung@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+Cc: Will Deacon <will@kernel.org>
 
-are available in the Git repository at:
+---
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.15-2021-08-13
+Patches based on:
+  https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
+  0b52902cd2d9 ("Merge branch 'efi/urgent'")
 
-for you to fetch changes up to 554594567b1fa3da74f88ec7b2dc83d000c58e98:
+Changes since v1:
+- Move some arch ioremap functions within #ifdef CONFIG_AMD_MEM_ENCRYPT
+  in prep for use of prot_guest_has() by TDX.
+- Add type includes to the the protected_guest.h header file to prevent
+  build errors outside of x86.
+- Make amd_prot_guest_has() EXPORT_SYMBOL_GPL
+- Use amd_prot_guest_has() in place of checking sme_me_mask in the
+  arch/x86/mm/mem_encrypt.c file.
 
-  drm/display: fix possible null-pointer dereference in dcn10_set_clock() (2021-08-11 17:19:54 -0400)
+Tom Lendacky (12):
+  x86/ioremap: Selectively build arch override encryption functions
+  mm: Introduce a function to check for virtualization protection
+    features
+  x86/sev: Add an x86 version of prot_guest_has()
+  powerpc/pseries/svm: Add a powerpc version of prot_guest_has()
+  x86/sme: Replace occurrences of sme_active() with prot_guest_has()
+  x86/sev: Replace occurrences of sev_active() with prot_guest_has()
+  x86/sev: Replace occurrences of sev_es_active() with prot_guest_has()
+  treewide: Replace the use of mem_encrypt_active() with
+    prot_guest_has()
+  mm: Remove the now unused mem_encrypt_active() function
+  x86/sev: Remove the now unused mem_encrypt_active() function
+  powerpc/pseries/svm: Remove the now unused mem_encrypt_active()
+    function
+  s390/mm: Remove the now unused mem_encrypt_active() function
 
-----------------------------------------------------------------
-amd-drm-next-5.15-2021-08-13:
+ arch/Kconfig                               |  3 ++
+ arch/powerpc/include/asm/mem_encrypt.h     |  5 --
+ arch/powerpc/include/asm/protected_guest.h | 30 +++++++++++
+ arch/powerpc/platforms/pseries/Kconfig     |  1 +
+ arch/s390/include/asm/mem_encrypt.h        |  2 -
+ arch/x86/Kconfig                           |  1 +
+ arch/x86/include/asm/io.h                  |  8 +++
+ arch/x86/include/asm/kexec.h               |  2 +-
+ arch/x86/include/asm/mem_encrypt.h         | 13 +----
+ arch/x86/include/asm/protected_guest.h     | 29 +++++++++++
+ arch/x86/kernel/crash_dump_64.c            |  4 +-
+ arch/x86/kernel/head64.c                   |  4 +-
+ arch/x86/kernel/kvm.c                      |  3 +-
+ arch/x86/kernel/kvmclock.c                 |  4 +-
+ arch/x86/kernel/machine_kexec_64.c         | 19 +++----
+ arch/x86/kernel/pci-swiotlb.c              |  9 ++--
+ arch/x86/kernel/relocate_kernel_64.S       |  2 +-
+ arch/x86/kernel/sev.c                      |  6 +--
+ arch/x86/kvm/svm/svm.c                     |  3 +-
+ arch/x86/mm/ioremap.c                      | 18 +++----
+ arch/x86/mm/mem_encrypt.c                  | 60 +++++++++++++++-------
+ arch/x86/mm/mem_encrypt_identity.c         |  3 +-
+ arch/x86/mm/pat/set_memory.c               |  3 +-
+ arch/x86/platform/efi/efi_64.c             |  9 ++--
+ arch/x86/realmode/init.c                   |  8 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  4 +-
+ drivers/gpu/drm/drm_cache.c                |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c        |  6 +--
+ drivers/iommu/amd/init.c                   |  7 +--
+ drivers/iommu/amd/iommu.c                  |  3 +-
+ drivers/iommu/amd/iommu_v2.c               |  3 +-
+ drivers/iommu/iommu.c                      |  3 +-
+ fs/proc/vmcore.c                           |  6 +--
+ include/linux/mem_encrypt.h                |  4 --
+ include/linux/protected_guest.h            | 40 +++++++++++++++
+ kernel/dma/swiotlb.c                       |  4 +-
+ 37 files changed, 232 insertions(+), 105 deletions(-)
+ create mode 100644 arch/powerpc/include/asm/protected_guest.h
+ create mode 100644 arch/x86/include/asm/protected_guest.h
+ create mode 100644 include/linux/protected_guest.h
 
-amdgpu:
-- Improve aux i2c tracing
-- Misc display updates
-- Misc code cleanups
-- sprintf to sysfs_emit updates
-- Fix some fan control corner cases with suspend
+-- 
+2.32.0
 
-amdkfd:
-- Enable CWSR with software scheduling
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu: handle VCN instances when harvesting (v2)
-
-Anson Jacob (1):
-      drm/amd/display: use GFP_ATOMIC in amdgpu_dm_irq_schedule_work
-
-Anthony Koo (2):
-      drm/amd/display: [FW Promotion] Release 0.0.78
-      drm/amd/display: 3.2.148
-
-Ashley Thomas (1):
-      drm/amd/display: Add AUX I2C tracing.
-
-Darren Powell (7):
-      amdgpu/pm: Replace navi10 usage of sprintf with sysfs_emit
-      amdgpu/pm: Replace smu11 usage of sprintf with sysfs_emit
-      amdgpu/pm: Replace smu12/13 usage of sprintf with sysfs_emit
-      amdgpu/pm: Replace vega10 usage of sprintf with sysfs_emit
-      amdgpu/pm: Replace vega12,20 usage of sprintf with sysfs_emit
-      amdgpu/pm: Replace hwmgr smu usage of sprintf with sysfs_emit
-      amdgpu/pm: Replace amdgpu_pm usage of sprintf with sysfs_emit
-
-Eric Bernstein (1):
-      drm/amd/display: Remove invalid assert for ODM + MPC case
-
-Mukul Joshi (1):
-      drm/amdkfd: CWSR with software scheduler
-
-Nicholas Kazlauskas (2):
-      drm/amd/display: Clear GPINT after DMCUB has reset
-      drm/amd/display: Increase timeout threshold for DMCUB reset
-
-Philip Yang (1):
-      drm/amdkfd: AIP mGPUs best prefetch location for xnack on
-
-Randy Dunlap (2):
-      drm/amd/display: use do-while-0 for DC_TRACE_LEVEL_MESSAGE()
-      drm/amdgpu: fix kernel-doc warnings on non-kernel-doc comments
-
-Roy Chan (5):
-      drm/amd/display: fix missing writeback disablement if plane is removed
-      drm/amd/display: refactor the codes to centralize the stream/pipe checking logic
-      drm/amd/display: refactor the cursor programing codes
-      drm/amd/display: fix incorrect CM/TF programming sequence in dwb
-      drm/amd/display: Correct comment style
-
-Ryan Taylor (2):
-      drm/amd/pm: restore fan_mode AMD_FAN_CTRL_NONE on resume (v2)
-      drm/amd/pm: graceful exit on restore fan mode failure (v2)
-
-Sergio Miguéns Iglesias (1):
-      drm/amdgpu: Removed unnecessary if statement
-
-Tuo Li (2):
-      gpu: drm: amd: amdgpu: amdgpu_i2c: fix possible uninitialized-variable access in amdgpu_i2c_router_select_ddc_port()
-      drm/display: fix possible null-pointer dereference in dcn10_set_clock()
-
-Victor Zhao (1):
-      drm/amdgpu: Extend full access wait time in guest
-
-Wenjing Liu (1):
-      drm/amd/display: add authentication_complete in hdcp output
-
-YuBiao Wang (1):
-      drm/amd/amdgpu: skip locking delayed work if not initialized.
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c |  31 ++++
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10_3.c   |  31 ++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c  |  33 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  12 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c             |   3 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c            |   2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c            |   6 +-
- drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c              |  16 +-
- .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  21 ++-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  35 ++--
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c  |   2 +-
- drivers/gpu/drm/amd/display/dc/core/dc.c           |  62 ++++---
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c    | 106 +++++++-----
- drivers/gpu/drm/amd/display/dc/dc.h                |   2 +-
- drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       | 192 ++++++++++++++++++++-
- drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c      |   2 +-
- .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |  11 +-
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  14 +-
- .../gpu/drm/amd/display/dc/dcn30/dcn30_dwb_cm.c    |  90 +++++++---
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |  12 +-
- .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |   1 -
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |   6 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c  |  18 +-
- drivers/gpu/drm/amd/display/modules/hdcp/hdcp.c    |   5 +-
- drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h    |   8 +
- .../amd/display/modules/hdcp/hdcp1_transition.c    |   8 +-
- .../amd/display/modules/hdcp/hdcp2_transition.c    |   4 +-
- .../gpu/drm/amd/display/modules/hdcp/hdcp_log.c    |  74 ++++++++
- .../gpu/drm/amd/display/modules/hdcp/hdcp_log.h    |  72 --------
- drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h |   1 +
- drivers/gpu/drm/amd/include/kgd_kfd_interface.h    |   3 +
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  16 +-
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c   |  22 +--
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    |  38 ++--
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c    |   7 +-
- .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  |  38 ++--
- .../gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c  |  14 +-
- .../gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c  |  74 ++++----
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   9 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  26 +--
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  61 +++----
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  34 ++--
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  46 ++---
- drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  20 +--
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |  21 ++-
- .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |  14 +-
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |   6 +-
- 48 files changed, 873 insertions(+), 459 deletions(-)
