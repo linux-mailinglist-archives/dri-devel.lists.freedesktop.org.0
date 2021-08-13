@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211513EB27F
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 10:19:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DFB73EB282
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 10:20:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9EE6E56A;
-	Fri, 13 Aug 2021 08:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6B16E56D;
+	Fri, 13 Aug 2021 08:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 698C96E56A;
- Fri, 13 Aug 2021 08:19:48 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="212411480"
-X-IronPort-AV: E=Sophos;i="5.84,318,1620716400"; d="scan'208";a="212411480"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2021 01:19:42 -0700
-X-IronPort-AV: E=Sophos;i="5.84,318,1620716400"; d="scan'208";a="528352765"
-Received: from mbubula-mobl1.ger.corp.intel.com (HELO [10.252.55.29])
- ([10.252.55.29])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2021 01:19:40 -0700
-Subject: Re: [PATCH 2/2] drm/i915: Add pci ids and uapi for DG1
-To: Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-References: <20210812124452.622233-1-maarten.lankhorst@linux.intel.com>
- <20210812124452.622233-2-maarten.lankhorst@linux.intel.com>
- <CAKMK7uGMqYbiqZqV4gUy1KMbBCX=ZAGf-vT69SP9LbZU3hcSiQ@mail.gmail.com>
- <CAOFGe97N1-6wuP0FxvsYkXknBFW3PaU69kGqAGbJh+o8L53zrA@mail.gmail.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <3aeb1745-f8ea-95c5-a23b-d077f0a4bccd@linux.intel.com>
-Date: Fri, 13 Aug 2021 10:19:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C37026E56D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:20:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 29B2960FC3;
+ Fri, 13 Aug 2021 08:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1628842815;
+ bh=R2t/HkTfw4iNuHnkpQLxoKAEyy4GosUZbPrQovzCfTM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Nyuqa5aQXSZ6GUZWcEcZv0Id4SVtTlXsNz9UtCd4ZlNnFf4KQEEgFX5crXQm/E1ya
+ +6yBMTJAZZcoN9SYQjy7q4KOq1n2Mz93W7A1yOUmlYE4gr4tSFzYNDn819Ds5EjetO
+ TZFVZBa2vnDIRfxw88FJFcMUTWRBQRzoTdvppxRM=
+Date: Fri, 13 Aug 2021 10:20:13 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Oliver Graute <oliver.graute@kococonnector.com>
+Cc: oliver.graute@gmail.com, Carlis <zhangxuezhi1@yulong.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] fbtft: fb_st7789v: added reset on init_display()
+Message-ID: <YRYrPfEHrcvDL4va@kroah.com>
+References: <20210813062511.14537-1-oliver.graute@kococonnector.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe97N1-6wuP0FxvsYkXknBFW3PaU69kGqAGbJh+o8L53zrA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210813062511.14537-1-oliver.graute@kococonnector.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,80 +49,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 12-08-2021 om 23:10 schreef Jason Ekstrand:
-> On Thu, Aug 12, 2021 at 9:49 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->> On Thu, Aug 12, 2021 at 2:44 PM Maarten Lankhorst
->> <maarten.lankhorst@linux.intel.com> wrote:
->>> DG1 has support for local memory, which requires the usage of the
->>> lmem placement extension for creating bo's, and memregion queries
->>> to obtain the size. Because of this, those parts of the uapi are
->>> no longer guarded behind FAKE_LMEM.
->>>
->>> According to the pull request referenced below, mesa should be mostly
->>> ready for DG1. VK_EXT_memory_budget is not hooked up yet, but we
->>> should definitely just enable the uapi parts by default.
->>>
->>> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> References: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/11584
->>> Cc: Jordan Justen jordan.l.justen@intel.com
->>> Cc: Jason Ekstrand jason@jlekstrand.net
->> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Acked-by: Jason Ekstrand <jason@jlekstrand.net>
->
->>> ---
->>>  drivers/gpu/drm/i915/gem/i915_gem_create.c | 3 ---
->>>  drivers/gpu/drm/i915/i915_pci.c            | 1 +
->>>  drivers/gpu/drm/i915/i915_query.c          | 3 ---
->>>  3 files changed, 1 insertion(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>> index 23fee13a3384..1d341b8c47c0 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->>> @@ -347,9 +347,6 @@ static int ext_set_placements(struct i915_user_extension __user *base,
->>>  {
->>>         struct drm_i915_gem_create_ext_memory_regions ext;
->>>
->>> -       if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
->>> -               return -ENODEV;
->>> -
->>>         if (copy_from_user(&ext, base, sizeof(ext)))
->>>                 return -EFAULT;
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
->>> index 1bbd09ad5287..93ccdc6bbd03 100644
->>> --- a/drivers/gpu/drm/i915/i915_pci.c
->>> +++ b/drivers/gpu/drm/i915/i915_pci.c
->>> @@ -1115,6 +1115,7 @@ static const struct pci_device_id pciidlist[] = {
->>>         INTEL_RKL_IDS(&rkl_info),
->>>         INTEL_ADLS_IDS(&adl_s_info),
->>>         INTEL_ADLP_IDS(&adl_p_info),
->>> +       INTEL_DG1_IDS(&dg1_info),
->>>         {0, 0, 0}
->>>  };
->>>  MODULE_DEVICE_TABLE(pci, pciidlist);
->>> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
->>> index e49da36c62fb..5e2b909827f4 100644
->>> --- a/drivers/gpu/drm/i915/i915_query.c
->>> +++ b/drivers/gpu/drm/i915/i915_query.c
->>> @@ -432,9 +432,6 @@ static int query_memregion_info(struct drm_i915_private *i915,
->>>         u32 total_length;
->>>         int ret, id, i;
->>>
->>> -       if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
->>> -               return -ENODEV;
->>> -
->>>         if (query_item->flags != 0)
->>>                 return -EINVAL;
->>>
->>> --
->>> 2.32.0
->>>
->>
->> --
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> http://blog.ffwll.ch
+On Fri, Aug 13, 2021 at 08:25:10AM +0200, Oliver Graute wrote:
+> staging: fbtft: fb_st7789v: reset display before initialization
 
-Pushed this patch and did the revert from previous patch in drm-intel/topic/core-for-ci, enjoy!
+What is this line here, and why is this not your subject line instead?
 
+> 
+> In rare cases the display is flipped or mirrored. This was observed more
+> often in a low temperature environment. A clean reset on init_display()
+> should help to get registers in a sane state.
+> 
+> Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
+
+What commit does this fix?
+
+thanks,
+
+greg k-h
