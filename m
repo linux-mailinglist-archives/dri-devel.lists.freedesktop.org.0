@@ -1,39 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFB73EB282
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 10:20:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D263EB302
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 10:55:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6B16E56D;
-	Fri, 13 Aug 2021 08:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B286E580;
+	Fri, 13 Aug 2021 08:55:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37026E56D
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:20:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29B2960FC3;
- Fri, 13 Aug 2021 08:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1628842815;
- bh=R2t/HkTfw4iNuHnkpQLxoKAEyy4GosUZbPrQovzCfTM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Nyuqa5aQXSZ6GUZWcEcZv0Id4SVtTlXsNz9UtCd4ZlNnFf4KQEEgFX5crXQm/E1ya
- +6yBMTJAZZcoN9SYQjy7q4KOq1n2Mz93W7A1yOUmlYE4gr4tSFzYNDn819Ds5EjetO
- TZFVZBa2vnDIRfxw88FJFcMUTWRBQRzoTdvppxRM=
-Date: Fri, 13 Aug 2021 10:20:13 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Oliver Graute <oliver.graute@kococonnector.com>
-Cc: oliver.graute@gmail.com, Carlis <zhangxuezhi1@yulong.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] fbtft: fb_st7789v: added reset on init_display()
-Message-ID: <YRYrPfEHrcvDL4va@kroah.com>
-References: <20210813062511.14537-1-oliver.graute@kococonnector.com>
+Received: from smtpproxy21.qq.com (smtpbg703.qq.com [203.205.195.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E07A36E580
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:55:19 +0000 (UTC)
+X-QQ-mid: bizesmtp33t1628844876tafoo5ml
+Received: from localhost.localdomain (unknown [124.126.19.250])
+ by esmtp6.qq.com (ESMTP) with 
+ id ; Fri, 13 Aug 2021 16:54:35 +0800 (CST)
+X-QQ-SSF: 0140000000200030C000B00A0000000
+X-QQ-FEAT: nNpKvUcGwyjmNbUJ032IhxCMQOvkHqQz0wNxgj0c/GfvsTd0Rb4+LyrYZFTkR
+ QF/YhqG0dTQDXAo1sOK8GbpZU+H+qmNvhm2yl7oP12+1QMs/MRojc6XVm/E6BpIOHDnNICq
+ L5++Sk2yRLHHfBYHm7Ahp747iHft4EMr80DNv6tmnfbx3QAkAQzcnes40Vq3AAxs1MNq2Cn
+ 3lD405IMyFUmJ1PpbTBVplyllX1DKefHaVJZr2ctR3M7s3nxNjEsLUUOyg6CqzEY3jJhs5Q
+ d2AEK/sDL8EN8aUJcxAxucnIcZkGsFQFOneltgGSccCNcnspuYPorJdbVU0Kypnho09oOAX
+ LF5I5aYW/DzvW+NLg/zEQIQv3qScA==
+X-QQ-GoodBg: 2
+From: zhaoxiao <zhaoxiao@uniontech.com>
+To: airlied@linux.ie
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, David1.Zhou@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, zhaoxiao <zhaoxiao@uniontech.com>
+Subject: [PATCH] drm: radeon: r600_dma: Replace cpu_to_le32() by
+ lower_32_bits()
+Date: Fri, 13 Aug 2021 16:54:34 +0800
+Message-Id: <20210813085434.3890-1-zhaoxiao@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210813062511.14537-1-oliver.graute@kococonnector.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign2
+X-QQ-Bgrelay: 1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,20 +54,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 13, 2021 at 08:25:10AM +0200, Oliver Graute wrote:
-> staging: fbtft: fb_st7789v: reset display before initialization
+This patch fixes the following sparse errors:
+drivers/gpu/drm/radeon/r600_dma.c:247:30: warning: incorrect type in assignment (different base types)
+drivers/gpu/drm/radeon/r600_dma.c:247:30:    expected unsigned int volatile [usertype]
+drivers/gpu/drm/radeon/r600_dma.c:247:30:    got restricted __le32 [usertype]
 
-What is this line here, and why is this not your subject line instead?
+Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
+---
+ drivers/gpu/drm/radeon/r600_dma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> In rare cases the display is flipped or mirrored. This was observed more
-> often in a low temperature environment. A clean reset on init_display()
-> should help to get registers in a sane state.
-> 
-> Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
+diff --git a/drivers/gpu/drm/radeon/r600_dma.c b/drivers/gpu/drm/radeon/r600_dma.c
+index fb65e6fb5c4f..a2d0b1edcd22 100644
+--- a/drivers/gpu/drm/radeon/r600_dma.c
++++ b/drivers/gpu/drm/radeon/r600_dma.c
+@@ -244,7 +244,7 @@ int r600_dma_ring_test(struct radeon_device *rdev,
+ 	gpu_addr = rdev->wb.gpu_addr + index;
+ 
+ 	tmp = 0xCAFEDEAD;
+-	rdev->wb.wb[index/4] = cpu_to_le32(tmp);
++	rdev->wb.wb[index/4] = lower_32_bits(tmp);
+ 
+ 	r = radeon_ring_lock(rdev, ring, 4);
+ 	if (r) {
+-- 
+2.20.1
 
-What commit does this fix?
 
-thanks,
 
-greg k-h
