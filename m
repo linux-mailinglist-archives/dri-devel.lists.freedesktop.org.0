@@ -2,99 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA053EB7AE
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396553EB785
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E60C16E867;
-	Fri, 13 Aug 2021 15:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B64306E854;
+	Fri, 13 Aug 2021 15:18:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16AB988E07;
- Fri, 13 Aug 2021 15:21:20 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id t13so229307ioj.7;
- Fri, 13 Aug 2021 08:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=exurjxhZnNMpJGUyDGyH6mJG8q3OTiV4CUPdinAeZAk=;
- b=GZqTShcC5/Iju7hI9/QB6MqoQO67KQPYYBeZ4z1TBDD9CSYA5WJaG1cHjJOekeN3Cu
- SUhwPj7hlQ/zT+jHXH6cfdd5D0L7Ki8VnCrQNjraLqRhVvfZLTP6gb0WeTOeJlgrkjRI
- iz6fUjcEYK4g0gaZ5eXnkYW3lFT/AmXQU60Qw6thhTYQ9eTKO4TZlUv6/pXfhCB837z9
- 9GqZjevOZroOVFbieYFMFCAMV8RpvyIDETNVAGlQmXjFvNEGp1EI8viZOcX/2J4Oo9K5
- d6O9lrRZx1HEGWl89uwjbeKa/cRpfA/oNlhhXdpa/Ttk1f8fLZjsn9fpjNo/sq+K7kSb
- sQ+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=exurjxhZnNMpJGUyDGyH6mJG8q3OTiV4CUPdinAeZAk=;
- b=iLjP/BcEgTGa+/75PkrKmuF9nRxLQcLUpHcvdzEnw3S2cIAyhciHKf3lrg1KZZ4WMq
- tgFQlEZl9oF+Xl7Ifwl3UHVmpnrpP9TnoN6LYTPwtOAJgGXpiOmgER3tcIDWpqkSH9sR
- aHZvP2FFoFpIbuP1M0fO48IYt0/VT6/Tcvik6Ytfj7nsHYAlP6rEwWgQlEDpw0IGlFY+
- wlBbtnCY62LvESQ1DC8DXpKpgEsEaPfDZxVkzaOURljNOiaOYSs/eS/DROEtet02tQsR
- reToPErnZZTUGThNRBIoykX1J8lr8k81pzzOgGAtoI2XWYqxf47PAt3UO9eSO6fTDc4y
- ZWwQ==
-X-Gm-Message-State: AOAM532VRZz+miNZdMzY9+9S0jkpN3quuLG8Hzdb/e2+yky+dxRbV6f/
- xCsG5Eg684Tf9SwUMaGGQcA=
-X-Google-Smtp-Source: ABdhPJwrD8LaBMoWQWQXxi+JScrGXll33ISRmsN1Og62PoLKWLEjEY3av7GQ8qZpx5NRyE8p/CxTqQ==
-X-Received: by 2002:a05:6602:3359:: with SMTP id
- c25mr2398333ioz.181.1628868079205; 
- Fri, 13 Aug 2021 08:21:19 -0700 (PDT)
-Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id d4sm921145ilo.29.2021.08.13.08.21.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 08:21:18 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: gregkh@linuxfoundation.org, seanpaul@chromium.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Baron <jbaron@akamai.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Huang Rui <ray.huang@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Chengming Gui <Jack.Gui@amd.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Jim Cromie <jim.cromie@gmail.com>, John Clements <john.clements@amd.com>,
- Kevin Wang <kevin1.wang@amd.com>, Ashley Thomas <Ashley.Thomas2@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Wyatt Wood <Wyatt.Wood@amd.com>,
- Jessica Yu <jeyu@kernel.org>, Johan Hovold <johan@kernel.org>,
- Nick Desaulniers <ndesaulniers@gooogle.com>, Joe Perches <joe@perches.com>,
- Miguel Ojeda <ojeda@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Thomas Gleixner <tglx@linutronix.de>,
- Vitor Massaru Iha <vitor@massaru.org>, Sedat Dilek <sedat.dilek@gmail.com>,
- Julian Braha <julianbraha@gmail.com>, Marco Elver <elver@google.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Oliver Glitta <glittao@gmail.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Albert van der Linde <alinde@google.com>,
- Arvind Sankar <nivedita@alum.mit.edu>,
- Patricia Alfonso <trishalfonso@google.com>, Arnd Bergmann <arnd@arndb.de>,
- Johannes Berg <johannes.berg@intel.com>, Jiri Olsa <jolsa@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 9/9] dyndbg: RFC add tracer facility RFC
-Date: Fri, 13 Aug 2021 09:17:17 -0600
-Message-Id: <20210813151734.1236324-10-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210813151734.1236324-1-jim.cromie@gmail.com>
-References: <20210813151734.1236324-1-jim.cromie@gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D456E854;
+ Fri, 13 Aug 2021 15:18:10 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10075"; a="215303052"
+X-IronPort-AV: E=Sophos;i="5.84,319,1620716400"; d="scan'208";a="215303052"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2021 08:18:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,319,1620716400"; d="scan'208";a="528598748"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by fmsmga002.fm.intel.com with ESMTP; 13 Aug 2021 08:18:09 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Fri, 13 Aug 2021 08:18:09 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Fri, 13 Aug 2021 08:18:08 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10 via Frontend Transport; Fri, 13 Aug 2021 08:18:08 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.10; Fri, 13 Aug 2021 08:18:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eLbwJekuxAKwqwM9Ry7OJRq4xJZKswHF/zEtDGDXFXXmyfJ7oQPVRVZONMlClmIkHT9qIctj5ybSob3iyU08+t2Qxsx0SOLjBRmyZAERd6LTX9dqSpwDcGCu7ym61CVTvym4Y8TwWHSfDIveSQuZ6SjIOvbiSDAOU57SZ91OpPWoRnK6UfcgY8KVGkGtMDDraMnQMNH213oIuC5zUbUOZnl2DsW5783PfoBnADd2DXsxO/4sHp4oSCRx+XeUmAkqw8ydpt4tK8Yo9sr0nIr08ClKp0j3SotOvs+JYDx3+JuGhXUqlACGtaRV7XlTD/o+GBPpdmn5YviQTu1K/q0CIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AY93p2nj2ttkQE2Wh37dFpM0IcOAPZjxHIaeaIdFD/g=;
+ b=D+Llwyii4YTDV0+nToR+g49kHKnZQ9EllDjv0zZqXnC7HZrW9deVRANpr9AgDBttUdW/HCJ17VVhzHJ1rPFWWU1wTupyGVgMll0wuEj+qDyetN+PQEUqLYZcRUg9IB98wbXwXlmlJp6mX/krveC2txD3gUL+tK9VX08ynlQiy3GwXUC13QdOw4L31KeEkZtOOrbbdX1U8Xx2Aassg10P0x9zcLEeWbOmMfLb9u0osHbUoOu6RGOJ8aJX9QwKR4UOTRFKLmjpRW/MdtpceNiWCCI6eiRAyAUmyzSw08SxweO8icjaY4RkZhV/QP0Pg4jTeE0xIXYBvgpa+qoTu+ZbkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AY93p2nj2ttkQE2Wh37dFpM0IcOAPZjxHIaeaIdFD/g=;
+ b=IAD72d8Nl+QTrQ0QQTheQhqBhMTvcRO0oW0YRpaY+x7j4NhvhAcbzHvfE3cSVqwasmx/yvPsH4vm9OO+D9oFZFMXfIZHcFlWX1aVicdpYl7e7oZ7ko0NCq6e/R/3WYFo0rDWhl954rNF/psVZ8tSnXkMXdCOkQiPhYDHqhjfJBA=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ DM5PR11MB1851.namprd11.prod.outlook.com (2603:10b6:3:114::18) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4415.15; Fri, 13 Aug 2021 15:18:06 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::b96b:79f6:c1fb:13ff]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::b96b:79f6:c1fb:13ff%7]) with mapi id 15.20.4415.019; Fri, 13 Aug 2021
+ 15:18:06 +0000
+Subject: Re: [Intel-gfx] [PATCH v6 10/15] drm/i915/pxp: interfaces for using
+ protected objects
+To: Daniel Vetter <daniel@ffwll.ch>
+CC: <intel-gfx@lists.freedesktop.org>, Daniel Vetter
+ <daniel.vetter@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>,
+ <dri-devel@lists.freedesktop.org>, Bommu Krishnaiah
+ <krishnaiah.bommu@intel.com>
+References: <20210729020106.18346-1-daniele.ceraolospurio@intel.com>
+ <20210729020106.18346-11-daniele.ceraolospurio@intel.com>
+ <YRaDwS+dUMjbgd+z@phenom.ffwll.local>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <a371dac0-1a5d-bf96-1193-7aac28d97b9d@intel.com>
+Date: Fri, 13 Aug 2021 08:18:02 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
+In-Reply-To: <YRaDwS+dUMjbgd+z@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: MWHPR04CA0049.namprd04.prod.outlook.com
+ (2603:10b6:300:6c::11) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.65] (99.72.232.53) by
+ MWHPR04CA0049.namprd04.prod.outlook.com (2603:10b6:300:6c::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4415.14 via Frontend Transport; Fri, 13 Aug 2021 15:18:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0aa39d79-aa08-4329-666c-08d95e6d8d30
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1851:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR11MB1851CA0E5DC1DCA5084511CFF4FA9@DM5PR11MB1851.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v4M9TBg7UjB6atKjpakbq3Q4kJM4jin+zys4zBhAeQHtcpRMNkokzBcVoygweAo/xRY7nC46nbAWIF3RCRglDN4164rHrKfEmu7RKWvZ3caJf2XFs4Vkpn+HHkFzXP2uFF4IjI8TH0cbVFr6Zje4kBNS/YT7GaXaHhuQtX83XLie5j2m7gV+dK85cAEQFehAyETxJq0sh41K9duW+73nYDph/j///v3qweSnEi9osgkz29Xl3A6uYrc1voINUJmo8ReLQLTob4W1HC3+z0qtEG6ZUbPjM11QbxovEsbZMxJX14TAjhQIBNhwXI/bEHhit2u5a7A7YFw3MW9owPccsXHYApEMNK72WXNcyr0t8Lds+K5dTVI2CLQMS80sbh6toTP7zZnUZ/2ZzjZshfGSJsntIQDCWfmYkQpX0J8ZtpSMd2JgV+BYx0pFCxUQoMwmLw0QDnPXVF6cVDqfPel9y3BFptnzC+wofD+cFBEvC3/JTGlP5NeKMbkXkcTSH4RGwCrBJtyfR7EksoIE9mZsigwD9PDLtn7CL2DgM5EVhWjybBSmGM+kmpwRusLcHEqlE0TPTuJvcX04EUxsRyF0XMtVAUqILLqbtPPMs1Uh4dU5Yfd8HQcKLcmG6vnHeZ/Dh1jEnZf/ST2XSpBXPPNtpwrRTGtFbPK6RxhZA3/sJt+HYxmVsrVHSWVdFG6p7TRPmHdDdbM5hy9fLiYBrEktBO0H+CbG79gpSfHA1XK5YVo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(366004)(39860400002)(376002)(346002)(66476007)(66946007)(66556008)(26005)(83380400001)(956004)(2906002)(5660300002)(31686004)(53546011)(6666004)(107886003)(36756003)(316002)(8936002)(16576012)(186003)(6916009)(6486002)(8676002)(478600001)(38100700002)(4326008)(54906003)(2616005)(966005)(31696002)(30864003)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDJFUE82UFp4MjVMbnZWZXJEY0pCeWRBZE1BVWhST0dqaTBxVGJYM2V5emJo?=
+ =?utf-8?B?NHoyZmJITEpuTmZIanFTRXhXa3dtZVN2ak54YzVJY016a3RhVkdzYkkyQ1FW?=
+ =?utf-8?B?NWs2N2kzMU5MK3kzdEIrckRaVTkzeGFJZTJEemZSOUp1NGs5M0FWZlovQ3lt?=
+ =?utf-8?B?T0dHZGJtVUswYlRsQkpCRDdBekE0RUpCNzJVb3VnQXdTVlk2cm84L0xXd2Jr?=
+ =?utf-8?B?Z0xuT3BCZVVpaytCWkh3VGtzZ3BCVFA2NmxkelRvWldhK1EvSlhOL2VXcWFX?=
+ =?utf-8?B?NG16UnRhMXFvMm4vbkp3ZlNra2ZZSmxVUi9SaklKbEZSM1lnVUpjaTRLTWY2?=
+ =?utf-8?B?bVFIbVE3dHJ6VHNRM3JQNy9IeVZaTFEzdnBnZVF0WGVHb2hFUUFFSE93Qng4?=
+ =?utf-8?B?ekdHNjk0OXdCVW1KUWM5RmUyQVBDekp6OVdTNVFwcit1aVZXbXFVZDg1blFW?=
+ =?utf-8?B?L3hiUm9jM0RhL1BJbVl6djdEVVRDR0FhaDNvQkxQRzd3UmxUU3hielplSzVu?=
+ =?utf-8?B?TXJwNjRuZytuQjU0RjRvSENGRE9qY28wYktsYUxLUE1nVDY5OWk5ay9TWXY1?=
+ =?utf-8?B?aDB6R2huVzB4V1prSGZOSDY0MWtLSmVXUEh1bExFVDF6SEdlc05RU0RBd0Qz?=
+ =?utf-8?B?S25wTHVoY28rWk16SGdpUTd3dWJCcGRkdE9IVWIzWkZMWVZyUWFmT0Yxam5x?=
+ =?utf-8?B?T2kvR0dLRm1vaXJJdE9xYXlhODhsSVVtOGFRczNWM2QzTElXL2g3S1BMeWNE?=
+ =?utf-8?B?RU4wVHRqaHk5enQrREtuNEJNejFjNnlnNXk2SXN0aUNUODZ2cW5hTlVVa0Jl?=
+ =?utf-8?B?MkFPcTFWOVJEa1g5eFhJcTB4NkpiNnJZZUNTSEZNNWI4RFpTUDc5YUdqN1ZZ?=
+ =?utf-8?B?aDNXQjdwOVhWZUN5ZnZKYWx2S2lwMXZ4Rk9KbkUxUXFjbUR1cm5iMFlLK2NU?=
+ =?utf-8?B?OTF5NlVITlN3cThqaUtrZGJpbVFaTUZNRng2Q0hDeDlncFBOMEZUQTl4NFp1?=
+ =?utf-8?B?TTRJbkRWYlpaSGZnTWYwbXJyaU56d3kydVkwaHl5R1BtVUhtTnBxNWJRaEtj?=
+ =?utf-8?B?cmxCVHJMS0tPVGtlTmRyVHdQM0RZeG5vUklWNUdQVVZ5a1ovSHN0K0VVQ2Mv?=
+ =?utf-8?B?YnJLVStuQlZET0xZcTBYdTJOVS9JK1ZCMXBnOFlnTjhVVUhBSFpWSi9pNHht?=
+ =?utf-8?B?RG1CMFQxdkhzdDcrMk54dkxodEJhY2lJbFZ2b3ZJUTlxOUcwQmNpcnlhdlJQ?=
+ =?utf-8?B?SDFvMlRpZ0lKWDV1YkFWbFBsTVZIbjZNNStIWUNmRUtHc1hOeGQ2OTN2QmRD?=
+ =?utf-8?B?TG80SlBQWTQyRGFReUVYTTlMZXFScVRadm1KL1p2ZzhtRXUyRjNTLzhjL0do?=
+ =?utf-8?B?Y1VPQnFJdTk1aExZOEUrSDNrYW03UG0wR0ZuSWkyMmQvYy96Ujd0VnlOcnky?=
+ =?utf-8?B?c2NidVJRMDFsdnVtNC9naytCK2l6dC9ZRlRSUTZsQlZKV3REbEcxY3JSYWw0?=
+ =?utf-8?B?bFlrbURuVkhDSnRMYUtPWEdOcVNNWlRpa095T2RTRExuMTFGTFFQTEVub2l6?=
+ =?utf-8?B?L2JTTFd2N3VmQnhOMHJRQ3hPSzRvNXpiZWswOVFyMTBETllpdDFzWGF6LzVr?=
+ =?utf-8?B?SC9mcjdJUFRna2pVZnM1WXByMC8xaHhGL3RVTTMyeGZRT2FxOGs1SHhEazRV?=
+ =?utf-8?B?ZWF6dTh0ajgwVFVjSjYxSkp4TU0rSmV2b0xMQk9iRkdSaldCemZnQUFYQkZ1?=
+ =?utf-8?Q?ByNJkhB3hYy7Uvhx/8rOYn8YUK6r9cW9Qmn/ViZ?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0aa39d79-aa08-4329-666c-08d95e6d8d30
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2021 15:18:06.4275 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cUWYSW3uYPSsAJhv+pLc+HSAjXE/9SqCzqY+DPjFncThc1k0Yckw0NPC0IfFe6WLLgZJdMktmA1xCn3FWhOq6ZYOeSLisYV7nA1R+moW/jA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1851
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,689 +161,889 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sean Paul seanpaul@chromium.org proposed, in
-https://patchwork.freedesktop.org/series/78133/
-drm/trace: Mirror DRM debug logs to tracefs
 
-That patchset's goal is to be able to duplicate the debug stream to a
-tracing destination, by splitting drm_debug_enabled() into syslog &
-trace flavors, and enabling them separately.  That clashes rather
-deeply with this patchset's goal; to avoid drm_debug_enabled() using
-dyndbg.
 
-Instead, this puts the print-to-trace decision in dyndbg, after the
-is-it-enabled test (which is a noop), so it has near zero additional
-cost (other than memory increase); the print-to-trace test is only
-done on enabled callsites.
+On 8/13/2021 7:37 AM, Daniel Vetter wrote:
+> On Wed, Jul 28, 2021 at 07:01:01PM -0700, Daniele Ceraolo Spurio wrote:
+>> This api allow user mode to create protected buffers and to mark
+>> contexts as making use of such objects. Only when using contexts
+>> marked in such a way is the execution guaranteed to work as expected.
+>>
+>> Contexts can only be marked as using protected content at creation time
+>> (i.e. the parameter is immutable) and they must be both bannable and not
+>> recoverable.
+>>
+>> All protected objects and contexts that have backing storage will be
+>> considered invalid when the PXP session is destroyed and all new
+>> submissions using them will be rejected. All intel contexts within the
+>> invalidated gem contexts will be marked banned. A new flag has been
+>> added to the RESET_STATS ioctl to report the context invalidation to
+>> userspace.
+>>
+>> This patch was previously sent as 2 separate patches, which have been
+>> squashed following a request to have all the uapi in a single patch.
+>> I've retained the s-o-b from both.
+>>
+>> v5: squash patches, rebase on proto_ctx, update kerneldoc
+>>
+>> v6: rebase on obj create_ext changes
+>>
+>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> Signed-off-by: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+>> Cc: Daniel Vetter <daniel.vetter@intel.com>
+>> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> #v5
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 68 ++++++++++++--
+>>   drivers/gpu/drm/i915/gem/i915_gem_context.h   | 18 ++++
+>>   .../gpu/drm/i915/gem/i915_gem_context_types.h |  2 +
+>>   drivers/gpu/drm/i915/gem/i915_gem_create.c    | 75 ++++++++++++----
+>>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 40 ++++++++-
+>>   drivers/gpu/drm/i915/gem/i915_gem_object.c    |  6 ++
+>>   drivers/gpu/drm/i915/gem/i915_gem_object.h    | 12 +++
+>>   .../gpu/drm/i915/gem/i915_gem_object_types.h  |  9 ++
+>>   drivers/gpu/drm/i915/pxp/intel_pxp.c          | 89 +++++++++++++++++++
+>>   drivers/gpu/drm/i915/pxp/intel_pxp.h          | 15 ++++
+>>   drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  3 +
+>>   drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  5 ++
+>>   include/uapi/drm/i915_drm.h                   | 55 +++++++++++-
+>>   13 files changed, 371 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> index cff72679ad7c..0cd3e2d06188 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> @@ -77,6 +77,8 @@
+>>   #include "gt/intel_gpu_commands.h"
+>>   #include "gt/intel_ring.h"
+>>   
+>> +#include "pxp/intel_pxp.h"
+>> +
+>>   #include "i915_gem_context.h"
+>>   #include "i915_trace.h"
+>>   #include "i915_user_extensions.h"
+>> @@ -241,6 +243,25 @@ static int proto_context_set_persistence(struct drm_i915_private *i915,
+>>   	return 0;
+>>   }
+>>   
+>> +static int proto_context_set_protected(struct drm_i915_private *i915,
+>> +				       struct i915_gem_proto_context *pc,
+>> +				       bool protected)
+>> +{
+>> +	int ret = 0;
+>> +
+>> +	if (!intel_pxp_is_enabled(&i915->gt.pxp))
+>> +		ret = -ENODEV;
+>> +	else if (!protected)
+>> +		pc->user_flags &= ~BIT(UCONTEXT_PROTECTED);
+>> +	else if ((pc->user_flags & BIT(UCONTEXT_RECOVERABLE)) ||
+>> +		 !(pc->user_flags & BIT(UCONTEXT_BANNABLE)))
+>> +		ret = -EPERM;
+>> +	else
+>> +		pc->user_flags |= BIT(UCONTEXT_PROTECTED);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>>   static struct i915_gem_proto_context *
+>>   proto_context_create(struct drm_i915_private *i915, unsigned int flags)
+>>   {
+>> @@ -686,6 +707,8 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+>>   			ret = -EPERM;
+>>   		else if (args->value)
+>>   			pc->user_flags |= BIT(UCONTEXT_BANNABLE);
+>> +		else if (pc->user_flags & BIT(UCONTEXT_PROTECTED))
+>> +			ret = -EPERM;
+>>   		else
+>>   			pc->user_flags &= ~BIT(UCONTEXT_BANNABLE);
+>>   		break;
+>> @@ -693,10 +716,12 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+>>   	case I915_CONTEXT_PARAM_RECOVERABLE:
+>>   		if (args->size)
+>>   			ret = -EINVAL;
+>> -		else if (args->value)
+>> -			pc->user_flags |= BIT(UCONTEXT_RECOVERABLE);
+>> -		else
+>> +		else if (!args->value)
+>>   			pc->user_flags &= ~BIT(UCONTEXT_RECOVERABLE);
+>> +		else if (pc->user_flags & BIT(UCONTEXT_PROTECTED))
+>> +			ret = -EPERM;
+>> +		else
+>> +			pc->user_flags |= BIT(UCONTEXT_RECOVERABLE);
+>>   		break;
+>>   
+>>   	case I915_CONTEXT_PARAM_PRIORITY:
+>> @@ -724,6 +749,11 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+>>   						    args->value);
+>>   		break;
+>>   
+>> +	case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
+>> +		ret = proto_context_set_protected(fpriv->dev_priv, pc,
+>> +						  args->value);
+>> +		break;
+>> +
+>>   	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+>>   	case I915_CONTEXT_PARAM_BAN_PERIOD:
+>>   	case I915_CONTEXT_PARAM_RINGSIZE:
+>> @@ -1798,6 +1828,18 @@ static int set_priority(struct i915_gem_context *ctx,
+>>   	return 0;
+>>   }
+>>   
+>> +static int get_protected(struct i915_gem_context *ctx,
+>> +			 struct drm_i915_gem_context_param *args)
+>> +{
+>> +	if (!intel_pxp_is_enabled(&ctx->i915->gt.pxp))
+>> +		return -ENODEV;
+>> +
+>> +	args->size = 0;
+>> +	args->value = i915_gem_context_uses_protected_content(ctx);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   static int ctx_setparam(struct drm_i915_file_private *fpriv,
+>>   			struct i915_gem_context *ctx,
+>>   			struct drm_i915_gem_context_param *args)
+>> @@ -1821,6 +1863,8 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+>>   			ret = -EPERM;
+>>   		else if (args->value)
+>>   			i915_gem_context_set_bannable(ctx);
+>> +		else if (i915_gem_context_uses_protected_content(ctx))
+>> +			ret = -EPERM; /* can't clear this for protected contexts */
+>>   		else
+>>   			i915_gem_context_clear_bannable(ctx);
+>>   		break;
+>> @@ -1828,10 +1872,12 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+>>   	case I915_CONTEXT_PARAM_RECOVERABLE:
+>>   		if (args->size)
+>>   			ret = -EINVAL;
+>> -		else if (args->value)
+>> -			i915_gem_context_set_recoverable(ctx);
+>> -		else
+>> +		else if (!args->value)
+>>   			i915_gem_context_clear_recoverable(ctx);
+>> +		else if (i915_gem_context_uses_protected_content(ctx))
+>> +			ret = -EPERM; /* can't set this for protected contexts */
+>> +		else
+>> +			i915_gem_context_set_recoverable(ctx);
+>>   		break;
+>>   
+>>   	case I915_CONTEXT_PARAM_PRIORITY:
+>> @@ -1846,6 +1892,7 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+>>   		ret = set_persistence(ctx, args);
+>>   		break;
+>>   
+>> +	case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
+>>   	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+>>   	case I915_CONTEXT_PARAM_BAN_PERIOD:
+>>   	case I915_CONTEXT_PARAM_RINGSIZE:
+>> @@ -2174,6 +2221,10 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
+>>   		args->value = i915_gem_context_is_persistent(ctx);
+>>   		break;
+>>   
+>> +	case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
+>> +		ret = get_protected(ctx, args);
+>> +		break;
+>> +
+>>   	case I915_CONTEXT_PARAM_NO_ZEROMAP:
+>>   	case I915_CONTEXT_PARAM_BAN_PERIOD:
+>>   	case I915_CONTEXT_PARAM_ENGINES:
+>> @@ -2250,6 +2301,11 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
+>>   	args->batch_active = atomic_read(&ctx->guilty_count);
+>>   	args->batch_pending = atomic_read(&ctx->active_count);
+>>   
+>> +	/* re-use args->flags for output flags */
+>> +	args->flags = 0;
+>> +	if (i915_gem_context_invalidated(ctx))
+>> +		args->flags |= I915_CONTEXT_INVALIDATED;
+>> +
+>>   	i915_gem_context_put(ctx);
+>>   	return 0;
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>> index 18060536b0c2..d932a70122fa 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>> @@ -108,6 +108,24 @@ i915_gem_context_clear_user_engines(struct i915_gem_context *ctx)
+>>   	clear_bit(CONTEXT_USER_ENGINES, &ctx->flags);
+>>   }
+>>   
+>> +static inline bool
+>> +i915_gem_context_invalidated(const struct i915_gem_context *ctx)
+>> +{
+>> +	return test_bit(CONTEXT_INVALID, &ctx->flags);
+>> +}
+>> +
+>> +static inline void
+>> +i915_gem_context_set_invalid(struct i915_gem_context *ctx)
+>> +{
+>> +	set_bit(CONTEXT_INVALID, &ctx->flags);
+> Do we _really_ need a new bit in this already very complex state
+> machinery, and can't we reuse the BANNED flag instead?
+>
+> This ctx->flags is atomic, unorderd, and that means you need barriers and
+> everything.
+>
+> If you don't actually need the atomic state bit machinery because you're
+> using simple locking, then pls use your own boolean, and document by which
+> lock it's protected.
 
-The basic elements:
+The BANNED flag is at the intel_context level, while I needed something 
+at the gem_context level to report out. Can make it a bool if you prefer.
+The invalidation process is inherently racy (the teardown can always 
+occur after we've checked the flag) so no amount of locking can help 
+there. The flag itself is only set once and never cleared, so no risk of 
+a set and clear racing.
 
- - add a new struct _ddebug member: (*tracer)(char *format, ...)
- - add a new T flag to enable tracer
- - adjust the static-key-enable/disable condition for (p|T)
- - if (p) before printk, since T enables too.
- - if (T) call tracer if its true
+>
+>> +}
+>> +
+>> +static inline bool
+>> +i915_gem_context_uses_protected_content(const struct i915_gem_context *ctx)
+>> +{
+>> +	return test_bit(UCONTEXT_PROTECTED, &ctx->user_flags);
+> For immutable state (I really hope this is immutable) pls don't reuse the
+> atomic bitfield of mutable state, but create a flag of your own.
 
- = int dynamic_debug_register_tracer(query, modname, tracer);
- = int dynamic_debug_unregister_tracer(query, modname, cookie);
+It is immutable. Should we have a ctx->immutable_flags, or better a bool?
 
-This new interface lets clients set/unset a tracer function on each
-callsite matching the query, for example: "drm:atomic:fail:".
+>
+> Also please document all the rules around how this is set/changed in the
+> kerneldoc header comments for the data structure. Finally if you never set
+> it except at creation.
+>
+>> +}
+>> +
+>>   /* i915_gem_context.c */
+>>   void i915_gem_init__contexts(struct drm_i915_private *i915);
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+>> index 94c03a97cb77..1aa2290aa3c7 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+>> @@ -301,6 +301,7 @@ struct i915_gem_context {
+>>   #define UCONTEXT_BANNABLE		2
+>>   #define UCONTEXT_RECOVERABLE		3
+>>   #define UCONTEXT_PERSISTENCE		4
+>> +#define UCONTEXT_PROTECTED		5
+>>   
+>>   	/**
+>>   	 * @flags: small set of booleans
+>> @@ -308,6 +309,7 @@ struct i915_gem_context {
+>>   	unsigned long flags;
+>>   #define CONTEXT_CLOSED			0
+>>   #define CONTEXT_USER_ENGINES		1
+>> +#define CONTEXT_INVALID			2
+>>   
+>>   	/** @mutex: guards everything that isn't engines or handles_vma */
+>>   	struct mutex mutex;
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>> index 23fee13a3384..0e48629316bb 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>> @@ -6,6 +6,7 @@
+>>   #include "gem/i915_gem_ioctls.h"
+>>   #include "gem/i915_gem_lmem.h"
+>>   #include "gem/i915_gem_region.h"
+>> +#include "pxp/intel_pxp.h"
+>>   
+>>   #include "i915_drv.h"
+>>   #include "i915_trace.h"
+>> @@ -82,21 +83,11 @@ static int i915_gem_publish(struct drm_i915_gem_object *obj,
+>>   	return 0;
+>>   }
+>>   
+>> -/**
+>> - * Creates a new object using the same path as DRM_I915_GEM_CREATE_EXT
+>> - * @i915: i915 private
+>> - * @size: size of the buffer, in bytes
+>> - * @placements: possible placement regions, in priority order
+>> - * @n_placements: number of possible placement regions
+>> - *
+>> - * This function is exposed primarily for selftests and does very little
+>> - * error checking.  It is assumed that the set of placement regions has
+>> - * already been verified to be valid.
+>> - */
+>> -struct drm_i915_gem_object *
+>> -__i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
+>> -			      struct intel_memory_region **placements,
+>> -			      unsigned int n_placements)
+>> +static struct drm_i915_gem_object *
+>> +__i915_gem_object_create_user_ext(struct drm_i915_private *i915, u64 size,
+>> +				  struct intel_memory_region **placements,
+>> +				  unsigned int n_placements,
+>> +				  unsigned int ext_flags)
+>>   {
+>>   	struct intel_memory_region *mr = placements[0];
+>>   	struct drm_i915_gem_object *obj;
+>> @@ -135,6 +126,12 @@ __i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
+>>   
+>>   	GEM_BUG_ON(size != obj->base.size);
+>>   
+>> +	/* Add any flag set by create_ext options */
+>> +	flags |= ext_flags;
+>> +
+>> +	if (i915_gem_object_is_protected(obj))
+>> +		intel_pxp_object_add(obj);
+>> +
+>>   	trace_i915_gem_object_create(obj);
+>>   	return obj;
+>>   
+>> @@ -145,6 +142,26 @@ __i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
+>>   	return ERR_PTR(ret);
+>>   }
+>>   
+>> +/**
+>> + * Creates a new object using the same path as DRM_I915_GEM_CREATE_EXT
+>> + * @i915: i915 private
+>> + * @size: size of the buffer, in bytes
+>> + * @placements: possible placement regions, in priority order
+>> + * @n_placements: number of possible placement regions
+>> + *
+>> + * This function is exposed primarily for selftests and does very little
+>> + * error checking.  It is assumed that the set of placement regions has
+>> + * already been verified to be valid.
+>> + */
+>> +struct drm_i915_gem_object *
+>> +__i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
+>> +			      struct intel_memory_region **placements,
+>> +			      unsigned int n_placements)
+>> +{
+>> +	return __i915_gem_object_create_user_ext(i915, size, placements,
+>> +						 n_placements, 0);
+>> +}
+>> +
+>>   int
+>>   i915_gem_dumb_create(struct drm_file *file,
+>>   		     struct drm_device *dev,
+>> @@ -224,6 +241,7 @@ struct create_ext {
+>>   	struct drm_i915_private *i915;
+>>   	struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
+>>   	unsigned int n_placements;
+>> +	unsigned long flags;
+>>   };
+>>   
+>>   static void repr_placements(char *buf, size_t size,
+>> @@ -356,8 +374,28 @@ static int ext_set_placements(struct i915_user_extension __user *base,
+>>   	return set_placements(&ext, data);
+>>   }
+>>   
+>> +static int ext_set_protected(struct i915_user_extension __user *base, void *data)
+>> +{
+>> +	struct drm_i915_gem_create_ext_protected_content ext;
+>> +	struct create_ext *ext_data = data;
+>> +
+>> +	if (copy_from_user(&ext, base, sizeof(ext)))
+>> +		return -EFAULT;
+>> +
+>> +	if (ext.flags)
+>> +		return -EINVAL;
+>> +
+>> +	if (!intel_pxp_is_enabled(&ext_data->i915->gt.pxp))
+>> +		return -ENODEV;
+>> +
+>> +	ext_data->flags |= I915_BO_PROTECTED;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   static const i915_user_extension_fn create_extensions[] = {
+>>   	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
+>> +	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
+>>   };
+>>   
+>>   /**
+>> @@ -392,9 +430,10 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>>   		ext_data.n_placements = 1;
+>>   	}
+>>   
+>> -	obj = __i915_gem_object_create_user(i915, args->size,
+>> -					    ext_data.placements,
+>> -					    ext_data.n_placements);
+>> +	obj = __i915_gem_object_create_user_ext(i915, args->size,
+>> +						ext_data.placements,
+>> +						ext_data.n_placements,
+>> +						ext_data.flags);
+>>   	if (IS_ERR(obj))
+>>   		return PTR_ERR(obj);
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> index 1ed7475de454..04f33d163340 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> @@ -21,6 +21,8 @@
+>>   #include "gt/intel_gt_pm.h"
+>>   #include "gt/intel_ring.h"
+>>   
+>> +#include "pxp/intel_pxp.h"
+>> +
+>>   #include "i915_drv.h"
+>>   #include "i915_gem_clflush.h"
+>>   #include "i915_gem_context.h"
+>> @@ -751,6 +753,11 @@ static int eb_select_context(struct i915_execbuffer *eb)
+>>   	if (unlikely(IS_ERR(ctx)))
+>>   		return PTR_ERR(ctx);
+>>   
+>> +	if (i915_gem_context_invalidated(ctx)) {
+>> +		i915_gem_context_put(ctx);
+>> +		return -EACCES;
+>> +	}
+>> +
+>>   	eb->gem_context = ctx;
+>>   	if (rcu_access_pointer(ctx->vm))
+>>   		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
+>> @@ -819,7 +826,7 @@ static struct i915_vma *eb_lookup_vma(struct i915_execbuffer *eb, u32 handle)
+>>   	do {
+>>   		struct drm_i915_gem_object *obj;
+>>   		struct i915_vma *vma;
+>> -		int err;
+>> +		int err = 0;
+>>   
+>>   		rcu_read_lock();
+>>   		vma = radix_tree_lookup(&eb->gem_context->handles_vma, handle);
+>> @@ -833,6 +840,26 @@ static struct i915_vma *eb_lookup_vma(struct i915_execbuffer *eb, u32 handle)
+>>   		if (unlikely(!obj))
+>>   			return ERR_PTR(-ENOENT);
+>>   
+>> +		/*
+>> +		 * If the user has opted-in for protected-object tracking, make
+>> +		 * sure the object encryption can be used.
+>> +		 * We only need to do this when the object is first used with
+>> +		 * this context, because the context itself will be banned when
+>> +		 * the protected objects become invalid.
+>> +		 */
+>> +		if (i915_gem_context_uses_protected_content(eb->gem_context) &&
+>> +		    i915_gem_object_is_protected(obj)) {
+>> +			if (!intel_pxp_is_active(&vm->gt->pxp))
+>> +				err = -ENODEV;
+>> +			else if (!i915_gem_object_has_valid_protection(obj))
+>> +				err = -ENOEXEC;
+>> +
+>> +			if (err) {
+>> +				i915_gem_object_put(obj);
+>> +				return ERR_PTR(err);
+>> +			}
+>> +		}
+>> +
+>>   		vma = i915_vma_instance(obj, vm, NULL);
+>>   		if (IS_ERR(vma)) {
+>>   			i915_gem_object_put(obj);
+>> @@ -2752,6 +2779,17 @@ eb_select_engine(struct i915_execbuffer *eb)
+>>   
+>>   	intel_gt_pm_get(ce->engine->gt);
+>>   
+>> +	if (i915_gem_context_uses_protected_content(eb->gem_context)) {
+>> +		err = intel_pxp_wait_for_arb_start(&ce->engine->gt->pxp);
+>> +		if (err)
+>> +			goto err;
+>> +
+>> +		if (i915_gem_context_invalidated(eb->gem_context)) {
+>> +			err = -EACCES;
+> Shouldn't the normal banned context handling takee care of anything that
+> slips through? Rolling your own racy invalidation checks doesn't look like
+> a good idea.
 
-Clients are expected to unregister the same callsites they register (a
-cookie), allowing protection of each client's dyndbg-state setup
-against overwrites by others.
+This is to bail out early and report the error to userspace. If the 
+invalidation flag gets set after this check then we'll still catch it 
+later as you said, but IMO there is value in bailing out early when 
+possible, especially since it is a low-effort check. The invalidation 
+flag can't be cleared, so no risk of rejecting something that shouldn't be.
 
-Intended Behavior: (things are in flux, RFC)
+Daniele
 
-- register sets empty slot, doesnt overwrite
-  the query selects callsites, and sets +T (grammar requires +-action)
-
-- register allows same-tracer over-set wo warn
-  2nd register can then enable superset, subset, disjoint set
-
-- unregister clears slot if it matches cookie/tracer
-  query selects set, -T (as tested)
-  tolerates over-clears
-
-- dd-exec-queries(+/-T) can modify the enablements
-  not sure its needed, but it falls out..
-
-The code is currently in-line in ddebug_change(), to be moved to
-separate fn, rc determines flow, may also veto/alter changes by
-altering flag-settings - tbd.
-
-TBD: Im not sure what happens when exec-queries(+T) hits a site wo a
-tracer (silence I think. maybe not ideal).
-
-internal call-chain gets a tracer param:
-					New arg:
-public: dynamic_debug_exec_queries
-	ro-string copy moved ...
-1	ddebug_exec_queries		tracer=NULL
-	... to here
-2	ddebug_exec_query		tracer=NULL
-
-call-chain gets (re)used: with !NULL
-
-public: dynamic_debug_register_tracer	tracer=client's
-	w ro-string
-1	ddebug_exec_queries		tracer
-...
-
-SELFTEST: test_dynamic_debug.ko:
-
-Uses the tracer facility to do a selftest:
-
-- A custom tracer counts the number of calls (of T-enabled pr_debugs),
-- do_debugging(x) calls a set of categorized pr_debugs x times
-
-- test registers the tracer on the function,
-  then iteratively:
-  manipulates dyndbg states via query-cmds
-  runs do_debugging()
-  counts enabled callsite executions
-  reports mismatches
-
-- modprobe test_dynamic_debug use_bad_tracer=1
-  attaches a bad/recursive tracer
-  Bad Things Happen.
-  has thrown me interesting panics.
-
-NOTES:
-
-This needs more work. RFC.
-
-ERRORS (or WARNINGS):
-
-It should be an error to +T a callsite which has no aux_print set (ie
-already registered with a query that selected that callsite).  This
-tacitly enforces registration.
-
-Then +T,-T can toggle those aux_print callsites (or subsets of them)
-to tailor the debug-stream for the purpose.  Controlling flow is the
-best work limiter.
-
----
-v4+: (this patch sent after (on top of) v4)
-
-. fix "too many arguments to function", and name the args:
-  int (*aux_print)(const char *fmt, char *prefix, char *label, void *);
-   prefix : is a slot for dynamic_emit_prefix, or for custom buffer insert
-   label  : for builtin-caller used by drm-trace-print
-   void*  : vaf, add type constraint later.
-
-. fix printk (to syslog) needs if (+p), since +T also enables
-. add prototypes for un/register_aux_print
-. change iface names: s/aux_print/tracer/
-. also s/trace_print/tracer/
-. struct va_format *vaf - tighten further ?
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- include/linux/dynamic_debug.h |  32 ++++-
- lib/Kconfig.debug             |  10 ++
- lib/Makefile                  |   1 +
- lib/dynamic_debug.c           | 109 +++++++++++----
- lib/test_dynamic_debug.c      | 247 ++++++++++++++++++++++++++++++++++
- 5 files changed, 372 insertions(+), 27 deletions(-)
- create mode 100644 lib/test_dynamic_debug.c
-
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index 42cfb37d4870..cbcb1c94cec3 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -20,6 +20,7 @@ struct _ddebug {
- 	const char *function;
- 	const char *filename;
- 	const char *format;
-+	int (*tracer)(const char *fmt, char *prefix, char *label, struct va_format *vaf);
- 	unsigned int lineno:18;
- 	/*
- 	 * The flags field controls the behaviour at the callsite.
-@@ -27,7 +28,11 @@ struct _ddebug {
- 	 * writes commands to <debugfs>/dynamic_debug/control
- 	 */
- #define _DPRINTK_FLAGS_NONE	0
--#define _DPRINTK_FLAGS_PRINT	(1<<0) /* printk() a message using the format */
-+#define _DPRINTK_FLAGS_PRINT		(1<<0) /* printk() a message */
-+#define _DPRINTK_FLAGS_PRINT_TRACE	(1<<5) /* call (*tracer) */
-+
-+#define _DPRINTK_ENABLED (_DPRINTK_FLAGS_PRINT | _DPRINTK_FLAGS_PRINT_TRACE)
-+
- #define _DPRINTK_FLAGS_INCL_MODNAME	(1<<1)
- #define _DPRINTK_FLAGS_INCL_FUNCNAME	(1<<2)
- #define _DPRINTK_FLAGS_INCL_LINENO	(1<<3)
-@@ -279,4 +284,29 @@ extern const struct kernel_param_ops param_ops_dyndbg;
- #define _DD_cat_help_(pfx)
- #endif
- 
-+/**
-+ * dynamic_debug_register_tracer - register a "printer" function
-+ * @query: query-command string to select callsites getting the function
-+ * @tracer: &vprintf-ish accepting 3 char* ptrs & a vaf
-+ *
-+ * Attach a printer function to callsites selected by query.
-+ * If another printer is already attached, warn and skip, applying the
-+ * rest of the query.  This protects existing setups, while allowing
-+ * maximal coexistence of (mostly) non-competing listeners. RFC.
-+ */
-+int dynamic_debug_register_tracer(const char *query, const char *mod,
-+	int (*tracer) (const char *fmt, char *prefix, char *label, struct va_format *vaf));
-+/**
-+ * dynamic_debug_unregister_tracer - unregister your "printer" function
-+ * @query: query-command string to select callsites to reset
-+ * @cookie: reserved to validate unregisters against pirates
-+ *
-+ * Detach this printer function (@cookie) from callsites selected by
-+ * the query, when @cookie == callsite.  This protects existing
-+ * setups, while allowing maximal coexistence of (mostly)
-+ * non-competing listeners. RFC.
-+ */
-+int dynamic_debug_unregister_tracer(const char *query, const char *mod,
-+	int (*cookie) (const char *fmt, char *prefix, char *label, struct va_format *vaf));
-+
- #endif
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 5ddd575159fb..5038f81d3fc6 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2486,6 +2486,16 @@ config TEST_STATIC_KEYS
- 
- 	  If unsure, say N.
- 
-+config TEST_DYNAMIC_DEBUG
-+	tristate "Test DYNAMIC_DEBUG"
-+	depends on m
-+	depends on DYNAMIC_DEBUG
-+	help
-+	  Test the print_aux registration with a counting fn,
-+	  then test expected counts during the execution.
-+
-+	  If unsure, say N.
-+
- config TEST_KMOD
- 	tristate "kmod stress tester"
- 	depends on m
-diff --git a/lib/Makefile b/lib/Makefile
-index 5efd1b435a37..01c3c76980ba 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -82,6 +82,7 @@ obj-$(CONFIG_TEST_SORT) += test_sort.o
- obj-$(CONFIG_TEST_USER_COPY) += test_user_copy.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
- obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
-+obj-$(CONFIG_TEST_DYNAMIC_DEBUG) += test_dynamic_debug.o
- obj-$(CONFIG_TEST_PRINTF) += test_printf.o
- obj-$(CONFIG_TEST_SCANF) += test_scanf.o
- obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 6bc645a663e7..9ba180976636 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -85,6 +85,7 @@ static inline const char *trim_prefix(const char *path)
- 
- static struct { unsigned flag:8; char opt_char; } opt_array[] = {
- 	{ _DPRINTK_FLAGS_PRINT, 'p' },
-+	{ _DPRINTK_FLAGS_PRINT_TRACE, 'T' },
- 	{ _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
- 	{ _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
- 	{ _DPRINTK_FLAGS_INCL_LINENO, 'l' },
-@@ -146,7 +147,8 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
-  * logs the changes.  Takes ddebug_lock.
-  */
- static int ddebug_change(const struct ddebug_query *query,
--			 struct flag_settings *modifiers)
-+			 struct flag_settings *modifiers,
-+			 int (*tracer)(const char *, char *, char *, struct va_format *))
- {
- 	int i;
- 	struct ddebug_table *dt;
-@@ -205,11 +207,43 @@ static int ddebug_change(const struct ddebug_query *query,
- 			newflags = (dp->flags & modifiers->mask) | modifiers->flags;
- 			if (newflags == dp->flags)
- 				continue;
-+
-+			/* handle T flag */
-+			if (newflags & _DPRINTK_FLAGS_PRINT_TRACE) {
-+				if (!tracer)
-+					v2pr_info("tracer enable\n");
-+				else {
-+					/* register attempt */
-+					if (!dp->tracer) {
-+						v2pr_info("register tracer\n");
-+						dp->tracer = tracer;
-+					}
-+					else if (tracer == dp->tracer)
-+						v2pr_info("tracer equal, ok\n");
-+					else
-+						pr_warn("tracer register error\n");
-+				}
-+			} else if (dp->flags & _DPRINTK_FLAGS_PRINT_TRACE) {
-+				if (!tracer)
-+					v2pr_info("ok: disabling\n");
-+				else {
-+					/* only unregister has a !!tracer */
-+					if (!dp->tracer)
-+						pr_warn("nok: tracer already unset\n");
-+
-+					else if (dp->tracer == tracer) {
-+						v2pr_info("ok: cookie match, unregistering\n");
-+						dp->tracer = NULL;
-+					}
-+					else
-+						pr_warn("nok: tracer cookie match fail\n");
-+				}
-+			}
- #ifdef CONFIG_JUMP_LABEL
--			if (dp->flags & _DPRINTK_FLAGS_PRINT) {
--				if (!(modifiers->flags & _DPRINTK_FLAGS_PRINT))
-+			if (dp->flags & _DPRINTK_ENABLED) {
-+				if (!(modifiers->flags & _DPRINTK_ENABLED))
- 					static_branch_disable(&dp->key.dd_key_true);
--			} else if (modifiers->flags & _DPRINTK_FLAGS_PRINT)
-+			} else if (modifiers->flags & _DPRINTK_ENABLED)
- 				static_branch_enable(&dp->key.dd_key_true);
- #endif
- 			dp->flags = newflags;
-@@ -482,7 +516,7 @@ static int ddebug_parse_flags(const char *str, struct flag_settings *modifiers)
- 	return 0;
- }
- 
--static int ddebug_exec_query(char *query_string, const char *modname)
-+static int ddebug_exec_query(char *query_string, const char *modname, void *tracer)
- {
- 	struct flag_settings modifiers = {};
- 	struct ddebug_query query = {};
-@@ -505,7 +539,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
- 		return -EINVAL;
- 	}
- 	/* actually go and implement the change */
--	nfound = ddebug_change(&query, &modifiers);
-+	nfound = ddebug_change(&query, &modifiers, tracer);
- 	vpr_info_dq(&query, nfound ? "applied" : "no-match");
- 
- 	return nfound;
-@@ -515,10 +549,19 @@ static int ddebug_exec_query(char *query_string, const char *modname)
-    last error or number of matching callsites.  Module name is either
-    in param (for boot arg) or perhaps in query string.
- */
--static int ddebug_exec_queries(char *query, const char *modname)
-+static int ddebug_exec_queries(const char *query_in, const char *modname, void *tracer)
- {
- 	char *split;
- 	int i, errs = 0, exitcode = 0, rc, nfound = 0;
-+	char *query; /* writable copy of query_in */
-+
-+	if (!query_in) {
-+		pr_err("non-null query/command string expected\n");
-+		return -EINVAL;
-+	}
-+	query = kstrndup(query_in, PAGE_SIZE, GFP_KERNEL);
-+	if (!query)
-+		return -ENOMEM;
- 
- 	for (i = 0; query; query = split) {
- 		split = strpbrk(query, ";\n");
-@@ -531,7 +574,7 @@ static int ddebug_exec_queries(char *query, const char *modname)
- 
- 		vpr_info("query %d: \"%s\" %s\n", i, query, (modname) ? modname : "");
- 
--		rc = ddebug_exec_query(query, modname);
-+		rc = ddebug_exec_query(query, modname, tracer);
- 		if (rc < 0) {
- 			errs++;
- 			exitcode = rc;
-@@ -540,6 +583,7 @@ static int ddebug_exec_queries(char *query, const char *modname)
- 		}
- 		i++;
- 	}
-+	kfree(query);
- 	vpr_info("processed %d queries, with %d matches, %d errs\n",
- 		 i, nfound, errs);
- 
-@@ -560,20 +604,7 @@ static int ddebug_exec_queries(char *query, const char *modname)
-  */
- int dynamic_debug_exec_queries(const char *query, const char *modname)
- {
--	int rc;
--	char *qry; /* writable copy of query */
--
--	if (!query) {
--		pr_err("non-null query/command string expected\n");
--		return -EINVAL;
--	}
--	qry = kstrndup(query, PAGE_SIZE, GFP_KERNEL);
--	if (!qry)
--		return -ENOMEM;
--
--	rc = ddebug_exec_queries(qry, modname);
--	kfree(qry);
--	return rc;
-+	return ddebug_exec_queries(query, modname, NULL);
- }
- EXPORT_SYMBOL_GPL(dynamic_debug_exec_queries);
- 
-@@ -637,8 +668,20 @@ void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
- 	vaf.fmt = fmt;
- 	vaf.va = &args;
- 
--	printk(KERN_DEBUG "%s%pV", dynamic_emit_prefix(descriptor, buf), &vaf);
-+	if (descriptor->flags & _DPRINTK_ENABLED)
-+		dynamic_emit_prefix(descriptor, buf);
-+
-+	if (descriptor->flags & _DPRINTK_FLAGS_PRINT)
-+		printk(KERN_DEBUG "%s%pV", buf, &vaf);
- 
-+	if (descriptor->flags & _DPRINTK_FLAGS_PRINT_TRACE) {
-+
-+		if (descriptor->tracer) {
-+			(*descriptor->tracer)("%s:%ps %pV", buf,
-+						 __builtin_return_address(0), &vaf);
-+		}
-+		/* else shouldnt matter, but maybe for consistency */
-+	}
- 	va_end(args);
- }
- EXPORT_SYMBOL(__dynamic_pr_debug);
-@@ -783,7 +826,7 @@ static ssize_t ddebug_proc_write(struct file *file, const char __user *ubuf,
- 		return PTR_ERR(tmpbuf);
- 	vpr_info("read %d bytes from userspace\n", (int)len);
- 
--	ret = ddebug_exec_queries(tmpbuf, NULL);
-+	ret = ddebug_exec_queries(tmpbuf, NULL, NULL);
- 	kfree(tmpbuf);
- 	if (ret < 0)
- 		return ret;
-@@ -989,7 +1032,7 @@ static int ddebug_dyndbg_param_cb(char *param, char *val,
- 	if (strcmp(param, "dyndbg"))
- 		return on_err; /* determined by caller */
- 
--	ddebug_exec_queries((val ? val : "+p"), modname);
-+	ddebug_exec_queries((val ? val : "+p"), modname, NULL);
- 
- 	return 0; /* query failure shouldn't stop module load */
- }
-@@ -1124,7 +1167,7 @@ static int __init dynamic_debug_init(void)
- 	/* apply ddebug_query boot param, dont unload tables on err */
- 	if (ddebug_setup_string[0] != '\0') {
- 		pr_warn("ddebug_query param name is deprecated, change it to dyndbg\n");
--		ret = ddebug_exec_queries(ddebug_setup_string, NULL);
-+		ret = ddebug_exec_queries(ddebug_setup_string, NULL, NULL);
- 		if (ret < 0)
- 			pr_warn("Invalid ddebug boot param %s\n",
- 				ddebug_setup_string);
-@@ -1214,3 +1257,17 @@ const struct kernel_param_ops param_ops_dyndbg = {
- };
- /* support DEFINE_DYNAMIC_DEBUG_CATEGORIES users */
- EXPORT_SYMBOL(param_ops_dyndbg);
-+
-+int dynamic_debug_register_tracer(const char *query, const char *mod,
-+	int (*tracer) (const char *fmt, char *prefix, char *label, struct va_format *vaf))
-+{
-+	return ddebug_exec_queries(query, mod, tracer);
-+}
-+EXPORT_SYMBOL(dynamic_debug_register_tracer);
-+
-+int dynamic_debug_unregister_tracer(const char *query, const char *mod,
-+	int (*tracer) (const char *fmt, char *prefix, char *label, struct va_format *vaf))
-+{
-+	return ddebug_exec_queries(query, mod, tracer);
-+}
-+EXPORT_SYMBOL(dynamic_debug_unregister_tracer);
-diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-new file mode 100644
-index 000000000000..e837398bd885
---- /dev/null
-+++ b/lib/test_dynamic_debug.c
-@@ -0,0 +1,247 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Kernel module for testing dynamic_debug
-+ *
-+ * Authors:
-+ *      Jim Cromie	<jim.cromie@gmail.com>
-+ */
-+
-+/*
-+ * test-setup: use trace_print attachment interface as a test harness,
-+ * define a custom trace_printer which counts invocations, and a
-+ * pr_debug event generator function which calls a set of categorized
-+ * pr_debugs.
-+ * test-run: manipulate the pr_debug's enablement, run the event
-+ * generator, and check for the expected side effects.
-+ */
-+
-+#include <linux/module.h>
-+
-+static int __bad_tracer;
-+
-+static int trace_ct = 0;
-+static int test_ct = 0;
-+static int errors = 0;
-+static int verbose = 0;
-+
-+
-+module_param_named(use_bad_tracer, __bad_tracer, int, 0644);
-+MODULE_PARM_DESC(use_bad_tracer,
-+		 "use broken tracer, recursing with pr_debug\n"
-+		 "\tonly works at modprobe time\n");
-+
-+static int (*my_tracer)(const char *decorator, char *prefix, char *label, struct va_format *vaf);
-+
-+static int good_tracer(const char *decorator, char *prefix, char *label, struct va_format *vaf)
-+{
-+	trace_ct++;
-+	if (verbose)
-+		pr_notice("my_tracer: %pV", vaf);
-+	return 0;
-+}
-+
-+static int bad_tracer(const char *decorator, char *prefix, char *label, struct va_format *vaf)
-+{
-+	/* dont try pr_debug, it recurses back here */
-+	pr_debug("oops! recursion, crash?\n");
-+	return 0;
-+}
-+
-+static void pick_tracer(void)
-+{
-+	if (__bad_tracer)
-+		my_tracer = bad_tracer;
-+	else
-+		my_tracer = good_tracer;
-+}
-+
-+static int expect_count(int want, const char *story)
-+{
-+	test_ct++;
-+	if (want != trace_ct) {
-+		pr_err("expect_count: want %d, got %d: %s\n", want, trace_ct, story);
-+		errors++;
-+		trace_ct = 0;
-+		return 1;
-+	}
-+	pr_info("pass %d, hits %d, on \"%s\"\n", test_ct, want, story);
-+	trace_ct = 0;
-+	return 0;
-+}
-+
-+/* call pr_debug (4 * reps) + 2 times, for tracer side-effects */
-+static void do_debugging(int reps)
-+{
-+	int i;
-+
-+	pr_debug("Entry:\n");
-+	pr_info(" do_debugging %d time(s)\n", reps);
-+	for (i = 0; i < reps; i++) {
-+		pr_debug("hi: %d\n", i);
-+		pr_debug("mid: %d\n", i);
-+		pr_debug("low: %d\n", i);
-+		pr_debug("low:lower: %d subcategory test\n", i);
-+	}
-+	pr_debug("Exit:\n");
-+}
-+
-+static void expect_matches(int want, int got, const char *story)
-+{
-+	// todo: got <0 are errors, bubbled up
-+	if (got != want)
-+		pr_warn(" match_count wrong: want %d got %d on \"%s\"\n", want, got, story);
-+	else
-+		pr_info(" ok: %d matches by \"%s\"\n", want, story);
-+
-+	// ? count errs ? separately ?
-+}
-+
-+static int report(char *who)
-+{
-+	if (errors)
-+		pr_err("%s failed %d of %d tests\n", who, errors, test_ct);
-+	else
-+		pr_info("%s passed %d tests\n", who, test_ct);
-+	return errors;
-+}
-+
-+struct exec_test {
-+	int matches;
-+	int loops;
-+	int hits;
-+	const char *mod;
-+	const char *qry;
-+};
-+
-+static void do_exec_test(struct exec_test *tst)
-+{
-+	int match_count;
-+
-+	match_count = dynamic_debug_exec_queries(tst->qry, tst->mod);
-+	expect_matches(tst->matches, match_count, tst->qry);
-+	do_debugging(tst->loops);
-+	expect_count(tst->hits, tst->qry);
-+}
-+
-+static const char my_mod[] = "test_dynamic_debug";
-+
-+/* these tests rely on register stuff having been done ?? */
-+struct exec_test exec_tests[] = {
-+
-+	/* standard use is my_mod, for `modprobe $module dyndbg=+p` */
-+
-+	/* no modification probe */
-+	{ 6, 2, 0, my_mod, "func do_debugging +_" },
-+
-+	/* use original single string query style */
-+	{ 6, 3, 0, NULL, "module test_dynamic_debug func do_debugging -T" },
-+
-+	/* this is mildly preferred */
-+	{ 6, 3, 0, my_mod, "func do_debugging -T" },
-+
-+	/* enable all DUT */
-+	{ 6, 4, 18, my_mod, "func do_debugging +T" },
-+
-+	/* disable 1 call */
-+	{ 1, 4, 14, my_mod, "format '^hi:' -T" },
-+
-+	/* disable 1 call */
-+	{ 1, 4, 10, my_mod, "format '^mid:' -T" },
-+
-+	/* repeat same disable */
-+	{ 1, 4, 10, my_mod, "format '^mid:' -T" },
-+
-+	/* repeat same disable, diff run ct */
-+	{ 1, 5, 12, my_mod, "format '^mid:' -T" },
-+
-+	/* include subclass */
-+	{ 2, 4, 2, my_mod, "format '^low:' -T" },
-+
-+	/* re-disable, exclude subclass */
-+	{ 1, 4, 2, my_mod, "format '^low: ' -T" },
-+
-+	/* enable, exclude subclass */
-+	{ 1, 4, 6, my_mod, "format '^low: ' +T" },
-+
-+	/* enable the subclass */
-+	{ 1, 4, 10, my_mod, "format '^low:lower:' +T" },
-+
-+	/* enable the subclass */
-+	{ 1, 6, 14, my_mod, "format '^low:lower:' +T" },
-+};
-+
-+struct register_test {
-+	int matches;
-+	int loops;
-+	int hits;
-+	const char *mod;
-+	const char *qry;
-+};
-+
-+static void do_register_test(struct register_test *tst)
-+{
-+	int match_count;
-+
-+	match_count = dynamic_debug_register_tracer(tst->qry, tst->mod, my_tracer);
-+	expect_matches(tst->matches, match_count, tst->qry);
-+	do_debugging(tst->loops);
-+	expect_count(tst->hits, tst->qry);
-+}
-+
-+struct register_test register_tests[] = {
-+
-+	{ 6, 3, 14, my_mod, "func do_debugging +T" },
-+
-+	{ 10, 3, 0, my_mod, "+_" }, //, my_tracer },
-+	{ 11, 3, 0, my_mod, "+T" }, //, my_tracer },
-+};
-+
-+static int __init test_dynamic_debug_init(void)
-+{
-+	int match_count; /* rc from ddebug_exec_queries. meh. */
-+	int i;
-+
-+	pick_tracer();
-+
-+	pr_debug("Entry:\n");
-+	do_debugging(3);
-+	expect_count(0, "nothing unless dyndbg=+T at modprobe");
-+
-+	for (i = 0; i < ARRAY_SIZE(register_tests); i++)
-+		do_register_test(&register_tests[i]);
-+
-+	do_debugging(2);
-+	expect_count(10, "do_debugging 2 times after +T");
-+
-+	for (i = 0; i < ARRAY_SIZE(exec_tests); i++)
-+		do_exec_test(&exec_tests[i]);
-+
-+	match_count = dynamic_debug_unregister_tracer(
-+		"func do_debugging -T", "test_dynamic_debug", my_tracer);
-+
-+	expect_matches(6, match_count,
-+		       "unregister do_debugging()s tracers");
-+	do_debugging(4);
-+	expect_count(0, "everything is off");
-+
-+	match_count = dynamic_debug_unregister_tracer(
-+		"func do_debugging -T", "test_dynamic_debug", my_tracer);
-+
-+	expect_matches(6, match_count,
-+		       "re-unregister, same count, not a change count");
-+	report("init");
-+	pr_debug("Exit:\n");
-+	return 0;
-+}
-+
-+static void __exit test_dynamic_debug_exit(void)
-+{
-+	report("exit");
-+	pr_debug("Exit:");
-+}
-+
-+module_init(test_dynamic_debug_init);
-+module_exit(test_dynamic_debug_exit);
-+
-+MODULE_AUTHOR("Jim Cromie <jim.cromie@gmail.com>");
-+MODULE_LICENSE("GPL");
--- 
-2.31.1
+>
+>> +			goto err;
+>> +		}
+>> +	}
+>> +
+>>   	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+>>   		err = intel_context_alloc_state(ce);
+>>   		if (err)
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> index 6fb9afb65034..658a42a7fa07 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> @@ -25,6 +25,7 @@
+>>   #include <linux/sched/mm.h>
+>>   
+>>   #include "display/intel_frontbuffer.h"
+>> +#include "pxp/intel_pxp.h"
+>>   #include "i915_drv.h"
+>>   #include "i915_gem_clflush.h"
+>>   #include "i915_gem_context.h"
+>> @@ -73,6 +74,8 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
+>>   	INIT_LIST_HEAD(&obj->lut_list);
+>>   	spin_lock_init(&obj->lut_lock);
+>>   
+>> +	INIT_LIST_HEAD(&obj->pxp_link);
+>> +
+>>   	spin_lock_init(&obj->mmo.lock);
+>>   	obj->mmo.offsets = RB_ROOT;
+>>   
+>> @@ -231,6 +234,9 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
+>>   		spin_unlock(&obj->vma.lock);
+>>   	}
+>>   
+>> +	if (i915_gem_object_has_valid_protection(obj))
+>> +		intel_pxp_object_remove(obj);
+>> +
+>>   	__i915_gem_object_free_mmaps(obj);
+>>   
+>>   	GEM_BUG_ON(!list_empty(&obj->lut_list));
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> index 48112b9d76df..137ae2723514 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> @@ -269,6 +269,18 @@ i915_gem_object_clear_tiling_quirk(struct drm_i915_gem_object *obj)
+>>   	clear_bit(I915_TILING_QUIRK_BIT, &obj->flags);
+>>   }
+>>   
+>> +static inline bool
+>> +i915_gem_object_is_protected(const struct drm_i915_gem_object *obj)
+>> +{
+>> +	return obj->flags & I915_BO_PROTECTED;
+>> +}
+>> +
+>> +static inline bool
+>> +i915_gem_object_has_valid_protection(const struct drm_i915_gem_object *obj)
+>> +{
+>> +	return i915_gem_object_is_protected(obj) && !list_empty(&obj->pxp_link);
+>> +}
+>> +
+>>   static inline bool
+>>   i915_gem_object_type_has(const struct drm_i915_gem_object *obj,
+>>   			 unsigned long flags)
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>> index 2471f36aaff3..38e4a190607a 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>> @@ -298,6 +298,7 @@ struct drm_i915_gem_object {
+>>   			     I915_BO_ALLOC_USER)
+>>   #define I915_BO_READONLY         BIT(4)
+>>   #define I915_TILING_QUIRK_BIT    5 /* unknown swizzling; do not release! */
+>> +#define I915_BO_PROTECTED        BIT(6)
+>>   
+>>   	/**
+>>   	 * @mem_flags - Mutable placement-related flags
+>> @@ -537,6 +538,14 @@ struct drm_i915_gem_object {
+>>   		bool created:1;
+>>   	} ttm;
+>>   
+>> +	/*
+>> +	 * When the PXP session is invalidated, we need to mark all protected
+>> +	 * objects as invalid. To easily do so we add them all to a list. The
+>> +	 * presence on the list is used to check if the encryption is valid or
+>> +	 * not.
+>> +	 */
+>> +	struct list_head pxp_link;
+>> +
+>>   	/** Record of address bit 17 of each page at last unbind. */
+>>   	unsigned long *bit_17;
+>>   
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+>> index b0c7edc10cc3..f418281e8c10 100644
+>> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+>> @@ -7,6 +7,7 @@
+>>   #include "intel_pxp_irq.h"
+>>   #include "intel_pxp_session.h"
+>>   #include "intel_pxp_tee.h"
+>> +#include "gem/i915_gem_context.h"
+>>   #include "gt/intel_context.h"
+>>   #include "i915_drv.h"
+>>   
+>> @@ -70,6 +71,9 @@ void intel_pxp_init(struct intel_pxp *pxp)
+>>   
+>>   	mutex_init(&pxp->tee_mutex);
+>>   
+>> +	spin_lock_init(&pxp->lock);
+>> +	INIT_LIST_HEAD(&pxp->protected_objects);
+>> +
+>>   	/*
+>>   	 * we'll use the completion to check if there is a termination pending,
+>>   	 * so we start it as completed and we reinit it when a termination
+>> @@ -166,3 +170,88 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp)
+>>   
+>>   	intel_pxp_irq_disable(pxp);
+>>   }
+>> +
+>> +int intel_pxp_object_add(struct drm_i915_gem_object *obj)
+>> +{
+>> +	struct intel_pxp *pxp = &to_i915(obj->base.dev)->gt.pxp;
+>> +
+>> +	if (!intel_pxp_is_enabled(pxp))
+>> +		return -ENODEV;
+>> +
+>> +	if (!list_empty(&obj->pxp_link))
+>> +		return -EEXIST;
+>> +
+>> +	spin_lock_irq(&pxp->lock);
+>> +	list_add(&obj->pxp_link, &pxp->protected_objects);
+>> +	spin_unlock_irq(&pxp->lock);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +void intel_pxp_object_remove(struct drm_i915_gem_object *obj)
+>> +{
+>> +	struct intel_pxp *pxp = &to_i915(obj->base.dev)->gt.pxp;
+>> +
+>> +	if (!intel_pxp_is_enabled(pxp))
+>> +		return;
+>> +
+>> +	spin_lock_irq(&pxp->lock);
+>> +	list_del_init(&obj->pxp_link);
+>> +	spin_unlock_irq(&pxp->lock);
+>> +}
+>> +
+>> +void intel_pxp_invalidate(struct intel_pxp *pxp)
+> There is a lot of locking going on here. Please make sure it's all
+> properly documented what the rules are in kerneldoc, even for existing
+> stuff.
+>
+> Especially anytime there's anything tricky going on, like:
+> - kref_get_unless_zero
+> - test_bit (that's an unorderd atomic, so either you don't actually need
+>    the atomic, or you need a pile of barriers and comments about them)
+> - hiddent atomic ops like intel_context_set_banned or
+>    i915_gem_context_set_invalid also need great care, least because the
+>    current rules aren't documented really. So step one here before using
+>    them is documenting the rules of how banning works.
+>
+>> +{
+>> +	struct drm_i915_private *i915 = pxp_to_gt(pxp)->i915;
+>> +	struct drm_i915_gem_object *obj, *tmp;
+>> +	struct i915_gem_context *ctx, *cn;
+>> +
+>> +	/* delete objects that have been used with the invalidated session */
+>> +	spin_lock_irq(&pxp->lock);
+>> +	list_for_each_entry_safe(obj, tmp, &pxp->protected_objects, pxp_link) {
+>> +		if (i915_gem_object_has_pages(obj))
+>> +			list_del_init(&obj->pxp_link);
+>> +	}
+>> +	spin_unlock_irq(&pxp->lock);
+>> +
+>> +	/* ban all contexts marked as protected */
+>> +	spin_lock_irq(&i915->gem.contexts.lock);
+>> +	list_for_each_entry_safe(ctx, cn, &i915->gem.contexts.list, link) {
+>> +		struct i915_gem_engines_iter it;
+>> +		struct intel_context *ce;
+>> +
+>> +		if (!kref_get_unless_zero(&ctx->ref))
+>> +			continue;
+>> +
+>> +		if (likely(!i915_gem_context_uses_protected_content(ctx)) ||
+>> +		    i915_gem_context_invalidated(ctx)) {
+>> +			i915_gem_context_put(ctx);
+>> +			continue;
+>> +		}
+>> +
+>> +		spin_unlock_irq(&i915->gem.contexts.lock);
+>> +
+>> +		/*
+>> +		 * Note that by the time we get here the HW keys are already
+>> +		 * long gone, so any batch using them that's already on the
+>> +		 * engines is very likely a lost cause (and it has probably
+>> +		 * already hung the engine). Therefore, we skip attempting to
+>> +		 * pull the running context out of the HW and we prioritize
+>> +		 * bringing the session back as soon as possible.
+>> +		 */
+>> +		for_each_gem_engine(ce, i915_gem_context_lock_engines(ctx), it) {
+>> +			/* only invalidate if at least one ce was allocated */
+>> +			if (test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+>> +				intel_context_set_banned(ce);
+>> +				i915_gem_context_set_invalid(ctx);
+>> +			}
+>> +		}
+>> +		i915_gem_context_unlock_engines(ctx);
+>> +
+>> +		spin_lock_irq(&i915->gem.contexts.lock);
+>> +		list_safe_reset_next(ctx, cn, link);
+>> +		i915_gem_context_put(ctx);
+>> +	}
+>> +	spin_unlock_irq(&i915->gem.contexts.lock);
+>> +}
+>> +
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+>> index 074b3b980957..4f7647f34153 100644
+>> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+>> @@ -9,6 +9,8 @@
+>>   #include "gt/intel_gt_types.h"
+>>   #include "intel_pxp_types.h"
+>>   
+>> +struct drm_i915_gem_object;
+>> +
+>>   static inline struct intel_gt *pxp_to_gt(const struct intel_pxp *pxp)
+>>   {
+>>   	return container_of(pxp, struct intel_gt, pxp);
+>> @@ -33,6 +35,11 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp);
+>>   
+>>   void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
+>>   int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp);
+>> +
+>> +int intel_pxp_object_add(struct drm_i915_gem_object *obj);
+>> +void intel_pxp_object_remove(struct drm_i915_gem_object *obj);
+>> +
+>> +void intel_pxp_invalidate(struct intel_pxp *pxp);
+>>   #else
+>>   static inline void intel_pxp_init(struct intel_pxp *pxp)
+>>   {
+>> @@ -46,6 +53,14 @@ static inline int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp)
+>>   {
+>>   	return 0;
+>>   }
+>> +
+>> +static inline int intel_pxp_object_add(struct drm_i915_gem_object *obj)
+>> +{
+>> +	return 0;
+>> +}
+>> +static inline void intel_pxp_object_remove(struct drm_i915_gem_object *obj)
+>> +{
+>> +}
+>>   #endif
+>>   
+>>   #endif /* __INTEL_PXP_H__ */
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+>> index 67c30e534d50..0edd563a653d 100644
+>> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+>> @@ -85,6 +85,9 @@ static int pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
+>>   	/* must mark termination in progress calling this function */
+>>   	GEM_WARN_ON(pxp->arb_is_valid);
+>>   
+>> +	/* invalidate protected objects */
+>> +	intel_pxp_invalidate(pxp);
+>> +
+>>   	/* terminate the hw sessions */
+>>   	ret = intel_pxp_terminate_session(pxp, ARB_SESSION);
+>>   	if (ret) {
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+>> index 475e3312c287..be2bed3a2e4e 100644
+>> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+>> @@ -7,7 +7,9 @@
+>>   #define __INTEL_PXP_TYPES_H__
+>>   
+>>   #include <linux/completion.h>
+>> +#include <linux/list.h>
+>>   #include <linux/mutex.h>
+>> +#include <linux/spinlock.h>
+>>   #include <linux/types.h>
+>>   #include <linux/workqueue.h>
+>>   
+>> @@ -43,6 +45,9 @@ struct intel_pxp {
+>>   	u32 session_events; /* protected with gt->irq_lock */
+>>   #define PXP_TERMINATION_REQUEST  BIT(0)
+>>   #define PXP_TERMINATION_COMPLETE BIT(1)
+>> +
+>> +	spinlock_t lock; /* protects the objects list */
+>> +	struct list_head protected_objects;
+>>   };
+>>   
+>>   #endif /* __INTEL_PXP_TYPES_H__ */
+>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>> index 4393eef59d9b..2c9febdae6a5 100644
+>> --- a/include/uapi/drm/i915_drm.h
+>> +++ b/include/uapi/drm/i915_drm.h
+>> @@ -1843,12 +1843,32 @@ struct drm_i915_gem_context_param {
+>>    * attempted to use it, never re-use this context param number.
+>>    */
+>>   #define I915_CONTEXT_PARAM_RINGSIZE	0xc
+>> +
+>> +/*
+>> + * I915_CONTEXT_PARAM_PROTECTED_CONTENT:
+>> + *
+>> + * Mark that the context makes use of protected content, which will result
+>> + * in the context being invalidated when the protected content session is. The
+>> + * invalidation is reported back to userspace via the RESET_STATS ioctl (see
+>> + * relevant doc for details).
+>> + * This flag can only be set at context creation time and, when set to true,
+>> + * must be preceded by an explicit setting of I915_CONTEXT_PARAM_RECOVERABLE
+>> + * to false. This flag can't be set to true in conjunction with setting the
+>> + * I915_CONTEXT_PARAM_BANNABLE flag to false.
+>> + *
+>> + * In addition to the normal failure cases, setting this flag during context
+>> + * creation can result in the following errors:
+>> + *
+>> + * -ENODEV: feature not available
+>> + * -EPERM: trying to mark a recoverable or not bannable context as protected
+>> + */
+>> +#define I915_CONTEXT_PARAM_PROTECTED_CONTENT    0xd
+>>   /* Must be kept compact -- no holes and well documented */
+>>   
+>>   	__u64 value;
+>>   };
+>>   
+>> -/*
+>> +/**
+>>    * Context SSEU programming
+>>    *
+>>    * It may be necessary for either functional or performance reason to configure
+>> @@ -2181,6 +2201,12 @@ struct drm_i915_reg_read {
+>>   struct drm_i915_reset_stats {
+>>   	__u32 ctx_id;
+>>   	__u32 flags;
+>> +	/*
+>> +	 * contexts marked as using protected content are invalidated when the
+>> +	 * protected content session dies. Submission of invalidated contexts
+>> +	 * is rejected with -EACCES.
+>> +	 */
+>> +#define I915_CONTEXT_INVALIDATED 0x1
+>>   
+>>   	/* All resets since boot/module reload, for all contexts */
+>>   	__u32 reset_count;
+>> @@ -2959,8 +2985,12 @@ struct drm_i915_gem_create_ext {
+>>   	 *
+>>   	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
+>>   	 * struct drm_i915_gem_create_ext_memory_regions.
+>> +	 *
+>> +	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+>> +	 * struct drm_i915_gem_create_ext_protected_content.
+>>   	 */
+>>   #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+>> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
+>>   	__u64 extensions;
+>>   };
+>>   
+>> @@ -3018,6 +3048,29 @@ struct drm_i915_gem_create_ext_memory_regions {
+>>   	__u64 regions;
+>>   };
+>>   
+>> +/**
+>> + * struct drm_i915_gem_create_ext_protected_content - The
+>> + * I915_OBJECT_PARAM_PROTECTED_CONTENT extension.
+>> + *
+>> + * If this extension is provided, buffer contents are expected to be protected
+>> + * by PXP encryption and require decryption for scan out and processing. This
+>> + * is only possible on platforms that have PXP enabled, on all other scenarios
+>> + * using this extension will cause the ioctl to fail and return -ENODEV. The
+>> + * flags parameter is reserved for future expansion and must currently be set
+>> + * to zero.
+>> + *
+>> + * The buffer contents are considered invalid after a PXP session teardown.
+>> + *
+>> + * The encryption is guaranteed to be processed correctly only if the object
+>> + * is submitted with a context created using the
+>> + * I915_CONTEXT_PARAM_PROTECTED_CONTENT flag. This will also enable extra checks
+>> + * at submission time on the validity of the objects involved.
+>> + */
+>> +struct drm_i915_gem_create_ext_protected_content {
+>> +	struct i915_user_extension base;
+>> +	__u32 flags;
+>> +};
+>> +
+>>   /* ID of the protected content session managed by i915 when PXP is active */
+>>   #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
+>>   
+>> -- 
+>> 2.32.0
+>>
+>> _______________________________________________
+>> Intel-gfx mailing list
+>> Intel-gfx@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
