@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EA03EB239
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 10:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53ADF3EB23A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 10:06:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 972C16E558;
-	Fri, 13 Aug 2021 08:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F16226E55E;
+	Fri, 13 Aug 2021 08:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sipsolutions.net (s3.sipsolutions.net
  [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54C3D6E558
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:06:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 674736E560
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
  Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
  :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=sJrRyJAk0s7nMFwbcLX8dMSTh66Xp6VqgCIIZV7nbU4=; 
- t=1628841989; x=1630051589; b=ObOwey2lq55eDXQkHDgnxpGfiBoUiQnpXshIlUtIScMbagP
- etiugZR44VcmwxF3cBP9LrsScxVaWt5VIdXF0bpXnxBlx1v8BB01qBVeFk8ktrUiNhguWLwLyEWuS
- snEwsxo0HEkE7jHtPApEVvLFpf9JVFe4pfb0GTG7E0UpWnmAOssumcECGsNdqQ3T1lDe/h+LlXQQA
- jCPd/mAVKaonkSkRA05+Ph7WI7G9ebLLgkKJWRvlmE7qp2J+7m17+Unrz/TNe631goh30pc+mIJ+1
- h7ZJRD54D1MEbKcEODZiRxrL6q9LzfNpeF2XyK6A4zXGnJbP8TP59gFexhz73vrA==;
+ Resent-Cc:Resent-Message-ID; bh=v5GvruCHAD5VdGVp7rPAa70pStcYZ0dgf5ANMBb+4wc=; 
+ t=1628841992; x=1630051592; b=PIqy+rq4DL+fVp+LmVekQoWYS3WFbfHif3qvv33LUj9uL9L
+ fS3bJX4FanNZjOvUnG4L4o9aHyr6g4gkSbIINCsEdnEI2oUBLNknHDg/tv9KKaeXI+VkfWtn6HR16
+ Nq8v5ciOCv+QGBBcfK9tYzu8pBKT44eUD8c0EOwGjCdASn8BR9XYajwhl6sHTGgLkdPWvFhK3uwVL
+ f9uEYYtKwlxQSVl9fT9/u8pn/ry0QeDZZ5E8abktLodTtqYpeSjtGCEsvmIwPHZHFeoElJnRkzOEp
+ QEqU4Sx0GRCw6jKLoKluQYfad0EIzFIQBbUGIUI5x5PfrLzyjaz1K0aprPv/7N8Q==;
 Received: by sipsolutions.net with esmtpsa
  (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
  (Exim 4.94.2) (envelope-from <johannes@sipsolutions.net>)
- id 1mERnV-00A8zH-4r; Fri, 13 Aug 2021 09:40:09 +0200
-Message-ID: <bb01e784dddf6a297025981a2a000a4d3fdaf2ba.camel@sipsolutions.net>
+ id 1mERoz-00A937-Sm; Fri, 13 Aug 2021 09:41:42 +0200
+Message-ID: <347234b097eb93a0882ad2a3a209c2b7923ff611.camel@sipsolutions.net>
 Subject: Re: [PATCH 39/64] mac80211: Use memset_after() to clear tx status
 From: Johannes Berg <johannes@sipsolutions.net>
 To: Kees Cook <keescook@chromium.org>, "David S. Miller"
@@ -39,7 +39,7 @@ Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>, Keith Packard
  dri-devel@lists.freedesktop.org,  linux-staging@lists.linux.dev,
  linux-block@vger.kernel.org,  linux-kbuild@vger.kernel.org,
  clang-built-linux@googlegroups.com,  linux-hardening@vger.kernel.org
-Date: Fri, 13 Aug 2021 09:40:07 +0200
+Date: Fri, 13 Aug 2021 09:41:40 +0200
 In-Reply-To: <202107310852.551B66EE32@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
  <20210727205855.411487-40-keescook@chromium.org>
@@ -47,7 +47,7 @@ References: <20210727205855.411487-1-keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,35 +65,21 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sat, 2021-07-31 at 08:55 -0700, Kees Cook wrote:
-> On Tue, Jul 27, 2021 at 01:58:30PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
-> > 
-> > Use memset_after() so memset() doesn't get confused about writing
-> > beyond the destination member that is intended to be the starting point
-> > of zeroing through the end of the struct.
-> > 
-> > Note that the common helper, ieee80211_tx_info_clear_status(), does NOT
-> > clear ack_signal, but the open-coded versions do. All three perform
-> > checks that the ack_signal position hasn't changed, though.
 > 
-> Quick ping on this question: there is a mismatch between the common
-> helper and the other places that do this. Is there a bug here?
+> > @@ -278,9 +278,7 @@ static void carl9170_tx_release(struct kref *ref)
+> >  	BUILD_BUG_ON(
+> >  	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
+> >  
+> > 
+> > -	memset(&txinfo->status.ack_signal, 0,
+> > -	       sizeof(struct ieee80211_tx_info) -
+> > -	       offsetof(struct ieee80211_tx_info, status.ack_signal));
+> > +	memset_after(&txinfo->status, 0, rates);
 
-Yes.
-
-The common helper should also clear ack_signal, but that was broken by
-commit e3e1a0bcb3f1 ("mac80211: reduce IEEE80211_TX_MAX_RATES"), because
-that commit changed the order of the fields and updated carl9170 and p54
-properly but not the common helper...
-
-It doesn't actually matter much because ack_signal is normally filled in
-afterwards, and even if it isn't, it's just for statistics.
-
-The correct thing to do here would be to
-
-	memset_after(&info->status, 0, rates);
+FWIW, I think we should also remove the BUILD_BUG_ON() now in all the
+places - that was meant to give people a hint to update if some field
+ordering etc. changed, but now that it's "after rates" this is no longer
+necessary.
 
 johannes
 
