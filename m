@@ -1,82 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C323EB957
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:44:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3587C3EB974
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 17:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E640F6E85A;
-	Fri, 13 Aug 2021 15:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66DC489310;
+	Fri, 13 Aug 2021 15:48:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD356E85A;
- Fri, 13 Aug 2021 15:44:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10075"; a="215571979"
-X-IronPort-AV: E=Sophos;i="5.84,319,1620716400"; d="scan'208";a="215571979"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2021 08:44:05 -0700
-X-IronPort-AV: E=Sophos;i="5.84,319,1620716400"; d="scan'208";a="571833136"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2021 08:43:52 -0700
-Received: from andy by smile with local (Exim 4.94.2)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1mEZLU-009Hky-Ik; Fri, 13 Aug 2021 18:43:44 +0300
-Date: Fri, 13 Aug 2021 18:43:44 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: gregkh@linuxfoundation.org, seanpaul@chromium.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Baron <jbaron@akamai.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Huang Rui <ray.huang@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Chengming Gui <Jack.Gui@amd.com>, Aaron Liu <aaron.liu@amd.com>,
- John Clements <john.clements@amd.com>, Kevin Wang <kevin1.wang@amd.com>,
- Ashley Thomas <Ashley.Thomas2@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Wyatt Wood <Wyatt.Wood@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Johan Hovold <johan@kernel.org>, Jessica Yu <jeyu@kernel.org>,
- Nick Desaulniers <ndesaulniers@gooogle.com>,
- Joe Perches <joe@perches.com>, Miguel Ojeda <ojeda@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Thomas Gleixner <tglx@linutronix.de>,
- Vitor Massaru Iha <vitor@massaru.org>, Sedat Dilek <sedat.dilek@gmail.com>,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Marco Elver <elver@google.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Alexander Potapenko <glider@google.com>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Patricia Alfonso <trishalfonso@google.com>, Jiri Olsa <jolsa@kernel.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Arvind Sankar <nivedita@alum.mit.edu>,
- Johannes Berg <johannes.berg@intel.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v5 2/9] moduleparam: add data member to struct kernel_param
-Message-ID: <YRaTMFzUFCeC6ELA@smile.fi.intel.com>
-References: <20210813151734.1236324-1-jim.cromie@gmail.com>
- <20210813151734.1236324-3-jim.cromie@gmail.com>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D956E870
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 15:48:54 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id c24so20575118lfi.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:48:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fb6jfu2/G4QkMlWGyBK3jfNAWXGH0CC9y/nA9LWGHy4=;
+ b=G1iP+a4vaGH0IxTicJ5t0yaOy79VZWEKMGhnfii16ScskORME/xmg99izKimPk8QN3
+ jwWajxi/HE54sb9WmLtoetCvhtG/9X06SEu8v5M2vvten+zs9CqSznHR8cLFQ+hxFOjY
+ jyba1aWlcKCH2x91LlNbD0rZDE7mTxariNtso=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fb6jfu2/G4QkMlWGyBK3jfNAWXGH0CC9y/nA9LWGHy4=;
+ b=mMnXjdWg7d2vrnknqXt4skt6uIIvvIE3rVwHEgEY2p+rvfLahEO+NzcLbXlAFIad9l
+ sccCjmQpa4wJCyg4fi80Wh/4RfOmlz5satwfKNeDION1BNvVWct+C8aDtbptyuEtU5JM
+ 21ULPKvhBX6Zyj6g/yCdM3aFfFZgQ1Lxllc8SErFPKPwmRVYd4ZHzA4xShTuiz+I3qic
+ bS6Uv+1jqlnnL38+7H/EY2rvi3NRvPyHAAJrj1jWPmAh/5j3/6JdaVjDmht2zckoxKY2
+ W8jvUEG5YAluR0jTMxNOoF45+Ft7mQ4H4OSnd8QvVyc4GX0JqLCwWYTnyeT1Cw0R8jci
+ Di5A==
+X-Gm-Message-State: AOAM531aGdi/qAPRzm8aESgxT+FejJyBULX0cFNS2r7XWDks18gcmxzV
+ 5Zlz+2bZ+UfmYHVfx6p9CwXaYiOqAOqMOajyP94GQg==
+X-Google-Smtp-Source: ABdhPJxExrRr2JJWFnNf/8fWix4b0kkItNPl4sspptOXrBc8VLA9pDO0SLjB79iURWNtRS9gGwb5VdyBfx4fvTQ26CY=
+X-Received: by 2002:a05:6512:398e:: with SMTP id
+ j14mr2140007lfu.573.1628869733082; 
+ Fri, 13 Aug 2021 08:48:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210813151734.1236324-3-jim.cromie@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210811175525.2125964-1-markyacoub@chromium.org>
+ <20210812194917.1703356-1-markyacoub@chromium.org>
+ <4ab4548f-34fc-27cb-928e-af2b8ab78b1b@daenzer.net>
+In-Reply-To: <4ab4548f-34fc-27cb-928e-af2b8ab78b1b@daenzer.net>
+From: Mark Yacoub <markyacoub@chromium.org>
+Date: Fri, 13 Aug 2021 11:48:42 -0400
+Message-ID: <CAJUqKUp6zrioRy4aK_ySM+1EMWfZqX1P-_u2RGsGB9PCBXLSAQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Copy drm_wait_vblank to user before returning
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>, 
+ abhinavk@codeaurora.org, Rob Clark <robdclark@chromium.org>, airlied@linux.ie, 
+ Mark Yacoub <markyacoub@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,44 +70,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 13, 2021 at 09:17:10AM -0600, Jim Cromie wrote:
-> Add a const void* data member to the struct, to allow attaching
-> private data that will be used soon by a setter method (via kp->data)
-> to perform more elaborate actions.
-> 
-> To attach the data at compile time, add new macros:
-> 
-> module_param_cbd() derives from module_param_cb(), adding data param,
-> and latter is redefined to use former.
-> 
-> It calls __module_param_call_wdata(), which accepts a new data param
-> and inits .data with it. Re-define __module_param_call() to use it.
-> 
-> Use of this new data member will be rare, it might be worth redoing
-> this as a separate/sub-type to de-bloat the base case.
+Thanks for your review Michel!
+@MAINTAINER, could you please strip the Change-Id when applying.
+Thanks!
 
-...
-
-> +#define module_param_cbd(name, ops, arg, perm, data)				\
-> +	__module_param_call_wdata(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0, data)
-
-Cryptic name. Moreover, inconsistent with the rest.
-What about module_param_cb_data() ?
-
->  #define module_param_cb_unsafe(name, ops, arg, perm)			      \
->  	__module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1,    \
->  			    KERNEL_PARAM_FL_UNSAFE)
-
-(above left for the above comment)
-
-...
-
-> +#define __module_param_call_wdata(prefix, name, ops, arg, perm, level, flags, data) \
-
-Similar __module_param_call_with_data()
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+On Fri, Aug 13, 2021 at 3:33 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
+te:
+>
+> On 2021-08-12 9:49 p.m., Mark Yacoub wrote:
+> > From: Mark Yacoub <markyacoub@google.com>
+> >
+> > [Why]
+> > Userspace should get back a copy of drm_wait_vblank that's been modifie=
+d
+> > even when drm_wait_vblank_ioctl returns a failure.
+> >
+> > Rationale:
+> > drm_wait_vblank_ioctl modifies the request and expects the user to read
+> > it back. When the type is RELATIVE, it modifies it to ABSOLUTE and upda=
+tes
+> > the sequence to become current_vblank_count + sequence (which was
+> > RELATIVE), but now it became ABSOLUTE.
+> > drmWaitVBlank (in libdrm) expects this to be the case as it modifies
+> > the request to be Absolute so it expects the sequence to would have bee=
+n
+> > updated.
+> >
+> > The change is in compat_drm_wait_vblank, which is called by
+> > drm_compat_ioctl. This change of copying the data back regardless of th=
+e
+> > return number makes it en par with drm_ioctl, which always copies the
+> > data before returning.
+> >
+> > [How]
+> > Return from the function after everything has been copied to user.
+> >
+> > Fixes: IGT:kms_flip::modeset-vs-vblank-race-interruptible
+> > Tested on ChromeOS Trogdor(msm)
+> >
+> > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> > Change-Id: I98da279a5f1329c66a9d1e06b88d40b247b51313
+>
+> With the Gerrit Change-Id removed,
+>
+> Reviewed-by: Michel D=C3=A4nzer <mdaenzer@redhat.com>
+>
+>
+> --
+> Earthling Michel D=C3=A4nzer               |               https://redhat=
+.com
+> Libre software enthusiast             |             Mesa and X developer
