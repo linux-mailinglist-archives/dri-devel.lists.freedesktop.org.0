@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6786C3EB22B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 10:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211513EB27F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 10:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 939236E550;
-	Fri, 13 Aug 2021 08:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9EE6E56A;
+	Fri, 13 Aug 2021 08:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1437 seconds by postgrey-1.36 at gabe;
- Fri, 13 Aug 2021 08:04:15 UTC
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC0696E550
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 08:04:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=9+EPWKLBRJolwP8aFlJWDp26AmwHK39v/QqkRv5Vil8=; 
- t=1628841855; x=1630051455; b=tgFbD+/vajI0aJNefR2w77D2eLoeqahVwHhY8hEADtT39jc
- 4/XzN/x9ZEUylIQrtHDqyh7QzggoBvQ5Fa/BElsMBvrE9GlEFjDetyNu8vQJ8U5+n2dN4w6MV/YR0
- ++YVI9saK3JRazHKXVEG5EzPtlNxtPO2dJNUcpxClXTUpCNN7XH1qzHkhJ/LoOnHhWO/Cyj3a7CDS
- JM69yTqZpLnbUf1ASIMDSeLVAV5/C9laKTypfd4IRe/U+YnakE0O4WL3UtBO5SSfJ1kS/81MMRAXh
- AqOBL6iOESwSNZuZxHwk3gjvIuYD8zT3nMKlo/BEwUjP7fo89ikhX3Hu/FPRoKWw==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2) (envelope-from <johannes@sipsolutions.net>)
- id 1mESAk-00A9Tn-Sj; Fri, 13 Aug 2021 10:04:11 +0200
-Message-ID: <a9c8ae9e05cfe2679cd8a7ef0ab20b66cf38b930.camel@sipsolutions.net>
-Subject: Re: [PATCH 10/64] lib80211: Use struct_group() for memcpy() region
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>, Keith Packard
- <keithpac@amazon.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org,  linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com
-Date: Fri, 13 Aug 2021 10:04:09 +0200
-In-Reply-To: <20210727205855.411487-11-keescook@chromium.org>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-11-keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 698C96E56A;
+ Fri, 13 Aug 2021 08:19:48 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10074"; a="212411480"
+X-IronPort-AV: E=Sophos;i="5.84,318,1620716400"; d="scan'208";a="212411480"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2021 01:19:42 -0700
+X-IronPort-AV: E=Sophos;i="5.84,318,1620716400"; d="scan'208";a="528352765"
+Received: from mbubula-mobl1.ger.corp.intel.com (HELO [10.252.55.29])
+ ([10.252.55.29])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2021 01:19:40 -0700
+Subject: Re: [PATCH 2/2] drm/i915: Add pci ids and uapi for DG1
+To: Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20210812124452.622233-1-maarten.lankhorst@linux.intel.com>
+ <20210812124452.622233-2-maarten.lankhorst@linux.intel.com>
+ <CAKMK7uGMqYbiqZqV4gUy1KMbBCX=ZAGf-vT69SP9LbZU3hcSiQ@mail.gmail.com>
+ <CAOFGe97N1-6wuP0FxvsYkXknBFW3PaU69kGqAGbJh+o8L53zrA@mail.gmail.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <3aeb1745-f8ea-95c5-a23b-d077f0a4bccd@linux.intel.com>
+Date: Fri, 13 Aug 2021 10:19:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-malware-bazaar: not-scanned
+In-Reply-To: <CAOFGe97N1-6wuP0FxvsYkXknBFW3PaU69kGqAGbJh+o8L53zrA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,62 +56,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-07-27 at 13:58 -0700, Kees Cook wrote:
-> 
-> +++ b/include/linux/ieee80211.h
-> @@ -297,9 +297,11 @@ static inline u16 ieee80211_sn_sub(u16 sn1, u16 sn2)
->  struct ieee80211_hdr {
->  	__le16 frame_control;
->  	__le16 duration_id;
-> -	u8 addr1[ETH_ALEN];
-> -	u8 addr2[ETH_ALEN];
-> -	u8 addr3[ETH_ALEN];
-> +	struct_group(addrs,
-> +		u8 addr1[ETH_ALEN];
-> +		u8 addr2[ETH_ALEN];
-> +		u8 addr3[ETH_ALEN];
-> +	);
->  	__le16 seq_ctrl;
->  	u8 addr4[ETH_ALEN];
->  } __packed __aligned(2);
+Op 12-08-2021 om 23:10 schreef Jason Ekstrand:
+> On Thu, Aug 12, 2021 at 9:49 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>> On Thu, Aug 12, 2021 at 2:44 PM Maarten Lankhorst
+>> <maarten.lankhorst@linux.intel.com> wrote:
+>>> DG1 has support for local memory, which requires the usage of the
+>>> lmem placement extension for creating bo's, and memregion queries
+>>> to obtain the size. Because of this, those parts of the uapi are
+>>> no longer guarded behind FAKE_LMEM.
+>>>
+>>> According to the pull request referenced below, mesa should be mostly
+>>> ready for DG1. VK_EXT_memory_budget is not hooked up yet, but we
+>>> should definitely just enable the uapi parts by default.
+>>>
+>>> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> References: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/11584
+>>> Cc: Jordan Justen jordan.l.justen@intel.com
+>>> Cc: Jason Ekstrand jason@jlekstrand.net
+>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Acked-by: Jason Ekstrand <jason@jlekstrand.net>
+>
+>>> ---
+>>>  drivers/gpu/drm/i915/gem/i915_gem_create.c | 3 ---
+>>>  drivers/gpu/drm/i915/i915_pci.c            | 1 +
+>>>  drivers/gpu/drm/i915/i915_query.c          | 3 ---
+>>>  3 files changed, 1 insertion(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>> index 23fee13a3384..1d341b8c47c0 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+>>> @@ -347,9 +347,6 @@ static int ext_set_placements(struct i915_user_extension __user *base,
+>>>  {
+>>>         struct drm_i915_gem_create_ext_memory_regions ext;
+>>>
+>>> -       if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
+>>> -               return -ENODEV;
+>>> -
+>>>         if (copy_from_user(&ext, base, sizeof(ext)))
+>>>                 return -EFAULT;
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+>>> index 1bbd09ad5287..93ccdc6bbd03 100644
+>>> --- a/drivers/gpu/drm/i915/i915_pci.c
+>>> +++ b/drivers/gpu/drm/i915/i915_pci.c
+>>> @@ -1115,6 +1115,7 @@ static const struct pci_device_id pciidlist[] = {
+>>>         INTEL_RKL_IDS(&rkl_info),
+>>>         INTEL_ADLS_IDS(&adl_s_info),
+>>>         INTEL_ADLP_IDS(&adl_p_info),
+>>> +       INTEL_DG1_IDS(&dg1_info),
+>>>         {0, 0, 0}
+>>>  };
+>>>  MODULE_DEVICE_TABLE(pci, pciidlist);
+>>> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+>>> index e49da36c62fb..5e2b909827f4 100644
+>>> --- a/drivers/gpu/drm/i915/i915_query.c
+>>> +++ b/drivers/gpu/drm/i915/i915_query.c
+>>> @@ -432,9 +432,6 @@ static int query_memregion_info(struct drm_i915_private *i915,
+>>>         u32 total_length;
+>>>         int ret, id, i;
+>>>
+>>> -       if (!IS_ENABLED(CONFIG_DRM_I915_UNSTABLE_FAKE_LMEM))
+>>> -               return -ENODEV;
+>>> -
+>>>         if (query_item->flags != 0)
+>>>                 return -EINVAL;
+>>>
+>>> --
+>>> 2.32.0
+>>>
+>>
+>> --
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
 
-This file isn't really just lib80211, it's also used by everyone else
-for 802.11, but I guess that's OK - after all, this doesn't really
-result in any changes here.
-
-> +++ b/net/wireless/lib80211_crypt_ccmp.c
-> @@ -136,7 +136,8 @@ static int ccmp_init_iv_and_aad(const struct ieee80211_hdr *hdr,
->  	pos = (u8 *) hdr;
->  	aad[0] = pos[0] & 0x8f;
->  	aad[1] = pos[1] & 0xc7;
-> -	memcpy(aad + 2, hdr->addr1, 3 * ETH_ALEN);
-> +	BUILD_BUG_ON(sizeof(hdr->addrs) != 3 * ETH_ALEN);
-> +	memcpy(aad + 2, &hdr->addrs, ETH_ALEN);
-
-
-However, how is it you don't need the same change in net/mac80211/wpa.c?
-
-We have three similar instances:
-
-        /* AAD (extra authenticate-only data) / masked 802.11 header
-         * FC | A1 | A2 | A3 | SC | [A4] | [QC] */
-        put_unaligned_be16(len_a, &aad[0]);
-        put_unaligned(mask_fc, (__le16 *)&aad[2]);
-        memcpy(&aad[4], &hdr->addr1, 3 * ETH_ALEN);
-
-
-and
-
-        memcpy(&aad[4], &hdr->addr1, 3 * ETH_ALEN);
-
-and
-
-        memcpy(aad + 2, &hdr->addr1, 3 * ETH_ALEN);
-
-so those should also be changed, it seems?
-
-In which case I'd probably prefer to do this separately from the staging
-drivers ...
-
-johannes
+Pushed this patch and did the revert from previous patch in drm-intel/topic/core-for-ci, enjoy!
 
