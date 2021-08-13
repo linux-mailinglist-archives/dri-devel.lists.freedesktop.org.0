@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6CD3EADEE
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 02:28:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 008673EAE05
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 02:54:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D491F6E4A2;
-	Fri, 13 Aug 2021 00:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4A4E6E49C;
+	Fri, 13 Aug 2021 00:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 944C26E49C
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 00:28:44 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1628814525; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=Wzc6c47jdJP+SX2jmJlgxTZVRxNp8P8GJXI7b5FXiDQ=;
- b=gw750DG/WXHT0481np+qpsZ2nT9iN3Dd4r/UnVTOq9JjYXOvkDf3mEO6mHVZQaYWAmkwUqhS
- GJb7Lvr+LugQTZIQUGVWPZfDRsrrmpMW4wPmIJzBtdz2rOXawbkYHUGQEb55dSok6M+TSm0k
- tZ+/LEUxeH2A1pqgcSVZ1qcVUBc=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 6115bcbab14e7e2ecb154275 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 13 Aug 2021 00:28:42
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 33638C4323A; Fri, 13 Aug 2021 00:28:42 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: sbillaka)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 144CAC433F1;
- Fri, 13 Aug 2021 00:28:41 +0000 (UTC)
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6C86E49C
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 00:54:53 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id a8so12797679pjk.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Aug 2021 17:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/pIAgH5iNdEGAdxjpcPugXg6tz8sXksm2M8tAPbCP6c=;
+ b=oSIug5c++9SILz1jjm3IrMLuz/NB5xsP3mgFw/AGBTQw388zvv5QVA2CLtPc0EMK/B
+ rO4eajV1doTithSfXvCxC1PUWhq8hsHcsHDcP74uZieFQLdzyTSYBjSTqmQivWqGgqF4
+ fvzYSvK5if8b3JiMkLEUZptNImlwiOsYDNYJI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/pIAgH5iNdEGAdxjpcPugXg6tz8sXksm2M8tAPbCP6c=;
+ b=TovVRLVOD9xku6H/DVdbcIctYRndP2vZqQrc6Qt2gtTK9sXFUFxcB9uh0ZFEb4zGkz
+ ts3tQVrF/tvJr7h+0ASjCSt5rv2475wuISqNXZJrBRPcCfKKFDBlH5c05+4Wt/r6F19v
+ PSuDwBYsHywxUzf2OPcz+2QjDg05xSrFg4TDuypc88N8jyX+lQTP7VYDqmabOjO9HMIr
+ 4KyPtKl0Q0In1PP+almAVGCFHJU7/FPggeMunOoHP4QwZfmizLf/RXVOhdTCQEYDaann
+ mOfpnbrwgAkJkW9bkCM+OdwrXWftJKf590Kc5SqI6OC+EEMfXQ7Mz/W5z48xRdficRG3
+ R21w==
+X-Gm-Message-State: AOAM533N8ljP6fKm3nQh/7ZY4zeENdqvnQOg3mrgd4RV6XWWCl6XQcc3
+ wdzYmhIRKBC20+irZ1il7zW+J3vV/50Inw==
+X-Google-Smtp-Source: ABdhPJwHGas+Y13Ubeo2MTVKmglU6WDFOAqN/caZgWuAujZvTeeHimfeN76HXGxnsIKjawe8RRmSLw==
+X-Received: by 2002:a63:e84c:: with SMTP id a12mr6370749pgk.48.1628816092660; 
+ Thu, 12 Aug 2021 17:54:52 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:3628:a7e9:d10a:8ab1])
+ by smtp.gmail.com with UTF8SMTPSA id r8sm46518pgp.30.2021.08.12.17.54.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Aug 2021 17:54:52 -0700 (PDT)
+From: David Stevens <stevensd@chromium.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: dri-devel@lists.freedesktop.org,
+	David Stevens <stevensd@chromium.org>
+Subject: [PATCH v2] drm/virtio: support mapping exported vram
+Date: Fri, 13 Aug 2021 09:54:41 +0900
+Message-Id: <20210813005441.608293-1-stevensd@chromium.org>
+X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Fri, 13 Aug 2021 05:58:40 +0530
-From: sbillaka@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- robdclark@gmail.com, seanpaul@chromium.org, kalyan_t@codeaurora.org,
- abhinavk@codeaurora.org, dianders@chromium.org, khsieh@codeaurora.org,
- mkrishn@codeaurora.org
-Subject: Re: [PATCH v1 1/2] drm/msm/dp: Add support for SC7280 eDP
-In-Reply-To: <CAE-0n52=mR0Zt8UZ3vOM-nt0UJszcFhi-eYfzDtD0bt3zhNA_Q@mail.gmail.com>
-References: <1628726882-27841-1-git-send-email-sbillaka@codeaurora.org>
- <1628726882-27841-2-git-send-email-sbillaka@codeaurora.org>
- <CAE-0n52=mR0Zt8UZ3vOM-nt0UJszcFhi-eYfzDtD0bt3zhNA_Q@mail.gmail.com>
-Message-ID: <0b2aa426c8f511a29143f2a1117fe9a2@codeaurora.org>
-X-Sender: sbillaka@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,252 +67,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-08-12 06:11, Stephen Boyd wrote:
-> Quoting Sankeerth Billakanti (2021-08-11 17:08:01)
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> index b131fd37..1096c44 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> @@ -856,9 +856,9 @@ static const struct dpu_intf_cfg sm8150_intf[] = {
->>  };
->> 
->>  static const struct dpu_intf_cfg sc7280_intf[] = {
->> -       INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 0, 24, 
->> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
->> +       INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, 1, 24, 
->> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
->>         INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24, 
->> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
->> -       INTF_BLK("intf_5", INTF_5, 0x39000, INTF_EDP, 0, 24, 
->> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
->> +       INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, 0, 24, 
->> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
->>  };
->> 
->>  /*************************************************************
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index d2569da..06d5a2d 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -1244,7 +1244,9 @@ static int dp_ctrl_link_train(struct 
->> dp_ctrl_private *ctrl,
->>                 struct dp_cr_status *cr, int *training_step)
->>  {
->>         int ret = 0;
->> +       u8 *dpcd = ctrl->panel->dpcd;
->>         u8 encoding = DP_SET_ANSI_8B10B;
->> +       u8 ssc = 0, assr = 0;
-> 
-> Please don't initialize to zero and then overwrite it before using it.
-> It hides usage before actual initialization bugs.
-> 
+Implement virtgpu specific map_dma_buf callback to support mapping
+exported vram object dma-bufs. The dma-buf callback is used directly, as
+vram objects don't have backing pages and thus can't implement the
+drm_gem_object_funcs.get_sg_table callback.
 
-Okay. I will change it.
+Signed-off-by: David Stevens <stevensd@chromium.org>
+---
+v1 -> v2:
+ - reflow line to fix strict checkpatch warning
+ - replace else with return for consistency between functions
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  8 ++++
+ drivers/gpu/drm/virtio/virtgpu_prime.c | 32 +++++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_vram.c  | 61 ++++++++++++++++++++++++++
+ 3 files changed, 99 insertions(+), 2 deletions(-)
 
->>         struct dp_link_info link_info = {0};
->> 
->>         dp_ctrl_config_ctrl(ctrl);
->> @@ -1254,9 +1256,21 @@ static int dp_ctrl_link_train(struct 
->> dp_ctrl_private *ctrl,
->>         link_info.capabilities = DP_LINK_CAP_ENHANCED_FRAMING;
->> 
->>         dp_aux_link_configure(ctrl->aux, &link_info);
->> +
->> +       if (dpcd[DP_MAX_DOWNSPREAD] & DP_MAX_DOWNSPREAD_0_5) {
->> +               ssc = DP_SPREAD_AMP_0_5;
->> +               drm_dp_dpcd_write(ctrl->aux, DP_DOWNSPREAD_CTRL, &ssc, 
->> 1);
->> +       }
->> +
->>         drm_dp_dpcd_write(ctrl->aux, DP_MAIN_LINK_CHANNEL_CODING_SET,
->>                                 &encoding, 1);
->> 
->> +       if (dpcd[DP_EDP_CONFIGURATION_CAP] & 
->> DP_ALTERNATE_SCRAMBLER_RESET_CAP) {
->> +               assr = DP_ALTERNATE_SCRAMBLER_RESET_ENABLE;
->> +               drm_dp_dpcd_write(ctrl->aux, DP_EDP_CONFIGURATION_SET,
->> +                               &assr, 1);
->> +       }
->> +
->>         ret = dp_ctrl_link_train_1(ctrl, cr, training_step);
->>         if (ret) {
->>                 DRM_ERROR("link training #1 failed. ret=%d\n", ret);
->> @@ -1328,9 +1342,11 @@ static int 
->> dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
->>         struct dp_io *dp_io = &ctrl->parser->io;
->>         struct phy *phy = dp_io->phy;
->>         struct phy_configure_opts_dp *opts_dp = &dp_io->phy_opts.dp;
->> +       u8 *dpcd = ctrl->panel->dpcd;
-> 
-> const?
-> 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index d4e610a44e12..0c4810982530 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -26,6 +26,7 @@
+ #ifndef VIRTIO_DRV_H
+ #define VIRTIO_DRV_H
+ 
++#include <linux/dma-direction.h>
+ #include <linux/virtio.h>
+ #include <linux/virtio_ids.h>
+ #include <linux/virtio_config.h>
+@@ -459,4 +460,11 @@ bool virtio_gpu_is_vram(struct virtio_gpu_object *bo);
+ int virtio_gpu_vram_create(struct virtio_gpu_device *vgdev,
+ 			   struct virtio_gpu_object_params *params,
+ 			   struct virtio_gpu_object **bo_ptr);
++struct sg_table *virtio_gpu_vram_map_dma_buf(struct virtio_gpu_object *bo,
++					     struct device *dev,
++					     enum dma_data_direction dir);
++void virtio_gpu_vram_unmap_dma_buf(struct device *dev,
++				   struct sg_table *sgt,
++				   enum dma_data_direction dir);
++
+ #endif
+diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+index 807a27a16365..7b940be3323f 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_prime.c
++++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+@@ -43,13 +43,41 @@ static int virtgpu_virtio_get_uuid(struct dma_buf *buf,
+ 	return 0;
+ }
+ 
++static struct sg_table *
++virtgpu_gem_map_dma_buf(struct dma_buf_attachment *attach,
++			enum dma_data_direction dir)
++{
++	struct drm_gem_object *obj = attach->dmabuf->priv;
++	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++
++	if (virtio_gpu_is_vram(bo))
++		return virtio_gpu_vram_map_dma_buf(bo, attach->dev, dir);
++
++	return drm_gem_map_dma_buf(attach, dir);
++}
++
++static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
++				      struct sg_table *sgt,
++				      enum dma_data_direction dir)
++{
++	struct drm_gem_object *obj = attach->dmabuf->priv;
++	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++
++	if (virtio_gpu_is_vram(bo)) {
++		virtio_gpu_vram_unmap_dma_buf(attach->dev, sgt, dir);
++		return;
++	}
++
++	drm_gem_unmap_dma_buf(attach, sgt, dir);
++}
++
+ static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
+ 	.ops = {
+ 		.cache_sgt_mapping = true,
+ 		.attach = virtio_dma_buf_attach,
+ 		.detach = drm_gem_map_detach,
+-		.map_dma_buf = drm_gem_map_dma_buf,
+-		.unmap_dma_buf = drm_gem_unmap_dma_buf,
++		.map_dma_buf = virtgpu_gem_map_dma_buf,
++		.unmap_dma_buf = virtgpu_gem_unmap_dma_buf,
+ 		.release = drm_gem_dmabuf_release,
+ 		.mmap = drm_gem_dmabuf_mmap,
+ 		.vmap = drm_gem_dmabuf_vmap,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
+index 5cc34e7330fa..6b45b0429fef 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vram.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
+@@ -1,6 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include "virtgpu_drv.h"
+ 
++#include <linux/dma-mapping.h>
++
+ static void virtio_gpu_vram_free(struct drm_gem_object *obj)
+ {
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+@@ -64,6 +66,65 @@ static int virtio_gpu_vram_mmap(struct drm_gem_object *obj,
+ 	return ret;
+ }
+ 
++struct sg_table *virtio_gpu_vram_map_dma_buf(struct virtio_gpu_object *bo,
++					     struct device *dev,
++					     enum dma_data_direction dir)
++{
++	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
++	struct virtio_gpu_object_vram *vram = to_virtio_gpu_vram(bo);
++	struct sg_table *sgt;
++	dma_addr_t addr;
++	int ret;
++
++	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
++	if (!sgt)
++		return ERR_PTR(-ENOMEM);
++
++	if (!(bo->blob_flags & VIRTGPU_BLOB_FLAG_USE_MAPPABLE)) {
++		// Virtio devices can access the dma-buf via its UUID. Return a stub
++		// sg_table so the dma-buf API still works.
++		if (!is_virtio_device(dev) || !vgdev->has_resource_assign_uuid) {
++			ret = -EIO;
++			goto out;
++		}
++		return sgt;
++	}
++
++	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
++	if (ret)
++		goto out;
++
++	addr = dma_map_resource(dev, vram->vram_node.start,
++				vram->vram_node.size, dir,
++				DMA_ATTR_SKIP_CPU_SYNC);
++	ret = dma_mapping_error(dev, addr);
++	if (ret)
++		goto out;
++
++	sg_set_page(sgt->sgl, NULL, vram->vram_node.size, 0);
++	sg_dma_address(sgt->sgl) = addr;
++	sg_dma_len(sgt->sgl) = vram->vram_node.size;
++
++	return sgt;
++out:
++	sg_free_table(sgt);
++	kfree(sgt);
++	return ERR_PTR(ret);
++}
++
++void virtio_gpu_vram_unmap_dma_buf(struct device *dev,
++				   struct sg_table *sgt,
++				   enum dma_data_direction dir)
++{
++	if (sgt->nents) {
++		dma_unmap_resource(dev, sg_dma_address(sgt->sgl),
++				   sg_dma_len(sgt->sgl), dir,
++				   DMA_ATTR_SKIP_CPU_SYNC);
++	}
++	sg_free_table(sgt);
++	kfree(sgt);
++}
++
+ static const struct drm_gem_object_funcs virtio_gpu_vram_funcs = {
+ 	.open = virtio_gpu_gem_object_open,
+ 	.close = virtio_gpu_gem_object_close,
+-- 
+2.33.0.rc1.237.g0d66db33f3-goog
 
-Okay. I will change to const u8 *dpcd at all the required places.
-
->> 
->>         opts_dp->lanes = ctrl->link->link_params.num_lanes;
->>         opts_dp->link_rate = ctrl->link->link_params.rate / 100;
->> +       opts_dp->ssc = dpcd[DP_MAX_DOWNSPREAD] & 
->> DP_MAX_DOWNSPREAD_0_5;
->>         dp_ctrl_set_clock_rate(ctrl, DP_CTRL_PM, "ctrl_link",
->>                                         ctrl->link->link_params.rate * 
->> 1000);
->> 
->> @@ -1760,6 +1776,9 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->>         ctrl->link->link_params.num_lanes = 
->> ctrl->panel->link_info.num_lanes;
->>         ctrl->dp_ctrl.pixel_rate = 
->> ctrl->panel->dp_mode.drm_mode.clock;
->> 
->> +       if (ctrl->dp_ctrl.pixel_rate == 0)
->> +               return -EINVAL;
->> +
-> 
-> Why are we enabling the stream with a zero pixel clk?
-> 
-
-This was an error condition I encountered while bringing up sc7280. HPD 
-processing was delayed and I got a commit with pixel clock = 0. I will 
-recheck why this is happening.
-
->>         DRM_DEBUG_DP("rate=%d, num_lanes=%d, pixel_rate=%d\n",
->>                 ctrl->link->link_params.rate,
->>                 ctrl->link->link_params.num_lanes, 
->> ctrl->dp_ctrl.pixel_rate);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index ee5bf64..a772290 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -117,8 +117,36 @@ struct dp_display_private {
->>         struct dp_audio *audio;
->>  };
->> 
->> +struct msm_dp_config {
->> +       phys_addr_t io_start[3];
->> +       size_t num_dp;
->> +};
->> +
->> +static const struct msm_dp_config sc7180_dp_cfg = {
->> +       .io_start = { 0x0ae90000 },
->> +       .num_dp = 1,
->> +};
->> +
->> +static const struct msm_dp_config sc8180x_dp_cfg = {
->> +       .io_start = { 0xae90000, 0xae98000, 0 },
->> +       .num_dp = 3,
->> +};
->> +
->> +static const struct msm_dp_config sc8180x_edp_cfg = {
->> +       .io_start = { 0, 0, 0xae9a000 },
->> +       .num_dp = 3,
->> +};
->> +
->> +static const struct msm_dp_config sc7280_edp_cfg = {
->> +       .io_start = { 0xaea0000, 0 },
->> +       .num_dp = 2,
->> +};
-> 
-> Are all of these supposed to be here?
-
-No. I will remove them. Only sc7280_edp_cfg will be there.
-
-> 
->> +
->>  static const struct of_device_id dp_dt_match[] = {
->> -       {.compatible = "qcom,sc7180-dp"},
->> +       { .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_cfg },
->> +       { .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_cfg },
->> +       { .compatible = "qcom,sc8180x-edp", .data = &sc8180x_edp_cfg 
->> },
->> +       { .compatible = "qcom,sc7280-edp", .data = &sc7280_edp_cfg },
-> 
-> Please sort alphabetically on compatible string, it helps avoid
-> conflicts in the future.
-
-Okay
-
-> 
->>         {}
->>  };
->> 
->> @@ -1408,7 +1436,7 @@ void msm_dp_irq_postinstall(struct msm_dp 
->> *dp_display)
->> 
->>         dp_hpd_event_setup(dp);
->> 
->> -       dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
->> +       dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 1);
->>  }
->> 
->>  void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor 
->> *minor)
->> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c 
->> b/drivers/gpu/drm/msm/dp/dp_parser.c
->> index 0519dd3..c05fc0a 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
->> @@ -248,6 +248,33 @@ static int dp_parser_clock(struct dp_parser 
->> *parser)
->>         return 0;
->>  }
->> 
->> +static int dp_parser_gpio(struct dp_parser *parser)
->> +{
->> +       struct device *dev = &parser->pdev->dev;
->> +       int ret;
->> +
->> +       parser->panel_bklt_gpio = devm_gpiod_get(dev, "panel-bklt",
->> +                       GPIOD_OUT_HIGH);
->> +       if (IS_ERR(parser->panel_bklt_gpio)) {
->> +               ret = PTR_ERR(parser->panel_bklt_gpio);
->> +               parser->panel_bklt_gpio = NULL;
->> +               DRM_ERROR("%s: cannot get panel-bklt gpio, %d\n", 
->> __func__, ret);
->> +               goto fail;
->> +       }
->> +
->> +       parser->panel_pwm_gpio = devm_gpiod_get(dev, "panel-pwm", 
->> GPIOD_OUT_HIGH);
->> +       if (IS_ERR(parser->panel_pwm_gpio)) {
->> +               ret = PTR_ERR(parser->panel_pwm_gpio);
->> +               parser->panel_pwm_gpio = NULL;
->> +               DRM_ERROR("%s: cannot get panel-pwm gpio, %d\n", 
->> __func__, ret);
->> +               goto fail;
->> +       }
->> +
->> +       DRM_INFO("gpio on");
->> +fail:
->> +       return 0;
->> +}
-> 
-> Don't we have pwm backlight drivers like
-> drivers/video/backlight/pwm_bl.c to support this? This sort of thing
-> doesn't belong in the dp driver.
-
-Okay. I will explore it.
-
-> 
->> +
->>  static int dp_parser_parse(struct dp_parser *parser)
->>  {
->>         int rc = 0;
->> @@ -269,6 +296,10 @@ static int dp_parser_parse(struct dp_parser 
->> *parser)
->>         if (rc)
->>                 return rc;
->> 
->> +       rc = dp_parser_gpio(parser);
->> +       if (rc)
->> +               return rc;
->> +
->>         /* Map the corresponding regulator information according to
->>          * version. Currently, since we only have one supported 
->> platform,
->>          * mapping the regulator directly.
-
-Thank you,
-Sankeerth
