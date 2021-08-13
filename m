@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B56F3EB0D3
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 08:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC35B3EB0D4
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 08:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CABEC6E52E;
-	Fri, 13 Aug 2021 06:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8EA16E530;
+	Fri, 13 Aug 2021 06:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D128D6E4AD
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 02:07:40 +0000 (UTC)
-X-UUID: de68473641a345ddbd1207169226d919-20210813
-X-UUID: de68473641a345ddbd1207169226d919-20210813
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 244095969; Fri, 13 Aug 2021 10:07:36 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 13 Aug 2021 10:07:35 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Fri, 13 Aug 2021 10:07:34 +0800
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: <thierry.reding@gmail.com>, <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, Rex-BC Chen
- <rex-bc.chen@mediatek.com>
-Subject: [V1] drm/panel: panel-simple: Add delay for LG LP120UP1
-Date: Fri, 13 Aug 2021 10:06:30 +0800
-Message-ID: <20210813020630.12052-1-rex-bc.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+X-Greylist: delayed 368 seconds by postgrey-1.36 at gabe;
+ Fri, 13 Aug 2021 03:36:33 UTC
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com
+ [162.62.57.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46F8A6E4B1;
+ Fri, 13 Aug 2021 03:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1628825788; bh=rViq60LtzWJcoJDiQ9b1+/kIjUovnJp4t/ZVZrd2Ks0=;
+ h=From:To:Cc:Subject:Date;
+ b=pisT4w3N1WHAQx+v4e/w2b/uba+jYQeOd6bQR96zOmnzBOVXP0z1+24yMBexIOEa9
+ niKroJgf2Vd/+5Pb03O9T+3z4eXji5/YxchI5vBfo9TluyjvFcY6K+hQxdLyGnHXkQ
+ dHDmnvJbU8uF3L0A2NWjYNHiWWmsgTHA5WayjzSg=
+Received: from localhost.localdomain ([106.120.213.23])
+ by newxmesmtplogicsvrszb7.qq.com (NewEsmtp) with SMTP
+ id 71C2CC25; Fri, 13 Aug 2021 11:28:28 +0800
+X-QQ-mid: xmsmtpt1628825308tloi975vk
+Message-ID: <tencent_D167B6522B17C0228524C70F9CA5EEBBEC09@qq.com>
+X-QQ-XMAILINFO: M2QCdMyLnanc1fNRNyhut05HsD9IXOUsGmzNo/z5kVAFyOLTS4sG92DTq19Oyk
+ maKi7NDXnkOPTUdbmS5kn9RAVb4EgYqFfsnsIvMXxs83TKg6LHQZ9uRu99OBz8lSakJtSpCm4alN
+ 1N9VPAmqK6jyy1UBT1G1cI2BbDu0itZ+0wlXOQdh9M0jNTy75iG2RHEv6rcByymX++OD7GjQ20OG
+ MKWYI8jeSe/+uyFo+OXkxfmzFsvls2gHIRKqG7AlAAWFLnqRCdO8vijWlCaRwb8Yy3bL/iEj4kky
+ Uaz6LkbH0pURDC4o6fxu6aIb6rb//kz1xfI8topjqESY04RS5xLvVm0lUqBgQYpalu/fSyyJVGUd
+ cpiMYTUfcNfB/nzPgs66Zf9qy5j52BnyxYLFFh/thi4cBmQWOA3RmI+PVf4bxtHuNGqv662MShpt
+ TNQR8MVX8LLj1knhi827yBeIcE9at7o08lj8EXu3Zs100fMiB3YprHm2+E6mJ58k6ifW/mniFhKc
+ tat5f3/pVbZXFY1mqfKQo4dIlnYvEGt/mhfbN1eFnHMZhPvf7lh7JtJ/MdjVKnXXMql7q9S/R3p6
+ DLxXU1Jxk4SW1XNIlWgWpHO9U+Jy5U+dw14IAt84oNzwHL6J9Jse4Zu6S289zOwLy5g3bASQKF4u
+ H9QkTtb557JkgKAxFl8foGt5V8c8skPmR1iqWRUaIgQINrzalAcBwJWr30nCw3No9slE6SzK+T9L
+ K+SPYJi58RkUGra26gnNZmRP6sUqypdGgl/keubCTMt6qHQ/EelgmkdDrgxmUNcqeE/If1nMV3lW
+ eMVeezsQElYwsPZP3QHuf+FI5oOvk+/nvQjSNYGZbnoW6c1o/9gfhTHwzoO0GgWK6t5ZZ52LTWpu
+ 3CkEuKnC0QamSlylD0H+g=
+From: lwt105 <3061522931@qq.com>
+To: alexander.deucher@amd.com
+Cc: christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, sumit.semwal@linaro.org, nirmoy.das@amd.com,
+ chenli@uniontech.com, JinhuiEric.Huang@amd.com, mh12gx2825@gmail.com,
+ lee.jones@linaro.org, kevin1.wang@amd.com, luben.tuikov@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, lwt105 <3061522931@qq.com>
+Subject: [PATCH] drivers:gpu:drm:amd:amdgpu:fix a potential use-after-free
+Date: Fri, 13 Aug 2021 11:28:25 +0800
+X-OQ-MSGID: <20210813032825.99385-1-3061522931@qq.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 13 Aug 2021 06:58:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,29 +70,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add power sequence for LG LP120UP1.
+in line 1503, "dma_fence_put(fence);" drop the reference to fence and may
+cause fence to be released. However, fence is used subsequently in line
+1510 "fence->error". This may result in an use-after-free bug.
 
-Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+It can be fixed by recording fence->error in an variable before dropping
+the reference to fence and referencing it after dropping.
+
+Signed-off-by: lwt105 <3061522931@qq.com>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 21939d4..15cefb0 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2886,6 +2886,11 @@ static const struct panel_desc lg_lp120up1 = {
- 		.width = 267,
- 		.height = 183,
- 	},
-+	.delay = {
-+		.prepare = 200,
-+		.enable = 50,
-+		.unprepare = 500,
-+	},
- 	.connector_type = DRM_MODE_CONNECTOR_eDP,
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 30fa1f61e0e5..99d03180e113 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1486,7 +1486,7 @@ static int amdgpu_cs_wait_all_fences(struct amdgpu_device *adev,
+ 				     struct drm_amdgpu_fence *fences)
+ {
+ 	uint32_t fence_count = wait->in.fence_count;
+-	unsigned int i;
++	unsigned int i, error;
+ 	long r = 1;
  
+ 	for (i = 0; i < fence_count; i++) {
+@@ -1500,6 +1500,7 @@ static int amdgpu_cs_wait_all_fences(struct amdgpu_device *adev,
+ 			continue;
+ 
+ 		r = dma_fence_wait_timeout(fence, true, timeout);
++		error = fence->error;
+ 		dma_fence_put(fence);
+ 		if (r < 0)
+ 			return r;
+@@ -1507,8 +1508,8 @@ static int amdgpu_cs_wait_all_fences(struct amdgpu_device *adev,
+ 		if (r == 0)
+ 			break;
+ 
+-		if (fence->error)
+-			return fence->error;
++		if (error)
++			return error;
+ 	}
+ 
+ 	memset(wait, 0, sizeof(*wait));
 -- 
-2.6.4
+2.25.1
+
 
