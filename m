@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B2A3EBD66
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 22:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C3A3EBD60
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Aug 2021 22:31:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 756D46E8E9;
-	Fri, 13 Aug 2021 20:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067486E8E3;
+	Fri, 13 Aug 2021 20:30:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1F6E6E8D2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 20:30:47 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id b10so11931915eju.9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 13:30:47 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1486E8D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 20:30:48 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id q3so13039639edt.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Aug 2021 13:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5RNSn0oqDG2guAp1Jqo9PqmZpUYkT/Ygh6UuvTqaVw4=;
- b=kGS3+VdvxRwHWnGu9oqTHJ0MsvkIMKkq+SaCG/+9yhOCtA72H9tZePW5jjGKfuBOMl
- FpTFe7sYvC021kqBBKLiFgUDbpP2MB2CFzAoMxQJOWKLytRnmUrX01+0XBJ+imc2eogd
- pKQU1o3O+/0JaHGvrlWRSQnkPcLVOJv8YEJYE=
+ bh=XxcJ4iRx+uQorCD2l2uBaNCpQD/P7b5uicGWO5Pfa74=;
+ b=lRFg3+GvEv6bN88cEUEBbHcyq0YDboHjSpDhOyVKpqnbmeObHPjQKE5/yqnMV9l6+r
+ xpyDKmvms9nTKQqfQzY306OVCQRLnxlix7Z1PTaepm97LoMKkzfmLy+D1IbiNPVnGJ9G
+ A+B0ig+Z7LSYM1CxiKQWXdBoyERdMvEqgD6rc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5RNSn0oqDG2guAp1Jqo9PqmZpUYkT/Ygh6UuvTqaVw4=;
- b=jynjpuD7V3IVRllifBZj0TmPVP/OugyRXvQPNgBoyHPAuA2+3uf3o8yGmiQd3H6quc
- NqN2+f8jkCmWAF+LZ+lZejFC1bi5g/R1aBuP1+EWQKtyK56dAGnLMbPHS/P8KonRWCXe
- Z7iSiXGXLMMjaLmN8oJYL+C6YYJGQFSMyQeP72Xft1XtveCGT9ofc1+gLKUI72IW/OA9
- soncnv4fp8GWc2wXxYT3FOC41wf+9oXMGV4xOCzvoZqmYhD9Vo7snfikcZDCNekRwD+q
- FZzQ9vauLZiCBvK2jb1R8xRvkrqltdy2+df+BpU0VjDjKD8rt67R/EW99xc1mRg1zs5A
- luzg==
-X-Gm-Message-State: AOAM531j77zIQkDvMn4vxQVYIJC+g84SFNkiTCsDj+rs1JoQyI/xaIjn
- eUuPAYwyBb9YJiUUPyDfgAZlW2trktCVHA==
-X-Google-Smtp-Source: ABdhPJzx8REqq3zX7SJVGBTkg+WgiZA3pAKLFub4Wvsp/CnsHdnc7Teh4Ppscfndri5N6xSd86BrHA==
-X-Received: by 2002:a17:906:1412:: with SMTP id
- p18mr4198406ejc.545.1628886646310; 
- Fri, 13 Aug 2021 13:30:46 -0700 (PDT)
+ bh=XxcJ4iRx+uQorCD2l2uBaNCpQD/P7b5uicGWO5Pfa74=;
+ b=PadiBzSfOKVTB3Io8Bxnhubi0CGB5JcozkVKXVIK94BgRvBMNjYte1zCaPRRYMZ3iU
+ kj0SWUPVACVJ96/3fApB15CFWnnIVM9zBLP6ySeziE6VL15Bf73C7E+YhpmkVdYZCFnX
+ gxKIIU+VqOwo1+RW8DxIUpoN6YH3FOJh3jAkY9xrD8SAbSiCcvvyww5L0jcfSt32gc4m
+ y1PLE7CmEdsrNQEUrfWzpm498kvtltzHHslNox5jBF+r7KeSlyAJCQPis7I+g/5OIndL
+ acRS0apjIZ6AuWtXDBl1HJ8ncruoKpyMC+zFrsfV9K+47ky7X5C5qkaSnP+M/a7yUvc3
+ PqJg==
+X-Gm-Message-State: AOAM531EJchHljRdUgtAkpFMYVGRDAiQXK6o8CLKfZMgAM95ekrfaUMS
+ 5iJJDEPf8MgD2KI/y/+1pC2FYEkydhWhog==
+X-Google-Smtp-Source: ABdhPJyGciGGw9et/LDhD0OVFvzQ2GCo+zuRJu+zvH+g8ZPAj5GXTzZIVlBvo6IBy27R+VVe9xj0ng==
+X-Received: by 2002:aa7:c952:: with SMTP id h18mr5450162edt.18.1628886647213; 
+ Fri, 13 Aug 2021 13:30:47 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y17sm1347027edv.51.2021.08.13.13.30.45
+ by smtp.gmail.com with ESMTPSA id y17sm1347027edv.51.2021.08.13.13.30.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Aug 2021 13:30:45 -0700 (PDT)
+ Fri, 13 Aug 2021 13:30:46 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
@@ -56,9 +55,10 @@ Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Matthew Auld <matthew.auld@intel.com>,
  Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
  Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-Subject: [PATCH 07/11] drm/i915: Add i915_gem_context_is_full_ppgtt
-Date: Fri, 13 Aug 2021 22:30:29 +0200
-Message-Id: <20210813203033.3179400-7-daniel.vetter@ffwll.ch>
+Subject: [PATCH 08/11] drm/i915: Use i915_gem_context_get_eb_vm in
+ intel_context_set_gem
+Date: Fri, 13 Aug 2021 22:30:30 +0200
+Message-Id: <20210813203033.3179400-8-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
 References: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
@@ -80,15 +80,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-And use it anywhere we have open-coded checks for ctx->vm that really
-only check for full ppgtt.
+Since
 
-Plus for paranoia add a GEM_BUG_ON that checks it's really only set
-when we have full ppgtt, just in case. gem_context->vm is different
-since it's NULL in ggtt mode, unlike intel_context->vm or gt->vm,
-which is always set.
+commit ccbc1b97948ab671335e950271e39766729736c3
+Author: Jason Ekstrand <jason@jlekstrand.net>
+Date:   Thu Jul 8 10:48:30 2021 -0500
 
-v2: 0day found a testcase that I missed.
+    drm/i915/gem: Don't allow changing the VM on running contexts (v4)
+
+the gem_ctx->vm can't change anymore. Plus we always set the
+intel_context->vm, so might as well use the helper we have for that.
+
+This makes it very clear that we always overwrite intel_context->vm
+for userspace contexts, since the default is gt->vm, which is
+explicitly reserved for kernel context use. It would be good to split
+things up a bit further and avoid any possibility for an accident
+where we run kernel stuff in userspace vm or the other way round.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Jon Bloomfield <jon.bloomfield@intel.com>
@@ -102,87 +109,32 @@ Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 Cc: Dave Airlie <airlied@redhat.com>
 Cc: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c           | 2 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.h           | 7 +++++++
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c        | 2 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 6 +++---
- 4 files changed, 12 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 7a566fb7cca4..1eec85944c1f 100644
+index 1eec85944c1f..18e23d9220ae 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1566,7 +1566,7 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
- 	int err;
- 	u32 id;
+@@ -791,16 +791,8 @@ static int intel_context_set_gem(struct intel_context *ce,
  
--	if (!rcu_access_pointer(ctx->vm))
-+	if (!i915_gem_context_is_full_ppgtt(ctx))
- 		return -ENODEV;
+ 	ce->ring_size = SZ_16K;
  
- 	rcu_read_lock();
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-index da6e8b506d96..37536a260e6e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-@@ -154,6 +154,13 @@ i915_gem_context_vm(struct i915_gem_context *ctx)
- 	return rcu_dereference_protected(ctx->vm, lockdep_is_held(&ctx->mutex));
- }
+-	if (rcu_access_pointer(ctx->vm)) {
+-		struct i915_address_space *vm;
+-
+-		rcu_read_lock();
+-		vm = context_get_vm_rcu(ctx); /* hmm */
+-		rcu_read_unlock();
+-
+-		i915_vm_put(ce->vm);
+-		ce->vm = vm;
+-	}
++	i915_vm_put(ce->vm);
++	ce->vm = i915_gem_context_get_eb_vm(ctx);
  
-+static inline bool i915_gem_context_is_full_ppgtt(struct i915_gem_context *ctx)
-+{
-+	GEM_BUG_ON(!!rcu_access_pointer(ctx->vm) != HAS_FULL_PPGTT(ctx->i915));
-+
-+	return !!rcu_access_pointer(ctx->vm);
-+}
-+
- static inline struct i915_address_space *
- i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
- {
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 905b1cbd22d5..40f08948f0b2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -749,7 +749,7 @@ static int eb_select_context(struct i915_execbuffer *eb)
- 		return PTR_ERR(ctx);
- 
- 	eb->gem_context = ctx;
--	if (rcu_access_pointer(ctx->vm))
-+	if (i915_gem_context_is_full_ppgtt(ctx))
- 		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-index d436ce7fa25c..0708b9cdeb9f 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-@@ -704,7 +704,7 @@ static int igt_ctx_exec(void *arg)
- 				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
- 				       ndwords, dw, max_dwords(obj),
- 				       engine->name,
--				       yesno(!!rcu_access_pointer(ctx->vm)),
-+				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
- 				       err);
- 				intel_context_put(ce);
- 				kernel_context_close(ctx);
-@@ -838,7 +838,7 @@ static int igt_shared_ctx_exec(void *arg)
- 				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
- 				       ndwords, dw, max_dwords(obj),
- 				       engine->name,
--				       yesno(!!rcu_access_pointer(ctx->vm)),
-+				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
- 				       err);
- 				intel_context_put(ce);
- 				kernel_context_close(ctx);
-@@ -1417,7 +1417,7 @@ static int igt_ctx_readonly(void *arg)
- 				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
- 				       ndwords, dw, max_dwords(obj),
- 				       ce->engine->name,
--				       yesno(!!ctx_vm(ctx)),
-+				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
- 				       err);
- 				i915_gem_context_unlock_engines(ctx);
- 				goto out_file;
+ 	if (ctx->sched.priority >= I915_PRIORITY_NORMAL &&
+ 	    intel_engine_has_timeslices(ce->engine) &&
 -- 
 2.32.0
 
