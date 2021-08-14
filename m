@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634FB3EC4A4
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Aug 2021 21:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F82D3EC543
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Aug 2021 23:00:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 952F789CD7;
-	Sat, 14 Aug 2021 19:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 056926E901;
+	Sat, 14 Aug 2021 21:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C533289CD7;
- Sat, 14 Aug 2021 19:08:23 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f1db90092f0c5d5424adff0.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f1d:b900:92f0:c5d5:424a:dff0])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 54E261EC03D5;
- Sat, 14 Aug 2021 21:08:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1628968096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=mDvb80MdTaf2VGaprn1/RrktzLeXuWn32fRrJqO4RnI=;
- b=n25sOE9lUdWfF/+b9LVVu/c0RTBIvawG0223WpI1YjhZEQbLgR8M8pMHyOitDdblT/KimW
- wNA1cSGSX7URig9TBS5k8aka8wDk2wkKQnurLH+/Lu/L/dwizp44Ektb+n/sT1fMvyEOwE
- k/pW/5vABtT/pfK15uGy1LwHKVyiZxY=
-Date: Sat, 14 Aug 2021 21:08:55 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH v2 03/12] x86/sev: Add an x86 version of prot_guest_has()
-Message-ID: <YRgUxyhoqVJ0Kxvt@zn.tnic>
-References: <cover.1628873970.git.thomas.lendacky@amd.com>
- <7d55bac0cf2e73f53816bce3a3097877ed9663f3.1628873970.git.thomas.lendacky@amd.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0526F6E901
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Aug 2021 21:00:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id E7C4D61042
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Aug 2021 21:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1628974821;
+ bh=mFONqMSxsTS7gMbKk5Y8aNn4Fif6nPjLLXX+FWlbPMc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ZOoHjhpqJV0IQAZDb51pkHizmU5mred4gN/7SUKOrk8W8BjA3cG/5HBq/0d9/Xd7k
+ f9Iq5Ui9gZ5YcIAdFfS0ePkkYSl9jwZm+/FaAu6Zs3oxa9eivr0nwSzQbvidMLVksq
+ NtgN7IbLDa/U2lb5ei6PVbg148X2dEtQTw5/ia2Ge5KWx9ZRPJHYJvzxk09fiwmUTQ
+ Tp4AkblNQilPxFsGFVHH58dZsXEexWXXlf4DuA2Y6Z6STWoQDdplObDhZWIR9R6URY
+ xbdj/UIvYTT+YDKerreannZMx/mWXtzMfSFusclA9w14Hgy7R0dm+Y9vBu0OUE6FH1
+ SGGXW1WU6AmIQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id E4B2960EE7; Sat, 14 Aug 2021 21:00:21 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
+ amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
+ gfx timeout, but soft recovered
+Date: Sat, 14 Aug 2021 21:00:21 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: mcmarius@gmx.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-213391-2300-t4MQjiM0hc@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
+References: <bug-213391-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7d55bac0cf2e73f53816bce3a3097877ed9663f3.1628873970.git.thomas.lendacky@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,96 +70,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 13, 2021 at 11:59:22AM -0500, Tom Lendacky wrote:
-> diff --git a/arch/x86/include/asm/protected_guest.h b/arch/x86/include/asm/protected_guest.h
-> new file mode 100644
-> index 000000000000..51e4eefd9542
-> --- /dev/null
-> +++ b/arch/x86/include/asm/protected_guest.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Protected Guest (and Host) Capability checks
-> + *
-> + * Copyright (C) 2021 Advanced Micro Devices, Inc.
-> + *
-> + * Author: Tom Lendacky <thomas.lendacky@amd.com>
-> + */
-> +
-> +#ifndef _X86_PROTECTED_GUEST_H
-> +#define _X86_PROTECTED_GUEST_H
-> +
-> +#include <linux/mem_encrypt.h>
-> +
-> +#ifndef __ASSEMBLY__
-> +
-> +static inline bool prot_guest_has(unsigned int attr)
-> +{
-> +#ifdef CONFIG_AMD_MEM_ENCRYPT
-> +	if (sme_me_mask)
-> +		return amd_prot_guest_has(attr);
-> +#endif
-> +
-> +	return false;
-> +}
-> +
-> +#endif	/* __ASSEMBLY__ */
-> +
-> +#endif	/* _X86_PROTECTED_GUEST_H */
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
 
-I think this can be simplified more, diff ontop below:
+mcmarius@gmx.net changed:
 
-- no need for the ifdeffery as amd_prot_guest_has() has versions for
-both when CONFIG_AMD_MEM_ENCRYPT is set or not.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mcmarius@gmx.net
 
-- the sme_me_mask check is pushed there too.
+--- Comment #35 from mcmarius@gmx.net ---
+i have a Lenovo L340 and the same problem
 
-- and since this is vendor-specific, I'm checking the vendor bit. Yeah,
-yeah, cross-vendor but I don't really believe that.
+here is the complete dmesg log
 
----
-diff --git a/arch/x86/include/asm/protected_guest.h b/arch/x86/include/asm/protected_guest.h
-index 51e4eefd9542..8541c76d5da4 100644
---- a/arch/x86/include/asm/protected_guest.h
-+++ b/arch/x86/include/asm/protected_guest.h
-@@ -12,18 +12,13 @@
- 
- #include <linux/mem_encrypt.h>
- 
--#ifndef __ASSEMBLY__
--
- static inline bool prot_guest_has(unsigned int attr)
- {
--#ifdef CONFIG_AMD_MEM_ENCRYPT
--	if (sme_me_mask)
-+	if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD ||
-+	    boot_cpu_data.x86_vendor == X86_VENDOR_HYGON)
- 		return amd_prot_guest_has(attr);
--#endif
- 
- 	return false;
- }
- 
--#endif	/* __ASSEMBLY__ */
--
- #endif	/* _X86_PROTECTED_GUEST_H */
-diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
-index edc67ddf065d..5a0442a6f072 100644
---- a/arch/x86/mm/mem_encrypt.c
-+++ b/arch/x86/mm/mem_encrypt.c
-@@ -392,6 +392,9 @@ bool noinstr sev_es_active(void)
- 
- bool amd_prot_guest_has(unsigned int attr)
- {
-+	if (!sme_me_mask)
-+		return false;
-+
- 	switch (attr) {
- 	case PATTR_MEM_ENCRYPT:
- 		return sme_me_mask != 0;
+https://gist.github.com/McMarius11/36c8d21a2dcaf5c2289c91a74af4f7fb
 
--- 
-Regards/Gruss,
-    Boris.
+Operating System: Manjaro Linux
+KDE Plasma Version: 5.22.4
+KDE Frameworks Version: 5.84.0
+Qt Version: 5.15.2
+Kernel Version: 5.11.22-2-MANJARO (64-bit)
+Graphics Platform: X11
+Processors: 8 =C3=97 AMD Ryzen 7 3700U with Radeon Vega Mobile Gfx
+Memory: 5,6 GiB of RAM
+Graphics Processor: AMD Radeon=E2=84=A2 Vega 10 Graphics
 
-https://people.kernel.org/tglx/notes-about-netiquette
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
