@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96BE23EC9BD
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Aug 2021 16:56:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156CE3EC9C4
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Aug 2021 16:58:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C761E89B0B;
-	Sun, 15 Aug 2021 14:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9094489B98;
+	Sun, 15 Aug 2021 14:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0016589097
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Aug 2021 14:56:20 +0000 (UTC)
-X-UUID: f73722521a194dae99a372fe86152be3-20210815
-X-UUID: f73722521a194dae99a372fe86152be3-20210815
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C78CB897B5
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Aug 2021 14:56:21 +0000 (UTC)
+X-UUID: 362b3394355b485b9e2ce36db0c05cf1-20210815
+X-UUID: 362b3394355b485b9e2ce36db0c05cf1-20210815
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
  (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 671172207; Sun, 15 Aug 2021 22:56:17 +0800
+ with ESMTP id 960531394; Sun, 15 Aug 2021 22:56:18 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Sun, 15 Aug 2021 22:56:16 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -36,10 +36,9 @@ CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Fabien
  <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-mediatek@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v7 08/13] drm/mediatek: remove unused define in
- mtk_drm_ddp_comp.c
-Date: Sun, 15 Aug 2021 22:56:05 +0800
-Message-ID: <20210815145610.2050-9-jason-jh.lin@mediatek.com>
+Subject: [PATCH v7 09/13] drm/mediatek: rename the define of register offset
+Date: Sun, 15 Aug 2021 22:56:06 +0800
+Message-ID: <20210815145610.2050-10-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210815145610.2050-1-jason-jh.lin@mediatek.com>
 References: <20210815145610.2050-1-jason-jh.lin@mediatek.com>
@@ -61,54 +60,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the unsed define in mtk_drm_ddp_comp.c
+Add DISP_REG prefix for the define of register offset to
+make the difference from the define of register value.
 
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 57 +++++++++++----------
+ 1 file changed, 29 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 75bc00e17fc4..aaa7450b3e2b 100644
+index aaa7450b3e2b..93beb980414f 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -21,8 +21,6 @@
+@@ -20,25 +20,25 @@
+ #include "mtk_drm_ddp_comp.h"
  #include "mtk_drm_crtc.h"
  
- #define DISP_OD_EN				0x0000
--#define DISP_OD_INTEN				0x0008
--#define DISP_OD_INTSTA				0x000c
- #define DISP_OD_CFG				0x0020
- #define DISP_OD_SIZE				0x0030
- #define DISP_DITHER_5				0x0114
-@@ -42,8 +40,6 @@
- #define DITHER_ENGINE_EN			BIT(1)
- #define DISP_DITHER_SIZE			0x0030
+-#define DISP_OD_EN				0x0000
+-#define DISP_OD_CFG				0x0020
+-#define DISP_OD_SIZE				0x0030
+-#define DISP_DITHER_5				0x0114
+-#define DISP_DITHER_7				0x011c
+-#define DISP_DITHER_15				0x013c
+-#define DISP_DITHER_16				0x0140
++#define DISP_REG_OD_EN				0x0000
++#define DISP_REG_OD_CFG				0x0020
++#define DISP_REG_OD_SIZE			0x0030
++#define DISP_REG_DITHER_5			0x0114
++#define DISP_REG_DITHER_7			0x011c
++#define DISP_REG_DITHER_15			0x013c
++#define DISP_REG_DITHER_16			0x0140
  
--#define LUT_10BIT_MASK				0x03ff
--
+ #define DISP_REG_UFO_START			0x0000
+ 
+-#define DISP_AAL_EN				0x0000
+-#define DISP_AAL_SIZE				0x0030
++#define DISP_REG_AAL_EN				0x0000
++#define DISP_REG_AAL_SIZE			0x0030
+ 
+-#define DISP_DITHER_EN				0x0000
++#define DISP_REG_DITHER_EN			0x0000
+ #define DITHER_EN				BIT(0)
+-#define DISP_DITHER_CFG				0x0020
++#define DISP_REG_DITHER_CFG			0x0020
+ #define DITHER_RELAY_MODE			BIT(0)
+ #define DITHER_ENGINE_EN			BIT(1)
+-#define DISP_DITHER_SIZE			0x0030
++#define DISP_REG_DITHER_SIZE			0x0030
+ 
  #define OD_RELAYMODE				BIT(0)
  
- #define UFO_BYPASS				BIT(2)
-@@ -52,18 +48,12 @@
+@@ -129,19 +129,19 @@ void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
+ 		return;
  
- #define DISP_DITHERING				BIT(2)
- #define DITHER_LSB_ERR_SHIFT_R(x)		(((x) & 0x7) << 28)
--#define DITHER_OVFLW_BIT_R(x)			(((x) & 0x7) << 24)
- #define DITHER_ADD_LSHIFT_R(x)			(((x) & 0x7) << 20)
--#define DITHER_ADD_RSHIFT_R(x)			(((x) & 0x7) << 16)
- #define DITHER_NEW_BIT_MODE			BIT(0)
- #define DITHER_LSB_ERR_SHIFT_B(x)		(((x) & 0x7) << 28)
--#define DITHER_OVFLW_BIT_B(x)			(((x) & 0x7) << 24)
- #define DITHER_ADD_LSHIFT_B(x)			(((x) & 0x7) << 20)
--#define DITHER_ADD_RSHIFT_B(x)			(((x) & 0x7) << 16)
- #define DITHER_LSB_ERR_SHIFT_G(x)		(((x) & 0x7) << 12)
--#define DITHER_OVFLW_BIT_G(x)			(((x) & 0x7) << 8)
- #define DITHER_ADD_LSHIFT_G(x)			(((x) & 0x7) << 4)
--#define DITHER_ADD_RSHIFT_G(x)			(((x) & 0x7) << 0)
+ 	if (bpc >= MTK_MIN_BPC) {
+-		mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_DITHER_5);
+-		mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_DITHER_7);
++		mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_REG_DITHER_5);
++		mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_REG_DITHER_7);
+ 		mtk_ddp_write(cmdq_pkt,
+ 			      DITHER_LSB_ERR_SHIFT_R(MTK_MAX_BPC - bpc) |
+ 			      DITHER_ADD_LSHIFT_R(MTK_MAX_BPC - bpc) |
+ 			      DITHER_NEW_BIT_MODE,
+-			      cmdq_reg, regs, DISP_DITHER_15);
++			      cmdq_reg, regs, DISP_REG_DITHER_15);
+ 		mtk_ddp_write(cmdq_pkt,
+ 			      DITHER_LSB_ERR_SHIFT_B(MTK_MAX_BPC - bpc) |
+ 			      DITHER_ADD_LSHIFT_B(MTK_MAX_BPC - bpc) |
+ 			      DITHER_LSB_ERR_SHIFT_G(MTK_MAX_BPC - bpc) |
+ 			      DITHER_ADD_LSHIFT_G(MTK_MAX_BPC - bpc),
+-			      cmdq_reg, regs, DISP_DITHER_16);
++			      cmdq_reg, regs, DISP_REG_DITHER_16);
+ 		mtk_ddp_write(cmdq_pkt, dither_en, cmdq_reg, regs, cfg);
+ 	}
+ }
+@@ -161,16 +161,16 @@ static void mtk_od_config(struct device *dev, unsigned int w,
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
  
- struct mtk_ddp_comp_dev {
- 	struct clk *clk;
+-	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs, DISP_OD_SIZE);
+-	mtk_ddp_write(cmdq_pkt, OD_RELAYMODE, &priv->cmdq_reg, priv->regs, DISP_OD_CFG);
+-	mtk_dither_set(dev, bpc, DISP_OD_CFG, cmdq_pkt);
++	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs, DISP_REG_OD_SIZE);
++	mtk_ddp_write(cmdq_pkt, OD_RELAYMODE, &priv->cmdq_reg, priv->regs, DISP_REG_OD_CFG);
++	mtk_dither_set(dev, bpc, DISP_REG_OD_CFG, cmdq_pkt);
+ }
+ 
+ static void mtk_od_start(struct device *dev)
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+-	writel(1, priv->regs + DISP_OD_EN);
++	writel(1, priv->regs + DISP_REG_OD_EN);
+ }
+ 
+ static void mtk_ufoe_start(struct device *dev)
+@@ -186,7 +186,7 @@ static void mtk_aal_config(struct device *dev, unsigned int w,
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+-	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs, DISP_AAL_SIZE);
++	mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs, DISP_REG_AAL_SIZE);
+ }
+ 
+ static void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
+@@ -200,14 +200,14 @@ static void mtk_aal_start(struct device *dev)
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+-	writel(AAL_EN, priv->regs + DISP_AAL_EN);
++	writel(AAL_EN, priv->regs + DISP_REG_AAL_EN);
+ }
+ 
+ static void mtk_aal_stop(struct device *dev)
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+-	writel_relaxed(0x0, priv->regs + DISP_AAL_EN);
++	writel_relaxed(0x0, priv->regs + DISP_REG_AAL_EN);
+ }
+ 
+ static void mtk_dither_config(struct device *dev, unsigned int w,
+@@ -216,9 +216,10 @@ static void mtk_dither_config(struct device *dev, unsigned int w,
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+-	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs, DISP_DITHER_SIZE);
+-	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs, DISP_DITHER_CFG);
+-	mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc, DISP_DITHER_CFG,
++	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv->regs, DISP_REG_DITHER_SIZE);
++	mtk_ddp_write(cmdq_pkt, DITHER_RELAY_MODE, &priv->cmdq_reg, priv->regs,
++		      DISP_REG_DITHER_CFG);
++	mtk_dither_set_common(priv->regs, &priv->cmdq_reg, bpc, DISP_REG_DITHER_CFG,
+ 			      DITHER_ENGINE_EN, cmdq_pkt);
+ }
+ 
+@@ -226,14 +227,14 @@ static void mtk_dither_start(struct device *dev)
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+-	writel(DITHER_EN, priv->regs + DISP_DITHER_EN);
++	writel(DITHER_EN, priv->regs + DISP_REG_DITHER_EN);
+ }
+ 
+ static void mtk_dither_stop(struct device *dev)
+ {
+ 	struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+ 
+-	writel_relaxed(0x0, priv->regs + DISP_DITHER_EN);
++	writel_relaxed(0x0, priv->regs + DISP_REG_DITHER_EN);
+ }
+ 
+ static const struct mtk_ddp_comp_funcs ddp_aal = {
 -- 
 2.18.0
 
