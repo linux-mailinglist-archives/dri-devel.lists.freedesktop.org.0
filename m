@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A2F3ECA96
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Aug 2021 21:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C855E3ECAAD
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Aug 2021 21:31:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5D789C13;
-	Sun, 15 Aug 2021 19:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31FDF89D2E;
+	Sun, 15 Aug 2021 19:30:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B96B89C13
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Aug 2021 19:03:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id BB89961351
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Aug 2021 19:03:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34D6B89CDE;
+ Sun, 15 Aug 2021 19:30:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D0C56128C;
+ Sun, 15 Aug 2021 19:30:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629054228;
- bh=p3NQnXGwHY49mjI5jHy+8l+eioko6iy+zGwVRaJvzeo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=GwiwTkkZ9QqvInw4z2oszLUc2eN2I5+f4i1/Dgib0hTlexwhzJ2j9EjhAjH7JBdI2
- 09V7cwHWjDPNCrMFzUb5EfMMbim5qlWuINiw3vbUbdjkooBMvD47/cfvUFnEx2zXaH
- PdUMqXdXR+jXNHo+fvgZAxEZpgBPmFlgR5S+6XNSgAFFufYUiYQaJpk7fP1B5sR9xy
- GawvQnh1POWVtMD8jqNG7KKdauUKytPSmRhzqGDD6ysaXs88HkzuRdX+T35D4A+CEU
- rMHRPkWui4sj0qGm5XqrDL/8SuRU5SbT0S/GiyNAIwSa8Vg/v+zU2wUEUnu5qdvZlx
- +sRjFmhQ9CrCg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id B742460FD7; Sun, 15 Aug 2021 19:03:48 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Sun, 15 Aug 2021 19:03:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ctjansson@protonmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205089-2300-9PHxHk36Ft@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1629055815;
+ bh=UhBKLUcdJ1zu42LR19pbmuCkunq5UG7fIdg4noAlaU4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=IZ4845d4es+z3S7jXQQ218oKwi1Tw76QQ9IuZhDj0qE8YXGO3vimVjBmgUMMInEj+
+ OqSBuk6Y++vqhBZdl8rbOUoG43hCeWABVHQelEXkJZcywK8sxHK9VuVu+cSUehxRip
+ Ozttm6N6Mexu1zhimW2OgUltA7XHX8aBjyyxCe82duVj0svsbabsiRqdj5nA0kJowc
+ yry2PpT4U3BaeYPSQn7uCNc8G4cEDKQIQLYxGrEhKCBDWMBiWDJ0Nd0dJRCHqrXIWp
+ AwnvLTkCYSTU1G1sGkM+qt8LK2Q0b8yJHu3eDOEmXuasI2WrInGAfQNUHDzkuT8OGB
+ qKfZRBnkuR2WQ==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Nick Desaulniers <ndesaulniers@google.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Kees Cook <keescook@chromium.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH] drm/radeon: Add break to switch statement in
+ radeonfb_create_pinned_object()
+Date: Sun, 15 Aug 2021 12:29:59 -0700
+Message-Id: <20210815192959.90142-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.33.0.rc2
 MIME-Version: 1.0
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,28 +56,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+Clang + -Wimplicit-fallthrough warns:
 
-ctjansson@protonmail.com changed:
+drivers/gpu/drm/radeon/radeon_fb.c:170:2: warning: unannotated
+fall-through between switch labels [-Wimplicit-fallthrough]
+        default:
+        ^
+drivers/gpu/drm/radeon/radeon_fb.c:170:2: note: insert 'break;' to avoid
+fall-through
+        default:
+        ^
+        break;
+1 warning generated.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |ctjansson@protonmail.com
+Clang's version of this warning is a little bit more pedantic than
+GCC's. Add the missing break to satisfy it to match what has been done
+all over the kernel tree.
 
---- Comment #19 from ctjansson@protonmail.com ---
-I just triggered this bug aswell playing Payday 2.
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/gpu/drm/radeon/radeon_fb.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I have also triggered this bug when playing World of Warcraft in june.=20
+diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
+index 0b206b052972..c8b545181497 100644
+--- a/drivers/gpu/drm/radeon/radeon_fb.c
++++ b/drivers/gpu/drm/radeon/radeon_fb.c
+@@ -167,6 +167,7 @@ static int radeonfb_create_pinned_object(struct radeon_fbdev *rfbdev,
+ 		break;
+ 	case 2:
+ 		tiling_flags |= RADEON_TILING_SWAP_16BIT;
++		break;
+ 	default:
+ 		break;
+ 	}
 
-OS: EndeavourOS Linux x86_64
-Kernel: 5.13.10-arch1-1
-Mesa: 21.1.6
-DE: GNOME 40.3
-CPU: Ryzen 9 5900X
-GPU: RX 6800 XT
+base-commit: ba31f97d43be41ca99ab72a6131d7c226306865f
+-- 
+2.33.0.rc2
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
