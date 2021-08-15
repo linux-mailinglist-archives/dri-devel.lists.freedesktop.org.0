@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F82D3EC543
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Aug 2021 23:00:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031E93EC7DD
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Aug 2021 09:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 056926E901;
-	Sat, 14 Aug 2021 21:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07AD389D4D;
+	Sun, 15 Aug 2021 07:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0526F6E901
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Aug 2021 21:00:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E7C4D61042
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Aug 2021 21:00:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 016D289D4D
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Aug 2021 07:09:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id A2C1260462
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Aug 2021 07:09:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1628974821;
- bh=mFONqMSxsTS7gMbKk5Y8aNn4Fif6nPjLLXX+FWlbPMc=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ZOoHjhpqJV0IQAZDb51pkHizmU5mred4gN/7SUKOrk8W8BjA3cG/5HBq/0d9/Xd7k
- f9Iq5Ui9gZ5YcIAdFfS0ePkkYSl9jwZm+/FaAu6Zs3oxa9eivr0nwSzQbvidMLVksq
- NtgN7IbLDa/U2lb5ei6PVbg148X2dEtQTw5/ia2Ge5KWx9ZRPJHYJvzxk09fiwmUTQ
- Tp4AkblNQilPxFsGFVHH58dZsXEexWXXlf4DuA2Y6Z6STWoQDdplObDhZWIR9R6URY
- xbdj/UIvYTT+YDKerreannZMx/mWXtzMfSFusclA9w14Hgy7R0dm+Y9vBu0OUE6FH1
- SGGXW1WU6AmIQ==
+ s=k20201202; t=1629011388;
+ bh=6JICn4E42rMIpcc60bbfT9FdSHs9CZC+7+YZIjJgDZk=;
+ h=From:To:Subject:Date:From;
+ b=nOETUgsu8Ew14yuofLEaDMQIwpwqkV7TFd7I/c5ZD7Oizh8EQWh+yiS22aeAyEa1j
+ x4NXSOXY3fMgA5OHqsSTgAmqIs9cUa+aWhBK2+is/Roy6ocYIjPk7z3HgVtOkAeb2S
+ WF8XdOopy0u6VXdnKhIat3MyaCNCeq3AlfDSfbneavAx5hGsDt+S1Jt5mCII2hLeWh
+ sTQV0rNSTVjRg3JReqDUwKgqw4v4FaKEsb6O8H/z8KBIiRMjC5XI19cB9AUqUdrEVx
+ f9HJ/CKnTmwg9KVlsiVSrl/h3g7i0+kDII0MB8476vb7vf4ndNSWUP0RU9LB2WwIBd
+ tRyYLM810dDCA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E4B2960EE7; Sat, 14 Aug 2021 21:00:21 +0000 (UTC)
+ id 98CC460EC0; Sun, 15 Aug 2021 07:09:48 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
- amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
- gfx timeout, but soft recovered
-Date: Sat, 14 Aug 2021 21:00:21 +0000
+Subject: [Bug 214071] New: amdgpu idle power draw to high at +75Hz
+Date: Sun, 15 Aug 2021 07:09:48 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: mcmarius@gmx.net
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pb.g@gmx.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-213391-2300-t4MQjiM0hc@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
-References: <bug-213391-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-214071-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -70,30 +68,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214071
 
-mcmarius@gmx.net changed:
+            Bug ID: 214071
+           Summary: amdgpu idle power draw to high at +75Hz
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.13.10
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: pb.g@gmx.de
+        Regression: No
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mcmarius@gmx.net
+For best viewing pleasure I usually set my monitor to 144Hz and native 1080=
+p.
 
---- Comment #35 from mcmarius@gmx.net ---
-i have a Lenovo L340 and the same problem
+At that refresh rate my RX6900XT draws about 35 Watts in idle situations
+Memory clock stays at 1000Hz.=20
 
-here is the complete dmesg log
+I have to lower the monitors refresh rate to 75Hz, then the card draws only=
+ 8
+Watts in idle and memory clock goes significantly down to 96MHz.
 
-https://gist.github.com/McMarius11/36c8d21a2dcaf5c2289c91a74af4f7fb
+Using 100 or 120 Hz does not help.
 
-Operating System: Manjaro Linux
-KDE Plasma Version: 5.22.4
-KDE Frameworks Version: 5.84.0
-Qt Version: 5.15.2
-Kernel Version: 5.11.22-2-MANJARO (64-bit)
-Graphics Platform: X11
-Processors: 8 =C3=97 AMD Ryzen 7 3700U with Radeon Vega Mobile Gfx
-Memory: 5,6 GiB of RAM
-Graphics Processor: AMD Radeon=E2=84=A2 Vega 10 Graphics
+Situation in windows is different. The same hardware setup works in Windows=
+10
+at 1080p@144 with idle power draw of just 8 Watts.
+
+So my guess is this is a driver issue and not a hardware issue.
 
 --=20
 You may reply to this email to add a comment.
