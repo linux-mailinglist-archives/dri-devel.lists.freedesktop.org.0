@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE753ED05C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 10:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1003ED061
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 10:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D31789C27;
-	Mon, 16 Aug 2021 08:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5D289C93;
+	Mon, 16 Aug 2021 08:35:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA1E389C1B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 08:33:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10077"; a="212701232"
-X-IronPort-AV: E=Sophos;i="5.84,324,1620716400"; d="scan'208";a="212701232"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F7289C93
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 08:35:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10077"; a="276848593"
+X-IronPort-AV: E=Sophos;i="5.84,324,1620716400"; d="scan'208";a="276848593"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2021 01:33:40 -0700
-X-IronPort-AV: E=Sophos;i="5.84,324,1620716400"; d="scan'208";a="519478068"
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2021 01:35:15 -0700
+X-IronPort-AV: E=Sophos;i="5.84,324,1620716400"; d="scan'208";a="519478502"
 Received: from ifridman-mobl.ger.corp.intel.com (HELO localhost)
  ([10.251.210.77])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2021 01:33:38 -0700
+ 16 Aug 2021 01:35:12 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Jackie Liu <liu.yun@linux.dev>, daniel@ffwll.ch, mripard@kernel.org
 Cc: dri-devel@lists.freedesktop.org, liuyun01@kylinos.cn
 Subject: Re: [PATCH] drm/fb: Fix randconfig builds
-In-Reply-To: <9dd92929-24e9-e9e4-b78a-31da3c3ed77d@linux.dev>
+In-Reply-To: <bd79d67c-137d-6c24-f192-c6fc33218228@linux.dev>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20210816064835.332785-1-liu.yun@linux.dev>
- <87y291kh4c.fsf@intel.com> <9dd92929-24e9-e9e4-b78a-31da3c3ed77d@linux.dev>
-Date: Mon, 16 Aug 2021 11:33:34 +0300
-Message-ID: <87mtphkcv5.fsf@intel.com>
+ <87y291kh4c.fsf@intel.com> <bd79d67c-137d-6c24-f192-c6fc33218228@linux.dev>
+Date: Mon, 16 Aug 2021 11:35:09 +0300
+Message-ID: <87k0klkcsi.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -51,60 +51,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
-> Hi Jani.
->
-> My CI report an randconfigs build failed. there are:
->
-> drm_fb_helper.c:(.text+0x302): undefined reference to `fb_set_suspend'
-> drm_fb_helper.c:(.text+0xaea): undefined reference to `register_framebuff=
-er'
-> drm_fb_helper.c:(.text+0x1dcc): undefined reference to `framebuffer_alloc'
-> ld: drm_fb_helper.c:(.text+0x1dea): undefined reference to `fb_alloc_cmap'
-> ld: drm_fb_helper.c:(.text+0x1e2f): undefined reference to `fb_dealloc_cm=
-ap'
-> ld: drm_fb_helper.c:(.text+0x1e5b): undefined reference to=20
-> `framebuffer_release'
-> drm_fb_helper.c:(.text+0x1e85): undefined reference to=20
-> `unregister_framebuffer'
-> drm_fb_helper.c:(.text+0x1ee9): undefined reference to `fb_dealloc_cmap'
-> ld: drm_fb_helper.c:(.text+0x1ef0): undefined reference to=20
-> `framebuffer_release'
-> drm_fb_helper.c:(.text+0x1f96): undefined reference to=20
-> `fb_deferred_io_cleanup'
-> drm_fb_helper.c:(.text+0x203b): undefined reference to `fb_sys_read'
-> drm_fb_helper.c:(.text+0x2051): undefined reference to `fb_sys_write'
-> drm_fb_helper.c:(.text+0x208d): undefined reference to `sys_fillrect'
-> drm_fb_helper.c:(.text+0x20bb): undefined reference to `sys_copyarea'
-> drm_fb_helper.c:(.text+0x20e9): undefined reference to `sys_imageblit'
-> drm_fb_helper.c:(.text+0x2117): undefined reference to `cfb_fillrect'
-> drm_fb_helper.c:(.text+0x2172): undefined reference to `cfb_copyarea'
-> drm_fb_helper.c:(.text+0x21cd): undefined reference to `cfb_imageblit'
-> drm_fb_helper.c:(.text+0x2233): undefined reference to `fb_set_suspend'
-> drm_fb_helper.c:(.text+0x22b0): undefined reference to `fb_set_suspend'
-> drm_fb_helper.c:(.text+0x250f): undefined reference to `fb_deferred_io_in=
-it'
->
-> The main reason is because DRM_FBDEV_EMULATION is built-in, and
-> CONFIG_FB is compiled as a module.
+> After commit f611b1e7624c, we change select FB
+> to depends on FB.
 
-DRM_FBDEV_EMULATION is not a module, it's just a config
-knob. drm_fb_helper.ko is the module, enabled via DRM_KMS_HELPER, and it
-has an implicit dependency on FB, and DRM_FBDEV_EMULATION selects
-DRM_KMS_HELPER. Select just breaks dependencies in all kinds of ways.
-
-This might help in config DRM_KMS_HELPER, and it might help the reader
-because it's factual:
-
-	depends on FB if DRM_FBDEV_EMULATION
-
+And obviously you should cite the commit in the original patch and Cc
+the author!
 
 BR,
 Jani.
 
-
-
-
-
+>
+> How about this=EF=BC=9A
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 7ff89690a976..cd129d96e649 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -98,7 +98,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>   config DRM_FBDEV_EMULATION
+>          bool "Enable legacy fbdev support for your modesetting driver"
+>          depends on DRM
+> -       depends on FB
+> +       depends on FB && FB !=3D m
+>          select DRM_KMS_HELPER
+>          select FB_CFB_FILLRECT
+>          select FB_CFB_COPYAREA
 >
 > --
 > Jackie Liu
