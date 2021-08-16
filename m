@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1E43ED219
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 12:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE593ED22E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 12:43:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71229899B7;
-	Mon, 16 Aug 2021 10:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B0C889DBC;
+	Mon, 16 Aug 2021 10:43:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 45D34899A5;
- Mon, 16 Aug 2021 10:38:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9705589DA2;
+ Mon, 16 Aug 2021 10:43:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 2942B20201B;
- Mon, 16 Aug 2021 12:38:59 +0200 (CEST)
+ by netline-mail3.netline.ch (Postfix) with ESMTP id C378520201B;
+ Mon, 16 Aug 2021 12:43:33 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
 Received: from netline-mail3.netline.ch ([127.0.0.1])
  by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id erHziOd1WCxM; Mon, 16 Aug 2021 12:38:58 +0200 (CEST)
+ with LMTP id uHGr0nykRnQb; Mon, 16 Aug 2021 12:43:33 +0200 (CEST)
 Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
  [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id D26AD20201A;
- Mon, 16 Aug 2021 12:38:58 +0200 (CEST)
-Received: from [::1] by thor with esmtp (Exim 4.94.2)
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 2774620201A;
+ Mon, 16 Aug 2021 12:43:33 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
  (envelope-from <michel@daenzer.net>)
- id 1mFa1B-000bB3-RE; Mon, 16 Aug 2021 12:38:57 +0200
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc: Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+ id 1mFa5c-000bDB-7x; Mon, 16 Aug 2021 12:43:32 +0200
+To: "Quan, Evan" <Evan.Quan@amd.com>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>
+Cc: "Liu, Leo" <Leo.Liu@amd.com>, "Zhu, James" <James.Zhu@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 References: <20210811165211.6811-1-michel@daenzer.net>
  <20210813102920.3458-1-michel@daenzer.net>
- <f63510d7-4449-34e9-98bd-bc2d07b08a03@gmail.com>
+ <DM6PR12MB26191AE1AF962B3F7CC02E87E4FD9@DM6PR12MB2619.namprd12.prod.outlook.com>
 From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
 Subject: Re: [PATCH] drm/amdgpu: Cancel delayed work when GFXOFF is disabled
-Message-ID: <c8b741b1-8270-f31f-7ef8-d834211726ea@daenzer.net>
-Date: Mon, 16 Aug 2021 12:38:57 +0200
+Message-ID: <19353c73-1be3-9e62-f2a0-f63fcf6c71bc@daenzer.net>
+Date: Mon, 16 Aug 2021 12:43:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <f63510d7-4449-34e9-98bd-bc2d07b08a03@gmail.com>
+In-Reply-To: <DM6PR12MB26191AE1AF962B3F7CC02E87E4FD9@DM6PR12MB2619.namprd12.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-CA
 Content-Transfer-Encoding: 8bit
@@ -60,37 +61,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-08-16 9:38 a.m., Christian König wrote:
-> Am 13.08.21 um 12:29 schrieb Michel Dänzer:
->> From: Michel Dänzer <mdaenzer@redhat.com>
->>
->> schedule_delayed_work does not push back the work if it was already
->> scheduled before, so amdgpu_device_delay_enable_gfx_off ran ~100 ms
->> after the first time GFXOFF was disabled and re-enabled, even if GFXOFF
->> was disabled and re-enabled again during those 100 ms.
->>
->> This resulted in frame drops / stutter with the upcoming mutter 41
->> release on Navi 14, due to constantly enabling GFXOFF in the HW and
->> disabling it again (for getting the GPU clock counter).
->>
->> To fix this, call cancel_delayed_work_sync when GFXOFF transitions from
->> enabled to disabled. This makes sure the delayed work will be scheduled
->> as intended in the reverse case.
->>
->> In order to avoid a deadlock, amdgpu_device_delay_enable_gfx_off needs
->> to use mutex_trylock instead of mutex_lock.
->>
->> v2:
->> * Use cancel_delayed_work_sync & mutex_trylock instead of
->>    mod_delayed_work.
+On 2021-08-16 12:20 p.m., Quan, Evan wrote:
+> [AMD Official Use Only]
 > 
-> While this may work it still smells a little bit fishy.
+> Hi Michel,
 > 
-> In general you have two common locking orders around work items, either lock->work or work->lock. If you mix this as lock->work->lock like here trouble is usually imminent.
+> The patch seems reasonable to me(especially the cancel_delayed_work_sync() part).
+> However, can you explain more about the code below?
+> What's the race issue here exactly?
 > 
-> I think what we should do instead is to double check if taking the lock inside the work item is necessary and instead making sure that the work is sync canceled when we don't want it to run. In other words fully switching to the lock->work approach.
+> +	/* mutex_lock could deadlock with cancel_delayed_work_sync in amdgpu_gfx_off_ctrl. */
+> +	if (!mutex_trylock(&adev->gfx.gfx_off_mutex)) {
+> +		/* If there's a bug which causes amdgpu_gfx_off_ctrl to be called with enable=true
+> +		 * when adev->gfx.gfx_off_req_count is already 0, we might race with that.
+> +		 * Re-schedule to make sure gfx off will be re-enabled in the HW eventually.
+> +		 */
+> +		schedule_delayed_work(&adev->gfx.gfx_off_delay_work, AMDGPU_GFX_OFF_DELAY_ENABLE);
+> +		return;
+> +	}
 
-Done in v3, thanks for the suggestion!
+If amdgpu_gfx_off_ctrl was called with enable=true when adev->gfx.gfx_off_req_count == 0 already, it could have prevented amdgpu_device_delay_enable_gfx_off from locking the mutex.
+
+v3 solves this by only scheduling the work when adev->gfx.gfx_off_req_count transitions from 1 to 0, which means it no longer needs to lock the mutex.
 
 
 -- 
