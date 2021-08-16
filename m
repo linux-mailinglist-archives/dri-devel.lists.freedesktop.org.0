@@ -2,46 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8863ED14A
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 11:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46EC63ED1BE
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 12:14:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC3389B01;
-	Mon, 16 Aug 2021 09:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95D589C1B;
+	Mon, 16 Aug 2021 10:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E053C89B01
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 09:49:43 +0000 (UTC)
-Subject: Re: [PATCH] drm/fb: Fix randconfig builds
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1629107382;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xNBwkCV0/SazMsIdGtsb/ceekMmIeGCq8K8pfq0U4YU=;
- b=xZMSupzSo7ld9hJePMRjhOEan18CIQDwo/F02iI0YqISQO37Yxd5egbw4FlTgz1XQnLdgt
- nEr6ZYEnrVzDcAH0CVZzStAbCix1lAC0miv758QJcSJwAm8O2+v/Quck2lPUhLN7qap615
- yhaYRC05eK7W9El++O4P7jxhjeoyGHc=
-To: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
- mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, liuyun01@kylinos.cn
-References: <20210816064835.332785-1-liu.yun@linux.dev>
- <87y291kh4c.fsf@intel.com> <9dd92929-24e9-e9e4-b78a-31da3c3ed77d@linux.dev>
- <87mtphkcv5.fsf@intel.com> <6fd6b18a-332b-a573-ecd2-51b6a5dd042f@linux.dev>
- <87eeatkbuv.fsf@intel.com> <87bl5xkbst.fsf@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Jackie Liu <liu.yun@linux.dev>
-Message-ID: <1355bdec-56ff-c6be-844f-efc792ad622b@linux.dev>
-Date: Mon, 16 Aug 2021 17:49:36 +0800
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 650D489875;
+ Mon, 16 Aug 2021 10:14:38 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id r7so22870319wrs.0;
+ Mon, 16 Aug 2021 03:14:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=HEiM/mHMC+8fZgGgGDrXO50KgFWhokpC7aZfIza5YoU=;
+ b=Alj3JYG7a9UTx5Tj/BtzO+qKDd1xCGe0XdfEAcw9Dau4ACK96PX+Djr/axmyQgoX6R
+ Qvw1P5WoBQ0Zu4439v4+F5DLDdDCoS2adFB2fGQ/+RfPhE2BPUKvDB4iS3xNV2DWhqEh
+ ciwDM/15gCMos0rxTHUU6AcIchpqLSHjNOy5QZYERvtL+zHfGLZUj6qzXSLnKRpwB4Sf
+ 7DBTcFZ2h1usxN7rpOQU3MhNGARGMuAB3Eih9eKDGUQtDk5r0DupKGA+6vrFRuR4zMyE
+ PeKoORolAUgrtvZWdokZqasLxdrn1iIAAu5M4MglS+0i19PVVSOYx7NsLHTJWAXq0rJS
+ vE+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=HEiM/mHMC+8fZgGgGDrXO50KgFWhokpC7aZfIza5YoU=;
+ b=p/QrrMVdQOx8qUjHyYoRUmSmSTOueqV2ERETkrpF2oYrMyChRQaqqvvcVLCZjhYkBz
+ OgplBD8dNlsseQOXveyffEZPtnMkP1pwjjKlIhbe9WeKJK/PfQtgHihip73fMABQ9NP/
+ t1kETFObu4JLIlB0f4tYfHbhEumtkw1Gk7pCukqaPhpIT99Oel4e3teaAGVaNnxU6Yw2
+ 8OmOzH6QCYNLYKeXdVPhBhDqR/tEHcCO1zrtnMLLifNn51p15Ivf249E6YsKL6P5Akm5
+ JA017QBMURTaxztDe9vpFi9B+72U952evU/jXqwMk4Pd7GYJ7GXGR8//+9yeVnObo6rE
+ HW8g==
+X-Gm-Message-State: AOAM531AcLyJWjSWAAX2cqSZrc4HIeV1g+09Nh+AINcUdj7D+FM193UJ
+ Wn8FRYWOARjUvl0H23nfM5s=
+X-Google-Smtp-Source: ABdhPJxcowAPKRR0W2f+L+GI0ijJFGD6kVXHxpnQwMe320KTJy2VjSNfp1hksoEJaUJeNnRTKuOYPw==
+X-Received: by 2002:adf:9084:: with SMTP id i4mr17980571wri.23.1629108876990; 
+ Mon, 16 Aug 2021 03:14:36 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:7d83:fd8:eb16:8605?
+ ([2a02:908:1252:fb60:7d83:fd8:eb16:8605])
+ by smtp.gmail.com with ESMTPSA id q22sm10646849wmj.32.2021.08.16.03.14.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Aug 2021 03:14:36 -0700 (PDT)
+Subject: Re: [PATCH v2 4/5] drm/scheduler: Add fence deadline support
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@chromium.org>,
+ David Airlie <airlied@linux.ie>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Steven Price <steven.price@arm.com>, Roy Sun <Roy.Sun@amd.com>,
+ Lee Jones <lee.jones@linaro.org>, Jack Zhang <Jack.Zhang1@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>
+References: <20210807183804.459850-1-robdclark@gmail.com>
+ <20210807183804.459850-5-robdclark@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e28020c5-3da3-c721-96df-9a115f105bf7@gmail.com>
+Date: Mon, 16 Aug 2021 12:14:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <87bl5xkbst.fsf@intel.com>
+In-Reply-To: <20210807183804.459850-5-robdclark@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: liu.yun@linux.dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,181 +89,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 07.08.21 um 20:37 schrieb Rob Clark:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> As the finished fence is the one that is exposed to userspace, and
+> therefore the one that other operations, like atomic update, would
+> block on, we need to propagate the deadline from from the finished
+> fence to the actual hw fence.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/scheduler/sched_fence.c | 25 +++++++++++++++++++++++++
+>   drivers/gpu/drm/scheduler/sched_main.c  |  3 +++
+>   include/drm/gpu_scheduler.h             |  6 ++++++
+>   3 files changed, 34 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+> index 69de2c76731f..f389dca44185 100644
+> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> @@ -128,6 +128,30 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
+>   	dma_fence_put(&fence->scheduled);
+>   }
+>   
+> +static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
+> +						  ktime_t deadline)
+> +{
+> +	struct drm_sched_fence *fence = to_drm_sched_fence(f);
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&fence->lock, flags);
+> +
+> +	/* If we already have an earlier deadline, keep it: */
+> +	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
+> +	    ktime_before(fence->deadline, deadline)) {
+> +		spin_unlock_irqrestore(&fence->lock, flags);
+> +		return;
+> +	}
+> +
+> +	fence->deadline = deadline;
+> +	set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
+> +
+> +	spin_unlock_irqrestore(&fence->lock, flags);
+> +
+> +	if (fence->parent)
+> +		dma_fence_set_deadline(fence->parent, deadline);
+> +}
+> +
+>   static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
+>   	.get_driver_name = drm_sched_fence_get_driver_name,
+>   	.get_timeline_name = drm_sched_fence_get_timeline_name,
+> @@ -138,6 +162,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
+>   	.get_driver_name = drm_sched_fence_get_driver_name,
+>   	.get_timeline_name = drm_sched_fence_get_timeline_name,
+>   	.release = drm_sched_fence_release_finished,
+> +	.set_deadline = drm_sched_fence_set_deadline_finished,
+>   };
+>   
+>   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index a2a953693b45..3ab0900d3596 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -818,6 +818,9 @@ static int drm_sched_main(void *param)
+>   
+>   		if (!IS_ERR_OR_NULL(fence)) {
+>   			s_fence->parent = dma_fence_get(fence);
+> +			if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
+> +				     &s_fence->finished.flags))
+> +				dma_fence_set_deadline(fence, s_fence->deadline);
 
+Maybe move this into a dma_sched_fence_set_parent() function.
 
-在 2021/8/16 下午4:56, Jani Nikula 写道:
-> On Mon, 16 Aug 2021, Jani Nikula <jani.nikula@linux.intel.com> wrote:
->> On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
->>> Hi Jani.
->>>
->>> Your suggestion is that?
->>>
->>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>> index 7ff89690a976..ba179a539497 100644
->>> --- a/drivers/gpu/drm/Kconfig
->>> +++ b/drivers/gpu/drm/Kconfig
->>> @@ -77,6 +77,7 @@ config DRM_DEBUG_SELFTEST
->>>    config DRM_KMS_HELPER
->>>           tristate
->>>           depends on DRM
->>> +       depends on FB if DRM_FBDEV_EMULATION
->>>           help
->>>             CRTC helpers for KMS drivers.
->>>
->>>
->>> But it has a syntax error.
->>
->> Ah, try this then:
->>
->> 	depends on FB || FB=n
-> 
-> Or this monster:
-> 
-> 	depends on FB || DRM_FBDEV_EMULATION=n
+Apart from that looks good to me.
 
+Regards,
+Christian.
 
-Hi Jani,
+>   			r = dma_fence_add_callback(fence, &sched_job->cb,
+>   						   drm_sched_job_done_cb);
+>   			if (r == -ENOENT)
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index d18af49fd009..0f08ade614ae 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -144,6 +144,12 @@ struct drm_sched_fence {
+>            */
+>   	struct dma_fence		finished;
+>   
+> +	/**
+> +	 * @deadline: deadline set on &drm_sched_fence.finished which
+> +	 * potentially needs to be propagated to &drm_sched_fence.parent
+> +	 */
+> +	ktime_t				deadline;
+> +
+>           /**
+>            * @parent: the fence returned by &drm_sched_backend_ops.run_job
+>            * when scheduling the job on hardware. We signal the
 
-    depends on FB || DRM_FBDEV_EMULATION=n Will cause the following
-warnings.
-
-WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
-   Depends on [m]: HAS_IOMEM [=y] && DRM [=y] && (FB [=m] || 
-!DRM_FBDEV_EMULATION [=y])
-   Selected by [y]:
-   - DRM_DEBUG_SELFTEST [=y] && HAS_IOMEM [=y] && DRM [=y] && 
-DEBUG_KERNEL [=y]
-   - DRM_VKMS [=y] && HAS_IOMEM [=y] && DRM [=y]
-   - TINYDRM_ILI9341 [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
-   - TINYDRM_MI0283QT [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
-   - TINYDRM_ST7586 [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
-   - TINYDRM_ST7735R [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
-   - DRM_ANALOGIX_ANX78XX [=y] && HAS_IOMEM [=y] && DRM [=y] && 
-DRM_BRIDGE [=y]
-   Selected by [m]:
-   - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM [=y] && FB [=m]
-   - DRM_SIMPLEDRM [=m] && HAS_IOMEM [=y] && DRM [=y]
-   - TINYDRM_HX8357D [=m] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
-   - TINYDRM_REPAPER [=m] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
-configuration written to .config
-
-How about this?
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 7ff89690a976..797eeea9cbbe 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -98,8 +98,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
-  config DRM_FBDEV_EMULATION
-         bool "Enable legacy fbdev support for your modesetting driver"
-         depends on DRM
--       depends on FB
--       select DRM_KMS_HELPER
-+       depends on (FB=y && DRM_KMS_HELPER) || (FB=m && DRM_KMS_HELPER=m)
-         select FB_CFB_FILLRECT
-         select FB_CFB_COPYAREA
-         select FB_CFB_IMAGEBLIT
-
-
---
-BR, Jackie Liu
-
-> 
-> 
->>
->>>
->>> --
->>> Thanks, BR, Jackie Liu
->>>
->>> 在 2021/8/16 下午4:33, Jani Nikula 写道:
->>>> On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
->>>>> Hi Jani.
->>>>>
->>>>> My CI report an randconfigs build failed. there are:
->>>>>
->>>>> drm_fb_helper.c:(.text+0x302): undefined reference to `fb_set_suspend'
->>>>> drm_fb_helper.c:(.text+0xaea): undefined reference to `register_framebuffer'
->>>>> drm_fb_helper.c:(.text+0x1dcc): undefined reference to `framebuffer_alloc'
->>>>> ld: drm_fb_helper.c:(.text+0x1dea): undefined reference to `fb_alloc_cmap'
->>>>> ld: drm_fb_helper.c:(.text+0x1e2f): undefined reference to `fb_dealloc_cmap'
->>>>> ld: drm_fb_helper.c:(.text+0x1e5b): undefined reference to
->>>>> `framebuffer_release'
->>>>> drm_fb_helper.c:(.text+0x1e85): undefined reference to
->>>>> `unregister_framebuffer'
->>>>> drm_fb_helper.c:(.text+0x1ee9): undefined reference to `fb_dealloc_cmap'
->>>>> ld: drm_fb_helper.c:(.text+0x1ef0): undefined reference to
->>>>> `framebuffer_release'
->>>>> drm_fb_helper.c:(.text+0x1f96): undefined reference to
->>>>> `fb_deferred_io_cleanup'
->>>>> drm_fb_helper.c:(.text+0x203b): undefined reference to `fb_sys_read'
->>>>> drm_fb_helper.c:(.text+0x2051): undefined reference to `fb_sys_write'
->>>>> drm_fb_helper.c:(.text+0x208d): undefined reference to `sys_fillrect'
->>>>> drm_fb_helper.c:(.text+0x20bb): undefined reference to `sys_copyarea'
->>>>> drm_fb_helper.c:(.text+0x20e9): undefined reference to `sys_imageblit'
->>>>> drm_fb_helper.c:(.text+0x2117): undefined reference to `cfb_fillrect'
->>>>> drm_fb_helper.c:(.text+0x2172): undefined reference to `cfb_copyarea'
->>>>> drm_fb_helper.c:(.text+0x21cd): undefined reference to `cfb_imageblit'
->>>>> drm_fb_helper.c:(.text+0x2233): undefined reference to `fb_set_suspend'
->>>>> drm_fb_helper.c:(.text+0x22b0): undefined reference to `fb_set_suspend'
->>>>> drm_fb_helper.c:(.text+0x250f): undefined reference to `fb_deferred_io_init'
->>>>>
->>>>> The main reason is because DRM_FBDEV_EMULATION is built-in, and
->>>>> CONFIG_FB is compiled as a module.
->>>>
->>>> DRM_FBDEV_EMULATION is not a module, it's just a config
->>>> knob. drm_fb_helper.ko is the module, enabled via DRM_KMS_HELPER, and it
->>>> has an implicit dependency on FB, and DRM_FBDEV_EMULATION selects
->>>> DRM_KMS_HELPER. Select just breaks dependencies in all kinds of ways.
->>>>
->>>> This might help in config DRM_KMS_HELPER, and it might help the reader
->>>> because it's factual:
->>>>
->>>> 	depends on FB if DRM_FBDEV_EMULATION
->>>>
->>>>
->>>> BR,
->>>> Jani.
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>>
->>>>> --
->>>>> Jackie Liu
->>>>>
->>>>> 在 2021/8/16 下午3:01, Jani Nikula 写道:
->>>>>> On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
->>>>>>> From: Jackie Liu <liuyun01@kylinos.cn>
->>>>>>>
->>>>>>> When CONFIG_DRM_FBDEV_EMULATION is compiled to y and CONFIG_FB is m, the
->>>>>>> compilation will fail. we need make that dependency explicit.
->>>>>>
->>>>>> What's the failure mode? Using select here is a bad idea.
->>>>>>
->>>>>> BR,
->>>>>> Jani.
->>>>>>
->>>>>>>
->>>>>>> Reported-by: k2ci <kernel-bot@kylinos.cn>
->>>>>>> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
->>>>>>> ---
->>>>>>>     drivers/gpu/drm/Kconfig | 2 +-
->>>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>>>>>> index 7ff89690a976..346a518b5119 100644
->>>>>>> --- a/drivers/gpu/drm/Kconfig
->>>>>>> +++ b/drivers/gpu/drm/Kconfig
->>>>>>> @@ -98,7 +98,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->>>>>>>     config DRM_FBDEV_EMULATION
->>>>>>>     	bool "Enable legacy fbdev support for your modesetting driver"
->>>>>>>     	depends on DRM
->>>>>>> -	depends on FB
->>>>>>> +	select FB
->>>>>>>     	select DRM_KMS_HELPER
->>>>>>>     	select FB_CFB_FILLRECT
->>>>>>>     	select FB_CFB_COPYAREA
->>>>>>
->>>>
-> 
