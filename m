@@ -1,35 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260103ED10C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 11:27:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8863ED14A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 11:49:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C484689D7D;
-	Mon, 16 Aug 2021 09:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC3389B01;
+	Mon, 16 Aug 2021 09:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2999189D7D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 09:27:51 +0000 (UTC)
-Date: Mon, 16 Aug 2021 11:27:40 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: IIO, dmabuf, io_uring
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jonathan Cameron <jic23@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?iso-8859-1?b?S/ZuaWc=?=
- <christian.koenig@amd.com>, linux-iio@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Michael Hennerich
- <Michael.Hennerich@analog.com>, Alexandru Ardelean <ardeleanalex@gmail.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Message-Id: <4AEXXQ.7Z97EUWQOO0Q3@crapouillou.net>
-In-Reply-To: <20210814073019.GC21175@lst.de>
-References: <2H0SXQ.2KIK2PBVRFWH2@crapouillou.net>
- <20210814073019.GC21175@lst.de>
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E053C89B01
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 09:49:43 +0000 (UTC)
+Subject: Re: [PATCH] drm/fb: Fix randconfig builds
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1629107382;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xNBwkCV0/SazMsIdGtsb/ceekMmIeGCq8K8pfq0U4YU=;
+ b=xZMSupzSo7ld9hJePMRjhOEan18CIQDwo/F02iI0YqISQO37Yxd5egbw4FlTgz1XQnLdgt
+ nEr6ZYEnrVzDcAH0CVZzStAbCix1lAC0miv758QJcSJwAm8O2+v/Quck2lPUhLN7qap615
+ yhaYRC05eK7W9El++O4P7jxhjeoyGHc=
+To: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
+ mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org, liuyun01@kylinos.cn
+References: <20210816064835.332785-1-liu.yun@linux.dev>
+ <87y291kh4c.fsf@intel.com> <9dd92929-24e9-e9e4-b78a-31da3c3ed77d@linux.dev>
+ <87mtphkcv5.fsf@intel.com> <6fd6b18a-332b-a573-ecd2-51b6a5dd042f@linux.dev>
+ <87eeatkbuv.fsf@intel.com> <87bl5xkbst.fsf@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Jackie Liu <liu.yun@linux.dev>
+Message-ID: <1355bdec-56ff-c6be-844f-efc792ad622b@linux.dev>
+Date: Mon, 16 Aug 2021 17:49:36 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87bl5xkbst.fsf@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: liu.yun@linux.dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,97 +57,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christoph,
-
-Le sam., ao=FBt 14 2021 at 09:30:19 +0200, Christoph Hellwig=20
-<hch@lst.de> a =E9crit :
-> On Fri, Aug 13, 2021 at 01:41:26PM +0200, Paul Cercueil wrote:
->>  Hi,
->>=20
->>  A few months ago we (ADI) tried to upstream the interface we use=20
->> with our
->>  high-speed ADCs and DACs. It is a system with custom ioctls on the=20
->> iio
->>  device node to dequeue and enqueue buffers (allocated with
->>  dma_alloc_coherent), that can then be mmap'd by userspace=20
->> applications.
->>  Anyway, it was ultimately denied entry [1]; this API was okay in=20
->> ~2014 when
->>  it was designed but it feels like re-inventing the wheel in 2021.
->>=20
->>  Back to the drawing table, and we'd like to design something that=20
->> we can
->>  actually upstream. This high-speed interface looks awfully similar=20
->> to
->>  DMABUF, so we may try to implement a DMABUF interface for IIO,=20
->> unless
->>  someone has a better idea.
->=20
-> To me this does sound a lot like a dma buf use case.  The interesting
-> question to me is how to signal arrival of new data, or readyness to
-> consume more data.  I suspect that people that are actually using
-> dmabuf heavily at the moment (dri/media folks) might be able to chime
-> in a little more on that.
-
-Thanks for the feedback.
-
-I haven't looked too much into how dmabuf works; but IIO device nodes=20
-right now have a regular stdio interface, so I believe poll() flags can=20
-be used to signal arrival of new data.
-
->>  Our first usecase is, we want userspace applications to be able to=20
->> dequeue
->>  buffers of samples (from ADCs), and/or enqueue buffers of samples=20
->> (for
->>  DACs), and to be able to manipulate them (mmapped buffers). With a=20
->> DMABUF
->>  interface, I guess the userspace application would dequeue a dma=20
->> buffer
->>  from the driver, mmap it, read/write the data, unmap it, then=20
->> enqueue it to
->>  the IIO driver again so that it can be disposed of. Does that sound=20
->> sane?
->>=20
->>  Our second usecase is - and that's where things get tricky - to be=20
->> able to
->>  stream the samples to another computer for processing, over=20
->> Ethernet or
->>  USB. Our typical setup is a high-speed ADC/DAC on a dev board with=20
->> a FPGA
->>  and a weak soft-core or low-power CPU; processing the data in-situ=20
->> is not
->>  an option. Copying the data from one buffer to another is not an=20
->> option
->>  either (way too slow), so we absolutely want zero-copy.
->>=20
->>  Usual userspace zero-copy techniques (vmsplice+splice, MSG_ZEROCOPY=20
->> etc)
->>  don't really work with mmapped kernel buffers allocated for DMA [2]=20
->> and/or
->>  have a huge overhead, so the way I see it, we would also need DMABUF
->>  support in both the Ethernet stack and USB (functionfs) stack.=20
->> However, as
->>  far as I understood, DMABUF is mostly a DRM/V4L2 thing, so I am=20
->> really not
->>  sure we have the right idea here.
->>=20
->>  And finally, there is the new kid in town, io_uring. I am not very=20
->> literate
->>  about the topic, but it does not seem to be able to handle DMA=20
->> buffers
->>  (yet?). The idea that we could dequeue a buffer of samples from the=20
->> IIO
->>  device and send it over the network in one single syscall is=20
->> appealing,
->>  though.
->=20
-> Think of io_uring really just as an async syscall layer.  It doesn't
-> replace DMA buffers, but can be used as a different and for some
-> workloads more efficient way to dispatch syscalls.
-
-That was my thought, yes. Thanks.
-
-Cheers,
--Paul
 
 
+在 2021/8/16 下午4:56, Jani Nikula 写道:
+> On Mon, 16 Aug 2021, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>> On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
+>>> Hi Jani.
+>>>
+>>> Your suggestion is that?
+>>>
+>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>>> index 7ff89690a976..ba179a539497 100644
+>>> --- a/drivers/gpu/drm/Kconfig
+>>> +++ b/drivers/gpu/drm/Kconfig
+>>> @@ -77,6 +77,7 @@ config DRM_DEBUG_SELFTEST
+>>>    config DRM_KMS_HELPER
+>>>           tristate
+>>>           depends on DRM
+>>> +       depends on FB if DRM_FBDEV_EMULATION
+>>>           help
+>>>             CRTC helpers for KMS drivers.
+>>>
+>>>
+>>> But it has a syntax error.
+>>
+>> Ah, try this then:
+>>
+>> 	depends on FB || FB=n
+> 
+> Or this monster:
+> 
+> 	depends on FB || DRM_FBDEV_EMULATION=n
+
+
+Hi Jani,
+
+    depends on FB || DRM_FBDEV_EMULATION=n Will cause the following
+warnings.
+
+WARNING: unmet direct dependencies detected for DRM_KMS_HELPER
+   Depends on [m]: HAS_IOMEM [=y] && DRM [=y] && (FB [=m] || 
+!DRM_FBDEV_EMULATION [=y])
+   Selected by [y]:
+   - DRM_DEBUG_SELFTEST [=y] && HAS_IOMEM [=y] && DRM [=y] && 
+DEBUG_KERNEL [=y]
+   - DRM_VKMS [=y] && HAS_IOMEM [=y] && DRM [=y]
+   - TINYDRM_ILI9341 [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
+   - TINYDRM_MI0283QT [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
+   - TINYDRM_ST7586 [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
+   - TINYDRM_ST7735R [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
+   - DRM_ANALOGIX_ANX78XX [=y] && HAS_IOMEM [=y] && DRM [=y] && 
+DRM_BRIDGE [=y]
+   Selected by [m]:
+   - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM [=y] && FB [=m]
+   - DRM_SIMPLEDRM [=m] && HAS_IOMEM [=y] && DRM [=y]
+   - TINYDRM_HX8357D [=m] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
+   - TINYDRM_REPAPER [=m] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
+configuration written to .config
+
+How about this?
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 7ff89690a976..797eeea9cbbe 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -98,8 +98,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+  config DRM_FBDEV_EMULATION
+         bool "Enable legacy fbdev support for your modesetting driver"
+         depends on DRM
+-       depends on FB
+-       select DRM_KMS_HELPER
++       depends on (FB=y && DRM_KMS_HELPER) || (FB=m && DRM_KMS_HELPER=m)
+         select FB_CFB_FILLRECT
+         select FB_CFB_COPYAREA
+         select FB_CFB_IMAGEBLIT
+
+
+--
+BR, Jackie Liu
+
+> 
+> 
+>>
+>>>
+>>> --
+>>> Thanks, BR, Jackie Liu
+>>>
+>>> 在 2021/8/16 下午4:33, Jani Nikula 写道:
+>>>> On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
+>>>>> Hi Jani.
+>>>>>
+>>>>> My CI report an randconfigs build failed. there are:
+>>>>>
+>>>>> drm_fb_helper.c:(.text+0x302): undefined reference to `fb_set_suspend'
+>>>>> drm_fb_helper.c:(.text+0xaea): undefined reference to `register_framebuffer'
+>>>>> drm_fb_helper.c:(.text+0x1dcc): undefined reference to `framebuffer_alloc'
+>>>>> ld: drm_fb_helper.c:(.text+0x1dea): undefined reference to `fb_alloc_cmap'
+>>>>> ld: drm_fb_helper.c:(.text+0x1e2f): undefined reference to `fb_dealloc_cmap'
+>>>>> ld: drm_fb_helper.c:(.text+0x1e5b): undefined reference to
+>>>>> `framebuffer_release'
+>>>>> drm_fb_helper.c:(.text+0x1e85): undefined reference to
+>>>>> `unregister_framebuffer'
+>>>>> drm_fb_helper.c:(.text+0x1ee9): undefined reference to `fb_dealloc_cmap'
+>>>>> ld: drm_fb_helper.c:(.text+0x1ef0): undefined reference to
+>>>>> `framebuffer_release'
+>>>>> drm_fb_helper.c:(.text+0x1f96): undefined reference to
+>>>>> `fb_deferred_io_cleanup'
+>>>>> drm_fb_helper.c:(.text+0x203b): undefined reference to `fb_sys_read'
+>>>>> drm_fb_helper.c:(.text+0x2051): undefined reference to `fb_sys_write'
+>>>>> drm_fb_helper.c:(.text+0x208d): undefined reference to `sys_fillrect'
+>>>>> drm_fb_helper.c:(.text+0x20bb): undefined reference to `sys_copyarea'
+>>>>> drm_fb_helper.c:(.text+0x20e9): undefined reference to `sys_imageblit'
+>>>>> drm_fb_helper.c:(.text+0x2117): undefined reference to `cfb_fillrect'
+>>>>> drm_fb_helper.c:(.text+0x2172): undefined reference to `cfb_copyarea'
+>>>>> drm_fb_helper.c:(.text+0x21cd): undefined reference to `cfb_imageblit'
+>>>>> drm_fb_helper.c:(.text+0x2233): undefined reference to `fb_set_suspend'
+>>>>> drm_fb_helper.c:(.text+0x22b0): undefined reference to `fb_set_suspend'
+>>>>> drm_fb_helper.c:(.text+0x250f): undefined reference to `fb_deferred_io_init'
+>>>>>
+>>>>> The main reason is because DRM_FBDEV_EMULATION is built-in, and
+>>>>> CONFIG_FB is compiled as a module.
+>>>>
+>>>> DRM_FBDEV_EMULATION is not a module, it's just a config
+>>>> knob. drm_fb_helper.ko is the module, enabled via DRM_KMS_HELPER, and it
+>>>> has an implicit dependency on FB, and DRM_FBDEV_EMULATION selects
+>>>> DRM_KMS_HELPER. Select just breaks dependencies in all kinds of ways.
+>>>>
+>>>> This might help in config DRM_KMS_HELPER, and it might help the reader
+>>>> because it's factual:
+>>>>
+>>>> 	depends on FB if DRM_FBDEV_EMULATION
+>>>>
+>>>>
+>>>> BR,
+>>>> Jani.
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>>
+>>>>> --
+>>>>> Jackie Liu
+>>>>>
+>>>>> 在 2021/8/16 下午3:01, Jani Nikula 写道:
+>>>>>> On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
+>>>>>>> From: Jackie Liu <liuyun01@kylinos.cn>
+>>>>>>>
+>>>>>>> When CONFIG_DRM_FBDEV_EMULATION is compiled to y and CONFIG_FB is m, the
+>>>>>>> compilation will fail. we need make that dependency explicit.
+>>>>>>
+>>>>>> What's the failure mode? Using select here is a bad idea.
+>>>>>>
+>>>>>> BR,
+>>>>>> Jani.
+>>>>>>
+>>>>>>>
+>>>>>>> Reported-by: k2ci <kernel-bot@kylinos.cn>
+>>>>>>> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
+>>>>>>> ---
+>>>>>>>     drivers/gpu/drm/Kconfig | 2 +-
+>>>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>>>>>>> index 7ff89690a976..346a518b5119 100644
+>>>>>>> --- a/drivers/gpu/drm/Kconfig
+>>>>>>> +++ b/drivers/gpu/drm/Kconfig
+>>>>>>> @@ -98,7 +98,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>>>>>>>     config DRM_FBDEV_EMULATION
+>>>>>>>     	bool "Enable legacy fbdev support for your modesetting driver"
+>>>>>>>     	depends on DRM
+>>>>>>> -	depends on FB
+>>>>>>> +	select FB
+>>>>>>>     	select DRM_KMS_HELPER
+>>>>>>>     	select FB_CFB_FILLRECT
+>>>>>>>     	select FB_CFB_COPYAREA
+>>>>>>
+>>>>
+> 
