@@ -1,64 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35903ED8F7
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 16:28:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F763ED967
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 17:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 832B2898BE;
-	Mon, 16 Aug 2021 14:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3723089FDD;
+	Mon, 16 Aug 2021 15:02:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBEA3898BE
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 14:28:51 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id g26so5696131ybe.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 07:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xKJ8jyF18iUebPKiVfcp86JCzuYZ7rYQ2qa/RHFCFIc=;
- b=oAVVsf+dqLuQ1CqVAVLtnxNMqlQgyuD4EyqveY4HUOTn/9ZJBSPMeE5ite0gbzsA6Y
- r36520PGyTvxYXs34xO/bQRCUnk2OdX8qUHGUwuPt5huFYid2KIVRbqEF6l7agktK6WH
- vZFYD1zDfldkM0ef5VHJyCTKdFq4HDaF697dMgB+iaQAWBl506CYW3qIRpqiA+GH3sGJ
- zkU1GwD4A2QAAcxM4LEss5JOMbA7Lk0Q1vIcj1trsycVKFbFC4SCEnztL6UdG31xLIQ8
- wthn3gjaTdIbnfOJ4jjqyGRFF7Bop0TjMNSu8ssCpmgd+Gq7OPZORGbSpcWYs2fyz9QL
- YtEQ==
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A823B88A27
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 15:01:44 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i10-20020a05600c354ab029025a0f317abfso15278056wmq.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 08:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EIvyFOw8mvTuFM5hQZVVCU0qrPNdbh5I2Bj4X1kA7WQ=;
+ b=gaIEOtqqYuS833blYihl+7Iw8shk8qt6AL+mzGViyi8f8QC+lwDDgt2IPH0q/+dU1H
+ 7bt+Sommo3MR9FY/VLoTpOo31XeUdpFogGaA5qZ+DqMM99khdni6FgnfyUVd+TFjIo38
+ JMiVpBCDkbCHGobEnCzL8wiQge+z3+GJsAPmo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xKJ8jyF18iUebPKiVfcp86JCzuYZ7rYQ2qa/RHFCFIc=;
- b=U9tOak8lxRaJxKPPrP1d9JubOvU01DmKaDV6Ii3fJggay57huIai/Hnj7Ys7ezlypy
- 0F3wWMBjje5i98M/4i6lv2WU9UjmiqEKwneyi5SWX4Uo727+7KrsbDJTTsd5iION2I2T
- IZBzKAaERQTaIn+e2CenyohaQRHfrPWdDAAKVE1ul8OsWa8mMtiNA/eMbL1vRBavHXVs
- 6SKts3TjOvicqxdSxjTd9OpRyvtjFKTj952GiL7MUxNv8j+q5w13NoLlwvIaTr9BS5jp
- T3NRJoqhgtQ0KLNRNACbilweX/40xoB1/DDKYAjTYa0+OSTKUshhy3W2oGX8vB4yfk4b
- r2QA==
-X-Gm-Message-State: AOAM530esiaDrebppHtFgDpKcrkxkM5duuKJR7h4Hq/3UEuys7brCWpX
- lxcdmiD3Ws4w+g2VtY1zVa0KsDbx7FMjY8g0fqiO4w==
-X-Google-Smtp-Source: ABdhPJyL99HtYIoFyfc0P3QJrMp3nMQCUsacwxN28rh4i27dUHtvD1oUFOYZjm/OPUoVjrTYSI1vNBliSkn1DYm3XQo=
-X-Received: by 2002:a25:c091:: with SMTP id
- c139mr22760475ybf.180.1629124130808; 
- Mon, 16 Aug 2021 07:28:50 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=EIvyFOw8mvTuFM5hQZVVCU0qrPNdbh5I2Bj4X1kA7WQ=;
+ b=DW9M3wbecZMvt5tEbaQ4ejwrT3fMBV3JmzbB2jy83OEtJPyG2Sr0SZqqyT/PjA5JQx
+ lhV46IDhE7z0yeIufjejiwOMnGKw84MoB0Z2oLoeplbKR7B1fYvzvb2VTIpk167RXAAY
+ aMINxSCw1bJqSFJU7y927f2YSNqm1EMePKVdpnw4amDRXQkA3m9f93vVedeieDAI4O0n
+ VPNPZ+IyHx2Rig7Ny60AYYd4zEL8byUCmWfviiX7O64SlX06L+aY/CM/sgaldnROMrJh
+ JQidcefStInvjJE47E7JKBWEpiy6g+PrN08r+ICJaeKxErRbUbJm0rdu/AgvNROK0zDX
+ R6QQ==
+X-Gm-Message-State: AOAM531oVZTVOTa/yAy+u4DcZq7Ru7wdok29sK6zOPey3g+Xy2bZdzug
+ i2CPxJYkHw0PwY+IS7O20laujZsOt5EdHw==
+X-Google-Smtp-Source: ABdhPJzDF9KrfED8TEN39f2b9tbP/JkFe6bbQZq2+vcczHGvaS+YoEUQW9Mj8qPAjLla1rzX+sS+zA==
+X-Received: by 2002:a1c:9ace:: with SMTP id
+ c197mr15858085wme.170.1629126103289; 
+ Mon, 16 Aug 2021 08:01:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y3sm11936525wma.32.2021.08.16.08.01.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Aug 2021 08:01:42 -0700 (PDT)
+Date: Mon, 16 Aug 2021 17:01:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Paul Cercueil <paul@crapouillou.net>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Alexandru Ardelean <ardeleanalex@gmail.com>,
+ io-uring@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+ linux-media@vger.kernel.org
+Subject: Re: [Linaro-mm-sig] IIO, dmabuf, io_uring
+Message-ID: <YRp91OUTpjpw7rnE@phenom.ffwll.local>
+Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Alexandru Ardelean <ardeleanalex@gmail.com>,
+ io-uring@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+ linux-media@vger.kernel.org
+References: <2H0SXQ.2KIK2PBVRFWH2@crapouillou.net>
+ <20210814073019.GC21175@lst.de>
 MIME-Version: 1.0
-References: <20210810195906.22220-1-dmoulding@me.com>
- <20210810195906.22220-2-dmoulding@me.com>
- <9df167c7-2985-5b0a-9d54-70ec9d5d2eca@amd.com>
-In-Reply-To: <9df167c7-2985-5b0a-9d54-70ec9d5d2eca@amd.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Mon, 16 Aug 2021 09:28:39 -0500
-Message-ID: <CAOFGe96xGaMeZPYw=EW0c7f58+D7jrVMU4FLUauvKUorXbZ6=A@mail.gmail.com>
-Subject: Re: [PATCH 1/1] drm: ttm: Don't bail from ttm_global_init if
- debugfs_create_dir fails
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Dan Moulding <dmoulding@me.com>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Huang Rui <ray.huang@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210814073019.GC21175@lst.de>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,54 +89,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Makes sense
+On Sat, Aug 14, 2021 at 09:30:19AM +0200, Christoph Hellwig wrote:
+> On Fri, Aug 13, 2021 at 01:41:26PM +0200, Paul Cercueil wrote:
+> > Hi,
+> >
+> > A few months ago we (ADI) tried to upstream the interface we use with our 
+> > high-speed ADCs and DACs. It is a system with custom ioctls on the iio 
+> > device node to dequeue and enqueue buffers (allocated with 
+> > dma_alloc_coherent), that can then be mmap'd by userspace applications. 
+> > Anyway, it was ultimately denied entry [1]; this API was okay in ~2014 when 
+> > it was designed but it feels like re-inventing the wheel in 2021.
+> >
+> > Back to the drawing table, and we'd like to design something that we can 
+> > actually upstream. This high-speed interface looks awfully similar to 
+> > DMABUF, so we may try to implement a DMABUF interface for IIO, unless 
+> > someone has a better idea.
+> 
+> To me this does sound a lot like a dma buf use case.  The interesting
+> question to me is how to signal arrival of new data, or readyness to
+> consume more data.  I suspect that people that are actually using
+> dmabuf heavily at the moment (dri/media folks) might be able to chime
+> in a little more on that.
 
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+One option is to just block in userspace (on poll, or an ioctl, or
+whatever) and then latch the next stage in the pipeline. That's what media
+does right now (because the dma-fence proposal never got anywhere).
 
-On Mon, Aug 16, 2021 at 2:40 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 10.08.21 um 21:59 schrieb Dan Moulding:
-> > In 69de4421bb4c ("drm/ttm: Initialize debugfs from
-> > ttm_global_init()"), ttm_global_init was changed so that if creation
-> > of the debugfs global root directory fails, ttm_global_init will bail
-> > out early and return an error, leading to initialization failure of
-> > DRM drivers. However, not every system will be using debugfs. On such
-> > a system, debugfs directory creation can be expected to fail, but DRM
-> > drivers must still be usable. This changes it so that if creation of
-> > TTM's debugfs root directory fails, then no biggie: keep calm and
-> > carry on.
+In drm we use dma_fences to tie up the stages, and the current
+recommendation for uapi is to use the drm_syncobj container (not the
+sync_file container, that was a bit an awkward iteration on that problem).
+With that you can tie together all the pipeline stages within the kernel
+(and at least sometimes directly in hw).
+
+The downside is (well imo it's not a downside, but some people see it as
+hta) that once you use dma-fence dri-devel folks really consider your
+stuff a gpu driver and expect all the gpu driver review/merge criteria to
+be fulfilled. Specifically about the userspace side too:
+
+https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
+
+At least one driver is trying to play some very clever games here and
+that's not a solid way to make friends ...
+-Daniel
+
+> 
+> > Our first usecase is, we want userspace applications to be able to dequeue 
+> > buffers of samples (from ADCs), and/or enqueue buffers of samples (for 
+> > DACs), and to be able to manipulate them (mmapped buffers). With a DMABUF 
+> > interface, I guess the userspace application would dequeue a dma buffer 
+> > from the driver, mmap it, read/write the data, unmap it, then enqueue it to 
+> > the IIO driver again so that it can be disposed of. Does that sound sane?
 > >
-> > Fixes: 69de4421bb4c ("drm/ttm: Initialize debugfs from ttm_global_init(=
-)")
-> > Signed-off-by: Dan Moulding <dmoulding@me.com>
->
-> Good point, patch is Reviewed-by: Christian K=C3=B6nig
-> <christian.koenig@amd.com>.
->
-> Going to pick that up later today.
->
-> Regards,
-> Christian.
->
-> > ---
-> >   drivers/gpu/drm/ttm/ttm_device.c | 2 --
-> >   1 file changed, 2 deletions(-)
+> > Our second usecase is - and that's where things get tricky - to be able to 
+> > stream the samples to another computer for processing, over Ethernet or 
+> > USB. Our typical setup is a high-speed ADC/DAC on a dev board with a FPGA 
+> > and a weak soft-core or low-power CPU; processing the data in-situ is not 
+> > an option. Copying the data from one buffer to another is not an option 
+> > either (way too slow), so we absolutely want zero-copy.
 > >
-> > diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm=
-_device.c
-> > index 74e3b460132b..2df59b3c2ea1 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_device.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> > @@ -78,9 +78,7 @@ static int ttm_global_init(void)
+> > Usual userspace zero-copy techniques (vmsplice+splice, MSG_ZEROCOPY etc) 
+> > don't really work with mmapped kernel buffers allocated for DMA [2] and/or 
+> > have a huge overhead, so the way I see it, we would also need DMABUF 
+> > support in both the Ethernet stack and USB (functionfs) stack. However, as 
+> > far as I understood, DMABUF is mostly a DRM/V4L2 thing, so I am really not 
+> > sure we have the right idea here.
 > >
-> >       ttm_debugfs_root =3D debugfs_create_dir("ttm", NULL);
-> >       if (IS_ERR(ttm_debugfs_root)) {
-> > -             ret =3D PTR_ERR(ttm_debugfs_root);
-> >               ttm_debugfs_root =3D NULL;
-> > -             goto out;
-> >       }
-> >
-> >       /* Limit the number of pages in the pool to about 50% of the tota=
-l
->
+> > And finally, there is the new kid in town, io_uring. I am not very literate 
+> > about the topic, but it does not seem to be able to handle DMA buffers 
+> > (yet?). The idea that we could dequeue a buffer of samples from the IIO 
+> > device and send it over the network in one single syscall is appealing, 
+> > though.
+> 
+> Think of io_uring really just as an async syscall layer.  It doesn't
+> replace DMA buffers, but can be used as a different and for some
+> workloads more efficient way to dispatch syscalls.
+> _______________________________________________
+> Linaro-mm-sig mailing list
+> Linaro-mm-sig@lists.linaro.org
+> https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
