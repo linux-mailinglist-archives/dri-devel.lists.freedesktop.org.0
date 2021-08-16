@@ -1,65 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D223EDCBD
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 20:01:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB383EDD5C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 20:54:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20492899BB;
-	Mon, 16 Aug 2021 18:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0E8C89911;
+	Mon, 16 Aug 2021 18:54:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53FA8899BB
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 18:01:46 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- hv22-20020a17090ae416b0290178c579e424so1473971pjb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 11:01:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=CQAn3RJnCnEKhUAHlpFfnDVdKYIBRS8GR6cHa78A0bI=;
- b=OiP/jE5lIKzaI86z/cSbkWq8KS+Zn367o727+x1oyIZCvtiHty5VuI3vR9Wd9m/DKC
- mrAvJapyrn3wsenqZ8mHt9roDOSCGfRyzs/k1mCcI1rBa1xvrOhQ1kmKQT1zcDOSS1FB
- 9jlHPQve9GjHuRcHIygklthjRruh8CAuZ7VKU=
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A773F89911;
+ Mon, 16 Aug 2021 18:54:05 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id bf25so19342228oib.10;
+ Mon, 16 Aug 2021 11:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YoY9bHgtBFBdh+LL5q9r5ScpCfKdiLG+MRqaif3YEI8=;
+ b=naoSBJkgtcuj5qgJOEZkSZimaplLVdgNyuZkSUQOT4oTguOAkX6UV9uhieY+czuvyC
+ yKl+WA0CV9mqasUFr9PIYgiR087D0pB2DSlo7BJlIJOIeH8jZe90iieO/YLidSIvyGcF
+ y120bsGWC2BVTQ4HihQP1T9IDivfmdAump1sI1BksIJxwB5U864hAmI+CYPqoUxVmf9b
+ rtYUU/gjJHllsB4yhuL/fsFmr4fSG2UYhzvG3SxadqL7yAr1+lzHaT65vfY+b4nAv6pE
+ riWxWjM/lMBOuoaoLzdmW2IFQuhDZ6aS10JodX0K8HOixim9MKDvwfe3gqNhyZrNomrY
+ F2nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CQAn3RJnCnEKhUAHlpFfnDVdKYIBRS8GR6cHa78A0bI=;
- b=CFC8HwWUwRUCyKHUrEj1AFvLGfe2iwZxTc6Dnrr8dMSELugYiohaiPhUbB5OG6xis3
- MtEPDdMQZsRccuiLXM5KdVx/O2HGFSEtLckwsvoG1CHcLljixhxkhBOI+1hbb5cRKLMh
- PACgOSD8+sIVNMGTOllFPNtnw0FxEmOXOuiCQW3nNKRALJDmhHhWu4NZIoGeLipzKTtu
- 3RMrmQ7mLzwo/dSzjrY0oeRMkbdnx4UknQ1aWseJr8HCjhKuDppp7X4k3fPIIY0bWcc/
- Y9S7vPFN1Y62beOpwvfsfvMx8sFiuq6nNL7lvr9bzNy2Ulwbwn5Gtx3omjCBRnvcElXe
- Zwfw==
-X-Gm-Message-State: AOAM530T9iX1j1r5AzfA2nZ1xbX4AyLijmkfuO46HvsoC7065CjmyRn5
- q8WFBqj8qQJNsSQ7WbB2dHJ63w==
-X-Google-Smtp-Source: ABdhPJwa1Xm3ePFA3SuM8XZOqgsVOXYMQm8FtguFpY+P9+T3EtyPVM2ryfi8HpcN6WgUHqWEMqbCBg==
-X-Received: by 2002:a17:902:a609:b029:12b:858e:d116 with SMTP id
- u9-20020a170902a609b029012b858ed116mr104173plq.25.1629136905928; 
- Mon, 16 Aug 2021 11:01:45 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:5cff:3a19:755c:1b91])
- by smtp.gmail.com with UTF8SMTPSA id x12sm63119pfu.21.2021.08.16.11.01.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 11:01:45 -0700 (PDT)
-Date: Mon, 16 Aug 2021 11:01:43 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Sankeerth Billakanti <sbillaka@codeaurora.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- robdclark@gmail.com, seanpaul@chromium.org, swboyd@chromium.org,
- kalyan_t@codeaurora.org, abhinavk@codeaurora.org,
- dianders@chromium.org, khsieh@codeaurora.org, mkrishn@codeaurora.org
-Subject: Re: [PATCH v1 2/2] dt-bindings: Add SC7280 compatible string
-Message-ID: <YRqoB2UEJtVcr6AN@google.com>
-References: <1628726882-27841-1-git-send-email-sbillaka@codeaurora.org>
- <1628726882-27841-3-git-send-email-sbillaka@codeaurora.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YoY9bHgtBFBdh+LL5q9r5ScpCfKdiLG+MRqaif3YEI8=;
+ b=XoVeumcZyTUrEs0P+8AGzRi9/eLUMHBQ0jpKoynTIyllI4sbyUnz2+5l7FgiiatKe2
+ EjiJ/+M+1MJV8dRBJU6s8TASZGPVB4tc+APLKYCbBpfdO1NAwCFeLmYf/90SBAKiNQMH
+ RNgcIV6w19trjuKuNmF8ih+BjC2TazJs7lwJzC9GmckdQORt+b7l8hgHdTGfmxEbtPvR
+ pyRKhfBywagb/lkpgla3Eg57dM1PS0FW6WoG/zTkchezXvY2aCRhr9qa3QjA5LMeq2bR
+ HLqqie2lYRNeMxeTILTLt4JNMos68F/LXmMofNul9vpqV1EmZdJsjLoWQRJAnkVLQvVI
+ f7Dg==
+X-Gm-Message-State: AOAM533TmNGFGrN4bvPY0ttH2p2PWiqoHp1OfjN8qInm6j+uH9OoTqU9
+ GLohyCwd9fN79OTnb8Tfnb4e+RhxeR2rmCQyxwA=
+X-Google-Smtp-Source: ABdhPJyjsT23z+JKUtzE0jLgdLWJv7SfrxzzaZKXzkFJJLzPFGv15wqNC71FHrLBwBKGtq3duPeYyc8o86vTH0Psaxc=
+X-Received: by 2002:a05:6808:1390:: with SMTP id
+ c16mr128831oiw.123.1629140045025; 
+ Mon, 16 Aug 2021 11:54:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1628726882-27841-3-git-send-email-sbillaka@codeaurora.org>
+References: <20210815192959.90142-1-nathan@kernel.org>
+ <d2e9b2a0-49b9-42fe-47fc-66a44bef3b01@amd.com>
+In-Reply-To: <d2e9b2a0-49b9-42fe-47fc-66a44bef3b01@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 16 Aug 2021 14:53:53 -0400
+Message-ID: <CADnq5_N0o_6vCqE0tYq=yqtPWvOzZikLoVF1f4U9DJcb2bCgCA@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Add break to switch statement in
+ radeonfb_create_pinned_object()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Kees Cook <keescook@chromium.org>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, 
+ clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +78,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 12, 2021 at 05:38:02AM +0530, Sankeerth Billakanti wrote:
-> The Qualcomm SC7280 platform supports an eDP controller, add
-> compatible string for it to msm/binding.
-> 
-> Signed-off-by: Sankeerth Billakanti <sbillaka@codeaurora.org>
-> ---
->  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> index 64d8d9e..23b78ac 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> @@ -17,6 +17,9 @@ properties:
->    compatible:
->      enum:
->        - qcom,sc7180-dp
-> +      - qcom,sc8180x-dp
-> +      - qcom,sc8180x-edp
-> +      - qcom,sc7280-edp
+Applied.  Thanks!
 
-This adds compatible strings for sc8180x and sc7280 (e)DP, however the
-commit message only mentions sc7280. So either the commit message needs
-and update or the sc8180x compatibles should be removed.
+Alex
 
-The driver change (https://patchwork.kernel.org/project/linux-arm-msm/patch/1628726882-27841-2-git-send-email-sbillaka@codeaurora.org/)
-adds some (currently unused) 'io_start' addresses which are hardcoded,
-I wonder if these should be in the device tree instead (and 'num_dp'
-too?), if they are needed at all.
+On Mon, Aug 16, 2021 at 3:23 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 15.08.21 um 21:29 schrieb Nathan Chancellor:
+> > Clang + -Wimplicit-fallthrough warns:
+> >
+> > drivers/gpu/drm/radeon/radeon_fb.c:170:2: warning: unannotated
+> > fall-through between switch labels [-Wimplicit-fallthrough]
+> >          default:
+> >          ^
+> > drivers/gpu/drm/radeon/radeon_fb.c:170:2: note: insert 'break;' to avoi=
+d
+> > fall-through
+> >          default:
+> >          ^
+> >          break;
+> > 1 warning generated.
+> >
+> > Clang's version of this warning is a little bit more pedantic than
+> > GCC's. Add the missing break to satisfy it to match what has been done
+> > all over the kernel tree.
+> >
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> > ---
+> >   drivers/gpu/drm/radeon/radeon_fb.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeo=
+n/radeon_fb.c
+> > index 0b206b052972..c8b545181497 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_fb.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_fb.c
+> > @@ -167,6 +167,7 @@ static int radeonfb_create_pinned_object(struct rad=
+eon_fbdev *rfbdev,
+> >               break;
+> >       case 2:
+> >               tiling_flags |=3D RADEON_TILING_SWAP_16BIT;
+> > +             break;
+> >       default:
+> >               break;
+> >       }
+> >
+> > base-commit: ba31f97d43be41ca99ab72a6131d7c226306865f
+>
