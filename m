@@ -2,45 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252933ED085
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 10:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFB93ED086
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 10:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 486CF89C55;
-	Mon, 16 Aug 2021 08:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABF189CAF;
+	Mon, 16 Aug 2021 08:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A7D89C55
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 08:49:00 +0000 (UTC)
-Subject: Re: [PATCH] drm/fb: Fix randconfig builds
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1629103738;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lbdQWzfYvLNzrZ33mixUpKGb+ecTdn9kJiVbVoTnASA=;
- b=inu1Q8cnrHSFLRjcfSYSwGlUcUEFmd1/G8D5VDwEunqVBPML4TYS9puNbS/I61EB+HHAW7
- GRdhfOsl78O9fllmNaw8057yeNuL3c5ACkaFBEqKc/1B0ZbiiBh455obkEVqr49N6aKQK/
- NuQvwaQe8sFaMsfF0XJbiDug8QfaZn0=
-To: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
- mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, liuyun01@kylinos.cn
-References: <20210816064835.332785-1-liu.yun@linux.dev>
- <87y291kh4c.fsf@intel.com> <9dd92929-24e9-e9e4-b78a-31da3c3ed77d@linux.dev>
- <87mtphkcv5.fsf@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Jackie Liu <liu.yun@linux.dev>
-Message-ID: <6fd6b18a-332b-a573-ecd2-51b6a5dd042f@linux.dev>
-Date: Mon, 16 Aug 2021 16:48:51 +0800
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C848089CAF;
+ Mon, 16 Aug 2021 08:49:17 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10077"; a="215820804"
+X-IronPort-AV: E=Sophos;i="5.84,324,1620716400"; d="scan'208";a="215820804"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2021 01:49:16 -0700
+X-IronPort-AV: E=Sophos;i="5.84,324,1620716400"; d="scan'208";a="592581225"
+Received: from vanderss-mobl.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.118])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2021 01:49:12 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PATCH] drm/i915: Ditch the i915_gem_ww_ctx loop member
+Date: Mon, 16 Aug 2021 10:48:55 +0200
+Message-Id: <20210816084855.75586-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <87mtphkcv5.fsf@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: liu.yun@linux.dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,116 +49,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani.
+It's only used by the for_i915_gem_ww() macro and we can use
+the (typically) on-stack _err variable in its place.
 
-Your suggestion is that?
+While initially setting the _err variable to -EDEADLK to enter the
+loop, we clear it before actually entering using fetch_and_zero() to
+avoid empty loops or code not setting the _err variable running forever.
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 7ff89690a976..ba179a539497 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -77,6 +77,7 @@ config DRM_DEBUG_SELFTEST
-  config DRM_KMS_HELPER
-         tristate
-         depends on DRM
-+       depends on FB if DRM_FBDEV_EMULATION
-         help
-           CRTC helpers for KMS drivers.
+Suggested-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/i915_gem_ww.h | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/i915_gem_ww.h b/drivers/gpu/drm/i915/i915_gem_ww.h
+index f6b1a796667b..98348b1e6182 100644
+--- a/drivers/gpu/drm/i915/i915_gem_ww.h
++++ b/drivers/gpu/drm/i915/i915_gem_ww.h
+@@ -7,12 +7,13 @@
+ 
+ #include <drm/drm_drv.h>
+ 
++#include "i915_utils.h"
++
+ struct i915_gem_ww_ctx {
+ 	struct ww_acquire_ctx ctx;
+ 	struct list_head obj_list;
+ 	struct drm_i915_gem_object *contended;
+-	unsigned short intr;
+-	unsigned short loop;
++	bool intr;
+ };
+ 
+ void i915_gem_ww_ctx_init(struct i915_gem_ww_ctx *ctx, bool intr);
+@@ -23,28 +24,20 @@ void i915_gem_ww_unlock_single(struct drm_i915_gem_object *obj);
+ /* Internal functions used by the inlines! Don't use. */
+ static inline int __i915_gem_ww_fini(struct i915_gem_ww_ctx *ww, int err)
+ {
+-	ww->loop = 0;
+ 	if (err == -EDEADLK) {
+ 		err = i915_gem_ww_ctx_backoff(ww);
+ 		if (!err)
+-			ww->loop = 1;
++			err = -EDEADLK;
+ 	}
+ 
+-	if (!ww->loop)
++	if (err != -EDEADLK)
+ 		i915_gem_ww_ctx_fini(ww);
+ 
+ 	return err;
+ }
+ 
+-static inline void
+-__i915_gem_ww_init(struct i915_gem_ww_ctx *ww, bool intr)
+-{
+-	i915_gem_ww_ctx_init(ww, intr);
+-	ww->loop = 1;
+-}
+-
+-#define for_i915_gem_ww(_ww, _err, _intr)			\
+-	for (__i915_gem_ww_init(_ww, _intr); (_ww)->loop;	\
++#define for_i915_gem_ww(_ww, _err, _intr)			  \
++	for (i915_gem_ww_ctx_init(_ww, _intr), (_err) = -EDEADLK; \
++	     fetch_and_zero(&_err) == -EDEADLK;			  \
+ 	     _err = __i915_gem_ww_fini(_ww, _err))
+-
+ #endif
+-- 
+2.31.1
 
-But it has a syntax error.
-
---
-Thanks, BR, Jackie Liu
-
-在 2021/8/16 下午4:33, Jani Nikula 写道:
-> On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
->> Hi Jani.
->>
->> My CI report an randconfigs build failed. there are:
->>
->> drm_fb_helper.c:(.text+0x302): undefined reference to `fb_set_suspend'
->> drm_fb_helper.c:(.text+0xaea): undefined reference to `register_framebuffer'
->> drm_fb_helper.c:(.text+0x1dcc): undefined reference to `framebuffer_alloc'
->> ld: drm_fb_helper.c:(.text+0x1dea): undefined reference to `fb_alloc_cmap'
->> ld: drm_fb_helper.c:(.text+0x1e2f): undefined reference to `fb_dealloc_cmap'
->> ld: drm_fb_helper.c:(.text+0x1e5b): undefined reference to
->> `framebuffer_release'
->> drm_fb_helper.c:(.text+0x1e85): undefined reference to
->> `unregister_framebuffer'
->> drm_fb_helper.c:(.text+0x1ee9): undefined reference to `fb_dealloc_cmap'
->> ld: drm_fb_helper.c:(.text+0x1ef0): undefined reference to
->> `framebuffer_release'
->> drm_fb_helper.c:(.text+0x1f96): undefined reference to
->> `fb_deferred_io_cleanup'
->> drm_fb_helper.c:(.text+0x203b): undefined reference to `fb_sys_read'
->> drm_fb_helper.c:(.text+0x2051): undefined reference to `fb_sys_write'
->> drm_fb_helper.c:(.text+0x208d): undefined reference to `sys_fillrect'
->> drm_fb_helper.c:(.text+0x20bb): undefined reference to `sys_copyarea'
->> drm_fb_helper.c:(.text+0x20e9): undefined reference to `sys_imageblit'
->> drm_fb_helper.c:(.text+0x2117): undefined reference to `cfb_fillrect'
->> drm_fb_helper.c:(.text+0x2172): undefined reference to `cfb_copyarea'
->> drm_fb_helper.c:(.text+0x21cd): undefined reference to `cfb_imageblit'
->> drm_fb_helper.c:(.text+0x2233): undefined reference to `fb_set_suspend'
->> drm_fb_helper.c:(.text+0x22b0): undefined reference to `fb_set_suspend'
->> drm_fb_helper.c:(.text+0x250f): undefined reference to `fb_deferred_io_init'
->>
->> The main reason is because DRM_FBDEV_EMULATION is built-in, and
->> CONFIG_FB is compiled as a module.
-> 
-> DRM_FBDEV_EMULATION is not a module, it's just a config
-> knob. drm_fb_helper.ko is the module, enabled via DRM_KMS_HELPER, and it
-> has an implicit dependency on FB, and DRM_FBDEV_EMULATION selects
-> DRM_KMS_HELPER. Select just breaks dependencies in all kinds of ways.
-> 
-> This might help in config DRM_KMS_HELPER, and it might help the reader
-> because it's factual:
-> 
-> 	depends on FB if DRM_FBDEV_EMULATION
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> 
-> 
-> 
->>
->> --
->> Jackie Liu
->>
->> 在 2021/8/16 下午3:01, Jani Nikula 写道:
->>> On Mon, 16 Aug 2021, Jackie Liu <liu.yun@linux.dev> wrote:
->>>> From: Jackie Liu <liuyun01@kylinos.cn>
->>>>
->>>> When CONFIG_DRM_FBDEV_EMULATION is compiled to y and CONFIG_FB is m, the
->>>> compilation will fail. we need make that dependency explicit.
->>>
->>> What's the failure mode? Using select here is a bad idea.
->>>
->>> BR,
->>> Jani.
->>>
->>>>
->>>> Reported-by: k2ci <kernel-bot@kylinos.cn>
->>>> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
->>>> ---
->>>>    drivers/gpu/drm/Kconfig | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>>> index 7ff89690a976..346a518b5119 100644
->>>> --- a/drivers/gpu/drm/Kconfig
->>>> +++ b/drivers/gpu/drm/Kconfig
->>>> @@ -98,7 +98,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->>>>    config DRM_FBDEV_EMULATION
->>>>    	bool "Enable legacy fbdev support for your modesetting driver"
->>>>    	depends on DRM
->>>> -	depends on FB
->>>> +	select FB
->>>>    	select DRM_KMS_HELPER
->>>>    	select FB_CFB_FILLRECT
->>>>    	select FB_CFB_COPYAREA
->>>
-> 
