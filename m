@@ -1,74 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A77C3ECF71
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 09:33:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB053ECF79
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 09:38:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB2A389935;
-	Mon, 16 Aug 2021 07:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D3589C8D;
+	Mon, 16 Aug 2021 07:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
  [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEFBB892AE;
- Mon, 16 Aug 2021 07:33:04 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id x12so22112349wrr.11;
- Mon, 16 Aug 2021 00:33:04 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B34FD89C8D;
+ Mon, 16 Aug 2021 07:38:34 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id q10so22190827wro.2;
+ Mon, 16 Aug 2021 00:38:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=XamX6v+EalXddhvYZkaQV9/qUDz3UjOhi9dIB7KzCSs=;
- b=PkEOUtH5InhTNH9ehMjQl20qf1T04HXrhUa/Yzm/fNVILgWgtRxcNLDYLgH/Ruv37D
- Axuonw4Rz5/fa/wJebnZGSCd+IOMGLtSdT6xFxGOuzN3idHI4ET+X5YQcENpJtDp3mgX
- YPzE5vrKoVq+uubotMIDm62W8KHIpjwrpg1MMc30DqsxGbQKXB2Ns6MpzUD5ZYwDRJ7B
- IC/NC5idN9cZtyD6Cthbbi7SW59wEWH8n1Pe/C3nOClpWeUmqm+fB5RPRxGgUMgrGbil
- Bj4QvAn0LzFBWJjwYfutKh76jR0gQ9GbL4Y25V1anX/Jo3P3M06w98PVHf3NLxeS/Mzy
- iKpQ==
+ bh=A1Cvwxi4LGlt/0yKCIl36gv62GuMM6RNpQclDirQKfo=;
+ b=GbL3lEfxKdlxart7nc5QhivH3kZOfElOBvhbbzlOwnsZn+4U2EpUveTaf1Q1oKn7Hr
+ s/nvvMbtIkU4w51EqiFK0j3it6uA+ozGHa39Ki4aoa70GDJ7lvuapgIsolZULng1LZEy
+ 0bPZh22kjHI+FesSLcD1lN2NtrBt3wgm+wpajEEa64FIENUInINeBd/JdaMSzzyO1udT
+ ZrC/rWUNDjtENlXPXfezBG4dyX45zsTY21fiQ0bjamZPQSOeW8z9l3W05gs7j0SmPufl
+ 5DZ2zcQap9HXApeR3dbMmybOqkR3jY7nR8p+LMlWrPhRCM7jkbsQ9QnezvYByQcqS9QF
+ GJ9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=XamX6v+EalXddhvYZkaQV9/qUDz3UjOhi9dIB7KzCSs=;
- b=pM7bbLF6SFq7AG0KrnsxBluZeBDfDEW6uDLOYMkcKgMKgMLl/kBQ2NeOD2H6IKNtOf
- 3ZRosBwZLrfkHc8C692g7BJ+5yThZDLJChwIcfqq/Rt+gZze6S4rweuGWiS3fmmmVUnE
- v87VSaodkViIjWS/NXnU1HeDztBtR6SIGuK9mMcLT4oqzwQiFLUks950vLgYDgZ5ly0v
- NS12lYLSUV9AFsSwNIr9JXayfC1e7Su2a3zXE8YsXG2ljNP7oEjpUsDiCWVOOdR3ZYx4
- n5t+rbuszhutE3tQ1C7AHBViCPETX7OYtJUPYuSExvihEYdkvukvenmlg7qYif9wbDFD
- rBEQ==
-X-Gm-Message-State: AOAM532vuXEj7nAXJxSds/CFlshTQWxbdO6JghbiUD+/isS2zcUAu0qE
- RJSNN+8euGiZiU9K1H9Or7hiaDqIbHA=
-X-Google-Smtp-Source: ABdhPJxFvkDLLsJoPrP+lhjy9E96awhLx9z9IHlJvOTDprFo03cIYj0MGRo0PgRMs1ljywcnFlCVPA==
-X-Received: by 2002:a5d:6d0f:: with SMTP id e15mr16732874wrq.373.1629099183216; 
- Mon, 16 Aug 2021 00:33:03 -0700 (PDT)
+ bh=A1Cvwxi4LGlt/0yKCIl36gv62GuMM6RNpQclDirQKfo=;
+ b=LvHj3iMQYYtOk8UfoJHlBGoDl8kBqo8B6wlgvkm7HqZfM32yFgWJkhVZnF80tdQQKx
+ FvKtukzT+hEWURgqKAC6Qm2LmYPW9AgTn+nsuw0kC6JHcDp/AjCMlvDkJjFQ/gwkk8XX
+ y9mqPC87mJ7/Ktfvou3q8sfs/BwLnNUovuh8SmQHNyLTzogLYsOYer376PoDImr9VkIQ
+ +fybOZ8ywVHyclxVehCdQvC8FUj/eXImNRyrNsiEVysadoFpbxUEKmx7JrmvqOFKyqqM
+ dHdeFSVN/Moc+XJvR94mECH/F+PLLqaE3t/4VhdapDXc0cJTWdJdH7OJ/VP4+gqmZoC3
+ 12TQ==
+X-Gm-Message-State: AOAM532GyLJQgiyEnStr86dhuMMleV8NKdLq1SxLF9NdXzUYnhAl29EQ
+ gdQMUiC57BNXL23xSapccCDTlSP36hU=
+X-Google-Smtp-Source: ABdhPJwvwWIeAl06vr7mgftmWuJEuEzjkt6jgdBsptzKZ4AfPUPQfbR8T/lBUm3zsZSm5UL5r9aDVw==
+X-Received: by 2002:a5d:4311:: with SMTP id h17mr16802527wrq.263.1629099513219; 
+ Mon, 16 Aug 2021 00:38:33 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:7d83:fd8:eb16:8605?
  ([2a02:908:1252:fb60:7d83:fd8:eb16:8605])
- by smtp.gmail.com with ESMTPSA id l2sm9572019wme.28.2021.08.16.00.33.02
+ by smtp.gmail.com with ESMTPSA id z126sm9841580wmc.11.2021.08.16.00.38.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Aug 2021 00:33:02 -0700 (PDT)
-Subject: Re: [PATCH 2/2] drm/amdgpu: Use mod_delayed_work in JPEG/UVD/VCE/VCN
- ring_end_use hooks
+ Mon, 16 Aug 2021 00:38:32 -0700 (PDT)
+Subject: Re: [PATCH] drm/amdgpu: Cancel delayed work when GFXOFF is disabled
 To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Quan, Evan" <Evan.Quan@amd.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-Cc: "Liu, Leo" <Leo.Liu@amd.com>, "Zhu, James" <James.Zhu@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20210811165211.6811-1-michel@daenzer.net>
- <20210811165211.6811-2-michel@daenzer.net>
- <MN2PR12MB377506AD71308A47222A3E9583F89@MN2PR12MB3775.namprd12.prod.outlook.com>
- <DM6PR12MB26196DF7D33462060FC4F607E4F99@DM6PR12MB2619.namprd12.prod.outlook.com>
- <MN2PR12MB3775E6C1ECA915283108E6D783F99@MN2PR12MB3775.namprd12.prod.outlook.com>
- <aebae00c-4b7b-552f-accb-e51d151ecb43@daenzer.net>
+ <20210813102920.3458-1-michel@daenzer.net>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <13639c8e-d9b7-6eee-f5a3-8460d1fba7da@gmail.com>
-Date: Mon, 16 Aug 2021 09:33:01 +0200
+Message-ID: <f63510d7-4449-34e9-98bd-bc2d07b08a03@gmail.com>
+Date: Mon, 16 Aug 2021 09:38:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <aebae00c-4b7b-552f-accb-e51d151ecb43@daenzer.net>
+In-Reply-To: <20210813102920.3458-1-michel@daenzer.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -87,38 +80,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 12.08.21 um 10:11 schrieb Michel Dänzer:
-> On 2021-08-12 7:55 a.m., Koenig, Christian wrote:
->> Hi James,
->>
->> Evan seems to have understood how this all works together.
->>
->> See while any begin/end use critical section is active the work should not be active.
->>
->> When you handle only one ring you can just call cancel in begin use and schedule in end use. But when you have more than one ring you need a lock or counter to prevent concurrent work items to be started.
->>
->> Michelle's idea to use mod_delayed_work is a bad one because it assumes that the delayed work is still running.
-> It merely assumes that the work may already have been scheduled before.
+Am 13.08.21 um 12:29 schrieb Michel Dänzer:
+> From: Michel Dänzer <mdaenzer@redhat.com>
 >
-> Admittedly, I missed the cancel_delayed_work_sync calls for patch 2. While I think it can still have some effect when there's a single work item for multiple rings, as described by James, it's probably negligible, since presumably the time intervals between ring_begin_use and ring_end_use are normally much shorter than a second.
+> schedule_delayed_work does not push back the work if it was already
+> scheduled before, so amdgpu_device_delay_enable_gfx_off ran ~100 ms
+> after the first time GFXOFF was disabled and re-enabled, even if GFXOFF
+> was disabled and re-enabled again during those 100 ms.
 >
-> So, while patch 2 is at worst a no-op (since mod_delayed_work is the same as schedule_delayed_work if the work hasn't been scheduled yet), I'm fine with dropping it.
+> This resulted in frame drops / stutter with the upcoming mutter 41
+> release on Navi 14, due to constantly enabling GFXOFF in the HW and
+> disabling it again (for getting the GPU clock counter).
+>
+> To fix this, call cancel_delayed_work_sync when GFXOFF transitions from
+> enabled to disabled. This makes sure the delayed work will be scheduled
+> as intended in the reverse case.
+>
+> In order to avoid a deadlock, amdgpu_device_delay_enable_gfx_off needs
+> to use mutex_trylock instead of mutex_lock.
+>
+> v2:
+> * Use cancel_delayed_work_sync & mutex_trylock instead of
+>    mod_delayed_work.
 
-Yeah, I think that would be much better.
+While this may work it still smells a little bit fishy.
 
->> Something similar applies to the first patch I think,
-> There are no cancel work calls in that case, so the commit log is accurate TTBOMK.
->
-> I noticed this because current mutter Git main wasn't able to sustain 60 fps on Navi 14 with a simple glxgears -fullscreen. mutter was dropping frames because its CPU work for a frame update occasionally took up to 3 ms, instead of the normal 2-300 microseconds. sysprof showed a lot of cycles spent in the functions which enable/disable GFXOFF in the HW.
->
->
->> so when this makes a difference it is actually a bug.
-> There was certainly a bug though, which patch 1 fixes. :)
+In general you have two common locking orders around work items, either 
+lock->work or work->lock. If you mix this as lock->work->lock like here 
+trouble is usually imminent.
 
-Agreed, just wanted to note that this is most likely not the right 
-solution since Alex was already picking it up.
+I think what we should do instead is to double check if taking the lock 
+inside the work item is necessary and instead making sure that the work 
+is sync canceled when we don't want it to run. In other words fully 
+switching to the lock->work approach.
 
-Going to reply separately on the new patch as well.
+But please note that this are just high level design thoughts, I don't 
+really know the details of the gfx_off code at all. Could even be that 
+we need two locks, one outside and one inside of the work item.
 
 Regards,
 Christian.
+
+>
+> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 ++++++++++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c    | 13 +++++++------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h    |  3 +++
+>   3 files changed, 20 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index f3fd5ec710b6..8b025f70706c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -2777,7 +2777,16 @@ static void amdgpu_device_delay_enable_gfx_off(struct work_struct *work)
+>   	struct amdgpu_device *adev =
+>   		container_of(work, struct amdgpu_device, gfx.gfx_off_delay_work.work);
+>   
+> -	mutex_lock(&adev->gfx.gfx_off_mutex);
+> +	/* mutex_lock could deadlock with cancel_delayed_work_sync in amdgpu_gfx_off_ctrl. */
+> +	if (!mutex_trylock(&adev->gfx.gfx_off_mutex)) {
+> +		/* If there's a bug which causes amdgpu_gfx_off_ctrl to be called with enable=true
+> +		 * when adev->gfx.gfx_off_req_count is already 0, we might race with that.
+> +		 * Re-schedule to make sure gfx off will be re-enabled in the HW eventually.
+> +		 */
+> +		schedule_delayed_work(&adev->gfx.gfx_off_delay_work, AMDGPU_GFX_OFF_DELAY_ENABLE);
+> +		return;
+> +	}
+> +
+>   	if (!adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
+>   		if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, true))
+>   			adev->gfx.gfx_off_state = true;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+> index a0be0772c8b3..da4c46db3093 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+> @@ -28,9 +28,6 @@
+>   #include "amdgpu_rlc.h"
+>   #include "amdgpu_ras.h"
+>   
+> -/* delay 0.1 second to enable gfx off feature */
+> -#define GFX_OFF_DELAY_ENABLE         msecs_to_jiffies(100)
+> -
+>   /*
+>    * GPU GFX IP block helpers function.
+>    */
+> @@ -569,9 +566,13 @@ void amdgpu_gfx_off_ctrl(struct amdgpu_device *adev, bool enable)
+>   		adev->gfx.gfx_off_req_count--;
+>   
+>   	if (enable && !adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
+> -		schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_OFF_DELAY_ENABLE);
+> -	} else if (!enable && adev->gfx.gfx_off_state) {
+> -		if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, false)) {
+> +		schedule_delayed_work(&adev->gfx.gfx_off_delay_work, AMDGPU_GFX_OFF_DELAY_ENABLE);
+> +	} else if (!enable) {
+> +		if (adev->gfx.gfx_off_req_count == 1 && !adev->gfx.gfx_off_state)
+> +			cancel_delayed_work_sync(&adev->gfx.gfx_off_delay_work);
+> +
+> +		if (adev->gfx.gfx_off_state &&
+> +		    !amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, false)) {
+>   			adev->gfx.gfx_off_state = false;
+>   
+>   			if (adev->gfx.funcs->init_spm_golden) {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
+> index d43fe2ed8116..dcdb505bb7f4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h
+> @@ -32,6 +32,9 @@
+>   #include "amdgpu_rlc.h"
+>   #include "soc15.h"
+>   
+> +/* delay 0.1 second to enable gfx off feature */
+> +#define AMDGPU_GFX_OFF_DELAY_ENABLE msecs_to_jiffies(100)
+> +
+>   /* GFX current status */
+>   #define AMDGPU_GFX_NORMAL_MODE			0x00000000L
+>   #define AMDGPU_GFX_SAFE_MODE			0x00000001L
+
