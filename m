@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE9A3ED82A
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 15:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAF93ED820
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 15:57:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A80E889FC3;
-	Mon, 16 Aug 2021 13:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 275E389F97;
+	Mon, 16 Aug 2021 13:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658E889E3F;
- Mon, 16 Aug 2021 13:57:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10077"; a="279607084"
-X-IronPort-AV: E=Sophos;i="5.84,326,1620716400"; d="scan'208";a="279607084"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD02989EFF;
+ Mon, 16 Aug 2021 13:57:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10077"; a="279607085"
+X-IronPort-AV: E=Sophos;i="5.84,326,1620716400"; d="scan'208";a="279607085"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  16 Aug 2021 06:57:00 -0700
-X-IronPort-AV: E=Sophos;i="5.84,326,1620716400"; d="scan'208";a="441091188"
+X-IronPort-AV: E=Sophos;i="5.84,326,1620716400"; d="scan'208";a="441091190"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  16 Aug 2021 06:57:00 -0700
@@ -25,9 +25,10 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <daniel.vetter@ffwll.ch>
-Subject: [PATCH 19/22] drm/i915/guc: Proper xarray usage for contexts_lookup
-Date: Mon, 16 Aug 2021 06:51:36 -0700
-Message-Id: <20210816135139.10060-20-matthew.brost@intel.com>
+Subject: [PATCH 20/22] drm/i915/guc: Drop pin count check trick between
+ sched_disable and re-pin
+Date: Mon, 16 Aug 2021 06:51:37 -0700
+Message-Id: <20210816135139.10060-21-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210816135139.10060-1-matthew.brost@intel.com>
 References: <20210816135139.10060-1-matthew.brost@intel.com>
@@ -48,219 +49,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Lock the xarray and take ref to the context if needed.
-
-v2:
- (Checkpatch)
-  - Add new line after declaration
+Drop pin count check trick between a sched_disable and re-pin, now rely
+on the lock and counter of the number of committed requests to determine
+if scheduling should be disabled on the context.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 84 ++++++++++++++++---
- 1 file changed, 73 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  2 +
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 49 ++++++++++++-------
+ 2 files changed, 34 insertions(+), 17 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index d5d643b04d54..524a35a78bf4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -169,6 +169,8 @@ struct intel_context {
+ 		struct list_head fences;
+ 		/* GuC context blocked fence */
+ 		struct i915_sw_fence blocked_fence;
++		/* GuC committed requests */
++		int number_committed_requests;
+ 	} guc_state;
+ 
+ 	struct {
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index ba19b99173fc..2ecb2f002bed 100644
+index 2ecb2f002bed..c6ae6b4417c2 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -599,8 +599,18 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
- 	unsigned long index, flags;
- 	bool pending_disable, pending_enable, deregister, destroyed, banned;
- 
-+	xa_lock_irqsave(&guc->context_lookup, flags);
- 	xa_for_each(&guc->context_lookup, index, ce) {
--		spin_lock_irqsave(&ce->guc_state.lock, flags);
-+		/*
-+		 * Corner case where the ref count on the object is zero but and
-+		 * deregister G2H was lost. In this case we don't touch the ref
-+		 * count and finish the destroy of the context.
-+		 */
-+		bool do_put = kref_get_unless_zero(&ce->ref);
-+
-+		xa_unlock(&guc->context_lookup);
-+
-+		spin_lock(&ce->guc_state.lock);
- 
- 		/*
- 		 * Once we are at this point submission_disabled() is guaranteed
-@@ -616,7 +626,9 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
- 		banned = context_banned(ce);
- 		init_sched_state(ce);
- 
--		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+		spin_unlock(&ce->guc_state.lock);
-+
-+		GEM_BUG_ON(!do_put && !destroyed);
- 
- 		if (pending_enable || destroyed || deregister) {
- 			atomic_dec(&guc->outstanding_submission_g2h);
-@@ -645,7 +657,12 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
- 
- 			intel_context_put(ce);
- 		}
-+
-+		if (do_put)
-+			intel_context_put(ce);
-+		xa_lock(&guc->context_lookup);
- 	}
-+	xa_unlock_irqrestore(&guc->context_lookup, flags);
+@@ -247,6 +247,25 @@ static inline void decr_context_blocked(struct intel_context *ce)
+ 	ce->guc_state.sched_state -= SCHED_STATE_BLOCKED;
  }
  
- static inline bool
-@@ -866,16 +883,26 @@ void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
++static inline bool context_has_committed_requests(struct intel_context *ce)
++{
++	return !!ce->guc_state.number_committed_requests;
++}
++
++static inline void incr_context_committed_requests(struct intel_context *ce)
++{
++	lockdep_assert_held(&ce->guc_state.lock);
++	++ce->guc_state.number_committed_requests;
++	GEM_BUG_ON(ce->guc_state.number_committed_requests < 0);
++}
++
++static inline void decr_context_committed_requests(struct intel_context *ce)
++{
++	lockdep_assert_held(&ce->guc_state.lock);
++	--ce->guc_state.number_committed_requests;
++	GEM_BUG_ON(ce->guc_state.number_committed_requests < 0);
++}
++
+ static inline bool context_guc_id_invalid(struct intel_context *ce)
  {
- 	struct intel_context *ce;
- 	unsigned long index;
-+	unsigned long flags;
+ 	return ce->guc_id == GUC_INVALID_LRC_ID;
+@@ -1736,14 +1755,11 @@ static void guc_context_sched_disable(struct intel_context *ce)
+ 	spin_lock_irqsave(&ce->guc_state.lock, flags);
  
- 	if (unlikely(!guc_submission_initialized(guc))) {
- 		/* Reset called during driver load? GuC not yet initialised! */
+ 	/*
+-	 * We have to check if the context has been disabled by another thread.
+-	 * We also have to check if the context has been pinned again as another
+-	 * pin operation is allowed to pass this function. Checking the pin
+-	 * count, within ce->guc_state.lock, synchronizes this function with
+-	 * guc_request_alloc ensuring a request doesn't slip through the
+-	 * 'context_pending_disable' fence. Checking within the spin lock (can't
+-	 * sleep) ensures another process doesn't pin this context and generate
+-	 * a request before we set the 'context_pending_disable' flag here.
++	 * We have to check if the context has been disabled by another thread,
++	 * check if submssion has been disabled to seal a race with reset and
++	 * finally check if any more requests have been committed to the
++	 * context ensursing that a request doesn't slip through the
++	 * 'context_pending_disable' fence.
+ 	 */
+ 	enabled = context_enabled(ce);
+ 	if (unlikely(!enabled || submission_disabled(guc))) {
+@@ -1752,7 +1768,8 @@ static void guc_context_sched_disable(struct intel_context *ce)
+ 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ 		goto unpin;
+ 	}
+-	if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
++	if (unlikely(context_has_committed_requests(ce))) {
++		intel_context_sched_disable_unpin(ce);
+ 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
  		return;
  	}
+@@ -1785,6 +1802,7 @@ static void __guc_context_destroy(struct intel_context *ce)
+ 		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_HIGH] ||
+ 		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_KMD_NORMAL] ||
+ 		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_NORMAL]);
++	GEM_BUG_ON(ce->guc_state.number_committed_requests);
  
--	xa_for_each(&guc->context_lookup, index, ce)
-+	xa_lock_irqsave(&guc->context_lookup, flags);
-+	xa_for_each(&guc->context_lookup, index, ce) {
-+		intel_context_get(ce);
-+		xa_unlock(&guc->context_lookup);
-+
- 		if (intel_context_is_pinned(ce))
- 			__guc_reset_context(ce, stalled);
+ 	lrc_fini(ce);
+ 	intel_context_fini(ce);
+@@ -2015,6 +2033,10 @@ static void remove_from_context(struct i915_request *rq)
  
-+		intel_context_put(ce);
-+		xa_lock(&guc->context_lookup);
-+	}
-+	xa_unlock_irqrestore(&guc->context_lookup, flags);
+ 	spin_unlock_irq(&ce->guc_active.lock);
+ 
++	spin_lock_irq(&ce->guc_state.lock);
++	decr_context_committed_requests(ce);
++	spin_unlock_irq(&ce->guc_state.lock);
 +
- 	/* GuC is blown away, drop all references to contexts */
- 	xa_destroy(&guc->context_lookup);
+ 	atomic_dec(&ce->guc_id_ref);
+ 	i915_request_notify_execute_cb_imm(rq);
  }
-@@ -950,11 +977,21 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc)
- {
- 	struct intel_context *ce;
- 	unsigned long index;
-+	unsigned long flags;
-+
-+	xa_lock_irqsave(&guc->context_lookup, flags);
-+	xa_for_each(&guc->context_lookup, index, ce) {
-+		intel_context_get(ce);
-+		xa_unlock(&guc->context_lookup);
+@@ -2162,15 +2184,7 @@ static int guc_request_alloc(struct i915_request *rq)
+ 	 * schedule enable or context registration if either G2H is pending
+ 	 * respectfully. Once a G2H returns, the fence is released that is
+ 	 * blocking these requests (see guc_signal_context_fence).
+-	 *
+-	 * We can safely check the below fields outside of the lock as it isn't
+-	 * possible for these fields to transition from being clear to set but
+-	 * converse is possible, hence the need for the check within the lock.
+ 	 */
+-	if (likely(!context_wait_for_deregister_to_register(ce) &&
+-		   !context_pending_disable(ce)))
+-		return 0;
+-
+ 	spin_lock_irqsave(&ce->guc_state.lock, flags);
+ 	if (context_wait_for_deregister_to_register(ce) ||
+ 	    context_pending_disable(ce)) {
+@@ -2179,6 +2193,7 @@ static int guc_request_alloc(struct i915_request *rq)
  
--	xa_for_each(&guc->context_lookup, index, ce)
- 		if (intel_context_is_pinned(ce))
- 			guc_cancel_context_requests(ce);
- 
-+		intel_context_put(ce);
-+		xa_lock(&guc->context_lookup);
-+	}
-+	xa_unlock_irqrestore(&guc->context_lookup, flags);
-+
- 	guc_cancel_sched_engine_requests(guc->sched_engine);
- 
- 	/* GuC is blown away, drop all references to contexts */
-@@ -2848,21 +2885,26 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
- 	struct intel_context *ce;
- 	struct i915_request *rq;
- 	unsigned long index;
-+	unsigned long flags;
- 
- 	/* Reset called during driver load? GuC not yet initialised! */
- 	if (unlikely(!guc_submission_initialized(guc)))
- 		return;
- 
-+	xa_lock_irqsave(&guc->context_lookup, flags);
- 	xa_for_each(&guc->context_lookup, index, ce) {
-+		intel_context_get(ce);
-+		xa_unlock(&guc->context_lookup);
-+
- 		if (!intel_context_is_pinned(ce))
--			continue;
-+			goto next;
- 
- 		if (intel_engine_is_virtual(ce->engine)) {
- 			if (!(ce->engine->mask & engine->mask))
--				continue;
-+				goto next;
- 		} else {
- 			if (ce->engine != engine)
--				continue;
-+				goto next;
- 		}
- 
- 		list_for_each_entry(rq, &ce->guc_active.requests, sched.link) {
-@@ -2872,9 +2914,17 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
- 			intel_engine_set_hung_context(engine, ce);
- 
- 			/* Can only cope with one hang at a time... */
--			return;
-+			intel_context_put(ce);
-+			xa_lock(&guc->context_lookup);
-+			goto done;
- 		}
-+next:
-+		intel_context_put(ce);
-+		xa_lock(&guc->context_lookup);
-+
+ 		list_add_tail(&rq->guc_fence_link, &ce->guc_state.fences);
  	}
-+done:
-+	xa_unlock_irqrestore(&guc->context_lookup, flags);
- }
++	incr_context_committed_requests(ce);
+ 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
  
- void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
-@@ -2890,23 +2940,32 @@ void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
- 	if (unlikely(!guc_submission_initialized(guc)))
- 		return;
- 
-+	xa_lock_irqsave(&guc->context_lookup, flags);
- 	xa_for_each(&guc->context_lookup, index, ce) {
-+		intel_context_get(ce);
-+		xa_unlock(&guc->context_lookup);
-+
- 		if (!intel_context_is_pinned(ce))
--			continue;
-+			goto next;
- 
- 		if (intel_engine_is_virtual(ce->engine)) {
- 			if (!(ce->engine->mask & engine->mask))
--				continue;
-+				goto next;
- 		} else {
- 			if (ce->engine != engine)
--				continue;
-+				goto next;
- 		}
- 
- 		spin_lock_irqsave(&ce->guc_active.lock, flags);
- 		intel_engine_dump_active_requests(&ce->guc_active.requests,
- 						  hung_rq, m);
- 		spin_unlock_irqrestore(&ce->guc_active.lock, flags);
-+
-+next:
-+		intel_context_put(ce);
-+		xa_lock(&guc->context_lookup);
- 	}
-+	xa_unlock_irqrestore(&guc->context_lookup, flags);
- }
- 
- void intel_guc_submission_print_info(struct intel_guc *guc,
-@@ -2960,7 +3019,9 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
- {
- 	struct intel_context *ce;
- 	unsigned long index;
-+	unsigned long flags;
- 
-+	xa_lock_irqsave(&guc->context_lookup, flags);
- 	xa_for_each(&guc->context_lookup, index, ce) {
- 		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id);
- 		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
-@@ -2979,6 +3040,7 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
- 
- 		guc_log_context_priority(p, ce);
- 	}
-+	xa_unlock_irqrestore(&guc->context_lookup, flags);
- }
- 
- static struct intel_context *
+ 	return 0;
 -- 
 2.32.0
 
