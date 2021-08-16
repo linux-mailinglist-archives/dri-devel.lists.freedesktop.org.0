@@ -2,61 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531083ED0CE
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 11:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260103ED10C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Aug 2021 11:27:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0B489359;
-	Mon, 16 Aug 2021 09:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C484689D7D;
+	Mon, 16 Aug 2021 09:27:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0B289D81
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 09:05:04 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- l36-20020a0568302b24b0290517526ce5e3so12656595otv.11
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 02:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I0X8cjnS3exVhKOIPaaxhXaLTasft0jjNO1dDnir+M0=;
- b=WsrmEAbKR9Ea1DN08aTHGiAKPFqgbYhwc/9LS5oJ/HgSk5p3+zAIlUvaEE/ADQPgGI
- cbx68FP3RCl9hHQN2gqWFmFuSN6q5AvO1obN0fG5yDYwq1dbG2mdRJCH7IUPvuPyo4+N
- z0/O2WvILWTFfLPT83dMk2DaEY89r5CjM7/lE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I0X8cjnS3exVhKOIPaaxhXaLTasft0jjNO1dDnir+M0=;
- b=tItcgbicNO4ZLWIdeugaC36BXU62TJHHh9TgTuaqwFxQcN21IIP7GYNxXBJ+zQycTS
- gdSA1DgW3991gHVW85fbJDMhdrE3XyEeVpGl10msZOkfZIJXze6IKcX7Ia2PBuQtvL4p
- 9nrCqYpD0bk5oxQwcv2DGgIDqGWEpYWCCUkHbylsWtjVTzcytq02wyVt2cQXBYlMsFeR
- 5iaPF2TepF47rujJ5rh+twp9pEKEfBHuUVoGJNpSO3/piGH+hi8+Bf6HVyvchoBtcDWS
- 7ULQ13zdv5PkURSwuB7hEQ8mpWoTHxZcwvsF3L95g3tC3B71wCvK8TbkrK3/tFGkYayx
- DNkQ==
-X-Gm-Message-State: AOAM533NdW/6Ek39nkHrgVggRkfWBpx/fQ1VnOsVSYmV246VNYitRKHr
- lso8YND5pxmqqk3RWx1OTTOlbxHptBNY43iaXzpurQ==
-X-Google-Smtp-Source: ABdhPJwYfeYsTGTja3gdEWuUROrubaV5DSeozV6ZWk480EPEPOe0sNVBRHe913XVZngXT6YGFbGy1Z4ZGIwcRux0I0g=
-X-Received: by 2002:a9d:27a4:: with SMTP id c33mr12175776otb.281.1629104703642; 
- Mon, 16 Aug 2021 02:05:03 -0700 (PDT)
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2999189D7D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 09:27:51 +0000 (UTC)
+Date: Mon, 16 Aug 2021 11:27:40 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: IIO, dmabuf, io_uring
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jonathan Cameron <jic23@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?iso-8859-1?b?S/ZuaWc=?=
+ <christian.koenig@amd.com>, linux-iio@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Message-Id: <4AEXXQ.7Z97EUWQOO0Q3@crapouillou.net>
+In-Reply-To: <20210814073019.GC21175@lst.de>
+References: <2H0SXQ.2KIK2PBVRFWH2@crapouillou.net>
+ <20210814073019.GC21175@lst.de>
 MIME-Version: 1.0
-References: <20210815153740.195330-1-desmondcheongzx@gmail.com>
- <202108160208.ONHHWxXy-lkp@intel.com>
- <f88fe698-b40c-b309-96c2-32b314280aad@gmail.com>
-In-Reply-To: <f88fe698-b40c-b309-96c2-32b314280aad@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 16 Aug 2021 11:04:52 +0200
-Message-ID: <CAKMK7uEWMjaDEuMpc1__EwD5rpaouJ-dhahQBEQ5rsBz3VV=qg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: avoid races with modesetting rights
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc: kernel test robot <lkp@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Airlie <airlied@linux.ie>, 
- kbuild-all@lists.01.org, dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,79 +45,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 16, 2021 at 10:53 AM Desmond Cheong Zhi Xi
-<desmondcheongzx@gmail.com> wrote:
-> On 16/8/21 2:47 am, kernel test robot wrote:
-> > Hi Desmond,
-> >
-> > Thank you for the patch! Yet something to improve:
-> >
-> > [auto build test ERROR on next-20210813]
-> > [also build test ERROR on v5.14-rc5]
-> > [cannot apply to linus/master v5.14-rc5 v5.14-rc4 v5.14-rc3]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch]
-> >
-> > url:    https://github.com/0day-ci/linux/commits/Desmond-Cheong-Zhi-Xi/drm-avoid-races-with-modesetting-rights/20210815-234145
-> > base:    4b358aabb93a2c654cd1dcab1a25a589f6e2b153
-> > config: i386-randconfig-a004-20210815 (attached as .config)
-> > compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> > reproduce (this is a W=1 build):
-> >          # https://github.com/0day-ci/linux/commit/cf6d8354b7d7953cd866fad004cbb189adfa074f
-> >          git remote add linux-review https://github.com/0day-ci/linux
-> >          git fetch --no-tags linux-review Desmond-Cheong-Zhi-Xi/drm-avoid-races-with-modesetting-rights/20210815-234145
-> >          git checkout cf6d8354b7d7953cd866fad004cbb189adfa074f
-> >          # save the attached .config to linux build tree
-> >          make W=1 ARCH=i386
-> >
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> >
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> >
-> >>> ERROR: modpost: "task_work_add" [drivers/gpu/drm/drm.ko] undefined!
-> >
->
-> I'm a bit uncertain about this. Looking into the .config used, this
-> error seems to happen because task_work_add isn't an exported symbol,
-> but DRM is being compiled as a loadable kernel module (CONFIG_DRM=m).
->
-> One way to deal with this is to export the symbol, but there was a
-> proposed patch to do this a few months back that wasn't picked up [1],
-> so I'm not sure what to make of this.
->
-> I'll export the symbol as part of a v3 series, and check in with the
-> task-work maintainers.
->
-> Link:
-> https://lore.kernel.org/lkml/20210127150029.13766-3-joshi.k@samsung.com/ [1]
+Hi Christoph,
 
-Yeah that sounds best. I have two more thoughts on the patch:
-- drm_master_flush isn't used by any modules outside of drm.ko, so we
-can unexport it and drop the kerneldoc (the comment is still good).
-These kind of internal functions have their declaration in
-drm-internal.h - there's already a few there from drm_auth.c
+Le sam., ao=FBt 14 2021 at 09:30:19 +0200, Christoph Hellwig=20
+<hch@lst.de> a =E9crit :
+> On Fri, Aug 13, 2021 at 01:41:26PM +0200, Paul Cercueil wrote:
+>>  Hi,
+>>=20
+>>  A few months ago we (ADI) tried to upstream the interface we use=20
+>> with our
+>>  high-speed ADCs and DACs. It is a system with custom ioctls on the=20
+>> iio
+>>  device node to dequeue and enqueue buffers (allocated with
+>>  dma_alloc_coherent), that can then be mmap'd by userspace=20
+>> applications.
+>>  Anyway, it was ultimately denied entry [1]; this API was okay in=20
+>> ~2014 when
+>>  it was designed but it feels like re-inventing the wheel in 2021.
+>>=20
+>>  Back to the drawing table, and we'd like to design something that=20
+>> we can
+>>  actually upstream. This high-speed interface looks awfully similar=20
+>> to
+>>  DMABUF, so we may try to implement a DMABUF interface for IIO,=20
+>> unless
+>>  someone has a better idea.
+>=20
+> To me this does sound a lot like a dma buf use case.  The interesting
+> question to me is how to signal arrival of new data, or readyness to
+> consume more data.  I suspect that people that are actually using
+> dmabuf heavily at the moment (dri/media folks) might be able to chime
+> in a little more on that.
 
-- We know have 3 locks for master state, that feels a bit like
-overkill. The spinlock I think we need to keep due to lock inversions,
-but the master_mutex and master_rwsem look like we should be able to
-merge them? I.e. anywhere we currently grab the master_mutex we could
-instead grab the rwsem in either write mode (when we change stuff) or
-read mode (when we just check, like in master_internal_acquire).
+Thanks for the feedback.
 
-Thoughts?
--Daniel
+I haven't looked too much into how dmabuf works; but IIO device nodes=20
+right now have a regular stdio interface, so I believe poll() flags can=20
+be used to signal arrival of new data.
 
->
-> > ---
-> > 0-DAY CI Kernel Test Service, Intel Corporation
-> > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
-> >
->
+>>  Our first usecase is, we want userspace applications to be able to=20
+>> dequeue
+>>  buffers of samples (from ADCs), and/or enqueue buffers of samples=20
+>> (for
+>>  DACs), and to be able to manipulate them (mmapped buffers). With a=20
+>> DMABUF
+>>  interface, I guess the userspace application would dequeue a dma=20
+>> buffer
+>>  from the driver, mmap it, read/write the data, unmap it, then=20
+>> enqueue it to
+>>  the IIO driver again so that it can be disposed of. Does that sound=20
+>> sane?
+>>=20
+>>  Our second usecase is - and that's where things get tricky - to be=20
+>> able to
+>>  stream the samples to another computer for processing, over=20
+>> Ethernet or
+>>  USB. Our typical setup is a high-speed ADC/DAC on a dev board with=20
+>> a FPGA
+>>  and a weak soft-core or low-power CPU; processing the data in-situ=20
+>> is not
+>>  an option. Copying the data from one buffer to another is not an=20
+>> option
+>>  either (way too slow), so we absolutely want zero-copy.
+>>=20
+>>  Usual userspace zero-copy techniques (vmsplice+splice, MSG_ZEROCOPY=20
+>> etc)
+>>  don't really work with mmapped kernel buffers allocated for DMA [2]=20
+>> and/or
+>>  have a huge overhead, so the way I see it, we would also need DMABUF
+>>  support in both the Ethernet stack and USB (functionfs) stack.=20
+>> However, as
+>>  far as I understood, DMABUF is mostly a DRM/V4L2 thing, so I am=20
+>> really not
+>>  sure we have the right idea here.
+>>=20
+>>  And finally, there is the new kid in town, io_uring. I am not very=20
+>> literate
+>>  about the topic, but it does not seem to be able to handle DMA=20
+>> buffers
+>>  (yet?). The idea that we could dequeue a buffer of samples from the=20
+>> IIO
+>>  device and send it over the network in one single syscall is=20
+>> appealing,
+>>  though.
+>=20
+> Think of io_uring really just as an async syscall layer.  It doesn't
+> replace DMA buffers, but can be used as a different and for some
+> workloads more efficient way to dispatch syscalls.
+
+That was my thought, yes. Thanks.
+
+Cheers,
+-Paul
 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
