@@ -2,57 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CEA53EEF6B
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98033EEF93
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F01F6E1E9;
-	Tue, 17 Aug 2021 15:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B4F6E1D7;
+	Tue, 17 Aug 2021 15:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEC706E1E8
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 15:49:17 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- n1-20020a9d1e810000b0290514da4485e4so22651312otn.4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 08:49:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o/vICcBtnNCU8WCMxEtqZ53lVyopyQUHS0Y7oMZDlHk=;
- b=UhoJSpe9tSN0jvaw84SmNexRBOvStkaGC05JrDa+8mVo3NK0qoYMWIKUbmltpJe+ne
- 7vjCzThIxCskCU6SqruabYriXF5oFpAiNaF4x/TsZRDnFmQMDela/eddvJ2VOoWYxWbr
- ACY4oGEhLyRu2Tsb7ZEjJIFMDXXYzDmH4lVzo=
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 773A96E1D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 15:53:13 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id y34so42247896lfa.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 08:53:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i1x/HqtgkDsm/ejKQeETrdsQe6dZCILRZB7KrDkPDRw=;
+ b=An4PsjL/Vf5udfyNdAKTCYWd10EU58Kpxe8zKg/t9npZAavumDMU+X9iBgUDO5Z8Zq
+ qLi7UARHs5EBlnNEWrEBaiEyo4AvkdNde23Gx7Ech/+7twOysiNWaNZJNc4c1H9Unsq3
+ EZ9/NC8tZYzsvHiEyEjIq8t7XNVBW4+7jhFenO5mQmYIgRBk+TxgMXr2m4yePVU5ry+F
+ yIAUTR2f68Q14RQm9v+g3T6mw1go0mbvXB6UoQIJuFvpfbNq+pUgeWHg895WJQXEl29h
+ zNHJ3yrbMGXltFkn0e1Yqc4GHFXDR5UTFoNhdaUppdVMQxIsBTVP10kUU2MP/Em1dvWL
+ oObQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o/vICcBtnNCU8WCMxEtqZ53lVyopyQUHS0Y7oMZDlHk=;
- b=O0CnOe8U0ok51upjX2H3PVSx7OloTX6ltFr+kzw32DjUzKrlJSivREkB1CmRSO9BSF
- MtqRbu/cXp0PRpsi7dENq/JBM30nfhnhQgBpQCq/k9FW/glJpab2ganGdE+QzhqFsmMa
- kc5a6zhmvvvkfL3D2LA2sc0BIgjCg+9dKa6BaFjex8/F5kmpQH8bBfmB9ARd6h8Qb9ZV
- fRqeNMBgCdINpCHkKJ0+MKnsv10BRcnB4SpLiZR1ludKBIpdGSrSLgjTdRhivcz+LqNC
- cbQy7jalQCfd+1mtNjlu8AGctJSsXz4CkX5cVpNhI8viww7m4uRNfHbTnSxU5nPJYkkQ
- qIng==
-X-Gm-Message-State: AOAM5336G7FdISmljrRUeb8K5zwwvTDhu8tr9Y4GZDcy0hiK8FQGRbKn
- vLsuxbB1S+8zBBDMT5/L+3aOh/efBYOM48JXxHi9Aw==
-X-Google-Smtp-Source: ABdhPJyp9wcOApUcLDRM0XxBUPJ3VVQLbhX+YyrM4l/6nQTE9p+8JdfHK1gMYd89q+ikq7CLQehFUcJ6x+mhHOqLaMA=
-X-Received: by 2002:a9d:27a4:: with SMTP id c33mr3201762otb.281.1629215357057; 
- Tue, 17 Aug 2021 08:49:17 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i1x/HqtgkDsm/ejKQeETrdsQe6dZCILRZB7KrDkPDRw=;
+ b=Upo44aV/gox5pL1sfHk/C3LyToS8rr/94L3o8WY5cUiGv8Wp8+15fRfJIYngYaSwvz
+ HF4zybyWA9oW0bOP/mybVJCfrfM3wVqDizGvJZfDUf2bN5PBqv6VX5C14JGJ2K2iPDrJ
+ jyGYGsrfF8HVg6ibFZQs7XT6px+j8SmRyBZROJJxhcbmwfLRdcjxCB6fmCQtx7PfT0Oo
+ +dQMy/8pWF8UwhBBv+7nqJUSAkEOJMWaGkP9BOXgbPz306x3RSF06HG1amJL/PafSvJV
+ MK4SwP9UCNbGB7KWpfGnYWDTOVS0QOjKmpBlYlPxfbMeh/r6bxrzV4SqK48p44OQv34A
+ J/HA==
+X-Gm-Message-State: AOAM530tFuNuhoXvGgoFxIH8IagTGCay7OROkMIClNJ6CbLDwGCY87Pm
+ jDJzm/Ywde+LbDtwfl+Nijs=
+X-Google-Smtp-Source: ABdhPJzKDCfx8XTSv5rLHo+odlu5xNPqb9QF4cuJdpvDud3tFDUajnizSUcMOMnHR+YPCBFb3Bv9Ew==
+X-Received: by 2002:ac2:4f8f:: with SMTP id z15mr2811432lfs.361.1629215591955; 
+ Tue, 17 Aug 2021 08:53:11 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru.
+ [46.138.85.91])
+ by smtp.googlemail.com with ESMTPSA id r20sm223793lff.93.2021.08.17.08.53.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 08:53:11 -0700 (PDT)
+Subject: Re: [PATCH v8 22/34] spi: tegra20-slink: Add OPP support
+To: Mark Brown <broonie@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-23-digetx@gmail.com>
+ <20210817122244.GA4290@sirena.org.uk>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a0e49d91-e812-5b55-e90f-bfba8476faa3@gmail.com>
+Date: Tue, 17 Aug 2021 18:53:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210816135139.10060-1-matthew.brost@intel.com>
- <20210816135139.10060-7-matthew.brost@intel.com>
- <YRt/lynczP00iJqF@phenom.ffwll.local>
- <20210817150809.GA19163@jons-linux-dev-box>
-In-Reply-To: <20210817150809.GA19163@jons-linux-dev-box>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 17 Aug 2021 17:49:05 +0200
-Message-ID: <CAKMK7uHRjJ_yq9nR3ECO67VkFA=sEZ6zimxx_sSN5c9S_yXUFA@mail.gmail.com>
-Subject: Re: [PATCH 06/22] drm/i915/execlists: Do not propagate errors to
- dependent fences
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210817122244.GA4290@sirena.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,97 +97,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 5:13 PM Matthew Brost <matthew.brost@intel.com> wrote:
-> On Tue, Aug 17, 2021 at 11:21:27AM +0200, Daniel Vetter wrote:
-> > On Mon, Aug 16, 2021 at 06:51:23AM -0700, Matthew Brost wrote:
-> > > Progagating errors to dependent fences is wrong, don't do it. Selftest
-> > > in following patch exposes this bug.
-> >
-> > Please explain what "this bug" is, it's hard to read minds, especially at
-> > a distance in spacetime :-)
-> >
->
-> Not a very good explaination.
->
-> > > Fixes: 8e9f84cf5cac ("drm/i915/gt: Propagate change in error status to children on unhold")
-> >
-> > I think it would be better to outright revert this, instead of just
-> > disabling it like this.
-> >
->
-> I tried revert and git did some really odd things that I couldn't
-> resolve, hence the new patch.
+17.08.2021 15:22, Mark Brown пишет:
+> On Tue, Aug 17, 2021 at 04:27:42AM +0300, Dmitry Osipenko wrote:
+>> The SPI on Tegra belongs to the core power domain and we're going to
+>> enable GENPD support for the core domain. Now SPI driver must use OPP
+>> API for driving the controller's clock rate because OPP API takes care
+>> of reconfiguring the domain's performance state in accordance to the
+>> rate. Add OPP support to the driver.
+> 
+> Acked-by: Mark Brown <broonie@kernel.org>
+> 
+> Is there a concrete dependency here or can I merge this separately?
 
-If there's any conflict git just gives you your current code, and what
-was there with the revert applied, with the block markers. Then it's
-your job to manually apply that change.
+This patch depends on the new OPP helpers added earlier in this series.
+In particular it depends on these patches:
 
-Occasionally (when there's been ridiculous amounts of code movement)
-it gets completely lost and puts these into very non-intuitive places.
-In that case just delete it, keep the current code, and check what
-change you're missing that needs to be manually reverted still. Also
-sometimes there's a follow-up patch that you should revert first,
-which makes the revert clean. In that case it's generally the right
-thing to revert the follow-up first, and then apply your revert. Often
-there's subtle functional dependencies hiding.
--Daniel
+opp: Add dev_pm_opp_sync() helper
+soc/tegra: Add devm_tegra_core_dev_init_opp_table_simple()
 
->
-> > Also please cite the dma_fence error propagation revert from Jason:
-> >
-> > commit 93a2711cddd5760e2f0f901817d71c93183c3b87
-> > Author: Jason Ekstrand <jason@jlekstrand.net>
-> > Date:   Wed Jul 14 14:34:16 2021 -0500
-> >
-> >     Revert "drm/i915: Propagate errors on awaiting already signaled fences"
-> >
-> > Maybe in full, if you need the justification.
-> >
->
-> Will site.
->
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: <stable@vger.kernel.org>
-> >
-> > Unless "this bug" is some real world impact thing I wouldn't put cc:
-> > stable on this.
->
-> Got it.
->
-> Matt
->
-> > -Daniel
-> > > ---
-> > >  drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 ----
-> > >  1 file changed, 4 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > index de5f9c86b9a4..cafb0608ffb4 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > > @@ -2140,10 +2140,6 @@ static void __execlists_unhold(struct i915_request *rq)
-> > >                     if (p->flags & I915_DEPENDENCY_WEAK)
-> > >                             continue;
-> > >
-> > > -                   /* Propagate any change in error status */
-> > > -                   if (rq->fence.error)
-> > > -                           i915_request_set_error_once(w, rq->fence.error);
-> > > -
-> > >                     if (w->engine != rq->engine)
-> > >                             continue;
-> > >
-> > > --
-> > > 2.32.0
-> > >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thank you for the ack!
