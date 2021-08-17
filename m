@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171023EE281
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 03:30:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8573EE293
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 03:31:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30F476E0BE;
-	Tue, 17 Aug 2021 01:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D87926E0CF;
+	Tue, 17 Aug 2021 01:30:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC35B6E0C9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 01:30:22 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id z2so38241560lft.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 18:30:22 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF2FC6E0CF
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 01:30:23 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id p38so38352526lfa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 18:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=798UaN2O7BsVLG2b7m1c5jRBaYmhXVVyGNLo4voHgAg=;
- b=kvVJK68rK2YZFnYH8LrFoceFEfWX8v2ppJhtJN3FQtc/XATIT5s9S++aE6VkEC9DYG
- pPWSlJsOJO1b8DlywD0Isw2szPQhLAalyo/vn4NIId4qqB70lZRXqyD99GHeDF20S2+e
- s4FCcdFSP2sZOlaAe1yaHa3/lSK7TBLCfTc1rhYcwZgeWTO0SGJw1L1+hW41irMlRuiO
- 7GyUipnboEW5APuePEelNLTy6r4iWOw3fauB5LOn9xOqBTJzmU+qHr0EiHewqV6In+qF
- z9UYR5Iz3M/DDK0jPFJUiTaEyXhln+hqNTZk67UhWbAETTV8Q2N46Uq2ruOz+21d/skT
- 2qmg==
+ bh=RyUAbE2QFBPkAmLeYWIUbN1190eoatB//1STMKYD8E8=;
+ b=FHHkdVALDIC8dyirLf0Z63rRk2CutfNmZs9OsR4qhsaRwNMT/JUhplqAuSsrFSjuJt
+ 7zSJwbx7dRC2Y9TwD2ZgLA5WNk42Z5kK0YZGsGNs3gwML8PTM0G7q3O9wFbjuiSMyB0k
+ KGqYd6awr7eVl6/cGTwCB183jYlUcnE+k7hkycg/xusGFpw8VM2zyG04lr4PyeyWYT2s
+ 5azXGdQxYI0PqjxHmfPrlOWLRcxdK/wmwF/vC6iJgIsJkfElj58/Nx7y+ML/ZOXDk4uG
+ X7bjcWfPs3d71DI5ydF/R/VhKo+ZQTQ07nPlS36IPVJW1y82YTEYBSTdFfCOPQdw86Td
+ ypTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=798UaN2O7BsVLG2b7m1c5jRBaYmhXVVyGNLo4voHgAg=;
- b=p2V5ukyH9PlrsF3S9Ru0NPE//W1HbeNZUoGHYHAnSBWqJ+zqrbX2OW13G56RJyGpCP
- n7S7pHaky6i9vCzxDiTbEAsR8ZI1VGBjhPi5WUM/Qh84jXr8amif+DpyjnG9OaZ0vkoh
- JsANeRaJXU0O4ee/Da92i2LaoHzMP6v8USp9fwxPTbtOAlLDOpa9gS421aORsvP8ds5C
- 2B0Oh13ZGAgfV99KJ1m6N7eaB0ZSTNAMJTmVyvlxms28p02BMUEHLCQbRxmJHc0E8r/v
- isxgZ8DN2rTK2axQ73T7GHMDUqBPjOLfUTXehGjJ9rTNNlXrHKSijvcy7cVwSCRH8VBY
- 1tbA==
-X-Gm-Message-State: AOAM5300fgX5vvkoC2vZ9HW5Og0o6s64kgDe3LfjMHKu6GuHTfBscacm
- lBoDCFKTFXggFvXpyafNnT0=
-X-Google-Smtp-Source: ABdhPJyYy8hUiWmuOExv2ofTHn5i3TqgWVouaLyBH4QsjrVfyVuz3wXI+GZKIfHGO5W1gt6UIhmJEg==
-X-Received: by 2002:a05:6512:3190:: with SMTP id
- i16mr508725lfe.340.1629163820646; 
- Mon, 16 Aug 2021 18:30:20 -0700 (PDT)
+ bh=RyUAbE2QFBPkAmLeYWIUbN1190eoatB//1STMKYD8E8=;
+ b=Ff4N4XdcJQntmU87mW9i3E9Jhdc4VfRHWZ9jTKrwg7Wr9gWrWEUJFWyga6R5wC9P2r
+ nobJqDnqCzsHKa6Tkb3ZSiqcDrbflfpnMD8soqu1zLqLFOjOiZ9vmZZ6HBMwcFtAgPpS
+ DlBV0cG6mpwphBSvRZ2FAs/aP2x0bKk5zrHqH9YzzBhdqOeeDwQkBm5yTBKVRkPoMXpq
+ //kCrqFk2mWQe4zYtTUyeXDbpdJydI6CE0eLFv7FiW3vmqACUuMrHQ4Iiw73SPaKiElD
+ G18BEd6yiZ9l0VMldwJtMsbDEip5MZ09YCG3ty5iVPcQP3TUoWCcLnQ2mlS3sFQCM1II
+ aMqQ==
+X-Gm-Message-State: AOAM530Ze/QZ6t1m7sRO/PRFweVDWIzQRACm++7BBjOPB6cih1b7Guu1
+ 96acPLuljRb6Z80nAZxvtWo=
+X-Google-Smtp-Source: ABdhPJyRsAKpO2RcAL+dS1g6qGdkcebzosRG7tO7qBO0N4O3xLiuYgInL89eIUxXQ6XIMR0zalmnVA==
+X-Received: by 2002:a19:6b02:: with SMTP id d2mr510341lfa.522.1629163821862;
+ Mon, 16 Aug 2021 18:30:21 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru.
  [46.138.85.91])
- by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.19
+ by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 18:30:20 -0700 (PDT)
+ Mon, 16 Aug 2021 18:30:21 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -71,9 +70,9 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org
-Subject: [PATCH v8 16/34] drm/tegra: vic: Support system suspend
-Date: Tue, 17 Aug 2021 04:27:36 +0300
-Message-Id: <20210817012754.8710-17-digetx@gmail.com>
+Subject: [PATCH v8 17/34] usb: chipidea: tegra: Add runtime PM and OPP support
+Date: Tue, 17 Aug 2021 04:27:37 +0300
+Message-Id: <20210817012754.8710-18-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210817012754.8710-1-digetx@gmail.com>
 References: <20210817012754.8710-1-digetx@gmail.com>
@@ -94,36 +93,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hardware must be stopped before system is suspended. Add suspend-resume
-callbacks.
+The Tegra USB controller belongs to the core power domain and we're going
+to enable GENPD support for the core domain. Now USB controller must be
+resumed using runtime PM API in order to initialize the USB power state.
+We already support runtime PM for the CI device, but CI's PM is separated
+from the RPM managed by tegra-usb driver. Add runtime PM and OPP support
+to tegra-usb driver.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/vic.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/chipidea/ci_hdrc_tegra.c | 61 ++++++++++++++++++++++++----
+ 1 file changed, 54 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index c02010ff2b7f..359dd77f8b85 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -315,6 +315,8 @@ static int vic_runtime_suspend(struct device *dev)
- 	struct vic *vic = dev_get_drvdata(dev);
- 	int err;
+diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
+index 60361141ac04..09a5e5fc251f 100644
+--- a/drivers/usb/chipidea/ci_hdrc_tegra.c
++++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+@@ -7,6 +7,8 @@
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/pm_opp.h>
++#include <linux/pm_runtime.h>
+ #include <linux/reset.h>
  
-+	host1x_channel_stop(vic->channel);
+ #include <linux/usb.h>
+@@ -15,6 +17,8 @@
+ #include <linux/usb/of.h>
+ #include <linux/usb/phy.h>
+ 
++#include <soc/tegra/common.h>
 +
- 	err = reset_control_assert(vic->rst);
- 	if (err < 0)
+ #include "../host/ehci.h"
+ 
+ #include "ci.h"
+@@ -278,6 +282,8 @@ static int tegra_usb_probe(struct platform_device *pdev)
+ 	if (!usb)
+ 		return -ENOMEM;
+ 
++	platform_set_drvdata(pdev, usb);
++
+ 	soc = of_device_get_match_data(&pdev->dev);
+ 	if (!soc) {
+ 		dev_err(&pdev->dev, "failed to match OF data\n");
+@@ -296,11 +302,14 @@ static int tegra_usb_probe(struct platform_device *pdev)
  		return err;
-@@ -517,6 +519,8 @@ static int vic_remove(struct platform_device *pdev)
+ 	}
  
- static const struct dev_pm_ops vic_pm_ops = {
- 	SET_RUNTIME_PM_OPS(vic_runtime_suspend, vic_runtime_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+				pm_runtime_force_resume)
- };
+-	err = clk_prepare_enable(usb->clk);
+-	if (err < 0) {
+-		dev_err(&pdev->dev, "failed to enable clock: %d\n", err);
++	err = devm_tegra_core_dev_init_opp_table_simple(&pdev->dev);
++	if (err)
+ 		return err;
+-	}
++
++	pm_runtime_enable(&pdev->dev);
++	err = pm_runtime_resume_and_get(&pdev->dev);
++	if (err)
++		goto disable_pm;
  
- struct platform_driver tegra_vic_driver = {
+ 	if (device_property_present(&pdev->dev, "nvidia,needs-double-reset"))
+ 		usb->needs_double_reset = true;
+@@ -320,8 +329,6 @@ static int tegra_usb_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto fail_power_off;
+ 
+-	platform_set_drvdata(pdev, usb);
+-
+ 	/* setup and register ChipIdea HDRC device */
+ 	usb->soc = soc;
+ 	usb->data.name = "tegra-usb";
+@@ -350,7 +357,10 @@ static int tegra_usb_probe(struct platform_device *pdev)
+ phy_shutdown:
+ 	usb_phy_shutdown(usb->phy);
+ fail_power_off:
+-	clk_disable_unprepare(usb->clk);
++	pm_runtime_put(&pdev->dev);
++disable_pm:
++	pm_runtime_disable(&pdev->dev);
++
+ 	return err;
+ }
+ 
+@@ -360,15 +370,52 @@ static int tegra_usb_remove(struct platform_device *pdev)
+ 
+ 	ci_hdrc_remove_device(usb->dev);
+ 	usb_phy_shutdown(usb->phy);
++
++	pm_runtime_put(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
++
++	return 0;
++}
++
++static int __maybe_unused tegra_usb_runtime_resume(struct device *dev)
++{
++	struct tegra_usb *usb = dev_get_drvdata(dev);
++	int err;
++
++	err = dev_pm_opp_sync(dev);
++	if (err) {
++		dev_err(dev, "failed to sync OPP: %d\n", err);
++		return err;
++	}
++
++	err = clk_prepare_enable(usb->clk);
++	if (err < 0) {
++		dev_err(dev, "failed to enable clock: %d\n", err);
++		return err;
++	}
++
++	return 0;
++}
++
++static int __maybe_unused tegra_usb_runtime_suspend(struct device *dev)
++{
++	struct tegra_usb *usb = dev_get_drvdata(dev);
++
+ 	clk_disable_unprepare(usb->clk);
+ 
+ 	return 0;
+ }
+ 
++static const struct dev_pm_ops tegra_usb_pm = {
++	SET_RUNTIME_PM_OPS(tegra_usb_runtime_suspend, tegra_usb_runtime_resume,
++			   NULL)
++};
++
+ static struct platform_driver tegra_usb_driver = {
+ 	.driver = {
+ 		.name = "tegra-usb",
+ 		.of_match_table = tegra_usb_of_match,
++		.pm = &tegra_usb_pm,
+ 	},
+ 	.probe = tegra_usb_probe,
+ 	.remove = tegra_usb_remove,
 -- 
 2.32.0
 
