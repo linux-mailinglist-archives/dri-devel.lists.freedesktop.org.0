@@ -2,135 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906373EEF22
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58843EEF33
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:31:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDC46E1D3;
-	Tue, 17 Aug 2021 15:26:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA1689F4A;
+	Tue, 17 Aug 2021 15:31:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5556E1BB;
- Tue, 17 Aug 2021 15:26:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gNJEBnIEWA7/SPKOeEmjQnNL5g2GwSAziNK6GsfBPxpAE6e5lBPRBHY+yYJ/7VCsirt//mHpth1ONc3zm6K/XaXZL+uec1Av0sRBY4eLRkMN/i+aqUoeV6dOMJ7pGmv/Ya3ruXPulRGrbQuKEEDrxRAZRERpSzjG7Y5yXqTSFUEzNYoh9RBmrRDkW+BwuNQWTt4L9H34OJd6GoZgBYSvqOamMIFYIe7RWw3vEY7Jc+KemHmR9omSC1GpdNCVwbauamPg1ObGO92Ol0YXNjlnleAgwT/cd1vrDkB7z0wgwyXZlnJnROL7M7N9NVa5Bf9VYRp7mcDs2Bhal/pwPP775A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZQPJ1r13ZbmsTStp7v4k18XezMw9EX6mezR1AYkkJdI=;
- b=eX+XVs0tKvgTptKT86GShf1Y63KLvsd8/dd4gDS7EjYBN714hvwwa3CBjWxqqorNL16/RGgQBGKCJKrxwMw1lHJcFhzGluklkpk00+OzMdby9rkb9HMMxXkDpsnW/XXxuykVk0gyZMWtwUWlYcvaARl2isWV0cU2ksCdFqFzBihdy8pXAzimum0IjN52ifQV85nPyvwIjNsSHuOVouuV3YfABPy0e0p39NPoIwEjU9x1UqCv1Up/TO0nPAdyYI5rF8SAFGh5FxbaLvLr6nK/8oedY0q+OXlKB3NZ6N7xWYdMXa+eUCU4mkxBWuztdFvDvyoeLQSbMjCrHQt7y2QxUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZQPJ1r13ZbmsTStp7v4k18XezMw9EX6mezR1AYkkJdI=;
- b=BEmMuc/X8GB74dwwiYccb84+OvdGUKWvA7CSew+W4mEFj9O8vIYEgLXAf0lRYZchbl6HoBTSWmKc0KohUeR15qjshZ0bm8zeUZ+X656hN6sAE51syRcJmi8DrprqDMY+C3o29yXr2Hqkong7HLdHL54cXKdKyUFJC2olQ0cYYgo=
-Authentication-Results: suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
- by DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Tue, 17 Aug
- 2021 15:26:22 +0000
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::d560:d21:cd59:9418]) by DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::d560:d21:cd59:9418%6]) with mapi id 15.20.4415.024; Tue, 17 Aug 2021
- 15:26:21 +0000
-Subject: Re: [PATCH v2 06/12] x86/sev: Replace occurrences of sev_active()
- with prot_guest_has()
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ard Biesheuvel <ardb@kernel.org>, Joerg Roedel <jroedel@suse.de>
-References: <cover.1628873970.git.thomas.lendacky@amd.com>
- <2b3a8fc4659f2e7617399cecdcca549e0fa1dcb7.1628873970.git.thomas.lendacky@amd.com>
- <YRuJPqxFZ6ItZd++@zn.tnic>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <b346ae1b-dbd3-cdbd-b5cd-b5ab9c304737@amd.com>
-Date: Tue, 17 Aug 2021 10:26:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <YRuJPqxFZ6ItZd++@zn.tnic>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0401CA0025.namprd04.prod.outlook.com
- (2603:10b6:803:2a::11) To DM4PR12MB5229.namprd12.prod.outlook.com
- (2603:10b6:5:398::12)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED5D189F4A;
+ Tue, 17 Aug 2021 15:31:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="213004371"
+X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="213004371"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2021 08:31:44 -0700
+X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="676554798"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2021 08:31:42 -0700
+Date: Tue, 17 Aug 2021 08:26:28 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch
+Subject: Re: [Intel-gfx] [PATCH 19/22] drm/i915/guc: Proper xarray usage for
+ contexts_lookup
+Message-ID: <20210817152628.GA19215@jons-linux-dev-box>
+References: <20210816135139.10060-1-matthew.brost@intel.com>
+ <20210816135139.10060-20-matthew.brost@intel.com>
+ <YRuPEeq2e8qdKBc2@phenom.ffwll.local>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.241] (165.204.77.1) by
- SN4PR0401CA0025.namprd04.prod.outlook.com (2603:10b6:803:2a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.15 via Frontend
- Transport; Tue, 17 Aug 2021 15:26:20 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3752e99e-c7ea-4415-ca74-08d961935e0d
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5229:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM4PR12MB52294D53C50D3A9B4C9771B0ECFE9@DM4PR12MB5229.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4lvHGQZtTMlYFR7lDbSlMVxTdugFGj5v+ORF8qqYF6Z8vfz4wy3u/ZXwli0LWfyZKY6965SbVH/AbFm0/7ZpvGtpgDQLh/cIi0lH5evChXv+74Q2aFFIGOJklSmDGNHjurhlQPWISYwLMAZ9G5GbLcRJicarm8gSoq9V4Z2wOWKYwaI6vR+t3PICrGpAr/hIaowo8lSLxvec8OnO8YcZeWGldL/kH9nh43YQsCNrWASCHBvvvautM5ChYs3tTD0lc6uzB5zyGBeBV2WPCC6tD222HSeZRE5PL8wL/Ohe61eMcT837r7GkCZJ6h+A8CvrYwtFkq8t7S+Eo007T2vBrnNG53PUmNy4HzhoRmyPIwnBVOkV66BOrnIsmabOA+de/cNwv/Jjf3kFBMoBOgtQLy688EGoOtrZ7643rAfBmkGAszcERPgAl922v4Fo8hTK/jidEHttUUfDROAT69AuUPSZwEA4TVO1hPRhwfK2fRnr4M26I9eMjmTsvzQB9D1sb+axNB6yfVTOAZ93pQpESRU3aHLK3gzSEmn3n9+ffKzMTZXuZDA25AN7r/tSAc/KQLV/XthhCsTLd2+Na8T5+iDho2QzBjCbDuXcbWkPgXhrd13nK/rr1UgzgxpzHK/1fsxmfy8mCzYp2tx4kt0e6wo+HsaWrSTlY05gVOow7GC+PHD4rgXtO/8ZfndX/GWek3WvWivRZpIJwBhHoIpdZxLshjCXn2sfLRIdrWzmKYc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(136003)(346002)(39860400002)(396003)(478600001)(7416002)(2616005)(8936002)(31686004)(4326008)(956004)(8676002)(38100700002)(6486002)(316002)(83380400001)(26005)(5660300002)(6916009)(54906003)(53546011)(186003)(16576012)(36756003)(2906002)(66556008)(31696002)(66946007)(86362001)(66476007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGNVT1h0VnRzVlVRQVVaS0VrdGc5NGRXODdGQTIwWWRUekYyZlNzTFVmdFA3?=
- =?utf-8?B?NU5DSHg0T24yeW5aVjVOM1RRQWhqRTlZNFBYb0RZVTdDT0d0ci94YUVqZ2ZV?=
- =?utf-8?B?aVplMFlCSGxuR3RXQ2V4ellyaG5NVXg5UndFOVhPRXd5aEd0SXc5OFJwdng3?=
- =?utf-8?B?K2lvek9YdmsxcVkvb2l2bUxteWVsS1V4R3piSWt5blJ5aXovSGgzTXpheUo5?=
- =?utf-8?B?clYzR3NCZTdvTmR6QitNc21TMCtra0c3dWlaNzVhTXhpd0hUc0hSQW8xWGxN?=
- =?utf-8?B?cjYvbzVram1scGNzYTZtSEFYS2RPMk0weE5yd1kvbGRGUU5QaWdOalNpazBu?=
- =?utf-8?B?UjIvNWdGYjkyMmlvN3FTZ0xmMUlneEJsZDRLQ3IrZ2VLZzlIZzlLaVlSTzJn?=
- =?utf-8?B?SG5jaWpnRmJRbURVY0JPRDRWL0dCUDBOUG5sdkxvMkU5bDVxZy9CbGliZXcz?=
- =?utf-8?B?RkxSRm5JSnJwSThjS3U0Uk1jMW5BZ1JtdEp6RWdXUVBJNXdJcVZRSWc0WHZR?=
- =?utf-8?B?QTR2U1Z4Q2xpN0ZINkdxQWd0U3h2d1BvbjdqSTY1SkFkN21zOU9SdWJWbC8x?=
- =?utf-8?B?L2VyRUVaTkRWbGdmVmNGbEo2L3RVd2FLcFJOTkpJUnhXVjBQMDMyNXMybkFt?=
- =?utf-8?B?ZWNXR0lYN0NKQVFQKytra3FnU0JJekI0N3FPL053NlJISmg2ajduSmNKMWY2?=
- =?utf-8?B?ZlJ3akNTNWV2MnkyRU14SWlKM0FqbUZPV2dHMVFnRkxVSjRlVE1SbUpwTGFk?=
- =?utf-8?B?VG1OZEpqM3R3V3NxNFJURHNSQm5YanVpa0J2TnA3eERaL3c3b2hxaVIwVDVD?=
- =?utf-8?B?RGdLRFdQTkY3alJnUldqdHd5WUtoZ1dmQkNsVk1PWXg1L3M0S1ZYODFjdm5a?=
- =?utf-8?B?VFVRalUwK004OGVVRUtlZjFyN0hOaXZ5OUk0NjVENGowN3BOTzJTeXh4b3l1?=
- =?utf-8?B?L3R3MGt4U3RmNkl5N0lvK1hPSnhPUngrcHNYTEJHb2FVWWh1dXdOTmhPUGs1?=
- =?utf-8?B?YkZLTnV0UmxrU09HOVQ4QkZuNWM5VENYWHh5RUdIbndxTFFqSFc4ajZsNVpJ?=
- =?utf-8?B?aXRqSVV3SVdTRjBvMlQzdlZwRi9Wa2YvdFBSV2dzQklmVHdobE13R3hrenQ0?=
- =?utf-8?B?cjBVaUUvUno1L0xEUzYvMlpGV29CdmtXMlM1U2NqTjhOdFlXNE16S2FtQTFP?=
- =?utf-8?B?QmRaVVJic1dCL2hpQUFNZWhMMGpnSG42MHRPcmFhYmdtbUNYa0hYZmhKdnRK?=
- =?utf-8?B?elE1aTlFNTJtM0ZkdEhENFJ6SWtwTkFtZkhETGFxbzFLb1doLzF2QTVkSEhq?=
- =?utf-8?B?UXN3bk5aM1U0c3RFWjBsYWFMWHJEa2h5VzRqQTR4LzVyVHE4clk3T2dhOW91?=
- =?utf-8?B?TXBuTXJVdGZkN0VCMGhPaG5ld1p3SmZrZVZIYTJHS2ZxZ1hlZS9McmdQWnFs?=
- =?utf-8?B?Q3I5Wkx3U1ZiRmhoNEd6d3R2VmwwTFM3ZWJiajhCSFdiM0I3ZXRvRHVNRDVW?=
- =?utf-8?B?emVuVksrVk9aQjA5TUZmaUlleTZCTC9rbWs0ZGdtMTUzb2p4ZnVuaFJhOCtU?=
- =?utf-8?B?MlArZzhKbzE1T21kN25QWXd3Vyt3Y2R1KzI3Y2tTOFFJTWgxeFJKNnlZZFB6?=
- =?utf-8?B?UVIyZEtHbzNwRFNLQVNqR3lyNm5ySHN3WGhGNkRLZ2ZzUkNwWk5vdm41M3lU?=
- =?utf-8?B?ZThTcFRkWXBNUnFFUXB0NUxkeHNNRTAwaVU1a1FVT3BGZWdac0FXTTFmbVBx?=
- =?utf-8?Q?C8IV0ecZEe+V70/uBuIVBTsKtvc6eGQjtRyEUCI?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3752e99e-c7ea-4415-ca74-08d961935e0d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2021 15:26:21.7964 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pTDMrMyZqD2GeGe64dHjAkEsLkzk/ccPvnOXBTHpNEdL5Vh8Obz3cWp3QJA/FkvvLx5zIyW+N11FZ4j/ZpmYlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5229
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRuPEeq2e8qdKBc2@phenom.ffwll.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,119 +53,279 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/17/21 5:02 AM, Borislav Petkov wrote:
-> On Fri, Aug 13, 2021 at 11:59:25AM -0500, Tom Lendacky wrote:
->> diff --git a/arch/x86/kernel/machine_kexec_64.c b/arch/x86/kernel/machine_kexec_64.c
->> index 8e7b517ad738..66ff788b79c9 100644
->> --- a/arch/x86/kernel/machine_kexec_64.c
->> +++ b/arch/x86/kernel/machine_kexec_64.c
->> @@ -167,7 +167,7 @@ static int init_transition_pgtable(struct kimage *image, pgd_t *pgd)
->>  	}
->>  	pte = pte_offset_kernel(pmd, vaddr);
->>  
->> -	if (sev_active())
->> +	if (prot_guest_has(PATTR_GUEST_MEM_ENCRYPT))
->>  		prot = PAGE_KERNEL_EXEC;
->>  
->>  	set_pte(pte, pfn_pte(paddr >> PAGE_SHIFT, prot));
->> @@ -207,7 +207,7 @@ static int init_pgtable(struct kimage *image, unsigned long start_pgtable)
->>  	level4p = (pgd_t *)__va(start_pgtable);
->>  	clear_page(level4p);
->>  
->> -	if (sev_active()) {
->> +	if (prot_guest_has(PATTR_GUEST_MEM_ENCRYPT)) {
->>  		info.page_flag   |= _PAGE_ENC;
->>  		info.kernpg_flag |= _PAGE_ENC;
->>  	}
->> @@ -570,12 +570,12 @@ void arch_kexec_unprotect_crashkres(void)
->>   */
->>  int arch_kexec_post_alloc_pages(void *vaddr, unsigned int pages, gfp_t gfp)
->>  {
->> -	if (sev_active())
->> +	if (!prot_guest_has(PATTR_HOST_MEM_ENCRYPT))
->>  		return 0;
->>  
->>  	/*
->> -	 * If SME is active we need to be sure that kexec pages are
->> -	 * not encrypted because when we boot to the new kernel the
->> +	 * If host memory encryption is active we need to be sure that kexec
->> +	 * pages are not encrypted because when we boot to the new kernel the
->>  	 * pages won't be accessed encrypted (initially).
->>  	 */
+On Tue, Aug 17, 2021 at 12:27:29PM +0200, Daniel Vetter wrote:
+> On Mon, Aug 16, 2021 at 06:51:36AM -0700, Matthew Brost wrote:
+> > Lock the xarray and take ref to the context if needed.
+> > 
+> > v2:
+> >  (Checkpatch)
+> >   - Add new line after declaration
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 84 ++++++++++++++++---
+> >  1 file changed, 73 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index ba19b99173fc..2ecb2f002bed 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -599,8 +599,18 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+> >  	unsigned long index, flags;
+> >  	bool pending_disable, pending_enable, deregister, destroyed, banned;
+> >  
+> > +	xa_lock_irqsave(&guc->context_lookup, flags);
+> >  	xa_for_each(&guc->context_lookup, index, ce) {
+> > -		spin_lock_irqsave(&ce->guc_state.lock, flags);
+> > +		/*
+> > +		 * Corner case where the ref count on the object is zero but and
+> > +		 * deregister G2H was lost. In this case we don't touch the ref
+> > +		 * count and finish the destroy of the context.
+> > +		 */
+> > +		bool do_put = kref_get_unless_zero(&ce->ref);
 > 
-> That hunk belongs logically into the previous patch which removes
-> sme_active().
+> This looks really scary, because in another loop below you have an
+> unconditional refcount increase. This means sometimes guc->context_lookup
 
-I was trying to keep the sev_active() changes separate... so even though
-it's an SME thing, I kept it here. But I can move it to the previous
-patch, it just might look strange.
+Yea, good catch those loops need something like this too.
 
+> xarray guarantees we hold a full reference on the context, sometimes we
+> don't. So we're right back in "protect the code" O(N^2) review complexity
+> instead of invariant rules about the datastructure, which is linear.
 > 
->>  	return set_memory_decrypted((unsigned long)vaddr, pages);
->> @@ -583,12 +583,12 @@ int arch_kexec_post_alloc_pages(void *vaddr, unsigned int pages, gfp_t gfp)
->>  
->>  void arch_kexec_pre_free_pages(void *vaddr, unsigned int pages)
->>  {
->> -	if (sev_active())
->> +	if (!prot_guest_has(PATTR_HOST_MEM_ENCRYPT))
->>  		return;
->>  
->>  	/*
->> -	 * If SME is active we need to reset the pages back to being
->> -	 * an encrypted mapping before freeing them.
->> +	 * If host memory encryption is active we need to reset the pages back
->> +	 * to being an encrypted mapping before freeing them.
->>  	 */
->>  	set_memory_encrypted((unsigned long)vaddr, pages);
->>  }
->> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
->> index e8ccab50ebf6..b69f5ac622d5 100644
->> --- a/arch/x86/kvm/svm/svm.c
->> +++ b/arch/x86/kvm/svm/svm.c
->> @@ -25,6 +25,7 @@
->>  #include <linux/pagemap.h>
->>  #include <linux/swap.h>
->>  #include <linux/rwsem.h>
->> +#include <linux/protected_guest.h>
->>  
->>  #include <asm/apic.h>
->>  #include <asm/perf_event.h>
->> @@ -457,7 +458,7 @@ static int has_svm(void)
->>  		return 0;
->>  	}
->>  
->> -	if (sev_active()) {
->> +	if (prot_guest_has(PATTR_SEV)) {
->>  		pr_info("KVM is unsupported when running as an SEV guest\n");
->>  		return 0;
+> Essentially anytime you feel like you have to add a comment to explain
+> what's going on about concurrent stuff you're racing with, you're
+> protecting code, not data.
 > 
-> Same question as for PATTR_SME. PATTR_GUEST_MEM_ENCRYPT should be enough.
+> Since guc can't do a hole lot without the guc_id registered and all that,
+> I kinda expected you'd always have a full reference here. If there's
 
-Yup, I'll change them all.
+The deregister is triggered by the ref count going to zero and we can't
+fully release the guc_id until that operation completes hence why it is
+still in the xarray. I think the solution here is to use iterator like
+you mention below that ref counts this correctly.
 
+> intermediate stages (e.g. around unregister) where this is currently not
+> always the case, then those should make sure a full reference is held.
 > 
->> @@ -373,7 +373,7 @@ int __init early_set_memory_encrypted(unsigned long vaddr, unsigned long size)
->>   * up under SME the trampoline area cannot be encrypted, whereas under SEV
->>   * the trampoline area must be encrypted.
->>   */
->> -bool sev_active(void)
->> +static bool sev_active(void)
->>  {
->>  	return sev_status & MSR_AMD64_SEV_ENABLED;
->>  }
->> @@ -382,7 +382,6 @@ static bool sme_active(void)
->>  {
->>  	return sme_me_mask && !sev_active();
->>  }
->> -EXPORT_SYMBOL_GPL(sev_active);
+> Another option would be to threa ->context_lookup as a weak reference that
+> we lazily clean up when the context is finalized. That works too, but
+> probably not with a spinlock (since you most likely have to wait for all
+> pending guc transations to complete), but it's another option.
 > 
-> Just get rid of it altogether.
-
-Ok.
-
-Thanks,
-Tom
-
+> Either way I think standard process is needed here for locking design,
+> i.e.
+> 1. come up with the right invariants ("we always have a full reference
+> when a context is ont he guc->context_lookup xarray")
+> 2. come up with the locks. From the guc side the xa_lock is maybe good
+> enough, but from the context side this doesn't protect against a
+> re-registering racing against a deregistering. So probably needs more
+> rules on top, and then you have a nice lock inversion in a few places like
+> here.
+> 3. document it and roll it out.
 > 
-> Thx.
+> The other thing is that this is a very tricky iterator, and there's a few
+> copies of it. That is, if this is the right solution. As-is this should be
+> abstracted away into guc_context_iter_begin/next_end() helpers, e.g. like
+> we have for drm_connector_list_iter_begin/end_next as an example.
+>
+
+I can check this out.
+
+Matt
+ 
+> Cheers, Daniel
 > 
+> > +
+> > +		xa_unlock(&guc->context_lookup);
+> > +
+> > +		spin_lock(&ce->guc_state.lock);
+> >  
+> >  		/*
+> >  		 * Once we are at this point submission_disabled() is guaranteed
+> > @@ -616,7 +626,9 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+> >  		banned = context_banned(ce);
+> >  		init_sched_state(ce);
+> >  
+> > -		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> > +		spin_unlock(&ce->guc_state.lock);
+> > +
+> > +		GEM_BUG_ON(!do_put && !destroyed);
+> >  
+> >  		if (pending_enable || destroyed || deregister) {
+> >  			atomic_dec(&guc->outstanding_submission_g2h);
+> > @@ -645,7 +657,12 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+> >  
+> >  			intel_context_put(ce);
+> >  		}
+> > +
+> > +		if (do_put)
+> > +			intel_context_put(ce);
+> > +		xa_lock(&guc->context_lookup);
+> >  	}
+> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
+> >  }
+> >  
+> >  static inline bool
+> > @@ -866,16 +883,26 @@ void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
+> >  {
+> >  	struct intel_context *ce;
+> >  	unsigned long index;
+> > +	unsigned long flags;
+> >  
+> >  	if (unlikely(!guc_submission_initialized(guc))) {
+> >  		/* Reset called during driver load? GuC not yet initialised! */
+> >  		return;
+> >  	}
+> >  
+> > -	xa_for_each(&guc->context_lookup, index, ce)
+> > +	xa_lock_irqsave(&guc->context_lookup, flags);
+> > +	xa_for_each(&guc->context_lookup, index, ce) {
+> > +		intel_context_get(ce);
+> > +		xa_unlock(&guc->context_lookup);
+> > +
+> >  		if (intel_context_is_pinned(ce))
+> >  			__guc_reset_context(ce, stalled);
+> >  
+> > +		intel_context_put(ce);
+> > +		xa_lock(&guc->context_lookup);
+> > +	}
+> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
+> > +
+> >  	/* GuC is blown away, drop all references to contexts */
+> >  	xa_destroy(&guc->context_lookup);
+> >  }
+> > @@ -950,11 +977,21 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc)
+> >  {
+> >  	struct intel_context *ce;
+> >  	unsigned long index;
+> > +	unsigned long flags;
+> > +
+> > +	xa_lock_irqsave(&guc->context_lookup, flags);
+> > +	xa_for_each(&guc->context_lookup, index, ce) {
+> > +		intel_context_get(ce);
+> > +		xa_unlock(&guc->context_lookup);
+> >  
+> > -	xa_for_each(&guc->context_lookup, index, ce)
+> >  		if (intel_context_is_pinned(ce))
+> >  			guc_cancel_context_requests(ce);
+> >  
+> > +		intel_context_put(ce);
+> > +		xa_lock(&guc->context_lookup);
+> > +	}
+> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
+> > +
+> >  	guc_cancel_sched_engine_requests(guc->sched_engine);
+> >  
+> >  	/* GuC is blown away, drop all references to contexts */
+> > @@ -2848,21 +2885,26 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
+> >  	struct intel_context *ce;
+> >  	struct i915_request *rq;
+> >  	unsigned long index;
+> > +	unsigned long flags;
+> >  
+> >  	/* Reset called during driver load? GuC not yet initialised! */
+> >  	if (unlikely(!guc_submission_initialized(guc)))
+> >  		return;
+> >  
+> > +	xa_lock_irqsave(&guc->context_lookup, flags);
+> >  	xa_for_each(&guc->context_lookup, index, ce) {
+> > +		intel_context_get(ce);
+> > +		xa_unlock(&guc->context_lookup);
+> > +
+> >  		if (!intel_context_is_pinned(ce))
+> > -			continue;
+> > +			goto next;
+> >  
+> >  		if (intel_engine_is_virtual(ce->engine)) {
+> >  			if (!(ce->engine->mask & engine->mask))
+> > -				continue;
+> > +				goto next;
+> >  		} else {
+> >  			if (ce->engine != engine)
+> > -				continue;
+> > +				goto next;
+> >  		}
+> >  
+> >  		list_for_each_entry(rq, &ce->guc_active.requests, sched.link) {
+> > @@ -2872,9 +2914,17 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
+> >  			intel_engine_set_hung_context(engine, ce);
+> >  
+> >  			/* Can only cope with one hang at a time... */
+> > -			return;
+> > +			intel_context_put(ce);
+> > +			xa_lock(&guc->context_lookup);
+> > +			goto done;
+> >  		}
+> > +next:
+> > +		intel_context_put(ce);
+> > +		xa_lock(&guc->context_lookup);
+> > +
+> >  	}
+> > +done:
+> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
+> >  }
+> >  
+> >  void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
+> > @@ -2890,23 +2940,32 @@ void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
+> >  	if (unlikely(!guc_submission_initialized(guc)))
+> >  		return;
+> >  
+> > +	xa_lock_irqsave(&guc->context_lookup, flags);
+> >  	xa_for_each(&guc->context_lookup, index, ce) {
+> > +		intel_context_get(ce);
+> > +		xa_unlock(&guc->context_lookup);
+> > +
+> >  		if (!intel_context_is_pinned(ce))
+> > -			continue;
+> > +			goto next;
+> >  
+> >  		if (intel_engine_is_virtual(ce->engine)) {
+> >  			if (!(ce->engine->mask & engine->mask))
+> > -				continue;
+> > +				goto next;
+> >  		} else {
+> >  			if (ce->engine != engine)
+> > -				continue;
+> > +				goto next;
+> >  		}
+> >  
+> >  		spin_lock_irqsave(&ce->guc_active.lock, flags);
+> >  		intel_engine_dump_active_requests(&ce->guc_active.requests,
+> >  						  hung_rq, m);
+> >  		spin_unlock_irqrestore(&ce->guc_active.lock, flags);
+> > +
+> > +next:
+> > +		intel_context_put(ce);
+> > +		xa_lock(&guc->context_lookup);
+> >  	}
+> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
+> >  }
+> >  
+> >  void intel_guc_submission_print_info(struct intel_guc *guc,
+> > @@ -2960,7 +3019,9 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+> >  {
+> >  	struct intel_context *ce;
+> >  	unsigned long index;
+> > +	unsigned long flags;
+> >  
+> > +	xa_lock_irqsave(&guc->context_lookup, flags);
+> >  	xa_for_each(&guc->context_lookup, index, ce) {
+> >  		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id);
+> >  		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> > @@ -2979,6 +3040,7 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+> >  
+> >  		guc_log_context_priority(p, ce);
+> >  	}
+> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
+> >  }
+> >  
+> >  static struct intel_context *
+> > -- 
+> > 2.32.0
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
