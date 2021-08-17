@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDAB3EEDD6
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 15:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C3F3EEDF0
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 16:00:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80C5D6E197;
-	Tue, 17 Aug 2021 13:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF556E1B4;
+	Tue, 17 Aug 2021 14:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 673486E1B4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 13:56:14 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id g21so17868453edw.4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 06:56:14 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0560D6E1A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 14:00:00 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id r19so28392534eds.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 06:59:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=keP0AkrMa/UFxHBh455OJrPKVa/rgaDSisI3KrlMkUY=;
- b=ek/Zjvr6g6qnxN6R7xxGO2izW/RrXV37jJvrqLQvZjmP6QitkmDI0CFmm6hl6WC84U
- 5t57bvvQ3Y3w9KXizsCpldSn9qmPEcI3VNWjxHahuSmMWyypCo4pN/4kD/34gWTT88Yi
- WBaHm53VHtozM+7p/ctYK/J7fu/4SIfJiUTVs=
+ bh=3WA6vode3InsNEu2roODBzsDGsc3Kj5u/8BIVh5P3/g=;
+ b=HQ0Pud/b1h6xg4xXRAZ3HdY8kKA56s46auuUQK8pR2L5bE021VT4buEmdbxevVUoxN
+ 4ftmMM8tAlvc1nOL8Lvnn7iVBBUzGTA5QvEr6hHGB8JLsRAu53GcwsSX+iYRBP2Y6FO1
+ /fe0ZGhAi4TmGUiV+LaoJbTCk35Yn33Yz8GJI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=keP0AkrMa/UFxHBh455OJrPKVa/rgaDSisI3KrlMkUY=;
- b=dEDVPKhKOyEFnRyhyCNH4Qpt57WHpPlSUXZof2ni/zA79k7oMKmfWpTc42wsT3u2gL
- tsoLbJn0i2eFI5A/03xCku4mu3idsGy1R3QcwLkJluPYoojSCrMATTTyqje5/7bh609w
- lZVqR+0hzQiFRnreAJ/PVwOAZ0t0p/DOg4y15nPe4HyRkMsNh0tw1UKEYmkt/twxQDi8
- 3TohIScyIiQQN6P14LBBIG4geR9v3I6oS5tbUTXQ5D5spFnxVpsxBfmPlVXh8v/o+7CU
- APGv570d7+veL6PNHbzAS9G+rnYBQeLMHm9j35FIlYaHIGmNw+yeIhq84KnlQuf4a2Gl
- Z7UA==
-X-Gm-Message-State: AOAM533v1gSguQzp4IfYQof9UB1OIJN3sCs1yeQNbND0R1FvAtHhsSDU
- ZFZJ9zRV8gkxkiWTEvD1pgAv4g==
-X-Google-Smtp-Source: ABdhPJyPfdOh0el5f5iFuy3cMWzh8bb5iaOwUaz4zbohDsd+c+E6xXqwkyxKzGHcUCOmQ2Nw8xXiOQ==
-X-Received: by 2002:aa7:d319:: with SMTP id p25mr4368173edq.197.1629208572917; 
- Tue, 17 Aug 2021 06:56:12 -0700 (PDT)
+ bh=3WA6vode3InsNEu2roODBzsDGsc3Kj5u/8BIVh5P3/g=;
+ b=JroHP5SKCszgardwDMEFeQuYQSxtqFcyzADS2arviECjz8HXOc5t7LSLJMeHyFJT+U
+ 0ZwRpLB9rHN1xYtMvRHV8zbW02QJbIc33cC05cEiWBBS4MDip3PdfTekIPaY4Bs3UUxu
+ RImX2NcoSq6iB9Dh5wRkzbFRfFDd0oVPtDxcfoYvuXq825C3n2mBU/igJ8sENc+SmXfA
+ JzQReizWK513SizpyM2tgC4aE6m6FAggXxmxDvUEHl0Xn2ww6O4Z1KgjwSXL2+BZ1ENr
+ pzKNWmLilG2B6WFeWKbiMpU1EFy66ZaLjUnzZMU8QyuBviwTYrOQntpbJA2LmbB2oGv5
+ EybA==
+X-Gm-Message-State: AOAM533Yg5XGZr//8rTah5JqZqVv5BXk2dEc/4K3pm0QUcd1YmeDqdnu
+ G1A65TtRUM2bcE2hJPq6o4ADjg==
+X-Google-Smtp-Source: ABdhPJxtBTnEetBxThxwVoFGlJkQwNYuxprIO2mj6ZyvM4tVXzkz4ybaMR8neDwl2p28Qfb86o7ktg==
+X-Received: by 2002:aa7:df98:: with SMTP id b24mr4329352edy.103.1629208798565; 
+ Tue, 17 Aug 2021 06:59:58 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c28sm793741ejc.102.2021.08.17.06.56.11
+ by smtp.gmail.com with ESMTPSA id i10sm1123823edf.12.2021.08.17.06.59.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 06:56:12 -0700 (PDT)
-Date: Tue, 17 Aug 2021 15:56:10 +0200
+ Tue, 17 Aug 2021 06:59:58 -0700 (PDT)
+Date: Tue, 17 Aug 2021 15:59:56 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Cc: dri-devel@lists.freedesktop.org, peter@stuge.se,
- linus.walleij@linaro.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/7] drm/format-helper: Add drm_fb_xrgb8888_to_rgb332()
-Message-ID: <YRu/+nEX4A5i4sfl@phenom.ffwll.local>
+Cc: dri-devel@lists.freedesktop.org, peter@stuge.se, linus.walleij@linaro.org
+Subject: Re: [PATCH 1/7] drm/fourcc: Add R8 to drm_format_info
+Message-ID: <YRvA3N7tb6mz1FrA@phenom.ffwll.local>
 References: <20210817122917.49929-1-noralf@tronnes.org>
- <20210817122917.49929-3-noralf@tronnes.org>
+ <20210817122917.49929-2-noralf@tronnes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210817122917.49929-3-noralf@tronnes.org>
+In-Reply-To: <20210817122917.49929-2-noralf@tronnes.org>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,99 +72,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 02:29:12PM +0200, Noralf Trønnes wrote:
-> Add XRGB8888 emulation support for devices that can only do RGB332.
+On Tue, Aug 17, 2021 at 02:29:11PM +0200, Noralf Trønnes wrote:
+> Add an entry in drm_format_info for the existing format DRM_FORMAT_R8.
 > 
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 > ---
->  drivers/gpu/drm/drm_format_helper.c | 47 +++++++++++++++++++++++++++++
->  include/drm/drm_format_helper.h     |  2 ++
->  2 files changed, 49 insertions(+)
+>  drivers/gpu/drm/drm_fourcc.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> index 5231104b1498..53b426da7467 100644
-> --- a/drivers/gpu/drm/drm_format_helper.c
-> +++ b/drivers/gpu/drm/drm_format_helper.c
-> @@ -135,6 +135,53 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
->  }
->  EXPORT_SYMBOL(drm_fb_swab);
->  
-> +static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, u32 *sbuf, unsigned int pixels)
-> +{
-> +	unsigned int x;
-> +
-> +	for (x = 0; x < pixels; x++)
-> +		dbuf[x] = ((sbuf[x] & 0x00e00000) >> 16) |
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index eda832f9200d..783844bfecc1 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -133,6 +133,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
+>  {
+>  	static const struct drm_format_info formats[] = {
+>  		{ .format = DRM_FORMAT_C8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+> +		{ .format = DRM_FORMAT_R8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
 
-I think for 2/3 bits correct rounding would be useful, not just masking.
-i.e. before you shift add 0x00100000 here, and similar below.
+Uh the depth = 0 on these is all a big lie, same for the 332 formats
+below. The only format which is officially depth = 8 is the C8 one. I'm
+not sure it's a great idea to announce others as depth = 8 ...
 
-Also I just realized we've totally ignored endianess on these, which is
-not great, because strictly speaking all the drm_fourcc codes should be
-little endian. But I'm also not sure that's worth fixing ...
+Might be good to throw a patch on top to drop these. Same for the ARGB1555
+ones and it's permutations.
 
-Either way, lgtm:
+Anyway it's consistent with what's there.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +			  ((sbuf[x] & 0x0000e000) >> 11) |
-> +			  ((sbuf[x] & 0x000000c0) >> 6);
-> +}
-> +
-> +/**
-> + * drm_fb_xrgb8888_to_rgb332 - Convert XRGB8888 to RGB332 clip buffer
-> + * @dst: RGB332 destination buffer
-> + * @src: XRGB8888 source buffer
-> + * @fb: DRM framebuffer
-> + * @clip: Clip rectangle area to copy
-> + *
-> + * Drivers can use this function for RGB332 devices that don't natively support XRGB8888.
-> + *
-> + * This function does not apply clipping on dst, i.e. the destination is a small buffer
-> + * containing the clip rect only.
-> + */
-> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *src, struct drm_framebuffer *fb,
-> +			       struct drm_rect *clip)
-> +{
-> +	size_t width = drm_rect_width(clip);
-> +	size_t src_len = width * sizeof(u32);
-> +	unsigned int y;
-> +	void *sbuf;
-> +
-> +	/* Use a buffer to speed up access on buffers with uncached read mapping (i.e. WC) */
-> +	sbuf = kmalloc(src_len, GFP_KERNEL);
-> +	if (!sbuf)
-> +		return;
-> +
-> +	src += clip_offset(clip, fb->pitches[0], sizeof(u32));
-> +	for (y = 0; y < drm_rect_height(clip); y++) {
-> +		memcpy(sbuf, src, src_len);
-> +		drm_fb_xrgb8888_to_rgb332_line(dst, sbuf, width);
-> +		src += fb->pitches[0];
-> +		dst += width;
-> +	}
-> +
-> +	kfree(sbuf);
-> +}
-> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
-> +
->  static void drm_fb_xrgb8888_to_rgb565_line(u16 *dbuf, u32 *sbuf,
->  					   unsigned int pixels,
->  					   bool swab)
-> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-> index 4e0258a61311..d0809aff5cf8 100644
-> --- a/include/drm/drm_format_helper.h
-> +++ b/include/drm/drm_format_helper.h
-> @@ -16,6 +16,8 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vadd
->  			   struct drm_rect *clip);
->  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
->  		 struct drm_rect *clip, bool cached);
-> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct drm_framebuffer *fb,
-> +			       struct drm_rect *clip);
->  void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
->  			       struct drm_framebuffer *fb,
->  			       struct drm_rect *clip, bool swab);
+>  		{ .format = DRM_FORMAT_RGB332,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+>  		{ .format = DRM_FORMAT_BGR233,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1 },
+>  		{ .format = DRM_FORMAT_XRGB4444,	.depth = 0,  .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 1, .vsub = 1 },
 > -- 
 > 2.32.0
 > 
