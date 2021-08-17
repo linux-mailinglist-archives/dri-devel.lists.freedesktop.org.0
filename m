@@ -2,42 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7D33EEEF1
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F1C3EEEED
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:06:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C819C6E02D;
-	Tue, 17 Aug 2021 15:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA2989DE1;
+	Tue, 17 Aug 2021 15:06:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00B226E02D;
- Tue, 17 Aug 2021 15:09:05 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="212998893"
-X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="212998893"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2021 08:08:53 -0700
-X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="510508456"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2021 08:08:53 -0700
-Date: Tue, 17 Aug 2021 08:03:39 -0700
-From: Matthew Brost <matthew.brost@intel.com>
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1EFB89DE1;
+ Tue, 17 Aug 2021 15:06:46 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ hv22-20020a17090ae416b0290178c579e424so6828744pjb.3; 
+ Tue, 17 Aug 2021 08:06:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=LpkZBa2fI/bYsQxq9sk9M9KeuouMiRNZFmA74yYIQV0=;
+ b=j0i8qQ9XUBeROPzmbWZw8vWTpBvY6xEiHt0KyVbvUrEiaHyP/EQhmKs4jYwkxLLCN8
+ 6ODYJvPsdpazSb2gIEI1HXlm3/a/6iD5HJpBOImFOgHGhMWB+AhyGKy4M3iAs3K3PXSv
+ nELNq/5EegfdGmDkooXCaV0bHgRrtXJKLTlwxBdtidFTZeTXkeLtkw16Y6Cml3A2FPVb
+ LNYh2NoZu4a71V/ihGAmRqwbewO2lEa5xu+AIBH5w4N2KmzLadZcEjhWYnuxtrq8tRwP
+ bmxIRLc1tUXwbt1I13k2ijZkXLlsDxm0Od2W5VrRP1rvG9czHbguhwNx0n39M+rprriW
+ OY3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LpkZBa2fI/bYsQxq9sk9M9KeuouMiRNZFmA74yYIQV0=;
+ b=TRYULE17As5fLIgZbPVawin7qftaP+QWjFMMm18jeFf7ke/nuNUEcffAL91iY2Qj/U
+ KCgvQYeLzI+4lqHCUuJufN4E+aex0qiBe3XmdB6wpDP+3/AR/xmlMdpd2lGbHr+tUjr1
+ WDr1ChBdUaso/bFYpQ+RvAJAeGXF6logE3EdK3W6HJzgFA7hwodOeMd3LJQ7cPGgoBKY
+ 02FPtxu7gYEKivm+tIkrLUled7wYiN/H4+Dfm7gzRonW3bqh5wEtq33KBgFdjthoL1gT
+ YfO3gxlFo+WOyxwh/Tx43ME/OS8NxcrTqD/7DTCo1UguOmGZixoPDYcTRhDOMvTRlcYO
+ zO6A==
+X-Gm-Message-State: AOAM531quLgMrjdIt4CjZDo3loTReMLur7NcNnopI5r0P0mg9FnPLjSX
+ 3+AeCZczyZZu4DIrhFweu/A=
+X-Google-Smtp-Source: ABdhPJzpTJOaj86+5qk5L1FiVyrjb9elmIqw7HVimJVxm3/WttTK8stT0Fip8y/bEPPMu3YfDpbSyQ==
+X-Received: by 2002:a63:798f:: with SMTP id u137mr3893376pgc.321.1629212806292; 
+ Tue, 17 Aug 2021 08:06:46 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id f24sm2666833pjh.15.2021.08.17.08.06.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 08:06:45 -0700 (PDT)
+Subject: Re: [PATCH v2] drm: avoid races with modesetting rights
 To: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch
-Subject: Re: [PATCH 05/22] drm/i915/guc: Workaround reset G2H is received
- after schedule done G2H
-Message-ID: <20210817150337.GA19129@jons-linux-dev-box>
-References: <20210816135139.10060-1-matthew.brost@intel.com>
- <20210816135139.10060-6-matthew.brost@intel.com>
- <YRuCSLVnbr+k05uL@phenom.ffwll.local>
+Cc: kernel test robot <lkp@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Airlie <airlied@linux.ie>, kbuild-all@lists.01.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20210815153740.195330-1-desmondcheongzx@gmail.com>
+ <202108160208.ONHHWxXy-lkp@intel.com>
+ <f88fe698-b40c-b309-96c2-32b314280aad@gmail.com>
+ <CAKMK7uEWMjaDEuMpc1__EwD5rpaouJ-dhahQBEQ5rsBz3VV=qg@mail.gmail.com>
+ <3a5ffd83-3d91-73dc-0cae-e822ba381b2b@gmail.com>
+ <CAKMK7uFe6y5W7ZuTGV1rc8vPmpLdDd-rN4aC=1CXWjZLOAOQsQ@mail.gmail.com>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <82ff2e78-7d52-8d4e-03a6-3ad52427261e@gmail.com>
+Date: Tue, 17 Aug 2021 23:06:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YRuCSLVnbr+k05uL@phenom.ffwll.local>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CAKMK7uFe6y5W7ZuTGV1rc8vPmpLdDd-rN4aC=1CXWjZLOAOQsQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,143 +88,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 11:32:56AM +0200, Daniel Vetter wrote:
-> On Mon, Aug 16, 2021 at 06:51:22AM -0700, Matthew Brost wrote:
-> > If the context is reset as a result of the request cancelation the
-> > context reset G2H is received after schedule disable done G2H which is
-> > likely the wrong order. The schedule disable done G2H release the
-> > waiting request cancelation code which resubmits the context. This races
-> > with the context reset G2H which also wants to resubmit the context but
-> > in this case it really should be a NOP as request cancelation code owns
-> > the resubmit. Use some clever tricks of checking the context state to
-> > seal this race until if / when the GuC firmware is fixed.
-> > 
-> > v2:
-> >  (Checkpatch)
-> >   - Fix typos
-> > 
-> > Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > Cc: <stable@vger.kernel.org>
-> > ---
-> >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 43 ++++++++++++++++---
-> >  1 file changed, 37 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index 3cd2da6f5c03..c3b7bf7319dd 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -826,17 +826,35 @@ __unwind_incomplete_requests(struct intel_context *ce)
-> >  static void __guc_reset_context(struct intel_context *ce, bool stalled)
-> >  {
-> >  	struct i915_request *rq;
-> > +	unsigned long flags;
-> >  	u32 head;
-> > +	bool skip = false;
-> >  
-> >  	intel_context_get(ce);
-> >  
-> >  	/*
-> > -	 * GuC will implicitly mark the context as non-schedulable
-> > -	 * when it sends the reset notification. Make sure our state
-> > -	 * reflects this change. The context will be marked enabled
-> > -	 * on resubmission.
-> > +	 * GuC will implicitly mark the context as non-schedulable when it sends
-> > +	 * the reset notification. Make sure our state reflects this change. The
-> > +	 * context will be marked enabled on resubmission.
-> > +	 *
-> > +	 * XXX: If the context is reset as a result of the request cancellation
-> > +	 * this G2H is received after the schedule disable complete G2H which is
-> > +	 * likely wrong as this creates a race between the request cancellation
-> > +	 * code re-submitting the context and this G2H handler. This likely
-> > +	 * should be fixed in the GuC but until if / when that gets fixed we
-> > +	 * need to workaround this. Convert this function to a NOP if a pending
-> > +	 * enable is in flight as this indicates that a request cancellation has
-> > +	 * occurred.
-> >  	 */
-> > -	clr_context_enabled(ce);
-> > +	spin_lock_irqsave(&ce->guc_state.lock, flags);
-> > +	if (likely(!context_pending_enable(ce))) {
-> > +		clr_context_enabled(ce);
-> > +	} else {
-> > +		skip = true;
-> > +	}
-> > +	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-> > +	if (unlikely(skip))
-> > +		goto out_put;
-> >  
-> >  	rq = intel_context_find_active_request(ce);
-> >  	if (!rq) {
-> > @@ -855,6 +873,7 @@ static void __guc_reset_context(struct intel_context *ce, bool stalled)
-> >  out_replay:
-> >  	guc_reset_state(ce, head, stalled);
-> >  	__unwind_incomplete_requests(ce);
-> > +out_put:
-> >  	intel_context_put(ce);
-> >  }
-> >  
-> > @@ -1599,6 +1618,13 @@ static void guc_context_cancel_request(struct intel_context *ce,
-> >  			guc_reset_state(ce, intel_ring_wrap(ce->ring, rq->head),
-> >  					true);
-> >  		}
-> > +
-> > +		/*
-> > +		 * XXX: Racey if context is reset, see comment in
-> > +		 * __guc_reset_context().
-> > +		 */
-> > +		flush_work(&ce_to_guc(ce)->ct.requests.worker);
+On 16/8/21 9:59 pm, Daniel Vetter wrote:
+> On Mon, Aug 16, 2021 at 12:31 PM Desmond Cheong Zhi Xi
+> <desmondcheongzx@gmail.com> wrote:
+>>
+>> On 16/8/21 5:04 pm, Daniel Vetter wrote:
+>>> On Mon, Aug 16, 2021 at 10:53 AM Desmond Cheong Zhi Xi
+>>> <desmondcheongzx@gmail.com> wrote:
+>>>> On 16/8/21 2:47 am, kernel test robot wrote:
+>>>>> Hi Desmond,
+>>>>>
+>>>>> Thank you for the patch! Yet something to improve:
+>>>>>
+>>>>> [auto build test ERROR on next-20210813]
+>>>>> [also build test ERROR on v5.14-rc5]
+>>>>> [cannot apply to linus/master v5.14-rc5 v5.14-rc4 v5.14-rc3]
+>>>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>>>>> And when submitting patch, we suggest to use '--base' as documented in
+>>>>> https://git-scm.com/docs/git-format-patch]
+>>>>>
+>>>>> url:    https://github.com/0day-ci/linux/commits/Desmond-Cheong-Zhi-Xi/drm-avoid-races-with-modesetting-rights/20210815-234145
+>>>>> base:    4b358aabb93a2c654cd1dcab1a25a589f6e2b153
+>>>>> config: i386-randconfig-a004-20210815 (attached as .config)
+>>>>> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+>>>>> reproduce (this is a W=1 build):
+>>>>>            # https://github.com/0day-ci/linux/commit/cf6d8354b7d7953cd866fad004cbb189adfa074f
+>>>>>            git remote add linux-review https://github.com/0day-ci/linux
+>>>>>            git fetch --no-tags linux-review Desmond-Cheong-Zhi-Xi/drm-avoid-races-with-modesetting-rights/20210815-234145
+>>>>>            git checkout cf6d8354b7d7953cd866fad004cbb189adfa074f
+>>>>>            # save the attached .config to linux build tree
+>>>>>            make W=1 ARCH=i386
+>>>>>
+>>>>> If you fix the issue, kindly add following tag as appropriate
+>>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>>
+>>>>> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>>>>>
+>>>>>>> ERROR: modpost: "task_work_add" [drivers/gpu/drm/drm.ko] undefined!
+>>>>>
+>>>>
+>>>> I'm a bit uncertain about this. Looking into the .config used, this
+>>>> error seems to happen because task_work_add isn't an exported symbol,
+>>>> but DRM is being compiled as a loadable kernel module (CONFIG_DRM=m).
+>>>>
+>>>> One way to deal with this is to export the symbol, but there was a
+>>>> proposed patch to do this a few months back that wasn't picked up [1],
+>>>> so I'm not sure what to make of this.
+>>>>
+>>>> I'll export the symbol as part of a v3 series, and check in with the
+>>>> task-work maintainers.
+>>>>
+>>>> Link:
+>>>> https://lore.kernel.org/lkml/20210127150029.13766-3-joshi.k@samsung.com/ [1]
+>>>
+>>> Yeah that sounds best. I have two more thoughts on the patch:
+>>> - drm_master_flush isn't used by any modules outside of drm.ko, so we
+>>> can unexport it and drop the kerneldoc (the comment is still good).
+>>> These kind of internal functions have their declaration in
+>>> drm-internal.h - there's already a few there from drm_auth.c
+>>>
+>>
+>> Sounds good, I'll do that and move the declaration from drm_auth.h to
+>> drm_internal.h.
+>>
+>>> - We know have 3 locks for master state, that feels a bit like
+>>> overkill. The spinlock I think we need to keep due to lock inversions,
+>>> but the master_mutex and master_rwsem look like we should be able to
+>>> merge them? I.e. anywhere we currently grab the master_mutex we could
+>>> instead grab the rwsem in either write mode (when we change stuff) or
+>>> read mode (when we just check, like in master_internal_acquire).
+>>>
+>>> Thoughts?
+>>> -Daniel
+>>>
+>>
+>> Using rwsem in the places where we currently hold the mutex seems pretty
+>> doable.
+>>
+>> There are some tricky bits once we add rwsem read locks to the ioctl
+>> handler. Some ioctl functions like drm_authmagic need a write lock.
 > 
-> This looks racy, and I think that holds in general for all the flush_work
-> you're adding: This only flushes the processing of the work, it doesn't
-> stop any re-queueing (as far as I can tell at least), which means it
-> doesn't do a hole lot.
+> Ah yes, I only looked at the dropmaster/setmaster ioctl, and those
+> don't have the DRM_MASTER bit set.
 > 
-> Worse, your task is re-queue because it only processes one item at a time.
-> That means flush_work only flushes the first invocation, but not even
-> drains them all. So even if you do prevent requeueing somehow, this isn't
-> what you want. Two solutions.
+>> In this particular case, it might make sense to break master_mutex down
+>> into finer-grained locks, since the function doesn't change master
+>> permissions. It just needs to prevent concurrent writes to the
+>> drm_master.magic_map idr.
 > 
-> - flush_work_sync, which flushes until self-requeues are all done too
+> Yeah for authmagic we could perhaps just reuse the spinlock to protect
+> ->magic_map?
 > 
-> - Or more preferred, make you're worker a bit more standard for this
->   stuff: a) under the spinlock, take the entire list, not just the first
->   entry, with list_move or similar to a local list b) process that local
->   list in a loop b) don't requeue youreself.
 
-This seems better, not sure what it currently doesn't do that as I
-didn't write that code.
+Yup, I had to move the spinlock from struct drm_file to struct 
+drm_device, but I think that should work.
 
-Also BTW, confirmed with the GuC team the order of the G2H is incorrect
-and will get fixed in an upcoming release, once that happens most of
-this patch can get dropped.
-
-Matt 
-
+>> For other ioctls, I'll take a closer look on a case-by-case basis.
 > 
-> Cheers, Daniel
-> > +
-> >  		guc_context_unblock(ce);
-> >  	}
-> >  }
-> > @@ -2719,7 +2745,12 @@ static void guc_handle_context_reset(struct intel_guc *guc,
-> >  {
-> >  	trace_intel_context_reset(ce);
-> >  
-> > -	if (likely(!intel_context_is_banned(ce))) {
-> > +	/*
-> > +	 * XXX: Racey if request cancellation has occurred, see comment in
-> > +	 * __guc_reset_context().
-> > +	 */
-> > +	if (likely(!intel_context_is_banned(ce) &&
-> > +		   !context_blocked(ce))) {
-> >  		capture_error_state(guc, ce);
-> >  		guc_context_replay(ce);
-> >  	}
-> > -- 
-> > 2.32.0
-> > 
+> If it's too much shuffling then I think totally fine to leave things
+> as-is. Just feels a bit silly to have 3 locks, on of which is an
+> rwlock itself, for this fairly small amount of state.
+> -Daniel
 > 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+
+Agreed, there's a lot of overlap between the master_mutex and rwsem so 
+this a good opportunity to refactor things.
+
+I'm cleaning up a v3 series now. There's some movement, but most of it 
+are fixes to potential bugs that I saw while refactoring. We can see if 
+the new version is a better design.
+
+>>
+>>>>
+>>>>> ---
+>>>>> 0-DAY CI Kernel Test Service, Intel Corporation
+>>>>> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>>>>>
+>>>>
+>>>
+>>>
+>>
+> 
+> 
+
