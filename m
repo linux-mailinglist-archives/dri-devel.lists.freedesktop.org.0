@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBFE3EF531
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 23:52:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FD13EF534
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 23:52:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C7C6E255;
-	Tue, 17 Aug 2021 21:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E5756E284;
+	Tue, 17 Aug 2021 21:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0B136E255
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 21:52:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91C986E25B
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 21:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629237133;
+ s=mimecast20190719; t=1629237134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=jVJCecF4F8lzTNr2aVMQ3//O7Wahr/Abf06EATrwqzU=;
- b=dT7p/p8TiqTD/aXoluf4uDdOFT29kNz4OZePRUYsm/sDfFzdP+SCrcJglxa+X6x8l/u2k7
- zy7f3qRsB/RmzdJUAqVYUVUGVhexzua8oOzUGQE1fwa3VfYGvEq6/unYoq6PIivz72Wm1E
- Nt+LBL8MQzXAi44G2K66n5SZUyeei5Q=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pv//Oq4MQWb5fLTHqPLMxqfYs75MmmXZqmA+EkBN9pI=;
+ b=Niu+O2ZRNqJ/3AVZlWySC/B0kKcJUhAE7h7EUhgzOEdy9dSUKsC7gU4EvzgiPbu49sAbDq
+ g31wCDB6Qt0Yv0MO+2aTxutPE2nyNCEKdsYwPhfxxtPskHdtwNMBaWtWFFM3+VDGmP91d1
+ j8cBNoNWOCCtBWt28uZktHjXFwCzeR8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-GXsrDrySPPWz3T8u7nMsUg-1; Tue, 17 Aug 2021 17:52:09 -0400
-X-MC-Unique: GXsrDrySPPWz3T8u7nMsUg-1
+ us-mta-308-DaCZezIvMBKtY63xIjJuhg-1; Tue, 17 Aug 2021 17:52:11 -0400
+X-MC-Unique: DaCZezIvMBKtY63xIjJuhg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52D10875047;
- Tue, 17 Aug 2021 21:52:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91FBB1008060;
+ Tue, 17 Aug 2021 21:52:09 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 98BDE10013D6;
- Tue, 17 Aug 2021 21:52:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BBCA1036D2E;
+ Tue, 17 Aug 2021 21:52:06 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -49,10 +50,12 @@ Cc: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org
-Subject: [PATCH 0/8] drm + usb-type-c: Add support for out-of-band hotplug
- notification (v4 resend)
-Date: Tue, 17 Aug 2021 23:51:53 +0200
-Message-Id: <20210817215201.795062-1-hdegoede@redhat.com>
+Subject: [PATCH 1/8] drm/connector: Give connector sysfs devices there own
+ device_type
+Date: Tue, 17 Aug 2021 23:51:54 +0200
+Message-Id: <20210817215201.795062-2-hdegoede@redhat.com>
+In-Reply-To: <20210817215201.795062-1-hdegoede@redhat.com>
+References: <20210817215201.795062-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
@@ -71,89 +74,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Give connector sysfs devices there own device_type, this allows us to
+check if a device passed to functions dealing with generic devices is
+a drm_connector or not.
 
-Here is a rebased-resend of v4 of my patchset making DP over Type-C work on
-devices where the Type-C controller does not drive the HPD pin on the GPU,
-but instead we need to forward HPD events from the Type-C controller to
-the DRM driver.
+A check like this is necessary in the drm_connector_acpi_bus_match()
+function added in the next patch in this series.
 
-Changes in v4 resend:
-- Rebase on top of latest drm-tip
+Tested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/drm_sysfs.c | 50 +++++++++++++++++++++++++++----------
+ 1 file changed, 37 insertions(+), 13 deletions(-)
 
-Changes in v4:
-- Rebase on top of latest drm-tip
-- Add forward declaration for struct fwnode_handle to drm_crtc_internal.h
-  (fixes warning reported by kernel test robot <lkp@intel.com>)
-- Add Heikki's Reviewed-by to patch 7 & 8
-- Add Heikki's Tested-by to the series
-
-Changes in v3:
-- Base on top of latest drm-tip, which should fix the CI being unable to
-  apply (and thus to test) the patches
-- Make intel_acpi_assign_connector_fwnodes() take a ref on the fwnode
-  it stores in connector->fwnode and have drm_connector_cleanup() put
-  this reference
-- Drop data argument from drm_connector_oob_hotplug_event()
-- Make the Type-C DP altmode code only call drm_connector_oob_hotplug_event()
-  when the HPD bit in the status vdo changes
-- Drop the platform/x86/intel_cht_int33fe: Correct "displayport" fwnode
-  reference patch, this will be merged independently through the pdx86 tree
-
-Changes in v2:
-- Replace the bogus "drm/connector: Make the drm_sysfs connector->kdev
-  device hold a reference to the connector" patch with:
-  "drm/connector: Give connector sysfs devices there own device_type"
-  the new patch is a dep for patch 2/9 see the patches
-
-- Stop using a class-dev-iter, instead at a global connector list
-  to drm_connector.c and use that to find the connector by the fwnode,
-  similar to how we already do this in drm_panel.c and drm_bridge.c
-
-- Make drm_connector_oob_hotplug_event() take a fwnode pointer as
-  argument, rather then a drm_connector pointer and let it do the
-  lookup itself. This allows making drm_connector_find_by_fwnode() a
-  drm-internal function and avoids code outside the drm subsystem
-  potentially holding on the a drm_connector reference for a longer
-  period.
-
-This series not only touches drm subsys files but it also touches
-drivers/usb/typec/altmodes/typec_displayport.c, that file usually
-does not see a whole lot of changes. So I believe it would be best
-to just merge the entire series through drm-misc, Assuming we can
-get an ack from Greg for merging the typec_displayport.c changes
-this way.
-
-Regards,
-
-Hans
-
-Hans de Goede (7):
-  drm/connector: Give connector sysfs devices there own device_type
-  drm/connector: Add a fwnode pointer to drm_connector and register with
-    ACPI (v2)
-  drm/connector: Add drm_connector_find_by_fwnode() function (v3)
-  drm/connector: Add support for out-of-band hotplug notification (v3)
-  drm/i915/dp: Add support for out-of-bound hotplug events
-  usb: typec: altmodes/displayport: Make dp_altmode_notify() more
-    generic
-  usb: typec: altmodes/displayport: Notify drm subsys of hotplug events
-
-Heikki Krogerus (1):
-  drm/i915: Associate ACPI connector nodes with connector entries (v2)
-
- drivers/gpu/drm/drm_connector.c              | 79 ++++++++++++++++++
- drivers/gpu/drm/drm_crtc_internal.h          |  2 +
- drivers/gpu/drm/drm_sysfs.c                  | 87 +++++++++++++++++---
- drivers/gpu/drm/i915/display/intel_acpi.c    | 46 +++++++++++
- drivers/gpu/drm/i915/display/intel_acpi.h    |  3 +
- drivers/gpu/drm/i915/display/intel_display.c |  1 +
- drivers/gpu/drm/i915/display/intel_dp.c      | 12 +++
- drivers/usb/typec/altmodes/Kconfig           |  1 +
- drivers/usb/typec/altmodes/displayport.c     | 58 ++++++++-----
- include/drm/drm_connector.h                  | 25 ++++++
- 10 files changed, 279 insertions(+), 35 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index 968a9560b4aa..f9d92bbb1f98 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -50,6 +50,10 @@ static struct device_type drm_sysfs_device_minor = {
+ 	.name = "drm_minor"
+ };
+ 
++static struct device_type drm_sysfs_device_connector = {
++	.name = "drm_connector",
++};
++
+ struct class *drm_class;
+ 
+ static char *drm_devnode(struct device *dev, umode_t *mode)
+@@ -102,6 +106,11 @@ void drm_sysfs_destroy(void)
+ 	drm_class = NULL;
+ }
+ 
++static void drm_sysfs_release(struct device *dev)
++{
++	kfree(dev);
++}
++
+ /*
+  * Connector properties
+  */
+@@ -273,27 +282,47 @@ static const struct attribute_group *connector_dev_groups[] = {
+ int drm_sysfs_connector_add(struct drm_connector *connector)
+ {
+ 	struct drm_device *dev = connector->dev;
++	struct device *kdev;
++	int r;
+ 
+ 	if (connector->kdev)
+ 		return 0;
+ 
+-	connector->kdev =
+-		device_create_with_groups(drm_class, dev->primary->kdev, 0,
+-					  connector, connector_dev_groups,
+-					  "card%d-%s", dev->primary->index,
+-					  connector->name);
++	kdev = kzalloc(sizeof(*kdev), GFP_KERNEL);
++	if (!kdev)
++		return -ENOMEM;
++
++	device_initialize(kdev);
++	kdev->class = drm_class;
++	kdev->type = &drm_sysfs_device_connector;
++	kdev->parent = dev->primary->kdev;
++	kdev->groups = connector_dev_groups;
++	kdev->release = drm_sysfs_release;
++	dev_set_drvdata(kdev, connector);
++
++	r = dev_set_name(kdev, "card%d-%s", dev->primary->index, connector->name);
++	if (r)
++		goto err_free;
++
+ 	DRM_DEBUG("adding \"%s\" to sysfs\n",
+ 		  connector->name);
+ 
+-	if (IS_ERR(connector->kdev)) {
+-		DRM_ERROR("failed to register connector device: %ld\n", PTR_ERR(connector->kdev));
+-		return PTR_ERR(connector->kdev);
++	r = device_add(kdev);
++	if (r) {
++		DRM_ERROR("failed to register connector device: %d\n", r);
++		goto err_free;
+ 	}
+ 
++	connector->kdev = kdev;
++
+ 	if (connector->ddc)
+ 		return sysfs_create_link(&connector->kdev->kobj,
+ 				 &connector->ddc->dev.kobj, "ddc");
+ 	return 0;
++
++err_free:
++	put_device(kdev);
++	return r;
+ }
+ 
+ void drm_sysfs_connector_remove(struct drm_connector *connector)
+@@ -374,11 +403,6 @@ void drm_sysfs_connector_status_event(struct drm_connector *connector,
+ }
+ EXPORT_SYMBOL(drm_sysfs_connector_status_event);
+ 
+-static void drm_sysfs_release(struct device *dev)
+-{
+-	kfree(dev);
+-}
+-
+ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+ {
+ 	const char *minor_str;
 -- 
 2.31.1
 
