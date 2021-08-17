@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2BD3EEA66
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A2B3EEA69
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:59:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184666E03D;
-	Tue, 17 Aug 2021 09:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D44D56E154;
+	Tue, 17 Aug 2021 09:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77B7A6E03D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 09:57:57 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- a201-20020a1c7fd2000000b002e6d33447f9so1439730wmd.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 02:57:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=SRRzYeE+xxFkllvlGfJl7y6YVJSNGtGssvXCdiE3AD8=;
- b=IVCX3wL0R9FW/Q0pCEiDP2bpU7M9TZfXvJdJqqnxD3R1eeIKNK+2lqC2mL1rC1IIaC
- d0iCKCqPBLL+ziiYl6r0U0BcYU5fj3UaMYjawvaA4Cfeanorp4mkCr35Gef5jy9bwlnZ
- pFxglOoi2mWOcNwg4w4I7fM8nKfkrNyqKRGIA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SRRzYeE+xxFkllvlGfJl7y6YVJSNGtGssvXCdiE3AD8=;
- b=VC+fZzuwVSBy10UeE0oJpWWhy7krxb7Rz+2Bf0HiT52GMEZLnmZh9j+qU7pmFBGPHD
- nICJ/TVSUlC/lDcfUPGrgWQ7D/FdJbRNhuSr8loyu2NodYnGDbKf868S10xEIDDQDISU
- AgmMJ7CeNgzqxy3806VFTo5vRhT1oVjaTa3PLWXhHINmVRdcFjTau5pX5B5xr3ba4Bf2
- DkBDgFy2T+C56yDKkwncbVOt0ztXYIHniDe1LH0jUCSwpZMVQovUO7HEeO8QmSOIGvjV
- qPJGfZYewOSn6WTyIZwG4D3v349JrOScoVdnhrmkThup27uHwR8+aDGRWsd+EKqXaynf
- Xeaw==
-X-Gm-Message-State: AOAM531M56KZy1kiwVLCnkDXB6ds87eMTFWC5Z1rqb3B6OVcs6WMO1kv
- H0gMlD9Axlbl9cBpqm0CGELQXA==
-X-Google-Smtp-Source: ABdhPJyRWd6X6b2HFB07sEufbn6AT32uilCwUUyIp3yuCrdGLbwEmRraNzfr0DJs4f6vZSzvjTyQ9g==
-X-Received: by 2002:a05:600c:2049:: with SMTP id
- p9mr2410603wmg.37.1629194276045; 
- Tue, 17 Aug 2021 02:57:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a77sm1689451wmd.31.2021.08.17.02.57.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 02:57:55 -0700 (PDT)
-Date: Tue, 17 Aug 2021 11:57:53 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch
-Subject: Re: [PATCH 08/22] drm/i915/guc: Don't enable scheduling on a banned
- context, guc_id invalid, not registered
-Message-ID: <YRuIIf/sAof1ZYoz@phenom.ffwll.local>
-References: <20210816135139.10060-1-matthew.brost@intel.com>
- <20210816135139.10060-9-matthew.brost@intel.com>
- <YRuFySMEGtbQegKa@phenom.ffwll.local>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2FC396E154;
+ Tue, 17 Aug 2021 09:59:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 7620E20201B;
+ Tue, 17 Aug 2021 11:59:47 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id tLHjv6hUSvqU; Tue, 17 Aug 2021 11:59:42 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 9B9E020201A;
+ Tue, 17 Aug 2021 11:59:42 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1mFvsj-000jbA-P0; Tue, 17 Aug 2021 11:59:41 +0200
+To: "Lazar, Lijo" <lijo.lazar@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210816103506.2671-1-michel@daenzer.net>
+ <20210817082325.2579-1-michel@daenzer.net>
+ <ceaa02c9-26ef-e1e5-3f35-3cc202961670@amd.com>
+ <8461fba5-662e-85f7-b712-472232ed12ba@daenzer.net>
+ <c294f4c7-7919-7b7f-4de7-ab4def8c90a3@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH] drm/amdgpu: Cancel delayed work when GFXOFF is disabled
+Message-ID: <e9aa759e-1692-b8c5-3f23-2c55af0151bc@daenzer.net>
+Date: Tue, 17 Aug 2021 11:59:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YRuFySMEGtbQegKa@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <c294f4c7-7919-7b7f-4de7-ab4def8c90a3@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,86 +62,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 11:47:53AM +0200, Daniel Vetter wrote:
-> On Mon, Aug 16, 2021 at 06:51:25AM -0700, Matthew Brost wrote:
-> > When unblocking a context, do not enable scheduling if the context is
-> > banned, guc_id invalid, or not registered.
-> > 
-> > Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > Cc: <stable@vger.kernel.org>
-> > ---
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index c3b7bf7319dd..353899634fa8 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -1579,6 +1579,9 @@ static void guc_context_unblock(struct intel_context *ce)
-> >  	spin_lock_irqsave(&ce->guc_state.lock, flags);
-> >  
-> >  	if (unlikely(submission_disabled(guc) ||
-> > +		     intel_context_is_banned(ce) ||
-> > +		     context_guc_id_invalid(ce) ||
-> > +		     !lrc_desc_registered(guc, ce->guc_id) ||
-> >  		     !intel_context_is_pinned(ce) ||
-> >  		     context_pending_disable(ce) ||
-> >  		     context_blocked(ce) > 1)) {
+On 2021-08-17 11:37 a.m., Lazar, Lijo wrote:
 > 
-> I think this entire if condition here is screaming that our intel_context
-> state machinery for guc is way too complex, and on the wrong side of
-> incomprehensible.
 > 
-> Also some of these check state outside of the context, and we don't seem
-> to hold spinlocks for those, or anything else.
+> On 8/17/2021 2:56 PM, Michel Dänzer wrote:
+>> On 2021-08-17 11:12 a.m., Lazar, Lijo wrote:
+>>>
+>>>
+>>> On 8/17/2021 1:53 PM, Michel Dänzer wrote:
+>>>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>>>
+>>>> schedule_delayed_work does not push back the work if it was already
+>>>> scheduled before, so amdgpu_device_delay_enable_gfx_off ran ~100 ms
+>>>> after the first time GFXOFF was disabled and re-enabled, even if GFXOFF
+>>>> was disabled and re-enabled again during those 100 ms.
+>>>>
+>>>> This resulted in frame drops / stutter with the upcoming mutter 41
+>>>> release on Navi 14, due to constantly enabling GFXOFF in the HW and
+>>>> disabling it again (for getting the GPU clock counter).
+>>>>
+>>>> To fix this, call cancel_delayed_work_sync when the disable count
+>>>> transitions from 0 to 1, and only schedule the delayed work on the
+>>>> reverse transition, not if the disable count was already 0. This makes
+>>>> sure the delayed work doesn't run at unexpected times, and allows it to
+>>>> be lock-free.
+>>>>
+>>>> v2:
+>>>> * Use cancel_delayed_work_sync & mutex_trylock instead of
+>>>>     mod_delayed_work.
+>>>> v3:
+>>>> * Make amdgpu_device_delay_enable_gfx_off lock-free (Christian König)
+>>>> v4:
+>>>> * Fix race condition between amdgpu_gfx_off_ctrl incrementing
+>>>>     adev->gfx.gfx_off_req_count and amdgpu_device_delay_enable_gfx_off
+>>>>     checking for it to be 0 (Evan Quan)
+>>>>
+>>>> Cc: stable@vger.kernel.org
+>>>> Reviewed-by: Lijo Lazar <lijo.lazar@amd.com> # v3
+>>>> Acked-by: Christian König <christian.koenig@amd.com> # v3
+>>>> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+>>>> ---
+>>>>
+>>>> Alex, probably best to wait a bit longer before picking this up. :)
+>>>>
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 +++----
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c    | 36 +++++++++++++++-------
+>>>>    2 files changed, 30 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> index f3fd5ec710b6..f944ed858f3e 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> @@ -2777,12 +2777,11 @@ static void amdgpu_device_delay_enable_gfx_off(struct work_struct *work)
+>>>>        struct amdgpu_device *adev =
+>>>>            container_of(work, struct amdgpu_device, gfx.gfx_off_delay_work.work);
+>>>>    -    mutex_lock(&adev->gfx.gfx_off_mutex);
+>>>> -    if (!adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
+>>>> -        if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, true))
+>>>> -            adev->gfx.gfx_off_state = true;
+>>>> -    }
+>>>> -    mutex_unlock(&adev->gfx.gfx_off_mutex);
+>>>> +    WARN_ON_ONCE(adev->gfx.gfx_off_state);
+>>>> +    WARN_ON_ONCE(adev->gfx.gfx_off_req_count);
+>>>> +
+>>>> +    if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, true))
+>>>> +        adev->gfx.gfx_off_state = true;
+>>>>    }
+>>>>      /**
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>>>> index a0be0772c8b3..b4ced45301be 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>>>> @@ -563,24 +563,38 @@ void amdgpu_gfx_off_ctrl(struct amdgpu_device *adev, bool enable)
+>>>>          mutex_lock(&adev->gfx.gfx_off_mutex);
+>>>>    -    if (!enable)
+>>>> -        adev->gfx.gfx_off_req_count++;
+>>>> -    else if (adev->gfx.gfx_off_req_count > 0)
+>>>> +    if (enable) {
+>>>> +        /* If the count is already 0, it means there's an imbalance bug somewhere.
+>>>> +         * Note that the bug may be in a different caller than the one which triggers the
+>>>> +         * WARN_ON_ONCE.
+>>>> +         */
+>>>> +        if (WARN_ON_ONCE(adev->gfx.gfx_off_req_count == 0))
+>>>> +            goto unlock;
+>>>> +
+>>>>            adev->gfx.gfx_off_req_count--;
+>>>>    -    if (enable && !adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
+>>>> -        schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_OFF_DELAY_ENABLE);
+>>>> -    } else if (!enable && adev->gfx.gfx_off_state) {
+>>>> -        if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, false)) {
+>>>> -            adev->gfx.gfx_off_state = false;
+>>>> +        if (adev->gfx.gfx_off_req_count == 0 && !adev->gfx.gfx_off_state)
+>>>> +            schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_OFF_DELAY_ENABLE);
+>>>> +    } else {
+>>>> +        if (adev->gfx.gfx_off_req_count == 0) {
+>>>> +            cancel_delayed_work_sync(&adev->gfx.gfx_off_delay_work);
+>>>> +
+>>>> +            if (adev->gfx.gfx_off_state &&
+>>>
+>>> More of a question which I didn't check last time - Is this expected to be true when the disable call comes in first?
+>>
+>> My assumption is that cancel_delayed_work_sync guarantees amdgpu_device_delay_enable_gfx_off's assignment is visible here.
+>>
 > 
-> I general I have no idea which of these are defensive programming and
-> cannot ever happen, and which actually can happen. There's for sure way
-> too many races going on given that this is all context-local stuff.
+> To clarify - when nothing is scheduled. If enable() is called when the count is 0, it goes to unlock. Now the expectation is someone to call Disable first.
 
-Races here meaining that we seem to be dropping locks while the context is
-in an inconsistent state, which then means that every other code path
-touching contexts needs to check whether the context is in an inconsistent
-state.
+Yes, the very first amdgpu_gfx_off_ctrl call must pass enable=false, or it's a bug, which
 
-This is a bit an example of protecting code, vs protecting datastructures.
-Protecting code is having state bits of intermediate/transitional state
-leak outside of the locked section (like context_blocked), so that every
-other piece of code must be aware about the transition and not screw
-things up for worse when they race.
+        if (WARN_ON_ONCE(adev->gfx.gfx_off_req_count == 0))
 
-This means your review and validation effort scales O(N^2) with the amount
-of code and features you have. Which doesn't work.
+will catch.
 
-Datastructure or object oriented locking design goes different:
 
-1. You figure out what the invariants of your datastructure are. That
-means what should hold after each state transition is finished. I have no
-idea what is the solution for all them here, but e.g. why is
-context_blocked even visible to other threads? Usual approach is a) take
-lock b) do whatever is necessary (we're talking about reset stuff here, so
-performance really doesn't matter) c) unlock. I know that i915-gem is full
-of these leaky counting things, but that's really not a good design.
+> Let's say  Disable() is called first, then the variable will be false, right?
 
-2. Next up, for every piece of state you think how it's protected with a
-per-object lock. The fewer locks you have (but still per-objects so it's
-not becoming a mess for different reasons) the higher chances that you
-don't leak inconsistent state to other threads. This is a bit tricky when
-multipled objects are involved, or if you have to split your locks for a
-single object because some of it needs to be accessed from irq context
-(like a tasklet).
+Ohh, I see what you mean. The first time amdgpu_gfx_off_ctrl is called with enable=false, adev->gfx.gfx_off_state == false (what it was initialized to), so it doesn't actually disable GFXOFF in HW.
 
-3. Document your rules in kerneldoc, so that when new code gets added you
-don't have to review everything for consistency against the rules. This
-way you get overall O(N) effort for validation and review, because all you
-have to do is check every function that changes state against the overall
-contract, and not everything against everything else.
+Note that this is a separate pre-existing bug, not a regression of my patch.
 
-If you have a pile of if checks every time you grab a lock, your locking
-design has too much state that leaks outside of the locked sections.
--Daniel
+I wonder what's the best solution for that, move the adev->gfx.gfx_off_state assignments into amdgpu_dpm_set_powergating_by_smu?
+
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
