@@ -1,78 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F1C3EEEED
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:06:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E35083EEEFB
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA2989DE1;
-	Tue, 17 Aug 2021 15:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B1826E041;
+	Tue, 17 Aug 2021 15:13:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1EFB89DE1;
- Tue, 17 Aug 2021 15:06:46 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- hv22-20020a17090ae416b0290178c579e424so6828744pjb.3; 
- Tue, 17 Aug 2021 08:06:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LpkZBa2fI/bYsQxq9sk9M9KeuouMiRNZFmA74yYIQV0=;
- b=j0i8qQ9XUBeROPzmbWZw8vWTpBvY6xEiHt0KyVbvUrEiaHyP/EQhmKs4jYwkxLLCN8
- 6ODYJvPsdpazSb2gIEI1HXlm3/a/6iD5HJpBOImFOgHGhMWB+AhyGKy4M3iAs3K3PXSv
- nELNq/5EegfdGmDkooXCaV0bHgRrtXJKLTlwxBdtidFTZeTXkeLtkw16Y6Cml3A2FPVb
- LNYh2NoZu4a71V/ihGAmRqwbewO2lEa5xu+AIBH5w4N2KmzLadZcEjhWYnuxtrq8tRwP
- bmxIRLc1tUXwbt1I13k2ijZkXLlsDxm0Od2W5VrRP1rvG9czHbguhwNx0n39M+rprriW
- OY3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LpkZBa2fI/bYsQxq9sk9M9KeuouMiRNZFmA74yYIQV0=;
- b=TRYULE17As5fLIgZbPVawin7qftaP+QWjFMMm18jeFf7ke/nuNUEcffAL91iY2Qj/U
- KCgvQYeLzI+4lqHCUuJufN4E+aex0qiBe3XmdB6wpDP+3/AR/xmlMdpd2lGbHr+tUjr1
- WDr1ChBdUaso/bFYpQ+RvAJAeGXF6logE3EdK3W6HJzgFA7hwodOeMd3LJQ7cPGgoBKY
- 02FPtxu7gYEKivm+tIkrLUled7wYiN/H4+Dfm7gzRonW3bqh5wEtq33KBgFdjthoL1gT
- YfO3gxlFo+WOyxwh/Tx43ME/OS8NxcrTqD/7DTCo1UguOmGZixoPDYcTRhDOMvTRlcYO
- zO6A==
-X-Gm-Message-State: AOAM531quLgMrjdIt4CjZDo3loTReMLur7NcNnopI5r0P0mg9FnPLjSX
- 3+AeCZczyZZu4DIrhFweu/A=
-X-Google-Smtp-Source: ABdhPJzpTJOaj86+5qk5L1FiVyrjb9elmIqw7HVimJVxm3/WttTK8stT0Fip8y/bEPPMu3YfDpbSyQ==
-X-Received: by 2002:a63:798f:: with SMTP id u137mr3893376pgc.321.1629212806292; 
- Tue, 17 Aug 2021 08:06:46 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id f24sm2666833pjh.15.2021.08.17.08.06.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 08:06:45 -0700 (PDT)
-Subject: Re: [PATCH v2] drm: avoid races with modesetting rights
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB076E03C;
+ Tue, 17 Aug 2021 15:13:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="196381182"
+X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="196381182"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2021 08:13:22 -0700
+X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="680397106"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2021 08:13:22 -0700
+Date: Tue, 17 Aug 2021 08:08:09 -0700
+From: Matthew Brost <matthew.brost@intel.com>
 To: Daniel Vetter <daniel@ffwll.ch>
-Cc: kernel test robot <lkp@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Airlie <airlied@linux.ie>, kbuild-all@lists.01.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20210815153740.195330-1-desmondcheongzx@gmail.com>
- <202108160208.ONHHWxXy-lkp@intel.com>
- <f88fe698-b40c-b309-96c2-32b314280aad@gmail.com>
- <CAKMK7uEWMjaDEuMpc1__EwD5rpaouJ-dhahQBEQ5rsBz3VV=qg@mail.gmail.com>
- <3a5ffd83-3d91-73dc-0cae-e822ba381b2b@gmail.com>
- <CAKMK7uFe6y5W7ZuTGV1rc8vPmpLdDd-rN4aC=1CXWjZLOAOQsQ@mail.gmail.com>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <82ff2e78-7d52-8d4e-03a6-3ad52427261e@gmail.com>
-Date: Tue, 17 Aug 2021 23:06:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch
+Subject: Re: [PATCH 06/22] drm/i915/execlists: Do not propagate errors to
+ dependent fences
+Message-ID: <20210817150809.GA19163@jons-linux-dev-box>
+References: <20210816135139.10060-1-matthew.brost@intel.com>
+ <20210816135139.10060-7-matthew.brost@intel.com>
+ <YRt/lynczP00iJqF@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFe6y5W7ZuTGV1rc8vPmpLdDd-rN4aC=1CXWjZLOAOQsQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRt/lynczP00iJqF@phenom.ffwll.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,126 +53,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/8/21 9:59 pm, Daniel Vetter wrote:
-> On Mon, Aug 16, 2021 at 12:31 PM Desmond Cheong Zhi Xi
-> <desmondcheongzx@gmail.com> wrote:
->>
->> On 16/8/21 5:04 pm, Daniel Vetter wrote:
->>> On Mon, Aug 16, 2021 at 10:53 AM Desmond Cheong Zhi Xi
->>> <desmondcheongzx@gmail.com> wrote:
->>>> On 16/8/21 2:47 am, kernel test robot wrote:
->>>>> Hi Desmond,
->>>>>
->>>>> Thank you for the patch! Yet something to improve:
->>>>>
->>>>> [auto build test ERROR on next-20210813]
->>>>> [also build test ERROR on v5.14-rc5]
->>>>> [cannot apply to linus/master v5.14-rc5 v5.14-rc4 v5.14-rc3]
->>>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>>>> And when submitting patch, we suggest to use '--base' as documented in
->>>>> https://git-scm.com/docs/git-format-patch]
->>>>>
->>>>> url:    https://github.com/0day-ci/linux/commits/Desmond-Cheong-Zhi-Xi/drm-avoid-races-with-modesetting-rights/20210815-234145
->>>>> base:    4b358aabb93a2c654cd1dcab1a25a589f6e2b153
->>>>> config: i386-randconfig-a004-20210815 (attached as .config)
->>>>> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
->>>>> reproduce (this is a W=1 build):
->>>>>            # https://github.com/0day-ci/linux/commit/cf6d8354b7d7953cd866fad004cbb189adfa074f
->>>>>            git remote add linux-review https://github.com/0day-ci/linux
->>>>>            git fetch --no-tags linux-review Desmond-Cheong-Zhi-Xi/drm-avoid-races-with-modesetting-rights/20210815-234145
->>>>>            git checkout cf6d8354b7d7953cd866fad004cbb189adfa074f
->>>>>            # save the attached .config to linux build tree
->>>>>            make W=1 ARCH=i386
->>>>>
->>>>> If you fix the issue, kindly add following tag as appropriate
->>>>> Reported-by: kernel test robot <lkp@intel.com>
->>>>>
->>>>> All errors (new ones prefixed by >>, old ones prefixed by <<):
->>>>>
->>>>>>> ERROR: modpost: "task_work_add" [drivers/gpu/drm/drm.ko] undefined!
->>>>>
->>>>
->>>> I'm a bit uncertain about this. Looking into the .config used, this
->>>> error seems to happen because task_work_add isn't an exported symbol,
->>>> but DRM is being compiled as a loadable kernel module (CONFIG_DRM=m).
->>>>
->>>> One way to deal with this is to export the symbol, but there was a
->>>> proposed patch to do this a few months back that wasn't picked up [1],
->>>> so I'm not sure what to make of this.
->>>>
->>>> I'll export the symbol as part of a v3 series, and check in with the
->>>> task-work maintainers.
->>>>
->>>> Link:
->>>> https://lore.kernel.org/lkml/20210127150029.13766-3-joshi.k@samsung.com/ [1]
->>>
->>> Yeah that sounds best. I have two more thoughts on the patch:
->>> - drm_master_flush isn't used by any modules outside of drm.ko, so we
->>> can unexport it and drop the kerneldoc (the comment is still good).
->>> These kind of internal functions have their declaration in
->>> drm-internal.h - there's already a few there from drm_auth.c
->>>
->>
->> Sounds good, I'll do that and move the declaration from drm_auth.h to
->> drm_internal.h.
->>
->>> - We know have 3 locks for master state, that feels a bit like
->>> overkill. The spinlock I think we need to keep due to lock inversions,
->>> but the master_mutex and master_rwsem look like we should be able to
->>> merge them? I.e. anywhere we currently grab the master_mutex we could
->>> instead grab the rwsem in either write mode (when we change stuff) or
->>> read mode (when we just check, like in master_internal_acquire).
->>>
->>> Thoughts?
->>> -Daniel
->>>
->>
->> Using rwsem in the places where we currently hold the mutex seems pretty
->> doable.
->>
->> There are some tricky bits once we add rwsem read locks to the ioctl
->> handler. Some ioctl functions like drm_authmagic need a write lock.
+On Tue, Aug 17, 2021 at 11:21:27AM +0200, Daniel Vetter wrote:
+> On Mon, Aug 16, 2021 at 06:51:23AM -0700, Matthew Brost wrote:
+> > Progagating errors to dependent fences is wrong, don't do it. Selftest
+> > in following patch exposes this bug.
 > 
-> Ah yes, I only looked at the dropmaster/setmaster ioctl, and those
-> don't have the DRM_MASTER bit set.
-> 
->> In this particular case, it might make sense to break master_mutex down
->> into finer-grained locks, since the function doesn't change master
->> permissions. It just needs to prevent concurrent writes to the
->> drm_master.magic_map idr.
-> 
-> Yeah for authmagic we could perhaps just reuse the spinlock to protect
-> ->magic_map?
+> Please explain what "this bug" is, it's hard to read minds, especially at
+> a distance in spacetime :-)
 > 
 
-Yup, I had to move the spinlock from struct drm_file to struct 
-drm_device, but I think that should work.
+Not a very good explaination.
 
->> For other ioctls, I'll take a closer look on a case-by-case basis.
+> > Fixes: 8e9f84cf5cac ("drm/i915/gt: Propagate change in error status to children on unhold")
 > 
-> If it's too much shuffling then I think totally fine to leave things
-> as-is. Just feels a bit silly to have 3 locks, on of which is an
-> rwlock itself, for this fairly small amount of state.
+> I think it would be better to outright revert this, instead of just
+> disabling it like this.
+>
+
+I tried revert and git did some really odd things that I couldn't
+resolve, hence the new patch.
+ 
+> Also please cite the dma_fence error propagation revert from Jason:
+> 
+> commit 93a2711cddd5760e2f0f901817d71c93183c3b87
+> Author: Jason Ekstrand <jason@jlekstrand.net>
+> Date:   Wed Jul 14 14:34:16 2021 -0500
+> 
+>     Revert "drm/i915: Propagate errors on awaiting already signaled fences"
+> 
+> Maybe in full, if you need the justification.
+>
+
+Will site.
+
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Cc: <stable@vger.kernel.org>
+> 
+> Unless "this bug" is some real world impact thing I wouldn't put cc:
+> stable on this.
+
+Got it.
+
+Matt
+
 > -Daniel
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 ----
+> >  1 file changed, 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > index de5f9c86b9a4..cafb0608ffb4 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > @@ -2140,10 +2140,6 @@ static void __execlists_unhold(struct i915_request *rq)
+> >  			if (p->flags & I915_DEPENDENCY_WEAK)
+> >  				continue;
+> >  
+> > -			/* Propagate any change in error status */
+> > -			if (rq->fence.error)
+> > -				i915_request_set_error_once(w, rq->fence.error);
+> > -
+> >  			if (w->engine != rq->engine)
+> >  				continue;
+> >  
+> > -- 
+> > 2.32.0
+> > 
 > 
-
-Agreed, there's a lot of overlap between the master_mutex and rwsem so 
-this a good opportunity to refactor things.
-
-I'm cleaning up a v3 series now. There's some movement, but most of it 
-are fixes to potential bugs that I saw while refactoring. We can see if 
-the new version is a better design.
-
->>
->>>>
->>>>> ---
->>>>> 0-DAY CI Kernel Test Service, Intel Corporation
->>>>> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
->>>>>
->>>>
->>>
->>>
->>
-> 
-> 
-
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
