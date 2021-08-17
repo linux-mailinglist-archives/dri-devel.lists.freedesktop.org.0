@@ -1,61 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8853EEA0D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:39:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0586A3EEA2B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:44:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97CB66E14C;
-	Tue, 17 Aug 2021 09:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEED86E150;
+	Tue, 17 Aug 2021 09:44:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D58196E14B
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 09:39:32 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id h13so27679675wrp.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 02:39:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=pJSxWYLKnDA66bheHGHNbiU7aF7BawRxoKGnFTnRlBM=;
- b=AQgwWDyF9STNIoiaoUboFEI4Lf1WzX+DQA96iH4l0yrFtip5OvC7LLxkDaJGX9u26v
- /bDezuaUVZ7+xAMbNLxMIueq9aW5414w5jgY3YrWptJq0w0s8PKB6kMN8WHF3Qwew+XB
- lzRgJs1mHZAzeH6Kojx77Z5irfJmIYnfCxSZg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pJSxWYLKnDA66bheHGHNbiU7aF7BawRxoKGnFTnRlBM=;
- b=gJEVtNyJFS87WFxjQ0IzGBfJtThCrYNGGR7yj7S/8Uc0vhSXFHygFRU+d+8TELMhDy
- bR3l5HJMfxv+1EopmWY+JPUGC7WY4bw8ttw00uJDdWoVUMH3Ryzfn9NGVojqf7tEVQe5
- stQNee4JWJ4n9ZEz7fiS24vNZfEhpTpZVsMDhHzudyRmBHgYcnpEqzwNAOLSHyYK1ELA
- szR36SOWsvXqVbKpQFWF7zPqt7BD0cvs9onVgmGaH7Aj/hMAB+rlxmnzz4RdCkWXrKcA
- H/3np8k2lv+B2hVD47DJTVVW2xgSycK9QKxBOV6jTUnzjLe9RNsHBQlIj7wPwAwzjB2Q
- KnOg==
-X-Gm-Message-State: AOAM532eLkgDFU8il/m+gB+5uwLYh47Ll3yQfAAF1t7GVXnet7M1wlDR
- SER/ksYpbEcNcikUSwffVRG62A==
-X-Google-Smtp-Source: ABdhPJx219a4HpbSUMZuXDX4kDcHSoRjr6JHVpn98bgWjw4UDPC64d7onillyUh7s7eObVJW1jm9eA==
-X-Received: by 2002:adf:e30c:: with SMTP id b12mr2805809wrj.347.1629193171354; 
- Tue, 17 Aug 2021 02:39:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b201sm1471683wmb.6.2021.08.17.02.39.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 02:39:30 -0700 (PDT)
-Date: Tue, 17 Aug 2021 11:39:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch
-Subject: Re: [PATCH 02/22] drm/i915/guc: Fix outstanding G2H accounting
-Message-ID: <YRuD0bTDQTivDZux@phenom.ffwll.local>
-References: <20210816135139.10060-1-matthew.brost@intel.com>
- <20210816135139.10060-3-matthew.brost@intel.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34E2F6E150
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 09:44:00 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17H9Pqpa013375; Tue, 17 Aug 2021 11:43:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : subject : to
+ : cc : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=iQBg0AS6zUIUk6stFAs5jtKKe3PmvtRCEODGkgVmoNc=;
+ b=aJ5izF7+gl64fItY6ngezbpPsIixaPydAqMvgnaPmpjJuHEqtjtuibZJTQJsr11vpzU0
+ K1RVbPIXoSCTzmT7enfhhOkSrHfLw4YA0oYVrjo12yWX08HK2XSSkGrhNkAMR7UezVkb
+ 3vU3+P/DUja06o95Y23dKRAJ8TRF54QhbjC/AUkkocuxNWKlhGcKELCNeeVLeh8BreM4
+ Nfsn0+phqzjBbe1Gw5K7GOLfgt6RBgCB84oKxeXdXKb2tBgxEy6IHJh4tCzqAEdKJXM4
+ 1xFEYhjBvilS8ES2nZqkt7THcBRyRyDQnWu4SnC0kKhV3S110yFUxdQJTYVFpjPnNMvD qw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 3afx6junxb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Aug 2021 11:43:46 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8914910002A;
+ Tue, 17 Aug 2021 11:43:44 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 75DA722AFE7;
+ Tue, 17 Aug 2021 11:43:44 +0200 (CEST)
+Received: from lmecxl0557.lme.st.com (10.75.127.44) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 17 Aug
+ 2021 11:43:43 +0200
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Subject: Re: [PATCH] drm/stm: ltdc: improve pm_runtime to stop clocks
+To: Marek Vasut <marex@denx.de>
+CC: Yannick FERTRE <yannick.fertre@st.com>, Philippe CORNU
+ <philippe.cornu@st.com>, Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
+ Yannick FERTRE - foss <yannick.fertre@foss.st.com>, Philippe CORNU - foss
+ <philippe.cornu@foss.st.com>, Benjamin Gaignard
+ <benjamin.gaignard@linaro.org>, David Airlie <airlied@linux.ie>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>
+References: <20210629115709.16145-1-raphael.gallais-pou@foss.st.com>
+ <420e243d-7541-a07e-177b-d2db11c26aef@denx.de>
+ <3bb823e4-4724-7072-fe9f-7b8a355c8e50@foss.st.com>
+ <5d65ca80-4f94-49e1-5de1-cf29e8231a6a@denx.de>
+Message-ID: <629b6666-74b3-91f0-5c6c-e26d55ea62d8@foss.st.com>
+Date: Tue, 17 Aug 2021 11:43:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210816135139.10060-3-matthew.brost@intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <5d65ca80-4f94-49e1-5de1-cf29e8231a6a@denx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-17_03:2021-08-16,
+ 2021-08-17 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,57 +89,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 16, 2021 at 06:51:19AM -0700, Matthew Brost wrote:
-> A small race that could result in incorrect accounting of the number
-> of outstanding G2H. Basically prior to this patch we did not increment
-> the number of outstanding G2H if we encoutered a GT reset while sending
-> a H2G. This was incorrect as the context state had already been updated
-> to anticipate a G2H response thus the counter should be incremented.
-> 
-> Fixes: f4eb1f3fe946 ("drm/i915/guc: Ensure G2H response has space in buffer")
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: <stable@vger.kernel.org>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 69faa39da178..b5d3972ae164 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -360,11 +360,13 @@ static int guc_submission_send_busy_loop(struct intel_guc *guc,
->  {
->  	int err;
->  
-> -	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
-> -
-> -	if (!err && g2h_len_dw)
-> +	if (g2h_len_dw)
->  		atomic_inc(&guc->outstanding_submission_g2h);
->  
-> +	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
 
-I'm majorly confused by the _busy_loop naming scheme, especially here.
-Like "why do we want to send a busy loop comand to guc, this doesn't make
-sense".
+On 7/2/21 8:07 PM, Marek Vasut wrote:
+> On 7/2/21 11:23 AM, Raphael Gallais-Pou wrote:
+>> Hello Marek,
+>
+> Hi,
+>
+>> Sorry for the late answer.
+>
+> No worries, take your time
+>
+>> On 6/30/21 2:35 AM, Marek Vasut wrote:
+>>> On 6/29/21 1:58 PM, Raphael GALLAIS-POU - foss wrote:
+>>>
+>>> [...]
+>>>
+>>>> +++ b/drivers/gpu/drm/stm/ltdc.c
+>>>> @@ -425,10 +425,17 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *crtc,
+>>>>   {
+>>>>       struct ltdc_device *ldev = crtc_to_ltdc(crtc);
+>>>>       struct drm_device *ddev = crtc->dev;
+>>>> +    int ret;
+>>>>         DRM_DEBUG_DRIVER("\n");
+>>>>   -    pm_runtime_get_sync(ddev->dev);
+>>>> +    if (!pm_runtime_active(ddev->dev)) {
+>>>> +        ret = pm_runtime_get_sync(ddev->dev);
+>>>
+>>> All these if (!pm_runtime_active()) then pm_runtime_get_sync() calls look like workaround for some larger issue. Shouldn't the pm_runtime do some refcounting on its own , so this shouldn't be needed ?
+>>
+>>
+>> This problem purely comes from the driver internals, so I don't think it is a workaround.
+>>
+>> Because of the "ltdc_crtc_mode_set_nofb" function which does not have any "symmetrical" call, such as enable/disable functions, there was two calls to pm_runtime_get_sync against one call to pm_runtime_put_sync.
+>>
+>> This instability resulted in the LTDC clocks being always enabled, even when the peripheral was disabled. This could be seen in the clk_summary as explained in the patch summary among other things.
+>>
+>> By doing so, we first check if the clocks are not already activated, and in that case we call pm_runtime_get_sync.
+>
+> I just have to wonder, how come other drivers don't need these if (!pm_runtime_active()) pm_runtime_get_sync() conditions. I think they just get/put the runtime PM within a call itself, not across function calls. Maybe that could be the right fix here too ?
 
-It seems like you're using _busy_loop as a suffix for "this is ok to be
-called in atomic context". The linux kernel bikeshed for this is generally
-_atomic() (or _in_atomic() or something like that).  Would be good to
-rename to make this slightly less confusing.
--Daniel
 
-> +	if (err == -EBUSY && g2h_len_dw)
-> +		atomic_dec(&guc->outstanding_submission_g2h);
-> +
->  	return err;
->  }
->  
-> -- 
-> 2.32.0
-> 
+Hello Marek,
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+I've run a deeper analysis over this implementation.
+
+If I may take rockchip's "rockchip_drm_vop.c" driver, there is an boolean "is_enabled" set to true when crtc_atomic_enable is called.
+
+The above implementation could save us from adding such field in the ltdc_dev structure.
+
+Another solution could be in order to simply call pm_runtime_get_sync() in ltdc_crtc_mode_set_nofb() and by removing this condition in ltdc_atomic_crtc_disable() the driver behaves just like the first version of this patch.
+
+In this way, it avoids such conditions and seems more to get along with the current implementation.
+
+
+Regards,
+
+Raphaël
+
