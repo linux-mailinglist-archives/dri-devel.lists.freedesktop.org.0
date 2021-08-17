@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A103EEA77
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 12:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA983EEA82
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 12:05:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BCEC6E14B;
-	Tue, 17 Aug 2021 10:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F67F6E15A;
+	Tue, 17 Aug 2021 10:05:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAD16E157;
- Tue, 17 Aug 2021 10:02:04 +0000 (UTC)
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C8136E157;
+ Tue, 17 Aug 2021 10:05:32 +0000 (UTC)
 Received: from zn.tnic (p200300ec2f1175001ae0093e4550657c.dip0.t-ipconnect.de
  [IPv6:2003:ec:2f11:7500:1ae0:93e:4550:657c])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 57D521EC054F;
- Tue, 17 Aug 2021 12:01:58 +0200 (CEST)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 95A9E1EC054F;
+ Tue, 17 Aug 2021 12:05:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1629194518;
+ t=1629194726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=WTPf14ct0XA4iOYwdI5oL7MvZipF8JjQX6hZ6lRE9MY=;
- b=fSXk9kI1A4dqwAfQ2WDnRaBmlG6VM+SiBeMVvip4VZs3w5s1AzSaytXWQQ5Yn8ealzmvXH
- KdrTT1+QlW923OfJovhcp46q+BWi+Do6B8wIFr88BWgiJmyPQxnoxaRFFymeYKfWAJB7a5
- 8hnATecakWJhm6ba4VFjUkS+uTtiwBI=
-Date: Tue, 17 Aug 2021 12:02:38 +0200
+ bh=G4eAMTLu2hDkmoQ61+xUHXsjuZXklNaVdRb9b01R0LQ=;
+ b=Ezlf7E6kfbk0wj1UX675PJCY/0eAzfm/7wQ3tUGxLlaOWwjDy3wVFlLkLlMNFvuVYmxMAN
+ rZSuujCI9mCbXFtsrDcS2WemZquPZaiynSjn8JL5aSXkmF+a+fD163HXMC9x07FG8oGDik
+ Bg4RCUoOLPaIIAXfzgh6O65GYecZeCA=
+Date: Tue, 17 Aug 2021 12:06:10 +0200
 From: Borislav Petkov <bp@alien8.de>
 To: Tom Lendacky <thomas.lendacky@amd.com>
 Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
@@ -40,19 +40,16 @@ Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
  Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
  Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
  Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ard Biesheuvel <ardb@kernel.org>, Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH v2 06/12] x86/sev: Replace occurrences of sev_active()
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>
+Subject: Re: [PATCH v2 07/12] x86/sev: Replace occurrences of sev_es_active()
  with prot_guest_has()
-Message-ID: <YRuJPqxFZ6ItZd++@zn.tnic>
+Message-ID: <YRuKEhzOh8pO4He1@zn.tnic>
 References: <cover.1628873970.git.thomas.lendacky@amd.com>
- <2b3a8fc4659f2e7617399cecdcca549e0fa1dcb7.1628873970.git.thomas.lendacky@amd.com>
+ <0b8480d93b5090fcc34cf5d5035d4d89aa765d79.1628873970.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2b3a8fc4659f2e7617399cecdcca549e0fa1dcb7.1628873970.git.thomas.lendacky@amd.com>
+In-Reply-To: <0b8480d93b5090fcc34cf5d5035d4d89aa765d79.1628873970.git.thomas.lendacky@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,106 +65,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 13, 2021 at 11:59:25AM -0500, Tom Lendacky wrote:
-> diff --git a/arch/x86/kernel/machine_kexec_64.c b/arch/x86/kernel/machine_kexec_64.c
-> index 8e7b517ad738..66ff788b79c9 100644
-> --- a/arch/x86/kernel/machine_kexec_64.c
-> +++ b/arch/x86/kernel/machine_kexec_64.c
-> @@ -167,7 +167,7 @@ static int init_transition_pgtable(struct kimage *image, pgd_t *pgd)
->  	}
->  	pte = pte_offset_kernel(pmd, vaddr);
->  
-> -	if (sev_active())
-> +	if (prot_guest_has(PATTR_GUEST_MEM_ENCRYPT))
->  		prot = PAGE_KERNEL_EXEC;
->  
->  	set_pte(pte, pfn_pte(paddr >> PAGE_SHIFT, prot));
-> @@ -207,7 +207,7 @@ static int init_pgtable(struct kimage *image, unsigned long start_pgtable)
->  	level4p = (pgd_t *)__va(start_pgtable);
->  	clear_page(level4p);
->  
-> -	if (sev_active()) {
-> +	if (prot_guest_has(PATTR_GUEST_MEM_ENCRYPT)) {
->  		info.page_flag   |= _PAGE_ENC;
->  		info.kernpg_flag |= _PAGE_ENC;
->  	}
-> @@ -570,12 +570,12 @@ void arch_kexec_unprotect_crashkres(void)
->   */
->  int arch_kexec_post_alloc_pages(void *vaddr, unsigned int pages, gfp_t gfp)
->  {
-> -	if (sev_active())
-> +	if (!prot_guest_has(PATTR_HOST_MEM_ENCRYPT))
->  		return 0;
->  
->  	/*
-> -	 * If SME is active we need to be sure that kexec pages are
-> -	 * not encrypted because when we boot to the new kernel the
-> +	 * If host memory encryption is active we need to be sure that kexec
-> +	 * pages are not encrypted because when we boot to the new kernel the
->  	 * pages won't be accessed encrypted (initially).
->  	 */
+On Fri, Aug 13, 2021 at 11:59:26AM -0500, Tom Lendacky wrote:
+> Replace occurrences of sev_es_active() with the more generic
+> prot_guest_has() using PATTR_GUEST_PROT_STATE, except for in
+> arch/x86/kernel/sev*.c and arch/x86/mm/mem_encrypt*.c where PATTR_SEV_ES
+> will be used. If future support is added for other memory encyrption
+> techonologies, the use of PATTR_GUEST_PROT_STATE can be updated, as
+> required, to specifically use PATTR_SEV_ES.
+> 
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  arch/x86/include/asm/mem_encrypt.h | 2 --
+>  arch/x86/kernel/sev.c              | 6 +++---
+>  arch/x86/mm/mem_encrypt.c          | 7 +++----
+>  arch/x86/realmode/init.c           | 3 +--
+>  4 files changed, 7 insertions(+), 11 deletions(-)
 
-That hunk belongs logically into the previous patch which removes
-sme_active().
-
->  	return set_memory_decrypted((unsigned long)vaddr, pages);
-> @@ -583,12 +583,12 @@ int arch_kexec_post_alloc_pages(void *vaddr, unsigned int pages, gfp_t gfp)
->  
->  void arch_kexec_pre_free_pages(void *vaddr, unsigned int pages)
->  {
-> -	if (sev_active())
-> +	if (!prot_guest_has(PATTR_HOST_MEM_ENCRYPT))
->  		return;
->  
->  	/*
-> -	 * If SME is active we need to reset the pages back to being
-> -	 * an encrypted mapping before freeing them.
-> +	 * If host memory encryption is active we need to reset the pages back
-> +	 * to being an encrypted mapping before freeing them.
->  	 */
->  	set_memory_encrypted((unsigned long)vaddr, pages);
->  }
-> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-> index e8ccab50ebf6..b69f5ac622d5 100644
-> --- a/arch/x86/kvm/svm/svm.c
-> +++ b/arch/x86/kvm/svm/svm.c
-> @@ -25,6 +25,7 @@
->  #include <linux/pagemap.h>
->  #include <linux/swap.h>
->  #include <linux/rwsem.h>
-> +#include <linux/protected_guest.h>
->  
->  #include <asm/apic.h>
->  #include <asm/perf_event.h>
-> @@ -457,7 +458,7 @@ static int has_svm(void)
->  		return 0;
->  	}
->  
-> -	if (sev_active()) {
-> +	if (prot_guest_has(PATTR_SEV)) {
->  		pr_info("KVM is unsupported when running as an SEV guest\n");
->  		return 0;
-
-Same question as for PATTR_SME. PATTR_GUEST_MEM_ENCRYPT should be enough.
-
-> @@ -373,7 +373,7 @@ int __init early_set_memory_encrypted(unsigned long vaddr, unsigned long size)
->   * up under SME the trampoline area cannot be encrypted, whereas under SEV
->   * the trampoline area must be encrypted.
->   */
-> -bool sev_active(void)
-> +static bool sev_active(void)
->  {
->  	return sev_status & MSR_AMD64_SEV_ENABLED;
->  }
-> @@ -382,7 +382,6 @@ static bool sme_active(void)
->  {
->  	return sme_me_mask && !sev_active();
->  }
-> -EXPORT_SYMBOL_GPL(sev_active);
-
-Just get rid of it altogether.
-
-Thx.
+Same comments to this one as for the previous two.
 
 -- 
 Regards/Gruss,
