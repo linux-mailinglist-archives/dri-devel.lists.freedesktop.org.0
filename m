@@ -1,134 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2053EEE3A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 16:12:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5FA3EEE3E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 16:12:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 606E96E1A8;
-	Tue, 17 Aug 2021 14:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB416E1A5;
+	Tue, 17 Aug 2021 14:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2066.outbound.protection.outlook.com [40.107.243.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75F958982D;
- Tue, 17 Aug 2021 14:12:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uk+YiVt19MCvUAVXgfk+LEih8nCIgACOeLb8VKEMJALdmRhucJJhMwX2QxwVqybJomkki/C2ToDtQdzw/GG82igxOhTNO2VP6s1jmS0ljzNEJL5GM68qSDz/ddS6e+m/Rl6Y5It2WrGNI/4mzLDdVxAqfKG5WSZwh+/FtPEcGPB+taMISr6WyUwf2euKsC1xz/pNSd/a7pLKEiDC5B16N1vg04eOQf0s0q8Quon8ic/9h29SPZSiedeqPofCJ0gJmGqpUtmq0ipCVR3uywjTECU8PdLqi2R8thleIcae4AAsqMLUhzJBXWE8qmVeezzUnNtOxs89cZG8oiSfm3fHlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3lqvgc3MxYbKsVgklPeW3fUTtOlNjtFWBUt/iYNTeZs=;
- b=E3c2cxByPFxbYJrkXzxkYrVgak61ZuGjtV2CcwC5RDyzjICSLcscIlqQGz6zgm3Z1SzJkeovMYst99oOh2dqxRFZFBhsR6y+9VUPulmv/BJfW1x8UXkxddWN29uT9lC4UjBzw4zSU4JoeOWjF9/V6tRotV7fIRyyRL6Cxnu7z1qXkItQ3aArhDG8nroi+/4ZGsvbvrbXfdTtLT7h5DN9SI/qYKd4G129b8V+ZS0r0saQyzWFzs2rZZ+GdrNDNxvLewIHPBV3I8u2Q3FnzWcq2Qxv2O4jthbAt8cMN3dd16ZBqjOKuyehc04XfdEYykL1LZAjBx1Gn9RzRHoGS7A+gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3lqvgc3MxYbKsVgklPeW3fUTtOlNjtFWBUt/iYNTeZs=;
- b=tJdl7wZFPiKTu9TlRhgC2Tdewc7IGJNWF30PDKfIVqkLR+PcyrU8pRITXcjd8RE3C2RaELqSaI1DmqWiDHJwlnaVQqxF1Q0fO7R68r+K0cOaBE/5n0y/hfsaOPhCSQxAs9hASEJlqolSLmeB5Zj5KLPfvtJ2UekWUSb4XyH7ROg=
-Authentication-Results: samba.org; dkim=none (message not signed)
- header.d=none;samba.org; dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
- by DM6PR12MB5533.namprd12.prod.outlook.com (2603:10b6:5:1bc::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.14; Tue, 17 Aug
- 2021 14:12:01 +0000
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::d560:d21:cd59:9418]) by DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::d560:d21:cd59:9418%6]) with mapi id 15.20.4415.024; Tue, 17 Aug 2021
- 14:12:01 +0000
-Subject: Re: [PATCH v2 04/12] powerpc/pseries/svm: Add a powerpc version of
- prot_guest_has()
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, Michael Ellerman
- <mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>
-References: <cover.1628873970.git.thomas.lendacky@amd.com>
- <000f627ce20c6504dd8d118d85bd69e7717b752f.1628873970.git.thomas.lendacky@amd.com>
- <YRt01F6Mw6sB+hF8@zn.tnic>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <66b3b6f1-2ffc-9eca-f7a4-6db7532a2983@amd.com>
-Date: Tue, 17 Aug 2021 09:11:58 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <YRt01F6Mw6sB+hF8@zn.tnic>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0149.namprd13.prod.outlook.com
- (2603:10b6:806:27::34) To DM4PR12MB5229.namprd12.prod.outlook.com
- (2603:10b6:5:398::12)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 991CD6E1A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 14:12:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=BmnFzovQ9Haolq57Ptw31553/tzU0GgOckIaL9j5SsE=; b=NGdaUQEKqB8/YSTc1sCtIH5Hw1
+ bbzNh7mYB7smfydmila8CwiQ6Es1BCvl6IUepRroJBnk6QvW2EFWLNfk7eSH60t8UswcKDIg7KJft
+ 5cnKYcbvd883DeKMMdI4SZItWL+CvKSUIcI8zo/q7iQ9HXcyzsrMP44czX0zGYQuxXlLpMmqdbAMW
+ ohzWXociJRQcojGKIDTHF1GCULQ5jTaM7stcLgq9WlOEtjnN8NvtQaz9Mdrj5Z8HH1sRlEM582aI6
+ dIm5lF26ihzU10rPhEEYlvc5kbNFaPvNJcEPE/tZbVIIj4qkY3s0+vnDH8cJDFyGuzp3nlSy+72Vl
+ WEpmrJ0A==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:49657
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1mFzpR-0002G6-A8; Tue, 17 Aug 2021 16:12:33 +0200
+Subject: Re: [PATCH 7/7] drm/gud: Add module parameter to control emulation:
+ xrgb8888
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, peter@stuge.se,
+ linus.walleij@linaro.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20210817122917.49929-1-noralf@tronnes.org>
+ <20210817122917.49929-8-noralf@tronnes.org>
+ <YRu+bNmOrExbWEBT@phenom.ffwll.local>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <f5d0ac5b-cb3f-9112-d57b-e06319c2f41b@tronnes.org>
+Date: Tue, 17 Aug 2021 16:12:30 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.241] (165.204.77.1) by
- SA9PR13CA0149.namprd13.prod.outlook.com (2603:10b6:806:27::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.9 via Frontend Transport; Tue, 17 Aug 2021 14:12:00 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b50b3f8a-2121-4dfe-4d6e-08d96188fb94
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5533:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB5533EABFFF3A869022838DB7ECFE9@DM6PR12MB5533.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1775;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TdP1pPBBx/GUlSL3nrSNLZmoKlbeElJ3GHxsgSowo9ZL71e403aUX1OQKQM1GDj5G9mCMpKu17MoxUy1u12cM2v88yzHIjoWDnBhN6jRovgSbF+vJYTkOLbhY5b3vI3TA0PJd07ka/rkZxTIF5jDmk6g4hhFR/j4Z9LXUT0zdC3NEUIGoQ19yfqBTGRwReFMjS2vzjeSXZFe3IluFJ3yZRrbDfAoyOENwpnyk22hyK9lKp1dgkyPJw1lCavSDmjZvTBmRTXcBIC3uJY60G/57sDjWR3ns2Asev2Z7s3BnhifhMtSkSS/UwiaB8aXMrmoVo/iK85UyitoVpDj6rv67cRLVGllNYeYRMLDeJYD4zMs19/8O5n0+yKvvBe8qlu835PHVhk7lJepIvORp62Dobzqnt/MrbzpKkYEGmZglpKmN67mO70d6F6LbjIwwq5RxFOOyP22J7Yg+DJZ6sfiFsTJdukLF6JD1evnsukcT7VKGdFAQB223olOOfEIsMNqaPUeaV/7HYS9AYtCtrjBx5YGo4H6cnawwcorxJCjqJ0C7Rbs9FpbN7c1ut5vUofrqFwGZLot7e1iJInijdbdyx2lEERORfQ2iKTg6Dz5Rtssln7C+bGcgr2jE65OEqg0dx15BuqsFrdbnGf7RirOiVFwY90byogAdJHpGyUMdrzgIgD+NPtOse2Wr8ZyaWMtp8DatPEzpB317olfrStrbRnIaKRLe55k62aSNLtgRHA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(346002)(136003)(396003)(39860400002)(4326008)(5660300002)(53546011)(316002)(6486002)(186003)(38100700002)(956004)(8676002)(16576012)(31686004)(66946007)(31696002)(36756003)(6916009)(8936002)(2906002)(54906003)(26005)(66556008)(66476007)(86362001)(2616005)(7416002)(478600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T1ArdE5TVFZyUllyUHRhNG02REVQbjk0VzlGd0lJc1NyZk1nNTF0NE8zM2dB?=
- =?utf-8?B?QmQrenI3c1NhMFIwR09iNFFEaHhLd1ZEL2ZmMDRMeFRQZWljeWMxVS82a0I3?=
- =?utf-8?B?SlljMkFsUTBncUNEWXJhdkhuVExiWG5xL1luSmlHTjc0ZlE5NGorS1dVMUdS?=
- =?utf-8?B?Y29kUVozYW1BTXNZNXp3WnZXYWh3dlVqcVJnUU42UW9UbVRFOGE5L21FcjFy?=
- =?utf-8?B?MWJhTE1mdGw1RzNNME5wNC83SHlXMTVPQ1I0c3BPRVowRE5mVUNJTU13MG4r?=
- =?utf-8?B?bEk5Nm9LUWlWdXlUZytCM3V6dHBacDNuN2RqVUYrYXZlemVTRnpuRnlkK3lZ?=
- =?utf-8?B?eHg5bXBBNkVFdzBFdXNLUkZRSVNacks1MDI1bzNKeWZCQ05jUXNZQlVEbTI4?=
- =?utf-8?B?cEloNzhYY3NHLzFISXlOVXAwVld4eU0xMnV3SUtoVEMzVUtCdjAxbkxWdktr?=
- =?utf-8?B?TVZQc2RFY05RTDRQZDlOYWcxOHZKOHdacTVxd1pMUDFZLzlHVjd2cVRNdU8r?=
- =?utf-8?B?MnNGM2VxcTVyYUtkWmJweGxGeitxUWlqT1VkRXk2eE5Sd3N4ZGxQQkNJQTFs?=
- =?utf-8?B?a3ZuUTNGMnVBb09GNmc4N0Q1K01nVmhKaitDY1JMN1l0SGM0NG1oMWEvajBK?=
- =?utf-8?B?TC9lNFYyeEhNeVlwR0d5T1NadFZIUzRkZVNjQUtJdVdRdUxRZWZNamRqWml2?=
- =?utf-8?B?aXFsdWJQREpOYnRTQzZXd1NxcFpHbTBtOUtlSVRiNEswaXVxc1RBMVAyR0JX?=
- =?utf-8?B?UEpFekNMSnppbnNVUEdab21MMzVkeGljVEtNZzM5NGdpbFF3cDNFRktJYTdO?=
- =?utf-8?B?YXphU1dKR0N5MnhsNUF5OGNzbjNzYlhTNG5FZU52eDJRUE0wQW0yZHBJZFVn?=
- =?utf-8?B?ZHgxeUxlVTNnVVJFaE93MWh5R0tGY2k3VXlGREVpaFc0VzNRVGN5ZXlpdEJQ?=
- =?utf-8?B?Wlp2N3llTFJpdGNvd05pb2d5UXpSbUhFZWFvdHV3Q2ZCVCsyQUljeWVicEZz?=
- =?utf-8?B?SFR5cktNOVM2dzZ0NGQ2WkJIdU50OHRpdWMzZUluZGdaV25ad3cwMVBleno4?=
- =?utf-8?B?cGlXT3ZHQWdvcHlsdk5RSi95OEtXeEh4ekx6dWZONGhJNkdiWkU5QVlpbThS?=
- =?utf-8?B?bFRhc2FZVTRTZXp5ZjFFSUQ3bnd3TmNPS2FBQ01VcllHZ3p6ajN1cDQxaWtj?=
- =?utf-8?B?Zm5oZGdZTTIrNFhKazNEeTBGZHNmalRkRWxuMWtDcTlBODRzWktEeUNPRVN4?=
- =?utf-8?B?TUZJQXhtQlE2bDQvK3NDMnVvVEhSSk5DcDZKR3RJQkV0dit2c2x6NzA3aCtt?=
- =?utf-8?B?M0dYSlRTVHdlOTA5RWdEMU0rb1lJZk9KdXgxZllNVG5nQTUxNjNlR3k0dkZv?=
- =?utf-8?B?b1pGbVV1ZkpUZkxiNG16dlh5RGpvcWdRV0lyRCtyKyt4RkZ4NUFqTGNLMjR2?=
- =?utf-8?B?YzZSYUtBaXQ1NVpKUUdjWERhRGhtZ3VpRUxQRnNCYWllY1hya3hJamlGUlhC?=
- =?utf-8?B?RE1aeFR3NTRHQlJyNVZEZkVyTkpBVjgwZmdpQm5nREE1bmhVeWczQTVBSXRL?=
- =?utf-8?B?emhTMHdUR1BuMlhuRDB6Tm9yY3Fub0hnTm10ZC9Hc3hmZWJVeW9XU1luNXQ4?=
- =?utf-8?B?Y04vNEltUUdaZ0JFc2piSXNTa015SGlMS3BsRS9UR250cUh6RGkxbE5sSVhq?=
- =?utf-8?B?Z1B1T0ZtY2l2M3Rsb1R5NGZ1bWdFWGxDNGN3QS9uNXQvUkU2K1BYUzNnZXI5?=
- =?utf-8?Q?wl6XMcPSZgNp+5Nu1IfXwDZ5sm/3rjd1QCvbLdQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b50b3f8a-2121-4dfe-4d6e-08d96188fb94
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2021 14:12:01.7367 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V2CFQkDa7LnYaT8s9+R3zdkwp2Am9q+i+mGYHP+N7ZDllAaICN9I3Aie0LiX9vFIxI4RMBMeg7Ckkleqp5Qtrw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5533
+In-Reply-To: <YRu+bNmOrExbWEBT@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,53 +64,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/17/21 3:35 AM, Borislav Petkov wrote:
-> On Fri, Aug 13, 2021 at 11:59:23AM -0500, Tom Lendacky wrote:
->> Introduce a powerpc version of the prot_guest_has() function. This will
->> be used to replace the powerpc mem_encrypt_active() implementation, so
->> the implementation will initially only support the PATTR_MEM_ENCRYPT
->> attribute.
+
+
+Den 17.08.2021 15.49, skrev Daniel Vetter:
+> On Tue, Aug 17, 2021 at 02:29:17PM +0200, Noralf Trønnes wrote:
+>> For devices that don't support XRGB8888 give the user the ability to
+>> choose what's most important: Color depth or frames per second.
 >>
->> Cc: Michael Ellerman <mpe@ellerman.id.au>
->> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->> Cc: Paul Mackerras <paulus@samba.org>
->> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+>> Add an 'xrgb8888' module parameter to override the emulation format.
+>>
+>> Assume the user wants full control if xrgb8888 is set and don't set
+>> DRM_CAP_DUMB_PREFERRED_DEPTH if RGB565 is supported (AFAIK only X.org
+>> supports this).
+>>
+>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 >> ---
->>  arch/powerpc/include/asm/protected_guest.h | 30 ++++++++++++++++++++++
->>  arch/powerpc/platforms/pseries/Kconfig     |  1 +
->>  2 files changed, 31 insertions(+)
->>  create mode 100644 arch/powerpc/include/asm/protected_guest.h
+>>  drivers/gpu/drm/gud/gud_drv.c | 13 ++++++++++---
+>>  1 file changed, 10 insertions(+), 3 deletions(-)
 >>
->> diff --git a/arch/powerpc/include/asm/protected_guest.h b/arch/powerpc/include/asm/protected_guest.h
->> new file mode 100644
->> index 000000000000..ce55c2c7e534
->> --- /dev/null
->> +++ b/arch/powerpc/include/asm/protected_guest.h
->> @@ -0,0 +1,30 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Protected Guest (and Host) Capability checks
->> + *
->> + * Copyright (C) 2021 Advanced Micro Devices, Inc.
->> + *
->> + * Author: Tom Lendacky <thomas.lendacky@amd.com>
->> + */
+>> diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
+>> index 3f9d4b9a1e3d..60d27ee5ddbd 100644
+>> --- a/drivers/gpu/drm/gud/gud_drv.c
+>> +++ b/drivers/gpu/drm/gud/gud_drv.c
+>> @@ -30,6 +30,10 @@
+>>  
+>>  #include "gud_internal.h"
+>>  
+>> +static int gud_xrgb8888;
+>> +module_param_named(xrgb8888, gud_xrgb8888, int, 0644);
+>> +MODULE_PARM_DESC(xrgb8888, "XRGB8888 emulation format: GUD_PIXEL_FORMAT_* value, 0=auto, -1=disable [default=auto]");
 >> +
->> +#ifndef _POWERPC_PROTECTED_GUEST_H
->> +#define _POWERPC_PROTECTED_GUEST_H
->> +
->> +#include <asm/svm.h>
->> +
->> +#ifndef __ASSEMBLY__
+>>  /* Only used internally */
+>>  static const struct drm_format_info gud_drm_format_r1 = {
+>>  	.format = GUD_DRM_FORMAT_R1,
+>> @@ -530,12 +534,12 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
+>>  		case DRM_FORMAT_RGB332:
+>>  			fallthrough;
+>>  		case DRM_FORMAT_RGB888:
+>> -			if (!xrgb8888_emulation_format)
+>> +			if (!gud_xrgb8888 && !xrgb8888_emulation_format)
+>>  				xrgb8888_emulation_format = info;
 > 
-> Same thing here. Pls audit the whole set whether those __ASSEMBLY__
-> guards are really needed and remove them if not.
+> Shouldn't the emulation format be per drm_device instance?
 
-Will do.
+Ideally yes, this happens during probe so I can only use a module
+parameter and I don't know how to differenciate the devices since the
+DRM minor is unknown at this point and implementing filtering on the
+various USB properties (VID:PID, serial number,..) will involve a lot of
+code. So I've kept it simple. It can be expanded on later should someone
+come up with a clever idea.
 
-Thanks,
-Tom
+Noralf.
 
+> -Daniel
 > 
-> Thx.
+>>  			break;
+>>  		case DRM_FORMAT_RGB565:
+>>  			rgb565_supported = true;
+>> -			if (!xrgb8888_emulation_format)
+>> +			if (!gud_xrgb8888 && !xrgb8888_emulation_format)
+>>  				xrgb8888_emulation_format = info;
+>>  			break;
+>>  		case DRM_FORMAT_XRGB8888:
+>> @@ -543,6 +547,9 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
+>>  			break;
+>>  		}
+>>  
+>> +		if (gud_xrgb8888 == formats_dev[i])
+>> +			xrgb8888_emulation_format = info;
+>> +
+>>  		fmt_buf_size = drm_format_info_min_pitch(info, 0, drm->mode_config.max_width) *
+>>  			       drm->mode_config.max_height;
+>>  		max_buffer_size = max(max_buffer_size, fmt_buf_size);
+>> @@ -559,7 +566,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
+>>  	}
+>>  
+>>  	/* Prefer speed over color depth */
+>> -	if (rgb565_supported)
+>> +	if (!gud_xrgb8888 && rgb565_supported)
+>>  		drm->mode_config.preferred_depth = 16;
+>>  
+>>  	if (!xrgb8888_supported && xrgb8888_emulation_format) {
+>> -- 
+>> 2.32.0
+>>
 > 
