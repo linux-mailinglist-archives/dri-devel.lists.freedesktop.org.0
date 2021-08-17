@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41173EE419
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 04:02:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F543EE65A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 07:44:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0946E0E4;
-	Tue, 17 Aug 2021 02:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A9B6E102;
+	Tue, 17 Aug 2021 05:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCD06E0E4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 02:02:16 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id c24so38236201lfi.11
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 19:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EHlZUQ8HgfGWcfinu2oIDpWpJRbCk6Twh3QjNslqYr8=;
- b=fs4uFuIARdGUUvUr5JtczJnktriIqQUMwKz1TctsMb3X59FdX2FyyqpMPnbxuG9mU8
- CCic+poj7/DHmq8geyAiaUFaJRNrJNX5wmCdWAlsNbmWKQt7noAgNMhzbkfU6aDXHret
- EL13+/Q00KfmL9OpSOmMIjDOrxKLBx6PuuRA5Hl+K4d1UxSlcI2grgK71XdRkw8vToo4
- nl11MBwRuReJh8LoGJ2MPD+GEfGoqRFyYEVDTCdNH4W7V85uGjWRaqYEoiYJ3IlNH0q3
- Mo9YaSS+PkOsUzpKG6UAlpVr7j6Vzj/VGJmLheXFj99c4bPyTAqizk//I0eYcHX+MpC2
- CVGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EHlZUQ8HgfGWcfinu2oIDpWpJRbCk6Twh3QjNslqYr8=;
- b=kixbTrNw/1VNUEp4m9pFaOp9SrU4IIt4KZBEib8hJlX/4lktg8TXuXWxAlP6cv2whV
- xP5W65kpZjsmh48FIGBzkFm9KTsor6+LBfPZIVsSA+XMm4jKkXf3yVvC7G10zSnQj2SB
- r4FxQwimlgKs6J9Pdx4IPlMaOrOR30AIvoLndCxzTjbLefi3Iji1RTVO6q0nR4STZJGg
- xbDwG2Y8rw6u3c1rRuKv5Daf9pPtbFF/HvtFIB9zRhVGe3Ryw+LnuKp5UHCESKSdhodg
- gD6QNFQXCEB/qUNo5eqt5A6rjwZZDCQMnZQWnOfhbd4AHSZD69nVF01wIm9PxqCNQhs7
- dEjQ==
-X-Gm-Message-State: AOAM5313vaI21X/hwPKG2L0d1T45+qGUHM3shpQAhh2JOLbrkowTyScF
- OdMu7M9h8IXJ0YKXetgHuLU=
-X-Google-Smtp-Source: ABdhPJzVZANJW5iSs1X4gKiIvuAT2ZlwwoV9fug2MkAnjpXJYzhlQGYByLpQ6vPcTb80NGpOsNFyzg==
-X-Received: by 2002:a19:e00a:: with SMTP id x10mr615907lfg.536.1629165734488; 
- Mon, 16 Aug 2021 19:02:14 -0700 (PDT)
-Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru.
- [46.138.85.91])
- by smtp.gmail.com with ESMTPSA id i24sm51729lfc.293.2021.08.16.19.02.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 19:02:14 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org
-Subject: [PATCH v1 3/3] gpu/host1x: fence: Make spinlock static
-Date: Tue, 17 Aug 2021 05:01:53 +0300
-Message-Id: <20210817020153.25378-4-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210817020153.25378-1-digetx@gmail.com>
-References: <20210817020153.25378-1-digetx@gmail.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 853226E0FF;
+ Tue, 17 Aug 2021 05:44:47 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10078"; a="279741496"
+X-IronPort-AV: E=Sophos;i="5.84,328,1620716400"; 
+ d="asc'?scan'208";a="279741496"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Aug 2021 22:44:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,328,1620716400"; 
+ d="asc'?scan'208";a="449142901"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
+ by fmsmga007.fm.intel.com with ESMTP; 16 Aug 2021 22:44:42 -0700
+Date: Tue, 17 Aug 2021 13:22:03 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Wang, Zhi A" <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@intel.com>
+Subject: Re: refactor the i915 GVT support
+Message-ID: <20210817052203.GX13928@zhen-hp.sh.intel.com>
+References: <20210722112636.wj277vqhg4dez5ug@sirius.home.kraxel.org>
+ <20210727121224.GA2145868@nvidia.com>
+ <DM4PR11MB5549EC882AA6076F3468274DCAEA9@DM4PR11MB5549.namprd11.prod.outlook.com>
+ <20210728175925.GU1721383@nvidia.com>
+ <20210729072022.GB31896@lst.de>
+ <20210803094315.GF13928@zhen-hp.sh.intel.com>
+ <20210803143058.GA1721383@nvidia.com>
+ <20210804052606.GG13928@zhen-hp.sh.intel.com>
+ <20210816173458.GA9183@lst.de>
+ <20210817010851.GW13928@zhen-hp.sh.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="uIQsGlkY6qbVGkBB"
+Content-Disposition: inline
+In-Reply-To: <20210817010851.GW13928@zhen-hp.sh.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,31 +66,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DEFINE_SPINLOCK macro creates a global spinlock symbol that is visible
-to the whole kernel. This is unintended in the code, fix it.
 
-Fixes: 687db2207b1b ("gpu: host1x: Add DMA fence implementation")
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/host1x/fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--uIQsGlkY6qbVGkBB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
-index 6941add95d0f..e49083b0b09e 100644
---- a/drivers/gpu/host1x/fence.c
-+++ b/drivers/gpu/host1x/fence.c
-@@ -15,7 +15,7 @@
- #include "intr.h"
- #include "syncpt.h"
- 
--DEFINE_SPINLOCK(lock);
-+static DEFINE_SPINLOCK(lock);
- 
- struct host1x_syncpt_fence {
- 	struct dma_fence base;
--- 
-2.32.0
+On 2021.08.17 09:08:55 +0800, Zhenyu Wang wrote:
+> On 2021.08.16 19:34:58 +0200, Christoph Hellwig wrote:
+> > On Wed, Aug 04, 2021 at 01:26:06PM +0800, Zhenyu Wang wrote:
+> > > On 2021.08.03 11:30:58 -0300, Jason Gunthorpe wrote:
+> > > > On Tue, Aug 03, 2021 at 05:43:15PM +0800, Zhenyu Wang wrote:
+> > > > > Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+> > > > >=20
+> > > > > Thanks a lot for this effort!
+> > > >=20
+> > > > Great, do we have a submission plan for this? how much does it clash
+> > > > with my open_device/etc patch? ie does the whole thing have to go
+> > > > through the vfio tree?
+> > > >=20
+> > >=20
+> > > I think Alex would determine when to merge open_device series, gvt pa=
+rt
+> > > can be through vfio tree without problem. For this refactor, I would =
+first
+> > > merge for gvt staging to do more regression testing before sending th=
+rough
+> > > i915 tree.
+> >=20
+> > Any updates on this?  I'd really hate to miss this merge window.
+>=20
+> I'm still waiting for our validation team's report on this. I'm afraid
+> it might be missing for next version as i915 merge window is mostly
+> till rc5...and for any change outside of gvt, it still needs to be
+> acked by i915 maintainers.
 
+Looks our validation team did have problem against recent i915 change.
+If you like to try, we have a gvt-staging branch on
+https://github.com/intel/gvt-linux which is generated against drm-tip
+with gvt changes for testing, currently it's broken.
+
+One issue is with i915 export that intel_context_unpin has been
+changed into static inline function. Another is that intel_gvt.c
+should be part of i915 for gvt interface instead of depending on KVMGT
+config.
+
+But the problem I see is that after moving gvt device model (gvt/*.c
+except kvmgt.c) into kvmgt module, we'll have issue with initial mmio
+state which current gvt relies on, that is in design supposed to get
+initial HW state before i915 driver has taken any operation.  Before
+we can ensure that, I think we may only remove MPT part first but
+still keep gvt device model as part of i915 with config. I'll try to
+split that out.
+
+--uIQsGlkY6qbVGkBB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYRtHbwAKCRCxBBozTXgY
+JyrQAJ92WESsBu++Qsz8cYKJinX8AC3VdACfYCC5M9toa7YrrolbmwD1kkmKZQ8=
+=97Uw
+-----END PGP SIGNATURE-----
+
+--uIQsGlkY6qbVGkBB--
