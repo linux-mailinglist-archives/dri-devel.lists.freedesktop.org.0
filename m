@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C813EE23C
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 03:30:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA873EE23D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 03:30:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0496E09F;
-	Tue, 17 Aug 2021 01:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C486E09E;
+	Tue, 17 Aug 2021 01:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3F4A6E09E
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 01:30:07 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id q21so8672516ljj.6
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28E536E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 01:30:09 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id y7so30267500ljp.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 18:30:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wojn7XneOlcjLQTZlMLpcmbGjIOEPaqexo+f2WGyphI=;
- b=Xq17kIc6GM80MD2xhnYjU7c3bLn4H5tuMTvcdBwNy9/g5psmoz3S1gVRRgj0w10xku
- S/OHY+MF1OPdTYbYPPJFPFeY4WU63WLX4lpEqf+XHRBxzSyKtJkRoLEZsNrLQUD3aJsJ
- hyYwTr0Z48Wws5sZA3cunYGug92vOCdPP0286zyvF+xLx0QRLRMNonrX8WWxK9M03w18
- x2KNq+2YuwXI/DgRg4TCi8S5zBrr/YRsvFRqgRHtf1EkBhMZn+P2C2QCgMgcjYbkv0RV
- MYPdW+7zuuviGgSMO06r+pSAqvsVA5K8VmFJ2RBZodvpwXKzfElGK+ZIvdNgJ/4RFBSg
- 0SYw==
+ bh=whXbmpiV9uZrIWQEZSp5RRTDQ3TFfbRun1N2tfG7MWk=;
+ b=qVuy6Otl0UWSQ+/nZMjDzykD2sSUZDst3NL/JVapiLI3z3yUfsGAUcncelhMR38Lym
+ 1xjVPKDNQoeHSdojhaD4CNMJ2Dgxsx7ya2LEvfAdSM6jyMIhg0fAggQvAzFKMqqVOL9O
+ IPbH29DcWGT56C4Udgprd2zRCBzNWyrc1+xqzNB9hh3j27fQeaGpUX2Jl9g2CjR6dsJE
+ H3f4BOVlgw85yDYhZPvxDoAPPZKXld5HwD4iSdkylVBs+x8a7x/zUr2T15/KjxPp7TBo
+ OcMaTgNBzyb8Gi7/p8ZpOcNZ09XNRqw/14qoRIg6z6RvIG29dGNOEq13dllv4PGdI+NN
+ gRvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wojn7XneOlcjLQTZlMLpcmbGjIOEPaqexo+f2WGyphI=;
- b=nwqymVOPXBQGkjyx+a9J8vc7dtrYfyH7KCXIfzcOS0N+TqHKFOYe5FeciGeZI5D0LD
- +OAhjKAOfJtKd/lPu32BPBcfUNtpvw5HxHy9HAR3pAe/JjiOKqxGEq6ukQq1xudRYNvV
- 96oAKdpw8b4Ag7us/S+ljRJ6wWXSlhCvxsBF4blu/fPF1vckN3MkB/0fFty92Gx/yzno
- clWAgHjc7uG8tMOeQnH4aTwokAFbLs0T/kDEkc7B3VXaqSu0lwt8ExYEfL0fW53ZKms5
- 5RXZ8yYJFoOggSBGAUxbYoapS9Rf9+0iqoRxEBxGGyyvIcKwt5xSnDoAbqJJ7C2T7fZi
- 5CIA==
-X-Gm-Message-State: AOAM533bxIypHXqnPcFvOpvN7DIyQH/zppbzIoR2fz1uSSx1A+7naFUl
- TTn8HMrl1l3Jd6F4B7HQwdg=
-X-Google-Smtp-Source: ABdhPJzrAiKknpayvUXn0AhIlpxoa1tdB8UGRkYEeNvPAIQMKmclxsnV8VxQdGuN29ZUiGnqlWbG1A==
-X-Received: by 2002:a2e:b0e2:: with SMTP id h2mr848215ljl.23.1629163806184;
- Mon, 16 Aug 2021 18:30:06 -0700 (PDT)
+ bh=whXbmpiV9uZrIWQEZSp5RRTDQ3TFfbRun1N2tfG7MWk=;
+ b=Lzn1uBfjWZ/1lhV1oQNdh3YbXyJJVfylMTaJBSrjck+COvap7rvYwoeYFIpwqfnc+w
+ ug1PGGn5nGfCaJVFT/fMWAyeenamZTQ2HzACsMIiGL7pPwQ3Zp0APt2n2lvI/y89bEe9
+ ASAT1NOpXlltrPSKEJb+gkPkjlDvBRa9iD8XL//h/wwrZrXOqhxy8Yldp6wNAeszZehW
+ lVlDB6CCVNs8RTvVw5UCIm/HJ1ome/9YsJfR9Z0ED3Vp2U/jg+u+7iNS09vc6bkmSXaF
+ K3PZ3vbjkdLoQCEe2A739vg1IsQIrJpfhd5LiB4Ptkxw4zcKEiZvkFF2TSg3uIXyDe05
+ bXpA==
+X-Gm-Message-State: AOAM533+DWsXN0S4lV5wdzi0raOtHyDb+hSZ08JAjZWVO8ZYXKCiqGc3
+ p811S2AVXGePK8+4HzWJHMk=
+X-Google-Smtp-Source: ABdhPJx0BGOHbSZlE+uingQVCD7QPlpfvESjI/6O9+jCEZkAPokxg6m3XSjkH1CoIjJ45grVv1YxFQ==
+X-Received: by 2002:a2e:5758:: with SMTP id r24mr870243ljd.432.1629163807370; 
+ Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru.
  [46.138.85.91])
- by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.05
+ by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 18:30:05 -0700 (PDT)
+ Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -70,10 +70,9 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org
-Subject: [PATCH v8 04/34] soc/tegra: Add
- devm_tegra_core_dev_init_opp_table_simple()
-Date: Tue, 17 Aug 2021 04:27:24 +0300
-Message-Id: <20210817012754.8710-5-digetx@gmail.com>
+Subject: [PATCH v8 05/34] soc/tegra: Use dev_pm_opp_sync()
+Date: Tue, 17 Aug 2021 04:27:25 +0300
+Message-Id: <20210817012754.8710-6-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210817012754.8710-1-digetx@gmail.com>
 References: <20210817012754.8710-1-digetx@gmail.com>
@@ -94,37 +93,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only couple drivers need to get the -ENODEV error code and explicitly
-initialize the performance state. Add new helper that allows to avoid
-the extra boilerplate code in majority of drivers.
+Use new generic dev_pm_opp_sync() helper which initializes voltage vote
+based on clock rate.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- include/soc/tegra/common.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/soc/tegra/common.c | 30 +-----------------------------
+ 1 file changed, 1 insertion(+), 29 deletions(-)
 
-diff --git a/include/soc/tegra/common.h b/include/soc/tegra/common.h
-index af41ad80ec21..265ad90e45a2 100644
---- a/include/soc/tegra/common.h
-+++ b/include/soc/tegra/common.h
-@@ -39,4 +39,17 @@ devm_tegra_core_dev_init_opp_table(struct device *dev,
+diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
+index a42d4f98c078..dab1bacb41ab 100644
+--- a/drivers/soc/tegra/common.c
++++ b/drivers/soc/tegra/common.c
+@@ -39,34 +39,6 @@ bool soc_is_tegra(void)
+ 	return match != NULL;
  }
- #endif
  
-+static inline int
-+devm_tegra_core_dev_init_opp_table_simple(struct device *dev)
-+{
-+	struct tegra_core_opp_params params = {};
-+	int err;
-+
-+	err = devm_tegra_core_dev_init_opp_table(dev, &params);
-+	if (err != -ENODEV)
-+		return err;
-+
-+	return 0;
-+}
-+
- #endif /* __SOC_TEGRA_COMMON_H__ */
+-static int tegra_core_dev_init_opp_state(struct device *dev)
+-{
+-	unsigned long rate;
+-	struct clk *clk;
+-	int err;
+-
+-	clk = devm_clk_get(dev, NULL);
+-	if (IS_ERR(clk)) {
+-		dev_err(dev, "failed to get clk: %pe\n", clk);
+-		return PTR_ERR(clk);
+-	}
+-
+-	rate = clk_get_rate(clk);
+-	if (!rate) {
+-		dev_err(dev, "failed to get clk rate\n");
+-		return -EINVAL;
+-	}
+-
+-	/* first dummy rate-setting initializes voltage vote */
+-	err = dev_pm_opp_set_rate(dev, rate);
+-	if (err) {
+-		dev_err(dev, "failed to initialize OPP clock: %d\n", err);
+-		return err;
+-	}
+-
+-	return 0;
+-}
+-
+ /**
+  * devm_tegra_core_dev_init_opp_table() - initialize OPP table
+  * @dev: device for which OPP table is initialized
+@@ -118,7 +90,7 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
+ 	}
+ 
+ 	if (params->init_state) {
+-		err = tegra_core_dev_init_opp_state(dev);
++		err = dev_pm_opp_sync(dev);
+ 		if (err)
+ 			return err;
+ 	}
 -- 
 2.32.0
 
