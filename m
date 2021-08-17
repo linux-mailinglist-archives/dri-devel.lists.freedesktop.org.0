@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A2B3EEA69
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A103EEA77
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 12:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D44D56E154;
-	Tue, 17 Aug 2021 09:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BCEC6E14B;
+	Tue, 17 Aug 2021 10:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2FC396E154;
- Tue, 17 Aug 2021 09:59:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 7620E20201B;
- Tue, 17 Aug 2021 11:59:47 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id tLHjv6hUSvqU; Tue, 17 Aug 2021 11:59:42 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 9B9E020201A;
- Tue, 17 Aug 2021 11:59:42 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1mFvsj-000jbA-P0; Tue, 17 Aug 2021 11:59:41 +0200
-To: "Lazar, Lijo" <lijo.lazar@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc: Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210816103506.2671-1-michel@daenzer.net>
- <20210817082325.2579-1-michel@daenzer.net>
- <ceaa02c9-26ef-e1e5-3f35-3cc202961670@amd.com>
- <8461fba5-662e-85f7-b712-472232ed12ba@daenzer.net>
- <c294f4c7-7919-7b7f-4de7-ab4def8c90a3@amd.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] drm/amdgpu: Cancel delayed work when GFXOFF is disabled
-Message-ID: <e9aa759e-1692-b8c5-3f23-2c55af0151bc@daenzer.net>
-Date: Tue, 17 Aug 2021 11:59:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAD16E157;
+ Tue, 17 Aug 2021 10:02:04 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f1175001ae0093e4550657c.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f11:7500:1ae0:93e:4550:657c])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 57D521EC054F;
+ Tue, 17 Aug 2021 12:01:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1629194518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=WTPf14ct0XA4iOYwdI5oL7MvZipF8JjQX6hZ6lRE9MY=;
+ b=fSXk9kI1A4dqwAfQ2WDnRaBmlG6VM+SiBeMVvip4VZs3w5s1AzSaytXWQQ5Yn8ealzmvXH
+ KdrTT1+QlW923OfJovhcp46q+BWi+Do6B8wIFr88BWgiJmyPQxnoxaRFFymeYKfWAJB7a5
+ 8hnATecakWJhm6ba4VFjUkS+uTtiwBI=
+Date: Tue, 17 Aug 2021 12:02:38 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Joerg Roedel <jroedel@suse.de>
+Subject: Re: [PATCH v2 06/12] x86/sev: Replace occurrences of sev_active()
+ with prot_guest_has()
+Message-ID: <YRuJPqxFZ6ItZd++@zn.tnic>
+References: <cover.1628873970.git.thomas.lendacky@amd.com>
+ <2b3a8fc4659f2e7617399cecdcca549e0fa1dcb7.1628873970.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <c294f4c7-7919-7b7f-4de7-ab4def8c90a3@amd.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <2b3a8fc4659f2e7617399cecdcca549e0fa1dcb7.1628873970.git.thomas.lendacky@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,127 +68,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-08-17 11:37 a.m., Lazar, Lijo wrote:
-> 
-> 
-> On 8/17/2021 2:56 PM, Michel Dänzer wrote:
->> On 2021-08-17 11:12 a.m., Lazar, Lijo wrote:
->>>
->>>
->>> On 8/17/2021 1:53 PM, Michel Dänzer wrote:
->>>> From: Michel Dänzer <mdaenzer@redhat.com>
->>>>
->>>> schedule_delayed_work does not push back the work if it was already
->>>> scheduled before, so amdgpu_device_delay_enable_gfx_off ran ~100 ms
->>>> after the first time GFXOFF was disabled and re-enabled, even if GFXOFF
->>>> was disabled and re-enabled again during those 100 ms.
->>>>
->>>> This resulted in frame drops / stutter with the upcoming mutter 41
->>>> release on Navi 14, due to constantly enabling GFXOFF in the HW and
->>>> disabling it again (for getting the GPU clock counter).
->>>>
->>>> To fix this, call cancel_delayed_work_sync when the disable count
->>>> transitions from 0 to 1, and only schedule the delayed work on the
->>>> reverse transition, not if the disable count was already 0. This makes
->>>> sure the delayed work doesn't run at unexpected times, and allows it to
->>>> be lock-free.
->>>>
->>>> v2:
->>>> * Use cancel_delayed_work_sync & mutex_trylock instead of
->>>>     mod_delayed_work.
->>>> v3:
->>>> * Make amdgpu_device_delay_enable_gfx_off lock-free (Christian König)
->>>> v4:
->>>> * Fix race condition between amdgpu_gfx_off_ctrl incrementing
->>>>     adev->gfx.gfx_off_req_count and amdgpu_device_delay_enable_gfx_off
->>>>     checking for it to be 0 (Evan Quan)
->>>>
->>>> Cc: stable@vger.kernel.org
->>>> Reviewed-by: Lijo Lazar <lijo.lazar@amd.com> # v3
->>>> Acked-by: Christian König <christian.koenig@amd.com> # v3
->>>> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
->>>> ---
->>>>
->>>> Alex, probably best to wait a bit longer before picking this up. :)
->>>>
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 +++----
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c    | 36 +++++++++++++++-------
->>>>    2 files changed, 30 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> index f3fd5ec710b6..f944ed858f3e 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> @@ -2777,12 +2777,11 @@ static void amdgpu_device_delay_enable_gfx_off(struct work_struct *work)
->>>>        struct amdgpu_device *adev =
->>>>            container_of(work, struct amdgpu_device, gfx.gfx_off_delay_work.work);
->>>>    -    mutex_lock(&adev->gfx.gfx_off_mutex);
->>>> -    if (!adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
->>>> -        if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, true))
->>>> -            adev->gfx.gfx_off_state = true;
->>>> -    }
->>>> -    mutex_unlock(&adev->gfx.gfx_off_mutex);
->>>> +    WARN_ON_ONCE(adev->gfx.gfx_off_state);
->>>> +    WARN_ON_ONCE(adev->gfx.gfx_off_req_count);
->>>> +
->>>> +    if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, true))
->>>> +        adev->gfx.gfx_off_state = true;
->>>>    }
->>>>      /**
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
->>>> index a0be0772c8b3..b4ced45301be 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
->>>> @@ -563,24 +563,38 @@ void amdgpu_gfx_off_ctrl(struct amdgpu_device *adev, bool enable)
->>>>          mutex_lock(&adev->gfx.gfx_off_mutex);
->>>>    -    if (!enable)
->>>> -        adev->gfx.gfx_off_req_count++;
->>>> -    else if (adev->gfx.gfx_off_req_count > 0)
->>>> +    if (enable) {
->>>> +        /* If the count is already 0, it means there's an imbalance bug somewhere.
->>>> +         * Note that the bug may be in a different caller than the one which triggers the
->>>> +         * WARN_ON_ONCE.
->>>> +         */
->>>> +        if (WARN_ON_ONCE(adev->gfx.gfx_off_req_count == 0))
->>>> +            goto unlock;
->>>> +
->>>>            adev->gfx.gfx_off_req_count--;
->>>>    -    if (enable && !adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
->>>> -        schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_OFF_DELAY_ENABLE);
->>>> -    } else if (!enable && adev->gfx.gfx_off_state) {
->>>> -        if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, false)) {
->>>> -            adev->gfx.gfx_off_state = false;
->>>> +        if (adev->gfx.gfx_off_req_count == 0 && !adev->gfx.gfx_off_state)
->>>> +            schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_OFF_DELAY_ENABLE);
->>>> +    } else {
->>>> +        if (adev->gfx.gfx_off_req_count == 0) {
->>>> +            cancel_delayed_work_sync(&adev->gfx.gfx_off_delay_work);
->>>> +
->>>> +            if (adev->gfx.gfx_off_state &&
->>>
->>> More of a question which I didn't check last time - Is this expected to be true when the disable call comes in first?
->>
->> My assumption is that cancel_delayed_work_sync guarantees amdgpu_device_delay_enable_gfx_off's assignment is visible here.
->>
-> 
-> To clarify - when nothing is scheduled. If enable() is called when the count is 0, it goes to unlock. Now the expectation is someone to call Disable first.
+On Fri, Aug 13, 2021 at 11:59:25AM -0500, Tom Lendacky wrote:
+> diff --git a/arch/x86/kernel/machine_kexec_64.c b/arch/x86/kernel/machine_kexec_64.c
+> index 8e7b517ad738..66ff788b79c9 100644
+> --- a/arch/x86/kernel/machine_kexec_64.c
+> +++ b/arch/x86/kernel/machine_kexec_64.c
+> @@ -167,7 +167,7 @@ static int init_transition_pgtable(struct kimage *image, pgd_t *pgd)
+>  	}
+>  	pte = pte_offset_kernel(pmd, vaddr);
+>  
+> -	if (sev_active())
+> +	if (prot_guest_has(PATTR_GUEST_MEM_ENCRYPT))
+>  		prot = PAGE_KERNEL_EXEC;
+>  
+>  	set_pte(pte, pfn_pte(paddr >> PAGE_SHIFT, prot));
+> @@ -207,7 +207,7 @@ static int init_pgtable(struct kimage *image, unsigned long start_pgtable)
+>  	level4p = (pgd_t *)__va(start_pgtable);
+>  	clear_page(level4p);
+>  
+> -	if (sev_active()) {
+> +	if (prot_guest_has(PATTR_GUEST_MEM_ENCRYPT)) {
+>  		info.page_flag   |= _PAGE_ENC;
+>  		info.kernpg_flag |= _PAGE_ENC;
+>  	}
+> @@ -570,12 +570,12 @@ void arch_kexec_unprotect_crashkres(void)
+>   */
+>  int arch_kexec_post_alloc_pages(void *vaddr, unsigned int pages, gfp_t gfp)
+>  {
+> -	if (sev_active())
+> +	if (!prot_guest_has(PATTR_HOST_MEM_ENCRYPT))
+>  		return 0;
+>  
+>  	/*
+> -	 * If SME is active we need to be sure that kexec pages are
+> -	 * not encrypted because when we boot to the new kernel the
+> +	 * If host memory encryption is active we need to be sure that kexec
+> +	 * pages are not encrypted because when we boot to the new kernel the
+>  	 * pages won't be accessed encrypted (initially).
+>  	 */
 
-Yes, the very first amdgpu_gfx_off_ctrl call must pass enable=false, or it's a bug, which
+That hunk belongs logically into the previous patch which removes
+sme_active().
 
-        if (WARN_ON_ONCE(adev->gfx.gfx_off_req_count == 0))
+>  	return set_memory_decrypted((unsigned long)vaddr, pages);
+> @@ -583,12 +583,12 @@ int arch_kexec_post_alloc_pages(void *vaddr, unsigned int pages, gfp_t gfp)
+>  
+>  void arch_kexec_pre_free_pages(void *vaddr, unsigned int pages)
+>  {
+> -	if (sev_active())
+> +	if (!prot_guest_has(PATTR_HOST_MEM_ENCRYPT))
+>  		return;
+>  
+>  	/*
+> -	 * If SME is active we need to reset the pages back to being
+> -	 * an encrypted mapping before freeing them.
+> +	 * If host memory encryption is active we need to reset the pages back
+> +	 * to being an encrypted mapping before freeing them.
+>  	 */
+>  	set_memory_encrypted((unsigned long)vaddr, pages);
+>  }
+> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+> index e8ccab50ebf6..b69f5ac622d5 100644
+> --- a/arch/x86/kvm/svm/svm.c
+> +++ b/arch/x86/kvm/svm/svm.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/pagemap.h>
+>  #include <linux/swap.h>
+>  #include <linux/rwsem.h>
+> +#include <linux/protected_guest.h>
+>  
+>  #include <asm/apic.h>
+>  #include <asm/perf_event.h>
+> @@ -457,7 +458,7 @@ static int has_svm(void)
+>  		return 0;
+>  	}
+>  
+> -	if (sev_active()) {
+> +	if (prot_guest_has(PATTR_SEV)) {
+>  		pr_info("KVM is unsupported when running as an SEV guest\n");
+>  		return 0;
 
-will catch.
+Same question as for PATTR_SME. PATTR_GUEST_MEM_ENCRYPT should be enough.
 
+> @@ -373,7 +373,7 @@ int __init early_set_memory_encrypted(unsigned long vaddr, unsigned long size)
+>   * up under SME the trampoline area cannot be encrypted, whereas under SEV
+>   * the trampoline area must be encrypted.
+>   */
+> -bool sev_active(void)
+> +static bool sev_active(void)
+>  {
+>  	return sev_status & MSR_AMD64_SEV_ENABLED;
+>  }
+> @@ -382,7 +382,6 @@ static bool sme_active(void)
+>  {
+>  	return sme_me_mask && !sev_active();
+>  }
+> -EXPORT_SYMBOL_GPL(sev_active);
 
-> Let's say  Disable() is called first, then the variable will be false, right?
+Just get rid of it altogether.
 
-Ohh, I see what you mean. The first time amdgpu_gfx_off_ctrl is called with enable=false, adev->gfx.gfx_off_state == false (what it was initialized to), so it doesn't actually disable GFXOFF in HW.
-
-Note that this is a separate pre-existing bug, not a regression of my patch.
-
-I wonder what's the best solution for that, move the adev->gfx.gfx_off_state assignments into amdgpu_dpm_set_powergating_by_smu?
-
+Thx.
 
 -- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
