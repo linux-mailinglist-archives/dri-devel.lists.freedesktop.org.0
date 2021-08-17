@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D940B3EEDB8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 15:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDAB3EEDD6
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 15:56:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0BAF6E1A2;
-	Tue, 17 Aug 2021 13:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80C5D6E197;
+	Tue, 17 Aug 2021 13:56:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB1A6E197
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 13:49:36 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id b15so38711178ejg.10
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 06:49:36 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 673486E1B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 13:56:14 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id g21so17868453edw.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 06:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=lGDfnJadJbDbqZnE43iJOR8ypRutP+18VSmV4QDc0JQ=;
- b=dSLBdqfhHnNzBTULfBrhSiqW10aFOoTt8XF4pCq8A4TmClHEz72C9vcZ93xkc8fTf4
- Kzav4huyd73RFYne+uTKKgTVJx87G4BhhcxaWOaFKCPzIQtZnY7w7bOI7AnEloEv/gHt
- ub4UhvHDIlMqmke0JT9H1U14A2qIG6W8eu1Hs=
+ bh=keP0AkrMa/UFxHBh455OJrPKVa/rgaDSisI3KrlMkUY=;
+ b=ek/Zjvr6g6qnxN6R7xxGO2izW/RrXV37jJvrqLQvZjmP6QitkmDI0CFmm6hl6WC84U
+ 5t57bvvQ3Y3w9KXizsCpldSn9qmPEcI3VNWjxHahuSmMWyypCo4pN/4kD/34gWTT88Yi
+ WBaHm53VHtozM+7p/ctYK/J7fu/4SIfJiUTVs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=lGDfnJadJbDbqZnE43iJOR8ypRutP+18VSmV4QDc0JQ=;
- b=nvy8S+3EqzPW7Bn5Nk+1skULmRTbjNee3q09Zw+pZbaL2in6DayPirFniVRLhZoHFU
- Nfuh5JPN5D8BcB1rPD9cc1jHeiDISc1kGCPuLBmwCDm7hrUUfZ1xfwDz7p7fWLUsaWlp
- ZQqdgTI+kD/cy5DMLgEwc0s2TbDZ+7blGYoBw/M6VXLNJVEsNuCoCNpX20XmzBXOntxD
- y2BUBoCXGIofRyqTSGDaerpSSpT2VKjJFpM0/h+f5/co+2QhWYRmf3lGWvrQaopDcdxP
- enCOkLcq3+YfU4So6LvDI5yKwbvUn3NQMPB3gAvymNLsHijjleb5BAcXgkJpr1xy1RQU
- z5Bw==
-X-Gm-Message-State: AOAM533j2FVjo/5XM0/tLI+9DUVIodJImc0F7a5p6ez+g4D/StKnvB8h
- FFXTcPCWFC7k8vAWQNqshn9sZA==
-X-Google-Smtp-Source: ABdhPJzQs+Lq5T+7wlL6ozg6oFirUkXk70u/tYDqq/iZIwljzhpC8xjj3Tk/9PbZxvNdlj3zCd6Qmw==
-X-Received: by 2002:a17:906:2414:: with SMTP id
- z20mr3988132eja.363.1629208174758; 
- Tue, 17 Aug 2021 06:49:34 -0700 (PDT)
+ bh=keP0AkrMa/UFxHBh455OJrPKVa/rgaDSisI3KrlMkUY=;
+ b=dEDVPKhKOyEFnRyhyCNH4Qpt57WHpPlSUXZof2ni/zA79k7oMKmfWpTc42wsT3u2gL
+ tsoLbJn0i2eFI5A/03xCku4mu3idsGy1R3QcwLkJluPYoojSCrMATTTyqje5/7bh609w
+ lZVqR+0hzQiFRnreAJ/PVwOAZ0t0p/DOg4y15nPe4HyRkMsNh0tw1UKEYmkt/twxQDi8
+ 3TohIScyIiQQN6P14LBBIG4geR9v3I6oS5tbUTXQ5D5spFnxVpsxBfmPlVXh8v/o+7CU
+ APGv570d7+veL6PNHbzAS9G+rnYBQeLMHm9j35FIlYaHIGmNw+yeIhq84KnlQuf4a2Gl
+ Z7UA==
+X-Gm-Message-State: AOAM533v1gSguQzp4IfYQof9UB1OIJN3sCs1yeQNbND0R1FvAtHhsSDU
+ ZFZJ9zRV8gkxkiWTEvD1pgAv4g==
+X-Google-Smtp-Source: ABdhPJyPfdOh0el5f5iFuy3cMWzh8bb5iaOwUaz4zbohDsd+c+E6xXqwkyxKzGHcUCOmQ2Nw8xXiOQ==
+X-Received: by 2002:aa7:d319:: with SMTP id p25mr4368173edq.197.1629208572917; 
+ Tue, 17 Aug 2021 06:56:12 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p5sm798711ejl.73.2021.08.17.06.49.34
+ by smtp.gmail.com with ESMTPSA id c28sm793741ejc.102.2021.08.17.06.56.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 06:49:34 -0700 (PDT)
-Date: Tue, 17 Aug 2021 15:49:32 +0200
+ Tue, 17 Aug 2021 06:56:12 -0700 (PDT)
+Date: Tue, 17 Aug 2021 15:56:10 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Cc: dri-devel@lists.freedesktop.org, peter@stuge.se, linus.walleij@linaro.org
-Subject: Re: [PATCH 7/7] drm/gud: Add module parameter to control emulation:
- xrgb8888
-Message-ID: <YRu+bNmOrExbWEBT@phenom.ffwll.local>
+Cc: dri-devel@lists.freedesktop.org, peter@stuge.se,
+ linus.walleij@linaro.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/7] drm/format-helper: Add drm_fb_xrgb8888_to_rgb332()
+Message-ID: <YRu/+nEX4A5i4sfl@phenom.ffwll.local>
 References: <20210817122917.49929-1-noralf@tronnes.org>
- <20210817122917.49929-8-noralf@tronnes.org>
+ <20210817122917.49929-3-noralf@tronnes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210817122917.49929-8-noralf@tronnes.org>
+In-Reply-To: <20210817122917.49929-3-noralf@tronnes.org>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,74 +73,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 02:29:17PM +0200, Noralf Trønnes wrote:
-> For devices that don't support XRGB8888 give the user the ability to
-> choose what's most important: Color depth or frames per second.
+On Tue, Aug 17, 2021 at 02:29:12PM +0200, Noralf Trønnes wrote:
+> Add XRGB8888 emulation support for devices that can only do RGB332.
 > 
-> Add an 'xrgb8888' module parameter to override the emulation format.
-> 
-> Assume the user wants full control if xrgb8888 is set and don't set
-> DRM_CAP_DUMB_PREFERRED_DEPTH if RGB565 is supported (AFAIK only X.org
-> supports this).
-> 
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 > ---
->  drivers/gpu/drm/gud/gud_drv.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_format_helper.c | 47 +++++++++++++++++++++++++++++
+>  include/drm/drm_format_helper.h     |  2 ++
+>  2 files changed, 49 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-> index 3f9d4b9a1e3d..60d27ee5ddbd 100644
-> --- a/drivers/gpu/drm/gud/gud_drv.c
-> +++ b/drivers/gpu/drm/gud/gud_drv.c
-> @@ -30,6 +30,10 @@
+> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> index 5231104b1498..53b426da7467 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -135,6 +135,53 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+>  }
+>  EXPORT_SYMBOL(drm_fb_swab);
 >  
->  #include "gud_internal.h"
->  
-> +static int gud_xrgb8888;
-> +module_param_named(xrgb8888, gud_xrgb8888, int, 0644);
-> +MODULE_PARM_DESC(xrgb8888, "XRGB8888 emulation format: GUD_PIXEL_FORMAT_* value, 0=auto, -1=disable [default=auto]");
+> +static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, u32 *sbuf, unsigned int pixels)
+> +{
+> +	unsigned int x;
 > +
->  /* Only used internally */
->  static const struct drm_format_info gud_drm_format_r1 = {
->  	.format = GUD_DRM_FORMAT_R1,
-> @@ -530,12 +534,12 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
->  		case DRM_FORMAT_RGB332:
->  			fallthrough;
->  		case DRM_FORMAT_RGB888:
-> -			if (!xrgb8888_emulation_format)
-> +			if (!gud_xrgb8888 && !xrgb8888_emulation_format)
->  				xrgb8888_emulation_format = info;
+> +	for (x = 0; x < pixels; x++)
+> +		dbuf[x] = ((sbuf[x] & 0x00e00000) >> 16) |
 
-Shouldn't the emulation format be per drm_device instance?
--Daniel
+I think for 2/3 bits correct rounding would be useful, not just masking.
+i.e. before you shift add 0x00100000 here, and similar below.
 
->  			break;
->  		case DRM_FORMAT_RGB565:
->  			rgb565_supported = true;
-> -			if (!xrgb8888_emulation_format)
-> +			if (!gud_xrgb8888 && !xrgb8888_emulation_format)
->  				xrgb8888_emulation_format = info;
->  			break;
->  		case DRM_FORMAT_XRGB8888:
-> @@ -543,6 +547,9 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
->  			break;
->  		}
->  
-> +		if (gud_xrgb8888 == formats_dev[i])
-> +			xrgb8888_emulation_format = info;
+Also I just realized we've totally ignored endianess on these, which is
+not great, because strictly speaking all the drm_fourcc codes should be
+little endian. But I'm also not sure that's worth fixing ...
+
+Either way, lgtm:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> +			  ((sbuf[x] & 0x0000e000) >> 11) |
+> +			  ((sbuf[x] & 0x000000c0) >> 6);
+> +}
 > +
->  		fmt_buf_size = drm_format_info_min_pitch(info, 0, drm->mode_config.max_width) *
->  			       drm->mode_config.max_height;
->  		max_buffer_size = max(max_buffer_size, fmt_buf_size);
-> @@ -559,7 +566,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
->  	}
->  
->  	/* Prefer speed over color depth */
-> -	if (rgb565_supported)
-> +	if (!gud_xrgb8888 && rgb565_supported)
->  		drm->mode_config.preferred_depth = 16;
->  
->  	if (!xrgb8888_supported && xrgb8888_emulation_format) {
+> +/**
+> + * drm_fb_xrgb8888_to_rgb332 - Convert XRGB8888 to RGB332 clip buffer
+> + * @dst: RGB332 destination buffer
+> + * @src: XRGB8888 source buffer
+> + * @fb: DRM framebuffer
+> + * @clip: Clip rectangle area to copy
+> + *
+> + * Drivers can use this function for RGB332 devices that don't natively support XRGB8888.
+> + *
+> + * This function does not apply clipping on dst, i.e. the destination is a small buffer
+> + * containing the clip rect only.
+> + */
+> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *src, struct drm_framebuffer *fb,
+> +			       struct drm_rect *clip)
+> +{
+> +	size_t width = drm_rect_width(clip);
+> +	size_t src_len = width * sizeof(u32);
+> +	unsigned int y;
+> +	void *sbuf;
+> +
+> +	/* Use a buffer to speed up access on buffers with uncached read mapping (i.e. WC) */
+> +	sbuf = kmalloc(src_len, GFP_KERNEL);
+> +	if (!sbuf)
+> +		return;
+> +
+> +	src += clip_offset(clip, fb->pitches[0], sizeof(u32));
+> +	for (y = 0; y < drm_rect_height(clip); y++) {
+> +		memcpy(sbuf, src, src_len);
+> +		drm_fb_xrgb8888_to_rgb332_line(dst, sbuf, width);
+> +		src += fb->pitches[0];
+> +		dst += width;
+> +	}
+> +
+> +	kfree(sbuf);
+> +}
+> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
+> +
+>  static void drm_fb_xrgb8888_to_rgb565_line(u16 *dbuf, u32 *sbuf,
+>  					   unsigned int pixels,
+>  					   bool swab)
+> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+> index 4e0258a61311..d0809aff5cf8 100644
+> --- a/include/drm/drm_format_helper.h
+> +++ b/include/drm/drm_format_helper.h
+> @@ -16,6 +16,8 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vadd
+>  			   struct drm_rect *clip);
+>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+>  		 struct drm_rect *clip, bool cached);
+> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct drm_framebuffer *fb,
+> +			       struct drm_rect *clip);
+>  void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
+>  			       struct drm_framebuffer *fb,
+>  			       struct drm_rect *clip, bool swab);
 > -- 
 > 2.32.0
 > 
