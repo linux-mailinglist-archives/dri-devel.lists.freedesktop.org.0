@@ -1,51 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6394B3EF391
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 22:41:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6593EF395
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 22:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54C656E241;
-	Tue, 17 Aug 2021 20:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04773897E9;
+	Tue, 17 Aug 2021 20:43:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339F46E241;
- Tue, 17 Aug 2021 20:41:05 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="301772285"
-X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="301772285"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2021 13:41:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="449417979"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga007.fm.intel.com with ESMTP; 17 Aug 2021 13:41:02 -0700
-Received: from [10.249.133.37] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.133.37])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 17HKf0n0002909; Tue, 17 Aug 2021 21:41:01 +0100
-Subject: Re: [PATCH 22/22] drm/i915/guc: Add GuC kernel doc
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch
-References: <20210816135139.10060-1-matthew.brost@intel.com>
- <20210816135139.10060-23-matthew.brost@intel.com>
- <YRuZbTJmeUAElOZj@phenom.ffwll.local>
- <20210817163647.GA30445@jons-linux-dev-box>
- <YRvv3Sbihp5ogz2u@phenom.ffwll.local>
- <d239000d-0382-2bd5-ff92-80c0925bfd92@intel.com>
- <YRvzMkaqPbQjvIlW@phenom.ffwll.local>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <0fbbf0fa-1e3e-4896-d462-7e7a9a02db84@intel.com>
-Date: Tue, 17 Aug 2021 22:41:00 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93892897E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 20:43:37 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id q6so19005811wrv.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 13:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=astier-eu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=suykTtn8L9b2vCrN/hQSQGbGRTW4fM25XHTOuiQ2dSM=;
+ b=TUvThoXq0AY9rnYfWxlEzlHg4g3+HwhM6JvaSmgkIG/JGRsFx7Xk1RnMUSkmj4kfIw
+ yaxiTlDrP9eElc58wh4Pwc02hFcMfh5BNZJbZ+pEMDOqeijPEcIQ+b9U2rO2VJ/JyX0L
+ 0rgVluTPGXZUSsr+NWqEmgF0uxG744EVpcGZ30+H/o9NABHYnjvCF2/3dki7ZmqWX6nN
+ 69m0EEr3hCfI78eUzbieajumc94eudkMs28tz/+akf6A3NxBDIRr98/U4fw2f7sYcOIi
+ HG1ZjNAjcqo+TyDCWYzbieclEuTF1pAk+YmcN6HR0z2HHHwGz+TCldp1HNokQ0b5wSOH
+ GQ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=suykTtn8L9b2vCrN/hQSQGbGRTW4fM25XHTOuiQ2dSM=;
+ b=crMHQp/gtneMhVvNFxfOxEG3rXVmIzCsbH9Pz7JgyqoRqgruAhmOgLNDMV25zN9nWo
+ yPUflHwINsKyUBF5tdCAxbfyA4RxIVFml388f1evek1KipBmAAGVZ0BQmc6GpWI9wF3V
+ +Bgk6+tcTqwmWBHBIkRJfvI3nBxsuKWANAXo7LwQAcqvYGkzZ5pKevMnH8D3RNUAPHDk
+ nD2DqVtOHNdirJcqR4Ju9G2BlDyNiBf/ZCPrp7jWsroerv07jgW6hPDdi7NTTis7TcN/
+ RtMy4QSqugDGTJOBwjEbnSvSNUQJrHK7cTAuFbgW4toeTjC1LfggNrWa+TMG7wobJYPs
+ i5bA==
+X-Gm-Message-State: AOAM5308dnqQ/kQyQjY89G8sLjz6oSvSd1n/fswVaq0eEDHaPTyldruz
+ ZqFUaLJcqudZiqFaEMUFcjC3og==
+X-Google-Smtp-Source: ABdhPJw3FhV5TBRJx1W3VTN9iKNWemS1DBfaiSU+Cm+VIxF3fsEs9hZhSvs7PnDhyiEAmfUd+TcrRQ==
+X-Received: by 2002:a5d:4b01:: with SMTP id v1mr6247314wrq.377.1629233016107; 
+ Tue, 17 Aug 2021 13:43:36 -0700 (PDT)
+Received: from gpdmax.. ([2a0d:e487:15f:f479:6202:d4f7:9ddb:b07c])
+ by smtp.gmail.com with ESMTPSA id e10sm3540332wrt.82.2021.08.17.13.43.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 13:43:35 -0700 (PDT)
+From: Anisse Astier <anisse@astier.eu>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, Uma Shankar <uma.shankar@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Dadap <ddadap@nvidia.com>,
+ Anisse Astier <anisse@astier.eu>
+Subject: [PATCH v3 0/2] GPD Win Max display fixes
+Date: Tue, 17 Aug 2021 22:43:27 +0200
+Message-Id: <20210817204329.5457-1-anisse@astier.eu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YRvzMkaqPbQjvIlW@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,94 +75,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series is for making the GPD Win Max display usable with
+Linux.
+
+The GPD Win Max is a small laptop, and its eDP panel does not send an
+EDID over DPCD; the EDID is instead available in the intel opregion, in
+mailbox #5 [1]
+
+The first patch is based on Jani's patch series [2] adding support for
+the opregion, with changes. I've changed authorship, but I'd be glad to
+revert it
+
+The second patch is just to fix the orientation of the panel.
+
+Changes since v1:
+ - rebased on drm-tip
+ - squashed patch 1 & 2
+ - picked up Reviewed-by from Hans de Goede (thanks for the review)
+
+Changes since v2:
+ - rebased on drm-tip
+ - updated commit message
+
+When v2 was initially sent [3] Ville Syrjälä suggested that it might be
+a good idea to use the ACPI _DDC method instead to get the EDID, to
+cover a wider range of hardware. Unfortunately, it doesn't seem
+available on GPD Win Max, so I think this work should be done
+independently, and this patch series considered separately.
+
+[1]: https://gitlab.freedesktop.org/drm/intel/-/issues/3454
+[2]: https://patchwork.kernel.org/project/intel-gfx/patch/20200828061941.17051-1-jani.nikula@intel.com/
+[3]: https://patchwork.kernel.org/project/intel-gfx/patch/20210531204642.4907-2-anisse@astier.eu/
 
 
-On 17.08.2021 19:34, Daniel Vetter wrote:
-> On Tue, Aug 17, 2021 at 07:27:18PM +0200, Michal Wajdeczko wrote:
->>
->>
->> On 17.08.2021 19:20, Daniel Vetter wrote:
->>> On Tue, Aug 17, 2021 at 09:36:49AM -0700, Matthew Brost wrote:
->>>> On Tue, Aug 17, 2021 at 01:11:41PM +0200, Daniel Vetter wrote:
->>>>> On Mon, Aug 16, 2021 at 06:51:39AM -0700, Matthew Brost wrote:
->>>>>> Add GuC kernel doc for all structures added thus far for GuC submission
->>>>>> and update the main GuC submission section with the new interface
->>>>>> details.
->>>>>>
->>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>>>
->>>>> There's quite a bit more, e.g. intel_guc_ct, which has it's own world of
->>>>> locking design that also doesn't feel too consistent.
->>>>>
->>>>
->>>> That is a different layer than GuC submission so I don't we should
->>>> mention anything about that layer here. Didn't really write that layer
->>>> and it super painful to touch that code so I'm going to stay out of any
->>>> rework you think we need to do there. 
->>>
->>> Well there's three locks 
->>
->> It's likely me.
->>
->> There is one lock for the recv CTB, one for the send CTB, one for the
->> list of read messages ready to post process - do you want to use single
->> lock for both CTBs or single lock for all cases in CT ?
->>
->> Michal
->>
->> disclaimer: outstanding_g2h are not part of the CTB layer
-> 
-> Why? Like apparently there's not enough provided by that right now, so
-> Matt is now papering over that gap with more book-keeping in the next
-> layer. If the layer is not doing a good job it's either the wrong layer,
-> or shouldn't be a layer.
+Anisse Astier (2):
+  drm/i915/opregion: add support for mailbox #5 EDID
+  drm: Add orientation quirk for GPD Win Max
 
-Note that all "outstanding g2h" used by Matt are kind of unsolicited
-"event" messages received from the GuC, that CTB layer is unable
-correlate. CTB only tracks "requests" messages for which "response" (or
-"error") reply is expected. Thus if CTB client is expecting some extra
-message for its previous communication with GuC, it must track it on its
-own, as only client knows where in the CTB message payload, actual
-correlation data (like context ID) is stored.
+ .../gpu/drm/drm_panel_orientation_quirks.c    |  6 ++
+ drivers/gpu/drm/i915/display/intel_dp.c       |  3 +
+ drivers/gpu/drm/i915/display/intel_opregion.c | 69 ++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_opregion.h |  8 +++
+ 4 files changed, 85 insertions(+), 1 deletion(-)
 
-> 
-> And yeah the locking looks like serious amounts of overkill, was it
-> benchmarked that we need the 3 separate locks for this?
+-- 
+2.31.1
 
-I'm not aware of any (micro)benchmarking, but definitely we need some,
-we were just gradually moving from single threaded blocking CTB calls
-(waiting for CTB descriptor updates under mutex) to non-blocking calls
-(protecting only reads/writes to CTB descriptors with spinlock - to
-allow CTB usage from tasklet/irq).
-
-And I was just assuming that we can sacrifice few more integers [1] and
-have dedicated spinlocks and avoid early over-optimization.
-
-> 
-> While reading ctb code I also noticed that a bunch of stuff is checked
-> before we grab the relevant spinlocks, and it's not
-> - wrapped in a WARN_ON or GEM_BUG_ON or similar to just check everything
->   works as expected
-> - there's no other locks
-> 
-> So either racy, buggy or playing some extremely clever tricks. None of
-> which is very good.
-
-I'm open to improve that code as needed, but maybe in exchange and to
-increase motivation please provide feedback on already posted fixes [2] ;)
-
-Michal
-
-[1]
-https://elixir.bootlin.com/linux/latest/source/arch/ia64/include/asm/spinlock_types.h#L10
-[2] https://patchwork.freedesktop.org/series/92118/
-
-> -Daniel
-> 
->>
->>
->>> there plus it leaks out (you have your
->>> outstanding_submission_g2h atomic_t which is very closed tied to well,
->>> outstanding guc transmissions), so I guess I need someone else for that?
->>>
-> 
