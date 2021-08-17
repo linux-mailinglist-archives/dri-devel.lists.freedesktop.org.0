@@ -2,43 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F473EF105
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 19:42:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFC33EF116
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 19:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB01E6E213;
-	Tue, 17 Aug 2021 17:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5F16E217;
+	Tue, 17 Aug 2021 17:48:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 688B46E213
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 17:42:02 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 65e973ba-ff82-11eb-aa7e-0050568cd888;
- Tue, 17 Aug 2021 17:41:48 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id EF143194B04;
- Tue, 17 Aug 2021 19:42:08 +0200 (CEST)
-Date: Tue, 17 Aug 2021 19:41:57 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Nikola Pavlica <pavlica.nikola@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- airlied@linux.ie, daniel@ffwll.ch,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel-simple: Add Vivax TPC-9150 panel v3
-Message-ID: <YRv05QbPz4lBQG8E@ravnborg.org>
-References: <20210817163605.1077257-1-pavlica.nikola@gmail.com>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE306E217
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 17:48:35 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1629222517; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=XBtQo/a+e5NB19WIOi/LVxJedsfU596PScMqe8VQa4k=;
+ b=uj/s8XOqDig4Ui9pGAZjADOdT8k3IiFbcOkCL+biTZbdi90BOcJpWbJwJ+2Jw7XfPAr36z9G
+ TOBw+je4BdUZQfYhUmNOR+QJ5C3nyFYzNLNvyMB8bPXjRs7PubnIStz+rMmbEEZK3REzP/Kw
+ B+82BDpKjHIT/xo+XNqibZknANo=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 611bf6702892f803bc9399ca (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Aug 2021 17:48:32
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 867CCC43617; Tue, 17 Aug 2021 17:48:31 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 3B1B9C4360C;
+ Tue, 17 Aug 2021 17:48:30 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210817163605.1077257-1-pavlica.nikola@gmail.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 17 Aug 2021 10:48:30 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Jonathan Marek
+ <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ freedreno@lists.freedesktop.org
+Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add support for alpha blending
+ properties
+In-Reply-To: <20210628191958.2754731-1-dmitry.baryshkov@linaro.org>
+References: <20210628191958.2754731-1-dmitry.baryshkov@linaro.org>
+Message-ID: <34ee522aa37172099dac9f686f0196ec@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,100 +75,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikola,
+On 2021-06-28 12:19, Dmitry Baryshkov wrote:
+> Add support for alpha blending properties. Setup the plane blend state
+> according to those properties.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-thanks for the quick re-spin. There is still a few things that needs to
-be addressed though. Sorry for not catching these the first time.
+I think this has already been picked up by Rob but just had a couple of 
+comments
+below.
 
-On Tue, Aug 17, 2021 at 06:36:05PM +0200, Nikola Pavlica wrote:
-> The model and make of the LCD panel of the Vivax TPC-9150 is unknown,
-> hence the panel settings that were retrieved with a FEX dump are named
-HEX dump?
+Also, how has this been validated? On RB boards i dont think all the 
+paths get
+executed.
 
-> after the device NOT the actual panel.
-> 
-> The LCD in question is a 50 pin MISO TFT LCD panel of the resolution
-> 1024x600 used by the aforementioned device.
-> 
-> Version 2, as Thierry kindly suggested that I fix the order in which the
-> panel was ordered compared to others.
-> 
-> Version 3, filling in the required info suggested by Sam. Plus some
-> factual issues that I've corrected myself (tested working)
-> 
-> Thanks,
-> Nikola
-> 
-> Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 43 ++++++++++++++++-------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 10 ++++--
+>  2 files changed, 37 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 4e2dad314c79..f6b3e58c162b 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3989,6 +3989,32 @@ static const struct panel_desc urt_umsh_8596md_parallel = {
->  	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
->  };
->  
-> +static const struct drm_display_mode vivax_tpc9150_panel_mode = {
-> +	.clock = 60000,
-> +	.hdisplay = 1024,
-> +	.hsync_start = 1024 + 160,
-> +	.hsync_end = 1024 + 160 + 100,
-> +	.htotal = 1024 + 160 + 100 + 60,
-> +	.vdisplay = 600,
-> +	.vsync_start = 600 + 12,
-> +	.vsync_end = 600 + 12 + 10,
-> +	.vtotal = 600 + 12 + 10 + 13,
-> +};
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 9a5c70c87cc8..768012243b44 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -30,12 +30,6 @@
+>  #include "dpu_core_perf.h"
+>  #include "dpu_trace.h"
+> 
+> -#define DPU_DRM_BLEND_OP_NOT_DEFINED    0
+> -#define DPU_DRM_BLEND_OP_OPAQUE         1
+> -#define DPU_DRM_BLEND_OP_PREMULTIPLIED  2
+> -#define DPU_DRM_BLEND_OP_COVERAGE       3
+> -#define DPU_DRM_BLEND_OP_MAX            4
+> -
+>  /* layer mixer index on dpu_crtc */
+>  #define LEFT_MIXER 0
+>  #define RIGHT_MIXER 1
+> @@ -146,20 +140,43 @@ static void _dpu_crtc_setup_blend_cfg(struct
+> dpu_crtc_mixer *mixer,
+>  {
+>  	struct dpu_hw_mixer *lm = mixer->hw_lm;
+>  	uint32_t blend_op;
+> +	uint32_t fg_alpha, bg_alpha;
+> 
+> -	/* default to opaque blending */
+> -	blend_op = DPU_BLEND_FG_ALPHA_FG_CONST |
+> -		DPU_BLEND_BG_ALPHA_BG_CONST;
+> +	fg_alpha = pstate->base.alpha >> 8;
+> +	bg_alpha = 0xff - fg_alpha;
+> 
+> -	if (format->alpha_enable) {
+> +	/* default to opaque blending */
+> +	if (pstate->base.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE ||
+> +	    !format->alpha_enable) {
+> +		blend_op = DPU_BLEND_FG_ALPHA_FG_CONST |
+> +			DPU_BLEND_BG_ALPHA_BG_CONST;
+> +	} else if (pstate->base.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI) 
+> {
+> +		blend_op = DPU_BLEND_FG_ALPHA_FG_CONST |
+> +			DPU_BLEND_BG_ALPHA_FG_PIXEL;
+> +		if (fg_alpha != 0xff) {
+> +			bg_alpha = fg_alpha;
+> +			blend_op |= DPU_BLEND_BG_MOD_ALPHA |
+> +				    DPU_BLEND_BG_INV_MOD_ALPHA;
+> +		} else {
+> +			blend_op |= DPU_BLEND_BG_INV_ALPHA;
+> +		}
+> +	} else {
+>  		/* coverage blending */
+>  		blend_op = DPU_BLEND_FG_ALPHA_FG_PIXEL |
+> -			DPU_BLEND_BG_ALPHA_FG_PIXEL |
+> -			DPU_BLEND_BG_INV_ALPHA;
+> +			DPU_BLEND_BG_ALPHA_FG_PIXEL;
+> +		if (fg_alpha != 0xff) {
+> +			bg_alpha = fg_alpha;
+> +			blend_op |= DPU_BLEND_FG_MOD_ALPHA |
+> +				    DPU_BLEND_FG_INV_MOD_ALPHA |
+comparing this with the blend rule downstream, is this inversion 
+necessary?
+I only see below rule downstream:
+
+628 			if (fg_alpha != 0xff) {
+629 				bg_alpha = fg_alpha;
+630 				blend_op |= SDE_BLEND_FG_MOD_ALPHA |
+631 					SDE_BLEND_BG_MOD_ALPHA |
+632 					SDE_BLEND_BG_INV_MOD_ALPHA;
+
+> +				    DPU_BLEND_BG_MOD_ALPHA |
+> +				    DPU_BLEND_BG_INV_MOD_ALPHA;
+> +		} else {
+> +			blend_op |= DPU_BLEND_BG_INV_ALPHA;
+> +		}
+>  	}
+> 
+>  	lm->ops.setup_blend_config(lm, pstate->stage,
+> -				0xFF, 0, blend_op);
+> +				fg_alpha, bg_alpha, blend_op);
+> 
+>  	DRM_DEBUG_ATOMIC("format:%p4cc, alpha_en:%u blend_op:0x%x\n",
+>  		  &format->base.pixel_format, format->alpha_enable, blend_op);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index ec4a6f04394a..c989621209aa 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1339,9 +1339,7 @@ static void dpu_plane_reset(struct drm_plane 
+> *plane)
+>  		return;
+>  	}
+> 
+> -	pstate->base.plane = plane;
+> -
+> -	plane->state = &pstate->base;
+> +	__drm_atomic_helper_plane_reset(plane, &pstate->base);
+>  }
+> 
+>  #ifdef CONFIG_DEBUG_FS
+> @@ -1647,6 +1645,12 @@ struct drm_plane *dpu_plane_init(struct 
+> drm_device *dev,
+>  	if (ret)
+>  		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
+> 
+> +	drm_plane_create_alpha_property(plane);
+> +	drm_plane_create_blend_mode_property(plane,
+> +			BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> +			BIT(DRM_MODE_BLEND_PREMULTI) |
+> +			BIT(DRM_MODE_BLEND_COVERAGE));
 > +
-> +static const struct panel_desc vivax_tpc9150_panel = {
-> +	.modes = &vivax_tpc9150_panel_mode,
-> +	.num_modes = 1,
-Most panels put .bpc right above .size, so they follow the order in the
-struct. This is bikeshedding but my OCD triggered here.
-
-> +	.size = {
-> +		.width = 200,
-> +		.height = 115,
-> +	},
-> +	.bpc = 6,
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X24,
-This does not build - I have no MEDIA_BUS_FMT_RGB666_1X24 in my kernel
-(drm-misc-next).
-
-With an LVDS connector and bpc equals 6 my bet is on: MEDIA_BUS_FMT_RGB666_1X7X3_SPWG
-This is from looking at similar panels.
-
-
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
-> +
->  static const struct drm_display_mode vl050_8048nt_c01_mode = {
->  	.clock = 33333,
->  	.hdisplay = 800,
-> @@ -4490,6 +4516,9 @@ static const struct of_device_id platform_of_match[] = {
->  	}, {
->  		.compatible = "urt,umsh-8596md-20t",
->  		.data = &urt_umsh_8596md_parallel,
-> +	}, {
-> +		.compatible = "vivax,tpc9150-panel",
-vivax is an unknown vendor, needs to be added to
-Documentation/devicetree/bindings/vendor-prefixes.yaml in a separate
-patch.
-
-tpc9150-panel should be added to
-Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-or at least I assume this is the file to add it to.
-Again as a separate patch.
-
-For the two binding related patches see
-Documentation/devicetree/bindings/submitting-patches.rst
-
-Sorry for making this difficult, but we need it done right.
-
-	Sam
+>  	drm_plane_create_rotation_property(plane,
+>  			DRM_MODE_ROTATE_0,
+>  			DRM_MODE_ROTATE_0 |
