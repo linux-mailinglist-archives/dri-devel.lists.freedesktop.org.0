@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A83F3EE41A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 04:02:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A41173EE419
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 04:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56FF96E0EA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0946E0E4;
 	Tue, 17 Aug 2021 02:02:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3D6D6E0DF
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 02:02:15 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id w20so38296542lfu.7
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 19:02:15 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCD06E0E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 02:02:16 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id c24so38236201lfi.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 19:02:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=epNIxrUppPqeTZ7mqYHZ01PA0yMU2Orit2VrfzLmV54=;
- b=do/TU6chvs8vMTkbDooRR2le11a6dh31qQVCxAc7wOduy19pmJbPiDhCLSTW07+CiQ
- lX1UHH+momYHwEekQWF3+aDYU1DQ0RDhN/1yb57l3/MoXLQ4etTEOP8O8ae2lW4AL+Za
- /Ig741ScZy8GeVujaRJFJl1byQr4c0qhzuTIcVYJXj3ZIUlMMV33AdJGfFaVp/35T9Z3
- tLafaUFFsxgE8Ulj2u3UGa1E0VsRWGioUkpZb2KmZTpyjp593sml9+CxDqgkcDkHz7PF
- kqXCCJ2qSOebx4BN7sn/BIN967CvGzUVYuiVUzk063GET/0akxTM9iiSpfRNlLzKhfcU
- OYqA==
+ bh=EHlZUQ8HgfGWcfinu2oIDpWpJRbCk6Twh3QjNslqYr8=;
+ b=fs4uFuIARdGUUvUr5JtczJnktriIqQUMwKz1TctsMb3X59FdX2FyyqpMPnbxuG9mU8
+ CCic+poj7/DHmq8geyAiaUFaJRNrJNX5wmCdWAlsNbmWKQt7noAgNMhzbkfU6aDXHret
+ EL13+/Q00KfmL9OpSOmMIjDOrxKLBx6PuuRA5Hl+K4d1UxSlcI2grgK71XdRkw8vToo4
+ nl11MBwRuReJh8LoGJ2MPD+GEfGoqRFyYEVDTCdNH4W7V85uGjWRaqYEoiYJ3IlNH0q3
+ Mo9YaSS+PkOsUzpKG6UAlpVr7j6Vzj/VGJmLheXFj99c4bPyTAqizk//I0eYcHX+MpC2
+ CVGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=epNIxrUppPqeTZ7mqYHZ01PA0yMU2Orit2VrfzLmV54=;
- b=EFGRiaRZlG91k/Zyz0ImIlZqLWiKSYWmsRvHCme4zFjMt2nCBbPVsmd3OCWDiXVptB
- 56Hjj5mZBXAswNMK4o0kQDU5Czeqv254XuQ6HzS7UA7lsxXB+Q1DQb785foP+lBo4Xd2
- vJZclQMFVW7ijDXJ25n/Vy/5uYv4z14da70bU0EjQ/JRpx1PuLmLoGr77MklhO5KFA8L
- GO3HlSS75aLw3o3u7g+7Mu6jQyE4HyHIeWltlQxjWhfmMni37OjukLFcAaaTAjLuGG7f
- ZX7pJi6bFNlrAdsTJ/yL2e9GjMcCnSjdthCJ57xnddkxzHIYvq/HIkeDRzSWDeHnJeTP
- V91w==
-X-Gm-Message-State: AOAM531ZxBfSiMIHCx2TD6jBw6f6KuAega5hOdiBD7JH8Sk7hQ1xDI32
- 8B3NFoKWcH84nbdQV+5tmE8=
-X-Google-Smtp-Source: ABdhPJwkJ2gDPVNWO4IqYvAkxmWMhu2XsrbQEMpDkRgki8Oh4US6ZUSIQkq7gq/j1HoSU2SPC5P74Q==
-X-Received: by 2002:a19:760b:: with SMTP id c11mr577972lff.224.1629165733949; 
- Mon, 16 Aug 2021 19:02:13 -0700 (PDT)
+ bh=EHlZUQ8HgfGWcfinu2oIDpWpJRbCk6Twh3QjNslqYr8=;
+ b=kixbTrNw/1VNUEp4m9pFaOp9SrU4IIt4KZBEib8hJlX/4lktg8TXuXWxAlP6cv2whV
+ xP5W65kpZjsmh48FIGBzkFm9KTsor6+LBfPZIVsSA+XMm4jKkXf3yVvC7G10zSnQj2SB
+ r4FxQwimlgKs6J9Pdx4IPlMaOrOR30AIvoLndCxzTjbLefi3Iji1RTVO6q0nR4STZJGg
+ xbDwG2Y8rw6u3c1rRuKv5Daf9pPtbFF/HvtFIB9zRhVGe3Ryw+LnuKp5UHCESKSdhodg
+ gD6QNFQXCEB/qUNo5eqt5A6rjwZZDCQMnZQWnOfhbd4AHSZD69nVF01wIm9PxqCNQhs7
+ dEjQ==
+X-Gm-Message-State: AOAM5313vaI21X/hwPKG2L0d1T45+qGUHM3shpQAhh2JOLbrkowTyScF
+ OdMu7M9h8IXJ0YKXetgHuLU=
+X-Google-Smtp-Source: ABdhPJzVZANJW5iSs1X4gKiIvuAT2ZlwwoV9fug2MkAnjpXJYzhlQGYByLpQ6vPcTb80NGpOsNFyzg==
+X-Received: by 2002:a19:e00a:: with SMTP id x10mr615907lfg.536.1629165734488; 
+ Mon, 16 Aug 2021 19:02:14 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru.
  [46.138.85.91])
- by smtp.gmail.com with ESMTPSA id i24sm51729lfc.293.2021.08.16.19.02.13
+ by smtp.gmail.com with ESMTPSA id i24sm51729lfc.293.2021.08.16.19.02.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 19:02:13 -0700 (PDT)
+ Mon, 16 Aug 2021 19:02:14 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH v1 2/3] drm/tegra: uapi: Fix wrong mapping end address in case
- of disabled IOMMU
-Date: Tue, 17 Aug 2021 05:01:52 +0300
-Message-Id: <20210817020153.25378-3-digetx@gmail.com>
+Subject: [PATCH v1 3/3] gpu/host1x: fence: Make spinlock static
+Date: Tue, 17 Aug 2021 05:01:53 +0300
+Message-Id: <20210817020153.25378-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210817020153.25378-1-digetx@gmail.com>
 References: <20210817020153.25378-1-digetx@gmail.com>
@@ -75,28 +74,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All jobs are failing on Tegra20 because it doesn't use IOMMU and mapping
-function uses size of mapping that is zero instead of BO size, fix it.
+The DEFINE_SPINLOCK macro creates a global spinlock symbol that is visible
+to the whole kernel. This is unintended in the code, fix it.
 
-Fixes: d7c591bc1a3f ("drm/tegra: Implement new UAPI")
+Fixes: 687db2207b1b ("gpu: host1x: Add DMA fence implementation")
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/uapi.c | 2 +-
+ drivers/gpu/host1x/fence.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
-index dc16a24f4dbe..690a339c52ec 100644
---- a/drivers/gpu/drm/tegra/uapi.c
-+++ b/drivers/gpu/drm/tegra/uapi.c
-@@ -222,7 +222,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 		mapping->iova = sg_dma_address(mapping->sgt->sgl);
- 	}
+diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
+index 6941add95d0f..e49083b0b09e 100644
+--- a/drivers/gpu/host1x/fence.c
++++ b/drivers/gpu/host1x/fence.c
+@@ -15,7 +15,7 @@
+ #include "intr.h"
+ #include "syncpt.h"
  
--	mapping->iova_end = mapping->iova + host1x_to_tegra_bo(mapping->bo)->size;
-+	mapping->iova_end = mapping->iova + host1x_to_tegra_bo(mapping->bo)->gem.size;
+-DEFINE_SPINLOCK(lock);
++static DEFINE_SPINLOCK(lock);
  
- 	err = xa_alloc(&context->mappings, &args->mapping, mapping, XA_LIMIT(1, U32_MAX),
- 		       GFP_KERNEL);
+ struct host1x_syncpt_fence {
+ 	struct dma_fence base;
 -- 
 2.32.0
 
