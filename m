@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADBF3EEC78
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 14:30:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10FA3EEC99
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 14:38:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0D66E187;
-	Tue, 17 Aug 2021 12:29:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F03F6E0F0;
+	Tue, 17 Aug 2021 12:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE2E6E0FB
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 12:29:46 +0000 (UTC)
-Received: from localhost.localdomain (211.81-166-168.customer.lyse.net
- [81.166.168.211])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: noralf.tronnes@ebnett.no)
- by asav21.altibox.net (Postfix) with ESMTPSA id 16DB38004A;
- Tue, 17 Aug 2021 14:29:44 +0200 (CEST)
-From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-To: dri-devel@lists.freedesktop.org
-Cc: peter@stuge.se, linus.walleij@linaro.org,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH 7/7] drm/gud: Add module parameter to control emulation:
- xrgb8888
-Date: Tue, 17 Aug 2021 14:29:17 +0200
-Message-Id: <20210817122917.49929-8-noralf@tronnes.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210817122917.49929-1-noralf@tronnes.org>
-References: <20210817122917.49929-1-noralf@tronnes.org>
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 773406E0F0;
+ Tue, 17 Aug 2021 12:38:34 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4GprDF2h3Tz9sSn;
+ Tue, 17 Aug 2021 22:38:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+ s=201909; t=1629203905;
+ bh=NQyXzwQlAo0xsgc18yZpAOusgLGX71Fk6ueV1qdw5rA=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=KYXSccDfXzjB2hBx15MoEIDf+kWmkDX50zC9GoNA+zRe2h6A0PbLhChR5Cdkwlare
+ Skall5IaM+JNYijtEffokiKW2vk3GcnrIXL9w6cyu8ks9EO2+V9EOw5R+GGu1PiYQv
+ D9NxQxRHQN8/BYGs83P6DhfXjoNRsufAILW0QoxjiCBqx4FvSdnLWb7NReYqLmQl3x
+ p3W/80//lGcl/AzT+8dWLeaLNqPIEQLIUJX653gw3u6fYoSlh4acLTdYAto8S4VL1T
+ o4r+VgRPi55oy+/sUiu+QbwiFA1DMF8zLkBn1HY/7VQPrYtD408/c7FtLIJoHUe5Qi
+ Ap9BkljmAJJGw==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+Cc: Borislav Petkov <bp@alien8.de>, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>
+Subject: Re: [PATCH v2 04/12] powerpc/pseries/svm: Add a powerpc version of
+ prot_guest_has()
+In-Reply-To: <000f627ce20c6504dd8d118d85bd69e7717b752f.1628873970.git.thomas.lendacky@amd.com>
+References: <cover.1628873970.git.thomas.lendacky@amd.com>
+ <000f627ce20c6504dd8d118d85bd69e7717b752f.1628873970.git.thomas.lendacky@amd.com>
+Date: Tue, 17 Aug 2021 22:38:19 +1000
+Message-ID: <874kbogsas.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Tc64SyYh c=1 sm=1 tr=0
- a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
- a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=aR16PxjQAAAA:8 a=SJz97ENfAAAA:8
- a=DmnpHc4pua4SWowHEBAA:9 a=QEXdDO2ut3YA:10 a=zbFvvTOBjyH4ze5LlUjX:22
- a=vFet0B0WnEQeilDPIY6i:22
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,69 +65,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For devices that don't support XRGB8888 give the user the ability to
-choose what's most important: Color depth or frames per second.
+Tom Lendacky <thomas.lendacky@amd.com> writes:
+> Introduce a powerpc version of the prot_guest_has() function. This will
+> be used to replace the powerpc mem_encrypt_active() implementation, so
+> the implementation will initially only support the PATTR_MEM_ENCRYPT
+> attribute.
+>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  arch/powerpc/include/asm/protected_guest.h | 30 ++++++++++++++++++++++
+>  arch/powerpc/platforms/pseries/Kconfig     |  1 +
+>  2 files changed, 31 insertions(+)
+>  create mode 100644 arch/powerpc/include/asm/protected_guest.h
+>
+> diff --git a/arch/powerpc/include/asm/protected_guest.h b/arch/powerpc/include/asm/protected_guest.h
+> new file mode 100644
+> index 000000000000..ce55c2c7e534
+> --- /dev/null
+> +++ b/arch/powerpc/include/asm/protected_guest.h
+> @@ -0,0 +1,30 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Protected Guest (and Host) Capability checks
+> + *
+> + * Copyright (C) 2021 Advanced Micro Devices, Inc.
+> + *
+> + * Author: Tom Lendacky <thomas.lendacky@amd.com>
+> + */
+> +
+> +#ifndef _POWERPC_PROTECTED_GUEST_H
+> +#define _POWERPC_PROTECTED_GUEST_H
 
-Add an 'xrgb8888' module parameter to override the emulation format.
+Minor nit, we would usually use _ASM_POWERPC_PROTECTED_GUEST_H
 
-Assume the user wants full control if xrgb8888 is set and don't set
-DRM_CAP_DUMB_PREFERRED_DEPTH if RGB565 is supported (AFAIK only X.org
-supports this).
+Otherwise looks OK to me.
 
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- drivers/gpu/drm/gud/gud_drv.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+Acked-by: Michael Ellerman <mpe@ellerman.id.au>
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index 3f9d4b9a1e3d..60d27ee5ddbd 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -30,6 +30,10 @@
- 
- #include "gud_internal.h"
- 
-+static int gud_xrgb8888;
-+module_param_named(xrgb8888, gud_xrgb8888, int, 0644);
-+MODULE_PARM_DESC(xrgb8888, "XRGB8888 emulation format: GUD_PIXEL_FORMAT_* value, 0=auto, -1=disable [default=auto]");
-+
- /* Only used internally */
- static const struct drm_format_info gud_drm_format_r1 = {
- 	.format = GUD_DRM_FORMAT_R1,
-@@ -530,12 +534,12 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 		case DRM_FORMAT_RGB332:
- 			fallthrough;
- 		case DRM_FORMAT_RGB888:
--			if (!xrgb8888_emulation_format)
-+			if (!gud_xrgb8888 && !xrgb8888_emulation_format)
- 				xrgb8888_emulation_format = info;
- 			break;
- 		case DRM_FORMAT_RGB565:
- 			rgb565_supported = true;
--			if (!xrgb8888_emulation_format)
-+			if (!gud_xrgb8888 && !xrgb8888_emulation_format)
- 				xrgb8888_emulation_format = info;
- 			break;
- 		case DRM_FORMAT_XRGB8888:
-@@ -543,6 +547,9 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 			break;
- 		}
- 
-+		if (gud_xrgb8888 == formats_dev[i])
-+			xrgb8888_emulation_format = info;
-+
- 		fmt_buf_size = drm_format_info_min_pitch(info, 0, drm->mode_config.max_width) *
- 			       drm->mode_config.max_height;
- 		max_buffer_size = max(max_buffer_size, fmt_buf_size);
-@@ -559,7 +566,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	}
- 
- 	/* Prefer speed over color depth */
--	if (rgb565_supported)
-+	if (!gud_xrgb8888 && rgb565_supported)
- 		drm->mode_config.preferred_depth = 16;
- 
- 	if (!xrgb8888_supported && xrgb8888_emulation_format) {
--- 
-2.32.0
-
+cheers
