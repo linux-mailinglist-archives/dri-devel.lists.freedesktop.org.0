@@ -2,58 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F543EE65A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 07:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 141893EE646
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 07:36:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3A9B6E102;
-	Tue, 17 Aug 2021 05:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38866E0F6;
+	Tue, 17 Aug 2021 05:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 853226E0FF;
- Tue, 17 Aug 2021 05:44:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10078"; a="279741496"
-X-IronPort-AV: E=Sophos;i="5.84,328,1620716400"; 
- d="asc'?scan'208";a="279741496"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2021 22:44:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,328,1620716400"; 
- d="asc'?scan'208";a="449142901"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
- by fmsmga007.fm.intel.com with ESMTP; 16 Aug 2021 22:44:42 -0700
-Date: Tue, 17 Aug 2021 13:22:03 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Wang, Zhi A" <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@intel.com>
-Subject: Re: refactor the i915 GVT support
-Message-ID: <20210817052203.GX13928@zhen-hp.sh.intel.com>
-References: <20210722112636.wj277vqhg4dez5ug@sirius.home.kraxel.org>
- <20210727121224.GA2145868@nvidia.com>
- <DM4PR11MB5549EC882AA6076F3468274DCAEA9@DM4PR11MB5549.namprd11.prod.outlook.com>
- <20210728175925.GU1721383@nvidia.com>
- <20210729072022.GB31896@lst.de>
- <20210803094315.GF13928@zhen-hp.sh.intel.com>
- <20210803143058.GA1721383@nvidia.com>
- <20210804052606.GG13928@zhen-hp.sh.intel.com>
- <20210816173458.GA9183@lst.de>
- <20210817010851.GW13928@zhen-hp.sh.intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDAF46E0F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 05:36:51 +0000 (UTC)
+X-UUID: e7d62cd78f204186908e9e52c27b679a-20210817
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=b328J144zpOevt/q/w5Rgs8faNaGXzgEa4YLoCNwF6w=; 
+ b=S+xSEupC5vSrgKHhRJrL1U0CDOVhSM0yeVcKUpBVyXq0GY2qSr81HVM6DU3q3XUl/6RvSuAjfM4eSv4y5mJ/VisfFvL0nuMzCSkzhNI/nXENI4b3dtUso+Er2TWhnAzuVfY8DtQ0dmUHAUcjJUYKfRG1zr6ukVOmUPo8jTUhZvQ=;
+X-UUID: e7d62cd78f204186908e9e52c27b679a-20210817
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 249429694; Tue, 17 Aug 2021 13:36:46 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 17 Aug 2021 13:36:45 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 17 Aug 2021 13:36:45 +0800
+Message-ID: <1629178605.7579.3.camel@mtksdaap41>
+Subject: Re: [RFC PATCH 5/5] drm/mediatek: Add mt8195 DisplayPort driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Markus Schneider-Pargmann <msp@baylibre.com>
+CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>
+Date: Tue, 17 Aug 2021 13:36:45 +0800
+In-Reply-To: <20210816192523.1739365-6-msp@baylibre.com>
+References: <20210816192523.1739365-1-msp@baylibre.com>
+ <20210816192523.1739365-6-msp@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="uIQsGlkY6qbVGkBB"
-Content-Disposition: inline
-In-Reply-To: <20210817010851.GW13928@zhen-hp.sh.intel.com>
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,71 +57,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+SGksIE1hcmt1czoNCg0KT24gTW9uLCAyMDIxLTA4LTE2IGF0IDIxOjI1ICswMjAwLCBNYXJrdXMg
+U2NobmVpZGVyLVBhcmdtYW5uIHdyb3RlOg0KPiBUaGlzIHBhdGNoIGFkZHMgYSBEaXNwbGF5UG9y
+dCBkcml2ZXIgZm9yIHRoZSBNZWRpYXRlayBtdDgxOTUgU29DLg0KPiANCj4gSXQgc3VwcG9ydHMg
+Ym90aCBmdW5jdGlvbmFsIHVuaXRzIG9uIHRoZSBtdDgxOTUsIHRoZSBlbWJlZGRlZA0KPiBEaXNw
+bGF5UG9ydCBhcyB3ZWxsIGFzIHRoZSBleHRlcm5hbCBEaXNwbGF5UG9ydCB1bml0cy4gSXQgb2Zm
+ZXJzDQo+IGhvdC1wbHVnLWRldGVjdGlvbiwgYXVkaW8gdXAgdG8gOCBjaGFubmVscywgYW5kIERp
+c3BsYXlQb3J0IDEuNCB3aXRoIHVwDQo+IHRvIDQgbGFuZXMuDQo+IA0KPiBUaGlzIGRyaXZlciBp
+cyBiYXNlZCBvbiBhbiBpbml0aWFsIHZlcnNpb24gYnkNCj4gSmFzb24tSkguTGluIDxqYXNvbi1q
+aC5saW5AbWVkaWF0ZWsuY29tPi4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1hcmt1cyBTY2huZWlk
+ZXItUGFyZ21hbm4gPG1zcEBiYXlsaWJyZS5jb20+DQo+IC0tLQ0KDQpbc25pcF0NCg0KPiArDQo+
+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBtdGtfZHBfb2ZfbWF0Y2hbXSA9IHsN
+Cj4gKwl7DQo+ICsJCS5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE5NS1kcF90eCIsDQoNCldo
+ZXJlIGlzIHRoZSBiaW5kaW5nIGRvY3VtZW50IG9mICJtZWRpYXRlayxtdDgxOTUtZHBfdHgiPw0K
+DQo+ICsJCS5kYXRhID0gJm10ODE5NV9kcF9kcml2ZXJfZGF0YSwNCj4gKwl9LA0KPiArCXsNCj4g
+KwkJLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTk1LWVkcF90eCIsDQoNCldoZXJlIGlzIHRo
+ZSBiaW5kaW5nIGRvY3VtZW50IG9mICJtZWRpYXRlayxtdDgxOTUtZWRwX3R4Ij8NCg0KPiArCQku
+ZGF0YSA9ICZtdDgxOTVfZWRwX2RyaXZlcl9kYXRhLA0KPiArCX0sDQo+ICsJe30sDQo+ICt9Ow0K
+PiArTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgbXRrX2RwX29mX21hdGNoKTsNCj4gKw0KPiArc3Ry
+dWN0IHBsYXRmb3JtX2RyaXZlciBtdGtfZHBfZHJpdmVyID0gew0KPiArCS5wcm9iZSA9IG10a19k
+cF9wcm9iZSwNCj4gKwkucmVtb3ZlID0gbXRrX2RwX3JlbW92ZSwNCj4gKwkuZHJpdmVyID0gew0K
+PiArCQkubmFtZSA9ICJtZWRpYXRlay1kcm0tZHAiLA0KPiArCQkub2ZfbWF0Y2hfdGFibGUgPSBt
+dGtfZHBfb2ZfbWF0Y2gsDQo+ICsJCS5wbSA9ICZtdGtfZHBfcG1fb3BzLA0KPiArCX0sDQo+ICt9
+Ow0KPiArDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwX3Jl
+Zy5oIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcF9yZWcuaA0KPiBuZXcgZmlsZSBt
+b2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjgzYWZjNzlkOThmZg0KPiAtLS0gL2Rl
+di9udWxsDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHBfcmVnLmgNCj4g
+QEAgLTAsMCArMSwzMDk1IEBADQo+ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIu
+MCAqLw0KPiArLyoNCj4gKyAqIENvcHlyaWdodCAoYykgMjAxOSBNZWRpYVRlayBJbmMuDQo+ICsg
+KiBDb3B5cmlnaHQgKGMpIDIwMjEgQmF5TGlicmUNCj4gKyAqLw0KPiArI2lmbmRlZiBfTVRLX0RQ
+X1JFR19IXw0KPiArI2RlZmluZSBfTVRLX0RQX1JFR19IXw0KPiArDQo+ICsjZGVmaW5lIE1US19E
+UF9TSVBfQ09OVFJPTF9BQVJDSDMyIDB4ODIwMDA1MjMNCj4gKyMgZGVmaW5lIE1US19EUF9TSVBf
+QVRGX1ZJREVPX1VOTVVURSAweDIwDQo+ICsjIGRlZmluZSBNVEtfRFBfU0lQX0FURl9FRFBfVklE
+RU9fVU5NVVRFIDB4MjENCj4gKyMgZGVmaW5lIE1US19EUF9TSVBfQVRGX1JFR19XUklURSAweDIy
+DQo+ICsjIGRlZmluZSBNVEtfRFBfU0lQX0FURl9SRUdfUkVBRCAweDIzDQo+ICsjIGRlZmluZSBN
+VEtfRFBfU0lQX0FURl9DTURfQ09VTlQgMHgyNA0KPiArDQo+ICsjZGVmaW5lIFRPUF9PRkZTRVQJ
+CTB4MjAwMA0KPiArI2RlZmluZSBFTkMwX09GRlNFVAkJMHgzMDAwDQo+ICsjZGVmaW5lIEVOQzFf
+T0ZGU0VUCQkweDMyMDANCj4gKyNkZWZpbmUgVFJBTlNfT0ZGU0VUCQkweDM0MDANCj4gKyNkZWZp
+bmUgQVVYX09GRlNFVAkJMHgzNjAwDQo+ICsjZGVmaW5lIFNFQ19PRkZTRVQJCTB4NDAwMA0KPiAr
+DQo+ICsjZGVmaW5lIE1US19EUF9IUERfRElTQ09OTkVDVAlCSVQoMSkNCj4gKyNkZWZpbmUgTVRL
+X0RQX0hQRF9DT05ORUNUCUJJVCgyKQ0KPiArI2RlZmluZSBNVEtfRFBfSFBEX0lOVEVSUlVQVAlC
+SVQoMykNCj4gKw0KPiArI2RlZmluZSBNVEtfRFBfRU5DMF9QMF8zMDAwICAgICAgICAgICAgICAo
+RU5DMF9PRkZTRVQgKyAweDAwMCkNCj4gKyMgZGVmaW5lIExBTkVfTlVNX0RQX0VOQzBfUDBfTUFT
+SyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMHgzDQo+ICsjIGRlZmluZSBM
+QU5FX05VTV9EUF9FTkMwX1AwX1NISUZUICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIDANCj4gKyMgZGVmaW5lIFZJREVPX01VVEVfU1dfRFBfRU5DMF9QMF9NQVNLICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgMHg0DQo+ICsjIGRlZmluZSBWSURFT19NVVRFX1NXX0RQ
+X0VOQzBfUDBfU0hJRlQgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDINCj4gKyMgZGVm
+aW5lIFZJREVPX01VVEVfU0VMX0RQX0VOQzBfUDBfTUFTSyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgMHg4DQo+ICsjIGRlZmluZSBWSURFT19NVVRFX1NFTF9EUF9FTkMwX1AwX1NISUZU
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDMNCj4gKyMgZGVmaW5lIEVOSEFOQ0VEX0ZS
+QU1FX0VOX0RQX0VOQzBfUDBfTUFTSyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMHgxMA0K
+PiArIyBkZWZpbmUgRU5IQU5DRURfRlJBTUVfRU5fRFBfRU5DMF9QMF9TSElGVCAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICA0DQo+ICsjIGRlZmluZSBIRENQX0ZSQU1FX0VOX0RQX0VOQzBfUDBf
+TUFTSyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDB4MjANCj4gKyMgZGVmaW5lIEhE
+Q1BfRlJBTUVfRU5fRFBfRU5DMF9QMF9TSElGVCAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgNQ0KPiArIyBkZWZpbmUgSURQX0VOX0RQX0VOQzBfUDBfTUFTSyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAweDQwDQoNClJlbW92ZSB1c2VsZXNzIGRlZmluaXRpb24u
+DQoNClJlZ2FyZHMsDQpDSy4NCg0KPiArIyBkZWZpbmUgSURQX0VOX0RQX0VOQzBfUDBfU0hJRlQg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA2DQo+ICsjIGRlZmluZSBCU19T
+WU1CT0xfQ05UX1JFU0VUX0RQX0VOQzBfUDBfTUFTSyAgICAgICAgICAgICAgICAgICAgICAgICAg
+IDB4ODANCj4gKyMgZGVmaW5lIEJTX1NZTUJPTF9DTlRfUkVTRVRfRFBfRU5DMF9QMF9TSElGVCAg
+ICAgICAgICAgICAgICAgICAgICAgICAgNw0KPiArIyBkZWZpbmUgTUlYRVJfRFVNTVlfREFUQV9E
+UF9FTkMwX1AwX01BU0sgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAweGZmMDANCj4gKyMg
+ZGVmaW5lIE1JWEVSX0RVTU1ZX0RBVEFfRFBfRU5DMF9QMF9TSElGVCAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgOA0KPiArDQoNCj4gKw0KPiArI2VuZGlmIC8qX01US19EUF9SRUdfSF8qLw0K
+DQo=
 
---uIQsGlkY6qbVGkBB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2021.08.17 09:08:55 +0800, Zhenyu Wang wrote:
-> On 2021.08.16 19:34:58 +0200, Christoph Hellwig wrote:
-> > On Wed, Aug 04, 2021 at 01:26:06PM +0800, Zhenyu Wang wrote:
-> > > On 2021.08.03 11:30:58 -0300, Jason Gunthorpe wrote:
-> > > > On Tue, Aug 03, 2021 at 05:43:15PM +0800, Zhenyu Wang wrote:
-> > > > > Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-> > > > >=20
-> > > > > Thanks a lot for this effort!
-> > > >=20
-> > > > Great, do we have a submission plan for this? how much does it clash
-> > > > with my open_device/etc patch? ie does the whole thing have to go
-> > > > through the vfio tree?
-> > > >=20
-> > >=20
-> > > I think Alex would determine when to merge open_device series, gvt pa=
-rt
-> > > can be through vfio tree without problem. For this refactor, I would =
-first
-> > > merge for gvt staging to do more regression testing before sending th=
-rough
-> > > i915 tree.
-> >=20
-> > Any updates on this?  I'd really hate to miss this merge window.
->=20
-> I'm still waiting for our validation team's report on this. I'm afraid
-> it might be missing for next version as i915 merge window is mostly
-> till rc5...and for any change outside of gvt, it still needs to be
-> acked by i915 maintainers.
-
-Looks our validation team did have problem against recent i915 change.
-If you like to try, we have a gvt-staging branch on
-https://github.com/intel/gvt-linux which is generated against drm-tip
-with gvt changes for testing, currently it's broken.
-
-One issue is with i915 export that intel_context_unpin has been
-changed into static inline function. Another is that intel_gvt.c
-should be part of i915 for gvt interface instead of depending on KVMGT
-config.
-
-But the problem I see is that after moving gvt device model (gvt/*.c
-except kvmgt.c) into kvmgt module, we'll have issue with initial mmio
-state which current gvt relies on, that is in design supposed to get
-initial HW state before i915 driver has taken any operation.  Before
-we can ensure that, I think we may only remove MPT part first but
-still keep gvt device model as part of i915 with config. I'll try to
-split that out.
-
---uIQsGlkY6qbVGkBB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYRtHbwAKCRCxBBozTXgY
-JyrQAJ92WESsBu++Qsz8cYKJinX8AC3VdACfYCC5M9toa7YrrolbmwD1kkmKZQ8=
-=97Uw
------END PGP SIGNATURE-----
-
---uIQsGlkY6qbVGkBB--
