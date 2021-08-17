@@ -1,65 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFC33EF116
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 19:48:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15AEF3EF136
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 19:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5F16E217;
-	Tue, 17 Aug 2021 17:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88A246E216;
+	Tue, 17 Aug 2021 17:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDE306E217
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 17:48:35 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1629222517; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=XBtQo/a+e5NB19WIOi/LVxJedsfU596PScMqe8VQa4k=;
- b=uj/s8XOqDig4Ui9pGAZjADOdT8k3IiFbcOkCL+biTZbdi90BOcJpWbJwJ+2Jw7XfPAr36z9G
- TOBw+je4BdUZQfYhUmNOR+QJ5C3nyFYzNLNvyMB8bPXjRs7PubnIStz+rMmbEEZK3REzP/Kw
- B+82BDpKjHIT/xo+XNqibZknANo=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 611bf6702892f803bc9399ca (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Aug 2021 17:48:32
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 867CCC43617; Tue, 17 Aug 2021 17:48:31 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3B1B9C4360C;
- Tue, 17 Aug 2021 17:48:30 +0000 (UTC)
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78FF36E216
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 17:59:52 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id x5so9361153qtq.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 10:59:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PqH8vs5GnoYqbuEEJJZJEej1s3SuplbOXoOoWr1L3bo=;
+ b=BQKKP7/8nXj24BS9UbGzCJiG/i8Dtcbs4Q8i8+YB1LVwlHrUQCBw0LZcWZhq03YrPU
+ O92/GJGMVHfZ4CAp+VjVA4XCat9ig6WehlcJonaRdypWZJz/GrDdhwWujf1g4XywrkCv
+ ctOnEwyuqxh8oUufgE23NToFB7uNatfQmoDMA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PqH8vs5GnoYqbuEEJJZJEej1s3SuplbOXoOoWr1L3bo=;
+ b=AERRR9uGKk/yRYOpPyCZZFZKLiGcrG5O02axEkat8zzeFNxLjlC8YHKWs14pCfPlxM
+ ndWn0RcXFDscKjv47dRNKnncheml5Demj6PRJG7sn7vwicLge6axmAApcstSjNniLUtE
+ 76J9NyXxxIAJK3cD7lk9id6BS+XsAAtBbzYuR+Ww8EGAMffQRKRw0qIMcLKE4EdtaAig
+ xusWN0NmsNNYdFA7SjSEtRyAp/1gl7dhEmQ6AN+DYQNPgdbSjyfU0FIKvNt7Phdp9J3K
+ /iKlUBjllkw8q+uDhCDNR4c0IQNnjQ3hEubEQLb9iikzQK7mhNijvge112Zzw8IPXOQU
+ gCTQ==
+X-Gm-Message-State: AOAM533JeOD+8r91CPWRs2BtSphhQU2FKnJDz9w7xxTu8jkXo3+6ne2b
+ vNSxd43kze3jcZUiXn0O3RRv6SsZODURYQ==
+X-Google-Smtp-Source: ABdhPJxP0omBLQb6xxZUxzxNrxEOyXj3yn0l521fXZwjjyC8p14r/B8dDPxz1KzMyJ1SNmXZJe46wA==
+X-Received: by 2002:a05:622a:5d3:: with SMTP id
+ d19mr4245017qtb.211.1629223191280; 
+ Tue, 17 Aug 2021 10:59:51 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
+ [209.85.219.179])
+ by smtp.gmail.com with ESMTPSA id x21sm1878122qkf.76.2021.08.17.10.59.50
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 10:59:51 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id p4so41077296yba.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 10:59:50 -0700 (PDT)
+X-Received: by 2002:a25:e006:: with SMTP id x6mr5546633ybg.341.1629223189634; 
+ Tue, 17 Aug 2021 10:59:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 17 Aug 2021 10:48:30 -0700
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Jonathan Marek
- <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- freedreno@lists.freedesktop.org
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: add support for alpha blending
- properties
-In-Reply-To: <20210628191958.2754731-1-dmitry.baryshkov@linaro.org>
-References: <20210628191958.2754731-1-dmitry.baryshkov@linaro.org>
-Message-ID: <34ee522aa37172099dac9f686f0196ec@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210811175525.2125964-1-markyacoub@chromium.org>
+ <20210812194917.1703356-1-markyacoub@chromium.org>
+ <4ab4548f-34fc-27cb-928e-af2b8ab78b1b@daenzer.net>
+ <CAJUqKUp6zrioRy4aK_ySM+1EMWfZqX1P-_u2RGsGB9PCBXLSAQ@mail.gmail.com>
+In-Reply-To: <CAJUqKUp6zrioRy4aK_ySM+1EMWfZqX1P-_u2RGsGB9PCBXLSAQ@mail.gmail.com>
+From: Sean Paul <seanpaul@chromium.org>
+Date: Tue, 17 Aug 2021 13:59:13 -0400
+X-Gmail-Original-Message-ID: <CAOw6vbKJ3QhdVQ5dhE7M75hF5j5QaXNwxkys4+qPdDh9tU3Dcg@mail.gmail.com>
+Message-ID: <CAOw6vbKJ3QhdVQ5dhE7M75hF5j5QaXNwxkys4+qPdDh9tU3Dcg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Copy drm_wait_vblank to user before returning
+To: Mark Yacoub <markyacoub@chromium.org>
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ abhinavk@codeaurora.org, 
+ Rob Clark <robdclark@chromium.org>, Dave Airlie <airlied@linux.ie>, 
+ Mark Yacoub <markyacoub@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,134 +83,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-06-28 12:19, Dmitry Baryshkov wrote:
-> Add support for alpha blending properties. Setup the plane blend state
-> according to those properties.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Fri, Aug 13, 2021 at 11:48 AM Mark Yacoub <markyacoub@chromium.org> wrot=
+e:
+>
+> Thanks for your review Michel!
+> @MAINTAINER, could you please strip the Change-Id when applying.
+> Thanks!
 
-I think this has already been picked up by Rob but just had a couple of 
-comments
-below.
+Applied to drm-misc-fixes with the Change-Id removed.
 
-Also, how has this been validated? On RB boards i dont think all the 
-paths get
-executed.
+Thank you for your patch!
 
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 43 ++++++++++++++++-------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 10 ++++--
->  2 files changed, 37 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 9a5c70c87cc8..768012243b44 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -30,12 +30,6 @@
->  #include "dpu_core_perf.h"
->  #include "dpu_trace.h"
-> 
-> -#define DPU_DRM_BLEND_OP_NOT_DEFINED    0
-> -#define DPU_DRM_BLEND_OP_OPAQUE         1
-> -#define DPU_DRM_BLEND_OP_PREMULTIPLIED  2
-> -#define DPU_DRM_BLEND_OP_COVERAGE       3
-> -#define DPU_DRM_BLEND_OP_MAX            4
-> -
->  /* layer mixer index on dpu_crtc */
->  #define LEFT_MIXER 0
->  #define RIGHT_MIXER 1
-> @@ -146,20 +140,43 @@ static void _dpu_crtc_setup_blend_cfg(struct
-> dpu_crtc_mixer *mixer,
->  {
->  	struct dpu_hw_mixer *lm = mixer->hw_lm;
->  	uint32_t blend_op;
-> +	uint32_t fg_alpha, bg_alpha;
-> 
-> -	/* default to opaque blending */
-> -	blend_op = DPU_BLEND_FG_ALPHA_FG_CONST |
-> -		DPU_BLEND_BG_ALPHA_BG_CONST;
-> +	fg_alpha = pstate->base.alpha >> 8;
-> +	bg_alpha = 0xff - fg_alpha;
-> 
-> -	if (format->alpha_enable) {
-> +	/* default to opaque blending */
-> +	if (pstate->base.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE ||
-> +	    !format->alpha_enable) {
-> +		blend_op = DPU_BLEND_FG_ALPHA_FG_CONST |
-> +			DPU_BLEND_BG_ALPHA_BG_CONST;
-> +	} else if (pstate->base.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI) 
-> {
-> +		blend_op = DPU_BLEND_FG_ALPHA_FG_CONST |
-> +			DPU_BLEND_BG_ALPHA_FG_PIXEL;
-> +		if (fg_alpha != 0xff) {
-> +			bg_alpha = fg_alpha;
-> +			blend_op |= DPU_BLEND_BG_MOD_ALPHA |
-> +				    DPU_BLEND_BG_INV_MOD_ALPHA;
-> +		} else {
-> +			blend_op |= DPU_BLEND_BG_INV_ALPHA;
-> +		}
-> +	} else {
->  		/* coverage blending */
->  		blend_op = DPU_BLEND_FG_ALPHA_FG_PIXEL |
-> -			DPU_BLEND_BG_ALPHA_FG_PIXEL |
-> -			DPU_BLEND_BG_INV_ALPHA;
-> +			DPU_BLEND_BG_ALPHA_FG_PIXEL;
-> +		if (fg_alpha != 0xff) {
-> +			bg_alpha = fg_alpha;
-> +			blend_op |= DPU_BLEND_FG_MOD_ALPHA |
-> +				    DPU_BLEND_FG_INV_MOD_ALPHA |
-comparing this with the blend rule downstream, is this inversion 
-necessary?
-I only see below rule downstream:
+Sean
 
-628 			if (fg_alpha != 0xff) {
-629 				bg_alpha = fg_alpha;
-630 				blend_op |= SDE_BLEND_FG_MOD_ALPHA |
-631 					SDE_BLEND_BG_MOD_ALPHA |
-632 					SDE_BLEND_BG_INV_MOD_ALPHA;
-
-> +				    DPU_BLEND_BG_MOD_ALPHA |
-> +				    DPU_BLEND_BG_INV_MOD_ALPHA;
-> +		} else {
-> +			blend_op |= DPU_BLEND_BG_INV_ALPHA;
-> +		}
->  	}
-> 
->  	lm->ops.setup_blend_config(lm, pstate->stage,
-> -				0xFF, 0, blend_op);
-> +				fg_alpha, bg_alpha, blend_op);
-> 
->  	DRM_DEBUG_ATOMIC("format:%p4cc, alpha_en:%u blend_op:0x%x\n",
->  		  &format->base.pixel_format, format->alpha_enable, blend_op);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index ec4a6f04394a..c989621209aa 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -1339,9 +1339,7 @@ static void dpu_plane_reset(struct drm_plane 
-> *plane)
->  		return;
->  	}
-> 
-> -	pstate->base.plane = plane;
-> -
-> -	plane->state = &pstate->base;
-> +	__drm_atomic_helper_plane_reset(plane, &pstate->base);
->  }
-> 
->  #ifdef CONFIG_DEBUG_FS
-> @@ -1647,6 +1645,12 @@ struct drm_plane *dpu_plane_init(struct 
-> drm_device *dev,
->  	if (ret)
->  		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
-> 
-> +	drm_plane_create_alpha_property(plane);
-> +	drm_plane_create_blend_mode_property(plane,
-> +			BIT(DRM_MODE_BLEND_PIXEL_NONE) |
-> +			BIT(DRM_MODE_BLEND_PREMULTI) |
-> +			BIT(DRM_MODE_BLEND_COVERAGE));
-> +
->  	drm_plane_create_rotation_property(plane,
->  			DRM_MODE_ROTATE_0,
->  			DRM_MODE_ROTATE_0 |
+>
+> On Fri, Aug 13, 2021 at 3:33 AM Michel D=C3=A4nzer <michel@daenzer.net> w=
+rote:
+> >
+> > On 2021-08-12 9:49 p.m., Mark Yacoub wrote:
+> > > From: Mark Yacoub <markyacoub@google.com>
+> > >
+> > > [Why]
+> > > Userspace should get back a copy of drm_wait_vblank that's been modif=
+ied
+> > > even when drm_wait_vblank_ioctl returns a failure.
+> > >
+> > > Rationale:
+> > > drm_wait_vblank_ioctl modifies the request and expects the user to re=
+ad
+> > > it back. When the type is RELATIVE, it modifies it to ABSOLUTE and up=
+dates
+> > > the sequence to become current_vblank_count + sequence (which was
+> > > RELATIVE), but now it became ABSOLUTE.
+> > > drmWaitVBlank (in libdrm) expects this to be the case as it modifies
+> > > the request to be Absolute so it expects the sequence to would have b=
+een
+> > > updated.
+> > >
+> > > The change is in compat_drm_wait_vblank, which is called by
+> > > drm_compat_ioctl. This change of copying the data back regardless of =
+the
+> > > return number makes it en par with drm_ioctl, which always copies the
+> > > data before returning.
+> > >
+> > > [How]
+> > > Return from the function after everything has been copied to user.
+> > >
+> > > Fixes: IGT:kms_flip::modeset-vs-vblank-race-interruptible
+> > > Tested on ChromeOS Trogdor(msm)
+> > >
+> > > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> > > Change-Id: I98da279a5f1329c66a9d1e06b88d40b247b51313
+> >
+> > With the Gerrit Change-Id removed,
+> >
+> > Reviewed-by: Michel D=C3=A4nzer <mdaenzer@redhat.com>
+> >
+> >
+> > --
+> > Earthling Michel D=C3=A4nzer               |               https://redh=
+at.com
+> > Libre software enthusiast             |             Mesa and X develope=
+r
