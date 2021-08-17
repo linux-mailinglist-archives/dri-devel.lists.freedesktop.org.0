@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20EB3EF2E0
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 21:51:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CC13EF31B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 22:12:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 300FA6E23D;
-	Tue, 17 Aug 2021 19:51:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A50089B9E;
+	Tue, 17 Aug 2021 20:12:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E06F6E23D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 19:51:02 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id u25so823567oiv.5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 12:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aH8kiZHQo4ykBGSH0OeOVEbkxy6LmH/cnZcASLEdFHk=;
- b=bDneQIbhjh+E0GFiFBJZTMgeYiiJrqRiEDB5la2AsSY/SWC2RG+3epNj7N9K6hO1ET
- P4qdcs74FGh/4zQvK3pcTUUhmOyYOp78FRRijjBBSNCcqBsbkiqYkVreWPYNvxJNfn8H
- jXJC+Vc0dcW/JDzttxmE6/oxG9OyWg2YZD3UQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aH8kiZHQo4ykBGSH0OeOVEbkxy6LmH/cnZcASLEdFHk=;
- b=OCWDyiamQ90fsvqOGPXM0IcdAZfAZ8dL3c3AZ07Jwvq8r6qE4aOEExe3eMi+06tzdT
- 33LMhJcj7aow3NO4+hSp70I3X23eWMzQIHti+CrDcv22JPJnOdUaOfihRZdfMsdtFJNj
- DgbwIccM4Ef34tKiOWo0q2gQjAp0rNCnk2Tx/eLhRDuHn3pDFSxB5asnSxrf+2sSDd8H
- soDmPNxgxLkldJQZd4uTmXDD4/k+7svzklvCs49zmwdsbKNVWUykikmW0CGUVjjQGc1Y
- a8HfzHMchaJ2B6OgEH0t+jht5xF2EA/VPxEv10fct2uAcYuZidpWszoB3qIJ/cKpW+hi
- NQTg==
-X-Gm-Message-State: AOAM532uoGip84sMbjA62S2fgB1R4BIez0pv1hwLCBo64P+GZSXGdJCY
- vrmZWFVU35OQysBYEl6L9EjjxwgxdhFg1pzejI0LbA==
-X-Google-Smtp-Source: ABdhPJwQzUgtNIDIcTfQPnvqetDnsUEXnR/n1FTP9SD6/moBtL285+VlF09of0/9u25AOD8kkBRoYw8ae96xrtvQT5A=
-X-Received: by 2002:a05:6808:2116:: with SMTP id
- r22mr3931588oiw.128.1629229861589; 
- Tue, 17 Aug 2021 12:51:01 -0700 (PDT)
+Received: from smtp-relay-canonical-0.canonical.com
+ (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97B3489B9E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 20:12:00 +0000 (UTC)
+Received: from [192.168.0.209]
+ (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net [80.193.200.194])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id CC65E3F09C; 
+ Tue, 17 Aug 2021 20:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1629231119;
+ bh=vz7ZaNZ3isdK9UEz0Hc6tuR22YhsDAw8pDuj4sdetMs=;
+ h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+ In-Reply-To:Content-Type;
+ b=HusAaAkdjP6MAVLWziUddQUHebS+CPTrklda/1m3aM+O95Vg2c/Js8hpQ6cm3iZEJ
+ A58pumnzsgcbQR6MrJJYVivynS9lXK9I6Ql+tCfjui9AoknaFU3rffCQoCyLzHuszg
+ 426YZSfzyBJ8cuunvF8EHexB0SAUuUqW6+OKmrGo3ylT+j2ziAqyRJO8fzjbTZlaKE
+ oJENkKNA44i8rzvRLqegXx9nyCyklRp1Ql7QZWSbKUMb+FkrznM+b3b+DT3Uee9elk
+ MO9uvA8jR5sOqO6P8uyNBbdunt7kLvbA07XeWQfBks5KGSxFFnPyeQpgZuva7aRVQ+
+ Iq5XOnnWIHAWQ==
+Subject: Re: [PATCH][next] drm/mgag200: Fix uninitialized variable delta
+To: Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie
+ <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210817163204.494166-1-colin.king@canonical.com>
+ <bc94e837-9b56-55ba-1e68-1cba79ac038a@suse.de>
+From: Colin Ian King <colin.king@canonical.com>
+Message-ID: <ff723637-fa21-6b58-c8f7-9c3567cd5234@canonical.com>
+Date: Tue, 17 Aug 2021 21:11:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210817181626.30230-1-tzimmermann@suse.de>
-In-Reply-To: <20210817181626.30230-1-tzimmermann@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 17 Aug 2021 21:50:47 +0200
-Message-ID: <CAKMK7uGikc9pPQDUcimEwN1+cYo+j9pRt11ctGoUL-vz-GN6+w@mail.gmail.com>
-Subject: Re: [PATCH] drm/mgag200: Initialize delta variable in PLL compute
- function
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Dan Carpenter <dan.carpenter@oracle.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <bc94e837-9b56-55ba-1e68-1cba79ac038a@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,53 +64,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 8:16 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Initialize delta variable in PLL compute function for G200SE, rev 00 to
-> the maximum value. Fixes uninitialized usage.
->
->   smatch warnings:
->   drivers/gpu/drm/mgag200/mgag200_pll.c:142 mgag200_pixpll_compute_g200se_00() \
->   error: uninitialized symbol 'delta'.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 2545ac960364 ("drm/mgag200: Abstract pixel PLL via struct mgag200_pll")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
+On 17/08/2021 19:22, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 17.08.21 um 18:32 schrieb Colin King:
+>> From: Colin Ian King <colin.king@canonical.com>
+>>
+>> The variable delta is not initialized and this will cause unexpected
+>> behaviour with the comparison of tmpdelta < delta. Fix this by setting
+>> it to 0xffffffff. This matches the behaviour as in the similar function
+>> mgag200_pixpll_compute_g200se_04.
+>>
+>> Addresses-Coverity: ("Uninitialized scalar variable")
+>> Fixes: 2545ac960364 ("drm/mgag200: Abstract pixel PLL via struct
+>> mgag200_pll")
+>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> But the commit message needs Fixes etc. I just sent out a patch for this
+> issue myself. I'd like to merge both patches' tags and commit the result
+> under your name. (You were first.) Is that ok for you?
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Sure. Go ahead, Thanks
 
-I checked a bit your integer types, and there's a fair bit of
-inconsistency for what you're using for clock. unsigned int, long, int
-can all be found somewhere. But that's  different story.
--Daniel
+Colin
 
-> ---
->  drivers/gpu/drm/mgag200/mgag200_pll.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_pll.c b/drivers/gpu/drm/mgag200/mgag200_pll.c
-> index 7c903cf19c0d..e9ae22b4f813 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_pll.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_pll.c
-> @@ -124,6 +124,7 @@ static int mgag200_pixpll_compute_g200se_00(struct mgag200_pll *pixpll, long clo
->         unsigned int computed;
->
->         m = n = p = s = 0;
-> +       delta = 0xffffffff;
->         permitteddelta = clock * 5 / 1000;
->
->         for (testp = 8; testp > 0; testp /= 2) {
-> --
-> 2.32.0
->
+> 
+> Best regards
+> Thomas
+> 
+>> ---
+>>   drivers/gpu/drm/mgag200/mgag200_pll.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_pll.c
+>> b/drivers/gpu/drm/mgag200/mgag200_pll.c
+>> index 7c903cf19c0d..18f1a6dd019a 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_pll.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_pll.c
+>> @@ -125,6 +125,7 @@ static int mgag200_pixpll_compute_g200se_00(struct
+>> mgag200_pll *pixpll, long clo
+>>         m = n = p = s = 0;
+>>       permitteddelta = clock * 5 / 1000;
+>> +    delta = 0xffffffff;
+>>         for (testp = 8; testp > 0; testp /= 2) {
+>>           if (clock * testp > vcomax)
+>>
+> 
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
