@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C153EE742
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 09:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A223EE74F
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 09:35:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F4E8994D;
-	Tue, 17 Aug 2021 07:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10DEC89B51;
+	Tue, 17 Aug 2021 07:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 731F28994D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 07:31:22 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- i10-20020a05600c354ab029025a0f317abfso1159787wmq.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 00:31:22 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4BF89B51
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 07:35:32 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id r6so27184483wrt.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 00:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=A2+Lw6uRYk4QEZKbOu0vM7QAf5sH/o6K/BfCCdq3elY=;
- b=qSzoGmtukLgOoF65aePa+A5AChJnPJeVQBf/5shvBkcXdYkAcfouanKF5FhBS05sDv
- x6R4NOEDOziDXay+sg9+q47sBvZQbvKBn+pXqMCWaR6rGVJpjMRNWW0GxLJZVOYggw3h
- Sau+VXy54OojAAMFuSsAOVsqTQNu+P9jsid/1JE5YXQ38dXDpIR2Cs1EPe//gbFMoX2F
- VhN4rXLw/3q3uY6+roXduEE5aqhp212LnwWBUiLMviLACEv3PpSUxFbFeNv79Xz47Gql
- 97PGkxZJKNTjJC/wP/hgdWHHdexsZM8zx9lueuMVMHM3p8PaTEYe5k8TsUCT6TfLY07f
- Itaw==
+ bh=TXvj3Jqmqvj5AogWs4QqfqINOpj0gH3CoW+SyWWNh9M=;
+ b=LLywOYYel/1eZkqX8CMyyZG7FGTKJvikarloGCN6dzF25Yzut5wSmAGvudNYJo/SFk
+ Nbb33XK4DJG8HQouGg40ULIz/VG/UBzHqvU1ChcL9htQcfk3kuy9ouUKDxPH0XD/vYO3
+ VgEIYxQCjb/Nn1uJHYstLnnpS5rePtbjXH/ccTXz1f6MsXcERyzXcL9Jl3P1czzSqOoD
+ XKVTWzorM0mIxIg9eRr4EIxPMtN/ciCxP/SskVNzm/My0bXCg/oILWNu6wQbsT1Ywhj/
+ eYupQANLXSR1qjXVSfA/6knAWGDGJrjgX4Jqf/YOH5xzc7VyfKDJbYfOHXhSrGrhsrew
+ 2n1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=A2+Lw6uRYk4QEZKbOu0vM7QAf5sH/o6K/BfCCdq3elY=;
- b=mJtiZ+wXbE+FJVo2NerqiZxUhd4S/NGxAFq5+nCY2FtOFXraktSm9kfzb6Pi/cXHh9
- tlTsVSW1BBqpGx3XZOIMzaWJp0oJYfGOEy9V8cslFaPAd41jeqXZnMdOs1zAHMfVynnD
- 9dwsMCS+SeAmeOjWI0xncmkfnoM1+oHiPesHFcWgNmW1I+U2u8kg1pMDfmxGehoJz/ks
- 1Zft/INI5QHtikGZtHCSK8iYPzyUrGu/f7lOQ5nYJYmi9S5v8xeYUJws3HOGEkdKwIhe
- kVjaJm14oMuH2tPmT59wOzYaTKLfTuLgP6txNSK7E5XyBHT6UuQxx8eD5hDF6Oyoj5jm
- cMow==
-X-Gm-Message-State: AOAM533XQoXLjA17F9qq8q3POwY4IRalIdO0iSxVdOqWRHmtPD197Sju
- VkhuQgLiFKE2AS6aueZtDxI7Xw==
-X-Google-Smtp-Source: ABdhPJxMIBUssTHuFg+f+xiecHohfOVUViphNPiVPc7ogcvHkzCpoXJ76sTreVditSxIWT9KFPqlDA==
-X-Received: by 2002:a05:600c:4fc6:: with SMTP id
- o6mr1024050wmq.122.1629185481030; 
- Tue, 17 Aug 2021 00:31:21 -0700 (PDT)
+ bh=TXvj3Jqmqvj5AogWs4QqfqINOpj0gH3CoW+SyWWNh9M=;
+ b=dCT6Lk2CaVYSx546EBoqKha847WKcmEbcF0nGuZH1NQDCCv8SqXXi/N5KadFDP+eCr
+ d8Ytchw4KHhyLLtM9+VFTZF9dm8H2/R9ScxWN4/T5b6T4B+wGl8cG6xbftrPTq+vqjOv
+ /jWwzXbTUBzuBCofvXQjMN8j1avEh3ctr3zMsXy8QFcECTwBHDRtKvCZ+2EZf9zMITUN
+ GNW106gcKn3yxUqjhAT5xON9OuxcfUVLVr1ozzSn6lW4nzGb3en9Jp9KUnjXN8KYc4eS
+ 1KH1sYtjSDp+9O0pYXpFmPB3cI07a/lEGUtYvcmEa/yfPZgko6WfvFREFvPWObq/B1lP
+ h/fw==
+X-Gm-Message-State: AOAM531CnmwfEOsJU3PWNKmb0WgV8/kGyObvHf4KYJMA61rxJ6ZX9foY
+ xa2WEZ8BkQehuiPtMXhWmby9Ug==
+X-Google-Smtp-Source: ABdhPJwn6K1cETtZ0I/mA9qEnPbAB72QYtgySQju7g6XMDoCexjSx6mxPKzEu1fSylRmp24kr4X2bQ==
+X-Received: by 2002:a5d:510b:: with SMTP id s11mr2373572wrt.63.1629185731019; 
+ Tue, 17 Aug 2021 00:35:31 -0700 (PDT)
 Received: from blmsp ([2a02:2454:3e6:c900::97e])
- by smtp.gmail.com with ESMTPSA id p6sm1406274wrw.50.2021.08.17.00.31.20
+ by smtp.gmail.com with ESMTPSA id w9sm1108777wmc.19.2021.08.17.00.35.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 00:31:20 -0700 (PDT)
-Date: Tue, 17 Aug 2021 09:31:20 +0200
+ Tue, 17 Aug 2021 00:35:30 -0700 (PDT)
+Date: Tue, 17 Aug 2021 09:35:30 +0200
 From: Markus Schneider-Pargmann <msp@baylibre.com>
-To: Sam Ravnborg <sam@ravnborg.org>
+To: CK Hu <ck.hu@mediatek.com>
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
 Subject: Re: [RFC PATCH 5/5] drm/mediatek: Add mt8195 DisplayPort driver
-Message-ID: <20210817073120.fqa2wybvdgbn55a4@blmsp>
+Message-ID: <20210817073530.uocllhlkyg767uok@blmsp>
 References: <20210816192523.1739365-1-msp@baylibre.com>
  <20210816192523.1739365-6-msp@baylibre.com>
- <YRraTWcY4yVuJANQ@ravnborg.org>
+ <1629178605.7579.3.camel@mtksdaap41>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YRraTWcY4yVuJANQ@ravnborg.org>
+In-Reply-To: <1629178605.7579.3.camel@mtksdaap41>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,78 +77,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Hi,
 
-On Mon, Aug 16, 2021 at 11:36:13PM +0200, Sam Ravnborg wrote:
-> Hi Markus,
+On Tue, Aug 17, 2021 at 01:36:45PM +0800, CK Hu wrote:
+> Hi, Markus:
 > 
-> A few general things in the following. This is what I look for first in
-> a bridge driver - and I had no time today to review the driver in full.
-> Please address these, then cc: me on next revision where I hopefully
-> have more time.
+> On Mon, 2021-08-16 at 21:25 +0200, Markus Schneider-Pargmann wrote:
+> > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
+> > 
+> > It supports both functional units on the mt8195, the embedded
+> > DisplayPort as well as the external DisplayPort units. It offers
+> > hot-plug-detection, audio up to 8 channels, and DisplayPort 1.4 with up
+> > to 4 lanes.
+> > 
+> > This driver is based on an initial version by
+> > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> > 
+> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > ---
+> 
+> [snip]
+> 
+> > +
+> > +static const struct of_device_id mtk_dp_of_match[] = {
+> > +	{
+> > +		.compatible = "mediatek,mt8195-dp_tx",
+> 
+> Where is the binding document of "mediatek,mt8195-dp_tx"?
+> 
+> > +		.data = &mt8195_dp_driver_data,
+> > +	},
+> > +	{
+> > +		.compatible = "mediatek,mt8195-edp_tx",
+> 
+> Where is the binding document of "mediatek,mt8195-edp_tx"?
 
-Thanks for taking the time and giving me the tips, will fix it and send
-a new version.
+I didn't include the bindings in this RFC, but will include them in the
+next version.
+
+> 
+> > +		.data = &mt8195_edp_driver_data,
+> > +	},
+> > +	{},
+> > +};
+> > +MODULE_DEVICE_TABLE(of, mtk_dp_of_match);
+> > +
+> > +struct platform_driver mtk_dp_driver = {
+> > +	.probe = mtk_dp_probe,
+> > +	.remove = mtk_dp_remove,
+> > +	.driver = {
+> > +		.name = "mediatek-drm-dp",
+> > +		.of_match_table = mtk_dp_of_match,
+> > +		.pm = &mtk_dp_pm_ops,
+> > +	},
+> > +};
+> > +
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+> > new file mode 100644
+> > index 000000000000..83afc79d98ff
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+> > @@ -0,0 +1,3095 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (c) 2019 MediaTek Inc.
+> > + * Copyright (c) 2021 BayLibre
+> > + */
+> > +#ifndef _MTK_DP_REG_H_
+> > +#define _MTK_DP_REG_H_
+> > +
+> > +#define MTK_DP_SIP_CONTROL_AARCH32 0x82000523
+> > +# define MTK_DP_SIP_ATF_VIDEO_UNMUTE 0x20
+> > +# define MTK_DP_SIP_ATF_EDP_VIDEO_UNMUTE 0x21
+> > +# define MTK_DP_SIP_ATF_REG_WRITE 0x22
+> > +# define MTK_DP_SIP_ATF_REG_READ 0x23
+> > +# define MTK_DP_SIP_ATF_CMD_COUNT 0x24
+> > +
+> > +#define TOP_OFFSET		0x2000
+> > +#define ENC0_OFFSET		0x3000
+> > +#define ENC1_OFFSET		0x3200
+> > +#define TRANS_OFFSET		0x3400
+> > +#define AUX_OFFSET		0x3600
+> > +#define SEC_OFFSET		0x4000
+> > +
+> > +#define MTK_DP_HPD_DISCONNECT	BIT(1)
+> > +#define MTK_DP_HPD_CONNECT	BIT(2)
+> > +#define MTK_DP_HPD_INTERRUPT	BIT(3)
+> > +
+> > +#define MTK_DP_ENC0_P0_3000              (ENC0_OFFSET + 0x000)
+> > +# define LANE_NUM_DP_ENC0_P0_MASK                                      0x3
+> > +# define LANE_NUM_DP_ENC0_P0_SHIFT                                     0
+> > +# define VIDEO_MUTE_SW_DP_ENC0_P0_MASK                                 0x4
+> > +# define VIDEO_MUTE_SW_DP_ENC0_P0_SHIFT                                2
+> > +# define VIDEO_MUTE_SEL_DP_ENC0_P0_MASK                                0x8
+> > +# define VIDEO_MUTE_SEL_DP_ENC0_P0_SHIFT                               3
+> > +# define ENHANCED_FRAME_EN_DP_ENC0_P0_MASK                             0x10
+> > +# define ENHANCED_FRAME_EN_DP_ENC0_P0_SHIFT                            4
+> > +# define HDCP_FRAME_EN_DP_ENC0_P0_MASK                                 0x20
+> > +# define HDCP_FRAME_EN_DP_ENC0_P0_SHIFT                                5
+> > +# define IDP_EN_DP_ENC0_P0_MASK                                        0x40
+> 
+> Remove useless definition.
+
+Ok, will do. Thanks for the feedback.
 
 Best,
 Markus
 
 > 
-> 	Sam
+> Regards,
+> CK.
 > 
-> > +static int mtk_dp_bridge_attach(struct drm_bridge *bridge,
-> > +                               enum drm_bridge_attach_flags flags)
-> > +{
-> > +       struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
-> > +       int ret;
+> > +# define IDP_EN_DP_ENC0_P0_SHIFT                                       6
+> > +# define BS_SYMBOL_CNT_RESET_DP_ENC0_P0_MASK                           0x80
+> > +# define BS_SYMBOL_CNT_RESET_DP_ENC0_P0_SHIFT                          7
+> > +# define MIXER_DUMMY_DATA_DP_ENC0_P0_MASK                              0xff00
+> > +# define MIXER_DUMMY_DATA_DP_ENC0_P0_SHIFT                             8
 > > +
-> > +       mtk_dp_poweron(mtk_dp);
+> 
 > > +
-> > +       if (mtk_dp->next_bridge) {
-> > +               ret = drm_bridge_attach(bridge->encoder, mtk_dp->next_bridge,
-> > +                                       &mtk_dp->bridge, flags);
-> > +               if (ret) {
-> > +                       drm_warn(mtk_dp->drm_dev,
-> > +                                "Failed to attach external bridge: %d\n", ret);
-> > +                       return ret;
-> > +               }
-> > +       }
-> > +
-> > +       if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> > +               drm_err(mtk_dp->drm_dev,
-> > +                       "Fix bridge driver to make connector optional!");
-> > +               return 0;
-> > +       }
-> 
-> This driver is only used by mediatek, and I thought all of mediatek is
-> converted so the display driver creates the connector.
-> 
-> It would be better to migrate mediatek over to always let the display
-> driver create the connector and drop the connector support in this
-> driver.
-> 
-> 
-> > + struct drm_bridge_funcs mtk_dp_bridge_funcs = {
-> > +	.attach = mtk_dp_bridge_attach,
-> > +	.mode_fixup = mtk_dp_bridge_mode_fixup,
-> > +	.disable = mtk_dp_bridge_disable,
-> > +	.post_disable = mtk_dp_bridge_post_disable,
-> > +	.mode_set = mtk_dp_bridge_mode_set,
-> > +	.pre_enable = mtk_dp_bridge_pre_enable,
-> > +	.enable = mtk_dp_bridge_enable,
-> > +	.get_edid = mtk_get_edid,
-> > +	.detect = mtk_dp_bdg_detect,
-> > +};
-> 
-> 
-> For new drivers please avoid the recently deprecated functions.
-> 
-> - Use the atomic versions of pre_enable, enable, disable and post_disable.
-> 
-> - Merge mode_set with atomic_enable - as there is no need for the mode_Set
->   operation.
-> 
-> - Use atomic_check in favour of mode_fixup, albeit the rules for
->   atomic_check is at best vauge at the moment.
->  
+> > +#endif /*_MTK_DP_REG_H_*/
 > 
