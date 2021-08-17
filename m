@@ -2,53 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24CC13EF31B
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 22:12:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EFC3EF38D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 22:32:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A50089B9E;
-	Tue, 17 Aug 2021 20:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6B06E28B;
+	Tue, 17 Aug 2021 20:32:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-0.canonical.com
- (smtp-relay-canonical-0.canonical.com [185.125.188.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B3489B9E
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 20:12:00 +0000 (UTC)
-Received: from [192.168.0.209]
- (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net [80.193.200.194])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id CC65E3F09C; 
- Tue, 17 Aug 2021 20:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1629231119;
- bh=vz7ZaNZ3isdK9UEz0Hc6tuR22YhsDAw8pDuj4sdetMs=;
- h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
- In-Reply-To:Content-Type;
- b=HusAaAkdjP6MAVLWziUddQUHebS+CPTrklda/1m3aM+O95Vg2c/Js8hpQ6cm3iZEJ
- A58pumnzsgcbQR6MrJJYVivynS9lXK9I6Ql+tCfjui9AoknaFU3rffCQoCyLzHuszg
- 426YZSfzyBJ8cuunvF8EHexB0SAUuUqW6+OKmrGo3ylT+j2ziAqyRJO8fzjbTZlaKE
- oJENkKNA44i8rzvRLqegXx9nyCyklRp1Ql7QZWSbKUMb+FkrznM+b3b+DT3Uee9elk
- MO9uvA8jR5sOqO6P8uyNBbdunt7kLvbA07XeWQfBks5KGSxFFnPyeQpgZuva7aRVQ+
- Iq5XOnnWIHAWQ==
-Subject: Re: [PATCH][next] drm/mgag200: Fix uninitialized variable delta
-To: Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie
- <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210817163204.494166-1-colin.king@canonical.com>
- <bc94e837-9b56-55ba-1e68-1cba79ac038a@suse.de>
-From: Colin Ian King <colin.king@canonical.com>
-Message-ID: <ff723637-fa21-6b58-c8f7-9c3567cd5234@canonical.com>
-Date: Tue, 17 Aug 2021 21:11:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A6036E2B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 20:32:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629232355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QHdS9ueOmb69jsJrcy2jnmQ7X1KObHEiLTLTlPALuPw=;
+ b=guolb07ggMrskdybk3wUxukW2OKya/4zv0sVNhvM+nFXr/ARf3zVCgdfKXHuUGgfJn6KW2
+ LNioo3O0txmIg9Fp+nBV4fKMsgo3qGZRzOP/B8iXbqomh9+JUKb11LoCViWENOPLQrRe7E
+ 44rflxvgOn/Ut7dv42+CxnliLv7va+Y=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-vdUjADkzOxSGxLy6PDYgGg-1; Tue, 17 Aug 2021 16:32:34 -0400
+X-MC-Unique: vdUjADkzOxSGxLy6PDYgGg-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ e17-20020a0562141511b029034f8146604fso434108qvy.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 13:32:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=QHdS9ueOmb69jsJrcy2jnmQ7X1KObHEiLTLTlPALuPw=;
+ b=KpvooiMFwz5RFCowrsKXE7Al4VjrnLG54h8ia8covHlZknKRFHqFepIJre/3YPShsQ
+ yqorg1xYqt3iVyEMAEBWFp85Wr+Ow+PC8x00NqbX6SmKfVbqSp6iCEezfEEf6pUexfYc
+ gw0GYkC+rl0xtEKJypv48G28pJMIqJ7/hQHstjsSlrCe9lb+p2adu4jsU5s33dxl5hdH
+ VQw2UlKz3DkKpbGWh6dz8jEeZj3PbRZHaGUmaX0F2H335boMsqDPm62cjR9uohdPtcAe
+ BmLLh5a2wxGLGx5tEGlqWRD4DoOb4oGixRY8qZpsNxIg5+zy156zh437my2lNYRt0cld
+ QSFg==
+X-Gm-Message-State: AOAM532ub9HBPaVUjTVlxnpBZsdWEptIFeIkaRsdu2WefSnARXWiwVKs
+ UITbCUuYG04DZl3mXTXZX2W+XoSPaYVvfJOKKf+5j6jmbLfXE4x+2u+BeDQs9CLd5N2v5x8BqTr
+ dtRWfbwKe3+ol2Fwy0a6c2dRmJYmf
+X-Received: by 2002:a0c:ead1:: with SMTP id y17mr5275130qvp.12.1629232353972; 
+ Tue, 17 Aug 2021 13:32:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJygDhxEIqY4Za1qslzDIgx56HQC6qEhIHk2i9Emxojd0+6VzuJVx7K1EP9WMmefEySmnxy/Cg==
+X-Received: by 2002:a0c:ead1:: with SMTP id y17mr5275092qvp.12.1629232353464; 
+ Tue, 17 Aug 2021 13:32:33 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id n124sm2175109qkf.119.2021.08.17.13.32.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 13:32:32 -0700 (PDT)
+Message-ID: <418fdcbcf554d34cc6423a88974f916b64b3664c.camel@redhat.com>
+Subject: Re: [PATCH v2 0/3] drm/nouveau: fix a use-after-free in postclose()
+From: Lyude Paul <lyude@redhat.com>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Jeremy Cline <jcline@redhat.com>, Ben Skeggs <bskeggs@redhat.com>, Karol
+ Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org,  dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Date: Tue, 17 Aug 2021 16:32:31 -0400
+In-Reply-To: <YRoN0vWFN6Lw22ej@eldamar.lan>
+References: <20201103194912.184413-1-jcline@redhat.com>
+ <20201125202648.5220-1-jcline@redhat.com>
+ <b4da382b17a77b66e45fd374c9d806dac6054e3a.camel@redhat.com>
+ <YRoN0vWFN6Lw22ej@eldamar.lan>
+Organization: Red Hat
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
-In-Reply-To: <bc94e837-9b56-55ba-1e68-1cba79ac038a@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,52 +93,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/08/2021 19:22, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 17.08.21 um 18:32 schrieb Colin King:
->> From: Colin Ian King <colin.king@canonical.com>
->>
->> The variable delta is not initialized and this will cause unexpected
->> behaviour with the comparison of tmpdelta < delta. Fix this by setting
->> it to 0xffffffff. This matches the behaviour as in the similar function
->> mgag200_pixpll_compute_g200se_04.
->>
->> Addresses-Coverity: ("Uninitialized scalar variable")
->> Fixes: 2545ac960364 ("drm/mgag200: Abstract pixel PLL via struct
->> mgag200_pll")
->> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> But the commit message needs Fixes etc. I just sent out a patch for this
-> issue myself. I'd like to merge both patches' tags and commit the result
-> under your name. (You were first.) Is that ok for you?
+It may have been, we're in the process of trying to change around how we
+currently accept nouveau patches to stop this from happening in the future.
 
-Sure. Go ahead, Thanks
+Ben, whenever you get a moment can you take a look at this?
 
-Colin
+On Mon, 2021-08-16 at 09:03 +0200, Salvatore Bonaccorso wrote:
+> Hi,
+> 
+> On Fri, Mar 26, 2021 at 06:00:51PM -0400, Lyude Paul wrote:
+> > This patch series is:
+> > 
+> > Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > 
+> > Btw - in the future if you need to send a respin of multiple patches, you
+> > need
+> > to send it as it's own separate series instead of replying to the previous
+> > one
+> > (one-off respins can just be posted as replies though), otherwise
+> > patchwork
+> > won't pick it up
+> 
+> Did this patch series somehow fall through the cracks or got lost?
+> 
+> Regards,
+> Salvatore
+> 
 
-> 
-> Best regards
-> Thomas
-> 
->> ---
->>   drivers/gpu/drm/mgag200/mgag200_pll.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_pll.c
->> b/drivers/gpu/drm/mgag200/mgag200_pll.c
->> index 7c903cf19c0d..18f1a6dd019a 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_pll.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_pll.c
->> @@ -125,6 +125,7 @@ static int mgag200_pixpll_compute_g200se_00(struct
->> mgag200_pll *pixpll, long clo
->>         m = n = p = s = 0;
->>       permitteddelta = clock * 5 / 1000;
->> +    delta = 0xffffffff;
->>         for (testp = 8; testp > 0; testp /= 2) {
->>           if (clock * testp > vcomax)
->>
-> 
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
