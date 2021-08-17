@@ -1,43 +1,133 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58843EEF33
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:31:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 590A43EEF2F
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 17:30:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA1689F4A;
-	Tue, 17 Aug 2021 15:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB7F6E1C0;
+	Tue, 17 Aug 2021 15:30:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED5D189F4A;
- Tue, 17 Aug 2021 15:31:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="213004371"
-X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="213004371"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2021 08:31:44 -0700
-X-IronPort-AV: E=Sophos;i="5.84,329,1620716400"; d="scan'208";a="676554798"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2021 08:31:42 -0700
-Date: Tue, 17 Aug 2021 08:26:28 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch
-Subject: Re: [Intel-gfx] [PATCH 19/22] drm/i915/guc: Proper xarray usage for
- contexts_lookup
-Message-ID: <20210817152628.GA19215@jons-linux-dev-box>
-References: <20210816135139.10060-1-matthew.brost@intel.com>
- <20210816135139.10060-20-matthew.brost@intel.com>
- <YRuPEeq2e8qdKBc2@phenom.ffwll.local>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F055C6E1C0;
+ Tue, 17 Aug 2021 15:30:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P8p0/s1v66UCU8cRIvd1PLOMTFgVmheXEBzNV7tUXHzyAXOn23a85CeUo0SP9vvABPbjMHuEGc88nRKLYXwOX4WiF/6ZT5pHpmdOLGEtfSfav9cYqbAXspgwRXp2qVSZ768FRzdNuYuQfPUEPD+wenuK8HwR3KnOgzkTwthxMLn60NWjNOf6OQZ6JnpzcNLyFHvbPcsQene17UXpZOw8M2nmIYvCUYO8XFUzC3Fos/xq+9iqwz8b/7O4t6Z78Qhx1ojRYHR0zwG3bgmft9Eb5jR53pyTJ8q2k5qBciILdwtdBI4yCdSnK54EFu72vqfbfv1t2BJzt4XNNr0uF3qSxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A66rRV3c7W0mgNwkPHoKIUOpI9iw2GqGRRXgd8YBe7g=;
+ b=ExcmHKOn4vBGyLhhXIPsRuJwgHSMgtCxXG8u6W4pzx/02FwoxGVNHEFxLdj7DUf1Mj8Zfr1CpSLk3oeN0DtaQRzN9IL8vMuCqwxI0sV0Oi4rBYUzRm0/53++nj/pm0rfp2p/FHBUDr13WOQ19cFXCxMGgxdhMfk/QLTxh6z25Mj4S0JAginZLSdTtF0PfLR2AuYXfxSHRhA4kdGa89Zzud5TVZwu2t0r/19F5PtAlLRT9MzaODEYTNAdp1qG2s22GdbhwGCSrlyIVHVE6Ekk6qqxDT5SoPp9eb1lvvD38tOEVPZn/nzjpGU8XcDGUQeEoLC3o5+Bj1pR4JAAC1XQYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A66rRV3c7W0mgNwkPHoKIUOpI9iw2GqGRRXgd8YBe7g=;
+ b=kVjY4i4nvtXGqBiMEHMg4PmEfi0qyN4/zMiUWaJWA/aFLBbhBYcGYOqX5RIm5LOCaJ3gPH7IK/S41bsJahUp/lL2bY4aCtU6iEPj8zFsTqrux61E1VWMmNyAJXh4bHHYHP4qoyqPemdxPCN2u5Ne5CMbZLGPu9CrCUMZzjSKFy0=
+Authentication-Results: suse.de; dkim=none (message not signed)
+ header.d=none;suse.de; dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
+ by DM4PR12MB5104.namprd12.prod.outlook.com (2603:10b6:5:393::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.13; Tue, 17 Aug
+ 2021 15:30:12 +0000
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::d560:d21:cd59:9418]) by DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::d560:d21:cd59:9418%6]) with mapi id 15.20.4415.024; Tue, 17 Aug 2021
+ 15:30:11 +0000
+Subject: Re: [PATCH v2 09/12] mm: Remove the now unused mem_encrypt_active()
+ function
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, Joerg Roedel <jroedel@suse.de>
+References: <cover.1628873970.git.thomas.lendacky@amd.com>
+ <83e4a62108eec470ac0b3f2510b982794d2b7989.1628873970.git.thomas.lendacky@amd.com>
+ <YRuN6QhdIQtlluUh@zn.tnic> <YRuOVOdxOZm0S86j@zn.tnic>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <6531f108-7afa-360d-fb2b-02a0dafa0a4c@amd.com>
+Date: Tue, 17 Aug 2021 10:30:08 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <YRuOVOdxOZm0S86j@zn.tnic>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0146.namprd11.prod.outlook.com
+ (2603:10b6:806:131::31) To DM4PR12MB5229.namprd12.prod.outlook.com
+ (2603:10b6:5:398::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YRuPEeq2e8qdKBc2@phenom.ffwll.local>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.30.241] (165.204.77.1) by
+ SA0PR11CA0146.namprd11.prod.outlook.com (2603:10b6:806:131::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.18 via Frontend
+ Transport; Tue, 17 Aug 2021 15:30:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a2a7d1be-5f3a-4003-ccf6-08d96193e6ea
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5104:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM4PR12MB5104599F6732CA17434C0255ECFE9@DM4PR12MB5104.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +hkfPEdX0PljAjCQNrcSjFSlWaa31w7KCtq5qjS0781UV8+QKDe06H7UinW151bFGyj1ReY1Yfbe+EVSdFj2LUNZlFW0x3ck7i5y2QiBhd9bzAOyGDv1MfHPOC8HPN3Gu/Tr0bLKIdw2SHQTQzpAXCGp7K0I9IF/xEefUJVgULmRBMr6IIqyShNR3PThHVrbxNFgYZ1ekL0UU3df1Rqy8RiliSAWD8pY22hKKpETvniuOHQNkyl+uV1vJ3hdar6MOmmytRKi+nLI7RDO3dvPRncWKnvJ+ZFWXALTcpYezULD/5+rJvAo12Ed64xzg15uqtejE6Z9RkgbGOk7TuMllSvyOEsLpiUFI5O2Ms8NAYm9e2SGPSZTRZSw+XrpPGGU3I2hgWgWadsrT1l0hEiVnAAcQIhUob6m47HKWSm6nUcNqa6UlyUZiymeIrw+m791/RpZbdXT3qp6uLOhJaE76GfqlNJy82A7LWu+Gty1zWahnx6rUs8vrVi/lfSoaVVZtNMpj5kMTDz/nzMhEKKAZEM0zDuvUbJJQ2UkROcq4BhWuztYdttSNwSSd40Jsvh4AWhcxssDT/fByv/rd3oX+AR/jSB4p3FMGOhwht/bzO5kbDTO7d1L2x3EmYqoLZyhvaElQsonPBXiEnlLp0iICa/vUrEjJre2Le2PCnLFMimSK8xZfw+Yd7WEK3Mvdob2d0gtIPt5IXzVI6RNxidpHEyMiZIgAwJg4ZR7HUtFVdw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(186003)(5660300002)(66556008)(36756003)(8676002)(2616005)(86362001)(31686004)(26005)(4326008)(38100700002)(8936002)(66476007)(2906002)(7416002)(16576012)(54906003)(31696002)(956004)(316002)(508600001)(6486002)(4744005)(53546011)(6916009)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rkl6cjBqOXkybWVLNXYyRmdYYVFTaHNBczlKOWxtbUZkV1RrZW56azNaUEp1?=
+ =?utf-8?B?ZW9IWlFhSGo1K0JoVTVRcVM5Ymlac1NOd0ZPdVN2N2I1dnU4L20yVk43RXFO?=
+ =?utf-8?B?VFdjbGtzN01zTjRGRCtlejBQQXZyMHBaL0RlT2krZ0ZVOFkwRXZBb0JXSmVM?=
+ =?utf-8?B?VVpBd2x5M3IwQkY3eHRrMVVtTWk4MjhRY1FZWWZERVY1U1Q4MFdCNExWazk4?=
+ =?utf-8?B?L05DKzV2UUJRTFlUbDUzRS9qMWtOVFlxSXR0aGVxSWdFYklDQk5LWGd6b2po?=
+ =?utf-8?B?WUhGTUZ1Mjc1cm1xL3FlUlB6UUZ3b1ZYK3lESXY1Z0ZhUFF3dXErc0lOTy94?=
+ =?utf-8?B?MkdJd0N3eDMweThOR2UrK1pTTU5mUW5vYnZHbUFmNGo1dkRrVk5OOGJLbE03?=
+ =?utf-8?B?WEJrcTJGN25XdFFCdlhWQmtPQ3NwcGN2ZXkweW42b1pyNWc2N1o2OFpteFFF?=
+ =?utf-8?B?VS9Pbnh4bDlsdEE4YmorY05hQXlIOUFBV0o5dGJycC8xNmMzdmdhMkowNWFT?=
+ =?utf-8?B?Zlg5ek03S3BrRHZUakdSZVFib0xESSt0b3RXcTd6MnNIVGpTQzZPcUxYWWhv?=
+ =?utf-8?B?YkErbUVucUJDaCs3WVF3ek1GMk0yMVJxcmxwakEyQzNHTllwcm1hT3g5d3J6?=
+ =?utf-8?B?cHZsVHBRaldCNGN1SlpYQjl5dlVvZlhmRXhYeksvdFhvUU1saExsdTFHbmVX?=
+ =?utf-8?B?SnJBNmJ4ZXpZOVhSaGwxN0I4MlJvSHU0QzV6SlZuaFZmNkJxSFRnSk9PbGIz?=
+ =?utf-8?B?RTdnVHBVUnJyRHExRzYyV2kwdlFPckJXM2RsbDNQcEptSThPQjBHSzZuanVW?=
+ =?utf-8?B?VEdxVWRJVWZZb1pXODdoSy9VckczWk56N3JvQlpsT2QvYnJKdTU3M3h3RVlF?=
+ =?utf-8?B?d3RGOXRmcG1nQldlSks3MEFPVGlKQWp5NktsTDBXTTQwaUJ4cUJydTlYQ0pl?=
+ =?utf-8?B?N29jWHk5bXdVWEsxZE9PQktzQzkybXVCWGw1aWs3czRMSThpU0tuREtHemNO?=
+ =?utf-8?B?bmF5MVA3eVZtUkRMUmhUS2ppMk5RL1NHZDVxRzRET0N5RU83anZxRStHZ2Jp?=
+ =?utf-8?B?TkVoTDBwT2dnK1VIa1pOTXJ6VGw0bS9wWGpSaEQ3NElreUxqVEZtQmM4cjhE?=
+ =?utf-8?B?V3lFUkJXT2NVSzVQZFkvRENyaXdBcEpDMEVocUFQS3haQmRzMStHTlJtQVVN?=
+ =?utf-8?B?T294VXVCV0dzZW81MmlFM0ZBa3k1R05TNXBOTERYcG9FRzcyZktmck5XVkYz?=
+ =?utf-8?B?b241N3B0cFprN0lyY0xqeExLcDFtUW9QOTlZOHlBc24zcjFZU0xqUkt2Tllt?=
+ =?utf-8?B?aXY2SzdJbE8yVXkvUkJNVCtpNVc4Qy9uZ1VXMXJKU1E0aWR4TXpHL1YvUlRk?=
+ =?utf-8?B?RW9leHFCTU5VLy9IaWVPVnVQcmRpY0p2eXEzK3MvN0psR2l2WHFmTXVBTnhK?=
+ =?utf-8?B?RlRnQ0kydnJFK25INnJBL0NQaExDSW5hb04wS2x0QS9SNmUwcndOS1E3SXo1?=
+ =?utf-8?B?YmNaSkFBZS82VGVzeTY5anRTM0ZjbGx4VWZVQWRicVVLZmV6TWRpcTdRekVE?=
+ =?utf-8?B?clAvRjVPTHU0b2hHZ25PclRmS1V5TEY0SnhhdW9YS2VPeFpwMTBkN013SFNr?=
+ =?utf-8?B?bWFxRmJpQ0RNV0VkMWNKQnRHSEtJY3JOc1JlWmlIQ2lmWTJFS2Voem5keXRx?=
+ =?utf-8?B?WHp1d0VQOVpVY3B1VnRBbDVwcUJtdDFJejFET1c5cnoyeUZ4N1gxMjRwcFMw?=
+ =?utf-8?Q?oxLqmU7x+PbaSPc1+fBIAZ0TWicHWq0E/2Aru0U?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2a7d1be-5f3a-4003-ccf6-08d96193e6ea
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2021 15:30:11.8192 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EIDucLRCuxZk3nH/PncpEK7YaB1gSflLFg+M3VvzPKfWWuYrdH20xOVefFcw79J3SssDsog17Vc2+vOWHUYJDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,279 +143,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 12:27:29PM +0200, Daniel Vetter wrote:
-> On Mon, Aug 16, 2021 at 06:51:36AM -0700, Matthew Brost wrote:
-> > Lock the xarray and take ref to the context if needed.
-> > 
-> > v2:
-> >  (Checkpatch)
-> >   - Add new line after declaration
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 84 ++++++++++++++++---
-> >  1 file changed, 73 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index ba19b99173fc..2ecb2f002bed 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -599,8 +599,18 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
-> >  	unsigned long index, flags;
-> >  	bool pending_disable, pending_enable, deregister, destroyed, banned;
-> >  
-> > +	xa_lock_irqsave(&guc->context_lookup, flags);
-> >  	xa_for_each(&guc->context_lookup, index, ce) {
-> > -		spin_lock_irqsave(&ce->guc_state.lock, flags);
-> > +		/*
-> > +		 * Corner case where the ref count on the object is zero but and
-> > +		 * deregister G2H was lost. In this case we don't touch the ref
-> > +		 * count and finish the destroy of the context.
-> > +		 */
-> > +		bool do_put = kref_get_unless_zero(&ce->ref);
+On 8/17/21 5:24 AM, Borislav Petkov wrote:
+> On Tue, Aug 17, 2021 at 12:22:33PM +0200, Borislav Petkov wrote:
+>> This one wants to be part of the previous patch.
 > 
-> This looks really scary, because in another loop below you have an
-> unconditional refcount increase. This means sometimes guc->context_lookup
+> ... and the three following patches too - the treewide patch does a
+> single atomic :) replacement and that's it.
 
-Yea, good catch those loops need something like this too.
+Ok, I'll squash those all together.
 
-> xarray guarantees we hold a full reference on the context, sometimes we
-> don't. So we're right back in "protect the code" O(N^2) review complexity
-> instead of invariant rules about the datastructure, which is linear.
-> 
-> Essentially anytime you feel like you have to add a comment to explain
-> what's going on about concurrent stuff you're racing with, you're
-> protecting code, not data.
-> 
-> Since guc can't do a hole lot without the guc_id registered and all that,
-> I kinda expected you'd always have a full reference here. If there's
+Thanks,
+Tom
 
-The deregister is triggered by the ref count going to zero and we can't
-fully release the guc_id until that operation completes hence why it is
-still in the xarray. I think the solution here is to use iterator like
-you mention below that ref counts this correctly.
-
-> intermediate stages (e.g. around unregister) where this is currently not
-> always the case, then those should make sure a full reference is held.
 > 
-> Another option would be to threa ->context_lookup as a weak reference that
-> we lazily clean up when the context is finalized. That works too, but
-> probably not with a spinlock (since you most likely have to wait for all
-> pending guc transations to complete), but it's another option.
-> 
-> Either way I think standard process is needed here for locking design,
-> i.e.
-> 1. come up with the right invariants ("we always have a full reference
-> when a context is ont he guc->context_lookup xarray")
-> 2. come up with the locks. From the guc side the xa_lock is maybe good
-> enough, but from the context side this doesn't protect against a
-> re-registering racing against a deregistering. So probably needs more
-> rules on top, and then you have a nice lock inversion in a few places like
-> here.
-> 3. document it and roll it out.
-> 
-> The other thing is that this is a very tricky iterator, and there's a few
-> copies of it. That is, if this is the right solution. As-is this should be
-> abstracted away into guc_context_iter_begin/next_end() helpers, e.g. like
-> we have for drm_connector_list_iter_begin/end_next as an example.
->
-
-I can check this out.
-
-Matt
- 
-> Cheers, Daniel
-> 
-> > +
-> > +		xa_unlock(&guc->context_lookup);
-> > +
-> > +		spin_lock(&ce->guc_state.lock);
-> >  
-> >  		/*
-> >  		 * Once we are at this point submission_disabled() is guaranteed
-> > @@ -616,7 +626,9 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
-> >  		banned = context_banned(ce);
-> >  		init_sched_state(ce);
-> >  
-> > -		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-> > +		spin_unlock(&ce->guc_state.lock);
-> > +
-> > +		GEM_BUG_ON(!do_put && !destroyed);
-> >  
-> >  		if (pending_enable || destroyed || deregister) {
-> >  			atomic_dec(&guc->outstanding_submission_g2h);
-> > @@ -645,7 +657,12 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
-> >  
-> >  			intel_context_put(ce);
-> >  		}
-> > +
-> > +		if (do_put)
-> > +			intel_context_put(ce);
-> > +		xa_lock(&guc->context_lookup);
-> >  	}
-> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> >  }
-> >  
-> >  static inline bool
-> > @@ -866,16 +883,26 @@ void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
-> >  {
-> >  	struct intel_context *ce;
-> >  	unsigned long index;
-> > +	unsigned long flags;
-> >  
-> >  	if (unlikely(!guc_submission_initialized(guc))) {
-> >  		/* Reset called during driver load? GuC not yet initialised! */
-> >  		return;
-> >  	}
-> >  
-> > -	xa_for_each(&guc->context_lookup, index, ce)
-> > +	xa_lock_irqsave(&guc->context_lookup, flags);
-> > +	xa_for_each(&guc->context_lookup, index, ce) {
-> > +		intel_context_get(ce);
-> > +		xa_unlock(&guc->context_lookup);
-> > +
-> >  		if (intel_context_is_pinned(ce))
-> >  			__guc_reset_context(ce, stalled);
-> >  
-> > +		intel_context_put(ce);
-> > +		xa_lock(&guc->context_lookup);
-> > +	}
-> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> > +
-> >  	/* GuC is blown away, drop all references to contexts */
-> >  	xa_destroy(&guc->context_lookup);
-> >  }
-> > @@ -950,11 +977,21 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc)
-> >  {
-> >  	struct intel_context *ce;
-> >  	unsigned long index;
-> > +	unsigned long flags;
-> > +
-> > +	xa_lock_irqsave(&guc->context_lookup, flags);
-> > +	xa_for_each(&guc->context_lookup, index, ce) {
-> > +		intel_context_get(ce);
-> > +		xa_unlock(&guc->context_lookup);
-> >  
-> > -	xa_for_each(&guc->context_lookup, index, ce)
-> >  		if (intel_context_is_pinned(ce))
-> >  			guc_cancel_context_requests(ce);
-> >  
-> > +		intel_context_put(ce);
-> > +		xa_lock(&guc->context_lookup);
-> > +	}
-> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> > +
-> >  	guc_cancel_sched_engine_requests(guc->sched_engine);
-> >  
-> >  	/* GuC is blown away, drop all references to contexts */
-> > @@ -2848,21 +2885,26 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
-> >  	struct intel_context *ce;
-> >  	struct i915_request *rq;
-> >  	unsigned long index;
-> > +	unsigned long flags;
-> >  
-> >  	/* Reset called during driver load? GuC not yet initialised! */
-> >  	if (unlikely(!guc_submission_initialized(guc)))
-> >  		return;
-> >  
-> > +	xa_lock_irqsave(&guc->context_lookup, flags);
-> >  	xa_for_each(&guc->context_lookup, index, ce) {
-> > +		intel_context_get(ce);
-> > +		xa_unlock(&guc->context_lookup);
-> > +
-> >  		if (!intel_context_is_pinned(ce))
-> > -			continue;
-> > +			goto next;
-> >  
-> >  		if (intel_engine_is_virtual(ce->engine)) {
-> >  			if (!(ce->engine->mask & engine->mask))
-> > -				continue;
-> > +				goto next;
-> >  		} else {
-> >  			if (ce->engine != engine)
-> > -				continue;
-> > +				goto next;
-> >  		}
-> >  
-> >  		list_for_each_entry(rq, &ce->guc_active.requests, sched.link) {
-> > @@ -2872,9 +2914,17 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
-> >  			intel_engine_set_hung_context(engine, ce);
-> >  
-> >  			/* Can only cope with one hang at a time... */
-> > -			return;
-> > +			intel_context_put(ce);
-> > +			xa_lock(&guc->context_lookup);
-> > +			goto done;
-> >  		}
-> > +next:
-> > +		intel_context_put(ce);
-> > +		xa_lock(&guc->context_lookup);
-> > +
-> >  	}
-> > +done:
-> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> >  }
-> >  
-> >  void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
-> > @@ -2890,23 +2940,32 @@ void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
-> >  	if (unlikely(!guc_submission_initialized(guc)))
-> >  		return;
-> >  
-> > +	xa_lock_irqsave(&guc->context_lookup, flags);
-> >  	xa_for_each(&guc->context_lookup, index, ce) {
-> > +		intel_context_get(ce);
-> > +		xa_unlock(&guc->context_lookup);
-> > +
-> >  		if (!intel_context_is_pinned(ce))
-> > -			continue;
-> > +			goto next;
-> >  
-> >  		if (intel_engine_is_virtual(ce->engine)) {
-> >  			if (!(ce->engine->mask & engine->mask))
-> > -				continue;
-> > +				goto next;
-> >  		} else {
-> >  			if (ce->engine != engine)
-> > -				continue;
-> > +				goto next;
-> >  		}
-> >  
-> >  		spin_lock_irqsave(&ce->guc_active.lock, flags);
-> >  		intel_engine_dump_active_requests(&ce->guc_active.requests,
-> >  						  hung_rq, m);
-> >  		spin_unlock_irqrestore(&ce->guc_active.lock, flags);
-> > +
-> > +next:
-> > +		intel_context_put(ce);
-> > +		xa_lock(&guc->context_lookup);
-> >  	}
-> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> >  }
-> >  
-> >  void intel_guc_submission_print_info(struct intel_guc *guc,
-> > @@ -2960,7 +3019,9 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
-> >  {
-> >  	struct intel_context *ce;
-> >  	unsigned long index;
-> > +	unsigned long flags;
-> >  
-> > +	xa_lock_irqsave(&guc->context_lookup, flags);
-> >  	xa_for_each(&guc->context_lookup, index, ce) {
-> >  		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id);
-> >  		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
-> > @@ -2979,6 +3040,7 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
-> >  
-> >  		guc_log_context_priority(p, ce);
-> >  	}
-> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> >  }
-> >  
-> >  static struct intel_context *
-> > -- 
-> > 2.32.0
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
