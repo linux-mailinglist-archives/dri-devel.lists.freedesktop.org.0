@@ -2,64 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37083EEE52
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 16:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A213EEE97
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 16:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6B756E1B5;
-	Tue, 17 Aug 2021 14:17:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2F026E1BA;
+	Tue, 17 Aug 2021 14:35:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF3B76E1B5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 14:17:20 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id z9so28794627wrh.10
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 07:17:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=0ddf0QlWXZvw9cFQ3kuZ4Xnh7Li763SQ7aJW6E6s09Q=;
- b=qGjWbKfWFGyNuXZf4+T+XXtC7Bl1zf8fearXJvXyqS4WIM70WzneZXFuDJJi7vzwYD
- pQT79odUC/9i09IIFIs6s8qqVe9KFZDTLPpvGpGW3Ux3TStEoaZ1UMvTZpTKP7rUyKpk
- 1qyQtRW1pmXENIK6jK7dNmJsTsaQDCZH1DK9ZxZ+XTWWe9e2e3YDnPhVX6wWGT0oxzsN
- JY2GqJTc1aSLzxZYqLRZaVQT5zoJJuoupSc9C9/K7zJEM6mUg086c4eDl3xqjmJoI2KH
- aXq+55oyCUqwKDiOIiHDCznVvfiLJM1sTFce1DeE7jtkvrFe3Dca8+oQUOHpYPAME2OG
- sJLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=0ddf0QlWXZvw9cFQ3kuZ4Xnh7Li763SQ7aJW6E6s09Q=;
- b=mCze62lRgeHdmuxf4Q+zJawXMXYukFsDf1ijzRklwg3fmLTsEpWF8CcF0bF9kiLcZQ
- dQkL+gijtHOSdnOpuhZ5fG5VGkamKG3+5PJpZ2Khwwvf1Ep7z6Np2rumCnxREBNFzJPl
- 2SM+ydwH6bz9oaVfOZuSFiSCYvGBpp4zr5xJOmTlE7Jpa0+AZw5R08RdoA1dbEm0UegX
- dorIvYAWu61/1rbO9jEdiQREgA0c1T9qokqEiqL+DNvjjL6S9SSyi2Hb1gT0bUhxb6rB
- Gaf0QaDcBdF6XrynyiRcBdAjjKDiemJXsVUP7sQG9hSFoz1VqoH9320T8CQQXAR9gipK
- FPXQ==
-X-Gm-Message-State: AOAM533xgA/y9X51jEwieWL2IFcPkmXi3M5fvTSjzRcEeZOkBdnGIAbo
- gNKOiaQw1iXBshkfRUTrqRY=
-X-Google-Smtp-Source: ABdhPJyWWQG4vy0Ql++S+F59TPBJsGORcv9SNkFKHVL57RrSskmZQyR/ERyxIt/fObQT9dZ2K/yLqQ==
-X-Received: by 2002:a5d:4d4b:: with SMTP id a11mr4368536wru.411.1629209838712; 
- Tue, 17 Aug 2021 07:17:18 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id e11sm2550320wrm.80.2021.08.17.07.17.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 07:17:17 -0700 (PDT)
-Date: Tue, 17 Aug 2021 16:17:16 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1 0/3] Tegra DRM and Host1x driver fixes
-Message-ID: <YRvE7Cq++eR5MhKw@orome.fritz.box>
-References: <20210817020153.25378-1-digetx@gmail.com>
+Received: from smtp-relay-canonical-0.canonical.com
+ (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30A6A6E03C;
+ Tue, 17 Aug 2021 14:35:16 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 6B5413F048; 
+ Tue, 17 Aug 2021 14:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1629210914;
+ bh=1C3RL56RVkTtjUJ5LyJ+r/R+GvbQ9mFn4F8qtny9s2k=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=JvX+vmsqMmsyRFlQ3TsEoUx03iIGB03sT2UXJiDN4aTLtTUekRTcQZzw91FTqKoT/
+ u/ANURKihylRWxCtr/eRKMpVftJ8B/VBTdUNPtFs7uo3c3R2WGN+SUFR3ZscG1lV98
+ c3NwcFumQf89t34i1F+AGr5uWFAqDvxzuZ0rv+GEbrPKcRFlBHAxOMv7dzqwJXu79f
+ py9MvzdZbhpuGEHfG648gtD4/eoOCpGxRjwJsAB3G2wynTP700K4NrueXWvS1H70AV
+ ofF6RzrebYurdGhrP78RJGR7/xzQ8MjLclvLTF1zJ35vhTZ26Jq3LWRKPwtd+s+Uxx
+ TvH+b/0UqPZjg==
+From: Colin King <colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/amd/pm: Fix spelling mistake "firwmare" ->
+ "firmware"
+Date: Tue, 17 Aug 2021 15:35:14 +0100
+Message-Id: <20210817143514.33609-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EjbfSmiC+1y9P3RS"
-Content-Disposition: inline
-In-Reply-To: <20210817020153.25378-1-digetx@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,49 +60,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Colin Ian King <colin.king@canonical.com>
 
---EjbfSmiC+1y9P3RS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There is a spelling mistake in a dev_err error message. Fix it.
 
-On Tue, Aug 17, 2021 at 05:01:50AM +0300, Dmitry Osipenko wrote:
-> Fix troubles introduced by recent commits.
->=20
-> Dmitry Osipenko (3):
->   drm/tegra: dc: Remove unused variables
->   drm/tegra: uapi: Fix wrong mapping end address in case of disabled
->     IOMMU
->   gpu/host1x: fence: Make spinlock static
->=20
->  drivers/gpu/drm/tegra/dc.c   | 3 ---
->  drivers/gpu/drm/tegra/dc.h   | 6 ------
->  drivers/gpu/drm/tegra/uapi.c | 2 +-
->  drivers/gpu/host1x/fence.c   | 2 +-
->  4 files changed, 2 insertions(+), 11 deletions(-)
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All three patches applied, thanks.
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+index 5d2605df32e8..a0e50f23b1dd 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+@@ -311,7 +311,7 @@ static int smu_v13_0_get_pptable_from_firmware(struct smu_context *smu, void **t
+ 	version_major = le16_to_cpu(hdr->header.header_version_major);
+ 	version_minor = le16_to_cpu(hdr->header.header_version_minor);
+ 	if (version_major != 2) {
+-		dev_err(adev->dev, "Unsupported smu firwmare version %d.%d\n",
++		dev_err(adev->dev, "Unsupported smu firmware version %d.%d\n",
+ 			version_major, version_minor);
+ 		return -EINVAL;
+ 	}
+-- 
+2.32.0
 
-Thierry
-
---EjbfSmiC+1y9P3RS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEbxOwACgkQ3SOs138+
-s6EUuxAAmusBpdRYua3uXBIL/iWDWhGlbMKonYw014ZlKOhMHY3PeGFgLm8Dp/gH
-kjeDu6Hz1IuqERdwai9x3XZN/QV9tqKCoOk5bgCxJ7JZRe8+C390bpH7MQiZyhA7
-k0Ol9UDy6HS1vwGtfB3FH+vNmVxKeBcWHLgAcoZUqjck0kJ9stq76pSXIoBKK4gR
-hPOTbKmTVCKU5Mf83MsWPgXiB4Ex1MFgBi8VtpSN1eaB8lAZ6pNJUrI8nqimnpQY
-Xkpt698z2EkCdqtF1mv3hp09rUCUpojHKZPVsPNY5wEdIWFFYl9VriBHbzgLlH9l
-8eQJ72jMsQ5q2R+KYNkzXOONb7WC6wce8h8hZgsc06tgZcIH8Ni1TjGMIJhXDXIZ
-lGiDMIK22H+ySkhipEeQEJ+cwze5XbZMNV+0vXQ7FT6Hq7eAExq/kusyrmAjtujD
-aDODLXVvAZi4dGjhg5QHIK886YahpLmsRmpDBXfUc3XmRhvvja75OsNWEDs1Ze8x
-WHeiBSw+G8Cku12RvyReCTYGX03aR+wlN80x0IkSNv24Lp/RvFOqyNaQp9WuuSDQ
-9E1HoMGKijnYSUD7gXB968vlkX8LxacG/ZlhL2CRlB6OMr8Old0etCtSkcoBeyP4
-kdsmLYQyGsJs1Q1yXoAKhHn1sebWpYRInrfBJ/ZlMEjsrjdzIdU=
-=kpzq
------END PGP SIGNATURE-----
-
---EjbfSmiC+1y9P3RS--
