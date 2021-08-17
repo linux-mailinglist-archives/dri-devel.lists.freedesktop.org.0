@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C023EE24B
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 03:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C813EE23C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 03:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9506E0A6;
-	Tue, 17 Aug 2021 01:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0496E09F;
+	Tue, 17 Aug 2021 01:30:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3CF089A83
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 01:30:06 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id n7so30326036ljq.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 18:30:06 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3F4A6E09E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 01:30:07 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id q21so8672516ljj.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=azJO16PBS0aaEX5vOfJpmf9jn1x1mJqiJpQpMZ0azY4=;
- b=hNWZ3lDQBB9G0NfTmCUH5K27tkGRQQ+XAmdCjgXsoLk44TVXnSV0rZZArfsM7BjMNQ
- NzXAqYUV8bprqa1tDC9g84EyQd3o8jniWwkMjyQMMuqUkUkg6juIVGYjyUCbChTFmc7C
- Y9kAvvDPB9tH2tyarHnY6QH7UIi/z4zffPnrrS03ZW5T6FXyCYoeQLuQKPtpL84Si2yR
- MkQ+LN020YkVrk5A8hxNQQXfqHQiqTAV1n8zak/R17pXJIG49Dyerbvv/lIRePo4u9Cy
- r4NoX8Q2wawaT0cFfMSzhTg/VWuRq5m8tSgtaZnX2c9Uv2OXGulLsD2BxcAnqIFKNTgY
- /46w==
+ bh=wojn7XneOlcjLQTZlMLpcmbGjIOEPaqexo+f2WGyphI=;
+ b=Xq17kIc6GM80MD2xhnYjU7c3bLn4H5tuMTvcdBwNy9/g5psmoz3S1gVRRgj0w10xku
+ S/OHY+MF1OPdTYbYPPJFPFeY4WU63WLX4lpEqf+XHRBxzSyKtJkRoLEZsNrLQUD3aJsJ
+ hyYwTr0Z48Wws5sZA3cunYGug92vOCdPP0286zyvF+xLx0QRLRMNonrX8WWxK9M03w18
+ x2KNq+2YuwXI/DgRg4TCi8S5zBrr/YRsvFRqgRHtf1EkBhMZn+P2C2QCgMgcjYbkv0RV
+ MYPdW+7zuuviGgSMO06r+pSAqvsVA5K8VmFJ2RBZodvpwXKzfElGK+ZIvdNgJ/4RFBSg
+ 0SYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=azJO16PBS0aaEX5vOfJpmf9jn1x1mJqiJpQpMZ0azY4=;
- b=YNk+Nq/px0NFzZWZd/qe5rW+SA04vv7RcCNmfvIOL42iHf8NfCmaPfnh11low0w5dM
- aqWmugB2L/nGr7MH8Xw9woazA/JPGE3IWzG0r0peAxVsO1cpjSMOIhCTvSERHu3LHFqg
- fzH4eeSo/FIJAbxVK2iuEUQOCWoQUH7lqyEL5dOS76TV3xSERsoz8Tjxvv2WMAlbaeKq
- IEjJgn9BYLsVMplr4ErtFsZigWIjVK1Mxt4jk9rhTktqh9YRl9/yeq6kl/tSdfCsWlV8
- ebSK/CLX3nmQkeZd8dG3nAWoE2zLcipwn2X2Z7rCPsFJ6in/y8EfUN3154br2g4Oq0zy
- fN+g==
-X-Gm-Message-State: AOAM530R5aEZmzb5rYwPIYfl7IFh2JuXlLeejk0oEPrOfhUmIKK1qpup
- ErWksKzX+5P/lJRsC4kLZiE=
-X-Google-Smtp-Source: ABdhPJw/eckx03zVOJf2hmuiHkhQYzKLMML9PEB8kcVT0ZNZolUJSB9HB3aBM4EeNCzEcW2W6988dw==
-X-Received: by 2002:a2e:9e04:: with SMTP id e4mr832311ljk.431.1629163805018;
- Mon, 16 Aug 2021 18:30:05 -0700 (PDT)
+ bh=wojn7XneOlcjLQTZlMLpcmbGjIOEPaqexo+f2WGyphI=;
+ b=nwqymVOPXBQGkjyx+a9J8vc7dtrYfyH7KCXIfzcOS0N+TqHKFOYe5FeciGeZI5D0LD
+ +OAhjKAOfJtKd/lPu32BPBcfUNtpvw5HxHy9HAR3pAe/JjiOKqxGEq6ukQq1xudRYNvV
+ 96oAKdpw8b4Ag7us/S+ljRJ6wWXSlhCvxsBF4blu/fPF1vckN3MkB/0fFty92Gx/yzno
+ clWAgHjc7uG8tMOeQnH4aTwokAFbLs0T/kDEkc7B3VXaqSu0lwt8ExYEfL0fW53ZKms5
+ 5RXZ8yYJFoOggSBGAUxbYoapS9Rf9+0iqoRxEBxGGyyvIcKwt5xSnDoAbqJJ7C2T7fZi
+ 5CIA==
+X-Gm-Message-State: AOAM533bxIypHXqnPcFvOpvN7DIyQH/zppbzIoR2fz1uSSx1A+7naFUl
+ TTn8HMrl1l3Jd6F4B7HQwdg=
+X-Google-Smtp-Source: ABdhPJzrAiKknpayvUXn0AhIlpxoa1tdB8UGRkYEeNvPAIQMKmclxsnV8VxQdGuN29ZUiGnqlWbG1A==
+X-Received: by 2002:a2e:b0e2:: with SMTP id h2mr848215ljl.23.1629163806184;
+ Mon, 16 Aug 2021 18:30:06 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru.
  [46.138.85.91])
- by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.03
+ by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 18:30:04 -0700 (PDT)
+ Mon, 16 Aug 2021 18:30:05 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -70,10 +70,10 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org
-Subject: [PATCH v8 03/34] soc/tegra: Don't print error message when OPPs not
- available
-Date: Tue, 17 Aug 2021 04:27:23 +0300
-Message-Id: <20210817012754.8710-4-digetx@gmail.com>
+Subject: [PATCH v8 04/34] soc/tegra: Add
+ devm_tegra_core_dev_init_opp_table_simple()
+Date: Tue, 17 Aug 2021 04:27:24 +0300
+Message-Id: <20210817012754.8710-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210817012754.8710-1-digetx@gmail.com>
 References: <20210817012754.8710-1-digetx@gmail.com>
@@ -94,33 +94,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously we assumed that devm_tegra_core_dev_init_opp_table() will
-be used only by drivers that will always have device with OPP table,
-but this is not true anymore. For example now Tegra30 will have OPP table
-for PWM, but Tegra20 not and both use the same driver. Hence let's not
-print the error message about missing OPP table in the common helper,
-we can print it elsewhere.
+Only couple drivers need to get the -ENODEV error code and explicitly
+initialize the performance state. Add new helper that allows to avoid
+the extra boilerplate code in majority of drivers.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/common.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ include/soc/tegra/common.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
-index cd33e99249c3..a42d4f98c078 100644
---- a/drivers/soc/tegra/common.c
-+++ b/drivers/soc/tegra/common.c
-@@ -111,9 +111,7 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
- 	 */
- 	err = devm_pm_opp_of_add_table(dev);
- 	if (err) {
--		if (err == -ENODEV)
--			dev_err_once(dev, "OPP table not found, please update device-tree\n");
--		else
-+		if (err != -ENODEV)
- 			dev_err(dev, "failed to add OPP table: %d\n", err);
+diff --git a/include/soc/tegra/common.h b/include/soc/tegra/common.h
+index af41ad80ec21..265ad90e45a2 100644
+--- a/include/soc/tegra/common.h
++++ b/include/soc/tegra/common.h
+@@ -39,4 +39,17 @@ devm_tegra_core_dev_init_opp_table(struct device *dev,
+ }
+ #endif
  
- 		return err;
++static inline int
++devm_tegra_core_dev_init_opp_table_simple(struct device *dev)
++{
++	struct tegra_core_opp_params params = {};
++	int err;
++
++	err = devm_tegra_core_dev_init_opp_table(dev, &params);
++	if (err != -ENODEV)
++		return err;
++
++	return 0;
++}
++
+ #endif /* __SOC_TEGRA_COMMON_H__ */
 -- 
 2.32.0
 
