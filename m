@@ -2,68 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8103EE908
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8E83EE91B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC8B6E02B;
-	Tue, 17 Aug 2021 09:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A8E6E116;
+	Tue, 17 Aug 2021 09:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15BBC6E02B
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 09:02:24 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- 79-20020a1c0452000000b002e6cf79e572so1330267wme.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 02:02:24 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C89B6E116
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 09:04:21 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id k29so27461780wrd.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 02:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=OcuOMkjcX7cMIxlO2nIa+xtRgWfVNxpqrnNiBrZmFFI=;
- b=Rf2HWppbUd0Gl2YObGQemdQFaXwsNVPNckAVAgIiybkDktRzs4xyYpEeVZUlytoNV5
- 1ATgeOGastSi35IBgaZ8DCBZcfHFcJob4IJ7/z047lSOfnJNNhEKYuoW+LwuMN2nq/Pb
- /YS0Ugy+YNpQYqfsCftvv5RepHf6XkOKbLZbA=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=j4i/x9tyzc/3LgdLRFqgQgxEO4pmJgQLsrj80WtwhVI=;
+ b=KxIpxVtWjns4F7qLg1rRcmYAW3SH1eBW9sxDxCEB/2uN9a/FcASQ4t2WjsOxmPgxmd
+ fgz5X/LnvStc/dmaZypl8I2CLhvMTPQvq6+5wSjEtiUMwMdBFl0TqJEk7e7klYUpDrkI
+ 1ao2oorbeN2dN+umv0mr5W2gM8/ZhXk0b3GGM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OcuOMkjcX7cMIxlO2nIa+xtRgWfVNxpqrnNiBrZmFFI=;
- b=ori83q/Ty8IUBn7sRcxYWzi0X6BD97tnu0WbxtPxJdfSCimh4bfm+Lj9cF47mVBaNR
- MFMeKsdSZJ1S0X6afiElw8+m4sBL0mOUQFws328Ae9S62vOfi6BhhmhywyW0KOp6pFrZ
- BQZ87C4vDB0d9tDMBHQlNyojc8D/dtsT43VDq5j1Imkj4DKW5iH+v4b/fRdhqKn4P1lg
- pNDKL+Hf9ykSTEV+FzEdIdg0M51ZrYlPtswfXfAmSv9Elq0/3g1+NnQrO0Hh5Pj1ryM+
- wIDQO9ntDGxiGq+SIEIPQ+Yjkt22oO7BFYTpAFTlmOt69o9Hj2bWOSD4IVWDJG4cbhqo
- AO/g==
-X-Gm-Message-State: AOAM5305TY8cwBzEFLU8v3A57f9IwVpgZK32rCd7S9jy3YVZHPLLqEy0
- wrqOQMrp1msd+hibTcqifN1ljw==
-X-Google-Smtp-Source: ABdhPJxFYtnnFFukD+3sHd3E4IXTxagxOadDBE9ELSHeQDrOn3eexLWN3n1L3GbbMGnv1hW/MrKvaQ==
-X-Received: by 2002:a7b:ca4e:: with SMTP id m14mr1499460wml.17.1629190942408; 
- Tue, 17 Aug 2021 02:02:22 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=j4i/x9tyzc/3LgdLRFqgQgxEO4pmJgQLsrj80WtwhVI=;
+ b=hSHVReRASx1cYAczsEMgMmwPvX0YUvLkBROHY29P6vnUg92kXe3gykaMH3ySJploeg
+ g+UQdWlUGWbiIxxyRGCWXk75AW4X02qYmipE/LSWK77kfF3l27K/z17RzdiNW32A2nMy
+ PIY5ejooq387GQXj6gTDzGyvtoFUQL76Wc+i6r+ekn1hMec217PdmM8SqMjdnSPjJw4G
+ OmvihO1rEnmkYTVgMljPT5If6xRHqSxeyTBNoOmM7RItg15ho0t4vDgJjzinTAj4LX+Y
+ jn6kD/wXFEIQS2GSGWlRfkeSFltCrHRq3Fp/fH2lWNHZQFzW+L0DeHxDdot884DCIzpI
+ M+Lw==
+X-Gm-Message-State: AOAM533N4CZhTKJndsbYZ65QriDpzYbOeV/d4ziAAdyFzo/KTc7D7dvD
+ R29AqUVBj21dY0gXCy4aBYO3QA==
+X-Google-Smtp-Source: ABdhPJy/Dl1NsISUcWJ7CU+4M3hb5C4YhyxhHFqeiJF0/2LxZzlK7v8qd5PIxfPQBoJAIj1gqztDvw==
+X-Received: by 2002:a05:6000:1043:: with SMTP id
+ c3mr2732415wrx.144.1629191059584; 
+ Tue, 17 Aug 2021 02:04:19 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i10sm1410014wmq.21.2021.08.17.02.02.21
+ by smtp.gmail.com with ESMTPSA id e17sm1625963wrs.78.2021.08.17.02.04.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 02:02:21 -0700 (PDT)
-Date: Tue, 17 Aug 2021 11:02:19 +0200
+ Tue, 17 Aug 2021 02:04:19 -0700 (PDT)
+Date: Tue, 17 Aug 2021 11:04:17 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
- Bommu Krishnaiah <krishnaiah.bommu@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v6 10/15] drm/i915/pxp: interfaces for using
- protected objects
-Message-ID: <YRt7G3ULYI892BrT@phenom.ffwll.local>
-References: <20210729020106.18346-1-daniele.ceraolospurio@intel.com>
- <20210729020106.18346-11-daniele.ceraolospurio@intel.com>
- <YRaDwS+dUMjbgd+z@phenom.ffwll.local>
- <a371dac0-1a5d-bf96-1193-7aac28d97b9d@intel.com>
- <YRqBKoqfokaasYmr@phenom.ffwll.local>
- <d27be6ed-dac9-5ae0-b7dd-aea2061908f7@intel.com>
+To: Rob Clark <robdclark@gmail.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Tian Tao <tiantao6@hisilicon.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Steven Price <steven.price@arm.com>, Roy Sun <Roy.Sun@amd.com>,
+ Lee Jones <lee.jones@linaro.org>, Jack Zhang <Jack.Zhang1@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 4/5] drm/scheduler: Add fence deadline support
+Message-ID: <YRt7ka8TZrjdxy/6@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Tian Tao <tiantao6@hisilicon.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Steven Price <steven.price@arm.com>, Roy Sun <Roy.Sun@amd.com>,
+ Lee Jones <lee.jones@linaro.org>, Jack Zhang <Jack.Zhang1@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
+References: <20210807183804.459850-1-robdclark@gmail.com>
+ <20210807183804.459850-5-robdclark@gmail.com>
+ <e28020c5-3da3-c721-96df-9a115f105bf7@gmail.com>
+ <YRqGazgGJ2NAIzg2@phenom.ffwll.local>
+ <CAF6AEGtyA2ovPcsP_3wbD-KfJFZosc=qf=SMkE2BVMq5+=cxWw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <d27be6ed-dac9-5ae0-b7dd-aea2061908f7@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGtyA2ovPcsP_3wbD-KfJFZosc=qf=SMkE2BVMq5+=cxWw@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,912 +109,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 16, 2021 at 08:58:49AM -0700, Daniele Ceraolo Spurio wrote:
+On Mon, Aug 16, 2021 at 03:25:20PM -0700, Rob Clark wrote:
+> On Mon, Aug 16, 2021 at 8:38 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, Aug 16, 2021 at 12:14:35PM +0200, Christian König wrote:
+> > > Am 07.08.21 um 20:37 schrieb Rob Clark:
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > As the finished fence is the one that is exposed to userspace, and
+> > > > therefore the one that other operations, like atomic update, would
+> > > > block on, we need to propagate the deadline from from the finished
+> > > > fence to the actual hw fence.
+> > > >
+> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >
+> > I guess you're already letting the compositor run at a higher gpu priority
+> > so that your deadline'd drm_sched_job isn't stuck behind the app rendering
+> > the next frame?
 > 
+> With the scheduler conversion we do have multiple priorities (provided
+> by scheduler) for all generations.. but not yet preemption for all
+> generations.
 > 
-> On 8/16/2021 8:15 AM, Daniel Vetter wrote:
-> > On Fri, Aug 13, 2021 at 08:18:02AM -0700, Daniele Ceraolo Spurio wrote:
-> > > 
-> > > On 8/13/2021 7:37 AM, Daniel Vetter wrote:
-> > > > On Wed, Jul 28, 2021 at 07:01:01PM -0700, Daniele Ceraolo Spurio wrote:
-> > > > > This api allow user mode to create protected buffers and to mark
-> > > > > contexts as making use of such objects. Only when using contexts
-> > > > > marked in such a way is the execution guaranteed to work as expected.
-> > > > > 
-> > > > > Contexts can only be marked as using protected content at creation time
-> > > > > (i.e. the parameter is immutable) and they must be both bannable and not
-> > > > > recoverable.
-> > > > > 
-> > > > > All protected objects and contexts that have backing storage will be
-> > > > > considered invalid when the PXP session is destroyed and all new
-> > > > > submissions using them will be rejected. All intel contexts within the
-> > > > > invalidated gem contexts will be marked banned. A new flag has been
-> > > > > added to the RESET_STATS ioctl to report the context invalidation to
-> > > > > userspace.
-> > > > > 
-> > > > > This patch was previously sent as 2 separate patches, which have been
-> > > > > squashed following a request to have all the uapi in a single patch.
-> > > > > I've retained the s-o-b from both.
-> > > > > 
-> > > > > v5: squash patches, rebase on proto_ctx, update kerneldoc
-> > > > > 
-> > > > > v6: rebase on obj create_ext changes
-> > > > > 
-> > > > > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > > > > Signed-off-by: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
-> > > > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > > > > Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> > > > > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > > > > Cc: Daniel Vetter <daniel.vetter@intel.com>
-> > > > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> #v5
-> > > > > ---
-> > > > >    drivers/gpu/drm/i915/gem/i915_gem_context.c   | 68 ++++++++++++--
-> > > > >    drivers/gpu/drm/i915/gem/i915_gem_context.h   | 18 ++++
-> > > > >    .../gpu/drm/i915/gem/i915_gem_context_types.h |  2 +
-> > > > >    drivers/gpu/drm/i915/gem/i915_gem_create.c    | 75 ++++++++++++----
-> > > > >    .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 40 ++++++++-
-> > > > >    drivers/gpu/drm/i915/gem/i915_gem_object.c    |  6 ++
-> > > > >    drivers/gpu/drm/i915/gem/i915_gem_object.h    | 12 +++
-> > > > >    .../gpu/drm/i915/gem/i915_gem_object_types.h  |  9 ++
-> > > > >    drivers/gpu/drm/i915/pxp/intel_pxp.c          | 89 +++++++++++++++++++
-> > > > >    drivers/gpu/drm/i915/pxp/intel_pxp.h          | 15 ++++
-> > > > >    drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  3 +
-> > > > >    drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  5 ++
-> > > > >    include/uapi/drm/i915_drm.h                   | 55 +++++++++++-
-> > > > >    13 files changed, 371 insertions(+), 26 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > > > > index cff72679ad7c..0cd3e2d06188 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > > > > @@ -77,6 +77,8 @@
-> > > > >    #include "gt/intel_gpu_commands.h"
-> > > > >    #include "gt/intel_ring.h"
-> > > > > +#include "pxp/intel_pxp.h"
-> > > > > +
-> > > > >    #include "i915_gem_context.h"
-> > > > >    #include "i915_trace.h"
-> > > > >    #include "i915_user_extensions.h"
-> > > > > @@ -241,6 +243,25 @@ static int proto_context_set_persistence(struct drm_i915_private *i915,
-> > > > >    	return 0;
-> > > > >    }
-> > > > > +static int proto_context_set_protected(struct drm_i915_private *i915,
-> > > > > +				       struct i915_gem_proto_context *pc,
-> > > > > +				       bool protected)
-> > > > > +{
-> > > > > +	int ret = 0;
-> > > > > +
-> > > > > +	if (!intel_pxp_is_enabled(&i915->gt.pxp))
-> > > > > +		ret = -ENODEV;
-> > > > > +	else if (!protected)
-> > > > > +		pc->user_flags &= ~BIT(UCONTEXT_PROTECTED);
-> > > > > +	else if ((pc->user_flags & BIT(UCONTEXT_RECOVERABLE)) ||
-> > > > > +		 !(pc->user_flags & BIT(UCONTEXT_BANNABLE)))
-> > > > > +		ret = -EPERM;
-> > > > > +	else
-> > > > > +		pc->user_flags |= BIT(UCONTEXT_PROTECTED);
-> > > > > +
-> > > > > +	return ret;
-> > > > > +}
-> > > > > +
-> > > > >    static struct i915_gem_proto_context *
-> > > > >    proto_context_create(struct drm_i915_private *i915, unsigned int flags)
-> > > > >    {
-> > > > > @@ -686,6 +707,8 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
-> > > > >    			ret = -EPERM;
-> > > > >    		else if (args->value)
-> > > > >    			pc->user_flags |= BIT(UCONTEXT_BANNABLE);
-> > > > > +		else if (pc->user_flags & BIT(UCONTEXT_PROTECTED))
-> > > > > +			ret = -EPERM;
-> > > > >    		else
-> > > > >    			pc->user_flags &= ~BIT(UCONTEXT_BANNABLE);
-> > > > >    		break;
-> > > > > @@ -693,10 +716,12 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
-> > > > >    	case I915_CONTEXT_PARAM_RECOVERABLE:
-> > > > >    		if (args->size)
-> > > > >    			ret = -EINVAL;
-> > > > > -		else if (args->value)
-> > > > > -			pc->user_flags |= BIT(UCONTEXT_RECOVERABLE);
-> > > > > -		else
-> > > > > +		else if (!args->value)
-> > > > >    			pc->user_flags &= ~BIT(UCONTEXT_RECOVERABLE);
-> > > > > +		else if (pc->user_flags & BIT(UCONTEXT_PROTECTED))
-> > > > > +			ret = -EPERM;
-> > > > > +		else
-> > > > > +			pc->user_flags |= BIT(UCONTEXT_RECOVERABLE);
-> > > > >    		break;
-> > > > >    	case I915_CONTEXT_PARAM_PRIORITY:
-> > > > > @@ -724,6 +749,11 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
-> > > > >    						    args->value);
-> > > > >    		break;
-> > > > > +	case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
-> > > > > +		ret = proto_context_set_protected(fpriv->dev_priv, pc,
-> > > > > +						  args->value);
-> > > > > +		break;
-> > > > > +
-> > > > >    	case I915_CONTEXT_PARAM_NO_ZEROMAP:
-> > > > >    	case I915_CONTEXT_PARAM_BAN_PERIOD:
-> > > > >    	case I915_CONTEXT_PARAM_RINGSIZE:
-> > > > > @@ -1798,6 +1828,18 @@ static int set_priority(struct i915_gem_context *ctx,
-> > > > >    	return 0;
-> > > > >    }
-> > > > > +static int get_protected(struct i915_gem_context *ctx,
-> > > > > +			 struct drm_i915_gem_context_param *args)
-> > > > > +{
-> > > > > +	if (!intel_pxp_is_enabled(&ctx->i915->gt.pxp))
-> > > > > +		return -ENODEV;
-> > > > > +
-> > > > > +	args->size = 0;
-> > > > > +	args->value = i915_gem_context_uses_protected_content(ctx);
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > >    static int ctx_setparam(struct drm_i915_file_private *fpriv,
-> > > > >    			struct i915_gem_context *ctx,
-> > > > >    			struct drm_i915_gem_context_param *args)
-> > > > > @@ -1821,6 +1863,8 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
-> > > > >    			ret = -EPERM;
-> > > > >    		else if (args->value)
-> > > > >    			i915_gem_context_set_bannable(ctx);
-> > > > > +		else if (i915_gem_context_uses_protected_content(ctx))
-> > > > > +			ret = -EPERM; /* can't clear this for protected contexts */
-> > > > >    		else
-> > > > >    			i915_gem_context_clear_bannable(ctx);
-> > > > >    		break;
-> > > > > @@ -1828,10 +1872,12 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
-> > > > >    	case I915_CONTEXT_PARAM_RECOVERABLE:
-> > > > >    		if (args->size)
-> > > > >    			ret = -EINVAL;
-> > > > > -		else if (args->value)
-> > > > > -			i915_gem_context_set_recoverable(ctx);
-> > > > > -		else
-> > > > > +		else if (!args->value)
-> > > > >    			i915_gem_context_clear_recoverable(ctx);
-> > > > > +		else if (i915_gem_context_uses_protected_content(ctx))
-> > > > > +			ret = -EPERM; /* can't set this for protected contexts */
-> > > > > +		else
-> > > > > +			i915_gem_context_set_recoverable(ctx);
-> > > > >    		break;
-> > > > >    	case I915_CONTEXT_PARAM_PRIORITY:
-> > > > > @@ -1846,6 +1892,7 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
-> > > > >    		ret = set_persistence(ctx, args);
-> > > > >    		break;
-> > > > > +	case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
-> > > > >    	case I915_CONTEXT_PARAM_NO_ZEROMAP:
-> > > > >    	case I915_CONTEXT_PARAM_BAN_PERIOD:
-> > > > >    	case I915_CONTEXT_PARAM_RINGSIZE:
-> > > > > @@ -2174,6 +2221,10 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
-> > > > >    		args->value = i915_gem_context_is_persistent(ctx);
-> > > > >    		break;
-> > > > > +	case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
-> > > > > +		ret = get_protected(ctx, args);
-> > > > > +		break;
-> > > > > +
-> > > > >    	case I915_CONTEXT_PARAM_NO_ZEROMAP:
-> > > > >    	case I915_CONTEXT_PARAM_BAN_PERIOD:
-> > > > >    	case I915_CONTEXT_PARAM_ENGINES:
-> > > > > @@ -2250,6 +2301,11 @@ int i915_gem_context_reset_stats_ioctl(struct drm_device *dev,
-> > > > >    	args->batch_active = atomic_read(&ctx->guilty_count);
-> > > > >    	args->batch_pending = atomic_read(&ctx->active_count);
-> > > > > +	/* re-use args->flags for output flags */
-> > > > > +	args->flags = 0;
-> > > > > +	if (i915_gem_context_invalidated(ctx))
-> > > > > +		args->flags |= I915_CONTEXT_INVALIDATED;
-> > > > > +
-> > > > >    	i915_gem_context_put(ctx);
-> > > > >    	return 0;
-> > > > >    }
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> > > > > index 18060536b0c2..d932a70122fa 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> > > > > @@ -108,6 +108,24 @@ i915_gem_context_clear_user_engines(struct i915_gem_context *ctx)
-> > > > >    	clear_bit(CONTEXT_USER_ENGINES, &ctx->flags);
-> > > > >    }
-> > > > > +static inline bool
-> > > > > +i915_gem_context_invalidated(const struct i915_gem_context *ctx)
-> > > > > +{
-> > > > > +	return test_bit(CONTEXT_INVALID, &ctx->flags);
-> > > > > +}
-> > > > > +
-> > > > > +static inline void
-> > > > > +i915_gem_context_set_invalid(struct i915_gem_context *ctx)
-> > > > > +{
-> > > > > +	set_bit(CONTEXT_INVALID, &ctx->flags);
-> > > > Do we _really_ need a new bit in this already very complex state
-> > > > machinery, and can't we reuse the BANNED flag instead?
-> > > > 
-> > > > This ctx->flags is atomic, unorderd, and that means you need barriers and
-> > > > everything.
-> > > > 
-> > > > If you don't actually need the atomic state bit machinery because you're
-> > > > using simple locking, then pls use your own boolean, and document by which
-> > > > lock it's protected.
-> > > The BANNED flag is at the intel_context level, while I needed something at
-> > > the gem_context level to report out. Can make it a bool if you prefer.
-> > > The invalidation process is inherently racy (the teardown can always occur
-> > > after we've checked the flag) so no amount of locking can help there. The
-> > > flag itself is only set once and never cleared, so no risk of a set and
-> > > clear racing.
-> > Yes the invalidate is racy, but we still need to make guarantees
-> > internally in the kernel that nothing escapes and falls through cracks.
-> 
-> We can't make that guarantee, because we get the invalidation interrupt
-> after the HW has already processed all the invalidations. A protected object
-> might already be in use on an engine (in which case it is too late to pull
-> it out) or have been submitted for a flip when we get the interrupt; we
-> could also end up using the invalidated objects before we manage to process
-> the interrupt. The whole invalidation tracking is best effort by HW design,
-> AFAIU it was deemed acceptable to potentially get 1 corrupted frame as long
-> as we do our best to keep the window short.
+> But the most common use-case where we need this ends up being display
+> composition (either fullscreen app/game or foreground app/game
+> composited via overlay) so I haven't thought too much about the next
+> step of boosting job priority.  I might leave that to someone who
+> already has preemption wired up ;-)
 
-That's not what I meant with races, but the races in our book-keeping. If
-we ban a context someone needs to clean up all the pending requests. If
-one slips through and then non one cleans that up, we have a potential
-problem. Since the context banning stuff has this solved already
-(hopefully at least, would be good to document how it works exactly) it
-shouldn't be a problem.
+Atm no-one, drm/sched isn't really aware that's a concept. I was more
+thinking of just boosting that request as a first step. Maybe within the
+same priority class we pick jobs with deadlines first, or something like
+that.
 
-> > Wrt reporting out, this should be exactly the same flow as a gpu reset
-> > that results in a banned gem context. We really shouldn't duplicate
-> > infrastructure here.
-> 
-> AFAICS there is no banning of gem_context (unless it is named something
-> different). There is banning of intel_context and full on banning of the
-> file. There was an explicit request from mesa to add something new at the
-> reset_stats level because what we already had didn't work. If there is a
-> different solution that works for them I'm happy to switch (+ Lionel for
-> comments).
-
-Hm the only case where I see a difference between banning gem context and
-banning each intel_context is when you use legacy engine map, where we
-lazily instantiate stuff. Mesa shouldn't be using that anymore, so banning
-all the intel_context should be equivalent. Maybe we should require the
-new engine map stuff.
-
-But I guess it wasn't so what exactly escaped here?
-
-There's two concerns I have:
-- When I discussed our entire context uapi with Jason a while ago we
-  agreed that the gem context should be as much as possible a pure
-  container, without semantics. The real thing should be the
-  intel_contexts underneath.
-- Locking gets really nasty when we have to go backwards from
-  intel_context to gem context (it currently is, I have some plans to fix
-  that up). So if you add uapi guarantees where we have to go backwards,
-  things get potentially very interesting. Not impossible, but definitely
-  more fun than I maybe want.
-
-Cheers, Daniel
+Preempting is an entire can of worms on top.
+-Daniel
 
 > 
-> > 
-> > 
-> > > > > +}
-> > > > > +
-> > > > > +static inline bool
-> > > > > +i915_gem_context_uses_protected_content(const struct i915_gem_context *ctx)
-> > > > > +{
-> > > > > +	return test_bit(UCONTEXT_PROTECTED, &ctx->user_flags);
-> > > > For immutable state (I really hope this is immutable) pls don't reuse the
-> > > > atomic bitfield of mutable state, but create a flag of your own.
-> > > It is immutable. Should we have a ctx->immutable_flags, or better a bool?
-> > Yeah just make it a bool, and add a kerneldoc comment that it's immutable
-> > and never changes.
+> BR,
+> -R
 > 
-> Ok. The fact that this is immutable is already in the doc for the
-> create_ext, but I'll add it next to the variable as well.
-> 
-> > 
-> > > > Also please document all the rules around how this is set/changed in the
-> > > > kerneldoc header comments for the data structure. Finally if you never set
-> > > > it except at creation.
-> > > > 
-> > > > > +}
-> > > > > +
-> > > > >    /* i915_gem_context.c */
-> > > > >    void i915_gem_init__contexts(struct drm_i915_private *i915);
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > > > > index 94c03a97cb77..1aa2290aa3c7 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> > > > > @@ -301,6 +301,7 @@ struct i915_gem_context {
-> > > > >    #define UCONTEXT_BANNABLE		2
-> > > > >    #define UCONTEXT_RECOVERABLE		3
-> > > > >    #define UCONTEXT_PERSISTENCE		4
-> > > > > +#define UCONTEXT_PROTECTED		5
-> > > > >    	/**
-> > > > >    	 * @flags: small set of booleans
-> > > > > @@ -308,6 +309,7 @@ struct i915_gem_context {
-> > > > >    	unsigned long flags;
-> > > > >    #define CONTEXT_CLOSED			0
-> > > > >    #define CONTEXT_USER_ENGINES		1
-> > > > > +#define CONTEXT_INVALID			2
-> > > > >    	/** @mutex: guards everything that isn't engines or handles_vma */
-> > > > >    	struct mutex mutex;
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > > index 23fee13a3384..0e48629316bb 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > > @@ -6,6 +6,7 @@
-> > > > >    #include "gem/i915_gem_ioctls.h"
-> > > > >    #include "gem/i915_gem_lmem.h"
-> > > > >    #include "gem/i915_gem_region.h"
-> > > > > +#include "pxp/intel_pxp.h"
-> > > > >    #include "i915_drv.h"
-> > > > >    #include "i915_trace.h"
-> > > > > @@ -82,21 +83,11 @@ static int i915_gem_publish(struct drm_i915_gem_object *obj,
-> > > > >    	return 0;
-> > > > >    }
-> > > > > -/**
-> > > > > - * Creates a new object using the same path as DRM_I915_GEM_CREATE_EXT
-> > > > > - * @i915: i915 private
-> > > > > - * @size: size of the buffer, in bytes
-> > > > > - * @placements: possible placement regions, in priority order
-> > > > > - * @n_placements: number of possible placement regions
-> > > > > - *
-> > > > > - * This function is exposed primarily for selftests and does very little
-> > > > > - * error checking.  It is assumed that the set of placement regions has
-> > > > > - * already been verified to be valid.
-> > > > > - */
-> > > > > -struct drm_i915_gem_object *
-> > > > > -__i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-> > > > > -			      struct intel_memory_region **placements,
-> > > > > -			      unsigned int n_placements)
-> > > > > +static struct drm_i915_gem_object *
-> > > > > +__i915_gem_object_create_user_ext(struct drm_i915_private *i915, u64 size,
-> > > > > +				  struct intel_memory_region **placements,
-> > > > > +				  unsigned int n_placements,
-> > > > > +				  unsigned int ext_flags)
-> > > > >    {
-> > > > >    	struct intel_memory_region *mr = placements[0];
-> > > > >    	struct drm_i915_gem_object *obj;
-> > > > > @@ -135,6 +126,12 @@ __i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-> > > > >    	GEM_BUG_ON(size != obj->base.size);
-> > > > > +	/* Add any flag set by create_ext options */
-> > > > > +	flags |= ext_flags;
-> > > > > +
-> > > > > +	if (i915_gem_object_is_protected(obj))
-> > > > > +		intel_pxp_object_add(obj);
-> > > > > +
-> > > > >    	trace_i915_gem_object_create(obj);
-> > > > >    	return obj;
-> > > > > @@ -145,6 +142,26 @@ __i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-> > > > >    	return ERR_PTR(ret);
-> > > > >    }
-> > > > > +/**
-> > > > > + * Creates a new object using the same path as DRM_I915_GEM_CREATE_EXT
-> > > > > + * @i915: i915 private
-> > > > > + * @size: size of the buffer, in bytes
-> > > > > + * @placements: possible placement regions, in priority order
-> > > > > + * @n_placements: number of possible placement regions
-> > > > > + *
-> > > > > + * This function is exposed primarily for selftests and does very little
-> > > > > + * error checking.  It is assumed that the set of placement regions has
-> > > > > + * already been verified to be valid.
-> > > > > + */
-> > > > > +struct drm_i915_gem_object *
-> > > > > +__i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-> > > > > +			      struct intel_memory_region **placements,
-> > > > > +			      unsigned int n_placements)
-> > > > > +{
-> > > > > +	return __i915_gem_object_create_user_ext(i915, size, placements,
-> > > > > +						 n_placements, 0);
-> > > > > +}
-> > > > > +
-> > > > >    int
-> > > > >    i915_gem_dumb_create(struct drm_file *file,
-> > > > >    		     struct drm_device *dev,
-> > > > > @@ -224,6 +241,7 @@ struct create_ext {
-> > > > >    	struct drm_i915_private *i915;
-> > > > >    	struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
-> > > > >    	unsigned int n_placements;
-> > > > > +	unsigned long flags;
-> > > > >    };
-> > > > >    static void repr_placements(char *buf, size_t size,
-> > > > > @@ -356,8 +374,28 @@ static int ext_set_placements(struct i915_user_extension __user *base,
-> > > > >    	return set_placements(&ext, data);
-> > > > >    }
-> > > > > +static int ext_set_protected(struct i915_user_extension __user *base, void *data)
-> > > > > +{
-> > > > > +	struct drm_i915_gem_create_ext_protected_content ext;
-> > > > > +	struct create_ext *ext_data = data;
-> > > > > +
-> > > > > +	if (copy_from_user(&ext, base, sizeof(ext)))
-> > > > > +		return -EFAULT;
-> > > > > +
-> > > > > +	if (ext.flags)
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > > > +	if (!intel_pxp_is_enabled(&ext_data->i915->gt.pxp))
-> > > > > +		return -ENODEV;
-> > > > > +
-> > > > > +	ext_data->flags |= I915_BO_PROTECTED;
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > >    static const i915_user_extension_fn create_extensions[] = {
-> > > > >    	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
-> > > > > +	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
-> > > > >    };
-> > > > >    /**
-> > > > > @@ -392,9 +430,10 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
-> > > > >    		ext_data.n_placements = 1;
-> > > > >    	}
-> > > > > -	obj = __i915_gem_object_create_user(i915, args->size,
-> > > > > -					    ext_data.placements,
-> > > > > -					    ext_data.n_placements);
-> > > > > +	obj = __i915_gem_object_create_user_ext(i915, args->size,
-> > > > > +						ext_data.placements,
-> > > > > +						ext_data.n_placements,
-> > > > > +						ext_data.flags);
-> > > > >    	if (IS_ERR(obj))
-> > > > >    		return PTR_ERR(obj);
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > > > > index 1ed7475de454..04f33d163340 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > > > > @@ -21,6 +21,8 @@
-> > > > >    #include "gt/intel_gt_pm.h"
-> > > > >    #include "gt/intel_ring.h"
-> > > > > +#include "pxp/intel_pxp.h"
-> > > > > +
-> > > > >    #include "i915_drv.h"
-> > > > >    #include "i915_gem_clflush.h"
-> > > > >    #include "i915_gem_context.h"
-> > > > > @@ -751,6 +753,11 @@ static int eb_select_context(struct i915_execbuffer *eb)
-> > > > >    	if (unlikely(IS_ERR(ctx)))
-> > > > >    		return PTR_ERR(ctx);
-> > > > > +	if (i915_gem_context_invalidated(ctx)) {
-> > > > > +		i915_gem_context_put(ctx);
-> > > > > +		return -EACCES;
-> > > > > +	}
-> > > > > +
-> > > > >    	eb->gem_context = ctx;
-> > > > >    	if (rcu_access_pointer(ctx->vm))
-> > > > >    		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
-> > > > > @@ -819,7 +826,7 @@ static struct i915_vma *eb_lookup_vma(struct i915_execbuffer *eb, u32 handle)
-> > > > >    	do {
-> > > > >    		struct drm_i915_gem_object *obj;
-> > > > >    		struct i915_vma *vma;
-> > > > > -		int err;
-> > > > > +		int err = 0;
-> > > > >    		rcu_read_lock();
-> > > > >    		vma = radix_tree_lookup(&eb->gem_context->handles_vma, handle);
-> > > > > @@ -833,6 +840,26 @@ static struct i915_vma *eb_lookup_vma(struct i915_execbuffer *eb, u32 handle)
-> > > > >    		if (unlikely(!obj))
-> > > > >    			return ERR_PTR(-ENOENT);
-> > > > > +		/*
-> > > > > +		 * If the user has opted-in for protected-object tracking, make
-> > > > > +		 * sure the object encryption can be used.
-> > > > > +		 * We only need to do this when the object is first used with
-> > > > > +		 * this context, because the context itself will be banned when
-> > > > > +		 * the protected objects become invalid.
-> > > > > +		 */
-> > > > > +		if (i915_gem_context_uses_protected_content(eb->gem_context) &&
-> > > > > +		    i915_gem_object_is_protected(obj)) {
-> > > > > +			if (!intel_pxp_is_active(&vm->gt->pxp))
-> > > > > +				err = -ENODEV;
-> > > > > +			else if (!i915_gem_object_has_valid_protection(obj))
-> > > > > +				err = -ENOEXEC;
-> > > > > +
-> > > > > +			if (err) {
-> > > > > +				i915_gem_object_put(obj);
-> > > > > +				return ERR_PTR(err);
-> > > > > +			}
-> > > > > +		}
-> > > > > +
-> > > > >    		vma = i915_vma_instance(obj, vm, NULL);
-> > > > >    		if (IS_ERR(vma)) {
-> > > > >    			i915_gem_object_put(obj);
-> > > > > @@ -2752,6 +2779,17 @@ eb_select_engine(struct i915_execbuffer *eb)
-> > > > >    	intel_gt_pm_get(ce->engine->gt);
-> > > > > +	if (i915_gem_context_uses_protected_content(eb->gem_context)) {
-> > > > > +		err = intel_pxp_wait_for_arb_start(&ce->engine->gt->pxp);
-> > > > > +		if (err)
-> > > > > +			goto err;
-> > > > > +
-> > > > > +		if (i915_gem_context_invalidated(eb->gem_context)) {
-> > > > > +			err = -EACCES;
-> > > > Shouldn't the normal banned context handling takee care of anything that
-> > > > slips through? Rolling your own racy invalidation checks doesn't look like
-> > > > a good idea.
-> > > This is to bail out early and report the error to userspace. If the
-> > > invalidation flag gets set after this check then we'll still catch it later
-> > > as you said, but IMO there is value in bailing out early when possible,
-> > > especially since it is a low-effort check. The invalidation flag can't be
-> > > cleared, so no risk of rejecting something that shouldn't be.
-> > Nah, that just papers over races and means you now have to validate more
-> > code for correctness - the later catching still must happen, but it's now
-> > much harder to trigger.
-> > 
-> > Also, the context banning should do this for us already. Maybe a good idea
-> > to audit and document that, to make sure it's working correctly and we're
-> > using it correctly for pxp, but this wheel should exist and we don't need
-> > a new one.
-> 
-> Ok, I can rely on the intel_context being banned directly (it's checked
-> earlier) but as mentioned above we do need but-in from mesa to drop the new
-> invalidation flag at the gem_context level.
-> 
-> Daniele
-> 
-> > 
-> > Except if the uapi promise is that we send back a different errno, but
-> > that again should be integrated into the context banning stuff.
+> > I'm not sure whether you wire that one up as part of the conversion to
+> > drm/sched. Without that I think we might need to ponder how we can do a
+> > prio-boost for these, e.g. within a scheduling class we pick the jobs with
+> > the nearest deadline first, before we pick others.
 > > -Daniel
-> > 
-> > > Daniele
-> > > 
-> > > > > +			goto err;
-> > > > > +		}
-> > > > > +	}
-> > > > > +
-> > > > >    	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
-> > > > >    		err = intel_context_alloc_state(ce);
-> > > > >    		if (err)
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> > > > > index 6fb9afb65034..658a42a7fa07 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> > > > > @@ -25,6 +25,7 @@
-> > > > >    #include <linux/sched/mm.h>
-> > > > >    #include "display/intel_frontbuffer.h"
-> > > > > +#include "pxp/intel_pxp.h"
-> > > > >    #include "i915_drv.h"
-> > > > >    #include "i915_gem_clflush.h"
-> > > > >    #include "i915_gem_context.h"
-> > > > > @@ -73,6 +74,8 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
-> > > > >    	INIT_LIST_HEAD(&obj->lut_list);
-> > > > >    	spin_lock_init(&obj->lut_lock);
-> > > > > +	INIT_LIST_HEAD(&obj->pxp_link);
-> > > > > +
-> > > > >    	spin_lock_init(&obj->mmo.lock);
-> > > > >    	obj->mmo.offsets = RB_ROOT;
-> > > > > @@ -231,6 +234,9 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
-> > > > >    		spin_unlock(&obj->vma.lock);
-> > > > >    	}
-> > > > > +	if (i915_gem_object_has_valid_protection(obj))
-> > > > > +		intel_pxp_object_remove(obj);
-> > > > > +
-> > > > >    	__i915_gem_object_free_mmaps(obj);
-> > > > >    	GEM_BUG_ON(!list_empty(&obj->lut_list));
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > > > > index 48112b9d76df..137ae2723514 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > > > > @@ -269,6 +269,18 @@ i915_gem_object_clear_tiling_quirk(struct drm_i915_gem_object *obj)
-> > > > >    	clear_bit(I915_TILING_QUIRK_BIT, &obj->flags);
-> > > > >    }
-> > > > > +static inline bool
-> > > > > +i915_gem_object_is_protected(const struct drm_i915_gem_object *obj)
-> > > > > +{
-> > > > > +	return obj->flags & I915_BO_PROTECTED;
-> > > > > +}
-> > > > > +
-> > > > > +static inline bool
-> > > > > +i915_gem_object_has_valid_protection(const struct drm_i915_gem_object *obj)
-> > > > > +{
-> > > > > +	return i915_gem_object_is_protected(obj) && !list_empty(&obj->pxp_link);
-> > > > > +}
-> > > > > +
-> > > > >    static inline bool
-> > > > >    i915_gem_object_type_has(const struct drm_i915_gem_object *obj,
-> > > > >    			 unsigned long flags)
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> > > > > index 2471f36aaff3..38e4a190607a 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> > > > > @@ -298,6 +298,7 @@ struct drm_i915_gem_object {
-> > > > >    			     I915_BO_ALLOC_USER)
-> > > > >    #define I915_BO_READONLY         BIT(4)
-> > > > >    #define I915_TILING_QUIRK_BIT    5 /* unknown swizzling; do not release! */
-> > > > > +#define I915_BO_PROTECTED        BIT(6)
-> > > > >    	/**
-> > > > >    	 * @mem_flags - Mutable placement-related flags
-> > > > > @@ -537,6 +538,14 @@ struct drm_i915_gem_object {
-> > > > >    		bool created:1;
-> > > > >    	} ttm;
-> > > > > +	/*
-> > > > > +	 * When the PXP session is invalidated, we need to mark all protected
-> > > > > +	 * objects as invalid. To easily do so we add them all to a list. The
-> > > > > +	 * presence on the list is used to check if the encryption is valid or
-> > > > > +	 * not.
-> > > > > +	 */
-> > > > > +	struct list_head pxp_link;
-> > > > > +
-> > > > >    	/** Record of address bit 17 of each page at last unbind. */
-> > > > >    	unsigned long *bit_17;
-> > > > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> > > > > index b0c7edc10cc3..f418281e8c10 100644
-> > > > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> > > > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> > > > > @@ -7,6 +7,7 @@
-> > > > >    #include "intel_pxp_irq.h"
-> > > > >    #include "intel_pxp_session.h"
-> > > > >    #include "intel_pxp_tee.h"
-> > > > > +#include "gem/i915_gem_context.h"
-> > > > >    #include "gt/intel_context.h"
-> > > > >    #include "i915_drv.h"
-> > > > > @@ -70,6 +71,9 @@ void intel_pxp_init(struct intel_pxp *pxp)
-> > > > >    	mutex_init(&pxp->tee_mutex);
-> > > > > +	spin_lock_init(&pxp->lock);
-> > > > > +	INIT_LIST_HEAD(&pxp->protected_objects);
-> > > > > +
-> > > > >    	/*
-> > > > >    	 * we'll use the completion to check if there is a termination pending,
-> > > > >    	 * so we start it as completed and we reinit it when a termination
-> > > > > @@ -166,3 +170,88 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp)
-> > > > >    	intel_pxp_irq_disable(pxp);
-> > > > >    }
-> > > > > +
-> > > > > +int intel_pxp_object_add(struct drm_i915_gem_object *obj)
-> > > > > +{
-> > > > > +	struct intel_pxp *pxp = &to_i915(obj->base.dev)->gt.pxp;
-> > > > > +
-> > > > > +	if (!intel_pxp_is_enabled(pxp))
-> > > > > +		return -ENODEV;
-> > > > > +
-> > > > > +	if (!list_empty(&obj->pxp_link))
-> > > > > +		return -EEXIST;
-> > > > > +
-> > > > > +	spin_lock_irq(&pxp->lock);
-> > > > > +	list_add(&obj->pxp_link, &pxp->protected_objects);
-> > > > > +	spin_unlock_irq(&pxp->lock);
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > > +void intel_pxp_object_remove(struct drm_i915_gem_object *obj)
-> > > > > +{
-> > > > > +	struct intel_pxp *pxp = &to_i915(obj->base.dev)->gt.pxp;
-> > > > > +
-> > > > > +	if (!intel_pxp_is_enabled(pxp))
-> > > > > +		return;
-> > > > > +
-> > > > > +	spin_lock_irq(&pxp->lock);
-> > > > > +	list_del_init(&obj->pxp_link);
-> > > > > +	spin_unlock_irq(&pxp->lock);
-> > > > > +}
-> > > > > +
-> > > > > +void intel_pxp_invalidate(struct intel_pxp *pxp)
-> > > > There is a lot of locking going on here. Please make sure it's all
-> > > > properly documented what the rules are in kerneldoc, even for existing
-> > > > stuff.
-> > > > 
-> > > > Especially anytime there's anything tricky going on, like:
-> > > > - kref_get_unless_zero
-> > > > - test_bit (that's an unorderd atomic, so either you don't actually need
-> > > >     the atomic, or you need a pile of barriers and comments about them)
-> > > > - hiddent atomic ops like intel_context_set_banned or
-> > > >     i915_gem_context_set_invalid also need great care, least because the
-> > > >     current rules aren't documented really. So step one here before using
-> > > >     them is documenting the rules of how banning works.
-> > > > 
-> > > > > +{
-> > > > > +	struct drm_i915_private *i915 = pxp_to_gt(pxp)->i915;
-> > > > > +	struct drm_i915_gem_object *obj, *tmp;
-> > > > > +	struct i915_gem_context *ctx, *cn;
-> > > > > +
-> > > > > +	/* delete objects that have been used with the invalidated session */
-> > > > > +	spin_lock_irq(&pxp->lock);
-> > > > > +	list_for_each_entry_safe(obj, tmp, &pxp->protected_objects, pxp_link) {
-> > > > > +		if (i915_gem_object_has_pages(obj))
-> > > > > +			list_del_init(&obj->pxp_link);
-> > > > > +	}
-> > > > > +	spin_unlock_irq(&pxp->lock);
-> > > > > +
-> > > > > +	/* ban all contexts marked as protected */
-> > > > > +	spin_lock_irq(&i915->gem.contexts.lock);
-> > > > > +	list_for_each_entry_safe(ctx, cn, &i915->gem.contexts.list, link) {
-> > > > > +		struct i915_gem_engines_iter it;
-> > > > > +		struct intel_context *ce;
-> > > > > +
-> > > > > +		if (!kref_get_unless_zero(&ctx->ref))
-> > > > > +			continue;
-> > > > > +
-> > > > > +		if (likely(!i915_gem_context_uses_protected_content(ctx)) ||
-> > > > > +		    i915_gem_context_invalidated(ctx)) {
-> > > > > +			i915_gem_context_put(ctx);
-> > > > > +			continue;
-> > > > > +		}
-> > > > > +
-> > > > > +		spin_unlock_irq(&i915->gem.contexts.lock);
-> > > > > +
-> > > > > +		/*
-> > > > > +		 * Note that by the time we get here the HW keys are already
-> > > > > +		 * long gone, so any batch using them that's already on the
-> > > > > +		 * engines is very likely a lost cause (and it has probably
-> > > > > +		 * already hung the engine). Therefore, we skip attempting to
-> > > > > +		 * pull the running context out of the HW and we prioritize
-> > > > > +		 * bringing the session back as soon as possible.
-> > > > > +		 */
-> > > > > +		for_each_gem_engine(ce, i915_gem_context_lock_engines(ctx), it) {
-> > > > > +			/* only invalidate if at least one ce was allocated */
-> > > > > +			if (test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
-> > > > > +				intel_context_set_banned(ce);
-> > > > > +				i915_gem_context_set_invalid(ctx);
-> > > > > +			}
-> > > > > +		}
-> > > > > +		i915_gem_context_unlock_engines(ctx);
-> > > > > +
-> > > > > +		spin_lock_irq(&i915->gem.contexts.lock);
-> > > > > +		list_safe_reset_next(ctx, cn, link);
-> > > > > +		i915_gem_context_put(ctx);
-> > > > > +	}
-> > > > > +	spin_unlock_irq(&i915->gem.contexts.lock);
-> > > > > +}
-> > > > > +
-> > > > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> > > > > index 074b3b980957..4f7647f34153 100644
-> > > > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> > > > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> > > > > @@ -9,6 +9,8 @@
-> > > > >    #include "gt/intel_gt_types.h"
-> > > > >    #include "intel_pxp_types.h"
-> > > > > +struct drm_i915_gem_object;
-> > > > > +
-> > > > >    static inline struct intel_gt *pxp_to_gt(const struct intel_pxp *pxp)
-> > > > >    {
-> > > > >    	return container_of(pxp, struct intel_gt, pxp);
-> > > > > @@ -33,6 +35,11 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp);
-> > > > >    void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
-> > > > >    int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp);
-> > > > > +
-> > > > > +int intel_pxp_object_add(struct drm_i915_gem_object *obj);
-> > > > > +void intel_pxp_object_remove(struct drm_i915_gem_object *obj);
-> > > > > +
-> > > > > +void intel_pxp_invalidate(struct intel_pxp *pxp);
-> > > > >    #else
-> > > > >    static inline void intel_pxp_init(struct intel_pxp *pxp)
-> > > > >    {
-> > > > > @@ -46,6 +53,14 @@ static inline int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp)
-> > > > >    {
-> > > > >    	return 0;
-> > > > >    }
-> > > > > +
-> > > > > +static inline int intel_pxp_object_add(struct drm_i915_gem_object *obj)
-> > > > > +{
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +static inline void intel_pxp_object_remove(struct drm_i915_gem_object *obj)
-> > > > > +{
-> > > > > +}
-> > > > >    #endif
-> > > > >    #endif /* __INTEL_PXP_H__ */
-> > > > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> > > > > index 67c30e534d50..0edd563a653d 100644
-> > > > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> > > > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> > > > > @@ -85,6 +85,9 @@ static int pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
-> > > > >    	/* must mark termination in progress calling this function */
-> > > > >    	GEM_WARN_ON(pxp->arb_is_valid);
-> > > > > +	/* invalidate protected objects */
-> > > > > +	intel_pxp_invalidate(pxp);
-> > > > > +
-> > > > >    	/* terminate the hw sessions */
-> > > > >    	ret = intel_pxp_terminate_session(pxp, ARB_SESSION);
-> > > > >    	if (ret) {
-> > > > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> > > > > index 475e3312c287..be2bed3a2e4e 100644
-> > > > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> > > > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> > > > > @@ -7,7 +7,9 @@
-> > > > >    #define __INTEL_PXP_TYPES_H__
-> > > > >    #include <linux/completion.h>
-> > > > > +#include <linux/list.h>
-> > > > >    #include <linux/mutex.h>
-> > > > > +#include <linux/spinlock.h>
-> > > > >    #include <linux/types.h>
-> > > > >    #include <linux/workqueue.h>
-> > > > > @@ -43,6 +45,9 @@ struct intel_pxp {
-> > > > >    	u32 session_events; /* protected with gt->irq_lock */
-> > > > >    #define PXP_TERMINATION_REQUEST  BIT(0)
-> > > > >    #define PXP_TERMINATION_COMPLETE BIT(1)
-> > > > > +
-> > > > > +	spinlock_t lock; /* protects the objects list */
-> > > > > +	struct list_head protected_objects;
-> > > > >    };
-> > > > >    #endif /* __INTEL_PXP_TYPES_H__ */
-> > > > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> > > > > index 4393eef59d9b..2c9febdae6a5 100644
-> > > > > --- a/include/uapi/drm/i915_drm.h
-> > > > > +++ b/include/uapi/drm/i915_drm.h
-> > > > > @@ -1843,12 +1843,32 @@ struct drm_i915_gem_context_param {
-> > > > >     * attempted to use it, never re-use this context param number.
-> > > > >     */
-> > > > >    #define I915_CONTEXT_PARAM_RINGSIZE	0xc
-> > > > > +
-> > > > > +/*
-> > > > > + * I915_CONTEXT_PARAM_PROTECTED_CONTENT:
-> > > > > + *
-> > > > > + * Mark that the context makes use of protected content, which will result
-> > > > > + * in the context being invalidated when the protected content session is. The
-> > > > > + * invalidation is reported back to userspace via the RESET_STATS ioctl (see
-> > > > > + * relevant doc for details).
-> > > > > + * This flag can only be set at context creation time and, when set to true,
-> > > > > + * must be preceded by an explicit setting of I915_CONTEXT_PARAM_RECOVERABLE
-> > > > > + * to false. This flag can't be set to true in conjunction with setting the
-> > > > > + * I915_CONTEXT_PARAM_BANNABLE flag to false.
-> > > > > + *
-> > > > > + * In addition to the normal failure cases, setting this flag during context
-> > > > > + * creation can result in the following errors:
-> > > > > + *
-> > > > > + * -ENODEV: feature not available
-> > > > > + * -EPERM: trying to mark a recoverable or not bannable context as protected
-> > > > > + */
-> > > > > +#define I915_CONTEXT_PARAM_PROTECTED_CONTENT    0xd
-> > > > >    /* Must be kept compact -- no holes and well documented */
-> > > > >    	__u64 value;
-> > > > >    };
-> > > > > -/*
-> > > > > +/**
-> > > > >     * Context SSEU programming
-> > > > >     *
-> > > > >     * It may be necessary for either functional or performance reason to configure
-> > > > > @@ -2181,6 +2201,12 @@ struct drm_i915_reg_read {
-> > > > >    struct drm_i915_reset_stats {
-> > > > >    	__u32 ctx_id;
-> > > > >    	__u32 flags;
-> > > > > +	/*
-> > > > > +	 * contexts marked as using protected content are invalidated when the
-> > > > > +	 * protected content session dies. Submission of invalidated contexts
-> > > > > +	 * is rejected with -EACCES.
-> > > > > +	 */
-> > > > > +#define I915_CONTEXT_INVALIDATED 0x1
-> > > > >    	/* All resets since boot/module reload, for all contexts */
-> > > > >    	__u32 reset_count;
-> > > > > @@ -2959,8 +2985,12 @@ struct drm_i915_gem_create_ext {
-> > > > >    	 *
-> > > > >    	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
-> > > > >    	 * struct drm_i915_gem_create_ext_memory_regions.
-> > > > > +	 *
-> > > > > +	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
-> > > > > +	 * struct drm_i915_gem_create_ext_protected_content.
-> > > > >    	 */
-> > > > >    #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
-> > > > > +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-> > > > >    	__u64 extensions;
-> > > > >    };
-> > > > > @@ -3018,6 +3048,29 @@ struct drm_i915_gem_create_ext_memory_regions {
-> > > > >    	__u64 regions;
-> > > > >    };
-> > > > > +/**
-> > > > > + * struct drm_i915_gem_create_ext_protected_content - The
-> > > > > + * I915_OBJECT_PARAM_PROTECTED_CONTENT extension.
-> > > > > + *
-> > > > > + * If this extension is provided, buffer contents are expected to be protected
-> > > > > + * by PXP encryption and require decryption for scan out and processing. This
-> > > > > + * is only possible on platforms that have PXP enabled, on all other scenarios
-> > > > > + * using this extension will cause the ioctl to fail and return -ENODEV. The
-> > > > > + * flags parameter is reserved for future expansion and must currently be set
-> > > > > + * to zero.
-> > > > > + *
-> > > > > + * The buffer contents are considered invalid after a PXP session teardown.
-> > > > > + *
-> > > > > + * The encryption is guaranteed to be processed correctly only if the object
-> > > > > + * is submitted with a context created using the
-> > > > > + * I915_CONTEXT_PARAM_PROTECTED_CONTENT flag. This will also enable extra checks
-> > > > > + * at submission time on the validity of the objects involved.
-> > > > > + */
-> > > > > +struct drm_i915_gem_create_ext_protected_content {
-> > > > > +	struct i915_user_extension base;
-> > > > > +	__u32 flags;
-> > > > > +};
-> > > > > +
-> > > > >    /* ID of the protected content session managed by i915 when PXP is active */
-> > > > >    #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
-> > > > > -- 
-> > > > > 2.32.0
-> > > > > 
-> > > > > _______________________________________________
-> > > > > Intel-gfx mailing list
-> > > > > Intel-gfx@lists.freedesktop.org
-> > > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> 
+> >
+> > > > ---
+> > > >   drivers/gpu/drm/scheduler/sched_fence.c | 25 +++++++++++++++++++++++++
+> > > >   drivers/gpu/drm/scheduler/sched_main.c  |  3 +++
+> > > >   include/drm/gpu_scheduler.h             |  6 ++++++
+> > > >   3 files changed, 34 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+> > > > index 69de2c76731f..f389dca44185 100644
+> > > > --- a/drivers/gpu/drm/scheduler/sched_fence.c
+> > > > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+> > > > @@ -128,6 +128,30 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
+> > > >     dma_fence_put(&fence->scheduled);
+> > > >   }
+> > > > +static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
+> > > > +                                             ktime_t deadline)
+> > > > +{
+> > > > +   struct drm_sched_fence *fence = to_drm_sched_fence(f);
+> > > > +   unsigned long flags;
+> > > > +
+> > > > +   spin_lock_irqsave(&fence->lock, flags);
+> > > > +
+> > > > +   /* If we already have an earlier deadline, keep it: */
+> > > > +   if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
+> > > > +       ktime_before(fence->deadline, deadline)) {
+> > > > +           spin_unlock_irqrestore(&fence->lock, flags);
+> > > > +           return;
+> > > > +   }
+> > > > +
+> > > > +   fence->deadline = deadline;
+> > > > +   set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
+> > > > +
+> > > > +   spin_unlock_irqrestore(&fence->lock, flags);
+> > > > +
+> > > > +   if (fence->parent)
+> > > > +           dma_fence_set_deadline(fence->parent, deadline);
+> > > > +}
+> > > > +
+> > > >   static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
+> > > >     .get_driver_name = drm_sched_fence_get_driver_name,
+> > > >     .get_timeline_name = drm_sched_fence_get_timeline_name,
+> > > > @@ -138,6 +162,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
+> > > >     .get_driver_name = drm_sched_fence_get_driver_name,
+> > > >     .get_timeline_name = drm_sched_fence_get_timeline_name,
+> > > >     .release = drm_sched_fence_release_finished,
+> > > > +   .set_deadline = drm_sched_fence_set_deadline_finished,
+> > > >   };
+> > > >   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > index a2a953693b45..3ab0900d3596 100644
+> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > @@ -818,6 +818,9 @@ static int drm_sched_main(void *param)
+> > > >             if (!IS_ERR_OR_NULL(fence)) {
+> > > >                     s_fence->parent = dma_fence_get(fence);
+> > > > +                   if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
+> > > > +                                &s_fence->finished.flags))
+> > > > +                           dma_fence_set_deadline(fence, s_fence->deadline);
+> > >
+> > > Maybe move this into a dma_sched_fence_set_parent() function.
+> > >
+> > > Apart from that looks good to me.
+> > >
+> > > Regards,
+> > > Christian.
+> > >
+> > > >                     r = dma_fence_add_callback(fence, &sched_job->cb,
+> > > >                                                drm_sched_job_done_cb);
+> > > >                     if (r == -ENOENT)
+> > > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > > > index d18af49fd009..0f08ade614ae 100644
+> > > > --- a/include/drm/gpu_scheduler.h
+> > > > +++ b/include/drm/gpu_scheduler.h
+> > > > @@ -144,6 +144,12 @@ struct drm_sched_fence {
+> > > >            */
+> > > >     struct dma_fence                finished;
+> > > > +   /**
+> > > > +    * @deadline: deadline set on &drm_sched_fence.finished which
+> > > > +    * potentially needs to be propagated to &drm_sched_fence.parent
+> > > > +    */
+> > > > +   ktime_t                         deadline;
+> > > > +
+> > > >           /**
+> > > >            * @parent: the fence returned by &drm_sched_backend_ops.run_job
+> > > >            * when scheduling the job on hardware. We signal the
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
