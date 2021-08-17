@@ -1,63 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D313EE9A3
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:21:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 242643EE9B1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Aug 2021 11:26:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD9B898A8;
-	Tue, 17 Aug 2021 09:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DEA6898EA;
+	Tue, 17 Aug 2021 09:26:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F80F8989C
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 09:21:31 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id g138so13240863wmg.4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 02:21:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uh4VRS/T0smkQ973beOpdBffExTecp/MJ9La1DdXkdw=;
- b=GETX8i+RS6Ulm3acTx6EYsApbt/xkcltG0uoMf0QXmcieZu8Dbr5nItuGNWCg1Ei92
- DY3xhNX2zrPZ/8zTb1Gtzz8szsrvyTY0hWozaG1vBByqRFQO5CnscoJgr7t8GZIQfRv0
- Y+WOsCcag6+aiwEz4Qy6cW4HmLipmXB20tbQI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uh4VRS/T0smkQ973beOpdBffExTecp/MJ9La1DdXkdw=;
- b=na/fdH1vosQ0dlQDPLVYDWuPhkaJMDIB7lr5gFTlhA/A5QReo2IUhRHMtXLLhRi2T6
- O0At4WwG5Zi5LxG3u8Nb+r6sXW8hnhISRfNc2Orl2Sx0LhnHS1xZlgtCQG6TFWOxHnh6
- j6bsDGygJyj1HY+BFzUwpP97S+raSXy7gwn8lL7/vqZwqWpq4UW3XIK39GJKiQ8stJWT
- 8iTvlW1NlKOCiv8YHKEVbORHfTSUVAXdMuTGy+SiB2Ryw/aLrdoL7Tlf/FrBg2t0EIKT
- f5SZSIB8Yso+AxhD+J8kDBSLz3B/itg8HiNkZSmn0Ro5WUDbLb+iLZXMgHStwnjDVZr1
- zeCw==
-X-Gm-Message-State: AOAM5313ZxasdNsHkIG97G81kW6aUS3g/UDi4fo778S4bMpuJI7B/r/4
- r2iKhDeDt6TYPz+FECD1OJbncA==
-X-Google-Smtp-Source: ABdhPJx8fB5Umd4nOHquu5E2DBsSWJQZ41RXcT0BOVqkRlh7KFkIJTn2vrorjbA+AzxLLzqEn+KLDA==
-X-Received: by 2002:a05:600c:c2:: with SMTP id
- u2mr2298606wmm.106.1629192089752; 
- Tue, 17 Aug 2021 02:21:29 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j36sm1326619wms.16.2021.08.17.02.21.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 02:21:29 -0700 (PDT)
-Date: Tue, 17 Aug 2021 11:21:27 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch
-Subject: Re: [PATCH 06/22] drm/i915/execlists: Do not propagate errors to
- dependent fences
-Message-ID: <YRt/lynczP00iJqF@phenom.ffwll.local>
-References: <20210816135139.10060-1-matthew.brost@intel.com>
- <20210816135139.10060-7-matthew.brost@intel.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7D27B8989C;
+ Tue, 17 Aug 2021 09:26:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id AA2BD20201B;
+ Tue, 17 Aug 2021 11:26:08 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id OMy0Z1-jP6-n; Tue, 17 Aug 2021 11:26:04 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id AFA1A20201A;
+ Tue, 17 Aug 2021 11:26:04 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1mFvMB-000jO0-QA; Tue, 17 Aug 2021 11:26:03 +0200
+To: "Lazar, Lijo" <lijo.lazar@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210816103506.2671-1-michel@daenzer.net>
+ <20210817082325.2579-1-michel@daenzer.net>
+ <ceaa02c9-26ef-e1e5-3f35-3cc202961670@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH] drm/amdgpu: Cancel delayed work when GFXOFF is disabled
+Message-ID: <8461fba5-662e-85f7-b712-472232ed12ba@daenzer.net>
+Date: Tue, 17 Aug 2021 11:26:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210816135139.10060-7-matthew.brost@intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <ceaa02c9-26ef-e1e5-3f35-3cc202961670@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,58 +60,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 16, 2021 at 06:51:23AM -0700, Matthew Brost wrote:
-> Progagating errors to dependent fences is wrong, don't do it. Selftest
-> in following patch exposes this bug.
-
-Please explain what "this bug" is, it's hard to read minds, especially at
-a distance in spacetime :-)
-
-> Fixes: 8e9f84cf5cac ("drm/i915/gt: Propagate change in error status to children on unhold")
-
-I think it would be better to outright revert this, instead of just
-disabling it like this.
-
-Also please cite the dma_fence error propagation revert from Jason:
-
-commit 93a2711cddd5760e2f0f901817d71c93183c3b87
-Author: Jason Ekstrand <jason@jlekstrand.net>
-Date:   Wed Jul 14 14:34:16 2021 -0500
-
-    Revert "drm/i915: Propagate errors on awaiting already signaled fences"
-
-Maybe in full, if you need the justification.
-
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: <stable@vger.kernel.org>
-
-Unless "this bug" is some real world impact thing I wouldn't put cc:
-stable on this.
--Daniel
-> ---
->  drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 ----
->  1 file changed, 4 deletions(-)
+On 2021-08-17 11:12 a.m., Lazar, Lijo wrote:
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index de5f9c86b9a4..cafb0608ffb4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -2140,10 +2140,6 @@ static void __execlists_unhold(struct i915_request *rq)
->  			if (p->flags & I915_DEPENDENCY_WEAK)
->  				continue;
->  
-> -			/* Propagate any change in error status */
-> -			if (rq->fence.error)
-> -				i915_request_set_error_once(w, rq->fence.error);
-> -
->  			if (w->engine != rq->engine)
->  				continue;
->  
-> -- 
-> 2.32.0
 > 
+> On 8/17/2021 1:53 PM, Michel Dänzer wrote:
+>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>
+>> schedule_delayed_work does not push back the work if it was already
+>> scheduled before, so amdgpu_device_delay_enable_gfx_off ran ~100 ms
+>> after the first time GFXOFF was disabled and re-enabled, even if GFXOFF
+>> was disabled and re-enabled again during those 100 ms.
+>>
+>> This resulted in frame drops / stutter with the upcoming mutter 41
+>> release on Navi 14, due to constantly enabling GFXOFF in the HW and
+>> disabling it again (for getting the GPU clock counter).
+>>
+>> To fix this, call cancel_delayed_work_sync when the disable count
+>> transitions from 0 to 1, and only schedule the delayed work on the
+>> reverse transition, not if the disable count was already 0. This makes
+>> sure the delayed work doesn't run at unexpected times, and allows it to
+>> be lock-free.
+>>
+>> v2:
+>> * Use cancel_delayed_work_sync & mutex_trylock instead of
+>>    mod_delayed_work.
+>> v3:
+>> * Make amdgpu_device_delay_enable_gfx_off lock-free (Christian König)
+>> v4:
+>> * Fix race condition between amdgpu_gfx_off_ctrl incrementing
+>>    adev->gfx.gfx_off_req_count and amdgpu_device_delay_enable_gfx_off
+>>    checking for it to be 0 (Evan Quan)
+>>
+>> Cc: stable@vger.kernel.org
+>> Reviewed-by: Lijo Lazar <lijo.lazar@amd.com> # v3
+>> Acked-by: Christian König <christian.koenig@amd.com> # v3
+>> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+>> ---
+>>
+>> Alex, probably best to wait a bit longer before picking this up. :)
+>>
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 +++----
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c    | 36 +++++++++++++++-------
+>>   2 files changed, 30 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> index f3fd5ec710b6..f944ed858f3e 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> @@ -2777,12 +2777,11 @@ static void amdgpu_device_delay_enable_gfx_off(struct work_struct *work)
+>>       struct amdgpu_device *adev =
+>>           container_of(work, struct amdgpu_device, gfx.gfx_off_delay_work.work);
+>>   -    mutex_lock(&adev->gfx.gfx_off_mutex);
+>> -    if (!adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
+>> -        if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, true))
+>> -            adev->gfx.gfx_off_state = true;
+>> -    }
+>> -    mutex_unlock(&adev->gfx.gfx_off_mutex);
+>> +    WARN_ON_ONCE(adev->gfx.gfx_off_state);
+>> +    WARN_ON_ONCE(adev->gfx.gfx_off_req_count);
+>> +
+>> +    if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, true))
+>> +        adev->gfx.gfx_off_state = true;
+>>   }
+>>     /**
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>> index a0be0772c8b3..b4ced45301be 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>> @@ -563,24 +563,38 @@ void amdgpu_gfx_off_ctrl(struct amdgpu_device *adev, bool enable)
+>>         mutex_lock(&adev->gfx.gfx_off_mutex);
+>>   -    if (!enable)
+>> -        adev->gfx.gfx_off_req_count++;
+>> -    else if (adev->gfx.gfx_off_req_count > 0)
+>> +    if (enable) {
+>> +        /* If the count is already 0, it means there's an imbalance bug somewhere.
+>> +         * Note that the bug may be in a different caller than the one which triggers the
+>> +         * WARN_ON_ONCE.
+>> +         */
+>> +        if (WARN_ON_ONCE(adev->gfx.gfx_off_req_count == 0))
+>> +            goto unlock;
+>> +
+>>           adev->gfx.gfx_off_req_count--;
+>>   -    if (enable && !adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
+>> -        schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_OFF_DELAY_ENABLE);
+>> -    } else if (!enable && adev->gfx.gfx_off_state) {
+>> -        if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GFX, false)) {
+>> -            adev->gfx.gfx_off_state = false;
+>> +        if (adev->gfx.gfx_off_req_count == 0 && !adev->gfx.gfx_off_state)
+>> +            schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_OFF_DELAY_ENABLE);
+>> +    } else {
+>> +        if (adev->gfx.gfx_off_req_count == 0) {
+>> +            cancel_delayed_work_sync(&adev->gfx.gfx_off_delay_work);
+>> +
+>> +            if (adev->gfx.gfx_off_state &&
+> 
+> More of a question which I didn't check last time - Is this expected to be true when the disable call comes in first?
+
+My assumption is that cancel_delayed_work_sync guarantees amdgpu_device_delay_enable_gfx_off's assignment is visible here.
+
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
