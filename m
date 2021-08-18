@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028513F0048
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 11:20:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D383F003E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 11:20:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB3B6E500;
-	Wed, 18 Aug 2021 09:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E236E4EA;
+	Wed, 18 Aug 2021 09:19:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 725F96E4E6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:18:56 +0000 (UTC)
-X-UUID: abe7e9fae57f4ecbaebc8db2ef83d8ae-20210818
-X-UUID: abe7e9fae57f4ecbaebc8db2ef83d8ae-20210818
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90F676E4EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:18:57 +0000 (UTC)
+X-UUID: df2d39bf7757416ab65cb728ed012205-20210818
+X-UUID: df2d39bf7757416ab65cb728ed012205-20210818
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 343535854; Wed, 18 Aug 2021 17:18:50 +0800
+ with ESMTP id 1583691467; Wed, 18 Aug 2021 17:18:50 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Wed, 18 Aug 2021 17:18:49 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Wed, 18 Aug 2021 17:18:49 +0800
+ Frontend Transport; Wed, 18 Aug 2021 17:18:50 +0800
 From: Nancy.Lin <nancy.lin@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>
 CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
@@ -35,10 +35,10 @@ CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
  <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <singo.chang@mediatek.com>, <srv_heupstream@mediatek.com>
-Subject: [PATCH v3 04/15] dt-bindings: mediatek: Add #reset-cells to mmsys
- system controller
-Date: Wed, 18 Aug 2021 17:18:36 +0800
-Message-ID: <20210818091847.8060-5-nancy.lin@mediatek.com>
+Subject: [PATCH v3 05/15] dt-bindings: reset: mt8195: add vdosys1 reset
+ control bit
+Date: Wed, 18 Aug 2021 17:18:37 +0800
+Message-ID: <20210818091847.8060-6-nancy.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210818091847.8060-1-nancy.lin@mediatek.com>
 References: <20210818091847.8060-1-nancy.lin@mediatek.com>
@@ -60,29 +60,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mmsys system controller exposes a set of memory client resets and
-needs to specify the #reset-cells property in order to advertise the
-number of cells needed to describe each of the resets
+Add vdosys1 reset control bit for MT8195 platform.
 
 Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 ---
- .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml       | 3 +++
- 1 file changed, 3 insertions(+)
+ include/dt-bindings/reset/mt8195-resets.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-index 68cb330d7595..5678d55b032a 100644
---- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-+++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-@@ -50,6 +50,9 @@ properties:
-   "#clock-cells":
-     const: 1
+diff --git a/include/dt-bindings/reset/mt8195-resets.h b/include/dt-bindings/reset/mt8195-resets.h
+index a26bccc8b957..eaaa882c09bd 100644
+--- a/include/dt-bindings/reset/mt8195-resets.h
++++ b/include/dt-bindings/reset/mt8195-resets.h
+@@ -26,4 +26,16 @@
  
-+  "#reset-cells":
-+    const: 1
+ #define MT8195_TOPRGU_SW_RST_NUM               16
+ 
++/* VDOSYS1 */
++#define MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC 25
++#define MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC 26
++#define MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC 27
++#define MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC 28
++#define MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC 29
++#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC 51
++#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC 52
++#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC 53
++#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC 54
++#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC 55
 +
- required:
-   - compatible
-   - reg
+ #endif  /* _DT_BINDINGS_RESET_CONTROLLER_MT8195 */
 -- 
 2.18.0
 
