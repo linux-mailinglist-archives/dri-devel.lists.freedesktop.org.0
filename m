@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2AD3EF794
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 03:37:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F24C3EF7AF
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 03:44:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B40246E2E1;
-	Wed, 18 Aug 2021 01:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9E7D6E2E3;
+	Wed, 18 Aug 2021 01:44:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54B0F6E2E1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 01:37:27 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id r9so1092346lfn.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 18:37:27 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 082956E2E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 01:44:33 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id i28so2044855ljm.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 18:44:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oqxDNn5HuSgDYxtU1DC9Dd6JFHUoPgcSzl8BngM0suw=;
- b=tH07Ag8eiBTNGPOIyiICGem/XAlGbrx9wzA1AYXo5k0KS9zDRDkRtCVqSG5jFzW2VO
- GjAu9tNgXKNtwAzjnF/jHaAKn3t9S2/BI/ubLCao4tYBfnPsNCQfKpg5NbRkjXPFfl89
- o2AFA8APp2Hb5BZhl84unBgpnMCH8jZKxkejm1GjOdyNjXG4drZ4cuhx3rMCgcFD6NUP
- PbFOcLMGACtfUZ2JeTEXxuvnXov1sCN/Toqiy/qwb8+yrYekuN1OEWngV0f+9HB2mVTI
- IJdr97jZuur2MRVfVSk2iXaYSGLsNIixSiM5hkfvafyYXNZKmo6LxpEEX8DqogXnEx3D
- VoRw==
+ bh=XoDVcVB/VE1dBlO9x4lpVsT9geXPOq4o0WU/0sRPebc=;
+ b=Gmnqy4jfwBqsDu9LBGxLpx1nvtIhZFSGaBcJVbAwo50K4s+mgQjS0okbtwsUutyxB8
+ crURnbnyrk/mMjC5uyqR+Vc4wyXpn+d+boHXA+Xp1BhvXFshKYhg804UtoJM30j71C4u
+ J2Oi65VGe0ZWSvpPAE+ZMPCxHmZODECsKuoOcPsZnVV2NTW6mY508lzEbTu7b+WV31F0
+ mOmEp6hyujXqYoE04beg1akt/TvZfGMnEmyffvJhfR2jN5IueeSUVfQm+Kv43WgZBbPE
+ A1/FPF7q3EFR+MQEP/OCrx/s1N0zxIrfUMfTscncRBAeQA/ySJ/MFa/6tQu2m5wzNNQY
+ 1kEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oqxDNn5HuSgDYxtU1DC9Dd6JFHUoPgcSzl8BngM0suw=;
- b=UU/acs6tlomN2HpjCcuetasEdnrkDhyzVKtHcbNy1OHAULZasOUcx3kL5DmJE+FRzd
- SrgLYd6+PCXl1jqSnoT+fDD6OAHWtMpT7Hgd/mi2dJgMpj+Qfjl+Mliwjk3boNr7Gth1
- BnjEx/eRFqFi+pJhI6GfXDHyYjlrEvOtJiskfuTtK3wiLNdpcHO67aCbURmf1oX/zAi4
- AmTU72csEVfzmeBwXHcn5zvfEXJVSunK/yCE6IiKBhAZ2koUATwnN1OLmITtF/Luoctj
- 2DfijTujuUKBwzgp0jGVMZCnmrNyAElOfBLWaIq8XdfWPPCMDI+vkM6bZG3CaKPO7lZB
- hEyg==
-X-Gm-Message-State: AOAM533SW4mQ7zUEHmJ5Q5xKECcemmp5BviAcbXTvNnJAfDeLvdGLCYV
- PoIjKoxKUKczZB0YIGwdZTw=
-X-Google-Smtp-Source: ABdhPJzO8yX4UrQj2zwLBNG/ezqRBlNp4JuMFF5+U48En2dYUq2KE3FpodsT/MFV5XUcHXk+BK/l0g==
-X-Received: by 2002:a05:6512:3441:: with SMTP id
- j1mr4537443lfr.388.1629250645475; 
- Tue, 17 Aug 2021 18:37:25 -0700 (PDT)
+ bh=XoDVcVB/VE1dBlO9x4lpVsT9geXPOq4o0WU/0sRPebc=;
+ b=LmXPkAfIrrCFKdE4O4rMR7JImWD5wZaqFBQk0s6c1lPdO/D3si06aKFh8Acsi4sQXR
+ HIeRwjGG45y7irtTgQOr2IDfkarMqML3k8+rLK0iPACzDQjIUz0q/RwnXeiYLNvw8dLc
+ Lg59kWWgWRGVpQGY0PtPxte3YTb9cVvSpHNZG+jyvtFhpvOchHLSZL9apWl7TWzjZRxr
+ lKBCZI3zlwhib9hQ+fENfGnQaN1YiHvkCaehC4tfLvsnupnWegEWKpJQqjk259CPnfRj
+ 5jFnGTuOs+kkDeAtYLSDN9GZshwXp+C1f2LM7mcM55yJJJN1nLnmeKf8rQ8u/99aY8I2
+ FtHw==
+X-Gm-Message-State: AOAM532niBMo4KeYuc5o1PYrzGByiYOCHhWOc1Jl1F4mAwLFfob5pk07
+ PT7iCSJBzqrNGwhPBzUPZ4I=
+X-Google-Smtp-Source: ABdhPJzBCF6cJbZHRHPrIUVUUUZ+kASYBl6l8+zSZcW0/IKHSG28sW6dmnWvQHlNaXqEE5KMF+anLw==
+X-Received: by 2002:a2e:5307:: with SMTP id h7mr5878272ljb.154.1629251072136; 
+ Tue, 17 Aug 2021 18:44:32 -0700 (PDT)
 Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru.
  [46.138.85.91])
- by smtp.googlemail.com with ESMTPSA id d25sm409518lja.31.2021.08.17.18.37.24
+ by smtp.googlemail.com with ESMTPSA id y14sm288752ljm.39.2021.08.17.18.44.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 18:37:24 -0700 (PDT)
-Subject: Re: [PATCH v8 09/34] dt-bindings: host1x: Document Memory Client
- resets of Host1x, GR2D and GR3D
+ Tue, 17 Aug 2021 18:44:31 -0700 (PDT)
+Subject: Re: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new
+ tegra-clocks sub-node
 To: Rob Herring <robh@kernel.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
@@ -72,15 +71,15 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-clk@vger.kernel.org
 References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-10-digetx@gmail.com>
- <YRxfWJJ6+1GgVs33@robh.at.kernel.org>
+ <20210817012754.8710-7-digetx@gmail.com>
+ <YRxfGtWPXeSQXuHo@robh.at.kernel.org>
 From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fa9a1fb7-8a87-de1a-e40a-fdc4f4d05d57@gmail.com>
-Date: Wed, 18 Aug 2021 04:37:23 +0300
+Message-ID: <06128217-92e1-9b66-64ea-91855d041121@gmail.com>
+Date: Wed, 18 Aug 2021 04:44:30 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YRxfWJJ6+1GgVs33@robh.at.kernel.org>
+In-Reply-To: <YRxfGtWPXeSQXuHo@robh.at.kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -99,32 +98,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-18.08.2021 04:16, Rob Herring пишет:
-> On Tue, Aug 17, 2021 at 04:27:29AM +0300, Dmitry Osipenko wrote:
->> Memory Client should be blocked before hardware reset is asserted in order
->> to prevent memory corruption and hanging of memory controller.
->>
->> Document Memory Client resets of Host1x, GR2D and GR3D hardware units.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  .../bindings/display/tegra/nvidia,tegra20-host1x.txt          | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> index 62861a8fb5c6..07a08653798b 100644
->> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> @@ -18,6 +18,7 @@ Required properties:
->>  - resets: Must contain an entry for each entry in reset-names.
->>    See ../reset/reset.txt for details.
->>  - reset-names: Must include the following entries:
->> +  - mc
->>    - host1x
+18.08.2021 04:15, Rob Herring пишет:
+>> +  tegra-clocks:
+>> +    description: child nodes are the output clocks from the CAR
+>> +    type: object
+>> +
+>> +    patternProperties:
+>> +      "^[a-z]+[0-9]+$":
+>> +        type: object
+>> +        properties:
+>> +          compatible:
+>> +            allOf:
+>> +              - items:
+>> +                  - enum:
+>> +                      - nvidia,tegra20-sclk
+>> +                      - nvidia,tegra30-sclk
+>> +                      - nvidia,tegra30-pllc
+>> +                      - nvidia,tegra30-plle
+>> +                      - nvidia,tegra30-pllm
+>> +              - const: nvidia,tegra-clock
+> You are saying the first string must be both one of the enums and 
+> 'nvidia,tegra-clock'. You don't get an error because your pattern 
+> doesn't match 'sclk'.
 > 
-> New entries should be at the end. Order matters.
 
-Indeed, order matters. In this case it matters by the hardware because
-memory reset must be asserted before the controller's reset. We rely on
-it in the code of the GENPD driver. Hence it's the intended order in
-this patch.
+Could you please rephrase or clarify? If pattern doesn't match 'sclk',
+then it must match any other enum. I'm not sure what you're meaning.
+
+The 'nvidia,tegra-clock' actually could be removed since it's
+superfluous now. I'll consider the removal in v9.
