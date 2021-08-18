@@ -2,57 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8303F0536
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 15:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156BC3F055B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 15:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97B94899F3;
-	Wed, 18 Aug 2021 13:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF4E6E5B4;
+	Wed, 18 Aug 2021 13:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC56899F3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 13:49:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C59EE610C7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 13:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629294539;
- bh=3d/r0rH82Ey9YBWihKynZopMtUG/4vN1LMoq18TvMS8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=rc38DWNtBDV7VojjFSXi7IbmxYaNytSXR1l7Hcww7UqG5JLo9+6MDUAtjECWeMT/+
- 2hmo+hAxbGAhdOFbf3el4S29ogtpDC5uNFNQJq/mQ2/1IdZRPtRp343lRdhE681OD6
- 5DJZMn+HsUOMKm3UIptiKfa6491obP5sWMiQHrurxqakgM1Q0uaUZsmv5557wpsSnG
- 7Kg1bqBUeKIqjglfd+xbqWy8yip0b+k3GSjRO23khuBWvorOq99wLWkskgP/FvUJfH
- Emw+C1RVaLfm3xD3j0I/Sgoc8FWF8yqYcHQ8/0Izd6Sbspp71OkmlNh1dqqDlU4h6+
- 4jUniSTbLVHRw==
-Received: by mail-ed1-f51.google.com with SMTP id by4so3328305edb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:48:59 -0700 (PDT)
-X-Gm-Message-State: AOAM531Lg76EBVRFWZj//9CBwipfah8958ZtraMTBmKZCY7tEivE3rIR
- 6/tzoPWlR87TGR/m4K8nUguO9lc3SrElBpjxVA==
-X-Google-Smtp-Source: ABdhPJyNyNVlAVmZYQ+7HoUkF0ChQiGO8tNXo0yVR4wbbxUAJsucTNHTT2Zlf9jpt5RmNIv1toalySAap6px4WTmfvs=
-X-Received: by 2002:a05:6402:1215:: with SMTP id
- c21mr10340421edw.137.1629294538363; 
- Wed, 18 Aug 2021 06:48:58 -0700 (PDT)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C416E5B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 13:52:47 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id u15so1695621wmj.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=jOgcnBwrOLmqSugnm3cp6EhHEP/odkYp7u8LvN4y0lg=;
+ b=sv1dJcbG/BmMEmc0L+mtgvhWHKBbBbMVxUrY86wqc5u6HQET66cZYEITfXJUNSTHEn
+ jrjfV5d7wUQ3g5J9iHFadGhO8iEq42lKjTSMiagkIaX4AuP/rzNr4xMyozgDu5uPaS6h
+ 2UBX+3owGSOx0k9y7k052QcjRE5XDy7vJKzh9Q4bsty2sAy4aRWu7htOyNA23eybNJL/
+ 4+7RwBpzp4J5zPZ3+2N4LPiO2AlJc03/lV6N3wt/00s0qVHAu6wrV6KpyXWLLSMEpr1P
+ rNXFpJDHlrxZW1dTPZBGwEqqMYIxsfxbNJEuKIjWJBrd8XNDoHi8ZJB42Q72+nkmSUtW
+ B3IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=jOgcnBwrOLmqSugnm3cp6EhHEP/odkYp7u8LvN4y0lg=;
+ b=mj9q/9gS/djoKn+c1rmAdkTXRCrJL/Qg1wiatsKB9Sok5BB8ljjr6yJZ9WZ+qyLQUh
+ clzLu5+1Oitp6utJsU0kDDZCywJj20kzHKroKznBQqr19Qb6/Tz2NLdE7sIATdgkqcg+
+ HsISZvpdDn9BJi4IBaMWMs0eNlTMffIyNo1SGIsC5iLDepSTbi31O7Vmn+bOnvDGCOVp
+ O10OuAnSg9nKaMvQIYvpJ7eJHcrIghVdCudbR9jnz5T6hVaFW9S1XKmtv1gjmkVRaVlP
+ 66XHilX5afv9bbKSuazvCzeJ9Is5auTx3xApJVyA37heY2uDEW4sHPp2lNG7UG9M0cZA
+ R1UA==
+X-Gm-Message-State: AOAM531ZFgvkS+3wXc3gEWmmZC7nAVo/O2GJSTykOuwL+UJXYKeb7bTx
+ LxchDvKcYO7WG7n+vOX7dI4=
+X-Google-Smtp-Source: ABdhPJw2fCynEGecoHcSqyOPIsKQC3v0OYqKKW2tVbDgrsUECsFVvJCMwg2XxFHkvZO2YGRpijpYYw==
+X-Received: by 2002:a1c:7902:: with SMTP id l2mr8617935wme.71.1629294766382;
+ Wed, 18 Aug 2021 06:52:46 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id d4sm6036923wrz.35.2021.08.18.06.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 06:52:45 -0700 (PDT)
+Date: Wed, 18 Aug 2021 15:52:44 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new
+ tegra-clocks sub-node
+Message-ID: <YR0QrFGZs6iQv1N3@orome.fritz.box>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-7-digetx@gmail.com>
+ <YRxfGtWPXeSQXuHo@robh.at.kernel.org>
+ <06128217-92e1-9b66-64ea-91855d041121@gmail.com>
 MIME-Version: 1.0
-References: <20210721140424.725744-1-maxime@cerno.tech>
- <20210721140424.725744-11-maxime@cerno.tech>
- <20210722022947.GA3168293@robh.at.kernel.org>
- <20210818124304.2jxsf44bcbprcvbk@gilmour>
-In-Reply-To: <20210818124304.2jxsf44bcbprcvbk@gilmour>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 18 Aug 2021 08:48:46 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJjnGhXpfvPWU0HM8YHk5PyDup7ors3ewa17vc0bnVCmQ@mail.gmail.com>
-Message-ID: <CAL_JsqJjnGhXpfvPWU0HM8YHk5PyDup7ors3ewa17vc0bnVCmQ@mail.gmail.com>
-Subject: Re: [PATCH 10/54] dt-bindings: display: panel-lvds: Document panel
- compatibles
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>, 
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- linux-sunxi@googlegroups.com, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="axwoZ8lGgPeVqxL6"
+Content-Disposition: inline
+In-Reply-To: <06128217-92e1-9b66-64ea-91855d041121@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,88 +98,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 18, 2021 at 7:43 AM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi Rob, Sam,
->
-> On Wed, Jul 21, 2021 at 08:29:47PM -0600, Rob Herring wrote:
-> > On Wed, Jul 21, 2021 at 04:03:40PM +0200, Maxime Ripard wrote:
-> > > The binding mentions that all the drivers using that driver must use a
-> > > vendor-specific compatible but never enforces it, nor documents the
-> > > vendor-specific compatibles.
-> > >
-> > > Let's make we document all of them, and that the binding will create an
-> > > error if we add one that isn't.
-> > >
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > ---
-> > >  .../bindings/display/panel/lvds.yaml           | 18 ++++++++++++------
-> > >  1 file changed, 12 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > > index 49460c9dceea..d1513111eb48 100644
-> > > --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > > @@ -31,12 +31,18 @@ allOf:
-> > >
-> > >  properties:
-> > >    compatible:
-> > > -    contains:
-> > > -      const: panel-lvds
-> > > -    description:
-> > > -      Shall contain "panel-lvds" in addition to a mandatory panel-specific
-> > > -      compatible string defined in individual panel bindings. The "panel-lvds"
-> > > -      value shall never be used on its own.
-> > > +    items:
-> > > +      - enum:
-> > > +          - advantech,idk-1110wr
-> >
-> > At least this one is documented elsewhere.
->
-> Indeed, I missed it.
->
-> > You can add 'minItems: 2' if you want to just enforce having 2 compatibles. Or do:
-> >
-> > items:
-> >   - {}
-> >   - const: panel-lvds
-> >
-> > Which also enforces the order.
->
-> It's not just about the order since a missing compatible will also raise
-> a warning.
->
-> Some of those panels have a binding of their own, but some probably
-> won't (and I can't find anything specific about the one I'm most
-> interested in: tbs,a711-panel)
->
-> Can we have something like:
->
-> compatible:
->   oneOf:
->     - items:
->       - enum:
->         - tbs,a711-panel
->       - const: panel-lvds
->
->     - items:
->       - {}
->       - const: panel-lvds
->
-> That would work for both cases I guess?
 
-No, both conditions will be true. If you use 'anyOf', then we're never
-really checking the specific compatible.
+--axwoZ8lGgPeVqxL6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think the problem here is trying to mix a common binding (aka an
-incomplete collection of properties) and a specific binding. The
-former is characterized with 'additionalProperties: true' as we have
-here. You need to create a 'panel-simple-lvds.yaml' schema file that
-references this one, defines all the 'simple' compatibles, and sets
-'unevaluatedProperties: false'.
+On Wed, Aug 18, 2021 at 04:44:30AM +0300, Dmitry Osipenko wrote:
+> 18.08.2021 04:15, Rob Herring =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> +  tegra-clocks:
+> >> +    description: child nodes are the output clocks from the CAR
+> >> +    type: object
+> >> +
+> >> +    patternProperties:
+> >> +      "^[a-z]+[0-9]+$":
+> >> +        type: object
+> >> +        properties:
+> >> +          compatible:
+> >> +            allOf:
+> >> +              - items:
+> >> +                  - enum:
+> >> +                      - nvidia,tegra20-sclk
+> >> +                      - nvidia,tegra30-sclk
+> >> +                      - nvidia,tegra30-pllc
+> >> +                      - nvidia,tegra30-plle
+> >> +                      - nvidia,tegra30-pllm
+> >> +              - const: nvidia,tegra-clock
+> > You are saying the first string must be both one of the enums and=20
+> > 'nvidia,tegra-clock'. You don't get an error because your pattern=20
+> > doesn't match 'sclk'.
+> >=20
+>=20
+> Could you please rephrase or clarify? If pattern doesn't match 'sclk',
+> then it must match any other enum. I'm not sure what you're meaning.
 
-Rob
+"sclk" doesn't match "^[a-z]+[0-9]+$" because it's missing at least one
+digit at the end. Perhaps that last + was supposed to be *?
+
+>=20
+> The 'nvidia,tegra-clock' actually could be removed since it's
+> superfluous now. I'll consider the removal in v9.
+
+It also looks like your schema was meant to be something like:
+
+	compatible:
+	  - items:
+	      - enum:
+	          - nvidia,tegra20-sclk
+	          - nvidia,tegra30-sclk
+	          - nvidia,tegra30-pllc
+	          - nvidia,tegra30-plle
+	          - nvidia,tegra30-pllm
+	      - const: nvidia,tegra-clock
+
+Note how the const: element is indented one more level. Now this means:
+one of the enumeration values, followed by the constant value. That
+matches what the example has.
+
+That said, I agree that nvidia,tegra-clock seems a bit useless. There's
+really no such thing as a generic clock, they're all different in some
+way.
+
+Thierry
+
+--axwoZ8lGgPeVqxL6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEdEKkACgkQ3SOs138+
+s6GVTA/+I75N/HheGyhGoMpEMo6FfeNzU7R/+NHB2FRurB/YrTa13bWZugoiwK1g
+mphbxP5cVRf0bIp0B+K6eGuJtpoZleqT4Yd9ltzPj9QTo4jRjJfJpsv/enqpIKeV
+hbbkb2LbO6wCifNJX5SEKvd4tP0eBZSJ/2yL+k7iZeAhu/gvAEpqc8W6Qu4tw8QN
+T4dCZJObKv3yb2C9Yawh+cZ8FRKtUOBYLVR7pUuDf0iMMz+J/WaPVU8w8t9AYSoE
+Luza/xoK5cyV1lia8TRRyZS16Y1Cq3Sdd+CZwSS5yL/NOgbbxX99brpelLlYiC4z
+otx+pCoIgMjy7aeDt+FMUondNXka7Mf7gcSoCanpN5hbh4kyeRthkrD4MTmYJauA
+1vcF0d/FFVCeT9wJ8R9adYBEzfMtqRojwYGibR/A/6tkbbg7BBwzXE0XQvLxwilO
+idyOaV7eId9T7X6eIUv60hJ0pK5uSjrANgTZcSuq2MZSaAhYDeTjZuRtwTF4FgoD
+/TGRVW15AIQDfopJMoXUCYXWxgoK4pGFLBKSMcaN5MZzas28c6BNZamkU/pdm/mZ
+8GUmd6C29iG6w9wsMQxQ8lgvxUXR7Fe6rCtDUH23EqLJZp9GC8tmJa+cDPzuqQPY
+5jYDCJOHyLz4Gc9lpyjeddOQv7y5FF5qQ1i9TYKuH8wGwEIeO1s=
+=E/0K
+-----END PGP SIGNATURE-----
+
+--axwoZ8lGgPeVqxL6--
