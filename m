@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9693F0C3E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 21:59:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978423F0C5E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 22:03:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B9A6E934;
-	Wed, 18 Aug 2021 19:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27F736E8CA;
+	Wed, 18 Aug 2021 20:03:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEB866E937
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 19:59:35 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- h7-20020a4ab4470000b0290263c143bcb2so1066689ooo.7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 12:59:35 -0700 (PDT)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 148926E8C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 20:03:11 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ x10-20020a056830408a00b004f26cead745so5548685ott.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 13:03:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=Kbl2rut4rs05Gb47fn+fLcGDcQB3ZfWsMkd/ogdwojY=;
- b=ayXmpFaVf9gLjyf5iQTDu3yhPbQ1e/R792xuozeUlxwoGEtfu6sNdbYJZsp2T7oaez
- m9oQ/RsByN9xd+yEoKJ21eCLr2hHs5JjDAz1d7+JBr+WsOyTVUIKvQIzeDRohqcybtfP
- fR1xsYuQ0H6YlVnXX1us/atl9xVrC6L0QhsSo=
+ bh=ym9Fm7m6sy7H5lKucRZ2VUgiDeDjeE+ZTZ3eJU7aUyo=;
+ b=RGbVCrOTkLxQu2zxKW6yFhg7W5vSmAN3IfqwEs7BUS7JBgfw8qXL580OzfpS92Sfrf
+ dy0+00BwMrf2PZ531X1BPHjzKL1O/53rEyQ6hVmtHKyffnG4eTjy/4hsLZkfO8oD6SSc
+ i5Ty+KBOe4Ukr/MX1bOAwfT4GxEdrDGfFo+Ho=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=Kbl2rut4rs05Gb47fn+fLcGDcQB3ZfWsMkd/ogdwojY=;
- b=h4194LEbkBlRmU/7OBTGwbLcSQi0eb0wWPqrxxGNxY+R3uR2ldwywgHdWdC266NkU0
- lA/W1Uy5KFOcSKlDTaBD5b0Ic6KHpCg2+qR0Yq5ITWjSf8ggJQaaeqt+vyTdejKOu+u3
- 6mAAf2UhxGCAskzgj6aMFc/T0pi4QR1GuQP6vAQoY0gXiLcyffDJQ2BY4UAgpNuW/m+q
- LYspkQMCGEbO0PTc6crrR5X+FPVcJJuNbSC57b/15Pp51oVwbj8hh7WKOAhQunImUBJi
- NEW1OJnZcM4enBTevJTANeSQDTgQ1VngGbLg0diUHLOFmrCDvAnW8/nvh+g+5l/Krd2A
- 4HrA==
-X-Gm-Message-State: AOAM531DZbRhacKlM317lVIrpyLQqTgyIMGpS0JWChPHaQG8iZLhIMxQ
- smngT+aG81Z9GPgeVlJGkegLeAM3GoxQDzBbNYFKMg==
-X-Google-Smtp-Source: ABdhPJyGRWBU7UV1cjOTGM+Yo7Up2DBfhglDhGTBusbRPyvM2WJkliQTCdZp58CBulZ9jetWAa/ZNuHvM9ntxKdLKx0=
-X-Received: by 2002:a4a:3651:: with SMTP id p17mr8162982ooe.92.1629316774589; 
- Wed, 18 Aug 2021 12:59:34 -0700 (PDT)
+ bh=ym9Fm7m6sy7H5lKucRZ2VUgiDeDjeE+ZTZ3eJU7aUyo=;
+ b=BDCVbm+IOizDOCerqlUArjkee0pn+aGIkza+vJ8ajx5TD8CvnZOJGNqo45ooX0E9Tx
+ 6l4A5/KMdWIWzPp4Zvef2OAqhzA2tXmE/aTffBbbYhaV8gYwTJuC9k0QOI8bYEnKLkpM
+ 1NGPdFDMnXZ/tGmrwmqVO85zLclc0NuI+UHw+YrwjfZbGUF1gRM4qVPwwSiGDKe57P+W
+ yCAbM9fTK7rjBX2htybmSGt85dUPlR+KWl1pURFAoXM2DHVZpsMNeMFKYJYhB/opqRIw
+ BF9l/aUeJ1C6zvu4Ml1CJgtnRvVI7rrO93WPURBJChQuwUud/6emvBz7JXKXbDdczBIX
+ C30w==
+X-Gm-Message-State: AOAM531M8aiN7t/8ijSQj/zSVqkZ7FoTjugjE1H4WM5iN8dh3pvkwT7H
+ bC+ndUY/yl6GOSoei01AmprCfDm38H2kGKz6RKYykw==
+X-Google-Smtp-Source: ABdhPJzb8BQ8psD7FT3EWZH6alcZfS1YeAhQiKsZQiGQprMq6RUws0JGjUe3Y4BcHP1uewICSj9Imei0g0m5f0WxPLw=
+X-Received: by 2002:a9d:5542:: with SMTP id h2mr8532610oti.25.1629316990507;
+ Wed, 18 Aug 2021 13:03:10 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 18 Aug 2021 12:59:34 -0700
+ HTTPREST; Wed, 18 Aug 2021 13:03:10 -0700
 MIME-Version: 1.0
-In-Reply-To: <1629282424-4070-3-git-send-email-mkrishn@codeaurora.org>
+In-Reply-To: <1629282424-4070-4-git-send-email-mkrishn@codeaurora.org>
 References: <1629282424-4070-1-git-send-email-mkrishn@codeaurora.org>
- <1629282424-4070-3-git-send-email-mkrishn@codeaurora.org>
+ <1629282424-4070-4-git-send-email-mkrishn@codeaurora.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Wed, 18 Aug 2021 12:59:34 -0700
-Message-ID: <CAE-0n52Sc4h9eZDiRPucv2oSj5TH9A00H0mOJfxxs=6aGpObhA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/4] arm64: dts: qcom: sc7280: Add DSI display nodes
+Date: Wed, 18 Aug 2021 13:03:10 -0700
+Message-ID: <CAE-0n504ykozx9Uf=B1zcXP+_EdE2Vqz9k1mzRpcwF9S6YpaFw@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] arm64: dts: qcom: sc7280: add edp display dt nodes
 To: Krishna Manikandan <mkrishn@codeaurora.org>, devicetree@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Rajeev Nandan <rajeevny@codeaurora.org>, kalyan_t@codeaurora.org, 
- sbillaka@codeaurora.org, abhinavk@codeaurora.org, robdclark@gmail.com, 
- bjorn.andersson@linaro.org, khsieh@codeaurora.org, 
+Cc: Sankeerth Billakanti <sbillaka@codeaurora.org>, kalyan_t@codeaurora.org, 
+ abhinavk@codeaurora.org, robdclark@gmail.com, bjorn.andersson@linaro.org, 
+ khsieh@codeaurora.org, rajeevny@codeaurora.org, 
  freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  robh+dt@kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -73,110 +73,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Krishna Manikandan (2021-08-18 03:27:03)
+Quoting Krishna Manikandan (2021-08-18 03:27:04)
 > diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index fd7ff1c..aadf55d 100644
+> index aadf55d..5be318e 100644
 > --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
 > +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -1507,6 +1519,95 @@
+> @@ -1412,7 +1412,7 @@
+>                         reg = <0 0xaf00000 0 0x20000>;
+>                         clocks = <&rpmhcc RPMH_CXO_CLK>,
+>                                  <&gcc GCC_DISP_GPLL0_CLK_SRC>,
+> -                                <0>, <0>, <0>, <0>, <0>, <0>;
+> +                                <0>, <0>, <0>, <0>, <&edp_phy 0>, <&edp_phy 1>;
+>                         clock-names = "bi_tcxo", "gcc_disp_gpll0_clk",
+>                                       "dsi0_phy_pll_out_byteclk",
+>                                       "dsi0_phy_pll_out_dsiclk",
+> @@ -1493,6 +1493,12 @@
+>                                                         remote-endpoint = <&dsi0_in>;
+>                                                 };
 >                                         };
+
+Newline here please.
+
+> +                                       port@1 {
+> +                                               reg = <1>;
+> +                                               dpu_intf5_out: endpoint {
+> +                                                       remote-endpoint = <&edp_in>;
+> +                                               };
+> +                                       };
 >                                 };
+>
+>                                 mdp_opp_table: mdp-opp-table {
+> @@ -1608,6 +1614,101 @@
+>
+>                                 status = "disabled";
 >                         };
 > +
-> +                       dsi0: dsi@ae94000 {
-> +                               compatible = "qcom,mdss-dsi-ctrl";
-> +                               reg = <0 0x0ae94000 0 0x400>;
-> +                               reg-names = "dsi_ctrl";
+> +                       msm_edp: edp@aea0000 {
+> +                               status = "disabled";
+
+Please pick a place to put status disabled. I don't know what qcom
+maintainers want, but please be consistent.
+
+> +                               compatible = "qcom,sc7280-edp";
+> +                               reg = <0 0xaea0000 0 0x200>,
+> +                                     <0 0xaea0200 0 0x200>,
+> +                                     <0 0xaea0400 0 0xc00>,
+> +                                     <0 0xaea1000 0 0x400>;
 > +
 > +                               interrupt-parent = <&mdss>;
-> +                               interrupts = <4 IRQ_TYPE_LEVEL_HIGH>;
+> +                               interrupts = <14 IRQ_TYPE_NONE>;
 
-Drop flags as the #interrupt-cells is 0 for mdss
+Drop flags.
 
 > +
-> +                               clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-> +                                        <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-> +                                        <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-> +                                        <&dispcc DISP_CC_MDSS_ESC0_CLK>,
+> +                               clocks = <&rpmhcc RPMH_CXO_CLK>,
+> +                                        <&gcc GCC_EDP_CLKREF_EN>,
 > +                                        <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                                        <&gcc GCC_DISP_HF_AXI_CLK>;
-> +                               clock-names = "byte",
-> +                                             "byte_intf",
-> +                                             "pixel",
-> +                                             "core",
-> +                                             "iface",
-> +                                             "bus";
+> +                                        <&dispcc DISP_CC_MDSS_EDP_AUX_CLK>,
+> +                                        <&dispcc DISP_CC_MDSS_EDP_LINK_CLK>,
+> +                                        <&dispcc DISP_CC_MDSS_EDP_LINK_INTF_CLK>,
+> +                                        <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK>;
+> +                               clock-names = "core_xo", "core_ref",
+> +                                             "core_iface", "core_aux", "ctrl_link",
+> +                                             "ctrl_link_iface", "stream_pixel";
+
+One line per string please.
+
+> +                               #clock-cells = <1>;
+> +                               assigned-clocks = <&dispcc DISP_CC_MDSS_EDP_LINK_CLK_SRC>,
+> +                                                 <&dispcc DISP_CC_MDSS_EDP_PIXEL_CLK_SRC>;
+> +                               assigned-clock-parents = <&edp_phy 0>, <&edp_phy 1>;
 > +
-> +                               operating-points-v2 = <&dsi_opp_table>;
+> +                               phys = <&edp_phy>;
+> +                               phy-names = "dp";
+> +
+> +                               vdda-1p2-supply = <&vreg_l6b_1p2>;
+> +                               vdda-0p9-supply = <&vreg_l10c_0p8>;
+
+Can this be done here? Probably needs to move to the board dts/dtsi
+file.
+
+> +                               operating-points-v2 = <&edp_opp_table>;
 > +                               power-domains = <&rpmhpd SC7280_CX>;
 > +
-> +                               phys = <&dsi_phy>;
-> +                               phy-names = "dsi";
+> +                               pinctrl-names = "default";
+> +                               pinctrl-0 = <&edp_hot_plug_det>, <&edp_panel_power_on>;
 > +
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +
-> +                               status = "disabled";
+> +                               panel-bklt-gpio = <&pm8350c_gpios 7 GPIO_ACTIVE_HIGH>;
+> +                               panel-pwm-gpio = <&pm8350c_gpios 8 GPIO_ACTIVE_HIGH>;
+
+Please no panel-bklt-gpio and panel-pwm-gpio properties.
+
 > +
 > +                               ports {
 > +                                       #address-cells = <1>;
 > +                                       #size-cells = <0>;
-> +
 > +                                       port@0 {
 > +                                               reg = <0>;
-> +                                               dsi0_in: endpoint {
-> +                                                       remote-endpoint = <&dpu_intf1_out>;
-> +                                               };
-> +                                       };
-> +
-> +                                       port@1 {
-> +                                               reg = <1>;
-> +                                               dsi0_out: endpoint {
+> +                                               edp_in: endpoint {
+> +                                                       remote-endpoint = <&dpu_intf5_out>;
 > +                                               };
 > +                                       };
 > +                               };
 > +
-> +                               dsi_opp_table: dsi-opp-table {
+> +                               edp_opp_table: edp-opp-table {
 
-dsi_opp_table: opp-table {
+edp_opp_table: opp-table {
 
 > +                                       compatible = "operating-points-v2";
 > +
-> +                                       opp-187500000 {
-> +                                               opp-hz = /bits/ 64 <187500000>;
+> +                                       opp-160000000 {
+> +                                               opp-hz = /bits/ 64 <160000000>;
 > +                                               required-opps = <&rpmhpd_opp_low_svs>;
 > +                                       };
 > +
-> +                                       opp-300000000 {
-> +                                               opp-hz = /bits/ 64 <300000000>;
+> +                                       opp-270000000 {
+> +                                               opp-hz = /bits/ 64 <270000000>;
 > +                                               required-opps = <&rpmhpd_opp_svs>;
 > +                                       };
 > +
-> +                                       opp-358000000 {
-> +                                               opp-hz = /bits/ 64 <358000000>;
-> +                                               required-opps = <&rpmhpd_opp_svs_l1>;
+> +                                       opp-540000000 {
+> +                                               opp-hz = /bits/ 64 <540000000>;
+> +                                               required-opps = <&rpmhpd_opp_nom>;
+> +                                       };
+> +
+> +                                       opp-810000000 {
+> +                                               opp-hz = /bits/ 64 <810000000>;
+> +                                               required-opps = <&rpmhpd_opp_nom>;
 > +                                       };
 > +                               };
 > +                       };
 > +
-> +                       dsi_phy: dsi-phy@ae94400 {
+> +                       edp_phy: phy@aec2000 {
 
-phy@ae94400
+Good job on using phy!
 
-> +                               compatible = "qcom,sc7280-dsi-phy-7nm";
-> +                               reg = <0 0x0ae94400 0 0x200>,
-> +                                     <0 0x0ae94600 0 0x280>,
-> +                                     <0 0x0ae94900 0 0x280>;
-> +                               reg-names = "dsi_phy",
-> +                                           "dsi_phy_lane",
-> +                                           "dsi_pll";
+> +                               status = "disabled";
+> +                               compatible = "qcom,sc7280-edp-phy";
+> +                               reg = <0 0xaec2a00 0 0x19c>,
+> +                                     <0 0xaec2200 0 0xa0>,
+> +                                     <0 0xaec2600 0 0xa0>,
+> +                                     <0 0xaec2000 0 0x1c0>;
+> +
+> +                               clocks = <&rpmhcc RPMH_CXO_CLK>,
+> +                                        <&gcc GCC_EDP_CLKREF_EN>;
+> +                               clock-names = "aux", "cfg_ahb";
+> +
+> +                               vdda-pll-supply = <&vreg_l6b_1p2>;
+> +                               vdda-phy-supply = <&vreg_l10c_0p8>;
+
+Again, still question the ability to put this here vs. in IDP file.
+
 > +
 > +                               #clock-cells = <1>;
 > +                               #phy-cells = <0>;
-> +
-> +                               clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +                                        <&rpmhcc RPMH_CXO_CLK>;
-> +                               clock-names = "iface", "ref";
-> +
-> +                               status = "disabled";
 > +                       };
+>                 };
+>
+>                 pdc: interrupt-controller@b220000 {
+> @@ -1704,6 +1805,30 @@
+>                                 function = "qup13";
+>                         };
+>
+> +                       edp_hot_plug_det: edp-hot-plug-det {
+> +                               pinmux {
+> +                                       pins = "gpio60";
+> +                                       function = "edp_hot";
+> +                               };
+> +                               pinconf {
+> +                                       pins = "gpio60";
+> +                                       bias-pull-down;
+> +                                       input-enable;
+> +                               };
+
+Move pinconf stuff to board file (and combine nodes as mka stated).
+
+> +                       };
+> +
+> +                       edp_panel_power_on: edp-panel-power-on {
+> +                               pinmux {
+> +                                       pins = "gpio80";
+> +                                       function = "gpio";
+> +                               };
+> +                               pinconf {
+> +                                       pins = "gpio80";
+> +                                       bias-disable;
+> +                                       output-high;
+> +                               };
+> +                       };
+> +
+>                         sdc1_on: sdc1-on {
+>                                 clk {
+>                                         pins = "sdc1_clk";
+> --
+> 2.7.4
+>
