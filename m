@@ -2,74 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C8D3F03E3
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 14:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640203F03E6
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 14:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9456E59D;
-	Wed, 18 Aug 2021 12:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2F5F6E59F;
+	Wed, 18 Aug 2021 12:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49BA26E59F
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 12:41:33 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- j12-20020a05600c1c0c00b002e6d80c902dso1681197wms.4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 05:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BdAGUCyYQ4noYy9BmzZUbXym0YMYKVh78nm2c4sCaNo=;
- b=QYgwx9dlaH3RyUx/fnHN4Y6omSMw5U3O0ah91g35q7jVcI4dHVdFaNlCAdci13bVeR
- suo33HFIYdKFnq4fJ4fe46eLIB0DEHfW0gQnunFK9UotHj+5C6KGF12/5QBzbiS3jZ2y
- SVCHPCM+ztoxWXAZEzGNQgqBpc58ZaKALwgm6IBzLYv6HDimXgIBNTwo//C71fOLZlAn
- nK2XD5wDJEFm7z1KFGODM6Cm2Dwk4eb8pq5hH05OTNlMSqKAH0lLMvYmJx+uU6orLu7x
- wUTLsYC51JHA00/WP57cFAUcyotGJsTNCjdZy2QSY24l4JotdNC4vwjc6WdVuXGB/aiw
- aNfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BdAGUCyYQ4noYy9BmzZUbXym0YMYKVh78nm2c4sCaNo=;
- b=L7ml0f7T9B0b+dTi2id4EQv4qd5x07+v9kvxqTX264itO6Li2MqOwIkQwC9fOjCUxn
- 2EUEYCOPJwsv3DUMgYKKYz21G3/XMiC6KSBIVhIVu2tK2iuAp/y42aXDF8m/aXBDGujy
- 3MFC53z6NC1JZxsGa3/4O7YgBaVqbID6hVR5KYKz23pdpxAB5ZpkcL6WDEzgeWfnH0Ya
- rdbtUkP3ap5fvKUJzxtg8TTr527vcWsVfh8DwttnZS2WiED2/mmtEgM9cZeplcK2Ogwn
- SKHhS3Ac263tkU6XH8iuYk4zxWtVYM/3ZmToOVFowTBQrLfeeUH4rHZMHbI411C/9nwu
- qX4A==
-X-Gm-Message-State: AOAM532lPq6wj4imAfiSH+LeMapl5Q9MrXrLWQpVs94t3V5SoasaUcIs
- 6ZUj8dItfYAesduRRAxoeng=
-X-Google-Smtp-Source: ABdhPJyZRhqaYkeCZQae/8p1e2NVcwuFX4TMTiDaEpXsViXU87cjD/bV2wjYHtpTMOTxNDHl4WsObQ==
-X-Received: by 2002:a05:600c:4ba4:: with SMTP id
- e36mr8524581wmp.82.1629290491753; 
- Wed, 18 Aug 2021 05:41:31 -0700 (PDT)
-Received: from localhost.localdomain (arl-84-90-178-246.netvisao.pt.
- [84.90.178.246])
- by smtp.gmail.com with ESMTPSA id a11sm5720454wrq.6.2021.08.18.05.41.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 05:41:31 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Emma Anholt <emma@anholt.net>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Arnd Bergmann <arnd@arndb.de>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH 5/5] drm: omap: remove obsolete selection of OMAP2_DSS in
- config DRM_OMAP
-Date: Wed, 18 Aug 2021 14:41:14 +0200
-Message-Id: <20210818124114.28545-6-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210818124114.28545-1-lukas.bulwahn@gmail.com>
-References: <20210818124114.28545-1-lukas.bulwahn@gmail.com>
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 512DA6E59F
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 12:43:12 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id BEF072B00522;
+ Wed, 18 Aug 2021 08:43:10 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 18 Aug 2021 08:43:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=xn8lxZ1v2YaL18d+jLVYt1ER07M
+ GK8YIdjOFzClmGOk=; b=pI4RWnclY66wMgooB2JgjrXzto+t5w9Ydkw2ELe3p/v
+ MkgDWfM2J2YEmuzhQsMaF9y7n2fVcq3i7sPwkK9CU49B70vkCfOfubd8koz9bYC9
+ dVgjPVi+Ppny1CMzLTfceP0CFrHFhruHBbr8y9iT+Yl09FtjlWHpwPUNeTqx0zLg
+ 5W+LLPqXT5lMcKqP5dj0kFycu0lpS4AMJj9ZasTJklcWZhHj5+6++Gv/miMEi6/W
+ QhrguJoV7DeH+llXfrjn930lyHqXeSFYNPMUjlE5Hd8hD5f07ICmRZUp/xDEeRrN
+ bUKVtLFPEWdE0O3KTAu5zMXAF+zLZ4nBwTE4nSlErRg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=xn8lxZ
+ 1v2YaL18d+jLVYt1ER07MGK8YIdjOFzClmGOk=; b=h0n4gO+g+zvmfSGgZesWZL
+ d4o+b9pk5Fmkk4lLE0e96zzVx24gPoOW6Kp6MPZhLT8XBdDMFnB2aeb0afdYBdhO
+ FWmm1ROO2kP/Utem3759PcVeLR+le7QuQa5x2juIOUAjFs9qNbSalerAC/xak6YP
+ ynn73sT1E4IHdDYsnwkj398elaHvvr70dQhZ6Z5WVunuyvn2WpBS+PGEqRyyrtwZ
+ SoB+EgRRQLEpLSIeFDzumPdRXuZcoN8xx0fchM0AdNRYz4ny7ixQRFfi7rCrqS8P
+ OHZNYxwCe6jL7/XKZS3acSSY8FsgTTZR/eKqd3nEfUhKbPU/HGuXzwTKYW7YvnTA
+ ==
+X-ME-Sender: <xms:WgAdYc9k8tNBqOFJXD55NQ1ztBbERNTMTP8UZt4NFj9uuYkA7vGEbw>
+ <xme:WgAdYUsCkb22CeboqyxDOKmoGGe_SXD91mirhGfCY7f3ilvPW0SQ4ivz-3lCI_wSu
+ o2yiuKZkj5OOJf4DpM>
+X-ME-Received: <xmr:WgAdYSC0UR1qQ1NTMWGAi-VrCDqPrB2wb0E4m91tJhqgy0J0upxIqOYTduBb8qTeAj1r7t2a9hiv3KIsEr-6uzfQAqgBcfm9ThRb>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleehgdehhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:WgAdYcfdAfZ4zK78m7MdzuFeDluN92nUn1VWjw7l-ugXRlqUqptn6g>
+ <xmx:WgAdYRP8w61V3BRcQ85zROVSP4uWH280UJbOmvClxKVA1VUOmSbLLA>
+ <xmx:WgAdYWkCVm2XxCSnHv8IXUUMl2J-RCNI-2M7S_CcZnZaJG12OHjNnQ>
+ <xmx:XgAdYUr-dbUHOU-8eN-QIjMhZglZuHg2-zmH8XE7s0ngi0U20bp5ptCYcmE>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Aug 2021 08:43:06 -0400 (EDT)
+Date: Wed, 18 Aug 2021 14:43:04 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Rob Herring <robh@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH 10/54] dt-bindings: display: panel-lvds: Document panel
+ compatibles
+Message-ID: <20210818124304.2jxsf44bcbprcvbk@gilmour>
+References: <20210721140424.725744-1-maxime@cerno.tech>
+ <20210721140424.725744-11-maxime@cerno.tech>
+ <20210722022947.GA3168293@robh.at.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3qoevq2e2eipnuyt"
+Content-Disposition: inline
+In-Reply-To: <20210722022947.GA3168293@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,35 +91,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 55b68fb856b5 ("drm/omap: squash omapdrm sub-modules into one")
-removes the config OMAP2_DSS in ./drivers/gpu/drm/omapdrm/dss/Kconfig,
-while moving the other configs into./drivers/gpu/drm/omapdrm/Kconfig, but
-misses to remove an obsolete selection of OMAP2_DSS in config DRM_OMAP.
 
-Hence, ./scripts/checkkconfigsymbols.py warns:
+--3qoevq2e2eipnuyt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OMAP2_DSS
-Referencing files: drivers/gpu/drm/omapdrm/Kconfig
+Hi Rob, Sam,
 
-Remove this reference in an obsolete selection.
+On Wed, Jul 21, 2021 at 08:29:47PM -0600, Rob Herring wrote:
+> On Wed, Jul 21, 2021 at 04:03:40PM +0200, Maxime Ripard wrote:
+> > The binding mentions that all the drivers using that driver must use a
+> > vendor-specific compatible but never enforces it, nor documents the
+> > vendor-specific compatibles.
+> >=20
+> > Let's make we document all of them, and that the binding will create an
+> > error if we add one that isn't.
+> >=20
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  .../bindings/display/panel/lvds.yaml           | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml =
+b/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> > index 49460c9dceea..d1513111eb48 100644
+> > --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> > +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> > @@ -31,12 +31,18 @@ allOf:
+> > =20
+> >  properties:
+> >    compatible:
+> > -    contains:
+> > -      const: panel-lvds
+> > -    description:
+> > -      Shall contain "panel-lvds" in addition to a mandatory panel-spec=
+ific
+> > -      compatible string defined in individual panel bindings. The "pan=
+el-lvds"
+> > -      value shall never be used on its own.
+> > +    items:
+> > +      - enum:
+> > +          - advantech,idk-1110wr
+>=20
+> At least this one is documented elsewhere.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- drivers/gpu/drm/omapdrm/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+Indeed, I missed it.
 
-diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
-index e7281da5bc6a..d6e4df291d6f 100644
---- a/drivers/gpu/drm/omapdrm/Kconfig
-+++ b/drivers/gpu/drm/omapdrm/Kconfig
-@@ -3,7 +3,6 @@ config DRM_OMAP
- 	tristate "OMAP DRM"
- 	depends on DRM
- 	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM
--	select OMAP2_DSS
- 	select DRM_KMS_HELPER
- 	select VIDEOMODE_HELPERS
- 	select HDMI
--- 
-2.26.2
+> You can add 'minItems: 2' if you want to just enforce having 2 compatible=
+s. Or do:
+>=20
+> items:
+>   - {}
+>   - const: panel-lvds
+>=20
+> Which also enforces the order.
 
+It's not just about the order since a missing compatible will also raise
+a warning.
+
+Some of those panels have a binding of their own, but some probably
+won't (and I can't find anything specific about the one I'm most
+interested in: tbs,a711-panel)
+
+Can we have something like:
+
+compatible:
+  oneOf:
+    - items:
+      - enum:
+	- tbs,a711-panel
+      - const: panel-lvds
+
+    - items:
+      - {}
+      - const: panel-lvds
+
+That would work for both cases I guess?
+
+Maxime
+
+--3qoevq2e2eipnuyt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYR0AVwAKCRDj7w1vZxhR
+xSXTAP90zo+yKkWE46BIwnlwtxZOw5PaagPp4NF9o82iElH/VgD/fUz0Eksd047n
+ujG/vDaPDiReQY0FtuMI/iG0ijZWnQ8=
+=HwHr
+-----END PGP SIGNATURE-----
+
+--3qoevq2e2eipnuyt--
