@@ -2,45 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F5F3F078F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1053F0791
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:11:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3636B6E911;
-	Wed, 18 Aug 2021 15:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2BD16E914;
+	Wed, 18 Aug 2021 15:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9E956E90F;
- Wed, 18 Aug 2021 15:11:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="277367340"
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="277367340"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2021 08:11:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="678604955"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga006.fm.intel.com with ESMTP; 18 Aug 2021 08:11:19 -0700
-Received: from [10.249.134.4] (mwajdecz-MOBL.ger.corp.intel.com [10.249.134.4])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 17IFBIRk029713; Wed, 18 Aug 2021 16:11:18 +0100
-Subject: Re: [Intel-gfx] [PATCH 2/4] drm/i915/guc: Print error name on CTB
- (de)registration failure
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210701155513.2024-1-michal.wajdeczko@intel.com>
- <20210701155513.2024-3-michal.wajdeczko@intel.com>
- <YR0XFp/Q+f8Todgk@phenom.ffwll.local>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <7bdb20cf-550f-9c65-5c9b-60cc87de33b2@intel.com>
-Date: Wed, 18 Aug 2021 17:11:17 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA0C6E914
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:11:35 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id q2so1960041plr.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
+ b=nKyY7H15ZclPASn0mrCWStoJsQEVzP5/BmW4V3jtYB1HxVdnZRQQ4l+PtPCRG/dTV6
+ xfDqZKumuBc2DNoifQ7E+k+2RHNCKiMDNP3onIJnlrl5OiL/2iza72Z9iX+5k4rKwpSO
+ /m3Ffp/F03wd5BcOk1ihua3YxRddIsYpot1qTBRf+xRtenjeQ4qFFoOSIN66Jft6TSfW
+ c2t4wMFRzHKGD7LvgQQ/GVhG8mAh1vCDNxP/Inly9yMM79tpqdyKRQdjifrNITzwA6c7
+ yGxl1c2NhdVpvxPZ2G3/l6okDceS2O7mIXsDYuviCR6t29nOh+UDrTcg3BH0FRZEUvzE
+ zLIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
+ b=ccyTO7CZrpeQ5400gek8ODgmlv29atOTksSVC56EDS8nqd99FXxbCmZ3pLjqiZEWmP
+ 0hwK8iS79bGgTPSUHETjoubGfbLDpFvfXqPPYZs0ctu3ysSKAQvRVdnkKujPVhYqTE7w
+ yY8s3m9yAL9a63ENS6CUWi8dk6rkePS7VII1l1i787FjtCHfChoOXIUKiKEBvw6dwqKQ
+ GNu+8neza8VNZukx50fRYqjJZRAVWzJ7NpYln4A6jiPSUjLzhwX8JJQaTStFnMnJrnBh
+ aqkgUAkwr50X9VrwuIPiqXUxgwIhg8WPZgkw58dVp/sTjWGakC8L0M+y/jc+/NXJLXAu
+ /kRQ==
+X-Gm-Message-State: AOAM532tamnLwtjDnKnGEaen1PzrYLe4WF9FBJkvm41GtR1WKJoFMH/S
+ vjf3Re9UqnGdAkSAQ754kKSpjg==
+X-Google-Smtp-Source: ABdhPJyb9v3aI2ukGkg+KeS46DSybL7HwTNvsJIGANZduqIYX0SVbX0PrpsQIc/aOBu7eADDQMvgoA==
+X-Received: by 2002:a17:90b:1e03:: with SMTP id
+ pg3mr9751970pjb.203.1629299494765; 
+ Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id m7sm28291pfc.212.2021.08.18.08.11.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
+Date: Wed, 18 Aug 2021 15:11:28 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 53/63] KVM: x86: Use struct_group() to zero decode cache
+Message-ID: <YR0jIEzEcUom/7rd@google.com>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-54-keescook@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <YR0XFp/Q+f8Todgk@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210818060533.3569517-54-keescook@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,67 +88,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 18.08.2021 16:20, Daniel Vetter wrote:
-> On Thu, Jul 01, 2021 at 05:55:11PM +0200, Michal Wajdeczko wrote:
->> Instead of plain error value (%d) print more user friendly error
->> name (%pe).
->>
->> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->> ---
->>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> index a26bb55c0898..18d52c39f0c2 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> @@ -167,8 +167,8 @@ static int ct_register_buffer(struct intel_guc_ct *ct, u32 type,
->>  	err = guc_action_register_ct_buffer(ct_to_guc(ct), type,
->>  					    desc_addr, buff_addr, size);
->>  	if (unlikely(err))
->> -		CT_ERROR(ct, "Failed to register %s buffer (err=%d)\n",
->> -			 guc_ct_buffer_type_to_str(type), err);
->> +		CT_ERROR(ct, "Failed to register %s buffer (%pe)\n",
->> +			 guc_ct_buffer_type_to_str(type), ERR_PTR(err));
+On Tue, Aug 17, 2021, Kees Cook wrote:
+>  arch/x86/kvm/emulate.c     |  3 +--
+>  arch/x86/kvm/kvm_emulate.h | 19 +++++++++++--------
+>  2 files changed, 12 insertions(+), 10 deletions(-)
 > 
-> errname() is what you want here, not this convoluted jumping through hoops
-> to fake an error pointer.
+> diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+> index 2837110e66ed..2608a047e769 100644
+> --- a/arch/x86/kvm/emulate.c
+> +++ b/arch/x86/kvm/emulate.c
+> @@ -5377,8 +5377,7 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
+>  
+>  void init_decode_cache(struct x86_emulate_ctxt *ctxt)
+>  {
+> -	memset(&ctxt->rip_relative, 0,
+> -	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
+> +	memset(&ctxt->decode_cache, 0, sizeof(ctxt->decode_cache));
+>  
+>  	ctxt->io_read.pos = 0;
+>  	ctxt->io_read.end = 0;
+> diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+> index 68b420289d7e..9b8afcb8ad39 100644
+> --- a/arch/x86/kvm/kvm_emulate.h
+> +++ b/arch/x86/kvm/kvm_emulate.h
+> @@ -341,14 +341,17 @@ struct x86_emulate_ctxt {
+>  	 * the rest are initialized unconditionally in x86_decode_insn
+>  	 * or elsewhere
+>  	 */
+> -	bool rip_relative;
+> -	u8 rex_prefix;
+> -	u8 lock_prefix;
+> -	u8 rep_prefix;
+> -	/* bitmaps of registers in _regs[] that can be read */
+> -	u32 regs_valid;
+> -	/* bitmaps of registers in _regs[] that have been written */
+> -	u32 regs_dirty;
+> +	struct_group(decode_cache,
 
-nope, I was already trying that shortcut, but errname() is not exported
-so we fail with
+This is somewhat misleading because half of this struct is the so called "decode
+cache", not just these six fields.
 
-ERROR: modpost: "errname" [drivers/gpu/drm/i915/i915.ko] undefined!
+KVM's "optimization" is quite ridiculous as this has never been such a hot path
+that saving a few mov instructions would be noticeable.  And hilariously, the
+"optimization" is completely unnecessary because both gcc and clang are clever
+enough to batch the first five into a movq even when zeroing the fields individually.
 
-so unless we add that export we must follow initial approach [1]
+So, I would much prefer to go with the following:
 
--Michal
+From dbdca1f4cd01fee418c252e54c360d518b2b1ad6 Mon Sep 17 00:00:00 2001
+From: Sean Christopherson <seanjc@google.com>
+Date: Wed, 18 Aug 2021 08:03:08 -0700
+Subject: [PATCH] KVM: x86: Replace memset() "optimization" with normal
+ per-field writes
 
-[1]
-https://cgit.freedesktop.org/drm/drm-tip/commit/?id=57f5677e535ba24b8926a7125be2ef8d7f09323c
+Explicitly zero select fields in the emulator's decode cache instead of
+zeroing the fields via a gross memset() that spans six fields.  gcc and
+clang are both clever enough to batch the first five fields into a single
+quadword MOV, i.e. memset() and individually zeroing generate identical
+code.
 
-> 
-> With that: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>  	return err;
->>  }
->>  
->> @@ -195,8 +195,8 @@ static int ct_deregister_buffer(struct intel_guc_ct *ct, u32 type)
->>  	int err = guc_action_deregister_ct_buffer(ct_to_guc(ct), type);
->>  
->>  	if (unlikely(err))
->> -		CT_ERROR(ct, "Failed to deregister %s buffer (err=%d)\n",
->> -			 guc_ct_buffer_type_to_str(type), err);
->> +		CT_ERROR(ct, "Failed to deregister %s buffer (%pe)\n",
->> +			 guc_ct_buffer_type_to_str(type), ERR_PTR(err));
->>  	return err;
->>  }
->>  
->> -- 
->> 2.25.1
->>
->> _______________________________________________
->> Intel-gfx mailing list
->> Intel-gfx@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+Removing the wart also prepares KVM for FORTIFY_SOURCE performing
+compile-time and run-time field bounds checking for memset().
+
+No functional change intended.
+
+Reported-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/kvm/emulate.c     | 9 +++++++--
+ arch/x86/kvm/kvm_emulate.h | 6 +-----
+ 2 files changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+index 2837110e66ed..bf81fd017e7f 100644
+--- a/arch/x86/kvm/emulate.c
++++ b/arch/x86/kvm/emulate.c
+@@ -5377,8 +5377,13 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
+
+ void init_decode_cache(struct x86_emulate_ctxt *ctxt)
+ {
+-	memset(&ctxt->rip_relative, 0,
+-	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
++	/* Clear fields that are set conditionally but read without a guard. */
++	ctxt->rip_relative = false;
++	ctxt->rex_prefix = 0;
++	ctxt->lock_prefix = 0;
++	ctxt->rep_prefix = 0;
++	ctxt->regs_valid = 0;
++	ctxt->regs_dirty = 0;
+
+ 	ctxt->io_read.pos = 0;
+ 	ctxt->io_read.end = 0;
+diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+index 68b420289d7e..bc1fecacccd4 100644
+--- a/arch/x86/kvm/kvm_emulate.h
++++ b/arch/x86/kvm/kvm_emulate.h
+@@ -336,11 +336,7 @@ struct x86_emulate_ctxt {
+ 		fastop_t fop;
+ 	};
+ 	int (*check_perm)(struct x86_emulate_ctxt *ctxt);
+-	/*
+-	 * The following six fields are cleared together,
+-	 * the rest are initialized unconditionally in x86_decode_insn
+-	 * or elsewhere
+-	 */
++
+ 	bool rip_relative;
+ 	u8 rex_prefix;
+ 	u8 lock_prefix;
+--
+2.33.0.rc1.237.g0d66db33f3-goog
+
+> +		bool rip_relative;
+> +		u8 rex_prefix;
+> +		u8 lock_prefix;
+> +		u8 rep_prefix;
+> +		/* bitmaps of registers in _regs[] that can be read */
+> +		u32 regs_valid;
+> +		/* bitmaps of registers in _regs[] that have been written */
+> +		u32 regs_dirty;
+> +	);
+> +
+>  	/* modrm */
+>  	u8 modrm;
+>  	u8 modrm_mod;
+> -- 
+> 2.30.2
 > 
