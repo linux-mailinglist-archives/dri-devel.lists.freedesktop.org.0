@@ -1,88 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19A53F095B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 18:42:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DCA3F0973
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 18:44:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1AA76E867;
-	Wed, 18 Aug 2021 16:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB7E6E868;
+	Wed, 18 Aug 2021 16:44:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3916E867
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 16:42:12 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id k29so4486907wrd.7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:42:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=W5GdT8EduZhugpUzvA2/GGwOnhoyQZEiDeyMUn6wh8E=;
- b=bycOHzTRH+aRXcUmSXBOsZG5Gkzo5xIQfqMjeSwTAggOfBKGiaEZit8SDMA+PJV/4R
- +SioqGMlkGUdU6qIL2kxqre0MEaJPxbT+4UymP0e0nIcatW2YHuqV6G0EIqPFtuQCXGi
- Jbq09VFv7EPVyH4eqNrlwu5USRtrIn6CMQC5U3LS+A02T5Q9fvgScM1H4nhBKGtN6RUL
- Y7XsBkNrly0Ys3jNk9rVgELVdzM5wqEqZJwenqVHtLxnyDipXrN6bN2LOmUK3dXnQ22U
- JiAZrzffEiDVy9U9R9IWv6dEQafAII9n5gfOOnt2dMqQTo7gBmHpvFh40BS5bWEuQ0Sg
- o14Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=W5GdT8EduZhugpUzvA2/GGwOnhoyQZEiDeyMUn6wh8E=;
- b=s5lpmIFwOZQmY0qz1aNQix9bG7lSWL3WgHWT74Hel2i66CocuZhdVQ+pq0wcwyQwpW
- Ku9OdTI7QgyVBv7Ty7W5qn5xWQV9xtHjCXNEuBVtJASTiubm7nD7T63IJ1yawUsN6Xcb
- WgSyl++0zsemhPP2D83npManGZy60PGLf+V3WndkvshLk0WXHSH9sIqXCqpyQkXbNxE9
- JFUzPuYWJeAd+4T8RXkxTK6DWc61lKUQ5uRjkqZyUwvFO5Pu8nujxg+xXDYWWUakgzUO
- Y5ONy+Zw6GG7+EbKhW14EQc1T/zWlNTJFPZ4dNbl655xgV7meNsksLuC0G2B0sr7I4pP
- B+8g==
-X-Gm-Message-State: AOAM531WDXK1oPPB0vrq3m/lBRC+nNc0F6BHBVzeeruaVZr7TS2gSUOH
- GRtwT47hGoX6vKNw0VwutZw=
-X-Google-Smtp-Source: ABdhPJybiNwCfJ6kqxUImknf7ykkkk34GLtm70yXj+iZARNGInDoPzAW6ue7Kn6H0xv3rLWosSR4+g==
-X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr11446318wrt.226.1629304930527; 
- Wed, 18 Aug 2021 09:42:10 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id v12sm296002wrq.59.2021.08.18.09.42.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 09:42:09 -0700 (PDT)
-Date: Wed, 18 Aug 2021 18:42:08 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
-Message-ID: <YR04YHGEluqLIZeo@orome.fritz.box>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-8-digetx@gmail.com>
- <YR0UBi/ejy+oF4Hm@orome.fritz.box>
- <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B11C6E869;
+ Wed, 18 Aug 2021 16:44:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216405735"
+X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="216405735"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 09:44:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="511300784"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga004.fm.intel.com with ESMTP; 18 Aug 2021 09:44:47 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Wed, 18 Aug 2021 09:44:46 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Wed, 18 Aug 2021 09:44:44 -0700
+Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
+ ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.2242.010;
+ Wed, 18 Aug 2021 09:44:44 -0700
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "daniel@ffwll.ch" <daniel@ffwll.ch>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "drawat@vmware.com" <drawat@vmware.com>, "Vetter, Daniel"
+ <daniel.vetter@intel.com>, "robdclark@gmail.com" <robdclark@gmail.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Mun,
+ Gwan-gyeong" <gwan-gyeong.mun@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/damage_helper: Fix handling of cursor
+ dirty buffers
+Thread-Topic: [Intel-gfx] [PATCH] drm/damage_helper: Fix handling of cursor
+ dirty buffers
+Thread-Index: AQHXk76RTugs2zf9hEmcsOiXYad+hKt5e9OAgAB0GoA=
+Date: Wed, 18 Aug 2021 16:44:44 +0000
+Message-ID: <33375174e318c2772c0d5053ad6d7fd10bef8c49.camel@intel.com>
+References: <20210817232604.160029-1-jose.souza@intel.com>
+ <YRzYv6lj5k3KOrPC@phenom.ffwll.local>
+In-Reply-To: <YRzYv6lj5k3KOrPC@phenom.ffwll.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0A1423858BB57D4E89E24B9ADF80A147@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZRswRx01OcPCxpgj"
-Content-Disposition: inline
-In-Reply-To: <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,82 +73,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---ZRswRx01OcPCxpgj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Aug 18, 2021 at 06:05:21PM +0300, Dmitry Osipenko wrote:
-> 18.08.2021 17:07, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
-> > [...]
-> >> +struct clk *tegra_clk_register(struct clk_hw *hw)
-> >> +{
-> >> +	struct platform_device *pdev;
-> >> +	struct device *dev =3D NULL;
-> >> +	struct device_node *np;
-> >> +	const char *dev_name;
-> >> +
-> >> +	np =3D tegra_clk_get_of_node(hw);
-> >> +
-> >> +	if (!of_device_is_available(np))
-> >> +		goto put_node;
-> >> +
-> >> +	dev_name =3D kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
-> >> +	if (!dev_name)
-> >> +		goto put_node;
-> >> +
-> >> +	pdev =3D of_platform_device_create(np, dev_name, NULL);
-> >> +	if (!pdev) {
-> >> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
-> >> +		kfree(dev_name);
-> >> +		goto put_node;
-> >> +	}
-> >> +
-> >> +	dev =3D &pdev->dev;
-> >> +	pm_runtime_enable(dev);
-> >> +put_node:
-> >> +	of_node_put(np);
-> >> +
-> >> +	return clk_register(dev, hw);
-> >> +}
-> >=20
-> > This looks wrong. Why do we need struct platform_device objects for each
-> > of these clocks? That's going to be a massive amount of platform devices
-> > and they will completely mess up sysfs.
->=20
-> RPM works with a device. It's not a massive amount of devices, it's one
-> device for T20 and four devices for T30.
-
-I'm still not sure I understand why we need to call RPM functions on a
-clock. And even if they are few, it seems wrong to make these platform
-devices.
-
-Perhaps they can be simple struct device:s instead? Ideally they would
-also be parented to the CAR so that they appear in the right place in
-the sysfs hierarchy.
-
-Thierry
-
---ZRswRx01OcPCxpgj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEdOGAACgkQ3SOs138+
-s6G9mg/7B+N6pKP5RLa+6MqSqr6J1GJQB7fIfzIcmA+LrnV32JQkR+5m6b7bfiYa
-DoWB783TtFILVyc4wpZ/rsEbV7fjEXQiyn4NP44rTeb/EIm54Ls30KodfLm2e+RB
-bomthI0uoJmGnwrE/l73t4XFVGOfslcYBTGhJpGoS6y/mWsszBziqsv7TZjK9EFx
-oBHc5ZPXK6jg2jNdB214Qt9mFH0Y4e23XwC8NH8YRmPANz+BHUX5yLOqpNzBFBqX
-6pltXB/ddB7OMVqgbyghTDPHPr9TM86APIFi29w6aqeXx4JPrih2jtxugr7wDu1r
-05XNQifCKrPCdLHRU6KmSCiOt+9cN3Ze4GIok4i/qVaSJh0oZip+rblv8GCeAXzV
-zra4hTvTG6SNtcYqEZb87DpB7lzU5umKm11TQqjRDH+wEiXcCVFtY1qtvv/WZXfV
-OXMG4pYoU70hxKnlp+MlhsX+1tkWnpb4us35yEYxAv7UqUEXPqaHdRNT4uO8tiGy
-s80pZ6s3Bm1PGRo6wO3dvLh4OXT6QY2Ov+lwZmmUHurizSvRvZ/9B/pL6HLG3NWM
-x1513tBCxJb9dMPsLPK9BZbY1mDopAa6XjMjiaIVkDbrEs7zF0doeksIw50os1Bk
-dNgOWnghgHtl13lzRRLHi/H4onElpL3LCiDteV0kIurgC4v5DeM=
-=SBkO
------END PGP SIGNATURE-----
-
---ZRswRx01OcPCxpgj--
+T24gV2VkLCAyMDIxLTA4LTE4IGF0IDExOjU0ICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOg0K
+PiBPbiBUdWUsIEF1ZyAxNywgMjAyMSBhdCAwNDoyNjowNFBNIC0wNzAwLCBKb3PDqSBSb2JlcnRv
+IGRlIFNvdXphIHdyb3RlOg0KPiA+IEN1cnNvcnMgZG9uJ3QgaGF2ZSBhIGZyYW1lYnVmZmVyIHNv
+IHRoZSBmYiBjb21wYXJpc3NvbiB3YXMgYWx3YXlzDQo+ID4gZmFpbGluZyBhbmQgYXRvbWljIHN0
+YXRlIHdhcyBiZWluZyBjb21taXR0ZWQgd2l0aG91dCBhbnkgcGxhbmUgc3RhdGUuDQo+ID4gDQo+
+ID4gU28gaGVyZSBjaGVja2luZyBpZiBvYmplY3RzIG1hdGNoIHdoZW4gY2hlY2tpbmcgY3Vyc29y
+cy4NCj4gDQo+IFRoaXMgbG9va3MgZXh0cmVtZWx5IGJhY2t3YXJkcyAuLi4gd2hhdCBleGFjdGx5
+IGlzIHRoaXMgZml4aW5nPyBJZiB0aGlzDQo+IGlzbid0IGJhc2VkIG9uIGEgcmVhbCB3b3JsZCBj
+b21wb3NpdG9yIHVzYWdlIGJ1dCBzb21lIGlndCwgdGhlbiBJJ2Qgc2F5DQo+IHRoZSBpZ3QgaGVy
+ZSBpcyB2ZXJ5IHdyb25nLg0KDQpZZXMgaXQgaXMgSUdULg0KV3JpdGluZyB0byBjdXJzb3IgYnVm
+ZmVyIGN1cnJlbnQgaW4gdGhlIHNjcmVlbiBhbmQgY2FsbGluZyBkcm1Nb2RlRGlydHlGQigpIGNh
+dXNlcyBhIGVtcHR5IGF0b21pYyBjb21taXQgYnkgZHJtX2F0b21pY19oZWxwZXJfZGlydHlmYigp
+Lg0KDQoNCj4gLURhbmllbA0KPiANCj4gPiBGaXhlczogYjlmYzVlMDFkMWNlICgiZHJtOiBBZGQg
+aGVscGVyIHRvIGltcGxlbWVudCBsZWdhY3kgZGlydHlmYiIpDQo+ID4gQ2M6IERhbmllbCBWZXR0
+ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPg0KPiA+IENjOiBSb2IgQ2xhcmsgPHJvYmRjbGFy
+a0BnbWFpbC5jb20+DQo+ID4gQ2M6IERlZXBhayBSYXdhdCA8ZHJhd2F0QHZtd2FyZS5jb20+DQo+
+ID4gQ2M6IEd3YW4tZ3llb25nIE11biA8Z3dhbi1neWVvbmcubXVuQGludGVsLmNvbT4NCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNv
+bT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMgfCA4
+ICsrKysrKystDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRp
+b24oLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2Vf
+aGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RhbWFnZV9oZWxwZXIuYw0KPiA+IGluZGV4
+IDhlZWZmMGM3YmRkNDcuLjU5NTE4N2Q5N2MxMzEgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2RhbWFnZV9oZWxwZXIuYw0KPiA+IEBAIC0xNTcsMTIgKzE1NywxOCBAQCBpbnQgZHJtX2F0b21p
+Y19oZWxwZXJfZGlydHlmYihzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwNCj4gPiAgcmV0cnk6
+DQo+ID4gIAlkcm1fZm9yX2VhY2hfcGxhbmUocGxhbmUsIGZiLT5kZXYpIHsNCj4gPiAgCQlzdHJ1
+Y3QgZHJtX3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZTsNCj4gPiArCQlib29sIG1hdGNoOw0KPiA+
+ICANCj4gPiAgCQlyZXQgPSBkcm1fbW9kZXNldF9sb2NrKCZwbGFuZS0+bXV0ZXgsIHN0YXRlLT5h
+Y3F1aXJlX2N0eCk7DQo+ID4gIAkJaWYgKHJldCkNCj4gPiAgCQkJZ290byBvdXQ7DQo+ID4gIA0K
+PiA+IC0JCWlmIChwbGFuZS0+c3RhdGUtPmZiICE9IGZiKSB7DQo+ID4gKwkJbWF0Y2ggPSBwbGFu
+ZS0+c3RhdGUtPmZiID09IGZiOw0KPiA+ICsJCS8qIENoZWNrIGlmIG9ianMgbWF0Y2ggdG8gaGFu
+ZGxlIGRpcnR5IGJ1ZmZlcnMgb2YgY3Vyc29ycyAqLw0KPiA+ICsJCWlmIChwbGFuZS0+dHlwZSA9
+PSBEUk1fUExBTkVfVFlQRV9DVVJTT1IgJiYgcGxhbmUtPnN0YXRlLT5mYikNCj4gPiArCQkJbWF0
+Y2ggfD0gZmItPm9ialswXSA9PSBwbGFuZS0+c3RhdGUtPmZiLT5vYmpbMF07DQo+ID4gKw0KPiA+
+ICsJCWlmICghbWF0Y2gpIHsNCj4gPiAgCQkJZHJtX21vZGVzZXRfdW5sb2NrKCZwbGFuZS0+bXV0
+ZXgpOw0KPiA+ICAJCQljb250aW51ZTsNCj4gPiAgCQl9DQo+ID4gLS0gDQo+ID4gMi4zMi4wDQo+
+ID4gDQo+IA0KDQo=
