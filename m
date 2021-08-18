@@ -1,81 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B663EFAE5
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:06:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC34B3EFC3C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:23:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B9E46E3EB;
-	Wed, 18 Aug 2021 06:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17D8C6E435;
+	Wed, 18 Aug 2021 06:23:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F426E3E3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:06:07 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id x16so1067122pfh.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0bRXcGnjUc7NVLeCTdRJyE4ge8RgoyPp9mDS2KzOq8s=;
- b=WQqdtls/I5KQTun/hms341YldczQzpNKS3BfKfWY/GwZZ0hWoG9we6ibSjWW7lx/A3
- n6thS6+Nyek/C9pXuosZvP3ZzBi7YorfMd8mKDm8qDfvHb0EJADzUaECrtRMe9FIa9KN
- qz2Nc4X0B0W57jPUBjUc42oG7dCdby25RRrX0=
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 125AA6E436
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:23:00 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id q21so3053547ljj.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HRbW8G1xwSB2ls1NijjktR4beuv1neTM9+sNIEIh1SY=;
+ b=QhekG6HEhPh05G6EVGmH5gG1vsu7rLtXHoMmf8TooWyY48CtokKXpp3Ao28M9gzDIL
+ bOVJgsJpVuu4U6ZWhqbn/zzSzP/fh3SXlt9kSPpa9GZDTZZhDmzkZCL094g6b3/xpTlq
+ nR0VqcsEMuT8DrZzKg9OpHD9vAWhvLMA9THzTn2p/fALoh3IOyqRWsGfYkKKKn80LTpF
+ 0ONjMpwOjktQ6neNrcoQ/FCq6G1LpKBpZ2d3r2xDohXQf3R33Yqsm7PvyRSmOAMdrmX2
+ 8g7Na8C+8jCc1UJQu7St/hkelmGm9SnYblY2IzzA+hu0M9oU3v9y97qHAydPZ+UblpGW
+ RUgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0bRXcGnjUc7NVLeCTdRJyE4ge8RgoyPp9mDS2KzOq8s=;
- b=Qwt2gmYYthST0pdDvRBk6PRruVrVUpvc2f5vSg1L/QodsjDn7evIVojnFBFYtUCAPq
- c26+SeOqknyWzYmVq8YyvMv4PMnJckjRNhI1dYJNr7O+RLy1PbUllCenHKFLZE42Y+OM
- mDAcqf0SPq+YmOAUjkRB8hARn/1vpVv3e/du6NzPjHHuizuQmNVd/DL+HZIxzAG2IzSy
- WGJo4DflAZyaqxexv8aDvFb3dfKqhI0v5P1IughpP1Uke5z8ZsZQRUjd8snsdyPZ7vK0
- RmauqxZtkDNspEcpfRaY0iLrjGmksGH69Xd0Fc9gqnp45M1haRHS7cwjL7dZO+1ccs0j
- hd1g==
-X-Gm-Message-State: AOAM5313nzYvmRIHu2So2rtn+52jZsLsF5it7+XxYeNunK99+CxZdZUv
- 3M0tIAd9AT7hhnQ+81CA4bo29w==
-X-Google-Smtp-Source: ABdhPJzf07hn4/UJFD8k9v/PFTouOU2hjIEruQiURQ/GtTe5NoEQV+QNXrPpXGYcUZ9Mijvig6sL0A==
-X-Received: by 2002:aa7:8206:0:b029:3c6:2846:3f9f with SMTP id
- k6-20020aa782060000b02903c628463f9fmr7834685pfi.30.1629266766977; 
- Tue, 17 Aug 2021 23:06:06 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id l18sm4571594pff.24.2021.08.17.23.06.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 23:06:04 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- linux-hardening@vger.kernel.org
-Subject: [PATCH v2 63/63] fortify: Work around Clang inlining bugs
-Date: Tue, 17 Aug 2021 23:05:33 -0700
-Message-Id: <20210818060533.3569517-64-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
-References: <20210818060533.3569517-1-keescook@chromium.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HRbW8G1xwSB2ls1NijjktR4beuv1neTM9+sNIEIh1SY=;
+ b=oLXqksE0GkgPO5RJmJi7f7Dq+wNMuDx6k6Jb5cdpQUY9X8KiedOmW79CtS5zc5JdJh
+ ajnt+4+/cxTbjmlmKg08mhuTw6NTWjr/4Z+mcb8mKaNYwnsBAffHt2R2cIYooXEjlNoi
+ 38uh8X7xva5OepA1NwTeF9IqX2gS7Ya2J92kUzbaAe0McCxQnNw+fNd5WiXPkdhJMY3L
+ 6PYZQjnS0/pVyur6KYFLJztJVduruaYIgsMl2ukTEuW/41ZdrUN6Bp43gN0HcfP8VrMF
+ xrEM5WZGI+eghdNuHzQw/IQC84Mgc0gOSMfp86qeKtu5YKxtIr3LvdHimMzHzqLbXVku
+ pE7Q==
+X-Gm-Message-State: AOAM530LRHdZCY3f26MLmJq2rkxI4JySLRj7Rk4LjPtAXABN/f2qLdnj
+ IaiDeTGS4yItSw9tjKc88Wk=
+X-Google-Smtp-Source: ABdhPJyL01ZM7X19Ri9kaNq915zcz165uE238H3LdTxs+q0TxSrtrvPc1BOJdsnl0Akd4i2Y2iKECw==
+X-Received: by 2002:a2e:a785:: with SMTP id c5mr6383685ljf.434.1629267778216; 
+ Tue, 17 Aug 2021 23:22:58 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru.
+ [46.138.85.91])
+ by smtp.googlemail.com with ESMTPSA id w4sm503212ljg.99.2021.08.17.23.22.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 23:22:57 -0700 (PDT)
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-2-digetx@gmail.com>
+ <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
+ <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+ <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+ <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
+ <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+ <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+Date: Wed, 18 Aug 2021 09:22:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7591; h=from:subject;
- bh=Hec0xxMOh0cK4yBYBOcb5aqhxRAjnc34rm5FBOgOGD0=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMs6ml8yWGswBEn8BNaWTcv46iAfG0OJbmF8YMg
- oAEj0wmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjLAAKCRCJcvTf3G3AJmy1EA
- Cxa4AsWTCF8/uDP8AV7JotgjiK7+Wd6hTmjaB2izxSIO3ujFU7lf++q7Flx4Rk0Khk2tYC5yFzkf1q
- KsVqRI+lR033mk6KdPSJ9FrfNzNJz8wPKrUcmvO1yC5Ew7NsSbVcFG9rAJTpUGSp6PB33hEZa7ao6X
- g00L0SWHv3JrcPqQxfPVH40XS0edTmHg2xsJ5mtz/NsFH7sjkVvbomQwzPWIWneWOUFnBoNs+gvf6t
- vSf2XOihAR71V0F5AszPaupkbs6G5njj1px9/ENBv3HIa208Q3y8DpqsvqamaITfm+fmWG8CrO/7OT
- jWWUwcLUoiPAzcKaa+OKE5ii0xStgjRPNhoJKsOJU0dDqt0/5/X37hzygJ+A+cggmAIfMoTzmE9a8f
- appSBcljh4nYutCtxDKnbc2yqCBtKYTAlZ+vqGGAe35wFrXKhNNsQK7c8ciBk7F+G4tdWcsfmTfE+h
- Z4gxHVqy2JU4v0EWPwh/KVUbbHw6edMeAslLgW8TyhklAWJSFhjGecLkyTpx66usdMKTWdYMmrbu8O
- PytqhJuULFGtFs5i5jkysrms3SGobkhoweDZHzjT82RPdfsZchVOG0LZfHsmuh54DBoXEf/9bw4Zgm
- QQ4sjZ4Ski2g83oskEkT+N7EABOdA+mCeKE78rnk61IM+xXh4/vRHiEA0ipw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp;
- fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+In-Reply-To: <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,181 +106,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To enable FORTIFY_SOURCE support for Clang, the kernel must work around
-a pair of bugs, related to Clang's inlining.
+18.08.2021 08:58, Viresh Kumar пишет:
+> On 18-08-21, 08:21, Dmitry Osipenko wrote:
+>> Yes, GENPD will cache the perf state across suspend/resume and initially
+>> cached value is out of sync with h/w.
+>>
+>> Nothing else. But let me clarify it all again.
+> 
+> Thanks for your explanation.
+> 
+>> Initially the performance state of all GENPDs is 0 for all devices.
+>>
+>> The clock rate is preinitialized for all devices to a some default rate
+>> by clk driver, or by bootloader or by assigned-clocks in DT.
+>>
+>> When device is rpm-resumed, the resume callback of a device driver
+>> enables the clock.
+>>
+>> Before clock is enabled, the voltage needs to be configured in
+>> accordance to the clk rate.
+>>
+>> So now we have a GENPD with pstate=0 on a first rpm-resume, which
+>> doesn't match the h/w configuration. Calling dev_pm_opp_sync() sets the
+>> pstate in accordance to the h/w config.
+> 
+> What about calling dev_pm_opp_set_rate(dev, clk_get_rate(dev)) here
+> instead ? That will work, right ? The advantage is it works without
+> any special routine to do so.
 
-Change all the fortified APIs into macros with different inline names to
-bypass Clang's broken inline-of-a-builtin detection:
-https://bugs.llvm.org/show_bug.cgi?id=50322
+It will work, but a dedicated helper is nicer.
 
-Lift all misbehaving __builtin_object_size() calls into the macros to
-bypass Clang's broken __builtin_object_size() arguments-of-an-inline
-visibility:
-https://github.com/ClangBuiltLinux/linux/issues/1401
+> I also wonder looking at your gr3d.c changes, you set a set-opp
+> helper, but the driver doesn't call set_opp_rate at all. Who calls it
+> ?
 
-Thankfully, due to how the inlining already behaves in GCC, this change
-has no effect on GCC builds, but allows Clang to finally gain full
-FORTIFY coverage.
+dev_pm_opp_sync() calls it from _set_opp().
 
-However, because of a third bug which had no work-arounds, FORTIFY_SOURCE
-will only work with Clang version 13 and later. Update the Kconfig to
-reflect the new requirements.
+> And if it is all about just syncing the genpd core, then can the genpd
+> core do something like what clk framework does? i.e. allow a new
+> optional genpd callback, get_performance_state() (just like
+> set_performance_state()), which can be called initially by the core to
+> get the performance to something other than zero. opp-set-rate is
+> there to set the performance state and enable the stuff as well.
+> That's why it looks incorrect in your case, where the function was
+> only required to be called once, and you are ending up calling it on
+> each resume. Limiting that with another local variable is bad as well.
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/linux/fortify-string.h | 55 +++++++++++++++++++++-------------
- security/Kconfig               |  2 +-
- 2 files changed, 36 insertions(+), 21 deletions(-)
-
-diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-index 7de4673dfe2c..e62d3633a329 100644
---- a/include/linux/fortify-string.h
-+++ b/include/linux/fortify-string.h
-@@ -48,10 +48,10 @@ extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size)
- #define __underlying_strncpy	__builtin_strncpy
- #endif
- 
--__FORTIFY_INLINE char *strncpy(char *p, const char *q, __kernel_size_t size)
-+#define strncpy(p, q, s) __fortify_strncpy(p, q, s, __builtin_object_size(p, 1))
-+__FORTIFY_INLINE char *__fortify_strncpy(char *p, const char *q,
-+					 __kernel_size_t size, size_t p_size)
- {
--	size_t p_size = __builtin_object_size(p, 1);
--
- 	if (__builtin_constant_p(size) && p_size < size)
- 		__write_overflow();
- 	if (p_size < size)
-@@ -71,9 +71,10 @@ __FORTIFY_INLINE char *strcat(char *p, const char *q)
- }
- 
- extern __kernel_size_t __real_strnlen(const char *, __kernel_size_t) __RENAME(strnlen);
--__FORTIFY_INLINE __kernel_size_t strnlen(const char *p, __kernel_size_t maxlen)
-+#define strnlen(p, s) __fortify_strnlen(p, s, __builtin_object_size(p, 1))
-+__FORTIFY_INLINE __kernel_size_t __fortify_strnlen(const char *p, size_t maxlen,
-+						   size_t p_size)
- {
--	size_t p_size = __builtin_object_size(p, 1);
- 	size_t p_len = __compiletime_strlen(p);
- 	size_t ret;
- 
-@@ -108,10 +109,14 @@ __FORTIFY_INLINE __kernel_size_t strlen(const char *p)
- 
- /* defined after fortified strlen to reuse it */
- extern size_t __real_strlcpy(char *, const char *, size_t) __RENAME(strlcpy);
--__FORTIFY_INLINE size_t strlcpy(char *p, const char *q, size_t size)
-+#define strlcpy(p, q, s) __fortify_strlcpy(p, q, s,			\
-+					   __builtin_object_size(p, 1),	\
-+					   __builtin_object_size(q, 1))
-+__FORTIFY_INLINE size_t __fortify_strlcpy(char *p, const char *q,
-+					  size_t size,
-+					  const size_t p_size,
-+					  const size_t q_size)
- {
--	size_t p_size = __builtin_object_size(p, 1);
--	size_t q_size = __builtin_object_size(q, 1);
- 	size_t q_len;	/* Full count of source string length. */
- 	size_t len;	/* Count of characters going into destination. */
- 
-@@ -135,12 +140,15 @@ __FORTIFY_INLINE size_t strlcpy(char *p, const char *q, size_t size)
- 
- /* defined after fortified strnlen to reuse it */
- extern ssize_t __real_strscpy(char *, const char *, size_t) __RENAME(strscpy);
--__FORTIFY_INLINE ssize_t strscpy(char *p, const char *q, size_t size)
-+#define strscpy(p, q, s) __fortify_strscpy(p, q, s,			\
-+					   __builtin_object_size(p, 1),	\
-+					   __builtin_object_size(q, 1))
-+__FORTIFY_INLINE ssize_t __fortify_strscpy(char *p, const char *q,
-+					   size_t size,
-+					   const size_t p_size,
-+					   const size_t q_size)
- {
- 	size_t len;
--	/* Use string size rather than possible enclosing struct size. */
--	size_t p_size = __builtin_object_size(p, 1);
--	size_t q_size = __builtin_object_size(q, 1);
- 
- 	/* If we cannot get size of p and q default to call strscpy. */
- 	if (p_size == (size_t) -1 && q_size == (size_t) -1)
-@@ -181,11 +189,13 @@ __FORTIFY_INLINE ssize_t strscpy(char *p, const char *q, size_t size)
- }
- 
- /* defined after fortified strlen and strnlen to reuse them */
--__FORTIFY_INLINE char *strncat(char *p, const char *q, __kernel_size_t count)
-+#define strncat(p, q, count)	__fortify_strncat(p, q, count, \
-+						  __builtin_object_size(p, 1), \
-+						  __builtin_object_size(q, 1))
-+__FORTIFY_INLINE char *__fortify_strncat(char *p, const char *q, size_t count,
-+					 size_t p_size, size_t q_size)
- {
- 	size_t p_len, copy_len;
--	size_t p_size = __builtin_object_size(p, 1);
--	size_t q_size = __builtin_object_size(q, 1);
- 
- 	if (p_size == (size_t)-1 && q_size == (size_t)-1)
- 		return __underlying_strncat(p, q, count);
-@@ -352,7 +362,8 @@ __FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
- 		memmove)
- 
- extern void *__real_memscan(void *, int, __kernel_size_t) __RENAME(memscan);
--__FORTIFY_INLINE void *memscan(void *p, int c, __kernel_size_t size)
-+#define memscan(p, c, s) __fortify_memscan(p, c, s)
-+__FORTIFY_INLINE void *__fortify_memscan(void *p, int c, __kernel_size_t size)
- {
- 	size_t p_size = __builtin_object_size(p, 0);
- 
-@@ -363,7 +374,8 @@ __FORTIFY_INLINE void *memscan(void *p, int c, __kernel_size_t size)
- 	return __real_memscan(p, c, size);
- }
- 
--__FORTIFY_INLINE int memcmp(const void *p, const void *q, __kernel_size_t size)
-+#define memcmp(p, q, s) __fortify_memcmp(p, q, s)
-+__FORTIFY_INLINE int __fortify_memcmp(const void *p, const void *q, __kernel_size_t size)
- {
- 	size_t p_size = __builtin_object_size(p, 0);
- 	size_t q_size = __builtin_object_size(q, 0);
-@@ -379,7 +391,8 @@ __FORTIFY_INLINE int memcmp(const void *p, const void *q, __kernel_size_t size)
- 	return __underlying_memcmp(p, q, size);
- }
- 
--__FORTIFY_INLINE void *memchr(const void *p, int c, __kernel_size_t size)
-+#define memchr(p, c, s) __fortify_memchr(p, c, s)
-+__FORTIFY_INLINE void *__fortify_memchr(const void *p, int c, __kernel_size_t size)
- {
- 	size_t p_size = __builtin_object_size(p, 0);
- 
-@@ -391,7 +404,8 @@ __FORTIFY_INLINE void *memchr(const void *p, int c, __kernel_size_t size)
- }
- 
- void *__real_memchr_inv(const void *s, int c, size_t n) __RENAME(memchr_inv);
--__FORTIFY_INLINE void *memchr_inv(const void *p, int c, size_t size)
-+#define memchr_inv(p, c, s) __fortify_memchr_inv(p, c, s)
-+__FORTIFY_INLINE void *__fortify_memchr_inv(const void *p, int c, size_t size)
- {
- 	size_t p_size = __builtin_object_size(p, 0);
- 
-@@ -415,7 +429,8 @@ __FORTIFY_INLINE void *kmemdup(const void *p, size_t size, gfp_t gfp)
- }
- 
- /* Defined after fortified strlen to reuse it. */
--__FORTIFY_INLINE char *strcpy(char *p, const char *q)
-+#define strcpy(p, q) __fortify_strcpy(p, q)
-+__FORTIFY_INLINE char *__fortify_strcpy(char *p, const char *q)
- {
- 	size_t p_size = __builtin_object_size(p, 1);
- 	size_t q_size = __builtin_object_size(q, 1);
-diff --git a/security/Kconfig b/security/Kconfig
-index fe6c0395fa02..530a15566b1d 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -193,7 +193,7 @@ config FORTIFY_SOURCE
- 	depends on ARCH_HAS_FORTIFY_SOURCE
- 	# https://bugs.llvm.org/show_bug.cgi?id=50322
- 	# https://bugs.llvm.org/show_bug.cgi?id=41459
--	depends on !CC_IS_CLANG
-+	depends on !CC_IS_CLANG || CLANG_VERSION >= 130000
- 	help
- 	  Detect overflows of buffers in common string and memory functions
- 	  where the compiler can determine and validate the buffer sizes.
--- 
-2.30.2
-
+We discussed variant with get_performance_state() previously and Ulf
+didn't like it either since it still requires to touch 'internals' of GENPD.
