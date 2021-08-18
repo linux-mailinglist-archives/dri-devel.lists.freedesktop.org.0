@@ -1,61 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021F63EFF58
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 10:38:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5B23EFFEC
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 11:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA606E4C5;
-	Wed, 18 Aug 2021 08:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7F96E4CB;
+	Wed, 18 Aug 2021 09:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B596E4C5
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:38:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1629275889; x=1660811889;
- h=subject:to:cc:references:from:message-id:date:
- mime-version:in-reply-to:content-transfer-encoding;
- bh=Cs2eoNXPps/j86YzVA6CeH9OzMSl/g0AtoxGtzsYxzY=;
- b=qSapbQxehzaU32dJowTQiT9U5GMy1Wr/Wm99Ww4jPUbNgboz3Q6i9sRU
- M3T48yGXJWEUnzClJfY6llfwzINb++3ADoPka39soto670rtKrRl3Pmy+
- l08f/KN4DebOwXOq7TkM8UGxN2ykxof1Ll+lBfkVac4MJUYAzCPA6Rkxu E=;
-X-IronPort-AV: E=Sophos;i="5.84,330,1620691200"; d="scan'208";a="134675497"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
- email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com) ([10.43.8.6])
- by smtp-border-fw-6001.iad6.amazon.com with ESMTP; 18 Aug 2021 08:38:01 +0000
-Received: from EX13D19EUB003.ant.amazon.com
- (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
- by email-inbound-relay-1d-38ae4ad2.us-east-1.amazon.com (Postfix) with ESMTPS
- id E0809A299E; Wed, 18 Aug 2021 08:37:56 +0000 (UTC)
-Received: from 8c85908914bf.ant.amazon.com (10.43.160.90) by
- EX13D19EUB003.ant.amazon.com (10.43.166.69) with Microsoft SMTP Server (TLS)
- id 15.0.1497.23; Wed, 18 Aug 2021 08:37:49 +0000
-Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Doug Ledford <dledford@redhat.com>, Jason
- Gunthorpe <jgg@ziepe.ca>
-CC: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Oded Gabbay
- <ogabbay@habana.ai>, Tomer Tayar <ttayar@habana.ai>, Yossi Leybovich
- <sleybo@amazon.com>, Alexander Matushevsky <matua@amazon.com>, Leon
- Romanovsky <leonro@nvidia.com>, Jianxin Xiong <jianxin.xiong@intel.com>
-References: <20210818074352.29950-1-galpress@amazon.com>
- <3abaef49-2733-8b5e-3eaa-662a2a57b96e@amd.com>
-From: Gal Pressman <galpress@amazon.com>
-Message-ID: <01573693-cf7a-a160-2f60-5049dfba1ecd@amazon.com>
-Date: Wed, 18 Aug 2021 11:37:31 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2CFD6E4CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:05:47 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ mq2-20020a17090b3802b0290178911d298bso1914658pjb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 02:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=NwlqG+rGO9KvfhCSwLDgRYsI8h6dWdnqYqbHJGPEme0=;
+ b=R5Ryqi+3ufOXj4PruwnTvqtfAJxKzmWANSkCph9vX3JAIUwLfa/ogsf0XiAzmuAaIb
+ VPDfjaA6JoKlT4Kx+R9SxDMV4d2OeUToJNM29cVAvSSW7Gq1sgBqjsTAvV4VPEc/f7nR
+ v/9FoiPkSVtpFKIvuRP2dgdjigBNevI1IirKo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=NwlqG+rGO9KvfhCSwLDgRYsI8h6dWdnqYqbHJGPEme0=;
+ b=mMKyIT7VcaKpJVMpr2L1h+qr/KH4SNWoSozGxlsXNaintD3irgPueBAnAkJlcIOsbW
+ D8Huojbwz/dCuViRWpyy/8hkhADQ7cC8uiKsbyrZW0Fi7/k1/ow5vXW0QgjJzLNpJQXe
+ 54cG0RNzZRoif0R+fEYhqKIJX1r3UzmpXECgXXqLPkXSBTdY3YNzgIc59HCuFUgwjtUU
+ J7rHPSIWKa8uWTxROhrCwqLTi/9cD/vOoegvR75zD24bXlg7i6sqa/0KCdPL+nE4qmEg
+ Dji+GbpkdIOg0bSgSy0CXum3XJ70WBYmXXVZxpBRavweue5YZ8Nh/Eu4aFX2cILdBDMK
+ FM0w==
+X-Gm-Message-State: AOAM531AfY9+mOXH0lX75fp1HGmvcbKHDmycMdBWzyIe4rg3Fsbh7Ose
+ D+RUaSQGpSlRFU8MA0NLAqQykA==
+X-Google-Smtp-Source: ABdhPJy5VoNYR8gwCuIaLE1kUReGMfgEfhj9n5qCxc6K8dzpoM8CUxBKq9FzEjdxDuCc9RNmRV3rMg==
+X-Received: by 2002:a17:90a:6c97:: with SMTP id
+ y23mr8162537pjj.117.1629277547417; 
+ Wed, 18 Aug 2021 02:05:47 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id y19sm5468368pfe.71.2021.08.18.02.05.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 02:05:46 -0700 (PDT)
+Date: Wed, 18 Aug 2021 02:05:45 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, linux-wireless@vger.kernel.org,
+ netdev@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 44/63] mac80211: Use memset_after() to clear tx status
+Message-ID: <202108180203.592E3F01@keescook>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-45-keescook@chromium.org>
+ <11db2cdc5316b51f3fa2f34e813a458e455c763d.camel@sipsolutions.net>
+ <8b48dac4c40127366e91855306d24e07eb0b81d9.camel@sipsolutions.net>
 MIME-Version: 1.0
-In-Reply-To: <3abaef49-2733-8b5e-3eaa-662a2a57b96e@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.43.160.90]
-X-ClientProxiedBy: EX13D42UWB003.ant.amazon.com (10.43.161.45) To
- EX13D19EUB003.ant.amazon.com (10.43.166.69)
+In-Reply-To: <8b48dac4c40127366e91855306d24e07eb0b81d9.camel@sipsolutions.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +84,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/08/2021 11:00, Christian KÃ¶nig wrote:
-> Am 18.08.21 um 09:43 schrieb Gal Pressman:
->> Hey all,
->>
->> Currently, the RDMA subsystem can only work with dynamic dmabuf
->> attachments, which requires the RDMA device to support on-demand-paging
->> (ODP) which is not common on most devices (only supported by mlx5).
->>
->> While the dynamic requirement makes sense for certain GPUs, some devices
->> (such as habanalabs) have device memory that is always "pinned" and do
->> not need/use the move_notify operation.
->>
->> The motivation of this RFC is to use habanalabs as the dmabuf exporter,
->> and EFA as the importer to allow for peer2peer access through libibverbs.
->>
->> This draft patch changes the dmabuf driver to differentiate between
->> static/dynamic attachments by looking at the move_notify op instead of
->> the importer_ops struct, and allowing the peer2peer flag to be enabled
->> in case of a static exporter.
-> 
-> Well NAK to the general approach, this can be solved much easier.
-> 
-> If you can't support dynamic moves while using the buffer then just pin all
-> buffers during import/export.
-> 
-> This avoids the move notification and the framework/exporter can still correctly
-> account for pinned buffers.
-> 
-> But please note that at least amdgpu never uses P2P support for pinned buffers
-> since we want to avoid that unmoveable buffers clutter video memory and create
-> conflicts with V4L and scanout.
-> 
-> If you don't have such concerns in habanalabs then you can implement the pinning
-> there while keeping P2P still enabled.
-Thanks Christian!
+On Wed, Aug 18, 2021 at 10:06:51AM +0200, Johannes Berg wrote:
+> On Wed, 2021-08-18 at 09:08 +0200, Johannes Berg wrote:
+> > On Tue, 2021-08-17 at 23:05 -0700, Kees Cook wrote:
+> > > 
+> > > @@ -275,12 +275,11 @@ static void carl9170_tx_release(struct kref *ref)
+> > >  	if (WARN_ON_ONCE(!ar))
+> > >  		return;
+> > >  
+> > > 
+> > > 
+> > > 
+> > > -	BUILD_BUG_ON(
+> > > -	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
+> > > -
+> > > -	memset(&txinfo->status.ack_signal, 0,
+> > > -	       sizeof(struct ieee80211_tx_info) -
+> > > -	       offsetof(struct ieee80211_tx_info, status.ack_signal));
+> > > +	/*
+> > > +	 * Should this call ieee80211_tx_info_clear_status() instead of clearing
+> > > +	 * manually? txinfo->status.rates do not seem to be used here.
+> > > +	 */
+> > 
+> > Since you insist, I went digging :)
+> > 
+> > It should not, carl9170_tx_fill_rateinfo() has filled the rate
+> > information before we get to this point.
 
-Are you suggesting to pass an empty move_notify callback instead of passing NULL?
-Also, doesn't the pin operation move the memory from the device to host memory?
+Ah-ha! Thanks for checking. I'll update the comment to explain the
+rationale here.
+
+> Otherwise, looks fine, FWIW.
+
+Thanks!
+
+> Are you going to apply all of these together somewhere? I (we) can't,
+> since memset_after() doesn't exist yet.
+
+Right, given the dependencies, I am expecting to just carry the whole
+series, since the vast majority of it has no binary changes, etc. I'm
+hoping to get it into -next soon, but we're uncomfortably close to the
+merge window. :P
+
+-- 
+Kees Cook
