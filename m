@@ -2,62 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4FA3F0DC8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 23:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880183F0DD8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 00:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7D2288FFA;
-	Wed, 18 Aug 2021 21:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0A92890A5;
+	Wed, 18 Aug 2021 22:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F05B6E8EC;
- Wed, 18 Aug 2021 21:56:14 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id r26so5572149oij.2;
- Wed, 18 Aug 2021 14:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RdmNdCMm6JhUPQCkA/tGLa7SxJbn7LmCF5fH55S5Db8=;
- b=fkCLcGjMhdjaPhrjRCyLDbZmyOEN/LRn4eJ0lFcmweZay62iQ1CBA6vqSCq4MFV9Vm
- OdVs7VFo8n/psxGrG12joViS4t0E/UHxKVFQAljidAl+u5nBEqimZV4hSqjaWg2+bq9J
- Zdep3lm4nEiDS7Dhf5pdYrtCUSpHP5E9XtTLFgYWgAQzDOsFnOhG8ZGdMAKgMuK8CZop
- mBnvSj3mO7L1JD5Wi2HdtLHv7eqJuhGa5lrNWD8hoRpHInbswswm7toVe8Hy9XQy0UV0
- w+2KsM7MtOpT/dWzoH98KiFw1Z806S4yhKWjKqOiF9z7uc+E68azV4l6Hin2Hv8SQ5qT
- T4KQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F85B6E8D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 22:03:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629324219;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oK2hoz1pNxOtprsAxgLW7HzE+yMICN6HsSK04cEBylI=;
+ b=U1M12Ef79gIzWfAIQ3nKTA5kV9J77YweVmr2XZeQqYPDhkfg47XtnhBmbV+pFsI9aCK4qW
+ U2atCuQs/Zh0SOhFeUYi5WFzUK7cJ4ejWAY/7kGLTZi5Mk5nZXP+LPiSPTeQ5a4glYODvi
+ oxPVlQQ305AT9dYNocq1IcpdZfO4Zew=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-03wqR7WlOIGqBb0jVYP9NQ-1; Wed, 18 Aug 2021 18:03:38 -0400
+X-MC-Unique: 03wqR7WlOIGqBb0jVYP9NQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ b2-20020a0cc9820000b0290352b2c7d7e1so3179735qvk.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:03:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RdmNdCMm6JhUPQCkA/tGLa7SxJbn7LmCF5fH55S5Db8=;
- b=hFjA2CmVy522o7RBqx5nnt8Xpj0g5/qd1sh6d47C1rWB/DZm5T8YzQLN2i9GcRBHeQ
- +D/KkTO8QoFnj7pXMUE//F6jWMPh3lY1IDclYW1NszgQOjov88ljDGTscUMiL+z5zILf
- R4hVzQS4Cm9bRHIc6O93WpGCfUucVixUkDDq5Bh4ju6NslgXPRhxB8xSqgd3V4hv824Q
- kvl25NaNpeHQBfNWtNRiP4jOejneoAksMZFTGulNbrW6PEh9JMaRJeC6LtEbKlGSB9L8
- WfqaQKG+kLeCQx1hmgzItX9IGzE3ZAoSRcUBzlz5Ftnr3Iof8e6UbH1qJwNhVL4BER/M
- SJBA==
-X-Gm-Message-State: AOAM5336bMVIOwtYBfuMTy1/oxzjH326BaA2y5wkTMHmbSXhbCqGvJwF
- W5ZsIMdXEzLeXMvd/NZDzCl1V/IG0MyNQ0kxKEHCU9R1
-X-Google-Smtp-Source: ABdhPJxppIeW0nbPAMY8Ov3LwZPcKqcBcq9vjggH8/2ZNkXRRypcKKDu+XTFxwf+5svXzB9ib1cfup0GHmAzad0YOoY=
-X-Received: by 2002:a05:6808:14c:: with SMTP id
- h12mr273986oie.24.1629323773367; 
- Wed, 18 Aug 2021 14:56:13 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=oK2hoz1pNxOtprsAxgLW7HzE+yMICN6HsSK04cEBylI=;
+ b=VIDybnMYP764BSTiTh9fp3DvPDsfi0tmK2K/PzAj/h/ZKBLME4Cs/+pq6mLY8hatyr
+ b0pSqY2TzQMboasQ03QOi9NcS4X09Zr3CwOrFIJ2lcyYqBWeNl1sIkvbg+Z4RIH/9XxS
+ VDkcgcNnWuEcmskeud4yStr7bgEVLXihv5mNhMG/NKPEnoili1Iqo4DgpsIHNnPx/SK6
+ Vy/rQ/P4ZBo2D9DnYw/yjQLkgjUHM5Wt4Ssd/mbG4qTZmA2kQYj/SzGNkkl8ydojK/3i
+ w5Zp7zxKCIheV5iErwgutBHa21kF+1qod8rBQ7CocSs0IcfH3ogZy4yu+lNxdYSM1WJb
+ 4tNQ==
+X-Gm-Message-State: AOAM532VR2jNGUZg234p2tdb+DMmF5+7GQ7k8NRfapMmYWgaReeLJwO3
+ 9OAgARS1SEevfOSDGq7N+RYiajQ1FaItY/cZtR540WlJRxjQpxvp8d030P1Wqdw6M/uktH60X3F
+ /++qXhzVx4w3Q/k2YLACfPsYjU+Hv
+X-Received: by 2002:a37:8a44:: with SMTP id m65mr520040qkd.72.1629324218131;
+ Wed, 18 Aug 2021 15:03:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzc1VLlBPcs2iR13iycuCWuLv6rS+CUis7hvVYcDzugjfZJrLwBK518fpIWhBKDSKQE00KYsg==
+X-Received: by 2002:a37:8a44:: with SMTP id m65mr520023qkd.72.1629324217953;
+ Wed, 18 Aug 2021 15:03:37 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id b19sm620360qkc.7.2021.08.18.15.03.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 15:03:37 -0700 (PDT)
+Message-ID: <1f5f00e0042e48bc3420c3f17457e82d83e68567.camel@redhat.com>
+Subject: Re: [PATCH 0/8] drm + usb-type-c: Add support for out-of-band
+ hotplug notification (v4 resend)
+From: Lyude Paul <lyude@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Imre Deak <imre.deak@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Guenter Roeck <linux@roeck-us.net>, Heikki
+ Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org,  linux-usb@vger.kernel.org
+Date: Wed, 18 Aug 2021 18:03:35 -0400
+In-Reply-To: <20210817215201.795062-1-hdegoede@redhat.com>
+References: <20210817215201.795062-1-hdegoede@redhat.com>
+Organization: Red Hat
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
-References: <20210816103506.2671-1-michel@daenzer.net>
- <20210817082325.2579-1-michel@daenzer.net>
-In-Reply-To: <20210817082325.2579-1-michel@daenzer.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 18 Aug 2021 17:56:02 -0400
-Message-ID: <CADnq5_PrGsBZBn3kmHqH3YRBpwxrNmVi--uuwfGyOfDnRbY96A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Cancel delayed work when GFXOFF is disabled
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Leo Liu <leo.liu@amd.com>, James Zhu <James.Zhu@amd.com>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,147 +97,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Let's see how long this one lasts :)
+This looks great to me! Wasn't much to comment on here as most of this looks
+fine to me. For the whole series:
 
-Alex
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-On Tue, Aug 17, 2021 at 4:23 AM Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
->
-> From: Michel D=C3=A4nzer <mdaenzer@redhat.com>
->
-> schedule_delayed_work does not push back the work if it was already
-> scheduled before, so amdgpu_device_delay_enable_gfx_off ran ~100 ms
-> after the first time GFXOFF was disabled and re-enabled, even if GFXOFF
-> was disabled and re-enabled again during those 100 ms.
->
-> This resulted in frame drops / stutter with the upcoming mutter 41
-> release on Navi 14, due to constantly enabling GFXOFF in the HW and
-> disabling it again (for getting the GPU clock counter).
->
-> To fix this, call cancel_delayed_work_sync when the disable count
-> transitions from 0 to 1, and only schedule the delayed work on the
-> reverse transition, not if the disable count was already 0. This makes
-> sure the delayed work doesn't run at unexpected times, and allows it to
-> be lock-free.
->
-> v2:
-> * Use cancel_delayed_work_sync & mutex_trylock instead of
->   mod_delayed_work.
-> v3:
-> * Make amdgpu_device_delay_enable_gfx_off lock-free (Christian K=C3=B6nig=
-)
-> v4:
-> * Fix race condition between amdgpu_gfx_off_ctrl incrementing
->   adev->gfx.gfx_off_req_count and amdgpu_device_delay_enable_gfx_off
->   checking for it to be 0 (Evan Quan)
->
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Lijo Lazar <lijo.lazar@amd.com> # v3
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com> # v3
-> Signed-off-by: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-> ---
->
-> Alex, probably best to wait a bit longer before picking this up. :)
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 11 +++----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c    | 36 +++++++++++++++-------
->  2 files changed, 30 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_device.c
-> index f3fd5ec710b6..f944ed858f3e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -2777,12 +2777,11 @@ static void amdgpu_device_delay_enable_gfx_off(st=
-ruct work_struct *work)
->         struct amdgpu_device *adev =3D
->                 container_of(work, struct amdgpu_device, gfx.gfx_off_dela=
-y_work.work);
->
-> -       mutex_lock(&adev->gfx.gfx_off_mutex);
-> -       if (!adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_count) {
-> -               if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK=
-_TYPE_GFX, true))
-> -                       adev->gfx.gfx_off_state =3D true;
-> -       }
-> -       mutex_unlock(&adev->gfx.gfx_off_mutex);
-> +       WARN_ON_ONCE(adev->gfx.gfx_off_state);
-> +       WARN_ON_ONCE(adev->gfx.gfx_off_req_count);
-> +
-> +       if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GF=
-X, true))
-> +               adev->gfx.gfx_off_state =3D true;
->  }
->
->  /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_gfx.c
-> index a0be0772c8b3..b4ced45301be 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-> @@ -563,24 +563,38 @@ void amdgpu_gfx_off_ctrl(struct amdgpu_device *adev=
-, bool enable)
->
->         mutex_lock(&adev->gfx.gfx_off_mutex);
->
-> -       if (!enable)
-> -               adev->gfx.gfx_off_req_count++;
-> -       else if (adev->gfx.gfx_off_req_count > 0)
-> +       if (enable) {
-> +               /* If the count is already 0, it means there's an imbalan=
-ce bug somewhere.
-> +                * Note that the bug may be in a different caller than th=
-e one which triggers the
-> +                * WARN_ON_ONCE.
-> +                */
-> +               if (WARN_ON_ONCE(adev->gfx.gfx_off_req_count =3D=3D 0))
-> +                       goto unlock;
-> +
->                 adev->gfx.gfx_off_req_count--;
->
-> -       if (enable && !adev->gfx.gfx_off_state && !adev->gfx.gfx_off_req_=
-count) {
-> -               schedule_delayed_work(&adev->gfx.gfx_off_delay_work, GFX_=
-OFF_DELAY_ENABLE);
-> -       } else if (!enable && adev->gfx.gfx_off_state) {
-> -               if (!amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK=
-_TYPE_GFX, false)) {
-> -                       adev->gfx.gfx_off_state =3D false;
-> +               if (adev->gfx.gfx_off_req_count =3D=3D 0 && !adev->gfx.gf=
-x_off_state)
-> +                       schedule_delayed_work(&adev->gfx.gfx_off_delay_wo=
-rk, GFX_OFF_DELAY_ENABLE);
-> +       } else {
-> +               if (adev->gfx.gfx_off_req_count =3D=3D 0) {
-> +                       cancel_delayed_work_sync(&adev->gfx.gfx_off_delay=
-_work);
-> +
-> +                       if (adev->gfx.gfx_off_state &&
-> +                           !amdgpu_dpm_set_powergating_by_smu(adev, AMD_=
-IP_BLOCK_TYPE_GFX, false)) {
-> +                               adev->gfx.gfx_off_state =3D false;
->
-> -                       if (adev->gfx.funcs->init_spm_golden) {
-> -                               dev_dbg(adev->dev, "GFXOFF is disabled, r=
-e-init SPM golden settings\n");
-> -                               amdgpu_gfx_init_spm_golden(adev);
-> +                               if (adev->gfx.funcs->init_spm_golden) {
-> +                                       dev_dbg(adev->dev,
-> +                                               "GFXOFF is disabled, re-i=
-nit SPM golden settings\n");
-> +                                       amdgpu_gfx_init_spm_golden(adev);
-> +                               }
->                         }
->                 }
-> +
-> +               adev->gfx.gfx_off_req_count++;
->         }
->
-> +unlock:
->         mutex_unlock(&adev->gfx.gfx_off_mutex);
->  }
->
-> --
-> 2.32.0
->
+This will be quite interesting to try getting working for nouveau
+
+On Tue, 2021-08-17 at 23:51 +0200, Hans de Goede wrote:
+> Hi all,
+> 
+> Here is a rebased-resend of v4 of my patchset making DP over Type-C work on
+> devices where the Type-C controller does not drive the HPD pin on the GPU,
+> but instead we need to forward HPD events from the Type-C controller to
+> the DRM driver.
+> 
+> Changes in v4 resend:
+> - Rebase on top of latest drm-tip
+> 
+> Changes in v4:
+> - Rebase on top of latest drm-tip
+> - Add forward declaration for struct fwnode_handle to drm_crtc_internal.h
+>   (fixes warning reported by kernel test robot <lkp@intel.com>)
+> - Add Heikki's Reviewed-by to patch 7 & 8
+> - Add Heikki's Tested-by to the series
+> 
+> Changes in v3:
+> - Base on top of latest drm-tip, which should fix the CI being unable to
+>   apply (and thus to test) the patches
+> - Make intel_acpi_assign_connector_fwnodes() take a ref on the fwnode
+>   it stores in connector->fwnode and have drm_connector_cleanup() put
+>   this reference
+> - Drop data argument from drm_connector_oob_hotplug_event()
+> - Make the Type-C DP altmode code only call
+> drm_connector_oob_hotplug_event()
+>   when the HPD bit in the status vdo changes
+> - Drop the platform/x86/intel_cht_int33fe: Correct "displayport" fwnode
+>   reference patch, this will be merged independently through the pdx86 tree
+> 
+> Changes in v2:
+> - Replace the bogus "drm/connector: Make the drm_sysfs connector->kdev
+>   device hold a reference to the connector" patch with:
+>   "drm/connector: Give connector sysfs devices there own device_type"
+>   the new patch is a dep for patch 2/9 see the patches
+> 
+> - Stop using a class-dev-iter, instead at a global connector list
+>   to drm_connector.c and use that to find the connector by the fwnode,
+>   similar to how we already do this in drm_panel.c and drm_bridge.c
+> 
+> - Make drm_connector_oob_hotplug_event() take a fwnode pointer as
+>   argument, rather then a drm_connector pointer and let it do the
+>   lookup itself. This allows making drm_connector_find_by_fwnode() a
+>   drm-internal function and avoids code outside the drm subsystem
+>   potentially holding on the a drm_connector reference for a longer
+>   period.
+> 
+> This series not only touches drm subsys files but it also touches
+> drivers/usb/typec/altmodes/typec_displayport.c, that file usually
+> does not see a whole lot of changes. So I believe it would be best
+> to just merge the entire series through drm-misc, Assuming we can
+> get an ack from Greg for merging the typec_displayport.c changes
+> this way.
+> 
+> Regards,
+> 
+> Hans
+> 
+> Hans de Goede (7):
+>   drm/connector: Give connector sysfs devices there own device_type
+>   drm/connector: Add a fwnode pointer to drm_connector and register with
+>     ACPI (v2)
+>   drm/connector: Add drm_connector_find_by_fwnode() function (v3)
+>   drm/connector: Add support for out-of-band hotplug notification (v3)
+>   drm/i915/dp: Add support for out-of-bound hotplug events
+>   usb: typec: altmodes/displayport: Make dp_altmode_notify() more
+>     generic
+>   usb: typec: altmodes/displayport: Notify drm subsys of hotplug events
+> 
+> Heikki Krogerus (1):
+>   drm/i915: Associate ACPI connector nodes with connector entries (v2)
+> 
+>  drivers/gpu/drm/drm_connector.c              | 79 ++++++++++++++++++
+>  drivers/gpu/drm/drm_crtc_internal.h          |  2 +
+>  drivers/gpu/drm/drm_sysfs.c                  | 87 +++++++++++++++++---
+>  drivers/gpu/drm/i915/display/intel_acpi.c    | 46 +++++++++++
+>  drivers/gpu/drm/i915/display/intel_acpi.h    |  3 +
+>  drivers/gpu/drm/i915/display/intel_display.c |  1 +
+>  drivers/gpu/drm/i915/display/intel_dp.c      | 12 +++
+>  drivers/usb/typec/altmodes/Kconfig           |  1 +
+>  drivers/usb/typec/altmodes/displayport.c     | 58 ++++++++-----
+>  include/drm/drm_connector.h                  | 25 ++++++
+>  10 files changed, 279 insertions(+), 35 deletions(-)
+> 
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
