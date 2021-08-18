@@ -2,73 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D891B3F0112
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 11:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD733F0131
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 12:04:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D130C6E50D;
-	Wed, 18 Aug 2021 09:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 352CD6E512;
+	Wed, 18 Aug 2021 10:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8345D6E50B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:57:11 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id dj8so2255701edb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 02:57:11 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 831EE6E50B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 10:04:10 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id g21so2272243edw.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 03:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=Rn4A30qTQOxkstQYw62Y3prioOpHXXbJvzGKouAI1jo=;
- b=HxuZ7amf0x5rDg8Pv2sDkTar7KFdTSrkayed1hQb/rSNUcLT73vKapTE8H9oodlrl+
- XrKtbghyhAs5x9vzvwVUrXrR09KztnaG2Yh4SVOy5u7XPIz8jTtUtcddn80S6gYaezG8
- v4/iegN2atmH28uNfVXvvavIu21o+9JE6gq04=
+ bh=aMU29SN6YoovEcOrsusWnZbE8h+1MpQpJA0/wZfLGeE=;
+ b=VuWlpnTGk6pLgRyLxLDnxv4NkP9nRhdxy0N90/5pUe8bPs6Uj9DlrqMj6WsvKlpXXI
+ 111QEnOZPfJS/mHK8sfTzq5rrN40iXdDm7HI7rmq/xmBL8FDwz+BFyPzr5yB3ovwv8zV
+ 0GGNgLYV0nqj01x2rcDXp61Hl2zl/sKi6V54I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=Rn4A30qTQOxkstQYw62Y3prioOpHXXbJvzGKouAI1jo=;
- b=tVAZaCCjSNM8VQSyw5ZzHhoJpz0CU6/e1DeGJaDrTa854XiEaffqhSElFcQjtsR+Mr
- 0Qkl2B9hdEMP7MYdTXlNqYMCALODkNR/ScrBh/DHwmPY4yfAsBSWaZggOUUdMsScH50t
- 0bZcvZjagHZNiA7yFCCKYrOB615jGjbLzFF1PLbbfKfhANzzB1pZju0IwNt4a2ff+b2h
- bqnyp2N31W/RLuTMbNkuwuevD7JtXY0YISiiqwLn0XaNZXEHypEIty62sVOWhn2CYvWG
- NEim80jDgr1VyQUFb8KXT8IUCYjXKIYiKVXWJCeQQIoGzclM1W/E9n7J12C6TM3dPUFw
- 8GnA==
-X-Gm-Message-State: AOAM533l1IdzCzm2zWE2vEmLofO13ERNZHmlpNtaHeA5E5nP36obxPCE
- 1s2F6Wux6cdrLNYXeqV0u6UWWA==
-X-Google-Smtp-Source: ABdhPJwYW1o49qUAQxejWY4Sn7eDQRTvw9cFiL03omJ6m7BCOJhQgKMgxhygSTQ/CZCejqpBO/2g4w==
-X-Received: by 2002:a05:6402:29a:: with SMTP id
- l26mr9269082edv.347.1629280629996; 
- Wed, 18 Aug 2021 02:57:09 -0700 (PDT)
+ bh=aMU29SN6YoovEcOrsusWnZbE8h+1MpQpJA0/wZfLGeE=;
+ b=Bf+kKadkFysoJtKWE7aDQ1sSN3J71ZmiCXeCRxGHW3gwhtkgIuaIrOKAgpaROsNUGi
+ zSJVlhGS7DLZ3t+tTxkaijRzJ7eioj0Az99sSujGxaJQVsSJpuSpk8mbjG1MnF8GQDhB
+ MABzXVaWMotcdUxdZBnAG7bvWaQ8jJPRKIoAtBMn0ivgk2eedRUu6qlOAz8fvfhwXrAl
+ KyPHDnZsOz+csMAdB7Tli0Mzu8zLi8M/xVIBVVQprANg2dWQDVs/1Ktk/0RrSy9ws75M
+ IF6RrZ7P8LLPyLPmMvrdeMF13vkcVslS+snEo1vjCKwwMlRqTu8bGRW6vwkXp6XrtYIk
+ jG+A==
+X-Gm-Message-State: AOAM531TY0gmj9cPVWfxOC3c7dUjj/nNS7+dRLCt7yIU0vbjUOSHEPKB
+ HJIB+9lc+3m/OtekfqHkd03KdA==
+X-Google-Smtp-Source: ABdhPJzQXPwY+sWxgn3k6s9LT4/gWaw0MMn3Os6faeWcHmmeyRNaM7zRWGLx0tEfvU1T3JleVgbcdA==
+X-Received: by 2002:a05:6402:14d9:: with SMTP id
+ f25mr9279034edx.343.1629281048926; 
+ Wed, 18 Aug 2021 03:04:08 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q21sm1789736eji.59.2021.08.18.02.57.09
+ by smtp.gmail.com with ESMTPSA id d16sm2384140edu.8.2021.08.18.03.04.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 02:57:09 -0700 (PDT)
-Date: Wed, 18 Aug 2021 11:57:07 +0200
+ Wed, 18 Aug 2021 03:04:08 -0700 (PDT)
+Date: Wed, 18 Aug 2021 12:04:06 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Kees Cook <keescook@chromium.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Jason Ekstrand <jason@jlekstrand.net>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] drm/i915: Use designated initializers for init/exit table
-Message-ID: <YRzZcwR0O9Fv8asJ@phenom.ffwll.local>
-Mail-Followup-To: Kees Cook <keescook@chromium.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Jason Ekstrand <jason@jlekstrand.net>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20210817233357.2379455-1-keescook@chromium.org>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, axboe@kernel.dk,
+ oleg@redhat.com, tglx@linutronix.de, dvyukov@google.com,
+ walter-zh.wu@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v3 3/9] drm: check for null master in
+ drm_is_current_master_locked
+Message-ID: <YRzbFnkricE65Hn5@phenom.ffwll.local>
+Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
+ tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+ gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
+ <20210818073824.1560124-4-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210817233357.2379455-1-keescook@chromium.org>
+In-Reply-To: <20210818073824.1560124-4-desmondcheongzx@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,81 +91,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 04:33:57PM -0700, Kees Cook wrote:
-> The kernel builds with -Werror=designated-init, and __designated_init
-> is used by CONFIG_GCC_PLUGIN_RANDSTRUCT for automatically selected (all
-> function pointer) structures. Include the field names in the init/exit
-> table. Avoids warnings like:
+On Wed, Aug 18, 2021 at 03:38:18PM +0800, Desmond Cheong Zhi Xi wrote:
+> There is a window after calling drm_master_release, and before a file
+> is freed, where drm_file can have is_master set to true, but both the
+> drm_file and drm_device have no master.
 > 
-> drivers/gpu/drm/i915/i915_module.c:59:4: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+> This could result in wrongly approving permissions in
+> drm_is_current_master_locked. Add a check that fpriv->master is
+> non-NULl to guard against this scenario.
 > 
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Fixes: a04ea6ae7c67 ("drm/i915: Use a table for i915_init/exit (v2)")
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 
-Applied to drm-intel-gt-next, should show up in linux-next/next merge
-window eventually (that branch isn't in linux-next for reasons).
+This should be impossible, drm_master_release is only called when the
+struct file is released, which means all ioctls and anything else have
+finished (they hold a temporary reference).
+
+fpriv->master can change (if the drm_file becomes newly minted master and
+wasnt one before through the setmaster ioctl), but it cannot become NULL
+before it's completely gone from the system.
 -Daniel
 
+
 > ---
->  drivers/gpu/drm/i915/i915_module.c | 37 +++++++++++++++++++-----------
->  1 file changed, 24 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/drm_auth.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_module.c b/drivers/gpu/drm/i915/i915_module.c
-> index c578ea8f56a0..d8b4482c69d0 100644
-> --- a/drivers/gpu/drm/i915/i915_module.c
-> +++ b/drivers/gpu/drm/i915/i915_module.c
-> @@ -47,19 +47,30 @@ static const struct {
->     int (*init)(void);
->     void (*exit)(void);
->  } init_funcs[] = {
-> -	{ i915_check_nomodeset, NULL },
-> -	{ i915_active_module_init, i915_active_module_exit },
-> -	{ i915_buddy_module_init, i915_buddy_module_exit },
-> -	{ i915_context_module_init, i915_context_module_exit },
-> -	{ i915_gem_context_module_init, i915_gem_context_module_exit },
-> -	{ i915_objects_module_init, i915_objects_module_exit },
-> -	{ i915_request_module_init, i915_request_module_exit },
-> -	{ i915_scheduler_module_init, i915_scheduler_module_exit },
-> -	{ i915_vma_module_init, i915_vma_module_exit },
-> -	{ i915_mock_selftests, NULL },
-> -	{ i915_pmu_init, i915_pmu_exit },
-> -	{ i915_register_pci_driver, i915_unregister_pci_driver },
-> -	{ i915_perf_sysctl_register, i915_perf_sysctl_unregister },
-> +	{ .init = i915_check_nomodeset },
-> +	{ .init = i915_active_module_init,
-> +	  .exit = i915_active_module_exit },
-> +	{ .init = i915_buddy_module_init,
-> +	  .exit = i915_buddy_module_exit },
-> +	{ .init = i915_context_module_init,
-> +	  .exit = i915_context_module_exit },
-> +	{ .init = i915_gem_context_module_init,
-> +	  .exit = i915_gem_context_module_exit },
-> +	{ .init = i915_objects_module_init,
-> +	  .exit = i915_objects_module_exit },
-> +	{ .init = i915_request_module_init,
-> +	  .exit = i915_request_module_exit },
-> +	{ .init = i915_scheduler_module_init,
-> +	  .exit = i915_scheduler_module_exit },
-> +	{ .init = i915_vma_module_init,
-> +	  .exit = i915_vma_module_exit },
-> +	{ .init = i915_mock_selftests },
-> +	{ .init = i915_pmu_init,
-> +	  .exit = i915_pmu_exit },
-> +	{ .init = i915_register_pci_driver,
-> +	  .exit = i915_unregister_pci_driver },
-> +	{ .init = i915_perf_sysctl_register,
-> +	  .exit = i915_perf_sysctl_unregister },
->  };
->  static int init_progress;
+> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> index 8c0e0dba1611..f9267b21556e 100644
+> --- a/drivers/gpu/drm/drm_auth.c
+> +++ b/drivers/gpu/drm/drm_auth.c
+> @@ -66,7 +66,8 @@ static bool drm_is_current_master_locked(struct drm_file *fpriv)
+>  	lockdep_assert_once(lockdep_is_held(&fpriv->minor->dev->master_lookup_lock) ||
+>  			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
 >  
+> -	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+> +	return (fpriv->is_master && fpriv->master &&
+> +		drm_lease_owner(fpriv->master) == fpriv->minor->dev->master);
+>  }
+>  
+>  /**
 > -- 
-> 2.30.2
+> 2.25.1
 > 
 
 -- 
