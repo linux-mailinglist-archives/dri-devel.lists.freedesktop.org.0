@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD573F0769
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD893F0773
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED166E7EA;
-	Wed, 18 Aug 2021 15:05:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12B0A6E83C;
+	Wed, 18 Aug 2021 15:05:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD416E83C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:05:15 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id y34so5282290lfa.8
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:05:15 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6006E83C
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:05:25 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id c12so5694028ljr.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:05:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EQRno5vnhRrA4KOIe4lh21xpnTcUCE7c8mZkK4K3e/s=;
- b=bctcyrsCVgDi+5GWndAxItidHxjnjBsVRd2v4YKwpkUHVQsHKnjigYdInqM2sgY1jW
- LU4Jh4S1KHwJCYIkKwBJjhzwLsETLbQkJYV1xEK2qpiOA9qIvjGJ85a1PWeULSrkn7ia
- r4YL+HceQmir1Ln3MEYBETrNrkGE0PBwh8aiSMQBVsqOxRDV4MqEJVC2Fc1LaStgvxPt
- W3s2UizOnemCr1DOdNPZ7ESGcn979rYje4A7UuCWFTbZSEZZ9derc8SEFxG1dwb3evmY
- p5hMm0n+7AZq9124uwrFB026HSrZdidoIm/IsypAkwON8b5y75L7iYAKeoihIJ13XqMQ
- VQXw==
+ bh=aGlCEyRQuTJeUoFwcMyBmvkG6HpGwGhkMF7tidyqkMk=;
+ b=M87kjRAMcB8Ej6Q47lM0GYR3alWgY77tCbHd5VPt6/26s7KfdIel+RPo8tLBJ6OQC2
+ kr0n4etJEbLpDf9MoZDAFN0QTsHd+9gPEMCmWM5ksKOEgb0AKvQNx3IO3PGUQ/dcG7JN
+ O4q2B857vNsGgJAGFJfaf6qa2P3p02g7vMkro/0jkPEf80W+ZLE1qQc8dd9G7bfj3v+G
+ QFGCPxYHx/jnAv8b2MO3kLO+ZhZTQeVsJrlw097wwbOioFBgVb4eF6Y3P5jrwoLdljs1
+ UUf2sDSOV8KkpdFpAiT6PQOqUxxHhBCgd+5wUmfl+PSKIJaF6Ar2cNQGwh8AeZy87Vkj
+ 1qkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EQRno5vnhRrA4KOIe4lh21xpnTcUCE7c8mZkK4K3e/s=;
- b=QwTuga2CkPli0QFC7yob1G+q0J78DxWPCPA2AGPsdNvG/IAN64SG3VuFGR9M0ax4k2
- Ze+/KBEHmAs9d68Tz+KaGsQmR4l/vz2C7PJdSiWw2gx8eiigFAouxMz+SOXE680Ebdgp
- OeHhR10RP4zjF3q2NSnb7WELNrML1xfe+y6iy/1A3YAlDOSOBkSFPm4KfbDD4YbIYuh7
- vqhm8mYfaya62b4FV+tT8mburRDivTpp04IAvg15sLcuXfp77u0hXbWmgmHtWfBouYwN
- EJgDOiVfWqPrKd4LKZhIrLFppH1PiDKB+dX0yUnKF2LzCQxNw+qdBgufVOW/meUi5bCn
- jrKA==
-X-Gm-Message-State: AOAM531r0hSDUQpKZnW3jHDTc67UB3o8/hSjV0MnMXxS3V8ToQuGlfjt
- yq3JWUAVCwLSIFo9xj8/Gz0=
-X-Google-Smtp-Source: ABdhPJyr5YxrN+b1RGtkQEvSYdwTBm71o8Ulw3lRJisRIIBg/FeSpE62xIZBaNIXj4QafSUTN0OIhA==
-X-Received: by 2002:a19:430a:: with SMTP id q10mr6797932lfa.378.1629299113790; 
- Wed, 18 Aug 2021 08:05:13 -0700 (PDT)
+ bh=aGlCEyRQuTJeUoFwcMyBmvkG6HpGwGhkMF7tidyqkMk=;
+ b=OOZjkQTsBvu7HaPo5Z+YzqrQd8SiqGE4zBHqsUwrgokMyO3+JTqFt2xKAA1PnZOOKx
+ 4tl0JUzlg+LOJHGHco1UKdYTKuBlFOSLuUvJoceXTqi1d0+K0EsNxeOoMoTSbyd4BCg+
+ lnb+0wUQFLCZz14weUHF/igpRUmbhUHoyzEdyUxOCsIqdtR6dgdt3t+QfEHMx7FN4NEV
+ 0kM0lYIFlg1UFQEfMYUg/CXokJnDwQj4AkyhT1tQgClNVIPc8WOZ4pp7h8xVSZBUquoZ
+ CJLKNQNdM1W4Ne72wLU2dnp06zc0VQ0JlgFSTXO7nek9NrZlnx+Gjs9mEFtNTgl1KTW+
+ yuyQ==
+X-Gm-Message-State: AOAM530aPSwF/t2QHuzMe72KgfzGcJeBJPBElUSTyOjQdzTDJzuN/2jq
+ zyo9wnCNsr06MAqVwVfXzUM=
+X-Google-Smtp-Source: ABdhPJzgPx8keOi8/DQzO3f7iOHun/vyL+e/2XSDlGREgL/XxAZF1WVrIsIMO5qrsaQBfPOBnrljWQ==
+X-Received: by 2002:a2e:87d0:: with SMTP id v16mr8420209ljj.30.1629299123582; 
+ Wed, 18 Aug 2021 08:05:23 -0700 (PDT)
 Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru.
  [46.138.85.91])
- by smtp.googlemail.com with ESMTPSA id bn16sm12055ljb.74.2021.08.18.08.05.12
+ by smtp.googlemail.com with ESMTPSA id h22sm11140ljk.133.2021.08.18.08.05.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 08:05:12 -0700 (PDT)
-Subject: Re: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new
- tegra-clocks sub-node
+ Wed, 18 Aug 2021 08:05:23 -0700 (PDT)
+Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
 To: Thierry Reding <thierry.reding@gmail.com>
 Cc: Jonathan Hunter <jonathanh@nvidia.com>,
  Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
@@ -71,14 +70,14 @@ Cc: Jonathan Hunter <jonathanh@nvidia.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-7-digetx@gmail.com> <YR0SSz7KMh7TwaFW@orome.fritz.box>
+ <20210817012754.8710-8-digetx@gmail.com> <YR0UBi/ejy+oF4Hm@orome.fritz.box>
 From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <eff5ef47-e6e0-3e03-cf1a-d931b0f2dc2a@gmail.com>
-Date: Wed, 18 Aug 2021 18:05:11 +0300
+Message-ID: <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
+Date: Wed, 18 Aug 2021 18:05:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YR0SSz7KMh7TwaFW@orome.fritz.box>
+In-Reply-To: <YR0UBi/ejy+oF4Hm@orome.fritz.box>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -97,122 +96,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-18.08.2021 16:59, Thierry Reding пишет:
-> On Tue, Aug 17, 2021 at 04:27:26AM +0300, Dmitry Osipenko wrote:
->> Document tegra-clocks sub-node which describes Tegra SoC clocks that
->> require a higher voltage of the core power domain in order to operate
->> properly on a higher clock rates.  Each node contains a phandle to OPP
->> table and power domain.
->>
->> The root PLLs and system clocks don't have any specific device dedicated
->> to them, clock controller is in charge of managing power for them.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  .../bindings/clock/nvidia,tegra20-car.yaml    | 51 +++++++++++++++++++
->>  1 file changed, 51 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
->> index 459d2a525393..7f5cd27e4ce0 100644
->> --- a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
->> +++ b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
->> @@ -42,6 +42,48 @@ properties:
->>    "#reset-cells":
->>      const: 1
->>  
->> +  tegra-clocks:
->> +    description: child nodes are the output clocks from the CAR
->> +    type: object
+18.08.2021 17:07, Thierry Reding пишет:
+> On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
+> [...]
+>> +struct clk *tegra_clk_register(struct clk_hw *hw)
+>> +{
+>> +	struct platform_device *pdev;
+>> +	struct device *dev = NULL;
+>> +	struct device_node *np;
+>> +	const char *dev_name;
 >> +
->> +    patternProperties:
->> +      "^[a-z]+[0-9]+$":
->> +        type: object
->> +        properties:
->> +          compatible:
->> +            allOf:
->> +              - items:
->> +                  - enum:
->> +                      - nvidia,tegra20-sclk
->> +                      - nvidia,tegra30-sclk
->> +                      - nvidia,tegra30-pllc
->> +                      - nvidia,tegra30-plle
->> +                      - nvidia,tegra30-pllm
->> +              - const: nvidia,tegra-clock
+>> +	np = tegra_clk_get_of_node(hw);
 >> +
->> +          operating-points-v2:
->> +            $ref: /schemas/types.yaml#/definitions/phandle
->> +            description:
->> +              Phandle to OPP table that contains frequencies, voltages and
->> +              opp-supported-hw property, which is a bitfield indicating
->> +              SoC process or speedo ID mask.
+>> +	if (!of_device_is_available(np))
+>> +		goto put_node;
 >> +
->> +          clocks:
->> +            items:
->> +              - description: node's clock
+>> +	dev_name = kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
+>> +	if (!dev_name)
+>> +		goto put_node;
 >> +
->> +          power-domains:
->> +            maxItems: 1
->> +            description: phandle to the core SoC power domain
+>> +	pdev = of_platform_device_create(np, dev_name, NULL);
+>> +	if (!pdev) {
+>> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
+>> +		kfree(dev_name);
+>> +		goto put_node;
+>> +	}
 >> +
->> +        required:
->> +          - compatible
->> +          - operating-points-v2
->> +          - clocks
->> +          - power-domains
+>> +	dev = &pdev->dev;
+>> +	pm_runtime_enable(dev);
+>> +put_node:
+>> +	of_node_put(np);
 >> +
->> +        additionalProperties: false
->> +
->>  required:
->>    - compatible
->>    - reg
->> @@ -59,6 +101,15 @@ examples:
->>          reg = <0x60006000 0x1000>;
->>          #clock-cells = <1>;
->>          #reset-cells = <1>;
->> +
->> +        tegra-clocks {
->> +            sclk {
->> +                compatible = "nvidia,tegra20-sclk", "nvidia,tegra-clock";
->> +                operating-points-v2 = <&opp_table>;
->> +                clocks = <&tegra_car TEGRA20_CLK_SCLK>;
->> +                power-domains = <&domain>;
->> +            };
->> +        };
+>> +	return clk_register(dev, hw);
+>> +}
 > 
-> I wonder if it'd be better to match on the name of the node rather than
-> add an artificial compatible string. We usually use the compatible
-> string to match a device, but here you're really trying to add
-> information about a resource provided by the CAR controller.
-> 
-> We do similar things for example in PMIC bindings where the individual
-> regulators are represented in the device tree via nodes named after the
-> regulator.
-> 
-> You could then also leave out the clocks property, which is weird as it
-> is because it's basically a self-reference. But you don't really need
-> the reference here in the first place because the CAR is already the
-> parent of SCLK.
+> This looks wrong. Why do we need struct platform_device objects for each
+> of these clocks? That's going to be a massive amount of platform devices
+> and they will completely mess up sysfs.
 
-We don't have a platform device for CaR. I don't see how it's going to
-work. We need to create a platform device for each RPM-capable clock
-because that's how RPM works. The compatible string is required for
-instantiating OF-devices from a node, otherwise we will have to
-re-invent the OF core.
-
-> Also, I don't think the tegra- prefix is necessary here. The parent node
-> is already identified as Tegra via the compatible string.
-> 
-> In the case of CAR, I'd imagine something like:
-> 
-> 	clocks {
-> 		sclk {
-> 			operating-points-v2 = <&opp_table>;
-> 			power-domains = <&domain>;
-> 		};
-> 	};
-> 
-> Now you've only got the bare minimum in here that you actually add. All
-> the other data that you used to have is simply derived from the parent.
-
-'clocks' is already a generic keyword in DT. It's probably not okay to
-redefine it.
+RPM works with a device. It's not a massive amount of devices, it's one
+device for T20 and four devices for T30.
