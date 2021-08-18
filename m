@@ -1,53 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEDF3F0A0E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 19:15:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 230293F0A15
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 19:16:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7176E87F;
-	Wed, 18 Aug 2021 17:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81FD6E520;
+	Wed, 18 Aug 2021 17:16:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-1.canonical.com
- (smtp-relay-canonical-1.canonical.com [185.125.188.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6D06E878;
- Wed, 18 Aug 2021 17:15:13 +0000 (UTC)
-Received: from localhost.localdomain (1-171-94-217.dynamic-ip.hinet.net
- [1.171.94.217])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 6944F412AE; 
- Wed, 18 Aug 2021 17:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1629306911;
- bh=iRuFjsARmqnJPsilk5plyw8IeGSZnpqAZVyvL098pEk=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
- b=jiYdyVSPQAebYzKXrA/NqUaZV1sUHDSbxQGXsxlfqNO9uybD9g3qxSuiW4cTMDysl
- xs/D5ia+LiIEXLnylbYYb9t/9fIojFas9I71n1ft78fbbcW2XxDq/QEJJLLYqhfoYB
- eXMGKrszNZ72RxBPVW5fMSqLfL9Y3f6Db4hPZY3BBglf36Br2ixp+GZ2jmzK0+37re
- slS1T5UeyBbbWsRwwa8B9eznbAbC40JXbyK8if+fz4AyR19c2LpYUuH43x+D4epSez
- Cl3I78opnMUdRdbw9XAE70VDbF98JnCs5bkZ1z8JU+9mEl6H/emeyPAc8FViLf1TEw
- 77AxTaNLGTBPA==
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Imre Deak <imre.deak@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Sean Paul <seanpaul@chromium.org>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/i915/dp: Use max params for panels < eDP 1.4
-Date: Thu, 19 Aug 2021 01:14:55 +0800
-Message-Id: <20210818171457.536107-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 228EC6E520
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 17:16:52 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id x27so6155559lfu.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 10:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vgNL/YukxMg7bm55oBtvyONH8Uy1dCmXD+rKl0KJZ+4=;
+ b=aWNGgcB8z2InDXr6LAdvdaoW2x8CYeUuWHd3AgCWJbOwgyDZbX1SSdtkZCd9LRZU1v
+ IfB7jsJ5WNoNiPAd71m4tqa31eFIV1XWJVkfosfkA2c8iOpOAgHnxOP+Umk6tnLPaeuD
+ zFTYiqQcf3UIWIFj2bsQWT3aHs/7ok0x1oWwrXbsCuJZ6+Dey8Y6WST/bdI/u6vAMVWp
+ htf6YIaZFo8BnuwLljU/vOB2BDRZawuqyS/nEBvAZbttcyYj5o5xKI9Dqb+FfMPcy4Q4
+ olMMp0EmD83m0Qh7UjqjOn1UF1IMJlXK3kbyDPrL8jwSvvrERW8PV9J+29gQn2e5QIgO
+ hO2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vgNL/YukxMg7bm55oBtvyONH8Uy1dCmXD+rKl0KJZ+4=;
+ b=PWXBeY07q4v8VhyWSJyCahQmrXw6QBQZGz5d7ETuY8H9ZNzqDynhX4vLYkJ4sDYPpH
+ VKN1+BCBiAT3NAN/RtKys7EevJboxfRvGxlHsouqhl8qs+L4nYCzH6zIGZjoKl1tyNCl
+ AGLhxj2+QlzqOxEhrHKWJ+L4LPJu7JEcYhrcQ355roptb/Qc8pt0OONomw5e4nRJGbkU
+ UgplXvYt8B9u6lnYcRNbO/n9TUfRNHt46NHzX+R4PyD3ikUEMArk5OGthcX2rzz0QNzv
+ SGoumkZik3/+P/iz8mB6+UdQkIwNpcjcQj0N07DxSoCzJpnQB8nJxCCvVWCBORVUjRiG
+ YVjg==
+X-Gm-Message-State: AOAM530X1D7s6zqiUzeksQ3zhSOwe9vVoo0UNqVVSjw55AxmI+lB2hRN
+ V4tdlqPpQH985vdDU5gqbH8=
+X-Google-Smtp-Source: ABdhPJwSW+uafqBwt0YKcEZ0LBXy3yeuH6y6xXlHWB8hnmrEnK92Pi4r+On9LLiAT6Vq9yxNJiR3Yg==
+X-Received: by 2002:ac2:5105:: with SMTP id q5mr305235lfb.102.1629307010475;
+ Wed, 18 Aug 2021 10:16:50 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru.
+ [46.138.85.91])
+ by smtp.googlemail.com with ESMTPSA id d7sm46016ljq.112.2021.08.18.10.16.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 10:16:49 -0700 (PDT)
+Subject: Re: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new
+ tegra-clocks sub-node
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-7-digetx@gmail.com> <YR0SSz7KMh7TwaFW@orome.fritz.box>
+ <eff5ef47-e6e0-3e03-cf1a-d931b0f2dc2a@gmail.com>
+ <YR033zuYWWLCeYpM@orome.fritz.box>
+ <a5b942cb-1611-9ae1-6e89-4b68fdaf03e3@gmail.com>
+Message-ID: <a0222ddc-e83f-98d9-c9f1-8edb0ee47c03@gmail.com>
+Date: Wed, 18 Aug 2021 20:16:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <a5b942cb-1611-9ae1-6e89-4b68fdaf03e3@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,55 +99,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Users reported that after commit 2bbd6dba84d4 ("drm/i915: Try to use
-fast+narrow link on eDP again and fall back to the old max strategy on
-failure"), the screen starts to have wobbly effect.
+18.08.2021 19:57, Dmitry Osipenko пишет:
+>>>> Also, I don't think the tegra- prefix is necessary here. The parent node
+>>>> is already identified as Tegra via the compatible string.
+>>>>
+>>>> In the case of CAR, I'd imagine something like:
+>>>>
+>>>> 	clocks {
+>>>> 		sclk {
+>>>> 			operating-points-v2 = <&opp_table>;
+>>>> 			power-domains = <&domain>;
+>>>> 		};
+>>>> 	};
+>>>>
+>>>> Now you've only got the bare minimum in here that you actually add. All
+>>>> the other data that you used to have is simply derived from the parent.
+>>> 'clocks' is already a generic keyword in DT. It's probably not okay to
+>>> redefine it.
+>> "clocks" is not a generic keyword. It's the name of a property and given
+>> that we're talking about the clock provider here, it doesn't need a
+>> clocks property of its own, so it should be fine to use that for the
+>> node.
+> I'm curious what Rob thinks about it. Rob, does this sound okay to you?
 
-Commit a5c936add6a2 ("drm/i915/dp: Use slow and wide link training for
-everything") doesn't help either, that means the affected eDP 1.2 panels
-only work with max params.
-
-So use max params for panels < eDP 1.4 as Windows does to solve the
-issue.
-
-v2:
- - Check eDP 1.4 instead of DPCD 1.1 to apply max params
-
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3714
-Fixes: 2bbd6dba84d4 ("drm/i915: Try to use fast+narrow link on eDP again and fall back to the old max strategy on failure")
-Fixes: a5c936add6a2 ("drm/i915/dp: Use slow and wide link training for everything")
-Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 75d4ebc669411..f87fad78f1a9f 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -1330,14 +1330,16 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
- 	limits.min_bpp = intel_dp_min_bpp(pipe_config->output_format);
- 	limits.max_bpp = intel_dp_max_bpp(intel_dp, pipe_config);
- 
--	if (intel_dp->use_max_params) {
-+	if (intel_dp->use_max_params ||
-+	    intel_dp->edp_dpcd[0] < DP_EDP_14) {
- 		/*
- 		 * Use the maximum clock and number of lanes the eDP panel
- 		 * advertizes being capable of in case the initial fast
--		 * optimal params failed us. The panels are generally
--		 * designed to support only a single clock and lane
--		 * configuration, and typically on older panels these
--		 * values correspond to the native resolution of the panel.
-+		 * optimal params failed us or the EDP rev is earlier than 1.4.
-+		 * The panels are generally designed to support only a single
-+		 * clock and lane configuration, and typically on older panels
-+		 * these values correspond to the native resolution of the
-+		 * panel.
- 		 */
- 		limits.min_lane_count = limits.max_lane_count;
- 		limits.min_clock = limits.max_clock;
--- 
-2.32.0
-
+I assume dt-schema won't be happy with a different meaning for the 'clocks'.
