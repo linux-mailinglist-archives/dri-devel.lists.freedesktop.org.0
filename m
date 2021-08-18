@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFA63F0E87
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 01:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE263F0EE8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 01:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67AAB6E8C3;
-	Wed, 18 Aug 2021 23:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2DB86E917;
+	Wed, 18 Aug 2021 23:59:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA326E8C3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 23:06:41 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id y23so3957691pgi.7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 16:06:41 -0700 (PDT)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92C226E988
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 23:59:23 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id bo18so3835299pjb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 16:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=6LXlTnktuLXOSEatHkAd9iidtx/DlqNXw6t+P+U3BQc=;
- b=QDNt5PHgo+7rFQ5/N15pMYx2nigmnDuCuJ+bOuvXfS72zqVl8vZRlj8bX+wFTjLeE1
- +cWdQw4DYXF54Bu3mpVNecT17rymK4/4HID0NO8YPAsOH71eiDyu8sN6XAFVcXLqPAMH
- GiSiCnGqiMI57DyQ0LAdNhljzGxXXxsfxTLco=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=ihRSUosZ1n/QH58LU5drX97jQNk+oYE3vHV9UEG8bhY=;
+ b=ll0X1F/1yJb+64r0U9YpjrHHbzyCyA3JdVLIsZBGSDD5G8By6g0Da0FvU5ma5PfPOz
+ QC4sz18rY2gpOQxJm5PmQyk9q0bDlmToRffwWKkDWOoZx6TCSYGWys/Yplpd7VScrov4
+ Ino9fR/0iet8k+NaPzK7xaA5zNSBEEQ3I0jbc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6LXlTnktuLXOSEatHkAd9iidtx/DlqNXw6t+P+U3BQc=;
- b=hZwKCgDY0uzJJl3O/dk1UDsu0px1j1+GLzqLrcpL+u+wQDyWihrJXKay8aRUMeP9/l
- Ci0yZn1Je2IQKR3vkJCsiOHkNs5GnccZOe8RDYU3Q7HB98xJ4vEDZreGQ1WGSl4AiRR4
- IAp/BATeebtvg+L0HchykpcDjt8JkbdTuKrrJb5b4r905m6B559CweKuXy98jNubJqPi
- DNNw+oOYHh9/bj94ym/BitKPeeHbjAM5iV6q0jMH4pe8JLNoY+kII6ARJ6Q+sjiYYF0g
- OorvqhDyhrbXGO2+9oDqEQw7o19wAbLDYyD6KRg6qvsC6GAxY9E4WAa5esjCoUpWc35O
- XY+g==
-X-Gm-Message-State: AOAM5337i4SF+naIXxbN4gKPBZNcWNjhHr5XxzmN/1J+5U/ldYndNZI7
- JN1qogAwomMRDQQhe0lxU+iBpw==
-X-Google-Smtp-Source: ABdhPJyUYId4jZehTEC5dWKrbyuUEowd9b0WCT527H1rHej12/Bkc/D16VHqxCGKKKhtIhB0IMVa/w==
-X-Received: by 2002:aa7:8242:0:b0:3e2:97eb:d6e8 with SMTP id
- e2-20020aa78242000000b003e297ebd6e8mr9677080pfn.66.1629328001407; 
- Wed, 18 Aug 2021 16:06:41 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ihRSUosZ1n/QH58LU5drX97jQNk+oYE3vHV9UEG8bhY=;
+ b=I7d1BTtOLmXwuaaGxo/qYC7NtuzyxaPMvvJdin91N94MZ25MvLovsX4eg0NQhNK12c
+ sFwubTlsUnG0E+u+u0QHAOvl+Zxo2t7bkHYcOY6FxEG5FT3hMBJis90i07DvQd25Idbt
+ kw7EEYFz8rmvGWkgjOzwjqKZZ0lq9AW78p3RE2GcnFIotPrRvjpM9YiWoTmH5Psy47Cf
+ wODILoneBfEAu+sRTROMDBiAVFn414/Wf3Cf5xjwCYE45GOEaKnbqIOJy3Cn4pzZn2e2
+ FR74BcBAYVUIrcskx67u9xoV4r9S7jfIiYXhGYbxDaO7KoWxKUghRL6toaETVDc+OMpE
+ 4//w==
+X-Gm-Message-State: AOAM533vF9AQSu5RnH85mjfIg23wwJCwoEuabeHmoUAKD+ccVaLijcRC
+ fAYpYV0V1PoGpUnHHnNjgU6n0A==
+X-Google-Smtp-Source: ABdhPJyqLAVutuhaUvZwqCN9mzT6ajj2JdJOPLObLJIeTaHnjuorpiaj1FYbc1rllZLoCI06EyvNXg==
+X-Received: by 2002:a17:90a:c006:: with SMTP id
+ p6mr11982780pjt.144.1629331163071; 
+ Wed, 18 Aug 2021 16:59:23 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id 143sm916287pfz.13.2021.08.18.16.06.40
+ by smtp.gmail.com with ESMTPSA id q4sm834430pjd.52.2021.08.18.16.59.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 16:06:40 -0700 (PDT)
-Date: Wed, 18 Aug 2021 16:06:39 -0700
+ Wed, 18 Aug 2021 16:59:22 -0700 (PDT)
+Date: Wed, 18 Aug 2021 16:59:21 -0700
 From: Kees Cook <keescook@chromium.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+To: "Lazar, Lijo" <lijo.lazar@amd.com>
+Cc: linux-kernel@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Feifei Xu <Feifei.Xu@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ Jiawei Gu <Jiawei.Gu@amd.com>, Evan Quan <evan.quan@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com,
+ linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 53/63] KVM: x86: Use struct_group() to zero decode cache
-Message-ID: <202108181605.44C504C@keescook>
+Subject: Re: [PATCH v2 18/63] drm/amd/pm: Use struct_group() for memcpy()
+ region
+Message-ID: <202108181619.B603481527@keescook>
 References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-54-keescook@chromium.org>
- <YR0jIEzEcUom/7rd@google.com> <202108180922.6C9E385A1@keescook>
- <YR2PhlO3njPcFOkg@google.com>
+ <20210818060533.3569517-19-keescook@chromium.org>
+ <753ef2d1-0f7e-c930-c095-ed86e1518395@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YR2PhlO3njPcFOkg@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <753ef2d1-0f7e-c930-c095-ed86e1518395@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,44 +89,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 18, 2021 at 10:53:58PM +0000, Sean Christopherson wrote:
-> On Wed, Aug 18, 2021, Kees Cook wrote:
-> > On Wed, Aug 18, 2021 at 03:11:28PM +0000, Sean Christopherson wrote:
-> > > From dbdca1f4cd01fee418c252e54c360d518b2b1ad6 Mon Sep 17 00:00:00 2001
-> > > From: Sean Christopherson <seanjc@google.com>
-> > > Date: Wed, 18 Aug 2021 08:03:08 -0700
-> > > Subject: [PATCH] KVM: x86: Replace memset() "optimization" with normal
-> > >  per-field writes
-> > > 
-> > > Explicitly zero select fields in the emulator's decode cache instead of
-> > > zeroing the fields via a gross memset() that spans six fields.  gcc and
-> > > clang are both clever enough to batch the first five fields into a single
-> > > quadword MOV, i.e. memset() and individually zeroing generate identical
-> > > code.
-> > > 
-> > > Removing the wart also prepares KVM for FORTIFY_SOURCE performing
-> > > compile-time and run-time field bounds checking for memset().
-> > > 
-> > > No functional change intended.
-> > > 
-> > > Reported-by: Kees Cook <keescook@chromium.org>
-> > > Signed-off-by: Sean Christopherson <seanjc@google.com>
-> > 
-> > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > 
-> > Do you want me to take this patch into my tree, or do you want to carry
-> > it for KVM directly?
+On Wed, Aug 18, 2021 at 05:12:28PM +0530, Lazar, Lijo wrote:
 > 
-> That's a Paolo question :-)
+> On 8/18/2021 11:34 AM, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > intentionally writing across neighboring fields.
+> > 
+> > Use struct_group() in structs:
+> > 	struct atom_smc_dpm_info_v4_5
+> > 	struct atom_smc_dpm_info_v4_6
+> > 	struct atom_smc_dpm_info_v4_7
+> > 	struct atom_smc_dpm_info_v4_10
+> > 	PPTable_t
+> > so the grouped members can be referenced together. This will allow
+> > memcpy() and sizeof() to more easily reason about sizes, improve
+> > readability, and avoid future warnings about writing beyond the end of
+> > the first member.
+> > 
+> > "pahole" shows no size nor member offset changes to any structs.
+> > "objdump -d" shows no object code changes.
+> > 
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+> > Cc: Feifei Xu <Feifei.Xu@amd.com>
+> > Cc: Lijo Lazar <lijo.lazar@amd.com>
+> > Cc: Likun Gao <Likun.Gao@amd.com>
+> > Cc: Jiawei Gu <Jiawei.Gu@amd.com>
+> > Cc: Evan Quan <evan.quan@amd.com>
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> > Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2FCADnq5_Npb8uYvd%2BR4UHgf-w8-cQj3JoODjviJR_Y9w9wqJ71mQ%40mail.gmail.com&amp;data=04%7C01%7Clijo.lazar%40amd.com%7C92b8d2f072f0444b9f8508d9620f6971%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637648640625729624%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=rKh5LUXCRUsorYM3kSpG2tkB%2Fczwl9I9EBnWBCtbg6Q%3D&amp;reserved=0
+> > ---
+> >   drivers/gpu/drm/amd/include/atomfirmware.h           |  9 ++++++++-
+> >   .../gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h    |  3 ++-
+> >   drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h  |  3 ++-
+> >   .../gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h   |  3 ++-
 > 
-> What's the expected timeframe for landing stricter bounds checking?  If it's
-> 5.16 or later, the easiest thing would be to squeak this into 5.15.
+> Hi Kees,
 
-I'm hoping to land all the "compile time" stuff for 5.15, but
-realistically, some portions may not get there. I'll just carry this
-patch for now and if we need to swap trees we can do that. :)
+Hi! Thanks for looking into this.
 
-Thanks!
+> The headers which define these structs are firmware/VBIOS interfaces and are
+> picked directly from those components. There are difficulties in grouping
+> them to structs at the original source as that involves other component
+> changes.
+
+So, can you help me understand this a bit more? It sounds like these are
+generated headers, yes? I'd like to understand your constraints and
+weight them against various benefits that could be achieved here.
+
+The groupings I made do appear to be roughly documented already,
+for example:
+
+   struct   atom_common_table_header  table_header;
+     // SECTION: BOARD PARAMETERS
++  struct_group(dpm_info,
+
+Something emitted the "BOARD PARAMETERS" section heading as a comment,
+so it likely also would know where it ends, yes? The good news here is
+that for the dpm_info groups, they all end at the end of the existing
+structs, see:
+	struct atom_smc_dpm_info_v4_5
+	struct atom_smc_dpm_info_v4_6
+	struct atom_smc_dpm_info_v4_7
+	struct atom_smc_dpm_info_v4_10
+
+The matching regions in the PPTable_t structs are similarly marked with a
+"BOARD PARAMETERS" section heading comment:
+
+--- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
++++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
+@@ -643,6 +643,7 @@ typedef struct {
+   // SECTION: BOARD PARAMETERS
+ 
+   // SVI2 Board Parameters
++  struct_group(v4_6,
+   uint16_t     MaxVoltageStepGfx; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
+   uint16_t     MaxVoltageStepSoc; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
+ 
+@@ -728,10 +729,10 @@ typedef struct {
+   uint32_t     BoardVoltageCoeffB;    // decode by /1000
+ 
+   uint32_t     BoardReserved[7];
++  );
+ 
+   // Padding for MMHUB - do not modify this
+   uint32_t     MmHubPadding[8]; // SMU internal use
+-
+ } PPTable_t;
+
+Where they end seems known as well (the padding switches from a "Board"
+to "MmHub" prefix at exactly the matching size).
+
+So, given that these regions are already known by the export tool, how
+about just updating the export tool to emit a struct there? I imagine
+the problem with this would be the identifier churn needed, but that's
+entirely mechanical.
+
+However, I'm curious about another aspect of these regions: they are,
+by definition, the same. Why isn't there a single struct describing
+them already, given the existing redundancy? For example, look at the
+member names: maxvoltagestepgfx vs MaxVoltageStepGfx. Why aren't these
+the same? And then why aren't they described separately?
+
+Fixing that would cut down on the redundancy here, and in the renaming,
+you can fix the identifiers as well. It should be straight forward to
+write a Coccinelle script to do this renaming for you after extracting
+the structure.
+
+> The driver_if_* files updates are frequent and it is error prone to manually
+> group them each time we pick them for any update.
+
+Why are these structs updated? It looks like they're specifically
+versioned, and aren't expected to change (i.e. v4.5, v4.6, v4.10, etc).
+
+> Our usage of memcpy in this way is restricted only to a very few places.
+
+True, there's 1 per PPTable_t duplication. With a proper struct, you
+wouldn't even need a memcpy().
+
+Instead of the existing:
+               memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I2cControllers,
+                       sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_table_v4_7->table_header));
+
+or my proposed:
+               memcpy(&smc_pptable->v4, &smc_dpm_table_v4_7->dpm_info,
+                      sizeof(smc_dpm_table_v4_7->dpm_info));
+
+you could just have:
+		smc_pptable->v4 = smc_dpm_table_v4_7->dpm_info;
+
+since they'd be explicitly the same type.
+
+That looks like a much cleaner solution to this. It greatly improves
+readability, reduces the redundancy in the headers, and should be a
+simple mechanical refactoring.
+
+Oh my, I just noticed append_vbios_pptable() in
+drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
+which does an open-coded assignment of the entire PPTable_t, including
+padding, and, apparently, the i2c address twice:
+
+        ppsmc_pptable->Vr2_I2C_address = smc_dpm_table.Vr2_I2C_address;
+
+        ppsmc_pptable->Vr2_I2C_address = smc_dpm_table.Vr2_I2C_address;
+
+> As another option - is it possible to have a helper function/macro like
+> memcpy_fortify() which takes the extra arguments and does the extra compile
+> time checks? We will use the helper whenever we have such kind of usage.
+
+I'd rather avoid special cases just for this, especially when the code
+here is already doing a couple things we try to avoid in the rest of
+the kernel (i.e. open coded redundant struct contents, etc).
+
+If something mechanically produced append_vbios_pptable() above, I bet
+we can get rid of the memcpy()s entirely and save a lot of code doing a
+member-to-member assignment.
+
+What do you think?
 
 -Kees
 
