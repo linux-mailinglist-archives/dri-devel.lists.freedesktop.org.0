@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3CA3F0047
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 11:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062C63F0061
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 11:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A796E4FE;
-	Wed, 18 Aug 2021 09:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E156988FC1;
+	Wed, 18 Aug 2021 09:26:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E30E6E4F4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:19:00 +0000 (UTC)
-X-UUID: baec73d38c174df48e2b18f9466ff5cd-20210818
-X-UUID: baec73d38c174df48e2b18f9466ff5cd-20210818
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1054660384; Wed, 18 Aug 2021 17:18:52 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 18 Aug 2021 17:18:51 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Wed, 18 Aug 2021 17:18:52 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, Yongqiang Niu
- <yongqiang.niu@mediatek.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <singo.chang@mediatek.com>, <srv_heupstream@mediatek.com>
-Subject: [PATCH v3 15/15] drm/mediatek: add mediatek-drm of vdosys1 support
- for MT8195
-Date: Wed, 18 Aug 2021 17:18:47 +0800
-Message-ID: <20210818091847.8060-16-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210818091847.8060-1-nancy.lin@mediatek.com>
-References: <20210818091847.8060-1-nancy.lin@mediatek.com>
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36BD688549
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:26:43 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ y16-20020a4ad6500000b0290258a7ff4058so501286oos.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 02:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E4lb222ctewTRBgIfyPIR4Jz05zm7RZaeIy9WKCwd1k=;
+ b=WgVVh/azO4vnY9UgGF5MTr9277sgfzD5KhasG/wVimBBfateUyKwMj+jHsPPNHc+++
+ cK8t86BSKoJAs+zUmXlaehged9JVdlyxddqXO+zF4TsIwgi/uiVQY0svHFHIR2znUd8w
+ mCKFiYl0SBIHRh4PW/NyUVd/sT4Dye8cGL5f8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E4lb222ctewTRBgIfyPIR4Jz05zm7RZaeIy9WKCwd1k=;
+ b=qM8fg9wNn7RH598gVoPiPR4s08vptdNeRtD5/dJVo29c0mECQDuT1xofXTIaim9D5b
+ nXMHsnIGiIS7X+u0OisSynA4l62bxkR2Pc5J30UnmpCPFjgERwIlwQJxrg3qbZNrYVM/
+ Uxq/ZR3woYIe8bxmMnV5nfoAX4KWw1nnla10N63DRplRZ02vkg13CxDYNRUZ+MK/DmDG
+ +Z3BlPWZw2iWNwJ3JdMKqNjj5QhIWT1WU9n6lv+uNTZe2+Qz/F1B5btk/opHLH1/zYwH
+ WLO2X995/0oSzN3qRkV98YTe25Zxs16lAEDfjKnAPFjeYVG69Ry779cdhntlec7+tDWG
+ ITJA==
+X-Gm-Message-State: AOAM530pN3Y9vu8UO0nDG/VqHCiMcN72zRUKl8I4jT5ZjkhO2F9b4N5G
+ Y0LInLhz3HJAI2YI/oFIqxJGzfGcLUQRYHhNJoFrEw==
+X-Google-Smtp-Source: ABdhPJzcah9mk7rASRYNxvRtdeUW9b+xypIdII3tzY9DolGFSob7pYIahl2xdCeex57iPZVJkFH/t2h9WL12H2E5Mzg=
+X-Received: by 2002:a4a:2549:: with SMTP id v9mr5892310ooe.28.1629278801951;
+ Wed, 18 Aug 2021 02:26:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+References: <20210729003400.151864-1-matthew.brost@intel.com>
+ <20210729003400.151864-2-matthew.brost@intel.com>
+ <eea0bdb7-681b-0acb-0b9c-041fb38a7119@intel.com>
+ <1b75f6c6-e458-6bc7-f867-12f1b5b18af0@linux.intel.com>
+ <e6e893a7-a0e2-0441-260f-75da3760de0b@intel.com>
+ <58cb6331-813a-7007-dac5-65a2f2ad344e@linux.intel.com>
+ <b3d7ae68-ce4b-ec2c-c70d-9f81e2ea07d7@intel.com>
+ <CAKMK7uF_xBt2WTLkyWf0tfwtzpbFEigZLMUqy4tHQXx47fJRBQ@mail.gmail.com>
+ <f47d3478-be0f-9dc3-2ffe-728d92347cb8@intel.com>
+ <YRIeaQjEVrTFpKlW@phenom.ffwll.local>
+ <3734361b-47f5-81be-76da-1f241fa3f034@intel.com>
+In-Reply-To: <3734361b-47f5-81be-76da-1f241fa3f034@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 18 Aug 2021 11:26:30 +0200
+Message-ID: <CAKMK7uEzjaECUKX4j4AUAHCvbGYJPDOkvGu=Zekxj92gtMqHfQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915: Check if engine has heartbeat
+ when closing a context
+To: John Harrison <john.c.harrison@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,779 +77,546 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys1 to mediatek-drm and modify drm for
-multi-mmsys support. The two mmsys (vdosys0 and vdosys1) will bring
-up two drm drivers, only one drm driver register as the drm device.
-Each drm driver binds its own component. The first bind drm driver
-will allocate the drm device, and the last bind drm driver registers
-the drm device to drm core. Each crtc path is created with the
-corresponding drm driver data.
+On Wed, Aug 18, 2021 at 2:28 AM John Harrison <john.c.harrison@intel.com> wrote:
+> On 8/9/2021 23:36, Daniel Vetter wrote:
+> > On Mon, Aug 09, 2021 at 04:12:52PM -0700, John Harrison wrote:
+> >> On 8/6/2021 12:46, Daniel Vetter wrote:
+> >>> Seen this fly by and figured I dropped a few thoughts in here. At the
+> >>> likely cost of looking a bit out of whack :-)
+> >>>
+> >>> On Fri, Aug 6, 2021 at 8:01 PM John Harrison <john.c.harrison@intel.com> wrote:
+> >>>> On 8/2/2021 02:40, Tvrtko Ursulin wrote:
+> >>>>> On 30/07/2021 19:13, John Harrison wrote:
+> >>>>>> On 7/30/2021 02:49, Tvrtko Ursulin wrote:
+> >>>>>>> On 30/07/2021 01:13, John Harrison wrote:
+> >>>>>>>> On 7/28/2021 17:34, Matthew Brost wrote:
+> >>>>>>>>> If an engine associated with a context does not have a heartbeat,
+> >>>>>>>>> ban it
+> >>>>>>>>> immediately. This is needed for GuC submission as a idle pulse
+> >>>>>>>>> doesn't
+> >>>>>>>>> kick the context off the hardware where it then can check for a
+> >>>>>>>>> heartbeat and ban the context.
+> >>>>>>> Pulse, that is a request with I915_PRIORITY_BARRIER, does not
+> >>>>>>> preempt a running normal priority context?
+> >>>>>>>
+> >>>>>>> Why does it matter then whether or not heartbeats are enabled - when
+> >>>>>>> heartbeat just ends up sending the same engine pulse (eventually,
+> >>>>>>> with raising priority)?
+> >>>>>> The point is that the pulse is pointless. See the rest of my comments
+> >>>>>> below, specifically "the context will get resubmitted to the hardware
+> >>>>>> after the pulse completes". To re-iterate...
+> >>>>>>
+> >>>>>> Yes, it preempts the context. Yes, it does so whether heartbeats are
+> >>>>>> enabled or not. But so what? Who cares? You have preempted a context.
+> >>>>>> It is no longer running on the hardware. BUT IT IS STILL A VALID
+> >>>>>> CONTEXT.
+> >>>>> It is valid yes, and it even may be the current ABI so another
+> >>>>> question is whether it is okay to change that.
+> >>>>>
+> >>>>>> The backend scheduler will just resubmit it to the hardware as soon
+> >>>>>> as the pulse completes. The only reason this works at all is because
+> >>>>>> of the horrid hack in the execlist scheduler's back end
+> >>>>>> implementation (in __execlists_schedule_in):
+> >>>>>>            if (unlikely(intel_context_is_closed(ce) &&
+> >>>>>>                         !intel_engine_has_heartbeat(engine)))
+> >>>>>>                    intel_context_set_banned(ce);
+> >>>>> Right, is the above code then needed with this patch - when ban is
+> >>>>> immediately applied on the higher level?
+> >>>>>
+> >>>>>> The actual back end scheduler is saying "Is this a zombie context? Is
+> >>>>>> the heartbeat disabled? Then ban it". No other scheduler backend is
+> >>>>>> going to have knowledge of zombie context status or of the heartbeat
+> >>>>>> status. Nor are they going to call back into the higher levels of the
+> >>>>>> i915 driver to trigger a ban operation. Certainly a hardware
+> >>>>>> implemented scheduler is not going to be looking at private i915
+> >>>>>> driver information to decide whether to submit a context or whether
+> >>>>>> to tell the OS to kill it off instead.
+> >>>>>>
+> >>>>>> For persistence to work with a hardware scheduler (or a non-Intel
+> >>>>>> specific scheduler such as the DRM one), the handling of zombie
+> >>>>>> contexts, banning, etc. *must* be done entirely in the front end. It
+> >>>>>> cannot rely on any backend hacks. That means you can't rely on any
+> >>>>>> fancy behaviour of pulses.
+> >>>>>>
+> >>>>>> If you want to ban a context then you must explicitly ban that
+> >>>>>> context. If you want to ban it at some later point then you need to
+> >>>>>> track it at the top level as a zombie and then explicitly ban that
+> >>>>>> zombie at whatever later point.
+> >>>>> I am still trying to understand it all. If I go by the commit message:
+> >>>>>
+> >>>>> """
+> >>>>> This is needed for GuC submission as a idle pulse doesn't
+> >>>>> kick the context off the hardware where it then can check for a
+> >>>>> heartbeat and ban the context.
+> >>>>> """
+> >>>>>
+> >>>>> That did not explain things for me. Sentence does not appear to make
+> >>>>> sense. Now, it seems "kick off the hardware" is meant as revoke and
+> >>>>> not just preempt. Which is fine, perhaps just needs to be written more
+> >>>>> explicitly. But the part of checking for heartbeat after idle pulse
+> >>>>> does not compute for me. It is the heartbeat which emits idle pulses,
+> >>>>> not idle pulse emitting heartbeats.
+> >>>> I am in agreement that the commit message is confusing and does not
+> >>>> explain either the problem or the solution.
+> >>>>
+> >>>>
+> >>>>> But anyway, I can buy the handling at the front end story completely.
+> >>>>> It makes sense. We just need to agree that a) it is okay to change the
+> >>>>> ABI and b) remove the backend check from execlists if it is not needed
+> >>>>> any longer.
+> >>>>>
+> >>>>> And if ABI change is okay then commit message needs to talk about it
+> >>>>> loudly and clearly.
+> >>>> I don't think we have a choice. The current ABI is not and cannot ever
+> >>>> be compatible with any scheduler external to i915. It cannot be
+> >>>> implemented with a hardware scheduler such as the GuC and it cannot be
+> >>>> implemented with an external software scheduler such as the DRM one.
+> >>> So generally on linux we implement helper libraries, which means
+> >>> massive flexibility everywhere.
+> >>>
+> >>> https://blog.ffwll.ch/2016/12/midlayers-once-more-with-feeling.html
+> >>>
+> >>> So it shouldn't be an insurmountable problem to make this happen even
+> >>> with drm/scheduler, we can patch it up.
+> >>>
+> >>> Whether that's justified is another question.
+> >> Helper libraries won't work with a hardware scheduler.
+> > Hm I guess I misunderstood then what exactly the hold-up is. This entire
+> > discussion feels at least a bit like "heartbeat is unchangeable and guc
+> > must fit", which is pretty much the midlayer mistake. We need to figure
+> > out an implementation that works with GuC of the goals of the uapi,
+> > instead of assuming that the current heartbeat is the only possible way to
+> > achieve that.
+> >
+> > Or I'm just very confused about what the problem is.
+>
+> What I mean is that you can't add helper callback hook things into a
+> hardware scheduler. It's hardware. It does what it does. Sure, the GuC
+> is firmware but it is very limited in what it can do. It certainly can't
+> peek into internal KMD state such as the heartbeat. Nor can it call back
+> to i915 to execute code every time it wants to make a scheduling
+> decision. That would be defeating the whole point of it being a CPU
+> offload accelerator thing.
+>
+> Also, what I'm arguing is that the heartbeat should not be involved in
+> the management of persistent contexts in the first place. It is way over
+> complicated, unnecessary and not intuitive to an end user in the slightest.
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_merge.c   |   4 +
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  25 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   3 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  15 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 372 ++++++++++++++++----
- drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   8 +-
- 7 files changed, 354 insertions(+), 74 deletions(-)
+Yeah so heartbeat was also the attempt to support long-running compute
+jobs without changing the uapi. That part is reverted, and now it's
+essentially just a tool to make sure the gpu keeps preempting when we
+expect it too.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-index ebcb646bde9c..c61f5bafd22c 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/clk.h>
-+#include <linux/reset.h>
- #include <linux/component.h>
- #include <linux/of_device.h>
- #include <linux/of_irq.h>
-@@ -87,6 +88,9 @@ void mtk_merge_stop(struct device *dev)
- 	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
- 
- 	writel(0x0, priv->regs + DISP_REG_MERGE_CTRL);
-+
-+	if (priv->async_clk)
-+		device_reset_optional(dev);
- }
- 
- static void mtk_merge_fifo_setting(struct mtk_disp_merge *priv,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 40df2c823187..0da78adf3b4f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -737,21 +737,28 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
- }
- 
- int mtk_drm_crtc_create(struct drm_device *drm_dev,
--			const enum mtk_ddp_comp_id *path, unsigned int path_len)
-+			const enum mtk_ddp_comp_id *path, unsigned int path_len,
-+			int priv_data_index)
- {
- 	struct mtk_drm_private *priv = drm_dev->dev_private;
- 	struct device *dev = drm_dev->dev;
- 	struct mtk_drm_crtc *mtk_crtc;
- 	unsigned int num_comp_planes = 0;
--	int pipe = priv->num_pipes;
- 	int ret;
- 	int i;
- 	bool has_ctm = false;
- 	uint gamma_lut_size = 0;
-+	struct drm_crtc *tmp;
-+	int crtc_i = 0;
- 
- 	if (!path)
- 		return 0;
- 
-+	priv = priv->all_drm_private[priv_data_index];
-+
-+	drm_for_each_crtc(tmp, drm_dev)
-+		crtc_i++;
-+
- 	for (i = 0; i < path_len; i++) {
- 		enum mtk_ddp_comp_id comp_id = path[i];
- 		struct device_node *node;
-@@ -760,7 +767,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 		if (!node) {
- 			dev_info(dev,
- 				 "Not creating crtc %d because component %d is disabled or missing\n",
--				 pipe, comp_id);
-+				 crtc_i, comp_id);
- 			return 0;
- 		}
- 	}
-@@ -816,25 +823,25 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 
- 	for (i = 0; i < mtk_crtc->ddp_comp_nr; i++) {
- 		ret = mtk_drm_crtc_init_comp_planes(drm_dev, mtk_crtc, i,
--						    pipe);
-+						    crtc_i);
- 		if (ret)
- 			return ret;
- 	}
- 
--	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
-+	ret = mtk_drm_crtc_init(drm_dev, mtk_crtc, crtc_i);
- 	if (ret < 0)
- 		return ret;
- 
- 	if (gamma_lut_size)
- 		drm_mode_crtc_set_gamma_size(&mtk_crtc->base, gamma_lut_size);
- 	drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, has_ctm, gamma_lut_size);
--	priv->num_pipes++;
- 	mutex_init(&mtk_crtc->hw_lock);
- 
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+	i = (priv->data->mmsys_dev_num > 1) ? 0 : drm_crtc_index(&mtk_crtc->base);
-+
- 	mtk_crtc->cmdq_client =
--			cmdq_mbox_create(mtk_crtc->mmsys_dev,
--					 drm_crtc_index(&mtk_crtc->base));
-+			cmdq_mbox_create(mtk_crtc->mmsys_dev, i);
- 	if (IS_ERR(mtk_crtc->cmdq_client)) {
- 		dev_dbg(dev, "mtk_crtc %d failed to create mailbox client, writing register by CPU now\n",
- 			drm_crtc_index(&mtk_crtc->base));
-@@ -844,7 +851,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 	if (mtk_crtc->cmdq_client) {
- 		ret = of_property_read_u32_index(priv->mutex_node,
- 						 "mediatek,gce-events",
--						 drm_crtc_index(&mtk_crtc->base),
-+						 i,
- 						 &mtk_crtc->cmdq_event);
- 		if (ret) {
- 			dev_dbg(dev, "mtk_crtc %d failed to get mediatek,gce-events property\n",
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-index cb9a36c48d4f..a57eb12d7c05 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-@@ -17,7 +17,8 @@
- void mtk_drm_crtc_commit(struct drm_crtc *crtc);
- int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 			const enum mtk_ddp_comp_id *path,
--			unsigned int path_len);
-+			unsigned int path_len,
-+			int priv_data_index);
- int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *plane,
- 			     struct mtk_plane_state *state);
- void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index ee8efc13eaea..9623adbc2277 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -380,6 +380,18 @@ static const struct mtk_ddp_comp_funcs ddp_ufoe = {
- 	.start = mtk_ufoe_start,
- };
- 
-+static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
-+	.clk_enable = mtk_ethdr_clk_enable,
-+	.clk_disable = mtk_ethdr_clk_disable,
-+	.config = mtk_ethdr_config,
-+	.start = mtk_ethdr_start,
-+	.stop = mtk_ethdr_stop,
-+	.layer_nr = mtk_ethdr_layer_nr,
-+	.layer_config = mtk_ethdr_layer_config,
-+	.enable_vblank = mtk_ethdr_enable_vblank,
-+	.disable_vblank = mtk_ethdr_disable_vblank,
-+};
-+
- static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_AAL] = "aal",
- 	[MTK_DISP_BLS] = "bls",
-@@ -393,6 +405,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_OD] = "od",
- 	[MTK_DISP_OVL] = "ovl",
- 	[MTK_DISP_OVL_2L] = "ovl-2l",
-+	[MTK_DISP_OVL_ADAPTOR] = "ovl_adaptor",
- 	[MTK_DISP_PWM] = "pwm",
- 	[MTK_DISP_RDMA] = "rdma",
- 	[MTK_DISP_UFOE] = "ufoe",
-@@ -436,6 +449,7 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
- 	[DDP_COMPONENT_OVL1]	= { MTK_DISP_OVL,	1, &ddp_ovl },
- 	[DDP_COMPONENT_OVL_2L0]	= { MTK_DISP_OVL_2L,	0, &ddp_ovl },
- 	[DDP_COMPONENT_OVL_2L1]	= { MTK_DISP_OVL_2L,	1, &ddp_ovl },
-+	[DDP_COMPONENT_OVL_ADAPTOR] = { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
- 	[DDP_COMPONENT_PWM0]	= { MTK_DISP_PWM,	0, NULL },
- 	[DDP_COMPONENT_PWM1]	= { MTK_DISP_PWM,	1, NULL },
- 	[DDP_COMPONENT_PWM2]	= { MTK_DISP_PWM,	2, NULL },
-@@ -563,6 +577,7 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 	    type == MTK_DISP_MERGE ||
- 	    type == MTK_DISP_OVL ||
- 	    type == MTK_DISP_OVL_2L ||
-+	    type == MTK_DISP_OVL_ADAPTOR ||
- 	    type == MTK_DISP_PWM ||
- 	    type == MTK_DISP_RDMA ||
- 	    type == MTK_DPI ||
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index b42a47c06956..a8e5e770ce2f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -30,6 +30,7 @@ enum mtk_ddp_comp_type {
- 	MTK_DISP_OD,
- 	MTK_DISP_OVL,
- 	MTK_DISP_OVL_2L,
-+	MTK_DISP_OVL_ADAPTOR,
- 	MTK_DISP_PWM,
- 	MTK_DISP_RDMA,
- 	MTK_DISP_UFOE,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 6a18c12fe04e..c233069b4cc2 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -11,6 +11,7 @@
- #include <linux/of_platform.h>
- #include <linux/pm_runtime.h>
- #include <linux/dma-mapping.h>
-+#include <linux/reset-controller.h>
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -160,12 +161,20 @@ static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_DP_INTF0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8195_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_ADAPTOR,
-+	DDP_COMPONENT_MERGE5,
-+	DDP_COMPONENT_DP_INTF1,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
- 	.ext_path = mt2701_mtk_ddp_ext,
- 	.ext_len = ARRAY_SIZE(mt2701_mtk_ddp_ext),
- 	.shadow_register = true,
-+	.mmsys_id = 0,
-+	.mmsys_dev_num = 1,
- };
- 
- static const struct mtk_mmsys_driver_data mt7623_mmsys_driver_data = {
-@@ -174,6 +183,8 @@ static const struct mtk_mmsys_driver_data mt7623_mmsys_driver_data = {
- 	.ext_path = mt7623_mtk_ddp_ext,
- 	.ext_len = ARRAY_SIZE(mt7623_mtk_ddp_ext),
- 	.shadow_register = true,
-+	.mmsys_id = 0,
-+	.mmsys_dev_num = 1,
- };
- 
- static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
-@@ -183,6 +194,8 @@ static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt2712_mtk_ddp_ext),
- 	.third_path = mt2712_mtk_ddp_third,
- 	.third_len = ARRAY_SIZE(mt2712_mtk_ddp_third),
-+	.mmsys_id = 0,
-+	.mmsys_dev_num = 1,
- };
- 
- static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
-@@ -190,6 +203,8 @@ static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
- 	.main_len = ARRAY_SIZE(mt8173_mtk_ddp_main),
- 	.ext_path = mt8173_mtk_ddp_ext,
- 	.ext_len = ARRAY_SIZE(mt8173_mtk_ddp_ext),
-+	.mmsys_id = 0,
-+	.mmsys_dev_num = 1,
- };
- 
- static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
-@@ -197,32 +212,226 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
- 	.main_len = ARRAY_SIZE(mt8183_mtk_ddp_main),
- 	.ext_path = mt8183_mtk_ddp_ext,
- 	.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
-+	.mmsys_id = 0,
-+	.mmsys_dev_num = 1,
- };
- 
- static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.main_path = mt8195_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
-+	.mmsys_id = 0,
-+	.mmsys_dev_num = 2,
-+};
-+
-+static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-+	.ext_path = mt8195_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
-+	.mmsys_id = 1,
-+	.mmsys_dev_num = 2,
-+};
-+
-+static const struct of_device_id mtk_drm_of_ids[] = {
-+	{ .compatible = "mediatek,mt2701-mmsys",
-+	  .data = &mt2701_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt7623-mmsys",
-+	  .data = &mt7623_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt2712-mmsys",
-+	  .data = &mt2712_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8173-mmsys",
-+	  .data = &mt8173_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8183-mmsys",
-+	  .data = &mt8183_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8195-vdosys0",
-+	  .data = &mt8195_vdosys0_driver_data},
-+	{ .compatible = "mediatek,mt8195-vdosys1",
-+	  .data = &mt8195_vdosys1_driver_data},
-+	{ }
- };
-+MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
-+
-+static int mtk_drm_match(struct device *dev, void *data)
-+{
-+	if (!strncmp(dev_name(dev), "mediatek-drm", sizeof("mediatek-drm") - 1))
-+		return true;
-+	return false;
-+}
-+
-+static int mtk_drm_get_drm_priv(struct device *dev,
-+				struct mtk_drm_private **all_drm_priv,
-+				int num)
-+{
-+	struct mtk_drm_private *drm_priv = dev_get_drvdata(dev);
-+	struct device_node *phandle = dev->parent->of_node;
-+	const struct of_device_id *of_id;
-+	struct device_node *node;
-+	int cnt = 0;
-+	struct device *drm_dev;
-+
-+	for_each_child_of_node(phandle->parent, node) {
-+		struct platform_device *pdev;
-+
-+		of_id = of_match_node(mtk_drm_of_ids, node);
-+		if (!of_id)
-+			continue;
-+
-+		pdev = of_find_device_by_node(node);
-+		if (!pdev)
-+			continue;
-+
-+		drm_dev = device_find_child(&pdev->dev, NULL, mtk_drm_match);
-+		if (!drm_dev || !dev_get_drvdata(drm_dev))
-+			continue;
-+
-+		all_drm_priv[cnt++] = dev_get_drvdata(drm_dev);
-+		if (cnt == num)
-+			break;
-+	}
-+
-+	return 0;
-+}
-+
-+static bool mtk_drm_check_last_drm_bind(struct device *dev)
-+{
-+	struct mtk_drm_private *drm_priv = dev_get_drvdata(dev);
-+	struct mtk_drm_private *all_drm_priv[MAX_CRTC];
-+	int cnt = 0;
-+	int i;
-+
-+	mtk_drm_get_drm_priv(dev, all_drm_priv, drm_priv->data->mmsys_dev_num);
-+
-+	for (i = 0; i < MAX_CRTC; i++)
-+		if (all_drm_priv[i] && all_drm_priv[i]->mtk_drm_bound)
-+			cnt++;
-+
-+	return (drm_priv->data->mmsys_dev_num == cnt);
-+}
-+
-+static bool mtk_drm_find_drm_dev(struct device *dev, struct drm_device **drm)
-+{
-+	struct device_node *phandle = dev->parent->of_node;
-+	struct mtk_drm_private *drm_priv = dev_get_drvdata(dev);
-+	struct mtk_drm_private *all_drm_priv[MAX_CRTC];
-+	int i;
-+
-+	if (!drm_priv->data->mmsys_dev_num)
-+		return false;
-+
-+	mtk_drm_get_drm_priv(dev, all_drm_priv, drm_priv->data->mmsys_dev_num);
-+
-+	for (i = 0; i < MAX_CRTC; i++) {
-+		if (all_drm_priv[i] && all_drm_priv[i]->mtk_drm_bound) {
-+			*drm = all_drm_priv[i]->drm;
-+			return true;
-+		}
-+	}
-+
-+	return false;
-+}
-+
-+static int mtk_drm_setup_all_drm_private(struct device *dev)
-+{
-+	struct mtk_drm_private *drm_priv = dev_get_drvdata(dev);
-+	struct mtk_drm_private *all_drm_priv[MAX_CRTC];
-+	int mmsys_dev_num = drm_priv->data->mmsys_dev_num;
-+	int i;
-+	int j;
-+
-+	mtk_drm_get_drm_priv(dev, all_drm_priv, mmsys_dev_num);
-+
-+	for (i = 0; i < mmsys_dev_num; i++)
-+		for (j = 0; j < mmsys_dev_num; j++)
-+			all_drm_priv[j]->all_drm_private[i] = all_drm_priv[i];
-+
-+	return 0;
-+}
-+
-+static bool mtk_drm_find_mmsys_comp(struct mtk_drm_private *private, int comp_id)
-+{
-+	const struct mtk_mmsys_driver_data *drv_data = private->data;
-+	int ret = false;
-+	int i;
-+
-+	if (drv_data->mmsys_dev_num == 1)
-+		return true;
-+
-+	if (drv_data->main_path) {
-+		for (i = 0; i < drv_data->main_len; i++)
-+			if (drv_data->main_path[i] == comp_id)
-+				ret |= true;
-+
-+		if (i == drv_data->main_len)
-+			ret |= false;
-+	}
-+
-+	if (drv_data->ext_path) {
-+		for (i = 0; i < drv_data->ext_len; i++)
-+			if (drv_data->ext_path[i] == comp_id)
-+				ret |= true;
-+
-+		if (i == drv_data->ext_len)
-+			ret |= false;
-+	}
-+
-+	if (drv_data->third_path) {
-+		for (i = 0; i < drv_data->third_len; i++)
-+			if (drv_data->third_path[i] == comp_id)
-+				ret |= true;
-+
-+		if (i == drv_data->third_len)
-+			ret |= false;
-+	}
-+
-+	return ret;
-+}
-+
-+static int mtk_drm_check_mutex_dev(struct mtk_drm_private *private)
-+{
-+	struct platform_device *pdev;
-+	struct mtk_drm_private *priv_i;
-+	int ret;
-+	int i;
-+
-+	for (i = 0; i < private->data->mmsys_dev_num; i++) {
-+		priv_i = private->all_drm_private[i];
-+
-+		pdev = of_find_device_by_node(priv_i->mutex_node);
-+		if (!pdev) {
-+			dev_err(priv_i->dev, "Waiting for disp-mutex device %pOF\n",
-+				priv_i->mutex_node);
-+			ret = -EPROBE_DEFER;
-+			goto err_put_mutex;
-+		}
-+		priv_i->mutex_dev = &pdev->dev;
-+	}
-+
-+	return 0;
-+
-+err_put_mutex:
-+	for (i = 0; i < private->data->mmsys_dev_num; i++) {
-+		priv_i = private->all_drm_private[i];
-+		of_node_put(priv_i->mutex_node);
-+	}
-+
-+	return ret;
-+}
- 
- static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
-+	struct mtk_drm_private *priv_n;
- 	struct platform_device *pdev;
--	struct device_node *np;
-+	struct device_node *np = NULL;
- 	struct device *dma_dev;
- 	int ret;
-+	int i;
-+	int j;
- 
- 	if (!iommu_present(&platform_bus_type))
- 		return -EPROBE_DEFER;
- 
--	pdev = of_find_device_by_node(private->mutex_node);
--	if (!pdev) {
--		dev_err(drm->dev, "Waiting for disp-mutex device %pOF\n",
--			private->mutex_node);
--		of_node_put(private->mutex_node);
--		return -EPROBE_DEFER;
--	}
--	private->mutex_dev = &pdev->dev;
-+	ret = mtk_drm_check_mutex_dev(private);
-+	if (ret)
-+		return ret;
- 
- 	ret = drmm_mode_config_init(drm);
- 	if (ret)
-@@ -241,33 +450,57 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 	drm->mode_config.funcs = &mtk_drm_mode_config_funcs;
- 	drm->mode_config.helper_private = &mtk_drm_mode_config_helpers;
- 
--	ret = component_bind_all(drm->dev, drm);
-+	for (i = 0; i < private->data->mmsys_dev_num; i++) {
-+		drm->dev_private = private->all_drm_private[i];
-+		ret = component_bind_all(private->all_drm_private[i]->dev, drm);
- 	if (ret)
- 		goto put_mutex_dev;
-+	}
- 
- 	/*
- 	 * We currently support two fixed data streams, each optional,
- 	 * and each statically assigned to a crtc:
- 	 * OVL0 -> COLOR0 -> AAL -> OD -> RDMA0 -> UFOE -> DSI0 ...
- 	 */
--	ret = mtk_drm_crtc_create(drm, private->data->main_path,
--				  private->data->main_len);
--	if (ret < 0)
--		goto err_component_unbind;
--	/* ... and OVL1 -> COLOR1 -> GAMMA -> RDMA1 -> DPI0. */
--	ret = mtk_drm_crtc_create(drm, private->data->ext_path,
--				  private->data->ext_len);
--	if (ret < 0)
--		goto err_component_unbind;
--
--	ret = mtk_drm_crtc_create(drm, private->data->third_path,
--				  private->data->third_len);
--	if (ret < 0)
--		goto err_component_unbind;
-+	for (i = 0; i < MAX_CRTC; i++) {
-+		for (j = 0; j < private->data->mmsys_dev_num; j++) {
-+			priv_n = private->all_drm_private[j];
-+
-+			if (i == 0 && priv_n->data->main_len) {
-+				ret = mtk_drm_crtc_create(drm, priv_n->data->main_path,
-+							  priv_n->data->main_len, j);
-+				if (ret)
-+					goto err_component_unbind;
-+
-+				if (!np)
-+					np = priv_n->comp_node[priv_n->data->main_path[0]];
-+
-+				continue;
-+			} else if (i == 1 && priv_n->data->ext_len) {
-+				ret = mtk_drm_crtc_create(drm, priv_n->data->ext_path,
-+							  priv_n->data->ext_len, j);
-+				if (ret)
-+					goto err_component_unbind;
-+
-+				if (!np)
-+					np = priv_n->comp_node[priv_n->data->ext_path[0]];
-+
-+				continue;
-+			} else if (i == 2 && priv_n->data->third_len) {
-+				ret = mtk_drm_crtc_create(drm, priv_n->data->third_path,
-+							  priv_n->data->third_len, j);
-+				if (ret)
-+					goto err_component_unbind;
-+
-+				if (!np)
-+					np = priv_n->comp_node[priv_n->data->third_path[0]];
-+
-+				continue;
-+			}
-+		}
-+	}
- 
- 	/* Use OVL device for all DMA memory allocations */
--	np = private->comp_node[private->data->main_path[0]] ?:
--	     private->comp_node[private->data->ext_path[0]];
- 	pdev = of_find_device_by_node(np);
- 	if (!pdev) {
- 		ret = -ENODEV;
-@@ -276,13 +509,15 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 	}
- 
- 	dma_dev = &pdev->dev;
--	private->dma_dev = dma_dev;
-+	for (i = 0; i < private->data->mmsys_dev_num; i++)
-+		private->all_drm_private[i]->dma_dev = dma_dev;
- 
- 	/*
- 	 * Configure the DMA segment size to make sure we get contiguous IOVA
- 	 * when importing PRIME buffers.
- 	 */
- 	ret = dma_set_max_seg_size(dma_dev, UINT_MAX);
-+
- 	if (ret) {
- 		dev_err(dma_dev, "Failed to set DMA segment size\n");
- 		goto err_component_unbind;
-@@ -304,9 +539,12 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 	return 0;
- 
- err_component_unbind:
--	component_unbind_all(drm->dev, drm);
-+	for (i = 0; i < private->data->mmsys_dev_num; i++)
-+		component_unbind_all(private->all_drm_private[i]->dev, drm);
- put_mutex_dev:
--	put_device(private->mutex_dev);
-+	for (i = 0; i < private->data->mmsys_dev_num; i++)
-+		put_device(private->all_drm_private[i]->mutex_dev);
-+
- 	return ret;
- }
- 
-@@ -371,12 +609,21 @@ static int mtk_drm_bind(struct device *dev)
- 	struct drm_device *drm;
- 	int ret;
- 
--	drm = drm_dev_alloc(&mtk_drm_driver, dev);
--	if (IS_ERR(drm))
--		return PTR_ERR(drm);
-+	if (!mtk_drm_find_drm_dev(dev, &drm)) {
-+		drm = drm_dev_alloc(&mtk_drm_driver, dev);
-+		if (IS_ERR(drm))
-+			return PTR_ERR(drm);
-+		drm->dev_private = private;
-+	}
- 
--	drm->dev_private = private;
-+	private->dev = dev;
- 	private->drm = drm;
-+	private->mtk_drm_bound = true;
-+
-+	if (!mtk_drm_check_last_drm_bind(dev))
-+		return 0;
-+
-+	mtk_drm_setup_all_drm_private(dev);
- 
- 	ret = mtk_drm_kms_init(drm);
- 	if (ret < 0)
-@@ -401,10 +648,13 @@ static void mtk_drm_unbind(struct device *dev)
- {
- 	struct mtk_drm_private *private = dev_get_drvdata(dev);
- 
--	drm_dev_unregister(private->drm);
--	mtk_drm_kms_deinit(private->drm);
--	drm_dev_put(private->drm);
--	private->num_pipes = 0;
-+	/* for multi mmsys dev, unregister drm dev in mmsys master */
-+	if (private->data->mmsys_id == 0) {
-+		drm_dev_unregister(private->drm);
-+		mtk_drm_kms_deinit(private->drm);
-+		drm_dev_put(private->drm);
-+	}
-+	private->mtk_drm_bound = false;
- 	private->drm = NULL;
- }
- 
-@@ -485,50 +735,40 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	{ }
- };
- 
--static const struct of_device_id mtk_drm_of_ids[] = {
--	{ .compatible = "mediatek,mt2701-mmsys",
--	  .data = &mt2701_mmsys_driver_data},
--	{ .compatible = "mediatek,mt7623-mmsys",
--	  .data = &mt7623_mmsys_driver_data},
--	{ .compatible = "mediatek,mt2712-mmsys",
--	  .data = &mt2712_mmsys_driver_data},
--	{ .compatible = "mediatek,mt8173-mmsys",
--	  .data = &mt8173_mmsys_driver_data},
--	{ .compatible = "mediatek,mt8183-mmsys",
--	  .data = &mt8183_mmsys_driver_data},
--	{.compatible = "mediatek,mt8195-vdosys0",
--	  .data = &mt8195_vdosys0_driver_data},
--	{ }
--};
--MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
--
- static int mtk_drm_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *phandle = dev->parent->of_node;
- 	const struct of_device_id *of_id;
-+	const struct mtk_mmsys_driver_data *drv_data;
- 	struct mtk_drm_private *private;
- 	struct device_node *node;
- 	struct component_match *match = NULL;
- 	int ret;
- 	int i;
- 
-+	of_id = of_match_node(mtk_drm_of_ids, phandle);
-+	if (!of_id)
-+		return -ENODEV;
-+
-+	drv_data = of_id->data;
- 	private = devm_kzalloc(dev, sizeof(*private), GFP_KERNEL);
- 	if (!private)
- 		return -ENOMEM;
- 
-+	private->all_drm_private = devm_kmalloc_array(dev, drv_data->mmsys_dev_num,
-+						      sizeof(*private->all_drm_private),
-+						      GFP_KERNEL);
-+	if (!private->all_drm_private)
-+		return -ENOMEM;
-+
-+	private->data = drv_data;
- 	private->mmsys_dev = dev->parent;
- 	if (!private->mmsys_dev) {
- 		dev_err(dev, "Failed to get MMSYS device\n");
- 		return -ENODEV;
- 	}
- 
--	of_id = of_match_node(mtk_drm_of_ids, phandle);
--	if (!of_id)
--		return -ENODEV;
--
--	private->data = of_id->data;
--
- 	/* Iterate over sibling DISP function blocks */
- 	for_each_child_of_node(phandle->parent, node) {
- 		const struct of_device_id *of_id;
-@@ -548,7 +788,13 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		comp_type = (enum mtk_ddp_comp_type)of_id->data;
- 
- 		if (comp_type == MTK_DISP_MUTEX) {
--			private->mutex_node = of_node_get(node);
-+			int id;
-+
-+			id = of_alias_get_id(node, "mutex");
-+			if (id < 0 || id == drv_data->mmsys_id) {
-+				private->mutex_node = of_node_get(node);
-+				dev_dbg(dev, "get mutex for mmsys %d", drv_data->mmsys_id);
-+			}
- 			continue;
- 		}
- 
-@@ -559,6 +805,9 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 			continue;
- 		}
- 
-+		if (!mtk_drm_find_mmsys_comp(private, comp_id))
-+			continue;
-+
- 		private->comp_node[comp_id] = of_node_get(node);
- 
- 		/*
-@@ -572,6 +821,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		    comp_type == MTK_DISP_MERGE ||
- 		    comp_type == MTK_DISP_OVL ||
- 		    comp_type == MTK_DISP_OVL_2L ||
-+		    comp_type == MTK_DISP_OVL_ADAPTOR ||
- 		    comp_type == MTK_DISP_RDMA ||
- 		    comp_type == MTK_DPI ||
- 		    comp_type == MTK_DSI) {
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index 7b09fe6db067..867d7b8e788f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -29,14 +29,15 @@ struct mtk_mmsys_driver_data {
- 	unsigned int third_len;
- 
- 	bool shadow_register;
-+	unsigned int mmsys_id;
-+	unsigned int mmsys_dev_num;
- };
- 
- struct mtk_drm_private {
- 	struct drm_device *drm;
- 	struct device *dma_dev;
--
--	unsigned int num_pipes;
--
-+	bool mtk_drm_bound;
-+	struct device *dev;
- 	struct device_node *mutex_node;
- 	struct device *mutex_dev;
- 	struct device *mmsys_dev;
-@@ -44,6 +45,7 @@ struct mtk_drm_private {
- 	struct mtk_ddp_comp ddp_comp[DDP_COMPONENT_ID_MAX];
- 	const struct mtk_mmsys_driver_data *data;
- 	struct drm_atomic_state *suspend_state;
-+	struct mtk_drm_private **all_drm_private;
- };
- 
- extern struct platform_driver mtk_disp_ccorr_driver;
+Which also I guess should be GuC's job now, so why do we need
+heartbeat even still with the guc backend? This is the part where I
+meant we're looking at this way too strictly, you most definitely
+_can_ change anything in the i915 kmd and igt test suite that doesn't
+fit. We're maybe saying the same thing really, dunno.
+
+Orthogonal issue, the current code trying to support changing
+heartbeat status while the driver is running is also bonkers, we don't
+support that. That should simplify at least the decision making a lot,
+becuse we can safely assume that a persistent or non-persistent
+context was only created when we thought it's ok to do so.
+
+> >>>> My view is that any implementation involving knowledge of the heartbeat
+> >>>> is fundamentally broken.
+> >>>>
+> >>>> According to Daniel Vetter, the DRM ABI on this subject is that an
+> >>>> actively executing context should persist until the DRM file handle is
+> >>>> closed. That seems like a much more plausible and simple ABI than one
+> >>> DRM ABI is maybe a bit an overkill statement. It's more "what other
+> >>> drivers do", but it's generally a good idea to not ignore that :-)
+> >>>
+> >>>> that says 'if the heartbeat is running then a context will persist
+> >>>> forever, if the heartbeat is not running then it will be killed
+> >>>> immediately, if the heart was running but then stops running then the
+> >>>> context will be killed on the next context switch, ...'. And if I
+> >>>> understand it correctly, the current ABI allows a badly written user app
+> >>>> to cause a denial of service by leaving contexts permanently running an
+> >>>> infinite loop on the hardware even after the app has been killed! How
+> >>>> can that ever be considered a good idea?
+> >>> We're not going to support changing all these settings at runtime.
+> >>> There's just not point in trying to make that work race-free, it
+> >>> either adds complexity to the code for no reason, or it adds overhead
+> >>> to the code for no reason.
+> >>>
+> >>> Yes I know existing customers and all that, but
+> >>> - they can change this stuff, and when they change it while anyting is
+> >>> in-flight they get to keep the pieces. These options taint the kernel
+> >>> for a reason (and if they don't, that should be fixed)
+> >>> - quite a few around heartbeat and compute support as we've merged a
+> >>> while ago hang by design when trying to smash them into drm rules.
+> >>> We're not going to fix that, and we should not use any existing such
+> >>> assumptions as justification for code changes.
+> >>>
+> >>> Wrt infinitely running: Right now nothing is allowed to run forever,
+> >>> because hangcheck will step in and kill that job. Once we add compute
+> >>> mode ctx flag we'll require killing on process exit to stop escape.
+> >> If the infinite loop is pre-emptible then the heartbeat won't kill it off.
+> >> It will just run forever. Okay, it won't be a huge denial of service because
+> >> other work can pre-empt and run. However, you are down one timeslice
+> >> execution slot at that priority level. You have also permanently lost
+> >> whatever memory is allocated and in use by that workload.
+> > Ok I think I'm definitely lost.
+> >
+> > Right now, in upstream, you can't run forever without regularly calling
+> > execbuf to stuff new work in. So it will die out, it wont be persistent
+> > for very long.
+> It is possible to write an infinite loop batch buffer that is
+> pre-emptible. Once you set that running, no amount of heartbeats will
+> kill it off. The heartbeat will happily pre-empt it and tell you that
+> the system as a whole is still running just fine. And then the scheduler
+> will set the infinite loop task running again because it still has more
+> 'work' to do.
+
+There is a hangcheck timeout which kills you after 20s (which is
+probably about 15s too long, but that's another bikeshed). This is
+part of the contract that we can't remove, but we did (I think it's
+still not yet in DII, not sure about status) and took quite long to
+restore that.
+
+So no, your scenario doesn't happen.
+
+> >>>> Therefore, the context close implementation should be to add an active
+> >>>> context to a zombie list. If a context is in zombie state and its last
+> >>>> request completes then the context can be immediately killed at that
+> >>>> point. Otherwise, on DRM handle close, we go through the zombie list and
+> >>>> immediately kill all contexts.
+> >>>>
+> >>>> Simple, clean, no back-end scheduler hacks, no reliance on heartbeats or
+> >>>> pulses. Also no opportunity for rogue (or just badly written) user
+> >>>> processes to leave zombie contexts running on the hardware forever and
+> >>>> causing a denial of service attack. If the host process is killed, all
+> >>>> of its GPU processes are also killed irrespective of what dodgy context
+> >>>> flags they may or may not have set.
+> >>> Uh, the intel_context state machine is already a bit too complex, and
+> >>> the implementation lacks a bunch of barriers at least from the cursor
+> >>> look I've given it thus far.
+> >>>
+> >>> So if we really need to make that more complex with more states then I
+> >>> think someone needs to come up with an actual clean design, with
+> >>> proper state transitions and all the barriers (or really, a design
+> >>> which doesn't need barriers). This is going to be work.
+> >>> -Daniel
+> >> Personally, I would rather just drop the whole persistence/zombie idea
+> >> completely. If you close your context then you should expect that context to
+> >> be destroyed and any outstanding workloads killed off. If you wanted the
+> >> results then you should have waited for them.
+> >>
+> >> If we do have to support some level of persistence then it doesn't seem like
+> >> tracking closed contexts should be especially complex. Not sure why it would
+> >> need special barriers either.
+> > Frankly I think I'm lost, and I think the confusion (for me at least)
+> > starts with what the current uapi is.
+> >
+> > Can someone please document that, with kerneldoc in the uapi header
+> > ideally? Once we have that defined I think we can have an actual
+> > discussion about what exactly this should look like with GuC (and also
+> > eventually with drm/scheduler), and which parts of the uapi are just
+> > artifacts of the current implementation, and which parts actually matter.
+> >
+> > Otherwise I think we're just spinning wheels a bit much here.
+> > -Daniel
+> See other branch of this thread - feel free to write it yourself or
+> elect someone who actually knows the history/reasons behind this to
+> write it up. All I can do is reverse engineer the code and document what
+> it currently does and what is required to pass the IGT test.
+>
+> If you want documentation about what the interface *should* be then I
+> can offer two options:
+>
+> 1. No persistence at all.
+> If you close a context (whether explicitly through a close context call
+> or implicitly through closing the DRM file handle, being killed, etc.)
+> then that context is destroyed immediately. All outstanding work is
+> discarded.
+>
+> 2. Persistence until DRM handle closure.
+> You can close a context and have it keep running previously submitted
+> work. However, as soon as the DRM file handle is closed (either
+> explicitly or by being killed, etc.) then all contexts are immediately
+> destroyed and all outstanding work is discarded.
+
+This one is pretty close to what I think drm/sched does too. We might
+need a slight change in that userspace which explicitly asked for
+non-persistent context to kill those immediately in all cases.
+
+> Simple. Concise. Sensible. No long discussions about what the heartbeat
+> enable state was when the context was closed versus what that state is
+> at some future point. No platform specific caveats or interactions. And
+> no opportunity to cause denial of service attacks either deliberately or
+> accidentally (and no opportunity for hideously complex KMD
+> implementations to introduce potential DOS bugs either).
+
+That's another thing: That implementation just needs to be simplified.
+It supports a lot of things that make little to no sense, and
+especially if soemthing is in the way we should just remove it.
+-Daniel
+
+>
+> John.
+>
+>
+> >
+> >> John.
+> >>
+> >>>> John.
+> >>>>
+> >>>>
+> >>>>> Or perhaps there is no ABI change? I am not really clear how does
+> >>>>> setting banned status propagate to the GuC backend. I mean at which
+> >>>>> point does i915 ends up passing that info to the firmware?
+> >>>>>
+> >>>>> Regards,
+> >>>>>
+> >>>>> Tvrtko
+> >>>>>
+> >>>>>>>> It's worse than this. If the engine in question is an individual
+> >>>>>>>> physical engine then sending a pulse (with sufficiently high
+> >>>>>>>> priority) will pre-empt the engine and kick the context off.
+> >>>>>>>> However, the GuC
+> >>>>>>> Why it is different for physical vs virtual, aren't both just
+> >>>>>>> schedulable contexts with different engine masks for what GuC is
+> >>>>>>> concerned? Oh, is it a matter of needing to send pulses to all
+> >>>>>>> engines which comprise a virtual one?
+> >>>>>> It isn't different. It is totally broken for both. It is potentially
+> >>>>>> more broken for virtual engines because of the question of which
+> >>>>>> engine to pulse. But as stated above, the pulse is pointless anyway
+> >>>>>> so the which engine question doesn't even matter.
+> >>>>>>
+> >>>>>> John.
+> >>>>>>
+> >>>>>>
+> >>>>>>>> scheduler does not have hacks in it to check the state of the
+> >>>>>>>> heartbeat or whether a context is actually a zombie or not. Thus,
+> >>>>>>>> the context will get resubmitted to the hardware after the pulse
+> >>>>>>>> completes and effectively nothing will have happened.
+> >>>>>>>>
+> >>>>>>>> I would assume that the DRM scheduler which we are meant to be
+> >>>>>>>> switching to for execlist as well as GuC submission is also
+> >>>>>>>> unlikely to have hacks for zombie contexts and tests for whether
+> >>>>>>>> the i915 specific heartbeat has been disabled since the context
+> >>>>>>>> became a zombie. So when that switch happens, this test will also
+> >>>>>>>> fail in execlist mode as well as GuC mode.
+> >>>>>>>>
+> >>>>>>>> The choices I see here are to simply remove persistence completely
+> >>>>>>>> (it is a basically a bug that became UAPI because it wasn't caught
+> >>>>>>>> soon enough!) or to implement it in a way that does not require
+> >>>>>>>> hacks in the back end scheduler. Apparently, the DRM scheduler is
+> >>>>>>>> expected to allow zombie contexts to persist until the DRM file
+> >>>>>>>> handle is closed. So presumably we will have to go with option two.
+> >>>>>>>>
+> >>>>>>>> That means flagging a context as being a zombie when it is closed
+> >>>>>>>> but still active. The driver would then add it to a zombie list
+> >>>>>>>> owned by the DRM client object. When that client object is closed,
+> >>>>>>>> i915 would go through the list and genuinely kill all the contexts.
+> >>>>>>>> No back end scheduler hacks required and no intimate knowledge of
+> >>>>>>>> the i915 heartbeat mechanism required either.
+> >>>>>>>>
+> >>>>>>>> John.
+> >>>>>>>>
+> >>>>>>>>
+> >>>>>>>>> This patch also updates intel_engine_has_heartbeat to be a vfunc
+> >>>>>>>>> as we
+> >>>>>>>>> now need to call this function on execlists virtual engines too.
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> >>>>>>>>> ---
+> >>>>>>>>>     drivers/gpu/drm/i915/gem/i915_gem_context.c   |  5 +++--
+> >>>>>>>>>     drivers/gpu/drm/i915/gt/intel_context_types.h |  2 ++
+> >>>>>>>>>     drivers/gpu/drm/i915/gt/intel_engine.h        | 21
+> >>>>>>>>> ++-----------------
+> >>>>>>>>>     .../drm/i915/gt/intel_execlists_submission.c  | 14 +++++++++++++
+> >>>>>>>>>     .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +++++-
+> >>>>>>>>>     .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 --
+> >>>>>>>>>     6 files changed, 26 insertions(+), 24 deletions(-)
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>>>>>> index 9c3672bac0e2..b8e01c5ba9e5 100644
+> >>>>>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> >>>>>>>>> @@ -1090,8 +1090,9 @@ static void kill_engines(struct
+> >>>>>>>>> i915_gem_engines *engines, bool ban)
+> >>>>>>>>>          */
+> >>>>>>>>>         for_each_gem_engine(ce, engines, it) {
+> >>>>>>>>>             struct intel_engine_cs *engine;
+> >>>>>>>>> +        bool local_ban = ban ||
+> >>>>>>>>> !intel_engine_has_heartbeat(ce->engine);
+> >>>>>>> In any case (pending me understanding what's really going on there),
+> >>>>>>> why would this check not be in kill_context with currently does this:
+> >>>>>>>
+> >>>>>>>       bool ban = (!i915_gem_context_is_persistent(ctx) ||
+> >>>>>>>               !ctx->i915->params.enable_hangcheck);
+> >>>>>>> ...
+> >>>>>>>           kill_engines(pos, ban);
+> >>>>>>>
+> >>>>>>> So whether to ban decision would be consolidated to one place.
+> >>>>>>>
+> >>>>>>> In fact, decision on whether to allow persistent is tied to
+> >>>>>>> enable_hangcheck, which also drives hearbeat emission. So perhaps
+> >>>>>>> one part of the correct fix is to extend the above (kill_context)
+> >>>>>>> ban criteria to include hearbeat values anyway. Otherwise isn't it a
+> >>>>>>> simple miss that this check fails to account to hearbeat disablement
+> >>>>>>> via sysfs?
+> >>>>>>>
+> >>>>>>> Regards,
+> >>>>>>>
+> >>>>>>> Tvrtko
+> >>>>>>>
+> >>>>>>>>> -        if (ban && intel_context_ban(ce, NULL))
+> >>>>>>>>> +        if (local_ban && intel_context_ban(ce, NULL))
+> >>>>>>>>>                 continue;
+> >>>>>>>>>             /*
+> >>>>>>>>> @@ -1104,7 +1105,7 @@ static void kill_engines(struct
+> >>>>>>>>> i915_gem_engines *engines, bool ban)
+> >>>>>>>>>             engine = active_engine(ce);
+> >>>>>>>>>             /* First attempt to gracefully cancel the context */
+> >>>>>>>>> -        if (engine && !__cancel_engine(engine) && ban)
+> >>>>>>>>> +        if (engine && !__cancel_engine(engine) && local_ban)
+> >>>>>>>>>                 /*
+> >>>>>>>>>                  * If we are unable to send a preemptive pulse to bump
+> >>>>>>>>>                  * the context from the GPU, we have to resort to a
+> >>>>>>>>> full
+> >>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >>>>>>>>> index e54351a170e2..65f2eb2a78e4 100644
+> >>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> >>>>>>>>> @@ -55,6 +55,8 @@ struct intel_context_ops {
+> >>>>>>>>>         void (*reset)(struct intel_context *ce);
+> >>>>>>>>>         void (*destroy)(struct kref *kref);
+> >>>>>>>>> +    bool (*has_heartbeat)(const struct intel_engine_cs *engine);
+> >>>>>>>>> +
+> >>>>>>>>>         /* virtual engine/context interface */
+> >>>>>>>>>         struct intel_context *(*create_virtual)(struct
+> >>>>>>>>> intel_engine_cs **engine,
+> >>>>>>>>>                             unsigned int count);
+> >>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h
+> >>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_engine.h
+> >>>>>>>>> index c2a5640ae055..1b11a808acc4 100644
+> >>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
+> >>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+> >>>>>>>>> @@ -283,28 +283,11 @@ struct intel_context *
+> >>>>>>>>>     intel_engine_create_virtual(struct intel_engine_cs **siblings,
+> >>>>>>>>>                     unsigned int count);
+> >>>>>>>>> -static inline bool
+> >>>>>>>>> -intel_virtual_engine_has_heartbeat(const struct intel_engine_cs
+> >>>>>>>>> *engine)
+> >>>>>>>>> -{
+> >>>>>>>>> -    /*
+> >>>>>>>>> -     * For non-GuC submission we expect the back-end to look at the
+> >>>>>>>>> -     * heartbeat status of the actual physical engine that the work
+> >>>>>>>>> -     * has been (or is being) scheduled on, so we should only reach
+> >>>>>>>>> -     * here with GuC submission enabled.
+> >>>>>>>>> -     */
+> >>>>>>>>> -    GEM_BUG_ON(!intel_engine_uses_guc(engine));
+> >>>>>>>>> -
+> >>>>>>>>> -    return intel_guc_virtual_engine_has_heartbeat(engine);
+> >>>>>>>>> -}
+> >>>>>>>>> -
+> >>>>>>>>>     static inline bool
+> >>>>>>>>>     intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
+> >>>>>>>>>     {
+> >>>>>>>>> -    if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
+> >>>>>>>>> -        return false;
+> >>>>>>>>> -
+> >>>>>>>>> -    if (intel_engine_is_virtual(engine))
+> >>>>>>>>> -        return intel_virtual_engine_has_heartbeat(engine);
+> >>>>>>>>> +    if (engine->cops->has_heartbeat)
+> >>>>>>>>> +        return engine->cops->has_heartbeat(engine);
+> >>>>>>>>>         else
+> >>>>>>>>>             return READ_ONCE(engine->props.heartbeat_interval_ms);
+> >>>>>>>>>     }
+> >>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>>>>>>>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>>>>>>>> index de5f9c86b9a4..18005b5546b6 100644
+> >>>>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> >>>>>>>>> @@ -3619,6 +3619,18 @@ virtual_get_sibling(struct intel_engine_cs
+> >>>>>>>>> *engine, unsigned int sibling)
+> >>>>>>>>>         return ve->siblings[sibling];
+> >>>>>>>>>     }
+> >>>>>>>>> +static bool virtual_engine_has_heartbeat(const struct
+> >>>>>>>>> intel_engine_cs *ve)
+> >>>>>>>>> +{
+> >>>>>>>>> +    struct intel_engine_cs *engine;
+> >>>>>>>>> +    intel_engine_mask_t tmp, mask = ve->mask;
+> >>>>>>>>> +
+> >>>>>>>>> +    for_each_engine_masked(engine, ve->gt, mask, tmp)
+> >>>>>>>>> +        if (READ_ONCE(engine->props.heartbeat_interval_ms))
+> >>>>>>>>> +            return true;
+> >>>>>>>>> +
+> >>>>>>>>> +    return false;
+> >>>>>>>>> +}
+> >>>>>>>>> +
+> >>>>>>>>>     static const struct intel_context_ops virtual_context_ops = {
+> >>>>>>>>>         .flags = COPS_HAS_INFLIGHT,
+> >>>>>>>>> @@ -3634,6 +3646,8 @@ static const struct intel_context_ops
+> >>>>>>>>> virtual_context_ops = {
+> >>>>>>>>>         .enter = virtual_context_enter,
+> >>>>>>>>>         .exit = virtual_context_exit,
+> >>>>>>>>> +    .has_heartbeat = virtual_engine_has_heartbeat,
+> >>>>>>>>> +
+> >>>>>>>>>         .destroy = virtual_context_destroy,
+> >>>>>>>>>         .get_sibling = virtual_get_sibling,
+> >>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> >>>>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> >>>>>>>>> index 89ff0e4b4bc7..ae70bff3605f 100644
+> >>>>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> >>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> >>>>>>>>> @@ -2168,6 +2168,8 @@ static int guc_virtual_context_alloc(struct
+> >>>>>>>>> intel_context *ce)
+> >>>>>>>>>         return lrc_alloc(ce, engine);
+> >>>>>>>>>     }
+> >>>>>>>>> +static bool guc_virtual_engine_has_heartbeat(const struct
+> >>>>>>>>> intel_engine_cs *ve);
+> >>>>>>>>> +
+> >>>>>>>>>     static const struct intel_context_ops virtual_guc_context_ops = {
+> >>>>>>>>>         .alloc = guc_virtual_context_alloc,
+> >>>>>>>>> @@ -2183,6 +2185,8 @@ static const struct intel_context_ops
+> >>>>>>>>> virtual_guc_context_ops = {
+> >>>>>>>>>         .enter = guc_virtual_context_enter,
+> >>>>>>>>>         .exit = guc_virtual_context_exit,
+> >>>>>>>>> +    .has_heartbeat = guc_virtual_engine_has_heartbeat,
+> >>>>>>>>> +
+> >>>>>>>>>         .sched_disable = guc_context_sched_disable,
+> >>>>>>>>>         .destroy = guc_context_destroy,
+> >>>>>>>>> @@ -3029,7 +3033,7 @@ guc_create_virtual(struct intel_engine_cs
+> >>>>>>>>> **siblings, unsigned int count)
+> >>>>>>>>>         return ERR_PTR(err);
+> >>>>>>>>>     }
+> >>>>>>>>> -bool intel_guc_virtual_engine_has_heartbeat(const struct
+> >>>>>>>>> intel_engine_cs *ve)
+> >>>>>>>>> +static bool guc_virtual_engine_has_heartbeat(const struct
+> >>>>>>>>> intel_engine_cs *ve)
+> >>>>>>>>>     {
+> >>>>>>>>>         struct intel_engine_cs *engine;
+> >>>>>>>>>         intel_engine_mask_t tmp, mask = ve->mask;
+> >>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> >>>>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> >>>>>>>>> index c7ef44fa0c36..c2afc3b88fd8 100644
+> >>>>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> >>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> >>>>>>>>> @@ -29,8 +29,6 @@ void intel_guc_dump_active_requests(struct
+> >>>>>>>>> intel_engine_cs *engine,
+> >>>>>>>>>                         struct i915_request *hung_rq,
+> >>>>>>>>>                         struct drm_printer *m);
+> >>>>>>>>> -bool intel_guc_virtual_engine_has_heartbeat(const struct
+> >>>>>>>>> intel_engine_cs *ve);
+> >>>>>>>>> -
+> >>>>>>>>>     int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+> >>>>>>>>>                        atomic_t *wait_var,
+> >>>>>>>>>                        bool interruptible,
+> >>>>>>>> _______________________________________________
+> >>>>>>>> Intel-gfx mailing list
+> >>>>>>>> Intel-gfx@lists.freedesktop.org
+> >>>>>>>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>
+
+
 -- 
-2.18.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
