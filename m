@@ -1,76 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920F73F0823
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:37:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5503F083B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 714A16E84B;
-	Wed, 18 Aug 2021 15:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF3736E830;
+	Wed, 18 Aug 2021 15:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E27D6E844;
- Wed, 18 Aug 2021 15:37:19 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- u13-20020a17090abb0db0290177e1d9b3f7so9175195pjr.1; 
- Wed, 18 Aug 2021 08:37:19 -0700 (PDT)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C12F6E830
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:43:12 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id y6so5930530lje.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=hf+PYnU598KTcaGn+kaY/aSf215EGIiFQvdsiOz+iNE=;
- b=CRReCz8U1P4Vv/4YGcZ1yXzH+D47/TB1oHO0dVMmc5eJZFDAPmpymyNAEiBN5WDZyc
- NLB4xpGh5K2xs7hcYiNjXy3kjkwe/wYIu7m7c06ELfE/fUF4dPSfnhpowkVFnHyQlWLe
- jn1hD7cIAUnNAa+AkHUsJzHIX72hvs0va83jAGwW3SZgKxi1D7Xzfl2g00lA7Xl0Q7kV
- NYVYOxslSek9f4SQTMl4vz0gLls1vYwbRtdDkLY2IkRxn574O3FUUO1DaoL+MnK8iWvX
- JcfR0P72LfOlmhcDM5BzprPbafaZjAMdVEZYmXUjP2ieYuwkmxm+vmnOvdonssKqlW+q
- ujqA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lIuMFp8lfdAxjvsE4KV5hsgygseTRFOfUkeg317UTqw=;
+ b=dtxLX4b5qLF8zJg4U/tH1i5TLkCJQlLRGlM2ztQHxAxkEicBA3GgWrdEZtc+2qzQQ0
+ 6a8pb1OUyJBXSSUlTK4EwMpTqT1ojblCSfASZ95zK5PrbpQsC7mdRTU1//Ez3cWcrBRe
+ Iq/odKvRlhN3wJQDN8V8dZOm8Clfju/bJu1hebRScB6VdPRLcb8AsNEhaoe5Nz2Fcb7V
+ xDRyCCAdBrHHixEpfT3gLjONzBy264Yfv49IIXx4JnjGiqPrqldsrBs6YegkW2URPTvj
+ GDyCPXiG3rcBxKDlskFp0j+TcRhfWoCzYU6QHjIUcKA7TczgiZtN0vnVaED8i1VKeTlS
+ ny2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hf+PYnU598KTcaGn+kaY/aSf215EGIiFQvdsiOz+iNE=;
- b=IhYmA6wvsCucAztsJJohYj0OHevCMuIbtdUfd68skcsnDZNY65yMjLEb0DpzgRLWJu
- 2LvHyiEbeCa99vPLbzBpbTjZZtgMsqF3Ct3kdolc5299/n5sC95lPxQGTbbEXgv3IV7J
- js4rrr4U2MU5sy5Udo0VIADE2LbdC3806P8tLNraGMLnZ7eTLursMoQRF/eupq9o6Vs7
- j8b3lmD1sqnNelKhwiwMcQ6p90drflQcyxRbdE+e725454/8xHiT6YFF0/JvsjntFFUh
- 3Nz8UldsJHICYEEZWR6/bAJKURmHDL2iW/MQLKtTGU4Gz0KI2mn1n/IySTIKCSTMMzLK
- UoRw==
-X-Gm-Message-State: AOAM531i7DJDfsLAs/C6D0Z2C+ODETlvgrhh8XeCnjSS99SEkSgg5MFJ
- E/5SPT9siwlwDGcJcr/mDYg=
-X-Google-Smtp-Source: ABdhPJxnOCxmhvFCsrLoYA3U+x8QTr55RHKLH9kbAlQwE+cwDJdAHyVY/t70CXCisMkBQjAYex3AVQ==
-X-Received: by 2002:a17:90a:2b89:: with SMTP id
- u9mr9961429pjd.116.1629301038807; 
- Wed, 18 Aug 2021 08:37:18 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id c15sm223676pjr.22.2021.08.18.08.37.10
+ bh=lIuMFp8lfdAxjvsE4KV5hsgygseTRFOfUkeg317UTqw=;
+ b=Pue5ptU4dcLo6QTzlhKIzvy3hzPY9Zcw9pY72bWXgN5TVU/m0NxdGXUT4qc+KGMPIt
+ EgyTlwH/G4ikj2FEZZ8n/hUpvKSUvgLcecaU9Goh43T4NDy8DsK658RCNxvPfJf4dnSw
+ NQV/MNo8gUDukSaGx/VYEcQfy7U25uZA6QsLYZTwRlVjV9MG+Zqnhh9u6x1JnCJbeGQO
+ sld7R5LaTka+L4hZZ9pllFPbWnJHjhXxKdeJyn12Tfx8trwPJcmhtHbgshzE0qBQHSQ5
+ ZDJOl1KrFCezNvyVtzvlVJ51NlFPDhezUsgR/8RFB+Hml18s8VrgxB8neVlqSnIsxKVE
+ MPfQ==
+X-Gm-Message-State: AOAM531EHmC2YosMk6tNSzXVjymjfT5jTJxyO/V2FPzOMnthT8nZvKyO
+ 39XlLfrv1/i6f8d/KfOUvUc=
+X-Google-Smtp-Source: ABdhPJxHinOU9QfMFxcyBQEWGYvz/BOpXsNrwiitYcP2iJAqNtbW+KnNJW82u2bMuO8HNcWCppaSuQ==
+X-Received: by 2002:a2e:8008:: with SMTP id j8mr8242690ljg.233.1629301390791; 
+ Wed, 18 Aug 2021 08:43:10 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru.
+ [46.138.85.91])
+ by smtp.googlemail.com with ESMTPSA id d20sm6145lfs.155.2021.08.18.08.43.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 08:37:18 -0700 (PDT)
-Subject: Re: [PATCH v3 4/9] drm: fix potential null ptr dereferences in
- drm_{auth,ioctl}
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
- christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
- tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
- <20210818073824.1560124-5-desmondcheongzx@gmail.com>
- <YRzcuiQrLFsWowas@phenom.ffwll.local>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <53a63ac8-f2de-91f7-4e0f-20b0f3f61d52@gmail.com>
-Date: Wed, 18 Aug 2021 23:37:08 +0800
+ Wed, 18 Aug 2021 08:43:10 -0700 (PDT)
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+References: <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+ <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
+ <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+Date: Wed, 18 Aug 2021 18:43:08 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YRzcuiQrLFsWowas@phenom.ffwll.local>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,131 +109,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/8/21 6:11 pm, Daniel Vetter wrote:
-> On Wed, Aug 18, 2021 at 03:38:19PM +0800, Desmond Cheong Zhi Xi wrote:
->> There are three areas where we dereference struct drm_master without
->> checking if the pointer is non-NULL.
+18.08.2021 13:08, Ulf Hansson пишет:
+> On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wrote:
 >>
->> 1. drm_getmagic is called from the ioctl_handler. Since
->> DRM_IOCTL_GET_MAGIC has no ioctl flags, drm_getmagic is run without
->> any check that drm_file.master has been set.
+>> On 18-08-21, 11:41, Ulf Hansson wrote:
+>>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>>>> What we need here is just configure. So something like this then:
+>>>>
+>>>> - genpd->get_performance_state()
+>>>>   -> dev_pm_opp_get_current_opp() //New API
+>>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
+>>>>
+>>>> This can be done just once from probe() then.
+>>>
+>>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
 >>
->> 2. Similarly, drm_getunique is called from the ioctl_handler, but
->> DRM_IOCTL_GET_UNIQUE has no ioctl flags. So there is no guarantee that
->> drm_file.master has been set.
-> 
-> I think the above two are impossible, due to the refcounting rules for
-> struct file.
-> 
-
-Right, will drop those two parts from the patch.
-
->> 3. drm_master_release can also be called without having a
->> drm_file.master set. Here is one error path:
->>    drm_open():
->>      drm_open_helper():
->>        drm_master_open():
->>          drm_new_set_master(); <--- returns -ENOMEM,
->>                                     drm_file.master not set
->>        drm_file_free():
->>          drm_master_release(); <--- NULL ptr dereference
->>                                     (file_priv->master->magic_map)
+>> The opp core already has a way of finding current OPP, that's what
+>> Dmitry is trying to use here. It finds it using clk_get_rate(), if
+>> that is zero, it picks the lowest freq possible.
 >>
->> Fix these by checking if the master pointers are NULL before use.
+>>> I am sure I understand the problem. When a device is getting probed,
+>>> it needs to consume power, how else can the corresponding driver
+>>> successfully probe it?
 >>
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->> ---
->>   drivers/gpu/drm/drm_auth.c  | 16 ++++++++++++++--
->>   drivers/gpu/drm/drm_ioctl.c |  5 +++++
->>   2 files changed, 19 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
->> index f9267b21556e..b7230604496b 100644
->> --- a/drivers/gpu/drm/drm_auth.c
->> +++ b/drivers/gpu/drm/drm_auth.c
->> @@ -95,11 +95,18 @@ EXPORT_SYMBOL(drm_is_current_master);
->>   int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
->>   {
->>   	struct drm_auth *auth = data;
->> +	struct drm_master *master;
->>   	int ret = 0;
->>   
->>   	mutex_lock(&dev->master_mutex);
->> +	master = file_priv->master;
->> +	if (!master) {
->> +		mutex_unlock(&dev->master_mutex);
->> +		return -EINVAL;
->> +	}
->> +
->>   	if (!file_priv->magic) {
->> -		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
->> +		ret = idr_alloc(&master->magic_map, file_priv,
->>   				1, 0, GFP_KERNEL);
->>   		if (ret >= 0)
->>   			file_priv->magic = ret;
->> @@ -355,8 +362,12 @@ void drm_master_release(struct drm_file *file_priv)
->>   
->>   	mutex_lock(&dev->master_mutex);
->>   	master = file_priv->master;
->> +
->> +	if (!master)
->> +		goto unlock;
+>> Dmitry can answer that better, but a device doesn't necessarily need
+>> to consume energy in probe. It can consume bus clock, like APB we
+>> have, but the more energy consuming stuff can be left disabled until
+>> the time a user comes up. Probe will just end up registering the
+>> driver and initializing it.
 > 
-> This is a bit convoluted, since we're in the single-threaded release path
-> we don't need any locking for file_priv related things. Therefore we can
-> pull the master check out and just directly return.
+> That's perfectly fine, as then it's likely that it won't vote for an
+> OPP, but can postpone that as well.
 > 
-> But since it's a bit surprising maybe a comment that this can happen when
-> drm_master_open in drm_open_helper fails?
-> 
+> Perhaps the problem is rather that the HW may already carry a non-zero
+> vote made from a bootloader. If the consumer driver tries to clear
+> that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
+> still not lead to any updates of the performance state in genpd,
+> because genpd internally has initialized the performance-state to
+> zero.
 
-Sounds good. This can actually also happen in the failure path of 
-mock_drm_getfile if anon_inode_getfile fails. I'll leave a short note 
-about both of them.
+We don't need to discover internal SoC devices because we use
+device-tree on ARM. For most devices power isn't required at a probe
+time because probe function doesn't touch h/w at all, thus devices are
+left in suspended state after probe.
 
-> Another option, and maybe cleaner, would be to move the drm_master_release
-> from drm_file_free into drm_close_helper. That would be fully symmetrical
-> and should also fix the bug here?
-> -Daniel
-> 
-Hmmm maybe the first option to move the check out of the lock might be 
-better. If I'm not wrong, we would otherwise also need to move 
-drm_master_release into drm_client_close.
+We have three components comprising PM on Tegra:
 
-> 
->> +
->>   	if (file_priv->magic)
->> -		idr_remove(&file_priv->master->magic_map, file_priv->magic);
->> +		idr_remove(&master->magic_map, file_priv->magic);
->>   
->>   	if (!drm_is_current_master_locked(file_priv))
->>   		goto out;
->> @@ -379,6 +390,7 @@ void drm_master_release(struct drm_file *file_priv)
->>   		drm_master_put(&file_priv->master);
->>   		spin_unlock(&dev->master_lookup_lock);
->>   	}
->> +unlock:
->>   	mutex_unlock(&dev->master_mutex);
->>   }
->>   
->> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
->> index 26f3a9ede8fe..4d029d3061d9 100644
->> --- a/drivers/gpu/drm/drm_ioctl.c
->> +++ b/drivers/gpu/drm/drm_ioctl.c
->> @@ -121,6 +121,11 @@ int drm_getunique(struct drm_device *dev, void *data,
->>   
->>   	mutex_lock(&dev->master_mutex);
->>   	master = file_priv->master;
->> +	if (!master) {
->> +		mutex_unlock(&dev->master_mutex);
->> +		return -EINVAL;
->> +	}
->> +
->>   	if (u->unique_len >= master->unique_len) {
->>   		if (copy_to_user(u->unique, master->unique, master->unique_len)) {
->>   			mutex_unlock(&dev->master_mutex);
->> -- 
->> 2.25.1
->>
-> 
+1. Power gate
+2. Clock state
+3. Voltage state
 
+GENPD on/off represents the 'power gate'.
+
+Clock and reset are controlled by device drivers using clk and rst APIs.
+
+Voltage state is represented by GENPD's performance level.
+
+GENPD core assumes that at a first rpm-resume of a consumer device, its
+genpd_performance=0. Not true for Tegra because h/w of the device is
+preconfigured to a non-zero perf level initially, h/w may not support
+zero level at all.
+
+GENPD core assumes that consumer devices can work at any performance
+level. Not true for Tegra because voltage needs to be set in accordance
+to the clock rate before clock is enabled, otherwise h/w won't work
+properly, perhaps clock may be unstable or h/w won't be latching.
+
+Performance level should be set to 0 while device is suspended.
+Performance level needs to be bumped on rpm-resume of a device in
+accordance to h/w state before hardware is enabled.
