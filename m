@@ -1,52 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D5D3F0A5F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 19:40:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D31C3F0A61
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 19:40:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1A36E81E;
-	Wed, 18 Aug 2021 17:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBA916E871;
+	Wed, 18 Aug 2021 17:40:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBA5E6E4CB
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:03:45 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id a93so3937402ybi.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 02:03:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=KOHIFm7DxNQPJ+AIsQp6fOHHSgtmRlgAtGT6EK/cVFE=;
- b=PLiLI3j//MomHh0Xwejj0OajZTRm7p1IMcP8V4G46fWPgjBAL2n9jorerPoFDk15cz
- nOuD1jcYARWTXP7mxK3vrTgShVIvbU/oh2DM7wgdLqkGlA4agF+u1xcPE1bWyeVNx/p2
- y3Sp1Wu+lVHGirnEYwlEBM4ETn1nHSKFPnVIH+jV2tQnPIyXtaAT7b6t0U9Ff8Atd/MA
- OIUJjeTBr7/VRdS0Q2rQjha/7JjL7NS7QRX5PEVGUUXK4nROPr34WMjfsVgc7WXR8BPC
- /SBX3+TBjT2imL9wdwooeJI1R4wXcTXcDBZ9FT08x5U/S9iU6RIOzf5cu47U5xc2ZFKy
- VSJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=KOHIFm7DxNQPJ+AIsQp6fOHHSgtmRlgAtGT6EK/cVFE=;
- b=VCpeXUD21X3aTw2Iva0Li8Y1NX2ibjSCyNdo/ORNLwUjqN+HtI9AXqxMVLCbFBxua7
- 1qsolQxAtWzzJdH1HJVGbpi3qb8Y4mHPmcnvruxlLGsW8jsiqc99GrFaX1k0DR5x7e9g
- NeFOVTL/tBG4sIk+zMsdA6D+znrOhq5YVjPa1VD1OXmXBrQJ+ZaEFzdgAd84TP6ILIAe
- B2idCvgwz9j4KHW9dJjhJCUGnz289vsLR2FppV8LUVTJMD5eEF4mkopBNp74vOEy9HyM
- FtF6CuQq76SBgnBOHVt8FDJkkQY0/8CnJcxuBwsfKTVmYPFR9sWbV4yXwE4urCfRxlBP
- Qhow==
-X-Gm-Message-State: AOAM531oUNzYkYXUxnlg9VywPaXts6gfbgcZqnSNXJOXve6mQUSvezZW
- EoVD6FfXTlGiigOs6iErNEFUE/tRKPVvR8nmFrRlMdZ4hZeb4Q==
-X-Google-Smtp-Source: ABdhPJwtXUSuosSPcWHgIrB6k7PUgclgKFlZG33hZTTTuTe9UWle3JYDC7SuhILW4pnTykVALwsz3icVe0/Wzcfr0a8=
-X-Received: by 2002:a25:aaa2:: with SMTP id t31mr10107032ybi.178.1629277424847; 
- Wed, 18 Aug 2021 02:03:44 -0700 (PDT)
+X-Greylist: delayed 480 seconds by postgrey-1.36 at gabe;
+ Wed, 18 Aug 2021 12:03:22 UTC
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com
+ [148.163.135.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF20C6E55C
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 12:03:22 +0000 (UTC)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+ by mx0a-00128a01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17I8Wt6N023819;
+ Wed, 18 Aug 2021 07:55:18 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+ by mx0a-00128a01.pphosted.com with ESMTP id 3ag9e6fmbq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Aug 2021 07:55:18 -0400
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+ by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 17IBtHEH020339
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL); 
+ Wed, 18 Aug 2021 07:55:17 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.858.5; Wed, 18 Aug 2021
+ 07:55:16 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.858.5 via Frontend
+ Transport; Wed, 18 Aug 2021 07:55:16 -0400
+Received: from nsa.ad.analog.com ([10.44.3.58])
+ by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 17IBtEUE031440;
+ Wed, 18 Aug 2021 07:55:15 -0400
+From: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+To: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>
+CC: Rob Clark <rob@ti.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH] dma-buf: return -EINVAL if dmabuf object is NULL
+Date: Wed, 18 Aug 2021 13:58:10 +0200
+Message-ID: <20210818115810.274084-1-nuno.sa@analog.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Wed, 18 Aug 2021 19:03:33 +1000
-Message-ID: <CACAvsv5jtUFkHsGe-pf-=RceDOgKygjPnCi=6d5vCLM_f5aeMQ@mail.gmail.com>
-Subject: [PULL] nouveau-fixes 5.14
-To: ML dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Karol Herbst <kherbst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: VysZlt1syHx-snAeROfAhL42Qwl8f88W
+X-Proofpoint-ORIG-GUID: VysZlt1syHx-snAeROfAhL42Qwl8f88W
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-18_04,2021-08-17_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 phishscore=0 impostorscore=0
+ bulkscore=0 mlxlogscore=978 adultscore=0 clxscore=1011 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108180075
 X-Mailman-Approved-At: Wed, 18 Aug 2021 17:40:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,78 +76,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+On top of warning about a NULL object, we also want to return with a
+proper error code (as done in 'dma_buf_begin_cpu_access()'). Otherwise,
+we will get a NULL pointer dereference.
 
-Just a couple fixes for Ampere display issues, and a long-standing
-race in MM paths.
+Fixes: fc13020e086b ("dma-buf: add support for kernel cpu access")
+Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+---
+ drivers/dma-buf/dma-buf.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Ben.
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 63d32261b63f..8ec7876dd523 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1231,7 +1231,8 @@ int dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ {
+ 	int ret = 0;
+ 
+-	WARN_ON(!dmabuf);
++	if (WARN_ON(!dmabuf))
++		return -EINVAL;
+ 
+ 	might_lock(&dmabuf->resv->lock.base);
+ 
+-- 
+2.32.0
 
-The following changes since commit 7c60610d476766e128cc4284bb6349732cbd6606:
-
-  Linux 5.14-rc6 (2021-08-15 13:40:53 -1000)
-
-are available in the Git repository at:
-
-  git://github.com/skeggsb/linux linux-5.14
-
-for you to fetch changes up to 59f216cf04d973b4316761cbf3e7cb9556715b7a:
-
-  drm/nouveau: rip out nvkm_client.super (2021-08-18 19:00:15 +1000)
-
-----------------------------------------------------------------
-Ben Skeggs (6):
-      drm/nouveau: recognise GA107
-      drm/nouveau/disp: power down unused DP links during init
-      drm/nouveau/kms/nv50: workaround EFI GOP window channel format differences
-      drm/nouveau/fifo/nv50-: rip out dma channels
-      drm/nouveau: block a bunch of classes from userspace
-      drm/nouveau: rip out nvkm_client.super
-
- drivers/gpu/drm/nouveau/dispnv50/disp.c                | 27 +++++++++++
- drivers/gpu/drm/nouveau/dispnv50/head.c                | 13 ++++--
- drivers/gpu/drm/nouveau/dispnv50/head.h                |  1 +
- drivers/gpu/drm/nouveau/include/nvif/cl0080.h          |  3 +-
- drivers/gpu/drm/nouveau/include/nvif/class.h           |  2 -
- drivers/gpu/drm/nouveau/include/nvif/client.h          |  1 -
- drivers/gpu/drm/nouveau/include/nvif/driver.h          |  2 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/client.h     |  1 -
- drivers/gpu/drm/nouveau/include/nvkm/core/ioctl.h      |  2 +-
- drivers/gpu/drm/nouveau/include/nvkm/subdev/mmu.h      |  1 -
- drivers/gpu/drm/nouveau/nouveau_abi16.c                |  2 -
- drivers/gpu/drm/nouveau/nouveau_chan.c                 | 19 +-------
- drivers/gpu/drm/nouveau/nouveau_drm.c                  |  3 +-
- drivers/gpu/drm/nouveau/nouveau_mem.c                  | 15 +-----
- drivers/gpu/drm/nouveau/nouveau_nvif.c                 |  4 +-
- drivers/gpu/drm/nouveau/nouveau_svm.c                  |  9 ----
- drivers/gpu/drm/nouveau/nouveau_usif.c                 | 57
-+++++++++++++++++------
- drivers/gpu/drm/nouveau/nvif/client.c                  |  3 +-
- drivers/gpu/drm/nouveau/nvif/object.c                  |  3 +-
- drivers/gpu/drm/nouveau/nvkm/core/ioctl.c              |  4 +-
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c      | 21 +++++++++
- drivers/gpu/drm/nouveau/nvkm/engine/device/user.c      |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c          |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.h          |  1 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c        |  9 ++++
- drivers/gpu/drm/nouveau/nvkm/engine/dma/user.c         | 15 ------
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/Kbuild        |  2 -
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/channv50.h    |  2 -
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmag84.c      | 94
---------------------------------------
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv50.c     | 92
--------------------------------------
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/g84.c         |  1 -
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogk104.c |  2 -
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifogv100.c |  2 -
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/gpfifotu102.c |  2 -
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv50.c        |  1 -
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.c         |  6 +--
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.h         |  1 -
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/ummu.c         |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c         | 27 +++--------
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c          |  6 +--
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c     | 16 +++----
- 41 files changed, 144 insertions(+), 334 deletions(-)
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmag84.c
- delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv50.c
