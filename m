@@ -1,68 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1F03F0B63
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 21:02:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E103F0B9C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 21:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F96F6E8BD;
-	Wed, 18 Aug 2021 19:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 727C46E921;
+	Wed, 18 Aug 2021 19:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8CF06E8BD
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 19:02:34 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id a5so2404571plh.5
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 12:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OMXez8qENPUCcqh2E+tbnIxsJfldRTnwEZLMxK7eXc8=;
- b=c8xDb3VhAM2UIAdOt9z9b/Wbob+uRx0FmaK+KR+eQy6dysj8cv+U6AjDt0EdkZ2361
- 8DH+d1rDWQGumbm1weW6y+49EvJQugDSRI7FdsLoB8IhE3fOs/ypXDjAzSXstWItFQdS
- Sg+JSf7LGfFIMpKFsioTnB+5Yd9zSeFnL1wt/K5eceIQNpdkIH1EwOcrvgwzJyOXWWos
- QSlDAw8lC+neFkWd5lG+dmQHIDS+azCTkRHmEuO7o0CkxwEafJmVug5clZwaVVfvyqLN
- IEsJWXSwIhbpmD0ncTiF0WMs5m4PZRisu2xjDEptAD4ngx3oT3b+je2MjsjkUjBHQWE6
- iJsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OMXez8qENPUCcqh2E+tbnIxsJfldRTnwEZLMxK7eXc8=;
- b=EhlcXGiZdmzb9UD1sHnwW2hNRBYVeBKsGwQuSKo7mm35WrmYYchiGaNfaeM6GVbVd/
- ezixKe8kXoy+MPxOusdAWkDfgUmqICOCWCtpPa1BtMqWzKV3HzEdMIwrtkwEorbGqHuc
- MW99R+Kcxp9Kf7rO/+p/hd9VEf82+M/lku54Gt3V4Ec6i4bZRixgoJsCon6aoP0A3X56
- sB0WdecGEJGC1W45h+2sp0mW05tZk7l5cFJChlj3X6i+5Da5Uu6XIZcp8+ML86MQeWZy
- 4URmcNCEYo7x9A0/fhhdKzV1MHXx+P+rMp3RqxODLcK3eyiNhQy5B7cPVOgo+B62FT5m
- BsUQ==
-X-Gm-Message-State: AOAM5334kyv/g03I085PG5Fghir3nsgBqDWgMBqWTdqNL9PINxfpGPpu
- tojDcDvVaGOMHbrr/RkHANorLILjxBDvuZ+tevrhcg==
-X-Google-Smtp-Source: ABdhPJxSsH7+R4Vr35DJYqsUv8sBHjgia/aPY5AUcIG0AzDMU05I02y0VsRjaBMcpir9IGiJRfjyg9KfwdJpkojrIWE=
-X-Received: by 2002:a17:90a:c003:: with SMTP id
- p3mr10623395pjt.14.1629313354417; 
- Wed, 18 Aug 2021 12:02:34 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9DF6E8BB;
+ Wed, 18 Aug 2021 19:12:35 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="195985675"
+X-IronPort-AV: E=Sophos;i="5.84,332,1620716400"; d="scan'208";a="195985675"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 12:12:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,332,1620716400"; d="scan'208";a="521200675"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by FMSMGA003.fm.intel.com with ESMTP; 18 Aug 2021 12:12:33 -0700
+Received: from [10.249.134.4] (mwajdecz-MOBL.ger.corp.intel.com [10.249.134.4])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 17IJCWmH032062; Wed, 18 Aug 2021 20:12:32 +0100
+Subject: Re: [Intel-gfx] [PATCH 2/4] drm/i915/guc: Print error name on CTB
+ (de)registration failure
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20210701155513.2024-1-michal.wajdeczko@intel.com>
+ <20210701155513.2024-3-michal.wajdeczko@intel.com>
+ <YR0XFp/Q+f8Todgk@phenom.ffwll.local>
+ <7bdb20cf-550f-9c65-5c9b-60cc87de33b2@intel.com>
+ <CAKMK7uG5OMMfNq7K1BPKdtgkiiQUjW9updRZgy5xdeE2vPFSbg@mail.gmail.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <c9a65e57-2d98-833c-e89a-b394ffecbeac@intel.com>
+Date: Wed, 18 Aug 2021 21:12:32 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210818171318.1848272-1-robert.foss@linaro.org>
- <20210818171318.1848272-2-robert.foss@linaro.org>
- <YR1F+I4/JbBAgpwZ@ravnborg.org>
-In-Reply-To: <YR1F+I4/JbBAgpwZ@ravnborg.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 18 Aug 2021 21:02:23 +0200
-Message-ID: <CAG3jFysiY-w1wXcA=qpjbTKF=2N3tjOND+SvwcLr7b_UZhepGA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7625: Propagate errors from
- sp_tx_edid_read()
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Xin Ji <xji@analogixsemi.com>, 
- Pi-Hsun Shih <pihsun@chromium.org>, Tzung-Bi Shih <tzungbi@google.com>, 
- Hsin-Yi Wang <hsinyi@chromium.org>, Nicolas Boichat <drinkcat@chromium.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAKMK7uG5OMMfNq7K1BPKdtgkiiQUjW9updRZgy5xdeE2vPFSbg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,46 +59,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Sam!
 
-On Wed, 18 Aug 2021 at 19:40, Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Robert,
->
-> On Wed, Aug 18, 2021 at 07:13:18PM +0200, Robert Foss wrote:
-> > During the sp_tx_edid_read() call the return value of sp_tx_edid_read()
-> > is ignored, which could cause potential errors to go unhandled.
-> >
-> > All errors which are returned by sp_tx_edid_read() are handled in
-> > anx7625_get_edid().
-> >
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> > ---
-> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 14 ++++++++++----
-> >  1 file changed, 10 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > index ea414cd349b5c..abc8db77bfd36 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > @@ -845,8 +845,11 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
-> >                               if (g_edid_break == 1)
-> >                                       break;
-> >
-> > -                             segments_edid_read(ctx, count / 2,
-> > -                                                pblock_buf, offset);
-> > +                             ret = segments_edid_read(ctx, count / 2,
-> > +                                                      pblock_buf, offset);
-> > +                             if (ret < 0)
-> > +                                     return ret;
-> > +
->
-> This could be just "if (ret)".
-> Same goes for the next case.
->
-> With or without this simplification:
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->
-> I assume you will apply the patches.
 
-Applied to drm-misc-next
+On 18.08.2021 18:35, Daniel Vetter wrote:
+> On Wed, Aug 18, 2021 at 5:11 PM Michal Wajdeczko
+> <michal.wajdeczko@intel.com> wrote:
+>>
+>>
+>>
+>> On 18.08.2021 16:20, Daniel Vetter wrote:
+>>> On Thu, Jul 01, 2021 at 05:55:11PM +0200, Michal Wajdeczko wrote:
+>>>> Instead of plain error value (%d) print more user friendly error
+>>>> name (%pe).
+>>>>
+>>>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>>> ---
+>>>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 8 ++++----
+>>>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>>> index a26bb55c0898..18d52c39f0c2 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>>>> @@ -167,8 +167,8 @@ static int ct_register_buffer(struct intel_guc_ct *ct, u32 type,
+>>>>      err = guc_action_register_ct_buffer(ct_to_guc(ct), type,
+>>>>                                          desc_addr, buff_addr, size);
+>>>>      if (unlikely(err))
+>>>> -            CT_ERROR(ct, "Failed to register %s buffer (err=%d)\n",
+>>>> -                     guc_ct_buffer_type_to_str(type), err);
+>>>> +            CT_ERROR(ct, "Failed to register %s buffer (%pe)\n",
+>>>> +                     guc_ct_buffer_type_to_str(type), ERR_PTR(err));
+>>>
+>>> errname() is what you want here, not this convoluted jumping through hoops
+>>> to fake an error pointer.
+>>
+>> nope, I was already trying that shortcut, but errname() is not exported
+>> so we fail with
+>>
+>> ERROR: modpost: "errname" [drivers/gpu/drm/i915/i915.ko] undefined!
+>>
+>> so unless we add that export we must follow initial approach [1]
+> 
+> Then we export that function. This is all open source, we can actually
+> fix things up, there should _never_ be a need to hack around things
+> like this.
+
+simple export might be not sufficient, as this function returns NULL for
+unrecognized error codes, and it might be hard to print that code in
+plain format, as it %pe does it for us for free.
+
+is that big problem to use ERR_PTR? I'm not the only/first one
+
+see
+drivers/net/can/usb/etas_es58x/es58x_core.c
+drivers/net/ethernet/freescale/enetc/enetc_pf.c
+drivers/net/phy/phylink.c
+...
+
+> 
+> And yes I'm keenly aware that there's a pile of i915-gem code which
+> outright flaunts this principle, but that doesn't mean we should
+> continue with that. scripts/get_maintainers.pl can help with finding
+> all the people you need to cc on that export patch.
+
+I'm perfectly fine with updating/fixing shared code (did that before,
+have few more ideas on my todo-list) but in this case I'm not so sure
+
+-Michal
+
+> -Daniel
+> 
+>>
+>> -Michal
+>>
+>> [1]
+>> https://cgit.freedesktop.org/drm/drm-tip/commit/?id=57f5677e535ba24b8926a7125be2ef8d7f09323c
+>>
+>>>
+>>> With that: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>      return err;
+>>>>  }
+>>>>
+>>>> @@ -195,8 +195,8 @@ static int ct_deregister_buffer(struct intel_guc_ct *ct, u32 type)
+>>>>      int err = guc_action_deregister_ct_buffer(ct_to_guc(ct), type);
+>>>>
+>>>>      if (unlikely(err))
+>>>> -            CT_ERROR(ct, "Failed to deregister %s buffer (err=%d)\n",
+>>>> -                     guc_ct_buffer_type_to_str(type), err);
+>>>> +            CT_ERROR(ct, "Failed to deregister %s buffer (%pe)\n",
+>>>> +                     guc_ct_buffer_type_to_str(type), ERR_PTR(err));
+>>>>      return err;
+>>>>  }
+>>>>
+>>>> --
+>>>> 2.25.1
+>>>>
+>>>> _______________________________________________
+>>>> Intel-gfx mailing list
+>>>> Intel-gfx@lists.freedesktop.org
+>>>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>>>
+> 
+> 
+> 
