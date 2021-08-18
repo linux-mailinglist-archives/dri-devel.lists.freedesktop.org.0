@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5503F083B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:43:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 251763F0848
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF3736E830;
-	Wed, 18 Aug 2021 15:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AFFD6E843;
+	Wed, 18 Aug 2021 15:46:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C12F6E830
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:43:12 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id y6so5930530lje.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:43:12 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82D176E843
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:46:13 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id p38so5679529lfa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ h=subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lIuMFp8lfdAxjvsE4KV5hsgygseTRFOfUkeg317UTqw=;
- b=dtxLX4b5qLF8zJg4U/tH1i5TLkCJQlLRGlM2ztQHxAxkEicBA3GgWrdEZtc+2qzQQ0
- 6a8pb1OUyJBXSSUlTK4EwMpTqT1ojblCSfASZ95zK5PrbpQsC7mdRTU1//Ez3cWcrBRe
- Iq/odKvRlhN3wJQDN8V8dZOm8Clfju/bJu1hebRScB6VdPRLcb8AsNEhaoe5Nz2Fcb7V
- xDRyCCAdBrHHixEpfT3gLjONzBy264Yfv49IIXx4JnjGiqPrqldsrBs6YegkW2URPTvj
- GDyCPXiG3rcBxKDlskFp0j+TcRhfWoCzYU6QHjIUcKA7TczgiZtN0vnVaED8i1VKeTlS
- ny2g==
+ bh=JieIqWdhDDBOyoPQjj0L36XO6x8aJlMqSaMCMlfoZXA=;
+ b=djv3Y4pk3V9YUhEA2+Gp7+1puSGj/ScHPzkFaChXRMQ9M5OMmulU1OjrBl8G1QZ+Sd
+ u/OsC07L8kILBtvZw3VRSsYC2EFjSMQbF5wT+1yI9SCq0UfT2ra5mmwQLk71rDCt52ix
+ +WGFoDUc0+yAkAosChOb9CVwlpU8GOJOVGPb6vn+ghBMisK2B72C3WCnuVO1CY4z0SFW
+ dwbBRAzomUOkWquhEQgz6ZWmGjojVv1nYnUhIzdx0oQg23e6McWrhqImpDmmiXFwn1Ch
+ axdy3S2COKId/VAFRe/Vw3Og9nEzScvpEh5CqOIRp3SqzrgDxkvcVltSFp1kEPyMrI3N
+ dOrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lIuMFp8lfdAxjvsE4KV5hsgygseTRFOfUkeg317UTqw=;
- b=Pue5ptU4dcLo6QTzlhKIzvy3hzPY9Zcw9pY72bWXgN5TVU/m0NxdGXUT4qc+KGMPIt
- EgyTlwH/G4ikj2FEZZ8n/hUpvKSUvgLcecaU9Goh43T4NDy8DsK658RCNxvPfJf4dnSw
- NQV/MNo8gUDukSaGx/VYEcQfy7U25uZA6QsLYZTwRlVjV9MG+Zqnhh9u6x1JnCJbeGQO
- sld7R5LaTka+L4hZZ9pllFPbWnJHjhXxKdeJyn12Tfx8trwPJcmhtHbgshzE0qBQHSQ5
- ZDJOl1KrFCezNvyVtzvlVJ51NlFPDhezUsgR/8RFB+Hml18s8VrgxB8neVlqSnIsxKVE
- MPfQ==
-X-Gm-Message-State: AOAM531EHmC2YosMk6tNSzXVjymjfT5jTJxyO/V2FPzOMnthT8nZvKyO
- 39XlLfrv1/i6f8d/KfOUvUc=
-X-Google-Smtp-Source: ABdhPJxHinOU9QfMFxcyBQEWGYvz/BOpXsNrwiitYcP2iJAqNtbW+KnNJW82u2bMuO8HNcWCppaSuQ==
-X-Received: by 2002:a2e:8008:: with SMTP id j8mr8242690ljg.233.1629301390791; 
- Wed, 18 Aug 2021 08:43:10 -0700 (PDT)
+ bh=JieIqWdhDDBOyoPQjj0L36XO6x8aJlMqSaMCMlfoZXA=;
+ b=LakgBlwDe0kLd32yi1ZgFs0oqYU46m40w1WxQQvQWMNqaGetCjcP4rQDHlMadnWbD9
+ NhtARJPLBl/mmL4g+hT1VDfPSFtR9BAKpwZV/9R3/regMNGSlq/v1HRuepg3Nfi/Vprz
+ g585R3ebY2JlTb/EVvSUdl36sTk7BRhplv3yq8ARlMys5SMhPKPWI+7Z3zErmahfTBZ/
+ j1tA4Hyk0LU8/2zh+021ZBu3bRPPoNFQAAQXyc+T5j16R2T7xGmdhUrL6QoIb6JjmO3/
+ Zuzr/RulERTgayviWa8wwycMxKsxA9o5zJyjANXYE67aq0t05IaTEwiNUmodcAjWAyuP
+ GGLg==
+X-Gm-Message-State: AOAM533MPatq43o0nGCgIEQTP9i3J046AQNCFqALV3ZrMCJ8qArelbva
+ r9o9oGZcuPyrikn2E0nO1iw=
+X-Google-Smtp-Source: ABdhPJyz6htisvp+J6/IItkzMKPUV9WFPIMTTkHzWeWJzG1OYk6xq6Q2Gi45+ssTCXzSje0g7I6JOg==
+X-Received: by 2002:a05:6512:45b:: with SMTP id
+ y27mr6749279lfk.619.1629301571851; 
+ Wed, 18 Aug 2021 08:46:11 -0700 (PDT)
 Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru.
  [46.138.85.91])
- by smtp.googlemail.com with ESMTPSA id d20sm6145lfs.155.2021.08.18.08.43.09
+ by smtp.googlemail.com with ESMTPSA id g27sm6017lfh.300.2021.08.18.08.46.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 08:43:10 -0700 (PDT)
+ Wed, 18 Aug 2021 08:46:11 -0700 (PDT)
 Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+From: Dmitry Osipenko <digetx@gmail.com>
 To: Ulf Hansson <ulf.hansson@linaro.org>,
  Viresh Kumar <viresh.kumar@linaro.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
@@ -84,13 +86,13 @@ References: <20210818043131.7klajx6drvvkftoc@vireshk-i7>
  <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
  <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
  <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
-Date: Wed, 18 Aug 2021 18:43:08 +0300
+ <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+Message-ID: <fd791644-e295-a56a-459e-82a4de2691bb@gmail.com>
+Date: Wed, 18 Aug 2021 18:46:10 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+In-Reply-To: <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -109,72 +111,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-18.08.2021 13:08, Ulf Hansson пишет:
-> On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>
->> On 18-08-21, 11:41, Ulf Hansson wrote:
->>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>>> What we need here is just configure. So something like this then:
->>>>
->>>> - genpd->get_performance_state()
->>>>   -> dev_pm_opp_get_current_opp() //New API
->>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
->>>>
->>>> This can be done just once from probe() then.
+18.08.2021 18:43, Dmitry Osipenko пишет:
+> 18.08.2021 13:08, Ulf Hansson пишет:
+>> On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wrote:
 >>>
->>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
+>>> On 18-08-21, 11:41, Ulf Hansson wrote:
+>>>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>>>>> What we need here is just configure. So something like this then:
+>>>>>
+>>>>> - genpd->get_performance_state()
+>>>>>   -> dev_pm_opp_get_current_opp() //New API
+>>>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
+>>>>>
+>>>>> This can be done just once from probe() then.
+>>>>
+>>>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
+>>>
+>>> The opp core already has a way of finding current OPP, that's what
+>>> Dmitry is trying to use here. It finds it using clk_get_rate(), if
+>>> that is zero, it picks the lowest freq possible.
+>>>
+>>>> I am sure I understand the problem. When a device is getting probed,
+>>>> it needs to consume power, how else can the corresponding driver
+>>>> successfully probe it?
+>>>
+>>> Dmitry can answer that better, but a device doesn't necessarily need
+>>> to consume energy in probe. It can consume bus clock, like APB we
+>>> have, but the more energy consuming stuff can be left disabled until
+>>> the time a user comes up. Probe will just end up registering the
+>>> driver and initializing it.
 >>
->> The opp core already has a way of finding current OPP, that's what
->> Dmitry is trying to use here. It finds it using clk_get_rate(), if
->> that is zero, it picks the lowest freq possible.
+>> That's perfectly fine, as then it's likely that it won't vote for an
+>> OPP, but can postpone that as well.
 >>
->>> I am sure I understand the problem. When a device is getting probed,
->>> it needs to consume power, how else can the corresponding driver
->>> successfully probe it?
->>
->> Dmitry can answer that better, but a device doesn't necessarily need
->> to consume energy in probe. It can consume bus clock, like APB we
->> have, but the more energy consuming stuff can be left disabled until
->> the time a user comes up. Probe will just end up registering the
->> driver and initializing it.
+>> Perhaps the problem is rather that the HW may already carry a non-zero
+>> vote made from a bootloader. If the consumer driver tries to clear
+>> that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
+>> still not lead to any updates of the performance state in genpd,
+>> because genpd internally has initialized the performance-state to
+>> zero.
 > 
-> That's perfectly fine, as then it's likely that it won't vote for an
-> OPP, but can postpone that as well.
+> We don't need to discover internal SoC devices because we use
+> device-tree on ARM. For most devices power isn't required at a probe
+> time because probe function doesn't touch h/w at all, thus devices are
+> left in suspended state after probe.
 > 
-> Perhaps the problem is rather that the HW may already carry a non-zero
-> vote made from a bootloader. If the consumer driver tries to clear
-> that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
-> still not lead to any updates of the performance state in genpd,
-> because genpd internally has initialized the performance-state to
-> zero.
+> We have three components comprising PM on Tegra:
+> 
+> 1. Power gate
+> 2. Clock state
+> 3. Voltage state
+> 
+> GENPD on/off represents the 'power gate'.
+> 
+> Clock and reset are controlled by device drivers using clk and rst APIs.
+> 
+> Voltage state is represented by GENPD's performance level.
 
-We don't need to discover internal SoC devices because we use
-device-tree on ARM. For most devices power isn't required at a probe
-time because probe function doesn't touch h/w at all, thus devices are
-left in suspended state after probe.
+OPP framework couples the performance level with the clock rate.
 
-We have three components comprising PM on Tegra:
+> GENPD core assumes that at a first rpm-resume of a consumer device, its
+> genpd_performance=0. Not true for Tegra because h/w of the device is
+> preconfigured to a non-zero perf level initially, h/w may not support
+> zero level at all.
+> 
+> GENPD core assumes that consumer devices can work at any performance
+> level. Not true for Tegra because voltage needs to be set in accordance
+> to the clock rate before clock is enabled, otherwise h/w won't work
+> properly, perhaps clock may be unstable or h/w won't be latching.
+> 
+> Performance level should be set to 0 while device is suspended.
+> Performance level needs to be bumped on rpm-resume of a device in
+> accordance to h/w state before hardware is enabled.
+> 
 
-1. Power gate
-2. Clock state
-3. Voltage state
-
-GENPD on/off represents the 'power gate'.
-
-Clock and reset are controlled by device drivers using clk and rst APIs.
-
-Voltage state is represented by GENPD's performance level.
-
-GENPD core assumes that at a first rpm-resume of a consumer device, its
-genpd_performance=0. Not true for Tegra because h/w of the device is
-preconfigured to a non-zero perf level initially, h/w may not support
-zero level at all.
-
-GENPD core assumes that consumer devices can work at any performance
-level. Not true for Tegra because voltage needs to be set in accordance
-to the clock rate before clock is enabled, otherwise h/w won't work
-properly, perhaps clock may be unstable or h/w won't be latching.
-
-Performance level should be set to 0 while device is suspended.
-Performance level needs to be bumped on rpm-resume of a device in
-accordance to h/w state before hardware is enabled.
