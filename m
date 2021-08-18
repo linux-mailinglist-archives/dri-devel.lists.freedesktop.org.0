@@ -1,131 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E778C3F0714
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:51:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 706873F0749
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6E606E81C;
-	Wed, 18 Aug 2021 14:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37AFB6E817;
+	Wed, 18 Aug 2021 14:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2066.outbound.protection.outlook.com [40.107.102.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 444906E81C;
- Wed, 18 Aug 2021 14:51:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ct8Q+mbbk4PCrvr2oMWAAUJ9azNriA3LUu+2Qi7PSjvJvcSEp3Ic5Qtmn+5B3wIFqUULhZZnqV7Kl3oGwLM5/PeMwUNcJAn1ZuP+PGaK36ihvIzaw+bDBIOS/fYJndz48ecjVFY0HRDhAIKkgmILF6gJemiL2GELrDxBU12PJBzA5ckP0gNWLiyMV/DcOiTh37uyYAkEijM3akUga/6+AbBQWnOd3LYgypeEoRxCCmu5dcT4Pyw49wR0C/UoChE2X+NDwcYTBr5pt/vWvj2ySrfqj3WDqvSFfzTyCzcT4AwQtf6mMJ9dJxG8qSBhvz7s5zEvtyYcIebKe+8XvH7E2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fMouY5cPeDnwj3WgIrmcLJgiOJYMB/z3yrQC7CkE4Xw=;
- b=P9MlDPEB9TRvr27k7OKutp6lwIIPl/NG6u6NPL9/Q9O/+o9ypjkSeVOdejrEQ2fG1IHqj33L0o3zGgXZ3kBpXtutdOXQuIeGJvjS3ZTQ4rDnDrIa/0VyUwBhzUSqlop9qjqxidiIoC6+VOtsYvlJS8LIzaM6tuHcztW3aQJWyIl2Du7tGIEckOO2lMuHZLuNPybpXp9UxdsDMn/eiXsgWdEArIKGezqRpzPIfywD6KKAEuXGtEgSqyaIV/7sR+607pB77/N0yFNkAundUCLxXS8XIim/1NusHVkZYUJh/LStFSRq17BMOvhBm9xKu8UNBbgTmIX/V6ekSGEWLaHDLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fMouY5cPeDnwj3WgIrmcLJgiOJYMB/z3yrQC7CkE4Xw=;
- b=IUOvNVIV1DsSToRjeA1DxIB5+8co8dcC0yV5uWIrz/rA6Z3P/DCxYSKzk/g+gW7TAiNb6pSyOEQAtm75b6JO0s9moT/PU27ezP7gmbOiVKrsI10S2VFyW1BCTn74QI5NsIerrDuZwbgRlaciHgU+V21M80sPm4NYNUQqKlaPJt0=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2654.namprd12.prod.outlook.com (2603:10b6:805:73::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.17; Wed, 18 Aug
- 2021 14:51:03 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::17c:7262:446:f400]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::17c:7262:446:f400%5]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
- 14:51:03 +0000
-Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Alex Deucher <alexdeucher@gmail.com>, Jingwen Chen <Jingwen.Chen2@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "monk.liu" <monk.liu@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-References: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
- <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
- <69cbf5bd-42c2-be55-a604-43f4ebba159d@amd.com>
- <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
- <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
- <YR0cb43Wv8jGiIbb@phenom.ffwll.local>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Message-ID: <82782ff5-d2a7-a4a8-8526-d1ff231630ed@amd.com>
-Date: Wed, 18 Aug 2021 10:51:00 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <YR0cb43Wv8jGiIbb@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YTBPR01CA0028.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::41) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FBA6E81D;
+ Wed, 18 Aug 2021 14:59:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216372968"
+X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="216372968"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 07:59:39 -0700
+X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="488747404"
+Received: from moloings-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.10.29])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 07:59:38 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 1/2] drm/i915/buddy: add some pretty printing
+Date: Wed, 18 Aug 2021 15:58:49 +0100
+Message-Id: <20210818145850.225387-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:8030:531a:c97a:dc26]
- (2607:fea8:3edf:49b0:8030:531a:c97a:dc26) by
- YTBPR01CA0028.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19 via Frontend Transport; Wed, 18 Aug 2021 14:51:02 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cd71daeb-0519-43ce-d923-08d9625799a5
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2654:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB265447AC96930BB6288852B5EAFF9@SN6PR12MB2654.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:142;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BnRnTN58u7BPWoSnGTKGjYXWI6g5sIPwhtRLXPLTFjM89zELW/OY9IanSV53CofaidyxoYWEC88y633WDTV5lxmlvHoIVmD2k8r7kVhWiUOsh5LQl+cBj3QjMC53xCAAcUB8gPUh81BTffvfCQsRkNbo27t+zOVB+qT/XuWAtZhMOqp/bQmBgeYsZ2M5nZaQ0MrJ0JY5XIo2Syjrnn+BhcUe+BNyOsNoSmJEfZXJSwdf4z7kH6BI1EMAbDEUljmHjj+xdvvALe0HM/nwXiYdDkKvHwzOxidoKY34hOLVakCxUQPKYWH13JNV1vZHWiuMSrtSXzeHEhJsRvuD7fbYlknTHzVp3NNPWIdaHj6Rh8/hjaAAYLHN84xwfvDQgU2iAe0/6nsx4zgFCpxlry1UHChRFOwO9a/UB8VyeME3JiqvNjcmyA2oCsHW0mooGg0o9TKCsLi/uNhZL4UJ2wfZ2KPgSww6SeggM7S+jqbtGtub/oOt7GPpgImt+Ki05FuGeU/Lkqh1dra2wNVtTL+GoWZVWjkGb4G492zs/EZ8UpRM7sOr/97oGg5DSLiQDbuopbl+zmWMCSyy/1cm/2BzGz1K55meI8XuG1z48L39acmHIdjuHaK/1VIB/vLJfgvICQIXX3sAoMF6PfP1HgOzgx5JyjB7KvimOBKR7tXgNuIm+JnFCxNKniKYOYMZQfMlDOYiHNEhoxrglkVJkeF9yf1UGl550z3yG1TLfj64rd0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(376002)(366004)(136003)(396003)(4326008)(2906002)(2616005)(83380400001)(5660300002)(53546011)(478600001)(66556008)(66476007)(6916009)(66946007)(36756003)(44832011)(8936002)(31696002)(6486002)(31686004)(316002)(86362001)(38100700002)(186003)(54906003)(8676002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TEl0S1laaE1UdUJzb25XaDlMUzBhTXkyckpocjluKzFYTWE0WEl5VEFNbmdY?=
- =?utf-8?B?ODZxMzlEOGxlbTZYdHh2eVVRNlZ3Qlk5aVlZMjRNanMwYUE3dmV5U05wWHIy?=
- =?utf-8?B?cTRrWU9KSVI3NW9uT2tnZ09KUWhjU2c0cHFVQjNDWkdPc09UcWt3ZFNLYStR?=
- =?utf-8?B?OHJwSWQvYVdrRnNGcU1OVXRWNncvcU05OFhTNkFxcEl5bFBid2s3ZXBFeFRD?=
- =?utf-8?B?LzhHT0pCOWc5RjhRYUJJRS9ST1luQlJydi9tUjV6dWJacEtWc0ZaZ2dEbmR2?=
- =?utf-8?B?eC9uWmwxb0NsdWFvNm5IRGlOOTNCZjJIbVBVaWdyL0t4RS85cVlqcnBJK0l4?=
- =?utf-8?B?ZGwvZmsrei9raWNVczV6UlZtU2IxMkI2MW5qWEx6L3dXWWNOOUlpWmZYUDlY?=
- =?utf-8?B?WVpNQzQxVStTQ3lUdVlENlVQMFk2bitwUHlNRndtRmFkQ3NZaEc1SWtraTZ2?=
- =?utf-8?B?U29QclI3NUtmTVBnWnhNQVRSZk9PcGtvNytPOG5XanJXSUhGMmxMc21FYjNI?=
- =?utf-8?B?ZWpvYzc1TVgxeXZvMnpkbnBmejZhcHAyNEdtTEZVQTk2d2d6a3pVd3VVRkVQ?=
- =?utf-8?B?c25xZTJzTEQ2YUFEU0tkVjRsaGVBMXVWUUZKOWxqN3ljYmFUNVVQYlE1ais0?=
- =?utf-8?B?UnBIUGVITjlkc1JxR2NVTktXTlB1TFMwQ1A3YmYrUnBQNW1uclFhMVdpT1hS?=
- =?utf-8?B?cWhuSWhiTmJwc3J1ZVdER3U5T1d3L0xWRXFjRktkSjQyWlh4SC83Rzc0TG5F?=
- =?utf-8?B?YWNheUhvSXcyWjVzUi9MRzhzci92Z0tzaXhjbTBUK0dFQ0ZHckhFdVk5SzhC?=
- =?utf-8?B?TTByUU5QUTlLMW1xemRhSEtRMmg1ZGtNM0prWW1PQWRHNGJURUVmY0E1Q2pm?=
- =?utf-8?B?UmlNZTRsby9pNnl5dVprNEdnVVFsQ2Y1KzBVYmY0Q2x3Zlp1UHJsdVhLcHow?=
- =?utf-8?B?OS9rQW5SSmkwMXl3MzBFdzd3WTZjTWVwWTZNQ3N4NGdBYjZIK3E0anZaQXlp?=
- =?utf-8?B?ZWRZb0VTWmtlMk55cVJCYWFHMGR0OHBZQzltelU5bnU4NUFNTnl0VHRqVDhm?=
- =?utf-8?B?VUdNVmNtTStkUTRFVmhtR0kwK0Q3K1o5WWM1NmJpTzkxTkQ4WGNueHJFb2d5?=
- =?utf-8?B?VE82aDVLRElodkFhWThuYkZDU1lyV243R2NmSmd5ZjQvWHJIVmh6Lys1MnA0?=
- =?utf-8?B?Y2tFdGlDeThPOVd6UHJlTkNvMXV5dE5SQ21YQjJCR05KWkt1NTVwWnVQMjhs?=
- =?utf-8?B?QmlHL1NVQWxqNUhUcTVHS0ZSWlZBVzlhMU4rVWVBSFNHQkxkUjlTTno2NnBt?=
- =?utf-8?B?eEwrSTVyQW1UenFJSEl4bVY5ZmlnUUprUUpWMHZndThETTJwY05vcGswT2xp?=
- =?utf-8?B?cThNYUpwTDkwZmJGU0dIRXdZUnd5VmdnQ0djRWVtV2d1SVBiRVI3UEJVRWpl?=
- =?utf-8?B?U09DZzVWb1NZTmV6RU44QmpSTlJGcU54VUJwVTFQckljYWhxYVpySXRhV1VE?=
- =?utf-8?B?eFY4OWlDQ2NZYlBoUzltK2QxanpPQ1REcVlBbnlvQW9MK0JRUjJnanQ3dEdM?=
- =?utf-8?B?T0o1M0NYTVFIemt1bUs4b3RUVk5kOGx2NENoYWpWQXc3TUQxWno3ZFRUVEhj?=
- =?utf-8?B?SURJd1FJeGorTmhyUXU2cWliOFROK1hsbkV3OGhuTnZvL3BEbjhqRlpEeDg3?=
- =?utf-8?B?Zk1LNTFDdG1heTJscHlDTVF0a1VWMnBnL3NoNnYzMlVydnpURVBYWmt1SUVT?=
- =?utf-8?B?UDhueEM5RlVrRmgxaG1RWE92aTg0TnJIYzFCSGtxcGpRQ0VhZlltbkI0d250?=
- =?utf-8?B?VThiVStBck5hQXRSQ29GYjdUVDdSOTEwbGxsWXJQMUNrWnUwUm9YMHNBM3VF?=
- =?utf-8?Q?vtW2LdAY6k37I?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd71daeb-0519-43ce-d923-08d9625799a5
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 14:51:02.9975 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jv4ZsaMOq9TEyLW3IqdTu0TDxjO+YAU6KIHtigMkWghuh6QmAxkvy6+TxMavj10M7ZwFXjqXbyU7lqIQvW0c/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2654
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,150 +48,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Implement the debug hook for the buddy resource manager. For this we
+want to print out the status of the memory manager, including how much
+memory is still allocatable, what page sizes we have etc. This will be
+triggered when TTM is unable to fulfil an allocation request for device
+local-memory.
 
-On 2021-08-18 10:42 a.m., Daniel Vetter wrote:
-> On Wed, Aug 18, 2021 at 10:36:32AM -0400, Andrey Grodzovsky wrote:
->> On 2021-08-18 10:32 a.m., Daniel Vetter wrote:
->>> On Wed, Aug 18, 2021 at 10:26:25AM -0400, Andrey Grodzovsky wrote:
->>>> On 2021-08-18 10:02 a.m., Alex Deucher wrote:
->>>>
->>>>> + dri-devel
->>>>>
->>>>> Since scheduler is a shared component, please add dri-devel on all
->>>>> scheduler patches.
->>>>>
->>>>> On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@amd.com> wrote:
->>>>>> [Why]
->>>>>> for bailing job, this commit will delete it from pending list thus the
->>>>>> bailing job will never have a chance to be resubmitted even in advance
->>>>>> tdr mode.
->>>>>>
->>>>>> [How]
->>>>>> after embeded hw_fence into amdgpu_job is done, the race condition that
->>>>>> this commit tries to work around is completely solved.So revert this
->>>>>> commit.
->>>>>> This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
->>>>>> v2:
->>>>>> add dma_fence_get/put() around timedout_job to avoid concurrent delete
->>>>>> during processing timedout_job
->>>>>>
->>>>>> Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
->>>>>> ---
->>>>>>     drivers/gpu/drm/scheduler/sched_main.c | 23 +++++------------------
->>>>>>     1 file changed, 5 insertions(+), 18 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> index a2a953693b45..f9b9b3aefc4a 100644
->>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>>>>>     {
->>>>>>            struct drm_gpu_scheduler *sched;
->>>>>>            struct drm_sched_job *job;
->>>>>> +       struct dma_fence *fence;
->>>>>>            enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
->>>>>>
->>>>>>            sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
->>>>>> @@ -325,11 +326,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>>>>>
->>>>>>            if (job) {
->>>>>>                    /*
->>>>>> -                * Remove the bad job so it cannot be freed by concurrent
->>>>>> -                * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
->>>>>> -                * is parked at which point it's safe.
->>>>>> +                * Get job->s_fence->parent here to avoid concurrent delete during
->>>>>> +                * processing timedout_job
->>>>>>                     */
->>>>>> -               list_del_init(&job->list);
->>>>>> +               fence = dma_fence_get(job->s_fence->parent);
->>>> While this is true for amdgpu, it has no meaning for other drivers for whom
->>>> we haven't
->>>> done the refactoring of embedding HW fence (parent) into the job structure.
->>>> In fact thinking
->>>> about it, unless you do the HW fence embedding for all the drivers using the
->>>> scheduler you cannot
->>>> revert this patch or you will just break them.
->>> btw, why did you do that embedding? I do still have my patches with
->>> dma_fence annotations floating around, but my idea at least was to fix
->>> that issue with a mempool, not with embeddeding. What was the motivation
->>> for embedding the wh fence?
->>> -Daniel
->>
->> The motivation was 2 fold, avoid memory allocation during jobs submissions
->> (HW fence allocation) because as Christian explained this leads to deadlock
->> with
->> mm code during evictions due to memory pressure (Christian can clarify if I
->> messed
-> Yeah that's the exact same thing I've chased with my dma_fence
-> annotations, but thus far zero to none interested in getting it sorted. I
-> think it'd be good to have some cross-driver agreement on how this should
-> be solved before someone just charges ahead ...
->
->> this explanation). Second is to exactly revert this patch because while it
->> solved the issue
->> described in the patch it created another with drivers who baildc out early
->> during TDR handling
->> for various reason and the job would just leak because it was already
->> removed form pending list.
-> Can't we reinsert it before we restart the scheduler thread? It might need
-> a separate list for that due to the lockless queue tricks. Or am I
-> thinking about the wrong kind of "we lost the job"?
-> -Danile
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/i915_buddy.c             | 45 +++++++++++++++++++
+ drivers/gpu/drm/i915/i915_buddy.h             |  8 ++++
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 20 ++++++++-
+ 3 files changed, 72 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/i915/i915_buddy.c b/drivers/gpu/drm/i915/i915_buddy.c
+index 7b274c51cac0..240e881d9eb0 100644
+--- a/drivers/gpu/drm/i915/i915_buddy.c
++++ b/drivers/gpu/drm/i915/i915_buddy.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/kmemleak.h>
++#include <linux/sizes.h>
+ 
+ #include "i915_buddy.h"
+ 
+@@ -82,6 +83,7 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64 size, u64 chunk_size)
+ 	size = round_down(size, chunk_size);
+ 
+ 	mm->size = size;
++	mm->avail = size;
+ 	mm->chunk_size = chunk_size;
+ 	mm->max_order = ilog2(size) - ilog2(chunk_size);
+ 
+@@ -155,6 +157,8 @@ void i915_buddy_fini(struct i915_buddy_mm *mm)
+ 		i915_block_free(mm, mm->roots[i]);
+ 	}
+ 
++	GEM_WARN_ON(mm->avail != mm->size);
++
+ 	kfree(mm->roots);
+ 	kfree(mm->free_list);
+ }
+@@ -230,6 +234,7 @@ void i915_buddy_free(struct i915_buddy_mm *mm,
+ 		     struct i915_buddy_block *block)
+ {
+ 	GEM_BUG_ON(!i915_buddy_block_is_allocated(block));
++	mm->avail += i915_buddy_block_size(mm, block);
+ 	__i915_buddy_free(mm, block);
+ }
+ 
+@@ -283,6 +288,7 @@ i915_buddy_alloc(struct i915_buddy_mm *mm, unsigned int order)
+ 	}
+ 
+ 	mark_allocated(block);
++	mm->avail -= i915_buddy_block_size(mm, block);
+ 	kmemleak_update_trace(block);
+ 	return block;
+ 
+@@ -368,6 +374,7 @@ int i915_buddy_alloc_range(struct i915_buddy_mm *mm,
+ 			}
+ 
+ 			mark_allocated(block);
++			mm->avail -= i915_buddy_block_size(mm, block);
+ 			list_add_tail(&block->link, &allocated);
+ 			continue;
+ 		}
+@@ -402,6 +409,44 @@ int i915_buddy_alloc_range(struct i915_buddy_mm *mm,
+ 	return err;
+ }
+ 
++void i915_buddy_block_print(struct i915_buddy_mm *mm,
++			    struct i915_buddy_block *block,
++			    struct drm_printer *p)
++{
++	u64 start = i915_buddy_block_offset(block);
++	u64 size = i915_buddy_block_size(mm, block);
++
++	drm_printf(p, "%#018llx-%#018llx: %llu\n", start, start + size, size);
++}
++
++void i915_buddy_print(struct i915_buddy_mm *mm, struct drm_printer *p)
++{
++	int order;
++
++	drm_printf(p, "chunk_size: %lluKB, total: %lluMB, free: %lluMB\n",
++		   mm->chunk_size >> 10, mm->size >> 20, mm->avail >> 20);
++
++	for (order = mm->max_order; order >= 0; order--) {
++		struct i915_buddy_block *block;
++		u64 count = 0, free;
++
++		list_for_each_entry(block, &mm->free_list[order], link) {
++			GEM_BUG_ON(!i915_buddy_block_is_free(block));
++			count++;
++		}
++
++		drm_printf(p, "order-%d ", order);
++
++		free = count * (mm->chunk_size << order);
++		if (free < SZ_1M)
++			drm_printf(p, "free: %lluKB", free >> 10);
++		else
++			drm_printf(p, "free: %lluMB", free >> 20);
++
++		drm_printf(p, ", pages: %llu\n", count);
++	}
++}
++
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+ #include "selftests/i915_buddy.c"
+ #endif
+diff --git a/drivers/gpu/drm/i915/i915_buddy.h b/drivers/gpu/drm/i915/i915_buddy.h
+index 3940d632f208..7077742112ac 100644
+--- a/drivers/gpu/drm/i915/i915_buddy.h
++++ b/drivers/gpu/drm/i915/i915_buddy.h
+@@ -10,6 +10,8 @@
+ #include <linux/list.h>
+ #include <linux/slab.h>
+ 
++#include <drm/drm_print.h>
++
+ struct i915_buddy_block {
+ #define I915_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+ #define I915_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
+@@ -69,6 +71,7 @@ struct i915_buddy_mm {
+ 	/* Must be at least PAGE_SIZE */
+ 	u64 chunk_size;
+ 	u64 size;
++	u64 avail;
+ };
+ 
+ static inline u64
+@@ -129,6 +132,11 @@ void i915_buddy_free(struct i915_buddy_mm *mm, struct i915_buddy_block *block);
+ 
+ void i915_buddy_free_list(struct i915_buddy_mm *mm, struct list_head *objects);
+ 
++void i915_buddy_print(struct i915_buddy_mm *mm, struct drm_printer *p);
++void i915_buddy_block_print(struct i915_buddy_mm *mm,
++			    struct i915_buddy_block *block,
++			    struct drm_printer *p);
++
+ void i915_buddy_module_exit(void);
+ int i915_buddy_module_init(void);
+ 
+diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+index 6877362f6b85..95ab786a1fe4 100644
+--- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
++++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+@@ -126,12 +126,30 @@ static void i915_ttm_buddy_man_free(struct ttm_resource_manager *man,
+ 	kfree(bman_res);
+ }
+ 
++static void i915_ttm_buddy_man_debug(struct ttm_resource_manager *man,
++				     struct drm_printer *printer)
++{
++	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
++	struct i915_buddy_block *block;
++
++	mutex_lock(&bman->lock);
++	drm_printf(printer, "default_page_size: %lluKB\n",
++		   bman->default_page_size >> 10);
++
++	i915_buddy_print(&bman->mm, printer);
++
++	drm_printf(printer, "reserved:\n");
++	list_for_each_entry(block, &bman->reserved, link)
++		i915_buddy_block_print(&bman->mm, block, printer);
++	mutex_unlock(&bman->lock);
++}
++
+ static const struct ttm_resource_manager_func i915_ttm_buddy_manager_func = {
+ 	.alloc = i915_ttm_buddy_man_alloc,
+ 	.free = i915_ttm_buddy_man_free,
++	.debug = i915_ttm_buddy_man_debug,
+ };
+ 
+-
+ /**
+  * i915_ttm_buddy_man_init - Setup buddy allocator based ttm manager
+  * @bdev: The ttm device
+-- 
+2.26.3
 
-If you look at the original patch it would reinsert it even earlier - 
-right after stopping the  SW scheduler thread, and even then it was to 
-late for
-some drivers as they would decide to return back from their TDR handler 
-even before that. It is solvable but in an ugly way as far as I see, you 
-need to
-require each driver in his code to put the job back in the list if they 
-do it before reaching the place where scheduler framework does it. Kind of
-spaghetti code seems to me.
-
-Andrey
-
-
->
->> Andrey
->>
->>
->>>
->>>> Andrey
->>>>
->>>>
->>>>>>                    spin_unlock(&sched->job_list_lock);
->>>>>>
->>>>>>                    status = job->sched->ops->timedout_job(job);
->>>>>> @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>>>>>                            job->sched->ops->free_job(job);
->>>>>>                            sched->free_guilty = false;
->>>>>>                    }
->>>>>> +               dma_fence_put(fence);
->>>>>>            } else {
->>>>>>                    spin_unlock(&sched->job_list_lock);
->>>>>>            }
->>>>>> @@ -392,20 +393,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->>>>>>
->>>>>>            kthread_park(sched->thread);
->>>>>>
->>>>>> -       /*
->>>>>> -        * Reinsert back the bad job here - now it's safe as
->>>>>> -        * drm_sched_get_cleanup_job cannot race against us and release the
->>>>>> -        * bad job at this point - we parked (waited for) any in progress
->>>>>> -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
->>>>>> -        * now until the scheduler thread is unparked.
->>>>>> -        */
->>>>>> -       if (bad && bad->sched == sched)
->>>>>> -               /*
->>>>>> -                * Add at the head of the queue to reflect it was the earliest
->>>>>> -                * job extracted.
->>>>>> -                */
->>>>>> -               list_add(&bad->list, &sched->pending_list);
->>>>>> -
->>>>>>            /*
->>>>>>             * Iterate the job list from later to  earlier one and either deactive
->>>>>>             * their HW callbacks or remove them from pending list if they already
->>>>>> --
->>>>>> 2.25.1
->>>>>>
