@@ -1,73 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BEA3F05E7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:12:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4A93F066D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:20:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 763FB6E5C0;
-	Wed, 18 Aug 2021 14:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D25536E5CF;
+	Wed, 18 Aug 2021 14:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E50046E5C0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 14:12:09 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id cq23so3338232edb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 07:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eB91atCKNaWXZ4G9jJEBMaY5XPxe3TqKcsNVpOzbuIg=;
- b=DTpujLDvvVlnCM0pQBx0BGUvqOtWu8KBNz/CCnb7ZL5qIIyj7oaB3Y+4sG+KNhUGLW
- QODJIvfC/DH/QkIFP9RbwFPkJPfBFs6cRwVYwKnmsLfbvPwhM5XuQKyQMvEihdS7/h6a
- OliQ4yemaAPXBuf+QpGJZJSXwNRm2FepmDXyvB0z4o3M3N4/pSvlRBHUwQM4y8TYj31K
- xcA7guBOAdi/pbrejynrby1xf9Bq9kk5S2qRJ1gsLRTlU3LWDAxGLOU+yCb4SY9qZDqC
- H8sTkMkmtdJix9r6CICDC7d34EnN+F4Si5DBumcF8AzLxuik7TCkS+UPlSlqiAZLWKfv
- YiEQ==
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B86D6E5D1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 14:20:11 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ o1-20020a05600c5101b02902e676fe1f04so3623703wms.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 07:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=eLPh1ufyRl6cee+tsMi/YYP1fCI/ZcZPoOHnw+iuZiw=;
+ b=La4elH+vTAmtDVolI+PxFMsQuqOk4Yvrft927jC+awkswgo87nKdKXP67X7/aZAOSE
+ RpgNMA0VRcv2vbTmxLM7O82yMncOC10AxOsmSTFoVfRP6Qt2m71EMCw/sjvz85kiSfVA
+ aKvtncojDWFK8Fy7dXCWuu/TjUH02zQb5lmtc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eB91atCKNaWXZ4G9jJEBMaY5XPxe3TqKcsNVpOzbuIg=;
- b=RSjb0U8saYIy0e9rhZ4fRZwTc6xTUqRgIL18PlfaFE29fqM32rmDINoEzOG7sNjcFL
- RKQiHy7qTlULy8MVkPRf2kGfjQi85SduFAn2P/hyQq4KF6mfQCyHFH9M6czVt0+vyKNq
- duH1P1mE8odGgLgzyCEI+0mId15yNmACBubuYlUFc57+btM+J+z+A2KE60EoZ/nAyE6c
- bNoH8i0u/D0mccc63W0wCbTbW5RyXsJovRS3OZ5CyacMyQFktMseMZW4B/0EUcJOrr4U
- vYO/TYC47+stxdtdEE1BCfZbIJzvLNxh0VtbAnLLlQ5LyNjs/minp33e14xuu5+4CrE9
- 2Y3A==
-X-Gm-Message-State: AOAM532hyGyhgcM7LIjU3xnY7fiU8M3X2LFXyRYVkezLVgKOIAVhIu2/
- rFKGPfpy+thMm2vj8GS7ztN5pt2KUX0YLLiqarqdkw==
-X-Google-Smtp-Source: ABdhPJyCq8sH0IgDkVaL6YJK/HNWvHaqTzC1UOGz6EehLJOQW2PJ8Uo0EyT8gsWJU0/XrPvHBEQEwKmT97rUZZwiONY=
-X-Received: by 2002:aa7:db8b:: with SMTP id u11mr10261665edt.362.1629295928412; 
- Wed, 18 Aug 2021 07:12:08 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eLPh1ufyRl6cee+tsMi/YYP1fCI/ZcZPoOHnw+iuZiw=;
+ b=huw3Vrze/mIc1VGYPQxj9ZIPBWtxD47G2dJM/o2yZGg0wSMOrmGPEDv3x0aEcwEDdR
+ F+KIogBaapZTHMmF51WeDMKsBmXjw7Dgv6z2ngZziVcmWVz9Nwn9dsNw+IQcrxixom8s
+ dxnCIpDumK2+Yy7V66haR9vwgZRWYpPWI/VF4sdqs4Ho4MWQ9czr/B5u5HecfKAaY2OS
+ CyusHBcWF8anQdI6o112vfQ/DWiBS0AYwTEI6BEa3ZvKINm7XPT+1vJQNeq2sH1Pu4W7
+ LyCsQxTrFQfvxFvsWNmiV4ATrz8Idmc3RgFHiE1WjRoXVe2O8oYzNAEGaBUaCrQ7ueLr
+ ZDpg==
+X-Gm-Message-State: AOAM530jhPdkmhR6IevyOAnUOAGHKNx++DdKk1YjpsKOkYVUyikO5x9O
+ VfiN/A/DH3++UkCHOaJU7eGSoF7KdxDE4Q==
+X-Google-Smtp-Source: ABdhPJzcuDpzCI5pwk0Io/n50r/I9b/bRulvelZR5aSUeFD9HEU/1+mor6iWWCd5ULyE9JG/Q/XHIQ==
+X-Received: by 2002:a1c:a181:: with SMTP id k123mr3556962wme.90.1629296409874; 
+ Wed, 18 Aug 2021 07:20:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b20sm5802178wmj.20.2021.08.18.07.20.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 07:20:08 -0700 (PDT)
+Date: Wed, 18 Aug 2021 16:20:06 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 2/4] drm/i915/guc: Print error name on CTB
+ (de)registration failure
+Message-ID: <YR0XFp/Q+f8Todgk@phenom.ffwll.local>
+References: <20210701155513.2024-1-michal.wajdeczko@intel.com>
+ <20210701155513.2024-3-michal.wajdeczko@intel.com>
 MIME-Version: 1.0
-References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
-In-Reply-To: <20210811025801.21597-1-yunfei.dong@mediatek.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Wed, 18 Aug 2021 11:11:57 -0300
-Message-ID: <CAAEAJfDWOzCJxZFNtxeT7Cvr2pWbYrfz-YnA81sVNs-rM=8n4Q@mail.gmail.com>
-Subject: Re: [PATCH v5, 00/15] Using component framework to support multi
- hardware decode
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Alexandre Courbot <acourbot@chromium.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Tzung-Bi Shih <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>, 
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- Tomasz Figa <tfiga@google.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
- Fritz Koenig <frkoenig@chromium.org>, Irui Wang <irui.wang@mediatek.com>, 
- linux-media <linux-media@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
- srv_heupstream <srv_heupstream@mediatek.com>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- George Sun <george.sun@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210701155513.2024-3-michal.wajdeczko@intel.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,26 +72,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+danvet
+On Thu, Jul 01, 2021 at 05:55:11PM +0200, Michal Wajdeczko wrote:
+> Instead of plain error value (%d) print more user friendly error
+> name (%pe).
+> 
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index a26bb55c0898..18d52c39f0c2 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -167,8 +167,8 @@ static int ct_register_buffer(struct intel_guc_ct *ct, u32 type,
+>  	err = guc_action_register_ct_buffer(ct_to_guc(ct), type,
+>  					    desc_addr, buff_addr, size);
+>  	if (unlikely(err))
+> -		CT_ERROR(ct, "Failed to register %s buffer (err=%d)\n",
+> -			 guc_ct_buffer_type_to_str(type), err);
+> +		CT_ERROR(ct, "Failed to register %s buffer (%pe)\n",
+> +			 guc_ct_buffer_type_to_str(type), ERR_PTR(err));
 
-Hi,
+errname() is what you want here, not this convoluted jumping through hoops
+to fake an error pointer.
 
-On Tue, 10 Aug 2021 at 23:58, Yunfei Dong <yunfei.dong@mediatek.com> wrote:
->
-> This series adds support for multi hardware decode into mtk-vcodec, by first
-> adding component framework to manage each hardware information: interrupt,
-> clock, register bases and power. Secondly add core thread to deal with core
-> hardware message, at the same time, add msg queue for different hardware
-> share messages. Lastly, the architecture of different specs are not the same,
-> using specs type to separate them.
->
+With that: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>  	return err;
+>  }
+>  
+> @@ -195,8 +195,8 @@ static int ct_deregister_buffer(struct intel_guc_ct *ct, u32 type)
+>  	int err = guc_action_deregister_ct_buffer(ct_to_guc(ct), type);
+>  
+>  	if (unlikely(err))
+> -		CT_ERROR(ct, "Failed to deregister %s buffer (err=%d)\n",
+> -			 guc_ct_buffer_type_to_str(type), err);
+> +		CT_ERROR(ct, "Failed to deregister %s buffer (%pe)\n",
+> +			 guc_ct_buffer_type_to_str(type), ERR_PTR(err));
+>  	return err;
+>  }
+>  
+> -- 
+> 2.25.1
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
-I don't think it's a good idea to introduce the component API in the
-media subsystem. It doesn't seem to be maintained, IRC there's not even
-a maintainer for it, and it has some issues that were never addressed.
-
-It would be really important to avoid it. Is it really needed in the
-first place?
-
-Thanks,
-Ezequiel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
