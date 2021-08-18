@@ -1,81 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBF63F015E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 12:11:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1185F3F01D7
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 12:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B46B6E523;
-	Wed, 18 Aug 2021 10:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EFA16E52E;
+	Wed, 18 Aug 2021 10:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760DA6E528
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 10:11:10 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id dj8so2314852edb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 03:11:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=H6PUEJyT8yWFOs/eHUeXPFvL6SwbW/T0LWe0T2e8WmE=;
- b=GKjpI8oonPri08s2r40yIS07xBV5kd2Qcb0M+wEuCc48wKNdDQIcz1gsIg0w4AFPZH
- fTpmm7yg9dJmucZ4YwxqzV+MpHC7nNcfaQkUUDSl0ws5L1i10t9UlUGKJQLYp2Mrjnr1
- vXTDxTOZGh7Zh9xS2H8s1TXo6uM0qU+/eBKhc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=H6PUEJyT8yWFOs/eHUeXPFvL6SwbW/T0LWe0T2e8WmE=;
- b=WMy/MGyZpOO2mK93zTfYpOyfxKz/e7BDGvZGmD0O6mpSFTFfiyw2UvZ26Z5lIuwxpe
- XHarhyZaNGQWVakZORNDFRpyJoQfDI1Lim84ZRho7OTw2SRQ3jJwfoj6msKN4NBr0UMy
- B5CmyGa0VixNHU+1n143Nm1pAFwE4Xl50i1SMccid65jLXgIDhIokxQ/tEGSYdTepPMG
- AtyacBCF7wjceNZzILSTWC/YLTvRFy3DQtrM7UwPDsQvNouH4+/L4IU1RLPODSv57IQC
- LhwqLja58GXIs67VcioKLCUzAt2+cx7KMWkl3SOVdeergds8E4pEGLw/Mzdb/huhlXIr
- N3SA==
-X-Gm-Message-State: AOAM5301coQtyIgUIJZ8cC3jmJUoFj9y/hBFi9S8sjkTXPHFmP+56SGI
- I0QDdnDTGWg2eyheYN9Bbx/S5A==
-X-Google-Smtp-Source: ABdhPJxpWiWQ18UJm+hCSjJLPLxbcWNd9HkyUYKyAPssMAGCuTk1/N1o8a5V6hH6cJCPXAjYQUffNg==
-X-Received: by 2002:a05:6402:b88:: with SMTP id
- cf8mr9311655edb.281.1629281469070; 
- Wed, 18 Aug 2021 03:11:09 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j22sm1805495ejt.11.2021.08.18.03.11.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 03:11:08 -0700 (PDT)
-Date: Wed, 18 Aug 2021 12:11:06 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- sumit.semwal@linaro.org, christian.koenig@amd.com, axboe@kernel.dk,
- oleg@redhat.com, tglx@linutronix.de, dvyukov@google.com,
- walter-zh.wu@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v3 4/9] drm: fix potential null ptr dereferences in
- drm_{auth,ioctl}
-Message-ID: <YRzcuiQrLFsWowas@phenom.ffwll.local>
-Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
- christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
- tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
- <20210818073824.1560124-5-desmondcheongzx@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818073824.1560124-5-desmondcheongzx@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE5E6E51C;
+ Wed, 18 Aug 2021 10:35:35 +0000 (UTC)
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 18 Aug 2021 03:27:41 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 18 Aug 2021 03:27:39 -0700
+X-QCInternal: smtphost
+Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 18 Aug 2021 15:57:08 +0530
+Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
+ id 6145B21FCD; Wed, 18 Aug 2021 15:57:06 +0530 (IST)
+From: Krishna Manikandan <mkrishn@codeaurora.org>
+To: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>, kalyan_t@codeaurora.org,
+ sbillaka@codeaurora.org, abhinavk@codeaurora.org, robdclark@gmail.com,
+ swboyd@chromium.org, bjorn.andersson@linaro.org, khsieh@codeaurora.org,
+ rajeevny@codeaurora.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org
+Subject: [PATCH v1 1/4] dt-bindings: msm: add DT bindings for sc7280
+Date: Wed, 18 Aug 2021 15:57:01 +0530
+Message-Id: <1629282424-4070-1-git-send-email-mkrishn@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,121 +50,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 18, 2021 at 03:38:19PM +0800, Desmond Cheong Zhi Xi wrote:
-> There are three areas where we dereference struct drm_master without
-> checking if the pointer is non-NULL.
-> 
-> 1. drm_getmagic is called from the ioctl_handler. Since
-> DRM_IOCTL_GET_MAGIC has no ioctl flags, drm_getmagic is run without
-> any check that drm_file.master has been set.
-> 
-> 2. Similarly, drm_getunique is called from the ioctl_handler, but
-> DRM_IOCTL_GET_UNIQUE has no ioctl flags. So there is no guarantee that
-> drm_file.master has been set.
+MSM Mobile Display Subsystem (MDSS) encapsulates sub-blocks
+like DPU display controller, DSI, EDP etc. Add required DPU
+device tree bindings for SC7280.
 
-I think the above two are impossible, due to the refcounting rules for
-struct file.
+Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
+---
+ .../bindings/display/msm/dpu-sc7280.yaml           | 228 +++++++++++++++++++++
+ 1 file changed, 228 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
 
-> 3. drm_master_release can also be called without having a
-> drm_file.master set. Here is one error path:
->   drm_open():
->     drm_open_helper():
->       drm_master_open():
->         drm_new_set_master(); <--- returns -ENOMEM,
->                                    drm_file.master not set
->       drm_file_free():
->         drm_master_release(); <--- NULL ptr dereference
->                                    (file_priv->master->magic_map)
-> 
-> Fix these by checking if the master pointers are NULL before use.
-> 
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> ---
->  drivers/gpu/drm/drm_auth.c  | 16 ++++++++++++++--
->  drivers/gpu/drm/drm_ioctl.c |  5 +++++
->  2 files changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> index f9267b21556e..b7230604496b 100644
-> --- a/drivers/gpu/drm/drm_auth.c
-> +++ b/drivers/gpu/drm/drm_auth.c
-> @@ -95,11 +95,18 @@ EXPORT_SYMBOL(drm_is_current_master);
->  int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
->  {
->  	struct drm_auth *auth = data;
-> +	struct drm_master *master;
->  	int ret = 0;
->  
->  	mutex_lock(&dev->master_mutex);
-> +	master = file_priv->master;
-> +	if (!master) {
-> +		mutex_unlock(&dev->master_mutex);
-> +		return -EINVAL;
-> +	}
-> +
->  	if (!file_priv->magic) {
-> -		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
-> +		ret = idr_alloc(&master->magic_map, file_priv,
->  				1, 0, GFP_KERNEL);
->  		if (ret >= 0)
->  			file_priv->magic = ret;
-> @@ -355,8 +362,12 @@ void drm_master_release(struct drm_file *file_priv)
->  
->  	mutex_lock(&dev->master_mutex);
->  	master = file_priv->master;
-> +
-> +	if (!master)
-> +		goto unlock;
-
-This is a bit convoluted, since we're in the single-threaded release path
-we don't need any locking for file_priv related things. Therefore we can
-pull the master check out and just directly return.
-
-But since it's a bit surprising maybe a comment that this can happen when
-drm_master_open in drm_open_helper fails?
-
-Another option, and maybe cleaner, would be to move the drm_master_release
-from drm_file_free into drm_close_helper. That would be fully symmetrical
-and should also fix the bug here?
--Daniel
-
-
-> +
->  	if (file_priv->magic)
-> -		idr_remove(&file_priv->master->magic_map, file_priv->magic);
-> +		idr_remove(&master->magic_map, file_priv->magic);
->  
->  	if (!drm_is_current_master_locked(file_priv))
->  		goto out;
-> @@ -379,6 +390,7 @@ void drm_master_release(struct drm_file *file_priv)
->  		drm_master_put(&file_priv->master);
->  		spin_unlock(&dev->master_lookup_lock);
->  	}
-> +unlock:
->  	mutex_unlock(&dev->master_mutex);
->  }
->  
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index 26f3a9ede8fe..4d029d3061d9 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -121,6 +121,11 @@ int drm_getunique(struct drm_device *dev, void *data,
->  
->  	mutex_lock(&dev->master_mutex);
->  	master = file_priv->master;
-> +	if (!master) {
-> +		mutex_unlock(&dev->master_mutex);
-> +		return -EINVAL;
-> +	}
-> +
->  	if (u->unique_len >= master->unique_len) {
->  		if (copy_to_user(u->unique, master->unique, master->unique_len)) {
->  			mutex_unlock(&dev->master_mutex);
-> -- 
-> 2.25.1
-> 
-
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
+new file mode 100644
+index 0000000..3d256c0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
+@@ -0,0 +1,228 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/dpu-sc7280.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Display DPU dt properties for SC7280 target
++
++maintainers:
++  - Krishna Manikandan <mkrishn@codeaurora.org>
++
++description: |
++  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
++  sub-blocks like DPU display controller, DSI and DP interfaces etc. Device tree
++  bindings of MDSS and DPU are mentioned for SC7280 target.
++
++properties:
++  compatible:
++    items:
++      - const: qcom,sc7280-mdss
++
++  reg:
++    maxItems: 1
++
++  reg-names:
++    const: mdss
++
++  power-domains:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Display AHB clock from gcc
++      - description: Display AHB clock from dispcc
++      - description: Display core clock
++
++  clock-names:
++    items:
++      - const: iface
++      - const: ahb
++      - const: core
++
++  interrupts:
++    maxItems: 1
++
++  interrupt-controller: true
++
++  "#address-cells": true
++
++  "#size-cells": true
++
++  "#interrupt-cells":
++    const: 1
++
++  iommus:
++    items:
++      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
++
++  ranges: true
++
++  interconnects:
++    items:
++      - description: Interconnect path specifying the port ids for data bus
++
++  interconnect-names:
++    const: mdp0-mem
++
++patternProperties:
++  "^display-controller@[0-9a-f]+$":
++    type: object
++    description: Node containing the properties of DPU.
++
++    properties:
++      compatible:
++        items:
++          - const: qcom,sc7280-dpu
++
++      reg:
++        items:
++          - description: Address offset and size for mdp register set
++          - description: Address offset and size for vbif register set
++
++      reg-names:
++        items:
++          - const: mdp
++          - const: vbif
++
++      clocks:
++        items:
++          - description: Display hf axi clock
++          - description: Display sf axi clock
++          - description: Display ahb clock
++          - description: Display lut clock
++          - description: Display core clock
++          - description: Display vsync clock
++
++      clock-names:
++        items:
++          - const: bus
++          - const: nrt_bus
++          - const: iface
++          - const: lut
++          - const: core
++          - const: vsync
++
++      interrupts:
++        maxItems: 1
++
++      power-domains:
++        maxItems: 1
++
++      operating-points-v2: true
++
++      ports:
++        $ref: /schemas/graph.yaml#/properties/ports
++        description: |
++          Contains the list of output ports from DPU device. These ports
++          connect to interfaces that are external to the DPU hardware,
++          such as DSI, DP etc. Each output port contains an endpoint that
++          describes how it is connected to an external interface.
++
++        properties:
++          port@0:
++            $ref: /schemas/graph.yaml#/properties/port
++            description: DPU_INTF1 (DSI)
++
++          port@1:
++            $ref: /schemas/graph.yaml#/properties/port
++            description: DPU_INTF5 (EDP)
++
++        required:
++          - port@0
++
++    required:
++      - compatible
++      - reg
++      - reg-names
++      - clocks
++      - interrupts
++      - power-domains
++      - operating-points-v2
++      - ports
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - power-domains
++  - clocks
++  - interrupts
++  - interrupt-controller
++  - iommus
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,dispcc-sc7280.h>
++    #include <dt-bindings/clock/qcom,gcc-sc7280.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interconnect/qcom,sc7280.h>
++    #include <dt-bindings/power/qcom-rpmpd.h>
++
++    display-subsystem@ae00000 {
++         #address-cells = <1>;
++         #size-cells = <1>;
++         compatible = "qcom,sc7280-mdss";
++         reg = <0xae00000 0x1000>;
++         reg-names = "mdss";
++         power-domains = <&dispcc DISP_CC_MDSS_CORE_GDSC>;
++         clocks = <&gcc GCC_DISP_AHB_CLK>,
++                  <&dispcc DISP_CC_MDSS_AHB_CLK>,
++                  <&dispcc DISP_CC_MDSS_MDP_CLK>;
++         clock-names = "iface", "ahb", "core";
++
++         interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++         interrupt-controller;
++         #interrupt-cells = <1>;
++
++         interconnects = <&mmss_noc MASTER_MDP0 &mc_virt SLAVE_EBI1>;
++         interconnect-names = "mdp0-mem";
++
++         iommus = <&apps_smmu 0x900 0x402>;
++         ranges;
++
++         display-controller@ae01000 {
++                   compatible = "qcom,sc7280-dpu";
++                   reg = <0x0ae01000 0x8f000>,
++                         <0x0aeb0000 0x2008>;
++
++                   reg-names = "mdp", "vbif";
++
++                   clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
++                            <&gcc GCC_DISP_SF_AXI_CLK>,
++                            <&dispcc DISP_CC_MDSS_AHB_CLK>,
++                            <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
++                            <&dispcc DISP_CC_MDSS_MDP_CLK>,
++                            <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++                   clock-names = "bus", "nrt_bus", "iface", "lut", "core",
++                                 "vsync";
++
++                   interrupt-parent = <&mdss>;
++                   interrupts = <0>;
++                   power-domains = <&rpmhpd SC7280_CX>;
++                   operating-points-v2 = <&mdp_opp_table>;
++
++                   ports {
++                           #address-cells = <1>;
++                           #size-cells = <0>;
++
++                           port@0 {
++                                   reg = <0>;
++                                   dpu_intf1_out: endpoint {
++                                                  remote-endpoint = <&dsi0_in>;
++                                   };
++                           };
++
++                           port@1 {
++                                   reg = <1>;
++                                   dpu_intf5_out: endpoint {
++                                                  remote-endpoint = <&edp_in>;
++                                   };
++                           };
++                   };
++         };
++    };
++...
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.7.4
+
