@@ -2,122 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62F93F049F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 15:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B9E3F04C4
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 15:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 465908996F;
-	Wed, 18 Aug 2021 13:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0486E5B2;
+	Wed, 18 Aug 2021 13:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C85F76E5B2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 13:26:07 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2040.outbound.protection.outlook.com [40.107.237.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE4996E5B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 13:28:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ua5Yz6tdW+1hAlC3PAgpfTaT3l1qri8/a/2ItXC3RQVnr2tCPGusiHpvIcppkyncAwwFijuWyNJEU/CDfO46e+DORCY4cxjC1Pkro5nE3eopPai16hADRmXmGzXFsXOq1vqvojkk9mxW9iWYHvfGxmX2saH78dBxe00k5xmvEaJhX+e9XpGa3Bsy/NlEV9lKmBtQGvF7SusS2BFTVPjGTDxDwEyJrKM1NtUyZFlCosVKHUnluCuKOrW7cC68zdgXA4x4vjCQPe4oT/QhDHVIkD0HUCaz79yD5vcyLoT0D34iANHdwTJjx/BoAlHa/6A2vwlCrSTRQqnx6iUa37hkXQ==
+ b=fatnMxYZXGPePtsKp16BZe1SJNukM4je1Git6db6sw5/evWtcAV4+l3QnIH/tSqZTLkoeprM6xk4ZS5rXyOWyX3HUAVCHulkon7apiAp+zLjaHSDo5UCEDAV2OCJBLCMdYjevEKGWKnZBDBbsX1B/xDwaMX3lCC0wZZejdzKNyjOWx2XC4GyLms70MXrgQMgLlJdMqvDP/M8sChnFCPqK1eST8Y4WyYMBpeS82AZwzUjB5FMph4zDraJBjRQUFQRu62VCtSmfCP59LBw7bw9HZSPNpUiAFSxjPtqGOJrFwV083hLzxJXl8VrJnucv171ocNIkU7az0mWouaE49EQzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rj9l0Upb5Ynv380yrMUceXNmP7CHMRPze/u7ChYANn8=;
- b=BGIlCuEMIZT9bsAMT0OH/d6vTi96xmn85V6BiBEDmOumoACyUdGRqgmqez6NAGELmaC9fw6Y86kRV0ksKWGrLJvjgVTKL9L8TCIKAWIWrW5NFpRGklHnFW+F8DhkqmFzi1mOgvWefjCij0cGBhCZweHFnIh1eH8XlblR2y10+qHzfDI7TAk4hYSaMKtAPurqvBWH/dpp9dBeBdA+szaJgHq+BGoBgaDo3shEh6mv0Zv24t+4sGPE55hB50eu+of6SnjPZ5S0ah7tAkhP3o1qfxAOCEGaLzCx/CDkkZHqP66muKk3pPc7diwDlvPj4acDHasGn9ItYxi7Tlt36UbV8w==
+ bh=3SqWGiBXzv/mSubuXPn5ffUgr2OrrExZ4thuxey+BoM=;
+ b=KpBFW0j574zhe2jMsM6KSDXaxQkGLRV3I3k2eIvRdUB+zBS1R9+B4N/xSUDbpuiOOppzrbkYkIbZ5WmRLckHNq9nDVsdQa5YONTAOyGK/6N9w4yxUKAX2ZgcCsVwZhZLyEJitWIymIhbnK7U9KCgEFwGAnGj6pdxz7ovevhC9/Jl+GBUXvpLmvXAGSzhCL6InoVpySjCvIkGh8uKWMhJ9ObwbWtTs/BnfHpYF1tMMGOylXexalx3omfF2eZ7i62hmwwEWstaZFAPuJVBbYkJxk8GYT5g8ObdxRaOPmK65QCNtr1TB5208VlXzUAEc9WC3K7/6ywe3c6JmUuvT1YM+A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rj9l0Upb5Ynv380yrMUceXNmP7CHMRPze/u7ChYANn8=;
- b=pxT9GkUp15ETMP6gEF7dSR+huavIJ8Qep2TcjSBHDVWaxGrukaO5zvHGyInjhp64lY3Sf/Z56UITvKMcCuWsPlecFL3QPb0YQdweNSyez58ovew+xpZWznElu7mqjx+z8lwVd4jrE28F1AMir5Ed9Ed6Fv6e/OR93I6u3L7Q/bI=
-Authentication-Results: lists.linaro.org; dkim=none (message not signed)
- header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+ bh=3SqWGiBXzv/mSubuXPn5ffUgr2OrrExZ4thuxey+BoM=;
+ b=ZFL5JVL4IQwA0pOiBwL1o/AwL1OGMTCzhegT5Z/3znKj+2Dcolb9gYh5xeBbfTLr8yj0SHTK1eE+nawfQRUM+CJ+X86PyjEq1+E42kaif4yfzMn5mBUgqmu5xPIL2pMm5ZAteNpRNfZVvftdfgIRNVaakZKLRdMB0OSdkKE69cc=
+Authentication-Results: ti.com; dkim=none (message not signed)
+ header.d=none;ti.com; dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4334.namprd12.prod.outlook.com (2603:10b6:208:1d1::10)
+ by MN2PR12MB4374.namprd12.prod.outlook.com (2603:10b6:208:266::9)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Wed, 18 Aug
- 2021 13:26:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Wed, 18 Aug
+ 2021 13:28:25 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
- 13:26:05 +0000
-Subject: Re: [PATCH] drm/prime: fix a potential double put (release) bug
-To: Wentao_Liang <Wentao_Liang_g@163.com>, maarten.lankhorst@linux.intel.com
-Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
- daniel@ffwll.ch, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20210818130231.3484-1-Wentao_Liang_g@163.com>
+ 13:28:25 +0000
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf: return -EINVAL if dmabuf object
+ is NULL
+To: "Sa, Nuno" <Nuno.Sa@analog.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Rob Clark <rob@ti.com>
+References: <20210818115810.274084-1-nuno.sa@analog.com>
+ <9a63b45f-6fec-6269-ae16-8604b08514de@amd.com>
+ <SJ0PR03MB6359C318092E0CB99D28D85099FF9@SJ0PR03MB6359.namprd03.prod.outlook.com>
+ <ed0bf7fd-de49-f94a-3eda-0c1fac50153a@amd.com>
+ <YR0BMCMFcwXLjNAe@phenom.ffwll.local>
+ <74802a7d-9105-006f-bcd8-3bbf97035704@amd.com>
+ <SJ0PR03MB6359BBEC317B7DD637C9509A99FF9@SJ0PR03MB6359.namprd03.prod.outlook.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <14aa6dfe-faba-8632-01a4-8119f199005c@amd.com>
-Date: Wed, 18 Aug 2021 15:25:59 +0200
+Message-ID: <378ced6a-ae1e-259e-7a9f-ee3acb98e9d5@amd.com>
+Date: Wed, 18 Aug 2021 15:28:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210818130231.3484-1-Wentao_Liang_g@163.com>
+In-Reply-To: <SJ0PR03MB6359BBEC317B7DD637C9509A99FF9@SJ0PR03MB6359.namprd03.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-ClientProxiedBy: AM4PR0101CA0084.eurprd01.prod.exchangelabs.com
- (2603:10a6:200:41::52) To MN2PR12MB3775.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM4PR0101CA0059.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::27) To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [172.31.55.180] (165.204.72.6) by
- AM4PR0101CA0084.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::52) with
+ AM4PR0101CA0059.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::27) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
- Transport; Wed, 18 Aug 2021 13:26:03 +0000
+ Transport; Wed, 18 Aug 2021 13:28:22 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2bf913f5-823e-4487-bff0-08d9624bbb4d
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4334:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB43346435B4EA3F28A0F3DAFF83FF9@MN2PR12MB4334.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 7bd0356e-7c71-44a7-aa01-08d9624c0e57
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4374:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4374422FA2BD475ED885ABD283FF9@MN2PR12MB4374.namprd12.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t3KlR73et6hdgvNgqJ8wWn0xnzfM5Ql+lDko1Rhf36EDHfyb2KLM6FTiKhO7P8SYM+ccL9A5YKeUFn15+lHhenaynDaJUKyI3DHqNv1jouSfHNmRdGlwOjRXJEWKJg/kKKMHcF3bzZfpP/X5ioH1p+75B6g3zfjnXlWllvD9Y+Ir018+oBZbFVx61ZJqucrQ+EY+oRFEvvfziRczGht+Ia+6VuWdHPhyC0C9e3qb3+6leA7JiZInzsN793XlUmNptqWH/lXRFFMIEhA6Wn40ITbwiWTULdHBBuTDPNGpyjKNoI9MZ0dj40rNOBJCMr5qujO3PpVUUotxK4vFCkBMPCQZgppVCV/hAphYreqPS4+71NAZfEu03VFWbyEMYK0/3S/nEi9zvRlfM6LqnMoJ6DQttzw4feW+eMRvrBeWymAT/NAVXVNNYNLHb+/9aHfmWqJuShFvgj87SBICoKlEVI7M8uixKmHlInaDdvleWTkR87o3S+5ZGwabM4ESVRLryX/rIryT3F0YNuXde3WsWyrJ+6SfRG6nZgVjCHIwSQxvGcjVmKqCU9iiIYIrHUg+nOX6dX6t8Wq7o0CRIwodzWzBkeA9kXnCq7u17XOFR+TKHmsFhita8LxGE2jiDT6WZ5E7mE/PSFIzLsPJVJkhEILt9VapiQ9qL3VRUQ1S/kthvEoK6i+IVYGD12TO7zOU66bdJ4QLTCIiNNesf4MV8A==
+X-Microsoft-Antispam-Message-Info: bodSRKaCE8W4QrxSA7IjhyNz/TGsD3EShIO46DN2ed6clLUWMNIHtahPiev+UXeYAl1HFiPtVHlhV3d8zrxjbjWLvyT0kZC0G/hEAuEBxyWhhRnBhOiSdt6BhhEHCZqj6JkaYEVDL/fJ8+pY1Wwzecr5Zldy9TdPYBSGMmlmpp/j2jnbTONIsjctjaXRpocLkBRuNbVu7Ue3zrS2tseMaO1M+DFiMYCZVVMNhwV185de0INeROElkbAShhrCr/muhz1qP5WWaqDbSu7wUCtlpdxqpvGDzQFosHB+A9vl44g9eColU2Glvlmedt0/vomOrsBy8n/cjdzsCZbKS7UBxvqKOisMsWw/0u7T4xt1dARakmlucGS3Hbdo3geuUbY7Hi1Ki4KWmh9AUAVnvwMyah05VdidmJURrI3NErDEBAeG6WliPcTp9kGNxhikYm+oA5T0nKo2BMX7w+gOhtJDIFVNVlfwzvqOXw3iaDa0jFbaqtR5u5yI2yJwNxxSUV8hRMxToKMwxgv+hlYON7tcWfYbh1J9XDf5sngwKnomUHYsaRZrHAThTnj+EF3lXom/43LuQPO26Hf2SGM9JSj0F/ZRR+w2eiBDt8fNYy2YIS499cRFI4kCTd57bYU0cBKSSOmLLKBVx5if+ipnMnh1wQhdqR2OmQ33amXCz2/0T31Bj66R7Elgl2emh+kLR6KlgqNLjN3NRzF4ZT5+H52Wbg98+RhjIO1OKE4G+GEyLjwMsP3RpehtzbC7iQG/+iLG889f4vbBKPgEs7zyfafOQdR6D+DmgUqsh44n4lrrgMI=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(136003)(396003)(39860400002)(346002)(66476007)(7416002)(36756003)(83380400001)(6666004)(6486002)(31696002)(2616005)(66556008)(38100700002)(186003)(4326008)(86362001)(26005)(5660300002)(956004)(478600001)(31686004)(66946007)(16576012)(316002)(8936002)(2906002)(8676002)(43740500002);
+ SFS:(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(45080400002)(53546011)(5660300002)(6486002)(316002)(8936002)(6666004)(26005)(19627235002)(66574015)(186003)(86362001)(36756003)(478600001)(4326008)(66556008)(54906003)(8676002)(38100700002)(956004)(66476007)(2616005)(31696002)(66946007)(110136005)(16576012)(83380400001)(31686004)(2906002)(966005)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YXl6ZER2YUI0cVM4WkNGd2NrcklZMHQ3T0ZaTnl6d1QwbUJyd3JleE1lYzJa?=
- =?utf-8?B?ZVZkaDdlNHVGRUh6SEZrMWhjK2RTOXFKc0plRHFWK2NJWVNGcTRYb3ZFNm4x?=
- =?utf-8?B?aytlOTJUOXB4Ry8valVaSDNjdmN3RUw4RUhDc2lPYlpGNzJwc1dDTjBOVHp0?=
- =?utf-8?B?N1RJdG5XSlkwK0cvTDlRNTFNYnNnZjhqRkpsWk12VU1DbGRkb2cway9laEhn?=
- =?utf-8?B?M0lWS1NRTmZvdStHbVhqS2gxODhoeUFkT3g5MlBVQk1QS3NZTlRQRUtWeWVz?=
- =?utf-8?B?U3pPTlFuRVNRc3lrNVM2R2NsOXI1VE5OMWkyTEF4aTBWaTJzeldic1Q4VzNI?=
- =?utf-8?B?MHRuOVFvTkNVQmpmSTNvc1dBdEhXemczdVFoMGpqWGdzaEZqcy9YcFFFd0lj?=
- =?utf-8?B?MXNFbTV6azhyekJTcDVaaENMRnRnYkFOb0dxMGVQUUlpck1nY1RMRnErQ3lV?=
- =?utf-8?B?ZHdtV2I0dCtIdVdEelZmYjQxQ2ZCemplN1Y3NHdiMkFvWVFNNDBpTG1NdElt?=
- =?utf-8?B?Q2NhV1FkRDM2T1dkNUJzTEJPb0xUekc4RmNHSVlnNWNRbjZGY1U1VHh4L2w5?=
- =?utf-8?B?ZmJiMGdGYklGcGhENzdmQUk5VFJFSlVkZVdOUGVvejdHV1M3aVNKZUFxdzMz?=
- =?utf-8?B?em5uNDJxT29TYTNPc0R4OTJ4QzZOVHVGSHA1QWZiY0FtZVpldWNrSVBhYjJ5?=
- =?utf-8?B?cVZjUHVjZnNVZFlIUU0rbFQ5NE0yUFErZVFXVWljbXZxSU1jSmMrRncxMElY?=
- =?utf-8?B?MXRCWmtuMXUvbmxPVS9WVjRKN3VUdDZNYkpkYWd1dmdvSUlLMmJnWk1uSTM1?=
- =?utf-8?B?TWdwRVdEYVhDeXhQMFExRVpZK3BsUjRCZmhlL0pva2pkUVJBNlBMZHV4YXdI?=
- =?utf-8?B?MGJKUXh2ZXBKYkxaaHA2NUVMcGtJemhoVnR3TVBoRHhJeGtiV2ZmbHFJeUQ4?=
- =?utf-8?B?TUtnc3plbHVqbk1UeURXZEpiRGdKbldYVE1XbWlORkZiN3FtcXJmbEtISGw2?=
- =?utf-8?B?blE0OC82b2RsdUpRZTJrK3R5anEvVk1IRG9BUXhYY1dGbDdIZEVHZkhaaERp?=
- =?utf-8?B?VzhCWUJoL29Fc0JXa1JsN2I4Ry9OaVVrNlltNHZtcElBb09Zd09ZbmtnNFQy?=
- =?utf-8?B?ZzVOREdzL1ZHdWdyUGFORlNGMi9KZEI3UWxZb0cwSW9Wd3hLRmF0SnozVUxx?=
- =?utf-8?B?aHVuWmQxSUZyQ3B0aXNwSHo3akhDREpmSHB3WmRyUUZxY0gxL2xsY1p0Kys2?=
- =?utf-8?B?d0hxdHRBVzVodHRmRVBEYjE5aXRHZmVDd3FSVmZQSmYvTzh1UHZBNFpPZ3hn?=
- =?utf-8?B?L21tSTlHbklVS3Y3ZVhsZ3FSY2NJY3BiRzU0N1VXOFZiaVNSYlFYR05vbW9o?=
- =?utf-8?B?RTZMT1YrbVB6M2FlT3lmR0h2U2FyV1BjRWlNc1VJeGV5bGdRSEZHeTdJVGVh?=
- =?utf-8?B?R1piZ2VZUTRhS1FTU1lJNGR5M1F2TWd4TmFMcUl5b0Vwd3RVYkdnZHZoejJk?=
- =?utf-8?B?b2M1V2ozcjlEcUdMNWo4Ylc1N3RzWGhUU3dXK3ZJWHIxZFRVallEM2ZRQmFB?=
- =?utf-8?B?SjJXbmtQOWxuMDh6S3J0ZlpLSHVEc1pkWDhGaXZjMHk2eWpOTWZHRVpTVjBo?=
- =?utf-8?B?N0FwcmcxRDJEQldJMHNLWTlMcEI5TldhWldCTXl5NFI3M3l3UW81aUphcDA5?=
- =?utf-8?B?Q3YzWDd1YnRsNVcrTFZkaVYyV1BNVjBlSzYzMUZXL0xsUkgyTnNzMEZDUERv?=
- =?utf-8?Q?moZywUUsmFhUmX1ocMD4w8ldhxgV8n9bYliUWGM?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aC8wTlFhR3J0ZTRHVWpEYVpjVTBhV3hDcTVTYitrUjRKNjNqTUpGZGxmSkEy?=
+ =?utf-8?B?aVhXWDgzZzhmN3ZIQllVUVh2Z0h1SmY2M3pmeGlkSzVVSWY3d2NjemFEWm5r?=
+ =?utf-8?B?V2pUVGx6R2VvK2N4cWdsTkNQSEpvcGk5N1JZQWprNFZ1M2lwcStmbzBNazF6?=
+ =?utf-8?B?UXY5dmhWYXMrSFJtQkdpWkRxRmpkRTI4cmJjbnpFOVl3MWxaWlRlMjNSMTBO?=
+ =?utf-8?B?cThZbWZzZlR3cGU3SDNHYXdseFk0eCtxc3NmZTJpL2J5ZHRaSFNtamw0bHhy?=
+ =?utf-8?B?UlRkTWkxZmVtQWFxUk1qYW5kQ2NsbWhSckw4UUNpQ1ovZDAydTZFUDNERDgz?=
+ =?utf-8?B?RndON04wd0N1TkdYYzE2SGdCTGhpN2Nmc3JTcFBUbWlSZW1wcFFvekxNZzk3?=
+ =?utf-8?B?OS94ZDNHV2NtMU9kR0FTazZLMkdPKzNCVlFlSUtxbFd6WE5QbzlrM3Jwbms4?=
+ =?utf-8?B?cFhMVHZ4dXBsVnA0aGpUNHduQi8rWHlNT0g0ZUo3K3FTMElPbXlscXFmcmp3?=
+ =?utf-8?B?TTlhTTRUSVhXRXNaWXFqMXVTeUh1KzNBUndsVUpFUnNvWkxNVWt2eXJyZE0y?=
+ =?utf-8?B?TitMMTF2RWlYclJhZGQ3bjUzdFN5SjB4T0c3bzNsYXVnQXhNV3JlSzd5ODgv?=
+ =?utf-8?B?SU1QL1drY0FBaS9OVFR4eXJIbFpEVlcwVE5hWDc4OThRSWNSeGdsWjNrYzBt?=
+ =?utf-8?B?ODFVNTNnS09kUjFrR3VJQzljYmkybVBYTDlWNGlTZUIzTDEwTjRud0lVaXRD?=
+ =?utf-8?B?dkhFRE9ZU0dHcC9wbmQrZjZNL1ZNNDBUNmNXNjE1ZW5VWnhWMjRPZkJTMXZ4?=
+ =?utf-8?B?V1lhQi9TSExQU3o3WVdXNG5JWWpqL2dDNlFQVEI0MDRpVGpCRVVCR20yeENt?=
+ =?utf-8?B?WjRINURWVnRwMFFtNExUdVZKWVdCeWwrSVVoU2w0VjlWRXlhSE1LUkNGTFRP?=
+ =?utf-8?B?R2kvY0ZtVXRCbHVxbjZYMUxXSnZWTksyM1FNYkFuaG40eFZLUDdQbFFlbmRG?=
+ =?utf-8?B?bEw1a056MG9tcEg1Z2tDMXk0ZkpuMDJwUFhvR2dUSUNoazVmdU82TUhDdjYx?=
+ =?utf-8?B?c0dRcUtGWDdZV0dpK0FRMmxMVktIS3hwSUdOTnpCYUt3Z2lQYm5OQVNvYmU4?=
+ =?utf-8?B?YW5OQ2MyWDJUWXhWMTRvaldRRER4ZVB6cFlGR05NL2hjVXh0NlozQXVrL2ZN?=
+ =?utf-8?B?bVBlODNZVXlKS01sWlpNK0dYOGg0algwOGRPVnhoT0xYeHQ0SE1PYnlHb1RH?=
+ =?utf-8?B?RjhSK2pNV1Z1RXkwaE8zSk9KdDUwVjQvNjAzNkJpSVhpZDNpUkc0aG45SXFw?=
+ =?utf-8?B?RWpkVTdsMUlBY2ZJbmtvTzcraEVzRkdjSkRRbTFQRi9XQ2N5T2hSTkVYMjFS?=
+ =?utf-8?B?T3ErVlJpbVNUV1lWZlJCT2V3ZUFtTGd6cWNjNi9wRUhrS0Y3ZWR4WE1vVXM4?=
+ =?utf-8?B?bFd1ZmN4T2xpUkhLVU1TSWZFOXVNTXd1RFhkQ0JhMzhBMDF1ZTFuTFV2VHEz?=
+ =?utf-8?B?MWs0NnArNzJ3R1V6aDRZSFBVUzNiWUlIMnFOQXVKY3J4bzMrNXcxWWVicUQ4?=
+ =?utf-8?B?RFpQOVRDTnF3NHdFVThZa0NwL3VUdENLQzNYRmNxU2F1Znp1VFVHS3VCeE5u?=
+ =?utf-8?B?dXN6WnRZUmk4bEI0bGFDUEttR09ZTFFES2xCUjF0RUxhMzIyYVB1TjErK3c1?=
+ =?utf-8?B?NlpKb1lYeE4zY3I3b05PV0NiR3dlVnhDTjJ1QnZKaCtkNTFyYjk5UFdhRVBo?=
+ =?utf-8?Q?C3Bgbhy/zfdAonRk772o6Eb5wyDuQ48xfkpBDvD?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bf913f5-823e-4487-bff0-08d9624bbb4d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7bd0356e-7c71-44a7-aa01-08d9624c0e57
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 13:26:05.6428 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 13:28:24.9207 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n7nEg4eOeM6/imh5lBT8PIWLY+/jAWBU93cc3BVhTh8dmBFEBufAGXApbVE27fLG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4334
+X-MS-Exchange-CrossTenant-UserPrincipalName: wqrH7NB/lMP7SEcNq+aGivtxhE7hE/sVb4pkK3fSjruKY1nw3lWkxxMNRYELal3D
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4374
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,103 +140,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 18.08.21 um 15:02 schrieb Wentao_Liang:
-> In line 317 (#1), drm_gem_prime_import() is called, it will call
-> drm_gem_prime_import_dev(). At the end of the function
-> drm_gem_prime_import_dev() (line 956, #2), "dma_buf_put(dma_buf);" puts
-> dma_buf->file and may cause it to be released. However, after
-> drm_gem_prime_import() returning, the dma_buf may be put again by the
-> same put function in lines 342, 351 and 358 (#3, #4, #5). Putting the
-> dma_buf improperly more than once can lead to an incorrect dma_buf-
->> file put.
-> We believe that the put of the dma_buf in the function
-> drm_gem_prime_import() is unnecessary (#2). We can fix the above bug by
-> removing the redundant "dma_buf_put(dma_buf);" in line 956.
+Am 18.08.21 um 15:13 schrieb Sa, Nuno:
+>> From: Christian König <christian.koenig@amd.com>
+>> Sent: Wednesday, August 18, 2021 2:58 PM
+>> To: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: Sa, Nuno <Nuno.Sa@analog.com>; linaro-mm-sig@lists.linaro.org;
+>> dri-devel@lists.freedesktop.org; linux-media@vger.kernel.org; Rob
+>> Clark <rob@ti.com>
+>> Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf: return -EINVAL if
+>> dmabuf object is NULL
+>>
+>> [External]
+>>
+>> Am 18.08.21 um 14:46 schrieb Daniel Vetter:
+>>> On Wed, Aug 18, 2021 at 02:31:34PM +0200, Christian König wrote:
+>>>> Am 18.08.21 um 14:17 schrieb Sa, Nuno:
+>>>>>> From: Christian König <christian.koenig@amd.com>
+>>>>>> Sent: Wednesday, August 18, 2021 2:10 PM
+>>>>>> To: Sa, Nuno <Nuno.Sa@analog.com>; linaro-mm-
+>> sig@lists.linaro.org;
+>>>>>> dri-devel@lists.freedesktop.org; linux-media@vger.kernel.org
+>>>>>> Cc: Rob Clark <rob@ti.com>; Sumit Semwal
+>>>>>> <sumit.semwal@linaro.org>
+>>>>>> Subject: Re: [PATCH] dma-buf: return -EINVAL if dmabuf object
+>> is
+>>>>>> NULL
+>>>>>>
+>>>>>> [External]
+>>>>>>
+>>>>>> To be honest I think the if(WARN_ON(!dmabuf)) return -EINVAL
+>>>>>> handling
+>>>>>> here is misleading in the first place.
+>>>>>>
+>>>>>> Returning -EINVAL on a hard coding error is not good practice and
+>>>>>> should
+>>>>>> probably be removed from the DMA-buf subsystem in general.
+>>>>> Would you say to just return 0 then? I don't think that having the
+>>>>> dereference is also good..
+>>>> No, just run into the dereference.
+>>>>
+>>>> Passing NULL as the core object you are working on is a hard coding
+>> error
+>>>> and not something we should bubble up as recoverable error.
+>>>>
+>>>>> I used -EINVAL to be coherent with the rest of the code.
+>>>> I rather suggest to remove the check elsewhere as well.
+>>> It's a lot more complicated, and WARN_ON + bail out is rather
+>>> well-established code-pattern. There's been plenty of discussions in
+>> the
+>>> past that a BUG_ON is harmful since it makes debugging a major
+>> pain, e.g.
+>>>
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Furldefense.com%2Fv3%2F__https%3A%2F%2Fnam11.safelinks.protection.outl&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C6355660e526b4da23fa408d9624a0160%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637648892261202104%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=pkZg9vDm4RTgmAD6vtugsLmUuL0fG9ExgTWedxOxCW8%3D&amp;reserved=0
+>> ook.com/?url=https*3A*2F*2Flore.kernel.org*2Flkml*2FCA*2B55aFw
+>> yNTLuZgOWMTRuabWobF27ygskuxvFd-P0n-
+>> 3UNT*3D0Og*40mail.gmail.com*2F&amp;data=04*7C01*7Cchristian.k
+>> oenig*40amd.com*7C19f53e2a2d1843b65adc08d962463b78*7C3dd896
+>> 1fe4884e608e11a82d994e183d*7C0*7C0*7C637648876076613233*7CU
+>> nknown*7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiL
+>> CJBTiI6Ik1haWwiLCJXVCI6Mn0*3D*7C1000&amp;sdata=ajyBnjePRak3
+>> o7ObpBAuJNd08HgkANM9C*2BgzOAeHrMk*3D&amp;reserved=0__;J
+>> SUlJSUlJSUlJSUlJSUlJSUlJSUlJSU!!A3Ni8CS0y2Y!qiDegx4svPUMZrvnzUo
+>> X7VKvvFpDcedH9gYbRCiWfe_N3fw4zpmA54qxefvMiQ$
+>>> There's also a checkpatch check for this.
+>>>
+>>> commit 9d3e3c705eb395528fd8f17208c87581b134da48
+>>> Author: Joe Perches <joe@perches.com>
+>>> Date:   Wed Sep 9 15:37:27 2015 -0700
+>>>
+>>>       checkpatch: add warning on BUG/BUG_ON use
+>>>
+>>> Anyone who is paranoid about security crashes their machine on any
+>> WARNING
+>>> anyway (like syzkaller does).
+>>>
+>>> My rule of thumb is that if the WARN_ON + bail-out code is just an if
+>>> (WARN_ON()) return; then it's fine, if it's more then BUG_ON is the
+>> better
+>>> choice perhaps.
+>>>
+>>> I think the worst choice is just removing all these checks, because a
+>> few
+>>> code reorgs later you might not Oops immediately afterwards
+>> anymore, and
+>>> then we'll merge potentially very busted new code. Which is no
+>> good.
+>>
+>> Well BUG_ON(some_codition) is a different problem which I agree on
+>> with
+>> Linus that this is problematic.
+>>
+>> But "if (WARN_ON(!dmabuf)) return -EINVAL;" is really bad coding
+>> style
+>> as well since it hides real problems which are hard errors behind
+>> warnings.
+> I agree that doing these kind of checks in the core object of an API is
+> abusing parameter "validation". I guess a good pattern is having the
+> warning and let the code flow. But since these checks are already all
+> over the place I'm not sure the way to go. I'm very new to dma-buf
+> and I was just checking the code and saw this was not be coherent with
+> the rest of the API so I thought it would be a straight easy patch... Well,
+> I could not be more wrong :)
 
-Guys I'm getting tired of NAKing those incorrect reference count analysis.
+Well that existing stuff might actually depend on this is a really good 
+argument to keep it for now or at least until we have a consent on what 
+to do.
 
-The dma_buf_put() in the error handling of drm_gem_prime_import_dev() 
-function is balanced with the get_dma_buf() in the same function 
-directly above.
+> Anyways, depending on what's decided, I can send another patch trying
+> to make these stuff more coherent. At this point, my feeling is that this
+> patch is to be dropped...
 
-This is for the creating a GEM object for a DMA-buf imported from other 
-device use case and certainly correct.
+At least for now I would hold it back.
 
-The various dma_buf_put() in drm_gem_prime_fd_to_handle() is balanced 
-with the dma_buf_get(prime_fd) at the beginning of the function.
-
-This is for extracting the DMA-buf from the file descriptor and keeping 
-a reference to it while we are busy importing it (e.g. to prevent a race 
-when somebody changes the fd at the same time).
-
-As far as I can see this is correct as well.
-
-Regards,
+Thanks,
 Christian.
 
 >
->   314     if (dev->driver->gem_prime_import)
->   315         obj = dev->driver->gem_prime_import(dev, dma_buf);
->   316     else
->   317         obj = drm_gem_prime_import(dev, dma_buf);
->   				//#1 call to drm_gem_prime_import
-> 				//   ->drm_gem_prime_import_dev
-> 				//   ->dma_buf_put
->   ...
+> - Nuno Sá
 >
->   336     ret = drm_prime_add_buf_handle(&file_priv->prime,
->   337             dma_buf, *handle);
->
->   ...
->
->   342     dma_buf_put(dma_buf);  //#3 put again
->   343
->   344     return 0;
->   345
->   346 fail:
->
->   351     dma_buf_put(dma_buf); //#4 put again
->   352     return ret;
->
->   356 out_put:
->   357     mutex_unlock(&file_priv->prime.lock);
->   358     dma_buf_put(dma_buf);  //#5 put again
->   359     return ret;
->   360 }
->
->   905 struct drm_gem_object *drm_gem_prime_import_dev
->   							(struct drm_device *dev,
->   906                         struct dma_buf *dma_buf,
->   907                         struct device *attach_dev)
->   908 {
->
->   ...
->
->   952 fail_unmap:
->   953     dma_buf_unmap_attachment(attach, sgt, DMA_BIDIRECTIONAL);
->   954 fail_detach:
->   955     dma_buf_detach(dma_buf, attach);
->   956     dma_buf_put(dma_buf);  //#2 the first put of dma_buf
-> 								//	 (unnecessary)
->   957
->   958     return ERR_PTR(ret);
->   959 }
->
-> Signed-off-by: Wentao_Liang <Wentao_Liang_g@163.com>
-> ---
->   drivers/gpu/drm/drm_prime.c | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 2a54f86856af..cef03ad0d5cd 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -953,7 +953,6 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
->   	dma_buf_unmap_attachment(attach, sgt, DMA_BIDIRECTIONAL);
->   fail_detach:
->   	dma_buf_detach(dma_buf, attach);
-> -	dma_buf_put(dma_buf);
->   
->   	return ERR_PTR(ret);
->   }
+>> Returning -EINVAL indicates a recoverable error which is usually caused
+>> by userspace giving invalid parameters and should never be abused to
+>> indicate a driver coding error.
+>>
+>> Functions are either intended to take NULL as valid parameter, e.g. like
+>> kfree(NULL). Or they are intended to work on an object which is
+>> mandatory to provide.
+>>
+>> Christian.
+>>
+>>> -Daniel
+>>>
+>>>
+>>>
+>>>> Christian.
+>>>>
+>>>>> - Nuno Sá
+>>>>>
+>>>>>> Christian.
+>>>>>>
+>>>>>> Am 18.08.21 um 13:58 schrieb Nuno Sá:
+>>>>>>> On top of warning about a NULL object, we also want to return
+>> with a
+>>>>>>> proper error code (as done in 'dma_buf_begin_cpu_access()').
+>>>>>> Otherwise,
+>>>>>>> we will get a NULL pointer dereference.
+>>>>>>>
+>>>>>>> Fixes: fc13020e086b ("dma-buf: add support for kernel cpu
+>> access")
+>>>>>>> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+>>>>>>> ---
+>>>>>>>      drivers/dma-buf/dma-buf.c | 3 ++-
+>>>>>>>      1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-
+>> buf/dma-
+>>>>>> buf.c
+>>>>>>> index 63d32261b63f..8ec7876dd523 100644
+>>>>>>> --- a/drivers/dma-buf/dma-buf.c
+>>>>>>> +++ b/drivers/dma-buf/dma-buf.c
+>>>>>>> @@ -1231,7 +1231,8 @@ int dma_buf_end_cpu_access(struct
+>>>>>> dma_buf *dmabuf,
+>>>>>>>      {
+>>>>>>>      	int ret = 0;
+>>>>>>>
+>>>>>>> -	WARN_ON(!dmabuf);
+>>>>>>> +	if (WARN_ON(!dmabuf))
+>>>>>>> +		return -EINVAL;
+>>>>>>>
+>>>>>>>      	might_lock(&dmabuf->resv->lock.base);
+>>>>>>>
+>>>> _______________________________________________
+>>>> Linaro-mm-sig mailing list
+>>>> Linaro-mm-sig@lists.linaro.org
+>>>>
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Furldefense.com%2Fv3%2F__https%3A%2F%2Fnam11.safelinks.protection.outl&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C6355660e526b4da23fa408d9624a0160%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637648892261212099%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=%2B7ORg3ZL932Gf%2FQzZdgcJTb02dm5dIL0YaAR6mtAQ2c%3D&amp;reserved=0
+>> ook.com/?url=https*3A*2F*2Flists.linaro.org*2Fmailman*2Flistinfo*2
+>> Flinaro-mm-
+>> sig&amp;data=04*7C01*7Cchristian.koenig*40amd.com*7C19f53e2a2
+>> d1843b65adc08d962463b78*7C3dd8961fe4884e608e11a82d994e183d*
+>> 7C0*7C0*7C637648876076613233*7CUnknown*7CTWFpbGZsb3d8eyJ
+>> WIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0
+>> *3D*7C1000&amp;sdata=0E5L4Kid5ZPeKT8Uxx7K61fBXmI4TOsz*2F5IL
+>> sFpLB*2Fo*3D&amp;reserved=0__;JSUlJSUlJSUlJSUlJSUlJSUlJSUl!!A3N
+>> i8CS0y2Y!qiDegx4svPUMZrvnzUoX7VKvvFpDcedH9gYbRCiWfe_N3fw4z
+>> pmA54oQstzSNA$
 
