@@ -1,62 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4005D3F0C6B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 22:07:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B1E3F0D30
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 23:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C03F6E8C8;
-	Wed, 18 Aug 2021 20:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9525F6E8CC;
+	Wed, 18 Aug 2021 21:13:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EADFF6E8C2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 20:07:38 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- k12-20020a056830150c00b0051abe7f680bso553417otp.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 13:07:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=cfm13iXUxECEplWQ0q6Pxak3YtFCZRWGUuhoBsOQF1o=;
- b=FiSrUv34t+HgydbQhzRo7RHOAQFm9OxrQI98LwsaMAeyJz41igKBAGF/7khk9DESSF
- 2uo0zyzxy+hlRiFcu5axiGiY/bPo8RUcNImSiN3Kyq+BuI8hGe5+GFGRUA4J2mgdicgA
- OE3Al9FgiJ2bfV2UIx6fosxcF57TPy/3vdZ7M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=cfm13iXUxECEplWQ0q6Pxak3YtFCZRWGUuhoBsOQF1o=;
- b=fsZyCcl8MOY8D3wd9yLn/RHHOMAwmuDdMbs3L2XaVbca8POmnGSC4e7aeY5ycH01/L
- SGQlP09/5wqqp6Bfm9TihYo1fsODxbtFkD+AQyu5Tsly5YM/+L9sMeGX536G+KKp2S7v
- fL0fyk0IC94mjV+FI2D3DW24vCh1+qBZ3zLO1Q3M8oQhsRJikdcOfecltz4Em4vKeFDq
- L9qfZOamrNlXQwI1DIH625MU7zo91OQQLvtCXshAIT5UFVrb7h/HihGtnc6s5tgLRbV+
- ZDmhsCiJRxfIEcuDn+af+rxbLbsogZw4mjHAP2eSGN3IymCO9KIW5pHLOSVBKf2ULfYO
- L0fg==
-X-Gm-Message-State: AOAM533k2Aaxs/w0qG88sE9uTGS7WQ+rLM15L4ha1rKatARqhzxImFV9
- /AFitgEtmAUeJ7xHdPmVcWvplXCHIbm4VAsar3qnPw==
-X-Google-Smtp-Source: ABdhPJyELNhhchyiGz4aTzehMCOLQwh2D+h4c08VfwqU9GfrDc66h204pRTnxTXnauLt5QAn0FSePec2ZgVpt81vPKo=
-X-Received: by 2002:a05:6830:2473:: with SMTP id
- x51mr1798273otr.34.1629317258305; 
- Wed, 18 Aug 2021 13:07:38 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 18 Aug 2021 13:07:37 -0700
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99AC06E8C7;
+ Wed, 18 Aug 2021 21:13:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216426133"
+X-IronPort-AV: E=Sophos;i="5.84,332,1620716400"; d="scan'208";a="216426133"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 14:13:22 -0700
+X-IronPort-AV: E=Sophos;i="5.84,332,1620716400"; d="scan'208";a="521235962"
+Received: from ygagnonx-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.255.34.119])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 14:13:20 -0700
+Date: Wed, 18 Aug 2021 17:13:19 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YR137zkSAIbun1Ed@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1629282424-4070-1-git-send-email-mkrishn@codeaurora.org>
-References: <1629282424-4070-1-git-send-email-mkrishn@codeaurora.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Wed, 18 Aug 2021 13:07:37 -0700
-Message-ID: <CAE-0n52r-+MjLO0o3JOWCsLHHWVOYNKnSuZYTwiarpJW-M643g@mail.gmail.com>
-Subject: Re: [PATCH v1 1/4] dt-bindings: msm: add DT bindings for sc7280
-To: Krishna Manikandan <mkrishn@codeaurora.org>, devicetree@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: kalyan_t@codeaurora.org, sbillaka@codeaurora.org, abhinavk@codeaurora.org, 
- robdclark@gmail.com, bjorn.andersson@linaro.org, khsieh@codeaurora.org, 
- rajeevny@codeaurora.org, freedreno@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,15 +51,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Krishna Manikandan (2021-08-18 03:27:01)
-> MSM Mobile Display Subsystem (MDSS) encapsulates sub-blocks
-> like DPU display controller, DSI, EDP etc. Add required DPU
-> device tree bindings for SC7280.
->
-> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
-> ---
+Hi Dave and Daniel,
 
-Please send a cover-letter next time.
+Here goes drm-intel-fixes-2021-08-18:
 
-Do you have the display port dts bits and driver code ready too? Can it
-be part of this patch series?
+- Expand a tweaked display workaround for all PCHs. (Anshuman)
+- Fix eDP MSO pipe sanity checks for ADL-P. (Jani)
+- Remove superfluous EXPORT_SYMBOL(). (Jani)
+
+Thanks,
+Rodrigo.
+
+The following changes since commit 7c60610d476766e128cc4284bb6349732cbd6606:
+
+  Linux 5.14-rc6 (2021-08-15 13:40:53 -1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-08-18
+
+for you to fetch changes up to e3e86f41385b2b5d5f771de6009748b584334366:
+
+  drm/i915/dp: remove superfluous EXPORT_SYMBOL() (2021-08-18 07:23:57 -0400)
+
+----------------------------------------------------------------
+- Expand a tweaked display workaround for all PCHs. (Anshuman)
+- Fix eDP MSO pipe sanity checks for ADL-P. (Jani)
+- Remove superfluous EXPORT_SYMBOL(). (Jani)
+
+----------------------------------------------------------------
+Anshuman Gupta (1):
+      drm/i915: Tweaked Wa_14010685332 for all PCHs
+
+Jani Nikula (2):
+      drm/i915/edp: fix eDP MSO pipe sanity checks for ADL-P
+      drm/i915/dp: remove superfluous EXPORT_SYMBOL()
+
+ drivers/gpu/drm/i915/display/intel_ddi.c           | 24 +++++++++++-----------
+ drivers/gpu/drm/i915/display/intel_display_power.c | 16 +++++++--------
+ .../gpu/drm/i915/display/intel_dp_link_training.c  |  1 -
+ drivers/gpu/drm/i915/i915_irq.c                    | 21 -------------------
+ 4 files changed, 20 insertions(+), 42 deletions(-)
