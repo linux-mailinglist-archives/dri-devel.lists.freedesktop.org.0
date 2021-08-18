@@ -1,78 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1053F0791
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:11:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 920F73F0823
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 17:37:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2BD16E914;
-	Wed, 18 Aug 2021 15:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 714A16E84B;
+	Wed, 18 Aug 2021 15:37:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA0C6E914
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:11:35 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id q2so1960041plr.11
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
- b=nKyY7H15ZclPASn0mrCWStoJsQEVzP5/BmW4V3jtYB1HxVdnZRQQ4l+PtPCRG/dTV6
- xfDqZKumuBc2DNoifQ7E+k+2RHNCKiMDNP3onIJnlrl5OiL/2iza72Z9iX+5k4rKwpSO
- /m3Ffp/F03wd5BcOk1ihua3YxRddIsYpot1qTBRf+xRtenjeQ4qFFoOSIN66Jft6TSfW
- c2t4wMFRzHKGD7LvgQQ/GVhG8mAh1vCDNxP/Inly9yMM79tpqdyKRQdjifrNITzwA6c7
- yGxl1c2NhdVpvxPZ2G3/l6okDceS2O7mIXsDYuviCR6t29nOh+UDrTcg3BH0FRZEUvzE
- zLIw==
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E27D6E844;
+ Wed, 18 Aug 2021 15:37:19 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ u13-20020a17090abb0db0290177e1d9b3f7so9175195pjr.1; 
+ Wed, 18 Aug 2021 08:37:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=hf+PYnU598KTcaGn+kaY/aSf215EGIiFQvdsiOz+iNE=;
+ b=CRReCz8U1P4Vv/4YGcZ1yXzH+D47/TB1oHO0dVMmc5eJZFDAPmpymyNAEiBN5WDZyc
+ NLB4xpGh5K2xs7hcYiNjXy3kjkwe/wYIu7m7c06ELfE/fUF4dPSfnhpowkVFnHyQlWLe
+ jn1hD7cIAUnNAa+AkHUsJzHIX72hvs0va83jAGwW3SZgKxi1D7Xzfl2g00lA7Xl0Q7kV
+ NYVYOxslSek9f4SQTMl4vz0gLls1vYwbRtdDkLY2IkRxn574O3FUUO1DaoL+MnK8iWvX
+ JcfR0P72LfOlmhcDM5BzprPbafaZjAMdVEZYmXUjP2ieYuwkmxm+vmnOvdonssKqlW+q
+ ujqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
- b=ccyTO7CZrpeQ5400gek8ODgmlv29atOTksSVC56EDS8nqd99FXxbCmZ3pLjqiZEWmP
- 0hwK8iS79bGgTPSUHETjoubGfbLDpFvfXqPPYZs0ctu3ysSKAQvRVdnkKujPVhYqTE7w
- yY8s3m9yAL9a63ENS6CUWi8dk6rkePS7VII1l1i787FjtCHfChoOXIUKiKEBvw6dwqKQ
- GNu+8neza8VNZukx50fRYqjJZRAVWzJ7NpYln4A6jiPSUjLzhwX8JJQaTStFnMnJrnBh
- aqkgUAkwr50X9VrwuIPiqXUxgwIhg8WPZgkw58dVp/sTjWGakC8L0M+y/jc+/NXJLXAu
- /kRQ==
-X-Gm-Message-State: AOAM532tamnLwtjDnKnGEaen1PzrYLe4WF9FBJkvm41GtR1WKJoFMH/S
- vjf3Re9UqnGdAkSAQ754kKSpjg==
-X-Google-Smtp-Source: ABdhPJyb9v3aI2ukGkg+KeS46DSybL7HwTNvsJIGANZduqIYX0SVbX0PrpsQIc/aOBu7eADDQMvgoA==
-X-Received: by 2002:a17:90b:1e03:: with SMTP id
- pg3mr9751970pjb.203.1629299494765; 
- Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id m7sm28291pfc.212.2021.08.18.08.11.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
-Date: Wed, 18 Aug 2021 15:11:28 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 53/63] KVM: x86: Use struct_group() to zero decode cache
-Message-ID: <YR0jIEzEcUom/7rd@google.com>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-54-keescook@chromium.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hf+PYnU598KTcaGn+kaY/aSf215EGIiFQvdsiOz+iNE=;
+ b=IhYmA6wvsCucAztsJJohYj0OHevCMuIbtdUfd68skcsnDZNY65yMjLEb0DpzgRLWJu
+ 2LvHyiEbeCa99vPLbzBpbTjZZtgMsqF3Ct3kdolc5299/n5sC95lPxQGTbbEXgv3IV7J
+ js4rrr4U2MU5sy5Udo0VIADE2LbdC3806P8tLNraGMLnZ7eTLursMoQRF/eupq9o6Vs7
+ j8b3lmD1sqnNelKhwiwMcQ6p90drflQcyxRbdE+e725454/8xHiT6YFF0/JvsjntFFUh
+ 3Nz8UldsJHICYEEZWR6/bAJKURmHDL2iW/MQLKtTGU4Gz0KI2mn1n/IySTIKCSTMMzLK
+ UoRw==
+X-Gm-Message-State: AOAM531i7DJDfsLAs/C6D0Z2C+ODETlvgrhh8XeCnjSS99SEkSgg5MFJ
+ E/5SPT9siwlwDGcJcr/mDYg=
+X-Google-Smtp-Source: ABdhPJxnOCxmhvFCsrLoYA3U+x8QTr55RHKLH9kbAlQwE+cwDJdAHyVY/t70CXCisMkBQjAYex3AVQ==
+X-Received: by 2002:a17:90a:2b89:: with SMTP id
+ u9mr9961429pjd.116.1629301038807; 
+ Wed, 18 Aug 2021 08:37:18 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id c15sm223676pjr.22.2021.08.18.08.37.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 08:37:18 -0700 (PDT)
+Subject: Re: [PATCH v3 4/9] drm: fix potential null ptr dereferences in
+ drm_{auth,ioctl}
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
+ tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+ gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
+ <20210818073824.1560124-5-desmondcheongzx@gmail.com>
+ <YRzcuiQrLFsWowas@phenom.ffwll.local>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <53a63ac8-f2de-91f7-4e0f-20b0f3f61d52@gmail.com>
+Date: Wed, 18 Aug 2021 23:37:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818060533.3569517-54-keescook@chromium.org>
+In-Reply-To: <YRzcuiQrLFsWowas@phenom.ffwll.local>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,130 +86,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021, Kees Cook wrote:
->  arch/x86/kvm/emulate.c     |  3 +--
->  arch/x86/kvm/kvm_emulate.h | 19 +++++++++++--------
->  2 files changed, 12 insertions(+), 10 deletions(-)
+On 18/8/21 6:11 pm, Daniel Vetter wrote:
+> On Wed, Aug 18, 2021 at 03:38:19PM +0800, Desmond Cheong Zhi Xi wrote:
+>> There are three areas where we dereference struct drm_master without
+>> checking if the pointer is non-NULL.
+>>
+>> 1. drm_getmagic is called from the ioctl_handler. Since
+>> DRM_IOCTL_GET_MAGIC has no ioctl flags, drm_getmagic is run without
+>> any check that drm_file.master has been set.
+>>
+>> 2. Similarly, drm_getunique is called from the ioctl_handler, but
+>> DRM_IOCTL_GET_UNIQUE has no ioctl flags. So there is no guarantee that
+>> drm_file.master has been set.
 > 
-> diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-> index 2837110e66ed..2608a047e769 100644
-> --- a/arch/x86/kvm/emulate.c
-> +++ b/arch/x86/kvm/emulate.c
-> @@ -5377,8 +5377,7 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
->  
->  void init_decode_cache(struct x86_emulate_ctxt *ctxt)
->  {
-> -	memset(&ctxt->rip_relative, 0,
-> -	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
-> +	memset(&ctxt->decode_cache, 0, sizeof(ctxt->decode_cache));
->  
->  	ctxt->io_read.pos = 0;
->  	ctxt->io_read.end = 0;
-> diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
-> index 68b420289d7e..9b8afcb8ad39 100644
-> --- a/arch/x86/kvm/kvm_emulate.h
-> +++ b/arch/x86/kvm/kvm_emulate.h
-> @@ -341,14 +341,17 @@ struct x86_emulate_ctxt {
->  	 * the rest are initialized unconditionally in x86_decode_insn
->  	 * or elsewhere
->  	 */
-> -	bool rip_relative;
-> -	u8 rex_prefix;
-> -	u8 lock_prefix;
-> -	u8 rep_prefix;
-> -	/* bitmaps of registers in _regs[] that can be read */
-> -	u32 regs_valid;
-> -	/* bitmaps of registers in _regs[] that have been written */
-> -	u32 regs_dirty;
-> +	struct_group(decode_cache,
-
-This is somewhat misleading because half of this struct is the so called "decode
-cache", not just these six fields.
-
-KVM's "optimization" is quite ridiculous as this has never been such a hot path
-that saving a few mov instructions would be noticeable.  And hilariously, the
-"optimization" is completely unnecessary because both gcc and clang are clever
-enough to batch the first five into a movq even when zeroing the fields individually.
-
-So, I would much prefer to go with the following:
-
-From dbdca1f4cd01fee418c252e54c360d518b2b1ad6 Mon Sep 17 00:00:00 2001
-From: Sean Christopherson <seanjc@google.com>
-Date: Wed, 18 Aug 2021 08:03:08 -0700
-Subject: [PATCH] KVM: x86: Replace memset() "optimization" with normal
- per-field writes
-
-Explicitly zero select fields in the emulator's decode cache instead of
-zeroing the fields via a gross memset() that spans six fields.  gcc and
-clang are both clever enough to batch the first five fields into a single
-quadword MOV, i.e. memset() and individually zeroing generate identical
-code.
-
-Removing the wart also prepares KVM for FORTIFY_SOURCE performing
-compile-time and run-time field bounds checking for memset().
-
-No functional change intended.
-
-Reported-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kvm/emulate.c     | 9 +++++++--
- arch/x86/kvm/kvm_emulate.h | 6 +-----
- 2 files changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-index 2837110e66ed..bf81fd017e7f 100644
---- a/arch/x86/kvm/emulate.c
-+++ b/arch/x86/kvm/emulate.c
-@@ -5377,8 +5377,13 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
-
- void init_decode_cache(struct x86_emulate_ctxt *ctxt)
- {
--	memset(&ctxt->rip_relative, 0,
--	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
-+	/* Clear fields that are set conditionally but read without a guard. */
-+	ctxt->rip_relative = false;
-+	ctxt->rex_prefix = 0;
-+	ctxt->lock_prefix = 0;
-+	ctxt->rep_prefix = 0;
-+	ctxt->regs_valid = 0;
-+	ctxt->regs_dirty = 0;
-
- 	ctxt->io_read.pos = 0;
- 	ctxt->io_read.end = 0;
-diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
-index 68b420289d7e..bc1fecacccd4 100644
---- a/arch/x86/kvm/kvm_emulate.h
-+++ b/arch/x86/kvm/kvm_emulate.h
-@@ -336,11 +336,7 @@ struct x86_emulate_ctxt {
- 		fastop_t fop;
- 	};
- 	int (*check_perm)(struct x86_emulate_ctxt *ctxt);
--	/*
--	 * The following six fields are cleared together,
--	 * the rest are initialized unconditionally in x86_decode_insn
--	 * or elsewhere
--	 */
-+
- 	bool rip_relative;
- 	u8 rex_prefix;
- 	u8 lock_prefix;
---
-2.33.0.rc1.237.g0d66db33f3-goog
-
-> +		bool rip_relative;
-> +		u8 rex_prefix;
-> +		u8 lock_prefix;
-> +		u8 rep_prefix;
-> +		/* bitmaps of registers in _regs[] that can be read */
-> +		u32 regs_valid;
-> +		/* bitmaps of registers in _regs[] that have been written */
-> +		u32 regs_dirty;
-> +	);
-> +
->  	/* modrm */
->  	u8 modrm;
->  	u8 modrm_mod;
-> -- 
-> 2.30.2
+> I think the above two are impossible, due to the refcounting rules for
+> struct file.
 > 
+
+Right, will drop those two parts from the patch.
+
+>> 3. drm_master_release can also be called without having a
+>> drm_file.master set. Here is one error path:
+>>    drm_open():
+>>      drm_open_helper():
+>>        drm_master_open():
+>>          drm_new_set_master(); <--- returns -ENOMEM,
+>>                                     drm_file.master not set
+>>        drm_file_free():
+>>          drm_master_release(); <--- NULL ptr dereference
+>>                                     (file_priv->master->magic_map)
+>>
+>> Fix these by checking if the master pointers are NULL before use.
+>>
+>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>> ---
+>>   drivers/gpu/drm/drm_auth.c  | 16 ++++++++++++++--
+>>   drivers/gpu/drm/drm_ioctl.c |  5 +++++
+>>   2 files changed, 19 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>> index f9267b21556e..b7230604496b 100644
+>> --- a/drivers/gpu/drm/drm_auth.c
+>> +++ b/drivers/gpu/drm/drm_auth.c
+>> @@ -95,11 +95,18 @@ EXPORT_SYMBOL(drm_is_current_master);
+>>   int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+>>   {
+>>   	struct drm_auth *auth = data;
+>> +	struct drm_master *master;
+>>   	int ret = 0;
+>>   
+>>   	mutex_lock(&dev->master_mutex);
+>> +	master = file_priv->master;
+>> +	if (!master) {
+>> +		mutex_unlock(&dev->master_mutex);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>>   	if (!file_priv->magic) {
+>> -		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
+>> +		ret = idr_alloc(&master->magic_map, file_priv,
+>>   				1, 0, GFP_KERNEL);
+>>   		if (ret >= 0)
+>>   			file_priv->magic = ret;
+>> @@ -355,8 +362,12 @@ void drm_master_release(struct drm_file *file_priv)
+>>   
+>>   	mutex_lock(&dev->master_mutex);
+>>   	master = file_priv->master;
+>> +
+>> +	if (!master)
+>> +		goto unlock;
+> 
+> This is a bit convoluted, since we're in the single-threaded release path
+> we don't need any locking for file_priv related things. Therefore we can
+> pull the master check out and just directly return.
+> 
+> But since it's a bit surprising maybe a comment that this can happen when
+> drm_master_open in drm_open_helper fails?
+> 
+
+Sounds good. This can actually also happen in the failure path of 
+mock_drm_getfile if anon_inode_getfile fails. I'll leave a short note 
+about both of them.
+
+> Another option, and maybe cleaner, would be to move the drm_master_release
+> from drm_file_free into drm_close_helper. That would be fully symmetrical
+> and should also fix the bug here?
+> -Daniel
+> 
+Hmmm maybe the first option to move the check out of the lock might be 
+better. If I'm not wrong, we would otherwise also need to move 
+drm_master_release into drm_client_close.
+
+> 
+>> +
+>>   	if (file_priv->magic)
+>> -		idr_remove(&file_priv->master->magic_map, file_priv->magic);
+>> +		idr_remove(&master->magic_map, file_priv->magic);
+>>   
+>>   	if (!drm_is_current_master_locked(file_priv))
+>>   		goto out;
+>> @@ -379,6 +390,7 @@ void drm_master_release(struct drm_file *file_priv)
+>>   		drm_master_put(&file_priv->master);
+>>   		spin_unlock(&dev->master_lookup_lock);
+>>   	}
+>> +unlock:
+>>   	mutex_unlock(&dev->master_mutex);
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+>> index 26f3a9ede8fe..4d029d3061d9 100644
+>> --- a/drivers/gpu/drm/drm_ioctl.c
+>> +++ b/drivers/gpu/drm/drm_ioctl.c
+>> @@ -121,6 +121,11 @@ int drm_getunique(struct drm_device *dev, void *data,
+>>   
+>>   	mutex_lock(&dev->master_mutex);
+>>   	master = file_priv->master;
+>> +	if (!master) {
+>> +		mutex_unlock(&dev->master_mutex);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>>   	if (u->unique_len >= master->unique_len) {
+>>   		if (copy_to_user(u->unique, master->unique, master->unique_len)) {
+>>   			mutex_unlock(&dev->master_mutex);
+>> -- 
+>> 2.25.1
+>>
+> 
+
