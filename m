@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847E33EFDE8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 09:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9D03EFDF0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 09:40:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 273BE6E457;
-	Wed, 18 Aug 2021 07:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2AD46E462;
+	Wed, 18 Aug 2021 07:40:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD636E462;
- Wed, 18 Aug 2021 07:40:27 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id k19so1276887pfc.11;
- Wed, 18 Aug 2021 00:40:27 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45FB16E461;
+ Wed, 18 Aug 2021 07:40:38 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id j1so2057161pjv.3;
+ Wed, 18 Aug 2021 00:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rPzlSJpSXI27Gad1u8smJdYmSOWjamjBkzviSiNS/Mc=;
- b=MIflcts7D1tN8J3RdN87d9ZHJdOVpi/Y7ERqfgGkMxAqizTDrZnC3zn84IGdMDNRG1
- TsFbeCSOdQo/Py1VHAlmJ2MwCLS58e8AwZ3j0AmDq2lZt9m0I0r4oz1W+KNW0xT6REua
- AI6k7qV4XuH6g9S6w8mtDN7gwjkQWEmR3Fxw92LdtRu9MxRBTRrZi0MJPXEAklNUzX+x
- x/F0npPWDZEuxnkDlDLzFPp7OPuMsmpLPntndLZBFDIjlhQ1TUX3UwYtEu5bOGfndBuw
- 3iqn0xCowwCGjsX1K3etz2Bt2fKjWBrGnZTeAbNexlkiWTFYyIYQnvQRIt1410FKUqvh
- fIOQ==
+ bh=he3hjgMVhcOXzxQ8ZzPKGe5qy8qOVQuZUYfKXwOfAPg=;
+ b=V3ChonAMDLG13W4R9mt1UZfcDRlf3NYYG5Rp6zwLe9hoPv7kNaLSz1SBaGSu4gacb2
+ IG7pihFofk738zo0sUjjMECc8BKbXHoRFgXUaz+rksmgG1umJdIhslaO4DouScE25nrz
+ QhQN0KBGfOlxOAV5gm+r9YxMmPtBF13v/W8YFP2iCl19RlJ5zdD+L2hOm2sa+1iKHZGz
+ CgFFYbvwQ/FegyZK22MDmuuW+iQHHAazsx4WnIW9u2x3s0WyVCRHOYH7otiYZitptlk3
+ 7J02sZUKJx/5shMUykUIDn5WogVBsFWvX2MIVtWcImlFFB8LyqmG2vbSKdj3J6amSb+W
+ /hSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rPzlSJpSXI27Gad1u8smJdYmSOWjamjBkzviSiNS/Mc=;
- b=SdGeNSPRV9a6A12MCg+l0Fg2zs9JrwCdtFJx/LWuVdNAQeME6+Tm5s9/MrSNK+kENz
- LEhghk1AI2939Ws41uEk0IoW6NLmRVe0qUu+WaSAoYU+Q5WjV4wHwWAq1kk6g8mNXRBM
- XH4E2e/Ri6+wJHbg8FVp7G87kzuZTjuFOPCvBpBVjTs3xqkXJrYGaG8DMSvIWHRYpxDB
- 1uliY3/cxLAbcyA2cYZpDRohHv7yYxN/TnRhIDqfsq7sdVqivH4igVybKCfuEvD99r1i
- seL2VuEWcUDmSYtBhPAxq41SPTMEIp5Z4cR5WDiw7dMtCT7mC1UtYMoj5KzET8gV7S8s
- zGBQ==
-X-Gm-Message-State: AOAM532m8jgyV+J+xP4FVuD4DLuOgGRl7DLg/kAPy2EnWbRccFkPJ14H
- zrdhmcCXjiDgMba/yQO6xPo=
-X-Google-Smtp-Source: ABdhPJy/fzSnhMD3q0lPJ928lvoZMJnf6R2L7yWez8jfwKjnKO8/BzrE5reAPVzX3+BXN8wNfdHHOQ==
-X-Received: by 2002:a65:63d6:: with SMTP id n22mr5409905pgv.74.1629272427179; 
- Wed, 18 Aug 2021 00:40:27 -0700 (PDT)
+ bh=he3hjgMVhcOXzxQ8ZzPKGe5qy8qOVQuZUYfKXwOfAPg=;
+ b=HfMeYy2T+SCd8KtL83IYjrPKeWTZvyQbohmLA44q1F9eLWaR66nwiLucgdJotctEuC
+ OC96nchsD3gsxxw8HV7s5FsCsbgpQ+IW6IzmTm094yLZ5m+0jrJN/ocv7qZLL3eAneWV
+ 3jvCd51vPGuPvoNmcEHdBPvoYr/Kvar/PKHKEpxgWejLdZlLJ5PdVK7RBtaLiPTjBCLo
+ l5tIAK4mI1HiWzPqVW01CSVJ354lClLkNQ/HkirMmqPqyHX3KR+WYU3xVNHYp8SsPaZo
+ cMpNYwBh1nYGpm+MLpJNbaA2amQNeJE2ks96/pvo56g+t7Y5N7Hw8rjHEm4Vo0H4h6pS
+ AXtw==
+X-Gm-Message-State: AOAM530JSiwe3kRO64JMqq6FcMCfxiMwp2dJ+gnslY83bVTjisJQPD/o
+ hVRgkRQW7km2vEeH4bu5gy8=
+X-Google-Smtp-Source: ABdhPJykotiJspllqjLdDweoNoswYBNnKnCEjOlyfwnrSucYaBkYPe1fsbb0KtPlQEnYeO0NwCNLag==
+X-Received: by 2002:a17:90a:b009:: with SMTP id
+ x9mr7893927pjq.97.1629272437819; 
+ Wed, 18 Aug 2021 00:40:37 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id u3sm3886729pjr.2.2021.08.18.00.40.22
+ by smtp.gmail.com with ESMTPSA id u3sm3886729pjr.2.2021.08.18.00.40.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 00:40:26 -0700 (PDT)
+ Wed, 18 Aug 2021 00:40:37 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
@@ -55,10 +56,10 @@ Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
  gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v3 2/9] drm: hold master_lookup_lock when releasing a
- drm_file's master
-Date: Wed, 18 Aug 2021 15:38:17 +0800
-Message-Id: <20210818073824.1560124-3-desmondcheongzx@gmail.com>
+Subject: [PATCH v3 3/9] drm: check for null master in
+ drm_is_current_master_locked
+Date: Wed, 18 Aug 2021 15:38:18 +0800
+Message-Id: <20210818073824.1560124-4-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
 References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
@@ -79,35 +80,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When drm_file.master changes value, the corresponding
-drm_device.master_lookup_lock should be held.
+There is a window after calling drm_master_release, and before a file
+is freed, where drm_file can have is_master set to true, but both the
+drm_file and drm_device have no master.
 
-In drm_master_release, a call to drm_master_put sets the
-file_priv->master to NULL, so we protect this section with
-drm_device.master_lookup_lock.
+This could result in wrongly approving permissions in
+drm_is_current_master_locked. Add a check that fpriv->master is
+non-NULl to guard against this scenario.
 
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- drivers/gpu/drm/drm_auth.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_auth.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 8efb58aa7d95..8c0e0dba1611 100644
+index 8c0e0dba1611..f9267b21556e 100644
 --- a/drivers/gpu/drm/drm_auth.c
 +++ b/drivers/gpu/drm/drm_auth.c
-@@ -373,8 +373,11 @@ void drm_master_release(struct drm_file *file_priv)
- 	}
+@@ -66,7 +66,8 @@ static bool drm_is_current_master_locked(struct drm_file *fpriv)
+ 	lockdep_assert_once(lockdep_is_held(&fpriv->minor->dev->master_lookup_lock) ||
+ 			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
  
- 	/* drop the master reference held by the file priv */
--	if (file_priv->master)
-+	if (file_priv->master) {
-+		spin_lock(&dev->master_lookup_lock);
- 		drm_master_put(&file_priv->master);
-+		spin_unlock(&dev->master_lookup_lock);
-+	}
- 	mutex_unlock(&dev->master_mutex);
+-	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
++	return (fpriv->is_master && fpriv->master &&
++		drm_lease_owner(fpriv->master) == fpriv->minor->dev->master);
  }
  
+ /**
 -- 
 2.25.1
 
