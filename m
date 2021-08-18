@@ -1,81 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640203F03E6
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 14:43:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AB63F03EC
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 14:46:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2F5F6E59F;
-	Wed, 18 Aug 2021 12:43:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C61C16E58E;
+	Wed, 18 Aug 2021 12:46:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 512DA6E59F
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 12:43:12 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id BEF072B00522;
- Wed, 18 Aug 2021 08:43:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 18 Aug 2021 08:43:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=xn8lxZ1v2YaL18d+jLVYt1ER07M
- GK8YIdjOFzClmGOk=; b=pI4RWnclY66wMgooB2JgjrXzto+t5w9Ydkw2ELe3p/v
- MkgDWfM2J2YEmuzhQsMaF9y7n2fVcq3i7sPwkK9CU49B70vkCfOfubd8koz9bYC9
- dVgjPVi+Ppny1CMzLTfceP0CFrHFhruHBbr8y9iT+Yl09FtjlWHpwPUNeTqx0zLg
- 5W+LLPqXT5lMcKqP5dj0kFycu0lpS4AMJj9ZasTJklcWZhHj5+6++Gv/miMEi6/W
- QhrguJoV7DeH+llXfrjn930lyHqXeSFYNPMUjlE5Hd8hD5f07ICmRZUp/xDEeRrN
- bUKVtLFPEWdE0O3KTAu5zMXAF+zLZ4nBwTE4nSlErRg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=xn8lxZ
- 1v2YaL18d+jLVYt1ER07MGK8YIdjOFzClmGOk=; b=h0n4gO+g+zvmfSGgZesWZL
- d4o+b9pk5Fmkk4lLE0e96zzVx24gPoOW6Kp6MPZhLT8XBdDMFnB2aeb0afdYBdhO
- FWmm1ROO2kP/Utem3759PcVeLR+le7QuQa5x2juIOUAjFs9qNbSalerAC/xak6YP
- ynn73sT1E4IHdDYsnwkj398elaHvvr70dQhZ6Z5WVunuyvn2WpBS+PGEqRyyrtwZ
- SoB+EgRRQLEpLSIeFDzumPdRXuZcoN8xx0fchM0AdNRYz4ny7ixQRFfi7rCrqS8P
- OHZNYxwCe6jL7/XKZS3acSSY8FsgTTZR/eKqd3nEfUhKbPU/HGuXzwTKYW7YvnTA
- ==
-X-ME-Sender: <xms:WgAdYc9k8tNBqOFJXD55NQ1ztBbERNTMTP8UZt4NFj9uuYkA7vGEbw>
- <xme:WgAdYUsCkb22CeboqyxDOKmoGGe_SXD91mirhGfCY7f3ilvPW0SQ4ivz-3lCI_wSu
- o2yiuKZkj5OOJf4DpM>
-X-ME-Received: <xmr:WgAdYSC0UR1qQ1NTMWGAi-VrCDqPrB2wb0E4m91tJhqgy0J0upxIqOYTduBb8qTeAj1r7t2a9hiv3KIsEr-6uzfQAqgBcfm9ThRb>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleehgdehhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:WgAdYcfdAfZ4zK78m7MdzuFeDluN92nUn1VWjw7l-ugXRlqUqptn6g>
- <xmx:WgAdYRP8w61V3BRcQ85zROVSP4uWH280UJbOmvClxKVA1VUOmSbLLA>
- <xmx:WgAdYWkCVm2XxCSnHv8IXUUMl2J-RCNI-2M7S_CcZnZaJG12OHjNnQ>
- <xmx:XgAdYUr-dbUHOU-8eN-QIjMhZglZuHg2-zmH8XE7s0ngi0U20bp5ptCYcmE>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Aug 2021 08:43:06 -0400 (EDT)
-Date: Wed, 18 Aug 2021 14:43:04 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Rob Herring <robh@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH 10/54] dt-bindings: display: panel-lvds: Document panel
- compatibles
-Message-ID: <20210818124304.2jxsf44bcbprcvbk@gilmour>
-References: <20210721140424.725744-1-maxime@cerno.tech>
- <20210721140424.725744-11-maxime@cerno.tech>
- <20210722022947.GA3168293@robh.at.kernel.org>
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D40B16E58A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 12:46:44 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id v4so3278555wro.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 05:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=uP7fJxLQ5TTQ8aYHYwLJ/kNb8CkLiwmQWgbmcKMOm0w=;
+ b=PS2hT9t/9lt08j1dPeij1H4maeOQEorQjjXGvVlj3rdRK5EGB3LBdL6ZFc5ihgsxu6
+ Raz3EniFUixp+J6NugUiY1vx8r7+9nC42cxjcI6WOR8VaONMTiKSM8toXdb/UC7G9576
+ ozvIPU2VygZBZ9UvUWtEYcANJ4iW6Vtt9Cpmc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=uP7fJxLQ5TTQ8aYHYwLJ/kNb8CkLiwmQWgbmcKMOm0w=;
+ b=FD0Y/hsXZpMzU1pGq9somZssWkL2lvPof7dpXexXIQ2DXddgFKrErAueTWN/nN2owj
+ 5bFn54uiahMig2vjGUlsE8oAmGt8RbjieHNQrw0ijnOJBbUZ/p4yMGvkn94rKOwqjX35
+ 6RpQpL6/GBQ5IjCQ0it86gGV5bt2M8Tv3sNnK2l/sG3EqEXaQcQK+bctbJrA7usgpSPx
+ T1w7wLWAvmzRe9qVZaQWYnAZNl7dtMCw2vNm0T9eideTYP2b9SFwaxCVAeCzdDZPDjZn
+ dfyOHPhB39/BPJVTGzZjstwoB0wam/3MRdkwWIoG27MBAkv3S9Iwg8HRQKESzU5AiTKz
+ bjmQ==
+X-Gm-Message-State: AOAM531dlTG4UEdzj8WXxyhS0nStECOHwl0ak/kHkjegYOx/uzDlZfhz
+ DdXtrSt9tKGZGjmw55rGYdw+qg==
+X-Google-Smtp-Source: ABdhPJy9q41WJDBnQ045sdEUQOBByE6IbQCS+2X6AUgaQtPFfyt/n6ZzI0Dt7LogN6spZ356e/F0gg==
+X-Received: by 2002:adf:e38a:: with SMTP id e10mr10315579wrm.213.1629290802572; 
+ Wed, 18 Aug 2021 05:46:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o7sm4916803wmc.46.2021.08.18.05.46.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 05:46:42 -0700 (PDT)
+Date: Wed, 18 Aug 2021 14:46:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: "Sa, Nuno" <Nuno.Sa@analog.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Rob Clark <rob@ti.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf: return -EINVAL if dmabuf object
+ is NULL
+Message-ID: <YR0BMCMFcwXLjNAe@phenom.ffwll.local>
+References: <20210818115810.274084-1-nuno.sa@analog.com>
+ <9a63b45f-6fec-6269-ae16-8604b08514de@amd.com>
+ <SJ0PR03MB6359C318092E0CB99D28D85099FF9@SJ0PR03MB6359.namprd03.prod.outlook.com>
+ <ed0bf7fd-de49-f94a-3eda-0c1fac50153a@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3qoevq2e2eipnuyt"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210722022947.GA3168293@robh.at.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ed0bf7fd-de49-f94a-3eda-0c1fac50153a@amd.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,99 +79,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Aug 18, 2021 at 02:31:34PM +0200, Christian König wrote:
+> Am 18.08.21 um 14:17 schrieb Sa, Nuno:
+> > > From: Christian König <christian.koenig@amd.com>
+> > > Sent: Wednesday, August 18, 2021 2:10 PM
+> > > To: Sa, Nuno <Nuno.Sa@analog.com>; linaro-mm-sig@lists.linaro.org;
+> > > dri-devel@lists.freedesktop.org; linux-media@vger.kernel.org
+> > > Cc: Rob Clark <rob@ti.com>; Sumit Semwal
+> > > <sumit.semwal@linaro.org>
+> > > Subject: Re: [PATCH] dma-buf: return -EINVAL if dmabuf object is
+> > > NULL
+> > > 
+> > > [External]
+> > > 
+> > > To be honest I think the if(WARN_ON(!dmabuf)) return -EINVAL
+> > > handling
+> > > here is misleading in the first place.
+> > > 
+> > > Returning -EINVAL on a hard coding error is not good practice and
+> > > should
+> > > probably be removed from the DMA-buf subsystem in general.
+> > Would you say to just return 0 then? I don't think that having the
+> > dereference is also good..
+> 
+> No, just run into the dereference.
+> 
+> Passing NULL as the core object you are working on is a hard coding error
+> and not something we should bubble up as recoverable error.
+> 
+> > I used -EINVAL to be coherent with the rest of the code.
+> 
+> I rather suggest to remove the check elsewhere as well.
 
---3qoevq2e2eipnuyt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It's a lot more complicated, and WARN_ON + bail out is rather
+well-established code-pattern. There's been plenty of discussions in the
+past that a BUG_ON is harmful since it makes debugging a major pain, e.g.
 
-Hi Rob, Sam,
+https://lore.kernel.org/lkml/CA+55aFwyNTLuZgOWMTRuabWobF27ygskuxvFd-P0n-3UNT=0Og@mail.gmail.com/
 
-On Wed, Jul 21, 2021 at 08:29:47PM -0600, Rob Herring wrote:
-> On Wed, Jul 21, 2021 at 04:03:40PM +0200, Maxime Ripard wrote:
-> > The binding mentions that all the drivers using that driver must use a
-> > vendor-specific compatible but never enforces it, nor documents the
-> > vendor-specific compatibles.
-> >=20
-> > Let's make we document all of them, and that the binding will create an
-> > error if we add one that isn't.
-> >=20
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  .../bindings/display/panel/lvds.yaml           | 18 ++++++++++++------
-> >  1 file changed, 12 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml =
-b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > index 49460c9dceea..d1513111eb48 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > @@ -31,12 +31,18 @@ allOf:
-> > =20
-> >  properties:
-> >    compatible:
-> > -    contains:
-> > -      const: panel-lvds
-> > -    description:
-> > -      Shall contain "panel-lvds" in addition to a mandatory panel-spec=
-ific
-> > -      compatible string defined in individual panel bindings. The "pan=
-el-lvds"
-> > -      value shall never be used on its own.
-> > +    items:
-> > +      - enum:
-> > +          - advantech,idk-1110wr
->=20
-> At least this one is documented elsewhere.
+There's also a checkpatch check for this.
 
-Indeed, I missed it.
+commit 9d3e3c705eb395528fd8f17208c87581b134da48
+Author: Joe Perches <joe@perches.com>
+Date:   Wed Sep 9 15:37:27 2015 -0700
 
-> You can add 'minItems: 2' if you want to just enforce having 2 compatible=
-s. Or do:
->=20
-> items:
->   - {}
->   - const: panel-lvds
->=20
-> Which also enforces the order.
+    checkpatch: add warning on BUG/BUG_ON use
 
-It's not just about the order since a missing compatible will also raise
-a warning.
+Anyone who is paranoid about security crashes their machine on any WARNING
+anyway (like syzkaller does).
 
-Some of those panels have a binding of their own, but some probably
-won't (and I can't find anything specific about the one I'm most
-interested in: tbs,a711-panel)
+My rule of thumb is that if the WARN_ON + bail-out code is just an if
+(WARN_ON()) return; then it's fine, if it's more then BUG_ON is the better
+choice perhaps.
 
-Can we have something like:
+I think the worst choice is just removing all these checks, because a few
+code reorgs later you might not Oops immediately afterwards anymore, and
+then we'll merge potentially very busted new code. Which is no good.
+-Daniel
 
-compatible:
-  oneOf:
-    - items:
-      - enum:
-	- tbs,a711-panel
-      - const: panel-lvds
 
-    - items:
-      - {}
-      - const: panel-lvds
 
-That would work for both cases I guess?
+> 
+> Christian.
+> 
+> > 
+> > - Nuno Sá
+> > 
+> > > Christian.
+> > > 
+> > > Am 18.08.21 um 13:58 schrieb Nuno Sá:
+> > > > On top of warning about a NULL object, we also want to return with a
+> > > > proper error code (as done in 'dma_buf_begin_cpu_access()').
+> > > Otherwise,
+> > > > we will get a NULL pointer dereference.
+> > > > 
+> > > > Fixes: fc13020e086b ("dma-buf: add support for kernel cpu access")
+> > > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> > > > ---
+> > > >    drivers/dma-buf/dma-buf.c | 3 ++-
+> > > >    1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-
+> > > buf.c
+> > > > index 63d32261b63f..8ec7876dd523 100644
+> > > > --- a/drivers/dma-buf/dma-buf.c
+> > > > +++ b/drivers/dma-buf/dma-buf.c
+> > > > @@ -1231,7 +1231,8 @@ int dma_buf_end_cpu_access(struct
+> > > dma_buf *dmabuf,
+> > > >    {
+> > > >    	int ret = 0;
+> > > > 
+> > > > -	WARN_ON(!dmabuf);
+> > > > +	if (WARN_ON(!dmabuf))
+> > > > +		return -EINVAL;
+> > > > 
+> > > >    	might_lock(&dmabuf->resv->lock.base);
+> > > > 
+> 
+> _______________________________________________
+> Linaro-mm-sig mailing list
+> Linaro-mm-sig@lists.linaro.org
+> https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
 
-Maxime
-
---3qoevq2e2eipnuyt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYR0AVwAKCRDj7w1vZxhR
-xSXTAP90zo+yKkWE46BIwnlwtxZOw5PaagPp4NF9o82iElH/VgD/fUz0Eksd047n
-ujG/vDaPDiReQY0FtuMI/iG0ijZWnQ8=
-=HwHr
------END PGP SIGNATURE-----
-
---3qoevq2e2eipnuyt--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
