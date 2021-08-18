@@ -2,54 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3A73EFF19
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 10:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F553EFF28
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 10:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 846BA6E4AD;
-	Wed, 18 Aug 2021 08:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2688889F53;
+	Wed, 18 Aug 2021 08:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 978746E4AD
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=TSnCTxSRjTwtgHcmESr4fWXccCLIJFCo0VVdeqHZ2L8=; b=jD5tzdmtd5oxN24uPULbq2bb6q
- 9xWzMjs7gpHr9VBVg+Cu6tuTZI30d0Kzc/Sk1dPF/Wz64qtqZimvmAPB9lincZx1AgUXY2SB+MQ2M
- fRwSwsYWtqAxLaJbzPMXuJTiE6Z3WcDWo174VJGATmFMF1yx5sRhzpnbAo1hHWQ3RioGA1wPgCuau
- huLVDQM8qWvd71JCO6Zn5g/M3d+hsr6Mf9Mi6txA9Q4naTtoHtuPEz5YeEaHe/ix8RZxQoyZxdOhl
- IZJ23DeGBlDp83ddulJuHiosFXYPiCtH8B3NJ+5ACyPL8akoPa7st8T5jpmZR5F8Vq1GqcE9hVKjN
- HGodTYfA==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1mGGs9-0006a5-9t; Wed, 18 Aug 2021 11:24:29 +0300
-Subject: Re: [PATCH v3 1/3] dt-bindings: Add YAML bindings for NVDEC
-To: Rob Herring <robh@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>
-Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
-References: <20210811105030.3458521-1-mperttunen@nvidia.com>
- <20210811105030.3458521-2-mperttunen@nvidia.com>
- <YRwoKW4nOc52MAQV@robh.at.kernel.org>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <1dfd5173-5654-9df8-1e8e-d0e365ed914d@kapsi.fi>
-Date: Wed, 18 Aug 2021 11:24:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com
+ [IPv6:2607:f8b0:4864:20::e2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48E3D89F53
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 08:30:18 +0000 (UTC)
+Received: by mail-vs1-xe2a.google.com with SMTP id a20so1282291vsh.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 01:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=IKqcflYMaSUyzwd/eHbHpOkvH7hAYsOOplnEzRxLbhU=;
+ b=R/YglmSTFalwgblF0J7z+xo4QD/viWueOMjtEA3qajPeKluQA8KyZlPIazxZCmQcOV
+ ypXroUN/dz8G8KIy2PndGeFR9trr2TXk1MLEpZYZHSdEPDIvmCIDK5BOf+7ryOnDMlAz
+ KKZOIcOvNnsfQADPruS78lcAX/NT/qxMC6OewVDoFYGt5hY5K9huXDQ6tsxV07Sxs/Du
+ uf/zCLpMusk1iMjpoom1MA3j5kIRz40ZYONDbw9Bk+/YXVmdr5o2bmiJpfJC1CERXXmo
+ E0BgAf1avWcJ6cYGmW6zCxZHRihbaxeLgDmifTSo359uCk7uScIh0CC8oShYygGDo0u/
+ CxTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IKqcflYMaSUyzwd/eHbHpOkvH7hAYsOOplnEzRxLbhU=;
+ b=DOrUn7TlWyRaICEPS4DOqcUlSz7qhWkqYOIuH9UGUP9lgyFu4iQJpPb42oosJS7L5s
+ Y3a53bCjW48FC0KXx3BhbankmkdKUYN6IAww13vTh4mUoQcw/jHL3qTGHa4OzsSLO5Mk
+ E/MNIwMdvr4CAyaKT/ye7dlCgIuHtdd+mJWNFQ3DGsZN8EsqGwZJG5yci3D/TAtqrcp1
+ ijNVI5mUTuo/Mz5N6kbJ57nshu8UoPjPYjtQPzKZZ6JLQoh0kq7r+9ZA/S6/ecZuTQKv
+ TImRz3vkLHYTktPU4nMhDrIR7OaLBqWkNxL4Q5le97tfP8CkOL1T31TJ17Z7+Km+LHt0
+ /rVQ==
+X-Gm-Message-State: AOAM531sGx0KkhrA71nv8l0fkEWbTYiqTit4xZbAWLL8MRVrMuV4Ziw2
+ ZlCo65DZxUh6yOLoyy0xFt2icm0NJhsNOptwJZHAyg==
+X-Google-Smtp-Source: ABdhPJwKrtdwLrtqnGeoY6XyZUUGVixFdE7Mg0poY1hljrcpole6+hd3NjZWSpGJ4mjLJUHBolVYDumnC7t4U+ynnmc=
+X-Received: by 2002:a67:3212:: with SMTP id y18mr6323760vsy.19.1629275417181; 
+ Wed, 18 Aug 2021 01:30:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YRwoKW4nOc52MAQV@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+References: <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
+ <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+ <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+ <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
+ <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+ <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+In-Reply-To: <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 18 Aug 2021 10:29:40 +0200
+Message-ID: <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To: Viresh Kumar <viresh.kumar@linaro.org>, Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>, 
+ Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-mmc <linux-mmc@vger.kernel.org>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,139 +99,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/18/21 12:20 AM, Rob Herring wrote:
-> On Wed, Aug 11, 2021 at 01:50:28PM +0300, Mikko Perttunen wrote:
->> Add YAML device tree bindings for NVDEC, now in a more appropriate
->> place compared to the old textual Host1x bindings.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->> v3:
->> * Drop host1x bindings
->> * Change read2 to read-1 in interconnect names
->> v2:
->> * Fix issues pointed out in v1
->> * Add T194 nvidia,instance property
->> ---
->>   .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 109 ++++++++++++++++++
->>   MAINTAINERS                                   |   1 +
->>   2 files changed, 110 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->> new file mode 100644
->> index 000000000000..571849625da8
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->> @@ -0,0 +1,109 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra210-nvdec.yaml#"
->> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
->> +
->> +title: Device tree binding for NVIDIA Tegra NVDEC
->> +
->> +description: |
->> +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
->> +  and newer chips. It is located on the Host1x bus and typically
->> +  programmed through Host1x channels.
->> +
->> +maintainers:
->> +  - Thierry Reding <treding@gmail.com>
->> +  - Mikko Perttunen <mperttunen@nvidia.com>
->> +
->> +properties:
->> +  $nodename:
->> +    pattern: "^nvdec@[0-9a-f]*$"
->> +
->> +  compatible:
->> +    enum:
->> +      - nvidia,tegra210-nvdec
->> +      - nvidia,tegra186-nvdec
->> +      - nvidia,tegra194-nvdec
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: nvdec
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  reset-names:
->> +    items:
->> +      - const: nvdec
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  iommus:
->> +    maxItems: 1
->> +
->> +  interconnects:
->> +    items:
->> +      - description: DMA read memory client
->> +      - description: DMA read 2 memory client
->> +      - description: DMA write memory client
->> +
->> +  interconnect-names:
->> +    items:
->> +      - const: dma-mem
->> +      - const: read-1
->> +      - const: write
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +  - reset-names
->> +  - power-domains
->> +
->> +if:
->> +  properties:
->> +    compatible:
->> +      contains:
->> +        const: nvidia,tegra194-host1x
-> 
-> host1x? This will never be true as the schema is only applied to nodes
-> with the nvdec compatible.
+On Wed, 18 Aug 2021 at 08:27, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> On 18-08-21, 09:22, Dmitry Osipenko wrote:
+> > 18.08.2021 08:58, Viresh Kumar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > > What about calling dev_pm_opp_set_rate(dev, clk_get_rate(dev)) here
+> > > instead ? That will work, right ? The advantage is it works without
+> > > any special routine to do so.
+> >
+> > It will work, but a dedicated helper is nicer.
+> >
+> > > I also wonder looking at your gr3d.c changes, you set a set-opp
+> > > helper, but the driver doesn't call set_opp_rate at all. Who calls it
+> > > ?
+> >
+> > dev_pm_opp_sync() calls it from _set_opp().
+>
+> Okay, please use dev_pm_opp_set_rate() instead then. New helper just
+> adds to the confusion and isn't doing anything special apart from
+> doing clk_get_rate() for you.
+>
+> > > And if it is all about just syncing the genpd core, then can the genp=
+d
+> > > core do something like what clk framework does? i.e. allow a new
+> > > optional genpd callback, get_performance_state() (just like
+> > > set_performance_state()), which can be called initially by the core t=
+o
+> > > get the performance to something other than zero. opp-set-rate is
+> > > there to set the performance state and enable the stuff as well.
+> > > That's why it looks incorrect in your case, where the function was
+> > > only required to be called once, and you are ending up calling it on
+> > > each resume. Limiting that with another local variable is bad as well=
+.
+> >
+> > We discussed variant with get_performance_state() previously and Ulf
+> > didn't like it either since it still requires to touch 'internals' of G=
+ENPD.
+>
+> Hmm, I wonder if that would be a problem since only genpd core is
+> going to call that routine anyway.
 
-Argh, it's a typo indeed. Should be nvidia,tegra194-nvdec.
+Me and Dmitry discussed adding a new genpd callback for this. I agreed
+that it seems like a reasonable thing to add, if he insists.
 
-> 
->> +then:
->> +  properties:
->> +    nvidia,instance:
->> +      items:
->> +        - description: 0 for NVDEC0, or 1 for NVDEC1
-> 
-> What's this for? We generally don't do indices in DT.
+The intent was to invoke the new callback from __genpd_dev_pm_attach()
+when the device has been attached to its genpd. This allows the
+callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
+update the vote according to the current state of the HW.
 
-When programming the hardware through Host1x, we need to know the "class 
-ID" of the hardware, specific to each instance. So we need to know which 
-instance it is. Technically of course we could derive this from the MMIO 
-address but that seems more confusing.
+I am not sure if/why that approach seemed insufficient?
 
-> 
->> +
->> +additionalProperties: true
-> 
-> This should be false or 'unevaluatedProperties: false'
+Another option to solve the problem, I think, is simply to patch
+drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
+should synchronize the HW state too.
 
-I tried that but it resulted in validation failures; please see the 
-discussion in v2.
+Dmitry, can you please elaborate on this?
 
-Thanks,
-Mikko
-
-> 
-> Rob
-> 
+Kind regards
+Uffe
