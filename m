@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDC13F06DD
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:38:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF783F06EA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8580D6E808;
-	Wed, 18 Aug 2021 14:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10C316E819;
+	Wed, 18 Aug 2021 14:43:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCC36E808
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 14:38:46 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id r7so3996401wrs.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 07:38:46 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E802F6E81A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 14:42:58 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so1940444wml.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 07:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=gegwNUm8NYo/FXRsVilUojIAs0FePP7OAPmD4YfZhV0=;
- b=OliFTkYP42C/f+ApGDEqK0zM2sD2kSLqtEmpGUTlKS+byFt8/n65gDG7m58fi6o9Zu
- ylJSGtGpExq+X69TqDK6SANqiQ9V8JyEZXes+GZ9dy7vxZw53mSlsodMAU66CzR+1f/C
- m6JiiH4Se4FpI1FD3qlbqbcb6HU5Kfy5LuCEs=
+ :content-disposition:in-reply-to;
+ bh=Ao/txIf+B/fs8hVU8p8+wKHGKAFHZhPcsLRdwWlfgzI=;
+ b=Tkdi57qQfUCWCNfV1Jsh1/nuuUbxyj2J9c9tnv7PsQrKD3xCYHCosyb5NNTJvtvWh+
+ vpmHKRqVC3G55Iu2wnwEVayH31PazvfoCqrE3ZhVIhShc15fnriFydcpGCZ6ut7sTIyA
+ /75UQWGw8UPNovDBnQ7cLdlM5Pqn+bxTA06/M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=gegwNUm8NYo/FXRsVilUojIAs0FePP7OAPmD4YfZhV0=;
- b=gsUTZU5ZaNuNl5A3vxx2wO3rIEPpFrTxVUWdthCiWUejdexZp/+RqW4DMd/hxe0y9R
- X8ijI0iYKPZrAnXFGp3yhgIRi8UHmkttFb+eBdqQuX8wzmurd6lZ0DHHMSi2HyYyCJsd
- xvpzH4O3vinmuBRkGiKOlLFHnFgL4Argyiqne5G2kiXtonj76pAHawWmEPggh86/tnIf
- k6uKz7f6yhS6d712Yw0Tmr0BHBp3igWNVXIiT0I7/iLgMUm1n67c8fGsxbIVJaz79upq
- yTyqiXuedUmVKZq3gMf9Tje6nukKL7eQga1WrJ2zWLeW7fcbdaHInCuBcDs58FrZ3RvA
- Dl/Q==
-X-Gm-Message-State: AOAM5307pWJi5fd95zSgNF/hmdXxbalYE+6mCmQBvwBfhdDdjHYm1fmU
- cYGWxTlXbPazNubjEJ9ngz3qv2ofkDJdQA==
-X-Google-Smtp-Source: ABdhPJxCaAMN1UNaNjAoKPY6xq6sO0wVKPXGtpU9g1vpGRuxPPALNznq46oWUtn8fFOtxZUbTIdkTA==
-X-Received: by 2002:adf:f00d:: with SMTP id j13mr11501679wro.14.1629297524833; 
- Wed, 18 Aug 2021 07:38:44 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=Ao/txIf+B/fs8hVU8p8+wKHGKAFHZhPcsLRdwWlfgzI=;
+ b=iovNLcy/SM6pA1kzfqpVRvpzMvnuDPNI76DXXRHgxo6izJsxTUnmpKu6Wam2sh4xin
+ R0+0z5cArGuyAK4z4eEXVyQon2HEY3XAkAX7BV1lBysCVriXkNLvjPRvu8a9zBi5dvs2
+ PNVkfnonEi5BIvbFoVAaX9io4mXdqKWU+MI8S9THoNK/JqOdECTDQEttYMH7tJgz4xWV
+ OToQGqLXOzGdtqFkrnlGB+2ADaxtOZ9mNU2nZeTNYnX/TmGyoOPlTgXFq9xEhuHpPaDj
+ /DkDJQLwZudJGcKYTW5APYulsnadEDZBakS2mIvPnVCjCTliEoLjusaJjN/gl25CoG8k
+ IqKA==
+X-Gm-Message-State: AOAM531z10s3HFISRYQDFLtyZ+Id/hlkpDVtmsyp2RBen4Zk07Hp9YEQ
+ 93E74zgbMR1nLSxzq+JT/4Fc9Q==
+X-Google-Smtp-Source: ABdhPJy1S82Qc/lIA56oS3TCfFRVU4kvkmeHJv/xBt7ufLq2aF+BJDJkFdkHZVgZlc/nJNGtOdDkcg==
+X-Received: by 2002:a7b:cc16:: with SMTP id f22mr8755498wmh.99.1629297777431; 
+ Wed, 18 Aug 2021 07:42:57 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b15sm9875wru.1.2021.08.18.07.38.44
+ by smtp.gmail.com with ESMTPSA id w9sm45605wmc.19.2021.08.18.07.42.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 07:38:44 -0700 (PDT)
-Date: Wed, 18 Aug 2021 16:38:42 +0200
+ Wed, 18 Aug 2021 07:42:56 -0700 (PDT)
+Date: Wed, 18 Aug 2021 16:42:55 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>
-Subject: Re: [PATCH] drm/ttm: optimize the pool shrinker a bit v3
-Message-ID: <YR0bcpLlS4OjQnm+@phenom.ffwll.local>
-References: <20210722113453.2314-1-christian.koenig@amd.com>
- <ae7405c6-2d91-e7e4-0a0a-7de6f4b330a0@gmail.com>
- <YRz98uGS7R1AeE+e@phenom.ffwll.local>
- <86b3314e-8dc3-cc6c-f59a-e970859e7716@amd.com>
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>,
+ Jingwen Chen <Jingwen.Chen2@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "monk.liu" <monk.liu@amd.com>, Christian Koenig <christian.koenig@amd.com>
+Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
+Message-ID: <YR0cb43Wv8jGiIbb@phenom.ffwll.local>
+References: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
+ <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
+ <69cbf5bd-42c2-be55-a604-43f4ebba159d@amd.com>
+ <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
+ <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <86b3314e-8dc3-cc6c-f59a-e970859e7716@amd.com>
+In-Reply-To: <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,193 +78,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 18, 2021 at 03:09:41PM +0200, Christian König wrote:
-> Am 18.08.21 um 14:32 schrieb Daniel Vetter:
-> > On Wed, Aug 18, 2021 at 01:27:13PM +0200, Christian König wrote:
-> > > Just a gentle ping?
+On Wed, Aug 18, 2021 at 10:36:32AM -0400, Andrey Grodzovsky wrote:
+> 
+> On 2021-08-18 10:32 a.m., Daniel Vetter wrote:
+> > On Wed, Aug 18, 2021 at 10:26:25AM -0400, Andrey Grodzovsky wrote:
+> > > On 2021-08-18 10:02 a.m., Alex Deucher wrote:
 > > > 
-> > > Does anybody have any objections? It's just switching back to using a
-> > > spinlock in the hot path instead of a mutex.
-> > > 
-> > > Thanks,
-> > > Christian.
-> > > 
-> > > Am 22.07.21 um 13:34 schrieb Christian König:
-> > > > Switch back to using a spinlock again by moving the IOMMU unmap outside
-> > > > of the locked region.
+> > > > + dri-devel
 > > > > 
-> > > > v2: Add a comment explaining why we need sync_shrinkers().
-> > > > v3: Drop sync_shrinkers() and use an SRCU instead.
-> > Why did you move to your own hand-rolled thing here? From the old thread
-> > it just looked like Andrew wanted some proper explanation. And the
-> > sychronize_shrinkers is imo much clearer than some hand-rolled srcu thing.
-> 
-> Well I agree that it is minimal cleaner, but I've pinged Andrew a couple of
-> times and he seems to be busy.
-
-Imo if you paste your explainer from that thread into the commit message
-that's good enough. Ofc the vmscan patch still needs an ack from Andrew,
-but that shouldn't be too hard to get.
-
-Essentially what we're doing is register/unregistering parts of our
-shrinker here, instead of doing a full register/unregister and having a
-shrinker for each part.
-
-> > Also on the spinlock covnersion, do you have some benchmarks/profile
-> > flamegraphs/numbers that show it matters? Would be realy good to record
-> > that kind of stuff in the commit message instead of just having the
-> > implication that this optimizes stuff.
-> 
-> The spinlock conversion doesn't matter that much, but what makes the
-> difference is that we don't do all IOMMU mapping/unmapping under a single
-> mutex any more.
-> 
-> I've promised to take another look at it when we fixed that and somebody
-> from an internal team complained about this as well.
-> 
-> Not sure if that really helps or if we then have the next bottleneck in the
-> IOMMU code, but it is at least a start.
-
-Yeah it'd be really good to record something so we know in the future. We
-= very much including non-amd people, because perf tuning where the
-reasons are only available if you work for the right company aint good.
-
-Also this is from my experience digging back into i915-gem, where enormous
-amounts of tuning was done, but reasons almost never recorded, much less
-perf numbers. It's a disaster.
-
-On v2, with the explanation added (for both sync_shrinkers and why the
-conversion here actually matters) and perf number/benchmarks included in
-the commit message:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> (both patches)
-
-One-liner commit message for tuning aint good enough by far :-)
--Daniel
-
-> 
-> Christian.
-> 
+> > > > Since scheduler is a shared component, please add dri-devel on all
+> > > > scheduler patches.
+> > > > 
+> > > > On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@amd.com> wrote:
+> > > > > [Why]
+> > > > > for bailing job, this commit will delete it from pending list thus the
+> > > > > bailing job will never have a chance to be resubmitted even in advance
+> > > > > tdr mode.
+> > > > > 
+> > > > > [How]
+> > > > > after embeded hw_fence into amdgpu_job is done, the race condition that
+> > > > > this commit tries to work around is completely solved.So revert this
+> > > > > commit.
+> > > > > This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
+> > > > > v2:
+> > > > > add dma_fence_get/put() around timedout_job to avoid concurrent delete
+> > > > > during processing timedout_job
+> > > > > 
+> > > > > Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
+> > > > > ---
+> > > > >    drivers/gpu/drm/scheduler/sched_main.c | 23 +++++------------------
+> > > > >    1 file changed, 5 insertions(+), 18 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > index a2a953693b45..f9b9b3aefc4a 100644
+> > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+> > > > >    {
+> > > > >           struct drm_gpu_scheduler *sched;
+> > > > >           struct drm_sched_job *job;
+> > > > > +       struct dma_fence *fence;
+> > > > >           enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
+> > > > > 
+> > > > >           sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
+> > > > > @@ -325,11 +326,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
+> > > > > 
+> > > > >           if (job) {
+> > > > >                   /*
+> > > > > -                * Remove the bad job so it cannot be freed by concurrent
+> > > > > -                * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
+> > > > > -                * is parked at which point it's safe.
+> > > > > +                * Get job->s_fence->parent here to avoid concurrent delete during
+> > > > > +                * processing timedout_job
+> > > > >                    */
+> > > > > -               list_del_init(&job->list);
+> > > > > +               fence = dma_fence_get(job->s_fence->parent);
+> > > 
+> > > While this is true for amdgpu, it has no meaning for other drivers for whom
+> > > we haven't
+> > > done the refactoring of embedding HW fence (parent) into the job structure.
+> > > In fact thinking
+> > > about it, unless you do the HW fence embedding for all the drivers using the
+> > > scheduler you cannot
+> > > revert this patch or you will just break them.
+> > btw, why did you do that embedding? I do still have my patches with
+> > dma_fence annotations floating around, but my idea at least was to fix
+> > that issue with a mempool, not with embeddeding. What was the motivation
+> > for embedding the wh fence?
 > > -Daniel
-> > 
-> > > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > > ---
-> > > >    drivers/gpu/drm/ttm/ttm_pool.c | 45 ++++++++++++++++++++--------------
-> > > >    1 file changed, 27 insertions(+), 18 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> > > > index cb38b1a17b09..cee664c487b5 100644
-> > > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> > > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> > > > @@ -70,7 +70,8 @@ static struct ttm_pool_type global_uncached[MAX_ORDER];
-> > > >    static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
-> > > >    static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
-> > > > -static struct mutex shrinker_lock;
-> > > > +static spinlock_t shrinker_lock;
-> > > > +DEFINE_STATIC_SRCU(shrinker_srcu);
-> > > >    static struct list_head shrinker_list;
-> > > >    static struct shrinker mm_shrinker;
-> > > > @@ -263,9 +264,9 @@ static void ttm_pool_type_init(struct ttm_pool_type *pt, struct ttm_pool *pool,
-> > > >    	spin_lock_init(&pt->lock);
-> > > >    	INIT_LIST_HEAD(&pt->pages);
-> > > > -	mutex_lock(&shrinker_lock);
-> > > > +	spin_lock(&shrinker_lock);
-> > > >    	list_add_tail(&pt->shrinker_list, &shrinker_list);
-> > > > -	mutex_unlock(&shrinker_lock);
-> > > > +	spin_unlock(&shrinker_lock);
-> > > >    }
-> > > >    /* Remove a pool_type from the global shrinker list and free all pages */
-> > > > @@ -273,9 +274,9 @@ static void ttm_pool_type_fini(struct ttm_pool_type *pt)
-> > > >    {
-> > > >    	struct page *p;
-> > > > -	mutex_lock(&shrinker_lock);
-> > > > +	spin_lock(&shrinker_lock);
-> > > >    	list_del(&pt->shrinker_list);
-> > > > -	mutex_unlock(&shrinker_lock);
-> > > > +	spin_unlock(&shrinker_lock);
-> > > >    	while ((p = ttm_pool_type_take(pt)))
-> > > >    		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
-> > > > @@ -313,24 +314,27 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
-> > > >    static unsigned int ttm_pool_shrink(void)
-> > > >    {
-> > > >    	struct ttm_pool_type *pt;
-> > > > -	unsigned int num_freed;
-> > > > +	unsigned int num_pages;
-> > > >    	struct page *p;
-> > > > +	int idx;
-> > > > -	mutex_lock(&shrinker_lock);
-> > > > +	idx = srcu_read_lock(&shrinker_srcu);
-> > > > +
-> > > > +	spin_lock(&shrinker_lock);
-> > > >    	pt = list_first_entry(&shrinker_list, typeof(*pt), shrinker_list);
-> > > > +	list_move_tail(&pt->shrinker_list, &shrinker_list);
-> > > > +	spin_unlock(&shrinker_lock);
-> > > >    	p = ttm_pool_type_take(pt);
-> > > >    	if (p) {
-> > > >    		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
-> > > > -		num_freed = 1 << pt->order;
-> > > > +		num_pages = 1 << pt->order;
-> > > >    	} else {
-> > > > -		num_freed = 0;
-> > > > +		num_pages = 0;
-> > > >    	}
-> > > > -	list_move_tail(&pt->shrinker_list, &shrinker_list);
-> > > > -	mutex_unlock(&shrinker_lock);
-> > > > -
-> > > > -	return num_freed;
-> > > > +	srcu_read_unlock(&shrinker_srcu, idx);
-> > > > +	return num_pages;
-> > > >    }
-> > > >    /* Return the allocation order based for a page */
-> > > > @@ -530,6 +534,11 @@ void ttm_pool_fini(struct ttm_pool *pool)
-> > > >    			for (j = 0; j < MAX_ORDER; ++j)
-> > > >    				ttm_pool_type_fini(&pool->caching[i].orders[j]);
-> > > >    	}
-> > > > +
-> > > > +	/* We removed the pool types from the LRU, but we need to also make sure
-> > > > +	 * that no shrinker is concurrently freeing pages from the pool.
-> > > > +	 */
-> > > > +	synchronize_srcu(&shrinker_srcu);
-> > > >    }
-> > > >    /* As long as pages are available make sure to release at least one */
-> > > > @@ -604,7 +613,7 @@ static int ttm_pool_debugfs_globals_show(struct seq_file *m, void *data)
-> > > >    {
-> > > >    	ttm_pool_debugfs_header(m);
-> > > > -	mutex_lock(&shrinker_lock);
-> > > > +	spin_lock(&shrinker_lock);
-> > > >    	seq_puts(m, "wc\t:");
-> > > >    	ttm_pool_debugfs_orders(global_write_combined, m);
-> > > >    	seq_puts(m, "uc\t:");
-> > > > @@ -613,7 +622,7 @@ static int ttm_pool_debugfs_globals_show(struct seq_file *m, void *data)
-> > > >    	ttm_pool_debugfs_orders(global_dma32_write_combined, m);
-> > > >    	seq_puts(m, "uc 32\t:");
-> > > >    	ttm_pool_debugfs_orders(global_dma32_uncached, m);
-> > > > -	mutex_unlock(&shrinker_lock);
-> > > > +	spin_unlock(&shrinker_lock);
-> > > >    	ttm_pool_debugfs_footer(m);
-> > > > @@ -640,7 +649,7 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
-> > > >    	ttm_pool_debugfs_header(m);
-> > > > -	mutex_lock(&shrinker_lock);
-> > > > +	spin_lock(&shrinker_lock);
-> > > >    	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-> > > >    		seq_puts(m, "DMA ");
-> > > >    		switch (i) {
-> > > > @@ -656,7 +665,7 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
-> > > >    		}
-> > > >    		ttm_pool_debugfs_orders(pool->caching[i].orders, m);
-> > > >    	}
-> > > > -	mutex_unlock(&shrinker_lock);
-> > > > +	spin_unlock(&shrinker_lock);
-> > > >    	ttm_pool_debugfs_footer(m);
-> > > >    	return 0;
-> > > > @@ -693,7 +702,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
-> > > >    	if (!page_pool_size)
-> > > >    		page_pool_size = num_pages;
-> > > > -	mutex_init(&shrinker_lock);
-> > > > +	spin_lock_init(&shrinker_lock);
-> > > >    	INIT_LIST_HEAD(&shrinker_list);
-> > > >    	for (i = 0; i < MAX_ORDER; ++i) {
 > 
+> 
+> The motivation was 2 fold, avoid memory allocation during jobs submissions
+> (HW fence allocation) because as Christian explained this leads to deadlock
+> with
+> mm code during evictions due to memory pressure (Christian can clarify if I
+> messed
+
+Yeah that's the exact same thing I've chased with my dma_fence
+annotations, but thus far zero to none interested in getting it sorted. I
+think it'd be good to have some cross-driver agreement on how this should
+be solved before someone just charges ahead ...
+
+> this explanation). Second is to exactly revert this patch because while it
+> solved the issue
+> described in the patch it created another with drivers who baildc out early
+> during TDR handling
+> for various reason and the job would just leak because it was already
+> removed form pending list.
+
+Can't we reinsert it before we restart the scheduler thread? It might need
+a separate list for that due to the lockless queue tricks. Or am I
+thinking about the wrong kind of "we lost the job"?
+-Danile
+
+> 
+> Andrey
+> 
+> 
+> > 
+> > 
+> > > Andrey
+> > > 
+> > > 
+> > > > >                   spin_unlock(&sched->job_list_lock);
+> > > > > 
+> > > > >                   status = job->sched->ops->timedout_job(job);
+> > > > > @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+> > > > >                           job->sched->ops->free_job(job);
+> > > > >                           sched->free_guilty = false;
+> > > > >                   }
+> > > > > +               dma_fence_put(fence);
+> > > > >           } else {
+> > > > >                   spin_unlock(&sched->job_list_lock);
+> > > > >           }
+> > > > > @@ -392,20 +393,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+> > > > > 
+> > > > >           kthread_park(sched->thread);
+> > > > > 
+> > > > > -       /*
+> > > > > -        * Reinsert back the bad job here - now it's safe as
+> > > > > -        * drm_sched_get_cleanup_job cannot race against us and release the
+> > > > > -        * bad job at this point - we parked (waited for) any in progress
+> > > > > -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
+> > > > > -        * now until the scheduler thread is unparked.
+> > > > > -        */
+> > > > > -       if (bad && bad->sched == sched)
+> > > > > -               /*
+> > > > > -                * Add at the head of the queue to reflect it was the earliest
+> > > > > -                * job extracted.
+> > > > > -                */
+> > > > > -               list_add(&bad->list, &sched->pending_list);
+> > > > > -
+> > > > >           /*
+> > > > >            * Iterate the job list from later to  earlier one and either deactive
+> > > > >            * their HW callbacks or remove them from pending list if they already
+> > > > > --
+> > > > > 2.25.1
+> > > > > 
 
 -- 
 Daniel Vetter
