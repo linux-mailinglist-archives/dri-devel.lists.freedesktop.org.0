@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045E53EFC56
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:24:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8303EFC5B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:24:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D639D6E437;
-	Wed, 18 Aug 2021 06:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86D3E6E43D;
+	Wed, 18 Aug 2021 06:24:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0385C6E437
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDF5E6E437
  for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:24:14 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id i133so1102342pfe.12
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:24:13 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id i21so1103312pfd.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8+A9B+piI2a1pz1tZAhljlWwZX3AUujJJLfFoqwX48c=;
- b=Q+q1h03VOWqVXzc4UWVq6BvyCUjGxNglcQsoPbOnB43uw1Jqc5Ed9uK4QDnveHGz1L
- Kya8Q0vnWUuWLwq9hkYIWv7GxXRbMo2Cn56A77ympKTwr1zpeF0LpQAEZ7AZzIuS6Rai
- ktv4XVcS4xzeG7T6YIHvPnWg9yZ74XkeQethw=
+ bh=hNEXxevdADdpiZT9yDPKRLqHYKrfWBF19uxfyZWmCGo=;
+ b=EGdWOE7bxdowrmsIKSgjZSgmQoiGO+6J6ji89xZ0Q2fptOidpphd5g7qqYXeSAgP8F
+ HH8T/J8n5DYlHXumOIgXQUvZBImHN7ALjddHiJ17ignvtzPpjV4Byoe7oWxlyDXQgWZD
+ c2+aZ7dLhbaQbRZXx81PpkPBbEKgxoLZ5UKNk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8+A9B+piI2a1pz1tZAhljlWwZX3AUujJJLfFoqwX48c=;
- b=Nr4x26pSPlStAnl6t0YDIwtn9ggRveH2zIi2JeNQ8NMc6nu5RTOY33HIMh3Q5lr2Nm
- IpRG8mqxl0GzuDB9oXvn2NCDwhB9Nc4OlgHUTyTyUchF0BN9DRkqg6kjuu0fn93q8H6+
- Jj+DfzcH4w5kj1Cr9ywX3XNgyGVM5ogRrQQHuYgm0R2PiSQjWGv97zET/5AtcD/bj+cb
- K1le5vH/eAs5nc0M2r/c0ovlZPdTG1G1BRrzPwhdC4Su0/f3B8kuMhP52oE0SwJdWPsi
- 5S2wyHqPBcf4PF0Ti9p6rTKB14QxWD9KE6o7khvYXr4kdBaCy33LdCe9BJzNPYMfbMhX
- B+mg==
-X-Gm-Message-State: AOAM532qA+fL/RoR67KZ2QZQtxmgDnkMPpocmmrYaLyaiOjF7ZnPTcIY
- LLpasURzaOngWdtsoFJzTZNVNg==
-X-Google-Smtp-Source: ABdhPJxCPUoUEoBjNrtfl0W88T/NpydxEyxEPAEFUx/gyRjyJ4MO5rFkm2cPoNcf30Dno8o0XcPo0w==
-X-Received: by 2002:a05:6a00:134e:b0:3e1:1ed:80ff with SMTP id
- k14-20020a056a00134e00b003e101ed80ffmr7575503pfu.34.1629267853688; 
- Tue, 17 Aug 2021 23:24:13 -0700 (PDT)
+ bh=hNEXxevdADdpiZT9yDPKRLqHYKrfWBF19uxfyZWmCGo=;
+ b=rCfW6BqZtqe8y4f3DsQuNHwLUqh9F6Z9S19BC1l9TMR0iwfvzxCLDcGaNsrGRbSBV6
+ i1Lg3ukHVPfehGwP9bqYsSyV0SooXn9y69PXs9oNMATAAIEPLUCEIHHAvHXwjEttCXVR
+ zA8dG9NAVQuYW83TzXQ3vAFK/oIIi6pM224JHG9ZwdvhtQo+6+lcsu48rVz7KOFZ0/5y
+ xMOyXNMquhkFPSFVW9SLgEMFyb1unCPx6r5h5fFlP6UH28oUPU+vfZlCSX5lbPxooJmL
+ wyawdmNjoZEusrgys96+VwmmNWGwRKTgFZPz0VjCberV0wA8huf/NNsgH0pQexaVjeZi
+ mNIQ==
+X-Gm-Message-State: AOAM533fhlsyFb88zZEr4/J3e/6VRWIwSKEsb0gkJOlM7taI9xt7Txt+
+ 9oCjxVeyrTEnuqhHYcGi2+W6Uw==
+X-Google-Smtp-Source: ABdhPJzEZLL4+vuxKf2KA80vRRNe/aKYgSEeAOIcbSklQP4uG9CeHnUETuB9bUeNsXUisBI4mxHrBA==
+X-Received: by 2002:a65:6658:: with SMTP id z24mr7321502pgv.266.1629267854650; 
+ Tue, 17 Aug 2021 23:24:14 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id p24sm4878901pff.161.2021.08.17.23.24.12
+ by smtp.gmail.com with ESMTPSA id v9sm5393520pga.82.2021.08.17.23.24.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 17 Aug 2021 23:24:12 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+Cc: Kees Cook <keescook@chromium.org>,
+ Stefan Achatz <erazor_de@users.sourceforge.net>,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
  netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -55,27 +56,27 @@ Cc: Kees Cook <keescook@chromium.org>, Alasdair Kergon <agk@redhat.com>,
  linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  linux-hardening@vger.kernel.org
-Subject: [PATCH v2 54/63] dm integrity: Use struct_group() to zero struct
- journal_sector
-Date: Tue, 17 Aug 2021 23:05:24 -0700
-Message-Id: <20210818060533.3569517-55-keescook@chromium.org>
+Subject: [PATCH v2 55/63] HID: roccat: Use struct_group() to zero
+ kone_mouse_event
+Date: Tue, 17 Aug 2021 23:05:25 -0700
+Message-Id: <20210818060533.3569517-56-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1663; h=from:subject;
- bh=RPEjx0xOcNjHRBM+3EZ1vHtaj+TxiBoxNq+cj1Ac9bE=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMqKJz2SoJYeKtBFLmX4tcR3DHJFXvBbKzH4heh
- kSEkuyiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKgAKCRCJcvTf3G3AJuKGD/
- 4n4SpuomtIZ+g22QufnnrQNKHA98zIHUxCFyPUWlldkaYq1yjxANA7kCeWzhMyhnDbNsMcPnBz0u8w
- gTumF2NUeGQx1DWnIYpoWchHj0biXBVmJ627d0qH4ZPJV0xVoCra7OxBNu9MzddxWpF6sdPcwkm6G6
- KRyO9F4M4JhZ6wIx91tgVghgSzl5twheIhtA3njJ073Q8wNaDnBzfs/l9Ut/AzjfupZu1x3ki+jwpu
- WmD6nfcKbq0Iek6wuIdRHun0EOL5PBZd4fWR1bJEQePLiZZr/WzyrJktCcPBtbfNoxoh3Zd/RDOYxC
- Phqtb9d6KbfQDNPiqFq8A/FFx6Omeamuzt6AZrvZOtupVwaAqZxmTGL+T1t6dJrUD1sjtKDjGoNOLi
- 7dn6c/08XUE+My/kdCiaqMIMLvnXKeruIHQhrlJ6zoMYvFZ06D7/j39GezPIeXXaEJGwuF4EXX7UYn
- QzJ8yJKQqHgf3AnzSklDq7S2QgMQbMBg1H2HY21GsA89Wb8lyNm0RvImBjKDi+T7HWHtu01K2er3t2
- O4+fb9meXQjoQXeBGEZ9RShjhKkgK9BaIxyiqfANsALqrrzQxMSMbRLvnALSRrEOGtrHi3ZBCAsQ/F
- uBwH2rx2bGKY/138CbdayzcXJ/PERuBisG0LhMFqbUDxYwVopHT1lxsnBtzA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1908; h=from:subject;
+ bh=1pufhTOQ+Ev1TBqsKxncMFoRA1ZRswld+5UcgY3UHPc=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMqezgIdICqUvusV3uxfFgc/NzjoDMPzoTPLXKQ
+ ysx/Q+WJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKgAKCRCJcvTf3G3AJvMhD/
+ 4/FvXFOoXTIkumS1QqMpAFhaJGCKF+0RDx/z48DGYo98kCwWG6ybzb+3Sly47Z+VgrSp0nI5xp/nwa
+ 7vzRFjBAI8F/fZVbUlI8Z/Fya+aZbPEeiEK947R3H8Wbap6uVAex0YjyWhhrJ5ZvwN2gBayJJ1WAXz
+ +0fz1YMH8bcbhmSMSRON2ZGR1UjjBuaTH+o0ighQljGy5YLUHHZ+P4xNS0whZ8d+THVIEhrrdzHdRV
+ xQ+rSGFdrgJR7xYVHqTNDyySccjRR12fCgsnFgzx2wmvqD6usQbAtioyZ5ZCTcNXNfyyvHgd++uCyK
+ e638UGzfpOzM5vUWRjmLl1KeEBbobuCg3sgk1AQzR2mUpn6cvbWbZbOyGlGZtTdTn7wCe/qfq120Ud
+ zfBKERaOR0vpEYpiRESonq/qBjud3tRwJ0H/FhwsbPbp2lo15qfYimJ41SEC1abj3Da1Xu61TlMqEd
+ S5Rzg+maFwNcx3sFBdUId31vsspRp/LAtiMPvI3MalLGcTxm9Gdf8i9hEI2yM8v6QUVUqBl/F6N1uW
+ 0dr4/U6A89Pj+zJUWKnGqTw3EZAQEgK5Lbi/njYrrq3JeohlG7jtmoxQDLp3fMw23TORKszxjv3y76
+ kDqBN4o2faONCRYDcPk3N/ArWnW2NiFPXTb3nBBeYGgetTCuosxxzdiUWWLg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -98,44 +99,55 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Add struct_group() to mark region of struct journal_sector that should be
-initialized to zero.
+Add struct_group() to mark region of struct kone_mouse_event that should
+be initialized to zero.
 
-Cc: Alasdair Kergon <agk@redhat.com>
-Cc: Mike Snitzer <snitzer@redhat.com>
-Cc: dm-devel@redhat.com
+Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/md/dm-integrity.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/hid/hid-roccat-kone.c |  2 +-
+ drivers/hid/hid-roccat-kone.h | 12 +++++++-----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/md/dm-integrity.c b/drivers/md/dm-integrity.c
-index 40f8116c8e44..59deea0dd305 100644
---- a/drivers/md/dm-integrity.c
-+++ b/drivers/md/dm-integrity.c
-@@ -119,8 +119,10 @@ struct journal_entry {
- #define JOURNAL_MAC_SIZE		(JOURNAL_MAC_PER_SECTOR * JOURNAL_BLOCK_SECTORS)
+diff --git a/drivers/hid/hid-roccat-kone.c b/drivers/hid/hid-roccat-kone.c
+index 1ca64481145e..ea17abc7ad52 100644
+--- a/drivers/hid/hid-roccat-kone.c
++++ b/drivers/hid/hid-roccat-kone.c
+@@ -857,7 +857,7 @@ static int kone_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 		memcpy(&kone->last_mouse_event, event,
+ 				sizeof(struct kone_mouse_event));
+ 	else
+-		memset(&event->tilt, 0, 5);
++		memset(&event->wipe, 0, sizeof(event->wipe));
  
- struct journal_sector {
--	__u8 entries[JOURNAL_SECTOR_DATA - JOURNAL_MAC_PER_SECTOR];
--	__u8 mac[JOURNAL_MAC_PER_SECTOR];
-+	struct_group(sectors,
-+		__u8 entries[JOURNAL_SECTOR_DATA - JOURNAL_MAC_PER_SECTOR];
-+		__u8 mac[JOURNAL_MAC_PER_SECTOR];
+ 	kone_keep_values_up_to_date(kone, event);
+ 
+diff --git a/drivers/hid/hid-roccat-kone.h b/drivers/hid/hid-roccat-kone.h
+index 4a1a9cb76b08..65c800e3addc 100644
+--- a/drivers/hid/hid-roccat-kone.h
++++ b/drivers/hid/hid-roccat-kone.h
+@@ -152,11 +152,13 @@ struct kone_mouse_event {
+ 	uint16_t x;
+ 	uint16_t y;
+ 	uint8_t wheel; /* up = 1, down = -1 */
+-	uint8_t tilt; /* right = 1, left = -1 */
+-	uint8_t unknown;
+-	uint8_t event;
+-	uint8_t value; /* press = 0, release = 1 */
+-	uint8_t macro_key; /* 0 to 8 */
++	struct_group(wipe,
++		uint8_t tilt; /* right = 1, left = -1 */
++		uint8_t unknown;
++		uint8_t event;
++		uint8_t value; /* press = 0, release = 1 */
++		uint8_t macro_key; /* 0 to 8 */
 +	);
- 	commit_id_t commit_id;
- };
+ } __attribute__ ((__packed__));
  
-@@ -2856,7 +2858,8 @@ static void init_journal(struct dm_integrity_c *ic, unsigned start_section,
- 		wraparound_section(ic, &i);
- 		for (j = 0; j < ic->journal_section_sectors; j++) {
- 			struct journal_sector *js = access_journal(ic, i, j);
--			memset(&js->entries, 0, JOURNAL_SECTOR_DATA);
-+			BUILD_BUG_ON(sizeof(js->sectors) != JOURNAL_SECTOR_DATA);
-+			memset(&js->sectors, 0, sizeof(js->sectors));
- 			js->commit_id = dm_integrity_commit_id(ic, i, j, commit_seq);
- 		}
- 		for (j = 0; j < ic->journal_section_entries; j++) {
+ enum kone_mouse_events {
 -- 
 2.30.2
 
