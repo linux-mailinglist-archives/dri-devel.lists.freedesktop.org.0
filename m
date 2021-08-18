@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECFD3EFAD8
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE0A3EFABF
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:06:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC9FE6E3E3;
-	Wed, 18 Aug 2021 06:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9AD6E3F2;
+	Wed, 18 Aug 2021 06:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44F1C6E3FE
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:06:02 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id x16so1066950pfh.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:06:02 -0700 (PDT)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02AB86E3F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:05:59 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id q2so1141089pgt.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6lG0U8bM2TUXGlj9bAHKfwVFEdBo2YZlvkgJ69Lo3ko=;
- b=Y/DVgqUz//veWIPGInRHjxd8QhbyKfsy0kdugXO1nEyKRG4J+RATjtzLJoSS87jCco
- VSjAoqrkaHNZh0+mHRdYJBCbqV9xxVXdwGu7uaa7PR+N6pyz9+QKjSd2/AWYtac6EKNc
- sHLZn6ndy938GBH63DZ5ESf+mXsv8jS252ytM=
+ bh=mboTeGUKr9yolgqYZyfRuYdmdGDjzaFuP+f8ddDuJQs=;
+ b=VXB5rWrOkOUtfCqlqmI5NSVNx72RB77dAy2oZKxsFgyJYk7pRfvjGekORMHd3qeDjV
+ w62NkRG1JnHmoQW1LYbSqf66ms3qEBb5M12TfQfmYL+UCdit3vS6intdi7dOK4yxjtOO
+ 0a7us/8TNkOy5LfwCUNfHgiRrh5IwxNX3jPnY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6lG0U8bM2TUXGlj9bAHKfwVFEdBo2YZlvkgJ69Lo3ko=;
- b=mK812cs41VzDjh/uq65r9FDcQV5NBQijZ2aMnNyYoNbQcdHghDECDjwic6AB2Xhqj4
- NekcfGCGXmztH9PsEv28EDOVCSmLiPE2bVwHm83k2gq0djU8spEi+hfGhyAIQoSQoZNv
- FCA7qlWpQT91321zCuLgxvJjmjiaPwHEVB5xkYXmYLYLBpYspHqxW6Aqf5bxnz+YbXAA
- Ypxbi676orzpl8qhM6eEff2OiXaKJAVFO5FX6XuuQZX790ItiMsBH2c4nDFEL5nGHmRm
- hsqoZVPqta7GHKfieKbLayxnwR6sFtGnWSFJHG2Y0iJom7G1n8fimIuPkQom1sjBIMMw
- CN0g==
-X-Gm-Message-State: AOAM530QLVIyT7TXemKfT0rWZ95wDGIF70rcEfIthxxpAxJdUz1p3PjK
- sqj+iWazuBQR+hdb//drhbQOfA==
-X-Google-Smtp-Source: ABdhPJx9i0gP/tEqucjw5t2MRNzXtgPICZZmJol3/cEVKCeeDWJ8qCew27BG46wra+MkbfYjKbKkfg==
-X-Received: by 2002:a05:6a00:cd0:b0:3e2:209e:4e30 with SMTP id
- b16-20020a056a000cd000b003e2209e4e30mr7598474pfv.59.1629266761883; 
- Tue, 17 Aug 2021 23:06:01 -0700 (PDT)
+ bh=mboTeGUKr9yolgqYZyfRuYdmdGDjzaFuP+f8ddDuJQs=;
+ b=D+DvXryTm1oqobPyjB7uQic6HqP+BrpB0ME1Pkd/FIFcK9DZ7yVAfj7VG82iNj/a6k
+ KlEaXm6wEeoq0v8dR1z5iHLYJK3NeZv4JHTyci24/DznxuMfqm+f1vbku7pYvxXO/9O7
+ pJdUTFQNX0Ag9N/tF1qJ1mXgpvS8hHcwuFHgwgI42mgT7NwvNGx5KOvpzKNwRsG33DxN
+ hxjFMIh+mRCreliBPqFaAx2pwafmatn8v7+fpNYhH2Ba3hd0us32PNQfJqwNGz9Z80GG
+ IWMjdD9M8QrkxsO+7tB3/UogXiHfB3StKJOBHtZwRrcSudke+n86mh9pKMClAKWmPMMW
+ gSDg==
+X-Gm-Message-State: AOAM530F2440NbS5mBqbI54hMyXaiQQUgwtcGip3xsZh++XubxYxbZkZ
+ LMQdwvb7nvNRyE2qu5iogblZhA==
+X-Google-Smtp-Source: ABdhPJw0NQnubE2J9ww2IV6yMWGOt/X1HjRivrIndHgKRL2cM8oCkbJtHPmmWE3y9dhwziqzIdlJ6Q==
+X-Received: by 2002:a63:2442:: with SMTP id k63mr7181356pgk.54.1629266759640; 
+ Tue, 17 Aug 2021 23:05:59 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id r10sm4624434pff.7.2021.08.17.23.05.57
+ by smtp.gmail.com with ESMTPSA id v15sm4713102pff.105.2021.08.17.23.05.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 23:05:58 -0700 (PDT)
+ Tue, 17 Aug 2021 23:05:59 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
+Cc: Kees Cook <keescook@chromium.org>, Daniel Axtens <dja@axtens.net>,
+ Francis Laniel <laniel_francis@privacyrequired.com>,
  "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
@@ -54,26 +54,27 @@ Cc: Kees Cook <keescook@chromium.org>,
  linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  linux-hardening@vger.kernel.org
-Subject: [PATCH v2 28/63] fortify: Explicitly disable Clang support
-Date: Tue, 17 Aug 2021 23:04:58 -0700
-Message-Id: <20210818060533.3569517-29-keescook@chromium.org>
+Subject: [PATCH v2 29/63] fortify: Fix dropped strcpy() compile-time write
+ overflow check
+Date: Tue, 17 Aug 2021 23:04:59 -0700
+Message-Id: <20210818060533.3569517-30-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1427; h=from:subject;
- bh=MScHo/g3fAm2U5yn8644/6JAGaRCvw+x4s3NMxUkYP4=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMkDmaoP7/LrBvrUTwAq8PIwkOtE8yNEb1/iGaE
- eotqJxGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJAAKCRCJcvTf3G3AJvkeD/
- wK2I9wXb6VkTqNx8ve7VdNSMmlz+1i164ClH9CGR/35x6hLdSQ8qayX0H9g6LrgzVflJDSu0VPqZq6
- B60wT0GUsaN+NPYsGb2bVu1Rg3uumqZGiK90AHNJmSYkYU2G3Fqfi/WbeuSh9MygcOeGp/a9x/PQH5
- e8dULezGq6dCpC7cs5Zl3okkhjEBCJNG2UsDzKuR/shPokEXvmczONNPE0wD9SGKoJlCrtTATmKvin
- 4tu2+3vQYizkssvftVjPL/zU+2R6x89hzrj96XdH+uAmeG5P820sWztifwnAHNcLVL5gq7wUOMrJ+f
- Z4XjIAC/G5EaSS4AhVIu9sD/iX8aeWmFJWF/Y21WLVPcvT0CbToC2WmKfl6Cf/5cmduks3BDmUc73D
- LWQ9JncTl44MKCvuBhARaFmlaFAJHnLG2EvjMIRi62WS27zMVn6Had7IAo/qffp70xB+LqBNwHlEFR
- 1DOf7RDGukFMS2YPB64C7srE0otlJasITjwoT2VlC8SUubfSWf2Xs29w2K9ID2LufJo4jW+DES/y1x
- In7sKpTi8O1ywlBFrMpRGpBZemeuMVX+n2a4KW0Dlmr8PJZVEczotW0P4mEO8JYhohZFLrpQR/oM0d
- v1l42WB3iKEQLRJlt/B8Os8r3w8Ad46AyHq8GE3PhyPABlRRPciSKq8TGApQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1260; h=from:subject;
+ bh=sAqjTzTf+mWFy7xD73ZEpzjamgoLfVlMB8Pw3aei0Xc=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMkHMEpm10nE/aAHB48K6cSsvZL5sfcJfQj9wD4
+ 87AucWeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJAAKCRCJcvTf3G3AJoHIEA
+ CVNsWBrDfaVMhp7dy0y/IJxDyV8yomgG4F72g/uCRRfJZ6t0QDX4mJHghw3qnhtNERaVf1zfyT4EpR
+ Q+CnBXAbbYOY29o4ZaC5ADslFqQrcq5UXqAtvXX2hNdtEpN7jEvy+T0Dp7gErnaLTs1ZlewzFJixmh
+ 05xnc5PGkQ/a2fhA/CtaXfcvvgj/Y1w7itfG3KT1Pc8P7hAB0xQUn5JwIyBFfsLsANHAXHUbw9VYDP
+ fZZ0GNAEXZSrloJoa/3h+EnpUqfUAHZ6NG7o5k6rBUn2ktEbmeFwRAcvF137eXA++u2tSdegoXt14J
+ LaoJ3RY4se8BmlCpgiOu6mTSPrs6Jb74GZdcpGwlL++bhsP342ng60dkvdbosL5Cz5rcQRxwrJ252w
+ 1U0/10JSG6NNPtAYO7As1zp/w4iaNAbTundBjm6o+FckreellK+acr/YR5tu8mhYcwwjhv7Gn0PW53
+ tctiINRIsKtDHMAo5AYvcxOB0Cxa8Q44hhowrhkhYkzBO6F+t4p0Ht1Gse9m+/b9W5FzR+ruuTjN4b
+ sJwG5NlgDrw9HodFlOrFU0g6f9jy+pOvo/aUejebmfFQ0E0rMohB1Ca6a4NGl1oW+3zmYJgmF3QYnL
+ 3ztj9l/h7QOAIug/e6PSNcgokPbHAFyVpu6eHLsTcqKbjMMcdhK2ihPt1Oaw==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -92,42 +93,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang has never correctly compiled the FORTIFY_SOURCE defenses due to
-a couple bugs:
+The implementation for intra-object overflow in str*-family functions
+accidentally dropped compile-time write overflow checking in strcpy(),
+leaving it entirely to run-time. Add back the intended check.
 
-	Eliding inlines with matching __builtin_* names
-	https://bugs.llvm.org/show_bug.cgi?id=50322
-
-	Incorrect __builtin_constant_p() of some globals
-	https://bugs.llvm.org/show_bug.cgi?id=41459
-
-In the process of making improvements to the FORTIFY_SOURCE defenses, the
-first (silent) bug (coincidentally) becomes worked around, but exposes
-the latter which breaks the build. As such, Clang must not be used with
-CONFIG_FORTIFY_SOURCE until at least latter bug is fixed (in Clang 13),
-and the fortify routines have been rearranged.
-
-Update the Kconfig to reflect the reality of the current situation.
-
+Fixes: 6a39e62abbaf ("lib: string.h: detect intra-object overflow in fortified string functions")
+Cc: Daniel Axtens <dja@axtens.net>
+Cc: Francis Laniel <laniel_francis@privacyrequired.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- security/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+ include/linux/fortify-string.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/security/Kconfig b/security/Kconfig
-index 0ced7fd33e4d..fe6c0395fa02 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -191,6 +191,9 @@ config HARDENED_USERCOPY_PAGESPAN
- config FORTIFY_SOURCE
- 	bool "Harden common str/mem functions against buffer overflows"
- 	depends on ARCH_HAS_FORTIFY_SOURCE
-+	# https://bugs.llvm.org/show_bug.cgi?id=50322
-+	# https://bugs.llvm.org/show_bug.cgi?id=41459
-+	depends on !CC_IS_CLANG
- 	help
- 	  Detect overflows of buffers in common string and memory functions
- 	  where the compiler can determine and validate the buffer sizes.
+diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+index 7e67d02764db..68bc5978d916 100644
+--- a/include/linux/fortify-string.h
++++ b/include/linux/fortify-string.h
+@@ -287,7 +287,10 @@ __FORTIFY_INLINE char *strcpy(char *p, const char *q)
+ 	if (p_size == (size_t)-1 && q_size == (size_t)-1)
+ 		return __underlying_strcpy(p, q);
+ 	size = strlen(q) + 1;
+-	/* test here to use the more stringent object size */
++	/* Compile-time check for const size overflow. */
++	if (__builtin_constant_p(size) && p_size < size)
++		__write_overflow();
++	/* Run-time check for dynamic size overflow. */
+ 	if (p_size < size)
+ 		fortify_panic(__func__);
+ 	memcpy(p, q, size);
 -- 
 2.30.2
 
