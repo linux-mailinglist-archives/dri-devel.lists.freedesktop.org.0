@@ -1,37 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04B03F0A02
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 19:13:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 263B23F0A04
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 19:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B866E872;
-	Wed, 18 Aug 2021 17:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2EC6E873;
+	Wed, 18 Aug 2021 17:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85CCD6E871;
- Wed, 18 Aug 2021 17:13:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216413311"
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="216413311"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2021 10:12:11 -0700
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; d="scan'208";a="521161874"
-Received: from moloings-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.10.29])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2021 10:12:09 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH] drm/i915/ttm: ensure we release the intel_memory_region
-Date: Wed, 18 Aug 2021 18:12:03 +0100
-Message-Id: <20210818171203.237687-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F416E873
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 17:13:26 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id z9so4595228wrh.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 10:13:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oFid9F2eF9PqNhKCggNJ7cYgvwbKXWCYKt0nUIUymOs=;
+ b=GsvHQgpjaESYG5gtGcBAchUblwDnGBfCRa1Cbq88bnebOKDVZfNI47a7t8YHzfwXR0
+ Wg6/E8zJEbHXHlBrKwmkoHSuKaof9B2CRhFCK0Y6FxL52+93tX0E0kCuVKSzTQXsOx3L
+ VADza4/83gBW+6u12EezFkqO52Ms5vQWwwdrsPKMbb/Tdaj06pMLwUOcdpk/CSEHMVR0
+ 96PJ7L8+C3Knj82Xe7M4sVheHmHPjLn9tKND+G+STUu5ldE+650SpMm1t8HVAq/2MsKj
+ Cxg1CUB4JG4OQwd6DzbvOosCxQAHzhuGKveOvF1noiFegFOaRoci9wlJDEgkZ000qc8A
+ 91KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oFid9F2eF9PqNhKCggNJ7cYgvwbKXWCYKt0nUIUymOs=;
+ b=P7RyHp25xJwcU36XAGlqrnAUOp77vsdf+lv4QHvDbO7PXvQq1W3SNwjCsqHfrEIShE
+ QJ78gaoFf30uBfDcABbXPmPOcAPgiuQXjiYsAlYnDJUqbvOMN3fVJ4Yi9LJvTjT4OpLa
+ A7e4dOWE3Frj8Vkx16FgYaliFq/BmVAzZ3zzmG+Y+CVsk+RWoQ3R0wZDnAgPslq7VsAX
+ upWv/561mo2Ns+pe6Th20L3hTEtgwQYECp2c+ix5RIu7FPuvgG48oD9Z76Je2royhfgQ
+ eAAHF+mp0HB/oKJ6xThh/o6EbjrXox2M0crl3FbMwA5YFvm+AZ3lj6bmlxRE41aXki1W
+ ttpA==
+X-Gm-Message-State: AOAM530E1WR3NN3HVrP/qEPs1ZgtY7Cx15+i9px87yoQwE6WCY9SrY4F
+ 5pZyLrHXI8gWHlrMMjfOeK4ypg==
+X-Google-Smtp-Source: ABdhPJxsRm2aT7e0rJVvWLb69hw4XoiBF8vUB/N+VxbBSZLj5e9PY8ThTjzFgyOW1rlRG9p9PCalKA==
+X-Received: by 2002:a5d:67c6:: with SMTP id n6mr12007908wrw.150.1629306805112; 
+ Wed, 18 Aug 2021 10:13:25 -0700 (PDT)
+Received: from xps7590.fritz.box ([2a02:2454:3e5:b700:a470:eb9f:53a5:20f8])
+ by smtp.gmail.com with ESMTPSA id p3sm414825wrr.21.2021.08.18.10.13.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 10:13:24 -0700 (PDT)
+From: Robert Foss <robert.foss@linaro.org>
+To: a.hajda@samsung.com, narmstrong@baylibre.com, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ xji@analogixsemi.com, pihsun@chromium.org, tzungbi@google.com,
+ sam@ravnborg.org, hsinyi@chromium.org, drinkcat@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>
+Subject: [PATCH v2 1/2] drm/bridge: anx7625: Propagate errors from
+ sp_tx_rst_aux()
+Date: Wed, 18 Aug 2021 19:13:17 +0200
+Message-Id: <20210818171318.1848272-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,49 +75,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the ttm_bo_init_reserved() call fails ensure we also release the
-region, otherwise we leak the reference, or worse hit some uaf, when we
-start using the objects.list. Also remove the make_unshrinkable call
-here, which doesn't do anything.
+The return value of sp_tx_rst_aux() is not propagated, which means
+both compiler warnings and potential errors not being handled.
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Fixes: 8bdfc5dae4e3 ("drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP")
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 771eb2963123..2e8cdcd5e4f7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -909,7 +909,6 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
- 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
- 	i915_gem_object_init_memory_region(obj, mem);
--	i915_gem_object_make_unshrinkable(obj);
- 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
- 	mutex_init(&obj->ttm.get_io_page.lock);
- 	bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
-@@ -932,7 +931,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 				   page_size >> PAGE_SHIFT,
- 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
- 	if (ret)
--		return i915_ttm_err_to_gem(ret);
-+		goto err_release_mr;
+Changes since v1:
+ - Instead of discarding the error, propagate it until it
+   is handled properly
+
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 14d73fb1dd15b..ea414cd349b5c 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -720,7 +720,7 @@ static int edid_read(struct anx7625_data *ctx,
+ 		ret = sp_tx_aux_rd(ctx, 0xf1);
  
- 	obj->ttm.created = true;
- 	i915_ttm_adjust_domains_after_move(obj);
-@@ -940,6 +939,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	i915_gem_object_unlock(obj);
+ 		if (ret) {
+-			sp_tx_rst_aux(ctx);
++			ret = sp_tx_rst_aux(ctx);
+ 			DRM_DEV_DEBUG_DRIVER(dev, "edid read fail, reset!\n");
+ 		} else {
+ 			ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
+@@ -735,7 +735,7 @@ static int edid_read(struct anx7625_data *ctx,
+ 	if (cnt > EDID_TRY_CNT)
+ 		return -EIO;
  
- 	return 0;
-+
-+err_release_mr:
-+	i915_gem_object_release_memory_region(obj);
-+	return i915_ttm_err_to_gem(ret);
+-	return 0;
++	return ret;
  }
  
- static const struct intel_memory_region_ops ttm_system_region_ops = {
+ static int segments_edid_read(struct anx7625_data *ctx,
+@@ -785,7 +785,7 @@ static int segments_edid_read(struct anx7625_data *ctx,
+ 	if (cnt > EDID_TRY_CNT)
+ 		return -EIO;
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int sp_tx_edid_read(struct anx7625_data *ctx,
+@@ -887,7 +887,11 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
+ 	}
+ 
+ 	/* Reset aux channel */
+-	sp_tx_rst_aux(ctx);
++	ret = sp_tx_rst_aux(ctx);
++	if (ret < 0) {
++		DRM_DEV_ERROR(dev, "Failed to reset aux channel!\n");
++		return ret;
++	}
+ 
+ 	return (blocks_num + 1);
+ }
 -- 
-2.26.3
+2.30.2
 
