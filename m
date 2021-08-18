@@ -1,66 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0F13EF8D1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 05:41:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8883EF8E4
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 05:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 851386E311;
-	Wed, 18 Aug 2021 03:41:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD336E342;
+	Wed, 18 Aug 2021 03:55:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D566E311
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 03:41:19 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1629258083; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=h1Jsn99BQOaD3GHzEmnpjMFoYddL2U6hJaahfS4nQMo=;
- b=usm8CK5ZcCVxooZbWJ8yRZ6ZWfQ01advwkIf9jVIAaOhqeThR1kVgH/1dnTH4UU5Klm0nr+J
- ScCPDdYMqu8z9poEvLDg/HgAijL+ftgukvB7GMy1orpSXSLnQd53v1UEHvQcM9JQrzSkJ/2D
- VVe3FGZ3YMvdhBkFZEDSKPi4nvM=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 611c8143454b7a558f5f2d59 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 18 Aug 2021 03:40:51
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 8DF73C43617; Wed, 18 Aug 2021 03:40:51 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D53CFC4338F;
- Wed, 18 Aug 2021 03:40:48 +0000 (UTC)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1566E342
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 03:55:36 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id w8so865071pgf.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 20:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=VGIhwyovjc9cLTorbY5F7s7VUrCyo5ROsIE6mKdF2i8=;
+ b=rsLZ+5+cs34CeKm8FdeypOasGszO5Z+LGg/gURNdpo/BaltaeBSvKidQFxg+U/P7vq
+ S/zusxLUtdDoCDzHAq+gTq22WAB40n4Qkk0Ku4cXOc+uTEyaQRKWv/b52rLV4JZHB+rE
+ GpTGxz7vZkIm7Ms92t/jEfqzxajkgCcDGx/hfYVqqHH+Ja2QK6EJtgOjTFD7Mons7/7z
+ jRQRosrCR9tYeU2COXGJUOTnQsHGWC5eYAYHYZf+lDoWMOvzM0YqaRI8vzA1Q6qR94h5
+ JdL36SX2xj7RIzuN9CFefrR3429SFDWAFHYvDz+a1OiNH/4h5wRF/0Uqw9a4yTL9NaQb
+ DX8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=VGIhwyovjc9cLTorbY5F7s7VUrCyo5ROsIE6mKdF2i8=;
+ b=fOAvA2/7XpKWbVWpc4Zv4BPUGQ4ON2FjeAMWyAy/L92ITj/xouQRF+GXJmB6U752kF
+ v9ea+IBrrQ88usoEz9tq3vRwS6HrxMz2rAWnl75CY7e2jIeYLEkuOwqJeB76p/bw49gS
+ b2jQ9KIX5WPn9LSqbJz7B8xv+fk4eVoMWuvSmiYBwNAXbaBZ5x6CHfYzjCG/3YbeE8oT
+ +f//BGDbecuaaXgT/NUccEmrjwREbZIx0ktuv54H2I/i4MCTixD7KtI4kVm7a3cEketw
+ 3GZ/bCjKTH8iJDALjuzNzQqJtR9yHv+JlafU4hRfqixEEUI/GjqinYtbN/iRzHSOZYrp
+ pp8g==
+X-Gm-Message-State: AOAM532idAJJosYV51hU4I/SAErNy7uOiDwu8WhS2uDSIViRktpxb0+V
+ RMokAv3L1KweFZ+OspTSeGR8aA==
+X-Google-Smtp-Source: ABdhPJxZ0gvNmqzlYvzU9rK9OQ8NNCMq9wCIZZhKFhU5FN4x6UJRSgCEgSUhRZIdfilYavV9v+XkrA==
+X-Received: by 2002:a62:a20d:0:b029:35b:73da:dc8d with SMTP id
+ m13-20020a62a20d0000b029035b73dadc8dmr7200457pff.54.1629258935761; 
+ Tue, 17 Aug 2021 20:55:35 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+ by smtp.gmail.com with ESMTPSA id u21sm4880194pgk.57.2021.08.17.20.55.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 20:55:35 -0700 (PDT)
+Date: Wed, 18 Aug 2021 09:25:33 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+Message-ID: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-2-digetx@gmail.com>
+ <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
+ <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 17 Aug 2021 20:40:48 -0700
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Jonathan Marek
- <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- freedreno@lists.freedesktop.org
-Subject: Re: [Freedreno] [PATCH v2 7/7] drm/msm/dpu: remove struct
- dpu_encoder_irq and enum dpu_intr_idx
-In-Reply-To: <20210617222029.463045-8-dmitry.baryshkov@linaro.org>
-References: <20210617222029.463045-1-dmitry.baryshkov@linaro.org>
- <20210617222029.463045-8-dmitry.baryshkov@linaro.org>
-Message-ID: <a3def3d6fa3f8b3587c149cf83a6cb64@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,592 +101,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-06-17 15:20, Dmitry Baryshkov wrote:
-> Drop the wrapping structures and the enum used to index those 
-> structures
-> in dpu_kms. Instead of them use IRQ indices and callback functions
-> directly.
+On 17-08-21, 18:49, Dmitry Osipenko wrote:
+> 17.08.2021 10:55, Viresh Kumar пишет:
+> ...
+> >> +int dev_pm_opp_sync(struct device *dev)
+> >> +{
+> >> +	struct opp_table *opp_table;
+> >> +	struct dev_pm_opp *opp;
+> >> +	int ret = 0;
+> >> +
+> >> +	/* Device may not have OPP table */
+> >> +	opp_table = _find_opp_table(dev);
+> >> +	if (IS_ERR(opp_table))
+> >> +		return 0;
+> >> +
+> >> +	if (!_get_opp_count(opp_table))
+> >> +		goto put_table;
+> >> +
+> >> +	opp = _find_current_opp(dev, opp_table);
+> >> +	ret = _set_opp(dev, opp_table, opp, opp->rate);
+> > 
+> > And I am not sure how this will end up working, since new OPP will be
+> > equal to old one. Since I see you call this from resume() at many
+> > places.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Initially OPP table is "uninitialized" and opp_table->enabled=false,
+> hence the first sync always works even if OPP is equal to old one. Once
+> OPP has been synced, all further syncs are NO-OPs, hence it doesn't
+> matter how many times syncing is called.
+> 
+> https://elixir.bootlin.com/linux/v5.14-rc6/source/drivers/opp/core.c#L1012
 
-Is this change really needed because I think the enum based approach is 
-good.
-Even in the diff stats, the LOC reduced is not that significant.
-Having one dpu_encoder_irq struct with the information contained seems
-reasonable to me.
+Right, but how will this work from Resume ? Won't that be a no-op ?
 
-Can you please explain any redundancy or benefits of this approach that 
-i am missing?
-
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 47 +++++-----
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 48 +++-------
->  .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 94 +++++++------------
->  .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 53 ++++-------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     | 12 +--
->  5 files changed, 92 insertions(+), 162 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 3d8864df8605..55ae3ede5846 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -241,11 +241,11 @@ static void _dpu_encoder_setup_dither(struct
-> dpu_hw_pingpong *hw_pp, unsigned bp
->  }
-> 
->  void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys 
-> *phys_enc,
-> -		enum dpu_intr_idx intr_idx)
-> +		int irq_idx)
->  {
->  	DRM_ERROR("irq timeout id=%u, intf=%d, pp=%d, intr=%d\n",
->  		  DRMID(phys_enc->parent), phys_enc->intf_idx - INTF_0,
-> -		  phys_enc->hw_pp->idx - PINGPONG_0, intr_idx);
-> +		  phys_enc->hw_pp->idx - PINGPONG_0, irq_idx);
-> 
->  	if (phys_enc->parent_ops->handle_frame_done)
->  		phys_enc->parent_ops->handle_frame_done(
-> @@ -257,75 +257,70 @@ static int
-> dpu_encoder_helper_wait_event_timeout(int32_t drm_id,
->  		u32 irq_idx, struct dpu_encoder_wait_info *info);
-> 
->  int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
-> -		enum dpu_intr_idx intr_idx,
-> +		int irq_idx, void (*irq_cb)(void *, int),
->  		struct dpu_encoder_wait_info *wait_info)
->  {
-> -	struct dpu_encoder_irq *irq;
->  	u32 irq_status;
->  	int ret;
-> 
-> -	if (!wait_info || intr_idx >= INTR_IDX_MAX) {
-> +	if (!wait_info || irq_idx < 0) {
->  		DPU_ERROR("invalid params\n");
->  		return -EINVAL;
->  	}
-> -	irq = &phys_enc->irq[intr_idx];
-> 
->  	/* note: do master / slave checking outside */
-> 
->  	/* return EWOULDBLOCK since we know the wait isn't necessary */
->  	if (phys_enc->enable_state == DPU_ENC_DISABLED) {
-> -		DRM_ERROR("encoder is disabled id=%u, intr=%d, irq=%d",
-> -			  DRMID(phys_enc->parent), intr_idx,
-> -			  irq->irq_idx);
-> +		DRM_ERROR("encoder is disabled id=%u, irq=%d",
-> +			  DRMID(phys_enc->parent), irq_idx);
->  		return -EWOULDBLOCK;
->  	}
-> 
-> -	if (irq->irq_idx < 0) {
-> -		DRM_DEBUG_KMS("skip irq wait id=%u, intr=%d, irq=%s",
-> -			      DRMID(phys_enc->parent), intr_idx,
-> -			      irq->name);
-> +	if (irq_idx < 0) {
-> +		DRM_DEBUG_KMS("skip irq wait id=%u", DRMID(phys_enc->parent));
->  		return 0;
->  	}
-> 
-> -	DRM_DEBUG_KMS("id=%u, intr=%d, irq=%d, pp=%d, pending_cnt=%d",
-> -		      DRMID(phys_enc->parent), intr_idx,
-> -		      irq->irq_idx, phys_enc->hw_pp->idx - PINGPONG_0,
-> +	DRM_DEBUG_KMS("id=%u, irq=%d, pp=%d, pending_cnt=%d",
-> +		      DRMID(phys_enc->parent),
-> +		      irq_idx, phys_enc->hw_pp->idx - PINGPONG_0,
->  		      atomic_read(wait_info->atomic_cnt));
-> 
->  	ret = dpu_encoder_helper_wait_event_timeout(
->  			DRMID(phys_enc->parent),
-> -			irq->irq_idx,
-> +			irq_idx,
->  			wait_info);
-> 
->  	if (ret <= 0) {
->  		irq_status = dpu_core_irq_read(phys_enc->dpu_kms,
-> -				irq->irq_idx, true);
-> +				irq_idx, true);
->  		if (irq_status) {
->  			unsigned long flags;
-> 
-> -			DRM_DEBUG_KMS("irq not triggered id=%u, intr=%d, "
-> +			DRM_DEBUG_KMS("irq not triggered id=%u, "
->  				      "irq=%d, pp=%d, atomic_cnt=%d",
-> -				      DRMID(phys_enc->parent), intr_idx,
-> -				      irq->irq_idx,
-> +				      DRMID(phys_enc->parent),
-> +				      irq_idx,
->  				      phys_enc->hw_pp->idx - PINGPONG_0,
->  				      atomic_read(wait_info->atomic_cnt));
->  			local_irq_save(flags);
-> -			irq->func(phys_enc, irq->irq_idx);
-> +			irq_cb(phys_enc, irq_idx);
->  			local_irq_restore(flags);
->  			ret = 0;
->  		} else {
->  			ret = -ETIMEDOUT;
-> -			DRM_DEBUG_KMS("irq timeout id=%u, intr=%d, "
-> +			DRM_DEBUG_KMS("irq timeout id=%u, "
->  				      "irq=%d, pp=%d, atomic_cnt=%d",
-> -				      DRMID(phys_enc->parent), intr_idx,
-> -				      irq->irq_idx,
-> +				      DRMID(phys_enc->parent),
-> +				      irq_idx,
->  				      phys_enc->hw_pp->idx - PINGPONG_0,
->  				      atomic_read(wait_info->atomic_cnt));
->  		}
->  	} else {
->  		ret = 0;
->  		trace_dpu_enc_irq_wait_success(DRMID(phys_enc->parent),
-> -			intr_idx, irq->irq_idx,
-> +			irq_idx,
->  			phys_enc->hw_pp->idx - PINGPONG_0,
->  			atomic_read(wait_info->atomic_cnt));
->  	}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index ff2218155b44..983a92d152cd 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -146,37 +146,6 @@ struct dpu_encoder_phys_ops {
->  	int (*get_frame_count)(struct dpu_encoder_phys *phys);
->  };
-> 
-> -/**
-> - * enum dpu_intr_idx - dpu encoder interrupt index
-> - * @INTR_IDX_VSYNC:    Vsync interrupt for video mode panel
-> - * @INTR_IDX_PINGPONG: Pingpong done unterrupt for cmd mode panel
-> - * @INTR_IDX_UNDERRUN: Underrun unterrupt for video and cmd mode panel
-> - * @INTR_IDX_RDPTR:    Readpointer done unterrupt for cmd mode panel
-> - */
-> -enum dpu_intr_idx {
-> -	INTR_IDX_VSYNC,
-> -	INTR_IDX_PINGPONG,
-> -	INTR_IDX_UNDERRUN,
-> -	INTR_IDX_CTL_START,
-> -	INTR_IDX_RDPTR,
-> -	INTR_IDX_MAX,
-> -};
-> -
-> -/**
-> - * dpu_encoder_irq - tracking structure for interrupts
-> - * @name:		string name of interrupt
-> - * @intr_idx:		Encoder interrupt enumeration
-> - * @irq_idx:		IRQ interface lookup index from DPU IRQ framework
-> - *			will be -EINVAL if IRQ is not registered
-> - * @irq_cb:		interrupt callback
-> - */
-> -struct dpu_encoder_irq {
-> -	const char *name;
-> -	enum dpu_intr_idx intr_idx;
-> -	int irq_idx;
-> -	void (*func)(void *arg, int irq_idx);
-> -};
-> -
->  /**
->   * struct dpu_encoder_phys - physical encoder that drives a single 
-> INTF block
->   *	tied to a specific panel / sub-panel. Abstract type, sub-classed by
-> @@ -231,7 +200,13 @@ struct dpu_encoder_phys {
->  	atomic_t pending_ctlstart_cnt;
->  	atomic_t pending_kickoff_cnt;
->  	wait_queue_head_t pending_kickoff_wq;
-> -	struct dpu_encoder_irq irq[INTR_IDX_MAX];
-> +
-> +	int intf_underrun_irq;
-> +	int vblank_irq;
-> +
-> +	/* for CMD only */
-> +	int ctl_start_irq;
-> +	int pp_done_irq;
->  };
-> 
->  static inline int dpu_encoder_phys_inc_pending(struct dpu_encoder_phys 
-> *phys)
-> @@ -347,21 +322,22 @@ void dpu_encoder_helper_split_config(
->   * dpu_encoder_helper_report_irq_timeout - utility to report error 
-> that irq has
->   *	timed out, including reporting frame error event to crtc and debug 
-> dump
->   * @phys_enc: Pointer to physical encoder structure
-> - * @intr_idx: Failing interrupt index
-> + * @irq_idx: Failing interrupt index
->   */
->  void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys 
-> *phys_enc,
-> -		enum dpu_intr_idx intr_idx);
-> +		int irq_idx);
-> 
->  /**
->   * dpu_encoder_helper_wait_for_irq - utility to wait on an irq.
->   *	note: will call dpu_encoder_helper_wait_for_irq on timeout
->   * @phys_enc: Pointer to physical encoder structure
-> - * @intr_idx: encoder interrupt index
-> + * @irq_idx: encoder interrupt index
-> + * @irq_cb: encoder interrupt callback
->   * @wait_info: wait info struct
->   * @Return: 0 or -ERROR
->   */
->  int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
-> -		enum dpu_intr_idx intr_idx,
-> +		int irq_idx, void (*irq_cb)(void *, int),
->  		struct dpu_encoder_wait_info *wait_info);
-> 
->  #endif /* __dpu_encoder_phys_H__ */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 4bfeac821f51..122364a4ef54 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -151,7 +151,6 @@ static void dpu_encoder_phys_cmd_mode_set(
->  {
->  	struct dpu_encoder_phys_cmd *cmd_enc =
->  		to_dpu_encoder_phys_cmd(phys_enc);
-> -	struct dpu_encoder_irq *irq;
-> 
->  	if (!mode || !adj_mode) {
->  		DPU_ERROR("invalid args\n");
-> @@ -161,17 +160,10 @@ static void dpu_encoder_phys_cmd_mode_set(
->  	DPU_DEBUG_CMDENC(cmd_enc, "caching mode:\n");
->  	drm_mode_debug_printmodeline(adj_mode);
-> 
-> -	irq = &phys_enc->irq[INTR_IDX_CTL_START];
-> -	irq->irq_idx = phys_enc->hw_ctl->caps->intr_start;
-> -
-> -	irq = &phys_enc->irq[INTR_IDX_PINGPONG];
-> -	irq->irq_idx = phys_enc->hw_pp->caps->intr_done;
-> -
-> -	irq = &phys_enc->irq[INTR_IDX_RDPTR];
-> -	irq->irq_idx = phys_enc->hw_pp->caps->intr_rdptr;
-> -
-> -	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
-> -	irq->irq_idx = phys_enc->hw_intf->cap->intr_underrun;
-> +	phys_enc->ctl_start_irq = phys_enc->hw_ctl->caps->intr_start;
-> +	phys_enc->pp_done_irq = phys_enc->hw_pp->caps->intr_done;
-> +	phys_enc->vblank_irq = phys_enc->hw_pp->caps->intr_rdptr;
-> +	phys_enc->intf_underrun_irq = phys_enc->hw_intf->cap->intr_underrun;
->  }
-> 
->  static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
-> @@ -212,8 +204,8 @@ static int 
-> _dpu_encoder_phys_cmd_handle_ppdone_timeout(
->  			  atomic_read(&phys_enc->pending_kickoff_cnt));
->  		msm_disp_snapshot_state(drm_enc->dev);
->  		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_RDPTR].irq_idx,
-> -				phys_enc->irq[INTR_IDX_RDPTR].func, phys_enc);
-> +				phys_enc->vblank_irq,
-> +				dpu_encoder_phys_cmd_pp_rd_ptr_irq, phys_enc);
->  	}
-> 
->  	atomic_add_unless(&phys_enc->pending_kickoff_cnt, -1, 0);
-> @@ -240,7 +232,9 @@ static int _dpu_encoder_phys_cmd_wait_for_idle(
->  	wait_info.atomic_cnt = &phys_enc->pending_kickoff_cnt;
->  	wait_info.timeout_ms = KICKOFF_TIMEOUT_MS;
-> 
-> -	ret = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_PINGPONG,
-> +	ret = dpu_encoder_helper_wait_for_irq(phys_enc,
-> +			phys_enc->pp_done_irq,
-> +			dpu_encoder_phys_cmd_pp_tx_done_irq,
->  			&wait_info);
->  	if (ret == -ETIMEDOUT)
->  		_dpu_encoder_phys_cmd_handle_ppdone_timeout(phys_enc);
-> @@ -280,12 +274,12 @@ static int 
-> dpu_encoder_phys_cmd_control_vblank_irq(
-> 
->  	if (enable && atomic_inc_return(&phys_enc->vblank_refcount) == 1)
->  		ret = dpu_core_irq_register_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_RDPTR].irq_idx,
-> -				phys_enc->irq[INTR_IDX_RDPTR].func, phys_enc);
-> +				phys_enc->vblank_irq,
-> +				dpu_encoder_phys_cmd_pp_rd_ptr_irq, phys_enc);
->  	else if (!enable && atomic_dec_return(&phys_enc->vblank_refcount) == 
-> 0)
->  		ret = dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_RDPTR].irq_idx,
-> -				phys_enc->irq[INTR_IDX_RDPTR].func, phys_enc);
-> +				phys_enc->vblank_irq,
-> +				dpu_encoder_phys_cmd_pp_rd_ptr_irq, phys_enc);
-> 
->  end:
->  	if (ret) {
-> @@ -307,30 +301,30 @@ static void
-> dpu_encoder_phys_cmd_irq_control(struct dpu_encoder_phys *phys_enc,
-> 
->  	if (enable) {
->  		dpu_core_irq_register_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_PINGPONG].irq_idx,
-> -				phys_enc->irq[INTR_IDX_PINGPONG].func, phys_enc);
-> +				phys_enc->pp_done_irq,
-> +				dpu_encoder_phys_cmd_pp_tx_done_irq, phys_enc);
->  		dpu_core_irq_register_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_UNDERRUN].irq_idx,
-> -				phys_enc->irq[INTR_IDX_UNDERRUN].func, phys_enc);
-> +				phys_enc->intf_underrun_irq,
-> +				dpu_encoder_phys_cmd_underrun_irq, phys_enc);
->  		dpu_encoder_phys_cmd_control_vblank_irq(phys_enc, true);
-> 
->  		if (dpu_encoder_phys_cmd_is_master(phys_enc))
->  			dpu_core_irq_register_callback(phys_enc->dpu_kms,
-> -					phys_enc->irq[INTR_IDX_CTL_START].irq_idx,
-> -					phys_enc->irq[INTR_IDX_CTL_START].func, phys_enc);
-> +					phys_enc->ctl_start_irq,
-> +					dpu_encoder_phys_cmd_ctl_start_irq, phys_enc);
->  	} else {
->  		if (dpu_encoder_phys_cmd_is_master(phys_enc))
->  			dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
-> -					phys_enc->irq[INTR_IDX_CTL_START].irq_idx,
-> -					phys_enc->irq[INTR_IDX_CTL_START].func, phys_enc);
-> +					phys_enc->ctl_start_irq,
-> +					dpu_encoder_phys_cmd_ctl_start_irq, phys_enc);
-> 
->  		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_UNDERRUN].irq_idx,
-> -				phys_enc->irq[INTR_IDX_UNDERRUN].func, phys_enc);
-> +				phys_enc->intf_underrun_irq,
-> +				dpu_encoder_phys_cmd_underrun_irq, phys_enc);
->  		dpu_encoder_phys_cmd_control_vblank_irq(phys_enc, false);
->  		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_PINGPONG].irq_idx,
-> -				phys_enc->irq[INTR_IDX_PINGPONG].func, phys_enc);
-> +				phys_enc->pp_done_irq,
-> +				dpu_encoder_phys_cmd_pp_tx_done_irq, phys_enc);
->  	}
->  }
-> 
-> @@ -664,7 +658,9 @@ static int 
-> _dpu_encoder_phys_cmd_wait_for_ctl_start(
->  	wait_info.atomic_cnt = &phys_enc->pending_ctlstart_cnt;
->  	wait_info.timeout_ms = KICKOFF_TIMEOUT_MS;
-> 
-> -	ret = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_CTL_START,
-> +	ret = dpu_encoder_helper_wait_for_irq(phys_enc,
-> +			phys_enc->ctl_start_irq,
-> +			dpu_encoder_phys_cmd_ctl_start_irq,
->  			&wait_info);
->  	if (ret == -ETIMEDOUT) {
->  		DPU_ERROR_CMDENC(cmd_enc, "ctl start interrupt wait failed\n");
-> @@ -719,7 +715,9 @@ static int dpu_encoder_phys_cmd_wait_for_vblank(
-> 
->  	atomic_inc(&cmd_enc->pending_vblank_cnt);
-> 
-> -	rc = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_RDPTR,
-> +	rc = dpu_encoder_helper_wait_for_irq(phys_enc,
-> +			phys_enc->vblank_irq,
-> +			dpu_encoder_phys_cmd_pp_rd_ptr_irq,
->  			&wait_info);
-> 
->  	return rc;
-> @@ -771,8 +769,7 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
->  {
->  	struct dpu_encoder_phys *phys_enc = NULL;
->  	struct dpu_encoder_phys_cmd *cmd_enc = NULL;
-> -	struct dpu_encoder_irq *irq;
-> -	int i, ret = 0;
-> +	int ret = 0;
-> 
->  	DPU_DEBUG("intf %d\n", p->intf_idx - INTF_0);
-> 
-> @@ -795,30 +792,11 @@ struct dpu_encoder_phys 
-> *dpu_encoder_phys_cmd_init(
->  	phys_enc->enc_spinlock = p->enc_spinlock;
->  	cmd_enc->stream_sel = 0;
->  	phys_enc->enable_state = DPU_ENC_DISABLED;
-> -	for (i = 0; i < INTR_IDX_MAX; i++) {
-> -		irq = &phys_enc->irq[i];
-> -		irq->irq_idx = -EINVAL;
-> -	}
-> 
-> -	irq = &phys_enc->irq[INTR_IDX_CTL_START];
-> -	irq->name = "ctl_start";
-> -	irq->intr_idx = INTR_IDX_CTL_START;
-> -	irq->func = dpu_encoder_phys_cmd_ctl_start_irq;
-> -
-> -	irq = &phys_enc->irq[INTR_IDX_PINGPONG];
-> -	irq->name = "pp_done";
-> -	irq->intr_idx = INTR_IDX_PINGPONG;
-> -	irq->func = dpu_encoder_phys_cmd_pp_tx_done_irq;
-> -
-> -	irq = &phys_enc->irq[INTR_IDX_RDPTR];
-> -	irq->name = "pp_rd_ptr";
-> -	irq->intr_idx = INTR_IDX_RDPTR;
-> -	irq->func = dpu_encoder_phys_cmd_pp_rd_ptr_irq;
-> -
-> -	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
-> -	irq->name = "underrun";
-> -	irq->intr_idx = INTR_IDX_UNDERRUN;
-> -	irq->func = dpu_encoder_phys_cmd_underrun_irq;
-> +	phys_enc->ctl_start_irq = -EINVAL;
-> +	phys_enc->pp_done_irq = -EINVAL;
-> +	phys_enc->vblank_irq = -EINVAL;
-> +	phys_enc->intf_underrun_irq = -EINVAL;
-> 
->  	atomic_set(&phys_enc->vblank_refcount, 0);
->  	atomic_set(&phys_enc->pending_kickoff_cnt, 0);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index 7f605287a377..19f728e63d7d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -366,19 +366,14 @@ static void dpu_encoder_phys_vid_mode_set(
->  		struct drm_display_mode *mode,
->  		struct drm_display_mode *adj_mode)
->  {
-> -	struct dpu_encoder_irq *irq;
-> -
->  	if (adj_mode) {
->  		phys_enc->cached_mode = *adj_mode;
->  		drm_mode_debug_printmodeline(adj_mode);
->  		DPU_DEBUG_VIDENC(phys_enc, "caching mode:\n");
->  	}
-> 
-> -	irq = &phys_enc->irq[INTR_IDX_VSYNC];
-> -	irq->irq_idx = phys_enc->hw_intf->cap->intr_vsync;
-> -
-> -	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
-> -	irq->irq_idx = phys_enc->hw_intf->cap->intr_underrun;
-> +	phys_enc->vblank_irq = phys_enc->hw_intf->cap->intr_vsync;
-> +	phys_enc->intf_underrun_irq = phys_enc->hw_intf->cap->intr_underrun;
->  }
-> 
->  static int dpu_encoder_phys_vid_control_vblank_irq(
-> @@ -405,12 +400,12 @@ static int 
-> dpu_encoder_phys_vid_control_vblank_irq(
-> 
->  	if (enable && atomic_inc_return(&phys_enc->vblank_refcount) == 1)
->  		ret = dpu_core_irq_register_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_VSYNC].irq_idx,
-> -				phys_enc->irq[INTR_IDX_VSYNC].func, phys_enc);
-> +				phys_enc->vblank_irq,
-> +				dpu_encoder_phys_vid_vblank_irq, phys_enc);
->  	else if (!enable && atomic_dec_return(&phys_enc->vblank_refcount) == 
-> 0)
->  		ret = dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_VSYNC].irq_idx,
-> -				phys_enc->irq[INTR_IDX_VSYNC].func, phys_enc);
-> +				phys_enc->vblank_irq,
-> +				dpu_encoder_phys_vid_vblank_irq, phys_enc);
-> 
->  end:
->  	if (ret) {
-> @@ -490,11 +485,13 @@ static int dpu_encoder_phys_vid_wait_for_vblank(
->  	}
-> 
->  	/* Wait for kickoff to complete */
-> -	ret = dpu_encoder_helper_wait_for_irq(phys_enc, INTR_IDX_VSYNC,
-> +	ret = dpu_encoder_helper_wait_for_irq(phys_enc,
-> +			phys_enc->vblank_irq,
-> +			dpu_encoder_phys_vid_vblank_irq,
->  			&wait_info);
-> 
->  	if (ret == -ETIMEDOUT) {
-> -		dpu_encoder_helper_report_irq_timeout(phys_enc, INTR_IDX_VSYNC);
-> +		dpu_encoder_helper_report_irq_timeout(phys_enc, 
-> phys_enc->vblank_irq);
->  	}
-> 
->  	return ret;
-> @@ -543,8 +540,8 @@ static void 
-> dpu_encoder_phys_vid_prepare_for_kickoff(
->  				ctl->idx, rc);
->  		msm_disp_snapshot_state(drm_enc->dev);
->  		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_VSYNC].irq_idx,
-> -				phys_enc->irq[INTR_IDX_VSYNC].func, phys_enc);
-> +				phys_enc->vblank_irq,
-> +				dpu_encoder_phys_vid_vblank_irq, phys_enc);
->  	}
->  }
-> 
-> @@ -634,13 +631,13 @@ static void
-> dpu_encoder_phys_vid_irq_control(struct dpu_encoder_phys *phys_enc,
->  			return;
-> 
->  		dpu_core_irq_register_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_UNDERRUN].irq_idx,
-> -				phys_enc->irq[INTR_IDX_UNDERRUN].func, phys_enc);
-> +				phys_enc->intf_underrun_irq,
-> +				dpu_encoder_phys_vid_underrun_irq, phys_enc);
->  	} else {
->  		dpu_encoder_phys_vid_control_vblank_irq(phys_enc, false);
->  		dpu_core_irq_unregister_callback(phys_enc->dpu_kms,
-> -				phys_enc->irq[INTR_IDX_UNDERRUN].irq_idx,
-> -				phys_enc->irq[INTR_IDX_UNDERRUN].func, phys_enc);
-> +				phys_enc->intf_underrun_irq,
-> +				dpu_encoder_phys_vid_underrun_irq, phys_enc);
->  	}
->  }
-> 
-> @@ -706,8 +703,7 @@ struct dpu_encoder_phys *dpu_encoder_phys_vid_init(
->  		struct dpu_enc_phys_init_params *p)
->  {
->  	struct dpu_encoder_phys *phys_enc = NULL;
-> -	struct dpu_encoder_irq *irq;
-> -	int i, ret = 0;
-> +	int ret = 0;
-> 
->  	if (!p) {
->  		ret = -EINVAL;
-> @@ -732,20 +728,9 @@ struct dpu_encoder_phys 
-> *dpu_encoder_phys_vid_init(
->  	phys_enc->split_role = p->split_role;
->  	phys_enc->intf_mode = INTF_MODE_VIDEO;
->  	phys_enc->enc_spinlock = p->enc_spinlock;
-> -	for (i = 0; i < INTR_IDX_MAX; i++) {
-> -		irq = &phys_enc->irq[i];
-> -		irq->irq_idx = -EINVAL;
-> -	}
-> -
-> -	irq = &phys_enc->irq[INTR_IDX_VSYNC];
-> -	irq->name = "vsync_irq";
-> -	irq->intr_idx = INTR_IDX_VSYNC;
-> -	irq->func = dpu_encoder_phys_vid_vblank_irq;
-> 
-> -	irq = &phys_enc->irq[INTR_IDX_UNDERRUN];
-> -	irq->name = "underrun";
-> -	irq->intr_idx = INTR_IDX_UNDERRUN;
-> -	irq->func = dpu_encoder_phys_vid_underrun_irq;
-> +	phys_enc->vblank_irq = -EINVAL;
-> +	phys_enc->intf_underrun_irq = -EINVAL;
-> 
->  	atomic_set(&phys_enc->vblank_refcount, 0);
->  	atomic_set(&phys_enc->pending_kickoff_cnt, 0);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-> index 58b7b8654543..648124e8ea2f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-> @@ -188,26 +188,22 @@ DEFINE_EVENT(dpu_irq_template, 
-> dpu_irq_unregister_success,
->  );
-> 
->  TRACE_EVENT(dpu_enc_irq_wait_success,
-> -	TP_PROTO(uint32_t drm_id, enum dpu_intr_idx intr_idx,
-> -		 int irq_idx, enum dpu_pingpong pp_idx, int atomic_cnt),
-> -	TP_ARGS(drm_id, intr_idx, irq_idx, pp_idx, atomic_cnt),
-> +	TP_PROTO(uint32_t drm_id, int irq_idx, enum dpu_pingpong pp_idx, int
-> atomic_cnt),
-> +	TP_ARGS(drm_id, irq_idx, pp_idx, atomic_cnt),
->  	TP_STRUCT__entry(
->  		__field(	uint32_t,		drm_id		)
-> -		__field(	enum dpu_intr_idx,	intr_idx	)
->  		__field(	int,			irq_idx		)
->  		__field(	enum dpu_pingpong,	pp_idx		)
->  		__field(	int,			atomic_cnt	)
->  	),
->  	TP_fast_assign(
->  		__entry->drm_id = drm_id;
-> -		__entry->intr_idx = intr_idx;
->  		__entry->irq_idx = irq_idx;
->  		__entry->pp_idx = pp_idx;
->  		__entry->atomic_cnt = atomic_cnt;
->  	),
-> -	TP_printk("id=%u, intr=%d, irq=%d, pp=%d, atomic_cnt=%d",
-> -		  __entry->drm_id, __entry->intr_idx,
-> -		  __entry->irq_idx, __entry->pp_idx, __entry->atomic_cnt)
-> +	TP_printk("id=%u, irq=%d, pp=%d, atomic_cnt=%d",
-> +		  __entry->drm_id, __entry->irq_idx, __entry->pp_idx, 
-> __entry->atomic_cnt)
->  );
-> 
->  DECLARE_EVENT_CLASS(dpu_drm_obj_template,
+-- 
+viresh
