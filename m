@@ -1,82 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D7A3F0A60
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 19:40:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CC03F08C9
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 18:14:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439936E844;
-	Wed, 18 Aug 2021 17:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4716E849;
+	Wed, 18 Aug 2021 16:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-1.canonical.com
- (smtp-relay-canonical-1.canonical.com [185.125.188.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 245A06E910
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 14:52:24 +0000 (UTC)
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPS id CFE9A412EB
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 14:52:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1629298340;
- bh=C63KvaJ+cWhAEINSiaxTGMz7FLf9euvtefJ5UKJKvuw=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=aU/M0lDC3lnWmWPUa2sIxOGmfjLAmCGdzn+Vlb+3oTTNJ6w0y28PZer6Zhk5AiNO7
- i/VvFqLWkFnm94H9rDL3ufDFmmVgec3CZO5avjNGL+ZrqGyyqdHGTcciRN5r1MtMlj
- JR+T7BCG627JjzgjPg1MOVLVVX/jmDJuCDX0CFt9ZnpSwuUbrpnsmrxDIJM6YPVvIi
- 77VkWbypUnmgTk92Cpt4gwFB10MeASo0EiA/94jHvy1pk1bIu4VTaDaw8SUlbFSEV3
- jHTO8KhS27s4qD8snT96XdUr2DX4GEURih5bm/6EZ7Dtvbq0daRLyLfXeuvPsfhl+L
- QoXsKRZVZerWA==
-Received: by mail-pg1-f198.google.com with SMTP id
- 134-20020a63008c0000b029023286313a3cso1568140pga.4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 07:52:20 -0700 (PDT)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 828CB6E841;
+ Wed, 18 Aug 2021 16:14:15 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ f16-20020a056830205000b00519b99d3dcbso4756337otp.2; 
+ Wed, 18 Aug 2021 09:14:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=C63KvaJ+cWhAEINSiaxTGMz7FLf9euvtefJ5UKJKvuw=;
- b=J+vEZ+5l4OWYaf9rfaW10tJpjgN1e+4twcte+QKczGmyEdGYVbi/qv5jb/J9qJMSso
- qKUFTthr/Et4TyBZyxCGeJQwAOjRxORSZ1N1mi9R8dkF65BbbxRHRTO4O4uV7t06Z0B4
- LtVYZihVA4XF+VNw7HiI/LQxr6ovm+jHxYXgjmzmEPCV+7TWOeLashjq3oVNtji/DhUQ
- brg/xrvy84BNF0W/aiXLklNWgFo1owde7brvxGeskivUZYdqcu1B9Obqs4YZ+j+hbim2
- xnivih8e5lctE02GqfgbkDjUYYuzMecjZy5JRKACeB602RLAciUEb1AsjfSFSaNLfyg0
- eSBQ==
-X-Gm-Message-State: AOAM533AYXj8Syjjok16ku2NZ+Ikaugw+MvoKFc45G0wHN8MCN/mwRhr
- 2o77r+WL1jb1UuDAbK/SReazQXYyGbdGO0XJrKQUnHP/RGmR2mpn0d9EiDYK5dPbEG7RynzNCOv
- 9RLwyhSeXOELx/YPWdLxG64na+05xPhGa9nFBybtNdhYpNA==
-X-Received: by 2002:a17:90a:f314:: with SMTP id
- ca20mr10053547pjb.210.1629298339357; 
- Wed, 18 Aug 2021 07:52:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIX0xUNdP8jrpWXr9FRIo/5CxYkCcC18au0WkZhrfprpv1h8lb2dEHNI4DzTUBH3RtKFQesg==
-X-Received: by 2002:a17:90a:f314:: with SMTP id
- ca20mr10053525pjb.210.1629298339084; 
- Wed, 18 Aug 2021 07:52:19 -0700 (PDT)
-Received: from localhost.localdomain ([69.163.84.166])
- by smtp.gmail.com with ESMTPSA id 73sm7331pfz.73.2021.08.18.07.52.17
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=yauHXJCxHoVp5aXAAes27TDBGWrBr9jVMGaMrDiigz8=;
+ b=FuavDhbCc/bfEhGs3VMlzTuOas5h+Q34TCaTdIqdid8Td/hh97NSymwLbPALiKIG/U
+ exAW+P7R5cVwVaDZqrb+EWggL4OO803auxlDxUkN3eu5ecZt8GoArD7pnOWJVUYN/8M6
+ f7jeUEegsSsa+HATIEJJkpeV2tGSwmwiCbNQAi5G2D7t5X7CLB80WVlN2LGjgPBicLEH
+ GaYFnBs+Wa/abddt8WV0l/z0yIqWSrN4qmtb8EHaGLRaxSFDhkari7oyi+lTdpnG0J89
+ /yrP4lSf1/Q9iiEh1ocL/u/cdr/Cl4ZDwtKRcrauFGu+mGTj1zVr99+tdkBnxPZ3yl0D
+ 9rCQ==
+X-Gm-Message-State: AOAM533GEdVM2AlMLSNFVi8IFwdl55Y+HkjTQ8BOh7FoIYn1TafuLIWX
+ ANIcjC2iOvgdBpAgtq3BUQ==
+X-Google-Smtp-Source: ABdhPJzzOuQIH8PiEiqnXaNNItIPBPXASTbgrSCmxUFvf7DxF43cogknZxmC20Q63vL+nLiIp/5AIg==
+X-Received: by 2002:a05:6830:2807:: with SMTP id
+ w7mr7528360otu.70.1629303254775; 
+ Wed, 18 Aug 2021 09:14:14 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id 4sm97281oil.38.2021.08.18.09.14.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 07:52:18 -0700 (PDT)
-From: Tim Gardner <tim.gardner@canonical.com>
-To: linux-kernel@vger.kernel.org
-Cc: tim.gardner@canonical.com, stable@vger.kernel.org,
- kernel-janitors@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] drm/i915/gem: Avoid NULL dereference in
- __i915_gem_object_lock()
-Date: Wed, 18 Aug 2021 08:51:59 -0600
-Message-Id: <20210818145159.12402-1-tim.gardner@canonical.com>
-X-Mailer: git-send-email 2.33.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 18 Aug 2021 17:40:22 +0000
+ Wed, 18 Aug 2021 09:14:14 -0700 (PDT)
+Received: (nullmailer pid 2696510 invoked by uid 1000);
+ Wed, 18 Aug 2021 16:14:13 -0000
+From: Rob Herring <robh@kernel.org>
+To: Krishna Manikandan <mkrishn@codeaurora.org>
+Cc: rajeevny@codeaurora.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, bjorn.andersson@linaro.org,
+ kalyan_t@codeaurora.org, robh+dt@kernel.org, abhinavk@codeaurora.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robdclark@gmail.com, linux-arm-msm@vger.kernel.org, khsieh@codeaurora.org,
+ swboyd@chromium.org, sbillaka@codeaurora.org
+In-Reply-To: <1629282424-4070-1-git-send-email-mkrishn@codeaurora.org>
+References: <1629282424-4070-1-git-send-email-mkrishn@codeaurora.org>
+Subject: Re: [PATCH v1 1/4] dt-bindings: msm: add DT bindings for sc7280
+Date: Wed, 18 Aug 2021 11:14:13 -0500
+Message-Id: <1629303253.016460.2696509.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,46 +68,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Coverity warns of a possible NULL dereference:
+On Wed, 18 Aug 2021 15:57:01 +0530, Krishna Manikandan wrote:
+> MSM Mobile Display Subsystem (MDSS) encapsulates sub-blocks
+> like DPU display controller, DSI, EDP etc. Add required DPU
+> device tree bindings for SC7280.
+> 
+> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
+> ---
+>  .../bindings/display/msm/dpu-sc7280.yaml           | 228 +++++++++++++++++++++
+>  1 file changed, 228 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml
+> 
 
-Both dma_resv_lock_interruptible() and dma_resv_lock() can return -EDEADLK. Protect
-against a NULL dereference by checking for NULL before saving the object pointer. This
-is consistent with previous checks for ww==NULL.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Addresses-Coverity: ("Dereference after null check")
+yamllint warnings/errors:
 
-Cc: stable@vger.kernel.org
-Fixes: 80f0b679d6f0683f23cf98a511af3e44dd509472 ("drm/i915: Add an implementation for i915_gem_ww_ctx locking, v2.")
-Cc: kernel-janitors@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/msm/dpu-sc7280.example.dts:19:18: fatal error: dt-bindings/clock/qcom,dispcc-sc7280.h: No such file or directory
+   19 |         #include <dt-bindings/clock/qcom,dispcc-sc7280.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/display/msm/dpu-sc7280.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1419: dt_binding_check] Error 2
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 48112b9d76df..3391ca4f662a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -187,7 +187,7 @@ static inline int __i915_gem_object_lock(struct drm_i915_gem_object *obj,
- 	if (ret == -EALREADY)
- 		ret = 0;
- 
--	if (ret == -EDEADLK) {
-+	if (ret == -EDEADLK && ww) {
- 		i915_gem_object_get(obj);
- 		ww->contended = obj;
- 	}
--- 
-2.33.0
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1517976
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
