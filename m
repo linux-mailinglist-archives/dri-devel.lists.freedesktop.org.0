@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE0A3EFABF
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8753EFAF6
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA9AD6E3F2;
-	Wed, 18 Aug 2021 06:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2EEA6E402;
+	Wed, 18 Aug 2021 06:06:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02AB86E3F2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:05:59 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id q2so1141089pgt.6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:05:59 -0700 (PDT)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3A466E3F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:06:00 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id w6so1114671plg.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mboTeGUKr9yolgqYZyfRuYdmdGDjzaFuP+f8ddDuJQs=;
- b=VXB5rWrOkOUtfCqlqmI5NSVNx72RB77dAy2oZKxsFgyJYk7pRfvjGekORMHd3qeDjV
- w62NkRG1JnHmoQW1LYbSqf66ms3qEBb5M12TfQfmYL+UCdit3vS6intdi7dOK4yxjtOO
- 0a7us/8TNkOy5LfwCUNfHgiRrh5IwxNX3jPnY=
+ bh=hSMMgZw7/2olmGwk+x9hLUDcbTdJzqluz+oi39a5oaM=;
+ b=AMRBYGxWigAndwRUkfX3NhBSUU8MSjoRTCHz9zrrsgdg3Vx7dfMY0hvzndczVU9K2K
+ OwjIPvlD7qSunG4V08GZHGWtKJwfeKCLlU3S37o3Gz4IcLm+qCx3PPRbw20HXjHiEzkE
+ uX9jeofCLBVvaQkzgW2gi+vm4H1Oim/Okgn7o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mboTeGUKr9yolgqYZyfRuYdmdGDjzaFuP+f8ddDuJQs=;
- b=D+DvXryTm1oqobPyjB7uQic6HqP+BrpB0ME1Pkd/FIFcK9DZ7yVAfj7VG82iNj/a6k
- KlEaXm6wEeoq0v8dR1z5iHLYJK3NeZv4JHTyci24/DznxuMfqm+f1vbku7pYvxXO/9O7
- pJdUTFQNX0Ag9N/tF1qJ1mXgpvS8hHcwuFHgwgI42mgT7NwvNGx5KOvpzKNwRsG33DxN
- hxjFMIh+mRCreliBPqFaAx2pwafmatn8v7+fpNYhH2Ba3hd0us32PNQfJqwNGz9Z80GG
- IWMjdD9M8QrkxsO+7tB3/UogXiHfB3StKJOBHtZwRrcSudke+n86mh9pKMClAKWmPMMW
- gSDg==
-X-Gm-Message-State: AOAM530F2440NbS5mBqbI54hMyXaiQQUgwtcGip3xsZh++XubxYxbZkZ
- LMQdwvb7nvNRyE2qu5iogblZhA==
-X-Google-Smtp-Source: ABdhPJw0NQnubE2J9ww2IV6yMWGOt/X1HjRivrIndHgKRL2cM8oCkbJtHPmmWE3y9dhwziqzIdlJ6Q==
-X-Received: by 2002:a63:2442:: with SMTP id k63mr7181356pgk.54.1629266759640; 
- Tue, 17 Aug 2021 23:05:59 -0700 (PDT)
+ bh=hSMMgZw7/2olmGwk+x9hLUDcbTdJzqluz+oi39a5oaM=;
+ b=KiOXM5k5VIBxgnMzKp6uOqjWgZuID2xRmpGc7iAFw9wCld3VYAWnVVUQ2uLHJgJLds
+ wSvr6ChWsJyikpAeMYiDjFSEKQIGl2wbVJDtpqPIxm1V14WaIR8v3Q0k8hd5Cp1PRpnv
+ sl5ZGaqpJ/gZ426QVXLaF1dYUqRU+N5o3ioQbC1Y6d9mzURyOeffuIyJXseRLBZe3/5K
+ 7xxZQFFXvHMBPGlBQdrIzhilBhSPPnugRhF0b7b14lqH72R+6/La8QrqFr7Dcon8UIY+
+ c0NnqXLPKnzLbOsw5djn1AZtXqkhoRE9Dtw5NaXFjbKV3xDauXsJsETEFkMV7Kc9VLbU
+ dMew==
+X-Gm-Message-State: AOAM533AHFFA2Mxb42+uK3ZAZfa21+JEYqX0QYOHcrXzHHKDHmGk54PU
+ n09OlQrZT5wWzOrurOWyk5NTPw==
+X-Google-Smtp-Source: ABdhPJw3YCb8XFLM24p+5tCFOEGFX4q333wRrCUDGyZQSVGiN6LbUqPysW/vGPLsQ7I9wOKcC9qAYw==
+X-Received: by 2002:a17:902:b190:b029:12d:487:dddc with SMTP id
+ s16-20020a170902b190b029012d0487dddcmr5995051plr.24.1629266760257; 
+ Tue, 17 Aug 2021 23:06:00 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id v15sm4713102pff.105.2021.08.17.23.05.57
+ by smtp.gmail.com with ESMTPSA id ms19sm3881385pjb.53.2021.08.17.23.05.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 23:05:59 -0700 (PDT)
+ Tue, 17 Aug 2021 23:05:58 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>, Daniel Axtens <dja@axtens.net>,
+Cc: Kees Cook <keescook@chromium.org>,
  Francis Laniel <laniel_francis@privacyrequired.com>,
  "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -54,27 +55,27 @@ Cc: Kees Cook <keescook@chromium.org>, Daniel Axtens <dja@axtens.net>,
  linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  linux-hardening@vger.kernel.org
-Subject: [PATCH v2 29/63] fortify: Fix dropped strcpy() compile-time write
- overflow check
-Date: Tue, 17 Aug 2021 23:04:59 -0700
-Message-Id: <20210818060533.3569517-30-keescook@chromium.org>
+Subject: [PATCH v2 30/63] fortify: Prepare to improve strnlen() and strlen()
+ warnings
+Date: Tue, 17 Aug 2021 23:05:00 -0700
+Message-Id: <20210818060533.3569517-31-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1260; h=from:subject;
- bh=sAqjTzTf+mWFy7xD73ZEpzjamgoLfVlMB8Pw3aei0Xc=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMkHMEpm10nE/aAHB48K6cSsvZL5sfcJfQj9wD4
- 87AucWeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJAAKCRCJcvTf3G3AJoHIEA
- CVNsWBrDfaVMhp7dy0y/IJxDyV8yomgG4F72g/uCRRfJZ6t0QDX4mJHghw3qnhtNERaVf1zfyT4EpR
- Q+CnBXAbbYOY29o4ZaC5ADslFqQrcq5UXqAtvXX2hNdtEpN7jEvy+T0Dp7gErnaLTs1ZlewzFJixmh
- 05xnc5PGkQ/a2fhA/CtaXfcvvgj/Y1w7itfG3KT1Pc8P7hAB0xQUn5JwIyBFfsLsANHAXHUbw9VYDP
- fZZ0GNAEXZSrloJoa/3h+EnpUqfUAHZ6NG7o5k6rBUn2ktEbmeFwRAcvF137eXA++u2tSdegoXt14J
- LaoJ3RY4se8BmlCpgiOu6mTSPrs6Jb74GZdcpGwlL++bhsP342ng60dkvdbosL5Cz5rcQRxwrJ252w
- 1U0/10JSG6NNPtAYO7As1zp/w4iaNAbTundBjm6o+FckreellK+acr/YR5tu8mhYcwwjhv7Gn0PW53
- tctiINRIsKtDHMAo5AYvcxOB0Cxa8Q44hhowrhkhYkzBO6F+t4p0Ht1Gse9m+/b9W5FzR+ruuTjN4b
- sJwG5NlgDrw9HodFlOrFU0g6f9jy+pOvo/aUejebmfFQ0E0rMohB1Ca6a4NGl1oW+3zmYJgmF3QYnL
- 3ztj9l/h7QOAIug/e6PSNcgokPbHAFyVpu6eHLsTcqKbjMMcdhK2ihPt1Oaw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1906; h=from:subject;
+ bh=wvK3U1xEzLn7HBnl3TVbXk2P5Mye7QhLMp4JdS3JmN8=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMkjtivRrqM/8t8pX2BgfBDvrRaH9kWYRdFJy03
+ ZmaWqcKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJAAKCRCJcvTf3G3AJnZBD/
+ 9ZO2jtNOBwLeuE65ugO7S8QVPVTc02JQcjXAhVIMip8GcftBIh6y33OIXJbGvumJ/EBr4oAJKmP1+L
+ +oCFFakYPIeuRV6pxMxO5+wfJJPqCT3cphUSCrquRhKuZxNJlP1uRMqbL/K2OLFwn4Rqr295BG/Ij7
+ bIuDzHDRDYuTekT9PxGCWIUivMtqV1HLgXIhtxri3qlsFlwdbx1zU/5GmOLFNh+btb9eKauiShw4vB
+ Ae3CvfS1tdmSXrvEgvGSz0wG9HcHySLpIsZglW8TI+gV/WPu/q3Izlql98/zjYhKCVFpN56jlwkoyx
+ zcKcg+gRzQRrROnH/ZkeMj4iHx7aenKCH2VKKG5+PbFX2LcaG6OYcmX/AlIJ7kzv1caSMVeESCpb9F
+ xeqmqDw5IN+/8UVBy/7bNpQ7uu2aF/hk2m7Hf07uYrLH/+NRJor0Fqsfz4VYDNfsHb3mkTeLYZvdL5
+ V79pX7BaQEUTM11ow989NnALA2oTs242bRvfR7vGQccFJk8QsH3kWYnDaR1HrXnh+M5cU2H4jxIFDj
+ qR4X2svRVHZBfMvnGQgeEkvADKirqLGVc+4vohELtBuJ/63n2yvR1gtZwjZo1KYFSY1RxyqzGjfvPd
+ scVAGDxupEYbw0MN1qMftL6MMY2m0jmHqf5z7ekO4APDSXkLXnzkcpyCrLMg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -93,34 +94,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The implementation for intra-object overflow in str*-family functions
-accidentally dropped compile-time write overflow checking in strcpy(),
-leaving it entirely to run-time. Add back the intended check.
+In order to have strlen() use fortified strnlen() internally, swap their
+positions in the source. Doing this as part of later changes makes
+review difficult, so reoroder it here; no code changes.
 
-Fixes: 6a39e62abbaf ("lib: string.h: detect intra-object overflow in fortified string functions")
-Cc: Daniel Axtens <dja@axtens.net>
 Cc: Francis Laniel <laniel_francis@privacyrequired.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/fortify-string.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ include/linux/fortify-string.h | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-index 7e67d02764db..68bc5978d916 100644
+index 68bc5978d916..a3cb1d9aacce 100644
 --- a/include/linux/fortify-string.h
 +++ b/include/linux/fortify-string.h
-@@ -287,7 +287,10 @@ __FORTIFY_INLINE char *strcpy(char *p, const char *q)
- 	if (p_size == (size_t)-1 && q_size == (size_t)-1)
- 		return __underlying_strcpy(p, q);
- 	size = strlen(q) + 1;
--	/* test here to use the more stringent object size */
-+	/* Compile-time check for const size overflow. */
-+	if (__builtin_constant_p(size) && p_size < size)
-+		__write_overflow();
-+	/* Run-time check for dynamic size overflow. */
- 	if (p_size < size)
- 		fortify_panic(__func__);
- 	memcpy(p, q, size);
+@@ -56,6 +56,17 @@ __FORTIFY_INLINE char *strcat(char *p, const char *q)
+ 	return p;
+ }
+ 
++extern __kernel_size_t __real_strnlen(const char *, __kernel_size_t) __RENAME(strnlen);
++__FORTIFY_INLINE __kernel_size_t strnlen(const char *p, __kernel_size_t maxlen)
++{
++	size_t p_size = __builtin_object_size(p, 1);
++	__kernel_size_t ret = __real_strnlen(p, maxlen < p_size ? maxlen : p_size);
++
++	if (p_size <= ret && maxlen != ret)
++		fortify_panic(__func__);
++	return ret;
++}
++
+ __FORTIFY_INLINE __kernel_size_t strlen(const char *p)
+ {
+ 	__kernel_size_t ret;
+@@ -71,17 +82,6 @@ __FORTIFY_INLINE __kernel_size_t strlen(const char *p)
+ 	return ret;
+ }
+ 
+-extern __kernel_size_t __real_strnlen(const char *, __kernel_size_t) __RENAME(strnlen);
+-__FORTIFY_INLINE __kernel_size_t strnlen(const char *p, __kernel_size_t maxlen)
+-{
+-	size_t p_size = __builtin_object_size(p, 1);
+-	__kernel_size_t ret = __real_strnlen(p, maxlen < p_size ? maxlen : p_size);
+-
+-	if (p_size <= ret && maxlen != ret)
+-		fortify_panic(__func__);
+-	return ret;
+-}
+-
+ /* defined after fortified strlen to reuse it */
+ extern size_t __real_strlcpy(char *, const char *, size_t) __RENAME(strlcpy);
+ __FORTIFY_INLINE size_t strlcpy(char *p, const char *q, size_t size)
 -- 
 2.30.2
 
