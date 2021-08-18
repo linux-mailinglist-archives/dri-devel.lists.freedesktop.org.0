@@ -2,80 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432FE3EFAD3
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF953EFAD7
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:06:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1266E3D3;
-	Wed, 18 Aug 2021 06:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA2F6E3CE;
+	Wed, 18 Aug 2021 06:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED236E3F0
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 273066E3EF
  for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:05:59 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id e7so1138267pgk.2
+Received: by mail-pf1-x42a.google.com with SMTP id x16so1066867pfh.2
  for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MfvkDY5kt3lyAiNJVhXK5tG8hqr4QIBOkdIIoSIpZoY=;
- b=NMAt3Z+vmc63UdPMMnwK22vzULAc39jN3JAUQfpgdeIAJMtmklwONc6o056nFTTKqQ
- 15r5+5EbazY7YogCaFZRnOHkqjDRrGOzUYaDbBnGvccHMzLb6JoTxWRZKrIsqn73HlCD
- K6mCD7EQ6HELD+OoUJLp32Sp173giXgQxK8Mw=
+ bh=NTYV2vCojWGaRvoj20z4daltbaCLEHm5I23EtSqrsdc=;
+ b=gcLhrbC6oh1Q4v7lBnuyaS91t4jaL8TehpxBKFXFSBMm2H8MVSQk2tUC2P0GUeSeUv
+ h/dbuSnQtyawGoL6LpCi/+xx7NsJ21uSVxeAivgSkoywKe+OIiou9Fs+GBDr8IzotyVN
+ 9YcRY+LtNaBwMh5J6OjEP2f59D4wukYLAQ6gs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MfvkDY5kt3lyAiNJVhXK5tG8hqr4QIBOkdIIoSIpZoY=;
- b=qSqS5GKIPJ0Zh1kbvrmJYkV+sL55UDS/R0C9U0Wu5tdKeAUnUicKHfJXUL0ftIEl/k
- 0jwQZX2eAx7A3Fp2me77x9nudistH61VuJQDPgrY9GSV5ePVaj5cWDIi77DxB1e3P2XM
- AYF25mCqI3eYVrgsj41qDbAV5ABNYh7NkMGCITVnaV39BFh5D2A9w70py/apar51mjQK
- pBuzpweX3jHn5/Gk23N/zpmfQUe8Agx9y1UOu7ohN5W/I6SKkFsv8Z/r/UjjI57DA2qs
- x8NWG/uq1yfBYIb58RMC3/qyvqSOL4ZgQqPO3LzUlPcc4x08WRlQMI6vidDnaKfFe4al
- pbsw==
-X-Gm-Message-State: AOAM530s55m6D869zC0fG3X28Vcd5VrG3VT642GHOGFi6ED12/N+ICZm
- QuLcDGvPT+fLPEcE9UGGNH/TQw==
-X-Google-Smtp-Source: ABdhPJxL+5LyS8fmfRDtLXE+jtdGJ+XmKClZl6r+/zYSaT9tS3pyhibmNGixNDmN2KDGG5wbevjKhA==
-X-Received: by 2002:aa7:9096:0:b0:3e1:72fd:a614 with SMTP id
- i22-20020aa79096000000b003e172fda614mr7502384pfa.56.1629266759093; 
- Tue, 17 Aug 2021 23:05:59 -0700 (PDT)
+ bh=NTYV2vCojWGaRvoj20z4daltbaCLEHm5I23EtSqrsdc=;
+ b=fPvRLJmDSLRWwmL2AkNhAx8VD5HsIPdGPNTr9GvZ3XP7gIlu+LPq55g+c5IUB3P5VU
+ JxHS8HqaNmvya7R2CIHqNDo5vewwL+5db9NmM3Ryxqd1QOjis9oVRkc5qHSbdh+5Bcon
+ GwAHJ7QuNUS4PHx7bEQg5PDgQaT+EEkomEJfob4iv7+H1XGQU68kTEUR9bByzZFTZ82h
+ j3GsMdy5HyKEVvTVHk1/j14N7YSg2qet6aeHFPp+QXrI5+EHz4NbrXw9uw+QdUPEEdfd
+ Ar/cINFSOQgNZRyYMILhhHPd40vQa2fftrfcZf/D8+/7l/GfWcqdPCBsR0GiAtaaM0t+
+ pPrw==
+X-Gm-Message-State: AOAM533K8OyQFlcVqNQo5LS7Ec9s+oY/HI77ULYHDnSdCPC8AvwQhn7J
+ N9ppB/DmQs3YDDPWc3tY6u2fCQ==
+X-Google-Smtp-Source: ABdhPJzKHoX3yyU+dnBla/w9sJktvSQulGP69FZGHBDzf2nPRtzqPXfJGufcOa8NTqoZzja7AHU62Q==
+X-Received: by 2002:a05:6a00:2d6:b0:3e2:e023:c6cd with SMTP id
+ b22-20020a056a0002d600b003e2e023c6cdmr1988068pft.19.1629266758722; 
+ Tue, 17 Aug 2021 23:05:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id g20sm4492489pfo.20.2021.08.17.23.05.54
+ by smtp.gmail.com with ESMTPSA id n23sm5008845pgv.76.2021.08.17.23.05.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 17 Aug 2021 23:05:57 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>, Kalle Valo <kvalo@codeaurora.org>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Lee Jones <lee.jones@linaro.org>, YueHaibing <yuehaibing@huawei.com>,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+Cc: Kees Cook <keescook@chromium.org>, Zhang Rui <rui.zhang@intel.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Amit Kucheria <amitk@kernel.org>, linux-pm@vger.kernel.org,
  "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, dri-devel@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
  linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  linux-hardening@vger.kernel.org
-Subject: [PATCH v2 11/63] libertas_tf: Use struct_group() for memcpy() region
-Date: Tue, 17 Aug 2021 23:04:41 -0700
-Message-Id: <20210818060533.3569517-12-keescook@chromium.org>
+Subject: [PATCH v2 12/63] thermal: intel: int340x_thermal: Use struct_group()
+ for memcpy() region
+Date: Tue, 17 Aug 2021 23:04:42 -0700
+Message-Id: <20210818060533.3569517-13-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2738; h=from:subject;
- bh=wd3681c0+x5eRHaVMU46XJm1dPQ+sYC85SAqAjsrf0g=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMgFu3aRs9ISQmN5Vt9YdvAypRlzexF9VxkmlTL
- fBYs8H2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjIAAKCRCJcvTf3G3AJgbSD/
- 9VvmG/dIP8wflkmUIV/4I63+sFI42prOwmcCJ7/QC6arAbd++55apbMaEbvsVv1TYzcOupBj3FJ3jn
- MzrscJSZO6s9qr6X/i4VQc63Y14g5kv5CMWrO127GRXfb/qRlMqNk8E3sr4Gp13yNGDXsonEASy26M
- ZAsvPOSnn3IaytMY+n8JweOfoB7i5WZ5mEBm2GjyQ2YRO4gqCZXxuJ4pufJR7SAmOVTyrGq4p/oSac
- nq2SUsVtaOo047ZAR3x2asWFV+3jHU6DuILOEhWF5H9pjXxVYfxtRc7tyP4pcjgqF5OB6To3eKp7TU
- lNEhWQQSE/GKR/8rUE5oYBrd5CyVJ352RemeAF3dhy9iSYllDDF8Dt7qDNFEHixdkgUBPY4YeRlcqV
- cP9/7P5xH3gI/UR4HG4sGw72lm/9sRvLbnPDbA+s8lzYlz6efPKiMJTBfV/Vo3YcsuR1mcrJygzkmu
- QQnYzrz9BtQfHFbe4OzkMKHaUCe9cJWWQqQbGjfGwqQFNttWU3Coo38o1FpdbJuhHvJyRDK47q3vNE
- Dc9vwC1o71BLG1c6D1ISVRzPUG2b7cEcd90GSkp7YejithdY+NvnSmZWTad+d2K15xdz2UNXL4hMRq
- fqBE0lJmxcxuhqVKSMuG8DKaxKopqiFzybGwsuT6xwpq9DI+1gph4HfAMHSA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3430; h=from:subject;
+ bh=eWRxzyg8ZHcfvuxChrH1G3MSkKagVjV8YQYyT7daR/o=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMgzFFZrngl6f/ha2lcQf7jZ0XOwEEmDffMqDAl
+ g1Ks8xmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjIAAKCRCJcvTf3G3AJr4LEA
+ CsX0wkoSQ5k+eRw495v98ZukqiRSRwtgtvHDRZg+FSzpTwOnEEYMAyH7uOTV2xyt//wSEjLpityQkQ
+ 6DJYoi8exVReP0/IGENdNgCX9CSvnY4mKgOStyQOF6wF6zUmA49X9+fDt/me/CXdx2hYbg0vtLMnkq
+ 5gBvKdXtWgWRoELEugEmh2t5qHjUpqpCNnyRtLha7bTKgabmSOmpcevXF1HoOvOs1cRNXoPcdx5CV0
+ bDoINmq6Xyh/tk0h4pIdo6SfZAOs0c3ErkSnT15sehzyggOoDkGVjJG5VBR3mukUg7mBnWnktHwIHX
+ /tYJqO+CdgwVMhdFRyKr6l6llZ3FYBwNYN/FLkfP1rnu6FXfH0LeQTTnuKm5YeiGKMK3k9oxRcqmp2
+ gMgnuYcTxVZ3rCDIYJJ6MzSIQtwWs9qBXZvHiQV4DaUG4xlsdQl73NhV0kA1qUrWu1KG3ET05Fm+c4
+ HDpZitCNYo0GvcGDfWBeLQqlbQ7IfL2V3I6YLWINVfJEsKl+g2+ctBb19ZzFmusloqZCbrZPyTc+0S
+ NmmotsEztnwmtEBmMhE7LJfL4We9u8itUfkywd+2pr4j4z1E7U8Zv+BycFc/U8vYneKZZgYxcHGWiO
+ T+ntRlh8llbsS1IRx6+6G4JBfFq6XbT/Hv9hLw4FXNSrDM+N5Np9vPDUT0Ow==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -95,66 +96,110 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field array bounds checking for memcpy(), memmove(), and memset(),
-avoid intentionally writing across neighboring fields.
+field bounds checking for memcpy(), avoid intentionally writing across
+neighboring fields.
 
-Use struct_group() in struct txpd around members tx_dest_addr_high
-and tx_dest_addr_low so they can be referenced together. This will
-allow memcpy() and sizeof() to more easily reason about sizes, improve
-readability, and avoid future warnings about writing beyond the end
-of tx_dest_addr_high.
+Use struct_group() in struct art around members weight, and ac[0-9]_max,
+so they can be referenced together. This will allow memcpy() and sizeof()
+to more easily reason about sizes, improve readability, and avoid future
+warnings about writing beyond the end of weight.
 
-"pahole" shows no size nor member offset changes to struct txpd.
-"objdump -d" shows no object code changes.
+"pahole" shows no size nor member offset changes to struct art.
+"objdump -d" shows no meaningful object code changes (i.e. only source
+line number induced differences).
 
-Cc: Kalle Valo <kvalo@codeaurora.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: YueHaibing <yuehaibing@huawei.com>
-Cc: linux-wireless@vger.kernel.org
-Cc: netdev@vger.kernel.org
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Amit Kucheria <amitk@kernel.org>
+Cc: linux-pm@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/marvell/libertas_tf/libertas_tf.h | 10 ++++++----
- drivers/net/wireless/marvell/libertas_tf/main.c        |  3 ++-
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ .../intel/int340x_thermal/acpi_thermal_rel.c  |  5 +-
+ .../intel/int340x_thermal/acpi_thermal_rel.h  | 48 ++++++++++---------
+ 2 files changed, 29 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/net/wireless/marvell/libertas_tf/libertas_tf.h b/drivers/net/wireless/marvell/libertas_tf/libertas_tf.h
-index 5d726545d987..b2af2ddb6bc4 100644
---- a/drivers/net/wireless/marvell/libertas_tf/libertas_tf.h
-+++ b/drivers/net/wireless/marvell/libertas_tf/libertas_tf.h
-@@ -268,10 +268,12 @@ struct txpd {
- 	__le32 tx_packet_location;
- 	/* Tx packet length */
- 	__le16 tx_packet_length;
--	/* First 2 byte of destination MAC address */
--	u8 tx_dest_addr_high[2];
--	/* Last 4 byte of destination MAC address */
--	u8 tx_dest_addr_low[4];
-+	struct_group(tx_dest_addr,
-+		/* First 2 byte of destination MAC address */
-+		u8 tx_dest_addr_high[2];
-+		/* Last 4 byte of destination MAC address */
-+		u8 tx_dest_addr_low[4];
-+	);
- 	/* Pkt Priority */
- 	u8 priority;
- 	/* Pkt Trasnit Power control */
-diff --git a/drivers/net/wireless/marvell/libertas_tf/main.c b/drivers/net/wireless/marvell/libertas_tf/main.c
-index 71492211904b..02a1e1f547d8 100644
---- a/drivers/net/wireless/marvell/libertas_tf/main.c
-+++ b/drivers/net/wireless/marvell/libertas_tf/main.c
-@@ -232,7 +232,8 @@ static void lbtf_tx_work(struct work_struct *work)
- 			     ieee80211_get_tx_rate(priv->hw, info)->hw_value);
+diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+index a478cff8162a..e90690a234c4 100644
+--- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
++++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+@@ -250,8 +250,9 @@ static int fill_art(char __user *ubuf)
+ 		get_single_name(arts[i].source, art_user[i].source_device);
+ 		get_single_name(arts[i].target, art_user[i].target_device);
+ 		/* copy the rest int data in addition to source and target */
+-		memcpy(&art_user[i].weight, &arts[i].weight,
+-			sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
++		BUILD_BUG_ON(sizeof(art_user[i].data) !=
++			     sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
++		memcpy(&art_user[i].data, &arts[i].data, sizeof(art_user[i].data));
+ 	}
  
- 	/* copy destination address from 802.11 header */
--	memcpy(txpd->tx_dest_addr_high, skb->data + sizeof(struct txpd) + 4,
-+	BUILD_BUG_ON(sizeof(txpd->tx_dest_addr) != ETH_ALEN);
-+	memcpy(&txpd->tx_dest_addr, skb->data + sizeof(struct txpd) + 4,
- 		ETH_ALEN);
- 	txpd->tx_packet_length = cpu_to_le16(len);
- 	txpd->tx_packet_location = cpu_to_le32(sizeof(struct txpd));
+ 	if (copy_to_user(ubuf, art_user, art_len))
+diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+index 58822575fd54..78d942477035 100644
+--- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
++++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+@@ -17,17 +17,19 @@
+ struct art {
+ 	acpi_handle source;
+ 	acpi_handle target;
+-	u64 weight;
+-	u64 ac0_max;
+-	u64 ac1_max;
+-	u64 ac2_max;
+-	u64 ac3_max;
+-	u64 ac4_max;
+-	u64 ac5_max;
+-	u64 ac6_max;
+-	u64 ac7_max;
+-	u64 ac8_max;
+-	u64 ac9_max;
++	struct_group(data,
++		u64 weight;
++		u64 ac0_max;
++		u64 ac1_max;
++		u64 ac2_max;
++		u64 ac3_max;
++		u64 ac4_max;
++		u64 ac5_max;
++		u64 ac6_max;
++		u64 ac7_max;
++		u64 ac8_max;
++		u64 ac9_max;
++	);
+ } __packed;
+ 
+ struct trt {
+@@ -47,17 +49,19 @@ union art_object {
+ 	struct {
+ 		char source_device[8]; /* ACPI single name */
+ 		char target_device[8]; /* ACPI single name */
+-		u64 weight;
+-		u64 ac0_max_level;
+-		u64 ac1_max_level;
+-		u64 ac2_max_level;
+-		u64 ac3_max_level;
+-		u64 ac4_max_level;
+-		u64 ac5_max_level;
+-		u64 ac6_max_level;
+-		u64 ac7_max_level;
+-		u64 ac8_max_level;
+-		u64 ac9_max_level;
++		struct_group(data,
++			u64 weight;
++			u64 ac0_max_level;
++			u64 ac1_max_level;
++			u64 ac2_max_level;
++			u64 ac3_max_level;
++			u64 ac4_max_level;
++			u64 ac5_max_level;
++			u64 ac6_max_level;
++			u64 ac7_max_level;
++			u64 ac8_max_level;
++			u64 ac9_max_level;
++		);
+ 	};
+ 	u64 __data[ACPI_NR_ART_ELEMENTS];
+ };
 -- 
 2.30.2
 
