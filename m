@@ -2,74 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D9F3F0E2A
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 00:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E38E3F0E38
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 00:35:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEDF6E892;
-	Wed, 18 Aug 2021 22:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E75296E891;
+	Wed, 18 Aug 2021 22:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6AE6E891
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 22:30:03 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- fa24-20020a17090af0d8b0290178bfa69d97so3493995pjb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=DUTuMfsQqxqX+3pR2oz9dVJNWsHg80kq142ck8zdj0s=;
- b=HXqi8rpNQlqRCRobulkOlcaA4+c6J/4aW1kHG07w5z+LW3VAsPY7L3ovHbYLAvr6BW
- z8PYA40q5a4/E1aSSd1f0X7nRnd2FNDMsOqvNHCn+M7iSwPw+3HB842oCYFV1odUjD4+
- aowm4n1LLC28ISLDG0efepefjXmirvRMkeWhE=
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0DF96E891
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 22:35:24 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id k14so3878427pga.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 15:35:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=P+5mSEtJrjnggVNveih68RddTImV6HnC03hWsATd0wA=;
+ b=kRIj8JIqpPRaKtf6CIkL46zXyN+TG7NSk6bw8gu7+8srWnLtPpMsCTfSAl6mGxQkPO
+ AO2tJAjBgrQqg48z/R0w1gBkmv7qgCaYMxOgKctRX1l4WVxZaQ6vNnvX5LAGRKfFudjG
+ PsQYY9oWNpYKfElRnHpaNeEhFchqOLvvFftCGuTzj/AyqbjlyvdzlVVTJ1IB4Ngv7/Ms
+ u4r7kwHlTNVtr67hCv3yPPJX5ARYvjGYympkKth1dgkHgrQuh2AbLYKgiGUMqV8NtvDX
+ +pRCiBA2g2BclAPoPSaP8V7pu3JHnBNUDDtuik7qEFxuxYTic4rAadkAFa3uqJjCsduq
+ ulwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=DUTuMfsQqxqX+3pR2oz9dVJNWsHg80kq142ck8zdj0s=;
- b=Jc2hfSYFNm4PuAX5J61giRTpHGM8S03VIqysUcu3d0Hi8760z1bl3bcbVuEiZAgNsq
- k3J4NlJgNukh6js1xyYAOlM+fhjQlWP33JRzrtzfe4UZXIEFmyLLQcplEGeWjDasE7hT
- QXUFkGBB+EihAoTAg3gEURdN0AXFdp/sy/J8zcf997m6Z/3fMmiLQXXdMBE0AdGnvLh7
- ASxy+F69NcJgpLOpqLVyiNHAe4esJaUnPTODtz1+Y6Lb8Az8qIMrzVEAJulmXiJWRkQS
- 7xyBJd/86qP8KBZj/wodj2pCfdI8+Zcqju7bmmwly+YZSZEbSM/ZD2PFxX0JpwLi+TK6
- +pEg==
-X-Gm-Message-State: AOAM533rXcQZxp5RErQaj48/T7i94LNm2fIbE9I0X8chJrvfINsnPfSK
- SkIA9fjHGqUiRWFzbEmsTRMLKw==
-X-Google-Smtp-Source: ABdhPJwejqek+pQNgEJHoUL+LD8id8sswOa0BezZLWGyCwRRYJ3BmiAhJE1bgJAMyKte9lbr8NDHRw==
-X-Received: by 2002:a17:90a:a581:: with SMTP id
- b1mr1663300pjq.153.1629325803017; 
- Wed, 18 Aug 2021 15:30:03 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id n185sm862325pfn.171.2021.08.18.15.30.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 15:30:02 -0700 (PDT)
-Date: Wed, 18 Aug 2021 15:30:01 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: linux-kernel@vger.kernel.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wang Wensheng <wangwensheng4@huawei.com>,
- linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Qinglang Miao <miaoqinglang@huawei.com>,
- linux-block@vger.kernel.org, Hulk Robot <hulkci@huawei.com>,
- clang-built-linux@googlegroups.com, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 61/63] powerpc: Split memset() to avoid multi-field
- overflow
-Message-ID: <202108181528.9CDB56FEC@keescook>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-62-keescook@chromium.org>
- <7630b0bc-4389-6283-d8b9-c532df916d60@csgroup.eu>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=P+5mSEtJrjnggVNveih68RddTImV6HnC03hWsATd0wA=;
+ b=Elcm2kpoA3X30mRFhTMPg4fNpOEhzeGm40EN/hEF5T3hH0aQD98hNZPfAfwEZlXR5S
+ NxRwCuSll43bhnw5KLjRqw/bATQj5Dzii++P3xDiJHAsgT3dweJ1kWFS+sYcLesl5oU/
+ V60mv5Q5N/ZhX9XMMrXwhwQ7kARTbo/CK6pgoR2VIoV71pm0ixebbc8/9E0iXgfi81dA
+ f5+67wNV8MvMM8AcO4eOdwdNNxR+DtobKrrWlAamu3ahg2a9u40DbzR5Qj8KFMxxbWXv
+ xSw1qi5X7FiYrJv0jnnAy83F1VRdHKMOWPpBrplm29AG/z6wvENVkbDMWG6sBkDfC68R
+ MVHg==
+X-Gm-Message-State: AOAM530QDoeoHzhAsJ/9w87iwesKruYWQ/gf8Lqn7ctlNIhA5i/L1bCo
+ aGfTY+E3QZihJ04bopGovUcD6UxcgSIXxFZ++5JENw==
+X-Google-Smtp-Source: ABdhPJwyt02ESgNp2hR1UmZAbrXcfqwpxlM4lrynFVwd2ax1rLD8IK0a6F+uEetO+Gksr5LJ8GXEb6TCnHWEdnZ/Nzg=
+X-Received: by 2002:a63:311:: with SMTP id 17mr10873581pgd.450.1629326124479; 
+ Wed, 18 Aug 2021 15:35:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7630b0bc-4389-6283-d8b9-c532df916d60@csgroup.eu>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-6-keescook@chromium.org>
+In-Reply-To: <20210818060533.3569517-6-keescook@chromium.org>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 18 Aug 2021 15:35:13 -0700
+Message-ID: <CAPcyv4jU+FhX0e4EXXVzisD5hzsdxK+cyVD3=QuqGOSpE4j-SQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/63] stddef: Introduce struct_group() helper macro
+To: Kees Cook <keescook@chromium.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Keith Packard <keithp@keithp.com>, 
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Linux Wireless List <linux-wireless@vger.kernel.org>,
+ Netdev <netdev@vger.kernel.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linux-staging@lists.linux.dev, linux-block@vger.kernel.org, 
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,52 +80,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 18, 2021 at 08:42:18AM +0200, Christophe Leroy wrote:
-> 
-> 
-> Le 18/08/2021 à 08:05, Kees Cook a écrit :
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
-> > 
-> > Instead of writing across a field boundary with memset(), move the call
-> > to just the array, and an explicit zeroing of the prior field.
-> > 
-> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> > Cc: Qinglang Miao <miaoqinglang@huawei.com>
-> > Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> > Cc: Hulk Robot <hulkci@huawei.com>
-> > Cc: Wang Wensheng <wangwensheng4@huawei.com>
-> > Cc: linuxppc-dev@lists.ozlabs.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > Reviewed-by: Michael Ellerman <mpe@ellerman.id.au>
-> > Link: https://lore.kernel.org/lkml/87czqsnmw9.fsf@mpe.ellerman.id.au
-> > ---
-> >   drivers/macintosh/smu.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
-> > index 94fb63a7b357..59ce431da7ef 100644
-> > --- a/drivers/macintosh/smu.c
-> > +++ b/drivers/macintosh/smu.c
-> > @@ -848,7 +848,8 @@ int smu_queue_i2c(struct smu_i2c_cmd *cmd)
-> >   	cmd->read = cmd->info.devaddr & 0x01;
-> >   	switch(cmd->info.type) {
-> >   	case SMU_I2C_TRANSFER_SIMPLE:
-> > -		memset(&cmd->info.sublen, 0, 4);
-> > +		cmd->info.sublen = 0;
-> > +		memset(&cmd->info.subaddr, 0, 3);
-> 
-> subaddr[] is a table, should the & be avoided ?
+On Tue, Aug 17, 2021 at 11:06 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> Kernel code has a regular need to describe groups of members within a
+> structure usually when they need to be copied or initialized separately
+> from the rest of the surrounding structure. The generally accepted design
+> pattern in C is to use a named sub-struct:
+>
+>         struct foo {
+>                 int one;
+>                 struct {
+>                         int two;
+>                         int three, four;
+>                 } thing;
+>                 int five;
+>         };
+>
+> This would allow for traditional references and sizing:
+>
+>         memcpy(&dst.thing, &src.thing, sizeof(dst.thing));
+>
+> However, doing this would mean that referencing struct members enclosed
+> by such named structs would always require including the sub-struct name
+> in identifiers:
+>
+>         do_something(dst.thing.three);
+>
+> This has tended to be quite inflexible, especially when such groupings
+> need to be added to established code which causes huge naming churn.
+> Three workarounds exist in the kernel for this problem, and each have
+> other negative properties.
+>
+> To avoid the naming churn, there is a design pattern of adding macro
+> aliases for the named struct:
+>
+>         #define f_three thing.three
+>
+> This ends up polluting the global namespace, and makes it difficult to
+> search for identifiers.
+>
+> Another common work-around in kernel code avoids the pollution by avoiding
+> the named struct entirely, instead identifying the group's boundaries using
+> either a pair of empty anonymous structs of a pair of zero-element arrays:
+>
+>         struct foo {
+>                 int one;
+>                 struct { } start;
+>                 int two;
+>                 int three, four;
+>                 struct { } finish;
+>                 int five;
+>         };
+>
+>         struct foo {
+>                 int one;
+>                 int start[0];
+>                 int two;
+>                 int three, four;
+>                 int finish[0];
+>                 int five;
+>         };
+>
+> This allows code to avoid needing to use a sub-struct named for member
+> references within the surrounding structure, but loses the benefits of
+> being able to actually use such a struct, making it rather fragile. Using
+> these requires open-coded calculation of sizes and offsets. The efforts
+> made to avoid common mistakes include lots of comments, or adding various
+> BUILD_BUG_ON()s. Such code is left with no way for the compiler to reason
+> about the boundaries (e.g. the "start" object looks like it's 0 bytes
+> in length), making bounds checking depend on open-coded calculations:
+>
+>         if (length > offsetof(struct foo, finish) -
+>                      offsetof(struct foo, start))
+>                 return -EINVAL;
+>         memcpy(&dst.start, &src.start, offsetof(struct foo, finish) -
+>                                        offsetof(struct foo, start));
+>
+> However, the vast majority of places in the kernel that operate on
+> groups of members do so without any identification of the grouping,
+> relying either on comments or implicit knowledge of the struct contents,
+> which is even harder for the compiler to reason about, and results in
+> even more fragile manual sizing, usually depending on member locations
+> outside of the region (e.g. to copy "two" and "three", use the start of
+> "four" to find the size):
+>
+>         BUILD_BUG_ON((offsetof(struct foo, four) <
+>                       offsetof(struct foo, two)) ||
+>                      (offsetof(struct foo, four) <
+>                       offsetof(struct foo, three));
+>         if (length > offsetof(struct foo, four) -
+>                      offsetof(struct foo, two))
+>                 return -EINVAL;
+>         memcpy(&dst.two, &src.two, length);
+>
+> In order to have a regular programmatic way to describe a struct
+> region that can be used for references and sizing, can be examined for
+> bounds checking, avoids forcing the use of intermediate identifiers,
+> and avoids polluting the global namespace, introduce the struct_group()
+> macro. This macro wraps the member declarations to create an anonymous
+> union of an anonymous struct (no intermediate name) and a named struct
+> (for references and sizing):
+>
+>         struct foo {
+>                 int one;
+>                 struct_group(thing,
+>                         int two;
+>                         int three, four;
+>                 );
+>                 int five;
+>         };
+>
+>         if (length > sizeof(src.thing))
+>                 return -EINVAL;
+>         memcpy(&dst.thing, &src.thing, length);
+>         do_something(dst.three);
+>
+> There are some rare cases where the resulting struct_group() needs
+> attributes added, so struct_group_attr() is also introduced to allow
+> for specifying struct attributes (e.g. __align(x) or __packed).
+> Additionally, there are places where such declarations would like to
+> have the struct be typed, so struct_group_typed() is added.
+>
+> Given there is a need for a handful of UAPI uses too, the underlying
+> __struct_group() macro has been defined in UAPI so it can be used there
+> too.
+>
+> Co-developed-by: Keith Packard <keithp@keithp.com>
+> Signed-off-by: Keith Packard <keithp@keithp.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Link: https://lore.kernel.org/lkml/20210728023217.GC35706@embeddedor
+> Enhanced-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Link: https://lore.kernel.org/lkml/41183a98-bdb9-4ad6-7eab-5a7292a6df84@rasmusvillemoes.dk
+> Enhanced-by: Dan Williams <dan.j.williams@intel.com>
 
-It results in the same thing, but it's better form to not have the &; I
-will fix this.
-
-> And while at it, why not use sizeof(subaddr) instead of 3 ?
-
-Agreed. :)
-
-Thanks!
-
--- 
-Kees Cook
+Acked-by: Dan Williams <dan.j.williams@intel.com>
