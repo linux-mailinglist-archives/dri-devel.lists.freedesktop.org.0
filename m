@@ -2,37 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F293F0B4B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 20:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A9A3F0ACF
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 20:11:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1DAE6E8B7;
-	Wed, 18 Aug 2021 18:52:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECE826E890;
+	Wed, 18 Aug 2021 18:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1913 seconds by postgrey-1.36 at gabe;
- Wed, 18 Aug 2021 18:25:21 UTC
-Received: from bitmer.com (49-237-179-185.static.tentacle.fi [185.179.237.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29C4E6E8B7;
- Wed, 18 Aug 2021 18:25:21 +0000 (UTC)
-Received: from 88-114-184-142.elisa-laajakaista.fi ([88.114.184.142]
- helo=[192.168.1.48])
- by bitmer.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <jarkko.nikula@bitmer.com>)
- id 1mGPki-0008Q2-W7; Wed, 18 Aug 2021 20:53:25 +0300
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-From: Jarkko Nikula <jarkko.nikula@bitmer.com>
-Subject: nouveau resume regression after 64f7c698bea9 ("drm/nouveau/fifo: add
- engine_id hook")
-Message-ID: <189814ad-62e1-2f0a-4841-81870fd2c887@bitmer.com>
-Date: Wed, 18 Aug 2021 20:53:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 073696E890;
+ Wed, 18 Aug 2021 18:11:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="213269148"
+X-IronPort-AV: E=Sophos;i="5.84,332,1620716400"; d="scan'208";a="213269148"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 11:11:08 -0700
+X-IronPort-AV: E=Sophos;i="5.84,332,1620716400"; d="scan'208";a="488832838"
+Received: from jcarwana-mobl1.amr.corp.intel.com (HELO localhost)
+ ([10.249.42.192])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 11:11:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: jani.nikula@intel.com, manasi.d.navare@intel.com,
+ ville.syrjala@linux.intel.com, dri-devel@lists.freedesktop.org
+Subject: [PATCH 01/17] drm/dp: add DP 2.0 UHBR link rate and bw code
+ conversions
+Date: Wed, 18 Aug 2021 21:10:36 +0300
+Message-Id: <f51b67be0aa963ee2d4a2edeb7a070fd3254200b.1629310010.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1629310010.git.jani.nikula@intel.com>
+References: <cover.1629310010.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 18 Aug 2021 18:52:02 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,120 +51,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+The bw code equals link_rate / 0.27 Gbps only for 8b/10b link
+rates. Handle DP 2.0 UHBR rates as special cases, though this is not
+pretty.
 
-My old Thinkpad T410i won't resume properly anymore after suspend or
-hibernation after v5.12 including today's head 614cb2751d31 ("Merge tag
-'trace-v5.14-rc6' of
-git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace").
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/drm_dp_helper.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
-I bisected regression to commit 64f7c698bea9 ("drm/nouveau/fifo: add
-engine_id hook").
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 6d0f2c447f3b..9b2a2961fca8 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -207,15 +207,33 @@ EXPORT_SYMBOL(drm_dp_lttpr_link_train_channel_eq_delay);
+ 
+ u8 drm_dp_link_rate_to_bw_code(int link_rate)
+ {
+-	/* Spec says link_bw = link_rate / 0.27Gbps */
+-	return link_rate / 27000;
++	switch (link_rate) {
++	case 1000000:
++		return DP_LINK_BW_10;
++	case 1350000:
++		return DP_LINK_BW_13_5;
++	case 2000000:
++		return DP_LINK_BW_20;
++	default:
++		/* Spec says link_bw = link_rate / 0.27Gbps */
++		return link_rate / 27000;
++	}
+ }
+ EXPORT_SYMBOL(drm_dp_link_rate_to_bw_code);
+ 
+ int drm_dp_bw_code_to_link_rate(u8 link_bw)
+ {
+-	/* Spec says link_rate = link_bw * 0.27Gbps */
+-	return link_bw * 27000;
++	switch (link_bw) {
++	case DP_LINK_BW_10:
++		return 1000000;
++	case DP_LINK_BW_13_5:
++		return 1350000;
++	case DP_LINK_BW_20:
++		return 2000000;
++	default:
++		/* Spec says link_rate = link_bw * 0.27Gbps */
++		return link_bw * 27000;
++	}
+ }
+ EXPORT_SYMBOL(drm_dp_bw_code_to_link_rate);
+ 
+-- 
+2.20.1
 
-Issue is that Xorg screen is completely messed up, like screen is filled
-with random pixels and changing patterns. Text console is fine but Xorg
-doesn't get better when switching between them.
-
-$ sudo lspci -s 01:00.0 -nnv
-01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GT218M [NVS
-3100M] [10de:0a6c] (rev a2) (prog-if 00 [VGA controller])
-        Subsystem: Lenovo ThinkPad T410 [17aa:2142]
-        Flags: bus master, fast devsel, latency 0, IRQ 30
-        Memory at cc000000 (32-bit, non-prefetchable) [size=16M]
-        Memory at d0000000 (64-bit, prefetchable) [size=256M]
-        Memory at ce000000 (64-bit, prefetchable) [size=32M]
-        I/O ports at 2000 [size=128]
-        Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
-        Capabilities: [60] Power Management version 3
-        Capabilities: [68] MSI: Enable+ Count=1/1 Maskable- 64bit+
-        Capabilities: [78] Express Endpoint, MSI 00
-        Capabilities: [b4] Vendor Specific Information: Len=14 <?>
-        Capabilities: [100] Virtual Channel
-        Capabilities: [128] Power Budgeting <?>
-        Capabilities: [600] Vendor Specific Information: ID=0001 Rev=1
-Len=024 <?>
-        Kernel driver in use: nouveau
-        Kernel modules: nouveau
-
-"dmesg | grep -i nouveau" before suspend:
-[    0.698044] nouveau 0000:01:00.0: vgaarb: deactivate vga console
-[    0.699574] nouveau 0000:01:00.0: NVIDIA GT218 (0a8600a2)
-[    0.737665] nouveau 0000:01:00.0: bios: version 70.18.88.00.06
-[    0.738228] nouveau 0000:01:00.0: fb: 256 MiB GDDR3
-[    0.838796] nouveau 0000:01:00.0: DRM: VRAM: 256 MiB
-[    0.838798] nouveau 0000:01:00.0: DRM: GART: 1048576 MiB
-[    0.838802] nouveau 0000:01:00.0: DRM: TMDS table version 2.0
-[    0.838804] nouveau 0000:01:00.0: DRM: DCB version 4.0
-[    0.838807] nouveau 0000:01:00.0: DRM: DCB outp 00: 01800323 00010034
-[    0.838809] nouveau 0000:01:00.0: DRM: DCB outp 01: 02811300 00000000
-[    0.838811] nouveau 0000:01:00.0: DRM: DCB outp 02: 028223a6 0f220010
-[    0.838813] nouveau 0000:01:00.0: DRM: DCB outp 03: 02822362 00020010
-[    0.838815] nouveau 0000:01:00.0: DRM: DCB outp 04: 048333b6 0f220010
-[    0.838817] nouveau 0000:01:00.0: DRM: DCB outp 05: 04833372 00020010
-[    0.838819] nouveau 0000:01:00.0: DRM: DCB outp 06: 088443c6 0f220010
-[    0.838821] nouveau 0000:01:00.0: DRM: DCB outp 07: 08844382 00020010
-[    0.838823] nouveau 0000:01:00.0: DRM: DCB conn 00: 00000040
-[    0.838825] nouveau 0000:01:00.0: DRM: DCB conn 01: 00000100
-[    0.838827] nouveau 0000:01:00.0: DRM: DCB conn 02: 00101246
-[    0.838828] nouveau 0000:01:00.0: DRM: DCB conn 03: 00202346
-[    0.838830] nouveau 0000:01:00.0: DRM: DCB conn 04: 00410446
-[    0.841812] nouveau 0000:01:00.0: DRM: MM: using COPY for buffer copies
-[    1.268466] nouveau 0000:01:00.0: DRM: allocated 1440x900 fb:
-0x50000, bo (____ptrval____)
-[    1.268527] fbcon: nouveaudrmfb (fb0) is primary device
-[    2.600674] nouveau 0000:01:00.0: [drm] fb0: nouveaudrmfb frame
-buffer device
-[    2.632208] [drm] Initialized nouveau 1.3.1 20120801 for 0000:01:00.0
-on minor 0
-
-Around suspend/resume dmesg is overrun with these kind of errors:
-
-[   80.883468] nouveau 0000:01:00.0: fb: trapped read at 00005756c0 on
-channel 1 [0fbce000 DRM] engine 0d [PCE0] client 13 [] subclient 01 []
-reason 00000006 [NULL_DMAOBJ]
-[   80.883479] nouveau 0000:01:00.0: ce: intr 00000300
-[   80.883504] nouveau 0000:01:00.0: fb: trapped read at 0000576000 on
-channel 1 [0fbce000 DRM] engine 0d [PCE0] client 13 [] subclient 01 []
-reason 00000006 [NULL_DMAOBJ]
-[   80.883515] nouveau 0000:01:00.0: ce: intr 00000300
-[   80.883523] nouveau 0000:01:00.0: fb: trapped read at 0000579170 on
-channel 1 [0fbce000 DRM] engine 0d [PCE0] client 13 [] subclient 01 []
-reason 00000006 [NULL_DMAOBJ]
-[   80.883535] nouveau 0000:01:00.0: ce: intr 00000300
-[   80.883557] nouveau 0000:01:00.0: fb: trapped write at 000057dbd0 on
-channel 1 [0fbce000 DRM] engine 0d [PCE0] client 13 [] subclient 02 []
-reason 00000006 [NULL_DMAOBJ]
-...
-[   81.435778] OOM killer enabled.
-[   81.435780] Restarting tasks ...
-[   81.436020] systemd-journald[248]: /dev/kmsg buffer overrun, some
-messages lost.
-[   81.443134] done.
-[   81.445883] nouveau 0000:01:00.0: ce: intr 00000300
-[   81.445908] nouveau 0000:01:00.0: fb: trapped read at 0000026000 on
-channel 1 [0fbce000 DRM] engine 0d [PCE0] client 13 [] subclient 01 []
-reason 00000006 [NULL_DMAOBJ]
-[   81.445932] nouveau 0000:01:00.0: ce: intr 00000300
-...
-[   81.977050] nouveau 0000:01:00.0: fb: trapped write at 00219728b0 on
-channel 1 [0fbce000 DRM] engine 0d [PCE0] client 13 [] subclient 02 []
-reason 00000006 [NULL_DMAOBJ]
-[   81.983342] nouveau 0000:01:00.0: ce: intr 00000300
-[   81.989505] nouveau 0000:01:00.0: fb: trapped write at 0021bbd2c0 on
-channel 1 [0fbce000 DRM] engine 0d [PCE0] client 13 [] subclient 02 []
-reason 00000006 [NULL_DMAOBJ]
-[   81.995758] nouveau 0000:01:00.0: ce: intr 00000300
-[   82.001600] nouveau 0000:01:00.0: fb: trapped write at 0021e13320 on
-channel 1 [0fbce000 DRM] engine 0d [PCE0] client 13 [] subclient 02 []
-reason 00000006 [NULL_DMAOBJ]
-[   82.006931] nouveau 0000:01:00.0: gr: TRAP_PROP - TP 0 - 00000040
-[RT_FAULT] - Address 0020230000
-[   82.012021] nouveau 0000:01:00.0: gr: TRAP_PROP - TP 0 - e0c:
-00000000, e18: 00000000, e1c: 00000000, e20: 00002a00, e24: 00030000
-[   82.017184] nouveau 0000:01:00.0: gr: 00200000 [] ch 4 [000f8c8000
-Xorg[628]] subc 3 class 8597 mthd 15f0 data 00170017
-[   82.022332] nouveau 0000:01:00.0: fb: trapped write at 002026bd00 on
-channel 4 [0f8c8000 Xorg[628]] engine 00 [PGRAPH] client 0b [PROP]
-subclient 00 [RT0] reason 00000002 [PAGE_NOT_PRESENT]
-
-Jarkko
