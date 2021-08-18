@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9FB3EFAD9
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00443EFBA1
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:14:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47A4388E4D;
-	Wed, 18 Aug 2021 06:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4C616E423;
+	Wed, 18 Aug 2021 06:14:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
  [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC5F26E3D0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:06:06 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id y190so1063315pfg.7
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:06:06 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2308E6E423
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:14:23 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id t13so1076107pfl.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:14:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PTBKkWGSJ4jeq48Lif1HjorGsj7JNkZaLkD8D5Mis7A=;
- b=lcRiLN/pxXroa+z0dIVjwpE6juQ/WSj9kN1DJHiXQOxPdexqsXsummW+QGZRKJMuKE
- goKTAqxz4pwd1w10URarcs5dopjzXmwolbK+77hwkcGaxXJAK302qu5FzsGr1WTfWGGB
- ymGtBiAAT9XPK+AD9AOkBT52goGiThLInSsB8=
+ bh=hsGHodQW7BgMepqmaGaetFXuKMTT3ZW1whu3YzYCf8E=;
+ b=chkB2Egl3g4Hj/WoopucGSp8JEGrZQBb17iw+f5FZVJ88kmKbQgr9VmudEIjafNmTE
+ FU+5/DnwuxN2T0PQuBqDKLSVlxbWgQNmuDbo93m2QOjwn8S/Nmj1KRmXQbdeWCM95LZY
+ 12niQpi/k6iQ3pEmgTEwMOYCV0dGWkKcHe2PI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PTBKkWGSJ4jeq48Lif1HjorGsj7JNkZaLkD8D5Mis7A=;
- b=QiS52wAW9r3J/U86drSNuYk8wT+f/ee6hGN8lIuJEeh/QS9mB4vezmBvCw6Hi3b1u0
- lZzNG7tJ3zHhpFLslU739V+Udj/LCMmVuNdc0+ENICoOVBwXQ4OCDF2L45Ct2hKdwIdf
- 1vcl0zG3qkwKNbSnGiyPTIOxb41RKsW2ImNLXJRYS5GwjRIFfDSrCE44QcB43hiYXhLm
- EYnEvS9QDCb8zfrc5FIxBvGjYjCmtUL1iPS5qG5tGtJGNf8nEoB02jWBa0toiVwDoc6g
- 8XAHrvsMfnVpB1iWIebII1KdTEJertyNEGrekKt1HNQ5ZRJNd4CYigu95DFfOPkRVw/N
- E1gQ==
-X-Gm-Message-State: AOAM533g4QgXRqjyeIXci4ELVuBf2Weys1GYVWeTiRgUpP0BQGkW1eKn
- p11YH1nz2c0NHlXRc+OuRDkWLQ==
-X-Google-Smtp-Source: ABdhPJzCiookpb9ebYshndEgzHCX93ly5catWbwmyFE6JV+ARL2uHnLBYxH38LP6l1lYGAvgKe5gsQ==
-X-Received: by 2002:a62:d085:0:b0:3e0:f21a:8030 with SMTP id
- p127-20020a62d085000000b003e0f21a8030mr7615770pfg.70.1629266766375; 
- Tue, 17 Aug 2021 23:06:06 -0700 (PDT)
+ bh=hsGHodQW7BgMepqmaGaetFXuKMTT3ZW1whu3YzYCf8E=;
+ b=oNMDfvirPL099ide9VpeNwBLIMdLIDxsKn0AbPFI4UxSXIBMCKbElGJvVGbG3fO9pL
+ ZxN1VXDgdxuZsqEhJJBWIWr8bbajZkfWACeTHmjKmjiev3kYqYhNUsX9DRjsUgFWYoo7
+ UGr1qZUSLRn42BNsHQvDHrhua7yMvzqi+LhO2oSo/YCRSIQErVX/oe7r7F/h3fUze/g0
+ TS+BKevg+ZrRFGxqeeyXDTUfyzizDwdbi45Njxk6HULru71Zv7o784CcWsEGpbIk+BXb
+ QGM7rujOvXoh3NxYf25MTX/AVdYNAIZGR4XturWFg6eRiyqhHJs5zvJPt3bMbVtpXg+q
+ BUpQ==
+X-Gm-Message-State: AOAM5309ehSEqDjaO16lY4LH08gZL418UNxkQatjivIiTaLhV8gGRECn
+ fX+UzFYWuby5F6y4Wdtg9uINiw==
+X-Google-Smtp-Source: ABdhPJzyxDStzvV0SEJOZX6pzOD1ZhMBNkc4S43QSApxA2j4lcyMvoA5D5UGsMDwrMeS2qx+i1yP6w==
+X-Received: by 2002:a63:5902:: with SMTP id n2mr7166965pgb.305.1629267262822; 
+ Tue, 17 Aug 2021 23:14:22 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id j17sm4782687pfn.148.2021.08.17.23.06.00
+ by smtp.gmail.com with ESMTPSA id q26sm4699734pff.174.2021.08.17.23.14.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 23:06:02 -0700 (PDT)
+ Tue, 17 Aug 2021 23:14:21 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+Cc: Kees Cook <keescook@chromium.org>, Doug Ledford <dledford@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Max Gurtovoy <maxg@mellanox.com>,
+ linux-rdma@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
  netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -55,27 +54,26 @@ Cc: Kees Cook <keescook@chromium.org>,
  linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  linux-hardening@vger.kernel.org
-Subject: [PATCH v2 47/63] intel_th: msu: Use memset_startat() for clearing hw
- header
-Date: Tue, 17 Aug 2021 23:05:17 -0700
-Message-Id: <20210818060533.3569517-48-keescook@chromium.org>
+Subject: [PATCH v2 48/63] IB/mthca: Use memset_startat() for clearing mpt_entry
+Date: Tue, 17 Aug 2021 23:05:18 -0700
+Message-Id: <20210818060533.3569517-49-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1239; h=from:subject;
- bh=uh3kPqi+1X1lyfKJytqHpZ67tA8Si7LB8pUN1izBRBI=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMokuhXR2p74Acuej4eCBPYM2cMZOT8THgQZzGV
- rdQKEmSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKAAKCRCJcvTf3G3AJvm1D/
- 9kF/338CaDSDtZdoqV6TgTFjJO7GhbNkoBmaGibpVP14xbup3OFbl/8EWjfIgiZ5HEL4MqjjTWMyQD
- GVmRXMyIy+vWRh/NnndkDGceRW6qt3HsyulsPKChA7zxUB+DgshZpdqVp8ftqxAtnr7XjoSLpPjA6Q
- jd9iNmeK/83BSvOrCXzfw3QnVp7S/8MJgCGvFbdrnET8gv1IOUMB8G7m3XGNLUryv8ZV2DS5g85EQ0
- 9P28dpGxmAVMsi9vVqMViPQNC/BVKoo+Ax89vzH5K3aMn1bfmCCfXRiU1R1z687xeHxmN0mNjUu943
- YG2huUBJz+HFlahhX/8DegqUfH3Roc81OdU4xQrSWUIynliECUj+/rLG3nUrqetH+63wRgHXzOS30A
- dNLHiD+cCMIYAMXAhvA/kiRl2zfl4bvvXGqwytmyz0E8wMCPXFx5NF0Kx2GmTm0w6DvHzyRwqGzrVe
- o+OGGog3VcigZZFQfBTpYUYJZ91yw92GJvsWxlN1Jlkk3oLo6ax2gSSw1Kw+wlUL5JUYGviliS2BrP
- Gjo9a6pi+N90GCV9dZw+rMpbHm49R3IBpe72LrTBqKtVtcEAuFolJR7jQHnLfVqdCTdUjl7xRKSpdJ
- L25TTHWjDtgY5E6pp3BASup3QhcHbz4WiGqQCnvgdUgeX69GFYXmzp9CuwAg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1273; h=from:subject;
+ bh=6zw6bd38jtlUGiQNcgA+7Vj02RWEpIKH1rjaE20U52M=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMoltYN7PTWawkHd68VShtA89JYpvOPT9nwsL7B
+ vMD1Gn+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKAAKCRCJcvTf3G3AJgWLEA
+ CA0G8Um7L9QM3tAuk76gzDtGgj6wfZwbHC3gmdPYC4fe5ViwFuFPhPDIlMHnL5Oaft4DZAwvc4TUnI
+ oTxi1AdRfYTfE3lw4LW1em7VDzoYiVdw68YpBJ6do2fEl9ZGK/0mX3zcOafcrAhiHBuet2CjOfPy6t
+ Tq/8ys2f8EU1h6DXTZ5tCPSIi63+7bfI5g0u1GpcBNVQxt4gUaxR4O//oIO5lDG9qKBGuDeUG4v6MF
+ sHcWe6CfAarnlC0ya+ORhjNk8xnbf+b/imo8zl4s0q9DrLXdZ7MNrxO3aI+5yaF2he2ea/hR5kliNG
+ YKO8GWAbKimKYTi8SSFhhsLXFP/6Cks+GGfoihg9Z61PjIiHMhORoWY/P5pTQd90wKeXB9yySfHyeZ
+ isD2ZFnlRhy403y1grxuLe0zaAw5SJXbwyy8thi3DDo7KeX4P92gmWueLuIvjcNP5Kj+GbCcV6vLSm
+ nxByMIRVJuZ4ixj94olxP7vKtNZVvUPh4Ov/qwOFpG7f9rOHf1gXBcckiuBMeL+pZcSr/txM5+0jYN
+ bYjM3KyxyB1TZMYtX1+WjrDISwqn5Gx8m/HAuDxJZ1l4CvotvblNbCStzkY4CxA2N1gZ+rSUQBe+yU
+ YuRbJ6v7hrWUPvepMgl5M8bAqRbVyqW4hTUVa18TP98a9UAYJi8u4E2DpSiQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -102,31 +100,29 @@ Use memset_startat() so memset() doesn't get confused about writing
 beyond the destination member that is intended to be the starting point
 of zeroing through the end of the struct.
 
-Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Doug Ledford <dledford@redhat.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Max Gurtovoy <maxg@mellanox.com>
+Cc: linux-rdma@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/hwtracing/intel_th/msu.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/infiniband/hw/mthca/mthca_mr.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
-index 432ade0842f6..70a07b4e9967 100644
---- a/drivers/hwtracing/intel_th/msu.c
-+++ b/drivers/hwtracing/intel_th/msu.c
-@@ -658,13 +658,11 @@ static void msc_buffer_clear_hw_header(struct msc *msc)
+diff --git a/drivers/infiniband/hw/mthca/mthca_mr.c b/drivers/infiniband/hw/mthca/mthca_mr.c
+index ce0e0867e488..1208e92ca3d3 100644
+--- a/drivers/infiniband/hw/mthca/mthca_mr.c
++++ b/drivers/infiniband/hw/mthca/mthca_mr.c
+@@ -469,8 +469,7 @@ int mthca_mr_alloc(struct mthca_dev *dev, u32 pd, int buffer_size_shift,
+ 	mpt_entry->start     = cpu_to_be64(iova);
+ 	mpt_entry->length    = cpu_to_be64(total_size);
  
- 	list_for_each_entry(win, &msc->win_list, entry) {
- 		unsigned int blk;
--		size_t hw_sz = sizeof(struct msc_block_desc) -
--			offsetof(struct msc_block_desc, hw_tag);
+-	memset(&mpt_entry->lkey, 0,
+-	       sizeof *mpt_entry - offsetof(struct mthca_mpt_entry, lkey));
++	memset_startat(mpt_entry, 0, lkey);
  
- 		for_each_sg(win->sgt->sgl, sg, win->nr_segs, blk) {
- 			struct msc_block_desc *bdesc = sg_virt(sg);
- 
--			memset(&bdesc->hw_tag, 0, hw_sz);
-+			memset_startat(bdesc, 0, hw_tag);
- 		}
- 	}
- }
+ 	if (mr->mtt)
+ 		mpt_entry->mtt_seg =
 -- 
 2.30.2
 
