@@ -1,60 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28E43F0593
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:02:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B523F05AE
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:07:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13C236E5BF;
-	Wed, 18 Aug 2021 14:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D25BC6E5BE;
+	Wed, 18 Aug 2021 14:07:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78606E5BF;
- Wed, 18 Aug 2021 14:02:17 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- m7-20020a9d4c87000000b0051875f56b95so3718600otf.6; 
- Wed, 18 Aug 2021 07:02:17 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3305F6E5BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 14:07:06 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id h13so3785296wrp.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 07:07:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6i47uf3ifoP6J6j6sZ1ePcG/O7SltkCEk8sMyJY8PIo=;
- b=pM+II3j8CIkaXLgKcQfdftrjTNhUNxn6YaWk20fC3kCqp2Z25OdpuKCposwPGTtD9J
- b5lcfi39J8n2qvE2c3NG8wN/4n91BtJvs198RyNt4nsFQUeakZbHubLeHEmgROP1wcZ7
- uJpwvxvGCmVJXB33K1HGQsBb2Uky2IetRZ+4rsM+tOTn9IV+BaiC0mJomGQgVSzgFZun
- c9qNniyuWtydc8TjYt6dUKNROKYPdfnUGdId5mya3YuM/ztICJL9Q2h3dtRubyxkYSUr
- dFXlC2x9BaNCEu7uOY9xAwT6hYv9FdCol9fLD2vV5qcnffRSk18TgJ+XUqlbzfC8HySR
- Rogg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=i6nHV4Vzm5Umu6SJhmhoU8e3Ow8sOCfq6m4vf5vpOCg=;
+ b=ZJdtuwUuQvNaAbdr9Fz2fAvktw5J/+5+vjt8im/pkRZqyKjHlmqluk+dpJgPv/GFEk
+ rs7jlCk5NOlSnehipLU0nyzn/A/7FZS7QQCaIl7MSF6vAha+BX6LZBrQQREaflmjEitO
+ dlEahiAy8zC6MjFccmUrLBYvfs88a8jl/uHALh0tSc5Nn+N5OqlxOYEPLAvMwQAyowns
+ Ndkxrox4afb9mQcpEWWL0GiCRmTwzTOHCYxL6M4H8oWTYs7RmlUoqU0WistPX7vqT8pO
+ 6Su4Nkctsrk6dlh0F8i2tqudBygnvEpqj+ChJ3xGjixCFrJ6bgmI3P/HGSPs7QQyovGr
+ 4V5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6i47uf3ifoP6J6j6sZ1ePcG/O7SltkCEk8sMyJY8PIo=;
- b=b/DvME8naIN6FhW2HWnhF5hB5gbd8IH6D0wiFF8P92kTie6+N34Ic/8ADwpS/Ql77p
- dyJ3uuA4QUfpngu4FHHGYHNKqTJVkJgaxog79VQuPp1Qm12DKElAcnpFB9h/UXn4Y0Sr
- t/lc9Ap2z0twORo++O9ms7w9THcyTeW+FNic7HwEnPm9rJlGswu4x+YRC2m/BgVBfWe+
- oHhdinkpF1WbuaMMspk6Kj6b4XwN/dnX7f0/K/2IHbiE6ihJhd/ecMmoHJW+y4tH4KfG
- GhCMf4vBpSnbQ0wA1k4ES+Q8vi7JEnK/ATOmulsbc/3AR0/O5fiCMXXL5zZ8SQ4+linh
- A+Cg==
-X-Gm-Message-State: AOAM533h6OoVTU/Cwr3E3SoKPFT/Y5PwFWLUl/XOc68lIJoMU3AupuHH
- 0qhHuDizNMOnxiTYj3u/Kq/xRRrKa48Kk9Z2JSY=
-X-Google-Smtp-Source: ABdhPJywvaR8Vo2HIdi0kSEpwl//IQn2iCSl4eJlw8fkzVtM2YcDT1+c2LcCkv5yMAhzZepDsHD6eMzApzmLi193TFY=
-X-Received: by 2002:a05:6830:138d:: with SMTP id
- d13mr7113480otq.311.1629295336994; 
- Wed, 18 Aug 2021 07:02:16 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=i6nHV4Vzm5Umu6SJhmhoU8e3Ow8sOCfq6m4vf5vpOCg=;
+ b=lGZm1ZyiUZoHcI6a/CY66jkxrGK6Frt/39CU1lFikawLoSlNIE2kEhmoBimLC+xNmq
+ Uu3Js24u2T7r1dEq9t0soUKIYpo71dpy3bPG7LgiNtnMrw2VVLA8kI11vxixnXvmy3Eb
+ SAUd2P/yH9edgA786HElSxr/u5b7NZlif9Fwf7m7h1qNEiQs7RQ+l6xAoIgFo4Nqj60a
+ bPvcBvi4HPd7O4wIwmgCoiJ3E26L066+p4itDSSrO/NLSqlADALPNpKcvkWY4NjA/kra
+ u4Spwtk+eZQ/BLeYrQC8GH8sM7yxAEarXInTh9I75ExtaamRGwkTVd1ftue+fUCe8Gz4
+ AkWQ==
+X-Gm-Message-State: AOAM5325IUabrtusq/tJ7eA+fJ91+lNHFIc6JuQlaipH1BhJgXI9jODn
+ DhresJLeNiApVecxKeU/rGA=
+X-Google-Smtp-Source: ABdhPJyXq9/0R+WfXjdNLNbDmiuZklvSlQEBjFaDDAdAwgPSc6Y2VNRCrYkje8+AywzsdZxW8DAWow==
+X-Received: by 2002:a5d:500a:: with SMTP id e10mr11157882wrt.332.1629295624742; 
+ Wed, 18 Aug 2021 07:07:04 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id e2sm6158851wrq.56.2021.08.18.07.07.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 07:07:03 -0700 (PDT)
+Date: Wed, 18 Aug 2021 16:07:02 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
+Message-ID: <YR0UBi/ejy+oF4Hm@orome.fritz.box>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-8-digetx@gmail.com>
 MIME-Version: 1.0
-References: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
-In-Reply-To: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 18 Aug 2021 10:02:06 -0400
-Message-ID: <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
-To: Jingwen Chen <Jingwen.Chen2@amd.com>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>, "monk.liu" <monk.liu@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GjgnhAguwPYREA1d"
+Content-Disposition: inline
+In-Reply-To: <20210817012754.8710-8-digetx@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,88 +96,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ dri-devel
 
-Since scheduler is a shared component, please add dri-devel on all
-scheduler patches.
+--GjgnhAguwPYREA1d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@amd.com> wrote:
->
-> [Why]
-> for bailing job, this commit will delete it from pending list thus the
-> bailing job will never have a chance to be resubmitted even in advance
-> tdr mode.
->
-> [How]
-> after embeded hw_fence into amdgpu_job is done, the race condition that
-> this commit tries to work around is completely solved.So revert this
-> commit.
-> This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
-> v2:
-> add dma_fence_get/put() around timedout_job to avoid concurrent delete
-> during processing timedout_job
->
-> Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 23 +++++------------------
->  1 file changed, 5 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index a2a953693b45..f9b9b3aefc4a 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->  {
->         struct drm_gpu_scheduler *sched;
->         struct drm_sched_job *job;
-> +       struct dma_fence *fence;
->         enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
->
->         sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
-> @@ -325,11 +326,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
->
->         if (job) {
->                 /*
-> -                * Remove the bad job so it cannot be freed by concurrent
-> -                * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
-> -                * is parked at which point it's safe.
-> +                * Get job->s_fence->parent here to avoid concurrent delete during
-> +                * processing timedout_job
->                  */
-> -               list_del_init(&job->list);
-> +               fence = dma_fence_get(job->s_fence->parent);
->                 spin_unlock(&sched->job_list_lock);
->
->                 status = job->sched->ops->timedout_job(job);
-> @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->                         job->sched->ops->free_job(job);
->                         sched->free_guilty = false;
->                 }
-> +               dma_fence_put(fence);
->         } else {
->                 spin_unlock(&sched->job_list_lock);
->         }
-> @@ -392,20 +393,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->
->         kthread_park(sched->thread);
->
-> -       /*
-> -        * Reinsert back the bad job here - now it's safe as
-> -        * drm_sched_get_cleanup_job cannot race against us and release the
-> -        * bad job at this point - we parked (waited for) any in progress
-> -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
-> -        * now until the scheduler thread is unparked.
-> -        */
-> -       if (bad && bad->sched == sched)
-> -               /*
-> -                * Add at the head of the queue to reflect it was the earliest
-> -                * job extracted.
-> -                */
-> -               list_add(&bad->list, &sched->pending_list);
-> -
->         /*
->          * Iterate the job list from later to  earlier one and either deactive
->          * their HW callbacks or remove them from pending list if they already
-> --
-> 2.25.1
->
+On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
+[...]
+> +struct clk *tegra_clk_register(struct clk_hw *hw)
+> +{
+> +	struct platform_device *pdev;
+> +	struct device *dev = NULL;
+> +	struct device_node *np;
+> +	const char *dev_name;
+> +
+> +	np = tegra_clk_get_of_node(hw);
+> +
+> +	if (!of_device_is_available(np))
+> +		goto put_node;
+> +
+> +	dev_name = kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
+> +	if (!dev_name)
+> +		goto put_node;
+> +
+> +	pdev = of_platform_device_create(np, dev_name, NULL);
+> +	if (!pdev) {
+> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
+> +		kfree(dev_name);
+> +		goto put_node;
+> +	}
+> +
+> +	dev = &pdev->dev;
+> +	pm_runtime_enable(dev);
+> +put_node:
+> +	of_node_put(np);
+> +
+> +	return clk_register(dev, hw);
+> +}
+
+This looks wrong. Why do we need struct platform_device objects for each
+of these clocks? That's going to be a massive amount of platform devices
+and they will completely mess up sysfs.
+
+Thierry
+
+--GjgnhAguwPYREA1d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEdFAYACgkQ3SOs138+
+s6HeRQ/+On1vzXNiDk0hs4KISsGV+2p4XxyJVq/mvJWq4nwbzB0fnbltpnQGekNK
+rv9LKvLwpMpikV4RHOysHn4hnusz+I3P/SOJVq8nB5ctz7QEcklxJNgaKIyY3Nri
+JD8EiV936HB8R2Ecg5fEynk0MHmJ4+Pe1pFjfK/3i6l1Xx5Xy+jt/AwHXkTAJG6B
+LilpaYxjeYK0xLVY0uy/3TWmSNj7zmA9NLYadLedHWKAIrmfdhL4qEn0keHZPjeN
+wTRUkexp/mHpfwaNRpUvHM2sF6WuetFM6FrIIAEyVB4SSq3usTLtWtFWl3qca2Vi
+f/LKNT+GlKsS7vs6/bokHE5CtOc1bbILItuJCunjCSnOgElWzJ+WV2oAdBodcDr9
+AaDHCtN1kTr/1f0KYw3zKQHErq1Z9sRrTeETjAkYSE6agOOHm+eBIkPF38mdl7ZN
+eI5syiX8NwgIHv4jp1YR6lbvplx9XhD9Se4EcrgNSytiYYWfZMDEyH3dFTzCjzyT
+E5pNO8BuA8JHJWCUYtqjl+OccK0XhnR99XyHvsb1HM+jT0EqRjLc59PJlOwQeX2f
+KwOX9DhOQf+ZyRegAHSh4uNpR2fySasbnBT7RwyG17MKbeoTEqTOTJ5QZmMXSqDa
+kNchGN8JwMPpyDcw6adERGyrLYh0tFLdrM+1JjImnnDrLx9SuRo=
+=yj83
+-----END PGP SIGNATURE-----
+
+--GjgnhAguwPYREA1d--
