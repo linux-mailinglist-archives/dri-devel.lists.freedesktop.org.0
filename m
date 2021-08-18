@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3913F00CC
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 11:42:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB4B3F00D1
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 11:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 261996E508;
-	Wed, 18 Aug 2021 09:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C936D6E50C;
+	Wed, 18 Aug 2021 09:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com
- [IPv6:2607:f8b0:4864:20::e2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB4296E508
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:42:03 +0000 (UTC)
-Received: by mail-vs1-xe2d.google.com with SMTP id s19so1353793vsl.11
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 02:42:03 -0700 (PDT)
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com
+ [IPv6:2607:f8b0:4864:20::e2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B486E50C
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 09:43:12 +0000 (UTC)
+Received: by mail-vs1-xe2a.google.com with SMTP id f13so1350069vsl.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 02:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kbdSCU3Rw09uivyYf1YKzhrdNkwTtywFq3z2eNcAoHU=;
- b=kqUWzgUl/yiaXMoS2k9dhVzmvWVdRfo7Fo2KXwGPP2K5ZKcbfq4mKKs9fLOs8fk96x
- ptk/PW2l+MORjgDTGKf9YKJffdNc1pkzifnQ3yMMmSj3Id6or6s1mOH4RD5LiDbhWJRI
- ol1Z3YbHIv6bhJb7wFU0bti68QvEuV9zCxn5x80BVxIEcknLkLqXu0njTtyUvhPQ0gSW
- KzGkOvTBoLGzarTvJDvnT+M4FVW2tzG1L1lXroB9VMemhLKPlypoT4WgQlmDdyLEkHoL
- avQ5B2EbRBekdWSQILEJHijb8G0nZOKWFmqrMWiR04qbuKkEn8DBAAYOVrTAxrrtgcGi
- fUDA==
+ :cc; bh=FWBxn1z3ekg3JNnkDjY46sh+PpWR/RlGELWeBu4tA3E=;
+ b=FFftuENs27XO7ikAVlt9sNRrRCsBTJZ805lZ/o142pXQXR8nF52pmq8IvezPLEiFO+
+ Gjq2WoPiQzk8jZ4uYInc1khmBed8qd46T4LWYngy8i354Jfy5RYYZeNPcPQwV7Hi+puI
+ QZhCeWMwHzHrHaXIuivtbzApdiybJQ4pVhpGU7feoyKgCWA/npF/0W2iJeG8VztzaEt+
+ ZJsxwI7r8+xAuOc7l8/VyUsTvFlBfoIdxOUMdDlAHZYFe7MoAJNwUSTgdHCwo6ucQZJA
+ BERjK6oUxjMO7UroxyK/oZD8pD+R5orBQwvbmOc6wkXjZrFZ4z5k2EAhTN/3qtONaHMN
+ ycCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kbdSCU3Rw09uivyYf1YKzhrdNkwTtywFq3z2eNcAoHU=;
- b=DxUsVKYCKxTxZrUDalHMSnjvsUC+OYveFphDyL3+AT2ySHrWPIEQB5T3dwx4YS8ux/
- 6HiaZcTUOtvIWheuu+3cw0A1vVnovczKePjx3jlmyuJI6M95P/Iu3eCQOffzgF12DLS+
- uJwnIxGOWZYGoCfPAJ8WHIx6fRQEGtERwQc57kt91vVsGkNKG0FO+2D+ilDzYnM6Adxe
- XiGUJLCe5oRfSmg7qqWr+BS3NYQS1Mg34sa/FvFlcd38nDywP5q2wkR4nAAImucssG1+
- iAASI8orGvEC9hT3eYlJFe1Vy5XAJzj040OeDYbQ0vF1B+RQ9kKNP4XPxu9cK9Rg7JX7
- /UxQ==
-X-Gm-Message-State: AOAM532mtQsq+v/V23dbECnREoS5UL5Y/+831USHfoc0ZTBLxmWTZTcL
- EWlhezO9XUUs4s4ZtejaoCPotVrFPu8i/4JYOpHPrw==
-X-Google-Smtp-Source: ABdhPJz8iEC0DtBNEl/b/C36HfmefejpZ6mYBF4J4rSAfO4RoK/etFf85MFbc+601w1EL4Uj4rk9xHbR9GbyCxpBsGg=
-X-Received: by 2002:a67:f6d8:: with SMTP id v24mr6581141vso.48.1629279723051; 
- Wed, 18 Aug 2021 02:42:03 -0700 (PDT)
+ bh=FWBxn1z3ekg3JNnkDjY46sh+PpWR/RlGELWeBu4tA3E=;
+ b=J1f6r64UMfILngt8DXlGMV+mmB1t6RBmH5o8lD0RFH8cDvF1PKeeKd/0L0jXiV5nac
+ fyiVLoVYfSJTi4HM0TaK8y1RrUUOUluIvaGYF1gCePUEGzxg49jrsJTDVK67x6QTqkoi
+ YR09lP5APC1NkCYw9EkkHY8C5A0ulYtbgLoCUYKbQ2Cw/xuw2ABfYjnOj0O2OU3mnx14
+ e2DaoOAZDdz8TEdd9w7fgSZT5MLkXGnSAuUwaENQM9ZZ9CoXBec2YYNvw4hzxv1v6HaA
+ Ig6EJcbzng21uBchCtw5LZyg9mUuQ9zdMxU4CyFe91s5fVoWy3qc/bC2FjsEJlh0gTY6
+ DkQg==
+X-Gm-Message-State: AOAM533/D8idEoGciTMJpNywjHlzDgt8CP6FfdGSxmv24wEgj2BY6+sS
+ 3M2S1U+v8pGgcOd0t3O9Ymd+91TzjocXbGT5DAamFQ==
+X-Google-Smtp-Source: ABdhPJy9niDJz5mgkUvErbKV42Yn+Ms0EJBjGcIKiTYQBlrHgHjEZyzYRmP0dMsZPekoMsC63913LnT1iekm3nfsXZM=
+X-Received: by 2002:a67:7949:: with SMTP id u70mr6382807vsc.55.1629279791962; 
+ Wed, 18 Aug 2021 02:43:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
  <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
@@ -52,10 +52,11 @@ References: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
  <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
  <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
  <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
-In-Reply-To: <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+In-Reply-To: <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 18 Aug 2021 11:41:26 +0200
-Message-ID: <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+Date: Wed, 18 Aug 2021 11:42:35 +0200
+Message-ID: <CAPDyKFrgGEOEFsqah3sQfPbjeRySPfFxokpO-BcMcPmEMrv-kg@mail.gmail.com>
 Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
 To: Viresh Kumar <viresh.kumar@linaro.org>
 Cc: Dmitry Osipenko <digetx@gmail.com>,
@@ -96,55 +97,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+On Wed, 18 Aug 2021 at 11:41, Ulf Hansson <ulf.hansson@linaro.org> wrote:
 >
-> On 18-08-21, 10:29, Ulf Hansson wrote:
-> > Me and Dmitry discussed adding a new genpd callback for this. I agreed
-> > that it seems like a reasonable thing to add, if he insists.
+> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
 > >
-> > The intent was to invoke the new callback from __genpd_dev_pm_attach()
-> > when the device has been attached to its genpd. This allows the
-> > callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
-> > update the vote according to the current state of the HW.
->
-> I wouldn't call dev_pm_opp_set_rate() from there, since it means
-> configure and enable (both) for different resources, clk, regulator,
-> genpd, etc..
-
-Right, good point!
-
-dev_pm_opp_set_rate() is best called from consumer drivers, as they
-need to be in control.
-
->
-> What we need here is just configure. So something like this then:
->
-> - genpd->get_performance_state()
->   -> dev_pm_opp_get_current_opp() //New API
->   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
->
-> This can be done just once from probe() then.
-
-How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
-
->
-> > I am not sure if/why that approach seemed insufficient?
+> > On 18-08-21, 10:29, Ulf Hansson wrote:
+> > > Me and Dmitry discussed adding a new genpd callback for this. I agreed
+> > > that it seems like a reasonable thing to add, if he insists.
+> > >
+> > > The intent was to invoke the new callback from __genpd_dev_pm_attach()
+> > > when the device has been attached to its genpd. This allows the
+> > > callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
+> > > update the vote according to the current state of the HW.
 > >
-> > Another option to solve the problem, I think, is simply to patch
-> > drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
-> > should synchronize the HW state too.
+> > I wouldn't call dev_pm_opp_set_rate() from there, since it means
+> > configure and enable (both) for different resources, clk, regulator,
+> > genpd, etc..
 >
-> Dmitry already mentioned that this will make the device start
-> consuming power, and he doesn't want that, else we need an explicit
-> disble call as well.
-
-I am sure I understand the problem. When a device is getting probed,
-it needs to consume power, how else can the corresponding driver
-successfully probe it?
-
+> Right, good point!
 >
-> --
-> viresh
+> dev_pm_opp_set_rate() is best called from consumer drivers, as they
+> need to be in control.
+>
+> >
+> > What we need here is just configure. So something like this then:
+> >
+> > - genpd->get_performance_state()
+> >   -> dev_pm_opp_get_current_opp() //New API
+> >   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
+> >
+> > This can be done just once from probe() then.
+>
+> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
+>
+> >
+> > > I am not sure if/why that approach seemed insufficient?
+> > >
+> > > Another option to solve the problem, I think, is simply to patch
+> > > drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
+> > > should synchronize the HW state too.
+> >
+> > Dmitry already mentioned that this will make the device start
+> > consuming power, and he doesn't want that, else we need an explicit
+> > disble call as well.
+>
+> I am sure I understand the problem. When a device is getting probed,
 
-Kind regards
-Uffe
+/s/I am sure/I am not sure
+
+> it needs to consume power, how else can the corresponding driver
+> successfully probe it?
+>
+> >
+> > --
+> > viresh
+>
+> Kind regards
+> Uffe
