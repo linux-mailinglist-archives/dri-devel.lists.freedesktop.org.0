@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E173EFC4A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:24:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEAC3EFBC9
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 08:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 231656E438;
-	Wed, 18 Aug 2021 06:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 505316E431;
+	Wed, 18 Aug 2021 06:15:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD1486E43B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:24:13 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- om1-20020a17090b3a8100b0017941c44ce4so8216821pjb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:24:13 -0700 (PDT)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAD5C6E41A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 06:14:24 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id q2so1114259plr.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Aug 2021 23:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wNrSyu18+TQvxqozBk6dKmc83xjPuqXEkZM9+CZkQs8=;
- b=hq0RZc8pvhUdG6LQCrGBNQbN7VTMq2CkOF4QQtsj4WrxV2UTBN34Md8Gi7LkipMBy6
- xL7jSFJnNHOowLO3Jca2aK8bMlaJLC+laeAIEoH1LMm2sWoMULTrkMcKoRbBAsM8UOpd
- ihsdkkeDmGTdleDP1YZNWHcSi4UiGfzn3DsyI=
+ bh=xqHRpTF29XKCvHESFQ890ZRLt8tV/z5c3XHhrLDSkrI=;
+ b=eDnWZw9KRm46hwXvZT4C7S5d+90hyINh4v1SZZHIktQhca39Kv5j4305RFuRZO4r+N
+ FpSZgAZO8EAZPKCqstt9sYRz4H1aNUG21Hkzfac89V2BS6o4rE2tpIfJtZvJgvvE0tGw
+ 8wAP/HK8m8mUdps9C8RUZGGooYOTstKeYh1Yo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wNrSyu18+TQvxqozBk6dKmc83xjPuqXEkZM9+CZkQs8=;
- b=XRuHeWXMlc3ebobkLE+cFd4rPdW+61WuuRVX77RKVagAAw8/TfnozQBsG1HGWxF2xV
- Ss4y8TSFMUr1MWQ1mcSBy/eB0Bdvbw6tO+hcTHGhoOozBoWwSYGWyLaFieSjYl+WV3p/
- G4F+vtPYIEc4R4lRkD8V/aHyBQGEgOO9I3zkCNiPlaf//2HEwqMjCob1fFb8EUzGc9hv
- 4XmuOIn2jugkkp/etbdCZ18n8eVdfkSToLtw4/5vtnPMxfIMj0QhU8ZAzihzZI0HusRI
- IE+4vgJZLDwzLUq/NdDJzLzHtzsGnJSQTwfFsm6q28ArB2v2oHOKA/S5qs1QeV+mkX3d
- kbgw==
-X-Gm-Message-State: AOAM530++MUNNeEkYTXewcyJy0KlqbVaxcriUHthiXRZFjOFKMrgujBw
- PT54645Rt/MICaZrSqrtquqRVQ==
-X-Google-Smtp-Source: ABdhPJxMkEdSe0VUFwn+z4vxkdsUFqJ2UwImPieDkAd2A7unXagJo2uR8zh40lbVDVJdC8iJXw8UiA==
+ bh=xqHRpTF29XKCvHESFQ890ZRLt8tV/z5c3XHhrLDSkrI=;
+ b=pDFtD7oNknyv/oMXjBdQ9a/k+5JBQfqDSPzwpJZJ62hxGkcR44l6DscdydUeV4OEOj
+ qUYhEbXe2PvZvk0a9K5jLDT3haDZy+7R/ahXeSp9yukyOh7rdL8mT7Zed5p/Td7hH0c4
+ pE3NF4JXwFFL6Ad4rzouLRq9Xaw1CjKU2IkskVqDb6biRVIj3ZCqevt4LHO6nFVgPVH4
+ skTpcQBp+jxbkVzIrK7t1NoTI97WY7Y9DEmPv6soTWmX+4K5djiwT4MfisvicTGqbZM9
+ lWWAcwddJQxoL65VvzaEyIrQPCx4Fqp0BcbeVZ4QrEN9T7gG098uZIZ9zh/4eFjBG4bx
+ B6Eg==
+X-Gm-Message-State: AOAM533GQiKsCd7+qZ3s+O8/iAcv31sb+zrf2sRkuW/EajGTiIOayupk
+ WOAYehI0bGBwcmnKUHTFwEuEbA==
+X-Google-Smtp-Source: ABdhPJzs0l6+96q5WrJaIq9sc6XvKb4+TMWLp34figTZCCyBwzySh6PWPIKNRtNT4xpSHHkkTwp3EA==
 X-Received: by 2002:a17:902:cec3:b0:12d:92c4:1ea6 with SMTP id
- d3-20020a170902cec300b0012d92c41ea6mr5911733plg.36.1629267853392; 
- Tue, 17 Aug 2021 23:24:13 -0700 (PDT)
+ d3-20020a170902cec300b0012d92c41ea6mr5883424plg.36.1629267264338; 
+ Tue, 17 Aug 2021 23:14:24 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id y13sm2710073pjr.50.2021.08.17.23.24.12
+ by smtp.gmail.com with ESMTPSA id u10sm5718071pgj.48.2021.08.17.23.14.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 23:24:12 -0700 (PDT)
+ Tue, 17 Aug 2021 23:14:21 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- linux-btrfs@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+Cc: Kees Cook <keescook@chromium.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Ingo Molnar <mingo@redhat.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
  netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -56,26 +55,27 @@ Cc: Kees Cook <keescook@chromium.org>, Chris Mason <clm@fb.com>,
  linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  linux-hardening@vger.kernel.org
-Subject: [PATCH v2 49/63] btrfs: Use memset_startat() to clear end of struct
-Date: Tue, 17 Aug 2021 23:05:19 -0700
-Message-Id: <20210818060533.3569517-50-keescook@chromium.org>
+Subject: [PATCH v2 50/63] tracing: Use memset_startat() to zero struct
+ trace_iterator
+Date: Tue, 17 Aug 2021 23:05:20 -0700
+Message-Id: <20210818060533.3569517-51-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1202; h=from:subject;
- bh=j07ODF9kjbRRiHohObgJ1N/RHPZCTrQAmspnQvku4YA=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMpNf/1TOA8EHO13yPM2WoVQcddjcJSpXNg/q95
- NGD5Kx+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKQAKCRCJcvTf3G3AJiFDD/
- 43YRq8chsycAfEPzeH3ODP8oX8vzyejO0KZxGwB29jISLONkndclAADo87JB841bplfSqHF4g/N0Yr
- 9BPUFM/u9aD6MYInBsgRcfvidkMVdvLwJHJroTXouReKf+wENJpCE42XqDFb6/OHW+qszfq48l2ZsZ
- vlrJcOJH5B/7MGz2vGlPOqarS6QPhKxELyHgWma5US/BF+fmqXoGyLI96PzJHBVwD8Fv1vRW+FZyYX
- mS0c778XSYdo50TMLiLEeybc58/w6WbytsuOe2gDRaDra0L+tnQU3bUemlEwF/otdXngLgjznL3aHr
- 03wBbU/uuuYnsF2VxKSH3eTmyOXxM0Fc0gfhMAHlPYOx3FWaj25UujliZBiwYTeajzJsMlNaMxhyYC
- CNKnLKNfyeqkcnmjrNFG0fLVNoy2o0OR5zMuoedsu9e9ywbM82GfxRkHbOU9ZMZ5GgY2NMQXjzSHXm
- JS7ECNId/+w48q42Qz1RDDbkk71kX5clz/7ywEULnxcdaVF9VLida+SAjBnEmtDTTT5a3LFsbnweA7
- 31UgpReo5DWgV9+9dvXi/NGJgP+uufVyB7FGtNrTHKNpqkfmCVfC6YFh7uVwrtuLat1U/8LUy3Rdgf
- RT0NM3pRRzNQ/fI9ZSg5+8wsIv5qwbvYlgUlhc046qXy22//QbKOPQkqvAQQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1037; h=from:subject;
+ bh=tJ+Y8mubd5vChiEdKyhrwIAPkGIRLmuKu7c5cVoFF8E=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMpD14ogHSXr5bFvuUHYu3T5qJe0zYALPCZMtZa
+ BMo6QAuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKQAKCRCJcvTf3G3AJmAwD/
+ 0a3+zKByTlHW7da31ew04MLWM2GyDtX5IWTWqZsa8eYoXbBB5X7LZRQLJ1vlQZHRLhepR9ZpITXmne
+ EiQC9Yi2RCSGHYXs1DT8c2kWev59MckO9Ru6PbJsXCCCEtTQ6DMpe/Jx5fGA8+6uai2MdlkbPr1hcJ
+ pBSeJNFQs0Pv1vqmL283XNUPLYaVRRlPmA9Gp6u3cYUEC+MvJh//1ksZAZO4Nyg2WQnN8olRr3f3NE
+ /FPwlpkC0jjYP6MOJqAsGXQsShWeRQihUK27+fSMl0qP0sQvOypGdnWB5Xt9pHnrb59B+NoIWV3usD
+ tlUXL9PjYEJYMDWPQTUUNPBMZZKOHI+48wGm37V+dXOW7TWP6k1ZaORRpaSbK4ePyA4y/UOyFr9kg/
+ uCpCZQbVxO0XsyHwZnPxyR0ffSAr5pZsGQoIXVSdGOiCT/l0l3GHYuulIqOqhrbldUvZjy3etP7MiI
+ hx1VUn4EjkhIMB8HWOeouTN9VqnOXsp0Uoh3nMHIAOMLkJS8l1ptPjxUjAbP1ZRctjIKVTGS6xk+Mc
+ BWlhshbZH64vEGQ9HoKgHm6UlwyYt5R2mkzOSjk0VSY4jGO4wg5giXsw55wRe6w4igcWbd0lCpFOWG
+ qRUJgP1YlRnTAtp59niaAQ2aRXBKcpue4WIdo6iOcrFKIwc2EolBb7yDoGAA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp;
  fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
@@ -98,36 +98,31 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Use memset_startat() so memset() doesn't get confused about writing
-beyond the destination member that is intended to be the starting point
-of zeroing through the end of the struct.
+Use memset_startat() to avoid confusing memset() about writing beyond
+the target struct member.
 
-Cc: Chris Mason <clm@fb.com>
-Cc: Josef Bacik <josef@toxicpanda.com>
-Cc: David Sterba <dsterba@suse.com>
-Cc: linux-btrfs@vger.kernel.org
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ingo Molnar <mingo@redhat.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/btrfs/root-tree.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ kernel/trace/trace.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/fs/btrfs/root-tree.c b/fs/btrfs/root-tree.c
-index 702dc5441f03..12ceb14a1141 100644
---- a/fs/btrfs/root-tree.c
-+++ b/fs/btrfs/root-tree.c
-@@ -39,10 +39,8 @@ static void btrfs_read_root_item(struct extent_buffer *eb, int slot,
- 		need_reset = 1;
- 	}
- 	if (need_reset) {
--		memset(&item->generation_v2, 0,
--			sizeof(*item) - offsetof(struct btrfs_root_item,
--					generation_v2));
--
-+		/* Clear all members from generation_v2 onwards. */
-+		memset_startat(item, 0, generation_v2);
- 		generate_random_guid(item->uuid);
- 	}
- }
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 13587e771567..9ff8c31975cd 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -6691,9 +6691,7 @@ tracing_read_pipe(struct file *filp, char __user *ubuf,
+ 		cnt = PAGE_SIZE - 1;
+ 
+ 	/* reset all but tr, trace, and overruns */
+-	memset(&iter->seq, 0,
+-	       sizeof(struct trace_iterator) -
+-	       offsetof(struct trace_iterator, seq));
++	memset_startat(iter, 0, seq);
+ 	cpumask_clear(iter->started);
+ 	trace_seq_init(&iter->seq);
+ 	iter->pos = -1;
 -- 
 2.30.2
 
