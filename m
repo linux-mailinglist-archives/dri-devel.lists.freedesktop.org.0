@@ -2,128 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E163F06D5
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:36:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202773F06DA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Aug 2021 16:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 315FC6E7FA;
-	Wed, 18 Aug 2021 14:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3F806E7FE;
+	Wed, 18 Aug 2021 14:38:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2058.outbound.protection.outlook.com [40.107.236.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3F1C6E7E6;
- Wed, 18 Aug 2021 14:36:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oMr94QFtUpmQnPyZQqBMuT5fguNddEO1Lr+yxOrWEXjfUWC2RcHCV6NjHEdY+Fyx/ZwXHKyNmsV4W2hrj+KHQNu3WhROTxkI/N3HHWebBmgqMD5G3exRwy87QQyRenm00NedGeZ3G0UHJnF+pD5Sx9utY6lub2/IqWPShhLXLx80n6xk4Vjr49rldU6hJj/h1uqYUh3j5vjKDcy2/PjR19gOOdwDMUt+MNkel3reIwWoABKN7ENHcy0U1iE9J+xeKYnE7M8aAQUOrxqdg/jC2VUmtQqTFHdDo/aZzd6fGbApLPIDSDNwvBnxZwiO/H/Zs7yKwU8Aw0ZcTb4AQCk58Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N893ViI0HA11Pe1MHYdnOEiWdvM45oMafwrI+DmHuZs=;
- b=KfWRaZn+EMV57tG/DFAZIJZum/2zQ9uui5DJl8jDWmYMCvfnV4bgB/P9RjTXX6jVMlLgXAMXyPnGN4rBXLuYaGYFtBzO7QY97ig+aB9aF9SazdV0mlKNWqDwpq4lCbmJRe2M01ZROiKQTwt6dS6F3xS5ITfpX5eRjAUbvfY0M9vsdwjWPT2sOC83wl7q3Q62KyVUw1OQ1PORPgHG7BepPe4CSrSaVh8yNfocFRgCy1PV79ZBi90iemoqgDvH5PA6KM1KgzYVJRMbCUh+oyZ5+RpKvsJ4rz1qmzCISQXYvf6Ebu6RWjInjTukmuaRBbGXloFyst0E1k65qC2LQ7uXYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N893ViI0HA11Pe1MHYdnOEiWdvM45oMafwrI+DmHuZs=;
- b=d4wyhPxcJlF5pazaYMIwDreafnN5CKC2MhM5FBSEMgIJ+qsI8gIUAU1kxX2cpht33OieXck+/+B8eLEHkxlGMw6JsJq3lu2/BOx5VGDTdwSdU8TeRsj2QitU3ad8iWyLMtEjzbuTSfRTeI+x2J+zWXSS5nEl/f+qgkzcC1Uko5k=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2847.namprd12.prod.outlook.com (2603:10b6:805:76::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.18; Wed, 18 Aug
- 2021 14:36:34 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::17c:7262:446:f400]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::17c:7262:446:f400%5]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
- 14:36:34 +0000
-Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Alex Deucher <alexdeucher@gmail.com>, Jingwen Chen <Jingwen.Chen2@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "monk.liu" <monk.liu@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-References: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
- <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
- <69cbf5bd-42c2-be55-a604-43f4ebba159d@amd.com>
- <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Message-ID: <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
-Date: Wed, 18 Aug 2021 10:36:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: YT1PR01CA0153.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2f::32) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25B0C6E7E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Aug 2021 14:38:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="195914937"
+X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; 
+ d="gz'50?scan'50,208,50";a="195914937"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2021 07:38:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; 
+ d="gz'50?scan'50,208,50";a="449744985"
+Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 18 Aug 2021 07:38:02 -0700
+Received: from kbuild by d053b881505b with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mGMhd-000T1F-Uj; Wed, 18 Aug 2021 14:38:01 +0000
+Date: Wed, 18 Aug 2021 22:37:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Cc: kbuild-all@lists.01.org, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 4/5] drm: zte: remove obsolete DRM Support for ZTE SoCs
+Message-ID: <202108182226.Exq8OhFZ-lkp@intel.com>
+References: <20210818124114.28545-5-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:8030:531a:c97a:dc26]
- (2607:fea8:3edf:49b0:8030:531a:c97a:dc26) by
- YT1PR01CA0153.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2f::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19 via Frontend Transport; Wed, 18 Aug 2021 14:36:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef78030e-6f23-47bd-4018-08d962559406
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2847:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2847763FC7A8F38277DDD68CEAFF9@SN6PR12MB2847.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:369;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9XYW8DaxBc3w/vdtwnGcPLlbZx7mRZZc2FClevPFIMIWuYaOzORgea6iQuQ6MM+4sp7yK4qwx8sDkyA47anWXsDe4yCNM2P5PyDKTMV7UIYDXP9173LrO7NNJKi5BxrFbcEQdElEAUMM51ChyeDGLaahJbvXGSFmAidQCMyExGxRMHKMHdhYEDSGH3UU1s7CgKKOtH3hWMJrGaNRn0lBo000MsF0dTj8dHdX76z8sIl3e3nGlRzUnlxfHzZDrcM2guSmzq5oN928EcOffNL24CZshVG8of5wvHThrpvlGg1w74Dt7yT/1nH65xx9Xyi91q4lAyp58fLiocA3ocd5Plx+Yafn7jYCl5VOJZPIgqDbgrAIoWcXwNM0UXrikfljl4m2XCk8KUgIs9ZQ3hfbq1IKJEOtELdqFeEUdrpILpCsAqdRFZPGbp6cdHwb+Iudw6DjB4hcKIsAfOImcLcQJ6bo+Gu5a/KGA4qmPYiWnfcERFZ5PN3/eCF/vj5RThMamgUvBjkeDkF/5UjX3S+kxwU+ZF1zeQc+8jOIxf2f5/3TW+3dsy8iQBan1CkI/cuGWBghmbTr0dzjs8xEVKXYqp72U6+IQS3WUHSAuDD/yGUlAC/DaWdXg21VeOee7VDAG0F0mFefZkyfAV3sYVSNDI03Ugy3r5j/jSgfuQauZBjRM4f/KNAjzgJVutFk2UktG7My59M/nhDEiVkk/6iHPTq5GjkPa5T14RrWnyHfnVU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(136003)(366004)(376002)(396003)(66946007)(66476007)(38100700002)(83380400001)(66556008)(36756003)(8676002)(8936002)(2616005)(4326008)(44832011)(186003)(316002)(2906002)(53546011)(86362001)(5660300002)(54906003)(6916009)(31696002)(478600001)(31686004)(6486002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emU5NUxGbDRyMU90MlY4dkE2bkJ3ZTJmL3puUEtFK0dSeUxtanRSZGxHTzQx?=
- =?utf-8?B?VEtMQXo0d0kwWERDb01RRVBrNTIwVkZBREh6aDVxSDZEZG9FRFBvY0ZObnpq?=
- =?utf-8?B?VmtrY2h2TGdoaDBtd1hodXpsbmE2RllJaTg1bzRoeS9yUmRGSEZXK09jRVQx?=
- =?utf-8?B?UUF0RW1GQzlYN25oeDIrb3JxL1JZcjVMSTdlK1BzMWM5M1hkVVVCdVJWMy9S?=
- =?utf-8?B?bjlQU2tuM2kyR0xpZkM3WEIwWW5jZ3dHVHdPTnJMaXFvSnpxNjZlYm1WZEV5?=
- =?utf-8?B?NHdieGxWUXBQZHR0VVAvekV0ZG1Ia0g0LzRBZmh4aEJoN0xWSVdZVXU3eVJS?=
- =?utf-8?B?SnIvS0JLYXZ0dEJmK1ZyVzFlMFNGSXB1VjNMeWxWZzlxREJXdDl3dTNIeGU1?=
- =?utf-8?B?U0pGRHh5T3hXRERqekU5Y0ZHWEpha280cGVjdmIrSk11WE4wUVZUV3J1VHFo?=
- =?utf-8?B?bVh1SjhjbldYUGFkTlk2Y0pCTm1US1JJN1VGWWZNNmRicllaV1FqeEp1T0tG?=
- =?utf-8?B?azZUNU04Sm04QUI5YmxZb3RGMWJYd2c5NTZmOFg0dDZQOGJGS3h4V3dRbkRU?=
- =?utf-8?B?TkpGMUZNWk5RYlNJN3JId0pITFovWVoxRjNKc2hYMFE4aU5lZk1mbUNCSmhl?=
- =?utf-8?B?S3hKM2ljbHkyT2FVQXN5amlQSHlza0lpVkZtQnI5dTFVOXduOFcxQnFWcnFq?=
- =?utf-8?B?N0NZRXJDTHhwZ2lQUTZGQlNHRmYvWUVCTS92OU9waGN0Mk9vcXRnQ3pGeVg2?=
- =?utf-8?B?ZFduaGY3ZmdHNEhFZ1FsREc3aFV6NGFpSWhPUFl3OXFua2gvSGhNMzgzeitr?=
- =?utf-8?B?bUhkVkVVUEVhanZ5dzZ0VEpicnJGNFY4RUJUQ3FEeDNXR0lzVHY0YWIwTS9m?=
- =?utf-8?B?N1o0TStDUjBtVGJOMFNmQ1FKS3JkSHZTVEttdkRQYkJJc0FDelJ0Ri9RSVhU?=
- =?utf-8?B?RGRvRm1OVWZqbUQ5dWNXSGc0N0RUQnFFVEJuc1Y3eUZ5TkpGQjE2T2dwOUoz?=
- =?utf-8?B?ajRxaW5pOWdFTGxTaXF2aDFDdjZvTDlpcGxUTitRMnM0bkxDU01kK3ZWdW9D?=
- =?utf-8?B?WVc3aGxLMEFtWFhmZytvdmkyRi91TjJ0czVCSG16RWVEQjBBZUpiTlhLVUJL?=
- =?utf-8?B?RlpkUXN1K0Ric2J4U3pVdkJyVnZnckRYWlp3K2RnRCt1V21wRmV2Q2hTRi9u?=
- =?utf-8?B?SnRTNm9wcU1rTFhHK2Qyc3VpY1pWVmR1RDZuVW5IM044N005RjVGWm1XWGNH?=
- =?utf-8?B?dnVWZVV5VURPR0EwQ09nai9CVG45TzFUekpVbVpnRGVnMjQ1RkFUVG1uTTQv?=
- =?utf-8?B?TmE3RGxPWkI1Znh2Z1NKVnVLVGsyMC91Q3VTRG9TeENpOU1UWCt6alJNWThN?=
- =?utf-8?B?MUlGajkwSjJZSTVnSnlHTXAwNWxXaXR1VVJmc3lyeXRTQ3RhZkZNRlB6NEF3?=
- =?utf-8?B?dkNpdDkya1pQM3pqVzFiOVg2SkdmS25uNmZUTmRhdkIwcUE0djlqT2dKblJo?=
- =?utf-8?B?bnp0UWV1RzRPR0E0c0kwdDlVMjZUVWU3R0dleC9NSWZUQWdFUFRMTVJFU09X?=
- =?utf-8?B?Qzh5SkFRZWNqdEdUemlhQ3NOelNFTWdzaW0rZ3U4dUsxNndjUG1ZdmgwdmRV?=
- =?utf-8?B?aFg4bVJGSUVITDY5bm5GdzVzWnc4ejB6WDR6QTg4ejR5dDd1Y25JdlBHbk5s?=
- =?utf-8?B?UUczTmVFQ2hpQnA0WmdHUGVTa3FxcWhyZFNxaGN6ZFBsNHdnNGJMK1RZODFq?=
- =?utf-8?B?eVp0bkdUYk1RVWxSbm9kalRCTnNzNGNuSHFDSGdwNjdSeWdWd0tBaW5EWFFO?=
- =?utf-8?B?QndmM3NDQk81b2xtNS9uQlRqcTA0ZXo4SzM5VEJjTkt3ZVIxVWM0bjd1RXQv?=
- =?utf-8?Q?EW2POJuTc8gS2?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef78030e-6f23-47bd-4018-08d962559406
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 14:36:34.5725 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GpQ2ZF8B9OGp+QlH9/62fdvzYBTb4VJGdrkvFyJlV28OoFf3Br3QvASuQjfHwYu2Knm+WCAQ0BE92atQ1J3AxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2847
+Content-Type: multipart/mixed; boundary="VbJkn9YxBvnuCH5J"
+Content-Disposition: inline
+In-Reply-To: <20210818124114.28545-5-lukas.bulwahn@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,126 +62,205 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2021-08-18 10:32 a.m., Daniel Vetter wrote:
-> On Wed, Aug 18, 2021 at 10:26:25AM -0400, Andrey Grodzovsky wrote:
->> On 2021-08-18 10:02 a.m., Alex Deucher wrote:
->>
->>> + dri-devel
->>>
->>> Since scheduler is a shared component, please add dri-devel on all
->>> scheduler patches.
->>>
->>> On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@amd.com> wrote:
->>>> [Why]
->>>> for bailing job, this commit will delete it from pending list thus the
->>>> bailing job will never have a chance to be resubmitted even in advance
->>>> tdr mode.
->>>>
->>>> [How]
->>>> after embeded hw_fence into amdgpu_job is done, the race condition that
->>>> this commit tries to work around is completely solved.So revert this
->>>> commit.
->>>> This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
->>>> v2:
->>>> add dma_fence_get/put() around timedout_job to avoid concurrent delete
->>>> during processing timedout_job
->>>>
->>>> Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
->>>> ---
->>>>    drivers/gpu/drm/scheduler/sched_main.c | 23 +++++------------------
->>>>    1 file changed, 5 insertions(+), 18 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>> index a2a953693b45..f9b9b3aefc4a 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>> @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>>>    {
->>>>           struct drm_gpu_scheduler *sched;
->>>>           struct drm_sched_job *job;
->>>> +       struct dma_fence *fence;
->>>>           enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
->>>>
->>>>           sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
->>>> @@ -325,11 +326,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>>>
->>>>           if (job) {
->>>>                   /*
->>>> -                * Remove the bad job so it cannot be freed by concurrent
->>>> -                * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
->>>> -                * is parked at which point it's safe.
->>>> +                * Get job->s_fence->parent here to avoid concurrent delete during
->>>> +                * processing timedout_job
->>>>                    */
->>>> -               list_del_init(&job->list);
->>>> +               fence = dma_fence_get(job->s_fence->parent);
->>
->> While this is true for amdgpu, it has no meaning for other drivers for whom
->> we haven't
->> done the refactoring of embedding HW fence (parent) into the job structure.
->> In fact thinking
->> about it, unless you do the HW fence embedding for all the drivers using the
->> scheduler you cannot
->> revert this patch or you will just break them.
-> btw, why did you do that embedding? I do still have my patches with
-> dma_fence annotations floating around, but my idea at least was to fix
-> that issue with a mempool, not with embeddeding. What was the motivation
-> for embedding the wh fence?
-> -Daniel
+--VbJkn9YxBvnuCH5J
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Lukas,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip next-20210818]
+[cannot apply to rockchip/for-next linus/master v5.14-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Lukas-Bulwahn/Kconfig-symbol-clean-up-on-gpu/20210818-204414
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+config: i386-tinyconfig (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/432489a34862a1874790d81866c3a30bca355979
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Lukas-Bulwahn/Kconfig-symbol-clean-up-on-gpu/20210818-204414
+        git checkout 432489a34862a1874790d81866c3a30bca355979
+        # save the attached .config to linux build tree
+        make W=1 ARCH=i386 
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/Kconfig:354: can't open file "drivers/gpu/drm/zte/Kconfig"
+--
+>> drivers/gpu/drm/Kconfig:354: can't open file "drivers/gpu/drm/zte/Kconfig"
+   make[2]: *** [scripts/kconfig/Makefile:77: olddefconfig] Error 1
+   make[1]: *** [Makefile:626: olddefconfig] Error 2
+   make: *** [Makefile:220: __sub-make] Error 2
+   make: Target 'olddefconfig' not remade because of errors.
+--
+>> drivers/gpu/drm/Kconfig:354: can't open file "drivers/gpu/drm/zte/Kconfig"
+   make[3]: *** [scripts/kconfig/Makefile:77: syncconfig] Error 1
+   make[2]: *** [Makefile:626: syncconfig] Error 2
+   make[1]: *** [Makefile:736: include/config/auto.conf.cmd] Error 2
+   make[1]: Failed to remake makefile 'include/config/auto.conf.cmd'.
+   make[1]: Failed to remake makefile 'include/config/auto.conf'.
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:220: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-The motivation was 2 fold, avoid memory allocation during jobs submissions
-(HW fence allocation) because as Christian explained this leads to 
-deadlock with
-mm code during evictions due to memory pressure (Christian can clarify 
-if I messed
-this explanation). Second is to exactly revert this patch because while 
-it solved the issue
-described in the patch it created another with drivers who baildc out 
-early during TDR handling
-for various reason and the job would just leak because it was already 
-removed form pending list.
+vim +354 drivers/gpu/drm/Kconfig
 
-Andrey
+d92d9c3a14488e David Herrmann 2016-08-04  353  
+0a886f59528aac Shawn Guo      2016-09-22 @354  source "drivers/gpu/drm/zte/Kconfig"
+0a886f59528aac Shawn Guo      2016-09-22  355  
 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
->
->
->> Andrey
->>
->>
->>>>                   spin_unlock(&sched->job_list_lock);
->>>>
->>>>                   status = job->sched->ops->timedout_job(job);
->>>> @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>>>                           job->sched->ops->free_job(job);
->>>>                           sched->free_guilty = false;
->>>>                   }
->>>> +               dma_fence_put(fence);
->>>>           } else {
->>>>                   spin_unlock(&sched->job_list_lock);
->>>>           }
->>>> @@ -392,20 +393,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->>>>
->>>>           kthread_park(sched->thread);
->>>>
->>>> -       /*
->>>> -        * Reinsert back the bad job here - now it's safe as
->>>> -        * drm_sched_get_cleanup_job cannot race against us and release the
->>>> -        * bad job at this point - we parked (waited for) any in progress
->>>> -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
->>>> -        * now until the scheduler thread is unparked.
->>>> -        */
->>>> -       if (bad && bad->sched == sched)
->>>> -               /*
->>>> -                * Add at the head of the queue to reflect it was the earliest
->>>> -                * job extracted.
->>>> -                */
->>>> -               list_add(&bad->list, &sched->pending_list);
->>>> -
->>>>           /*
->>>>            * Iterate the job list from later to  earlier one and either deactive
->>>>            * their HW callbacks or remove them from pending list if they already
->>>> --
->>>> 2.25.1
->>>>
+--VbJkn9YxBvnuCH5J
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+AA==
+
+--VbJkn9YxBvnuCH5J--
