@@ -1,69 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76913F230E
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 00:22:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF773F233E
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 00:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E36F56E907;
-	Thu, 19 Aug 2021 22:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C5666E906;
+	Thu, 19 Aug 2021 22:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0A46E907
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 22:22:32 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3D71D82999;
- Fri, 20 Aug 2021 00:22:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1629411750;
- bh=33UHPL0RZcL6+9jW56lcEU9a2CDzC1s+ybQGXQwzmfQ=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=Dt65FNaCxgBS+xEd01WWk4ajHnXrhGr0PbF+ALRxohsJqNUqyhXhbH0z/WMP51PzV
- J5K2nkxWLrY7YmMdxUOwaY9TfEq235oiKG3okvKE9/JbggRICauVU6ff35IRYP4Tap
- 4q316SIay5cHI4HYKr9md1UqKwsBRywA7AoRfZLtu2u9qyN/K6z76GdPBVZh61lfEk
- XuQLKJPm0Sj1N5cxXOtlPYdi7ZpxYWtk/C6umu29mZd2Q6uXWqgnjdMuX9dNtl6MVy
- J6UcVAoKrAA6sb/oZL9Qu0skmGXaO+cKXK+gkgW2/ZrjoCPOG+0FsRzkOSN0ZUtX62
- r11+g2AKsPs/A==
-Subject: Re: [PATCH] drm/stm: ltdc: improve pm_runtime to stop clocks
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Cc: Yannick FERTRE <yannick.fertre@st.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
- Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
- Philippe CORNU - foss <philippe.cornu@foss.st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>
-References: <20210629115709.16145-1-raphael.gallais-pou@foss.st.com>
- <420e243d-7541-a07e-177b-d2db11c26aef@denx.de>
- <3bb823e4-4724-7072-fe9f-7b8a355c8e50@foss.st.com>
- <5d65ca80-4f94-49e1-5de1-cf29e8231a6a@denx.de>
- <629b6666-74b3-91f0-5c6c-e26d55ea62d8@foss.st.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <a051825c-1795-b7c4-6fdd-64595e52a6ca@denx.de>
-Date: Fri, 20 Aug 2021 00:22:28 +0200
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8087E6E906
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 22:37:16 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id f10so1405479lfv.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 15:37:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nAS9qcnivKqgeAIIut8h1WFAVA13oxF52QRobcHq7Xc=;
+ b=a4XV4VjRWxo1kHnGEwcEOxFKRCM6deOw4lOM9Uon818SGJgn0YPFw4DdKti64wBV9H
+ ZocBdzpcFtuEYqk3Wa8+HUMj2ko6agOMxjv09whIIThddMbYROGGAAS4Plcpv1Z18cgY
+ 5sKTsW0BmphWVrS/Tiinzv52JEwYHnlvjz/kC/ONQmk2H2QZrW0O70369IiptcK6UmEd
+ XneH4My93CRKDRkqsBmuCdSoAuWcBI3J8xEuCJKQTSLx7Jnn2Qku3bl3B0b4iwQ7W5+X
+ bMdlKDDR1RyjIOyTN2oZCz5u+iQg+iw/06K9i+IzAB7AjGsFZejlDhk+M4jSdmwerMgk
+ ecRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nAS9qcnivKqgeAIIut8h1WFAVA13oxF52QRobcHq7Xc=;
+ b=d3vIiGv2WIsOYtusN3JZWtFjMwKEDAxxhOGnedTV3kBKl+0a9x7YY4bElgjq5NDIlj
+ omzTa9AZnLfSMHB6hS0X2vAPBe4oLRJ8RdMQmDrzfatZPLtuqFTXlySuZgJwERtF2sre
+ ArfPlLVxWy+HReMXogR/8wKdwbTYRB0OqE1UXyJgZrirOKkJrwYzGXgrgsaw/Oqwqg9P
+ 2/lvHIOg/6PWanRzxCFFhe96GBM7/22PTEwXz0CgGaD0nz74/5BYS7GgCE+eMZHqvoW5
+ ONwVDzMTt9bwhavi+Q8NtLR3qdPcSqYt5qT1Mz7hk1dmMCZOM81UAPVVOpjm+BA1teig
+ ramQ==
+X-Gm-Message-State: AOAM531XfrST8HFTR7LtlxsneArpHH1y4J7KbAd0qpVHdOkThtJZ9/vX
+ agu67crBqtCtnSoqCHOrFdA=
+X-Google-Smtp-Source: ABdhPJwuMIWgok5xoSqa52pUigQi/FuENEcCid7QFl2xNGsNEC360zffkjPyNHa+eJldf8U6/MOiRQ==
+X-Received: by 2002:a05:6512:b8e:: with SMTP id
+ b14mr12930460lfv.449.1629412634809; 
+ Thu, 19 Aug 2021 15:37:14 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru.
+ [46.138.120.72])
+ by smtp.googlemail.com with ESMTPSA id b19sm437171lff.121.2021.08.19.15.37.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Aug 2021 15:37:14 -0700 (PDT)
+Subject: Re: [PATCH v8 20/34] mmc: sdhci-tegra: Add runtime PM and OPP support
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-21-digetx@gmail.com> <YR6O9Om+HzMMG8AR@orome.fritz.box>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <05b7ff28-4c01-fb56-deeb-595a5797394b@gmail.com>
+Date: Fri, 20 Aug 2021 01:37:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <629b6666-74b3-91f0-5c6c-e26d55ea62d8@foss.st.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <YR6O9Om+HzMMG8AR@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,67 +97,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/17/21 11:43 AM, Raphael Gallais-Pou wrote:
-> 
-> On 7/2/21 8:07 PM, Marek Vasut wrote:
->> On 7/2/21 11:23 AM, Raphael Gallais-Pou wrote:
->>> Hello Marek,
+19.08.2021 20:03, Thierry Reding пишет:
+> On Tue, Aug 17, 2021 at 04:27:40AM +0300, Dmitry Osipenko wrote:
+>> The SDHCI on Tegra belongs to the core power domain and we're going to
+>> enable GENPD support for the core domain. Now SDHCI must be resumed using
+>> runtime PM API in order to initialize the SDHCI power state. The SDHCI
+>> clock rate must be changed using OPP API that will reconfigure the power
+>> domain performance state in accordance to the rate. Add runtime PM and OPP
+>> support to the SDHCI driver.
 >>
->> Hi,
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/mmc/host/sdhci-tegra.c | 146 ++++++++++++++++++++++++---------
+>>  1 file changed, 105 insertions(+), 41 deletions(-)
 >>
->>> Sorry for the late answer.
->>
->> No worries, take your time
->>
->>> On 6/30/21 2:35 AM, Marek Vasut wrote:
->>>> On 6/29/21 1:58 PM, Raphael GALLAIS-POU - foss wrote:
->>>>
->>>> [...]
->>>>
->>>>> +++ b/drivers/gpu/drm/stm/ltdc.c
->>>>> @@ -425,10 +425,17 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *crtc,
->>>>>    {
->>>>>        struct ltdc_device *ldev = crtc_to_ltdc(crtc);
->>>>>        struct drm_device *ddev = crtc->dev;
->>>>> +    int ret;
->>>>>          DRM_DEBUG_DRIVER("\n");
->>>>>    -    pm_runtime_get_sync(ddev->dev);
->>>>> +    if (!pm_runtime_active(ddev->dev)) {
->>>>> +        ret = pm_runtime_get_sync(ddev->dev);
->>>>
->>>> All these if (!pm_runtime_active()) then pm_runtime_get_sync() calls look like workaround for some larger issue. Shouldn't the pm_runtime do some refcounting on its own , so this shouldn't be needed ?
->>>
->>>
->>> This problem purely comes from the driver internals, so I don't think it is a workaround.
->>>
->>> Because of the "ltdc_crtc_mode_set_nofb" function which does not have any "symmetrical" call, such as enable/disable functions, there was two calls to pm_runtime_get_sync against one call to pm_runtime_put_sync.
->>>
->>> This instability resulted in the LTDC clocks being always enabled, even when the peripheral was disabled. This could be seen in the clk_summary as explained in the patch summary among other things.
->>>
->>> By doing so, we first check if the clocks are not already activated, and in that case we call pm_runtime_get_sync.
->>
->> I just have to wonder, how come other drivers don't need these if (!pm_runtime_active()) pm_runtime_get_sync() conditions. I think they just get/put the runtime PM within a call itself, not across function calls. Maybe that could be the right fix here too ?
+>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+>> index 387ce9cdbd7c..a3583359c972 100644
+>> --- a/drivers/mmc/host/sdhci-tegra.c
+>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>> @@ -15,6 +15,8 @@
+>>  #include <linux/of.h>
+>>  #include <linux/of_device.h>
+>>  #include <linux/pinctrl/consumer.h>
+>> +#include <linux/pm_opp.h>
+>> +#include <linux/pm_runtime.h>
+>>  #include <linux/regulator/consumer.h>
+>>  #include <linux/reset.h>
+>>  #include <linux/mmc/card.h>
+>> @@ -24,6 +26,8 @@
+>>  #include <linux/gpio/consumer.h>
+>>  #include <linux/ktime.h>
+>>  
+>> +#include <soc/tegra/common.h>
+>> +
+>>  #include "sdhci-pltfm.h"
+>>  #include "cqhci.h"
+>>  
+>> @@ -123,6 +127,12 @@
+>>  					 SDHCI_TRNS_BLK_CNT_EN | \
+>>  					 SDHCI_TRNS_DMA)
+>>  
+>> +enum {
+>> +	TEGRA_CLK_BULK_SDHCI,
+>> +	TEGRA_CLK_BULK_TMCLK,
+>> +	TEGRA_CLK_BULK_NUM,
+>> +};
+>> +
+>>  struct sdhci_tegra_soc_data {
+>>  	const struct sdhci_pltfm_data *pdata;
+>>  	u64 dma_mask;
+>> @@ -171,6 +181,8 @@ struct sdhci_tegra {
+>>  	bool enable_hwcq;
+>>  	unsigned long curr_clk_rate;
+>>  	u8 tuned_tap_delay;
+>> +
+>> +	struct clk_bulk_data clocks[TEGRA_CLK_BULK_NUM];
 > 
+> This doesn't seem worth it to me. There's a lot of churn in this driver
+> that's only needed to convert this to the clk_bulk API and it makes the
+> code a lot more difficult to read, in my opinion.
 > 
-> Hello Marek,
+> It looks like the only benefit that this gives us is that runtime
+> suspend and resume become a few lines shorter.
 
-Hi,
-
-> I've run a deeper analysis over this implementation.
-
-Thank you
-
-> If I may take rockchip's "rockchip_drm_vop.c" driver, there is an boolean "is_enabled" set to true when crtc_atomic_enable is called.
-> 
-> The above implementation could save us from adding such field in the ltdc_dev structure.
-> 
-> Another solution could be in order to simply call pm_runtime_get_sync() in ltdc_crtc_mode_set_nofb() and by removing this condition in ltdc_atomic_crtc_disable() the driver behaves just like the first version of this patch.
-> 
-> In this way, it avoids such conditions and seems more to get along with the current implementation.
-
-Let me maybe ask a different question -- can ltdc_crtc_mode_set_nofb() 
-ever be called with the LTDC suspended (so you would have to call 
-pm_runtime_get_sync() in that function to power the block up and to get 
-access to its registers) ?
-
-[...]
+The driver probe code looks cleaner with that. You should be looking at
+the final result and not at the patch to see it.
