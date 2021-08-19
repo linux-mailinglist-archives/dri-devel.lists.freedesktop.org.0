@@ -1,71 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED023F154E
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 10:41:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE60E3F1612
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:23:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D756E910;
-	Thu, 19 Aug 2021 08:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22726E4A1;
+	Thu, 19 Aug 2021 09:23:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE56B6E910
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 08:41:07 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 79-20020a1c0452000000b002e6cf79e572so6271792wme.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 01:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=o9+bz9xYU5JsIuncp2IYc1juRh8CoRxogtXF7nP8As0=;
- b=eXQeEBPE/PKUjNtuDrmfkJKnwRQmkeV18owHqIy/8kei5beiR9F6Cp0xtSAGSGO/G5
- Nmugb+FrCSDQvIlSUlN70EO76Oo5NMxOz/64oJOjOEFHgKeMiAJy1BmA4A/LMs9TnvES
- 9J/L0LAgFeO2qgGJNmAqGbgWpco9jucIvKxcU=
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4540E6E4A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:23:14 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ cp15-20020a17090afb8fb029017891959dcbso10898436pjb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 02:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=h53VrRaVODOUeaASxu3LlTru8f6j4v9P9TloFFkcEcA=;
+ b=CzsnM6U/cjXG/NCoDfm3CUajy8E5hfCF/zpxbJvvm7Gfjd+TGCFwMZU3WBwnawNOPb
+ AgmiY6oTM/iw0UgFjF2/tFyeDLVXIcURg7GyWYe4jYOExevTB/AYjx8S0MXu3VJFAwSf
+ v1he+X5ld2Qrj5o1aNvHtTa/0bRqbbPa1wcfPHvrK6k90hICkqEA1JkBzekixgYvSRTH
+ ZQqY16VIsoxw09HG2IrCIZ7WArBenXkokw4EgxUdK0ex3PyZ8LszjpwBpf2f2a/B8lQf
+ KT6tQBsy5t71RtV/MqLM87+jXYuzVfVRTgEOc7dciiC7fLl9FJAyn/IyKapOUCKzWLDc
+ jwqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=o9+bz9xYU5JsIuncp2IYc1juRh8CoRxogtXF7nP8As0=;
- b=DfHWHzYLqJeq2fB0CsehvtFE2DMZx8QgpzuVnJAE+PKwX8+2YzkXypn1FCKGLRDoMz
- iXFUm43dEl8j2+tNtRs1TEEX1cmciBDKso/0X/8nI9ASEVjEMncahJW2KV0y9hSk5K16
- cA5r4pY1FJtuM3GUeEz5E/G5mSfGfeWnrtIavwu8zwaDiXcW3H/K1hee5ilEPJPqMnHF
- Cysy5nf3GXSrz3pJu+CgO7/koCBKU6ey2NUzRMckUWECZeAkD4vqX+Wcjgl5sX9M3+LM
- 44A2DrcIjbFYorcp01jY99f84tzGPFcsRmnek3LFipNsiu6WHAYfCGdbxgGxrHeODwxM
- Rqaw==
-X-Gm-Message-State: AOAM531vhUEBVN1g6CD6cg2vy3cdbtBgdztiJkUXLyWzNGmuNndjZdNW
- ptwEXn9VPM/6Lrs+9knuJA4+qA==
-X-Google-Smtp-Source: ABdhPJxClcK3NRbTU/mCIxI9eSRlZdizwBn8ACl1VjtXU4ecrqxceKRQM4XFRE2pm2GWoJs/ezlnTQ==
-X-Received: by 2002:a7b:cc16:: with SMTP id f22mr12479637wmh.99.1629362466505; 
- Thu, 19 Aug 2021 01:41:06 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w9sm1932333wmc.19.2021.08.19.01.41.05
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=h53VrRaVODOUeaASxu3LlTru8f6j4v9P9TloFFkcEcA=;
+ b=KzEs9Mp1aLNMatV04T0eRnZy93p8m5bKjoRmFDVqOyhrg4MALajvjFJ2qYCvZT8/1f
+ phcpzojhnbxEbXTqtmdVpKKnXxS+9ofZcyTc39AXgOXQtuXk2omprqP41sXGz/AX27E3
+ BbuHlVtLQ8dMskiv/v+ypwVxP+A5OmXszhqMz3h1WBHFA00KUtThvkxgf21o1UB7atb0
+ Qgg0gMc6xQ+PzBVa8bORQCj6q8Dgjifj6hwJ0u9lEmYsb9V0CATJB1/89BtYZ9/HVN2X
+ ok9TJhwY5NImJXVQ+9bLdK+6C2KNp7oQSI32FatOki0VW3rSrnuVqHUtLTpqjDuC6Nhl
+ HUYA==
+X-Gm-Message-State: AOAM532p1+N/ryAgpt51nWixZXL2rpYLC81/oZG3Q+TgUFWMUo3fLCm1
+ SR8p+rs6gTBIPbFIqcZKnNt2lQ==
+X-Google-Smtp-Source: ABdhPJx123ffuozesbfbeeSZdxGu0bcl6dvfj7nOvOiuNnkaTmGWOxn9iaaMzrvykG0QTSXgex3c+A==
+X-Received: by 2002:a17:90a:940e:: with SMTP id
+ r14mr14036424pjo.41.1629364993842; 
+ Thu, 19 Aug 2021 02:23:13 -0700 (PDT)
+Received: from ubuntu.huaqin.com ([101.78.151.213])
+ by smtp.gmail.com with ESMTPSA id g13sm2661514pfo.53.2021.08.19.02.23.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 01:41:06 -0700 (PDT)
-Date: Thu, 19 Aug 2021 10:41:04 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Souza, Jose" <jose.souza@intel.com>
-Cc: "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "drawat@vmware.com" <drawat@vmware.com>,
- "Vetter, Daniel" <daniel.vetter@intel.com>,
- "robdclark@gmail.com" <robdclark@gmail.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/damage_helper: Fix handling of cursor
- dirty buffers
-Message-ID: <YR4ZIFAITm04ISei@phenom.ffwll.local>
-References: <20210817232604.160029-1-jose.souza@intel.com>
- <YRzYv6lj5k3KOrPC@phenom.ffwll.local>
- <33375174e318c2772c0d5053ad6d7fd10bef8c49.camel@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <33375174e318c2772c0d5053ad6d7fd10bef8c49.camel@intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+ Thu, 19 Aug 2021 02:23:13 -0700 (PDT)
+From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+To: xiazhengqiao@huaqin.com,
+	dri-devel@lists.freedesktop.org
+Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+Subject: [PATCH] no review: test for uploading patch
+Date: Thu, 19 Aug 2021 17:23:03 +0800
+Message-Id: <20210819092303.5466-1-xiazhengqiao@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,83 +69,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 18, 2021 at 04:44:44PM +0000, Souza, Jose wrote:
-> On Wed, 2021-08-18 at 11:54 +0200, Daniel Vetter wrote:
-> > On Tue, Aug 17, 2021 at 04:26:04PM -0700, José Roberto de Souza wrote:
-> > > Cursors don't have a framebuffer so the fb comparisson was always
-> > > failing and atomic state was being committed without any plane state.
-> > > 
-> > > So here checking if objects match when checking cursors.
-> > 
-> > This looks extremely backwards ... what exactly is this fixing? If this
-> > isn't based on a real world compositor usage but some igt, then I'd say
-> > the igt here is very wrong.
-> 
-> Yes it is IGT.
-> Writing to cursor buffer current in the screen and calling
-> drmModeDirtyFB() causes a empty atomic commit by
-> drm_atomic_helper_dirtyfb().
+no review: test for uploading patch
 
-Ok if the cursor write is done through legacy cursor uapi then trying to
-make that work with dirtyfb doesn't make sense.
+Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-But you've found a bug at least, namely the empty commit. I think that
-should be filtered out, and our dirtyfb testcases (I hope we have some
-vendor-agnostic kms_dirtyfb already) should be extended with a testcase
-where we call dirtyfb on an fb which is not currently used anywhere.
-
-Wrt the cursor: The legacy cursor ioctls get remapped onto the cursor
-plane, which means they come in as full commits. So there's really not
-dirtyfb required afterwards. The funny thing about the cursor ioctls is
-that they never supported frontbuffer rendering. You _always_ had to call
-them to upload data. So the test is invalid from a functional pov too.
--Daniel
-
-> 
-> 
-> > -Daniel
-> > 
-> > > Fixes: b9fc5e01d1ce ("drm: Add helper to implement legacy dirtyfb")
-> > > Cc: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Rob Clark <robdclark@gmail.com>
-> > > Cc: Deepak Rawat <drawat@vmware.com>
-> > > Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> > > Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_damage_helper.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-> > > index 8eeff0c7bdd47..595187d97c131 100644
-> > > --- a/drivers/gpu/drm/drm_damage_helper.c
-> > > +++ b/drivers/gpu/drm/drm_damage_helper.c
-> > > @@ -157,12 +157,18 @@ int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
-> > >  retry:
-> > >  	drm_for_each_plane(plane, fb->dev) {
-> > >  		struct drm_plane_state *plane_state;
-> > > +		bool match;
-> > >  
-> > >  		ret = drm_modeset_lock(&plane->mutex, state->acquire_ctx);
-> > >  		if (ret)
-> > >  			goto out;
-> > >  
-> > > -		if (plane->state->fb != fb) {
-> > > +		match = plane->state->fb == fb;
-> > > +		/* Check if objs match to handle dirty buffers of cursors */
-> > > +		if (plane->type == DRM_PLANE_TYPE_CURSOR && plane->state->fb)
-> > > +			match |= fb->obj[0] == plane->state->fb->obj[0];
-> > > +
-> > > +		if (!match) {
-> > >  			drm_modeset_unlock(&plane->mutex);
-> > >  			continue;
-> > >  		}
-> > > -- 
-> > > 2.32.0
-> > > 
-> > 
-> 
-
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index db9d0b86d542..b2240eee688e 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2018 MediaTek Inc.
+  * Author: Jitao Shi <jitao.shi@mediatek.com>
+  */
++/*test for uploading patch*/
+ 
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.17.1
+
