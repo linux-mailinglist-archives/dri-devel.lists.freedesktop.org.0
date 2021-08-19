@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6E03F144D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 09:25:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2523F1463
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 09:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889056E943;
-	Thu, 19 Aug 2021 07:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7E16E52D;
+	Thu, 19 Aug 2021 07:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 122036E80B;
- Thu, 19 Aug 2021 07:25:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="196760489"
-X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="196760489"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2021 00:25:29 -0700
-X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="442157270"
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D53246E52D;
+ Thu, 19 Aug 2021 07:32:26 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216534676"
+X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="216534676"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 00:32:26 -0700
+X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="462976392"
 Received: from mdziuba-mobl.ger.corp.intel.com (HELO [10.249.254.196])
  ([10.249.254.196])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2021 00:25:28 -0700
-Message-ID: <532a00f09d17f2e95ef970a9f5b9d273c0384d39.camel@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/ttm: ensure we release the intel_memory_region
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 00:32:24 -0700
+Message-ID: <811cc4bfb6262d9050140ed9a9eac1dd7632d33a.camel@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/debugfs: hook up ttm_resource_manager_debug
 From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
-Date: Thu, 19 Aug 2021 09:25:26 +0200
-In-Reply-To: <20210818171203.237687-1-matthew.auld@intel.com>
-References: <20210818171203.237687-1-matthew.auld@intel.com>
+Date: Thu, 19 Aug 2021 09:32:20 +0200
+In-Reply-To: <20210818145850.225387-2-matthew.auld@intel.com>
+References: <20210818145850.225387-1-matthew.auld@intel.com>
+ <20210818145850.225387-2-matthew.auld@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
 MIME-Version: 1.0
@@ -49,48 +50,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2021-08-18 at 18:12 +0100, Matthew Auld wrote:
-> If the ttm_bo_init_reserved() call fails ensure we also release the
-> region, otherwise we leak the reference, or worse hit some uaf, when
-> we
-> start using the objects.list. Also remove the make_unshrinkable call
-> here, which doesn't do anything.
+On Wed, 2021-08-18 at 15:58 +0100, Matthew Auld wrote:
+> This should give a more complete view of the various bits of internal
+> resource manager state, for device local-memory.
 > 
 > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/i915/i915_debugfs.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 771eb2963123..2e8cdcd5e4f7 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -909,7 +909,6 @@ int __i915_gem_ttm_object_init(struct
-> intel_memory_region *mem,
->         drm_gem_private_object_init(&i915->drm, &obj->base, size);
->         i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class,
-> flags);
->         i915_gem_object_init_memory_region(obj, mem);
-> -       i915_gem_object_make_unshrinkable(obj);
->         INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL |
-> __GFP_NOWARN);
->         mutex_init(&obj->ttm.get_io_page.lock);
->         bo_type = (obj->flags & I915_BO_ALLOC_USER) ?
-> ttm_bo_type_device :
-> @@ -932,7 +931,7 @@ int __i915_gem_ttm_object_init(struct
-> intel_memory_region *mem,
->                                    page_size >> PAGE_SHIFT,
->                                    &ctx, NULL, NULL,
-> i915_ttm_bo_destroy);
->         if (ret)
-> -               return i915_ttm_err_to_gem(ret);
-> +               goto err_release_mr;
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c
+> b/drivers/gpu/drm/i915/i915_debugfs.c
+> index eec0d349ea6a..109e6feed6be 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> @@ -238,6 +238,7 @@ i915_debugfs_describe_obj(struct seq_file *m,
+> struct drm_i915_gem_object *obj)
+>  static int i915_gem_object_info(struct seq_file *m, void *data)
+>  {
+>         struct drm_i915_private *i915 = node_to_i915(m->private);
+> +       struct drm_printer p = drm_seq_file_printer(m);
+>         struct intel_memory_region *mr;
+>         enum intel_region_id id;
+>  
+> @@ -245,9 +246,14 @@ static int i915_gem_object_info(struct seq_file
+> *m, void *data)
+>                    i915->mm.shrink_count,
+>                    atomic_read(&i915->mm.free_count),
+>                    i915->mm.shrink_memory);
+> -       for_each_memory_region(mr, i915, id)
+> -               seq_printf(m, "%s: total:%pa, available:%pa bytes\n",
+> -                          mr->name, &mr->total, &mr->avail);
+> +       for_each_memory_region(mr, i915, id) {
+> +               seq_printf(m, "%s: ", mr->name);
+> +               if (mr->region_private)
+> +                       ttm_resource_manager_debug(mr-
+> >region_private, &p);
+> +               else
+> +                       seq_printf(m, "total:%pa, available:%pa
+> bytes\n",
+> +                                  &mr->total, &mr->avail);
 
-IIRC when ttm_object_init_reserved fails, it will call ttm_bo_put()
-which will eventually end up in i915_ttm_bo_destroy() which will do the
-right thing?
+Hm. Shouldn't we make the above intel_memory_region_debug() or perhaps
+intel_memory_region_info() to avoid using memory region internals
+directly here?
 
 /Thomas
 
