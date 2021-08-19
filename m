@@ -1,80 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6147C3F16B2
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:51:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91EFC3F16E7
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:59:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874B26E82B;
-	Thu, 19 Aug 2021 09:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C1CF6E89F;
+	Thu, 19 Aug 2021 09:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84A346E829
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:51:47 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C311C580B75;
- Thu, 19 Aug 2021 05:51:46 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 19 Aug 2021 05:51:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=Yw08guVacjmfQ
- k+u0XR8zaH84eO7CwdQU4gVFp31U18=; b=Tf0GfgFD0KioUXMhEQSSCP7/ZOHHf
- JEpWmTxlCNIJkRiDe9Jx35vTEQQgT+o8/lSbk5iu5Y622nV9QnAtUJbsDa13o5aB
- omPYvRj9DxF2a48welCLQ1EdWeGoiV97NNFu8YROERYnQHKrMxqLNPnVl04S6ba9
- F/xpZotL5T1nuYFG6t/HIL/rYrducigMvnctYb9YMCihBIsNFKElX6M9TAc1n3H3
- Z4dYQp/UkqZ9Nwfx0dV4WKu4HDF0M9aMUjnwzmAct7bTQs2rIF00iHclBBgCwRfT
- Q4i2EM0Bd6/Vy1yL+tdv/YwDMCGdT0uODGzueDyt9Y7dds1AAE59ScwTw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=Yw08guVacjmfQk+u0XR8zaH84eO7CwdQU4gVFp31U18=; b=YEiKF4Yp
- 26/W0dXCYB32ed33AK84qfBoUp+FbBj8HYh12aU7EVBot8yYcU+VniC7XeH2bxhX
- cwW1T+iX5nVusytPMstaeKDAGYt/CanEX1uwy82cDlQuZzhb4Qp9Ikxp2dpWKVYi
- n5gUo0Hnsvyc6I8ZCsDQcY7YPq151o3VX9NDEZ6dcoqFUgWW9mpvTxH7XRLo8VIk
- P56pmTmmpEdq6sUL9jwPQtfpSh05ymlU5hQACFwvZtBs3vHc4TSCsnbYrm4f3DaG
- 8cz1OHL+dnselnXVv0LnatdkBLf8nKaTPx9Qk6FGxUv7nvUncK4qhUHYR4W2LBgZ
- BfdYwWPS63OlCw==
-X-ME-Sender: <xms:sikeYfJ5lbQxSlOw0ljJ-qrbcMTqvSTOxf6KCtk2IjrGflk6ImvnYw>
- <xme:sikeYTJ0Qr7y4LK0bYzv5n3QFXhERTw5ZJzaVcbSzbpkNHBZqgpaQ3Ddc9rFOQqt2
- zeQjpoBtT9vCbqW2D4>
-X-ME-Received: <xmr:sikeYXu9KChJYDwJqUWyyHwoB_ZUYyHtPgWWa7tg2xMbtG_HsFcedrW4E2aNcxNLri-e-zmtixmHyg8y_dS6YROrMfw0ns2KJdEZ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgddulecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:sikeYYab3E_bQBtYUPgxnZOuvh4nfcuzws5037kvEw_MR89ZHE0wAw>
- <xmx:sikeYWZgdAT7LZq1xCY10Vqhwc-g0mj0wfysiwCAIJxo9vkLfh9g2g>
- <xmx:sikeYcBLF0etDjSfcprCjGD1D7SetU5S36AAysblud50FlI-2XbNjg>
- <xmx:sikeYcxKB8wOzA_DxFj2ThcnQU4R2D9PO05zW9XuT8KwZS_QNFoKlw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 05:51:46 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Cc: Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
- linux-kernel@vger.kernel.org, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH v7 10/10] drm/vc4: Increase the core clock based on HVS load
-Date: Thu, 19 Aug 2021 11:51:19 +0200
-Message-Id: <20210819095119.689945-11-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210819095119.689945-1-maxime@cerno.tech>
-References: <20210819095119.689945-1-maxime@cerno.tech>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F6676E89F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:59:33 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id r7so8264781wrs.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 02:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=xtunD2GxO/8/vmP/JIhc/Q4AXeVK5pzMLPGPI0WktNo=;
+ b=ULGrdUlLjfonZ9gXeFBZL1uRfDlE0SqvpHLPwuyDblWuDL6n7yMagTIZsgstsvo+qS
+ r2ts6k9+C4pXp8Sju0Va2gPM+ieguklAU4b9hD9AslIY+NgmsgLibrWbQ1LiZ0Qsk3rH
+ F4JEmqWQWSRFqw+Y6qDkS74exs7H14uKfiSDwl74vGXJMZfBp4C9GqgKKDJXSQ/hupfn
+ oURWGu3f4FfnLlPSov6wUBSXVnpJHIfk9oWzJA427L1hiGyatYZ/YU553dT38q8yqgAn
+ d+ajJsiH6+zxUGDU4WyG1Nhdmg9w9s1BBQAhxibNshdCVsKc6AhrRapWUea8HkBS/5Ng
+ uvpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xtunD2GxO/8/vmP/JIhc/Q4AXeVK5pzMLPGPI0WktNo=;
+ b=Hyx7oGy3fitpAwKib9MjLPvu2+/UsHObWLg0J0xeJ+PJFkeAslqa50OsplWI+sWouE
+ N72+1KY4rPriJRJnwG/rv9HPwKcPjVP69QBagvEc12QmcWLb2g0SbS3+DaMXW0q54rOY
+ uSMYJ1VC4S08bnU9m1+yrrel+YPzzF7iOUfwLVDsN28zpOFp+MKMOxTWYc0woeI6OOx2
+ XqpVpSvuUdKyQ3p+TMfiUwu9H5E3/r6bW0I0DX16pR5Lqk6YKZZvcM7rCc9On9YiNE4m
+ wOGZPSGwYp/EcQ8bB0LKXnXk9pMvq1vHtkxE74cDeW9iE8QtfuywLcdvHUVBgsITrZPJ
+ 4s8w==
+X-Gm-Message-State: AOAM532ANczcy8jr+wfeGZko1eMJFP1SygdWN21dftVM9ILDu4H6RPbq
+ /qj2ny90w+LvZ3zeyun/aIuo2A==
+X-Google-Smtp-Source: ABdhPJyutlGQ6Z6gY20AlGAJAhV+LbVsUxEHKzeIqK38emB1LhIfllep0G5vUV02GJWRWcT0Ec9kgQ==
+X-Received: by 2002:a5d:4290:: with SMTP id k16mr2749296wrq.224.1629367172037; 
+ Thu, 19 Aug 2021 02:59:32 -0700 (PDT)
+Received: from google.com ([2.31.167.59])
+ by smtp.gmail.com with ESMTPSA id z5sm7338694wmp.26.2021.08.19.02.59.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Aug 2021 02:59:31 -0700 (PDT)
+Date: Thu, 19 Aug 2021 10:59:29 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Marek Vasut <marex@denx.de>, stable@vger.kernel.org
+Subject: Re: [PATCH] backlight: pwm_bl: Improve bootloader/kernel device
+ handover
+Message-ID: <YR4rgXdHqLzpYfEY@google.com>
+References: <20210722144623.1572816-1-daniel.thompson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210722144623.1572816-1-daniel.thompson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,245 +79,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Depending on a given HVS output (HVS to PixelValves) and input (planes
-attached to a channel) load, the HVS needs for the core clock to be
-raised above its boot time default.
+On Thu, 22 Jul 2021, Daniel Thompson wrote:
 
-Failing to do so will result in a vblank timeout and a stalled display
-pipeline.
+> Currently there are (at least) two problems in the way pwm_bl starts
+> managing the enable_gpio pin. Both occur when the backlight is initially
+> off and the driver finds the pin not already in output mode and, as a
+> result, unconditionally switches it to output-mode and asserts the signal.
+> 
+> Problem 1: This could cause the backlight to flicker since, at this stage
+> in driver initialisation, we have no idea what the PWM and regulator are
+> doing (an unconfigured PWM could easily "rest" at 100% duty cycle).
+> 
+> Problem 2: This will cause us not to correctly honour the
+> post_pwm_on_delay (which also risks flickers).
+> 
+> Fix this by moving the code to configure the GPIO output mode until after
+> we have examines the handover state. That allows us to initialize
+> enable_gpio to off if the backlight is currently off and on if the
+> backlight is on.
+> 
+> Reported-by: Marek Vasut <marex@denx.de>
+> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: stable@vger.kernel.org
+> Acked-by: Marek Vasut <marex@denx.de>
+> Tested-by: Marek Vasut <marex@denx.de>
+> ---
+>  drivers/video/backlight/pwm_bl.c | 54 +++++++++++++++++---------------
+>  1 file changed, 28 insertions(+), 26 deletions(-)
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_crtc.c |  15 +++++
- drivers/gpu/drm/vc4/vc4_drv.h  |   2 +
- drivers/gpu/drm/vc4/vc4_kms.c  | 110 ++++++++++++++++++++++++++++++---
- 3 files changed, 118 insertions(+), 9 deletions(-)
+Applied, thanks.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 073b7e528175..c733b2091d3c 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -642,12 +642,27 @@ static int vc4_crtc_atomic_check(struct drm_crtc *crtc,
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc_state);
- 	struct drm_connector *conn;
- 	struct drm_connector_state *conn_state;
-+	struct drm_encoder *encoder;
- 	int ret, i;
- 
- 	ret = vc4_hvs_atomic_check(crtc, state);
- 	if (ret)
- 		return ret;
- 
-+	encoder = vc4_get_crtc_encoder(crtc, crtc_state);
-+	if (encoder) {
-+		const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+		struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
-+
-+		mode = &crtc_state->adjusted_mode;
-+		if (vc4_encoder->type == VC4_ENCODER_TYPE_HDMI0) {
-+			vc4_state->hvs_load = max(mode->clock * mode->hdisplay / mode->htotal + 1000,
-+						  mode->clock * 9 / 10) * 1000;
-+		} else {
-+			vc4_state->hvs_load = mode->clock * 1000;
-+		}
-+	}
-+
- 	for_each_new_connector_in_state(state, conn, conn_state,
- 					i) {
- 		if (conn_state->crtc != crtc)
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 95a1eb7ebf90..5abb3c090253 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -532,6 +532,8 @@ struct vc4_crtc_state {
- 		unsigned int bottom;
- 	} margins;
- 
-+	unsigned long hvs_load;
-+
- 	/* Transitional state below, only valid during atomic commits */
- 	bool update_muxing;
- };
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index ca688115381e..0a4fca043c65 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -39,9 +39,11 @@ static struct vc4_ctm_state *to_vc4_ctm_state(struct drm_private_state *priv)
- 
- struct vc4_hvs_state {
- 	struct drm_private_state base;
-+	unsigned long core_clock_rate;
- 
- 	struct {
- 		unsigned in_use: 1;
-+		unsigned long fifo_load;
- 		struct drm_crtc_commit *pending_commit;
- 	} fifo_state[HVS_NUM_CHANNELS];
- };
-@@ -339,10 +341,19 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct vc4_hvs *hvs = vc4->hvs;
- 	struct drm_crtc_state *old_crtc_state;
- 	struct drm_crtc_state *new_crtc_state;
-+	struct vc4_hvs_state *new_hvs_state;
- 	struct drm_crtc *crtc;
- 	struct vc4_hvs_state *old_hvs_state;
- 	int i;
- 
-+	old_hvs_state = vc4_hvs_get_old_global_state(state);
-+	if (WARN_ON(!old_hvs_state))
-+		return;
-+
-+	new_hvs_state = vc4_hvs_get_new_global_state(state);
-+	if (WARN_ON(!new_hvs_state))
-+		return;
-+
- 	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
- 		struct vc4_crtc_state *vc4_crtc_state;
- 
-@@ -353,12 +364,13 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 		vc4_hvs_mask_underrun(dev, vc4_crtc_state->assigned_channel);
- 	}
- 
--	if (vc4->hvs->hvs5)
--		clk_set_min_rate(hvs->core_clk, 500000000);
-+	if (vc4->hvs->hvs5) {
-+		unsigned long core_rate = max_t(unsigned long,
-+						500000000,
-+						new_hvs_state->core_clock_rate);
- 
--	old_hvs_state = vc4_hvs_get_old_global_state(state);
--	if (!old_hvs_state)
--		return;
-+		clk_set_min_rate(hvs->core_clk, core_rate);
-+	}
- 
- 	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
- 		struct vc4_crtc_state *vc4_crtc_state =
-@@ -398,8 +410,12 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 
- 	drm_atomic_helper_cleanup_planes(dev, state);
- 
--	if (vc4->hvs->hvs5)
--		clk_set_min_rate(hvs->core_clk, 0);
-+	if (vc4->hvs->hvs5) {
-+		drm_dbg(dev, "Running the core clock at %lu Hz\n",
-+			new_hvs_state->core_clock_rate);
-+
-+		clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate);
-+	}
- }
- 
- static int vc4_atomic_commit_setup(struct drm_atomic_state *state)
-@@ -656,9 +672,9 @@ vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
- 
- 	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
- 
--
- 	for (i = 0; i < HVS_NUM_CHANNELS; i++) {
- 		state->fifo_state[i].in_use = old_state->fifo_state[i].in_use;
-+		state->fifo_state[i].fifo_load = old_state->fifo_state[i].fifo_load;
- 
- 		if (!old_state->fifo_state[i].pending_commit)
- 			continue;
-@@ -667,6 +683,8 @@ vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
- 			drm_crtc_commit_get(old_state->fifo_state[i].pending_commit);
- 	}
- 
-+	state->core_clock_rate = old_state->core_clock_rate;
-+
- 	return &state->base;
- }
- 
-@@ -821,6 +839,76 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
- 	return 0;
- }
- 
-+static int
-+vc4_core_clock_atomic_check(struct drm_atomic_state *state)
-+{
-+	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
-+	struct drm_private_state *priv_state;
-+	struct vc4_hvs_state *hvs_new_state;
-+	struct vc4_load_tracker_state *load_state;
-+	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-+	struct drm_crtc *crtc;
-+	unsigned int num_outputs;
-+	unsigned long pixel_rate;
-+	unsigned long cob_rate;
-+	unsigned int i;
-+
-+	priv_state = drm_atomic_get_private_obj_state(state,
-+						      &vc4->load_tracker);
-+	if (IS_ERR(priv_state))
-+		return PTR_ERR(priv_state);
-+
-+	load_state = to_vc4_load_tracker_state(priv_state);
-+
-+	hvs_new_state = vc4_hvs_get_global_state(state);
-+	if (!hvs_new_state)
-+		return -EINVAL;
-+
-+	for_each_oldnew_crtc_in_state(state, crtc,
-+				      old_crtc_state,
-+				      new_crtc_state,
-+				      i) {
-+		if (old_crtc_state->active) {
-+			struct vc4_crtc_state *old_vc4_state =
-+				to_vc4_crtc_state(old_crtc_state);
-+			unsigned int channel = old_vc4_state->assigned_channel;
-+
-+			hvs_new_state->fifo_state[channel].fifo_load = 0;
-+		}
-+
-+		if (new_crtc_state->active) {
-+			struct vc4_crtc_state *new_vc4_state =
-+				to_vc4_crtc_state(new_crtc_state);
-+			unsigned int channel = new_vc4_state->assigned_channel;
-+
-+			hvs_new_state->fifo_state[channel].fifo_load =
-+				new_vc4_state->hvs_load;
-+		}
-+	}
-+
-+	cob_rate = 0;
-+	num_outputs = 0;
-+	for (i = 0; i < HVS_NUM_CHANNELS; i++) {
-+		if (!hvs_new_state->fifo_state[i].in_use)
-+			continue;
-+
-+		num_outputs++;
-+		cob_rate += hvs_new_state->fifo_state[i].fifo_load;
-+	}
-+
-+	pixel_rate = load_state->hvs_load;
-+	if (num_outputs > 1) {
-+		pixel_rate = (pixel_rate * 40) / 100;
-+	} else {
-+		pixel_rate = (pixel_rate * 60) / 100;
-+	}
-+
-+	hvs_new_state->core_clock_rate = max(cob_rate, pixel_rate);
-+
-+	return 0;
-+}
-+
-+
- static int
- vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- {
-@@ -838,7 +926,11 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 	if (ret)
- 		return ret;
- 
--	return vc4_load_tracker_atomic_check(state);
-+	ret = vc4_load_tracker_atomic_check(state);
-+	if (ret)
-+		return ret;
-+
-+	return vc4_core_clock_atomic_check(state);
- }
- 
- static struct drm_mode_config_helper_funcs vc4_mode_config_helpers = {
 -- 
-2.31.1
-
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
