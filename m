@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10A73F2282
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 23:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC733F227F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 23:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D44F26E9E1;
-	Thu, 19 Aug 2021 21:52:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C306E903;
+	Thu, 19 Aug 2021 21:52:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C966E9E1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 21:52:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D1A26023E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 21:52:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A4D16E903
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 21:52:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 16DA661029;
+ Thu, 19 Aug 2021 21:52:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629409971;
- bh=hz4ToEn11O2DiQ3bxZuN8OGUGc7W0kXGCy2CxI1VoXk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Kng3t7djpyX+7l91WqS70uHZCu/kiK7US//O1ZdEu2yJXPi5OjnT3+XbL9fWqW2r3
- oOOC5ZcT9UfiilbP2KUrF4yNg7i9OHkYJAj1PZQsJrfiybepbQty3tIGbK0ZGpJ6Bz
- tFM+ElKP3lxRGvUcLGKvDMvY5QNiPbUv5faLcqjK4b1URCH207khCLwlVG1FWcVNxm
- 08Bo8t9l4DH9VHK0FxqtJWae5Q/6+K+rDJRbVyLWP1HBc8QrZnnhuQdQuw6ujpcNy9
- R+unuj2iZ1hXq9uGmVXKn1QRpm2MpA1pjXSMFfSQpvLLxghk6Pef9X3pR9v8i3OvHh
- S5plU2uqokfeQ==
-Received: by mail-ed1-f41.google.com with SMTP id v2so10927037edq.10
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 14:52:51 -0700 (PDT)
-X-Gm-Message-State: AOAM531u6Er3aFw0sfCjxN/RlosPz2gGgNObbfNLNWRzgu8aMZEsD3Gg
- gcW5BSXs7wE7RLI2fwxVaxi/7ys6zatzSq6xUw==
-X-Google-Smtp-Source: ABdhPJw0hq/j5YRbpD02wnMJhEDVCeMQ0sCrUH9AvIo9gZG8TCf7667Nb/WyMEJegfKzTCD/BF4SZP3zTCNMf4ZT1/A=
-X-Received: by 2002:a05:6402:104b:: with SMTP id
- e11mr18790051edu.62.1629409970123; 
- Thu, 19 Aug 2021 14:52:50 -0700 (PDT)
+ s=k20201202; t=1629409962;
+ bh=lVxMSHjueZlMfEBoUSerhjw3+tnhPwfYJwK4Bjj66FE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=U5X0Iox8zg+g4AdUXxKc66LA0Ku4gfX4YtZXt8g0KcL1qPsxVaXnc1oRXTm9Sm+Aj
+ 9oMnyecskuAJgQtaKLbpj5C8C23tXWjlF/q8hQpZEiCxHicpOq9IBTIGaSZwWq7Tu6
+ W7AEHT6IWUcDyxvbrXz/SfPxuE5SBGY55wnwTIaTHiwAxOMlzCJh4WTlnMasPJLK2H
+ WvEhKG9CPEsYvzMNL6aa9D0bg5v6xqkp4JH8C8AUkK0eLo3LFVCMcBp4eyMKPJto70
+ N/FAp6hRtvWinx99Uf8sCTFxPot4aIyB87TfXypFUJ4hx9h7Rc1Q1memGl26W67BIt
+ L418Cy9FD+8gQ==
+Date: Thu, 19 Aug 2021 16:52:40 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: Huacai Chen <chenhuacai@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Xuefeng Li <lixuefeng@loongson.cn>, Christoph Hellwig <hch@infradead.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 0/9] PCI/VGA: Rework default VGA device selection
+Message-ID: <20210819215240.GA3241693@bjorn-Precision-5520>
 MIME-Version: 1.0
-References: <20210819101020.26368-1-krzysztof.kozlowski@canonical.com>
- <20210819101020.26368-2-krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20210819101020.26368-2-krzysztof.kozlowski@canonical.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Thu, 19 Aug 2021 16:52:38 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK1dhwSKbmCbuaWtBWQH0e-+rdJaWkzfx5b_5vX0toAjg@mail.gmail.com>
-Message-ID: <CAL_JsqK1dhwSKbmCbuaWtBWQH0e-+rdJaWkzfx5b_5vX0toAjg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: sound: rt1015p: correct indentation
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Dillon Min <dillon.minfei@gmail.com>, 
- Tzung-Bi Shih <tzungbi@google.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- devicetree@vger.kernel.org, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux-ALSA <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210809185901.GA2176971@bjorn-Precision-5520>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,15 +53,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 19, 2021 at 5:12 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@canonical.com> wrote:
->
-> Use common enum instead of oneOf and correct indentation warning:
->   realtek,rt1015p.yaml:18:7: [warning] wrong indentation: expected 4 but found 6 (indentation)
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> ---
->  .../devicetree/bindings/sound/realtek,rt1015p.yaml          | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+On Mon, Aug 09, 2021 at 01:59:01PM -0500, Bjorn Helgaas wrote:
+> On Tue, Aug 03, 2021 at 12:06:44PM -0500, Bjorn Helgaas wrote:
+> > On Sat, Jul 24, 2021 at 05:30:02PM +0800, Huacai Chen wrote:
+> > > On Sat, Jul 24, 2021 at 8:10 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
 
-Acked-by: Rob Herring <robh@kernel.org>
+> > > > Thanks for the above; that was helpful.  To summarize:
+> > > >
+> > > >   - On your system, the AST2500 bridge [1a03:1150] does not implement
+> > > >     PCI_BRIDGE_CTL_VGA [1].  This is perfectly legal but means the
+> > > >     legacy VGA resources won't reach downstream devices unless they're
+> > > >     included in the usual bridge windows.
+> > > >
+> > > >   - vga_arb_select_default_device() will set a device below such a
+> > > >     bridge as the default VGA device as long as it has PCI_COMMAND_IO
+> > > >     and PCI_COMMAND_MEMORY enabled.
+> > > >
+> > > >   - vga_arbiter_add_pci_device() is called for every VGA device,
+> > > >     either at boot-time or at hot-add time, and it will also set the
+> > > >     device as the default VGA device, but ONLY if all bridges leading
+> > > >     to it implement PCI_BRIDGE_CTL_VGA.
+> > > >
+> > > >   - This difference between vga_arb_select_default_device() and
+> > > >     vga_arbiter_add_pci_device() means that a device below an AST2500
+> > > >     or similar bridge can only be set as the default if it is
+> > > >     enumerated before vga_arb_device_init().
+> > > >
+> > > >   - On ACPI-based systems, PCI devices are enumerated by acpi_init(),
+> > > >     which runs before vga_arb_device_init().
+> > > >
+> > > >   - On non-ACPI systems, like your MIPS system, they are enumerated by
+> > > >     pcibios_init(), which typically runs *after*
+> > > >     vga_arb_device_init().
+> > > >
+> > > > So I think the critical change is actually that you made
+> > > > vga_arb_update_default_device(), which you call from
+> > > > vga_arbiter_add_pci_device(), set the default device even if it does
+> > > > not own the VGA resources because an upstream bridge doesn't implement
+> > > > PCI_BRIDGE_CTL_VGA, i.e.,
+> > > >
+> > > >   (vgadev->owns & VGA_RSRC_LEGACY_MASK) != VGA_RSRC_LEGACY_MASK
+> > > >
+> > > > Does that seem right?
+> > >
+> > > Yes, that's right.
+> > 
+> > I think that means I screwed up.  I somehow had it in my head that the
+> > hot-add path would never set the default VGA device.  But that is
+> > false.
+> > 
+> > I still think we should move vgaarb.c to drivers/pci/ and get it more
+> > tightly integrated into the PCI core.
+> > 
+> > BUT that's a lot of churn and obscures the simple change that fixes
+> > the problem for you.  So I think the first step should be the change
+> > to vga_arb_update_default_device() so it sets the default device even
+> > when the upstream bridge doesn't implement PCI_BRIDGE_CTL_VGA.
+> > 
+> > That should be a relatively small change, and I think it's better to
+> > make the fix before embarking on major restructuring.
+> 
+> To make sure this doesn't get lost: I'm hoping you can separate out
+> and post the small patch to vga_arb_update_default_device().
+> 
+> I can look at the move/restructure stuff later.
+
+What's happening with this?  I'm still assuming you can post a small
+patch to vga_arb_update_default_device() that's suitable for v5.15,
+Huacai.
+
+Otherwise I'm afraid we won't make any forward progress this cycle.
+
+Bjorn
