@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8293F1B0A
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 15:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA963F1B0C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 15:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D1C6E984;
-	Thu, 19 Aug 2021 13:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8E056E985;
+	Thu, 19 Aug 2021 13:59:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51AEF6E97D
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 13:59:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC166E985
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 13:59:42 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.west.internal (Postfix) with ESMTP id B02042B00560;
- Thu, 19 Aug 2021 09:59:37 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id 1D8EC2B005D0;
+ Thu, 19 Aug 2021 09:59:41 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 19 Aug 2021 09:59:38 -0400
+ by compute2.internal (MEProxy); Thu, 19 Aug 2021 09:59:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm3; bh=WeOGVBQq6iP3tN4+YB3IfpyTJF
- tv7MLMNgGBh0iNUrw=; b=2aaGpTxizbAsJxle2NCopSZUjW+t1R2tPQCX90UHPR
- rBjqdauhnciKv/4v+Zmo6nOdzMbklGXT2jcPecH6CtYFwDdIqZ2zSbPkvnSh2mXx
- EjxMPwgb4CL+x0oKyT2MLW/xi8SsIgP/5vwiOhUR+m+c1mpYXQqBHVojs5YuhQLU
- hLXfrNbdHLweFt5XVnX6TqUjeC6GBnH5OS7Ux6+vCXsteR6cBX1g7aNafV1LQkQR
- +nF1bDiU9jjnwEVNkwa2+bVUfp66w4PlhrVvY4dU8CAywe2UKw5c2byQT+gsIEkM
- ZWNDK+Bld35jtahu8j064ducf9N3kaMIuQyR2OmfjoFQ==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=vrgR/7Ax9Jv2e
+ zbaP/CKQhrK7xJEFBCM3d5iboIQxZw=; b=1nBhJdv/dY7RiDWTlJNKV2EN7m3Gn
+ 6yztKWzx0gxtKbs1HBFOWRzs8yivv0DP+oy7O068uVlZdDwmaQ52pV/RPbMukY5R
+ 3Z4OeQW3MEFejpIMLK9jgDJEUmXTW4P5i+WYmGkn8pQidw2k/R33AqZmPsDWu49W
+ 5Gg/6QmLRsRLH63iR+ZFyJXqh4ZOYNVy4OFJhhk53bkaSye+j+btm0+E9mru0t+P
+ /J0atD3v/MKHqApT7dTab8AxPpPFOWlyvER+aCruYPkJdN+DQySpHdIX4X7wa82L
+ I0vn6AJuMHqqK+wglPCXGPBgKpu6U4F3oviKlw3ZLfekjE38aGuZoQKtg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=WeOGVB
- Qq6iP3tN4+YB3IfpyTJFtv7MLMNgGBh0iNUrw=; b=uhONl4JUuuJyWSnpApX8Z1
- e+KlGicaDkseEJgB+OmMlz3SK32+qAJPcuyYlDg05lmhaEws52kMQMiaBSXnt4bI
- xy9ZrkEryvi6YHDb1LB2JRkXlfz9QOZWUI2a0h+VbUIo6AnHEZKFvc5EIXaagBeP
- mQqZhGRIZ6bfV7S9RTOjD3IPAAAjWV/RTYDSO3NnuFpHiTwjyb/jn0l+aNLdeOlf
- zW2wfHAYREaN645rZCdiIVziu7glIpGgOs7854+hGxXDvRNV0MFGvzCyWSYMJTKw
- R6maZPTJAnnlTdibmZ3S76qAYCEzW/2KKh2VL1BROxdytAGEfh5gEGxa1Njdlz5Q
- ==
-X-ME-Sender: <xms:xmMeYcPxEncFTcB-koGBpFyEPh32q085TM3GdiNVI-3JrQQpIKdMdw>
- <xme:xmMeYS8-APonkvuSoOkpy60lMiyupX0nAVYA6tgnrGmz9ctliW_YMQfeqzL1L2x0m
- AGIeoLy6nWtqh480y8>
-X-ME-Received: <xmr:xmMeYTQMrbZXK3zxISIUDg9AVHHHbRWWMUV2pJrn6F-otDytvdoBuYFdJyqy-hUeUbPKFdSmdI7TDzzWAe-b-6FxH_ariIF5DL1M>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=vrgR/7Ax9Jv2ezbaP/CKQhrK7xJEFBCM3d5iboIQxZw=; b=XOmGFEpb
+ dPHs+Q0cR4vhR90CLTyB+zab0Uand8Tc5F+GgjHw/mHglX614bRHkuDMhe/ZkYxd
+ nz36IimAB47RmiEwZ8kFOmc0I4KtIaqGUkLLiyPBRdlusAHCtCCovWHVta1JUxT+
+ o1dv1pYcW7BBQ6/yrTNBRnBURn9cBvCnvnDbpNl9S6HAoxcOyuHrGAuT4iHs4oFl
+ 0nq+630ssu24PpOyfcI6YyxbQICXs0eKEE2VIUQoP3Mg0yc6Rr7WDFOsFfUdGvMw
+ RTcQxvOpYPowP1IcDo4CPMzPA4Av7Etau2WTCRrW0cXV1WcnSINuaRPawX8ZmDUi
+ egHcS6AgjDmQXw==
+X-ME-Sender: <xms:zGMeYWQksepWnzPZ2XqKFwxTOQG5lQgZXgKT6ym8MM6wDVzTH9v24A>
+ <xme:zGMeYbxyRKDdcwl4vgAJdB3rubOEHcTjILNd9nF74F2DfacGO9q8sQGUYANyttECz
+ CxDXPwElkOPbn3gLt8>
+X-ME-Received: <xmr:zGMeYT0a6oCjw0pCIkChuOvWStLpovgmiGxRfejJ8HN3XSM4it8gxuswtuI9GfvjDnHF-3T2QRepg1dCtvtjSTB4SfGj6ATnLQm9>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgdeilecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
- himhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:xmMeYUtWeN0VzAx6dUlsehNylv0K3HMtAqG1mcNBOkqxFyvH7fzbJQ>
- <xmx:xmMeYUfkKz3oQqfEjB21JovPMfdBLk_UHx5MFbQ1aOqNeugE6jT2AQ>
- <xmx:xmMeYY2YIv_fDGOnmzAAkFV_XNMbR0TxXTINLEs_zR0A-wqLlhXGRg>
- <xmx:yWMeYXvPsiz5xUTFF_SW32g8GWJsUqHz-BpXGDg_rpTGS9sC6CNd5vtzruk>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:zGMeYSBmX5IIIuSiQRuojMy66z3Tb5NngBdVItPg6dzKywPoVUtepQ>
+ <xmx:zGMeYfj_IipYUQbg7rZCUKe8Fnm-YDLD8B8LUQgbCnlcmROTI-zlIA>
+ <xmx:zGMeYepoZuxrElK1VT1bwUuKaCL8luXDKM3d4z1Us40cn9NMNBy-pQ>
+ <xmx:zGMeYeQR0DLnCB8jb8RxHELN6ZFsYBot1FsedvISbLnJS7Tore9Ogv5SuYg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 09:59:34 -0400 (EDT)
+ 19 Aug 2021 09:59:40 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
@@ -70,13 +70,14 @@ Cc: linux-kernel@vger.kernel.org,
  bcm-kernel-feedback-list@broadcom.com, Emma Anholt <emma@anholt.net>,
  Nicolas Saenz Julienne <nsaenz@kernel.org>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 0/6] drm/vc4: hdmi: Fix CEC access while disabled
-Date: Thu, 19 Aug 2021 15:59:25 +0200
-Message-Id: <20210819135931.895976-1-maxime@cerno.tech>
+Subject: [PATCH v3 1/6] drm/vc4: select PM
+Date: Thu, 19 Aug 2021 15:59:26 +0200
+Message-Id: <20210819135931.895976-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210819135931.895976-1-maxime@cerno.tech>
+References: <20210819135931.895976-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,49 +93,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-This series aims at fixing a complete and silent hang when one tries to use=
- CEC=0D
-while the display output is off.=0D
-=0D
-This can be tested with:=0D
-=0D
-echo off > /sys/class/drm/card0-HDMI-A-1/status=0D
-cec-ctl --tuner -p 1.0.0.0=0D
-cec-compliance=0D
-=0D
-This series addresses it by making sure the HDMI controller is powered up a=
-s=0D
-soon as the CEC device is opened by the userspace.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Changes from v2:=0D
-  - Rebased on top of drm-misc-fixes=0D
-  - Fixed a build error=0D
-=0D
-Changes from v1:=0D
-  - More fixes=0D
-  - Added a big warning if we try to access a register while the device is=
-=0D
-    disabled.=0D
-  - Fixed the pre_crtc_configure error path=0D
-=0D
-Maxime Ripard (6):=0D
-  drm/vc4: select PM=0D
-  drm/vc4: hdmi: Make sure the controller is powered up during bind=0D
-  drm/vc4: hdmi: Rework the pre_crtc_configure error handling=0D
-  drm/vc4: hdmi: Split the CEC disable / enable functions in two=0D
-  drm/vc4: hdmi: Make sure the device is powered with CEC=0D
-  drm/vc4: hdmi: Warn if we access the controller while disabled=0D
-=0D
- drivers/gpu/drm/vc4/Kconfig         |   1 +=0D
- drivers/gpu/drm/vc4/vc4_hdmi.c      | 125 ++++++++++++++++++----------=0D
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h |   6 ++=0D
- 3 files changed, 90 insertions(+), 42 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+We already depend on runtime PM to get the power domains and clocks for
+most of the devices supported by the vc4 driver, so let's just select it
+to make sure it's there, and remove the ifdef.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/Kconfig    | 1 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
+index 118e8a426b1a..f774ab340863 100644
+--- a/drivers/gpu/drm/vc4/Kconfig
++++ b/drivers/gpu/drm/vc4/Kconfig
+@@ -9,6 +9,7 @@ config DRM_VC4
+ 	select DRM_KMS_CMA_HELPER
+ 	select DRM_GEM_CMA_HELPER
+ 	select DRM_PANEL_BRIDGE
++	select PM
+ 	select SND_PCM
+ 	select SND_PCM_ELD
+ 	select SND_SOC_GENERIC_DMAENGINE_PCM
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index c2876731ee2d..602203b2d8e1 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2107,7 +2107,6 @@ static int vc5_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
+ 	return 0;
+ }
+ 
+-#ifdef CONFIG_PM
+ static int vc4_hdmi_runtime_suspend(struct device *dev)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+@@ -2128,7 +2127,6 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
+ 
+ 	return 0;
+ }
+-#endif
+ 
+ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ {
+-- 
+2.31.1
+
