@@ -1,76 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2883F1925
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 14:27:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1773F19A1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 14:44:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994C36E87D;
-	Thu, 19 Aug 2021 12:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3E6B6E833;
+	Thu, 19 Aug 2021 12:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
- [IPv6:2607:f8b0:4864:20::82e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 970796E87D
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 12:27:19 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id y9so4381752qtv.7
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 05:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5h8DRQ7Bx+eFzlj90sftRVtoQw5ByFsjYM5vOznvNjM=;
- b=Lh2+mUHm/NzMtpiU3c8gY3ZdaGQ0hTG/m9kvEQgXEg1RKz+3FaF0xDsca30ygZMj4U
- 71tVT3HVfOJ+uq/ae3O+V2/wNz1ZKRL5oXrfJMrT9ZLS8IGqK1WZlS1VIy7/pMZF5p1U
- iJ4mL0UEz55891lYfc4fFzXB5mnKfGVvXu5qR2IqQy99MvlG8TXgE0bJRzU78LOMzryT
- 7Xl+HKBwG9bWchW9H2+S/GBzGWNkuVy8E57+OfP+v2vJHi/dIPH6q7xZxwuYZQV9zBN7
- 98qA2j6Yif6IJCGo5nBcNVo6T60PWrjlYnFBGmvL3mwjjuqqvooktAaU5gBmctIMOXRS
- 0LWw==
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA4D6E833
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 12:44:32 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id i21so5385273pfd.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 05:44:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tpdnVovIf9f36fxXsG47k5UX+4nv4gnLZxZo5LHNkVg=;
+ b=dWEH/SBMM9XBrR35++2cnoA8rP5VhwS8bum3E6f6Jl86Z2yulQe5LUJJmF809A0KDp
+ fGPd8FyzcMC3eLLMOgn4F765JPiBfFE1AHz64Fm1c7WARVsdQrestXs//sGn1ne2cmFD
+ UYBuPgiwMoqQjyY0TUUI38W12DQcQFNWicRfAu+YnLGpuN28f/dC/khnQY0YzrzXRLZA
+ K21+kYly5hV7UxiH4tZPZ8eFgr/r1+yskhHwLWOuTcSBjn5fISSGACC4wrAGyjx1OVKs
+ 6+JDvYbH4ltnkzemVF/X3MNYZgCylWr66UKYYGPW/xmz7f49ilyfNzaED5RIb9lgVUoM
+ O9Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5h8DRQ7Bx+eFzlj90sftRVtoQw5ByFsjYM5vOznvNjM=;
- b=t0w1kd/uPlCt406Y7PhBuDgIFJ4kngBOMtmlx/kP7DTmMNJzUul1kLhDNSpUFRxNqX
- J8yYrGia3ECAa/f1TXQ5h2c4u0F4RwsOBIrNshxKUnUb1tMD+O7OWNWmocDNJ83QRsST
- /6n4AaxPRrBJOI/Bluc06XZwp7gtmTid7+eqadVrnHGALGoi9vapsSZVJV1d0SuZZWRV
- c474Cwy0k6D5+L9pANSBdAjsgvRqNVCpq+OUoSaGekHJdFrNNRJ2hVfluH8IYK2O9G+h
- jho+CqS6bbJigJGxWD9XEkNjZjIC1u7nlk9JxXur9eltAXSr9KFeVI8/5OcvvZUQwzgS
- Cklg==
-X-Gm-Message-State: AOAM530Y8ogcvZ3cOAsneu4gIKM0bGMFzh0TLoW8BDXxHxXXGyJGsj8m
- uC9ehQIF3ia/pW4dJXGO0Ha/Kw==
-X-Google-Smtp-Source: ABdhPJxwk7vI3dEd2/mwgiJx7X4NGPWrwVGFe3LSMD/MyzGQMgDurTmsWQFQ5lpblgS6WBAbFYMPPg==
-X-Received: by 2002:a05:622a:11cc:: with SMTP id
- n12mr12404820qtk.363.1629376038633; 
- Thu, 19 Aug 2021 05:27:18 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
- by smtp.gmail.com with ESMTPSA id d7sm1266808qth.70.2021.08.19.05.27.17
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tpdnVovIf9f36fxXsG47k5UX+4nv4gnLZxZo5LHNkVg=;
+ b=eRyw5pSHnHlK57SVw9a02DSX9l+VMzWkCRXrLAhaf5Y8TXyerS9FWtoFsDdBk6hRO+
+ 8gCDM7efzIWP7cBjLxcYU9zwYpMIBaR9UVddK9gqtwtiofIjb+C1W28ydo0AWzIdoOVo
+ Q+/SltpGVs3Yc1IMK1kht1Hmoyz5gU1hkJUo5sl4u/GrIiwpsgTTHIsy53UwQFv7oYtO
+ iB+CDAMdqiGN+EKVPR6M6CLcni9+Q2YNkc3I5ra75qZcofapK6KqZotySJdYYM/RN1eA
+ ILwEgxa4lWrQSonxA579YMrvwtWv7QvInM6Mu3pb8D/m5FLtzVqZ1luITK0rz06QvEdt
+ weHg==
+X-Gm-Message-State: AOAM532ZoaZzEg5pOhyiv86Otr2aU9t3+EYD8gqcZavh82v6UON9eUo5
+ XmadVrMR7NyXrdbb0imEosCydxanxovBAFvk
+X-Google-Smtp-Source: ABdhPJy3WI1J/e+pRGGKh963u5fG4uQGc8fxE4jcGFHpYB8tOfrFxADNwbMHRKBahzUYincyeGEgUg==
+X-Received: by 2002:a65:578a:: with SMTP id b10mr14006811pgr.135.1629377072017; 
+ Thu, 19 Aug 2021 05:44:32 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.214])
+ by smtp.gmail.com with ESMTPSA id n185sm3681717pfn.171.2021.08.19.05.44.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 05:27:18 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mGh8e-0016LT-A5; Thu, 19 Aug 2021 09:27:16 -0300
-Date: Thu, 19 Aug 2021 09:27:16 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
- Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct
- mlx5_ib_mr
-Message-ID: <20210819122716.GP543798@ziepe.ca>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-57-keescook@chromium.org>
+ Thu, 19 Aug 2021 05:44:31 -0700 (PDT)
+From: yangcong <yangcong5@huaqin.corp-partner.google.com>
+To: yangcong5@huaqin.com
+Cc: dri-devel@lists.freedesktop.org,
+ yangcong <yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH] test upstream
+Date: Thu, 19 Aug 2021 20:44:27 +0800
+Message-Id: <20210819124427.12264-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818060533.3569517-57-keescook@chromium.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,49 +71,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 17, 2021 at 11:05:26PM -0700, Kees Cook wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
-> 
-> Add struct_group() to mark region of struct mlx5_ib_mr that should be
-> initialized to zero.
-> 
-> Cc: Leon Romanovsky <leon@kernel.org>
-> Cc: Doug Ledford <dledford@redhat.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: linux-rdma@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> index bf20a388eabe..f63bf204a7a1 100644
-> --- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> +++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> @@ -644,6 +644,7 @@ struct mlx5_ib_mr {
->  	struct ib_umem *umem;
->  
->  	/* This is zero'd when the MR is allocated */
-> +	struct_group(cleared,
->  	union {
->  		/* Used only while the MR is in the cache */
->  		struct {
-> @@ -691,12 +692,13 @@ struct mlx5_ib_mr {
->  			bool is_odp_implicit;
->  		};
->  	};
-> +	);
->  };
->  
->  /* Zero the fields in the mr that are variant depending on usage */
->  static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
->  {
-> -	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
-> +	memset(&mr->cleared, 0, sizeof(mr->cleared));
->  }
+test upstream panel
 
-Why not use the memset_after(mr->umem) here?
+Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/panel-truly-nt35597.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Jason
+diff --git a/drivers/gpu/drm/panel/panel-truly-nt35597.c b/drivers/gpu/drm/panel/panel-truly-nt35597.c
+index b24b92d93ea5..e3cd37025c12 100644
+--- a/drivers/gpu/drm/panel/panel-truly-nt35597.c
++++ b/drivers/gpu/drm/panel/panel-truly-nt35597.c
+@@ -2,7 +2,9 @@
+ /*
+  * Copyright (c) 2018, The Linux Foundation. All rights reserved.
+  */
+-
++/*
++ * test upstream.
++ */
+ #include <linux/backlight.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+-- 
+2.25.1
+
