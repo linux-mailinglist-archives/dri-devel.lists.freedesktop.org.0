@@ -2,54 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01DD43F222D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 23:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E803F2246
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 23:36:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E1D06E901;
-	Thu, 19 Aug 2021 21:19:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD27E6E9DE;
+	Thu, 19 Aug 2021 21:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
- [209.85.167.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 292436E901
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 21:19:14 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id u10so10327008oiw.4
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 14:19:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=6ndjQ7qKsm3BuTtzm2lsx8jxF6MbixFKOgts6IRJ5+8=;
- b=KUcEX7jZI5EEhM5uDYjdvr+vQfxSCVj0aoLqudIk5vjOQ4RA3MqDa7/cCunfn5Armp
- DyOifOxCNlKyBvcAogpBxKVTNlEC1BHe/jAkIvxBLWOjUVpCtZUqhsitRpf+XIV6sEvQ
- 0/tZzx3cOq+ZqYd8ZLjlHcHQ+ZG6Gwqako0Y1iRTp+k+YSL7nIMPeBGqgjnk8p9jOJkn
- BRi7VmgbVWjHdZxaiNGQQFBXOZJ1iosUZqP+95B42wSXV8+7B5eWV6xa+WPcDduW9iSy
- yvUgpQ3jWoVOqp1cpHogAC4bNl+qV5IGBa5kzFihSUHXqiQaH/BqVJIcPER4IsS8ajB1
- e52g==
-X-Gm-Message-State: AOAM533lJ4NSOB6joDweXstdKn9dN5PKw2VrRpOgeJrE3oJAsYKYMCax
- 9Wc/l5pNQbw6k/bXqD4emA==
-X-Google-Smtp-Source: ABdhPJxXUzWsn+3Lyb8xHlM4XaqeFdxFTJhM4+LmDbUIinWDqggh+Xp8sgMp4ePnrnvS8JfUkyCm3w==
-X-Received: by 2002:aca:bec2:: with SMTP id o185mr528567oif.151.1629407953436; 
- Thu, 19 Aug 2021 14:19:13 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id o11sm975827otp.8.2021.08.19.14.19.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 14:19:12 -0700 (PDT)
-Received: (nullmailer pid 1418773 invoked by uid 1000);
- Thu, 19 Aug 2021 21:19:11 -0000
-From: Rob Herring <robh@kernel.org>
-To: yangcong <yangcong5@huaqin.corp-partner.google.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- sam@ravnborg.org, thierry.reding@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
- devicetree@vger.kernel.org, dianders@google.com
-In-Reply-To: <20210819124844.12424-3-yangcong5@huaqin.corp-partner.google.com>
-References: <20210819124844.12424-1-yangcong5@huaqin.corp-partner.google.com>
- <20210819124844.12424-3-yangcong5@huaqin.corp-partner.google.com>
-Subject: Re: [v1 2/2] dt-bindings: drm/panel: boe-tv101wum-nl6: Support
- enabling a 3.3V rail
-Date: Thu, 19 Aug 2021 16:19:11 -0500
-Message-Id: <1629407951.445122.1418772.nullmailer@robh.at.kernel.org>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A26606E9DE;
+ Thu, 19 Aug 2021 21:36:09 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10081"; a="203852009"
+X-IronPort-AV: E=Sophos;i="5.84,335,1620716400"; d="scan'208";a="203852009"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 14:36:08 -0700
+X-IronPort-AV: E=Sophos;i="5.84,335,1620716400"; d="scan'208";a="451782576"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 14:36:08 -0700
+Date: Thu, 19 Aug 2021 14:30:56 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch
+Subject: Re: [Intel-gfx] [PATCH 02/27] drm/i915/guc: Fix outstanding G2H
+ accounting
+Message-ID: <20210819213055.GA11622@jons-linux-dev-box>
+References: <20210819061639.21051-1-matthew.brost@intel.com>
+ <20210819061639.21051-3-matthew.brost@intel.com>
+ <4c984e90-081f-6707-c0ab-def83c7a0a98@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4c984e90-081f-6707-c0ab-def83c7a0a98@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +54,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 19 Aug 2021 20:48:44 +0800, yangcong wrote:
-> The auo,b101uan08.3 panel (already supported by this driver) has
-> a 3.3V rail that needs to be turned on. For previous users of
-> this panel this voltage was directly output by pmic. On a new
-> user (the not-yet-upstream sc7180-trogdor-mrbland board) we need
-> to turn the 3.3V rail on.
+On Thu, Aug 19, 2021 at 02:31:51PM -0700, Daniele Ceraolo Spurio wrote:
 > 
-> Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml   | 4 ++++
->  1 file changed, 4 insertions(+)
+> 
+> On 8/18/2021 11:16 PM, Matthew Brost wrote:
+> > A small race that could result in incorrect accounting of the number
+> > of outstanding G2H. Basically prior to this patch we did not increment
+> > the number of outstanding G2H if we encoutered a GT reset while sending
+> > a H2G. This was incorrect as the context state had already been updated
+> > to anticipate a G2H response thus the counter should be incremented.
+> > 
+> > Also always use helper when decrementing this value.
+> > 
+> > Fixes: f4eb1f3fe946 ("drm/i915/guc: Ensure G2H response has space in buffer")
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Cc: <stable@vger.kernel.org>
+> > ---
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 24 ++++++++++---------
+> >   1 file changed, 13 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 69faa39da178..32c414aa9009 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -352,6 +352,12 @@ static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
+> >   	xa_unlock_irqrestore(&guc->context_lookup, flags);
+> >   }
+> > +static void decr_outstanding_submission_g2h(struct intel_guc *guc)
+> > +{
+> > +	if (atomic_dec_and_test(&guc->outstanding_submission_g2h))
+> > +		wake_up_all(&guc->ct.wq);
+> > +}
+> > +
+> >   static int guc_submission_send_busy_loop(struct intel_guc *guc,
+> >   					 const u32 *action,
+> >   					 u32 len,
+> > @@ -360,11 +366,13 @@ static int guc_submission_send_busy_loop(struct intel_guc *guc,
+> >   {
+> >   	int err;
+> > -	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> > -
+> > -	if (!err && g2h_len_dw)
+> > +	if (g2h_len_dw)
+> >   		atomic_inc(&guc->outstanding_submission_g2h);
+> > +	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> > +	if (err == -EBUSY && g2h_len_dw)
+> > +		decr_outstanding_submission_g2h(guc);
+> > +
+> 
+> here you're special casing  -EBUSY, which kind of implies that the caller
+> needs to handle this differently, but most callers seem to ignore the return
+> code. Is the counter handled somewhere else in case of EBUSY? if so, please
+> add a comment about it.
 > 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Good catch, this is a dead code path. Will delete.
 
-yamllint warnings/errors:
+Matt
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.example.dt.yaml: panel@0: 'pp3300-supply' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1518662
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+> Daniele
+> 
+> >   	return err;
+> >   }
+> > @@ -616,7 +624,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+> >   		init_sched_state(ce);
+> >   		if (pending_enable || destroyed || deregister) {
+> > -			atomic_dec(&guc->outstanding_submission_g2h);
+> > +			decr_outstanding_submission_g2h(guc);
+> >   			if (deregister)
+> >   				guc_signal_context_fence(ce);
+> >   			if (destroyed) {
+> > @@ -635,7 +643,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+> >   				intel_engine_signal_breadcrumbs(ce->engine);
+> >   			}
+> >   			intel_context_sched_disable_unpin(ce);
+> > -			atomic_dec(&guc->outstanding_submission_g2h);
+> > +			decr_outstanding_submission_g2h(guc);
+> >   			spin_lock_irqsave(&ce->guc_state.lock, flags);
+> >   			guc_blocked_fence_complete(ce);
+> >   			spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> > @@ -2583,12 +2591,6 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
+> >   	return ce;
+> >   }
+> > -static void decr_outstanding_submission_g2h(struct intel_guc *guc)
+> > -{
+> > -	if (atomic_dec_and_test(&guc->outstanding_submission_g2h))
+> > -		wake_up_all(&guc->ct.wq);
+> > -}
+> > -
+> >   int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+> >   					  const u32 *msg,
+> >   					  u32 len)
+> 
