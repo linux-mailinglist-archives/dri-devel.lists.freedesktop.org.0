@@ -2,71 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3F23F1634
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FBA3F1650
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD8916E85E;
-	Thu, 19 Aug 2021 09:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4286E7D1;
+	Thu, 19 Aug 2021 09:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFBA06E88E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:31:01 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- l24-20020a05600c089800b002e71a10130eso389953wmp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 02:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=xRSH4pZU7t3VZ/UnDMJSyxU7biwsXWRIRa+4AQMJieg=;
- b=X+gsTb6nuRXFUQILST+y9oKSX2AgQEjpmp7AHBH9s/5tIfm6xnre87Q5dXVMonJ+X6
- X0e2Rp/8c4Z5AZiSvevP5OEuP7TY8ss2HlEieES+nZ1qJhBlNMwodT6kNhberuHwzWKm
- Uxkoi3t5jz8q7qq89ijmudu2lCuV/lUaq9dP4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=xRSH4pZU7t3VZ/UnDMJSyxU7biwsXWRIRa+4AQMJieg=;
- b=gcSORbDcEuRfO1Mwqx0lj1XOsAb9lJ2EuTbjmJ1MwvyAEKjWWF2KNY+e/PaU9Mynbd
- hKLWTOCneCFJQZmb7nC+jPtx1HbfDO5OeNqUaW498BUT6sLLNqUrLGiWn4e8qe73kTVj
- Yum6CAPKNzBL7Mvsiz9RjQuaTLqFSD9nYeU2osddsP7HwmXxN4yrF2BnFn/4c5WrZx/G
- RxdHegyUXKUCkfj7lOHJEij7jHwJh6quJ5M/PlNCsFpIV33/oQfI9Mk832mnuGZimgIr
- bOSoyIgCA28WicjLfeY2KRQ/LCbIF1jZ3qtzqHgkV+XwJC32DVVQUjlIhTvhSrGOzKHL
- nXvw==
-X-Gm-Message-State: AOAM533pdNRmxuIQgXZUz5aPBg4OzjuEYNbbSPiM/TrpHIHQa4mfoAWo
- doCBRbOWBAk9C5vSp66JbYkX8w==
-X-Google-Smtp-Source: ABdhPJwLfIWY4eXjWu6iDaJb7xEjfX1iNw+WfyjmAiVMSbqRDol55Iaymx0hiJTcLRTl1hrfyhK/IQ==
-X-Received: by 2002:a1c:1d13:: with SMTP id d19mr10991667wmd.135.1629365460221; 
- Thu, 19 Aug 2021 02:31:00 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e17sm2377993wru.7.2021.08.19.02.30.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 02:30:59 -0700 (PDT)
-Date: Thu, 19 Aug 2021 11:30:57 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>,
- Jingwen Chen <Jingwen.Chen2@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "monk.liu" <monk.liu@amd.com>, Christian Koenig <christian.koenig@amd.com>
-Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
-Message-ID: <YR4k0fPfUL5viMRY@phenom.ffwll.local>
-References: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
- <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
- <69cbf5bd-42c2-be55-a604-43f4ebba159d@amd.com>
- <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
- <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
- <YR0cb43Wv8jGiIbb@phenom.ffwll.local>
- <82782ff5-d2a7-a4a8-8526-d1ff231630ed@amd.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38EDE6E7D1;
+ Thu, 19 Aug 2021 09:34:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216553855"
+X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="216553855"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 02:34:32 -0700
+X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="451328514"
+Received: from jmfrench-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.251.78])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 02:34:31 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 1/2] drm/i915/buddy: add some pretty printing
+Date: Thu, 19 Aug 2021 10:34:18 +0100
+Message-Id: <20210819093419.295636-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <82782ff5-d2a7-a4a8-8526-d1ff231630ed@amd.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,178 +48,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 18, 2021 at 10:51:00AM -0400, Andrey Grodzovsky wrote:
-> 
-> On 2021-08-18 10:42 a.m., Daniel Vetter wrote:
-> > On Wed, Aug 18, 2021 at 10:36:32AM -0400, Andrey Grodzovsky wrote:
-> > > On 2021-08-18 10:32 a.m., Daniel Vetter wrote:
-> > > > On Wed, Aug 18, 2021 at 10:26:25AM -0400, Andrey Grodzovsky wrote:
-> > > > > On 2021-08-18 10:02 a.m., Alex Deucher wrote:
-> > > > > 
-> > > > > > + dri-devel
-> > > > > > 
-> > > > > > Since scheduler is a shared component, please add dri-devel on all
-> > > > > > scheduler patches.
-> > > > > > 
-> > > > > > On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@amd.com> wrote:
-> > > > > > > [Why]
-> > > > > > > for bailing job, this commit will delete it from pending list thus the
-> > > > > > > bailing job will never have a chance to be resubmitted even in advance
-> > > > > > > tdr mode.
-> > > > > > > 
-> > > > > > > [How]
-> > > > > > > after embeded hw_fence into amdgpu_job is done, the race condition that
-> > > > > > > this commit tries to work around is completely solved.So revert this
-> > > > > > > commit.
-> > > > > > > This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
-> > > > > > > v2:
-> > > > > > > add dma_fence_get/put() around timedout_job to avoid concurrent delete
-> > > > > > > during processing timedout_job
-> > > > > > > 
-> > > > > > > Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
-> > > > > > > ---
-> > > > > > >     drivers/gpu/drm/scheduler/sched_main.c | 23 +++++------------------
-> > > > > > >     1 file changed, 5 insertions(+), 18 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > index a2a953693b45..f9b9b3aefc4a 100644
-> > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
-> > > > > > >     {
-> > > > > > >            struct drm_gpu_scheduler *sched;
-> > > > > > >            struct drm_sched_job *job;
-> > > > > > > +       struct dma_fence *fence;
-> > > > > > >            enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
-> > > > > > > 
-> > > > > > >            sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
-> > > > > > > @@ -325,11 +326,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
-> > > > > > > 
-> > > > > > >            if (job) {
-> > > > > > >                    /*
-> > > > > > > -                * Remove the bad job so it cannot be freed by concurrent
-> > > > > > > -                * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
-> > > > > > > -                * is parked at which point it's safe.
-> > > > > > > +                * Get job->s_fence->parent here to avoid concurrent delete during
-> > > > > > > +                * processing timedout_job
-> > > > > > >                     */
-> > > > > > > -               list_del_init(&job->list);
-> > > > > > > +               fence = dma_fence_get(job->s_fence->parent);
-> > > > > While this is true for amdgpu, it has no meaning for other drivers for whom
-> > > > > we haven't
-> > > > > done the refactoring of embedding HW fence (parent) into the job structure.
-> > > > > In fact thinking
-> > > > > about it, unless you do the HW fence embedding for all the drivers using the
-> > > > > scheduler you cannot
-> > > > > revert this patch or you will just break them.
-> > > > btw, why did you do that embedding? I do still have my patches with
-> > > > dma_fence annotations floating around, but my idea at least was to fix
-> > > > that issue with a mempool, not with embeddeding. What was the motivation
-> > > > for embedding the wh fence?
-> > > > -Daniel
-> > > 
-> > > The motivation was 2 fold, avoid memory allocation during jobs submissions
-> > > (HW fence allocation) because as Christian explained this leads to deadlock
-> > > with
-> > > mm code during evictions due to memory pressure (Christian can clarify if I
-> > > messed
-> > Yeah that's the exact same thing I've chased with my dma_fence
-> > annotations, but thus far zero to none interested in getting it sorted. I
-> > think it'd be good to have some cross-driver agreement on how this should
-> > be solved before someone just charges ahead ...
-> > 
-> > > this explanation). Second is to exactly revert this patch because while it
-> > > solved the issue
-> > > described in the patch it created another with drivers who baildc out early
-> > > during TDR handling
-> > > for various reason and the job would just leak because it was already
-> > > removed form pending list.
-> > Can't we reinsert it before we restart the scheduler thread? It might need
-> > a separate list for that due to the lockless queue tricks. Or am I
-> > thinking about the wrong kind of "we lost the job"?
-> > -Danile
-> 
-> 
-> If you look at the original patch it would reinsert it even earlier - right
-> after stopping the� SW scheduler thread, and even then it was to late for
-> some drivers as they would decide to return back from their TDR handler even
-> before that. It is solvable but in an ugly way as far as I see, you need to
-> require each driver in his code to put the job back in the list if they do
-> it before reaching the place where scheduler framework does it. Kind of
-> spaghetti code seems to me.
+Implement the debug hook for the buddy resource manager. For this we
+want to print out the status of the memory manager, including how much
+memory is still allocatable, what page sizes we have etc. This will be
+triggered when TTM is unable to fulfil an allocation request for device
+local-memory.
 
-Hm yeah I didn't realize this all happens before we stop the scheduler
-thread.
+v2(Thomas):
+    - s/MB/MiB
+    - s/KB/KiB
 
-Why can't we stop the scheduler thread first, so that there's guaranteed
-no race? I've recently had a lot of discussions with panfrost folks about
-their reset that spawns across engines, and without stopping the scheduler
-thread first before you touch anything it's just plain impossible.
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/i915_buddy.c             | 45 +++++++++++++++++++
+ drivers/gpu/drm/i915/i915_buddy.h             |  8 ++++
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 20 ++++++++-
+ 3 files changed, 72 insertions(+), 1 deletion(-)
 
-I'm also still not understanding what exactly you guys have done,
-can someone please dig out the the amdgpu patches that motivate all this
-maybe that's clearer? A full explanation would still be good since I've
-only started in scheduler stuff.
-
-Another thing I recently pondered for tdr races looking at i915 code is
-whether the tdr should first block the completion fence for that job. My
-motivation is to have a race-free error capture (if the completion races
-then we might start evicting memory and everything goes boom), but maybe
-that helps here too. Some kind of atomic "block this fence from
-completing thing.
-
-Or I'm I completely guessing in the wrong direction?
--Daniel
-
-> 
-> Andrey
-> 
-> 
-> > 
-> > > Andrey
-> > > 
-> > > 
-> > > > 
-> > > > > Andrey
-> > > > > 
-> > > > > 
-> > > > > > >                    spin_unlock(&sched->job_list_lock);
-> > > > > > > 
-> > > > > > >                    status = job->sched->ops->timedout_job(job);
-> > > > > > > @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
-> > > > > > >                            job->sched->ops->free_job(job);
-> > > > > > >                            sched->free_guilty = false;
-> > > > > > >                    }
-> > > > > > > +               dma_fence_put(fence);
-> > > > > > >            } else {
-> > > > > > >                    spin_unlock(&sched->job_list_lock);
-> > > > > > >            }
-> > > > > > > @@ -392,20 +393,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
-> > > > > > > 
-> > > > > > >            kthread_park(sched->thread);
-> > > > > > > 
-> > > > > > > -       /*
-> > > > > > > -        * Reinsert back the bad job here - now it's safe as
-> > > > > > > -        * drm_sched_get_cleanup_job cannot race against us and release the
-> > > > > > > -        * bad job at this point - we parked (waited for) any in progress
-> > > > > > > -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
-> > > > > > > -        * now until the scheduler thread is unparked.
-> > > > > > > -        */
-> > > > > > > -       if (bad && bad->sched == sched)
-> > > > > > > -               /*
-> > > > > > > -                * Add at the head of the queue to reflect it was the earliest
-> > > > > > > -                * job extracted.
-> > > > > > > -                */
-> > > > > > > -               list_add(&bad->list, &sched->pending_list);
-> > > > > > > -
-> > > > > > >            /*
-> > > > > > >             * Iterate the job list from later to  earlier one and either deactive
-> > > > > > >             * their HW callbacks or remove them from pending list if they already
-> > > > > > > --
-> > > > > > > 2.25.1
-> > > > > > > 
-
+diff --git a/drivers/gpu/drm/i915/i915_buddy.c b/drivers/gpu/drm/i915/i915_buddy.c
+index 7b274c51cac0..6e2ad68f8f3f 100644
+--- a/drivers/gpu/drm/i915/i915_buddy.c
++++ b/drivers/gpu/drm/i915/i915_buddy.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/kmemleak.h>
++#include <linux/sizes.h>
+ 
+ #include "i915_buddy.h"
+ 
+@@ -82,6 +83,7 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64 size, u64 chunk_size)
+ 	size = round_down(size, chunk_size);
+ 
+ 	mm->size = size;
++	mm->avail = size;
+ 	mm->chunk_size = chunk_size;
+ 	mm->max_order = ilog2(size) - ilog2(chunk_size);
+ 
+@@ -155,6 +157,8 @@ void i915_buddy_fini(struct i915_buddy_mm *mm)
+ 		i915_block_free(mm, mm->roots[i]);
+ 	}
+ 
++	GEM_WARN_ON(mm->avail != mm->size);
++
+ 	kfree(mm->roots);
+ 	kfree(mm->free_list);
+ }
+@@ -230,6 +234,7 @@ void i915_buddy_free(struct i915_buddy_mm *mm,
+ 		     struct i915_buddy_block *block)
+ {
+ 	GEM_BUG_ON(!i915_buddy_block_is_allocated(block));
++	mm->avail += i915_buddy_block_size(mm, block);
+ 	__i915_buddy_free(mm, block);
+ }
+ 
+@@ -283,6 +288,7 @@ i915_buddy_alloc(struct i915_buddy_mm *mm, unsigned int order)
+ 	}
+ 
+ 	mark_allocated(block);
++	mm->avail -= i915_buddy_block_size(mm, block);
+ 	kmemleak_update_trace(block);
+ 	return block;
+ 
+@@ -368,6 +374,7 @@ int i915_buddy_alloc_range(struct i915_buddy_mm *mm,
+ 			}
+ 
+ 			mark_allocated(block);
++			mm->avail -= i915_buddy_block_size(mm, block);
+ 			list_add_tail(&block->link, &allocated);
+ 			continue;
+ 		}
+@@ -402,6 +409,44 @@ int i915_buddy_alloc_range(struct i915_buddy_mm *mm,
+ 	return err;
+ }
+ 
++void i915_buddy_block_print(struct i915_buddy_mm *mm,
++			    struct i915_buddy_block *block,
++			    struct drm_printer *p)
++{
++	u64 start = i915_buddy_block_offset(block);
++	u64 size = i915_buddy_block_size(mm, block);
++
++	drm_printf(p, "%#018llx-%#018llx: %llu\n", start, start + size, size);
++}
++
++void i915_buddy_print(struct i915_buddy_mm *mm, struct drm_printer *p)
++{
++	int order;
++
++	drm_printf(p, "chunk_size: %lluKiB, total: %lluMiB, free: %lluMiB\n",
++		   mm->chunk_size >> 10, mm->size >> 20, mm->avail >> 20);
++
++	for (order = mm->max_order; order >= 0; order--) {
++		struct i915_buddy_block *block;
++		u64 count = 0, free;
++
++		list_for_each_entry(block, &mm->free_list[order], link) {
++			GEM_BUG_ON(!i915_buddy_block_is_free(block));
++			count++;
++		}
++
++		drm_printf(p, "order-%d ", order);
++
++		free = count * (mm->chunk_size << order);
++		if (free < SZ_1M)
++			drm_printf(p, "free: %lluKiB", free >> 10);
++		else
++			drm_printf(p, "free: %lluMiB", free >> 20);
++
++		drm_printf(p, ", pages: %llu\n", count);
++	}
++}
++
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+ #include "selftests/i915_buddy.c"
+ #endif
+diff --git a/drivers/gpu/drm/i915/i915_buddy.h b/drivers/gpu/drm/i915/i915_buddy.h
+index 3940d632f208..7077742112ac 100644
+--- a/drivers/gpu/drm/i915/i915_buddy.h
++++ b/drivers/gpu/drm/i915/i915_buddy.h
+@@ -10,6 +10,8 @@
+ #include <linux/list.h>
+ #include <linux/slab.h>
+ 
++#include <drm/drm_print.h>
++
+ struct i915_buddy_block {
+ #define I915_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+ #define I915_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
+@@ -69,6 +71,7 @@ struct i915_buddy_mm {
+ 	/* Must be at least PAGE_SIZE */
+ 	u64 chunk_size;
+ 	u64 size;
++	u64 avail;
+ };
+ 
+ static inline u64
+@@ -129,6 +132,11 @@ void i915_buddy_free(struct i915_buddy_mm *mm, struct i915_buddy_block *block);
+ 
+ void i915_buddy_free_list(struct i915_buddy_mm *mm, struct list_head *objects);
+ 
++void i915_buddy_print(struct i915_buddy_mm *mm, struct drm_printer *p);
++void i915_buddy_block_print(struct i915_buddy_mm *mm,
++			    struct i915_buddy_block *block,
++			    struct drm_printer *p);
++
+ void i915_buddy_module_exit(void);
+ int i915_buddy_module_init(void);
+ 
+diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+index 6877362f6b85..d59fbb019032 100644
+--- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
++++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+@@ -126,12 +126,30 @@ static void i915_ttm_buddy_man_free(struct ttm_resource_manager *man,
+ 	kfree(bman_res);
+ }
+ 
++static void i915_ttm_buddy_man_debug(struct ttm_resource_manager *man,
++				     struct drm_printer *printer)
++{
++	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
++	struct i915_buddy_block *block;
++
++	mutex_lock(&bman->lock);
++	drm_printf(printer, "default_page_size: %lluKiB\n",
++		   bman->default_page_size >> 10);
++
++	i915_buddy_print(&bman->mm, printer);
++
++	drm_printf(printer, "reserved:\n");
++	list_for_each_entry(block, &bman->reserved, link)
++		i915_buddy_block_print(&bman->mm, block, printer);
++	mutex_unlock(&bman->lock);
++}
++
+ static const struct ttm_resource_manager_func i915_ttm_buddy_manager_func = {
+ 	.alloc = i915_ttm_buddy_man_alloc,
+ 	.free = i915_ttm_buddy_man_free,
++	.debug = i915_ttm_buddy_man_debug,
+ };
+ 
+-
+ /**
+  * i915_ttm_buddy_man_init - Setup buddy allocator based ttm manager
+  * @bdev: The ttm device
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.26.3
+
