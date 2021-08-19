@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A23D3F159A
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 10:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AE73F1536
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 10:30:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D81892A6;
-	Thu, 19 Aug 2021 08:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 040BF6E823;
+	Thu, 19 Aug 2021 08:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE3FE892A6;
- Thu, 19 Aug 2021 08:52:16 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="280250121"
-X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; 
- d="asc'?scan'208";a="280250121"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2021 01:52:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; 
- d="asc'?scan'208";a="489211385"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
- by fmsmga008.fm.intel.com with ESMTP; 19 Aug 2021 01:52:12 -0700
-Date: Thu, 19 Aug 2021 16:29:29 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Wang, Zhi A" <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@intel.com>
-Subject: Re: refactor the i915 GVT support
-Message-ID: <20210819082929.GB13928@zhen-hp.sh.intel.com>
-References: <20210727121224.GA2145868@nvidia.com>
- <DM4PR11MB5549EC882AA6076F3468274DCAEA9@DM4PR11MB5549.namprd11.prod.outlook.com>
- <20210728175925.GU1721383@nvidia.com>
- <20210729072022.GB31896@lst.de>
- <20210803094315.GF13928@zhen-hp.sh.intel.com>
- <20210803143058.GA1721383@nvidia.com>
- <20210804052606.GG13928@zhen-hp.sh.intel.com>
- <20210816173458.GA9183@lst.de>
- <20210817010851.GW13928@zhen-hp.sh.intel.com>
- <20210817052203.GX13928@zhen-hp.sh.intel.com>
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
+ [IPv6:2607:f8b0:4864:20::82b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8E106E4AE;
+ Thu, 19 Aug 2021 08:30:24 +0000 (UTC)
+Received: by mail-qt1-x82b.google.com with SMTP id g11so3927220qtk.5;
+ Thu, 19 Aug 2021 01:30:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=14TEGaf7v2akM/oSePTDqU/GYp2Ra9U8wukgz4qzh5M=;
+ b=hvjW3W2QZxIbI30sazySzBmEx79ls9rzxQnFF1rpq37Ha77W9hmEUPalTir3L7b7Yv
+ 6lwL/IXBKpdZ85OcN84SpPfXxLgJo5/AS+N2WdyqKHrVWxKJv57FCme49YZP/fH5C8HT
+ nMzxKDwxTDvvrE3aCWwahmCl+/P4kA2gv6u1CZxXRrgjQDVdr4WL7HGS9/dyA/guwM8S
+ ux1X9WkhH5Ah5edA5jtH6o+wsgKnhUtJVh5CRxJlSe3yLrBwAg3PAZ1D8jiwbo8nG6QF
+ 9S+YYKbsKDJ8hk2dlSMDQK9XrARZJoVAf52ebcNjvLa5zdzbIUSiAUdUTPwc7j8vTeGK
+ zvVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=14TEGaf7v2akM/oSePTDqU/GYp2Ra9U8wukgz4qzh5M=;
+ b=nOO1dbU1CjkfmK6SvxIqtCzBwjDzIBplhQGQM5XwaYbT4a41IX1PCltT0rqwoi6QCD
+ LtkoZKZl+EjQNvKC2pyrmZlpTWp6SsagBXxXoItoLSZBpWR88XXm3VMxRjsFu5ZtCgR0
+ M2eqVhC2WKQIU2cwE7L0UbGv5E3Wf1xzo4tQQYsT9tSEv52apLjOX49nnY2Ao4guP0iB
+ FftwynQGT/9GXVfB9Wf1CvxLHE7s4nZ0YxYVQ6r+Vl2+5sIkFg5M4sGWuRwgOTk2Ccjw
+ JZvMBkMQMkMFQW7aG1W88+VWslTJN9RtA0Lb0NqcES2nn6ksBiUro3p9TxexmhtOhxA/
+ t82A==
+X-Gm-Message-State: AOAM5330omgOoXJSWnSnOYiPd6uP2reZhCksvTGDUtNrAek70ZRiGFm9
+ vH0iaK+a1+g94cDRL3pjB6HpD7lbAK/RkdONs+8=
+X-Google-Smtp-Source: ABdhPJzRAtnC31QRZMvCsBfBGvIGGhtMagUx80zSJ/kk2ZmrZuiPfrKmdfCH62DsVimM6u/dht22ZMmYNlfHJmHuRaQ=
+X-Received: by 2002:a05:622a:2:: with SMTP id
+ x2mr11819487qtw.223.1629361823768; 
+ Thu, 19 Aug 2021 01:30:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="K6Vt3zCKtaqyTnPU"
-Content-Disposition: inline
-In-Reply-To: <20210817052203.GX13928@zhen-hp.sh.intel.com>
+References: <20210818171203.237687-1-matthew.auld@intel.com>
+ <532a00f09d17f2e95ef970a9f5b9d273c0384d39.camel@linux.intel.com>
+In-Reply-To: <532a00f09d17f2e95ef970a9f5b9d273c0384d39.camel@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Thu, 19 Aug 2021 09:29:56 +0100
+Message-ID: <CAM0jSHOO+hvofLYzv0qPoC8HOpUQqp=e715cbBvergYa=8PJEw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/ttm: ensure we release the
+ intel_memory_region
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>, 
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,150 +69,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 19 Aug 2021 at 08:25, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
+>
+> On Wed, 2021-08-18 at 18:12 +0100, Matthew Auld wrote:
+> > If the ttm_bo_init_reserved() call fails ensure we also release the
+> > region, otherwise we leak the reference, or worse hit some uaf, when
+> > we
+> > start using the objects.list. Also remove the make_unshrinkable call
+> > here, which doesn't do anything.
+> >
+> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > index 771eb2963123..2e8cdcd5e4f7 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > @@ -909,7 +909,6 @@ int __i915_gem_ttm_object_init(struct
+> > intel_memory_region *mem,
+> >         drm_gem_private_object_init(&i915->drm, &obj->base, size);
+> >         i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class,
+> > flags);
+> >         i915_gem_object_init_memory_region(obj, mem);
+> > -       i915_gem_object_make_unshrinkable(obj);
+> >         INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL |
+> > __GFP_NOWARN);
+> >         mutex_init(&obj->ttm.get_io_page.lock);
+> >         bo_type =3D (obj->flags & I915_BO_ALLOC_USER) ?
+> > ttm_bo_type_device :
+> > @@ -932,7 +931,7 @@ int __i915_gem_ttm_object_init(struct
+> > intel_memory_region *mem,
+> >                                    page_size >> PAGE_SHIFT,
+> >                                    &ctx, NULL, NULL,
+> > i915_ttm_bo_destroy);
+> >         if (ret)
+> > -               return i915_ttm_err_to_gem(ret);
+> > +               goto err_release_mr;
+>
+> IIRC when ttm_object_init_reserved fails, it will call ttm_bo_put()
+> which will eventually end up in i915_ttm_bo_destroy() which will do the
+> right thing?
 
---K6Vt3zCKtaqyTnPU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ah right, missed that.
 
-On 2021.08.17 13:22:03 +0800, Zhenyu Wang wrote:
-> > On 2021.08.16 19:34:58 +0200, Christoph Hellwig wrote:
-> > > Any updates on this?  I'd really hate to miss this merge window.
-> >=20
-> > I'm still waiting for our validation team's report on this. I'm afraid
-> > it might be missing for next version as i915 merge window is mostly
-> > till rc5...and for any change outside of gvt, it still needs to be
-> > acked by i915 maintainers.
->=20
-> Looks our validation team did have problem against recent i915 change.
-> If you like to try, we have a gvt-staging branch on
-> https://github.com/intel/gvt-linux which is generated against drm-tip
-> with gvt changes for testing, currently it's broken.
->=20
-> One issue is with i915 export that intel_context_unpin has been
-> changed into static inline function. Another is that intel_gvt.c
-> should be part of i915 for gvt interface instead of depending on KVMGT
-> config.
-
-I'm working on below patch to resolve this. But I met a weird issue in
-case when building i915 as module and also kvmgt module, it caused
-busy wait on request_module("kvmgt") when boot, it doesn't happen if
-building i915 into kernel. I'm not sure what could be the reason?
-
-> But the problem I see is that after moving gvt device model (gvt/*.c
-> except kvmgt.c) into kvmgt module, we'll have issue with initial mmio
-> state which current gvt relies on, that is in design supposed to get
-> initial HW state before i915 driver has taken any operation.  Before
-> we can ensure that, I think we may only remove MPT part first but
-> still keep gvt device model as part of i915 with config. I'll try to
-> split that out.
-
-Sorry I misread the code that as we always request kvmgt module when
-gvt init, so it should still apply original method that this isn't a
-problem. Our current validation result has shown no regression as well.
-
----8<---
-=46rom 58ff84572f1a0f9d79ca1d7ec0cff5ecbe78d280 Mon Sep 17 00:00:00 2001
-=46rom: Zhenyu Wang <zhenyuw@linux.intel.com>
-Date: Thu, 19 Aug 2021 16:36:33 +0800
-Subject: [PATCH] TESTONLY:drm/i915/gvt: potential fix for refactor against
- current tip
-
----
- drivers/gpu/drm/i915/Makefile           | 4 +++-
- drivers/gpu/drm/i915/gt/intel_context.c | 5 +++++
- drivers/gpu/drm/i915/gt/intel_context.h | 3 ++-
- drivers/gpu/drm/i915/i915_trace.h       | 1 +
- 4 files changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index c4f953837f72..2248574428a1 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -296,7 +296,9 @@ i915-$(CONFIG_DRM_I915_SELFTEST) +=3D \
-=20
- # virtual gpu code
- i915-y +=3D i915_vgpu.o
--i915-$(CONFIG_DRM_I915_GVT_KVMGT) +=3D intel_gvt.o
-+ifneq ($(CONFIG_DRM_I915_GVT_KVMGT),)
-+i915-y +=3D intel_gvt.o
-+endif
-=20
- kvmgt-y +=3D gvt/kvmgt.o \
- 	gvt/gvt.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915=
-/gt/intel_context.c
-index 745e84c72c90..20e7522fed84 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -328,6 +328,11 @@ void __intel_context_do_unpin(struct intel_context *ce=
-, int sub)
- 	intel_context_put(ce);
- }
-=20
-+void intel_context_unpin(struct intel_context *ce)
-+{
-+	_intel_context_unpin(ce);
-+}
-+
- static void __intel_context_retire(struct i915_active *active)
- {
- 	struct intel_context *ce =3D container_of(active, typeof(*ce), active);
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915=
-/gt/intel_context.h
-index c41098950746..f942cbf6300a 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context.h
-@@ -131,7 +131,7 @@ static inline void intel_context_sched_disable_unpin(st=
-ruct intel_context *ce)
- 	__intel_context_do_unpin(ce, 2);
- }
-=20
--static inline void intel_context_unpin(struct intel_context *ce)
-+static inline void _intel_context_unpin(struct intel_context *ce)
- {
- 	if (!ce->ops->sched_disable) {
- 		__intel_context_do_unpin(ce, 1);
-@@ -150,6 +150,7 @@ static inline void intel_context_unpin(struct intel_con=
-text *ce)
- 		}
- 	}
- }
-+void intel_context_unpin(struct intel_context *ce);
-=20
- void intel_context_enter_engine(struct intel_context *ce);
- void intel_context_exit_engine(struct intel_context *ce);
-diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_=
-trace.h
-index 806ad688274b..2c6a8bcef7c1 100644
---- a/drivers/gpu/drm/i915/i915_trace.h
-+++ b/drivers/gpu/drm/i915/i915_trace.h
-@@ -17,6 +17,7 @@
-=20
- #undef TRACE_SYSTEM
- #define TRACE_SYSTEM i915
-+#undef TRACE_INCLUDE_FILE
- #define TRACE_INCLUDE_FILE i915_trace
-=20
- /* watermark/fifo updates */
---=20
-2.32.0
----8<---
-
-
-
---K6Vt3zCKtaqyTnPU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYR4WYwAKCRCxBBozTXgY
-Jz5wAJ0Y4scJuN6eaj1LfxVvM10MGHqLWQCfbKjmCTtsgpFG9klYOK1/9x0p4Nc=
-=kW5F
------END PGP SIGNATURE-----
-
---K6Vt3zCKtaqyTnPU--
+>
+> /Thomas
+>
+>
