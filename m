@@ -2,83 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17173F1B17
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 16:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D016D3F1B2B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 16:05:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E08F6E98C;
-	Thu, 19 Aug 2021 14:00:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD4FA6E98E;
+	Thu, 19 Aug 2021 14:05:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A173A6E98C
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 14:00:05 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 40B5C2B00973;
- Thu, 19 Aug 2021 10:00:04 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 19 Aug 2021 10:00:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=N3jSN24OkJ7Dh
- /8CWHl9T0L42ugnuJaEB9P5An/GD+g=; b=ePvi3Mnh3YLXbZZIsBDANoJ4LPuL5
- BrU2VEQO5uFxEvPuwgp7+nB843ZngA/6PmVWUJuGsI8bVLnBlwTGUglWifYytP8r
- jmh2e6xFbOp4Qpe7nt+MUmQLQo8YGox1A9oDZY+j6eO6byttcSRBDfy0TJ4a3eKY
- Uyt1DvW4Ye5ku9f+9VPosiSoAeF579A++LVPpqjNtYDwgmgkqZe6U9RwZAo+5frU
- SN842X6zO98gFQKDIqopA6kcWHv/qeB3zvpx9BV5nc+vccHG4cZ39aNrBYkDZY1c
- jpmAcx3RHykJ+w9iRggJLTwwpJKKMuO6OYlroNTdBnAbRsQ72/KtGtF3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=N3jSN24OkJ7Dh/8CWHl9T0L42ugnuJaEB9P5An/GD+g=; b=QfByrOPv
- wIO7bt41iSdpU4PMJ/8JfsjLGcTz2484pwMs76C4JCPCrgldag5S3EAIlYV5ka+/
- BrzHPMS8Dpa9AsJCdBKSmucUV2R7Cwr440BzwRxxaecwpGmr+J76TuZC4xWVrrt5
- ljKsWD2Xo5yDGV+AkNT+FOiaiSKABtgRexNP1dmzwqtbOjFs/gfhnRupAN/o8vyB
- 7Q5Teaq5ELHQeInVpqPYVl61ZGWYLcUV9SNsbIdcXRUubdHOrk0QoEkEe5fhsSZV
- q4AQxwS0/THR+3h37EhPo03GiGPUYyRaEwtd1c4kySyJFPpykogs3ZAUGC+Bxmya
- y46ao/bQP5ifEg==
-X-ME-Sender: <xms:4mMeYTiCsQLcdqefM9b9LfPbT987pw19NIjWS7q2nSbU25xR0bFvZA>
- <xme:4mMeYQDeKIRvUKIno7TNo_ebntGhYEeY8j9RkNbhjr-mmX_9C7Jzg7k_bw1mXzrFH
- LqcMJ6R0hXrIuzrHM4>
-X-ME-Received: <xmr:4mMeYTHeOpya2hScQDWHenCswdbf9ZDRXvGXHZ4MvfKISMgjPmOdoW30UOkneTI8a1SU1mEu8kgX0vSx9b1yy6cpjyjRMvNNlwVE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgdeilecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:4mMeYQQNwAAVOioWkfdbZQgIWfqDYM3AYQTpZ3tTQ5x-nSihkfshLg>
- <xmx:4mMeYQznapFvQNRZjdTWHagJKEXBioRlsjO90hk4cVwtuTYEkSxepw>
- <xmx:4mMeYW7ED95sWShh6nuJ6iA9zVobIMSB8_bDcb5yoBotOKZEvRLw2A>
- <xmx:4mMeYVhl0ugsFAIdMBX5bgKQpLIIUzLj2Gh29dt1HqqisPk8LvFFz6sDN9I>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 10:00:02 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Cc: linux-kernel@vger.kernel.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, Boris Brezillon <bbrezillon@kernel.org>,
- linux-rpi-kernel@lists.infradead.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- bcm-kernel-feedback-list@broadcom.com, Emma Anholt <emma@anholt.net>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 6/6] drm/vc4: hdmi: Warn if we access the controller while
- disabled
-Date: Thu, 19 Aug 2021 15:59:31 +0200
-Message-Id: <20210819135931.895976-7-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210819135931.895976-1-maxime@cerno.tech>
-References: <20210819135931.895976-1-maxime@cerno.tech>
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
+ [IPv6:2607:f8b0:4864:20::92c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 713246E98E
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 14:05:27 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id y36so2007183uad.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 07:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z8ppYolHk+6MAlg/iRV3TOW64DDORViSUFtjVS4tPfU=;
+ b=pf8lMOnxg/R18hy9RmRXn53gTyaSPBEYPRXidYbCWDeGyj1Q84GnstXRTsE70HIZwL
+ rOZaYQbJ0JsuexxwGKTbxTnmUkIeE3lCIDKi4y5M7EdG4KOJ33bce1Ym5TIJ8eyXrlgP
+ dbE7l+Rznz9FT+hME0DQqhK7lxhDgOPmbvRDcLaquo7wS/EVnyYYfbE9J5SpPQV1WnQ8
+ fXPIAlBPmH1/Wbcsr6ERwHJaV/U7LQTY8nCTXj0WtrNaCQEnZqZy2yVRdVBh7ZdPgr+l
+ lQknd5LJKpfGihHNxJOG9NmGE/fM0gVDzrjpqFwZqJoFyhmk+xoMBA6IKCATwNl/L1GC
+ MrVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z8ppYolHk+6MAlg/iRV3TOW64DDORViSUFtjVS4tPfU=;
+ b=JXBIlNK5U7rHGg21I4/oow6LtSjHuKowdI2GCQwyFvrR3Z2QpHlsa5PNGOsmVM7PX6
+ pmYKg1R3e9VVpq9ZN+Pojl0U2jI2ICtcWkuH9sGBqnR6JPfHcKoueoR/amnjXWzeb81X
+ ng5aXlBK0eGqbW50bmEKTqB3QxOUmYaFZX8Gmop6XynEvyFd0g6ZrzSzgW37i36R5UZI
+ nuLe7+rmOo54YgtOzlkvp3lkdQ1Z/gZqJ3CwhK747Bvh2TUsk1xsb0++iJGX0YYobJ+Z
+ GYap5jFdCH8lenBSZVfYiaKphuwaYw4EqfUQh5L0oM4gBtPKgkoCcC7G+cBfBzCWhW5V
+ N9YA==
+X-Gm-Message-State: AOAM5338xr9B+X1cryPfCpX9O84FZdvqybKVuiSTs5LW4hzcTsoCvT6R
+ 3/Hw+5q3qIfWLWVtEnCWdU3Uvqr+wGPG5MnMknlqIA==
+X-Google-Smtp-Source: ABdhPJy/9RKTdWSvjYHKQ+0uBbarqxq9rsGLaiJcPg/kihysGVgUWTFM+D2WJBPDbj8B50jGA4KtwzpHd41jDaJSEK8=
+X-Received: by 2002:a9f:25a7:: with SMTP id 36mr11206760uaf.129.1629381926495; 
+ Thu, 19 Aug 2021 07:05:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-20-digetx@gmail.com>
+ <YR5ay6+r0hJsUbhy@orome.fritz.box>
+In-Reply-To: <YR5ay6+r0hJsUbhy@orome.fritz.box>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 19 Aug 2021 16:04:50 +0200
+Message-ID: <CAPDyKFqr6NYO89io+6EfwrtELhTMps-tpGcAVbmuQ1_NnOD7Ew@mail.gmail.com>
+Subject: Re: [PATCH v8 19/34] pwm: tegra: Add runtime PM and OPP support
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>, 
+ Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-mmc <linux-mmc@vger.kernel.org>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,50 +88,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've had many silent hangs where the kernel would look like it just
-stalled due to the access to one of the HDMI registers while the
-controller was disabled.
+On Thu, 19 Aug 2021 at 15:21, Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Tue, Aug 17, 2021 at 04:27:39AM +0300, Dmitry Osipenko wrote:
+> > The PWM on Tegra belongs to the core power domain and we're going to
+> > enable GENPD support for the core domain. Now PWM must be resumed using
+> > runtime PM API in order to initialize the PWM power state. The PWM clock
+> > rate must be changed using OPP API that will reconfigure the power domain
+> > performance state in accordance to the rate. Add runtime PM and OPP
+> > support to the PWM driver.
+> >
+> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> > ---
+> >  drivers/pwm/pwm-tegra.c | 104 ++++++++++++++++++++++++++++++++--------
+> >  1 file changed, 85 insertions(+), 19 deletions(-)
+>
+> Can this be safely applied independently of the rest of the series, or
+> are there any dependencies on earlier patches?
 
-Add a warning if we're about to do that so that it's at least not silent
-anymore.
+Just to make sure we don't rush something in, I would rather withhold
+all runtime PM related patches in the series, until we have agreed on
+how to fix the in genpd/opp core parts. Simply, because those may very
+well affect the deployments in the drivers.
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+>
+> Thierry
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-index 19d2fdc446bc..99dde6e06a37 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-@@ -1,6 +1,8 @@
- #ifndef _VC4_HDMI_REGS_H_
- #define _VC4_HDMI_REGS_H_
- 
-+#include <linux/pm_runtime.h>
-+
- #include "vc4_hdmi.h"
- 
- #define VC4_HDMI_PACKET_STRIDE			0x24
-@@ -412,6 +414,8 @@ static inline u32 vc4_hdmi_read(struct vc4_hdmi *hdmi,
- 	const struct vc4_hdmi_variant *variant = hdmi->variant;
- 	void __iomem *base;
- 
-+	WARN_ON(!pm_runtime_active(&hdmi->pdev->dev));
-+
- 	if (reg >= variant->num_registers) {
- 		dev_warn(&hdmi->pdev->dev,
- 			 "Invalid register ID %u\n", reg);
-@@ -438,6 +442,8 @@ static inline void vc4_hdmi_write(struct vc4_hdmi *hdmi,
- 	const struct vc4_hdmi_variant *variant = hdmi->variant;
- 	void __iomem *base;
- 
-+	WARN_ON(!pm_runtime_active(&hdmi->pdev->dev));
-+
- 	if (reg >= variant->num_registers) {
- 		dev_warn(&hdmi->pdev->dev,
- 			 "Invalid register ID %u\n", reg);
--- 
-2.31.1
-
+Kind regards
+Uffe
