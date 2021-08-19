@@ -1,129 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4443F2147
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 22:00:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 718563F216C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 22:14:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDB076E9D2;
-	Thu, 19 Aug 2021 20:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E54586E9D3;
+	Thu, 19 Aug 2021 20:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2045.outbound.protection.outlook.com [40.107.236.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B23196E9D2;
- Thu, 19 Aug 2021 20:00:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HYtJKCeN8uGLsNIm60zi1Q8QmcJvv6DnmR77GxkiP/SMn00ACempbN2pvPrhWmUr8uTv7WMu7Xaz4BQONNe+9abQtBAsGusinKPP3W0zgXieIAbq+IbHxPndFiEgwRvzbhxZltmuZkl5Syq3DKEj/FZPUM5tQSe7F5ycrM0m8cucj7DnprbojIkc4G2uFjHytz0w0mfYcESORer0LDOt0sMdGtD0Vro4ZIMyAwEgJ0VWiMEDswhS22SrhsOiqR/PNWb0XaPKuIwYK8+pN1hqGX4p4FLNIYZV1Zh/sXgQeqKUj6sJ/GWBCNq1VQyjDuqffkckNC99f3seNyaTn/DtHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GCBUfTTqqpuerEHnFnvf/1cxvCyZmPPHUtnQsc01D+c=;
- b=diKiGpEjexEkXQJmL6CNadRwdcwg18BoV5s+bW28nKeCjOxiQsfvAuAdxJS0F5hnE2jdQhXuhnpT0Qwe68WF4P2n0LGMMAqyPit7RDod2TW/s9Yr8Mr4nnTeziROHpopgFH3eeprfVB/sJ/ofJN5vj/XCVSV05+0Fz0bma+ySi0wSPVv2NFkd6O07hHBhM2gxPkmufdw8sEwe532JG0kWtuC0WsakoBoU+YiBCVxqYNP9o5br7dMJMe0IMQQ8AqtwZglIv4VM9hjo6WJYBuga/Bw3KuGHtq+WKc7gs56QOS9EPVonye2LEHeMFFDvnbwmGETaPyWuimGJXQY04xwyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GCBUfTTqqpuerEHnFnvf/1cxvCyZmPPHUtnQsc01D+c=;
- b=L50r1G2b2A9nNP+Msp9qTKeE3Br5rIv49P8MLkvFOXXbvofBFd7XPzrQxx5v5MP0OdL687JwZJDUhxH0BdCOLEic6VfGoBRubNLAfVSxMxQ1tMPyDi5dSScBvp4+h6leyolz2hsXux0Ea3FoUL3oAyKBDzW30MGMV3cLppVjVrs=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
- by BN9PR12MB5225.namprd12.prod.outlook.com (2603:10b6:408:11e::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Thu, 19 Aug
- 2021 19:59:58 +0000
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::b891:a906:28f0:fdb%4]) with mapi id 15.20.4415.023; Thu, 19 Aug 2021
- 19:59:58 +0000
-Subject: Re: [PATCH v6 02/13] mm: remove extra ZONE_DEVICE struct page refcount
-To: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
- Ralph Campbell <rcampbell@nvidia.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- Theodore Ts'o <tytso@mit.edu>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- hch@lst.de, jgg@nvidia.com, jglisse@redhat.com
-References: <20210813063150.2938-1-alex.sierra@amd.com>
- <20210813063150.2938-3-alex.sierra@amd.com>
- <7b821150-af18-f786-e419-ec245b8cfb1e@nvidia.com>
- <393e9815-838d-5fe6-d6ab-bfe7b543fef6@amd.com>
- <e155ed59-8c3c-4046-e731-f082ee4b10bb@nvidia.com>
- <600a4c43-271d-df98-d3e0-301af0e8d0fe@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <40d4a39e-e874-4ba3-e9bc-42015f0383fa@amd.com>
-Date: Thu, 19 Aug 2021 15:59:56 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <600a4c43-271d-df98-d3e0-301af0e8d0fe@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YT1PR01CA0100.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::9) To BN9PR12MB5129.namprd12.prod.outlook.com
- (2603:10b6:408:136::12)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 708956E9D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 20:14:47 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id m26so6556743pff.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 13:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SWonK40nfLuKYWvrqlegwHOX79F+iH7r7S8ceDKJ73w=;
+ b=IJptv6+ED2SgpSRkeJi/2ho6iTHaXtYfyLiySxQuoNMdF1AasxvuCUFZHXoetmVfVl
+ 0evldTvTyMXXeS4wZD1+qp7lEf29/Dq+N9wdcm+G9qpFgGqlvMKRRlkipdTCLOQiHMXO
+ YdqtUQrJqZysCWHTXjCxeVcMUcIAJh8qGptiM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SWonK40nfLuKYWvrqlegwHOX79F+iH7r7S8ceDKJ73w=;
+ b=uX5zgUf6kTGSaYT1biQn6Z5iP5SwzrVQMgHvHlotg1zKvvotRAN7683AgPOWR4QxNm
+ ESNTGCfYfXs9qfHGGhWWmv2+Sj/xfCgdLPSwr8h03gZA+Eapz3iwU/MiEa2DKEWTahGn
+ gTqKQ4RHCC17aKitkImxUshSRjrosNNJvQBy2StWSqlfm+OwJlhiP+GQcHgbHMgQASdj
+ 4XkGoQAg//JiGkyvF96y8IV4gJS2oPOtRlrvDGdbDcJgdzdExBUWCe9YUmGnkXX9riNh
+ hbvk5p58W861sDucTpoT3rbcGFWRspeJx0nG0qBi/Ft7IZk50lHehT08FiqIw2FE4wwk
+ 4dDQ==
+X-Gm-Message-State: AOAM532IyloU0+9f0VqliukvFQMPHVbHIsxci+8wO+F/mtWvE4u/1P7u
+ Js0X36pAerLjw7mla1knMVVLMw==
+X-Google-Smtp-Source: ABdhPJwOnooA//ZI2yY2w3HhhA71tc7MYj5UAHPJaeMdESG6/Mo5ArqPp78/8chRXBFrSXp80yNy4g==
+X-Received: by 2002:aa7:850c:0:b0:3e2:edf3:3d09 with SMTP id
+ v12-20020aa7850c000000b003e2edf33d09mr9540100pfn.42.1629404087013; 
+ Thu, 19 Aug 2021 13:14:47 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id j4sm5109612pgi.6.2021.08.19.13.14.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Aug 2021 13:14:46 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Lijo Lazar <lijo.lazar@amd.com>
+Cc: Kees Cook <keescook@chromium.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Feifei Xu <Feifei.Xu@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ Jiawei Gu <Jiawei.Gu@amd.com>, Evan Quan <evan.quan@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Dennis Li <Dennis.Li@amd.com>,
+ Sathishkumar S <sathishkumar.sundararaju@amd.com>,
+ Jonathan Kim <jonathan.kim@amd.com>, Kevin Wang <kevin1.wang@amd.com>,
+ David M Nieto <David.Nieto@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
+ Lee Jones <lee.jones@linaro.org>, John Clements <John.Clements@amd.com>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH] drm/amd/pm: And destination bounds checking to struct copy
+Date: Thu, 19 Aug 2021 13:14:41 -0700
+Message-Id: <20210819201441.3545027-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.186.47.3) by
- YT1PR01CA0100.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19 via Frontend Transport; Thu, 19 Aug 2021 19:59:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 99952300-d5ec-4202-b876-08d9634bebe3
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5225:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5225DB038126294EB9ED0DE592C09@BN9PR12MB5225.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zyzMqYoMPm0AUW0TALbJnaBOM3c1cqF7RdX7FxgbPWS+OPXsM0q82XMjWBw86mR91yqTV4vTS6PNModKxD6T9QinQC9gcbstrVOmUQTOLxraRLiHJA1kkmcDceFu2DFXxi15VUMEti5ENo/IZK9h0vRACAPrVOp7hygougF8M5Ju+v3NGV9tZt6JldCKXHrEuYNnBefXMxfiYsWyrmF5DQdqVNIsD+7ZEeArf4ThsLNaWoqKTSDIZflPGjBy4bNIF3Dq76Uf0byVZAnnRlm7s0qbQrVMCHnaronju/cikajWxIBLBOpdMhHW8dlwDa0lLjnHm1dJLTXFc4uYDADbXjqijEuG+T/4aV4d4ne8+yPM7wuX2R3490rTi3ji5qBnLRoqylq40hxgZ2kF4tI4+aqqcDfkdqD1ieeV9dhDwpQ2FBuMDtthkaTZy8vLyFOkOO1HdwTfWq7fW1W/tIrwSqEapBKTCZ0pvzDzkJ6Yo3scgceQ0X0F+c4rjq1kAVO1Fy7L48weL9I/UPHhdFj+R3iNShvLWpsIBNjxwriPQL8Z8/hxL//0u2DjNFaQ6LiaSX8PzjqAwPvrwfwRC1Gd7oZOhAK/saYcnKdn/DKAXDzbLIrfeXgLuuVyb1sZon1D84iJ9gD6lCzXP1eZcVFTwnZIZVfJ5owAGdBv8zZcmH1n4LsTTI9g1kiMygl+f115nWmuuNlkDIMwibxd7/OOps08jOIZuF6bNaL3kTcuUJN0vNrO/XGWB9wlIv5mf2RvFYgZBhy/OPShEh7RmD8b5UzMjzu4QQ+sbVdCmb9TTvd7vBUZGLAlStu2dGurggwNfyyYautremqzgNwp6PXWLYJL3AwdPKBSEATQu16GqEk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(396003)(39860400002)(346002)(376002)(84040400005)(36756003)(83380400001)(110136005)(478600001)(2906002)(966005)(86362001)(956004)(66946007)(31686004)(31696002)(44832011)(66476007)(5660300002)(8936002)(2616005)(66556008)(26005)(53546011)(6486002)(38100700002)(4326008)(316002)(186003)(8676002)(16576012)(7416002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGdoYS9SNkloQjhvQzZhS3VIY3Vla2I1SjZSUlJVNmsxUWVsdDE4UkdLaThZ?=
- =?utf-8?B?c1VuRXg4aDJnblZJc1ppK2diMEVKUzRRWlNPV2dHUCt5WTdPOUdFeURhdlE0?=
- =?utf-8?B?NGtCbXJJTmx0cnZaeGJGdjlmeW5BeC80L2F5T1kwcmpiRjhYcFdJWktidi9U?=
- =?utf-8?B?NlBONk5GU2pUaWlUK1RxV2o0ZFdGQWxTbnlkZjF0L001NTlhN2dKUkxKNWky?=
- =?utf-8?B?aVJRVUtVM3FqUkl0MjdMd0x5R2pPaHAvU0c5WWFWdXpIamFNMHpJYzY4clVr?=
- =?utf-8?B?SXd1Z1pxUVhGQ2RiZWdUcU1RUld0a1dldnluUU1rVkRXaFZnNUpVYXpBOUxl?=
- =?utf-8?B?SnVqTTNCZzl2Z09wdEprcTNPbFFKSlZGd2RqdW54T0pkb2xFYUg3Si9hejQ4?=
- =?utf-8?B?TkVxRWQ3bUFWbzZNSlY5WXJkTWFQY2JHMVV4UTJ5K1UveWZrejNKaTRHdncr?=
- =?utf-8?B?dmZtNmhqZDgrQzRnV1FEeGNtaU5lc3J2dTgwMEh6YkVRTHVqeCtkbVBhVzVp?=
- =?utf-8?B?UGxWeWp1SmhzaW1UYnhWSy9OTW4ydnE3VzdSYWloL1cxR2Y1ak5XMGlKbDY2?=
- =?utf-8?B?aitzNXRTclg2YkpGRk5ZYnhTTk9nZVBQVEd5TlVtNGMzeWNHZG1IZ2UrRzZy?=
- =?utf-8?B?czVWYXlGOXhEWUF1K0FGOGw1VGYrRVA3WVR1RmQ0SHljcHg0Qmw4SDFFNnNa?=
- =?utf-8?B?VXJYQzIyaGp5Q1BTVU5mODEzMlZHTFd0Um1INGRVR3JUWjA2Y3RqQmZoSTdB?=
- =?utf-8?B?UVpyeXZTRGg3Uk9lN21ROTNBaVNnWWN6bHFWUk8vdE12bWRoSHM3a2FrWHBn?=
- =?utf-8?B?ZHhOWTFIbW80REkwaVV5bENGYzZKSE4rQkMzQnRLcGZIYkhwb3hjVytJZE1m?=
- =?utf-8?B?Y3AvRmwxcmplNXNPZXE5cWpmcWVVMEJJMm8wR0hPcnNoc1NWekRqRXVvZzVw?=
- =?utf-8?B?ZUdpM0lFbjltQnpCVU5HcVNzWTJuNHVpTFgvVnBHRjNqMWFZTVdjMUtuMDJT?=
- =?utf-8?B?UC9ENEROR2lvSU1RNUM4aHJ2YzZ1WnhoZzhsTHEvc2M1YnVrZEtCN3AxQk90?=
- =?utf-8?B?WFd5ZTQ0aEJKQm5ReWlKNWJlNGlXT05QTGJnN1NGcFQ5amNOTG9sbnBBU0dG?=
- =?utf-8?B?cXc0VE9UV2dFSDU4aDRhWWVMbVIzWUJZTWhNL2NvQzVyQVdSc2ZtZ1BJWXdV?=
- =?utf-8?B?Y2dvUGJ0ZzZWMllSU0o0VTRqZVFLbC9OemlzZGJUOHk0TnlTdGJZS0M0NTR6?=
- =?utf-8?B?c2pNOE5PT3YzYkNtNEV4MmhNeFBzdkNrMUdZTGY0anRuUnpxczhrMWhLeEla?=
- =?utf-8?B?Tkx4Y2JUdzZpN1ZJb2tGbjdDS1J6ZXdkOVNVay95SDhxVm4rVUFoOWZFWkcr?=
- =?utf-8?B?dWltU0k2RWNmeTF6RnhoeGNPYlpzUzU4QlZPblhGUFFYQXZRelRCb0JuRGNy?=
- =?utf-8?B?eWdVREdwMUVDMVBUeWpLOW5JaGdGLzhKekxTLzFmZ2JyMlFUSUFvVm5PRm1L?=
- =?utf-8?B?MWJ4SVRlZEtjK21SMDlIVmgyaTFhNWhDZldSeWE1bkt3ZnYzYkdBNEhXb3Vo?=
- =?utf-8?B?UFBLbGFVSzZoaXlBd05PWVhqSHNTdDRHTDVabjNYbEhxRnNpb3c4Rms0U09Y?=
- =?utf-8?B?dnNSVXVjL2w2YVJpZHA5TXlaNXhpdWFpOU1mUW54YjJnZEYwbHdHVWdpVmpQ?=
- =?utf-8?B?bUIxSXYraHZpaXZmSVBid05sdDJVME1vRXFMR01LS3YrbW95UjllUmpDakVx?=
- =?utf-8?Q?bETeFv7HU0GIQVCv6hdnsQ+LXKMVp60Ae4kWA9a?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99952300-d5ec-4202-b876-08d9634bebe3
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2021 19:59:58.3222 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3D5Rc9gPcUn2Z48m3nIS4WUmkiN7jGGXrxx4yYvxI6GRvWNdsa8vXV9Zo8zh1elztzUqJqc+Ia+w5qGPGehFEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5225
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6384; h=from:subject;
+ bh=cvRZIn3RJBaQNBAJjwgDTl32BXjr/3MDNasdqtotH60=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHruwFDFDjn9GfKm+ZpkXhmC4GSPPLnOXnRs08yoS
+ 3gaj152JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYR67sAAKCRCJcvTf3G3AJsiZD/
+ 463O5ZlWD/33hUv4/iLJRdRrEpVzMn1Znf6F0qdUkO9B3eGv+E0ybaUS6z9Z4PMWmO2DucTecwo9TR
+ VC3sh27JAPDo9hR1O9Wsz80Yhhqu8QCrcGSEnMYqf3KD1q/SswU4w2qOB346yhWGA5FqqHSIyZiVZz
+ MbmFs+nxIG9PoQrqq7Sul683ADQkTAt7X0avOZ8LTna2XDizljUnY6dJ2gpOR/NKa3Eme9xXYVshvm
+ BOj8QKhMS09oJ94jq5n1UJuEod5emDIu2G7PmdsSUOXyIv3Cq9+kEJNejeZh2RbDL0nS5q/TXhwXNu
+ 7tUYH8xuLZu+LE9CQH6Xn+XnBmgfTMTASx4aoaSu85Ys0kt1moUmpPuKvfz1L0L5kd1DrNfmUj70Cx
+ qOcT3NvuR5tUUF7b9D736pwe/dNrFi2hYHTZ5P1nz3Oh+7bhzDOGUXg+IVZMqbUagp8Req9iSxoL29
+ FRE2hrE/MOM3Mm9V25yZTo35nf4friJHDQbMy9I5dZa7JhEYd+TzUzKSX/p4Dzi2F0I9bvc1RZ3S0S
+ Qg1CA3pbZ6kQo23yrHotBS/oPiKY292DX02PtOMNxUwWtyS9uIFmv99+kAwpsa/zKB+IGhLxaTx26Q
+ +kYyapDKFaIWlDpFgeZWq93rbRY5dv/DZ8+2PIY1nJuDhKtsarlRZnjifJFQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp;
+ fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,162 +98,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2021-08-19 um 2:00 p.m. schrieb Sierra Guiza, Alejandro (Alex):
->
-> On 8/18/2021 2:28 PM, Ralph Campbell wrote:
->> On 8/17/21 5:35 PM, Felix Kuehling wrote:
->>> Am 2021-08-17 um 8:01 p.m. schrieb Ralph Campbell:
->>>> On 8/12/21 11:31 PM, Alex Sierra wrote:
->>>>> From: Ralph Campbell <rcampbell@nvidia.com>
->>>>>
->>>>> ZONE_DEVICE struct pages have an extra reference count that
->>>>> complicates the
->>>>> code for put_page() and several places in the kernel that need to
->>>>> check the
->>>>> reference count to see that a page is not being used (gup,
->>>>> compaction,
->>>>> migration, etc.). Clean up the code so the reference count doesn't
->>>>> need to
->>>>> be treated specially for ZONE_DEVICE.
->>>>>
->>>>> v2:
->>>>> AS: merged this patch in linux 5.11 version
->>>>>
->>>>> v5:
->>>>> AS: add condition at try_grab_page to check for the zone device type,
->>>>> while
->>>>> page ref counter is checked less/equal to zero. In case of device
->>>>> zone, pages
->>>>> ref counter are initialized to zero.
->>>>>
->>>>> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
->>>>> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
->>>>> ---
->>>>>    arch/powerpc/kvm/book3s_hv_uvmem.c     |  2 +-
->>>>>    drivers/gpu/drm/nouveau/nouveau_dmem.c |  2 +-
->>>>>    fs/dax.c                               |  4 +-
->>>>>    include/linux/dax.h                    |  2 +-
->>>>>    include/linux/memremap.h               |  7 +--
->>>>>    include/linux/mm.h                     | 13 +----
->>>>>    lib/test_hmm.c                         |  2 +-
->>>>>    mm/internal.h                          |  8 +++
->>>>>    mm/memremap.c                          | 68
->>>>> +++++++-------------------
->>>>>    mm/migrate.c                           |  5 --
->>>>>    mm/page_alloc.c                        |  3 ++
->>>>>    mm/swap.c                              | 45 ++---------------
->>>>>    12 files changed, 46 insertions(+), 115 deletions(-)
->>>>>
->>>> I haven't seen a response to the issues I raised back at v3 of this
->>>> series.
->>>> https://lore.kernel.org/linux-mm/4f6dd918-d79b-1aa7-3a4c-caa67ddc29bc@nvidia.com/
->>>>
->>>>
->>>>
->>>> Did I miss something?
->>> I think part of the response was that we did more testing. Alex added
->>> support for DEVICE_GENERIC pages to test_hmm and he ran DAX tests
->>> recommended by Theodore Tso. In that testing he ran into a WARN_ON_ONCE
->>> about a zero page refcount in try_get_page. The fix is in the latest
->>> version of patch 2. But it's already obsolete because John Hubbard is
->>> about to remove that function altogether.
->>>
->>> I think the issues you raised were more uncertainty than known bugs. It
->>> seems the fact that you can have DAX pages with 0 refcount is a feature
->>> more than a bug.
->>>
->>> Regards,
->>>    Felix
->>
->> Did you test on a system without CONFIG_ARCH_HAS_PTE_SPECIAL defined?
->> In that case, mmap() of a DAX device will call insert_page() which calls
->> get_page() which would trigger VM_BUG_ON_PAGE().
->>
->> I can believe it is OK for PTE_SPECIAL page table entries to have no
->> struct page or that MEMORY_DEVICE_GENERIC struct pages be mapped with
->> a zero reference count using insert_pfn().
-> Hi Ralph,
-> We have tried the DAX tests with and without
-> CONFIG_ARCH_HAS_PTE_SPECIAL defined.
-> Apparently none of the tests touches that condition for a DAX device.
-> Of course,
-> that doesn't mean it could happen.
->
-> Regards,
-> Alex S.
->
->>
->>
->> I find it hard to believe that other MM developers don't see an issue
->> with a struct page with refcount == 0 and mapcount == 1.
->>
->> I don't see where init_page_count() is being called for the
->> MEMORY_DEVICE_GENERIC or MEMORY_DEVICE_PRIVATE struct pages the AMD
->> driver allocates and passes to migrate_vma_setup().
->> Looks like svm_migrate_get_vram_page() needs to call init_page_count()
->> instead of get_page(). (I'm looking at branch
->> origin/alexsierrag/device_generic
->> https://github.com/RadeonOpenCompute/ROCK-Kernel-Driver.git
-> Yes, you're right. My bad. Thanks for catching this up. I didn't
-> realize I was missing
-> to define CONFIG_DEBUG_VM on my build. Therefore this BUG was never
-> caught.
-> It worked after I replaced get_pages by init_page_count at
-> svm_migrate_get_vram_page. However, I don't think this is the best way
-> to fix it.
-> Ideally, get_pages call should work for device pages with ref count
-> equal to 0
-> too. Otherwise, we could overwrite refcounter if someone else is
-> grabbing the page
-> concurrently.
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-I think using init_page_count in svm_migrate_get_vram_page is the right
-answer. This is where the page first gets allocated and initialized
-(data migrated into it). I think nobody should have or try to take a
-reference to the page before that. We should probably also add a
-VM_BUG_ON_PAGE(page_ref_count(page) != 0) before calling init_page_count
-to make sure of that.
+The "Board Parameters" members of the structs:
+	struct atom_smc_dpm_info_v4_5
+	struct atom_smc_dpm_info_v4_6
+	struct atom_smc_dpm_info_v4_7
+	struct atom_smc_dpm_info_v4_10
+are written to the corresponding members of the corresponding PPTable_t
+variables, but they lack destination size bounds checking, which means
+the compiler cannot verify at compile time that this is an intended and
+safe memcpy().
 
+Since the header files are effectively immutable[1] and a struct_group()
+cannot be used, nor a common struct referenced by both sides of the
+memcpy() arguments, add a new helper, memcpy_trailing(), to perform the
+bounds checking at compile time. Replace the open-coded memcpy()s with
+memcpy_trailing() which includes enough context for the bounds checking.
 
-> I was thinking to add a special condition in get_pages for dev pages.
-> This could
-> also fix the insert_page -> get_page call from a DAX device.
+"objdump -d" shows no object code changes.
 
-[+Theodore]
+[1] https://lore.kernel.org/lkml/e56aad3c-a06f-da07-f491-a894a570d78f@amd.com
 
-I got lost trying to understand how DAX counts page references and how
-the PTE_SPECIAL option affects that. Theodore, can you help with this?
-Is there an easy way to test without CONFIG_ARCH_HAS_PTE_SPECIAL on x86,
-or do we need to test on a CPU architecture that doesn't support this
-feature?
+Cc: Lijo Lazar <lijo.lazar@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Feifei Xu <Feifei.Xu@amd.com>
+Cc: Likun Gao <Likun.Gao@amd.com>
+Cc: Jiawei Gu <Jiawei.Gu@amd.com>
+Cc: Evan Quan <evan.quan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Link: https://lore.kernel.org/lkml/CADnq5_Npb8uYvd+R4UHgf-w8-cQj3JoODjviJR_Y9w9wqJ71mQ@mail.gmail.com
+---
+Alex, I dropped your prior Acked-by, since the implementation is very
+different. If you're still happy with it, I can add it back. :)
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           | 25 +++++++++++++++++++
+ .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |  6 ++---
+ .../gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c   |  8 +++---
+ .../drm/amd/pm/swsmu/smu13/aldebaran_ppt.c    |  5 ++--
+ 4 files changed, 33 insertions(+), 11 deletions(-)
 
-Thanks,
-  Felix
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 96e895d6be35..4605934a4fb7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -1446,4 +1446,29 @@ static inline int amdgpu_in_reset(struct amdgpu_device *adev)
+ {
+ 	return atomic_read(&adev->in_gpu_reset);
+ }
++
++/**
++ * memcpy_trailing - Copy the end of one structure into the middle of another
++ *
++ * @dst: Pointer to destination struct
++ * @first_dst_member: The member name in @dst where the overwrite begins
++ * @last_dst_member: The member name in @dst where the overwrite ends after
++ * @src: Pointer to the source struct
++ * @first_src_member: The member name in @src where the copy begins
++ *
++ */
++#define memcpy_trailing(dst, first_dst_member, last_dst_member,		   \
++		        src, first_src_member)				   \
++({									   \
++	size_t __src_offset = offsetof(typeof(*(src)), first_src_member);  \
++	size_t __src_size = sizeof(*(src)) - __src_offset;		   \
++	size_t __dst_offset = offsetof(typeof(*(dst)), first_dst_member);  \
++	size_t __dst_size = offsetofend(typeof(*(dst)), last_dst_member) - \
++			    __dst_offset;				   \
++	BUILD_BUG_ON(__src_size != __dst_size);				   \
++	__builtin_memcpy((u8 *)(dst) + __dst_offset,			   \
++			 (u8 *)(src) + __src_offset,			   \
++			 __dst_size);					   \
++})
++
+ #endif
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
+index 8ab58781ae13..1918e6232319 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
+@@ -465,10 +465,8 @@ static int arcturus_append_powerplay_table(struct smu_context *smu)
+ 
+ 	if ((smc_dpm_table->table_header.format_revision == 4) &&
+ 	    (smc_dpm_table->table_header.content_revision == 6))
+-		memcpy(&smc_pptable->MaxVoltageStepGfx,
+-		       &smc_dpm_table->maxvoltagestepgfx,
+-		       sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_6, maxvoltagestepgfx));
+-
++		memcpy_trailing(smc_pptable, MaxVoltageStepGfx, BoardReserved,
++				smc_dpm_table, maxvoltagestepgfx);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+index 2e5d3669652b..b738042e064d 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+@@ -431,16 +431,16 @@ static int navi10_append_powerplay_table(struct smu_context *smu)
+ 
+ 	switch (smc_dpm_table->table_header.content_revision) {
+ 	case 5: /* nv10 and nv14 */
+-		memcpy(smc_pptable->I2cControllers, smc_dpm_table->I2cControllers,
+-			sizeof(*smc_dpm_table) - sizeof(smc_dpm_table->table_header));
++		memcpy_trailing(smc_pptable, I2cControllers, BoardReserved,
++				smc_dpm_table, I2cControllers);
+ 		break;
+ 	case 7: /* nv12 */
+ 		ret = amdgpu_atombios_get_data_table(adev, index, NULL, NULL, NULL,
+ 					      (uint8_t **)&smc_dpm_table_v4_7);
+ 		if (ret)
+ 			return ret;
+-		memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I2cControllers,
+-			sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_table_v4_7->table_header));
++		memcpy_trailing(smc_pptable, I2cControllers, BoardReserved,
++				smc_dpm_table_v4_7, I2cControllers);
+ 		break;
+ 	default:
+ 		dev_err(smu->adev->dev, "smc_dpm_info with unsupported content revision %d!\n",
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+index c8eefacfdd37..a6fd7ee314a9 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+@@ -409,9 +409,8 @@ static int aldebaran_append_powerplay_table(struct smu_context *smu)
+ 
+ 	if ((smc_dpm_table->table_header.format_revision == 4) &&
+ 	    (smc_dpm_table->table_header.content_revision == 10))
+-		memcpy(&smc_pptable->GfxMaxCurrent,
+-		       &smc_dpm_table->GfxMaxCurrent,
+-		       sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_10, GfxMaxCurrent));
++		memcpy_trailing(smc_pptable, GfxMaxCurrent, reserved,
++				smc_dpm_table, GfxMaxCurrent);
+ 	return 0;
+ }
+ 
+-- 
+2.30.2
 
-
->
-> Regards,
-> Alex S.
->>
->>
->> Also, what about the other places where is_device_private_page() is
->> called?
->> Don't they need to be updated to call is_device_page() instead?
->> One of my goals for this patch was to remove special casing reference
->> counts
->> for ZONE_DEVICE pages in rmap.c, etc.
-> Correct, is_device_private_page is still used in rmap, memcontrol and
-> migrate.c files
-> Looks like rmap and memcontrol should be replaced by is_device_page
-> function. However,
-> I still need test to validate this. For migrate.c is used in
-> remove_migration_pte and
-> migrate_vma_insert_page, however these are specific conditions for
-> private device type
-> Thanks for raise these questions, I think we're getting close.
->
-> Regards,
-> Alex S.
->>
->> I still think this patch needs an ACK from a FS/DAX maintainer.
->>
