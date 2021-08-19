@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1903F1ADD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 15:45:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 844343F1ADB
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 15:45:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7427D6E969;
-	Thu, 19 Aug 2021 13:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB3A6E959;
+	Thu, 19 Aug 2021 13:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A18576E959
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A211D6E969
  for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 13:45:04 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id E99202B005D0;
- Thu, 19 Aug 2021 09:44:59 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id 3B3112B00A12;
+ Thu, 19 Aug 2021 09:45:03 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 19 Aug 2021 09:45:00 -0400
+ by compute4.internal (MEProxy); Thu, 19 Aug 2021 09:45:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm3; bh=3StIrRnb5NNmIWozrc+5wA2Uql
- F1wVymMmWtJfFjZOI=; b=RQDlU8bPpcsd2pLAexFk3l8OYwbrOcian+MnXv7yqD
- sa/M8KqeGrLWdDdwJl3KXtfCUwZx24jeTPIKW3POkyMzc21JlsZyxD2YDDLtgStR
- uV8a69DTbAMFRs/OYCLrx4K/g5JeWMOs8jegdeKEHskVfDLpJ+bt1w9INn2EKYC5
- zkGzIa6vH3ppKkWdQz5KUV7KXGPRLkWdrEn78Lb0fsmG9gtJq2igXwzEjEXHNZcY
- HCMGPo4EiO0wVkEZtVK7L1u4YEwN1c0cjsREksougGDumENZh6qZsgAGrNmr95/+
- NspctjHd1FKe8XaDplipKlOms1WiljWVA2C9aMzRXc9w==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=+ide+UmLneTo5
+ vJdUf22CynDGpfUvW89sPLSj2e8DUg=; b=uOhF8AqsndqoeztegDMB83zEHgtmo
+ pA+ZsyXNRqbGnr6Hxcxy8DLMXcQ1dHa5Ekr3m9d9/2Sx4sNSc7uCEdiuoAqmiKoq
+ cM6g1P5uiDtmFXMBgudtq7LOwEDgHLbupv2ZTcg6YbjLozmzogaZBYiAt2qO6Y99
+ 63D36vK1KlOhRKOncK9RtqN+IcSPQopvzivB7LTIbaUB07BLflMnoEmsm9tOhmZP
+ Npe/DULakUD4H3nyQOXzH3YLOefpM1sIlw3IOey8YEWrBy8V/kp9AumLLji0C0Iq
+ HxlSPvah+Nkgx7evYNRgfH3dRMNQAKI4L3RTeYmI1j1M5FTfZGgIZnl8A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=3StIrRnb5NNmIWozr
- c+5wA2UqlF1wVymMmWtJfFjZOI=; b=mLVF6KWwd5+9H3b9+48E8qpJdlLS8hIvh
- zg8ydTGd764VwaCdn1Le1n/c1rwRcoPrca8koDV2A2fKqfDuAcofXzh6J94arTnh
- aVvUIHIz1HyQkziXOYu083+92eZ8S9G0mtRp6wN0B/Epu7Rs5J06UzSUqInEf01J
- rGYAZ/vEdlooEuNlUv6Cr38O4C8vCP9NW5lYHvQm+LqoB4AMKG7+cz7g7RkNp8+S
- yn03oW6is8TSftPkCpW3l4bBYD0M2NBu8TuyIReLPPfjd1B4TcD9Kxng6VmwN4IW
- D2HH928M+R8Ca9AIffZalNjNBuvTLHy2ovEIWisWnR1pjrU38wVxA==
-X-ME-Sender: <xms:WWAeYf0R-xU90uyPgvckmc5ntJK2j21sRt4kFq9EekkOQ5ecDiJsfg>
- <xme:WWAeYeESQjEMkHBEqVmHvgEzqv6_VpRIPeKjc_cVpRzrTOs4II7kkZ2lSR7Jeq4FE
- u-rJGCIME08FDvPKw8>
-X-ME-Received: <xmr:WWAeYf6H5NKJdyTF46FxxTi3vbB8NadkNTxbHtlPxjBDBQioHczZBhRFM4UzZZCHxJQhXI6CLyagxx0AavxChtKb8_A0xOz93cLk>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=+ide+UmLneTo5vJdUf22CynDGpfUvW89sPLSj2e8DUg=; b=btWOSf0i
+ L3zdDpb61uwFjTGZfbfrCUG1FdGqR6MsBdUxz9WsEDTH2dHJKNPQfxCHVXsmEqjP
+ mUhenJFS5IP0fSrPsAYUKOlO4JLJ7HBtFLjejtXC67toYWhUix8kFE+5E2dXe/UN
+ Av0F7tuHQFNRhm3A5VAN/XI4Wf/NADwcElEQATerV0ppB9cYwl9RydhON2wNT6Oo
+ CupYIRS9nsMJz6ge+/xw9tALvn82q+XUd6lwY3iOawU+PHn9aPKwx7k+G3fVjECc
+ QP2/ggTz2mnmM8LxhVAtoc8Zr0gnK0Cdq853RCzGTn0GsfdMrASOYoZavos+5IlJ
+ 7pCpZUrSbEpRVw==
+X-ME-Sender: <xms:XmAeYarKL6_pMpWQ4Wr2FhbkVXvmaEB__M8MLzsFyhtkQ9C1VfLt5g>
+ <xme:XmAeYYoiHBAduOHobNm16OtpQAT19KbXkMW8A0_KpUtLmLCNa5E8jnIsJngWeLfrP
+ qDaV-o_62H5-P2m-LU>
+X-ME-Received: <xmr:XmAeYfMIm50Twb5CpnHSN3gINIZNXJ_cfhZaeeY6s-VH-pRvwFMPrVG7hCorj6uP1bVo3hmrr5_mp6w5RvfqbyBUUojlloAQG8ku>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgdeiiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
- ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
- hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
- hmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:WWAeYU2HhwS9loDvQ2-9I_vFD7c9Bk-XwPjuXGREJZAsRfgJz9y-oA>
- <xmx:WWAeYSGOg25QV10cMXarOC64riuy1cxwvXLtg_fbm_0sCLp3TEK-4w>
- <xmx:WWAeYV_GB2V7JRK2kdDhfqzZ0xpdEwdNVmXwlx2Zd9KwtlJc4o7rYQ>
- <xmx:W2AeYeHPAEjoFRRztgNSD_CyiWRW69u16R-5UDeZj8Bwp-E1pxlHXlsugoc>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:XmAeYZ6N9KNWampImOMjMUK7VGMAh9C-GmXMj89kIOlc6TdMeNNk-A>
+ <xmx:XmAeYZ4ESFRBh7rTuA41Udw18JbQMrhT6oscq5ChttCJSgzsmPWNsA>
+ <xmx:XmAeYZiHXl2eE2jKzpEhpg9kGzTUNLUNax9J44CMlrBjeHIhhE9fZQ>
+ <xmx:XmAeYYKkyQf_CUKkfOOXDsx3yLEmRA8fHRbr8iBsxGgrPSZVGGsrTNuwAGg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 09:44:56 -0400 (EDT)
+ 19 Aug 2021 09:45:02 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
@@ -66,11 +67,13 @@ Cc: linux-rpi-kernel@lists.infradead.org, Emma Anholt <emma@anholt.net>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dom Cobley <dom@raspberrypi.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/probe-helper: Create a HPD IRQ event helper for a
- single connector
-Date: Thu, 19 Aug 2021 15:44:53 +0200
-Message-Id: <20210819134454.850031-1-maxime@cerno.tech>
+Subject: [PATCH 2/2] drm/vc4: hdmi: Actually check for the connector status in
+ hotplug
+Date: Thu, 19 Aug 2021 15:44:54 +0200
+Message-Id: <20210819134454.850031-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210819134454.850031-1-maxime@cerno.tech>
+References: <20210819134454.850031-1-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,174 +91,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_helper_hpd_irq_event() function is iterating over all the
-connectors when an hotplug event is detected.
+The drm_helper_hpd_irq_event() documentation states that this function
+is "useful for drivers which can't or don't track hotplug interrupts for
+each connector." and that "Drivers which support hotplug interrupts for
+each connector individually and which have a more fine-grained detect
+logic should bypass this code and directly call
+drm_kms_helper_hotplug_event()". This is thus what we ended-up doing.
 
-During that iteration, it will call each connector detect function and
-figure out if its status changed.
+However, what this actually means, and is further explained in the
+drm_kms_helper_hotplug_event() documentation, is that
+drm_kms_helper_hotplug_event() should be called by drivers that can
+track the connection status change, and if it has changed we should call
+that function.
 
-Finally, if any connector changed, it will notify the user-space and the
-clients that something changed on the DRM device.
+This underlying expectation we failed to provide is that the caller of
+drm_kms_helper_hotplug_event() should call drm_helper_probe_detect() to
+probe the new status of the connector.
 
-This is supposed to be used for drivers that don't have a hotplug
-interrupt for individual connectors. However, drivers that can use an
-interrupt for a single connector are left in the dust and can either
-reimplement the logic used during the iteration for each connector or
-use that helper and iterate over all connectors all the time.
+Since we didn't do it, it meant that even though we were sending the
+notification to user-space and the DRM clients that something changed we
+never probed or updated our internal connector status ourselves.
 
-Since both are suboptimal, let's create a helper that will only perform
-the status detection on a single connector.
+This went mostly unnoticed since the detect callback usually doesn't
+have any side-effect. Also, if we were using the DRM fbdev emulation
+(which is a DRM client), or any user-space application that can deal
+with hotplug events, chances are they would react to the hotplug event
+by probing the connector status eventually.
+
+However, now that we have to enable the scrambler in detect() if it was
+enabled it has a side effect, and an application such as Kodi or
+modetest doesn't deal with hotplug events. This resulted with a black
+screen when Kodi or modetest was running when a screen was disconnected
+and then reconnected, or switched off and on.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_probe_helper.c | 105 ++++++++++++++++++++---------
- include/drm/drm_probe_helper.h     |   1 +
- 2 files changed, 74 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 5606bca3caa8..7e3cbb4333ce 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -795,6 +795,77 @@ void drm_kms_helper_poll_fini(struct drm_device *dev)
- }
- EXPORT_SYMBOL(drm_kms_helper_poll_fini);
- 
-+static bool
-+_drm_connector_helper_hpd_irq_event(struct drm_connector *connector,
-+				    bool notify)
-+{
-+	struct drm_device *dev = connector->dev;
-+	enum drm_connector_status old_status;
-+	u64 old_epoch_counter;
-+	bool changed = false;
-+
-+	/* Only handle HPD capable connectors. */
-+	drm_WARN_ON(dev, !(connector->polled & DRM_CONNECTOR_POLL_HPD));
-+
-+	drm_WARN_ON(dev, !mutex_is_locked(&dev->mode_config.mutex));
-+
-+	old_status = connector->status;
-+	old_epoch_counter = connector->epoch_counter;
-+
-+	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Old epoch counter %llu\n",
-+		      connector->base.id,
-+		      connector->name,
-+		      old_epoch_counter);
-+
-+	connector->status = drm_helper_probe_detect(connector, NULL,
-+						    false);
-+	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
-+		      connector->base.id,
-+		      connector->name,
-+		      drm_get_connector_status_name(old_status),
-+		      drm_get_connector_status_name(connector->status));
-+
-+	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] New epoch counter %llu\n",
-+		      connector->base.id,
-+		      connector->name,
-+		      connector->epoch_counter);
-+
-+	/*
-+	 * Check if epoch counter had changed, meaning that we need
-+	 * to send a uevent.
-+	 */
-+	if (old_epoch_counter != connector->epoch_counter)
-+		changed = true;
-+
-+	if (changed && notify) {
-+		drm_kms_helper_hotplug_event(dev);
-+		DRM_DEBUG_KMS("Sent hotplug event\n");
-+	}
-+
-+	return changed;
-+}
-+
-+/**
-+ * drm_connector_helper_hpd_irq_event - hotplug processing
-+ * @connector: drm_connector
-+ *
-+ * Drivers can use this helper function to run a detect cycle on a connector
-+ * which has the DRM_CONNECTOR_POLL_HPD flag set in its &polled member.
-+ *
-+ * This helper function is useful for drivers which can track hotplug
-+ * interrupts for a single connector.
-+ *
-+ * This function must be called with the mode setting locks held.
-+ *
-+ * Note that a connector can be both polled and probed from the hotplug
-+ * handler, in case the hotplug interrupt is known to be unreliable.
-+ */
-+bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector)
-+{
-+	return _drm_connector_helper_hpd_irq_event(connector, true);
-+}
-+EXPORT_SYMBOL(drm_connector_helper_hpd_irq_event);
-+
- /**
-  * drm_helper_hpd_irq_event - hotplug processing
-  * @dev: drm_device
-@@ -822,9 +893,7 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index a3dbd1fdff7d..d9e001b9314f 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1578,10 +1578,11 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
  {
- 	struct drm_connector *connector;
- 	struct drm_connector_list_iter conn_iter;
--	enum drm_connector_status old_status;
- 	bool changed = false;
--	u64 old_epoch_counter;
+ 	struct vc4_hdmi *vc4_hdmi = priv;
+-	struct drm_device *dev = vc4_hdmi->connector.dev;
++	struct drm_connector *connector = &vc4_hdmi->connector;
++	struct drm_device *dev = connector->dev;
  
- 	if (!dev->mode_config.poll_enabled)
- 		return false;
-@@ -832,37 +901,9 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
- 	mutex_lock(&dev->mode_config.mutex);
- 	drm_connector_list_iter_begin(dev, &conn_iter);
- 	drm_for_each_connector_iter(connector, &conn_iter) {
--		/* Only handle HPD capable connectors. */
--		if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
--			continue;
--
--		old_status = connector->status;
--
--		old_epoch_counter = connector->epoch_counter;
--
--		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Old epoch counter %llu\n", connector->base.id,
--			      connector->name,
--			      old_epoch_counter);
--
--		connector->status = drm_helper_probe_detect(connector, NULL, false);
--		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
--			      connector->base.id,
--			      connector->name,
--			      drm_get_connector_status_name(old_status),
--			      drm_get_connector_status_name(connector->status));
--
--		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] New epoch counter %llu\n",
--			      connector->base.id,
--			      connector->name,
--			      connector->epoch_counter);
--
--		/*
--		 * Check if epoch counter had changed, meaning that we need
--		 * to send a uevent.
--		 */
--		if (old_epoch_counter != connector->epoch_counter)
-+		if (_drm_connector_helper_hpd_irq_event(connector,
-+							false))
- 			changed = true;
--
- 	}
- 	drm_connector_list_iter_end(&conn_iter);
- 	mutex_unlock(&dev->mode_config.mutex);
-diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-index 8d3ed2834d34..04c57564c397 100644
---- a/include/drm/drm_probe_helper.h
-+++ b/include/drm/drm_probe_helper.h
-@@ -18,6 +18,7 @@ int drm_helper_probe_detect(struct drm_connector *connector,
- void drm_kms_helper_poll_init(struct drm_device *dev);
- void drm_kms_helper_poll_fini(struct drm_device *dev);
- bool drm_helper_hpd_irq_event(struct drm_device *dev);
-+bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector);
- void drm_kms_helper_hotplug_event(struct drm_device *dev);
+ 	if (dev && dev->registered)
+-		drm_kms_helper_hotplug_event(dev);
++		drm_connector_helper_hpd_irq_event(connector);
  
- void drm_kms_helper_poll_disable(struct drm_device *dev);
+ 	return IRQ_HANDLED;
+ }
 -- 
 2.31.1
 
