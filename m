@@ -1,57 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798E53F1AF7
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 15:54:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8293F1B0A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 15:59:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C825B6E96C;
-	Thu, 19 Aug 2021 13:54:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D1C6E984;
+	Thu, 19 Aug 2021 13:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-0.canonical.com
- (smtp-relay-canonical-0.canonical.com [185.125.188.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5548B6E96C
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 13:54:42 +0000 (UTC)
-Received: from [10.172.193.212] (1.general.cking.uk.vpn [10.172.193.212])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 887473F047; 
- Thu, 19 Aug 2021 13:54:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1629381280;
- bh=qyVfAD70OnSmTL6T7q8M2kzukbFXgV7pw1ZsTuvCXvs=;
- h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
- In-Reply-To:Content-Type;
- b=wWEiWs+2aX1SyglCKtylm23g+9P2rxsF9XgIkRI3Ourd3b0qQKSrkO4ltWyqoEdRe
- 1JnX7dXu6j+Ctid2QwajdijkHBDok0orq+B+vTx99m6KEjxlQko8WdJPbyTZBLEmp2
- DUTEuOrLaxRKltOPW+IHwqzXu00bwBcPtABBn/Ou5j5cnvQ6x+B5G/+r8kVde9KRrG
- AEurGqItIBuoNkK/CSSO1XyflExM+iS/FeCwnmuGRgvj6tbNtnA1ZPF/qZ5ONKumnA
- MXx9auJcSe/E2UR7j2tPHUfXmbdx8XowwBy2UYMAJ1jT/TI0j7Xtqape/pNr6gF+xb
- NRIv4pQMEEV3Q==
-Subject: Re: [PATCH] drm/bridge/tc358767: make the array ext_div static const, 
- makes object smaller
-To: Joe Perches <joe@perches.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210819133839.10745-1-colin.king@canonical.com>
- <0a2ea4e54d7bfd61b45cc070eee6b62e8da82190.camel@perches.com>
-From: Colin Ian King <colin.king@canonical.com>
-Message-ID: <913b96bc-f5c4-1a26-c5f7-70a9d0ab3f53@canonical.com>
-Date: Thu, 19 Aug 2021 14:54:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51AEF6E97D
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 13:59:39 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.west.internal (Postfix) with ESMTP id B02042B00560;
+ Thu, 19 Aug 2021 09:59:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 19 Aug 2021 09:59:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm3; bh=WeOGVBQq6iP3tN4+YB3IfpyTJF
+ tv7MLMNgGBh0iNUrw=; b=2aaGpTxizbAsJxle2NCopSZUjW+t1R2tPQCX90UHPR
+ rBjqdauhnciKv/4v+Zmo6nOdzMbklGXT2jcPecH6CtYFwDdIqZ2zSbPkvnSh2mXx
+ EjxMPwgb4CL+x0oKyT2MLW/xi8SsIgP/5vwiOhUR+m+c1mpYXQqBHVojs5YuhQLU
+ hLXfrNbdHLweFt5XVnX6TqUjeC6GBnH5OS7Ux6+vCXsteR6cBX1g7aNafV1LQkQR
+ +nF1bDiU9jjnwEVNkwa2+bVUfp66w4PlhrVvY4dU8CAywe2UKw5c2byQT+gsIEkM
+ ZWNDK+Bld35jtahu8j064ducf9N3kaMIuQyR2OmfjoFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=WeOGVB
+ Qq6iP3tN4+YB3IfpyTJFtv7MLMNgGBh0iNUrw=; b=uhONl4JUuuJyWSnpApX8Z1
+ e+KlGicaDkseEJgB+OmMlz3SK32+qAJPcuyYlDg05lmhaEws52kMQMiaBSXnt4bI
+ xy9ZrkEryvi6YHDb1LB2JRkXlfz9QOZWUI2a0h+VbUIo6AnHEZKFvc5EIXaagBeP
+ mQqZhGRIZ6bfV7S9RTOjD3IPAAAjWV/RTYDSO3NnuFpHiTwjyb/jn0l+aNLdeOlf
+ zW2wfHAYREaN645rZCdiIVziu7glIpGgOs7854+hGxXDvRNV0MFGvzCyWSYMJTKw
+ R6maZPTJAnnlTdibmZ3S76qAYCEzW/2KKh2VL1BROxdytAGEfh5gEGxa1Njdlz5Q
+ ==
+X-ME-Sender: <xms:xmMeYcPxEncFTcB-koGBpFyEPh32q085TM3GdiNVI-3JrQQpIKdMdw>
+ <xme:xmMeYS8-APonkvuSoOkpy60lMiyupX0nAVYA6tgnrGmz9ctliW_YMQfeqzL1L2x0m
+ AGIeoLy6nWtqh480y8>
+X-ME-Received: <xmr:xmMeYTQMrbZXK3zxISIUDg9AVHHHbRWWMUV2pJrn6F-otDytvdoBuYFdJyqy-hUeUbPKFdSmdI7TDzzWAe-b-6FxH_ariIF5DL1M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgdeilecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
+ himhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:xmMeYUtWeN0VzAx6dUlsehNylv0K3HMtAqG1mcNBOkqxFyvH7fzbJQ>
+ <xmx:xmMeYUfkKz3oQqfEjB21JovPMfdBLk_UHx5MFbQ1aOqNeugE6jT2AQ>
+ <xmx:xmMeYY2YIv_fDGOnmzAAkFV_XNMbR0TxXTINLEs_zR0A-wqLlhXGRg>
+ <xmx:yWMeYXvPsiz5xUTFF_SW32g8GWJsUqHz-BpXGDg_rpTGS9sC6CNd5vtzruk>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Aug 2021 09:59:34 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Cc: linux-kernel@vger.kernel.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>, Boris Brezillon <bbrezillon@kernel.org>,
+ linux-rpi-kernel@lists.infradead.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ bcm-kernel-feedback-list@broadcom.com, Emma Anholt <emma@anholt.net>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v3 0/6] drm/vc4: hdmi: Fix CEC access while disabled
+Date: Thu, 19 Aug 2021 15:59:25 +0200
+Message-Id: <20210819135931.895976-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <0a2ea4e54d7bfd61b45cc070eee6b62e8da82190.camel@perches.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,52 +92,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/08/2021 14:51, Joe Perches wrote:
-> On Thu, 2021-08-19 at 14:38 +0100, Colin King wrote:
->> From: Colin Ian King <colin.king@canonical.com>
->>
->> Don't populate the array ext_div on the stack but instead it
->> static const. Makes the object code smaller by 118 bytes:
->>
->> Before:
->>    text    data    bss     dec    hex filename
->>   39449   17500    128   57077   def5 ./drivers/gpu/drm/bridge/tc358767.o
->>
->> After:
->>    text    data    bss     dec    hex filename
->>   39235   17596    128   56959   de7f ./drivers/gpu/drm/bridge/tc358767.o
-> 
-> Why is text smaller and data larger with this change?
-
-There are less instructions being used with the change since it's not
-shoving the array data onto the stack at run time. Instead the array is
-being stored in the data section and there is less object code required
-to access the data.
-
-Colin
-
-> 
->>
->> (gcc version 10.3.0)
->>
->> Signed-off-by: Colin Ian King <colin.king@canonical.com>
->> ---
->>  drivers/gpu/drm/bridge/tc358767.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
->> index 23a6f90b694b..599c23759400 100644
->> --- a/drivers/gpu/drm/bridge/tc358767.c
->> +++ b/drivers/gpu/drm/bridge/tc358767.c
->> @@ -468,7 +468,7 @@ static int tc_pxl_pll_en(struct tc_data *tc, u32 refclk, u32 pixelclock)
->>  	int div, best_div = 1;
->>  	int mul, best_mul = 1;
->>  	int delta, best_delta;
->> -	int ext_div[] = {1, 2, 3, 5, 7};
->> +	static const int ext_div[] = {1, 2, 3, 5, 7};
->>  	int best_pixelclock = 0;
->>  	int vco_hi = 0;
->>  	u32 pxl_pllparam;
-> 
-> 
-
+Hi,=0D
+=0D
+This series aims at fixing a complete and silent hang when one tries to use=
+ CEC=0D
+while the display output is off.=0D
+=0D
+This can be tested with:=0D
+=0D
+echo off > /sys/class/drm/card0-HDMI-A-1/status=0D
+cec-ctl --tuner -p 1.0.0.0=0D
+cec-compliance=0D
+=0D
+This series addresses it by making sure the HDMI controller is powered up a=
+s=0D
+soon as the CEC device is opened by the userspace.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Changes from v2:=0D
+  - Rebased on top of drm-misc-fixes=0D
+  - Fixed a build error=0D
+=0D
+Changes from v1:=0D
+  - More fixes=0D
+  - Added a big warning if we try to access a register while the device is=
+=0D
+    disabled.=0D
+  - Fixed the pre_crtc_configure error path=0D
+=0D
+Maxime Ripard (6):=0D
+  drm/vc4: select PM=0D
+  drm/vc4: hdmi: Make sure the controller is powered up during bind=0D
+  drm/vc4: hdmi: Rework the pre_crtc_configure error handling=0D
+  drm/vc4: hdmi: Split the CEC disable / enable functions in two=0D
+  drm/vc4: hdmi: Make sure the device is powered with CEC=0D
+  drm/vc4: hdmi: Warn if we access the controller while disabled=0D
+=0D
+ drivers/gpu/drm/vc4/Kconfig         |   1 +=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c      | 125 ++++++++++++++++++----------=0D
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h |   6 ++=0D
+ 3 files changed, 90 insertions(+), 42 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
