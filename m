@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FBC3F16A6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DED53F16AB
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:51:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 886E16E5D2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D04186E7D0;
 	Thu, 19 Aug 2021 09:51:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22EB36E4AF
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:51:32 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8812C580B73;
- Thu, 19 Aug 2021 05:51:31 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75C826E4AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:51:34 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id DD1C7580B75;
+ Thu, 19 Aug 2021 05:51:33 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 19 Aug 2021 05:51:31 -0400
+ by compute5.internal (MEProxy); Thu, 19 Aug 2021 05:51:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=qLZkvbW3dWqPT
- Y5EITXLWrLb8ZkWWyHgKQdfdUSJNsY=; b=pDi+NvyNPSy9Gx3/zDKpHeDYGkXMs
- ENL8lIuyLtFBtB2CfwLwx3taUIXb3PVa0MUARenEzxX8PP2gwX0dLNdYwmiShr2S
- NQQiAVoiysWIwFY3VeaNU7JB2nSPGIIG1wStKPHWRsnTAaChAvDDgqq/XKdWn3zV
- jet2WQ5DYke1iVPsVWm2CqcGvLbZkW1VGFj5wsnvYzscgjQlWB0/pa95R3Bd6M+Z
- 5zdYt8rvM5hcRkgLxeVT2UK52RKgwFnHJgPYEvFQ2aZ6yGWIcAot/0CQgh/lyipg
- /2Q/T3Ktr8msHTcQl++q4sCwSoN1Z4lpNCofGQ7ksbyqd3MahZEbXwQGw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=0TrV8pyr34Uwz
+ pgYoRLHZ7xkUTtfXFleEvzHDnnJ4vs=; b=zruJfObhEAleSvBmnXkQfq7z3aJgq
+ 0XLKcQc6UKMNBd7YIAs46v6lF3T+5+0KgoiN/QCeUC9vnR2PxUs3lnFt48quq/m2
+ 4a8CoQtbIRI1RkqDKCR6nBsPeKvnRA1jOTzAaVon8YJYZ3BCf+Eur20wX980zMLG
+ /hPBuq63KdQdQwMyaGBg8dzcyc6ITPnfScAJUU6VZGgZ/Zr6kIALCHDVwcQdSdjT
+ /bCI4ER1b0Kd1ZBfZPAifeKE86YCd57oqKvnh2t+PAFPFLW35rNZfX5OSceNXL6J
+ N6MYjQLzZMM1XcXnjEg7nKd9BaLkdjytAOuK50vYD5lm+P3ytPmF1+isQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=qLZkvbW3dWqPTY5EITXLWrLb8ZkWWyHgKQdfdUSJNsY=; b=T0byhRYk
- 85kiErAdzN94pHzMH6UnrDhxyk9RZbUKKTr0uAJ8bLdY4w4tnkz3qS8xtA0x1Fui
- yempuFsjc/XGOwytBWqRJEUTFYmkSoJY5c6OJ5I8qI6KFzNuPF6wY3G0cmE9fnUZ
- QU+ych84lYpUgHVZdDbXzdAY3WpGYHHhu0G0i1IGwqoDslHzOiImncbmg32+7dsu
- VmTXyjNdDMXF/Ll69HGMPlN7mY5w02oYDX5wtFWB/pZTlypDXhgWG8G+sVwRgw3K
- 96Vr/a9IPjJp8x9WNd/+7iyvQXVrX8wjjQloeh8wnKBW0Mi18GQxv8oqClEo686E
- 8+SHx0CSnaCrgg==
-X-ME-Sender: <xms:oikeYR0nI3qEIDSVjQP1H9TSkt9cjqyl9-UBTXQedmkihFz2PlDUlg>
- <xme:oikeYYHRzRLQs1GnEacFHgv9GV_pRj0eTkcRGqeAF6MnIm1lyVCHLpoHQK5vZbTaP
- 1Ibnp-9oxVZbb-hBwM>
-X-ME-Received: <xmr:oikeYR5yKOSQOjVE8HxSP3iDOtp4iHwdIPBhGepy5V4Tm90rYFWjrB_oktwVSKgMy_-_vrD0Us03LAdKwf6vmRAebiFoU_yySw4H>
+ fm3; bh=0TrV8pyr34UwzpgYoRLHZ7xkUTtfXFleEvzHDnnJ4vs=; b=KamXiRsJ
+ CMWbjFL2ZvXFvYvd801VanUpsSbLe7ze/VwTd84trJX/gRUoBGfraGoosOzhNyOM
+ wgQ7lZhdMv9XFzbX7yeTJhTFSZC5sgGzpuKBolf2ZwXvYnkN85bEDPQ7UlsrO/4A
+ eAk5RQEGB8gsCAVAHuqQJQKuCmmTpK4Wy+nm+SpA3DwAEoHlEqBWdn1a4I3eLdeG
+ feCaft0f6eCsHhgM8ohBERcJt+9nMosp/qUMq3ehoc++aTFuzE6c/kY1h0kEK1fU
+ E0IE/DNwUxxhKaTE+MNu58zQ68wgxWOhBM9nMTtcCFoyI+mkFIo+EgDiIKEBg3LD
+ XBlppWrO4PnJzQ==
+X-ME-Sender: <xms:pSkeYXroRuE7DSFhyaBKwTIqERWX4n2Khv5voo0DzNyp8VHUyin6SA>
+ <xme:pSkeYRq0fAQEb_FGMLxPaw6EtuZezDt5uB0qt2-mfGCeIMkuljMTtYygSp_0nwy9R
+ unzg1ID0v6EFUwidck>
+X-ME-Received: <xmr:pSkeYUNjQH46oM-0DTSqHbF8m9rVoGWEs9quBI9AX9U28ZsybOR8iuY5Hqw226REQXAy-D4cwIy4omk86zMKiZ_zZyMb4AflgpO2>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgddulecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgddulecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:oikeYe32Svj72s2ddumti4InQgsuNJh78GrsRriYDSpcoIwhLxWmcg>
- <xmx:oikeYUHVg3YeLqIb4tydh69U-SR1jeCd1k-TB24XCQ0jOEZ9MIbydw>
- <xmx:oikeYf_OjF7RHR05lCakhjTRXvGrtImBFdMbzrKQ7haP3GkfIxTmtQ>
- <xmx:oykeYRdLHBuj7dzAyajWJMdZvKVO3-e3_U4oLNVKKAvysdZ46B6rqw>
+X-ME-Proxy: <xmx:pSkeYa7hP3vWj5haJlKwxwZX9pbkE0hpgJjbdVDgjYprMtip5KqH5Q>
+ <xmx:pSkeYW4voQtwqHntSMLBdi1R72oqwWfREH0KzYdV3fPDPA5X7veJcw>
+ <xmx:pSkeYSiijGLhZOigKYktilUxhd3_h3S3ZtKeWfE_epujbRkmO1Ja8w>
+ <xmx:pSkeYVT0scRYsD4ctd05bLZyj1Gw4TnIDZzGk106cSxqrvh8MwQkqg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 05:51:29 -0400 (EDT)
+ 19 Aug 2021 05:51:32 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
@@ -67,9 +67,9 @@ Cc: Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
  Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dom Cobley <dom@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH v7 02/10] drm/vc4: hdmi: Fix HPD GPIO detection
-Date: Thu, 19 Aug 2021 11:51:11 +0200
-Message-Id: <20210819095119.689945-3-maxime@cerno.tech>
+Subject: [PATCH v7 03/10] drm/vc4: Make vc4_crtc_get_encoder public
+Date: Thu, 19 Aug 2021 11:51:12 +0200
+Message-Id: <20210819095119.689945-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210819095119.689945-1-maxime@cerno.tech>
 References: <20210819095119.689945-1-maxime@cerno.tech>
@@ -90,41 +90,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prior to commit 6800234ceee0 ("drm/vc4: hdmi: Convert to gpiod"), in the
-detect hook, if we had an HPD GPIO we would only rely on it and return
-whatever state it was in.
+We'll need that function in vc4_kms to compute the core clock rate
+requirements.
 
-However, that commit changed that by mistake to only consider the case
-where we have a GPIO and it returns a logical high, and would fall back
-to the other methods otherwise.
-
-Since we can read the EDIDs when the HPD signal is low on some displays,
-we changed the detection status from disconnected to connected, and we
-would ignore an HPD pulse.
-
-Fixes: 6800234ceee0 ("drm/vc4: hdmi: Convert to gpiod")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 8 ++++----
+ drivers/gpu/drm/vc4/vc4_drv.h  | 5 +++++
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index f9a672a641ab..251dfecf1d4c 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -169,9 +169,9 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 18f5009ce90e..902862a67341 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -279,10 +279,10 @@ static u32 vc4_crtc_get_fifo_full_level_bits(struct vc4_crtc *vc4_crtc,
+  * allows drivers to push pixels to more than one encoder from the
+  * same CRTC.
+  */
+-static struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
+-						struct drm_atomic_state *state,
+-						struct drm_connector_state *(*get_state)(struct drm_atomic_state *state,
+-											 struct drm_connector *connector))
++struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
++					 struct drm_atomic_state *state,
++					 struct drm_connector_state *(*get_state)(struct drm_atomic_state *state,
++										  struct drm_connector *connector))
+ {
+ 	struct drm_connector *connector;
+ 	struct drm_connector_list_iter conn_iter;
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index ef73e0aaf726..0865f05822e0 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -517,6 +517,11 @@ vc4_crtc_to_vc4_pv_data(const struct vc4_crtc *crtc)
+ 	return container_of(data, struct vc4_pv_data, base);
+ }
  
- 	WARN_ON(pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev));
- 
--	if (vc4_hdmi->hpd_gpio &&
--	    gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio)) {
--		connected = true;
-+	if (vc4_hdmi->hpd_gpio) {
-+		if (gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio))
-+			connected = true;
- 	} else if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED) {
- 		connected = true;
- 	}
++struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
++					 struct drm_atomic_state *state,
++					 struct drm_connector_state *(*get_state)(struct drm_atomic_state *state,
++										  struct drm_connector *connector));
++
+ struct vc4_crtc_state {
+ 	struct drm_crtc_state base;
+ 	/* Dlist area for this CRTC configuration. */
 -- 
 2.31.1
 
