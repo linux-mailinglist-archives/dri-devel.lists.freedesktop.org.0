@@ -2,132 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F383F1E2B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 18:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DD23F1E51
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 18:48:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5466E8EE;
-	Thu, 19 Aug 2021 16:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6994E6E9AB;
+	Thu, 19 Aug 2021 16:48:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2076.outbound.protection.outlook.com [40.107.220.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0816E8EE;
- Thu, 19 Aug 2021 16:40:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K0n4ZfmzWilSAxDGOMWujWi8X0u0EzsUOf/ir54BswSgo1YFFgs1Vdy7mkG4FrOt7riO+LGHEZO0GfuEjMDM4Wfme+eg9sAnbmC29by5uveCsLasw/9BaAI5fXBRTaoF8i9EVRoUglN+4dHqI2gw1sQ0A7ED8o5fANwgEjKaCeSAbDwYt2PZorgBAdc8mzESItj7xAAAa0B9GAVpULARC6h62rY/ardiCTsFBSLLGZ2/8cyOLX2pcQVBK79P2E+DC9cCplW4TIaHoCjq3v6VyBsMjNTBd6F4imIZSe3E9DWlqonkcSypXwLYv7NwX16YuZfL1kKngk0/WbYZjhjTmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BLUOLW2AyO68bsOcSHTQKBCY1eKk4GI2I/SpXjqqZTY=;
- b=GPDcNGhV8ftI4ETDqK3uZ2W6ok1wmiNelKGTrys0vf4z/4cLjcfC8PBHM1c/4mlE16BSWTuY3fd+Be+mjgLOLXq59UhiPABW4hvTs9Ahny2QNEb90VqTfbM5gM0EEFLa0hX/yUO8aQWKraQ7WHH/pDl4jl7C1Lozw3lG3JXZmVLmJNnhALNZHUyWsWBVOEvgybX9tyuepD+K9kZlqoXneXTdp32VguyAxhuacD0EDTEM57/Z0uV7NV06nq5JFhkAjDkNo7dC94xomYyt3CdXxKQwAssKgJzUermtfAZGLpBA3L275/ydu7ETCYbV1TieTw1cwnXugek31NQkKL2gkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BLUOLW2AyO68bsOcSHTQKBCY1eKk4GI2I/SpXjqqZTY=;
- b=UwkwKlPyHtu5/AMIDVHG9riuS0rAg45MdFjHcOvLGWYvXvEsnBntdGsD3TZ4npjmPnzGTgeBgr00YWjmit0TVh0N2ISkCn+yAa6NpW21sYzZ9zoQl7EaLpFXiQMH0vxBurTn7VaEbay+gy94NvV8xfzrP9nevdy/Ayj0/BVKesk=
-Authentication-Results: suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
- by DM4PR12MB5374.namprd12.prod.outlook.com (2603:10b6:5:39a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Thu, 19 Aug
- 2021 16:40:00 +0000
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::d560:d21:cd59:9418]) by DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::d560:d21:cd59:9418%6]) with mapi id 15.20.4436.019; Thu, 19 Aug 2021
- 16:40:00 +0000
-Subject: Re: [PATCH v2 02/12] mm: Introduce a function to check for
- virtualization protection features
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
- Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, Joerg Roedel <jroedel@suse.de>
-References: <cover.1628873970.git.thomas.lendacky@amd.com>
- <482fe51f1671c1cd081039801b03db7ec0036332.1628873970.git.thomas.lendacky@amd.com>
- <YR4ohWC4/cLsuCvv@infradead.org>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <f367b8bd-6f82-5aa3-a27c-7a19959ab435@amd.com>
-Date: Thu, 19 Aug 2021 11:39:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <YR4ohWC4/cLsuCvv@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR18CA0020.namprd18.prod.outlook.com
- (2603:10b6:806:f3::14) To DM4PR12MB5229.namprd12.prod.outlook.com
- (2603:10b6:5:398::12)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF91B6E9AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 16:47:59 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id t66so7894602qkb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:47:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PRHyIH4ijXf+mY+7Vzztn6Pqcrl1CNKx+frAJCQ2Has=;
+ b=dvp/j6HxEOhxjJeYtRuITNLUFUiXaR12Gjf8/ktdKok1mdPSqBAuwZQe5cZNMP2mDW
+ 3XfbKhK5yP5sXbvvgiRAJLySLRNXDSdWgdpIlJ+p1nb8B/xTAZATOdWzyKh3+ivgYCqx
+ 8oZP3fpWWL1vXVtmf+rKQ6CTdO5XEJdXVeXt2fAqXtYhfo9t+pN17guOHmzXCrch0SjV
+ BbcNWpQeXixu5hFl3i4TO87exvR7v19wOfyomnTLv0qVBV8dT8wAG8LfOqoP7y+u3kYd
+ /SnsOmmjTd5AIZnCCCKduJeONImiY/HiZFdLHTFk9UNfDVqiBBtPTkZAeJw6idovNHIn
+ m6lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PRHyIH4ijXf+mY+7Vzztn6Pqcrl1CNKx+frAJCQ2Has=;
+ b=O9/t9OBhkNimd6IuatgHm3yLPLOxSsjeOVsKBQpvX2baHhoXDxni2UOZk0j38poenx
+ iTrDf05WNye5E+SBaLYx9xQQjCyYVTXhhMgo7oiXHEoXHv0cRUfgYMUAqPARouAMgcFi
+ YFZzLOUZ4+3dNMp1nqhxgW3czoieDHLu1heppV0HVabaC1f0CISVAb81bdv0ePAmM7jc
+ UFPixeINoFze1uZbMC31fb51loz5KggypiO7BryBZjphBATn54FC4/5xLm4TCXekzjtq
+ zorCG/B/wDN7jHJebDicp7jp9YXyEjJWFl5v3RkW1ZyIGE+kkozud1O2y0nJpRyhm7NC
+ R7Tg==
+X-Gm-Message-State: AOAM531WfA5JmRKRrJQO7TaokhglOLW7E12abLJ7foxilVasN3pXU8ts
+ Kykj9l/+pgIU6LhOqxwytrA2Cw==
+X-Google-Smtp-Source: ABdhPJwj157bJQx4yOUhNfsxgTN1x3aSuRlBknKFgP45+xvMm65JsiwY8VNQc1a5fM1ZgYeoBo5u0g==
+X-Received: by 2002:a05:620a:1221:: with SMTP id
+ v1mr4584134qkj.357.1629391678741; 
+ Thu, 19 Aug 2021 09:47:58 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+ by smtp.gmail.com with ESMTPSA id c67sm1770032qke.113.2021.08.19.09.47.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Aug 2021 09:47:58 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1mGlCv-001See-95; Thu, 19 Aug 2021 13:47:57 -0300
+Date: Thu, 19 Aug 2021 13:47:57 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+ Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct
+ mlx5_ib_mr
+Message-ID: <20210819164757.GS543798@ziepe.ca>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-57-keescook@chromium.org>
+ <20210819122716.GP543798@ziepe.ca> <202108190916.7CC455DA@keescook>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.241] (165.204.77.1) by
- SN7PR18CA0020.namprd18.prod.outlook.com (2603:10b6:806:f3::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19 via Frontend Transport; Thu, 19 Aug 2021 16:39:59 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dc22f772-0113-4ba0-6fb1-08d9632ffcab
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5374:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM4PR12MB5374FE00DD3EBFBD9CA4F21DECC09@DM4PR12MB5374.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1irl/Y2hNyRyHlwWH0ag8xSFZW4H+EdQhNYuwS9VzL37O7DvnrzQ6bPyyXEzIjA2Ye0iHbm/RUfLRxV/Tk0BMfkc3Xoy+3RRJXL2mQ0xw64tN+Lw8Gx/OqTx6gmEalSUuX2K5ckZvc5uX5ieOhu2hxo5OOkFiJyFM587MRaV86zFQB+wp7ITJnb2VWYzCRBIwze3q3evCEonbHhK5h7jgKX8o8vGei7iKiin7DHSFrsGc63h9yPTk9u1N72oDf5AMj8ZNq7q+m4sxickhhhOj2vjxDpjra+JIrS5zmJFQbd0XQIlBb3Ldv00MEKbYcB7V4r67bExd2lUNFckG8+pPQx5jSK4rJ/rPXb8DGC8UTKpY92n7vUz6s8Dme+mdVJHl1o49HQ1UiEAAhacJeN79VBVtN8N6lXVwtLElh+TsNqtcGkC0or7n+dDiB+5ZwUoANtcbhIB7eFI6bjyelssixnsEw4lehqY+9sjHWEqmpZ0RidJ+bsstSB6gWNDL+weicyCRXsoFXH9QUb8FwNTKqscyXjakZtpVvkqHsn1FAnnu8dGYxLg51slM/6mE7oP37JM4iGZdpDkf3/s02Kzs8Lt+GgszxkpJL7D8AgGmaIj7oc3j8/CnmbwFiCGlkXg0lNIfBoIz4MtCpNXc4PPlHe7AcfN2FNc9HQ2pS5iLcU1gyPAN1T5zdDgzSIhdbFzt7FTFsCswxkqxMgGgkcfCLDCGWeSuej8cZlAHA+nIFU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(136003)(366004)(396003)(39860400002)(38100700002)(8936002)(8676002)(66946007)(5660300002)(4744005)(31696002)(2906002)(956004)(16576012)(7416002)(186003)(31686004)(36756003)(6916009)(66556008)(2616005)(54906003)(66476007)(478600001)(53546011)(86362001)(316002)(4326008)(6486002)(26005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VzV2eTNJQklydkRVY1ptRDNIMnYyS1YyblVrNmtyc2VNaGVuUGJyVWlMclBJ?=
- =?utf-8?B?QnhDcFh2bXJqK1hPd0xWZWxHVDAxeEYrd2drWW5LWU5HS0s1VXExZWRaZWpq?=
- =?utf-8?B?SjVVMjF6OHBqTXlEbUN4cnJ6QVlnWFRySWdCUE5QZmdiRVNGbTR2Qmt3UEE2?=
- =?utf-8?B?bEFyaW02Nk5heWlSQ0VuVHE4dFhFMDlGSFQzVW5NQTVCRnJKcDlIY2trNFc5?=
- =?utf-8?B?NDlDV1FUckp3Q0VsSTZkSkEvZzhtT0FHTXR6QjY3Y05XS1hWSkthb1ltTE9C?=
- =?utf-8?B?aUY5TEpjdUxhMlVWc1FGSWd3RFhKZS92MlJsMVR6Nmt0TGhHMExaYnk2WWRI?=
- =?utf-8?B?OUE0Q083c2FIOTdKcWgxNVFYUTh0cHc4WUhGb2dXS2VyYXVZbDhiMmo5N1JU?=
- =?utf-8?B?dEdSL0ovVEI0ODJLVVlsMU1vNGRBNjFUemFhUEdVM2NNc3IvUUNZaXFFbjAr?=
- =?utf-8?B?ZGVHOXFOSDdUY3hVTW5FN0Z1V3BvWWtHdTJwaFFhUkdydTR3T0VHTXVEZnE1?=
- =?utf-8?B?OEt2WG0rZGlqZmVBS3ZDZ0NKUExXM0FEaDY5VjhlMnNwRTYwMUZBMFVuTHo2?=
- =?utf-8?B?VlV4a1ZkNDhuTjV3dkVpNGE3TWUvTkZlQi84Tjk5NkZjNlB6TGVCaHZBa2kz?=
- =?utf-8?B?OTM3cSswblI0T3QwdlF6VjJFT2xDbkRBMURYVnR1dmxnaHo5enZzVVl6ZFRw?=
- =?utf-8?B?N2prbWNWSnVQRmZIQkVTd0h5QUorUFlaQXhGUE9iK1ZPbWU5YWtqWDJGbjFp?=
- =?utf-8?B?TklqclpYMVp5cDBEWElldi9JdVZpOFVkZWNxQ2o1TURlVGZBcGRoV05MdGs3?=
- =?utf-8?B?ZFU0YktzblBBNWIrL285VCtJNnkrUElHSldDY21UUzRKWTRkNE9MQThqRmxY?=
- =?utf-8?B?YVRXZVAxVkhxTUJzdEdROGM0OGd5R0RxVGkrMHg1Sk9BY2NndFd5SGkxK29q?=
- =?utf-8?B?Vkw0QlRHYWJxK09hY3M2SktrOGtWdlVVZmpmWG9jYXV1VjIySkp1emtIYlV1?=
- =?utf-8?B?Ky9ySlRnajZOdVk2bmtrTHQraGViOE1zVk1BVytubVl6Y3ZSUjZxcEoxUm45?=
- =?utf-8?B?ckJ0VVVkNjlnWW5YM01uRW1vRm42Skh2bzFsekk1Ny9RVkhpcG5ONExxcEZs?=
- =?utf-8?B?YjB3UldmQ3VmZEVEMGJEYVQ0YUFBYTN3MzJFYWZUZWJsR2R3eXEwc01lajNi?=
- =?utf-8?B?K1U0dmtZT3ByMXg1cXZpY2txc09ZdUdSVWNSeUFLRHE0elVvTmMvd0xSRXVL?=
- =?utf-8?B?dW1LNjJBck9FaFJ5V290eVJEaXNjdHE4S2lZb3p6VnBVVStkNGxNakpHODB0?=
- =?utf-8?B?aDhtM2hPSVFJTFVERTA4WjdyQldWWjh5SzN6TTV4MHpaWS9kcHQ1YituVTBn?=
- =?utf-8?B?ejhudm9ZQ1k3Ry8vdHdQVUdMWnVvOVhQTTYrVEkzbmF4UDVLK2NVWmx6NGhj?=
- =?utf-8?B?c3dRNFpEMEcyNnBHaWpVbTM0MGNNTnBiQjJtWUVEK3NBMVR6KzBIRzUwa3g3?=
- =?utf-8?B?YmpxYjBLcHZjUm1CT1ZUTWlBUGttOHZrMGtyaTc1WEhwYU5UTzRPTU5IcS9U?=
- =?utf-8?B?cG5RT1Y1M3A4T09nT25oWVJ6UDgzcWhWUjROVzF1QVdFbTFQZ1VHdkVvSlI5?=
- =?utf-8?B?MFZhSHlJNU0zU20vZUhIeFo3WmUzSisyUlRoOU9yQklaek41ak9MOUVWWmtQ?=
- =?utf-8?B?VXNKL1E5Zm1WVUV2cXZwdTVKMk4xVXBQM1dxS0lsZEZLNWl1bmpkYW1LMnQz?=
- =?utf-8?Q?YUjI3KkpAuGKTYnXcXw+sUmWxcOjxI1+ogLe4OS?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc22f772-0113-4ba0-6fb1-08d9632ffcab
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2021 16:40:00.6359 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cohIkvhfUe8LBj84vSq/WZni+DBVJEKCWSRld+ZdEzmgCFJDGkk1l+43B+tsVgkUtSGWrsmNeEpNzTLPg/Y75w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5374
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202108190916.7CC455DA@keescook>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,19 +87,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/19/21 4:46 AM, Christoph Hellwig wrote:
-> On Fri, Aug 13, 2021 at 11:59:21AM -0500, Tom Lendacky wrote:
->> +#define PATTR_MEM_ENCRYPT		0	/* Encrypted memory */
->> +#define PATTR_HOST_MEM_ENCRYPT		1	/* Host encrypted memory */
->> +#define PATTR_GUEST_MEM_ENCRYPT		2	/* Guest encrypted memory */
->> +#define PATTR_GUEST_PROT_STATE		3	/* Guest encrypted state */
+On Thu, Aug 19, 2021 at 09:19:08AM -0700, Kees Cook wrote:
+> On Thu, Aug 19, 2021 at 09:27:16AM -0300, Jason Gunthorpe wrote:
+> > On Tue, Aug 17, 2021 at 11:05:26PM -0700, Kees Cook wrote:
+> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > > field bounds checking for memset(), avoid intentionally writing across
+> > > neighboring fields.
+> > > 
+> > > Add struct_group() to mark region of struct mlx5_ib_mr that should be
+> > > initialized to zero.
+> > > 
+> > > Cc: Leon Romanovsky <leon@kernel.org>
+> > > Cc: Doug Ledford <dledford@redhat.com>
+> > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > > Cc: linux-rdma@vger.kernel.org
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > >  drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+> > > index bf20a388eabe..f63bf204a7a1 100644
+> > > +++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+> > > @@ -644,6 +644,7 @@ struct mlx5_ib_mr {
+> > >  	struct ib_umem *umem;
+> > >  
+> > >  	/* This is zero'd when the MR is allocated */
+> > > +	struct_group(cleared,
+> > >  	union {
+> > >  		/* Used only while the MR is in the cache */
+> > >  		struct {
+> > > @@ -691,12 +692,13 @@ struct mlx5_ib_mr {
+> > >  			bool is_odp_implicit;
+> > >  		};
+> > >  	};
+> > > +	);
+> > >  };
+> > >  
+> > >  /* Zero the fields in the mr that are variant depending on usage */
+> > >  static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
+> > >  {
+> > > -	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
+> > > +	memset(&mr->cleared, 0, sizeof(mr->cleared));
+> > >  }
+> > 
+> > Why not use the memset_after(mr->umem) here?
 > 
-> Please write an actual detailed explanaton of what these mean, that
-> is what implications it has on the kernel.
+> I can certainly do that instead. In this series I've tended to opt
+> for groupings so the position of future struct member additions are
+> explicitly chosen. (i.e. reducing the chance that a zeroing of the new
+> member be a surprise.)
 
-Will do.
+I saw the earlier RDMA patches where using other memset techniques
+though? Were there flex arrays or something that made groups infeasible?
 
-Thanks,
-Tom
-
-> 
+Jason
