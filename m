@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE1D3F1818
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 13:23:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD033F1821
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 13:23:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0C26E826;
-	Thu, 19 Aug 2021 11:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B80A6E8B4;
+	Thu, 19 Aug 2021 11:23:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEEAB6E826
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 11:23:05 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id x10so8542033wrt.8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 04:23:05 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A256B6E8B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 11:23:07 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id k8so8567107wrn.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 04:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7PolFHl4BCa4E4HG380dOZoCiWwe/gYoL591bvSVGBo=;
- b=MUGcj75NEruHQKoBHz6y3OzpZz+BnR4yeHn9iw9hVQF+5QKA22Ax4jGzhSCjKWQZmU
- JCqJWdm0fJ1TpTcsxzq8ODuzKQfBnu4bjP5VmU3wQ0+eY3+s8Kmhl1Fnh/ybmxE9WZv6
- yRvy5pqgh+gByvZQAlcEpBSmos89dHhWFWuShAAk+8V5QBLUuMfBwhqFVYsRa4V5bKoG
- eW1bqhoTLvLFhqlUQqaevytmmneBtdL22N380k2YWHP2/zgPp4TefhOOYuSaYS7AM33H
- 4FZ6Q+8xREiYgbE1O6W2ClldA55GyAq+ar2DZDLfmNjrbPFdjPhQiCln5P96FwMxLyKm
- Q7FA==
+ bh=REhMgVT+6ZjXEXXRs/yP5w88X232Fgpi2cGGVzDaXxE=;
+ b=FCtD7ltyWf3bpyNg5ZfOHC5FxFeGOP5a3gpqgR0ke4i/yDDEUenPouhSHdH9vqfOPN
+ fhMIWL0W1o2h5w6n5EDUmO5hY0UXJiiAzrZK7aX4ZZGoWvWC6w7pW1vbY8KXLWkBwqLu
+ HVE886JOmbB2Nl5cZRu6CP2iH11GrlP4H0UcGUTF0SRG/Xj7rfuLNHG1Q75qdF2iElT/
+ c0+0X3K8YO3lhntVsRzhLiFCw0q/kwD22JneBZYLuO3VeF2UJI5Fm2hKQp6GqgZ1uyHl
+ kQ7bM/IduESIr4fb5Rka8A1YUiOZ70ediQ5Sc3HBUL4DeNygbVWLh80qQMmvXEswoDdk
+ 0hEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7PolFHl4BCa4E4HG380dOZoCiWwe/gYoL591bvSVGBo=;
- b=lvq822XLdTYovOAGjskZcRC6EzvJEtjODMGSN23JVqDRsrJt2lseUPc/Ua3wWeDgm7
- 5n2aogM4Un3rLjevfC1YaeguO8EgVgZROcuk8Q+8EX1awgGKXheCtVxEeRd71kX7y8qF
- cFcX4PNN7G1+yautTmsUut5RTBCntUbBAlAx3vEiS8dVLDmxp8VPwE9LWPEG5A0iu5uu
- ib5Seh9K9vjm5owdGhCd1MUHjbrcOVOzi6IBQjm2X6vrFpZkuBGOmDcNf5Xyrqs6s//f
- /abNWoezr2pz0gkg9A0vmCF8HTBm/jLayvPTjobsJRj2l8UeUGU408DQlIZS1gxlc+DJ
- OLVA==
-X-Gm-Message-State: AOAM530C0ipZ71e2XTLpbObO7h/RKM4bz9/nQnKv/HXMs17//GcrEXGg
- WD3xfjdh3er2m+h7YEpd/Do=
-X-Google-Smtp-Source: ABdhPJz8CDAX5l4BP2wfFbZ6AML0Lin/n32NRpAJOPfTlU/1JgLGC2q8ibTlyRKz9oat+Y1Iv8DnGQ==
-X-Received: by 2002:adf:f288:: with SMTP id k8mr3162716wro.350.1629372184426; 
- Thu, 19 Aug 2021 04:23:04 -0700 (PDT)
+ bh=REhMgVT+6ZjXEXXRs/yP5w88X232Fgpi2cGGVzDaXxE=;
+ b=Mb4Vpi9f2bWAXu/qn3xu32nKkg+SBwnTxyr8u4BTa2jLlcoL/npXJu4EqQTRvVCEvR
+ 0oDF1ol8r2pbvTKRnlan2Ji8weMvaVwRLnDCOPawtiG5Qg5MxRAPOg0OFDmnsRB2HMXP
+ 0sxQ0duL3oIKUatAtdUMFMr0Z5H4FMaNtXtsuehACqyM4APJRXC8wap1GeLyfk3dJbnN
+ DsJ1uZzjwsLLr8MQ0deZdZHkWXE/aC2OCzwcv5ZG6DBTP4WKEXWi+vZEOTJ/6cBV+0Yk
+ vXe2vDlFgEKNOo+2RwtnqHOTcFtk46kmGro+AWHE/j7x74Entmo7nW8zlG/xpn/Zelwz
+ Lp1g==
+X-Gm-Message-State: AOAM530U6zP3PdAmsa4fe5o8/vnOWia35ujvgppyLLXAE2ksm9t98LFS
+ XXceO6NM8zf+1sutd1HhVCU=
+X-Google-Smtp-Source: ABdhPJyaHdxhTqOlTcWI8sTuvcompSykYd56hFn/HeiPFc2a40cOfBUyvMjZRb5YBRBK/Z0BCwYQcg==
+X-Received: by 2002:a5d:6b92:: with SMTP id n18mr3277419wrx.343.1629372186181; 
+ Thu, 19 Aug 2021 04:23:06 -0700 (PDT)
 Received: from localhost.localdomain (arl-84-90-178-246.netvisao.pt.
  [84.90.178.246])
- by smtp.gmail.com with ESMTPSA id r1sm2700388wrt.24.2021.08.19.04.23.03
+ by smtp.gmail.com with ESMTPSA id r1sm2700388wrt.24.2021.08.19.04.23.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 04:23:04 -0700 (PDT)
+ Thu, 19 Aug 2021 04:23:05 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -58,9 +58,9 @@ Cc: Sandy Huang <hjc@rock-chips.com>,
  Arnd Bergmann <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, kernel-janitors@vger.kernel.org,
  linux-kernel@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH v2 2/5] drm: amdgpu: remove obsolete reference to config CHASH
-Date: Thu, 19 Aug 2021 13:22:50 +0200
-Message-Id: <20210819112253.16484-3-lukas.bulwahn@gmail.com>
+Subject: [PATCH v2 3/5] drm: v3d: correct reference to config ARCH_BRCMSTB
+Date: Thu, 19 Aug 2021 13:22:51 +0200
+Message-Id: <20210819112253.16484-4-lukas.bulwahn@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210819112253.16484-1-lukas.bulwahn@gmail.com>
 References: <20210819112253.16484-1-lukas.bulwahn@gmail.com>
@@ -81,31 +81,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 04ed8459f334 ("drm/amdgpu: remove chash") removes the chash
-architecture and its corresponding config CHASH.
+Commit 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D
+V3.x+") adds the config DRM_V3D, which depends on "ARCH_BCMSTB".
 
-There is still a reference to CHASH in the config DRM_AMDGPU in
-./drivers/gpu/drm/Kconfig.
+Although, a bit confusing: all Broadcom architectures in
+./arch/arm/mach-bcm/Kconfig have the prefix "ARCH_BCM", except for
+ARCH_BRCMSTB, i.e., the config for Broadcom BCM7XXX based boards.
 
-Remove this obsolete reference to config CHASH.
+So, correct the reference ARCH_BCMSTB to the intended ARCH_BRCMSTB.
 
 Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- drivers/gpu/drm/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/v3d/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index f3bc90baca61..8fc40317f2b7 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -257,7 +257,6 @@ config DRM_AMDGPU
- 	select HWMON
- 	select BACKLIGHT_CLASS_DEVICE
- 	select INTERVAL_TREE
--	select CHASH
- 	help
- 	  Choose this option if you have a recent AMD Radeon graphics card.
- 
+diff --git a/drivers/gpu/drm/v3d/Kconfig b/drivers/gpu/drm/v3d/Kconfig
+index 9a5c44606337..e973ec487484 100644
+--- a/drivers/gpu/drm/v3d/Kconfig
++++ b/drivers/gpu/drm/v3d/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_V3D
+ 	tristate "Broadcom V3D 3.x and newer"
+-	depends on ARCH_BCM || ARCH_BCMSTB || COMPILE_TEST
++	depends on ARCH_BCM || ARCH_BRCMSTB || COMPILE_TEST
+ 	depends on DRM
+ 	depends on COMMON_CLK
+ 	depends on MMU
 -- 
 2.26.2
 
