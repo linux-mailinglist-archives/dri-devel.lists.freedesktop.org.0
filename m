@@ -2,128 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2AD3F173A
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 12:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B8C3F1789
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 12:53:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD07B6E8AC;
-	Thu, 19 Aug 2021 10:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24FE66E8A9;
+	Thu, 19 Aug 2021 10:53:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2052.outbound.protection.outlook.com [40.107.102.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 549C86E8A4;
- Thu, 19 Aug 2021 10:25:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e3lqd1ljTe/yVsuB2k+x8GuPMVIExmywxRDbsiHoKz3VHaHhvOECSQuZtMsUzPBNnZXmewOssO1WnoaP1G1hZTaGeNgK3OU1f99IT4s20Hlka6DTHJx+C08BOKz7qVt0KGlic3uiVsf321mOrzsFCFyd5wT8OxdFvLSvot/c/uJ63+N9MzsiHCbUeLcF/42LoYbQbUWf6+epw/LkIW0HcXlASLeVPurQ4a4psqAan5TtTyRO5GBUrbCvLveF2/FZglBNpvqTOkppQhW6ef22h3TSU//+u8UatwtA8VLg1c5A8dLyqR3PjmE3OTGvDgJryJNllXtYQrQ8PWR/nnMUlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IDGOIQpi8ZWwXkyJ9aXoh9HkBY6dzdVOrcEh/5IdW/k=;
- b=l6c3mWOEYtwZHvX+FPNmVIcA6QSfrNvU5G1dcLGtQjExlCqtIn3E+KYDxSQkWSDb4VROrh/kh0mMc0NnMaIHQQjQ1lPRSPe0nqg/rVzVx/GyPSsZo2QABmCaGOn+2l5RwxW77hdzGoVD/Z9jnZrmpkVxC3a9F7dPPXuZgW41r4lBJv9u4kbvO3k959p60e1JJzFtQ27mj9+A4TRl01BkxtTjBnJR6+9HLeViZkNkawvXD+AosGsmvf/cq3I8n311EaoAiTHCR9kLHms7NMP7AmU1CIPy14K0QkiUMzCi9p+t7yl4JAtfdM7YiZ0eFF0SUMc9M02oIofFH5GB0YZmUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IDGOIQpi8ZWwXkyJ9aXoh9HkBY6dzdVOrcEh/5IdW/k=;
- b=ZyuTbKxB0LI2mDS07ir2oZXlatBBWbtrbiojosz6OVI+Zh5nOne9dUbAVYTXm/k7yiCCv9z3Zp8yRRTiWnjIj+jXCDx/OBXBo3kEtMX/Ke/qJEdwG2LW+v1Me0QBach82/Ikoz3OX6yParhnv7Te9gSLX2Bb0T6sZKeijPYVQ5k=
-Received: from BL1PR12MB5269.namprd12.prod.outlook.com (2603:10b6:208:30b::20)
- by BL1PR12MB5272.namprd12.prod.outlook.com (2603:10b6:208:319::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Thu, 19 Aug
- 2021 10:25:42 +0000
-Received: from BL1PR12MB5269.namprd12.prod.outlook.com
- ([fe80::acc6:c407:1353:6a]) by BL1PR12MB5269.namprd12.prod.outlook.com
- ([fe80::acc6:c407:1353:6a%5]) with mapi id 15.20.4415.024; Thu, 19 Aug 2021
- 10:25:42 +0000
-From: "Liu, Monk" <Monk.Liu@amd.com>
-To: Daniel Vetter <daniel@ffwll.ch>, "Grodzovsky, Andrey"
- <Andrey.Grodzovsky@amd.com>
-CC: Alex Deucher <alexdeucher@gmail.com>, "Chen, JingWen"
- <JingWen.Chen2@amd.com>, Maling list - DRI developers
- <dri-devel@lists.freedesktop.org>, amd-gfx list
- <amd-gfx@lists.freedesktop.org>, "Koenig, Christian"
- <Christian.Koenig@amd.com>
-Subject: RE: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
-Thread-Topic: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
-Thread-Index: AQHXlCM5tpADXUaHLkOoBAv6YPx0dat5SvoAgAAGzICAAAGgAIAAATMAgAAByYCAAAJCAIABOOmAgAANvtA=
-Date: Thu, 19 Aug 2021 10:25:42 +0000
-Message-ID: <BL1PR12MB52690CB11358D0298AABC8C084C09@BL1PR12MB5269.namprd12.prod.outlook.com>
-References: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
- <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
- <69cbf5bd-42c2-be55-a604-43f4ebba159d@amd.com>
- <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
- <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
- <YR0cb43Wv8jGiIbb@phenom.ffwll.local>
- <82782ff5-d2a7-a4a8-8526-d1ff231630ed@amd.com>
- <YR4k0fPfUL5viMRY@phenom.ffwll.local>
-In-Reply-To: <YR4k0fPfUL5viMRY@phenom.ffwll.local>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-08-19T10:25:40Z; 
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
- Only-AIP 2.0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=e6ef5199-574c-48a9-8147-c533a670ce27;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
-authentication-results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 144bb66a-0d72-48f9-eb9f-08d962fbb2b9
-x-ms-traffictypediagnostic: BL1PR12MB5272:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BL1PR12MB527283BCD80C25664CB1034D84C09@BL1PR12MB5272.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:187;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bplGF1WkaYlkMVAV4tKHaD/NQXaYyXRYChO8+4kTVsKEBYiwDLcpcQwVy4CH3DBn0xMbpW4I7H40Mj5Qdg+ZQcCZQ7FJVZcrBjJ6IYFxWwWeSU6Ejh+IDsUTO1lnkKjVc1M3Pw0USgHn2+Jr9IlVPhAT+5O7y/EcXmWSOZ/MDGDjb2ZwbUdowrh8a5n5GjpmXUrLMiVc486tcl9ia4h9+D6lpOs5lxzKg4XKVrdc3ig87JPLNgA4l4NOJNN2oYpHi017XMJmpBVMpnr3dRKyQ4tKz4GThlrcUTXE92W2wTcTgZ+ZaYASFesub9Ro12jmw8jgmUMWdxgzF9hKhFkkz4YPOFXswr6NjsmHbWo/MG3znArB/Q2gJWLLz/v3kJrZCGAec8J1NhZ7ijL4vXUm5JrhXGnXsDvT1rm0PSPYZyQhapMGh4EQv6ziMK807rhpBBQRdpDwI5oMkg7nNCboJdOurHoK84AlLKusKRfQvFW9tNACye3I4WSyoax87D33yydfO4u2xd23sXqI5CGzDJml+RItKcRKWWpVm4kUL+8YCtiEyP1Z40TV/3Gf/7RFxncrhlEB487BtLbWnpZI/iHBFKp85i+TbTkoAQvlzLoQraGI0Qo9woKyD9jMMDFDBpFw3zMToyZ6lBuEMNEAh0QoXVm41sT+uI7ujTgRKYDdK8wrvpFcLjCMy1bZ4olbE37DE+kmP7JL19/NdEslnRBGdbBn75OhEt9Jj73s/LMZDT9QUM0KXWkhjfbkCGcOqHuG+sieDhsRrz4pCagLzHLeL66qjzvZq8EuHQAHsCQ=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5269.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(54906003)(508600001)(5660300002)(45080400002)(8936002)(7696005)(71200400001)(55016002)(66476007)(66446008)(26005)(966005)(53546011)(64756008)(33656002)(52536014)(6636002)(38100700002)(316002)(2906002)(110136005)(9686003)(6506007)(86362001)(83380400001)(8676002)(30864003)(38070700005)(4326008)(76116006)(66556008)(186003)(66946007)(122000001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?gzHLv1YeVr/awtuX6sAgUmvibVIeZZhw7Q/1SowKqtHBmpED3X5kr/C28o?=
- =?iso-8859-1?Q?5rHrOvUieKt4PXpIhswt70lHfrODPe0p/rMneIPs3zVB/rUwtJKd9vxRIY?=
- =?iso-8859-1?Q?uERha06O8nCpWcrVSldIMY9TS0Ws0MafRMcHflzJUmlA6oTp8ugL+X5DHO?=
- =?iso-8859-1?Q?AmgMs3be84dftBjkjT/PVRqOcaekgj4va2eVfGL16LQMF7wnEBpUeaLrtg?=
- =?iso-8859-1?Q?IRYKLGwMxvF+4wIj7+QeVPLefnA5QXnn7nM56Vb2OdDIkkm8NCgCXAkR01?=
- =?iso-8859-1?Q?U5BgFzDlWEY1J3vnhYArxrvS9eqHQvpHGWgyzM8WdDgODB2wAo4zbyIW7K?=
- =?iso-8859-1?Q?7qhKwLQPN/ZUUJYjlLQRpePrD6sGG08fdNI9f2KtfOH2pb4i53WxUzjMX+?=
- =?iso-8859-1?Q?hV5Cr66VX5bFq7ksqB5sJ5AhCaU670wsdy2g8Sp9Yl0Lg8AKd2RWoqwoSz?=
- =?iso-8859-1?Q?JJpgNJy7qP59dGgzhL3daoDlvJzbTlu+CECzA0daaRLww3bwDwkz9F/RkW?=
- =?iso-8859-1?Q?LC/nFTkzhYv1Pg+rNmGgBPsE6XgA1GHW1+oqf5H2wkKk0fMOYAsgjv39fX?=
- =?iso-8859-1?Q?fsTakamNuQuAoFXdyIlNpDy2kwccqipqyf2VzEoH0sx8aS6uQV5qHLRdHT?=
- =?iso-8859-1?Q?7OxmD7BOck+6kXPc+LB+IrEl9I7tm0xAUsZOFU1HOUYljJHCY4RAEXyxpG?=
- =?iso-8859-1?Q?lnSuIpPo/ypF794qlYgKVCMWIoMNDwEHpBKGXMZNEkxVA6gTz3hsHdzcVp?=
- =?iso-8859-1?Q?haGUGApChBRIP47HKOKiCh2jIj3o+mc3reufOAJHrf9pC+njsIl1xJC3yg?=
- =?iso-8859-1?Q?GAOuSSJjpKkOK5dEWkgVF+vZhY8BrxhdBgZmjMFPriGBc/1pCrd2+Luq6f?=
- =?iso-8859-1?Q?6zAYk5Oa+YT4zKBSnof+u8nKkOZNUNpTEnzyqZcp1FYNoO2qMoD+qGxxdp?=
- =?iso-8859-1?Q?g1+uUTzqI0OBKAKgfJJM6D4yhwYeHGzaplEOMZkjzeHeFwklh0X7Kt/Vim?=
- =?iso-8859-1?Q?Wgfs16K7h/X3zrAzTeiR+3xlRcLPqWXKSQ0dvfHkbLfogERP4ZmBvzqub0?=
- =?iso-8859-1?Q?/Kf36kuKDvaWEHWnL4TR602gBB5AtkknGHmMlTFSXyGaGGnfRVjd9WcS99?=
- =?iso-8859-1?Q?Mr14bAyr94YIhdzC6NEPs8kyYpnJ8eRlw5OLCUfm21KrqGtqwInTW5nQfT?=
- =?iso-8859-1?Q?vOeNdJcfkE06WRy+Wl0lUDwoOUkIPQFOOPtr62d6k8tQT3Wx6NUupeCYFn?=
- =?iso-8859-1?Q?ohRJbV7/OLSbB68aI65Mi0JMPV3cA9HTwewPgKcVA+W1fPRHeJZfOt1v/E?=
- =?iso-8859-1?Q?xLawd/Mt/R0zaIa4CxXMQvM27ahgiMt6WuPAbD10b7WSGQ81rba6uBwScT?=
- =?iso-8859-1?Q?EIqW1oRyBz?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 842AA6E5C3;
+ Thu, 19 Aug 2021 10:53:04 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id 7so5109298pfl.10;
+ Thu, 19 Aug 2021 03:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=klQKJuKtroBB/TzjblUgbB4PEvAXZGfL+U8FouBr76U=;
+ b=OoLs9ULd5fTyE/pzGHJQq63LFllhPcEhUtJJlPs9sFFbzsWPzz39/re3OEMYRVDqGF
+ 246Iz9ggskzzkGrLs8BKnxotnFGWdrBVTQkvGo1DvhYB7j3BJnATXBNIVO4T/4t4yPcV
+ 40Qq8yR+3Mwt5Rp+m1xxVX+aI2E4jqxC8seZAbgVmB0dFCZUAd3AdEdOTL+zQqGvlf95
+ QrtPe8XExxo/xZ4fbVMzGEXgcdtcgv49l5zqs+usS6vjUS+1Too4KA91QC35KWKZYC6+
+ UxtE5Nv7DukwplY2BWazDA8o2KeDt9M5IzQV41394Q8JXbbeUJJ247cw27wS5ysahUlf
+ sD7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=klQKJuKtroBB/TzjblUgbB4PEvAXZGfL+U8FouBr76U=;
+ b=ibM/4wE6xbPtMpKK0ZCf3vYL9pprmOJRwvQzmhzzS2PKWTrPp1dvze3jyVlY4Bvr73
+ qEhWSQEgRgIl5NemS9O09vLQ22AugSo0/v/FDxgyeMe9tV93CI2lkrOq0uARpNH1xWiL
+ l5idkof9aVTsomDZLnxztAPJQHHzbLiUCI2wUUxuq07oAOcR1Syj5QLwGWXU40Ck9ikz
+ KicAd/aS/6TalcwNxTEISL25TrWGJbYNZJfIPaX6AqzT1B7I9lc38rix2HSNGDL9Uu+G
+ OYKrkMUDbQkdQ6jFIKXKSInmCJtvXKRpOgx3r/mrVMTft4iLGxAA75difbsPHBE+afud
+ CbZQ==
+X-Gm-Message-State: AOAM532wqjAiATOk0cGNg2OlwkRyzdGF4QcLlVijsPFT5Ysiwcf7nLvr
+ 33XrPVNiG1+dvqiZ7fcwXI4=
+X-Google-Smtp-Source: ABdhPJw8JerPM5elBpZi6KrJWQUBEvPDY27NKWeahsRXP0nM46ikD9qsIkMIvF0f7z7FJs8rhxvVmw==
+X-Received: by 2002:a63:111d:: with SMTP id g29mr13570542pgl.222.1629370383873; 
+ Thu, 19 Aug 2021 03:53:03 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id n12sm3751491pgr.2.2021.08.19.03.52.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Aug 2021 03:53:03 -0700 (PDT)
+Subject: Re: [PATCH v3 7/9] drm: update global mutex lock in the ioctl handler
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
+ tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+ gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
+ <20210818073824.1560124-8-desmondcheongzx@gmail.com>
+ <YRzo4PJ/XRS3O199@phenom.ffwll.local>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <874c94a4-1c33-c83a-ac3a-04b761013d40@gmail.com>
+Date: Thu, 19 Aug 2021 18:52:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5269.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 144bb66a-0d72-48f9-eb9f-08d962fbb2b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2021 10:25:42.2934 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zL24GSdyG8G8ER+pYiDK/9521eePWLA2EURleAPTBfZ0gfJqvT+toUEPnMsQ7nQz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5272
+In-Reply-To: <YRzo4PJ/XRS3O199@phenom.ffwll.local>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,299 +83,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only]
+On 18/8/21 7:02 pm, Daniel Vetter wrote:
+> On Wed, Aug 18, 2021 at 03:38:22PM +0800, Desmond Cheong Zhi Xi wrote:
+>> In a future patch, a read lock on drm_device.master_rwsem is
+>> held in the ioctl handler before the check for ioctl
+>> permissions. However, this produces the following lockdep splat:
+>>
+>> ======================================================
+>> WARNING: possible circular locking dependency detected
+>> 5.14.0-rc6-CI-Patchwork_20831+ #1 Tainted: G     U
+>> ------------------------------------------------------
+>> kms_lease/1752 is trying to acquire lock:
+>> ffffffff827bad88 (drm_global_mutex){+.+.}-{3:3}, at: drm_open+0x64/0x280
+>>
+>> but task is already holding lock:
+>> ffff88812e350108 (&dev->master_rwsem){++++}-{3:3}, at:
+>> drm_ioctl_kernel+0xfb/0x1a0
+>>
+>> which lock already depends on the new lock.
+>>
+>> the existing dependency chain (in reverse order) is:
+>>
+>> -> #2 (&dev->master_rwsem){++++}-{3:3}:
+>>         lock_acquire+0xd3/0x310
+>>         down_read+0x3b/0x140
+>>         drm_master_internal_acquire+0x1d/0x60
+>>         drm_client_modeset_commit+0x10/0x40
+>>         __drm_fb_helper_restore_fbdev_mode_unlocked+0x88/0xb0
+>>         drm_fb_helper_set_par+0x34/0x40
+>>         intel_fbdev_set_par+0x11/0x40 [i915]
+>>         fbcon_init+0x270/0x4f0
+>>         visual_init+0xc6/0x130
+>>         do_bind_con_driver+0x1de/0x2c0
+>>         do_take_over_console+0x10e/0x180
+>>         do_fbcon_takeover+0x53/0xb0
+>>         register_framebuffer+0x22d/0x310
+>>         __drm_fb_helper_initial_config_and_unlock+0x36c/0x540
+>>         intel_fbdev_initial_config+0xf/0x20 [i915]
+>>         async_run_entry_fn+0x28/0x130
+>>         process_one_work+0x26d/0x5c0
+>>         worker_thread+0x37/0x390
+>>         kthread+0x13b/0x170
+>>         ret_from_fork+0x1f/0x30
+>>
+>> -> #1 (&helper->lock){+.+.}-{3:3}:
+>>         lock_acquire+0xd3/0x310
+>>         __mutex_lock+0xa8/0x930
+>>         __drm_fb_helper_restore_fbdev_mode_unlocked+0x44/0xb0
+>>         intel_fbdev_restore_mode+0x2b/0x50 [i915]
+>>         drm_lastclose+0x27/0x50
+>>         drm_release_noglobal+0x42/0x60
+>>         __fput+0x9e/0x250
+>>         task_work_run+0x6b/0xb0
+>>         exit_to_user_mode_prepare+0x1c5/0x1d0
+>>         syscall_exit_to_user_mode+0x19/0x50
+>>         do_syscall_64+0x46/0xb0
+>>         entry_SYSCALL_64_after_hwframe+0x44/0xae
+>>
+>> -> #0 (drm_global_mutex){+.+.}-{3:3}:
+>>         validate_chain+0xb39/0x1e70
+>>         __lock_acquire+0x5a1/0xb70
+>>         lock_acquire+0xd3/0x310
+>>         __mutex_lock+0xa8/0x930
+>>         drm_open+0x64/0x280
+>>         drm_stub_open+0x9f/0x100
+>>         chrdev_open+0x9f/0x1d0
+>>         do_dentry_open+0x14a/0x3a0
+>>         dentry_open+0x53/0x70
+>>         drm_mode_create_lease_ioctl+0x3cb/0x970
+>>         drm_ioctl_kernel+0xc9/0x1a0
+>>         drm_ioctl+0x201/0x3d0
+>>         __x64_sys_ioctl+0x6a/0xa0
+>>         do_syscall_64+0x37/0xb0
+>>         entry_SYSCALL_64_after_hwframe+0x44/0xae
+>>
+>> other info that might help us debug this:
+>> Chain exists of:
+>>    drm_global_mutex --> &helper->lock --> &dev->master_rwsem
+>>   Possible unsafe locking scenario:
+>>         CPU0                    CPU1
+>>         ----                    ----
+>>    lock(&dev->master_rwsem);
+>>                                 lock(&helper->lock);
+>>                                 lock(&dev->master_rwsem);
+>>    lock(drm_global_mutex);
+>>
+>>   *** DEADLOCK ***
+>>
+>> The lock hierarchy inversion happens because we grab the
+>> drm_global_mutex while already holding on to master_rwsem. To avoid
+>> this, we do some prep work to grab the drm_global_mutex before
+>> checking for ioctl permissions.
+>>
+>> At the same time, we update the check for the global mutex to use the
+>> drm_dev_needs_global_mutex helper function.
+> 
+> This is intentional, essentially we force all non-legacy drivers to have
+> unlocked ioctl (otherwise everyone forgets to set that flag).
+> 
+> For non-legacy drivers the global lock only ensures ordering between
+> drm_open and lastclose (I think at least), and between
+> drm_dev_register/unregister and the backwards ->load/unload callbacks
+> (which are called in the wrong place, but we cannot fix that for legacy
+> drivers).
+> 
+> ->load/unload should be completely unused (maybe radeon still uses it),
+> and ->lastclose is also on the decline.
+> 
 
-Hi Daniel
+Ah ok got it, I'll change the check back to
+drm_core_check_feature(dev, DRIVER_LEGACY) then.
 
->> Why can't we stop the scheduler thread first, so that there's guaranteed=
- no race? I've recently had a lot of discussions with panfrost folks about =
-their reset that spawns across engines, and without stopping the scheduler =
-thread first before you touch anything it's just plain impossible.
+> Maybe we should update the comment of drm_global_mutex to explain what it
+> protects and why.
+> 
 
-Yeah we had this though as well in our mind.
+The comments in drm_dev_needs_global_mutex make sense I think, I just
+didn't read the code closely enough.
 
-Our second approach is to call ktrhead_stop() in job_timedout() routine so =
-that  the "bad" job is guaranteed to be used without scheduler's touching o=
-r freeing,
-Check this sample patch one as well please:
+> I'm also confused how this patch connects to the splat, since for i915 we
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sched=
-uler/sched_main.c
-index a2a9536..50a49cb 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -319,17 +319,12 @@ static void drm_sched_job_timedout(struct work_struct=
- *work)
-        sched =3D container_of(work, struct drm_gpu_scheduler, work_tdr.wor=
-k);
-=20
-        /* Protects against concurrent deletion in drm_sched_get_cleanup_jo=
-b */
-+       kthread_park(sched->thread);
-        spin_lock(&sched->job_list_lock);
-        job =3D list_first_entry_or_null(&sched->pending_list,
-                                       struct drm_sched_job, list);
-=20
-        if (job) {
--               /*
--                * Remove the bad job so it cannot be freed by concurrent
--                * drm_sched_cleanup_jobs. It will be reinserted back after=
- sched->thread
--                * is parked at which point it's safe.
--                */
--               list_del_init(&job->list);
-                spin_unlock(&sched->job_list_lock);
-=20
-                status =3D job->sched->ops->timedout_job(job);
-@@ -345,6 +340,7 @@ static void drm_sched_job_timedout(struct work_struct *=
-work)
-        } else {
-                spin_unlock(&sched->job_list_lock);
-        }
-+       kthread_unpark(sched->thread);
-=20
-        if (status !=3D DRM_GPU_SCHED_STAT_ENODEV) {
-                spin_lock(&sched->job_list_lock);
-@@ -393,20 +389,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, s=
-truct drm_sched_job *bad)
-        kthread_park(sched->thread);
-=20
-        /*
--        * Reinsert back the bad job here - now it's safe as
--        * drm_sched_get_cleanup_job cannot race against us and release the
--        * bad job at this point - we parked (waited for) any in progress
--        * (earlier) cleanups and drm_sched_get_cleanup_job will not be cal=
-led
--        * now until the scheduler thread is unparked.
--        */
--       if (bad && bad->sched =3D=3D sched)
--               /*
--                * Add at the head of the queue to reflect it was the earli=
-est
--                * job extracted.
--                */
--               list_add(&bad->list, &sched->pending_list);
+Right, my bad, this is a separate instance of circular locking. I was
+too hasty when I saw that for legacy drivers we might grab master_rwsem
+then drm_global_mutex in the ioctl handler.
+
+> shouldn't be taking the drm_global_lock here at all. The problem seems to
+> be the drm_open_helper when we create a new lease, which is an entirely
+> different can of worms.
+> 
+> I'm honestly not sure how to best do that, but we should be able to create
+> a file and then call drm_open_helper directly, or well a version of that
+> which never takes the drm_global_mutex. Because that is not needed for
+> nested drm_file opening:
+> - legacy drivers never go down this path because leases are only supported
+>    with modesetting, and modesetting is only supported for non-legacy
+>    drivers
+> - the races against dev->open_count due to last_close or ->load callbacks
+>    don't matter, because for the entire ioctl we already have an open
+>    drm_file and that wont disappear.
+> 
+> So this should work, but I'm not entirely sure how to make it work.
+> -Daniel
+> 
+
+One idea that comes to mind is to change the outcome of
+drm_dev_needs_global_mutex while we're in the ioctl, but that requires
+more locking which sounds like a bad idea.
+
+Another idea, which is quite messy, but just for thoughts, uses the idea
+of pushing the master_rwsem read lock down:
+
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index 7f523e1c5650..5d05e744b728 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -712,7 +712,7 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+  		      DRM_RENDER_ALLOW),
+  	DRM_IOCTL_DEF(DRM_IOCTL_CRTC_GET_SEQUENCE, drm_crtc_get_sequence_ioctl, 0),
+  	DRM_IOCTL_DEF(DRM_IOCTL_CRTC_QUEUE_SEQUENCE, drm_crtc_queue_sequence_ioctl, 0),
+-	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, DRM_MASTER),
++	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, 0),
+  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
+  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
+  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
+diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+index 983701198ffd..a25bc69522b4 100644
+--- a/drivers/gpu/drm/drm_lease.c
++++ b/drivers/gpu/drm/drm_lease.c
+@@ -500,6 +500,19 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+  		return -EINVAL;
+  	}
+  
++	/* Clone the lessor file to create a new file for us */
++	DRM_DEBUG_LEASE("Allocating lease file\n");
++	lessee_file = file_clone_open(lessor_file);
++	if (IS_ERR(lessee_file))
++		return PTR_ERR(lessee_file);
++
++	down_read(&dev->master_rwsem);
++
++	if (!drm_is_current_master(lessor_priv)) {
++		ret = -EACCES;
++		goto out_file;
++	}
++
+  	lessor = drm_file_get_master(lessor_priv);
+  	/* Do not allow sub-leases */
+  	if (lessor->lessor) {
+@@ -547,14 +560,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+  		goto out_leases;
+  	}
+  
+-	/* Clone the lessor file to create a new file for us */
+-	DRM_DEBUG_LEASE("Allocating lease file\n");
+-	lessee_file = file_clone_open(lessor_file);
+-	if (IS_ERR(lessee_file)) {
+-		ret = PTR_ERR(lessee_file);
+-		goto out_lessee;
+-	}
 -
--       /*
-         * Iterate the job list from later to  earlier one and either deact=
-ive
-         * their HW callbacks or remove them from pending list if they alre=
-ady
-         * signaled.
+  	lessee_priv = lessee_file->private_data;
+  	/* Change the file to a master one */
+  	drm_master_put(&lessee_priv->master);
+@@ -571,17 +576,19 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+  	fd_install(fd, lessee_file);
+  
+  	drm_master_put(&lessor);
++	up_read(&dev->master_rwsem);
+  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
+  	return 0;
+  
+-out_lessee:
+-	drm_master_put(&lessee);
+-
+  out_leases:
+  	put_unused_fd(fd);
+  
+  out_lessor:
+  	drm_master_put(&lessor);
++
++out_file:
++	up_read(&dev->master_rwsem);
++	fput(lessee_file);
+  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
+  	return ret;
+  }
 
 
-Thanks=20
+Something like this would also address the other deadlock we'd hit in
+drm_mode_create_lease_ioctl():
 
-------------------------------------------
-Monk Liu | Cloud-GPU Core team
-------------------------------------------
+   drm_ioctl_kernel():
+     down_read(&master_rwsem);               <--- down_read()
+     drm_mode_create_lease_ioctl():
+       drm_lease_create():
+         file_clone_open():
+           ...
+           drm_open():
+             drm_open_helper():
+               drm_master_open():
+                 down_write(&master_rwsem);  <--- down_write()
 
------Original Message-----
-From: Daniel Vetter <daniel@ffwll.ch>=20
-Sent: Thursday, August 19, 2021 5:31 PM
-To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>; Alex Deucher <alexdeucher@gmail.com>; =
-Chen, JingWen <JingWen.Chen2@amd.com>; Maling list - DRI developers <dri-de=
-vel@lists.freedesktop.org>; amd-gfx list <amd-gfx@lists.freedesktop.org>; L=
-iu, Monk <Monk.Liu@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>
-Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad jo=
-b."
+Overall, I think the suggestion to push master_rwsem write locks down
+into ioctls would solve the nesting problem for those ioctls.
 
-On Wed, Aug 18, 2021 at 10:51:00AM -0400, Andrey Grodzovsky wrote:
->=20
-> On 2021-08-18 10:42 a.m., Daniel Vetter wrote:
-> > On Wed, Aug 18, 2021 at 10:36:32AM -0400, Andrey Grodzovsky wrote:
-> > > On 2021-08-18 10:32 a.m., Daniel Vetter wrote:
-> > > > On Wed, Aug 18, 2021 at 10:26:25AM -0400, Andrey Grodzovsky wrote:
-> > > > > On 2021-08-18 10:02 a.m., Alex Deucher wrote:
-> > > > >=20
-> > > > > > + dri-devel
-> > > > > >=20
-> > > > > > Since scheduler is a shared component, please add dri-devel=20
-> > > > > > on all scheduler patches.
-> > > > > >=20
-> > > > > > On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@amd=
-.com> wrote:
-> > > > > > > [Why]
-> > > > > > > for bailing job, this commit will delete it from pending=20
-> > > > > > > list thus the bailing job will never have a chance to be=20
-> > > > > > > resubmitted even in advance tdr mode.
-> > > > > > >=20
-> > > > > > > [How]
-> > > > > > > after embeded hw_fence into amdgpu_job is done, the race=20
-> > > > > > > condition that this commit tries to work around is=20
-> > > > > > > completely solved.So revert this commit.
-> > > > > > > This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
-> > > > > > > v2:
-> > > > > > > add dma_fence_get/put() around timedout_job to avoid=20
-> > > > > > > concurrent delete during processing timedout_job
-> > > > > > >=20
-> > > > > > > Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
-> > > > > > > ---
-> > > > > > >     drivers/gpu/drm/scheduler/sched_main.c | 23 +++++--------=
-----------
-> > > > > > >     1 file changed, 5 insertions(+), 18 deletions(-)
-> > > > > > >=20
-> > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c=20
-> > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > index a2a953693b45..f9b9b3aefc4a 100644
-> > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct=
- work_struct *work)
-> > > > > > >     {
-> > > > > > >            struct drm_gpu_scheduler *sched;
-> > > > > > >            struct drm_sched_job *job;
-> > > > > > > +       struct dma_fence *fence;
-> > > > > > >            enum drm_gpu_sched_stat status =3D=20
-> > > > > > > DRM_GPU_SCHED_STAT_NOMINAL;
-> > > > > > >=20
-> > > > > > >            sched =3D container_of(work, struct=20
-> > > > > > > drm_gpu_scheduler, work_tdr.work); @@ -325,11 +326,10 @@=20
-> > > > > > > static void drm_sched_job_timedout(struct work_struct=20
-> > > > > > > *work)
-> > > > > > >=20
-> > > > > > >            if (job) {
-> > > > > > >                    /*
-> > > > > > > -                * Remove the bad job so it cannot be freed b=
-y concurrent
-> > > > > > > -                * drm_sched_cleanup_jobs. It will be reinser=
-ted back after sched->thread
-> > > > > > > -                * is parked at which point it's safe.
-> > > > > > > +                * Get job->s_fence->parent here to avoid con=
-current delete during
-> > > > > > > +                * processing timedout_job
-> > > > > > >                     */
-> > > > > > > -               list_del_init(&job->list);
-> > > > > > > +               fence =3D=20
-> > > > > > > + dma_fence_get(job->s_fence->parent);
-> > > > > While this is true for amdgpu, it has no meaning for other=20
-> > > > > drivers for whom we haven't done the refactoring of embedding=20
-> > > > > HW fence (parent) into the job structure.
-> > > > > In fact thinking
-> > > > > about it, unless you do the HW fence embedding for all the=20
-> > > > > drivers using the scheduler you cannot revert this patch or=20
-> > > > > you will just break them.
-> > > > btw, why did you do that embedding? I do still have my patches=20
-> > > > with dma_fence annotations floating around, but my idea at least=20
-> > > > was to fix that issue with a mempool, not with embeddeding. What=20
-> > > > was the motivation for embedding the wh fence?
-> > > > -Daniel
-> > >=20
-> > > The motivation was 2 fold, avoid memory allocation during jobs=20
-> > > submissions (HW fence allocation) because as Christian explained=20
-> > > this leads to deadlock with mm code during evictions due to memory=20
-> > > pressure (Christian can clarify if I messed
-> > Yeah that's the exact same thing I've chased with my dma_fence=20
-> > annotations, but thus far zero to none interested in getting it=20
-> > sorted. I think it'd be good to have some cross-driver agreement on=20
-> > how this should be solved before someone just charges ahead ...
-> >=20
-> > > this explanation). Second is to exactly revert this patch because=20
-> > > while it solved the issue described in the patch it created=20
-> > > another with drivers who baildc out early during TDR handling for=20
-> > > various reason and the job would just leak because it was already=20
-> > > removed form pending list.
-> > Can't we reinsert it before we restart the scheduler thread? It=20
-> > might need a separate list for that due to the lockless queue=20
-> > tricks. Or am I thinking about the wrong kind of "we lost the job"?
-> > -Danile
->=20
->=20
-> If you look at the original patch it would reinsert it even earlier -=20
-> right after stopping the=A0 SW scheduler thread, and even then it was to=
-=20
-> late for some drivers as they would decide to return back from their=20
-> TDR handler even before that. It is solvable but in an ugly way as far=20
-> as I see, you need to require each driver in his code to put the job=20
-> back in the list if they do it before reaching the place where=20
-> scheduler framework does it. Kind of spaghetti code seems to me.
+Although I'm still a little concerned that, just like here, there might
+be deeply embedded nested locking, so locking becomes prone to breaking.
+It does smell a bit to me.
 
-Hm yeah I didn't realize this all happens before we stop the scheduler thre=
-ad.
+>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>> ---
+>>   drivers/gpu/drm/drm_ioctl.c | 18 +++++++++---------
+>>   1 file changed, 9 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+>> index 880fc565d599..2cb57378a787 100644
+>> --- a/drivers/gpu/drm/drm_ioctl.c
+>> +++ b/drivers/gpu/drm/drm_ioctl.c
+>> @@ -779,19 +779,19 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
+>>   	if (drm_dev_is_unplugged(dev))
+>>   		return -ENODEV;
+>>   
+>> +	/* Enforce sane locking for modern driver ioctls. */
+>> +	if (unlikely(drm_dev_needs_global_mutex(dev)) && !(flags & DRM_UNLOCKED))
+>> +		mutex_lock(&drm_global_mutex);
+>> +
+>>   	retcode = drm_ioctl_permit(flags, file_priv);
+>>   	if (unlikely(retcode))
+>> -		return retcode;
+>> +		goto out;
+>>   
+>> -	/* Enforce sane locking for modern driver ioctls. */
+>> -	if (likely(!drm_core_check_feature(dev, DRIVER_LEGACY)) ||
+>> -	    (flags & DRM_UNLOCKED))
+>> -		retcode = func(dev, kdata, file_priv);
+>> -	else {
+>> -		mutex_lock(&drm_global_mutex);
+>> -		retcode = func(dev, kdata, file_priv);
+>> +	retcode = func(dev, kdata, file_priv);
+>> +
+>> +out:
+>> +	if (unlikely(drm_dev_needs_global_mutex(dev)) && !(flags & DRM_UNLOCKED))
+>>   		mutex_unlock(&drm_global_mutex);
+>> -	}
+>>   	return retcode;
+>>   }
+>>   EXPORT_SYMBOL(drm_ioctl_kernel);
+>> -- 
+>> 2.25.1
+>>
+> 
 
-Why can't we stop the scheduler thread first, so that there's guaranteed no=
- race? I've recently had a lot of discussions with panfrost folks about the=
-ir reset that spawns across engines, and without stopping the scheduler thr=
-ead first before you touch anything it's just plain impossible.
-
-I'm also still not understanding what exactly you guys have done, can someo=
-ne please dig out the the amdgpu patches that motivate all this maybe that'=
-s clearer? A full explanation would still be good since I've only started i=
-n scheduler stuff.
-
-Another thing I recently pondered for tdr races looking at i915 code is whe=
-ther the tdr should first block the completion fence for that job. My motiv=
-ation is to have a race-free error capture (if the completion races then we=
- might start evicting memory and everything goes boom), but maybe that help=
-s here too. Some kind of atomic "block this fence from completing thing.
-
-Or I'm I completely guessing in the wrong direction?
--Daniel
-
->=20
-> Andrey
->=20
->=20
-> >=20
-> > > Andrey
-> > >=20
-> > >=20
-> > > >=20
-> > > > > Andrey
-> > > > >=20
-> > > > >=20
-> > > > > > >                    spin_unlock(&sched->job_list_lock);
-> > > > > > >=20
-> > > > > > >                    status =3D=20
-> > > > > > > job->sched->ops->timedout_job(job);
-> > > > > > > @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(struct=
- work_struct *work)
-> > > > > > >                            job->sched->ops->free_job(job);
-> > > > > > >                            sched->free_guilty =3D false;
-> > > > > > >                    }
-> > > > > > > +               dma_fence_put(fence);
-> > > > > > >            } else {
-> > > > > > >                    spin_unlock(&sched->job_list_lock);
-> > > > > > >            }
-> > > > > > > @@ -392,20 +393,6 @@ void drm_sched_stop(struct=20
-> > > > > > > drm_gpu_scheduler *sched, struct drm_sched_job *bad)
-> > > > > > >=20
-> > > > > > >            kthread_park(sched->thread);
-> > > > > > >=20
-> > > > > > > -       /*
-> > > > > > > -        * Reinsert back the bad job here - now it's safe as
-> > > > > > > -        * drm_sched_get_cleanup_job cannot race against us a=
-nd release the
-> > > > > > > -        * bad job at this point - we parked (waited for) any=
- in progress
-> > > > > > > -        * (earlier) cleanups and drm_sched_get_cleanup_job w=
-ill not be called
-> > > > > > > -        * now until the scheduler thread is unparked.
-> > > > > > > -        */
-> > > > > > > -       if (bad && bad->sched =3D=3D sched)
-> > > > > > > -               /*
-> > > > > > > -                * Add at the head of the queue to reflect it=
- was the earliest
-> > > > > > > -                * job extracted.
-> > > > > > > -                */
-> > > > > > > -               list_add(&bad->list, &sched->pending_list);
-> > > > > > > -
-> > > > > > >            /*
-> > > > > > >             * Iterate the job list from later to  earlier one=
- and either deactive
-> > > > > > >             * their HW callbacks or remove them from=20
-> > > > > > > pending list if they already
-> > > > > > > --
-> > > > > > > 2.25.1
-> > > > > > >=20
-
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fblog.ffw=
-ll.ch%2F&amp;data=3D04%7C01%7Cmonk.liu%40amd.com%7C27fcce7ca8dd4f39608508d9=
-62f40f33%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637649622657672189%7C=
-Unknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiL=
-CJXVCI6Mn0%3D%7C1000&amp;sdata=3DJVZtg3AhbiA%2FDmVbNGo3MxVliO83nh8%2Fi50PCM=
-svwyY%3D&amp;reserved=3D0
