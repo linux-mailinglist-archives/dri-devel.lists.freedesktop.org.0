@@ -1,59 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63D63F1F0D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 19:26:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5EF3F1F25
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 19:30:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D65A26E9B9;
-	Thu, 19 Aug 2021 17:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2066E9BB;
+	Thu, 19 Aug 2021 17:30:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8D06E9B9;
- Thu, 19 Aug 2021 17:25:58 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f0f6a00894cffc8901d9ad3.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f0f:6a00:894c:ffc8:901d:9ad3])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2D09E1EC04F3;
- Thu, 19 Aug 2021 19:25:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1629393952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=/gAtsE7QtBH5j9ttL3SuPKWfuXAyQgTTaUQCvmLoufU=;
- b=QQBp8NHuP+11G06yi7BdGA+HaVdnbkry0TMbR80aBtGTWa+AS2GGnsUl92jeGasIkZJxjG
- vbA27TU+69/cDt/R71KHjVUhLNS00XEkqnozCdieagZOK0jWv65x9AAvusLIXItaBgTbsA
- IoE8XMNOekYHfnDaNqS/LMVqj09wsDs=
-Date: Thu, 19 Aug 2021 19:26:31 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, iommu@lists.linux-foundation.org,
- kvm@vger.kernel.org, linux-efi@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH v2 03/12] x86/sev: Add an x86 version of prot_guest_has()
-Message-ID: <YR6UR9JWD6l6z9Cn@zn.tnic>
-References: <cover.1628873970.git.thomas.lendacky@amd.com>
- <7d55bac0cf2e73f53816bce3a3097877ed9663f3.1628873970.git.thomas.lendacky@amd.com>
- <YR4p9TqKTLdN1A96@infradead.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 630CB6E9B1;
+ Thu, 19 Aug 2021 17:30:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10081"; a="203757710"
+X-IronPort-AV: E=Sophos;i="5.84,335,1620716400"; d="scan'208";a="203757710"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 10:30:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,335,1620716400"; d="scan'208";a="532597507"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga002.fm.intel.com with SMTP; 19 Aug 2021 10:30:31 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 19 Aug 2021 20:30:30 +0300
+Date: Thu, 19 Aug 2021 20:30:30 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, manasi.d.navare@intel.com,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 04/17] drm/dp: add helper for extracting adjust 128b/132b
+ TX FFE preset
+Message-ID: <YR6VNnGfUcrYB1gn@intel.com>
+References: <cover.1629310010.git.jani.nikula@intel.com>
+ <b287d95f995cd48143e2e14fa21b431e0cd9ee78.1629310010.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YR4p9TqKTLdN1A96@infradead.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b287d95f995cd48143e2e14fa21b431e0cd9ee78.1629310010.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +54,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 19, 2021 at 10:52:53AM +0100, Christoph Hellwig wrote:
-> Which suggest that the name is not good to start with.  Maybe protected
-> hardware, system or platform might be a better choice?
+On Wed, Aug 18, 2021 at 09:10:39PM +0300, Jani Nikula wrote:
+> The DP 2.0 128b/132b channel coding uses TX FFE presets instead of
+> vswing and pre-emphasis.
+> 
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Yah, coming up with a proper name here hasn't been easy.
-prot_guest_has() is not the first variant.
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-From all three things you suggest above, I guess calling it a "platform"
-is the closest. As in, this is a confidential computing platform which
-provides host and guest facilities etc.
-
-So calling it
-
-confidential_computing_platform_has()
-
-is obviously too long.
-
-ccp_has() clashes with the namespace of drivers/crypto/ccp/ which is
-used by the technology too.
-
-coco_platform_has() is too unserious.
-
-So I guess
-
-cc_platform_has()
-
-ain't all that bad.
-
-Unless you have a better idea, ofc.
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 14 ++++++++++++++
+>  include/drm/drm_dp_helper.h     |  2 ++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 9389f92cb944..2843238a78e6 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -130,6 +130,20 @@ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SI
+>  }
+>  EXPORT_SYMBOL(drm_dp_get_adjust_request_pre_emphasis);
+>  
+> +/* DP 2.0 128b/132b */
+> +u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
+> +				   int lane)
+> +{
+> +	int i = DP_ADJUST_REQUEST_LANE0_1 + (lane >> 1);
+> +	int s = ((lane & 1) ?
+> +		 DP_ADJUST_TX_FFE_PRESET_LANE1_SHIFT :
+> +		 DP_ADJUST_TX_FFE_PRESET_LANE0_SHIFT);
+> +	u8 l = dp_link_status(link_status, i);
+> +
+> +	return (l >> s) & 0xf;
+> +}
+> +EXPORT_SYMBOL(drm_dp_get_adjust_tx_ffe_preset);
+> +
+>  u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+>  					 unsigned int lane)
+>  {
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+> index f3a61341011d..3ee0b3ffb8a5 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -1494,6 +1494,8 @@ u8 drm_dp_get_adjust_request_voltage(const u8 link_status[DP_LINK_STATUS_SIZE],
+>  				     int lane);
+>  u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SIZE],
+>  					  int lane);
+> +u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
+> +				   int lane);
+>  u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+>  					 unsigned int lane);
+>  
+> -- 
+> 2.20.1
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Ville Syrjälä
+Intel
