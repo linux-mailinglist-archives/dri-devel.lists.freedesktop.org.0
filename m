@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BBD3F1B0F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 15:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF583F1B11
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 15:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 925466E988;
-	Thu, 19 Aug 2021 13:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 062516E989;
+	Thu, 19 Aug 2021 13:59:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 455246E989
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 13:59:51 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id DB3CA2B005D0;
- Thu, 19 Aug 2021 09:59:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 19 Aug 2021 09:59:51 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9761F6E989
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 13:59:55 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 38E5F2B00560;
+ Thu, 19 Aug 2021 09:59:54 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Thu, 19 Aug 2021 09:59:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=B7PVCG/bjNEUB
- GbiDile2HwXPPbm4HndIsVkTjHJmZY=; b=tEyJoadMYYS67bulDamhewQ4S+MCa
- wHnSaLpdPydvx+j8hPDBSR6xZLwGsKSPl2cM5KUgdxp8XmtowlUIv91XMkdpjhny
- nmk20Tll51EbqJBn0kB6sdMkjdn4U6rGD4MppSsZltDimRdoQ13ETHCxszFU906P
- yuJ5vNwHJiHiZsAZsf/wevgKhjeKEyw3dIlLYZpGRZEQUDg1WC+8IEZ+7RhQtosl
- qDRUeJdFdjj2K7GqsGoCtOncUG1UtUIzuQ32IsKRKMwnU8p/391L9kGOxRIujqPH
- H1z7lq3XgJlGZPB37Up/d+GtBYpRvZG6kOZg/K6my6fIz9MBse2mPqY3g==
+ :mime-version:content-transfer-encoding; s=fm3; bh=gKXF5nLq9rUn2
+ jzx/vOAy6T3H6ZUjYqDazxAlaD6/5k=; b=z5bYMddu5cs8nClLEU09yvcMdomUz
+ YNJ4vaHxPIQHqR0yFRVNphCKKAgU2kAQmOo6r6qR3Hkjr85ZPsp2hGtTQTGPAZFF
+ bveqlQtmaAktYk1opkx9XOmPQnZhHRd6JYm7qh5Q7xZ6USXT/Asd9h7ueLapBwXS
+ 1+rlCbx9IxgdGZw2ac1blPwfy2JbhfCXBebn57KL22/SOYZa8bUg1h3ITmxDLxgA
+ t1gTwOhXLP94/IIvjywAhEoURDGtt8IHlkDfOyWlRrR/NVio14W1fThEFScYkXzW
+ aEYMiRFBrLYfFQrlafJkh9VRwOSA5gavN155AXdte828N04wzdm87zweA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=B7PVCG/bjNEUBGbiDile2HwXPPbm4HndIsVkTjHJmZY=; b=iAz4GljU
- YPKcBJcAz6Q91TDmlIUDHnKboiDxoUBQ4UYJMgjc9Yn/Jfkbx36IV66yI4JnU3Nc
- ScBbZRnH7p9t0Hb6Wec9L60anNNEO2UzByAUy6gzpqKVhRFXpk8iVRIR8KVg+n3T
- R0N7pv10lvOfe8VOt8DZUduvAPNE6Am3zhRcOzfU/8SRcHtLUSnD/gnEVG7Nztm6
- hOVb10CEPcq+KB521hTUYeccXRIM/JwD9rOU613Shir8IhnR/K7m6zxuyZ3/ZINj
- 7YamLfj9fzUkUWC+gxhl19fUU4wldiAy5osKiE1+9jnN0PRjgzKKD6xHZH4736Cp
- fk/GEAXvCJmfSQ==
-X-ME-Sender: <xms:1GMeYV6XNEMt4R8iYY8ZGO0jNrLZWXCHEH-MQxCLHxelzxOLz2eJPg>
- <xme:1GMeYS4DATQDpVvjPVjahkySW1bUWgeX0ZmbRNH-yX58XTGMaMfmKMKtro0GvBkUX
- yWUP8jVpGS82pcsjkE>
-X-ME-Received: <xmr:1GMeYccGEtdNyV8wl8OAXT5AG1v0JyjxfQi5ycW9wG1NxvuLK95pWhbqkkTufgRFLmxtCeiZ1Y-imcjPUUYO_te4LuchiDkntpFH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgdejtdcutefuodetggdotefrodftvf
+ fm3; bh=gKXF5nLq9rUn2jzx/vOAy6T3H6ZUjYqDazxAlaD6/5k=; b=JiLwp5Om
+ Nw0yw38pAPQXN091eX9VVjUdUGW7uPnTmHmLkf490dqAEh0f5BDQvmpKcpvixLkV
+ 6ofJ620pAEtBMG1wkLK2AcFoBKeoVD9myl8MzhGw7cWvAGHy9PbnGJQu+biEQnrz
+ RCk28QkywV1Gt1LpF4tZjzvXRGsWPUDoDm9sjlcffL5LwyDqq34I9yylk/Tp0Wsr
+ o4yzYH8EyAgkUI67nlKOaKMQEfbov0ZrZiq7/Ad0oTgFE+Ipu+IjdZ3CfZ7vhueP
+ 1VMwsRApp4/zBYqQlba5y47LZ7PcbOqC2k7sC4Kd3x7P9YlYEmk7EsYr7qIyWFOP
+ u8en/n7VRFpcKw==
+X-ME-Sender: <xms:2GMeYc0RrhOiEo-QKoiNYBLXITcuns9eyw-sEdcCkgJiJYuUciUDvA>
+ <xme:2GMeYXHeDTzNWa3iKkXWIwH_cA-77XACk-5BqwHzRsMkcq0s5mWegyDwu4lOdvRxS
+ 4X4-KOdyvmvQNW9etE>
+X-ME-Received: <xmr:2GMeYU6UTQ3OEMakw8QKoA4ryUnlbNDCwmL-qfiXQRMEqQ1NyqncJ9G8wPgZd6eZUKz7DbIDY-mfxmDGSccegjDevC0mACVf51d3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgdeilecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgdejtdcutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:1GMeYeIYG9u9e5MFNTMKLZgEzez3JOCh5bZbC54GgZy1DbGooQqKww>
- <xmx:1GMeYZJogMsMmu5LqynxsSCxeYmt6b7kaPG9nnuPyAs1m7qiU8GHgA>
- <xmx:1GMeYXxOHocQr1EfDmipAhDBqed4wF_tr5zP9PDAA5Likc8F9k_X_Q>
- <xmx:1WMeYS7MDXr2z_heKe5PpxTI3mYnucFgxiLBd1Dgj3UnpGF9JTDQMgoOYDM>
+X-ME-Proxy: <xmx:2GMeYV2lEf5WHvsG8AEhRxHt_KK6jbvtg4-QklxMLXC2NO95w4qPrQ>
+ <xmx:2GMeYfG6FFx5Id0KKeDe7MWYJmjPKIVs2Hpc0ncMPPfuQkVVJxvBqg>
+ <xmx:2GMeYe-62qkqmtbOh11AnA9oqX__JA3EnBvKdzFTeWKnLOBJGL4U3g>
+ <xmx:2WMeYVWLxTAASnq9S1CQatgPMEniywPM8TmCz3aYU72gbJFFgCRreOmp5-Y>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 09:59:48 -0400 (EDT)
+ 19 Aug 2021 09:59:52 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
@@ -70,10 +70,10 @@ Cc: linux-kernel@vger.kernel.org,
  bcm-kernel-feedback-list@broadcom.com, Emma Anholt <emma@anholt.net>,
  Nicolas Saenz Julienne <nsaenz@kernel.org>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 3/6] drm/vc4: hdmi: Rework the pre_crtc_configure error
- handling
-Date: Thu, 19 Aug 2021 15:59:28 +0200
-Message-Id: <20210819135931.895976-4-maxime@cerno.tech>
+Subject: [PATCH v3 4/6] drm/vc4: hdmi: Split the CEC disable / enable
+ functions in two
+Date: Thu, 19 Aug 2021 15:59:29 +0200
+Message-Id: <20210819135931.895976-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210819135931.895976-1-maxime@cerno.tech>
 References: <20210819135931.895976-1-maxime@cerno.tech>
@@ -94,83 +94,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since our pre_crtc_configure hook returned void, we didn't implement a
-goto-based error path handling, leading to errors like failing to put
-back the device in pm_runtime in all the error paths, but also failing
-to disable the pixel clock if clk_set_min_rate on the HSM clock fails.
+In order to ease further additions to the CEC enable and disable, let's
+split the function into two functions, one to enable and the other to
+disable.
 
-Move to a goto-based implementation to have an easier consitency.
-
-Fixes: 4f6e3d66ac52 ("drm/vc4: Add runtime PM support to the HDMI encoder driver")
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 73 ++++++++++++++++++++--------------
+ 1 file changed, 44 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 5dde3e5c1d7f..8458f38e2883 100644
+index 8458f38e2883..bfa35e32052f 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -913,13 +913,13 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 	ret = clk_set_rate(vc4_hdmi->pixel_clock, pixel_rate);
- 	if (ret) {
- 		DRM_ERROR("Failed to set pixel clock rate: %d\n", ret);
--		return;
-+		goto err_put_runtime_pm;
- 	}
- 
- 	ret = clk_prepare_enable(vc4_hdmi->pixel_clock);
- 	if (ret) {
- 		DRM_ERROR("Failed to turn on pixel clock: %d\n", ret);
--		return;
-+		goto err_put_runtime_pm;
- 	}
- 
- 	/*
-@@ -942,7 +942,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 	ret = clk_set_min_rate(vc4_hdmi->hsm_clock, hsm_rate);
- 	if (ret) {
- 		DRM_ERROR("Failed to set HSM clock rate: %d\n", ret);
--		return;
-+		goto err_disable_pixel_clock;
- 	}
- 
- 	vc4_hdmi_cec_update_clk_div(vc4_hdmi);
-@@ -957,15 +957,13 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 	ret = clk_set_min_rate(vc4_hdmi->pixel_bvb_clock, bvb_rate);
- 	if (ret) {
- 		DRM_ERROR("Failed to set pixel bvb clock rate: %d\n", ret);
--		clk_disable_unprepare(vc4_hdmi->pixel_clock);
--		return;
-+		goto err_disable_pixel_clock;
- 	}
- 
- 	ret = clk_prepare_enable(vc4_hdmi->pixel_bvb_clock);
- 	if (ret) {
- 		DRM_ERROR("Failed to turn on pixel bvb clock: %d\n", ret);
--		clk_disable_unprepare(vc4_hdmi->pixel_clock);
--		return;
-+		goto err_disable_pixel_clock;
- 	}
- 
- 	if (vc4_hdmi->variant->phy_init)
-@@ -978,6 +976,15 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 
- 	if (vc4_hdmi->variant->set_timings)
- 		vc4_hdmi->variant->set_timings(vc4_hdmi, conn_state, mode);
-+
-+	return;
-+
-+err_disable_pixel_clock:
-+	clk_disable_unprepare(vc4_hdmi->pixel_clock);
-+err_put_runtime_pm:
-+	pm_runtime_put(&vc4_hdmi->pdev->dev);
-+
-+	return;
+@@ -1740,7 +1740,7 @@ static irqreturn_t vc4_cec_irq_handler(int irq, void *priv)
+ 	return ret;
  }
  
- static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
+-static int vc4_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
++static int vc4_hdmi_cec_enable(struct cec_adapter *adap)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
+ 	/* clock period in microseconds */
+@@ -1753,38 +1753,53 @@ static int vc4_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
+ 	val |= ((4700 / usecs) << VC4_HDMI_CEC_CNT_TO_4700_US_SHIFT) |
+ 	       ((4500 / usecs) << VC4_HDMI_CEC_CNT_TO_4500_US_SHIFT);
+ 
+-	if (enable) {
+-		HDMI_WRITE(HDMI_CEC_CNTRL_5, val |
+-			   VC4_HDMI_CEC_TX_SW_RESET | VC4_HDMI_CEC_RX_SW_RESET);
+-		HDMI_WRITE(HDMI_CEC_CNTRL_5, val);
+-		HDMI_WRITE(HDMI_CEC_CNTRL_2,
+-			   ((1500 / usecs) << VC4_HDMI_CEC_CNT_TO_1500_US_SHIFT) |
+-			   ((1300 / usecs) << VC4_HDMI_CEC_CNT_TO_1300_US_SHIFT) |
+-			   ((800 / usecs) << VC4_HDMI_CEC_CNT_TO_800_US_SHIFT) |
+-			   ((600 / usecs) << VC4_HDMI_CEC_CNT_TO_600_US_SHIFT) |
+-			   ((400 / usecs) << VC4_HDMI_CEC_CNT_TO_400_US_SHIFT));
+-		HDMI_WRITE(HDMI_CEC_CNTRL_3,
+-			   ((2750 / usecs) << VC4_HDMI_CEC_CNT_TO_2750_US_SHIFT) |
+-			   ((2400 / usecs) << VC4_HDMI_CEC_CNT_TO_2400_US_SHIFT) |
+-			   ((2050 / usecs) << VC4_HDMI_CEC_CNT_TO_2050_US_SHIFT) |
+-			   ((1700 / usecs) << VC4_HDMI_CEC_CNT_TO_1700_US_SHIFT));
+-		HDMI_WRITE(HDMI_CEC_CNTRL_4,
+-			   ((4300 / usecs) << VC4_HDMI_CEC_CNT_TO_4300_US_SHIFT) |
+-			   ((3900 / usecs) << VC4_HDMI_CEC_CNT_TO_3900_US_SHIFT) |
+-			   ((3600 / usecs) << VC4_HDMI_CEC_CNT_TO_3600_US_SHIFT) |
+-			   ((3500 / usecs) << VC4_HDMI_CEC_CNT_TO_3500_US_SHIFT));
++	HDMI_WRITE(HDMI_CEC_CNTRL_5, val |
++		   VC4_HDMI_CEC_TX_SW_RESET | VC4_HDMI_CEC_RX_SW_RESET);
++	HDMI_WRITE(HDMI_CEC_CNTRL_5, val);
++	HDMI_WRITE(HDMI_CEC_CNTRL_2,
++		   ((1500 / usecs) << VC4_HDMI_CEC_CNT_TO_1500_US_SHIFT) |
++		   ((1300 / usecs) << VC4_HDMI_CEC_CNT_TO_1300_US_SHIFT) |
++		   ((800 / usecs) << VC4_HDMI_CEC_CNT_TO_800_US_SHIFT) |
++		   ((600 / usecs) << VC4_HDMI_CEC_CNT_TO_600_US_SHIFT) |
++		   ((400 / usecs) << VC4_HDMI_CEC_CNT_TO_400_US_SHIFT));
++	HDMI_WRITE(HDMI_CEC_CNTRL_3,
++		   ((2750 / usecs) << VC4_HDMI_CEC_CNT_TO_2750_US_SHIFT) |
++		   ((2400 / usecs) << VC4_HDMI_CEC_CNT_TO_2400_US_SHIFT) |
++		   ((2050 / usecs) << VC4_HDMI_CEC_CNT_TO_2050_US_SHIFT) |
++		   ((1700 / usecs) << VC4_HDMI_CEC_CNT_TO_1700_US_SHIFT));
++	HDMI_WRITE(HDMI_CEC_CNTRL_4,
++		   ((4300 / usecs) << VC4_HDMI_CEC_CNT_TO_4300_US_SHIFT) |
++		   ((3900 / usecs) << VC4_HDMI_CEC_CNT_TO_3900_US_SHIFT) |
++		   ((3600 / usecs) << VC4_HDMI_CEC_CNT_TO_3600_US_SHIFT) |
++		   ((3500 / usecs) << VC4_HDMI_CEC_CNT_TO_3500_US_SHIFT));
++
++	if (!vc4_hdmi->variant->external_irq_controller)
++		HDMI_WRITE(HDMI_CEC_CPU_MASK_CLEAR, VC4_HDMI_CPU_CEC);
+ 
+-		if (!vc4_hdmi->variant->external_irq_controller)
+-			HDMI_WRITE(HDMI_CEC_CPU_MASK_CLEAR, VC4_HDMI_CPU_CEC);
+-	} else {
+-		if (!vc4_hdmi->variant->external_irq_controller)
+-			HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, VC4_HDMI_CPU_CEC);
+-		HDMI_WRITE(HDMI_CEC_CNTRL_5, val |
+-			   VC4_HDMI_CEC_TX_SW_RESET | VC4_HDMI_CEC_RX_SW_RESET);
+-	}
+ 	return 0;
+ }
+ 
++static int vc4_hdmi_cec_disable(struct cec_adapter *adap)
++{
++	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
++
++	if (!vc4_hdmi->variant->external_irq_controller)
++		HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, VC4_HDMI_CPU_CEC);
++
++	HDMI_WRITE(HDMI_CEC_CNTRL_5, HDMI_READ(HDMI_CEC_CNTRL_5) |
++		   VC4_HDMI_CEC_TX_SW_RESET | VC4_HDMI_CEC_RX_SW_RESET);
++
++	return 0;
++}
++
++static int vc4_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
++{
++	if (enable)
++		return vc4_hdmi_cec_enable(adap);
++	else
++		return vc4_hdmi_cec_disable(adap);
++}
++
+ static int vc4_hdmi_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
 -- 
 2.31.1
 
