@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B583F1819
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 13:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE1D3F1818
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 13:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD5556E8B0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0C26E826;
 	Thu, 19 Aug 2021 11:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 735776E826
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 11:23:04 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id z9so8513292wrh.10
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 04:23:04 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEEAB6E826
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 11:23:05 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id x10so8542033wrt.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 04:23:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LKHb4NbS7zSt/cAMTh5zeYF+NOqO7vbF0bCJdamG5w8=;
- b=KKnuQyLT6+OXQcrUZMcuh/d2Z/DDvB2NOinD/1yOhMmePARneRz5HZ7qh61IDX+Dt3
- Wux+6MqEidb4b6rKjvxxEbtUC31jY2ZsreYmn/eQIUJTj5CcsLLcqeqdl3rIs9kwg5fQ
- HRLhfMUPIr9ch3qJLKpKRNA9rc58A7sFAjGCHmk/RVwbMMMfMicxBj1dJiAqGBc7AX6T
- +5l//g4V36EtBxfD9O0g23WGfnlXDdctyCB6uZXypVyVhgc/SV7lGh/TsevHy4bTtp1x
- oQumukcCKjv5WtPSQQLdPv01dVto9EPNKHrF3tG0yS8nsl+OWhHG3dZAUN6YtmlJ5Ulx
- eITg==
+ bh=7PolFHl4BCa4E4HG380dOZoCiWwe/gYoL591bvSVGBo=;
+ b=MUGcj75NEruHQKoBHz6y3OzpZz+BnR4yeHn9iw9hVQF+5QKA22Ax4jGzhSCjKWQZmU
+ JCqJWdm0fJ1TpTcsxzq8ODuzKQfBnu4bjP5VmU3wQ0+eY3+s8Kmhl1Fnh/ybmxE9WZv6
+ yRvy5pqgh+gByvZQAlcEpBSmos89dHhWFWuShAAk+8V5QBLUuMfBwhqFVYsRa4V5bKoG
+ eW1bqhoTLvLFhqlUQqaevytmmneBtdL22N380k2YWHP2/zgPp4TefhOOYuSaYS7AM33H
+ 4FZ6Q+8xREiYgbE1O6W2ClldA55GyAq+ar2DZDLfmNjrbPFdjPhQiCln5P96FwMxLyKm
+ Q7FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LKHb4NbS7zSt/cAMTh5zeYF+NOqO7vbF0bCJdamG5w8=;
- b=QlDZgLqSxVlW6nPwoPWzsTv63F5fDMRPEgm0VfoqyTZglAADZf+YSOdYwUmLhefh2l
- ptXbEvUcemG68NXXlSCKbsMw/6xoY0EsSwf5bcLZmQDM+g072QpnJMANvQGQyPQsPgbS
- bJh/yGXPyo27QeJbX4PWEOPFwr3qJve8LzI2HtlvS5yGm+Sm5aoQyuoyyPVL2kQgGdyM
- q5qz6MKw3MV4Mn6MoXpm3WPwowD5FWfIkgK5wyqwsY6fcB7A0fYbTJTo9eH86/GCgpNx
- 9bKzclBSaC8KJkbw7SEJPkeKB9rNYfBsGvG6fU6RRcBN4C7lcoONE3auMi3ZDqoHvHGZ
- X0KQ==
-X-Gm-Message-State: AOAM532GZkE/r1K8ENIDFX56M7sr17oPfCqnu+QyJ+ZSyImjMlub26PW
- CvemyNouJU12cCSDlo6/A68=
-X-Google-Smtp-Source: ABdhPJzkEyt7R9ZPNwx92CRL6vBJwvvSAga6l5i/e3XkzCnbhssNxRAaHA3MPWa51vX+D8nmfiUw+A==
-X-Received: by 2002:a5d:4d4b:: with SMTP id a11mr3124177wru.411.1629372182988; 
- Thu, 19 Aug 2021 04:23:02 -0700 (PDT)
+ bh=7PolFHl4BCa4E4HG380dOZoCiWwe/gYoL591bvSVGBo=;
+ b=lvq822XLdTYovOAGjskZcRC6EzvJEtjODMGSN23JVqDRsrJt2lseUPc/Ua3wWeDgm7
+ 5n2aogM4Un3rLjevfC1YaeguO8EgVgZROcuk8Q+8EX1awgGKXheCtVxEeRd71kX7y8qF
+ cFcX4PNN7G1+yautTmsUut5RTBCntUbBAlAx3vEiS8dVLDmxp8VPwE9LWPEG5A0iu5uu
+ ib5Seh9K9vjm5owdGhCd1MUHjbrcOVOzi6IBQjm2X6vrFpZkuBGOmDcNf5Xyrqs6s//f
+ /abNWoezr2pz0gkg9A0vmCF8HTBm/jLayvPTjobsJRj2l8UeUGU408DQlIZS1gxlc+DJ
+ OLVA==
+X-Gm-Message-State: AOAM530C0ipZ71e2XTLpbObO7h/RKM4bz9/nQnKv/HXMs17//GcrEXGg
+ WD3xfjdh3er2m+h7YEpd/Do=
+X-Google-Smtp-Source: ABdhPJz8CDAX5l4BP2wfFbZ6AML0Lin/n32NRpAJOPfTlU/1JgLGC2q8ibTlyRKz9oat+Y1Iv8DnGQ==
+X-Received: by 2002:adf:f288:: with SMTP id k8mr3162716wro.350.1629372184426; 
+ Thu, 19 Aug 2021 04:23:04 -0700 (PDT)
 Received: from localhost.localdomain (arl-84-90-178-246.netvisao.pt.
  [84.90.178.246])
- by smtp.gmail.com with ESMTPSA id r1sm2700388wrt.24.2021.08.19.04.23.01
+ by smtp.gmail.com with ESMTPSA id r1sm2700388wrt.24.2021.08.19.04.23.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 04:23:02 -0700 (PDT)
+ Thu, 19 Aug 2021 04:23:04 -0700 (PDT)
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -58,10 +58,9 @@ Cc: Sandy Huang <hjc@rock-chips.com>,
  Arnd Bergmann <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, kernel-janitors@vger.kernel.org,
  linux-kernel@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH v2 1/5] drm: rockchip: remove reference to non-existing config
- DRM_RGB
-Date: Thu, 19 Aug 2021 13:22:49 +0200
-Message-Id: <20210819112253.16484-2-lukas.bulwahn@gmail.com>
+Subject: [PATCH v2 2/5] drm: amdgpu: remove obsolete reference to config CHASH
+Date: Thu, 19 Aug 2021 13:22:50 +0200
+Message-Id: <20210819112253.16484-3-lukas.bulwahn@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210819112253.16484-1-lukas.bulwahn@gmail.com>
 References: <20210819112253.16484-1-lukas.bulwahn@gmail.com>
@@ -82,34 +81,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit 1f0f01515172 ("drm/rockchip: Add support for Rockchip Soc RGB
-output interface") accidently adds to select the non-existing config
-DRM_RGB in ./drivers/gpu/drm/rockchip/Kconfig.
+Commit 04ed8459f334 ("drm/amdgpu: remove chash") removes the chash
+architecture and its corresponding config CHASH.
 
-Luckily, ./scripts/checkkconfigsymbols.py warns on non-existing configs:
+There is still a reference to CHASH in the config DRM_AMDGPU in
+./drivers/gpu/drm/Kconfig.
 
-DRM_RGB
-Referencing files: drivers/gpu/drm/rockchip/Kconfig
-
-So, remove the reference to the non-existing config DRM_RGB.
+Remove this obsolete reference to config CHASH.
 
 Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- drivers/gpu/drm/rockchip/Kconfig | 1 -
+ drivers/gpu/drm/Kconfig | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-index 558f1b58bd69..9f1ecefc3933 100644
---- a/drivers/gpu/drm/rockchip/Kconfig
-+++ b/drivers/gpu/drm/rockchip/Kconfig
-@@ -9,7 +9,6 @@ config DRM_ROCKCHIP
- 	select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
- 	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
- 	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
--	select DRM_RGB if ROCKCHIP_RGB
- 	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
- 	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
- 	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index f3bc90baca61..8fc40317f2b7 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -257,7 +257,6 @@ config DRM_AMDGPU
+ 	select HWMON
+ 	select BACKLIGHT_CLASS_DEVICE
+ 	select INTERVAL_TREE
+-	select CHASH
+ 	help
+ 	  Choose this option if you have a recent AMD Radeon graphics card.
+ 
 -- 
 2.26.2
 
