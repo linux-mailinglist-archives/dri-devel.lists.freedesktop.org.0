@@ -1,72 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB283F1DA6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 18:19:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 735733F1DAE
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 18:20:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB5306E9A4;
-	Thu, 19 Aug 2021 16:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FB696E9A5;
+	Thu, 19 Aug 2021 16:20:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 589786E9A4
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 16:19:10 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id k24so6380311pgh.8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=n2oL4Tx9YBEJZiltx3dyyG7cK1iW2U3lPZG+XFyhvas=;
- b=XcvTQsHIqAMvz+OHaEsqApoAMj9xFz4KXlaVtsPGT2F+luagoLzdXIebPHS4j6pFee
- IJW4Vxvn87dQMza107p/hLmHsT8aJn/AJga6hh91EOE0PYesVez/KzjBmcCzRbB43LwI
- H4TFo9uhc7IGBXaXQosGymgHxkkIqv0Mxbo5E=
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9872B6E9A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 16:20:31 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id x27so14140106lfu.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:20:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=3asku0pLtHQRy/+xXumiM58BWe9crM57UxtzOfQVQq4=;
+ b=bNYG/IJ/v86SVujewP4QJxLlN/utOyYqjWhe3wbSTEcCLJDtxm3Dr7bqajuumek1FY
+ 4Cde2gyL7jmUrv6J3cvLu8H4m8nP2BXCOW53Fckz38BkRNUq62n9GkYUz8ebeJgBO43e
+ Tu7fi+nbJDnDgYk/qu/4KpR5MEi6vHE4CFb0ZSUc4rMwwVbEf0s3cChC7t9w1yMjrUHh
+ 0S+JunTw2an+s5pAFUgEV878CM/EmtGtexBRNwOEClD91Jvc0tZKMI9j87vaSEQPkbuz
+ 4mO2fBIKj41KlWaXzlxkt5QqSA0nL9x2pGA8zorzIp9NwvIM0TD1mhInDZsYbRfFEO8B
+ L19g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=n2oL4Tx9YBEJZiltx3dyyG7cK1iW2U3lPZG+XFyhvas=;
- b=RnrAjmcQZtlEU2kBpVjPGg2G42EfIvK5QqGALtRmuW6nctWB8ud/8TZlK64m/xKAYv
- +aZHBCQszzBPbAdCTxm3/+VlqPqISRlSFgk4HiWljNuuh2SCN60mqhO+90fYJhsMamVP
- CtiCWnjK04odyAyFvM9rPaIWWiS8K/6SPjUC7bkjHO8SIzmtIx7yFS6SDdBu//L8i9U1
- TPl1kIMEp1B54GWaI9KuBx4DWEBb8VGelmCUQM8tt9ywCRWp2NDQLM+KVqJcwFvFNHMk
- wQkGRwMNxD2UgNxFNkIooZNA8jhdKaytOMap8lrWeJunszeCD3CJEM9XPHSqBCaT5rzL
- Z6Iw==
-X-Gm-Message-State: AOAM533i4NTwBAETjAVFlvsFuqAsiCxl3AzsChjYiuNEKSb9eihOCck8
- 7LqDUq+CvNyQORfGYTyYLp35vw==
-X-Google-Smtp-Source: ABdhPJyZRMTxNLvnP3ZI2pCtW5KRkxw1jg2bC0ZQQ8R3fVO/fGTe1UBVRpNWar80Ru5tv+2px3ZDyw==
-X-Received: by 2002:a62:78d0:0:b029:3dd:8fc1:2797 with SMTP id
- t199-20020a6278d00000b02903dd8fc12797mr15227415pfc.65.1629389949876; 
- Thu, 19 Aug 2021 09:19:09 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id g26sm4675777pgb.45.2021.08.19.09.19.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 09:19:09 -0700 (PDT)
-Date: Thu, 19 Aug 2021 09:19:08 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
- Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct
- mlx5_ib_mr
-Message-ID: <202108190916.7CC455DA@keescook>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-57-keescook@chromium.org>
- <20210819122716.GP543798@ziepe.ca>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3asku0pLtHQRy/+xXumiM58BWe9crM57UxtzOfQVQq4=;
+ b=OWrwuPmQMpwxqY3RTu/+oQ3G0atss5majrcwjpfffMs+Kz+wDv8zt2zkGmZ4eZDm/l
+ CUdr+vJBXI4wuSaLBmqSImvv1MqFtEQTO434fvSC0NkrFyxR6KMdIx49WTkNVdxhkXnp
+ uaAFs7VbSCrNtYzppRKk+1NWLo30t0JZZAIFcf6HXoaZYKxXDLaZYILQ3Rn6EK9c9Mlc
+ T8U/epcEC2Nfr8OgalnmavoPeKm2xMZ7flOUC4uRCtaWF6KJssmFle6sQ8aLj036CDVe
+ NCoRJwzdP2T9wndwromOph9AEFFpHjFBCGIQ/LwQVDZ8UE0cbObz+aXd7DQHdcsPSFXm
+ q0XA==
+X-Gm-Message-State: AOAM533AmKlO4adlyPSizx/gakxnMmMm8OfAWZVBQwUKDwvaQ4a+XRx+
+ WyL1aGPxC/tKawbL61nlIijJkw==
+X-Google-Smtp-Source: ABdhPJyXdxWtx1IexvtSBR0aUvfLyPXwSJV4HhYjAENl0Srz4sZjkoHT9yHpNluBqLYsRnLFr2hSKQ==
+X-Received: by 2002:a05:6512:110b:: with SMTP id
+ l11mr11099003lfg.199.1629390029852; 
+ Thu, 19 Aug 2021 09:20:29 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id c9sm348734lfb.236.2021.08.19.09.20.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Aug 2021 09:20:29 -0700 (PDT)
+Subject: Re: [PATCH v1] drm/msm/dpu: Fix address of SM8150 PINGPONG5 IRQ
+ register
+To: Robert Foss <robert.foss@linaro.org>, robdclark@gmail.com,
+ sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch, abhinavk@codeaurora.org,
+ angelogioacchino.delregno@somainline.org, mkrishn@codeaurora.org,
+ kalyan_t@codeaurora.org, lee.jones@linaro.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210819133636.2045766-1-robert.foss@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <acf419d8-724b-4df3-a610-0c8cb7502094@linaro.org>
+Date: Thu, 19 Aug 2021 19:20:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210819122716.GP543798@ziepe.ca>
+In-Reply-To: <20210819133636.2045766-1-robert.foss@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,58 +81,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 19, 2021 at 09:27:16AM -0300, Jason Gunthorpe wrote:
-> On Tue, Aug 17, 2021 at 11:05:26PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
-> > 
-> > Add struct_group() to mark region of struct mlx5_ib_mr that should be
-> > initialized to zero.
-> > 
-> > Cc: Leon Romanovsky <leon@kernel.org>
-> > Cc: Doug Ledford <dledford@redhat.com>
-> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: linux-rdma@vger.kernel.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > index bf20a388eabe..f63bf204a7a1 100644
-> > --- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > +++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > @@ -644,6 +644,7 @@ struct mlx5_ib_mr {
-> >  	struct ib_umem *umem;
-> >  
-> >  	/* This is zero'd when the MR is allocated */
-> > +	struct_group(cleared,
-> >  	union {
-> >  		/* Used only while the MR is in the cache */
-> >  		struct {
-> > @@ -691,12 +692,13 @@ struct mlx5_ib_mr {
-> >  			bool is_odp_implicit;
-> >  		};
-> >  	};
-> > +	);
-> >  };
-> >  
-> >  /* Zero the fields in the mr that are variant depending on usage */
-> >  static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
-> >  {
-> > -	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
-> > +	memset(&mr->cleared, 0, sizeof(mr->cleared));
-> >  }
+On 19/08/2021 16:36, Robert Foss wrote:
+> Both PINGPONG4 and PINGPONG5 IRQ registers are using the
+> same address, which is incorrect. PINGPONG4 should use the
+> register offset 30, and PINGPONG5 should use the register
+> offset 31 according to the downstream driver.
 > 
-> Why not use the memset_after(mr->umem) here?
+> Fixes: 667e9985ee24 ("drm/msm/dpu: replace IRQ lookup with the data in hw catalog")
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
 
-I can certainly do that instead. In this series I've tended to opt
-for groupings so the position of future struct member additions are
-explicitly chosen. (i.e. reducing the chance that a zeroing of the new
-member be a surprise.)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
--Kees
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 2e482cdd7b3c5..420d78cfce8af 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -794,7 +794,7 @@ static const struct dpu_pingpong_cfg sm8150_pp[] = {
+>   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
+>   			-1),
+>   	PP_BLK("pingpong_5", PINGPONG_5, 0x72800, MERGE_3D_2, sdm845_pp_sblk,
+> -			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 30),
+> +			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31),
+>   			-1),
+>   };
+>   
+> 
+
 
 -- 
-Kees Cook
+With best wishes
+Dmitry
