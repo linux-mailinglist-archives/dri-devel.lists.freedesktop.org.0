@@ -1,86 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8A13F1C0A
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 16:56:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B5C3F1C1A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 17:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0946E8F6;
-	Thu, 19 Aug 2021 14:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA2A6E992;
+	Thu, 19 Aug 2021 15:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com
- [IPv6:2607:f8b0:4864:20::e2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED506E999
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 14:55:54 +0000 (UTC)
-Received: by mail-vs1-xe2b.google.com with SMTP id k24so4177961vsg.9
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 07:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mm8paTdT0zaztfhC5Y4WPaOBPl8kLHQHgl7pXYxX3h4=;
- b=qeDfX1TvtXFpaue7XSJcQGoXvoEPk6keQ3SefhHQYD/RQYSwXL/h7/nJ1tE1n2ZgGf
- hgNQdBuev8q9YdqAn31QqEn+hl0Fw8o/I7j+pKewMg7BSKDExUMcgAG5ffW6TnVBaweA
- awPBlmbVNdD0YyJLl/fecYVhU7UH2GjQaH+G3BKTeEFH67xcFXuuVoODzKyHu4OljnuW
- y3YyyagNQ7/VVdr8UoQMvH7lyjCnnH9zaDfJmZrMJYrsb5yu8bZTEWP6ZCkq4ndYtqKT
- KiXhZrvSOf9kLkVqOyobXMYfdScN3zuV6Y2fafpateAUvd8nG8k5/FLAhRgrUffP4ZSX
- UqPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mm8paTdT0zaztfhC5Y4WPaOBPl8kLHQHgl7pXYxX3h4=;
- b=sDtBPl3CLSTsBTtqHzZWimhBjE+qhCbNkNgIHFM3KKuw5iNgKpl4Fjs6QM+XfKCEm/
- zMCq2ks9iLspzAjQuVlQGgpFBDvbY0TBPIv5Ou40Afbf6fFQ2SBLFdHqccM5Owe5c3y4
- 9bzY2TT9D1VpQYGtEKl7TnDbDRDr/ydawk4Z1qBpbpj7z5N7zEq45cHrNVg9HUOC5hV9
- G86CQNXyX95Ka2gBJc5h4amn7fcL3cr6+HmCinQmaG9Dp8ezMmHUZllYORxfP5UhTM+g
- rxFUUeCQZKfJaqUA+CIsZdQHWtPOhPb3ay6lMYUHQlsvYpimTGfinpA7UczOayymcfcp
- vT0g==
-X-Gm-Message-State: AOAM533kOWCLI3ieX6CgfdKflZ/moAH/bCQ0zuLyL5D0KBchoNyoOWCs
- DCKCukCADt0Vw26Ht2lqj/AjmV3GmQSnEaA7nlATyw==
-X-Google-Smtp-Source: ABdhPJy9lhlHe3ZkjkK69gRHTqfsYZUpyU/u1QO9GNutRCvh27kC0oDOl0UN2vIh0G0BbPGuh3RFsxVqGIQ9yFmBme8=
-X-Received: by 2002:a67:f6d8:: with SMTP id v24mr12929204vso.48.1629384953702; 
- Thu, 19 Aug 2021 07:55:53 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 507BA6E992
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 15:00:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0476461178
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 15:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629385215;
+ bh=aZJbgY0dYPtD/UwLcyqp1tm6QeXuUNB0SoluXhrFRYk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=i+LSnZtTwtysJWxuhDZw3d9mLByOTctc0IRpFBGeMV7AilsjX/uqIzbZrgmQOIx+U
+ gaIWmHFCQlH1MC43SlpZWLb3HkXHKzaaWnXKfQg1N8dShgxkPh7zWGpt8Jejyj+LmA
+ KHSKzowAvj3cCdsGBEh9CTt7dtUpNTLBtB4ZhiuyUQJI0R0K1zHuO1i9/psY/lB3E1
+ dgDVjIiyRro/+mx37cVURd1a/FX1cYAimTn0h1icl42RDTo+dZU9IAMuw9nQ7UkgC8
+ 2sX96i2LEGgE7pSlfQUxpdjJWNX7GTNtCgS8LHlIm58w2p5cAwmTJBI7+uN1QdBYkV
+ UHBbHudIoU0cw==
+Received: by mail-ed1-f48.google.com with SMTP id i6so9351590edu.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 08:00:14 -0700 (PDT)
+X-Gm-Message-State: AOAM5324cAGHHocdpjjnP5u+eh/h0j9mHA2Ux0z7zQLxuslSbt/F1tC2
+ aIKLdVBQ0nMRaY2qyXwXjmOZCTP7RfBGRC5K9Q==
+X-Google-Smtp-Source: ABdhPJywGAFcZyeFfHGvm2H/Zdii8mlwORsTkptePeQu2y+i3nkMQ+zjBa4vUPMxNQYtZNzH4FvakVszXQcwdaXQiUE=
+X-Received: by 2002:a05:6402:b64:: with SMTP id
+ cb4mr16678817edb.49.1629385213446; 
+ Thu, 19 Aug 2021 08:00:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
- <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
-In-Reply-To: <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 19 Aug 2021 16:55:16 +0200
-Message-ID: <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
- Mark Brown <broonie@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
- Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>, 
- Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
- linux-mmc <linux-mmc@vger.kernel.org>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+References: <20210819022327.13040-1-jason-jh.lin@mediatek.com>
+ <20210819022327.13040-2-jason-jh.lin@mediatek.com>
+In-Reply-To: <20210819022327.13040-2-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 19 Aug 2021 23:00:02 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9Yug-9S4uBkNLTJH+TU8dHCeOjLuwXdNMJ+R89qJyJ9Q@mail.gmail.com>
+Message-ID: <CAAOTY_9Yug-9S4uBkNLTJH+TU8dHCeOjLuwXdNMJ+R89qJyJ9Q@mail.gmail.com>
+Subject: Re: [PATCH v8 01/13] dt-bindings: arm: mediatek: mmsys: add mt8195
+ SoC binding
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, fshao@chromium.org, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Fabien Parent <fparent@baylibre.com>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Jitao shi <jitao.shi@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, 
+ singo.chang@mediatek.com, DTML <devicetree@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,86 +73,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 19 Aug 2021 at 08:17, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> On 18-08-21, 18:55, Dmitry Osipenko wrote:
-> > 18.08.2021 12:41, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >
-> > Either way gives the equal result. The new callback allows to remove th=
-e
-> > boilerplate dev_pm_opp_set_rate(clk_get_rate() code from the rpm-resume
-> > of consumer devices, that's it.
->
-> It may not be equal, as dev_pm_opp_set_rate() may do additional stuff,
-> now or in a later implementation. Currently it only does
-> regulator_enable() as a special case, but it can be clk_enable() as
-> well. Also, this tries to solve the problem in a tricky/hacky way,
-> while all you wanted was to make the genpd aware of what the
-> performance state should be.
->
-> Your driver can break tomorrow if we started to do more stuff from
-> this API at another time.
->
-> > > dev_pm_opp_set_rate() is best called from consumer drivers, as they
-> > > need to be in control.
-> > >> What we need here is just configure. So something like this then:
-> > The intent wasn't to use dev_pm_opp_set_rate() from
-> > __genpd_dev_pm_attach(), but to set genpd->rpm_pstate in accordance to
-> > the h/w configuration.
->
-> Right.
->
-> > On Tegra we have a chain of PDs and it's not trivial to convert the
-> > device's OPP into pstate because only the parent domain can translate
-> > the required OPP.
->
-> The driver should just be required to make a call, and OPP/genpd core
-> should return it a value. This is already done today while setting the
-> pstate for a device. The same frameworks must be able to supply a
-> value to be used for the device.
+Hi, Jason:
 
-Right, that sounds reasonable.
-
-We already have pm_genpd_opp_to_performance_state() which translates
-an OPP to a performance state. This function invokes the
-->opp_to_performance_state() for a genpd. Maybe we need to allow a
-genpd to not have ->opp_to_performance_state() callback assigned
-though, but continue up in the hierarchy to see if the parent has the
-callback assigned, to make this work for Tegra?
-
-Perhaps we should add an API dev_pm_genpd_opp_to_performance_state(),
-allowing us to pass the device instead of the genpd. But that's a
-minor thing.
-
-Finally, the precondition to use the above, is to first get a handle
-to an OPP table. This is where I am struggling to find a generic
-solution, because I guess that would be platform or even consumer
-driver specific for how to do this. And at what point should we do
-this?
-
+jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B48=E6=9C=881=
+9=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8810:23=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
-> > Viresh, please take a look at what I did in [1]. Maybe it could be done
-> > in another way.
+> 1. There are 2 mmsys, namely vdosys0 and vdosys1 in mt8195.
+>    Each of them is bound to a display pipeline, so add their
+>    definition in mtk-mmsys documentation with 2 compatibles.
 >
-> I looked into this and looked like too much trouble. The
-> implementation needs to be simple. I am not sure I understand all the
-> problems you faced while doing that, would be better to start with a
-> simpler implementation of get_performance_state() kind of API for
-> genpd, after the domain is attached and its OPP table is initialized.
+> 2. Add description for power-domain property.
 >
-> Note, that the OPP table isn't required to be fully initialized for
-> the device at this point, we can parse the DT as well if needed be.
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+> this patch is base on [1][2]
+>
+> [1] dt-bindings: arm: mediatek: mmsys: convert to YAML format
+> - https://patchwork.kernel.org/project/linux-mediatek/patch/2021051916184=
+7.3747352-1-fparent@baylibre.com/
+> [2] dt-bindings: arm: mediatek: mmsys: add MT8365 SoC binding
+> - https://patchwork.kernel.org/project/linux-mediatek/patch/2021051916184=
+7.3747352-2-fparent@baylibre.com/
+> ---
+>  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml  | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsy=
+s.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> index 2d4ff0ce387b..68cb330d7595 100644
+> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> @@ -30,6 +30,8 @@ properties:
+>                - mediatek,mt8173-mmsys
+>                - mediatek,mt8183-mmsys
+>                - mediatek,mt8365-mmsys
+> +              - mediatek,mt8195-vdosys0
+> +              - mediatek,mt8195-vdosys1
+>            - const: syscon
+>        - items:
+>            - const: mediatek,mt7623-mmsys
+> @@ -39,6 +41,12 @@ properties:
+>    reg:
+>      maxItems: 1
+>
+> +  power-domains:
+> +    description:
+> +      A phandle and PM domain specifier as defined by bindings
+> +      of the power controller specified by phandle. See
+> +      Documentation/devicetree/bindings/power/power-domain.yaml for deta=
+ils.
+> +
 
-Sure, but as I indicated above, you need some kind of input data to
-figure out what OPP table to pick, before you can translate that into
-a performance state. Is that always the clock rate, for example?
+This patch is about mt8195, but mt8173 mmsys also has power domain. So
+move this part to another patch.
 
-Perhaps, we should start with adding a dev_pm_opp_get_from_rate() or
-what do you think? Do you have other suggestions?
+Regards,
+Chun-Kuang.
 
+
+>    "#clock-cells":
+>      const: 1
 >
 > --
-> viresh
-
-Kind regards
-Uffe
+> 2.18.0
+>
