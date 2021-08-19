@@ -2,87 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374DB3F1EA9
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 19:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8433F1ED0
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 19:15:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC2036E9B0;
-	Thu, 19 Aug 2021 17:03:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB376E8F8;
+	Thu, 19 Aug 2021 17:15:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1743D6E9B0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 17:03:52 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- q11-20020a7bce8b0000b02902e6880d0accso7294325wmj.0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 10:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=oJSyVi1Ti8Nnw90fU6cpGrkDUh7d4poA+u+RmE9yClc=;
- b=WjO9vG1rxjOXSea0lggzneOK1T6brU84ws+V+SOshWtWLDtP8dw4z3PqYpbiYfKli1
- rXcVeuPjT7MJg7Hy5j8m3cd8kdbRkCEcM1Y80y8aKWqMDBpsEeU4BdtyUa/ON6dEIpuI
- ZH83YfvUPLz7N8Eucoioijep/MF/3w0IGFv19+kQ9bZgPKOHNPjpkkiiG7frHJKiLmhR
- PSWLWci5igVYTxBtqkvlj5fV5Gwf9+1XGIFKjnJNTLfzWugJ7siIAcnkXrphSw12V8Us
- vFqkDjmlPCNix0bh4GlaOKtAD+MVeEwQ6e6JDKcS6m84MivgDrAwN5keeZsMvCUxJPh5
- owbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=oJSyVi1Ti8Nnw90fU6cpGrkDUh7d4poA+u+RmE9yClc=;
- b=qgWCrqe/A8mOxaizamtxRhtZuzNr1Tl2wF+LDSrYJF/YEipTc1YLV6v7kqe5AmBGPL
- rzhEPrJCqn79mFryO9PLZLl+c8XlhZEG25nGa40YNkHCc4N/szbh2qJg4jTPZa55Cy22
- a7uJM6547uBnmOHTpceMULHWaJpkyTe2mAX9uDa2qvj0hiSiM9KcUEx51j1prtuqvMUK
- TWZcsuop+V4pCfEMfZIjB5eq7qEk1nfO+GlWnag29z5xH19p5a/JdxbaK6gFmCLYapGn
- w5KN84ecs0U5TzcSjWPMg0EK5gPyTdC27QLEfSAtCUCeWRGDHuvd4bQxCK/vwUwLwT9i
- RN+w==
-X-Gm-Message-State: AOAM531z8WtOK8n0JsRR/ZEzAA8EtowvB+yC8yshhgCUfRgixkfHmouL
- Lr0KA0iv7mL+ir5Va+LwB5Q=
-X-Google-Smtp-Source: ABdhPJzLX7hjX9RRU2YIQz+WOkf7C4KD77ZHazVOwLC50X1dVFEX0qYgndjCiaQPFM42jC66tRB3Yw==
-X-Received: by 2002:a05:600c:3641:: with SMTP id
- y1mr14362707wmq.43.1629392630595; 
- Thu, 19 Aug 2021 10:03:50 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id e3sm3493730wrv.65.2021.08.19.10.03.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 10:03:49 -0700 (PDT)
-Date: Thu, 19 Aug 2021 19:03:48 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 20/34] mmc: sdhci-tegra: Add runtime PM and OPP support
-Message-ID: <YR6O9Om+HzMMG8AR@orome.fritz.box>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-21-digetx@gmail.com>
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E554B6E8F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 17:15:31 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 074459fe-0111-11ec-b37b-0050568c148b;
+ Thu, 19 Aug 2021 17:15:18 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 64A04194B17;
+ Thu, 19 Aug 2021 19:15:38 +0200 (CEST)
+Date: Thu, 19 Aug 2021 19:15:25 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-rpi-kernel@lists.infradead.org, Emma Anholt <emma@anholt.net>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/probe-helper: Create a HPD IRQ event helper for
+ a single connector
+Message-ID: <YR6Rrclfuap+557C@ravnborg.org>
+References: <20210819134454.850031-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Zkl/ZGRNLhkdNGO0"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210817012754.8710-21-digetx@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+In-Reply-To: <20210819134454.850031-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,95 +61,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
---Zkl/ZGRNLhkdNGO0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+a few comments in the following that I hope you will find useful.
 
-On Tue, Aug 17, 2021 at 04:27:40AM +0300, Dmitry Osipenko wrote:
-> The SDHCI on Tegra belongs to the core power domain and we're going to
-> enable GENPD support for the core domain. Now SDHCI must be resumed using
-> runtime PM API in order to initialize the SDHCI power state. The SDHCI
-> clock rate must be changed using OPP API that will reconfigure the power
-> domain performance state in accordance to the rate. Add runtime PM and OPP
-> support to the SDHCI driver.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+	Sam
+
+On Thu, Aug 19, 2021 at 03:44:53PM +0200, Maxime Ripard wrote:
+> The drm_helper_hpd_irq_event() function is iterating over all the
+> connectors when an hotplug event is detected.
+> 
+> During that iteration, it will call each connector detect function and
+> figure out if its status changed.
+> 
+> Finally, if any connector changed, it will notify the user-space and the
+> clients that something changed on the DRM device.
+> 
+> This is supposed to be used for drivers that don't have a hotplug
+> interrupt for individual connectors. However, drivers that can use an
+> interrupt for a single connector are left in the dust and can either
+> reimplement the logic used during the iteration for each connector or
+> use that helper and iterate over all connectors all the time.
+> 
+> Since both are suboptimal, let's create a helper that will only perform
+> the status detection on a single connector.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->  drivers/mmc/host/sdhci-tegra.c | 146 ++++++++++++++++++++++++---------
->  1 file changed, 105 insertions(+), 41 deletions(-)
->=20
-> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegr=
-a.c
-> index 387ce9cdbd7c..a3583359c972 100644
-> --- a/drivers/mmc/host/sdhci-tegra.c
-> +++ b/drivers/mmc/host/sdhci-tegra.c
-> @@ -15,6 +15,8 @@
->  #include <linux/of.h>
->  #include <linux/of_device.h>
->  #include <linux/pinctrl/consumer.h>
-> +#include <linux/pm_opp.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/reset.h>
->  #include <linux/mmc/card.h>
-> @@ -24,6 +26,8 @@
->  #include <linux/gpio/consumer.h>
->  #include <linux/ktime.h>
-> =20
-> +#include <soc/tegra/common.h>
+>  drivers/gpu/drm/drm_probe_helper.c | 105 ++++++++++++++++++++---------
+>  include/drm/drm_probe_helper.h     |   1 +
+>  2 files changed, 74 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 5606bca3caa8..7e3cbb4333ce 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -795,6 +795,77 @@ void drm_kms_helper_poll_fini(struct drm_device *dev)
+>  }
+>  EXPORT_SYMBOL(drm_kms_helper_poll_fini);
+>  
+> +static bool
+> +_drm_connector_helper_hpd_irq_event(struct drm_connector *connector,
+> +				    bool notify)
+I hate _names _starting _with '_'.
+
+In this case check_connector_changed() would be better IMO.
+
+Also the notify bool could be dropped, just move the notify code to the
+drm_connector_helper_hpd_irq_event().
+
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	enum drm_connector_status old_status;
+> +	u64 old_epoch_counter;
+> +	bool changed = false;
 > +
->  #include "sdhci-pltfm.h"
->  #include "cqhci.h"
-> =20
-> @@ -123,6 +127,12 @@
->  					 SDHCI_TRNS_BLK_CNT_EN | \
->  					 SDHCI_TRNS_DMA)
-> =20
-> +enum {
-> +	TEGRA_CLK_BULK_SDHCI,
-> +	TEGRA_CLK_BULK_TMCLK,
-> +	TEGRA_CLK_BULK_NUM,
-> +};
+> +	/* Only handle HPD capable connectors. */
+> +	drm_WARN_ON(dev, !(connector->polled & DRM_CONNECTOR_POLL_HPD));
 > +
->  struct sdhci_tegra_soc_data {
->  	const struct sdhci_pltfm_data *pdata;
->  	u64 dma_mask;
-> @@ -171,6 +181,8 @@ struct sdhci_tegra {
->  	bool enable_hwcq;
->  	unsigned long curr_clk_rate;
->  	u8 tuned_tap_delay;
+> +	drm_WARN_ON(dev, !mutex_is_locked(&dev->mode_config.mutex));
 > +
-> +	struct clk_bulk_data clocks[TEGRA_CLK_BULK_NUM];
-
-This doesn't seem worth it to me. There's a lot of churn in this driver
-that's only needed to convert this to the clk_bulk API and it makes the
-code a lot more difficult to read, in my opinion.
-
-It looks like the only benefit that this gives us is that runtime
-suspend and resume become a few lines shorter.
-
-Thierry
-
---Zkl/ZGRNLhkdNGO0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEejvQACgkQ3SOs138+
-s6GP7Q//aRZFqje0kEFRTOZPc/3kSiWj3ZUdkPxBKI8ZmISgrBH2orJG4ZW3OaNl
-CdiK1hqqEgEsJHuHndJqfCjxgwTwO/0zcGEwU6XcpaP0Zdh/IsIE1Qc4pHPWN7oQ
-Mcu5gLnbaDh+ej6Xpw09BpTDoZtuD20vxOf7g97ZmKlWpKS2sFL4HuKcaYWMxoM0
-43Qh7BuDv4iyY4BFdiNhEsh/Yx/2fFMjU8DQRbggqmePZYAyNDRDqOZ8vBpjmcIe
-Ub0niDGP+iEcPtw2F14RVjhAkVnnw1/v4G1PAZ62bzJ7ZosDM3CuVWs3kf189rXq
-i4xS1NBcSyntT2PBB8aaH6pyu0zCqEHyV8Q2PsCl1B88KdWmvraBlzWSu4cRZeMR
-eIGVeA2YXUhzPfwGUch8dprkivWN2OhHc7V+NFZJcHV16+WEgObbQV6j9MYVBbfO
-ZAuKtQshaQyjY0WcVTEog97Jrb7SYMLlILYwaHey6bGra1sQGK3jl+CEetSjsM6G
-Y3bk4uoBl0s0lsMSh0j1TSrKUOvbOk8xduyNrwloqaiAQRhX2idPvikM3f3OsVRL
-ejSpVy00UNbkUR4xl4v8U2MAJBCGID7q84IqDTwso3xZZ1pgH/H6YMzn2Tw2tTd4
-kDLfxr2aUamBe71mE2uLiEoEuiBCUvQXgl3/Uqkg1+ke17HCIMI=
-=AV2X
------END PGP SIGNATURE-----
-
---Zkl/ZGRNLhkdNGO0--
+> +	old_status = connector->status;
+> +	old_epoch_counter = connector->epoch_counter;
+> +
+> +	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Old epoch counter %llu\n",
+> +		      connector->base.id,
+> +		      connector->name,
+> +		      old_epoch_counter);
+As you touch this code please use the new drm_dbg_kms() macro for
+logging. 
+> +
+> +	connector->status = drm_helper_probe_detect(connector, NULL,
+> +						    false);
+> +	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
+> +		      connector->base.id,
+> +		      connector->name,
+> +		      drm_get_connector_status_name(old_status),
+> +		      drm_get_connector_status_name(connector->status));
+> +
+> +	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] New epoch counter %llu\n",
+> +		      connector->base.id,
+> +		      connector->name,
+> +		      connector->epoch_counter);
+> +
+> +	/*
+> +	 * Check if epoch counter had changed, meaning that we need
+> +	 * to send a uevent.
+> +	 */
+> +	if (old_epoch_counter != connector->epoch_counter)
+> +		changed = true;
+> +
+> +	if (changed && notify) {
+> +		drm_kms_helper_hotplug_event(dev);
+> +		DRM_DEBUG_KMS("Sent hotplug event\n");
+> +	}
+> +
+> +	return changed;
+> +}
+> +
+> +/**
+> + * drm_connector_helper_hpd_irq_event - hotplug processing
+> + * @connector: drm_connector
+> + *
+> + * Drivers can use this helper function to run a detect cycle on a connector
+> + * which has the DRM_CONNECTOR_POLL_HPD flag set in its &polled member.
+> + *
+> + * This helper function is useful for drivers which can track hotplug
+> + * interrupts for a single connector.
+> + *
+> + * This function must be called with the mode setting locks held.
+> + *
+> + * Note that a connector can be both polled and probed from the hotplug
+> + * handler, in case the hotplug interrupt is known to be unreliable.
+> + */
+> +bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector)
+> +{
+> +	return _drm_connector_helper_hpd_irq_event(connector, true);
+> +}
+> +EXPORT_SYMBOL(drm_connector_helper_hpd_irq_event);
+> +
+>  /**
+>   * drm_helper_hpd_irq_event - hotplug processing
+>   * @dev: drm_device
+> @@ -822,9 +893,7 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
+>  {
+>  	struct drm_connector *connector;
+>  	struct drm_connector_list_iter conn_iter;
+> -	enum drm_connector_status old_status;
+>  	bool changed = false;
+> -	u64 old_epoch_counter;
+>  
+>  	if (!dev->mode_config.poll_enabled)
+>  		return false;
+> @@ -832,37 +901,9 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
+>  	mutex_lock(&dev->mode_config.mutex);
+>  	drm_connector_list_iter_begin(dev, &conn_iter);
+>  	drm_for_each_connector_iter(connector, &conn_iter) {
+> -		/* Only handle HPD capable connectors. */
+> -		if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
+> -			continue;
+> -
+> -		old_status = connector->status;
+> -
+> -		old_epoch_counter = connector->epoch_counter;
+> -
+> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Old epoch counter %llu\n", connector->base.id,
+> -			      connector->name,
+> -			      old_epoch_counter);
+> -
+> -		connector->status = drm_helper_probe_detect(connector, NULL, false);
+> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
+> -			      connector->base.id,
+> -			      connector->name,
+> -			      drm_get_connector_status_name(old_status),
+> -			      drm_get_connector_status_name(connector->status));
+> -
+> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] New epoch counter %llu\n",
+> -			      connector->base.id,
+> -			      connector->name,
+> -			      connector->epoch_counter);
+> -
+> -		/*
+> -		 * Check if epoch counter had changed, meaning that we need
+> -		 * to send a uevent.
+> -		 */
+> -		if (old_epoch_counter != connector->epoch_counter)
+> +		if (_drm_connector_helper_hpd_irq_event(connector,
+> +							false))
+>  			changed = true;
+> -
+>  	}
+>  	drm_connector_list_iter_end(&conn_iter);
+>  	mutex_unlock(&dev->mode_config.mutex);
+> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
+> index 8d3ed2834d34..04c57564c397 100644
+> --- a/include/drm/drm_probe_helper.h
+> +++ b/include/drm/drm_probe_helper.h
+> @@ -18,6 +18,7 @@ int drm_helper_probe_detect(struct drm_connector *connector,
+>  void drm_kms_helper_poll_init(struct drm_device *dev);
+>  void drm_kms_helper_poll_fini(struct drm_device *dev);
+>  bool drm_helper_hpd_irq_event(struct drm_device *dev);
+> +bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector);
+>  void drm_kms_helper_hotplug_event(struct drm_device *dev);
+>  
+>  void drm_kms_helper_poll_disable(struct drm_device *dev);
+> -- 
+> 2.31.1
