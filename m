@@ -2,80 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D853F213C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 21:58:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4443F2147
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 22:00:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8624F6E9D1;
-	Thu, 19 Aug 2021 19:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDB076E9D2;
+	Thu, 19 Aug 2021 20:00:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28E436E9D2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 19:58:25 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id s11so6910418pgr.11
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 12:58:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=LynX178MCRLTZU5nO2CQfUksz3iyT32ZXzH2mGMWDBA=;
- b=IXP6D8XUx7q38sbKdbR+/AGu2s0ZJLBWooVJkgCUSHWtToTxSgv5DmH5+2jvYOp6Zi
- HzsBie7+wTjJLrZAtj2grSzQ23RPyHvcRjIk1YBMcTFffxfJWBxG7UDPfDsT7lYLqEXs
- P59yXQ7sA3PbiyfDMZYBhF0RVfO2fU3LZbyYQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=LynX178MCRLTZU5nO2CQfUksz3iyT32ZXzH2mGMWDBA=;
- b=AsIMD5GyZW+fktwvuMiZOQ4YJ6Qvx1XLXiPViQSo4tD5M8/4+Zbn8SekgifTwJpaE3
- X+1uBEW2O63SICIyEGqXbe5+lxm2182v5Tp4MZtzAJxvd9XHDnwShF67/l3lEbUF5wqC
- 6RHUt9awiXgTPPBPlw8aw2HAknbS2CdAl0dxTsWiAkhsCRBhUjI8HunL8YKuWfvxa4h7
- PjN7xlGpwtMZFENanVVnR8cqhrFng6TwhA/ne9UQYQAVHuakWCLL0elcknz0qwh2jvUa
- sbxcfbGAwj42lBn1JRyTNFsJ5ysaU5HudXa5Qc2uvVTPnoB9IyvIieZEO/J7Q4Yq2iwq
- TJ1g==
-X-Gm-Message-State: AOAM533+bov0RHdnlhVVWvpns4VcYpR5MH3l8Kg27FHb2Lp1n/j0DOje
- /3aTS8+Ai267hYkIOFHHJWDB3w==
-X-Google-Smtp-Source: ABdhPJwENFrpIU7Xhf4Zl5AymWSqlMMnYKOiArZ+vRAHZd9/qVLc9guwbLoTcMORFGutADg/dAOGOw==
-X-Received: by 2002:aa7:83c6:0:b029:3e0:1f64:6f75 with SMTP id
- j6-20020aa783c60000b02903e01f646f75mr15962378pfn.69.1629403104650; 
- Thu, 19 Aug 2021 12:58:24 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id r16sm3784554pje.10.2021.08.19.12.58.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 12:58:24 -0700 (PDT)
-Date: Thu, 19 Aug 2021 12:58:22 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Lazar, Lijo" <lijo.lazar@amd.com>
-Cc: linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Feifei Xu <Feifei.Xu@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Jiawei Gu <Jiawei.Gu@amd.com>, Evan Quan <evan.quan@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 18/63] drm/amd/pm: Use struct_group() for memcpy()
- region
-Message-ID: <202108191214.6269AFD@keescook>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-19-keescook@chromium.org>
- <753ef2d1-0f7e-c930-c095-ed86e1518395@amd.com>
- <202108181619.B603481527@keescook>
- <e56aad3c-a06f-da07-f491-a894a570d78f@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2045.outbound.protection.outlook.com [40.107.236.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B23196E9D2;
+ Thu, 19 Aug 2021 20:00:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HYtJKCeN8uGLsNIm60zi1Q8QmcJvv6DnmR77GxkiP/SMn00ACempbN2pvPrhWmUr8uTv7WMu7Xaz4BQONNe+9abQtBAsGusinKPP3W0zgXieIAbq+IbHxPndFiEgwRvzbhxZltmuZkl5Syq3DKEj/FZPUM5tQSe7F5ycrM0m8cucj7DnprbojIkc4G2uFjHytz0w0mfYcESORer0LDOt0sMdGtD0Vro4ZIMyAwEgJ0VWiMEDswhS22SrhsOiqR/PNWb0XaPKuIwYK8+pN1hqGX4p4FLNIYZV1Zh/sXgQeqKUj6sJ/GWBCNq1VQyjDuqffkckNC99f3seNyaTn/DtHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GCBUfTTqqpuerEHnFnvf/1cxvCyZmPPHUtnQsc01D+c=;
+ b=diKiGpEjexEkXQJmL6CNadRwdcwg18BoV5s+bW28nKeCjOxiQsfvAuAdxJS0F5hnE2jdQhXuhnpT0Qwe68WF4P2n0LGMMAqyPit7RDod2TW/s9Yr8Mr4nnTeziROHpopgFH3eeprfVB/sJ/ofJN5vj/XCVSV05+0Fz0bma+ySi0wSPVv2NFkd6O07hHBhM2gxPkmufdw8sEwe532JG0kWtuC0WsakoBoU+YiBCVxqYNP9o5br7dMJMe0IMQQ8AqtwZglIv4VM9hjo6WJYBuga/Bw3KuGHtq+WKc7gs56QOS9EPVonye2LEHeMFFDvnbwmGETaPyWuimGJXQY04xwyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GCBUfTTqqpuerEHnFnvf/1cxvCyZmPPHUtnQsc01D+c=;
+ b=L50r1G2b2A9nNP+Msp9qTKeE3Br5rIv49P8MLkvFOXXbvofBFd7XPzrQxx5v5MP0OdL687JwZJDUhxH0BdCOLEic6VfGoBRubNLAfVSxMxQ1tMPyDi5dSScBvp4+h6leyolz2hsXux0Ea3FoUL3oAyKBDzW30MGMV3cLppVjVrs=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5225.namprd12.prod.outlook.com (2603:10b6:408:11e::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Thu, 19 Aug
+ 2021 19:59:58 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb%4]) with mapi id 15.20.4415.023; Thu, 19 Aug 2021
+ 19:59:58 +0000
+Subject: Re: [PATCH v6 02/13] mm: remove extra ZONE_DEVICE struct page refcount
+To: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+ Theodore Ts'o <tytso@mit.edu>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ hch@lst.de, jgg@nvidia.com, jglisse@redhat.com
+References: <20210813063150.2938-1-alex.sierra@amd.com>
+ <20210813063150.2938-3-alex.sierra@amd.com>
+ <7b821150-af18-f786-e419-ec245b8cfb1e@nvidia.com>
+ <393e9815-838d-5fe6-d6ab-bfe7b543fef6@amd.com>
+ <e155ed59-8c3c-4046-e731-f082ee4b10bb@nvidia.com>
+ <600a4c43-271d-df98-d3e0-301af0e8d0fe@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <40d4a39e-e874-4ba3-e9bc-42015f0383fa@amd.com>
+Date: Thu, 19 Aug 2021 15:59:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <600a4c43-271d-df98-d3e0-301af0e8d0fe@amd.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e56aad3c-a06f-da07-f491-a894a570d78f@amd.com>
+Content-Language: en-US
+X-ClientProxiedBy: YT1PR01CA0100.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::9) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.186.47.3) by
+ YT1PR01CA0100.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4436.19 via Frontend Transport; Thu, 19 Aug 2021 19:59:57 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 99952300-d5ec-4202-b876-08d9634bebe3
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5225:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB5225DB038126294EB9ED0DE592C09@BN9PR12MB5225.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zyzMqYoMPm0AUW0TALbJnaBOM3c1cqF7RdX7FxgbPWS+OPXsM0q82XMjWBw86mR91yqTV4vTS6PNModKxD6T9QinQC9gcbstrVOmUQTOLxraRLiHJA1kkmcDceFu2DFXxi15VUMEti5ENo/IZK9h0vRACAPrVOp7hygougF8M5Ju+v3NGV9tZt6JldCKXHrEuYNnBefXMxfiYsWyrmF5DQdqVNIsD+7ZEeArf4ThsLNaWoqKTSDIZflPGjBy4bNIF3Dq76Uf0byVZAnnRlm7s0qbQrVMCHnaronju/cikajWxIBLBOpdMhHW8dlwDa0lLjnHm1dJLTXFc4uYDADbXjqijEuG+T/4aV4d4ne8+yPM7wuX2R3490rTi3ji5qBnLRoqylq40hxgZ2kF4tI4+aqqcDfkdqD1ieeV9dhDwpQ2FBuMDtthkaTZy8vLyFOkOO1HdwTfWq7fW1W/tIrwSqEapBKTCZ0pvzDzkJ6Yo3scgceQ0X0F+c4rjq1kAVO1Fy7L48weL9I/UPHhdFj+R3iNShvLWpsIBNjxwriPQL8Z8/hxL//0u2DjNFaQ6LiaSX8PzjqAwPvrwfwRC1Gd7oZOhAK/saYcnKdn/DKAXDzbLIrfeXgLuuVyb1sZon1D84iJ9gD6lCzXP1eZcVFTwnZIZVfJ5owAGdBv8zZcmH1n4LsTTI9g1kiMygl+f115nWmuuNlkDIMwibxd7/OOps08jOIZuF6bNaL3kTcuUJN0vNrO/XGWB9wlIv5mf2RvFYgZBhy/OPShEh7RmD8b5UzMjzu4QQ+sbVdCmb9TTvd7vBUZGLAlStu2dGurggwNfyyYautremqzgNwp6PXWLYJL3AwdPKBSEATQu16GqEk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(396003)(39860400002)(346002)(376002)(84040400005)(36756003)(83380400001)(110136005)(478600001)(2906002)(966005)(86362001)(956004)(66946007)(31686004)(31696002)(44832011)(66476007)(5660300002)(8936002)(2616005)(66556008)(26005)(53546011)(6486002)(38100700002)(4326008)(316002)(186003)(8676002)(16576012)(7416002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGdoYS9SNkloQjhvQzZhS3VIY3Vla2I1SjZSUlJVNmsxUWVsdDE4UkdLaThZ?=
+ =?utf-8?B?c1VuRXg4aDJnblZJc1ppK2diMEVKUzRRWlNPV2dHUCt5WTdPOUdFeURhdlE0?=
+ =?utf-8?B?NGtCbXJJTmx0cnZaeGJGdjlmeW5BeC80L2F5T1kwcmpiRjhYcFdJWktidi9U?=
+ =?utf-8?B?NlBONk5GU2pUaWlUK1RxV2o0ZFdGQWxTbnlkZjF0L001NTlhN2dKUkxKNWky?=
+ =?utf-8?B?aVJRVUtVM3FqUkl0MjdMd0x5R2pPaHAvU0c5WWFWdXpIamFNMHpJYzY4clVr?=
+ =?utf-8?B?SXd1Z1pxUVhGQ2RiZWdUcU1RUld0a1dldnluUU1rVkRXaFZnNUpVYXpBOUxl?=
+ =?utf-8?B?SnVqTTNCZzl2Z09wdEprcTNPbFFKSlZGd2RqdW54T0pkb2xFYUg3Si9hejQ4?=
+ =?utf-8?B?TkVxRWQ3bUFWbzZNSlY5WXJkTWFQY2JHMVV4UTJ5K1UveWZrejNKaTRHdncr?=
+ =?utf-8?B?dmZtNmhqZDgrQzRnV1FEeGNtaU5lc3J2dTgwMEh6YkVRTHVqeCtkbVBhVzVp?=
+ =?utf-8?B?UGxWeWp1SmhzaW1UYnhWSy9OTW4ydnE3VzdSYWloL1cxR2Y1ak5XMGlKbDY2?=
+ =?utf-8?B?aitzNXRTclg2YkpGRk5ZYnhTTk9nZVBQVEd5TlVtNGMzeWNHZG1IZ2UrRzZy?=
+ =?utf-8?B?czVWYXlGOXhEWUF1K0FGOGw1VGYrRVA3WVR1RmQ0SHljcHg0Qmw4SDFFNnNa?=
+ =?utf-8?B?VXJYQzIyaGp5Q1BTVU5mODEzMlZHTFd0Um1INGRVR3JUWjA2Y3RqQmZoSTdB?=
+ =?utf-8?B?UVpyeXZTRGg3Uk9lN21ROTNBaVNnWWN6bHFWUk8vdE12bWRoSHM3a2FrWHBn?=
+ =?utf-8?B?ZHhOWTFIbW80REkwaVV5bENGYzZKSE4rQkMzQnRLcGZIYkhwb3hjVytJZE1m?=
+ =?utf-8?B?Y3AvRmwxcmplNXNPZXE5cWpmcWVVMEJJMm8wR0hPcnNoc1NWekRqRXVvZzVw?=
+ =?utf-8?B?ZUdpM0lFbjltQnpCVU5HcVNzWTJuNHVpTFgvVnBHRjNqMWFZTVdjMUtuMDJT?=
+ =?utf-8?B?UC9ENEROR2lvSU1RNUM4aHJ2YzZ1WnhoZzhsTHEvc2M1YnVrZEtCN3AxQk90?=
+ =?utf-8?B?WFd5ZTQ0aEJKQm5ReWlKNWJlNGlXT05QTGJnN1NGcFQ5amNOTG9sbnBBU0dG?=
+ =?utf-8?B?cXc0VE9UV2dFSDU4aDRhWWVMbVIzWUJZTWhNL2NvQzVyQVdSc2ZtZ1BJWXdV?=
+ =?utf-8?B?Y2dvUGJ0ZzZWMllSU0o0VTRqZVFLbC9OemlzZGJUOHk0TnlTdGJZS0M0NTR6?=
+ =?utf-8?B?c2pNOE5PT3YzYkNtNEV4MmhNeFBzdkNrMUdZTGY0anRuUnpxczhrMWhLeEla?=
+ =?utf-8?B?Tkx4Y2JUdzZpN1ZJb2tGbjdDS1J6ZXdkOVNVay95SDhxVm4rVUFoOWZFWkcr?=
+ =?utf-8?B?dWltU0k2RWNmeTF6RnhoeGNPYlpzUzU4QlZPblhGUFFYQXZRelRCb0JuRGNy?=
+ =?utf-8?B?eWdVREdwMUVDMVBUeWpLOW5JaGdGLzhKekxTLzFmZ2JyMlFUSUFvVm5PRm1L?=
+ =?utf-8?B?MWJ4SVRlZEtjK21SMDlIVmgyaTFhNWhDZldSeWE1bkt3ZnYzYkdBNEhXb3Vo?=
+ =?utf-8?B?UFBLbGFVSzZoaXlBd05PWVhqSHNTdDRHTDVabjNYbEhxRnNpb3c4Rms0U09Y?=
+ =?utf-8?B?dnNSVXVjL2w2YVJpZHA5TXlaNXhpdWFpOU1mUW54YjJnZEYwbHdHVWdpVmpQ?=
+ =?utf-8?B?bUIxSXYraHZpaXZmSVBid05sdDJVME1vRXFMR01LS3YrbW95UjllUmpDakVx?=
+ =?utf-8?Q?bETeFv7HU0GIQVCv6hdnsQ+LXKMVp60Ae4kWA9a?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99952300-d5ec-4202-b876-08d9634bebe3
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2021 19:59:58.3222 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3D5Rc9gPcUn2Z48m3nIS4WUmkiN7jGGXrxx4yYvxI6GRvWNdsa8vXV9Zo8zh1elztzUqJqc+Ia+w5qGPGehFEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5225
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,385 +139,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 19, 2021 at 10:33:43AM +0530, Lazar, Lijo wrote:
-> On 8/19/2021 5:29 AM, Kees Cook wrote:
-> > On Wed, Aug 18, 2021 at 05:12:28PM +0530, Lazar, Lijo wrote:
-> > > 
-> > > On 8/18/2021 11:34 AM, Kees Cook wrote:
-> > > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > > field bounds checking for memcpy(), memmove(), and memset(), avoid
-> > > > intentionally writing across neighboring fields.
-> > > > 
-> > > > Use struct_group() in structs:
-> > > > 	struct atom_smc_dpm_info_v4_5
-> > > > 	struct atom_smc_dpm_info_v4_6
-> > > > 	struct atom_smc_dpm_info_v4_7
-> > > > 	struct atom_smc_dpm_info_v4_10
-> > > > 	PPTable_t
-> > > > so the grouped members can be referenced together. This will allow
-> > > > memcpy() and sizeof() to more easily reason about sizes, improve
-> > > > readability, and avoid future warnings about writing beyond the end of
-> > > > the first member.
-> > > > 
-> > > > "pahole" shows no size nor member offset changes to any structs.
-> > > > "objdump -d" shows no object code changes.
-> > > > 
-> > > > Cc: "Christian K�nig" <christian.koenig@amd.com>
-> > > > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > > > Cc: David Airlie <airlied@linux.ie>
-> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-> > > > Cc: Feifei Xu <Feifei.Xu@amd.com>
-> > > > Cc: Lijo Lazar <lijo.lazar@amd.com>
-> > > > Cc: Likun Gao <Likun.Gao@amd.com>
-> > > > Cc: Jiawei Gu <Jiawei.Gu@amd.com>
-> > > > Cc: Evan Quan <evan.quan@amd.com>
-> > > > Cc: amd-gfx@lists.freedesktop.org
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > > Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> > > > Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2FCADnq5_Npb8uYvd%2BR4UHgf-w8-cQj3JoODjviJR_Y9w9wqJ71mQ%40mail.gmail.com&amp;data=04%7C01%7Clijo.lazar%40amd.com%7C3861f20094074bf7328808d962a433f2%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637649279701053991%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=386LcfJJGfQfHsXBuK17LMqxJ2nFtGoj%2FUjoN2ZtJd0%3D&amp;reserved=0
-> > > > ---
-> > > >    drivers/gpu/drm/amd/include/atomfirmware.h           |  9 ++++++++-
-> > > >    .../gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h    |  3 ++-
-> > > >    drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h  |  3 ++-
-> > > >    .../gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h   |  3 ++-
-> > > 
-> > > Hi Kees,
-> > 
-> > Hi! Thanks for looking into this.
-> > 
-> > > The headers which define these structs are firmware/VBIOS interfaces and are
-> > > picked directly from those components. There are difficulties in grouping
-> > > them to structs at the original source as that involves other component
-> > > changes.
-> > 
-> > So, can you help me understand this a bit more? It sounds like these are
-> > generated headers, yes? I'd like to understand your constraints and
-> > weight them against various benefits that could be achieved here.
-> > 
-> > The groupings I made do appear to be roughly documented already,
-> > for example:
-> > 
-> >     struct   atom_common_table_header  table_header;
-> >       // SECTION: BOARD PARAMETERS
-> > +  struct_group(dpm_info,
-> > 
-> > Something emitted the "BOARD PARAMETERS" section heading as a comment,
-> > so it likely also would know where it ends, yes? The good news here is
-> > that for the dpm_info groups, they all end at the end of the existing
-> > structs, see:
-> > 	struct atom_smc_dpm_info_v4_5
-> > 	struct atom_smc_dpm_info_v4_6
-> > 	struct atom_smc_dpm_info_v4_7
-> > 	struct atom_smc_dpm_info_v4_10
-> > 
-> > The matching regions in the PPTable_t structs are similarly marked with a
-> > "BOARD PARAMETERS" section heading comment:
-> > 
-> > --- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-> > +++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-> > @@ -643,6 +643,7 @@ typedef struct {
-> >     // SECTION: BOARD PARAMETERS
-> >     // SVI2 Board Parameters
-> > +  struct_group(v4_6,
-> >     uint16_t     MaxVoltageStepGfx; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
-> >     uint16_t     MaxVoltageStepSoc; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
-> > @@ -728,10 +729,10 @@ typedef struct {
-> >     uint32_t     BoardVoltageCoeffB;    // decode by /1000
-> >     uint32_t     BoardReserved[7];
-> > +  );
-> >     // Padding for MMHUB - do not modify this
-> >     uint32_t     MmHubPadding[8]; // SMU internal use
-> > -
-> >   } PPTable_t;
-> > 
-> > Where they end seems known as well (the padding switches from a "Board"
-> > to "MmHub" prefix at exactly the matching size).
-> > 
-> > So, given that these regions are already known by the export tool, how
-> > about just updating the export tool to emit a struct there? I imagine
-> > the problem with this would be the identifier churn needed, but that's
-> > entirely mechanical.
-> > 
-> > However, I'm curious about another aspect of these regions: they are,
-> > by definition, the same. Why isn't there a single struct describing
-> > them already, given the existing redundancy? For example, look at the
-> > member names: maxvoltagestepgfx vs MaxVoltageStepGfx. Why aren't these
-> > the same? And then why aren't they described separately?
-> > 
-> > Fixing that would cut down on the redundancy here, and in the renaming,
-> > you can fix the identifiers as well. It should be straight forward to
-> > write a Coccinelle script to do this renaming for you after extracting
-> > the structure.
-> > 
-> > > The driver_if_* files updates are frequent and it is error prone to manually
-> > > group them each time we pick them for any update.
-> > 
-> > Why are these structs updated? It looks like they're specifically
-> > versioned, and aren't expected to change (i.e. v4.5, v4.6, v4.10, etc).
-> > 
-> > > Our usage of memcpy in this way is restricted only to a very few places.
-> > 
-> > True, there's 1 per PPTable_t duplication. With a proper struct, you
-> > wouldn't even need a memcpy().
-> > 
-> > Instead of the existing:
-> >                 memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I2cControllers,
-> >                         sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_table_v4_7->table_header));
-> > 
-> > or my proposed:
-> >                 memcpy(&smc_pptable->v4, &smc_dpm_table_v4_7->dpm_info,
-> >                        sizeof(smc_dpm_table_v4_7->dpm_info));
-> > 
-> > you could just have:
-> > 		smc_pptable->v4 = smc_dpm_table_v4_7->dpm_info;
-> > 
-> > since they'd be explicitly the same type.
-> > 
-> > That looks like a much cleaner solution to this. It greatly improves
-> > readability, reduces the redundancy in the headers, and should be a
-> > simple mechanical refactoring.
-> > 
-> > Oh my, I just noticed append_vbios_pptable() in
-> > drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
-> > which does an open-coded assignment of the entire PPTable_t, including
-> > padding, and, apparently, the i2c address twice:
-> > 
-> >          ppsmc_pptable->Vr2_I2C_address = smc_dpm_table.Vr2_I2C_address;
-> > 
-> >          ppsmc_pptable->Vr2_I2C_address = smc_dpm_table.Vr2_I2C_address;
-> > 
-> > > As another option - is it possible to have a helper function/macro like
-> > > memcpy_fortify() which takes the extra arguments and does the extra compile
-> > > time checks? We will use the helper whenever we have such kind of usage.
-> > 
-> > I'd rather avoid special cases just for this, especially when the code
-> > here is already doing a couple things we try to avoid in the rest of
-> > the kernel (i.e. open coded redundant struct contents, etc).
-> > 
-> > If something mechanically produced append_vbios_pptable() above, I bet
-> > we can get rid of the memcpy()s entirely and save a lot of code doing a
-> > member-to-member assignment.
-> > 
-> > What do you think?
-> > 
-> 
-> Hi Kees,
-> 
-> Will give a background on why there are multiple headers and why it's
-> structured this way. That may help to better understand this arrangement.
-> 
-> This code is part of driver for AMD GPUs. These GPUs get to the consumers
-> through multiple channels - AMD designs a few boards with those, there are
-> add-in-board partners like ASRock, Sapphire etc. who take these ASICs and
-> design their own boards, and others like OEM vendors who have their own
-> design for boards in their laptops.
-> 
-> As you have noticed, this particular section in the structure carries
-> information categorized as 'BOARD PARAMETERS'. Since there are multiple
-> vendors designing their own boards, this gives the option to customize the
-> parameters based on their board design.
-> 
-> There are a few components in AMD GPUs which are interested in these board
-> parameters main ones being - Video BIOS (VBIOS) and power management
-> firmware (PMFW). There needs to be a single source where a vendor can input
-> the information and that is decided as VBIOS. VBIOS carries different data
-> tables which carry other information also (some of which are used by
-> driver), so this information is added as a separate data table in VBIOS. A
-> board vendor can customize the VBIOS build with this information.
-> 
-> The data tables (and some other interfaces with driver) carried by VBIOS are
-> published in this header - drivers/gpu/drm/amd/include/atomfirmware.h
+Am 2021-08-19 um 2:00 p.m. schrieb Sierra Guiza, Alejandro (Alex):
+>
+> On 8/18/2021 2:28 PM, Ralph Campbell wrote:
+>> On 8/17/21 5:35 PM, Felix Kuehling wrote:
+>>> Am 2021-08-17 um 8:01 p.m. schrieb Ralph Campbell:
+>>>> On 8/12/21 11:31 PM, Alex Sierra wrote:
+>>>>> From: Ralph Campbell <rcampbell@nvidia.com>
+>>>>>
+>>>>> ZONE_DEVICE struct pages have an extra reference count that
+>>>>> complicates the
+>>>>> code for put_page() and several places in the kernel that need to
+>>>>> check the
+>>>>> reference count to see that a page is not being used (gup,
+>>>>> compaction,
+>>>>> migration, etc.). Clean up the code so the reference count doesn't
+>>>>> need to
+>>>>> be treated specially for ZONE_DEVICE.
+>>>>>
+>>>>> v2:
+>>>>> AS: merged this patch in linux 5.11 version
+>>>>>
+>>>>> v5:
+>>>>> AS: add condition at try_grab_page to check for the zone device type,
+>>>>> while
+>>>>> page ref counter is checked less/equal to zero. In case of device
+>>>>> zone, pages
+>>>>> ref counter are initialized to zero.
+>>>>>
+>>>>> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+>>>>> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+>>>>> ---
+>>>>>    arch/powerpc/kvm/book3s_hv_uvmem.c     |  2 +-
+>>>>>    drivers/gpu/drm/nouveau/nouveau_dmem.c |  2 +-
+>>>>>    fs/dax.c                               |  4 +-
+>>>>>    include/linux/dax.h                    |  2 +-
+>>>>>    include/linux/memremap.h               |  7 +--
+>>>>>    include/linux/mm.h                     | 13 +----
+>>>>>    lib/test_hmm.c                         |  2 +-
+>>>>>    mm/internal.h                          |  8 +++
+>>>>>    mm/memremap.c                          | 68
+>>>>> +++++++-------------------
+>>>>>    mm/migrate.c                           |  5 --
+>>>>>    mm/page_alloc.c                        |  3 ++
+>>>>>    mm/swap.c                              | 45 ++---------------
+>>>>>    12 files changed, 46 insertions(+), 115 deletions(-)
+>>>>>
+>>>> I haven't seen a response to the issues I raised back at v3 of this
+>>>> series.
+>>>> https://lore.kernel.org/linux-mm/4f6dd918-d79b-1aa7-3a4c-caa67ddc29bc@nvidia.com/
+>>>>
+>>>>
+>>>>
+>>>> Did I miss something?
+>>> I think part of the response was that we did more testing. Alex added
+>>> support for DEVICE_GENERIC pages to test_hmm and he ran DAX tests
+>>> recommended by Theodore Tso. In that testing he ran into a WARN_ON_ONCE
+>>> about a zero page refcount in try_get_page. The fix is in the latest
+>>> version of patch 2. But it's already obsolete because John Hubbard is
+>>> about to remove that function altogether.
+>>>
+>>> I think the issues you raised were more uncertainty than known bugs. It
+>>> seems the fact that you can have DAX pages with 0 refcount is a feature
+>>> more than a bug.
+>>>
+>>> Regards,
+>>>    Felix
+>>
+>> Did you test on a system without CONFIG_ARCH_HAS_PTE_SPECIAL defined?
+>> In that case, mmap() of a DAX device will call insert_page() which calls
+>> get_page() which would trigger VM_BUG_ON_PAGE().
+>>
+>> I can believe it is OK for PTE_SPECIAL page table entries to have no
+>> struct page or that MEMORY_DEVICE_GENERIC struct pages be mapped with
+>> a zero reference count using insert_pfn().
+> Hi Ralph,
+> We have tried the DAX tests with and without
+> CONFIG_ARCH_HAS_PTE_SPECIAL defined.
+> Apparently none of the tests touches that condition for a DAX device.
+> Of course,
+> that doesn't mean it could happen.
+>
+> Regards,
+> Alex S.
+>
+>>
+>>
+>> I find it hard to believe that other MM developers don't see an issue
+>> with a struct page with refcount == 0 and mapcount == 1.
+>>
+>> I don't see where init_page_count() is being called for the
+>> MEMORY_DEVICE_GENERIC or MEMORY_DEVICE_PRIVATE struct pages the AMD
+>> driver allocates and passes to migrate_vma_setup().
+>> Looks like svm_migrate_get_vram_page() needs to call init_page_count()
+>> instead of get_page(). (I'm looking at branch
+>> origin/alexsierrag/device_generic
+>> https://github.com/RadeonOpenCompute/ROCK-Kernel-Driver.git
+> Yes, you're right. My bad. Thanks for catching this up. I didn't
+> realize I was missing
+> to define CONFIG_DEBUG_VM on my build. Therefore this BUG was never
+> caught.
+> It worked after I replaced get_pages by init_page_count at
+> svm_migrate_get_vram_page. However, I don't think this is the best way
+> to fix it.
+> Ideally, get_pages call should work for device pages with ref count
+> equal to 0
+> too. Otherwise, we could overwrite refcounter if someone else is
+> grabbing the page
+> concurrently.
 
-I understand this to mean that this header is shared by other projects?
-
-If that's true, what compilers are processing this header? (i.e. so I
-can scope my suggestions to things that all the compilers will be able
-to deal with.)
-
-How are edits of this file managed "upstream" from the Linux kernel?
-
-Why does it have strange indentations like this:
-
-  uint8_t  ledpin0;
-  uint8_t  ledpin1;
-  uint8_t  ledpin2;
-  uint8_t  padding8_4;
-
-	uint8_t  pllgfxclkspreadenabled;
-	uint8_t  pllgfxclkspreadpercent;
-	uint16_t pllgfxclkspreadfreq;
-
-  uint8_t uclkspreadenabled;
-  uint8_t uclkspreadpercent;
-  uint16_t uclkspreadfreq;
+I think using init_page_count in svm_migrate_get_vram_page is the right
+answer. This is where the page first gets allocated and initialized
+(data migrated into it). I think nobody should have or try to take a
+reference to the page before that. We should probably also add a
+VM_BUG_ON_PAGE(page_ref_count(page) != 0) before calling init_page_count
+to make sure of that.
 
 
-> There are multiple families of AMD GPUs like Navi10, Arcturus, Aldebaran
-> etc. and the board specific details change with different families of GPUs.
-> However, VBIOS team publishes a common header file for these GPUs and any
-> difference in data tables (between GPU families) is maintained through a
-> versioning scheme. Thus there are different tables like
-> atom_smc_dpm_info_v4_5, atom_smc_dpm_info_v4_6 etc. which are relevant for a
-> particular family of GPUs.
-> 
-> With newer VBIOS versions and new GPU families, there could be changes in
-> the structs defined in atomfirmware.h and we pick the header accordingly.
-> 
-> As mentioned earlier, one other user of the board specific information is
-> power management firmware (PMFW). PMFW design is isolated from the actual
-> source of board information. In addition to board specific information, PMFW
-> needs some other info as well and driver is the one responsible for passing
-> this info to the firmware. PMFW gives an interface header to driver
-> providing the different struct formats which are used in driver<->PMFW
-> interactions. Unlike VBIOS, these interface headers are defined per family
-> of ASICs and those are smu11_driver_if_arcturus.h, smu11_driver_if_* etc.
-> (in short driver_if_* files). Like VBIOS,  with newer firmware versions,
-> there could be changes in the different structs defined in these headers and
-> we pick them accordingly.
+> I was thinking to add a special condition in get_pages for dev pages.
+> This could
+> also fix the insert_page -> get_page call from a DAX device.
 
-Are these headers also shared between other projects?
+[+Theodore]
 
-What's needed to coordinate making these less redundant? (i.e. replacing
-the "BOARD PARAMETERS" portion of PPTable_t with the associated
-struct *_dpm_info_v* from atomfirmware.h?)
+I got lost trying to understand how DAX counts page references and how
+the PTE_SPECIAL option affects that. Theodore, can you help with this?
+Is there an easy way to test without CONFIG_ARCH_HAS_PTE_SPECIAL on x86,
+or do we need to test on a CPU architecture that doesn't support this
+feature?
 
-> Driver acts the intermediary between actual source of board information
-> (VBIOS) and PMFW. So what is being done here is driver picks the board
-> information from VBIOS table, strips the VBIOS table header and passes it as
-> part of PPTable_t which defines all the information that is needed by PMFW
-> from driver for enabling dynamic power management.
-> 
-> In summary, these headers are not generated and not owned by driver. They
-> define the interfaces of two different components with driver, and are
-> consumed by those components themselves. A simple change to group the
-> information as a separate structure involves changes in multiple components
-> like VBIOS, PMFW, software used to build VBIOS, Windows driver etc.
-> 
-> In all practical cases, this code is harmless as these structs (in both
-> headers) are well defined for a specific family of GPUs. There is always a
-> reserve field defined with some extra bytes so that the size is not affected
-> if at all new fields need to be added.
-
-It sounds like it's unlikely that the headers will be able to change? If
-that's true, it seems like a good idea to mark those headers very
-clearly at the top with details like you describe here. Maybe something
-like:
-
-/*
- * This header file is shared between VBIOS, Windows drivers, and Linux
- * drivers. Any changes need to be well justified and coordinated with
- * email@address...
- */
-
-And in looking through these, I notice there's a typo in the Description:
-
-    header file of general definitions for OS nd pre-OS video drivers
-
-nd -> and
-
-> The patch now makes us to modify the headers for Linux through
-> script/manually whenever we pick them, and TBH that strips off the coherency
-> with the original source. The other option is field by field copy. Now we
-> use memcpy as a safe bet so that a new field added later taking some reserve
-> space is not missed even if we miss a header update.
-
-How does this look as a work-around for now:
+Thanks,
+  Felix
 
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 96e895d6be35..4605934a4fb7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1446,4 +1446,29 @@ static inline int amdgpu_in_reset(struct amdgpu_device *adev)
- {
- 	return atomic_read(&adev->in_gpu_reset);
- }
-+
-+/**
-+ * memcpy_trailing - Copy the end of one structure into the middle of another
-+ *
-+ * @dst: Pointer to destination struct
-+ * @first_dst_member: The member name in @dst where the overwrite begins
-+ * @last_dst_member: The member name in @dst where the overwrite ends after
-+ * @src: Pointer to the source struct
-+ * @first_src_member: The member name in @src where the copy begins
-+ *
-+ */
-+#define memcpy_trailing(dst, first_dst_member, last_dst_member,		   \
-+		        src, first_src_member)				   \
-+({									   \
-+	size_t __src_offset = offsetof(typeof(*(src)), first_src_member);  \
-+	size_t __src_size = sizeof(*(src)) - __src_offset;		   \
-+	size_t __dst_offset = offsetof(typeof(*(dst)), first_dst_member);  \
-+	size_t __dst_size = offsetofend(typeof(*(dst)), last_dst_member) - \
-+			    __dst_offset;				   \
-+	BUILD_BUG_ON(__src_size != __dst_size);				   \
-+	__builtin_memcpy((u8 *)(dst) + __dst_offset,			   \
-+			 (u8 *)(src) + __src_offset,			   \
-+			 __dst_size);					   \
-+})
-+
- #endif
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-index 8ab58781ae13..1918e6232319 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-@@ -465,10 +465,8 @@ static int arcturus_append_powerplay_table(struct smu_context *smu)
- 
- 	if ((smc_dpm_table->table_header.format_revision == 4) &&
- 	    (smc_dpm_table->table_header.content_revision == 6))
--		memcpy(&smc_pptable->MaxVoltageStepGfx,
--		       &smc_dpm_table->maxvoltagestepgfx,
--		       sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_6, maxvoltagestepgfx));
--
-+		memcpy_trailing(smc_pptable, MaxVoltageStepGfx, BoardReserved,
-+				smc_dpm_table, maxvoltagestepgfx);
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-index 2e5d3669652b..b738042e064d 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-@@ -431,16 +431,16 @@ static int navi10_append_powerplay_table(struct smu_context *smu)
- 
- 	switch (smc_dpm_table->table_header.content_revision) {
- 	case 5: /* nv10 and nv14 */
--		memcpy(smc_pptable->I2cControllers, smc_dpm_table->I2cControllers,
--			sizeof(*smc_dpm_table) - sizeof(smc_dpm_table->table_header));
-+		memcpy_trailing(smc_pptable, I2cControllers, BoardReserved,
-+				smc_dpm_table, I2cControllers);
- 		break;
- 	case 7: /* nv12 */
- 		ret = amdgpu_atombios_get_data_table(adev, index, NULL, NULL, NULL,
- 					      (uint8_t **)&smc_dpm_table_v4_7);
- 		if (ret)
- 			return ret;
--		memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I2cControllers,
--			sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_table_v4_7->table_header));
-+		memcpy_trailing(smc_pptable, I2cControllers, BoardReserved,
-+				smc_dpm_table_v4_7, I2cControllers);
- 		break;
- 	default:
- 		dev_err(smu->adev->dev, "smc_dpm_info with unsupported content revision %d!\n",
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-index c8eefacfdd37..a6fd7ee314a9 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-@@ -409,9 +409,8 @@ static int aldebaran_append_powerplay_table(struct smu_context *smu)
- 
- 	if ((smc_dpm_table->table_header.format_revision == 4) &&
- 	    (smc_dpm_table->table_header.content_revision == 10))
--		memcpy(&smc_pptable->GfxMaxCurrent,
--		       &smc_dpm_table->GfxMaxCurrent,
--		       sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_10, GfxMaxCurrent));
-+		memcpy_trailing(smc_pptable, GfxMaxCurrent, reserved,
-+				smc_dpm_table, GfxMaxCurrent);
- 	return 0;
- }
- 
-
--- 
-Kees Cook
+>
+> Regards,
+> Alex S.
+>>
+>>
+>> Also, what about the other places where is_device_private_page() is
+>> called?
+>> Don't they need to be updated to call is_device_page() instead?
+>> One of my goals for this patch was to remove special casing reference
+>> counts
+>> for ZONE_DEVICE pages in rmap.c, etc.
+> Correct, is_device_private_page is still used in rmap, memcontrol and
+> migrate.c files
+> Looks like rmap and memcontrol should be replaced by is_device_page
+> function. However,
+> I still need test to validate this. For migrate.c is used in
+> remove_migration_pte and
+> migrate_vma_insert_page, however these are specific conditions for
+> private device type
+> Thanks for raise these questions, I think we're getting close.
+>
+> Regards,
+> Alex S.
+>>
+>> I still think this patch needs an ACK from a FS/DAX maintainer.
+>>
