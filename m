@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1773F19A1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 14:44:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C513F19B0
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 14:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E6B6E833;
-	Thu, 19 Aug 2021 12:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D5C6E834;
+	Thu, 19 Aug 2021 12:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA4D6E833
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 12:44:32 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id i21so5385273pfd.8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 05:44:32 -0700 (PDT)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC526E834
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 12:48:50 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id q2so3818646plr.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 05:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tpdnVovIf9f36fxXsG47k5UX+4nv4gnLZxZo5LHNkVg=;
- b=dWEH/SBMM9XBrR35++2cnoA8rP5VhwS8bum3E6f6Jl86Z2yulQe5LUJJmF809A0KDp
- fGPd8FyzcMC3eLLMOgn4F765JPiBfFE1AHz64Fm1c7WARVsdQrestXs//sGn1ne2cmFD
- UYBuPgiwMoqQjyY0TUUI38W12DQcQFNWicRfAu+YnLGpuN28f/dC/khnQY0YzrzXRLZA
- K21+kYly5hV7UxiH4tZPZ8eFgr/r1+yskhHwLWOuTcSBjn5fISSGACC4wrAGyjx1OVKs
- 6+JDvYbH4ltnkzemVF/X3MNYZgCylWr66UKYYGPW/xmz7f49ilyfNzaED5RIb9lgVUoM
- O9Yg==
+ bh=mlxsOtjk3EQe8tY0Dl2bnQT6hDTIci57yhrirNK4WM4=;
+ b=C/c9qtXCbDh8ba0bEl5eqr8WQGeufHKR1Un4IT4bUXM4xXrkTxBFtgnckgQ50er66b
+ zxfX7mk5ZydlgtFQBh38HgP8oX/3dCPjFGRZSCFW+dGtz2RwMSmV37BKshYrgoSN+exl
+ 3pwOIvrMoV4Sj+Zf5YoWB0mdSW+cYwMlMV0OlC5J8pMAOpT/xeGU3twXGkfj2y4CurHI
+ t64yylZZpzsR55ysItGwCinJuxjqC4rCcqgN9uSnT6a/E/ptDRLFW0/IBxsr1i5MS+hz
+ elGCD7jckU2m2z5L9n69lW2Rnhsfintij5PlkqN9+gweIhTkulOXORjEOJqUsqvW75BB
+ t+Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tpdnVovIf9f36fxXsG47k5UX+4nv4gnLZxZo5LHNkVg=;
- b=eRyw5pSHnHlK57SVw9a02DSX9l+VMzWkCRXrLAhaf5Y8TXyerS9FWtoFsDdBk6hRO+
- 8gCDM7efzIWP7cBjLxcYU9zwYpMIBaR9UVddK9gqtwtiofIjb+C1W28ydo0AWzIdoOVo
- Q+/SltpGVs3Yc1IMK1kht1Hmoyz5gU1hkJUo5sl4u/GrIiwpsgTTHIsy53UwQFv7oYtO
- iB+CDAMdqiGN+EKVPR6M6CLcni9+Q2YNkc3I5ra75qZcofapK6KqZotySJdYYM/RN1eA
- ILwEgxa4lWrQSonxA579YMrvwtWv7QvInM6Mu3pb8D/m5FLtzVqZ1luITK0rz06QvEdt
- weHg==
-X-Gm-Message-State: AOAM532ZoaZzEg5pOhyiv86Otr2aU9t3+EYD8gqcZavh82v6UON9eUo5
- XmadVrMR7NyXrdbb0imEosCydxanxovBAFvk
-X-Google-Smtp-Source: ABdhPJy3WI1J/e+pRGGKh963u5fG4uQGc8fxE4jcGFHpYB8tOfrFxADNwbMHRKBahzUYincyeGEgUg==
-X-Received: by 2002:a65:578a:: with SMTP id b10mr14006811pgr.135.1629377072017; 
- Thu, 19 Aug 2021 05:44:32 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id n185sm3681717pfn.171.2021.08.19.05.44.30
+ bh=mlxsOtjk3EQe8tY0Dl2bnQT6hDTIci57yhrirNK4WM4=;
+ b=IuvqNJdKEESqMQZCVfpDOIRHamjsVgMAI/XBLqtVuswFnkPHuphBsW6zFA8ZnwCvil
+ 9+vmd4ohJjOv3vJTwzAfDjImW57PsEJd84tdHYW0yuVqEZNtL85yZVPUrNXcN2E50Cdr
+ C45PbES/o4ZyqaMNmCxeRc7VGfNx1T0v19lBAc4191yR4aQOP1ODb6d3zbJ5M/MERQ/j
+ EamrVpTZSu2LjL/GVcBgpv+53NcwuSOtDDl7GQL9CR2iVKNhK9sGIGWAACw2wMjCyW4Q
+ GL/Q+soligyTXYgcs7xQ5ccgnDMGDKQTdPUfTFeW1ffuKb/UjkcMTHEX5FBgBTEoO50L
+ 6ZJQ==
+X-Gm-Message-State: AOAM533DB6fLdLTFU0R3ciFQhKz6nxc24+UNyY5a4Up2LoiVDi4OL8Lh
+ uw088mIaHmYxUhykd6BvR/aK7A==
+X-Google-Smtp-Source: ABdhPJw7+fjyC0SC3MOzj/6NzYAJjwgk/Nve1tUgxX32A0IY6i5qv5858pWqGdvPzn4v0Wu1pYc+cw==
+X-Received: by 2002:a17:90a:d595:: with SMTP id
+ v21mr15360955pju.50.1629377329891; 
+ Thu, 19 Aug 2021 05:48:49 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.213])
+ by smtp.gmail.com with ESMTPSA id c11sm3137210pji.24.2021.08.19.05.48.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 05:44:31 -0700 (PDT)
+ Thu, 19 Aug 2021 05:48:49 -0700 (PDT)
 From: yangcong <yangcong5@huaqin.corp-partner.google.com>
-To: yangcong5@huaqin.com
-Cc: dri-devel@lists.freedesktop.org,
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
+ daniel@ffwll.ch, dianders@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
  yangcong <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH] test upstream
-Date: Thu, 19 Aug 2021 20:44:27 +0800
-Message-Id: <20210819124427.12264-1-yangcong5@huaqin.corp-partner.google.com>
+Subject: [v1 0/2] drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
+Date: Thu, 19 Aug 2021 20:48:42 +0800
+Message-Id: <20210819124844.12424-1-yangcong5@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -71,28 +74,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-test upstream panel
+The auo,b101uan08.3 panel (already supported by this driver) has
+a 3.3V rail that needs to be turned on. For previous users of
+this panel this voltage was directly output by pmic. On a new 
+user (the not-yet-upstream sc7180-trogdor-mrbland board) we need
+to turn the 3.3V rail on. Add support in the driver for this.
 
-Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/panel-truly-nt35597.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+yangcong (2):
+  drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
+  dt-bindings: drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
 
-diff --git a/drivers/gpu/drm/panel/panel-truly-nt35597.c b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-index b24b92d93ea5..e3cd37025c12 100644
---- a/drivers/gpu/drm/panel/panel-truly-nt35597.c
-+++ b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-@@ -2,7 +2,9 @@
- /*
-  * Copyright (c) 2018, The Linux Foundation. All rights reserved.
-  */
--
-+/*
-+ * test upstream.
-+ */
- #include <linux/backlight.h>
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
+ .../bindings/display/panel/boe,tv101wum-nl6.yaml      |  4 ++++
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c        | 11 +++++++++++
+ 2 files changed, 15 insertions(+)
+
 -- 
 2.25.1
 
