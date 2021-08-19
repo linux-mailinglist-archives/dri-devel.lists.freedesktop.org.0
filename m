@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECBE23F1438
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 09:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6E03F144D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 09:25:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A737A6E546;
-	Thu, 19 Aug 2021 07:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 889056E943;
+	Thu, 19 Aug 2021 07:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 698A06E4B5;
- Thu, 19 Aug 2021 07:15:09 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="280236763"
-X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="280236763"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2021 00:15:08 -0700
-X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="451288475"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 122036E80B;
+ Thu, 19 Aug 2021 07:25:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="196760489"
+X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="196760489"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 00:25:29 -0700
+X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="442157270"
 Received: from mdziuba-mobl.ger.corp.intel.com (HELO [10.249.254.196])
  ([10.249.254.196])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2021 00:15:07 -0700
-Message-ID: <e409a691305229d7c4b1b08a568e809d669a3e5c.camel@linux.intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/buddy: add some pretty printing
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 00:25:28 -0700
+Message-ID: <532a00f09d17f2e95ef970a9f5b9d273c0384d39.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/ttm: ensure we release the intel_memory_region
 From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
-Date: Thu, 19 Aug 2021 09:15:04 +0200
-In-Reply-To: <20210818145850.225387-1-matthew.auld@intel.com>
-References: <20210818145850.225387-1-matthew.auld@intel.com>
+Date: Thu, 19 Aug 2021 09:25:26 +0200
+In-Reply-To: <20210818171203.237687-1-matthew.auld@intel.com>
+References: <20210818171203.237687-1-matthew.auld@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
 MIME-Version: 1.0
@@ -49,211 +49,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2021-08-18 at 15:58 +0100, Matthew Auld wrote:
-> Implement the debug hook for the buddy resource manager. For this we
-> want to print out the status of the memory manager, including how much
-> memory is still allocatable, what page sizes we have etc. This will be
-> triggered when TTM is unable to fulfil an allocation request for device
-> local-memory.
+On Wed, 2021-08-18 at 18:12 +0100, Matthew Auld wrote:
+> If the ttm_bo_init_reserved() call fails ensure we also release the
+> region, otherwise we leak the reference, or worse hit some uaf, when
+> we
+> start using the objects.list. Also remove the make_unshrinkable call
+> here, which doesn't do anything.
 > 
 > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > ---
->  drivers/gpu/drm/i915/i915_buddy.c             | 45 +++++++++++++++++++
->  drivers/gpu/drm/i915/i915_buddy.h             |  8 ++++
->  drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 20 ++++++++-
->  3 files changed, 72 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_buddy.c
-> b/drivers/gpu/drm/i915/i915_buddy.c
-> index 7b274c51cac0..240e881d9eb0 100644
-> --- a/drivers/gpu/drm/i915/i915_buddy.c
-> +++ b/drivers/gpu/drm/i915/i915_buddy.c
-> @@ -4,6 +4,7 @@
->   */
->  
->  #include <linux/kmemleak.h>
-> +#include <linux/sizes.h>
->  
->  #include "i915_buddy.h"
->  
-> @@ -82,6 +83,7 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64
-> size, u64 chunk_size)
->         size = round_down(size, chunk_size);
->  
->         mm->size = size;
-> +       mm->avail = size;
->         mm->chunk_size = chunk_size;
->         mm->max_order = ilog2(size) - ilog2(chunk_size);
->  
-> @@ -155,6 +157,8 @@ void i915_buddy_fini(struct i915_buddy_mm *mm)
->                 i915_block_free(mm, mm->roots[i]);
->         }
->  
-> +       GEM_WARN_ON(mm->avail != mm->size);
-> +
->         kfree(mm->roots);
->         kfree(mm->free_list);
->  }
-> @@ -230,6 +234,7 @@ void i915_buddy_free(struct i915_buddy_mm *mm,
->                      struct i915_buddy_block *block)
->  {
->         GEM_BUG_ON(!i915_buddy_block_is_allocated(block));
-> +       mm->avail += i915_buddy_block_size(mm, block);
->         __i915_buddy_free(mm, block);
->  }
->  
-> @@ -283,6 +288,7 @@ i915_buddy_alloc(struct i915_buddy_mm *mm, unsigned
-> int order)
->         }
->  
->         mark_allocated(block);
-> +       mm->avail -= i915_buddy_block_size(mm, block);
->         kmemleak_update_trace(block);
->         return block;
->  
-> @@ -368,6 +374,7 @@ int i915_buddy_alloc_range(struct i915_buddy_mm
-> *mm,
->                         }
->  
->                         mark_allocated(block);
-> +                       mm->avail -= i915_buddy_block_size(mm, block);
->                         list_add_tail(&block->link, &allocated);
->                         continue;
->                 }
-> @@ -402,6 +409,44 @@ int i915_buddy_alloc_range(struct i915_buddy_mm
-> *mm,
->         return err;
->  }
->  
-> +void i915_buddy_block_print(struct i915_buddy_mm *mm,
-> +                           struct i915_buddy_block *block,
-> +                           struct drm_printer *p)
-> +{
-> +       u64 start = i915_buddy_block_offset(block);
-> +       u64 size = i915_buddy_block_size(mm, block);
-> +
-> +       drm_printf(p, "%#018llx-%#018llx: %llu\n", start, start + size,
-> size);
-> +}
-> +
-> +void i915_buddy_print(struct i915_buddy_mm *mm, struct drm_printer *p)
-> +{
-> +       int order;
-> +
-> +       drm_printf(p, "chunk_size: %lluKB, total: %lluMB, free:
-> %lluMB\n",
-> +                  mm->chunk_size >> 10, mm->size >> 20, mm->avail >>
-> 20);
-> +
-> +       for (order = mm->max_order; order >= 0; order--) {
-> +               struct i915_buddy_block *block;
-> +               u64 count = 0, free;
-> +
-> +               list_for_each_entry(block, &mm->free_list[order], link)
-> {
-> +                       GEM_BUG_ON(!i915_buddy_block_is_free(block));
-> +                       count++;
-> +               }
-> +
-> +               drm_printf(p, "order-%d ", order);
-> +
-> +               free = count * (mm->chunk_size << order);
-> +               if (free < SZ_1M)
-> +                       drm_printf(p, "free: %lluKB", free >> 10);
-> +               else
-> +                       drm_printf(p, "free: %lluMB", free >> 20);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 771eb2963123..2e8cdcd5e4f7 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -909,7 +909,6 @@ int __i915_gem_ttm_object_init(struct
+> intel_memory_region *mem,
+>         drm_gem_private_object_init(&i915->drm, &obj->base, size);
+>         i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class,
+> flags);
+>         i915_gem_object_init_memory_region(obj, mem);
+> -       i915_gem_object_make_unshrinkable(obj);
+>         INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL |
+> __GFP_NOWARN);
+>         mutex_init(&obj->ttm.get_io_page.lock);
+>         bo_type = (obj->flags & I915_BO_ALLOC_USER) ?
+> ttm_bo_type_device :
+> @@ -932,7 +931,7 @@ int __i915_gem_ttm_object_init(struct
+> intel_memory_region *mem,
+>                                    page_size >> PAGE_SHIFT,
+>                                    &ctx, NULL, NULL,
+> i915_ttm_bo_destroy);
+>         if (ret)
+> -               return i915_ttm_err_to_gem(ret);
+> +               goto err_release_mr;
 
-Use KiB and MiB instead of KB and MB? Also below.
+IIRC when ttm_object_init_reserved fails, it will call ttm_bo_put()
+which will eventually end up in i915_ttm_bo_destroy() which will do the
+right thing?
 
-
-> +
-> +               drm_printf(p, ", pages: %llu\n", count);
-> +       }
-> +}
-> +
->  #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->  #include "selftests/i915_buddy.c"
->  #endif
-> diff --git a/drivers/gpu/drm/i915/i915_buddy.h
-> b/drivers/gpu/drm/i915/i915_buddy.h
-> index 3940d632f208..7077742112ac 100644
-> --- a/drivers/gpu/drm/i915/i915_buddy.h
-> +++ b/drivers/gpu/drm/i915/i915_buddy.h
-> @@ -10,6 +10,8 @@
->  #include <linux/list.h>
->  #include <linux/slab.h>
->  
-> +#include <drm/drm_print.h>
-> +
->  struct i915_buddy_block {
->  #define I915_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
->  #define I915_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
-> @@ -69,6 +71,7 @@ struct i915_buddy_mm {
->         /* Must be at least PAGE_SIZE */
->         u64 chunk_size;
->         u64 size;
-> +       u64 avail;
->  };
->  
->  static inline u64
-> @@ -129,6 +132,11 @@ void i915_buddy_free(struct i915_buddy_mm *mm,
-> struct i915_buddy_block *block);
->  
->  void i915_buddy_free_list(struct i915_buddy_mm *mm, struct list_head
-> *objects);
->  
-> +void i915_buddy_print(struct i915_buddy_mm *mm, struct drm_printer
-> *p);
-> +void i915_buddy_block_print(struct i915_buddy_mm *mm,
-> +                           struct i915_buddy_block *block,
-> +                           struct drm_printer *p);
-> +
->  void i915_buddy_module_exit(void);
->  int i915_buddy_module_init(void);
->  
-> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> index 6877362f6b85..95ab786a1fe4 100644
-> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> @@ -126,12 +126,30 @@ static void i915_ttm_buddy_man_free(struct
-> ttm_resource_manager *man,
->         kfree(bman_res);
->  }
->  
-> +static void i915_ttm_buddy_man_debug(struct ttm_resource_manager *man,
-> +                                    struct drm_printer *printer)
-> +{
-> +       struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
-> +       struct i915_buddy_block *block;
-> +
-> +       mutex_lock(&bman->lock);
-> +       drm_printf(printer, "default_page_size: %lluKB\n",
-> +                  bman->default_page_size >> 10);
-> +
-> +       i915_buddy_print(&bman->mm, printer);
-> +
-> +       drm_printf(printer, "reserved:\n");
-> +       list_for_each_entry(block, &bman->reserved, link)
-> +               i915_buddy_block_print(&bman->mm, block, printer);
-> +       mutex_unlock(&bman->lock);
-> +}
-> +
->  static const struct ttm_resource_manager_func
-> i915_ttm_buddy_manager_func = {
->         .alloc = i915_ttm_buddy_man_alloc,
->         .free = i915_ttm_buddy_man_free,
-> +       .debug = i915_ttm_buddy_man_debug,
->  };
->  
-> -
->  /**
->   * i915_ttm_buddy_man_init - Setup buddy allocator based ttm manager
->   * @bdev: The ttm device
-
-Otherwise LGTM,
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
+/Thomas
 
 
