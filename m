@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC543F16B0
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:51:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA943F16AE
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:51:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0A46E829;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A40D6E7EF;
 	Thu, 19 Aug 2021 09:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C296E829
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:51:43 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 685E5580B73;
- Thu, 19 Aug 2021 05:51:43 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5DA16E7EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:51:45 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1A753580B72;
+ Thu, 19 Aug 2021 05:51:45 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 19 Aug 2021 05:51:43 -0400
+ by compute4.internal (MEProxy); Thu, 19 Aug 2021 05:51:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=CaFI6+LXuxT7D
- +FuRJiZ4FDd63wUReOYb6e1ACznRWA=; b=gGRp0xBqmCAG89506O8s3ErzcWcBT
- UyDATIZS+VWsdLOIZUPWVc6MHNK18Hqcp+UpSFaAQiWSANrFMjaxcZGlgmNgcb7O
- mnN5RWMxKj/7DfjUz5pMUnRidRp2TH28QDWe3zIYTc+BO5AhM8l07NgIFvI1FoyZ
- kfnewZVCP+YjOC+mx+YUK1t2IRhXMyufW96fcNb39oDG8cbD/EV9jYnePuYPZrK/
- Nz+asOE7mM3pzDJpnUmW79bhzMvApm9EWoVSQpvbhZ7j7Loix1mj+ocTEYSnYwZ1
- CLjV6YKCKGVmoZRLmcoulE0Ce4pzv3cRVln50y0jVyh6Q6LmOkDizUJJQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=nRV1Eai6qAJHU
+ roNTrS4upIzp/dN/NJiwqZjUd1o110=; b=PymZsxRgKwiL9isqGGRQW4IIOu5Ks
+ X/5AiS4B3wNGIYgWRCeGMzBFUeNw/5h964tfKyTrmuHqCAzhlQgXMgCmwC78bVPI
+ 4eNCOIw2WnxLkUqxlo034Wk3p8cylkO6w5XQEDv6bv2cial50c4A3HWoC6z0zLur
+ HRP6W8AnsosiiJPdcIYKq6B9dNYTBy48gCZfbkA/Yb+2tGM90cNQyXMOYHlgeyAQ
+ s0k2a0eCV7S8HkolGEdfSJjWY36jPyNpC6Uu9B3YhApsaM8ERK6ZAW6o1/Jy0Kui
+ YZskncn/Qt1jaWdjt64dAszRDRPmMAPTYIZE4xGA411drBTvZfIl6NjgA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=CaFI6+LXuxT7D+FuRJiZ4FDd63wUReOYb6e1ACznRWA=; b=TiC/VrTH
- gSCvsReXTMpbkcDYt2xaZ43w959jVhwZdP0R3xtTZ5IQfbzN+YSV38bCasPAfcUG
- CRkSMO/LxNU3nztOH4s0uXO17yOdJhyTLUejMPvRlYzdvqvWr6QNf7kTUr1RK9AG
- 7sNKGraxDcP+su5F9+211lEER02OQ8URJO7OSxKtRw6+4in8LXpmA1lpgb1um/1Y
- FOwyUWFSuY/32Hf51y5USSzQawcCiWvN3dQy3+DlZZClhe7BDQ7IJmeGtwH9xOAX
- wKjJRDmjk3IQghrHRGmULVJUr7Za7MNLAOn+VSYxQrnwP6BLEWwx5zmfw8mSXGlX
- nZzCdPWA4l1RRw==
-X-ME-Sender: <xms:rykeYQXaLnLubQ3j_WTVx8d2gNputPrFy-L6vry2tqfcpO8gkcwhNQ>
- <xme:rykeYUluZVAsHXMqGlg7hXKoISErG40cBRfsuQhrLIRwBF_CQ1D1F5vzpY6n9aqj3
- _nZ81uh2CVmRc_4fwY>
-X-ME-Received: <xmr:rykeYUbj8UwO79enHPnHiGZCzDlSp-63Dd5BW9SeIw0dLZOBxaXRzkIWLbC62tnHB8hmCnYogk1B5Ko9hV9KjIpXo9Cd5-b3D17s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgddvtdcutefuodetggdotefrodftvf
+ fm3; bh=nRV1Eai6qAJHUroNTrS4upIzp/dN/NJiwqZjUd1o110=; b=LiitCguB
+ EbcA/2Q0vgoWqOwAJ5a6JPSr+kvJqwfNe/3OiEG0/XX/AR99Ii+6mEfjq6NmLP5w
+ QX7BhfSq3fRHIlIrKvLgpaZfXF9phdBqUWwn/CJhliMj3nrIdoNYj2tW1WfT/KCY
+ eTS2m+3cKdJy0oV5S4EtrrSRQXNbk3UtYd/vXkIPjMZLiFQtPs5oBtpYfUN1gjyQ
+ yFZUUP9DvEXHQE/8BP1KtcMeZt+IFm+UoQQKQ3bQC1aw6ZSxMAS53aQ6EfajpNEm
+ kh2BPtWCa7OyCO0SNWZn6Ejf7SH+82+U4F3FtBFGY6EPozKml58gO6H2nvJlqKAB
+ 5uLRaV1QCMgmsA==
+X-ME-Sender: <xms:sCkeYQHQvbUdmmyOTVuKrqMIQ2nFn7aiVez9tmbQLbyNS43g4b9x8A>
+ <xme:sCkeYZWSlNHqDQqNw3bf3TNI2n1UDQWR79wvkU_AGXXN47BgZwIX1hmWot0Fjy-Zp
+ htdzxigjf3BdLR0EPo>
+X-ME-Received: <xmr:sCkeYaKfsAamZ8578HhRoWUUGEfR1C4W_6PAhKtRDhDEgWu2vi9x7vaHghxMsklaNV5HNsZJsWopYWAlGo-Wfudd5IcKYvm9LUom>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgddulecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:rykeYfUUmpJyFQpUDwrVD6wUAJBGk0OPpai2ccXNiqccnqNknv2paw>
- <xmx:rykeYanOjt4HIkqlGjYugXw2jBeiR6gA6I8K8Jr-mXTmEohHCFohGQ>
- <xmx:rykeYUdwLKNmzID3qlWoXxMzOySINQRPD59axtnhjZFUe0i1lSPEOA>
- <xmx:rykeYf88vvtiL7wapxbqs0AB8lWU3Uz8rVQ0ED2t90TCr83LJK06Ug>
+X-ME-Proxy: <xmx:sCkeYSHw2nKGxENK_952LHh-gp7Njn9Lby0jXoUWXxlxUSbJPBFgQg>
+ <xmx:sCkeYWWopdPQm1F-8M_1f-ZVBXz1Y3HfLpu5e_r4fBHZKWlZbBc2Ng>
+ <xmx:sCkeYVMN1kYcbsxBMHSBEcjK6JChNphQLH1IGTDdf_xZq0ycMeKqpw>
+ <xmx:sSkeYXvNUMTRJMqdu03ahuY_JBkAgUUQuUD7cILIXkVjquSpIr4BCA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 05:51:42 -0400 (EDT)
+ 19 Aug 2021 05:51:44 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
@@ -67,9 +67,9 @@ Cc: Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
  Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dom Cobley <dom@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH v7 08/10] drm/vc4: hdmi: Raise the maximum clock rate
-Date: Thu, 19 Aug 2021 11:51:17 +0200
-Message-Id: <20210819095119.689945-9-maxime@cerno.tech>
+Subject: [PATCH v7 09/10] drm/vc4: hdmi: Enable the scrambler on reconnection
+Date: Thu, 19 Aug 2021 11:51:18 +0200
+Message-Id: <20210819095119.689945-10-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210819095119.689945-1-maxime@cerno.tech>
 References: <20210819095119.689945-1-maxime@cerno.tech>
@@ -90,33 +90,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have the infrastructure in place, we can raise the maximum
-pixel rate we can reach for HDMI0 on the BCM2711.
+If we have a state already and disconnect/reconnect the display, the
+SCDC messages won't be sent again since we didn't go through a disable /
+enable cycle.
 
-HDMI1 is left untouched since its pixelvalve has a smaller FIFO and
-would need a clock faster than what we can provide to support the same
-modes.
+In order to fix this, let's call the vc4_hdmi_enable_scrambling function
+in the detect callback if there is a mode and it needs the scrambler to
+be enabled.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Fixes: c85695a2016e ("drm/vc4: hdmi: Enable the scrambler")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 251dfecf1d4c..d2a720e05ddd 100644
+index d2a720e05ddd..a3dbd1fdff7d 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2330,7 +2330,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
- 	.encoder_type		= VC4_ENCODER_TYPE_HDMI0,
- 	.debugfs_name		= "hdmi0_regs",
- 	.card_name		= "vc4-hdmi-0",
--	.max_pixel_clock	= HDMI_14_MAX_TMDS_CLK,
-+	.max_pixel_clock	= 600000000,
- 	.registers		= vc5_hdmi_hdmi0_fields,
- 	.num_registers		= ARRAY_SIZE(vc5_hdmi_hdmi0_fields),
- 	.phy_lane_mapping	= {
+@@ -161,6 +161,8 @@ static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi)
+ static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi) {}
+ #endif
+ 
++static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder);
++
+ static enum drm_connector_status
+ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ {
+@@ -187,7 +189,9 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ 			}
+ 		}
+ 
++		vc4_hdmi_enable_scrambling(&vc4_hdmi->encoder.base.base);
+ 		pm_runtime_put(&vc4_hdmi->pdev->dev);
++
+ 		return connector_status_connected;
+ 	}
+ 
+@@ -543,8 +547,12 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
+ 	struct drm_connector_state *cstate = connector->state;
+ 	struct drm_crtc *crtc = cstate->crtc;
+-	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
++	struct drm_display_mode *mode;
+ 
++	if (!crtc || !crtc->state)
++		return;
++
++	mode = &crtc->state->adjusted_mode;
+ 	if (!vc4_hdmi_supports_scrambling(encoder, mode))
+ 		return;
+ 
 -- 
 2.31.1
 
