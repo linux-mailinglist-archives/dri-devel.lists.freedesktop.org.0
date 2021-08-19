@@ -1,39 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EF83F137B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 08:23:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBC93F147E
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 09:46:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEAC36E993;
-	Thu, 19 Aug 2021 06:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079E56E96F;
+	Thu, 19 Aug 2021 07:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9997D6E94D;
- Thu, 19 Aug 2021 06:21:58 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10080"; a="216220773"
-X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="216220773"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2021 23:21:55 -0700
-X-IronPort-AV: E=Sophos;i="5.84,334,1620716400"; d="scan'208";a="511675192"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2021 23:21:55 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Cc: <daniel.vetter@ffwll.ch>
-Subject: [PATCH 27/27] drm/i915/guc: Drop static inline functions
- intel_guc_submission.c
-Date: Wed, 18 Aug 2021 23:16:39 -0700
-Message-Id: <20210819061639.21051-28-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210819061639.21051-1-matthew.brost@intel.com>
-References: <20210819061639.21051-1-matthew.brost@intel.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9596E4B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 07:13:55 +0000 (UTC)
+X-UUID: 251875df620b4216b61ae5eb2c7ea287-20210819
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=/muT9XpC+z47+tIQYbGjPzGaimqcXokZABmz7lDUyYU=; 
+ b=FI7aeH3Cpo4SaUIsv/DCpm56YJ1EZ1MiV7vzXoxvH4/dbafhUwRkMN/5ZOW6bVH5D7SviUlo5FOtei90Iy6ISa03q05oyiaLq8OzkYXnH7f3MaJTDvvCqxODhutU4g2ZaIg7OcndKk1ClFHHEl7sn1C7JGTZo9JPRJAAb/2LvmI=;
+X-UUID: 251875df620b4216b61ae5eb2c7ea287-20210819
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1240516873; Thu, 19 Aug 2021 15:13:50 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 19 Aug 2021 15:13:48 +0800
+Received: from mhfsdcap04 (10.17.3.154) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 19 Aug 2021 15:13:47 +0800
+Message-ID: <1b79a67b703d2c894bc4d9458c760e082fc42958.camel@mediatek.com>
+Subject: Re: [PATCH v5, 00/15] Using component framework to support multi
+ hardware decode
+From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>
+CC: Alexandre Courbot <acourbot@chromium.org>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih <tzungbi@chromium.org>, "Tiffany
+ Lin" <tiffany.lin@mediatek.com>, Andrew-CT Chen
+ <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>, Hsin-Yi Wang <hsinyi@chromium.org>, Fritz
+ Koenig <frkoenig@chromium.org>, Irui Wang <irui.wang@mediatek.com>,
+ linux-media <linux-media@vger.kernel.org>, devicetree
+ <devicetree@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, srv_heupstream
+ <srv_heupstream@mediatek.com>, "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, George Sun
+ <george.sun@mediatek.com>
+Date: Thu, 19 Aug 2021 15:13:48 +0800
+In-Reply-To: <CAAEAJfDWOzCJxZFNtxeT7Cvr2pWbYrfz-YnA81sVNs-rM=8n4Q@mail.gmail.com>
+References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
+ <CAAEAJfDWOzCJxZFNtxeT7Cvr2pWbYrfz-YnA81sVNs-rM=8n4Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK: N
+Content-Transfer-Encoding: base64
+X-Mailman-Approved-At: Thu, 19 Aug 2021 07:45:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,434 +75,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-s/static inline/static/g + fix function argument alignment to make
-checkpatch happy.
-
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 116 +++++++++---------
- 1 file changed, 57 insertions(+), 59 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 7e0a32e729c2..ad4420100908 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -139,7 +139,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
- #define SCHED_STATE_BLOCKED_SHIFT			7
- #define SCHED_STATE_BLOCKED		BIT(SCHED_STATE_BLOCKED_SHIFT)
- #define SCHED_STATE_BLOCKED_MASK	(0xfff << SCHED_STATE_BLOCKED_SHIFT)
--static inline void init_sched_state(struct intel_context *ce)
-+static void init_sched_state(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state &= SCHED_STATE_BLOCKED_MASK;
-@@ -156,14 +156,14 @@ static bool sched_state_is_init(struct intel_context *ce)
- 		 ~(SCHED_STATE_BLOCKED_MASK | SCHED_STATE_REGISTERED));
- }
- 
--static inline bool
-+static bool
- context_wait_for_deregister_to_register(struct intel_context *ce)
- {
- 	return ce->guc_state.sched_state &
- 		SCHED_STATE_WAIT_FOR_DEREGISTER_TO_REGISTER;
- }
- 
--static inline void
-+static void
- set_context_wait_for_deregister_to_register(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
-@@ -171,7 +171,7 @@ set_context_wait_for_deregister_to_register(struct intel_context *ce)
- 		SCHED_STATE_WAIT_FOR_DEREGISTER_TO_REGISTER;
- }
- 
--static inline void
-+static void
- clr_context_wait_for_deregister_to_register(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
-@@ -179,111 +179,111 @@ clr_context_wait_for_deregister_to_register(struct intel_context *ce)
- 		~SCHED_STATE_WAIT_FOR_DEREGISTER_TO_REGISTER;
- }
- 
--static inline bool
-+static bool
- context_destroyed(struct intel_context *ce)
- {
- 	return ce->guc_state.sched_state & SCHED_STATE_DESTROYED;
- }
- 
--static inline void
-+static void
- set_context_destroyed(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state |= SCHED_STATE_DESTROYED;
- }
- 
--static inline bool context_pending_disable(struct intel_context *ce)
-+static bool context_pending_disable(struct intel_context *ce)
- {
- 	return ce->guc_state.sched_state & SCHED_STATE_PENDING_DISABLE;
- }
- 
--static inline void set_context_pending_disable(struct intel_context *ce)
-+static void set_context_pending_disable(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state |= SCHED_STATE_PENDING_DISABLE;
- }
- 
--static inline void clr_context_pending_disable(struct intel_context *ce)
-+static void clr_context_pending_disable(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state &= ~SCHED_STATE_PENDING_DISABLE;
- }
- 
--static inline bool context_banned(struct intel_context *ce)
-+static bool context_banned(struct intel_context *ce)
- {
- 	return ce->guc_state.sched_state & SCHED_STATE_BANNED;
- }
- 
--static inline void set_context_banned(struct intel_context *ce)
-+static void set_context_banned(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state |= SCHED_STATE_BANNED;
- }
- 
--static inline void clr_context_banned(struct intel_context *ce)
-+static void clr_context_banned(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state &= ~SCHED_STATE_BANNED;
- }
- 
--static inline bool context_enabled(struct intel_context *ce)
-+static bool context_enabled(struct intel_context *ce)
- {
- 	return ce->guc_state.sched_state & SCHED_STATE_ENABLED;
- }
- 
--static inline void set_context_enabled(struct intel_context *ce)
-+static void set_context_enabled(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state |= SCHED_STATE_ENABLED;
- }
- 
--static inline void clr_context_enabled(struct intel_context *ce)
-+static void clr_context_enabled(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state &= ~SCHED_STATE_ENABLED;
- }
- 
--static inline bool context_pending_enable(struct intel_context *ce)
-+static bool context_pending_enable(struct intel_context *ce)
- {
- 	return ce->guc_state.sched_state & SCHED_STATE_PENDING_ENABLE;
- }
- 
--static inline void set_context_pending_enable(struct intel_context *ce)
-+static void set_context_pending_enable(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state |= SCHED_STATE_PENDING_ENABLE;
- }
- 
--static inline void clr_context_pending_enable(struct intel_context *ce)
-+static void clr_context_pending_enable(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state &= ~SCHED_STATE_PENDING_ENABLE;
- }
- 
--static inline bool context_registered(struct intel_context *ce)
-+static bool context_registered(struct intel_context *ce)
- {
- 	return ce->guc_state.sched_state & SCHED_STATE_REGISTERED;
- }
- 
--static inline void set_context_registered(struct intel_context *ce)
-+static void set_context_registered(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state |= SCHED_STATE_REGISTERED;
- }
- 
--static inline void clr_context_registered(struct intel_context *ce)
-+static void clr_context_registered(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	ce->guc_state.sched_state &= ~SCHED_STATE_REGISTERED;
- }
- 
--static inline u32 context_blocked(struct intel_context *ce)
-+static u32 context_blocked(struct intel_context *ce)
- {
- 	return (ce->guc_state.sched_state & SCHED_STATE_BLOCKED_MASK) >>
- 		SCHED_STATE_BLOCKED_SHIFT;
- }
- 
--static inline void incr_context_blocked(struct intel_context *ce)
-+static void incr_context_blocked(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 
-@@ -292,7 +292,7 @@ static inline void incr_context_blocked(struct intel_context *ce)
- 	GEM_BUG_ON(!context_blocked(ce));	/* Overflow check */
- }
- 
--static inline void decr_context_blocked(struct intel_context *ce)
-+static void decr_context_blocked(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 
-@@ -301,41 +301,41 @@ static inline void decr_context_blocked(struct intel_context *ce)
- 	ce->guc_state.sched_state -= SCHED_STATE_BLOCKED;
- }
- 
--static inline bool context_has_committed_requests(struct intel_context *ce)
-+static bool context_has_committed_requests(struct intel_context *ce)
- {
- 	return !!ce->guc_state.number_committed_requests;
- }
- 
--static inline void incr_context_committed_requests(struct intel_context *ce)
-+static void incr_context_committed_requests(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	++ce->guc_state.number_committed_requests;
- 	GEM_BUG_ON(ce->guc_state.number_committed_requests < 0);
- }
- 
--static inline void decr_context_committed_requests(struct intel_context *ce)
-+static void decr_context_committed_requests(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	--ce->guc_state.number_committed_requests;
- 	GEM_BUG_ON(ce->guc_state.number_committed_requests < 0);
- }
- 
--static inline bool context_guc_id_invalid(struct intel_context *ce)
-+static bool context_guc_id_invalid(struct intel_context *ce)
- {
- 	return ce->guc_id.id == GUC_INVALID_LRC_ID;
- }
- 
--static inline void set_context_guc_id_invalid(struct intel_context *ce)
-+static void set_context_guc_id_invalid(struct intel_context *ce)
- {
- 	ce->guc_id.id = GUC_INVALID_LRC_ID;
- }
- 
--static inline struct intel_guc *ce_to_guc(struct intel_context *ce)
-+static struct intel_guc *ce_to_guc(struct intel_context *ce)
- {
- 	return &ce->engine->gt->uc.guc;
- }
- 
--static inline struct i915_priolist *to_priolist(struct rb_node *rb)
-+static struct i915_priolist *to_priolist(struct rb_node *rb)
- {
- 	return rb_entry(rb, struct i915_priolist, node);
- }
-@@ -349,7 +349,7 @@ static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
- 	return &base[index];
- }
- 
--static inline struct intel_context *__get_context(struct intel_guc *guc, u32 id)
-+static struct intel_context *__get_context(struct intel_guc *guc, u32 id)
- {
- 	struct intel_context *ce = xa_load(&guc->context_lookup, id);
- 
-@@ -379,12 +379,12 @@ static void guc_lrc_desc_pool_destroy(struct intel_guc *guc)
- 	i915_vma_unpin_and_release(&guc->lrc_desc_pool, I915_VMA_RELEASE_MAP);
- }
- 
--static inline bool guc_submission_initialized(struct intel_guc *guc)
-+static bool guc_submission_initialized(struct intel_guc *guc)
- {
- 	return !!guc->lrc_desc_pool_vaddr;
- }
- 
--static inline void reset_lrc_desc(struct intel_guc *guc, u32 id)
-+static void reset_lrc_desc(struct intel_guc *guc, u32 id)
- {
- 	if (likely(guc_submission_initialized(guc))) {
- 		struct guc_lrc_desc *desc = __get_lrc_desc(guc, id);
-@@ -402,13 +402,13 @@ static inline void reset_lrc_desc(struct intel_guc *guc, u32 id)
- 	}
- }
- 
--static inline bool lrc_desc_registered(struct intel_guc *guc, u32 id)
-+static bool lrc_desc_registered(struct intel_guc *guc, u32 id)
- {
- 	return __get_context(guc, id);
- }
- 
--static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
--					   struct intel_context *ce)
-+static void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
-+				    struct intel_context *ce)
- {
- 	unsigned long flags;
- 
-@@ -572,13 +572,13 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
- 	return err;
- }
- 
--static inline void guc_set_lrc_tail(struct i915_request *rq)
-+static void guc_set_lrc_tail(struct i915_request *rq)
- {
- 	rq->context->lrc_reg_state[CTX_RING_TAIL] =
- 		intel_ring_set_tail(rq->ring, rq->tail);
- }
- 
--static inline int rq_prio(const struct i915_request *rq)
-+static int rq_prio(const struct i915_request *rq)
- {
- 	return rq->sched.attr.priority;
- }
-@@ -745,7 +745,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
- 	xa_unlock_irqrestore(&guc->context_lookup, flags);
- }
- 
--static inline bool
-+static bool
- submission_disabled(struct intel_guc *guc)
- {
- 	struct i915_sched_engine * const sched_engine = guc->sched_engine;
-@@ -826,7 +826,7 @@ guc_virtual_get_sibling(struct intel_engine_cs *ve, unsigned int sibling)
- 	return NULL;
- }
- 
--static inline struct intel_engine_cs *
-+static struct intel_engine_cs *
- __context_to_physical_engine(struct intel_context *ce)
- {
- 	struct intel_engine_cs *engine = ce->engine;
-@@ -1144,9 +1144,9 @@ void intel_guc_submission_fini(struct intel_guc *guc)
- 	i915_sched_engine_put(guc->sched_engine);
- }
- 
--static inline void queue_request(struct i915_sched_engine *sched_engine,
--				 struct i915_request *rq,
--				 int prio)
-+static void queue_request(struct i915_sched_engine *sched_engine,
-+			  struct i915_request *rq,
-+			  int prio)
- {
- 	GEM_BUG_ON(!list_empty(&rq->sched.link));
- 	list_add_tail(&rq->sched.link,
-@@ -1842,7 +1842,7 @@ static void guc_context_sched_disable(struct intel_context *ce)
- 	intel_context_sched_disable_unpin(ce);
- }
- 
--static inline void guc_lrc_desc_unpin(struct intel_context *ce)
-+static void guc_lrc_desc_unpin(struct intel_context *ce)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
- 
-@@ -1982,7 +1982,7 @@ static void guc_context_set_prio(struct intel_guc *guc,
- 	trace_intel_context_set_prio(ce);
- }
- 
--static inline u8 map_i915_prio_to_guc_prio(int prio)
-+static u8 map_i915_prio_to_guc_prio(int prio)
- {
- 	if (prio == I915_PRIORITY_NORMAL)
- 		return GUC_CLIENT_PRIORITY_KMD_NORMAL;
-@@ -1994,8 +1994,7 @@ static inline u8 map_i915_prio_to_guc_prio(int prio)
- 		return GUC_CLIENT_PRIORITY_KMD_HIGH;
- }
- 
--static inline void add_context_inflight_prio(struct intel_context *ce,
--					     u8 guc_prio)
-+static void add_context_inflight_prio(struct intel_context *ce, u8 guc_prio)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_state.prio_count));
-@@ -2006,8 +2005,7 @@ static inline void add_context_inflight_prio(struct intel_context *ce,
- 	GEM_WARN_ON(!ce->guc_state.prio_count[guc_prio]);
- }
- 
--static inline void sub_context_inflight_prio(struct intel_context *ce,
--					     u8 guc_prio)
-+static void sub_context_inflight_prio(struct intel_context *ce, u8 guc_prio)
- {
- 	lockdep_assert_held(&ce->guc_state.lock);
- 	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_state.prio_count));
-@@ -2018,7 +2016,7 @@ static inline void sub_context_inflight_prio(struct intel_context *ce,
- 	--ce->guc_state.prio_count[guc_prio];
- }
- 
--static inline void update_context_prio(struct intel_context *ce)
-+static void update_context_prio(struct intel_context *ce)
- {
- 	struct intel_guc *guc = &ce->engine->gt->uc.guc;
- 	int i;
-@@ -2036,7 +2034,7 @@ static inline void update_context_prio(struct intel_context *ce)
- 	}
- }
- 
--static inline bool new_guc_prio_higher(u8 old_guc_prio, u8 new_guc_prio)
-+static bool new_guc_prio_higher(u8 old_guc_prio, u8 new_guc_prio)
- {
- 	/* Lower value is higher priority */
- 	return new_guc_prio < old_guc_prio;
-@@ -2506,15 +2504,15 @@ static void guc_set_default_submission(struct intel_engine_cs *engine)
- 	engine->submit_request = guc_submit_request;
- }
- 
--static inline void guc_kernel_context_pin(struct intel_guc *guc,
--					  struct intel_context *ce)
-+static void guc_kernel_context_pin(struct intel_guc *guc,
-+				   struct intel_context *ce)
- {
- 	if (context_guc_id_invalid(ce))
- 		pin_guc_id(guc, ce);
- 	guc_lrc_desc_pin(ce, true);
- }
- 
--static inline void guc_init_lrc_mapping(struct intel_guc *guc)
-+static void guc_init_lrc_mapping(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	struct intel_engine_cs *engine;
-@@ -2617,7 +2615,7 @@ static void rcs_submission_override(struct intel_engine_cs *engine)
- 	}
- }
- 
--static inline void guc_default_irqs(struct intel_engine_cs *engine)
-+static void guc_default_irqs(struct intel_engine_cs *engine)
- {
- 	engine->irq_keep_mask = GT_RENDER_USER_INTERRUPT;
- 	intel_engine_set_irq_handler(engine, cs_irq_handler);
-@@ -2713,7 +2711,7 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
- 	guc->submission_selected = __guc_submission_selected(guc);
- }
- 
--static inline struct intel_context *
-+static struct intel_context *
- g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
- {
- 	struct intel_context *ce;
-@@ -3086,8 +3084,8 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
- 	drm_printf(p, "\n");
- }
- 
--static inline void guc_log_context_priority(struct drm_printer *p,
--					    struct intel_context *ce)
-+static void guc_log_context_priority(struct drm_printer *p,
-+				     struct intel_context *ce)
- {
- 	int i;
- 
--- 
-2.32.0
+SGkgRXplcXVpZWwsDQoNClRoYW5rcyBmb3IgeW91ciBzdWdnZXN0aW9uLg0KDQpPbiBXZWQsIDIw
+MjEtMDgtMTggYXQgMTE6MTEgLTAzMDAsIEV6ZXF1aWVsIEdhcmNpYSB3cm90ZToNCj4gK2RhbnZl
+dA0KPiANCj4gSGksDQo+IA0KPiBPbiBUdWUsIDEwIEF1ZyAyMDIxIGF0IDIzOjU4LCBZdW5mZWkg
+RG9uZyA8eXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tPg0KPiB3cm90ZToNCj4gPiANCj4gPiBUaGlz
+IHNlcmllcyBhZGRzIHN1cHBvcnQgZm9yIG11bHRpIGhhcmR3YXJlIGRlY29kZSBpbnRvIG10ay12
+Y29kZWMsIA0KPiA+IGJ5IGZpcnN0DQo+ID4gYWRkaW5nIGNvbXBvbmVudCBmcmFtZXdvcmsgdG8g
+bWFuYWdlIGVhY2ggaGFyZHdhcmUgaW5mb3JtYXRpb246DQo+ID4gaW50ZXJydXB0LA0KPiA+IGNs
+b2NrLCByZWdpc3RlciBiYXNlcyBhbmQgcG93ZXIuIFNlY29uZGx5IGFkZCBjb3JlIHRocmVhZCB0
+byBkZWFsDQo+ID4gd2l0aCBjb3JlDQo+ID4gaGFyZHdhcmUgbWVzc2FnZSwgYXQgdGhlIHNhbWUg
+dGltZSwgYWRkIG1zZyBxdWV1ZSBmb3IgZGlmZmVyZW50DQo+ID4gaGFyZHdhcmUNCj4gPiBzaGFy
+ZSBtZXNzYWdlcy4gTGFzdGx5LCB0aGUgYXJjaGl0ZWN0dXJlIG9mIGRpZmZlcmVudCBzcGVjcyBh
+cmUgbm90DQo+ID4gdGhlIHNhbWUsDQo+ID4gdXNpbmcgc3BlY3MgdHlwZSB0byBzZXBhcmF0ZSB0
+aGVtLg0KPiA+IA0KPiANCj4gSSBkb24ndCB0aGluayBpdCdzIGEgZ29vZCBpZGVhIHRvIGludHJv
+ZHVjZSB0aGUgY29tcG9uZW50IEFQSSBpbiB0aGUNCj4gbWVkaWEgc3Vic3lzdGVtLiBJdCBkb2Vz
+bid0IHNlZW0gdG8gYmUgbWFpbnRhaW5lZCwgSVJDIHRoZXJlJ3Mgbm90DQo+IGV2ZW4NCj4gYSBt
+YWludGFpbmVyIGZvciBpdCwgYW5kIGl0IGhhcyBzb21lIGlzc3VlcyB0aGF0IHdlcmUgbmV2ZXIN
+Cj4gYWRkcmVzc2VkLg0KPiANCj4gSXQgd291bGQgYmUgcmVhbGx5IGltcG9ydGFudCB0byBhdm9p
+ZCBpdC4gSXMgaXQgcmVhbGx5IG5lZWRlZCBpbiB0aGUNCj4gZmlyc3QgcGxhY2U/DQo+IA0KPiBU
+aGFua3MsDQo+IEV6ZXF1aWVsDQoNCkZvciB0aGVyZSBhcmUgbWFueSBoYXJkd2FyZSBuZWVkIHRv
+IHVzZSwgbXQ4MTkyIGlzIHRocmVlIGFuZCBtdDgxOTUgaXMNCmZpdmUuIE1heWJlIG5lZWQgbW9y
+ZSB0byBiZSB1c2VkIGluIHRoZSBmZWF0dXJlLg0KDQpFYWNoIGhhcmR3YXJlIGhhcyBpbmRlcGVu
+ZGVudCBjbGsvcG93ZXIvaW9tbXUgcG9ydC9pcnEuDQpVc2UgY29tcG9uZW50IGludGVyZmFjZSBp
+biBwcm9iIHRvIGdldCBlYWNoIGNvbXBvbmVudCdzIGluZm9ybWF0aW9uLg0KSnVzdCBlbmFibGUg
+dGhlIGhhcmR3YXJlIHdoZW4gbmVlZCB0byB1c2UgaXQsIHZlcnkgY29udmVuaWVudCBhbmQNCnNp
+bXBsZS4NCg0KSSBmb3VuZCB0aGF0IHRoZXJlIGFyZSBtYW55IG1vZHVsZXMgdXNlIGNvbXBvbmVu
+dCB0byBtYW5hZ2UgaGFyZHdhcmUNCmluZm9ybWF0aW9uLCBzdWNoIGFzIGlvbW11IGFuZCBkcm0g
+ZXRjLg0KDQpEbyB5b3UgaGF2ZSBhbnkgb3RoZXIgc3VnZ2VzdGlvbiBmb3IgdGhpcyBhcmNoaXRl
+Y3R1cmU/DQoNClRoYW5rcw0KWXVuZmVpIERvbmcNCg0K
 
