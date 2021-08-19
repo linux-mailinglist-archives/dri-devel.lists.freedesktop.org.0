@@ -1,51 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8433F1ED0
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 19:15:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B403F1ED2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 19:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEB376E8F8;
-	Thu, 19 Aug 2021 17:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D6E6E9B7;
+	Thu, 19 Aug 2021 17:16:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E554B6E8F8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 17:15:31 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 074459fe-0111-11ec-b37b-0050568c148b;
- Thu, 19 Aug 2021 17:15:18 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 64A04194B17;
- Thu, 19 Aug 2021 19:15:38 +0200 (CEST)
-Date: Thu, 19 Aug 2021 19:15:25 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-rpi-kernel@lists.infradead.org, Emma Anholt <emma@anholt.net>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/probe-helper: Create a HPD IRQ event helper for
- a single connector
-Message-ID: <YR6Rrclfuap+557C@ravnborg.org>
-References: <20210819134454.850031-1-maxime@cerno.tech>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0BBB6E9B7;
+ Thu, 19 Aug 2021 17:16:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10081"; a="196862939"
+X-IronPort-AV: E=Sophos;i="5.84,335,1620716400"; d="scan'208";a="196862939"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2021 10:16:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,335,1620716400"; d="scan'208";a="489780999"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga008.fm.intel.com with SMTP; 19 Aug 2021 10:16:26 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 19 Aug 2021 20:16:26 +0300
+Date: Thu, 19 Aug 2021 20:16:26 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Manasi Navare <manasi.d.navare@intel.com>
+Subject: Re: [PATCH 2/4] drm/dp: use more of the extended receiver cap
+Message-ID: <YR6R6oveiFbF8xmg@intel.com>
+References: <cover.1628851334.git.jani.nikula@intel.com>
+ <ab2ca82226fd954a61a5674cf0531508bd18cef7.1628851334.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210819134454.850031-1-maxime@cerno.tech>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ab2ca82226fd954a61a5674cf0531508bd18cef7.1628851334.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,189 +53,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-a few comments in the following that I hope you will find useful.
-
-	Sam
-
-On Thu, Aug 19, 2021 at 03:44:53PM +0200, Maxime Ripard wrote:
-> The drm_helper_hpd_irq_event() function is iterating over all the
-> connectors when an hotplug event is detected.
+On Fri, Aug 13, 2021 at 01:43:20PM +0300, Jani Nikula wrote:
+> Extend the use of extended receiver cap at 0x2200 to cover
+> MAIN_LINK_CHANNEL_CODING_CAP in 0x2206, in case an implementation hides
+> the DP 2.0 128b/132b channel encoding cap.
 > 
-> During that iteration, it will call each connector detect function and
-> figure out if its status changed.
-> 
-> Finally, if any connector changed, it will notify the user-space and the
-> clients that something changed on the DRM device.
-> 
-> This is supposed to be used for drivers that don't have a hotplug
-> interrupt for individual connectors. However, drivers that can use an
-> interrupt for a single connector are left in the dust and can either
-> reimplement the logic used during the iteration for each connector or
-> use that helper and iterate over all connectors all the time.
-> 
-> Since both are suboptimal, let's create a helper that will only perform
-> the status detection on a single connector.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Cc: Manasi Navare <manasi.d.navare@intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->  drivers/gpu/drm/drm_probe_helper.c | 105 ++++++++++++++++++++---------
->  include/drm/drm_probe_helper.h     |   1 +
->  2 files changed, 74 insertions(+), 32 deletions(-)
+>  drivers/gpu/drm/drm_dp_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 5606bca3caa8..7e3cbb4333ce 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -795,6 +795,77 @@ void drm_kms_helper_poll_fini(struct drm_device *dev)
->  }
->  EXPORT_SYMBOL(drm_kms_helper_poll_fini);
->  
-> +static bool
-> +_drm_connector_helper_hpd_irq_event(struct drm_connector *connector,
-> +				    bool notify)
-I hate _names _starting _with '_'.
-
-In this case check_connector_changed() would be better IMO.
-
-Also the notify bool could be dropped, just move the notify code to the
-drm_connector_helper_hpd_irq_event().
-
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	enum drm_connector_status old_status;
-> +	u64 old_epoch_counter;
-> +	bool changed = false;
-> +
-> +	/* Only handle HPD capable connectors. */
-> +	drm_WARN_ON(dev, !(connector->polled & DRM_CONNECTOR_POLL_HPD));
-> +
-> +	drm_WARN_ON(dev, !mutex_is_locked(&dev->mode_config.mutex));
-> +
-> +	old_status = connector->status;
-> +	old_epoch_counter = connector->epoch_counter;
-> +
-> +	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Old epoch counter %llu\n",
-> +		      connector->base.id,
-> +		      connector->name,
-> +		      old_epoch_counter);
-As you touch this code please use the new drm_dbg_kms() macro for
-logging. 
-> +
-> +	connector->status = drm_helper_probe_detect(connector, NULL,
-> +						    false);
-> +	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> +		      connector->base.id,
-> +		      connector->name,
-> +		      drm_get_connector_status_name(old_status),
-> +		      drm_get_connector_status_name(connector->status));
-> +
-> +	DRM_DEBUG_KMS("[CONNECTOR:%d:%s] New epoch counter %llu\n",
-> +		      connector->base.id,
-> +		      connector->name,
-> +		      connector->epoch_counter);
-> +
-> +	/*
-> +	 * Check if epoch counter had changed, meaning that we need
-> +	 * to send a uevent.
-> +	 */
-> +	if (old_epoch_counter != connector->epoch_counter)
-> +		changed = true;
-> +
-> +	if (changed && notify) {
-> +		drm_kms_helper_hotplug_event(dev);
-> +		DRM_DEBUG_KMS("Sent hotplug event\n");
-> +	}
-> +
-> +	return changed;
-> +}
-> +
-> +/**
-> + * drm_connector_helper_hpd_irq_event - hotplug processing
-> + * @connector: drm_connector
-> + *
-> + * Drivers can use this helper function to run a detect cycle on a connector
-> + * which has the DRM_CONNECTOR_POLL_HPD flag set in its &polled member.
-> + *
-> + * This helper function is useful for drivers which can track hotplug
-> + * interrupts for a single connector.
-> + *
-> + * This function must be called with the mode setting locks held.
-> + *
-> + * Note that a connector can be both polled and probed from the hotplug
-> + * handler, in case the hotplug interrupt is known to be unreliable.
-> + */
-> +bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector)
-> +{
-> +	return _drm_connector_helper_hpd_irq_event(connector, true);
-> +}
-> +EXPORT_SYMBOL(drm_connector_helper_hpd_irq_event);
-> +
->  /**
->   * drm_helper_hpd_irq_event - hotplug processing
->   * @dev: drm_device
-> @@ -822,9 +893,7 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 9b2a2961fca8..9389f92cb944 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -608,7 +608,7 @@ static u8 drm_dp_downstream_port_count(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>  static int drm_dp_read_extended_dpcd_caps(struct drm_dp_aux *aux,
+>  					  u8 dpcd[DP_RECEIVER_CAP_SIZE])
 >  {
->  	struct drm_connector *connector;
->  	struct drm_connector_list_iter conn_iter;
-> -	enum drm_connector_status old_status;
->  	bool changed = false;
-> -	u64 old_epoch_counter;
+> -	u8 dpcd_ext[6];
+> +	u8 dpcd_ext[DP_MAIN_LINK_CHANNEL_CODING + 1];
+
+Why are we even reading less of this than the normal receiver caps?
+
+>  	int ret;
 >  
->  	if (!dev->mode_config.poll_enabled)
->  		return false;
-> @@ -832,37 +901,9 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
->  	mutex_lock(&dev->mode_config.mutex);
->  	drm_connector_list_iter_begin(dev, &conn_iter);
->  	drm_for_each_connector_iter(connector, &conn_iter) {
-> -		/* Only handle HPD capable connectors. */
-> -		if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
-> -			continue;
-> -
-> -		old_status = connector->status;
-> -
-> -		old_epoch_counter = connector->epoch_counter;
-> -
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Old epoch counter %llu\n", connector->base.id,
-> -			      connector->name,
-> -			      old_epoch_counter);
-> -
-> -		connector->status = drm_helper_probe_detect(connector, NULL, false);
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> -			      connector->base.id,
-> -			      connector->name,
-> -			      drm_get_connector_status_name(old_status),
-> -			      drm_get_connector_status_name(connector->status));
-> -
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] New epoch counter %llu\n",
-> -			      connector->base.id,
-> -			      connector->name,
-> -			      connector->epoch_counter);
-> -
-> -		/*
-> -		 * Check if epoch counter had changed, meaning that we need
-> -		 * to send a uevent.
-> -		 */
-> -		if (old_epoch_counter != connector->epoch_counter)
-> +		if (_drm_connector_helper_hpd_irq_event(connector,
-> +							false))
->  			changed = true;
-> -
->  	}
->  	drm_connector_list_iter_end(&conn_iter);
->  	mutex_unlock(&dev->mode_config.mutex);
-> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-> index 8d3ed2834d34..04c57564c397 100644
-> --- a/include/drm/drm_probe_helper.h
-> +++ b/include/drm/drm_probe_helper.h
-> @@ -18,6 +18,7 @@ int drm_helper_probe_detect(struct drm_connector *connector,
->  void drm_kms_helper_poll_init(struct drm_device *dev);
->  void drm_kms_helper_poll_fini(struct drm_device *dev);
->  bool drm_helper_hpd_irq_event(struct drm_device *dev);
-> +bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector);
->  void drm_kms_helper_hotplug_event(struct drm_device *dev);
->  
->  void drm_kms_helper_poll_disable(struct drm_device *dev);
+>  	/*
 > -- 
-> 2.31.1
+> 2.20.1
+
+-- 
+Ville Syrjälä
+Intel
