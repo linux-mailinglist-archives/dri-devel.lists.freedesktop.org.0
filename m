@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DED53F16AB
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:51:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B97CD3F16B1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Aug 2021 11:51:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D04186E7D0;
-	Thu, 19 Aug 2021 09:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 156456E858;
+	Thu, 19 Aug 2021 09:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75C826E4AF
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:51:34 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id DD1C7580B75;
- Thu, 19 Aug 2021 05:51:33 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 19 Aug 2021 05:51:33 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1426E5D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 09:51:36 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8A473580B71;
+ Thu, 19 Aug 2021 05:51:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 19 Aug 2021 05:51:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=0TrV8pyr34Uwz
- pgYoRLHZ7xkUTtfXFleEvzHDnnJ4vs=; b=zruJfObhEAleSvBmnXkQfq7z3aJgq
- 0XLKcQc6UKMNBd7YIAs46v6lF3T+5+0KgoiN/QCeUC9vnR2PxUs3lnFt48quq/m2
- 4a8CoQtbIRI1RkqDKCR6nBsPeKvnRA1jOTzAaVon8YJYZ3BCf+Eur20wX980zMLG
- /hPBuq63KdQdQwMyaGBg8dzcyc6ITPnfScAJUU6VZGgZ/Zr6kIALCHDVwcQdSdjT
- /bCI4ER1b0Kd1ZBfZPAifeKE86YCd57oqKvnh2t+PAFPFLW35rNZfX5OSceNXL6J
- N6MYjQLzZMM1XcXnjEg7nKd9BaLkdjytAOuK50vYD5lm+P3ytPmF1+isQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=77NxfyfOo9DLw
+ z8TAC3B5G9MPinKPBqJ4QlxHLjZkjg=; b=b3nbqJobiGihWiMYPtXm0rZZ0NO+w
+ p+itYxe4pavgcRKlr+WPfl/IiV4BcR4UwCaSI2MBAns7Ut0XfLA3S+GknInc1ZBV
+ vPpUAnz0oj74jRGkyuRm8f9BnFfIqPrFV1lRl0P0u0zhqPBup+c9NNlK93f3gcdo
+ c8fs8fHNLU3rLXTasE8bFwqxIaVmniH/DdwjH6Z1Ym+SLTV6etF+CM4/LTt6SDpB
+ sl/Qnfi8Ok+upksp3RA8HFUCZ48FAGiG39FwLugVESMbOtQNx5867mXJeNSJQA2C
+ UlQuDMqv8EiPlioBVAeDoqpdgdMTWiFiXtVz+FcCL4Q7NjmM9lkA3mjlA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=0TrV8pyr34UwzpgYoRLHZ7xkUTtfXFleEvzHDnnJ4vs=; b=KamXiRsJ
- CMWbjFL2ZvXFvYvd801VanUpsSbLe7ze/VwTd84trJX/gRUoBGfraGoosOzhNyOM
- wgQ7lZhdMv9XFzbX7yeTJhTFSZC5sgGzpuKBolf2ZwXvYnkN85bEDPQ7UlsrO/4A
- eAk5RQEGB8gsCAVAHuqQJQKuCmmTpK4Wy+nm+SpA3DwAEoHlEqBWdn1a4I3eLdeG
- feCaft0f6eCsHhgM8ohBERcJt+9nMosp/qUMq3ehoc++aTFuzE6c/kY1h0kEK1fU
- E0IE/DNwUxxhKaTE+MNu58zQ68wgxWOhBM9nMTtcCFoyI+mkFIo+EgDiIKEBg3LD
- XBlppWrO4PnJzQ==
-X-ME-Sender: <xms:pSkeYXroRuE7DSFhyaBKwTIqERWX4n2Khv5voo0DzNyp8VHUyin6SA>
- <xme:pSkeYRq0fAQEb_FGMLxPaw6EtuZezDt5uB0qt2-mfGCeIMkuljMTtYygSp_0nwy9R
- unzg1ID0v6EFUwidck>
-X-ME-Received: <xmr:pSkeYUNjQH46oM-0DTSqHbF8m9rVoGWEs9quBI9AX9U28ZsybOR8iuY5Hqw226REQXAy-D4cwIy4omk86zMKiZ_zZyMb4AflgpO2>
+ fm3; bh=77NxfyfOo9DLwz8TAC3B5G9MPinKPBqJ4QlxHLjZkjg=; b=c2Ib8edU
+ TYX1j0ZY3RN4StyAE462NRpDVIUC5o8aaNZeLfQIH9/TCeLEdZ9iUB2T9hwmvsBt
+ 0yP3kn5BwjAsqt7fXeiJIHUbsMOD10Uzr7BGZ51uSX3G1ZYiZ3M//OV5yhof06XT
+ kib6pfC+e5H706rw+r3va15fA05Lw6x4iMsOiMVDBRCNiolayqUdAP3e9K33EJ6e
+ 4i6h/4AkBTwPvJoHXa1cF9NR9JrZJqI0mOwzFZvXJWAr9/ufouv5wJZvlLe7NlvP
+ xdnKlwW2KKml/XWxwmsns9do/iZzZQVi8mEtfR5PWcYgSDKFiwofxjKBuQT65xvx
+ GWMhn4aB5YShYg==
+X-ME-Sender: <xms:pykeYY2gtwp1SvN7y3yU1lncKwLCjA1Lyck904Zigdb9no1tO6QiRQ>
+ <xme:pykeYTEmYBq8CqhzM1XWC2VQIGrJhi2kp1ginWsR-9N9pLzYVXZVLj1MFKbwMmc3D
+ i79RX1svudQjiwhx5I>
+X-ME-Received: <xmr:pykeYQ6hzEeDqTzPrSefCkGzvNCA9KN65RecT51ALANfbL6MIfEW6cThXk3NT6bVEDCPsdnpxVAoD9rMAv-0Qnw_KUGEDpHJhWHK>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleejgddulecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:pSkeYa7hP3vWj5haJlKwxwZX9pbkE0hpgJjbdVDgjYprMtip5KqH5Q>
- <xmx:pSkeYW4voQtwqHntSMLBdi1R72oqwWfREH0KzYdV3fPDPA5X7veJcw>
- <xmx:pSkeYSiijGLhZOigKYktilUxhd3_h3S3ZtKeWfE_epujbRkmO1Ja8w>
- <xmx:pSkeYVT0scRYsD4ctd05bLZyj1Gw4TnIDZzGk106cSxqrvh8MwQkqg>
+X-ME-Proxy: <xmx:pykeYR2TnkzcGV4_fJRPqpelnLXYvqEMNF14iLWfcMYpi0oXUbHjeA>
+ <xmx:pykeYbF1sBg7Ub72bBPwUCCu4YyN-mKR3ONqxzOqQW3nCVfHsaa_PQ>
+ <xmx:pykeYa--8YpQYqlJe0mEpreAOnPFBqRvwUcnhR3bzo82lKmwWSKPyw>
+ <xmx:pykeYYc-GaIi7qTemy83WQUAmqg7tR-YIxdTi6kHzbMdP7eoauxkdw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 05:51:32 -0400 (EDT)
+ 19 Aug 2021 05:51:35 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
@@ -67,9 +67,10 @@ Cc: Maxime Ripard <mripard@kernel.org>, Emma Anholt <emma@anholt.net>,
  Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
  Dom Cobley <dom@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org
-Subject: [PATCH v7 03/10] drm/vc4: Make vc4_crtc_get_encoder public
-Date: Thu, 19 Aug 2021 11:51:12 +0200
-Message-Id: <20210819095119.689945-4-maxime@cerno.tech>
+Subject: [PATCH v7 04/10] drm/vc4: crtc: Add encoder to vc4_crtc_config_pv
+ prototype
+Date: Thu, 19 Aug 2021 11:51:13 +0200
+Message-Id: <20210819095119.689945-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210819095119.689945-1-maxime@cerno.tech>
 References: <20210819095119.689945-1-maxime@cerno.tech>
@@ -90,50 +91,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need that function in vc4_kms to compute the core clock rate
-requirements.
+vc4_crtc_config_pv() retrieves the encoder again, even though its only
+caller, vc4_crtc_atomic_enable(), already did.
+
+Pass the encoder pointer as an argument instead of going through all the
+connectors to retrieve it again.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 8 ++++----
- drivers/gpu/drm/vc4/vc4_drv.h  | 5 +++++
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 18f5009ce90e..902862a67341 100644
+index 902862a67341..93d2413d0842 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -279,10 +279,10 @@ static u32 vc4_crtc_get_fifo_full_level_bits(struct vc4_crtc *vc4_crtc,
-  * allows drivers to push pixels to more than one encoder from the
-  * same CRTC.
-  */
--static struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
--						struct drm_atomic_state *state,
--						struct drm_connector_state *(*get_state)(struct drm_atomic_state *state,
--											 struct drm_connector *connector))
-+struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
-+					 struct drm_atomic_state *state,
-+					 struct drm_connector_state *(*get_state)(struct drm_atomic_state *state,
-+										  struct drm_connector *connector))
- {
- 	struct drm_connector *connector;
- 	struct drm_connector_list_iter conn_iter;
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index ef73e0aaf726..0865f05822e0 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -517,6 +517,11 @@ vc4_crtc_to_vc4_pv_data(const struct vc4_crtc *crtc)
- 	return container_of(data, struct vc4_pv_data, base);
+@@ -313,12 +313,11 @@ static void vc4_crtc_pixelvalve_reset(struct drm_crtc *crtc)
+ 	CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_FIFO_CLR);
  }
  
-+struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
-+					 struct drm_atomic_state *state,
-+					 struct drm_connector_state *(*get_state)(struct drm_atomic_state *state,
-+										  struct drm_connector *connector));
-+
- struct vc4_crtc_state {
- 	struct drm_crtc_state base;
- 	/* Dlist area for this CRTC configuration. */
+-static void vc4_crtc_config_pv(struct drm_crtc *crtc, struct drm_atomic_state *state)
++static void vc4_crtc_config_pv(struct drm_crtc *crtc, struct drm_encoder *encoder,
++			       struct drm_atomic_state *state)
+ {
+ 	struct drm_device *dev = crtc->dev;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+-	struct drm_encoder *encoder = vc4_get_crtc_encoder(crtc, state,
+-							   drm_atomic_get_new_connector_state);
+ 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	const struct vc4_pv_data *pv_data = vc4_crtc_to_vc4_pv_data(vc4_crtc);
+@@ -580,7 +579,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	if (vc4_encoder->pre_crtc_configure)
+ 		vc4_encoder->pre_crtc_configure(encoder, state);
+ 
+-	vc4_crtc_config_pv(crtc, state);
++	vc4_crtc_config_pv(crtc, encoder, state);
+ 
+ 	CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_EN);
+ 
 -- 
 2.31.1
 
