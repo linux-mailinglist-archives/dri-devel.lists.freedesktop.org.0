@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6A43F34CA
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 21:47:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D213B3F34D6
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 21:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76F316EB12;
-	Fri, 20 Aug 2021 19:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D08B86EB0F;
+	Fri, 20 Aug 2021 19:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95CD86EB12
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 19:47:25 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id m193so20725275ybf.9
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 12:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UPazTA8XfYDofR3TTbgJCmTrgHuhd4C1O3xYxHBaRgA=;
- b=sovvk+jZAwI03HPoKkw1IqgblckMcsumwaChDH6tokVz1UIRHfZYwuktnjWOGwZs0l
- BRoD6LlHv12QAfy5WGXJG+Q3HGSlCFyLDCw9UMzcgVl6kuk3GvCigvaf/Yb9bFg2rfDW
- nIyP097VMhSURmUSNDTs3eE1AF0SrmhM/+8QxpH8jO1pWMYpGqnTL2L4xb6n6wORtedc
- 3v3x/u+AieeEBmmlwftMrnFGYtcjjxNqIS8OVKqdup7RObbhXx5PTkCSK9stzIegJBpx
- chEVB7O5+l7YlAyH53LzDTg0dkw/BhKlW7NO6R374F1dtkO6pCUqvDbKTDfKSDBjCodp
- mM6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UPazTA8XfYDofR3TTbgJCmTrgHuhd4C1O3xYxHBaRgA=;
- b=E+Qitq+121s6GmScAc2a8NJE3wuGltmBJysZcl19dab+WNCofxUv5uqOSB55tcNNir
- 3r1/ixh/6rUDOx+7ryBFzknubiw2h4AKW8S7DXyVYZc8shgleAzihuXUjvuXQ3qYzjed
- z7Oww6LeiNV/u43L/kBync1CzA3luq/HTXa1JBUzZFuteLv7fsD/IHLO9rGVP6OS/zT+
- lC9/tKaOrBEy07DbF5sucSeSYiKXqb7yMuTFh6OYZE9TlN7Q+fH5v01VwU+1bBoAShld
- SR3NlEBI+ey5C35PVBawXBhqptVw7je7/oz1++azERb2HKWQI6eoBoyRDdPZUF/k8/wl
- xYuQ==
-X-Gm-Message-State: AOAM533sRJSaqklw1e86A5BFLOvCHE0fmnLTdh6AWIp/iIeR8UJZyyyK
- nflXBSNBaFe6gsM6qQl4afMrDsjA344J/aNfw6bWrg==
-X-Google-Smtp-Source: ABdhPJz8efchEEtUD6Dnh303QK8PsVpJvln5XS5F8I1XZ8ZcJOuh55zPL5i3oVgC06kbp7IKIEmLQZYa5ZRPA/1qLxU=
-X-Received: by 2002:a25:ef04:: with SMTP id g4mr25763462ybd.287.1629488844597; 
- Fri, 20 Aug 2021 12:47:24 -0700 (PDT)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79BF46EB0F;
+ Fri, 20 Aug 2021 19:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=VbTON6RvZeZhGJt6ehyn/UMw7061NqQ9ISQ7HVHxgAQ=; b=Nz+M9aqAdzrwVlpMtHBAoKM3sQ
+ /MC1a1UMn1TH8I0i3RIECs05+soT9W1PjPzTbJ9rJrBlQZiWwYwPq5gPiNraa8QlgzaxsxKTtNK51
+ xfHrhec5YI34f1OJr5TdE25HisAWUsCmZJlfg36RHrmqUjwzulPaeZmFyCQjOLZek95gCw4CfmWlT
+ +NwsZjpJZ7dW4R+GpB9sCknUYdpVqI5Cy28SWGT6seS6n8qKOZLjSm9RoGhsy/82Rwg4KCVU8B1K7
+ vj3/f3pKGq5u6+BekrrvIUuufXlQ8QjCnK+AZbqc6s1HEqxrDWtOgT5+qZjbt4NuQI6nmdeG+FTns
+ mYHecTpA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+ (Red Hat Linux)) id 1mHAd0-00C0kX-OY; Fri, 20 Aug 2021 19:56:34 +0000
+Date: Fri, 20 Aug 2021 12:56:34 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Wang, Zhi A" <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@intel.com>
+Subject: Re: refactor the i915 GVT support
+Message-ID: <YSAI8pKAvvW/8S2O@bombadil.infradead.org>
+References: <20210728175925.GU1721383@nvidia.com>
+ <20210729072022.GB31896@lst.de>
+ <20210803094315.GF13928@zhen-hp.sh.intel.com>
+ <20210803143058.GA1721383@nvidia.com>
+ <20210804052606.GG13928@zhen-hp.sh.intel.com>
+ <20210816173458.GA9183@lst.de>
+ <20210817010851.GW13928@zhen-hp.sh.intel.com>
+ <20210817052203.GX13928@zhen-hp.sh.intel.com>
+ <20210819082929.GB13928@zhen-hp.sh.intel.com>
+ <20210820141724.GA29034@lst.de>
 MIME-Version: 1.0
-References: <20210819061639.21051-1-matthew.brost@intel.com>
- <20210819061639.21051-8-matthew.brost@intel.com>
-In-Reply-To: <20210819061639.21051-8-matthew.brost@intel.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 20 Aug 2021 14:47:13 -0500
-Message-ID: <CAOFGe97YVWwj8HrMXdJvv1rRZmss75W35pnAGXKwKQfLYHMCoQ@mail.gmail.com>
-Subject: Re: [PATCH 07/27] Revert "drm/i915/gt: Propagate change in error
- status to children on unhold"
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210820141724.GA29034@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,55 +70,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 19, 2021 at 1:22 AM Matthew Brost <matthew.brost@intel.com> wrote:
->
-> Propagating errors to dependent fences is wrong, don't do it. A selftest
-> in the following exposed the propagating of an error to a dependent
-> fence after an engine reset.
+On Fri, Aug 20, 2021 at 04:17:24PM +0200, Christoph Hellwig wrote:
+> On Thu, Aug 19, 2021 at 04:29:29PM +0800, Zhenyu Wang wrote:
+> > I'm working on below patch to resolve this. But I met a weird issue in
+> > case when building i915 as module and also kvmgt module, it caused
+> > busy wait on request_module("kvmgt") when boot, it doesn't happen if
+> > building i915 into kernel. I'm not sure what could be the reason?
+> 
+> Luis, do you know if there is a problem with a request_module from
+> a driver ->probe routine that is probably called by a module_init
+> function itself?
 
-I feel like we could still have a bit of a better message.  Maybe
-something like this:
+Generally no, but you can easily foot yourself in the feet by creating
+cross dependencies and not dealing with them properly. I'd make sure
+to keep module initialization as simple as possible, and run whatever
+takes more time asynchronously, then use a state machine to allow
+you to verify where you are in the initialization phase or query it
+or wait for a completion with a timeout.
 
-Propagating errors to dependent fences is broken and can lead to
-errors from one client ending up in another.  In 3761baae908a (Revert
-"drm/i915: Propagate errors on awaiting already signaled fences"), we
-attempted to get rid of fence error propagation but missed the case
-added in 8e9f84cf5cac ("drm/i915/gt: Propagate change in error status
-to children on unhold").  Revert that one too.  This error was found
-by an up-and-coming selftest which <salient information here>.
+It seems the code in question is getting some spring cleaning, and its
+unclear where the code is I can inspect. If there's a tree somewhere I
+can take a peak I'd be happy to review possible oddities that may stick
+out.
 
-Otherwise, looks good to me.
+My goto model for these sorts of problems is to abstract the issue
+*outside* of the driver in question and implement new selftests to
+try to reproduce. This serves two purposes, 1) helps with testing
+2) may allow you to see the problem more clearly.
 
---Jason
-
->
-> This reverts commit 8e9f84cf5cac248a1c6a5daa4942879c8b765058.
->
-> v2:
->  (Daniel Vetter)
->   - Use revert
->
-> References: 3761baae908a (Revert "drm/i915: Propagate errors on awaiting already signaled fences")
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 ----
->  1 file changed, 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index de5f9c86b9a4..cafb0608ffb4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -2140,10 +2140,6 @@ static void __execlists_unhold(struct i915_request *rq)
->                         if (p->flags & I915_DEPENDENCY_WEAK)
->                                 continue;
->
-> -                       /* Propagate any change in error status */
-> -                       if (rq->fence.error)
-> -                               i915_request_set_error_once(w, rq->fence.error);
-> -
->                         if (w->engine != rq->engine)
->                                 continue;
->
-> --
-> 2.32.0
->
+  Luis
