@@ -1,48 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036B73F2768
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 09:16:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBBE3F2776
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 09:17:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34F2D6EA12;
-	Fri, 20 Aug 2021 07:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6236EA22;
+	Fri, 20 Aug 2021 07:17:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta016.useast.a.cloudfilter.net
- (omta016.useast.a.cloudfilter.net [34.195.253.207])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D5E6E90E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 22:38:32 +0000 (UTC)
-Received: from cxr.smtp.a.cloudfilter.net ([10.0.16.208]) by cmsmtp with ESMTP
- id GitXmBkkIMRfUGqgBm8hw4; Thu, 19 Aug 2021 22:38:31 +0000
-Received: from ws ([24.255.45.226]) by cmsmtp with ESMTPSA
- id Gqg7mujOYGuc7Gqg9mu6bO; Thu, 19 Aug 2021 22:38:31 +0000
-Authentication-Results: cox.net; auth=pass (LOGIN) smtp.auth=j.duncan@cox.net
-X-Authority-Analysis: v=2.4 cv=fKP8YbWe c=1 sm=1 tr=0 ts=611edd67
- a=rsvNbDP3XdDalhZof1p64w==:117 a=rsvNbDP3XdDalhZof1p64w==:17
- a=kj9zAlcOel0A:10 a=1fMUTEkdAAAA:8 a=pGLkceISAAAA:8 a=kviXuzpPAAAA:8
- a=GrN4TtxLF5UlEiDcx2YA:9 a=CjuIK1q_8ugA:10 a=kXTuJJ3fruM0IRz_0_AM:22
- a=qrIFiuKZe2vaD64auk6j:22
-Date: Thu, 19 Aug 2021 15:38:26 -0700
-From: Duncan <j.duncan@cox.net>
-To: lnx7586@gregdf.com
-Cc: mikpelinux@gmail.com, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, jason@jlekstrand.net,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/ttm: allow debugfs_create_file() to fail in
- ttm_global_init()
-Message-ID: <20210819153826.460b9c11@ws>
-In-Reply-To: <20210816143046.3320-1-lnx7586@gregdf.com>
-References: <CAM43=SNDAcS952MZpsiD2Z-WU9Bd0EPv=7Z86i7FGdvDtsSXdQ@mail.gmail.com>
- <20210816143046.3320-1-lnx7586@gregdf.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-pc-linux-gnu)
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
+ [IPv6:2607:f8b0:4864:20::f34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD336E9EE
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 02:10:57 +0000 (UTC)
+Received: by mail-qv1-xf34.google.com with SMTP id z2so188800qvl.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 19:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6GBnlD7JIyrI3ypjxWJiH4K8EVYyZag/d4qLh3mFEpQ=;
+ b=VZ11PEonbAYy7cyzGyN9eE/qqJI9vWpZp48IKfN3n7cZQ1XbNEjNyOABuFangAlTak
+ 3AMprImiO3aGZJQCgYikAvx5v0y+xbb5nTMyk5p4YEXjXg85Ph3rS4m9+FvMSn6BX471
+ L7ldCkk/8vZG++GqG+PW+bh/+t+LaiRUobzBMES8V1v4yU3BGiTAlos8xPMqcIHeXqMM
+ gjjWwMNdjQB+ZnrpdD4gEXa/X1sF+AgfuQXUM2+fbrFC/bjvtFaR1uqvPOKKVITnodXS
+ d4Ms9bX0wFZBgSfMZA4w1K9LAdjGQeL4qbsKndTlShjAXafICXYXdvMMWSAI6Zhx8Lr8
+ P58Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6GBnlD7JIyrI3ypjxWJiH4K8EVYyZag/d4qLh3mFEpQ=;
+ b=Hqy7xs5wqhkSvIRCBM2EgJL39RYM/yqlWn4H67Qz8BNrPVC03fmzKk5ONxYubb766L
+ TwMr2o4M/JEIkNabI3F+i9HlGly7iTLo6r/oQXkdtFOV79LwHgDJ3AAlvkASxmzVvDL8
+ Y/7j+WUf3N5x4C4pXlZpSyeTaDUvxuYcjV6s92TyuM/HlZEEWMfjwHoWFe3monZ3v2nZ
+ WbEAmdK74XIffUXFAR5N3bWqfwQaN6cJ1Q2HfRqz9K9T/7ojyG5oJEqRIsbC4DBja+rf
+ FtwZvNl+2tdpQ1Xu/nyy6RygOPH3NqnKpYjWvFzlqzCfZp8f8fpCgikkHvKvaDSsNaUr
+ +xYQ==
+X-Gm-Message-State: AOAM530I1Q0d1uiufvZa9X2jfudWul2Pd223MZMwYdgeJ+q6zw2EX6A9
+ BVteqFybEswB+OQMoEXeKPA=
+X-Google-Smtp-Source: ABdhPJyuxnKhj81Zor3HZ/w5G7/iqhNkCh/TAMNPAMf/ziEHAWuUD/V8OpjZnPsGrpXo5Qfc9s7P7w==
+X-Received: by 2002:a05:6214:29ee:: with SMTP id
+ jv14mr17653090qvb.5.1629425456962; 
+ Thu, 19 Aug 2021 19:10:56 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id h4sm2398873qkp.86.2021.08.19.19.10.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Aug 2021 19:10:56 -0700 (PDT)
+From: jing yangyang <cgel.zte@gmail.com>
+X-Google-Original-From: jing yangyang <jing.yangyang@zte.com.cn>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Cc: Edmund Dea <edmund.j.dea@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jing yangyang <jing.yangyang@zte.com.cn>,
+ Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] : add put_device() after of_find_device_by_node()
+Date: Thu, 19 Aug 2021 19:10:29 -0700
+Message-Id: <20210820021029.10770-1-jing.yangyang@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCtUxm8u7SxW4XPKllZefbNT+mD/lU+MRYFCROUjQvA3TCyuPsw6R/VZUY5w//Uw6HGgSaUHc9IDPNtXKgkkXGGwWIb7vdw5oH43KLhM4WbXX2codFuj
- c/M5tnvlEMFRxVD+/sds4NrKxQQkvTHPQF0Yy4upOzT1DJSS2zhecwr7NldSBjOpbT2pfgVZP79E4FGebFB0/djb5bd+tTWHXlJtkw8hbJv3k8YKjyMfvFBF
- pehxLvpQ9BXppshs+0Ca3u4s/8gmuvmiYFyz4wl4BsqgHiV/MH+87UBmp+hvjHCtPHiaL8iy2PiU3IArQOBhAw4Lb5qwlwRmFIf9uLxCkB5R/p0+in67zz1p
- AnvdkiaH
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 20 Aug 2021 07:16:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,38 +75,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 16 Aug 2021 16:30:46 +0200
-lnx7586@gregdf.com wrote:
+This was found by coccicheck:
+./drivers/gpu/drm/kmb/kmb_drv.c:503:2-8:
+ERROR  missing put_device; call of_find_device_by_node on line 490,
+but without a corresponding object release within this function.
 
-> From: Greg Depoire--Ferrer <lnx7586@gregdf.com>
-> 
-> Commit 69de4421bb4c ("drm/ttm: Initialize debugfs from
-> ttm_global_init()") unintentionally made ttm_global_init() return
-> early with an error when debugfs_create_file() fails. When
-> CONFIG_DEBUG_FS is disabled, debugfs_create_file() returns a ENODEV
-> error so the TTM device would fail to initialize.
-> 
-> Instead of returning early with the error, print it and continue.
-> ENODEV can be ignored because it just means that CONFIG_DEBUG_FS is
-> disabled.
-> 
-> Fixes: 69de4421bb4c ("drm/ttm: Initialize debugfs from ttm_global_init()")
-> Reported-by: Mikael Pettersson <mikpelinux@gmail.com>
-> Reported-by: Duncan <j.duncan@cox.net>
-> Signed-off-by: Greg Depoire--Ferrer <lnx7586@gregdf.com>
-> ---
-> Hi, I had this bug as well with the nouveau driver after updating.
-> This patch fixes it for me.
-> 
->  drivers/gpu/drm/ttm/ttm_device.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
+---
+ drivers/gpu/drm/kmb/kmb_drv.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-This fixes the problem here, too.  Running it now.
-
-Tested-by: Duncan <j.duncan@cox.net>
-
+diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
+index f54392e..58495a9 100644
+--- a/drivers/gpu/drm/kmb/kmb_drv.c
++++ b/drivers/gpu/drm/kmb/kmb_drv.c
+@@ -500,8 +500,10 @@ static int kmb_probe(struct platform_device *pdev)
+ 	ret = kmb_dsi_host_bridge_init(get_device(&dsi_pdev->dev));
+ 
+ 	if (ret == -EPROBE_DEFER) {
++		put_device(&dsi_pdev->dev);
+ 		return -EPROBE_DEFER;
+ 	} else if (ret) {
++		put_device(&dsi_pdev->dev);
+ 		DRM_ERROR("probe failed to initialize DSI host bridge\n");
+ 		return ret;
+ 	}
+@@ -509,9 +511,10 @@ static int kmb_probe(struct platform_device *pdev)
+ 	/* Create DRM device */
+ 	kmb = devm_drm_dev_alloc(dev, &kmb_driver,
+ 				 struct kmb_drm_private, drm);
+-	if (IS_ERR(kmb))
++	if (IS_ERR(kmb)) {
++		put_device(&dsi_pdev->dev);
+ 		return PTR_ERR(kmb);
+-
++	}
+ 	dev_set_drvdata(dev, &kmb->drm);
+ 
+ 	/* Initialize MIPI DSI */
 -- 
-Duncan - HTML messages treated as spam
-"They that can give up essential liberty to obtain a little
-temporary safety, deserve neither liberty nor safety."
-Benjamin Franklin
+1.8.3.1
+
+
