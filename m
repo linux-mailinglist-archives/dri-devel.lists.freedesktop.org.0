@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8542F3F2BB3
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 14:05:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7004C3F2BCA
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 14:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 003C36EA7B;
-	Fri, 20 Aug 2021 12:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CB86EA73;
+	Fri, 20 Aug 2021 12:14:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 260926EA79
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 12:05:35 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id q10so13948736wro.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 05:05:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IKkeWH2aVo8+bNDFjaaLnyl7lHM7nrKx22UgPmWsr0k=;
- b=O7YBUWvg8voeF70NTJSHJZqxmozoka05hfeVtmsxvE4ozKoQF/HKIMYWWsktyLa/ip
- Ei0yrD4Wys0up851/psFUxB6aEeTTviB4aaQcyyYohzD1eS/DE2uEAmK+5NX3oE5dtlm
- 3/RyJNT0nWqcEwgNrIbcjMHVpty7bzt2PTbvbbJFPnElp0NdyulNQZ1JckzAEvO60DND
- OtOkYdj0sNKK5ql+m3vdqTeDGIIftdAlaI3g+cJfIhluR49a0YgYbhOmZt9RI/IQS9Ae
- RmnR3lBW5UaiSlk0zvT4b7h+379HFYCffNc2qDjjzY5OLz/PZl52duVTHyMMKTh7LwHZ
- OOhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IKkeWH2aVo8+bNDFjaaLnyl7lHM7nrKx22UgPmWsr0k=;
- b=rRMIUdzYQsrJe2ZLe1h8H1j9oeihKyoF9NoR0G0TkHEp9gT9KzWOgE6hpIQO71xuel
- js6FF6YGcixZ92OJUyOS+nHsIaEdAVO3ZOFesN24Qwg9ekiJMElJd8AYyzOCIZuB0o28
- OKMrZtbwsuC228dXCNFAOSpX7gao1X2D5h0nAj4r0z7U+ZCnpVdrToEEf3oWkExmB18q
- iUEyDPK70V3rY+vkNSq9A7Y29FfyjUYN2jbMXVDZIWLG2QFSFhVFXKI8Ojj0AETvPh63
- sQoDBXoXqu4Da9UFrpcuYMxcZdS08iPfMYiH6lTqOpQ3OiZ+rTntacae37muB5earWG6
- jatA==
-X-Gm-Message-State: AOAM5305dWAj5yjXPurIc/91aGKMVjcMKxLr4qXmm+BuYZUccVsY4kw5
- NzfF/BCJM0IdiYfvFvcRIJAsqQS7/5uESRuU
-X-Google-Smtp-Source: ABdhPJx/fMvzM5RO5TfZWgRQ76b6ZVkGnChLukl0RSvB7/TpB8j8kV5J+WoFsJTkmquswBH2Ix4P8w==
-X-Received: by 2002:a5d:4d8e:: with SMTP id b14mr9599914wru.422.1629461133712; 
- Fri, 20 Aug 2021 05:05:33 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- r12sm6139818wrv.96.2021.08.20.05.05.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Aug 2021 05:05:33 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: akpm@linux-foundation.org
-Cc: dri-devel@lists.freedesktop.org,
-	daniel@ffwll.ch
-Subject: [PATCH 2/2] drm/ttm: optimize the pool shrinker a bit v2
-Date: Fri, 20 Aug 2021 14:05:28 +0200
-Message-Id: <20210820120528.81114-3-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210820120528.81114-1-christian.koenig@amd.com>
-References: <20210820120528.81114-1-christian.koenig@amd.com>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C3B6EA73
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 12:13:59 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4GrgXg1cMHz9sSs;
+ Fri, 20 Aug 2021 22:13:54 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+ s=201909; t=1629461637;
+ bh=GaPKIeDl8hhkmPkLrvrJ9stzgKavrRQRLEdG6v/pbF8=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=Cg5iz+FrUHTpi7DCGlIH7oXwkf4XcqnUHNlNAsx67J8ipGyBRlXQyjIQBkg1fYcl8
+ GV+t0VyhBXDRR97pVPUxVgp868U+GNvxTlPP6U2zCnk47Np7XQp1FjrHxff4fmXpif
+ 8KAqXR527PErlM6JgshcTwv7RJvULaJSG2WBf/CdesX8nJ3mGPOyc/62wOlIhiuiK4
+ pHFjOmTd7s4UU/4Kk0VVQGMkOsTQ4C/5DX7na2EhBWLRpjDz6EOnwY09XINL4JSd2V
+ 9F5kX7hGtMD+XnYF6MYL6RHkdxZzx1LCjbCfB1+2VyGkTnXO9jkpYniGuZF7TGKKHz
+ ymJThU067ZGkA==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>, Kees Cook
+ <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras
+ <paulus@samba.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ linuxppc-dev@lists.ozlabs.org, kernel test robot <lkp@intel.com>, "Gustavo
+ A. R. Silva" <gustavoars@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 57/63] powerpc/signal32: Use struct_group() to zero
+ spe regs
+In-Reply-To: <0f6e508e-62b6-3840-5ff4-eb5a77635bd1@csgroup.eu>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-58-keescook@chromium.org>
+ <877dggeesw.fsf@mpe.ellerman.id.au>
+ <0f6e508e-62b6-3840-5ff4-eb5a77635bd1@csgroup.eu>
+Date: Fri, 20 Aug 2021 22:13:53 +1000
+Message-ID: <874kbke2ke.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,146 +68,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch back to using a spinlock again by moving the IOMMU unmap outside
-of the locked region.
+Christophe Leroy <christophe.leroy@csgroup.eu> writes:
+> Le 20/08/2021 =C3=A0 09:49, Michael Ellerman a =C3=A9crit=C2=A0:
+>> Kees Cook <keescook@chromium.org> writes:
+>>> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+>>> field bounds checking for memset(), avoid intentionally writing across
+>>> neighboring fields.
+>>>
+>>> Add a struct_group() for the spe registers so that memset() can correct=
+ly reason
+>>> about the size:
+>>>
+>>>     In function 'fortify_memset_chk',
+>>>         inlined from 'restore_user_regs.part.0' at arch/powerpc/kernel/=
+signal_32.c:539:3:
+>>>>> include/linux/fortify-string.h:195:4: error: call to '__write_overflo=
+w_field' declared with attribute warning: detected write beyond size of fie=
+ld (1st parameter); maybe use struct_group()? [-Werror=3Dattribute-warning]
+>>>       195 |    __write_overflow_field();
+>>>           |    ^~~~~~~~~~~~~~~~~~~~~~~~
+>>>
+>>> Cc: Michael Ellerman <mpe@ellerman.id.au>
+>>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>>> Cc: Paul Mackerras <paulus@samba.org>
+>>> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+>>> Cc: Sudeep Holla <sudeep.holla@arm.com>
+>>> Cc: linuxppc-dev@lists.ozlabs.org
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>>> ---
+>>>   arch/powerpc/include/asm/processor.h | 6 ++++--
+>>>   arch/powerpc/kernel/signal_32.c      | 6 +++---
+>>>   2 files changed, 7 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/arch/powerpc/include/asm/processor.h b/arch/powerpc/includ=
+e/asm/processor.h
+>>> index f348e564f7dd..05dc567cb9a8 100644
+>>> --- a/arch/powerpc/include/asm/processor.h
+>>> +++ b/arch/powerpc/include/asm/processor.h
+>>> @@ -191,8 +191,10 @@ struct thread_struct {
+>>>   	int		used_vsr;	/* set if process has used VSX */
+>>>   #endif /* CONFIG_VSX */
+>>>   #ifdef CONFIG_SPE
+>>> -	unsigned long	evr[32];	/* upper 32-bits of SPE regs */
+>>> -	u64		acc;		/* Accumulator */
+>>> +	struct_group(spe,
+>>> +		unsigned long	evr[32];	/* upper 32-bits of SPE regs */
+>>> +		u64		acc;		/* Accumulator */
+>>> +	);
+>>>   	unsigned long	spefscr;	/* SPE & eFP status */
+>>>   	unsigned long	spefscr_last;	/* SPEFSCR value on last prctl
+>>>   					   call or trap return */
+>>> diff --git a/arch/powerpc/kernel/signal_32.c b/arch/powerpc/kernel/sign=
+al_32.c
+>>> index 0608581967f0..77b86caf5c51 100644
+>>> --- a/arch/powerpc/kernel/signal_32.c
+>>> +++ b/arch/powerpc/kernel/signal_32.c
+>>> @@ -532,11 +532,11 @@ static long restore_user_regs(struct pt_regs *reg=
+s,
+>>>   	regs_set_return_msr(regs, regs->msr & ~MSR_SPE);
+>>>   	if (msr & MSR_SPE) {
+>>>   		/* restore spe registers from the stack */
+>>> -		unsafe_copy_from_user(current->thread.evr, &sr->mc_vregs,
+>>> -				      ELF_NEVRREG * sizeof(u32), failed);
+>>> +		unsafe_copy_from_user(&current->thread.spe, &sr->mc_vregs,
+>>> +				      sizeof(current->thread.spe), failed);
+>>=20
+>> This makes me nervous, because the ABI is that we copy ELF_NEVRREG *
+>> sizeof(u32) bytes, not whatever sizeof(current->thread.spe) happens to
+>> be.
+>>=20
+>> ie. if we use sizeof an inadvertent change to the fields in
+>> thread_struct could change how many bytes we copy out to userspace,
+>> which would be an ABI break.
+>>=20
+>> And that's not that hard to do, because it's not at all obvious that the
+>> size and layout of fields in thread_struct affects the user ABI.
+>>=20
+>> At the same time we don't want to copy the right number of bytes but
+>> the wrong content, so from that point of view using sizeof is good :)
+>>=20
+>> The way we handle it in ptrace is to have BUILD_BUG_ON()s to verify that
+>> things match up, so maybe we should do that here too.
+>>=20
+>> ie. add:
+>>=20
+>> 	BUILD_BUG_ON(sizeof(current->thread.spe) =3D=3D ELF_NEVRREG * sizeof(u3=
+2));
+>
+> You mean !=3D I guess ?
 
-This avoids contention especially while freeing pages.
+Gah. Yes I do :)
 
-v2: Add a comment explaining why we need sync_shrinkers().
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Acked-by: Huang Rui <ray.huang@amd.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/ttm/ttm_pool.c | 40 +++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index cb38b1a17b09..7d4f76d4141d 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -70,7 +70,7 @@ static struct ttm_pool_type global_uncached[MAX_ORDER];
- static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
- static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
- 
--static struct mutex shrinker_lock;
-+static spinlock_t shrinker_lock;
- static struct list_head shrinker_list;
- static struct shrinker mm_shrinker;
- 
-@@ -263,9 +263,9 @@ static void ttm_pool_type_init(struct ttm_pool_type *pt, struct ttm_pool *pool,
- 	spin_lock_init(&pt->lock);
- 	INIT_LIST_HEAD(&pt->pages);
- 
--	mutex_lock(&shrinker_lock);
-+	spin_lock(&shrinker_lock);
- 	list_add_tail(&pt->shrinker_list, &shrinker_list);
--	mutex_unlock(&shrinker_lock);
-+	spin_unlock(&shrinker_lock);
- }
- 
- /* Remove a pool_type from the global shrinker list and free all pages */
-@@ -273,9 +273,9 @@ static void ttm_pool_type_fini(struct ttm_pool_type *pt)
- {
- 	struct page *p;
- 
--	mutex_lock(&shrinker_lock);
-+	spin_lock(&shrinker_lock);
- 	list_del(&pt->shrinker_list);
--	mutex_unlock(&shrinker_lock);
-+	spin_unlock(&shrinker_lock);
- 
- 	while ((p = ttm_pool_type_take(pt)))
- 		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
-@@ -313,24 +313,23 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
- static unsigned int ttm_pool_shrink(void)
- {
- 	struct ttm_pool_type *pt;
--	unsigned int num_freed;
-+	unsigned int num_pages;
- 	struct page *p;
- 
--	mutex_lock(&shrinker_lock);
-+	spin_lock(&shrinker_lock);
- 	pt = list_first_entry(&shrinker_list, typeof(*pt), shrinker_list);
-+	list_move_tail(&pt->shrinker_list, &shrinker_list);
-+	spin_unlock(&shrinker_lock);
- 
- 	p = ttm_pool_type_take(pt);
- 	if (p) {
- 		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
--		num_freed = 1 << pt->order;
-+		num_pages = 1 << pt->order;
- 	} else {
--		num_freed = 0;
-+		num_pages = 0;
- 	}
- 
--	list_move_tail(&pt->shrinker_list, &shrinker_list);
--	mutex_unlock(&shrinker_lock);
--
--	return num_freed;
-+	return num_pages;
- }
- 
- /* Return the allocation order based for a page */
-@@ -530,6 +529,11 @@ void ttm_pool_fini(struct ttm_pool *pool)
- 			for (j = 0; j < MAX_ORDER; ++j)
- 				ttm_pool_type_fini(&pool->caching[i].orders[j]);
- 	}
-+
-+	/* We removed the pool types from the LRU, but we need to also make sure
-+	 * that no shrinker is concurrently freeing pages from the pool.
-+	 */
-+	sync_shrinkers();
- }
- 
- /* As long as pages are available make sure to release at least one */
-@@ -604,7 +608,7 @@ static int ttm_pool_debugfs_globals_show(struct seq_file *m, void *data)
- {
- 	ttm_pool_debugfs_header(m);
- 
--	mutex_lock(&shrinker_lock);
-+	spin_lock(&shrinker_lock);
- 	seq_puts(m, "wc\t:");
- 	ttm_pool_debugfs_orders(global_write_combined, m);
- 	seq_puts(m, "uc\t:");
-@@ -613,7 +617,7 @@ static int ttm_pool_debugfs_globals_show(struct seq_file *m, void *data)
- 	ttm_pool_debugfs_orders(global_dma32_write_combined, m);
- 	seq_puts(m, "uc 32\t:");
- 	ttm_pool_debugfs_orders(global_dma32_uncached, m);
--	mutex_unlock(&shrinker_lock);
-+	spin_unlock(&shrinker_lock);
- 
- 	ttm_pool_debugfs_footer(m);
- 
-@@ -640,7 +644,7 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
- 
- 	ttm_pool_debugfs_header(m);
- 
--	mutex_lock(&shrinker_lock);
-+	spin_lock(&shrinker_lock);
- 	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
- 		seq_puts(m, "DMA ");
- 		switch (i) {
-@@ -656,7 +660,7 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m)
- 		}
- 		ttm_pool_debugfs_orders(pool->caching[i].orders, m);
- 	}
--	mutex_unlock(&shrinker_lock);
-+	spin_unlock(&shrinker_lock);
- 
- 	ttm_pool_debugfs_footer(m);
- 	return 0;
-@@ -693,7 +697,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
- 	if (!page_pool_size)
- 		page_pool_size = num_pages;
- 
--	mutex_init(&shrinker_lock);
-+	spin_lock_init(&shrinker_lock);
- 	INIT_LIST_HEAD(&shrinker_list);
- 
- 	for (i = 0; i < MAX_ORDER; ++i) {
--- 
-2.25.1
-
+cheers
