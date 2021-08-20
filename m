@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60A33F36E0
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Aug 2021 00:51:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045A53F36E1
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Aug 2021 00:51:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 670A06EB36;
-	Fri, 20 Aug 2021 22:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 240736EB4E;
+	Fri, 20 Aug 2021 22:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 680276EB2B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5AB6EB2C;
  Fri, 20 Aug 2021 22:50:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="216580032"
-X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="216580032"
+X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="216580033"
+X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="216580033"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Aug 2021 15:50:01 -0700
-X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="513098560"
+X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="513098564"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Aug 2021 15:50:01 -0700
@@ -27,9 +27,9 @@ To: <intel-gfx@lists.freedesktop.org>,
 Cc: <daniel.vetter@ffwll.ch>,
 	<tony.ye@intel.com>,
 	<zhengguo.xu@intel.com>
-Subject: [PATCH 02/27] drm/i915/guc: Allow flexible number of context ids
-Date: Fri, 20 Aug 2021 15:44:21 -0700
-Message-Id: <20210820224446.30620-3-matthew.brost@intel.com>
+Subject: [PATCH 03/27] drm/i915/guc: Connect the number of guc_ids to debugfs
+Date: Fri, 20 Aug 2021 15:44:22 -0700
+Message-Id: <20210820224446.30620-4-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210820224446.30620-1-matthew.brost@intel.com>
 References: <20210820224446.30620-1-matthew.brost@intel.com>
@@ -50,98 +50,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Number of available GuC contexts ids might be limited.
-Stop referring in code to macro and use variable instead.
+For testing purposes it may make sense to reduce the number of guc_ids
+available to be allocated. Add debugfs support for setting the number of
+guc_ids.
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc.h            |  4 ++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 +++++++++------
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    | 31 +++++++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  3 +-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 112dd29a63fe..6fd2719d1b75 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -60,6 +60,10 @@ struct intel_guc {
- 	spinlock_t contexts_lock;
- 	/** @guc_ids: used to allocate new guc_ids */
- 	struct ida guc_ids;
-+	/** @num_guc_ids: number of guc_ids that can be used */
-+	u32 num_guc_ids;
-+	/** @max_guc_ids: max number of guc_ids that can be used */
-+	u32 max_guc_ids;
- 	/**
- 	 * @guc_id_list: list of intel_context with valid guc_ids but no refs
- 	 */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+index 887c8c8f35db..b88d343ee432 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+@@ -71,12 +71,43 @@ static bool intel_eval_slpc_support(void *data)
+ 	return intel_guc_slpc_is_used(guc);
+ }
+ 
++static int guc_num_id_get(void *data, u64 *val)
++{
++	struct intel_guc *guc = data;
++
++	if (!intel_guc_submission_is_used(guc))
++		return -ENODEV;
++
++	*val = guc->num_guc_ids;
++
++	return 0;
++}
++
++static int guc_num_id_set(void *data, u64 val)
++{
++	struct intel_guc *guc = data;
++
++	if (!intel_guc_submission_is_used(guc))
++		return -ENODEV;
++
++	if (val > guc->max_guc_ids)
++		val = guc->max_guc_ids;
++	else if (val < 256)
++		val = 256;
++
++	guc->num_guc_ids = val;
++
++	return 0;
++}
++DEFINE_SIMPLE_ATTRIBUTE(guc_num_id_fops, guc_num_id_get, guc_num_id_set, "%lld\n");
++
+ void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
+ {
+ 	static const struct debugfs_gt_file files[] = {
+ 		{ "guc_info", &guc_info_fops, NULL },
+ 		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
+ 		{ "guc_slpc_info", &guc_slpc_info_fops, &intel_eval_slpc_support},
++		{ "guc_num_id", &guc_num_id_fops, NULL },
+ 	};
+ 
+ 	if (!intel_guc_is_supported(guc))
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 46158d996bf6..8235e49bb347 100644
+index 8235e49bb347..68742b612692 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -344,7 +344,7 @@ static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
- {
- 	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
+@@ -2716,7 +2716,8 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
  
--	GEM_BUG_ON(index >= GUC_MAX_LRC_DESCRIPTORS);
-+	GEM_BUG_ON(index >= guc->max_guc_ids);
- 
- 	return &base[index];
- }
-@@ -353,7 +353,7 @@ static struct intel_context *__get_context(struct intel_guc *guc, u32 id)
- {
- 	struct intel_context *ce = xa_load(&guc->context_lookup, id);
- 
--	GEM_BUG_ON(id >= GUC_MAX_LRC_DESCRIPTORS);
-+	GEM_BUG_ON(id >= guc->max_guc_ids);
- 
- 	return ce;
- }
-@@ -363,8 +363,7 @@ static int guc_lrc_desc_pool_create(struct intel_guc *guc)
- 	u32 size;
- 	int ret;
- 
--	size = PAGE_ALIGN(sizeof(struct guc_lrc_desc) *
--			  GUC_MAX_LRC_DESCRIPTORS);
-+	size = PAGE_ALIGN(sizeof(struct guc_lrc_desc) * guc->max_guc_ids);
- 	ret = intel_guc_allocate_and_map_vma(guc, size, &guc->lrc_desc_pool,
- 					     (void **)&guc->lrc_desc_pool_vaddr);
- 	if (ret)
-@@ -1193,7 +1192,7 @@ static void guc_submit_request(struct i915_request *rq)
- static int new_guc_id(struct intel_guc *guc)
- {
- 	return ida_simple_get(&guc->guc_ids, 0,
--			      GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL |
-+			      guc->num_guc_ids, GFP_KERNEL |
- 			      __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
- }
- 
-@@ -2704,6 +2703,8 @@ static bool __guc_submission_selected(struct intel_guc *guc)
- 
- void intel_guc_submission_init_early(struct intel_guc *guc)
- {
-+	guc->max_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
-+	guc->num_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
- 	guc->submission_supported = __guc_submission_supported(guc);
- 	guc->submission_selected = __guc_submission_selected(guc);
- }
-@@ -2713,7 +2714,7 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
- {
- 	struct intel_context *ce;
- 
--	if (unlikely(desc_idx >= GUC_MAX_LRC_DESCRIPTORS)) {
-+	if (unlikely(desc_idx >= guc->max_guc_ids)) {
+ 	if (unlikely(desc_idx >= guc->max_guc_ids)) {
  		drm_err(&guc_to_gt(guc)->i915->drm,
- 			"Invalid desc_idx %u", desc_idx);
+-			"Invalid desc_idx %u", desc_idx);
++			"Invalid desc_idx %u, max %u",
++			desc_idx, guc->max_guc_ids);
  		return NULL;
-@@ -3063,6 +3064,8 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
- 
- 	drm_printf(p, "GuC Number Outstanding Submission G2H: %u\n",
- 		   atomic_read(&guc->outstanding_submission_g2h));
-+	drm_printf(p, "GuC Number GuC IDs: %u\n", guc->num_guc_ids);
-+	drm_printf(p, "GuC Max GuC IDs: %u\n", guc->max_guc_ids);
- 	drm_printf(p, "GuC tasklet count: %u\n\n",
- 		   atomic_read(&sched_engine->tasklet.count));
+ 	}
  
 -- 
 2.32.0
