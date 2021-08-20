@@ -1,71 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEC73F26BC
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 08:22:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE1D3F26D2
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 08:33:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7406E9FF;
-	Fri, 20 Aug 2021 06:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 058126EA00;
+	Fri, 20 Aug 2021 06:33:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6EFE6E9FF
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 06:22:47 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id w8so8163405pgf.5
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 23:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=99KnB+URAYBtBEFeaEEoqvbN3Lia8bbvXa6b4D4VGvk=;
- b=AelbYVYXhvB2C9bFtneY/yrgfG2toP1CjqK6lvDsXri4wpxXyhmsJgoDY6ahx/XN61
- vKAczg+E4fXnnS8G0G93MoK9T+n8JSHY8ekq/8I4u69XNDvXXmaeliXWl3ny7DbR459m
- W50jTwNToE1LmUUokyr6le1aob0gVY3GnP1Ka3mI4XHwRz2fWCsY/l4SMPzwsS0xTXB9
- EixGvESxoBHqQEVnBddxUt4aKYU3B3NSH4JBU4qDMkK7Jhzi3FgC5Vb8HdCiGR2LwcMT
- sxBxULIIw3r+NvwPaEY2Ixaz7kUmSTr4+dFabybVlm+sD0srX/k7GhsedXDOGcsj6xyH
- 5o7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=99KnB+URAYBtBEFeaEEoqvbN3Lia8bbvXa6b4D4VGvk=;
- b=bSO5xncfEN311DH1BeNhKKtyS3WFE1vJv39JjL+UA5pOHWDQooSR8jcXrEXV4Evt/u
- 1rmj3LB0L57J9qNrNPpQJiP5jJehLKQbDI/U5EHa7pJd/I3y6aiUhMNwZAke78HeLEYw
- B9UDq0OYWq97KtuqGkgd9keTjWgm1aULuy0406Qx2jIMHQfjn2chpg/QGemiMoVJvcna
- vdrKLAuw4GDttwNHoUjw3INIw2mw5XnObFrUvU0A2MxukBocMx1xqNxdPQZGCrSPtSRY
- 59pez6qVaevdtpcaERotgFzMk9vGR4d1R+qMM4AuBV80AGVgk8MuMBXTWQ1ceeJVEP5K
- /mBg==
-X-Gm-Message-State: AOAM533pLClPNUH1Tm218mgVeXpcwgK18yVeb3cEzD57XEQCQAisvT11
- 3YPY8AVM5h6SVsRtEubUBIy4Yg==
-X-Google-Smtp-Source: ABdhPJypGMO2Ed7IdFKaQRO9FolvH4ihNSVV3QakhuP+Wz6bn/ypKEJCBJHQBshWUbxfQ2Oh/Vy6BA==
-X-Received: by 2002:a62:b414:0:b029:317:52d:7fd5 with SMTP id
- h20-20020a62b4140000b0290317052d7fd5mr18445201pfn.30.1629440567069; 
- Thu, 19 Aug 2021 23:22:47 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:549a:ad5a:e5bd:8c8a])
- by smtp.gmail.com with ESMTPSA id x7sm5507625pfj.200.2021.08.19.23.22.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 23:22:46 -0700 (PDT)
-Date: Fri, 20 Aug 2021 14:22:43 +0800
-From: Tzung-Bi Shih <tzungbi@google.com>
-To: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Dillon Min <dillon.minfei@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, devicetree@vger.kernel.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux-ALSA <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH 2/2] dt-bindings: sound: rt1015p: correct indentation
-Message-ID: <YR9KM5ubMr9JLLb5@google.com>
-References: <20210819101020.26368-1-krzysztof.kozlowski@canonical.com>
- <20210819101020.26368-2-krzysztof.kozlowski@canonical.com>
- <CAL_JsqK1dhwSKbmCbuaWtBWQH0e-+rdJaWkzfx5b_5vX0toAjg@mail.gmail.com>
+X-Greylist: delayed 347 seconds by postgrey-1.36 at gabe;
+ Fri, 20 Aug 2021 06:32:59 UTC
+Received: from condef-02.nifty.com (condef-02.nifty.com [202.248.20.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1514D6EA00
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 06:32:58 +0000 (UTC)
+Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-02.nifty.com
+ with ESMTP id 17K6OQKt031229
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 15:24:26 +0900
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41]) (authenticated)
+ by conssluserg-04.nifty.com with ESMTP id 17K6OCJd027850
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 15:24:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 17K6OCJd027850
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1629440652;
+ bh=OYI9evttHikVcfyeKqcdTfZUAj2Daj3cr5JXajWggx8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=KQRsgzQ7pRVyaAQ8Is57rgmpXQSaY8SBN+qDG+HumHP2fR0+iu8LxXjHPGK8G0HU4
+ DkdSGKQ0hvC9xpPsXAFIRIihrphv8/AvEGCGgadbYtZFPoqf5mh72449rnJUU5KBbA
+ 5nOhGPRhjNpjahJrweSu7HQ7+kt8xIbxUm88dDPRrezMhYPNK3tpIEnuBGqt3sZo2z
+ Mgqoau7AMNM7YV+PC60MLEqDVr0nf9viZaTlBNw9SoxgkKnDkztmlxSc0RQguwiJ0B
+ NTScn8sZAqLTwgfV6zSKMSXrWPgeBKTLUIoy3LJgSr9v/owlFGqY53G9AjP0EuTTR3
+ eC3e7njHGMIuQ==
+X-Nifty-SrcIP: [209.85.216.41]
+Received: by mail-pj1-f41.google.com with SMTP id
+ om1-20020a17090b3a8100b0017941c44ce4so13096138pjb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 23:24:12 -0700 (PDT)
+X-Gm-Message-State: AOAM530k6LML8c6/3o/YUm+xcDtIQVfOZoZChMs3fWGWBnLGWdNM8M1w
+ NcEdkfuua6MUGN7c7XQ18VFYZuu4DQcc9AIpSjQ=
+X-Google-Smtp-Source: ABdhPJzmya3Z8vvepOUvhlpu4SplWYYg9sHgkVXJSuh78W1Xa95N9HNSHGyonmhzVoCF9jmTdUBm/9k/hByhr4HBS0Y=
+X-Received: by 2002:a17:902:f552:b029:12d:3d11:4ff1 with SMTP id
+ h18-20020a170902f552b029012d3d114ff1mr15108803plf.1.1629440651621; Thu, 19
+ Aug 2021 23:24:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqK1dhwSKbmCbuaWtBWQH0e-+rdJaWkzfx5b_5vX0toAjg@mail.gmail.com>
+References: <20210820123348.6535a87e@canb.auug.org.au>
+In-Reply-To: <20210820123348.6535a87e@canb.auug.org.au>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 20 Aug 2021 15:23:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASv-F1Y7kpaDF+_=TW0Jzvpo1uuNL1B5jUmCCRqv-45bA@mail.gmail.com>
+Message-ID: <CAK7LNASv-F1Y7kpaDF+_=TW0Jzvpo1uuNL1B5jUmCCRqv-45bA@mail.gmail.com>
+Subject: Re: linux-next: build failure after merge of the drm tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
+ John Harrison <John.C.Harrison@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Alexey Dobriyan <adobriyan@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,13 +73,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 19, 2021 at 04:52:38PM -0500, Rob Herring wrote:
-> On Thu, Aug 19, 2021 at 5:12 AM Krzysztof Kozlowski
-> <krzysztof.kozlowski@canonical.com> wrote:
-> >
-> > Use common enum instead of oneOf and correct indentation warning:
-> >   realtek,rt1015p.yaml:18:7: [warning] wrong indentation: expected 4 but found 6 (indentation)
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-Acked-by: Tzung-Bi Shih <tzungbi@google.com>
+On Fri, Aug 20, 2021 at 11:33 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+> Hi all,
+>
+> After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
+> failed like this:
+>
+> In file included from drivers/gpu/drm/i915/i915_debugfs.c:39:
+> drivers/gpu/drm/i915/gt/intel_gt_requests.h:9:10: fatal error: stddef.h: No such file or directory
+>     9 | #include <stddef.h>
+>       |          ^~~~~~~~~~
+>
+> Caused by commit
+>
+>   564f963eabd1 ("isystem: delete global -isystem compile option")
+>
+> from the kbuild tree interacting with commit
+>
+>   b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC")
+>
+> I have applied the following patch for today.
+
+
+Thanks.
+
+This fix-up does not depend on my kbuild tree in any way.
+
+So, the drm maintainer can apply it to his tree.
+
+Perhaps with
+
+Fixes: b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to
+work with GuC")
+
+
+
+
+
+>
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Fri, 20 Aug 2021 12:24:19 +1000
+> Subject: [PATCH] drm/i915: use linux/stddef.h due to "isystem: trim/fixup stdarg.h and other headers"
+>
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_requests.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.h b/drivers/gpu/drm/i915/gt/intel_gt_requests.h
+> index 51dbe0e3294e..d2969f68dd64 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.h
+> @@ -6,7 +6,7 @@
+>  #ifndef INTEL_GT_REQUESTS_H
+>  #define INTEL_GT_REQUESTS_H
+>
+> -#include <stddef.h>
+> +#include <linux/stddef.h>
+>
+>  struct intel_engine_cs;
+>  struct intel_gt;
+> --
+> 2.32.0
+>
+> --
+> Cheers,
+> Stephen Rothwell
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
