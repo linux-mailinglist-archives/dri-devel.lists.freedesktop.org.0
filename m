@@ -2,136 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070583F3068
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F633F30F6
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 18:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FAEF6EAC4;
-	Fri, 20 Aug 2021 15:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB7F86EAC7;
+	Fri, 20 Aug 2021 16:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2059.outbound.protection.outlook.com [40.107.220.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D0126EAC4;
- Fri, 20 Aug 2021 15:57:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QS35s1bfgA2NXZALKi/ZJ5u4nezfjy+XhzCYG0BHlNI6iy64qWMn0RsBID4JaJMHUr4OtV8O1i9tZLvlpuKjlt9ubPjy2v4dp06P9l+3/DTum+zOahzmK9Fm5d98coJA2V3tOlHKrvWHUrAXaaMzEpwf1hQfTNOMGM/eBQk8zbUInUe65BRef2TnoSDAih+ONJcdIGiabA+C/mXBk9ZC73bBZ29Z+jnCqfhKdFBxEnA4ziFhobBui3fQbwQ63n4V5xnVKKwELfW2UlEeIVNntbJsMYhzhHyRpwwgYXgEJnpZsUAChEgtXir0N2oOT7kF2fVFfUZ9wcHL9O2o11POcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9s/tvyiXFzbgWFPj8QniTxZQLSk+YCilmatz4XKHtDI=;
- b=noDYxGrCHl+I8IcTmqe1LxWgGTHqeLf7ho5TjQj8tzO1nGoPQg1a6rHkrnQNQ9yN2/ghVvAoHM5mp4+1bPikZNgAGjNbBgmaKbQN4f5O1FR9si5ozjCt397KTLA+rS1nYhHe+GISAM7/gKIkDbYEz6ZQJ9UvLIxC9xr0lKh62ztcrvN5J1Xw7CckBEW4L233daYUbXk01V5XrW5Kbk97+EsBQz91ybOw1Dn2BM+EarQQV0yu7rkCajhNdhVV3F3rgFSkbI9nXA1yCYMfiEUWgi7AE8e6ktYbYitqbtQViF/YakBbp3dW5KIBgAI6uJ1yycD6/6ghX4ddJEtS20+2DA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9s/tvyiXFzbgWFPj8QniTxZQLSk+YCilmatz4XKHtDI=;
- b=bHbjVLp4dH1zLeczXQoS+76qupnStm3BOv0kN7ZLeorem6d55swejuvKK+BIL0U4PEfMYtYWRjIsiyi1yXYAt6+u3rMSaQm/LyVjrnUpmaceSNoqFgP5L4Gb6Ds6pTGgHSiAdf6IVv0v0tzJKrJvz0/klZgmAut/+NNnwuIB4HBAh3yOQanHfsNhbGqroRKKkeCaJUTy6UxZEI2wIojBvUg6ZDUXpbxBO9y7MWeZ34/aNlHYweoT0s9UaTsvBIM6+RVgZjE9zXJQMpt13BpyWI8dfC6Bbvtaid+HwrZWqZBpl7EP2PNBjgOezELOZEiFwLqNdf7ebna3pPbI4V2ApA==
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL0PR12MB5538.namprd12.prod.outlook.com (2603:10b6:208:1c9::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Fri, 20 Aug
- 2021 15:57:40 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::1de1:52a9:cf66:f336]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::1de1:52a9:cf66:f336%8]) with mapi id 15.20.4436.021; Fri, 20 Aug 2021
- 15:57:40 +0000
-Date: Fri, 20 Aug 2021 12:57:39 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Doug Ledford <dledford@redhat.com>, Christoph Hellwig <hch@infradead.org>,
- Maor Gottlieb <maorg@nvidia.com>, Ariel Elior <aelior@marvell.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Michal Kalderon <mkalderon@marvell.com>,
- Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
- Mustafa Ismail <mustafa.ismail@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Roland Scheidegger <sroland@vmware.com>,
- Shiraz Saleem <shiraz.saleem@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Weihang Li <liweihang@huawei.com>, Wenpeng Liang <liangwenpeng@huawei.com>,
- Yishai Hadas <yishaih@nvidia.com>, Zack Rusin <zackr@vmware.com>,
- Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [PATCH rdma-next v3 2/3] lib/scatterlist: Fix wrong update of
- orig_nents
-Message-ID: <20210820155739.GA531044@nvidia.com>
-References: <cover.1627551226.git.leonro@nvidia.com>
- <460ae18dd1bbd6c1175e75f5d4e51ddb449acf8d.1627551226.git.leonro@nvidia.com>
- <20210820155425.GA530861@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210820155425.GA530861@nvidia.com>
-X-ClientProxiedBy: MN2PR18CA0019.namprd18.prod.outlook.com
- (2603:10b6:208:23c::24) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EF3796EAC3;
+ Fri, 20 Aug 2021 16:05:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E785B11FB;
+ Fri, 20 Aug 2021 09:05:10 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A61903F70D;
+ Fri, 20 Aug 2021 09:05:10 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 66016683943; Fri, 20 Aug 2021 17:05:09 +0100 (BST)
+Date: Fri, 20 Aug 2021 17:05:09 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, brian.starkey@arm.com, sam@ravnborg.org,
+ bbrezillon@kernel.org, nicolas.ferre@microchip.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ stefan@agner.ch, alison.wang@nxp.com, patrik.r.jakobsson@gmail.com,
+ anitha.chrisanthus@intel.com, robdclark@gmail.com,
+ edmund.j.dea@intel.com, sean@poorly.run, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, jyri.sarha@iki.fi,
+ tomba@kernel.org, Dan.Sneddon@microchip.com,
+ tomi.valkeinen@ideasonboard.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 02/14] drm/arm/hdlcd: Convert to Linux IRQ interfaces
+Message-ID: <20210820160509.eo267b4r64v4qa3n@e110455-lin.cambridge.arm.com>
+References: <20210803090704.32152-1-tzimmermann@suse.de>
+ <20210803090704.32152-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.113.129) by
- MN2PR18CA0019.namprd18.prod.outlook.com (2603:10b6:208:23c::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.18 via Frontend
- Transport; Fri, 20 Aug 2021 15:57:40 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mH6tn-002EC7-GM; Fri, 20 Aug 2021 12:57:39 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69a09fec-a532-425f-db19-08d963f33d2c
-X-MS-TrafficTypeDiagnostic: BL0PR12MB5538:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB5538F6B9D5850A88ACE0D006C2C19@BL0PR12MB5538.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VAlvrg2RTbzFbeXm3vEuBgJz4GAE3synw4tYU80nUUGmWEnW062PB4WT5esnxLkh2aVLPCAHoIzZSc77Rr7vapDR9xGVFmLT5G+tUiDtARA+7Mh5H1wYXb+Nz81UVx7qSfiGaC810fIHOUq2Zz2wmCxmcyMwzFvbL5103PsFBnEN0wD+mZlOC35KqQTc32olOUAM07Z68YdZ1m+0r5pXkl/+81qWNDuX8/92+K/JaWKzZciw/YShPBEekKhg0XyE9WFHRm+f85mkOuXeWGoo/sWy7JFrgz2XetsH84jxrNZ5hWhXeSso7hVDLQsQhiIur1MHtO+gHN3miN64xJ265L8y2Dw+QDNYNEmH303EPRZApc7Jz3UF7BC+3+8MxjIrL5Hi/cAZfWbC+JCIXPt6y4OC5+9TgGHMXiPZL8Y9qNMbFzOSXGwoOhUhrt+yeuP8kZM+HrBfHi8Up9pS3d7efYvkgm1L9XvfjcBZF9VHO7XDStyxxPm/39kOvJrx7WkSzirASojW5k1+to0AREybwxp+yNWJjJD1trDkMP1dOw6XBk8tXQzSA8PfmDgFAmotRfii9dFl5p8XLjUWnsqgKoOTBprox4dxCVsTSkAq6jILh7J1pM20xeMDLGLkoPkf6k45WoM3q6Up47QTDBLCP0ZaXN4xLSp+kWx9vnqkzF8BAVgUJyy0ny1WGV4mqmuqX/3AZpuXWwe1nECws63gKw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(346002)(136003)(376002)(396003)(36756003)(66946007)(9746002)(86362001)(9786002)(8936002)(4326008)(426003)(8676002)(478600001)(2616005)(186003)(66476007)(66556008)(26005)(33656002)(316002)(5660300002)(7416002)(2906002)(54906003)(1076003)(6916009)(38100700002)(27376004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7bFGAEFPt0ujVIi+V692bFa2NQZal6RLy2ztHYTKXzt8Gkl2EcbdBatvxDvF?=
- =?us-ascii?Q?IcrAiscCQL7DF1B4gdruHaSUSV9rMRzUtY5DhPOqhf4VpL5Rn2xlEPkXpgMC?=
- =?us-ascii?Q?3PtGhB8psJcwM/5PgLYGEnehX6feXIVoafNMi/cfa0Qi0GxuDAaWEvwcBK9h?=
- =?us-ascii?Q?MGUwUvMV/NL2FWkrmlrOt3ltf8qyekMuuk7hKI2CdnHeLaZJZsvJ68IjBbTe?=
- =?us-ascii?Q?niAfNUmSzu/vEef0yHDs3fjG4oFBoSSYNGGwquDKGdli2NnGgPkGf39CrL+F?=
- =?us-ascii?Q?nPEUv4HKRr1x+z+HaGeZvb+lvGnoAIZbeUU1NkyPpAtLtOQzl35QHFHK+BBH?=
- =?us-ascii?Q?ZcI1IJow+OGobnWaCqtJF1JpoB/tbnvmcsWQZyLBuXmr9Q0fsnWfwhYb7pk7?=
- =?us-ascii?Q?DwdmkFY6jHjEiFGgYT+baHGm/G0LsKpZlykXpznRba/Vs2MudjCurbr2MNhK?=
- =?us-ascii?Q?Pn6aPo4ZkB6HGs96lNDID/8o7znWvnOk6knAxb2evMmX72+owEaw7IUeMzj9?=
- =?us-ascii?Q?ysmhtQkSY0+2yKv8IczoieRPsH74sQi+g1FTFpVgo4T4t9UyUFzqTNAlRowa?=
- =?us-ascii?Q?K93NOJQnXfNcEMFURX+5X6cqyfKxIoAKqmpWCzU61v1/ipfKRmH/kpiJAcNG?=
- =?us-ascii?Q?6H+97Sxg0tuKXc3LRBY/yfchjS6FYpaCzI62oBEdfT7n3fezRkLy0VVQQUYI?=
- =?us-ascii?Q?pX6xU+PFLId0z97bTrxSAJT/vXUfCTEoAv02gvBkKiSp44WE8evpujiyL3fu?=
- =?us-ascii?Q?pLbs2hj8VZrq5W+/FKr/iBQQBJXZRqDoZe3BqA/p+W4JpxUdVmJ+Btj7uuwJ?=
- =?us-ascii?Q?IoXeq9d0Sr60Yv9ZrAiyXq5LPKY0PXEWGb6OlZT0y//uBZgvxOcij94da2eb?=
- =?us-ascii?Q?BpXpk1PhNHOSGvKxIdSFTTmYbaeCrtXoQyvkKUFlCXCFpYWKuij1j2Ueo2On?=
- =?us-ascii?Q?L97J5GbYSmud8kSjusessnW4s5Rh+SVgqdglaWBzQJcj+LVoIsaEQnbv70Kt?=
- =?us-ascii?Q?jCo8pTHTHwW7ARZxlcj4afWYbV+FdfCnYKRA3gcZsgAHY3HC5XxpbgljlIgu?=
- =?us-ascii?Q?xLEE7TczcBoP2qdk6dCESs3rNVNjcVLAm2+tt3bpkh4qME0+UDMxqOPL0VWo?=
- =?us-ascii?Q?jAncPi1iw5YnzQuRcIQ49QEYmevAxF3JAfaffYKkriIA6JKWWsP4A20N17xb?=
- =?us-ascii?Q?PquLgQMK/YE/rVlze0gv/V3muZCkqEYBTtip/CWgQbqXJ6xXEpvx8zd+gaV5?=
- =?us-ascii?Q?DYO+5F+3JdJPCEdTws8wZ4RjU+Zw3i/3WWzvY3BQh3omYIvdekW0JzgB7Nkd?=
- =?us-ascii?Q?T1wTEyGa5LKgO3Bg4m/FeSwI?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69a09fec-a532-425f-db19-08d963f33d2c
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2021 15:57:40.6169 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g5uH5r3PdiNJsMnBfBi6Gl/CknmHlQnsy01nbVhWbSH2cFia3+9JPERUw+n/zDAZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5538
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210803090704.32152-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,38 +61,284 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 20, 2021 at 12:54:25PM -0300, Jason Gunthorpe wrote:
-> On Thu, Jul 29, 2021 at 12:39:12PM +0300, Leon Romanovsky wrote:
+On Tue, Aug 03, 2021 at 11:06:52AM +0200, Thomas Zimmermann wrote:
+> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+> don't benefit from using it.
 > 
-> > +/**
-> > + * __sg_free_table - Free a previously mapped sg table
-> > + * @table:	The sg table header to use
-> > + * @max_ents:	The maximum number of entries per single scatterlist
-> > + * @total_ents:	The total number of entries in the table
-> > + * @nents_first_chunk: Number of entries int the (preallocated) first
-> > + *                     scatterlist chunk, 0 means no such preallocated
-> > + *                     first chunk
-> > + * @free_fn:	Free function
-> > + *
-> > + *  Description:
-> > + *    Free an sg table previously allocated and setup with
-> > + *    __sg_alloc_table().  The @max_ents value must be identical to
-> > + *    that previously used with __sg_alloc_table().
-> > + *
-> > + **/
-> > +void __sg_free_table(struct sg_table *table, unsigned int max_ents,
-> > +		     unsigned int nents_first_chunk, sg_free_fn *free_fn)
-> > +{
-> > +	sg_free_table_entries(table, max_ents, nents_first_chunk, free_fn,
-> > +			      table->orig_nents);
-> > +}
-> >  EXPORT_SYMBOL(__sg_free_table);
+> DRM IRQ callbacks are now being called directly or inlined.
 > 
-> This is getting a bit indirect, there is only one caller of
-> __sg_free_table() in sg_pool.c, so may as well just export
-> sg_free_table_entries have have it use that directly.
+> Calls to platform_get_irq() can fail with a negative errno code.
+> Abort initialization in this case. The DRM IRQ midlayer does not
+> handle this case correctly.
+> 
+> v2:
+> 	* name struct drm_device variables 'drm' (Sam)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-And further since sg_free_table_entries() doesn't actually use table->
-except for the SGL it should probably be called sg_free_table_sgl()
+Sorry for the delayed response due to holidays.
 
-Jason
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/arm/hdlcd_drv.c | 174 ++++++++++++++++++--------------
+>  drivers/gpu/drm/arm/hdlcd_drv.h |   1 +
+>  2 files changed, 97 insertions(+), 78 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+> index 81ae92390736..479c2422a2e0 100644
+> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
+> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+> @@ -29,7 +29,6 @@
+>  #include <drm/drm_fb_helper.h>
+>  #include <drm/drm_gem_cma_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> -#include <drm/drm_irq.h>
+>  #include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_probe_helper.h>
+> @@ -38,6 +37,94 @@
+>  #include "hdlcd_drv.h"
+>  #include "hdlcd_regs.h"
+>  
+> +static irqreturn_t hdlcd_irq(int irq, void *arg)
+> +{
+> +	struct drm_device *drm = arg;
+> +	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> +	unsigned long irq_status;
+> +
+> +	irq_status = hdlcd_read(hdlcd, HDLCD_REG_INT_STATUS);
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	if (irq_status & HDLCD_INTERRUPT_UNDERRUN)
+> +		atomic_inc(&hdlcd->buffer_underrun_count);
+> +
+> +	if (irq_status & HDLCD_INTERRUPT_DMA_END)
+> +		atomic_inc(&hdlcd->dma_end_count);
+> +
+> +	if (irq_status & HDLCD_INTERRUPT_BUS_ERROR)
+> +		atomic_inc(&hdlcd->bus_error_count);
+> +
+> +	if (irq_status & HDLCD_INTERRUPT_VSYNC)
+> +		atomic_inc(&hdlcd->vsync_count);
+> +
+> +#endif
+> +	if (irq_status & HDLCD_INTERRUPT_VSYNC)
+> +		drm_crtc_handle_vblank(&hdlcd->crtc);
+> +
+> +	/* acknowledge interrupt(s) */
+> +	hdlcd_write(hdlcd, HDLCD_REG_INT_CLEAR, irq_status);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static void hdlcd_irq_preinstall(struct drm_device *drm)
+> +{
+> +	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> +	/* Ensure interrupts are disabled */
+> +	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, 0);
+> +	hdlcd_write(hdlcd, HDLCD_REG_INT_CLEAR, ~0);
+> +}
+> +
+> +static void hdlcd_irq_postinstall(struct drm_device *drm)
+> +{
+> +#ifdef CONFIG_DEBUG_FS
+> +	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> +	unsigned long irq_mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
+> +
+> +	/* enable debug interrupts */
+> +	irq_mask |= HDLCD_DEBUG_INT_MASK;
+> +
+> +	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, irq_mask);
+> +#endif
+> +}
+> +
+> +static int hdlcd_irq_install(struct drm_device *drm, int irq)
+> +{
+> +	int ret;
+> +
+> +	if (irq == IRQ_NOTCONNECTED)
+> +		return -ENOTCONN;
+> +
+> +	hdlcd_irq_preinstall(drm);
+> +
+> +	ret = request_irq(irq, hdlcd_irq, 0, drm->driver->name, drm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	hdlcd_irq_postinstall(drm);
+> +
+> +	return 0;
+> +}
+> +
+> +static void hdlcd_irq_uninstall(struct drm_device *drm)
+> +{
+> +	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> +	/* disable all the interrupts that we might have enabled */
+> +	unsigned long irq_mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	/* disable debug interrupts */
+> +	irq_mask &= ~HDLCD_DEBUG_INT_MASK;
+> +#endif
+> +
+> +	/* disable vsync interrupts */
+> +	irq_mask &= ~HDLCD_INTERRUPT_VSYNC;
+> +	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, irq_mask);
+> +
+> +	free_irq(hdlcd->irq, drm);
+> +}
+> +
+>  static int hdlcd_load(struct drm_device *drm, unsigned long flags)
+>  {
+>  	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> @@ -90,7 +177,12 @@ static int hdlcd_load(struct drm_device *drm, unsigned long flags)
+>  		goto setup_fail;
+>  	}
+>  
+> -	ret = drm_irq_install(drm, platform_get_irq(pdev, 0));
+> +	ret = platform_get_irq(pdev, 0);
+> +	if (ret < 0)
+> +		goto irq_fail;
+> +	hdlcd->irq = ret;
+> +
+> +	ret = hdlcd_irq_install(drm, hdlcd->irq);
+>  	if (ret < 0) {
+>  		DRM_ERROR("failed to install IRQ handler\n");
+>  		goto irq_fail;
+> @@ -122,76 +214,6 @@ static void hdlcd_setup_mode_config(struct drm_device *drm)
+>  	drm->mode_config.funcs = &hdlcd_mode_config_funcs;
+>  }
+>  
+> -static irqreturn_t hdlcd_irq(int irq, void *arg)
+> -{
+> -	struct drm_device *drm = arg;
+> -	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> -	unsigned long irq_status;
+> -
+> -	irq_status = hdlcd_read(hdlcd, HDLCD_REG_INT_STATUS);
+> -
+> -#ifdef CONFIG_DEBUG_FS
+> -	if (irq_status & HDLCD_INTERRUPT_UNDERRUN)
+> -		atomic_inc(&hdlcd->buffer_underrun_count);
+> -
+> -	if (irq_status & HDLCD_INTERRUPT_DMA_END)
+> -		atomic_inc(&hdlcd->dma_end_count);
+> -
+> -	if (irq_status & HDLCD_INTERRUPT_BUS_ERROR)
+> -		atomic_inc(&hdlcd->bus_error_count);
+> -
+> -	if (irq_status & HDLCD_INTERRUPT_VSYNC)
+> -		atomic_inc(&hdlcd->vsync_count);
+> -
+> -#endif
+> -	if (irq_status & HDLCD_INTERRUPT_VSYNC)
+> -		drm_crtc_handle_vblank(&hdlcd->crtc);
+> -
+> -	/* acknowledge interrupt(s) */
+> -	hdlcd_write(hdlcd, HDLCD_REG_INT_CLEAR, irq_status);
+> -
+> -	return IRQ_HANDLED;
+> -}
+> -
+> -static void hdlcd_irq_preinstall(struct drm_device *drm)
+> -{
+> -	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> -	/* Ensure interrupts are disabled */
+> -	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, 0);
+> -	hdlcd_write(hdlcd, HDLCD_REG_INT_CLEAR, ~0);
+> -}
+> -
+> -static int hdlcd_irq_postinstall(struct drm_device *drm)
+> -{
+> -#ifdef CONFIG_DEBUG_FS
+> -	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> -	unsigned long irq_mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
+> -
+> -	/* enable debug interrupts */
+> -	irq_mask |= HDLCD_DEBUG_INT_MASK;
+> -
+> -	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, irq_mask);
+> -#endif
+> -	return 0;
+> -}
+> -
+> -static void hdlcd_irq_uninstall(struct drm_device *drm)
+> -{
+> -	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+> -	/* disable all the interrupts that we might have enabled */
+> -	unsigned long irq_mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
+> -
+> -#ifdef CONFIG_DEBUG_FS
+> -	/* disable debug interrupts */
+> -	irq_mask &= ~HDLCD_DEBUG_INT_MASK;
+> -#endif
+> -
+> -	/* disable vsync interrupts */
+> -	irq_mask &= ~HDLCD_INTERRUPT_VSYNC;
+> -
+> -	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, irq_mask);
+> -}
+> -
+>  #ifdef CONFIG_DEBUG_FS
+>  static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
+>  {
+> @@ -236,10 +258,6 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
+>  
+>  static const struct drm_driver hdlcd_driver = {
+>  	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> -	.irq_handler = hdlcd_irq,
+> -	.irq_preinstall = hdlcd_irq_preinstall,
+> -	.irq_postinstall = hdlcd_irq_postinstall,
+> -	.irq_uninstall = hdlcd_irq_uninstall,
+>  	DRM_GEM_CMA_DRIVER_OPS,
+>  #ifdef CONFIG_DEBUG_FS
+>  	.debugfs_init = hdlcd_debugfs_init,
+> @@ -316,7 +334,7 @@ static int hdlcd_drm_bind(struct device *dev)
+>  err_unload:
+>  	of_node_put(hdlcd->crtc.port);
+>  	hdlcd->crtc.port = NULL;
+> -	drm_irq_uninstall(drm);
+> +	hdlcd_irq_uninstall(drm);
+>  	of_reserved_mem_device_release(drm->dev);
+>  err_free:
+>  	drm_mode_config_cleanup(drm);
+> @@ -338,7 +356,7 @@ static void hdlcd_drm_unbind(struct device *dev)
+>  	hdlcd->crtc.port = NULL;
+>  	pm_runtime_get_sync(dev);
+>  	drm_atomic_helper_shutdown(drm);
+> -	drm_irq_uninstall(drm);
+> +	hdlcd_irq_uninstall(drm);
+>  	pm_runtime_put(dev);
+>  	if (pm_runtime_enabled(dev))
+>  		pm_runtime_disable(dev);
+> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.h b/drivers/gpu/drm/arm/hdlcd_drv.h
+> index fd438d177b64..909c39c28487 100644
+> --- a/drivers/gpu/drm/arm/hdlcd_drv.h
+> +++ b/drivers/gpu/drm/arm/hdlcd_drv.h
+> @@ -11,6 +11,7 @@ struct hdlcd_drm_private {
+>  	struct clk			*clk;
+>  	struct drm_crtc			crtc;
+>  	struct drm_plane		*plane;
+> +	unsigned int			irq;
+>  #ifdef CONFIG_DEBUG_FS
+>  	atomic_t buffer_underrun_count;
+>  	atomic_t bus_error_count;
+> -- 
+> 2.32.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
