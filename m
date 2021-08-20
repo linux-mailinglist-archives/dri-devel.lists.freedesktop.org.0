@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48703F27EE
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 09:53:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51ED3F28FE
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 11:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEAE6EA34;
-	Fri, 20 Aug 2021 07:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 104F66EA44;
+	Fri, 20 Aug 2021 09:15:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8EF6EA31
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 07:53:48 +0000 (UTC)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4GrYmV3rRlz9sTr;
- Fri, 20 Aug 2021 09:53:46 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E8Ffz9K-cCxD; Fri, 20 Aug 2021 09:53:46 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4GrYmV2jCFz9sTj;
- Fri, 20 Aug 2021 09:53:46 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 3A2918B868;
- Fri, 20 Aug 2021 09:53:46 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id GYJg-josgfgQ; Fri, 20 Aug 2021 09:53:46 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 0AEB28B862;
- Fri, 20 Aug 2021 09:53:45 +0200 (CEST)
-Subject: Re: [PATCH v2 57/63] powerpc/signal32: Use struct_group() to zero spe
- regs
-To: Michael Ellerman <mpe@ellerman.id.au>, Kees Cook <keescook@chromium.org>, 
- linux-kernel@vger.kernel.org
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, Sudeep Holla <sudeep.holla@arm.com>,
- linuxppc-dev@lists.ozlabs.org, kernel test robot <lkp@intel.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-58-keescook@chromium.org>
- <877dggeesw.fsf@mpe.ellerman.id.au>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <0f6e508e-62b6-3840-5ff4-eb5a77635bd1@csgroup.eu>
-Date: Fri, 20 Aug 2021 09:53:41 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 792866EA35
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 07:59:51 +0000 (UTC)
+X-UUID: 67d87111147f49deb1e6ed22dd5dcb45-20210820
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=VluiAbKGQy/3Yr6UxPnDDXbjlygkyrql8mDiSJPOAdY=; 
+ b=u2x3ECk9IHJHuyY7+rigAOuyNreL9ujO4lyz7u1/Bx7LiQoh0Z7IhGZbugghUOHs4IOVN4ZXHHa8DFb4vQdj35XJMs+aOANZ8OyGjlIcd8V++l6FcngmuUOQ/YdHoN2XowjOV3YJHqH0e9R49AwgvV9i9RxXmo6+jqEuKrVYXLg=;
+X-UUID: 67d87111147f49deb1e6ed22dd5dcb45-20210820
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 994131274; Fri, 20 Aug 2021 15:59:42 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 20 Aug 2021 15:59:40 +0800
+Received: from [10.17.3.153] (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 20 Aug 2021 15:59:38 +0800
+Message-ID: <1629446378.18871.27.camel@mhfsdcap03>
+Subject: Re: [PATCH v5, 00/15] Using component framework to support multi
+ hardware decode
+From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC: Daniel Vetter <daniel@ffwll.ch>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Alexandre Courbot <acourbot@chromium.org>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi Shih"
+ <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT
+ Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>, Hsin-Yi Wang
+ <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, Irui Wang
+ <irui.wang@mediatek.com>, linux-media <linux-media@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, srv_heupstream
+ <srv_heupstream@mediatek.com>, "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, George Sun
+ <george.sun@mediatek.com>
+Date: Fri, 20 Aug 2021 15:59:38 +0800
+In-Reply-To: <CAAEAJfCTrKj9AFExN-L-TKww4E=us1VVh8LHtZ8Q0j_eaCD4Eg@mail.gmail.com>
+References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
+ <CAAEAJfDWOzCJxZFNtxeT7Cvr2pWbYrfz-YnA81sVNs-rM=8n4Q@mail.gmail.com>
+ <1b79a67b703d2c894bc4d9458c760e082fc42958.camel@mediatek.com>
+ <CAAEAJfCTrKj9AFExN-L-TKww4E=us1VVh8LHtZ8Q0j_eaCD4Eg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <877dggeesw.fsf@mpe.ellerman.id.au>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+X-MTK: N
+Content-Transfer-Encoding: base64
+X-Mailman-Approved-At: Fri, 20 Aug 2021 09:15:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,94 +77,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+SGkgRXplcXVpZWwsDQoNClRoYW5rcyBmb3IgeW91ciBkZXRhaWwgZmVlZGJhY2suIA0KDQpPbiBU
+aHUsIDIwMjEtMDgtMTkgYXQgMTE6MTAgLTAzMDAsIEV6ZXF1aWVsIEdhcmNpYSB3cm90ZToNCj4g
+T24gVGh1LCAxOSBBdWcgMjAyMSBhdCAwNDoxMywgeXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tDQo+
+IDx5dW5mZWkuZG9uZ0BtZWRpYXRlay5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGkgRXplcXVpZWws
+DQo+ID4NCj4gPiBUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4NCj4gPg0KPiA+IE9uIFdlZCwg
+MjAyMS0wOC0xOCBhdCAxMToxMSAtMDMwMCwgRXplcXVpZWwgR2FyY2lhIHdyb3RlOg0KPiA+ID4g
+K2RhbnZldA0KPiA+ID4NCj4gPiA+IEhpLA0KPiA+ID4NCj4gPiA+IE9uIFR1ZSwgMTAgQXVnIDIw
+MjEgYXQgMjM6NTgsIFl1bmZlaSBEb25nIDx5dW5mZWkuZG9uZ0BtZWRpYXRlay5jb20+DQo+ID4g
+PiB3cm90ZToNCj4gPiA+ID4NCj4gPiA+ID4gVGhpcyBzZXJpZXMgYWRkcyBzdXBwb3J0IGZvciBt
+dWx0aSBoYXJkd2FyZSBkZWNvZGUgaW50byBtdGstdmNvZGVjLA0KPiA+ID4gPiBieSBmaXJzdA0K
+PiA+ID4gPiBhZGRpbmcgY29tcG9uZW50IGZyYW1ld29yayB0byBtYW5hZ2UgZWFjaCBoYXJkd2Fy
+ZSBpbmZvcm1hdGlvbjoNCj4gPiA+ID4gaW50ZXJydXB0LA0KPiA+ID4gPiBjbG9jaywgcmVnaXN0
+ZXIgYmFzZXMgYW5kIHBvd2VyLiBTZWNvbmRseSBhZGQgY29yZSB0aHJlYWQgdG8gZGVhbA0KPiA+
+ID4gPiB3aXRoIGNvcmUNCj4gPiA+ID4gaGFyZHdhcmUgbWVzc2FnZSwgYXQgdGhlIHNhbWUgdGlt
+ZSwgYWRkIG1zZyBxdWV1ZSBmb3IgZGlmZmVyZW50DQo+ID4gPiA+IGhhcmR3YXJlDQo+ID4gPiA+
+IHNoYXJlIG1lc3NhZ2VzLiBMYXN0bHksIHRoZSBhcmNoaXRlY3R1cmUgb2YgZGlmZmVyZW50IHNw
+ZWNzIGFyZSBub3QNCj4gPiA+ID4gdGhlIHNhbWUsDQo+ID4gPiA+IHVzaW5nIHNwZWNzIHR5cGUg
+dG8gc2VwYXJhdGUgdGhlbS4NCj4gPiA+ID4NCj4gPiA+DQo+ID4gPiBJIGRvbid0IHRoaW5rIGl0
+J3MgYSBnb29kIGlkZWEgdG8gaW50cm9kdWNlIHRoZSBjb21wb25lbnQgQVBJIGluIHRoZQ0KPiA+
+ID4gbWVkaWEgc3Vic3lzdGVtLiBJdCBkb2Vzbid0IHNlZW0gdG8gYmUgbWFpbnRhaW5lZCwgSVJD
+IHRoZXJlJ3Mgbm90DQo+ID4gPiBldmVuDQo+ID4gPiBhIG1haW50YWluZXIgZm9yIGl0LCBhbmQg
+aXQgaGFzIHNvbWUgaXNzdWVzIHRoYXQgd2VyZSBuZXZlcg0KPiA+ID4gYWRkcmVzc2VkLg0KPiA+
+ID4NCj4gPiA+IEl0IHdvdWxkIGJlIHJlYWxseSBpbXBvcnRhbnQgdG8gYXZvaWQgaXQuIElzIGl0
+IHJlYWxseSBuZWVkZWQgaW4gdGhlDQo+ID4gPiBmaXJzdCBwbGFjZT8NCj4gPiA+DQo+ID4gPiBU
+aGFua3MsDQo+ID4gPiBFemVxdWllbA0KPiA+DQo+ID4gRm9yIHRoZXJlIGFyZSBtYW55IGhhcmR3
+YXJlIG5lZWQgdG8gdXNlLCBtdDgxOTIgaXMgdGhyZWUgYW5kIG10ODE5NSBpcw0KPiA+IGZpdmUu
+IE1heWJlIG5lZWQgbW9yZSB0byBiZSB1c2VkIGluIHRoZSBmZWF0dXJlLg0KPiA+DQo+ID4gRWFj
+aCBoYXJkd2FyZSBoYXMgaW5kZXBlbmRlbnQgY2xrL3Bvd2VyL2lvbW11IHBvcnQvaXJxLg0KPiA+
+IFVzZSBjb21wb25lbnQgaW50ZXJmYWNlIGluIHByb2IgdG8gZ2V0IGVhY2ggY29tcG9uZW50J3Mg
+aW5mb3JtYXRpb24uDQo+ID4gSnVzdCBlbmFibGUgdGhlIGhhcmR3YXJlIHdoZW4gbmVlZCB0byB1
+c2UgaXQsIHZlcnkgY29udmVuaWVudCBhbmQNCj4gPiBzaW1wbGUuDQo+ID4NCj4gPiBJIGZvdW5k
+IHRoYXQgdGhlcmUgYXJlIG1hbnkgbW9kdWxlcyB1c2UgY29tcG9uZW50IHRvIG1hbmFnZSBoYXJk
+d2FyZQ0KPiA+IGluZm9ybWF0aW9uLCBzdWNoIGFzIGlvbW11IGFuZCBkcm0gZXRjLg0KPiA+DQo+
+IA0KPiBNYW55IGRyaXZlcnMgc3VwcG9ydCBtdWx0aXBsZSBoYXJkd2FyZSB2YXJpYW50cywgd2hl
+cmUgZWFjaCB2YXJpYW50DQo+IGhhcyBhIGRpZmZlcmVudCBudW1iZXIgb2YgY2xvY2tzIG9yIGlu
+dGVycnVwdHMsIHNlZSBmb3IgaW5zdGFuY2UNCj4gc3RydWN0IGhhbnRyb192YXJpYW50IHdoaWNo
+IGFsbG93cyB0byBleHBvc2UgZGlmZmVyZW50IGNvZGVjIGNvcmVzLA0KPiBzb21lIGhhdmluZyBi
+b3RoIGRlY29kZXIvZW5jb2RlciwgYW5kIHNvbWUgaGF2aW5nIGp1c3QgYSBkZWNvZGVyLg0KPiAN
+Cj4gVGhlIGNvbXBvbmVudCBBUEkgaXMgbW9zdGx5IHVzZWQgYnkgRFJNIHRvIGFnZ3JlZ2F0ZSBp
+bmRlcGVuZGVudA0KPiBzdWJkZXZpY2VzIChjYWxsZWQgY29tcG9uZW50cykgaW50byBhbiBhZ2dy
+ZWdhdGVkIGRyaXZlci4NCj4gDQo+IEZvciBpbnN0YW5jZSwgYSBEUk0gZHJpdmVyIG5lZWRzIHRv
+IGdsdWUgdG9nZXRoZXIgdGhlIEhETUksIE1JUEksDQo+IGFuZCBwbGFueSBjb250cm9sbGVyLCBv
+ciBhbnkgb3RoZXIgaGFyZHdhcmUgYXJyYW5nZW1lbnQgd2hlcmUNCj4gZGV2aWNlcyBjYW4gYmUg
+ZGVzY3JpYmVkIGluZGVwZW5kZW50bHkuDQo+IA0KVGhlIHVzYWdlIHNjZW5hcmlvIGlzIHZlcnkg
+c2ltaWxhciB3aXRoIGRybSBhbmQgaW9tbXUsIFNvIGRlY2lkZSB0byB1c2UNCmNvbXBvbmVudCBm
+cmFtZXdvcmsuDQpEZWNvZGUgaGFzIHRocmVlL2ZpdmUgb3IgbW9yZSBoYXJkd2FyZXMsIHRoZXNl
+IGhhcmR3YXJlIGFyZSBpbmRlcGVuZGVudC4NCkZvciBtdDgxODMganVzdCBuZWVkIGNvcmUgaGFy
+ZHdhcmUgdG8gZGVjb2RlLCBidXQgbXQ4MTkyIGhhcyBsYXQsc29jIGFuZA0KY29yZSBoYXJkd2Fy
+ZSB0byBkZWNvZGUuIFdoZW4gbGF0IG5lZWQgdG8gdXNlLCBqdXN0IGVuYWJsZSBsYXQgaGFyZHdh
+cmUsDQpjb3JlIGlzIHRoZSBzYW1lLkFuZCBtdDgxOTUgd2lsbCBoYXMgdHdvIGNvcmVzLCBlYWNo
+IGNvcmUgY2FuIHdvcmsgd2VsbA0KaW5kZXBlbmRlbnQuDQoNCkZvciBlYWNoIGNvbXBvbmVudCBk
+ZXZpY2UganVzdCB1c2VkIHRvIG9wZW4gdGhlaXIgcG93ZXIvY2xrL2lvbW11DQpwb3J0L2lycSB3
+aGVuIG1hc3RlciBuZWVkIHRvIGVuYWJsZSBpdC4gVGhlIG1haW4gbG9naWMgaXMgaW4gbWFzdGVy
+DQpkZXZpY2UuDQoNCj4gVGhlIGNvbXBvbmVudCBBUEkgbWF5IGxvb2sgc2ltcGxlIGJ1dCBoYXMg
+c29tZSBpc3N1ZXMsIGl0J3Mgbm90IGVhc3kNCj4gdG8gZGVidWcsIGFuZCBjYW4gY2F1c2UgdHJv
+dWJsZXMgaWYgbm90IHVzZWQgYXMgZXhwZWN0ZWQgWzFdLg0KPiBJdCdzIHdvcnRoIG1ha2luZyBz
+dXJlIHlvdSBhY3R1YWxseSBuZWVkIGEgZnJhbWV3b3JrDQo+IHRvIGdsdWUgZGlmZmVyZW50IGRl
+dmljZXMgdG9nZXRoZXIuDQo+IA0KRWFjaCBoYXJkd2FyZSBoYXMgaXRzIGluZGV4LCBtYXN0ZXIg
+Y2FuIGdldCBoYXJkd2FyZSBpbmZvcm1hdGlvbg0KYWNjb3JkaW5nIHRoZXNlIGluZGV4LCBsb29r
+cyBub3QgY29tcGxleC4gV2hhdCBkbyB5b3UgbWVhbiBhYm91dCBub3QNCmVhc3kgdG8gZGVidWc/
+DQoNCj4gPiBEbyB5b3UgaGF2ZSBhbnkgb3RoZXIgc3VnZ2VzdGlvbiBmb3IgdGhpcyBhcmNoaXRl
+Y3R1cmU/DQo+ID4NCj4gDQo+IExvb2tpbmcgYXQgdGhlIGRpZmZlcmVudCBwYXRjaHNldHMgdGhh
+dCBhcmUgcG9zdGVkLCBpdCdzIG5vdCBjbGVhcg0KPiB0byBtZSB3aGF0IGV4YWN0bHkgYXJlIHRo
+ZSBkaWZmZXJlbnQgYXJjaGl0ZWN0dXJlcyB0aGF0IHlvdSBpbnRlbmQNCj4gdG8gc3VwcG9ydCwg
+Y2FuIHlvdSBzb21lIGRvY3VtZW50YXRpb24gd2hpY2ggY2xhcmlmaWVzIHRoYXQ/DQo+IA0KSGF2
+ZSBmaXZlIGhhcmR3YXJlcyBsYXQsc29jLGNvcmUwLGNvcmUxIGFuZCBtYWluLiBMYXQgdGhyZWFk
+IGNhbiB1c2UgbGF0DQpzb2MgYW5kIG1haW4sIGNvcmUgdGhyZWFkIGNhbiB1c2Ugc29jLGxhdCwg
+Y29yZTAgYW5kIGNvcmUxLiBDb3JlIHRocmVhZA0KY2FuIGJlIHVzZWQgb3Igbm90IGZvciBkaWZm
+ZXJlbnQgcHJvamVjdC4gQWxzbyBOZWVkIHRvIHVzZSB0aGVzZQ0KaGFyZHdhcmUgZHluYW1pYyBh
+dCB0aGUgc2FtZSB0aW1lLiBTbyBJIHVzZSBjb21wb25lbnQgZnJhbWV3b3JrLCBqdXN0DQpuZWVk
+IHRvIGtub3cgdGhlIHVzZWQgIGhhcmR3YXJlIGluZGV4IGFjY29yZGluZyB0byBkaWZmZXJlbnQN
+CnByb2plY3QuTmVlZCBub3QgdG8gZG8gY29tcGxleCBsb2dpYyB0byBtYW5hZ2UgdGhlc2UgaGFy
+ZHdhcmVzLg0KDQoNCj4gVGhhbmtzLA0KPiBFemVxdWllbA0KPiANCj4gWzFdIGh0dHBzOi8vcGF0
+Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51eC1yb2NrY2hpcC9jb3Zlci8yMDIwMDEyMDE3
+MDYwMi4zODMyLTEtZXplcXVpZWxAY29sbGFib3JhLmNvbS8NCg0KDQpUaGFua3MsDQpZdW5mZWkg
+RG9uZw0KDQoNCg0KDQo=
 
-
-Le 20/08/2021 à 09:49, Michael Ellerman a écrit :
-> Kees Cook <keescook@chromium.org> writes:
->> In preparation for FORTIFY_SOURCE performing compile-time and run-time
->> field bounds checking for memset(), avoid intentionally writing across
->> neighboring fields.
->>
->> Add a struct_group() for the spe registers so that memset() can correctly reason
->> about the size:
->>
->>     In function 'fortify_memset_chk',
->>         inlined from 'restore_user_regs.part.0' at arch/powerpc/kernel/signal_32.c:539:3:
->>>> include/linux/fortify-string.h:195:4: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
->>       195 |    __write_overflow_field();
->>           |    ^~~~~~~~~~~~~~~~~~~~~~~~
->>
->> Cc: Michael Ellerman <mpe@ellerman.id.au>
->> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->> Cc: Paul Mackerras <paulus@samba.org>
->> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
->> Cc: Sudeep Holla <sudeep.holla@arm.com>
->> Cc: linuxppc-dev@lists.ozlabs.org
->> Reported-by: kernel test robot <lkp@intel.com>
->> Signed-off-by: Kees Cook <keescook@chromium.org>
->> ---
->>   arch/powerpc/include/asm/processor.h | 6 ++++--
->>   arch/powerpc/kernel/signal_32.c      | 6 +++---
->>   2 files changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/arch/powerpc/include/asm/processor.h b/arch/powerpc/include/asm/processor.h
->> index f348e564f7dd..05dc567cb9a8 100644
->> --- a/arch/powerpc/include/asm/processor.h
->> +++ b/arch/powerpc/include/asm/processor.h
->> @@ -191,8 +191,10 @@ struct thread_struct {
->>   	int		used_vsr;	/* set if process has used VSX */
->>   #endif /* CONFIG_VSX */
->>   #ifdef CONFIG_SPE
->> -	unsigned long	evr[32];	/* upper 32-bits of SPE regs */
->> -	u64		acc;		/* Accumulator */
->> +	struct_group(spe,
->> +		unsigned long	evr[32];	/* upper 32-bits of SPE regs */
->> +		u64		acc;		/* Accumulator */
->> +	);
->>   	unsigned long	spefscr;	/* SPE & eFP status */
->>   	unsigned long	spefscr_last;	/* SPEFSCR value on last prctl
->>   					   call or trap return */
->> diff --git a/arch/powerpc/kernel/signal_32.c b/arch/powerpc/kernel/signal_32.c
->> index 0608581967f0..77b86caf5c51 100644
->> --- a/arch/powerpc/kernel/signal_32.c
->> +++ b/arch/powerpc/kernel/signal_32.c
->> @@ -532,11 +532,11 @@ static long restore_user_regs(struct pt_regs *regs,
->>   	regs_set_return_msr(regs, regs->msr & ~MSR_SPE);
->>   	if (msr & MSR_SPE) {
->>   		/* restore spe registers from the stack */
->> -		unsafe_copy_from_user(current->thread.evr, &sr->mc_vregs,
->> -				      ELF_NEVRREG * sizeof(u32), failed);
->> +		unsafe_copy_from_user(&current->thread.spe, &sr->mc_vregs,
->> +				      sizeof(current->thread.spe), failed);
-> 
-> This makes me nervous, because the ABI is that we copy ELF_NEVRREG *
-> sizeof(u32) bytes, not whatever sizeof(current->thread.spe) happens to
-> be.
-> 
-> ie. if we use sizeof an inadvertent change to the fields in
-> thread_struct could change how many bytes we copy out to userspace,
-> which would be an ABI break.
-> 
-> And that's not that hard to do, because it's not at all obvious that the
-> size and layout of fields in thread_struct affects the user ABI.
-> 
-> At the same time we don't want to copy the right number of bytes but
-> the wrong content, so from that point of view using sizeof is good :)
-> 
-> The way we handle it in ptrace is to have BUILD_BUG_ON()s to verify that
-> things match up, so maybe we should do that here too.
-> 
-> ie. add:
-> 
-> 	BUILD_BUG_ON(sizeof(current->thread.spe) == ELF_NEVRREG * sizeof(u32));
-
-You mean != I guess ?
-
-
-> 
-> 
-> Not sure if you are happy doing that as part of this patch. I can always
-> do it later if not.
-> 
-> cheers
-> 
