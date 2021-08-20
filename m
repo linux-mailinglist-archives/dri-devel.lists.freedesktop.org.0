@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15EE3F2FFA
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:47:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C96B3F3002
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 636B26EAAF;
-	Fri, 20 Aug 2021 15:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECF26EAB6;
+	Fri, 20 Aug 2021 15:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0232B6EA54
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 10:09:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 02403610FA;
- Fri, 20 Aug 2021 10:09:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D739F6EA53
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 10:10:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB2C7610D2;
+ Fri, 20 Aug 2021 10:10:12 +0000 (UTC)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>
-Subject: [PATCH V3 2/9] PCI/VGA: Replace full MIT license text with SPDX
- identifier
-Date: Fri, 20 Aug 2021 18:08:25 +0800
-Message-Id: <20210820100832.663931-3-chenhuacai@loongson.cn>
+Subject: [PATCH V3 3/9] PCI/VGA: Use unsigned format string to print lock
+ counts
+Date: Fri, 20 Aug 2021 18:08:26 +0800
+Message-Id: <20210820100832.663931-4-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210820100832.663931-1-chenhuacai@loongson.cn>
 References: <20210820100832.663931-1-chenhuacai@loongson.cn>
@@ -46,55 +46,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Helgaas <bhelgaas@google.com>
 
-Per Documentation/process/license-rules.rst, the SPDX MIT identifier is
-equivalent to including the entire MIT license text from
-LICENSES/preferred/MIT.
-
-Replace the MIT license text with the equivalent SPDX identifier.
+In struct vga_device, io_lock_cnt and mem_lock_cnt are unsigned, but we
+previously printed them with "%d", the signed decimal format.  Print them
+with the unsigned format "%u" instead.
 
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/vgaarb.c | 23 +----------------------
- 1 file changed, 1 insertion(+), 22 deletions(-)
+ drivers/pci/vgaarb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 949fde433ea2..61b57abcb014 100644
+index 61b57abcb014..e4153ab70481 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -1,32 +1,11 @@
-+// SPDX-License-Identifier: MIT
- /*
-  * vgaarb.c: Implements the VGA arbitration. For details refer to
-  * Documentation/gpu/vgaarbiter.rst
-  *
-- *
-  * (C) Copyright 2005 Benjamin Herrenschmidt <benh@kernel.crashing.org>
-  * (C) Copyright 2007 Paulo R. Zanoni <przanoni@gmail.com>
-  * (C) Copyright 2007, 2009 Tiago Vignatti <vignatti@freedesktop.org>
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS
-- * IN THE SOFTWARE.
-- *
-  */
+@@ -1022,7 +1022,7 @@ static ssize_t vga_arb_read(struct file *file, char __user *buf,
  
- #define pr_fmt(fmt) "vgaarb: " fmt
+ 	/* Fill the buffer with infos */
+ 	len = snprintf(lbuf, 1024,
+-		       "count:%d,PCI:%s,decodes=%s,owns=%s,locks=%s(%d:%d)\n",
++		       "count:%d,PCI:%s,decodes=%s,owns=%s,locks=%s(%u:%u)\n",
+ 		       vga_decode_count, pci_name(pdev),
+ 		       vga_iostate_to_str(vgadev->decodes),
+ 		       vga_iostate_to_str(vgadev->owns),
 -- 
 2.27.0
 
