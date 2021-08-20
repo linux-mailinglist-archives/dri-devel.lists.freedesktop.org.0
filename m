@@ -1,40 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9D63F3273
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 19:49:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB6D3F327E
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 19:50:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A07946EAD8;
-	Fri, 20 Aug 2021 17:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A4AA6EADB;
+	Fri, 20 Aug 2021 17:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2B366EAD8
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 17:49:05 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1mH8db-0003cd-NP; Fri, 20 Aug 2021 19:49:03 +0200
-Message-ID: <4d16197fa5e4147117fea842f1ed9f0fdadb1d57.camel@pengutronix.de>
-Subject: [GIT PULL] etnaviv-next for 5.15
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Fri, 20 Aug 2021 19:49:02 +0200
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4492B6EAD9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 17:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629481820;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cyc2idEvb/XAUIUvdNpiITPnSoCTix0slyXVBx8VagQ=;
+ b=e276rUjARbhvx/m6cVYUSWyqPbdzczBW2V4ah9yqVdxbEf+1qfXwMomfykYbKDWrZiO9Ii
+ SNqMYI1lkp7EI1pOYXe0YfoyJ4qkwqaYcONyCNu/4Z35ITtChxuV0R3wShwsjH0pF+CHgH
+ Y+d/XpKaDeNlLzstUbOKnojocqhKLM8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-U1buJJP_PkKZXyDhcZaxkQ-1; Fri, 20 Aug 2021 13:50:17 -0400
+X-MC-Unique: U1buJJP_PkKZXyDhcZaxkQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ s11-20020a170906060b00b005be824f15daso4014697ejb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 10:50:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=cyc2idEvb/XAUIUvdNpiITPnSoCTix0slyXVBx8VagQ=;
+ b=PU7f87TeMDM1pMo552zKL6GufXGp2OjvlbPGp4FcEltUchu9RtD6O6zteHxeGFEfEt
+ gDLdOL7mH7Ux9HH/VF6NVgQ0dJFGLg8EGKfQvUdZtUKjcuDKT+GaK5qvVKNlYe2z7lci
+ obCPeN/AUA42vmFembVR9UHRaTXFbWXSFIV06iFbSqrbkDdiF75xnHHvuiIAk+LcQu15
+ 4nSbBXqWY5yf5qhIaDLh09yhISAlYPzn120ci7uQn9rlmpkGkxnRtaLVBeDZRK8rHsfe
+ eEo/0E6ZNdIoi1q0/yzgLi5KxTHPQeCOb5/Qp1rj3JSYCVs3wmAlwM86ZR/YerRgwR+j
+ UteA==
+X-Gm-Message-State: AOAM53293QcEiKlI3T8VtV66B8w/wT0nXOwKL5lZbgtwOEYRp+nm05PE
+ s93EkDPYc/MwGSIr4+lWbd9O1OuMRXturXMUyrbEmdlBij/jVq6P/XYrnn4W+UJZBiYrSonRiFi
+ cMbGjS7K8Obbhncx6CpfFePIFHaN7
+X-Received: by 2002:a17:907:105d:: with SMTP id
+ oy29mr22843059ejb.531.1629481816273; 
+ Fri, 20 Aug 2021 10:50:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwWep/FkThx/FrYKQ/H6dH/XK1FG40BeBmmdgFYuWhLmx8DMyFErQEfmUvhO5DlLOFg2CucdA==
+X-Received: by 2002:a17:907:105d:: with SMTP id
+ oy29mr22843030ejb.531.1629481816051; 
+ Fri, 20 Aug 2021 10:50:16 -0700 (PDT)
+Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
+ by smtp.gmail.com with ESMTPSA id i6sm4012505edt.28.2021.08.20.10.50.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Aug 2021 10:50:15 -0700 (PDT)
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] drm-misc + drm-intel: Add support for out-of-band hotplug
+ notification
+Message-ID: <34f13e21-9b1a-5f54-7e03-9705a6b51428@redhat.com>
+Date: Fri, 20 Aug 2021 19:50:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,40 +93,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hello drm-misc and drm-intel maintainers,
 
-things are still slow in etnaviv land. Just one hardware support
-addition for the GPU found on the NXP Layerscape LS1028A SoC from
-Michael and the GEM mmap cleanup from Thomas.
+My "Add support for out-of-band hotplug notification" patchset:
+https://patchwork.freedesktop.org/series/93763/
+
+Is ready for merging now, as discussed on IRC I based this series
+on top drm-tip and when trying to apply the i915 parts on top
+of drm-misc this fails due to conflict.
+
+So as Jani suggested here is a pull-req for a topic-branch with the
+entire set, minus the troublesome i915 bits. Once this has been merged
+into both drm-misc-next and drm-intel-next I can push the 2 i915
+patch do drm-intel-next on top of the merge.
+
+Note there are also 2 drivers/usb/typec patches in here these
+have Greg KH's Reviewed-by for merging through the drm tree,
+Since this USB code does not change all that much. I also checked
+and the drm-misc-next-2021-08-12 base of this tree contains the
+same last commit to the modified file as usb-next.
+
+Daniel Vetter mentioned on IRC that it might be better for you to simply
+pick-up the series directly from patchwork, that is fine too in that
+case don't forget to add:
+
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+To the entire series (given in a reply to the cover-letter)
+
+And:
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+To the usb/typec patches (patch 7/8), this was given in reply
+to a previous posting of the series and I forgot to add this
+in the resend.
 
 Regards,
-Lucas
 
-The following changes since commit 8a02ea42bc1d4c448caf1bab0e05899dad503f74:
+Hans
 
-  Merge tag 'drm-intel-next-fixes-2021-06-29' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-06-30 15:42:05 +1000)
+
+The following changes since commit c7782443a88926a4f938f0193041616328cf2db2:
+
+  drm/bridge: ti-sn65dsi86: Avoid creating multiple connectors (2021-08-12 09:56:09 -0700)
 
 are available in the Git repository at:
 
-  https://git.pengutronix.de/git/lst/linux 81fd23e2b3ccf71c807e671444e8accaba98ca53
+  git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git drm-misc-intel-oob-hotplug-v1
 
-for you to fetch changes up to 81fd23e2b3ccf71c807e671444e8accaba98ca53:
+for you to fetch changes up to 7f811394878535ed9a6849717de8c2959ae38899:
 
-  drm/etnaviv: Implement mmap as GEM object function (2021-07-06 18:32:23 +0200)
+  usb: typec: altmodes/displayport: Notify drm subsys of hotplug events (2021-08-20 12:35:59 +0200)
 
 ----------------------------------------------------------------
-Michael Walle (2):
-      drm/etnaviv: add HWDB entry for GC7000 r6202
-      drm/etnaviv: add clock gating workaround for GC7000 r6202
+Topic branch for drm-misc / drm-intel for OOB hotplug support for Type-C connectors
 
-Thomas Zimmermann (1):
-      drm/etnaviv: Implement mmap as GEM object function
+----------------------------------------------------------------
+Hans de Goede (6):
+      drm/connector: Give connector sysfs devices there own device_type
+      drm/connector: Add a fwnode pointer to drm_connector and register with ACPI (v2)
+      drm/connector: Add drm_connector_find_by_fwnode() function (v3)
+      drm/connector: Add support for out-of-band hotplug notification (v3)
+      usb: typec: altmodes/displayport: Make dp_altmode_notify() more generic
+      usb: typec: altmodes/displayport: Notify drm subsys of hotplug events
 
- drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 14 ++------------
- drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  3 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 18 +++++-------------
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 13 -------------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c       |  6 ++++++
- drivers/gpu/drm/etnaviv/etnaviv_hwdb.c      | 31 +++++++++++++++++++++++++++++++
- 6 files changed, 44 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/drm_connector.c          | 79 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_crtc_internal.h      |  2 +
+ drivers/gpu/drm/drm_sysfs.c              | 87 +++++++++++++++++++++++++++-----
+ drivers/usb/typec/altmodes/Kconfig       |  1 +
+ drivers/usb/typec/altmodes/displayport.c | 58 +++++++++++++--------
+ include/drm/drm_connector.h              | 25 +++++++++
+ 6 files changed, 217 insertions(+), 35 deletions(-)
 
