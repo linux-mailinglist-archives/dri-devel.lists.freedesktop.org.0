@@ -1,73 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739973F2F78
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:28:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C863F2FCB
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:43:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CB16EAA6;
-	Fri, 20 Aug 2021 15:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 911A66EAA7;
+	Fri, 20 Aug 2021 15:43:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF5826EAA5;
- Fri, 20 Aug 2021 15:28:08 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- x10-20020a056830408a00b004f26cead745so14486756ott.10; 
- Fri, 20 Aug 2021 08:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2eS3QJuOoUmoESeURE1tHhGFVya6B6JGJbYvqJ7L3mA=;
- b=FZ30HpWsbdlvXLmE01aRY6a5J0fsLSGL6MIQb3E4ZaPfC2mLNqAtbEhCO5fgoSiLs3
- oa53tBxjoVERf3EJVHYSJKtQNlGGR3nf9CeQQntTgmqxipOigi9bAvc+Ztab/7qEMHC4
- vuWtBbUXz7e33mw4bWrwS9kDvLC/SDhFAvKfK0Ar+XyubJ1C4m9+t2tpzkxsgYr0haWp
- 3+V073rf9UyztDAC4/gpGYkwNxeth0CkkYDvxeGkzmWFMwUOCK0rg0YlsvITRIseNsGT
- Z1yXHtFwLVaMCClbJMNxkAHywYEQszfcH25Uy5kQTRECBWb8ORudoaaFqgGiUy2q2dQM
- Ft6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2eS3QJuOoUmoESeURE1tHhGFVya6B6JGJbYvqJ7L3mA=;
- b=nrgZDQRgYJRN09521aThJEGXT997953xMO4rjVmsbBAhlSzjb42ClbCU7PnlfonhNw
- t9iUxuANh+8ExAS3c7TIVkJwHufZzkowPU2HnvZ4JFToA9Jp5Y4wuYTI09Kly8xAiiy2
- 6i7o3fJ6E50hXM60tvlMCIcz2VSv7RJwlMWIvwoagQBUKuE/rFz2sNPX27bzTdEWuxmg
- Elme6iKfzWWKgRw8sRf1hK8m2+J1fk1TAGZ6vkSKCSyPUwFS43/zNF5xeMTfVs/QtYk1
- Uhu7DXWENjiLGzTBitxR5P4Zy0ZCM+vZerC+RhNhQ5jGwypAPK9+OhlA30nx+y39A5ts
- luKA==
-X-Gm-Message-State: AOAM531JUIjbPYWTatkvMnFYWC00YvT+Vz9rWWQkNKVzh3Va9tsLZw8j
- YKH4+Png9WR75SeLV+FsRHfrElFlrNHxqjs6F7Y=
-X-Google-Smtp-Source: ABdhPJz+x71nb8V3O2jBnnr5ntdbi4qL0VsQawio7iYcolm+2DfPCDbQyZTpmUm3IGebywOFOzSmealTe3sJF4YoDkk=
-X-Received: by 2002:a05:6808:483:: with SMTP id z3mr3318825oid.5.1629473288249; 
- Fri, 20 Aug 2021 08:28:08 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE4E6EAA7
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 15:43:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AECB061152
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 15:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629474194;
+ bh=KUtRnL73K/9xrkHi7H1uCy+hezs+TnAMyJn8DRFGGFk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=HI26+GBZTPG4lx8vIvyFk6wWVHIAdNZfJAcBXvbm3JRdQpFeXxkVEHX+q5TXe7/Q4
+ syO6iaqSeJ2GfDX5MIAGvzqHfaYeuBc+fitZZzLZ6DqTXG0vb0GSGg5J88H2Zoazl1
+ 1qZ1UdTWIeSDp3FUDvIf5V1GCZtYwFejAHvcSw4PVGtvhVCBeddS00agJpmZ7I3B0z
+ v8HsHlAOCTJMx7m5TQDrEgEUgIvnvcOSgvty2z50QW6zqA3TS8k7mcBUFOwmk0crn9
+ vNdXgEUolAGhBwcuT9VZv6IBZdMuT+FWeEfu1xrpBeLlE2KoPPgh1iWx/ksklZ2iqa
+ JLrUgoY6JkB0Q==
+Received: by mail-ed1-f44.google.com with SMTP id g21so14602630edw.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 08:43:14 -0700 (PDT)
+X-Gm-Message-State: AOAM532bxxzikpooeu8AyPcB5Ew/zMGBI0/7XoWMMmLRM6TeYCAo3htK
+ jtOvdS0ot+ePdBDXtjtQSmP2iy2nJL3W2gQIIQ==
+X-Google-Smtp-Source: ABdhPJx/liJcPr64dlq4NzL8S8iTfHyVg04A/MmFQW6DsB6dGldfaC1PigGp/oa3UmnZwXpfnGYPUZTGFl4ZbQT7xrQ=
+X-Received: by 2002:aa7:c548:: with SMTP id s8mr23853936edr.162.1629474193192; 
+ Fri, 20 Aug 2021 08:43:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210819201441.3545027-1-keescook@chromium.org>
-In-Reply-To: <20210819201441.3545027-1-keescook@chromium.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 20 Aug 2021 11:27:57 -0400
-Message-ID: <CADnq5_PzoQjeESSANzQEkYy_3as8hu1zq-vXmujZExE4=CnpBQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: And destination bounds checking to struct copy
-To: Kees Cook <keescook@chromium.org>
-Cc: Lijo Lazar <lijo.lazar@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Hawking Zhang <Hawking.Zhang@amd.com>, Feifei Xu <Feifei.Xu@amd.com>,
- Likun Gao <Likun.Gao@amd.com>, 
- Jiawei Gu <Jiawei.Gu@amd.com>, Evan Quan <evan.quan@amd.com>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Luben Tuikov <luben.tuikov@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>, 
- Dennis Li <Dennis.Li@amd.com>,
- Sathishkumar S <sathishkumar.sundararaju@amd.com>, 
- Jonathan Kim <jonathan.kim@amd.com>, Kevin Wang <kevin1.wang@amd.com>, 
- David M Nieto <David.Nieto@amd.com>, Kenneth Feng <kenneth.feng@amd.com>, 
- Lee Jones <lee.jones@linaro.org>, John Clements <John.Clements@amd.com>, 
- LKML <linux-kernel@vger.kernel.org>, linux-hardening@vger.kernel.org
+References: <20210819022327.13040-1-jason-jh.lin@mediatek.com>
+ <20210819022327.13040-13-jason-jh.lin@mediatek.com>
+In-Reply-To: <20210819022327.13040-13-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 20 Aug 2021 23:43:02 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9+2CvcSxZByqxVM18hLQfE0rt5zf2JLxCYrd8O1_UCAg@mail.gmail.com>
+Message-ID: <CAAOTY_9+2CvcSxZByqxVM18hLQfE0rt5zf2JLxCYrd8O1_UCAg@mail.gmail.com>
+Subject: Re: [PATCH v8 12/13] drm/mediatek: add MERGE support for mediatek-drm
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, fshao@chromium.org, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Fabien Parent <fparent@baylibre.com>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Jitao shi <jitao.shi@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, 
+ singo.chang@mediatek.com, DTML <devicetree@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,188 +71,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 19, 2021 at 4:14 PM Kees Cook <keescook@chromium.org> wrote:
->
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> intentionally writing across neighboring fields.
->
-> The "Board Parameters" members of the structs:
->         struct atom_smc_dpm_info_v4_5
->         struct atom_smc_dpm_info_v4_6
->         struct atom_smc_dpm_info_v4_7
->         struct atom_smc_dpm_info_v4_10
-> are written to the corresponding members of the corresponding PPTable_t
-> variables, but they lack destination size bounds checking, which means
-> the compiler cannot verify at compile time that this is an intended and
-> safe memcpy().
->
-> Since the header files are effectively immutable[1] and a struct_group()
-> cannot be used, nor a common struct referenced by both sides of the
-> memcpy() arguments, add a new helper, memcpy_trailing(), to perform the
-> bounds checking at compile time. Replace the open-coded memcpy()s with
-> memcpy_trailing() which includes enough context for the bounds checking.
->
-> "objdump -d" shows no object code changes.
->
-> [1] https://lore.kernel.org/lkml/e56aad3c-a06f-da07-f491-a894a570d78f@amd=
-.com
->
-> Cc: Lijo Lazar <lijo.lazar@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-> Cc: Feifei Xu <Feifei.Xu@amd.com>
-> Cc: Likun Gao <Likun.Gao@amd.com>
-> Cc: Jiawei Gu <Jiawei.Gu@amd.com>
-> Cc: Evan Quan <evan.quan@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> Link: https://lore.kernel.org/lkml/CADnq5_Npb8uYvd+R4UHgf-w8-cQj3JoODjviJ=
-R_Y9w9wqJ71mQ@mail.gmail.com
-> ---
-> Alex, I dropped your prior Acked-by, since the implementation is very
-> different. If you're still happy with it, I can add it back. :)
+Hi, Jason:
 
-This looks reasonable to me:
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h           | 25 +++++++++++++++++++
->  .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |  6 ++---
->  .../gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c   |  8 +++---
->  .../drm/amd/pm/swsmu/smu13/aldebaran_ppt.c    |  5 ++--
->  4 files changed, 33 insertions(+), 11 deletions(-)
+jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B48=E6=9C=881=
+9=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8810:23=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
-dgpu/amdgpu.h
-> index 96e895d6be35..4605934a4fb7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1446,4 +1446,29 @@ static inline int amdgpu_in_reset(struct amdgpu_de=
-vice *adev)
->  {
->         return atomic_read(&adev->in_gpu_reset);
->  }
+> Add MERGE engine file:
+> MERGE module is used to merge two slice-per-line inputs
+> into one side-by-side output.
+>
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/Makefile           |   1 +
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   8 +
+>  drivers/gpu/drm/mediatek/mtk_disp_merge.c   | 268 ++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  16 ++
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   2 +
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   1 +
+>  7 files changed, 297 insertions(+)
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_merge.c
+>
+> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek=
+/Makefile
+> index dc54a7a69005..538e0087a44c 100644
+> --- a/drivers/gpu/drm/mediatek/Makefile
+> +++ b/drivers/gpu/drm/mediatek/Makefile
+> @@ -3,6 +3,7 @@
+>  mediatek-drm-y :=3D mtk_disp_ccorr.o \
+>                   mtk_disp_color.o \
+>                   mtk_disp_gamma.o \
+> +                 mtk_disp_merge.o \
+>                   mtk_disp_ovl.o \
+>                   mtk_disp_rdma.o \
+>                   mtk_drm_crtc.o \
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/me=
+diatek/mtk_disp_drv.h
+> index cafd9df2d63b..f407cd9d873e 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -46,6 +46,14 @@ void mtk_gamma_set_common(void __iomem *regs, struct d=
+rm_crtc_state *state);
+>  void mtk_gamma_start(struct device *dev);
+>  void mtk_gamma_stop(struct device *dev);
+>
+> +int mtk_merge_clk_enable(struct device *dev);
+> +void mtk_merge_clk_disable(struct device *dev);
+> +void mtk_merge_config(struct device *dev, unsigned int width,
+> +                     unsigned int height, unsigned int vrefresh,
+> +                     unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+> +void mtk_merge_start(struct device *dev);
+> +void mtk_merge_stop(struct device *dev);
 > +
-> +/**
-> + * memcpy_trailing - Copy the end of one structure into the middle of an=
-other
-> + *
-> + * @dst: Pointer to destination struct
-> + * @first_dst_member: The member name in @dst where the overwrite begins
-> + * @last_dst_member: The member name in @dst where the overwrite ends af=
-ter
-> + * @src: Pointer to the source struct
-> + * @first_src_member: The member name in @src where the copy begins
-> + *
+>  void mtk_ovl_bgclr_in_on(struct device *dev);
+>  void mtk_ovl_bgclr_in_off(struct device *dev);
+>  void mtk_ovl_bypass_shadow(struct device *dev);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/=
+mediatek/mtk_disp_merge.c
+> new file mode 100644
+> index 000000000000..ebcb646bde9c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> @@ -0,0 +1,268 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2021 MediaTek Inc.
 > + */
-> +#define memcpy_trailing(dst, first_dst_member, last_dst_member,         =
-          \
-> +                       src, first_src_member)                           =
-  \
-> +({                                                                      =
-  \
-> +       size_t __src_offset =3D offsetof(typeof(*(src)), first_src_member=
-);  \
-> +       size_t __src_size =3D sizeof(*(src)) - __src_offset;             =
-    \
-> +       size_t __dst_offset =3D offsetof(typeof(*(dst)), first_dst_member=
-);  \
-> +       size_t __dst_size =3D offsetofend(typeof(*(dst)), last_dst_member=
-) - \
-> +                           __dst_offset;                                =
-  \
-> +       BUILD_BUG_ON(__src_size !=3D __dst_size);                        =
-    \
-> +       __builtin_memcpy((u8 *)(dst) + __dst_offset,                     =
-  \
-> +                        (u8 *)(src) + __src_offset,                     =
-  \
-> +                        __dst_size);                                    =
-  \
-> +})
 > +
->  #endif
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c b/drivers/=
-gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-> index 8ab58781ae13..1918e6232319 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-> @@ -465,10 +465,8 @@ static int arcturus_append_powerplay_table(struct sm=
-u_context *smu)
->
->         if ((smc_dpm_table->table_header.format_revision =3D=3D 4) &&
->             (smc_dpm_table->table_header.content_revision =3D=3D 6))
-> -               memcpy(&smc_pptable->MaxVoltageStepGfx,
-> -                      &smc_dpm_table->maxvoltagestepgfx,
-> -                      sizeof(*smc_dpm_table) - offsetof(struct atom_smc_=
-dpm_info_v4_6, maxvoltagestepgfx));
-> -
-> +               memcpy_trailing(smc_pptable, MaxVoltageStepGfx, BoardRese=
-rved,
-> +                               smc_dpm_table, maxvoltagestepgfx);
->         return 0;
->  }
->
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gp=
-u/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-> index 2e5d3669652b..b738042e064d 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-> @@ -431,16 +431,16 @@ static int navi10_append_powerplay_table(struct smu=
-_context *smu)
->
->         switch (smc_dpm_table->table_header.content_revision) {
->         case 5: /* nv10 and nv14 */
-> -               memcpy(smc_pptable->I2cControllers, smc_dpm_table->I2cCon=
-trollers,
-> -                       sizeof(*smc_dpm_table) - sizeof(smc_dpm_table->ta=
-ble_header));
-> +               memcpy_trailing(smc_pptable, I2cControllers, BoardReserve=
-d,
-> +                               smc_dpm_table, I2cControllers);
->                 break;
->         case 7: /* nv12 */
->                 ret =3D amdgpu_atombios_get_data_table(adev, index, NULL,=
- NULL, NULL,
->                                               (uint8_t **)&smc_dpm_table_=
-v4_7);
->                 if (ret)
->                         return ret;
-> -               memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I=
-2cControllers,
-> -                       sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_tabl=
-e_v4_7->table_header));
-> +               memcpy_trailing(smc_pptable, I2cControllers, BoardReserve=
-d,
-> +                               smc_dpm_table_v4_7, I2cControllers);
->                 break;
->         default:
->                 dev_err(smu->adev->dev, "smc_dpm_info with unsupported co=
-ntent revision %d!\n",
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers=
-/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> index c8eefacfdd37..a6fd7ee314a9 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> @@ -409,9 +409,8 @@ static int aldebaran_append_powerplay_table(struct sm=
-u_context *smu)
->
->         if ((smc_dpm_table->table_header.format_revision =3D=3D 4) &&
->             (smc_dpm_table->table_header.content_revision =3D=3D 10))
-> -               memcpy(&smc_pptable->GfxMaxCurrent,
-> -                      &smc_dpm_table->GfxMaxCurrent,
-> -                      sizeof(*smc_dpm_table) - offsetof(struct atom_smc_=
-dpm_info_v4_10, GfxMaxCurrent));
-> +               memcpy_trailing(smc_pptable, GfxMaxCurrent, reserved,
-> +                               smc_dpm_table, GfxMaxCurrent);
->         return 0;
->  }
->
-> --
-> 2.30.2
->
+> +#include <linux/clk.h>
+> +#include <linux/component.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/soc/mediatek/mtk-cmdq.h>
+> +
+> +#include "mtk_drm_ddp_comp.h"
+> +#include "mtk_drm_drv.h"
+> +#include "mtk_disp_drv.h"
+> +
+> +#define DISP_REG_MERGE_CTRL            0x000
+> +#define MERGE_EN                               1
+> +#define DISP_REG_MERGE_CFG_0           0x010
+> +#define DISP_REG_MERGE_CFG_4           0x020
+> +#define DISP_REG_MERGE_CFG_10          0x038
+> +/* no swap */
+> +#define SWAP_MODE                              0
+> +#define FLD_SWAP_MODE                          GENMASK(4, 0)
+> +#define DISP_REG_MERGE_CFG_12          0x040
+> +#define CFG_10_10_1PI_2PO_BUF_MODE             6
+> +#define CFG_10_10_2PI_2PO_BUF_MODE             8
+> +#define FLD_CFG_MERGE_MODE                     GENMASK(4, 0)
+> +#define DISP_REG_MERGE_CFG_24          0x070
+> +#define DISP_REG_MERGE_CFG_25          0x074
+> +#define DISP_REG_MERGE_CFG_36          0x0a0
+> +#define ULTRA_EN                               1
+
+You could use FLD_ULTRA_EN for this.
+
+> +#define PREULTRA_EN                            1
+> +#define HALT_FOR_DVFS_EN                       0
+
+You could just not set this.
+
+> +#define FLD_ULTRA_EN                           GENMASK(0, 0)
+
+#define FLD_ULTRA_EN BIT(0)
+
+Regards,
+Chun-Kuang.
+
+> +#define FLD_PREULTRA_EN                                GENMASK(4, 4)
+> +#define FLD_HALT_FOR_DVFS_EN                   GENMASK(8, 8)
+> +#define DISP_REG_MERGE_CFG_37          0x0a4
+> +/* 0: Off, 1: SRAM0, 2: SRAM1, 3: SRAM0 + SRAM1 */
+> +#define BUFFER_MODE                            3
+> +#define FLD_BUFFER_MODE                                GENMASK(1, 0)
+> +#define DISP_REG_MERGE_CFG_38                  0x0a8
+> +#define FLD_VDE_BLOCK_ULTRA                    GENMASK(0, 0)
+> +#define FLD_VALID_TH_BLOCK_ULTRA               GENMASK(4, 4)
+> +#define FLD_ULTRA_FIFO_VALID_TH                        GENMASK(31, 16)
+> +#define DISP_REG_MERGE_CFG_39          0x0ac
+> +#define FLD_NVDE_FORCE_PREULTRA                        GENMASK(8, 8)
+> +#define FLD_NVALID_TH_FORCE_PREULTRA           GENMASK(12, 12)
+> +#define FLD_PREULTRA_FIFO_VALID_TH             GENMASK(31, 16)
