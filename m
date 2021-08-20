@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE0A3F3518
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 22:18:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD97D3F3517
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 22:18:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA0426EB26;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAFF26EB24;
 	Fri, 20 Aug 2021 20:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4D36EB1A
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 20:18:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00F066EB1C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 20:18:35 +0000 (UTC)
 Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1mHAyG-000258-Ou; Fri, 20 Aug 2021 22:18:32 +0200
+ id 1mHAyH-000258-5R; Fri, 20 Aug 2021 22:18:33 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>, kernel@pengutronix.de,
  patchwork-lst@pengutronix.de
-Subject: [PATCH 4/8] drm/etnaviv: keep MMU context across runtime
- suspend/resume
-Date: Fri, 20 Aug 2021 22:18:26 +0200
-Message-Id: <20210820201830.2005563-4-l.stach@pengutronix.de>
+Subject: [PATCH 5/8] drm/etnaviv: exec and MMU state is lost when resetting
+ the GPU
+Date: Fri, 20 Aug 2021 22:18:27 +0200
+Message-Id: <20210820201830.2005563-5-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210820201830.2005563-1-l.stach@pengutronix.de>
 References: <20210820201830.2005563-1-l.stach@pengutronix.de>
@@ -52,46 +52,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MMU state may be kept across a runtime suspend/resume cycle, as we
-avoid a full hardware reset to keep the latency of the runtime PM small.
-
-Don't pretend that the MMU state is lost in driver state. The MMU
-context is pushed out when new HW jobs with a different context are
-coming in. The only exception to this is when the GPU is unbound, in
-which case we need to make sure to also free the last active context.
+When the GPU is reset both the current exec state, as well as all MMU
+state is lost. Move the driver side state tracking into the reset function
+to keep hardware and software state from diverging.
 
 Cc: stable@vger.kernel.org # 5.4
-Reported-by: Michael Walle <michael@walle.cc>
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Tested-by: Michael Walle <michael@walle.cc>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 325858cfc2c3..973843c35fca 100644
+index 973843c35fca..9c710924df6b 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1590,9 +1590,6 @@ static int etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
- 		 */
- 		etnaviv_gpu_wait_idle(gpu, 100);
+@@ -570,6 +570,8 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
+ 	etnaviv_gpu_update_clock(gpu);
  
--		etnaviv_iommu_context_put(gpu->mmu_context);
--		gpu->mmu_context = NULL;
--
- 		gpu->fe_running = false;
- 	}
+ 	gpu->fe_running = false;
++	gpu->exec_state = -1;
++	gpu->mmu_context = NULL;
  
-@@ -1741,6 +1738,9 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
- 	etnaviv_gpu_hw_suspend(gpu);
- #endif
+ 	return 0;
+ }
+@@ -830,7 +832,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 	/* Now program the hardware */
+ 	mutex_lock(&gpu->lock);
+ 	etnaviv_gpu_hw_init(gpu);
+-	gpu->exec_state = -1;
+ 	mutex_unlock(&gpu->lock);
  
-+	if (gpu->mmu_context)
-+		etnaviv_iommu_context_put(gpu->mmu_context);
-+
- 	if (gpu->initialized) {
- 		etnaviv_cmdbuf_free(&gpu->buffer);
- 		etnaviv_iommu_global_fini(gpu);
+ 	pm_runtime_mark_last_busy(gpu->dev);
+@@ -1055,8 +1056,6 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+ 	spin_unlock(&gpu->event_spinlock);
+ 
+ 	etnaviv_gpu_hw_init(gpu);
+-	gpu->exec_state = -1;
+-	gpu->mmu_context = NULL;
+ 
+ 	mutex_unlock(&gpu->lock);
+ 	pm_runtime_mark_last_busy(gpu->dev);
 -- 
 2.30.2
 
