@@ -1,53 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B943F34F8
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 22:09:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF3C3F350C
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 22:18:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 653716EB15;
-	Fri, 20 Aug 2021 20:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6846EB19;
+	Fri, 20 Aug 2021 20:18:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5A266EB15
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 20:09:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7AD4461157;
- Fri, 20 Aug 2021 20:09:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629490152;
- bh=1AblUz05JyakNbDBgEp+x32OedoLAPuchfTOawQaXk8=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=kstUbQsA3UMFeUm038rkr+HJv0SJvKtP/+oE1UYYZTeetAzGO3lrBiEqo1tCOmpmL
- 1wTUB008jFbJNo5DgJv38l0uDTHXkiIFVXIv32vwOXlTqt+IIr1Dlp2uBkxql2VvTt
- ME6ivDlrj4o7eaZV0zOVLWWQEcfnSrYRlQtCEsCwG9W5t5565C/QZ6hEWg4YMtifaQ
- O2Xu5iV+C+CHp1X4zIOtNkCqXcN4GwEmCEF4VnVM2FysrNbalF+m2DYtRe0vCOqo/S
- hObQmvOv8ZsI0QGDvYXspifddJWkn34N2ENq0eP6e1e3pk7HHbDZbc405ggLgPv55a
- os32Ab4pOIXPw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7472060A50;
- Fri, 20 Aug 2021 20:09:12 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.14-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tx-3de7XH+pbT8deG3E3BhfPde7rBCjRu0pSxtQ0tqGsQ@mail.gmail.com>
-References: <CAPM=9tx-3de7XH+pbT8deG3E3BhfPde7rBCjRu0pSxtQ0tqGsQ@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tx-3de7XH+pbT8deG3E3BhfPde7rBCjRu0pSxtQ0tqGsQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2021-08-20-3
-X-PR-Tracked-Commit-Id: daa7772d477ec658dc1fd9127549a7996d8e0c2b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8ba9fbe1e4b8a28050c283792344ee8b6bc3465c
-Message-Id: <162949015247.21370.12083039843230342662.pr-tracker-bot@kernel.org>
-Date: Fri, 20 Aug 2021 20:09:12 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69ED46EB18
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 20:18:33 +0000 (UTC)
+Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1mHAyF-000258-Ip; Fri, 20 Aug 2021 22:18:31 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, kernel@pengutronix.de,
+ patchwork-lst@pengutronix.de
+Subject: [PATCH 1/8] drm/etnaviv: return context from etnaviv_iommu_context_get
+Date: Fri, 20 Aug 2021 22:18:23 +0200
+Message-Id: <20210820201830.2005563-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,15 +49,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 20 Aug 2021 15:36:29 +1000:
+Being able to have the refcount manipulation in an assignment makes
+it much easier to parse the code.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-08-20-3
+Cc: stable@vger.kernel.org # 5.4
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Tested-by: Michael Walle <michael@walle.cc>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_buffer.c     | 3 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c        | 3 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 3 +--
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 6 ++----
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.h        | 4 +++-
+ 5 files changed, 8 insertions(+), 11 deletions(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8ba9fbe1e4b8a28050c283792344ee8b6bc3465c
-
-Thank you!
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+index 76d38561c910..cf741c5c82d2 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+@@ -397,8 +397,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+ 		if (switch_mmu_context) {
+ 			struct etnaviv_iommu_context *old_context = gpu->mmu_context;
+ 
+-			etnaviv_iommu_context_get(mmu_context);
+-			gpu->mmu_context = mmu_context;
++			gpu->mmu_context = etnaviv_iommu_context_get(mmu_context);
+ 			etnaviv_iommu_context_put(old_context);
+ 		}
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index b8fa6ed3dd73..fb7a33b88fc0 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -303,8 +303,7 @@ struct etnaviv_vram_mapping *etnaviv_gem_mapping_get(
+ 		list_del(&mapping->obj_node);
+ 	}
+ 
+-	etnaviv_iommu_context_get(mmu_context);
+-	mapping->context = mmu_context;
++	mapping->context = etnaviv_iommu_context_get(mmu_context);
+ 	mapping->use = 1;
+ 
+ 	ret = etnaviv_iommu_map_gem(mmu_context, etnaviv_obj,
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 4dd7d9d541c0..486259e154af 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -532,8 +532,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		goto err_submit_objects;
+ 
+ 	submit->ctx = file->driver_priv;
+-	etnaviv_iommu_context_get(submit->ctx->mmu);
+-	submit->mmu_context = submit->ctx->mmu;
++	submit->mmu_context = etnaviv_iommu_context_get(submit->ctx->mmu);
+ 	submit->exec_state = args->exec_state;
+ 	submit->flags = args->flags;
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 4102bcea3341..c8b9b0cc4442 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1365,12 +1365,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 	}
+ 
+ 	if (!gpu->mmu_context) {
+-		etnaviv_iommu_context_get(submit->mmu_context);
+-		gpu->mmu_context = submit->mmu_context;
++		gpu->mmu_context = etnaviv_iommu_context_get(submit->mmu_context);
+ 		etnaviv_gpu_start_fe_idleloop(gpu);
+ 	} else {
+-		etnaviv_iommu_context_get(gpu->mmu_context);
+-		submit->prev_mmu_context = gpu->mmu_context;
++		submit->prev_mmu_context = etnaviv_iommu_context_get(gpu->mmu_context);
+ 	}
+ 
+ 	if (submit->nr_pmrs) {
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
+index d1d6902fd13b..e4a0b7d09c2e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.h
+@@ -105,9 +105,11 @@ void etnaviv_iommu_dump(struct etnaviv_iommu_context *ctx, void *buf);
+ struct etnaviv_iommu_context *
+ etnaviv_iommu_context_init(struct etnaviv_iommu_global *global,
+ 			   struct etnaviv_cmdbuf_suballoc *suballoc);
+-static inline void etnaviv_iommu_context_get(struct etnaviv_iommu_context *ctx)
++static inline struct etnaviv_iommu_context *
++etnaviv_iommu_context_get(struct etnaviv_iommu_context *ctx)
+ {
+ 	kref_get(&ctx->refcount);
++	return ctx;
+ }
+ void etnaviv_iommu_context_put(struct etnaviv_iommu_context *ctx);
+ void etnaviv_iommu_restore(struct etnaviv_gpu *gpu,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.30.2
+
