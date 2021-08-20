@@ -2,40 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BB13F24B3
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 04:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B73A3F24CA
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 04:34:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16E506E9EF;
-	Fri, 20 Aug 2021 02:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3D66E9F0;
+	Fri, 20 Aug 2021 02:33:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
- by gabe.freedesktop.org (Postfix) with ESMTP id 971D46E9EF
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 02:19:33 +0000 (UTC)
-Received: from BC-Mail-Ex22.internal.baidu.com (unknown [172.31.51.16])
- by Forcepoint Email with ESMTPS id 0EDD4FE32EB288AF2D9A;
- Fri, 20 Aug 2021 10:19:29 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex22.internal.baidu.com (172.31.51.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Fri, 20 Aug 2021 10:19:28 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 20 Aug 2021 10:19:28 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <yuq825@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <lima@lists.freedesktop.org>, "Cai
- Huoqing" <caihuoqing@baidu.com>
-Subject: [PATCH] drm/lima: Remove unused lima_vm_print()
-Date: Fri, 20 Aug 2021 10:19:11 +0800
-Message-ID: <20210820021911.95-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E8E6E9F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 02:33:54 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4GrQgN04l2z9sWq;
+ Fri, 20 Aug 2021 12:33:51 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1629426832;
+ bh=YWlPocs0BfpTGfRfxgXiDWaeT/Tw04gUe3Td/HKHySo=;
+ h=Date:From:To:Cc:Subject:From;
+ b=JoSLnwP3Zw9Vd08ffcY17k+zwn3tnAlsOKkw9yu45QBPgjhlStjfnsuLO2bRhe5kV
+ E03coMNuA991b74Bo8TkjOvWzDf4hGqrPkoQV9lFXo/9Yie2WMF+6YuD9TrtDglPAz
+ /Y0B1l82Jissx/7uKWLM1xHQ9JJBhbutJ5dfguCzKkCU293w08YJQoOoloWqP92/Si
+ 4Q2QYTnIcmEYrtMHCU03sD1NkfrXQJFOXBbJ8NevOq5Mv2fjIaHI4n3EMtYtQkRjtg
+ hfzhemEx4nWsRlLZrB+Oy21WFYHsmDWlYpqBAS14qXSf2yyZxXuo7o2tjhzRXjKCqU
+ GsQTrWyxVcGPA==
+Date: Fri, 20 Aug 2021 12:33:48 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
+ Masahiro Yamada <masahiroy@kernel.org>
+Cc: John Harrison <John.C.Harrison@Intel.com>, Matthew Brost
+ <matthew.brost@intel.com>, Alexey Dobriyan <adobriyan@gmail.com>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: build failure after merge of the drm tree
+Message-ID: <20210820123348.6535a87e@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex22.internal.baidu.com (172.31.51.16) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Type: multipart/signed; boundary="Sig_/oOsbFiDQh9BrurlcM8zPi+c";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,66 +56,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-lima_vm_print() isn't used, so remove it
+--Sig_/oOsbFiDQh9BrurlcM8zPi+c
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Hi all,
+
+After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
+failed like this:
+
+In file included from drivers/gpu/drm/i915/i915_debugfs.c:39:
+drivers/gpu/drm/i915/gt/intel_gt_requests.h:9:10: fatal error: stddef.h: No=
+ such file or directory
+    9 | #include <stddef.h>
+      |          ^~~~~~~~~~
+
+Caused by commit
+
+  564f963eabd1 ("isystem: delete global -isystem compile option")
+
+from the kbuild tree interacting with commit
+
+  b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work with G=
+uC")
+
+I have applied the following patch for today.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Fri, 20 Aug 2021 12:24:19 +1000
+Subject: [PATCH] drm/i915: use linux/stddef.h due to "isystem: trim/fixup s=
+tdarg.h and other headers"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
- drivers/gpu/drm/lima/lima_vm.c | 29 -----------------------------
- drivers/gpu/drm/lima/lima_vm.h |  1 -
- 2 files changed, 30 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_requests.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/lima/lima_vm.c b/drivers/gpu/drm/lima/lima_vm.c
-index 2b2739adc7f5..b3426c5c987f 100644
---- a/drivers/gpu/drm/lima/lima_vm.c
-+++ b/drivers/gpu/drm/lima/lima_vm.c
-@@ -251,35 +251,6 @@ void lima_vm_release(struct kref *kref)
- 	kfree(vm);
- }
- 
--void lima_vm_print(struct lima_vm *vm)
--{
--	int i, j, k;
--	u32 *pd, *pt;
--
--	if (!vm->pd.cpu)
--		return;
--
--	pd = vm->pd.cpu;
--	for (i = 0; i < LIMA_VM_NUM_BT; i++) {
--		if (!vm->bts[i].cpu)
--			continue;
--
--		pt = vm->bts[i].cpu;
--		for (j = 0; j < LIMA_VM_NUM_PT_PER_BT; j++) {
--			int idx = (i << LIMA_VM_NUM_PT_PER_BT_SHIFT) + j;
--
--			printk(KERN_INFO "lima vm pd %03x:%08x\n", idx, pd[idx]);
--
--			for (k = 0; k < LIMA_PAGE_ENT_NUM; k++) {
--				u32 pte = *pt++;
--
--				if (pte)
--					printk(KERN_INFO "  pt %03x:%08x\n", k, pte);
--			}
--		}
--	}
--}
--
- int lima_vm_map_bo(struct lima_vm *vm, struct lima_bo *bo, int pageoff)
- {
- 	struct lima_bo_va *bo_va;
-diff --git a/drivers/gpu/drm/lima/lima_vm.h b/drivers/gpu/drm/lima/lima_vm.h
-index 3a7c74822d8b..291ec9a0a1c4 100644
---- a/drivers/gpu/drm/lima/lima_vm.h
-+++ b/drivers/gpu/drm/lima/lima_vm.h
-@@ -58,7 +58,6 @@ static inline void lima_vm_put(struct lima_vm *vm)
- 		kref_put(&vm->refcount, lima_vm_release);
- }
- 
--void lima_vm_print(struct lima_vm *vm);
- int lima_vm_map_bo(struct lima_vm *vm, struct lima_bo *bo, int pageoff);
- 
- #endif
--- 
-2.25.1
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.h b/drivers/gpu/drm/=
+i915/gt/intel_gt_requests.h
+index 51dbe0e3294e..d2969f68dd64 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_requests.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.h
+@@ -6,7 +6,7 @@
+ #ifndef INTEL_GT_REQUESTS_H
+ #define INTEL_GT_REQUESTS_H
+=20
+-#include <stddef.h>
++#include <linux/stddef.h>
+=20
+ struct intel_engine_cs;
+ struct intel_gt;
+--=20
+2.32.0
 
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/oOsbFiDQh9BrurlcM8zPi+c
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmEfFIwACgkQAVBC80lX
+0GybnAf7BxjoAjS9d5Q/IOZq3rvbZomBZ0mdDpqG1OTXPP9NhnwREyI8L3T8oW9i
+/DKKXwp3JWkaGAxPcl7MBuTObVyc2arq3MEn8iGlKIZhqLub3cv7lt18wXHZuheK
+SRKpxY1SC6UktN5yBmlCpn9fEOr00B0ibKJcDPad2bPD2JScnZamU+Y1fJKaoZ2I
+g1l2Tb7/OhzSWlSMAUzANx9Q6TuuJ0rafgBEqEXsGBi1J+3PD64pU4iWH4eytZvw
+WwzU4FO7HZwxfl07CF70SP87G/88SXa89wPZpEmrBKEzwiDDL5NdoYOjYfL7oXS2
+W6Kw/jn+1NKcu6uUlhLYGbsiGTv92w==
+=vM/T
+-----END PGP SIGNATURE-----
+
+--Sig_/oOsbFiDQh9BrurlcM8zPi+c--
