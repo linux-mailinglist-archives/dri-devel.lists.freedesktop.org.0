@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95523F36D7
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Aug 2021 00:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D2A3F3700
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Aug 2021 00:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46D156EB50;
-	Fri, 20 Aug 2021 22:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 222296EB74;
+	Fri, 20 Aug 2021 22:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92BE56EB33;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD2446EB36;
  Fri, 20 Aug 2021 22:50:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="216580042"
-X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="216580042"
+X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="216580043"
+X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="216580043"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Aug 2021 15:50:02 -0700
-X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="513098595"
+X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="513098598"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Aug 2021 15:50:02 -0700
@@ -27,9 +27,10 @@ To: <intel-gfx@lists.freedesktop.org>,
 Cc: <daniel.vetter@ffwll.ch>,
 	<tony.ye@intel.com>,
 	<zhengguo.xu@intel.com>
-Subject: [PATCH 12/27] drm/i915/guc: Add multi-lrc context registration
-Date: Fri, 20 Aug 2021 15:44:31 -0700
-Message-Id: <20210820224446.30620-13-matthew.brost@intel.com>
+Subject: [PATCH 13/27] drm/i915/guc: Ensure GuC schedule operations do not
+ operate on child contexts
+Date: Fri, 20 Aug 2021 15:44:32 -0700
+Message-Id: <20210820224446.30620-14-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210820224446.30620-1-matthew.brost@intel.com>
 References: <20210820224446.30620-1-matthew.brost@intel.com>
@@ -50,236 +51,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add multi-lrc context registration H2G. In addition a workqueue and
-process descriptor are setup during multi-lrc context registration as
-these data structures are needed for multi-lrc submission.
+In GuC parent-child contexts the parent context controls the scheduling,
+ensure only the parent does the scheduling operations.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_context_types.h |  12 ++
- drivers/gpu/drm/i915/gt/intel_lrc.c           |   5 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   2 +-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 109 +++++++++++++++++-
- 4 files changed, 126 insertions(+), 2 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 24 ++++++++++++++-----
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index 0fafc178cf2c..6f567ebeb039 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -232,8 +232,20 @@ struct intel_context {
- 		/** @parent: pointer to parent if child */
- 		struct intel_context *parent;
- 
-+
-+		/** @guc_wqi_head: head pointer in work queue */
-+		u16 guc_wqi_head;
-+		/** @guc_wqi_tail: tail pointer in work queue */
-+		u16 guc_wqi_tail;
-+
- 		/** @guc_number_children: number of children if parent */
- 		u8 guc_number_children;
-+
-+		/**
-+		 * @parent_page: page in context used by parent for work queue,
-+		 * work queue descriptor
-+		 */
-+		u8 parent_page;
- 	};
- 
- #ifdef CONFIG_DRM_I915_SELFTEST
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index bb4af4977920..0ddbad4e062a 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -861,6 +861,11 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
- 		context_size += PAGE_SIZE;
- 	}
- 
-+	if (intel_context_is_parent(ce)) {
-+		ce->parent_page = context_size / PAGE_SIZE;
-+		context_size += PAGE_SIZE;
-+	}
-+
- 	obj = i915_gem_object_create_lmem(engine->i915, context_size, 0);
- 	if (IS_ERR(obj))
- 		obj = i915_gem_object_create_shmem(engine->i915, context_size);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-index fa4be13c8854..0e600a3b8f1e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-@@ -52,7 +52,7 @@
- 
- #define GUC_DOORBELL_INVALID		256
- 
--#define GUC_WQ_SIZE			(PAGE_SIZE * 2)
-+#define GUC_WQ_SIZE			(PAGE_SIZE / 2)
- 
- /* Work queue item header definitions */
- #define WQ_STATUS_ACTIVE		1
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 14b24298cdd7..dbcb9ab28a9a 100644
+index dbcb9ab28a9a..00d54bb00bfb 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -340,6 +340,39 @@ static struct i915_priolist *to_priolist(struct rb_node *rb)
- 	return rb_entry(rb, struct i915_priolist, node);
+@@ -320,6 +320,12 @@ static void decr_context_committed_requests(struct intel_context *ce)
+ 	GEM_BUG_ON(ce->guc_state.number_committed_requests < 0);
  }
  
-+/*
-+ * When using multi-lrc submission an extra page in the context state is
-+ * reserved for the process descriptor and work queue.
-+ *
-+ * The layout of this page is below:
-+ * 0						guc_process_desc
-+ * ...						unused
-+ * PAGE_SIZE / 2				work queue start
-+ * ...						work queue
-+ * PAGE_SIZE - 1				work queue end
-+ */
-+#define WQ_OFFSET	(PAGE_SIZE / 2)
-+static u32 __get_process_desc_offset(struct intel_context *ce)
++static struct intel_context *
++request_to_scheduling_context(struct i915_request *rq)
 +{
-+	GEM_BUG_ON(!ce->parent_page);
-+
-+	return ce->parent_page * PAGE_SIZE;
++	return intel_context_to_parent(rq->context);
 +}
 +
-+static u32 __get_wq_offset(struct intel_context *ce)
-+{
-+	return __get_process_desc_offset(ce) + WQ_OFFSET;
-+}
-+
-+static struct guc_process_desc *
-+__get_process_desc(struct intel_context *ce)
-+{
-+	return (struct guc_process_desc *)
-+		(ce->lrc_reg_state +
-+		 ((__get_process_desc_offset(ce) -
-+		   LRC_STATE_OFFSET) / sizeof(u32)));
-+}
-+
- static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+ static bool context_guc_id_invalid(struct intel_context *ce)
  {
- 	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
-@@ -1342,6 +1375,30 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
- 	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
- }
+ 	return ce->guc_id.id == GUC_INVALID_LRC_ID;
+@@ -1684,6 +1690,7 @@ static void __guc_context_sched_disable(struct intel_guc *guc,
  
-+static int __guc_action_register_multi_lrc(struct intel_guc *guc,
-+					   struct intel_context *ce,
-+					   u32 guc_id,
-+					   u32 offset,
-+					   bool loop)
-+{
-+	struct intel_context *child;
-+	u32 action[4 + MAX_ENGINE_INSTANCE];
-+	int len = 0;
-+
-+	GEM_BUG_ON(ce->guc_number_children > MAX_ENGINE_INSTANCE);
-+
-+	action[len++] = INTEL_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC;
-+	action[len++] = guc_id;
-+	action[len++] = ce->guc_number_children + 1;
-+	action[len++] = offset;
-+	for_each_child(ce, child) {
-+		offset += sizeof(struct guc_lrc_desc);
-+		action[len++] = offset;
-+	}
-+
-+	return guc_submission_send_busy_loop(guc, action, len, 0, loop);
-+}
-+
- static int __guc_action_register_context(struct intel_guc *guc,
- 					 u32 guc_id,
- 					 u32 offset,
-@@ -1364,9 +1421,15 @@ static int register_context(struct intel_context *ce, bool loop)
- 		ce->guc_id.id * sizeof(struct guc_lrc_desc);
- 	int ret;
+ 	GEM_BUG_ON(guc_id == GUC_INVALID_LRC_ID);
  
 +	GEM_BUG_ON(intel_context_is_child(ce));
- 	trace_intel_context_register(ce);
+ 	trace_intel_context_sched_disable(ce);
  
--	ret = __guc_action_register_context(guc, ce->guc_id.id, offset, loop);
-+	if (intel_context_is_parent(ce))
-+		ret = __guc_action_register_multi_lrc(guc, ce, ce->guc_id.id,
-+						      offset, loop);
-+	else
-+		ret = __guc_action_register_context(guc, ce->guc_id.id, offset,
-+						    loop);
- 	if (likely(!ret)) {
- 		unsigned long flags;
+ 	guc_submission_send_busy_loop(guc, action, ARRAY_SIZE(action),
+@@ -1898,6 +1905,8 @@ static void guc_context_sched_disable(struct intel_context *ce)
+ 	u16 guc_id;
+ 	bool enabled;
  
-@@ -1396,6 +1459,7 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
++	GEM_BUG_ON(intel_context_is_child(ce));
++
+ 	if (submission_disabled(guc) || context_guc_id_invalid(ce) ||
+ 	    !lrc_desc_registered(guc, ce->guc_id.id)) {
+ 		spin_lock_irqsave(&ce->guc_state.lock, flags);
+@@ -2286,6 +2295,8 @@ static void guc_signal_context_fence(struct intel_context *ce)
  {
+ 	unsigned long flags;
+ 
++	GEM_BUG_ON(intel_context_is_child(ce));
++
+ 	spin_lock_irqsave(&ce->guc_state.lock, flags);
+ 	clr_context_wait_for_deregister_to_register(ce);
+ 	__guc_signal_context_fence(ce);
+@@ -2315,7 +2326,7 @@ static void guc_context_init(struct intel_context *ce)
+ 
+ static int guc_request_alloc(struct i915_request *rq)
+ {
+-	struct intel_context *ce = rq->context;
++	struct intel_context *ce = request_to_scheduling_context(rq);
  	struct intel_guc *guc = ce_to_guc(ce);
- 
-+	GEM_BUG_ON(intel_context_is_child(ce));
- 	trace_intel_context_deregister(ce);
- 
- 	return __guc_action_deregister_context(guc, guc_id, loop);
-@@ -1423,6 +1487,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 	struct guc_lrc_desc *desc;
- 	bool context_registered;
- 	intel_wakeref_t wakeref;
-+	struct intel_context *child;
- 	int ret = 0;
- 
- 	GEM_BUG_ON(!engine->mask);
-@@ -1448,6 +1513,42 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
- 	guc_context_policy_init(engine, desc);
- 
-+	/*
-+	 * Context is a parent, we need to register a process descriptor
-+	 * describing a work queue and register all child contexts.
-+	 */
-+	if (intel_context_is_parent(ce)) {
-+		struct guc_process_desc *pdesc;
-+
-+		ce->guc_wqi_tail = 0;
-+		ce->guc_wqi_head = 0;
-+
-+		desc->process_desc = i915_ggtt_offset(ce->state) +
-+			__get_process_desc_offset(ce);
-+		desc->wq_addr = i915_ggtt_offset(ce->state) +
-+			__get_wq_offset(ce);
-+		desc->wq_size = GUC_WQ_SIZE;
-+
-+		pdesc = __get_process_desc(ce);
-+		memset(pdesc, 0, sizeof(*(pdesc)));
-+		pdesc->stage_id = ce->guc_id.id;
-+		pdesc->wq_base_addr = desc->wq_addr;
-+		pdesc->wq_size_bytes = desc->wq_size;
-+		pdesc->priority = GUC_CLIENT_PRIORITY_KMD_NORMAL;
-+		pdesc->wq_status = WQ_STATUS_ACTIVE;
-+
-+		for_each_child(ce, child) {
-+			desc = __get_lrc_desc(guc, child->guc_id.id);
-+
-+			desc->engine_class =
-+				engine_class_to_guc_class(engine->class);
-+			desc->hw_context_desc = child->lrc.lrca;
-+			desc->priority = GUC_CLIENT_PRIORITY_KMD_NORMAL;
-+			desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
-+			guc_context_policy_init(engine, desc);
-+		}
-+	}
-+
- 	/*
- 	 * The context_lookup xarray is used to determine if the hardware
- 	 * context is currently registered. There are two cases in which it
-@@ -2858,6 +2959,12 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
- 		return NULL;
- 	}
- 
-+	if (unlikely(intel_context_is_child(ce))) {
-+		drm_err(&guc_to_gt(guc)->i915->drm,
-+			"Context is child, desc_idx %u", desc_idx);
-+		return NULL;
-+	}
-+
- 	return ce;
- }
- 
+ 	unsigned long flags;
+ 	int ret;
+@@ -2358,11 +2369,12 @@ static int guc_request_alloc(struct i915_request *rq)
+ 	 * exhausted and return -EAGAIN to the user indicating that they can try
+ 	 * again in the future.
+ 	 *
+-	 * There is no need for a lock here as the timeline mutex ensures at
+-	 * most one context can be executing this code path at once. The
+-	 * guc_id_ref is incremented once for every request in flight and
+-	 * decremented on each retire. When it is zero, a lock around the
+-	 * increment (in pin_guc_id) is needed to seal a race with unpin_guc_id.
++	 * There is no need for a lock here as the timeline mutex (or
++	 * parallel_submit mutex in the case of multi-lrc) ensures at most one
++	 * context can be executing this code path at once. The guc_id_ref is
++	 * incremented once for every request in flight and decremented on each
++	 * retire. When it is zero, a lock around the increment (in pin_guc_id)
++	 * is needed to seal a race with unpin_guc_id.
+ 	 */
+ 	if (atomic_add_unless(&ce->guc_id.ref, 1, 0))
+ 		goto out;
 -- 
 2.32.0
 
