@@ -1,70 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8AA3F27C9
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 09:45:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F973F279E
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 09:25:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 144086EA30;
-	Fri, 20 Aug 2021 07:45:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 963F56EA2D;
+	Fri, 20 Aug 2021 07:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 575966EA2C;
- Fri, 20 Aug 2021 07:24:36 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id w5so18288587ejq.2;
- Fri, 20 Aug 2021 00:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=hackIAZ3S1L343gFXtpY/gtSDJbx92UQ+Z1VIutr7Q4=;
- b=g5yqqWSA4TLqINjr1gWlzC3DhuGDPMwW2AAzRfYhxUb7bYXOzF6Ib490yt1JaYTU8T
- wfHDhznvJ+7YGogl+Sr1RkAbH5LSmuosTtBFlIlSDkdHsWxZtrD6kYgUtggf7S8rl9AM
- ka2pLHFhvIHXWAZcVD7XlOPLd2OrUwFosIHlUdvYbrPxmhm+uQJA7Xj2NCNxfY9MYQ5Z
- ZOKMbyArtXZtYfDk1czutDEhL16nNZe5pKW+p53gCX82RVV2iOV2SqswhJh23xq5e3nF
- wU4wK8uBSSbIrY1ConUJzP2LMLH8Fp5TlfbQBZFyqmgyeCGyg0bpWlovZmKfY9073clk
- uSVQ==
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1206EA2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 07:25:42 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id p2so9224172oif.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 00:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G5ALr4EA4tA2v978TPeOHUvCmve3hdooJ+JbOY+xBaw=;
+ b=e8DhrBaGywh239BR9UQgfCjPecmsIPU8LAS/ZlfifZh0cpL4zFyrZpikEaVhObl4IF
+ pozoTQDVklP+HA+yeDTCvsVH4MDujDI65ZCmdG1lpbaPY8SXUM9RnkO2x6mIrJPOBr/o
+ 18WMB/R0IAUdjnO9eSdJriCYRNe3pfqIq9ePc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=hackIAZ3S1L343gFXtpY/gtSDJbx92UQ+Z1VIutr7Q4=;
- b=BUErp5xaq0CUD2LlXgfYrJFQ6d2/Cylb+zDTqeyF899IZ64A41zBocHYXWiQH/JNYy
- A3x5SB5JvZzBjbK9ZnSvre4ISxSIk6VovCC8l3yKPuwSGGyd6eUTAhrOibG4nZCFK3fY
- vjp3B5GO6XaXJfXvusMJY90k0m2PJJ95KDedy8KklCu96uz29//5PJmRzw2QGjrVBiYA
- g7GBclh5uxaXOCeoXUvWShbpiQNon0JGhQjaHhIqCxwSlQpYkjvc/BBdV9UCWQ76yZQm
- DLkBVJUjlSd1bYh2hNRof68RMVpeRHjWs5LTSJwWUNklXI2vL/yGlDt8TvvVkbSoqR/0
- rKdA==
-X-Gm-Message-State: AOAM533HX9daUvw+p2oSVy/3J71UxD2g66WZ2v9FJ7ILVX9iJCx/OeUv
- NfGTTpsOkR7SVNO8h5P9vmaISC30PEIFwrYv9do=
-X-Google-Smtp-Source: ABdhPJwyKQMVEx7L/ikxtW82X48PcfARrIBCnNbsdgDsW8gvfmgcYX6kBNSV0Omk/D8TyPfB2pw1wTOxxepwKUL87Yw=
-X-Received: by 2002:a17:906:c1c9:: with SMTP id
- bw9mr20251460ejb.3.1629444274765; 
- Fri, 20 Aug 2021 00:24:34 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G5ALr4EA4tA2v978TPeOHUvCmve3hdooJ+JbOY+xBaw=;
+ b=UuZRGTkwnw+8ItsZjJe7IJgTUm3W+oTmlGHTusIr0gFNWnRnKAjFif8rR84fagFsbm
+ W3zVoqE9zZKspyW35u2+H2AKfAY98DYRF31hi1uz6o6j6veuP6EkrWt0bUbbgPEn7N1N
+ k6X0gXYUK/Qcj3bVhb1zqES2j1k4Z0fceeZLjtnQr5TAMOhyMSVN1B3fspK61iP4S52h
+ zETM1eNt1YrpdVi+URw/Z5VXzmRG2H6ThesB9ek3Wj+f0o2dj1xGvbq+MUI/EaFYwOeu
+ 4HbD7dS8BcyiSrcIUDUhGyUkwEjUKcbxE6FBjx5mhetWVUSysU4qI7FiGJIrqtWaohcZ
+ M/2Q==
+X-Gm-Message-State: AOAM531WmBzrbFVgRwnSWCV7YdWQaeHrVmVrpyeQJ5aqoW9A76nc0455
+ jNtUnAgpiAuOyTy79MnNWGzr4i3Zzh3XKOs2V5DbsA==
+X-Google-Smtp-Source: ABdhPJwlex8RkEsRvudtfGWE0C46ujA2iX4BP2ZJ8GsF4Jblfr83G50+9sU0thDn+HWeLg/nFJaZIYC4VGB2Ro+Unmc=
+X-Received: by 2002:a05:6808:2116:: with SMTP id
+ r22mr2012118oiw.128.1629444341532; 
+ Fri, 20 Aug 2021 00:25:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210813063150.2938-1-alex.sierra@amd.com>
- <20210813063150.2938-9-alex.sierra@amd.com>
- <20210815154047.GC32384@lst.de> <7a55366f-bd65-7ab9-be9e-3bfd3aea3ea1@amd.com>
- <20210817055031.GC4895@lst.de> <e5eb53f9-c52a-52e1-5fa0-bb468c0c9c85@amd.com>
- <20210820050504.GB27083@lst.de>
-In-Reply-To: <20210820050504.GB27083@lst.de>
-From: Jerome Glisse <j.glisse@gmail.com>
-Date: Fri, 20 Aug 2021 00:24:22 -0700
-Message-ID: <CAH3drwbWPFESOGEOFXQKjkhUPmwDEB3nKwcV=S64FPuTimN_Yw@mail.gmail.com>
-Subject: Re: [PATCH v6 08/13] mm: call pgmap->ops->page_free for
- DEVICE_GENERIC pages
-To: Christoph Hellwig <hch@lst.de>
-Cc: Felix Kuehling <felix.kuehling@amd.com>, Alex Sierra <alex.sierra@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
- Ralph Campbell <rcampbell@nvidia.com>, linux-ext4@vger.kernel.org, 
- linux-xfs@vger.kernel.org, amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, jgg@nvidia.com,
- Jerome Glisse <jglisse@redhat.com>, Roger Pau Monne <roger.pau@citrix.com>, 
- Dan Williams <dan.j.williams@intel.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
+References: <20210818074352.29950-1-galpress@amazon.com>
+ <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
+ <20210819230602.GU543798@ziepe.ca>
+In-Reply-To: <20210819230602.GU543798@ziepe.ca>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 20 Aug 2021 09:25:30 +0200
+Message-ID: <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gal Pressman <galpress@amazon.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Doug Ledford <dledford@redhat.com>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, 
+ Oded Gabbay <ogabbay@habana.ai>, Tomer Tayar <ttayar@habana.ai>, 
+ Yossi Leybovich <sleybo@amazon.com>, Alexander Matushevsky <matua@amazon.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Jianxin Xiong <jianxin.xiong@intel.com>, 
+ John Hubbard <jhubbard@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Fri, 20 Aug 2021 07:45:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,57 +72,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: j.glisse@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 19, 2021 at 10:05 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Tue, Aug 17, 2021 at 11:44:54AM -0400, Felix Kuehling wrote:
-> > >> That's a good catch. Existing drivers shouldn't need a page_free
-> > >> callback if they didn't have one before. That means we need to add a
-> > >> NULL-pointer check in free_device_page.
-> > > Also the other state clearing (__ClearPageWaiters/mem_cgroup_uncharge/
-> > > ->mapping = NULL).
+On Fri, Aug 20, 2021 at 1:06 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> On Wed, Aug 18, 2021 at 11:34:51AM +0200, Daniel Vetter wrote:
+> > On Wed, Aug 18, 2021 at 9:45 AM Gal Pressman <galpress@amazon.com> wrote:
 > > >
-> > > In many ways this seems like you want to bring back the DEVICE_PUBLIC
-> > > pgmap type that was removed a while ago due to the lack of users
-> > > instead of overloading the generic type.
+> > > Hey all,
+> > >
+> > > Currently, the RDMA subsystem can only work with dynamic dmabuf
+> > > attachments, which requires the RDMA device to support on-demand-paging
+> > > (ODP) which is not common on most devices (only supported by mlx5).
+> > >
+> > > While the dynamic requirement makes sense for certain GPUs, some devices
+> > > (such as habanalabs) have device memory that is always "pinned" and do
+> > > not need/use the move_notify operation.
+> > >
+> > > The motivation of this RFC is to use habanalabs as the dmabuf exporter,
+> > > and EFA as the importer to allow for peer2peer access through libibverbs.
+> > >
+> > > This draft patch changes the dmabuf driver to differentiate between
+> > > static/dynamic attachments by looking at the move_notify op instead of
+> > > the importer_ops struct, and allowing the peer2peer flag to be enabled
+> > > in case of a static exporter.
+> > >
+> > > Thanks
+> > >
+> > > Signed-off-by: Gal Pressman <galpress@amazon.com>
 > >
-> > I think so. I'm not clear about how DEVICE_PUBLIC differed from what
-> > DEVICE_GENERIC is today. As I understand it, DEVICE_PUBLIC was removed
-> > because it was unused and also known to be broken in some ways.
-> > DEVICE_GENERIC seemed close enough to what we need, other than not being
-> > supported in the migration helpers.
-> >
-> > Would you see benefit in re-introducing DEVICE_PUBLIC as a distinct
-> > memory type from DEVICE_GENERIC? What would be the benefits of making
-> > that distinction?
+> > Given that habanalabs dma-buf support is very firmly in limbo (at
+> > least it's not yet in linux-next or anywhere else) I think you want to
+> > solve that problem first before we tackle the additional issue of
+> > making p2p work without dynamic dma-buf. Without that it just doesn't
+> > make a lot of sense really to talk about solutions here.
 >
-> The old DEVICE_PUBLIC mostly different in that it allowed the page
-> to be returned from vm_normal_page, which I think was horribly buggy.
+> I have been thinking about adding a dmabuf exporter to VFIO, for
+> basically the same reason habana labs wants to do it.
+>
+> In that situation we'd want to see an approach similar to this as well
+> to have a broad usability.
+>
+> The GPU drivers also want this for certain sophisticated scenarios
+> with RDMA, the intree drivers just haven't quite got there yet.
+>
+> So, I think it is worthwhile to start thinking about this regardless
+> of habana labs.
 
-Why was that buggy ? If I were to do it now, i would return
-DEVICE_PUBLIC page from vm_normal_page but i would ban pinning as
-pinning is exceptionally wrong for GPU. If you migrate some random
-anonymous/file back to your GPU memory and it gets pinned there then
-there is no way for the GPU to migrate the page out. Quickly you will
-run out of physically contiguous memory and things like big graphic
-buffer allocation (anything that needs physically contiguous memory)
-will fail. It is less of an issue on some hardware that rely less and
-less on physically contiguous memory but i do not think it is
-completely gone from all hw.
+Oh sure, I've been having these for a while. I think there's two options:
+- some kind of soft-pin, where the contract is that we only revoke
+when absolutely necessary, and it's expected to be catastrophic on the
+importer's side. The use-case would be single user that fully controls
+all accelerator local memory, and so kernel driver evicting stuff. I
+havent implemented it, but the idea is that essentially in eviction we
+check whom we're evicting for (by checking owners of buffers maybe,
+atm those are not tracked in generic code but not that hard to add),
+and if it's the same userspace owner we don't ever pick these buffers
+as victims for eviction, preferreing -ENOMEM/-ENOSPC. If a new user
+comes around then we'd still throw these out to avoid abuse, and it
+would be up to sysadmins to make sure this doesn't happen untimely,
+maybe with the next thing.
 
-> But the point is not to bring back these old semantics.  The idea
-> is to be able to differeniate between your new coherent on-device
-> memory and the existing DEVICE_GENERIC.  That is call the
-> code in free_devmap_managed_page that is currently only used
-> for device private pages also for your new public device pages without
-> affecting the devdax and xen use cases.
+- cgroups for (pinned) buffers. Mostly because cgroups for local
+memory is somewhere on the plans anyway, but that one could also take
+forever since there's questions about overlap with memcg and things
+like that, plus thus far everyone who cares made and incompatible
+proposal about how it should be done :-/
 
-Yes, I would rather bring back DEVICE_PUBLIC then try to use
-DEVICE_GENERIC, the GENERIC change was done for users that closely
-matched DAX semantics and it is not the case here, at least not from
-my point of view.
-
-Jerome
+A variant of the first one would be device-level revoke, which is a
+concept we already have in drm for the modesetting side and also for
+like 20 year old gpu drivers. We could brush that off and close some
+of the gaps (a student is fixing the locking right now, the thing left
+to do is mmap revoke), and I think that model of exclusive device
+ownership with the option to revoke fits pretty well for at least some
+of the accelerators floating around. In that case importers would
+never get a move_notify (maybe we should call this revoke_notify to
+make it clear it's a bit different) callback, except when the entire
+thing has been yanked. I think that would fit pretty well for VFIO,
+and I think we should be able to make it work for rdma too as some
+kind of auto-deregister. The locking might be fun with both of these
+since I expect some inversions compared to the register path, we'll
+have to figure these out.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
