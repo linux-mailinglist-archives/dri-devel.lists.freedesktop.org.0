@@ -2,64 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBBE3F2776
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 09:17:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEC73F26BC
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 08:22:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6236EA22;
-	Fri, 20 Aug 2021 07:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7406E9FF;
+	Fri, 20 Aug 2021 06:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
- [IPv6:2607:f8b0:4864:20::f34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBD336E9EE
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 02:10:57 +0000 (UTC)
-Received: by mail-qv1-xf34.google.com with SMTP id z2so188800qvl.10
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 19:10:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6GBnlD7JIyrI3ypjxWJiH4K8EVYyZag/d4qLh3mFEpQ=;
- b=VZ11PEonbAYy7cyzGyN9eE/qqJI9vWpZp48IKfN3n7cZQ1XbNEjNyOABuFangAlTak
- 3AMprImiO3aGZJQCgYikAvx5v0y+xbb5nTMyk5p4YEXjXg85Ph3rS4m9+FvMSn6BX471
- L7ldCkk/8vZG++GqG+PW+bh/+t+LaiRUobzBMES8V1v4yU3BGiTAlos8xPMqcIHeXqMM
- gjjWwMNdjQB+ZnrpdD4gEXa/X1sF+AgfuQXUM2+fbrFC/bjvtFaR1uqvPOKKVITnodXS
- d4Ms9bX0wFZBgSfMZA4w1K9LAdjGQeL4qbsKndTlShjAXafICXYXdvMMWSAI6Zhx8Lr8
- P58Q==
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6EFE6E9FF
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 06:22:47 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id w8so8163405pgf.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 23:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=99KnB+URAYBtBEFeaEEoqvbN3Lia8bbvXa6b4D4VGvk=;
+ b=AelbYVYXhvB2C9bFtneY/yrgfG2toP1CjqK6lvDsXri4wpxXyhmsJgoDY6ahx/XN61
+ vKAczg+E4fXnnS8G0G93MoK9T+n8JSHY8ekq/8I4u69XNDvXXmaeliXWl3ny7DbR459m
+ W50jTwNToE1LmUUokyr6le1aob0gVY3GnP1Ka3mI4XHwRz2fWCsY/l4SMPzwsS0xTXB9
+ EixGvESxoBHqQEVnBddxUt4aKYU3B3NSH4JBU4qDMkK7Jhzi3FgC5Vb8HdCiGR2LwcMT
+ sxBxULIIw3r+NvwPaEY2Ixaz7kUmSTr4+dFabybVlm+sD0srX/k7GhsedXDOGcsj6xyH
+ 5o7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6GBnlD7JIyrI3ypjxWJiH4K8EVYyZag/d4qLh3mFEpQ=;
- b=Hqy7xs5wqhkSvIRCBM2EgJL39RYM/yqlWn4H67Qz8BNrPVC03fmzKk5ONxYubb766L
- TwMr2o4M/JEIkNabI3F+i9HlGly7iTLo6r/oQXkdtFOV79LwHgDJ3AAlvkASxmzVvDL8
- Y/7j+WUf3N5x4C4pXlZpSyeTaDUvxuYcjV6s92TyuM/HlZEEWMfjwHoWFe3monZ3v2nZ
- WbEAmdK74XIffUXFAR5N3bWqfwQaN6cJ1Q2HfRqz9K9T/7ojyG5oJEqRIsbC4DBja+rf
- FtwZvNl+2tdpQ1Xu/nyy6RygOPH3NqnKpYjWvFzlqzCfZp8f8fpCgikkHvKvaDSsNaUr
- +xYQ==
-X-Gm-Message-State: AOAM530I1Q0d1uiufvZa9X2jfudWul2Pd223MZMwYdgeJ+q6zw2EX6A9
- BVteqFybEswB+OQMoEXeKPA=
-X-Google-Smtp-Source: ABdhPJyuxnKhj81Zor3HZ/w5G7/iqhNkCh/TAMNPAMf/ziEHAWuUD/V8OpjZnPsGrpXo5Qfc9s7P7w==
-X-Received: by 2002:a05:6214:29ee:: with SMTP id
- jv14mr17653090qvb.5.1629425456962; 
- Thu, 19 Aug 2021 19:10:56 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id h4sm2398873qkp.86.2021.08.19.19.10.52
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=99KnB+URAYBtBEFeaEEoqvbN3Lia8bbvXa6b4D4VGvk=;
+ b=bSO5xncfEN311DH1BeNhKKtyS3WFE1vJv39JjL+UA5pOHWDQooSR8jcXrEXV4Evt/u
+ 1rmj3LB0L57J9qNrNPpQJiP5jJehLKQbDI/U5EHa7pJd/I3y6aiUhMNwZAke78HeLEYw
+ B9UDq0OYWq97KtuqGkgd9keTjWgm1aULuy0406Qx2jIMHQfjn2chpg/QGemiMoVJvcna
+ vdrKLAuw4GDttwNHoUjw3INIw2mw5XnObFrUvU0A2MxukBocMx1xqNxdPQZGCrSPtSRY
+ 59pez6qVaevdtpcaERotgFzMk9vGR4d1R+qMM4AuBV80AGVgk8MuMBXTWQ1ceeJVEP5K
+ /mBg==
+X-Gm-Message-State: AOAM533pLClPNUH1Tm218mgVeXpcwgK18yVeb3cEzD57XEQCQAisvT11
+ 3YPY8AVM5h6SVsRtEubUBIy4Yg==
+X-Google-Smtp-Source: ABdhPJypGMO2Ed7IdFKaQRO9FolvH4ihNSVV3QakhuP+Wz6bn/ypKEJCBJHQBshWUbxfQ2Oh/Vy6BA==
+X-Received: by 2002:a62:b414:0:b029:317:52d:7fd5 with SMTP id
+ h20-20020a62b4140000b0290317052d7fd5mr18445201pfn.30.1629440567069; 
+ Thu, 19 Aug 2021 23:22:47 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:549a:ad5a:e5bd:8c8a])
+ by smtp.gmail.com with ESMTPSA id x7sm5507625pfj.200.2021.08.19.23.22.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 19:10:56 -0700 (PDT)
-From: jing yangyang <cgel.zte@gmail.com>
-X-Google-Original-From: jing yangyang <jing.yangyang@zte.com.cn>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Cc: Edmund Dea <edmund.j.dea@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jing yangyang <jing.yangyang@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] : add put_device() after of_find_device_by_node()
-Date: Thu, 19 Aug 2021 19:10:29 -0700
-Message-Id: <20210820021029.10770-1-jing.yangyang@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ Thu, 19 Aug 2021 23:22:46 -0700 (PDT)
+Date: Fri, 20 Aug 2021 14:22:43 +0800
+From: Tzung-Bi Shih <tzungbi@google.com>
+To: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Dillon Min <dillon.minfei@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, devicetree@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linux-ALSA <alsa-devel@alsa-project.org>
+Subject: Re: [PATCH 2/2] dt-bindings: sound: rt1015p: correct indentation
+Message-ID: <YR9KM5ubMr9JLLb5@google.com>
+References: <20210819101020.26368-1-krzysztof.kozlowski@canonical.com>
+ <20210819101020.26368-2-krzysztof.kozlowski@canonical.com>
+ <CAL_JsqK1dhwSKbmCbuaWtBWQH0e-+rdJaWkzfx5b_5vX0toAjg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 20 Aug 2021 07:16:30 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqK1dhwSKbmCbuaWtBWQH0e-+rdJaWkzfx5b_5vX0toAjg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +81,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This was found by coccicheck:
-./drivers/gpu/drm/kmb/kmb_drv.c:503:2-8:
-ERROR  missing put_device; call of_find_device_by_node on line 490,
-but without a corresponding object release within this function.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
----
- drivers/gpu/drm/kmb/kmb_drv.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index f54392e..58495a9 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -500,8 +500,10 @@ static int kmb_probe(struct platform_device *pdev)
- 	ret = kmb_dsi_host_bridge_init(get_device(&dsi_pdev->dev));
- 
- 	if (ret == -EPROBE_DEFER) {
-+		put_device(&dsi_pdev->dev);
- 		return -EPROBE_DEFER;
- 	} else if (ret) {
-+		put_device(&dsi_pdev->dev);
- 		DRM_ERROR("probe failed to initialize DSI host bridge\n");
- 		return ret;
- 	}
-@@ -509,9 +511,10 @@ static int kmb_probe(struct platform_device *pdev)
- 	/* Create DRM device */
- 	kmb = devm_drm_dev_alloc(dev, &kmb_driver,
- 				 struct kmb_drm_private, drm);
--	if (IS_ERR(kmb))
-+	if (IS_ERR(kmb)) {
-+		put_device(&dsi_pdev->dev);
- 		return PTR_ERR(kmb);
--
-+	}
- 	dev_set_drvdata(dev, &kmb->drm);
- 
- 	/* Initialize MIPI DSI */
--- 
-1.8.3.1
-
-
+On Thu, Aug 19, 2021 at 04:52:38PM -0500, Rob Herring wrote:
+> On Thu, Aug 19, 2021 at 5:12 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@canonical.com> wrote:
+> >
+> > Use common enum instead of oneOf and correct indentation warning:
+> >   realtek,rt1015p.yaml:18:7: [warning] wrong indentation: expected 4 but found 6 (indentation)
+> >
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+Acked-by: Tzung-Bi Shih <tzungbi@google.com>
