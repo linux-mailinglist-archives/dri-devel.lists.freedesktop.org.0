@@ -1,67 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919E63F34A3
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 21:24:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B083F34AB
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 21:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC626EB13;
-	Fri, 20 Aug 2021 19:23:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3F8B6EB0D;
+	Fri, 20 Aug 2021 19:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79A1F6EB0D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 19:23:55 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BC5512016A;
- Fri, 20 Aug 2021 19:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1629487433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=J/ZTHYspJWems3grCDvjCH9V3Hhhi4avlqSwNlHDseY=;
- b=w715AXDNp3TIRo7tdKvLhrjp59r1bQccQ1zHmXeFvTGAP9S90SGPYX8yANzkrJVdT+dBTI
- FDHMWAcwUI1kA/5bqDad5ERYL9B32IMDohhBSGMvzigj7h+aDi4IwKhEUQexe75ZD8aNuy
- 9uff1GLGaUIN8OrT8YzJapgrItfqMCo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1629487433;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=J/ZTHYspJWems3grCDvjCH9V3Hhhi4avlqSwNlHDseY=;
- b=3dduTyFnRRIIKMQglkFUGeRkDtPYvK25MBhk7tvpM1DR1tm08KlCLiqDtrNdUizOWaBZoO
- vh686/xKzNjcXuDw==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 5600D13BE5;
- Fri, 20 Aug 2021 19:23:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id 2dEQE0kBIGGIXgAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Fri, 20 Aug 2021 19:23:53 +0000
-To: syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>,
- airlied@linux.ie, christian.koenig@amd.com, daniel.vetter@ffwll.ch,
- daniel.vetter@intel.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, melissa.srw@gmail.com,
- mripard@kernel.org, sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
-References: <00000000000047b52b05c9ff8d0b@google.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
-Message-ID: <dc7ca5ae-afc1-f840-8dfc-3f2361cd4360@suse.de>
-Date: Fri, 20 Aug 2021 21:23:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 577696EB0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 19:33:28 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ r17-20020a0568302371b0290504f3f418fbso16238894oth.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 12:33:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vpEpEAnRO5OhbDhkoFuR51uK3vu5AmUud1jH9OOxpC4=;
+ b=GdDYWfb10COlYODDXcc0zylWkXc2rxMun8JAXaoC/ZrxQjCl2w+3RaF9krZBDUudon
+ NWHT1EP3L6XT4ApBhRzsNvjs2FJLEUg3Hep98S2hqZGTVlEWPyKdahlV2gFJBRILjyRZ
+ +forMwtXQIq08jbAsbIQx+KENLPuElcgrxWn8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vpEpEAnRO5OhbDhkoFuR51uK3vu5AmUud1jH9OOxpC4=;
+ b=TumEnB5i7DInvpjniEPBtmy9JJwdmlvldHgw8lT0FjSLPAFA9bs+9Agves3QxuOK4W
+ bydEsN1QZGavzanmWux7d+IU1hH5v+mBf770SMt1/JQVJ38er/+tNRzWalEFMVIr+fb6
+ T8X+IngWMmTG5pFMavOCw4X6GoqRWNJJKsUdMjdbMze5czCXBmvLbKsUg09Eb2akba7m
+ 4Gmo+QgL0sdX8OvFKN57Ttd0faE5nLf8hXQ5rldKc/BKosTOhR7+lynq4rH390C373Oa
+ XFYn2AI2jiImqauXSCvuuBXaxmQbUPHvU07QMaDUlKJBIk/7W2MDrartnB6YKe1SXBW+
+ VSlg==
+X-Gm-Message-State: AOAM5313Uj1IBPS2ZhEVY5KdNDpde7MZeN98YihFcKoh6m2CFgxfbYPo
+ cKKwTeGDAWE3UfwPgFw1Qypu4IVDXv+jKJwYzV42zw==
+X-Google-Smtp-Source: ABdhPJxrwulEjRlwLSovn0Rx4m5+J2jGaVIAi94Nt/8kUQLzom6zkQ6NxRZ6Vd4KvrH/lkIt6Ef06XBgfLgVRzw432w=
+X-Received: by 2002:a9d:65da:: with SMTP id z26mr17825398oth.303.1629488007383; 
+ Fri, 20 Aug 2021 12:33:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <00000000000047b52b05c9ff8d0b@google.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9BSk7OnrvXIspcoyXpuha4Szaal3Vonnh"
+References: <00000000000047b52b05c9ff8d0b@google.com>
+ <dc7ca5ae-afc1-f840-8dfc-3f2361cd4360@suse.de>
+In-Reply-To: <dc7ca5ae-afc1-f840-8dfc-3f2361cd4360@suse.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 20 Aug 2021 21:33:16 +0200
+Message-ID: <CAKMK7uEP_PNr1uDV_FeH2-Q9oGGsr3ux2rpkXHrJpPG=hOaf=Q@mail.gmail.com>
+Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>, 
+ Dave Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ linaro-mm-sig-owner@lists.linaro.org, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Melissa Wen <melissa.srw@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,109 +78,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9BSk7OnrvXIspcoyXpuha4Szaal3Vonnh
-Content-Type: multipart/mixed; boundary="RFSfHUaXVAmGRzteq89QyZAcdgd27yXDG";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>,
- airlied@linux.ie, christian.koenig@amd.com, daniel.vetter@ffwll.ch,
- daniel.vetter@intel.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, melissa.srw@gmail.com,
- mripard@kernel.org, sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
-Message-ID: <dc7ca5ae-afc1-f840-8dfc-3f2361cd4360@suse.de>
-Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
-References: <00000000000047b52b05c9ff8d0b@google.com>
-In-Reply-To: <00000000000047b52b05c9ff8d0b@google.com>
+On Fri, Aug 20, 2021 at 9:23 PM Thomas Zimmermann <tzimmermann@suse.de> wro=
+te:
+> Hi
+>
+> Am 20.08.21 um 17:45 schrieb syzbot:
+> > syzbot has bisected this issue to:
+>
+> Good bot!
+>
+> >
+> > commit ea40d7857d5250e5400f38c69ef9e17321e9c4a2
+> > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Date:   Fri Oct 9 23:21:56 2020 +0000
+> >
+> >      drm/vkms: fbdev emulation support
+>
+> Here's a guess.
+>
+> GEM SHMEM + fbdev emulation requires that
+> (drm_mode_config.prefer_shadow_fbdev =3D true). Otherwise, deferred I/O
+> and SHMEM conflict over the use of page flags IIRC.
 
---RFSfHUaXVAmGRzteq89QyZAcdgd27yXDG
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+But we should only set up defio if fb->dirty is set, which vkms
+doesn't do. So there's something else going on? So there must be
+something else funny going on here I think ... No idea what's going on
+really.
+-Daniel
 
-Hi
-
-Am 20.08.21 um 17:45 schrieb syzbot:
-> syzbot has bisected this issue to:
-
-Good bot!
-
->=20
-> commit ea40d7857d5250e5400f38c69ef9e17321e9c4a2
-> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Date:   Fri Oct 9 23:21:56 2020 +0000
->=20
->      drm/vkms: fbdev emulation support
-
-Here's a guess.
-
-GEM SHMEM + fbdev emulation requires that=20
-(drm_mode_config.prefer_shadow_fbdev =3D true). Otherwise, deferred I/O=20
-and SHMEM conflict over the use of page flags IIRC.
-
- From a quick grep, vkms doesn't set prefer_shadow_fbdev and an alarming =
-
-amount of SHMEM-based drivers don't do either.
-
-Best regards
-Thomas
-
->=20
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D11c31d55=
+>  From a quick grep, vkms doesn't set prefer_shadow_fbdev and an alarming
+> amount of SHMEM-based drivers don't do either.
+>
+> Best regards
+> Thomas
+>
+> >
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D11c31d55=
 300000
-> start commit:   614cb2751d31 Merge tag 'trace-v5.14-rc6' of git://git.k=
+> > start commit:   614cb2751d31 Merge tag 'trace-v5.14-rc6' of git://git.k=
 ern..
-> git tree:       upstream
-> final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D13c31d55=
+> > git tree:       upstream
+> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D13c31d55=
 300000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=3D15c31d55300=
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D15c31d55300=
 000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D96f06022032=
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D96f06022032=
 50753
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3D91525b2bd4b5d=
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3D91525b2bd4b5d=
 ff71619
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D122bce0e3=
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D122bce0e3=
 00000
->=20
-> Reported-by: syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com
-> Fixes: ea40d7857d52 ("drm/vkms: fbdev emulation support")
->=20
-> For information about bisection process see: https://goo.gl/tpsmEJ#bise=
+> >
+> > Reported-by: syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com
+> > Fixes: ea40d7857d52 ("drm/vkms: fbdev emulation support")
+> >
+> > For information about bisection process see: https://goo.gl/tpsmEJ#bise=
 ction
->=20
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
+
 
 --=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---RFSfHUaXVAmGRzteq89QyZAcdgd27yXDG--
-
---9BSk7OnrvXIspcoyXpuha4Szaal3Vonnh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEgAUgFAwAAAAAACgkQlh/E3EQov+Ca
-QhAAkZ31x5M00jNSVFt6zSFPz7zsmP1+pIfZD9wsS8TkIJGxUsHyfbh9a/eIijkh/e8zNqQ9JP1P
-HOscLUH/AgY9d+/RCrU062w/5zKJEOhodrt+9FzVqGeavOM3csDR5ll6bPv2oo0eSpnttEJ2w6SG
-1urAbMBvUbIRvWN+vmdYIqp4ezHHj7izBuRoFeRWQNn7t8AQjaqnduIhip9takLa2nLd2zIOYAev
-vVdgtw9+JI/2ZJCnbFedn/CvDJ4A8VPLfeSQcgG8Ksqw+VHjRBrd5sS+Z7K9RFTNqi5Ec7klHdei
-JrnvVmLWoezYdjoDjVWLINuEk2r7L6GAhoF0oDhZq1kVv7K33xfDIdQB2p8JqTY9o22Rthjq0Kkc
-zg5vhhr/CBZ2H7gACKGybG86UqcO5e0z2PVlmlZvVRdgC5x0ZGGxMe79e2GVwUbCuDBepAwet/fq
-XbdBZ1JmDxdRnODXB7A6LvqDyDiCjAKI4pcTB/9OjUZ9CUSk1XXc52WJV2btzfGPSDaSMRRg6l6C
-eFKIlD/Gk9kXHttN3F6+OZeK46oFRodhgQ2ooaf1jRetNa1xd6d+b8m6UFerDQplYGiR1F3jnwvv
-3GOzP8qg0PP9tgr9/7ozH50m1IUEcNuX2iCVwVs/dkuBYH+OIQbZtmZqizDWKx3DvNg+341m4EA4
-kvA=
-=gavY
------END PGP SIGNATURE-----
-
---9BSk7OnrvXIspcoyXpuha4Szaal3Vonnh--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
