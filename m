@@ -1,62 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3946C3F3004
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:47:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B0A3F3009
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B9116EAAC;
-	Fri, 20 Aug 2021 15:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C33A36EAAE;
+	Fri, 20 Aug 2021 15:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A96756EAAC
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 15:46:52 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id a13so12815359iol.5
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 08:46:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=92ifLfUdCfgzu4dobglorYhOZke3wvKfuSJrLJppmSI=;
- b=PNYN10dYDhFe0EbJZmnbL2MpCc/Phz+KekA56PuYlXGfyhrgadC8ZBvqP4bgYpHkrD
- c2NV9qlj5/XxJrm1f5erIMDqX8r37yNUz6tT+xYNmRz4LnKQL400qBwAXSZ5vavybAHB
- nq3oU74XvwgJ7R8daQQsXnf3Ste24aetEfBeA1H31in6MI2EyaFoKvWIjoKLcV8zxTpV
- c0vR23TBx0Ul3wqKuqc39RVQMyDBBxgAdnkqdQSgTxNEgVi/YN0sn246I6wEzw7BWwmq
- SDTDniiYRrRkYvS90ZsL67MedF0t9Z/SfccTQlPILAXazDy0obz1nyx7gNxfzMB1SFpE
- H7Aw==
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD0006EABA
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 15:48:51 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id h1so1737540pjs.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 08:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=+X4tplmtLpNByUEVXOfNbGWn8TfE6IQ/s3keb98s9Zw=;
+ b=TQi9mHrog4hPanBaikdC3rkAqhWlJoZ9vaxMBbVCpuTo6U3O8D/l7D3vj3Dwl9Evpk
+ 9+Ar2w4FVMAo3iFJgQJ24Rf/5z+Jb9VcsmknpA1sA/dgnc+y+KKgkLyHTejrjon296vl
+ nVvqNextVO6bfDk20DLfoQeW8dUpsfILdnoVs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=92ifLfUdCfgzu4dobglorYhOZke3wvKfuSJrLJppmSI=;
- b=JYHNzKiF3dokGe6SnBQplDeeMYhI5qYWl3PpCjNptchyFMIMm8lsh4wxUn9usGyk0d
- nKoCQsqa+nXxVHhFzXCixxEQxwW07gbALWAg3T6wG42Ci8NTV+hFa5Tov3LbaJzDS7OH
- +6eXJBU1eqyJqKzriZdggeF8cJu6z3WuYSkioNL/7wPr+VLPUija4Q4ixGqOon/oha9X
- albW+qKWS4yLpT7JLD6e7flFFldpHZeSO2Gf8TdM42BZV1X43XdkIY+gdqmmm9wCq0xN
- 4ei8NkRBYqJa33lKLZ4zachBb+Mwdt5DjOIWFtpxruLHpENzu/t+j4JCLNde85mYtsIW
- Dnzw==
-X-Gm-Message-State: AOAM533k5xGsmtWh8G+Vp//wsJbx5kcv9lWsuXSblRZtuUc1YaZr+UQW
- IuEQz+Sn4NUwSZr3DhxaYgUBUjhPs+jATIa3qK5N1yJC/kTeXA==
-X-Google-Smtp-Source: ABdhPJyeDULv+E/a2RqKOUTOS0IIYgxZw7LAHi9Cjof6nWXftZVSKfx+/Uvzqc2gH3xg/vAkChi9QjcC53vMuWU9SEA=
-X-Received: by 2002:a02:cf18:: with SMTP id q24mr18404225jar.5.1629474411859; 
- Fri, 20 Aug 2021 08:46:51 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+X4tplmtLpNByUEVXOfNbGWn8TfE6IQ/s3keb98s9Zw=;
+ b=jtvQIVzHCfZJt+AYyABBLlvjUnb8kLhQ3Q5hMuX8/8KXAl9gy8ZDQIVYsNDxSbG3lJ
+ upZDX8dQYCHpaDyTcMspzxcOQPYy4twGfo1Ts6ibto6d+fVxJEaWAQADfFw3SUUBapP5
+ NKkB3hWqxZVWItOKUbyq8cTGnk5Dlo+QiFRQXQYMdkbwPr0tQNeUDA1fEdCe+Kc0ssPF
+ kNk85SlcHAl/cSG9sQ9Z5IIcLOkaSGWzC7+rt4ks+nuj5T1lKk7ngVx1fHRE40FCue5R
+ +siH6UllLLrqNNGVYkWEMn0aUtJwbRRjlIVw8l95vyw6vYuimI4DXQn5bbxADwv6TRsy
+ NRjA==
+X-Gm-Message-State: AOAM5305QXXB/+9waUMm7KT7V/Zt8yDDvCQyIVNdoMHgr5m4zDNQc3EX
+ C4RBPE+ADFD88Bmk4EwhiX7VNQ==
+X-Google-Smtp-Source: ABdhPJy28AqDYlCk7fSw2jInR24wvj759kZeVQ/aeXK5FOKx4YXAZlQAlIPt57DIYl/oWb05ha9YZQ==
+X-Received: by 2002:a17:90a:f0d1:: with SMTP id
+ fa17mr1603893pjb.33.1629474531324; 
+ Fri, 20 Aug 2021 08:48:51 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id q21sm6457593pjg.55.2021.08.20.08.48.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Aug 2021 08:48:50 -0700 (PDT)
+Date: Fri, 20 Aug 2021 08:48:49 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 22/63] HID: cp2112: Use struct_group() for memcpy()
+ region
+Message-ID: <202108200848.E9DB1511A@keescook>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-23-keescook@chromium.org>
+ <nycvar.YFH.7.76.2108201501340.15313@cbobk.fhfr.pm>
 MIME-Version: 1.0
-References: <20210819124844.12424-1-yangcong5@huaqin.corp-partner.google.com>
- <20210820070113.45191-1-yangcong5@huaqin.corp-partner.google.com>
- <20210820070113.45191-2-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20210820070113.45191-2-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Fri, 20 Aug 2021 08:46:38 -0700
-Message-ID: <CAD=FV=UTQz8_a+nNE9JiaD-bAa_jxDyho6VBMfqG5Jz6qwcUSw@mail.gmail.com>
-Subject: Re: [v2 1/2] drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
-To: yangcong <yangcong5@huaqin.corp-partner.google.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Fri, 20 Aug 2021 15:47:43 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nycvar.YFH.7.76.2108201501340.15313@cbobk.fhfr.pm>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,20 +82,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Aug 20, 2021 at 03:01:43PM +0200, Jiri Kosina wrote:
+> On Tue, 17 Aug 2021, Kees Cook wrote:
+> 
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > intentionally writing across neighboring fields.
+> > 
+> > Use struct_group() in struct cp2112_string_report around members report,
+> > length, type, and string, so they can be referenced together. This will
+> > allow memcpy() and sizeof() to more easily reason about sizes, improve
+> > readability, and avoid future warnings about writing beyond the end of
+> > report.
+> > 
+> > "pahole" shows no size nor member offset changes to struct
+> > cp2112_string_report.  "objdump -d" shows no meaningful object
+> > code changes (i.e. only source line number induced differences.)
+> > 
+> > Cc: Jiri Kosina <jikos@kernel.org>
+> > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > Cc: linux-input@vger.kernel.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> 
+> Applied, thanks.
 
-On Fri, Aug 20, 2021 at 12:01 AM yangcong
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> The auo,b101uan08.3 panel (already supported by this driver) has
-> a 3.3V rail that needs to be turned on. For previous users of
-> this panel this voltage was directly output by pmic. On a new
-> user (the not-yet-upstream sc7180-trogdor-mrbland board) we need
-> to turn the 3.3V rail on. Add support in the driver for this.
->
-> Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+I'm not sure if my other HTML email got through, but please don't apply
+these to separate trees -- struct_group() is introduced as part of this
+series.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+-- 
+Kees Cook
