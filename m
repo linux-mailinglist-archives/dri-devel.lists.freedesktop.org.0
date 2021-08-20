@@ -2,67 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B083F34AB
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 21:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6A43F34CA
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 21:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3F8B6EB0D;
-	Fri, 20 Aug 2021 19:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76F316EB12;
+	Fri, 20 Aug 2021 19:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 577696EB0D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 19:33:28 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- r17-20020a0568302371b0290504f3f418fbso16238894oth.12
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 12:33:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95CD86EB12
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 19:47:25 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id m193so20725275ybf.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 12:47:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vpEpEAnRO5OhbDhkoFuR51uK3vu5AmUud1jH9OOxpC4=;
- b=GdDYWfb10COlYODDXcc0zylWkXc2rxMun8JAXaoC/ZrxQjCl2w+3RaF9krZBDUudon
- NWHT1EP3L6XT4ApBhRzsNvjs2FJLEUg3Hep98S2hqZGTVlEWPyKdahlV2gFJBRILjyRZ
- +forMwtXQIq08jbAsbIQx+KENLPuElcgrxWn8=
+ :cc; bh=UPazTA8XfYDofR3TTbgJCmTrgHuhd4C1O3xYxHBaRgA=;
+ b=sovvk+jZAwI03HPoKkw1IqgblckMcsumwaChDH6tokVz1UIRHfZYwuktnjWOGwZs0l
+ BRoD6LlHv12QAfy5WGXJG+Q3HGSlCFyLDCw9UMzcgVl6kuk3GvCigvaf/Yb9bFg2rfDW
+ nIyP097VMhSURmUSNDTs3eE1AF0SrmhM/+8QxpH8jO1pWMYpGqnTL2L4xb6n6wORtedc
+ 3v3x/u+AieeEBmmlwftMrnFGYtcjjxNqIS8OVKqdup7RObbhXx5PTkCSK9stzIegJBpx
+ chEVB7O5+l7YlAyH53LzDTg0dkw/BhKlW7NO6R374F1dtkO6pCUqvDbKTDfKSDBjCodp
+ mM6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vpEpEAnRO5OhbDhkoFuR51uK3vu5AmUud1jH9OOxpC4=;
- b=TumEnB5i7DInvpjniEPBtmy9JJwdmlvldHgw8lT0FjSLPAFA9bs+9Agves3QxuOK4W
- bydEsN1QZGavzanmWux7d+IU1hH5v+mBf770SMt1/JQVJ38er/+tNRzWalEFMVIr+fb6
- T8X+IngWMmTG5pFMavOCw4X6GoqRWNJJKsUdMjdbMze5czCXBmvLbKsUg09Eb2akba7m
- 4Gmo+QgL0sdX8OvFKN57Ttd0faE5nLf8hXQ5rldKc/BKosTOhR7+lynq4rH390C373Oa
- XFYn2AI2jiImqauXSCvuuBXaxmQbUPHvU07QMaDUlKJBIk/7W2MDrartnB6YKe1SXBW+
- VSlg==
-X-Gm-Message-State: AOAM5313Uj1IBPS2ZhEVY5KdNDpde7MZeN98YihFcKoh6m2CFgxfbYPo
- cKKwTeGDAWE3UfwPgFw1Qypu4IVDXv+jKJwYzV42zw==
-X-Google-Smtp-Source: ABdhPJxrwulEjRlwLSovn0Rx4m5+J2jGaVIAi94Nt/8kUQLzom6zkQ6NxRZ6Vd4KvrH/lkIt6Ef06XBgfLgVRzw432w=
-X-Received: by 2002:a9d:65da:: with SMTP id z26mr17825398oth.303.1629488007383; 
- Fri, 20 Aug 2021 12:33:27 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=UPazTA8XfYDofR3TTbgJCmTrgHuhd4C1O3xYxHBaRgA=;
+ b=E+Qitq+121s6GmScAc2a8NJE3wuGltmBJysZcl19dab+WNCofxUv5uqOSB55tcNNir
+ 3r1/ixh/6rUDOx+7ryBFzknubiw2h4AKW8S7DXyVYZc8shgleAzihuXUjvuXQ3qYzjed
+ z7Oww6LeiNV/u43L/kBync1CzA3luq/HTXa1JBUzZFuteLv7fsD/IHLO9rGVP6OS/zT+
+ lC9/tKaOrBEy07DbF5sucSeSYiKXqb7yMuTFh6OYZE9TlN7Q+fH5v01VwU+1bBoAShld
+ SR3NlEBI+ey5C35PVBawXBhqptVw7je7/oz1++azERb2HKWQI6eoBoyRDdPZUF/k8/wl
+ xYuQ==
+X-Gm-Message-State: AOAM533sRJSaqklw1e86A5BFLOvCHE0fmnLTdh6AWIp/iIeR8UJZyyyK
+ nflXBSNBaFe6gsM6qQl4afMrDsjA344J/aNfw6bWrg==
+X-Google-Smtp-Source: ABdhPJz8efchEEtUD6Dnh303QK8PsVpJvln5XS5F8I1XZ8ZcJOuh55zPL5i3oVgC06kbp7IKIEmLQZYa5ZRPA/1qLxU=
+X-Received: by 2002:a25:ef04:: with SMTP id g4mr25763462ybd.287.1629488844597; 
+ Fri, 20 Aug 2021 12:47:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <00000000000047b52b05c9ff8d0b@google.com>
- <dc7ca5ae-afc1-f840-8dfc-3f2361cd4360@suse.de>
-In-Reply-To: <dc7ca5ae-afc1-f840-8dfc-3f2361cd4360@suse.de>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 20 Aug 2021 21:33:16 +0200
-Message-ID: <CAKMK7uEP_PNr1uDV_FeH2-Q9oGGsr3ux2rpkXHrJpPG=hOaf=Q@mail.gmail.com>
-Subject: Re: [syzbot] WARNING in drm_gem_shmem_vm_open
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: syzbot <syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com>, 
- Dave Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linaro-mm-sig-owner@lists.linaro.org, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Melissa Wen <melissa.srw@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+References: <20210819061639.21051-1-matthew.brost@intel.com>
+ <20210819061639.21051-8-matthew.brost@intel.com>
+In-Reply-To: <20210819061639.21051-8-matthew.brost@intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Fri, 20 Aug 2021 14:47:13 -0500
+Message-ID: <CAOFGe97YVWwj8HrMXdJvv1rRZmss75W35pnAGXKwKQfLYHMCoQ@mail.gmail.com>
+Subject: Re: [PATCH 07/27] Revert "drm/i915/gt: Propagate change in error
+ status to children on unhold"
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,75 +70,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 20, 2021 at 9:23 PM Thomas Zimmermann <tzimmermann@suse.de> wro=
-te:
-> Hi
+On Thu, Aug 19, 2021 at 1:22 AM Matthew Brost <matthew.brost@intel.com> wrote:
 >
-> Am 20.08.21 um 17:45 schrieb syzbot:
-> > syzbot has bisected this issue to:
->
-> Good bot!
->
-> >
-> > commit ea40d7857d5250e5400f38c69ef9e17321e9c4a2
-> > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Date:   Fri Oct 9 23:21:56 2020 +0000
-> >
-> >      drm/vkms: fbdev emulation support
->
-> Here's a guess.
->
-> GEM SHMEM + fbdev emulation requires that
-> (drm_mode_config.prefer_shadow_fbdev =3D true). Otherwise, deferred I/O
-> and SHMEM conflict over the use of page flags IIRC.
+> Propagating errors to dependent fences is wrong, don't do it. A selftest
+> in the following exposed the propagating of an error to a dependent
+> fence after an engine reset.
 
-But we should only set up defio if fb->dirty is set, which vkms
-doesn't do. So there's something else going on? So there must be
-something else funny going on here I think ... No idea what's going on
-really.
--Daniel
+I feel like we could still have a bit of a better message.  Maybe
+something like this:
 
->  From a quick grep, vkms doesn't set prefer_shadow_fbdev and an alarming
-> amount of SHMEM-based drivers don't do either.
+Propagating errors to dependent fences is broken and can lead to
+errors from one client ending up in another.  In 3761baae908a (Revert
+"drm/i915: Propagate errors on awaiting already signaled fences"), we
+attempted to get rid of fence error propagation but missed the case
+added in 8e9f84cf5cac ("drm/i915/gt: Propagate change in error status
+to children on unhold").  Revert that one too.  This error was found
+by an up-and-coming selftest which <salient information here>.
+
+Otherwise, looks good to me.
+
+--Jason
+
 >
-> Best regards
-> Thomas
+> This reverts commit 8e9f84cf5cac248a1c6a5daa4942879c8b765058.
 >
-> >
-> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D11c31d55=
-300000
-> > start commit:   614cb2751d31 Merge tag 'trace-v5.14-rc6' of git://git.k=
-ern..
-> > git tree:       upstream
-> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D13c31d55=
-300000
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D15c31d55300=
-000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=3D96f06022032=
-50753
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=3D91525b2bd4b5d=
-ff71619
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D122bce0e3=
-00000
-> >
-> > Reported-by: syzbot+91525b2bd4b5dff71619@syzkaller.appspotmail.com
-> > Fixes: ea40d7857d52 ("drm/vkms: fbdev emulation support")
-> >
-> > For information about bisection process see: https://goo.gl/tpsmEJ#bise=
-ction
-> >
+> v2:
+>  (Daniel Vetter)
+>   - Use revert
+>
+> References: 3761baae908a (Revert "drm/i915: Propagate errors on awaiting already signaled fences")
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index de5f9c86b9a4..cafb0608ffb4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -2140,10 +2140,6 @@ static void __execlists_unhold(struct i915_request *rq)
+>                         if (p->flags & I915_DEPENDENCY_WEAK)
+>                                 continue;
+>
+> -                       /* Propagate any change in error status */
+> -                       if (rq->fence.error)
+> -                               i915_request_set_error_once(w, rq->fence.error);
+> -
+>                         if (w->engine != rq->engine)
+>                                 continue;
 >
 > --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> 2.32.0
 >
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
