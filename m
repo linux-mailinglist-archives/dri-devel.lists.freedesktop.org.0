@@ -1,41 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651BF3F36EF
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Aug 2021 00:51:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3083F3757
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Aug 2021 01:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D142C6EB3E;
-	Fri, 20 Aug 2021 22:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2026EB3C;
+	Fri, 20 Aug 2021 23:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC22B6EB35;
- Fri, 20 Aug 2021 22:50:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="302441052"
-X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="302441052"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2021 15:50:02 -0700
-X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; d="scan'208";a="513098646"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Aug 2021 15:50:02 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Cc: <daniel.vetter@ffwll.ch>,
-	<tony.ye@intel.com>,
-	<zhengguo.xu@intel.com>
-Subject: [PATCH 27/27] drm/i915/execlists: Weak parallel submission support
- for execlists
-Date: Fri, 20 Aug 2021 15:44:46 -0700
-Message-Id: <20210820224446.30620-28-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210820224446.30620-1-matthew.brost@intel.com>
-References: <20210820224446.30620-1-matthew.brost@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 494B96EB3C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 23:37:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 04616611C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 23:37:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629502669;
+ bh=OxoHRSxJUs/DBlJkRYNoMKiQU91unoLQ5Gw7U19zjro=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=iutSkFHMi5IM7UGKgwlUCO6Rvp8RsehZouuXbR0LnvuWxu7EGGjB3JznVkOLUDnTI
+ ZnzSp7r8BVQBIyFRiM6bqLknfCxlnlg9JBv5SRUK+E7Qet3AtFhdqZtFj45uF91VqZ
+ 0Snkc85VJijOSkdnI4tqD42gwqXoWHBRZ3uqp3K3ch9vJnmjCTRIxTpZv7nCAD2KKU
+ reVkbWX7GIgfiZkRVQlmtqXQJqPc6xgOjVWPSCB9SdXWHMLG4FHUlJCv8swtDPhFz5
+ lPvjgTnqa7fE8qZ7e/nGHrIhDOBELVocOCSth2LrmeK2et+5tLIzYDtyNE07lEnmDe
+ 2kQ2/mkDn6+0w==
+Received: by mail-ej1-f54.google.com with SMTP id ia27so1014526ejc.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 16:37:48 -0700 (PDT)
+X-Gm-Message-State: AOAM530SMSexDEXnTpz0JsjfN69BfVewJcDkwEtRrL8I6LBqjGeBrQ6W
+ gR9LUuRn7C1f7HpHgosmCDcqwCWKDOc8ARIwlQ==
+X-Google-Smtp-Source: ABdhPJyoX0rsifcLfFn0ncpSIxDlcJSTh5JTTO8orl9BlrUHsW13D079t4m+j2HQ+MYksTHDBQ3wtRBxiw+0NGaDS1Y=
+X-Received: by 2002:a17:906:81cb:: with SMTP id
+ e11mr1673753ejx.310.1629502667599; 
+ Fri, 20 Aug 2021 16:37:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210818091847.8060-1-nancy.lin@mediatek.com>
+ <20210818091847.8060-16-nancy.lin@mediatek.com>
+In-Reply-To: <20210818091847.8060-16-nancy.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 21 Aug 2021 07:37:36 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8UUyT1u1bNqK-rNjKaFUo5=MVVrfMF6CUXmcXDb-xV1w@mail.gmail.com>
+Message-ID: <CAAOTY_8UUyT1u1bNqK-rNjKaFUo5=MVVrfMF6CUXmcXDb-xV1w@mail.gmail.com>
+Subject: Re: [PATCH v3 15/15] drm/mediatek: add mediatek-drm of vdosys1
+ support for MT8195
+To: "Nancy.Lin" <nancy.lin@mediatek.com>
+Cc: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ DTML <devicetree@vger.kernel.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, singo.chang@mediatek.com, 
+ srv_heupstream <srv_heupstream@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,181 +72,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
-execlists. Basically doing as little as possible to support this
-interface for execlists - basically just passing submit fences between
-each request generated and virtual engines are not allowed. This is on
-par with what is there for the existing (hopefully soon deprecated)
-bonding interface.
+Hi, Nancy:
 
-We perma-pin these execlists contexts to align with GuC implementation.
+Nancy.Lin <nancy.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B48=E6=9C=8818=E6=
+=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:18=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Add driver data of mt8195 vdosys1 to mediatek-drm and modify drm for
+> multi-mmsys support. The two mmsys (vdosys0 and vdosys1) will bring
+> up two drm drivers, only one drm driver register as the drm device.
+> Each drm driver binds its own component. The first bind drm driver
+> will allocate the drm device, and the last bind drm driver registers
+> the drm device to drm core. Each crtc path is created with the
+> corresponding drm driver data.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c   |  9 ++-
- drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
- .../drm/i915/gt/intel_execlists_submission.c  | 57 ++++++++++++++++++-
- drivers/gpu/drm/i915/gt/intel_lrc.c           |  2 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
- 5 files changed, 65 insertions(+), 9 deletions(-)
+Separate this patch to two patch. One is support two mmsys, and
+another one is support mt8195 vdosys1.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 0aa095bed310..cb6ce2ee1d8b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -536,9 +536,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	struct intel_engine_cs **siblings = NULL;
- 	intel_engine_mask_t prev_mask;
- 
--	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
--		return -ENODEV;
--
- 	if (get_user(slot, &ext->engine_index))
- 		return -EFAULT;
- 
-@@ -548,6 +545,12 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	if (get_user(num_siblings, &ext->num_siblings))
- 		return -EFAULT;
- 
-+	if (!intel_uc_uses_guc_submission(&i915->gt.uc) && num_siblings != 1) {
-+		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
-+			num_siblings);
-+		return -EINVAL;
-+	}
-+
- 	if (slot >= set->num_engines) {
- 		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
- 			slot, set->num_engines);
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 2de62649e275..b0f0cac6a151 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
- 
- 	__i915_active_acquire(&ce->active);
- 
--	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
-+	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
-+	    intel_context_is_parallel(ce))
- 		return 0;
- 
- 	/* Preallocate tracking nodes */
-@@ -554,7 +555,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
- 	 * Callers responsibility to validate that this function is used
- 	 * correctly but we use GEM_BUG_ON here ensure that they do.
- 	 */
--	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
- 	GEM_BUG_ON(intel_context_is_pinned(parent));
- 	GEM_BUG_ON(intel_context_is_child(parent));
- 	GEM_BUG_ON(intel_context_is_pinned(child));
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index d1e2d6f8ff81..8875d85a1677 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -927,8 +927,7 @@ static void execlists_submit_ports(struct intel_engine_cs *engine)
- 
- static bool ctx_single_port_submission(const struct intel_context *ce)
- {
--	return (IS_ENABLED(CONFIG_DRM_I915_GVT) &&
--		intel_context_force_single_submission(ce));
-+	return intel_context_force_single_submission(ce);
- }
- 
- static bool can_merge_ctx(const struct intel_context *prev,
-@@ -2598,6 +2597,59 @@ static void execlists_context_cancel_request(struct intel_context *ce,
- 				      current->comm);
- }
- 
-+static struct intel_context *
-+execlists_create_parallel(struct intel_engine_cs **engines,
-+			  unsigned int num_siblings,
-+			  unsigned int width)
-+{
-+	struct intel_engine_cs **siblings = NULL;
-+	struct intel_context *parent = NULL, *ce, *err;
-+	int i, j;
-+
-+	GEM_BUG_ON(num_siblings != 1);
-+
-+	siblings = kmalloc_array(num_siblings,
-+				 sizeof(*siblings),
-+				 GFP_KERNEL);
-+	if (!siblings)
-+		return ERR_PTR(-ENOMEM);
-+
-+	for (i = 0; i < width; ++i) {
-+		for (j = 0; j < num_siblings; ++j)
-+			siblings[j] = engines[i * num_siblings + j];
-+
-+		ce = intel_context_create(siblings[0]);
-+		if (!ce) {
-+			err = ERR_PTR(-ENOMEM);
-+			goto unwind;
-+		}
-+
-+		if (i == 0) {
-+			parent = ce;
-+		} else {
-+			intel_context_bind_parent_child(parent, ce);
-+		}
-+	}
-+
-+	parent->fence_context = dma_fence_context_alloc(1);
-+
-+	intel_context_set_nopreempt(parent);
-+	intel_context_set_single_submission(parent);
-+	for_each_child(parent, ce) {
-+		intel_context_set_nopreempt(ce);
-+		intel_context_set_single_submission(ce);
-+	}
-+
-+	kfree(siblings);
-+	return parent;
-+
-+unwind:
-+	if (parent)
-+		intel_context_put(parent);
-+	kfree(siblings);
-+	return err;
-+}
-+
- static const struct intel_context_ops execlists_context_ops = {
- 	.flags = COPS_HAS_INFLIGHT,
- 
-@@ -2616,6 +2668,7 @@ static const struct intel_context_ops execlists_context_ops = {
- 	.reset = lrc_reset,
- 	.destroy = lrc_destroy,
- 
-+	.create_parallel = execlists_create_parallel,
- 	.create_virtual = execlists_create_virtual,
- };
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 0ddbad4e062a..7e1153f84cca 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -983,6 +983,8 @@ lrc_pin(struct intel_context *ce,
- 
- void lrc_unpin(struct intel_context *ce)
- {
-+	if (unlikely(ce->last_rq))
-+		i915_request_put(ce->last_rq);
- 	check_redzone((void *)ce->lrc_reg_state - LRC_STATE_OFFSET,
- 		      ce->engine);
- }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 61e737fd1eee..88cae956c468 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2901,8 +2901,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
- 	GEM_BUG_ON(!intel_context_is_parent(ce));
- 	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
- 
--	if (ce->last_rq)
--		i915_request_put(ce->last_rq);
- 	unpin_guc_id(guc, ce);
- 	lrc_unpin(ce);
- }
--- 
-2.32.0
+Regards,
+Chun-Kuang.
 
+>
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_merge.c   |   4 +
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  25 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   3 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  15 +
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 372 ++++++++++++++++----
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   8 +-
+>  7 files changed, 354 insertions(+), 74 deletions(-)
+>
+>
