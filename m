@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214273F3049
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:56:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E273F3051
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 17:56:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7EA46EABA;
-	Fri, 20 Aug 2021 15:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE98B6EAC0;
+	Fri, 20 Aug 2021 15:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17EBF6EABA
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 15:55:58 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id k24so9599640pgh.8
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 08:55:58 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13E046EAC0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 15:56:31 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id b9so1809892plx.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 08:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=DfMkWVrhrXjOa4WT8fjUg2g99cfma/KNVtPegOy6YVA=;
- b=Tn/7uDGMiPjXxAM3ovBYEVyLtygFwlSJAWHrob1PWt4oz/x2Imgk0GhPN2Q3ecFemj
- 9aGJEzabYG/yp6A5N5Z9cTlvPVLlh/yP6oNypqN5vG8oOziU+OSzJRTu7fqXk/NgneL3
- +EIYwoyeYH2hiFo8BxwiCpYmqjeLAOAaaL9bA=
+ bh=C3a7vVBUf0KW7MXt4FnTeXqGlzkeA3TVHAyOaxNZlwQ=;
+ b=mWy+dsfzuC4WR7e/bELnLc1DBewBd+6uqLCiUlPpSL/hR3JFjiFZGkc64dOnkcT9C9
+ qDMRqhN9IlO5CQXHcgzIx3Y2JRqX6MsEMYyUkp08whfolpRdd2uxh73eqsjx32WZPMfY
+ SPWC7Ec8QNUjnKmK0pksWV2GR2YpxIveB+TMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=DfMkWVrhrXjOa4WT8fjUg2g99cfma/KNVtPegOy6YVA=;
- b=WrXVqUP/c8kQAsM/hrtaI0hxIMS8HvzbMUmd2tVnSpLIS1IbHma3zfQX5x13NmYBLD
- +k1dNnLDzY/S56Lp2neT4E/SGaU2vSK14w9McLAYLEs/M5L3bgzcRzJnQC53eWLT40Kh
- P4qd2MazY1htJWZUTsTDs1V1wSVgCEGogWk/i9cV/RG+g+DMcsb+Sf9wJlT2A7gWLj4k
- Tm+oznxhUM5ykVH73fzo7tAUv9iGv0Njk83z2r8IZroYFz8dR6NeYa+A400twMseQoLA
- IvLjxi5y0b03zISZb4ockSfUXCD7cpcAg0bHREY/tKr4BSnDG4TklkMzQC6P/kyb+C0M
- PfAQ==
-X-Gm-Message-State: AOAM5333FJDenSxnn4ZYAwB4FnqQHsR3xF969i9Qoyep7CLT8SdoQm40
- daLihz4OG0vPDKYpZxKoGrbQ1w==
-X-Google-Smtp-Source: ABdhPJxNmkkLS0IYvcJdUty1efO3ATpriVc4oMEh5d9+VW4AFW/Rt8LdZFCR+Kj2vvrc2GQCiXZJ9w==
-X-Received: by 2002:a63:4d24:: with SMTP id a36mr6002323pgb.37.1629474957688; 
- Fri, 20 Aug 2021 08:55:57 -0700 (PDT)
+ bh=C3a7vVBUf0KW7MXt4FnTeXqGlzkeA3TVHAyOaxNZlwQ=;
+ b=WkxrPeJCY0rEiMLguSrZZc6RBkOPYEAop1OotpgEsbf/s504ki44I666EMODgF4EzB
+ KDtfKKuna+xzB3Pxl2Azpr4WpiaR/GXqBZ1dnioFr7WA5/GQtlFI8Dbyzrx/Av2X/h/o
+ hwV1VXKe1p+/XL5RNS6HTBMQOxquJ02mIe0AvQbl7IuzrXR2tzWc9/Dpet3ST/2oAki2
+ yKX9MH3gqMYQZjw+n7ehzJusSrQGz0g64RgBeA4FIH/Xbf9qcIulcMHV4F1ZpNZdUNSG
+ hqflQE/GjCAFWh/yb6oene3jiRcE6w3z8S3vcP08AzJLaUqjFRc5OYWM+bzHZ5XD3j2M
+ /m1Q==
+X-Gm-Message-State: AOAM532XB6+jKWcdb03XNiy5DUGh/5Nhq2pB5ksizqqbOOh9/Zr4IWG5
+ QcFt4DvnsdCwfrmc8O/o22VXew==
+X-Google-Smtp-Source: ABdhPJyhg05jtv2sdt7XrLbWPk8JBbrR41kaovvHCcwZtOZ4P7Cf6Qg2VrCTEpx9+rp1igwyJ9xLVA==
+X-Received: by 2002:a17:902:f704:b029:11a:cdee:490 with SMTP id
+ h4-20020a170902f704b029011acdee0490mr17049722plo.37.1629474990741; 
+ Fri, 20 Aug 2021 08:56:30 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id o10sm6412690pjg.34.2021.08.20.08.55.56
+ by smtp.gmail.com with ESMTPSA id 21sm7304926pfh.103.2021.08.20.08.56.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Aug 2021 08:55:57 -0700 (PDT)
-Date: Fri, 20 Aug 2021 08:55:56 -0700
+ Fri, 20 Aug 2021 08:56:30 -0700 (PDT)
+Date: Fri, 20 Aug 2021 08:56:29 -0700
 From: Kees Cook <keescook@chromium.org>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: linux-kernel@vger.kernel.org,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Sudeep Holla <sudeep.holla@arm.com>, linuxppc-dev@lists.ozlabs.org,
- kernel test robot <lkp@intel.com>,
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+ Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org,
  "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -60,16 +57,18 @@ Cc: linux-kernel@vger.kernel.org,
  clang-built-linux@googlegroups.com,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 57/63] powerpc/signal32: Use struct_group() to zero
- spe regs
-Message-ID: <202108200851.8AF09CDB71@keescook>
+Subject: Re: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct
+ mlx5_ib_mr
+Message-ID: <202108200856.E0E8711CB@keescook>
 References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-58-keescook@chromium.org>
- <877dggeesw.fsf@mpe.ellerman.id.au>
+ <20210818060533.3569517-57-keescook@chromium.org>
+ <20210819122716.GP543798@ziepe.ca> <202108190916.7CC455DA@keescook>
+ <20210819164757.GS543798@ziepe.ca> <202108191106.1956C05A@keescook>
+ <20210820123400.GW543798@ziepe.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <877dggeesw.fsf@mpe.ellerman.id.au>
+In-Reply-To: <20210820123400.GW543798@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,93 +84,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 20, 2021 at 05:49:35PM +1000, Michael Ellerman wrote:
-> Kees Cook <keescook@chromium.org> writes:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
-> >
-> > Add a struct_group() for the spe registers so that memset() can correctly reason
-> > about the size:
-> >
-> >    In function 'fortify_memset_chk',
-> >        inlined from 'restore_user_regs.part.0' at arch/powerpc/kernel/signal_32.c:539:3:
-> >>> include/linux/fortify-string.h:195:4: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
-> >      195 |    __write_overflow_field();
-> >          |    ^~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > Cc: Michael Ellerman <mpe@ellerman.id.au>
-> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> > Cc: Paul Mackerras <paulus@samba.org>
-> > Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-> > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > Cc: linuxppc-dev@lists.ozlabs.org
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  arch/powerpc/include/asm/processor.h | 6 ++++--
-> >  arch/powerpc/kernel/signal_32.c      | 6 +++---
-> >  2 files changed, 7 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/arch/powerpc/include/asm/processor.h b/arch/powerpc/include/asm/processor.h
-> > index f348e564f7dd..05dc567cb9a8 100644
-> > --- a/arch/powerpc/include/asm/processor.h
-> > +++ b/arch/powerpc/include/asm/processor.h
-> > @@ -191,8 +191,10 @@ struct thread_struct {
-> >  	int		used_vsr;	/* set if process has used VSX */
-> >  #endif /* CONFIG_VSX */
-> >  #ifdef CONFIG_SPE
-> > -	unsigned long	evr[32];	/* upper 32-bits of SPE regs */
-> > -	u64		acc;		/* Accumulator */
-> > +	struct_group(spe,
-> > +		unsigned long	evr[32];	/* upper 32-bits of SPE regs */
-> > +		u64		acc;		/* Accumulator */
-> > +	);
-> >  	unsigned long	spefscr;	/* SPE & eFP status */
-> >  	unsigned long	spefscr_last;	/* SPEFSCR value on last prctl
-> >  					   call or trap return */
-> > diff --git a/arch/powerpc/kernel/signal_32.c b/arch/powerpc/kernel/signal_32.c
-> > index 0608581967f0..77b86caf5c51 100644
-> > --- a/arch/powerpc/kernel/signal_32.c
-> > +++ b/arch/powerpc/kernel/signal_32.c
-> > @@ -532,11 +532,11 @@ static long restore_user_regs(struct pt_regs *regs,
-> >  	regs_set_return_msr(regs, regs->msr & ~MSR_SPE);
-> >  	if (msr & MSR_SPE) {
-> >  		/* restore spe registers from the stack */
-> > -		unsafe_copy_from_user(current->thread.evr, &sr->mc_vregs,
-> > -				      ELF_NEVRREG * sizeof(u32), failed);
-> > +		unsafe_copy_from_user(&current->thread.spe, &sr->mc_vregs,
-> > +				      sizeof(current->thread.spe), failed);
+On Fri, Aug 20, 2021 at 09:34:00AM -0300, Jason Gunthorpe wrote:
+> On Thu, Aug 19, 2021 at 11:14:37AM -0700, Kees Cook wrote:
 > 
-> This makes me nervous, because the ABI is that we copy ELF_NEVRREG *
-> sizeof(u32) bytes, not whatever sizeof(current->thread.spe) happens to
-> be.
+> > Which do you mean? When doing the conversions I tended to opt for
+> > struct_group() since it provides more robust "intentionality". Strictly
+> > speaking, the new memset helpers are doing field-spanning writes, but the
+> > "clear to the end" pattern was so common it made sense to add the helpers,
+> > as they're a bit less disruptive. It's totally up to you! :)
 > 
-> ie. if we use sizeof an inadvertent change to the fields in
-> thread_struct could change how many bytes we copy out to userspace,
-> which would be an ABI break.
-> 
-> And that's not that hard to do, because it's not at all obvious that the
-> size and layout of fields in thread_struct affects the user ABI.
-> 
-> At the same time we don't want to copy the right number of bytes but
-> the wrong content, so from that point of view using sizeof is good :)
-> 
-> The way we handle it in ptrace is to have BUILD_BUG_ON()s to verify that
-> things match up, so maybe we should do that here too.
-> 
-> ie. add:
-> 
-> 	BUILD_BUG_ON(sizeof(current->thread.spe) == ELF_NEVRREG * sizeof(u32));
-> 
-> Not sure if you are happy doing that as part of this patch. I can always
-> do it later if not.
+> Well, of the patches you cc'd to me only this one used the struct
+> group..
 
-Sounds good to me; I did that in a few other cases in the series where
-the relationships between things seemed tenuous. :) I'll add this (as
-!=) in v3.
-
-Thanks!
+Understood. I've adjusted this for v3. Thanks!
 
 -- 
 Kees Cook
