@@ -1,98 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FB23F2673
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 07:18:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 865A03F2689
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 07:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEDA46E9F8;
-	Fri, 20 Aug 2021 05:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9D316E9FD;
+	Fri, 20 Aug 2021 05:36:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5E06E9F7
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 05:18:46 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id q2so8021030pgt.6
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 22:18:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=chAct3ipnxxeeUzw3hiYvmSC99rC9KHQnQdo3Qo5wI0=;
- b=PAK0FwHpNruccQOMJcEETGgiuehcBfGqSXwbOalixpfWmC8iUPHKv0ZRFhT4USGW3L
- s3ikZix1CXYk8w3jX5LaxfyZfb40GBiPWSjG9bWn3gJp9a9Md0FR48UGizRgXzY9ODgl
- 10gDNc8YxX4abwwur3/2Ib4tR0HK4fxAVz95jdn0g5Bjm1f+zlmZUdf0J4uOmNCA+73o
- QmFwB0uLKerpVDInoO9o15o02ie64XpCaCSsIImcFb/KjT6Us0KvUWI0KV441DGxP1Gb
- Qjx6eoerfkbM7U/RrGe2d3xgWfRJJ6PVyX/2MvEkhvBiHXfKbkbdOk6b4KB2LrxPQeQV
- fLzw==
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57A5D6E9FD
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 05:36:41 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id u3so17768197ejz.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Aug 2021 22:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=8HzyFYkGUm5ggxOpUHPPxgTfMlNVBJb6lAA4BAh9pjM=;
+ b=dEYJ+k4bztpDOfQzTp5VAzZcqsSCa5IqpCSrm7KZVOnLF29lsRqlTQUDxI6mPhDTGm
+ l7hsBU3wfMnPrBvx5iNc60mh6SHoM4uAJipWJnf4iAu2FS+dy5YeNp80b3qFs2fHMKqW
+ AkmwN7gp+w6WKZY3jLICLxEefDINC1nGqrzFOqq4zK80etGsxa+F4KsAdMKRvluBdJGn
+ YBudOUys6LHwyBUaQo0+FrC5gdcDpON7FcTFdyT4HjCCyVWJkM/Eg4SUGvzzwkxZKELm
+ b6/A5IJOAZtabGwez2lU9wMSop7krt+5pKM6RjWbR8vWK6unAlQFtFZwUxXX6D8Zi5Xn
+ bQBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=chAct3ipnxxeeUzw3hiYvmSC99rC9KHQnQdo3Qo5wI0=;
- b=aDzXNjxBVbQ27V2xbufdQj8lyQ91rCE/KGXqt7Sry0r6l5+UF+8KSOkF9RtZjP6L1v
- ysUzqeha0zGQhR7qRigEONGAd/Ti0YdFzp5RdEKyCTh8Rpq/N/5PCacmci9e5CW1gtFP
- 8WH5BQMZr2hjlWm7quuZ0Wx/6pdv8Q02UxO2UA4ck7CVYcEB96qaMoDmKQFv3RS24+FE
- bh9TCcBpvyBk2dggrrEZnQ6Ed6hOpER2A1RkBm2nmfRMAAZ7EOZV1tNIdNC6x4JYBB1m
- kAT4XFjvHtWaiGjitT1+nScdqIK237+duXFwxNcOJuRopNbvqbZ8mm/yUPteQ7h4if7p
- M7NA==
-X-Gm-Message-State: AOAM532dm1/3v1IVqe2CdFpGbhD02D55YGRwo/rn1nL+2sJLigHAt16B
- zl4Qh83VEqrIZesp0zo4q66pfA==
-X-Google-Smtp-Source: ABdhPJwH30rFrNGt2fTNK9Na7wrgKwgjGw7543RwntMIs+dfy9PTWNVMu53RFGAQHLSof48YBaglZA==
-X-Received: by 2002:a62:8283:0:b0:3e0:f3f3:839d with SMTP id
- w125-20020a628283000000b003e0f3f3839dmr17811980pfd.37.1629436725848; 
- Thu, 19 Aug 2021 22:18:45 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
- by smtp.gmail.com with ESMTPSA id i26sm5582209pfu.6.2021.08.19.22.18.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 22:18:45 -0700 (PDT)
-Date: Fri, 20 Aug 2021 10:48:43 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
-References: <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
- <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
- <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=8HzyFYkGUm5ggxOpUHPPxgTfMlNVBJb6lAA4BAh9pjM=;
+ b=H2SnRF5Aq+cXmWp8gknVG8YZ8EcujBHa8CemJQRUU9MXRnu8Kr30GCJvC94hSOvSTC
+ y22J6FLoXVkV0QH2bAAyC7cqWtnUc636O4F81dgSpwxZJ3TZ288BYxAi6TjB85UUKJiF
+ Xra3SRB5yLG4Y0kdNpP8zvk6vaLYQOzBF3J257hfDnf8SpbUOX+BrvbjXJAnPGaflQZj
+ /xalYmDNYfpbeeWWwkh2nBMWdKLw/Q6ymHwqP8mfJOv7RclgKtfxajEgrmvfCI8W20WJ
+ g89bSGoS61wQxIcTHrAjPhcZStXfpJIvsU0awGANG0RDwos7nXWzJYb0tuCEbMUvTEIo
+ Dozg==
+X-Gm-Message-State: AOAM532JbasftkGPqHl6D1YWQMlcC02FPzWVJ+tY7YqDXMsEdITj3uny
+ qprVSORf+LdBByPhtL+qsNkZzru4lEMdQZajhi2IpGt6pv4=
+X-Google-Smtp-Source: ABdhPJwYdZFC2bD7+yMJibq52aaH/DpLCVkO59zugzXa0+QmbM/Kj96k4OO2UTg/ZOkexaap+emh/HLECtWaSmo3ZY4=
+X-Received: by 2002:a17:907:2706:: with SMTP id
+ w6mr19693731ejk.101.1629437799895; 
+ Thu, 19 Aug 2021 22:36:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 20 Aug 2021 15:36:29 +1000
+Message-ID: <CAPM=9tx-3de7XH+pbT8deG3E3BhfPde7rBCjRu0pSxtQ0tqGsQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.14-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,63 +65,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19-08-21, 16:55, Ulf Hansson wrote:
-> Right, that sounds reasonable.
-> 
-> We already have pm_genpd_opp_to_performance_state() which translates
-> an OPP to a performance state. This function invokes the
-> ->opp_to_performance_state() for a genpd. Maybe we need to allow a
-> genpd to not have ->opp_to_performance_state() callback assigned
-> though, but continue up in the hierarchy to see if the parent has the
-> callback assigned, to make this work for Tegra?
-> 
-> Perhaps we should add an API dev_pm_genpd_opp_to_performance_state(),
-> allowing us to pass the device instead of the genpd. But that's a
-> minor thing.
+Hi Linus,
 
-I am not concerned a lot about how it gets implemented, and am not
-sure as well, as I haven't looked into these details since sometime.
-Any reasonable thing will be accepted, as simple as that.
+Regularly scheduled fixes. The ttm one solves a problem of GPU drivers
+failing to load if debugfs is off in Kconfig, otherwise the i915 and
+mediatek, and amdgpu fixes all fairly normal.
 
-> Finally, the precondition to use the above, is to first get a handle
-> to an OPP table. This is where I am struggling to find a generic
-> solution, because I guess that would be platform or even consumer
-> driver specific for how to do this. And at what point should we do
-> this?
+nouveau has a couple of display fixes, but it has a fix for a
+longstanding race condition in it's memory manager code, and the fix
+mostly removes some code that wasn't working properly and has no
+userspace users. This fix makes the diffstat kinda larger but in a
+negative way.
 
-Hmm, I am not very clear with the whole picture at this point of time.
+Let me know if any problems,
+Dave.
 
-Dmitry, can you try to frame a sequence of events/calls/etc that will
-define what kind of devices we are looking at here, and how this can
-be made to work ?
+drm-fixes-2021-08-20-3:
+drm fixes for 5.14-rc7
 
-> > > Viresh, please take a look at what I did in [1]. Maybe it could be done
-> > > in another way.
-> >
-> > I looked into this and looked like too much trouble. The
-> > implementation needs to be simple. I am not sure I understand all the
-> > problems you faced while doing that, would be better to start with a
-> > simpler implementation of get_performance_state() kind of API for
-> > genpd, after the domain is attached and its OPP table is initialized.
-> >
-> > Note, that the OPP table isn't required to be fully initialized for
-> > the device at this point, we can parse the DT as well if needed be.
-> 
-> Sure, but as I indicated above, you need some kind of input data to
-> figure out what OPP table to pick, before you can translate that into
-> a performance state. Is that always the clock rate, for example?
+core:
+- fix drm_wait_vblank uapi copying bug
 
-Eventually it can be clock, bandwidth, or pstate of anther genpd, not
-sure what all we are looking for now. It should be just clock right
-now as far as I can imagine :)
+ttm:
+- fix debugfs init when debugfs is off
 
-> Perhaps, we should start with adding a dev_pm_opp_get_from_rate() or
-> what do you think? Do you have other suggestions?
+amdgpu:
+- vega10 SMU workload fix
+- DCN VM fix
+- DCN 3.01 watermark fix
 
-We already have similar APIs, so that won't be a problem. We also have
-a mechanism inside the OPP core, frequency based, which is used to
-guess the current OPP. Maybe we can enhance and use that directly
-here.
+amdkfd:
+- SVM fix
 
--- 
-viresh
+nouveau:
+- ampere display fixes
+- remove MM misfeature to fix a longstanding race condition
+
+i915:
+- tweaked display workaround for all PCHs
+- eDP MSO pipe sanity for ADL-P fix
+- remove unused symbol export
+
+mediatek:
+- AAL output size setting
+- Delete component in remove function
+The following changes since commit 7c60610d476766e128cc4284bb6349732cbd6606:
+
+  Linux 5.14-rc6 (2021-08-15 13:40:53 -1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-08-20-3
+
+for you to fetch changes up to daa7772d477ec658dc1fd9127549a7996d8e0c2b:
+
+  Merge tag 'amd-drm-fixes-5.14-2021-08-18' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-08-20
+15:13:56 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.14-rc7
+
+core:
+- fix drm_wait_vblank uapi copying bug
+
+ttm:
+- fix debugfs init when debugfs is off
+
+amdgpu:
+- vega10 SMU workload fix
+- DCN VM fix
+- DCN 3.01 watermark fix
+
+amdkfd:
+- SVM fix
+
+nouveau:
+- ampere display fixes
+- remove MM misfeature to fix a longstanding race condition
+
+i915:
+- tweaked display workaround for all PCHs
+- eDP MSO pipe sanity for ADL-P fix
+- remove unused symbol export
+
+mediatek:
+- AAL output size setting
+- Delete component in remove function
+
+----------------------------------------------------------------
+Anshuman Gupta (1):
+      drm/i915: Tweaked Wa_14010685332 for all PCHs
+
+Ben Skeggs (6):
+      drm/nouveau: recognise GA107
+      drm/nouveau/disp: power down unused DP links during init
+      drm/nouveau/kms/nv50: workaround EFI GOP window channel format differences
+      drm/nouveau/fifo/nv50-: rip out dma channels
+      drm/nouveau: block a bunch of classes from userspace
+      drm/nouveau: rip out nvkm_client.super
+
+Dan Moulding (1):
+      drm: ttm: Don't bail from ttm_global_init if debugfs_create_dir fails
+
+Dave Airlie (5):
+      Merge tag 'drm-misc-fixes-2021-08-18' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge branch 'linux-5.14' of git://github.com/skeggsb/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2021-08-18' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'mediatek-drm-fixes-5.14-2' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes
+      Merge tag 'amd-drm-fixes-5.14-2021-08-18' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Jake Wang (1):
+      drm/amd/display: Ensure DCN save after VM setup
+
+Jani Nikula (2):
+      drm/i915/edp: fix eDP MSO pipe sanity checks for ADL-P
+      drm/i915/dp: remove superfluous EXPORT_SYMBOL()
+
+Kenneth Feng (2):
+      Revert "drm/amd/pm: fix workload mismatch on vega10"
+      drm/amd/pm: change the workload type for some cards
+
+Mark Yacoub (1):
+      drm: Copy drm_wait_vblank to user before returning
+
+Yifan Zhang (1):
+      drm/amdkfd: fix random KFDSVMRangeTest.SetGetAttributesTest test failure
+
+Zhan Liu (1):
+      drm/amd/display: Use DCN30 watermark calc for DCN301
+
+jason-jh.lin (2):
+      drm/mediatek: Add AAL output size configuration
+      drm/mediatek: Add component_del in OVL and COLOR remove function
+
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  8 ++
+ drivers/gpu/drm/amd/display/dc/core/dc.c           |  6 ++
+ drivers/gpu/drm/amd/display/dc/core/dc_vm_helper.c |  3 +
+ drivers/gpu/drm/amd/display/dc/dc.h                |  1 +
+ .../drm/amd/display/dc/dcn301/dcn301_resource.c    | 96 +---------------------
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c | 12 +++
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.h |  1 +
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c  |  1 +
+ drivers/gpu/drm/amd/display/dc/inc/hw_sequencer.h  |  1 +
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |  5 ++
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  | 15 +++-
+ drivers/gpu/drm/drm_ioc32.c                        |  4 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           | 24 +++---
+ drivers/gpu/drm/i915/display/intel_display_power.c | 16 ++--
+ .../gpu/drm/i915/display/intel_dp_link_training.c  |  1 -
+ drivers/gpu/drm/i915/i915_irq.c                    | 21 -----
+ drivers/gpu/drm/mediatek/mtk_disp_color.c          |  2 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  2 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        |  2 +
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            | 27 ++++++
+ drivers/gpu/drm/nouveau/dispnv50/head.c            | 13 ++-
+ drivers/gpu/drm/nouveau/dispnv50/head.h            |  1 +
+ drivers/gpu/drm/nouveau/include/nvif/cl0080.h      |  3 +-
+ drivers/gpu/drm/nouveau/include/nvif/class.h       |  2 -
+ drivers/gpu/drm/nouveau/include/nvif/client.h      |  1 -
+ drivers/gpu/drm/nouveau/include/nvif/driver.h      |  2 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/client.h |  1 -
+ drivers/gpu/drm/nouveau/include/nvkm/core/ioctl.h  |  2 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/mmu.h  |  1 -
+ drivers/gpu/drm/nouveau/nouveau_abi16.c            |  2 -
+ drivers/gpu/drm/nouveau/nouveau_chan.c             | 19 +----
+ drivers/gpu/drm/nouveau/nouveau_drm.c              |  3 +-
+ drivers/gpu/drm/nouveau/nouveau_mem.c              | 15 +---
+ drivers/gpu/drm/nouveau/nouveau_nvif.c             |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c              |  9 --
+ drivers/gpu/drm/nouveau/nouveau_usif.c             | 57 ++++++++++---
+ drivers/gpu/drm/nouveau/nvif/client.c              |  3 +-
+ drivers/gpu/drm/nouveau/nvif/object.c              |  3 +-
+ drivers/gpu/drm/nouveau/nvkm/core/ioctl.c          |  4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  | 21 +++++
+ drivers/gpu/drm/nouveau/nvkm/engine/device/user.c  |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c      |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.h      |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c    |  9 ++
+ drivers/gpu/drm/nouveau/nvkm/engine/dma/user.c     | 15 ----
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/Kbuild    |  2 -
+ .../gpu/drm/nouveau/nvkm/engine/fifo/channv50.h    |  2 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmag84.c  | 94 ---------------------
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv50.c | 92 ---------------------
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/g84.c     |  1 -
+ .../gpu/drm/nouveau/nvkm/engine/fifo/gpfifogk104.c |  2 -
+ .../gpu/drm/nouveau/nvkm/engine/fifo/gpfifogv100.c |  2 -
+ .../gpu/drm/nouveau/nvkm/engine/fifo/gpfifotu102.c |  2 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/nv50.c    |  1 -
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.c     |  6 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/umem.h     |  1 -
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/ummu.c     |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c     | 27 ++----
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c      |  6 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c | 16 ++--
+ drivers/gpu/drm/ttm/ttm_device.c                   |  2 -
+ 61 files changed, 224 insertions(+), 477 deletions(-)
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmag84.c
+ delete mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/dmanv50.c
