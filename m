@@ -2,66 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51ED3F28FE
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 11:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9773F281C
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Aug 2021 10:08:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 104F66EA44;
-	Fri, 20 Aug 2021 09:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC7A6EA36;
+	Fri, 20 Aug 2021 08:08:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 792866EA35
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Aug 2021 07:59:51 +0000 (UTC)
-X-UUID: 67d87111147f49deb1e6ed22dd5dcb45-20210820
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=VluiAbKGQy/3Yr6UxPnDDXbjlygkyrql8mDiSJPOAdY=; 
- b=u2x3ECk9IHJHuyY7+rigAOuyNreL9ujO4lyz7u1/Bx7LiQoh0Z7IhGZbugghUOHs4IOVN4ZXHHa8DFb4vQdj35XJMs+aOANZ8OyGjlIcd8V++l6FcngmuUOQ/YdHoN2XowjOV3YJHqH0e9R49AwgvV9i9RxXmo6+jqEuKrVYXLg=;
-X-UUID: 67d87111147f49deb1e6ed22dd5dcb45-20210820
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 994131274; Fri, 20 Aug 2021 15:59:42 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 20 Aug 2021 15:59:40 +0800
-Received: from [10.17.3.153] (10.17.3.153) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 20 Aug 2021 15:59:38 +0800
-Message-ID: <1629446378.18871.27.camel@mhfsdcap03>
-Subject: Re: [PATCH v5, 00/15] Using component framework to support multi
- hardware decode
-From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-CC: Daniel Vetter <daniel@ffwll.ch>, dri-devel
- <dri-devel@lists.freedesktop.org>, Alexandre Courbot <acourbot@chromium.org>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi Shih"
- <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT
- Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>, Hsin-Yi Wang
- <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, Irui Wang
- <irui.wang@mediatek.com>, linux-media <linux-media@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>, srv_heupstream
- <srv_heupstream@mediatek.com>, "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, George Sun
- <george.sun@mediatek.com>
-Date: Fri, 20 Aug 2021 15:59:38 +0800
-In-Reply-To: <CAAEAJfCTrKj9AFExN-L-TKww4E=us1VVh8LHtZ8Q0j_eaCD4Eg@mail.gmail.com>
-References: <20210811025801.21597-1-yunfei.dong@mediatek.com>
- <CAAEAJfDWOzCJxZFNtxeT7Cvr2pWbYrfz-YnA81sVNs-rM=8n4Q@mail.gmail.com>
- <1b79a67b703d2c894bc4d9458c760e082fc42958.camel@mediatek.com>
- <CAAEAJfCTrKj9AFExN-L-TKww4E=us1VVh8LHtZ8Q0j_eaCD4Eg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2084.outbound.protection.outlook.com [40.107.93.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 472B16EA36;
+ Fri, 20 Aug 2021 08:08:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=arsqPO78tp7YdpJtngJKbVWVIyBrHIOGgl8FnAx5akBABx8MZTBnX6ju/zG2eiZVidIXGzxzFt/nopzV+UCOMaEcfyYvHms7/wh4MVR8iVewmDTfkNSU5uHq9qE82dEfeRLxpMvT2Cq6+vudSlI2zJij7g1JGQzGlLZwxZYLMoTDUFxF9cbhhsuHo5cCdXygigQar6RoviW7YhO1VBE2RXaS5ForUHoMboizugktg73bFgIzj6esYjdfV1ayP4seWDL0M4oWFbXp3y6SeCVV38CagRQCqVZ158X15pwMZCwMSLOT1eUqY6RkZXe7JR4i4jKDnR25vYthW6PaWYZkww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5w5wzHaJpQxxZkuFqUsOVcv7Xg932Rg07AvACravCZU=;
+ b=V77kY8ajXH031XbTZUYyAheFUqc6nXjdA8jj6gdQzzza4mi7kUE9qlO5mEbSBXNnQYFxW+ECqMmUNwavQmBHEuK+l3VTPcZ/7QKDYBWNvkElA+7cbzzWRCnwHdh2MIgpaVIwWE50oivq2tLT3c/eE9ZnIppz+UliUv4lZP/MqdtB2ZuRy4O8LsJraxoedIaJfJ/hGtQ2vtd9kKoFlmN06kBVqtXnNMx04Dovd/t3qg9G+4ryDw6xGZs6i2ZhInZX/tV1JRfLI5ROWPKfc6NeNrPVPbHr22uUp5i09+GWNpnFDUg4WKla+iqJrc1nkS+vqLsL+pZU6VopHRjeioN0YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5w5wzHaJpQxxZkuFqUsOVcv7Xg932Rg07AvACravCZU=;
+ b=Ue/mlncnnj+fBsm/MsWsMo+zjslPMMeCusjVaEItGpBAP+YfjNyuNwr4AMIGAGq2Bq1lRWKmPrqpW2PXXdyOKr09jBNcnPcMYDU7yS+xWePKLa4EeKO9XrfJikgyHN7bLLaepgD4wCjp1zTiqkQ4pUNLW4wrVEbf1uUsd7mm1tE=
+Received: from MWHPR1601CA0011.namprd16.prod.outlook.com
+ (2603:10b6:300:da::21) by CO6PR12MB5491.namprd12.prod.outlook.com
+ (2603:10b6:303:13b::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Fri, 20 Aug
+ 2021 08:08:17 +0000
+Received: from CO1NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:da:cafe::9) by MWHPR1601CA0011.outlook.office365.com
+ (2603:10b6:300:da::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
+ Transport; Fri, 20 Aug 2021 08:08:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1NAM11FT037.mail.protection.outlook.com (10.13.174.91) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4436.19 via Frontend Transport; Fri, 20 Aug 2021 08:08:16 +0000
+Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.12; Fri, 20 Aug
+ 2021 03:08:14 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
+ (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.12; Fri, 20 Aug
+ 2021 01:08:14 -0700
+Received: from wayne-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2242.12 via Frontend
+ Transport; Fri, 20 Aug 2021 03:08:12 -0500
+From: Jingwen Chen <Jingwen.Chen2@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: <monk.liu@amd.com>, <christian.koenig@amd.com>,
+ <Andrey.Grodzovsky@amd.com>, <daniel@ffwll.ch>, Jingwen Chen
+ <Jingwen.Chen2@amd.com>
+Subject: [PATCH v3] Revert "drm/scheduler: Avoid accessing freed bad job."
+Date: Fri, 20 Aug 2021 16:07:44 +0800
+Message-ID: <20210820080743.1562116-1-Jingwen.Chen2@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
-X-Mailman-Approved-At: Fri, 20 Aug 2021 09:15:23 +0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9f40ec22-756c-48fc-8499-08d963b1aa58
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5491:
+X-Microsoft-Antispam-PRVS: <CO6PR12MB5491AC6A7D90698E7507CC6FB7C19@CO6PR12MB5491.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1284;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: le/o5mSqlwmyxOjwV7T+1fCmGAh4qowkn7FpnF6yamexROC+TX6czj62Sjq8/0SwJFAOFsgEneg5iZtaN22KI9HXLlrd8mnPO4ShGLeV++QwTcHpFd7vE5X1aW9wyXpYM+7a/TR0+QJ7US8UTf/BCXNfhKOfefnHZFV4vfwpl80+0ljB2F6IEOLVK9BdCcGLkQQN3ZXvjdVQSpJISmgedKqEpbWjn/3XeJ2PNrG+U54FEWF/sxsi1/PqyFKsVVo5qnryxa7Hg3s7NU3kJZTvm9bP/1/+LBG2IaNdEGx+mXtT2rLVF9WjVZHcJ7h1ygwHZNQSlWXaF19T6EbAhh+9hnquVP2Ly27zsdDczlfqM/TTF5/9DmpsY+hyJeLu93v9NRa8NmGzjKgbhU7O9X+eu06lTOyPbQp69OSttqC++ITR9vexgg7pqrKIxZw+WvJ77zT1AllDifo8jzdhH84B6WreKJ/Ju4c3Bv5Fmiccv+hXKLmuUgAEs8cyEoK42DaggsnNcQhMRgQNtRI4SeGEpACzTU5ah/stafxhokBqVNeelT2B8vRGA4U1aC8qvZdw8iIfOc0CA0cvmWqwnR1ba4a7mDJqD7fkCjeTQR8G46sS6RVPtVbvwVsGm6sEHJeHZjlsrXeyaGJPdr7KsYtdCx3RSyiieWWnhHJLqCaGV8L+qaL/rGU3tDmaaRWabFXcGpLXWBom+ldX/YueG5N0wMbjkfpna+sNIM2eT9fZ/KAbFOlxGpO+I/j0dKtr2UCE2xoES2xbVPgC0aJ3/tf/pw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(136003)(376002)(396003)(46966006)(36840700001)(2616005)(82740400003)(2906002)(81166007)(356005)(36756003)(47076005)(86362001)(54906003)(26005)(83380400001)(8676002)(7696005)(110136005)(478600001)(70586007)(70206006)(6666004)(426003)(336012)(82310400003)(1076003)(34020700004)(186003)(316002)(8936002)(5660300002)(4326008)(36860700001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2021 08:08:16.6265 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f40ec22-756c-48fc-8499-08d963b1aa58
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT037.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5491
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,80 +111,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRXplcXVpZWwsDQoNClRoYW5rcyBmb3IgeW91ciBkZXRhaWwgZmVlZGJhY2suIA0KDQpPbiBU
-aHUsIDIwMjEtMDgtMTkgYXQgMTE6MTAgLTAzMDAsIEV6ZXF1aWVsIEdhcmNpYSB3cm90ZToNCj4g
-T24gVGh1LCAxOSBBdWcgMjAyMSBhdCAwNDoxMywgeXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tDQo+
-IDx5dW5mZWkuZG9uZ0BtZWRpYXRlay5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGkgRXplcXVpZWws
-DQo+ID4NCj4gPiBUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4NCj4gPg0KPiA+IE9uIFdlZCwg
-MjAyMS0wOC0xOCBhdCAxMToxMSAtMDMwMCwgRXplcXVpZWwgR2FyY2lhIHdyb3RlOg0KPiA+ID4g
-K2RhbnZldA0KPiA+ID4NCj4gPiA+IEhpLA0KPiA+ID4NCj4gPiA+IE9uIFR1ZSwgMTAgQXVnIDIw
-MjEgYXQgMjM6NTgsIFl1bmZlaSBEb25nIDx5dW5mZWkuZG9uZ0BtZWRpYXRlay5jb20+DQo+ID4g
-PiB3cm90ZToNCj4gPiA+ID4NCj4gPiA+ID4gVGhpcyBzZXJpZXMgYWRkcyBzdXBwb3J0IGZvciBt
-dWx0aSBoYXJkd2FyZSBkZWNvZGUgaW50byBtdGstdmNvZGVjLA0KPiA+ID4gPiBieSBmaXJzdA0K
-PiA+ID4gPiBhZGRpbmcgY29tcG9uZW50IGZyYW1ld29yayB0byBtYW5hZ2UgZWFjaCBoYXJkd2Fy
-ZSBpbmZvcm1hdGlvbjoNCj4gPiA+ID4gaW50ZXJydXB0LA0KPiA+ID4gPiBjbG9jaywgcmVnaXN0
-ZXIgYmFzZXMgYW5kIHBvd2VyLiBTZWNvbmRseSBhZGQgY29yZSB0aHJlYWQgdG8gZGVhbA0KPiA+
-ID4gPiB3aXRoIGNvcmUNCj4gPiA+ID4gaGFyZHdhcmUgbWVzc2FnZSwgYXQgdGhlIHNhbWUgdGlt
-ZSwgYWRkIG1zZyBxdWV1ZSBmb3IgZGlmZmVyZW50DQo+ID4gPiA+IGhhcmR3YXJlDQo+ID4gPiA+
-IHNoYXJlIG1lc3NhZ2VzLiBMYXN0bHksIHRoZSBhcmNoaXRlY3R1cmUgb2YgZGlmZmVyZW50IHNw
-ZWNzIGFyZSBub3QNCj4gPiA+ID4gdGhlIHNhbWUsDQo+ID4gPiA+IHVzaW5nIHNwZWNzIHR5cGUg
-dG8gc2VwYXJhdGUgdGhlbS4NCj4gPiA+ID4NCj4gPiA+DQo+ID4gPiBJIGRvbid0IHRoaW5rIGl0
-J3MgYSBnb29kIGlkZWEgdG8gaW50cm9kdWNlIHRoZSBjb21wb25lbnQgQVBJIGluIHRoZQ0KPiA+
-ID4gbWVkaWEgc3Vic3lzdGVtLiBJdCBkb2Vzbid0IHNlZW0gdG8gYmUgbWFpbnRhaW5lZCwgSVJD
-IHRoZXJlJ3Mgbm90DQo+ID4gPiBldmVuDQo+ID4gPiBhIG1haW50YWluZXIgZm9yIGl0LCBhbmQg
-aXQgaGFzIHNvbWUgaXNzdWVzIHRoYXQgd2VyZSBuZXZlcg0KPiA+ID4gYWRkcmVzc2VkLg0KPiA+
-ID4NCj4gPiA+IEl0IHdvdWxkIGJlIHJlYWxseSBpbXBvcnRhbnQgdG8gYXZvaWQgaXQuIElzIGl0
-IHJlYWxseSBuZWVkZWQgaW4gdGhlDQo+ID4gPiBmaXJzdCBwbGFjZT8NCj4gPiA+DQo+ID4gPiBU
-aGFua3MsDQo+ID4gPiBFemVxdWllbA0KPiA+DQo+ID4gRm9yIHRoZXJlIGFyZSBtYW55IGhhcmR3
-YXJlIG5lZWQgdG8gdXNlLCBtdDgxOTIgaXMgdGhyZWUgYW5kIG10ODE5NSBpcw0KPiA+IGZpdmUu
-IE1heWJlIG5lZWQgbW9yZSB0byBiZSB1c2VkIGluIHRoZSBmZWF0dXJlLg0KPiA+DQo+ID4gRWFj
-aCBoYXJkd2FyZSBoYXMgaW5kZXBlbmRlbnQgY2xrL3Bvd2VyL2lvbW11IHBvcnQvaXJxLg0KPiA+
-IFVzZSBjb21wb25lbnQgaW50ZXJmYWNlIGluIHByb2IgdG8gZ2V0IGVhY2ggY29tcG9uZW50J3Mg
-aW5mb3JtYXRpb24uDQo+ID4gSnVzdCBlbmFibGUgdGhlIGhhcmR3YXJlIHdoZW4gbmVlZCB0byB1
-c2UgaXQsIHZlcnkgY29udmVuaWVudCBhbmQNCj4gPiBzaW1wbGUuDQo+ID4NCj4gPiBJIGZvdW5k
-IHRoYXQgdGhlcmUgYXJlIG1hbnkgbW9kdWxlcyB1c2UgY29tcG9uZW50IHRvIG1hbmFnZSBoYXJk
-d2FyZQ0KPiA+IGluZm9ybWF0aW9uLCBzdWNoIGFzIGlvbW11IGFuZCBkcm0gZXRjLg0KPiA+DQo+
-IA0KPiBNYW55IGRyaXZlcnMgc3VwcG9ydCBtdWx0aXBsZSBoYXJkd2FyZSB2YXJpYW50cywgd2hl
-cmUgZWFjaCB2YXJpYW50DQo+IGhhcyBhIGRpZmZlcmVudCBudW1iZXIgb2YgY2xvY2tzIG9yIGlu
-dGVycnVwdHMsIHNlZSBmb3IgaW5zdGFuY2UNCj4gc3RydWN0IGhhbnRyb192YXJpYW50IHdoaWNo
-IGFsbG93cyB0byBleHBvc2UgZGlmZmVyZW50IGNvZGVjIGNvcmVzLA0KPiBzb21lIGhhdmluZyBi
-b3RoIGRlY29kZXIvZW5jb2RlciwgYW5kIHNvbWUgaGF2aW5nIGp1c3QgYSBkZWNvZGVyLg0KPiAN
-Cj4gVGhlIGNvbXBvbmVudCBBUEkgaXMgbW9zdGx5IHVzZWQgYnkgRFJNIHRvIGFnZ3JlZ2F0ZSBp
-bmRlcGVuZGVudA0KPiBzdWJkZXZpY2VzIChjYWxsZWQgY29tcG9uZW50cykgaW50byBhbiBhZ2dy
-ZWdhdGVkIGRyaXZlci4NCj4gDQo+IEZvciBpbnN0YW5jZSwgYSBEUk0gZHJpdmVyIG5lZWRzIHRv
-IGdsdWUgdG9nZXRoZXIgdGhlIEhETUksIE1JUEksDQo+IGFuZCBwbGFueSBjb250cm9sbGVyLCBv
-ciBhbnkgb3RoZXIgaGFyZHdhcmUgYXJyYW5nZW1lbnQgd2hlcmUNCj4gZGV2aWNlcyBjYW4gYmUg
-ZGVzY3JpYmVkIGluZGVwZW5kZW50bHkuDQo+IA0KVGhlIHVzYWdlIHNjZW5hcmlvIGlzIHZlcnkg
-c2ltaWxhciB3aXRoIGRybSBhbmQgaW9tbXUsIFNvIGRlY2lkZSB0byB1c2UNCmNvbXBvbmVudCBm
-cmFtZXdvcmsuDQpEZWNvZGUgaGFzIHRocmVlL2ZpdmUgb3IgbW9yZSBoYXJkd2FyZXMsIHRoZXNl
-IGhhcmR3YXJlIGFyZSBpbmRlcGVuZGVudC4NCkZvciBtdDgxODMganVzdCBuZWVkIGNvcmUgaGFy
-ZHdhcmUgdG8gZGVjb2RlLCBidXQgbXQ4MTkyIGhhcyBsYXQsc29jIGFuZA0KY29yZSBoYXJkd2Fy
-ZSB0byBkZWNvZGUuIFdoZW4gbGF0IG5lZWQgdG8gdXNlLCBqdXN0IGVuYWJsZSBsYXQgaGFyZHdh
-cmUsDQpjb3JlIGlzIHRoZSBzYW1lLkFuZCBtdDgxOTUgd2lsbCBoYXMgdHdvIGNvcmVzLCBlYWNo
-IGNvcmUgY2FuIHdvcmsgd2VsbA0KaW5kZXBlbmRlbnQuDQoNCkZvciBlYWNoIGNvbXBvbmVudCBk
-ZXZpY2UganVzdCB1c2VkIHRvIG9wZW4gdGhlaXIgcG93ZXIvY2xrL2lvbW11DQpwb3J0L2lycSB3
-aGVuIG1hc3RlciBuZWVkIHRvIGVuYWJsZSBpdC4gVGhlIG1haW4gbG9naWMgaXMgaW4gbWFzdGVy
-DQpkZXZpY2UuDQoNCj4gVGhlIGNvbXBvbmVudCBBUEkgbWF5IGxvb2sgc2ltcGxlIGJ1dCBoYXMg
-c29tZSBpc3N1ZXMsIGl0J3Mgbm90IGVhc3kNCj4gdG8gZGVidWcsIGFuZCBjYW4gY2F1c2UgdHJv
-dWJsZXMgaWYgbm90IHVzZWQgYXMgZXhwZWN0ZWQgWzFdLg0KPiBJdCdzIHdvcnRoIG1ha2luZyBz
-dXJlIHlvdSBhY3R1YWxseSBuZWVkIGEgZnJhbWV3b3JrDQo+IHRvIGdsdWUgZGlmZmVyZW50IGRl
-dmljZXMgdG9nZXRoZXIuDQo+IA0KRWFjaCBoYXJkd2FyZSBoYXMgaXRzIGluZGV4LCBtYXN0ZXIg
-Y2FuIGdldCBoYXJkd2FyZSBpbmZvcm1hdGlvbg0KYWNjb3JkaW5nIHRoZXNlIGluZGV4LCBsb29r
-cyBub3QgY29tcGxleC4gV2hhdCBkbyB5b3UgbWVhbiBhYm91dCBub3QNCmVhc3kgdG8gZGVidWc/
-DQoNCj4gPiBEbyB5b3UgaGF2ZSBhbnkgb3RoZXIgc3VnZ2VzdGlvbiBmb3IgdGhpcyBhcmNoaXRl
-Y3R1cmU/DQo+ID4NCj4gDQo+IExvb2tpbmcgYXQgdGhlIGRpZmZlcmVudCBwYXRjaHNldHMgdGhh
-dCBhcmUgcG9zdGVkLCBpdCdzIG5vdCBjbGVhcg0KPiB0byBtZSB3aGF0IGV4YWN0bHkgYXJlIHRo
-ZSBkaWZmZXJlbnQgYXJjaGl0ZWN0dXJlcyB0aGF0IHlvdSBpbnRlbmQNCj4gdG8gc3VwcG9ydCwg
-Y2FuIHlvdSBzb21lIGRvY3VtZW50YXRpb24gd2hpY2ggY2xhcmlmaWVzIHRoYXQ/DQo+IA0KSGF2
-ZSBmaXZlIGhhcmR3YXJlcyBsYXQsc29jLGNvcmUwLGNvcmUxIGFuZCBtYWluLiBMYXQgdGhyZWFk
-IGNhbiB1c2UgbGF0DQpzb2MgYW5kIG1haW4sIGNvcmUgdGhyZWFkIGNhbiB1c2Ugc29jLGxhdCwg
-Y29yZTAgYW5kIGNvcmUxLiBDb3JlIHRocmVhZA0KY2FuIGJlIHVzZWQgb3Igbm90IGZvciBkaWZm
-ZXJlbnQgcHJvamVjdC4gQWxzbyBOZWVkIHRvIHVzZSB0aGVzZQ0KaGFyZHdhcmUgZHluYW1pYyBh
-dCB0aGUgc2FtZSB0aW1lLiBTbyBJIHVzZSBjb21wb25lbnQgZnJhbWV3b3JrLCBqdXN0DQpuZWVk
-IHRvIGtub3cgdGhlIHVzZWQgIGhhcmR3YXJlIGluZGV4IGFjY29yZGluZyB0byBkaWZmZXJlbnQN
-CnByb2plY3QuTmVlZCBub3QgdG8gZG8gY29tcGxleCBsb2dpYyB0byBtYW5hZ2UgdGhlc2UgaGFy
-ZHdhcmVzLg0KDQoNCj4gVGhhbmtzLA0KPiBFemVxdWllbA0KPiANCj4gWzFdIGh0dHBzOi8vcGF0
-Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51eC1yb2NrY2hpcC9jb3Zlci8yMDIwMDEyMDE3
-MDYwMi4zODMyLTEtZXplcXVpZWxAY29sbGFib3JhLmNvbS8NCg0KDQpUaGFua3MsDQpZdW5mZWkg
-RG9uZw0KDQoNCg0KDQo=
+[Why]
+for bailing job, this commit will delete it from pending list thus the
+bailing job will never have a chance to be resubmitted even in advance
+tdr mode.
+
+[How]
+after embeded hw_fence into amdgpu_job is done, the race condition that
+this commit tries to work around is completely solved.So revert this
+commit.
+This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
+v2:
+add dma_fence_get/put() around timedout_job to avoid  concurrent delete
+during processing timedout_job
+v3:
+park sched->thread instead during timedout_job.
+
+Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 22 ++--------------------
+ 1 file changed, 2 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index a2a953693b45..c187fd3a6bb6 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -319,17 +319,12 @@ static void drm_sched_job_timedout(struct work_struct *work)
+ 	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
+ 
+ 	/* Protects against concurrent deletion in drm_sched_get_cleanup_job */
++	kthread_park(sched->thread);
+ 	spin_lock(&sched->job_list_lock);
+ 	job = list_first_entry_or_null(&sched->pending_list,
+ 				       struct drm_sched_job, list);
+ 
+ 	if (job) {
+-		/*
+-		 * Remove the bad job so it cannot be freed by concurrent
+-		 * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
+-		 * is parked at which point it's safe.
+-		 */
+-		list_del_init(&job->list);
+ 		spin_unlock(&sched->job_list_lock);
+ 
+ 		status = job->sched->ops->timedout_job(job);
+@@ -345,6 +340,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+ 	} else {
+ 		spin_unlock(&sched->job_list_lock);
+ 	}
++	kthread_unpark(sched->thread);
+ 
+ 	if (status != DRM_GPU_SCHED_STAT_ENODEV) {
+ 		spin_lock(&sched->job_list_lock);
+@@ -392,20 +388,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+ 
+ 	kthread_park(sched->thread);
+ 
+-	/*
+-	 * Reinsert back the bad job here - now it's safe as
+-	 * drm_sched_get_cleanup_job cannot race against us and release the
+-	 * bad job at this point - we parked (waited for) any in progress
+-	 * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
+-	 * now until the scheduler thread is unparked.
+-	 */
+-	if (bad && bad->sched == sched)
+-		/*
+-		 * Add at the head of the queue to reflect it was the earliest
+-		 * job extracted.
+-		 */
+-		list_add(&bad->list, &sched->pending_list);
+-
+ 	/*
+ 	 * Iterate the job list from later to  earlier one and either deactive
+ 	 * their HW callbacks or remove them from pending list if they already
+-- 
+2.25.1
 
