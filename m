@@ -1,57 +1,103 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C64E3F3BBC
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Aug 2021 19:28:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 781F83F3BCF
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Aug 2021 19:34:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1292C6E03E;
-	Sat, 21 Aug 2021 17:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 169766E056;
+	Sat, 21 Aug 2021 17:34:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 480366E03E
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Aug 2021 17:28:30 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id a21so11529387pfh.5
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Aug 2021 10:28:30 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19D7C6E056
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Aug 2021 17:34:04 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id y7so22940098ljp.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Aug 2021 10:34:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=C5bdnNLXW/3a03Da92T1tNYI9jbJ+iBX8hk1AZBK69k=;
- b=lPCT56fvdHhbMeaNM/ljtItbgIsd+ynybDNkESbxyq1PY0QqgViI70CKj1boq8zjY5
- uIqHxKPuCDg0V+tfidN7qCTm0PwSTU//6eP1ObGfJyn02TkffSs7P/LGGUZoin+41A+8
- 6gatgzAL8py1LAIWZOF3aMpAXiYVxXy8aIHom4DXozXcNc1uTIYGmxBrIZXq6CuaBOiQ
- nV4SD/JCOaktp/kMvjsGuJeigTa81aPYBdeSB87mdP+sTyZebhfDFwlqEjvosG4rNdA8
- aH4RV8FvcG/Pk6IpGOgUIYWvBrGnAzTABwliQ3mgckt4/W8cpf/gtNYqBCpVGaDcClY2
- EMXQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IFNRcLXLjPsNOEY9uO49C8t2A331d7150PuMHBQ0iTI=;
+ b=lUVy4r6EmCBUpkDfMifythiDTY/ondphd036uPMFa4RPvNLeL6L40wQqqsFEgfXx8X
+ Xv7fDSH9MFGejR5k7WM2poITA05adirsqndUU8tLGvhp1bdvOoFZ+7h2u5kG5XUcYFy9
+ YYZ9RqbElnB30bSXB1sTyZl+hy+cJ0JcScyJ7QYmzB7PI51NAqS1AKqC3e23DQIKFKMJ
+ vLHVB8vLS51zw87ZvMLpqT5wkQu3NhsmaQ7Su/ZSfv0KWiuLLYyPme5jEBcvbTwStA3/
+ KYZEiyZqnUMKaYYL1Y2Yeo4oE90zbAqGujX97l8WdEzhHbX0b72VQTFvODB/2MJ2eEW4
+ tGBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=C5bdnNLXW/3a03Da92T1tNYI9jbJ+iBX8hk1AZBK69k=;
- b=M9NFEkr2+L7rC1oZlNSto99/FyL36kAx9KQDtiNeRTlp/MEzI3Osouwz24idGkay0b
- kaqcbxrzA1gklOSGii3q7QptzUoJq5/SH9JcPsNyi9bSBEjOURec+QxbYDdJTD05y1e5
- lF3Hwkpj+wKsnvxn5gD0QsGhy0v9Xpqqe+aQjrfc5hMYGeVvHr7tWxPH1dijil33qLJg
- ZttueNYCUv7Z/ZF/P4TjRo8vw4Yxv1IxNaZlwcnBoHGuT0RvmAycufN120fvK4L+1kEA
- lXTnf1qMguO7+oBKTaiiRtc+OL62kXXl9l+HV9p5OAdX1PVwPwoaqPZ8JTzr/bsK8U/a
- 3m9A==
-X-Gm-Message-State: AOAM531rbzzoyxAxT6UeqpjDQQhDkr7XgiJBN4GWB6by372YBbNlO99b
- /kMTQo+yhVOsB47mEFcKZUU=
-X-Google-Smtp-Source: ABdhPJyM3QDjqE31vQvc4MhN+5picZL2CRZaxyUGcHqIF7f1Qcc1p5NVmD9nuZ3AOLmw0mzgfhIjhQ==
-X-Received: by 2002:a05:6a00:1989:b0:3e2:a387:e1d9 with SMTP id
- d9-20020a056a00198900b003e2a387e1d9mr23648446pfl.64.1629566909900; 
- Sat, 21 Aug 2021 10:28:29 -0700 (PDT)
-Received: from daeinki-virtual-machine.localdomain ([58.124.60.88])
- by smtp.gmail.com with ESMTPSA id n22sm10938169pff.57.2021.08.21.10.28.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Aug 2021 10:28:28 -0700 (PDT)
-From: Inki Dae <inki.dae@samsung.com>
-To: airlied@linux.ie
-Cc: dri-devel@lists.freedesktop.org,
-	linux-samsung-soc@vger.kernel.org
-Subject: [GIT PULL] exynos-drm-next
-Date: Sun, 22 Aug 2021 02:28:25 +0900
-Message-Id: <20210821172825.54720-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IFNRcLXLjPsNOEY9uO49C8t2A331d7150PuMHBQ0iTI=;
+ b=Chd5no/3CnJeNtbaB2fGkl5crg6FRPnal4DyX10K1u5PR2PACqbQeQrGemQ8r1ejMY
+ 7cqDqDlRLbPS6e5tUGW0midqD12EVVElrh/4JqvwbRsbVOeXWh10cFidTKrLlIi0GmqP
+ oLn+PVSx7ulDP5G6nO6gzCRATLUNJO8xg1ynC1gXjmHLWGoi+j65VCmJ85SHdLSopRql
+ nkJb/85bpSQOsmf8KoBn2CT2Nnx2FPRbih1/z7DgbUXG0kxWJpz/nN+FGEsX55ma36tH
+ Jvvz4XrrfLKwRjf2Znc/eIW6HJMkqnY6yLlo7IG0ZFYN6GhtLHute8nFC5S6KjwDW+bd
+ f4Tg==
+X-Gm-Message-State: AOAM530PmA5aXjcYFARqAa1l+zGoqjbLYfuovWCAPtA9b/sGWRFL6/1i
+ L4SXrN1KdiUN0lg7JYnm7Jw=
+X-Google-Smtp-Source: ABdhPJyO9VF4ra6RvNiH6n/UUkOW+Qh3yY6M28atOYzpaWkyjml2dkwAfMgDWLgva7AcA19E18buOw==
+X-Received: by 2002:a2e:a606:: with SMTP id v6mr20443277ljp.366.1629567242153; 
+ Sat, 21 Aug 2021 10:34:02 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru.
+ [46.138.120.72])
+ by smtp.googlemail.com with ESMTPSA id d14sm966993lfq.195.2021.08.21.10.34.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Aug 2021 10:34:01 -0700 (PDT)
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+References: <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+ <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
+ <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+ <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+ <CAPDyKFoQdn1rm91iFNJwZwpSYcKJBjDLqtJB4KZAkhgY1Grm-Q@mail.gmail.com>
+ <87073fc2-d7b3-98f4-0067-29430ea2adef@gmail.com>
+ <CAPDyKFqSsAk8a5CTNpRT2z4Wvf8BehJKDbVhUKfHc2Jzj7aTNA@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <9129a9f0-8c9b-d8e0-ddf5-c8820871fb7f@gmail.com>
+Date: Sat, 21 Aug 2021 20:34:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAPDyKFqSsAk8a5CTNpRT2z4Wvf8BehJKDbVhUKfHc2Jzj7aTNA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,46 +113,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+20.08.2021 15:42, Ulf Hansson пишет:
+> On Thu, 19 Aug 2021 at 21:35, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> 19.08.2021 16:07, Ulf Hansson пишет:
+>>> On Wed, 18 Aug 2021 at 17:43, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>
+>>>> 18.08.2021 13:08, Ulf Hansson пишет:
+>>>>> On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>>>>>>
+>>>>>> On 18-08-21, 11:41, Ulf Hansson wrote:
+>>>>>>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>>>>>>>> What we need here is just configure. So something like this then:
+>>>>>>>>
+>>>>>>>> - genpd->get_performance_state()
+>>>>>>>>   -> dev_pm_opp_get_current_opp() //New API
+>>>>>>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
+>>>>>>>>
+>>>>>>>> This can be done just once from probe() then.
+>>>>>>>
+>>>>>>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
+>>>>>>
+>>>>>> The opp core already has a way of finding current OPP, that's what
+>>>>>> Dmitry is trying to use here. It finds it using clk_get_rate(), if
+>>>>>> that is zero, it picks the lowest freq possible.
+>>>>>>
+>>>>>>> I am sure I understand the problem. When a device is getting probed,
+>>>>>>> it needs to consume power, how else can the corresponding driver
+>>>>>>> successfully probe it?
+>>>>>>
+>>>>>> Dmitry can answer that better, but a device doesn't necessarily need
+>>>>>> to consume energy in probe. It can consume bus clock, like APB we
+>>>>>> have, but the more energy consuming stuff can be left disabled until
+>>>>>> the time a user comes up. Probe will just end up registering the
+>>>>>> driver and initializing it.
+>>>>>
+>>>>> That's perfectly fine, as then it's likely that it won't vote for an
+>>>>> OPP, but can postpone that as well.
+>>>>>
+>>>>> Perhaps the problem is rather that the HW may already carry a non-zero
+>>>>> vote made from a bootloader. If the consumer driver tries to clear
+>>>>> that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
+>>>>> still not lead to any updates of the performance state in genpd,
+>>>>> because genpd internally has initialized the performance-state to
+>>>>> zero.
+>>>>
+>>>> We don't need to discover internal SoC devices because we use
+>>>> device-tree on ARM. For most devices power isn't required at a probe
+>>>> time because probe function doesn't touch h/w at all, thus devices are
+>>>> left in suspended state after probe.
+>>>>
+>>>> We have three components comprising PM on Tegra:
+>>>>
+>>>> 1. Power gate
+>>>> 2. Clock state
+>>>> 3. Voltage state
+>>>>
+>>>> GENPD on/off represents the 'power gate'.
+>>>>
+>>>> Clock and reset are controlled by device drivers using clk and rst APIs.
+>>>>
+>>>> Voltage state is represented by GENPD's performance level.
+>>>>
+>>>> GENPD core assumes that at a first rpm-resume of a consumer device, its
+>>>> genpd_performance=0. Not true for Tegra because h/w of the device is
+>>>> preconfigured to a non-zero perf level initially, h/w may not support
+>>>> zero level at all.
+>>>
+>>> I think you may be misunderstanding genpd's behaviour around this, but
+>>> let me elaborate.
+>>>
+>>> In genpd_runtime_resume(), we try to restore the performance state for
+>>> the device that genpd_runtime_suspend() *may* have dropped earlier.
+>>> That means, if genpd_runtime_resume() is called prior
+>>> genpd_runtime_suspend() for the first time, it means that
+>>> genpd_runtime_resume() will *not* restore a performance state, but
+>>> instead just leave the performance state as is for the device (see
+>>> genpd_restore_performance_state()).
+>>>
+>>> In other words, a consumer driver may use the following sequence to
+>>> set an initial performance state for the device during ->probe():
+>>>
+>>> ...
+>>> rate = clk_get_rate()
+>>> dev_pm_opp_set_rate(rate)
+>>>
+>>> pm_runtime_enable()
+>>> pm_runtime_resume_and_get()
+>>> ...
+>>>
+>>> Note that, it's the consumer driver's responsibility to manage device
+>>> specific resources, in its ->runtime_suspend|resume() callbacks.
+>>> Typically that means dealing with clock gating/ungating, for example.
+>>>
+>>> In the other scenario where a consumer driver prefers to *not* call
+>>> pm_runtime_resume_and_get() in its ->probe(), because it doesn't need
+>>> to power on the device to complete probing, then we don't want to vote
+>>> for an OPP at all - and we also want the performance state for the
+>>> device in genpd to be set to zero. Correct?
+>>
+>> Yes
+>>
+>>> Is this the main problem you are trying to solve, because I think this
+>>> doesn't work out of the box as of today?
+>>
+>> The main problem is that the restored performance state is zero for the
+>> first genpd_runtime_resume(), while it's not zero from the h/w perspective.
+> 
+> This should not be a problem, but can be handled by the consumer driver.
+> 
+> genpd_runtime_resume() calls genpd_restore_performance_state() to
+> restore a performance state for the device. However, in the scenario
+> you describe, "gpd_data->rpm_pstate" is zero, which makes
+> genpd_restore_performance_state() to just leave the device's
+> performance state as is - it will *not* restore the performance state
+> to zero.
+> 
+> To make the consumer driver deal with this, it would need to call
+> dev_pm_opp_set_rate() from within its ->runtime_resume() callback.
+> 
+>>
+>>> There is another concern though, but perhaps it's not a problem after
+>>> all. Viresh told us that dev_pm_opp_set_rate() may turn on resources
+>>> like clock/regulators. That could certainly be problematic, in
+>>> particular if the device and its genpd have OPP tables associated with
+>>> it and the consumer driver wants to follow the above sequence in
+>>> probe.
+>>
+>> dev_pm_opp_set_rate() won't enable clocks and regulators, but it may
+>> change the clock rate and voltage. This is also platform/driver specific
+>> because it's up to OPP user how to configure OPP table. On Tegra we only
+>> assign clock to OPP table, regulators are unused.
+>>
+>>> Viresh, can you please chime in here and elaborate on some of the
+>>> magic happening behind dev_pm_opp_set_rate() API - is there a problem
+>>> here or not?
+>>>
+>>>>
+>>>> GENPD core assumes that consumer devices can work at any performance
+>>>> level. Not true for Tegra because voltage needs to be set in accordance
+>>>> to the clock rate before clock is enabled, otherwise h/w won't work
+>>>> properly, perhaps clock may be unstable or h/w won't be latching.
+>>>
+>>> Correct. Genpd relies on the callers to use the OPP framework if there
+>>> are constraints like you describe above.
+>>>
+>>> That said, it's not forbidden for a consumer driver to call
+>>> dev_pm_genpd_set_performance_state() directly, but then it better
+>>> knows exactly what it's doing.
+>>>
+>>>>
+>>>> Performance level should be set to 0 while device is suspended.
+>>>
+>>> Do you mean system suspend or runtime suspend? Or both?
+>>
+>> Runtime suspend.
+> 
+> Alright. So that's already taken care of for us in genpd_runtime_suspend().
+> 
+> Or perhaps you have discovered some problem with this?
+> 
+>>
+>>>> Performance level needs to be bumped on rpm-resume of a device in
+>>>> accordance to h/w state before hardware is enabled.
+>>>
+>>> Assuming there was a performance state set for the device when
+>>> genpd_runtime_suspend() was called, genpd_runtime_resume() will
+>>> restore that state according to the sequence you described.
+>>
+>> What do you think about adding API that will allow drivers to explicitly
+>> set the restored performance state of a power domain?
+>>
+>> Another option could be to change the GENPD core, making it to set the
+>> rpm_pstate when dev_pm_genpd_set_performance_state(dev) is invoked and
+>> device is rpm-suspended, instead of calling the
+>> genpd->set_performance_state callback.
+>>
+>> Then drivers will be able to sync the perf state at a probe time.
+>>
+>> What do you think?
+> 
+> I don't think it's needed, see my reply earlier above. However your
+> change touches another problem though, see below.
+> 
+>>
+>> diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+>> index a934c679e6ce..cc15ab9eacc9 100644
+>> --- a/drivers/base/power/domain.c
+>> +++ b/drivers/base/power/domain.c
+>> @@ -435,7 +435,7 @@ static void genpd_restore_performance_state(struct
+>> device *dev,
+>>  int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int
+>> state)
+>>  {
+>>         struct generic_pm_domain *genpd;
+>> -       int ret;
+>> +       int ret = 0;
+>>
+>>         genpd = dev_to_genpd_safe(dev);
+>>         if (!genpd)
+>> @@ -446,7 +446,10 @@ int dev_pm_genpd_set_performance_state(struct
+>> device *dev, unsigned int state)
+>>                 return -EINVAL;
+>>
+>>         genpd_lock(genpd);
+>> -       ret = genpd_set_performance_state(dev, state);
+>> +       if (pm_runtime_suspended(dev))
+>> +               dev_gpd_data(dev)->rpm_pstate = state;
+>> +       else
+>> +               ret = genpd_set_performance_state(dev, state);
+>>         genpd_unlock(genpd);
+> 
+> This doesn't work for all cases. For example, when a consumer driver
+> deploys runtime PM support in its ->probe() according to the below
+> sequence:
+> 
+> ...
+> dev_pm_opp_set_rate(rate)
+> pm_runtime_get_noresume()
+> pm_runtime_set_active()
+> pm_runtime_enable()
+> ...
+> pm_runtime_put()
+> ...
+> 
+> We need to call genpd_set_performance_state() independently of whether
+> the device is runtime suspended or not.
 
-   Just two fixups - fixing one build warning and missing unlock,
-   and one cleanup - replaceing atomic_t with refcount_t.
+I don't see where is the problem in yours example.
 
-   Please kindly let me know if there is any problem.
+pm_runtime_suspended() = false while RPM is disabled. When device is
+resumed, the rpm_pstate=0, so it won't change the pstate on resume.
 
-Thanks,
-Inki Dae
+> Although, it actually seems like good idea to update
+> dev_gpd_data(dev)->rpm_pstate = state here, as to make sure
+> genpd_runtime_resume() doesn't restore an old/invalid value that was
+> saved while dropping the performance state vote for the device in
+> genpd_runtime_suspend() earlier.
+> 
+> Let me send a patch for this shortly, to close this window of a possible error.
 
-The following changes since commit 397ab98e2d69cede84444a28eab77a171983d14e:
-
-  Merge tag 'drm-msm-next-2021-08-12' of https://gitlab.freedesktop.org/drm/msm into drm-next (2021-08-17 10:53:52 +1000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-for-v5.15
-
-for you to fetch changes up to c626f3864bbbb28bbe06476b0b497c1330aa4463:
-
-  drm/exynos: Always initialize mapping in exynos_drm_register_dma() (2021-08-22 01:56:39 +0900)
-
-----------------------------------------------------------------
-Two fixups
-- Fix missing unlock issue in exynos_drm_g2d.c
-- Fix a build warning in exynos_drm_dma.c
-
-One cleanup
-- Replace atomic_t with refcount_t in exynos_drm_g2d.c
-
-----------------------------------------------------------------
-Nathan Chancellor (1):
-      drm/exynos: Always initialize mapping in exynos_drm_register_dma()
-
-Wei Yongjun (1):
-      drm/exynos: g2d: fix missing unlock on error in g2d_runqueue_worker()
-
-Xiyu Yang (1):
-      drm/exynos: Convert from atomic_t to refcount_t on g2d_cmdlist_userptr->refcount
-
- drivers/gpu/drm/exynos/exynos_drm_dma.c |  2 ++
- drivers/gpu/drm/exynos/exynos_drm_g2d.c | 14 ++++++++------
- 2 files changed, 10 insertions(+), 6 deletions(-)
+It will also remove the need to resume device just to change the clock
+rate, like I needed to do it in the PWM patch of this series.
