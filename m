@@ -1,73 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B10E3F3E97
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Aug 2021 10:11:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9933D3F3EEB
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Aug 2021 12:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56A3389CF9;
-	Sun, 22 Aug 2021 08:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE536E027;
+	Sun, 22 Aug 2021 10:00:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F15389CF9
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 08:11:35 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id j2so3966866pll.1
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 01:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=zWkjWEvskowDV9RuOm1icxTsINafWKFQlH8OIXXrrz4=;
- b=RQdXywP6yts45USpiw/5k2ZmYqVHMSbk9lus7YCqnHd8h/dka/Mtc/dvJ9OXe5Otvy
- Sqan4jaX0EaO6pSp84INK0mTwB48SVVmVb4c2YqbHrlCvd6ldJuCPTsbKqBjRTW6P8oo
- 9Ux/xZOvOXbIQtNK3Akl22kbAtyj0C7ROjsaU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zWkjWEvskowDV9RuOm1icxTsINafWKFQlH8OIXXrrz4=;
- b=hihH6fFCL3e99Tqw7iqt1NnmnZf5OcQRXOqlLXuftcMYU/joutOygdv0AHUDFoCu2n
- gJRkTqebcM3Y32pLkDvzVkgr6d9/siDvyoq0DpvCCDeYsGLBX9zEwwg/a13FxFd6rYRK
- xvEeainuHDP6OgJkLyYCrQ45bMYpjxY3EwUQjvhhXpnq7xtDE0n8cKqGOgfKHw/4Eykp
- X5f6YTrfPfSyJi0H0LfABBsGNf+Yw/VxFMaYA6elHdUg91Gx1lDbcqAOjSnK7Kj40lHu
- bxKZtKaIQjJl2Fk3uL6dOyk8aF8gBD/0SVjgdkjQvtWQuC+xXCFgMum9enW98fVx42WG
- z9HQ==
-X-Gm-Message-State: AOAM531RV8peuBvAiG4wz1is09Don/mlocln0cwcCCSqbvPZSAJDpg0Y
- LgTLjm3YLi1pj8ap+j4ouZaQxg==
-X-Google-Smtp-Source: ABdhPJwd1ju8xuF6lspQHjJq0552r+HoTrwzTs5HEFbQVZzpc/fLKP3ldMoQP6w86dYwBror2p+DQQ==
-X-Received: by 2002:a17:902:c643:b0:130:eab4:bd22 with SMTP id
- s3-20020a170902c64300b00130eab4bd22mr9764805pls.13.1629619894669; 
- Sun, 22 Aug 2021 01:11:34 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id 186sm12621542pfg.11.2021.08.22.01.11.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Aug 2021 01:11:33 -0700 (PDT)
-Date: Sun, 22 Aug 2021 01:11:32 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Kalle Valo <kvalo@codeaurora.org>
-Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, ath11k@lists.infradead.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 45/63] ath11k: Use memset_startat() for clearing queue
- descriptors
-Message-ID: <202108220107.3E26FE6C9C@keescook>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-46-keescook@chromium.org>
- <87eeapbmhi.fsf@tynnyri.adurom.net>
- <202108190923.30FD4FC6E@keescook> <87pmu7t83j.fsf@codeaurora.org>
+X-Greylist: delayed 1350 seconds by postgrey-1.36 at gabe;
+ Sun, 22 Aug 2021 10:00:17 UTC
+Received: from out.smtpout.orange.fr (out02.smtpout.orange.fr [193.252.22.211])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EBA576E027
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 10:00:17 +0000 (UTC)
+Received: from pop-os.home ([90.126.253.178]) by mwinf5d59 with ME
+ id kZW9250013riaq203ZW9Et; Sun, 22 Aug 2021 11:30:14 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 22 Aug 2021 11:30:14 +0200
+X-ME-IP: 90.126.253.178
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, awalls@md.metrocast.net,
+ yong.zhi@intel.com, sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+ djrscally@gmail.com, tian.shu.qiu@intel.com, serjk@netup.ru,
+ aospan@netup.ru, tskd08@gmail.com, maintainers@bluecherrydvr.com,
+ anton@corp.bluecherry.net, andrey.utkin@corp.bluecherry.net,
+ sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: switch from 'pci_' to 'dma_' API
+Date: Sun, 22 Aug 2021 11:30:08 +0200
+Message-Id: <71a7e0029ce28ec748eb045c8381d354011cebe6.1629623093.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pmu7t83j.fsf@codeaurora.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,50 +52,404 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 21, 2021 at 01:17:36PM +0300, Kalle Valo wrote:
-> Kees Cook <keescook@chromium.org> writes:
-> 
-> > On Thu, Aug 19, 2021 at 04:19:37PM +0300, Kalle Valo wrote:
-> >> Kees Cook <keescook@chromium.org> writes:
-> >> 
-> >> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> >> > field bounds checking for memset(), avoid intentionally writing across
-> >> > neighboring fields.
-> >> >
-> >> > Use memset_startat() so memset() doesn't get confused about writing
-> >> > beyond the destination member that is intended to be the starting point
-> >> > of zeroing through the end of the struct. Additionally split up a later
-> >> > field-spanning memset() so that memset() can reason about the size.
-> >> >
-> >> > Cc: Kalle Valo <kvalo@codeaurora.org>
-> >> > Cc: "David S. Miller" <davem@davemloft.net>
-> >> > Cc: Jakub Kicinski <kuba@kernel.org>
-> >> > Cc: ath11k@lists.infradead.org
-> >> > Cc: linux-wireless@vger.kernel.org
-> >> > Cc: netdev@vger.kernel.org
-> >> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> >> 
-> >> To avoid conflicts I prefer taking this via my ath tree.
-> >
-> > The memset helpers are introduced as part of this series, so that makes
-> > things more difficult. Do you want me to create a branch with the
-> > helpers that you can merge?
-> 
-> Is this patch really worth the extra complexity? Why can't I apply this
-> ath11k patch after the helpers have landed Linus' tree? That would be
-> very simple.
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-Not singularly, no. But I have a bit of a catch-22 in that I can't turn
-on greater FORTIFY strictness without first fixing the false positives,
-and I can't fix the false positives in "other" trees without those trees
-first having the helpers that get introduced by the FORTIFY series. :)
+The patch has been generated with the coccinelle script below.
 
-Anyway, since we're close to the merge window anyway, the FORTIFY series
-won't land in 1 release at this point regardless, so I'll just get
-the helpers landed and we can do the individual pieces once the merge
-window closes.
+It has been compile tested.
 
-Wheee :)
 
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
+
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
+
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
+
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+
+This patch is purely mechanical and compile tested. I hope it is ok to
+update the "drivers/media/pci/" directory all at once.
+---
+ drivers/media/pci/cobalt/cobalt-driver.c      |  4 ++--
+ drivers/media/pci/cx18/cx18-driver.c          |  2 +-
+ drivers/media/pci/cx18/cx18-queue.c           | 13 ++++++------
+ drivers/media/pci/cx18/cx18-streams.c         | 16 +++++++--------
+ drivers/media/pci/ddbridge/ddbridge-main.c    |  4 ++--
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  2 +-
+ .../pci/netup_unidvb/netup_unidvb_core.c      |  2 +-
+ drivers/media/pci/pluto2/pluto2.c             | 20 +++++++++----------
+ drivers/media/pci/pt1/pt1.c                   |  2 +-
+ drivers/media/pci/tw5864/tw5864-core.c        |  2 +-
+ 10 files changed, 34 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
+index 16af58f2f93c..74edcc76d12f 100644
+--- a/drivers/media/pci/cobalt/cobalt-driver.c
++++ b/drivers/media/pci/cobalt/cobalt-driver.c
+@@ -332,8 +332,8 @@ static int cobalt_setup_pci(struct cobalt *cobalt, struct pci_dev *pci_dev,
+ 		}
+ 	}
+ 
+-	if (pci_set_dma_mask(pci_dev, DMA_BIT_MASK(64))) {
+-		ret = pci_set_dma_mask(pci_dev, DMA_BIT_MASK(32));
++	if (dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(64))) {
++		ret = dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(32));
+ 		if (ret) {
+ 			cobalt_err("no suitable DMA available\n");
+ 			goto err_disable;
+diff --git a/drivers/media/pci/cx18/cx18-driver.c b/drivers/media/pci/cx18/cx18-driver.c
+index f2440eb38820..59497ba6bf1f 100644
+--- a/drivers/media/pci/cx18/cx18-driver.c
++++ b/drivers/media/pci/cx18/cx18-driver.c
+@@ -804,7 +804,7 @@ static int cx18_setup_pci(struct cx18 *cx, struct pci_dev *pci_dev,
+ 		CX18_ERR("Can't enable device %d!\n", cx->instance);
+ 		return -EIO;
+ 	}
+-	if (pci_set_dma_mask(pci_dev, DMA_BIT_MASK(32))) {
++	if (dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(32))) {
+ 		CX18_ERR("No suitable DMA available, card %d\n", cx->instance);
+ 		return -EIO;
+ 	}
+diff --git a/drivers/media/pci/cx18/cx18-queue.c b/drivers/media/pci/cx18/cx18-queue.c
+index 2f5df471dada..b9ae34a5e427 100644
+--- a/drivers/media/pci/cx18/cx18-queue.c
++++ b/drivers/media/pci/cx18/cx18-queue.c
+@@ -325,8 +325,8 @@ void _cx18_mdl_sync_for_device(struct cx18_stream *s, struct cx18_mdl *mdl)
+ 	struct cx18_buffer *buf;
+ 
+ 	list_for_each_entry(buf, &mdl->buf_list, list)
+-		pci_dma_sync_single_for_device(pci_dev, buf->dma_handle,
+-					       buf_size, dma);
++		dma_sync_single_for_device(&pci_dev->dev, buf->dma_handle,
++					   buf_size, dma);
+ }
+ 
+ int cx18_stream_alloc(struct cx18_stream *s)
+@@ -385,8 +385,9 @@ int cx18_stream_alloc(struct cx18_stream *s)
+ 		cx18_enqueue(s, mdl, &s->q_idle);
+ 
+ 		INIT_LIST_HEAD(&buf->list);
+-		buf->dma_handle = pci_map_single(s->cx->pci_dev,
+-				buf->buf, s->buf_size, s->dma);
++		buf->dma_handle = dma_map_single(&s->cx->pci_dev->dev,
++						 buf->buf, s->buf_size,
++						 s->dma);
+ 		cx18_buf_sync_for_cpu(s, buf);
+ 		list_add_tail(&buf->list, &s->buf_pool);
+ 	}
+@@ -419,8 +420,8 @@ void cx18_stream_free(struct cx18_stream *s)
+ 		buf = list_first_entry(&s->buf_pool, struct cx18_buffer, list);
+ 		list_del_init(&buf->list);
+ 
+-		pci_unmap_single(s->cx->pci_dev, buf->dma_handle,
+-				s->buf_size, s->dma);
++		dma_unmap_single(&s->cx->pci_dev->dev, buf->dma_handle,
++				 s->buf_size, s->dma);
+ 		kfree(buf->buf);
+ 		kfree(buf);
+ 	}
+diff --git a/drivers/media/pci/cx18/cx18-streams.c b/drivers/media/pci/cx18/cx18-streams.c
+index 16d37ab48906..87ff554bb2d2 100644
+--- a/drivers/media/pci/cx18/cx18-streams.c
++++ b/drivers/media/pci/cx18/cx18-streams.c
+@@ -49,44 +49,44 @@ static struct {
+ 	{	/* CX18_ENC_STREAM_TYPE_MPG */
+ 		"encoder MPEG",
+ 		VFL_TYPE_VIDEO, 0,
+-		PCI_DMA_FROMDEVICE,
++		DMA_FROM_DEVICE,
+ 		V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_READWRITE |
+ 		V4L2_CAP_AUDIO | V4L2_CAP_TUNER
+ 	},
+ 	{	/* CX18_ENC_STREAM_TYPE_TS */
+ 		"TS",
+ 		VFL_TYPE_VIDEO, -1,
+-		PCI_DMA_FROMDEVICE,
++		DMA_FROM_DEVICE,
+ 	},
+ 	{	/* CX18_ENC_STREAM_TYPE_YUV */
+ 		"encoder YUV",
+ 		VFL_TYPE_VIDEO, CX18_V4L2_ENC_YUV_OFFSET,
+-		PCI_DMA_FROMDEVICE,
++		DMA_FROM_DEVICE,
+ 		V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_READWRITE |
+ 		V4L2_CAP_STREAMING | V4L2_CAP_AUDIO | V4L2_CAP_TUNER
+ 	},
+ 	{	/* CX18_ENC_STREAM_TYPE_VBI */
+ 		"encoder VBI",
+ 		VFL_TYPE_VBI, 0,
+-		PCI_DMA_FROMDEVICE,
++		DMA_FROM_DEVICE,
+ 		V4L2_CAP_VBI_CAPTURE | V4L2_CAP_SLICED_VBI_CAPTURE |
+ 		V4L2_CAP_READWRITE | V4L2_CAP_TUNER
+ 	},
+ 	{	/* CX18_ENC_STREAM_TYPE_PCM */
+ 		"encoder PCM audio",
+ 		VFL_TYPE_VIDEO, CX18_V4L2_ENC_PCM_OFFSET,
+-		PCI_DMA_FROMDEVICE,
++		DMA_FROM_DEVICE,
+ 		V4L2_CAP_TUNER | V4L2_CAP_AUDIO | V4L2_CAP_READWRITE,
+ 	},
+ 	{	/* CX18_ENC_STREAM_TYPE_IDX */
+ 		"encoder IDX",
+ 		VFL_TYPE_VIDEO, -1,
+-		PCI_DMA_FROMDEVICE,
++		DMA_FROM_DEVICE,
+ 	},
+ 	{	/* CX18_ENC_STREAM_TYPE_RAD */
+ 		"encoder radio",
+ 		VFL_TYPE_RADIO, 0,
+-		PCI_DMA_NONE,
++		DMA_NONE,
+ 		V4L2_CAP_RADIO | V4L2_CAP_TUNER
+ 	},
+ };
+@@ -324,7 +324,7 @@ static int cx18_prep_dev(struct cx18 *cx, int type)
+ 
+ 	/* User explicitly selected 0 buffers for these streams, so don't
+ 	   create them. */
+-	if (cx18_stream_info[type].dma != PCI_DMA_NONE &&
++	if (cx18_stream_info[type].dma != DMA_NONE &&
+ 	    cx->stream_buffers[type] == 0) {
+ 		CX18_INFO("Disabled %s device\n", cx18_stream_info[type].name);
+ 		return 0;
+diff --git a/drivers/media/pci/ddbridge/ddbridge-main.c b/drivers/media/pci/ddbridge/ddbridge-main.c
+index 03dc9924fa2c..25d0d6745b52 100644
+--- a/drivers/media/pci/ddbridge/ddbridge-main.c
++++ b/drivers/media/pci/ddbridge/ddbridge-main.c
+@@ -180,8 +180,8 @@ static int ddb_probe(struct pci_dev *pdev,
+ 
+ 	pci_set_master(pdev);
+ 
+-	if (pci_set_dma_mask(pdev, DMA_BIT_MASK(64)))
+-		if (pci_set_dma_mask(pdev, DMA_BIT_MASK(32)))
++	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(64)))
++		if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(32)))
+ 			return -ENODEV;
+ 
+ 	dev = vzalloc(sizeof(*dev));
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+index e84b8faf76a2..f8c32e1294cf 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+@@ -1763,7 +1763,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+ 
+ 	pci_set_master(pci_dev);
+ 
+-	r = pci_set_dma_mask(pci_dev, CIO2_DMA_MASK);
++	r = dma_set_mask(&pci_dev->dev, CIO2_DMA_MASK);
+ 	if (r) {
+ 		dev_err(&pci_dev->dev, "failed to set DMA mask (%d)\n", r);
+ 		return -ENODEV;
+diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
+index 77bae1468551..8287851b5ffd 100644
+--- a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
++++ b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
+@@ -846,7 +846,7 @@ static int netup_unidvb_initdev(struct pci_dev *pci_dev,
+ 		"%s(): board vendor 0x%x, revision 0x%x\n",
+ 		__func__, board_vendor, board_revision);
+ 	pci_set_master(pci_dev);
+-	if (pci_set_dma_mask(pci_dev, 0xffffffff) < 0) {
++	if (dma_set_mask(&pci_dev->dev, 0xffffffff) < 0) {
+ 		dev_err(&pci_dev->dev,
+ 			"%s(): 32bit PCI DMA is not supported\n", __func__);
+ 		goto pci_detect_err;
+diff --git a/drivers/media/pci/pluto2/pluto2.c b/drivers/media/pci/pluto2/pluto2.c
+index f1f4793a4452..6ac9b9bd7435 100644
+--- a/drivers/media/pci/pluto2/pluto2.c
++++ b/drivers/media/pci/pluto2/pluto2.c
+@@ -228,16 +228,16 @@ static void pluto_set_dma_addr(struct pluto *pluto)
+ 
+ static int pluto_dma_map(struct pluto *pluto)
+ {
+-	pluto->dma_addr = pci_map_single(pluto->pdev, pluto->dma_buf,
+-			TS_DMA_BYTES, PCI_DMA_FROMDEVICE);
++	pluto->dma_addr = dma_map_single(&pluto->pdev->dev, pluto->dma_buf,
++					 TS_DMA_BYTES, DMA_FROM_DEVICE);
+ 
+-	return pci_dma_mapping_error(pluto->pdev, pluto->dma_addr);
++	return dma_mapping_error(&pluto->pdev->dev, pluto->dma_addr);
+ }
+ 
+ static void pluto_dma_unmap(struct pluto *pluto)
+ {
+-	pci_unmap_single(pluto->pdev, pluto->dma_addr,
+-			TS_DMA_BYTES, PCI_DMA_FROMDEVICE);
++	dma_unmap_single(&pluto->pdev->dev, pluto->dma_addr, TS_DMA_BYTES,
++			 DMA_FROM_DEVICE);
+ }
+ 
+ static int pluto_start_feed(struct dvb_demux_feed *f)
+@@ -276,8 +276,8 @@ static void pluto_dma_end(struct pluto *pluto, unsigned int nbpackets)
+ {
+ 	/* synchronize the DMA transfer with the CPU
+ 	 * first so that we see updated contents. */
+-	pci_dma_sync_single_for_cpu(pluto->pdev, pluto->dma_addr,
+-			TS_DMA_BYTES, PCI_DMA_FROMDEVICE);
++	dma_sync_single_for_cpu(&pluto->pdev->dev, pluto->dma_addr,
++				TS_DMA_BYTES, DMA_FROM_DEVICE);
+ 
+ 	/* Workaround for broken hardware:
+ 	 * [1] On startup NBPACKETS seems to contain an uninitialized value,
+@@ -310,8 +310,8 @@ static void pluto_dma_end(struct pluto *pluto, unsigned int nbpackets)
+ 	pluto_set_dma_addr(pluto);
+ 
+ 	/* sync the buffer and give it back to the card */
+-	pci_dma_sync_single_for_device(pluto->pdev, pluto->dma_addr,
+-			TS_DMA_BYTES, PCI_DMA_FROMDEVICE);
++	dma_sync_single_for_device(&pluto->pdev->dev, pluto->dma_addr,
++				   TS_DMA_BYTES, DMA_FROM_DEVICE);
+ }
+ 
+ static irqreturn_t pluto_irq(int irq, void *dev_id)
+@@ -595,7 +595,7 @@ static int pluto2_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	/* enable interrupts */
+ 	pci_write_config_dword(pdev, 0x6c, 0x8000);
+ 
+-	ret = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
++	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+ 	if (ret < 0)
+ 		goto err_pci_disable_device;
+ 
+diff --git a/drivers/media/pci/pt1/pt1.c b/drivers/media/pci/pt1/pt1.c
+index f2aa36814fba..121a4a92ea10 100644
+--- a/drivers/media/pci/pt1/pt1.c
++++ b/drivers/media/pci/pt1/pt1.c
+@@ -1340,7 +1340,7 @@ static int pt1_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (ret < 0)
+ 		goto err;
+ 
+-	ret = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
++	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+ 	if (ret < 0)
+ 		goto err_pci_disable_device;
+ 
+diff --git a/drivers/media/pci/tw5864/tw5864-core.c b/drivers/media/pci/tw5864/tw5864-core.c
+index 282f7dfb7aaf..23d3cae54a5d 100644
+--- a/drivers/media/pci/tw5864/tw5864-core.c
++++ b/drivers/media/pci/tw5864/tw5864-core.c
+@@ -262,7 +262,7 @@ static int tw5864_initdev(struct pci_dev *pci_dev,
+ 
+ 	pci_set_master(pci_dev);
+ 
+-	err = pci_set_dma_mask(pci_dev, DMA_BIT_MASK(32));
++	err = dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(32));
+ 	if (err) {
+ 		dev_err(&dev->pci->dev, "32 bit PCI DMA is not supported\n");
+ 		goto disable_pci;
 -- 
-Kees Cook
+2.30.2
+
