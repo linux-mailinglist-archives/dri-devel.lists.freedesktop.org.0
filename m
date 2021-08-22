@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4492E3F3E47
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Aug 2021 09:25:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE003F3E4C
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Aug 2021 09:37:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 310096E059;
-	Sun, 22 Aug 2021 07:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2736E05D;
+	Sun, 22 Aug 2021 07:37:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
- by gabe.freedesktop.org (Postfix) with ESMTP id 12BD56E059
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 07:25:22 +0000 (UTC)
-Received: from BC-Mail-Ex26.internal.baidu.com (unknown [172.31.51.20])
- by Forcepoint Email with ESMTPS id 169CC7A93F5394925608;
- Sun, 22 Aug 2021 15:25:21 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex26.internal.baidu.com (172.31.51.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Sun, 22 Aug 2021 15:25:20 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.62.20) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Sun, 22 Aug 2021 15:25:20 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <thierry.reding@gmail.com>, <sam@ravnborg.org>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, Cai Huoqing <caihuoqing@baidu.com>
-Subject: [PATCH] drm/panel: raspberrypi-touchscreen: Convert to SPDX identifier
-Date: Sun, 22 Aug 2021 15:25:06 +0800
-Message-ID: <20210822072506.1845-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.32.0.windows.2
-MIME-Version: 1.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3930B6E05D
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 07:37:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id F265661266
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 07:37:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629617857;
+ bh=qIdXnP6W6YhI3v2z/hbARLRLquO99Hg2ARJElnNfsXc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=pqGMfCHb2VE42kdOrZrjRak80KUJkqftOgwYzLmcB014l6h6LmqbbeTsCzNq513xs
+ V5kejiCaQIRTorVkZqRHOJagibvwmIgeH/qHrrqQXSBxML7bddRE1lfZfjJVys76DG
+ 1eUKLj8e5knpnAngvWKy5qvZQCeQzURDWjvNu92vFFMTO130ZkEZQbHXalrfJHAZYo
+ TS99eJXZaQ7HaeTDabogPuL23vt44KTRE1xkwhedurZDMzlyoeZG0guH5JYgyao7jb
+ HQj7FwU76lJJ3cwrvLz3e43XD/jKNjrK8Ug4WIi1H/wmYc2C3xJEd57e0kWWgZrjxn
+ GQKnJAmCSbO4A==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id EA06560F94; Sun, 22 Aug 2021 07:37:36 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 204849] amdgpu (RX560X) traceboot in dmesg boot output, system
+ instability
+Date: Sun, 22 Aug 2021 07:37:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: justin@postgresql.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-204849-2300-8wXbBYaqel@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204849-2300@https.bugzilla.kernel.org/>
+References: <bug-204849-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.31.62.20]
-X-ClientProxiedBy: BJHW-Mail-Ex15.internal.baidu.com (10.127.64.38) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,51 +69,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-use SPDX-License-Identifier instead of a verbose license text
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204849
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- .../drm/panel/panel-raspberrypi-touchscreen.c | 24 +------------------
- 1 file changed, 1 insertion(+), 23 deletions(-)
+Justin Clift (justin@postgresql.org) changed:
 
-diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-index 46029c5610c8..9b4ba04ce39f 100644
---- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-+++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-@@ -1,32 +1,10 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
- /*
-  * Copyright © 2016-2017 Broadcom
-  *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-  * Portions of this file (derived from panel-simple.c) are:
-  *
-  * Copyright (C) 2013, NVIDIA Corporation.  All rights reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sub license,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS IN THE SOFTWARE.
-  */
- 
- /*
--- 
-2.25.1
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |OBSOLETE
 
+--- Comment #4 from Justin Clift (justin@postgresql.org) ---
+Clearly no-one is ever going to look at this, so I'm just going to close it.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
