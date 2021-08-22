@@ -2,38 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48733F41BF
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Aug 2021 23:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1863F41DC
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 00:10:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA4189CE1;
-	Sun, 22 Aug 2021 21:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8D989E41;
+	Sun, 22 Aug 2021 22:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2FC189CE1
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 21:31:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D9566125F;
- Sun, 22 Aug 2021 21:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1629667886;
- bh=BIO4EtQqF82NHJ/PedKbMdeHnv3gGrG0FGYXYdwBHns=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=sA3rmeQxIvOA8q5ZaXh6MBbgrvVQCgS75Y/AP0RD5h+Mpr1T+76Q8oleZgoBMUA2r
- +As9VB8kwwd702mjLZOgpN7v2zctp6lM8CSjgGagHaCgo0GaghzvwP+b8mcxJYV9Z9
- //WxXZpR6hVnpylepy5sKHWiFVLasTgGH3k7sbjk=
-Date: Sun, 22 Aug 2021 14:31:25 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: =?ISO-8859-1?Q?"Christian_K=F6nig"?= <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, daniel@ffwll.ch
-Subject: Re: [PATCH 1/2] mm/vmscan: add sync_shrinkers function v2
-Message-Id: <20210822143125.dbd2e80dc812b0d5c81d0d49@linux-foundation.org>
-In-Reply-To: <20210820120528.81114-2-christian.koenig@amd.com>
-References: <20210820120528.81114-1-christian.koenig@amd.com>
- <20210820120528.81114-2-christian.koenig@amd.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A700289E41
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 22:10:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 617CC6125F
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Aug 2021 22:10:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629670207;
+ bh=sQbOTU0gBNQKdGjbU2RcVtxQRYAcWsqhIersHA65w3s=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=OqKVODIi5WNzJdAIqlrRFjtORS4YVnHkRjq+nTsM/PxXAHUM+jLV3k3+z0/J+NHIC
+ dBilHgBqfo/iY0z3UdSz22wQ/IxUrvaz3XC9OcNhdoQuo3C8LaUEJTni+05EsgIJLJ
+ m48G6Y8omuKtlU8ohMBCFsyCIKjNgPs9JYfoUKftmgsIUFHF1x02Ld3cOK9tLkLMth
+ cxi3KKayXt9okUcGjEwTghQfwkvJ+LgxbIfcw4m865CMwF63MDm1Ijp+jsjA7zqpip
+ V42osUEgHhEyAw3HqRhFDvfRD3aLKzPkV4/Rd+va99RSFu4Wn0FhymDXo1i2rON+Zg
+ h2KLI458SyQSA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 592BD60F4D; Sun, 22 Aug 2021 22:10:07 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214001] [bisected][regression] After commit "drm/ttm:
+ Initialize debugfs from ttm_global_init()" kernels without debugfs explicitly
+ set to 'allow all' fail to boot
+Date: Sun, 22 Aug 2021 22:10:07 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(Other)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: untaintableangel@hotmail.co.uk
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214001-2300-9b71UxbFZK@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214001-2300@https.bugzilla.kernel.org/>
+References: <bug-214001-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,22 +70,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 Aug 2021 14:05:27 +0200 "Christian K=F6nig" <ckoenig.leichtzumer=
-ken@gmail.com> wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214001
 
-> While unplugging a device the TTM shrinker implementation
-> needs a barrier to make sure that all concurrent shrink
-> operations are done and no other CPU is referring to a
-> device specific pool any more.
->=20
-> Taking and releasing the shrinker semaphore on the write
-> side after unmapping and freeing all pages from the device
-> pool should make sure that no shrinker is running in
-> paralell.
->=20
-> This allows us to avoid the contented mutex in the TTM pool
-> implementation for every alloc/free operation.
->=20
-> v2: rework the commit message to make clear why we need this
+--- Comment #5 from Linux_Chemist (untaintableangel@hotmail.co.uk) ---
+I can sense you're a smart cookie, Duncan, I've enjoyed this little tete a
+tete.=20
 
-Acked-by: Andrew Morton <akpm@linux-foundation.org>
+I think this bug has been addressed, it's just not been mentioned yet (see =
+the
+following into mainline):
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/d=
+rivers/gpu?id=3D958f44255058338f4b370d8e4100e1e7d72db0cc
+
+" This changes it so that if creation of TTM's debugfs root directory fails,
+then no biggie: keep calm and carry on."
+
+Will test it out as soon as I can and comment/adjust the bug report.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
