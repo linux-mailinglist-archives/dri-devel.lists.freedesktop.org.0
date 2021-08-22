@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D43A3F4206
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 00:21:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82DAE3F4219
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 00:21:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B402F89F1B;
-	Sun, 22 Aug 2021 22:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDBCA89F01;
+	Sun, 22 Aug 2021 22:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B731A89E9B;
- Sun, 22 Aug 2021 22:20:50 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- i3-20020a056830210300b0051af5666070so21501189otc.4; 
- Sun, 22 Aug 2021 15:20:50 -0700 (PDT)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFBFF89EA3;
+ Sun, 22 Aug 2021 22:20:51 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ i8-20020a056830402800b0051afc3e373aso19980539ots.5; 
+ Sun, 22 Aug 2021 15:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V5vqhjeJwhM7E6Pt089X9QON5NrjkvFV308x6a56U3o=;
- b=TQ7xu2IpCflARc8FKk474nyH5tm12zi4tObsZCwfPlOFFS/LnC6EZsd4Q7FlNVTOLf
- zCj+kX2dOXM8dNEhSu9VMaxvyigkwfLB7U6TquFc/fMx8AKjHg5MsrugWDPWsvS+sIHg
- 8+Iu3rRzOUAaybZi3h95K+QtyfNAUNZ3zvHefmjva3DaJuhnSQEWm9lKs+dV/72tmPf/
- nOaa0nUCC0nbDuFE9W5aFz2R/RAWfnHzl52cV46KL1yG6uCd6MtBiIudESWB0TPTLid+
- 4tLlcJMKwSRciEg1Odw8RHrAkCfM7ZUXOuuDEUNwOTP4HB/Md/aqSIAnJ06xnFlODgKn
- J55A==
+ bh=HcxXOS2YF8uquZi7kiX9qsCJzDtlyXVg/tWg1kXIEfw=;
+ b=Lt3kAYxhulbTWzHw+KRuN9FilPfa/EzpwZR9uYqxRniMUOewDlJ4DGDT8qecdeIdMb
+ CDj4rDXnMKefO6KQWz1XdVcSRAsJyfeuabR8mYqwE6NeAzqc73aEtG+EMfgnzZnRbBHw
+ aUIoY4KEupW8c8za+nlCgiX5usqNljYfAin+m5PENm/85RqyKpQJOZqI4lTGCcrU2ony
+ 4cXIMTEP7H7VrSkoTEfudzitfhwRzFBfaryP7wk//ofLSWWhatIXLq9Z2B19XvkDs8qS
+ 4Ur8y+2bJmFRzvYQoPky3KY26CfC1RjNcSjjQPX0+groURVxmIE8aFjBmfe0wt2TpQoH
+ MM1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V5vqhjeJwhM7E6Pt089X9QON5NrjkvFV308x6a56U3o=;
- b=byldCVQwY+ZmJxN3sA99duydRmGl2NtyJOsc+dt7hN/ajwydkpAKmd0Z5/7qcVGa33
- CFir4kPO4l2lMRF1c3s1/vLD01gY9+d5NSXvDgjMIw8TMfEf2H1LB77Vaam3bfFeo86R
- H9cYSY905Id4Divm6MY+y4QlcwW+sVY4fZFlbU7mfUCcJtNyu0884BoT6ASW3U2yr/Tp
- 7GVVNltxfAC1/zc26vDN9p9ly7bSo4jh42OHH0J+9+L1TdwKNCIlwSo197RRT1ORZV7l
- gbi2ps2JjXM61tmy75F33fgznKuAijDMOicbY2eKab+KYPbsT4/swW7kQGifdlutISOi
- QdmQ==
-X-Gm-Message-State: AOAM531VqRGDJsCZ/OWw4WjIqIXdGA/OYKVl3xk48p2IGH3WkdZU/j37
- 2cSPpedKLkJklVKUX19/4G8=
-X-Google-Smtp-Source: ABdhPJwOuCAjc2+TBpcJ9GNUOPER2Y36eRiOD00lA2cNZH9TVsLUwf3djGHOtmZlh5lnw24liyxq6w==
-X-Received: by 2002:aca:c6ce:: with SMTP id w197mr9883707oif.6.1629670849838; 
- Sun, 22 Aug 2021 15:20:49 -0700 (PDT)
+ bh=HcxXOS2YF8uquZi7kiX9qsCJzDtlyXVg/tWg1kXIEfw=;
+ b=PK1lZSq2sU3XAgtTT73uR7K67WseenidYXyYOuqd26K+bKhUNwWs4kl6pim1zFsqfs
+ +4nFoxGzUtT1rKOSw8jwcyKJqyg+xRC59aK1gN1ulVFmndAZHW5hXVFFt6wiHYbdTlxT
+ spQwgdjWMqxwkhxS0hgZwwTgTU9SpiYDJDT9e3aCkrAudILBfMWko9sUj9PynfP8Ls7l
+ JaRMV2ciwv+3TkmGICAGh1a0GnMvGR1+ub/GjIFlRraz1SXn832ZivQp+JAzTUNN0xu/
+ DXC9ZTm7rkxmFpMf0yDZrsusbN7OowCgmYPBeECxvaFV7pI7C7Y3OF1BjmoEh9qQRavu
+ sgoQ==
+X-Gm-Message-State: AOAM5337g5R2OL7uqRnAou8L/wGl57o8FrdRpT2RIp2kFkpGOsqc1mEQ
+ 2cJlJW9bgS8sK0ALdiVufKY=
+X-Google-Smtp-Source: ABdhPJyKh74f82CLns65Ub2YpnD6FguJkzgMrm73NZeDP62Hn3m6BcP++K3oGODLJTjANh7XmyyENg==
+X-Received: by 2002:a9d:6c1:: with SMTP id 59mr24916964otx.318.1629670851093; 
+ Sun, 22 Aug 2021 15:20:51 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id x198sm2964122ooa.43.2021.08.22.15.20.48
+ by smtp.googlemail.com with ESMTPSA id x198sm2964122ooa.43.2021.08.22.15.20.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Aug 2021 15:20:49 -0700 (PDT)
+ Sun, 22 Aug 2021 15:20:50 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org, seanpaul@chromium.org,
  jeyu@kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
 Cc: Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v6 03/11] i915/gvt: remove spaces in pr_debug "gvt: core:" etc
- prefixes
-Date: Sun, 22 Aug 2021 16:20:01 -0600
-Message-Id: <20210822222009.2035788-4-jim.cromie@gmail.com>
+Subject: [PATCH v6 04/11] i915/gvt: use DEFINE_DYNAMIC_DEBUG_CATEGORIES to
+ create "gvt:core:" etc categories
+Date: Sun, 22 Aug 2021 16:20:02 -0600
+Message-Id: <20210822222009.2035788-5-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210822222009.2035788-1-jim.cromie@gmail.com>
 References: <20210822222009.2035788-1-jim.cromie@gmail.com>
@@ -76,85 +76,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Taking embedded spaces out of existing prefixes makes them better
-class-prefixes; simplifying the nested quoting needed otherwise:
+The gvt component of this driver has ~120 pr_debugs, in 9 categories
+quite similar to those in DRM.  Following the interface model of
+drm.debug, add a parameter to map bits to these categorizations.
 
-  $> echo "format '^gvt: core:' +p" >control
+DEFINE_DYNAMIC_DEBUG_CATEGORIES(debug_gvt, __gvt_debug,
+	"dyndbg bitmap desc",
+	{ "gvt:cmd: ",  "command processing" },
+	{ "gvt:core: ", "core help" },
+	{ "gvt:dpy: ",  "display help" },
+	{ "gvt:el: ",   "help" },
+	{ "gvt:irq: ",  "help" },
+	{ "gvt:mm: ",   "help" },
+	{ "gvt:mmio: ", "help" },
+	{ "gvt:render: ", "help" },
+	{ "gvt:sched: " "help" });
 
-Dropping the internal spaces means any trailing space in a query will
-more clearly terminate the prefix being searched for.
+The actual patch has a few details different, cmd_help() macro emits
+the initialization construct.
 
-Consider a generic drm-debug example:
-
-  # turn off ATOMIC reports
-  echo format "^drm:atomic: " -p > control
-
-  # turn off all ATOMIC:* reports, including any sub-categories
-  echo format "^drm:atomic:" -p > control
-
-  # turn on ATOMIC:FAIL: reports
-  echo format "^drm:atomic:fail: " +p > control
-
-Removing embedded spaces in the class-prefixes simplifies the
-corresponding match-prefix.  This means that "quoted" match-prefixes
-are only needed when the trailing space is desired, in order to
-exclude explicitly sub-categorized pr-debugs; in this example,
-"drm:atomic:fail:".
-
-RFC: maybe the prefix catenation should paste in the " " class-prefix
-terminator explicitly.  A pr_debug_() flavor could exclude the " ",
-allowing ad-hoc sub-categorization by appending for example, "fail:"
-to "drm:atomic:".
+if CONFIG_DRM_USE_DYNAMIC_DEBUG, then -DDYNAMIC_DEBUG_MODULE is added
+cflags, by gvt/Makefile.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/i915/gvt/debug.h | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+v4+:
+. static decl of vector of bit->class descriptors - Emil.V
+. relocate gvt-makefile chunk from elsewhere
+---
+ drivers/gpu/drm/i915/gvt/Makefile  |  4 ++++
+ drivers/gpu/drm/i915/i915_params.c | 35 ++++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gvt/debug.h b/drivers/gpu/drm/i915/gvt/debug.h
-index c6027125c1ec..b4021f41c546 100644
---- a/drivers/gpu/drm/i915/gvt/debug.h
-+++ b/drivers/gpu/drm/i915/gvt/debug.h
-@@ -36,30 +36,30 @@ do {									\
- } while (0)
+diff --git a/drivers/gpu/drm/i915/gvt/Makefile b/drivers/gpu/drm/i915/gvt/Makefile
+index ea8324abc784..846ba73b8de6 100644
+--- a/drivers/gpu/drm/i915/gvt/Makefile
++++ b/drivers/gpu/drm/i915/gvt/Makefile
+@@ -7,3 +7,7 @@ GVT_SOURCE := gvt.o aperture_gm.o handlers.o vgpu.o trace_points.o firmware.o \
  
- #define gvt_dbg_core(fmt, args...) \
--	pr_debug("gvt: core: "fmt, ##args)
-+	pr_debug("gvt:core: "fmt, ##args)
- 
- #define gvt_dbg_irq(fmt, args...) \
--	pr_debug("gvt: irq: "fmt, ##args)
-+	pr_debug("gvt:irq: "fmt, ##args)
- 
- #define gvt_dbg_mm(fmt, args...) \
--	pr_debug("gvt: mm: "fmt, ##args)
-+	pr_debug("gvt:mm: "fmt, ##args)
- 
- #define gvt_dbg_mmio(fmt, args...) \
--	pr_debug("gvt: mmio: "fmt, ##args)
-+	pr_debug("gvt:mmio: "fmt, ##args)
- 
- #define gvt_dbg_dpy(fmt, args...) \
--	pr_debug("gvt: dpy: "fmt, ##args)
-+	pr_debug("gvt:dpy: "fmt, ##args)
- 
- #define gvt_dbg_el(fmt, args...) \
--	pr_debug("gvt: el: "fmt, ##args)
-+	pr_debug("gvt:el: "fmt, ##args)
- 
- #define gvt_dbg_sched(fmt, args...) \
--	pr_debug("gvt: sched: "fmt, ##args)
-+	pr_debug("gvt:sched: "fmt, ##args)
- 
- #define gvt_dbg_render(fmt, args...) \
--	pr_debug("gvt: render: "fmt, ##args)
-+	pr_debug("gvt:render: "fmt, ##args)
- 
- #define gvt_dbg_cmd(fmt, args...) \
--	pr_debug("gvt: cmd: "fmt, ##args)
-+	pr_debug("gvt:cmd: "fmt, ##args)
- 
- #endif
+ ccflags-y				+= -I $(srctree)/$(src) -I $(srctree)/$(src)/$(GVT_DIR)/
+ i915-y					+= $(addprefix $(GVT_DIR)/, $(GVT_SOURCE))
++
++#ifdef CONFIG_DRM_USE_DYNAMIC_DEBUG
++ccflags-y	+= -DDYNAMIC_DEBUG_MODULE
++#endif
+diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+index e07f4cfea63a..683e942a074e 100644
+--- a/drivers/gpu/drm/i915/i915_params.c
++++ b/drivers/gpu/drm/i915/i915_params.c
+@@ -265,3 +265,38 @@ void i915_params_free(struct i915_params *params)
+ 	I915_PARAMS_FOR_EACH(FREE);
+ #undef FREE
+ }
++
++#ifdef DRM_USE_DYNAMIC_DEBUG
++/* todo: needs DYNAMIC_DEBUG_MODULE in some cases */
++
++unsigned long __gvt_debug;
++EXPORT_SYMBOL(__gvt_debug);
++
++#define _help(key)	"\t    \"" key "\"\t: help for " key "\n"
++
++#define I915_GVT_CATEGORIES(name) \
++	" Enable debug output via /sys/module/i915/parameters/" #name	\
++	", where each bit enables a debug category.\n"			\
++	_help("gvt:cmd:")						\
++	_help("gvt:core:")						\
++	_help("gvt:dpy:")						\
++	_help("gvt:el:")						\
++	_help("gvt:irq:")						\
++	_help("gvt:mm:")						\
++	_help("gvt:mmio:")						\
++	_help("gvt:render:")						\
++	_help("gvt:sched:")
++
++DEFINE_DYNAMIC_DEBUG_CATEGORIES(debug_gvt, __gvt_debug,
++				I915_GVT_CATEGORIES(debug_gvt),
++				_DD_cat_("gvt:cmd:"),
++				_DD_cat_("gvt:core:"),
++				_DD_cat_("gvt:dpy:"),
++				_DD_cat_("gvt:el:"),
++				_DD_cat_("gvt:irq:"),
++				_DD_cat_("gvt:mm:"),
++				_DD_cat_("gvt:mmio:"),
++				_DD_cat_("gvt:render:"),
++				_DD_cat_("gvt:sched:"));
++
++#endif
 -- 
 2.31.1
 
