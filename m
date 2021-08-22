@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC3C3F41EE
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 00:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828443F41F2
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 00:20:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88F0689D40;
-	Sun, 22 Aug 2021 22:20:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 996E989CD3;
+	Sun, 22 Aug 2021 22:20:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D0089CDF;
- Sun, 22 Aug 2021 22:20:19 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- m7-20020a9d4c87000000b0051875f56b95so31211693otf.6; 
- Sun, 22 Aug 2021 15:20:19 -0700 (PDT)
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC35D89CD3;
+ Sun, 22 Aug 2021 22:20:47 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ o16-20020a9d2210000000b0051b1e56c98fso16407250ota.8; 
+ Sun, 22 Aug 2021 15:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Vjgj6w+zbgn1146WXU3kPdkHix2wiSW7AS6QZB19vv0=;
- b=U1RHlD1xBGXU36FLOnv0uEdvjekxmddM94p1l4+8iCvPqWge47JtmbvBWn1D9qthN9
- ROAV55DeIpXnxg2d6w8rNYH12Gk+2nYASm/wLHpJQW3YThU7HyvkhVCw8TJEV7SlaSQ1
- Lt1IFjhnsCASv+agnyd8oApkjCOD1XVHVFvktAIkkf8mF+Yxe44bGWQJSajiOYmcmS4f
- AuVWSmaFDiKjJy0a2YgJokSc+CVT3uapEwtyfWieztoWxAK5tVYxk5rzZrxO2tVBlGsR
- Jt9cH1NpMfklUdB70zID5PkMUHRgdKanql0papRHm6ZxDMGXoTMIZeYl4sasDNfF0asM
- ihPw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EX0kJLbWPO/gGvtWZrYlXdMUmieVpPmj3inuxYZYEK8=;
+ b=X905vpcVix5dUgIXcsYBm48sGOvY6Q9tAbuMJ2FITzzDKkNhvDuVF1Bjpu1CsY2e4B
+ ia5jh5z8Dzml8Y6oAhfulLubQTeCQk0gpgNdxvOUxbNf9eVph0fUmjZAtkqEVKzedBOB
+ PRaJYB5VS1a0Lfr71gVkdZgJju8OCPzsnlctQijn8TohOgNxIl+NIq33lrVfvGfaCyNj
+ 0gue81LwfmJdROMdiu+D9KMp5gpcb7wNUeZtAnzZZ5XTxnqj4oOqqlK9rGJ6bRMh0E++
+ SpvofwwTSa3O5fGQNKhp6Wd5pBAJgk6/1P0d9AaznKGm5pHG7V7/ctt/vgvr1z6Zq0yt
+ BGgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Vjgj6w+zbgn1146WXU3kPdkHix2wiSW7AS6QZB19vv0=;
- b=ouSo/hJ13yN5LfATAXqmIZllzk/pQnQTgLdASkF9o/pOAWiDHWxn8OE3NNkCd0FZ9i
- eZhymz1Z7Y66KnDsz7ZkgRRlZooeYk0mXHd7+IR7wfg52KOHFqs9xjSqHYWyuy7cscQm
- VMXX1U5GOOXiMQbyZraSTvbtezu9AQN2K7FuBte7/kJ5lZXUAMiSmW4hOIyf0AzoEleo
- pP1G3w5UAjyllF1WQrUEVZkLVuK3f5R4T4FP+0GiZZpe7m/LbSwmjCk1rJYG6gIkeCGH
- aHkfh8gnTyClMDcupSRA0W4on+d/Oo5Y8jDoDH2nonfFA0PS6QKDOu5/+p668EasTjP3
- Mxpg==
-X-Gm-Message-State: AOAM531hxObntu93rTL+0PqTUNsmP8Oz73357+FOmItZbBHV/DZ+xUMG
- 5BmQuj5ix4V5MiGcgeWxDfs=
-X-Google-Smtp-Source: ABdhPJz0eijJJyjUfIl7atjizNUf0pAk5ocAxfrb2CaKZtlQF2ggxgSMrsYBn+jo24OYrKUoUtTtcQ==
-X-Received: by 2002:a9d:5f16:: with SMTP id f22mr24670188oti.322.1629670818575; 
- Sun, 22 Aug 2021 15:20:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EX0kJLbWPO/gGvtWZrYlXdMUmieVpPmj3inuxYZYEK8=;
+ b=M+v0iXLTXFckqU7zdPOT7hbhAgVa883Ft2Vy7qxB8AlF0XBD3lw02fF+wx2uRd7Rnk
+ vO1JbQx/qI/Mmodm7x75qe0ku2LHfOEhAlOllXLtKTBeccKJ0lMrF7XiaZojbsjWECCp
+ zg/rSP3tXE4t9ixYxP6NRULyljCeELQbkP+Jaaf8dlOx0X0jqsK2fQTgPQQ+U9Ygl+VV
+ +OnhRaBPTmL5IoOhkLcvH2u4kXgdDVBha7CqgZxrCMjs5JlokY2sPDSThoEUHlIBoMMi
+ i0m3vSikWDUR7mHS85dM04Jqv2UiAMGxU27625rML8Ez0dLjjBvBcWy/kMDEG1arYh4l
+ FcrQ==
+X-Gm-Message-State: AOAM532tokoaZ1KT5Uwz7ElhvFAterp8dnTBDMpjERtSVzwtQ5toyC2e
+ XHOfLlwy1QR4Mn29ldkXWHE=
+X-Google-Smtp-Source: ABdhPJwE15NCa8WKtdgeR3/dbe7hhgznsV40g1M14s3dtqtT45Pgz97wR93Mn+yQFFpQHuuV4Xgv3g==
+X-Received: by 2002:a9d:6c48:: with SMTP id g8mr26939243otq.199.1629670847204; 
+ Sun, 22 Aug 2021 15:20:47 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id x198sm2964122ooa.43.2021.08.22.15.20.17
+ by smtp.googlemail.com with ESMTPSA id x198sm2964122ooa.43.2021.08.22.15.20.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Aug 2021 15:20:18 -0700 (PDT)
+ Sun, 22 Aug 2021 15:20:46 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org, seanpaul@chromium.org,
  jeyu@kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
 Cc: Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v6 00/11] use DYNAMIC_DEBUG to implement DRM.debug
-Date: Sun, 22 Aug 2021 16:19:58 -0600
-Message-Id: <20210822222009.2035788-1-jim.cromie@gmail.com>
+Subject: [PATCH v6 01/11] moduleparam: add data member to struct kernel_param
+Date: Sun, 22 Aug 2021 16:19:59 -0600
+Message-Id: <20210822222009.2035788-2-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210822222009.2035788-1-jim.cromie@gmail.com>
+References: <20210822222009.2035788-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,56 +75,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset does 3 main things.
+Add a const void* data member to the struct, to allow attaching
+private data that will be used soon by a setter method (via kp->data)
+to perform more elaborate actions.
 
-Adds DEFINE_DYNAMIC_DEBUG_CATEGORIES to define bitmap => category
-control of pr_debugs, and to create their sysfs entries.
+To attach the data at compile time, add new macros:
 
-Uses it in amdgpu, i915 to control existing pr_debugs according to
-their ad-hoc categorizations.
+module_param_cb_data() derives from module_param_cb(), adding data
+param, and latter is redefined to use former.
 
-Plugs dyndbg into drm-debug framework, in a configurable manner.
+It calls __module_param_call_with_data(), which accepts new data param
+and inits .data with it. Re-define __module_param_call() to use it.
 
-v6: cleans up per v5 feedback, and adds RFC stuff:
+Use of this new data member will be rare, it might be worth redoing
+this as a separate/sub-type to de-bloat the base case.
 
-- test_dynamic_debug.ko: uses tracer facility added in v5:8/9
-- prototype print-once & rate-limiting
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+v6:
+. const void* data - <emil.l.velikov@gmail.com>
+. better macro names s/_cbd/_cb_data/, s/_wdata/_with_data/
+. more const, no cast - Willy
+---
+ include/linux/moduleparam.h | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Hopefully adding RFC stuff doesnt distract too much.
-
-Jim Cromie (11):
-  moduleparam: add data member to struct kernel_param
-  dyndbg: add DEFINE_DYNAMIC_DEBUG_CATEGORIES and callbacks
-  i915/gvt: remove spaces in pr_debug "gvt: core:" etc prefixes
-  i915/gvt: use DEFINE_DYNAMIC_DEBUG_CATEGORIES to create "gvt:core:"
-    etc categories
-  amdgpu: use DEFINE_DYNAMIC_DEBUG_CATEGORIES to control categorized
-    pr_debugs
-  drm_print: add choice to use dynamic debug in drm-debug
-  drm_print: instrument drm_debug_enabled
-  amdgpu_ucode: reduce number of pr_debug calls
-  nouveau: fold multiple DRM_DEBUG_DRIVERs together
-  dyndbg: RFC add debug-trace callback, selftest with it. RFC
-  dyndbg: RFC add print-once and print-ratelimited features. RFC.
-
- drivers/gpu/drm/Kconfig                       |  13 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c     | 293 ++++++++-------
- .../gpu/drm/amd/display/dc/core/dc_debug.c    |  44 ++-
- drivers/gpu/drm/drm_print.c                   |  49 ++-
- drivers/gpu/drm/i915/gvt/Makefile             |   4 +
- drivers/gpu/drm/i915/gvt/debug.h              |  18 +-
- drivers/gpu/drm/i915/i915_params.c            |  35 ++
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  36 +-
- include/drm/drm_print.h                       | 148 ++++++--
- include/linux/dynamic_debug.h                 |  81 ++++-
- include/linux/moduleparam.h                   |  11 +-
- lib/Kconfig.debug                             |  11 +
- lib/Makefile                                  |   1 +
- lib/dynamic_debug.c                           | 336 ++++++++++++++++--
- lib/test_dynamic_debug.c                      | 279 +++++++++++++++
- 15 files changed, 1117 insertions(+), 242 deletions(-)
- create mode 100644 lib/test_dynamic_debug.c
-
+diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
+index eed280fae433..b8871e514de5 100644
+--- a/include/linux/moduleparam.h
++++ b/include/linux/moduleparam.h
+@@ -78,6 +78,7 @@ struct kernel_param {
+ 		const struct kparam_string *str;
+ 		const struct kparam_array *arr;
+ 	};
++	const void *data;
+ };
+ 
+ extern const struct kernel_param __start___param[], __stop___param[];
+@@ -175,6 +176,9 @@ struct kparam_array
+ #define module_param_cb(name, ops, arg, perm)				      \
+ 	__module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
+ 
++#define module_param_cb_data(name, ops, arg, perm, data)			\
++	__module_param_call_with_data(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0, data)
++
+ #define module_param_cb_unsafe(name, ops, arg, perm)			      \
+ 	__module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1,    \
+ 			    KERNEL_PARAM_FL_UNSAFE)
+@@ -284,14 +288,17 @@ struct kparam_array
+ 
+ /* This is the fundamental function for registering boot/module
+    parameters. */
+-#define __module_param_call(prefix, name, ops, arg, perm, level, flags)	\
++#define __module_param_call(prefix, name, ops, arg, perm, level, flags) \
++	__module_param_call_with_data(prefix, name, ops, arg, perm, level, flags, NULL)
++
++#define __module_param_call_with_data(prefix, name, ops, arg, perm, level, flags, data) \
+ 	/* Default value instead of permissions? */			\
+ 	static const char __param_str_##name[] = prefix #name;		\
+ 	static struct kernel_param __moduleparam_const __param_##name	\
+ 	__used __section("__param")					\
+ 	__aligned(__alignof__(struct kernel_param))			\
+ 	= { __param_str_##name, THIS_MODULE, ops,			\
+-	    VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg } }
++	    VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg }, data }
+ 
+ /* Obsolete - use module_param_cb() */
+ #define module_param_call(name, _set, _get, arg, perm)			\
 -- 
 2.31.1
 
