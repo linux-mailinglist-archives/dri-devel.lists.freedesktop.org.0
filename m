@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27B73F46D8
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 10:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCA73F46D7
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 10:47:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFC4C89D3E;
-	Mon, 23 Aug 2021 08:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D3889D4F;
+	Mon, 23 Aug 2021 08:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB4989CBA
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 08:47:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC8189CF2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 08:47:42 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C5059580C63;
- Mon, 23 Aug 2021 04:47:39 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 890AC580C64;
+ Mon, 23 Aug 2021 04:47:41 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 23 Aug 2021 04:47:39 -0400
+ by compute4.internal (MEProxy); Mon, 23 Aug 2021 04:47:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=ozNmHqW4eot36
- 610HLCN2jfvbbHmClu9J/C1QfHxiwE=; b=QRq3BK7UhXm0Es6GAPhxJmYDdi94+
- 6eFRXrxY6i70AN573dVCjPZzsdAWVH81yxrskIik2oiC25naFbbZiPGFKwMtsWgv
- lGCc7ojQJpjGbnWwGp+SHO6yUNj5ocbhEL+0ePq3EFIYmU718SmwNPS5V8NqwlVj
- L5Q0djxOharweusZhOVCUY4yZDNbY4bWy30aV3hfl8w0yh5w+zB62zWXbi6ZRcvh
- 2vK1pdxy/bnSOoDB6pOHIDWfQ76ijKaL08C2EvWx+F6y3xR5MCDNxnCC1tZZG1Iz
- nCv2LcM8KrtPzn7+4KrkSugD2qLFmXgbeG0cxE0gVJs0m9DGCbL+6UxHQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=JCU2ehb6Gf4ei
+ N1mk9E0FgXqA8oWv65LIeaicebSq3s=; b=ylacWhkaWfGzw653XRMPNB37h0yDh
+ q2gK2qJfW8JRjHUunQNPyVrpBb3zamwlMUptSSK0CVSKu5YjYCfJYe4vEQM2j7e2
+ nZ2N8rixb18KBpJ2Lo6OQC+13TY21yYSt7PoIbpT289rXJQPALFOZEmIBLI/pTsC
+ etih1rt6PfhXCYa8b2+1dxC7rbHGmvGMNiwFdEsacAmqiBLkrS6xLis8W+ICrRuR
+ nkiyRFjGPqG923JnQRBNEjIJuEgiwngQ+GH79rz+rUkD/1CY/V/2Gxa7Mibk1xK/
+ 4ZoECgDxwLPW13+SSL0mfdFrbH3ISEMi6oWOncSB5kYwx45mkyE4WCGhg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=ozNmHqW4eot36610HLCN2jfvbbHmClu9J/C1QfHxiwE=; b=Lbn6KVs9
- BpFPkI3IBzJOVbxbbDKeF6mZhldG+i6mwhKG1VYEs52bWvUFRreUMrykg4CTQJJ+
- Nv4Z+XRyJUT5O1Lyhwyeptvm417dYESjj+wbicdpPBT5YP/2szL75yig9LuQzvGm
- vsJhbU2M5NrPFnfc4DiibDE3eIQzfAUONYdHRw+uYTllOKFKQxIK5Mz2bNYUngTo
- ogRGCiRWR47RzXiQ6O7NK7L65BQdIzibrNvaBOY4fsUAlRpWU1tru2umGwidUEqI
- LFEKWMswVJZihck/fqYkcF38NKiJs5G6MRSlQU8OYlIwc/CZNsDwUtWQJp7g33FA
- IZjfhHAw5D49ng==
-X-ME-Sender: <xms:q2AjYafVnWAd_BzM8QWW9M1zbIMFuL73o9ObKxyUvJEwW4TwS2kQ5Q>
- <xme:q2AjYUMeEgHwIuC_1Czd2RX1PXKVoGdWoJBShOw1O0_DWDe6hedc5reGN8N3AhX2S
- 0HSRxhnz-N4x2kR0O0>
-X-ME-Received: <xmr:q2AjYbhsC7PzNXcn2l-2vA9aF3mBAjiYwnuDAmP1rkibeKyLwzJBcZYzVjyBo2XGDRNJI93sLe1zj3sqgSQotW1pgzrwiyAbT0ve>
+ fm3; bh=JCU2ehb6Gf4eiN1mk9E0FgXqA8oWv65LIeaicebSq3s=; b=E1O212cx
+ YCSJAX6eWgXVlLwkL0lANnFILiKI5Dw02Et56BfxlcWoAViduytOev3TPg6TZAej
+ 0bPg3s6i67zq/m0LP2DLMPMO+xjz1n5yfi7utcnl7AWnRjqzZwgLQIYi6WoWPemn
+ yOp7oA/pxvrFz2u4l0AA9vMV1e2/7QIuSn4seBI8Cdt5NaxtJNpnyw9QaajdjLs8
+ C53RRUoOkjXjTvEMESTCCUEq+aQhlB5V12m3cVRBtvX9JYZxkGNDJQxQwuOP4oa7
+ ydMJGDRQlJmo4f0E9vDH/NQG1jHOu2ITi0MqynXQF8gTrc56ZM8C7T1DV7lNYVte
+ mzU0+i/zBmjc0Q==
+X-ME-Sender: <xms:rWAjYfgVJttUKcWYIDMmukrREQ8HcFQZ3pcXLF7cTMEgf_hrsqYSjw>
+ <xme:rWAjYcBGih8P_OEJNPVqxDKMfe7Kpw-bIWFXiRC04XJH9p19GNf336G3hWnZyJ35M
+ 7p8x_PcBlTzjJz3F9U>
+X-ME-Received: <xmr:rWAjYfH30Fl7XwucOdiqJvfXHTBRDlYfWecST7Ju7ub2MKfL0FbkdlFvj8AMQ2R13TSGiWJGQWRDZJRL24_9qQ3L0RvJknf4aRmS>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddthedgtdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddthedgtdekucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:q2AjYX8GDo6SHLA6cmJUuWyzLTXes6NEdNGZDWPn20apdH3-nFxuxA>
- <xmx:q2AjYWuiJnGXVvfRjS8RQ4eeFWttzZDYL-Qsi5N9xflgL89bV9WFnA>
- <xmx:q2AjYeHl6ei467sf_HXUrn7vitBZlr4eSqiLgpswsvv4I1XawMYi8Q>
- <xmx:q2AjYbOIYzVKLqyMZuzoKahG5vHeP7ZuaitAdW-gchpRZyCoNf6vgg>
+X-ME-Proxy: <xmx:rWAjYcSDy9FD-hp0FOcPVBKQ8yk86qyu1ZA7OzHo536OvywkCosz9w>
+ <xmx:rWAjYcz2_NjISNDK3AA4CXEb5vR7KnSzrliAlOxEI5wJ9CySQr34vA>
+ <xmx:rWAjYS75ZpYYKpTkmlAOjv5P6PnQYRg6AoKwZ_GauCTcqEdcTyKtrw>
+ <xmx:rWAjYYjEKYxszTZ54j6F60GrU8nsPG6wpjHYpnc4rHs7otrh8O4J2g>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Aug 2021 04:47:39 -0400 (EDT)
+ 23 Aug 2021 04:47:41 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -68,9 +68,9 @@ To: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
  Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>
 Cc: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 3/8] drm/mipi-dsi: Create devm device registration
-Date: Mon, 23 Aug 2021 10:47:18 +0200
-Message-Id: <20210823084723.1493908-4-maxime@cerno.tech>
+Subject: [PATCH v3 4/8] drm/mipi-dsi: Create devm device attachment
+Date: Mon, 23 Aug 2021 10:47:19 +0200
+Message-Id: <20210823084723.1493908-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210823084723.1493908-1-maxime@cerno.tech>
 References: <20210823084723.1493908-1-maxime@cerno.tech>
@@ -91,93 +91,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Devices that take their data through the MIPI-DSI bus but are controlled
-through a secondary bus like I2C have to register a secondary device on
-the MIPI-DSI bus through the mipi_dsi_device_register_full() function.
-
-At removal or when an error occurs, that device needs to be removed
-through a call to mipi_dsi_device_unregister().
-
-Let's create a device-managed variant of the registration function that
-will automatically unregister the device at unbind.
-
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 46 ++++++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     |  3 +++
- 2 files changed, 49 insertions(+)
+ drivers/gpu/drm/drm_mipi_dsi.c | 35 ++++++++++++++++++++++++++++++++++
+ include/drm/drm_mipi_dsi.h     |  1 +
+ 2 files changed, 36 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 5dd475e82995..ddf67463eaa1 100644
+index ddf67463eaa1..18cef04df2f2 100644
 --- a/drivers/gpu/drm/drm_mipi_dsi.c
 +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -246,6 +246,52 @@ void mipi_dsi_device_unregister(struct mipi_dsi_device *dsi)
+@@ -391,6 +391,41 @@ int mipi_dsi_detach(struct mipi_dsi_device *dsi)
  }
- EXPORT_SYMBOL(mipi_dsi_device_unregister);
+ EXPORT_SYMBOL(mipi_dsi_detach);
  
-+static void devm_mipi_dsi_device_unregister(void *arg)
++static void devm_mipi_dsi_detach(void *arg)
 +{
 +	struct mipi_dsi_device *dsi = arg;
 +
-+	mipi_dsi_device_unregister(dsi);
++	mipi_dsi_detach(dsi);
 +}
 +
 +/**
-+ * devm_mipi_dsi_device_register_full - create a managed MIPI DSI device
-+ * @dev: device to tie the MIPI-DSI device lifetime to
-+ * @host: DSI host to which this device is connected
-+ * @info: pointer to template containing DSI device information
++ * devm_mipi_dsi_attach - Attach a MIPI-DSI device to its DSI Host
++ * @dev: device to tie the MIPI-DSI device attachment lifetime to
++ * @dsi: DSI peripheral
 + *
-+ * Create a MIPI DSI device by using the device information provided by
-+ * mipi_dsi_device_info template
-+ *
-+ * This is the managed version of mipi_dsi_device_register_full() which
-+ * automatically calls mipi_dsi_device_unregister() when @dev is
-+ * unbound.
++ * This is the managed version of mipi_dsi_attach() which automatically
++ * calls mipi_dsi_detach() when @dev is unbound.
 + *
 + * Returns:
-+ * A pointer to the newly created MIPI DSI device, or, a pointer encoded
-+ * with an error
++ * 0 on success, a negative error code on failure.
 + */
-+struct mipi_dsi_device *
-+devm_mipi_dsi_device_register_full(struct device *dev,
-+				   struct mipi_dsi_host *host,
-+				   const struct mipi_dsi_device_info *info)
++int devm_mipi_dsi_attach(struct device *dev,
++			 struct mipi_dsi_device *dsi)
 +{
-+	struct mipi_dsi_device *dsi;
 +	int ret;
 +
-+	dsi = mipi_dsi_device_register_full(host, info);
-+	if (IS_ERR(dsi))
-+		return dsi;
-+
-+	ret = devm_add_action_or_reset(dev,
-+				       devm_mipi_dsi_device_unregister,
-+				       dsi);
++	ret = mipi_dsi_attach(dsi);
 +	if (ret)
-+		return ERR_PTR(ret);
++		return ret;
 +
-+	return dsi;
++	ret = devm_add_action_or_reset(dev, devm_mipi_dsi_detach, dsi);
++	if (ret)
++		return ret;
++
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(devm_mipi_dsi_device_register_full);
++EXPORT_SYMBOL_GPL(devm_mipi_dsi_attach);
 +
- static DEFINE_MUTEX(host_lock);
- static LIST_HEAD(host_list);
- 
+ static ssize_t mipi_dsi_device_transfer(struct mipi_dsi_device *dsi,
+ 					struct mipi_dsi_msg *msg)
+ {
 diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index af7ba8071eb0..d0032e435e08 100644
+index d0032e435e08..147e51b6d241 100644
 --- a/include/drm/drm_mipi_dsi.h
 +++ b/include/drm/drm_mipi_dsi.h
-@@ -227,6 +227,9 @@ struct mipi_dsi_device *
- mipi_dsi_device_register_full(struct mipi_dsi_host *host,
- 			      const struct mipi_dsi_device_info *info);
- void mipi_dsi_device_unregister(struct mipi_dsi_device *dsi);
-+struct mipi_dsi_device *
-+devm_mipi_dsi_device_register_full(struct device *dev, struct mipi_dsi_host *host,
-+				   const struct mipi_dsi_device_info *info);
+@@ -233,6 +233,7 @@ devm_mipi_dsi_device_register_full(struct device *dev, struct mipi_dsi_host *hos
  struct mipi_dsi_device *of_find_mipi_dsi_device_by_node(struct device_node *np);
  int mipi_dsi_attach(struct mipi_dsi_device *dsi);
  int mipi_dsi_detach(struct mipi_dsi_device *dsi);
++int devm_mipi_dsi_attach(struct device *dev, struct mipi_dsi_device *dsi);
+ int mipi_dsi_shutdown_peripheral(struct mipi_dsi_device *dsi);
+ int mipi_dsi_turn_on_peripheral(struct mipi_dsi_device *dsi);
+ int mipi_dsi_set_maximum_return_packet_size(struct mipi_dsi_device *dsi,
 -- 
 2.31.1
 
