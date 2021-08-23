@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B983F4FF0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 19:53:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7033F5072
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 20:36:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 559BE89B01;
-	Mon, 23 Aug 2021 17:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030DD89991;
+	Mon, 23 Aug 2021 18:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B208F89B01;
- Mon, 23 Aug 2021 17:53:49 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- x10-20020a056830408a00b004f26cead745so38533285ott.10; 
- Mon, 23 Aug 2021 10:53:49 -0700 (PDT)
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com
+ [IPv6:2607:f8b0:4864:20::a2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C27F89991;
+ Mon, 23 Aug 2021 18:36:29 +0000 (UTC)
+Received: by mail-vk1-xa2f.google.com with SMTP id 13so4762490vke.8;
+ Mon, 23 Aug 2021 11:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ZQomryc6rUW/QpCZz/zN784OOX3FK9mSd+n7gkdCcUg=;
- b=GYZKfIhnP/AUtsvBuwr4kKzf4C0u22P7lBumXF8aw3bfjh5Z8ibPee+tK0DTd/i+tH
- Xzfn5AlKUEl9UKolkHjDra8eUNQDqsVRmV7pU0JCEBYkRMuHt680TczIex1v+gNYWaAW
- 8FqMh/nNhzVl3y5pb9I4rV0VuRwRUUi7whivD9A4IjFQmuSWyUMByO0fJU8cBnbIkVL1
- Fmesa9dGHwq8j7lIpcehH/9s7AqtoIhpRCJvuGjM1Nduw5KIm/jg4cqjFGQGKPaTliE6
- BmBVlT5zW7csd0eoAP7y3PY0pIO1Lf616U3OyGHekNFENFLvxQj2u/yjVBc8Es3p/Hm5
- 5rHg==
+ :cc; bh=oD+FfNvttTlhjkxgv46BkQdP0Q+7tbVwZBHtdENnPDs=;
+ b=pgZbSzzqkGGiIpo4Gf6Xk8xnzSqmebfIAehocG0R9hnETl094QpzNQljT3BxuZjRTo
+ u4oC3AZSt3Ps679D3bD4AQBNVwNPLV1ZtB3J988aFWWam6k4aAae4xk63JzNrMViBLVr
+ 9PFReSdv9CPouKzddX4B14cHs6mA4gEMzW5bIFGwFAiIbw2PKHJSTezVmNVkWb0gHwGt
+ fbr4n+I9nFuwB2DB8dSRt2PPTAAAJXF6bG+Viam15tiofrL9NOUp/9sTo2h4GU791KVN
+ MqNfxnMXap6nOtZxJ6k18nY5EViEOIriZ292kXpnxLj2b8Ub4HlFebW9sRvpYvB4oP/0
+ q//w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZQomryc6rUW/QpCZz/zN784OOX3FK9mSd+n7gkdCcUg=;
- b=AuHdT0RIqGLtSh91NRfx+UUeqSmlVZ8PZ46mOWwLmrJVw+I0bhB5g2NjxcUZ5ifLd7
- sq0oFfSpHGh1tum2/ku0x3fyC6IoKQvOY0UmI5V9Tjk0m+G/dMTRUOBz5WMkQMk1WLoE
- uQ01AS7nztPPk87thKex1mWzbR6AKZM6FMNDZiuwebBuKP3V3eMwLyr92Wwffidl5c6w
- nfVjH87grfYhsjYK6bqfbdY6Bne/gAVNBa0pgnOBFPVV3/Nrvp4rluoabRnTU1bzLIWv
- JevciVcld/faTT92fcVRTRU+KfHd/GrM3yIJjK9XJ7ik/Ww6fuSmY0OIUF+nD9siSmn4
- 4LeQ==
-X-Gm-Message-State: AOAM532wDDCrGTT81IHIRrFkP3NKxOVou8mgLnKXaxeNyUeTg7YicacZ
- 3ergIg2dCT3vKWUcurq3HiS+dScfUd2ja4kiTqQ=
-X-Google-Smtp-Source: ABdhPJwujOOZljA91OYN5H6dukXF63lJ2O87nAd49AlEjNXKsEKPf59CWweVy6tO5kbpZma/LC108skbsGrZelu1rDI=
-X-Received: by 2002:a9d:4c15:: with SMTP id l21mr15572911otf.311.1629741229119; 
- Mon, 23 Aug 2021 10:53:49 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=oD+FfNvttTlhjkxgv46BkQdP0Q+7tbVwZBHtdENnPDs=;
+ b=PU7pQFEOTuCM+rqB+KhGGUG5OuOqEm1AX67v8o4mCvktfv30Oh1Yk6dYVNQzy+Y/2k
+ ylAnCOEE04tJfsh88DF7PIgiClDq3jvCtk5kUrio+2+GjJDaXaLaa6Ki3Vl1SxykjMqO
+ NjC6+fkebl1Tx/X9+gUXffgQhAG3LWLbWCEieAt1yFM3nkn/4nzMnOourdweCvz1QLQM
+ b7HFm9E2mDTzYtKmTlMgNe0ZXHZUIYxLY33ZMDZJC17MuIKPykqWYIr6YCBzyCg/9U6g
+ 6nOZm+/j+InBklUYFG6RIqOtf/zCLzf0hr9UpAlPE0DnlhqvM0CokgT5U4KETDxaisAB
+ SOxA==
+X-Gm-Message-State: AOAM532cHdQ0FoYuLLQBwmBkNeGLWVLM4OTSB35hiClAdkNnvLQE1fro
+ RYdMmP2xvmkziPTVlSjMZp9YC+YgFQqNNFwaJL0=
+X-Google-Smtp-Source: ABdhPJxkBUE5Mb3AVj1rY8pemuvJ22/gztSRZps/lKhX3Bb0VUAxGBfiMN04gCVGgcanD3Bvuyb8NXhzHOhc7M04BeM=
+X-Received: by 2002:a05:6122:189f:: with SMTP id
+ bi31mr14411337vkb.8.1629743788056; 
+ Mon, 23 Aug 2021 11:36:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <1187ca1dbaa74ca4a87db9496061243e9a810faa.1629667363.git.christophe.jaillet@wanadoo.fr>
- <cd7b5eb2-24c1-d54d-d6dd-c529d3eb140f@amd.com>
-In-Reply-To: <cd7b5eb2-24c1-d54d-d6dd-c529d3eb140f@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 23 Aug 2021 13:53:38 -0400
-Message-ID: <CADnq5_NU=DKqiHURbB70No94wi-qz7YbwA11_18DbCXPfxWzLQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: switch from 'pci_' to 'dma_' API
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- xinhui pan <Xinhui.Pan@amd.com>, 
- Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
+References: <20210822222009.2035788-1-jim.cromie@gmail.com>
+ <20210822222009.2035788-3-jim.cromie@gmail.com>
+ <CAHp75VeGGRX-LWfDg_6+p2b27LMLSy+8gdH8ApqGchR=QDyEqA@mail.gmail.com>
+In-Reply-To: <CAHp75VeGGRX-LWfDg_6+p2b27LMLSy+8gdH8ApqGchR=QDyEqA@mail.gmail.com>
+From: jim.cromie@gmail.com
+Date: Mon, 23 Aug 2021 12:36:01 -0600
+Message-ID: <CAJfuBxxqO=z0rVtj9_rKnxMWF5HyWzcBPJMu2oVd74opbiGdVA@mail.gmail.com>
+Subject: Re: [PATCH v6 02/11] dyndbg: add DEFINE_DYNAMIC_DEBUG_CATEGORIES and
+ callbacks
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Jason Baron <jbaron@akamai.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Sean Paul <seanpaul@chromium.org>, Jessica Yu <jeyu@kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,181 +75,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Mon, Aug 23, 2021 at 12:41 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Mon, Aug 23, 2021 at 1:21 AM Jim Cromie <jim.cromie@gmail.com> wrote:
+> >
+> > DEFINE_DYNAMIC_DEBUG_CATEGORIES(name, var, bitmap_desc, @bit_descs)
+> > allows users to define a drm.debug style (bitmap) sysfs interface, and
+> > to specify the desired mapping from bits[0-N] to the format-prefix'd
+> > pr_debug()s to be controlled.
+> >
 
-Alex
+yes to everything, 1 question
 
-On Mon, Aug 23, 2021 at 2:17 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+
+> > +       if (!bitmap) {
+> > +               pr_err("set_dyndbg: no bits=>queries map\n");
+> > +               return -EINVAL;
+> > +       }
+> > +       rc = kstrtoul(instr, 0, &inbits);
+> > +       if (rc) {
+> > +               pr_err("set_dyndbg: failed\n");
+> > +               return rc;
+> > +       }
+> > +       vpr_info("set_dyndbg: input 0x%lx\n", inbits);
+> > +
+> > +       for (i = 0; bitmap->prefix; i++, bitmap++) {
+> > +               snprintf(query, FMT_QUERY_SIZE, "format '^%s' %cp", bitmap->prefix,
+> > +                        test_bit(i, &inbits) ? '+' : '-');
+> > +
+> > +               matches = ddebug_exec_queries(query, KP_MOD_NAME);
+> > +
+> > +               v2pr_info("bit-%d: %d matches on '%s'\n", i, matches, query);
+> > +               totct += matches;
+> > +       }
 >
-> Am 22.08.21 um 23:23 schrieb Christophe JAILLET:
-> > The wrappers in include/linux/pci-dma-compat.h should go away.
-> >
-> > The patch has been generated with the coccinelle script below.
-> >
-> > It has been compile tested.
-> >
-> > @@
-> > @@
-> > -    PCI_DMA_BIDIRECTIONAL
-> > +    DMA_BIDIRECTIONAL
-> >
-> > @@
-> > @@
-> > -    PCI_DMA_TODEVICE
-> > +    DMA_TO_DEVICE
-> >
-> > @@
-> > @@
-> > -    PCI_DMA_FROMDEVICE
-> > +    DMA_FROM_DEVICE
-> >
-> > @@
-> > @@
-> > -    PCI_DMA_NONE
-> > +    DMA_NONE
-> >
-> > @@
-> > expression e1, e2, e3;
-> > @@
-> > -    pci_alloc_consistent(e1, e2, e3)
-> > +    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
-> >
-> > @@
-> > expression e1, e2, e3;
-> > @@
-> > -    pci_zalloc_consistent(e1, e2, e3)
-> > +    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_free_consistent(e1, e2, e3, e4)
-> > +    dma_free_coherent(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_map_single(e1, e2, e3, e4)
-> > +    dma_map_single(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_unmap_single(e1, e2, e3, e4)
-> > +    dma_unmap_single(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4, e5;
-> > @@
-> > -    pci_map_page(e1, e2, e3, e4, e5)
-> > +    dma_map_page(&e1->dev, e2, e3, e4, e5)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_unmap_page(e1, e2, e3, e4)
-> > +    dma_unmap_page(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_map_sg(e1, e2, e3, e4)
-> > +    dma_map_sg(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_unmap_sg(e1, e2, e3, e4)
-> > +    dma_unmap_sg(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
-> > +    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_dma_sync_single_for_device(e1, e2, e3, e4)
-> > +    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
-> > +    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2, e3, e4;
-> > @@
-> > -    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
-> > +    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
-> >
-> > @@
-> > expression e1, e2;
-> > @@
-> > -    pci_dma_mapping_error(e1, e2)
-> > +    dma_mapping_error(&e1->dev, e2)
-> >
-> > @@
-> > expression e1, e2;
-> > @@
-> > -    pci_set_dma_mask(e1, e2)
-> > +    dma_set_mask(&e1->dev, e2)
-> >
-> > @@
-> > expression e1, e2;
-> > @@
-> > -    pci_set_consistent_dma_mask(e1, e2)
-> > +    dma_set_coherent_mask(&e1->dev, e2)
-> >
-> > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> I'm wondering if there is a room to parse a bitmap as a bitmap.
 >
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> Should we pick them up or do you want to push them upstream?
->
-> Regards,
-> Christian.
->
-> > ---
-> > If needed, see post from Christoph Hellwig on the kernel-janitors ML:
-> >     https://marc.info/?l=3Dkernel-janitors&m=3D158745678307186&w=3D4
-> > ---
-> >   drivers/gpu/drm/radeon/radeon_device.c | 6 +++---
-> >   1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/r=
-adeon/radeon_device.c
-> > index ac8c3251b616..4f0fbf667431 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_device.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> > @@ -785,7 +785,7 @@ int radeon_dummy_page_init(struct radeon_device *rd=
-ev)
-> >       if (rdev->dummy_page.page =3D=3D NULL)
-> >               return -ENOMEM;
-> >       rdev->dummy_page.addr =3D dma_map_page(&rdev->pdev->dev, rdev->du=
-mmy_page.page,
-> > -                                     0, PAGE_SIZE, PCI_DMA_BIDIRECTION=
-AL);
-> > +                                     0, PAGE_SIZE, DMA_BIDIRECTIONAL);
-> >       if (dma_mapping_error(&rdev->pdev->dev, rdev->dummy_page.addr)) {
-> >               dev_err(&rdev->pdev->dev, "Failed to DMA MAP the dummy pa=
-ge\n");
-> >               __free_page(rdev->dummy_page.page);
-> > @@ -808,8 +808,8 @@ void radeon_dummy_page_fini(struct radeon_device *r=
-dev)
-> >   {
-> >       if (rdev->dummy_page.page =3D=3D NULL)
-> >               return;
-> > -     pci_unmap_page(rdev->pdev, rdev->dummy_page.addr,
-> > -                     PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
-> > +     dma_unmap_page(&rdev->pdev->dev, rdev->dummy_page.addr, PAGE_SIZE=
-,
-> > +                    DMA_BIDIRECTIONAL);
-> >       __free_page(rdev->dummy_page.page);
-> >       rdev->dummy_page.page =3D NULL;
-> >   }
->
+
+I dont know what you mean here.
+can you point to an example to crib from ?
+
+thanks
+
+> --
+> With Best Regards,
+> Andy Shevchenko
