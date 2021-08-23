@@ -2,66 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B283F4A17
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 13:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F463F4A97
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 14:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED7089C88;
-	Mon, 23 Aug 2021 11:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD4489C86;
+	Mon, 23 Aug 2021 12:25:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8F789C88
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 11:51:41 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id b9so5612689plx.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 04:51:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LkJF9gL3DFUvt3rlo/nzGGGMNzuUgKnkhv0UlxkwGu4=;
- b=Ofv1R2i1a5c2X/aAvS+lwWJysrrhDQlsLsZC27I36yxS+YLRscajlqrdz9/afYz9O7
- fCuKKu1MjWnuk+m0WLbOipx0H2lrn1J0tuiO6Et8yhm1qm5qy8mHtOCHEGYWTYAVbJNa
- Re/4jzeHogLm3ZL+cSFsldwFtWJUtlCWlbbkX7AAcR8XF+OjZ1FouwgnYIBIJwg6EjiI
- w7fI/CG6PMGbPsQBFdutM55vliglUH24BFbtKT6JEc6ky20gyLBzz2bGVycFF0vwUIY4
- PbqBH6NDmjn9N053v2w25XS7cP0AZZO9d8/nWYDyT8byaAwycXn9Jotx7hkBtdSh6wsx
- 5M6Q==
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
+ [209.85.217.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA3889C86
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 12:25:44 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id s19so10936755vsl.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 05:25:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LkJF9gL3DFUvt3rlo/nzGGGMNzuUgKnkhv0UlxkwGu4=;
- b=JwTdhawqgkcfWvqL/b5DzmYR3ijDt0Eek8GwEOxHtcESn/nStfEUF0HUpAhnbn68Bv
- LiJXc3cDrszJQp7pso18QvkdEZYT6LSkCaBdGEwQqVevZCIn+qx5Iw5coNaBLTYOESaM
- kOdmLZyOjChq9zGpdjKYAciAKWpUU9Oo2PTZ+P2Y78kqbPfM5KOmQxHZUDZThPam71Iz
- fi/06BM7azmqNT0wQbh5UiJ9Fst5+Wd+biz3ftd/1NOToYZA13T695gDmgtxWZx0uazW
- XhVejL1W+UfoM51ZR1zrCUisn2CL4eAq+i0d6nRRzxIUjJoP4JzEKmlfvFItqj08xndP
- gW6Q==
-X-Gm-Message-State: AOAM531v4JPB7qfxHAS30xgUxuLkwZJ0pPzkHr2LMEiqjAEbAB61Z/oE
- wvEliQj/IstVMjqRIJOGD1/tLA==
-X-Google-Smtp-Source: ABdhPJwdocfiEf11B5CvUDIZH1FHjE4IEAZiQMZg6/TK1SySDNCgg1m7Jyl+2hK5CJTNJQNDnT2FqA==
-X-Received: by 2002:a17:902:6b4a:b0:132:803c:3ec with SMTP id
- g10-20020a1709026b4a00b00132803c03ecmr9492652plt.81.1629719501275; 
- Mon, 23 Aug 2021 04:51:41 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.213])
- by smtp.gmail.com with ESMTPSA id z19sm15985426pfn.94.2021.08.23.04.51.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 04:51:41 -0700 (PDT)
-From: yangcong <yangcong5@huaqin.corp-partner.google.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, dianders@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- yangcong <yangcong5@huaqin.corp-partner.google.com>
-Subject: [v2 2/2] dt-bindngs: display: panel: Add BOE tv110c9m-ll3 panel
- bindings
-Date: Mon, 23 Aug 2021 19:51:25 +0800
-Message-Id: <20210823115125.1070257-3-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210823115125.1070257-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20210823115125.1070257-1-yangcong5@huaqin.corp-partner.google.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qXtDlW7T88wjzL8Tweiy71uHxWixjnOanz5gbQbCE/Q=;
+ b=IZlG1wR0Q648ejUzUSvSnUkgZ8HcVK0Ciqji6hNkrK1s2qlx+TaqLx3g/Qo8EXdQIn
+ 9nbhaED4QvJjTz7nPcYRswPlRhuzKUh09f+DUVDl5vXNvcLNuGjKF6mnswAyP4B96uDO
+ ff46dXC3OEhmSnuD5TL6+LKcShJxWia80K5aTbD14z/yO1At/TQO7YeEcDl3Y7TngeE7
+ M9XNObdIEK6XlNLEPD2fLmZGgUbn0oaL3cnkMgqMpsqFQ3/TSxt9sxxLavqQ3xvpTWGQ
+ mKqzJb0Nx+qoCQ3jHC8kheG846/ofU5jq7TGVQdzrhDVD5O/pQsWONjMPxCuYKwd5r5D
+ Or6g==
+X-Gm-Message-State: AOAM531f/N24zt9DE79Iv3lfALNj53/+6D/G3tMEPGGZa1Rjpp+LTpqs
+ /pXmzR207C1IKnkSTVZHEpyJrfbsU5x0ZZxy3CY=
+X-Google-Smtp-Source: ABdhPJznZ+PmuT3gxAgdgrA8kXhuOMnutxvhv88zLvTlR66PqFd1lACaQ9rSF7u0b53nzxL3qVPfHiShIXiesAN96PA=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr23287378vsl.9.1629721543349; 
+ Mon, 23 Aug 2021 05:25:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 23 Aug 2021 14:25:32 +0200
+Message-ID: <CAMuHMdWSqSb37srBG0XB-vX5ERmjDBia07k_-s2Zg=bUsQCSyA@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Don't create encoder for unconnected LVDS
+ outputs
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,103 +59,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for boe tv110c9m-ll3 panel.
+Hi Laurent,
 
-Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
----
- .../display/panel/boe,tv110c9m-ll3.yaml       | 83 +++++++++++++++++++
- 1 file changed, 83 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/boe,tv110c9m-ll3.yaml
+On Sun, Aug 22, 2021 at 2:36 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> On R-Car D3 and E3, the LVDS encoders provide the pixel clock to the DU,
+> even when LVDS outputs are not used. For this reason, the rcar-lvds
+> driver probes successfully on those platforms even if no further bridge
+> or panel is connected to the LVDS output, in order to provide the
+> rcar_lvds_clk_enable() and rcar_lvds_clk_disable() functions to the DU
+> driver.
+>
+> If an LVDS output isn't connected, trying to create a DRM connector for
+> the output will fail. Fix this by skipping connector creation in that
+> case, and also skip creation of the DRM encoder as there's no point in
+> an encoder without a connector.
+>
+> Fixes: e9e056949c92 ("drm: rcar-du: lvds: Convert to DRM panel bridge helper")
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv110c9m-ll3.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv110c9m-ll3.yaml
-new file mode 100644
-index 000000000000..85969441d572
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/boe,tv110c9m-ll3.yaml
-@@ -0,0 +1,83 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/boe,tv110c9m-ll3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: BOE TV110C9M-LL3 DSI Display Panel
-+
-+maintainers:
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Sam Ravnborg <sam@ravnborg.org>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+        # BOE TV110C9M-LL3 10.95" WUXGA TFT LCD panel
-+      - boe,tv110c9m-ll3
-+        # INX HJ110IZ-01A 10.95" WUXGA TFT LCD panel
-+      - inx,hj110iz-01a
-+
-+  reg:
-+    description: the virtual channel number of a DSI peripheral
-+
-+  enable-gpios:
-+    description: a GPIO spec for the enable pin
-+
-+  pp1800-supply:
-+    description: core voltage supply
-+
-+  pp3300-supply:
-+    description: core voltage supply
-+
-+  avdd-supply:
-+    description: phandle of the regulator that provides positive voltage
-+
-+  avee-supply:
-+    description: phandle of the regulator that provides negative voltage
-+
-+  backlight:
-+    description: phandle of the backlight device attached to the panel
-+
-+  port: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - enable-gpios
-+  - pp1800-supply
-+  - pp3300-supply
-+  - avdd-supply
-+  - avee-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        panel@0 {
-+            compatible = "boe,tv110c9m-ll3";
-+            reg = <0>;
-+            enable-gpios = <&tlmm 76 GPIO_ACTIVE_HIGH>;
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&vdd_reset_1800>;
-+            avdd-supply = <&avdd_lcd>;
-+            avee-supply = <&avee_lcd>;
-+            pp1800-supply = <&v1p8_mipi>;
-+            pp3300-supply = <&pp3300_dx_edp>;
-+            backlight = <&backlight>;
-+            status = "okay";
-+            port {
-+                panel_in: endpoint {
-+                    remote-endpoint = <&dsi_out>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+Can you please change that to
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+?
+
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Thanks, the scary warning on Ebisu-4D is gone, so
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Disclaimer: there are no displays connected to my Ebisu-4D.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
