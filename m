@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7033F5072
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 20:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB29B3F5096
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 20:45:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 030DD89991;
-	Mon, 23 Aug 2021 18:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BAE89B78;
+	Mon, 23 Aug 2021 18:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com
- [IPv6:2607:f8b0:4864:20::a2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C27F89991;
- Mon, 23 Aug 2021 18:36:29 +0000 (UTC)
-Received: by mail-vk1-xa2f.google.com with SMTP id 13so4762490vke.8;
- Mon, 23 Aug 2021 11:36:29 -0700 (PDT)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5611289B78
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 18:45:19 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ o16-20020a9d2210000000b0051b1e56c98fso24112053ota.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 11:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oD+FfNvttTlhjkxgv46BkQdP0Q+7tbVwZBHtdENnPDs=;
- b=pgZbSzzqkGGiIpo4Gf6Xk8xnzSqmebfIAehocG0R9hnETl094QpzNQljT3BxuZjRTo
- u4oC3AZSt3Ps679D3bD4AQBNVwNPLV1ZtB3J988aFWWam6k4aAae4xk63JzNrMViBLVr
- 9PFReSdv9CPouKzddX4B14cHs6mA4gEMzW5bIFGwFAiIbw2PKHJSTezVmNVkWb0gHwGt
- fbr4n+I9nFuwB2DB8dSRt2PPTAAAJXF6bG+Viam15tiofrL9NOUp/9sTo2h4GU791KVN
- MqNfxnMXap6nOtZxJ6k18nY5EViEOIriZ292kXpnxLj2b8Ub4HlFebW9sRvpYvB4oP/0
- q//w==
+ :cc; bh=Su7i+pg4CPOi3J6AfRlZUAB8GpQBJfAZDJfBcoAOY+M=;
+ b=jsUrk1I+wnzAAh78tQ5ihhocBHkO57rZtmLB4NGq5XmKybU9l8ioe9/c3zQq5np/uZ
+ Q4DELa29H/ApiacvJwa01oSDtLYJyT8IMsY2PRZbSayIkk9/N/LkXvWWldP/TTtaenlG
+ hFQidzAlG0Wnirycltmh9EghyyCnh2ylwtYFxWC+QN6keHMRqSx1F+R1I5kyV74PnLYz
+ m02nMA5V/px0SSmd60r9ywydxDRBH3qpfyN0TEsU8xVbpjS1r2nHftA2O/xpq54rOTW4
+ rRP68S9TSpFtSKVZJG9z+FNPeITiF4du+/i98l27ld/jlfHj0EEw3T8Q9qleA6CVL/S3
+ VsDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=oD+FfNvttTlhjkxgv46BkQdP0Q+7tbVwZBHtdENnPDs=;
- b=PU7pQFEOTuCM+rqB+KhGGUG5OuOqEm1AX67v8o4mCvktfv30Oh1Yk6dYVNQzy+Y/2k
- ylAnCOEE04tJfsh88DF7PIgiClDq3jvCtk5kUrio+2+GjJDaXaLaa6Ki3Vl1SxykjMqO
- NjC6+fkebl1Tx/X9+gUXffgQhAG3LWLbWCEieAt1yFM3nkn/4nzMnOourdweCvz1QLQM
- b7HFm9E2mDTzYtKmTlMgNe0ZXHZUIYxLY33ZMDZJC17MuIKPykqWYIr6YCBzyCg/9U6g
- 6nOZm+/j+InBklUYFG6RIqOtf/zCLzf0hr9UpAlPE0DnlhqvM0CokgT5U4KETDxaisAB
- SOxA==
-X-Gm-Message-State: AOAM532cHdQ0FoYuLLQBwmBkNeGLWVLM4OTSB35hiClAdkNnvLQE1fro
- RYdMmP2xvmkziPTVlSjMZp9YC+YgFQqNNFwaJL0=
-X-Google-Smtp-Source: ABdhPJxkBUE5Mb3AVj1rY8pemuvJ22/gztSRZps/lKhX3Bb0VUAxGBfiMN04gCVGgcanD3Bvuyb8NXhzHOhc7M04BeM=
-X-Received: by 2002:a05:6122:189f:: with SMTP id
- bi31mr14411337vkb.8.1629743788056; 
- Mon, 23 Aug 2021 11:36:28 -0700 (PDT)
+ bh=Su7i+pg4CPOi3J6AfRlZUAB8GpQBJfAZDJfBcoAOY+M=;
+ b=Z3RcrO19un8Jf2KY86DGn3EjmqYMspyQ+IIHMfFhUjAKhWaY2DV+sR4Q7m13uNC6M/
+ /M99oWcDZHDb/2kRMGH7/UCCQ9sBGJ6K77ra/cX+0C9TTfANsbfnHxZb5NYl0Oeg48oH
+ eeeGVqNiS3ZcOjXRmTPqKsy2B2jWd6cFQ5bSbMjOpQTYtUNCZ7QGegWnfDNLUZd6Guwx
+ zaAsph6uVHDznuP4EVwHfvF2DaDWfBN6XxM0+Rd5cdMc84b2PWm/PkJwClYwmH2E1OuT
+ nU3naLzasThulxkHRRDMwicN11MTDawtUfjvsyPQre5doJilWj00j0Pd4Je95l3cLLqd
+ v8dQ==
+X-Gm-Message-State: AOAM533hHuwVzfADImMoNea4z3xITB/OXTv08nTXhtdQqM1UkVj3OaYM
+ BdAU7FNw+HLfjAqUWtqmuew1hR+t+Q2XpD8CtoQ=
+X-Google-Smtp-Source: ABdhPJyIfwWabERUH9VE9kASFzrWv4Ku92yHtP9ybXRUU1SltP+Y0MOsN7DlKDJpXhNOiiSBsPN05O0dn3FqYjJbp3g=
+X-Received: by 2002:a9d:4c15:: with SMTP id l21mr15752808otf.311.1629744318478; 
+ Mon, 23 Aug 2021 11:45:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210822222009.2035788-1-jim.cromie@gmail.com>
- <20210822222009.2035788-3-jim.cromie@gmail.com>
- <CAHp75VeGGRX-LWfDg_6+p2b27LMLSy+8gdH8ApqGchR=QDyEqA@mail.gmail.com>
-In-Reply-To: <CAHp75VeGGRX-LWfDg_6+p2b27LMLSy+8gdH8ApqGchR=QDyEqA@mail.gmail.com>
-From: jim.cromie@gmail.com
-Date: Mon, 23 Aug 2021 12:36:01 -0600
-Message-ID: <CAJfuBxxqO=z0rVtj9_rKnxMWF5HyWzcBPJMu2oVd74opbiGdVA@mail.gmail.com>
-Subject: Re: [PATCH v6 02/11] dyndbg: add DEFINE_DYNAMIC_DEBUG_CATEGORIES and
- callbacks
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Jason Baron <jbaron@akamai.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Sean Paul <seanpaul@chromium.org>, Jessica Yu <jeyu@kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
- intel-gfx <intel-gfx@lists.freedesktop.org>
+References: <46ccdd7bffdba1273a1ebb3d6cd2fbe186e0795a.1629667572.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <46ccdd7bffdba1273a1ebb3d6cd2fbe186e0795a.1629667572.git.christophe.jaillet@wanadoo.fr>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 23 Aug 2021 14:45:07 -0400
+Message-ID: <CADnq5_PYZpwoneV=JvEiTp53U2vT0+Vk=ggKt=srYPSU5PE0SQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/r128: switch from 'pci_' to 'dma_' API
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,49 +68,183 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 23, 2021 at 12:41 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
+On Sun, Aug 22, 2021 at 5:34 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
 >
-> On Mon, Aug 23, 2021 at 1:21 AM Jim Cromie <jim.cromie@gmail.com> wrote:
-> >
-> > DEFINE_DYNAMIC_DEBUG_CATEGORIES(name, var, bitmap_desc, @bit_descs)
-> > allows users to define a drm.debug style (bitmap) sysfs interface, and
-> > to specify the desired mapping from bits[0-N] to the format-prefix'd
-> > pr_debug()s to be controlled.
-> >
-
-yes to everything, 1 question
-
-
-> > +       if (!bitmap) {
-> > +               pr_err("set_dyndbg: no bits=>queries map\n");
-> > +               return -EINVAL;
-> > +       }
-> > +       rc = kstrtoul(instr, 0, &inbits);
-> > +       if (rc) {
-> > +               pr_err("set_dyndbg: failed\n");
-> > +               return rc;
-> > +       }
-> > +       vpr_info("set_dyndbg: input 0x%lx\n", inbits);
-> > +
-> > +       for (i = 0; bitmap->prefix; i++, bitmap++) {
-> > +               snprintf(query, FMT_QUERY_SIZE, "format '^%s' %cp", bitmap->prefix,
-> > +                        test_bit(i, &inbits) ? '+' : '-');
-> > +
-> > +               matches = ddebug_exec_queries(query, KP_MOD_NAME);
-> > +
-> > +               v2pr_info("bit-%d: %d matches on '%s'\n", i, matches, query);
-> > +               totct += matches;
-> > +       }
+> The wrappers in include/linux/pci-dma-compat.h should go away.
 >
-> I'm wondering if there is a room to parse a bitmap as a bitmap.
+> The patch has been generated with the coccinelle script below.
 >
+> It has been compile tested.
+>
+> @@
+> @@
+> -    PCI_DMA_BIDIRECTIONAL
+> +    DMA_BIDIRECTIONAL
+>
+> @@
+> @@
+> -    PCI_DMA_TODEVICE
+> +    DMA_TO_DEVICE
+>
+> @@
+> @@
+> -    PCI_DMA_FROMDEVICE
+> +    DMA_FROM_DEVICE
+>
+> @@
+> @@
+> -    PCI_DMA_NONE
+> +    DMA_NONE
+>
+> @@
+> expression e1, e2, e3;
+> @@
+> -    pci_alloc_consistent(e1, e2, e3)
+> +    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+>
+> @@
+> expression e1, e2, e3;
+> @@
+> -    pci_zalloc_consistent(e1, e2, e3)
+> +    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_free_consistent(e1, e2, e3, e4)
+> +    dma_free_coherent(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_map_single(e1, e2, e3, e4)
+> +    dma_map_single(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_unmap_single(e1, e2, e3, e4)
+> +    dma_unmap_single(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4, e5;
+> @@
+> -    pci_map_page(e1, e2, e3, e4, e5)
+> +    dma_map_page(&e1->dev, e2, e3, e4, e5)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_unmap_page(e1, e2, e3, e4)
+> +    dma_unmap_page(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_map_sg(e1, e2, e3, e4)
+> +    dma_map_sg(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_unmap_sg(e1, e2, e3, e4)
+> +    dma_unmap_sg(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
+> +    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_dma_sync_single_for_device(e1, e2, e3, e4)
+> +    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
+> +    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2, e3, e4;
+> @@
+> -    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
+> +    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+>
+> @@
+> expression e1, e2;
+> @@
+> -    pci_dma_mapping_error(e1, e2)
+> +    dma_mapping_error(&e1->dev, e2)
+>
+> @@
+> expression e1, e2;
+> @@
+> -    pci_set_dma_mask(e1, e2)
+> +    dma_set_mask(&e1->dev, e2)
+>
+> @@
+> expression e1, e2;
+> @@
+> -    pci_set_consistent_dma_mask(e1, e2)
+> +    dma_set_coherent_mask(&e1->dev, e2)
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-I dont know what you mean here.
-can you point to an example to crib from ?
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-thanks
+And applied to drm-misc-next.
 
+Alex
+
+
+> ---
+> If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+>    https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+> ---
+>  drivers/gpu/drm/r128/ati_pcigart.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/r128/ati_pcigart.c b/drivers/gpu/drm/r128/ati_pcigart.c
+> index 0ecccf25a3c7..26001c2de9e9 100644
+> --- a/drivers/gpu/drm/r128/ati_pcigart.c
+> +++ b/drivers/gpu/drm/r128/ati_pcigart.c
+> @@ -99,7 +99,8 @@ int drm_ati_pcigart_cleanup(struct drm_device *dev, struct drm_ati_pcigart_info
+>                 for (i = 0; i < pages; i++) {
+>                         if (!entry->busaddr[i])
+>                                 break;
+> -                       pci_unmap_page(pdev, entry->busaddr[i], PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
+> +                       dma_unmap_page(&pdev->dev, entry->busaddr[i],
+> +                                      PAGE_SIZE, DMA_BIDIRECTIONAL);
+>                 }
+>
+>                 if (gart_info->gart_table_location == DRM_ATI_GART_MAIN)
+> @@ -134,7 +135,7 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
+>         if (gart_info->gart_table_location == DRM_ATI_GART_MAIN) {
+>                 DRM_DEBUG("PCI: no table in VRAM: using normal RAM\n");
+>
+> -               if (pci_set_dma_mask(pdev, gart_info->table_mask)) {
+> +               if (dma_set_mask(&pdev->dev, gart_info->table_mask)) {
+>                         DRM_ERROR("fail to set dma mask to 0x%Lx\n",
+>                                   (unsigned long long)gart_info->table_mask);
+>                         ret = -EFAULT;
+> @@ -173,9 +174,9 @@ int drm_ati_pcigart_init(struct drm_device *dev, struct drm_ati_pcigart_info *ga
+>         gart_idx = 0;
+>         for (i = 0; i < pages; i++) {
+>                 /* we need to support large memory configurations */
+> -               entry->busaddr[i] = pci_map_page(pdev, entry->pagelist[i],
+> -                                                0, PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
+> -               if (pci_dma_mapping_error(pdev, entry->busaddr[i])) {
+> +               entry->busaddr[i] = dma_map_page(&pdev->dev, entry->pagelist[i],
+> +                                                0, PAGE_SIZE, DMA_BIDIRECTIONAL);
+> +               if (dma_mapping_error(&pdev->dev, entry->busaddr[i])) {
+>                         DRM_ERROR("unable to map PCIGART pages!\n");
+>                         drm_ati_pcigart_cleanup(dev, gart_info);
+>                         address = NULL;
 > --
-> With Best Regards,
-> Andy Shevchenko
+> 2.30.2
+>
