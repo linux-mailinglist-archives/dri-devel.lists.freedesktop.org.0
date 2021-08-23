@@ -1,121 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6615D3F4762
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 11:25:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FA43F47E2
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 11:45:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E25189C6B;
-	Mon, 23 Aug 2021 09:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B66889B51;
+	Mon, 23 Aug 2021 09:45:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2076.outbound.protection.outlook.com [40.107.92.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5B789C6B;
- Mon, 23 Aug 2021 09:25:09 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2088.outbound.protection.outlook.com [40.107.94.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE16889B51
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 09:44:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b9laF7/9k9dVWxXJmIIH4YLZANGlzXaHroARNf88MKPtGFu1WKwwYGvImzdl3rhRj1KzsHDqK6LzQii0EZ2IVp6WCOTYYTi7ouhYkZLvTZGWByfQYJD8zuWQDYBWC5n/O8DDwNld3KioOz9/dTp+nEFRY+6rdaPDSafN3Q8mkXpSIpI+F32k6f+VrnNvUQy+INp0JRIMGOcNzdHhXgGIWfMhIV3FIdDoXxalwVDFcEpBF+pmAQURw/1i4J/DU1WnhOgLAmnVyiWHZN77XejziZopJXKV6RTXphmqB9n/F6XrNJfMu+Nv7Tcl7ah0wp5pXbku21sEYasLL0AEEK2jsA==
+ b=TKN+9ZHw/C17Vam9XsGsfi3su+K9401OIA1uSwly7JGtJw+RERbQsPTzx+WQVk0gLNG2Y+EWqYdiKn+zp7iBvYiaYTN7bQub5P7bMvFp1j/K8UkCL3UohOWAS/r6XNtb5juvae4Ulsu20QLEOTV288e70z4bhfSivwY71etInv7pS4OK9XuOtbVPBvfLR3iU++axZTdkRt240zOypug14Q0wChfLT0PAXjguk3xKipG5mb4Wg93G0p2tFF2YWLz6W+r7Xfe6av89uhnaCpkJttIg5EOgfKXXd7O7YOK6t+eWG5kTMpMQ5VcR7+BNlxcWTj8QaldCzmI9lbQls+Wtmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SD/k8y8ClWWbsZB2MjUvVnzzNQvRhWDxj96TZTKnajw=;
- b=cyUlhpLKOj3OPETZKUn5Lta7aAykYDTr088hn2D40e3odGmHJ65RZQ4B0PFOnEYtJ1+/M4EUCrBV/gGFRq74kZHZt5y5OId0Ngd//lKaYHnn+x0NcWCOZvsE9CTtjrdNYbdX37l8EKbQrmBuT899zJ+iV+sRy0lWuf9ERTz9lGrgJniqYuW6l8GzvpH/dHx2OH3iphBuNW3kpcZlnML/1ZxgW0Va8YdGfxKydllA19qFGI3P8OvdVGK7HZG/gyY8ON1G9sbiCXEKGwNHJLO6hHGIkMCmDFWINgsTFz8UxOhZz21W/Y/FhYCSrW5CIQXUKb1ibvyGw8GRiusqIZXGvA==
+ bh=rZriJWtfojYPktbciGJr2WwwID39QgkWCUB72AkRe/Y=;
+ b=eafxF/k+6TZHHzIbBoDpsZrkRol3Ze6hbzJVjgKDc5KbZWNm5hsqMl3Z9NRonTEuxzCJxH9MegoSrzGapEulTZWcKHLQBouNswJcbrWjPXQHsPTRlsTXkJIVRYJTUDaLnpI4rhMgCGTQor2EIUupXYqE+RfwQ552k0Q9NoBCohP4a2LSK8X3UiUBb0bzFqncyuZhHeML1WtRatLJ+r6TdeeZ5+FCpupTAFJ8sg/WnxPfBjEOTqswI86l/DjFmaiQSTDHaCiPOoCpCToA4l4ppR8bCCvkuxM4d4mvbXkqWPSZoKnRtSp10kNyAZ2f6hqiY2gOkw3CatWYIhCkkZbRFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SD/k8y8ClWWbsZB2MjUvVnzzNQvRhWDxj96TZTKnajw=;
- b=AA5kx6Wsoc1EL/IDb3v/4JUZWt9kDwJuDIhnsVPFVBokRvtQSB9iNWcVMKXouA5AbUDJP6FSQwO5AgocOvt4MDDA3fO55fR3LDDn/GCDMG7L4F1iwxI5MMv/n3e8ri7ykxHnro2z4fJ+TarRXlDQbQNNhwJK/TsSL0jwlrzQHVs=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+ bh=rZriJWtfojYPktbciGJr2WwwID39QgkWCUB72AkRe/Y=;
+ b=WNLZGVVUEH/C2W+ca4N7HnGhlUwS8MbmSflX2HMF4YotoN1Kw5IqBt45CQXwIkLeam81l+8goEGV2CF2zvGPgMRt6dMoRg9d8l8OCV1/0311lHK3Pu97UTP08CwByfcoinaEssPyKIThba1Qh2qrImGuwu90l8Obobekebj28cE=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
  by MN2PR12MB4207.namprd12.prod.outlook.com (2603:10b6:208:1d9::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Mon, 23 Aug
- 2021 09:09:29 +0000
+ 2021 09:11:04 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4436.024; Mon, 23 Aug 2021
- 09:09:29 +0000
-Subject: Re: [PATCH v2 2/2] drm/ttm, drm/i915: Update ttm_move_memcpy for
- async use
+ 09:11:04 +0000
+Subject: Re: Un-acked TTM patch
 To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: Matthew Auld <matthew.auld@intel.com>
-References: <20210813144331.372957-1-thomas.hellstrom@linux.intel.com>
- <20210813144331.372957-3-thomas.hellstrom@linux.intel.com>
+ dri-devel@lists.freedesktop.org
+References: <4da1794b868adf5de899c43bcc0780a6a10d492f.camel@linux.intel.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <ba3c7bbc-7fb5-396e-4495-a5b2f437431b@amd.com>
-Date: Mon, 23 Aug 2021 11:09:22 +0200
+Message-ID: <6f7555b1-f533-4bb5-1d11-07228f55d145@amd.com>
+Date: Mon, 23 Aug 2021 11:10:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210813144331.372957-3-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <4da1794b868adf5de899c43bcc0780a6a10d492f.camel@linux.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-ClientProxiedBy: AM0PR03CA0079.eurprd03.prod.outlook.com
- (2603:10a6:208:69::20) To MN2PR12MB3775.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM0PR03CA0090.eurprd03.prod.outlook.com
+ (2603:10a6:208:69::31) To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.178.21] (91.14.161.181) by
- AM0PR03CA0079.eurprd03.prod.outlook.com (2603:10a6:208:69::20) with Microsoft
+ AM0PR03CA0090.eurprd03.prod.outlook.com (2603:10a6:208:69::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 09:09:28 +0000
+ 15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 09:11:03 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 07aef0ae-a421-4178-e1b8-08d96615b698
+X-MS-Office365-Filtering-Correlation-Id: ac51c9e6-134e-4419-4ed7-08d96615eee4
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4207:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB42078715E46CBD5B0C059FEC83C49@MN2PR12MB4207.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4207D5E5C3E42EF47E1107AD83C49@MN2PR12MB4207.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: H/eT+5KjWQfk1cRbVTHNU2AzpF5mpMQPUAwITxaW6I5tvY0vdeOWsBmvT1wSmyEscwuyXpY1U6mTgMQNqAG3+ev4PhCIbsIRfUgOaLViEsE0SrfpmAjBC8EIn8GD0Bv4DuPBlQrBcctAvVgEjnEpGDur/0bsIFBZPQXrVmVQjpsnQGsj1Kjrl3igPZsIk24PtoFXC8vSmwHDUAh4hLL3keEWC4xRtKpU5JLDy4l7fNpmiAhhbygClBdlH7khZCPUSNzRtP9/k+vdekXZEq2jXx2E/VGhIwxKCVKJXM73xzgURo6t+ZSzgOrdSFXHcyWSy/ZuhX8/MBvhUc4YAiHJC+jYFwEaHU9pKAL/fdh4RH1Mi5tdWhFNrFwK9GmeYoKJHIT4lkxSkyTUolkKFdff//W0Jfb9MBjw9bWH2fumVhUp8QTQIU5J6VcCxrBKf/2wOYI4NlOXVBgLGvx+FEy88KScXktCtGBtLUEFqhClGPo0fNyI5trDdJ4zRfQP2B4INcHCMpW+6SrdbfjVY1KvueWEHrc4ANul6JojYADEourvz4KoA95L33LGbaTMUoEHpPwdmEsu/W3cjOa1r0H6MmSrnYbHWRskWU94Co7TvMgczPRgiXcoLm/txW1iILd3IuwmkjeUlEHDNyji0VWdg1GM8TrnMGJizp5/tkjbdGd8559DusXXweCbIYhkNBbseDqRv2+4XOASsXRBqPNK3msmIfT/oesaXwcfiQzAxZI=
+X-Microsoft-Antispam-Message-Info: UhYQIz09pp15EttR845LmcuItweYLDQfl7wBq4AIWst6Uisjziu1O1hTTTlqnVT+v/DNkeNmWDDSIodXTWF/V/BiWJNeLfeeHA73E4XstsYSr8N0TKk5eX0R+3ntaFhsYu7D9JNYxW4Lj1B0rB7nlRF6iS9KF9/WRtw9pcZO1kASTpjMlVOwPUIHUSgxbESQFUWOP44vku+mA5KKs5MySrgD/pP1M9FCjadusyDnaDT1+aIeqVL/Xob61d2U7fhPZplmisEK9/5LEI+IxMQD5BA6HiTJQvYsnkGxY+Le/+Tam8BXMdqqdJ0LDmL3owlx0w+sDrcSXhnst3hBw4jjXGHsjLXkW7GQATO60IUXqKkdLQGfEYel7aGBajzulvEDiB4xvnQg/rAkFdy5GT8OTuzylSPpsmSstOiM+lM+cJxbPq2qGEN0LvFa3wSjhqvJej0ynlgYDu5PipVBc8ltdm1aKuuBYm2QIWzsAEs3JaAJUSUyyKvdgOJ3KGbMrnL3TfSrB0IcnnhnUe2h3uRV3bmkDHuBUh0K1+xxceTwVWA75CYc5gqJ44UQio/MFtyBm+/iVFjvzYo0Bp6BuRJxS4qgY6yU+ZGJa519kb8jYqDdD6doZI+dZ+U7pyLc5braw7QDJcD/aTiA5mQZcOMXFBqphPQ0O9kKriXfuDG90Lp53auhg6KtuJKb6xn5WyoQxdqLsxHA6s2IjWZKPpCu+5dVuGjAMuUo2d1Gvcnnv7I=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(39860400002)(346002)(396003)(136003)(956004)(83380400001)(2616005)(26005)(186003)(66574015)(2906002)(6486002)(36756003)(38100700002)(15650500001)(316002)(66476007)(478600001)(16576012)(6666004)(66556008)(4326008)(66946007)(31696002)(5660300002)(8676002)(8936002)(31686004)(86362001)(45980500001)(43740500002);
+ SFS:(4636009)(376002)(366004)(39860400002)(346002)(396003)(136003)(956004)(83380400001)(2616005)(26005)(3480700007)(186003)(2906002)(45080400002)(6486002)(36756003)(38100700002)(316002)(66476007)(478600001)(16576012)(966005)(6666004)(66556008)(66946007)(31696002)(5660300002)(8676002)(8936002)(31686004)(86362001)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TFJaOGVLeFNwU00wOUFsSzNXc0xHaWRHRHhCM09TTHdmbEF4ZVJPNmRlNEdT?=
- =?utf-8?B?Q0k4NVJKTzZhYTFFYWpkSkI3OEJmUXUxKzQweU9EL1VTNFVYdkRCY3lsUkVw?=
- =?utf-8?B?OUxtMzZKaWRBMkFxZzFoREhSL0s2Y09mTUliRXMyZ0FGRmo5ZVFrRkEyZmQy?=
- =?utf-8?B?VDcxSHFndE1GblFudGFHTkR5ZmIrc1g3OFdMQnYrbzZ5dDlNUHFBYndtOEpo?=
- =?utf-8?B?SDhSQ1J3aXgvVmUyMmxEaG1tVnFpZjU5ZVNkTlRNdUNROVNDWGZUVVd6eFlI?=
- =?utf-8?B?d3JxdXF2L2RBME1XSEg4NVR1U1B6dE1RL2RSd0NMVUZveWc0N3VXM21KTzEw?=
- =?utf-8?B?NTFVQS9CakR3S3pBWjZyOXJLT0NZdHRJd2lLQ09zVjEwa08rUlN4RGtobWxL?=
- =?utf-8?B?ejlHaDZwdUhMYVNwZWNQRC9kMHJ6YW9wMXF5TDBnSnMrendwM2t1UUQyZ1VT?=
- =?utf-8?B?UW5ndkp2TDVVRU9OVnNpVzF6ZzU4a25SWVNTeE8vdnFWWFordVdYblo0YzNp?=
- =?utf-8?B?TllwNjc0YVRGL05tM0pZeGthMVRPYmZGZTNTTVdZQjdVelJ3QlJpbHhGWGpX?=
- =?utf-8?B?V1JqbXptaEtsSGVEYzVvbmlOZFE1QWRPZDdjQXFxQjVnTFNUcEhadTFYdmpD?=
- =?utf-8?B?VXVJd3Q5VHlpaE8wNzBiS0NnWmpONnJOQVV1cHplSDE4bnUyS2lpS3doUnV1?=
- =?utf-8?B?ckZKcHV2QklRYm1JSjZEUFVvNXI3MWxtZVZJcnByUG45SGYyT0hFakc5dlpB?=
- =?utf-8?B?UVhUNC82TjlLUjFIYlNZT3BqMm1IMUxTcDF0VzZiOVp6OCtLWHdURnI1dFRh?=
- =?utf-8?B?bEY3Z05RN0RlMTN0cjBOMXkrV1FsVmFoaENFZEEyM2hQOXJNUUcxUGZySVVO?=
- =?utf-8?B?WEw4UFZNbms1ZWliTHhZVFMvVC9QeFpCWDFuRGN5REJjY3NyQld2Q0tkY3d4?=
- =?utf-8?B?NFM3S3BzTjQ5SHRXbGk0MHl6ay9mV09WekFMQzlTSmZOcmg3ajIwclNTd1p4?=
- =?utf-8?B?REs3T3djME5NTXR5NUxGTncvaThDazhDZWlMR2VJdkt1dkRUaGZSVFR4NnZR?=
- =?utf-8?B?ZHhvQ3pkUGNmdjFUTlpveDJZUEVTTERDTGF3ZTdJNklUcm5CbHZZLytib1Vz?=
- =?utf-8?B?SUdTYUhEdXJxZ3RyZnhyNWhDdGdhZi94aW00b2tNSHdyVXdmanY1OWhpSHJM?=
- =?utf-8?B?dzVCSHJpd0kwVFFZbXZydHNZRVdDSWhiRVF3OTBUa2JMT3BuYWlhLzcvSmpn?=
- =?utf-8?B?WEdmWXlaSVFwajEwaEh3R1c1ekNTVE9XTWRockFOdkk0dm44K3EwUkVDSGta?=
- =?utf-8?B?WXJNa1B0Qjc5VG0rb2R0VktaR2g5dWZncjlocnZvQWhZZVk3YmcxZHBXaERR?=
- =?utf-8?B?T3VKUi94R2U1LzFvSDdQdDVZdlk1QzFTY24rdXFOSjE0dGlXM1FiVzUxaVA1?=
- =?utf-8?B?ZDhMRGU1aG1JVk1EWnJ2UHp1ZElkUzVReXg2THhlTkFyUXg4clYvZ2IydHJW?=
- =?utf-8?B?QmExaHVCSG92VnVmNmUzNWdQaEpLVVJrZlJSNDVpYkxTZTN5MmJvaXdGckhs?=
- =?utf-8?B?NG5iVnVXMmpEZkUrUFpqRFh6ekpka1hvQkE1NEFUMHZ1OVgwSzZpV0JGNXZO?=
- =?utf-8?B?a2NWcUxyNVBrUnEvaHBubCtYbWJrSmZaUC93WHkxUm1BbDdyMkZsWmEwUVkz?=
- =?utf-8?B?U2NRY0xoVG1WbCtUallPaDB5Q002RGRaRUluWkVRQVdyOGtkZWlZQlRieUFz?=
- =?utf-8?Q?lIAkVIK+SaTC0S0zmIkn+TVEaEh+LTAeFaHPePz?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGtXdzdVOU5nUEJaR0RqbkJ6cElkSFV0NkdYczZhTmFaUlhlYmNlN2t6UUNS?=
+ =?utf-8?B?THVLdmtSd3JzUThrY1Q4QW9rajFKVVlsbjR2cEE5bnlPejdmbzZpZ3ZHTkMy?=
+ =?utf-8?B?UUtiWC9LL1RNWHJHaWExNDJHYkUwcmlJalVac3hjaG1aSWpDenRKYVdDZ01D?=
+ =?utf-8?B?cm96RmVXZk5iTXFXWFJIalV0WVBtQ2FaT3h6ZnA0N0lmRCtxRHZSeE5EUit3?=
+ =?utf-8?B?Z3cxL2R0NWFRc3ZjWWxQSmxKNjZoelBIUUc3ejdPZXlzazVKZmVJMUJKWVFu?=
+ =?utf-8?B?QURNaTVpcXBJaFJvUlkvbHY5ZE8rT1pZb3JrV3kwc2hWcU9kVjJQZEgrdFEx?=
+ =?utf-8?B?OXNIWEt5cDRUc1BjckJib2tMdHBYK2IrY001RVdITTJqbG0xNmd6Qnk3THkw?=
+ =?utf-8?B?S2Y1TnFxQ205QlpYNTBKY04xTjJiMU10MjkzWTVpUDZXaTB4UVlKVzE4K05z?=
+ =?utf-8?B?RUpVYXc3VUFxYXFLWis3ZmpCakJrb05jd2pLY0tnc2ZnNG5vbmhOOTF1d2dy?=
+ =?utf-8?B?QU5Fd2U5dnZuMWFnOGUxMEo5S3dYbnVLUW9BMllHZUtXWVJ0TzhlOEgva2FW?=
+ =?utf-8?B?bFUrNVBCMzZSYnZ4a2ZBbUtscGlRUmRhVnBic1lVRXRyVUFtSDFTTmlhRVBW?=
+ =?utf-8?B?R0ZtZU5xcHgvQW9La3RjVFU0UjI1cTYwaDVZNEJQb1gyZTJ5SkpROVFBWE55?=
+ =?utf-8?B?NW55U3JVRFBRalNrOFNUTzhKRVFQMnZpcWVHeDhLTXJReCtKbllCK0hkZk1p?=
+ =?utf-8?B?Ti9ZOTFSV0NLcWJDcGZXYXBsSlF2bTNPelFOT0tsUEpuMGR4YUhzMC9YMFp4?=
+ =?utf-8?B?TlllQlExM0VBK2lqRk9wRExWbm5hMzhjT1JtWDVjelB0TW1Qb2c3TzlrVlpm?=
+ =?utf-8?B?UHl3WTBqcnBpaG5MSnVJMTVUS3gvZ05HS3ZVUkRVOVZ4b2M5aUUrOTFDNEoz?=
+ =?utf-8?B?ZGdkS0dBTTVUQ1k1UWtSbVJBSHJrOWxtNldZSWRwNFIydjJGQ0hYZzVVdG9E?=
+ =?utf-8?B?em1yWE5Cd1FLQTJVdHBYYjdWUUZEV21GajVmRXJ6VlJERDhSU0RSTHlMQlAx?=
+ =?utf-8?B?UnFUWmlrRnBLZFI0Y29jTkNzcEkwZW9PcEphSDduK3pUUHFmeG9YSFdmeTVX?=
+ =?utf-8?B?RDZNYm4vV3FpWTlmcHV4OTBBMlpDY0RpVklkSlhud1VTbFNXWm1sZlhuYkt1?=
+ =?utf-8?B?QWFxM1pkbU1lUXFtS0pSb0hFR3ZzNFFoWnl6TjNET2VnbnNRRFhxVEZxWHVj?=
+ =?utf-8?B?Z21WK2dla3hvcGhMUzF1TGFlVjhGMkxRVFdVT20vbXEzeml4anlZemxDalE3?=
+ =?utf-8?B?SUFDbWxsNlhIR0JEMTloUjJsOTB1Q2EvQzMvUlorVVQxR3JJTnhwcXRZaGpM?=
+ =?utf-8?B?ZmxzdW83T3ZnMkd2NW1NNmYvekI1QnN4VWhPRVNUc2oxR3loUUU1bVIveGQz?=
+ =?utf-8?B?cTkrRmZ4YklhL05BWUtuaGJJRnVNbmJqVEd5RUhHakxUY2w0WldLaUQxMC9B?=
+ =?utf-8?B?Z0RaQ0dOR3lnK3pzdmtVcFoyVnhLOUpTL0RnK2VhaG85c2JrZjQ1MytTbHZi?=
+ =?utf-8?B?YlpLQUtDckMrN05YbTB5enRKdUFNcTMxRFZIbEk4QWhQbzl1RWIvVDB5N0Nm?=
+ =?utf-8?B?cnUwalgxelB2dklKQVFKclBnQ21MenNHNHdaMjNiQk9IdjJtZWYrbUtKQm1l?=
+ =?utf-8?B?NW0wemxaa3Z1Q1N5YVRVR0kzUDc2TFU5SWFuenprV2p5ZWVMeW9xSGxhNHFY?=
+ =?utf-8?Q?Yh7IgGx3a08S513S0S5D6rn+iIdZDtdnSFZXQAI?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07aef0ae-a421-4178-e1b8-08d96615b698
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac51c9e6-134e-4419-4ed7-08d96615eee4
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 09:09:29.5673 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 09:11:04.1779 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZvrHl1blBI0xcB54quz9ubDuHcP7kaK56qlGBqu2BEiqPK1iM4w+eHCx/MFs6est
+X-MS-Exchange-CrossTenant-UserPrincipalName: rZ46aJnWjqm9zp5asTXqmDk4loWK1FDQgZSQs3zxRIMiYbUIrdmk+4nrtI3C7Nfb
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4207
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -132,120 +130,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.08.21 um 16:43 schrieb Thomas Hellström:
-> The buffer object argument to ttm_move_memcpy was only used to
-> determine whether the destination memory should be cleared only
-> or whether we should copy data. Replace it with a "clear" bool, and
-> update the callers.
->
-> The intention here is to be able to use ttm_move_memcpy() async under
-> a dma-fence as a fallback if an accelerated blit fails in a security-
-> critical path where data might leak if the blit is not properly
-> performed. For that purpose the bo is an unsuitable argument since
-> its relevant members might already have changed at call time.
->
-> Finally, update the ttm_move_memcpy kerneldoc that seems to have
-> ended up with a stale version.
->
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Hi Thomas,
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+sorry for the delay. I was on vacation and still digging though everything.
 
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c |  2 +-
->   drivers/gpu/drm/ttm/ttm_bo_util.c       | 20 ++++++++++----------
->   include/drm/ttm/ttm_bo_driver.h         |  2 +-
->   3 files changed, 12 insertions(+), 12 deletions(-)
+Just added an rb to the second patch, but can't find the first one 
+anywhere in my mailbox. Going to double check that on patchwork instead.
+
+Did you had a chance taking a look at the patches about moving the LRU 
+into the resources?
+
+Thanks,
+Christian.
+
+Am 23.08.21 um 09:19 schrieb Thomas Hellström:
+> Hi, Chrstian
 >
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index d07de18529ab..6995c66cbe21 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -518,7 +518,7 @@ static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
->   						 obj->ttm.cached_io_st,
->   						 src_reg->region.start);
->   
-> -		ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-> +		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
->   	}
->   }
->   
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index 763fa6f4e07d..5c20d0541cc3 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -78,22 +78,21 @@ void ttm_mem_io_free(struct ttm_device *bdev,
->   
->   /**
->    * ttm_move_memcpy - Helper to perform a memcpy ttm move operation.
-> - * @bo: The struct ttm_buffer_object.
-> - * @new_mem: The struct ttm_resource we're moving to (copy destination).
-> - * @new_iter: A struct ttm_kmap_iter representing the destination resource.
-> + * @clear: Whether to clear rather than copy.
-> + * @num_pages: Number of pages of the operation.
-> + * @dst_iter: A struct ttm_kmap_iter representing the destination resource.
->    * @src_iter: A struct ttm_kmap_iter representing the source resource.
->    *
->    * This function is intended to be able to move out async under a
->    * dma-fence if desired.
->    */
-> -void ttm_move_memcpy(struct ttm_buffer_object *bo,
-> +void ttm_move_memcpy(bool clear,
->   		     u32 num_pages,
->   		     struct ttm_kmap_iter *dst_iter,
->   		     struct ttm_kmap_iter *src_iter)
->   {
->   	const struct ttm_kmap_iter_ops *dst_ops = dst_iter->ops;
->   	const struct ttm_kmap_iter_ops *src_ops = src_iter->ops;
-> -	struct ttm_tt *ttm = bo->ttm;
->   	struct dma_buf_map src_map, dst_map;
->   	pgoff_t i;
->   
-> @@ -102,10 +101,7 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
->   		return;
->   
->   	/* Don't move nonexistent data. Clear destination instead. */
-> -	if (src_ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm))) {
-> -		if (ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
-> -			return;
-> -
-> +	if (clear) {
->   		for (i = 0; i < num_pages; ++i) {
->   			dst_ops->map_local(dst_iter, &dst_map, i);
->   			if (dst_map.is_iomem)
-> @@ -149,6 +145,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
->   		struct ttm_kmap_iter_linear_io io;
->   	} _dst_iter, _src_iter;
->   	struct ttm_kmap_iter *dst_iter, *src_iter;
-> +	bool clear;
->   	int ret = 0;
->   
->   	if (ttm && ((ttm->page_flags & TTM_PAGE_FLAG_SWAPPED) ||
-> @@ -172,7 +169,10 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
->   		goto out_src_iter;
->   	}
->   
-> -	ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-> +	clear = src_iter->ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm));
-> +	if (!(clear && ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC)))
-> +		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
-> +
->   	src_copy = *src_mem;
->   	ttm_bo_move_sync_cleanup(bo, dst_mem);
->   
-> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-> index 68d6069572aa..5f087575194b 100644
-> --- a/include/drm/ttm/ttm_bo_driver.h
-> +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -322,7 +322,7 @@ int ttm_bo_tt_bind(struct ttm_buffer_object *bo, struct ttm_resource *mem);
->    */
->   void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
->   
-> -void ttm_move_memcpy(struct ttm_buffer_object *bo,
-> +void ttm_move_memcpy(bool clear,
->   		     u32 num_pages,
->   		     struct ttm_kmap_iter *dst_iter,
->   		     struct ttm_kmap_iter *src_iter);
+> I wonder whether you could Review / ack the second patch in this
+> series,
+>
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2F449868%2F%3Fseries%3D91893%26rev%3D3&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cf2189ead62d64738b76a08d966065980%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637653000178013534%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C2000&amp;sdata=l9SktN3yIsHv5FXcp20wuoAyuaBAAQpVa6pzEkWjh8Q%3D&amp;reserved=0
+>
+> And also ack merging that through drm-intel-gt-next,
+>
+> Thanks,
+> Thomas
+>
+>
 
