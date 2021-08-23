@@ -1,50 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8C23F49B5
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 13:26:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C683F3F49BC
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 13:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07D16898CA;
-	Mon, 23 Aug 2021 11:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 429C489CCE;
+	Mon, 23 Aug 2021 11:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCB0898CA
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 11:26:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B692D6120C;
- Mon, 23 Aug 2021 11:26:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629718001;
- bh=SNXPezX13mfcuVusqi9++jw0PbkmIdb33Xu6aIl7Cps=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k52MX7bckBei8Fe5kTMVB2Guq+tsMgybPciSKFS/WOBJSWPdQSQrHefK1uwzWYhl9
- 9MHzvxwm3QJ/h81UhyWihlSQxx0Opcwd54kc5LFohHqbwrfNAo7/Pjcv7rCwqFrczB
- BnfIDgjJItd6fL0AwMnRidpCgR8qrQy3pY/yUbFLr+Yom3DSo3ppOh8wBPBTVgdUlj
- 1R6D/QwQP9KdRt31sdoj/pzvA+HBsi+mn4gmQaXFoEP2jrVND/1YTgNtKzxq3FeWGj
- unVZIblEwxr2bsw8iPpEXlPk7PBQ34MZkkAX0ZIFpIIthS+1K6VUIDXnr6E4juUisX
- VcGfexLSrwDsg==
-Date: Mon, 23 Aug 2021 12:26:15 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Dillon Min <dillon.minfei@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org
-Subject: Re: [PATCH 2/2] dt-bindings: sound: rt1015p: correct indentation
-Message-ID: <20210823112615.GD4380@sirena.org.uk>
-References: <20210819101020.26368-1-krzysztof.kozlowski@canonical.com>
- <20210819101020.26368-2-krzysztof.kozlowski@canonical.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0022D89CB5;
+ Mon, 23 Aug 2021 11:29:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="204221312"
+X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="204221312"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2021 04:29:08 -0700
+X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="525910278"
+Received: from mhartley-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.253.18])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2021 04:29:06 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Subject: [RFC 0/8] Per client GPU stats
+Date: Mon, 23 Aug 2021 12:28:51 +0100
+Message-Id: <20210823112859.103561-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="d01dLTUuW90fS44H"
-Content-Disposition: inline
-In-Reply-To: <20210819101020.26368-2-krzysztof.kozlowski@canonical.com>
-X-Cookie: APL hackers do it in the quad.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,39 +47,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
---d01dLTUuW90fS44H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Same old work but now rebased and series ending with some DRM docs proposing
+the common specification which should enable nice common userspace tools to be
+written.
 
-On Thu, Aug 19, 2021 at 12:10:20PM +0200, Krzysztof Kozlowski wrote:
-> Use common enum instead of oneOf and correct indentation warning:
->   realtek,rt1015p.yaml:18:7: [warning] wrong indentation: expected 4 but found 6 (indentation)
+For the moment I only have intel_gpu_top converted to use this and that seems to
+work okay.
 
-For stuff like this where there's no relationship between the things
-being patched it's probably better to just send a bunch of individual
-patches rather than a series, it works better with tooling and makes it
-clear there's no interdependencies or anything.
+v2:
+ * Added prototype of possible amdgpu changes and spec updates to align with the
+   common spec.
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+v3:
+ * Documented that 'drm-driver' tag shall correspond with
+   struct drm_driver.name.
 
---d01dLTUuW90fS44H
-Content-Type: application/pgp-signature; name="signature.asc"
+Tvrtko Ursulin (8):
+  drm/i915: Explicitly track DRM clients
+  drm/i915: Make GEM contexts track DRM clients
+  drm/i915: Track runtime spent in closed and unreachable GEM contexts
+  drm/i915: Track all user contexts per client
+  drm/i915: Track context current active time
+  drm: Document fdinfo format specification
+  drm/i915: Expose client engine utilisation via fdinfo
+  drm/amdgpu: Convert to common fdinfo format
 
------BEGIN PGP SIGNATURE-----
+ Documentation/gpu/amdgpu.rst                  |  26 ++++
+ Documentation/gpu/drm-usage-stats.rst         | 108 +++++++++++++
+ Documentation/gpu/i915.rst                    |  27 ++++
+ Documentation/gpu/index.rst                   |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c    |  19 ++-
+ drivers/gpu/drm/i915/Makefile                 |   5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  42 ++++-
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   6 +
+ drivers/gpu/drm/i915/gt/intel_context.c       |  27 +++-
+ drivers/gpu/drm/i915/gt/intel_context.h       |  15 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  24 ++-
+ .../drm/i915/gt/intel_execlists_submission.c  |  23 ++-
+ .../gpu/drm/i915/gt/intel_gt_clock_utils.c    |   4 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  27 ++--
+ drivers/gpu/drm/i915/gt/intel_lrc.h           |  24 +++
+ drivers/gpu/drm/i915/gt/selftest_lrc.c        |  10 +-
+ drivers/gpu/drm/i915/i915_drm_client.c        | 143 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_drm_client.h        |  66 ++++++++
+ drivers/gpu/drm/i915/i915_drv.c               |   9 ++
+ drivers/gpu/drm/i915/i915_drv.h               |   5 +
+ drivers/gpu/drm/i915/i915_gem.c               |  21 ++-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   9 +-
+ drivers/gpu/drm/i915/i915_gpu_error.h         |   2 +-
+ 23 files changed, 582 insertions(+), 61 deletions(-)
+ create mode 100644 Documentation/gpu/drm-usage-stats.rst
+ create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
+ create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmEjhdYACgkQJNaLcl1U
-h9Ah2wf/WfM7XjJE/ztslTnuMDDI4tC7FvozpC17wxbK3oNxPlzluBz+r0Bu664m
-GEFc1PpVWxMEzRcVVa3axO+jTlNcRqWNpUHPxtINqUdZ1s1JSEsHdvyfdXKAytx3
-N9T7OWRHi4LQagC+FRKlVsDY3UkyzL83pCC3gdZXxs3icKhr/zpFePWa9r04yAVl
-l3qrndJpATla6IPu9OQuxyPpyyxkChYMkS0KDvAWNscIU1XCkDQgUXnBS0VRUOKP
-heIksdtyfDK/93XpGyWRB8PqSba6QMljBLbvRBpGV3v4gQbON/Lvyde4MCmXnoLA
-wXaLGSkpbItq31bZJcipEPb0dBZXNQ==
-=65Xc
------END PGP SIGNATURE-----
+-- 
+2.30.2
 
---d01dLTUuW90fS44H--
