@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCA73F46D7
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 10:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E7B3F46D0
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 10:47:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08D3889D4F;
-	Mon, 23 Aug 2021 08:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D425A89D02;
+	Mon, 23 Aug 2021 08:47:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC8189CF2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 08:47:42 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 890AC580C64;
- Mon, 23 Aug 2021 04:47:41 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E065E89CF6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 08:47:44 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5CB1E580C67;
+ Mon, 23 Aug 2021 04:47:44 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 23 Aug 2021 04:47:41 -0400
+ by compute3.internal (MEProxy); Mon, 23 Aug 2021 04:47:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=JCU2ehb6Gf4ei
- N1mk9E0FgXqA8oWv65LIeaicebSq3s=; b=ylacWhkaWfGzw653XRMPNB37h0yDh
- q2gK2qJfW8JRjHUunQNPyVrpBb3zamwlMUptSSK0CVSKu5YjYCfJYe4vEQM2j7e2
- nZ2N8rixb18KBpJ2Lo6OQC+13TY21yYSt7PoIbpT289rXJQPALFOZEmIBLI/pTsC
- etih1rt6PfhXCYa8b2+1dxC7rbHGmvGMNiwFdEsacAmqiBLkrS6xLis8W+ICrRuR
- nkiyRFjGPqG923JnQRBNEjIJuEgiwngQ+GH79rz+rUkD/1CY/V/2Gxa7Mibk1xK/
- 4ZoECgDxwLPW13+SSL0mfdFrbH3ISEMi6oWOncSB5kYwx45mkyE4WCGhg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=MCO6uj0/cISIN
+ Kyz7JVIjMPz/3XnbFvJs0ZE6EpqQk0=; b=qLq/L86sCsef405+r498FzfiyU9T7
+ FYNl2vhqVRNIE7zpfC1bn4pNVzRPZAUax9HavMkyv75mYUALb7qVBfufBnJsuRiP
+ qKWaT01wubS0DDsfLPckWBLFLL2rEFNLGjpInY78LW7ydd+OfaXF7xUFZ9qy/SDj
+ 4fwUtIFDqOirWGIcqLGu3b8iUiQITG+342zv6QfxcDHGtxzkEXegQpveI6PYGwFV
+ iUkdrSG76KNmrEd3sCHrXUim87ySv/o5z8Ftmnl2AEqaKMkIPAvx08Gx+DLy+rl/
+ bddNmRoHw9nhcvhAAVg1PitrZrsx+d2ZekxayDJkVey5eZiYp818OnGjA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=JCU2ehb6Gf4eiN1mk9E0FgXqA8oWv65LIeaicebSq3s=; b=E1O212cx
- YCSJAX6eWgXVlLwkL0lANnFILiKI5Dw02Et56BfxlcWoAViduytOev3TPg6TZAej
- 0bPg3s6i67zq/m0LP2DLMPMO+xjz1n5yfi7utcnl7AWnRjqzZwgLQIYi6WoWPemn
- yOp7oA/pxvrFz2u4l0AA9vMV1e2/7QIuSn4seBI8Cdt5NaxtJNpnyw9QaajdjLs8
- C53RRUoOkjXjTvEMESTCCUEq+aQhlB5V12m3cVRBtvX9JYZxkGNDJQxQwuOP4oa7
- ydMJGDRQlJmo4f0E9vDH/NQG1jHOu2ITi0MqynXQF8gTrc56ZM8C7T1DV7lNYVte
- mzU0+i/zBmjc0Q==
-X-ME-Sender: <xms:rWAjYfgVJttUKcWYIDMmukrREQ8HcFQZ3pcXLF7cTMEgf_hrsqYSjw>
- <xme:rWAjYcBGih8P_OEJNPVqxDKMfe7Kpw-bIWFXiRC04XJH9p19GNf336G3hWnZyJ35M
- 7p8x_PcBlTzjJz3F9U>
-X-ME-Received: <xmr:rWAjYfH30Fl7XwucOdiqJvfXHTBRDlYfWecST7Ju7ub2MKfL0FbkdlFvj8AMQ2R13TSGiWJGQWRDZJRL24_9qQ3L0RvJknf4aRmS>
+ fm3; bh=MCO6uj0/cISINKyz7JVIjMPz/3XnbFvJs0ZE6EpqQk0=; b=kHnY4+JO
+ 5+9XXosuqdoRAm2iOFrEozsZhAUCjpRwaKnYwNr3eHbRIYoblE8wL+W6jIdBzMnw
+ kac8S9lXRncAo5eeZXmeu/BvFsupjkea/3EK0d6UVctn3+5l0iJdBvjWP7GgvOIv
+ wfbQbmrkkIIqjbdqNSAHSQLrzv2D+ggr3ixpjrjt3kpeyZGh3w3BD6T1AL+XIqgK
+ APXEKOw7RTErSEAFrxthtgBM6HmSrXfofJ/TlEaDDTs30+Z2yaVP91k4F3LvY6yk
+ sXmuxeMV0HZTQnRoscLu+vrKUXGXaqV/sfKqOyj609HzIgIF4AP6d4XY8t4FOegF
+ Q0YcZE17QyKGlg==
+X-ME-Sender: <xms:r2AjYepBtjz9Qx7U9ByUgHPyg7STjxYIrqhJN7OsRnzhxUEhrGqHBQ>
+ <xme:r2AjYcpogJDWVf8SJFuZKKhYcIQE-B31IF3yokHkGXS_0rFs8ufOCCYlNfhbpAbXi
+ BSIIRfYQfhGSC1TZxA>
+X-ME-Received: <xmr:r2AjYTNyaqIk59a9210sHIfiC6jgKBKKLrQCa2p3qH1zPG6-hqcefo6VHWguN0a_0hPuFfl7usnpwTbBB1096MqQ8q1yRrplXuF5>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddthedgtdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:rWAjYcSDy9FD-hp0FOcPVBKQ8yk86qyu1ZA7OzHo536OvywkCosz9w>
- <xmx:rWAjYcz2_NjISNDK3AA4CXEb5vR7KnSzrliAlOxEI5wJ9CySQr34vA>
- <xmx:rWAjYS75ZpYYKpTkmlAOjv5P6PnQYRg6AoKwZ_GauCTcqEdcTyKtrw>
- <xmx:rWAjYYjEKYxszTZ54j6F60GrU8nsPG6wpjHYpnc4rHs7otrh8O4J2g>
+X-ME-Proxy: <xmx:r2AjYd7d048pm0Yh4Zpt1CVOwFhpOuI4m0gE1jvpzkUAa0AyzpPzsA>
+ <xmx:r2AjYd6vdt8MaERAwc2x_GQP-foAW82WVVCE1L-ePdUBjzvf8pXDWA>
+ <xmx:r2AjYdjxGO1hc5L4pXtVHTSRpg8odpKuUf9W5x7eFVmK6ZmyOcSBtg>
+ <xmx:sGAjYcJIk2eYJgZAoq8X3g4_TEx-HRJAHqeeqFRGX49mx0evTf1xMg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Aug 2021 04:47:41 -0400 (EDT)
+ 23 Aug 2021 04:47:42 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -68,9 +68,9 @@ To: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
  Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>
 Cc: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 4/8] drm/mipi-dsi: Create devm device attachment
-Date: Mon, 23 Aug 2021 10:47:19 +0200
-Message-Id: <20210823084723.1493908-5-maxime@cerno.tech>
+Subject: [PATCH v3 5/8] drm/bridge: ps8640: Switch to devm MIPI-DSI helpers
+Date: Mon, 23 Aug 2021 10:47:20 +0200
+Message-Id: <20210823084723.1493908-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210823084723.1493908-1-maxime@cerno.tech>
 References: <20210823084723.1493908-1-maxime@cerno.tech>
@@ -91,70 +91,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Let's switch to the new devm MIPI-DSI function to register and attach
+our secondary device. This also avoids leaking the device on removal.
+
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 35 ++++++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     |  1 +
- 2 files changed, 36 insertions(+)
+ drivers/gpu/drm/bridge/parade-ps8640.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index ddf67463eaa1..18cef04df2f2 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -391,6 +391,41 @@ int mipi_dsi_detach(struct mipi_dsi_device *dsi)
- }
- EXPORT_SYMBOL(mipi_dsi_detach);
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 7bd0affa057a..794c9516b05d 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -241,7 +241,7 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+ 	if (!host)
+ 		return -ENODEV;
  
-+static void devm_mipi_dsi_detach(void *arg)
-+{
-+	struct mipi_dsi_device *dsi = arg;
-+
-+	mipi_dsi_detach(dsi);
-+}
-+
-+/**
-+ * devm_mipi_dsi_attach - Attach a MIPI-DSI device to its DSI Host
-+ * @dev: device to tie the MIPI-DSI device attachment lifetime to
-+ * @dsi: DSI peripheral
-+ *
-+ * This is the managed version of mipi_dsi_attach() which automatically
-+ * calls mipi_dsi_detach() when @dev is unbound.
-+ *
-+ * Returns:
-+ * 0 on success, a negative error code on failure.
-+ */
-+int devm_mipi_dsi_attach(struct device *dev,
-+			 struct mipi_dsi_device *dsi)
-+{
-+	int ret;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret)
+-	dsi = mipi_dsi_device_register_full(host, &info);
++	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+ 	if (IS_ERR(dsi)) {
+ 		dev_err(dev, "failed to create dsi device\n");
+ 		ret = PTR_ERR(dsi);
+@@ -255,17 +255,13 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+ 			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->lanes = DP_NUM_LANES;
+-	ret = mipi_dsi_attach(dsi);
++	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret)
+-		goto err_dsi_attach;
 +		return ret;
-+
-+	ret = devm_add_action_or_reset(dev, devm_mipi_dsi_detach, dsi);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(devm_mipi_dsi_attach);
-+
- static ssize_t mipi_dsi_device_transfer(struct mipi_dsi_device *dsi,
- 					struct mipi_dsi_msg *msg)
- {
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index d0032e435e08..147e51b6d241 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -233,6 +233,7 @@ devm_mipi_dsi_device_register_full(struct device *dev, struct mipi_dsi_host *hos
- struct mipi_dsi_device *of_find_mipi_dsi_device_by_node(struct device_node *np);
- int mipi_dsi_attach(struct mipi_dsi_device *dsi);
- int mipi_dsi_detach(struct mipi_dsi_device *dsi);
-+int devm_mipi_dsi_attach(struct device *dev, struct mipi_dsi_device *dsi);
- int mipi_dsi_shutdown_peripheral(struct mipi_dsi_device *dsi);
- int mipi_dsi_turn_on_peripheral(struct mipi_dsi_device *dsi);
- int mipi_dsi_set_maximum_return_packet_size(struct mipi_dsi_device *dsi,
+ 
+ 	/* Attach the panel-bridge to the dsi bridge */
+ 	return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
+ 				 &ps_bridge->bridge, flags);
+-
+-err_dsi_attach:
+-	mipi_dsi_device_unregister(dsi);
+-	return ret;
+ }
+ 
+ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
 -- 
 2.31.1
 
