@@ -1,40 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BDF3F466B
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 10:10:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9E43F46CD
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 10:47:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3E1589C7F;
-	Mon, 23 Aug 2021 08:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7291489C25;
+	Mon, 23 Aug 2021 08:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C48089C7F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 08:10:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="204195253"
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="204195253"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2021 01:10:45 -0700
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="514706133"
-Received: from mkayyal-mobl.ger.corp.intel.com (HELO [10.249.254.235])
- ([10.249.254.235])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2021 01:10:44 -0700
-Message-ID: <9bfdf5b8b9bb8890e1d7e0801b742196ffd1273e.camel@linux.intel.com>
-Subject: Re: [PATCH 4/5] drm/ttm: move the LRU into resource handling
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- dri-devel@lists.freedesktop.org
-Date: Mon, 23 Aug 2021 10:10:42 +0200
-In-Reply-To: <20210719115145.1260-4-christian.koenig@amd.com>
-References: <20210719115145.1260-1-christian.koenig@amd.com>
- <20210719115145.1260-4-christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49B1A89C25
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 08:47:34 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9F0D6580C63;
+ Mon, 23 Aug 2021 04:47:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Mon, 23 Aug 2021 04:47:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm3; bh=YtP/mGd/n0beQ9BPe465qCbE6N
+ HfKkagZy8yb8Qg1jY=; b=H28FLAd08NKDFMH9Vaxs8fIkx+hgg4RBFcNoPjd96T
+ bHOK0a0iiq2cE7bS+bZixq4j2QcFfOjLbGt/60m3rfHgvWCFPPdN+rXOQeqznBXp
+ qC6EVu8IR67H2WqcCUX5uGqGuDe1x2G2iQa/h0zjyQuWghAhIeTA69mkhf+e69UB
+ omInCzkfcA7jaeqDaJLVCBWWjb7ODIDw49jJXdiLvOdrsLM8GV/5xidkOanIvSxP
+ 9mxMG89FUb0p64XCNmz54JgSddAg0pyM1a/uGn0S7kByaawqiIV8smUSi8kyCHAK
+ 1BCi4yURleH+JazV3J6BjpMOZXW/nhJ67ClESVx4EX/A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YtP/mG
+ d/n0beQ9BPe465qCbE6NHfKkagZy8yb8Qg1jY=; b=dDzJTX5qEaYX/2G8L1y+kN
+ nuG+LkilGQAp8IsExwFYWpvLnOwroLjrkKRUhh3WQL9vdEPm+Uda7GgJV/ZELuqU
+ bK13lfsWc9kT9OIDZ9D7lV52gXxy8sdHA4pOkEbneft9rh6tB8GG/kXYvF/eQ0Id
+ l9FnaD/WXbODNRjuYUAL3J+opyaKwcdS7/p4wxf2Sk574ZTlrwseoUYD46n9BJSf
+ P0TtjF5d3IUyo+OdAhvz+ce+zaw7FS0ogJ4ULAs42vqlwiihVcuTr91aBUbKmTp8
+ GonUln8tq5OHoelZMa/MzbZrxg9atunsFEJhlNLAEov8z2gl1XtXn9pYp1wIru8Q
+ ==
+X-ME-Sender: <xms:nmAjYYq1pHpsZLLl_amQPc0vjJ3ry0XUY4Dvv89XcL-qxx4K-yBEWA>
+ <xme:nmAjYepjaYLMU1zNCOGASn7aGy-rYui_PaDWmCgy9Q4uKOsqwRsr9w8szbsW6kI3N
+ 3sIXMdW2pRACHm9Frs>
+X-ME-Received: <xmr:nmAjYdMevDW6ia7hvtt4E_BjyAgKhDdlpNGOajk8jfpe1Gu_8LeWGkua_YujrmZQqyXv52VUtcp6QIfA29uW7laYFPObTyPjAcgA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddthedgtdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:nmAjYf4dMo4Ebi9DCHFRB6VF07HsHXpq0ZHGeY7H1GFqRLcdH12Thw>
+ <xmx:nmAjYX69tLiBa0doURMRF-14miTmET8NzvWrGWaT7qqB9VEQTVNCpQ>
+ <xmx:nmAjYfh-QnxsUsqtMKcoUwiCPso2TjHFvqkVnykdva65N5MAZF2Y3A>
+ <xmx:o2AjYeIybqG1DGmHJvpKPuJJySv5ikCZgM-U9bPzwYTV402h8JosEg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Aug 2021 04:47:26 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/8] drm/bridge: Make panel and bridge probe order
+ consistent
+Date: Mon, 23 Aug 2021 10:47:15 +0200
+Message-Id: <20210823084723.1493908-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,249 +91,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2021-07-19 at 13:51 +0200, Christian König wrote:
-> This way we finally fix the problem that new resource are
-> not immediately evict-able after allocation.
-> 
-> That has caused numerous problems including OOM on GDS handling
-> and not being able to use TTM as general resource manager.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c  |   8 +-
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c |   2 +-
->  drivers/gpu/drm/ttm/ttm_bo.c            | 101 ++-----------------
->  drivers/gpu/drm/ttm/ttm_bo_util.c       |   1 -
->  drivers/gpu/drm/ttm/ttm_device.c        |   4 +-
->  drivers/gpu/drm/ttm/ttm_resource.c      | 127
-> ++++++++++++++++++++++++
->  include/drm/ttm/ttm_bo_api.h            |  16 ---
->  include/drm/ttm/ttm_bo_driver.h         |  29 +-----
->  include/drm/ttm/ttm_resource.h          |  35 +++++++
->  9 files changed, 177 insertions(+), 146 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 18246b5b6ee3..4b178a74b4e0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -643,12 +643,12 @@ void amdgpu_vm_move_to_lru_tail(struct
-> amdgpu_device *adev,
->  
->         if (vm->bulk_moveable) {
->                 spin_lock(&adev->mman.bdev.lru_lock);
-> -               ttm_bo_bulk_move_lru_tail(&vm->lru_bulk_move);
-> +               ttm_lru_bulk_move_tail(&vm->lru_bulk_move);
->                 spin_unlock(&adev->mman.bdev.lru_lock);
->                 return;
->         }
->  
-> -       memset(&vm->lru_bulk_move, 0, sizeof(vm->lru_bulk_move));
-> +       ttm_lru_bulk_move_init(&vm->lru_bulk_move);
->  
->         spin_lock(&adev->mman.bdev.lru_lock);
->         list_for_each_entry(bo_base, &vm->idle, vm_status) {
-> @@ -658,11 +658,9 @@ void amdgpu_vm_move_to_lru_tail(struct
-> amdgpu_device *adev,
->                 if (!bo->parent)
->                         continue;
->  
-> -               ttm_bo_move_to_lru_tail(&bo->tbo, bo->tbo.resource,
-> -                                       &vm->lru_bulk_move);
-> +               ttm_bo_move_to_lru_tail(&bo->tbo, &vm-
-> >lru_bulk_move);
->                 if (shadow)
->                         ttm_bo_move_to_lru_tail(&shadow->tbo,
-> -                                               shadow->tbo.resource,
->                                                 &vm->lru_bulk_move);
->         }
->         spin_unlock(&adev->mman.bdev.lru_lock);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index bf33724bed5c..b38eef37f1c8 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -472,7 +472,7 @@ static void i915_ttm_adjust_lru(struct
-> drm_i915_gem_object *obj)
->                         bo->priority = I915_TTM_PRIO_NO_PAGES;
->         }
->  
-> -       ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
-> +       ttm_bo_move_to_lru_tail(bo, NULL);
->         spin_unlock(&bo->bdev->lru_lock);
->  }
->  
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 5a2dc712c632..09a62ad06b9d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -69,95 +69,15 @@ static void ttm_bo_mem_space_debug(struct
-> ttm_buffer_object *bo,
->         }
->  }
->  
-> -static void ttm_bo_del_from_lru(struct ttm_buffer_object *bo)
-> -{
-> -       struct ttm_device *bdev = bo->bdev;
-> -
-> -       list_del_init(&bo->lru);
-> -
-> -       if (bdev->funcs->del_from_lru_notify)
-> -               bdev->funcs->del_from_lru_notify(bo);
-> -}
-> -
-> -static void ttm_bo_bulk_move_set_pos(struct ttm_lru_bulk_move_pos
-> *pos,
-> -                                    struct ttm_buffer_object *bo)
-> -{
-> -       if (!pos->first)
-> -               pos->first = bo;
-> -       pos->last = bo;
-> -}
-> -
->  void ttm_bo_move_to_lru_tail(struct ttm_buffer_object *bo,
-> -                            struct ttm_resource *mem,
->                              struct ttm_lru_bulk_move *bulk)
->  {
-> -       struct ttm_device *bdev = bo->bdev;
-> -       struct ttm_resource_manager *man;
-> -
-> -       if (!bo->deleted)
-> -               dma_resv_assert_held(bo->base.resv);
-> -
-> -       if (bo->pin_count) {
-> -               ttm_bo_del_from_lru(bo);
-> -               return;
-> -       }
-> -
-> -       man = ttm_manager_type(bdev, mem->mem_type);
-> -       list_move_tail(&bo->lru, &man->lru[bo->priority]);
-> -
-> -       if (bdev->funcs->del_from_lru_notify)
-> -               bdev->funcs->del_from_lru_notify(bo);
-> -
-> -       if (bulk && !bo->pin_count) {
-> -               switch (bo->resource->mem_type) {
-> -               case TTM_PL_TT:
-> -                       ttm_bo_bulk_move_set_pos(&bulk->tt[bo-
-> >priority], bo);
-> -                       break;
-> +       dma_resv_assert_held(bo->base.resv);
->  
-> -               case TTM_PL_VRAM:
-> -                       ttm_bo_bulk_move_set_pos(&bulk->vram[bo-
-> >priority], bo);
-> -                       break;
-> -               }
-> -       }
-> +       ttm_resource_move_to_lru_tail(bo->resource, bulk);
->  }
->  EXPORT_SYMBOL(ttm_bo_move_to_lru_tail);
->  
-> -void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
-> -{
-> -       unsigned i;
-> -
-> -       for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-> -               struct ttm_lru_bulk_move_pos *pos = &bulk->tt[i];
-> -               struct ttm_resource_manager *man;
-> -
-> -               if (!pos->first)
-> -                       continue;
-> -
-> -               dma_resv_assert_held(pos->first->base.resv);
-> -               dma_resv_assert_held(pos->last->base.resv);
-> -
-> -               man = ttm_manager_type(pos->first->bdev, TTM_PL_TT);
-> -               list_bulk_move_tail(&man->lru[i], &pos->first->lru,
-> -                                   &pos->last->lru);
-> -       }
-> -
-> -       for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-> -               struct ttm_lru_bulk_move_pos *pos = &bulk->vram[i];
-> -               struct ttm_resource_manager *man;
-> -
-> -               if (!pos->first)
-> -                       continue;
-> -
-> -               dma_resv_assert_held(pos->first->base.resv);
-> -               dma_resv_assert_held(pos->last->base.resv);
-> -
-> -               man = ttm_manager_type(pos->first->bdev,
-> TTM_PL_VRAM);
-> -               list_bulk_move_tail(&man->lru[i], &pos->first->lru,
-> -                                   &pos->last->lru);
-> -       }
-> -}
-> -EXPORT_SYMBOL(ttm_bo_bulk_move_lru_tail);
-> -
->  static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
->                                   struct ttm_resource *mem, bool
-> evict,
->                                   struct ttm_operation_ctx *ctx,
-> @@ -339,7 +259,6 @@ static int ttm_bo_cleanup_refs(struct
-> ttm_buffer_object *bo,
->                 return ret;
->         }
->  
-> -       ttm_bo_del_from_lru(bo);
->         list_del_init(&bo->ddestroy);
->         spin_unlock(&bo->bdev->lru_lock);
->         ttm_bo_cleanup_memtype_use(bo);
-> @@ -440,7 +359,7 @@ static void ttm_bo_release(struct kref *kref)
->                  */
->                 if (bo->pin_count) {
->                         bo->pin_count = 0;
-> -                       ttm_bo_move_to_lru_tail(bo, bo->resource,
-> NULL);
-> +                       ttm_resource_move_to_lru_tail(bo->resource,
-> NULL);
->                 }
->  
->                 kref_init(&bo->kref);
-> @@ -453,7 +372,6 @@ static void ttm_bo_release(struct kref *kref)
->         }
->  
->         spin_lock(&bo->bdev->lru_lock);
-> -       ttm_bo_del_from_lru(bo);
->         list_del(&bo->ddestroy);
->         spin_unlock(&bo->bdev->lru_lock);
->  
-> @@ -667,15 +585,17 @@ int ttm_mem_evict_first(struct ttm_device
-> *bdev,
->                         struct ww_acquire_ctx *ticket)
->  {
->         struct ttm_buffer_object *bo = NULL, *busy_bo = NULL;
-> +       struct ttm_resource *res;
->         bool locked = false;
->         unsigned i;
->         int ret;
->  
->         spin_lock(&bdev->lru_lock);
->         for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
-> -               list_for_each_entry(bo, &man->lru[i], lru) {
-> +               list_for_each_entry(res, &man->lru[i], lru) {
->                         bool busy;
->  
-> +                       bo = res->bo;
-
-Follow up to previous review: What happens here if someone now
-reassigns @res->bo and then kills @bo. At least it's not immediately
-clear what's protecting from that. Isn't a kref_get_unless_zero() on
-the bo needed here, and res->bo being assigned (and properly cleared on
-bo destruction) under the lru_lock when needed?
-
-Admittedly as you pointed out earlier we can't kref_put() the bo under
-the lru lock but (if all else fails) one could perhaps defer the put to
-a worker, or move the bo to lru tail and drop the lru lock iff
-kref_put() may hit a zero refcount.
-
-/Thomas
-
-
-
-
-
-
-
+Hi,=0D
+=0D
+We've encountered an issue with the RaspberryPi DSI panel that prevented th=
+e=0D
+whole display driver from probing.=0D
+=0D
+The issue is described in detail in the commit 7213246a803f ("drm/vc4: dsi:=
+=0D
+Only register our component once a DSI device is attached"), but the basic =
+idea=0D
+is that since the panel is probed through i2c, there's no synchronization=0D
+between its probe and the registration of the MIPI-DSI host it's attached t=
+o.=0D
+=0D
+We initially moved the component framework registration to the MIPI-DSI Hos=
+t=0D
+attach hook to make sure we register our component only when we have a DSI=
+=0D
+device attached to our MIPI-DSI host, and then use lookup our DSI device in=
+ our=0D
+bind hook.=0D
+=0D
+However, all the DSI bridges controlled through i2c are only registering th=
+eir=0D
+associated DSI device in their bridge attach hook, meaning with our change=
+=0D
+above, we never got that far, and therefore ended up in the same situation =
+than=0D
+the one we were trying to fix for panels.=0D
+=0D
+The best practice to avoid those issues is to register its functions only a=
+fter=0D
+all its dependencies are live. We also shouldn't wait any longer than we sh=
+ould=0D
+to play nice with the other components that are waiting for us, so in our c=
+ase=0D
+that would mean moving the DSI device registration to the bridge probe.=0D
+=0D
+If the general approach is agreed upon, other bridge drivers will obviously=
+ be=0D
+converted.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+---=0D
+=0D
+Changes from v2:=0D
+  - Changed the approach as suggested by Andrzej, and aligned the bridge on=
+ the=0D
+    panel this time.=0D
+  - Fixed some typos=0D
+=0D
+Changes from v1:=0D
+  - Change the name of drm_of_get_next function to drm_of_get_bridge=0D
+  - Mention the revert of 87154ff86bf6 and squash the two patches that were=
+=0D
+    reverting that commit=0D
+  - Add some documentation=0D
+  - Make drm_panel_attach and _detach succeed when no callback is there=0D
+=0D
+Maxime Ripard (8):=0D
+  drm/bridge: Add documentation sections=0D
+  drm/bridge: Document the probe issue with MIPI-DSI bridges=0D
+  drm/mipi-dsi: Create devm device registration=0D
+  drm/mipi-dsi: Create devm device attachment=0D
+  drm/bridge: ps8640: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: ps8640: Register and attach our DSI device at probe=0D
+  drm/bridge: sn65dsi83: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: sn65dsi83: Register and attach our DSI device at probe=0D
+=0D
+ Documentation/gpu/drm-kms-helpers.rst  | 12 ++++=0D
+ drivers/gpu/drm/bridge/parade-ps8640.c | 97 ++++++++++++++------------=0D
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c  | 82 +++++++++++-----------=0D
+ drivers/gpu/drm/drm_bridge.c           | 70 +++++++++++++++++--=0D
+ drivers/gpu/drm/drm_mipi_dsi.c         | 81 +++++++++++++++++++++=0D
+ include/drm/drm_mipi_dsi.h             |  4 ++=0D
+ 6 files changed, 256 insertions(+), 90 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
