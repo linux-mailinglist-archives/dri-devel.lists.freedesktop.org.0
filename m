@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3AF3F49C0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 13:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831463F49CE
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 13:29:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9997B89D7B;
-	Mon, 23 Aug 2021 11:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB6B89DC1;
+	Mon, 23 Aug 2021 11:29:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF1B989D7B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D402589D83;
  Mon, 23 Aug 2021 11:29:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="197331606"
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="197331606"
+X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="197331608"
+X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="197331608"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Aug 2021 04:29:25 -0700
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="525910299"
+X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="525910306"
 Received: from mhartley-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
  ([10.213.253.18])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2021 04:29:09 -0700
+ 23 Aug 2021 04:29:14 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Subject: [RFC 2/8] drm/i915: Make GEM contexts track DRM clients
-Date: Mon, 23 Aug 2021 12:28:53 +0100
-Message-Id: <20210823112859.103561-3-tvrtko.ursulin@linux.intel.com>
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Subject: [RFC 3/8] drm/i915: Track runtime spent in closed and unreachable GEM
+ contexts
+Date: Mon, 23 Aug 2021 12:28:54 +0100
+Message-Id: <20210823112859.103561-4-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210823112859.103561-1-tvrtko.ursulin@linux.intel.com>
 References: <20210823112859.103561-1-tvrtko.ursulin@linux.intel.com>
@@ -52,61 +53,98 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Make GEM contexts keep a reference to i915_drm_client for the whole of
-of their lifetime which will come handy in following patches.
+As contexts are abandoned we want to remember how much GPU time they used
+(per class) so later we can used it for smarter purposes.
 
-v2: Don't bother supporting selftests contexts from debugfs. (Chris)
-v3 (Lucas): Finish constructing ctx before adding it to the list
-v4 (Ram): Rebase.
-v5: Trivial rebase for proto ctx changes.
-v6: Rebase after clients no longer track name and pid.
+As GEM contexts are closed we want to have the DRM client remember how
+much GPU time they used (per class) so later we can used it for smarter
+purposes.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk> # v5
-Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com> # v5
+Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
 Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c       | 5 +++++
- drivers/gpu/drm/i915/gem/i915_gem_context_types.h | 3 +++
- 2 files changed, 8 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 25 +++++++++++++++++++--
+ drivers/gpu/drm/i915/i915_drm_client.h      |  7 ++++++
+ 2 files changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index fd169cf2f75a..667b5f3e9616 100644
+index 667b5f3e9616..8f1c2cd8c089 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -993,6 +993,9 @@ void i915_gem_context_release(struct kref *ref)
- 	trace_i915_context_free(ctx);
- 	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
+@@ -846,23 +846,44 @@ static void free_engines_rcu(struct rcu_head *rcu)
+ 	free_engines(engines);
+ }
  
-+	if (ctx->client)
-+		i915_drm_client_put(ctx->client);
++static void accumulate_runtime(struct i915_drm_client *client,
++			       struct i915_gem_engines *engines)
++{
++	struct i915_gem_engines_iter it;
++	struct intel_context *ce;
 +
- 	mutex_destroy(&ctx->engines_mutex);
- 	mutex_destroy(&ctx->lut_mutex);
- 
-@@ -1398,6 +1401,8 @@ static void gem_context_register(struct i915_gem_context *ctx,
- 	ctx->file_priv = fpriv;
- 
- 	ctx->pid = get_task_pid(current, PIDTYPE_PID);
-+	ctx->client = i915_drm_client_get(fpriv->client);
++	if (!client)
++		return;
 +
- 	snprintf(ctx->name, sizeof(ctx->name), "%s[%d]",
- 		 current->comm, pid_nr(ctx->pid));
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-index 94c03a97cb77..e1bca913818e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-@@ -277,6 +277,9 @@ struct i915_gem_context {
- 	/** @link: place with &drm_i915_private.context_list */
- 	struct list_head link;
- 
-+	/** @client: struct i915_drm_client */
-+	struct i915_drm_client *client;
++	/* Transfer accumulated runtime to the parent GEM context. */
++	for_each_gem_engine(ce, engines, it) {
++		unsigned int class = ce->engine->uabi_class;
 +
- 	/**
- 	 * @ref: reference count
- 	 *
++		GEM_BUG_ON(class >= ARRAY_SIZE(client->past_runtime));
++		atomic64_add(intel_context_get_total_runtime_ns(ce),
++			     &client->past_runtime[class]);
++	}
++}
++
+ static int __i915_sw_fence_call
+ engines_notify(struct i915_sw_fence *fence, enum i915_sw_fence_notify state)
+ {
+ 	struct i915_gem_engines *engines =
+ 		container_of(fence, typeof(*engines), fence);
++	struct i915_gem_context *ctx = engines->ctx;
+ 
+ 	switch (state) {
+ 	case FENCE_COMPLETE:
+ 		if (!list_empty(&engines->link)) {
+-			struct i915_gem_context *ctx = engines->ctx;
+ 			unsigned long flags;
+ 
+ 			spin_lock_irqsave(&ctx->stale.lock, flags);
+ 			list_del(&engines->link);
+ 			spin_unlock_irqrestore(&ctx->stale.lock, flags);
+ 		}
+-		i915_gem_context_put(engines->ctx);
++		accumulate_runtime(ctx->client, engines);
++		i915_gem_context_put(ctx);
++
+ 		break;
+ 
+ 	case FENCE_FREE:
+diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+index e8986ad51176..9d80d9f715ee 100644
+--- a/drivers/gpu/drm/i915/i915_drm_client.h
++++ b/drivers/gpu/drm/i915/i915_drm_client.h
+@@ -9,6 +9,8 @@
+ #include <linux/kref.h>
+ #include <linux/xarray.h>
+ 
++#include "gt/intel_engine_types.h"
++
+ struct drm_i915_private;
+ 
+ struct i915_drm_clients {
+@@ -24,6 +26,11 @@ struct i915_drm_client {
+ 	unsigned int id;
+ 
+ 	struct i915_drm_clients *clients;
++
++	/**
++	 * @past_runtime: Accumulation of pphwsp runtimes from closed contexts.
++	 */
++	atomic64_t past_runtime[MAX_ENGINE_CLASS + 1];
+ };
+ 
+ void i915_drm_clients_init(struct i915_drm_clients *clients,
 -- 
 2.30.2
 
