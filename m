@@ -2,59 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982D93F4C73
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 16:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E970B3F4CB6
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 16:54:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838D589E5B;
-	Mon, 23 Aug 2021 14:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B13E89F9F;
+	Mon, 23 Aug 2021 14:54:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8802289E5B;
- Mon, 23 Aug 2021 14:35:04 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- g66-20020a9d12c8000000b0051aeba607f1so28364950otg.11; 
- Mon, 23 Aug 2021 07:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XgOXv9hBmtE5f7y6QsBO8K1XJAJ8y+cvtkl7Fv+4L6Q=;
- b=eoAs6ywolFNJ1+ayQ9E5Zf8t9YpcloyJtBG7I3KV556wk1qKb5NqzH1GyQMo+mlV3g
- 4kSwBvR87oZbF/Lusto9T+PNUgLqTAzr0Po4C70VWruNfembRzBuSH0rBjCXgxzZ0Vfo
- Tb6FMe9U5hRELjGmC2bUajciCyZF13rLbV6r0IjIs6Dnh0cvBNW0qVT+xunyf/+nU9D6
- hF2wI6HJmJQf83TGGyLx82XQr0bHqjlGxTQEtKN4r0G+6fYPc8J7H3GV9ICgkIsID7xB
- 2f0RXGzM4egqJzLPPLsKNDFqnrtTRfRkm1tpK1wNNNSYr+RJnttOErhzJsco9ayXKILp
- BUvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XgOXv9hBmtE5f7y6QsBO8K1XJAJ8y+cvtkl7Fv+4L6Q=;
- b=Avxlxr5A2JNEaX2pegV4mRv1jio6S9y/zHBNllI7k5CVwz9KZSMTgiYggr9DcH4PAT
- D0gYwUpPcfXEwaCk5edIpFty9XVdqCmE+fFf+Ff1nsO1QsCj7NbvT6mum9mrHfSIwwYz
- X5WTaJhe++RymTEK7mRhGI6+SY9A3+XbiNpMQg8wsR3FzHi1Z0O+xa+KSGGW73Jm6fw8
- eEZx8RROB1RRfJucfVWAJb4Ey0OnwP9zSMq7Ll+YrCRwcYBJikPBUHDGsx+QZmzm5mIw
- g5yjy3837lX0eYXsP4EjgiiN1jKjJAI4yDplcealFTUCgh9q4Dtfzji5tko/w5972LIl
- 8RuQ==
-X-Gm-Message-State: AOAM530N819XlHe4GUZCgt67R0AyJ1CUypFzWBKQoe7j1Gb/ZVg0YB3h
- 6H4dPGLm1J6Rah+0Jf7nBkJoJpf6zPEEfiDvF6o=
-X-Google-Smtp-Source: ABdhPJxsIAjPqPk9Sp6v4AwVB8tD+eTvHkyD8t4hVwHOVcuZooIZjbwrqRsGKT1xWeEpsHiTWT9aIRcFNFPY9CWFt7I=
-X-Received: by 2002:a05:6830:4:: with SMTP id c4mr27849060otp.23.1629729303838; 
- Mon, 23 Aug 2021 07:35:03 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47AAB89F9F
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 14:54:11 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E68938F;
+ Mon, 23 Aug 2021 16:54:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1629730449;
+ bh=NdVNzZz2+MtRmpGXjjC7lYtKYGpXXYjv5gHsl/8dvvY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EKRkYTcJR+6h4clEdABrc96JpoJBoUryd942WBp2J9NTFDIVtoQmokOebwKZQsBbs
+ xFuAocU410Au/r6Is38tp7mv6lv4POCiuDPgjMy44W+AKe0/32LA59KGYRnQBWcr10
+ z1F4JDx70YydwB+jWJPfUmxUYu8nEB9eA2iOi9ro=
+Date: Mon, 23 Aug 2021 17:53:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] drm: rcar-du: Don't create encoder for unconnected LVDS
+ outputs
+Message-ID: <YSO2h40mJN17FGvd@pendragon.ideasonboard.com>
+References: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdWSqSb37srBG0XB-vX5ERmjDBia07k_-s2Zg=bUsQCSyA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210821082141.8608-1-liviu.cheru@gmail.com>
-In-Reply-To: <20210821082141.8608-1-liviu.cheru@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 23 Aug 2021 10:34:52 -0400
-Message-ID: <CADnq5_PSKvmgfsO3DrNsyWqhgVnU312ijZ_BA92K3MDQU23JMA@mail.gmail.com>
-Subject: Re: [PATCH] gpu: drm: amd: amdgpu: Fixed a few warnings
-To: Liviu Cheru <liviucheru@gmail.com>
-Cc: Dave Airlie <airlied@linux.ie>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, liviu.cheru@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWSqSb37srBG0XB-vX5ERmjDBia07k_-s2Zg=bUsQCSyA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,71 +54,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 21, 2021 at 4:46 AM Liviu Cheru <liviucheru@gmail.com> wrote:
->
-> Fixed warnings regarding SPDX license, using "unsigned" instead
-> of "unsigned int", wrong function parameter name for the
-> documentation and a space between the function name and "(".
->
+Hi Geert,
 
-In general, please split these up by the type of change.
+On Mon, Aug 23, 2021 at 02:25:32PM +0200, Geert Uytterhoeven wrote:
+> On Sun, Aug 22, 2021 at 2:36 AM Laurent Pinchart wrote:
+> > On R-Car D3 and E3, the LVDS encoders provide the pixel clock to the DU,
+> > even when LVDS outputs are not used. For this reason, the rcar-lvds
+> > driver probes successfully on those platforms even if no further bridge
+> > or panel is connected to the LVDS output, in order to provide the
+> > rcar_lvds_clk_enable() and rcar_lvds_clk_disable() functions to the DU
+> > driver.
+> >
+> > If an LVDS output isn't connected, trying to create a DRM connector for
+> > the output will fail. Fix this by skipping connector creation in that
+> > case, and also skip creation of the DRM encoder as there's no point in
+> > an encoder without a connector.
+> >
+> > Fixes: e9e056949c92 ("drm: rcar-du: lvds: Convert to DRM panel bridge helper")
+> > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> 
+> Can you please change that to
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ?
 
-> Signed-off-by: Liviu Cheru <liviu.cheru@gmail.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 795fa7445abe..af1abb281c6d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -1,3 +1,4 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
+Sure thing.
 
-The license is MIT not GPL.  See the actual license on the file.
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> Thanks, the scary warning on Ebisu-4D is gone, so
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Disclaimer: there are no displays connected to my Ebisu-4D.
 
->  /*
->   * Copyright 2009 Jerome Glisse.
->   * All Rights Reserved.
-> @@ -129,7 +130,7 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
->         u32 c = 0;
->
->         if (domain & AMDGPU_GEM_DOMAIN_VRAM) {
-> -               unsigned visible_pfn = adev->gmc.visible_vram_size >> PAGE_SHIFT;
-> +               unsigned int visible_pfn = adev->gmc.visible_vram_size >> PAGE_SHIFT;
->
->                 places[c].fpfn = 0;
->                 places[c].lpfn = 0;
-> @@ -731,7 +732,7 @@ int amdgpu_bo_validate(struct amdgpu_bo *bo)
->  /**
->   * amdgpu_bo_add_to_shadow_list - add a BO to the shadow list
->   *
-> - * @bo: BO that will be inserted into the shadow list
-> + * @vmbo: BO that will be inserted into the shadow list
->   *
->   * Insert a BO to the shadow list.
->   */
+That's the best way to ensure the absence of display issues. It works
+great for camera testing too, if you also remove networking and storage
+:-)
 
-This code has already been fixed.
+-- 
+Regards,
 
-> @@ -957,7 +958,7 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
->                 bo->flags |= AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
->         amdgpu_bo_placement_from_domain(bo, domain);
->         for (i = 0; i < bo->placement.num_placement; i++) {
-> -               unsigned fpfn, lpfn;
-> +               unsigned int fpfn, lpfn;
->
->                 fpfn = min_offset >> PAGE_SHIFT;
->                 lpfn = max_offset >> PAGE_SHIFT;
-> @@ -1175,7 +1176,7 @@ void amdgpu_bo_get_tiling_flags(struct amdgpu_bo *bo, u64 *tiling_flags)
->   * Returns:
->   * 0 for success or a negative error code on failure.
->   */
-> -int amdgpu_bo_set_metadata (struct amdgpu_bo *bo, void *metadata,
-> +int amdgpu_bo_set_metadata(struct amdgpu_bo *bo, void *metadata,
->                             uint32_t metadata_size, uint64_t flags)
->  {
->         struct amdgpu_bo_user *ubo;
-> --
-> 2.30.2
->
+Laurent Pinchart
