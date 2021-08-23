@@ -2,135 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20BF63F48D3
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 12:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4D73F48DB
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 12:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A04F89BA5;
-	Mon, 23 Aug 2021 10:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1B1989830;
+	Mon, 23 Aug 2021 10:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2059.outbound.protection.outlook.com [40.107.92.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC6589BA5
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 10:43:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cqgFNr/bZX4SiKes6zbGB7/THYKNmNkCNaAMM+r6saZA5QpcXMayvfN910mXldoAx8uNWZBiMuQWDoP9TQHgZm/Ea4Xj5JuMnr2KpxXmjbJQVjhrpuhOFIvxpGTDjmDmNzyEbVvZNjTMsABiDYtsNtNs1A3AxfPUVSJoYN4jLdVoNtSYrfERkmTbXEjbss7NBri0P0pjfN2xYChzlGo/S5RnJi9TQ65Fe3ESr+Ztt0HXhi4BzpbR/tAsBx+5zyPpr49uBbSvHR6jcq6xN38Z8QEmRsm7wD+2eeUdnhO6XXZr8WeqKf4eo1YpoRPv2pVfb1whkhyJRfR9i1UYbQxZZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l9S4l15mVr5rUvsKt+b+6yxc9h8iYJDpmesZTkVI7B8=;
- b=M+newe5oKanAWVhcpD22DHhPsxippLqzGn/hHibPfO0lf4nKxbZGf8xXnG+ovx+b1aXymkNp3ZPJaIOayHrnWYndWaN/WlUwfLfMrQYDupoA0r/CSdVada3QfthphGLsr+Z6d5SPyN6vkPryhcfau/Ue+YSXhO4yjfJS6YKyvBMARaU3eysYFlthNbePGYb8HImocl67pO2zDrBGbQMzHGw0aH7Qc1y/+zma2DPLVGgEwkewj97xJPJBbjCVC9xCDNbBYfr9q5gq0oVqtXWa7TSxaqNmdyy+rV8fsWAmu7w7wdlUWVoNQ4cDsJJFTO/ZpfleUp0F3fTWxz6KQbu22w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l9S4l15mVr5rUvsKt+b+6yxc9h8iYJDpmesZTkVI7B8=;
- b=FzA0J5IOo5DXnTaw4EPhPacIb2NOcd1Fr1m/iXI6t92L4hKoCSPCFilVhsBh2Y0x88gkap0JmcSUJny6witfmmOHMmv1fhfm/HsITyWGBUYch0RjcPKcmHy/6WaWxASnpWfwvMkY3miiAnnpqWEavindFro8DuGdCrbaJxs1r1c=
-Authentication-Results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4239.namprd12.prod.outlook.com (2603:10b6:208:1d2::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Mon, 23 Aug
- 2021 10:43:17 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4436.024; Mon, 23 Aug 2021
- 10:43:16 +0000
-Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
-To: Gal Pressman <galpress@amazon.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Doug Ledford <dledford@redhat.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, Oded Gabbay <ogabbay@habana.ai>,
- Tomer Tayar <ttayar@habana.ai>, Yossi Leybovich <sleybo@amazon.com>,
- Alexander Matushevsky <matua@amazon.com>, Leon Romanovsky
- <leonro@nvidia.com>, Jianxin Xiong <jianxin.xiong@intel.com>,
- John Hubbard <jhubbard@nvidia.com>
-References: <20210818074352.29950-1-galpress@amazon.com>
- <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
- <20210819230602.GU543798@ziepe.ca>
- <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
- <20210820123316.GV543798@ziepe.ca>
- <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
- <20210820143248.GX543798@ziepe.ca>
- <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <fa124990-ee0c-7401-019e-08109e338042@amd.com>
-Date: Mon, 23 Aug 2021 12:43:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR04CA0017.eurprd04.prod.outlook.com
- (2603:10a6:208:122::30) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1732B89830
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 10:46:57 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id w4so29173807ljh.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 03:46:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UmkfXGaYCdqSsvCrogHGEUgWw+TJ4SlfmjU5MN/PEBE=;
+ b=cjqU7CIQQYnl3N9VSH9OdTpbfhx84HH/grPgOc+tCGAo2Yn2hAV0cMn3z8HTaVOuhA
+ 8Brg4z73NnaY2Z/CE8IaG11T82l0gL1ZP2mAHcCMwXtNviOz1cwQ7atSvkRP33js82FC
+ tL3OJS+qxvVYzF3TYhi7jJG99T8jOBJM8RSwrLmSS6vtDNlXueNOFv50Q4BmfSf/V2kW
+ jpK8t4qSsEu0v76ajcR4UzKY9YBd/hRYx4cCU6l6AsBCSBWNe3JTai52Wv7UVRmBdbxJ
+ Pg+Ik2kyI7qbtIeypuO3uLwLKp7JZuw0yQNYCSOl6O3FaQojbcATlzG1xxwJABfP9fIQ
+ rH8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UmkfXGaYCdqSsvCrogHGEUgWw+TJ4SlfmjU5MN/PEBE=;
+ b=QL2r58Xnv8H5kvzfZ+H7zyAsH/zU0xzsThVMFmTYftZucMfl2pHVVc4EYye+Sg4fTc
+ 5Lr1Qw6DW9Eb30STmrY37TfreNn4+Pj8qojiK0g2xiMqDK0+pSOYjfOWusy1vX6FCxJU
+ VdaAD5wV/0P8U5Nb161+koiMZnOsWS1otzVNFbNiBKl0+lXr1q2M04usO6CLks1xAPk0
+ 8ITLP/C6FyelHA513Zx/NgK48LMDWkGry5qH2/KMF4f2v+8P3suD+LF/+SeKqKK6Xj5l
+ YolTjBbqgzPjJWFBZihETgsL2sNTG8WCUS7C1ipxZDzrahq1lWG47cqHx5pkmuAiHofT
+ bVPA==
+X-Gm-Message-State: AOAM531csaqwsT1W/sf/0NGF1gZe69S8RyxXtyeP2VuRjU16vGyC1ZN9
+ A+BBMKyDpH97uWqr01j3/1WQRAEc79WULzLnXfip+A==
+X-Google-Smtp-Source: ABdhPJwROTbhLIghdJiFv3Mpx4km5TKucbukHEV5v0NDix1jHpH6ITt9xOVwuMgiEW0EE35GC/hK1ms310RYHiQipIA=
+X-Received: by 2002:a2e:a410:: with SMTP id p16mr25247179ljn.364.1629715615237; 
+ Mon, 23 Aug 2021 03:46:55 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.178.21] (91.14.161.181) by
- AM0PR04CA0017.eurprd04.prod.outlook.com (2603:10a6:208:122::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
- Transport; Mon, 23 Aug 2021 10:43:14 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ffbc018c-619b-4572-2441-08d96622d0b3
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4239:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4239D4E00E5BF89B42E176CB83C49@MN2PR12MB4239.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YVC+pNkg7VJxv6v4k01z12k9Naq8qgBfG64JEVQFtko4+rdt8eLZ4RHShtmE5bggSNjp2E2dblBvqj3cinrhgAp4tprdwYoUzLgK8ASVHsvJHwmzgJ/rqh+2i/tdt9KhkVEuE59/djcIvcZof6gaoRU8Tqg6gkIgCRbT2gP5PT4pCr9J2yjuEVUTGxXWiRNsiNGpecxludEYbYKAyYXFOi6qelhoDyT3rDj05LyQDpI2GsJj21vVVBosKm88KEixmMhSExz2jEgFx7BQD6IDtaOCppPcTN6f1vzuSS+MBjWNKGvUP9BAe9aT5MJUZTRgK5iROQCLOcVFybTrxhW+Q8ncfYGgGTPvpYr7WFa2Ozv28b+HyMoCuYIMugx9x+jDLdvsVHLmlDpx53ZSXgVWiaK2wqAXm4aEQxlE3e1qyqqkkbWRerJchRTvvF/2owpZ37c7DPWX6xy3wNm+tm/Y5bYMN2iFtS3i9sahGtzU4f65sv3drObi+TCk8cx5ni0dWwA07WHBiIRKI8jwYEp3g1fglK47GWdl1fpQvENSa5BQsExppX6XF5+eCgXJqUkv3BIvGG0xy1Skv94/0/k//qi2AnpOW48EwIRYKP1cIrtYYBrtqrYPg83QB72syjX3uzIuVSIn/HYbMJCzw54Hq/UTvvwkHd0MD7+CKn8ZBitvaM60twjJIm3hRRrvHZSVFebL75E0Dz9BrpVYva++xPdHp668lgV35uYcIrxili4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(366004)(396003)(136003)(346002)(8936002)(478600001)(36756003)(26005)(53546011)(6486002)(110136005)(86362001)(186003)(83380400001)(6666004)(316002)(956004)(16576012)(31686004)(2616005)(2906002)(38100700002)(8676002)(4326008)(66476007)(66946007)(66556008)(7416002)(5660300002)(54906003)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVczUEd3ejZ3a3o3Y1hsNzVxeHBQSk9idzNkcm5FMkd1VHZ6ZkhvMjZ2dllI?=
- =?utf-8?B?VElHUG1Kb1Nxd2ZjQ1FUNjVOQzlpbklDRHlRWXdPSWtHb0dxbjBhZ0U0eldR?=
- =?utf-8?B?NXpuZjI3T2o4WnNSbVFIdXd0VEtrcHpCeTk0NWJnR0gzTWJMaTU2UzVmVTN1?=
- =?utf-8?B?d203WjVZbHdLSDRUUndqUjdqWWlBOW9MaVM4eTJpN3AxR1RxV2xDQWJpanVq?=
- =?utf-8?B?S01NRUhXU0RpVzNuK05DeVI5b2FKQUVXMHhHNFY4WG5ZdFRWNW9zNCt6MVVK?=
- =?utf-8?B?ajNpOEdWK1M0NXFvRkg3elFTbXp1WUR3dFZhRkNoQ3FWRmoxcGMwaERydW5M?=
- =?utf-8?B?YW4rZk5ONnYrbFpSUDFyMjJpOGtXOEYzeDMvWWpHTDgyTThaLzFQTm8rVU5X?=
- =?utf-8?B?cGNDMENrNDdJV2NabzJOOFE3RnZORThWaVUzMEZzYTErSEdZbndDdzFPblVZ?=
- =?utf-8?B?NDNOTnRTT3ZPOGtZNFVHNmhoY1J1NTFQV0doTXBxSG1OSWhHQ1ltRHVBazdl?=
- =?utf-8?B?NWY2RnF0WUJJTnp5TzN6Z3U1MENscWtwTzM2cXd5OHlyRDcrN01UUlNOdmVN?=
- =?utf-8?B?MS9TVjdZcy94TXVpWjhhNVEwZW9GdDVta2hWRzBNcUx4eEs0bEcrWm91eXJ1?=
- =?utf-8?B?UE40dW1ob3dIMEp6MUN4RkpKQ2JkUmUxelo5dWFDd29acGhETUFvYXRINWZZ?=
- =?utf-8?B?bkxYdE1EWUk2TVZQQSsreTdHRnBYVnFQVlUrUVBob2dlM2JEcFU3cVlHTDVt?=
- =?utf-8?B?cnZtSzEwTlZGMkxGblFYME84Nm50NHRWNGtDd0M3Y0JpUnRqVUZiQkVzVEdP?=
- =?utf-8?B?VnJZczFBME91ZXh3S2dsVnZNVSt4RjBOb0NTWjd2MkVCWGR2T0ZRTXlpUXdx?=
- =?utf-8?B?c201MmNyQ1U0MFNlTmV1Q2szZEVvN2JiMDVPbDBnWlhqcHhqalZ3WFRzWElk?=
- =?utf-8?B?RFAzT3NPQ291Z0RuVndCM1ZDZEwyU3BtL28vWUtrUGRQYzNzd2ZMNFh5Qmxr?=
- =?utf-8?B?VnBpaFhFYUVaWTcrenh3UWliTTZ3S1Q1VXBQcS9JRGZHNGpIdmFnZFlRRU1x?=
- =?utf-8?B?M1JFeS93ZzdscFVCN280RTk1SWhSTVRPKzY3NWFOaGR5b2hBK0NlSTJaZlBh?=
- =?utf-8?B?Z09rbU1iQ1JkeVRFd3VLeHRzY282SmpwSGUzb3c5eXRlcmczYnUxWGV4MDBq?=
- =?utf-8?B?UEwyUWMyNzkzMFl0MlBSUmx3SVl2ZkJ0ZDZpVm1Id0VHaklrNFJ5ZnhLcDIv?=
- =?utf-8?B?MVlwREJtU05uMEI4em91VFBRalVpQnJOZHIvcGRVV0lQSU83SWNXUnZGSmxY?=
- =?utf-8?B?dTNQVjhLZkEwN3lDUm10cGdGMFlYSzRSMkk5bnR2SHIvRjdTbVZrcXJQNEdL?=
- =?utf-8?B?c3VzV0JuNW5vK3JqVnFrTUFDajN3NnFKZm1oUTRmVEVKQTQwOFhDaWV6MWVE?=
- =?utf-8?B?ejY4REZaVkpxV1Z2bkU3THFwUzVUZ2l0UVc5d29rZnJqRCt2YUNRZTA3QnJn?=
- =?utf-8?B?RTEwZGN5RUd1dkw3Zm5NUnNFVzVicHl1WmYrNlZMekNRZEtlWE9HYkczT1Uy?=
- =?utf-8?B?T2k5WjQxalVsRDgrcmZyLzF6Vm1HazdSVzQ0dzF0ZDBWZGhpL1hROVQ3SFJz?=
- =?utf-8?B?UHJCNXJxc2d1YzgwZXNnMDIrRk9YKzk4cnFyaE5BQkpNenFxaXg5K3QvWVZJ?=
- =?utf-8?B?a1k4SFhibUZLc2F6R2NjZExhaDVjenJ0Ym1sMUZydnNIcXk5UmVNZmFwM0lO?=
- =?utf-8?Q?GSEaQuvkj7ZG3lrj7bT899stx0g9RX5vsx+rf5y?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffbc018c-619b-4572-2441-08d96622d0b3
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 10:43:16.8706 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bk0iPlq5mXEdhxGPktLItuIIgVFg4/5SL0IHHT2yP+7j/TSbIQ+SOf+HT2fSEhC/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4239
+References: <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+ <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
+ <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+ <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+ <CAPDyKFoQdn1rm91iFNJwZwpSYcKJBjDLqtJB4KZAkhgY1Grm-Q@mail.gmail.com>
+ <87073fc2-d7b3-98f4-0067-29430ea2adef@gmail.com>
+ <CAPDyKFqSsAk8a5CTNpRT2z4Wvf8BehJKDbVhUKfHc2Jzj7aTNA@mail.gmail.com>
+ <9129a9f0-8c9b-d8e0-ddf5-c8820871fb7f@gmail.com>
+In-Reply-To: <9129a9f0-8c9b-d8e0-ddf5-c8820871fb7f@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 23 Aug 2021 12:46:19 +0200
+Message-ID: <CAPDyKFrWeQVNgxzmiLBXJ2gQW=iFf4aG16xvZ+ag1MkhXs9-BQ@mail.gmail.com>
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
+ Mark Brown <broonie@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>, 
+ Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-mmc <linux-mmc@vger.kernel.org>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,42 +102,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.08.21 um 11:16 schrieb Gal Pressman:
-> On 20/08/2021 17:32, Jason Gunthorpe wrote:
->> On Fri, Aug 20, 2021 at 03:58:33PM +0300, Gal Pressman wrote:
->>
->>> Though it would've been nicer if we could agree on a solution that could work
->>> for more than 1-2 RDMA devices, using the existing tools the RDMA subsystem has.
->> I don't think it can really be done, revoke is necessary, and isn't a
->> primitive we have today.
->>
->> Revoke is sort of like rereg MR, but with a guaranteed no-change to
->> the lkey/rkey
->>
->> Then there is the locking complexity of linking the mr creation and
->> destruction to the lifecycle of the pages, which is messy and maybe
->> not general. For instance mlx5 would call its revoke_mr, disconnect
->> the dmabuf then destroy the mkey - but this is only safe because mlx5
->> HW can handle concurrent revokes.
-> Thanks, that makes sense.
+[...]
+
+> >>>> We have three components comprising PM on Tegra:
+> >>>>
+> >>>> 1. Power gate
+> >>>> 2. Clock state
+> >>>> 3. Voltage state
+> >>>>
+> >>>> GENPD on/off represents the 'power gate'.
+> >>>>
+> >>>> Clock and reset are controlled by device drivers using clk and rst APIs.
+> >>>>
+> >>>> Voltage state is represented by GENPD's performance level.
+> >>>>
+> >>>> GENPD core assumes that at a first rpm-resume of a consumer device, its
+> >>>> genpd_performance=0. Not true for Tegra because h/w of the device is
+> >>>> preconfigured to a non-zero perf level initially, h/w may not support
+> >>>> zero level at all.
+> >>>
+> >>> I think you may be misunderstanding genpd's behaviour around this, but
+> >>> let me elaborate.
+> >>>
+> >>> In genpd_runtime_resume(), we try to restore the performance state for
+> >>> the device that genpd_runtime_suspend() *may* have dropped earlier.
+> >>> That means, if genpd_runtime_resume() is called prior
+> >>> genpd_runtime_suspend() for the first time, it means that
+> >>> genpd_runtime_resume() will *not* restore a performance state, but
+> >>> instead just leave the performance state as is for the device (see
+> >>> genpd_restore_performance_state()).
+> >>>
+> >>> In other words, a consumer driver may use the following sequence to
+> >>> set an initial performance state for the device during ->probe():
+> >>>
+> >>> ...
+> >>> rate = clk_get_rate()
+> >>> dev_pm_opp_set_rate(rate)
+> >>>
+> >>> pm_runtime_enable()
+> >>> pm_runtime_resume_and_get()
+> >>> ...
+> >>>
+> >>> Note that, it's the consumer driver's responsibility to manage device
+> >>> specific resources, in its ->runtime_suspend|resume() callbacks.
+> >>> Typically that means dealing with clock gating/ungating, for example.
+> >>>
+> >>> In the other scenario where a consumer driver prefers to *not* call
+> >>> pm_runtime_resume_and_get() in its ->probe(), because it doesn't need
+> >>> to power on the device to complete probing, then we don't want to vote
+> >>> for an OPP at all - and we also want the performance state for the
+> >>> device in genpd to be set to zero. Correct?
+> >>
+> >> Yes
+> >>
+> >>> Is this the main problem you are trying to solve, because I think this
+> >>> doesn't work out of the box as of today?
+> >>
+> >> The main problem is that the restored performance state is zero for the
+> >> first genpd_runtime_resume(), while it's not zero from the h/w perspective.
+> >
+> > This should not be a problem, but can be handled by the consumer driver.
+> >
+> > genpd_runtime_resume() calls genpd_restore_performance_state() to
+> > restore a performance state for the device. However, in the scenario
+> > you describe, "gpd_data->rpm_pstate" is zero, which makes
+> > genpd_restore_performance_state() to just leave the device's
+> > performance state as is - it will *not* restore the performance state
+> > to zero.
+> >
+> > To make the consumer driver deal with this, it would need to call
+> > dev_pm_opp_set_rate() from within its ->runtime_resume() callback.
+> >
+> >>
+> >>> There is another concern though, but perhaps it's not a problem after
+> >>> all. Viresh told us that dev_pm_opp_set_rate() may turn on resources
+> >>> like clock/regulators. That could certainly be problematic, in
+> >>> particular if the device and its genpd have OPP tables associated with
+> >>> it and the consumer driver wants to follow the above sequence in
+> >>> probe.
+> >>
+> >> dev_pm_opp_set_rate() won't enable clocks and regulators, but it may
+> >> change the clock rate and voltage. This is also platform/driver specific
+> >> because it's up to OPP user how to configure OPP table. On Tegra we only
+> >> assign clock to OPP table, regulators are unused.
+> >>
+> >>> Viresh, can you please chime in here and elaborate on some of the
+> >>> magic happening behind dev_pm_opp_set_rate() API - is there a problem
+> >>> here or not?
+> >>>
+> >>>>
+> >>>> GENPD core assumes that consumer devices can work at any performance
+> >>>> level. Not true for Tegra because voltage needs to be set in accordance
+> >>>> to the clock rate before clock is enabled, otherwise h/w won't work
+> >>>> properly, perhaps clock may be unstable or h/w won't be latching.
+> >>>
+> >>> Correct. Genpd relies on the callers to use the OPP framework if there
+> >>> are constraints like you describe above.
+> >>>
+> >>> That said, it's not forbidden for a consumer driver to call
+> >>> dev_pm_genpd_set_performance_state() directly, but then it better
+> >>> knows exactly what it's doing.
+> >>>
+> >>>>
+> >>>> Performance level should be set to 0 while device is suspended.
+> >>>
+> >>> Do you mean system suspend or runtime suspend? Or both?
+> >>
+> >> Runtime suspend.
+> >
+> > Alright. So that's already taken care of for us in genpd_runtime_suspend().
+> >
+> > Or perhaps you have discovered some problem with this?
+> >
+> >>
+> >>>> Performance level needs to be bumped on rpm-resume of a device in
+> >>>> accordance to h/w state before hardware is enabled.
+> >>>
+> >>> Assuming there was a performance state set for the device when
+> >>> genpd_runtime_suspend() was called, genpd_runtime_resume() will
+> >>> restore that state according to the sequence you described.
+> >>
+> >> What do you think about adding API that will allow drivers to explicitly
+> >> set the restored performance state of a power domain?
+> >>
+> >> Another option could be to change the GENPD core, making it to set the
+> >> rpm_pstate when dev_pm_genpd_set_performance_state(dev) is invoked and
+> >> device is rpm-suspended, instead of calling the
+> >> genpd->set_performance_state callback.
+> >>
+> >> Then drivers will be able to sync the perf state at a probe time.
+> >>
+> >> What do you think?
+> >
+> > I don't think it's needed, see my reply earlier above. However your
+> > change touches another problem though, see below.
+> >
+> >>
+> >> diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+> >> index a934c679e6ce..cc15ab9eacc9 100644
+> >> --- a/drivers/base/power/domain.c
+> >> +++ b/drivers/base/power/domain.c
+> >> @@ -435,7 +435,7 @@ static void genpd_restore_performance_state(struct
+> >> device *dev,
+> >>  int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int
+> >> state)
+> >>  {
+> >>         struct generic_pm_domain *genpd;
+> >> -       int ret;
+> >> +       int ret = 0;
+> >>
+> >>         genpd = dev_to_genpd_safe(dev);
+> >>         if (!genpd)
+> >> @@ -446,7 +446,10 @@ int dev_pm_genpd_set_performance_state(struct
+> >> device *dev, unsigned int state)
+> >>                 return -EINVAL;
+> >>
+> >>         genpd_lock(genpd);
+> >> -       ret = genpd_set_performance_state(dev, state);
+> >> +       if (pm_runtime_suspended(dev))
+> >> +               dev_gpd_data(dev)->rpm_pstate = state;
+> >> +       else
+> >> +               ret = genpd_set_performance_state(dev, state);
+> >>         genpd_unlock(genpd);
+> >
+> > This doesn't work for all cases. For example, when a consumer driver
+> > deploys runtime PM support in its ->probe() according to the below
+> > sequence:
+> >
+> > ...
+> > dev_pm_opp_set_rate(rate)
+> > pm_runtime_get_noresume()
+> > pm_runtime_set_active()
+> > pm_runtime_enable()
+> > ...
+> > pm_runtime_put()
+> > ...
+> >
+> > We need to call genpd_set_performance_state() independently of whether
+> > the device is runtime suspended or not.
 >
->>> That's why I tried to approach this by denying such attachments for non-ODP
->>> importers instead of exposing a "limited" dynamic importer.
->> That is fine if there is no revoke - once revoke exists we must have
->> driver and HW support.
-> Agree.
-> IIUC, we're talking about three different exporter "types":
-> - Dynamic with move_notify (requires ODP)
-> - Dynamic with revoke_notify
-> - Static
+> I don't see where is the problem in yours example.
 >
-> Which changes do we need to make the third one work?
+> pm_runtime_suspended() = false while RPM is disabled. When device is
+> resumed, the rpm_pstate=0, so it won't change the pstate on resume.
 
-Basically none at all in the framework.
+Yes, you are certainly correct, my bad! I mixed it up with
+pm_runtime_status_suspended(), which only cares about the status.
 
-You just need to properly use the dma_buf_pin() function when you start 
-using a buffer (e.g. before you create an attachment) and the 
-dma_buf_unpin() function after you are done with the DMA-buf.
+So, after a second thought, your suggestion sounds very much
+reasonable to me! I have also tried to consider all different
+scenarios, including the system suspend/resume path, but I think it
+should be fine.
 
-Regards,
-Christian.
+I also think that a patch like the above should be considered as a
+fix, because it actually fixes a problem, according to what I said in
+my earlier reply, below.
+
+Fixes : 5937c3ce2122 ("PM: domains: Drop/restore performance state
+votes for devices at runtime PM").
+
+>
+> > Although, it actually seems like good idea to update
+> > dev_gpd_data(dev)->rpm_pstate = state here, as to make sure
+> > genpd_runtime_resume() doesn't restore an old/invalid value that was
+> > saved while dropping the performance state vote for the device in
+> > genpd_runtime_suspend() earlier.
+> >
+> > Let me send a patch for this shortly, to close this window of a possible error.
+>
+> It will also remove the need to resume device just to change the clock
+> rate, like I needed to do it in the PWM patch of this series.
+
+Do you want to send the patch formally? Or do you prefer it if I do it?
+
+Kind regards
+Uffe
