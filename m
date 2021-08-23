@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06663F4E31
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 18:18:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE15E3F4E33
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 18:18:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481F189D73;
-	Mon, 23 Aug 2021 16:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38FD289EA6;
+	Mon, 23 Aug 2021 16:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C7989C63;
- Mon, 23 Aug 2021 16:18:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="214005521"
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="214005521"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2021 09:18:42 -0700
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="526122127"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9D089EA6;
+ Mon, 23 Aug 2021 16:18:48 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="302718842"
+X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="302718842"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2021 09:18:48 -0700
+X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="535424784"
 Received: from todonova-mobl3.ger.corp.intel.com (HELO localhost)
  ([10.249.44.47])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2021 09:18:40 -0700
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2021 09:18:46 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: jani.nikula@intel.com, ville.syrjala@linux.intel.com,
  manasi.d.navare@intel.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 03/19] drm/dp: add LTTPR DP 2.0 DPCD addresses
-Date: Mon, 23 Aug 2021 19:18:04 +0300
-Message-Id: <5fce092dd2428fa3068c0d85f0be4ec1796f04f8.1629735412.git.jani.nikula@intel.com>
+Subject: [PATCH v2 04/19] drm/dp: add helper for extracting adjust 128b/132b
+ TX FFE preset
+Date: Mon, 23 Aug 2021 19:18:05 +0300
+Message-Id: <6602267e7a64e803949980841fc3549bdaf51f20.1629735412.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1629735412.git.jani.nikula@intel.com>
 References: <cover.1629735412.git.jani.nikula@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,30 +52,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DP 2.0 brings some new DPCD addresses for PHY repeaters.
+The DP 2.0 128b/132b channel coding uses TX FFE presets instead of
+vswing and pre-emphasis.
 
 Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_dp_helper.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/drm_dp_helper.c | 14 ++++++++++++++
+ include/drm/drm_dp_helper.h     |  2 ++
+ 2 files changed, 16 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 9389f92cb944..2843238a78e6 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -130,6 +130,20 @@ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SI
+ }
+ EXPORT_SYMBOL(drm_dp_get_adjust_request_pre_emphasis);
+ 
++/* DP 2.0 128b/132b */
++u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
++				   int lane)
++{
++	int i = DP_ADJUST_REQUEST_LANE0_1 + (lane >> 1);
++	int s = ((lane & 1) ?
++		 DP_ADJUST_TX_FFE_PRESET_LANE1_SHIFT :
++		 DP_ADJUST_TX_FFE_PRESET_LANE0_SHIFT);
++	u8 l = dp_link_status(link_status, i);
++
++	return (l >> s) & 0xf;
++}
++EXPORT_SYMBOL(drm_dp_get_adjust_tx_ffe_preset);
++
+ u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+ 					 unsigned int lane)
+ {
 diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 1d5b3dbb6e56..f3a61341011d 100644
+index f3a61341011d..3ee0b3ffb8a5 100644
 --- a/include/drm/drm_dp_helper.h
 +++ b/include/drm/drm_dp_helper.h
-@@ -1319,6 +1319,10 @@ struct drm_panel;
- #define DP_MAX_LANE_COUNT_PHY_REPEATER			    0xf0004 /* 1.4a */
- #define DP_Repeater_FEC_CAPABILITY			    0xf0004 /* 1.4 */
- #define DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT		    0xf0005 /* 1.4a */
-+#define DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER	    0xf0006 /* 2.0 */
-+# define DP_PHY_REPEATER_128B132B_SUPPORTED		    (1 << 0)
-+/* See DP_128B132B_SUPPORTED_LINK_RATES for values */
-+#define DP_PHY_REPEATER_128B132B_RATES			    0xf0007 /* 2.0 */
+@@ -1494,6 +1494,8 @@ u8 drm_dp_get_adjust_request_voltage(const u8 link_status[DP_LINK_STATUS_SIZE],
+ 				     int lane);
+ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SIZE],
+ 					  int lane);
++u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
++				   int lane);
+ u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+ 					 unsigned int lane);
  
- enum drm_dp_phy {
- 	DP_PHY_DPRX,
 -- 
 2.20.1
 
