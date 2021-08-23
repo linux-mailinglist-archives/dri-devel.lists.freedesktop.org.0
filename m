@@ -2,47 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DAD3F4602
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 09:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBFE3F462F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 09:56:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7857389C1C;
-	Mon, 23 Aug 2021 07:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98FDE89944;
+	Mon, 23 Aug 2021 07:56:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E244E89C1C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 07:50:34 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4GtPYJ73ySz9sWd;
- Mon, 23 Aug 2021 17:50:28 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1629705032;
- bh=9dAHDCrMei61o4XJtPqjbdNJts5lkuem+/e8bvOvHNA=;
- h=Date:From:To:Cc:Subject:From;
- b=Eh1fOSt6Rsa06Kcm6zUhe5LMinVpSwezbm4AvqbDqfoCf8Wx8QP+NfHTf5hwPPM3r
- seE9Pm8OmZKF0xk29DoKKPZAx8HVFzC8qkHEW0NciYckpNHIxL18k6IgUg0kAsqPB1
- 4kZ6VOhB46EsB/R5gHx65lL4wT2rl8YrfYDcZV5KUcDNVE7LlI0TH2qov6acKnTWKa
- haVCYou/apmos6kKyAGlW7ST4LnEQMsbdpZIlaCJWw7UjpNPvtxGdtCJWR46mG7/ME
- fjFSQmdREx4bk93AUY7FjVMOS9j4RKaZvUSalutLmeyUmI1nmJKU1Kn2WoBwE3Ojrh
- egCMWHuXWU77Q==
-Date: Mon, 23 Aug 2021 17:50:27 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Jason Gunthorpe <jgg@mellanox.com>, Dave Airlie <airlied@linux.ie>, DRI
- <dri-devel@lists.freedesktop.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon
- Romanovsky <leonro@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas =?UTF-8?B?SGVsbHN0?=
- =?UTF-8?B?csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the hmm tree
-Message-ID: <20210823175027.3f3fabd7@canb.auug.org.au>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8F889944
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 07:56:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="204252420"
+X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="204252420"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2021 00:56:29 -0700
+X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; d="scan'208";a="507179946"
+Received: from mkayyal-mobl.ger.corp.intel.com (HELO [10.249.254.235])
+ ([10.249.254.235])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2021 00:56:28 -0700
+Message-ID: <eb38fc76abf1a30d272ee76f6cb3ba2324297c25.camel@linux.intel.com>
+Subject: Re: [PATCH 1/5] drm/ttm: add a weak BO reference to the resource v2
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ dri-devel@lists.freedesktop.org
+Date: Mon, 23 Aug 2021 09:56:25 +0200
+In-Reply-To: <20210719115145.1260-1-christian.koenig@amd.com>
+References: <20210719115145.1260-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_//zQi18i=ahDnMC3+VaHQ0Vw";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,105 +49,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_//zQi18i=ahDnMC3+VaHQ0Vw
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi, Christian,
 
-Hi all,
+Still working through some backlog and this series appears to have
+slipped under the radar.
 
-After merging the hmm tree, today's linux-next build (x86_64 allmodconfig)
-failed like this:
+Still I think a cover letter would benefit reviewers... 
 
-drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_tt_get_st':
-drivers/gpu/drm/i915/gem/i915_gem_ttm.c:396:7: error: implicit declaration =
-of function '__sg_alloc_table_from_pages'; did you mean 'sg_alloc_table_fro=
-m_pages'? [-Werror=3Dimplicit-function-declaration]
-  396 |  sg =3D __sg_alloc_table_from_pages
-      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-      |       sg_alloc_table_from_pages
-drivers/gpu/drm/i915/gem/i915_gem_ttm.c:396:5: warning: assignment to 'stru=
-ct scatterlist *' from 'int' makes pointer from integer without a cast [-Wi=
-nt-conversion]
-  396 |  sg =3D __sg_alloc_table_from_pages
-      |     ^
+On Mon, 2021-07-19 at 13:51 +0200, Christian König wrote:
+> Keep track for which BO a resource was allocated.
+> This is necessary to move the LRU handling into the resources.
 
-Caused by commit
+So is this needed, when looking up a resource from the LRU, to find the
+bo the resource is currently attached to?
 
-  fcbfe956561b ("lib/scatterlist: Provide a dedicated function to support t=
-able append")
+> 
+> A bit problematic is i915 since it tries to use the resource
+> interface without a BO which is illegal from the conceptional
+s/conceptional/conceptual/ ? 
+> point of view.
+> 
+> v2: Document that this is a weak reference and add a workaround for
+> i915
 
-interacting with commit
+Hmm. As pointed out in my previous review the weak pointer should
+really be cleared under a lookup lock to avoid use-after-free bugs.
+I don't see that happening here. Doesn't this series aim for a future
+direction of early destruction of bos and ditching the ghost objects?
+In that case IMHO you need to allow for a NULL bo pointer and any bo
+information needed at resource destruction needs to be copied on the
+resource... (That would also ofc help with the i915 problem).
 
-  213d50927763 ("drm/i915/ttm: Introduce a TTM i915 gem object backend")
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/i915/intel_region_ttm.c | 5 +++++
+>  drivers/gpu/drm/ttm/ttm_bo_util.c       | 7 +++++--
+>  drivers/gpu/drm/ttm/ttm_resource.c      | 1 +
+>  include/drm/ttm/ttm_resource.h          | 2 ++
+>  4 files changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c
+> b/drivers/gpu/drm/i915/intel_region_ttm.c
+> index 27fe0668d094..980b10a7debf 100644
+> --- a/drivers/gpu/drm/i915/intel_region_ttm.c
+> +++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+> @@ -88,6 +88,7 @@ intel_region_ttm_node_reserve(struct
+> intel_memory_region *mem,
+>         place.fpfn = offset >> PAGE_SHIFT;
+>         place.lpfn = place.fpfn + (size >> PAGE_SHIFT);
+>         mock_bo.base.size = size;
+> +       mock_bo.bdev = &mem->i915->bdev;
+>         ret = man->func->alloc(man, &mock_bo, &place, &res);
+>         if (ret == -ENOSPC)
+>                 ret = -ENXIO;
+> @@ -104,7 +105,11 @@ void intel_region_ttm_node_free(struct
+> intel_memory_region *mem,
+>                                 struct ttm_resource *res)
+>  {
+>         struct ttm_resource_manager *man = mem->region_private;
+> +       struct ttm_buffer_object mock_bo = {};
+>  
+> +       mock_bo.base.size = res->num_pages * PAGE_SIZE;
+> +       mock_bo.bdev = &mem->i915->bdev;
+> +       res->bo = &mock_bo;
+>         man->func->free(man, res);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 2f57f824e6db..a1570aa8ff56 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -239,6 +239,11 @@ static int ttm_buffer_object_transfer(struct
+> ttm_buffer_object *bo,
+>         if (bo->type != ttm_bo_type_sg)
+>                 fbo->base.base.resv = &fbo->base.base._resv;
+>  
+> +       if (fbo->base.resource) {
+> +               fbo->base.resource->bo = &fbo->base;
 
-from the drm tree.
+This is scary: What if someone else (LRU lookup) just dereferenced the
+previous resource->bo pointer? I think this needs proper weak reference
+locking and lifetime handling, as mentioned above.
 
-I have applied the following merge resolution patch.
 
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Mon, 23 Aug 2021 17:46:27 +1000
-Subject: [PATCH] drm/i915/ttm: fix up for "lib/scatterlist: Provide a
- dedicated function to support tableappend"
+> +               bo->resource = NULL;
+> +       }
+> +
 
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+/Thomas
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915=
-/gem/i915_gem_ttm.c
-index 771eb2963123..d3d95934a047 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -382,7 +382,6 @@ i915_ttm_region(struct ttm_device *bdev, int ttm_mem_ty=
-pe)
- static struct sg_table *i915_ttm_tt_get_st(struct ttm_tt *ttm)
- {
- 	struct i915_ttm_tt *i915_tt =3D container_of(ttm, typeof(*i915_tt), ttm);
--	struct scatterlist *sg;
- 	struct sg_table *st;
- 	int ret;
-=20
-@@ -393,13 +392,13 @@ static struct sg_table *i915_ttm_tt_get_st(struct ttm=
-_tt *ttm)
- 	if (!st)
- 		return ERR_PTR(-ENOMEM);
-=20
--	sg =3D __sg_alloc_table_from_pages
-+	ret =3D sg_alloc_table_from_pages_segment
- 		(st, ttm->pages, ttm->num_pages, 0,
- 		 (unsigned long)ttm->num_pages << PAGE_SHIFT,
--		 i915_sg_segment_size(), NULL, 0, GFP_KERNEL);
--	if (IS_ERR(sg)) {
-+		 i915_sg_segment_size(), GFP_KERNEL);
-+	if (ret) {
- 		kfree(st);
--		return ERR_CAST(sg);
-+		return ERR_PTR(ret);
- 	}
-=20
- 	ret =3D dma_map_sgtable(i915_tt->dev, st, DMA_BIDIRECTIONAL, 0);
---=20
-2.32.0
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_//zQi18i=ahDnMC3+VaHQ0Vw
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmEjU0QACgkQAVBC80lX
-0GwyKAf/djlPvQh5mFxB1HX6H6VwiNvnFMAqdCuLA9ur0ir8JX93LCvE6yDM8MGu
-fNhZdfFoF4ZBogs/VAnCqnHMmRe5onD6HJ7TAOtCt2BllQHoKLT4XMY4R3TYES2X
-gt2lL9kHBBJCJuo40CBr1VIAHsHWH8qPRZZOWrkSa9GsoWaNS2Pz3uWOsiwkC3p7
-prmCs1HACO9LS8V1Q2zhfweMHZXv6VQIceF3XfcOm1hFqeYvHpVTU+rgVFdxbyTG
-FkXMRrxp/hTDM+wltFqyDp5aMgTw9wIGvlrB0taIreHsMVCcW6ycl8hlbmHHQS4c
-3Y57a/W6nW+ExSY+sq+7q1HecMTS/w==
-=rnAY
------END PGP SIGNATURE-----
-
---Sig_//zQi18i=ahDnMC3+VaHQ0Vw--
