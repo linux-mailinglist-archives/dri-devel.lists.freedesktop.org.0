@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862963F515E
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 21:39:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A763F516A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Aug 2021 21:40:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C5D8997A;
-	Mon, 23 Aug 2021 19:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8A9F89A8C;
+	Mon, 23 Aug 2021 19:40:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C39A8997A
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 19:39:02 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id bdb2ead6-0449-11ec-b37b-0050568c148b;
- Mon, 23 Aug 2021 19:38:50 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id D09FA194B1F;
- Mon, 23 Aug 2021 21:39:12 +0200 (CEST)
-Date: Mon, 23 Aug 2021 21:38:56 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Mark Brown <broonie@kernel.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B68ED89A8C
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 19:40:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 06CDD613D0;
+ Mon, 23 Aug 2021 19:40:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629747649;
+ bh=j71WdEv6Jpnetb8lOkq2Nq+HDd18F6EPNLaNkhipJj4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QT0TUhGNo9DyLiFnK7ZRR3dTCzWUuBzLr/9CsP//c0AsFdW/T5zQCW57qF73e5Zeb
+ LngHY9Ga7zxsOzUTszTbnH40yDHQ4vP8spqV3SbEnfWp0tE+LfqVs3+Mk1T6lb5ydM
+ 8e8VKUco2zGbB0678IRqpIAc1IfZfUd2l1yM1cXBDtA153+NoZFMNEh9RwuOPAb0Z8
+ Oaq+f/RoqCVpC9mDZ9DNlXdZYbLjcbGjNJ9R+weqrLdt1Nor2NCoJPq4MvGxZbdWP6
+ BpjMo2MkSFony1t7NtHqPz04PJJ6nFRooMU7mLza08/CWSYs6q/kfTbUYRByIoTfmp
+ K1kfHSs7b57kQ==
+Date: Mon, 23 Aug 2021 20:40:23 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
 Cc: devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  Liam Girdwood <lgirdwood@gmail.com>,
@@ -38,13 +37,17 @@ Cc: devicetree@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
 Subject: Re: (subset) [PATCH 1/2] dt-bindings: panel: ili9341: correct
  indentation
-Message-ID: <YSP5UGRATAjuRteM@ravnborg.org>
+Message-ID: <20210823194022.GE4380@sirena.org.uk>
 References: <20210819101020.26368-1-krzysztof.kozlowski@canonical.com>
  <162973996481.3102.17751483171907199985.b4-ty@kernel.org>
+ <YSP5UGRATAjuRteM@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="sfyO1m2EN8ZOtJL6"
 Content-Disposition: inline
-In-Reply-To: <162973996481.3102.17751483171907199985.b4-ty@kernel.org>
+In-Reply-To: <YSP5UGRATAjuRteM@ravnborg.org>
+X-Cookie: APL hackers do it in the quad.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,25 +63,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark,
 
-On Mon, Aug 23, 2021 at 06:37:55PM +0100, Mark Brown wrote:
-> On Thu, 19 Aug 2021 12:10:19 +0200, Krzysztof Kozlowski wrote:
-> > Correct indentation warning:
-> >   ilitek,ili9341.yaml:25:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> 
-> Applied to
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> 
-> Thanks!
-> 
-> [2/2] dt-bindings: sound: rt1015p: correct indentation
->       commit: 0aeb17d1728257f29131a290f0cc8e281cc7274c
+--sfyO1m2EN8ZOtJL6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I am confused here.
-Did you apply both patches or only the one touching sound?
+On Mon, Aug 23, 2021 at 09:38:56PM +0200, Sam Ravnborg wrote:
+> On Mon, Aug 23, 2021 at 06:37:55PM +0100, Mark Brown wrote:
 
-I will pick up the panel patch otherwise.
+> > [2/2] dt-bindings: sound: rt1015p: correct indentation
+> >       commit: 0aeb17d1728257f29131a290f0cc8e281cc7274c
 
-	Sam
+> I am confused here.
+> Did you apply both patches or only the one touching sound?
+
+> I will pick up the panel patch otherwise.
+
+Only the second patch, it's the only one listed above and the subject
+says subset.
+
+--sfyO1m2EN8ZOtJL6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmEj+aYACgkQJNaLcl1U
+h9ClAQf9GdZp+od3AaNAgXcmo215Bu0e9MGJHFtwWkD+ZFNnarLK9zWH5feM/WDM
+72DyLI12wP9dbnQRL6AVlWTUwHiHbGxR5ecJwrGOx3+mkzwltvOiG52swo30V5yO
+1rjxW8zoOKIzQ+FfBc/bu+r899PyFRNDYdGcIRpR315V+gy3qqhl7aNaCsLsdHcT
+Lw69UT3qXu2zcqWsWAwAyOTaUO24SGfphxPK35CG3aWyI8oF78mzYKoqRiJftRaM
+PVlnaImAl8wGMeEtR23bh2mJHtjUgYRpqsuJeKW5U4jAlcARAdA6Ka4tekGfM46d
+keVRV5CSGwLWho2G/lo6K24Ex7e1/Q==
+=UIFw
+-----END PGP SIGNATURE-----
+
+--sfyO1m2EN8ZOtJL6--
