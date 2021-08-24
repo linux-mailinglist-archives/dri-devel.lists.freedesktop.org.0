@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684F53F5A07
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 10:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8719B3F5A32
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 10:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCBB789C94;
-	Tue, 24 Aug 2021 08:45:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10927898BC;
+	Tue, 24 Aug 2021 08:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B253789BE8;
- Tue, 24 Aug 2021 08:45:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="197514865"
-X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; d="scan'208";a="197514865"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2021 01:45:42 -0700
-X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; d="scan'208";a="526534192"
-Received: from romerosa-mobl.amr.corp.intel.com (HELO localhost)
- ([10.249.44.170])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2021 01:45:39 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: "dri-devel\@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [GIT PULL] drm-misc + drm-intel: Add support for out-of-band
- hotplug notification
-In-Reply-To: <34f13e21-9b1a-5f54-7e03-9705a6b51428@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <34f13e21-9b1a-5f54-7e03-9705a6b51428@redhat.com>
-Date: Tue, 24 Aug 2021 11:45:36 +0300
-Message-ID: <871r6jgrin.fsf@intel.com>
+Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com
+ [IPv6:2607:f8b0:4864:20::a33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 535E78982F;
+ Tue, 24 Aug 2021 08:52:11 +0000 (UTC)
+Received: by mail-vk1-xa33.google.com with SMTP id a185so1710921vke.13;
+ Tue, 24 Aug 2021 01:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UANStODlvGjdD9CplNFInpuTcqC0HUZ8cbC5NgD6gY4=;
+ b=FUjvKZnnmYWm4NpkUDg9WXhD8xlWx+ILWvJd0rjxNi09llRv0aBAKx7wwIsZKQw/kY
+ Wp2lAMyII2s7cJIgRwWLKWrIvqq4B1bFPg9M+TbIGpo1/KS5Hzg0TqgpobzbchL57WcI
+ TQwN3SZmGUJ8akErnNFBWhluv9kKutjjdfH5qa/OfxlglKKHod7vJXo7DZ3fteaOhFSg
+ Ls7kHJhGleFluW9C49MB0xMhq50VudfeFl6Q6KERdBxyzQMCBwk1oASFOPFaE3IGZzDo
+ XwXtvuWQID05k4zCESBiTZI+4BurM8Q0agwmCkfJ3sW4nc4cATI5od2ixDSGQnuN2mw6
+ N9+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UANStODlvGjdD9CplNFInpuTcqC0HUZ8cbC5NgD6gY4=;
+ b=sfbFSWUWg9qcvjnXw6P9e6Jl19DKY1AeNEv1N29xMtVj/u0SJSD6mrADnG0QZHNV4u
+ gW7j0h26SjeTeU0KSdQjoNVxe8SblTW+KHF/ez4jMMwWlJCOqX5rP8MCTtiboBMxirJ9
+ wZJB6lDLzS1tx5C5VobsgK+7tlJI7kNDhZxFkaME0sDlhBrrRptoUau8Az/8XGry5Ylp
+ rAjv0OdokcuwYifw7QOs8U9IrAIcejdeFNnfFBHT5CdAyhVaSjn59ryL26YoCDJYrZwH
+ Ab0CAMLaBU1ZPpf1YMZA+r8j1h+jPMvZSZKiRESchbvJhC6TVryrDeHw1U79OWFXFh/G
+ GU/g==
+X-Gm-Message-State: AOAM530q7PLiIRadcsAnris1Ex/4Fg4vnm5HqNdkfSpPznLTGQYHPr+4
+ ZCW6OLpi1wXCj34wH+TVkwAh12wJfPJqr9OtL6k=
+X-Google-Smtp-Source: ABdhPJyHCkKDw+iIJ8jCBR+Ey/CWp6dYAnYURxYMzemBY5zkPXY0nxILWurW08lNmKSA1h3e/6R5V3ZfX3wrRPxo44k=
+X-Received: by 2002:ac5:ca03:: with SMTP id c3mr3173627vkm.5.1629795130408;
+ Tue, 24 Aug 2021 01:52:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210820201830.2005563-1-l.stach@pengutronix.de>
+ <20210820201830.2005563-7-l.stach@pengutronix.de>
+ <CAH9NwWc=nyt4nJpTc8AfRaM4LnWy86LNWadhza5LyFyv4SiQPw@mail.gmail.com>
+ <f6c8190a1291fe7fa0159de6c2a111efc713053f.camel@pengutronix.de>
+In-Reply-To: <f6c8190a1291fe7fa0159de6c2a111efc713053f.camel@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Tue, 24 Aug 2021 10:51:59 +0200
+Message-ID: <CAH9NwWd17mOLcg=ZAx_FAMwHuQSwvYx_eRW-4st2K9nHOqHAFg@mail.gmail.com>
+Subject: Re: [PATCH 7/8] drm/etnaviv: reference MMU context when setting up
+ hardware state
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>, 
+ DRI mailing list <dri-devel@lists.freedesktop.org>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Sascha Hauer <kernel@pengutronix.de>, patchwork-lst@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,88 +72,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 Aug 2021, Hans de Goede <hdegoede@redhat.com> wrote:
-> Hello drm-misc and drm-intel maintainers,
->
-> My "Add support for out-of-band hotplug notification" patchset:
-> https://patchwork.freedesktop.org/series/93763/
->
-> Is ready for merging now, as discussed on IRC I based this series
-> on top drm-tip and when trying to apply the i915 parts on top
-> of drm-misc this fails due to conflict.
->
-> So as Jani suggested here is a pull-req for a topic-branch with the
-> entire set, minus the troublesome i915 bits. Once this has been merged
-> into both drm-misc-next and drm-intel-next I can push the 2 i915
-> patch do drm-intel-next on top of the merge.
->
-> Note there are also 2 drivers/usb/typec patches in here these
-> have Greg KH's Reviewed-by for merging through the drm tree,
-> Since this USB code does not change all that much. I also checked
-> and the drm-misc-next-2021-08-12 base of this tree contains the
-> same last commit to the modified file as usb-next.
->
-> Daniel Vetter mentioned on IRC that it might be better for you to simply
-> pick-up the series directly from patchwork, that is fine too in that
-> case don't forget to add:
->
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
->
-> To the entire series (given in a reply to the cover-letter)
->
-> And:
->
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> To the usb/typec patches (patch 7/8), this was given in reply
-> to a previous posting of the series and I forgot to add this
-> in the resend.
+Hi Lucas
 
-Since this is mostly touching drm core, I think it should be merged to
-drm-misc-next first, and drm-intel-next after. Please let us know.
+Am Di., 24. Aug. 2021 um 09:54 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> Am Dienstag, dem 24.08.2021 um 09:24 +0200 schrieb Christian Gmeiner:
+> > Am Fr., 20. Aug. 2021 um 22:18 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+> > >
+> > > Move the refcount manipulation of the MMU context to the point where the
+> > > hardware state is programmed. At that point it is also known if a previous
+> > > MMU state is still there, or the state needs to be reprogrammed with a
+> > > potentially different context.
+> > >
+> > > Cc: stable@vger.kernel.org # 5.4
+> > > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > > Tested-by: Michael Walle <michael@walle.cc>
+> > > ---
+> > >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c      | 24 +++++++++++-----------
+> > >  drivers/gpu/drm/etnaviv/etnaviv_iommu.c    |  4 ++++
+> > >  drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c |  8 ++++++++
+> > >  3 files changed, 24 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > index f420c4f14657..1fa98ce870f7 100644
+> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > @@ -641,17 +641,19 @@ void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch)
+> > >         gpu->fe_running = true;
+> > >  }
+> > >
+> > > -static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu)
+> > > +static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
+> > > +                                         struct etnaviv_iommu_context *context)
+> > >  {
+> > > -       u32 address = etnaviv_cmdbuf_get_va(&gpu->buffer,
+> > > -                               &gpu->mmu_context->cmdbuf_mapping);
+> > >         u16 prefetch;
+> > > +       u32 address;
+> > >
+> > >         /* setup the MMU */
+> > > -       etnaviv_iommu_restore(gpu, gpu->mmu_context);
+> > > +       etnaviv_iommu_restore(gpu, context);
+> > >
+> > >         /* Start command processor */
+> > >         prefetch = etnaviv_buffer_init(gpu);
+> > > +       address = etnaviv_cmdbuf_get_va(&gpu->buffer,
+> > > +                                       &gpu->mmu_context->cmdbuf_mapping);
+> > >
+> > >         etnaviv_gpu_start_fe(gpu, address, prefetch);
+> > >  }
+> > > @@ -1369,14 +1371,12 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+> > >                 goto out_unlock;
+> > >         }
+> > >
+> > > -       if (!gpu->fe_running) {
+> > > -               gpu->mmu_context = etnaviv_iommu_context_get(submit->mmu_context);
+> > > -               etnaviv_gpu_start_fe_idleloop(gpu);
+> > > -       } else {
+> > > -               if (submit->prev_mmu_context)
+> > > -                       etnaviv_iommu_context_put(submit->prev_mmu_context);
+> > > -               submit->prev_mmu_context = etnaviv_iommu_context_get(gpu->mmu_context);
+> > > -       }
+> > > +       if (!gpu->fe_running)
+> > > +               etnaviv_gpu_start_fe_idleloop(gpu, submit->mmu_context);
+> > > +
+> > > +       if (submit->prev_mmu_context)
+> > > +               etnaviv_iommu_context_put(submit->prev_mmu_context);
+> > > +       submit->prev_mmu_context = etnaviv_iommu_context_get(gpu->mmu_context);
+> > >
+> > >         if (submit->nr_pmrs) {
+> > >                 gpu->event[event[1]].sync_point = &sync_point_perfmon_sample_pre;
+> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu.c b/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
+> > > index 1a7c89a67bea..afe5dd6a9925 100644
+> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
+> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
+> > > @@ -92,6 +92,10 @@ static void etnaviv_iommuv1_restore(struct etnaviv_gpu *gpu,
+> > >         struct etnaviv_iommuv1_context *v1_context = to_v1_context(context);
+> > >         u32 pgtable;
+> > >
+> > > +       if (gpu->mmu_context)
+> > > +               etnaviv_iommu_context_put(gpu->mmu_context);
+> > > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
+> > > +
+> > >         /* set base addresses */
+> > >         gpu_write(gpu, VIVS_MC_MEMORY_BASE_ADDR_RA, context->global->memory_base);
+> > >         gpu_write(gpu, VIVS_MC_MEMORY_BASE_ADDR_FE, context->global->memory_base);
+> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
+> > > index f8bf488e9d71..d664ae29ae20 100644
+> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
+> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
+> > > @@ -172,6 +172,10 @@ static void etnaviv_iommuv2_restore_nonsec(struct etnaviv_gpu *gpu,
+> > >         if (gpu_read(gpu, VIVS_MMUv2_CONTROL) & VIVS_MMUv2_CONTROL_ENABLE)
+> > >                 return;
+> > >
+> > > +       if (gpu->mmu_context)
+> > > +               etnaviv_iommu_context_put(gpu->mmu_context);
+> > > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
+> > > +
+> > >         prefetch = etnaviv_buffer_config_mmuv2(gpu,
+> > >                                 (u32)v2_context->mtlb_dma,
+> > >                                 (u32)context->global->bad_page_dma);
+> > > @@ -192,6 +196,10 @@ static void etnaviv_iommuv2_restore_sec(struct etnaviv_gpu *gpu,
+> > >         if (gpu_read(gpu, VIVS_MMUv2_SEC_CONTROL) & VIVS_MMUv2_SEC_CONTROL_ENABLE)
+> > >                 return;
+> > >
+> > > +       if (gpu->mmu_context)
+> > > +               etnaviv_iommu_context_put(gpu->mmu_context);
+> > > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
+> > > +
+> >
+> > I have seen this pattern now more than two times - maybe put the
+> > assignment of a new mmu context into its own function?
+> >
+> Yea, I thought about having some Gallium style reference handling
+> functions, but that would change the code even more. Since I intend to
+> have this series go into stable I wanted to keep the changes to a
+> minimum for now. I was already on the fence with the first patch in
+> this series, but that one provides very obvious legibility
+> improvements, making it easier to review this series.
+>
+> Would you agree to leave it like that for the stable series and clean
+> it up in a follow up change?
+>
 
-BR,
-Jani.
-
-
->
-> Regards,
->
-> Hans
->
->
-> The following changes since commit c7782443a88926a4f938f0193041616328cf2db2:
->
->   drm/bridge: ti-sn65dsi86: Avoid creating multiple connectors (2021-08-12 09:56:09 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git drm-misc-intel-oob-hotplug-v1
->
-> for you to fetch changes up to 7f811394878535ed9a6849717de8c2959ae38899:
->
->   usb: typec: altmodes/displayport: Notify drm subsys of hotplug events (2021-08-20 12:35:59 +0200)
->
-> ----------------------------------------------------------------
-> Topic branch for drm-misc / drm-intel for OOB hotplug support for Type-C connectors
->
-> ----------------------------------------------------------------
-> Hans de Goede (6):
->       drm/connector: Give connector sysfs devices there own device_type
->       drm/connector: Add a fwnode pointer to drm_connector and register with ACPI (v2)
->       drm/connector: Add drm_connector_find_by_fwnode() function (v3)
->       drm/connector: Add support for out-of-band hotplug notification (v3)
->       usb: typec: altmodes/displayport: Make dp_altmode_notify() more generic
->       usb: typec: altmodes/displayport: Notify drm subsys of hotplug events
->
->  drivers/gpu/drm/drm_connector.c          | 79 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_crtc_internal.h      |  2 +
->  drivers/gpu/drm/drm_sysfs.c              | 87 +++++++++++++++++++++++++++-----
->  drivers/usb/typec/altmodes/Kconfig       |  1 +
->  drivers/usb/typec/altmodes/displayport.c | 58 +++++++++++++--------
->  include/drm/drm_connector.h              | 25 +++++++++
->  6 files changed, 217 insertions(+), 35 deletions(-)
->
+Sure... sounds like a good plan.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
