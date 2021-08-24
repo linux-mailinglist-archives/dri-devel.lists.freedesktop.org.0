@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F56B3F5E95
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 15:03:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D769C3F5E9A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 15:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8C6289F99;
-	Tue, 24 Aug 2021 13:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83AF589FDE;
+	Tue, 24 Aug 2021 13:04:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 616D789F99
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:03:39 +0000 (UTC)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28E9B89FDE
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:04:45 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210824130337euoutp02d7ea2644baaad8241887cd6ad4bef528~eP8HydGtA2721527215euoutp02C
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:03:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20210824130337euoutp02d7ea2644baaad8241887cd6ad4bef528~eP8HydGtA2721527215euoutp02C
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210824130443euoutp0136a3cd3eb3503cf174722164a2de2fc9~eP9FVMiW51634816348euoutp01K
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:04:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20210824130443euoutp0136a3cd3eb3503cf174722164a2de2fc9~eP9FVMiW51634816348euoutp01K
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1629810217;
- bh=bb8pQFEXO/MIbUlxo4KF8yePNUpI8ibwbBLI5ne0iOI=;
+ s=mail20170921; t=1629810283;
+ bh=hyyPvFzmmD+5gwItV1wV/ZgBCFwwiOaD7PtUyxbViyk=;
  h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=cKfNjX4KwvwRQS0xZ/52vZlDSdLtT1zwN2289gLOWJmxYF//+q1vvAtxjf2QufKOU
- 377RC9SWRqznOrLh3dKWnFVQ0kACtGt9kVnzs7tm4fz8ejMTOEJUVwOr6N1c4/ZosD
- 4WfCMCPajz6N300x4BYvySBfgoAWkZnwSwmptz5E=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20210824130336eucas1p14d92cd82544546a931fa58d8bb51796d~eP8HNfLhv1982019820eucas1p1w;
- Tue, 24 Aug 2021 13:03:36 +0000 (GMT)
+ b=FPnGHYR/8fWepP0/JK/1AxZq18ri/NEi3HGhChQHS7PcBcJUPPiILjhUQ611jk+k3
+ i0nphtvZV4UIPabiDc40KrEJSXpKIc6XbcC+vYDHzpIr9DKKoA1jRaVfTqF20Qht8k
+ esbVN8Nok2W2JQ2EWdOonjE5wkV1rrAG9+WQllXY=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210824130442eucas1p20bad27fb1af3856cf3c7ccd1aa60c948~eP9E4SXaG2273122731eucas1p2J;
+ Tue, 24 Aug 2021 13:04:42 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id A4.76.45756.82EE4216; Tue, 24
- Aug 2021 14:03:36 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210824130335eucas1p14f3a4a042dbfddf621c9ac6cff1f1319~eP8Gbyrfz1983619836eucas1p1o;
- Tue, 24 Aug 2021 13:03:35 +0000 (GMT)
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id A6.6F.42068.A6EE4216; Tue, 24
+ Aug 2021 14:04:42 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210824130442eucas1p276fb48e06a3cb497f95457f0993e2bed~eP9EYu0LG2273122731eucas1p2G;
+ Tue, 24 Aug 2021 13:04:42 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210824130335eusmtrp249c0a8ed21b857d5f83fa53f7b319193~eP8Ga2Tqx2079420794eusmtrp2G;
- Tue, 24 Aug 2021 13:03:35 +0000 (GMT)
-X-AuditID: cbfec7f2-7bdff7000002b2bc-b4-6124ee28a897
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 96.81.20981.72EE4216; Tue, 24
- Aug 2021 14:03:35 +0100 (BST)
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210824130442eusmtrp149e4fd064239d5ebd7dda95e514987d3~eP9EX6B_R2967929679eusmtrp1w;
+ Tue, 24 Aug 2021 13:04:42 +0000 (GMT)
+X-AuditID: cbfec7f4-c71ff7000002a454-a3-6124ee6a57ec
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id D9.B1.20981.A6EE4216; Tue, 24
+ Aug 2021 14:04:42 +0100 (BST)
 Received: from [106.210.131.79] (unknown [106.210.131.79]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210824130335eusmtip25128605e5ccfd5ace35f41a1250716e7~eP8FuEAzT0255502555eusmtip2P;
- Tue, 24 Aug 2021 13:03:35 +0000 (GMT)
-Message-ID: <3132aa24-43ae-9f1e-01db-a66aaa9b4076@samsung.com>
-Date: Tue, 24 Aug 2021 15:03:34 +0200
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210824130441eusmtip17ac282730ec467c152aad3b5757bbb57~eP9DoPMeu3000130001eusmtip11;
+ Tue, 24 Aug 2021 13:04:41 +0000 (GMT)
+Message-ID: <53fd7c71-d362-683f-39e8-3aa313e92c04@samsung.com>
+Date: Tue, 24 Aug 2021 15:04:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0)
  Gecko/20100101 Thunderbird/92.0
-Subject: Re: [PATCH v3 3/8] drm/mipi-dsi: Create devm device registration
+Subject: Re: [PATCH v3 4/8] drm/mipi-dsi: Create devm device attachment
 Content-Language: en-GB
 To: Maxime Ripard <maxime@cerno.tech>, Jonas Karlman <jonas@kwiboo.se>, Sam
  Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -66,52 +66,52 @@ To: Maxime Ripard <maxime@cerno.tech>, Jonas Karlman <jonas@kwiboo.se>, Sam
  <robert.foss@linaro.org>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 From: Andrzej Hajda <a.hajda@samsung.com>
-In-Reply-To: <20210823084723.1493908-4-maxime@cerno.tech>
+In-Reply-To: <20210823084723.1493908-5-maxime@cerno.tech>
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGKsWRmVeSWpSXmKPExsWy7djP87oa71QSDU5uU7XoPXeSyWL5mXXM
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMKsWRmVeSWpSXmKPExsWy7djP87pZ71QSDd4vM7foPXeSyWL5mXXM
  Fle+vmezeD5/HaPFyTdXWSw6Jy5ht7i8aw6bxcKPW1ksZvz4x2hxqC/a4tOsh8wWK35uZbT4
  uWsei8WWNxNZHfg83t9oZfe4c+48m8fOWXfZPWZ3zGT1WLznJZPHiQmXmDzuXNvD5rH92wNW
- j3knAz3udx9n8lgy7Sqbx+bT1R6fN8kF8EZx2aSk5mSWpRbp2yVwZfzqmsBaMIm1ovP7OaYG
- xkUsXYycHBICJhLHtv9h72Lk4hASWMEose/iE1aQhJDAF0aJsxPsIBKfGSXut21kgum4fP0O
- I0RiOaPEze+7oNrfM0o8OnyZGaSKV8BOYvGx22A2i4CqxOvrq6DighInZz4B2y0qkCDxfOlX
- sKnCAp4S199MZQOxmQXEJZq+rGQFGSoi8JtZYkvzeaiEo8TNqcfA7mMT0JT4u/kmWJxTwFJi
- 4YsWqBp5ieats5lBmiUEDnNKLFn6gR3ibheJmY++Qv0gLPHq+BaouIzE/53zoeL1EvdXtEA1
- dzBKbN2wkxkiYS1x59wvoA0cQBs0Jdbv0ocIO0rcWtPEChKWEOCTuPFWEOIGPolJ26YzQ4R5
- JTrahCCqFSXun90KNVBcYumFr2wTGJVmIQXLLCTvz0LyzSyEvQsYWVYxiqeWFuempxYb5qWW
- 6xUn5haX5qXrJefnbmIEJsXT/45/2sE499VHvUOMTByMhxglOJiVRHj/MiknCvGmJFZWpRbl
- xxeV5qQWH2KU5mBREuddNXtNvJBAemJJanZqakFqEUyWiYNTqoHJYeU0q0Vfll44mFTkv267
- BivD/JMyvlXn9y9eqSjHeFHjaWyVy4sivWixv5u4YpXay/T2/jH+En+jwTst867oM5GgNzz6
- It+zOsReWZk6njC/FR148H5o4AFD1mol2aMH73ysObNx3oOHdZrbvNjm75yyZcmOJg59S1vn
- vENfX688q9X5b6GWYjjDg+jq0L2yxwtOvDzzXH9RAO/6zWUVqWtf8ukflmI/eK9M0+Zvkzfv
- tUfPuG7XRjvMVe2IZDh9xvDW+70zRGwdrENeL406/yTpwKy5UxdK/XPWc2456+fqZjPz/99L
- bsH/O6qnRddXtlVZp19KE5DOvnLrxzsfrSDpJVuuda2ZerJV/90SJZbijERDLeai4kQA+spK
- /vkDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJIsWRmVeSWpSXmKPExsVy+t/xe7rq71QSDe4fMrboPXeSyWL5mXXM
- Fle+vmezeD5/HaPFyTdXWSw6Jy5ht7i8aw6bxcKPW1ksZvz4x2hxqC/a4tOsh8wWK35uZbT4
- uWsei8WWNxNZHfg83t9oZfe4c+48m8fOWXfZPWZ3zGT1WLznJZPHiQmXmDzuXNvD5rH92wNW
- j3knAz3udx9n8lgy7Sqbx+bT1R6fN8kF8Ebp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZ
- GpvHWhmZKunb2aSk5mSWpRbp2yXoZfzqmsBaMIm1ovP7OaYGxkUsXYycHBICJhKXr99h7GLk
- 4hASWMoo0XK7AyohLrF7/ltmCFtY4s+1LjaIoreMEosPLWMHSfAK2EksPnYbrIhFQFXi9fVV
- zBBxQYmTM5+ADRIVSJDYfbgLrF5YwFPi+pupbCA2M9CCpi8rWUFsEYG/zBJfFsVCxB0lbk49
- xgqxbDejxP0t7WBD2QQ0Jf5uvgnWzClgKbHwRQvUIDOJrq1djBC2vETz1tnMExiFZiG5YxaS
- fbOQtMxC0rKAkWUVo0hqaXFuem6xkV5xYm5xaV66XnJ+7iZGYBrYduznlh2MK1991DvEyMTB
- eIhRgoNZSYT3L5NyohBvSmJlVWpRfnxRaU5q8SFGU2BgTGSWEk3OByaivJJ4QzMDU0MTM0sD
- U0szYyVxXpMja+KFBNITS1KzU1MLUotg+pg4OKUamGZwm+1uZ722g195XvBcqbgygQBDj82f
- rHXDWPSDjddteq6uo/SiLSN75jzTKIml/14acLawiQZ0xIV+3re3I7g0ualRcMnjzbsOLwlK
- Up77oEbJZnvd0tDF4pV3VontkeGvOeUa9VTfcoXO6c097pv2LOOcL5PCMK/uQWiLNp9W/OMH
- G876yH5N1Nz+IiPEq3/b/g27rh+fmOtp/e/XFU/DW6uuX311ft3Uyysn3z16dspiQ+6JgVvv
- 9ZxN3vKpsPSq8KEFs5/PPte1mO1K6euo2x+vd++1K91d+OvJ/z0NKz47HrminHw911T2SNP3
- dYlL31j/C3JO8pY3tPbafyjFdvtCn6sPPsqu3r+kePZKJZbijERDLeai4kQAggqi9owDAAA=
-X-CMS-MailID: 20210824130335eucas1p14f3a4a042dbfddf621c9ac6cff1f1319
+ j3knAz3udx9n8lgy7Sqbx+bT1R6fN8kF8EZx2aSk5mSWpRbp2yVwZTzddJyt4AFjxd9Nog2M
+ Wxi7GDk5JARMJLYse8rexcjFISSwglHiy8RjzBDOF0aJR4d3soJUCQl8ZpTof2gA03H21m9G
+ iKLljBJrZ55mgyh6zyix/VkoiM0rYCfxYsFSdhCbRUBV4urf9ewQcUGJkzOfsIDYogIJEs+X
+ fmUCsYUF3CUmzV7BDGIzC4hLNH1ZyQqyQETgN7PElubzbBAJR4mbU4+BXcQmoCnxd/NNsDin
+ gKXE3fXLWSFq5CWat84Ge0FCYD+nxKTOy0AJDiDHReLk1AiID4QlXh3fwg5hy0icntzDAmHX
+ S9xf0QLV28EosXXDTmaIhLXEnXO/2EDmMAMtXr9LHyLsKPF9znQmiPF8EjfeCkKcwCcxadt0
+ Zogwr0RHmxBEtaLE/bNboQaKSyy98JVtAqPSLKRQmYXk+1lInpmFsHcBI8sqRvHU0uLc9NRi
+ o7zUcr3ixNzi0rx0veT83E2MwHR4+t/xLzsYl7/6qHeIkYmD8RCjBAezkgjvXyblRCHelMTK
+ qtSi/Pii0pzU4kOM0hwsSuK8SVvWxAsJpCeWpGanphakFsFkmTg4pRqYSvqu3XOU2Rrstkyv
+ 09RhgXr4leb3iy2KFQ5KrfkYL29+6th6kykm4RbVxh3zmt/PvHLe7KHcsWcrI267nUlpv8HI
+ uophxdGM6eLpnxu6P+8sDpw60U/vZqnnke+ykX1BDU5rVdsefVl96/jSmTyLPk4wOfT2msnV
+ W+s4jA3+Bmhp/F3y+5p7v2jxpZk769ftYzG5cChc7pStltCEOUy5SZekpm7/O+9mtt/ZY+sW
+ be/X9OSa96XgwgnrFe4XjtZttHZaNbnzz9R1VnxZb2dGrjpVGZZ623ONVJlJ6+nbWaqnq9NY
+ /ixw1JtWt/JQ8688Jc/uPe0y6Q9nOZ6cVXHG4P3vk2kc2nNDDsZy84rdFldiKc5INNRiLipO
+ BAA6Jvs+9gMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBIsWRmVeSWpSXmKPExsVy+t/xu7pZ71QSDT70ilr0njvJZLH8zDpm
+ iytf37NZPJ+/jtHi5JurLBadE5ewW1zeNYfNYuHHrSwWM378Y7Q41Bdt8WnWQ2aLFT+3Mlr8
+ 3DWPxWLLm4msDnwe72+0snvcOXeezWPnrLvsHrM7ZrJ6LN7zksnjxIRLTB53ru1h89j+7QGr
+ x7yTgR73u48zeSyZdpXNY/Ppao/Pm+QCeKP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUM
+ jc1jrYxMlfTtbFJSczLLUov07RL0Mp5uOs5W8ICx4u8m0QbGLYxdjJwcEgImEmdv/QayuTiE
+ BJYySkze+IcNIiEusXv+W2YIW1jiz7UuNoiit4wSp69+YAdJ8ArYSbxYsBTMZhFQlbj6dz1U
+ XFDi5MwnLCC2qECCxO7DXWBxYQF3iUmzV4ANZQZa0PRlJSuILSLwl1niy6JYiLijxM2px1gh
+ lu1mlDg7/TNYM5uApsTfzTfBruMUsJS4u345K0SDmUTX1i5GCFteonnrbOYJjEKzkNwxC8m+
+ WUhaZiFpWcDIsopRJLW0ODc9t9hIrzgxt7g0L10vOT93EyMwCWw79nPLDsaVrz7qHWJk4mA8
+ xCjBwawkwvuXSTlRiDclsbIqtSg/vqg0J7X4EKMpMDAmMkuJJucD01BeSbyhmYGpoYmZpYGp
+ pZmxkjivyZE18UIC6YklqdmpqQWpRTB9TBycUg1MszZ8/hSklHznq+k2Je2Yh3de7b945djv
+ oA/+/Y/enxPv33ykqP2rkl9N1dX/cwvZNIM+uQk9y1B4pnF5J49inHujqYzhSvWEFcp5nWIv
+ 98UdYIkTXMpRVM56rfqxSrX5y6VXZR5Zup28wWDSdsm7TtWsedNFbobVP2oWTcpjOtlvw/Pu
+ puTN4PMXK3gDOIpbHqT8DRa32CHFIm2/c+VlxZilf9TPpIZEaR2bxDhF+uDftfc+f3n86pCo
+ 6tZ4770iWdP+cOX2bTBa7qL2Y6fI+QPMXCflRYqmW3q3zmpdsS72NIf9zTkpBwSr5Z/cOjYp
+ zmr+jduf2LY1zX2e/In1Wd2eQ8wVdsxdhx4W3T0zW4mlOCPRUIu5qDgRAKK9L4GLAwAA
+X-CMS-MailID: 20210824130442eucas1p276fb48e06a3cb497f95457f0993e2bed
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210823084759eucas1p2fadefcbf8b70a88c7f3c062a74b701d7
+X-RootMTR: 20210823084758eucas1p2f4308b4435ef19643685d82e9bac977d
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20210823084759eucas1p2fadefcbf8b70a88c7f3c062a74b701d7
+X-CMS-RootMailID: 20210823084758eucas1p2f4308b4435ef19643685d82e9bac977d
 References: <20210823084723.1493908-1-maxime@cerno.tech>
- <CGME20210823084759eucas1p2fadefcbf8b70a88c7f3c062a74b701d7@eucas1p2.samsung.com>
- <20210823084723.1493908-4-maxime@cerno.tech>
+ <CGME20210823084758eucas1p2f4308b4435ef19643685d82e9bac977d@eucas1p2.samsung.com>
+ <20210823084723.1493908-5-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,18 +129,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 W dniu 23.08.2021 o 10:47, Maxime Ripard pisze:
-> Devices that take their data through the MIPI-DSI bus but are controlled
-> through a secondary bus like I2C have to register a secondary device on
-> the MIPI-DSI bus through the mipi_dsi_device_register_full() function.
->
-> At removal or when an error occurs, that device needs to be removed
-> through a call to mipi_dsi_device_unregister().
->
-> Let's create a device-managed variant of the registration function that
-> will automatically unregister the device at unbind.
->
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+
+Missing description.
+
+With this fixed:
+
 Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
 Regards
 Andrzej
+
+
