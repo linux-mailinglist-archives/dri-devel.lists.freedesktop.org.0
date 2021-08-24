@@ -1,69 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070DF3F59B6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 10:12:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 684F53F5A07
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 10:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF3389E05;
-	Tue, 24 Aug 2021 08:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCBB789C94;
+	Tue, 24 Aug 2021 08:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0728D89E05
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 08:12:29 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- m25-20020a7bcb99000000b002e751bcb5dbso1672451wmi.5
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 01:12:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=5TlPvtMSTybxbMv0JTA/P3ma0mYuHcljD7aP7GqZqlQ=;
- b=kMBB3z91YbVbX/JHfl5F8oF+HtBWNwP7jK6c9TumOix8RC/mZ8Koy+1pWgNdbIylFB
- lJDr1eioqe1gyahKorAQmbYRVoQwBWd6+I6v+31fs/RX7tkN9OMpOxbDUaBldx7SyeV4
- LN2zuG0nuao8dLWiMNsWBhurjr6GiibSQl9ws0b+G7c6x2vE6z4EgkeW/jNcJNa6Jti6
- SAIbJz9UurpNss0AR/WHYpHFvCSfU6MYsB7wApN5riPrYuPo5rVVcNwbKY0uMQNaMhCk
- YryAn7pVArQKu4fEaHINS87be1thNvxlSf8CSOewARCeXtc5bUjgmRGgDfE/JNvVq3pc
- f5gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=5TlPvtMSTybxbMv0JTA/P3ma0mYuHcljD7aP7GqZqlQ=;
- b=BaN54HNwiUu4Nr4I17SoaFvhJLbbE252SKtoPmEZ61g8P1OiQGS9aIdpHm5PjwR5Gp
- D+mpFUmQvG6k1tkRxyyy0l4d/HFVienqave9Bvh8Udxt+d86YK0cJGYEoH1Abnpz0uJv
- 1ut4SxhZRXogc1Og9alUpZdf4MUtDuWaO47AKPaChlvi6z09zWlp0XyMbNUWUZPZ1yYu
- oC2CrfI1tELZqiL3E5lVSvsxR8fHmvDQ+oEz1PTI44kfaVPEb4Qf1Ia21/Mr163exvVp
- Nodz0i7hkjUV3oT48v+sal4RiU7hjyLkEoIPmOIF+byw9Y70kegQmZLsBCRnBH8OV8jX
- 476A==
-X-Gm-Message-State: AOAM530z4z1IUvmi0LF0HcvuscIGy2Cp4m43K1XhND6fbhOQX2ROR3bi
- ToGLZrbBxXrqIU7ldU64zwA=
-X-Google-Smtp-Source: ABdhPJweHyRCwYvrWskmr+1eNvP1lrnMQtSpENx/wI/OVJV2iQVCtSSO6DB/ds9/MTLQwRkerDYeTw==
-X-Received: by 2002:a7b:c148:: with SMTP id z8mr2862262wmi.147.1629792747617; 
- Tue, 24 Aug 2021 01:12:27 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
- [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id k12sm18117771wrd.75.2021.08.24.01.12.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 01:12:26 -0700 (PDT)
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: hridya@google.com, john.stultz@linaro.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- gustavo@padovan.org, linux-media@vger.kernel.org, adelva@google.com,
- sspatil@google.com, daniel@ffwll.ch
-References: <20210818105443.1578-1-christian.koenig@amd.com>
-Message-ID: <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
-Date: Tue, 24 Aug 2021 10:12:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B253789BE8;
+ Tue, 24 Aug 2021 08:45:43 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="197514865"
+X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; d="scan'208";a="197514865"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2021 01:45:42 -0700
+X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; d="scan'208";a="526534192"
+Received: from romerosa-mobl.amr.corp.intel.com (HELO localhost)
+ ([10.249.44.170])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2021 01:45:39 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: "dri-devel\@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [GIT PULL] drm-misc + drm-intel: Add support for out-of-band
+ hotplug notification
+In-Reply-To: <34f13e21-9b1a-5f54-7e03-9705a6b51428@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <34f13e21-9b1a-5f54-7e03-9705a6b51428@redhat.com>
+Date: Tue, 24 Aug 2021 11:45:36 +0300
+Message-ID: <871r6jgrin.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210818105443.1578-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,191 +56,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just a gentle ping. Daniel any more comments on this?
-
-I'm not sure if the second patch will cause trouble with any unit test, 
-but I'm willing to try it. We can always trivial revert it.
-
-Thanks,
-Christian.
-
-Am 18.08.21 um 12:54 schrieb Christian König:
-> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
-> on a non existing config option to actually emit some code.
+On Fri, 20 Aug 2021, Hans de Goede <hdegoede@redhat.com> wrote:
+> Hello drm-misc and drm-intel maintainers,
 >
-> v2: keep the signal path as is for now
+> My "Add support for out-of-band hotplug notification" patchset:
+> https://patchwork.freedesktop.org/series/93763/
 >
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
->   drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
->   drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
->   include/linux/dma-fence.h                 | 22 ---------------------
->   4 files changed, 7 insertions(+), 67 deletions(-)
+> Is ready for merging now, as discussed on IRC I based this series
+> on top drm-tip and when trying to apply the i915 parts on top
+> of drm-misc this fails due to conflict.
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index 0b1c48590c43..c65994e382bd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->   	struct amdgpu_fence_driver *drv = &ring->fence_drv;
->   	struct amdgpu_device *adev = ring->adev;
->   	uint32_t seq, last_seq;
-> -	int r;
->   
->   	do {
->   		last_seq = atomic_read(&ring->fence_drv.last_seq);
-> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->   		if (!fence)
->   			continue;
->   
-> -		r = dma_fence_signal(fence);
-> -		if (!r)
-> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
-> -		else
-> -			BUG();
-> -
-> +		dma_fence_signal(fence);
->   		dma_fence_put(fence);
->   		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
->   		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->   	if (!timer_pending(&ring->fence_drv.fallback_timer))
->   		amdgpu_fence_schedule_fallback(ring);
->   
-> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
-> -
->   	return true;
->   }
->   
-> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-> index 18f2c2e0dfb3..3f351d222cbb 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fence.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
->   	 */
->   	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
->   	if (seq >= fence->seq) {
-> -		int ret = dma_fence_signal_locked(&fence->base);
-> -
-> -		if (!ret)
-> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
-> -		else
-> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
-> -
-> +		dma_fence_signal_locked(&fence->base);
->   		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
->   		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
->   		dma_fence_put(&fence->base);
-> -	} else
-> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
-> +	}
->   	return 0;
->   }
->   
-> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
->   	fence->fence_wake.func = radeon_fence_check_signaled;
->   	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
->   	dma_fence_get(f);
-> -
-> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
->   	return true;
->   }
->   
-> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
->   		return true;
->   
->   	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
-> -		int ret;
-> -
-> -		ret = dma_fence_signal(&fence->base);
-> -		if (!ret)
-> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
-> +		dma_fence_signal(&fence->base);
->   		return true;
->   	}
->   	return false;
-> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->   {
->   	uint64_t seq[RADEON_NUM_RINGS] = {};
->   	long r;
-> -	int r_sig;
->   
->   	/*
->   	 * This function should not be called on !radeon fences.
-> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->   		return r;
->   	}
->   
-> -	r_sig = dma_fence_signal(&fence->base);
-> -	if (!r_sig)
-> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
-> +	dma_fence_signal(&fence->base);
->   	return r;
->   }
->   
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 69de2c76731f..3736746c47bd 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
->   
->   void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
->   {
-> -	int ret = dma_fence_signal(&fence->scheduled);
-> -
-> -	if (!ret)
-> -		DMA_FENCE_TRACE(&fence->scheduled,
-> -				"signaled from irq context\n");
-> -	else
-> -		DMA_FENCE_TRACE(&fence->scheduled,
-> -				"was already signaled\n");
-> +	dma_fence_signal(&fence->scheduled);
->   }
->   
->   void drm_sched_fence_finished(struct drm_sched_fence *fence)
->   {
-> -	int ret = dma_fence_signal(&fence->finished);
-> -
-> -	if (!ret)
-> -		DMA_FENCE_TRACE(&fence->finished,
-> -				"signaled from irq context\n");
-> -	else
-> -		DMA_FENCE_TRACE(&fence->finished,
-> -				"was already signaled\n");
-> +	dma_fence_signal(&fence->finished);
->   }
->   
->   static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 6ffb4b2c6371..4cc119ab272f 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
->   struct dma_fence *dma_fence_allocate_private_stub(void);
->   u64 dma_fence_context_alloc(unsigned num);
->   
-> -#define DMA_FENCE_TRACE(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
-> -			pr_info("f %llu#%llu: " fmt,			\
-> -				__ff->context, __ff->seqno, ##args);	\
-> -	} while (0)
-> -
-> -#define DMA_FENCE_WARN(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
-> -			 ##args);					\
-> -	} while (0)
-> -
-> -#define DMA_FENCE_ERR(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
-> -			##args);					\
-> -	} while (0)
-> -
->   #endif /* __LINUX_DMA_FENCE_H */
+> So as Jani suggested here is a pull-req for a topic-branch with the
+> entire set, minus the troublesome i915 bits. Once this has been merged
+> into both drm-misc-next and drm-intel-next I can push the 2 i915
+> patch do drm-intel-next on top of the merge.
+>
+> Note there are also 2 drivers/usb/typec patches in here these
+> have Greg KH's Reviewed-by for merging through the drm tree,
+> Since this USB code does not change all that much. I also checked
+> and the drm-misc-next-2021-08-12 base of this tree contains the
+> same last commit to the modified file as usb-next.
+>
+> Daniel Vetter mentioned on IRC that it might be better for you to simply
+> pick-up the series directly from patchwork, that is fine too in that
+> case don't forget to add:
+>
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
+>
+> To the entire series (given in a reply to the cover-letter)
+>
+> And:
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
+> To the usb/typec patches (patch 7/8), this was given in reply
+> to a previous posting of the series and I forgot to add this
+> in the resend.
 
+Since this is mostly touching drm core, I think it should be merged to
+drm-misc-next first, and drm-intel-next after. Please let us know.
+
+BR,
+Jani.
+
+
+>
+> Regards,
+>
+> Hans
+>
+>
+> The following changes since commit c7782443a88926a4f938f0193041616328cf2db2:
+>
+>   drm/bridge: ti-sn65dsi86: Avoid creating multiple connectors (2021-08-12 09:56:09 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git drm-misc-intel-oob-hotplug-v1
+>
+> for you to fetch changes up to 7f811394878535ed9a6849717de8c2959ae38899:
+>
+>   usb: typec: altmodes/displayport: Notify drm subsys of hotplug events (2021-08-20 12:35:59 +0200)
+>
+> ----------------------------------------------------------------
+> Topic branch for drm-misc / drm-intel for OOB hotplug support for Type-C connectors
+>
+> ----------------------------------------------------------------
+> Hans de Goede (6):
+>       drm/connector: Give connector sysfs devices there own device_type
+>       drm/connector: Add a fwnode pointer to drm_connector and register with ACPI (v2)
+>       drm/connector: Add drm_connector_find_by_fwnode() function (v3)
+>       drm/connector: Add support for out-of-band hotplug notification (v3)
+>       usb: typec: altmodes/displayport: Make dp_altmode_notify() more generic
+>       usb: typec: altmodes/displayport: Notify drm subsys of hotplug events
+>
+>  drivers/gpu/drm/drm_connector.c          | 79 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_crtc_internal.h      |  2 +
+>  drivers/gpu/drm/drm_sysfs.c              | 87 +++++++++++++++++++++++++++-----
+>  drivers/usb/typec/altmodes/Kconfig       |  1 +
+>  drivers/usb/typec/altmodes/displayport.c | 58 +++++++++++++--------
+>  include/drm/drm_connector.h              | 25 +++++++++
+>  6 files changed, 217 insertions(+), 35 deletions(-)
+>
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
