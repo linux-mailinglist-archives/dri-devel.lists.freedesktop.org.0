@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF46C3F61F8
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 17:47:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F5E3F6201
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 17:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 172DF89A8B;
-	Tue, 24 Aug 2021 15:47:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83FA389A83;
+	Tue, 24 Aug 2021 15:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FF9A89A88;
- Tue, 24 Aug 2021 15:47:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="217343213"
-X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; d="scan'208";a="217343213"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2021 08:47:52 -0700
-X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; d="scan'208";a="425509683"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADFE189A83;
+ Tue, 24 Aug 2021 15:49:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="204473399"
+X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; d="scan'208";a="204473399"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2021 08:49:33 -0700
+X-IronPort-AV: E=Sophos;i="5.84,347,1620716400"; d="scan'208";a="643226969"
 Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
  ([10.1.27.20])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2021 08:47:52 -0700
-Date: Tue, 24 Aug 2021 08:42:41 -0700
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2021 08:49:32 -0700
+Date: Tue, 24 Aug 2021 08:44:22 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  daniel.vetter@ffwll.ch
-Subject: Re: [PATCH 13/27] drm/i915/guc: Take context ref when cancelling
- request
-Message-ID: <20210824154241.GA9672@jons-linux-dev-box>
+Subject: Re: [PATCH 17/27] drm/i915/guc: Flush G2H work queue during reset
+Message-ID: <20210824154422.GA9697@jons-linux-dev-box>
 References: <20210819061639.21051-1-matthew.brost@intel.com>
- <20210819061639.21051-14-matthew.brost@intel.com>
- <d25c1702-f529-8601-dd1c-ca0ac59d5f5b@intel.com>
+ <20210819061639.21051-18-matthew.brost@intel.com>
+ <f57ccb87-c6d7-1510-d43d-090490fd902a@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d25c1702-f529-8601-dd1c-ca0ac59d5f5b@intel.com>
+In-Reply-To: <f57ccb87-c6d7-1510-d43d-090490fd902a@intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,52 +52,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 20, 2021 at 05:07:27PM -0700, Daniele Ceraolo Spurio wrote:
+On Fri, Aug 20, 2021 at 05:25:41PM -0700, Daniele Ceraolo Spurio wrote:
 > 
 > 
 > On 8/18/2021 11:16 PM, Matthew Brost wrote:
-> > A context can get destroyed after cancelling a request so take a
-> > reference to context when cancelling a request.
+> > It isn't safe to scrub for missing G2H or continue with the reset until
+> > all G2H processing is complete. Flush the G2H work queue during reset to
+> > ensure it is done running.
 > 
-> What's the exact race? AFAICS __i915_request_skip does not have a
-> context_put().
+> Might be worth moving this patch closer to "drm/i915/guc: Process all G2H
+> message at once in work queue".
+> 
 
-This commit message isn't quite right, it is really a context reset or a
-GT reset which could result in the context getting destroyed. I haven't
-actually seen this happen but this just being paranoid about ref
-counting. Can fix up the commit message.
+Sure.
+
+> > Fixes: eb5e7da736f3 ("drm/i915/guc: Reset implementation for new GuC interface")
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c  | 18 ++----------------
+> >   1 file changed, 2 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 4cf5a565f08e..9a53bae367b1 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -714,8 +714,6 @@ static void guc_flush_submissions(struct intel_guc *guc)
+> >   void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+> >   {
+> > -	int i;
+> > -
+> >   	if (unlikely(!guc_submission_initialized(guc))) {
+> >   		/* Reset called during driver load? GuC not yet initialised! */
+> >   		return;
+> > @@ -731,20 +729,8 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+> >   	guc_flush_submissions(guc);
+> > -	/*
+> > -	 * Handle any outstanding G2Hs before reset. Call IRQ handler directly
+> > -	 * each pass as interrupt have been disabled. We always scrub for
+> > -	 * outstanding G2H as it is possible for outstanding_submission_g2h to
+> > -	 * be incremented after the context state update.
+> > -	 */
+> > -	for (i = 0; i < 4 && atomic_read(&guc->outstanding_submission_g2h); ++i) {
+> > -		intel_guc_to_host_event_handler(guc);
+> > -#define wait_for_reset(guc, wait_var) \
+> > -		intel_guc_wait_for_pending_msg(guc, wait_var, false, (HZ / 20))
+> > -		do {
+> > -			wait_for_reset(guc, &guc->outstanding_submission_g2h);
+> > -		} while (!list_empty(&guc->ct.requests.incoming));
+> > -	}
+> > +	flush_work(&guc->ct.requests.worker);
+> > +
+> 
+> We're now not waiting in the requests anymore, just ensuring that the
+> processing of the ones we already received is done. Is this intended? We do
+> still handle the remaining oustanding submission in the scrub so it's
+> functionally correct, but the commit message doesn't state the change in
+> waiting behavior, so wanted to double check it was planned.
+> 
+
+Yes, it is planned as scrub code should be able to cope with any missing
+G2H. Will update the commit message to reflect that.
 
 Matt
 
-> 
 > Daniele
 > 
-> > 
-> > Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 5 ++++-
-> >   1 file changed, 4 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index e0e85e4ad512..85f96d325048 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -1620,8 +1620,10 @@ static void guc_context_cancel_request(struct intel_context *ce,
-> >   				       struct i915_request *rq)
-> >   {
-> >   	if (i915_sw_fence_signaled(&rq->submit)) {
-> > -		struct i915_sw_fence *fence = guc_context_block(ce);
-> > +		struct i915_sw_fence *fence;
-> > +		intel_context_get(ce);
-> > +		fence = guc_context_block(ce);
-> >   		i915_sw_fence_wait(fence);
-> >   		if (!i915_request_completed(rq)) {
-> >   			__i915_request_skip(rq);
-> > @@ -1636,6 +1638,7 @@ static void guc_context_cancel_request(struct intel_context *ce,
-> >   		flush_work(&ce_to_guc(ce)->ct.requests.worker);
-> >   		guc_context_unblock(ce);
-> > +		intel_context_put(ce);
-> >   	}
+> >   	scrub_guc_desc_for_outstanding_g2h(guc);
 > >   }
 > 
