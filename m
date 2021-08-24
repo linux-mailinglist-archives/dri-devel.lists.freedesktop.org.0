@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D769C3F5E9A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 15:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC4F3F5EC6
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 15:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83AF589FDE;
-	Tue, 24 Aug 2021 13:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBC3898BE;
+	Tue, 24 Aug 2021 13:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28E9B89FDE
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:04:45 +0000 (UTC)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D126F898BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:14:16 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210824130443euoutp0136a3cd3eb3503cf174722164a2de2fc9~eP9FVMiW51634816348euoutp01K
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:04:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20210824130443euoutp0136a3cd3eb3503cf174722164a2de2fc9~eP9FVMiW51634816348euoutp01K
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210824131415euoutp024d3526b60af5d7c7143801ccf4b54b42~eQFZpLzjV0708107081euoutp02Z
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:14:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20210824131415euoutp024d3526b60af5d7c7143801ccf4b54b42~eQFZpLzjV0708107081euoutp02Z
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1629810283;
- bh=hyyPvFzmmD+5gwItV1wV/ZgBCFwwiOaD7PtUyxbViyk=;
+ s=mail20170921; t=1629810855;
+ bh=eJJi9emv25BwjyYtMiWC9IE1bH0IcQTZJ7aAWTiH7R8=;
  h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=FPnGHYR/8fWepP0/JK/1AxZq18ri/NEi3HGhChQHS7PcBcJUPPiILjhUQ611jk+k3
- i0nphtvZV4UIPabiDc40KrEJSXpKIc6XbcC+vYDHzpIr9DKKoA1jRaVfTqF20Qht8k
- esbVN8Nok2W2JQ2EWdOonjE5wkV1rrAG9+WQllXY=
+ b=Xn/dJWLhu0FKnrzgLidYNdrGN4LRydjifa7tZJg2LeNCyI+GvVfh5QO5tYac50VtG
+ IrPnce3ukzWBMq7w+5Qz7udxtuhl5GyINIIQvYOKQR8DS5c/5zHSmE14Mkzyk9a1wh
+ V7qCWkeR/w/J5gdVxWWSgRn1MxeHmfuNTXeZOcc0=
 Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20210824130442eucas1p20bad27fb1af3856cf3c7ccd1aa60c948~eP9E4SXaG2273122731eucas1p2J;
- Tue, 24 Aug 2021 13:04:42 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id A6.6F.42068.A6EE4216; Tue, 24
- Aug 2021 14:04:42 +0100 (BST)
+ 20210824131414eucas1p255250a7676f4a4f60adce98d23819112~eQFZO2ghz3065230652eucas1p26;
+ Tue, 24 Aug 2021 13:14:14 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 73.21.42068.6A0F4216; Tue, 24
+ Aug 2021 14:14:14 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20210824130442eucas1p276fb48e06a3cb497f95457f0993e2bed~eP9EYu0LG2273122731eucas1p2G;
- Tue, 24 Aug 2021 13:04:42 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210824131413eucas1p1cf4b3d3d6168b1cbfa6f795eb561178b~eQFYjym_T3195731957eucas1p1g;
+ Tue, 24 Aug 2021 13:14:13 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210824130442eusmtrp149e4fd064239d5ebd7dda95e514987d3~eP9EX6B_R2967929679eusmtrp1w;
- Tue, 24 Aug 2021 13:04:42 +0000 (GMT)
-X-AuditID: cbfec7f4-c71ff7000002a454-a3-6124ee6a57ec
+ 20210824131413eusmtrp1ebfb5e2ad4a126c916261b288d4e4ca7~eQFYi4SLj0348703487eusmtrp1i;
+ Tue, 24 Aug 2021 13:14:13 +0000 (GMT)
+X-AuditID: cbfec7f4-c71ff7000002a454-1e-6124f0a64797
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id D9.B1.20981.A6EE4216; Tue, 24
- Aug 2021 14:04:42 +0100 (BST)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 6F.41.31287.5A0F4216; Tue, 24
+ Aug 2021 14:14:13 +0100 (BST)
 Received: from [106.210.131.79] (unknown [106.210.131.79]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210824130441eusmtip17ac282730ec467c152aad3b5757bbb57~eP9DoPMeu3000130001eusmtip11;
- Tue, 24 Aug 2021 13:04:41 +0000 (GMT)
-Message-ID: <53fd7c71-d362-683f-39e8-3aa313e92c04@samsung.com>
-Date: Tue, 24 Aug 2021 15:04:41 +0200
+ 20210824131413eusmtip14825bc4e85990e869875e9aad1c9f84e~eQFX2CRYm0829008290eusmtip1Q;
+ Tue, 24 Aug 2021 13:14:13 +0000 (GMT)
+Message-ID: <b8dfa3de-9f84-27be-fce3-e63d68f99ccc@samsung.com>
+Date: Tue, 24 Aug 2021 15:14:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0)
  Gecko/20100101 Thunderbird/92.0
-Subject: Re: [PATCH v3 4/8] drm/mipi-dsi: Create devm device attachment
+Subject: Re: [PATCH v3 6/8] drm/bridge: ps8640: Register and attach our DSI
+ device at probe
 Content-Language: en-GB
 To: Maxime Ripard <maxime@cerno.tech>, Jonas Karlman <jonas@kwiboo.se>, Sam
  Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -66,52 +67,52 @@ To: Maxime Ripard <maxime@cerno.tech>, Jonas Karlman <jonas@kwiboo.se>, Sam
  <robert.foss@linaro.org>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 From: Andrzej Hajda <a.hajda@samsung.com>
-In-Reply-To: <20210823084723.1493908-5-maxime@cerno.tech>
+In-Reply-To: <20210823084723.1493908-7-maxime@cerno.tech>
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMKsWRmVeSWpSXmKPExsWy7djP87pZ71QSDd4vM7foPXeSyWL5mXXM
- Fle+vmezeD5/HaPFyTdXWSw6Jy5ht7i8aw6bxcKPW1ksZvz4x2hxqC/a4tOsh8wWK35uZbT4
- uWsei8WWNxNZHfg83t9oZfe4c+48m8fOWXfZPWZ3zGT1WLznJZPHiQmXmDzuXNvD5rH92wNW
- j3knAz3udx9n8lgy7Sqbx+bT1R6fN8kF8EZx2aSk5mSWpRbp2yVwZTzddJyt4AFjxd9Nog2M
- Wxi7GDk5JARMJLYse8rexcjFISSwglHiy8RjzBDOF0aJR4d3soJUCQl8ZpTof2gA03H21m9G
- iKLljBJrZ55mgyh6zyix/VkoiM0rYCfxYsFSdhCbRUBV4urf9ewQcUGJkzOfsIDYogIJEs+X
- fmUCsYUF3CUmzV7BDGIzC4hLNH1ZyQqyQETgN7PElubzbBAJR4mbU4+BXcQmoCnxd/NNsDin
- gKXE3fXLWSFq5CWat84Ge0FCYD+nxKTOy0AJDiDHReLk1AiID4QlXh3fwg5hy0icntzDAmHX
- S9xf0QLV28EosXXDTmaIhLXEnXO/2EDmMAMtXr9LHyLsKPF9znQmiPF8EjfeCkKcwCcxadt0
- Zogwr0RHmxBEtaLE/bNboQaKSyy98JVtAqPSLKRQmYXk+1lInpmFsHcBI8sqRvHU0uLc9NRi
- o7zUcr3ixNzi0rx0veT83E2MwHR4+t/xLzsYl7/6qHeIkYmD8RCjBAezkgjvXyblRCHelMTK
- qtSi/Pii0pzU4kOM0hwsSuK8SVvWxAsJpCeWpGanphakFsFkmTg4pRqYSvqu3XOU2Rrstkyv
- 09RhgXr4leb3iy2KFQ5KrfkYL29+6th6kykm4RbVxh3zmt/PvHLe7KHcsWcrI267nUlpv8HI
- uophxdGM6eLpnxu6P+8sDpw60U/vZqnnke+ykX1BDU5rVdsefVl96/jSmTyLPk4wOfT2msnV
- W+s4jA3+Bmhp/F3y+5p7v2jxpZk769ftYzG5cChc7pStltCEOUy5SZekpm7/O+9mtt/ZY+sW
- be/X9OSa96XgwgnrFe4XjtZttHZaNbnzz9R1VnxZb2dGrjpVGZZ623ONVJlJ6+nbWaqnq9NY
- /ixw1JtWt/JQ8688Jc/uPe0y6Q9nOZ6cVXHG4P3vk2kc2nNDDsZy84rdFldiKc5INNRiLipO
- BAA6Jvs+9gMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBIsWRmVeSWpSXmKPExsVy+t/xu7pZ71QSDT70ilr0njvJZLH8zDpm
- iytf37NZPJ+/jtHi5JurLBadE5ewW1zeNYfNYuHHrSwWM378Y7Q41Bdt8WnWQ2aLFT+3Mlr8
- 3DWPxWLLm4msDnwe72+0snvcOXeezWPnrLvsHrM7ZrJ6LN7zksnjxIRLTB53ru1h89j+7QGr
- x7yTgR73u48zeSyZdpXNY/Ppao/Pm+QCeKP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUM
- jc1jrYxMlfTtbFJSczLLUov07RL0Mp5uOs5W8ICx4u8m0QbGLYxdjJwcEgImEmdv/QayuTiE
- BJYySkze+IcNIiEusXv+W2YIW1jiz7UuNoiit4wSp69+YAdJ8ArYSbxYsBTMZhFQlbj6dz1U
- XFDi5MwnLCC2qECCxO7DXWBxYQF3iUmzV4ANZQZa0PRlJSuILSLwl1niy6JYiLijxM2px1gh
- lu1mlDg7/TNYM5uApsTfzTfBruMUsJS4u345K0SDmUTX1i5GCFteonnrbOYJjEKzkNwxC8m+
- WUhaZiFpWcDIsopRJLW0ODc9t9hIrzgxt7g0L10vOT93EyMwCWw79nPLDsaVrz7qHWJk4mA8
- xCjBwawkwvuXSTlRiDclsbIqtSg/vqg0J7X4EKMpMDAmMkuJJucD01BeSbyhmYGpoYmZpYGp
- pZmxkjivyZE18UIC6YklqdmpqQWpRTB9TBycUg1MszZ8/hSklHznq+k2Je2Yh3de7b945djv
- oA/+/Y/enxPv33ykqP2rkl9N1dX/cwvZNIM+uQk9y1B4pnF5J49inHujqYzhSvWEFcp5nWIv
- 98UdYIkTXMpRVM56rfqxSrX5y6VXZR5Zup28wWDSdsm7TtWsedNFbobVP2oWTcpjOtlvw/Pu
- puTN4PMXK3gDOIpbHqT8DRa32CHFIm2/c+VlxZilf9TPpIZEaR2bxDhF+uDftfc+f3n86pCo
- 6tZ4770iWdP+cOX2bTBa7qL2Y6fI+QPMXCflRYqmW3q3zmpdsS72NIf9zTkpBwSr5Z/cOjYp
- zmr+jduf2LY1zX2e/In1Wd2eQ8wVdsxdhx4W3T0zW4mlOCPRUIu5qDgRAKK9L4GLAwAA
-X-CMS-MailID: 20210824130442eucas1p276fb48e06a3cb497f95457f0993e2bed
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGKsWRmVeSWpSXmKPExsWy7djPc7rLPqgkGizYLG/Re+4kk8XyM+uY
+ La58fc9m8Xz+OkaLk2+uslh0TlzCbnF51xw2i4Uft7JYzPjxj9HiUF+0xadZD5ktVvzcymjx
+ c9c8FostbyayOvB5vL/Ryu5x59x5No+ds+6ye8zumMnqsXjPSyaPExMuMXncubaHzWP7twes
+ HvNOBnrc7z7O5LFk2lU2j82nqz0+b5IL4I3isklJzcksSy3St0vgyjj75ip7wT2FimfNt9kb
+ GG9LdjFyckgImEgc3zSHqYuRi0NIYAWjRHPnFGYI5wujxPG1XSwQzmdGiW1zDrDCtCxZf5AV
+ IrGcUWLXnA3sEM57Rol920GGcXLwCthJ3Dl3FcxmEVCVeH/oMTNEXFDi5MwnLCC2qECCxPOl
+ X8FqhAViJRo+nQeLMwuISzR9WQm2QUTgN7PElubzbBAJR4mbU4+BncEmoCnxd/NNoDgHB6eA
+ pcThheEQJfISzVtng/0gIXCYU6Jpwgc2iLNdJBpW9TJC2MISr45vYYewZSROT+5hgbDrJe6v
+ aIFq7mCU2LphJzNEwhrom19gy5iBFq/fpQ8RdpTof3KTHSQsIcAnceOtIMQNfBKTtk1nhgjz
+ SnS0CUFUK0rcP7sVaqC4xNILX9kmMCrNQgqVWUi+n4Xkm1kIexcwsqxiFE8tLc5NTy02ykst
+ 1ytOzC0uzUvXS87P3cQITIqn/x3/soNx+auPeocYmTgYDzFKcDArifD+ZVJOFOJNSaysSi3K
+ jy8qzUktPsQozcGiJM6btGVNvJBAemJJanZqakFqEUyWiYNTqoFp6ewFx7oPqq21r7jBrlCj
+ n5WYzC0f/EV9xe6sc57KYp9qXtee+WuziKtld5LHQildi+cpZ/v2sK36WqCryF/IrLf37o7V
+ yx1id0neO67E9fVV6pWAL2GTFFaKWU49vuQlY/6cBmmpyHlCxhJvN75cwPRgh/fJfc9PPv3c
+ 02HDyCfVva/h4MkVHTGzsleEODkmK3Ms85R681fnRpHxzIb/DjubLpy5fbpTbI4GkyK/Wv1G
+ sz9Vh+3PK/Pu13rxz3qeUNWpki9LOR73ciU1XBJWNHz5s1LuxeMNO74/FTrB/yhJbdsC19aL
+ v4RF35f+lv6S/yX21+ppX8/N6+/N4rTb+CnvxK/E1r8H67gmuFVNV2Ipzkg01GIuKk4EAFnf
+ dnD5AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBIsWRmVeSWpSXmKPExsVy+t/xu7pLP6gkGpw6qW/Re+4kk8XyM+uY
+ La58fc9m8Xz+OkaLk2+uslh0TlzCbnF51xw2i4Uft7JYzPjxj9HiUF+0xadZD5ktVvzcymjx
+ c9c8FostbyayOvB5vL/Ryu5x59x5No+ds+6ye8zumMnqsXjPSyaPExMuMXncubaHzWP7twes
+ HvNOBnrc7z7O5LFk2lU2j82nqz0+b5IL4I3SsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQz
+ NDaPtTIyVdK3s0lJzcksSy3St0vQyzj75ip7wT2FimfNt9kbGG9LdjFyckgImEgsWX+QtYuR
+ i0NIYCmjxNmZX1ggEuISu+e/ZYawhSX+XOtigyh6yyjx9Ng9VpAEr4CdxJ1zV5lAbBYBVYn3
+ hx4zQ8QFJU7OfAI2SFQgQWL34S52EFtYIFai4dN5sDgz0IKmLyvB5ogI/GWW+LIoFiLuKHFz
+ 6jGoi3YzSjzYewGsmU1AU+Lv5ptAV3BwcApYShxeGA5RbybRtbWLEcKWl2jeOpt5AqPQLCRn
+ zEKybhaSlllIWhYwsqxiFEktLc5Nzy021CtOzC0uzUvXS87P3cQITALbjv3cvINx3quPeocY
+ mTgYDzFKcDArifD+ZVJOFOJNSaysSi3Kjy8qzUktPsRoCgyLicxSosn5wDSUVxJvaGZgamhi
+ ZmlgamlmrCTOu3XumnghgfTEktTs1NSC1CKYPiYOTqkGJpfmlTWc8/Tm1V2sF3UJq5Pfpzt3
+ Ef+RI7sb9Pm8iq7p2qY29BRI9+/nWzrLqMb5m9W+e2oLZ6xb28l05l/X5W2rrh7d1abBty7w
+ YXm/bG4E86EPauelNjmHTDoW8/v0Ao+0tE0Xtzts3Fq6OVlo76F5G/9uCtIPq1s6vVArljX/
+ 1+cMhXdJEpu5+ypyZVcF776roRnt7XCqtT476+oa0/SdCdttvzJUV24w+V1+4Knjqxzjao+Q
+ QvXt8ycq1LaecX0Uk/tF8a31Jnul3lNS79Il3ZXjX0wwPfH2iveXU7pfig3OeUycu8juZe78
+ JtEen3Uvf3S911P2aQ718sl8cPt34uyYE8HdHkm+9962KbEUZyQaajEXFScCAL+ehLaLAwAA
+X-CMS-MailID: 20210824131413eucas1p1cf4b3d3d6168b1cbfa6f795eb561178b
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210823084758eucas1p2f4308b4435ef19643685d82e9bac977d
+X-RootMTR: 20210823084802eucas1p2a46bef1b5dd44f1738761f1ae605722c
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20210823084758eucas1p2f4308b4435ef19643685d82e9bac977d
+X-CMS-RootMailID: 20210823084802eucas1p2a46bef1b5dd44f1738761f1ae605722c
 References: <20210823084723.1493908-1-maxime@cerno.tech>
- <CGME20210823084758eucas1p2f4308b4435ef19643685d82e9bac977d@eucas1p2.samsung.com>
- <20210823084723.1493908-5-maxime@cerno.tech>
+ <CGME20210823084802eucas1p2a46bef1b5dd44f1738761f1ae605722c@eucas1p2.samsung.com>
+ <20210823084723.1493908-7-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,16 +130,144 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 W dniu 23.08.2021 o 10:47, Maxime Ripard pisze:
+> In order to avoid any probe ordering issue, the best practice is to move
+> the secondary MIPI-DSI device registration and attachment to the
+> MIPI-DSI host at probe time. Let's do this.
+>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>   drivers/gpu/drm/bridge/parade-ps8640.c | 93 ++++++++++++++------------
+>   1 file changed, 51 insertions(+), 42 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index 794c9516b05d..37f7d166a3c6 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -213,52 +213,10 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+>   				enum drm_bridge_attach_flags flags)
+>   {
+>   	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> -	struct device *dev = &ps_bridge->page[0]->dev;
+> -	struct device_node *in_ep, *dsi_node;
+> -	struct mipi_dsi_device *dsi;
+> -	struct mipi_dsi_host *host;
+> -	int ret;
+> -	const struct mipi_dsi_device_info info = { .type = "ps8640",
+> -						   .channel = 0,
+> -						   .node = NULL,
+> -						 };
+>   
+>   	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
+>   		return -EINVAL;
+>   
+> -	/* port@0 is ps8640 dsi input port */
+> -	in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+> -	if (!in_ep)
+> -		return -ENODEV;
+> -
+> -	dsi_node = of_graph_get_remote_port_parent(in_ep);
+> -	of_node_put(in_ep);
+> -	if (!dsi_node)
+> -		return -ENODEV;
+> -
+> -	host = of_find_mipi_dsi_host_by_node(dsi_node);
+> -	of_node_put(dsi_node);
+> -	if (!host)
+> -		return -ENODEV;
+> -
+> -	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+> -	if (IS_ERR(dsi)) {
+> -		dev_err(dev, "failed to create dsi device\n");
+> -		ret = PTR_ERR(dsi);
+> -		return ret;
+> -	}
+> -
+> -	ps_bridge->dsi = dsi;
+> -
+> -	dsi->host = host;
+> -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+> -			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+> -	dsi->format = MIPI_DSI_FMT_RGB888;
+> -	dsi->lanes = DP_NUM_LANES;
+> -	ret = devm_mipi_dsi_attach(dev, dsi);
+> -	if (ret)
+> -		return ret;
+> -
+>   	/* Attach the panel-bridge to the dsi bridge */
+>   	return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
+>   				 &ps_bridge->bridge, flags);
+> @@ -305,6 +263,53 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+>   	.pre_enable = ps8640_pre_enable,
+>   };
+>   
+> +static int ps8640_bridge_host_attach(struct device *dev, struct ps8640 *ps_bridge)
+> +{
+> +	struct device_node *in_ep, *dsi_node;
+> +	struct mipi_dsi_device *dsi;
+> +	struct mipi_dsi_host *host;
+> +	int ret;
+> +	const struct mipi_dsi_device_info info = { .type = "ps8640",
+> +						   .channel = 0,
+> +						   .node = NULL,
+> +						 };
+> +
+> +	/* port@0 is ps8640 dsi input port */
+> +	in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+> +	if (!in_ep)
+> +		return -ENODEV;
+> +
+> +	dsi_node = of_graph_get_remote_port_parent(in_ep);
+> +	of_node_put(in_ep);
+> +	if (!dsi_node)
+> +		return -ENODEV;
+> +
+> +	host = of_find_mipi_dsi_host_by_node(dsi_node);
+> +	of_node_put(dsi_node);
+> +	if (!host)
+> +		return -EPROBE_DEFER;
+> +
+> +	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+> +	if (IS_ERR(dsi)) {
+> +		dev_err(dev, "failed to create dsi device\n");
+> +		return PTR_ERR(dsi);
+> +	}
+> +
+> +	ps_bridge->dsi = dsi;
+> +
+> +	dsi->host = host;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+> +			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->lanes = DP_NUM_LANES;
+> +
+> +	ret = devm_mipi_dsi_attach(dev, dsi);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+>   static int ps8640_probe(struct i2c_client *client)
+>   {
+>   	struct device *dev = &client->dev;
+> @@ -371,6 +376,10 @@ static int ps8640_probe(struct i2c_client *client)
+>   
+>   	drm_bridge_add(&ps_bridge->bridge);
+>   
+> +	ret = ps8640_bridge_host_attach(dev, ps_bridge);
+> +	if (ret)
+> +		return ret;
 
 
-Missing description.
+I do not see drm_bridge_remove on error path, the same for sn65dsi83.
 
-With this fixed:
-
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
 Regards
+
 Andrzej
 
 
+> +
+>   	return 0;
+>   }
+>   
