@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A1A3F6BF4
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 00:54:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 051B73F6BF6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 00:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCCCF6E0E6;
-	Tue, 24 Aug 2021 22:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E44B6E0E8;
+	Tue, 24 Aug 2021 22:54:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD8316E0E6;
- Tue, 24 Aug 2021 22:54:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C9DBF61139;
- Tue, 24 Aug 2021 22:54:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 579406E0E8;
+ Tue, 24 Aug 2021 22:54:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A8F6561368;
+ Tue, 24 Aug 2021 22:54:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629845689;
- bh=soYdqs0Qs7xCVvPch05cxgy1fyh2lip8GCF4qssf2PA=;
+ s=k20201202; t=1629845693;
+ bh=YMZVjnEuueEqT8Dgrliww3EzUw/B4Yz4C4XgwxetSfc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vIYXerymKENVREB2YJr0myqfiT+haL9C5Kk2wzNPhXo/BAjH8MM2i+/kGyW1v3jZr
- g5RZ8cCWNXVnFD2zQ4K53bgZbKVfygJ1UjrLWmHHQ0SHKYWG0WQyJgvCgIlbK7R0IB
- wROIp6NwWMuDFgWhdCjBpDIEw9ByiO4YoT/Yl2XiFNqd5bf+8N0UTyM/0UuiUPlTeD
- nsJu5bixEpR4ux0D3P2lqz9vPUVHFhU4QGT6GBI7XteNt7Cigab2BmWYYWv24hJ3w1
- Y1RYNWAm52byXpxddb/K3PWdHwOC7SNUdm8Y2x6mBkv6z5RBWQCRejbbezXR9zHr6u
- yuast6MJAW/9w==
+ b=PDnYE3RqPH5egYvodseyZB8vFBQDMDOjywCoB5KoRCILSZSZ5POdOEn/fDVM42MUs
+ 4SEyaEptsec2BPHiPBErABUdEP/YF4VUp6J0UvbSclxtziZLhNU/2OSEmDAVYdncYs
+ NQuuczLWmv1UqhykGn1AjvrJsr1WDnDVtSnAmA0+io9g3wvIyvnx7T+4zHcwiNJO/G
+ 8SMmCL/wBqg4DARfRiLiuEcA7pnE/5MTZHAaSnyVTNtvYBlSFuT4HL8+bvjrcQje/7
+ 3yC9S9eb6GY0B+VQ8TXWNtYy4aqNBi8csKOx+1IrDYD7xCBkJcMiWIVZpA5YlHoobU
+ LWeuzEDn3OM5g==
 From: Nathan Chancellor <nathan@kernel.org>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -35,12 +35,10 @@ Cc: Jason Ekstrand <jason@jlekstrand.net>,
  Nick Desaulniers <ndesaulniers@google.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
- llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH 2/3] drm/i915/selftests: Always initialize err in
- igt_dmabuf_import_same_driver_lmem()
-Date: Tue, 24 Aug 2021 15:54:26 -0700
-Message-Id: <20210824225427.2065517-3-nathan@kernel.org>
+ llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH 3/3] drm/i915: Enable -Wsometimes-uninitialized
+Date: Tue, 24 Aug 2021 15:54:27 -0700
+Message-Id: <20210824225427.2065517-4-nathan@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210824225427.2065517-1-nathan@kernel.org>
 References: <20210824225427.2065517-1-nathan@kernel.org>
@@ -62,50 +60,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang warns:
+This warning helps catch uninitialized variables. It should have been
+enabled at the same time as commit b2423184ac33 ("drm/i915: Enable
+-Wuninitialized") but I did not realize they were disabled separately.
+Enable it now that i915 is clean so that it stays that way.
 
-drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:127:13: warning:
-variable 'err' is used uninitialized whenever 'if' condition is false
-[-Wsometimes-uninitialized]
-        } else if (PTR_ERR(import) != -EOPNOTSUPP) {
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:138:9: note:
-uninitialized use occurs here
-        return err;
-               ^~~
-drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:127:9: note: remove
-the 'if' if its condition is always true
-        } else if (PTR_ERR(import) != -EOPNOTSUPP) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:95:9: note:
-initialize the variable 'err' to silence this warning
-        int err;
-               ^
-                = 0
-
-The test is expected to pass if i915_gem_prime_import() returns
--EOPNOTSUPP so initialize err to zero in this case.
-
-Fixes: cdb35d1ed6d2 ("drm/i915/gem: Migrate to system at dma-buf attach time (v7)")
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/i915/Makefile | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index 532c7955b300..4a6bb64c3a35 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -128,6 +128,8 @@ static int igt_dmabuf_import_same_driver_lmem(void *arg)
- 		pr_err("i915_gem_prime_import failed with the wrong err=%ld\n",
- 		       PTR_ERR(import));
- 		err = PTR_ERR(import);
-+	} else {
-+		err = 0;
- 	}
- 
- 	dma_buf_put(dmabuf);
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 642a5b5a1b81..335ba9f43d8f 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -19,7 +19,6 @@ subdir-ccflags-y += $(call cc-disable-warning, missing-field-initializers)
+ subdir-ccflags-y += $(call cc-disable-warning, unused-but-set-variable)
+ # clang warnings
+ subdir-ccflags-y += $(call cc-disable-warning, sign-compare)
+-subdir-ccflags-y += $(call cc-disable-warning, sometimes-uninitialized)
+ subdir-ccflags-y += $(call cc-disable-warning, initializer-overrides)
+ subdir-ccflags-y += $(call cc-disable-warning, frame-address)
+ subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
 -- 
 2.33.0
 
