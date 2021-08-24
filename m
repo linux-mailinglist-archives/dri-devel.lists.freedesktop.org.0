@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5902B3F6BC2
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 00:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A193F6BF3
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 00:54:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071D76E0DE;
-	Tue, 24 Aug 2021 22:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8CCA6E0E5;
+	Tue, 24 Aug 2021 22:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6236E0DE
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 22:38:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A1F79613B1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 22:38:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C32A6E0E5;
+ Tue, 24 Aug 2021 22:54:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C2BF861139;
+ Tue, 24 Aug 2021 22:54:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629844680;
- bh=trvQSX2rJRWjrNLaSeH+EoF98vW2AeDpatiSlRzrcrM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=BOQ3wE1NmwwPIhLseOygSis856eUvkrahEq4aiqKLmaO3y9KYD64UwBdzswDFfqCb
- Kp3yOn6+0ib0Fdes7D0p0skaQ/9i4sskpzE3VaHTjQw2HL6TAg122msA9RhoLPv++t
- 0IJDPVMi7TlacxqI5dozaMeJAiFbTzB26TYaIQsl1KdT9X2siLWEd5HvO3pBYfTPZj
- YS7mbExQ05LT9xslKXZ78ctoqv+EbULUMqnb+M9Pr4IRqyB3t7te6vwHUVfiadFpOb
- elf66iqlxjfm9ey9vDLYq526GDegXBwIrfowaFaYZ4y1l/1RqrCh2cIH3HGeKElqDd
- u/k2xp4vbsavg==
-Received: by mail-ed1-f46.google.com with SMTP id b7so34032770edu.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 15:38:00 -0700 (PDT)
-X-Gm-Message-State: AOAM530DO5OFkB/3o0DsZnBRceRYGaaoL5lMFpDQzD7D4b2mDJ8POLJr
- FXGysBNcyt6W+TRQu+S+Uc3U48QxShZQjLhf2A==
-X-Google-Smtp-Source: ABdhPJzDhWPbuqXoUDyZU6JQ1us9W0MHZQTd6VrofksKXx5toZRzxtxZ1oWDbd1pY5TvIrGhGJk5UVv78myAkVYy5+c=
-X-Received: by 2002:aa7:c487:: with SMTP id m7mr25907783edq.62.1629844679242; 
- Tue, 24 Aug 2021 15:37:59 -0700 (PDT)
+ s=k20201202; t=1629845681;
+ bh=VRPyW1VeO7gfAN1WVH2HUQN9HNXvpNgT4uXN0dtpgSg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=flB5TcWMNT76AKxh3XR22CrIVe8y0lorcQ+fmCHwlvsCWMEVcQfSoaPUhs+8NCd3s
+ w3n5+bOLR393xOnucjv1GYNkNNyLzyt0Tvn3ywytxpMLxGssKqF51mFz+pQwl6khSn
+ J/2ZWz5pS1Ny9jpFU/IS94ve1YYaJ3MW2ggL++ktqzgAl6F2s7Xkk1DFDm3ssrOcZ7
+ GAYAHHwG3Spard0hg/zFb3yOZuIJ3fhxZDHdulADHM7JXE5PsDXhxws+PTgpIFBQwz
+ pokFrA+TYRhrdFRHJWih4350aovGhGvJB65V3RUJIoSUzco2ZsoqslXX93lpvE3VKX
+ igBtg/5u03RCA==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+ llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH 0/3] drm/i915: Enable -Wsometimes-uninitialized
+Date: Tue, 24 Aug 2021 15:54:24 -0700
+Message-Id: <20210824225427.2065517-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20210824173028.7528-1-alyssa.rosenzweig@collabora.com>
-In-Reply-To: <20210824173028.7528-1-alyssa.rosenzweig@collabora.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 24 Aug 2021 17:37:47 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJdhVMmroQLjaNVGoW3PJLS3qFRNAVRifGzR-jxNu1Stw@mail.gmail.com>
-Message-ID: <CAL_JsqJdhVMmroQLjaNVGoW3PJLS3qFRNAVRifGzR-jxNu1Stw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] drm/panfrost: Bug fixes for lock_region
-To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,83 +58,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 24, 2021 at 12:30 PM Alyssa Rosenzweig
-<alyssa.rosenzweig@collabora.com> wrote:
->
-> Chris Morgan reported UBSAN errors in panfrost and tracked them down to
-> the size computation in lock_region. This calculation is overcomplicated
-> (cargo culted from kbase) and can be simplified with kernel helpers and
-> some mathematical identities. The first patch in the series rewrites the
-> calculation in a form avoiding undefined behaviour; Chris confirms it
-> placates UBSAN.
->
-> While researching this function, I noticed a pair of other potential
-> bugs: Bifrost can lock more than 4GiB at a time, but must lock at least
-> 32KiB at a time. The latter patches in the series handle these cases.
->
-> In review of v1 of this series, Steven pointed out a fourth potential
-> bug: rounding down the iova can truncate the lock region. v2 adds a new
-> patch for this case.
->
-> The size computation was unit-tested in userspace. Relevant code below,
-> just missing some copypaste definitions for fls64/clamp/etc:
->
->         #define MIN_LOCK (1ULL << 12)
->         #define MAX_LOCK (1ULL << 48)
->
->         struct {
->                 uint64_t size;
->                 uint8_t encoded;
->         } tests[] = {
->                 /* Clamping */
->                 { 0, 11 },
->                 { 1, 11 },
->                 { 2, 11 },
->                 { 4095, 11 },
->                 /* Power of two */
->                 { 4096, 11 },
->                 /* Round up */
->                 { 4097, 12 },
->                 { 8192, 12 },
->                 { 16384, 13 },
->                 { 16385, 14 },
->                 /* Maximum */
->                 { ~0ULL, 47 },
->         };
->
->         static uint8_t region_width(uint64_t size)
->         {
->                 size = clamp(size, MIN_LOCK, MAX_LOCK);
->                 return fls64(size - 1) - 1;
->         }
->
->         int main(int argc, char **argv)
->         {
->                 for (unsigned i = 0; i < ARRAY_SIZE(tests); ++i) {
->                         uint64_t test = tests[i].size;
->                         uint8_t expected = tests[i].encoded;
->                         uint8_t actual = region_width(test);
->
->                         assert(expected == actual);
->                 }
->         }
->
-> Changes in v2:
->
-> * New patch for non-aligned lock addresses
-> * Commit message improvements.
-> * Add Steven's tags.
->
-> Alyssa Rosenzweig (4):
->   drm/panfrost: Simplify lock_region calculation
->   drm/panfrost: Use u64 for size in lock_region
->   drm/panfrost: Clamp lock region to Bifrost minimum
->   drm/panfrost: Handle non-aligned lock addresses
->
->  drivers/gpu/drm/panfrost/panfrost_mmu.c  | 32 ++++++++++--------------
->  drivers/gpu/drm/panfrost/panfrost_regs.h |  2 ++
->  2 files changed, 15 insertions(+), 19 deletions(-)
+Commit 46e2068081e9 ("drm/i915: Disable some extra clang warnings")
+disabled -Wsometimes-uninitialized as noisy but there have been a few
+fixes to clang that make the false positive rate fairly low so it should
+be enabled to help catch obvious mistakes. The first two patches fix
+revent instances of this warning then enables it for i915 like the rest
+of the tree.
 
-For the series,
+Cheers,
+Nathan
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Nathan Chancellor (3):
+  drm/i915/selftests: Do not use import_obj uninitialized
+  drm/i915/selftests: Always initialize err in
+    igt_dmabuf_import_same_driver_lmem()
+  drm/i915: Enable -Wsometimes-uninitialized
+
+ drivers/gpu/drm/i915/Makefile                        | 1 -
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 7 ++++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+
+base-commit: fb43ebc83e069625cfeeb2490efc3ffa0013bfa4
+-- 
+2.33.0
+
