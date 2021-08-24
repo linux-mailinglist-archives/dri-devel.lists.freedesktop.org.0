@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA453F5977
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 09:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D423F5A75
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 11:08:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8E8489D63;
-	Tue, 24 Aug 2021 07:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1694789453;
+	Tue, 24 Aug 2021 09:08:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 446A289D53
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 07:54:39 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1mIRGW-0001QD-E3; Tue, 24 Aug 2021 09:54:36 +0200
-Message-ID: <f6c8190a1291fe7fa0159de6c2a111efc713053f.camel@pengutronix.de>
-Subject: Re: [PATCH 7/8] drm/etnaviv: reference MMU context when setting up
- hardware state
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>, DRI mailing list
- <dri-devel@lists.freedesktop.org>, Russell King
- <linux+etnaviv@armlinux.org.uk>,  Sascha Hauer <kernel@pengutronix.de>,
- patchwork-lst@pengutronix.de
-Date: Tue, 24 Aug 2021 09:54:35 +0200
-In-Reply-To: <CAH9NwWc=nyt4nJpTc8AfRaM4LnWy86LNWadhza5LyFyv4SiQPw@mail.gmail.com>
-References: <20210820201830.2005563-1-l.stach@pengutronix.de>
- <20210820201830.2005563-7-l.stach@pengutronix.de>
- <CAH9NwWc=nyt4nJpTc8AfRaM4LnWy86LNWadhza5LyFyv4SiQPw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6FEA89893
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 07:38:11 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="196830475"
+X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; d="scan'208";a="196830475"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2021 00:38:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; d="scan'208";a="515317618"
+Received: from um.fi.intel.com (HELO um) ([10.237.72.62])
+ by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2021 00:38:07 -0700
+From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+To: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com, Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org,
+ alexander.shishkin@linux.intel.com
+Subject: Re: [PATCH v2 47/63] intel_th: msu: Use memset_startat() for
+ clearing hw header
+In-Reply-To: <20210818060533.3569517-48-keescook@chromium.org>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-48-keescook@chromium.org>
+Date: Tue, 24 Aug 2021 10:38:06 +0300
+Message-ID: <87sfyzi97l.fsf@ashishki-desk.ger.corp.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain
+X-Mailman-Approved-At: Tue, 24 Aug 2021 09:08:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,134 +56,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 24.08.2021 um 09:24 +0200 schrieb Christian Gmeiner:
-> Am Fr., 20. Aug. 2021 um 22:18 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
-> > 
-> > Move the refcount manipulation of the MMU context to the point where the
-> > hardware state is programmed. At that point it is also known if a previous
-> > MMU state is still there, or the state needs to be reprogrammed with a
-> > potentially different context.
-> > 
-> > Cc: stable@vger.kernel.org # 5.4
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > Tested-by: Michael Walle <michael@walle.cc>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c      | 24 +++++++++++-----------
-> >  drivers/gpu/drm/etnaviv/etnaviv_iommu.c    |  4 ++++
-> >  drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c |  8 ++++++++
-> >  3 files changed, 24 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > index f420c4f14657..1fa98ce870f7 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > @@ -641,17 +641,19 @@ void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch)
-> >         gpu->fe_running = true;
-> >  }
-> > 
-> > -static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu)
-> > +static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
-> > +                                         struct etnaviv_iommu_context *context)
-> >  {
-> > -       u32 address = etnaviv_cmdbuf_get_va(&gpu->buffer,
-> > -                               &gpu->mmu_context->cmdbuf_mapping);
-> >         u16 prefetch;
-> > +       u32 address;
-> > 
-> >         /* setup the MMU */
-> > -       etnaviv_iommu_restore(gpu, gpu->mmu_context);
-> > +       etnaviv_iommu_restore(gpu, context);
-> > 
-> >         /* Start command processor */
-> >         prefetch = etnaviv_buffer_init(gpu);
-> > +       address = etnaviv_cmdbuf_get_va(&gpu->buffer,
-> > +                                       &gpu->mmu_context->cmdbuf_mapping);
-> > 
-> >         etnaviv_gpu_start_fe(gpu, address, prefetch);
-> >  }
-> > @@ -1369,14 +1371,12 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
-> >                 goto out_unlock;
-> >         }
-> > 
-> > -       if (!gpu->fe_running) {
-> > -               gpu->mmu_context = etnaviv_iommu_context_get(submit->mmu_context);
-> > -               etnaviv_gpu_start_fe_idleloop(gpu);
-> > -       } else {
-> > -               if (submit->prev_mmu_context)
-> > -                       etnaviv_iommu_context_put(submit->prev_mmu_context);
-> > -               submit->prev_mmu_context = etnaviv_iommu_context_get(gpu->mmu_context);
-> > -       }
-> > +       if (!gpu->fe_running)
-> > +               etnaviv_gpu_start_fe_idleloop(gpu, submit->mmu_context);
-> > +
-> > +       if (submit->prev_mmu_context)
-> > +               etnaviv_iommu_context_put(submit->prev_mmu_context);
-> > +       submit->prev_mmu_context = etnaviv_iommu_context_get(gpu->mmu_context);
-> > 
-> >         if (submit->nr_pmrs) {
-> >                 gpu->event[event[1]].sync_point = &sync_point_perfmon_sample_pre;
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu.c b/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
-> > index 1a7c89a67bea..afe5dd6a9925 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
-> > @@ -92,6 +92,10 @@ static void etnaviv_iommuv1_restore(struct etnaviv_gpu *gpu,
-> >         struct etnaviv_iommuv1_context *v1_context = to_v1_context(context);
-> >         u32 pgtable;
-> > 
-> > +       if (gpu->mmu_context)
-> > +               etnaviv_iommu_context_put(gpu->mmu_context);
-> > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
-> > +
-> >         /* set base addresses */
-> >         gpu_write(gpu, VIVS_MC_MEMORY_BASE_ADDR_RA, context->global->memory_base);
-> >         gpu_write(gpu, VIVS_MC_MEMORY_BASE_ADDR_FE, context->global->memory_base);
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-> > index f8bf488e9d71..d664ae29ae20 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-> > @@ -172,6 +172,10 @@ static void etnaviv_iommuv2_restore_nonsec(struct etnaviv_gpu *gpu,
-> >         if (gpu_read(gpu, VIVS_MMUv2_CONTROL) & VIVS_MMUv2_CONTROL_ENABLE)
-> >                 return;
-> > 
-> > +       if (gpu->mmu_context)
-> > +               etnaviv_iommu_context_put(gpu->mmu_context);
-> > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
-> > +
-> >         prefetch = etnaviv_buffer_config_mmuv2(gpu,
-> >                                 (u32)v2_context->mtlb_dma,
-> >                                 (u32)context->global->bad_page_dma);
-> > @@ -192,6 +196,10 @@ static void etnaviv_iommuv2_restore_sec(struct etnaviv_gpu *gpu,
-> >         if (gpu_read(gpu, VIVS_MMUv2_SEC_CONTROL) & VIVS_MMUv2_SEC_CONTROL_ENABLE)
-> >                 return;
-> > 
-> > +       if (gpu->mmu_context)
-> > +               etnaviv_iommu_context_put(gpu->mmu_context);
-> > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
-> > +
-> 
-> I have seen this pattern now more than two times - maybe put the
-> assignment of a new mmu context into its own function?
-> 
-Yea, I thought about having some Gallium style reference handling
-functions, but that would change the code even more. Since I intend to
-have this series go into stable I wanted to keep the changes to a
-minimum for now. I was already on the fence with the first patch in
-this series, but that one provides very obvious legibility
-improvements, making it easier to review this series.
+Kees Cook <keescook@chromium.org> writes:
 
-Would you agree to leave it like that for the stable series and clean
-it up in a follow up change?
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+>
+> Use memset_startat() so memset() doesn't get confused about writing
+> beyond the destination member that is intended to be the starting point
+> of zeroing through the end of the struct.
+>
+> Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Regards,
-Lucas
+Acked-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 
-> >         gpu_write(gpu, VIVS_MMUv2_PTA_ADDRESS_LOW,
-> >                   lower_32_bits(context->global->v2.pta_dma));
-> >         gpu_write(gpu, VIVS_MMUv2_PTA_ADDRESS_HIGH,
-> > --
-> > 2.30.2
-> > 
-> 
-> 
-
-
+> ---
+>  drivers/hwtracing/intel_th/msu.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
+> index 432ade0842f6..70a07b4e9967 100644
+> --- a/drivers/hwtracing/intel_th/msu.c
+> +++ b/drivers/hwtracing/intel_th/msu.c
+> @@ -658,13 +658,11 @@ static void msc_buffer_clear_hw_header(struct msc *msc)
+>  
+>  	list_for_each_entry(win, &msc->win_list, entry) {
+>  		unsigned int blk;
+> -		size_t hw_sz = sizeof(struct msc_block_desc) -
+> -			offsetof(struct msc_block_desc, hw_tag);
+>  
+>  		for_each_sg(win->sgt->sgl, sg, win->nr_segs, blk) {
+>  			struct msc_block_desc *bdesc = sg_virt(sg);
+>  
+> -			memset(&bdesc->hw_tag, 0, hw_sz);
+> +			memset_startat(bdesc, 0, hw_tag);
+>  		}
+>  	}
+>  }
+> -- 
+> 2.30.2
