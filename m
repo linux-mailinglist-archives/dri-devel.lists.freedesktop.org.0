@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC1B3F5782
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 07:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BCCE3F57B9
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 07:52:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FFD789DBC;
-	Tue, 24 Aug 2021 05:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 252BB89C9D;
+	Tue, 24 Aug 2021 05:52:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9943089DBC
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 05:07:57 +0000 (UTC)
-X-UUID: 3bf5dd0fe9544c018f4735cbc9df4ffa-20210824
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=HXfD2dpVdefMeboFVp42P1mXdWpz9qejPwkSFWMGwjA=; 
- b=o7LnxyPuhkMHDC59yx4anqjwX//PYd9leWgsmRK8HgVzhle2VbsK0uNI92SpX4xLrJoSxKyoPdeTVBi+rMKmfEdfenC6RC3jo504w3lyUKlk2v9aLo6o4IMBqTVmt+tbu8A4FbPD4DKZpvm5ZHKmtJH9CgEYAgZ4ND2xDk6F0vI=;
-X-UUID: 3bf5dd0fe9544c018f4735cbc9df4ffa-20210824
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1442874073; Tue, 24 Aug 2021 13:07:51 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 24 Aug 2021 13:07:50 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 24 Aug 2021 13:07:50 +0800
-Message-ID: <9ce23e77e8ea5706b1d52700d655958f49eb911e.camel@mediatek.com>
-Subject: Re: [PATCH v3 02/15] dt-bindings: mediatek: add vdosys1 MERGE
- definition for mt8195
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-CC: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Rob Herring"
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "jason-jh .
- lin" <jason-jh.lin@mediatek.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, DTML
- <devicetree@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, <singo.chang@mediatek.com>, 
- srv_heupstream <srv_heupstream@mediatek.com>
-Date: Tue, 24 Aug 2021 13:07:50 +0800
-In-Reply-To: <CAAOTY_-mJ0WHK0pXqASprrc7GW0R_ZTRmJ8Yo8pu9js-cQ5HAw@mail.gmail.com>
-References: <20210818091847.8060-1-nancy.lin@mediatek.com>
- <20210818091847.8060-3-nancy.lin@mediatek.com>
- <CAAOTY_-mJ0WHK0pXqASprrc7GW0R_ZTRmJ8Yo8pu9js-cQ5HAw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
+ [IPv6:2607:f8b0:4864:20::834])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA4B89C9D;
+ Tue, 24 Aug 2021 05:52:41 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id r21so15834450qtw.11;
+ Mon, 23 Aug 2021 22:52:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aKoGOwtJBCz+YXwcucsOTN0b2bJIHpImilJMkwC9Tbs=;
+ b=gLenX77aB/Q5UkP2JB1FOsPKOnSyJci46eOvlG69RwyJUXdA4oDt2TV10t3e9DgZKo
+ BZfSfunPQI3TdPoDdp/XwTahlPEweI3EhSaYxY/SrPj8FmHF7SaOkx0ZhPZUR4YF6XPS
+ JckTo3V0cFVN+PJYZ5Rudf8rXm2mHv1Yr9ZrNcXP7mNhOr0s19FMkqN2oCn28770nTqL
+ yhd3pE0619o6R/ss2u9F94a0pjwO5SSFJs7icsWDiOamsPAzb/MygWPe9apghN/5s1PR
+ uD0iiBgrADIKvCcrwhDQGBdlM8SRKGP+gJeZWp7DpkDCb1HQqfZtczXUxOB0kFe4Lezn
+ zIfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aKoGOwtJBCz+YXwcucsOTN0b2bJIHpImilJMkwC9Tbs=;
+ b=FBv2W2xRQ5ZVvrO+8StBTh7h55knHrJ5+QELj0vftytKpqn41M241AJ3F58jHN4Xl0
+ QhgWfd1wCBzmspf0/tmqjLxlD6tGUlmoZkvo7CoPY/t4OizOt/zrZLHxCvePkMQ44FhK
+ ocMlKiJIW9FZHKRK56wCn0I3PwFa7xZNG/NoJKQWM4asHzzIkJeInFCXlmfTkH3Vw1Nm
+ Vul+4Z5IPAwZuQD9p6ZeCzBgeLXQI2qnlUn67vNcHZJ9Mgnpu0tjSHCx21LOGBFijsFN
+ 3EWZwHirX5LEKXouaVmlYwqNpup5xOBrlU2TLyadyOpsvXFlzox1cH2XIkChkaNBijTx
+ 2rHA==
+X-Gm-Message-State: AOAM530S0VC9cPVPX16PPphfJYSjqE8x/YGcVaGh0+qFXnceGrbL0Jd7
+ s5w+d8xpOV32gLCrNkkshsc=
+X-Google-Smtp-Source: ABdhPJwz05f+97PVxCqzt36XAuiK21Zd/o+zJB6NYu+02s36L/9A3Kr2jilB6keyjKCm4ifHeeEOFQ==
+X-Received: by 2002:ac8:46cd:: with SMTP id h13mr33116824qto.369.1629784360771; 
+ Mon, 23 Aug 2021 22:52:40 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id u22sm10141603qkj.123.2021.08.23.22.52.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Aug 2021 22:52:40 -0700 (PDT)
+From: CGEL <cgel.zte@gmail.com>
+X-Google-Original-From: CGEL <deng.changcheng@zte.com.cn>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@linux.ie>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Huang Rui <ray.huang@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jing Yangyang <jing.yangyang@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] drm:dcn31: fix boolreturn.cocci warnings
+Date: Mon, 23 Aug 2021 22:52:32 -0700
+Message-Id: <20210824055232.58653-1-deng.changcheng@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,31 +75,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQ2h1bi1LdWFuZywNCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KDQpPbiBGcmksIDIwMjEt
-MDgtMjAgYXQgMDc6MjUgKzA4MDAsIENodW4tS3VhbmcgSHUgd3JvdGU6DQo+IEhpLCBOYW5jeToN
-Cj4gDQo+IE5hbmN5LkxpbiA8bmFuY3kubGluQG1lZGlhdGVrLmNvbT4g5pa8IDIwMjHlubQ45pyI
-MTjml6Ug6YCx5LiJIOS4i+WNiDU6MTjlr6vpgZPvvJoNCj4gPiANCj4gPiBBZGQgdmRvc3lzMSBN
-RVJHRSBkZWZpbml0aW9uLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IE5hbmN5LkxpbiA8bmFu
-Y3kubGluQG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxtZXJnZS55YW1sICAgIHwNCj4gPiAyICsrDQo+
-ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBkaWZmIC0tZ2l0
-DQo+ID4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRl
-ay9tZWRpYXRlayxtZXJnZQ0KPiA+IC55YW1sDQo+ID4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxtZXJnZQ0KPiA+IC55YW1sDQo+
-ID4gaW5kZXggMWEyN2IwMzcwODZiLi5iYTFlMGM4Mzc5ODggMTAwNjQ0DQo+ID4gLS0tDQo+ID4g
-YS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRp
-YXRlayxtZXJnZQ0KPiA+IC55YW1sDQo+ID4gKysrDQo+ID4gYi9Eb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxtZXJnZQ0KPiA+IC55YW1s
-DQo+ID4gQEAgLTIzLDYgKzIzLDggQEAgcHJvcGVydGllczoNCj4gPiAgICAgICAgICAgIC0gY29u
-c3Q6IG1lZGlhdGVrLG10ODE3My1kaXNwLW1lcmdlDQo+ID4gICAgICAgIC0gaXRlbXM6DQo+ID4g
-ICAgICAgICAgICAtIGNvbnN0OiBtZWRpYXRlayxtdDgxOTUtZGlzcC1tZXJnZQ0KPiA+ICsgICAg
-ICAtIGl0ZW1zOg0KPiA+ICsgICAgICAgICAgLSBjb25zdDogbWVkaWF0ZWssbXQ4MTk1LXZkbzEt
-bWVyZ2UNCj4gDQo+IEkgZG9uJ3Qga25vdyB3aHkgY3JlYXRlIGEgbmV3IG1lcmdlIGZvciBtdDgx
-OTUuIFByb3ZpZGUgbW9yZQ0KPiBpbmZvcm1hdGlvbiBhYm91dCB0aGUgZGlmZmVyZW5jZSBvZiB0
-aGVzZSB0d28gbWVyZ2UuDQo+IA0KQ29tcGFyZWQgd2l0aCBNVDgxOTUgbWVyZ2UwIGFuZCBtZXJn
-ZTUsIG1lcmdlMX40IGhhcyBtb3JlIG11dGUNCmZ1bmN0aW9uLiBJIHdpbGwgcmVtb3ZlIHRoaXMg
-bmV3IGNvbXBhdGlibGUsIG1vdmUgb3ZsX2FkYXB0b3IgbWVyZ2UgdG8NCm1lcmdlIGNvbW1vbiBk
-cml2ZXIsIGFuZCBhZGQgbmV3IG1lcmdlIGJpbmRpbmcgcHJvcGVydHkgdG8gaW5jcmVhc2UNCm11
-dGUgZnVuY3Rpb24uDQoNCj4gUmVnYXJkcywNCj4gQ2h1bi1LdWFuZy4NCj4gDQo+ID4gDQo+ID4g
-ICAgcmVnOg0KPiA+ICAgICAgbWF4SXRlbXM6IDENCj4gPiAtLQ0KPiA+IDIuMTguMA0KPiA+IA0K
+From: Jing Yangyang <jing.yangyang@zte.com.cn>
+
+./drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c:112:9-10:WARNING:
+return of 0/1 in function 'dcn31_is_panel_backlight_on'
+with return type bool
+
+./drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c:122:9-10:WARNING:
+return of 0/1 in function 'dcn31_is_panel_powered_on'
+with return type bool
+
+Return statements in functions returning bool should use true/false
+instead of 1/0.
+
+Generated by: scripts/coccinelle/misc/boolreturn.cocci
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Jing Yangyang <jing.yangyang@zte.com.cn>
+---
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
+index 7db268d..3b37213 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
+@@ -109,7 +109,7 @@ bool dcn31_is_panel_backlight_on(struct panel_cntl *panel_cntl)
+ 	union dmub_rb_cmd cmd;
+ 
+ 	if (!dcn31_query_backlight_info(panel_cntl, &cmd))
+-		return 0;
++		return false;
+ 
+ 	return cmd.panel_cntl.data.is_backlight_on;
+ }
+@@ -119,7 +119,7 @@ bool dcn31_is_panel_powered_on(struct panel_cntl *panel_cntl)
+ 	union dmub_rb_cmd cmd;
+ 
+ 	if (!dcn31_query_backlight_info(panel_cntl, &cmd))
+-		return 0;
++		return false;
+ 
+ 	return cmd.panel_cntl.data.is_powered_on;
+ }
+-- 
+1.8.3.1
+
 
