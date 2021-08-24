@@ -2,67 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519FF3F6BC0
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 00:37:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5902B3F6BC2
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 00:38:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB146E0D8;
-	Tue, 24 Aug 2021 22:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 071D76E0DE;
+	Tue, 24 Aug 2021 22:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4726E0D8
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 22:37:46 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id f6so20831313iox.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 15:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=N2KxnHa/5CXRSQusM6YnlNCt9dIjl+2phwzvOUDij4o=;
- b=Kv/F+w3zogYrf9JdN1LrLuzl5nxItyM8qeG/HMMw9o+i2vG9H2xfFJSQuIZNXsE87a
- 8EiZC7wL/9jLYg0OOl/pglYwTsaCkvjnCVnsPiiHPC7D2Rl9mBCxTCz7k8xeHs8VH4Rd
- VYifVKaWpWMP0wxasf7327R0Jzs0rqN85faKI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=N2KxnHa/5CXRSQusM6YnlNCt9dIjl+2phwzvOUDij4o=;
- b=jq/JC9IdQYUtJ1a6ex9DLZfHPaA0XmjacTXgjvXsJ4BLDcZQTOX9MMwF24y+hJ5ns6
- NqQaO5RLHS6mI80JnwD7U5CO7SSUbph9wwh1nhGyqbZhLl+Zg9jU8JI5ehdqCvLZ+sne
- Grg4oVnl+FkgZtO4mdR8BM7ekPEoxw/NaUT8T1W1jEEOL1OeeNqE4Gyawi9cZy1qxFPe
- umMCnomR9EJTzhCMsjk+7Qa8S/QPQx6VqfZMne5rP8QIkTpO14niXE/pFrPYYi406P0H
- Da7QYz18syHMKIY4NrAT3g3N1ToCmb3uYem+HktwG/57SdPEppP0Q4TC/zSh0fTR83vQ
- pDVw==
-X-Gm-Message-State: AOAM5309wGTKIbmziTFY8tTwtbNqDYZovamhdcKRUl8KvWRvMEDXQWdp
- JbdYIzbTLBiuA1bBxU1m5XJ/PdOrh+WOew==
-X-Google-Smtp-Source: ABdhPJzI1YgieBV41Qc9T4gJIOfhHC2U8x2NhHUlW4Jw3hOSZAHmyNoBS2buicUFt534/NvRaz2Mtg==
-X-Received: by 2002:a6b:6a14:: with SMTP id x20mr34876108iog.177.1629844665651; 
- Tue, 24 Aug 2021 15:37:45 -0700 (PDT)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com.
- [209.85.166.54])
- by smtp.gmail.com with ESMTPSA id k6sm10299014ilu.41.2021.08.24.15.37.44
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 15:37:44 -0700 (PDT)
-Received: by mail-io1-f54.google.com with SMTP id f6so20831249iox.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 15:37:44 -0700 (PDT)
-X-Received: by 2002:a5e:a813:: with SMTP id c19mr33362612ioa.199.1629844664506; 
- Tue, 24 Aug 2021 15:37:44 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA6236E0DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 22:38:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A1F79613B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 22:38:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629844680;
+ bh=trvQSX2rJRWjrNLaSeH+EoF98vW2AeDpatiSlRzrcrM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=BOQ3wE1NmwwPIhLseOygSis856eUvkrahEq4aiqKLmaO3y9KYD64UwBdzswDFfqCb
+ Kp3yOn6+0ib0Fdes7D0p0skaQ/9i4sskpzE3VaHTjQw2HL6TAg122msA9RhoLPv++t
+ 0IJDPVMi7TlacxqI5dozaMeJAiFbTzB26TYaIQsl1KdT9X2siLWEd5HvO3pBYfTPZj
+ YS7mbExQ05LT9xslKXZ78ctoqv+EbULUMqnb+M9Pr4IRqyB3t7te6vwHUVfiadFpOb
+ elf66iqlxjfm9ey9vDLYq526GDegXBwIrfowaFaYZ4y1l/1RqrCh2cIH3HGeKElqDd
+ u/k2xp4vbsavg==
+Received: by mail-ed1-f46.google.com with SMTP id b7so34032770edu.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 15:38:00 -0700 (PDT)
+X-Gm-Message-State: AOAM530DO5OFkB/3o0DsZnBRceRYGaaoL5lMFpDQzD7D4b2mDJ8POLJr
+ FXGysBNcyt6W+TRQu+S+Uc3U48QxShZQjLhf2A==
+X-Google-Smtp-Source: ABdhPJzDhWPbuqXoUDyZU6JQ1us9W0MHZQTd6VrofksKXx5toZRzxtxZ1oWDbd1pY5TvIrGhGJk5UVv78myAkVYy5+c=
+X-Received: by 2002:aa7:c487:: with SMTP id m7mr25907783edq.62.1629844679242; 
+ Tue, 24 Aug 2021 15:37:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210820162201.1.I8ead7431357409f2526e5739ec5bc3ddfd242243@changeid>
-In-Reply-To: <20210820162201.1.I8ead7431357409f2526e5739ec5bc3ddfd242243@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 24 Aug 2021 15:37:32 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W56FsUOzrRQ7Y5F4g7yBSXr-KJ45t32ghGSsNtFsNUMg@mail.gmail.com>
-Message-ID: <CAD=FV=W56FsUOzrRQ7Y5F4g7yBSXr-KJ45t32ghGSsNtFsNUMg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: parade-ps8640: Reorg the macros
-To: Philip Chen <philipchen@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
- Philip Chen <philipchen@google.com>, Andrzej Hajda <a.hajda@samsung.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+References: <20210824173028.7528-1-alyssa.rosenzweig@collabora.com>
+In-Reply-To: <20210824173028.7528-1-alyssa.rosenzweig@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 24 Aug 2021 17:37:47 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJdhVMmroQLjaNVGoW3PJLS3qFRNAVRifGzR-jxNu1Stw@mail.gmail.com>
+Message-ID: <CAL_JsqJdhVMmroQLjaNVGoW3PJLS3qFRNAVRifGzR-jxNu1Stw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] drm/panfrost: Bug fixes for lock_region
+To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,31 +60,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Aug 24, 2021 at 12:30 PM Alyssa Rosenzweig
+<alyssa.rosenzweig@collabora.com> wrote:
+>
+> Chris Morgan reported UBSAN errors in panfrost and tracked them down to
+> the size computation in lock_region. This calculation is overcomplicated
+> (cargo culted from kbase) and can be simplified with kernel helpers and
+> some mathematical identities. The first patch in the series rewrites the
+> calculation in a form avoiding undefined behaviour; Chris confirms it
+> placates UBSAN.
+>
+> While researching this function, I noticed a pair of other potential
+> bugs: Bifrost can lock more than 4GiB at a time, but must lock at least
+> 32KiB at a time. The latter patches in the series handle these cases.
+>
+> In review of v1 of this series, Steven pointed out a fourth potential
+> bug: rounding down the iova can truncate the lock region. v2 adds a new
+> patch for this case.
+>
+> The size computation was unit-tested in userspace. Relevant code below,
+> just missing some copypaste definitions for fls64/clamp/etc:
+>
+>         #define MIN_LOCK (1ULL << 12)
+>         #define MAX_LOCK (1ULL << 48)
+>
+>         struct {
+>                 uint64_t size;
+>                 uint8_t encoded;
+>         } tests[] = {
+>                 /* Clamping */
+>                 { 0, 11 },
+>                 { 1, 11 },
+>                 { 2, 11 },
+>                 { 4095, 11 },
+>                 /* Power of two */
+>                 { 4096, 11 },
+>                 /* Round up */
+>                 { 4097, 12 },
+>                 { 8192, 12 },
+>                 { 16384, 13 },
+>                 { 16385, 14 },
+>                 /* Maximum */
+>                 { ~0ULL, 47 },
+>         };
+>
+>         static uint8_t region_width(uint64_t size)
+>         {
+>                 size = clamp(size, MIN_LOCK, MAX_LOCK);
+>                 return fls64(size - 1) - 1;
+>         }
+>
+>         int main(int argc, char **argv)
+>         {
+>                 for (unsigned i = 0; i < ARRAY_SIZE(tests); ++i) {
+>                         uint64_t test = tests[i].size;
+>                         uint8_t expected = tests[i].encoded;
+>                         uint8_t actual = region_width(test);
+>
+>                         assert(expected == actual);
+>                 }
+>         }
+>
+> Changes in v2:
+>
+> * New patch for non-aligned lock addresses
+> * Commit message improvements.
+> * Add Steven's tags.
+>
+> Alyssa Rosenzweig (4):
+>   drm/panfrost: Simplify lock_region calculation
+>   drm/panfrost: Use u64 for size in lock_region
+>   drm/panfrost: Clamp lock region to Bifrost minimum
+>   drm/panfrost: Handle non-aligned lock addresses
+>
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c  | 32 ++++++++++--------------
+>  drivers/gpu/drm/panfrost/panfrost_regs.h |  2 ++
+>  2 files changed, 15 insertions(+), 19 deletions(-)
 
-On Fri, Aug 20, 2021 at 4:22 PM Philip Chen <philipchen@chromium.org> wrote:
->
-> From: Philip Chen <philipchen@chromium.org>
->
-> Reorg the macros as follows:
-> (1) Group the registers on the same page together.
-> (2) Group the register and its bit operation together while indenting
-> the macros of the bit operation with one space.
->
-> Also fix a misnomer for the number of mipi data lanes.
->
-> Signed-off-by: Philip Chen <philipchen@chromium.org>
-> Signed-off-by: Philip Chen <philipchen@google.com>
-> ---
->
->  drivers/gpu/drm/bridge/parade-ps8640.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+For the series,
 
-This seems fine to me other than the slightly mixed up Signed-off-by
-lines. I think that the git config from wherever you ran "git
-send-email" had your @google.com address even if you authored the
-patch with your @chomium.org address. Once that's fixed then I'm happy
-to add my Reviewed-by and (unless someone objects) I'll plan to apply
-this patch to drm-misc-next.
-
--Doug
+Reviewed-by: Rob Herring <robh@kernel.org>
