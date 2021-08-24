@@ -2,117 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC4F3F5EC6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 15:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889B93F61B5
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 17:33:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBC3898BE;
-	Tue, 24 Aug 2021 13:14:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE343899DE;
+	Tue, 24 Aug 2021 15:33:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D126F898BE
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:14:16 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210824131415euoutp024d3526b60af5d7c7143801ccf4b54b42~eQFZpLzjV0708107081euoutp02Z
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 13:14:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20210824131415euoutp024d3526b60af5d7c7143801ccf4b54b42~eQFZpLzjV0708107081euoutp02Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1629810855;
- bh=eJJi9emv25BwjyYtMiWC9IE1bH0IcQTZJ7aAWTiH7R8=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=Xn/dJWLhu0FKnrzgLidYNdrGN4LRydjifa7tZJg2LeNCyI+GvVfh5QO5tYac50VtG
- IrPnce3ukzWBMq7w+5Qz7udxtuhl5GyINIIQvYOKQR8DS5c/5zHSmE14Mkzyk9a1wh
- V7qCWkeR/w/J5gdVxWWSgRn1MxeHmfuNTXeZOcc0=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20210824131414eucas1p255250a7676f4a4f60adce98d23819112~eQFZO2ghz3065230652eucas1p26;
- Tue, 24 Aug 2021 13:14:14 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 73.21.42068.6A0F4216; Tue, 24
- Aug 2021 14:14:14 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210824131413eucas1p1cf4b3d3d6168b1cbfa6f795eb561178b~eQFYjym_T3195731957eucas1p1g;
- Tue, 24 Aug 2021 13:14:13 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210824131413eusmtrp1ebfb5e2ad4a126c916261b288d4e4ca7~eQFYi4SLj0348703487eusmtrp1i;
- Tue, 24 Aug 2021 13:14:13 +0000 (GMT)
-X-AuditID: cbfec7f4-c71ff7000002a454-1e-6124f0a64797
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 6F.41.31287.5A0F4216; Tue, 24
- Aug 2021 14:14:13 +0100 (BST)
-Received: from [106.210.131.79] (unknown [106.210.131.79]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210824131413eusmtip14825bc4e85990e869875e9aad1c9f84e~eQFX2CRYm0829008290eusmtip1Q;
- Tue, 24 Aug 2021 13:14:13 +0000 (GMT)
-Message-ID: <b8dfa3de-9f84-27be-fce3-e63d68f99ccc@samsung.com>
-Date: Tue, 24 Aug 2021 15:14:12 +0200
+X-Greylist: delayed 1884 seconds by postgrey-1.36 at gabe;
+ Tue, 24 Aug 2021 14:23:23 UTC
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com
+ [67.231.156.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C2B89A7A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 14:23:23 +0000 (UTC)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+ by mx0b-0016f401.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17O7c7kr001613;
+ Tue, 24 Aug 2021 06:51:46 -0700
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2177.outbound.protection.outlook.com [104.47.58.177])
+ by mx0b-0016f401.pphosted.com with ESMTP id 3amkrkaym1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Aug 2021 06:51:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GTZ9mW4HHzCzXONiLA/akogyGeGNEP2e8RvITWE2o8ErUxtFNn8okYPKI8Qn4jdRTACV/soCiAZNUk81zjIgRDdLFiA6lF5l23j16HCQP9lOMOOJuCUhkobfTLVpUw+Lgvc0+fshvTQG6W2qdWHMvm/VVZTm2VMIt4vkvgnYjXR31cgmwomPC1umsdOhot007tqLRmhP7FTD3mFVgL4mnF3qIzElIDGtmB6Pwj7nO/uxMNhLTTMTJTcfWrH3cJAdIHHgdUV1bFe2CTxzWORA6JbxEX+kqYaN4xRISo3dVghewriaT0r/cAdamPZmxohenU5iafSZYV5V058simfsWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d7Q/8UGudqLi8wcwPle43t+wM7F6ZcDGUqZV6Wh/DQM=;
+ b=TB5y/reqXD+V6Bcw8hTQTrXsBByjtayUV7wywozhTQeEiqhqrmqeaq2yQ8+Yjs9ukNY4a3DWXI0u1Gx3zDHbqYy0VAL1CALIn7MF78EQ6xy2XYyI6hjJTs2UWQD5893+DbUlCNwfjYg+bPhxrxJXTAjNQK71aKultLE+7vxirBWNZF0ItQ5X2nBVml01el66BWTjjnu6hxPbqCNsFvFHRLOZbgARGnkodyr9WOwOy/80InNXfzAlZj3rYaA/4xrmIFOMA1rpaNKe6+XAXfquS6HpxX7t1vOo8O1+81rV8vjadNtL9iqBtIedUVBB5wWhPGUQP/WiZDf1Zr/QKBJozQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d7Q/8UGudqLi8wcwPle43t+wM7F6ZcDGUqZV6Wh/DQM=;
+ b=CHtBS7WCUilc9iwor4XjRsrnL3RjZXhIsCO5FHsvjHUrgOVGNpfAMwdrJW9+NS+qYZjDU45D+67hP9vm3EyQNu2m2yKs7fuDPB4eOrWnRbPp7EB1DsvX/x07wX1BKivUUwDwy47f4dduEnRToszoem+B/aLB2IzUebCAdjGw/14=
+Received: from DM5PR18MB2229.namprd18.prod.outlook.com (2603:10b6:4:b9::24) by
+ DM4PR18MB4173.namprd18.prod.outlook.com (2603:10b6:5:390::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4436.21; Tue, 24 Aug 2021 13:51:45 +0000
+Received: from DM5PR18MB2229.namprd18.prod.outlook.com
+ ([fe80::a9c9:dccf:5e59:fdec]) by DM5PR18MB2229.namprd18.prod.outlook.com
+ ([fe80::a9c9:dccf:5e59:fdec%2]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
+ 13:51:44 +0000
+From: Prabhakar Kushwaha <pkushwaha@marvell.com>
+To: Kees Cook <keescook@chromium.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+CC: Ariel Elior <aelior@marvell.com>, Sudarsana Reddy Kalluru
+ <skalluru@marvell.com>, GR-everest-linux-l2
+ <GR-everest-linux-l2@marvell.com>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Shai Malin <smalin@marvell.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, "linux-wireless@vger.kernel.org"
+ <linux-wireless@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-staging@lists.linux.dev"
+ <linux-staging@lists.linux.dev>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
+ <linux-kbuild@vger.kernel.org>, "clang-built-linux@googlegroups.com"
+ <clang-built-linux@googlegroups.com>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, "linux-hardening@vger.kernel.org"
+ <linux-hardening@vger.kernel.org>
+Subject: RE: [PATCH v2 17/63] bnx2x: Use struct_group() for memcpy() region
+Thread-Topic: [PATCH v2 17/63] bnx2x: Use struct_group() for memcpy() region
+Thread-Index: AdeY7yGdR9cZvhLdSru1pL8aUI2KKQ==
+Date: Tue, 24 Aug 2021 13:51:44 +0000
+Message-ID: <DM5PR18MB2229B0413C372CC6E49D59A3B2C59@DM5PR18MB2229.namprd18.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: chromium.org; dkim=none (message not signed)
+ header.d=none;chromium.org; dmarc=none action=none header.from=marvell.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cff11d0b-a9d6-4ef8-79a0-08d967064f71
+x-ms-traffictypediagnostic: DM4PR18MB4173:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM4PR18MB4173859078969B3FB6DD878CB2C59@DM4PR18MB4173.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2276;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: A48KM2JlMSMYgGArSHWjjJVD6xTijC+sMFJ/pdep2lhNAEFu8S31wBryajCFXqph1dRnIb99zR/ENyy8ItUiE0CFHDOe959R0Rz3AYK2RO0nD9QRVEjed97DVP6Em8VexOUJ4gp4n3srtbnjkZza4sTa1gVn9rtKWI+UzbZcnLIRubvaM7u8Uehs0owExl52VjGqitNFeGD6eHxfvxpGfuz3NESmJUoDntwzWPZ8NJqeSgGOxc09aPp4o80qA1HbHnpo+tgGh+YoCLlj2m/s2qsOwtT5UmCdrm4woUOmmWXU1vArd1mz7o4CGRypHhaGUXeZfB9nT3vvda//LMjg1Cc/cKLV0AaJvTDSUFdopdbazasd+Z1UDk6sK3U7AwHZm2hVb04LwnAFyz/5voGihLiW30RVWFr4n2MHdLZU/I6NQJCMZCW/XrTEQWh8/R1NWWYbrnqV2lYvMnu9G5vNm98DmH3IaBYmLuK4YT4xvB9UoAEGLe9zstngepVwURFphINW425nh2ScKQJqC+pL7PinCB7OZso3V3kq8+wpfyMgYL8iS62bXyuVn41s3n1sX06Vi5UVNm5maXbj+zFocVTY7AZlpHxb0AypIqD6+8WF5Q8dOCo8NBL4yCUJdz7d5M2wF769p7RyEsrXwKoPsD4jdtaGOacajg4oDMEXePRAstuX4LdF4vCEAx0CX7Fo0eYeX6jT8+cmc40mFJHTEQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR18MB2229.namprd18.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(366004)(396003)(136003)(376002)(39860400002)(6506007)(83380400001)(26005)(76116006)(66946007)(53546011)(122000001)(9686003)(64756008)(55016002)(86362001)(66446008)(38100700002)(66556008)(66476007)(54906003)(33656002)(4326008)(71200400001)(316002)(186003)(8676002)(8936002)(7416002)(478600001)(38070700005)(5660300002)(7696005)(52536014)(2906002)(110136005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?EMDIb0DJI8NV0xiWg7/D5hHaDWHCeDakcGy/278+cHfPg4FEvj1RULd+LY1V?=
+ =?us-ascii?Q?mvT/JOTAOIJvK6HqD/vlPwz+dhLIzBFNiWXADKZlC/INcG+INVr7/vM1Wsiw?=
+ =?us-ascii?Q?O23P9w2+qJxzteL3TrWDr95dnVkZBnSkBQLym6qkwt1JY+0lWtnAFq2wTa0N?=
+ =?us-ascii?Q?xFfZH0vtOex/q0v/noaqvI4vL0A1jlqYpimb2pM1qqH4anPQDVTZkIXDDpGU?=
+ =?us-ascii?Q?56gQF0Pjo8Lq6+DP4lSVaBnAPmVxwVE02YgkINn3bxTa98Vf5tXQHEZdi8H7?=
+ =?us-ascii?Q?KWbmHRRRalXBU4cDvvMZyi6gXGO4a+eD+j8ZKMG59FQBW3n0cBdIHfPUlMRh?=
+ =?us-ascii?Q?TsTltdQogzI7BvGQzUX0BzWdkb49YwF2QST7+Ol/0Rv4UeveJr4H3NzvzjuP?=
+ =?us-ascii?Q?1UxL05n3SrnHK7RnGcDJbJOGGt4awXNsnPbUvIyjh7ni09Zv61zeyYiHq5g+?=
+ =?us-ascii?Q?8/x3wOrpleWlXp66e9gy+/2/c9gxNfLbSMOI6XwCpaCKaVnJN+hQmjCQ8AIq?=
+ =?us-ascii?Q?8MoRFl4j+jt1n8ca0MkPO3rJMELlxlR4kgm8dWRCkiDT0QArszs6hsaDdZY1?=
+ =?us-ascii?Q?z7NX9aFdbS5WnOXtEkZdueyNj2Ovho3QfAzofKT2Zrl5fzAgOXWKiRxYkq6u?=
+ =?us-ascii?Q?PDevoZ2dRFa5jgfhLVLmbO+/eJEuVkUJQFtXOm3abUrTr/w4oTIIHySIM04v?=
+ =?us-ascii?Q?JCMUDkiEB4M0JTh9XIxMDubek566tSQIcg6SLNHJTZ1XXywNOC8zy9zeI04h?=
+ =?us-ascii?Q?bgz6LpJmmNUlxR1SdFT4anRbfI1P2gXbZVUkdTMgbO3kS/m/6eOSr/jdVtHU?=
+ =?us-ascii?Q?7eo7cIFVLCy5PwzpaGKPhfv/0qUBvIG9b1aZ9LRDKOzP57pHIKc/WZra0VGM?=
+ =?us-ascii?Q?fbaAw6nQcRfnvmepUxBGFVSpMtJLT+vsFkxvPPYM8qTfQvb4MjM3UWcpYVUh?=
+ =?us-ascii?Q?oaYJuFhu7QLpeRhMkiZGFdKArTEMbKOSBPe8jQLHnP9NNrwx/6Sq1ZpOH3de?=
+ =?us-ascii?Q?kKnuukJ21vXn9ZkhGxDfLXYELdemQEcsuZITqvgAh9GKf1uXwEoqO5NRrjBN?=
+ =?us-ascii?Q?QESh8lLi/IbI4rQln+J+S5sPzRJtd2FPe5u5ylMs+UledCu6GIGg6nonOzrs?=
+ =?us-ascii?Q?CNZsrucVDyhaH+ST31Gn1cS7U/83K8usv3bBSmEVznXXUkEV6rpwXIi5j+2Q?=
+ =?us-ascii?Q?vw/DNoIaqzsSRXNe3TpdweF4AUaSFOmq0YFaUheWZRWTeGQ4XS3+3WOwPfOV?=
+ =?us-ascii?Q?PaZC9Jb4CpTONNpbwkASp2EVSAA5PqVwP6RTa7iy9311VQ6zpcw9HPEszm8h?=
+ =?us-ascii?Q?wB0aQqxTrFzOGhs1b8PziTyd?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0)
- Gecko/20100101 Thunderbird/92.0
-Subject: Re: [PATCH v3 6/8] drm/bridge: ps8640: Register and attach our DSI
- device at probe
-Content-Language: en-GB
-To: Maxime Ripard <maxime@cerno.tech>, Jonas Karlman <jonas@kwiboo.se>, Sam
- Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Neil Armstrong <narmstrong@baylibre.com>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Robert Foss
- <robert.foss@linaro.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-In-Reply-To: <20210823084723.1493908-7-maxime@cerno.tech>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGKsWRmVeSWpSXmKPExsWy7djPc7rLPqgkGizYLG/Re+4kk8XyM+uY
- La58fc9m8Xz+OkaLk2+uslh0TlzCbnF51xw2i4Uft7JYzPjxj9HiUF+0xadZD5ktVvzcymjx
- c9c8FostbyayOvB5vL/Ryu5x59x5No+ds+6ye8zumMnqsXjPSyaPExMuMXncubaHzWP7twes
- HvNOBnrc7z7O5LFk2lU2j82nqz0+b5IL4I3isklJzcksSy3St0vgyjj75ip7wT2FimfNt9kb
- GG9LdjFyckgImEgc3zSHqYuRi0NIYAWjRHPnFGYI5wujxPG1XSwQzmdGiW1zDrDCtCxZf5AV
- IrGcUWLXnA3sEM57Rol920GGcXLwCthJ3Dl3FcxmEVCVeH/oMTNEXFDi5MwnLCC2qECCxPOl
- X8FqhAViJRo+nQeLMwuISzR9WQm2QUTgN7PElubzbBAJR4mbU4+BncEmoCnxd/NNoDgHB6eA
- pcThheEQJfISzVtng/0gIXCYU6Jpwgc2iLNdJBpW9TJC2MISr45vYYewZSROT+5hgbDrJe6v
- aIFq7mCU2LphJzNEwhrom19gy5iBFq/fpQ8RdpTof3KTHSQsIcAnceOtIMQNfBKTtk1nhgjz
- SnS0CUFUK0rcP7sVaqC4xNILX9kmMCrNQgqVWUi+n4Xkm1kIexcwsqxiFE8tLc5NTy02ykst
- 1ytOzC0uzUvXS87P3cQITIqn/x3/soNx+auPeocYmTgYDzFKcDArifD+ZVJOFOJNSaysSi3K
- jy8qzUktPsQozcGiJM6btGVNvJBAemJJanZqakFqEUyWiYNTqoFp6ewFx7oPqq21r7jBrlCj
- n5WYzC0f/EV9xe6sc57KYp9qXtee+WuziKtld5LHQildi+cpZ/v2sK36WqCryF/IrLf37o7V
- yx1id0neO67E9fVV6pWAL2GTFFaKWU49vuQlY/6cBmmpyHlCxhJvN75cwPRgh/fJfc9PPv3c
- 02HDyCfVva/h4MkVHTGzsleEODkmK3Ms85R681fnRpHxzIb/DjubLpy5fbpTbI4GkyK/Wv1G
- sz9Vh+3PK/Pu13rxz3qeUNWpki9LOR73ciU1XBJWNHz5s1LuxeMNO74/FTrB/yhJbdsC19aL
- v4RF35f+lv6S/yX21+ppX8/N6+/N4rTb+CnvxK/E1r8H67gmuFVNV2Ipzkg01GIuKk4EAFnf
- dnD5AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBIsWRmVeSWpSXmKPExsVy+t/xu7pLP6gkGpw6qW/Re+4kk8XyM+uY
- La58fc9m8Xz+OkaLk2+uslh0TlzCbnF51xw2i4Uft7JYzPjxj9HiUF+0xadZD5ktVvzcymjx
- c9c8FostbyayOvB5vL/Ryu5x59x5No+ds+6ye8zumMnqsXjPSyaPExMuMXncubaHzWP7twes
- HvNOBnrc7z7O5LFk2lU2j82nqz0+b5IL4I3SsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQz
- NDaPtTIyVdK3s0lJzcksSy3St0vQyzj75ip7wT2FimfNt9kbGG9LdjFyckgImEgsWX+QtYuR
- i0NIYCmjxNmZX1ggEuISu+e/ZYawhSX+XOtigyh6yyjx9Ng9VpAEr4CdxJ1zV5lAbBYBVYn3
- hx4zQ8QFJU7OfAI2SFQgQWL34S52EFtYIFai4dN5sDgz0IKmLyvB5ogI/GWW+LIoFiLuKHFz
- 6jGoi3YzSjzYewGsmU1AU+Lv5ptAV3BwcApYShxeGA5RbybRtbWLEcKWl2jeOpt5AqPQLCRn
- zEKybhaSlllIWhYwsqxiFEktLc5Nzy021CtOzC0uzUvXS87P3cQITALbjv3cvINx3quPeocY
- mTgYDzFKcDArifD+ZVJOFOJNSaysSi3Kjy8qzUktPsRoCgyLicxSosn5wDSUVxJvaGZgamhi
- ZmlgamlmrCTOu3XumnghgfTEktTs1NSC1CKYPiYOTqkGJpfmlTWc8/Tm1V2sF3UJq5Pfpzt3
- Ef+RI7sb9Pm8iq7p2qY29BRI9+/nWzrLqMb5m9W+e2oLZ6xb28l05l/X5W2rrh7d1abBty7w
- YXm/bG4E86EPauelNjmHTDoW8/v0Ao+0tE0Xtzts3Fq6OVlo76F5G/9uCtIPq1s6vVArljX/
- 1+cMhXdJEpu5+ypyZVcF776roRnt7XCqtT476+oa0/SdCdttvzJUV24w+V1+4Knjqxzjao+Q
- QvXt8ycq1LaecX0Uk/tF8a31Jnul3lNS79Il3ZXjX0wwPfH2iveXU7pfig3OeUycu8juZe78
- JtEen3Uvf3S911P2aQ718sl8cPt34uyYE8HdHkm+9962KbEUZyQaajEXFScCAL+ehLaLAwAA
-X-CMS-MailID: 20210824131413eucas1p1cf4b3d3d6168b1cbfa6f795eb561178b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210823084802eucas1p2a46bef1b5dd44f1738761f1ae605722c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210823084802eucas1p2a46bef1b5dd44f1738761f1ae605722c
-References: <20210823084723.1493908-1-maxime@cerno.tech>
- <CGME20210823084802eucas1p2a46bef1b5dd44f1738761f1ae605722c@eucas1p2.samsung.com>
- <20210823084723.1493908-7-maxime@cerno.tech>
+X-OriginatorOrg: marvell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR18MB2229.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cff11d0b-a9d6-4ef8-79a0-08d967064f71
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2021 13:51:44.7798 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: S07K5TsDOEM1fYOyl4L5sHc6IFKNL8HtJzGfPubKFD6+2Z+PKq+bOkDAl63rre8IrpHApOzgGQ5mrJm/p90OxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR18MB4173
+X-Proofpoint-GUID: lLSeim5oVrTVDfdXvJxQPHeUBF8phhVS
+X-Proofpoint-ORIG-GUID: lLSeim5oVrTVDfdXvJxQPHeUBF8phhVS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-08-24_04,2021-08-24_01,2020-04-07_01
+X-Mailman-Approved-At: Tue, 24 Aug 2021 15:33:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,145 +150,49 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-W dniu 23.08.2021 o 10:47, Maxime Ripard pisze:
-> In order to avoid any probe ordering issue, the best practice is to move
-> the secondary MIPI-DSI device registration and attachment to the
-> MIPI-DSI host at probe time. Let's do this.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> -----Original Message-----
+> From: Kees Cook <keescook@chromium.org>
+> Sent: Wednesday, August 18, 2021 11:35 AM
+> To: linux-kernel@vger.kernel.org
+> Cc: Kees Cook <keescook@chromium.org>; Ariel Elior <aelior@marvell.com>;
+> Sudarsana Reddy Kalluru <skalluru@marvell.com>; GR-everest-linux-l2 <GR-
+> everest-linux-l2@marvell.com>; David S. Miller <davem@davemloft.net>; Jak=
+ub
+> Kicinski <kuba@kernel.org>; netdev@vger.kernel.org; Gustavo A. R. Silva
+> <gustavoars@kernel.org>; Greg Kroah-Hartman <gregkh@linuxfoundation.org>;
+> Andrew Morton <akpm@linux-foundation.org>; linux-wireless@vger.kernel.org=
+;
+> dri-devel@lists.freedesktop.org; linux-staging@lists.linux.dev; linux-
+> block@vger.kernel.org; linux-kbuild@vger.kernel.org; clang-built-
+> linux@googlegroups.com; Rasmus Villemoes <linux@rasmusvillemoes.dk>;
+> linux-hardening@vger.kernel.org
+> Subject: [PATCH v2 17/63] bnx2x: Use struct_group() for memcpy() region
+>=20
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields.
+>=20
+> Use struct_group() in struct nig_stats around members egress_mac_pkt0_lo,
+> egress_mac_pkt0_hi, egress_mac_pkt1_lo, and egress_mac_pkt1_hi (and the
+> respective members in struct bnx2x_eth_stats), so they can be referenced
+> together. This will allow memcpy() and sizeof() to more easily reason
+> about sizes, improve readability, and avoid future warnings about writing
+> beyond the end of struct bnx2x_eth_stats's rx_stat_ifhcinbadoctets_hi.
+>=20
+> "pahole" shows no size nor member offset changes to either struct.
+> "objdump -d" shows no meaningful object code changes (i.e. only source
+> line number induced differences and optimizations).
+>=20
+> Additionally adds BUILD_BUG_ON() to compare the separate struct group
+> sizes.
+>=20
+> Cc: Ariel Elior <aelior@marvell.com>
+> Cc: Sudarsana Kalluru <skalluru@marvell.com>
+> Cc: GR-everest-linux-l2@marvell.com
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->   drivers/gpu/drm/bridge/parade-ps8640.c | 93 ++++++++++++++------------
->   1 file changed, 51 insertions(+), 42 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> index 794c9516b05d..37f7d166a3c6 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -213,52 +213,10 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
->   				enum drm_bridge_attach_flags flags)
->   {
->   	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-> -	struct device *dev = &ps_bridge->page[0]->dev;
-> -	struct device_node *in_ep, *dsi_node;
-> -	struct mipi_dsi_device *dsi;
-> -	struct mipi_dsi_host *host;
-> -	int ret;
-> -	const struct mipi_dsi_device_info info = { .type = "ps8640",
-> -						   .channel = 0,
-> -						   .node = NULL,
-> -						 };
->   
->   	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
->   		return -EINVAL;
->   
-> -	/* port@0 is ps8640 dsi input port */
-> -	in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-> -	if (!in_ep)
-> -		return -ENODEV;
-> -
-> -	dsi_node = of_graph_get_remote_port_parent(in_ep);
-> -	of_node_put(in_ep);
-> -	if (!dsi_node)
-> -		return -ENODEV;
-> -
-> -	host = of_find_mipi_dsi_host_by_node(dsi_node);
-> -	of_node_put(dsi_node);
-> -	if (!host)
-> -		return -ENODEV;
-> -
-> -	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
-> -	if (IS_ERR(dsi)) {
-> -		dev_err(dev, "failed to create dsi device\n");
-> -		ret = PTR_ERR(dsi);
-> -		return ret;
-> -	}
-> -
-> -	ps_bridge->dsi = dsi;
-> -
-> -	dsi->host = host;
-> -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
-> -			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-> -	dsi->format = MIPI_DSI_FMT_RGB888;
-> -	dsi->lanes = DP_NUM_LANES;
-> -	ret = devm_mipi_dsi_attach(dev, dsi);
-> -	if (ret)
-> -		return ret;
-> -
->   	/* Attach the panel-bridge to the dsi bridge */
->   	return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
->   				 &ps_bridge->bridge, flags);
-> @@ -305,6 +263,53 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
->   	.pre_enable = ps8640_pre_enable,
->   };
->   
-> +static int ps8640_bridge_host_attach(struct device *dev, struct ps8640 *ps_bridge)
-> +{
-> +	struct device_node *in_ep, *dsi_node;
-> +	struct mipi_dsi_device *dsi;
-> +	struct mipi_dsi_host *host;
-> +	int ret;
-> +	const struct mipi_dsi_device_info info = { .type = "ps8640",
-> +						   .channel = 0,
-> +						   .node = NULL,
-> +						 };
-> +
-> +	/* port@0 is ps8640 dsi input port */
-> +	in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-> +	if (!in_ep)
-> +		return -ENODEV;
-> +
-> +	dsi_node = of_graph_get_remote_port_parent(in_ep);
-> +	of_node_put(in_ep);
-> +	if (!dsi_node)
-> +		return -ENODEV;
-> +
-> +	host = of_find_mipi_dsi_host_by_node(dsi_node);
-> +	of_node_put(dsi_node);
-> +	if (!host)
-> +		return -EPROBE_DEFER;
-> +
-> +	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
-> +	if (IS_ERR(dsi)) {
-> +		dev_err(dev, "failed to create dsi device\n");
-> +		return PTR_ERR(dsi);
-> +	}
-> +
-> +	ps_bridge->dsi = dsi;
-> +
-> +	dsi->host = host;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
-> +			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->lanes = DP_NUM_LANES;
-> +
-> +	ret = devm_mipi_dsi_attach(dev, dsi);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
->   static int ps8640_probe(struct i2c_client *client)
->   {
->   	struct device *dev = &client->dev;
-> @@ -371,6 +376,10 @@ static int ps8640_probe(struct i2c_client *client)
->   
->   	drm_bridge_add(&ps_bridge->bridge);
->   
-> +	ret = ps8640_bridge_host_attach(dev, ps_bridge);
-> +	if (ret)
-> +		return ret;
 
-
-I do not see drm_bridge_remove on error path, the same for sn65dsi83.
-
-
-Regards
-
-Andrzej
-
-
-> +
->   	return 0;
->   }
->   
+Reviewed-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
