@@ -1,62 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8719B3F5A32
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 10:52:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3933A3F5A6F
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 11:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10927898BC;
-	Tue, 24 Aug 2021 08:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE2D89369;
+	Tue, 24 Aug 2021 09:06:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com
- [IPv6:2607:f8b0:4864:20::a33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 535E78982F;
- Tue, 24 Aug 2021 08:52:11 +0000 (UTC)
-Received: by mail-vk1-xa33.google.com with SMTP id a185so1710921vke.13;
- Tue, 24 Aug 2021 01:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UANStODlvGjdD9CplNFInpuTcqC0HUZ8cbC5NgD6gY4=;
- b=FUjvKZnnmYWm4NpkUDg9WXhD8xlWx+ILWvJd0rjxNi09llRv0aBAKx7wwIsZKQw/kY
- Wp2lAMyII2s7cJIgRwWLKWrIvqq4B1bFPg9M+TbIGpo1/KS5Hzg0TqgpobzbchL57WcI
- TQwN3SZmGUJ8akErnNFBWhluv9kKutjjdfH5qa/OfxlglKKHod7vJXo7DZ3fteaOhFSg
- Ls7kHJhGleFluW9C49MB0xMhq50VudfeFl6Q6KERdBxyzQMCBwk1oASFOPFaE3IGZzDo
- XwXtvuWQID05k4zCESBiTZI+4BurM8Q0agwmCkfJ3sW4nc4cATI5od2ixDSGQnuN2mw6
- N9+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UANStODlvGjdD9CplNFInpuTcqC0HUZ8cbC5NgD6gY4=;
- b=sfbFSWUWg9qcvjnXw6P9e6Jl19DKY1AeNEv1N29xMtVj/u0SJSD6mrADnG0QZHNV4u
- gW7j0h26SjeTeU0KSdQjoNVxe8SblTW+KHF/ez4jMMwWlJCOqX5rP8MCTtiboBMxirJ9
- wZJB6lDLzS1tx5C5VobsgK+7tlJI7kNDhZxFkaME0sDlhBrrRptoUau8Az/8XGry5Ylp
- rAjv0OdokcuwYifw7QOs8U9IrAIcejdeFNnfFBHT5CdAyhVaSjn59ryL26YoCDJYrZwH
- Ab0CAMLaBU1ZPpf1YMZA+r8j1h+jPMvZSZKiRESchbvJhC6TVryrDeHw1U79OWFXFh/G
- GU/g==
-X-Gm-Message-State: AOAM530q7PLiIRadcsAnris1Ex/4Fg4vnm5HqNdkfSpPznLTGQYHPr+4
- ZCW6OLpi1wXCj34wH+TVkwAh12wJfPJqr9OtL6k=
-X-Google-Smtp-Source: ABdhPJyHCkKDw+iIJ8jCBR+Ey/CWp6dYAnYURxYMzemBY5zkPXY0nxILWurW08lNmKSA1h3e/6R5V3ZfX3wrRPxo44k=
-X-Received: by 2002:ac5:ca03:: with SMTP id c3mr3173627vkm.5.1629795130408;
- Tue, 24 Aug 2021 01:52:10 -0700 (PDT)
+Received: from smtp-fw-9103.amazon.com (smtp-fw-9103.amazon.com
+ [207.171.188.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0968B89369
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 09:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1629795987; x=1661331987;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=rnUhlHPoIJ2Phd42u7TjZjB5NMBB69P1r79MOcj/MTY=;
+ b=j1xf+0+15eAewZn+AnN9lMv89iu1epkfFIEhtU22g+o28qWfa/kB+cQb
+ c2u13EH6VgUkcMs0Bh07QJKktao8uZIPi6xILrEfP8tSYAH9YkPAanKpa
+ 5laxIstYSiy6TkKIY3aWdg/928GoDzmB+q3klRng+Yb2p3YC27Fm15gUh Y=;
+X-IronPort-AV: E=Sophos;i="5.84,346,1620691200"; d="scan'208";a="952569221"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
+ email-inbound-relay-1e-28209b7b.us-east-1.amazon.com) ([10.25.36.210])
+ by smtp-border-fw-9103.sea19.amazon.com with ESMTP; 24 Aug 2021 09:06:18 +0000
+Received: from EX13D19EUB003.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+ by email-inbound-relay-1e-28209b7b.us-east-1.amazon.com (Postfix) with ESMTPS
+ id 3FB57BFD9A; Tue, 24 Aug 2021 09:06:12 +0000 (UTC)
+Received: from 8c85908914bf.ant.amazon.com (10.43.162.216) by
+ EX13D19EUB003.ant.amazon.com (10.43.166.69) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.23; Tue, 24 Aug 2021 09:06:05 +0000
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>
+CC: Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Doug Ledford <dledford@redhat.com>, "open list:DMA BUFFER SHARING FRAMEWORK"
+ <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-rdma
+ <linux-rdma@vger.kernel.org>, Oded Gabbay <ogabbay@habana.ai>, Tomer Tayar
+ <ttayar@habana.ai>, Yossi Leybovich <sleybo@amazon.com>, Alexander
+ Matushevsky <matua@amazon.com>, Leon Romanovsky <leonro@nvidia.com>, Jianxin
+ Xiong <jianxin.xiong@intel.com>, John Hubbard <jhubbard@nvidia.com>
+References: <20210818074352.29950-1-galpress@amazon.com>
+ <CAKMK7uGZ_eX+XfYJU6EkKEOVrHz3q6QMxaEbyyD3_1iqj9YSjw@mail.gmail.com>
+ <20210819230602.GU543798@ziepe.ca>
+ <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
+ <20210820123316.GV543798@ziepe.ca>
+ <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+ <20210820143248.GX543798@ziepe.ca>
+ <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
+ <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+From: Gal Pressman <galpress@amazon.com>
+Message-ID: <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
+Date: Tue, 24 Aug 2021 12:06:00 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210820201830.2005563-1-l.stach@pengutronix.de>
- <20210820201830.2005563-7-l.stach@pengutronix.de>
- <CAH9NwWc=nyt4nJpTc8AfRaM4LnWy86LNWadhza5LyFyv4SiQPw@mail.gmail.com>
- <f6c8190a1291fe7fa0159de6c2a111efc713053f.camel@pengutronix.de>
-In-Reply-To: <f6c8190a1291fe7fa0159de6c2a111efc713053f.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Tue, 24 Aug 2021 10:51:59 +0200
-Message-ID: <CAH9NwWd17mOLcg=ZAx_FAMwHuQSwvYx_eRW-4st2K9nHOqHAFg@mail.gmail.com>
-Subject: Re: [PATCH 7/8] drm/etnaviv: reference MMU context when setting up
- hardware state
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Sascha Hauer <kernel@pengutronix.de>, patchwork-lst@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.43.162.216]
+X-ClientProxiedBy: EX13D10UWA003.ant.amazon.com (10.43.160.248) To
+ EX13D19EUB003.ant.amazon.com (10.43.166.69)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,134 +81,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas
+On 23/08/2021 13:43, Christian König wrote:
+> Am 21.08.21 um 11:16 schrieb Gal Pressman:
+>> On 20/08/2021 17:32, Jason Gunthorpe wrote:
+>>> On Fri, Aug 20, 2021 at 03:58:33PM +0300, Gal Pressman wrote:
+>>>
+>>>> Though it would've been nicer if we could agree on a solution that could work
+>>>> for more than 1-2 RDMA devices, using the existing tools the RDMA subsystem
+>>>> has.
+>>> I don't think it can really be done, revoke is necessary, and isn't a
+>>> primitive we have today.
+>>>
+>>> Revoke is sort of like rereg MR, but with a guaranteed no-change to
+>>> the lkey/rkey
+>>>
+>>> Then there is the locking complexity of linking the mr creation and
+>>> destruction to the lifecycle of the pages, which is messy and maybe
+>>> not general. For instance mlx5 would call its revoke_mr, disconnect
+>>> the dmabuf then destroy the mkey - but this is only safe because mlx5
+>>> HW can handle concurrent revokes.
+>> Thanks, that makes sense.
+>>
+>>>> That's why I tried to approach this by denying such attachments for non-ODP
+>>>> importers instead of exposing a "limited" dynamic importer.
+>>> That is fine if there is no revoke - once revoke exists we must have
+>>> driver and HW support.
+>> Agree.
+>> IIUC, we're talking about three different exporter "types":
+>> - Dynamic with move_notify (requires ODP)
+>> - Dynamic with revoke_notify
+>> - Static
+>>
+>> Which changes do we need to make the third one work?
+> 
+> Basically none at all in the framework.
+> 
+> You just need to properly use the dma_buf_pin() function when you start using a
+> buffer (e.g. before you create an attachment) and the dma_buf_unpin() function
+> after you are done with the DMA-buf.
 
-Am Di., 24. Aug. 2021 um 09:54 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> Am Dienstag, dem 24.08.2021 um 09:24 +0200 schrieb Christian Gmeiner:
-> > Am Fr., 20. Aug. 2021 um 22:18 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
-> > >
-> > > Move the refcount manipulation of the MMU context to the point where the
-> > > hardware state is programmed. At that point it is also known if a previous
-> > > MMU state is still there, or the state needs to be reprogrammed with a
-> > > potentially different context.
-> > >
-> > > Cc: stable@vger.kernel.org # 5.4
-> > > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > > Tested-by: Michael Walle <michael@walle.cc>
-> > > ---
-> > >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c      | 24 +++++++++++-----------
-> > >  drivers/gpu/drm/etnaviv/etnaviv_iommu.c    |  4 ++++
-> > >  drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c |  8 ++++++++
-> > >  3 files changed, 24 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > index f420c4f14657..1fa98ce870f7 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > @@ -641,17 +641,19 @@ void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch)
-> > >         gpu->fe_running = true;
-> > >  }
-> > >
-> > > -static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu)
-> > > +static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
-> > > +                                         struct etnaviv_iommu_context *context)
-> > >  {
-> > > -       u32 address = etnaviv_cmdbuf_get_va(&gpu->buffer,
-> > > -                               &gpu->mmu_context->cmdbuf_mapping);
-> > >         u16 prefetch;
-> > > +       u32 address;
-> > >
-> > >         /* setup the MMU */
-> > > -       etnaviv_iommu_restore(gpu, gpu->mmu_context);
-> > > +       etnaviv_iommu_restore(gpu, context);
-> > >
-> > >         /* Start command processor */
-> > >         prefetch = etnaviv_buffer_init(gpu);
-> > > +       address = etnaviv_cmdbuf_get_va(&gpu->buffer,
-> > > +                                       &gpu->mmu_context->cmdbuf_mapping);
-> > >
-> > >         etnaviv_gpu_start_fe(gpu, address, prefetch);
-> > >  }
-> > > @@ -1369,14 +1371,12 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
-> > >                 goto out_unlock;
-> > >         }
-> > >
-> > > -       if (!gpu->fe_running) {
-> > > -               gpu->mmu_context = etnaviv_iommu_context_get(submit->mmu_context);
-> > > -               etnaviv_gpu_start_fe_idleloop(gpu);
-> > > -       } else {
-> > > -               if (submit->prev_mmu_context)
-> > > -                       etnaviv_iommu_context_put(submit->prev_mmu_context);
-> > > -               submit->prev_mmu_context = etnaviv_iommu_context_get(gpu->mmu_context);
-> > > -       }
-> > > +       if (!gpu->fe_running)
-> > > +               etnaviv_gpu_start_fe_idleloop(gpu, submit->mmu_context);
-> > > +
-> > > +       if (submit->prev_mmu_context)
-> > > +               etnaviv_iommu_context_put(submit->prev_mmu_context);
-> > > +       submit->prev_mmu_context = etnaviv_iommu_context_get(gpu->mmu_context);
-> > >
-> > >         if (submit->nr_pmrs) {
-> > >                 gpu->event[event[1]].sync_point = &sync_point_perfmon_sample_pre;
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu.c b/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
-> > > index 1a7c89a67bea..afe5dd6a9925 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu.c
-> > > @@ -92,6 +92,10 @@ static void etnaviv_iommuv1_restore(struct etnaviv_gpu *gpu,
-> > >         struct etnaviv_iommuv1_context *v1_context = to_v1_context(context);
-> > >         u32 pgtable;
-> > >
-> > > +       if (gpu->mmu_context)
-> > > +               etnaviv_iommu_context_put(gpu->mmu_context);
-> > > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
-> > > +
-> > >         /* set base addresses */
-> > >         gpu_write(gpu, VIVS_MC_MEMORY_BASE_ADDR_RA, context->global->memory_base);
-> > >         gpu_write(gpu, VIVS_MC_MEMORY_BASE_ADDR_FE, context->global->memory_base);
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-> > > index f8bf488e9d71..d664ae29ae20 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
-> > > @@ -172,6 +172,10 @@ static void etnaviv_iommuv2_restore_nonsec(struct etnaviv_gpu *gpu,
-> > >         if (gpu_read(gpu, VIVS_MMUv2_CONTROL) & VIVS_MMUv2_CONTROL_ENABLE)
-> > >                 return;
-> > >
-> > > +       if (gpu->mmu_context)
-> > > +               etnaviv_iommu_context_put(gpu->mmu_context);
-> > > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
-> > > +
-> > >         prefetch = etnaviv_buffer_config_mmuv2(gpu,
-> > >                                 (u32)v2_context->mtlb_dma,
-> > >                                 (u32)context->global->bad_page_dma);
-> > > @@ -192,6 +196,10 @@ static void etnaviv_iommuv2_restore_sec(struct etnaviv_gpu *gpu,
-> > >         if (gpu_read(gpu, VIVS_MMUv2_SEC_CONTROL) & VIVS_MMUv2_SEC_CONTROL_ENABLE)
-> > >                 return;
-> > >
-> > > +       if (gpu->mmu_context)
-> > > +               etnaviv_iommu_context_put(gpu->mmu_context);
-> > > +       gpu->mmu_context = etnaviv_iommu_context_get(context);
-> > > +
-> >
-> > I have seen this pattern now more than two times - maybe put the
-> > assignment of a new mmu context into its own function?
-> >
-> Yea, I thought about having some Gallium style reference handling
-> functions, but that would change the code even more. Since I intend to
-> have this series go into stable I wanted to keep the changes to a
-> minimum for now. I was already on the fence with the first patch in
-> this series, but that one provides very obvious legibility
-> improvements, making it easier to review this series.
->
-> Would you agree to leave it like that for the stable series and clean
-> it up in a follow up change?
->
-
-Sure... sounds like a good plan.
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+I replied to your previous mail, but I'll ask again.
+Doesn't the pin operation migrate the memory to host memory?
