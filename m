@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CE63F5456
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 02:54:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA033F5454
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 02:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27F2089C1F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CADA89C46;
 	Tue, 24 Aug 2021 00:54:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C0789BFC;
- Tue, 24 Aug 2021 00:54:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3921E6141B;
- Tue, 24 Aug 2021 00:54:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24AF389C1F
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 00:54:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B21861407;
+ Tue, 24 Aug 2021 00:54:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629766458;
- bh=mSWfygBrAcGHiHALaFXdKb5REgofNVKcLCC4LuP8yU0=;
+ s=k20201202; t=1629766460;
+ bh=TzDkHWbm1aqqP/QD0DwYRBsztmwOsXXIIpYLomeTdD0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uuxrFJV4/tInBcFQRFGzFXU0b6OiD9qYsvy8vFjvHiPJ8Ih/9rZfSKI8IQGd+tm85
- dzvMAoiUQqudrTSKqDtI7HOJcSQ2OTwzW+76OxAMedMvJwujzcUMPtwLbVnTZVPAQJ
- eqT8L+jd4bL4NErMOGzjWdTgdKek4ZralAzlt9LFG8WzphUVmHXtaVtYYYr6Ik7ess
- +dMB4HHTNR+xuB8NisRlpL8FMLupfCGmojmmP0TwrI8qx9qWnR76wQiQjW+WI8IB+y
- loGVt2X5vjlRMLw80B5TLki7eSUJx7LXdO218PS9yByaSKvHPU1AG2zzXaksgKN26E
- z5MS+wofOMN5Q==
+ b=ebKxEGuS8OpRiw55hcd3/cWlcx03MKXuJX0cH33pJwS6TyZfb0Rh632xm7S2g/pn4
+ ye89+ZZWcogAdj9Y57rZ4GAmWBxdNA9btiZzLS4VcHBwmGmlOv92t00doRa3YsT6Dh
+ zRzEqt0272j2WpIbjxfFqiWpr+GWoVnZJ+LNDrp8zN1g4ucvgDnjXdPuAztPuU5lvW
+ BRxj06274DChCng0d4Pnm9NdTbCaLCCkwvgSesqmG5uPv9g4sKeFybciOA1WHhEGK1
+ fSd0tfKTtlT1mHPEoy/3/odal4piciu1K271wJQGFi8d5GMRXrBm79fTr0fIe0CXy7
+ HuTaffWe+uCeQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kenneth Feng <kenneth.feng@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.13 16/26] drm/amd/pm: change the workload type for
- some cards
-Date: Mon, 23 Aug 2021 20:53:46 -0400
-Message-Id: <20210824005356.630888-16-sashal@kernel.org>
+Cc: Mark Yacoub <markyacoub@google.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Mark Yacoub <markyacoub@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.13 18/26] drm: Copy drm_wait_vblank to user before
+ returning
+Date: Mon, 23 Aug 2021 20:53:48 -0400
+Message-Id: <20210824005356.630888-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210824005356.630888-1-sashal@kernel.org>
 References: <20210824005356.630888-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,55 +58,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kenneth Feng <kenneth.feng@amd.com>
+From: Mark Yacoub <markyacoub@google.com>
 
-[ Upstream commit 93c5701b00d50d192ce2247cb10d6c0b3fe25cd8 ]
+[ Upstream commit fa0b1ef5f7a694f48e00804a391245f3471aa155 ]
 
-change the workload type for some cards as it is needed.
+[Why]
+Userspace should get back a copy of drm_wait_vblank that's been modified
+even when drm_wait_vblank_ioctl returns a failure.
 
-Signed-off-by: Kenneth Feng <kenneth.feng@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Rationale:
+drm_wait_vblank_ioctl modifies the request and expects the user to read
+it back. When the type is RELATIVE, it modifies it to ABSOLUTE and updates
+the sequence to become current_vblank_count + sequence (which was
+RELATIVE), but now it became ABSOLUTE.
+drmWaitVBlank (in libdrm) expects this to be the case as it modifies
+the request to be Absolute so it expects the sequence to would have been
+updated.
+
+The change is in compat_drm_wait_vblank, which is called by
+drm_compat_ioctl. This change of copying the data back regardless of the
+return number makes it en par with drm_ioctl, which always copies the
+data before returning.
+
+[How]
+Return from the function after everything has been copied to user.
+
+Fixes IGT:kms_flip::modeset-vs-vblank-race-interruptible
+Tested on ChromeOS Trogdor(msm)
+
+Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
+Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210812194917.1703356-1-markyacoub@chromium.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_ioc32.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-index f5a32654cde7..cc6f19a48dea 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-@@ -5123,6 +5123,13 @@ static int vega10_get_power_profile_mode(struct pp_hwmgr *hwmgr, char *buf)
- 	return size;
+diff --git a/drivers/gpu/drm/drm_ioc32.c b/drivers/gpu/drm/drm_ioc32.c
+index 33390f02f5eb..e41d3a69a02a 100644
+--- a/drivers/gpu/drm/drm_ioc32.c
++++ b/drivers/gpu/drm/drm_ioc32.c
+@@ -856,8 +856,6 @@ static int compat_drm_wait_vblank(struct file *file, unsigned int cmd,
+ 	req.request.sequence = req32.request.sequence;
+ 	req.request.signal = req32.request.signal;
+ 	err = drm_ioctl_kernel(file, drm_wait_vblank_ioctl, &req, DRM_UNLOCKED);
+-	if (err)
+-		return err;
+ 
+ 	req32.reply.type = req.reply.type;
+ 	req32.reply.sequence = req.reply.sequence;
+@@ -866,7 +864,7 @@ static int compat_drm_wait_vblank(struct file *file, unsigned int cmd,
+ 	if (copy_to_user(argp, &req32, sizeof(req32)))
+ 		return -EFAULT;
+ 
+-	return 0;
++	return err;
  }
  
-+static bool vega10_get_power_profile_mode_quirks(struct pp_hwmgr *hwmgr)
-+{
-+	struct amdgpu_device *adev = hwmgr->adev;
-+
-+	return (adev->pdev->device == 0x6860);
-+}
-+
- static int vega10_set_power_profile_mode(struct pp_hwmgr *hwmgr, long *input, uint32_t size)
- {
- 	struct vega10_hwmgr *data = hwmgr->backend;
-@@ -5159,9 +5166,15 @@ static int vega10_set_power_profile_mode(struct pp_hwmgr *hwmgr, long *input, ui
- 	}
- 
- out:
--	smum_send_msg_to_smc_with_parameter(hwmgr, PPSMC_MSG_SetWorkloadMask,
-+	if (vega10_get_power_profile_mode_quirks(hwmgr))
-+		smum_send_msg_to_smc_with_parameter(hwmgr, PPSMC_MSG_SetWorkloadMask,
- 						1 << power_profile_mode,
- 						NULL);
-+	else
-+		smum_send_msg_to_smc_with_parameter(hwmgr, PPSMC_MSG_SetWorkloadMask,
-+						(!power_profile_mode) ? 0 : 1 << (power_profile_mode - 1),
-+						NULL);
-+
- 	hwmgr->power_profile_mode = power_profile_mode;
- 
- 	return 0;
+ #if defined(CONFIG_X86)
 -- 
 2.30.2
 
