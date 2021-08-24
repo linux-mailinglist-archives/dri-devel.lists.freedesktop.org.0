@@ -2,97 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC97E3F5667
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 05:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B0C3F5769
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 06:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9231189B61;
-	Tue, 24 Aug 2021 03:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D8589D57;
+	Tue, 24 Aug 2021 04:52:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FACF89B61
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 03:04:24 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id n5so13275235pjt.4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Aug 2021 20:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ftVLBcz2CA6HVw5Sak06NSKiX7H+vKeynT4dia9GcmU=;
- b=k+9ugNQMNP1T757zCmBjD0HZ4Cm6T3BE+v/X7Wxf65qXhZ4Y1Om/ZwreVVsFldU5ED
- 26Au5VziBd3fTRw9qajnc5Q1bzTZtCXlNbNzYEhhdrLy0j6q3RP41Bfsx2Vet4JiZwHE
- HpssKarI+iW9nKfS+aZW4kug15wwleM1PIEsfGzs+E/ENGb7NoFhvlaUVQuCR3IWspbE
- 1jdc92yTGvHUY8w5qgAHpd6F4jZjsLSyz7OphX6zYHG1h8uepViMakkTUt9Apji0AqlD
- h496UE7ulnKIyaYIIz+9WlMWKL7f+UCly0DgUoeMlhVK/OeculmtFoztQ69V1z3oNjW5
- BaQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ftVLBcz2CA6HVw5Sak06NSKiX7H+vKeynT4dia9GcmU=;
- b=mFn7u1Q7ltgR4iYbS7nEBbYR/rJfiEm/oqnTgpwy15R/WpCGJvNSCXB86tMbiD0aRU
- EROpC+cmDYji9ABIxSTIaxl26QIowCmQVGjZtRm3BLEuoxIAe25t3ifgMDmrzq5RghC3
- SgXSo53Ny3ht35ncD+drEZ1Bxkv/hUkeikKNJOyDCSBII9jTE9HGmZpn980yNmxa0BLD
- bb432Hd6iBLBCT6CCbYAWtBKACiupPwvP+ZI5pXyshfb9V/NiSDHW9aM8llN9N0YBLqZ
- qCa9CoEDk98zTSmamfm1kamzFN97JmKRGpNIweVJriI9TXoxo1shImc03LHIpDgWjQ1N
- 23nA==
-X-Gm-Message-State: AOAM531lcFatMHEcrmDfqVwxKrXkv6D9ylaVMifmS8+RP5/W71Rmr6Pk
- To0kdfnPZuxurZTCFtLRsQrv/w==
-X-Google-Smtp-Source: ABdhPJxgNZPrPk9tzmxpkCehrPdfFes88M8DqFhHlA/X7V8qZTGRmqZiqGy9NJMzzCPLtwobPdjSGw==
-X-Received: by 2002:a17:902:e547:b029:12c:563c:4a03 with SMTP id
- n7-20020a170902e547b029012c563c4a03mr30922945plf.46.1629774264209; 
- Mon, 23 Aug 2021 20:04:24 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
- by smtp.gmail.com with ESMTPSA id c12sm16184839pfl.56.2021.08.23.20.04.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 20:04:23 -0700 (PDT)
-Date: Tue, 24 Aug 2021 08:34:21 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210824030421.3tjfjkx3c2silbnz@vireshk-i7>
-References: <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
- <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
- <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
- <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
- <CAPDyKFo0rzHT4AhueWjyz9k2ZqUy8N6Od5pbr8sL_m0Jf2AwUg@mail.gmail.com>
- <085d1a2e-57b0-222e-c569-12f3c6bc8161@gmail.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE0789D57
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 04:52:12 +0000 (UTC)
+X-UUID: 7454551b4be54174af678cfbae7c6b5c-20210824
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=cxDUzdJauAEJfC5ccx4EbSYMfVOiu+2+l7gt7ZpWgV4=; 
+ b=DVM7UWCFB8M680DKU5NEfVCWjLTmSFBhcOChtEJJbqsaMxbQnvOfE0aNiV4hezEyj6S0bqb38z0a+yOOulTAEhxwLIyiQ8sMfswpNWoPQYQi1xV17D5j3vdmPteSyxsJcL3cxpuaQWoPWJYM2V8Ar3NlDVqWwMve8anjMuLaIn0=;
+X-UUID: 7454551b4be54174af678cfbae7c6b5c-20210824
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 334677553; Tue, 24 Aug 2021 12:52:07 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 24 Aug 2021 12:52:06 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 24 Aug 2021 12:52:05 +0800
+Message-ID: <b19a2f09b44b4664182720a6bdb526d338f8db37.camel@mediatek.com>
+Subject: Re: [PATCH v3 15/15] drm/mediatek: add mediatek-drm of vdosys1
+ support for MT8195
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+CC: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Rob Herring"
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "jason-jh .
+ lin" <jason-jh.lin@mediatek.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, "moderated
+ list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, DTML
+ <devicetree@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, <singo.chang@mediatek.com>, 
+ srv_heupstream <srv_heupstream@mediatek.com>
+Date: Tue, 24 Aug 2021 12:52:06 +0800
+In-Reply-To: <CAAOTY_99QLpRHLei2PzD8vsuoOaZae++NqczPCM+r9YMZ01btw@mail.gmail.com>
+References: <20210818091847.8060-1-nancy.lin@mediatek.com>
+ <20210818091847.8060-16-nancy.lin@mediatek.com>
+ <CAAOTY_99QLpRHLei2PzD8vsuoOaZae++NqczPCM+r9YMZ01btw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <085d1a2e-57b0-222e-c569-12f3c6bc8161@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,46 +69,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23-08-21, 23:24, Dmitry Osipenko wrote:
-> It's not clear to me whether it will be okay to add a generic OPP syncing by clock rate or should it be a Tegra-specific helper. Viresh, what do you think about this generic OPP helper:
-> 
-> /**
->  * dev_pm_opp_sync_with_clk_rate() - Sync OPP state with clock rate
->  * @dev:	device for which we do this operation
->  *
->  * Sync OPP table state with the current clock rate of device.
->  *
->  * Return: 0 on success or a negative error value.
->  */
-> int dev_pm_opp_sync_with_clk_rate(struct device *dev)
-> {
-> 	struct opp_table *opp_table;
-> 	int ret = 0;
-> 
-> 	/* Device may not have OPP table */
-> 	opp_table = _find_opp_table(dev);
-> 	if (IS_ERR(opp_table))
-> 		return 0;
-> 
-> 	/* Device may not use clock */
-> 	if (IS_ERR(opp_table->clk))
-> 		goto put_table;
-> 
-> 	/* Device may have empty OPP table */
-> 	if (!_get_opp_count(opp_table))
-> 		goto put_table;
-> 
-> 	ret = dev_pm_opp_set_rate(dev, clk_get_rate(opp_table->clk));
-> put_table:
-> 	/* Drop reference taken by _find_opp_table() */
-> 	dev_pm_opp_put_opp_table(opp_table);
-> 
-> 	return ret;
-> }
-> EXPORT_SYMBOL_GPL(dev_pm_opp_sync_with_clk_rate);
+SGkgQ2h1bi1LdWFuZywNCglUaGFua3MgZm9yIHRoZSByZXZpZXcuDQoNCk9uIFN1biwgMjAyMS0w
+OC0yMiBhdCAwOToxNCArMDgwMCwgQ2h1bi1LdWFuZyBIdSB3cm90ZToNCj4gSGksIE5hbmN5Og0K
+PiANCj4gTmFuY3kuTGluIDxuYW5jeS5saW5AbWVkaWF0ZWsuY29tPiDmlrwgMjAyMeW5tDjmnIgx
+OOaXpSDpgLHkuIkg5LiL5Y2INToxOOWvq+mBk++8mg0KPiA+IA0KPiA+IEFkZCBkcml2ZXIgZGF0
+YSBvZiBtdDgxOTUgdmRvc3lzMSB0byBtZWRpYXRlay1kcm0gYW5kIG1vZGlmeSBkcm0NCj4gPiBm
+b3INCj4gPiBtdWx0aS1tbXN5cyBzdXBwb3J0LiBUaGUgdHdvIG1tc3lzICh2ZG9zeXMwIGFuZCB2
+ZG9zeXMxKSB3aWxsIGJyaW5nDQo+ID4gdXAgdHdvIGRybSBkcml2ZXJzLCBvbmx5IG9uZSBkcm0g
+ZHJpdmVyIHJlZ2lzdGVyIGFzIHRoZSBkcm0gZGV2aWNlLg0KPiA+IEVhY2ggZHJtIGRyaXZlciBi
+aW5kcyBpdHMgb3duIGNvbXBvbmVudC4gVGhlIGZpcnN0IGJpbmQgZHJtIGRyaXZlcg0KPiA+IHdp
+bGwgYWxsb2NhdGUgdGhlIGRybSBkZXZpY2UsIGFuZCB0aGUgbGFzdCBiaW5kIGRybSBkcml2ZXIN
+Cj4gPiByZWdpc3RlcnMNCj4gPiB0aGUgZHJtIGRldmljZSB0byBkcm0gY29yZS4gRWFjaCBjcnRj
+IHBhdGggaXMgY3JlYXRlZCB3aXRoIHRoZQ0KPiA+IGNvcnJlc3BvbmRpbmcgZHJtIGRyaXZlciBk
+YXRhLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IE5hbmN5LkxpbiA8bmFuY3kubGluQG1lZGlh
+dGVrLmNvbT4NCj4gPiANCj4gPiANCj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfZGRwX2Nv
+bXBfZnVuY3MgZGRwX292bF9hZGFwdG9yID0gew0KPiA+ICsgICAgICAgLmNsa19lbmFibGUgPSBt
+dGtfZXRoZHJfY2xrX2VuYWJsZSwNCj4gPiArICAgICAgIC5jbGtfZGlzYWJsZSA9IG10a19ldGhk
+cl9jbGtfZGlzYWJsZSwNCj4gPiArICAgICAgIC5jb25maWcgPSBtdGtfZXRoZHJfY29uZmlnLA0K
+PiA+ICsgICAgICAgLnN0YXJ0ID0gbXRrX2V0aGRyX3N0YXJ0LA0KPiA+ICsgICAgICAgLnN0b3Ag
+PSBtdGtfZXRoZHJfc3RvcCwNCj4gPiArICAgICAgIC5sYXllcl9uciA9IG10a19ldGhkcl9sYXll
+cl9uciwNCj4gPiArICAgICAgIC5sYXllcl9jb25maWcgPSBtdGtfZXRoZHJfbGF5ZXJfY29uZmln
+LA0KPiA+ICsgICAgICAgLmVuYWJsZV92YmxhbmsgPSBtdGtfZXRoZHJfZW5hYmxlX3ZibGFuaywN
+Cj4gPiArICAgICAgIC5kaXNhYmxlX3ZibGFuayA9IG10a19ldGhkcl9kaXNhYmxlX3ZibGFuaywN
+Cj4gPiArfTsNCj4gDQo+IEkgdGhpbmsgZXRoZHIgaXMgaW5zaWRlIHRoZSBncm91cCBvZiBvdmxf
+YWRwYXRvci4gSSBwcmV0ZXIgdGhpcw0KPiBmdW5jdGlvbiBpcyBpbXBsZW1lbnRlZCBieSBvdmxf
+YWRhcHRvciwgYW5kIG92bF9hZGFwdG9yIGNvbnRyb2wgcmRtYSwNCj4gbWVyZ2UsIGV0aGRyLg0K
+PiANCj4gUmVnYXJkcywNCj4gQ2h1bi1LdWFuZy4NCj4gDQpPSywgSSB3aWxsIGNoYW5nZSBpdCB0
+byB0aGUgb3ZsX2FkYXB0b3IgZnVuY3Rpb24uDQoNCj4gPiArDQo+ID4gDQo=
 
-I am not sure why you still need this, hope we were going another way
-? Anyway I will have a look at what you have posted now.
-
--- 
-viresh
