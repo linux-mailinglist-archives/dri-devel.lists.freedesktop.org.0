@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D27D3F549F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 02:55:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FA03F54A6
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 02:55:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2B3B89CB3;
-	Tue, 24 Aug 2021 00:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1296489F06;
+	Tue, 24 Aug 2021 00:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3352089E0E;
- Tue, 24 Aug 2021 00:55:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D8417615E4;
- Tue, 24 Aug 2021 00:55:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3016789E2A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 00:55:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BD4B61504;
+ Tue, 24 Aug 2021 00:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629766510;
- bh=uuII/fHDZKZ37JSjCcIDfBjf4SqtgMmTPhUZMG/lwUA=;
+ s=k20201202; t=1629766523;
+ bh=iUBIjtZItUR18JceGiIDCeNmYK1ZiOCRqECbUy/H8Xk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n5F6PYQDQP8lwEt8JMr8IlzA2iIjkLM+ZX5xp//1qdmb30Z30Nf8O2YUuwWpv3zS4
- SglUTiSMFxF7QHqBiRyHeTl1cJAlSluN9zV8VLRHcaIWKcvQ28Gfvlwv4EM1Zkj93B
- l1cC+k8zbwUdDH3byTNkImOM1KPuZl7ApFkVpa8vRKQGqmJNj7Lm0d34h46xpeisyt
- s0FaVqqbpmLaI8d71s6/fzxw2Bb1gtoPq90NAGVGg5LoadcEteXycwQw/93Snqz5pZ
- H13J5s27R/VdwdSOiqhGF4fbcsssE6Vrv9BCP74aDcj8t9OZSTPOzeWZ40sTh6BDB1
- A3bAkX/jqtd8g==
+ b=cy7IZ8nu3yeMkufZfmP2aEoCXbmTW3b7MyL1RCpt/gKg16j1BQPer5iWwYQYCEB4k
+ DOFn2IEdryVbzUlhTYg7172izNBmR0e8QfU1ct2IPJeB/KJhEMZ7j7RZm//C2+hIvM
+ nNiCzGdjvGfdtmOCAAGcBKTbjQAPpQF1zr4sn1lW73t5/t2oKfLVUwOyDkGtYqYpZu
+ KnVfSMVp2ND7v78y64bAXjWGpClAMcs0GQI3xOiFX9oKVX6Ec0VvfWfVepNPIlH1Eo
+ fhZ2HhX3aVTdDhar2nx8KDCcScki+xq0t2X+XLbqlY6A0LEJYXtMXnHQLRx7QaLwAE
+ CMSWDlpGYmHlw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ben Skeggs <bskeggs@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 09/10] drm/nouveau: block a bunch of classes from
- userspace
-Date: Mon, 23 Aug 2021 20:54:56 -0400
-Message-Id: <20210824005458.631377-9-sashal@kernel.org>
+Cc: Mark Yacoub <markyacoub@google.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Mark Yacoub <markyacoub@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 4.19 07/10] drm: Copy drm_wait_vblank to user before
+ returning
+Date: Mon, 23 Aug 2021 20:55:09 -0400
+Message-Id: <20210824005513.631557-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210824005458.631377-1-sashal@kernel.org>
-References: <20210824005458.631377-1-sashal@kernel.org>
+In-Reply-To: <20210824005513.631557-1-sashal@kernel.org>
+References: <20210824005513.631557-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,175 +58,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ben Skeggs <bskeggs@redhat.com>
+From: Mark Yacoub <markyacoub@google.com>
 
-[ Upstream commit 148a8653789c01f159764ffcc3f370008966b42f ]
+[ Upstream commit fa0b1ef5f7a694f48e00804a391245f3471aa155 ]
 
-Long ago, there had been plans for making use of a bunch of these APIs
-from userspace and there's various checks in place to stop misbehaving.
+[Why]
+Userspace should get back a copy of drm_wait_vblank that's been modified
+even when drm_wait_vblank_ioctl returns a failure.
 
-Countless other projects have occurred in the meantime, and the pieces
-didn't finish falling into place for that to happen.
+Rationale:
+drm_wait_vblank_ioctl modifies the request and expects the user to read
+it back. When the type is RELATIVE, it modifies it to ABSOLUTE and updates
+the sequence to become current_vblank_count + sequence (which was
+RELATIVE), but now it became ABSOLUTE.
+drmWaitVBlank (in libdrm) expects this to be the case as it modifies
+the request to be Absolute so it expects the sequence to would have been
+updated.
 
-They will (hopefully) in the not-too-distant future, but it won't look
-quite as insane.  The super checks are causing problems right now, and
-are going to be removed.
+The change is in compat_drm_wait_vblank, which is called by
+drm_compat_ioctl. This change of copying the data back regardless of the
+return number makes it en par with drm_ioctl, which always copies the
+data before returning.
 
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+[How]
+Return from the function after everything has been copied to user.
+
+Fixes IGT:kms_flip::modeset-vs-vblank-race-interruptible
+Tested on ChromeOS Trogdor(msm)
+
+Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
+Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210812194917.1703356-1-markyacoub@chromium.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/include/nvif/cl0080.h |  3 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  1 +
- drivers/gpu/drm/nouveau/nouveau_usif.c        | 57 ++++++++++++++-----
- .../gpu/drm/nouveau/nvkm/engine/device/user.c |  2 +-
- 4 files changed, 48 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/drm_ioc32.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvif/cl0080.h b/drivers/gpu/drm/nouveau/include/nvif/cl0080.h
-index cd9a2e687bb6..08bda344e32f 100644
---- a/drivers/gpu/drm/nouveau/include/nvif/cl0080.h
-+++ b/drivers/gpu/drm/nouveau/include/nvif/cl0080.h
-@@ -4,7 +4,8 @@
+diff --git a/drivers/gpu/drm/drm_ioc32.c b/drivers/gpu/drm/drm_ioc32.c
+index ab8847c7dd96..87e13bcd7a67 100644
+--- a/drivers/gpu/drm/drm_ioc32.c
++++ b/drivers/gpu/drm/drm_ioc32.c
+@@ -855,8 +855,6 @@ static int compat_drm_wait_vblank(struct file *file, unsigned int cmd,
+ 	req.request.sequence = req32.request.sequence;
+ 	req.request.signal = req32.request.signal;
+ 	err = drm_ioctl_kernel(file, drm_wait_vblank_ioctl, &req, DRM_UNLOCKED);
+-	if (err)
+-		return err;
  
- struct nv_device_v0 {
- 	__u8  version;
--	__u8  pad01[7];
-+	__u8  priv;
-+	__u8  pad02[6];
- 	__u64 device;	/* device identifier, ~0 for client default */
- };
+ 	req32.reply.type = req.reply.type;
+ 	req32.reply.sequence = req.reply.sequence;
+@@ -865,7 +863,7 @@ static int compat_drm_wait_vblank(struct file *file, unsigned int cmd,
+ 	if (copy_to_user(argp, &req32, sizeof(req32)))
+ 		return -EFAULT;
  
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 5347e5bdee8c..3e7c55a2302c 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -241,6 +241,7 @@ nouveau_cli_init(struct nouveau_drm *drm, const char *sname,
- 	ret = nvif_device_init(&cli->base.object, 0, NV_DEVICE,
- 			       &(struct nv_device_v0) {
- 					.device = ~0,
-+					.priv = true,
- 			       }, sizeof(struct nv_device_v0),
- 			       &cli->device);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/nouveau/nouveau_usif.c b/drivers/gpu/drm/nouveau/nouveau_usif.c
-index 9dc10b17ad34..5da1f4d223d7 100644
---- a/drivers/gpu/drm/nouveau/nouveau_usif.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_usif.c
-@@ -32,6 +32,9 @@
- #include <nvif/event.h>
- #include <nvif/ioctl.h>
- 
-+#include <nvif/class.h>
-+#include <nvif/cl0080.h>
-+
- struct usif_notify_p {
- 	struct drm_pending_event base;
- 	struct {
-@@ -261,7 +264,7 @@ usif_object_dtor(struct usif_object *object)
+-	return 0;
++	return err;
  }
  
- static int
--usif_object_new(struct drm_file *f, void *data, u32 size, void *argv, u32 argc)
-+usif_object_new(struct drm_file *f, void *data, u32 size, void *argv, u32 argc, bool parent_abi16)
- {
- 	struct nouveau_cli *cli = nouveau_cli(f);
- 	struct nvif_client *client = &cli->base;
-@@ -271,23 +274,48 @@ usif_object_new(struct drm_file *f, void *data, u32 size, void *argv, u32 argc)
- 	struct usif_object *object;
- 	int ret = -ENOSYS;
- 
-+	if ((ret = nvif_unpack(ret, &data, &size, args->v0, 0, 0, true)))
-+		return ret;
-+
-+	switch (args->v0.oclass) {
-+	case NV_DMA_FROM_MEMORY:
-+	case NV_DMA_TO_MEMORY:
-+	case NV_DMA_IN_MEMORY:
-+		return -EINVAL;
-+	case NV_DEVICE: {
-+		union {
-+			struct nv_device_v0 v0;
-+		} *args = data;
-+
-+		if ((ret = nvif_unpack(ret, &data, &size, args->v0, 0, 0, false)))
-+			return ret;
-+
-+		args->v0.priv = false;
-+		break;
-+	}
-+	default:
-+		if (!parent_abi16)
-+			return -EINVAL;
-+		break;
-+	}
-+
- 	if (!(object = kmalloc(sizeof(*object), GFP_KERNEL)))
- 		return -ENOMEM;
- 	list_add(&object->head, &cli->objects);
- 
--	if (!(ret = nvif_unpack(ret, &data, &size, args->v0, 0, 0, true))) {
--		object->route = args->v0.route;
--		object->token = args->v0.token;
--		args->v0.route = NVDRM_OBJECT_USIF;
--		args->v0.token = (unsigned long)(void *)object;
--		ret = nvif_client_ioctl(client, argv, argc);
--		args->v0.token = object->token;
--		args->v0.route = object->route;
-+	object->route = args->v0.route;
-+	object->token = args->v0.token;
-+	args->v0.route = NVDRM_OBJECT_USIF;
-+	args->v0.token = (unsigned long)(void *)object;
-+	ret = nvif_client_ioctl(client, argv, argc);
-+	if (ret) {
-+		usif_object_dtor(object);
-+		return ret;
- 	}
- 
--	if (ret)
--		usif_object_dtor(object);
--	return ret;
-+	args->v0.token = object->token;
-+	args->v0.route = object->route;
-+	return 0;
- }
- 
- int
-@@ -301,6 +329,7 @@ usif_ioctl(struct drm_file *filp, void __user *user, u32 argc)
- 		struct nvif_ioctl_v0 v0;
- 	} *argv = data;
- 	struct usif_object *object;
-+	bool abi16 = false;
- 	u8 owner;
- 	int ret;
- 
-@@ -331,11 +360,13 @@ usif_ioctl(struct drm_file *filp, void __user *user, u32 argc)
- 			mutex_unlock(&cli->mutex);
- 			goto done;
- 		}
-+
-+		abi16 = true;
- 	}
- 
- 	switch (argv->v0.type) {
- 	case NVIF_IOCTL_V0_NEW:
--		ret = usif_object_new(filp, data, size, argv, argc);
-+		ret = usif_object_new(filp, data, size, argv, argc, abi16);
- 		break;
- 	case NVIF_IOCTL_V0_NTFY_NEW:
- 		ret = usif_notify_new(filp, data, size, argv, argc);
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/user.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/user.c
-index 03c6d9aef075..69ca7cb2d663 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/user.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/user.c
-@@ -426,7 +426,7 @@ nvkm_udevice_new(const struct nvkm_oclass *oclass, void *data, u32 size,
- 		return ret;
- 
- 	/* give priviledged clients register access */
--	if (client->super)
-+	if (args->v0.priv)
- 		func = &nvkm_udevice_super;
- 	else
- 		func = &nvkm_udevice;
+ #if defined(CONFIG_X86)
 -- 
 2.30.2
 
