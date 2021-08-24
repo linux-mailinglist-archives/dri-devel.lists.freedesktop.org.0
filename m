@@ -2,35 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D397E3F6ADA
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 23:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592433F6BB9
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 00:32:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C43F6E0DC;
-	Tue, 24 Aug 2021 21:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A1289428;
+	Tue, 24 Aug 2021 22:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 650B26E0DC
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 21:09:33 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="302983822"
-X-IronPort-AV: E=Sophos;i="5.84,348,1620716400"; d="scan'208";a="302983822"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2021 14:09:32 -0700
-X-IronPort-AV: E=Sophos;i="5.84,348,1620716400"; d="scan'208";a="473627220"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Aug 2021 14:09:32 -0700
-Date: Tue, 24 Aug 2021 14:09:31 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
-Subject: libdrm commit permission request
-Message-ID: <20210824210931.GQ461228@mdroper-desk1.amr.corp.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D597C89428
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 22:32:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 975BD61265
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 22:32:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629844351;
+ bh=10CR99EYOcsvAxA/Al3XzcQv8Nj0aWopUCUoKMem1aI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=eZdREbvxJGaWnWCOe5A1PfaFfh/XlBVfjTXifmqJDLl/5AMmLfk9WBaV87ALhEtgZ
+ DiBTDQzH+btFTaKMLsUePpKghcDQ0qoeLOVUf9H03QaPJZXaL2qavo+/IIDBXMmuvw
+ DRJljmzht2nl9hkWv54Odc6wuXoHU6ikTBQTUhHMt0DMRt0jCj8C7vNnz7aw8/kOmz
+ 1plTeStOd3wYk7DMQpu8j/QGrR64YqGzl/XWyztzBJ+UkcPx8u3rWHsIVGvY3MEdDZ
+ ci/U0y3h/10ddcNZyLr+OebXDZSx9d6zQiCwAcI0UYf6OgtWbhDINNmg5/xWJp/31+
+ gxFunG9720K8Q==
+Received: by mail-ej1-f47.google.com with SMTP id u3so47497257ejz.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 15:32:31 -0700 (PDT)
+X-Gm-Message-State: AOAM532xY+gYnrnCRTgmSzwmd1rAbdnZT1LxSyQhHqLk1yj2oVgFQ93t
+ go1GPGtJMxjadQ9/rTfKMxgTU+bz0oO7iIjYvQ==
+X-Google-Smtp-Source: ABdhPJwcT3E/+4reEOVVj9eK7xhPUpapFeT3ObUfnT1HAlL5ATW6K5J1ynlDlfctI2sMynrJHYKufcQCmtV5oFGR6PA=
+X-Received: by 2002:a17:906:ff41:: with SMTP id
+ zo1mr12446795ejb.525.1629844350263; 
+ Tue, 24 Aug 2021 15:32:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20210824172614.7299-1-alyssa.rosenzweig@collabora.com>
+In-Reply-To: <20210824172614.7299-1-alyssa.rosenzweig@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 24 Aug 2021 17:32:18 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+L7JRhcuy7vgPocGf48KeeW1wBXcw=MZ0r8h5FKHTZ5g@mail.gmail.com>
+Message-ID: <CAL_Jsq+L7JRhcuy7vgPocGf48KeeW1wBXcw=MZ0r8h5FKHTZ5g@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: Use upper/lower_32_bits helpers
+To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,19 +61,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, could someone please grant Jose (cc'd) and myself commit permissions
-on libdrm?  As i915 developers we'd like to be able to approve/merge
-patches that synchronize libdrm's Intel PCI ID's with those we've
-already added to the kernel (i.e., updates to intel/i915_pciids.h).
+On Tue, Aug 24, 2021 at 12:27 PM Alyssa Rosenzweig
+<alyssa.rosenzweig@collabora.com> wrote:
+>
+> Use upper_32_bits/lower_32_bits helpers instead of open-coding them.
+> This is easier to scan quickly compared to bitwise manipulation, and it
+> is pleasingly symmetric. I noticed this when debugging lock_region,
+> which had a particularly "creative" way of writing upper_32_bits.
+>
+> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_job.c |  8 ++++----
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c | 12 ++++++------
+>  2 files changed, 10 insertions(+), 10 deletions(-)
 
-Thanks!
-
-
-Matt
-
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Reviewed-by: Rob Herring <robh@kernel.org>
