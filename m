@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40CF83F60B9
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 16:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD343F60B5
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 16:41:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A9E89709;
-	Tue, 24 Aug 2021 14:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78D1D89C6E;
+	Tue, 24 Aug 2021 14:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 894 seconds by postgrey-1.36 at gabe;
- Tue, 24 Aug 2021 14:41:28 UTC
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (unknown
- [40.107.237.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 109A689709;
- Tue, 24 Aug 2021 14:41:27 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2068.outbound.protection.outlook.com [40.107.237.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E138189B11;
+ Tue, 24 Aug 2021 14:41:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nGJ4N+MJt4GD/zOQc1BjNqFvIxa0WfMbp53eAy1+qc4OxIM2xj93+pz0HXYQ+pcY8cH9gXr586ozFpQ8UN7sXaXS65fB6fQzyIebl0P10BGGMTRLpxTS81RWlEES1GeuF2ik1MU3xpY0BmCgT38/YVQ8UkvDMYKtWnzkUkZEXySgC6ehcZ13kBnff5NlUGoUTzTKtNf1pKfPXQCiN6KgqSHmfbb0vrRM+Dh/bFM0oQ/G6QY3CnQn1RJgfZ09DpFccI1Az16yfSGMpow8e4iyXRB49G/LQc+JiJWtuhVfeurmBw80F5dw1EMPC6gowenaJmokW2bc1T/7eAMNeFk38g==
+ b=inDqqe53ExUqG/rdV3bcTjU5m+2xPtO9T7h68ybonP5gNRBJCx1Aas5B5MhipsHP/eWHCK+PVfu0M4PDZymEiwvrJA74lC6XQPKAIg7L9MVFzQxa8BGDFU6a9TdS9jbjUtyn5KibdThxmWr9LRZ0rAy05udHStjNOpPopQd3GpuBtPokeePHwrB4bgrz4NpILgeGJdd2rbpbg1R7UvTpp8HvcfKCySvlLJHiSK/G+ABIGhzBZmQsPCS1hUbHbsF4ey9LGuHxXYMNupBgOjGTOJWvlYhkkKeyJWmD0QVBO3Sdbi60wBxcX60Sj9Xd2h+K3139jr1T0KIBVnH2HDsF8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RRzyBcl0pw21zrHaH8kPwZ3c36vNspkw60ZUH4XSHtY=;
- b=PSm6lqMDgXJbD6PW3P4WARTwhNU9ZUs2QeD/ZWkrhveiu2gEPO8loa6i+yaJRjs0hyjfgMER38o00FV+7yy1/TScY/sOQYQTuYs8MKkVg2tPzD91VJ3Bs4CE2m+QiT8IV4wtVd72sQ/YmyBWvlciGIAqckQMfcvRVV1DmOt6bvtTX45/dNs448NTcOvWtJBYQQAGeu6VEQ6plPGwx+CmdPo58fnwSn//siwiZlt4Tb4ls1hRrBkoX9ibuxurNdOnGLAlVKYu4s5Vj817c4tgUP9oqkbRJieDQsSKobaNC+HJ8ZZZTFdWpv4vO0fz15D6oh+qnuipRtwHx/DKRxfedg==
+ bh=gwhjfCm04Ox7yYEvu1+OCDj27eHj9tcsX7ook1WiJKE=;
+ b=NqtoQAVr5/OPXGZkaK9GxPjQdcmMYAMA9Tk+JWfCUMeO+Jby6NjqHuPlMojIicdHXjS4NSJFROytTTdnQ202kAk2zaMH/N/uWM8NyAT51r32X84gaHNAhqsbTbqnHs8XC1KYZ7DRKhxZX6iWImQhgaj2zhJ2NxauaBujgy+tKauvJxbwcfFO/PVLxXZP1zyPcXq3UjgMv2RrvwAyGRDJOa8bsG10U9pE4XwCB4JjmM8zQWRHK1mEjf74gHoQJNwUhsY1sxDtGdpcz1bHVpwgQRjiHYdz7XmNX0/CoIu+vvIlwrxnB3FHbRNqSKxUNzqsmxBEDRceMntI4ZPvqLPWbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RRzyBcl0pw21zrHaH8kPwZ3c36vNspkw60ZUH4XSHtY=;
- b=shD+3R82AwOQxBBo8CENovdEufqveZ+DF+BcHId47BBzNW3CqKcv1v68dzT9RE5HYpvEs55xRlNnNpxPR8eRPc4QLGURJopVMXZlOlOmxIo+f97xenxgBldNvU1QuT6T9Cgym7Tjs9hO6knr5oWycpCV4bagZJ4pnIQzXME7cYHds4ZgHCjeSQ7uXtddD55XK1LgWEvSa/Of74zfO72P5x/B12IqbAlGHkmHk8xvx+x/vzzBu+OANoaF2ArYobC4SgQDpVgGV3Fku3PPgMMWR7vf+PgZGf3sjg9fGKnl7oYE+qVYTcT45v30IUKpoBeMnGfikDStBIV8HCnIdDWPfA==
+ bh=gwhjfCm04Ox7yYEvu1+OCDj27eHj9tcsX7ook1WiJKE=;
+ b=khengiBJgBoYZUzmc9quvitqpgAQZuBR05So6zMwwf+T7VQrk5kGEaCIp/e4xaLOItRm20NhNT16g2PIdChPWpP36xXjYehICAA4jzRbNu/CO5meOQo4xXtXxKKujT+rwAVvbYKzzmbec5qvABRLDRmqsdgZKMtKyZck+cHHM5ae1dmaPXR5Mqn92BfWAGmRr8rtsOUJ8YrO+TbRTT+X6bblSYB7o5C/78dvexVDXedQGSa3p2tM4fFU9o4gO1Vv+vI4sYH2YRPtL1qcH3OQlb6jBxUmmBAZU+g7hyp6DLwFO1GSPkn9I+0NKGdSWCTKEUa4saVwS57cg/7/wdQr0A==
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
 Received: from DM4PR12MB5296.namprd12.prod.outlook.com (2603:10b6:5:39d::21)
  by DM8PR12MB5400.namprd12.prod.outlook.com (2603:10b6:8:3b::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.21; Tue, 24 Aug
- 2021 14:26:26 +0000
+ 2021 14:26:32 +0000
 Received: from DM4PR12MB5296.namprd12.prod.outlook.com
  ([fe80::c064:2c9a:c2e2:29d5]) by DM4PR12MB5296.namprd12.prod.outlook.com
  ([fe80::c064:2c9a:c2e2:29d5%9]) with mapi id 15.20.4436.025; Tue, 24 Aug 2021
- 14:26:26 +0000
+ 14:26:32 +0000
 From: Maor Gottlieb <maorg@nvidia.com>
 To: dledford@redhat.com, jgg@nvidia.com, hch@infradead.org, leonro@nvidia.com
 Cc: aelior@marvell.com, daniel@ffwll.ch, airlied@linux.ie,
@@ -54,10 +52,10 @@ Cc: aelior@marvell.com, daniel@ffwll.ch, airlied@linux.ie,
  tzimmermann@suse.de, linux-graphics-maintainer@vmware.com,
  liweihang@huawei.com, liangwenpeng@huawei.com, yishaih@nvidia.com,
  zackr@vmware.com, zyjzyj2000@gmail.com
-Subject: [PATCH rdma-next v4 2/3] lib/scatterlist: Fix wrong update of
- orig_nents
-Date: Tue, 24 Aug 2021 17:25:30 +0300
-Message-Id: <20210824142531.3877007-3-maorg@nvidia.com>
+Subject: [PATCH rdma-next v4 3/3] RDMA: Use the sg_table directly and remove
+ the opencoded version from umem
+Date: Tue, 24 Aug 2021 17:25:31 +0300
+Message-Id: <20210824142531.3877007-4-maorg@nvidia.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210824142531.3877007-1-maorg@nvidia.com>
 References: <20210824142531.3877007-1-maorg@nvidia.com>
@@ -72,54 +70,54 @@ Received: from dev-l-vrt-201.mtl.labs.mlnx (94.188.199.18) by
  AM0PR02CA0191.eurprd02.prod.outlook.com (2603:10a6:20b:28e::28) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
- Transport; Tue, 24 Aug 2021 14:26:19 +0000
+ Transport; Tue, 24 Aug 2021 14:26:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 16489529-2078-4411-3029-08d9670b2793
+X-MS-Office365-Filtering-Correlation-Id: ad510bb0-b55d-4dfe-e794-08d9670b2b3d
 X-MS-TrafficTypeDiagnostic: DM8PR12MB5400:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM8PR12MB54001BBD785B31CAEE7700E7DEC59@DM8PR12MB5400.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:274;
+X-Microsoft-Antispam-PRVS: <DM8PR12MB54004245690473CEE9C12CD8DEC59@DM8PR12MB5400.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:277;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: c8TwUINLsnQS6NqhDQOIJGtrVsy+eBaq5U8hiAggLKd+dyDYK9L83JM0CdcjX4ZXKGR5s+xsjsU10JNiBiSYfqHkuFS/j+9k7kPp5ymHFb2+oVJxl2xKT79eRkJuNX3N8XUEa166qkKasXjus4Ppgs5B4WiFwG6ZjVQSVdrN9brumy0r3QlkvubdqAJC8xHvJHaOKclM5lCOpc8UYsf5Aq/A0QAILWE42ep5tpAOSRxxgs5DB/ciYRfR51tunKp2kFYKbYWT045Gq/dZlOLV8wOaJmWG03S0Y8p5u7RES7QhjgxMcHXSgO5jRlt3NqLY9U4XSlTTXFC4ew0CY2b3t1SXUNf/6Nhg9NMxTd/eaQgRw/SrTjE0SZLp90A/FUvkzk0D9O5C2hgBw2j7bwk9lax9LZYs93LVHozkChhPK0NnwFofrCOennPxDpGVyWkckxokwpn012UNF8wAn+WmBFsM1bDOlhJ/p+/mkYp/+G71KCs6n4NWQrodjWCjBmvZPkf27R1+JsP/Wg276eOW6Bn8E+7FlM3jYmOD5/JUpQ0ZEq7rV3kZobcLuwRZGyxrj+04KRiNppT6j/VXqDyZdQ82Rf4bu1BG+W5TLUmwWEbkXshtvJqmaq7fuPI6ZA7Vnw25tho5m20aQzuhN5F6vVLWCutaOCBQgqhqMb752uYn3tC5TSGabn0XS/x7KYK5/vaowk7ieBouIvVTFPQm6A==
+X-Microsoft-Antispam-Message-Info: PcjZLUqXZXWlGBCeitTt25thK8DszZypS1AdsRPlsg48UP4MKNJac0WKosz350pquO8gkef9gAlSSzrQAyAcAL+4QyAQWqKUjxK4taRziqq4bQ7ZWpRhF1WTwkZRc2MTqSJEosIyOh37w3b7mRiGUKFRzKgaXnWMRVyR1R7dcPw04YoPEaIm7tigxBxtkO1uE9wLvi/XYFs5d7LSTnKOGL+FmbgDPab4HQuvDYnr1ijR245+WKwngiHQDNEJWucXUNtcj+pqc2Ae9BfZ9Gkmtq1elNzC60FdWHq0BBSNFRZdkwnWPn6OdSGhkAeDlsb4MMLbwecYDujT0xL8gYsMYFCIT7N9FBn5Nv9JewyEwZhj4m2WLGdBSbcP1RlzyOkySUHVkwHB7JZoVu5XGXVhtDDCvZu/oeXMe19+QFzE5UPN4kL6c5p6RNKAcnHwuUsqb6YBTD8Qapix8ivM2ldqAQtlg1MBsRsS0j6smU4fxJaf2JsM9m1zbUUTsmIqglBG/a6lNyT/jC5ZfCm5mfQQoOoOL5wlmuTWz8fFokyajZXOOtCRpl8rR/Hxut8Z0HEPMgBsseg9VnJHTmcPXcLfOuFhico8Ouef+CqJkW8uiEggLS+iQmajUiKPobSZk3uXWjaHV/Y8usSLICREClIw1ywLTm2aV5+E8n0ESvviaDG6Ei0U+6h8gfmmcZiCaXo6V+KLfhhusRhSoUbsjhllKQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR12MB5296.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8676002)(7416002)(1076003)(83380400001)(8936002)(316002)(956004)(2906002)(36756003)(6486002)(6666004)(26005)(2616005)(15650500001)(38100700002)(6636002)(30864003)(4326008)(66946007)(6506007)(508600001)(186003)(5660300002)(86362001)(52116002)(6512007)(66476007)(38350700002)(66556008);
+ SFS:(4636009)(366004)(8676002)(7416002)(1076003)(83380400001)(8936002)(316002)(956004)(2906002)(36756003)(6486002)(6666004)(26005)(2616005)(38100700002)(6636002)(30864003)(4326008)(66946007)(6506007)(508600001)(186003)(5660300002)(86362001)(52116002)(6512007)(66476007)(38350700002)(66556008);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wvyyO/lv9jI+cxHQZdeYQOzcS3Rj3LmoXjjkqU5Y0w7LIwW4ihIi/+M5PAqy?=
- =?us-ascii?Q?CBTIW9bpmlGy65m8Shg8/UfHfQ6VLn45QLFYXf9ZaD2Lb8sN3WOoIAISqIDc?=
- =?us-ascii?Q?OCkLa1eYiNl2y2NYqkyCe8b3+lp5nuRDEeIlPQeVxNJkbixjfWShCqSqO/Xi?=
- =?us-ascii?Q?85raKrr/XKNOlD7C7/QS5QjSDvRD0SzFrTvHI95O7PwKMGQPiiQLbSA2eTfC?=
- =?us-ascii?Q?R7Pcj5XFKwz1TiZYgTewXPLJPMjOqH4ujaLtigco/x43njiRoz7VKJO+wDwD?=
- =?us-ascii?Q?ek4wtuP9338fIoYZQMlF7jWPRueShl/DNxK6pICj57d3/CP5g6lpJDpTaInC?=
- =?us-ascii?Q?GhwoXL1dkmpqpU4+a4BsvX87V/p+2VKkLWD/t8DE3VTzVtuhaoTfZTn8VIGX?=
- =?us-ascii?Q?MQTXx2IZmXE+kooylTdjdvuHPjr3QcvsWa1Rz0dEmN71zgAKhGE5TnwJZPJO?=
- =?us-ascii?Q?Fx5rLR8baP8JT2md9pK/kAZKVMs5hpvfVZZ9lgqfh6GV3/Fju0Iag8KOQS6d?=
- =?us-ascii?Q?W6LBH3PCvzfFKofdB0cjU7Bwcs3IVy5+kSlc0hLwv+MNkRJaQEYivftkXYyr?=
- =?us-ascii?Q?KR1QWNMDG7b4d+MQ5uXMaNsoYkxUzXa1/1KzToGsDdg07tSPusDPZcgOGbfZ?=
- =?us-ascii?Q?+rA3FB+4GuTpdhLCbXtHS5QhwcIkrxBmXMdqITg/CT23Tes/4aQxAJuv7dGM?=
- =?us-ascii?Q?1R6wx0GA4WpE3psVCWcDL9YBmbIUqzmUD/j0ScSJSmsFJeTpop/FTspAaDLo?=
- =?us-ascii?Q?yz0pddc1aaj95q27r9Lhr8q5f6xaav4z2fZp1HzysvW55EMIcApzltuof7+g?=
- =?us-ascii?Q?THQ2T3DNbRZ0HmAGdxB9XXpPCdGa+IcZc/3oppTcph61s74364F2LSPfE2wb?=
- =?us-ascii?Q?N2LL/C+DVa7XkqPdyhXgAQoa18GAqKeXcZhQN0rApiSYjXqRpVUFBwgz5q3j?=
- =?us-ascii?Q?+reMa7H28pqq4qPjiuR2ARi6zy9I6CNdp8tk7C7dCdDUBGQmU+t24MwyhHV3?=
- =?us-ascii?Q?andMlX+PHYxzCT5is9y/oGstG5W5RnxGs6S8irYNqZoOyIEn046l8bOCu/Xy?=
- =?us-ascii?Q?gI2jIudzqbrV4cE+sw/w5F6qCb+rcjg7eqjsmdv5+/PJYe9aK1CqdpI+fDiv?=
- =?us-ascii?Q?D8V9lXEJYZpXBmzbVie2LBHGid5qwrUGmxMHiFLg6DhfwF4XW9aacGtocwAd?=
- =?us-ascii?Q?8S5YUILbEg0CnPT7p3XNq6yU5Tb3i0EeiCF1E4L1k3E+HbrPhZhY1v276a2d?=
- =?us-ascii?Q?7IXgfLLih7cphXbJNW6Ern1T2FdqNT9Q45LO8EgvBw1bXoah+PpmhBA76PD7?=
- =?us-ascii?Q?MPNPc9dgPbD3PCxBZAWds1Di?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iKRIDa+uyxEEj8iIbRY2qo5iFqm+Fn5EXShXodPPNbgNLRDHadt8VV5jg6BX?=
+ =?us-ascii?Q?h0w3wDEEUL91NCBtGwILHF4QS6IOghFUsa1a9yOZksVM2RejVt2AtkBPKqEi?=
+ =?us-ascii?Q?3X87HK5y8yhdCA3QSKRiS1JM8HTbsCb8uyPSMZVPL8ke0JwD3KZtjWWXg1fk?=
+ =?us-ascii?Q?3329cVOjeUUKfksvHTHVGBkazKaXfIdReEsCbbFs9nYs13PL/fUhZbo18v21?=
+ =?us-ascii?Q?UOsPgIyoqjsfMxjTuMHaqqUK71dIvtYFu3pJ9PkHtGfS/fWiIQ2nHOEHMtj7?=
+ =?us-ascii?Q?iX+3QLJ7qjSjVoKOz+EwNNAxSb7hMrZbqlL9YwLM3l9RzYKhgSOeCFInpTaZ?=
+ =?us-ascii?Q?rlQFeeqAIEQb7Mvn9Gd4FROccWV0ZkAD0qCL+0L0i7+m+OwWAhmhSf/4o/JF?=
+ =?us-ascii?Q?6s9PRHVdrd0V/JE2rzUMlAx43OtsgPuYvYLPdrxtneaUD+pYpw7i5ky1nt/C?=
+ =?us-ascii?Q?zvHBr+aheDI46ADX2DFbO5n43QheUNdy8aAFkjHE0ybhJC7wYBpkO9KrOIFN?=
+ =?us-ascii?Q?H1d0F3VYcOgWljJ398NuIdtLVGDcinoeLIgXl9N5TWR+DieMEPdj7OH3KrSA?=
+ =?us-ascii?Q?48stMcSfw5kz3113mSYsOhz7DqJX1ivj8mjdiRL6jYnYVL+XlCwkG8AL5AVG?=
+ =?us-ascii?Q?5FB8BbDFYqnhTAb/Rx/yp5IqeExRN773ppiMxwJn4YKIPyC1ryQQDX0xSe30?=
+ =?us-ascii?Q?xsVjKwoFfrta64fGLlBUlQPWQAv+wRgp2llZUWtZy9R4W67LiOieElu8GYFO?=
+ =?us-ascii?Q?MJfPjRRn6BdWCnzxbLYDnDVZLYhalraHcQ7OvQLpYHVqxcGGub7UfQXTAjAJ?=
+ =?us-ascii?Q?daPuD5/ce18JLgx3leIxgDcI2MKLGK97dvVAZQTU96apg2nJ+rGGKyZQ5L+C?=
+ =?us-ascii?Q?nYsuaCcPs+K0dr8uEUafJbRXet/+gRg+VCIS9BexqqCb7Pd9y1bVDG4EjZxT?=
+ =?us-ascii?Q?mB9v/y8aN6B6QdugHTQ9KJEIynzpdHKK5h7e05kQPKiDz1jwAdsVGgwldml3?=
+ =?us-ascii?Q?hBMkMtMlWiGINyLusD85hMIDAwEj+ZfzVr0EYSxze/J3aqRfIHJTArNuLWqg?=
+ =?us-ascii?Q?A+OxknFn3C8s2FwiIflpDM+A8VldNyBgk9mEY945/0U/BBnQXZwlM9CVb6JL?=
+ =?us-ascii?Q?jb1SNJnUngZRPTpFSglNhdjR4mFUzJ+s+7DR8cwxnRoQutFBRYd9kqVtmAcC?=
+ =?us-ascii?Q?ODLDp1/Pq1WG7HjfvCBo/JNY1UUjLXOmkobcNn2pqJnbLYhjN9RCuGsL6RaE?=
+ =?us-ascii?Q?96qsC8m8arL4/9xm2YtYGDKfvbQ3ZtDt29qpFWCXfx3IjO2CWLCabc6T4tnB?=
+ =?us-ascii?Q?8td82JaxHul5NjICWC+2MM+i?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16489529-2078-4411-3029-08d9670b2793
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad510bb0-b55d-4dfe-e794-08d9670b2b3d
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5296.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 14:26:25.8284 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 14:26:31.9833 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mp8HSchVQ8leRzslVPb8yLjcZnkAJX6CEOclSrNxKnVu48yBz3R0lx3TGx8qgIR+Z2CtTyWRUisa093CIhiqvQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: otsTosQT3TOBwwbjMAglgLzqXVDalEn2hS35cJ84sJAMqnc8YpSvSTUBdm3oiY3XvbJe4hSU3PslR+S+medCVg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5400
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -136,500 +134,338 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-orig_nents should represent the number of entries with pages,
-but __sg_alloc_table_from_pages sets orig_nents as the number of
-total entries in the table. This is wrong when the API is used for
-dynamic allocation where not all the table entries are mapped with
-pages. It wasn't observed until now, since RDMA umem who uses this
-API in the dynamic form doesn't use orig_nents implicit or explicit
-by the scatterlist APIs.
+This allows using the normal sg_table APIs and makes all the code
+cleaner. Remove sgt, nents and nmapd from ib_umem.
 
-Fix it by changing the append API to track the SG append table
-state and have an API to free the append table according to the
-total number of entries in the table.
-Now all APIs set orig_nents as number of enries with pages.
-
-Fixes: 07da1223ec93 ("lib/scatterlist: Add support in dynamic allocation of SG table from pages")
 Signed-off-by: Maor Gottlieb <maorg@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/infiniband/core/umem.c   |  34 +++++----
- include/linux/scatterlist.h      |  19 +++--
- include/rdma/ib_umem.h           |   1 +
- lib/scatterlist.c                | 127 +++++++++++++++++++------------
- lib/sg_pool.c                    |   3 +-
- tools/testing/scatterlist/main.c |  45 ++++++-----
- 6 files changed, 137 insertions(+), 92 deletions(-)
+ drivers/infiniband/core/umem.c          | 32 +++++++++----------------
+ drivers/infiniband/core/umem_dmabuf.c   |  5 ++--
+ drivers/infiniband/hw/hns/hns_roce_db.c |  4 ++--
+ drivers/infiniband/hw/irdma/verbs.c     |  2 +-
+ drivers/infiniband/hw/mlx4/doorbell.c   |  3 ++-
+ drivers/infiniband/hw/mlx4/mr.c         |  4 ++--
+ drivers/infiniband/hw/mlx5/doorbell.c   |  3 ++-
+ drivers/infiniband/hw/mlx5/mr.c         |  3 ++-
+ drivers/infiniband/hw/qedr/verbs.c      |  2 +-
+ drivers/infiniband/sw/rdmavt/mr.c       |  2 +-
+ drivers/infiniband/sw/rxe/rxe_mr.c      |  2 +-
+ include/rdma/ib_umem.h                  | 10 ++++----
+ include/rdma/ib_verbs.h                 | 28 ++++++++++++++++++++++
+ 13 files changed, 59 insertions(+), 41 deletions(-)
 
 diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
-index b741758e528f..42481e7a72e8 100644
+index 42481e7a72e8..86d479772fbc 100644
 --- a/drivers/infiniband/core/umem.c
 +++ b/drivers/infiniband/core/umem.c
-@@ -59,7 +59,7 @@ static void __ib_umem_release(struct ib_device *dev, struct ib_umem *umem, int d
+@@ -51,11 +51,11 @@ static void __ib_umem_release(struct ib_device *dev, struct ib_umem *umem, int d
+ 	struct scatterlist *sg;
+ 	unsigned int i;
+ 
+-	if (umem->nmap > 0)
+-		ib_dma_unmap_sg(dev, umem->sg_head.sgl, umem->sg_nents,
+-				DMA_BIDIRECTIONAL);
++	if (dirty)
++		ib_dma_unmap_sgtable_attrs(dev, &umem->sgt_append.sgt,
++					   DMA_BIDIRECTIONAL, 0);
+ 
+-	for_each_sg(umem->sg_head.sgl, sg, umem->sg_nents, i)
++	for_each_sgtable_sg(&umem->sgt_append.sgt, sg, i)
  		unpin_user_page_range_dirty_lock(sg_page(sg),
  			DIV_ROUND_UP(sg->length, PAGE_SIZE), make_dirty);
  
--	sg_free_table(&umem->sg_head);
-+	sg_free_append_table(&umem->sgt_append);
- }
+@@ -111,7 +111,7 @@ unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
+ 	/* offset into first SGL */
+ 	pgoff = umem->address & ~PAGE_MASK;
  
- /**
-@@ -155,8 +155,7 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
- 	unsigned long dma_attr = 0;
- 	struct mm_struct *mm;
- 	unsigned long npages;
--	int ret;
--	struct scatterlist *sg = NULL;
-+	int pinned, ret;
- 	unsigned int gup_flags = FOLL_WRITE;
- 
- 	/*
-@@ -216,28 +215,33 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
- 
- 	while (npages) {
- 		cond_resched();
--		ret = pin_user_pages_fast(cur_base,
-+		pinned = pin_user_pages_fast(cur_base,
- 					  min_t(unsigned long, npages,
- 						PAGE_SIZE /
- 						sizeof(struct page *)),
- 					  gup_flags | FOLL_LONGTERM, page_list);
--		if (ret < 0)
-+		if (pinned < 0) {
-+			ret = pinned;
- 			goto umem_release;
-+		}
- 
--		cur_base += ret * PAGE_SIZE;
--		npages -= ret;
--		sg = sg_alloc_append_table_from_pages(&umem->sg_head, page_list,
--				ret, 0, ret << PAGE_SHIFT,
--				ib_dma_max_seg_size(device), sg, npages,
--				GFP_KERNEL);
--		umem->sg_nents = umem->sg_head.nents;
--		if (IS_ERR(sg)) {
--			unpin_user_pages_dirty_lock(page_list, ret, 0);
--			ret = PTR_ERR(sg);
-+		cur_base += pinned * PAGE_SIZE;
-+		npages -= pinned;
-+		ret = sg_alloc_append_table_from_pages(
-+			&umem->sgt_append, page_list, pinned, 0,
-+			pinned << PAGE_SHIFT, ib_dma_max_seg_size(device),
-+			npages, GFP_KERNEL);
-+		umem->sg_nents = umem->sgt_append.sgt.nents;
-+		if (ret) {
-+			memcpy(&umem->sg_head.sgl, &umem->sgt_append.sgt,
-+			       sizeof(umem->sgt_append.sgt));
-+			unpin_user_pages_dirty_lock(page_list, pinned, 0);
+-	for_each_sg(umem->sg_head.sgl, sg, umem->nmap, i) {
++	for_each_sgtable_dma_sg(&umem->sgt_append.sgt, sg, i) {
+ 		/* Walk SGL and reduce max page size if VA/PA bits differ
+ 		 * for any address.
+ 		 */
+@@ -121,7 +121,7 @@ unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
+ 		 * the maximum possible page size as the low bits of the iova
+ 		 * must be zero when starting the next chunk.
+ 		 */
+-		if (i != (umem->nmap - 1))
++		if (i != (umem->sgt_append.sgt.nents - 1))
+ 			mask |= va;
+ 		pgoff = 0;
+ 	}
+@@ -231,30 +231,19 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
+ 			&umem->sgt_append, page_list, pinned, 0,
+ 			pinned << PAGE_SHIFT, ib_dma_max_seg_size(device),
+ 			npages, GFP_KERNEL);
+-		umem->sg_nents = umem->sgt_append.sgt.nents;
+ 		if (ret) {
+-			memcpy(&umem->sg_head.sgl, &umem->sgt_append.sgt,
+-			       sizeof(umem->sgt_append.sgt));
+ 			unpin_user_pages_dirty_lock(page_list, pinned, 0);
  			goto umem_release;
  		}
  	}
  
-+	memcpy(&umem->sg_head.sgl, &umem->sgt_append.sgt,
-+	       sizeof(umem->sgt_append.sgt));
+-	memcpy(&umem->sg_head.sgl, &umem->sgt_append.sgt,
+-	       sizeof(umem->sgt_append.sgt));
  	if (access & IB_ACCESS_RELAXED_ORDERING)
  		dma_attr |= DMA_ATTR_WEAK_ORDERING;
  
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index 5c700f2a0d18..266754a55327 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -39,6 +39,12 @@ struct sg_table {
- 	unsigned int orig_nents;	/* original size of list */
- };
+-	umem->nmap =
+-		ib_dma_map_sg_attrs(device, umem->sg_head.sgl, umem->sg_nents,
+-				    DMA_BIDIRECTIONAL, dma_attr);
+-
+-	if (!umem->nmap) {
+-		ret = -ENOMEM;
++	ret = ib_dma_map_sgtable_attrs(device, &umem->sgt_append.sgt,
++				       DMA_BIDIRECTIONAL, dma_attr);
++	if (ret)
+ 		goto umem_release;
+-	}
+-
+-	ret = 0;
+ 	goto out;
  
-+struct sg_append_table {
-+	struct sg_table sgt;		/* The scatter list table */
-+	struct scatterlist *prv;	/* last populated sge in the table */
-+	unsigned int total_nents;	/* Total entries in the table */
-+};
-+
- /*
-  * Notes on SG table design.
-  *
-@@ -280,16 +286,17 @@ typedef struct scatterlist *(sg_alloc_fn)(unsigned int, gfp_t);
- typedef void (sg_free_fn)(struct scatterlist *, unsigned int);
+ umem_release:
+@@ -314,7 +303,8 @@ int ib_umem_copy_from(void *dst, struct ib_umem *umem, size_t offset,
+ 		return -EINVAL;
+ 	}
  
- void __sg_free_table(struct sg_table *, unsigned int, unsigned int,
--		     sg_free_fn *);
-+		     sg_free_fn *, unsigned int);
- void sg_free_table(struct sg_table *);
-+void sg_free_append_table(struct sg_append_table *sgt);
- int __sg_alloc_table(struct sg_table *, unsigned int, unsigned int,
- 		     struct scatterlist *, unsigned int, gfp_t, sg_alloc_fn *);
- int sg_alloc_table(struct sg_table *, unsigned int, gfp_t);
--struct scatterlist *sg_alloc_append_table_from_pages(struct sg_table *sgt,
--		struct page **pages, unsigned int n_pages, unsigned int offset,
--		unsigned long size, unsigned int max_segment,
--		struct scatterlist *prv, unsigned int left_pages,
--		gfp_t gfp_mask);
-+int sg_alloc_append_table_from_pages(struct sg_append_table *sgt,
-+				     struct page **pages, unsigned int n_pages,
-+				     unsigned int offset, unsigned long size,
-+				     unsigned int max_segment,
-+				     unsigned int left_pages, gfp_t gfp_mask);
- int sg_alloc_table_from_pages_segment(struct sg_table *sgt, struct page **pages,
- 				      unsigned int n_pages, unsigned int offset,
- 				      unsigned long size,
+-	ret = sg_pcopy_to_buffer(umem->sg_head.sgl, umem->sg_nents, dst, length,
++	ret = sg_pcopy_to_buffer(umem->sgt_append.sgt.sgl,
++				 umem->sgt_append.sgt.orig_nents, dst, length,
+ 				 offset + ib_umem_offset(umem));
+ 
+ 	if (ret < 0)
+diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+index c6e875619fac..e824baf4640d 100644
+--- a/drivers/infiniband/core/umem_dmabuf.c
++++ b/drivers/infiniband/core/umem_dmabuf.c
+@@ -55,9 +55,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+ 		cur += sg_dma_len(sg);
+ 	}
+ 
+-	umem_dmabuf->umem.sg_head.sgl = umem_dmabuf->first_sg;
+-	umem_dmabuf->umem.sg_head.nents = nmap;
+-	umem_dmabuf->umem.nmap = nmap;
++	umem_dmabuf->umem.sgt_append.sgt.sgl = umem_dmabuf->first_sg;
++	umem_dmabuf->umem.sgt_append.sgt.nents = nmap;
+ 	umem_dmabuf->sgt = sgt;
+ 
+ wait_fence:
+diff --git a/drivers/infiniband/hw/hns/hns_roce_db.c b/drivers/infiniband/hw/hns/hns_roce_db.c
+index d40ea3d87260..751470c7a2ce 100644
+--- a/drivers/infiniband/hw/hns/hns_roce_db.c
++++ b/drivers/infiniband/hw/hns/hns_roce_db.c
+@@ -42,8 +42,8 @@ int hns_roce_db_map_user(struct hns_roce_ucontext *context, unsigned long virt,
+ 
+ found:
+ 	offset = virt - page_addr;
+-	db->dma = sg_dma_address(page->umem->sg_head.sgl) + offset;
+-	db->virt_addr = sg_virt(page->umem->sg_head.sgl) + offset;
++	db->dma = sg_dma_address(page->umem->sgt_append.sgt.sgl) + offset;
++	db->virt_addr = sg_virt(page->umem->sgt_append.sgt.sgl) + offset;
+ 	db->u.user_page = page;
+ 	refcount_inc(&page->refcount);
+ 
+diff --git a/drivers/infiniband/hw/irdma/verbs.c b/drivers/infiniband/hw/irdma/verbs.c
+index 9b8c451e2426..e8089da1b770 100644
+--- a/drivers/infiniband/hw/irdma/verbs.c
++++ b/drivers/infiniband/hw/irdma/verbs.c
+@@ -2231,7 +2231,7 @@ static void irdma_copy_user_pgaddrs(struct irdma_mr *iwmr, u64 *pbl,
+ 	pinfo = (level == PBLE_LEVEL_1) ? NULL : palloc->level2.leaf;
+ 
+ 	if (iwmr->type == IRDMA_MEMREG_TYPE_QP)
+-		iwpbl->qp_mr.sq_page = sg_page(region->sg_head.sgl);
++		iwpbl->qp_mr.sq_page = sg_page(region->sgt_append.sgt.sgl);
+ 
+ 	rdma_umem_for_each_dma_block(region, &biter, iwmr->page_size) {
+ 		*pbl = rdma_block_iter_dma_address(&biter);
+diff --git a/drivers/infiniband/hw/mlx4/doorbell.c b/drivers/infiniband/hw/mlx4/doorbell.c
+index d41f03ccb0e1..9bbd695a9fd5 100644
+--- a/drivers/infiniband/hw/mlx4/doorbell.c
++++ b/drivers/infiniband/hw/mlx4/doorbell.c
+@@ -75,7 +75,8 @@ int mlx4_ib_db_map_user(struct ib_udata *udata, unsigned long virt,
+ 	list_add(&page->list, &context->db_page_list);
+ 
+ found:
+-	db->dma = sg_dma_address(page->umem->sg_head.sgl) + (virt & ~PAGE_MASK);
++	db->dma = sg_dma_address(page->umem->sgt_append.sgt.sgl) +
++		  (virt & ~PAGE_MASK);
+ 	db->u.user_page = page;
+ 	++page->refcnt;
+ 
+diff --git a/drivers/infiniband/hw/mlx4/mr.c b/drivers/infiniband/hw/mlx4/mr.c
+index 50becc0e4b62..04a67b481608 100644
+--- a/drivers/infiniband/hw/mlx4/mr.c
++++ b/drivers/infiniband/hw/mlx4/mr.c
+@@ -200,7 +200,7 @@ int mlx4_ib_umem_write_mtt(struct mlx4_ib_dev *dev, struct mlx4_mtt *mtt,
+ 	mtt_shift = mtt->page_shift;
+ 	mtt_size = 1ULL << mtt_shift;
+ 
+-	for_each_sg(umem->sg_head.sgl, sg, umem->nmap, i) {
++	for_each_sgtable_dma_sg(&umem->sgt_append.sgt, sg, i) {
+ 		if (cur_start_addr + len == sg_dma_address(sg)) {
+ 			/* still the same block */
+ 			len += sg_dma_len(sg);
+@@ -273,7 +273,7 @@ int mlx4_ib_umem_calc_optimal_mtt_size(struct ib_umem *umem, u64 start_va,
+ 
+ 	*num_of_mtts = ib_umem_num_dma_blocks(umem, PAGE_SIZE);
+ 
+-	for_each_sg(umem->sg_head.sgl, sg, umem->nmap, i) {
++	for_each_sgtable_dma_sg(&umem->sgt_append.sgt, sg, i) {
+ 		/*
+ 		 * Initialization - save the first chunk start as the
+ 		 * current_block_start - block means contiguous pages.
+diff --git a/drivers/infiniband/hw/mlx5/doorbell.c b/drivers/infiniband/hw/mlx5/doorbell.c
+index 9ca2e61807ec..6398e2f48579 100644
+--- a/drivers/infiniband/hw/mlx5/doorbell.c
++++ b/drivers/infiniband/hw/mlx5/doorbell.c
+@@ -78,7 +78,8 @@ int mlx5_ib_db_map_user(struct mlx5_ib_ucontext *context, unsigned long virt,
+ 	list_add(&page->list, &context->db_page_list);
+ 
+ found:
+-	db->dma = sg_dma_address(page->umem->sg_head.sgl) + (virt & ~PAGE_MASK);
++	db->dma = sg_dma_address(page->umem->sgt_append.sgt.sgl) +
++		  (virt & ~PAGE_MASK);
+ 	db->u.user_page = page;
+ 	++page->refcnt;
+ 
+diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
+index 3263851ea574..d1eb49dbca15 100644
+--- a/drivers/infiniband/hw/mlx5/mr.c
++++ b/drivers/infiniband/hw/mlx5/mr.c
+@@ -1226,7 +1226,8 @@ int mlx5_ib_update_mr_pas(struct mlx5_ib_mr *mr, unsigned int flags)
+ 	orig_sg_length = sg.length;
+ 
+ 	cur_mtt = mtt;
+-	rdma_for_each_block (mr->umem->sg_head.sgl, &biter, mr->umem->nmap,
++	rdma_for_each_block (mr->umem->sgt_append.sgt.sgl, &biter,
++			     mr->umem->sgt_append.sgt.nents,
+ 			     BIT(mr->page_shift)) {
+ 		if (cur_mtt == (void *)mtt + sg.length) {
+ 			dma_sync_single_for_device(ddev, sg.addr, sg.length,
+diff --git a/drivers/infiniband/hw/qedr/verbs.c b/drivers/infiniband/hw/qedr/verbs.c
+index 16d4c0228d76..fc081c5629ee 100644
+--- a/drivers/infiniband/hw/qedr/verbs.c
++++ b/drivers/infiniband/hw/qedr/verbs.c
+@@ -1481,7 +1481,7 @@ static int qedr_init_srq_user_params(struct ib_udata *udata,
+ 		return PTR_ERR(srq->prod_umem);
+ 	}
+ 
+-	sg = srq->prod_umem->sg_head.sgl;
++	sg = srq->prod_umem->sgt_append.sgt.sgl;
+ 	srq->hw_srq.phy_prod_pair_addr = sg_dma_address(sg);
+ 
+ 	return 0;
+diff --git a/drivers/infiniband/sw/rdmavt/mr.c b/drivers/infiniband/sw/rdmavt/mr.c
+index 34b7af6ab9c2..dfb99a56d952 100644
+--- a/drivers/infiniband/sw/rdmavt/mr.c
++++ b/drivers/infiniband/sw/rdmavt/mr.c
+@@ -410,7 +410,7 @@ struct ib_mr *rvt_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
+ 	mr->mr.page_shift = PAGE_SHIFT;
+ 	m = 0;
+ 	n = 0;
+-	for_each_sg_page (umem->sg_head.sgl, &sg_iter, umem->nmap, 0) {
++	for_each_sgtable_page (&umem->sgt_append.sgt, &sg_iter, 0) {
+ 		void *vaddr;
+ 
+ 		vaddr = page_address(sg_page_iter_page(&sg_iter));
+diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniband/sw/rxe/rxe_mr.c
+index 1ee5bd8291e5..16de1bc6db6e 100644
+--- a/drivers/infiniband/sw/rxe/rxe_mr.c
++++ b/drivers/infiniband/sw/rxe/rxe_mr.c
+@@ -141,7 +141,7 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
+ 	if (length > 0) {
+ 		buf = map[0]->buf;
+ 
+-		for_each_sg_page(umem->sg_head.sgl, &sg_iter, umem->nmap, 0) {
++		for_each_sgtable_page (&umem->sgt_append.sgt, &sg_iter, 0) {
+ 			if (num_buf >= RXE_BUF_PER_MAP) {
+ 				map++;
+ 				buf = map[0]->buf;
 diff --git a/include/rdma/ib_umem.h b/include/rdma/ib_umem.h
-index 676c57f5ca80..33cb23b2ee3c 100644
+index 33cb23b2ee3c..62f8e0604207 100644
 --- a/include/rdma/ib_umem.h
 +++ b/include/rdma/ib_umem.h
-@@ -26,6 +26,7 @@ struct ib_umem {
- 	u32 is_odp : 1;
+@@ -27,9 +27,6 @@ struct ib_umem {
  	u32 is_dmabuf : 1;
  	struct work_struct	work;
-+	struct sg_append_table  sgt_append;
- 	struct sg_table sg_head;
- 	int             nmap;
- 	unsigned int    sg_nents;
-diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index 611c63d4a958..b587f90cca28 100644
---- a/lib/scatterlist.c
-+++ b/lib/scatterlist.c
-@@ -182,6 +182,7 @@ static void sg_kfree(struct scatterlist *sg, unsigned int nents)
-  * @nents_first_chunk: Number of entries int the (preallocated) first
-  * 	scatterlist chunk, 0 means no such preallocated first chunk
-  * @free_fn:	Free function
-+ * @num_ents:	Number of entries in the table
-  *
-  *  Description:
-  *    Free an sg table previously allocated and setup with
-@@ -190,7 +191,8 @@ static void sg_kfree(struct scatterlist *sg, unsigned int nents)
-  *
-  **/
- void __sg_free_table(struct sg_table *table, unsigned int max_ents,
--		     unsigned int nents_first_chunk, sg_free_fn *free_fn)
-+		     unsigned int nents_first_chunk, sg_free_fn *free_fn,
-+		     unsigned int num_ents)
+ 	struct sg_append_table  sgt_append;
+-	struct sg_table sg_head;
+-	int             nmap;
+-	unsigned int    sg_nents;
+ };
+ 
+ struct ib_umem_dmabuf {
+@@ -57,7 +54,7 @@ static inline int ib_umem_offset(struct ib_umem *umem)
+ static inline unsigned long ib_umem_dma_offset(struct ib_umem *umem,
+ 					       unsigned long pgsz)
  {
- 	struct scatterlist *sgl, *next;
- 	unsigned curr_max_ents = nents_first_chunk ?: max_ents;
-@@ -199,8 +201,8 @@ void __sg_free_table(struct sg_table *table, unsigned int max_ents,
- 		return;
- 
- 	sgl = table->sgl;
--	while (table->orig_nents) {
--		unsigned int alloc_size = table->orig_nents;
-+	while (num_ents) {
-+		unsigned int alloc_size = num_ents;
- 		unsigned int sg_size;
- 
- 		/*
-@@ -218,7 +220,7 @@ void __sg_free_table(struct sg_table *table, unsigned int max_ents,
- 			next = NULL;
- 		}
- 
--		table->orig_nents -= sg_size;
-+		num_ents -= sg_size;
- 		if (nents_first_chunk)
- 			nents_first_chunk = 0;
- 		else
-@@ -231,6 +233,19 @@ void __sg_free_table(struct sg_table *table, unsigned int max_ents,
+-	return (sg_dma_address(umem->sg_head.sgl) + ib_umem_offset(umem)) &
++	return (sg_dma_address(umem->sgt_append.sgt.sgl) + ib_umem_offset(umem)) &
+ 	       (pgsz - 1);
  }
- EXPORT_SYMBOL(__sg_free_table);
+ 
+@@ -78,7 +75,8 @@ static inline void __rdma_umem_block_iter_start(struct ib_block_iter *biter,
+ 						struct ib_umem *umem,
+ 						unsigned long pgsz)
+ {
+-	__rdma_block_iter_start(biter, umem->sg_head.sgl, umem->nmap, pgsz);
++	__rdma_block_iter_start(biter, umem->sgt_append.sgt.sgl,
++				umem->sgt_append.sgt.nents, pgsz);
+ }
+ 
+ /**
+@@ -129,7 +127,7 @@ static inline unsigned long ib_umem_find_best_pgoff(struct ib_umem *umem,
+ 						    unsigned long pgsz_bitmap,
+ 						    u64 pgoff_bitmask)
+ {
+-	struct scatterlist *sg = umem->sg_head.sgl;
++	struct scatterlist *sg = umem->sgt_append.sgt.sgl;
+ 	dma_addr_t dma_addr;
+ 
+ 	dma_addr = sg_dma_address(sg) + (umem->address & ~PAGE_MASK);
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index aa7806335cba..4b50d9a3018a 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -4085,6 +4085,34 @@ static inline void ib_dma_unmap_sg_attrs(struct ib_device *dev,
+ 				   dma_attrs);
+ }
  
 +/**
-+ * sg_free_append_table - Free a previously allocated append sg table.
-+ * @table:	 The mapped sg append table header
-+ *
-+ **/
-+void sg_free_append_table(struct sg_append_table *table)
++ * ib_dma_map_sgtable_attrs - Map a scatter/gather table to DMA addresses
++ * @dev: The device for which the DMA addresses are to be created
++ * @sg: The sg_table object describing the buffer
++ * @direction: The direction of the DMA
++ * @attrs: Optional DMA attributes for the map operation
++ */
++static inline int ib_dma_map_sgtable_attrs(struct ib_device *dev,
++					   struct sg_table *sgt,
++					   enum dma_data_direction direction,
++					   unsigned long dma_attrs)
 +{
-+	__sg_free_table(&table->sgt, SG_MAX_SINGLE_ALLOC, false, sg_kfree,
-+			table->total_nents);
-+}
-+EXPORT_SYMBOL(sg_free_append_table);
-+
-+
- /**
-  * sg_free_table - Free a previously allocated sg table
-  * @table:	The mapped sg table header
-@@ -238,7 +253,8 @@ EXPORT_SYMBOL(__sg_free_table);
-  **/
- void sg_free_table(struct sg_table *table)
- {
--	__sg_free_table(table, SG_MAX_SINGLE_ALLOC, false, sg_kfree);
-+	__sg_free_table(table, SG_MAX_SINGLE_ALLOC, false, sg_kfree,
-+			table->orig_nents);
- }
- EXPORT_SYMBOL(sg_free_table);
- 
-@@ -359,13 +375,14 @@ int sg_alloc_table(struct sg_table *table, unsigned int nents, gfp_t gfp_mask)
- 	ret = __sg_alloc_table(table, nents, SG_MAX_SINGLE_ALLOC,
- 			       NULL, 0, gfp_mask, sg_kmalloc);
- 	if (unlikely(ret))
--		__sg_free_table(table, SG_MAX_SINGLE_ALLOC, 0, sg_kfree);
-+		__sg_free_table(table, SG_MAX_SINGLE_ALLOC, 0, sg_kfree,
-+				table->orig_nents);
- 
- 	return ret;
- }
- EXPORT_SYMBOL(sg_alloc_table);
- 
--static struct scatterlist *get_next_sg(struct sg_table *table,
-+static struct scatterlist *get_next_sg(struct sg_append_table *table,
- 				       struct scatterlist *cur,
- 				       unsigned long needed_sges,
- 				       gfp_t gfp_mask)
-@@ -386,54 +403,52 @@ static struct scatterlist *get_next_sg(struct sg_table *table,
- 		return ERR_PTR(-ENOMEM);
- 	sg_init_table(new_sg, alloc_size);
- 	if (cur) {
-+		table->total_nents += alloc_size - 1;
- 		__sg_chain(next_sg, new_sg);
--		table->orig_nents += alloc_size - 1;
- 	} else {
--		table->sgl = new_sg;
--		table->orig_nents = alloc_size;
--		table->nents = 0;
-+		table->sgt.sgl = new_sg;
-+		table->total_nents = alloc_size;
- 	}
- 	return new_sg;
- }
- 
- /**
-- * sg_alloc_append_table_from_pages - Allocate and initialize an sg table from
-- *			         an array of pages
-- * @sgt:	 The sg table header to use
-- * @pages:	 Pointer to an array of page pointers
-- * @n_pages:	 Number of pages in the pages array
-+ * sg_alloc_append_table_from_pages - Allocate and initialize an append sg
-+ *                                    table from an array of pages
-+ * @sgt_append:  The sg append table to use
-+ * @pages:       Pointer to an array of page pointers
-+ * @n_pages:     Number of pages in the pages array
-  * @offset:      Offset from start of the first page to the start of a buffer
-  * @size:        Number of valid bytes in the buffer (after offset)
-  * @max_segment: Maximum size of a scatterlist element in bytes
-- * @prv:	 Last populated sge in sgt
-  * @left_pages:  Left pages caller have to set after this call
-  * @gfp_mask:	 GFP allocation mask
-  *
-  * Description:
-- *    If @prv is NULL, allocate and initialize an sg table from a list of pages,
-- *    else reuse the scatterlist passed in at @prv.
-- *    Contiguous ranges of the pages are squashed into a single scatterlist
-- *    entry up to the maximum size specified in @max_segment.  A user may
-- *    provide an offset at a start and a size of valid data in a buffer
-- *    specified by the page array.
-+ *    In the first call it allocate and initialize an sg table from a list of
-+ *    pages, else reuse the scatterlist from sgt_append. Contiguous ranges of
-+ *    the pages are squashed into a single scatterlist entry up to the maximum
-+ *    size specified in @max_segment.  A user may provide an offset at a start
-+ *    and a size of valid data in a buffer specified by the page array. The
-+ *    returned sg table is released by sg_free_append_table
-  *
-  * Returns:
-- *   Last SGE in sgt on success, PTR_ERR on otherwise.
-- *   The allocation in @sgt must be released by sg_free_table.
-+ *   0 on success, negative error on failure
-  *
-  * Notes:
-  *   If this function returns non-0 (eg failure), the caller must call
-- *   sg_free_table() to cleanup any leftover allocations.
-+ *   sg_free_append_table() to cleanup any leftover allocations.
-+ *
-+ *   In the fist call, sgt_append must by initialized.
-  */
--struct scatterlist *sg_alloc_append_table_from_pages(struct sg_table *sgt,
-+int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
- 		struct page **pages, unsigned int n_pages, unsigned int offset,
- 		unsigned long size, unsigned int max_segment,
--		struct scatterlist *prv, unsigned int left_pages,
--		gfp_t gfp_mask)
-+		unsigned int left_pages, gfp_t gfp_mask)
- {
- 	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
- 	unsigned int added_nents = 0;
--	struct scatterlist *s = prv;
-+	struct scatterlist *s = sgt_append->prv;
- 
- 	/*
- 	 * The algorithm below requires max_segment to be aligned to PAGE_SIZE
-@@ -441,25 +456,26 @@ struct scatterlist *sg_alloc_append_table_from_pages(struct sg_table *sgt,
- 	 */
- 	max_segment = ALIGN_DOWN(max_segment, PAGE_SIZE);
- 	if (WARN_ON(max_segment < PAGE_SIZE))
--		return ERR_PTR(-EINVAL);
-+		return -EINVAL;
- 
--	if (IS_ENABLED(CONFIG_ARCH_NO_SG_CHAIN) && prv)
--		return ERR_PTR(-EOPNOTSUPP);
-+	if (IS_ENABLED(CONFIG_ARCH_NO_SG_CHAIN) && sgt_append->prv)
-+		return -EOPNOTSUPP;
- 
--	if (prv) {
--		unsigned long paddr = (page_to_pfn(sg_page(prv)) * PAGE_SIZE +
--				       prv->offset + prv->length) /
--				      PAGE_SIZE;
-+	if (sgt_append->prv) {
-+		unsigned long paddr =
-+			(page_to_pfn(sg_page(sgt_append->prv)) * PAGE_SIZE +
-+			 sgt_append->prv->offset + sgt_append->prv->length) /
-+			PAGE_SIZE;
- 
- 		if (WARN_ON(offset))
--			return ERR_PTR(-EINVAL);
-+			return -EINVAL;
- 
- 		/* Merge contiguous pages into the last SG */
--		prv_len = prv->length;
-+		prv_len = sgt_append->prv->length;
- 		while (n_pages && page_to_pfn(pages[0]) == paddr) {
--			if (prv->length + PAGE_SIZE > max_segment)
-+			if (sgt_append->prv->length + PAGE_SIZE > max_segment)
- 				break;
--			prv->length += PAGE_SIZE;
-+			sgt_append->prv->length += PAGE_SIZE;
- 			paddr++;
- 			pages++;
- 			n_pages--;
-@@ -496,15 +512,16 @@ struct scatterlist *sg_alloc_append_table_from_pages(struct sg_table *sgt,
- 		}
- 
- 		/* Pass how many chunks might be left */
--		s = get_next_sg(sgt, s, chunks - i + left_pages, gfp_mask);
-+		s = get_next_sg(sgt_append, s, chunks - i + left_pages,
-+				gfp_mask);
- 		if (IS_ERR(s)) {
- 			/*
- 			 * Adjust entry length to be as before function was
- 			 * called.
- 			 */
--			if (prv)
--				prv->length = prv_len;
--			return s;
-+			if (sgt_append->prv)
-+				sgt_append->prv->length = prv_len;
-+			return PTR_ERR(s);
- 		}
- 		chunk_size = ((j - cur_page) << PAGE_SHIFT) - offset;
- 		sg_set_page(s, pages[cur_page],
-@@ -514,11 +531,13 @@ struct scatterlist *sg_alloc_append_table_from_pages(struct sg_table *sgt,
- 		offset = 0;
- 		cur_page = j;
- 	}
--	sgt->nents += added_nents;
-+	sgt_append->sgt.nents += added_nents;
-+	sgt_append->sgt.orig_nents = sgt_append->sgt.nents;
-+	sgt_append->prv = s;
- out:
- 	if (!left_pages)
- 		sg_mark_end(s);
--	return s;
-+	return 0;
- }
- EXPORT_SYMBOL(sg_alloc_append_table_from_pages);
- 
-@@ -550,8 +569,18 @@ int sg_alloc_table_from_pages_segment(struct sg_table *sgt, struct page **pages,
- 				unsigned long size, unsigned int max_segment,
- 				gfp_t gfp_mask)
- {
--	return PTR_ERR_OR_ZERO(sg_alloc_append_table_from_pages(sgt, pages,
--			n_pages, offset, size, max_segment, NULL, 0, gfp_mask));
-+	struct sg_append_table append = {};
-+	int err;
-+
-+	err = sg_alloc_append_table_from_pages(&append, pages, n_pages, offset,
-+					       size, max_segment, 0, gfp_mask);
-+	if (err) {
-+		sg_free_append_table(&append);
-+		return err;
++	if (ib_uses_virt_dma(dev)) {
++		ib_dma_virt_map_sg(dev, sgt->sgl, sgt->orig_nents);
++		return 0;
 +	}
-+	memcpy(sgt, &append.sgt, sizeof(*sgt));
-+	WARN_ON(append.total_nents != sgt->orig_nents);
-+	return 0;
- }
- EXPORT_SYMBOL(sg_alloc_table_from_pages_segment);
- 
-diff --git a/lib/sg_pool.c b/lib/sg_pool.c
-index db29e5c1f790..a0b1a52cd6f7 100644
---- a/lib/sg_pool.c
-+++ b/lib/sg_pool.c
-@@ -90,7 +90,8 @@ void sg_free_table_chained(struct sg_table *table,
- 	if (nents_first_chunk == 1)
- 		nents_first_chunk = 0;
- 
--	__sg_free_table(table, SG_CHUNK_SIZE, nents_first_chunk, sg_pool_free);
-+	__sg_free_table(table, SG_CHUNK_SIZE, nents_first_chunk, sg_pool_free,
-+			table->orig_nents);
- }
- EXPORT_SYMBOL_GPL(sg_free_table_chained);
- 
-diff --git a/tools/testing/scatterlist/main.c b/tools/testing/scatterlist/main.c
-index c2ff9179c2cc..08465a701cd5 100644
---- a/tools/testing/scatterlist/main.c
-+++ b/tools/testing/scatterlist/main.c
-@@ -85,43 +85,46 @@ int main(void)
- 
- 	for (i = 0, test = tests; test->expected_segments; test++, i++) {
- 		int left_pages = test->pfn_app ? test->num_pages : 0;
-+		struct sg_append_table append = {};
- 		struct page *pages[MAX_PAGES];
--		struct sg_table st;
--		struct scatterlist *sg = NULL;
- 		int ret;
- 
- 		set_pages(pages, test->pfn, test->num_pages);
- 
--		if (test->pfn_app) {
--			sg = sg_alloc_append_table_from_pages(
--				&st, pages, test->num_pages, 0, test->size,
--				test->max_seg, NULL, left_pages, GFP_KERNEL);
--			assert(PTR_ERR_OR_ZERO(sg) == test->alloc_ret);
--		} else {
-+		if (test->pfn_app)
-+			ret = sg_alloc_append_table_from_pages(
-+				&append, pages, test->num_pages, 0, test->size,
-+				test->max_seg, left_pages, GFP_KERNEL);
-+		else
- 			ret = sg_alloc_table_from_pages_segment(
--				&st, pages, test->num_pages, 0, test->size,
--				test->max_seg, GFP_KERNEL);
--			assert(ret == test->alloc_ret);
--		}
-+				&append.sgt, pages, test->num_pages, 0,
-+				test->size, test->max_seg, GFP_KERNEL);
++	return dma_map_sgtable(dev->dma_device, sgt, direction, dma_attrs);
++}
 +
-+		assert(ret == test->alloc_ret);
- 
- 		if (test->alloc_ret)
- 			continue;
- 
- 		if (test->pfn_app) {
- 			set_pages(pages, test->pfn_app, test->num_pages);
--			sg = sg_alloc_append_table_from_pages(
--				&st, pages, test->num_pages, 0, test->size,
--				test->max_seg, sg, 0, GFP_KERNEL);
-+			ret = sg_alloc_append_table_from_pages(
-+				&append, pages, test->num_pages, 0, test->size,
-+				test->max_seg, 0, GFP_KERNEL);
- 
--			assert(PTR_ERR_OR_ZERO(sg) == test->alloc_ret);
-+			assert(ret == test->alloc_ret);
- 		}
- 
--		VALIDATE(st.nents == test->expected_segments, &st, test);
-+		VALIDATE(append.sgt.nents == test->expected_segments,
-+			 &append.sgt, test);
- 		if (!test->pfn_app)
--			VALIDATE(st.orig_nents == test->expected_segments, &st,
--				 test);
--
--		sg_free_table(&st);
-+			VALIDATE(append.sgt.orig_nents ==
-+					 test->expected_segments,
-+				 &append.sgt, test);
++static inline void ib_dma_unmap_sgtable_attrs(struct ib_device *dev,
++					      struct sg_table *sgt,
++					      enum dma_data_direction direction,
++					      unsigned long dma_attrs)
++{
++	if (!ib_uses_virt_dma(dev))
++		dma_unmap_sgtable(dev->dma_device, sgt, direction, dma_attrs);
++}
 +
-+		if (test->pfn_app)
-+			sg_free_append_table(&append);
-+		else
-+			sg_free_table(&append.sgt);
- 	}
- 
- 	assert(i == (sizeof(tests) / sizeof(tests[0])) - 1);
+ /**
+  * ib_dma_map_sg - Map a scatter/gather list to DMA addresses
+  * @dev: The device for which the DMA addresses are to be created
 -- 
 2.25.4
 
