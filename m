@@ -2,87 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8973F632B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 18:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA353F6494
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 19:05:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68EDC899E9;
-	Tue, 24 Aug 2021 16:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DF7E6E064;
+	Tue, 24 Aug 2021 17:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBC2C899DB
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 16:49:06 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 151406E063
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 17:05:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629823745;
+ s=mimecast20190719; t=1629824736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kmI8hocKzE/m+bwvMVeJGFmHx34XKrmkWhq5ToJHaEI=;
- b=VwZ51M5MgtEnLizpAFgtprb2mwGZ0zbgGBp/Ex4Yi7Gx46U1x9U1bASNbtcVkLBOBVXFUk
- +OOP5N4SymTh7zOCD3aBgOglJxt5oQGQMaMkGPVGgZs5bdPP3L4ziMSOLCIdTZCmJfcSJl
- v9v0ZiKk3c4EFgXe8sdK7gMIzBqsqmM=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-8oVIUH8uMnSdqvhhLo0lkA-1; Tue, 24 Aug 2021 12:49:02 -0400
-X-MC-Unique: 8oVIUH8uMnSdqvhhLo0lkA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- q15-20020a17090622cf00b005c42d287e6aso3298124eja.18
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 09:49:02 -0700 (PDT)
+ bh=olgu31rPJpOTjKmA0XuNHPckB19mLh5v5zVaEM4u+Ik=;
+ b=YmKO9pCAtaQDRZDfawH2Y+1YksH1krnVgvfX4eUtYT0TAjEwsF5xoDAe5HqaL3xZyFIpR7
+ MlDJtzi32aKEq0ZTKnXNjRFTw0Gzeiv5VvM89spHC9iI8g6Gs5/fMcdO5T0i+r6vcic4SM
+ NdNgK+iCQIgg7XdgSBLjcjRsTZTMJ/c=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-OLmm84NOOlSInBlwveG1iQ-1; Tue, 24 Aug 2021 13:05:34 -0400
+X-MC-Unique: OLmm84NOOlSInBlwveG1iQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ w2-20020a3794020000b02903b54f40b442so14781460qkd.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 10:05:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=kmI8hocKzE/m+bwvMVeJGFmHx34XKrmkWhq5ToJHaEI=;
- b=X0PE6uEWu7rAsRP5Uga2XyzLsX6KWOdMmA7XaERjafjaZfGQYTKrVS0QV9SCTc8as4
- giXLFgUKHkYMEStpGyS2T7/rhx4Pgus+Li64aPfTU+lzgvYXdkXYxf6Y0Kd69+gwyse0
- F0w7b6wIrnErD1HTKMs4WKN+4r5/soAsUFV6pb7nF06+M90SIH3701C155sEI0BWscOR
- CbHxlDeuMCMeveCh1JJ+KpAoMqILa0/ZtvLMmFkQFskHBm4d8wJYic197MIx9Lg2tXfR
- qJhFhFimhtC1vwNZxbbZNRLI2h18JC7ogAOWzq6z0GsFAqMlpPDuULD2DuyYqEVnqqow
- 4g4A==
-X-Gm-Message-State: AOAM5315LXneERUIfIzvYj7wmDwXL/pMEiA8+uy8qs3JocZuQvrukXvt
- fdW78BlXs9KnU3i42MSK4hdyt9mPItD8yD15D2cJYGpLEUslUXQuwGK++HlldjVlDuxLR5zsq0m
- rcn6Fnh2tazv0Kno9wyZqEsEV7aQY
-X-Received: by 2002:a50:d587:: with SMTP id v7mr10156660edi.120.1629823741204; 
- Tue, 24 Aug 2021 09:49:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8p9ZhB+YjhzpWWotEUbkffC5uCyVDihhEeekgXfX+ojksKruVky8vDsNitTFruPAJncVoXA==
-X-Received: by 2002:a50:d587:: with SMTP id v7mr10156650edi.120.1629823741044; 
- Tue, 24 Aug 2021 09:49:01 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id dh8sm11642769edb.14.2021.08.24.09.49.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 09:49:00 -0700 (PDT)
-Subject: Re: [GIT PULL] drm-misc + drm-intel: Add support for out-of-band
- hotplug notification
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <34f13e21-9b1a-5f54-7e03-9705a6b51428@redhat.com>
- <871r6jgrin.fsf@intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <15400f71-dfe6-3142-d191-596ef9af7e7a@redhat.com>
-Date: Tue, 24 Aug 2021 18:48:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=olgu31rPJpOTjKmA0XuNHPckB19mLh5v5zVaEM4u+Ik=;
+ b=Oo18Mm2KGy187wQknA9UbPhO6/Lp5D55sJBjIdlYpiMsMIh4U9ENyeBeMgjcazn4lZ
+ PoXVUMuac7camtgcKK4LL7lm1eyPkzKOR7XBf/sluazQghV5zMCnLrB541EMRnkstvdN
+ 3J6vImjUUW7r5bKw/XKadP9YMSemuH1dO2cV4LuvxQVYOtuGC0xnWm+m/57INFGBpD2Z
+ 8TofCWiL5TZayc9gGk2ywF/toEganXETS0rNkxE+KmPg1cJdC6ToUcN63V6diwVwzDHc
+ v8eYEz2Esbb6yqUO05ugteoG2z2jlMrIwUe0rSQh+VsMahlfx0vinW0rhXwwFygUnsGA
+ 7QvQ==
+X-Gm-Message-State: AOAM5317LV5zUS7YXfMM9HLbjnmPUn32u4pW4Nq6pro9Tl/W+Imzq4Ha
+ ptLT+7DbP+c2EXBL28oEWQMSud/Kjurk1eyw7FtMhSu3Z8zlb2RVF/ct7W22CHweZLJjmSPCaEn
+ fkhjAvyCxORVvXOOunSZyiceigb1W
+X-Received: by 2002:a05:620a:4092:: with SMTP id
+ f18mr8019840qko.91.1629824734237; 
+ Tue, 24 Aug 2021 10:05:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxajLXqKsquojFZCdfXxxcf5UjL2aIS6hN3ktbx8HCAz+n/TGk51Sc0c7p6Ra/u9YDvfBY57w==
+X-Received: by 2002:a05:620a:4092:: with SMTP id
+ f18mr8019822qko.91.1629824734045; 
+ Tue, 24 Aug 2021 10:05:34 -0700 (PDT)
+Received: from [192.168.8.104] (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id y67sm11309477qkd.58.2021.08.24.10.05.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Aug 2021 10:05:33 -0700 (PDT)
+Message-ID: <75ccbdea6e8871856002edb75dff1a32822a5a89.camel@redhat.com>
+Subject: Re: [PATCH AUTOSEL 4.14 6/7] drm/nouveau: block a bunch of classes
+ from userspace
+From: Lyude Paul <lyude@redhat.com>
+To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+Cc: Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org
+Date: Tue, 24 Aug 2021 13:05:32 -0400
+In-Reply-To: <20210824005528.631702-6-sashal@kernel.org>
+References: <20210824005528.631702-1-sashal@kernel.org>
+ <20210824005528.631702-6-sashal@kernel.org>
+Organization: Red Hat
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
 MIME-Version: 1.0
-In-Reply-To: <871r6jgrin.fsf@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,92 +93,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This isn't at all intended to be a fix to be backported, so I don't think this
+should be included. I don't know about 5/7, but I'll let Benjamin comment on
+that one
 
-On 8/24/21 10:45 AM, Jani Nikula wrote:
-> On Fri, 20 Aug 2021, Hans de Goede <hdegoede@redhat.com> wrote:
->> Hello drm-misc and drm-intel maintainers,
->>
->> My "Add support for out-of-band hotplug notification" patchset:
->> https://patchwork.freedesktop.org/series/93763/
->>
->> Is ready for merging now, as discussed on IRC I based this series
->> on top drm-tip and when trying to apply the i915 parts on top
->> of drm-misc this fails due to conflict.
->>
->> So as Jani suggested here is a pull-req for a topic-branch with the
->> entire set, minus the troublesome i915 bits. Once this has been merged
->> into both drm-misc-next and drm-intel-next I can push the 2 i915
->> patch do drm-intel-next on top of the merge.
->>
->> Note there are also 2 drivers/usb/typec patches in here these
->> have Greg KH's Reviewed-by for merging through the drm tree,
->> Since this USB code does not change all that much. I also checked
->> and the drm-misc-next-2021-08-12 base of this tree contains the
->> same last commit to the modified file as usb-next.
->>
->> Daniel Vetter mentioned on IRC that it might be better for you to simply
->> pick-up the series directly from patchwork, that is fine too in that
->> case don't forget to add:
->>
->> Reviewed-by: Lyude Paul <lyude@redhat.com>
->>
->> To the entire series (given in a reply to the cover-letter)
->>
->> And:
->>
->> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>
->> To the usb/typec patches (patch 7/8), this was given in reply
->> to a previous posting of the series and I forgot to add this
->> in the resend.
+On Mon, 2021-08-23 at 20:55 -0400, Sasha Levin wrote:
+> From: Ben Skeggs <bskeggs@redhat.com>
 > 
-> Since this is mostly touching drm core, I think it should be merged to
-> drm-misc-next first, and drm-intel-next after. Please let us know.
-
-I agree this should go to drm-misc-next first.
-
-(I was planning on pushing this to drm-misc-next myself,
-but then ended up going with the topic branch because of the
-conflict in the i915 bits.)
-
-Regards,
-
-Hans
-
-
-
->> The following changes since commit c7782443a88926a4f938f0193041616328cf2db2:
->>
->>   drm/bridge: ti-sn65dsi86: Avoid creating multiple connectors (2021-08-12 09:56:09 -0700)
->>
->> are available in the Git repository at:
->>
->>   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git drm-misc-intel-oob-hotplug-v1
->>
->> for you to fetch changes up to 7f811394878535ed9a6849717de8c2959ae38899:
->>
->>   usb: typec: altmodes/displayport: Notify drm subsys of hotplug events (2021-08-20 12:35:59 +0200)
->>
->> ----------------------------------------------------------------
->> Topic branch for drm-misc / drm-intel for OOB hotplug support for Type-C connectors
->>
->> ----------------------------------------------------------------
->> Hans de Goede (6):
->>       drm/connector: Give connector sysfs devices there own device_type
->>       drm/connector: Add a fwnode pointer to drm_connector and register with ACPI (v2)
->>       drm/connector: Add drm_connector_find_by_fwnode() function (v3)
->>       drm/connector: Add support for out-of-band hotplug notification (v3)
->>       usb: typec: altmodes/displayport: Make dp_altmode_notify() more generic
->>       usb: typec: altmodes/displayport: Notify drm subsys of hotplug events
->>
->>  drivers/gpu/drm/drm_connector.c          | 79 +++++++++++++++++++++++++++++
->>  drivers/gpu/drm/drm_crtc_internal.h      |  2 +
->>  drivers/gpu/drm/drm_sysfs.c              | 87 +++++++++++++++++++++++++++-----
->>  drivers/usb/typec/altmodes/Kconfig       |  1 +
->>  drivers/usb/typec/altmodes/displayport.c | 58 +++++++++++++--------
->>  include/drm/drm_connector.h              | 25 +++++++++
->>  6 files changed, 217 insertions(+), 35 deletions(-)
->>
+> [ Upstream commit 148a8653789c01f159764ffcc3f370008966b42f ]
 > 
+> Long ago, there had been plans for making use of a bunch of these APIs
+> from userspace and there's various checks in place to stop misbehaving.
+> 
+> Countless other projects have occurred in the meantime, and the pieces
+> didn't finish falling into place for that to happen.
+> 
+> They will (hopefully) in the not-too-distant future, but it won't look
+> quite as insane.  The super checks are causing problems right now, and
+> are going to be removed.
+> 
+> Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/gpu/drm/nouveau/include/nvif/cl0080.h |  3 +-
+>  drivers/gpu/drm/nouveau/nouveau_drm.c         |  1 +
+>  drivers/gpu/drm/nouveau/nouveau_usif.c        | 57 ++++++++++++++-----
+>  .../gpu/drm/nouveau/nvkm/engine/device/user.c |  2 +-
+>  4 files changed, 48 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/include/nvif/cl0080.h
+> b/drivers/gpu/drm/nouveau/include/nvif/cl0080.h
+> index 2740278d226b..61c17acd507c 100644
+> --- a/drivers/gpu/drm/nouveau/include/nvif/cl0080.h
+> +++ b/drivers/gpu/drm/nouveau/include/nvif/cl0080.h
+> @@ -4,7 +4,8 @@
+>  
+>  struct nv_device_v0 {
+>         __u8  version;
+> -       __u8  pad01[7];
+> +       __u8  priv;
+> +       __u8  pad02[6];
+>         __u64 device;   /* device identifier, ~0 for client default */
+>  };
+>  
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> index fb6b1d0f7fef..fc54a26598cc 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -151,6 +151,7 @@ nouveau_cli_init(struct nouveau_drm *drm, const char
+> *sname,
+>         ret = nvif_device_init(&cli->base.object, 0, NV_DEVICE,
+>                                &(struct nv_device_v0) {
+>                                         .device = ~0,
+> +                                       .priv = true,
+>                                }, sizeof(struct nv_device_v0),
+>                                &cli->device);
+>         if (ret) {
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_usif.c
+> b/drivers/gpu/drm/nouveau/nouveau_usif.c
+> index 9dc10b17ad34..5da1f4d223d7 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_usif.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_usif.c
+> @@ -32,6 +32,9 @@
+>  #include <nvif/event.h>
+>  #include <nvif/ioctl.h>
+>  
+> +#include <nvif/class.h>
+> +#include <nvif/cl0080.h>
+> +
+>  struct usif_notify_p {
+>         struct drm_pending_event base;
+>         struct {
+> @@ -261,7 +264,7 @@ usif_object_dtor(struct usif_object *object)
+>  }
+>  
+>  static int
+> -usif_object_new(struct drm_file *f, void *data, u32 size, void *argv, u32
+> argc)
+> +usif_object_new(struct drm_file *f, void *data, u32 size, void *argv, u32
+> argc, bool parent_abi16)
+>  {
+>         struct nouveau_cli *cli = nouveau_cli(f);
+>         struct nvif_client *client = &cli->base;
+> @@ -271,23 +274,48 @@ usif_object_new(struct drm_file *f, void *data, u32
+> size, void *argv, u32 argc)
+>         struct usif_object *object;
+>         int ret = -ENOSYS;
+>  
+> +       if ((ret = nvif_unpack(ret, &data, &size, args->v0, 0, 0, true)))
+> +               return ret;
+> +
+> +       switch (args->v0.oclass) {
+> +       case NV_DMA_FROM_MEMORY:
+> +       case NV_DMA_TO_MEMORY:
+> +       case NV_DMA_IN_MEMORY:
+> +               return -EINVAL;
+> +       case NV_DEVICE: {
+> +               union {
+> +                       struct nv_device_v0 v0;
+> +               } *args = data;
+> +
+> +               if ((ret = nvif_unpack(ret, &data, &size, args->v0, 0, 0,
+> false)))
+> +                       return ret;
+> +
+> +               args->v0.priv = false;
+> +               break;
+> +       }
+> +       default:
+> +               if (!parent_abi16)
+> +                       return -EINVAL;
+> +               break;
+> +       }
+> +
+>         if (!(object = kmalloc(sizeof(*object), GFP_KERNEL)))
+>                 return -ENOMEM;
+>         list_add(&object->head, &cli->objects);
+>  
+> -       if (!(ret = nvif_unpack(ret, &data, &size, args->v0, 0, 0, true))) {
+> -               object->route = args->v0.route;
+> -               object->token = args->v0.token;
+> -               args->v0.route = NVDRM_OBJECT_USIF;
+> -               args->v0.token = (unsigned long)(void *)object;
+> -               ret = nvif_client_ioctl(client, argv, argc);
+> -               args->v0.token = object->token;
+> -               args->v0.route = object->route;
+> +       object->route = args->v0.route;
+> +       object->token = args->v0.token;
+> +       args->v0.route = NVDRM_OBJECT_USIF;
+> +       args->v0.token = (unsigned long)(void *)object;
+> +       ret = nvif_client_ioctl(client, argv, argc);
+> +       if (ret) {
+> +               usif_object_dtor(object);
+> +               return ret;
+>         }
+>  
+> -       if (ret)
+> -               usif_object_dtor(object);
+> -       return ret;
+> +       args->v0.token = object->token;
+> +       args->v0.route = object->route;
+> +       return 0;
+>  }
+>  
+>  int
+> @@ -301,6 +329,7 @@ usif_ioctl(struct drm_file *filp, void __user *user, u32
+> argc)
+>                 struct nvif_ioctl_v0 v0;
+>         } *argv = data;
+>         struct usif_object *object;
+> +       bool abi16 = false;
+>         u8 owner;
+>         int ret;
+>  
+> @@ -331,11 +360,13 @@ usif_ioctl(struct drm_file *filp, void __user *user,
+> u32 argc)
+>                         mutex_unlock(&cli->mutex);
+>                         goto done;
+>                 }
+> +
+> +               abi16 = true;
+>         }
+>  
+>         switch (argv->v0.type) {
+>         case NVIF_IOCTL_V0_NEW:
+> -               ret = usif_object_new(filp, data, size, argv, argc);
+> +               ret = usif_object_new(filp, data, size, argv, argc, abi16);
+>                 break;
+>         case NVIF_IOCTL_V0_NTFY_NEW:
+>                 ret = usif_notify_new(filp, data, size, argv, argc);
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/user.c
+> b/drivers/gpu/drm/nouveau/nvkm/engine/device/user.c
+> index 513ee6b79553..08100eed9584 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/device/user.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/user.c
+> @@ -347,7 +347,7 @@ nvkm_udevice_new(const struct nvkm_oclass *oclass, void
+> *data, u32 size,
+>                 return ret;
+>  
+>         /* give priviledged clients register access */
+> -       if (client->super)
+> +       if (args->v0.priv)
+>                 func = &nvkm_udevice_super;
+>         else
+>                 func = &nvkm_udevice;
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
