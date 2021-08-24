@@ -1,81 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FAD23F6502
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 19:08:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF853F66C5
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Aug 2021 19:27:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD426E081;
-	Tue, 24 Aug 2021 17:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08DA56E08A;
+	Tue, 24 Aug 2021 17:27:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A19206E081
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 17:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629824911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dAkVl4muzdQPrWqv3jT8cULrRk2pHmerwmwahfAa5XM=;
- b=SKqNtwivmQooimGkGAg+6TIjo8AXjKodqkKcJuYZj6x44vgMInhE7HWu3F+o6+ux1zQj9/
- NhwmTZa6epWYG5/gBImLTzGHSOP0hZdGyq6kVrtpTMH/M4v/msqfMcjzaoMPfv4VgrwH57
- AvGQlwhVbLn8onJsSZboyYi+3PtTbfA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-K6TzM8JwMpiYno4kxqmh1Q-1; Tue, 24 Aug 2021 13:08:30 -0400
-X-MC-Unique: K6TzM8JwMpiYno4kxqmh1Q-1
-Received: by mail-qk1-f199.google.com with SMTP id
- w2-20020a3794020000b02903b54f40b442so14787660qkd.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 10:08:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=dAkVl4muzdQPrWqv3jT8cULrRk2pHmerwmwahfAa5XM=;
- b=LLwUZkZru6N8Pkm1/VDyz+VgVUCLUlmmpi/wWtzdInqTp27QZoGHx6cjXxTwfsJw24
- RyU7pSIp5Wl0XQUJLfL/PnqOQEjDpBwvdIs4E0lFRRAmPYW+SqqZqFK+Frk6/oTpappG
- NVHx3/6OVwvDoSF+JfFxg8GQHUJ9o9+N4Bo/vaZryrvmy8U0qPsuryrw5IIqNiQ/LyD9
- 0wqzZqpyihSWz+8UyIAgaSjmV921GOQm3mQP9WbSXuTygA6r/Jkhjgvwdr1vYBpFZTac
- m1rMeVMHkpXWX4hJHm9rRLjx2mfkBEofksx//aTYHfbVi6/Z+fRzyJYdpGP/6zJ5vsh9
- 6ORQ==
-X-Gm-Message-State: AOAM532FxSfSmmIwZJHUFICm40BFdvHSSCCdGpQex0QB61diLb4OzFeH
- zdKowv4JNw/EzpOxNyhP48RibwfpN9CFXoVKmuHTtYBM30gNKNzHYzKquHRrwbxnVJ2gOeF0sR1
- s1oz4I9iex81MGYuEpGx+8vSD7C6w
-X-Received: by 2002:a05:620a:4ed:: with SMTP id
- b13mr27114975qkh.26.1629824910284; 
- Tue, 24 Aug 2021 10:08:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8V/5mLfM4VrGrXcWlxoFrrEreLpKoBkx2IpdnRG8q7Idvub+fuLWIIz3F/ZFCXaE8qPhBlg==
-X-Received: by 2002:a05:620a:4ed:: with SMTP id
- b13mr27114963qkh.26.1629824910148; 
- Tue, 24 Aug 2021 10:08:30 -0700 (PDT)
-Received: from [192.168.8.104] (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id l4sm11354108qkd.77.2021.08.24.10.08.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 10:08:29 -0700 (PDT)
-Message-ID: <6607dde4207eb7ad1666b131c86f60a57a2a193c.camel@redhat.com>
-Subject: Re: [PATCH AUTOSEL 5.13 20/26] drm/nouveau: recognise GA107
-From: Lyude Paul <lyude@redhat.com>
-To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-Cc: Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org
-Date: Tue, 24 Aug 2021 13:08:28 -0400
-In-Reply-To: <20210824005356.630888-20-sashal@kernel.org>
-References: <20210824005356.630888-1-sashal@kernel.org>
- <20210824005356.630888-20-sashal@kernel.org>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6749B6E08A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Aug 2021 17:27:10 +0000 (UTC)
+Received: from localhost.localdomain (unknown [IPv6:2600:8800:8c06:1000::c8f3])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: alyssa)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 748DA1F426FC;
+ Tue, 24 Aug 2021 18:27:06 +0100 (BST)
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panfrost: Use upper/lower_32_bits helpers
+Date: Tue, 24 Aug 2021 13:26:14 -0400
+Message-Id: <20210824172614.7299-1-alyssa.rosenzweig@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,67 +46,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is more hardware enablement, I'm not sure this should be going into
-stable either. Ben?
+Use upper_32_bits/lower_32_bits helpers instead of open-coding them.
+This is easier to scan quickly compared to bitwise manipulation, and it
+is pleasingly symmetric. I noticed this when debugging lock_region,
+which had a particularly "creative" way of writing upper_32_bits.
 
-On Mon, 2021-08-23 at 20:53 -0400, Sasha Levin wrote:
-> From: Ben Skeggs <bskeggs@redhat.com>
-> 
-> [ Upstream commit fa25f28ef2cef19bc9ffeb827b8ecbf48af7f892 ]
-> 
-> Still no GA106 as I don't have HW to verif.
-> 
-> Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  .../gpu/drm/nouveau/nvkm/engine/device/base.c | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-> b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-> index b930f539feec..93ddf63d1114 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-> @@ -2624,6 +2624,26 @@ nv174_chipset = {
->         .dma      = { 0x00000001, gv100_dma_new },
->  };
->  
-> +static const struct nvkm_device_chip
-> +nv177_chipset = {
-> +       .name = "GA107",
-> +       .bar      = { 0x00000001, tu102_bar_new },
-> +       .bios     = { 0x00000001, nvkm_bios_new },
-> +       .devinit  = { 0x00000001, ga100_devinit_new },
-> +       .fb       = { 0x00000001, ga102_fb_new },
-> +       .gpio     = { 0x00000001, ga102_gpio_new },
-> +       .i2c      = { 0x00000001, gm200_i2c_new },
-> +       .imem     = { 0x00000001, nv50_instmem_new },
-> +       .mc       = { 0x00000001, ga100_mc_new },
-> +       .mmu      = { 0x00000001, tu102_mmu_new },
-> +       .pci      = { 0x00000001, gp100_pci_new },
-> +       .privring = { 0x00000001, gm200_privring_new },
-> +       .timer    = { 0x00000001, gk20a_timer_new },
-> +       .top      = { 0x00000001, ga100_top_new },
-> +       .disp     = { 0x00000001, ga102_disp_new },
-> +       .dma      = { 0x00000001, gv100_dma_new },
-> +};
-> +
->  static int
->  nvkm_device_event_ctor(struct nvkm_object *object, void *data, u32 size,
->                        struct nvkm_notify *notify)
-> @@ -3049,6 +3069,7 @@ nvkm_device_ctor(const struct nvkm_device_func *func,
->                 case 0x168: device->chip = &nv168_chipset; break;
->                 case 0x172: device->chip = &nv172_chipset; break;
->                 case 0x174: device->chip = &nv174_chipset; break;
-> +               case 0x177: device->chip = &nv177_chipset; break;
->                 default:
->                         if (nvkm_boolopt(device->cfgopt,
-> "NvEnableUnsupportedChipsets", false)) {
->                                 switch (device->chipset) {
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_job.c |  8 ++++----
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 12 ++++++------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 71a72fb50e6b..763b7abfc88e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -137,8 +137,8 @@ static void panfrost_job_write_affinity(struct panfrost_device *pfdev,
+ 	 */
+ 	affinity = pfdev->features.shader_present;
+ 
+-	job_write(pfdev, JS_AFFINITY_NEXT_LO(js), affinity & 0xFFFFFFFF);
+-	job_write(pfdev, JS_AFFINITY_NEXT_HI(js), affinity >> 32);
++	job_write(pfdev, JS_AFFINITY_NEXT_LO(js), lower_32_bits(affinity));
++	job_write(pfdev, JS_AFFINITY_NEXT_HI(js), upper_32_bits(affinity));
+ }
+ 
+ static u32
+@@ -203,8 +203,8 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+ 
+ 	cfg = panfrost_mmu_as_get(pfdev, job->file_priv->mmu);
+ 
+-	job_write(pfdev, JS_HEAD_NEXT_LO(js), jc_head & 0xFFFFFFFF);
+-	job_write(pfdev, JS_HEAD_NEXT_HI(js), jc_head >> 32);
++	job_write(pfdev, JS_HEAD_NEXT_LO(js), lower_32_bits(jc_head));
++	job_write(pfdev, JS_HEAD_NEXT_HI(js), upper_32_bits(jc_head));
+ 
+ 	panfrost_job_write_affinity(pfdev, job->requirements, js);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 0da5b3100ab1..c3fbe0ad9090 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -80,8 +80,8 @@ static void lock_region(struct panfrost_device *pfdev, u32 as_nr,
+ 	region |= region_width;
+ 
+ 	/* Lock the region that needs to be updated */
+-	mmu_write(pfdev, AS_LOCKADDR_LO(as_nr), region & 0xFFFFFFFFUL);
+-	mmu_write(pfdev, AS_LOCKADDR_HI(as_nr), (region >> 32) & 0xFFFFFFFFUL);
++	mmu_write(pfdev, AS_LOCKADDR_LO(as_nr), lower_32_bits(region));
++	mmu_write(pfdev, AS_LOCKADDR_HI(as_nr), upper_32_bits(region));
+ 	write_cmd(pfdev, as_nr, AS_COMMAND_LOCK);
+ }
+ 
+@@ -123,14 +123,14 @@ static void panfrost_mmu_enable(struct panfrost_device *pfdev, struct panfrost_m
+ 
+ 	mmu_hw_do_operation_locked(pfdev, as_nr, 0, ~0UL, AS_COMMAND_FLUSH_MEM);
+ 
+-	mmu_write(pfdev, AS_TRANSTAB_LO(as_nr), transtab & 0xffffffffUL);
+-	mmu_write(pfdev, AS_TRANSTAB_HI(as_nr), transtab >> 32);
++	mmu_write(pfdev, AS_TRANSTAB_LO(as_nr), lower_32_bits(transtab));
++	mmu_write(pfdev, AS_TRANSTAB_HI(as_nr), upper_32_bits(transtab));
+ 
+ 	/* Need to revisit mem attrs.
+ 	 * NC is the default, Mali driver is inner WT.
+ 	 */
+-	mmu_write(pfdev, AS_MEMATTR_LO(as_nr), memattr & 0xffffffffUL);
+-	mmu_write(pfdev, AS_MEMATTR_HI(as_nr), memattr >> 32);
++	mmu_write(pfdev, AS_MEMATTR_LO(as_nr), lower_32_bits(memattr));
++	mmu_write(pfdev, AS_MEMATTR_HI(as_nr), upper_32_bits(memattr));
+ 
+ 	write_cmd(pfdev, as_nr, AS_COMMAND_UPDATE);
+ }
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+2.30.2
 
