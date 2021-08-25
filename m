@@ -2,79 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8BF3F7C96
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 21:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 496923F7CB6
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 21:27:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B686E417;
-	Wed, 25 Aug 2021 19:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A582A6E418;
+	Wed, 25 Aug 2021 19:27:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 570836E417
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 19:13:45 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id ED5325C01B0;
- Wed, 25 Aug 2021 15:13:42 -0400 (EDT)
-Received: from imap7 ([10.202.2.57])
- by compute4.internal (MEProxy); Wed, 25 Aug 2021 15:13:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- amanoeldawod.com; h=mime-version:message-id:in-reply-to
- :references:date:from:to:cc:subject:content-type; s=fm2; bh=0Sgs
- 63PeGz1VlqfdwjoabMeAWURDTLGiuSSNeI8opGo=; b=f1BXuao40TB/irJmPF3H
- D93sPoEoZ87QhGvmg9cq7TG8AJ+D0WK7sJKZ/IQmExpPfEKOC2AUKaKyKqdw8IuD
- 0/7A2ShaEW+ADPo6B5vg3ZhDW8U8/gNAzd7CE2kxdvQGtwIabz1WUiPzYXmdp0vs
- jI01lfFys63dDZcBX4SI2MGQJ5FJWIwRQqiJSHNN0kZI8rhy6Q0YldzIhkRooTi+
- trdrcH59gArnmPLyTW8bjMlBKpKq4BiG6AYkHUmgNJL2Z4p232JN0UvU7H6+DZie
- U7dBMt4OeOamIjX/HFUCxcRr80yoOBu3PR+L4qB1vWrfN8QI/rCMeE1psBRfxoQL
- vw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0Sgs63
- PeGz1VlqfdwjoabMeAWURDTLGiuSSNeI8opGo=; b=a5By/y5xT+iIOVvI92ZHJ/
- FE8MZVLKv+X9dqF7V879aMjGSMGfi/cstqe0hftph/TOX/XuGxdyzUtqcYKuiQAD
- +ezQecrh1fpdGpLDPZ/c/QAvCf8smBX4Kh0BD2i+QkTkFXn9sqh/d9gAxxaTfWhY
- IDi7eu0qeilOO3i3DvhP9Aw/WZvl62tCvqjiVdnMMmlCaM1Qn5DMlYCCvss9+mlF
- nmfxxHkrDtXq6jyS7FNQ6OhPFVljtHA3F6zXxw4Csz2Ws0bcYjKHbtLVRHX+tXnR
- pQyZKKzW/wuCDMvLE4EWMepdrTgkiUfdy9aK9It5BCSrCUrtxQX9iZw9suyoYsJA
- ==
-X-ME-Sender: <xms:ZZYmYbSiASbwavuKDlBUl6vxpK8KuceYC6btcjV5vPMbguTNcsMlDA>
- <xme:ZZYmYcwaxgQ94KE1KnBHSehvrXeeAc4Zk9BWs23Xw2VuitL7BY1hmEiMTyUtJGRx4
- fvJ_QfahSifw0AZCIk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledgudefhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehmtderreerreejnecuhfhrohhmpedftehm
- rghnohgvlhcuffgrfihougdfuceokhgvrhhnvghlsegrmhgrnhhovghluggrfihougdrtg
- homheqnecuggftrfgrthhtvghrnhepveevveeutdejkeegffejgeeileejheehgfffjefh
- veehueevjeehjefgvedtfeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomhepkhgvrhhnvghlsegrmhgrnhhovghluggrfihougdrtghomh
-X-ME-Proxy: <xmx:ZZYmYQ0J3Zd3AdKd2Ec7ydVcCox4nDA08QyC-Ofh1kaKnskv81g2Pw>
- <xmx:ZZYmYbD0HSJF-GDHYx5u7WWzPKwhT7LcYyu2xVV2eVV4fMv41AdW7w>
- <xmx:ZZYmYUgTG99tUXisY67hlqwokfUk2xDmaUP8_S-LJUwxw66xCPBYqQ>
- <xmx:ZpYmYSdbbqs30D7w7zV2AV3emS5UhOgL7HIJCt_jpsCVJ8ALdGlvaA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id A7E74360207; Wed, 25 Aug 2021 15:13:41 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-1125-g685cec594c-fm-20210825.001-g685cec59
-Mime-Version: 1.0
-Message-Id: <4c161178-4d15-4ca6-9069-9c9a781c7019@www.fastmail.com>
-In-Reply-To: <7486abc7-ce39-915f-b697-b9adb356f98f@suse.de>
-References: <5186020a-192f-4e04-adc2-25a34305fea6@www.fastmail.com>
- <e80ae664-7184-69dd-5e6e-e228c720bb85@suse.de>
- <2ec3ae15-e8d7-4db3-baef-04b8ab9dc467@www.fastmail.com>
- <e3343649-a96d-7306-67d0-5f8fc9427429@suse.de>
- <ab196ef1-44d5-4aef-a1ab-e43bed2a87e4@www.fastmail.com>
- <7486abc7-ce39-915f-b697-b9adb356f98f@suse.de>
-Date: Wed, 25 Aug 2021 15:12:25 -0400
-From: "Amanoel Dawod" <kernel@amanoeldawod.com>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Subject: =?UTF-8?Q?Re:_drm:_simpledrm:_fbdev_emulation_error_with_CONFIG=5FDRM=5F?=
- =?UTF-8?Q?SIMPLEDRM_enabled?=
-Content-Type: multipart/mixed;
- boundary=99941a19e2524692b9c6ea412939c813
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88156E418;
+ Wed, 25 Aug 2021 19:27:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="278609093"
+X-IronPort-AV: E=Sophos;i="5.84,351,1620716400"; d="scan'208";a="278609093"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2021 12:27:53 -0700
+X-IronPort-AV: E=Sophos;i="5.84,351,1620716400"; d="scan'208";a="444295918"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2021 12:27:53 -0700
+Date: Wed, 25 Aug 2021 12:22:43 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch
+Subject: Re: [Intel-gfx] [PATCH 20/27] drm/i915/guc: Rework and simplify
+ locking
+Message-ID: <20210825192243.GA20892@jons-linux-dev-box>
+References: <20210819061639.21051-1-matthew.brost@intel.com>
+ <20210819061639.21051-21-matthew.brost@intel.com>
+ <2ef5b144-540d-2aad-11a7-3cfab89a1dcf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2ef5b144-540d-2aad-11a7-3cfab89a1dcf@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,94 +53,424 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---99941a19e2524692b9c6ea412939c813
-Content-Type: text/plain
-
-Hi
-
-On Wed, Aug 25, 2021, at 2:02 PM, Thomas Zimmermann wrote:
+On Wed, Aug 25, 2021 at 09:52:06AM -0700, Daniele Ceraolo Spurio wrote:
 > 
-> Oh, now simpledrm itself fills up the log with pointless messages. :/ 
-> Looking at the file, there's plenty of Gnome buffer swapping. I suspect 
-> that Gnome works? It's just the console that's not available?
+> 
+> On 8/18/2021 11:16 PM, Matthew Brost wrote:
+> > Rework and simplify the locking with GuC subission. Drop
+> > sched_state_no_lock and move all fields under the guc_state.sched_state
+> > and protect all these fields with guc_state.lock . This requires
+> > changing the locking hierarchy from guc_state.lock -> sched_engine.lock
+> > to sched_engine.lock -> guc_state.lock.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/intel_context_types.h |   5 +-
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 186 ++++++++----------
+> >   drivers/gpu/drm/i915/i915_trace.h             |   6 +-
+> >   3 files changed, 89 insertions(+), 108 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > index c06171ee8792..d5d643b04d54 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > @@ -161,7 +161,7 @@ struct intel_context {
+> >   		 * sched_state: scheduling state of this context using GuC
+> >   		 * submission
+> >   		 */
+> > -		u16 sched_state;
+> > +		u32 sched_state;
+> >   		/*
+> >   		 * fences: maintains of list of requests that have a submit
+> >   		 * fence related to GuC submission
+> > @@ -178,9 +178,6 @@ struct intel_context {
+> >   		struct list_head requests;
+> >   	} guc_active;
+> > -	/* GuC scheduling state flags that do not require a lock. */
+> > -	atomic_t guc_sched_state_no_lock;
+> > -
+> >   	/* GuC LRC descriptor ID */
+> >   	u16 guc_id;
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 053f4485d6e9..509b298e7cf3 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -72,86 +72,23 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
+> >   #define GUC_REQUEST_SIZE 64 /* bytes */
+> > -/*
+> > - * Below is a set of functions which control the GuC scheduling state which do
+> > - * not require a lock as all state transitions are mutually exclusive. i.e. It
+> > - * is not possible for the context pinning code and submission, for the same
+> > - * context, to be executing simultaneously. We still need an atomic as it is
+> > - * possible for some of the bits to changing at the same time though.
+> > - */
+> > -#define SCHED_STATE_NO_LOCK_ENABLED			BIT(0)
+> > -#define SCHED_STATE_NO_LOCK_PENDING_ENABLE		BIT(1)
+> > -#define SCHED_STATE_NO_LOCK_REGISTERED			BIT(2)
+> > -static inline bool context_enabled(struct intel_context *ce)
+> > -{
+> > -	return (atomic_read(&ce->guc_sched_state_no_lock) &
+> > -		SCHED_STATE_NO_LOCK_ENABLED);
+> > -}
+> > -
+> > -static inline void set_context_enabled(struct intel_context *ce)
+> > -{
+> > -	atomic_or(SCHED_STATE_NO_LOCK_ENABLED, &ce->guc_sched_state_no_lock);
+> > -}
+> > -
+> > -static inline void clr_context_enabled(struct intel_context *ce)
+> > -{
+> > -	atomic_and((u32)~SCHED_STATE_NO_LOCK_ENABLED,
+> > -		   &ce->guc_sched_state_no_lock);
+> > -}
+> > -
+> > -static inline bool context_pending_enable(struct intel_context *ce)
+> > -{
+> > -	return (atomic_read(&ce->guc_sched_state_no_lock) &
+> > -		SCHED_STATE_NO_LOCK_PENDING_ENABLE);
+> > -}
+> > -
+> > -static inline void set_context_pending_enable(struct intel_context *ce)
+> > -{
+> > -	atomic_or(SCHED_STATE_NO_LOCK_PENDING_ENABLE,
+> > -		  &ce->guc_sched_state_no_lock);
+> > -}
+> > -
+> > -static inline void clr_context_pending_enable(struct intel_context *ce)
+> > -{
+> > -	atomic_and((u32)~SCHED_STATE_NO_LOCK_PENDING_ENABLE,
+> > -		   &ce->guc_sched_state_no_lock);
+> > -}
+> > -
+> > -static inline bool context_registered(struct intel_context *ce)
+> > -{
+> > -	return (atomic_read(&ce->guc_sched_state_no_lock) &
+> > -		SCHED_STATE_NO_LOCK_REGISTERED);
+> > -}
+> > -
+> > -static inline void set_context_registered(struct intel_context *ce)
+> > -{
+> > -	atomic_or(SCHED_STATE_NO_LOCK_REGISTERED,
+> > -		  &ce->guc_sched_state_no_lock);
+> > -}
+> > -
+> > -static inline void clr_context_registered(struct intel_context *ce)
+> > -{
+> > -	atomic_and((u32)~SCHED_STATE_NO_LOCK_REGISTERED,
+> > -		   &ce->guc_sched_state_no_lock);
+> > -}
+> > -
+> >   /*
+> >    * Below is a set of functions which control the GuC scheduling state which
+> > - * require a lock, aside from the special case where the functions are called
+> > - * from guc_lrc_desc_pin(). In that case it isn't possible for any other code
+> > - * path to be executing on the context.
+> > + * require a lock.
+> >    */
+> >   #define SCHED_STATE_WAIT_FOR_DEREGISTER_TO_REGISTER	BIT(0)
+> >   #define SCHED_STATE_DESTROYED				BIT(1)
+> >   #define SCHED_STATE_PENDING_DISABLE			BIT(2)
+> >   #define SCHED_STATE_BANNED				BIT(3)
+> > -#define SCHED_STATE_BLOCKED_SHIFT			4
+> > +#define SCHED_STATE_ENABLED				BIT(4)
+> > +#define SCHED_STATE_PENDING_ENABLE			BIT(5)
+> > +#define SCHED_STATE_REGISTERED				BIT(6)
+> > +#define SCHED_STATE_BLOCKED_SHIFT			7
+> >   #define SCHED_STATE_BLOCKED		BIT(SCHED_STATE_BLOCKED_SHIFT)
+> >   #define SCHED_STATE_BLOCKED_MASK	(0xfff << SCHED_STATE_BLOCKED_SHIFT)
+> >   static inline void init_sched_state(struct intel_context *ce)
+> >   {
+> >   	lockdep_assert_held(&ce->guc_state.lock);
+> > -	atomic_set(&ce->guc_sched_state_no_lock, 0);
+> >   	ce->guc_state.sched_state &= SCHED_STATE_BLOCKED_MASK;
+> >   }
+> > @@ -162,9 +99,8 @@ static bool sched_state_is_init(struct intel_context *ce)
+> >   	 * XXX: Kernel contexts can have SCHED_STATE_NO_LOCK_REGISTERED after
+> >   	 * suspend.
+> >   	 */
+> > -	return !(atomic_read(&ce->guc_sched_state_no_lock) &
+> > -		 ~SCHED_STATE_NO_LOCK_REGISTERED) &&
+> > -		!(ce->guc_state.sched_state &= ~SCHED_STATE_BLOCKED_MASK);
+> > +	return !(ce->guc_state.sched_state &=
+> > +		 ~(SCHED_STATE_BLOCKED_MASK | SCHED_STATE_REGISTERED));
+> >   }
+> >   static inline bool
+> > @@ -237,6 +173,57 @@ static inline void clr_context_banned(struct intel_context *ce)
+> >   	ce->guc_state.sched_state &= ~SCHED_STATE_BANNED;
+> >   }
+> > +static inline bool context_enabled(struct intel_context *ce)
+> > +{
+> > +	return ce->guc_state.sched_state & SCHED_STATE_ENABLED;
+> > +}
+> > +
+> > +static inline void set_context_enabled(struct intel_context *ce)
+> > +{
+> > +	lockdep_assert_held(&ce->guc_state.lock);
+> > +	ce->guc_state.sched_state |= SCHED_STATE_ENABLED;
+> > +}
+> > +
+> > +static inline void clr_context_enabled(struct intel_context *ce)
+> > +{
+> > +	lockdep_assert_held(&ce->guc_state.lock);
+> > +	ce->guc_state.sched_state &= ~SCHED_STATE_ENABLED;
+> > +}
+> > +
+> > +static inline bool context_pending_enable(struct intel_context *ce)
+> > +{
+> > +	return ce->guc_state.sched_state & SCHED_STATE_PENDING_ENABLE;
+> > +}
+> > +
+> > +static inline void set_context_pending_enable(struct intel_context *ce)
+> > +{
+> > +	lockdep_assert_held(&ce->guc_state.lock);
+> > +	ce->guc_state.sched_state |= SCHED_STATE_PENDING_ENABLE;
+> > +}
+> > +
+> > +static inline void clr_context_pending_enable(struct intel_context *ce)
+> > +{
+> > +	lockdep_assert_held(&ce->guc_state.lock);
+> > +	ce->guc_state.sched_state &= ~SCHED_STATE_PENDING_ENABLE;
+> > +}
+> > +
+> > +static inline bool context_registered(struct intel_context *ce)
+> > +{
+> > +	return ce->guc_state.sched_state & SCHED_STATE_REGISTERED;
+> > +}
+> > +
+> > +static inline void set_context_registered(struct intel_context *ce)
+> > +{
+> > +	lockdep_assert_held(&ce->guc_state.lock);
+> > +	ce->guc_state.sched_state |= SCHED_STATE_REGISTERED;
+> > +}
+> > +
+> > +static inline void clr_context_registered(struct intel_context *ce)
+> > +{
+> > +	lockdep_assert_held(&ce->guc_state.lock);
+> > +	ce->guc_state.sched_state &= ~SCHED_STATE_REGISTERED;
+> > +}
+> > +
+> >   static inline u32 context_blocked(struct intel_context *ce)
+> >   {
+> >   	return (ce->guc_state.sched_state & SCHED_STATE_BLOCKED_MASK) >>
+> > @@ -245,7 +232,6 @@ static inline u32 context_blocked(struct intel_context *ce)
+> >   static inline void incr_context_blocked(struct intel_context *ce)
+> >   {
+> > -	lockdep_assert_held(&ce->engine->sched_engine->lock);
+> >   	lockdep_assert_held(&ce->guc_state.lock);
+> >   	ce->guc_state.sched_state += SCHED_STATE_BLOCKED;
+> > @@ -255,7 +241,6 @@ static inline void incr_context_blocked(struct intel_context *ce)
+> >   static inline void decr_context_blocked(struct intel_context *ce)
+> >   {
+> > -	lockdep_assert_held(&ce->engine->sched_engine->lock);
+> >   	lockdep_assert_held(&ce->guc_state.lock);
+> >   	GEM_BUG_ON(!context_blocked(ce));	/* Underflow check */
+> > @@ -450,6 +435,8 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> >   	u32 g2h_len_dw = 0;
+> >   	bool enabled;
+> > +	lockdep_assert_held(&rq->engine->sched_engine->lock);
+> > +
+> >   	/*
+> >   	 * Corner case where requests were sitting in the priority list or a
+> >   	 * request resubmitted after the context was banned.
+> > @@ -457,7 +444,7 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> >   	if (unlikely(intel_context_is_banned(ce))) {
+> >   		i915_request_put(i915_request_mark_eio(rq));
+> >   		intel_engine_signal_breadcrumbs(ce->engine);
+> > -		goto out;
+> > +		return 0;
+> >   	}
+> >   	GEM_BUG_ON(!atomic_read(&ce->guc_id_ref));
+> > @@ -470,9 +457,11 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> >   	if (unlikely(!lrc_desc_registered(guc, ce->guc_id))) {
+> >   		err = guc_lrc_desc_pin(ce, false);
+> >   		if (unlikely(err))
+> > -			goto out;
+> > +			return err;
+> >   	}
+> > +	spin_lock(&ce->guc_state.lock);
+> > +
+> >   	/*
+> >   	 * The request / context will be run on the hardware when scheduling
+> >   	 * gets enabled in the unblock.
+> > @@ -507,6 +496,7 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
+> >   		trace_i915_request_guc_submit(rq);
+> >   out:
+> > +	spin_unlock(&ce->guc_state.lock);
+> >   	return err;
+> >   }
+> > @@ -727,8 +717,6 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+> >   	spin_lock_irq(&guc_to_gt(guc)->irq_lock);
+> >   	spin_unlock_irq(&guc_to_gt(guc)->irq_lock);
+> > -	guc_flush_submissions(guc);
+> > -
+> >   	flush_work(&guc->ct.requests.worker);
+> >   	scrub_guc_desc_for_outstanding_g2h(guc);
+> > @@ -1133,7 +1121,11 @@ static int steal_guc_id(struct intel_guc *guc)
+> >   		list_del_init(&ce->guc_id_link);
+> >   		guc_id = ce->guc_id;
+> > +
+> > +		spin_lock(&ce->guc_state.lock);
+> >   		clr_context_registered(ce);
+> > +		spin_unlock(&ce->guc_state.lock);
+> > +
+> >   		set_context_guc_id_invalid(ce);
+> >   		return guc_id;
+> >   	} else {
+> > @@ -1169,6 +1161,8 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   try_again:
+> >   	spin_lock_irqsave(&guc->contexts_lock, flags);
+> > +	might_lock(&ce->guc_state.lock);
+> > +
+> >   	if (context_guc_id_invalid(ce)) {
+> >   		ret = assign_guc_id(guc, &ce->guc_id);
+> >   		if (ret)
+> > @@ -1248,8 +1242,13 @@ static int register_context(struct intel_context *ce, bool loop)
+> >   	trace_intel_context_register(ce);
+> >   	ret = __guc_action_register_context(guc, ce->guc_id, offset, loop);
+> > -	if (likely(!ret))
+> > +	if (likely(!ret)) {
+> > +		unsigned long flags;
+> > +
+> > +		spin_lock_irqsave(&ce->guc_state.lock, flags);
+> >   		set_context_registered(ce);
+> > +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> > +	}
+> >   	return ret;
+> >   }
+> > @@ -1525,7 +1524,6 @@ static u16 prep_context_pending_disable(struct intel_context *ce)
+> >   static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
+> >   {
+> >   	struct intel_guc *guc = ce_to_guc(ce);
+> > -	struct i915_sched_engine *sched_engine = ce->engine->sched_engine;
+> >   	unsigned long flags;
+> >   	struct intel_runtime_pm *runtime_pm = ce->engine->uncore->rpm;
+> >   	intel_wakeref_t wakeref;
+> > @@ -1534,13 +1532,7 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
+> >   	spin_lock_irqsave(&ce->guc_state.lock, flags);
+> > -	/*
+> > -	 * Sync with submission path, increment before below changes to context
+> > -	 * state.
+> > -	 */
+> > -	spin_lock(&sched_engine->lock);
+> >   	incr_context_blocked(ce);
+> > -	spin_unlock(&sched_engine->lock);
+> >   	enabled = context_enabled(ce);
+> >   	if (unlikely(!enabled || submission_disabled(guc))) {
+> > @@ -1569,7 +1561,6 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
+> >   static void guc_context_unblock(struct intel_context *ce)
+> >   {
+> >   	struct intel_guc *guc = ce_to_guc(ce);
+> > -	struct i915_sched_engine *sched_engine = ce->engine->sched_engine;
+> >   	unsigned long flags;
+> >   	struct intel_runtime_pm *runtime_pm = ce->engine->uncore->rpm;
+> >   	intel_wakeref_t wakeref;
+> > @@ -1594,13 +1585,7 @@ static void guc_context_unblock(struct intel_context *ce)
+> >   		intel_context_get(ce);
+> >   	}
+> > -	/*
+> > -	 * Sync with submission path, decrement after above changes to context
+> > -	 * state.
+> > -	 */
+> > -	spin_lock(&sched_engine->lock);
+> >   	decr_context_blocked(ce);
+> > -	spin_unlock(&sched_engine->lock);
+> >   	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> > @@ -1710,7 +1695,9 @@ static void guc_context_sched_disable(struct intel_context *ce)
+> >   	if (submission_disabled(guc) || context_guc_id_invalid(ce) ||
+> >   	    !lrc_desc_registered(guc, ce->guc_id)) {
+> > +		spin_lock_irqsave(&ce->guc_state.lock, flags);
+> 
+> We do take this lock a few lines below this. Would it be worth just moving
+> that up and do everything under the lock?
 > 
 
-Yes, Gnome was working, only the console was blank.
+Good catch. Yes, we should move everything under the which actually
+makes all of this code quite a bit simpler too. Will fix.
 
-> Could you please boot directly into a text terminal? That should be 
-> possible by adding systemd.unit=multi-user.target to the kernel command 
-> line if your distro uses systemd. Due to the issue, you probably won't 
-> see anything on the screen, so you may need remote access.
+Matt
+
+> Anyway, all calls to the updated set/clr functions have been updated to be
+> correctly locked, so:
 > 
-> Thanks for your help with debugging and sorry for sending you through so 
-> many hops.
+> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 > 
-> Best regards
-> Thomas
->
-
-No problem, managed to boot directly into a text terminal and grabbed DRM
-related dmesg log.
-Hopefully it's what you're looking for :)
-
-Find it attached please.
-
--- 
-thanks,
-Amanoel
---99941a19e2524692b9c6ea412939c813
-Content-Disposition: attachment;filename="dmesg-simpledrm.txt"
-Content-Type: text/plain; name="dmesg-simpledrm.txt"
-Content-Transfer-Encoding: BASE64
-
-WyAgICAzLjI1NTMxMl0gW2RybToweGZmZmZmZmZmYzAzNGYwY2NdIEluaXRpYWxpemVkClsg
-ICAgMy4yNjMyNzZdIHNpbXBsZS1mcmFtZWJ1ZmZlciBzaW1wbGUtZnJhbWVidWZmZXIuMDog
-W2RybToweGZmZmZmZmZmYzAzOTc2YjRdIGRpc3BsYXkgbW9kZT17IjEwMjR4NzY4IjogNjAw
-MDAgNDcxODU5MjAgMTAyNCAxMDI0IDEwMjQgMTAyNCA3NjggNzY4IDc2OCA3NjggMHg0MCAw
-eDB9ClsgICAgMy4yNjMyODFdIHNpbXBsZS1mcmFtZWJ1ZmZlciBzaW1wbGUtZnJhbWVidWZm
-ZXIuMDogW2RybToweGZmZmZmZmZmYzAzOTc2ZDddIGZyYW1lYnVmZmVyIGZvcm1hdD1BUjI0
-IGxpdHRsZS1lbmRpYW4gKDB4MzQzMjUyNDEpLCBzaXplPTEwMjR4NzY4LCBzdHJpZGU9NDA5
-NiBieXRlClsgICAgMy4yNjMzMDhdIFtkcm06MHhmZmZmZmZmZmMwMmViY2NiXSAKWyAgICAz
-LjI2MzMwOV0gW2RybToweGZmZmZmZmZmYzAyZWJlOTRdIApbICAgIDMuMjYzMzQwXSBbZHJt
-OjB4ZmZmZmZmZmZjMDJlYmVmOF0gbmV3IG1pbm9yIHJlZ2lzdGVyZWQgMApbICAgIDMuMjYz
-MzUxXSBbZHJtOjB4ZmZmZmZmZmZjMDJlY2M0OF0gYWRkaW5nICJVbmtub3duLTEiIHRvIHN5
-c2ZzClsgICAgMy4yNjMzNTJdIFtkcm06MHhmZmZmZmZmZmMwMmVjYWVhXSBnZW5lcmF0aW5n
-IGhvdHBsdWcgZXZlbnQKWyAgICAzLjI2MzM1Nl0gW2RybV0gSW5pdGlhbGl6ZWQgc2ltcGxl
-ZHJtIDEuMC4wIDIwMjAwNjI1IGZvciBzaW1wbGUtZnJhbWVidWZmZXIuMCBvbiBtaW5vciAw
-ClsgICAgMy4yNjMzNTldIFtkcm06MHhmZmZmZmZmZmMwMzE5NTE5XSAKWyAgICAzLjI2MzM2
-MF0gW2RybToweGZmZmZmZmZmYzAzMDgyMzFdIE9CSiBJRDogMzEgKDIpClsgICAgMy4yNjMz
-NjJdIFtkcm06MHhmZmZmZmZmZmMwMzY4MmEwXSBbQ09OTkVDVE9SOjMxOlVua25vd24tMV0K
-WyAgICAzLjI2MzM2M10gW2RybToweGZmZmZmZmZmYzAzNjgzNzRdIFtDT05ORUNUT1I6MzE6
-VW5rbm93bi0xXSBzdGF0dXMgdXBkYXRlZCBmcm9tIHVua25vd24gdG8gY29ubmVjdGVkClsg
-ICAgMy4yNjMzNzBdIFtkcm06MHhmZmZmZmZmZmMwMzY4NjA1XSBbQ09OTkVDVE9SOjMxOlVu
-a25vd24tMV0gcHJvYmVkIG1vZGVzIDoKWyAgICAzLjI2MzM3MV0gW2RybToweGZmZmZmZmZm
-YzAyZjBjMjNdIE1vZGVsaW5lICIxMDI0eDc2OCI6IDYwMDAwIDQ3MTg1OTIwIDEwMjQgMTAy
-NCAxMDI0IDEwMjQgNzY4IDc2OCA3NjggNzY4IDB4NDggMHgwClsgICAgMy4yNjMzNzNdIFtk
-cm06MHhmZmZmZmZmZmMwMzE5NzkzXSBjb25uZWN0b3IgMzEgZW5hYmxlZD8geWVzClsgICAg
-My4yNjMzNzRdIFtkcm06MHhmZmZmZmZmZmMwMzE5YjdiXSBOb3QgdXNpbmcgZmlybXdhcmUg
-Y29uZmlndXJhdGlvbgpbICAgIDMuMjYzMzc1XSBbZHJtOjB4ZmZmZmZmZmZjMDMxOWRlM10g
-bG9va2luZyBmb3IgY21kbGluZSBtb2RlIG9uIGNvbm5lY3RvciAzMQpbICAgIDMuMjYzMzc2
-XSBbZHJtOjB4ZmZmZmZmZmZjMDMxYTJjYl0gbG9va2luZyBmb3IgcHJlZmVycmVkIG1vZGUg
-b24gY29ubmVjdG9yIDMxIDAKWyAgICAzLjI2MzM3N10gW2RybToweGZmZmZmZmZmYzAzMTll
-ZGRdIGZvdW5kIG1vZGUgMTAyNHg3NjgKWyAgICAzLjI2MzM3OF0gW2RybToweGZmZmZmZmZm
-YzAzMWEwYjldIHBpY2tpbmcgQ1JUQ3MgZm9yIDEwMjR4NzY4IGNvbmZpZwpbICAgIDMuMjYz
-Mzc5XSBbZHJtOjB4ZmZmZmZmZmZjMDMxYTIwNV0gZGVzaXJlZCBtb2RlIDEwMjR4NzY4IHNl
-dCBvbiBjcnRjIDM0ICgwLDApClsgICAgMy4yNjMzODBdIFtkcm06MHhmZmZmZmZmZmMwMzA4
-MjMxXSBPQkogSUQ6IDMxICgyKQpbICAgIDMuMjYzMzgxXSBbZHJtOjB4ZmZmZmZmZmZjMDMw
-ODJlMV0gT0JKIElEOiAzMSAoMykKWyAgICAzLjI2MzM4M10gc2ltcGxlLWZyYW1lYnVmZmVy
-IHNpbXBsZS1mcmFtZWJ1ZmZlci4wOiBbZHJtOjB4ZmZmZmZmZmZjMDM3Y2Y0Zl0gdGVzdCBD
-UlRDIDAgcHJpbWFyeSBwbGFuZQpbICAgIDMuMjYzMzg0XSBzaW1wbGUtZnJhbWVidWZmZXIg
-c2ltcGxlLWZyYW1lYnVmZmVyLjA6IFtkcm06MHhmZmZmZmZmZmMwMzdmZGRhXSBzdXJmYWNl
-IHdpZHRoKDEwMjQpLCBoZWlnaHQoMjMwNCkgYW5kIGJwcCgzMikKWyAgICAzLjI2MzM5NF0g
-W2RybToweGZmZmZmZmZmYzAzMDM1ODNdIGJhZCBmcmFtZWJ1ZmZlciBoZWlnaHQgMjMwNCwg
-c2hvdWxkIGJlID49IDc2OCAmJiA8PSA3NjgKWyAgICAzLjI2MzM5OF0gc2ltcGxlLWZyYW1l
-YnVmZmVyIHNpbXBsZS1mcmFtZWJ1ZmZlci4wOiBbZHJtXSAqRVJST1IqIGZiZGV2OiBGYWls
-ZWQgdG8gc2V0dXAgZ2VuZXJpYyBlbXVsYXRpb24gKHJldD0tMjIpClsgICAgMy4yNjMzOTld
-IHNpbXBsZS1mcmFtZWJ1ZmZlciBzaW1wbGUtZnJhbWVidWZmZXIuMDogW2RybToweGZmZmZm
-ZmZmYzAzN2U5ZmVdIGNsaWVudCBob3RwbHVnIHJldD0tMjIKWyAgIDE0LjcwNDE3MV0gc3lz
-dGVtZFsxXTogU3RhcnRpbmcgTG9hZCBLZXJuZWwgTW9kdWxlIGRybS4uLgpbICAgMTQuNzEx
-MTA1XSBzeXN0ZW1kWzFdOiBtb2Rwcm9iZUBkcm0uc2VydmljZTogRGVhY3RpdmF0ZWQgc3Vj
-Y2Vzc2Z1bGx5LgpbICAgMTQuNzExMjUzXSBzeXN0ZW1kWzFdOiBGaW5pc2hlZCBMb2FkIEtl
-cm5lbCBNb2R1bGUgZHJtLgo=
-
---99941a19e2524692b9c6ea412939c813--
+> Daniele
+> 
+> >   		clr_context_enabled(ce);
+> > +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> >   		goto unpin;
+> >   	}
+> > @@ -1760,7 +1747,6 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+> >   	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id));
+> >   	GEM_BUG_ON(context_enabled(ce));
+> > -	clr_context_registered(ce);
+> >   	deregister_context(ce, ce->guc_id, true);
+> >   }
+> > @@ -1833,8 +1819,10 @@ static void guc_context_destroy(struct kref *kref)
+> >   	/* Seal race with Reset */
+> >   	spin_lock_irqsave(&ce->guc_state.lock, flags);
+> >   	disabled = submission_disabled(guc);
+> > -	if (likely(!disabled))
+> > +	if (likely(!disabled)) {
+> >   		set_context_destroyed(ce);
+> > +		clr_context_registered(ce);
+> > +	}
+> >   	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> >   	if (unlikely(disabled)) {
+> >   		release_guc_id(guc, ce);
+> > @@ -2697,8 +2685,7 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+> >   		     (!context_pending_enable(ce) &&
+> >   		     !context_pending_disable(ce)))) {
+> >   		drm_err(&guc_to_gt(guc)->i915->drm,
+> > -			"Bad context sched_state 0x%x, 0x%x, desc_idx %u",
+> > -			atomic_read(&ce->guc_sched_state_no_lock),
+> > +			"Bad context sched_state 0x%x, desc_idx %u",
+> >   			ce->guc_state.sched_state, desc_idx);
+> >   		return -EPROTO;
+> >   	}
+> > @@ -2713,7 +2700,9 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+> >   		}
+> >   #endif
+> > +		spin_lock_irqsave(&ce->guc_state.lock, flags);
+> >   		clr_context_pending_enable(ce);
+> > +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> >   	} else if (context_pending_disable(ce)) {
+> >   		bool banned;
+> > @@ -2987,9 +2976,8 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+> >   			   atomic_read(&ce->pin_count));
+> >   		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> >   			   atomic_read(&ce->guc_id_ref));
+> > -		drm_printf(p, "\t\tSchedule State: 0x%x, 0x%x\n\n",
+> > -			   ce->guc_state.sched_state,
+> > -			   atomic_read(&ce->guc_sched_state_no_lock));
+> > +		drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
+> > +			   ce->guc_state.sched_state);
+> >   		guc_log_context_priority(p, ce);
+> >   	}
+> > diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
+> > index 806ad688274b..0a77eb2944b5 100644
+> > --- a/drivers/gpu/drm/i915/i915_trace.h
+> > +++ b/drivers/gpu/drm/i915/i915_trace.h
+> > @@ -903,7 +903,6 @@ DECLARE_EVENT_CLASS(intel_context,
+> >   			     __field(u32, guc_id)
+> >   			     __field(int, pin_count)
+> >   			     __field(u32, sched_state)
+> > -			     __field(u32, guc_sched_state_no_lock)
+> >   			     __field(u8, guc_prio)
+> >   			     ),
+> > @@ -911,15 +910,12 @@ DECLARE_EVENT_CLASS(intel_context,
+> >   			   __entry->guc_id = ce->guc_id;
+> >   			   __entry->pin_count = atomic_read(&ce->pin_count);
+> >   			   __entry->sched_state = ce->guc_state.sched_state;
+> > -			   __entry->guc_sched_state_no_lock =
+> > -			   atomic_read(&ce->guc_sched_state_no_lock);
+> >   			   __entry->guc_prio = ce->guc_prio;
+> >   			   ),
+> > -		    TP_printk("guc_id=%d, pin_count=%d sched_state=0x%x,0x%x, guc_prio=%u",
+> > +		    TP_printk("guc_id=%d, pin_count=%d sched_state=0x%x, guc_prio=%u",
+> >   			      __entry->guc_id, __entry->pin_count,
+> >   			      __entry->sched_state,
+> > -			      __entry->guc_sched_state_no_lock,
+> >   			      __entry->guc_prio)
+> >   );
+> 
