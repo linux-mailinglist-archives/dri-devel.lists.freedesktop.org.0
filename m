@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321763F6E00
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 06:03:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5058E3F6E10
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 06:04:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 833536E11C;
-	Wed, 25 Aug 2021 04:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49FE6E138;
+	Wed, 25 Aug 2021 04:04:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2088.outbound.protection.outlook.com [40.107.93.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 681576E113;
- Wed, 25 Aug 2021 04:03:33 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (unknown
+ [40.107.93.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8E76E138;
+ Wed, 25 Aug 2021 04:04:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aPHAJpxyS9TpVw+Y28l/DEgd09I/24emCwZuBJ7kOi6AfSArvmxsgkDnBmC87075/DrN6FRWIRYcYyhdGOrFBMWrK4Wzqdm3lTBnGFNU9wDdWWLBw/BlMMe1YqQL6k/niQfwB5ZpOYSe1vECibKq4Ap6xbFEtjVqsBwqoKYhNq97lzrbFm/M0B897EWjROAvQ+aPI4TPi6KfrK0tnNuuUV8IINK3wE431g/LC9alHBknaJeB7qCOtLULKtRUr78med7OgRbu4JC7Z87vtVVbFwiY/x1ONo6aFNc7L7/3XB0rLoSt5zKxDDlwF8Fk/nRJHeoALIgREF36S1XYOZdl+g==
+ b=ZhPaDGX5Cea/oUtn0F7k9hH2r48Xr1+c4dTapomHIL+sFk00Uqwtx2tiJlSu+z6azfSgWCS1J05nwrTzdvzh0l+/HlV5OeHpYA4xiW0TjOeX8QVNPuQBoydAqUebhjSCMjgDFhbpQhScupO5WrDbRZFDQgC6HyQ9S7cwviWskFT8Q5QAGfR5F7kAxq/3rOy5ad9jYA+AZKDEo6xDrNS9Ms1ZP/I20dv5GyX/5diUmyH8mGbs8LB2V6UOPuO7cj0Nura/AOmx07o8WF1zCEwtVrsHpe3XpbosRmvXrS0PwUaW8HG4ZFIlRpFj3kw2wN5YGTKJ00a2V/rb36/4SMsRzg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fQPvpQvAObOGLCrtDQx0fOMFpE3uCAqzCz3ILT9YB9U=;
- b=JRFSqk3LrFbuiqtOdSL8xJwXZOkd9g5OlO6QcOwms8Pq1gRGrZjVBMAWd7d22llGEnuA4S1vUdem/8Yif0jPb1vbOlZaPrNCtxt7k+q5rekoY1oiGJM76DSCAZOsJE2kqVE/ThAz7+jHO5A2aZLrIGjBIAXLPTLMgT1L/9FwPA6nZiCwtW27qqdOddrI+jjA+e8GOaLGSQSjydWSLfzK695YZY8Eqe043Q7NMCH6ImxRgPNnH6ycqiCfEXKLebMGNFVKKU6M9fw6NZH98F0pLu752SIbTOuPU/a0kDj4bOV44Iq2AUZ1bqY2CfxO8PtihKH2TGUr86c4r9Yih9MATA==
+ bh=BIi/JPdMEuV9PNEmF+4MUIlbfqIvI8LucDuxAdl7G80=;
+ b=f0TNPMUIH2IvI9ZawjVRNva8lNCFj7qDOP4f3LmzNI9tpmdRzLC/r64DKoZ+Oz8E4zrILE0BxZ+buMZIb0v39EJWKP3gC5vFYpMxjsb4JGOrFAy0upWO+gtWSsN+CxPfAESl8noauz2ppWRo0r3RQ44nuaR780zNulnZKkkzpg9vYMC+y8HKODSnO3eEIEI9IPlYKR+a1mNLaPBPcjO6njiI0SnUpMAdoLZp/c59TYcA+CQZGF9bSYnls0Rtjq6Gi3PYitcz3XpDVMFbVeUuMNo568dO9BFSVtqoe8Ard7ONO9X2lNGaNXZb9Pv1EChXOUeedRrRzOQPfdpUio0qtw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fQPvpQvAObOGLCrtDQx0fOMFpE3uCAqzCz3ILT9YB9U=;
- b=5rN2fBtCW5CJVHiLsZZ6pg0o3xTu70o9VR3zIUgKp2nrXBwD02am6y8+LVMDBfIP2CWyorPvZfdLqfi6foeyIFQmZt/f2BfdyNdB+wgt7LL4nC1sxuaSuNBHOsVY3dIy+gteqFsEJAmF5sDOjoNxKk9l2Eec9MszRnUlSiQsgTU=
+ bh=BIi/JPdMEuV9PNEmF+4MUIlbfqIvI8LucDuxAdl7G80=;
+ b=zBS0Fd9Gzn+gImfP7nY5MqyUt0ccnXHWrC4T7kLar5UhYeqC0wJabczkbr8Md5dzUngu8HV7We+MLBrTwpwIHNsFFEtAq6kuyjEwJGOuxqeawyrad1rPtkqDys0dVOG3vxyV/tI0LMhuTwOTFVPvy99nL9umfWHrwqViqXKe17k=
 Authentication-Results: linux-foundation.org; dkim=none (message not signed)
  header.d=none;linux-foundation.org; dmarc=none action=none
  header.from=amd.com;
@@ -34,19 +34,20 @@ Received: from SA0PR12MB4430.namprd12.prod.outlook.com (2603:10b6:806:70::20)
  by SN6PR12MB4750.namprd12.prod.outlook.com (2603:10b6:805:e3::25)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.22; Wed, 25 Aug
- 2021 03:48:47 +0000
+ 2021 03:48:48 +0000
 Received: from SA0PR12MB4430.namprd12.prod.outlook.com
  ([fe80::855b:1f8c:c5d1:331f]) by SA0PR12MB4430.namprd12.prod.outlook.com
  ([fe80::855b:1f8c:c5d1:331f%7]) with mapi id 15.20.4457.017; Wed, 25 Aug 2021
- 03:48:47 +0000
+ 03:48:48 +0000
 From: Alex Sierra <alex.sierra@amd.com>
 To: akpm@linux-foundation.org, Felix.Kuehling@amd.com, linux-mm@kvack.org,
  rcampbell@nvidia.com, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, hch@lst.de,
  jgg@nvidia.com, jglisse@redhat.com
-Subject: [PATCH v1 08/14] mm: add public type support to migrate_vma helpers
-Date: Tue, 24 Aug 2021 22:48:22 -0500
-Message-Id: <20210825034828.12927-9-alex.sierra@amd.com>
+Subject: [PATCH v1 09/14] mm: call pgmap->ops->page_free for DEVICE_PUBLIC
+ pages
+Date: Tue, 24 Aug 2021 22:48:23 -0500
+Message-Id: <20210825034828.12927-10-alex.sierra@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210825034828.12927-1-alex.sierra@amd.com>
 References: <20210825034828.12927-1-alex.sierra@amd.com>
@@ -63,52 +64,52 @@ Received: from alex-MS-7B09.amd.com (165.204.78.1) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
  Transport; Wed, 25 Aug 2021 03:48:47 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c5748ab7-2501-4ccf-06ee-08d9677b3e54
+X-MS-Office365-Filtering-Correlation-Id: 07e13742-1283-49ac-c7e5-08d9677b3eda
 X-MS-TrafficTypeDiagnostic: SN6PR12MB4750:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB4750D5615D8CC84709697C6BFDC69@SN6PR12MB4750.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Microsoft-Antispam-PRVS: <SN6PR12MB4750A78BFD401F63B349C40EFDC69@SN6PR12MB4750.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:418;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rcNwhrv4/LP8IA/DLTBeV8NEdhuvukhyW2wxGldaStA9i03F+7rbUPvC6cq854wk3DARTIxg10aLeQWVnmhfUkzQvLXjbPMdvIs7y3Y2hbKpKL74sBaz8Juz/NQsCaQhDBaQintOXeOA66UycAL/oEIvNEHNnKb3YJioccSOYEjvGd+0ckvce6+1CSb1YVPxQhoe5s425MZyrK0N80MU1mygscNDNPvFcZKk83Y3DHK0Tq0l/WgLVwCO0eK1bpX/Sh47dnmLcripnNFhslEWZVQ4xp6tW3DACQgiCxuVHmAil6r0yRwXlNaBJFNi6oYo+WW9iRU9XWA2Za5PfqokfHKV6PbKqyxtGwSm4uObVBg59Ep6o7K4XOoJxRHsUgdKQIIBuVU7McuoE6WNZsmRlBEZoxXcKJTpifUL0dqNZxLoLgPCpqfB9OD+haFhxR+11kVdU201+7NuO4v+S79KG3omPt01eBzTfRGfmq52Q4JS6WroK4HipNdZiJ+0qT1hY3tfdESJQ/VyKBmIcT7c6vcK9zc3ppAkYzIcGQVNfBQLgPkxzNjZiNzvRoIngbxLNNFGjunevH6KwhniHtrQ1jji7S5iYyJ2ZotzkwQ0Q5/SRZRJ3BS/C/C6oo5vZQ2riVLU6nDXo4UVRx/TOsnLnc4kmwwm+m7dzx32SQvaitQxdcTwU5FPwK8PywtmZDyk6OCGQcDu5TZT9jwoVcwJ4Q==
+X-Microsoft-Antispam-Message-Info: IOzwYaUoFGa/UVAmWj4Y20MDKxcOKors/9tug9DIslOFhb0aPWWFVlrvjXwyhbcXJEf4hBpQTG7Bj+SqV/i0qhEv0jgDRfbuMYMkQpbE74WoZf9nVEPd52Z0u0076RIQ/R2PprEEzvB40dRNaWpjw2ZBkLzclRCvf08OsA/1eekfROxlYj9SMgFjfVnABugajy14ZQZ7f2U2uYB3BFYdGYQnRF4jwKZDBWbTEmTDMvv+xRLJLM+4wp8JqamLQcmTZndViI7kDuzsQwh4p0ovolNibSrMBAAGsb0sl4VsHTiG7qjbtN6NOeQxgUjbOOgIkxy5+iA+CftFyZys2xg4ZaHVtVIn1y/kCxUVylUlbIbjJbeV72/kdwNZSvsd1YCn9r/D4l2Uc0OAaawIDku11Y/gDah8kHz8MRmSdTYFSY7DOiKBHYWHBP6emGtpazK+QMk5nu5jHdP//6ah+6a9jmG/dshKC45az8Zh7yTSnmlxm9AL1is96nkwPrPuvyFAGhbCeW1b51b1gTD1GhosZcPFXYZtZ8qdCheH8rAWzxZ3BDdB1hG142uk0baDC4F4BNiXErSMOfwxKM01vjhRRIYVlmD9fGHmo7lEdoujDLtgtkZH0trMIeII8IdkXY+4ezqjGm4Zl3jU5/9KE7+6LuUl8gjgeMgC3ynwrz8Guf13ZYrjzgJ5I/ZPEnhuelCJComzrxfBlqRW1w4Txca53w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SA0PR12MB4430.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39860400002)(376002)(346002)(136003)(396003)(366004)(7416002)(6486002)(1076003)(4326008)(86362001)(7696005)(44832011)(52116002)(186003)(2616005)(956004)(38350700002)(38100700002)(478600001)(66476007)(66556008)(6666004)(316002)(26005)(36756003)(8936002)(5660300002)(8676002)(66946007)(83380400001)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Z4fMhxm5LHLWFxzNY4km6Wgd0UtfKbsE5+SmMO1K0knqKZAWs2tJA4yqu6+a?=
- =?us-ascii?Q?Z8HfRYxclWvwvQczL4xb1ZfQhn13ZbvUUm2BKUlo7GAwin6V2KtWqeFE5feG?=
- =?us-ascii?Q?NAocfU3xRh+8avc1CEMd3jr0gXFQHHJlcBuxF0IHeeJZ3KXPFeBHBWah41zC?=
- =?us-ascii?Q?iSAdKQ6jZ9XE3z+LHEYxIQr9FJ6RNICJbsaoB/yiMfNsNLu6g+VnVjMXr3v7?=
- =?us-ascii?Q?EhV79zhlDeuBrbqSQeAb59nfgLtHidVZNXuJFQqgQ3sU5b6En/lLWzyG+dk9?=
- =?us-ascii?Q?A87sraqA7zZsMKC8YbUdgaKRuABzq+3xzfe4t6/fACWmwDXFGxVlOJF+bRz4?=
- =?us-ascii?Q?tT+Omr94QS2tcNDZ3LwDIBHa97Vv0NK4ArTNdhqfXNlbu+ZAwqdLueilSMW8?=
- =?us-ascii?Q?Zsb2nzb2uIx+nYHKzu+sDcBGLOTTfywUuvMmTLCUZwPEdmbc+7UfdGpargZL?=
- =?us-ascii?Q?K0BddzfQu7qjSVNcXy8FOD4h3CSUpYoJydEhpfXn4QknkSyg7YQ+eFFc8nMc?=
- =?us-ascii?Q?q31hyxN+whzme8i2mPsTTWQYwx84zzy0PailYqNtaIOUmLWn6ZFNwDBGc9vO?=
- =?us-ascii?Q?J7yZY8WhX+jUwtc87Qq8rpzwIIVFCrd85iU3R2vVlTrxkRf0GGyBEirEtuc7?=
- =?us-ascii?Q?MNRpmoFjI1RZsbajBUj8zwNU2pc+XCiJ21YLGHIQBbfC6/5xyJi7USd9rkVc?=
- =?us-ascii?Q?iP+GmS/K8PD+tfEQzdIJvj7I5ah6oX3ivaIBO0oj3oDeL3J1UDZ5jMnudThD?=
- =?us-ascii?Q?eGj9wHANY/YATypjCrLXC2t8y7wIERptevYjo7/na51Mo00eC4jGmst7Qz5h?=
- =?us-ascii?Q?YkwBymw3OzXnCbKXrBcPbXg1x+h3dKWf4chPir9tAOJDGD8SyLnuEMLy5pRq?=
- =?us-ascii?Q?r9Zazrwvw+4L6oguMShoMaRDAnNG5qTbZBdWm0duxY3z5u5RToCYMUvrEsLf?=
- =?us-ascii?Q?z2o0CeKV8DSmDLlSfe82fWTBSIvpzspINhFN3vGVGqE6yyU4QuyIb1ZTafAd?=
- =?us-ascii?Q?rrqMC0hg5wrS8TksIb5m65mxmKdNKirkQMSBxfQYe6x1K3tsYZldc4q9riyW?=
- =?us-ascii?Q?QCW1bewbevXr/zjkG9ULeBaGkJEet9jhQfqkoHGB5YzsfUE0TymjRrb6Mq7H?=
- =?us-ascii?Q?DBiCfdbEgewhz7C99/4ge2S/pwLUYEfeOkazWaeGa1YF2SXAnVkafRxZf0AS?=
- =?us-ascii?Q?Jg/uOcAF3hIKzMI32+W+O/e6ZdVWBNWqZfgkbeG0LsTWrcqgn30CIzKXE9M1?=
- =?us-ascii?Q?8sonyGL5NPpNrnYxrE8fNwQbowQ+muAKqzDxXDiZDMe1L9V9AOHeBGerZYl1?=
- =?us-ascii?Q?xNxv3aw1NoeuH8kqn5XgJbEm?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zM+l6m9ewFv9GDdKrr4FzY9egveAXoCrmBAs400kxk8bndNvhI9+Ay+aXVUI?=
+ =?us-ascii?Q?XqSPxKVRaDMgzQvIRiu/Ryey9GSMHHrmTghV195u6SAisyPS2uNHggZOHgeu?=
+ =?us-ascii?Q?Koa8lChJY7tQ+/E/fqsm0lFeDCwCqoq+KSawR9QKFR96JnbJj7KHawEPq0WP?=
+ =?us-ascii?Q?0YlE37/j2vCOwDhUQnfcRQnOUiv5a2EU6CPP8VsjKgcJhOfYjaOq6X67EVRL?=
+ =?us-ascii?Q?pGfOrQ4GdhtumbP9OMV4U1e27f82/eFR85sJpi9kXubkTk1ji3+p49eeRlnQ?=
+ =?us-ascii?Q?Y4IqErJ7re/2qFIZD5ECuxD152F8OYBnbGUNm0rP9JV/+jie0nCvUW+iFLpo?=
+ =?us-ascii?Q?AItkou3ZWRdWhig2O+L8h7OVtKaifAxgPxGwgeBZd6ZnRzkUQtNGCEVqfFCC?=
+ =?us-ascii?Q?28pJeQ8kKJTEZg9NJCqiPsDTiIdeGw7ZABRCU6yTL7+tXL9A0z9YVKOdGA4r?=
+ =?us-ascii?Q?EVSmtYJV2ehQYp5UFVsiaY8JNfKR3TzK1IkbwyUZyJzu/91kiHpMtRzm1SBo?=
+ =?us-ascii?Q?XaE4TDEvBt5Jt5oTIFJfbE7p+oIO4Kxw0bxRxYRLd9Cr9DbmrlxV1mTVovQD?=
+ =?us-ascii?Q?hZwGJCFRo37lmH2iYJzed5HjJevkmhMyByodsEafMuMCTe+rNx1yYJJlhw95?=
+ =?us-ascii?Q?qDWsfhIvc7W1RAt//ttlgXst13h/HnKnu1ftNOi1IuPFKl3iK26eqTVOkW4b?=
+ =?us-ascii?Q?T0tXJQppvDS+Jq3eKhVvzmWhXljn+cIncFxgKiMBaq3skWJJtIMjQtWjFz04?=
+ =?us-ascii?Q?BoZAGPHOpv0ryTIUVECC8mwem2/TJdf1Fk7eKZhcgp2SS7OKYFSK8+zKp3HX?=
+ =?us-ascii?Q?IoQEAPGUtzVRyaLC1h0Uwgkwpi+LNpOCBEFaWzMHCns81whmhm8P1JQONZxC?=
+ =?us-ascii?Q?DqKNV+1J8W1wFZR+RM2ciXSQDAA8gb9oJix4An7dNYFtaROTRpqwkgM5rtwv?=
+ =?us-ascii?Q?ZdtJVHo/TKfhjf/8OvIBn22/8K+Bk473/E7oBNO/+0LIHe3Na/nZFoEDAvU1?=
+ =?us-ascii?Q?pKltN994WETlz4LwoweJoGT2RH3bU+g4RCyWHjkVp2TCrxMVMRYCmjxxF63l?=
+ =?us-ascii?Q?OGMTeK3zMqyrHI52a3qGqmRff6+C3RIbK2FAEPpCI84X3k2hSybyWZab7gxw?=
+ =?us-ascii?Q?axY/02jYJvbd1fr8bWqwvm5DzjO0EPszm01DK8I2zNP0yUNBg4fyZbUoFzow?=
+ =?us-ascii?Q?qo5M8udRdmUcs5L6maS9meOfE1u9ShB668zm1aUiHjsCeZcuADkN9BMqAbmT?=
+ =?us-ascii?Q?bXXsoaQKW0z5omQ/34jpUjhSWHMC1FlA7DGXjEV1N3cGfmRFh5x245cjavIU?=
+ =?us-ascii?Q?VHNAsDg3veCoKHyDdGBg2S1z?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5748ab7-2501-4ccf-06ee-08d9677b3e54
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07e13742-1283-49ac-c7e5-08d9677b3eda
 X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4430.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 03:48:47.6556 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 03:48:48.5119 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NjH6x6ZH6K/pUzLL6sGRR9GpWT2bWjcySxTlCltq82dIbptInGVw7Je899WssbSf2QeN2/h+Eayu2HNmXAUL2Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZUi43sRiTWqOZ9Jk6uDKa68OxIZ5JLfrUFTKR0vyjLgI/uUDOOAkQGj9cDwiNv18GrV1QWfWGPDp/WkF2XdigQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB4750
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,68 +126,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add device public type case to migrate_vma_insert_page,
-migrate_vma_pages and migrate_vma_check_page helpers.
+Add MEMORY_DEVICE_PUBLIC case to free_zone_device_page callback.
+Device public type memory case is now able to free its pages properly.
 
 Signed-off-by: Alex Sierra <alex.sierra@amd.com>
 ---
- mm/migrate.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ mm/memremap.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/mm/migrate.c b/mm/migrate.c
-index d4ae2da99607..09817aded633 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -2566,7 +2566,7 @@ static bool migrate_vma_check_page(struct page *page)
- 		 * FIXME proper solution is to rework migration_entry_wait() so
- 		 * it does not need to take a reference on page.
- 		 */
--		return is_device_private_page(page);
-+		return is_device_page(page);
+diff --git a/mm/memremap.c b/mm/memremap.c
+index 2c8898ed006f..b9a8ed089cc6 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -460,7 +460,7 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
+ EXPORT_SYMBOL_GPL(get_dev_pagemap);
+ 
+ #ifdef CONFIG_DEV_PAGEMAP_OPS
+-static void free_device_private_page(struct page *page)
++static void free_device_page(struct page *page)
+ {
+ 
+ 	__ClearPageWaiters(page);
+@@ -494,13 +494,14 @@ static void free_device_private_page(struct page *page)
+ void free_zone_device_page(struct page *page)
+ {
+ 	switch (page->pgmap->type) {
++	case MEMORY_DEVICE_PRIVATE:
++	case MEMORY_DEVICE_PUBLIC:
++		free_device_page(page);
++		return;
+ 	case MEMORY_DEVICE_FS_DAX:
+ 		/* notify page idle */
+ 		wake_up_var(&page->_refcount);
+ 		return;
+-	case MEMORY_DEVICE_PRIVATE:
+-		free_device_private_page(page);
+-		return;
+ 	default:
+ 		return;
  	}
- 
- 	/* For file back page */
-@@ -2855,7 +2855,7 @@ EXPORT_SYMBOL(migrate_vma_setup);
-  *     handle_pte_fault()
-  *       do_anonymous_page()
-  * to map in an anonymous zero page but the struct page will be a ZONE_DEVICE
-- * private page.
-+ * private or public page.
-  */
- static void migrate_vma_insert_page(struct migrate_vma *migrate,
- 				    unsigned long addr,
-@@ -2926,10 +2926,15 @@ static void migrate_vma_insert_page(struct migrate_vma *migrate,
- 
- 			swp_entry = make_device_private_entry(page, vma->vm_flags & VM_WRITE);
- 			entry = swp_entry_to_pte(swp_entry);
-+		} else if (is_device_page(page)) {
-+			entry = pte_mkold(mk_pte(page,
-+						 READ_ONCE(vma->vm_page_prot)));
-+			if (vma->vm_flags & VM_WRITE)
-+				entry = pte_mkwrite(pte_mkdirty(entry));
- 		} else {
- 			/*
--			 * For now we only support migrating to un-addressable
--			 * device memory.
-+			 * We support migrating to private and public types
-+			 * for device zone memory.
- 			 */
- 			pr_warn_once("Unsupported ZONE_DEVICE page type.\n");
- 			goto abort;
-@@ -3035,10 +3040,10 @@ void migrate_vma_pages(struct migrate_vma *migrate)
- 		mapping = page_mapping(page);
- 
- 		if (is_zone_device_page(newpage)) {
--			if (is_device_private_page(newpage)) {
-+			if (is_device_page(newpage)) {
- 				/*
--				 * For now only support private anonymous when
--				 * migrating to un-addressable device memory.
-+				 * For now only support private and public
-+				 * anonymous when migrating to device memory.
- 				 */
- 				if (mapping) {
- 					migrate->src[i] &= ~MIGRATE_PFN_MIGRATE;
 -- 
 2.32.0
 
