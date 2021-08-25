@@ -1,48 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786A83F7EE3
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 01:07:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26ADF3F7EEC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 01:11:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E47F96E42E;
-	Wed, 25 Aug 2021 23:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5BE6E431;
+	Wed, 25 Aug 2021 23:11:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 862056E42E;
- Wed, 25 Aug 2021 23:07:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C7EC610C7;
- Wed, 25 Aug 2021 23:07:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629932871;
- bh=/oV5vifeAsDt2n4hLOIWlI4IWQvQxrjGqtyQT9n8jvI=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=JpYeWiCC4KMCvNENg2fv2bOj8trKKz9oiYLQsqevnKexyZJTE0KqsemGDOEoAiU+j
- g+X6dnhU9dMZmVwDw9mjjacmKqGRAjeSoh4XJqvPpwPNI7MD5wTH9T1h/d8pRcQMlu
- o4YdQVXZqeYjakCMUJICySoBqgR2uruJ6VsouscfAQGCtEmUgTYJy5mlLuSlZE6Jfd
- CIBxm3qTXkKa8halFjNbtAMBElGpirlhaUoUSoPolxPWNucUXT292yKJcEE/g8nOmN
- EINqYVEwFmMYb4hkMfnNl7BZJ40bOPdEMk0v6iQCg0SIqWZ+L/EF8nEEZIXP1N9JC5
- v8CChbPcaUaOQ==
-Subject: Re: [PATCH] drm/i915: Clean up disabled warnings
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- clang-built-linux@googlegroups.com, llvm@lists.linux.dev
-References: <20210824232237.2085342-1-nathan@kernel.org>
- <CAKwvOdk2mLem4w05o5cdr0Mz62M2CWeW+5LFnKE5L+pMPqa7WA@mail.gmail.com>
-From: Nathan Chancellor <nathan@kernel.org>
-Message-ID: <b8ff7ced-3e5e-603f-6e59-915c97a8f88d@kernel.org>
-Date: Wed, 25 Aug 2021 16:07:48 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 199CF6E431
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 23:11:52 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id v2so1704932oie.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 16:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QtXruHF4bnU6OyDGPGjhakaBMSfcI7KwDzUGtKN2MR0=;
+ b=LSQ+Qs6HQ2tLgxADlDiknTiMlunVRVb2oTaqttGBCOLAy9cTuB2yKsogtfZ8PG903O
+ h5M4uHZCfTCPEuGn7ae6aRomz+teFyOfwAahWuOVl0gm1XPoAx+WvuUlkgUfrzsn0Id7
+ CFrxc8Q0QMTEBu528ANT70QfY/opiUACSIL1COUemir8eKja0ZTWsAzP7Oa07wR0hm1a
+ nLkMWdmsttzoVcCUK3Qb8RLDR6lRWrUQ0Zj9YaiEgYAJ7ztDcSfp5MR4FZhS1DY6ygcR
+ WA5rYjmlAuOugXKoPtKAfIFNkysDmGpBisdF8/Fayee8kQNXGIRAvBgw9C1nOlVy0aO6
+ +GZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QtXruHF4bnU6OyDGPGjhakaBMSfcI7KwDzUGtKN2MR0=;
+ b=ZPxW2AZwfYgjeNIzHkm9yeN2/AJNF0kr548s/EeLA03YTMKdTEzPGwNlpOnR6UyWhP
+ VZ0OLcgoG4gbOg4PHTdsqM9Mdm7O918f8/5io6X/UR7MNqbLmZkAVch9ry7LGgXSGKbK
+ HSob8Hly/WZ4yYzyhWfDi7G90ilBPvR1OEcghaj4TxaStTOsriEhvI+Xrh8A73CXa3H/
+ y1+T3IcIucSNuNZQHf9aU0JSvxEdK4hMOzWtEUUpGbi4L13G10xm+KuZZ9bI0lX8BXdl
+ sMnx7KhGFz0hG7Zz33IbaffyB6VbL81/MHbhHzqXF933UO7SuVKu/slc/3gmYOgMEQx7
+ npjw==
+X-Gm-Message-State: AOAM531i64YIQGfM1mTSLnFEJlEdMntDDlqAy6WSP+dtGzeNeyrQosx1
+ /kfC2HpQJuCzc1S/QobCspkGaA==
+X-Google-Smtp-Source: ABdhPJwWtrUIdXOLEe63DVJX0W3pVBZSObgJ/P3jgP1myOd0+jMUDpnSf5bYJKY/guCKP8rvzghCnA==
+X-Received: by 2002:a05:6808:21a5:: with SMTP id
+ be37mr326536oib.172.1629933111367; 
+ Wed, 25 Aug 2021 16:11:51 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id l67sm265529otl.3.2021.08.25.16.11.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Aug 2021 16:11:50 -0700 (PDT)
+Date: Wed, 25 Aug 2021 18:11:48 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: sbillaka@codeaurora.org
+Cc: Stephen Boyd <swboyd@chromium.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robdclark@gmail.com,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org,
+ abhinavk@codeaurora.org, dianders@chromium.org,
+ khsieh@codeaurora.org, mkrishn@codeaurora.org
+Subject: Re: [PATCH v1 1/2] drm/msm/dp: Add support for SC7280 eDP
+Message-ID: <YSbONPNITH6dIECr@builder.lan>
+References: <1628726882-27841-1-git-send-email-sbillaka@codeaurora.org>
+ <1628726882-27841-2-git-send-email-sbillaka@codeaurora.org>
+ <CAE-0n52=mR0Zt8UZ3vOM-nt0UJszcFhi-eYfzDtD0bt3zhNA_Q@mail.gmail.com>
+ <0b2aa426c8f511a29143f2a1117fe9a2@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <CAKwvOdk2mLem4w05o5cdr0Mz62M2CWeW+5LFnKE5L+pMPqa7WA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0b2aa426c8f511a29143f2a1117fe9a2@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,102 +81,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/25/2021 4:03 PM, Nick Desaulniers wrote:
-> On Tue, Aug 24, 2021 at 4:23 PM Nathan Chancellor <nathan@kernel.org> wrote:
->>
->> i915 enables a wider set of warnings with '-Wall -Wextra' then disables
->> several with cc-disable-warning. If an unknown flag gets added to
->> KBUILD_CFLAGS when building with clang, all subsequent calls to
->> cc-{disable-warning,option} will fail, meaning that all of these
->> warnings do not get disabled [1].
->>
->> A separate series will address the root cause of the issue by not adding
->> these flags when building with clang [2]; however, the symptom of these
->> extra warnings appearing can be addressed separately by just removing
->> the calls to cc-disable-warning, which makes the build ever so slightly
->> faster because the compiler does not need to be called as much before
->> building.
->>
->> The following warnings are supported by GCC 4.9 and clang 10.0.1, which
->> are the minimum supported versions of these compilers so the call to
->> cc-disable-warning is not necessary. Masahiro cleaned this up for the
->> reset of the kernel in commit 4c8dd95a723d ("kbuild: add some extra
->> warning flags unconditionally").
->>
->> * -Wmissing-field-initializers
->> * -Wsign-compare
->> * -Wtype-limits
->> * -Wunused-parameter
->>
->> -Wunused-but-set-variable was implemented in clang 13.0.0 and
->> -Wframe-address was implemented in clang 12.0.0 so the
->> cc-disable-warning calls are kept for these two warnings.
->>
->> Lastly, -Winitializer-overrides is clang's version of -Woverride-init,
->> which is disabled for the specific files that are problematic. clang
->> added a compatibility alias in clang 8.0.0 so -Winitializer-overrides
->> can be removed.
->>
->> [1]: https://lore.kernel.org/r/202108210311.CBtcgoUL-lkp@intel.com/
->> [2]: https://lore.kernel.org/r/20210824022640.2170859-1-nathan@kernel.org/
->>
->> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+On Thu 12 Aug 19:28 CDT 2021, sbillaka@codeaurora.org wrote:
+
+> On 2021-08-12 06:11, Stephen Boyd wrote:
+> > Quoting Sankeerth Billakanti (2021-08-11 17:08:01)
+[..]
+> > > +static int dp_parser_gpio(struct dp_parser *parser)
+> > > +{
+> > > +       struct device *dev = &parser->pdev->dev;
+> > > +       int ret;
+> > > +
+> > > +       parser->panel_bklt_gpio = devm_gpiod_get(dev, "panel-bklt",
+> > > +                       GPIOD_OUT_HIGH);
+> > > +       if (IS_ERR(parser->panel_bklt_gpio)) {
+> > > +               ret = PTR_ERR(parser->panel_bklt_gpio);
+> > > +               parser->panel_bklt_gpio = NULL;
+> > > +               DRM_ERROR("%s: cannot get panel-bklt gpio, %d\n",
+> > > __func__, ret);
+> > > +               goto fail;
+> > > +       }
+> > > +
+> > > +       parser->panel_pwm_gpio = devm_gpiod_get(dev, "panel-pwm",
+> > > GPIOD_OUT_HIGH);
+> > > +       if (IS_ERR(parser->panel_pwm_gpio)) {
+> > > +               ret = PTR_ERR(parser->panel_pwm_gpio);
+> > > +               parser->panel_pwm_gpio = NULL;
+> > > +               DRM_ERROR("%s: cannot get panel-pwm gpio, %d\n",
+> > > __func__, ret);
+> > > +               goto fail;
+> > > +       }
+> > > +
+> > > +       DRM_INFO("gpio on");
+> > > +fail:
+> > > +       return 0;
+> > > +}
+> > 
+> > Don't we have pwm backlight drivers like
+> > drivers/video/backlight/pwm_bl.c to support this? This sort of thing
+> > doesn't belong in the dp driver.
 > 
-> Thanks for the patch! Do you need to re-ping, rebase, or resend that
-> other series?
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
-I assume you mean the series below rather than above? I sent this patch 
-right after that series and it has one set of reviews so I am hoping the 
-i915 maintainers will pick them up soon so this one can be applied 
-afterwards or resent.
-
-Thank you for the review!
-
-Cheers,
-Nathan
-
->> ---
->>
->> NOTE: This is based on my series to enable -Wsometimes-initialized here:
->>
->> https://lore.kernel.org/r/20210824225427.2065517-1-nathan@kernel.org/
->>
->> I sent it separately as this can go into whatever release but I would
->> like for that series to go into 5.15.
->>
->>   drivers/gpu/drm/i915/Makefile | 10 ++++------
->>   1 file changed, 4 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
->> index 335ba9f43d8f..6b38547543b1 100644
->> --- a/drivers/gpu/drm/i915/Makefile
->> +++ b/drivers/gpu/drm/i915/Makefile
->> @@ -13,13 +13,11 @@
->>   # will most likely get a sudden build breakage... Hopefully we will fix
->>   # new warnings before CI updates!
->>   subdir-ccflags-y := -Wall -Wextra
->> -subdir-ccflags-y += $(call cc-disable-warning, unused-parameter)
->> -subdir-ccflags-y += $(call cc-disable-warning, type-limits)
->> -subdir-ccflags-y += $(call cc-disable-warning, missing-field-initializers)
->> +subdir-ccflags-y += -Wno-unused-parameter
->> +subdir-ccflags-y += -Wno-type-limits
->> +subdir-ccflags-y += -Wno-missing-field-initializers
->> +subdir-ccflags-y += -Wno-sign-compare
->>   subdir-ccflags-y += $(call cc-disable-warning, unused-but-set-variable)
->> -# clang warnings
->> -subdir-ccflags-y += $(call cc-disable-warning, sign-compare)
->> -subdir-ccflags-y += $(call cc-disable-warning, initializer-overrides)
->>   subdir-ccflags-y += $(call cc-disable-warning, frame-address)
->>   subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
->>
->>
->> base-commit: fb43ebc83e069625cfeeb2490efc3ffa0013bfa4
->> prerequisite-patch-id: 31c28450ed7e8785dce967a16db6d52eff3d7d6d
->> prerequisite-patch-id: 372dfa0e07249f207acc1942ab0e39b13ff229b2
->> prerequisite-patch-id: 1a585fa6cda50c32ad1e3ac8235d3cff1b599978
->> --
->> 2.33.0
->>
+> Okay. I will explore it.
 > 
-> 
+
+I proposed that we attach a drm_panel and allow that to control the
+(pwm-)backlight. Here's the link for the DP patch:
+
+https://lore.kernel.org/linux-arm-msm/20210726231351.655302-1-bjorn.andersson@linaro.org/
+
+Regards,
+Bjorn
