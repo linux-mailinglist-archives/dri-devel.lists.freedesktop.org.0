@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607D03F77B0
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 16:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C7A3F77AF
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 16:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA97E6E2BC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0EE76E2B8;
 	Wed, 25 Aug 2021 14:48:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72B96E29D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5466E28B
  for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 14:48:40 +0000 (UTC)
-X-UUID: e2ea7ff7b9f2441e80fed4cd26da62da-20210825
-X-UUID: e2ea7ff7b9f2441e80fed4cd26da62da-20210825
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+X-UUID: 8c1bc39f617444a69d04c3dd800d6880-20210825
+X-UUID: 8c1bc39f617444a69d04c3dd800d6880-20210825
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
  (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 501994116; Wed, 25 Aug 2021 22:48:35 +0800
+ with ESMTP id 536035120; Wed, 25 Aug 2021 22:48:35 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Wed, 25 Aug 2021 22:48:34 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -37,10 +37,10 @@ CC: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Frank Wunderlich
  <singo.chang@mediatek.com>, <devicetree@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
  <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v9 01/14] dt-bindings: arm: mediatek: mmsys: add power and gce
- properties
-Date: Wed, 25 Aug 2021 22:48:20 +0800
-Message-ID: <20210825144833.7757-2-jason-jh.lin@mediatek.com>
+Subject: [PATCH v9 02/14] dt-bindings: arm: mediatek: mmsys: add mt8195 SoC
+ binding
+Date: Wed, 25 Aug 2021 22:48:21 +0800
+Message-ID: <20210825144833.7757-3-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210825144833.7757-1-jason-jh.lin@mediatek.com>
 References: <20210825144833.7757-1-jason-jh.lin@mediatek.com>
@@ -62,63 +62,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Power:
-1. Add description for power-domains property.
-
-GCE:
-1. Add description for mboxes property.
-2. Add description for mediatek,gce-client-reg property.
+There are 2 mmsys, namely vdosys0 and vdosys1 in mt8195.
+Each of them is bound to a display pipeline, so add their
+definition in mtk-mmsys documentation with 2 compatibles.
 
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 ---
- .../bindings/arm/mediatek/mediatek,mmsys.yaml | 28 ++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+this patch is base on [1][2]
+
+[1] dt-bindings: arm: mediatek: mmsys: convert to YAML format
+- https://patchwork.kernel.org/project/linux-mediatek/patch/20210519161847.3747352-1-fparent@baylibre.com/
+[2] dt-bindings: arm: mediatek: mmsys: add MT8365 SoC binding
+- https://patchwork.kernel.org/project/linux-mediatek/patch/20210519161847.3747352-2-fparent@baylibre.com/
+---
+ .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml        | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-index 2d4ff0ce387b..784207824ce0 100644
+index 784207824ce0..9eae76a2c5f6 100644
 --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
 +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-@@ -39,6 +39,28 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  power-domains:
-+    description:
-+      A phandle and PM domain specifier as defined by bindings
-+      of the power controller specified by phandle. See
-+      Documentation/devicetree/bindings/power/power-domain.yaml for details.
-+
-+  mboxes:
-+    description:
-+      Using mailbox to communicate with GCE, it should have this
-+      property and list of phandle, mailbox specifiers. See
-+      Documentation/devicetree/bindings/mailbox/mtk-gce.txt for details.
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+
-+  mediatek,gce-client-reg:
-+    description:
-+      The register of client driver can be configured by gce with 4 arguments defined
-+      in this property, such as phandle of gce, subsys id, register offset and size.
-+      Each subsys id is mapping to a base address of display function blocks register
-+      which is defined in the gce header include/include/dt-bindings/gce/<chip>-gce.h.
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    maxItems: 1
-+
-   "#clock-cells":
-     const: 1
- 
-@@ -53,6 +75,10 @@ examples:
-   - |
-     mmsys: syscon@14000000 {
-         compatible = "mediatek,mt8173-mmsys", "syscon";
--        reg = <0x14000000 0x1000>;
-+        reg = <0 0x14000000 0 0x1000>;
-+        power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
-         #clock-cells = <1>;
-+        mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST>,
-+                 <&gce 1 CMDQ_THR_PRIO_HIGHEST>;
-+        mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
-     };
+@@ -30,6 +30,8 @@ properties:
+               - mediatek,mt8173-mmsys
+               - mediatek,mt8183-mmsys
+               - mediatek,mt8365-mmsys
++              - mediatek,mt8195-vdosys0
++              - mediatek,mt8195-vdosys1
+           - const: syscon
+       - items:
+           - const: mediatek,mt7623-mmsys
 -- 
 2.18.0
 
