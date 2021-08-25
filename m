@@ -2,75 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13393F7C36
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 20:31:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8BF3F7C96
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 21:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86B276E402;
-	Wed, 25 Aug 2021 18:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26B686E417;
+	Wed, 25 Aug 2021 19:13:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9716E402
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 18:31:04 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- j4-20020a17090a734400b0018f6dd1ec97so430509pjs.3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 11:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Qfk6BSvcgBI7Pc/jE3YW7xZmx9KCBB6EdbOOmvrD6Qc=;
- b=o/kwIS9r/jytIoTEBqNyRfm1IR4OcGddRWAo+yF9fpQLIb+9crwAo912mpdNTPka7k
- jEua+cYFJcUHhwXbdudbENPFHXpuVrdJGkBWbMgP8Yv3O9J1NT+qE4YQBsMDrHss0aZZ
- mATbCEQd0H2F5LDvP/Q+3vnLxXjVKghXtt5BkXNTr5o5yFTuj94hQvHvGCIfSZVCb4mK
- 0ADz6SCGJEbjL0NoMsqBC2DXVteR88Zr8uklUMYOT1vFoR1QGC+VhR9OuTG6p8+OIto0
- BtmIqhLO9WQ4QLXP+gcM1TbJmvC7qhoC8xFqXKlb3PObbxREqOe3oodksIkkajQ6e2ku
- nR+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Qfk6BSvcgBI7Pc/jE3YW7xZmx9KCBB6EdbOOmvrD6Qc=;
- b=aUvoHLaC9LPrmfzNGsmim8kelU9+65/IHSr7ZvNkVacVE/wso/+YHICEsRkmLNNCRd
- 0yk69Sx+V0ScsoXH/6+4id2WtFeRg1btHKsqjnRX0oKG77WeCJ2qagTT3PL9hfzg3S1A
- W7X/bscy9OMCX/+23HohAbjs2d9zBQxyG/4Xy/y/e+s8N0rH7pj9ebZQWYzdDTuYu+S0
- AekvQGHWhCBPwGxPgJOhleVY+FNmx9GRFwGflHvL/pPvHXBurNMG6Imw531EeIocDFac
- g34qIOo7kohb+Bjmc4Ew085I+zX7EZDILGjFvRPRHI/Q3cyZ7CI508JvWp410HP1wUiV
- 79Ag==
-X-Gm-Message-State: AOAM531YyUaHxmkErly7z1j3huKWpAVdb2k3tC+CLiiCa5L8NNdrdwYy
- Iq5kkNFiJCkwcVx2T7EFzBckVA==
-X-Google-Smtp-Source: ABdhPJxVRQSxOVe/2e9Ph5nzkeeO5xcy1nbYxdf35mJm41j0UOFiUOzNVz5K4WJ/FtwIgoSYLxNmiA==
-X-Received: by 2002:a17:90a:eb0d:: with SMTP id
- j13mr10470703pjz.163.1629916263928; 
- Wed, 25 Aug 2021 11:31:03 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- x20sm382813pfh.188.2021.08.25.11.31.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 11:31:03 -0700 (PDT)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Cc: John Stultz <john.stultz@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
- Christian Koenig <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Liam Mark <lmark@codeaurora.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Brian Starkey <Brian.Starkey@arm.com>,
- Hridya Valsaraju <hridya@google.com>,
- Suren Baghdasaryan <surenb@google.com>, Sandeep Patil <sspatil@google.com>,
- Daniel Mentz <danielmentz@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Ezequiel Garcia <ezequiel@collabora.com>, Simon Ser <contact@emersion.fr>,
- James Jones <jajones@nvidia.com>, Leo Yan <leo.yan@linaro.org>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [RFC][PATCH] dma-buf: system_heap: Avoid warning on mid-order
- allocations
-Date: Wed, 25 Aug 2021 18:30:59 +0000
-Message-Id: <20210825183059.1085561-1-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 570836E417
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 19:13:45 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id ED5325C01B0;
+ Wed, 25 Aug 2021 15:13:42 -0400 (EDT)
+Received: from imap7 ([10.202.2.57])
+ by compute4.internal (MEProxy); Wed, 25 Aug 2021 15:13:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ amanoeldawod.com; h=mime-version:message-id:in-reply-to
+ :references:date:from:to:cc:subject:content-type; s=fm2; bh=0Sgs
+ 63PeGz1VlqfdwjoabMeAWURDTLGiuSSNeI8opGo=; b=f1BXuao40TB/irJmPF3H
+ D93sPoEoZ87QhGvmg9cq7TG8AJ+D0WK7sJKZ/IQmExpPfEKOC2AUKaKyKqdw8IuD
+ 0/7A2ShaEW+ADPo6B5vg3ZhDW8U8/gNAzd7CE2kxdvQGtwIabz1WUiPzYXmdp0vs
+ jI01lfFys63dDZcBX4SI2MGQJ5FJWIwRQqiJSHNN0kZI8rhy6Q0YldzIhkRooTi+
+ trdrcH59gArnmPLyTW8bjMlBKpKq4BiG6AYkHUmgNJL2Z4p232JN0UvU7H6+DZie
+ U7dBMt4OeOamIjX/HFUCxcRr80yoOBu3PR+L4qB1vWrfN8QI/rCMeE1psBRfxoQL
+ vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0Sgs63
+ PeGz1VlqfdwjoabMeAWURDTLGiuSSNeI8opGo=; b=a5By/y5xT+iIOVvI92ZHJ/
+ FE8MZVLKv+X9dqF7V879aMjGSMGfi/cstqe0hftph/TOX/XuGxdyzUtqcYKuiQAD
+ +ezQecrh1fpdGpLDPZ/c/QAvCf8smBX4Kh0BD2i+QkTkFXn9sqh/d9gAxxaTfWhY
+ IDi7eu0qeilOO3i3DvhP9Aw/WZvl62tCvqjiVdnMMmlCaM1Qn5DMlYCCvss9+mlF
+ nmfxxHkrDtXq6jyS7FNQ6OhPFVljtHA3F6zXxw4Csz2Ws0bcYjKHbtLVRHX+tXnR
+ pQyZKKzW/wuCDMvLE4EWMepdrTgkiUfdy9aK9It5BCSrCUrtxQX9iZw9suyoYsJA
+ ==
+X-ME-Sender: <xms:ZZYmYbSiASbwavuKDlBUl6vxpK8KuceYC6btcjV5vPMbguTNcsMlDA>
+ <xme:ZZYmYcwaxgQ94KE1KnBHSehvrXeeAc4Zk9BWs23Xw2VuitL7BY1hmEiMTyUtJGRx4
+ fvJ_QfahSifw0AZCIk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledgudefhecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvufgtsehmtderreerreejnecuhfhrohhmpedftehm
+ rghnohgvlhcuffgrfihougdfuceokhgvrhhnvghlsegrmhgrnhhovghluggrfihougdrtg
+ homheqnecuggftrfgrthhtvghrnhepveevveeutdejkeegffejgeeileejheehgfffjefh
+ veehueevjeehjefgvedtfeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomhepkhgvrhhnvghlsegrmhgrnhhovghluggrfihougdrtghomh
+X-ME-Proxy: <xmx:ZZYmYQ0J3Zd3AdKd2Ec7ydVcCox4nDA08QyC-Ofh1kaKnskv81g2Pw>
+ <xmx:ZZYmYbD0HSJF-GDHYx5u7WWzPKwhT7LcYyu2xVV2eVV4fMv41AdW7w>
+ <xmx:ZZYmYUgTG99tUXisY67hlqwokfUk2xDmaUP8_S-LJUwxw66xCPBYqQ>
+ <xmx:ZpYmYSdbbqs30D7w7zV2AV3emS5UhOgL7HIJCt_jpsCVJ8ALdGlvaA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id A7E74360207; Wed, 25 Aug 2021 15:13:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1125-g685cec594c-fm-20210825.001-g685cec59
+Mime-Version: 1.0
+Message-Id: <4c161178-4d15-4ca6-9069-9c9a781c7019@www.fastmail.com>
+In-Reply-To: <7486abc7-ce39-915f-b697-b9adb356f98f@suse.de>
+References: <5186020a-192f-4e04-adc2-25a34305fea6@www.fastmail.com>
+ <e80ae664-7184-69dd-5e6e-e228c720bb85@suse.de>
+ <2ec3ae15-e8d7-4db3-baef-04b8ab9dc467@www.fastmail.com>
+ <e3343649-a96d-7306-67d0-5f8fc9427429@suse.de>
+ <ab196ef1-44d5-4aef-a1ab-e43bed2a87e4@www.fastmail.com>
+ <7486abc7-ce39-915f-b697-b9adb356f98f@suse.de>
+Date: Wed, 25 Aug 2021 15:12:25 -0400
+From: "Amanoel Dawod" <kernel@amanoeldawod.com>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Subject: =?UTF-8?Q?Re:_drm:_simpledrm:_fbdev_emulation_error_with_CONFIG=5FDRM=5F?=
+ =?UTF-8?Q?SIMPLEDRM_enabled?=
+Content-Type: multipart/mixed;
+ boundary=99941a19e2524692b9c6ea412939c813
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,55 +90,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When trying to do mid-order allocations, set __GFP_NOWARN to
-avoid warning messages if the allocation fails, as we will
-still fall back to single page allocatitions in that case.
-This is the similar to what we already do for large order
-allocations.
+--99941a19e2524692b9c6ea412939c813
+Content-Type: text/plain
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Ørjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: Leo Yan <leo.yan@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/dma-buf/heaps/system_heap.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Hi
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 23a7e74ef966..f57a39ddd063 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -40,11 +40,12 @@ struct dma_heap_attachment {
- 	bool mapped;
- };
- 
-+#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
-+#define MID_ORDER_GFP (LOW_ORDER_GFP | __GFP_NOWARN)
- #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
- 				| __GFP_NORETRY) & ~__GFP_RECLAIM) \
- 				| __GFP_COMP)
--#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
--static gfp_t order_flags[] = {HIGH_ORDER_GFP, LOW_ORDER_GFP, LOW_ORDER_GFP};
-+static gfp_t order_flags[] = {HIGH_ORDER_GFP, MID_ORDER_GFP, LOW_ORDER_GFP};
- /*
-  * The selection of the orders used for allocation (1MB, 64K, 4K) is designed
-  * to match with the sizes often found in IOMMUs. Using order 4 pages instead
+On Wed, Aug 25, 2021, at 2:02 PM, Thomas Zimmermann wrote:
+> 
+> Oh, now simpledrm itself fills up the log with pointless messages. :/ 
+> Looking at the file, there's plenty of Gnome buffer swapping. I suspect 
+> that Gnome works? It's just the console that's not available?
+> 
+
+Yes, Gnome was working, only the console was blank.
+
+> Could you please boot directly into a text terminal? That should be 
+> possible by adding systemd.unit=multi-user.target to the kernel command 
+> line if your distro uses systemd. Due to the issue, you probably won't 
+> see anything on the screen, so you may need remote access.
+> 
+> Thanks for your help with debugging and sorry for sending you through so 
+> many hops.
+> 
+> Best regards
+> Thomas
+>
+
+No problem, managed to boot directly into a text terminal and grabbed DRM
+related dmesg log.
+Hopefully it's what you're looking for :)
+
+Find it attached please.
+
 -- 
-2.25.1
+thanks,
+Amanoel
+--99941a19e2524692b9c6ea412939c813
+Content-Disposition: attachment;filename="dmesg-simpledrm.txt"
+Content-Type: text/plain; name="dmesg-simpledrm.txt"
+Content-Transfer-Encoding: BASE64
 
+WyAgICAzLjI1NTMxMl0gW2RybToweGZmZmZmZmZmYzAzNGYwY2NdIEluaXRpYWxpemVkClsg
+ICAgMy4yNjMyNzZdIHNpbXBsZS1mcmFtZWJ1ZmZlciBzaW1wbGUtZnJhbWVidWZmZXIuMDog
+W2RybToweGZmZmZmZmZmYzAzOTc2YjRdIGRpc3BsYXkgbW9kZT17IjEwMjR4NzY4IjogNjAw
+MDAgNDcxODU5MjAgMTAyNCAxMDI0IDEwMjQgMTAyNCA3NjggNzY4IDc2OCA3NjggMHg0MCAw
+eDB9ClsgICAgMy4yNjMyODFdIHNpbXBsZS1mcmFtZWJ1ZmZlciBzaW1wbGUtZnJhbWVidWZm
+ZXIuMDogW2RybToweGZmZmZmZmZmYzAzOTc2ZDddIGZyYW1lYnVmZmVyIGZvcm1hdD1BUjI0
+IGxpdHRsZS1lbmRpYW4gKDB4MzQzMjUyNDEpLCBzaXplPTEwMjR4NzY4LCBzdHJpZGU9NDA5
+NiBieXRlClsgICAgMy4yNjMzMDhdIFtkcm06MHhmZmZmZmZmZmMwMmViY2NiXSAKWyAgICAz
+LjI2MzMwOV0gW2RybToweGZmZmZmZmZmYzAyZWJlOTRdIApbICAgIDMuMjYzMzQwXSBbZHJt
+OjB4ZmZmZmZmZmZjMDJlYmVmOF0gbmV3IG1pbm9yIHJlZ2lzdGVyZWQgMApbICAgIDMuMjYz
+MzUxXSBbZHJtOjB4ZmZmZmZmZmZjMDJlY2M0OF0gYWRkaW5nICJVbmtub3duLTEiIHRvIHN5
+c2ZzClsgICAgMy4yNjMzNTJdIFtkcm06MHhmZmZmZmZmZmMwMmVjYWVhXSBnZW5lcmF0aW5n
+IGhvdHBsdWcgZXZlbnQKWyAgICAzLjI2MzM1Nl0gW2RybV0gSW5pdGlhbGl6ZWQgc2ltcGxl
+ZHJtIDEuMC4wIDIwMjAwNjI1IGZvciBzaW1wbGUtZnJhbWVidWZmZXIuMCBvbiBtaW5vciAw
+ClsgICAgMy4yNjMzNTldIFtkcm06MHhmZmZmZmZmZmMwMzE5NTE5XSAKWyAgICAzLjI2MzM2
+MF0gW2RybToweGZmZmZmZmZmYzAzMDgyMzFdIE9CSiBJRDogMzEgKDIpClsgICAgMy4yNjMz
+NjJdIFtkcm06MHhmZmZmZmZmZmMwMzY4MmEwXSBbQ09OTkVDVE9SOjMxOlVua25vd24tMV0K
+WyAgICAzLjI2MzM2M10gW2RybToweGZmZmZmZmZmYzAzNjgzNzRdIFtDT05ORUNUT1I6MzE6
+VW5rbm93bi0xXSBzdGF0dXMgdXBkYXRlZCBmcm9tIHVua25vd24gdG8gY29ubmVjdGVkClsg
+ICAgMy4yNjMzNzBdIFtkcm06MHhmZmZmZmZmZmMwMzY4NjA1XSBbQ09OTkVDVE9SOjMxOlVu
+a25vd24tMV0gcHJvYmVkIG1vZGVzIDoKWyAgICAzLjI2MzM3MV0gW2RybToweGZmZmZmZmZm
+YzAyZjBjMjNdIE1vZGVsaW5lICIxMDI0eDc2OCI6IDYwMDAwIDQ3MTg1OTIwIDEwMjQgMTAy
+NCAxMDI0IDEwMjQgNzY4IDc2OCA3NjggNzY4IDB4NDggMHgwClsgICAgMy4yNjMzNzNdIFtk
+cm06MHhmZmZmZmZmZmMwMzE5NzkzXSBjb25uZWN0b3IgMzEgZW5hYmxlZD8geWVzClsgICAg
+My4yNjMzNzRdIFtkcm06MHhmZmZmZmZmZmMwMzE5YjdiXSBOb3QgdXNpbmcgZmlybXdhcmUg
+Y29uZmlndXJhdGlvbgpbICAgIDMuMjYzMzc1XSBbZHJtOjB4ZmZmZmZmZmZjMDMxOWRlM10g
+bG9va2luZyBmb3IgY21kbGluZSBtb2RlIG9uIGNvbm5lY3RvciAzMQpbICAgIDMuMjYzMzc2
+XSBbZHJtOjB4ZmZmZmZmZmZjMDMxYTJjYl0gbG9va2luZyBmb3IgcHJlZmVycmVkIG1vZGUg
+b24gY29ubmVjdG9yIDMxIDAKWyAgICAzLjI2MzM3N10gW2RybToweGZmZmZmZmZmYzAzMTll
+ZGRdIGZvdW5kIG1vZGUgMTAyNHg3NjgKWyAgICAzLjI2MzM3OF0gW2RybToweGZmZmZmZmZm
+YzAzMWEwYjldIHBpY2tpbmcgQ1JUQ3MgZm9yIDEwMjR4NzY4IGNvbmZpZwpbICAgIDMuMjYz
+Mzc5XSBbZHJtOjB4ZmZmZmZmZmZjMDMxYTIwNV0gZGVzaXJlZCBtb2RlIDEwMjR4NzY4IHNl
+dCBvbiBjcnRjIDM0ICgwLDApClsgICAgMy4yNjMzODBdIFtkcm06MHhmZmZmZmZmZmMwMzA4
+MjMxXSBPQkogSUQ6IDMxICgyKQpbICAgIDMuMjYzMzgxXSBbZHJtOjB4ZmZmZmZmZmZjMDMw
+ODJlMV0gT0JKIElEOiAzMSAoMykKWyAgICAzLjI2MzM4M10gc2ltcGxlLWZyYW1lYnVmZmVy
+IHNpbXBsZS1mcmFtZWJ1ZmZlci4wOiBbZHJtOjB4ZmZmZmZmZmZjMDM3Y2Y0Zl0gdGVzdCBD
+UlRDIDAgcHJpbWFyeSBwbGFuZQpbICAgIDMuMjYzMzg0XSBzaW1wbGUtZnJhbWVidWZmZXIg
+c2ltcGxlLWZyYW1lYnVmZmVyLjA6IFtkcm06MHhmZmZmZmZmZmMwMzdmZGRhXSBzdXJmYWNl
+IHdpZHRoKDEwMjQpLCBoZWlnaHQoMjMwNCkgYW5kIGJwcCgzMikKWyAgICAzLjI2MzM5NF0g
+W2RybToweGZmZmZmZmZmYzAzMDM1ODNdIGJhZCBmcmFtZWJ1ZmZlciBoZWlnaHQgMjMwNCwg
+c2hvdWxkIGJlID49IDc2OCAmJiA8PSA3NjgKWyAgICAzLjI2MzM5OF0gc2ltcGxlLWZyYW1l
+YnVmZmVyIHNpbXBsZS1mcmFtZWJ1ZmZlci4wOiBbZHJtXSAqRVJST1IqIGZiZGV2OiBGYWls
+ZWQgdG8gc2V0dXAgZ2VuZXJpYyBlbXVsYXRpb24gKHJldD0tMjIpClsgICAgMy4yNjMzOTld
+IHNpbXBsZS1mcmFtZWJ1ZmZlciBzaW1wbGUtZnJhbWVidWZmZXIuMDogW2RybToweGZmZmZm
+ZmZmYzAzN2U5ZmVdIGNsaWVudCBob3RwbHVnIHJldD0tMjIKWyAgIDE0LjcwNDE3MV0gc3lz
+dGVtZFsxXTogU3RhcnRpbmcgTG9hZCBLZXJuZWwgTW9kdWxlIGRybS4uLgpbICAgMTQuNzEx
+MTA1XSBzeXN0ZW1kWzFdOiBtb2Rwcm9iZUBkcm0uc2VydmljZTogRGVhY3RpdmF0ZWQgc3Vj
+Y2Vzc2Z1bGx5LgpbICAgMTQuNzExMjUzXSBzeXN0ZW1kWzFdOiBGaW5pc2hlZCBMb2FkIEtl
+cm5lbCBNb2R1bGUgZHJtLgo=
+
+--99941a19e2524692b9c6ea412939c813--
