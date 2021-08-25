@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A371C3F7E6B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 00:24:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A1B3F7E85
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 00:25:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3169B6E42C;
-	Wed, 25 Aug 2021 22:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8AD46E434;
+	Wed, 25 Aug 2021 22:24:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A926E42E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 22:24:45 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- x10-20020a056830408a00b004f26cead745so897802ott.10
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 15:24:45 -0700 (PDT)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 702D76E42E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 22:24:46 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id q39so1481443oiw.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 15:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lsXe1e72wRkGIfMRaHX5V5OYsm6EaNn+8h1FDv1jEg8=;
- b=u3SuP2a+axhJJ3ZFEMFVhEpZAHwKfExb7Q1cnnzCtb3nQy4FMfuBD8YPhOjL4p1Suu
- SXRqPLGCZ0BZxQfJxAmnW0XQDcYtn9Bo/pd/MUIWpi34SdReEWfeVhgiRniKI/RQje6T
- yxDhU4iVyjE3FqfnPHKsFi/zvNKoADJ+daHM+jRKIgT0cT+GNQOpY1/Fgavt91L1G4ac
- 5q8VCEb15WFvq53rok5lk7IqdqvLVczUkhX4sQuiDh0QppSAFzJH3wb63EaJk4g4QNiA
- 4KDTwOfhxXPkfQ1hp5Z3rdYgf6Ql6pTzr5MpdPbckdsX3hEdUF0y2tY/Ksn13tc7XcR8
- V78A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vXLLp5GIbOEgi1J75PRebsAuxo8nGrsWkSS0/ujVn1w=;
+ b=lmAfSC2C4y4sGEBFjrDXuzJzhQOQyubDGp7PohABf7xAjOKBnEoY1LXs7EQtQ936LU
+ K4gVPvR7wk3xiaRIbCF9TNFaSH7LOzwH37FtYfcNAEp5MbCcGtyJUQSoVXedi+y/xZQw
+ EhIxcTEPMdcR6wYGjR/dhpUTZ/pC3+nkgIxwYRQNoOf45s17kbktLkIq0w24s0yYsJPv
+ ZvusE/wXq7V0Y/ZGMOEUg94DN8e3Z+veiqQTJ2BHfGwHasOmkBiP0YZoOE9V7hCZhW5I
+ DdMy8zGVug/mo3IfMj+L6vQi5eB9pGKvB+1ogeSDYXLSlytC03HEcr+UPZ4OvPOgNrMt
+ DFHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lsXe1e72wRkGIfMRaHX5V5OYsm6EaNn+8h1FDv1jEg8=;
- b=Z6IgV5b9iF0XqtPi4qmPIihw//TXvCYl0jMRJOpzb20MyBeALFLNve5wefKxZ6u/Va
- 96f2DH5pI7qzUbAaPD8tBseucN0mNcwAXINiixicCxO8DhhiVoBHqWK8pS6SRBuLW2cP
- f+V4BG4fRmLmOElxohlUDYzaNBJmDjP5WF4HV/kPLeRh7VqcW6F+F32oNOoHJCMJrmSE
- nR4LEtHIjGAVmLFplIwRMec/VOv9bspTumIZfkGbCXASGWD6jQZ2Md59Lfpj7/Hx4e/F
- hmNb2T4E3yDi4VsJqGqJfIpKSvfT0YmuDvW6ohHf2YUBIH27Ji4CBgU23Qoqg1x1To1A
- fUHg==
-X-Gm-Message-State: AOAM533rt5bQ2ljX/eSUjGCoW1zBdIdLuHj7Djp50VNz7AOIMLlsGr05
- jb8mxjZryvcq8lwPiPcTcx1oyA==
-X-Google-Smtp-Source: ABdhPJzxblTCS2xRcc4B1gj6x6TLZbGGe/ZkxV55c9Zg/bc+WmiakZRcH3jYSR1lzG2mYLzQvdoLAA==
-X-Received: by 2002:a9d:4683:: with SMTP id z3mr542498ote.95.1629930284432;
- Wed, 25 Aug 2021 15:24:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vXLLp5GIbOEgi1J75PRebsAuxo8nGrsWkSS0/ujVn1w=;
+ b=TLJAgn1lCjjarwdkhNHpR+nlboDfybHOLWdhiGGXmijade8qzBWeDJZvt8iPI3fMMc
+ XyzXNaJqEBKCYNGRmJdTbvSrliEgyn49ab7VDOBIqmBb/m/+Qeew+KHeBlz4vpRBdBDw
+ iB3SIxi7AogwuZbCY6l5OQ/B1CRRdhlVf6wEh2rPeA2HwPrDLh+wKSd+H6VzyYvuzbVv
+ TueXOrHMP63aaOvzQE6e83itdNuJMrWwdmTgbgZlvCZh6B7HaRwrP+LYMb+pebKVOJn7
+ lfNl5VgTq/HslD8WnI43om/jomcK/ZA77SsIMMp60gHwhMIPBKujygS5uaNNOTKQoDc1
+ yvKw==
+X-Gm-Message-State: AOAM531r+AT+42Zm6eXvcedebh5WFFTuUbP/5ZfTFPpimzetuwidu60f
+ /xIekNFWUGyL/7PScuZzQZnMjA==
+X-Google-Smtp-Source: ABdhPJwHRIt2gKLaM2qqqQhcQoev7y64yQvWWdsdrlXDJ/LIM9saCuxmamvlXDwtDy92YqCOvp+XPg==
+X-Received: by 2002:a05:6808:1886:: with SMTP id
+ bi6mr218519oib.138.1629930285445; 
+ Wed, 25 Aug 2021 15:24:45 -0700 (PDT)
 Received: from localhost.localdomain
  (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id u19sm263721oiv.28.2021.08.25.15.24.43
+ by smtp.gmail.com with ESMTPSA id u19sm263721oiv.28.2021.08.25.15.24.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 15:24:43 -0700 (PDT)
+ Wed, 25 Aug 2021 15:24:44 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -55,11 +55,14 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
 Cc: Kuogee Hsieh <khsieh@codeaurora.org>, Tanmay Shah <tanmay@codeaurora.org>,
  Chandan Uddaraju <chandanu@codeaurora.org>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5] drm/msm/dp: Allow variation in register regions
-Date: Wed, 25 Aug 2021 15:25:52 -0700
-Message-Id: <20210825222557.1499104-1-bjorn.andersson@linaro.org>
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/5] dt-bindings: msm/dp: Change reg definition
+Date: Wed, 25 Aug 2021 15:25:53 -0700
+Message-Id: <20210825222557.1499104-2-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210825222557.1499104-1-bjorn.andersson@linaro.org>
+References: <20210825222557.1499104-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,25 +80,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It turns out that sc8180x (among others) doesn't have the same internal layout
-of the 4 subblocks. This series therefor modifies the binding to require all
-four regions to be described individually and then extends the driver to read
-these four regions. The driver will fall back to read the old single-reg format
-and apply the original offsets and sizes.
+reg was defined as one region covering the entire DP block, but the
+memory map is actually split in 4 regions and obviously the size of
+these regions differs between platforms.
 
-Bjorn Andersson (5):
-  dt-bindings: msm/dp: Change reg definition
-  drm/msm/dp: Use devres for ioremap()
-  drm/msm/dp: Refactor ioremap wrapper
-  drm/msm/dp: Store each subblock in the io region
-  drm/msm/dp: Allow sub-regions to be specified in DT
+Switch the reg to require that all four regions are specified instead.
+It is expected that the implementation will handle existing DTBs, even
+though the schema defines the new layout.
 
- .../bindings/display/msm/dp-controller.yaml   |  13 ++-
- drivers/gpu/drm/msm/dp/dp_catalog.c           |  64 ++++-------
- drivers/gpu/drm/msm/dp/dp_parser.c            | 102 ++++++++++--------
- drivers/gpu/drm/msm/dp/dp_parser.h            |  11 +-
- 4 files changed, 100 insertions(+), 90 deletions(-)
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
 
+Changes since v1:
+- Include the p1 region (although unused by the implementation for now)
+
+ .../bindings/display/msm/dp-controller.yaml         | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index 64d8d9e5e47a..f915dc080cbc 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -19,7 +19,12 @@ properties:
+       - qcom,sc7180-dp
+ 
+   reg:
+-    maxItems: 1
++    items:
++      - description: ahb register block
++      - description: aux register block
++      - description: link register block
++      - description: p0 register block
++      - description: p1 register block
+ 
+   interrupts:
+     maxItems: 1
+@@ -100,7 +105,11 @@ examples:
+ 
+     displayport-controller@ae90000 {
+         compatible = "qcom,sc7180-dp";
+-        reg = <0xae90000 0x1400>;
++        reg = <0xae90000 0x200>,
++              <0xae90200 0x200>,
++              <0xae90400 0xc00>,
++              <0xae91000 0x400>,
++              <0xae91400 0x400>;
+         interrupt-parent = <&mdss>;
+         interrupts = <12>;
+         clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
 -- 
 2.29.2
 
