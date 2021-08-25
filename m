@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A1D3F7D04
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 22:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35703F7D11
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 22:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3AD6E41A;
-	Wed, 25 Aug 2021 20:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1756E419;
+	Wed, 25 Aug 2021 20:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 532A86E419;
- Wed, 25 Aug 2021 20:08:31 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="278616376"
-X-IronPort-AV: E=Sophos;i="5.84,351,1620716400"; d="scan'208";a="278616376"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2021 13:08:30 -0700
-X-IronPort-AV: E=Sophos;i="5.84,351,1620716400"; d="scan'208";a="684633803"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2021 13:08:30 -0700
-Date: Wed, 25 Aug 2021 13:03:21 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch
-Subject: Re: [Intel-gfx] [PATCH 11/27] drm/i915/selftests: Fix memory
- corruption in live_lrc_isolation
-Message-ID: <20210825200319.GA2751@jons-linux-dev-box>
-References: <20210819061639.21051-1-matthew.brost@intel.com>
- <20210819061639.21051-12-matthew.brost@intel.com>
- <1b23ca1d-7fc1-b812-8e1b-144ee2bc8b8a@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E85406E419
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 20:17:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4CBEA610C8;
+ Wed, 25 Aug 2021 20:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629922625;
+ bh=EZPFfQbDto68Ua94olD0+1in8qBix3rwrJyR6OeOm98=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=mF4nzC4H678dwyj3HngroYxVltjkGD/nCkncneWrdKMIJDIh8Kjg4qvsiCGxnyZhB
+ WvT+e+w0crgYkYkodXIUVIpr7nTXZe7hGL5eclEyZmiyhYZj/aX0gebgYbuWRO1Y7p
+ ck2+gAa6yo7FAnhCVMkhTKyywWXV5XYvAisb+z2d9zDnk+V18r644Nr1Xy/+IX4c4f
+ 1CbCZPxHcLxYeeZUDq/xLt+ljsx/dvxcrZA/U/OAMyF03SzT0aFz/US/ZJdOKiCUp+
+ abnIMWWn7oJqtzQ0BB5nURbeiG6lGO5aFot+jMH95JEaqqN4KHkqCz/uSZz5rpXs8v
+ buEpjwic+Qsyg==
+Date: Wed, 25 Aug 2021 15:17:04 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Xuefeng Li <lixuefeng@loongson.cn>,
+ Huacai Chen <chenhuacai@gmail.com>
+Subject: Re: [PATCH V3 0/9] PCI/VGA: Rework default VGA device selection
+Message-ID: <20210825201704.GA3600046@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1b23ca1d-7fc1-b812-8e1b-144ee2bc8b8a@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210820100832.663931-1-chenhuacai@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,151 +52,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 24, 2021 at 05:07:13PM -0700, Daniele Ceraolo Spurio wrote:
+On Fri, Aug 20, 2021 at 06:08:23PM +0800, Huacai Chen wrote:
+> My original work is at [1].
 > 
+> Bjorn do some rework and extension in V2. It moves the VGA arbiter to
+> the PCI subsystem, fixes a few nits, and breaks a few pieces to make
+> the main patch a little smaller.
 > 
-> On 8/18/2021 11:16 PM, Matthew Brost wrote:
-> > GuC submission has exposed an existing memory corruption in
-> > live_lrc_isolation. We believe that some writes to the watchdog offsets
-> > in the LRC (0x178 & 0x17c) can result in trashing of portions of the
-> > address space. With GuC submission there are additional objects which
-> > can move the context redzone into the space that is trashed. To
-> > workaround this avoid poisoning the watchdog.
+> V3 rewrite the commit log of the last patch (which is also summarized
+> by Bjorn).
 > 
-> This is kind of a worrying explanation, as it implies an HW issue. AFAICS we
-> no longer increase the context size with GuC submission, so the redzone
-> should be in the same place relative to the base address of the context;
-> although it is true that we have more objects in memory due to support the
-> GuC, hitting the redzone consistently feels too much like a coincidence.
-> When we write the watchdog regs there is a risk we're triggering a watchdog
-> interrupt, which will cause the GuC to handle that; on a media reset, the
-> GuC overwrites the context with the golden context in the ADS, are we sure
-> that's not what is causing this problem?
-> Looking in the ADS we set the context memcpy size to:
+> All comments welcome!
 > 
-> real_size = intel_engine_context_size(gt, engine_class);
+> [1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
 > 
-> but then we only initialize real_size - SKIP_SIZE(gt->i915), which IMO could
-> be the real cause of the bug as the GuC memcpy starts at SKIP_SIZE().
+> Bjorn Helgaas (4):
+>   PCI/VGA: Move vgaarb to drivers/pci
+>   PCI/VGA: Replace full MIT license text with SPDX identifier
+>   PCI/VGA: Use unsigned format string to print lock counts
+>   PCI/VGA: Remove empty vga_arb_device_card_gone()
 > 
-
-Good analysis Daniele. This definitely seems to be the issue as the
-below patch appears to have fixed the failing selftest:
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 9f5f43a16182..c19ce71c9de9 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -358,6 +358,11 @@ static int guc_prep_golden_context(struct intel_guc *guc,
-        u8 engine_class, guc_class;
-        struct guc_gt_system_info *info, local_info;
-
-+       /* Skip execlist and PPGTT registers + HWSP */
-+       const u32 lr_hw_context_size = 80 * sizeof(u32);
-+       const u32 skip_size = LRC_PPHWSP_SZ * PAGE_SIZE +
-+               lr_hw_context_size;
-+
-        /*
-         * Reserve the memory for the golden contexts and point GuC at it but
-         * leave it empty for now. The context data will be filled in later
-@@ -396,7 +401,7 @@ static int guc_prep_golden_context(struct intel_guc *guc,
-                if (!blob)
-                        continue;
-
--               blob->ads.eng_state_size[guc_class] = real_size;
-+               blob->ads.eng_state_size[guc_class] = real_size - skip_size;
-                blob->ads.golden_context_lrca[guc_class] = addr_ggtt;
-                addr_ggtt += alloc_size;
-        }
-@@ -476,7 +481,8 @@ static void guc_init_golden_context(struct intel_guc *guc)
-                        continue;
-                }
-
--               GEM_BUG_ON(blob->ads.eng_state_size[guc_class] != real_size);
-+               GEM_BUG_ON(blob->ads.eng_state_size[guc_class] !=
-+                          real_size - skip_size);
-                GEM_BUG_ON(blob->ads.golden_context_lrca[guc_class] != addr_ggtt);
-                addr_ggtt += alloc_size;
-
-This being said, IMO this actually a bug in the GuC firmware as it
-basically is doing:
-
-memcpy(some_guc_dest, blob->ads.golden_context_lrca +
-       guc_calculated_skip_size,
-       blob->ads.eng_state_size);
-
-IMO if the GuC is applying an internally calculated offset to
-blob->ads.golden_context_lrca it should substract that calculated size
-from blob->ads.eng_state_size.
-
-e.g. the GuC should be doing:
-
-memcpy(some_guc_dest, blob->ads.golden_context_lrca +
-       guc_calculated_skip_size,
-       blob->ads.eng_state_size - guc_calculated_skip_size);
-
-We can bring this up with the GuC firmware team today, but in the
-meantime I'll include the above patch in the respin of this series as a
-workaround.
-
-Matt 	
-
-> Daniele
+> Huacai Chen (5):
+>   PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
+>   PCI/VGA: Prefer vga_default_device()
+>   PCI/VGA: Split out vga_arb_update_default_device()
+>   PCI/VGA: Log bridge control messages when adding devices
+>   PCI/VGA: Rework default VGA device selection
 > 
-> > 
-> > v2:
-> >   (Daniel Vetter)
-> >    - Add VLK ref in code to workaround
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/selftest_lrc.c | 29 +++++++++++++++++++++++++-
-> >   1 file changed, 28 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> > index b0977a3b699b..cdc6ae48a1e1 100644
-> > --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> > +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> > @@ -1074,6 +1074,32 @@ record_registers(struct intel_context *ce,
-> >   	goto err_after;
-> >   }
-> > +static u32 safe_offset(u32 offset, u32 reg)
-> > +{
-> > +	/* XXX skip testing of watchdog - VLK-22772 */
-> > +	if (offset == 0x178 || offset == 0x17c)
-> > +		reg = 0;
-> > +
-> > +	return reg;
-> > +}
-> > +
-> > +static int get_offset_mask(struct intel_engine_cs *engine)
-> > +{
-> > +	if (GRAPHICS_VER(engine->i915) < 12)
-> > +		return 0xfff;
-> > +
-> > +	switch (engine->class) {
-> > +	default:
-> > +	case RENDER_CLASS:
-> > +		return 0x07ff;
-> > +	case COPY_ENGINE_CLASS:
-> > +		return 0x0fff;
-> > +	case VIDEO_DECODE_CLASS:
-> > +	case VIDEO_ENHANCEMENT_CLASS:
-> > +		return 0x3fff;
-> > +	}
-> > +}
-> > +
-> >   static struct i915_vma *load_context(struct intel_context *ce, u32 poison)
-> >   {
-> >   	struct i915_vma *batch;
-> > @@ -1117,7 +1143,8 @@ static struct i915_vma *load_context(struct intel_context *ce, u32 poison)
-> >   		len = (len + 1) / 2;
-> >   		*cs++ = MI_LOAD_REGISTER_IMM(len);
-> >   		while (len--) {
-> > -			*cs++ = hw[dw];
-> > +			*cs++ = safe_offset(hw[dw] & get_offset_mask(ce->engine),
-> > +					    hw[dw]);
-> >   			*cs++ = poison;
-> >   			dw += 2;
-> >   		}
-> 
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com> 
+> ---
+>  drivers/gpu/vga/Kconfig           |  19 ---
+>  drivers/gpu/vga/Makefile          |   1 -
+>  drivers/pci/Kconfig               |  19 +++
+>  drivers/pci/Makefile              |   1 +
+>  drivers/{gpu/vga => pci}/vgaarb.c | 269 ++++++++++++------------------
+>  5 files changed, 126 insertions(+), 183 deletions(-)
+>  rename drivers/{gpu/vga => pci}/vgaarb.c (90%)
+
+I'm open to merging this series but the v5.15 merge window will
+probably open on Sunday, and that's too close for a series of this
+size.
+
+Moreover, the critical change is still buried in the middle of the
+last patch ("PCI/VGA: Rework default VGA device selection").  There's
+way too much going on in that single patch.
+
+As I mentioned in [1], I think you can make a 1- or 2-line patch that
+will fix your problem, and I think *that's* the first thing we should
+do.
+
+That would be a patch against drivers/gpu/vga/vgaarb.c, so it would be
+up to the DRM folks to decide whether to take it for v5.15, but at
+least it would be small enough to review it easily.
+
+Bjorn
+
+[1] https://lore.kernel.org/r/20210724001043.GA448782@bjorn-Precision-5520
