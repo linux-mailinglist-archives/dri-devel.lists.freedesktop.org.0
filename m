@@ -2,98 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90B03F7946
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 17:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A5D3F7969
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 17:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 195E66E32F;
-	Wed, 25 Aug 2021 15:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3F1889020;
+	Wed, 25 Aug 2021 15:49:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75FEF6E32F
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 15:41:54 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id i28so53931231lfl.2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 08:41:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Jh8WQ9yiN9zpRyuwMdWH53fKRiHl78imM33rFUTmvQc=;
- b=VXTFuvzR5bLNZdHnuy92VMQKovkT2EzOUb9OcN3psg2tkN1i5/AsTKc7AKSGtEXF85
- Kv3LG6+Tn57EqgqQdIFu7fcyD00uYC3VVRasNFaW2hIC3i/hNcdl5MBDtJB3kzhxdCet
- wVwD4YkAEaQHK7uISBdatlDIYJE880IZdnG6G02/xPA2tk5n2zH3MPPJXANijDrbhcYx
- 17tod+tgRF+2C8YFqB6X18apDZJm9NiAVIa6wfWKXbvUt4khhVeaLLmRBxhXOo+nP5HW
- B7+AKTu9GxrwBwjGazKwKUpgLJM7aheacozAFUxo3uu0zy3pZvy+b3kjVm+63moLaebu
- VFDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Jh8WQ9yiN9zpRyuwMdWH53fKRiHl78imM33rFUTmvQc=;
- b=Yp+6jqdotr51sodN+43VBqNY5gowVP7SN9qhrkudg0yhLieRDtGXewAMemRFIvE4ZW
- IjT7FR6/R45K/W8GSkC6jnGQIqQ89yMrkS2xTYZJugwbNHAjHnOQPdyr9eUWb9j9uLWY
- 7WKzKu4UdjIEfKKDyFwViXfERDZuYECbCFTsAe+mNeEm4/7mjn0U8okzLKkfSU4JfP9t
- qJOrxbdPb0GTd1I8z9123lJuZNcRW6WpfjJSQyb2aNhuXBXvRosg8siCqvQAhdJNX/14
- JlOUn6cOpE+O9lzKMSKUsHWPmYE0tQnizsfnkT4W1CK+yFgGHnyE5ndpPg6sdqIoDwha
- fBJg==
-X-Gm-Message-State: AOAM533gj+xDpRB88befJaRNz+/96b3qqPmO6SDCJDjsl/K2Hu1OBZxV
- W51hfpJYqSCmKdhVD569rt4=
-X-Google-Smtp-Source: ABdhPJynPPjKhDfBdRrXu4deYFfQEOhUbJJoP2KAxKZEnwK6Q+6Z6UDmYAY47Ok5OqvkDNllzN7VAQ==
-X-Received: by 2002:ac2:592c:: with SMTP id v12mr27667572lfi.249.1629906112733; 
- Wed, 25 Aug 2021 08:41:52 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-17-251.dynamic.spd-mgts.ru.
- [94.29.17.251])
- by smtp.googlemail.com with ESMTPSA id j14sm33529lfe.203.2021.08.25.08.41.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Aug 2021 08:41:52 -0700 (PDT)
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>,
- Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2084.outbound.protection.outlook.com [40.107.220.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2C3289020
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 15:49:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dpPIZMZPQtwxZ+ULNCBicoRmHIxwoAwtmpJlAKU8MXT1SBKxLwlGTBlRuPKBK5nQbW52TWtfvXTUk6YfLV6xDaEGh05ZismMx/dtF7DdyTV0XZenPKje/1DzKjcqww32gZRvCmuglcjBp5O7Uw63nEzZlC187pk6qtpEHv9CwF06t7XCMK1y6l9dDv54wmJ46cQS/gf/G5ypyndcZRIDTDLVQLMr4L60yKZsYFXSN4n+XTeQRObEaotZMsSsY3yIgJtpsxlF4HH5HBeFXRXz2npXapS4q/pvHhtZt/swYUfYs3JQyE2wnTnhqbXcE0KOPADhTdnw8Nsw0jUoDTM54Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DB8ls7PhLBIagBD9GH0qEPAo/4hnjUlWRITxP+EVhLI=;
+ b=CpSWDsyfOIB/UmmWMlxkpn5ZNjj1ymxsP83vY4aUZdFPUq9HAg8b5pFfY1FM66/KAHTpoTUzRT8ZfFX7ywKt726hhKe1PhvIDV6XZudDdwl8duib9TWSv8SXe0e2gpyw72ZdXieQndOGb8UWp8xwsOGovUBgDtz4yMMRbYPhqQCtAjDqyj/j+KPVC6HTcEsgsDIQP+YeBD6jvqta6lJpzWtCjDvi7OQRaaz2z8TMp+3jKythsz47Xcu5TTYEkwmZSXph9UBCDM56OatqcaGfx2+lG4GhrKuVyNj8fXi2D+hb1A7iG3wSyz5YcrELn+xU2FNKqt5dOOi/3F+dEwp55g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DB8ls7PhLBIagBD9GH0qEPAo/4hnjUlWRITxP+EVhLI=;
+ b=iTXPOke+W3cfEHwi2EuP0BlUaAENwtXyZkh3o3drptJk0YOsXlu0BHm6gxaZ20MOsbiV8/7gshJcTCb19tFtuft4gpO3xIQEQI5kS34xmmFMH/VKzofUigQ0NF6DmZrCWD++cH10QcRfWnqWMTySYiqCdJtPsaFJQqNjIX2UF/8wTzZKy67xDsoood5h+KiuY2eIqOHKrjzd+p3z8CdOVkXdsBbx34ntGASXKVxuKU3/E8m/If70yvCXmpAcEdfipv+HmtQV1jNDMcITCxas6NYd6j2bY533F11Xa+jOqqwkZKpsSLC7Z/QrDmjWSriN0VTM/KF9Xe+OfK/ZscIsHA==
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5238.namprd12.prod.outlook.com (2603:10b6:208:31e::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Wed, 25 Aug
+ 2021 15:49:09 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::1de1:52a9:cf66:f336]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::1de1:52a9:cf66:f336%8]) with mapi id 15.20.4436.024; Wed, 25 Aug 2021
+ 15:49:09 +0000
+Date: Wed, 25 Aug 2021 12:49:08 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Gal Pressman <galpress@amazon.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Doug Ledford <dledford@redhat.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-References: <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
- <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
- <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
- <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
- <b887de8c-a40b-a62e-8abf-698e67cdb70c@gmail.com>
-Message-ID: <ed70e422-e0e9-8c2a-7ce6-e39cb6fd8108@gmail.com>
-Date: Wed, 25 Aug 2021 18:41:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <b887de8c-a40b-a62e-8abf-698e67cdb70c@gmail.com>
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Oded Gabbay <ogabbay@habana.ai>, Tomer Tayar <ttayar@habana.ai>,
+ Yossi Leybovich <sleybo@amazon.com>,
+ Alexander Matushevsky <matua@amazon.com>,
+ Leon Romanovsky <leonro@nvidia.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+Message-ID: <20210825154908.GH1721383@nvidia.com>
+References: <6b819064-feda-b70b-ea69-eb0a4fca6c0c@amd.com>
+ <a9604a39-d08f-6263-4c5b-a2bc9a70583d@nvidia.com>
+ <20210824173228.GE543798@ziepe.ca>
+ <a716ae41-2d8c-c75a-a779-cc85b189fea2@amd.com>
+ <20210825121832.GA1162709@nvidia.com>
+ <fa22a1f9-fee6-21ea-3377-3ba99e9eb309@amd.com>
+ <20210825123802.GD1721383@nvidia.com>
+ <9c9ebc3b-44d0-0a81-04cc-d500e7f6da8d@amd.com>
+ <20210825144736.GG1721383@nvidia.com>
+ <92ae1a45-3903-8228-c299-7ba1506079bb@amd.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <92ae1a45-3903-8228-c299-7ba1506079bb@amd.com>
+X-ClientProxiedBy: MN2PR01CA0014.prod.exchangelabs.com (2603:10b6:208:10c::27)
+ To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ MN2PR01CA0014.prod.exchangelabs.com (2603:10b6:208:10c::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4436.19 via Frontend Transport; Wed, 25 Aug 2021 15:49:09 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1mIv9I-004xtS-49; Wed, 25 Aug 2021 12:49:08 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1e7f1947-307f-42c7-41d9-08d967dfe06f
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5238:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5238F9866DDAD6711D878203C2C69@BL1PR12MB5238.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /zKsNangZ3okG8NAiUKr8sDvYzSLupyVgc+gLQnbmefBuMhyQtzUL7Va3ngUWcJiMNP6HG8f1dwaHjOkMmpW9MDKnJ0oY6UlV7o6R6bG7EHfkJBe87erlmrjuX9nCXFzG+2ceClGimi0MZNFbwyPRLyZG32Ca109t/nIiL/rLeMiZBwh4E9NY0ni9PQM1BmBDCwYFDS+k5z5FwGEtGQDWfweoL/jCHAOszPSAOIDlD5cToj62GiEmfdG5UC/x/BpGxN2QePF/i+W2v0G2iAyXqjil02CnskXVNi7wZovYaKb9y15pkReXRLz5bauoHCD08rUW59SUPWThsFI0CwYZuri4ek15UQqsTmA4nZTYI1JiDzjbmny+KgYKJoqdHvWUtTzNQOMGi7ze2rwGkQjtEMs9txuDto78LEiDuZw1csP5LeM+5dt/cYjXavfWVVaCFESJCFFU6XJwRQ7tonTY4tmUSr/73FYu6oPZNZzMFedslPI8NYsTUf3TRDIRJJIO050At0B45pHXsoEeWUavWO+BuLDtbCOWMgDjZR8f7AiCHgpoPMETV+N6omT47w6ZcEOrRdBNd/RMmhmLWTRIFgKd9tzmTyWIezeII5oo2wErKg45eb0+IlZXjeyfIgkp4VuI4cwLCH5LFB420mZgQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(26005)(186003)(508600001)(38100700002)(9746002)(9786002)(8676002)(36756003)(8936002)(426003)(1076003)(7416002)(83380400001)(4744005)(4326008)(2616005)(316002)(5660300002)(54906003)(33656002)(6916009)(2906002)(66556008)(66476007)(66946007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHNjS0M1a3VualVQQjNUczNFY1hEOGRrSzRWVkNPWUxraGo1OURXeXFPSlZL?=
+ =?utf-8?B?R2xWTVIzUHg4TnNTWUtGWE1QUEFYSlBxZTZtUWdXVjdOVlJZd0ZrRFBuZnRS?=
+ =?utf-8?B?UEN2WCs2MjIydWdsTlB5UnBYUlcxWU5uUVc4ZU9mNWZGajZhUTJVWUJHV01T?=
+ =?utf-8?B?elJ0YnlqT05UUDVwQ2VsLzAzaUg0NUd1MXJqK25nZk5Cd1RMK1c2T0ZLZXUr?=
+ =?utf-8?B?TGUrek1hazI4S0xTVGVFaldCNE9wLzBia2VZdHRCcUt5akVTUGN0OVU0YUVL?=
+ =?utf-8?B?Um5ubzBXMWNnNEdqS0Z2aG54OGpHSVJXNWhDWGt4YjF5ZTVwM0RLVUpmei9W?=
+ =?utf-8?B?bFUzb0dMcXl2UldOeWc4eDNobFdSa0VSZnpvaUY0WFhudmpkVHdQRlZvdkNB?=
+ =?utf-8?B?d2QrMUdJM3Irc0ZBZ1dmNVdHY1VMSWErM0tzd2ExaVRLU1F0YmE2dGV5YWIx?=
+ =?utf-8?B?clBJN0ttekI4RlVrbWJtZlQ0aFRsTlJUSkdxcEkraTFKRFVsMERUZDhrbXB0?=
+ =?utf-8?B?UDdBQlJrZlZJZ1BxQmd1MndmeFhLRHY5amlsODZNeDduOCtXMTMwOGRSVllT?=
+ =?utf-8?B?ejVEa25ub2FGck5HODUwNGt0NzBOcTZCRXpnMit5KzJ5WmNSZW5YbUFHeWVO?=
+ =?utf-8?B?aWJQTFhuaTJoV09ab01ZNjh4QkxHbjA4MEMxSFBTYVAvQ0dKLzdFR01sS0My?=
+ =?utf-8?B?SXNJSjJtbWVOd0R3bzVkRFdId05Jc1NUM0wwbUdiZ0FvQkIxMVU2VldjaG01?=
+ =?utf-8?B?QUhpUFNvU00yeExzd3NnOGlGUjhUK002bWJ3cCtmK2ZCWUhkdjhzaGdPUHpO?=
+ =?utf-8?B?M283ZE5FT1AyYzJ4OEdSVVZzZEw0SUdNS05VZUxHV0pjV3JYQ0lDMTgyc25G?=
+ =?utf-8?B?LzA2MGNqeWNDUWY3M2JYM0tVVFpnVGl3cS9OcjBmbTJxTHpxSjU2eDdYZmk0?=
+ =?utf-8?B?bnY3U0szUWNtMWNTdE4xOExadWg1dk53MmdzdHpQWWdQYk9mMkNoWTBWTlJN?=
+ =?utf-8?B?a2F3NTcyYzNkTmZDSk9wMGU5Yi9ZaEFZZ25XRFJSNjBjS3VTK2hjdi9QTXJC?=
+ =?utf-8?B?dnV1ZjZ5U0QvdE80anMxUXN5ZGtNQ09Sb2pJOG1NVy9sMkwvcThTaU84SlNC?=
+ =?utf-8?B?enJNUUg5ZmIvZTNpVUU2c093S3V5bkdyeFFJQTV2NVRvb0Z0Qm9rNWRxTmJl?=
+ =?utf-8?B?WEQrbExvYUtWNjRzTTd0a2pLblNKdTRObk45MDRDNGV5MnlJSXVteTlYV0ha?=
+ =?utf-8?B?UGM0OVRNdDZUVlZKZHA0a1ViM1pUTnRKN2EzaE9iVXMvdS9WUDBrSlBBZDhv?=
+ =?utf-8?B?NUZzcEF3bXhkdFdHVjlLVU56V25hdUVpQlRGbHUxdS9ZMWRDeWNrYVM4Q1Iy?=
+ =?utf-8?B?NlNoNmd6OThFd1hlUC9YVUNjQUYrN1lWclRnRTdPU3N4U25oUUMzdGd1cFB5?=
+ =?utf-8?B?R3VhU2tyWlV0NHlHUVZDTmRQOWd1Qnh0UTAvdU1tdXQ4Ynk0MXFJNUdlczJp?=
+ =?utf-8?B?SkpUcnZwWTZXb3Z4YUZSQkUyelFXVDQ0NmwzV0ZnbHBqSnpKczFaN1ZFZHhN?=
+ =?utf-8?B?Rk5IdjVkV1BPK2EwRFB3Z3M1V0dSYXkxSTdBeE0vWHlpSTIyOHJSWVpRVHFP?=
+ =?utf-8?B?cFlKVWtXZGU1bm1OOHJXbld0WFpibEt6Tk1sdVBvNVJpYU81NytyUzM3VG1x?=
+ =?utf-8?B?azdrdkFPWDA2WmlwWGtibE5XRnZ6VGlseFhhVUt2UWpIWEFScGpzUHRSaHoz?=
+ =?utf-8?Q?rH+ucSYOMtEqvKoTtE7jBgoitVFTQ/bH38lHsAT?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e7f1947-307f-42c7-41d9-08d967dfe06f
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 15:49:09.3348 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ecP/WlWvbnUCDejauyDVNQkgDmWuVG8cRgXattUGbZY4D7R5QUP6pE1zP3uWBLHC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5238
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,285 +151,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-22.08.2021 21:35, Dmitry Osipenko пишет:
-> 20.08.2021 08:18, Viresh Kumar пишет:
->> On 19-08-21, 16:55, Ulf Hansson wrote:
->>> Right, that sounds reasonable.
->>>
->>> We already have pm_genpd_opp_to_performance_state() which translates
->>> an OPP to a performance state. This function invokes the
->>> ->opp_to_performance_state() for a genpd. Maybe we need to allow a
->>> genpd to not have ->opp_to_performance_state() callback assigned
->>> though, but continue up in the hierarchy to see if the parent has the
->>> callback assigned, to make this work for Tegra?
->>>
->>> Perhaps we should add an API dev_pm_genpd_opp_to_performance_state(),
->>> allowing us to pass the device instead of the genpd. But that's a
->>> minor thing.
->>
->> I am not concerned a lot about how it gets implemented, and am not
->> sure as well, as I haven't looked into these details since sometime.
->> Any reasonable thing will be accepted, as simple as that.
->>
->>> Finally, the precondition to use the above, is to first get a handle
->>> to an OPP table. This is where I am struggling to find a generic
->>> solution, because I guess that would be platform or even consumer
->>> driver specific for how to do this. And at what point should we do
->>> this?
-> 
-> GENPD core can't get OPP table handle, setting up OPP table is a platform/driver specific operation.
-> 
->> Hmm, I am not very clear with the whole picture at this point of time.
->>
->> Dmitry, can you try to frame a sequence of events/calls/etc that will
->> define what kind of devices we are looking at here, and how this can
->> be made to work ?
-> 
-> Could you please clarify what do you mean by a "kind of devices"?
-> 
-> I made hack based on the recent discussions and it partially works. Getting clock rate involves resuming device which backs the clock and it also may use GENPD, so lockings are becoming complicated. It doesn't work at all if device uses multiple domains because virtual domain device doesn't have OPP table.
-> 
-> Setting up the performance state from a consumer driver is a cleaner variant so far. 
+On Wed, Aug 25, 2021 at 05:14:06PM +0200, Christian König wrote:
 
-Thinking a bit more about this, I got a nicer variant which actually works in all cases for Tegra.
+> Yeah, that's exactly what I'm talking about by adding cgroup or similar. You
+> need a knob to control this.
 
-Viresh / Ulf, what do you think about this:
+We have the pinned memory ulimit today.
 
-diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
-index 3a13a942d012..814b0f7a1909 100644
---- a/drivers/base/power/domain.c
-+++ b/drivers/base/power/domain.c
-@@ -2700,15 +2700,28 @@ static int __genpd_dev_pm_attach(struct device *dev, struct device *base_dev,
- 		goto err;
- 	} else if (pstate > 0) {
- 		ret = dev_pm_genpd_set_performance_state(dev, pstate);
--		if (ret)
-+		if (ret) {
-+			dev_err(dev, "failed to set required performance state for power-domain %s: %d\n",
-+				pd->name, ret);
- 			goto err;
-+		}
- 		dev_gpd_data(dev)->default_pstate = pstate;
- 	}
-+
-+	if (pd->get_performance_state) {
-+		ret = pd->get_performance_state(pd, base_dev);
-+		if (ret < 0) {
-+			dev_err(dev, "failed to get performance state for power-domain %s: %d\n",
-+				pd->name, ret);
-+			goto err;
-+		}
-+
-+		dev_gpd_data(dev)->rpm_pstate = ret;
-+	}
-+
- 	return 1;
- 
- err:
--	dev_err(dev, "failed to set required performance state for power-domain %s: %d\n",
--		pd->name, ret);
- 	genpd_remove_device(pd, dev);
- 	return ret;
- }
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 2f1da33c2cd5..5f045030879b 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -2136,7 +2136,7 @@ struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char *name)
- 	}
- 
- 	/* clk shouldn't be initialized at this point */
--	if (WARN_ON(opp_table->clk)) {
-+	if (WARN_ON(!IS_ERR_OR_NULL(opp_table->clk))) {
- 		ret = -EBUSY;
- 		goto err;
- 	}
-@@ -2967,3 +2967,33 @@ int dev_pm_opp_sync(struct device *dev)
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(dev_pm_opp_sync);
-+
-+/**
-+ * dev_pm_opp_from_clk_rate() - Get OPP from current clock rate
-+ * @dev:	device for which we do this operation
-+ *
-+ * Get OPP which corresponds to the current clock rate of a device.
-+ *
-+ * Return: pointer to 'struct dev_pm_opp' on success and errorno otherwise.
-+ */
-+struct dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev)
-+{
-+	struct dev_pm_opp *opp = ERR_PTR(-ENODEV);
-+	struct opp_table *opp_table;
-+	unsigned long freq;
-+
-+	opp_table = _find_opp_table(dev);
-+	if (IS_ERR(opp_table))
-+		return ERR_CAST(opp_table);
-+
-+	if (!IS_ERR(opp_table->clk)) {
-+		freq = clk_get_rate(opp_table->clk);
-+		opp = _find_freq_ceil(opp_table, &freq);
-+	}
-+
-+	/* Drop reference taken by _find_opp_table() */
-+	dev_pm_opp_put_opp_table(opp_table);
-+
-+	return opp;
-+}
-+EXPORT_SYMBOL_GPL(dev_pm_opp_from_clk_rate);
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 7c9bc93147f1..fc863d84f8d5 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -506,6 +506,96 @@ static void tegra_pmc_scratch_writel(struct tegra_pmc *pmc, u32 value,
- 		writel(value, pmc->scratch + offset);
- }
- 
-+static const char * const tegra_pd_no_perf_compats[] = {
-+	"nvidia,tegra20-sclk",
-+	"nvidia,tegra30-sclk",
-+	"nvidia,tegra30-pllc",
-+	"nvidia,tegra30-plle",
-+	"nvidia,tegra30-pllm",
-+	"nvidia,tegra20-dc",
-+	"nvidia,tegra30-dc",
-+	"nvidia,tegra20-emc",
-+	"nvidia,tegra30-emc",
-+	NULL,
-+};
-+
-+static int tegra_pmc_pd_get_performance_state(struct generic_pm_domain *genpd,
-+					      struct device *dev)
-+{
-+	struct opp_table *hw_opp_table, *clk_opp_table;
-+	struct dev_pm_opp *opp;
-+	u32 hw_version;
-+	int ret;
-+
-+	/*
-+	 * Tegra114+ SocS don't support OPP yet.  But if they will get OPP
-+	 * support, then we want to skip OPP for older kernels to preserve
-+	 * compatibility of newer DTBs with older kernels.
-+	 */
-+	if (!pmc->soc->supports_core_domain)
-+		return 0;
-+
-+	/*
-+	 * The EMC devices are a special case because we have a protection
-+	 * from non-EMC drivers getting clock handle before EMC driver is
-+	 * fully initialized.  The goal of the protection is to prevent
-+	 * devfreq driver from getting failures if it will try to change
-+	 * EMC clock rate until clock is fully initialized.  The EMC drivers
-+	 * will initialize the performance state by themselves.
-+	 *
-+	 * Display controller also is a special case because only controller
-+	 * driver could get the clock rate based on configuration of internal
-+	 * divider.
-+	 *
-+	 * Clock driver uses its own state syncing.
-+	 */
-+	if (of_device_compatible_match(dev->of_node, tegra_pd_no_perf_compats))
-+		return 0;
-+
-+	if (of_machine_is_compatible("nvidia,tegra20"))
-+		hw_version = BIT(tegra_sku_info.soc_process_id);
-+	else
-+		hw_version = BIT(tegra_sku_info.soc_speedo_id);
-+
-+	hw_opp_table = dev_pm_opp_set_supported_hw(dev, &hw_version, 1);
-+	if (IS_ERR(hw_opp_table)){
-+		dev_err(dev, "failed to set OPP supported HW: %pe\n",
-+			hw_opp_table);
-+		return PTR_ERR(hw_opp_table);
-+	}
-+
-+	clk_opp_table = dev_pm_opp_set_clkname(dev, NULL);
-+	if (IS_ERR(clk_opp_table)){
-+		dev_err(dev, "failed to set OPP clk: %pe\n", clk_opp_table);
-+		ret = PTR_ERR(clk_opp_table);
-+		goto put_hw;
-+	}
-+
-+	ret = devm_pm_opp_of_add_table(dev);
-+	if (ret) {
-+		dev_err(dev, "failed to add OPP table: %d\n", ret);
-+		goto put_clk;
-+	}
-+
-+	opp = dev_pm_opp_from_clk_rate(dev);
-+	if (IS_ERR(opp)) {
-+		dev_err(&genpd->dev, "failed to get current OPP for %s: %pe\n",
-+			dev_name(dev), opp);
-+		ret = PTR_ERR(opp);
-+	} else {
-+		ret = dev_pm_opp_get_required_pstate(opp, 0);
-+		dev_pm_opp_put(opp);
-+	}
-+
-+	dev_pm_opp_of_remove_table(dev);
-+put_clk:
-+	dev_pm_opp_put_clkname(clk_opp_table);
-+put_hw:
-+	dev_pm_opp_put_supported_hw(hw_opp_table);
-+
-+	return ret;
-+}
-+
- /*
-  * TODO Figure out a way to call this with the struct tegra_pmc * passed in.
-  * This currently doesn't work because readx_poll_timeout() can only operate
-@@ -1238,6 +1328,7 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
- 
- 	pg->id = id;
- 	pg->genpd.name = np->name;
-+	pg->genpd.get_performance_state = tegra_pmc_pd_get_performance_state;
- 	pg->genpd.power_off = tegra_genpd_power_off;
- 	pg->genpd.power_on = tegra_genpd_power_on;
- 	pg->pmc = pmc;
-@@ -1354,6 +1445,7 @@ static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
- 		return -ENOMEM;
- 
- 	genpd->name = "core";
-+	genpd->get_performance_state = tegra_pmc_pd_get_performance_state;
- 	genpd->set_performance_state = tegra_pmc_core_pd_set_performance_state;
- 	genpd->opp_to_performance_state = tegra_pmc_core_pd_opp_to_performance_state;
- 
-diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
-index 67017c9390c8..abe33be9828f 100644
---- a/include/linux/pm_domain.h
-+++ b/include/linux/pm_domain.h
-@@ -133,6 +133,8 @@ struct generic_pm_domain {
- 						 struct dev_pm_opp *opp);
- 	int (*set_performance_state)(struct generic_pm_domain *genpd,
- 				     unsigned int state);
-+	int (*get_performance_state)(struct generic_pm_domain *genpd,
-+				     struct device *dev);
- 	struct gpd_dev_ops dev_ops;
- 	s64 max_off_time_ns;	/* Maximum allowed "suspended" time. */
- 	ktime_t next_wakeup;	/* Maintained by the domain governor */
-diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index 686122b59935..e7fd0dd493ca 100644
---- a/include/linux/pm_opp.h
-+++ b/include/linux/pm_opp.h
-@@ -169,6 +169,7 @@ void dev_pm_opp_remove_table(struct device *dev);
- void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask);
- int dev_pm_opp_sync_regulators(struct device *dev);
- int dev_pm_opp_sync(struct device *dev);
-+struct dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev);
- #else
- static inline struct opp_table *dev_pm_opp_get_opp_table(struct device *dev)
- {
-@@ -440,6 +441,11 @@ static inline int dev_pm_opp_sync(struct device *dev)
- 	return -EOPNOTSUPP;
- }
- 
-+static struct inline dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev)
-+{
-+	return ERR_PTR(-EOPNOTSUPP);
-+}
-+
- #endif		/* CONFIG_PM_OPP */
- 
- #if defined(CONFIG_PM_OPP) && defined(CONFIG_OF)
+A pinned memory cgroup might be interesting, but even containrs are
+covered under the ulimit (IIRC), so the driver to do this work might
+not be so strong.
 
+Jason
