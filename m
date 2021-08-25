@@ -1,60 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70AA23F71C8
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 11:34:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A3D3F7223
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 11:45:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277446E175;
-	Wed, 25 Aug 2021 09:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE8F56E17B;
+	Wed, 25 Aug 2021 09:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA2536E175
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 09:34:24 +0000 (UTC)
-X-UUID: 2c0e423cc47141828b6bcc72799d9095-20210825
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=Xqmy41QMwBX0VOyZ8lsLoMvlBLPwaGxrWOlq9myKvbo=; 
- b=poDi22txXDHgsXfi6FvduShWOrO3Uuc9AQJpN+rLIn0XMqE5LIcMThhWJCXZ9wJfrKeE6HxEw1Hq9+Wir/eblSjCNEDfY9nrBdBpl7s0B0UIsjT9vtJ/DsVCDIzgP/IQFqmKF+MxiAR1hay5OCY4aO6R00wpW0QW/SczmU9HM1w=;
-X-UUID: 2c0e423cc47141828b6bcc72799d9095-20210825
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1245219372; Wed, 25 Aug 2021 17:34:19 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 25 Aug 2021 17:34:18 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 25 Aug 2021 17:34:18 +0800
-Message-ID: <6d376c2d9a616cdb7b4f095d3e6c08dd824cccd7.camel@mediatek.com>
-Subject: Re: [PATCH v8 12/13] drm/mediatek: add MERGE support for mediatek-drm
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-CC: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, <fshao@chromium.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Enric Balletbo i Serra
- <enric.balletbo@collabora.com>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, Fabien Parent <fparent@baylibre.com>, "Hsin-Yi
- Wang" <hsinyi@chromium.org>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Jitao shi <jitao.shi@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- <singo.chang@mediatek.com>, DTML <devicetree@vger.kernel.org>, Linux ARM
- <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC
- support" <linux-mediatek@lists.infradead.org>, linux-kernel
- <linux-kernel@vger.kernel.org>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Date: Wed, 25 Aug 2021 17:34:18 +0800
-In-Reply-To: <CAAOTY_9+2CvcSxZByqxVM18hLQfE0rt5zf2JLxCYrd8O1_UCAg@mail.gmail.com>
-References: <20210819022327.13040-1-jason-jh.lin@mediatek.com>
- <20210819022327.13040-13-jason-jh.lin@mediatek.com>
- <CAAOTY_9+2CvcSxZByqxVM18hLQfE0rt5zf2JLxCYrd8O1_UCAg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73DD66E17B
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 09:45:04 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id x27so51644671lfu.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 02:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=E7cNoLLVAVafjNCc4brMRUN01zZAHm0abXpnMpPuTt4=;
+ b=XcByKSJRdga/HRYU9DdYIrJkJ5aCKCn6sFPQhJpp+zqLBFptssdthmbwTTqrJU2O1y
+ Fh9T4cOSANuA0NBWqKrxyE6rpE3VUg9YurSVTT9N3ewKp/QELYAgj+C6HkBCJMlVTiOb
+ M7DocgSIXf8gWx7DP6hz+XSoX32UueKJZitZdD1fhIKA/N5U6YwHLEpd41Qt4bCHL0G4
+ ZtJc+vpaJ07T3DdXx/qHSdSN5QI3+K4IqS5ki+/rdR5v1sPFOYpfj0rw4qkKgMj2ioo3
+ hQKDnoVXbW3M/+9DGxJ8r4dLnR6TG4RgZNyl3L7PnWj5GlgkD82og3xcltkjAKoMzhav
+ ZUNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=E7cNoLLVAVafjNCc4brMRUN01zZAHm0abXpnMpPuTt4=;
+ b=tQCeortJOtX5qIYlXQvkd5Q/yLRPgJLgkREluk1iNqxXnAiffBN97vSfzqhIordUFZ
+ aCBRAf1LXZ7toLr6c981aoBEHs/jLtJsVyL5ZlkJ2A8cwTy0JZVB5v6E4zs5Am2oLl0y
+ XrOnDEHQu6zR/ayQykJNzdtR92JRz6WyuwfCCC5cOWRQ3uD+Oc2LlTfPng5HX4Duxuou
+ jR/VndMCabPRGZHlZW63OjYO9Il5TuGOdzE0McuGN73vY4NBYezrTJ6DxmLIetI5nu67
+ J27nOjUA2K46vBtM+F/egN5esrLYaObYFg5rzk/aSBvwIP3+GhwUDkKiKRBG7CSoexbD
+ l87w==
+X-Gm-Message-State: AOAM531J7PgW31/pvffGjofyio/qTHHA6fWEQxGvIhmB7C2FhBGEiGqj
+ HAmqgQYXkZQlNfgW61yJZNw=
+X-Google-Smtp-Source: ABdhPJxxgQwWKc4KlfaiaB2F9L+jo3PpEaZtT5gXKDmMvuZmO5i5+f3TfZJ4xZuLO6DnWagwNOSZkQ==
+X-Received: by 2002:a05:6512:3190:: with SMTP id
+ i16mr32170681lfe.340.1629884702691; 
+ Wed, 25 Aug 2021 02:45:02 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-17-251.dynamic.spd-mgts.ru.
+ [94.29.17.251])
+ by smtp.googlemail.com with ESMTPSA id z13sm2103349ljj.43.2021.08.25.02.45.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Aug 2021 02:45:02 -0700 (PDT)
+Subject: Re: [PATCH v8 20/34] mmc: sdhci-tegra: Add runtime PM and OPP support
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-21-digetx@gmail.com> <YR6O9Om+HzMMG8AR@orome.fritz.box>
+ <05b7ff28-4c01-fb56-deeb-595a5797394b@gmail.com>
+ <YR+TgfCHKOPS3Ng8@orome.fritz.box>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <5a15647c-bc6a-294d-61c8-91efa33c681e@gmail.com>
+Date: Wed, 25 Aug 2021 12:45:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+In-Reply-To: <YR+TgfCHKOPS3Ng8@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,103 +99,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQ2h1bi1LdWFuZywNCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KDQpPbiBGcmksIDIwMjEt
-MDgtMjAgYXQgMjM6NDMgKzA4MDAsIENodW4tS3VhbmcgSHUgd3JvdGU6DQo+IEhpLCBKYXNvbjoN
-Cj4gDQo+IGphc29uLWpoLmxpbiA8amFzb24tamgubGluQG1lZGlhdGVrLmNvbT4g5pa8IDIwMjHl
-ubQ45pyIMTnml6Ug6YCx5ZubIOS4iuWNiDEwOjIz5a+r6YGT77yaDQo+ID4gDQo+ID4gQWRkIE1F
-UkdFIGVuZ2luZSBmaWxlOg0KPiA+IE1FUkdFIG1vZHVsZSBpcyB1c2VkIHRvIG1lcmdlIHR3byBz
-bGljZS1wZXItbGluZSBpbnB1dHMNCj4gPiBpbnRvIG9uZSBzaWRlLWJ5LXNpZGUgb3V0cHV0Lg0K
-PiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IGphc29uLWpoLmxpbiA8amFzb24tamgubGluQG1lZGlh
-dGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL01ha2VmaWxl
-ICAgICAgICAgICB8ICAgMSArDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlz
-cF9kcnYuaCAgICAgfCAgIDggKw0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rp
-c3BfbWVyZ2UuYyAgIHwgMjY4DQo+ID4gKysrKysrKysrKysrKysrKysrKysNCj4gPiAgZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuYyB8ICAxNiArKw0KPiA+ICBkcml2
-ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5oIHwgICAxICsNCj4gPiAgZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMgICAgICB8ICAgMiArDQo+ID4gIGRy
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5oICAgICAgfCAgIDEgKw0KPiA+ICA3
-IGZpbGVzIGNoYW5nZWQsIDI5NyBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfbWVyZ2UuYw0KPiA+IA0KPiA+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvTWFrZWZpbGUNCj4gPiBiL2RyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9NYWtlZmlsZQ0KPiA+IGluZGV4IGRjNTRhN2E2OTAwNS4uNTM4
-ZTAwODdhNDRjIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9NYWtl
-ZmlsZQ0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9NYWtlZmlsZQ0KPiA+IEBA
-IC0zLDYgKzMsNyBAQA0KPiA+ICBtZWRpYXRlay1kcm0teSA6PSBtdGtfZGlzcF9jY29yci5vIFwN
-Cj4gPiAgICAgICAgICAgICAgICAgICBtdGtfZGlzcF9jb2xvci5vIFwNCj4gPiAgICAgICAgICAg
-ICAgICAgICBtdGtfZGlzcF9nYW1tYS5vIFwNCj4gPiArICAgICAgICAgICAgICAgICBtdGtfZGlz
-cF9tZXJnZS5vIFwNCj4gPiAgICAgICAgICAgICAgICAgICBtdGtfZGlzcF9vdmwubyBcDQo+ID4g
-ICAgICAgICAgICAgICAgICAgbXRrX2Rpc3BfcmRtYS5vIFwNCj4gPiAgICAgICAgICAgICAgICAg
-ICBtdGtfZHJtX2NydGMubyBcDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZGlzcF9kcnYuaA0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
-aXNwX2Rydi5oDQo+ID4gaW5kZXggY2FmZDlkZjJkNjNiLi5mNDA3Y2Q5ZDg3M2UgMTAwNjQ0DQo+
-ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX2Rydi5oDQo+ID4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX2Rydi5oDQo+ID4gQEAgLTQ2LDYg
-KzQ2LDE0IEBAIHZvaWQgbXRrX2dhbW1hX3NldF9jb21tb24odm9pZCBfX2lvbWVtICpyZWdzLA0K
-PiA+IHN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqc3RhdGUpOw0KPiA+ICB2b2lkIG10a19nYW1tYV9z
-dGFydChzdHJ1Y3QgZGV2aWNlICpkZXYpOw0KPiA+ICB2b2lkIG10a19nYW1tYV9zdG9wKHN0cnVj
-dCBkZXZpY2UgKmRldik7DQo+ID4gDQo+ID4gK2ludCBtdGtfbWVyZ2VfY2xrX2VuYWJsZShzdHJ1
-Y3QgZGV2aWNlICpkZXYpOw0KPiA+ICt2b2lkIG10a19tZXJnZV9jbGtfZGlzYWJsZShzdHJ1Y3Qg
-ZGV2aWNlICpkZXYpOw0KPiA+ICt2b2lkIG10a19tZXJnZV9jb25maWcoc3RydWN0IGRldmljZSAq
-ZGV2LCB1bnNpZ25lZCBpbnQgd2lkdGgsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgIHVuc2ln
-bmVkIGludCBoZWlnaHQsIHVuc2lnbmVkIGludCB2cmVmcmVzaCwNCj4gPiArICAgICAgICAgICAg
-ICAgICAgICAgdW5zaWduZWQgaW50IGJwYywgc3RydWN0IGNtZHFfcGt0ICpjbWRxX3BrdCk7DQo+
-ID4gK3ZvaWQgbXRrX21lcmdlX3N0YXJ0KHN0cnVjdCBkZXZpY2UgKmRldik7DQo+ID4gK3ZvaWQg
-bXRrX21lcmdlX3N0b3Aoc3RydWN0IGRldmljZSAqZGV2KTsNCj4gPiArDQo+ID4gIHZvaWQgbXRr
-X292bF9iZ2Nscl9pbl9vbihzdHJ1Y3QgZGV2aWNlICpkZXYpOw0KPiA+ICB2b2lkIG10a19vdmxf
-YmdjbHJfaW5fb2ZmKHN0cnVjdCBkZXZpY2UgKmRldik7DQo+ID4gIHZvaWQgbXRrX292bF9ieXBh
-c3Nfc2hhZG93KHN0cnVjdCBkZXZpY2UgKmRldik7DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9tZXJnZS5jDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2Rpc3BfbWVyZ2UuYw0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4g
-aW5kZXggMDAwMDAwMDAwMDAwLi5lYmNiNjQ2YmRlOWMNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX21lcmdlLmMNCj4gPiBAQCAt
-MCwwICsxLDI2OCBAQA0KPiA+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0K
-PiA+ICsvKg0KPiA+ICsgKiBDb3B5cmlnaHQgKGMpIDIwMjEgTWVkaWFUZWsgSW5jLg0KPiA+ICsg
-Ki8NCj4gPiArDQo+ID4gKyNpbmNsdWRlIDxsaW51eC9jbGsuaD4NCj4gPiArI2luY2x1ZGUgPGxp
-bnV4L2NvbXBvbmVudC5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvb2ZfZGV2aWNlLmg+DQo+ID4g
-KyNpbmNsdWRlIDxsaW51eC9vZl9pcnEuaD4NCj4gPiArI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3Jt
-X2RldmljZS5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmg+
-DQo+ID4gKw0KPiA+ICsjaW5jbHVkZSAibXRrX2RybV9kZHBfY29tcC5oIg0KPiA+ICsjaW5jbHVk
-ZSAibXRrX2RybV9kcnYuaCINCj4gPiArI2luY2x1ZGUgIm10a19kaXNwX2Rydi5oIg0KPiA+ICsN
-Cj4gPiArI2RlZmluZSBESVNQX1JFR19NRVJHRV9DVFJMICAgICAgICAgICAgMHgwMDANCj4gPiAr
-I2RlZmluZSBNRVJHRV9FTiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAxDQo+ID4gKyNk
-ZWZpbmUgRElTUF9SRUdfTUVSR0VfQ0ZHXzAgICAgICAgICAgIDB4MDEwDQo+ID4gKyNkZWZpbmUg
-RElTUF9SRUdfTUVSR0VfQ0ZHXzQgICAgICAgICAgIDB4MDIwDQo+ID4gKyNkZWZpbmUgRElTUF9S
-RUdfTUVSR0VfQ0ZHXzEwICAgICAgICAgIDB4MDM4DQo+ID4gKy8qIG5vIHN3YXAgKi8NCj4gPiAr
-I2RlZmluZSBTV0FQX01PREUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwDQo+ID4gKyNk
-ZWZpbmUgRkxEX1NXQVBfTU9ERSAgICAgICAgICAgICAgICAgICAgICAgICAgR0VOTUFTSyg0LCAw
-KQ0KPiA+ICsjZGVmaW5lIERJU1BfUkVHX01FUkdFX0NGR18xMiAgICAgICAgICAweDA0MA0KPiA+
-ICsjZGVmaW5lIENGR18xMF8xMF8xUElfMlBPX0JVRl9NT0RFICAgICAgICAgICAgIDYNCj4gPiAr
-I2RlZmluZSBDRkdfMTBfMTBfMlBJXzJQT19CVUZfTU9ERSAgICAgICAgICAgICA4DQo+ID4gKyNk
-ZWZpbmUgRkxEX0NGR19NRVJHRV9NT0RFICAgICAgICAgICAgICAgICAgICAgR0VOTUFTSyg0LCAw
-KQ0KPiA+ICsjZGVmaW5lIERJU1BfUkVHX01FUkdFX0NGR18yNCAgICAgICAgICAweDA3MA0KPiA+
-ICsjZGVmaW5lIERJU1BfUkVHX01FUkdFX0NGR18yNSAgICAgICAgICAweDA3NA0KPiA+ICsjZGVm
-aW5lIERJU1BfUkVHX01FUkdFX0NGR18zNiAgICAgICAgICAweDBhMA0KPiA+ICsjZGVmaW5lIFVM
-VFJBX0VOICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDENCj4gDQo+IFlvdSBjb3VsZCB1
-c2UgRkxEX1VMVFJBX0VOIGZvciB0aGlzLg0KDQpPSywgSSdsbCB1c2UgbXRrX2RkcF93cml0ZSgp
-IGRpcmVjdGx5LCBpZiB0aGUgYml0IHdpZHRoIG9mIHNldHRpbmcgaXMNCmFsd2F5cyB0aGUgc2Ft
-ZSBhcyBtYXNrLg0KDQo+IA0KPiA+ICsjZGVmaW5lIFBSRVVMVFJBX0VOICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIDENCj4gPiArI2RlZmluZSBIQUxUX0ZPUl9EVkZTX0VOICAgICAgICAgICAg
-ICAgICAgICAgICAwDQo+IA0KPiBZb3UgY291bGQganVzdCBub3Qgc2V0IHRoaXMuDQoNCk9LLCBJ
-J2xsIHJlbW92ZSB0aGUgc2V0dGluZyBvZiAwLg0KDQo+IA0KPiA+ICsjZGVmaW5lIEZMRF9VTFRS
-QV9FTiAgICAgICAgICAgICAgICAgICAgICAgICAgIEdFTk1BU0soMCwgMCkNCj4gDQo+ICNkZWZp
-bmUgRkxEX1VMVFJBX0VOIEJJVCgwKQ0KPiANCj4gUmVnYXJkcywNCj4gQ2h1bi1LdWFuZy4NCj4g
-DQpPSywgSSdsbCBqdXN0IHVzZSBCSVQobikgaW5zdGVhZCBvZiBHRU5NQVNLKG4sIG4pLg0KDQpS
-ZWdhcmRzLA0KSmFzb24tSkguTGluDQoNCj4gPiArI2RlZmluZSBGTERfUFJFVUxUUkFfRU4gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIEdFTk1BU0soNCwNCj4gPiA0KQ0KPiA+ICsjZGVm
-aW5lIEZMRF9IQUxUX0ZPUl9EVkZTX0VOICAgICAgICAgICAgICAgICAgIEdFTk1BU0soOCwgOCkN
-Cj4gPiArI2RlZmluZSBESVNQX1JFR19NRVJHRV9DRkdfMzcgICAgICAgICAgMHgwYTQNCj4gPiAr
-LyogMDogT2ZmLCAxOiBTUkFNMCwgMjogU1JBTTEsIDM6IFNSQU0wICsgU1JBTTEgKi8NCj4gPiAr
-I2RlZmluZSBCVUZGRVJfTU9ERSAgICAgICAgICAgICAgICAgICAgICAgICAgICAzDQo+ID4gKyNk
-ZWZpbmUgRkxEX0JVRkZFUl9NT0RFICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBHRU5N
-QVNLKDEsDQo+ID4gMCkNCj4gPiArI2RlZmluZSBESVNQX1JFR19NRVJHRV9DRkdfMzggICAgICAg
-ICAgICAgICAgICAweDBhOA0KPiA+ICsjZGVmaW5lIEZMRF9WREVfQkxPQ0tfVUxUUkEgICAgICAg
-ICAgICAgICAgICAgIEdFTk1BU0soMCwgMCkNCj4gPiArI2RlZmluZSBGTERfVkFMSURfVEhfQkxP
-Q0tfVUxUUkEgICAgICAgICAgICAgICBHRU5NQVNLKDQsIDQpDQo+ID4gKyNkZWZpbmUgRkxEX1VM
-VFJBX0ZJRk9fVkFMSURfVEggICAgICAgICAgICAgICAgICAgICAgICBHRU5NQVNLKDMxLA0KPiA+
-IDE2KQ0KPiA+ICsjZGVmaW5lIERJU1BfUkVHX01FUkdFX0NGR18zOSAgICAgICAgICAweDBhYw0K
-PiA+ICsjZGVmaW5lIEZMRF9OVkRFX0ZPUkNFX1BSRVVMVFJBICAgICAgICAgICAgICAgICAgICAg
-ICAgR0VOTUFTSyg4LA0KPiA+IDgpDQo+ID4gKyNkZWZpbmUgRkxEX05WQUxJRF9USF9GT1JDRV9Q
-UkVVTFRSQSAgICAgICAgICAgR0VOTUFTSygxMiwgMTIpDQo+ID4gKyNkZWZpbmUgRkxEX1BSRVVM
-VFJBX0ZJRk9fVkFMSURfVEggICAgICAgICAgICAgR0VOTUFTSygzMSwgMTYpDQotLSANCkphc29u
-LUpIIExpbiA8amFzb24tamgubGluQG1lZGlhdGVrLmNvbT4NCg==
+20.08.2021 14:35, Thierry Reding пишет:
+> On Fri, Aug 20, 2021 at 01:37:13AM +0300, Dmitry Osipenko wrote:
+>> 19.08.2021 20:03, Thierry Reding пишет:
+>>> On Tue, Aug 17, 2021 at 04:27:40AM +0300, Dmitry Osipenko wrote:
+>>>> The SDHCI on Tegra belongs to the core power domain and we're going to
+>>>> enable GENPD support for the core domain. Now SDHCI must be resumed using
+>>>> runtime PM API in order to initialize the SDHCI power state. The SDHCI
+>>>> clock rate must be changed using OPP API that will reconfigure the power
+>>>> domain performance state in accordance to the rate. Add runtime PM and OPP
+>>>> support to the SDHCI driver.
+>>>>
+>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>> ---
+>>>>  drivers/mmc/host/sdhci-tegra.c | 146 ++++++++++++++++++++++++---------
+>>>>  1 file changed, 105 insertions(+), 41 deletions(-)
+>>>>
+>>>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+>>>> index 387ce9cdbd7c..a3583359c972 100644
+>>>> --- a/drivers/mmc/host/sdhci-tegra.c
+>>>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>>>> @@ -15,6 +15,8 @@
+>>>>  #include <linux/of.h>
+>>>>  #include <linux/of_device.h>
+>>>>  #include <linux/pinctrl/consumer.h>
+>>>> +#include <linux/pm_opp.h>
+>>>> +#include <linux/pm_runtime.h>
+>>>>  #include <linux/regulator/consumer.h>
+>>>>  #include <linux/reset.h>
+>>>>  #include <linux/mmc/card.h>
+>>>> @@ -24,6 +26,8 @@
+>>>>  #include <linux/gpio/consumer.h>
+>>>>  #include <linux/ktime.h>
+>>>>  
+>>>> +#include <soc/tegra/common.h>
+>>>> +
+>>>>  #include "sdhci-pltfm.h"
+>>>>  #include "cqhci.h"
+>>>>  
+>>>> @@ -123,6 +127,12 @@
+>>>>  					 SDHCI_TRNS_BLK_CNT_EN | \
+>>>>  					 SDHCI_TRNS_DMA)
+>>>>  
+>>>> +enum {
+>>>> +	TEGRA_CLK_BULK_SDHCI,
+>>>> +	TEGRA_CLK_BULK_TMCLK,
+>>>> +	TEGRA_CLK_BULK_NUM,
+>>>> +};
+>>>> +
+>>>>  struct sdhci_tegra_soc_data {
+>>>>  	const struct sdhci_pltfm_data *pdata;
+>>>>  	u64 dma_mask;
+>>>> @@ -171,6 +181,8 @@ struct sdhci_tegra {
+>>>>  	bool enable_hwcq;
+>>>>  	unsigned long curr_clk_rate;
+>>>>  	u8 tuned_tap_delay;
+>>>> +
+>>>> +	struct clk_bulk_data clocks[TEGRA_CLK_BULK_NUM];
+>>>
+>>> This doesn't seem worth it to me. There's a lot of churn in this driver
+>>> that's only needed to convert this to the clk_bulk API and it makes the
+>>> code a lot more difficult to read, in my opinion.
+>>>
+>>> It looks like the only benefit that this gives us is that runtime
+>>> suspend and resume become a few lines shorter.
+>>
+>> The driver probe code looks cleaner with that. You should be looking at
+>> the final result and not at the patch to see it.
+> 
+> I did look at the final result and didn't find it cleaner at all. =)
 
+There is UAF bug in this patch that was spotted by kasan. The
+sdhci_tegra_soc_data isn't resource-managed, but clk_bulk_data is. I'm
+now thinking that it should be okay to keep tmclk always-on, so I'll
+replace the bulk clks back with the sdhci clk in v9.
