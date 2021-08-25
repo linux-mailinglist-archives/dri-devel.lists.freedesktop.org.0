@@ -1,74 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7B53F771D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 16:23:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A0D3F778A
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 16:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874DA6E21C;
-	Wed, 25 Aug 2021 14:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31C6B6E237;
+	Wed, 25 Aug 2021 14:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 693446E21C;
- Wed, 25 Aug 2021 14:23:47 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id q68so6143757pga.9;
- Wed, 25 Aug 2021 07:23:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZiZptxAG6LZlwjR95iOzUI6M5xQ+c4I+M1PZ5LikpHE=;
- b=RzxG8pu8w4YOOOK4FVNo+JlPArpKTuVCTwWWvCvJDnOGsi2Y1P/irj/uCE8dPqXovA
- sEIkaZD9WgINE+wIy9d88PRM3W0ks8dIQSero+iw5ZmN0yrBgF9EsZ7gHBfAd1bJgb1E
- DlZSbjMaqJ8hWZ5SOWXV5EmAw6okbDVUZbbPUXaAt9kA2V/o/M/CVILHubusBpNNitl1
- /ogdvnUL5Gf+8hvhjFM1lexot7NoAHizQn26+UgJTFZ3xOLN3blSQw3HqOjOIMrVI33I
- 3F6BWkEZBSGjtT/8t4u6wbuopXmoXh8jP0XTHFQDzsYVs+nS/uKrxntqgamg4W2vXR2B
- lEug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZiZptxAG6LZlwjR95iOzUI6M5xQ+c4I+M1PZ5LikpHE=;
- b=BBnOsRuXkEs4ghU85Dr/w+YtKtL2u2OzqPMh3JrwrYCL/PuaBQ9VzP3hrPCudfmTf4
- CGvsncNWxugMi0YRbpO1TZLIt34EzcEreVskhOVVTP3dn+3EW55Illh2Q5iikS8qFlUy
- SMPzSdnapdXkOBrjfHf4Ef4ZW9RHfkyD3F22D2Hq2wlsq72wJQWN70J/wpbpfK5SvsV5
- y27voJKAMPxq6DyFkztcvxf7HuQtzqKOvkhz3Ns3VGvDReqO5z+L9OHnir3y28LyDTzr
- xbY7hFa4mgt7qpTiqwQ7VU5zLjZnMBelBm036B7aPco8i7o1wXcW8sZHHIaeXfEzccbL
- iEIw==
-X-Gm-Message-State: AOAM532H2HhhmuUMSBy2OiUdRiOMwtbTJwhwLFzHo7NMcZteGgbYqYae
- 97UJ55pqe7rQU/CvA915ELc=
-X-Google-Smtp-Source: ABdhPJw0LZK/Nv/gYyhMv3eDyuyke5wlBz2/A9iphtLhVNAumbv354U2J4I57WHg25W73R63NHlwtQ==
-X-Received: by 2002:a65:47c6:: with SMTP id f6mr8386967pgs.450.1629901427035; 
- Wed, 25 Aug 2021 07:23:47 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id n3sm54431pfo.101.2021.08.25.07.23.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 07:23:46 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
- matthew.auld@intel.com, dan.carpenter@oracle.com, tvrtko.ursulin@intel.com,
- matthew.d.roper@intel.com, lucas.demarchi@intel.com, karthik.b.s@intel.com,
- jose.souza@intel.com, manasi.d.navare@intel.com, airlied@redhat.com,
- aditya.swarup@intel.com, andrescj@chromium.org,
- linux-graphics-maintainer@vmware.com, zackr@vmware.com
-Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v7 7/7] drm: remove drm_file.master_lookup_lock
-Date: Wed, 25 Aug 2021 22:22:05 +0800
-Message-Id: <20210825142205.1376789-8-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210825142205.1376789-1-desmondcheongzx@gmail.com>
-References: <20210825142205.1376789-1-desmondcheongzx@gmail.com>
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB4B6E237;
+ Wed, 25 Aug 2021 14:38:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d+zxrJk0M9+Tquygz/sgXbxgjiip4Wr0SKEdNlw7f4q5IzjvS7jc1Fc3NbQmM3Or9mrtEevgM6Og78j+6DHa6bU84eK35KzlkCbbJuZdQnXb5vEeJmzzOEabVhKhouRiXhzZbYeuIeK9hWaFWrbcWZOiotrrW7w0KG2OTlPalPijXfnPfg1Aximwkktf7GVMlqdvFi152Vj9kARfx0MvoyejjqFQ7FTf1sg/hLYuvtH3IhFdUM+Kj2kq5KI/muKCIHXCCDJ80+i4dgN88R7vfXV9NVurvuAFXlsGpYLerlOCdWr8lguUL3pwRuZawuKo2n6/QXOK/JK9mznQUSKmQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X7T19Sx3+hYt4ajzyqtoWhzzy8fY5AlRZ4NPBw8Cd/g=;
+ b=gjDu3Qwfag+xJy9lEkb07MS82JMX1OjVzeLzz/YX+mTX3ClE2eASMDmU/monHeFgbOi6eSHh7ZlqTrzc9JS+8BftBm+8YTbHJ+e+GdZ2ZR1XvmDrs3/M1zndUw0yS9JNAa6JrnLqvw8epsKPWaan0JJQKJ464YGmzjdrQic4+Y3Og8YXmwm+eoepNXcCfm0ljbR/rPCET4I4aSprLOjcXvNKzApGiOIBwqHb5+98LuvGx0116m46+QrtfdUqT++mKotQ/9B8lKKzY/TgaZSWA7EjbStjpYggLwkgQnacTx8J4AcnkeygxvtXZmnbl1o/pE0ijYo1jhWc3XJHRIxAXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X7T19Sx3+hYt4ajzyqtoWhzzy8fY5AlRZ4NPBw8Cd/g=;
+ b=IlwRk5M932zbofbLcwLSqg3wLCmrT6iIhn7JUVzCOuQ9sRz/marZjvdEooFNSYtNYbXSxRKvKy4JUmqqYwdDCcdjffzUGaUbOI2bCYFy82L2Pq2DAel3CjqgG13DEflyN0OmGnSJDgEGfoqmuBEkD4FUZT88RSf4L2lR+2whF0w=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5116.namprd12.prod.outlook.com (2603:10b6:408:119::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Wed, 25 Aug
+ 2021 14:24:07 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb%3]) with mapi id 15.20.4436.024; Wed, 25 Aug 2021
+ 14:24:07 +0000
+Subject: Re: [PATCH v1 03/14] mm: add iomem vma selection for memory migration
+To: Alex Sierra <alex.sierra@amd.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org, rcampbell@nvidia.com, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ hch@lst.de, jgg@nvidia.com, jglisse@redhat.com
+References: <20210825034828.12927-1-alex.sierra@amd.com>
+ <20210825034828.12927-4-alex.sierra@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <fe3f234b-3998-da57-b141-6ea95070db6f@amd.com>
+Date: Wed, 25 Aug 2021 10:24:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210825034828.12927-4-alex.sierra@amd.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YTBPR01CA0027.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::40) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.186.47.3) by
+ YTBPR01CA0027.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4457.17 via Frontend Transport; Wed, 25 Aug 2021 14:24:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 481e29ca-81ae-4a92-a5f3-08d967d3ffc5
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5116:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB5116A6A35AD64F3DC8AF7EA092C69@BN9PR12MB5116.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: o5Z9A+I53zzJdrvITE7w7ZxTkj5BIZ1f/hYsst1bux9HC60kE5LOMgSLfPFuG/RH+S1sS6BS4grNQGVSS7hBx8isp4m2Nl2fRw7EH0UUtR7qrNdIWYYv7RQjSQJwO6EJiBzW5WVJCRWTU3XOME1DDycsAi3+Gcod+9jNkOn8APQAavwGWp8OM5AkPnI/pOpBCsglnPyhXEniDmzz63w/GC3hxTKETrXvKP9g10mPsSd+OMAl8E+cC6O76aXWbb/5hxGGKNWNATaZoVWUA1wWtXSzihObBv3a2ENluRGwUwnU5GkKYA0aznhaFLcQqOKRxW5CPoOajav/h7K1su+JvsfqLju/z1kxvllqDHOSQ07cHuMiLvdEgAtexWWWzRX87Z0CIfiKzD78u03EKklw7nKCm/i7vKbXHShFJ49173baqG2T3RmHbc58MrKQfKpzgpj2DUfcQZn0CeBbgvkFdcJMIgu1NTKH5gbC9urlSM84sFMgu4nCUTxELH9Wua0ZIiZoDukxWzBs0JDQNYgQ024loCA7ZgfD/T0YFK7OTQSHjiAMgWd2ZhmAP3huqqbR/l0kJ2qmqbtGgfTW+gCpJxrQb7McQgK0vlwxLJLD5TOny3mEU2LlntLYEFHQrscBfIiBe8RyZHHz8u583oQe60U9rQZGaw1+kFvDDND+f+SD0YXROg+fMWB4z1c+zuKkwDPZ9xvenf46tOU69WwYGqifdPRluvg1U+nAGWmhJII=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(136003)(346002)(39860400002)(366004)(31686004)(83380400001)(956004)(2616005)(86362001)(16576012)(7416002)(31696002)(5660300002)(8676002)(38100700002)(2906002)(66556008)(4326008)(66476007)(66946007)(36756003)(8936002)(26005)(316002)(44832011)(6486002)(478600001)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTByaXIyNkZhRkI5aVVSV2EwejdoeU56a3kwc3dIVEE3WFhhYysvRngrSzRy?=
+ =?utf-8?B?M0pISUFPWWtOUDRvU0ZyeS9KRmZ1Vi9sR2tYZGROTHdPZlVyblpvOUtHZXZJ?=
+ =?utf-8?B?YzJqaXZhdXNsYTAxUG9QYWJLbGRpa3dXRUQ4NUgreGpqa2NEekplclg2ak0y?=
+ =?utf-8?B?bHUzajRMbG96VGorWVNRKzhNMkoxajU1cDNlS0p6RUtkOVBnWDhOLytvSkZi?=
+ =?utf-8?B?cm5qUkJ1YllUaEVldVhHdU56K3NHVFFLOUtpTi9mNk44eTZEdHVUQ0RDVmxR?=
+ =?utf-8?B?dXFaOGNkWGFmQXhncXY2dmVTY25DZTAzblFyVTcyeFNvRE0wZXczM0lwREJO?=
+ =?utf-8?B?MzZEN0pxNVN6Y3VPZnoxWHNuUHJ1azhJdDFmVG03ckY2RzZ3QkNFZWpORktq?=
+ =?utf-8?B?OFkrNEduWVpJcFZiWTY3K0JBVFVVOEZEY2ZMWVc3NUFUYmpXVGt6MnVVemlv?=
+ =?utf-8?B?SVNrMEJXM2I5RlZRSnNZN0lDYkJFUHNQODhpeW5sa0p5V0poTkpUWXdKdVB0?=
+ =?utf-8?B?cHBrMis0ZEV2SzdJSTdtTHRSb0IwRGFFV1ovRm9kVDU5amdPUTVnaCtUV2cw?=
+ =?utf-8?B?TUE3MFJaRFN0a29GaTdJU3dwcVZTZ2FjTXpPMkwzYnFFaVdxandXaDh5eGQz?=
+ =?utf-8?B?dTgxZVJtL29oRTY3cU1paUNNczNlL1c2cmJxYWF3ektvN0ZMcjlNb3VWQ3Jm?=
+ =?utf-8?B?UE5oQVJFczhPZTFqb1VhV2RzUElEMG43WktiMngrcDN6UmVHOTJSNXZtWTcy?=
+ =?utf-8?B?cGtvdlRPMmVHcjA1L0dmdmNQL01XcXZWTFROb1BzOHFUdVdSUjJ6Sk95WW80?=
+ =?utf-8?B?M0JPV0tVZVNCcWZLbCt1K3E2Wk9QdGMvVVh2eENMNEFIdnc5dS9CNVFXSGRG?=
+ =?utf-8?B?VnhOYmRVdkNCdW9qZUg2emxQM2RNQ0xSSzJpRmoycWp5eTFUT2Y3NGJYZkl0?=
+ =?utf-8?B?OGZmN1BzLzB3bC91R2MzUTQ2UUpzLy9NZEcvelhDY3FVNC92Q04vMytMclpN?=
+ =?utf-8?B?Z1J5dE43OHQzMHFEbDlDeWJEYmltVzR4VW8xdWtJdzBHSUEwOEpXUUFBRzZU?=
+ =?utf-8?B?K2xnV2pHRDZUN2ZpcmVEWG9NbGQyVTBJZncrVGFObFpENy9CWmRvR0FoR2cw?=
+ =?utf-8?B?NWlkdFpBb3R1QzlFK1BvbFR2SXdTQk1iSGVIL3pHaTE2SHd4L3VjWGJ6YUph?=
+ =?utf-8?B?VEh2TzZteXBaZTBIVjZNNVY5M3JCd3dWZWRaS3pjaWdjNGZ3K3ZPcnh6T0pL?=
+ =?utf-8?B?a1JqalZHMFlCWnNaU1NCd2RhdFBaOUl3TlZSSG1NNS9uTmJKYmZmNnRGWG5u?=
+ =?utf-8?B?RUdyLzE2YnZYSzBnOTl6TS83Z2tSbG5nTTM0c0plN0t2S01nT09sWHZKQjNE?=
+ =?utf-8?B?WEczYmRCdytteVdpVXQ5d0pVaHlNSWhPVWI0NWNaMFdhczJhY2Z0bzBSWjNY?=
+ =?utf-8?B?YXdnR1h6S2RqZ3laT1pSWnVGdVgzRE1VR1VuTDQ4VFNMM3FieWdoc1ZPMW9I?=
+ =?utf-8?B?ZkZwdU12MnNhRmpMSEQrNWRITmVVRmRNUjNxdW9Qd0k0U25xZDh1Q3pOalUz?=
+ =?utf-8?B?eTRIa3ROYlVLcWErNGZpc3VYemVCVndCWU4wb21BNyt2eFNCeUM0RG8zNzBy?=
+ =?utf-8?B?aXc5c3BjeThmV2hQSDR1MDZlQ2FkeEtjT1NlS2dGUGFENXovUjhscHkzWGlU?=
+ =?utf-8?B?SmIwNWhQdW9TMHZQeVZjZzFmeUMrMUZrQ1lLNWhpeEI5RDM1Q1ZYQUpWeTJy?=
+ =?utf-8?Q?pG3L72WeR0skwd261WDyf+bQlloZdspa4ecRu0A?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 481e29ca-81ae-4a92-a5f3-08d967d3ffc5
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 14:24:07.7983 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4AKoE0CVoBREae21FQDVroaAANJAH2DihVYFeMkW4AvLMP5vCjQ/lHhTYGZyU0euLzP60b6rwzigI4+CmaAHSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,273 +134,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously, master_lookup_lock was introduced in
-commit 0b0860a3cf5e ("drm: serialize drm_file.master with a new
-spinlock") to serialize accesses to drm_file.master. This then allowed
-us to write drm_file_get_master in commit 56f0729a510f ("drm: protect
-drm_master pointers in drm_lease.c").
+Am 2021-08-24 um 11:48 p.m. schrieb Alex Sierra:
+> In this case, this is used to migrate pages from device memory, back to
+> system memory. This particular device memory type should be accessible
+> by the CPU, through IOMEM access. Typically, zone device public type
+> memory falls into this category.
+>
+> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+> ---
+>  include/linux/migrate.h | 1 +
+>  mm/migrate.c            | 3 ++-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+> index 4bb4e519e3f5..6b16f417384f 100644
+> --- a/include/linux/migrate.h
+> +++ b/include/linux/migrate.h
+> @@ -156,6 +156,7 @@ static inline unsigned long migrate_pfn(unsigned long pfn)
+>  enum migrate_vma_direction {
+>  	MIGRATE_VMA_SELECT_SYSTEM = 1 << 0,
+>  	MIGRATE_VMA_SELECT_DEVICE_PRIVATE = 1 << 1,
+> +	MIGRATE_VMA_SELECT_IOMEM = 1 << 2,
 
-The rationale behind introducing a new spinlock at the time was that
-the other lock that could have been used (drm_device.master_mutex) was
-the outermost lock, so embedding calls to drm_file_get_master and
-drm_is_current_master in various functions easily caused us to invert
-the lock hierarchy.
+How about calling this MIGRATE_VMA_SELECT_DEVICE_PUBLIC?
 
-Following the conversion of master_mutex into a rwsem, and its use to
-plug races with modesetting rights, we've untangled some lock
-hierarchies and removed the need for using drm_file_get_master and the
-unlocked version of drm_is_current_master in multiple places.
 
-Hence, we can take this opportunity to clean up the locking design by
-replacing master_lookup_lock with drm_device.master_rwsem.
+>  };
+>  
+>  struct migrate_vma {
+> diff --git a/mm/migrate.c b/mm/migrate.c
+> index e3a10e2a1bb3..d4ae2da99607 100644
+> --- a/mm/migrate.c
+> +++ b/mm/migrate.c
+> @@ -2406,7 +2406,8 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+>  			if (is_write_device_private_entry(entry))
+>  				mpfn |= MIGRATE_PFN_WRITE;
+>  		} else {
+> -			if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
+> +			if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM) &&
+> +			    !(migrate->flags & MIGRATE_VMA_SELECT_IOMEM))
+>  				goto next;
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/gpu/drm/drm_auth.c     | 19 +++++++------------
- drivers/gpu/drm/drm_file.c     |  1 -
- drivers/gpu/drm/drm_internal.h |  1 +
- drivers/gpu/drm/drm_ioctl.c    |  4 ++--
- drivers/gpu/drm/drm_lease.c    | 18 ++++++++----------
- include/drm/drm_file.h         |  9 +--------
- 6 files changed, 19 insertions(+), 33 deletions(-)
+For MIGRATE_VMA_SELECT_IOMEM/DEVICE_PUBLIC, I think we should ensure the
+pages are ZONE_DEVICE and we should also check the page owner for
+symmetry with DEVICE_PRIVATE.
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index f2b2f197052a..232416119407 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -61,10 +61,9 @@
-  * trusted clients.
-  */
- 
--static bool drm_is_current_master_locked(struct drm_file *fpriv)
-+bool drm_is_current_master_locked(struct drm_file *fpriv)
- {
--	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
--			    lockdep_is_held(&fpriv->minor->dev->master_rwsem));
-+	lockdep_assert_held_once(&fpriv->minor->dev->master_rwsem);
- 
- 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
- }
-@@ -83,9 +82,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
- {
- 	bool ret;
- 
--	spin_lock(&fpriv->master_lookup_lock);
-+	down_read(&fpriv->minor->dev->master_rwsem);
- 	ret = drm_is_current_master_locked(fpriv);
--	spin_unlock(&fpriv->master_lookup_lock);
-+	up_read(&fpriv->minor->dev->master_rwsem);
- 
- 	return ret;
- }
-@@ -120,7 +119,7 @@ int drm_authmagic(struct drm_device *dev, void *data,
- 	DRM_DEBUG("%u\n", auth->magic);
- 
- 	down_write(&dev->master_rwsem);
--	if (unlikely(!drm_is_current_master(file_priv))) {
-+	if (unlikely(!drm_is_current_master_locked(file_priv))) {
- 		up_write(&dev->master_rwsem);
- 		return -EACCES;
- 	}
-@@ -178,9 +177,7 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
- 	new_master = drm_master_create(dev);
- 	if (!new_master)
- 		return -ENOMEM;
--	spin_lock(&fpriv->master_lookup_lock);
- 	fpriv->master = new_master;
--	spin_unlock(&fpriv->master_lookup_lock);
- 
- 	fpriv->is_master = 1;
- 	fpriv->authenticated = 1;
-@@ -343,9 +340,7 @@ int drm_master_open(struct drm_file *file_priv)
- 	if (!dev->master) {
- 		ret = drm_new_set_master(dev, file_priv);
- 	} else {
--		spin_lock(&file_priv->master_lookup_lock);
- 		file_priv->master = drm_master_get(dev->master);
--		spin_unlock(&file_priv->master_lookup_lock);
- 	}
- 	up_write(&dev->master_rwsem);
- 
-@@ -413,13 +408,13 @@ struct drm_master *drm_file_get_master(struct drm_file *file_priv)
- 	if (!file_priv)
- 		return NULL;
- 
--	spin_lock(&file_priv->master_lookup_lock);
-+	down_read(&file_priv->minor->dev->master_rwsem);
- 	if (!file_priv->master)
- 		goto unlock;
- 	master = drm_master_get(file_priv->master);
- 
- unlock:
--	spin_unlock(&file_priv->master_lookup_lock);
-+	up_read(&file_priv->minor->dev->master_rwsem);
- 	return master;
- }
- EXPORT_SYMBOL(drm_file_get_master);
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 90b62f360da1..8c846e0179d7 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -176,7 +176,6 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	init_waitqueue_head(&file->event_wait);
- 	file->event_space = 4096; /* set aside 4k for event buffer */
- 
--	spin_lock_init(&file->master_lookup_lock);
- 	mutex_init(&file->event_read_lock);
- 
- 	if (drm_core_check_feature(dev, DRIVER_GEM))
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 17f3548c8ed2..5d421f749a17 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -132,6 +132,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
- 				  struct drm_file *filp);
- 
- /* drm_auth.c */
-+bool drm_is_current_master_locked(struct drm_file *fpriv);
- int drm_getmagic(struct drm_device *dev, void *data,
- 		 struct drm_file *file_priv);
- int drm_authmagic(struct drm_device *dev, void *data,
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 8bea39ffc5c0..c728437466c3 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -386,7 +386,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- 	int if_version, retcode = 0;
- 
- 	down_write(&dev->master_rwsem);
--	if (unlikely(!drm_is_current_master(file_priv))) {
-+	if (unlikely(!drm_is_current_master_locked(file_priv))) {
- 		retcode = -EACCES;
- 		goto unlock;
- 	}
-@@ -540,7 +540,7 @@ static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
- 
- 	/* MASTER is only for master or control clients */
- 	if (unlikely((flags & DRM_MASTER) &&
--		     !drm_is_current_master(file_priv)))
-+		     !drm_is_current_master_locked(file_priv)))
- 		return -EACCES;
- 
- 	/* Render clients must be explicitly allowed */
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index 15bf3a3c76d1..0eecf320b1ab 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -498,12 +498,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 		return PTR_ERR(lessee_file);
- 
- 	down_read(&dev->master_rwsem);
--	if (unlikely(!drm_is_current_master(lessor_priv))) {
-+	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
- 		ret = -EACCES;
- 		goto out_file;
- 	}
- 
--	lessor = drm_file_get_master(lessor_priv);
-+	lessor = lessor_priv->master;
- 	/* Do not allow sub-leases */
- 	if (lessor->lessor) {
- 		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-@@ -565,7 +565,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	/* Hook up the fd */
- 	fd_install(fd, lessee_file);
- 
--	drm_master_put(&lessor);
- 	up_read(&dev->master_rwsem);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
- 	return 0;
-@@ -600,7 +599,8 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
--	lessor = drm_file_get_master(lessor_priv);
-+	lockdep_assert_held_once(&dev->master_rwsem);
-+	lessor = lessor_priv->master;
- 	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
-@@ -624,7 +624,6 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 		arg->count_lessees = count;
- 
- 	mutex_unlock(&dev->mode_config.idr_mutex);
--	drm_master_put(&lessor);
- 
- 	return ret;
- }
-@@ -650,7 +649,8 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
--	lessee = drm_file_get_master(lessee_priv);
-+	lockdep_assert_held_once(&dev->master_rwsem);
-+	lessee = lessee_priv->master;
- 	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
-@@ -678,7 +678,6 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 		arg->count_objects = count;
- 
- 	mutex_unlock(&dev->mode_config.idr_mutex);
--	drm_master_put(&lessee);
- 
- 	return ret;
- }
-@@ -703,11 +702,11 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 		return -EOPNOTSUPP;
- 
- 	down_write(&dev->master_rwsem);
--	if (unlikely(!drm_is_current_master(lessor_priv))) {
-+	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
- 		ret = -EACCES;
- 		goto unlock;
- 	}
--	lessor = drm_file_get_master(lessor_priv);
-+	lessor = lessor_priv->master;
- 	mutex_lock(&dev->mode_config.idr_mutex);
- 
- 	lessee = _drm_find_lessee(lessor, arg->lessee_id);
-@@ -728,7 +727,6 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 
- fail:
- 	mutex_unlock(&dev->mode_config.idr_mutex);
--	drm_master_put(&lessor);
- 
- unlock:
- 	up_write(&dev->master_rwsem);
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index d12bb2ba7814..e2d49fe3e32d 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -227,16 +227,12 @@ struct drm_file {
- 	 * @master:
- 	 *
- 	 * Master this node is currently associated with. Protected by struct
--	 * &drm_device.master_rwsem, and serialized by @master_lookup_lock.
-+	 * &drm_device.master_rwsem.
- 	 *
- 	 * Only relevant if drm_is_primary_client() returns true. Note that
- 	 * this only matches &drm_device.master if the master is the currently
- 	 * active one.
- 	 *
--	 * To update @master, both &drm_device.master_rwsem and
--	 * @master_lookup_lock need to be held, therefore holding either of
--	 * them is safe and enough for the read side.
--	 *
- 	 * When dereferencing this pointer, either hold struct
- 	 * &drm_device.master_rwsem for the duration of the pointer's use, or
- 	 * use drm_file_get_master() if struct &drm_device.master_rwsem is not
-@@ -248,9 +244,6 @@ struct drm_file {
- 	 */
- 	struct drm_master *master;
- 
--	/** @master_lock: Serializes @master. */
--	spinlock_t master_lookup_lock;
--
- 	/** @pid: Process that opened this file. */
- 	struct pid *pid;
- 
--- 
-2.25.1
+Regards,
+  Felix
 
+
+>  			pfn = pte_pfn(pte);
+>  			if (is_zero_pfn(pfn)) {
