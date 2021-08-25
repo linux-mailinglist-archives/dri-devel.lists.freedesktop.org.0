@@ -2,64 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F1A3F7181
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 11:13:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410BB3F71C2
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 11:33:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86D66E169;
-	Wed, 25 Aug 2021 09:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 377A46E170;
+	Wed, 25 Aug 2021 09:33:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFB5A6E169;
- Wed, 25 Aug 2021 09:13:16 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id t190so26297324qke.7;
- Wed, 25 Aug 2021 02:13:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nDYYa36hmcU1+52wobsB0AhnmKTAEQPCAuaFYGhNwag=;
- b=SigNZmWDlT3HALfmvWtNmd97JzvjZOFZ1sFfu8VwFxV0o1Ft09eRB3CXup/ympRhDz
- CREkW69WIOqc1+MPVFzBDiD1E8V+8FoSX/pwppdEl4dul6VWdTG6PtRBGm+ClZnks507
- IjJQ5tfiOQwhHwiuctxAKaX0HMA8mwu5tY+qeNl2ZugHKaezFgpU/PFL4Ew5EoZ/hY2u
- HGfFrL/e9VVPfl167mlzWrcWpCtT67gQ17lBSfKtMNEhm1jl3qdZGSMaWPmin6Zu7uTg
- ERQej76GKc6IAim0BiCwbDwy/JIs82uhSpu1bKTr8tRgDNvXt867PbYhWriftlC5toUv
- PISQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nDYYa36hmcU1+52wobsB0AhnmKTAEQPCAuaFYGhNwag=;
- b=HVcTloby8T0avbKHGezAtLf58WY+bcD33tiaBzXHS0PjlwB5sGUgMAU91LCVNEgNhm
- rHZ84XFB6N+ci+biOuVKYvjW/8Au0xSrVAev+7ypJtgW6gAgkbMJrbz8uCbJQpKl+NfY
- ACiwy6n2ITm/Gmp/j5VZi+h1mSMjU5Xtpg+ufMAV60FEM7vMqd4LJurEMiz2ZXUyAXgz
- zSd1y6V107YWXl6MzcQGya+X9KRSwn1eCmeX5BeB7bX+cikn7S2YNQVl96Y7F02o7SHg
- dQ1+jpSzn0ydidGqd13ja5KefW2eP64GHarqotejcllkUFZYStw77yw7Cwb+c7e7GTmU
- 4dtg==
-X-Gm-Message-State: AOAM530x+YDrypqgxvRAeMaCt0oFdzHF3Pi3LBEJT6+ilUZV2uty4Gji
- RcXyP6bTa+G/MLEvLEFsP4Y=
-X-Google-Smtp-Source: ABdhPJwTq98JPs/lXojj4EXvm3vcKzzdaq5QuTVHNP8eI+gMqNvVexdp9Dg0kH1paqW0QoTX6T1LLw==
-X-Received: by 2002:a37:741:: with SMTP id 62mr31809496qkh.490.1629882796020; 
- Wed, 25 Aug 2021 02:13:16 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id a22sm9824878qtw.59.2021.08.25.02.13.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 02:13:15 -0700 (PDT)
-From: CGEL <cgel.zte@gmail.com>
-X-Google-Original-From: CGEL <deng.changcheng@zte.com.cn>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Matthew Auld <matthew.auld@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Changcheng Deng <deng.changcheng@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] drm/i915: remove duplicate include
-Date: Wed, 25 Aug 2021 02:13:01 -0700
-Message-Id: <20210825091301.71544-1-deng.changcheng@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from smtpproxy21.qq.com (smtpbg703.qq.com [203.205.195.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2F46E170
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 09:33:05 +0000 (UTC)
+X-QQ-mid: bizesmtp39t1629883939tmjexs0h
+Received: from localhost.localdomain (unknown [111.207.172.18])
+ by esmtp6.qq.com (ESMTP) with 
+ id ; Wed, 25 Aug 2021 17:32:17 +0800 (CST)
+X-QQ-SSF: 0140000000200040D000B00F0000000
+X-QQ-FEAT: DgJAXuPMHm6yIFA8xHOBJw9pfIUs9YKEUj1RCAMLUimR7RCn5pitq417UmVnE
+ GOYBvZGt1MkL1Saq3zmmOA0wO6hW0ieBICxf3ThOTCWoa7x1JzEd2fW79UiqByZKsQs6QqW
+ 0dp4m3Kuk3J0MQv4azXyf1cO5u/Wfu2sUomBIrhMGRlvzR8WRBR/AzjXzXM7/O8bpZxveEb
+ mvUksTIvB8oruiqHAt1nWDwbjqncbX/UV39vupXltJvY0ZE4miiLi7sUqLUMLk2Bwmr0hZe
+ rcisp/x9LqiRuYnz6cKpssjd8G7ufjhDeZvLtFZRttDKEx57uXdHWGF9f2kD5uzSM1dHQJi
+ S4A34d1
+X-QQ-GoodBg: 2
+From: zhaoxiao <zhaoxiao@uniontech.com>
+To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
+Cc: jordan@cosmicpenguin.net, saiprakash.ranjan@codeaurora.org,
+ jonathan@marek.ca, airlied@redhat.com, smasetty@codeaurora.org,
+ konrad.dybcio@somainline.org, akhilpo@codeaurora.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ zhaoxiao <zhaoxiao@uniontech.com>
+Subject: [PATCH] drm: msm: adreno_gpu.c: Add and use pr_fmt(fmt)
+Date: Wed, 25 Aug 2021 17:32:16 +0800
+Message-Id: <20210825093216.15032-1-zhaoxiao@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign5
+X-QQ-Bgrelay: 1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,35 +56,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Changcheng Deng <deng.changcheng@zte.com.cn>
+Add #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
-Clean up the following includecheck warning:
-
-./drivers/gpu/drm/i915/selftests/mock_region.c: drm/ttm/ttm_placement.h
-is included more than once.
-
-No functional change.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
 ---
- drivers/gpu/drm/i915/selftests/mock_region.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
-index efa86df..7579300 100644
---- a/drivers/gpu/drm/i915/selftests/mock_region.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_region.c
-@@ -6,8 +6,6 @@
- #include <drm/ttm/ttm_placement.h>
- #include <linux/scatterlist.h>
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 9f5a30234b33..6b75fbd39121 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -20,6 +20,8 @@
+ #include "msm_gem.h"
+ #include "msm_mmu.h"
  
--#include <drm/ttm/ttm_placement.h>
--
- #include "gem/i915_gem_region.h"
- #include "intel_memory_region.h"
- #include "intel_region_ttm.h"
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
+ static bool zap_available = true;
+ 
+ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
+@@ -753,7 +755,7 @@ void adreno_dump_info(struct msm_gpu *gpu)
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	int i;
+ 
+-	printk("revision: %d (%d.%d.%d.%d)\n",
++	pr_info("revision: %d (%d.%d.%d.%d)\n",
+ 			adreno_gpu->info->revn, adreno_gpu->rev.core,
+ 			adreno_gpu->rev.major, adreno_gpu->rev.minor,
+ 			adreno_gpu->rev.patchid);
+@@ -761,12 +763,12 @@ void adreno_dump_info(struct msm_gpu *gpu)
+ 	for (i = 0; i < gpu->nr_rings; i++) {
+ 		struct msm_ringbuffer *ring = gpu->rb[i];
+ 
+-		printk("rb %d: fence:    %d/%d\n", i,
++		pr_info("rb %d: fence:    %d/%d\n", i,
+ 			ring->memptrs->fence,
+ 			ring->seqno);
+ 
+-		printk("rptr:     %d\n", get_rptr(adreno_gpu, ring));
+-		printk("rb wptr:  %d\n", get_wptr(ring));
++		pr_info("rptr:     %d\n", get_rptr(adreno_gpu, ring));
++		pr_info("rb wptr:  %d\n", get_wptr(ring));
+ 	}
+ }
+ 
+@@ -780,7 +782,7 @@ void adreno_dump(struct msm_gpu *gpu)
+ 		return;
+ 
+ 	/* dump these out in a form that can be parsed by demsm: */
+-	printk("IO:region %s 00000000 00020000\n", gpu->name);
++	pr_info("IO:region %s 00000000 00020000\n", gpu->name);
+ 	for (i = 0; adreno_gpu->registers[i] != ~0; i += 2) {
+ 		uint32_t start = adreno_gpu->registers[i];
+ 		uint32_t end   = adreno_gpu->registers[i+1];
+@@ -788,7 +790,7 @@ void adreno_dump(struct msm_gpu *gpu)
+ 
+ 		for (addr = start; addr <= end; addr++) {
+ 			uint32_t val = gpu_read(gpu, addr);
+-			printk("IO:R %08x %08x\n", addr<<2, val);
++			pr_info("IO:R %08x %08x\n", addr<<2, val);
+ 		}
+ 	}
+ }
 -- 
-1.8.3.1
+2.20.1
+
 
 
