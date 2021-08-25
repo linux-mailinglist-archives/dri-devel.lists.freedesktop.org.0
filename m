@@ -1,54 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FBB3F7399
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 12:46:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F8F3F7430
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 13:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93DB5894C5;
-	Wed, 25 Aug 2021 10:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED0656E1D2;
+	Wed, 25 Aug 2021 11:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2401F894C5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 10:46:51 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mIqQf-0007JP-JD; Wed, 25 Aug 2021 12:46:45 +0200
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mIqQe-0002C4-QA; Wed, 25 Aug 2021 12:46:44 +0200
-Message-ID: <0cdce7a43a0b74fabc110730d2b2ec9dce5cbbff.camel@pengutronix.de>
-Subject: Re: [PATCH v4 10/17] soc: mediatek: mmsys: Add reset controller
- support for MT8195 vdosys1
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>, Enric
- Balletbo i Serra <enric.balletbo@collabora.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie
- <airlied@linux.ie>,  Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,  "jason-jh
- . lin" <jason-jh.lin@mediatek.com>, Yongqiang Niu
- <yongqiang.niu@mediatek.com>,  dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org,  devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- singo.chang@mediatek.com,  srv_heupstream@mediatek.com
-Date: Wed, 25 Aug 2021 12:46:44 +0200
-In-Reply-To: <20210825100531.5653-11-nancy.lin@mediatek.com>
-References: <20210825100531.5653-1-nancy.lin@mediatek.com>
- <20210825100531.5653-11-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.30.5-1.1 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F05206E1D2;
+ Wed, 25 Aug 2021 11:15:22 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 362FD200F2;
+ Wed, 25 Aug 2021 11:15:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1629890121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JsTZ/9+VRszmlL6hS/sFGVn+Amn3Nh4I4j0bZJL/75s=;
+ b=I7Yi38O5i1rcyp1b3zu0aSxtw2cF3Go7OkwlsISIti7iULIxygNwNF0BH36F2+avkbLNcW
+ 06YUDL+y1Hbvft7P8mvdvOug3JHSgTatWoeMMjAU6Kx57OmI+805Z/qH6eqDuglFihBtQJ
+ CNQ9ji0e3uopyLcJZU5kVtj7OSQqX1U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1629890121;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JsTZ/9+VRszmlL6hS/sFGVn+Amn3Nh4I4j0bZJL/75s=;
+ b=A3w6EnRWXBALysZo9aIw4XjrVtAuedgCl1SGMlGblXmqQ2/TW5TK15Z3OuRoWQj96Fsrp8
+ vyntj+rs4FdH9vBQ==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id F408413732;
+ Wed, 25 Aug 2021 11:15:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id JNBiOkgmJmH7GwAAGKfGzw
+ (envelope-from <vbabka@suse.cz>); Wed, 25 Aug 2021 11:15:20 +0000
+Message-ID: <dbd0f54a-ad6c-97a2-17d7-826247424c97@suse.cz>
+Date: Wed, 25 Aug 2021 13:15:20 +0200
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH v1 02/14] mm: remove extra ZONE_DEVICE struct page refcount
+Content-Language: en-US
+To: Alex Sierra <alex.sierra@amd.com>, akpm@linux-foundation.org,
+ Felix.Kuehling@amd.com, linux-mm@kvack.org, rcampbell@nvidia.com,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ hch@lst.de, jgg@nvidia.com, jglisse@redhat.com
+References: <20210825034828.12927-1-alex.sierra@amd.com>
+ <20210825034828.12927-3-alex.sierra@amd.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20210825034828.12927-3-alex.sierra@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,24 +78,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 8/25/21 05:48, Alex Sierra wrote:
+> From: Ralph Campbell <rcampbell@nvidia.com>
+> 
+> ZONE_DEVICE struct pages have an extra reference count that complicates the
+> code for put_page() and several places in the kernel that need to check the
+> reference count to see that a page is not being used (gup, compaction,
+> migration, etc.). Clean up the code so the reference count doesn't need to
+> be treated specially for ZONE_DEVICE.
 
-On Wed, 2021-08-25 at 18:05 +0800, Nancy.Lin wrote:
-> Among other features the mmsys driver should implement a reset
-> controller to be able to reset different bits from their space.
->=20
-> For MT8195 vdosys1, many async modules need to reset after
-> the display pipe stops and restart.
->=20
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> ---
->  drivers/soc/mediatek/mt8195-mmsys.h |  1 +
->  drivers/soc/mediatek/mtk-mmsys.c    | 76 +++++++++++++++++++++++++++++
-
-Cc: Enric - this patch clashes with [1], please coordinate.
-
-[1] https://lore.kernel.org/linux-arm-kernel/20210825122613.v3.6.I15e241914=
-1a69b2e5c7e700c34d92a69df47e04d@changeid/
-
-regards
-Philipp
+That's certainly welcome. I just wonder what was the reason to use 1 in the
+first place and why it's no longer necessary?
