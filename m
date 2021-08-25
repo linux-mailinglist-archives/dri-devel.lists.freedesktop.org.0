@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8379E3F7266
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 11:56:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D043F726B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 11:57:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A845B89AD2;
-	Wed, 25 Aug 2021 09:56:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF46889A88;
+	Wed, 25 Aug 2021 09:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C172B89A88;
- Wed, 25 Aug 2021 09:56:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="281207781"
-X-IronPort-AV: E=Sophos;i="5.84,350,1620716400"; d="scan'208";a="281207781"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABC989A88;
+ Wed, 25 Aug 2021 09:57:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="215648093"
+X-IronPort-AV: E=Sophos;i="5.84,350,1620716400"; d="scan'208";a="215648093"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2021 02:56:41 -0700
-X-IronPort-AV: E=Sophos;i="5.84,350,1620716400"; d="scan'208";a="426393046"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2021 02:57:30 -0700
+X-IronPort-AV: E=Sophos;i="5.84,350,1620716400"; d="scan'208";a="426393181"
 Received: from pjthomps-mobl1.ger.corp.intel.com (HELO [10.249.254.76])
  ([10.249.254.76])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2021 02:56:37 -0700
-Subject: Re: [PATCH 1/3] drm/i915/selftests: Do not use import_obj
- uninitialized
+ 25 Aug 2021 02:57:26 -0700
+Subject: Re: [PATCH 2/3] drm/i915/selftests: Always initialize err in
+ igt_dmabuf_import_same_driver_lmem()
 To: Nathan Chancellor <nathan@kernel.org>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -36,14 +36,14 @@ Cc: Jason Ekstrand <jason@jlekstrand.net>,
  clang-built-linux@googlegroups.com, llvm@lists.linux.dev,
  Dan Carpenter <dan.carpenter@oracle.com>
 References: <20210824225427.2065517-1-nathan@kernel.org>
- <20210824225427.2065517-2-nathan@kernel.org>
+ <20210824225427.2065517-3-nathan@kernel.org>
 From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <ef38255f-fe4a-3ba5-e828-bac4d9957cdb@linux.intel.com>
-Date: Wed, 25 Aug 2021 11:56:35 +0200
+Message-ID: <354f7760-7b43-8e3f-414b-1556dabbcdb3@linux.intel.com>
+Date: Wed, 25 Aug 2021 11:57:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210824225427.2065517-2-nathan@kernel.org>
+In-Reply-To: <20210824225427.2065517-3-nathan@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -64,35 +64,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 8/25/21 12:54 AM, Nathan Chancellor wrote:
-> Clang warns a couple of times:
+> Clang warns:
 >
-> drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:63:6: warning:
-> variable 'import_obj' is used uninitialized whenever 'if' condition is
-> true [-Wsometimes-uninitialized]
->          if (import != &obj->base) {
->              ^~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:80:22: note:
+> drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:127:13: warning:
+> variable 'err' is used uninitialized whenever 'if' condition is false
+> [-Wsometimes-uninitialized]
+>          } else if (PTR_ERR(import) != -EOPNOTSUPP) {
+>                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:138:9: note:
 > uninitialized use occurs here
->          i915_gem_object_put(import_obj);
->                              ^~~~~~~~~~
-> drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:63:2: note: remove
-> the 'if' if its condition is always false
->          if (import != &obj->base) {
->          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:38:46: note:
-> initialize the variable 'import_obj' to silence this warning
->          struct drm_i915_gem_object *obj, *import_obj;
->                                                      ^
->                                                       = NULL
+>          return err;
+>                 ^~~
+> drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:127:9: note: remove
+> the 'if' if its condition is always true
+>          } else if (PTR_ERR(import) != -EOPNOTSUPP) {
+>                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c:95:9: note:
+> initialize the variable 'err' to silence this warning
+>          int err;
+>                 ^
+>                  = 0
 >
-> Shuffle the import_obj initialization above these if statements so that
-> it is not used uninitialized.
+> The test is expected to pass if i915_gem_prime_import() returns
+> -EOPNOTSUPP so initialize err to zero in this case.
 >
-> Fixes: d7b2cb380b3a ("drm/i915/gem: Correct the locking and pin pattern for dma-buf (v8)")
+> Fixes: cdb35d1ed6d2 ("drm/i915/gem: Migrate to system at dma-buf attach time (v7)")
 > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-
-Patch looks good to me.
 
 Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
