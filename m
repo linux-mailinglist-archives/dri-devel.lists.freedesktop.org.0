@@ -2,66 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6B53F6FBB
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 08:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFF13F6FCD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 08:48:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF4956E155;
-	Wed, 25 Aug 2021 06:43:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466AC6E158;
+	Wed, 25 Aug 2021 06:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAF396E155;
- Wed, 25 Aug 2021 06:43:36 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id z4so19086433wrr.6;
- Tue, 24 Aug 2021 23:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=fzACWBmlHWt2s2ApnNdT2Sp99bgbRcT2MvngoYnJ8S4=;
- b=jRTu7hBsRbVMVnQGe/qCiutZPsSk4FpkA811nuHR1EvdQREcvgU/PPailleFVSDWsj
- iePDOtLjfdqnUmN2xvbfQ/MtwEg2IjlZxpQDxOaxHqo02tz3n8oWr8Ug8RKnTJ2Q7MSH
- D3k1IFaYKYTT9XbIKZ4Hbu0QSHQVuA1oIExEZF8fAwm9aUtv1vRz948b2hjKepSPOGSr
- VAhgO/4DBXMn91BR6YYF1iC0kS8Ya/IcnPzmr0PVmaFB5oyXSL/iXzEc1evw5u8pcKuR
- WWvlaJKfPFn1em5Z+KqV+TJaG9dvm8R2isMQ8eGJX9loeudsFmAIw/+Czrdhlh+Z7tfh
- cCDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=fzACWBmlHWt2s2ApnNdT2Sp99bgbRcT2MvngoYnJ8S4=;
- b=Fvwd1akLyBtSZoAUTww2ME8rIuwE0Q12eHEjm2mcVtW0sS/Zd0CY2x+BALAb4v+4P7
- qVt8zVq1DMrAfEyX1A7jDHroeFYTKHWl9fTvqfzgSrAxuv+aK72wxQ4MlXfIEEO3rl48
- IF3dVEbzaNy2DtgHAv2DpG0tRMi5s6Hs6UHBLlb8/Y3kUQDRUS7d1lXpBKsqYYSkxOBh
- R5/wOC5SYOzsxA/yNMJa3R8EvulECG6Kal8iEpaQi8lMMv/KHWrAHJQjxzPR/yO83xBS
- q6e5/WKWQzkLm8GtZ2ImoHZc4bo7CCL4aiYPzeTqTx5nSseZQW5cxN01Lsz7iMGY4M6q
- b49w==
-X-Gm-Message-State: AOAM531w3BX5S5pkedvO03DdYDAOdn5T57Zo5co99nEj+zrvenHrmaBq
- 4CWdRBKo5lM2FIam2v2yTr/zfENmQ5Qo9HxJ
-X-Google-Smtp-Source: ABdhPJxksAFBjvM/JimH9+ossKd5aJcyos7ZtQhvtBrueTzo3bJeS7PREbAV+tyEr1+7cS/A5bmG9g==
-X-Received: by 2002:adf:ea09:: with SMTP id q9mr23299934wrm.64.1629873815446; 
- Tue, 24 Aug 2021 23:43:35 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
- [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id y6sm10514106wrm.54.2021.08.24.23.43.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 23:43:35 -0700 (PDT)
-Subject: Re: [PATCH 3/4] drm/amdgpu: drm/amdgpu: Handle IOMMU enabled case
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20210824210120.49812-1-andrey.grodzovsky@amd.com>
- <20210824210120.49812-4-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <d4e6682e-2d2f-f271-6041-6bcb145c1fc9@gmail.com>
-Date: Wed, 25 Aug 2021 08:43:33 +0200
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2044.outbound.protection.outlook.com [40.107.102.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D901F6E158
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 06:47:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Oc2WCOSCaIXJ1xjI7eJZ51vn+AlOWl8+rWABf4NPAiupSyEJ5EZDvD0tdvcd0ebl9aoIfrVzLQ1j1nlH3xbrrgFHNbr01pgNqeIBW+xC0PF20yArHz64xZBqJZpQS3WlgJdaETKHkbJPTDBQb5psqiyrcPVkVtv2e6aPHbNyui7QyPHud4ba+PZAYMfl8hfKOG7LpAvQHhntCr9oW2asiIa8Yu3bizQBmmb9Fb3BAzfMy9Q7PA2dDPV03H/YI6y8f35EqW8bVzCkNwzx5GdiaJSzP/HPiEkYb0v37DBQjG8A+6UxFpnsKEhIojYbuUQ5qDvM2sSJW1yzUujzjinYbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8jkzmLS6A2CtthwGFYf3FY+2iFL5t9qG8W7HBgliJIQ=;
+ b=j9RehBZPXgkcz9NTj3KLuFf0qjh8KBCaoDMzDdDKB1jZT3D7i3LA5/A1BNnhfRg31gVPKxxuSj6aBR88kEmOZ05TJ9esruAUmHbCm7cw7E/jXkAuPxajU2V2n2nenhb6cC031j9nNG9XcneOvtrs6KIvIleWLtCOSVDQQMMD7zlbtFo2GlOwCXlTzonKCxPtnJD49ZJkaCi7XUxqD0KPt3Sc64y3QfHEWrXAOEDAiAzIDHucjQHxi5HGAL8lP6BJgFo3jWDDvIk1WAo/jreupwU4X9JZv/txfHnTEQeBGHGOlqkZGdxZceKuL7FlzVV5Vf6Cj+35A7aH/ifwLrZd5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8jkzmLS6A2CtthwGFYf3FY+2iFL5t9qG8W7HBgliJIQ=;
+ b=jdXncMVS9GZmwaMa0PTXb4ioRGm2cc6ey7iBWHGdv4lJL2/hB33L6tWhjtxKV26HJqZvzEOsM9xoKt80Z6/YgdTlFb0CXuOZKm7a+EOmJLBpvrGQF73PtsReG70sVyA7T7OQqZYZYAA8Z4ZssPUv657NCp9Rp46YJ2FGFl17eGj8Ph7X6c5+ScWdxEtoy4Gge/riw6ojlgBAU1/G+mrO8fq66MpHI0bg0jx+wNbwcQMmL2yB8ciC2VY3A2X8hRK4ZY/qkpO6DNPtbKGMTq+GAC3mIRsEdu5cgPPFU+s1Va9mCm4y1N8EBeUo92Dwg+fI+MFL2a6IzbbFCMJ3aix2bw==
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
+ by BY5PR12MB3892.namprd12.prod.outlook.com (2603:10b6:a03:1a2::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.22; Wed, 25 Aug
+ 2021 06:47:52 +0000
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::c557:5e37:2390:beb8]) by BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::c557:5e37:2390:beb8%7]) with mapi id 15.20.4436.019; Wed, 25 Aug 2021
+ 06:47:52 +0000
+Subject: Re: [RFC] Make use of non-dynamic dmabuf in RDMA
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gal Pressman <galpress@amazon.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Doug Ledford <dledford@redhat.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, Oded Gabbay <ogabbay@habana.ai>,
+ Tomer Tayar <ttayar@habana.ai>, Yossi Leybovich <sleybo@amazon.com>,
+ Alexander Matushevsky <matua@amazon.com>, Leon Romanovsky
+ <leonro@nvidia.com>, Jianxin Xiong <jianxin.xiong@intel.com>
+References: <20210819230602.GU543798@ziepe.ca>
+ <CAKMK7uGgQWcs4Va6TGN9akHSSkmTs1i0Kx+6WpeiXWhJKpasLA@mail.gmail.com>
+ <20210820123316.GV543798@ziepe.ca>
+ <0fc94ac0-2bb9-4835-62b8-ea14f85fe512@amazon.com>
+ <20210820143248.GX543798@ziepe.ca>
+ <da6364b7-9621-a384-23b0-9aa88ae232e5@amazon.com>
+ <fa124990-ee0c-7401-019e-08109e338042@amd.com>
+ <e2c47256-de89-7eaa-e5c2-5b96efcec834@amazon.com>
+ <6b819064-feda-b70b-ea69-eb0a4fca6c0c@amd.com>
+ <a9604a39-d08f-6263-4c5b-a2bc9a70583d@nvidia.com>
+ <20210824173228.GE543798@ziepe.ca>
+ <a716ae41-2d8c-c75a-a779-cc85b189fea2@amd.com>
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <f049576e-4f36-6407-883d-24fac47c4491@nvidia.com>
+Date: Tue, 24 Aug 2021 23:47:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210824210120.49812-4-andrey.grodzovsky@amd.com>
+ Thunderbird/78.13.0
+In-Reply-To: <a716ae41-2d8c-c75a-a779-cc85b189fea2@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0136.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::21) To BY5PR12MB4130.namprd12.prod.outlook.com
+ (2603:10b6:a03:20b::16)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.2.54.195] (216.228.112.22) by
+ SJ0PR03CA0136.namprd03.prod.outlook.com (2603:10b6:a03:33c::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend
+ Transport; Wed, 25 Aug 2021 06:47:52 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6e4603a3-1c54-4b77-13a4-08d9679442e6
+X-MS-TrafficTypeDiagnostic: BY5PR12MB3892:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BY5PR12MB3892EA27BC553043919EAF31A8C69@BY5PR12MB3892.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1Di3fx/oeIo+HIwZPYQJx1yDZXjcTaxAFBsazhL43erqLRmL4Sjkt3Mdsp8wfYQrE0fpYSVoJ/VU6gz9w1JwAq3k7dm+KkYtpth0gzJGji/tSQi8URkIQaFnxmPTkGkmAVQY4tGJqZ6YAd7WQk5u2HTbN9CCNOQvPLGiC/ySNcV3AJsBFux/MIaAFkg+5f3HL9Bb/ic33xS4vIbqHja9WJ8BIBHPkCKo75tuLgFnz65R6gHeGgaBY71eQQ5Ays1lWQ0TH5H4QfRB0RwMmwA444OEPDYq5YBzC6Wc+8z1vg6xbiuyBDaUD5+8eiHLMyrMkdG+0L5ppSWcOcX9ihB7c2+Ajb+cuczXzWvDmtfGJ3M2hDW5446wVOuMy6DUR6J1ZkemUGUbLABCujMPvkm01/HUqluqaysMUy+5bCSZRMV6sj3hXn81rCOi4QXXXETTGQn+KkxOqV83nJ/Ygji5TwwH05KX3HoYnWLd3KmiJdT/KWGlDr9hwiL8fgg5T2nRFh4YPQn/529zNIjcorwg/R+5ZkjiH6/SyV93jD3s5PQGJn8LuwOfGqcP9F4wGu+W7GNQ6+JTBJ3o4AMVtdiybZ37YGzwmcmvrBSQGfFtpnkb9TE5neC75C/XAQ5Wc3CtjHNmjrBd/C9K4QCjzZbbPQIgs2HhE7p7fLL+XBAxk+X74c5xZ0wPRQ2uW9JFZfQ2Lcjv6xdc5ZmIuF0zYPTAFE0MnxDojvNv5TeVPOMXG/I=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4130.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39860400002)(366004)(136003)(396003)(346002)(316002)(54906003)(110136005)(66556008)(86362001)(66946007)(2616005)(16576012)(31696002)(956004)(31686004)(7416002)(66476007)(8676002)(8936002)(5660300002)(2906002)(26005)(83380400001)(6486002)(38100700002)(478600001)(66574015)(186003)(36756003)(4326008)(53546011)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUdEczQxMDZ5VmU4SVBDV09rRnhXdUIwbmNnc2thRCtlM2dha1YxeVRUM2VR?=
+ =?utf-8?B?VmlCWFNnelVMSVRiN3RjaENQWitqQnd3Ump0YUg0aU51aWdUZXl5WGxqUFEv?=
+ =?utf-8?B?OUtxelE2T2h5S2lHTnNYSFZaUFdPdXJ0blVyYUI1YytWeTh6WHAzdU1iNjJl?=
+ =?utf-8?B?ZkY5T0Y2N1oxdE1Ic1MzSG9mb2ZCWHl6d0RXWUIzNy9Fdm1XSmh3eDByc2Zn?=
+ =?utf-8?B?Z0x0YzROZGFjbGM5TVNISnJpRHpOSkRhQ1pWemtkc2pLRXhsaUVYRGloSVBw?=
+ =?utf-8?B?ZTBCZG8rc0VGclVRbmxqbmVzVjhqblV1c2Z0VnR6RWgwZ1Q2M1o5NXpyaG04?=
+ =?utf-8?B?UFo2bEMwSy83YjlBWE51bmtQbG1MM0VPalo5c0dQYWVQWnl2dXNJenFxT2hh?=
+ =?utf-8?B?c3RTQnV2dWdEU28wam1saDJLQW5KcXN6Q2I2UzhSVjRseXREdVJ3UjlOQy9Q?=
+ =?utf-8?B?eDAybkFsenBnN3Ziam5TZzAralZ6MVVZZEtKUS9RUFFMRnpCRXY4WWVvekRF?=
+ =?utf-8?B?TDZaTHRpcWZFYllQcFdRZHkyZVJkdlhJcHVnUFBDeTVyWXhYL0hqb2xYN3ZV?=
+ =?utf-8?B?RVpnbTFidWJzbmtla1pDNWlRWE9yczArelVSM1J3cFFiNmswU2JUS3VwQktI?=
+ =?utf-8?B?bXdpUEVpeHRuZWYrUFo5THM2YjlPU2xtNjNuLzY1RHpUb3N4RTAycGFGMU5J?=
+ =?utf-8?B?NHdkQnVMMWxqNDVYTmlOVnZFdTZDcC9KcjFpT3JvdlQrYWIxM3pnOHNDTnZt?=
+ =?utf-8?B?SmtDa253ZjlwUjBXVUVzYnorK21ocnBTK3J0OGFFWGdWblFmak9tdVZlc0sv?=
+ =?utf-8?B?NEQ1VG95Sy84SlFSdkt5M0ZmQXoweFNNL0xBL1BnSUozUzEwNUpPb2pEVjhL?=
+ =?utf-8?B?T0RjVVNMR2FoeUJCeFNMYXA0aXFHMkJvalpqQXpDczBWbXhyaFZUd2NUd2FG?=
+ =?utf-8?B?dlhOeXVHRkY0TE5pYjdWaXV5S2VMNCtXRDlaWXgxUWhtcVMwb1NYNmpLOStG?=
+ =?utf-8?B?VUVLbWxVNERSYWhaSkg5eVNXSzFnV2pkdFljVHp2NTJwTVhGMnB6Sk1xTWZx?=
+ =?utf-8?B?N3p5TmtCNkQ1Z2VYaU5SWDRPd0ljRWJuWGVuS2NIdEd3Vi9lZ0lwVG8yemdq?=
+ =?utf-8?B?WlpNNk1MT1RGRTBYQkpNQng5SmRBVE42TlRFc3hLd24rZ0k5SkJxMjF1S3FX?=
+ =?utf-8?B?eGRaTmNkMExOak14RDV4anI0UWdOY1B0bS9uUEFMQ3NsK3JqT0VXOXpWNFlG?=
+ =?utf-8?B?cEYvcGt0MVJwbis5Ym05dTNQcnh6bHltYUVrNGlOcHVqc3RFOW1LUXNRdG93?=
+ =?utf-8?B?N2Y3T0phQXZEaDNMRVBoYmtmZEhFRFNVRkFGUUFsblltT2IrMWRCVTF3aG1N?=
+ =?utf-8?B?K0FMeTM3b21mWEd0ZFJiLzdYczI5cmlqQ08vbUZ1T3FwZnVZVlhFNXlDT2xy?=
+ =?utf-8?B?bytOOWFzZEFUdzlQQXdRdlk3bTVZUkZCVEprQ1JWZldPTmtZenlWUXdzU2I4?=
+ =?utf-8?B?QTJqR21rRUdkNjJpbkJKM1VqQkJwMFRyQ3JjUUc3RGpzSlMwckdGUXJpVHo0?=
+ =?utf-8?B?MmR6WnhWdTUrUGxBQmg3dC83Z0hlWHNlaGpUNEthK2R1TW91My84MVpGekxI?=
+ =?utf-8?B?dUV4a25Pd1FrRDViYlJFUUZSZXRaRG03K0NONDV1ZmZ5TzRQTkZrajhWMGZG?=
+ =?utf-8?B?Zm9iK2hZQ0Q2ZktSdHFBU2hKdzNnK1dGVHUwdTh3dVM5NW8rNFFibmFPczl0?=
+ =?utf-8?Q?qH+gdr6paSCh7q2ANk9De9q6bHsdXq63gH66sJL?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e4603a3-1c54-4b77-13a4-08d9679442e6
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 06:47:52.6274 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a9EOX1rEodAlJaI06Rp+bZHsWmw+mleqkl8N/bkAyvBvNm0AAAmYdVr4pDNS3ZO5sZM0qSvyTGiONk0b27ULDg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3892
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,121 +152,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/24/21 11:17 PM, Christian König wrote:
+...
+>> I think it depends on the user, if the user creates memory which is
+>> permanently located on the GPU then it should be pinnable in this way
+>> without force migration. But if the memory is inherently migratable
+>> then it just cannot be pinned in the GPU at all as we can't
+>> indefinately block migration from happening eg if the CPU touches it
+>> later or something.
+> 
+> Yes, exactly that's the point. Especially GPUs have a great variety of setups.
+> 
+> For example we have APUs where the local memory is just stolen system memory and all buffers must be 
+> migrate-able because you might need all of this stolen memory for scanout or page tables. In this 
+> case P2P only makes sense to avoid the migration overhead in the first place.
+> 
+> Then you got dGPUs where only a fraction of the VRAM is accessible from the PCIe BUS. Here you also 
+> absolutely don't want to pin any buffers because that can easily crash when we need to migrate 
+> something into the visible window for CPU access.
+> 
+> The only real option where you could do P2P with buffer pinning are those compute boards where we 
+> know that everything is always accessible to everybody and we will never need to migrate anything. 
+> But even then you want some mechanism like cgroups to take care of limiting this. Otherwise any 
+> runaway process can bring down your whole system.
+> 
+> Key question at least for me as GPU maintainer is if we are going to see modern compute boards 
+> together with old non-ODP setups. Since those compute boards are usually used with new hardware 
+> (like PCIe v4 for example) the answer I think is most likely "no".
+> 
 
+That is a really good point. Times have changed and I guess ODP is on most (all?) of
+the new Infiniband products now, and maybe we don't need to worry so much about
+providing first-class support for non-ODP setups.
 
-Am 24.08.21 um 23:01 schrieb Andrey Grodzovsky:
-> Handle all DMA IOMMU group related dependencies before the
-> group is removed and we try to access it after free.
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  2 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 50 ++++++++++++++++++++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    |  1 +
->   3 files changed, 53 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 0b5764aa98a4..288a465b8101 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -3860,6 +3860,8 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
->   
->   	amdgpu_device_ip_fini_early(adev);
->   
-> +	amdgpu_ttm_clear_dma_mappings(adev);
-> +
->   	amdgpu_gart_dummy_page_fini(adev);
->   
->   	amdgpu_device_unmap_mmio(adev);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 446943e32e3e..f73d807db3b0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -64,6 +64,7 @@
->   static int amdgpu_ttm_backend_bind(struct ttm_device *bdev,
->   				   struct ttm_tt *ttm,
->   				   struct ttm_resource *bo_mem);
-> +
->   static void amdgpu_ttm_backend_unbind(struct ttm_device *bdev,
->   				      struct ttm_tt *ttm);
->   
-> @@ -2293,6 +2294,55 @@ static ssize_t amdgpu_iomem_write(struct file *f, const char __user *buf,
->   	return result;
->   }
->   
-> +void amdgpu_ttm_clear_dma_mappings(struct amdgpu_device *adev)
+I've got to drag my brain into 2021+! :)
 
-I strongly think that this function should be part of TTM. Something 
-like ttm_device_force_unpopulate.
-
-> +{
-> +	struct ttm_device *bdev = &adev->mman.bdev;
-> +	struct ttm_resource_manager *man;
-> +	struct ttm_buffer_object *bo;
-> +	unsigned int i, j;
-> +
-> +	spin_lock(&bdev->lru_lock);
-> +	for (i = TTM_PL_SYSTEM; i < TTM_NUM_MEM_TYPES; ++i) {
-> +		man = ttm_manager_type(bdev, i);
-> +		if (!man || !man->use_tt)
-> +			continue;
-> +
-> +		while (!list_empty(&man->pinned)) {
-> +			bo = list_first_entry(&man->pinned, struct ttm_buffer_object, lru);
-> +			/* Take ref against racing releases once lru_lock is unlocked */
-> +			ttm_bo_get(bo);
-> +			list_del_init(&bo->lru);
-> +			spin_unlock(&bdev->lru_lock);
-> +
-> +			if (bo->ttm) {
-> +				amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
-> +				ttm_tt_destroy_common(bo->bdev, bo->ttm);
-
-Then you can also cleanly use ttm_tt_unpopulate here, cause this will 
-result in incorrect statistics inside TTM atm.
-
-Regards,
-Christian.
-
-> +			}
-> +
-> +			ttm_bo_put(bo);
-> +			spin_lock(&bdev->lru_lock);
-> +		}
-> +
-> +		for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
-> +			while (!list_empty(&man->lru[j])) {
-> +				bo = list_first_entry(&man->lru[j], struct ttm_buffer_object, lru);
-> +				ttm_bo_get(bo);
-> +				list_del_init(&bo->lru);
-> +				spin_unlock(&bdev->lru_lock);
-> +
-> +				if (bo->ttm) {
-> +					amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
-> +					ttm_tt_destroy_common(bo->bdev, bo->ttm);
-> +				}
-> +				ttm_bo_put(bo);
-> +				spin_lock(&bdev->lru_lock);
-> +			}
-> +		}
-> +	}
-> +	spin_unlock(&bdev->lru_lock);
-> +
-> +}
-> +
->   static const struct file_operations amdgpu_ttm_iomem_fops = {
->   	.owner = THIS_MODULE,
->   	.read = amdgpu_iomem_read,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> index e69f3e8e06e5..02c8eac48a64 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> @@ -190,6 +190,7 @@ bool amdgpu_ttm_tt_is_readonly(struct ttm_tt *ttm);
->   uint64_t amdgpu_ttm_tt_pde_flags(struct ttm_tt *ttm, struct ttm_resource *mem);
->   uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_device *adev, struct ttm_tt *ttm,
->   				 struct ttm_resource *mem);
-> +void amdgpu_ttm_clear_dma_mappings(struct amdgpu_device *adev);
->   
->   void amdgpu_ttm_debugfs_init(struct amdgpu_device *adev);
->   
-
+thanks,
+-- 
+John Hubbard
+NVIDIA
