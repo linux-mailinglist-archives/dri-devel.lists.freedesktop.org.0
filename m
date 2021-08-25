@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FDC3F70D8
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 10:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4193F7165
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Aug 2021 11:04:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B594890BB;
-	Wed, 25 Aug 2021 08:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 031DC88E33;
+	Wed, 25 Aug 2021 09:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 983BB89A5C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 07:09:23 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id 2so6406750pfo.8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 00:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=fA/w6VbuGM8pz72LZbM00XZwUh+fEwMznPqSYKJlrlM=;
- b=URLbWU5XNwcCMf30tqDUV8PDQOM8J0XqWN6maA7XjM1ag3xXS5ZtP/h0SzOMl6wgZy
- QOsIdwEu5X8pEWLQeEsvgSLXD1qx3qnWYzcMZeaaE9SD85UXD7jSSFJ8RwU92ldd1w/J
- F36TTnl3PZWb9K9uaUzW1TvITaNWP9mlkb5AkFbDmD0e1ZjyWcUsD2IkPGl0dPPcsIu0
- ZJ2xwI1JUOXnDZwXanBsX0TmX7MAcIoWxKPpJUbA86QYPLnc4QodpZw1QiwaeyYAYdra
- CPF/S12tn930YF2sh+FVa2cMMa7fYUIv8+mzyvFzEoHBjYmbkNBNjniRnowU7eXpvgdx
- zKkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=fA/w6VbuGM8pz72LZbM00XZwUh+fEwMznPqSYKJlrlM=;
- b=TcEtdrtX12Cz9cSRQjBdIqXZGInuntbI5XR+eyIZizEIFQcllETrGSoxBhlBKwllx4
- MYRS6Gvu3SBlkjyCnlG03EHnhUpEeitkrM5uGou12Tr8Fgz48w9wlXCEsfUV9vFntwtP
- 8o0O3n3/xIWo6Pc9Y+ba+YgkarnPWsn+LNaZjApltD64XfwdPoOJASUouo8PGOzcYiaq
- R9JgPRxdsspTmyxUMMVzpy6Y5CV5I7UhidQD92hh8FmxkWkujikgvafRKzcyJM2UfmlD
- 30Qr1y63Xb4/UMKxKPoK9RYltx5GC1nlAHq8fLIS3xWNJD+NU3andWeRd/wFJO2sEO6o
- jG5g==
-X-Gm-Message-State: AOAM532t2yV8hxndoWOxT+fF+ZrTGLf8qm8lRY0ywqEzPbQHprRuEDMp
- 4a7CXxmeyyORjPy/9oRBP1o+IcFgayck6w==
-X-Google-Smtp-Source: ABdhPJyKOzOQVI/q9iVV98cWvqgD2qR0NFOXa7awEdU8hf0TZ+I7tOdIoZAWdHOQHQ5JugPUZkrswg==
-X-Received: by 2002:a63:f154:: with SMTP id o20mr40451123pgk.172.1629875363168; 
- Wed, 25 Aug 2021 00:09:23 -0700 (PDT)
-Received: from image-900X5T-900X5U ([39.117.32.248])
- by smtp.gmail.com with ESMTPSA id l12sm24748818pgc.41.2021.08.25.00.09.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 00:09:22 -0700 (PDT)
-Date: Wed, 25 Aug 2021 16:09:17 +0900
-From: Jongpil Jung <jongpuls@gmail.com>
-To: ajax@redhat.com, daniel@fooishbar.org, airlied@gmail.com,
- robdclark@gmail.com, thierry.reding@gmail.com, cpaul@redhat.com,
- a.hajda@samsung.com
-Cc: dri-devel@lists.freedesktop.org, jongpil19.jung@samsung.com
-Subject: [PATCH 1/1] drm: Added orientation quirk for Samsung Chromebook Bugzzy
-Message-ID: <20210825070917.GA16957@image-900X5T-900X5U>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 62D9988735
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 09:04:06 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CDFB131B;
+ Wed, 25 Aug 2021 02:04:05 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 802A73F66F;
+ Wed, 25 Aug 2021 02:04:04 -0700 (PDT)
+Subject: Re: [PATCH v2 1/4] drm/panfrost: Simplify lock_region calculation
+To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-kernel@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ stable@vger.kernel.org
+References: <20210824173028.7528-1-alyssa.rosenzweig@collabora.com>
+ <20210824173028.7528-2-alyssa.rosenzweig@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <698bbb98-5fd8-d6cd-b8cd-0ff29573314c@arm.com>
+Date: Wed, 25 Aug 2021 10:03:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailman-Approved-At: Wed, 25 Aug 2021 08:03:11 +0000
+In-Reply-To: <20210824173028.7528-2-alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,44 +52,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Bugzzy has different type of panel from clamshell.
-So we need to add quirk to change orientation.
+On 24/08/2021 18:30, Alyssa Rosenzweig wrote:
+> In lock_region, simplify the calculation of the region_width parameter.
+> This field is the size, but encoded as ceil(log2(size)) - 1.
+> ceil(log2(size)) may be computed directly as fls(size - 1). However, we
+> want to use the 64-bit versions as the amount to lock can exceed
+> 32-bits.
+> 
+> This avoids undefined (and completely wrong) behaviour when locking all
+> memory (size ~0). In this case, the old code would "round up" ~0 to the
+> nearest page, overflowing to 0. Since fls(0) == 0, this would calculate
+> a region width of 10 + 0 = 10. But then the code would shift by
+> (region_width - 11) = -1. As shifting by a negative number is undefined,
+> UBSAN flags the bug. Of course, even if it were defined the behaviour is
+> wrong, instead of locking all memory almost none would get locked.
+> 
+> The new form of the calculation corrects this special case and avoids
+> the undefined behaviour.
+> 
+> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> Reported-and-tested-by: Chris Morgan <macromorgan@hotmail.com>
+> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
+> Cc: <stable@vger.kernel.org>
 
-Signed-off-by: Jongpil Jung <jongpuls@gmail.com>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 902cc1a71e45..3c85afd3ef17 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -66,6 +66,12 @@ static const struct drm_dmi_panel_orientation_data vios_lth17 = {
- 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
- };
- 
-+static const struct drm_dmi_panel_orientation_data samsung_bugzzy = {
-+	.width = 1600,
-+	.height = 2560,
-+	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
-+};
-+
- static const struct dmi_system_id orientation_data[] = {
- 	{	/* Asus T100HA */
- 		.matches = {
-@@ -108,6 +114,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "LTH17"),
- 		},
- 		.driver_data = (void *)&vios_lth17,
-+	}, {    /* Samsung Bugzzy */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Google"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Bugzzy"),
-+		},
-+		.driver_data = (void *)&samsung_bugzzy,
- 	},
- 	{}
- };
--- 
-2.25.1
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c | 19 +++++--------------
+>  1 file changed, 5 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index 0da5b3100ab1..f6e02d0392f4 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -62,21 +62,12 @@ static void lock_region(struct panfrost_device *pfdev, u32 as_nr,
+>  {
+>  	u8 region_width;
+>  	u64 region = iova & PAGE_MASK;
+> -	/*
+> -	 * fls returns:
+> -	 * 1 .. 32
+> -	 *
+> -	 * 10 + fls(num_pages)
+> -	 * results in the range (11 .. 42)
+> -	 */
+> -
+> -	size = round_up(size, PAGE_SIZE);
+>  
+> -	region_width = 10 + fls(size >> PAGE_SHIFT);
+> -	if ((size >> PAGE_SHIFT) != (1ul << (region_width - 11))) {
+> -		/* not pow2, so must go up to the next pow2 */
+> -		region_width += 1;
+> -	}
+> +	/* The size is encoded as ceil(log2) minus(1), which may be calculated
+> +	 * with fls. The size must be clamped to hardware bounds.
+> +	 */
+> +	size = max_t(u64, size, PAGE_SIZE);
+> +	region_width = fls64(size - 1) - 1;
+>  	region |= region_width;
+>  
+>  	/* Lock the region that needs to be updated */
+> 
 
