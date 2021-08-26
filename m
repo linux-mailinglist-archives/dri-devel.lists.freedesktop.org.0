@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C973F8050
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 04:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC2B3F804F
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 04:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 534306E486;
-	Thu, 26 Aug 2021 02:05:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27CB46E4A2;
+	Thu, 26 Aug 2021 02:05:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 788C06E491
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 02:05:02 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id y11so1303698pfl.13
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 19:05:02 -0700 (PDT)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB986E48B
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 02:05:03 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id e16so904025pfc.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 19:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YAy5B+LMCuCCsg07Enh3SCnsF8ZSJ5wpwoPnPjXI7gw=;
- b=QcO+qE7MCC/IkrklZYTfRvqMeJcMLKYNpj2AzDak+8C3PppOsT1UEqSma0mgBWK9yM
- qp5SZ9m9vTozNZ9OEAHFgPJX31VkXr+iuHvWnbJuw5lnN8p/XU3Wo50VKCAdt16oM4Oh
- RHdLfgmw4gMBscQM6Z12e2KSBHrZlw6Khw2Ak=
+ bh=FEQ2xX3nEVIyVouBwfITYaHoPzIgl6QCYF1QBIFkzAA=;
+ b=fM4SkZDVLJOEPVU1sDSpAneUV9NR+ma4Dmh7bhu4gFbCgT6BjQCcl8FsYkiovGyR2C
+ 7npjyl+ktKFJYJas389gPEWPgooJhSZpdw9PhYY5SBe7eGgc8nMvDhqB4WEAtLbnGzHc
+ sNWoVDlbFolgbeYP+j1kfFv+M0NpQ3wnkyqIk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YAy5B+LMCuCCsg07Enh3SCnsF8ZSJ5wpwoPnPjXI7gw=;
- b=M3NQiEu6/i5eGGrpJxoia1+muRN1ph+45g4wzqNuUYtBBysH+816EOJ7uCUE2sQ1fb
- tKDgQz/6aQ2PCV2fy7xVdjUIcScV9HRyutcOnARL5cohh/4cH1p7xbRRsJkrZDwPdDiM
- OZqpPCRXPLHgbbeKTnyKypW61u7AUPNSpDb5VTNOM0JwjH3VZRxENwuNG82pT05G6qAD
- vsUXzdb58iWKncX+SZ2yI5WmeQfolszW47XB7wKjGvGUn3oz52yFCkHPLn/ObcNEGQFX
- T+jVfeOFnyiew3v5h6SOXvBV8Ine4RE1FA5BwnFR7BZdTAe8BlfflTUUOo/ynxLiP7nx
- AeOQ==
-X-Gm-Message-State: AOAM532l7QC/d6ggQ8dynthzdyjPHCyAYKCAThZnuUQpMsOEJNMkfeAy
- aYdvf92FMsID08NHYN9O6B8jQ8aSzbqxhQ==
-X-Google-Smtp-Source: ABdhPJzMRXA5DU+SMRoYMEkmfwjpmJZVsstPuLkwGI2DD/1hI+MME9c01I+W6cQGpFoxnd+iKF2Elw==
-X-Received: by 2002:a62:ee11:0:b029:3e0:88dc:193f with SMTP id
- e17-20020a62ee110000b02903e088dc193fmr1246615pfi.78.1629943501694; 
- Wed, 25 Aug 2021 19:05:01 -0700 (PDT)
+ bh=FEQ2xX3nEVIyVouBwfITYaHoPzIgl6QCYF1QBIFkzAA=;
+ b=Y9/cPryslqFAkJft/J1ZF6MAK8+MbZiSSmUeIN/pIIJYwfHzb1nBNeSH0FRe+Lf2L1
+ pBfQU8ZX4ENTejZIcaU3dRknSV7Z5hxeNQmYlSNgriwG3Tqv58lc7FF7Ulzz+8SsktNY
+ j3Acws9U/EQCo2CF2vZfEZeBSnwl5b/UlBn3MeTUcDwb+VExiBQfAGwXmR1Faz5XVw+0
+ oJxKAKTn03pcvGWTiPfO8oXW+Vb9qtoGN/K0752IEgcEjDV39v8RnBIHfds9p39E46yD
+ AEtxRqn6C2AohqBKZTQYj2WqTaxnZOZvY2xEyuJaEYVapAb9IuA4+yn090AN3CR62hjk
+ c9HA==
+X-Gm-Message-State: AOAM5333/I0Bcl11pT24YCSdB/BJ5Ni/i8d9LSL70BvRoVrKz+IEnBIi
+ 5oZmcifAgRKgHYYq+c4bqTq+RdiAbQKWCg==
+X-Google-Smtp-Source: ABdhPJyaHiHEPzEPGrk5hvkbWzJVLSpzYfV1m2sB30gDA5Jn1vFQL9ym8UNCCj4dJ4/Pjp2Ivh/inQ==
+X-Received: by 2002:a63:f4b:: with SMTP id 11mr1127995pgp.189.1629943502914;
+ Wed, 25 Aug 2021 19:05:02 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:faed:1e29:6bf7:3354])
- by smtp.gmail.com with ESMTPSA id o10sm704987pjg.34.2021.08.25.19.05.00
+ by smtp.gmail.com with ESMTPSA id o10sm704987pjg.34.2021.08.25.19.05.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 19:05:01 -0700 (PDT)
+ Wed, 25 Aug 2021 19:05:02 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
 Cc: kraxel@redhat.com
-Subject: [RFC PATCH 03/12] drm/virtio: implement context init: track valid
- capabilities in a mask
-Date: Wed, 25 Aug 2021 19:04:46 -0700
-Message-Id: <20210826020455.1081-4-gurchetansingh@chromium.org>
+Subject: [RFC PATCH 04/12] drm/virtio: implement context init: probe for
+ feature
+Date: Wed, 25 Aug 2021 19:04:47 -0700
+Message-Id: <20210826020455.1081-5-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210826020455.1081-1-gurchetansingh@chromium.org>
 References: <20210826020455.1081-1-gurchetansingh@chromium.org>
@@ -72,87 +71,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The valid capability IDs are between 1 to 63, and defined in the
-virtio gpu spec.  This is used for error checking the subsequent
-patches.  We're currently only using 2 capability IDs, so this
-should be plenty for the immediate future.
+From: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
 
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Let's probe for VIRTIO_GPU_F_CONTEXT_INIT.
+
+Create a new DRM_INFO(..) line since the current one is getting
+too long.
+
+Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
 Acked-by: Lingfeng Yang <lfy@google.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h |  3 +++
- drivers/gpu/drm/virtio/virtgpu_kms.c | 18 +++++++++++++++++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c | 1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c     | 1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h     | 1 +
+ drivers/gpu/drm/virtio/virtgpu_kms.c     | 8 +++++++-
+ 4 files changed, 10 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+index c2b20e0ee030..b6954e2f75e6 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
++++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+@@ -52,6 +52,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
+ 			    vgdev->has_resource_assign_uuid);
+ 
+ 	virtio_gpu_add_bool(m, "blob resources", vgdev->has_resource_blob);
++	virtio_gpu_add_bool(m, "context init", vgdev->has_context_init);
+ 	virtio_gpu_add_int(m, "cap sets", vgdev->num_capsets);
+ 	virtio_gpu_add_int(m, "scanouts", vgdev->num_scanouts);
+ 	if (vgdev->host_visible_region.len) {
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index ed85a7863256..9d963f1fda8f 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -172,6 +172,7 @@ static unsigned int features[] = {
+ 	VIRTIO_GPU_F_EDID,
+ 	VIRTIO_GPU_F_RESOURCE_UUID,
+ 	VIRTIO_GPU_F_RESOURCE_BLOB,
++	VIRTIO_GPU_F_CONTEXT_INIT,
+ };
+ static struct virtio_driver virtio_gpu_driver = {
+ 	.feature_table = features,
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 0c4810982530..3023e16be0d6 100644
+index 3023e16be0d6..5e1958a522ff 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -55,6 +55,8 @@
- #define STATE_OK 1
- #define STATE_ERR 2
+@@ -236,6 +236,7 @@ struct virtio_gpu_device {
+ 	bool has_resource_assign_uuid;
+ 	bool has_resource_blob;
+ 	bool has_host_visible;
++	bool has_context_init;
+ 	struct virtio_shm_region host_visible_region;
+ 	struct drm_mm host_visible_mm;
  
-+#define MAX_CAPSET_ID 63
-+
- struct virtio_gpu_object_params {
- 	unsigned long size;
- 	bool dumb;
-@@ -245,6 +247,7 @@ struct virtio_gpu_device {
- 
- 	struct virtio_gpu_drv_capset *capsets;
- 	uint32_t num_capsets;
-+	uint64_t capset_id_mask;
- 	struct list_head cap_cache;
- 
- 	/* protects uuid state when exporting */
 diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index f3379059f324..58a65121c200 100644
+index 58a65121c200..21f410901694 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -65,6 +65,7 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 				   int num_capsets)
- {
- 	int i, ret;
-+	bool invalid_capset_id = false;
- 
- 	vgdev->capsets = kcalloc(num_capsets,
- 				 sizeof(struct virtio_gpu_drv_capset),
-@@ -78,19 +79,34 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 		virtio_gpu_notify(vgdev);
- 		ret = wait_event_timeout(vgdev->resp_wq,
- 					 vgdev->capsets[i].id > 0, 5 * HZ);
--		if (ret == 0) {
-+		/*
-+		 * Capability ids are defined in the virtio-gpu spec and are
-+		 * between 1 to 63, inclusive.
-+		 */
-+		if (!vgdev->capsets[i].id ||
-+		    vgdev->capsets[i].id > MAX_CAPSET_ID)
-+			invalid_capset_id = true;
-+
-+		if (ret == 0)
- 			DRM_ERROR("timed out waiting for cap set %d\n", i);
-+		else if (invalid_capset_id)
-+			DRM_ERROR("invalid capset id %u", vgdev->capsets[i].id);
-+
-+		if (ret == 0 || invalid_capset_id) {
- 			spin_lock(&vgdev->display_info_lock);
- 			kfree(vgdev->capsets);
- 			vgdev->capsets = NULL;
- 			spin_unlock(&vgdev->display_info_lock);
- 			return;
- 		}
-+
-+		vgdev->capset_id_mask |= 1 << vgdev->capsets[i].id;
- 		DRM_INFO("cap set %d: id %d, max-version %d, max-size %d\n",
- 			 i, vgdev->capsets[i].id,
- 			 vgdev->capsets[i].max_version,
- 			 vgdev->capsets[i].max_size);
+@@ -191,13 +191,19 @@ int virtio_gpu_init(struct drm_device *dev)
+ 			    (unsigned long)vgdev->host_visible_region.addr,
+ 			    (unsigned long)vgdev->host_visible_region.len);
  	}
-+
- 	vgdev->num_capsets = num_capsets;
- }
++	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_CONTEXT_INIT)) {
++		vgdev->has_context_init = true;
++	}
  
+-	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible\n",
++	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible",
+ 		 vgdev->has_virgl_3d    ? '+' : '-',
+ 		 vgdev->has_edid        ? '+' : '-',
+ 		 vgdev->has_resource_blob ? '+' : '-',
+ 		 vgdev->has_host_visible ? '+' : '-');
+ 
++	DRM_INFO("features: %ccontext_init\n",
++		 vgdev->has_context_init ? '+' : '-');
++
+ 	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
+ 	if (ret) {
+ 		DRM_ERROR("failed to find virt queues\n");
 -- 
 2.33.0.259.gc128427fd7-goog
 
