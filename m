@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F593F80FB
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 05:29:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 426C03F811B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 05:29:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4079F6E4FE;
-	Thu, 26 Aug 2021 03:28:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C55086E4E8;
+	Thu, 26 Aug 2021 03:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC7CE6E4B6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1959B6E4CD;
  Thu, 26 Aug 2021 03:28:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="215811068"
-X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="215811068"
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="215811070"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="215811070"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Aug 2021 20:28:40 -0700
-X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="684738546"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="684738550"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Aug 2021 20:28:39 -0700
@@ -25,10 +25,10 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <daniele.ceraolospurio@intel.com>
-Subject: [PATCH 10/27] drm/i915/guc: Don't enable scheduling on a banned
- context, guc_id invalid, not registered
-Date: Wed, 25 Aug 2021 20:23:10 -0700
-Message-Id: <20210826032327.18078-11-matthew.brost@intel.com>
+Subject: [PATCH 11/27] drm/i915/guc: Copy whole golden context,
+ set engine state size of subset
+Date: Wed, 25 Aug 2021 20:23:11 -0700
+Message-Id: <20210826032327.18078-12-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210826032327.18078-1-matthew.brost@intel.com>
 References: <20210826032327.18078-1-matthew.brost@intel.com>
@@ -49,68 +49,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When unblocking a context, do not enable scheduling if the context is
-banned, guc_id invalid, or not registered.
+When the GuC does a media reset, it copies a golden context state back
+into the corrupted context's state. The address of the golden context
+and the size of the engine state restore are passed in via the GuC ADS.
+The i915 had a bug where it passed in the whole size of the golden
+context, not the size of the engine state to restore resulting in a
+memory corruption.
 
-v2:
- (Daniele)
-  - Add helper for unblock
+Also copy the entire golden context on init rather than just the engine
+state that is restored.
 
-Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
+Fixes: 481d458caede ("drm/i915/guc: Add golden context to GuC ADS")
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: <stable@vger.kernel.org>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 22 ++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 28 +++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b30fdccc71d4..56f11accd6cc 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -148,6 +148,7 @@ static inline void clr_context_registered(struct intel_context *ce)
- #define SCHED_STATE_BLOCKED_SHIFT			4
- #define SCHED_STATE_BLOCKED		BIT(SCHED_STATE_BLOCKED_SHIFT)
- #define SCHED_STATE_BLOCKED_MASK	(0xfff << SCHED_STATE_BLOCKED_SHIFT)
-+
- static inline void init_sched_state(struct intel_context *ce)
- {
- 	/* Only should be called from guc_lrc_desc_pin() */
-@@ -1569,6 +1570,23 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
- 	return &ce->guc_blocked;
- }
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 6926919bcac6..df2734bfe078 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -358,6 +358,11 @@ static int guc_prep_golden_context(struct intel_guc *guc,
+ 	u8 engine_class, guc_class;
+ 	struct guc_gt_system_info *info, local_info;
  
-+#define SCHED_STATE_MULTI_BLOCKED_MASK \
-+	(SCHED_STATE_BLOCKED_MASK & ~SCHED_STATE_BLOCKED)
-+#define SCHED_STATE_NO_UNBLOCK \
-+	(SCHED_STATE_MULTI_BLOCKED_MASK | \
-+	 SCHED_STATE_PENDING_DISABLE | \
-+	 SCHED_STATE_BANNED)
++	/* Skip execlist and PPGTT registers + HWSP */
++	const u32 lr_hw_context_size = 80 * sizeof(u32);
++	const u32 skip_size = LRC_PPHWSP_SZ * PAGE_SIZE +
++		lr_hw_context_size;
 +
-+static bool context_cant_unblock(struct intel_context *ce)
-+{
-+	lockdep_assert_held(&ce->guc_state.lock);
-+
-+	return (ce->guc_state.sched_state & SCHED_STATE_NO_UNBLOCK) ||
-+		context_guc_id_invalid(ce) ||
-+		!lrc_desc_registered(ce_to_guc(ce), ce->guc_id) ||
-+		!intel_context_is_pinned(ce);
-+}
-+
- static void guc_context_unblock(struct intel_context *ce)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
-@@ -1583,9 +1601,7 @@ static void guc_context_unblock(struct intel_context *ce)
- 	spin_lock_irqsave(&ce->guc_state.lock, flags);
+ 	/*
+ 	 * Reserve the memory for the golden contexts and point GuC at it but
+ 	 * leave it empty for now. The context data will be filled in later
+@@ -396,7 +401,18 @@ static int guc_prep_golden_context(struct intel_guc *guc,
+ 		if (!blob)
+ 			continue;
  
- 	if (unlikely(submission_disabled(guc) ||
--		     !intel_context_is_pinned(ce) ||
--		     context_pending_disable(ce) ||
--		     context_blocked(ce) > 1)) {
-+		     context_cant_unblock(ce))) {
- 		enable = false;
- 	} else {
- 		enable = true;
+-		blob->ads.eng_state_size[guc_class] = real_size;
++		/*
++		 * This interface is slightly confusing. We need to pass the
++		 * base address of the golden context and the engine state size
++		 * which is not the size of the whole golden context, it is a
++		 * subset that the GuC uses when doing a watchdog reset. The
++		 * engine state size must match the size of the golden context
++		 * minus the first part of the golden context that the GuC does
++		 * not retore during reset. Currently no real way to verify this
++		 * other than reading the GuC spec / code and ensuring the
++		 * 'skip_size' below matches the value used in the GuC code.
++		 */
++		blob->ads.eng_state_size[guc_class] = real_size - skip_size;
+ 		blob->ads.golden_context_lrca[guc_class] = addr_ggtt;
+ 		addr_ggtt += alloc_size;
+ 	}
+@@ -437,8 +453,8 @@ static void guc_init_golden_context(struct intel_guc *guc)
+ 	u8 *ptr;
+ 
+ 	/* Skip execlist and PPGTT registers + HWSP */
+-	const u32 lr_hw_context_size = 80 * sizeof(u32);
+-	const u32 skip_size = LRC_PPHWSP_SZ * PAGE_SIZE +
++	__maybe_unused const u32 lr_hw_context_size = 80 * sizeof(u32);
++	__maybe_unused const u32 skip_size = LRC_PPHWSP_SZ * PAGE_SIZE +
+ 		lr_hw_context_size;
+ 
+ 	if (!intel_uc_uses_guc_submission(&gt->uc))
+@@ -476,12 +492,12 @@ static void guc_init_golden_context(struct intel_guc *guc)
+ 			continue;
+ 		}
+ 
+-		GEM_BUG_ON(blob->ads.eng_state_size[guc_class] != real_size);
++		GEM_BUG_ON(blob->ads.eng_state_size[guc_class] !=
++			   real_size - skip_size);
+ 		GEM_BUG_ON(blob->ads.golden_context_lrca[guc_class] != addr_ggtt);
+ 		addr_ggtt += alloc_size;
+ 
+-		shmem_read(engine->default_state, skip_size, ptr + skip_size,
+-			   real_size - skip_size);
++		shmem_read(engine->default_state, 0, ptr, real_size);
+ 		ptr += alloc_size;
+ 	}
+ 
 -- 
 2.32.0
 
