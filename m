@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CFE3F82C6
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 08:54:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D693F82DE
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 09:06:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E126E523;
-	Thu, 26 Aug 2021 06:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 450946E51C;
+	Thu, 26 Aug 2021 07:06:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 336206E523
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 06:54:55 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id
- m11-20020a056820034b00b0028bb60b551fso608928ooe.5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 23:54:55 -0700 (PDT)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27B8E6E51C
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 07:06:37 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ m7-20020a9d4c87000000b0051875f56b95so2270015otf.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 00:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=KhqwvKpX2QUupbDYfTBjhyLe2hfemZiewWwZY0rgk0w=;
- b=IKoyYNbSttHPGi5+7FMcORxQLLUgr+nGS4hi/HbbDCxYtSfz6/Do8eIOqxPKT1CBLS
- 57YpI2ic79FSuSudLRG1MGqTg9lN/wHHgdsb7G3o8qCDJNHn0aaoK0/clk6xpbJYou/v
- EX5Iw3aDq7mm5yF87RCn/NMkWrW0Hr+1g683k=
+ bh=Fec8a8GcTBAqynn2ZZ7COpqa2SBkQGSlbtis8MeqbXA=;
+ b=hBr3EdLiF710gt5w/7Ti6OPVvPt7kJNDQbZDuHcQcwmEP36zonNG1PzQEOnSfQmh6R
+ LqyeSucKdE+WhY3M35Oe0js8ljT7e5Uhvty6o8QZNtmw0ZZK0TwNKIAhq0SQM+iQOS5q
+ pBT8x6egV2yIYFMfJglx/8pEwVoidmAkWS8WQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=KhqwvKpX2QUupbDYfTBjhyLe2hfemZiewWwZY0rgk0w=;
- b=amlEGUjLR6PXlpetVHQS0P6MHgpNygng9DGN6co1wLFDicAmBIcfDZ2WI4+sHTZ2uq
- QGW8O+rUaiF+B2nT/pLKm/JopwUelW7HLYiBVZ3rSLbQxsStgFfKf7BDh6ZURasPDgPa
- 6mxnH9RiaaHDuvlXcmzcXUk5QRM2BjPAs05qQQY6rXULJYPD+edjTVZZa7kpt7lZC1Xw
- KRQ50OrJwEoDMZUb56fn5u1FBAxJW2lmAXKkkq84xx9X8kZ1xRQ0yORdievukkrPHOvl
- hJqi9nqRXZ85PqCNMq1gWJChY81PQi1h1J6yTjGeTmat3ND0iwNUc212NjgBA+8olYfW
- Fczg==
-X-Gm-Message-State: AOAM533XHYDwq5HDEhQafxlSs/6Q/SIanb4WemIKj2K4XJJbr0NPCZ85
- C88F6dzSQGM3tdPMtLptMl4+iINlTg6HFFX1ZscsmQ==
-X-Google-Smtp-Source: ABdhPJxXVSZ0AeDf4bM/tncwC3s9EqVDnIEfhIMOL7c4INLIqsTWlLNWu96+47aZUOf/3EzE4j0uBVgY5Q0OkeJXviA=
-X-Received: by 2002:a4a:a841:: with SMTP id p1mr1813277oom.92.1629960894339;
- Wed, 25 Aug 2021 23:54:54 -0700 (PDT)
+ bh=Fec8a8GcTBAqynn2ZZ7COpqa2SBkQGSlbtis8MeqbXA=;
+ b=kq3CaJwjG02sggf1Rsu6EifNNXq6eug2wRH1+EpKvGs0KquRSjKVor6ZXUuglvjRzT
+ 611YVCZqp2PwqGxyXMIbUgvXeeBsCTiS7YVGKWpXVYXLtmCZT6ByZezaAuN6XQG/eStp
+ ZkwV7aLY7TNEo3sQeM/ugIyhn3mzPKceD64FVsg1DSgCTUxpqGqHHKihXZhiBAQuKAaA
+ BMz7Tl+pDNmsrwFIJ1dz6zt4tzwHk5ObFlTlVT3UJzAdSL2EHHWo4Ss2qBl5BHkN69fK
+ o2a8nDhFSyIDwNPvjawKFiXS8bvVIrYCLau6bCpUuJE6W2M6/4pt/G/PSVfcBoRtPgmS
+ /GLg==
+X-Gm-Message-State: AOAM530t9jsP08wGacrIjNfVuzKsH5HMhoXPovpF58F9GOEARpzstOz7
+ 1JQC0UEIvqxsXbKF9nuqtZQab6FFsal+X5HYyRzF2g==
+X-Google-Smtp-Source: ABdhPJxX2h4Sf0+gqNiQoqCR55xo9CLNG4eyz7rKWgznAHyCt52DcMIUBYImUTQuoIE/k/3zVeRSzxCSsUkwkxlhKnk=
+X-Received: by 2002:a05:6830:88:: with SMTP id
+ a8mr1891301oto.233.1629961596490; 
+ Thu, 26 Aug 2021 00:06:36 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 26 Aug 2021 06:54:53 +0000
+ HTTPREST; Thu, 26 Aug 2021 07:06:36 +0000
 MIME-Version: 1.0
-In-Reply-To: <20210825234233.1721068-2-bjorn.andersson@linaro.org>
+In-Reply-To: <20210825234233.1721068-3-bjorn.andersson@linaro.org>
 References: <20210825234233.1721068-1-bjorn.andersson@linaro.org>
- <20210825234233.1721068-2-bjorn.andersson@linaro.org>
+ <20210825234233.1721068-3-bjorn.andersson@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Thu, 26 Aug 2021 06:54:53 +0000
-Message-ID: <CAE-0n53M-bk-525Jh5owT54fQu-E+cHM-6m-qLo3APYLDLuueA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] drm/msm/dp: Remove global g_dp_display variable
+Date: Thu, 26 Aug 2021 07:06:36 +0000
+Message-ID: <CAE-0n50X5vKU7arknufaj17YQ0UspET_oN9u+if89q4Y-DvTUA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] drm/msm/dp: Modify prototype of encoder based API
 To: Abhinav Kumar <abhinavk@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
@@ -76,14 +77,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Bjorn Andersson (2021-08-25 16:42:29)
-> As the Qualcomm DisplayPort driver only supports a single instance of
-> the driver the commonly used struct dp_display is kept in a global
-> variable. As we introduce additional instances this obviously doesn't
-> work.
+Quoting Bjorn Andersson (2021-08-25 16:42:30)
+> Functions in the DisplayPort code that relates to individual instances
+> (encoders) are passed both the struct msm_dp and the struct drm_encoder. But
+> in a situation where multiple DP instances would exist this means that
+> the caller need to resolve which struct msm_dp relates to the struct
+> drm_encoder at hand.
 >
-> Replace this with a combination of existing references to adjacent
-> objects and drvdata.
+> Store a reference to the struct msm_dp associated with each
+> dpu_encoder_virt to allow the particular instance to be associate with
+> the encoder in the following patch.
 >
 > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
