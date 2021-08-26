@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A133C3F8878
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 15:13:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0083F88AE
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 15:21:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1B36E846;
-	Thu, 26 Aug 2021 13:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 864026E84D;
+	Thu, 26 Aug 2021 13:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02E096E846
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 13:13:30 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id a25so6176644ejv.6
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 06:13:29 -0700 (PDT)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2B06E84D
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 13:21:35 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id b7so4661979edu.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 06:21:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=tZzwxUjfLrzYOqglDKb4EAa5fo9Lw2+YYSIeMkYsRHU=;
- b=aD1D0sblC8GDlYWlPmTdjwvxbdaI4IKKptwL2QEt8dnz4MwgJp96CVA1mAnZbN8Wfz
- styAhOR/G/t7lbpDwup4omSOOvIXw8ctUTlDaNuRl3igUcGuyYU1uetg3ENZXwpotpKJ
- qQlsmi8dPs5PnyaN4NUNAeLxRLmGycXJCeVEQ=
+ bh=TxfiEIe6eIG99L/9AfDBHVmVBkfgPglsSXR5sODEUTM=;
+ b=JeZOpMBPrMFqAhCIHrdE90EhgIdrglp/6vUOYgkpJ8dcO5EvdeP+JRsxzCiretUvYB
+ 9fBKkWS6luEYYVwIAfMLJk2FuYqqCtPEr4K4/mlNXtxS5xRUTlU635eDOZUytQaE5Oic
+ 0+bfMhgqgVtdFiXm2ee0mhYwLBANl23Z0k2Bk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=tZzwxUjfLrzYOqglDKb4EAa5fo9Lw2+YYSIeMkYsRHU=;
- b=WXuhpeuaacifEkYMX8rZV7UiOjssC51pya2lEi6l9THYlyLMRNsv/TcjYE4tSagBWc
- WKWP57Dw9r7Nzo6X0tFtzWPA6l8Zt6Vwu0u+XGSI5BFII5wOlQBBU3XqXh8JyTgQFJpY
- CUlnnwzjKntZmbg5yLAGsgt5xt8Qf9euX+y2KPpIfxtfmU7KW7LiUWwmQZ6d7BSYmyz2
- fCmrtxvFgt/ING6DvkSSXrQlE7oT/wje7AKz495L1Bo+Qin9FTewv8vJocqiVVbGWdsV
- n2puiFvMpgl2ydQb4B9a9gdaIdszg3LMoYHMjUMfE2CqDWogku+I+2tIKSdCCt/cGi+o
- xasA==
-X-Gm-Message-State: AOAM531zQjcg/SeVjYMKRCqSfHr8QKsOUBHEyL5g5/imjsgGBrznuqq6
- 7dKtkMe2utfP+gTavLwQTqzD7Q==
-X-Google-Smtp-Source: ABdhPJyMe3rLVFL8ZexeHBZEZ07VSLIkwCSi8yqt5r+0iTQgrtGq7KqsyhsfJ9EFF0jBdluJJ2Jutw==
-X-Received: by 2002:a17:906:93ef:: with SMTP id
- yl15mr4304714ejb.229.1629983608324; 
- Thu, 26 Aug 2021 06:13:28 -0700 (PDT)
+ bh=TxfiEIe6eIG99L/9AfDBHVmVBkfgPglsSXR5sODEUTM=;
+ b=o3Eypkur4afQVxzokHTabKZd28wjJcW9V2YSpTNKCoQfv7v3eSLBvhTbgjxYivydAz
+ J2C07DDSsor9YXBg5JPpIExbqqb67fXuXu06uqKINR0zsII0NLm/v/aed8yWfbzgOtUg
+ 4sz4qpHNOZkhkeWwyYS17kxpjqriQXW18FIWe6Gy/fkkV/wV+c4gt8raRDasJv+X8wvP
+ SxFNIADabfa0IIoQ56HQLKGuBpYtdfUJVWgnThFqe3dKaOxlWyIy1HAvl7qZoMviOVV6
+ 8tk6hJafcf6dldjtXJm/BEbwzV50UJr7ACl9eY7oe3/j/C7gc3tJkPeuNt+h+/T5u9oI
+ 52Sg==
+X-Gm-Message-State: AOAM531f9u3WOZ8FGYL+VjjqF6zgQSqd8OGPIe0p+i5Yq/9cCIbWKt/9
+ NIibdovnqLm6RavUIDm7/CeqVw==
+X-Google-Smtp-Source: ABdhPJxuBt63i76/FDDuggib/5nLGVpCybrV6wO6DOs0AajcC01292l/57ybcAJi0zvvjurHX4GNLQ==
+X-Received: by 2002:aa7:d40b:: with SMTP id z11mr4171030edq.224.1629984093722; 
+ Thu, 26 Aug 2021 06:21:33 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v10sm1816556edt.25.2021.08.26.06.13.26
+ by smtp.gmail.com with ESMTPSA id m24sm1360160ejr.41.2021.08.26.06.21.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 06:13:27 -0700 (PDT)
-Date: Thu, 26 Aug 2021 15:13:24 +0200
+ Thu, 26 Aug 2021 06:21:32 -0700 (PDT)
+Date: Thu, 26 Aug 2021 15:21:30 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -63,8 +62,8 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
  gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v8 5/7] drm: avoid circular locks in drm_mode_object_find
-Message-ID: <YSeTdLmr7mshx4at@phenom.ffwll.local>
+Subject: Re: [PATCH v8 7/7] drm: remove drm_file.master_lookup_lock
+Message-ID: <YSeVWivR6p9spRQn@phenom.ffwll.local>
 Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
@@ -83,11 +82,11 @@ Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  gregkh@linuxfoundation.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 References: <20210826020122.1488002-1-desmondcheongzx@gmail.com>
- <20210826020122.1488002-6-desmondcheongzx@gmail.com>
+ <20210826020122.1488002-8-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210826020122.1488002-6-desmondcheongzx@gmail.com>
+In-Reply-To: <20210826020122.1488002-8-desmondcheongzx@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,507 +103,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 26, 2021 at 10:01:20AM +0800, Desmond Cheong Zhi Xi wrote:
-> __drm_mode_object_find checks if the given drm file holds the required
-> lease on a object by calling _drm_lease_held. _drm_lease_held in turn
-> uses drm_file_get_master to access drm_file.master.
+On Thu, Aug 26, 2021 at 10:01:22AM +0800, Desmond Cheong Zhi Xi wrote:
+> Previously, master_lookup_lock was introduced in
+> commit 0b0860a3cf5e ("drm: serialize drm_file.master with a new
+> spinlock") to serialize accesses to drm_file.master. This then allowed
+> us to write drm_file_get_master in commit 56f0729a510f ("drm: protect
+> drm_master pointers in drm_lease.c").
 > 
-> However, in a future patch, the drm_file.master_lookup_lock in
-> drm_file_get_master will be replaced by drm_device.master_rwsem. This
-> is an issue for two reasons:
+> The rationale behind introducing a new spinlock at the time was that
+> the other lock that could have been used (drm_device.master_mutex) was
+> the outermost lock, so embedding calls to drm_file_get_master and
+> drm_is_current_master in various functions easily caused us to invert
+> the lock hierarchy.
 > 
-> 1. master_rwsem is sometimes already held when __drm_mode_object_find
-> is called, which leads to recursive locks on master_rwsem
+> Following the conversion of master_mutex into a rwsem, and its use to
+> plug races with modesetting rights, we've untangled some lock
+> hierarchies and removed the need for using drm_file_get_master and the
+> unlocked version of drm_is_current_master in multiple places.
 > 
-> 2. drm_mode_object_find is sometimes called with the modeset_mutex
-> held, which leads to an inversion of the master_rwsem -->
-> modeset_mutex lock hierarchy
-> 
-> To fix this, we make __drm_mode_object_find the locked version of
-> drm_mode_object_find, and wrap calls to __drm_mode_object_find with
-> locks on master_rwsem. This allows us to safely access drm_file.master
-> in _drm_lease_held (__drm_mode_object_find is its only caller) without
-> the use of drm_file_get_master.
-> 
-> Functions that already lock master_rwsem are modified to call
-> __drm_mode_object_find, whereas functions that haven't locked
-> master_rwsem should call drm_mode_object_find. These two options
-> allow us to grab master_rwsem before modeset_mutex (such as in
-> drm_mode_get_obj_get_properties_ioctl).
-> 
-> This new rule requires more extensive changes to three functions:
-> drn_connector_lookup, drm_crtc_find, and drm_plane_find. These
-> functions are only sometimes called with master_rwsem held. Hence, we
-> have to further split them into locked and unlocked versions that call
-> __drm_mode_object_find and drm_mode_object_find respectively.
-
-I think approach looks good, but the naming isn't so great. Usually __
-prefix means "do not call directly, this is only exported for static
-inline and other helpers". For these the usual rule is to add a _locked or
-_unlocked suffix. I'd leave the normal _find functions as-is (since those
-take the lock) themselves, and annotate the _locked ones.
-
-Also same for the other lookup helpers.
-
+> Hence, we can take this opportunity to clean up the locking design by
+> replacing master_lookup_lock with drm_device.master_rwsem.
 > 
 > Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 > ---
->  drivers/gpu/drm/drm_atomic_uapi.c            |  7 ++---
->  drivers/gpu/drm/drm_color_mgmt.c             |  2 +-
->  drivers/gpu/drm/drm_crtc.c                   |  5 ++--
->  drivers/gpu/drm/drm_framebuffer.c            |  2 +-
->  drivers/gpu/drm/drm_lease.c                  | 21 +++++----------
->  drivers/gpu/drm/drm_mode_object.c            | 28 +++++++++++++++++---
->  drivers/gpu/drm/drm_plane.c                  |  8 +++---
->  drivers/gpu/drm/drm_property.c               |  6 ++---
->  drivers/gpu/drm/i915/display/intel_overlay.c |  2 +-
->  drivers/gpu/drm/i915/display/intel_sprite.c  |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c          |  2 +-
->  include/drm/drm_connector.h                  | 23 ++++++++++++++++
->  include/drm/drm_crtc.h                       | 22 +++++++++++++++
->  include/drm/drm_mode_object.h                |  3 +++
->  include/drm/drm_plane.h                      | 20 ++++++++++++++
->  15 files changed, 118 insertions(+), 35 deletions(-)
+>  drivers/gpu/drm/drm_auth.c     | 19 +++++++------------
+>  drivers/gpu/drm/drm_file.c     |  1 -
+>  drivers/gpu/drm/drm_internal.h |  1 +
+>  drivers/gpu/drm/drm_ioctl.c    |  4 ++--
+>  drivers/gpu/drm/drm_lease.c    | 18 ++++++++----------
+>  include/drm/drm_file.h         |  9 +--------
+>  6 files changed, 19 insertions(+), 33 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 909f31833181..cda9a501cf74 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -557,7 +557,7 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
->  			return -EINVAL;
+> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> index f2b2f197052a..232416119407 100644
+> --- a/drivers/gpu/drm/drm_auth.c
+> +++ b/drivers/gpu/drm/drm_auth.c
+> @@ -61,10 +61,9 @@
+>   * trusted clients.
+>   */
 >  
->  	} else if (property == config->prop_crtc_id) {
-> -		struct drm_crtc *crtc = drm_crtc_find(dev, file_priv, val);
-> +		struct drm_crtc *crtc = __drm_crtc_find(dev, file_priv, val);
->  
->  		if (val && !crtc)
->  			return -EACCES;
-> @@ -709,7 +709,7 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
->  	int ret;
->  
->  	if (property == config->prop_crtc_id) {
-> -		struct drm_crtc *crtc = drm_crtc_find(dev, file_priv, val);
-> +		struct drm_crtc *crtc = __drm_crtc_find(dev, file_priv, val);
->  
->  		if (val && !crtc)
->  			return -EACCES;
-> @@ -1385,7 +1385,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->  			goto out;
->  		}
->  
-> -		obj = drm_mode_object_find(dev, file_priv, obj_id, DRM_MODE_OBJECT_ANY);
-> +		obj = __drm_mode_object_find(dev, file_priv, obj_id,
-> +					     DRM_MODE_OBJECT_ANY);
->  		if (!obj) {
->  			ret = -ENOENT;
->  			goto out;
-> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-> index bb14f488c8f6..9dcb2ccca3ab 100644
-> --- a/drivers/gpu/drm/drm_color_mgmt.c
-> +++ b/drivers/gpu/drm/drm_color_mgmt.c
-> @@ -365,7 +365,7 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	crtc = drm_crtc_find(dev, file_priv, crtc_lut->crtc_id);
-> +	crtc = __drm_crtc_find(dev, file_priv, crtc_lut->crtc_id);
->  	if (!crtc)
->  		return -ENOENT;
->  
-> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> index 26a77a735905..b1279bb3fa61 100644
-> --- a/drivers/gpu/drm/drm_crtc.c
-> +++ b/drivers/gpu/drm/drm_crtc.c
-> @@ -656,7 +656,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
->  	if (crtc_req->x & 0xffff0000 || crtc_req->y & 0xffff0000)
->  		return -ERANGE;
->  
-> -	crtc = drm_crtc_find(dev, file_priv, crtc_req->crtc_id);
-> +	crtc = __drm_crtc_find(dev, file_priv, crtc_req->crtc_id);
->  	if (!crtc) {
->  		DRM_DEBUG_KMS("Unknown CRTC ID %d\n", crtc_req->crtc_id);
->  		return -ENOENT;
-> @@ -787,7 +787,8 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
->  				goto out;
->  			}
->  
-> -			connector = drm_connector_lookup(dev, file_priv, out_id);
-> +			connector = __drm_connector_lookup(dev, file_priv,
-> +							   out_id);
->  			if (!connector) {
->  				DRM_DEBUG_KMS("Connector id %d unknown\n",
->  						out_id);
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-> index 07f5abc875e9..9c1db91b150d 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -887,7 +887,7 @@ struct drm_framebuffer *drm_framebuffer_lookup(struct drm_device *dev,
->  	struct drm_mode_object *obj;
->  	struct drm_framebuffer *fb = NULL;
->  
-> -	obj = __drm_mode_object_find(dev, file_priv, id, DRM_MODE_OBJECT_FB);
-> +	obj = drm_mode_object_find(dev, file_priv, id, DRM_MODE_OBJECT_FB);
-
-I expect this to go boom, also for property and blob objects. These lookup
-functions can be called from the atomic_ioctl machinery, where we're
-already holding all kinds of locks. So grabbing the master_rwsem is not a
-good idea.
-
-We should always use the the drm_mode_object_find_unlocked for anything
-object which is not in the list of drm_mode_object_lease_required().
-
->  	if (obj)
->  		fb = obj_to_fb(obj);
->  	return fb;
-> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-> index bed6f7636cbe..1b156c85d1c8 100644
-> --- a/drivers/gpu/drm/drm_lease.c
-> +++ b/drivers/gpu/drm/drm_lease.c
-> @@ -105,22 +105,13 @@ static bool _drm_has_leased(struct drm_master *master, int id)
->  	return false;
->  }
->  
-> -/* Called with idr_mutex held */
-> +/* Called with idr_mutex and master_rwsem held */
-
-Please verify this with lockdep_assert_held.
-
-The reason is that our locking gets rather funny here, because only for
-some types of objects do we need to check master status.
-drm_mode_object_lease_required() decides that.
-
->  bool _drm_lease_held(struct drm_file *file_priv, int id)
+> -static bool drm_is_current_master_locked(struct drm_file *fpriv)
+> +bool drm_is_current_master_locked(struct drm_file *fpriv)
 >  {
-> -	bool ret;
-> -	struct drm_master *master;
-> -
-> -	if (!file_priv)
-> +	if (!file_priv || !file_priv->master)
->  		return true;
+> -	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
+> -			    lockdep_is_held(&fpriv->minor->dev->master_rwsem));
+> +	lockdep_assert_held_once(&fpriv->minor->dev->master_rwsem);
 >  
-> -	master = drm_file_get_master(file_priv);
-> -	if (!master)
-> -		return true;
-> -	ret = _drm_lease_held_master(master, id);
-> -	drm_master_put(&master);
-> -
-> -	return ret;
-> +	return _drm_lease_held_master(file_priv->master, id);
+>  	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
 >  }
->  
->  bool drm_lease_held(struct drm_file *file_priv, int id)
-> @@ -391,9 +382,9 @@ static int fill_object_idr(struct drm_device *dev,
->  	/* step one - get references to all the mode objects
->  	   and check for validity. */
->  	for (o = 0; o < object_count; o++) {
-> -		objects[o] = drm_mode_object_find(dev, lessor_priv,
-> -						  object_ids[o],
-> -						  DRM_MODE_OBJECT_ANY);
-> +		objects[o] = __drm_mode_object_find(dev, lessor_priv,
-> +						    object_ids[o],
-> +						    DRM_MODE_OBJECT_ANY);
->  		if (!objects[o]) {
->  			ret = -ENOENT;
->  			goto out_free_objects;
-> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-> index 86d9e907c0b2..90c23997aa53 100644
-> --- a/drivers/gpu/drm/drm_mode_object.c
-> +++ b/drivers/gpu/drm/drm_mode_object.c
-> @@ -133,12 +133,27 @@ bool drm_mode_object_lease_required(uint32_t type)
->  	}
->  }
->  
-> +/**
-> + * __drm_mode_object_find - look up a drm object with static lifetime
-> + * @dev: drm device
-> + * @file_priv: drm file
-> + * @id: id of the mode object
-> + * @type: type of the mode object
-> + *
-> + * This function is used to look up a modeset object. It will acquire a
-> + * reference for reference counted objects. This reference must be dropped
-> + * again by calling drm_mode_object_put().
-> + *
-> + * Similar to drm_mode_object_find(), but called with &drm_device.master_rwsem
-> + * held.
-> + */
->  struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
->  					       struct drm_file *file_priv,
-> -					       uint32_t id, uint32_t type)
-> +					       u32 id, u32 type)
+> @@ -83,9 +82,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
 >  {
->  	struct drm_mode_object *obj = NULL;
+>  	bool ret;
 >  
-> +	lockdep_assert_held_once(&dev->master_rwsem);
->  	mutex_lock(&dev->mode_config.idr_mutex);
->  	obj = idr_find(&dev->mode_config.object_idr, id);
->  	if (obj && type != DRM_MODE_OBJECT_ANY && obj->type != type)
-> @@ -158,6 +173,7 @@ struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
->  
->  	return obj;
->  }
-> +EXPORT_SYMBOL(__drm_mode_object_find);
->  
->  /**
->   * drm_mode_object_find - look up a drm object with static lifetime
-> @@ -176,7 +192,9 @@ struct drm_mode_object *drm_mode_object_find(struct drm_device *dev,
->  {
->  	struct drm_mode_object *obj = NULL;
->  
-> +	down_read(&dev->master_rwsem);
->  	obj = __drm_mode_object_find(dev, file_priv, id, type);
-> +	up_read(&dev->master_rwsem);
->  	return obj;
->  }
->  EXPORT_SYMBOL(drm_mode_object_find);
-> @@ -408,9 +426,12 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> +	down_read(&dev->master_rwsem);
->  	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  
-> -	obj = drm_mode_object_find(dev, file_priv, arg->obj_id, arg->obj_type);
-> +	obj = __drm_mode_object_find(dev, file_priv, arg->obj_id,
-> +				     arg->obj_type);
-> +	up_read(&dev->master_rwsem);
->  	if (!obj) {
->  		ret = -ENOENT;
->  		goto out;
-> @@ -534,7 +555,8 @@ int drm_mode_obj_set_property_ioctl(struct drm_device *dev, void *data,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	arg_obj = drm_mode_object_find(dev, file_priv, arg->obj_id, arg->obj_type);
-> +	arg_obj = __drm_mode_object_find(dev, file_priv, arg->obj_id,
-> +					 arg->obj_type);
->  	if (!arg_obj)
->  		return -ENOENT;
->  
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 82afb854141b..b5566167a798 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -971,7 +971,7 @@ int drm_mode_setplane(struct drm_device *dev, void *data,
->  	 * First, find the plane, crtc, and fb objects.  If not available,
->  	 * we don't bother to call the driver.
->  	 */
-> -	plane = drm_plane_find(dev, file_priv, plane_req->plane_id);
-> +	plane = __drm_plane_find(dev, file_priv, plane_req->plane_id);
->  	if (!plane) {
->  		DRM_DEBUG_KMS("Unknown plane ID %d\n",
->  			      plane_req->plane_id);
-> @@ -986,7 +986,7 @@ int drm_mode_setplane(struct drm_device *dev, void *data,
->  			return -ENOENT;
->  		}
->  
-> -		crtc = drm_crtc_find(dev, file_priv, plane_req->crtc_id);
-> +		crtc = __drm_crtc_find(dev, file_priv, plane_req->crtc_id);
->  		if (!crtc) {
->  			drm_framebuffer_put(fb);
->  			DRM_DEBUG_KMS("Unknown crtc ID %d\n",
-> @@ -1108,7 +1108,7 @@ static int drm_mode_cursor_common(struct drm_device *dev,
->  	if (!req->flags || (~DRM_MODE_CURSOR_FLAGS & req->flags))
->  		return -EINVAL;
->  
-> -	crtc = drm_crtc_find(dev, file_priv, req->crtc_id);
-> +	crtc = __drm_crtc_find(dev, file_priv, req->crtc_id);
->  	if (!crtc) {
->  		DRM_DEBUG_KMS("Unknown CRTC ID %d\n", req->crtc_id);
->  		return -ENOENT;
-> @@ -1229,7 +1229,7 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
->  	if ((page_flip->flags & DRM_MODE_PAGE_FLIP_ASYNC) && !dev->mode_config.async_page_flip)
->  		return -EINVAL;
->  
-> -	crtc = drm_crtc_find(dev, file_priv, page_flip->crtc_id);
-> +	crtc = __drm_crtc_find(dev, file_priv, page_flip->crtc_id);
->  	if (!crtc)
->  		return -ENOENT;
->  
-> diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
-> index 6c353c9dc772..9f04dcb81d07 100644
-> --- a/drivers/gpu/drm/drm_property.c
-> +++ b/drivers/gpu/drm/drm_property.c
-> @@ -656,7 +656,7 @@ struct drm_property_blob *drm_property_lookup_blob(struct drm_device *dev,
->  	struct drm_mode_object *obj;
->  	struct drm_property_blob *blob = NULL;
->  
-> -	obj = __drm_mode_object_find(dev, NULL, id, DRM_MODE_OBJECT_BLOB);
-> +	obj = drm_mode_object_find(dev, NULL, id, DRM_MODE_OBJECT_BLOB);
->  	if (obj)
->  		blob = obj_to_blob(obj);
->  	return blob;
-> @@ -919,8 +919,8 @@ bool drm_property_change_valid_get(struct drm_property *property,
->  		if (value == 0)
->  			return true;
->  
-> -		*ref = __drm_mode_object_find(property->dev, NULL, value,
-> -					      property->values[0]);
-> +		*ref = drm_mode_object_find(property->dev, NULL, value,
-> +					    property->values[0]);
->  		return *ref != NULL;
->  	}
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
-> index 7e3f5c6ca484..1d4af29e31c9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
-> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-> @@ -1120,7 +1120,7 @@ int intel_overlay_put_image_ioctl(struct drm_device *dev, void *data,
->  		return ret;
->  	}
->  
-> -	drmmode_crtc = drm_crtc_find(dev, file_priv, params->crtc_id);
-> +	drmmode_crtc = __drm_crtc_find(dev, file_priv, params->crtc_id);
->  	if (!drmmode_crtc)
->  		return -ENOENT;
->  	crtc = to_intel_crtc(drmmode_crtc);
-> diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/drm/i915/display/intel_sprite.c
-> index 4ae9a7455b23..e19ef2d90bac 100644
-> --- a/drivers/gpu/drm/i915/display/intel_sprite.c
-> +++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-> @@ -1505,7 +1505,7 @@ int intel_sprite_set_colorkey_ioctl(struct drm_device *dev, void *data,
->  	    set->flags & I915_SET_COLORKEY_DESTINATION)
->  		return -EINVAL;
->  
-> -	plane = drm_plane_find(dev, file_priv, set->plane_id);
-> +	plane = __drm_plane_find(dev, file_priv, set->plane_id);
->  	if (!plane || plane->type != DRM_PLANE_TYPE_OVERLAY)
->  		return -ENOENT;
->  
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> index 74fa41909213..d368b2bcb1fa 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -1862,7 +1862,7 @@ int vmw_kms_cursor_bypass_ioctl(struct drm_device *dev, void *data,
->  		return 0;
->  	}
->  
-> -	crtc = drm_crtc_find(dev, file_priv, arg->crtc_id);
-> +	crtc = __drm_crtc_find(dev, file_priv, arg->crtc_id);
->  	if (!crtc) {
->  		ret = -ENOENT;
->  		goto out;
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 1647960c9e50..322c823583c7 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1591,6 +1591,29 @@ static inline u32 drm_connector_mask(const struct drm_connector *connector)
->  	return 1 << connector->index;
->  }
->  
-> +/**
-> + * __drm_connector_lookup - lookup connector object
-> + * @dev: DRM device
-> + * @file_priv: drm file to check for lease against.
-> + * @id: connector object id
-> + *
-> + * This function looks up the connector object specified by id
-> + * add takes a reference to it.
-> + *
-> + * Similar to drm_connector_lookup(), but called with &drm_device.master_rwsem
-> + * held.
-> + */
-> +static inline struct drm_connector *__drm_connector_lookup(struct drm_device *dev,
-> +							   struct drm_file *file_priv,
-> +							   uint32_t id)
-> +{
-> +	struct drm_mode_object *mo;
-> +
-> +	mo = __drm_mode_object_find(dev, file_priv, id,
-> +				    DRM_MODE_OBJECT_CONNECTOR);
-> +	return mo ? obj_to_connector(mo) : NULL;
-> +}
-> +
->  /**
->   * drm_connector_lookup - lookup connector object
->   * @dev: DRM device
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index 13eeba2a750a..69df854dd322 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -1283,6 +1283,28 @@ static inline uint32_t drm_crtc_mask(const struct drm_crtc *crtc)
->  int drm_mode_set_config_internal(struct drm_mode_set *set);
->  struct drm_crtc *drm_crtc_from_index(struct drm_device *dev, int idx);
->  
-> +/**
-> + * __drm_crtc_find - look up a CRTC object from its ID
-> + * @dev: DRM device
-> + * @file_priv: drm file to check for lease against.
-> + * @id: &drm_mode_object ID
-> + *
-> + * This can be used to look up a CRTC from its userspace ID. Only used by
-> + * drivers for legacy IOCTLs and interface, nowadays extensions to the KMS
-> + * userspace interface should be done using &drm_property.
-> + *
-> + * Similar to drm_crtc_find(), but called with &drm_device.master_rwsem held.
-> + */
-> +static inline struct drm_crtc *__drm_crtc_find(struct drm_device *dev,
-> +					       struct drm_file *file_priv,
-> +					       uint32_t id)
-> +{
-> +	struct drm_mode_object *mo;
-> +
-> +	mo = __drm_mode_object_find(dev, file_priv, id, DRM_MODE_OBJECT_CRTC);
-> +	return mo ? obj_to_crtc(mo) : NULL;
-> +}
-> +
->  /**
->   * drm_crtc_find - look up a CRTC object from its ID
->   * @dev: DRM device
-> diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
-> index c34a3e8030e1..1906af9cae9b 100644
-> --- a/include/drm/drm_mode_object.h
-> +++ b/include/drm/drm_mode_object.h
-> @@ -114,6 +114,9 @@ struct drm_object_properties {
->  		return "(unknown)";				\
->  	}
->  
-> +struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
-> +					       struct drm_file *file_priv,
-> +					       u32 id, u32 type);
->  struct drm_mode_object *drm_mode_object_find(struct drm_device *dev,
->  					     struct drm_file *file_priv,
->  					     uint32_t id, uint32_t type);
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index fed97e35626f..49e35d3724c9 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -842,6 +842,26 @@ int drm_mode_plane_set_obj_prop(struct drm_plane *plane,
->  				       struct drm_property *property,
->  				       uint64_t value);
->  
-> +/**
-> + * __drm_plane_find - find a &drm_plane
-> + * @dev: DRM device
-> + * @file_priv: drm file to check for lease against.
-> + * @id: plane id
-> + *
-> + * Returns the plane with @id, NULL if it doesn't exist.
-> + *
-> + * Similar to drm_plane_find(), but called with &drm_device.master_rwsem held.
-> + */
-> +static inline struct drm_plane *__drm_plane_find(struct drm_device *dev,
-> +						 struct drm_file *file_priv,
-> +						 uint32_t id)
-> +{
-> +	struct drm_mode_object *mo;
-> +
-> +	mo = __drm_mode_object_find(dev, file_priv, id, DRM_MODE_OBJECT_PLANE);
-> +	return mo ? obj_to_plane(mo) : NULL;
-> +}
-> +
->  /**
->   * drm_plane_find - find a &drm_plane
->   * @dev: DRM device
+> -	spin_lock(&fpriv->master_lookup_lock);
+> +	down_read(&fpriv->minor->dev->master_rwsem);
 
-Aside from the one area for mode objects that cannoted be leased I think
-this looks correct.
+Looking at the 3 patches and the need to have a locked version of pretty
+much everything I'm wondering: Can't we just drop the spinlock completely,
+and everywhere we've taking it thus far replace it with a
+lockdep_assert_held_once?
 
-Sinc the spinlock+rwsem unification is a bit tricky, maybe you want to
-split out the patch series so that we can land the initial patches
-already?
+The thing is, if there's any path left that doesn't hold the rwsem in at
+least read mode we have a bug. And the right way to fix such a bug is to
+grab the rwsem sufficiently high up in the callchain. That way I think we
+should be able to avoid all these tedious changes to everything, including
+touching i915 and vmwgfx drivers.
+
+Or am I missing something big time?
 -Daniel
 
+>  	ret = drm_is_current_master_locked(fpriv);
+> -	spin_unlock(&fpriv->master_lookup_lock);
+> +	up_read(&fpriv->minor->dev->master_rwsem);
+>  
+>  	return ret;
+>  }
+> @@ -120,7 +119,7 @@ int drm_authmagic(struct drm_device *dev, void *data,
+>  	DRM_DEBUG("%u\n", auth->magic);
+>  
+>  	down_write(&dev->master_rwsem);
+> -	if (unlikely(!drm_is_current_master(file_priv))) {
+> +	if (unlikely(!drm_is_current_master_locked(file_priv))) {
+>  		up_write(&dev->master_rwsem);
+>  		return -EACCES;
+>  	}
+> @@ -178,9 +177,7 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
+>  	new_master = drm_master_create(dev);
+>  	if (!new_master)
+>  		return -ENOMEM;
+> -	spin_lock(&fpriv->master_lookup_lock);
+>  	fpriv->master = new_master;
+> -	spin_unlock(&fpriv->master_lookup_lock);
+>  
+>  	fpriv->is_master = 1;
+>  	fpriv->authenticated = 1;
+> @@ -343,9 +340,7 @@ int drm_master_open(struct drm_file *file_priv)
+>  	if (!dev->master) {
+>  		ret = drm_new_set_master(dev, file_priv);
+>  	} else {
+> -		spin_lock(&file_priv->master_lookup_lock);
+>  		file_priv->master = drm_master_get(dev->master);
+> -		spin_unlock(&file_priv->master_lookup_lock);
+>  	}
+>  	up_write(&dev->master_rwsem);
+>  
+> @@ -413,13 +408,13 @@ struct drm_master *drm_file_get_master(struct drm_file *file_priv)
+>  	if (!file_priv)
+>  		return NULL;
+>  
+> -	spin_lock(&file_priv->master_lookup_lock);
+> +	down_read(&file_priv->minor->dev->master_rwsem);
+>  	if (!file_priv->master)
+>  		goto unlock;
+>  	master = drm_master_get(file_priv->master);
+>  
+>  unlock:
+> -	spin_unlock(&file_priv->master_lookup_lock);
+> +	up_read(&file_priv->minor->dev->master_rwsem);
+>  	return master;
+>  }
+>  EXPORT_SYMBOL(drm_file_get_master);
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index 90b62f360da1..8c846e0179d7 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -176,7 +176,6 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+>  	init_waitqueue_head(&file->event_wait);
+>  	file->event_space = 4096; /* set aside 4k for event buffer */
+>  
+> -	spin_lock_init(&file->master_lookup_lock);
+>  	mutex_init(&file->event_read_lock);
+>  
+>  	if (drm_core_check_feature(dev, DRIVER_GEM))
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index 17f3548c8ed2..5d421f749a17 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -132,6 +132,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
+>  				  struct drm_file *filp);
+>  
+>  /* drm_auth.c */
+> +bool drm_is_current_master_locked(struct drm_file *fpriv);
+>  int drm_getmagic(struct drm_device *dev, void *data,
+>  		 struct drm_file *file_priv);
+>  int drm_authmagic(struct drm_device *dev, void *data,
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index 8bea39ffc5c0..c728437466c3 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -386,7 +386,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
+>  	int if_version, retcode = 0;
+>  
+>  	down_write(&dev->master_rwsem);
+> -	if (unlikely(!drm_is_current_master(file_priv))) {
+> +	if (unlikely(!drm_is_current_master_locked(file_priv))) {
+>  		retcode = -EACCES;
+>  		goto unlock;
+>  	}
+> @@ -540,7 +540,7 @@ static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
+>  
+>  	/* MASTER is only for master or control clients */
+>  	if (unlikely((flags & DRM_MASTER) &&
+> -		     !drm_is_current_master(file_priv)))
+> +		     !drm_is_current_master_locked(file_priv)))
+>  		return -EACCES;
+>  
+>  	/* Render clients must be explicitly allowed */
+> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+> index 15bf3a3c76d1..0eecf320b1ab 100644
+> --- a/drivers/gpu/drm/drm_lease.c
+> +++ b/drivers/gpu/drm/drm_lease.c
+> @@ -498,12 +498,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  		return PTR_ERR(lessee_file);
+>  
+>  	down_read(&dev->master_rwsem);
+> -	if (unlikely(!drm_is_current_master(lessor_priv))) {
+> +	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
+>  		ret = -EACCES;
+>  		goto out_file;
+>  	}
+>  
+> -	lessor = drm_file_get_master(lessor_priv);
+> +	lessor = lessor_priv->master;
+>  	/* Do not allow sub-leases */
+>  	if (lessor->lessor) {
+>  		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
+> @@ -565,7 +565,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  	/* Hook up the fd */
+>  	fd_install(fd, lessee_file);
+>  
+> -	drm_master_put(&lessor);
+>  	up_read(&dev->master_rwsem);
+>  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
+>  	return 0;
+> @@ -600,7 +599,8 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> -	lessor = drm_file_get_master(lessor_priv);
+> +	lockdep_assert_held_once(&dev->master_rwsem);
+> +	lessor = lessor_priv->master;
+>  	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
+>  
+>  	mutex_lock(&dev->mode_config.idr_mutex);
+> @@ -624,7 +624,6 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>  		arg->count_lessees = count;
+>  
+>  	mutex_unlock(&dev->mode_config.idr_mutex);
+> -	drm_master_put(&lessor);
+>  
+>  	return ret;
+>  }
+> @@ -650,7 +649,8 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> -	lessee = drm_file_get_master(lessee_priv);
+> +	lockdep_assert_held_once(&dev->master_rwsem);
+> +	lessee = lessee_priv->master;
+>  	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
+>  
+>  	mutex_lock(&dev->mode_config.idr_mutex);
+> @@ -678,7 +678,6 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>  		arg->count_objects = count;
+>  
+>  	mutex_unlock(&dev->mode_config.idr_mutex);
+> -	drm_master_put(&lessee);
+>  
+>  	return ret;
+>  }
+> @@ -703,11 +702,11 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>  		return -EOPNOTSUPP;
+>  
+>  	down_write(&dev->master_rwsem);
+> -	if (unlikely(!drm_is_current_master(lessor_priv))) {
+> +	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
+>  		ret = -EACCES;
+>  		goto unlock;
+>  	}
+> -	lessor = drm_file_get_master(lessor_priv);
+> +	lessor = lessor_priv->master;
+>  	mutex_lock(&dev->mode_config.idr_mutex);
+>  
+>  	lessee = _drm_find_lessee(lessor, arg->lessee_id);
+> @@ -728,7 +727,6 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>  
+>  fail:
+>  	mutex_unlock(&dev->mode_config.idr_mutex);
+> -	drm_master_put(&lessor);
+>  
+>  unlock:
+>  	up_write(&dev->master_rwsem);
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index d12bb2ba7814..e2d49fe3e32d 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -227,16 +227,12 @@ struct drm_file {
+>  	 * @master:
+>  	 *
+>  	 * Master this node is currently associated with. Protected by struct
+> -	 * &drm_device.master_rwsem, and serialized by @master_lookup_lock.
+> +	 * &drm_device.master_rwsem.
+>  	 *
+>  	 * Only relevant if drm_is_primary_client() returns true. Note that
+>  	 * this only matches &drm_device.master if the master is the currently
+>  	 * active one.
+>  	 *
+> -	 * To update @master, both &drm_device.master_rwsem and
+> -	 * @master_lookup_lock need to be held, therefore holding either of
+> -	 * them is safe and enough for the read side.
+> -	 *
+>  	 * When dereferencing this pointer, either hold struct
+>  	 * &drm_device.master_rwsem for the duration of the pointer's use, or
+>  	 * use drm_file_get_master() if struct &drm_device.master_rwsem is not
+> @@ -248,9 +244,6 @@ struct drm_file {
+>  	 */
+>  	struct drm_master *master;
+>  
+> -	/** @master_lock: Serializes @master. */
+> -	spinlock_t master_lookup_lock;
+> -
+>  	/** @pid: Process that opened this file. */
+>  	struct pid *pid;
+>  
 > -- 
 > 2.25.1
 > 
