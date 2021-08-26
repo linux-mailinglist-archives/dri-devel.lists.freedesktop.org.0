@@ -1,47 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEC63F8F8F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 22:15:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F393F8F98
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 22:25:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B76786E8B2;
-	Thu, 26 Aug 2021 20:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D76506E8AF;
+	Thu, 26 Aug 2021 20:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E69B56E8AF;
- Thu, 26 Aug 2021 20:15:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0BAF106F;
- Thu, 26 Aug 2021 13:15:20 -0700 (PDT)
-Received: from [10.57.15.112] (unknown [10.57.15.112])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4A3CE3F5A1;
- Thu, 26 Aug 2021 13:15:19 -0700 (PDT)
-Subject: Re: [PATCH 2/3] drm/etnaviv: fix dma configuration of the virtual
- device
-To: Lucas Stach <l.stach@pengutronix.de>, Michael Walle <michael@walle.cc>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: "Lukas F . Hartmann" <lukas@mntre.com>,
- Marek Vasut <marek.vasut@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210826121006.685257-1-michael@walle.cc>
- <20210826121006.685257-3-michael@walle.cc>
- <df806090-8a21-33e8-1e01-bd03b6ed64cf@arm.com>
- <b8e3f7c6bec4d01ba05861de6a25c0b7fd432d0a.camel@pengutronix.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <01fa99f2-8d19-0cd2-232f-4ba1f3171f24@arm.com>
-Date: Thu, 26 Aug 2021 21:15:13 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E69AD6E8AF;
+ Thu, 26 Aug 2021 20:25:35 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ q11-20020a9d4b0b000000b0051acbdb2869so124104otf.2; 
+ Thu, 26 Aug 2021 13:25:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+OwUj+s0HNattd+5fUEdf8kL9KlZKYth38XeOI86GBM=;
+ b=GvOiYGTxzVJK2Z6Cyk6SXOuZS+W/wonzJWQtf6j8DkLIJ5ZaKFtZWfVs1D5CDlUfu4
+ o8fIBD4NzUYzjD2yrjHKoGG7CVfHr9jwSPIgazfKwTdRcjeRsBYv0N355Qp8FwB1+lRd
+ EZ1MA29Pmyoe2a/dOAWC+r9IrpTf3NhvjqugJJJZH9M6FXPePVc6XUgZ+27Lzj5gVkiv
+ s2qMQcseIjjHi5pt7Dy0GvZAOZGYkiJ2xULaHkT56rP39FuXMrxLC7zcg+2O0Pju5fqI
+ 9p6pHdFTlqv0RKwyIb7Ad+LnUxaQqG+vrT0ZVf58lbUmz/5wBezAHB7tWFY8fPyJN/BF
+ L3lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+OwUj+s0HNattd+5fUEdf8kL9KlZKYth38XeOI86GBM=;
+ b=iSQhG4yrF7DnLtH3FjcG2gBm/TjdVO3mSIrk7AbPNDr3KjLdqlRMzf8gWNYI0+Yilp
+ KAM80/gntAzSguiZj7UWL7nAPI+RaPKK/pcyzCDLRqsC3HVZnxTrJPFunGwjAroujWWs
+ xM+OPQh2+slUOvNDAb2wX/FJQXlUDQeDaIFTOPlx4gMjOapJKFiT9rmvahuT1s+hWnHl
+ CUVOMLDg9psv8yIgPQQ/4FG3jSWNnM+/F5wZHPUk8wRNqcOI+CxIAYft8TWKzfYVmPTt
+ F5ZpXWu7YhUvrYgU89Nf90bnnweqIEt14zEBFYn7xqu52nzndu+DL6e+97lJe2MJR1CF
+ glMg==
+X-Gm-Message-State: AOAM533XQj/YRLsPwzZcBWn7I3/9vZ6oU+8VnM7VxXzBMswYYeCIuRAR
+ fz8OgPjDEzuj7r/Q1K4RrPXizfMaGUI5ajKgaiU=
+X-Google-Smtp-Source: ABdhPJy5+C2/xsJ1xt+TqHfRlGfEtbsG335lAWagX2JBVc+qU9P0KiYuPGjrbJpUfcjZoNuDsWYlbKC8S/WqUMWjId8=
+X-Received: by 2002:a05:6830:1c69:: with SMTP id
+ s9mr5058633otg.132.1630009535275; 
+ Thu, 26 Aug 2021 13:25:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b8e3f7c6bec4d01ba05861de6a25c0b7fd432d0a.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210824055232.58653-1-deng.changcheng@zte.com.cn>
+In-Reply-To: <20210824055232.58653-1-deng.changcheng@zte.com.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 26 Aug 2021 16:25:24 -0400
+Message-ID: <CADnq5_PhsVRBMcV7065+6sgBJnjjrCnU6Eiph7d8mrRVZFFa0A@mail.gmail.com>
+Subject: Re: [PATCH linux-next] drm:dcn31: fix boolreturn.cocci warnings
+To: CGEL <cgel.zte@gmail.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@linux.ie>, 
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Huang Rui <ray.huang@amd.com>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, 
+ Jing Yangyang <jing.yangyang@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,79 +74,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-08-26 16:17, Lucas Stach wrote:
-> Am Donnerstag, dem 26.08.2021 um 16:00 +0100 schrieb Robin Murphy:
->> On 2021-08-26 13:10, Michael Walle wrote:
->>> The DMA configuration of the virtual device is inherited from the first
->>> actual etnaviv device. Unfortunately, this doesn't work with an IOMMU:
->>>
->>> [    5.191008] Failed to set up IOMMU for device (null); retaining platform DMA ops
->>>
->>> This is because there is no associated iommu_group with the device. The
->>> group is set in iommu_group_add_device() which is eventually called by
->>> device_add() via the platform bus:
->>>     device_add()
->>>       blocking_notifier_call_chain()
->>>         iommu_bus_notifier()
->>>           iommu_probe_device()
->>>             __iommu_probe_device()
->>>               iommu_group_get_for_dev()
->>>                 iommu_group_add_device()
->>>
->>> Move of_dma_configure() into the probe function, which is called after
->>> device_add(). Normally, the platform code will already call it itself
->>> if .of_node is set. Unfortunately, this isn't the case here.
->>>
->>> Also move the dma mask assignemnts to probe() to keep all DMA related
->>> settings together.
->>
->> I assume the driver must already keep track of the real GPU platform
->> device in order to map registers, request interrupts, etc. correctly -
->> can't it also correctly use that device for DMA API calls and avoid the
->> need for these shenanigans altogether?
->>
-> Not without a bigger rework. There's still quite a bit of midlayer
-> issues in DRM, where dma-buf imports are dma-mapped and cached via the
-> virtual DRM device instead of the real GPU device. Also etnaviv is able
-> to coalesce multiple Vivante GPUs in a single system under one virtual
-> DRM device, which is used on i.MX6 where the 2D and 3D GPUs are
-> separate peripherals, but have the same DMA constraints.
+Applied.  Thanks!
 
-Sure, I wouldn't expect it to be trivial to fix properly, but I wanted 
-to point out that this is essentially a hack, relying on an implicit 
-side-effect of of_dma_configure() which is already slated for removal. 
-As such, I for one am not going to be too sympathetic if it stops 
-working in future.
+Alex
 
-Furthermore, even today it doesn't work in general - it might be OK for 
-LS1028A with a single GPU block behind an SMMU, but as soon as you have 
-multiple GPU blocks with distinct SMMU StreamIDs, or behind different 
-IOMMU instances, then you're stuffed again.
-
-Although in fact I think it's also broken even for LS1028A, since AFAICS 
-there's no guarantee that the relevant SMMU instance will actually be 
-probed, or the SMMU driver even loaded, when etnaviv_pdev_probe() runs.
-
-> Effectively we would need to handle N devices for the dma-mapping in a
-> lot of places instead of only dealing with the one virtual DRM device.
-> It would probably be the right thing to anyways, but it's not something
-> that can be changed short-term. I'm also not yet sure about the
-> performance implications, as we might run into some cache maintenance
-> bottlenecks if we dma synchronize buffers to multiple real device
-> instead of doing it a single time with the virtual DRM device. I know,
-> I know, this has a lot of assumptions baked in that could fall apart if
-> someone builds a SoC with multiple Vivante GPUs that have differing DMA
-> constraints, but up until now hardware designers have not been *that*
-> crazy, fortunately.
-
-I'm not too familiar with the component stuff, but would it be viable to 
-just have etnaviv_gpu_platform_probe() set up the first GPU which comes 
-along as the master component and fundamental DRM device, then treat any 
-subsequent ones as subcomponents as before? That would at least stand to 
-be more robust in terms of obviating the of_dma_configure() hack (only 
-actual bus code should ever be calling that), even if it won't do 
-anything for the multiple IOMMU mapping or differing DMA constraints 
-problems.
-
-Thanks,
-Robin.
+On Tue, Aug 24, 2021 at 1:52 AM CGEL <cgel.zte@gmail.com> wrote:
+>
+> From: Jing Yangyang <jing.yangyang@zte.com.cn>
+>
+> ./drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c:112:9-10:WARNING:
+> return of 0/1 in function 'dcn31_is_panel_backlight_on'
+> with return type bool
+>
+> ./drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c:122:9-10:WARNING:
+> return of 0/1 in function 'dcn31_is_panel_powered_on'
+> with return type bool
+>
+> Return statements in functions returning bool should use true/false
+> instead of 1/0.
+>
+> Generated by: scripts/coccinelle/misc/boolreturn.cocci
+>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Jing Yangyang <jing.yangyang@zte.com.cn>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
+> index 7db268d..3b37213 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_panel_cntl.c
+> @@ -109,7 +109,7 @@ bool dcn31_is_panel_backlight_on(struct panel_cntl *panel_cntl)
+>         union dmub_rb_cmd cmd;
+>
+>         if (!dcn31_query_backlight_info(panel_cntl, &cmd))
+> -               return 0;
+> +               return false;
+>
+>         return cmd.panel_cntl.data.is_backlight_on;
+>  }
+> @@ -119,7 +119,7 @@ bool dcn31_is_panel_powered_on(struct panel_cntl *panel_cntl)
+>         union dmub_rb_cmd cmd;
+>
+>         if (!dcn31_query_backlight_info(panel_cntl, &cmd))
+> -               return 0;
+> +               return false;
+>
+>         return cmd.panel_cntl.data.is_powered_on;
+>  }
+> --
+> 1.8.3.1
+>
+>
