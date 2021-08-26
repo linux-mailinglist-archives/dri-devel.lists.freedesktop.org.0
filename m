@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9056C3F84FE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 12:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 304EE3F8511
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 12:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52F426E5B4;
-	Thu, 26 Aug 2021 10:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 638366E5BD;
+	Thu, 26 Aug 2021 10:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8536E5AE
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 10:03:33 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id n5so4061619wro.12
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 03:03:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=bRMTRRe2MmMhR3nWU+qJg2RgbplY6jjx1WTXVPesMt8=;
- b=SDQUxKE+oGBtXP625yalNYEJhGNIg+liIOPfmNYRm0vLOl63rDBSjDcPqpb7aMzt+G
- 1xd6isL5oBi3JE/Yq4bsitd3KbojLUj1vp23IuRglfGLv76fKLhaqHeziQTPLbFDytfJ
- 1CKrAGWJHLjzSevX2pYZ7Rbalmd0xFzCyTnm8=
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14AAD6E5BB;
+ Thu, 26 Aug 2021 10:09:15 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id i3so1472221wmq.3;
+ Thu, 26 Aug 2021 03:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=uZ1qLJeTicecrqtFuYf9FwbLo4cM1INmqJXkTjbct+Q=;
+ b=SlUYhCA+OE1h3gNwlvKLRcvkwxGaL8pWz8A85e26nzuM6f7RRvCtgKNGRw5GPug0C5
+ 3DSfBXJZGxVTrVAvkfDCi1V+7/C+cMYZtcVuDV0jpxQPXXWHjDdaV3yg+aV7WbcwS/8e
+ tSOlRZgfWQry/w5bqK5z/G0KprDPNxZmzBUymT0GsY7k1V06J2U1XAX0DEbaGD0mNKm/
+ jhk+kXKWMBWaH/G2QlBii6Xxe2aq+5WAT/cewVcLZ9CH4Sc4qBizoV4EBNfCbJZCocNh
+ MNB5v9cSzSvIFWB/WvGBjj7eEARpHqDDqCZKWNGWfw/rC45HRRMuAkcWtMFRaROKiZoU
+ PPpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bRMTRRe2MmMhR3nWU+qJg2RgbplY6jjx1WTXVPesMt8=;
- b=ZgrmIYTeNE+b2U5EmByRVv5Om1dXg5prL0alpnA9oD9L6HJcGa1eWqRGoejVoiWkMM
- MJ9n1lXUuSNy/oAi7FVdvOKpoe6cAQKT+FxCuWqlZeYrmqT64gQ8xSmF54jzGhTs0vgu
- EyUAFXQeeJXO+38twaCUv29e0r3IqLrPnFVsuWlzcPmyEtsdJJePRmy4otDflZSpvQn1
- 5YBs0ev88zc6LmSxGDmWyivaZ2H99ZaE2nbBKpIRZx76BStYDzOh+RxJxWaGdKM6MalZ
- SC4RnjeEqGdMe8wOzEf2YodVAO0BHw+q9mOiTeF13kPqs6MVLiPcbfjPA/XCthkvHpVt
- /omQ==
-X-Gm-Message-State: AOAM530koTyYjZiQvnGPiskffpuKo/C5/nWUtDFEGI/du42wDBHWo7//
- roy6qsNzSR3PEfTNHD7nOo8/gw==
-X-Google-Smtp-Source: ABdhPJwR2VyHPaI37Q8vjVNlQvddWuaRaj2Km1GhjHfLm2vSaFZC9OSNOFZaCbTzL+jSgZ57JErTRw==
-X-Received: by 2002:adf:f90e:: with SMTP id b14mr3056213wrr.28.1629972212052; 
- Thu, 26 Aug 2021 03:03:32 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w14sm2537559wrt.23.2021.08.26.03.03.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 03:03:31 -0700 (PDT)
-Date: Thu, 26 Aug 2021 12:03:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Matthew Auld <matthew.auld@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/2] drm/i915/debugfs: hook up ttm_resource_manager_debug
-Message-ID: <YSdm8UwhfthWziM9@phenom.ffwll.local>
-References: <20210818145850.225387-1-matthew.auld@intel.com>
- <20210818145850.225387-2-matthew.auld@intel.com>
- <811cc4bfb6262d9050140ed9a9eac1dd7632d33a.camel@linux.intel.com>
- <YSdcAD7Pa+e93xqh@phenom.ffwll.local>
- <4d14b5f5f74d279d666077de28f5de7f6d721509.camel@linux.intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=uZ1qLJeTicecrqtFuYf9FwbLo4cM1INmqJXkTjbct+Q=;
+ b=rNJmNqlybewI7B3g3GU0Nj6zUi5Wtvs1Wk25cAzKlhOn6Ijc7uQUn4PMNBnE1YzbbY
+ 2jEGsdewlew7bg9mYTG4Ul6snKSeQyMbLOMtiNwLPTVVK/1yrq4ZnrrYLsUS4AEYoSSU
+ IGkdz+40jMRRQzmGyq/B/0YOspp+uLFYWdF4IbjVFIq0LdXo1jyvmPg31RPhGGSWX2LA
+ phNIG+1xZK7oN4xwxSWOY4gZHsmhUHPbgHu55/Yc0U4ElcAKChNItPXTNcYotV3VJtRj
+ IgmIop1cU7+b0O7b59a/ICFQ43I0L1uTohd1Wykx9mNd3cucDGaOavBZ50uQ+9CiiOtY
+ nW8Q==
+X-Gm-Message-State: AOAM530T8CQi4TWrFHGGb261GHIfj/+80HjkwPTZcSkmp55CCbGZAOPU
+ 8rOpOMVFdKfX8BXl4nKkm8NrTVZCYDs=
+X-Google-Smtp-Source: ABdhPJw1kHR8AKMC9dLqd2C2sY3XL0UgaEy2sIOxCJP1tLJIHxfWpj/E50ildXDoBgXl8ycDfJWcpQ==
+X-Received: by 2002:a05:600c:4fcc:: with SMTP id
+ o12mr2860683wmq.0.1629972553284; 
+ Thu, 26 Aug 2021 03:09:13 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:f034:47d2:6ee4:c70f?
+ ([2a02:908:1252:fb60:f034:47d2:6ee4:c70f])
+ by smtp.gmail.com with ESMTPSA id q17sm2632014wrr.91.2021.08.26.03.09.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Aug 2021 03:09:12 -0700 (PDT)
+Subject: Re: [PATCH] drm/sched: fix the bug of time out calculation(v3)
+To: Monk Liu <Monk.Liu@amd.com>, amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+References: <1629953731-14629-1-git-send-email-Monk.Liu@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e000dc1a-8fe8-ea69-e16b-bf0b64d773f2@gmail.com>
+Date: Thu, 26 Aug 2021 12:09:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4d14b5f5f74d279d666077de28f5de7f6d721509.camel@linux.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <1629953731-14629-1-git-send-email-Monk.Liu@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,86 +77,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 26, 2021 at 11:51:44AM +0200, Thomas Hellström wrote:
-> On Thu, 2021-08-26 at 11:16 +0200, Daniel Vetter wrote:
-> > On Thu, Aug 19, 2021 at 09:32:20AM +0200, Thomas Hellström wrote:
-> > > On Wed, 2021-08-18 at 15:58 +0100, Matthew Auld wrote:
-> > > > This should give a more complete view of the various bits of
-> > > > internal
-> > > > resource manager state, for device local-memory.
-> > > > 
-> > > > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> > > > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/i915_debugfs.c | 12 +++++++++---
-> > > >  1 file changed, 9 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/i915_debugfs.c
-> > > > b/drivers/gpu/drm/i915/i915_debugfs.c
-> > > > index eec0d349ea6a..109e6feed6be 100644
-> > > > --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> > > > +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> > > > @@ -238,6 +238,7 @@ i915_debugfs_describe_obj(struct seq_file *m,
-> > > > struct drm_i915_gem_object *obj)
-> > > >  static int i915_gem_object_info(struct seq_file *m, void *data)
-> > > >  {
-> > > >         struct drm_i915_private *i915 = node_to_i915(m->private);
-> > > > +       struct drm_printer p = drm_seq_file_printer(m);
-> > > >         struct intel_memory_region *mr;
-> > > >         enum intel_region_id id;
-> > > >  
-> > > > @@ -245,9 +246,14 @@ static int i915_gem_object_info(struct
-> > > > seq_file
-> > > > *m, void *data)
-> > > >                    i915->mm.shrink_count,
-> > > >                    atomic_read(&i915->mm.free_count),
-> > > >                    i915->mm.shrink_memory);
-> > > > -       for_each_memory_region(mr, i915, id)
-> > > > -               seq_printf(m, "%s: total:%pa, available:%pa
-> > > > bytes\n",
-> > > > -                          mr->name, &mr->total, &mr->avail);
-> > > > +       for_each_memory_region(mr, i915, id) {
-> > > > +               seq_printf(m, "%s: ", mr->name);
-> > > > +               if (mr->region_private)
-> > > > +                       ttm_resource_manager_debug(mr-
-> > > > > region_private, &p);
-> > > > +               else
-> > > > +                       seq_printf(m, "total:%pa, available:%pa
-> > > > bytes\n",
-> > > > +                                  &mr->total, &mr->avail);
-> > > 
-> > > Hm. Shouldn't we make the above intel_memory_region_debug() or
-> > > perhaps
-> > > intel_memory_region_info() to avoid using memory region internals
-> > > directly here?
-> > 
-> > Imo we should just emebed ttm_resource_mager into our own and not try
-> > to
-> > abstract this all away that much. At least in upstream there is just
-> > not
-> > going to be another memory region implementation, and for backporting
-> > I'm
-> > not sure these abstractions really help that much - we're touching
-> > all the
-> > same code still in the end.
-> 
-> Hmm, yes. Here I was seeing the separation between the debugfs code and
-> the intel_memory_region code, rather between the latter and TTM.
-> 
-> The i915 driver is currently much "everything uses everything" which
-> IMHO is not really good for code understanding and maintainance.
+Am 26.08.21 um 06:55 schrieb Monk Liu:
+> issue:
+> in cleanup_job the cancle_delayed_work will cancel a TO timer
+> even the its corresponding job is still running.
 
-Ah yes I agree, we don't have clear seperation of concerns really, and
-debugfs is all over. I got confused a bit with the ->region_private
-pointer and thought you'd be talking about that.
+Yeah, that makes a lot more sense.
 
-My experience has been that going over the interface functions and trying
-to kerneldoc helps a lot with this, because instead of documenting some
-major confusion you can just clean it up first. We should definitely try
-to componentize stuff more and not leak internal details all over the
-place.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> fix:
+> do not cancel the timer in cleanup_job, instead do the cancelling
+> only when the heading job is signaled, and if there is a "next" job
+> we start_timeout again.
+>
+> v2:
+> further cleanup the logic, and do the TDR timer cancelling if the signaled job
+> is the last one in its scheduler.
+>
+> v3:
+> change the issue description
+> remove the cancel_delayed_work in the begining of the cleanup_job
+> recover the implement of drm_sched_job_begin.
+>
+> TODO:
+> 1)introduce pause/resume scheduler in job_timeout to serial the handling
+> of scheduler and job_timeout.
+> 2)drop the bad job's del and insert in scheduler due to above serialization
+> (no race issue anymore with the serialization)
+>
+> Signed-off-by: Monk Liu <Monk.Liu@amd.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 25 ++++++++++---------------
+>   1 file changed, 10 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index a2a9536..ecf8140 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -676,13 +676,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>   {
+>   	struct drm_sched_job *job, *next;
+>   
+> -	/*
+> -	 * Don't destroy jobs while the timeout worker is running  OR thread
+> -	 * is being parked and hence assumed to not touch pending_list
+> -	 */
+> -	if ((sched->timeout != MAX_SCHEDULE_TIMEOUT &&
+> -	    !cancel_delayed_work(&sched->work_tdr)) ||
+> -	    kthread_should_park())
+> +	if (kthread_should_park())
+>   		return NULL;
+>   
+>   	spin_lock(&sched->job_list_lock);
+> @@ -693,17 +687,21 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>   	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+>   		/* remove job from pending_list */
+>   		list_del_init(&job->list);
+> +
+> +		/* cancel this job's TO timer */
+> +		cancel_delayed_work(&sched->work_tdr);
+
+I'm not sure if the work_tdr is initialized when a maximum timeout is 
+specified. Please double check.
+
+BTW: Can we please drop the "tdr" naming from the scheduler? That is 
+just a timeout functionality and not related to recovery in any way.
+
+We even do not start hardware recovery in a lot of cases now (when wave 
+kill is successfully).
+
+Regards,
+Christian.
+
+>   		/* make the scheduled timestamp more accurate */
+>   		next = list_first_entry_or_null(&sched->pending_list,
+>   						typeof(*next), list);
+> -		if (next)
+> +
+> +		if (next) {
+>   			next->s_fence->scheduled.timestamp =
+>   				job->s_fence->finished.timestamp;
+> -
+> +			/* start TO timer for next job */
+> +			drm_sched_start_timeout(sched);
+> +		}
+>   	} else {
+>   		job = NULL;
+> -		/* queue timeout for next job */
+> -		drm_sched_start_timeout(sched);
+>   	}
+>   
+>   	spin_unlock(&sched->job_list_lock);
+> @@ -791,11 +789,8 @@ static int drm_sched_main(void *param)
+>   					  (entity = drm_sched_select_entity(sched))) ||
+>   					 kthread_should_stop());
+>   
+> -		if (cleanup_job) {
+> +		if (cleanup_job)
+>   			sched->ops->free_job(cleanup_job);
+> -			/* queue timeout for next job */
+> -			drm_sched_start_timeout(sched);
+> -		}
+>   
+>   		if (!entity)
+>   			continue;
+
