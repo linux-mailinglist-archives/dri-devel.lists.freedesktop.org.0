@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BBB3F80FD
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 05:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D763F80FC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 05:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52DA96E4C9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C35566E4FB;
 	Thu, 26 Aug 2021 03:28:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8976E4B6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0206E4C7;
  Thu, 26 Aug 2021 03:28:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="215811064"
-X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="215811064"
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="215811065"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="215811065"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Aug 2021 20:28:40 -0700
-X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="684738533"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="684738537"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Aug 2021 20:28:39 -0700
@@ -25,10 +25,10 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <daniele.ceraolospurio@intel.com>
-Subject: [PATCH 06/27] drm/i915/guc: Workaround reset G2H is received after
- schedule done G2H
-Date: Wed, 25 Aug 2021 20:23:06 -0700
-Message-Id: <20210826032327.18078-7-matthew.brost@intel.com>
+Subject: [PATCH 07/27] Revert "drm/i915/gt: Propagate change in error status
+ to children on unhold"
+Date: Wed, 25 Aug 2021 20:23:07 -0700
+Message-Id: <20210826032327.18078-8-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210826032327.18078-1-matthew.brost@intel.com>
 References: <20210826032327.18078-1-matthew.brost@intel.com>
@@ -49,108 +49,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the context is reset as a result of the request cancellation the
-context reset G2H is received after schedule disable done G2H which is
-the wrong order. The schedule disable done G2H release the waiting
-request cancellation code which resubmits the context. This races
-with the context reset G2H which also wants to resubmit the context but
-in this case it really should be a NOP as request cancellation code owns
-the resubmit. Use some clever tricks of checking the context state to
-seal this race until the GuC firmware is fixed.
+Propagating errors to dependent fences is broken and can lead to
+errors from one client ending up in another.  In 3761baae908a (Revert
+"drm/i915: Propagate errors on awaiting already signaled fences"), we
+attempted to get rid of fence error propagation but missed the case
+added in 8e9f84cf5cac ("drm/i915/gt: Propagate change in error status
+to children on unhold").  Revert that one too.  This error was found
+by an up-and-coming selftest which triggers a reset during request
+cancellation and verifies that subsequent requests complete
+successfully.
 
 v2:
- (Checkpatch)
-  - Fix typos
+ (Daniel Vetter)
+  - Use revert
 v3:
- (Daniele)
-  - State that is a bug in the GuC firmware
+ (Jason)
+  - Update commit message
 
-Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
+References: '3761baae908a ("Revert "drm/i915: Propagate errors on awaiting already signaled fences"")'
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Cc: <stable@vger.kernel.org>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 41 ++++++++++++++++---
- 1 file changed, 35 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index d94e7e1a876f..592b421e1429 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -831,17 +831,33 @@ __unwind_incomplete_requests(struct intel_context *ce)
- static void __guc_reset_context(struct intel_context *ce, bool stalled)
- {
- 	struct i915_request *rq;
-+	unsigned long flags;
- 	u32 head;
-+	bool skip = false;
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index de5f9c86b9a4..cafb0608ffb4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -2140,10 +2140,6 @@ static void __execlists_unhold(struct i915_request *rq)
+ 			if (p->flags & I915_DEPENDENCY_WEAK)
+ 				continue;
  
- 	intel_context_get(ce);
+-			/* Propagate any change in error status */
+-			if (rq->fence.error)
+-				i915_request_set_error_once(w, rq->fence.error);
+-
+ 			if (w->engine != rq->engine)
+ 				continue;
  
- 	/*
--	 * GuC will implicitly mark the context as non-schedulable
--	 * when it sends the reset notification. Make sure our state
--	 * reflects this change. The context will be marked enabled
--	 * on resubmission.
-+	 * GuC will implicitly mark the context as non-schedulable when it sends
-+	 * the reset notification. Make sure our state reflects this change. The
-+	 * context will be marked enabled on resubmission.
-+	 *
-+	 * XXX: If the context is reset as a result of the request cancellation
-+	 * this G2H is received after the schedule disable complete G2H which is
-+	 * wrong as this creates a race between the request cancellation code
-+	 * re-submitting the context and this G2H handler. This is a bug in the
-+	 * GuC but can be worked around in the meantime but converting this to a
-+	 * NOP if a pending enable is in flight as this indicates that a request
-+	 * cancellation has occurred.
- 	 */
--	clr_context_enabled(ce);
-+	spin_lock_irqsave(&ce->guc_state.lock, flags);
-+	if (likely(!context_pending_enable(ce)))
-+		clr_context_enabled(ce);
-+	else
-+		skip = true;
-+	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+	if (unlikely(skip))
-+		goto out_put;
- 
- 	rq = intel_context_find_active_request(ce);
- 	if (!rq) {
-@@ -860,6 +876,7 @@ static void __guc_reset_context(struct intel_context *ce, bool stalled)
- out_replay:
- 	guc_reset_state(ce, head, stalled);
- 	__unwind_incomplete_requests(ce);
-+out_put:
- 	intel_context_put(ce);
- }
- 
-@@ -1604,6 +1621,13 @@ static void guc_context_cancel_request(struct intel_context *ce,
- 			guc_reset_state(ce, intel_ring_wrap(ce->ring, rq->head),
- 					true);
- 		}
-+
-+		/*
-+		 * XXX: Racey if context is reset, see comment in
-+		 * __guc_reset_context().
-+		 */
-+		flush_work(&ce_to_guc(ce)->ct.requests.worker);
-+
- 		guc_context_unblock(ce);
- 	}
- }
-@@ -2718,7 +2742,12 @@ static void guc_handle_context_reset(struct intel_guc *guc,
- {
- 	trace_intel_context_reset(ce);
- 
--	if (likely(!intel_context_is_banned(ce))) {
-+	/*
-+	 * XXX: Racey if request cancellation has occurred, see comment in
-+	 * __guc_reset_context().
-+	 */
-+	if (likely(!intel_context_is_banned(ce) &&
-+		   !context_blocked(ce))) {
- 		capture_error_state(guc, ce);
- 		guc_context_replay(ce);
- 	}
 -- 
 2.32.0
 
