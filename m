@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6328B3F8B18
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 17:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE833F8B1B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 17:34:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDAA96E029;
-	Thu, 26 Aug 2021 15:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D33B76E038;
+	Thu, 26 Aug 2021 15:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 621436E029
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 15:34:25 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id u14so7105790ejf.13
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 08:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Ot8y+i5PwbCb6N4bWTGhu1nwLx1HX+FelyB2FE+61x0=;
- b=c2dMPU6QAjhh7EeZMfvLHFZHpEHondC5PUC/s0GMUvgBRZJZrCPh5OQdnSX15R94ds
- 6McQy3ZAuWxAfThhU9y9m1RRGPmdT5TTwbE2Bb7F9NXbDjmFVXsy/tgON8aYSIJfeI+k
- K8AbpMK+MCrgT+qKEvotEEjWH8/Gm5qDCBhN4=
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B07866E038;
+ Thu, 26 Aug 2021 15:34:31 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id q14so5758468wrp.3;
+ Thu, 26 Aug 2021 08:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6ledkqU9D7FzcL/5ouJNmCXuXtKins7U1aoW3QxLbVU=;
+ b=jiDI7yC/eT7HEe9sQm38w7hIxFvvo4EfE4Scx9xXHFUrWsbewLm3vkOb+B1QtiBPTc
+ 1pmwSmFQzxPGrrJh4AP8FppBdNDpQ2Aw65Bmro1bbZGcOxe8tesKl0HXb50Mgvz4xCdn
+ zfJbhzNxfFIKD4BXgyUJYuYsUBicVPm6ngREnHXMFqiDAszRpcG/5dGTTmStoAmv8062
+ QbQQeQPk33VzCUkcG6AfCSOKMbq4nNhib3wDooslcoiyQKIHCIZOCDiGwW6OQ7pAwkBA
+ SJscnToOzErB9p3dp2gCvGHJRpL0oFfpEZ6qLihP0aot4co1SCXahgLNAzO1OjBuaRM8
+ bGJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Ot8y+i5PwbCb6N4bWTGhu1nwLx1HX+FelyB2FE+61x0=;
- b=Pgwy4Kcw96jro5wipLTAsMa+r8DXUNsJdOHqoyb1dCzH3V/OyHZwc3tkjcgSEptzKZ
- Gc12MMUvWBUSREJDFmx3OnMyv7FkPCV+3nm+0fkQcNUnrLefA+meJUt1tDWUOuwElrAX
- USHufu0fN+ZxloZSZcv0HCdAb0UiEcDa83SlArPCjxwx7r028yvIeOPhqR06vfMQN2n2
- e9oWM20zfDoQaZ8ZQSanjYrphkAMKnigNnYly7sPsDt9hMoUOZVwEgSuYdABjlcxRKYp
- z2ZAzkklY2TnU6xGxMElR1vrIcr0sTxIjepUkqsEFghXVb8+dc+FeOC02+hG5sZ1nr+p
- FU5A==
-X-Gm-Message-State: AOAM5329cA10PGgFsgd5e3+YrgeT1UswyHFQTr+nQUGRONObsuTktjYd
- /4Al9e74trozoE2tGPc1Ymbl7A==
-X-Google-Smtp-Source: ABdhPJybFdSF24onZtpMmho5tzeAqH01cbZHcj/nAmwacbEKxurcuMR4y2HFP6JYDbsoxhfLxTYUUA==
-X-Received: by 2002:a17:906:c416:: with SMTP id
- u22mr4904764ejz.543.1629992063933; 
- Thu, 26 Aug 2021 08:34:23 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o6sm1607251eju.91.2021.08.26.08.34.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 08:34:22 -0700 (PDT)
-Date: Thu, 26 Aug 2021 17:34:21 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, akpm@linux-foundation.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] mm/vmscan: add sync_shrinkers function v2
-Message-ID: <YSe0fZI86K0lbDR5@phenom.ffwll.local>
-References: <20210820120528.81114-1-christian.koenig@amd.com>
- <20210820120528.81114-2-christian.koenig@amd.com>
- <YSeWwnokqMda+JJv@phenom.ffwll.local>
- <YSeXD55uhCo612LT@phenom.ffwll.local>
- <abffde95-da1b-a387-e81b-10269f2e6ede@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6ledkqU9D7FzcL/5ouJNmCXuXtKins7U1aoW3QxLbVU=;
+ b=TecZJdSHeWySsrS/9MZTAwu18Je1Nkv+cm7dSu60P1ZXF7imIcaT1nd0HlyeLyfqNS
+ YC+WvqDHgiz98vOiJaqljGeHXGQGbQXEide8w66xJYA73OMfExURhdIhptFnD9cEOV16
+ F6On3BnNNUZtueQY3vhS4vd5wpTR/z9gupIDQVstRHFGz7gLfYZeSE87C1YFxnnDJkfq
+ GmaPuqkkB9ZMqN18KFeThsrLVfQB1ZiIgbB80XArwx2HvmYCLdrXZCtLOA/QtupS5PeS
+ 2mCDFXJlDTAkzsXUJe/2vof2UOdoNMSpDKNrz8fKwpUKvHMWxlgfBHW5cQfZJHEbaSqF
+ 5pnw==
+X-Gm-Message-State: AOAM5319j4NZNxJzanc+xiL63L6E3xUNVR5aIYdqcUFHZx+y4yNM6jiJ
+ d7Q6T7Sy7LcXSd2pIUirbO++lU7H/n5+xBcEMA0=
+X-Google-Smtp-Source: ABdhPJxNi7BD0F9Nk2M8iBXkon89Q02BBjrW2NrVCNpKlZ5X5qHkwp/W2LBzZ7ppSDqjH2XlmT9Atndgc3cblhH236o=
+X-Received: by 2002:adf:9021:: with SMTP id h30mr4549091wrh.327.1629992070122; 
+ Thu, 26 Aug 2021 08:34:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <abffde95-da1b-a387-e81b-10269f2e6ede@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+References: <20210817085308.3557257-1-daniel.vetter@ffwll.ch>
+ <20210826093334.1117944-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210826093334.1117944-1-daniel.vetter@ffwll.ch>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 26 Aug 2021 08:38:50 -0700
+Message-ID: <CAF6AEGvVjrii3-22ocsuej8Hw-2OLG8Zok-LsUceh4Aqu=45-g@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Improve drm/sched point of no return rules
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Rob Clark <robdclark@chromium.org>, 
+ Sean Paul <sean@poorly.run>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,102 +77,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 26, 2021 at 04:58:06PM +0200, Christian König wrote:
-> Am 26.08.21 um 15:28 schrieb Daniel Vetter:
-> > On Thu, Aug 26, 2021 at 03:27:30PM +0200, Daniel Vetter wrote:
-> > > On Fri, Aug 20, 2021 at 02:05:27PM +0200, Christian König wrote:
-> > > > From: Christian König <ckoenig.leichtzumerken@gmail.com>
-> > > > 
-> > > > While unplugging a device the TTM shrinker implementation
-> > > > needs a barrier to make sure that all concurrent shrink
-> > > > operations are done and no other CPU is referring to a
-> > > > device specific pool any more.
-> > > > 
-> > > > Taking and releasing the shrinker semaphore on the write
-> > > > side after unmapping and freeing all pages from the device
-> > > > pool should make sure that no shrinker is running in
-> > > > paralell.
-> > > > 
-> > > > This allows us to avoid the contented mutex in the TTM pool
-> > > > implementation for every alloc/free operation.
-> > > > 
-> > > > v2: rework the commit message to make clear why we need this
-> > > > 
-> > > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > > Acked-by: Huang Rui <ray.huang@amd.com>
-> > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > ---
-> > > >   include/linux/shrinker.h |  1 +
-> > > >   mm/vmscan.c              | 10 ++++++++++
-> > > >   2 files changed, 11 insertions(+)
-> > > > 
-> > > > diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
-> > > > index 9814fff58a69..1de17f53cdbc 100644
-> > > > --- a/include/linux/shrinker.h
-> > > > +++ b/include/linux/shrinker.h
-> > > > @@ -93,4 +93,5 @@ extern void register_shrinker_prepared(struct shrinker *shrinker);
-> > > >   extern int register_shrinker(struct shrinker *shrinker);
-> > > >   extern void unregister_shrinker(struct shrinker *shrinker);
-> > > >   extern void free_prealloced_shrinker(struct shrinker *shrinker);
-> > > > +extern void sync_shrinkers(void);
-> > > >   #endif
-> > > > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> > > > index 4620df62f0ff..fde1aabcfa7f 100644
-> > > > --- a/mm/vmscan.c
-> > > > +++ b/mm/vmscan.c
-> > > > @@ -638,6 +638,16 @@ void unregister_shrinker(struct shrinker *shrinker)
-> > > >   }
-> > > >   EXPORT_SYMBOL(unregister_shrinker);
-> > > > +/**
-> > > > + * sync_shrinker - Wait for all running shrinkers to complete.
-> > > I think it would be good to add a bit more text here maybe:
-> > > 
-> > > "This is equivalent to calling unregister_shrink() and
-> > > register_shrinker(), but atomically and with less overhead. This is useful
-> > > to guarantee that all shrinker invocations have seen an update, before
-> > > freeing memory, similar to rcu."
-> > > 
-> > > Also a bit a bikeshed, but if we look at the equivalent in irq land it's
-> > > called synchronize_irq() and synchronize_hardirq(). I think it'd be good
-> > > to bikeshed that for more conceptual consistency.
-> > Oh also synchronize_*rcu* also spells them all out, so even more reasons
-> > to do the same.
-> 
-> I will just go with the explanation above.
-> 
-> The synchronize_rcu() explanation is so extensive that most people will
-> probably stop reading after the first paragraph.
+On Thu, Aug 26, 2021 at 2:33 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
+e:
+>
+> Originally drm_sched_job_init was the point of no return, after which
+> drivers really should submit a job. I've split that up, which allows
+> us to fix this issue pretty easily.
+>
+> Only thing we have to take care of is to not skip to error paths after
+> that. Other drivers do this the same for out-fence and similar things.
+>
+> v2: It's not really a bugfix, just an improvement, since all
+> drm_sched_job_arm does is reserve the fence number. And gaps should be
+> fine, as long as the drm_sched_job doesn't escape anywhere at all.
+>
+> For robustness it's still better to align with other drivers here and
+> not bail out after job_arm().
+>
+> v3: I misplaced drm_sched_job_arm by _one_ line! Thanks to Rob for
+> testing and debug help.
+>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-Ack, my comment was only about the function name (spelled out instead of
-abbreviated), not about pulling the entire kerneldoc in from these.
--Daniel
+t-b && r-b
 
-> 
-> Thanks,
-> Christian.
-> 
-> > -Daniel
-> > 
-> > > > + */
-> > > > +void sync_shrinkers(void)
-> > > > +{
-> > > > +	down_write(&shrinker_rwsem);
-> > > > +	up_write(&shrinker_rwsem);
-> > > > +}
-> > > > +EXPORT_SYMBOL(sync_shrinkers);
-> > > > +
-> > > >   #define SHRINK_BATCH 128
-> > > >   static unsigned long do_shrink_slab(struct shrink_control *shrinkctl,
-> > > > -- 
-> > > > 2.25.1
-> > > > 
-> > > -- 
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
-> 
+BR,
+-R
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> ---
+>  drivers/gpu/drm/msm/msm_gem_submit.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/m=
+sm_gem_submit.c
+> index 4d1c4d5f6a2a..71b8c8f752a3 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -52,8 +52,6 @@ static struct msm_gem_submit *submit_create(struct drm_=
+device *dev,
+>                 return ERR_PTR(ret);
+>         }
+>
+> -       drm_sched_job_arm(&job->base);
+> -
+>         xa_init_flags(&submit->deps, XA_FLAGS_ALLOC);
+>
+>         kref_init(&submit->ref);
+> @@ -880,6 +878,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void=
+ *data,
+>
+>         submit->nr_cmds =3D i;
+>
+> +       drm_sched_job_arm(&submit->base);
+> +
+>         submit->user_fence =3D dma_fence_get(&submit->base.s_fence->finis=
+hed);
+>
+>         /*
+> @@ -891,17 +891,16 @@ int msm_ioctl_gem_submit(struct drm_device *dev, vo=
+id *data,
+>         if (submit->fence_id < 0) {
+>                 ret =3D submit->fence_id =3D 0;
+>                 submit->fence_id =3D 0;
+> -               goto out;
+>         }
+>
+> -       if (args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
+> +       if (ret =3D=3D 0 && args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
+>                 struct sync_file *sync_file =3D sync_file_create(submit->=
+user_fence);
+>                 if (!sync_file) {
+>                         ret =3D -ENOMEM;
+> -                       goto out;
+> +               } else {
+> +                       fd_install(out_fence_fd, sync_file->file);
+> +                       args->fence_fd =3D out_fence_fd;
+>                 }
+> -               fd_install(out_fence_fd, sync_file->file);
+> -               args->fence_fd =3D out_fence_fd;
+>         }
+>
+>         submit_attach_object_fences(submit);
+> --
+> 2.32.0
+>
