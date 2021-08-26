@@ -2,85 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BE13F8402
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 10:56:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6CD3F8410
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 10:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 464896E566;
-	Thu, 26 Aug 2021 08:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF02E6E57A;
+	Thu, 26 Aug 2021 08:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 812986E566
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 08:56:52 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 65270580E35;
- Thu, 26 Aug 2021 04:56:51 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 26 Aug 2021 04:56:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=8ZqZMRxHYnjQ2uzAJrMkPBHkNou
- kBe6k9p1sniS1y0c=; b=Jn3pmql5i/BUkYPxISEaqVtJnFkGhpi/u/AjE+0hTLa
- v/JDM65cX/QTuMOGONVv2i2QuN+klkRGa3X7cknQzDeSvSv/yLg/fC4mcLqj8j6H
- ad6D6qOGpFkj19ZlIcQp86PMmi4BNli4hJnfb1EYMZU2cVBFu+gH2MTS8aSjtkfJ
- vLbaVHBUEqtWzmlTnvOWhA5YNIWAh3rjbNhddxE2kMeZoWsDRW7Ollt7b2kiGLY5
- +bwmp3t8n5RhEnoTYsK/VWTic+KvGZwnSGI6RJg83kfK6o8ISDyqK7j466FsaTGT
- Cp7NZLNx6obB04R2UfKgnT6+Ix2rBzQ/iMoVHOPCrzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=8ZqZMR
- xHYnjQ2uzAJrMkPBHkNoukBe6k9p1sniS1y0c=; b=XGBJoyHhR3DWmlyc9RZDOx
- AfgoSfwijcJiiWIMds8+VM32IOf3AjPVCBwhpYeq8atXg/adGDVfcPlQVJ3YxP99
- 0+qHbeEoFxPLwsgROM6A86TVUbGdAqX3UIDSLlAPNP4NKVcc8ekCJvrBRUlMWskB
- 0l+wMHdzAT1qgdJsbOsp55LCkPhhkcF8xqD1XDDZp5i6nDUCx2YljrHUN7N9CySP
- Cl3iRXQsCuUN/KBpSWL1i1UW/NuBj3xBdlv3g0OahPBGEuvgu7Z5zBqDLlXVY2jL
- 26KNA20MpMLqaAstUrvvD3ua3xtayUYJ8ctu0zT0UI9hFM3vdZ6YwS2zt5oogvxw
- ==
-X-ME-Sender: <xms:UFcnYdgJteDE000dBm6ZWsJILsLkL2Stk6RewL0jEZDV2-IK8FWGdA>
- <xme:UFcnYSBdA_8BLcqnD7LUlKea5bJofE8NaW1flcZhKTXTCOh-n93nZOH3fdvFSZr7P
- llMFRRgKqDWpxxLIRw>
-X-ME-Received: <xmr:UFcnYdG--SqUiJfMZ6CFNoNnHbkvgpL8Q-8BIFTC65qrtW3tO9WZfOOPhjGk4yXla5lUELhxZOiAVI_XcPCGawWOix225dZvmehX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduuddgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:UFcnYSRxVRmQ_BO8DffA2O9zOrhZc7tfabpRM9SgTeVH_SpY6fVh2g>
- <xmx:UFcnYaxIe07tQdDMMdlvPzUNIHwIMc5lX28SBIIwklK7IulH-SPhhg>
- <xmx:UFcnYY4VP9UOWdyGiJWW3HabMKKK2VR1VRTMJEmFeZLBqK0CMPUi0Q>
- <xmx:U1cnYVoKFt63Ne47mTAydzjn01gNIlF0gTkir8hQHwx3TYaUvyRFIg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Aug 2021 04:56:48 -0400 (EDT)
-Date: Thu, 26 Aug 2021 10:56:46 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 2/8] drm/bridge: Document the probe issue with
- MIPI-DSI bridges
-Message-ID: <20210826085646.3mj53any74jwnjmi@gilmour>
-References: <20210823084723.1493908-1-maxime@cerno.tech>
- <CGME20210823084750eucas1p24cd5dd54a967f63fda4184773b98c135@eucas1p2.samsung.com>
- <20210823084723.1493908-3-maxime@cerno.tech>
- <792b1a4b-7a82-e633-0266-787205ae279a@samsung.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF54B6E57A
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 08:59:04 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id u9so3816298wrg.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 01:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=RaHTrFvascTYtpAU+P4MaCCF8VtzmkB130UoUkXR+cE=;
+ b=fori7wshU3Yb9vl6xpRCpiVGccZdg+2vdNbd1UziTYY7LtRyUYfynJULylRU5BzBbD
+ MlUwijA3fQ00h+vSZCRsRjfo9pUtgc5jlg9I8s0bAhWQK4YrqEL3/LgdbRD2iaBr7fud
+ QrXhFMWoKX4ghHr2pzFFgA7/TGh5SEm3dMdGw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=RaHTrFvascTYtpAU+P4MaCCF8VtzmkB130UoUkXR+cE=;
+ b=A69XQ//yHZQmhBpAx3eMx3q9tO0tC0RcHYvy2GFSBO+JJs73HkRh6gJp53vnyZglYW
+ t/Ww7sM/29ttoHOoiRmyBNc2jzk1h/wpDhq8kCQxx+Q22oxbP5LVkxRtRf7ivjrNLCEP
+ 8SRyxRzruc8u8ngjVAaD2s3rw1/Txz5+vFUr8N7gldYC0gPxFWH/8LTK35oPXmg9eVtz
+ pH+LJ3Act7Vfwoi6q4T8hjBkLDsFyRotqugak/svCPZ5YhZsGz81SzldhQkGKlr7VVRQ
+ bm74DOEU4Q/bjWLxb9CTm3Hx9+rXgQsNCyCjPGXr4rcwJttvagh/1WmyLb6KjgFJAOet
+ ETWQ==
+X-Gm-Message-State: AOAM531iiWDRgeEokHHjnRzoPgAr+XICHBlQThWxU6SEcgdOWSX3RItx
+ //APptkdSC1ScKIxNIio0hvU4A==
+X-Google-Smtp-Source: ABdhPJy/ey9hz5ZD255t/T5LxEecH3/875IXD5J6hAG6idy97MYqvL7CPSouhUttHwHz1UzwvFlOsg==
+X-Received: by 2002:a05:6000:259:: with SMTP id
+ m25mr2644341wrz.53.1629968343451; 
+ Thu, 26 Aug 2021 01:59:03 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j7sm7637544wmi.37.2021.08.26.01.59.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Aug 2021 01:59:02 -0700 (PDT)
+Date: Thu, 26 Aug 2021 10:59:01 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: "Liu, Monk" <Monk.Liu@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
+ Alex Deucher <alexdeucher@gmail.com>,
+ "Chen, JingWen" <JingWen.Chen2@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
+Message-ID: <YSdX1VanmoiTdUAx@phenom.ffwll.local>
+References: <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
+ <69cbf5bd-42c2-be55-a604-43f4ebba159d@amd.com>
+ <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
+ <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
+ <YR0cb43Wv8jGiIbb@phenom.ffwll.local>
+ <82782ff5-d2a7-a4a8-8526-d1ff231630ed@amd.com>
+ <YR4k0fPfUL5viMRY@phenom.ffwll.local>
+ <BL1PR12MB52690CB11358D0298AABC8C084C09@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <BL1PR12MB526995BE01F10A5F7D8158F184C19@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <ede7948c-3365-d98c-464b-6c3356b914b8@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dfbzll24nb43ccgk"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <792b1a4b-7a82-e633-0266-787205ae279a@samsung.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ede7948c-3365-d98c-464b-6c3356b914b8@amd.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,199 +86,285 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Aug 20, 2021 at 09:20:42AM +0200, Christian König wrote:
+> No, that perfectly works for me.
+> 
+> The problem we used to have with this approach was that we potentially have
+> multiple timeouts at the same time.
+> 
+> But when we serialize the timeout handling by using a single workqueue as
+> suggested by Daniel now as well then that isn't an issue any more.
 
---dfbzll24nb43ccgk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sorry I got massively burried in everything, catching up. Iirc there's a
+special function for parking schedulers (which panfrost now uses to handle
+its cross-engine reset), would be good to use that.
 
-Hi Andrzej,
+And yeah if your reset code is potentially spawning across engines I think
+you need a single workqueue to make sure stuff doesn't go boom. Tbh might
+be best to check out what panfrost has done and ask panfrost folks for an
+ack on your approach.
+-Daniel
 
-On Mon, Aug 23, 2021 at 06:32:11PM +0200, Andrzej Hajda wrote:
-> Hi Maxime,
->=20
-> On 23.08.2021 10:47, Maxime Ripard wrote:
->=20
-> > Interactions between bridges, panels, MIPI-DSI host and the component
-> > framework are not trivial and can lead to probing issues when
-> > implementing a display driver. Let's document the various cases we need
-> > too consider, and the solution to support all the cases.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >   Documentation/gpu/drm-kms-helpers.rst |  6 +++
-> >   drivers/gpu/drm/drm_bridge.c          | 58 +++++++++++++++++++++++++++
-> >   2 files changed, 64 insertions(+)
-> >
-> > diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/=
-drm-kms-helpers.rst
-> > index 10f8df7aecc0..ec2f65b31930 100644
-> > --- a/Documentation/gpu/drm-kms-helpers.rst
-> > +++ b/Documentation/gpu/drm-kms-helpers.rst
-> > @@ -157,6 +157,12 @@ Display Driver Integration
-> >   .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-> >      :doc: display driver integration
-> >  =20
-> > +Special Care with MIPI-DSI bridges
-> > +----------------------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-> > +   :doc: special care dsi
-> > +
-> >   Bridge Operations
-> >   -----------------
-> >  =20
-> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > index baff74ea4a33..794654233cf5 100644
-> > --- a/drivers/gpu/drm/drm_bridge.c
-> > +++ b/drivers/gpu/drm/drm_bridge.c
-> > @@ -96,6 +96,64 @@
-> >    * documentation of bridge operations for more details).
-> >    */
-> >  =20
-> > +/**
-> > + * DOC: special care dsi
-> > + *
-> > + * The interaction between the bridges and other frameworks involved in
-> > + * the probing of the display driver and the bridge driver can be
-> > + * challenging. Indeed, there's multiple cases that needs to be
-> > + * considered:
-> > + *
-> > + * - The display driver doesn't use the component framework and isn't a
-> > + *   MIPI-DSI host. In this case, the bridge driver will probe at some
-> > + *   point and the display driver should try to probe again by returni=
-ng
-> > + *   EPROBE_DEFER as long as the bridge driver hasn't probed.
-> > + *
-> > + * - The display driver doesn't use the component framework, but is a
-> > + *   MIPI-DSI host. The bridge device uses the MIPI-DCS commands to be
-> > + *   controlled. In this case, the bridge device is a child of the
-> > + *   display device and when it will probe it's assured that the displ=
-ay
-> > + *   device (and MIPI-DSI host) is present. The display driver will be
-> > + *   assured that the bridge driver is connected between the
-> > + *   &mipi_dsi_host_ops.attach and &mipi_dsi_host_ops.detach operation=
-s.
-> > + *   Therefore, it must run mipi_dsi_host_register() in its probe
-> > + *   function, and then run drm_bridge_attach() in its
-> > + *   &mipi_dsi_host_ops.attach hook.
-> > + *
-> > + * - The display driver uses the component framework and is a MIPI-DSI
-> > + *   host. The bridge device uses the MIPI-DCS commands to be
-> > + *   controlled. This is the same situation than above, and can run
-> > + *   mipi_dsi_host_register() in either its probe or bind hooks.
-> > + *
-> > + * - The display driver uses the component framework and is a MIPI-DSI
-> > + *   host. The bridge device uses a separate bus (such as I2C) to be
-> > + *   controlled. In this case, there's no correlation between the probe
-> > + *   of the bridge and display drivers, so care must be taken to avoid
-> > + *   an endless EPROBE_DEFER loop, with each driver waiting for the
-> > + *   other to probe.
-> > + *
-> > + * The ideal pattern to cover the last item (and all the others in the
-> > + * display driver case) is to split the operations like this:
-> > + *
-> > + * - In the display driver must run mipi_dsi_host_register() and
-> > + *   component_add in its probe hook. It will make sure that the
-> > + *   MIPI-DSI host sticks around, and that the driver's bind can be
-> > + *   called.
->=20
-> I guess component_add is leftover from previous iteration (as you wrote=
-=20
-> few lines below) component_add should be called from dsi host attach=20
-> callback.
+> 
+> Regards,
+> Christian.
+> 
+> Am 20.08.21 um 09:12 schrieb Liu, Monk:
+> > [AMD Official Use Only]
+> > 
+> > @Daniel Vetter @Grodzovsky, Andrey @Koenig, Christian
+> > Do you have any concern on the kthread_park() approach ?
+> > 
+> > Theoretically speaking sched_main shall run there exclusively with job_timeout since they both touches jobs, and stop scheduler during job_timeout won't impact performance since in that scenario
+> > There was already something wrong/stuck on that ring/scheduler
+> > 
+> > Thanks
+> > 
+> > ------------------------------------------
+> > Monk Liu | Cloud-GPU Core team
+> > ------------------------------------------
+> > 
+> > -----Original Message-----
+> > From: Liu, Monk
+> > Sent: Thursday, August 19, 2021 6:26 PM
+> > To: Daniel Vetter <daniel@ffwll.ch>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
+> > Cc: Alex Deucher <alexdeucher@gmail.com>; Chen, JingWen <JingWen.Chen2@amd.com>; Maling list - DRI developers <dri-devel@lists.freedesktop.org>; amd-gfx list <amd-gfx@lists.freedesktop.org>; Koenig, Christian <Christian.Koenig@amd.com>
+> > Subject: RE: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
+> > 
+> > [AMD Official Use Only]
+> > 
+> > Hi Daniel
+> > 
+> > > > Why can't we stop the scheduler thread first, so that there's guaranteed no race? I've recently had a lot of discussions with panfrost folks about their reset that spawns across engines, and without stopping the scheduler thread first before you touch anything it's just plain impossible.
+> > Yeah we had this though as well in our mind.
+> > 
+> > Our second approach is to call ktrhead_stop() in job_timedout() routine so that  the "bad" job is guaranteed to be used without scheduler's touching or freeing, Check this sample patch one as well please:
+> > 
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > index a2a9536..50a49cb 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -319,17 +319,12 @@ static void drm_sched_job_timedout(struct work_struct *work)
+> >          sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
+> >          /* Protects against concurrent deletion in drm_sched_get_cleanup_job */
+> > +       kthread_park(sched->thread);
+> >          spin_lock(&sched->job_list_lock);
+> >          job = list_first_entry_or_null(&sched->pending_list,
+> >                                         struct drm_sched_job, list);
+> >          if (job) {
+> > -               /*
+> > -                * Remove the bad job so it cannot be freed by concurrent
+> > -                * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
+> > -                * is parked at which point it's safe.
+> > -                */
+> > -               list_del_init(&job->list);
+> >                  spin_unlock(&sched->job_list_lock);
+> >                  status = job->sched->ops->timedout_job(job);
+> > @@ -345,6 +340,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+> >          } else {
+> >                  spin_unlock(&sched->job_list_lock);
+> >          }
+> > +       kthread_unpark(sched->thread);
+> >          if (status != DRM_GPU_SCHED_STAT_ENODEV) {
+> >                  spin_lock(&sched->job_list_lock); @@ -393,20 +389,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+> >          kthread_park(sched->thread);
+> >          /*
+> > -        * Reinsert back the bad job here - now it's safe as
+> > -        * drm_sched_get_cleanup_job cannot race against us and release the
+> > -        * bad job at this point - we parked (waited for) any in progress
+> > -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
+> > -        * now until the scheduler thread is unparked.
+> > -        */
+> > -       if (bad && bad->sched == sched)
+> > -               /*
+> > -                * Add at the head of the queue to reflect it was the earliest
+> > -                * job extracted.
+> > -                */
+> > -               list_add(&bad->list, &sched->pending_list);
+> > -
+> > -       /*
+> >           * Iterate the job list from later to  earlier one and either deactive
+> >           * their HW callbacks or remove them from pending list if they already
+> >           * signaled.
+> > 
+> > 
+> > Thanks
+> > 
+> > ------------------------------------------
+> > Monk Liu | Cloud-GPU Core team
+> > ------------------------------------------
+> > 
+> > -----Original Message-----
+> > From: Daniel Vetter <daniel@ffwll.ch>
+> > Sent: Thursday, August 19, 2021 5:31 PM
+> > To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>; Alex Deucher <alexdeucher@gmail.com>; Chen, JingWen <JingWen.Chen2@amd.com>; Maling list - DRI developers <dri-devel@lists.freedesktop.org>; amd-gfx list <amd-gfx@lists.freedesktop.org>; Liu, Monk <Monk.Liu@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>
+> > Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
+> > 
+> > On Wed, Aug 18, 2021 at 10:51:00AM -0400, Andrey Grodzovsky wrote:
+> > > On 2021-08-18 10:42 a.m., Daniel Vetter wrote:
+> > > > On Wed, Aug 18, 2021 at 10:36:32AM -0400, Andrey Grodzovsky wrote:
+> > > > > On 2021-08-18 10:32 a.m., Daniel Vetter wrote:
+> > > > > > On Wed, Aug 18, 2021 at 10:26:25AM -0400, Andrey Grodzovsky wrote:
+> > > > > > > On 2021-08-18 10:02 a.m., Alex Deucher wrote:
+> > > > > > > 
+> > > > > > > > + dri-devel
+> > > > > > > > 
+> > > > > > > > Since scheduler is a shared component, please add dri-devel
+> > > > > > > > on all scheduler patches.
+> > > > > > > > 
+> > > > > > > > On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@amd.com> wrote:
+> > > > > > > > > [Why]
+> > > > > > > > > for bailing job, this commit will delete it from pending
+> > > > > > > > > list thus the bailing job will never have a chance to be
+> > > > > > > > > resubmitted even in advance tdr mode.
+> > > > > > > > > 
+> > > > > > > > > [How]
+> > > > > > > > > after embeded hw_fence into amdgpu_job is done, the race
+> > > > > > > > > condition that this commit tries to work around is
+> > > > > > > > > completely solved.So revert this commit.
+> > > > > > > > > This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
+> > > > > > > > > v2:
+> > > > > > > > > add dma_fence_get/put() around timedout_job to avoid
+> > > > > > > > > concurrent delete during processing timedout_job
+> > > > > > > > > 
+> > > > > > > > > Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
+> > > > > > > > > ---
+> > > > > > > > >      drivers/gpu/drm/scheduler/sched_main.c | 23 +++++------------------
+> > > > > > > > >      1 file changed, 5 insertions(+), 18 deletions(-)
+> > > > > > > > > 
+> > > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > > index a2a953693b45..f9b9b3aefc4a 100644
+> > > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > > @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+> > > > > > > > >      {
+> > > > > > > > >             struct drm_gpu_scheduler *sched;
+> > > > > > > > >             struct drm_sched_job *job;
+> > > > > > > > > +       struct dma_fence *fence;
+> > > > > > > > >             enum drm_gpu_sched_stat status =
+> > > > > > > > > DRM_GPU_SCHED_STAT_NOMINAL;
+> > > > > > > > > 
+> > > > > > > > >             sched = container_of(work, struct
+> > > > > > > > > drm_gpu_scheduler, work_tdr.work); @@ -325,11 +326,10 @@
+> > > > > > > > > static void drm_sched_job_timedout(struct work_struct
+> > > > > > > > > *work)
+> > > > > > > > > 
+> > > > > > > > >             if (job) {
+> > > > > > > > >                     /*
+> > > > > > > > > -                * Remove the bad job so it cannot be freed by concurrent
+> > > > > > > > > -                * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
+> > > > > > > > > -                * is parked at which point it's safe.
+> > > > > > > > > +                * Get job->s_fence->parent here to avoid concurrent delete during
+> > > > > > > > > +                * processing timedout_job
+> > > > > > > > >                      */
+> > > > > > > > > -               list_del_init(&job->list);
+> > > > > > > > > +               fence =
+> > > > > > > > > + dma_fence_get(job->s_fence->parent);
+> > > > > > > While this is true for amdgpu, it has no meaning for other
+> > > > > > > drivers for whom we haven't done the refactoring of embedding
+> > > > > > > HW fence (parent) into the job structure.
+> > > > > > > In fact thinking
+> > > > > > > about it, unless you do the HW fence embedding for all the
+> > > > > > > drivers using the scheduler you cannot revert this patch or
+> > > > > > > you will just break them.
+> > > > > > btw, why did you do that embedding? I do still have my patches
+> > > > > > with dma_fence annotations floating around, but my idea at least
+> > > > > > was to fix that issue with a mempool, not with embeddeding. What
+> > > > > > was the motivation for embedding the wh fence?
+> > > > > > -Daniel
+> > > > > The motivation was 2 fold, avoid memory allocation during jobs
+> > > > > submissions (HW fence allocation) because as Christian explained
+> > > > > this leads to deadlock with mm code during evictions due to memory
+> > > > > pressure (Christian can clarify if I messed
+> > > > Yeah that's the exact same thing I've chased with my dma_fence
+> > > > annotations, but thus far zero to none interested in getting it
+> > > > sorted. I think it'd be good to have some cross-driver agreement on
+> > > > how this should be solved before someone just charges ahead ...
+> > > > 
+> > > > > this explanation). Second is to exactly revert this patch because
+> > > > > while it solved the issue described in the patch it created
+> > > > > another with drivers who baildc out early during TDR handling for
+> > > > > various reason and the job would just leak because it was already
+> > > > > removed form pending list.
+> > > > Can't we reinsert it before we restart the scheduler thread? It
+> > > > might need a separate list for that due to the lockless queue
+> > > > tricks. Or am I thinking about the wrong kind of "we lost the job"?
+> > > > -Danile
+> > > 
+> > > If you look at the original patch it would reinsert it even earlier -
+> > > right after stopping the  SW scheduler thread, and even then it was to
+> > > late for some drivers as they would decide to return back from their
+> > > TDR handler even before that. It is solvable but in an ugly way as far
+> > > as I see, you need to require each driver in his code to put the job
+> > > back in the list if they do it before reaching the place where
+> > > scheduler framework does it. Kind of spaghetti code seems to me.
+> > Hm yeah I didn't realize this all happens before we stop the scheduler thread.
+> > 
+> > Why can't we stop the scheduler thread first, so that there's guaranteed no race? I've recently had a lot of discussions with panfrost folks about their reset that spawns across engines, and without stopping the scheduler thread first before you touch anything it's just plain impossible.
+> > 
+> > I'm also still not understanding what exactly you guys have done, can someone please dig out the the amdgpu patches that motivate all this maybe that's clearer? A full explanation would still be good since I've only started in scheduler stuff.
+> > 
+> > Another thing I recently pondered for tdr races looking at i915 code is whether the tdr should first block the completion fence for that job. My motivation is to have a race-free error capture (if the completion races then we might start evicting memory and everything goes boom), but maybe that helps here too. Some kind of atomic "block this fence from completing thing.
+> > 
+> > Or I'm I completely guessing in the wrong direction?
+> > -Daniel
+> > 
+> > > Andrey
+> > > 
+> > > 
+> > > > > Andrey
+> > > > > 
+> > > > > 
+> > > > > > > Andrey
+> > > > > > > 
+> > > > > > > 
+> > > > > > > > >                     spin_unlock(&sched->job_list_lock);
+> > > > > > > > > 
+> > > > > > > > >                     status =
+> > > > > > > > > job->sched->ops->timedout_job(job);
+> > > > > > > > > @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+> > > > > > > > >                             job->sched->ops->free_job(job);
+> > > > > > > > >                             sched->free_guilty = false;
+> > > > > > > > >                     }
+> > > > > > > > > +               dma_fence_put(fence);
+> > > > > > > > >             } else {
+> > > > > > > > >                     spin_unlock(&sched->job_list_lock);
+> > > > > > > > >             }
+> > > > > > > > > @@ -392,20 +393,6 @@ void drm_sched_stop(struct
+> > > > > > > > > drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+> > > > > > > > > 
+> > > > > > > > >             kthread_park(sched->thread);
+> > > > > > > > > 
+> > > > > > > > > -       /*
+> > > > > > > > > -        * Reinsert back the bad job here - now it's safe as
+> > > > > > > > > -        * drm_sched_get_cleanup_job cannot race against us and release the
+> > > > > > > > > -        * bad job at this point - we parked (waited for) any in progress
+> > > > > > > > > -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
+> > > > > > > > > -        * now until the scheduler thread is unparked.
+> > > > > > > > > -        */
+> > > > > > > > > -       if (bad && bad->sched == sched)
+> > > > > > > > > -               /*
+> > > > > > > > > -                * Add at the head of the queue to reflect it was the earliest
+> > > > > > > > > -                * job extracted.
+> > > > > > > > > -                */
+> > > > > > > > > -               list_add(&bad->list, &sched->pending_list);
+> > > > > > > > > -
+> > > > > > > > >             /*
+> > > > > > > > >              * Iterate the job list from later to  earlier one and either deactive
+> > > > > > > > >              * their HW callbacks or remove them from
+> > > > > > > > > pending list if they already
+> > > > > > > > > --
+> > > > > > > > > 2.25.1
+> > > > > > > > > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=04%7C01%7Cmonk.liu%40amd.com%7C27fcce7ca8dd4f39608508d962f40f33%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637649622657672189%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=JVZtg3AhbiA%2FDmVbNGo3MxVliO83nh8%2Fi50PCMsvwyY%3D&amp;reserved=0
+> 
 
-Indeed, I'll remove it
-
-> > + *
-> > + * - In its probe hook, the bridge driver must try to find its MIPI-DSI
-> > + *   host, register as a MIPI-DSI device and attach the MIPI-DSI device
-> > + *   to its host. The bridge driver is now functional.
-> > + *
-> > + * - In its &struct mipi_dsi_host_ops.attach hook, the display driver
-> > + *   can now add its component. Its bind hook will now be called and
-> > + *   since the bridge driver is attached and registered, we can now lo=
-ok
-> > + *   for and attach it.
-> > + *
-> > + * At this point, we're now certain that both the display driver and t=
-he
-> > + * bridge driver are functional and we can't have a deadlock-like
-> > + * situation when probing.
-> > + */
-> > +
->=20
-> Beside small mistake the whole patch looks OK for me. Maybe it would be=
-=20
-> worth to mention what is the real cause of this "special DSI case" -=20
-> there is mutual dependency between two following entities in display chai=
-n:
->=20
-> 1. display driver - it provides DSI bus, and requires drm_bridge or=20
-> drm_panel provided by child device.
->=20
-> 2. bridge or panel with DSI transport - it requires DSI bus provided by=
-=20
-> display driver, and provides drm_bridge or drm_panel interface required=
-=20
-> by display driver.
-
-I was trying to explain it in the first part of this patch. Is there
-anything misleading there?
-
-> I guess similar issues can appear with other data/control bus-es,=20
-> apparently DSI case is the most common.
-
-The issue only presents itself when it's using a separate control bus
-actually. If it's controlled through DCS, the panel / bridge will be a
-children node of the DSI host and will only be probed when the host is
-registered, so we don't have this issue.
-
-> And one more thing - you use "display driver" term but this is also case=
-=20
-> of any bridge providing DSI bus - there are already 3 such bridges in=20
-> kernel - cdns, nwl, synopsys, tc358768, maybe "DSI host" would be better=
-=20
-> term.
-
-Good point, I'll change it.
-
-> And another thing - downstream device can be bridge or *panel*, it would=
-=20
-> be good to mention that panels also should follow this pattern.
-
-We're pretty much forced to do this with panels though. They don't have
-an attach hook unlike bridges so we don't have much other options than
-putting it in probe.
-
-> Btw this is another place where word bridge can be 1:1 replaced by word=
-=20
-> panel - it clearly suggest that DRM subsystem waits for brave men who=20
-> proposes patches unifying them, we would save lot of words, and lines of=
-=20
-> code if we could use drm_sink instead of "if (sink is bridge) do sth=20
-> else do sth-similar-but-with-drm_panel-interface".
-
-I agree. In the previous iteration I had this patch that was a step in
-this direction:
-https://lore.kernel.org/dri-devel/20210728133229.2247965-3-maxime@cerno.tec=
-h/
-
-Even though it's not relevant to this series anymore, I still plan on
-submitting it and converting as many users as possible (if my coccinelle
-skills allows me to at least).
-
-Maxime
-
---dfbzll24nb43ccgk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYSdXTgAKCRDj7w1vZxhR
-xQTyAQDeyoP4blj3lnV14h3xpZT0ygLGV8h27f6dZz75hm4RngEA+IWYrkjnTVLs
-6ZSNtxNkmhNsKxWPxqM9FBIMfzghzQU=
-=5p/2
------END PGP SIGNATURE-----
-
---dfbzll24nb43ccgk--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
