@@ -1,41 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358763F8C04
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 18:23:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5953F8C00
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 18:21:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81DE56E881;
-	Thu, 26 Aug 2021 16:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2E46E883;
+	Thu, 26 Aug 2021 16:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1027A6E02C;
- Thu, 26 Aug 2021 16:23:24 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="198018629"
-X-IronPort-AV: E=Sophos;i="5.84,353,1620716400"; d="scan'208";a="198018629"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2021 09:23:20 -0700
-X-IronPort-AV: E=Sophos;i="5.84,353,1620716400"; d="scan'208";a="527948190"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2021 09:23:20 -0700
-Date: Thu, 26 Aug 2021 09:18:11 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: daniele.ceraolospurio@intel.com
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A624C6E883
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 16:21:30 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id h9so7538738ejs.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 09:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=JUItK3hy4e88+e5Egr0dALC4TWt+hPEg+fhUoqT58E8=;
+ b=QhMqRaBrCt5NTLGzdDU9zCwx4hUi57d1H3lTVy7pQMpxEfrcrGt+fNdiZ7MfeIuyo7
+ LbnnM/z5jebmd6pv1AMrQ3nDfZ2Tu9J/3cIA9ijzgfEtaDmpw7zDcdZheMtNBX7RXjfi
+ R4BCoHpnqB1arjheGo/mCpbf5bacD7FUSZUQA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JUItK3hy4e88+e5Egr0dALC4TWt+hPEg+fhUoqT58E8=;
+ b=Hab9YdLEzQs7KwEMEazM/7gz3QIAn8aMZvqVh6hXOFFnuRVeXONQiQ9muXXvshDOys
+ BpBVOspH1Ftk7QHBr3fPRR/YD6Uo2HIgsf7Y4ML+i1iteVZs4YaAc77cf2I0D7qKLYUy
+ 1xQIgrzO6XtcZcg8YD4dumrPGZSs9TjTssNjm1bO8XQNtazjT43lEeSNCyzm4ymUS4np
+ N7Gq+xbYDIFCg9zYdpErzPkYi0/Oc0qFpZiA92EnzS1IQRMK15H8XTw4r2Yc8xcTJQsh
+ gktLINiPEHN6NR2rdQyMT0mjwktDmLfPm9DTGxdvY6AQiXa9GvpKn7Ekywze64oTONhU
+ DB4Q==
+X-Gm-Message-State: AOAM531GP7DEVgZiLY9hXQY6FzMpVjCKzNkFF9YrqRwe7qdmBUrhUDKh
+ 5aV8qL8gLF5toQwSQVHid2OFsQ==
+X-Google-Smtp-Source: ABdhPJwoVjTM62zVAxKadzL0vAWGXMd67157mNBMk81hG9HnnlXwi28Ycp+zzWZli668ZQO5nT592A==
+X-Received: by 2002:a17:906:d8a8:: with SMTP id
+ qc8mr5001571ejb.368.1629994889104; 
+ Thu, 26 Aug 2021 09:21:29 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y32sm2173829ede.22.2021.08.26.09.21.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Aug 2021 09:21:28 -0700 (PDT)
+Date: Thu, 26 Aug 2021 18:21:26 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniele.ceraolospurio@intel.com
 Subject: Re: [Intel-gfx] [PATCH 16/27] drm/i915: Allocate error capture in
  nowait context
-Message-ID: <20210826161811.GA19893@jons-linux-dev-box>
+Message-ID: <YSe/hg+e+uYYIMue@phenom.ffwll.local>
 References: <20210826032327.18078-1-matthew.brost@intel.com>
  <20210826032327.18078-17-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20210826032327.18078-17-matthew.brost@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,108 +81,6 @@ On Wed, Aug 25, 2021 at 08:23:16PM -0700, Matthew Brost wrote:
 > Requests depend on resets, thus now we have a circular dependency. To
 > work around this, allocate the error capture in a nowait context.
 > 
-
-For completeness Daniel suggested we include the lockdep splat,
-included below:
-
-[  154.625989] ======================================================
-[  154.632195] WARNING: possible circular locking dependency detected
-[  154.638393] 5.14.0-rc5-guc+ #50 Tainted: G     U
-[  154.643991] ------------------------------------------------------
-[  154.650196] i915_selftest/1673 is trying to acquire lock:
-[  154.655621] ffff8881079cb918 ((work_completion)(&ct->requests.worker)){+.+.}-{0:0}, at: __flush_work+0x350/0x4d0 [  154.665826]
-               but task is already holding lock:
-[  154.671682] ffff8881079cbfb8 (&gt->reset.mutex){+.+.}-{3:3}, at: intel_gt_reset+0xf0/0x300 [i915] [  154.680659]
-               which lock already depends on the new lock.
-
-[  154.688857]
-               the existing dependency chain (in reverse order) is:
-[  154.696365]
-               -> #2 (&gt->reset.mutex){+.+.}-{3:3}:
-[  154.702571]        lock_acquire+0xd2/0x300
-[  154.706695]        i915_gem_shrinker_taints_mutex+0x2d/0x50 [i915]
-[  154.712959]        intel_gt_init_reset+0x61/0x80 [i915]
-[  154.718258]        intel_gt_init_early+0xe6/0x120 [i915]
-[  154.723648]        i915_driver_probe+0x592/0xdc0 [i915]
-[  154.728942]        i915_pci_probe+0x43/0x1c0 [i915]
-[  154.733891]        pci_device_probe+0x9b/0x110
-[  154.738362]        really_probe+0x1a6/0x3a0
-[  154.742568]        __driver_probe_device+0xf9/0x170
-[  154.747468]        driver_probe_device+0x19/0x90
-[  154.752114]        __driver_attach+0x99/0x170
-[  154.756492]        bus_for_each_dev+0x73/0xc0
-[  154.760870]        bus_add_driver+0x14b/0x1f0
-[  154.765248]        driver_register+0x67/0xb0
-[  154.769542]        i915_init+0x18/0x8c [i915]
-[  154.773964]        do_one_initcall+0x53/0x2e0
-[  154.778343]        do_init_module+0x56/0x210
-[  154.782639]        load_module+0x25fc/0x29f0
-[  154.786934]        __do_sys_finit_module+0xae/0x110
-[  154.791835]        do_syscall_64+0x38/0xc0
-[  154.795958]        entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  154.801558]
-               -> #1 (fs_reclaim){+.+.}-{0:0}:
-[  154.807241]        lock_acquire+0xd2/0x300
-[  154.811361]        fs_reclaim_acquire+0x9e/0xd0
-[  154.815914]        kmem_cache_alloc_trace+0x30/0x790
-[  154.820899]        i915_gpu_coredump_alloc+0x53/0x1a0 [i915]
-[  154.826649]        i915_gpu_coredump+0x39/0x560 [i915]
-[  154.831866]        i915_capture_error_state+0xa/0x70 [i915]
-[  154.837513]        intel_guc_context_reset_process_msg+0x174/0x1f0 [i915]
-[  154.844383]        ct_incoming_request_worker_func+0x130/0x1b0 [i915]
-[  154.850898]        process_one_work+0x264/0x590
-[  154.855451]        worker_thread+0x4b/0x3a0
-[  154.859655]        kthread+0x147/0x170
-[  154.863428]        ret_from_fork+0x1f/0x30
-[  154.867548]
-               -> #0 ((work_completion)(&ct->requests.worker)){+.+.}-{0:0}:
-[  154.875747]        check_prev_add+0x90/0xc30
-[  154.880042]        __lock_acquire+0x1643/0x2110
-[  154.884595]        lock_acquire+0xd2/0x300
-[  154.888715]        __flush_work+0x373/0x4d0
-[  154.892920]        intel_guc_submission_reset_prepare+0xf3/0x340 [i915]
-[  154.899606]        intel_uc_reset_prepare+0x40/0x50 [i915]
-[  154.905166]        reset_prepare+0x55/0x60 [i915]
-[  154.909946]        intel_gt_reset+0x11c/0x300 [i915]
-[  154.914984]        do_device_reset+0x13/0x20 [i915]
-[  154.919936]        check_whitelist_across_reset+0x166/0x250 [i915]
-[  154.926212]        live_reset_whitelist.cold+0x6a/0x7a [i915]
-[  154.932037]        __i915_subtests.cold+0x20/0x74 [i915]
-[  154.937428]        __run_selftests.cold+0x96/0xee [i915]
-[  154.942816]        i915_live_selftests+0x2c/0x60 [i915]
-[  154.948125]        i915_pci_probe+0x93/0x1c0 [i915]
-[  154.953076]        pci_device_probe+0x9b/0x110
-[  154.957545]        really_probe+0x1a6/0x3a0
-[  154.961749]        __driver_probe_device+0xf9/0x170
-[  154.966653]        driver_probe_device+0x19/0x90
-[  154.971290]        __driver_attach+0x99/0x170
-[  154.975671]        bus_for_each_dev+0x73/0xc0
-[  154.980053]        bus_add_driver+0x14b/0x1f0
-[  154.984431]        driver_register+0x67/0xb0
-[  154.988725]        i915_init+0x18/0x8c [i915]
-[  154.993149]        do_one_initcall+0x53/0x2e0
-[  154.997527]        do_init_module+0x56/0x210
-[  155.001822]        load_module+0x25fc/0x29f0
-[  155.006118]        __do_sys_finit_module+0xae/0x110
-[  155.011019]        do_syscall_64+0x38/0xc0
-[  155.015139]        entry_SYSCALL_64_after_hwframe+0x44/0xae
-[  155.020729]
-               other info that might help us debug this:
-
-[  155.028752] Chain exists of:
-                 (work_completion)(&ct->requests.worker) --> fs_reclaim --> &gt->reset.mutex
-
-[  155.041294]  Possible unsafe locking scenario:
-
-[  155.047240]        CPU0                    CPU1
-[  155.051791]        ----                    ----
-[  155.056344]   lock(&gt->reset.mutex);
-[  155.060026]                                lock(fs_reclaim);
-[  155.065706]                                lock(&gt->reset.mutex);
-[  155.071912]   lock((work_completion)(&ct->requests.worker));
-[  155.077595]
-                *** DEADLOCK ***
-
 > v2:
 >  (Daniel Vetter)
 >   - Use GFP_NOWAIT instead GFP_ATOMIC
@@ -168,6 +88,14 @@ included below:
 > Fixes: dc0dad365c5e ("Fix for error capture after full GPU reset with GuC")
 > Fixes: 573ba126aef3 ("Capture error state on context reset")
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+Would be good to include an example splat here, since memory inversions
+are a bit wtf due to the fake lockdep locks involved. In generally always
+good to put all the data you have into the commit message (maybe condensed
+down) so it's easier to dig out things again.
+
+With that: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > ---
 >  drivers/gpu/drm/i915/i915_gpu_error.c | 39 +++++++++++++--------------
 >  1 file changed, 19 insertions(+), 20 deletions(-)
@@ -332,3 +260,8 @@ included below:
 > -- 
 > 2.32.0
 > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
