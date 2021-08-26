@@ -1,66 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7493F82E8
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 09:14:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6BA3F8310
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 09:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9CB6E530;
-	Thu, 26 Aug 2021 07:14:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19C816E532;
+	Thu, 26 Aug 2021 07:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B796E530
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 07:14:12 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id u25so3228274oiv.5
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 00:14:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=aRiLbWEP9NQgwwctmdG3N2zfgTjntvnVENFb+awS0zA=;
- b=F81Cr3R6yT7asoMk0pyICvtOXoQZAXvI1ZnDNCPSezR35pdJ3glHU/05ASNiivAux1
- fSfqjB1WU7WW801D5dDdGncQYjxSGvFnL/wsbjCe2P3mYZLuDRXxDNkfrGdnRoesZ4pm
- DIf81ahimaKl/WhY/sF0MPtxSm6wmliMthhJI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=aRiLbWEP9NQgwwctmdG3N2zfgTjntvnVENFb+awS0zA=;
- b=ZbP15Mmu78bzkmyJHDPXTis+NxQv1Lj0fMbig1l/HXUd6hRxefcickaU0vWKkXh7F0
- DyCRo3Pqi7Tqu/6Zx4b5YmeDHUZ/LUK77IEXICqOK8YQ9O6sx5hyUvWEaF7nhTiAnzC2
- VhOTMBpnwtjs2kjcWYW2G8BWz87ruFsV5idXiOZw98etQ1nl7ssuMfznOuMPXzNCcWLT
- OVoBNR79GPijmRHDRKndSuV9Vvi3a1vsTUxDYd3Cif/PGoy1+Q2diwKPhinS6PA5cEuo
- V01ve6lSchVk7/y176+Ij9A5j575BPSk5m8MQ3WPmJrSApqqX0a6zOtLzgX1TnE+tC+c
- a8og==
-X-Gm-Message-State: AOAM533h9inaWzwHMTkO9a4maIjq288CaaW+J17wBchg8tjb+h9EM0Oe
- Iknb46DzhqqohYUyCsC3Ni4ZIHDShzK2t4i1pBUlMg==
-X-Google-Smtp-Source: ABdhPJzUDekyoWqTfrkclEr8+8sWlzJ7PWjVoXwVhqtZb33xoA6jHZ+GqQ45EOn0Awx+UlXeZahflBl7bsDJeh8AC6Y=
-X-Received: by 2002:a05:6808:181a:: with SMTP id
- bh26mr10217298oib.166.1629962051961; 
- Thu, 26 Aug 2021 00:14:11 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 26 Aug 2021 07:14:11 +0000
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6243D6E52D;
+ Thu, 26 Aug 2021 07:24:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="281404310"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="281404310"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2021 00:24:32 -0700
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="465029659"
+Received: from lapeders-mobl.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.132])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2021 00:24:31 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PATCH] drm/i915/gem: Fix the mman selftest
+Date: Thu, 26 Aug 2021 09:24:14 +0200
+Message-Id: <20210826072414.384945-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210825234233.1721068-6-bjorn.andersson@linaro.org>
-References: <20210825234233.1721068-1-bjorn.andersson@linaro.org>
- <20210825234233.1721068-6-bjorn.andersson@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 26 Aug 2021 07:14:11 +0000
-Message-ID: <CAE-0n50FhJgE-Z3DvdhfTZxRbwCx50TT2An_i=Xorf=OBE0MYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drm/msm/dp: Add sc8180x DP controllers
-To: Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>, 
- Kuogee Hsieh <khsieh@codeaurora.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Cc: Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,11 +49,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Bjorn Andersson (2021-08-25 16:42:33)
-> The sc8180x has 2 DP and 1 eDP controllers, add support for these to the
-> DP driver.
->
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
+Using the I915_MMAP_TYPE_FIXED mmap type requires the TTM backend, so
+for that mmap type, use __i915_gem_object_create_user() instead of
+i915_gem_object_create_internal(), as we really want to tests objects
+mmap-able by user-space.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+This also means that the out-of-space error happens at object creation
+and returns -ENXIO rather than -ENOSPC, so fix the code up to expect
+that on out-of-offset-space errors.
+
+Finally only use I915_MMAP_TYPE_FIXED for LMEM and SMEM for now if
+testing on LMEM-capable devices. For stolen LMEM, we still take the
+same path as for integrated, as that haven't been moved over to TTM yet,
+and user-space should not be able to create out of stolen LMEM anyway.
+
+Fixes: 7961c5b60f23 ("drm/i915: Add TTM offset argument to mmap.")
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ .../drm/i915/gem/selftests/i915_gem_mman.c    | 26 +++++++++++++++----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index b20f5621f62b..68da25e66b69 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -581,6 +581,20 @@ static enum i915_mmap_type default_mapping(struct drm_i915_private *i915)
+ 	return I915_MMAP_TYPE_GTT;
+ }
+ 
++static struct drm_i915_gem_object *
++create_sys_or_internal(struct drm_i915_private *i915,
++		       unsigned long size)
++{
++	if (HAS_LMEM(i915)) {
++		struct intel_memory_region *sys_region =
++			i915->mm.regions[INTEL_REGION_SMEM];
++
++		return __i915_gem_object_create_user(i915, size, &sys_region, 1);
++	}
++
++	return i915_gem_object_create_internal(i915, size);
++}
++
+ static bool assert_mmap_offset(struct drm_i915_private *i915,
+ 			       unsigned long size,
+ 			       int expected)
+@@ -589,7 +603,7 @@ static bool assert_mmap_offset(struct drm_i915_private *i915,
+ 	u64 offset;
+ 	int ret;
+ 
+-	obj = i915_gem_object_create_internal(i915, size);
++	obj = create_sys_or_internal(i915, size);
+ 	if (IS_ERR(obj))
+ 		return expected && expected == PTR_ERR(obj);
+ 
+@@ -633,6 +647,7 @@ static int igt_mmap_offset_exhaustion(void *arg)
+ 	struct drm_mm_node *hole, *next;
+ 	int loop, err = 0;
+ 	u64 offset;
++	int enospc = HAS_LMEM(i915) ? -ENXIO : -ENOSPC;
+ 
+ 	/* Disable background reaper */
+ 	disable_retire_worker(i915);
+@@ -683,14 +698,14 @@ static int igt_mmap_offset_exhaustion(void *arg)
+ 	}
+ 
+ 	/* Too large */
+-	if (!assert_mmap_offset(i915, 2 * PAGE_SIZE, -ENOSPC)) {
++	if (!assert_mmap_offset(i915, 2 * PAGE_SIZE, enospc)) {
+ 		pr_err("Unexpectedly succeeded in inserting too large object into single page hole\n");
+ 		err = -EINVAL;
+ 		goto out;
+ 	}
+ 
+ 	/* Fill the hole, further allocation attempts should then fail */
+-	obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
++	obj = create_sys_or_internal(i915, PAGE_SIZE);
+ 	if (IS_ERR(obj)) {
+ 		err = PTR_ERR(obj);
+ 		pr_err("Unable to create object for reclaimed hole\n");
+@@ -703,7 +718,7 @@ static int igt_mmap_offset_exhaustion(void *arg)
+ 		goto err_obj;
+ 	}
+ 
+-	if (!assert_mmap_offset(i915, PAGE_SIZE, -ENOSPC)) {
++	if (!assert_mmap_offset(i915, PAGE_SIZE, enospc)) {
+ 		pr_err("Unexpectedly succeeded in inserting object into no holes!\n");
+ 		err = -EINVAL;
+ 		goto err_obj;
+@@ -842,7 +857,8 @@ static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	bool no_map;
+ 
+-	if (HAS_LMEM(i915))
++	if (HAS_LMEM(i915) && (obj->mm.region->id == INTEL_REGION_SMEM ||
++			       obj->mm.region->id == INTEL_REGION_LMEM))
+ 		return type == I915_MMAP_TYPE_FIXED;
+ 	else if (type == I915_MMAP_TYPE_FIXED)
+ 		return false;
+-- 
+2.31.1
+
