@@ -2,74 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE0E3F8473
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 11:22:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3129A3F8493
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 11:33:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 003F389F38;
-	Thu, 26 Aug 2021 09:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E23F89CD8;
+	Thu, 26 Aug 2021 09:33:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D7F6E598
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 09:22:45 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id b6so3900894wrh.10
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 02:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=Z5nGZgvsyXA2v5RBRhfghmqhLLrwrK3N/HAosQKFTGU=;
- b=gPVYqvarTNOfAMXnLrOwhAZEMjPHA9JBmY7uaVY5mZDlUw6TWlUKedc1ZYtK0GBZ1f
- Mwo/R9M9Fk9Fa9LVqGsfUKkr5xcapuuftVZBe4bxEQqm7oug5gtIaPjOyrnS5nc/ylnm
- 8TaYJ9AZ76dyPC/sNv1v2ua8pWaTrWYynyuNw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=Z5nGZgvsyXA2v5RBRhfghmqhLLrwrK3N/HAosQKFTGU=;
- b=G+3f5uSUQsCohIASe4vl5mFY3A7Dyms/UQEXixcVTf4hCJeWD7CxZasGeyd4c5BmGh
- Jg84Uy2KgREP1lOcyzjYiV9ncS7Ib1yw8YbHodp2J8zCJvxe2Fs84LwlX3pjjnSKBxPB
- Ofc70d56BtMvkj+VLxllZwYR+rpxapGh/sZHsKIckFEipC9wVX1UJjlQedc8cDKwWZwT
- 6MtMMXWTu/NMCsy7fXIpgNJoM+MCI9tuD4Bagr0dUue9v3m2y3JstafezIXcFKBboQNf
- /bKnLf5D5ZvCASyCbi+lai31rLAim1ijB264JNLHK0vzAwCotSWcqbTIob6Aoj3nTHDo
- ZTmw==
-X-Gm-Message-State: AOAM533njdIu/CN9pvxzQOFfXNro1hQ1BCY4hrvXDWUQAL7lQ5hGpKsY
- eXZ+cgrY5BxIkPHkynqFBStPMw==
-X-Google-Smtp-Source: ABdhPJywIjK24u44KRC9Fyl/LBYQf/UtyuZhNV+15XNUicx6WL1eBmZ28GqU1x/tJY9ZhVWwQcJQoA==
-X-Received: by 2002:a5d:438a:: with SMTP id i10mr2650396wrq.285.1629969764058; 
- Thu, 26 Aug 2021 02:22:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v21sm2697421wra.92.2021.08.26.02.22.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 02:22:43 -0700 (PDT)
-Date: Thu, 26 Aug 2021 11:22:41 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Herring <robh@kernel.org>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, tzimmermann@suse.de,
- Arnd Bergmann <arnd@arndb.de>, wanghaibin.wang@huawei.com,
- Jun Nie <jun.nie@linaro.org>, airlied@linux.ie,
- Shawn Guo <shawnguo@kernel.org>, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- linux-kernel@vger.kernel.org, mripard@kernel.org,
- devicetree@vger.kernel.org, maarten.lankhorst@linux.intel.com
-Subject: Re: [PATCH] drm: remove zxdrm driver
-Message-ID: <YSddYSKvGneVKNjW@phenom.ffwll.local>
-Mail-Followup-To: Rob Herring <robh@kernel.org>,
- Zenghui Yu <yuzenghui@huawei.com>, tzimmermann@suse.de,
- Arnd Bergmann <arnd@arndb.de>, wanghaibin.wang@huawei.com,
- Jun Nie <jun.nie@linaro.org>, airlied@linux.ie,
- Shawn Guo <shawnguo@kernel.org>, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- mripard@kernel.org, devicetree@vger.kernel.org,
- maarten.lankhorst@linux.intel.com
-References: <20210821031357.289-1-yuzenghui@huawei.com>
- <YSPuMqd1QgnRIVCB@robh.at.kernel.org>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6F9588FFE;
+ Thu, 26 Aug 2021 09:32:58 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="204907838"
+X-IronPort-AV: E=Sophos;i="5.84,353,1620716400"; d="scan'208";a="204907838"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2021 02:32:57 -0700
+X-IronPort-AV: E=Sophos;i="5.84,353,1620716400"; d="scan'208";a="527773570"
+Received: from garrydex-mobl1.ger.corp.intel.com (HELO [10.213.254.71])
+ ([10.213.254.71])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2021 02:32:56 -0700
+Subject: Re: [Intel-gfx] [PATCH 08/27] drm/i915/selftests: Add a cancel
+ request selftest that triggers a reset
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Cc: daniele.ceraolospurio@intel.com
+References: <20210826032327.18078-1-matthew.brost@intel.com>
+ <20210826032327.18078-9-matthew.brost@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <2aa468eb-e7a8-1617-1b92-7a8f8b6ae015@linux.intel.com>
+Date: Thu, 26 Aug 2021 10:32:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YSPuMqd1QgnRIVCB@robh.at.kernel.org>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <20210826032327.18078-9-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,62 +55,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 23, 2021 at 01:51:30PM -0500, Rob Herring wrote:
-> On Sat, 21 Aug 2021 11:13:57 +0800, Zenghui Yu wrote:
-> > The zte zx platform had been removed in commit 89d4f98ae90d ("ARM: remove
-> > zte zx platform"), so this driver is no longer needed.
-> > 
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Jun Nie <jun.nie@linaro.org>
-> > Cc: Shawn Guo <shawnguo@kernel.org>
-> > Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-> > ---
-> >  .../devicetree/bindings/display/zte,vou.txt   | 120 ---
-> >  drivers/gpu/drm/Kconfig                       |   2 -
-> >  drivers/gpu/drm/Makefile                      |   1 -
-> >  drivers/gpu/drm/zte/Kconfig                   |  10 -
-> >  drivers/gpu/drm/zte/Makefile                  |  10 -
-> >  drivers/gpu/drm/zte/zx_common_regs.h          |  28 -
-> >  drivers/gpu/drm/zte/zx_drm_drv.c              | 190 ----
-> >  drivers/gpu/drm/zte/zx_drm_drv.h              |  34 -
-> >  drivers/gpu/drm/zte/zx_hdmi.c                 | 760 ---------------
-> >  drivers/gpu/drm/zte/zx_hdmi_regs.h            |  66 --
-> >  drivers/gpu/drm/zte/zx_plane.c                | 537 ----------
-> >  drivers/gpu/drm/zte/zx_plane.h                |  26 -
-> >  drivers/gpu/drm/zte/zx_plane_regs.h           | 120 ---
-> >  drivers/gpu/drm/zte/zx_tvenc.c                | 400 --------
-> >  drivers/gpu/drm/zte/zx_tvenc_regs.h           |  27 -
-> >  drivers/gpu/drm/zte/zx_vga.c                  | 527 ----------
-> >  drivers/gpu/drm/zte/zx_vga_regs.h             |  33 -
-> >  drivers/gpu/drm/zte/zx_vou.c                  | 921 ------------------
-> >  drivers/gpu/drm/zte/zx_vou.h                  |  64 --
-> >  drivers/gpu/drm/zte/zx_vou_regs.h             | 212 ----
-> >  20 files changed, 4088 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/zte,vou.txt
-> >  delete mode 100644 drivers/gpu/drm/zte/Kconfig
-> >  delete mode 100644 drivers/gpu/drm/zte/Makefile
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_common_regs.h
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_drm_drv.c
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_drm_drv.h
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_hdmi.c
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_hdmi_regs.h
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_plane.c
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_plane.h
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_plane_regs.h
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_tvenc.c
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_tvenc_regs.h
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_vga.c
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_vga_regs.h
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_vou.c
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_vou.h
-> >  delete mode 100644 drivers/gpu/drm/zte/zx_vou_regs.h
-> > 
-> 
-> Acked-by: Rob Herring <robh@kernel.org>
 
-I just merged another patch to delete the zte driver.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On 26/08/2021 04:23, Matthew Brost wrote:
+> Add a cancel request selftest that results in an engine reset to cancel
+> the request as it is non-preemptable. Also insert a NOP request after
+> the cancelled request and confirm that it completely successfully.
+
+Which patch fixes a problem this exposes in the execlists implementation?
+
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/selftests/i915_request.c | 100 ++++++++++++++++++
+>   1 file changed, 100 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+> index d67710d10615..e2c5db77f087 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_request.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+> @@ -772,6 +772,98 @@ static int __cancel_completed(struct intel_engine_cs *engine)
+>   	return err;
+>   }
+>   
+> +static int __cancel_reset(struct intel_engine_cs *engine)
+> +{
+> +	struct intel_context *ce;
+> +	struct igt_spinner spin;
+> +	struct i915_request *rq, *nop;
+> +	unsigned long preempt_timeout_ms;
+> +	int err = 0;
+> +
+
+You may need to skip the test if preempt timeout is compiled out or if 
+GPU reset is altogether disabled.
+
+> +	preempt_timeout_ms = engine->props.preempt_timeout_ms;
+> +	engine->props.preempt_timeout_ms = 100;
+> +
+> +	if (igt_spinner_init(&spin, engine->gt))
+> +		goto out_restore;
+> +
+> +	ce = intel_context_create(engine);
+> +	if (IS_ERR(ce)) {
+> +		err = PTR_ERR(ce);
+> +		goto out_spin;
+> +	}
+> +
+> +	rq = igt_spinner_create_request(&spin, ce, MI_NOOP);
+> +	if (IS_ERR(rq)) {
+> +		err = PTR_ERR(rq);
+> +		goto out_ce;
+> +	}
+> +
+> +	pr_debug("%s: Cancelling active request\n", engine->name);
+
+"active non-preemptable" perhaps?
+
+> +	i915_request_get(rq);
+> +	i915_request_add(rq);
+> +	if (!igt_wait_for_spinner(&spin, rq)) {
+> +		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
+> +
+> +		pr_err("Failed to start spinner on %s\n", engine->name);
+> +		intel_engine_dump(engine, &p, "%s\n", engine->name);
+> +		err = -ETIME;
+> +		goto out_rq;
+> +	}
+> +
+> +	nop = intel_context_create_request(ce);
+> +	if (IS_ERR(nop))
+> +		goto out_nop;
+> +	i915_request_get(nop);
+> +	i915_request_add(nop);
+> +
+> +	i915_request_cancel(rq, -EINTR);
+> +
+> +	if (i915_request_wait(rq, 0, HZ) < 0) {
+> +		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
+> +
+> +		pr_err("%s: Failed to cancel hung request\n", engine->name);
+> +		intel_engine_dump(engine, &p, "%s\n", engine->name);
+> +		err = -ETIME;
+> +		goto out_nop;
+> +	}
+> +
+> +	if (rq->fence.error != -EINTR) {
+> +		pr_err("%s: fence not cancelled (%u)\n",
+> +		       engine->name, rq->fence.error);
+> +		err = -EINVAL;
+> +		goto out_nop;
+> +	}
+> +
+> +	if (i915_request_wait(nop, 0, HZ) < 0) {
+> +		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
+> +
+> +		pr_err("%s: Failed to complete nop request\n", engine->name);
+> +		intel_engine_dump(engine, &p, "%s\n", engine->name);
+> +		err = -ETIME;
+> +		goto out_nop;
+> +	}
+> +
+> +	if (nop->fence.error != 0) {
+> +		pr_err("%s: Nop request errored (%u)\n",
+
+Maybe s/nop/innocent/ in the respective log messages?
+
+> +		       engine->name, nop->fence.error);
+> +		err = -EINVAL;
+> +	}
+> +
+> +out_nop:
+> +	i915_request_put(nop);
+> +out_rq:
+> +	i915_request_put(rq);
+> +out_ce:
+> +	intel_context_put(ce);
+> +out_spin:
+> +	igt_spinner_fini(&spin);
+> +out_restore:
+> +	engine->props.preempt_timeout_ms = preempt_timeout_ms;
+> +	if (err)
+> +		pr_err("%s: %s error %d\n", __func__, engine->name, err);
+> +	return err;
+> +}
+> +
+>   static int live_cancel_request(void *arg)
+>   {
+>   	struct drm_i915_private *i915 = arg;
+> @@ -804,6 +896,14 @@ static int live_cancel_request(void *arg)
+>   			return err;
+>   		if (err2)
+>   			return err2;
+> +
+> +		/* Expects reset so call outside of igt_live_test_* */
+
+Hm there are live tests like live_preempt_cancel which seemingly manage 
+to do resets under the live test block.
+
+Regards,
+
+Tvrtko
+
+> +		err = __cancel_reset(engine);
+> +		if (err)
+> +			return err;
+> +
+> +		if (igt_flush_test(i915))
+> +			return -EIO;
+>   	}
+>   
+>   	return 0;
+> 
