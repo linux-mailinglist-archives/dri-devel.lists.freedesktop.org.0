@@ -2,73 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2313F8FB5
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 22:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A23B3F9071
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 00:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE776E8B8;
-	Thu, 26 Aug 2021 20:36:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B666E8C2;
+	Thu, 26 Aug 2021 22:27:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
- [IPv6:2607:f8b0:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1E36E8B8
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 20:36:19 +0000 (UTC)
-Received: by mail-il1-x12d.google.com with SMTP id z2so4674466iln.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 13:36:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=of32+HsVJg8BjIpFCQkLFrsfUsAQLmJI9fq1/gQoEQc=;
- b=VZbC9LJdjvm7jBIyQ99wpnFBXRhf/RtavRPrmiWlpnBkMX5G2PEaCCDA0eZpnirKCK
- rYivpqDHjpUeYYuxVPPrkWyKbtMNCAR8T0WpQhagK1uWeMtJX+uXPlYF2ZPbRa0A29zC
- YImvafN9RqYP7O0dVpcGpMgKLCwbxPpZnMZ8c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=of32+HsVJg8BjIpFCQkLFrsfUsAQLmJI9fq1/gQoEQc=;
- b=jhRxCV5ocIPPKlWRkaW+44qOEk5Pbd+SIZBlzXmXmEzN/9JyAbcrK6x2heM83XGTnR
- FYmxa7C1GCdHRxjWjvL9DIGAy9IXQ2FOkdFzhQTTuOfgOxA5j5G6dgqdjyJ7wjexILx3
- BiL67+OML9QABWSpxQhQRw96sGlZC3kwR4TXFPWCKDkeevrZ3eaIvA38z6CVTQ5YJRaY
- CvgO8t4fP4zAxGI63ei/o/svvvaiBlT2dBpLx2l0CaQBrZ7g3IuWWR1tZSHxg16I21dw
- kkpujmKPqWhmTfJIhGhYjqMW4N4HKOtUs/8MYZM/rdUwrDt7/DlapDAhiQGryiM4WuZ2
- JeMg==
-X-Gm-Message-State: AOAM533xg1lL6Wnrx0rSep5DE/ABQufj1CLxzKYPSyRpTN85qf36HZyQ
- WvgLoRVFF4lho4QQqlwNFRhBPqSN2I5Exw==
-X-Google-Smtp-Source: ABdhPJzjIiBsMyGVuT9uR8SkeHjmWl+H4+kbERepbnUI+Hg7ecPfA2s6ZosGUFIC2GkgmbHMS0TQhg==
-X-Received: by 2002:a05:6e02:1b81:: with SMTP id
- h1mr4199734ili.240.1630010178370; 
- Thu, 26 Aug 2021 13:36:18 -0700 (PDT)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com.
- [209.85.166.182])
- by smtp.gmail.com with ESMTPSA id k21sm2127800ioh.38.2021.08.26.13.36.16
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Aug 2021 13:36:17 -0700 (PDT)
-Received: by mail-il1-f182.google.com with SMTP id l10so4598272ilh.8
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 13:36:16 -0700 (PDT)
-X-Received: by 2002:a92:d304:: with SMTP id x4mr4140800ila.82.1630010176526;
- Thu, 26 Aug 2021 13:36:16 -0700 (PDT)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2079.outbound.protection.outlook.com [40.107.95.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE0D16E8BF;
+ Thu, 26 Aug 2021 22:27:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GqJyOQFrFKl6brxbHRWFM/nEaelG/P5Fm6jzj+a8bSsuYmtriaQs9CzsAcMSvE5vPjvDa3p7SLYgcq2zENlDZrN6We1iQ34H5b1D9wSLeRFBmO1iYz3EkcLc8+/cKk4W0iD69ZWUMtAB4anPL0zyDJ65rMcSxIcWIe7OGsQTDEUCGTFD6RiT4/IQuqq1vgatZCNNwIx3p+UsyEQ/BW9z/BTbd6gGmV8yOc8MvQnl1jdIcA8GdjwEockSi+QRfKSeb/larhxJR3zypIqrLEeupDJpCqPJ/Oo+N90W4j5O5RsBRI95iUDkA5ZBj1OM6NsmWULih9d1O6UhZJqkD+7Iyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eW8bnWEViOjMUDQKAQ+jUogWF+7PCXFNpo0HjvN+wsM=;
+ b=AMFrg4KXR5qG9dkvYhECexQZ9MSPOmnuJIJEu8/c9aXhQZbG5FhYVzB9eqIAEu8Cc1hv4fq2YVP95FmdDgfi5MI9ADlRTee/Ri5oi+GR0pJag3HecY6tCX1jmv0Kfh1A/otkpjNh1xcQfLJSAJh+VN3p/9KJRwFoGCr4Xfm8s/bi+8MMUJ0z/1xekypTRgsP6CyyT+pTdUQ08oVRgLDIXnflSO7wYbPuL3wEaSGizr07aXjpH0TRnPi2+F0eGznfPSEkhqTi7ZY4f87/kOykShpS+sJTak31iNcefTysIJcYOz8UtfmAHsg2IQm3uFyQg6coJe0rQ/EOxcNV311MMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eW8bnWEViOjMUDQKAQ+jUogWF+7PCXFNpo0HjvN+wsM=;
+ b=MQ8ksyJ8Ljo6WsuvIardfhwRus0yRfuF7oLMkQ9brkLIAQt1aPABqL6pDKUOr08R4NJEVTQXAGZNbti76ozPC1lORiZKaQuILYSqW+E9aZsgvX1OLwTgL8Rk1kvi/cRhfGF0QrI//2Roj2mjBNpN+2EN9HixiVYWaB/KErjB57o=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5164.namprd12.prod.outlook.com (2603:10b6:408:11d::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Thu, 26 Aug
+ 2021 22:27:33 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb%3]) with mapi id 15.20.4436.024; Thu, 26 Aug 2021
+ 22:27:33 +0000
+Subject: Re: [PATCH v1 03/14] mm: add iomem vma selection for memory migration
+To: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
+ Christoph Hellwig <hch@lst.de>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, rcampbell@nvidia.com,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jgg@nvidia.com, jglisse@redhat.com
+References: <20210825034828.12927-1-alex.sierra@amd.com>
+ <20210825034828.12927-4-alex.sierra@amd.com> <20210825074602.GA29620@lst.de>
+ <c4241eb3-07d2-c85b-0f48-cce4b8369381@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <a9eb2c4a-d8cc-9553-57b7-fd1622679aaa@amd.com>
+Date: Thu, 26 Aug 2021 18:27:31 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <c4241eb3-07d2-c85b-0f48-cce4b8369381@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YT1PR01CA0040.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::9) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
 MIME-Version: 1.0
-References: <20210726231351.655302-1-bjorn.andersson@linaro.org>
- <CAE-0n50HohAKisSSsNijcxgZGHdBgt=sQbLE3b7C87wPkLJ0cw@mail.gmail.com>
-In-Reply-To: <CAE-0n50HohAKisSSsNijcxgZGHdBgt=sQbLE3b7C87wPkLJ0cw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 26 Aug 2021 13:36:04 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VnkJqJnGHawyqNS5+p6miWd44zR7FPXZWgLk5vo9fOYQ@mail.gmail.com>
-Message-ID: <CAD=FV=VnkJqJnGHawyqNS5+p6miWd44zR7FPXZWgLk5vo9fOYQ@mail.gmail.com>
-Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@linux.ie>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, 
- Kuogee Hsieh <khsieh@codeaurora.org>, Abhinav Kumar <abhinavk@codeaurora.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, Vara Reddy <varar@codeaurora.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.186.47.3) by
+ YT1PR01CA0040.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4457.21 via Frontend Transport; Thu, 26 Aug 2021 22:27:32 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8d51cac4-1386-465b-0702-08d968e0b2d1
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5164:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB5164EABA0E4E61AB480ECF8E92C79@BN9PR12MB5164.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E2FnfY0U+VrvBEXCdeyQtF53uTJz7koYuW1iwgZfxyUR3XVRdwyQIKdv62Nx9T1jskBY2ZA8qMvzrpjisWBJzaCq/TSOG0vPQhHF0q7mXfjDPGYWtAgU4HSxJ5l/JKWQ9T0xQJxFHv1wW9XgYRKd2gG8CS8gHR6st2FacCntyRSla36kVMn8nP7e+jcLyM/sdl5DRyebd3kTPrW4kmeG/mV/SM5ptf6herh4rLOJuI38egJ6MaIER+xd6uXuZsfh7EDtzFsAgyWQwvr696e2fzuWaZWqAHuGlAc2p78ZhMqE65lMhWcnBtEF/54UIqW0cs7VRf1M1MrwnEQKk6/oYtfCBCn4FYlaNY0n4ohPvRx5ewOeBGnPb0zQoSeycVpbdHhg85ZHcaJrjCwOZlTDfR577PcWlBBKvFSDqy2p9gXqmSlMymZoUDNLrlXg885ydLZvQLz9xNNaP42g7JuwvErG2cuo6jk2M9vKxwxS9ut5qSUpm2HTgRkDi7G0At+V8L6Kg50wEUS58YD7t+j1V1Ji3vBuCsSYWDlnIISJwuflLWFsKF+liyDs5RpXiibHCBlQ+gOwnxkZCTvHDoUm5He5w111Uq6/r4otXy31s7tOk3lWExbeL7mVQRoKctnK0dV8FBFprfw4ChgCA/oxV7IaDF0F0g+7dK39XtHS7gGrwuMIfDFZKYSQNvSvcXiJpExFIIPQkSlUBG6uXWrqqR9V0IRi3mWp93EaBqsS6Qg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(136003)(366004)(376002)(346002)(478600001)(4326008)(86362001)(31696002)(8676002)(66946007)(66556008)(31686004)(316002)(66476007)(8936002)(16576012)(110136005)(2906002)(38100700002)(36756003)(53546011)(44832011)(26005)(186003)(5660300002)(2616005)(6486002)(956004)(7416002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MWV6cFB6engrMWExWUE1TS9jekZDS01IR0RiY0lTWjdIMTgxTW5mdW85ZU9r?=
+ =?utf-8?B?UnhuM05QRWRaRW5PckVTNEcvQjg5V1E4R0FnS1l4NS9nVmtZVzR1RGlJYWUz?=
+ =?utf-8?B?V2JsVlQ5eEJhYW5zY1VFbmtIVHdMUjZ3WXdWbVozWDljZXFzczU3NXVRcU0r?=
+ =?utf-8?B?YVJxVytUbDhVWGM2QWRnNno2Tm00elBWTEdoc09hMS9DbVZNWm9idGJ2elhK?=
+ =?utf-8?B?eWtuMTFaWGdBUk05cnU3eDlYNHREaWFGZHJTcXBJWHlEbWFCcTJLbXBKRnpN?=
+ =?utf-8?B?QzdPOUsxOUZhQWFFSUJRcTJyK0ZnSmtmdnV5QmVKMEpCNlJBc1dpRGF5bkZC?=
+ =?utf-8?B?NytncnR2dHZzZVNIeHJsMVRlK1MrUStaU0EvUFJSYmlVZ1dpaXZaSlFTSTB3?=
+ =?utf-8?B?Tm5FZlNvZ1lyTExoVzV4YnE1VVRxNEVwMXRUL3oyUHVTOEEvVlFGQjNGTXJG?=
+ =?utf-8?B?eXpWbzRMMmpxWjcrVmY0emRSSmpSNndXR0ROQndoT3FEcmQ5Mkg4ZEV5V2pP?=
+ =?utf-8?B?Y0FhYVpUaXlPMkFhMUZZUUJYVkpJcVpNbVpJZ0JBMlZJZkViY3IwRVRrckVr?=
+ =?utf-8?B?WGtKeWdkUm41NDRMUzM5Z3JrODUrMHJuMnBlZHlPblloN1VxejJMM1gzc2Vn?=
+ =?utf-8?B?Rm5oN0xQRTZDTmZXd0tRSGtHNlhGZU9STGVaL2lsT1FjbkwrR2hBRjhKeEZF?=
+ =?utf-8?B?NytSWmJkWmRyUEhSZUQzVThQMXlrbktvb2pPOWtxVFFpRTloWmhEczZNR2VV?=
+ =?utf-8?B?TDNHVzRDVWpwb0E5ZnYyeEdHVXg4clpXOGxyUkNHQ2JMZG1iOHNxSlRQMS9a?=
+ =?utf-8?B?WVU3cHU0Y011Mk9LTCtaZlI0MmpZbEtmMzQrZElhbmZnUTNuakdZWWM1S0RP?=
+ =?utf-8?B?NnpGZG02a0F3RkpPNHMveUYvcjh2MHVkSiswdEpkQXZ5QTBTM1pnQzNKS25W?=
+ =?utf-8?B?V0F5NkdjdWVXNXNxSkdDeWVoR0xMUjlVeXlDNTdIY1ZOREFhNG9NZXIyUUFJ?=
+ =?utf-8?B?U2RKb1RBUGkyUlo2LzZlbS8xME80WTQ3dENTeml4V29qWWh2dm5FbnRaL2I0?=
+ =?utf-8?B?S1JveitQaXdwNFNBYlNmeVZPYkFrYWFGU0FzWGJaVEJpZHdHbWF2bGdLWXAz?=
+ =?utf-8?B?TFRtWVFwRjV2OFl2bjBNOHR6NktsQk9jQW9QaVJVQzJjTzFNdGNvT1FjL1U5?=
+ =?utf-8?B?NUo0SmVCdXpzOFhyNUpuZGM3TGpwY3dNSDIwWXB3ZysxaU9MWHdUVktZanBB?=
+ =?utf-8?B?azF0ZFJXKzhPbXRrcFIxeVNxQ3hVbEoyQUZuYkl5ZXFaNDAySHFWRldwWGow?=
+ =?utf-8?B?alA2QVZYK3RneFFWTUZKZDlzV1I4NHlSSlNYcDJ6WmFyakJrT05QWGdpaHpr?=
+ =?utf-8?B?OEJHMVd3L3Bxa3JKWW5Rc0pRNTRkVFRsdEhRd1lzb3l3Tm1UbVY1RjYzM0hM?=
+ =?utf-8?B?aVM5TWRxOEpPdXYxZEt3QkNienB6R0hCN2h4d2YxalE3azhuZWZ5S3FoSGlQ?=
+ =?utf-8?B?Ti94SURyZS8xTDBaYTNQOU1wUGNsVCtwbFduV1Z1b1NPdnRoN24yN0xrTE5R?=
+ =?utf-8?B?endqbVpCdVFpclRmSnF1ZzY5MTUzNFc4Qm9ldzA3WUhSd1FUTU9QZVEvdlFC?=
+ =?utf-8?B?U0VjSHRCTE15S3RyMlFtazFCdDZRTTRGem1TOEFXWVd6TmR6REtxVU50dWxR?=
+ =?utf-8?B?c24rdjNYZldUYjlpYVZvUVd2N1V0Qk1aZ3ZWZlUzMkZ0MmhIM1NaNy9aVTRz?=
+ =?utf-8?Q?lkeLxPHUswi8F60B3QgarQOonVqKI1+VQNFK5PI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d51cac4-1386-465b-0702-08d968e0b2d1
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2021 22:27:33.3593 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SanLMPqS/O0oQBvAUwxmh6AI2jEy1jvvINlDyDy+WyjeV0uYES/JgaGJdyKHJec7Y+DsVhUaHmH0BXr/nqvOGw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,47 +136,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, Aug 25, 2021 at 6:31 PM Stephen Boyd <swboyd@chromium.org> wrote:
+Am 2021-08-25 um 2:24 p.m. schrieb Sierra Guiza, Alejandro (Alex):
 >
-> Quoting Bjorn Andersson (2021-07-26 16:13:51)
-> > eDP panels might need some power sequencing and backlight management,
-> > so make it possible to associate a drm_panel with a DP instance and
-> > prepare and enable the panel accordingly.
-> >
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> >
-> > This solves my immediate problem on my 8cx laptops, of indirectly controlling
-> > the backlight during DPMS. But my panel is powered when I boot it and as such I
-> > get the hpd interrupt and I don't actually have to deal with a power on
-> > sequence - so I'm posting this as an RFC, hoping to get some input on these
-> > other aspects.
-> >
-> > If this is acceptable I'd be happy to write up an accompanying DT binding
-> > change that marks port 2 of the DP controller's of_graph as a reference to the
-> > attached panel.
->
-> dianders@ mentioned creating a connector (and maybe a bridge) for the DP
-> connector (not eDP)[1]. I'm not sure that's directly related, but I
-> think with the aux bus code the panel isn't managed in the encoder
-> driver. Instead the encoder sees a bridge and tries to power it up and
-> then query things over the aux bus? It's all a little too fuzzy to me
-> right now so I could be spewing nonsense but I think we want to take
-> this bridge route if possible.
->
-> -Stephen
->
-> [1] https://lore.kernel.org/r/CAD=FV=Xd9fizYdxfXYOkpJ_1fZcHp3-ROJ7k4iPg0g0RQ_+A3Q@mail.gmail.com/
+> On 8/25/2021 2:46 AM, Christoph Hellwig wrote:
+>> On Tue, Aug 24, 2021 at 10:48:17PM -0500, Alex Sierra wrote:
+>>>           } else {
+>>> -            if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
+>>> +            if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM) &&
+>>> +                !(migrate->flags & MIGRATE_VMA_SELECT_IOMEM))
+>>>                   goto next;
+>>>               pfn = pte_pfn(pte);
+>>>               if (is_zero_pfn(pfn)) {
+>> .. also how is this going to work for the device public memory?  That
+>> should be pte_special() an thus fail vm_normal_page.
+> Perhaps we're missing something, as we're not doing any special
+> marking for the device public pfn/entries.
+> pfn_valid return true, pte_special return false and pfn_t_devmap
+> return false on these pages. Same as system pages.
+> That's the reason vm_normal_page returns the page correctly through
+> pfn_to_page helper.
 
-The idea of modeling the connector as a bridge is something that makes
-sense to me, but it probably makes sense to tackle that separately. We
-don't need to block on it.
+Hi Christoph,
 
-The whole DP AUX bus can also be tackled separately after the fact. It
-really doesn't change things very much--we still have to find/attach
-the panel. It just makes the panel probe in a slightly different way
-and as a side effect gives the panel access to the DP AUX bus.
+I think we're missing something here. As far as I can tell, all the work
+we did first with DEVICE_GENERIC and now DEVICE_PUBLIC always used
+normal pages. Are we missing something in our driver code that would
+make these PTEs special? I don't understand how that can be, because
+driver code is not really involved in updating the CPU mappings. Maybe
+it's something we need to do in the migration helpers.
 
--Doug
+Thanks,
+  Felix
+
+
+>
+> Regards,
+> Alex S.
