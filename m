@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907343F7F1A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 01:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA4B3F7F4C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 02:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2086E441;
-	Wed, 25 Aug 2021 23:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 616A06E442;
+	Thu, 26 Aug 2021 00:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 848016E446
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 23:41:26 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id w19so1761230oik.10
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 16:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zmkhJZgxUoBYEWfmUUPtlawWDiOOQTnvHmBTREcB0I8=;
- b=JyWNsF0Fao+n3iA7RF4tPiWMJ8n2MZ2mYJoFDYpVaqi9ikZqme6UoCEL5AL6XWV8+b
- 7j87fGb8hvJLvdo6yIJZGnmE8E4AXI+nFHBd1vgw/ziftZGciRFPiNm6JyxoKk4XqR8R
- WZf76jy/wYt9SI4BubN6PAu11atHjFJc6O5BLQ/wS52aA2uWAtwaI3YInYvWOgACsamN
- lerEgJOmm6aVh2+Wsj1TQGiWtR6jEXRCBgn32lvkpTeYUci5pjr1cWJmIX6WHVJjzKoz
- j9cQiPlS9DuiiKiFzshN54SQEfYOJxDMmAKpOJLwvJXhgE/NrZVmiItvzv6iUdhqFKc8
- RcTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zmkhJZgxUoBYEWfmUUPtlawWDiOOQTnvHmBTREcB0I8=;
- b=ks697YYHC/hI/3HxOAZPR5NEkGk2dNUs2TyYdAEy09l9HYJXqMgAXD6TWt2mSGOpuV
- aItYDgNSfgQytEQBbh1DnjC6X82WrcFSwCOkQKAzNu0HH0tDd0Lq+h+AwxmUELY/cRR8
- t6yETuxVCpT4vTMDOHgZ7LkRjvrR3yBACBRNOq2bUjZA63eFILK9vmk+mAtDVRogVBaL
- VZcDK2z7BsdK8WDDCiTikW46lJuNN5s4PW4avveIL+PRXu+nBvb3R4sxXmyB6XeE00lN
- qANQKHcnsGx/8U3FCv+6XximCG7WyysnrngeYHDo8ygSPzF3meGd0RZYJ3OYz2nRiXnH
- M38Q==
-X-Gm-Message-State: AOAM530qS4yrcfiP4pXSkSVMdz2MeomIk8O4FBCGGYGyQaKIB65+ExZp
- ZWA6fMhdknUm4nPT9zF7BjXEdQ==
-X-Google-Smtp-Source: ABdhPJz6tjCEJEeOJPotO0Zqa9gAx16HRWTqIQ4PQRuPnenQfro7aG6soUq54MIbZLfLl+BS50n8vA==
-X-Received: by 2002:a05:6808:95:: with SMTP id s21mr418519oic.80.1629934885805; 
- Wed, 25 Aug 2021 16:41:25 -0700 (PDT)
-Received: from localhost.localdomain
- (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id g10sm267136oof.37.2021.08.25.16.41.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 16:41:25 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Kuogee Hsieh <khsieh@codeaurora.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] drm/msm/dp: Add sc8180x DP controllers
-Date: Wed, 25 Aug 2021 16:42:33 -0700
-Message-Id: <20210825234233.1721068-6-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210825234233.1721068-1-bjorn.andersson@linaro.org>
-References: <20210825234233.1721068-1-bjorn.andersson@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6BD6E44B
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 00:31:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C20E760FDC
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 00:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629937880;
+ bh=XFk+aK01AY+R2dj58lCttstlbncJMKuBtfKozV0XaIk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=QkYeFlxOalO8NtPJPM5RhBh8j7Vk2Zi/9UTqamt6lR1JmceRcWO1Uxcmj9AJYi2WL
+ BfXUFl6Lh4/+LO6SPiNnWNR0T08/oUuWRQccKiGhq40Bw0pX5zYDYYmZHRVgUZQju1
+ RYaIUmqxl1R6iWeI8/kYNwgVsw3GogsX9cX86tdiy7WCQI62kbTW6M10B9JTOTYmRE
+ ZXLUVEbFSyEmiP2/JTA8qRcwzE7PlzW5Vuhf3imFCMVDFjcGuD9nNy/6erFSpI0OWv
+ Z0YZmFtloHBVkgv7jaPurnVS4Tg6m5skjE085rnzXbw4M2kyZft8/o1Dwm55121Q2s
+ 3WhmWQENq/tzA==
+Received: by mail-ed1-f44.google.com with SMTP id q3so1810579edt.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 17:31:20 -0700 (PDT)
+X-Gm-Message-State: AOAM530pCbIWSD71Itm9RINcZIMwuyYDg23VfnEAdZ5Iz5raRtU6SKcC
+ R9bmNypZesXUO8xn3KqnYrp+do8mcW9cYq0C1A==
+X-Google-Smtp-Source: ABdhPJxHrEFAQXvMGytASwC6d51UlxpmRysieIO6RqrSrlKKQl0Fvx1UuUCVLhd0YlH7mrdO+2L/kgf90DT6ck//90g=
+X-Received: by 2002:aa7:ca04:: with SMTP id y4mr1341608eds.162.1629937879396; 
+ Wed, 25 Aug 2021 17:31:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210825102632.601614-1-enric.balletbo@collabora.com>
+ <20210825122613.v3.3.Ifec72a83f224b62f24cfc967edfe78c5d276b2e3@changeid>
+In-Reply-To: <20210825122613.v3.3.Ifec72a83f224b62f24cfc967edfe78c5d276b2e3@changeid>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 26 Aug 2021 08:31:08 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9anqUZ-um4bP8Gzf4HZT5+j+yVpTq6pQzESpamrGLM8Q@mail.gmail.com>
+Message-ID: <CAAOTY_9anqUZ-um4bP8Gzf4HZT5+j+yVpTq6pQzESpamrGLM8Q@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] dt-bindings: display: mediatek: add dsi reset
+ optional property
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Jitao Shi <jitao.shi@mediatek.com>, 
+ Eizan Miyamoto <eizan@chromium.org>, Nicolas Boichat <drinkcat@chromium.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Collabora Kernel ML <kernel@collabora.com>, 
+ Rob Herring <robh@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
+ DTML <devicetree@vger.kernel.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +73,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sc8180x has 2 DP and 1 eDP controllers, add support for these to the
-DP driver.
+Hi, Enric:
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
+Enric Balletbo i Serra <enric.balletbo@collabora.com> =E6=96=BC 2021=E5=B9=
+=B48=E6=9C=8825=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:26=E5=AF=AB=
+=E9=81=93=EF=BC=9A
+>
+> Update device tree binding documentation for the dsi to add the optional
+> property to reset the dsi controller.
 
-Changes since v1:
-- Squashed DP and eDP data, as there's no reason to keep them separate today
+Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
- drivers/gpu/drm/msm/dp/dp_display.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 4a6132c18e57..c1307230dc47 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -128,8 +128,15 @@ static const struct msm_dp_config sc7180_dp_cfg = {
- 	.num_dp = 1,
- };
- 
-+static const struct msm_dp_config sc8180x_dp_cfg = {
-+	.io_start = { 0xae90000, 0xae98000, 0xae9a000 },
-+	.num_dp = 3,
-+};
-+
- static const struct of_device_id dp_dt_match[] = {
- 	{ .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_cfg },
-+	{ .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_cfg },
-+	{ .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_cfg },
- 	{}
- };
- 
--- 
-2.29.2
-
+>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+> ---
+>
+> (no changes since v2)
+>
+> Changes in v2:
+> - Added a new patch to describe the dsi reset optional property.
+>
+>  .../devicetree/bindings/display/mediatek/mediatek,dsi.txt   | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t=
+xt
+> index 8238a86686be..3209b700ded6 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> @@ -19,6 +19,11 @@ Required properties:
+>    Documentation/devicetree/bindings/graph.txt. This port should be conne=
+cted
+>    to the input port of an attached DSI panel or DSI-to-eDP encoder chip.
+>
+> +Optional properties:
+> +- resets: list of phandle + reset specifier pair, as described in [1].
+> +
+> +[1] Documentation/devicetree/bindings/reset/reset.txt
+> +
+>  MIPI TX Configuration Module
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>
+> @@ -45,6 +50,7 @@ dsi0: dsi@1401b000 {
+>         clocks =3D <&mmsys MM_DSI0_ENGINE>, <&mmsys MM_DSI0_DIGITAL>,
+>                  <&mipi_tx0>;
+>         clock-names =3D "engine", "digital", "hs";
+> +       resets =3D <&mmsys MT8173_MMSYS_SW0_RST_B_DISP_DSI0>;
+>         phys =3D <&mipi_tx0>;
+>         phy-names =3D "dphy";
+>
+> --
+> 2.30.2
+>
