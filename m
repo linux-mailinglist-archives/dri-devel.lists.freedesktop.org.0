@@ -1,148 +1,145 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930E13F90E7
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 01:21:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 934503F90EF
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 01:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC9D26E898;
-	Thu, 26 Aug 2021 23:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF836E8C9;
+	Thu, 26 Aug 2021 23:26:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E92A06E898;
- Thu, 26 Aug 2021 23:21:26 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="217864213"
-X-IronPort-AV: E=Sophos;i="5.84,354,1620716400"; d="scan'208";a="217864213"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Aug 2021 16:21:26 -0700
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD2936E8C8;
+ Thu, 26 Aug 2021 23:26:25 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="281580904"
+X-IronPort-AV: E=Sophos;i="5.84,354,1620716400"; d="scan'208";a="281580904"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2021 16:26:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,354,1620716400"; d="scan'208";a="537826385"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by fmsmga002.fm.intel.com with ESMTP; 26 Aug 2021 16:21:25 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.84,354,1620716400"; d="scan'208";a="517093066"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by fmsmga004.fm.intel.com with ESMTP; 26 Aug 2021 16:26:24 -0700
+Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Thu, 26 Aug 2021 16:21:25 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Thu, 26 Aug 2021 16:21:25 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Thu, 26 Aug 2021 16:21:24 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.174)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2242.4; Thu, 26 Aug 2021 16:26:24 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
+ via Frontend Transport; Thu, 26 Aug 2021 16:26:24 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Thu, 26 Aug 2021 16:21:24 -0700
+ 15.1.2242.10; Thu, 26 Aug 2021 16:26:24 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OLy7UN5r09DR9Pu0y7RKkYJDLzAPu/Ej5AGqrVZ+bHkc6c5bI2U7C4Xy43mDvXN2rJCVOtdbrAorMIbhlwUNCbPy+oR1zGuEYpUPCNYuWcx2zerHTMGuLAU7wfE23NUDgjM1tw8GTg9+6DekuL4n4fLz6Qremp82iFxmmE0TKmbJCVZQYv3DALFktsNj2oSmbUxnjPTD+gxv5cAlUz12Svq50iEGcU9OCB/qgG3hN5qPY0KLRJ3x7f9fVhtPvEJjdNNhLA0BqEppkNK4EboKo6vLsn3qTY71WR3B3UvmcpY8VJCB+FRxjH4fSNg7TsHXHlbKgLqQy3hDTcGfwPeAaQ==
+ b=SNfFJoYLb5Nhg59oIM903BPdk4i3lRIB3yEzuNjLM5K6ZJfoSfFZPhaD2hU5jxWyhnr41oHMLpl+UdqUk+uzCeCr/6pKYSPo4e0xHN9Et8/bs/8YJ+iYX6+cwB0xNqLG+ni2VX1lCvcTP7Dixvv3uzE5DDJMPkJHlVMvPkubqSv2ahhaK2IMzu44SGh9v/U3hmT3lW71vvQjYParaULvfnhM0t+v30C3HvR35dKgl+M02LxcFQlva+841q9C/3DHvlWVBo8rFUSvVCC5D6nmzVBiEkKM4Quog2KI/PKy1Zqt184ICqyzJSCGG//nxs2dWzh/i5PzVFQz9h3ZXzV0sA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jQBhKS1U2UgVzy29t4ryr1Zs9RIxuIbfZ205lfw11TE=;
- b=PikWM6opOUgREr6LdD/WORfo0/TAzIPycWqOzZmJz0cPU7iRRe8jRCYheUfioJaNULtsAeyJ2B4vqgjt1NdSJyo+KKdwfeBCjCoEM4QJda8iZy19giVkUUObszs6uCJQG6HzlYlAhVISj87H7FJRdsMqd5ZCxWbWiHkP+MxcB2dSd+y1H1pm4feihfb9HDku6dUeFslQ8KO+vY01Y41+XfURZD/b0jK2afLcDs4KfbHGmEeh10jITOQcWTURicMZyjLMTDhVDaM4bBeR/pvdUdJXOflZETWU3QeROQHKyuN6aur0NmwpYz9+3MIl2hJw7j2tYKPeeSDOdw/iZMQENg==
+ bh=LQfj9t+Mtf9woQpyUvr08W1HMQ3x4MIYlltNyCGciMo=;
+ b=SKE01CsWJw4B9V5W6UD/w1yCyVckpZzm8VYUNSfW4S7p2KANHY154A8QBl331OvA1HblBd7Pv5KZ4U5WhpWkBZ8ZCrXhlj2MCj+40TMaRfEXTl6AzLQIe56AEe2XjFDGYIrGOhpFtsIpjOOPv+0CijaXtIvr34xHq6U4J8jiH2IC9WA08nASggCyr4CsZYk695TuPCPJ0hymSKGQP7DnxeQzPmDELbpRk7zu8z77mIipawTdHQ3Y5/rUU5GkPNcjx7zzBQPccHD/Busa8xf8m0UrJ3b8CouMEfxMllEql7OlMuGJrVaM4T7x7CCFSgP9N5DcsLoQolpe8Bs4iznGHw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
  s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jQBhKS1U2UgVzy29t4ryr1Zs9RIxuIbfZ205lfw11TE=;
- b=eOom7D5HGLKcEGFJhx2xfcDnrltZQlSHgo9mqZzLwI9Bx95jyiH6FNr3DH7/BHApMq2GGI5Ewxy0kTJgNkW0U+VVDMBL0NM/bvtixHXAajrQgfS0IWYh3SuPQfYMWezV8FeMswgdjbTvN9RosGJXD0jc/kQFyC/ZuW/TswwrcJQ=
+ bh=LQfj9t+Mtf9woQpyUvr08W1HMQ3x4MIYlltNyCGciMo=;
+ b=AmXpfXM8/hGLSLCcb871h3QDIpUy3cGQlD+eQohixzGGADM7PKHp4ZdN5X3zY7D2Sq6ILO7Z410yxUN0B7GmvHwd8RelP+r5ixzxy8Zqg7XCPu0Z+NVI2dLBSp/TGq2yah3nFdO8qUbqm9lpPrlsLkBNMYqd/FQgQ7To6R2T4Mk=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- DM6PR11MB3657.namprd11.prod.outlook.com (2603:10b6:5:143::32) with
+ DM6PR11MB2780.namprd11.prod.outlook.com (2603:10b6:5:c8::19) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.22; Thu, 26 Aug 2021 23:21:23 +0000
+ 15.20.4457.17; Thu, 26 Aug 2021 23:26:22 +0000
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::450:6ab1:b0a:a165]) by DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::450:6ab1:b0a:a165%7]) with mapi id 15.20.4457.020; Thu, 26 Aug 2021
- 23:21:23 +0000
-Subject: Re: [PATCH 11/27] drm/i915/guc: Copy whole golden context, set engine
- state size of subset
+ 23:26:22 +0000
+Subject: Re: [PATCH 23/27] drm/i915/guc: Move GuC priority fields in context
+ under guc_active
 To: Matthew Brost <matthew.brost@intel.com>,
  <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 References: <20210826032327.18078-1-matthew.brost@intel.com>
- <20210826032327.18078-12-matthew.brost@intel.com>
+ <20210826032327.18078-24-matthew.brost@intel.com>
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <c474e0b4-088a-bfe2-1f9e-70e305940127@intel.com>
-Date: Thu, 26 Aug 2021 16:21:21 -0700
+Message-ID: <9d8e7b55-f7c4-350b-22e3-7447998e6e31@intel.com>
+Date: Thu, 26 Aug 2021 16:26:20 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.13.0
-In-Reply-To: <20210826032327.18078-12-matthew.brost@intel.com>
+In-Reply-To: <20210826032327.18078-24-matthew.brost@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-ClientProxiedBy: SJ0PR13CA0214.namprd13.prod.outlook.com
- (2603:10b6:a03:2c1::9) To DM4PR11MB5488.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0013.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::18) To DM4PR11MB5488.namprd11.prod.outlook.com
  (2603:10b6:5:39d::5)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [10.79.152.56] (192.55.52.219) by
- SJ0PR13CA0214.namprd13.prod.outlook.com (2603:10b6:a03:2c1::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.11 via Frontend Transport; Thu, 26 Aug 2021 23:21:23 +0000
+ SJ0PR05CA0013.namprd05.prod.outlook.com (2603:10b6:a03:33b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend
+ Transport; Thu, 26 Aug 2021 23:26:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5c00cf0f-b0fa-40dc-21f4-08d968e83852
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3657:
+X-MS-Office365-Filtering-Correlation-Id: 8a11ef22-09fd-47c1-e779-08d968e8ea2c
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2780:
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR11MB3657B4222610D59B7B73ED3AF4C79@DM6PR11MB3657.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <DM6PR11MB278048134FF3F1D76D490554F4C79@DM6PR11MB2780.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:873;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hd7pDzdW0Uk5GTZXM0Xs/BMaYa6MqqVdeAuI+VH6eghJp4ICtFsrRH0c57KJU0/0w2MYReGfEGxTXTCZVyjeljmPkl0m1QeUSZnsoPgWzrjOYhOfjF1TfjcmUI+XJbGx0By8tLjq8pKeqadyQqJnmrMD2g2Uyc51bwWnAiCt2RbvgbEN17vm5Hk75vcp8rHl9qtiSngg5X+eXPczfWXi3filxXsvX1ujt+YkIdz26bAPJZWndspZ3j9ytYEGT9lMgu/s5po92c9BmExPfGYqyFlTfSXUIMmqBjs0oWywdNuSFvbSHhT9k4StL6F0GZOE6MryelNq5tWf1xHhqFhZWCSjZvpwoLR5DNxh48WG7mhs8P91Jj7qHPK/geqtEs8nuAsQCfQPTWFBh6OBkM8VzCCc8QFr/b3QuvjpPhfjZfNcXZcrchrHWzNTXDdirOmBWNqh9kE6Z3FFhxaRgNXQWBbDqnsUI+YmAq3KQHBkEDFlCVIhkCwO/tz7OiqQ0GhK0efJ/jAhNNzdP3P19Ihwxsg1TU2LQDxInylYnpX+R25dY5PcR6HTVBr1JaZHe4nihFui6qFfKtZmZYTLY+ij5/RY4VnhiinfaEOM/PNEH4rFg/W5AMgigaHx3vEfkoPbUFH9C+cnUMs25unKYDk6eFi49CZnfphDXe90wR0H3lJlPd58TXkVvI140o2+k05i3V57eaR2zSZOH0aVd9wSmJkKZ38v8W8kpv/EzjbYOJY=
+X-Microsoft-Antispam-Message-Info: yZjDH8O11IfKG44dFa8LyYJuj2CA2r4I63mFc/1O9EFTeHuUfxYkVSdHJIu5HbrTR1b61eGa4Wdpcpj4kODqYURTwEj5Wg42IoKk0XKNMc1pJ+S0QUI/rtB4C8qNR8yjQ0Pjg2qNI/L28bX0nxpdZ927+sBR3orVQsB7/9uzolqStNV8r4hK2oHQ3LUA4QyA13p/9O9KuDSgb7DgnnPUR4POjvBxpy/tqcPO+JQVrzKaUa98zTBgbs8hD9WQ7LFSx9uO21MVbYNVNVHy/AUE9ty6fkS0s6XmFZ69qMr6huYysATm4WKkG+E5BfgXQIxc6v9VRrh3xSOQgdFwglXAbnxC0/p+s6nbd+R+zNbOJ493lA8EomNiLfuU+mUWCyq/D5DH+epzBLATZ4EgyTJIznAN0ejOSB4Yey8Hz2oZnOiMc47eyBbpD57xrpk2P9H2FUnInKJiDp+fqwbEWF7vnH4kkQEeJ6YTNvx1VyUdlNve2QjF4XDBCDllLTbA0il7anpOH/3pOo3IYQe9fJMdUiQ2UzYiRRyR4FBsISzVsKdU8bZ9MoCxCIJ72g6t78EdBdoJcaMS8tXDyMCi7PBin2gs3EmcxqBVWI1cthI+LZcT0cA8WBqMIwc2X+1+9NR0MS6sKWVNUJ1nMmbPS1snU2VvWggrUXNq7NTvBLuk12d/whaYIjyQ/F7xGYCxPtuVDBrAn460Ct1CNTbDNadCJQks6zYrvA3a4vDP7ZLJ0CM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(346002)(366004)(396003)(39860400002)(316002)(66556008)(66476007)(66946007)(31686004)(38100700002)(8936002)(478600001)(5660300002)(86362001)(6486002)(36756003)(31696002)(83380400001)(16576012)(2616005)(956004)(2906002)(186003)(8676002)(450100002)(53546011)(26005)(45980500001)(43740500002);
+ SFS:(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(8676002)(66946007)(316002)(86362001)(31696002)(8936002)(53546011)(186003)(16576012)(38100700002)(478600001)(36756003)(26005)(31686004)(66556008)(2616005)(5660300002)(6486002)(66476007)(2906002)(450100002)(956004)(83380400001)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SzhXWEI3c3V4amtBS2NwT0t2cmxta2V1bmJOcG5aNzcrSmJJRnNmYmUzMi96?=
- =?utf-8?B?ZnJBcy9CNjBXOUUwTy9tRFo0L0JYQ2ZEYXVHUWdDNnp2VDdNVitrYnkxZVpp?=
- =?utf-8?B?OUk0dy9jR25kclMrZE5JaW42WTNxWXBJNzhnelBVVUQ1ZWlzVzFHTENRRHVK?=
- =?utf-8?B?TTdMZEEzNVAzT3RoMkV6MEJVWnpUdUlhWWZMT3JxWGl0d21ZR2lmeFNhK3Y2?=
- =?utf-8?B?UGRhUUsyOFNsL3l5Y08vZTg0UDRvMjdPVUp6Z2V0dU5HVGgwdGR5dFlBYmxH?=
- =?utf-8?B?YWVxSU5kTlpuaWhuL3dPY2czV081WHFWL01kTXN2YjZMN2dScVB1NDVFcVJj?=
- =?utf-8?B?enBJN25tc3N1eUpLRjhvTzhBNjhSZGRQWG5yTy9ZTCs0cTVtN0JXbkVNc3Bs?=
- =?utf-8?B?S1lnbkU2VmIvampiT242cytXUVU2VWtRVm9UdEZwNS9WRkdaMlZ0R1Nwd0Zs?=
- =?utf-8?B?SFJiWlE3Q0IrMTJ4eXhDbG5ySFFUTEd3L2l2Tm5VeEtzVE9LdzZlSHhLTTlZ?=
- =?utf-8?B?REJMc1c4enZGRmY4ZjloOVVVZDN1YkFlTVdQVFlDZ1NjSHBFTUdEeWcweUIz?=
- =?utf-8?B?d0VJTm1NaU9aOUNqQUV3R2luM2NrT2doYW5zS0lzcnJJSlh4L2svZlNtUUxZ?=
- =?utf-8?B?WkxVZDJwcDFna2I0ODdGV1BCM1RTaURvMElmK014c2ZGZkxNWSttS1RMZHVk?=
- =?utf-8?B?OUhkSVlHSktMWFdPL2ZPWTFvRVZrMUZQK3pXUG1WcnhuWmdYOEsrcWRxeHE1?=
- =?utf-8?B?RUhMeDFJMmZMNndCVnlYd0hjVEtqaGpObDVuMGNRUXlvSjFNVkRlVzN2bGha?=
- =?utf-8?B?RzhLSkJtb0x1Qmc0aGM1a2VYSGtXckxLTHdDMXVSeGlmM3k3MjRreCtaNTll?=
- =?utf-8?B?RlIwdFhKMnkvYkR3RjJLenJYY3BSYUI5ZDdqaW1SeXpjOFB1L21QTGVvcVk3?=
- =?utf-8?B?YlFTeGlrMXVSdW1uQTIydUk2TEFWMm94NnlHakdROFNLTGs4MFBiMHVtdkdy?=
- =?utf-8?B?a09FdkpGQnphWmpZclhJaGhjRXE3UEt1NENlOHd4eXRjaUFhRVJEa0RLc0pV?=
- =?utf-8?B?Zm5sYU5ZQlJaMDFpQ2NBZGlkeGlVaGVGZ2tpVzh5b0lqQkdHeVc2ZS9xTXlt?=
- =?utf-8?B?VXdpeDFFRGg2bmZSbU11ZlQ3ZDZWemRwWktTZmFYUTVBNzdlZkpkVEFqZXcx?=
- =?utf-8?B?Q05IVEVSdmxKcDRqdzc3Tk1LN2ZVNDRsTE9JNFl5K0VEcHBqRGczeDdnWjcv?=
- =?utf-8?B?SWN0K0s5VEV1akRiU0ljbUw1ZWdLRGVZQTBPdDRTMkZyMzgxWi9ZN3ZvR2Fz?=
- =?utf-8?B?UGpveGVJSFRvNGo0SFBkWlBZS2JycmYxZHRQR2JyRlVTc3dsRUp6Wk0wWFZH?=
- =?utf-8?B?dE96WjlUY1VlUjFWOTI1R21LZVVNamZURWdxVnFldjN6NEhzcDBVZVdDMFpR?=
- =?utf-8?B?QzNDQVl6ZTlMZFhFbEtnbkI5angyWUtLaHM3dkVpUlJIeEljUmFqU1lVV09Y?=
- =?utf-8?B?ODc0Szc3NzJoNHFWYTJzWmpzZHMwRVBpUjVNS0FzMlZqM05va2Z6RTBJTmYw?=
- =?utf-8?B?bXZ0WThFcW5JU2tqbHhlR21CdnhiY2c3UWgvUHlWOWJaZnpOcUFZVDliaFNt?=
- =?utf-8?B?RWg2MURMLzJEaVVpU3JVRjBRcSs3TjJNZU9zUzlCNTQ1dU5Ya3NJOW5yTEZ0?=
- =?utf-8?B?RkJiekNIQUVhamk0WlZBOXQwY3dPN1dNZ0hSVmZRRm81ck43K3Brd3EveXZy?=
- =?utf-8?Q?rZSkrhB0GJ+QwEHqRGgXtgx6i0pUmFX7EiYlk3L?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c00cf0f-b0fa-40dc-21f4-08d968e83852
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bWNFbktxTStKYXpCZlpHWHFpNytUOGhHL1o1eGRoOCtwSmZCYzg4S3dVcDVB?=
+ =?utf-8?B?Z0RmZ1VRRnRqQXJmeU1pQ2taRUxPcFNNLzREY0tRcFhlY0QrMDBrQWNPU3NX?=
+ =?utf-8?B?enAxejk2bEQyanJndkJiem9rSzdQeEhFTFdLTW1tZWd2SFVpb1JFSFhETWpl?=
+ =?utf-8?B?eXNsTllPeHpXUG1uRUFQQWVVdm5SQk0wOXEzMXBqN1FmMFFWZ1M2S1pwYndK?=
+ =?utf-8?B?R09oS0RGUVErRlJwb0N5TllMZ3lFR05QWG0rMVZiMmVCcjdSNEg5ampzdXc2?=
+ =?utf-8?B?cnZXUHV4V2F2QnZUVzFyTjJRZDRWendYK3M5cFUwU01ldkJ2SHo5MGJTK1Q3?=
+ =?utf-8?B?eExIa2ZtWVQvc1pHWi90aFNjRER2L0dlMEFsUWxyQ2c5THR5MjRsK1dQa3dS?=
+ =?utf-8?B?cFZGYkxPSFpEeXpkTmcyVE5RQnlRdlBNWDZaQW9KdWV1bXZUVnQxam5uMlNW?=
+ =?utf-8?B?VDdlMUJUU0xTQm5jOW12T2YyY0RGb0N0ck5RRzI4ZTJIT0ZwUnVueTViWHA3?=
+ =?utf-8?B?dFZ2N1NQdnNUZHM2TVNEN3NKS21GK21XcGcxQ2t2NC84N3ZhTCtTZU4waUZV?=
+ =?utf-8?B?M3dFWGV6WFVOQ1ZVUWFPYlNwcHg4UXFqbVQ5bUdsOW1CZStnSGlNeWVnSVBy?=
+ =?utf-8?B?U0cza0NZYmNkNURYZ0p6TmhYSCtRajM4YlVVQkFCQWttZXVqNW9iUjd2eEVq?=
+ =?utf-8?B?dHYzb2kyWmVwSGJ6SmJ1bVJXQ1Q3VldKcHBTNXVPS3ZOMk45T1Q0c0krSzZz?=
+ =?utf-8?B?bDd3bXdtaFJXaTIyMlZNOW15d051RUFqYWJHUThjZ2JLd3hlS2dEaFVFV3Np?=
+ =?utf-8?B?ZTRKcGttNmc2d3FsRjdvei83TVgyWTlyUGttT2NUaGhoeUlmNmt6OEYzSUhn?=
+ =?utf-8?B?d3J6Sm1FUkZUMG5KOVpncmhQUHdXQUMxOGNVUUFxVWx3NGdaTFU5eWNVaUVD?=
+ =?utf-8?B?MlkxTFhJZ1YwSTl0Q3ZPTk9KYkV5SW1INWMyMk1rcXgrNW9sRlJBMTAxL1Uz?=
+ =?utf-8?B?REluTW9nTStuemNLYncySHYvWWE2dDQxMTlnRVNGTGgzZHQzUXp1d0ZTeTM1?=
+ =?utf-8?B?UWFYOGNieGlaeldiaXhPV0U5MlJhUHREQUIyNUFrdFFETm51TmhGWGZCdzhY?=
+ =?utf-8?B?QWdBeFhEcjJidDNiZ0JTaENSV0tadzJKenpSV2FoN1R4aVp4NmxMdmFkQ1BL?=
+ =?utf-8?B?SUQ2UGRvVEtXR1lHbklzeG5YUktPWlV0S25YNFVpU1dlZVlzUDZrUkxQWnpW?=
+ =?utf-8?B?UnBZcTU5QTVCNVRKSVJibUFoVzZGZktBY0w1bzE1MnNVaGdsdHZ2bWc5eXZV?=
+ =?utf-8?B?QjFCRUlKYmNPell3YjVuVGJFQlNHUG9VQWZ1Q1ExSlVUS01kN0pLM0lUZjdT?=
+ =?utf-8?B?bDR6ZWdHYzQrd2JDOHBUUGc0c2lYaU0xQlZrVnI1aWlMQUxTUnQ2Ym1pTE9I?=
+ =?utf-8?B?K1F3SksrQmhBNHQyeDVpN1grMk84bFQvWmpGR3lORm1jN0w1SFVZQmpBM1VQ?=
+ =?utf-8?B?bzhLY3BVQjhEQ3I3WUFaaUpCN3l1d1lIQ0U1cEJNWHJLL0R1UW1kNnJQazFh?=
+ =?utf-8?B?TCtSbzdIRnR4VWxWOXJBWEI0RjhwbmZmcjQ0R1ZSNyt3MW9vZE1mUk5PeUVS?=
+ =?utf-8?B?UGgwd1p6Q0xiSjVoOE45bmNvT1NnU1VVbUJad040eXJZdFhJNEluUFpNQnJW?=
+ =?utf-8?B?L3ZMZEpnRzVJbTJRbjFFNkQ0OEhoWkYwUUhnd1p5SWxwa3pENVBrTFprem1q?=
+ =?utf-8?Q?/FPMb9Cwa2ceqbbfIE2S5wJskFku7w/ZOUzOHv5?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a11ef22-09fd-47c1-e779-08d968e8ea2c
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2021 23:21:23.7329 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2021 23:26:22.1223 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: je3oraRV0Yoke4/my/HBfkz5a+9JwT/2K3WhdeTnsD+Jha37cl4zawddGMiEZoPJuP47PgvrHQvngunRK27J+4H/G+F7YwLDG2jTZLyY1Z8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3657
+X-MS-Exchange-CrossTenant-UserPrincipalName: izDiDgqrhyY1CREIqllKxB/6Us4cwjIXVmi/N30SKPEE0npT+r9xr62pc+dGV34wup9xUl9BEQnEz3Py8qoiMp1VObnbx4BGj5uKKWl8n7Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2780
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -162,93 +159,245 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 8/25/2021 8:23 PM, Matthew Brost wrote:
-> When the GuC does a media reset, it copies a golden context state back
-> into the corrupted context's state. The address of the golden context
-> and the size of the engine state restore are passed in via the GuC ADS.
-> The i915 had a bug where it passed in the whole size of the golden
-> context, not the size of the engine state to restore resulting in a
-> memory corruption.
+> Move GuC management fields in context under guc_active struct as this is
+> where the lock that protects theses fields lives. Also only set guc_prio
+> field once during context init.
 >
-> Also copy the entire golden context on init rather than just the engine
-> state that is restored.
+> v2:
+>   (Daniele)
+>    - set CONTEXT_SET_INIT
 >
-> Fixes: 481d458caede ("drm/i915/guc: Add golden context to GuC ADS")
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 28 +++++++++++++++++-----
->   1 file changed, 22 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 6926919bcac6..df2734bfe078 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -358,6 +358,11 @@ static int guc_prep_golden_context(struct intel_guc *guc,
->   	u8 engine_class, guc_class;
->   	struct guc_gt_system_info *info, local_info;
->   
-> +	/* Skip execlist and PPGTT registers + HWSP */
-> +	const u32 lr_hw_context_size = 80 * sizeof(u32);
-> +	const u32 skip_size = LRC_PPHWSP_SZ * PAGE_SIZE +
-> +		lr_hw_context_size;
-> +
->   	/*
->   	 * Reserve the memory for the golden contexts and point GuC at it but
->   	 * leave it empty for now. The context data will be filled in later
-> @@ -396,7 +401,18 @@ static int guc_prep_golden_context(struct intel_guc *guc,
->   		if (!blob)
->   			continue;
->   
-> -		blob->ads.eng_state_size[guc_class] = real_size;
-> +		/*
-> +		 * This interface is slightly confusing. We need to pass the
-> +		 * base address of the golden context and the engine state size
-> +		 * which is not the size of the whole golden context, it is a
-> +		 * subset that the GuC uses when doing a watchdog reset. The
-> +		 * engine state size must match the size of the golden context
-> +		 * minus the first part of the golden context that the GuC does
-> +		 * not retore during reset. Currently no real way to verify this
-> +		 * other than reading the GuC spec / code and ensuring the
-> +		 * 'skip_size' below matches the value used in the GuC code.
-> +		 */
-
-This last statement is incorrect. The skipped size is the PPHWSP + the 
-execlists context. The size of the execlists context is defined in the 
-specs (as part of the full context layout) and it is therefore not a 
-magic number only available in the GuC code. With the comment fixed:
 
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
 Daniele
 
-> +		blob->ads.eng_state_size[guc_class] = real_size - skip_size;
->   		blob->ads.golden_context_lrca[guc_class] = addr_ggtt;
->   		addr_ggtt += alloc_size;
->   	}
-> @@ -437,8 +453,8 @@ static void guc_init_golden_context(struct intel_guc *guc)
->   	u8 *ptr;
+> ---
+>   drivers/gpu/drm/i915/gt/intel_context_types.h | 12 ++--
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 69 +++++++++++--------
+>   drivers/gpu/drm/i915/i915_trace.h             |  2 +-
+>   3 files changed, 46 insertions(+), 37 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> index 3a5d98e908f4..b56960a781da 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> @@ -112,6 +112,7 @@ struct intel_context {
+>   #define CONTEXT_FORCE_SINGLE_SUBMISSION	7
+>   #define CONTEXT_NOPREEMPT		8
+>   #define CONTEXT_LRCA_DIRTY		9
+> +#define CONTEXT_GUC_INIT		10
 >   
->   	/* Skip execlist and PPGTT registers + HWSP */
-> -	const u32 lr_hw_context_size = 80 * sizeof(u32);
-> -	const u32 skip_size = LRC_PPHWSP_SZ * PAGE_SIZE +
-> +	__maybe_unused const u32 lr_hw_context_size = 80 * sizeof(u32);
-> +	__maybe_unused const u32 skip_size = LRC_PPHWSP_SZ * PAGE_SIZE +
->   		lr_hw_context_size;
+>   	struct {
+>   		u64 timeout_us;
+> @@ -178,6 +179,11 @@ struct intel_context {
+>   		spinlock_t lock;
+>   		/** requests: active requests on this context */
+>   		struct list_head requests;
+> +		/*
+> +		 * GuC priority management
+> +		 */
+> +		u8 prio;
+> +		u32 prio_count[GUC_CLIENT_PRIORITY_NUM];
+>   	} guc_active;
 >   
->   	if (!intel_uc_uses_guc_submission(&gt->uc))
-> @@ -476,12 +492,12 @@ static void guc_init_golden_context(struct intel_guc *guc)
->   			continue;
+>   	/* GuC LRC descriptor ID */
+> @@ -191,12 +197,6 @@ struct intel_context {
+>   	 */
+>   	struct list_head guc_id_link;
+>   
+> -	/*
+> -	 * GuC priority management
+> -	 */
+> -	u8 guc_prio;
+> -	u32 guc_prio_count[GUC_CLIENT_PRIORITY_NUM];
+> -
+>   #ifdef CONFIG_DRM_I915_SELFTEST
+>   	/**
+>   	 * @drop_schedule_enable: Force drop of schedule enable G2H for selftest
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 14a512533c39..bc68c0122be4 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -1367,8 +1367,6 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
+>   	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+>   }
+>   
+> -static inline u8 map_i915_prio_to_guc_prio(int prio);
+> -
+>   static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   {
+>   	struct intel_engine_cs *engine = ce->engine;
+> @@ -1376,8 +1374,6 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   	struct intel_guc *guc = &engine->gt->uc.guc;
+>   	u32 desc_idx = ce->guc_id;
+>   	struct guc_lrc_desc *desc;
+> -	const struct i915_gem_context *ctx;
+> -	int prio = I915_CONTEXT_DEFAULT_PRIORITY;
+>   	bool context_registered;
+>   	intel_wakeref_t wakeref;
+>   	int ret = 0;
+> @@ -1394,12 +1390,6 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   
+>   	context_registered = lrc_desc_registered(guc, desc_idx);
+>   
+> -	rcu_read_lock();
+> -	ctx = rcu_dereference(ce->gem_context);
+> -	if (ctx)
+> -		prio = ctx->sched.priority;
+> -	rcu_read_unlock();
+> -
+>   	reset_lrc_desc(guc, desc_idx);
+>   	set_lrc_desc_registered(guc, desc_idx, ce);
+>   
+> @@ -1408,8 +1398,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   	desc->engine_submit_mask = adjust_engine_mask(engine->class,
+>   						      engine->mask);
+>   	desc->hw_context_desc = ce->lrc.lrca;
+> -	ce->guc_prio = map_i915_prio_to_guc_prio(prio);
+> -	desc->priority = ce->guc_prio;
+> +	desc->priority = ce->guc_active.prio;
+>   	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+>   	guc_context_policy_init(engine, desc);
+>   
+> @@ -1805,10 +1794,10 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+>   
+>   static void __guc_context_destroy(struct intel_context *ce)
+>   {
+> -	GEM_BUG_ON(ce->guc_prio_count[GUC_CLIENT_PRIORITY_KMD_HIGH] ||
+> -		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_HIGH] ||
+> -		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_KMD_NORMAL] ||
+> -		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_NORMAL]);
+> +	GEM_BUG_ON(ce->guc_active.prio_count[GUC_CLIENT_PRIORITY_KMD_HIGH] ||
+> +		   ce->guc_active.prio_count[GUC_CLIENT_PRIORITY_HIGH] ||
+> +		   ce->guc_active.prio_count[GUC_CLIENT_PRIORITY_KMD_NORMAL] ||
+> +		   ce->guc_active.prio_count[GUC_CLIENT_PRIORITY_NORMAL]);
+>   	GEM_BUG_ON(ce->guc_state.number_committed_requests);
+>   
+>   	lrc_fini(ce);
+> @@ -1918,14 +1907,17 @@ static void guc_context_set_prio(struct intel_guc *guc,
+>   
+>   	GEM_BUG_ON(prio < GUC_CLIENT_PRIORITY_KMD_HIGH ||
+>   		   prio > GUC_CLIENT_PRIORITY_NORMAL);
+> +	lockdep_assert_held(&ce->guc_active.lock);
+>   
+> -	if (ce->guc_prio == prio || submission_disabled(guc) ||
+> -	    !context_registered(ce))
+> +	if (ce->guc_active.prio == prio || submission_disabled(guc) ||
+> +	    !context_registered(ce)) {
+> +		ce->guc_active.prio = prio;
+>   		return;
+> +	}
+>   
+>   	guc_submission_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
+>   
+> -	ce->guc_prio = prio;
+> +	ce->guc_active.prio = prio;
+>   	trace_intel_context_set_prio(ce);
+>   }
+>   
+> @@ -1945,24 +1937,24 @@ static inline void add_context_inflight_prio(struct intel_context *ce,
+>   					     u8 guc_prio)
+>   {
+>   	lockdep_assert_held(&ce->guc_active.lock);
+> -	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_prio_count));
+> +	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_active.prio_count));
+>   
+> -	++ce->guc_prio_count[guc_prio];
+> +	++ce->guc_active.prio_count[guc_prio];
+>   
+>   	/* Overflow protection */
+> -	GEM_WARN_ON(!ce->guc_prio_count[guc_prio]);
+> +	GEM_WARN_ON(!ce->guc_active.prio_count[guc_prio]);
+>   }
+>   
+>   static inline void sub_context_inflight_prio(struct intel_context *ce,
+>   					     u8 guc_prio)
+>   {
+>   	lockdep_assert_held(&ce->guc_active.lock);
+> -	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_prio_count));
+> +	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_active.prio_count));
+>   
+>   	/* Underflow protection */
+> -	GEM_WARN_ON(!ce->guc_prio_count[guc_prio]);
+> +	GEM_WARN_ON(!ce->guc_active.prio_count[guc_prio]);
+>   
+> -	--ce->guc_prio_count[guc_prio];
+> +	--ce->guc_active.prio_count[guc_prio];
+>   }
+>   
+>   static inline void update_context_prio(struct intel_context *ce)
+> @@ -1975,8 +1967,8 @@ static inline void update_context_prio(struct intel_context *ce)
+>   
+>   	lockdep_assert_held(&ce->guc_active.lock);
+>   
+> -	for (i = 0; i < ARRAY_SIZE(ce->guc_prio_count); ++i) {
+> -		if (ce->guc_prio_count[i]) {
+> +	for (i = 0; i < ARRAY_SIZE(ce->guc_active.prio_count); ++i) {
+> +		if (ce->guc_active.prio_count[i]) {
+>   			guc_context_set_prio(guc, ce, i);
+>   			break;
 >   		}
+> @@ -2118,6 +2110,21 @@ static bool context_needs_register(struct intel_context *ce, bool new_guc_id)
+>   		!submission_disabled(ce_to_guc(ce));
+>   }
 >   
-> -		GEM_BUG_ON(blob->ads.eng_state_size[guc_class] != real_size);
-> +		GEM_BUG_ON(blob->ads.eng_state_size[guc_class] !=
-> +			   real_size - skip_size);
->   		GEM_BUG_ON(blob->ads.golden_context_lrca[guc_class] != addr_ggtt);
->   		addr_ggtt += alloc_size;
+> +static void guc_context_init(struct intel_context *ce)
+> +{
+> +	const struct i915_gem_context *ctx;
+> +	int prio = I915_CONTEXT_DEFAULT_PRIORITY;
+> +
+> +	rcu_read_lock();
+> +	ctx = rcu_dereference(ce->gem_context);
+> +	if (ctx)
+> +		prio = ctx->sched.priority;
+> +	rcu_read_unlock();
+> +
+> +	ce->guc_active.prio = map_i915_prio_to_guc_prio(prio);
+> +	set_bit(CONTEXT_GUC_INIT, &ce->flags);
+> +}
+> +
+>   static int guc_request_alloc(struct i915_request *rq)
+>   {
+>   	struct intel_context *ce = rq->context;
+> @@ -2149,6 +2156,9 @@ static int guc_request_alloc(struct i915_request *rq)
 >   
-> -		shmem_read(engine->default_state, skip_size, ptr + skip_size,
-> -			   real_size - skip_size);
-> +		shmem_read(engine->default_state, 0, ptr, real_size);
->   		ptr += alloc_size;
+>   	rq->reserved_space -= GUC_REQUEST_SIZE;
+>   
+> +	if (unlikely(!test_bit(CONTEXT_GUC_INIT, &ce->flags)))
+> +		guc_context_init(ce);
+> +
+>   	/*
+>   	 * Call pin_guc_id here rather than in the pinning step as with
+>   	 * dma_resv, contexts can be repeatedly pinned / unpinned trashing the
+> @@ -3025,13 +3035,12 @@ static inline void guc_log_context_priority(struct drm_printer *p,
+>   {
+>   	int i;
+>   
+> -	drm_printf(p, "\t\tPriority: %d\n",
+> -		   ce->guc_prio);
+> +	drm_printf(p, "\t\tPriority: %d\n", ce->guc_active.prio);
+>   	drm_printf(p, "\t\tNumber Requests (lower index == higher priority)\n");
+>   	for (i = GUC_CLIENT_PRIORITY_KMD_HIGH;
+>   	     i < GUC_CLIENT_PRIORITY_NUM; ++i) {
+>   		drm_printf(p, "\t\tNumber requests in priority band[%d]: %d\n",
+> -			   i, ce->guc_prio_count[i]);
+> +			   i, ce->guc_active.prio_count[i]);
 >   	}
+>   	drm_printf(p, "\n");
+>   }
+> diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
+> index 0a77eb2944b5..6f882e72ed11 100644
+> --- a/drivers/gpu/drm/i915/i915_trace.h
+> +++ b/drivers/gpu/drm/i915/i915_trace.h
+> @@ -910,7 +910,7 @@ DECLARE_EVENT_CLASS(intel_context,
+>   			   __entry->guc_id = ce->guc_id;
+>   			   __entry->pin_count = atomic_read(&ce->pin_count);
+>   			   __entry->sched_state = ce->guc_state.sched_state;
+> -			   __entry->guc_prio = ce->guc_prio;
+> +			   __entry->guc_prio = ce->guc_active.prio;
+>   			   ),
 >   
+>   		    TP_printk("guc_id=%d, pin_count=%d sched_state=0x%x, guc_prio=%u",
 
