@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED28F3F80F9
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 05:29:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DE73F810C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 05:29:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D126E4D0;
-	Thu, 26 Aug 2021 03:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28AF56E4C7;
+	Thu, 26 Aug 2021 03:28:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1AE6E4B6;
- Thu, 26 Aug 2021 03:28:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="215811066"
-X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="215811066"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5C236E4C9;
+ Thu, 26 Aug 2021 03:28:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="215811067"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="215811067"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Aug 2021 20:28:40 -0700
-X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="684738540"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="684738543"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Aug 2021 20:28:39 -0700
@@ -25,10 +25,9 @@ From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <daniele.ceraolospurio@intel.com>
-Subject: [PATCH 08/27] drm/i915/selftests: Add a cancel request selftest that
- triggers a reset
-Date: Wed, 25 Aug 2021 20:23:08 -0700
-Message-Id: <20210826032327.18078-9-matthew.brost@intel.com>
+Subject: [PATCH 09/27] drm/i915/guc: Kick tasklet after queuing a request
+Date: Wed, 25 Aug 2021 20:23:09 -0700
+Message-Id: <20210826032327.18078-10-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210826032327.18078-1-matthew.brost@intel.com>
 References: <20210826032327.18078-1-matthew.brost@intel.com>
@@ -49,133 +48,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a cancel request selftest that results in an engine reset to cancel
-the request as it is non-preemptable. Also insert a NOP request after
-the cancelled request and confirm that it completely successfully.
+Kick tasklet after queuing a request so it submitted in a timely manner.
 
+Fixes: 3a4cdf1982f0 ("drm/i915/guc: Implement GuC context operations for new inteface")
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/selftests/i915_request.c | 100 ++++++++++++++++++
- 1 file changed, 100 insertions(+)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-index d67710d10615..e2c5db77f087 100644
---- a/drivers/gpu/drm/i915/selftests/i915_request.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-@@ -772,6 +772,98 @@ static int __cancel_completed(struct intel_engine_cs *engine)
- 	return err;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 592b421e1429..b30fdccc71d4 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -1047,6 +1047,7 @@ static inline void queue_request(struct i915_sched_engine *sched_engine,
+ 	list_add_tail(&rq->sched.link,
+ 		      i915_sched_lookup_priolist(sched_engine, prio));
+ 	set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
++	tasklet_hi_schedule(&sched_engine->tasklet);
  }
  
-+static int __cancel_reset(struct intel_engine_cs *engine)
-+{
-+	struct intel_context *ce;
-+	struct igt_spinner spin;
-+	struct i915_request *rq, *nop;
-+	unsigned long preempt_timeout_ms;
-+	int err = 0;
-+
-+	preempt_timeout_ms = engine->props.preempt_timeout_ms;
-+	engine->props.preempt_timeout_ms = 100;
-+
-+	if (igt_spinner_init(&spin, engine->gt))
-+		goto out_restore;
-+
-+	ce = intel_context_create(engine);
-+	if (IS_ERR(ce)) {
-+		err = PTR_ERR(ce);
-+		goto out_spin;
-+	}
-+
-+	rq = igt_spinner_create_request(&spin, ce, MI_NOOP);
-+	if (IS_ERR(rq)) {
-+		err = PTR_ERR(rq);
-+		goto out_ce;
-+	}
-+
-+	pr_debug("%s: Cancelling active request\n", engine->name);
-+	i915_request_get(rq);
-+	i915_request_add(rq);
-+	if (!igt_wait_for_spinner(&spin, rq)) {
-+		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
-+
-+		pr_err("Failed to start spinner on %s\n", engine->name);
-+		intel_engine_dump(engine, &p, "%s\n", engine->name);
-+		err = -ETIME;
-+		goto out_rq;
-+	}
-+
-+	nop = intel_context_create_request(ce);
-+	if (IS_ERR(nop))
-+		goto out_nop;
-+	i915_request_get(nop);
-+	i915_request_add(nop);
-+
-+	i915_request_cancel(rq, -EINTR);
-+
-+	if (i915_request_wait(rq, 0, HZ) < 0) {
-+		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
-+
-+		pr_err("%s: Failed to cancel hung request\n", engine->name);
-+		intel_engine_dump(engine, &p, "%s\n", engine->name);
-+		err = -ETIME;
-+		goto out_nop;
-+	}
-+
-+	if (rq->fence.error != -EINTR) {
-+		pr_err("%s: fence not cancelled (%u)\n",
-+		       engine->name, rq->fence.error);
-+		err = -EINVAL;
-+		goto out_nop;
-+	}
-+
-+	if (i915_request_wait(nop, 0, HZ) < 0) {
-+		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
-+
-+		pr_err("%s: Failed to complete nop request\n", engine->name);
-+		intel_engine_dump(engine, &p, "%s\n", engine->name);
-+		err = -ETIME;
-+		goto out_nop;
-+	}
-+
-+	if (nop->fence.error != 0) {
-+		pr_err("%s: Nop request errored (%u)\n",
-+		       engine->name, nop->fence.error);
-+		err = -EINVAL;
-+	}
-+
-+out_nop:
-+	i915_request_put(nop);
-+out_rq:
-+	i915_request_put(rq);
-+out_ce:
-+	intel_context_put(ce);
-+out_spin:
-+	igt_spinner_fini(&spin);
-+out_restore:
-+	engine->props.preempt_timeout_ms = preempt_timeout_ms;
-+	if (err)
-+		pr_err("%s: %s error %d\n", __func__, engine->name, err);
-+	return err;
-+}
-+
- static int live_cancel_request(void *arg)
- {
- 	struct drm_i915_private *i915 = arg;
-@@ -804,6 +896,14 @@ static int live_cancel_request(void *arg)
- 			return err;
- 		if (err2)
- 			return err2;
-+
-+		/* Expects reset so call outside of igt_live_test_* */
-+		err = __cancel_reset(engine);
-+		if (err)
-+			return err;
-+
-+		if (igt_flush_test(i915))
-+			return -EIO;
- 	}
- 
- 	return 0;
+ static int guc_bypass_tasklet_submit(struct intel_guc *guc,
 -- 
 2.32.0
 
