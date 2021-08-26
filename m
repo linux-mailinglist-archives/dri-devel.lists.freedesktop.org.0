@@ -1,71 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9523F8A96
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 16:59:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F7F3F8A9D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 17:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFC896E878;
-	Thu, 26 Aug 2021 14:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE2636E873;
+	Thu, 26 Aug 2021 15:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32D416E86E
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 14:59:30 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id bt14so6966088ejb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 07:59:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=xFXMIzAtDgmXOcLiJVW1C7jqjagasDTptmsNictXpmg=;
- b=faQbgtefcIGp683Q7k/Q3YOYBbWlgIf02jwMdLFBUsRKAeT/SWfg7kqOOCAaVVr5dV
- ldfW1ZliDZ7qIhHQBkLQHX1m+djghPbA1uTihNu0ZNEiYPOmjNn3pXGsOcLKF6lIqlAy
- fB7tUsGK2BCNZVvqCwArCjiudBkUp5r84E6dg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=xFXMIzAtDgmXOcLiJVW1C7jqjagasDTptmsNictXpmg=;
- b=kltvimnmwlKvd/FrYfPdglRLFAtVGigigj6Rvz4gai3KZY9GLfhtk13uMezkK5mol/
- GwTaT6j9SdUBnGd5QwGqMXC9USBb58EYqRjJI8KjKc4bgsAyQ4qAz9gambkcHrmaMPn2
- XtjlMOTmUFp+KpuZGuxWlY+dpT6T1LANCONraazC5CLJW6sy4lIrXS45Su+lnMCwYxi2
- jaz57A4O+4WbVAv4WvYROTEEeL19+blMqlnO67DSFNGhlcurE+lpXd19c54+XqeNkA4M
- iAlbgOVGerE9Q60Xdw5HyiqviCBEslCMIqBanstm7aJTG8yyfwtYegbMPv42SIiTtpUi
- Vxfw==
-X-Gm-Message-State: AOAM531kddiEMHWv7V+Q30er2SkzQQhWg7nN0taKlOs+Qst4ec868ZQY
- qdFz8mRD8IHFqog6nwwcbL/ROg==
-X-Google-Smtp-Source: ABdhPJwZStqZyAARpHQ/9elYfwpIdYFg0K8KQUAeYbBCwiKVH0Lg4urghSCsyjn6tkgXW4TcryL7Rg==
-X-Received: by 2002:a17:906:248e:: with SMTP id
- e14mr4750776ejb.343.1629989968293; 
- Thu, 26 Aug 2021 07:59:28 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u16sm1563517ejy.14.2021.08.26.07.59.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 07:59:27 -0700 (PDT)
-Date: Thu, 26 Aug 2021 16:59:25 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Brost Matthew <matthew.brost@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/gt: Register the migrate
- contexts with their engines
-Message-ID: <YSesTaQD6E1Knt80@phenom.ffwll.local>
-References: <20210826104514.400352-1-thomas.hellstrom@linux.intel.com>
- <YSeMr9cBPLOMXhyL@phenom.ffwll.local>
- <69c91b3b524163d1683486d8ab0f9fe8f6893192.camel@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1E9226E872;
+ Thu, 26 Aug 2021 15:00:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D46F31B;
+ Thu, 26 Aug 2021 08:00:24 -0700 (PDT)
+Received: from [10.57.15.112] (unknown [10.57.15.112])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 635F03F66F;
+ Thu, 26 Aug 2021 08:00:22 -0700 (PDT)
+Subject: Re: [PATCH 2/3] drm/etnaviv: fix dma configuration of the virtual
+ device
+To: Michael Walle <michael@walle.cc>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: "Lukas F . Hartmann" <lukas@mntre.com>,
+ Marek Vasut <marek.vasut@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20210826121006.685257-1-michael@walle.cc>
+ <20210826121006.685257-3-michael@walle.cc>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <df806090-8a21-33e8-1e01-bd03b6ed64cf@arm.com>
+Date: Thu, 26 Aug 2021 16:00:15 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <69c91b3b524163d1683486d8ab0f9fe8f6893192.camel@linux.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <20210826121006.685257-3-michael@walle.cc>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,88 +54,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 26, 2021 at 03:59:30PM +0200, Thomas Hellström wrote:
-> On Thu, 2021-08-26 at 14:44 +0200, Daniel Vetter wrote:
-> > On Thu, Aug 26, 2021 at 12:45:14PM +0200, Thomas Hellström wrote:
-> > > Pinned contexts, like the migrate contexts need reset after resume
-> > > since their context image may have been lost. Also the GuC needs to
-> > > register pinned contexts.
-> > > 
-> > > Add a list to struct intel_engine_cs where we add all pinned
-> > > contexts on
-> > > creation, and traverse that list at resume time to reset the pinned
-> > > contexts.
-> > > 
-> > > This fixes the kms_pipe_crc_basic@suspend-read-crc-pipe-a selftest
-> > > for now,
-> > > but proper LMEM backup / restore is needed for full suspend
-> > > functionality.
-> > > However, note that even with full LMEM backup / restore it may be
-> > > desirable to keep the reset since backing up the migrate context
-> > > images
-> > > must happen using memcpy() after the migrate context has become
-> > > inactive,
-> > > and for performance- and other reasons we want to avoid memcpy()
-> > > from
-> > > LMEM.
-> > > 
-> > > Also traverse the list at guc_init_lrc_mapping() calling
-> > > guc_kernel_context_pin() for the pinned contexts, like is already
-> > > done
-> > > for the kernel context.
-> > > 
-> > > v2:
-> > > - Don't reset the contexts on each __engine_unpark() but rather at
-> > >   resume time (Chris Wilson).
-> > > 
-> > > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> > > Cc: Matthew Auld <matthew.auld@intel.com>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Brost Matthew <matthew.brost@intel.com>
-> > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > 
-> > I guess it got lost, but I few weeks ago I stumbled over this and
-> > wondered
-> > why we're even setting up a separate context or at least why a
-> > separate vm
-> > compared to the gt->vm we have already?
-> > 
-> > Even on chips with bazillions of copy engines the plan is that we
-> > only
-> > reserve a single one for kernel migrations, so there's not really a
-> > need
-> > for quite this much generality I think. Maybe check with Jon
-> > Bloomfield on
-> > this.
+On 2021-08-26 13:10, Michael Walle wrote:
+> The DMA configuration of the virtual device is inherited from the first
+> actual etnaviv device. Unfortunately, this doesn't work with an IOMMU:
 > 
-> Are you referring to the generality of the migration code itself or to
-> the generality of using a list in this patch to register multiple
-> pinned contexts to an engine? 
+> [    5.191008] Failed to set up IOMMU for device (null); retaining platform DMA ops
 > 
-> For the migration code itself, I figured reserving one copy engine for
-> migration was strictly needed for recoverable page-faults? In the
-> current version we're not doing that, but just tying a pinned migration
-> context to the first available copy engine on the gt, to be used when
-> we don't have a ww context available to pin a separate context using a
-> random copy engine. Note also the ring size of the migration contexts;
-> since we're populating the page-tables for each blit, it's not hard to
-> fill the ring and in the end multiple contexts I guess boils down to
-> avoiding priority inversion on migration, including blocking high
-> priority kernel context tasks.
+> This is because there is no associated iommu_group with the device. The
+> group is set in iommu_group_add_device() which is eventually called by
+> device_add() via the platform bus:
+>    device_add()
+>      blocking_notifier_call_chain()
+>        iommu_bus_notifier()
+>          iommu_probe_device()
+>            __iommu_probe_device()
+>              iommu_group_get_for_dev()
+>                iommu_group_add_device()
 > 
-> As for not using the gt->vm, I'm not completely sure if we can do our
-> special page-table setup on that, Got to defer that question to Chris,
-> but once Ram's work of supporting 64K LMEM PTEs on that has landed I
-> guess we could easily reuse the gt->vm if possible and suitable.
+> Move of_dma_configure() into the probe function, which is called after
+> device_add(). Normally, the platform code will already call it itself
+> if .of_node is set. Unfortunately, this isn't the case here.
+> 
+> Also move the dma mask assignemnts to probe() to keep all DMA related
+> settings together.
 
-Just on why we have gt->vm and then also the migration vm. The old mail I
-typed up on this:
+I assume the driver must already keep track of the real GPU platform 
+device in order to map registers, request interrupts, etc. correctly - 
+can't it also correctly use that device for DMA API calls and avoid the 
+need for these shenanigans altogether?
 
-https://lore.kernel.org/dri-devel/CAKMK7uG6g+DQQEcjqeA6=Z2ENHogaMuvKERDgKm5jKq3u+a1jQ@mail.gmail.com/
+FYI, IOMMU configuration is really supposed to *only* run at 
+add_device() time as above - the fact that it's currently hooked in to 
+be retriggered by of_dma_configure() on DT platforms actually turns out 
+to lead to various issues within the IOMMU API, and the plan to change 
+that is slowly climbing up my to-do list.
 
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Robin.
+
+> Signed-off-by: Michael Walle <michael@walle.cc>
+> ---
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 24 +++++++++++++++---------
+>   1 file changed, 15 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 2509b3e85709..ff6425f6ebad 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -589,6 +589,7 @@ static int compare_str(struct device *dev, void *data)
+>   static int etnaviv_pdev_probe(struct platform_device *pdev)
+>   {
+>   	struct device *dev = &pdev->dev;
+> +	struct device_node *first_node = NULL;
+>   	struct component_match *match = NULL;
+>   
+>   	if (!dev->platform_data) {
+> @@ -598,6 +599,9 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+>   			if (!of_device_is_available(core_node))
+>   				continue;
+>   
+> +			if (!first_node)
+> +				first_node = core_node;
+> +
+>   			drm_of_component_match_add(&pdev->dev, &match,
+>   						   compare_of, core_node);
+>   		}
+> @@ -609,6 +613,17 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+>   			component_match_add(dev, &match, compare_str, names[i]);
+>   	}
+>   
+> +	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(40);
+> +	pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
+> +
+> +	/*
+> +	 * Apply the same DMA configuration to the virtual etnaviv
+> +	 * device as the GPU we found. This assumes that all Vivante
+> +	 * GPUs in the system share the same DMA constraints.
+> +	 */
+> +	if (first_node)
+> +		of_dma_configure(&pdev->dev, first_node, true);
+> +
+>   	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
+>   }
+>   
+> @@ -659,15 +674,6 @@ static int __init etnaviv_init(void)
+>   			of_node_put(np);
+>   			goto unregister_platform_driver;
+>   		}
+> -		pdev->dev.coherent_dma_mask = DMA_BIT_MASK(40);
+> -		pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
+> -
+> -		/*
+> -		 * Apply the same DMA configuration to the virtual etnaviv
+> -		 * device as the GPU we found. This assumes that all Vivante
+> -		 * GPUs in the system share the same DMA constraints.
+> -		 */
+> -		of_dma_configure(&pdev->dev, np, true);
+>   
+>   		ret = platform_device_add(pdev);
+>   		if (ret) {
+> 
