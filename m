@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC963F7FBE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 03:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 061FC3F7FC6
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 03:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A78E6E45C;
-	Thu, 26 Aug 2021 01:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E026E45D;
+	Thu, 26 Aug 2021 01:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB5426E457
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 01:19:17 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id
- n1-20020a4ac7010000b0290262f3c22a63so394109ooq.9
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 18:19:17 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA33B6E45D
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 01:21:52 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id c79so2064530oib.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 18:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=pMEYeQ5q1Ljq7RCcgbyvAyGrNej+EFBY9zbAdIRIdF8=;
- b=NhrGT6GzQFV+9/cdB57tP92jyn9EG5QfIpEhiPDZ4mpxnF8I9IDZ/81f0dFiujSo7b
- JpjHlq3NazHVfSNNQMkKHmAyqxhdqgHYMxmX61QkXGCX8cM95uLVKqgXb4dNQy42IMAK
- pB1sI1ZaWXYCep+QHy0y8K7qTwWK20ggRmViM=
+ bh=6nXlei/Gzl2kgJrjUypJPJMbLWWtXj8x5vv2RmtYCFk=;
+ b=Fl2zoS01SxGzy75oar1XNbzccL+NIMw8VXIazGxrv9mtTk3t4A/gX5nocJDAK3e4ym
+ 2pJb0fRgXs3r/GgRnsO6IFoFzOoWgEeImeTfwI2gd+1179p6Qf16ndE5pC9YsWH29gW2
+ /n2x2Y+ste2OcTlK787bUn/Hyv9BIubrPaq7o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=pMEYeQ5q1Ljq7RCcgbyvAyGrNej+EFBY9zbAdIRIdF8=;
- b=kjcExFvtCQjvCm78JQkab8Kn1wd7RGTBWESNJ1lbwnZuRQJVUdJC+S/0kUfrhUEg90
- So1qMwpf5+xasI96u4L0r/Y0CGa5lUyi9kmO05uHtLgGnHSOgqgu/Q3gnpGN40mRzbGq
- 2UIk6W/kiBvVy2CPvp9CVd38KA5MWQ3Gp5SHMcm0hZruzwBnrvx+ssalCYKD5xiiedPu
- tAgSIQobyeR0TfhiNA3KP5JphZRWhLJ0IXpf3TlSMIYsVuqxCBsThNH/aRAQymJHvy4L
- BAaEO54ZLWoNiRIOkz6Wk26/iY2fx4Eyfg846JwkpAzz8ZsjSsF1P0bIUy6ICB265cQ0
- iAuQ==
-X-Gm-Message-State: AOAM531AAdiMmjHBgol5nO90T71nq5mDITbo7xlMPe0Rpy6fiI7LVOCC
- eELXEl49ScXJ3B1wt3Lu0HhBWhdCAcEgVw4LiK2c/g==
-X-Google-Smtp-Source: ABdhPJxomUf9wQZ9jtRySIGLFv4shWsL8IPxBTC8ui4hVyxgpcgUn6qSY5GKjS1RD2eDnA8/l8osgey4KpfBW93K2J0=
-X-Received: by 2002:a4a:a841:: with SMTP id p1mr987058oom.92.1629940756961;
- Wed, 25 Aug 2021 18:19:16 -0700 (PDT)
+ bh=6nXlei/Gzl2kgJrjUypJPJMbLWWtXj8x5vv2RmtYCFk=;
+ b=n6zwjvy9aL9rbkVZ7wE+hfD0UJWaH4J4yt1wMtNYO3J9/kSvmt+glFkYBJX72tDI9y
+ GMaYS7nUDv63Y7o7+sBHTspOw+vTYMT+b/Ay7Owe0ds/gs1WB0K4IciAzw37Mqri4Ht9
+ WOWNr5n1ImRpW2HMDkbtjMi/HE+bWiaP5Pp0NA/QV0ElPPLzLREfi2SyUhGkorMSdxT4
+ AA/weI1aBNoI7kMqW5p7mZP65j27buJ9rV5b+kqS8kMjWvaCvKloVOtDvibjDhMooD5o
+ NC73Um1eZ9Q/RZizk+Qdel+ieRBGngrpIQ7cadL+wE72Ud5jo/5R6+xnYlptR98xjvEC
+ TxTg==
+X-Gm-Message-State: AOAM53193dSaoD3LkA5HCB6fjH7/SFPy6J8eFY5oZXV5NSatJjyl9LFg
+ aW7CjABl4BQ6X2igOzvjLJZZZpKjGDP3mDZ35seWqA==
+X-Google-Smtp-Source: ABdhPJz1PrTQ46AFZgnsHo3RwaOgObBPJwNmVa81VCkWSx1FhF7a08m5xnynvSJw6aQm8FOE9v9zVAEx6nn1AokhkX4=
+X-Received: by 2002:a05:6808:181a:: with SMTP id
+ bh26mr9465358oib.166.1629940912164; 
+ Wed, 25 Aug 2021 18:21:52 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 26 Aug 2021 01:19:16 +0000
+ HTTPREST; Thu, 26 Aug 2021 01:21:51 +0000
 MIME-Version: 1.0
-In-Reply-To: <20210825222557.1499104-4-bjorn.andersson@linaro.org>
+In-Reply-To: <20210825222557.1499104-5-bjorn.andersson@linaro.org>
 References: <20210825222557.1499104-1-bjorn.andersson@linaro.org>
- <20210825222557.1499104-4-bjorn.andersson@linaro.org>
+ <20210825222557.1499104-5-bjorn.andersson@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Thu, 26 Aug 2021 01:19:16 +0000
-Message-ID: <CAE-0n53ZVf7E0q_cMEmuQH7q+xytRd-pjerrNnoVHBwqGMr6ZA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] drm/msm/dp: Refactor ioremap wrapper
+Date: Thu, 26 Aug 2021 01:21:51 +0000
+Message-ID: <CAE-0n53EySs6UbKrcE1x1n0S22CtzneRm4fx328UzMDy5eHADA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] drm/msm/dp: Store each subblock in the io region
 To: Abhinav Kumar <abhinavk@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
@@ -75,87 +75,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Bjorn Andersson (2021-08-25 15:25:55)
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index c064ced78278..215065336268 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -19,40 +19,30 @@ static const struct dp_regulator_cfg sdm845_dp_reg_cfg = {
->         },
->  };
+Quoting Bjorn Andersson (2021-08-25 15:25:56)
+> Not all platforms has DP_P0 at offset 0x1000 from the beginning of the
+> DP block. So split the dss_io_data memory region into a set of
+> sub-regions, to make it possible in the next patch to specify each of
+> the sub-regions individually.
 >
-> -static int msm_dss_ioremap(struct platform_device *pdev,
-> -                               struct dss_io_data *io_data)
-> +static void __iomem *dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
->  {
-> -       struct resource *res = NULL;
-> +       struct resource *res;
->
-> -       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +       res = platform_get_resource(pdev, IORESOURCE_MEM, idx);
->         if (!res) {
->                 DRM_ERROR("%pS->%s: msm_dss_get_res failed\n",
->                         __builtin_return_address(0), __func__);
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
 
-This error can be removed too, right? At least I thought passing in NULL
-as 'res' to devm_ioremap_resource() did that. It actually looks like we
-can use devm_platform_get_and_ioremap_resource() and then pass in &res
+One nit below:
 
-	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-	if (!IS_ERR(base))
-		*len = resource_size(res);
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
-	return base;
 
-> -               return -ENODEV;
-> +               return ERR_PTR(-ENODEV);
->         }
 >
-> -       io_data->len = (u32)resource_size(res);
-> -       io_data->base = devm_ioremap(&pdev->dev, res->start, io_data->len);
-> -       if (!io_data->base) {
-> -               DRM_ERROR("%pS->%s: ioremap failed\n",
-> -                       __builtin_return_address(0), __func__);
-> -               return -EIO;
-> -       }
-> -
-> -       return 0;
-> +       *len = resource_size(res);
-> +       return devm_ioremap_resource(&pdev->dev, res);
->  }
->
->  static int dp_parser_ctrl_res(struct dp_parser *parser)
->  {
-> -       int rc = 0;
->         struct platform_device *pdev = parser->pdev;
->         struct dp_io *io = &parser->io;
-> +       struct dss_io_data *dss = &io->dp_controller;
->
-> -       rc = msm_dss_ioremap(pdev, &io->dp_controller);
-> -       if (rc) {
-> -               DRM_ERROR("unable to remap dp io resources, rc=%d\n", rc);
-> -               return rc;
-> -       }
-> +       dss->base = dp_ioremap(pdev, 0, &dss->len);
-> +       if (IS_ERR(dss->base))
-> +               return PTR_ERR(dss->base);
->
->         io->phy = devm_phy_get(&pdev->dev, "dp");
->         if (IS_ERR(io->phy))
 > diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index 34b49628bbaf..dc62e70b1640 100644
+> index dc62e70b1640..a95b05dbb11c 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_parser.h
 > +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -26,7 +26,7 @@ enum dp_pm_type {
+> @@ -25,9 +25,16 @@ enum dp_pm_type {
+>         DP_MAX_PM
 >  };
 >
->  struct dss_io_data {
-> -       u32 len;
+> -struct dss_io_data {
+> -       size_t len;
+> +struct dss_io_region {
+>         void __iomem *base;
 > +       size_t len;
 
-len is a resource_size_t above, not sure if that really matters in
-practice to indicate it here though.
+It flip flops here. Would be nice to the diff if len was where it really
+wanted to be.
 
->         void __iomem *base;
+> +};
+> +
+> +struct dss_io_data {
+> +       struct dss_io_region ahb;
+> +       struct dss_io_region aux;
+> +       struct dss_io_region link;
+> +       struct dss_io_region p0;
 >  };
->
