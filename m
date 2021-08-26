@@ -1,65 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF8D3F83FD
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 10:55:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BE13F8402
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 10:56:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17CE16E570;
-	Thu, 26 Aug 2021 08:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 464896E566;
+	Thu, 26 Aug 2021 08:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 605396E570
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 08:55:49 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id q14so3835263wrp.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 01:55:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=uvYP2dCmI1ZUBL+P6N9qqPEMMyNG7Xmed98Q3LoPhRc=;
- b=jv4Bz0Zaxnsu8hjawyPrPAoUn4/jYp4IFJUqRDi9BdtuLq5Df/VFFwla0qeWUTWgen
- AISCTl0BLkfMkjZpzCyfK6k2i22j38ulsJH7Ho90nLj7EP8tF6q7Cwmr5Dmc/vSmMPqV
- WecCQ5NY8yfZ7sG/GerTWaZivj8Dz28n99H7I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=uvYP2dCmI1ZUBL+P6N9qqPEMMyNG7Xmed98Q3LoPhRc=;
- b=P6y2UaT+po0Kjeb6m/jB8Eu17kel4ySB+qKm7RoP7FwBhiK0+eRulwkfbx8T1rGHrv
- Gwf0nf2CCx1/bZdsBVirBYjfPf1WTzApTc4zWCLU9snW2jr59nUqAg93lCmaZgnHjxv1
- RMljS11mDfb7vanVOKawlbMAqeFP5zjIuG7j6U9tgWfCyz29rUkFX9b8xKGQQE4nXa0W
- 0pLuBCh5mMOYJPYcf856iW86AhriKW/qxUlzbeo2DF6k3u1bjQ79vIcmB86Wh6fZyHYZ
- ko4bH+ao9mNZLWEoZezqXv5Jc0DCKkKClCMSr1Tr8qDYw+4Uj/RaQ5hoZEjiELuG59PA
- FHEw==
-X-Gm-Message-State: AOAM532ybe86JENrIr3uKeuoUHHjWy1j6xWf2yzVWEuneYBLCtCp11JQ
- OGAoPyEi79FXkt9UAvngUSN7qQ==
-X-Google-Smtp-Source: ABdhPJzocerqJcZsWtTMJhS3BxNMKI6t/XE2uaviKPeY5HpRKnKDaqdKUEnvXnYbV1H3JH0+Q+V4zQ==
-X-Received: by 2002:a5d:5983:: with SMTP id n3mr2548866wri.227.1629968147888; 
- Thu, 26 Aug 2021 01:55:47 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v21sm2608329wra.92.2021.08.26.01.55.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 01:55:47 -0700 (PDT)
-Date: Thu, 26 Aug 2021 10:55:45 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: hridya@google.com, john.stultz@linaro.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- gustavo@padovan.org, linux-media@vger.kernel.org, adelva@google.com,
- sspatil@google.com, daniel@ffwll.ch
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-Message-ID: <YSdXEaBDpijEBx/6@phenom.ffwll.local>
-References: <20210818105443.1578-1-christian.koenig@amd.com>
- <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 812986E566
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 08:56:52 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 65270580E35;
+ Thu, 26 Aug 2021 04:56:51 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Thu, 26 Aug 2021 04:56:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=8ZqZMRxHYnjQ2uzAJrMkPBHkNou
+ kBe6k9p1sniS1y0c=; b=Jn3pmql5i/BUkYPxISEaqVtJnFkGhpi/u/AjE+0hTLa
+ v/JDM65cX/QTuMOGONVv2i2QuN+klkRGa3X7cknQzDeSvSv/yLg/fC4mcLqj8j6H
+ ad6D6qOGpFkj19ZlIcQp86PMmi4BNli4hJnfb1EYMZU2cVBFu+gH2MTS8aSjtkfJ
+ vLbaVHBUEqtWzmlTnvOWhA5YNIWAh3rjbNhddxE2kMeZoWsDRW7Ollt7b2kiGLY5
+ +bwmp3t8n5RhEnoTYsK/VWTic+KvGZwnSGI6RJg83kfK6o8ISDyqK7j466FsaTGT
+ Cp7NZLNx6obB04R2UfKgnT6+Ix2rBzQ/iMoVHOPCrzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=8ZqZMR
+ xHYnjQ2uzAJrMkPBHkNoukBe6k9p1sniS1y0c=; b=XGBJoyHhR3DWmlyc9RZDOx
+ AfgoSfwijcJiiWIMds8+VM32IOf3AjPVCBwhpYeq8atXg/adGDVfcPlQVJ3YxP99
+ 0+qHbeEoFxPLwsgROM6A86TVUbGdAqX3UIDSLlAPNP4NKVcc8ekCJvrBRUlMWskB
+ 0l+wMHdzAT1qgdJsbOsp55LCkPhhkcF8xqD1XDDZp5i6nDUCx2YljrHUN7N9CySP
+ Cl3iRXQsCuUN/KBpSWL1i1UW/NuBj3xBdlv3g0OahPBGEuvgu7Z5zBqDLlXVY2jL
+ 26KNA20MpMLqaAstUrvvD3ua3xtayUYJ8ctu0zT0UI9hFM3vdZ6YwS2zt5oogvxw
+ ==
+X-ME-Sender: <xms:UFcnYdgJteDE000dBm6ZWsJILsLkL2Stk6RewL0jEZDV2-IK8FWGdA>
+ <xme:UFcnYSBdA_8BLcqnD7LUlKea5bJofE8NaW1flcZhKTXTCOh-n93nZOH3fdvFSZr7P
+ llMFRRgKqDWpxxLIRw>
+X-ME-Received: <xmr:UFcnYdG--SqUiJfMZ6CFNoNnHbkvgpL8Q-8BIFTC65qrtW3tO9WZfOOPhjGk4yXla5lUELhxZOiAVI_XcPCGawWOix225dZvmehX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduuddgtdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
+ jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:UFcnYSRxVRmQ_BO8DffA2O9zOrhZc7tfabpRM9SgTeVH_SpY6fVh2g>
+ <xmx:UFcnYaxIe07tQdDMMdlvPzUNIHwIMc5lX28SBIIwklK7IulH-SPhhg>
+ <xmx:UFcnYY4VP9UOWdyGiJWW3HabMKKK2VR1VRTMJEmFeZLBqK0CMPUi0Q>
+ <xmx:U1cnYVoKFt63Ne47mTAydzjn01gNIlF0gTkir8hQHwx3TYaUvyRFIg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 26 Aug 2021 04:56:48 -0400 (EDT)
+Date: Thu, 26 Aug 2021 10:56:46 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 2/8] drm/bridge: Document the probe issue with
+ MIPI-DSI bridges
+Message-ID: <20210826085646.3mj53any74jwnjmi@gilmour>
+References: <20210823084723.1493908-1-maxime@cerno.tech>
+ <CGME20210823084750eucas1p24cd5dd54a967f63fda4184773b98c135@eucas1p2.samsung.com>
+ <20210823084723.1493908-3-maxime@cerno.tech>
+ <792b1a4b-7a82-e633-0266-787205ae279a@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dfbzll24nb43ccgk"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <792b1a4b-7a82-e633-0266-787205ae279a@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,193 +96,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
-> Just a gentle ping. Daniel any more comments on this?
 
-Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
-this is just going to cause fails and reboots in our ci (we reboot on
-taints).
+--dfbzll24nb43ccgk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I'm not sure if the second patch will cause trouble with any unit test, but
-> I'm willing to try it. We can always trivial revert it.
+Hi Andrzej,
 
-See above, remove the igts and we should be fine I think. I don't think
-there's any selftests or kselftests, but checking that should be a quick
-grep at most.
--Daniel
-
-> 
-> Thanks,
-> Christian.
-> 
-> Am 18.08.21 um 12:54 schrieb Christian König:
-> > Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
-> > on a non existing config option to actually emit some code.
-> > 
-> > v2: keep the signal path as is for now
-> > 
-> > Signed-off-by: Christian König <christian.koenig@amd.com>
+On Mon, Aug 23, 2021 at 06:32:11PM +0200, Andrzej Hajda wrote:
+> Hi Maxime,
+>=20
+> On 23.08.2021 10:47, Maxime Ripard wrote:
+>=20
+> > Interactions between bridges, panels, MIPI-DSI host and the component
+> > framework are not trivial and can lead to probing issues when
+> > implementing a display driver. Let's document the various cases we need
+> > too consider, and the solution to support all the cases.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
-> >   drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
-> >   drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
-> >   include/linux/dma-fence.h                 | 22 ---------------------
-> >   4 files changed, 7 insertions(+), 67 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > index 0b1c48590c43..c65994e382bd 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
-> >   	struct amdgpu_fence_driver *drv = &ring->fence_drv;
-> >   	struct amdgpu_device *adev = ring->adev;
-> >   	uint32_t seq, last_seq;
-> > -	int r;
-> >   	do {
-> >   		last_seq = atomic_read(&ring->fence_drv.last_seq);
-> > @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
-> >   		if (!fence)
-> >   			continue;
-> > -		r = dma_fence_signal(fence);
-> > -		if (!r)
-> > -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
-> > -		else
-> > -			BUG();
-> > -
-> > +		dma_fence_signal(fence);
-> >   		dma_fence_put(fence);
-> >   		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> >   		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
-> >   	if (!timer_pending(&ring->fence_drv.fallback_timer))
-> >   		amdgpu_fence_schedule_fallback(ring);
-> > -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
-> > -
-> >   	return true;
-> >   }
-> > diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-> > index 18f2c2e0dfb3..3f351d222cbb 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_fence.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-> > @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
-> >   	 */
-> >   	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
-> >   	if (seq >= fence->seq) {
-> > -		int ret = dma_fence_signal_locked(&fence->base);
-> > -
-> > -		if (!ret)
-> > -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
-> > -		else
-> > -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
-> > -
-> > +		dma_fence_signal_locked(&fence->base);
-> >   		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
-> >   		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
-> >   		dma_fence_put(&fence->base);
-> > -	} else
-> > -		DMA_FENCE_TRACE(&fence->base, "pending\n");
-> > +	}
-> >   	return 0;
-> >   }
-> > @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
-> >   	fence->fence_wake.func = radeon_fence_check_signaled;
-> >   	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
-> >   	dma_fence_get(f);
-> > -
-> > -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
-> >   	return true;
-> >   }
-> > @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
-> >   		return true;
-> >   	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
-> > -		int ret;
-> > -
-> > -		ret = dma_fence_signal(&fence->base);
-> > -		if (!ret)
-> > -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
-> > +		dma_fence_signal(&fence->base);
-> >   		return true;
-> >   	}
-> >   	return false;
-> > @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
-> >   {
-> >   	uint64_t seq[RADEON_NUM_RINGS] = {};
-> >   	long r;
-> > -	int r_sig;
-> >   	/*
-> >   	 * This function should not be called on !radeon fences.
-> > @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
-> >   		return r;
-> >   	}
-> > -	r_sig = dma_fence_signal(&fence->base);
-> > -	if (!r_sig)
-> > -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
-> > +	dma_fence_signal(&fence->base);
-> >   	return r;
-> >   }
-> > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> > index 69de2c76731f..3736746c47bd 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> > @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
-> >   void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
-> >   {
-> > -	int ret = dma_fence_signal(&fence->scheduled);
-> > -
-> > -	if (!ret)
-> > -		DMA_FENCE_TRACE(&fence->scheduled,
-> > -				"signaled from irq context\n");
-> > -	else
-> > -		DMA_FENCE_TRACE(&fence->scheduled,
-> > -				"was already signaled\n");
-> > +	dma_fence_signal(&fence->scheduled);
-> >   }
-> >   void drm_sched_fence_finished(struct drm_sched_fence *fence)
-> >   {
-> > -	int ret = dma_fence_signal(&fence->finished);
-> > -
-> > -	if (!ret)
-> > -		DMA_FENCE_TRACE(&fence->finished,
-> > -				"signaled from irq context\n");
-> > -	else
-> > -		DMA_FENCE_TRACE(&fence->finished,
-> > -				"was already signaled\n");
-> > +	dma_fence_signal(&fence->finished);
-> >   }
-> >   static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
-> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > index 6ffb4b2c6371..4cc119ab272f 100644
-> > --- a/include/linux/dma-fence.h
-> > +++ b/include/linux/dma-fence.h
-> > @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
-> >   struct dma_fence *dma_fence_allocate_private_stub(void);
-> >   u64 dma_fence_context_alloc(unsigned num);
-> > -#define DMA_FENCE_TRACE(f, fmt, args...) \
-> > -	do {								\
-> > -		struct dma_fence *__ff = (f);				\
-> > -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
-> > -			pr_info("f %llu#%llu: " fmt,			\
-> > -				__ff->context, __ff->seqno, ##args);	\
-> > -	} while (0)
-> > -
-> > -#define DMA_FENCE_WARN(f, fmt, args...) \
-> > -	do {								\
-> > -		struct dma_fence *__ff = (f);				\
-> > -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
-> > -			 ##args);					\
-> > -	} while (0)
-> > -
-> > -#define DMA_FENCE_ERR(f, fmt, args...) \
-> > -	do {								\
-> > -		struct dma_fence *__ff = (f);				\
-> > -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
-> > -			##args);					\
-> > -	} while (0)
-> > -
-> >   #endif /* __LINUX_DMA_FENCE_H */
-> 
+> >   Documentation/gpu/drm-kms-helpers.rst |  6 +++
+> >   drivers/gpu/drm/drm_bridge.c          | 58 +++++++++++++++++++++++++++
+> >   2 files changed, 64 insertions(+)
+> >
+> > diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/=
+drm-kms-helpers.rst
+> > index 10f8df7aecc0..ec2f65b31930 100644
+> > --- a/Documentation/gpu/drm-kms-helpers.rst
+> > +++ b/Documentation/gpu/drm-kms-helpers.rst
+> > @@ -157,6 +157,12 @@ Display Driver Integration
+> >   .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> >      :doc: display driver integration
+> >  =20
+> > +Special Care with MIPI-DSI bridges
+> > +----------------------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> > +   :doc: special care dsi
+> > +
+> >   Bridge Operations
+> >   -----------------
+> >  =20
+> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > index baff74ea4a33..794654233cf5 100644
+> > --- a/drivers/gpu/drm/drm_bridge.c
+> > +++ b/drivers/gpu/drm/drm_bridge.c
+> > @@ -96,6 +96,64 @@
+> >    * documentation of bridge operations for more details).
+> >    */
+> >  =20
+> > +/**
+> > + * DOC: special care dsi
+> > + *
+> > + * The interaction between the bridges and other frameworks involved in
+> > + * the probing of the display driver and the bridge driver can be
+> > + * challenging. Indeed, there's multiple cases that needs to be
+> > + * considered:
+> > + *
+> > + * - The display driver doesn't use the component framework and isn't a
+> > + *   MIPI-DSI host. In this case, the bridge driver will probe at some
+> > + *   point and the display driver should try to probe again by returni=
+ng
+> > + *   EPROBE_DEFER as long as the bridge driver hasn't probed.
+> > + *
+> > + * - The display driver doesn't use the component framework, but is a
+> > + *   MIPI-DSI host. The bridge device uses the MIPI-DCS commands to be
+> > + *   controlled. In this case, the bridge device is a child of the
+> > + *   display device and when it will probe it's assured that the displ=
+ay
+> > + *   device (and MIPI-DSI host) is present. The display driver will be
+> > + *   assured that the bridge driver is connected between the
+> > + *   &mipi_dsi_host_ops.attach and &mipi_dsi_host_ops.detach operation=
+s.
+> > + *   Therefore, it must run mipi_dsi_host_register() in its probe
+> > + *   function, and then run drm_bridge_attach() in its
+> > + *   &mipi_dsi_host_ops.attach hook.
+> > + *
+> > + * - The display driver uses the component framework and is a MIPI-DSI
+> > + *   host. The bridge device uses the MIPI-DCS commands to be
+> > + *   controlled. This is the same situation than above, and can run
+> > + *   mipi_dsi_host_register() in either its probe or bind hooks.
+> > + *
+> > + * - The display driver uses the component framework and is a MIPI-DSI
+> > + *   host. The bridge device uses a separate bus (such as I2C) to be
+> > + *   controlled. In this case, there's no correlation between the probe
+> > + *   of the bridge and display drivers, so care must be taken to avoid
+> > + *   an endless EPROBE_DEFER loop, with each driver waiting for the
+> > + *   other to probe.
+> > + *
+> > + * The ideal pattern to cover the last item (and all the others in the
+> > + * display driver case) is to split the operations like this:
+> > + *
+> > + * - In the display driver must run mipi_dsi_host_register() and
+> > + *   component_add in its probe hook. It will make sure that the
+> > + *   MIPI-DSI host sticks around, and that the driver's bind can be
+> > + *   called.
+>=20
+> I guess component_add is leftover from previous iteration (as you wrote=
+=20
+> few lines below) component_add should be called from dsi host attach=20
+> callback.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Indeed, I'll remove it
+
+> > + *
+> > + * - In its probe hook, the bridge driver must try to find its MIPI-DSI
+> > + *   host, register as a MIPI-DSI device and attach the MIPI-DSI device
+> > + *   to its host. The bridge driver is now functional.
+> > + *
+> > + * - In its &struct mipi_dsi_host_ops.attach hook, the display driver
+> > + *   can now add its component. Its bind hook will now be called and
+> > + *   since the bridge driver is attached and registered, we can now lo=
+ok
+> > + *   for and attach it.
+> > + *
+> > + * At this point, we're now certain that both the display driver and t=
+he
+> > + * bridge driver are functional and we can't have a deadlock-like
+> > + * situation when probing.
+> > + */
+> > +
+>=20
+> Beside small mistake the whole patch looks OK for me. Maybe it would be=
+=20
+> worth to mention what is the real cause of this "special DSI case" -=20
+> there is mutual dependency between two following entities in display chai=
+n:
+>=20
+> 1. display driver - it provides DSI bus, and requires drm_bridge or=20
+> drm_panel provided by child device.
+>=20
+> 2. bridge or panel with DSI transport - it requires DSI bus provided by=
+=20
+> display driver, and provides drm_bridge or drm_panel interface required=
+=20
+> by display driver.
+
+I was trying to explain it in the first part of this patch. Is there
+anything misleading there?
+
+> I guess similar issues can appear with other data/control bus-es,=20
+> apparently DSI case is the most common.
+
+The issue only presents itself when it's using a separate control bus
+actually. If it's controlled through DCS, the panel / bridge will be a
+children node of the DSI host and will only be probed when the host is
+registered, so we don't have this issue.
+
+> And one more thing - you use "display driver" term but this is also case=
+=20
+> of any bridge providing DSI bus - there are already 3 such bridges in=20
+> kernel - cdns, nwl, synopsys, tc358768, maybe "DSI host" would be better=
+=20
+> term.
+
+Good point, I'll change it.
+
+> And another thing - downstream device can be bridge or *panel*, it would=
+=20
+> be good to mention that panels also should follow this pattern.
+
+We're pretty much forced to do this with panels though. They don't have
+an attach hook unlike bridges so we don't have much other options than
+putting it in probe.
+
+> Btw this is another place where word bridge can be 1:1 replaced by word=
+=20
+> panel - it clearly suggest that DRM subsystem waits for brave men who=20
+> proposes patches unifying them, we would save lot of words, and lines of=
+=20
+> code if we could use drm_sink instead of "if (sink is bridge) do sth=20
+> else do sth-similar-but-with-drm_panel-interface".
+
+I agree. In the previous iteration I had this patch that was a step in
+this direction:
+https://lore.kernel.org/dri-devel/20210728133229.2247965-3-maxime@cerno.tec=
+h/
+
+Even though it's not relevant to this series anymore, I still plan on
+submitting it and converting as many users as possible (if my coccinelle
+skills allows me to at least).
+
+Maxime
+
+--dfbzll24nb43ccgk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYSdXTgAKCRDj7w1vZxhR
+xQTyAQDeyoP4blj3lnV14h3xpZT0ygLGV8h27f6dZz75hm4RngEA+IWYrkjnTVLs
+6ZSNtxNkmhNsKxWPxqM9FBIMfzghzQU=
+=5p/2
+-----END PGP SIGNATURE-----
+
+--dfbzll24nb43ccgk--
