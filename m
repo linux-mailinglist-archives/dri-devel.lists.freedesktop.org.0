@@ -1,67 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4998D3F87D7
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 14:44:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2BF3F87E1
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 14:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 689556E839;
-	Thu, 26 Aug 2021 12:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1122F6E838;
+	Thu, 26 Aug 2021 12:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CABEF6E839
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 12:44:35 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id i21so6030288ejd.2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 05:44:35 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75A866E837
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 12:46:29 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id i21so6042421ejd.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 05:46:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=AncdcBFmuzAW0S8RILLAlGBUQ7Ut1dIil3TO3zOlI84=;
- b=CWmnzOSoCGBgZIa1pKTXX5LDctxAuk9AS+UshcdrpkENmcE23zQuFawHH2V4E8nfFv
- PuGHxieJp0Zz2jrfGVak94cvf/6S7070vqQUnfO99tI3QkyrIo99+A66uuRN7Igjq4uN
- fdkdRUxp0mCr15BjOxjJZCdnGULFSFM0ka618=
+ bh=c0DTn/gZFqqKIUgqNkUcsfHUyWmc+KSD/W5j4bOPTps=;
+ b=LO8lp7H5krzAtKvdK8LmTRFax/kdawcvUN6EkNrS+Q5FfAnLmEMLkJpsP+LD1igd9C
+ iL08POiHYm0jdaiJiFQoSwHY196JQ0P9c1/fB0FIt3JgN5+y2E3XTjsMEvqlOmGyGT7q
+ NPWn3nTOqyJYU/Gy9UNCH+bQh4xTCVzbCkmic=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=AncdcBFmuzAW0S8RILLAlGBUQ7Ut1dIil3TO3zOlI84=;
- b=C8TlzAzfokK6zBBbWzbfWRkzDOtU5DEM3mEr9H+GmVLGi2pRKPKxHgQCX7Wi5e5wU3
- mQXm7KEIPxLzLCey5DDL1kIJPTnbDoLQt3mIQWy3iO/UBHqsXGEOx0AkIH6d8xrD/KqI
- Vf5joTWpjmuedaaMRaeUPJxoI/4QbgulRA4PY1Yi+YDMPanrs6NPVFG+8ZuU1V+nmETW
- 8S0t5Dbi/Gq4T/EQJd3pQl1TNR+l/64Dx02tMW6i9ObbzUMB+kTvAokWfonrs3q/pq6V
- uYumDcxP7jmJHHrTZDdZcrTP7aFz3vBQij7F4EPF63l+SnSA04NsCsWkgxEB7Kz+T1y5
- +Yyw==
-X-Gm-Message-State: AOAM531Hjb4tl3jVTXJkjwYqfuSOfLiJ0neUBc4mW0MGYWN6jgRmCgwr
- hqHxWYGCLvBzG782EV+qFNb1fw==
-X-Google-Smtp-Source: ABdhPJxKZ536xW29fxXwWEdQNiY1SePBxAwxXiiNHUMx7EQzpeshLrFEVw2A/hOqixiFqYliaf+MNQ==
-X-Received: by 2002:a17:907:76d8:: with SMTP id
- kf24mr4074832ejc.404.1629981874269; 
- Thu, 26 Aug 2021 05:44:34 -0700 (PDT)
+ bh=c0DTn/gZFqqKIUgqNkUcsfHUyWmc+KSD/W5j4bOPTps=;
+ b=rcTr/i5GtHlkONbaHtkCJamfZKMKF6if309o0BY6jhr5FBNZKQSLm62RiutFoIJMpv
+ qku0LGAaouohVwbz5goRL2lYEvciGUnej4kHAGF+LOJluqEZfEQ1qTcsRKtq6/FNeQTe
+ f6ZzKf1msMie3GpN+Mbksf9OPif1t12qw8fd7m6tAhtjlrTuz9Yp7BBlpG/E9mS/tIpW
+ Qz+RjQlqdhrP3WfURxaoJwBKF8dbBitxpJFTenD6+8TU9xpgGJAGX5ehyhPKyalO0lDw
+ WP5SnsurCzOCQYt2LfNdP+EovKlSCRXVNEHuyMccTQHjE4i0NSNKEO25aMN8oGSV/wAz
+ /HZA==
+X-Gm-Message-State: AOAM533EQE5TbSKTVaoKBZgtjMok0mdwbF9JzccA3RbZUoT5qCxcasnU
+ 4tokCPw/q3FytFVERBDLPgQLpw==
+X-Google-Smtp-Source: ABdhPJwz+Sp9u8mHC0XN4h/fp4H/YM6bsFOOXPTQsn5c2N/kmZO7DCk7REanS8FVc4sD4aioxtIgiw==
+X-Received: by 2002:a17:906:9a4e:: with SMTP id
+ aj14mr762492ejc.84.1629981988019; 
+ Thu, 26 Aug 2021 05:46:28 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id gl2sm1366348ejb.110.2021.08.26.05.44.33
+ by smtp.gmail.com with ESMTPSA id k15sm879346eji.34.2021.08.26.05.46.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 05:44:33 -0700 (PDT)
-Date: Thu, 26 Aug 2021 14:44:31 +0200
+ Thu, 26 Aug 2021 05:46:27 -0700 (PDT)
+Date: Thu, 26 Aug 2021 14:46:25 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Brost Matthew <matthew.brost@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/gt: Register the migrate
- contexts with their engines
-Message-ID: <YSeMr9cBPLOMXhyL@phenom.ffwll.local>
-References: <20210826104514.400352-1-thomas.hellstrom@linux.intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: "Liu, Monk" <Monk.Liu@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/sched: fix the bug of time out calculation(v3)
+Message-ID: <YSeNIe/LW7/2+7iz@phenom.ffwll.local>
+References: <1629953731-14629-1-git-send-email-Monk.Liu@amd.com>
+ <e000dc1a-8fe8-ea69-e16b-bf0b64d773f2@gmail.com>
+ <BL1PR12MB5269107A0A927EC3D7A7B6E784C79@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <7ad2d73a-cabd-b85b-0483-72a2177df86e@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210826104514.400352-1-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <7ad2d73a-cabd-b85b-0483-72a2177df86e@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,222 +77,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 26, 2021 at 12:45:14PM +0200, Thomas Hellström wrote:
-> Pinned contexts, like the migrate contexts need reset after resume
-> since their context image may have been lost. Also the GuC needs to
-> register pinned contexts.
+On Thu, Aug 26, 2021 at 02:37:40PM +0200, Christian König wrote:
+> Am 26.08.21 um 13:55 schrieb Liu, Monk:
+> > [AMD Official Use Only]
+> > 
+> > > > I'm not sure if the work_tdr is initialized when a maximum timeout is specified. Please double check.
+> > Ok, will do
+> > 
+> > > > BTW: Can we please drop the "tdr" naming from the scheduler? That is just a timeout functionality and not related to recovery in any way.
+> > We even do not start hardware recovery in a lot of cases now (when wave kill is successfully).
+> > 
+> > Umm, sounds reasonable, I can rename it to "to" with another patch
 > 
-> Add a list to struct intel_engine_cs where we add all pinned contexts on
-> creation, and traverse that list at resume time to reset the pinned
-> contexts.
-> 
-> This fixes the kms_pipe_crc_basic@suspend-read-crc-pipe-a selftest for now,
-> but proper LMEM backup / restore is needed for full suspend functionality.
-> However, note that even with full LMEM backup / restore it may be
-> desirable to keep the reset since backing up the migrate context images
-> must happen using memcpy() after the migrate context has become inactive,
-> and for performance- and other reasons we want to avoid memcpy() from
-> LMEM.
-> 
-> Also traverse the list at guc_init_lrc_mapping() calling
-> guc_kernel_context_pin() for the pinned contexts, like is already done
-> for the kernel context.
-> 
-> v2:
-> - Don't reset the contexts on each __engine_unpark() but rather at
->   resume time (Chris Wilson).
-> 
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Brost Matthew <matthew.brost@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Maybe more like job_timeout or timeout_work or something into that
+> direction.
 
-I guess it got lost, but I few weeks ago I stumbled over this and wondered
-why we're even setting up a separate context or at least why a separate vm
-compared to the gt->vm we have already?
+Yeah that's better. TO is even worse I think than TDR, which is at least
+somewhat well-known from the windows side.
 
-Even on chips with bazillions of copy engines the plan is that we only
-reserve a single one for kernel migrations, so there's not really a need
-for quite this much generality I think. Maybe check with Jon Bloomfield on
-this.
-
-Iirc I had also a few other questions on simplifying this area.
+Also would be good to polish the commit message a bit, there's a few typos
+and confusing wording.
 -Daniel
 
-
-> ---
->  drivers/gpu/drm/i915/gt/intel_context_types.h |  8 +++++++
->  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  4 ++++
->  drivers/gpu/drm/i915/gt/intel_engine_pm.c     | 23 +++++++++++++++++++
->  drivers/gpu/drm/i915/gt/intel_engine_pm.h     |  2 ++
->  drivers/gpu/drm/i915/gt/intel_engine_types.h  |  7 ++++++
->  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  3 +++
->  drivers/gpu/drm/i915/gt/mock_engine.c         |  1 +
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 10 +++++---
->  8 files changed, 55 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> index e54351a170e2..a63631ea0ec4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> @@ -152,6 +152,14 @@ struct intel_context {
->  	/** sseu: Control eu/slice partitioning */
->  	struct intel_sseu sseu;
->  
-> +	/**
-> +	 * pinned_contexts_link: List link for the engine's pinned contexts.
-> +	 * This is only used if this is a perma-pinned kernel context and
-> +	 * the list is assumed to only be manipulated during driver load
-> +	 * or unload time so no mutex protection currently.
-> +	 */
-> +	struct list_head pinned_contexts_link;
-> +
->  	u8 wa_bb_page; /* if set, page num reserved for context workarounds */
->  
->  	struct {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 332efea696a5..c606a4714904 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -320,6 +320,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->  
->  	BUILD_BUG_ON(BITS_PER_TYPE(engine->mask) < I915_NUM_ENGINES);
->  
-> +	INIT_LIST_HEAD(&engine->pinned_contexts_list);
->  	engine->id = id;
->  	engine->legacy_idx = INVALID_ENGINE;
->  	engine->mask = BIT(id);
-> @@ -875,6 +876,8 @@ intel_engine_create_pinned_context(struct intel_engine_cs *engine,
->  		return ERR_PTR(err);
->  	}
->  
-> +	list_add_tail(&ce->pinned_contexts_link, &engine->pinned_contexts_list);
-> +
->  	/*
->  	 * Give our perma-pinned kernel timelines a separate lockdep class,
->  	 * so that we can use them from within the normal user timelines
-> @@ -897,6 +900,7 @@ void intel_engine_destroy_pinned_context(struct intel_context *ce)
->  	list_del(&ce->timeline->engine_link);
->  	mutex_unlock(&hwsp->vm->mutex);
->  
-> +	list_del(&ce->pinned_contexts_link);
->  	intel_context_unpin(ce);
->  	intel_context_put(ce);
->  }
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> index 1f07ac4e0672..dacd62773735 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-> @@ -298,6 +298,29 @@ void intel_engine_init__pm(struct intel_engine_cs *engine)
->  	intel_engine_init_heartbeat(engine);
->  }
->  
-> +/**
-> + * intel_engine_reset_pinned_contexts - Reset the pinned contexts of
-> + * an engine.
-> + * @engine: The engine whose pinned contexts we want to reset.
-> + *
-> + * Typically the pinned context LMEM images lose or get their content
-> + * corrupted on suspend. This function resets their images.
-> + */
-> +void intel_engine_reset_pinned_contexts(struct intel_engine_cs *engine)
-> +{
-> +	struct intel_context *ce;
-> +
-> +	list_for_each_entry(ce, &engine->pinned_contexts_list,
-> +			    pinned_contexts_link) {
-> +		/* kernel context gets reset at __engine_unpark() */
-> +		if (ce == engine->kernel_context)
-> +			continue;
-> +
-> +		dbg_poison_ce(ce);
-> +		ce->ops->reset(ce);
-> +	}
-> +}
-> +
->  #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->  #include "selftest_engine_pm.c"
->  #endif
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> index 70ea46d6cfb0..8520c595f5e1 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> @@ -69,4 +69,6 @@ intel_engine_create_kernel_request(struct intel_engine_cs *engine)
->  
->  void intel_engine_init__pm(struct intel_engine_cs *engine);
->  
-> +void intel_engine_reset_pinned_contexts(struct intel_engine_cs *engine);
-> +
->  #endif /* INTEL_ENGINE_PM_H */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index bfbfe53c23dd..5ae1207c363b 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -307,6 +307,13 @@ struct intel_engine_cs {
->  
->  	struct intel_context *kernel_context; /* pinned */
->  
-> +	/**
-> +	 * pinned_contexts_list: List of pinned contexts. This list is only
-> +	 * assumed to be manipulated during driver load- or unload time and
-> +	 * does therefore not have any additional protection.
-> +	 */
-> +	struct list_head pinned_contexts_list;
-> +
->  	intel_engine_mask_t saturated; /* submitting semaphores too late? */
->  
->  	struct {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index dea8e2479897..c9bae2ef92df 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -192,6 +192,9 @@ static void gt_sanitize(struct intel_gt *gt, bool force)
->  
->  	intel_rps_sanitize(&gt->rps);
->  
-> +	for_each_engine(engine, gt, id)
-> +		intel_engine_reset_pinned_contexts(engine);
-> +
->  	intel_uncore_forcewake_put(gt->uncore, FORCEWAKE_ALL);
->  	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
->  }
-> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
-> index 2c1af030310c..8a14982a9691 100644
-> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
-> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
-> @@ -376,6 +376,7 @@ int mock_engine_init(struct intel_engine_cs *engine)
->  {
->  	struct intel_context *ce;
->  
-> +	INIT_LIST_HEAD(&engine->pinned_contexts_list);
->  	engine->sched_engine = i915_sched_engine_create(ENGINE_MOCK);
->  	if (!engine->sched_engine)
->  		return -ENOMEM;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 87d8dc8f51b9..55709206b95e 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -2385,9 +2385,13 @@ static inline void guc_init_lrc_mapping(struct intel_guc *guc)
->  	 * and even it did this code would be run again.
->  	 */
->  
-> -	for_each_engine(engine, gt, id)
-> -		if (engine->kernel_context)
-> -			guc_kernel_context_pin(guc, engine->kernel_context);
-> +	for_each_engine(engine, gt, id) {
-> +		struct intel_context *ce;
-> +
-> +		list_for_each_entry(ce, &engine->pinned_contexts_list,
-> +				    pinned_contexts_link)
-> +			guc_kernel_context_pin(guc, ce);
-> +	}
->  }
->  
->  static void guc_release(struct intel_engine_cs *engine)
-> -- 
-> 2.31.1
+> Christian.
+> 
+> > 
+> > Thanks
+> > 
+> > ------------------------------------------
+> > Monk Liu | Cloud-GPU Core team
+> > ------------------------------------------
+> > 
+> > -----Original Message-----
+> > From: Christian König <ckoenig.leichtzumerken@gmail.com>
+> > Sent: Thursday, August 26, 2021 6:09 PM
+> > To: Liu, Monk <Monk.Liu@amd.com>; amd-gfx@lists.freedesktop.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Subject: Re: [PATCH] drm/sched: fix the bug of time out calculation(v3)
+> > 
+> > Am 26.08.21 um 06:55 schrieb Monk Liu:
+> > > issue:
+> > > in cleanup_job the cancle_delayed_work will cancel a TO timer even the
+> > > its corresponding job is still running.
+> > Yeah, that makes a lot more sense.
+> > 
+> > > fix:
+> > > do not cancel the timer in cleanup_job, instead do the cancelling only
+> > > when the heading job is signaled, and if there is a "next" job we
+> > > start_timeout again.
+> > > 
+> > > v2:
+> > > further cleanup the logic, and do the TDR timer cancelling if the
+> > > signaled job is the last one in its scheduler.
+> > > 
+> > > v3:
+> > > change the issue description
+> > > remove the cancel_delayed_work in the begining of the cleanup_job
+> > > recover the implement of drm_sched_job_begin.
+> > > 
+> > > TODO:
+> > > 1)introduce pause/resume scheduler in job_timeout to serial the
+> > > handling of scheduler and job_timeout.
+> > > 2)drop the bad job's del and insert in scheduler due to above
+> > > serialization (no race issue anymore with the serialization)
+> > > 
+> > > Signed-off-by: Monk Liu <Monk.Liu@amd.com>
+> > > ---
+> > >    drivers/gpu/drm/scheduler/sched_main.c | 25 ++++++++++---------------
+> > >    1 file changed, 10 insertions(+), 15 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > index a2a9536..ecf8140 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -676,13 +676,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+> > >    {
+> > >    	struct drm_sched_job *job, *next;
+> > > -	/*
+> > > -	 * Don't destroy jobs while the timeout worker is running  OR thread
+> > > -	 * is being parked and hence assumed to not touch pending_list
+> > > -	 */
+> > > -	if ((sched->timeout != MAX_SCHEDULE_TIMEOUT &&
+> > > -	    !cancel_delayed_work(&sched->work_tdr)) ||
+> > > -	    kthread_should_park())
+> > > +	if (kthread_should_park())
+> > >    		return NULL;
+> > >    	spin_lock(&sched->job_list_lock);
+> > > @@ -693,17 +687,21 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+> > >    	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+> > >    		/* remove job from pending_list */
+> > >    		list_del_init(&job->list);
+> > > +
+> > > +		/* cancel this job's TO timer */
+> > > +		cancel_delayed_work(&sched->work_tdr);
+> > I'm not sure if the work_tdr is initialized when a maximum timeout is specified. Please double check.
+> > 
+> > BTW: Can we please drop the "tdr" naming from the scheduler? That is just a timeout functionality and not related to recovery in any way.
+> > 
+> > We even do not start hardware recovery in a lot of cases now (when wave kill is successfully).
+> > 
+> > Regards,
+> > Christian.
+> > 
+> > >    		/* make the scheduled timestamp more accurate */
+> > >    		next = list_first_entry_or_null(&sched->pending_list,
+> > >    						typeof(*next), list);
+> > > -		if (next)
+> > > +
+> > > +		if (next) {
+> > >    			next->s_fence->scheduled.timestamp =
+> > >    				job->s_fence->finished.timestamp;
+> > > -
+> > > +			/* start TO timer for next job */
+> > > +			drm_sched_start_timeout(sched);
+> > > +		}
+> > >    	} else {
+> > >    		job = NULL;
+> > > -		/* queue timeout for next job */
+> > > -		drm_sched_start_timeout(sched);
+> > >    	}
+> > >    	spin_unlock(&sched->job_list_lock);
+> > > @@ -791,11 +789,8 @@ static int drm_sched_main(void *param)
+> > >    					  (entity = drm_sched_select_entity(sched))) ||
+> > >    					 kthread_should_stop());
+> > > -		if (cleanup_job) {
+> > > +		if (cleanup_job)
+> > >    			sched->ops->free_job(cleanup_job);
+> > > -			/* queue timeout for next job */
+> > > -			drm_sched_start_timeout(sched);
+> > > -		}
+> > >    		if (!entity)
+> > >    			continue;
 > 
 
 -- 
