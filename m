@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236493F804D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 04:05:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC173F8055
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 04:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F476E47B;
-	Thu, 26 Aug 2021 02:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C69B06E49C;
+	Thu, 26 Aug 2021 02:05:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB8416E47B
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 02:04:58 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id e1so774526plt.11
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 19:04:58 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C71076E47B
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 02:04:59 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id u15so767436plg.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 19:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ajCOl6yHGho0BEiRDbnOPNHUTJrTamIpc423knAj518=;
- b=lVodEgTZQHvACgxEUa+//0pOf2p5kjhpH1xxymuSJZ73/ivS/PkzABGE2uLASC+FU1
- Yu18dF06MAL8G2a21JbPmqVzPHtRDd+TxCgouOxKsCecDL/LjRRVq073PzVFC9gZJT3k
- 71T8WOq12ruZKN1qUHSyPIurH+IpQRGoNUjaU=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JaJZf2tGQVF+G0bzFRCFu7flyK66rvgq3U2niCjd6Q0=;
+ b=X0k2S5uqP6GySYcYgmy+U2c4tqMvQp2tUgfD1dejH+eE6BCmBHOmA6yERrtp/4uPw7
+ KWM+9/TozV4nvHvObBz2Tu8Gu/GMQk/BRyG9Ky4vbPGhYXXQ32P20IdA572N2zGPFVmq
+ BUbdZ1VUU9rXSQWzKuxgJfugwpwDoAxD3SBRk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ajCOl6yHGho0BEiRDbnOPNHUTJrTamIpc423knAj518=;
- b=Vgck3icc68LlsnO7uspU1eaUCo2jaL4RmniyEFpouw2+z2bsmyqvHlZ6e1pnMbIwzP
- na+xGI5gAVWDlq2UHnn9uj6tOZO7gWGFz2wbKC6FE122iZSJy7fffXCrsAXkpImZxtng
- UFkx8JlN8pBvpzqQBXJiO4PkNwYMUNx3cusasCXxTGiaFNTwdiFVcwJ8KuZrDQGoO4cp
- UBT/tsaAngl0gAJo85Jv6PbfENu/nUxjLOJoQItggIevn1faCvIfibp/bXezXWzHCxyl
- 8BAAqtAib6lAigIHlk8syPYxxK9hmR2YBhxUF6lf6bemvm1ldtUyyNC4cgyIA2cER8xG
- cUtA==
-X-Gm-Message-State: AOAM532XP6HeeE74LmjVsW5PRBkZ2U4kqz3HujaJK9pp8uaZ6/QxCyZo
- VagOCCvgQx/089x9GnQEJ1A3v29QEXOo2A==
-X-Google-Smtp-Source: ABdhPJxobYO695VB8jb5mnGTCtpGJpQqdCbXjCzpa57v60J4ThRsZCz2y/+Np5xRvnZBPyVEIu2SyQ==
-X-Received: by 2002:a17:90a:3e84:: with SMTP id
- k4mr13976916pjc.68.1629943498061; 
- Wed, 25 Aug 2021 19:04:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=JaJZf2tGQVF+G0bzFRCFu7flyK66rvgq3U2niCjd6Q0=;
+ b=W6E7mP1aCiFzeTSrS0ZKN85xt5pp1MsJ1Hd4QjRWMU0QmlNTDDbUVRNZ+OiLnSUgEl
+ MA7Eqf5wjaDal+LPwFl6ggWGxlnQyAOEFQ9iZn9jJuKH6FAujExuf3OXVxmQVHPmWGnV
+ TtOyzoEWIl5hr7V/GbzCtOe2ejfLRzsaU651SHP7nmwzMEiRYlOoQnRmpTG+MRRtcTRF
+ 2PQA+X+7kJIJsTuMKb6aIHFMupZQH05Kf+pcudRkEQLDobL/UiiHFGkEAo3wA3CRtcRl
+ tFjoRLceLecJsSJKPkueoIB3YX/+mk18/uGwJI3skWXaTUP8GxpN/Go8qPd9L7dgbhqL
+ Ae2w==
+X-Gm-Message-State: AOAM5304sXs35WFw3EP2j9WQPyqveFymN/n1DykJUPWbBHu9lDXqD3Ds
+ 9tmBDFCf9CSJdJ9NOWbULaTs8JcUP6pnfg==
+X-Google-Smtp-Source: ABdhPJxzwy1Oy/DLu4J+k+tYt70U19IjCFWqqjR2fjrOCBXolz8wYVSjGwa8zVPfGHU3jNUmJWaUjQ==
+X-Received: by 2002:a17:90a:4894:: with SMTP id
+ b20mr1451939pjh.13.1629943499252; 
+ Wed, 25 Aug 2021 19:04:59 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:faed:1e29:6bf7:3354])
- by smtp.gmail.com with ESMTPSA id o10sm704987pjg.34.2021.08.25.19.04.56
+ by smtp.gmail.com with ESMTPSA id o10sm704987pjg.34.2021.08.25.19.04.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 19:04:57 -0700 (PDT)
+ Wed, 25 Aug 2021 19:04:58 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
 Cc: kraxel@redhat.com
-Subject: [RFC PATCH 00/12] -- 2021: The year of the context type
-Date: Wed, 25 Aug 2021 19:04:43 -0700
-Message-Id: <20210826020455.1081-1-gurchetansingh@chromium.org>
+Subject: [RFC PATCH 01/12] virtio-gpu api: multiple context types with
+ explicit initialization
+Date: Wed, 25 Aug 2021 19:04:44 -0700
+Message-Id: <20210826020455.1081-2-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210826020455.1081-1-gurchetansingh@chromium.org>
+References: <20210826020455.1081-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,129 +72,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear all,
+This feature allows for each virtio-gpu 3D context to be created
+with a "context_init" variable.  This variable can specify:
 
-I'm excited to share with you a ground-breaking and dare I say it even
-shocking discovery in graphics virtualization.
+ - the type of protocol used by the context via the capset id.
+   This is useful for differentiating virgl, gfxstream, and venus
+   protocols by host userspace.
 
-The critics are raving -- many keen observers of VM graphics are
-proclaiming 2021 to be "the year of the context type", eclipsing the
-revolutionary blob resource of 2020.
+ - other things in the future, such as the version of the context.
 
-The hype is justified; context types makes virtio-gpu 3D extensible,
-opening the door to new designs and APIs.  Traditionally, virtio-gpu
-3D is designed around the Gallium Virgl protocol and the host-side
-virglrenderer implementation (as reflected with VIRTIO_GPU_F_VIRGL).
+In addition, each different context needs one or more timelines, so
+for example a virgl context's waiting can be independent on a
+gfxstream context's waiting.
 
-With VIRTIO_GPU_F_VIRGL + VIRTIO_GPU_F_CONTEXT_INIT, GPU/display
-virtualization defined by the context type is possible.  It's entirely
-possible the virglrenderer project isn't available on the host in this
-scenario.
+VIRTIO_GPU_FLAG_INFO_RING_IDX is introduced to specific to tell the
+host which per-context command ring (or "hardware queue", distinct
+from the virtio-queue) the fence should be associated with.
 
-For example, the "gfxstream" [a] library is designed around (mostly) 1:1
-auto-generated encode/decode of rendering commands.  This is in contrast
-to virgl, which has a Gallium intermediate layer that can be complex.
-The Address Space Graphics (ASG) ring-buffer is used to stream these APIs
-while minimizing syscall and vm-exit overhead (somewhat like io_uring).
+The new capability sets (gfxstream, venus etc.) are only defined in
+the virtio-gpu spec and not defined in the header.
 
-The gfxstream library has been supporting GLES virtualization since 2011,
-and CTS-compliant Vulkan virtualization since 2018.
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Acked-by: Lingfeng Yang <lfy@google.com>
+---
+ include/uapi/linux/virtio_gpu.h | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-gfxstream is used in a wide range of products, from the Cuttlefish [b] to
-the Android Studio emulator [c].
-
-With context types, both virglrenderer and gfxstream can formally use
-virtio-gpu as the transport [d].
-
-                      GFXSTREAM DESIGN
-   _________            __________          __________
-  |         |          |          |        |          |
-  | RENDER  |          |  GLES    |        | VULKAN   |
-  | CONTROL |          |  ENCODER |        | CEREAL   |     GUEST
-  | ENCODER |          |          |        | ENCODER  |     ENCODERS
-  |_________|          |__________|        |__________|
-       ^                    ^                    ^
-       |                    |                    | <--------- ASG ring
-       |                    |                    |
- - - - | - - - - - - - - -  | - - - - - - - - -  | - - - - - virtio-gpu
-       |                    |                    |
-   ____v____            ____v_____          _____v____
-  |         |          |          |        |          |
-  | RENDER  |          |  GLES    |        | VULKAN   |
-  | CONTROL |          |  DECODER |        | CEREAL   |     GUEST
-  | DECODER |          |          |        | DECODER  |     DECODERS
-  |_________|          |__________|        |__________|
-  |         |          |          |        |          |     GRAPHICS
-  | EGL/GLX |          |  GLES    |        |  Vulkan  |     LIBRARIES
-  |_________|          |__________|        |__________|
-
-Indeed, context types are versatile enough to support display
-virtualization too [e].  For example, one can passthrough guest Wayland
-commands to enable seamless windowing.
-
-1) Weston [guest] -> DRM/KMS virtio-gpu 2d -> VMM virtgpu 2d -> compositor
-2) Sommelier [guest] -> virtio-gpu 3d -> VMM virtgpu context -> compositor
-
-(1) is traditionally used, but (2) avoids API translations and has more
-features.  Wayland passthrough has been used laptops for many years.  Here
-are some videos on the subject:
-
-https://www.youtube.com/watch?v=WwrXqDERFm8
-https://www.youtube.com/watch?v=EkNBsBx501Q
-
-With context types, seamless wayland windowing will be available to a wider
-audience.
-
-For virglrenderer, context types enable distinction between the virgl [f]
-and the auto-generated "Venus" vulkan protocols [g].
-
-In the future, GPU compute APIs or even vendor-specific protocols can use
-the context type mechanism too.
-
-Context types have been tested with crosvm and the feature is available on
-the main branch.
-
-[a] https://android.googlesource.com/device/generic/vulkan-cereal/
-[b] https://source.android.com/setup/create/cuttlefish-ref-gpu
-[c] https://developer.android.com/studio/run/emulator
-[d] https://android.googlesource.com/device/generic/goldfish-opengl/+/refs/heads/master/system/vulkan_enc/ResourceTracker.cpp#1052
-[e] https://chromium.googlesource.com/chromiumos/platform2/+/main/vm_tools/sommelier/virtualization/virtgpu_channel.cc#221
-[f] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/7712
-[g] https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/virtio/vulkan/vn_renderer_virtgpu.c#L63
-
-Anthoine Bourgeois (2):
-  drm/virtio: implement context init: probe for feature
-  drm/virtio: implement context init: support init ioctl
-
-Gurchetan Singh (10):
-  virtio-gpu api: multiple context types with explicit initialization
-  drm/virtgpu api: create context init feature
-  drm/virtio: implement context init: track valid capabilities in a mask
-  drm/virtio: implement context init: track {ring_idx, emit_fence_info}
-    in virtio_gpu_fence
-  drm/virtio: implement context init: plumb {base_fence_ctx, ring_idx}
-    to virtio_gpu_fence_alloc
-  drm/virtio: implement context init: stop using drv->context when
-    creating fence
-  drm/virtio: implement context init: allocate an array of fence
-    contexts
-  drm/virtio: implement context init: handle
-    VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK
-  drm/virtio: implement context init: add virtio_gpu_fence_event
-  drm/virtio: implement context init: advertise feature to userspace
-
- drivers/gpu/drm/virtio/virtgpu_debugfs.c |   1 +
- drivers/gpu/drm/virtio/virtgpu_drv.c     |  44 ++++-
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  28 +++-
- drivers/gpu/drm/virtio/virtgpu_fence.c   |  30 +++-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c   | 194 +++++++++++++++++++++--
- drivers/gpu/drm/virtio/virtgpu_kms.c     |  26 ++-
- drivers/gpu/drm/virtio/virtgpu_plane.c   |   3 +-
- drivers/gpu/drm/virtio/virtgpu_vq.c      |  19 +--
- include/uapi/drm/virtgpu_drm.h           |  27 ++++
- include/uapi/linux/virtio_gpu.h          |  18 ++-
- 10 files changed, 354 insertions(+), 36 deletions(-)
-
+diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
+index 97523a95781d..cf3c8a7eb888 100644
+--- a/include/uapi/linux/virtio_gpu.h
++++ b/include/uapi/linux/virtio_gpu.h
+@@ -59,6 +59,11 @@
+  * VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB
+  */
+ #define VIRTIO_GPU_F_RESOURCE_BLOB       3
++/*
++ * VIRTIO_GPU_CMD_CREATE_CONTEXT with
++ * context_init
++ */
++#define VIRTIO_GPU_F_CONTEXT_INIT        4
+ 
+ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_UNDEFINED = 0,
+@@ -122,14 +127,20 @@ enum virtio_gpu_shm_id {
+ 	VIRTIO_GPU_SHM_ID_HOST_VISIBLE = 1
+ };
+ 
+-#define VIRTIO_GPU_FLAG_FENCE (1 << 0)
++#define VIRTIO_GPU_FLAG_FENCE         (1 << 0)
++/*
++ * If the following flag is set, the lower 5 bits of info contains the index
++ * of the command ring that needs to used when creating the fence
++ */
++#define VIRTIO_GPU_FLAG_INFO_RING_IDX (1 << 1)
+ 
++#define VIRTIO_GPU_INFO_RING_IDX_MASK 0x0000001f
+ struct virtio_gpu_ctrl_hdr {
+ 	__le32 type;
+ 	__le32 flags;
+ 	__le64 fence_id;
+ 	__le32 ctx_id;
+-	__le32 padding;
++	__le32 info;
+ };
+ 
+ /* data passed in the cursor vq */
+@@ -269,10 +280,11 @@ struct virtio_gpu_resource_create_3d {
+ };
+ 
+ /* VIRTIO_GPU_CMD_CTX_CREATE */
++#define VIRTIO_GPU_CONTEXT_INIT_CAPSET_ID_MASK 0x0000003f
+ struct virtio_gpu_ctx_create {
+ 	struct virtio_gpu_ctrl_hdr hdr;
+ 	__le32 nlen;
+-	__le32 padding;
++	__le32 context_init;
+ 	char debug_name[64];
+ };
+ 
 -- 
 2.33.0.259.gc128427fd7-goog
 
