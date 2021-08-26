@@ -2,36 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B643F7FB1
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 03:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC963F7FBE
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 03:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE416E453;
-	Thu, 26 Aug 2021 01:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A78E6E45C;
+	Thu, 26 Aug 2021 01:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29EEE6E453
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 01:16:07 +0000 (UTC)
-Received: from maud (unknown [IPv6:2600:8800:8c06:1000::c8f3])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: alyssa)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8DEC01F43E22;
- Thu, 26 Aug 2021 02:15:55 +0100 (BST)
-Date: Wed, 25 Aug 2021 21:15:45 -0400
-From: Alyssa Rosenzweig <alyssa@collabora.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/cma-helper: Set VM_DONTEXPAND for mmap
-Message-ID: <YSbrQUNXx8vIugF7@maud>
-References: <1c68be0449aa3217e2bbc898dd8c7426748fc6b8.1629902585.git.robin.murphy@arm.com>
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB5426E457
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 01:19:17 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ n1-20020a4ac7010000b0290262f3c22a63so394109ooq.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Aug 2021 18:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=pMEYeQ5q1Ljq7RCcgbyvAyGrNej+EFBY9zbAdIRIdF8=;
+ b=NhrGT6GzQFV+9/cdB57tP92jyn9EG5QfIpEhiPDZ4mpxnF8I9IDZ/81f0dFiujSo7b
+ JpjHlq3NazHVfSNNQMkKHmAyqxhdqgHYMxmX61QkXGCX8cM95uLVKqgXb4dNQy42IMAK
+ pB1sI1ZaWXYCep+QHy0y8K7qTwWK20ggRmViM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=pMEYeQ5q1Ljq7RCcgbyvAyGrNej+EFBY9zbAdIRIdF8=;
+ b=kjcExFvtCQjvCm78JQkab8Kn1wd7RGTBWESNJ1lbwnZuRQJVUdJC+S/0kUfrhUEg90
+ So1qMwpf5+xasI96u4L0r/Y0CGa5lUyi9kmO05uHtLgGnHSOgqgu/Q3gnpGN40mRzbGq
+ 2UIk6W/kiBvVy2CPvp9CVd38KA5MWQ3Gp5SHMcm0hZruzwBnrvx+ssalCYKD5xiiedPu
+ tAgSIQobyeR0TfhiNA3KP5JphZRWhLJ0IXpf3TlSMIYsVuqxCBsThNH/aRAQymJHvy4L
+ BAaEO54ZLWoNiRIOkz6Wk26/iY2fx4Eyfg846JwkpAzz8ZsjSsF1P0bIUy6ICB265cQ0
+ iAuQ==
+X-Gm-Message-State: AOAM531AAdiMmjHBgol5nO90T71nq5mDITbo7xlMPe0Rpy6fiI7LVOCC
+ eELXEl49ScXJ3B1wt3Lu0HhBWhdCAcEgVw4LiK2c/g==
+X-Google-Smtp-Source: ABdhPJxomUf9wQZ9jtRySIGLFv4shWsL8IPxBTC8ui4hVyxgpcgUn6qSY5GKjS1RD2eDnA8/l8osgey4KpfBW93K2J0=
+X-Received: by 2002:a4a:a841:: with SMTP id p1mr987058oom.92.1629940756961;
+ Wed, 25 Aug 2021 18:19:16 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 26 Aug 2021 01:19:16 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1c68be0449aa3217e2bbc898dd8c7426748fc6b8.1629902585.git.robin.murphy@arm.com>
+In-Reply-To: <20210825222557.1499104-4-bjorn.andersson@linaro.org>
+References: <20210825222557.1499104-1-bjorn.andersson@linaro.org>
+ <20210825222557.1499104-4-bjorn.andersson@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Thu, 26 Aug 2021 01:19:16 +0000
+Message-ID: <CAE-0n53ZVf7E0q_cMEmuQH7q+xytRd-pjerrNnoVHBwqGMr6ZA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] drm/msm/dp: Refactor ioremap wrapper
+To: Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rob Clark <robdclark@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>
+Cc: Kuogee Hsieh <khsieh@codeaurora.org>, Tanmay Shah <tanmay@codeaurora.org>, 
+ Chandan Uddaraju <chandanu@codeaurora.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,30 +75,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> drm_gem_cma_mmap() cannot assume every implementation of dma_mmap_wc()
-> will end up calling remap_pfn_range() (which happens to set the relevant
-> vma flag, among others), so in order to make sure expectations around
-> VM_DONTEXPAND are met, let it explicitly set the flag like most other
-> GEM mmap implementations do.
-> 
-> This avoids repeated warnings on a small minority of systems where the
-> display is behind an IOMMU, and has a simple driver which does not
-> override drm_gem_cma_default_funcs.
+Quoting Bjorn Andersson (2021-08-25 15:25:55)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
+> index c064ced78278..215065336268 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> @@ -19,40 +19,30 @@ static const struct dp_regulator_cfg sdm845_dp_reg_cfg = {
+>         },
+>  };
+>
+> -static int msm_dss_ioremap(struct platform_device *pdev,
+> -                               struct dss_io_data *io_data)
+> +static void __iomem *dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
+>  {
+> -       struct resource *res = NULL;
+> +       struct resource *res;
+>
+> -       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +       res = platform_get_resource(pdev, IORESOURCE_MEM, idx);
+>         if (!res) {
+>                 DRM_ERROR("%pS->%s: msm_dss_get_res failed\n",
+>                         __builtin_return_address(0), __func__);
 
-Apple system-on-chips have their display behind an IOMMU. Actually, a
-separate IOMMU for each display, and a separate IOMMU for each display
-controller -- so there are 4 IOMMUs total for display on the M1.
+This error can be removed too, right? At least I thought passing in NULL
+as 'res' to devm_ioremap_resource() did that. It actually looks like we
+can use devm_platform_get_and_ioremap_resource() and then pass in &res
 
-I've tested this patch against my work-in-progress display driver for
-the M1. It indeed fixes the annoying warnings every frame (wayland) and
-on mode setting (x11). So this is
+	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+	if (!IS_ERR(base))
+		*len = resource_size(res);
 
-	Tested-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+	return base;
 
-I've cherry-picked the patch into my M1 staging/downstream tree, so I
-guess that's an Acked-by. I don't know anything about the vm_* stuff in
-the kernel yet, though, since can't give a reviewed-by. Will leave that
-one to the pro's.
+> -               return -ENODEV;
+> +               return ERR_PTR(-ENODEV);
+>         }
+>
+> -       io_data->len = (u32)resource_size(res);
+> -       io_data->base = devm_ioremap(&pdev->dev, res->start, io_data->len);
+> -       if (!io_data->base) {
+> -               DRM_ERROR("%pS->%s: ioremap failed\n",
+> -                       __builtin_return_address(0), __func__);
+> -               return -EIO;
+> -       }
+> -
+> -       return 0;
+> +       *len = resource_size(res);
+> +       return devm_ioremap_resource(&pdev->dev, res);
+>  }
+>
+>  static int dp_parser_ctrl_res(struct dp_parser *parser)
+>  {
+> -       int rc = 0;
+>         struct platform_device *pdev = parser->pdev;
+>         struct dp_io *io = &parser->io;
+> +       struct dss_io_data *dss = &io->dp_controller;
+>
+> -       rc = msm_dss_ioremap(pdev, &io->dp_controller);
+> -       if (rc) {
+> -               DRM_ERROR("unable to remap dp io resources, rc=%d\n", rc);
+> -               return rc;
+> -       }
+> +       dss->base = dp_ioremap(pdev, 0, &dss->len);
+> +       if (IS_ERR(dss->base))
+> +               return PTR_ERR(dss->base);
+>
+>         io->phy = devm_phy_get(&pdev->dev, "dp");
+>         if (IS_ERR(io->phy))
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
+> index 34b49628bbaf..dc62e70b1640 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+> @@ -26,7 +26,7 @@ enum dp_pm_type {
+>  };
+>
+>  struct dss_io_data {
+> -       u32 len;
+> +       size_t len;
 
-I know you were trying to fix an HDLCD issue, but I needed this patch
-too, so thank you! 😄
+len is a resource_size_t above, not sure if that really matters in
+practice to indicate it here though.
+
+>         void __iomem *base;
+>  };
+>
