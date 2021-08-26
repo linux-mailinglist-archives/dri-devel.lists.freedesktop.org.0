@@ -1,65 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40803F83E7
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 10:49:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB483F83FA
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Aug 2021 10:55:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3D646E55C;
-	Thu, 26 Aug 2021 08:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B6486E563;
+	Thu, 26 Aug 2021 08:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADE16E55C
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 08:49:24 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- o39-20020a05600c512700b002e74638b567so1707829wms.2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Aug 2021 01:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=YeOmq+WUoZEJToxOrrtfRYaO5WuPJc4okNIzqOKtUk8=;
- b=MzRr+4ND9e8yAxsG6UDQdCI8eKqkhzAB9yN9IpDtrZpK15uIAK00HxcSo3juHjNL16
- mOeqICqT1Bk9252Tbj3ZXw9V5I64p1P5jTflIABf9jUdV5/wsdEw/IVEX1fZpaw73iSo
- L2XqadsVf7VAXwkBpNJafTv/bWN9zU7WCf3uI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YeOmq+WUoZEJToxOrrtfRYaO5WuPJc4okNIzqOKtUk8=;
- b=iCnAXOQW8BeKKSdYjMOx73T6xsjUDiCUhjYZn2NlXFJgAV4vS2ntNE9HGFJeaDe7qM
- klUCvB+1TnYvMbKed5BagfgOxeMUfQRmoDduGsMDqgRH96sezGcvwwhh67Omw1J77Ak7
- wjFe3FEpDTw4TZoGDwV5NUC+Jd44NDtHvHSsE5VRqn97gNkfmk7YrJWgsVmSLF7ZBOMr
- YhlB4/cr9sf7A/pl7C31pqSGt80a+ox4KjzW/g6llNcxPqGqO/85JQRiklC5bXu5lGOt
- PZhTu24gg1pQVqTPgO94IpTuEpxf/HAo73kd7mW9shMZJDbfm3P//l4UbT/HI9i2d+wp
- 96OQ==
-X-Gm-Message-State: AOAM530yPkIwQTKbgx/ZD+YGB6eIc/mBEJ0mr4lcszU8Wj85cF2m2Y7g
- tfw0jQVE1UcUKZRGZsjIjCdF2w==
-X-Google-Smtp-Source: ABdhPJyP4nEP74chVJb3gK4NgI8XVs2PzaOvxBoiWgwn2jIVPFxvfGBRs2KsUu022Ox90DP5yDSpCw==
-X-Received: by 2002:a7b:cb02:: with SMTP id u2mr13154653wmj.103.1629967762533; 
- Thu, 26 Aug 2021 01:49:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l18sm8795875wmc.30.2021.08.26.01.49.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 01:49:21 -0700 (PDT)
-Date: Thu, 26 Aug 2021 10:49:20 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- daniel.vetter@ffwll.ch, airlied@gmail.com, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/5] drm/vmwgfx: unbind in vmw_ttm_unpopulate
-Message-ID: <YSdVkNcKLG8j7uP/@phenom.ffwll.local>
-References: <20210728130552.2074-1-christian.koenig@amd.com>
- <eebf6fc4-c299-6aa7-f91c-16029c5c3444@gmail.com>
- <3ad5188659ce362087db1980880ac47af60e639f.camel@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4197B6E563;
+ Thu, 26 Aug 2021 08:55:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="214575359"
+X-IronPort-AV: E=Sophos;i="5.84,353,1620716400"; d="scan'208";a="214575359"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2021 01:55:29 -0700
+X-IronPort-AV: E=Sophos;i="5.84,353,1620716400"; d="scan'208";a="527761366"
+Received: from jwhogabo-mobl2.amr.corp.intel.com (HELO localhost)
+ ([10.249.45.163])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2021 01:55:27 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Subject: Re: [PATCH 21/33] drm/i915/guc: Connect reset modparam updates to GuC
+ policy flags
+In-Reply-To: <20210727002348.97202-22-matthew.brost@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210727002348.97202-1-matthew.brost@intel.com>
+ <20210727002348.97202-22-matthew.brost@intel.com>
+Date: Thu, 26 Aug 2021 11:55:23 +0300
+Message-ID: <87tujcd1qc.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3ad5188659ce362087db1980880ac47af60e639f.camel@linux.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,38 +51,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 23, 2021 at 01:15:20PM +0200, Thomas Hellström wrote:
-> On Mon, 2021-08-23 at 13:05 +0200, Christian König wrote:
-> > Adding Thomas on CC as well.
-> > 
-> > Just a gentle ping. I think the patch set makes sense now.
-> > 
-> > Regards,
-> > Christian.
-> > 
-> > Am 28.07.21 um 15:05 schrieb Christian König:
-> > > Doing this in vmw_ttm_destroy() is to late.
-> > > 
-> > > It turned out that this is not a good idea at all because it leaves
-> > > pointers
-> > > to freed up system memory pages in the GART tables of the drivers.
-> > > 
-> > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > ---
-> > >   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 9 +++------
-> > >   1 file changed, 3 insertions(+), 6 deletions(-)
-> > > 
-> 
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+On Mon, 26 Jul 2021, Matthew Brost <matthew.brost@intel.com> wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+>
+> Changing the reset module parameter has no effect on a running GuC.
+> The corresponding entry in the ADS must be updated and then the GuC
+> informed via a Host2GuC message.
+>
+> The new debugfs interface to module parameters allows this to happen.
+> However, connecting the parameter data address back to anything useful
+> is messy. One option would be to pass a new private data structure
+> address through instead of just the parameter pointer. However, that
+> means having a new (and different) data structure for each parameter
+> and a new (and different) write function for each parameter. This
+> method keeps everything generic by instead using a string lookup on
+> the directory entry name.
+>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c |  2 +-
+>  drivers/gpu/drm/i915/i915_debugfs_params.c | 32 ++++++++++++++++++++++
+>  2 files changed, 33 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> index 60b73625f686..7797766c56a9 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> @@ -99,7 +99,7 @@ static int guc_action_policies_update(struct intel_guc *guc, u32 policy_offset)
+>  		policy_offset
+>  	};
+>  
+> -	return intel_guc_send(guc, action, ARRAY_SIZE(action));
+> +	return intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
+>  }
+>  
+>  int intel_guc_global_policies_update(struct intel_guc *guc)
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs_params.c b/drivers/gpu/drm/i915/i915_debugfs_params.c
+> index 4e2b077692cb..20424275d41e 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs_params.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs_params.c
+> @@ -6,9 +6,21 @@
+>  #include <linux/kernel.h>
+>  
+>  #include "i915_debugfs_params.h"
+> +#include "gt/intel_gt.h"
+> +#include "gt/uc/intel_guc.h"
+>  #include "i915_drv.h"
+>  #include "i915_params.h"
+>  
+> +#define MATCH_DEBUGFS_NODE_NAME(_file, _name) \
+> +	(strcmp((_file)->f_path.dentry->d_name.name, (_name)) == 0)
+> +
+> +#define GET_I915(i915, name, ptr)	\
+> +	do {	\
+> +		struct i915_params *params;	\
+> +		params = container_of(((void *)(ptr)), typeof(*params), name);	\
+> +		(i915) = container_of(params, typeof(*(i915)), params);	\
+> +	} while (0)
+> +
+>  /* int param */
+>  static int i915_param_int_show(struct seq_file *m, void *data)
+>  {
+> @@ -24,6 +36,16 @@ static int i915_param_int_open(struct inode *inode, struct file *file)
+>  	return single_open(file, i915_param_int_show, inode->i_private);
+>  }
+>  
+> +static int notify_guc(struct drm_i915_private *i915)
+> +{
+> +	int ret = 0;
+> +
+> +	if (intel_uc_uses_guc_submission(&i915->gt.uc))
+> +		ret = intel_guc_global_policies_update(&i915->gt.uc.guc);
+> +
+> +	return ret;
+> +}
+> +
+>  static ssize_t i915_param_int_write(struct file *file,
+>  				    const char __user *ubuf, size_t len,
+>  				    loff_t *offp)
+> @@ -81,8 +103,10 @@ static ssize_t i915_param_uint_write(struct file *file,
+>  				     const char __user *ubuf, size_t len,
+>  				     loff_t *offp)
+>  {
+> +	struct drm_i915_private *i915;
+>  	struct seq_file *m = file->private_data;
+>  	unsigned int *value = m->private;
+> +	unsigned int old = *value;
+>  	int ret;
+>  
+>  	ret = kstrtouint_from_user(ubuf, len, 0, value);
+> @@ -95,6 +119,14 @@ static ssize_t i915_param_uint_write(struct file *file,
+>  			*value = b;
+>  	}
+>  
+> +	if (!ret && MATCH_DEBUGFS_NODE_NAME(file, "reset")) {
+> +		GET_I915(i915, reset, value);
+> +
+> +		ret = notify_guc(i915);
+> +		if (ret)
+> +			*value = old;
+> +	}
 
-For next time around I think recording a bit more of the discussions and
-git history in these would be really good. At least I'd like to get more
-people ramped up on ttm work, and for that to work out things need to be a
-bit more accessible ... The above commit message is pretty much useless if
-you ever hit it in a git blame, if you haven't been involved in any of
-these discussions.
--Daniel
+Only stumbled on this now. It was never the idea to add this kind of
+checks in the middle of the generic functions. What if the type was bool
+or ulong, where the generic function is a debugfs helper outside of
+i915?
+
+See the comment in i915_debugfs_params() that I added there exactly
+because I envisioned someone was going to need this facility:
+
+	/*
+	 * Note: We could create files for params needing special handling
+	 * here. Set mode in params to 0 to skip the generic create file, or
+	 * just let the generic create file fail silently with -EEXIST.
+	 */
+
+The idea was that you create your own handlers for params that need
+special handling.
+
+
+BR,
+Jani.
+
+
+> +
+>  	return ret ?: len;
+>  }
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jani Nikula, Intel Open Source Graphics Center
