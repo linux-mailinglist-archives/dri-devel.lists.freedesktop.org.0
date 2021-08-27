@@ -1,72 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109003FA0E5
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 22:52:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DAF3FA15C
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Aug 2021 00:02:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 234656E9DB;
-	Fri, 27 Aug 2021 20:52:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00846E9E0;
+	Fri, 27 Aug 2021 22:02:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
- [IPv6:2607:f8b0:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9F66E9DB
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 20:52:25 +0000 (UTC)
-Received: by mail-il1-x134.google.com with SMTP id s16so8260988ilo.9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aXHt+zBvV2P2yRdRsCvTblJhainZty6Jg0vDCbYmK8M=;
- b=FV8wBmGYU5sDobyYYnQpOECTKrYkK8EB7/GlKxGqyLstGxzDaWlP7jlTT05tsDEu9N
- m3ODA5TwhdedwETDFIuIUoqNe6jBe53IH7JlysQzvDipyp3WcCIgWyE2nSumqs3jqm+E
- Zr7wV9fgaErAPWv/uxHyXK5/YaePil/2i1r98=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BADB56E9E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 22:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630101748;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F6xavDxclU2457G1Vw6lUkX39komt2IDfPFEDUjuZSY=;
+ b=KHpD8/AqrOnWcZZctEqNWD2Uz7Ol4JBYzD9GEjE5UPT6iSj1mnh7FijBr1WXQ1vfW1cU0Z
+ 89AQftZEq1ldZEMUZNHE4tRKIyu4jbDAKAVhFBcQ/+Z8RFyugI9kwiiebctW3lVGjMfioh
+ UpjfgG+MBQVZ/QpxdCNXsdbkME9539o=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-kNZnvu9RPhmZYjUG2DntgQ-1; Fri, 27 Aug 2021 18:02:25 -0400
+X-MC-Unique: kNZnvu9RPhmZYjUG2DntgQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u2-20020adfdd42000000b001579f5d6779so619305wrm.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 15:02:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aXHt+zBvV2P2yRdRsCvTblJhainZty6Jg0vDCbYmK8M=;
- b=iK0IU1wLpOar1z4BYRKtRHskywjOLuAQJj5sH07mKy73df9XAc2g1W5JF+986EVS62
- FySqsB0Pr+lTeKqyt7HCbDbuedUyuCqS17uskJ5MrcnG29ralCuvJDiLpAtlq67qS0Ht
- DDFMGI+e30KGxxysgBp18lQVC04mRXh17fB8M/Gz5t2criCFD/oFEcM2XzABkb+cU7Kr
- eHz5+FHvthwNNXWlZzOMUtDj5AaFetckAQn4PNz106YRxXIFH+SFNM3nJKMQj8l4W2E0
- Ibh0iWowOGboJ6DCeBTWDgATQlT5LCgUuplJ8rcKH7260E1yMoUMtoFaZ055mpLz/YP5
- C64A==
-X-Gm-Message-State: AOAM532XzU7ziPD2BVhiPF12yl5XIFk9owf0bE2fknRADMnkr66ZKPgS
- zWpqpZRSZjvGYXDn7P4YTIY8s1wwao7M5w==
-X-Google-Smtp-Source: ABdhPJwlHRm5SPvuqrZzBvH9wfdbEB76f6dqN4QCUsme978tW6azQdHVFEAPkV00wbMB4UznidrZ7A==
-X-Received: by 2002:a05:6e02:1074:: with SMTP id
- q20mr8206373ilj.204.1630097544624; 
- Fri, 27 Aug 2021 13:52:24 -0700 (PDT)
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com.
- [209.85.166.177])
- by smtp.gmail.com with ESMTPSA id z7sm4097885ilz.25.2021.08.27.13.52.23
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F6xavDxclU2457G1Vw6lUkX39komt2IDfPFEDUjuZSY=;
+ b=QZcj9G5nAuxqxPVe/OUtFstyt+LImSPye3i5Pcc/ApEA+5tfjFbgsWSb0SyA6noXnq
+ aJjiATscb8pyxJJy0qxXocpyXgbZdPa2zXFOIQManm3NMI7yIA9UzPmNgkqVcnSXcFAW
+ M6WOMMhxtj+PyYKIhGeRq7X4F+5fulWx69oy0Qs+f+GQegFZ4cs82Q5TX9acoSZW0/TK
+ KiCEao2WsrWzPrdTXYxO86G9pjz8XtsNPSMF6jV9/5wtAezY88NMDhbN4r0YpAhETboq
+ f8pxBznuO7UxfcZGeRVhOFeUFvhxhIu1rXa8EvSojMuIkz8UoqZCAnBw/qe0pPy2IZeD
+ cjqw==
+X-Gm-Message-State: AOAM532/WlWJXE6/pbneJ2nkB1oK14tEElpHtNCYl06XHE0EZy0p/lkY
+ CwJgd971vNZKoWUX6rvmBs778lkd/XfzGnI0z099TTgdWprVbMSjM8fvGHWKzlprBSpYL7QhXGh
+ Zjo7sDgXZx+hC2E8ci/9IWElnpzov
+X-Received: by 2002:a5d:6cb0:: with SMTP id a16mr11883613wra.245.1630101743845; 
+ Fri, 27 Aug 2021 15:02:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0sjJPekqAFrzI+I21wArpuNqneRzwvRM7qmHiOpufcRJPM7zXryENkyja4nv3/Jn1chky2g==
+X-Received: by 2002:a5d:6cb0:: with SMTP id a16mr11883596wra.245.1630101743658; 
+ Fri, 27 Aug 2021 15:02:23 -0700 (PDT)
+Received: from [192.168.1.101] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id z126sm6853997wmc.11.2021.08.27.15.02.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Aug 2021 13:52:23 -0700 (PDT)
-Received: by mail-il1-f177.google.com with SMTP id h29so8296757ila.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:52:23 -0700 (PDT)
-X-Received: by 2002:a92:a008:: with SMTP id e8mr7587200ili.187.1630097542564; 
- Fri, 27 Aug 2021 13:52:22 -0700 (PDT)
+ Fri, 27 Aug 2021 15:02:23 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with
+ CONFIG_FB disabled
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, x86@kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Peter Robinson <pbrobinson@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ David Airlie <airlied@linux.ie>
+References: <20210827100027.1577561-1-javierm@redhat.com>
+ <bb5d045c-c9de-b6df-cf45-32b1a866264a@suse.de>
+ <YSlI+ryYqoRxM7aB@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <a7395626-f022-5c89-07cd-c30d0d52d3dd@redhat.com>
+Date: Sat, 28 Aug 2021 00:02:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210726231351.655302-1-bjorn.andersson@linaro.org>
-In-Reply-To: <20210726231351.655302-1-bjorn.andersson@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 27 Aug 2021 13:52:10 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UGtHXD==Yy8CVCOioYGb=2hqGQOoNWftD1Jj7OiEp51g@mail.gmail.com>
-Message-ID: <CAD=FV=UGtHXD==Yy8CVCOioYGb=2hqGQOoNWftD1Jj7OiEp51g@mail.gmail.com>
-Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>, 
- Kuogee Hsieh <khsieh@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Vara Reddy <varar@codeaurora.org>, freedreno <freedreno@lists.freedesktop.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YSlI+ryYqoRxM7aB@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,20 +97,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello Daniel and Thomas,
 
-On Mon, Jul 26, 2021 at 4:15 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> +static int dp_parser_find_panel(struct dp_parser *parser)
-> +{
-> +       struct device_node *np = parser->pdev->dev.of_node;
-> +       int rc;
-> +
-> +       rc = drm_of_find_panel_or_bridge(np, 2, 0, &parser->drm_panel, NULL);
+On 8/27/21 10:20 PM, Daniel Vetter wrote:
+> On Fri, Aug 27, 2021 at 07:50:23PM +0200, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 27.08.21 um 12:00 schrieb Javier Martinez Canillas:
+>>> This patch series splits the fbdev core support in two different Kconfig
+>>> symbols: FB and FB_CORE. The motivation for this is to allow CONFIG_FB to
+>>> be disabled, while still using fbcon with the DRM fbdev emulation layer.
+>>
+>> I'm skeptical. DRM's fbdev emulation is not just the console emulation, it's
+>> a full fbdev device. You can see the related device file as /dev/fb*.
+>> Providing the file while having CONFIG_FB disabled doesn't make much sense
+>> to me. I know it's not pretty, but it's consistent at least.
+>>
+>> If you want to remove fbdev, you could try to untangle fbdev and the console
+>> emulation such that DRM can set up a console by itself. Old fbdev drives
+>> would also set up the console individually.
+> 
+> Yeah given the horrendous security track record of all that code, and the
+> maze of handover we have (stuff like flicker free boot and all that) I'm
+> wondering whether typing a new drmcon wouldn't be faster and a lot more
+> maintainable.
+> 
 
-Why port 2? Shouldn't this just be port 1 always? The yaml says that
-port 1 is "Output endpoint of the controller". We should just use port
-1 here, right?
+We talked about a drmcon with Peter Robinson as well but then decided that a
+way to disable CONFIG_FB but still having the DRM fbdev emulation could be a
+intermediary step, hence these RFC patches.
 
--Doug
+But yes, I agree that a drmcon would be the proper approach for this, to not
+need any fbdev support at all. We will just keep the explicit disable for the
+fbdev drivers then in the meantime.
+
+Thanks a lot for your feedback.
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
