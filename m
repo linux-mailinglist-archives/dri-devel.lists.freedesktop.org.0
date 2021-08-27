@@ -2,27 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593AA3F962E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 10:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066733F962F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 10:34:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDBC6E8F2;
-	Fri, 27 Aug 2021 08:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF7AD6E8F3;
+	Fri, 27 Aug 2021 08:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58FC56E8F2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 08:33:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5DD0E60F4F;
- Fri, 27 Aug 2021 08:33:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E03C26E8F3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 08:34:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8F0060F4F;
+ Fri, 27 Aug 2021 08:34:08 +0000 (UTC)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>
-Subject: [PATCH V4 03/10] PCI/VGA: Use unsigned format string to print lock
- counts
-Date: Fri, 27 Aug 2021 16:31:22 +0800
-Message-Id: <20210827083129.2781420-4-chenhuacai@loongson.cn>
+Subject: [PATCH V4 04/10] PCI/VGA: Remove empty vga_arb_device_card_gone()
+Date: Fri, 27 Aug 2021 16:31:23 +0800
+Message-Id: <20210827083129.2781420-5-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210827083129.2781420-1-chenhuacai@loongson.cn>
 References: <20210827083129.2781420-1-chenhuacai@loongson.cn>
@@ -45,28 +44,68 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bjorn Helgaas <bhelgaas@google.com>
 
-In struct vga_device, io_lock_cnt and mem_lock_cnt are unsigned, but we
-previously printed them with "%d", the signed decimal format.  Print them
-with the unsigned format "%u" instead.
+vga_arb_device_card_gone() has always been empty.  Remove it.
 
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/vgaarb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pci/vgaarb.c | 16 +---------------
+ 1 file changed, 1 insertion(+), 15 deletions(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 61b57abcb014..e4153ab70481 100644
+index e4153ab70481..c984c76b3fd7 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -1022,7 +1022,7 @@ static ssize_t vga_arb_read(struct file *file, char __user *buf,
+@@ -104,8 +104,6 @@ static int vga_str_to_iostate(char *buf, int str_size, int *io_state)
+ /* this is only used a cookie - it should not be dereferenced */
+ static struct pci_dev *vga_default;
  
- 	/* Fill the buffer with infos */
- 	len = snprintf(lbuf, 1024,
--		       "count:%d,PCI:%s,decodes=%s,owns=%s,locks=%s(%d:%d)\n",
-+		       "count:%d,PCI:%s,decodes=%s,owns=%s,locks=%s(%u:%u)\n",
- 		       vga_decode_count, pci_name(pdev),
- 		       vga_iostate_to_str(vgadev->decodes),
- 		       vga_iostate_to_str(vgadev->owns),
+-static void vga_arb_device_card_gone(struct pci_dev *pdev);
+-
+ /* Find somebody in our list */
+ static struct vga_device *vgadev_find(struct pci_dev *pdev)
+ {
+@@ -741,10 +739,6 @@ static bool vga_arbiter_del_pci_device(struct pci_dev *pdev)
+ 	/* Remove entry from list */
+ 	list_del(&vgadev->list);
+ 	vga_count--;
+-	/* Notify userland driver that the device is gone so it discards
+-	 * it's copies of the pci_dev pointer
+-	 */
+-	vga_arb_device_card_gone(pdev);
+ 
+ 	/* Wake up all possible waiters */
+ 	wake_up_all(&vga_wait_queue);
+@@ -994,9 +988,7 @@ static ssize_t vga_arb_read(struct file *file, char __user *buf,
+ 	if (lbuf == NULL)
+ 		return -ENOMEM;
+ 
+-	/* Shields against vga_arb_device_card_gone (pci_dev going
+-	 * away), and allows access to vga list
+-	 */
++	/* Protects vga_list */
+ 	spin_lock_irqsave(&vga_lock, flags);
+ 
+ 	/* If we are targeting the default, use it */
+@@ -1013,8 +1005,6 @@ static ssize_t vga_arb_read(struct file *file, char __user *buf,
+ 		/* Wow, it's not in the list, that shouldn't happen,
+ 		 * let's fix us up and return invalid card
+ 		 */
+-		if (pdev == priv->target)
+-			vga_arb_device_card_gone(pdev);
+ 		spin_unlock_irqrestore(&vga_lock, flags);
+ 		len = sprintf(lbuf, "invalid");
+ 		goto done;
+@@ -1358,10 +1348,6 @@ static int vga_arb_release(struct inode *inode, struct file *file)
+ 	return 0;
+ }
+ 
+-static void vga_arb_device_card_gone(struct pci_dev *pdev)
+-{
+-}
+-
+ /*
+  * callback any registered clients to let them know we have a
+  * change in VGA cards
 -- 
 2.27.0
 
