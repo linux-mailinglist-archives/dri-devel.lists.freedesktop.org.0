@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F033F9859
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 13:08:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 560793F985A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 13:08:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC2ED6E91E;
-	Fri, 27 Aug 2021 11:08:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018576E91F;
+	Fri, 27 Aug 2021 11:08:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E826E91E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 11:08:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8D32060F25
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 11:08:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17D266E91F
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 11:08:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id E1E0360F25
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 11:08:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630062483;
- bh=v08ttHGw3W8i+l3otuhy4+NjW9uCNe9hfyBYR2jevsc=;
- h=From:To:Subject:Date:From;
- b=nFNxSJo+KYAWrj+c676wSm/Py4epcuqAXC0SVwB8qRE2sBaDP6mqYk8MdIGfxowaT
- k7wUK4oBaDn7WIOWiYQo/4ZEMsv0h500dph/OvcPXv3fTZt0nx91+p1ugLXWQcPPPD
- qleLByGE7UcjszBlpy+d9EmeBDSs+2XdrbU6VroPJeHL+PLHiOycgFiL/Xlyd1Lfwh
- 6qsROdOYQKG7/keSlIXxT7yv1i1yenUgSxDZHN7Cgy5X9RKrvPAT+zLsPgA60/Vuz5
- wFMQKF/8R0wtdSo6VC2dvzZY+KrSi5n82P2bo4X0dRVK99uzY7XhLHrurC6bpeer5x
- ByN6M7OYsS+vA==
+ s=k20201202; t=1630062513;
+ bh=n5fpxqnHcEmIl8QsMfwSE6jEZXXpE66KMTpIc+K/++E=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=OXrsJzDNpT0MApCatM5rH7wmdNlXJJVcH+pyJ37k8nDWmm9PEyYZA1gW1HI0Ot9gs
+ aj0olzdE2J2vNtuxRXW/SZGwYdTD/grRKF+Bl7zM8Tg18nOC4ILn+4gEm1SLjt3ACi
+ Gy6m9+J3DAYWc2DAa7tbqFgVSuvv4s3e/l8wd6PIrgqdcaOXpO649V3nPQ+Ie4xzIi
+ Z04TVIFl2eVq682o5Goi/D6PPKvyzU7yoieDniV/d2XitLC5kOjebQD4OaouGgtOci
+ ZpTEZR/E/+hY15VKaHm1rUjVj2LPHKajYCqA1qa4v+eAN49IhG1kZlXgYj+gDrYbKz
+ +GTJIOSY7Nm6Q==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 803A360EE5; Fri, 27 Aug 2021 11:08:03 +0000 (UTC)
+ id DE61C60EB1; Fri, 27 Aug 2021 11:08:33 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214199] New: Sapphire NITRO+ RX 580 4G G5 - Secondary display
+Subject: [Bug 214199] Sapphire NITRO+ RX 580 4G G5 - Secondary display
  doesn't wake up on boot, both displays won't wake up from suspend
-Date: Fri, 27 Aug 2021 11:08:02 +0000
+Date: Fri, 27 Aug 2021 11:08:33 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -45,10 +45,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-214199-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-214199-2300-5kyo9wxMda@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214199-2300@https.bugzilla.kernel.org/>
+References: <bug-214199-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -71,42 +71,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D214199
 
-            Bug ID: 214199
-           Summary: Sapphire NITRO+ RX 580 4G G5 - Secondary display
-                    doesn't wake up on boot, both displays won't wake up
-                    from suspend
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.13.12
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: kernel@zeljko.anonaddy.com
-        Regression: No
-
-Created attachment 298497
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298497&action=3Dedit
-Boot dmesg
-
-Hi! This is the first time I've tried Linux with this graphics card.
-
-The issues are that my second monitor doesn't wake up from stand by on boot=
- and
-also both monitors won't wake up from suspend.
-
-If I turn off the second monitor and turn it back on after boot it works fi=
-ne.
-
-Same with both monitors after the computer wakes up from suspend. I have to
-turn off both of them and turn them back on.
-
-I'm attaching both boot and suspend dmesg logs with drm.debug=3D0xe kernel
-parameter from a fresh install of Arch Linux.
+--- Comment #1 from Zeljko (kernel@zeljko.anonaddy.com) ---
+Created attachment 298499
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298499&action=3Dedit
+Suspend dmesg
 
 --=20
 You may reply to this email to add a comment.
