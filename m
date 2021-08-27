@@ -2,70 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06963F96A5
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 11:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A82F3F97B8
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 12:00:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD7C66E903;
-	Fri, 27 Aug 2021 09:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5440B6E90F;
+	Fri, 27 Aug 2021 10:00:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 893FD6E903
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 09:08:02 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id n5so9254774wro.12
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 02:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=3oh1QpE0WrFfn3uQpDReWIUFo/u8YO7Ue3ewWkgWFFI=;
- b=e4AzkdnWBESEnlsx67SUEm+CzQYDw7R7w35P9Olv0rntHSyJ1TEDlh3Iw58OLhP3UG
- hWJGU8FUWdNIqDQ6mv4kZvkKiNGbepD4fdU7qfWVcTOKt0dWMqGCb3EpYRxpJzB4TXqQ
- 82X/s3lW4bTDKtl9xU42bFoVnRCYs2PIL94Pfh6xSmn5DYIx/nGufPHVaWspjSicm0uk
- 3bW0W0AHU6//qmgzZsf8tP7CCYyZXhtpsqqzuHTC6FqenqLsBEPI0ABRmHHUoZLk9m4S
- V7ouyHtW+DrzOhMlUEugXiR52t7xcOSSI1ZMeuioB0y+XBaqawY2V65vlFXZj6JK2sHH
- vKQg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D11476E90F
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 10:00:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630058446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+aJr1NTbvoxTLmIeJJqoJBHarMi/IcOrX6ArL1A6zIk=;
+ b=fRWSaOwPFB7Z01gV0zjfd0ApL4De7177A4ITtcWUmbkwhfFdEKgCqnHvc4OpqjFlUOEeCY
+ azCaLhwslixqC+1jQ6Lwk7uor0TxLnt5Hr84uB8bjYWKdHuIw+v793caBKSdXv0N9TXFvM
+ 8mXpCqpHfewUHP1KmYpAfE29qGP+n7E=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-8LhHVT7INZ-dLWOZiqlkPA-1; Fri, 27 Aug 2021 06:00:42 -0400
+X-MC-Unique: 8LhHVT7INZ-dLWOZiqlkPA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ b8-20020a5d5508000000b001574e8e9237so1693476wrv.16
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 03:00:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=3oh1QpE0WrFfn3uQpDReWIUFo/u8YO7Ue3ewWkgWFFI=;
- b=uBMYa14ipoXFYo9dIb3DAJpYI9Gv6xFNPN46YBYTcC2Qsl/9MLjQPFE5aY30VBAOIg
- eFEUV1+8Ez0A069u9LAdHK+sHMWo41sDb2SERWCTlHjWZq/3ELTe9Lhcegn4JbiBRuGP
- 8w8kQjZH6HBcKHAKmBbYDtvHvG/TXwbwr1VPzm/2TbO0Z/lpnnAK+MTDaMQYxmPruedZ
- nlDyJ/fP2rS4ncrDWhby5Znd7bCFnYa+OsCSnELGt/kkkJ1olSvu84tX+nmT4NMufx/T
- 5eg5fd9HZ7++Y/RW/iFpdKhiE6gCupuGiKryCNVpe/CJyPgzxJWehscDg259+YLeG/1m
- 1Cyg==
-X-Gm-Message-State: AOAM530hAoxHgZX2JODwpiWTT45bqBHUYVyITbIKjmb9nHdofeEM2F5Z
- oNKkrUqpDAV5g7OmgQAfWkWMvf+j6NEIzjgU
-X-Google-Smtp-Source: ABdhPJyQU+kDRvvbKupvLtP6M9g/82QVH4Ecli/dOu3tgnvEgdAsF0HzB9Ep+2BQEDNazBnWxOToog==
-X-Received: by 2002:adf:816f:: with SMTP id 102mr8887416wrm.368.1630055281098; 
- Fri, 27 Aug 2021 02:08:01 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
- [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id p9sm10840196wmq.40.2021.08.27.02.07.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Aug 2021 02:08:00 -0700 (PDT)
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: hridya@google.com, john.stultz@linaro.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- gustavo@padovan.org, linux-media@vger.kernel.org, adelva@google.com,
- sspatil@google.com
-References: <20210818105443.1578-1-christian.koenig@amd.com>
- <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
- <YSdXEaBDpijEBx/6@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0c150724-032f-b566-4f61-b4771bafe7a8@gmail.com>
-Date: Fri, 27 Aug 2021 11:07:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+aJr1NTbvoxTLmIeJJqoJBHarMi/IcOrX6ArL1A6zIk=;
+ b=AzxqUL7DRkg9NV1tXZozRbALZai5fF0Sl99S+cYSejP5qXlHN7Fogx8Oqk1gIULnj5
+ IZIhuFLNXkNGdvTtjByMVIKCPqiTkZq9CSHPLfASvqmETlveKmT+vMJTSlzapF8fgncv
+ O/x5vR3Vsk8T9qGJArqUsE9i6In9HyilQRSzIcprgDLUz70tTHf1/ExAN2eM+1mh7tlP
+ 1D++4HI7EoSQzTSbrR9dMKllcNDVIg1WCOWnkLWvKb5S1JOpXt/GdN3j3AIWEX3b5GR2
+ O8n/wX4SsKUD3T/W4c91FtmN15cKDkseSr5WQn5+NgVYR9p2PQ7F8krCAGuImFpwfeN+
+ chvQ==
+X-Gm-Message-State: AOAM531r32JANyG1hXo1AsCmfS3Hw5H9aQIKKQkGZIn4cZrJHv6qXfv1
+ 1+kEhYcn0ASWM93XLACBB+YFWlZo+qMfgkIe7um4x42aekpjdZp+eSPJjTJvataGN/jSz61Z7CK
+ q+b+RW07RvRP66tScxrvsqCvjzoHO
+X-Received: by 2002:a05:600c:428a:: with SMTP id
+ v10mr18455117wmc.25.1630058441648; 
+ Fri, 27 Aug 2021 03:00:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwD3l80v92gfAfOSZ8b1Ut69bemPoE/9nlRVQcrJ7xuf3wtFFgtxktW5NFZYCYctIfnyuFMVA==
+X-Received: by 2002:a05:600c:428a:: with SMTP id
+ v10mr18455078wmc.25.1630058441335; 
+ Fri, 27 Aug 2021 03:00:41 -0700 (PDT)
+Received: from minerva.home ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id z17sm1121267wrh.66.2021.08.27.03.00.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Aug 2021 03:00:40 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: "H . Peter Anvin" <hpa@zytor.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, x86@kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Peter Robinson <pbrobinson@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, Ingo Molnar <mingo@redhat.com>,
+ David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with CONFIG_FB
+ disabled
+Date: Fri, 27 Aug 2021 12:00:23 +0200
+Message-Id: <20210827100027.1577561-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YSdXEaBDpijEBx/6@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,200 +93,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 26.08.21 um 10:55 schrieb Daniel Vetter:
-> On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
->> Just a gentle ping. Daniel any more comments on this?
-> Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
-> this is just going to cause fails and reboots in our ci (we reboot on
-> taints).
+This patch series splits the fbdev core support in two different Kconfig
+symbols: FB and FB_CORE. The motivation for this is to allow CONFIG_FB to
+be disabled, while still using fbcon with the DRM fbdev emulation layer.
 
-*sigh* can I at least print a warning without breaking the igt tests?
+The reason for doing this is that now with simpledrm we could just boot
+with simpledrm -> real DRM driver, without needing any legacy fbdev driver
+(e.g: efifb or simplefb) even for the early console.
 
->
->> I'm not sure if the second patch will cause trouble with any unit test, but
->> I'm willing to try it. We can always trivial revert it.
-> See above, remove the igts and we should be fine I think. I don't think
-> there's any selftests or kselftests, but checking that should be a quick
-> grep at most.
+We want to do that in the Fedora kernel, but currently need to keep option
+CONFIG_FB enabled and all fbdev drivers explicitly disabled, which makes
+the configuration harder to maintain.
 
-Yeah, we don't have any selftests as far as I can see but this stuff is 
-so interweaved with igt that it will be hard to remove I think.
+It is a RFC because I'm not that familiar with the fbdev core, but I have
+tested and works with CONFIG_DRM_FBDEV_EMULATION=y and CONFIG_FB disabled.
+This config automatically disables all the fbdev drivers that is our goal.
 
-A good bunch of the igt code seems to have been moved to using VGEM 
-instead, but as far as I can see there is still plenty left relying on this.
+Patch 1/4 is just a clean up, patch 2/4 moves a couple of functions out of
+fbsysfs.o, that are not related to sysfs attributes creation and finally
+patch 3/4 makes the fbdev split that is mentioned above.
 
-Alternatively could we make the config option depend on CONFIG_DEBUG?
+Patch 4/4 makes the DRM fbdev emulation depend on the new FB_CORE symbol
+instead of FB. This could be done as a follow-up but for completeness is
+also included in this series.
 
-Christian.
+Best regards,
+Javier
 
-> -Daniel
->
->> Thanks,
->> Christian.
->>
->> Am 18.08.21 um 12:54 schrieb Christian König:
->>> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
->>> on a non existing config option to actually emit some code.
->>>
->>> v2: keep the signal path as is for now
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
->>>    drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
->>>    drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
->>>    include/linux/dma-fence.h                 | 22 ---------------------
->>>    4 files changed, 7 insertions(+), 67 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>> index 0b1c48590c43..c65994e382bd 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>>    	struct amdgpu_fence_driver *drv = &ring->fence_drv;
->>>    	struct amdgpu_device *adev = ring->adev;
->>>    	uint32_t seq, last_seq;
->>> -	int r;
->>>    	do {
->>>    		last_seq = atomic_read(&ring->fence_drv.last_seq);
->>> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>>    		if (!fence)
->>>    			continue;
->>> -		r = dma_fence_signal(fence);
->>> -		if (!r)
->>> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
->>> -		else
->>> -			BUG();
->>> -
->>> +		dma_fence_signal(fence);
->>>    		dma_fence_put(fence);
->>>    		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
->>>    		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
->>> @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->>>    	if (!timer_pending(&ring->fence_drv.fallback_timer))
->>>    		amdgpu_fence_schedule_fallback(ring);
->>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
->>> -
->>>    	return true;
->>>    }
->>> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
->>> index 18f2c2e0dfb3..3f351d222cbb 100644
->>> --- a/drivers/gpu/drm/radeon/radeon_fence.c
->>> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
->>> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
->>>    	 */
->>>    	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
->>>    	if (seq >= fence->seq) {
->>> -		int ret = dma_fence_signal_locked(&fence->base);
->>> -
->>> -		if (!ret)
->>> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
->>> -		else
->>> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
->>> -
->>> +		dma_fence_signal_locked(&fence->base);
->>>    		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
->>>    		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
->>>    		dma_fence_put(&fence->base);
->>> -	} else
->>> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
->>> +	}
->>>    	return 0;
->>>    }
->>> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
->>>    	fence->fence_wake.func = radeon_fence_check_signaled;
->>>    	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
->>>    	dma_fence_get(f);
->>> -
->>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
->>>    	return true;
->>>    }
->>> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
->>>    		return true;
->>>    	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
->>> -		int ret;
->>> -
->>> -		ret = dma_fence_signal(&fence->base);
->>> -		if (!ret)
->>> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
->>> +		dma_fence_signal(&fence->base);
->>>    		return true;
->>>    	}
->>>    	return false;
->>> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>>    {
->>>    	uint64_t seq[RADEON_NUM_RINGS] = {};
->>>    	long r;
->>> -	int r_sig;
->>>    	/*
->>>    	 * This function should not be called on !radeon fences.
->>> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>>    		return r;
->>>    	}
->>> -	r_sig = dma_fence_signal(&fence->base);
->>> -	if (!r_sig)
->>> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
->>> +	dma_fence_signal(&fence->base);
->>>    	return r;
->>>    }
->>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>> index 69de2c76731f..3736746c47bd 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
->>>    void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
->>>    {
->>> -	int ret = dma_fence_signal(&fence->scheduled);
->>> -
->>> -	if (!ret)
->>> -		DMA_FENCE_TRACE(&fence->scheduled,
->>> -				"signaled from irq context\n");
->>> -	else
->>> -		DMA_FENCE_TRACE(&fence->scheduled,
->>> -				"was already signaled\n");
->>> +	dma_fence_signal(&fence->scheduled);
->>>    }
->>>    void drm_sched_fence_finished(struct drm_sched_fence *fence)
->>>    {
->>> -	int ret = dma_fence_signal(&fence->finished);
->>> -
->>> -	if (!ret)
->>> -		DMA_FENCE_TRACE(&fence->finished,
->>> -				"signaled from irq context\n");
->>> -	else
->>> -		DMA_FENCE_TRACE(&fence->finished,
->>> -				"was already signaled\n");
->>> +	dma_fence_signal(&fence->finished);
->>>    }
->>>    static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>> index 6ffb4b2c6371..4cc119ab272f 100644
->>> --- a/include/linux/dma-fence.h
->>> +++ b/include/linux/dma-fence.h
->>> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
->>>    struct dma_fence *dma_fence_allocate_private_stub(void);
->>>    u64 dma_fence_context_alloc(unsigned num);
->>> -#define DMA_FENCE_TRACE(f, fmt, args...) \
->>> -	do {								\
->>> -		struct dma_fence *__ff = (f);				\
->>> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
->>> -			pr_info("f %llu#%llu: " fmt,			\
->>> -				__ff->context, __ff->seqno, ##args);	\
->>> -	} while (0)
->>> -
->>> -#define DMA_FENCE_WARN(f, fmt, args...) \
->>> -	do {								\
->>> -		struct dma_fence *__ff = (f);				\
->>> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
->>> -			 ##args);					\
->>> -	} while (0)
->>> -
->>> -#define DMA_FENCE_ERR(f, fmt, args...) \
->>> -	do {								\
->>> -		struct dma_fence *__ff = (f);				\
->>> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
->>> -			##args);					\
->>> -	} while (0)
->>> -
->>>    #endif /* __LINUX_DMA_FENCE_H */
+
+Javier Martinez Canillas (4):
+  fbdev: Rename fb_*_device() functions names to match what they do
+  fbdev: Move framebuffer_{alloc,release}() functions to fbmem.c
+  fbdev: Split frame buffer support in FB and FB_CORE symbols
+  drm: Make fbdev emulation depend on FB_CORE instead of FB
+
+ arch/x86/Makefile                  |  2 +-
+ arch/x86/video/Makefile            |  2 +-
+ drivers/gpu/drm/Kconfig            |  2 +-
+ drivers/video/console/Kconfig      |  2 +-
+ drivers/video/fbdev/Kconfig        | 57 +++++++++++++---------
+ drivers/video/fbdev/core/Makefile  | 13 +++--
+ drivers/video/fbdev/core/fbmem.c   | 73 ++++++++++++++++++++++++++--
+ drivers/video/fbdev/core/fbsysfs.c | 77 +-----------------------------
+ include/linux/fb.h                 | 18 ++++++-
+ 9 files changed, 134 insertions(+), 112 deletions(-)
+
+-- 
+2.31.1
 
