@@ -1,84 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5EA93F97CC
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 12:06:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DB03F9838
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 12:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 404386E913;
-	Fri, 27 Aug 2021 10:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF9FA6E91C;
+	Fri, 27 Aug 2021 10:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 034776E913
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 10:06:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630058765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=p4aikmi0g6nX7SuLm/Bk6aLBr61zFNCjsy8EnVkGMSU=;
- b=cTKJ3HeO/j/l+bxByaO+QvvosQB5A58W3fR40amNMBRdMeeJQLch2j6WkUGz4SCmy5yn4g
- LRtMJJ66GUnAzEcvF1GU4kbNPcz+f22bv9beNPb72/o+IPKVjr5tz45w+rfDRrlwkZsxqR
- JRBF1Nv/D43f2mJc6+mArhztt52g2Dg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-0LmdwAPqOZCEgqJ_yZJQow-1; Fri, 27 Aug 2021 06:06:01 -0400
-X-MC-Unique: 0LmdwAPqOZCEgqJ_yZJQow-1
-Received: by mail-wr1-f69.google.com with SMTP id
- b7-20020a5d4d87000000b001575d1053d2so1680987wru.23
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 03:06:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p4aikmi0g6nX7SuLm/Bk6aLBr61zFNCjsy8EnVkGMSU=;
- b=R9zQIIFjTSRp8zWPoTzzQlfUfpNgwX/SUsM2Tl4EUH4yvHSZ64TRkP0nj3IBuLMmoV
- T25Rlv8UVwUTQ4lmhFtC9FMnSOAJq0kiF961TaZ6Ix6y+pOgWtXZ7LfZuYObZeBXSp85
- W/XgZQDpjO0ZvwR38tyxytVmwCcn9WJ5U+8KFnE7d7GExqgWPWQaPF/C1NcPB3L3qIB5
- ZyFyXYqhkdHjQ0rDdscmo/PGPYV5sG+nlKEjD/XInY2edCIrrctUlOPsf2mio1gbupJb
- VDTO4Jb1HWCw2MEAOYKJSF9hPAe3eTIGYqDWHVUUg2n8YFiGmsRV2IDVF1nIgpPU6hb3
- 7pXQ==
-X-Gm-Message-State: AOAM532gzrvObiJ3pF324fauWwx8e0DWJJi/9zfGr7MTf14n8D8zbf4K
- Qw1EWtVOr39Dla7ZosIAWqgZTjWmZrtDI7A4avUQedaw3q23cahLEGyYgXFcvm41nwNi7yh/5hq
- zOkCoDsqVbhVqxV5qutQcZXWYFWqD
-X-Received: by 2002:a05:600c:2215:: with SMTP id
- z21mr13186006wml.47.1630058760667; 
- Fri, 27 Aug 2021 03:06:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJweQKtGcTVQCT5oK+T9jojfllLFKvn1d+zXGWWo3Yar8zcxTOTUijovtCiHgZqBsq9Js5k20w==
-X-Received: by 2002:a05:600c:2215:: with SMTP id
- z21mr13185978wml.47.1630058760467; 
- Fri, 27 Aug 2021 03:06:00 -0700 (PDT)
-Received: from minerva.home ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id d28sm4834317wrc.4.2021.08.27.03.05.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 03:06:00 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: "H . Peter Anvin" <hpa@zytor.com>, Peter Robinson <pbrobinson@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, x86@kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-Subject: [RFC PATCH 4/4] drm: Make fbdev emulation depend on FB_CORE instead
- of FB
-Date: Fri, 27 Aug 2021 12:05:57 +0200
-Message-Id: <20210827100557.1578746-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDE16E91C
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 10:44:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id CED6C60FE7
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 10:44:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1630061075;
+ bh=OhWaJfmetirYyXBUDktGSz7HnjJCIN4kFOpsRrVnJU0=;
+ h=From:To:Subject:Date:From;
+ b=JMgLuuQRqkjy4A+AFTMQGAOUFHY7JzWMu9r/JMsc5lIahwKjqjO1rBIF5NvFNVXK8
+ 5KbVB+LOt6G9cfjEW6hlxoALpRPWJML4K9zHMnWXROb3N5mhlvoFh4svA67XoKz8M5
+ buH3BFdKzsd37EJk3URoBA8CG9Yt0z98bgdkjfQ9VVg5Rz/4xf0RFHMHrhbdWeHiBH
+ Pd5sVw5FsfkBffYmTdV+4CpTtJeEApaq2vJy5wkbIH052OFISGKfMm2DWNNL+OE47c
+ G+j8022hLng8sYa3tuyUaY2bhTqyZNF807sM+zeDtHLoWSKXvFwqvOk5OWjDdPLZLK
+ L2WwvMUzaZPVQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id C13C760EBC; Fri, 27 Aug 2021 10:44:35 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214197] New: [Asus G713QY] RX6800M not usable after exiting
+ Vulkan application
+Date: Fri, 27 Aug 2021 10:44:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: velemas@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-214197-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,31 +69,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the fbdev core has been split in FB_CORE and FB, make DRM fbdev
-emulation layer to just depend on the former.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214197
 
-This allows to disable the CONFIG_FB option if is not needed, which will
-avoid the need to explicitly disable all the legacy fbdev drivers.
+            Bug ID: 214197
+           Summary: [Asus G713QY] RX6800M not usable after exiting Vulkan
+                    application
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.13.13
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: velemas@gmail.com
+        Regression: No
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+Asus ROG Strix G17 Advantage Edition (G713QY) has hybrid-graphics with dGPU
+RX6800M. After exiting any Vulkan application, it becomes unusable. Vulkani=
+nfo
+sees dGPU before Vulkan app and does not see RX6800M after.
 
- drivers/gpu/drm/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+After Vulkan app close, dmesg reports:
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 8fc40317f2b..7806adb02f1 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -103,7 +103,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
- config DRM_FBDEV_EMULATION
- 	bool "Enable legacy fbdev support for your modesetting driver"
- 	depends on DRM
--	depends on FB
-+	depends on FB_CORE
- 	select DRM_KMS_HELPER
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
--- 
-2.31.1
+[  154.385749] amdgpu 0000:03:00.0: amdgpu: RAS: optional ras ta ucode is n=
+ot
+available
+[  154.401405] amdgpu 0000:03:00.0: amdgpu: SECUREDISPLAY: securedisplay ta
+ucode is not available
+[  154.401409] amdgpu 0000:03:00.0: amdgpu: SMU is resuming...
+[  159.038150] amdgpu 0000:03:00.0: amdgpu: message:        RunDcBtc (54)=
+=20=20=20=20=20=20
+param: 0x00000000 is timeout (no response)
+[  159.038154] amdgpu 0000:03:00.0: amdgpu: Failed to setup smc hw!
+[  159.038156] [drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume=
+ of
+IP block <smu> failed -62
+[  159.038220] amdgpu 0000:03:00.0: amdgpu: amdgpu_device_ip_resume failed
+(-62).
 
+Using amdgpu.runpm=3D0 parameter fixes the issue.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
