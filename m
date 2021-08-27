@@ -2,38 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1193F9AFB
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 16:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5013F9B03
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 16:42:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C28B66E986;
-	Fri, 27 Aug 2021 14:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1D86E984;
+	Fri, 27 Aug 2021 14:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CBE16E986;
- Fri, 27 Aug 2021 14:40:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10089"; a="198207854"
-X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; d="scan'208";a="198207854"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2021 07:40:03 -0700
-X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; d="scan'208";a="538123918"
-Received: from aleenaha-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.228.247])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2021 07:40:01 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: [PATCH v2] drm/i915: Handle Intel igfx + Intel dgfx hybrid graphics
- setup
-Date: Fri, 27 Aug 2021 15:39:41 +0100
-Message-Id: <20210827143941.287958-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210827133039.287075-1-tvrtko.ursulin@linux.intel.com>
-References: <20210827133039.287075-1-tvrtko.ursulin@linux.intel.com>
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
+ [IPv6:2607:f8b0:4864:20::d32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 661C46E984
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 14:42:14 +0000 (UTC)
+Received: by mail-io1-xd32.google.com with SMTP id e186so8745246iof.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 07:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CFay9r08enlHVx+9WttkR29jMfZFJp3kMsw5xeMb8SU=;
+ b=g77ve3sH11s90MOAtL5Fe/Ks6XKzCGmBKkQbxda83Z/dPuLxcu/JrGYVIEGC7qKr1W
+ cwUNxwZ3lvZGxv6M9XyvThGVZBMpm49kDpI1FWv42i5aJSI++acThcZA58jzLl2xoBn6
+ htbkWP3zcoIC4Rdxf70AifYYqeV6tvd3SvGfMUaLTiK7NdMujJla52Beta0VmMIt+IZK
+ 6uEzgTIUj4beudDHevA+hsIClHPCcpwi2azaImx9pQXGXKRTqzqCrNY2aSQgR898++Ve
+ DuFQJ8yQALsvMU/mHh0iZQ9TBWR/Ee3yKTsIQYDQh8zo9cgdS4XnFHBObrDqV+iHO4Tw
+ WZEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CFay9r08enlHVx+9WttkR29jMfZFJp3kMsw5xeMb8SU=;
+ b=jQRuRLMpYX56lZVwipwhtbV7RK5AcVF3BvdmWtOUlWzRm6ZyUVv1y4321LB5sLmqtr
+ 5HK7lMGODe5dMGw7t7xJCj1Ya7JiKzBeKvRBfKmHS/tFWiyjiKZSWiTT87Umq3O7lBv+
+ fj5ZpVAW7NhPI/dPJiOyDUJ/nAHwubH9V3HOpuniRNvqQ4eCDRwQe1G6ONNC1HOl6Z12
+ QbD0iwzDMniYZX5dP1foDCQiPpKx5PjtNjVwK7RdpmFq3iFxAS7NIBCkoCTecSfE91Uw
+ IOkTODfit5OZkfZtwiTMstLeSUVTrKoslzmvKSE8yfFRYaUXCHWXEuqSXBApqIviW3no
+ G7kQ==
+X-Gm-Message-State: AOAM5309Po3EFLOO4kDO6LRZGb/IggaLiShVBDgLuKpSmaMfqhUXrrJ8
+ Ymc6P5bh62vyqQrMFCYHhGDqJ7Y9sgFjtYbLCisT3A==
+X-Google-Smtp-Source: ABdhPJxKll3v2Sx54NeJRFiI49YcwJQQt0GNvwwK4RRpGNl7i3KMNBhhoIflYvBf/kikTGsbGuJ+Gunmf3z4LT4xVjU=
+X-Received: by 2002:a5e:a813:: with SMTP id c19mr7774552ioa.199.1630075333436; 
+ Fri, 27 Aug 2021 07:42:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210827082407.101053-1-yangcong5@huaqin.corp-partner.google.com>
+ <20210827082407.101053-4-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20210827082407.101053-4-yangcong5@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@google.com>
+Date: Fri, 27 Aug 2021 07:42:01 -0700
+Message-ID: <CAD=FV=Uo-7rFWGiJG0oJ0ydosA4DxhFqiWGrab1zoZyxyPsOBg@mail.gmail.com>
+Subject: Re: [v3 3/4] drm/panel: support for BOE and INX video mode panel
+To: yangcong <yangcong5@huaqin.corp-partner.google.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,170 +70,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hi,
 
-In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
-when rendering is done on Intel dgfx and scanout/composition on Intel
-igfx.
+On Fri, Aug 27, 2021 at 1:24 AM yangcong
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> Add driver for BOE tv110c9m-ll3 and Inx hj110iz-01a panel
+> both of those are 10.95" 1200x2000 panel.
 
-Before this patch the driver was not quite ready for that setup, mainly
-because it was able to emit a semaphore wait between the two GPUs, which
-results in deadlocks because semaphore target location in HWSP is neither
-shared between the two, nor mapped in both GGTT spaces.
+Your commit message would be a good place to note design choices you
+made in your patch. Maybe you might say:
 
-To fix it the patch adds an additional check to a couple of relevant code
-paths in order to prevent using semaphores for inter-engine
-synchronisation between different driver instances.
+Support for these two panels fits in nicely with the existing
+panel-boe-tv101wum-nl6 driver as suggested by Sam [1]. The main things
+we needed to handle were:
+a) These panels need slightly longer delays in two places. Since these
+new delays aren't much longer, let's just unconditionally increase
+them for the driver.
+b) One of these two panels doesn't support DSI HS mode so this patch
+adds a flag for a panel to disable that.
 
-Patch also moves singly used i915_gem_object_last_write_engine to be
-private in its only calling unit (debugfs), while modifying it to only
-show activity belonging to the respective driver instance.
+[1] https://lore.kernel.org/r/YSPAseE6WD8dDRuz@ravnborg.org/
 
-What remains in this problem space is the question of the GEM busy ioctl.
-We have a somewhat ambigous comment there saying only status of native
-fences will be reported, which could be interpreted as either i915, or
-native to the drm fd. For now I have decided to leave that as is, meaning
-any i915 instance activity continues to be reported.
+If you send a new version, maybe you could include prose similar to that?
 
-v2:
- * Avoid adding rq->i915. (Chris)
+> +       _INIT_DCS_CMD(0x4D, 0x21),
+> +       _INIT_DCS_CMD(0x4E, 0x43),
+> +       _INIT_DCS_CMD(0x51, 0x12),
+> +       _INIT_DCS_CMD(0x52, 0x34),
+> +       _INIT_DCS_CMD(0x55, 0x82, 0x02),
+> +       _INIT_DCS_CMD(0x56, 0x04),
+> +       _INIT_DCS_CMD(0x58, 0x21),
+> +       _INIT_DCS_CMD(0x59, 0x30),
+> +       _INIT_DCS_CMD(0x5A, 0xBA),      //9A
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.h | 17 ----------
- drivers/gpu/drm/i915/i915_debugfs.c        | 39 ++++++++++++++++++++--
- drivers/gpu/drm/i915/i915_request.c        | 12 ++++++-
- 3 files changed, 47 insertions(+), 21 deletions(-)
+nit: the "//9A" above seems like it's leftover from something. Remove?
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 48112b9d76df..3043fcbd31bd 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -503,23 +503,6 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
- 	i915_gem_object_unpin_pages(obj);
- }
- 
--static inline struct intel_engine_cs *
--i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
--{
--	struct intel_engine_cs *engine = NULL;
--	struct dma_fence *fence;
--
--	rcu_read_lock();
--	fence = dma_resv_get_excl_unlocked(obj->base.resv);
--	rcu_read_unlock();
--
--	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
--		engine = to_request(fence)->engine;
--	dma_fence_put(fence);
--
--	return engine;
--}
--
- void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
- 					 unsigned int cache_level);
- void i915_gem_object_flush_if_display(struct drm_i915_gem_object *obj);
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index 04351a851586..55fd6191eb32 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -135,13 +135,46 @@ static const char *stringify_vma_type(const struct i915_vma *vma)
- 	return "ppgtt";
- }
- 
-+static char *
-+last_write_engine(struct drm_i915_private *i915,
-+		  struct drm_i915_gem_object *obj)
-+{
-+	struct intel_engine_cs *engine;
-+	struct dma_fence *fence;
-+	char *res = NULL;
-+
-+	rcu_read_lock();
-+	fence = dma_resv_get_excl_unlocked(obj->base.resv);
-+	rcu_read_unlock();
-+
-+	if (!fence || dma_fence_is_signaled(fence))
-+		goto out;
-+
-+	if (!dma_fence_is_i915(fence)) {
-+		res = "<external-fence>";
-+		goto out;
-+	}
-+
-+	engine = to_request(fence)->engine;
-+	if (engine->gt->i915 != i915) {
-+		res = "<external-i915>";
-+		goto out;
-+	}
-+
-+	res = engine->name;
-+
-+out:
-+	dma_fence_put(fence);
-+	return res;
-+}
-+
- void
- i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
- {
- 	struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
--	struct intel_engine_cs *engine;
- 	struct i915_vma *vma;
- 	int pin_count = 0;
-+	char *engine;
- 
- 	seq_printf(m, "%pK: %c%c%c %8zdKiB %02x %02x %s%s%s",
- 		   &obj->base,
-@@ -230,9 +263,9 @@ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
- 	if (i915_gem_object_is_framebuffer(obj))
- 		seq_printf(m, " (fb)");
- 
--	engine = i915_gem_object_last_write_engine(obj);
-+	engine = last_write_engine(dev_priv, obj);
- 	if (engine)
--		seq_printf(m, " (%s)", engine->name);
-+		seq_printf(m, " (%s)", engine);
- }
- 
- static int i915_gem_object_info(struct seq_file *m, void *data)
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index ce446716d092..64adf619fe82 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1152,6 +1152,12 @@ __emit_semaphore_wait(struct i915_request *to,
- 	return 0;
- }
- 
-+static bool
-+can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
-+{
-+	return to->engine->gt == from->engine->gt;
-+}
-+
- static int
- emit_semaphore_wait(struct i915_request *to,
- 		    struct i915_request *from,
-@@ -1160,6 +1166,9 @@ emit_semaphore_wait(struct i915_request *to,
- 	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
- 	struct i915_sw_fence *wait = &to->submit;
- 
-+	if (!can_use_semaphore_wait(to, from))
-+		goto await_fence;
-+
- 	if (!intel_context_use_semaphores(to->context))
- 		goto await_fence;
- 
-@@ -1263,7 +1272,8 @@ __i915_request_await_execution(struct i915_request *to,
- 	 * immediate execution, and so we must wait until it reaches the
- 	 * active slot.
- 	 */
--	if (intel_engine_has_semaphores(to->engine) &&
-+	if (can_use_semaphore_wait(to, from) &&
-+	    intel_engine_has_semaphores(to->engine) &&
- 	    !i915_request_has_initial_breadcrumb(to)) {
- 		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
- 		if (err < 0)
--- 
-2.30.2
+> +       _INIT_DCS_CMD(0x1F, 0xBA),//9A
+> +       _INIT_DCS_CMD(0x20, 0xA0),
+> +
+> +       _INIT_DCS_CMD(0x26, 0xBA),//9A
+> +       _INIT_DCS_CMD(0x27, 0xA0),
+> +
+> +       _INIT_DCS_CMD(0x33, 0xBA),//9A
+> +       _INIT_DCS_CMD(0x34, 0xA0),
+> +
+> +       _INIT_DCS_CMD(0x3F, 0xE0),
+> +
+> +       _INIT_DCS_CMD(0x40, 0x00),
+> +
+> +       _INIT_DCS_CMD(0x44, 0x00),
+> +       _INIT_DCS_CMD(0x45, 0x40),
+> +
+> +       _INIT_DCS_CMD(0x48, 0xBA),//9A
+> +       _INIT_DCS_CMD(0x49, 0xA0),
+> +
+> +       _INIT_DCS_CMD(0x5B, 0x00),
+> +       _INIT_DCS_CMD(0x5C, 0x00),
+> +       _INIT_DCS_CMD(0x5D, 0x00),
+> +       _INIT_DCS_CMD(0x5E, 0xD0),
+> +
+> +       _INIT_DCS_CMD(0x61, 0xBA),//9A
+> +       _INIT_DCS_CMD(0x62, 0xA0),
 
+More random //9A to remove above?
+
+
+> @@ -515,7 +1363,7 @@ static int boe_panel_unprepare(struct drm_panel *panel)
+>                 regulator_disable(boe->pp3300);
+>         } else {
+>                 gpiod_set_value(boe->enable_gpio, 0);
+> -               usleep_range(500, 1000);
+> +               usleep_range(1000, 2000);
+>                 regulator_disable(boe->avee);
+>                 regulator_disable(boe->avdd);
+>                 usleep_range(5000, 7000);
+> @@ -556,7 +1404,7 @@ static int boe_panel_prepare(struct drm_panel *panel)
+>         if (ret < 0)
+>                 goto poweroffavdd;
+>
+> -       usleep_range(5000, 10000);
+> +       usleep_range(10000, 15000);
+
+nit: how about using the range 10000, 11000? Last I looked at
+usleep_range() it almost always ended up at the longer of the two
+times, so that will shave 4 ms off and get us nearly to where we were
+without your change. The whole point of the range is to make the
+system more power efficient for frequent operations (wakeup
+combining), but that really doesn't matter for something as infrequent
+as turning on a LCD.
+
+Other than nits this looks fine to me and I'd be happy to add my
+Reviewed-by to a version with nits fixed. I'm not really an expert on
+MIPI panels but the convention of a big stream of binary commands
+seems to match what other panels in this driver do, even if their
+table of binary data isn't quite as long as yours (are all of yours
+actually needed?). I'm happy to land this in drm-misc-next with Sam or
+Thierry's Ack, too.
+
+
+-Doug
