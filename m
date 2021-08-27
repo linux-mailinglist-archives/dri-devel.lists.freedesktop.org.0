@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D273F99AE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 15:24:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 076563F99AD
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 15:24:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D428A6E952;
-	Fri, 27 Aug 2021 13:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5422A6E948;
+	Fri, 27 Aug 2021 13:23:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E887C6E947
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:23:45 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id i6so10432629wrv.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 06:23:45 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB9A36E947
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:23:48 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id q14so10417480wrp.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 06:23:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T6ZWXMnWygGPmctQBKk9BzIeZRZGN1KZ4kRyQOtB3JQ=;
- b=DmARuFUyNRLuxDXQ6cdCA9IjjD1iVyFJPStM8EGYT2hSCtLy5yXkbYbQ9U4Heled8c
- /M9oqs3hUwKqcUNEUUBnwfLhhXL+JwJ6AsjvNlnQaWmD8Pbi58cnsnWSVuDUiSlNiEpD
- rWdSIDaAna8ljPFDT1yu9VceDm8jJpCxr5gG5gtk87Gv6132SrOvLOOtb1O2V18qWaUV
- vEdIXDNWfeg++sA9mhRQak6C2d/qHFucpmZ9X9K1IxunHFjOQfOPDnZtaBIGBdG+i3hU
- 7Cm5zr1vXxcXXk+Nx5WhmUm3dJPAXk9Fv8VZ+GYv4kqQUWqO84tL10mTaxRZOeDW9cLx
- sZXA==
+ bh=LbELmXWMHSKxwOrAgarH0W+SEsR9r8MnvJdNy39oRdg=;
+ b=o9G0iOloJd+JvRzjTnGgsRAw9tI7iwnE06qhQJ13YkFcBlSYN6eD3LdpA4Ib/9+91V
+ g4g4fc9Jwh6Z/+aukIAtiLkUWVNdPK+2p7CEJaENUdiEyK7X0K+ruq0L4yC7vYSfnOb7
+ lgFQbCnnhcKXEjuvNmPlWjnVHs3xIb+jIsvqomyOc0jH1tmbmeLz9UjEXUlmcHKwr8EL
+ Xec9YxNjWwVveZVcumEpvXvGpvIRAGZxhhXkCekttC8KRrST2v0fyGeTubmMycg1zCY4
+ BYrUs3zfCoaZeycxi2f5KJ3qJWoKRy2bS77E48V8k53Cx2AbspQUzOfhjfs7XSpVyX8K
+ mOjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T6ZWXMnWygGPmctQBKk9BzIeZRZGN1KZ4kRyQOtB3JQ=;
- b=sUD01kmGuIfimLyGJowMAw9itD5rdQkA52/O/bH335/0D/gcr9K2PK90SPcBBX99vB
- ngrgguzcxcG48AOUJqR/r//1cTl9IUO3dFunpTVjCAliiT04EzpxGxmMcb6tOy6oPkFp
- 9brFZhGQsHIGntvTK7DJGfxIi0CB/2FebA7IEpvbneN4KbcTFg5ub3n+aEH5m4AHsoj8
- 5F88i1e3HhBBe6xoSiWxlA7Tl95fSAKd4epY6OFpdC8vozIGjd+XGCVee/ITuzpOQ8Jd
- 6jhgn8AJWlVmg3ZpEuTaGmhV9JQSlpqg8aZm5stV7N9+8IS3RWhFpkSx+Jgx1BH4MDDu
- uNHA==
-X-Gm-Message-State: AOAM533B+K0HGa6pp6GfTvyUf+YQgBGqoVtVCYGD5d/mKz41puZEJSBJ
- 5Iy8q5+uSRfNjdpQk+RNx7yQcolAFUI=
-X-Google-Smtp-Source: ABdhPJwg5aSQfmlVy9FCPCnEDPzaPF84Szdq8juhRVgn9u1Rp21EVpdVNi419IQaUSV0jeKU6yselA==
-X-Received: by 2002:adf:9f45:: with SMTP id f5mr6675335wrg.384.1630070624332; 
- Fri, 27 Aug 2021 06:23:44 -0700 (PDT)
+ bh=LbELmXWMHSKxwOrAgarH0W+SEsR9r8MnvJdNy39oRdg=;
+ b=gZYU38IncxcOOikkN76fHbcPjH9z1E9YNh516E+iELlTgCpCoYvsmabNYeoMUye/We
+ VsTF/681VYEeh+R8BgfW32umaMST8a9gSmkg9SDdNum8PTPJthDt8qobshs3/xVEvLlT
+ 5gc9veWIrJuWQ9dj5HY9I3RMZQFKxoOMjDmMp3weB+nxgGh5OQXAPpaTy8yGVtaluUl9
+ BKrD4Loi68wBEVwP/FVSdUbovTt3/SQHcz191S8SgdWh8gBO/JglnbtIVx6/pSlDU8Oo
+ ENvhw9hQgU2aOkiG29PwgtI951x9hoAnnHgjEN4mqcieAiOF8RjEsS4rQcABmFIgquB/
+ prlA==
+X-Gm-Message-State: AOAM533aQq7OMb/U71SCNPIBQBDGy1buqKUs1mbMjSnAE02IQOKJ2ICW
+ FT2xJ/RdPiD5WwAYz8Doamc=
+X-Google-Smtp-Source: ABdhPJzjdAShCedkgxVIO9rqBS+5OS3pdycCPXXtI9InTLp4lTJ4mkaJm/MTGCqb1IBCmKGvpuYNMw==
+X-Received: by 2002:adf:e78d:: with SMTP id n13mr10249418wrm.55.1630070627089; 
+ Fri, 27 Aug 2021 06:23:47 -0700 (PDT)
 Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id u10sm6412051wrt.14.2021.08.27.06.23.42
+ by smtp.gmail.com with ESMTPSA id d8sm6922081wrv.20.2021.08.27.06.23.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 06:23:42 -0700 (PDT)
+ Fri, 27 Aug 2021 06:23:46 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH libdrm 16/25] tests: tegra: Add syncpt-wait test
-Date: Fri, 27 Aug 2021 15:22:56 +0200
-Message-Id: <20210827132305.3572077-17-thierry.reding@gmail.com>
+Subject: [PATCH libdrm 17/25] tests: tegra: Add syncpoint timeout test
+Date: Fri, 27 Aug 2021 15:22:57 +0200
+Message-Id: <20210827132305.3572077-18-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210827132305.3572077-1-thierry.reding@gmail.com>
 References: <20210827132305.3572077-1-thierry.reding@gmail.com>
@@ -75,40 +75,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-This is a very simple sanity test to check whether or not a syncpt can
-be incremented by a host1x client. This uses gr2d on Tegra20 through
-Tegra114 and VIC on Tegra124 and later.
+This test can be used to purposefully trigger a job timeout.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- tests/tegra/meson.build   |   9 +++
- tests/tegra/syncpt-wait.c | 151 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 160 insertions(+)
- create mode 100644 tests/tegra/syncpt-wait.c
+ tests/tegra/meson.build      |   9 ++
+ tests/tegra/syncpt-timeout.c | 163 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 172 insertions(+)
+ create mode 100644 tests/tegra/syncpt-timeout.c
 
 diff --git a/tests/tegra/meson.build b/tests/tegra/meson.build
-index b4aea33f4298..8b1b8bf58dd1 100644
+index 8b1b8bf58dd1..4b05569e0971 100644
 --- a/tests/tegra/meson.build
 +++ b/tests/tegra/meson.build
-@@ -54,3 +54,12 @@ gr2d_fill = executable(
+@@ -63,3 +63,12 @@ syncpt_wait = executable(
    link_with : [libdrm, libdrm_tegra, libdrm_test, libdrm_test_tegra],
    install : with_install_tests,
  )
 +
-+syncpt_wait = executable(
-+  'tegra-syncpt-wait',
-+  files('syncpt-wait.c'),
++syncpt_timeout = executable(
++  'tegra-syncpt-timeout',
++  files('syncpt-timeout.c'),
 +  include_directories : [inc_root, inc_drm, inc_tegra],
 +  c_args : warn_c_args,
 +  link_with : [libdrm, libdrm_tegra, libdrm_test, libdrm_test_tegra],
 +  install : with_install_tests,
 +)
-diff --git a/tests/tegra/syncpt-wait.c b/tests/tegra/syncpt-wait.c
+diff --git a/tests/tegra/syncpt-timeout.c b/tests/tegra/syncpt-timeout.c
 new file mode 100644
-index 000000000000..f18117425f6d
+index 000000000000..fea3665cb126
 --- /dev/null
-+++ b/tests/tegra/syncpt-wait.c
-@@ -0,0 +1,151 @@
++++ b/tests/tegra/syncpt-timeout.c
+@@ -0,0 +1,163 @@
 +/*
 + * Copyright © 2018 NVIDIA Corporation
 + *
@@ -221,14 +219,26 @@ index 000000000000..f18117425f6d
 +        return 1;
 +    }
 +
-+    err = drm_tegra_pushbuf_begin(pushbuf, 4, &ptr);
++    err = drm_tegra_pushbuf_begin(pushbuf, 8, &ptr);
 +    if (err < 0) {
 +        fprintf(stderr, "failed to prepare push buffer: %s\n", strerror(-err));
 +        return 1;
 +    }
 +
++    /*
++     * Empty command streams will be rejected, so we use this as an easy way
++     * to add something to the command stream. But this could be any other,
++     * valid command stream.
++     */
 +    err = drm_tegra_pushbuf_sync_cond(pushbuf, &ptr, syncpt,
 +                                      DRM_TEGRA_SYNC_COND_IMMEDIATE);
++    if (err < 0) {
++        fprintf(stderr, "failed to push syncpoint: %s\n", strerror(-err));
++        return 1;
++    }
++
++    /* pretend that the syncpoint was incremented a second time */
++    err = drm_tegra_pushbuf_sync(pushbuf, syncpt, 1);
 +    if (err < 0) {
 +        fprintf(stderr, "failed to push syncpoint: %s\n", strerror(-err));
 +        return 1;
@@ -246,7 +256,7 @@ index 000000000000..f18117425f6d
 +        return 1;
 +    }
 +
-+    err = drm_tegra_job_wait(job, 250000000);
++    err = drm_tegra_job_wait(job, 250000);
 +    if (err < 0) {
 +        fprintf(stderr, "failed to wait for job: %s\n", strerror(-err));
 +        return 1;
