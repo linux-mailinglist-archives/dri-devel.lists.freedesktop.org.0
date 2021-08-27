@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACED3F9E51
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 19:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12CD3F9E7E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 20:05:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BADE86E999;
-	Fri, 27 Aug 2021 17:50:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A54646E9A2;
+	Fri, 27 Aug 2021 18:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66ACD6E999
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 17:50:26 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B8E6E1FF38;
- Fri, 27 Aug 2021 17:50:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1630086624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ms+Fkmur2WYb67yHfoUOGKQ2l1RH6G2yYJ/wCRhZHoM=;
- b=ooxF/1gW17bqId2aVGu4q+hWkS1JJjBxCS/1n9CCx/7fYTBXxn7TGVfWMm4Fp4P2KJnwAF
- W/nloFVMCst6HLQRD1Lw526woc6DiTr2H2Ue4yn6mubfa+uF2uqOWXYR9j5grBMmJsfeHi
- hxwX+imiFNFzwhUi+FjtE0gbkFb1lPI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1630086624;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ms+Fkmur2WYb67yHfoUOGKQ2l1RH6G2yYJ/wCRhZHoM=;
- b=YJHG2tcrPH1xoaDL+h0Dye00pzlPYeYALghMfxkyjyZiiWwm6kfyEuwPvRw/FEAvOHWmLk
- V4rhteb6npfKTrBQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 63EB013951;
- Fri, 27 Aug 2021 17:50:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id +3+qFuAlKWE+HAAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Fri, 27 Aug 2021 17:50:24 +0000
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-Cc: "H . Peter Anvin" <hpa@zytor.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, x86@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Peter Robinson <pbrobinson@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Ingo Molnar <mingo@redhat.com>, David Airlie <airlied@linux.ie>
-References: <20210827100027.1577561-1-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with
- CONFIG_FB disabled
-Message-ID: <bb5d045c-c9de-b6df-cf45-32b1a866264a@suse.de>
-Date: Fri, 27 Aug 2021 19:50:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
+ [IPv6:2607:f8b0:4864:20::e30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9FF46E99A;
+ Fri, 27 Aug 2021 18:05:06 +0000 (UTC)
+Received: by mail-vs1-xe30.google.com with SMTP id t4so5231963vsm.5;
+ Fri, 27 Aug 2021 11:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=88JiBN68KFkPvgUKvvgM6auDxOEjKddEpXMvH74tSU0=;
+ b=OlwWwQfPg4x+JJlvPNh300Bq1LWQakwQ25UjGQSFu+e/ONGVka7NnKHJa+lgNw1pXV
+ O/VaBhbQV0p5s2/S3HszX9pzR0SadV3bqBaL/0a48gJ9IGvbaB4+SIEcxTiCHR7KQJ8B
+ J1a5QBQJPr4qWh90Oj3DuALxdosTczcnDdni2cSNTkI8cSuqR8wklMDBXc8ldGdEK46o
+ 0zcdpFqpN0s/xEFW3FLjXWWA1ZwBWL+8GLjzKkkgYnRZh7SCSIlTLkDqH2XmtErs4aPk
+ 1rqZ/YjPwLsXASog5KOY4AHNWfaWbxESg1O/qpwsb3e0lfivzJjauzD88S0GagWg5pQz
+ pVSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=88JiBN68KFkPvgUKvvgM6auDxOEjKddEpXMvH74tSU0=;
+ b=HZ5nwJ+TfaN1KFaxclzph4OsR4Ac4WJ+aXTexK3/mFEWC0hTHMDmX/PmX4IbhL/Wud
+ htPomGH0Z9Sh7yTsqhhAS3+iGBAmJnG0tc1chHc54Q7vU1y74EtmgWBOkhYCLZeGCOMp
+ kudfJWOiy9PC/2N7GTGzFCLVWJB53FvB0GswENKL5p2kolhhtBHTWVcljJbf/mWzIxww
+ TdTz6nyEuBD5sPVAbhZkqV+0HamwQaLKMMyuRcAQmCEhsnFzcqaf5a5zbyZlcI7SAc/n
+ EujE3XL3dLH3n8lbB9dUzE9wIfOx93C93vE4U/6WqczxBWoDEDLgyhIFwTGdoKo3znDq
+ +A+g==
+X-Gm-Message-State: AOAM531QQwzkzafoLtctztBdf27KkcF0gSQd3fDzSx3cE7M+NzNmRgG+
+ t3O3Pkqr1RoRwbS+fI61Jdw9EvgeqingDzxUll8=
+X-Google-Smtp-Source: ABdhPJzGaciYM1/s8m8/B975vUfIbvCRz+B6Bp+lNCm9eTPHyZtDPjmUuOFML4/BZkts2fosFQFBO2nGMugI2IF9+i8=
+X-Received: by 2002:a67:c789:: with SMTP id t9mr8673774vsk.60.1630087505693;
+ Fri, 27 Aug 2021 11:05:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210827100027.1577561-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="MhvaDTCQzm390CuA8VY5jgge6KVQPick5"
+References: <20210822222009.2035788-1-jim.cromie@gmail.com>
+ <20210822222009.2035788-2-jim.cromie@gmail.com>
+ <c83b0814-b8e1-91f5-ba28-f9db3f363ce1@akamai.com>
+In-Reply-To: <c83b0814-b8e1-91f5-ba28-f9db3f363ce1@akamai.com>
+From: jim.cromie@gmail.com
+Date: Fri, 27 Aug 2021 12:04:39 -0600
+Message-ID: <CAJfuBxz83LUFqPmApV22d0R1pHxFH4ZhObi7PgQeQ75w4zvb7A@mail.gmail.com>
+Subject: Re: [PATCH v6 01/11] moduleparam: add data member to struct
+ kernel_param
+To: Jason Baron <jbaron@akamai.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Sean Paul <seanpaul@chromium.org>, 
+ Jessica Yu <jeyu@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ intel-gvt-dev@lists.freedesktop.org, 
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,148 +73,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---MhvaDTCQzm390CuA8VY5jgge6KVQPick5
-Content-Type: multipart/mixed; boundary="s0O1dtcYdZM7EGrIJlVas1FfWteIpAi3F";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: "H . Peter Anvin" <hpa@zytor.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, x86@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Peter Robinson <pbrobinson@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Ingo Molnar <mingo@redhat.com>, David Airlie <airlied@linux.ie>
-Message-ID: <bb5d045c-c9de-b6df-cf45-32b1a866264a@suse.de>
-Subject: Re: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with
- CONFIG_FB disabled
-References: <20210827100027.1577561-1-javierm@redhat.com>
-In-Reply-To: <20210827100027.1577561-1-javierm@redhat.com>
+On Wed, Aug 25, 2021 at 11:13 AM Jason Baron <jbaron@akamai.com> wrote:
+>
+>
+>
+> On 8/22/21 6:19 PM, Jim Cromie wrote:
+> > Add a const void* data member to the struct, to allow attaching
+> > private data that will be used soon by a setter method (via kp->data)
+> > to perform more elaborate actions.
+> >
+> > To attach the data at compile time, add new macros:
+> >
 
---s0O1dtcYdZM7EGrIJlVas1FfWteIpAi3F
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+>
+> I wonder if kp->arg can just be used for all this and avoid this patch entirely?
+>
+> define something like:
+>
+> struct dd_bitmap_param {
+>         int bitmap;
+>         struct dyndbg_bitdesc *bitmap_arr;
+> };
+>
+> and then just pass a pointer to it as 'arg' for module_param_cb? And then in
+> the get/set callbacks you can use kp->bitmap and kp->bitmap_arr.
+>
 
-Hi
+yes, thanks, this is working out nicely.
+I think I was thrown off by the arg name,
+if it had been called data, it would have slapped me
 
-Am 27.08.21 um 12:00 schrieb Javier Martinez Canillas:
-> This patch series splits the fbdev core support in two different Kconfi=
-g
-> symbols: FB and FB_CORE. The motivation for this is to allow CONFIG_FB =
-to
-> be disabled, while still using fbcon with the DRM fbdev emulation layer=
-=2E
-
-I'm skeptical. DRM's fbdev emulation is not just the console emulation,=20
-it's a full fbdev device. You can see the related device file as=20
-/dev/fb*. Providing the file while having CONFIG_FB disabled doesn't=20
-make much sense to me. I know it's not pretty, but it's consistent at lea=
-st.
-
-If you want to remove fbdev, you could try to untangle fbdev and the=20
-console emulation such that DRM can set up a console by itself. Old=20
-fbdev drives would also set up the console individually.
-
-Another low-hangling fruit is a config option to enable/disable the=20
-fbdev userspace interface (i.e., dev/fb*). Disabling the interface would =
-
-remove the rsp mmap of the fbdev graphics buffer. We sometimes have to=20
-use an extra shadow buffer because mmap requires non-moving buffers.=20
-Without mmap we might be able to avoid some of the costly internal=20
-memcpys for some of our drivers.
-
-Best regards
-Thomas
-
->=20
-> The reason for doing this is that now with simpledrm we could just boot=
-
-> with simpledrm -> real DRM driver, without needing any legacy fbdev dri=
-ver
-> (e.g: efifb or simplefb) even for the early console.
->=20
-> We want to do that in the Fedora kernel, but currently need to keep opt=
-ion
-> CONFIG_FB enabled and all fbdev drivers explicitly disabled, which make=
-s
-> the configuration harder to maintain.
->=20
-> It is a RFC because I'm not that familiar with the fbdev core, but I ha=
-ve
-> tested and works with CONFIG_DRM_FBDEV_EMULATION=3Dy and CONFIG_FB disa=
-bled.
-> This config automatically disables all the fbdev drivers that is our go=
-al.
->=20
-> Patch 1/4 is just a clean up, patch 2/4 moves a couple of functions out=
- of
-> fbsysfs.o, that are not related to sysfs attributes creation and finall=
-y
-> patch 3/4 makes the fbdev split that is mentioned above.
->=20
-> Patch 4/4 makes the DRM fbdev emulation depend on the new FB_CORE symbo=
-l
-> instead of FB. This could be done as a follow-up but for completeness i=
-s
-> also included in this series.
->=20
-> Best regards,
-> Javier
->=20
->=20
-> Javier Martinez Canillas (4):
->    fbdev: Rename fb_*_device() functions names to match what they do
->    fbdev: Move framebuffer_{alloc,release}() functions to fbmem.c
->    fbdev: Split frame buffer support in FB and FB_CORE symbols
->    drm: Make fbdev emulation depend on FB_CORE instead of FB
->=20
->   arch/x86/Makefile                  |  2 +-
->   arch/x86/video/Makefile            |  2 +-
->   drivers/gpu/drm/Kconfig            |  2 +-
->   drivers/video/console/Kconfig      |  2 +-
->   drivers/video/fbdev/Kconfig        | 57 +++++++++++++---------
->   drivers/video/fbdev/core/Makefile  | 13 +++--
->   drivers/video/fbdev/core/fbmem.c   | 73 ++++++++++++++++++++++++++--
->   drivers/video/fbdev/core/fbsysfs.c | 77 +----------------------------=
--
->   include/linux/fb.h                 | 18 ++++++-
->   9 files changed, 134 insertions(+), 112 deletions(-)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---s0O1dtcYdZM7EGrIJlVas1FfWteIpAi3F--
-
---MhvaDTCQzm390CuA8VY5jgge6KVQPick5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmEpJd8FAwAAAAAACgkQlh/E3EQov+Ag
-Ww//de6jEOu+ep1bwSKeiOi4nHptCR9PTNmel4PxrOSu4138ub5yce3dv8XFzwaiKZKofz9NfN3q
-OTI+aSU7OSwwqFbBsq+zZD4oFbdEW5ETyFbRK1DqjrolGN7nH9rukMGMuMsR2EQhI2sCqHA3m3Ic
-ha9w/T2qozFw5VJvjEVbSxY9cPStML/xbidCIdB3N5N6OlZfGBxVOLGrXPgcHojWSTO5kZNGWEGy
-ptOR5EnkJXxTurGgYTtvQJxnkft0a7gkvHApUXoN+1xaqo5/0iJSJKXdnH7grgyuwGAqRBq73XuS
-itWFQJ8PcuwbE4y39gJHIBmoCvLBwrwpLs1htfVZLbBhgffvPlDx+F7mQiySXRQYkrREM7DcsCq8
-84ZKYPNkT9Jk/JexDGlfHgC3/afMmV+5L6ZhuE04rp2V2jaVjnBSUYf92EvGpOYOuVtBgs5kdb31
-zWiozGYRbQXQiZsirC06S5fGsuxh8OchAvyHp0D1EmaFvVbMgk9bRbN7bBIyLifHei1oh0+vXJTg
-os4PGvBPkljNMpONjE69aElJLd29MlKy3dR0lbBMNMAsk02MktlCGRHp1F73KjxXH9WnTr5pVmVr
-t8FHJ3QkV20H8SJLwUThBbtUkMib2IfL/LB051dp5Z9VWn8E56TGewqVhlHAmWrphJbE5F7vJ08A
-bJA=
-=svvr
------END PGP SIGNATURE-----
-
---MhvaDTCQzm390CuA8VY5jgge6KVQPick5--
+> Thanks,
+>
+> -Jason
+>
