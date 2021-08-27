@@ -1,62 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4C13F99B0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 15:24:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 124CA3F9A21
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 15:30:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D11786E956;
-	Fri, 27 Aug 2021 13:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A606E94A;
+	Fri, 27 Aug 2021 13:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EF686E94E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:24:09 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id g18so2869177wrc.11
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 06:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+3kCGUDFoZyN6SnbYt3qQWcFpGlY4Y9NYp4wS5JC9xw=;
- b=KuzGMvLim7UDg8/PwPM1aaALQnNQmDCZ0kNxcSxZAmUvnyBbrszz4QschJCsZMODSF
- 5vq2tz2zSQdWyfBJKmXfRjK3NWOMmQtoWPfoe68Qt3F7q6ZmU8DDKUkNfAkg+nfZ+flh
- /4Pxb5f7+YC4RO9Ux9/cMFLGe9QyXKDD2jCefeYI//y8Qk0bO5swvXo4wAwv2C/ScqI+
- BiiksyKjQxDguvWIEA8hVknMU6HCYKEAQXxRjf4uU9jYmYeiAiA8SIeaJE1D+WfP7pyf
- B5zFVIMZUr5l5lT3KR4HomrL11/8HwlUl/nOg/9ozY0lI/KOBBoi5aTXI5cYYYX/oOFw
- sPoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+3kCGUDFoZyN6SnbYt3qQWcFpGlY4Y9NYp4wS5JC9xw=;
- b=pAkBOxmqcp8zuA9P+3BpHikjispTRxb0ui+OndPpPz9K0x+kct/Ow/SwXfmfEL0h8F
- Dn1kGpUOiX3Mcyn0vFdkNJ3lC0h8V2CjildqWeqVORcYloi/mfm3qn2yVz1pfzAOvgpo
- W/lmsGwgjHqmMIFlCXL7qcyeZKP0ztk0YvqXtGg0OmI01Q+haqpC3rNP0bzF+NIRsftN
- cBZC2vAbnD+lk0lXj9O8hQ4bPyW4igwIY2RuFY0gBwl442iZ4WxKjzFlCVFYdOKJxNiD
- d0dgNOCPNpJCn/K7XHqWZhP5NVaBz3RkglY35IyupMeBvYAHHl9ha+slOCAwHhaAeAi2
- jIBw==
-X-Gm-Message-State: AOAM531iYav7w6d9/L6zlw0ARceTHL8isuXoImNziuihmZ49ZtqzneEw
- sryZ/fjOa80kaxcgseFRTQW5JBKwbvk=
-X-Google-Smtp-Source: ABdhPJzxEx6GuPKCTFtqQjfqqpUCMCFQKGNNxdgqa1LRO6eOIYkEcAwH9KfzoiNb34Ja6jkubI1VVg==
-X-Received: by 2002:adf:f9cb:: with SMTP id w11mr10597420wrr.382.1630070647935; 
- Fri, 27 Aug 2021 06:24:07 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id u8sm11724541wmq.45.2021.08.27.06.24.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 06:24:07 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org
-Subject: [PATCH libdrm 25/25] tests: tegra: Add VIC flip test
-Date: Fri, 27 Aug 2021 15:23:05 +0200
-Message-Id: <20210827132305.3572077-26-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210827132305.3572077-1-thierry.reding@gmail.com>
-References: <20210827132305.3572077-1-thierry.reding@gmail.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 496006E937;
+ Fri, 27 Aug 2021 13:30:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="278971005"
+X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; d="scan'208";a="278971005"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2021 06:30:50 -0700
+X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; d="scan'208";a="528312583"
+Received: from aleenaha-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.228.247])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Aug 2021 06:30:47 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Subject: [PATCH] drm/i915: Handle Intel igfx + Intel dgfx hybrid graphics setup
+Date: Fri, 27 Aug 2021 14:30:39 +0100
+Message-Id: <20210827133039.287075-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,374 +46,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-This test will attempt to use the VIC to blit one surface to another
-and perform a vertical flip.
+In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
+when rendering is done on Intel dgfx and scanout/composition on Intel
+igfx.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Before this patch the driver was not quite ready for that setup, mainly
+because it was able to emit a semaphore wait between the two GPUs, which
+results in deadlocks because semaphore target location in HWSP is neither
+shared between the two, nor mapped in both GGTT spaces.
+
+To fix it the patch adds an additional check to a couple of relevant code
+paths in order to prevent using semaphores for inter-engine
+synchronisation between different driver instances.
+
+Patch also moves singly used i915_gem_object_last_write_engine to be
+private in its only calling unit (debugfs), while modifying it to only
+show activity belonging to the respective driver instance.
+
+What remains in this problem space is the question of the GEM busy ioctl.
+We have a somewhat ambigous comment there saying only status of native
+fences will be reported, which could be interpreted as either i915, or
+native to the drm fd. For now I have decided to leave that as is, meaning
+any i915 instance activity continues to be reported.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- tests/tegra/meson.build |   9 ++
- tests/tegra/vic-flip.c  | 333 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 342 insertions(+)
- create mode 100644 tests/tegra/vic-flip.c
+ drivers/gpu/drm/i915/gem/i915_gem_object.h | 17 ----------------
+ drivers/gpu/drm/i915/i915_debugfs.c        | 23 +++++++++++++++++++++-
+ drivers/gpu/drm/i915/i915_request.c        |  7 ++++++-
+ drivers/gpu/drm/i915/i915_request.h        |  1 +
+ 4 files changed, 29 insertions(+), 19 deletions(-)
 
-diff --git a/tests/tegra/meson.build b/tests/tegra/meson.build
-index a9ca09e12f3e..d24053265c2f 100644
---- a/tests/tegra/meson.build
-+++ b/tests/tegra/meson.build
-@@ -100,3 +100,12 @@ vic_blit = executable(
-   link_with : [libdrm, libdrm_tegra, libdrm_test, libdrm_test_tegra],
-   install : with_install_tests,
- )
-+
-+vic_flip = executable(
-+  'tegra-vic-flip',
-+  files('vic-flip.c'),
-+  include_directories : [inc_root, inc_drm, inc_tegra],
-+  c_args : warn_c_args,
-+  link_with : [libdrm, libdrm_tegra, libdrm_test, libdrm_test_tegra],
-+  install : with_install_tests,
-+)
-diff --git a/tests/tegra/vic-flip.c b/tests/tegra/vic-flip.c
-new file mode 100644
-index 000000000000..2e32d6eb4324
---- /dev/null
-+++ b/tests/tegra/vic-flip.c
-@@ -0,0 +1,333 @@
-+/*
-+ * Copyright © 2018 NVIDIA Corporation
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ */
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+#include "tegra.h"
-+
-+#include "host1x.h"
-+#include "vic.h"
-+
-+/* clear output image to red */
-+static int clear(struct vic *vic, struct drm_tegra_channel *channel,
-+                 struct vic_image *output)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 48112b9d76df..3043fcbd31bd 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -503,23 +503,6 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
+ 	i915_gem_object_unpin_pages(obj);
+ }
+ 
+-static inline struct intel_engine_cs *
+-i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+-{
+-	struct intel_engine_cs *engine = NULL;
+-	struct dma_fence *fence;
+-
+-	rcu_read_lock();
+-	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+-	rcu_read_unlock();
+-
+-	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
+-		engine = to_request(fence)->engine;
+-	dma_fence_put(fence);
+-
+-	return engine;
+-}
+-
+ void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
+ 					 unsigned int cache_level);
+ void i915_gem_object_flush_if_display(struct drm_i915_gem_object *obj);
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+index 04351a851586..2f49ff0e8c21 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.c
++++ b/drivers/gpu/drm/i915/i915_debugfs.c
+@@ -135,6 +135,27 @@ static const char *stringify_vma_type(const struct i915_vma *vma)
+ 	return "ppgtt";
+ }
+ 
++static struct intel_engine_cs *
++last_write_engine(struct drm_i915_private *i915,
++		  struct drm_i915_gem_object *obj)
 +{
-+    struct drm_tegra_pushbuf *pushbuf;
-+    struct drm_tegra_job *job;
-+    uint32_t *ptr;
-+    int err;
++	struct intel_engine_cs *engine = NULL;
++	struct dma_fence *fence;
 +
-+    err = drm_tegra_job_new(channel, &job);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create job: %s\n", strerror(-err));
-+        return 1;
-+    }
++	rcu_read_lock();
++	fence = dma_resv_get_excl_unlocked(obj->base.resv);
++	rcu_read_unlock();
 +
-+    err = drm_tegra_job_get_pushbuf(job, &pushbuf);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create push buffer: %s\n", strerror(-err));
-+        return 1;
-+    }
++	if (fence &&
++	    !dma_fence_is_signaled(fence) &&
++	    dma_fence_is_i915(fence) &&
++	    to_request(fence)->i915 == i915)
++		engine = to_request(fence)->engine;
++	dma_fence_put(fence);
 +
-+    err = drm_tegra_pushbuf_begin(pushbuf, 32, &ptr);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to prepare push buffer: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = vic->ops->clear(vic, output, 1023, 0, 0, 1023);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to clear surface: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = vic->ops->execute(vic, pushbuf, &ptr, output, NULL, 0);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to execute operation: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_pushbuf_sync_cond(pushbuf, &ptr, vic->syncpt,
-+                                      DRM_TEGRA_SYNC_COND_OP_DONE);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to push syncpoint: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_pushbuf_end(pushbuf, ptr);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to update push buffer: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_job_submit(job, NULL);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to submit job: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_job_wait(job, 1000000000);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to wait for job: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    drm_tegra_job_free(job);
-+
-+    return 0;
++	return engine;
 +}
 +
-+/* fill bottom half of image to blue */
-+static int fill(struct vic *vic, struct drm_tegra_channel *channel,
-+                struct vic_image *output)
-+{
-+    struct drm_tegra_pushbuf *pushbuf;
-+    struct drm_tegra_job *job;
-+    uint32_t *ptr;
-+    int err;
+ void
+ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+ {
+@@ -230,7 +251,7 @@ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+ 	if (i915_gem_object_is_framebuffer(obj))
+ 		seq_printf(m, " (fb)");
+ 
+-	engine = i915_gem_object_last_write_engine(obj);
++	engine = last_write_engine(dev_priv, obj);
+ 	if (engine)
+ 		seq_printf(m, " (%s)", engine->name);
+ }
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index ce446716d092..d2dec669d262 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -900,6 +900,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+ 	 * hold the intel_context reference. In execlist mode the request always
+ 	 * eventually points to a physical engine so this isn't an issue.
+ 	 */
++	rq->i915 = tl->gt->i915;
+ 	rq->context = intel_context_get(ce);
+ 	rq->engine = ce->engine;
+ 	rq->ring = ce->ring;
+@@ -1160,6 +1161,9 @@ emit_semaphore_wait(struct i915_request *to,
+ 	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
+ 	struct i915_sw_fence *wait = &to->submit;
+ 
++	if (to->i915 != from->i915)
++		goto await_fence;
 +
-+    err = drm_tegra_job_new(channel, &job);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create job: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    err = drm_tegra_job_get_pushbuf(job, &pushbuf);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create push buffer: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    err = drm_tegra_pushbuf_begin(pushbuf, 32, &ptr);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to prepare push buffer: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = vic->ops->fill(vic, output, 0, output->height / 2, output->width - 1,
-+                         output->height - 1, 0, 0, 1023, 1023);
-+    if (err < 0) {
-+        fprintf(stderr, "failed ot fill surface: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = vic->ops->execute(vic, pushbuf, &ptr, output, NULL, 0);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to execute operation: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_pushbuf_sync_cond(pushbuf, &ptr, vic->syncpt,
-+                                      DRM_TEGRA_SYNC_COND_OP_DONE);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to push syncpoint: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_pushbuf_end(pushbuf, ptr);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to update push buffer: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_job_submit(job, NULL);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to submit job: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_job_wait(job, 1000000000);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to wait for job: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    drm_tegra_job_free(job);
-+
-+    return 0;
-+}
-+
-+/* flip image vertically */
-+static int flip(struct vic *vic, struct drm_tegra_channel *channel,
-+                struct vic_image *output, struct vic_image *input)
-+{
-+    struct drm_tegra_pushbuf *pushbuf;
-+    struct drm_tegra_job *job;
-+    uint32_t *ptr;
-+    int err;
-+
-+    err = drm_tegra_job_new(channel, &job);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create job: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    err = drm_tegra_job_get_pushbuf(job, &pushbuf);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create push buffer: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    err = drm_tegra_pushbuf_begin(pushbuf, 32, &ptr);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to prepare push buffer: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = vic->ops->flip(vic, output, input);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to flip: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = vic->ops->execute(vic, pushbuf, &ptr, output, &input, 1);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to execute operation: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_pushbuf_sync_cond(pushbuf, &ptr, vic->syncpt,
-+                                      DRM_TEGRA_SYNC_COND_OP_DONE);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to push syncpoint: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_pushbuf_end(pushbuf, ptr);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to update push buffer: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_job_submit(job, NULL);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to submit job: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    err = drm_tegra_job_wait(job, 1000000000);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to wait for job: %s\n", strerror(-err));
-+        return err;
-+    }
-+
-+    drm_tegra_job_free(job);
-+
-+    return 0;
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    const unsigned int format = VIC_PIXEL_FORMAT_A8R8G8B8;
-+    const unsigned int kind = VIC_BLK_KIND_PITCH;
-+    const unsigned int width = 16, height = 16;
-+    const char *device = "/dev/dri/renderD128";
-+    struct drm_tegra_channel *channel;
-+    struct vic_image *input, *output;
-+    struct drm_tegra *drm;
-+    unsigned int version;
-+    struct vic *vic;
-+    int fd, err;
-+
-+    if (argc > 1)
-+        device = argv[1];
-+
-+    fd = open(device, O_RDWR);
-+    if (fd < 0) {
-+        fprintf(stderr, "open() failed: %s\n", strerror(errno));
-+        return 1;
-+    }
-+
-+    err = drm_tegra_new(fd, &drm);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to open Tegra device: %s\n", strerror(-err));
-+        close(fd);
-+        return 1;
-+    }
-+
-+    err = drm_tegra_channel_open(drm, DRM_TEGRA_VIC, &channel);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to open channel to VIC: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    version = drm_tegra_channel_get_version(channel);
-+    printf("version: %08x\n", version);
-+
-+    err = vic_new(drm, channel, &vic);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create VIC: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    err = vic_image_new(vic, width, height, format, kind, DRM_TEGRA_CHANNEL_MAP_READ_WRITE,
-+                        &input);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create input image: %d\n", err);
-+        return 1;
-+    }
-+
-+    err = vic_image_new(vic, width, height, format, kind, DRM_TEGRA_CHANNEL_MAP_READ_WRITE,
-+                        &output);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to create output image: %d\n", err);
-+        return 1;
-+    }
-+
-+    err = clear(vic, channel, input);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to clear image: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    err = fill(vic, channel, input);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to fill rectangle: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    err = flip(vic, channel, output, input);
-+    if (err < 0) {
-+        fprintf(stderr, "failed to flip image: %s\n", strerror(-err));
-+        return 1;
-+    }
-+
-+    printf("input: %ux%u\n", input->width, input->height);
-+    vic_image_dump(input, stdout);
-+
-+    printf("output: %ux%u\n", output->width, output->height);
-+    vic_image_dump(output, stdout);
-+
-+    vic_image_free(output);
-+    vic_image_free(input);
-+
-+    vic_free(vic);
-+    drm_tegra_channel_close(channel);
-+    drm_tegra_close(drm);
-+    close(fd);
-+
-+    return 0;
-+}
+ 	if (!intel_context_use_semaphores(to->context))
+ 		goto await_fence;
+ 
+@@ -1263,7 +1267,8 @@ __i915_request_await_execution(struct i915_request *to,
+ 	 * immediate execution, and so we must wait until it reaches the
+ 	 * active slot.
+ 	 */
+-	if (intel_engine_has_semaphores(to->engine) &&
++	if (to->i915 == from->i915 &&
++	    intel_engine_has_semaphores(to->engine) &&
+ 	    !i915_request_has_initial_breadcrumb(to)) {
+ 		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
+ 		if (err < 0)
+diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+index 1bc1349ba3c2..61a2ad6f1f1c 100644
+--- a/drivers/gpu/drm/i915/i915_request.h
++++ b/drivers/gpu/drm/i915/i915_request.h
+@@ -163,6 +163,7 @@ enum {
+  */
+ struct i915_request {
+ 	struct dma_fence fence;
++	struct drm_i915_private *i915;
+ 	spinlock_t lock;
+ 
+ 	/**
 -- 
-2.32.0
+2.30.2
 
