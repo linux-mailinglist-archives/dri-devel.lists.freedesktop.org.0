@@ -1,96 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F493FA014
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 21:39:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7133FA07D
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 22:20:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BABD66E9B7;
-	Fri, 27 Aug 2021 19:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE61D6E9B9;
+	Fri, 27 Aug 2021 20:20:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2080.outbound.protection.outlook.com [40.107.236.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC4F26E9B6;
- Fri, 27 Aug 2021 19:38:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VA1Ql9ZJVmpntxioSsCeM6qs3zrYh3sNSpd3BXUrbiHciPfpmi2xVjKBmEWfOcuT6b+knGOyOkBk9/CZ/h3ywpAEQf021dPPwmzL7ORWanh1PHZBASwle6FaYQvUusgGdgK5baF1O2JSQe1RFF12tcrlmIB4P0EGIlVsJgFYbMXu6LtoAe7M6xfzBsDOhVg6XRlduo4O50enX/Lb3dR8jNsMhCocGRCFmcFnvc3uSv/cWI1iwtfPZCgeMIidNq8tMyufGgJM3PKe6ybX7tKdUDpd2QSJHHGa6ksutHeBtHCPLD8hVDnI/8piG/iK/Lfgohp6T5x7ovXkHhQKjaac8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GvehxHQzaFQT7w+NeI0Q50eD+qaTQz3DxT93ME8aKzA=;
- b=nVppSBt8Ws3XZluaX4YhP0KrlOygOj0oGEgclhB5bTNP4hzr84rEN1ItLGzxUnocZe03oL2GUfDfVi7AeG+rqnlt2wvYT8IDoZD3YYumx6sa9aioPJkInvLdt8GQHoZV3gWpj8CyVeuYtunYP+dwdByKkHYwRz5mmrvC448Z2Pj66IL8ejSH2nu2QbYGIscMH6bXYv6Gal/7oZ7YfPoK6eFw7AfyzmhFHt/AcJy9jAOA7NpjVhvIYZh/rPXLdn4cSSpCxgKVz6Z7eNX0t104MUUFujxh4f23wWsPHG/mRWGZNppHsQPi3T0u9JhemNGiFYXRGtH6AQ1vL4Pu5ymiuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GvehxHQzaFQT7w+NeI0Q50eD+qaTQz3DxT93ME8aKzA=;
- b=iAvjHmZ8daBWTp05nwIW/CslMpKGxxNwMsgPBe0lXruA4et6sd8sfWjGehp8204yrihZrvyN1t9RI3lqxwJqvYLXn+9zv6AlHjOGMpjav/PUDK4s2jTSHwOsMxQFQQEpw9r9Oux6F7M/eceGbw7lCVwDQkvKnRPm3CXaqRZyLGE=
-Received: from MWHPR14CA0065.namprd14.prod.outlook.com (2603:10b6:300:81::27)
- by BL0PR12MB4706.namprd12.prod.outlook.com (2603:10b6:208:82::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Fri, 27 Aug
- 2021 19:23:49 +0000
-Received: from CO1NAM11FT011.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:81:cafe::1a) by MWHPR14CA0065.outlook.office365.com
- (2603:10b6:300:81::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend
- Transport; Fri, 27 Aug 2021 19:23:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=pass action=none
- header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT011.mail.protection.outlook.com (10.13.175.186) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4457.17 via Frontend Transport; Fri, 27 Aug 2021 19:23:49 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.12; Fri, 27 Aug
- 2021 14:23:48 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd drm-next-5.15
-Date: Fri, 27 Aug 2021 15:23:36 -0400
-Message-ID: <20210827192336.4649-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC4C36E9B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 20:20:15 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id q14so12195823wrp.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=87OtDxWiEoXbayG11yI3BuRN29+LIvQ+JH3zx+0332Q=;
+ b=ULbhHOnn9MrYE4bxDvydkaX2HPz3X75iWzwQgLRdtT6lZQDe50Lwy/IcAOPSkYRWe0
+ j49eQ1verzDp5pJ1z/kLVqH7Iz2Pv8UmWsEy8uP3WrXhfRPubYOJOMxD2sRxFVRp2/Wh
+ kMBdW1uYDsq+7yGal61QlESL/rfdlYF02IiyQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=87OtDxWiEoXbayG11yI3BuRN29+LIvQ+JH3zx+0332Q=;
+ b=dBiJ0ffy+29eyq6qVrGqnrNEH371KkvKQeMkc1IYspmpgikMs+J474imUGjuM42NgB
+ GxQR9FvCLfzeBUa3vJI+YNg3GBdVvMyJwojEr7UteV+IF9BeHD2V657OaM8cF1TVS162
+ kt8NH7GQuY9OOQEMyU7tWe0CqarUrym0O2beNESO1mo5HoeyM7Z0yVsoPwbrqW0okvaV
+ GEOPZ1VNdZKD3hoYjhABURoJprTUNH8/bxq5y6HYHuWPIZ0gxddMGjUJqtT8cxkPEtFj
+ ZYV0Q8gAS8Sbvp/XZvOg2brRLyZDlHPLiRUGY2a103fYG72GCX/Ycffz9SFQ4Sw+Ylvb
+ brsA==
+X-Gm-Message-State: AOAM530/tFGGL/4Tfs6Ds5CecfKUY7uv9+01WI8l80UUqwoogJWvbzKK
+ 1s/z6N5iepP+RoZv7ufEChCCXA==
+X-Google-Smtp-Source: ABdhPJxhnMZJlzB+8+d7f5HkiNoG4KYXmvFm/ogC8IbWQpisgT+ThOQTY4B4jZ0HKySDhJHKL64+UQ==
+X-Received: by 2002:adf:f943:: with SMTP id q3mr12659368wrr.118.1630095614282; 
+ Fri, 27 Aug 2021 13:20:14 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m5sm11998000wmi.1.2021.08.27.13.20.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Aug 2021 13:20:13 -0700 (PDT)
+Date: Fri, 27 Aug 2021 22:20:10 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Peter Robinson <pbrobinson@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Ingo Molnar <mingo@redhat.com>, David Airlie <airlied@linux.ie>
+Subject: Re: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with
+ CONFIG_FB disabled
+Message-ID: <YSlI+ryYqoRxM7aB@phenom.ffwll.local>
+Mail-Followup-To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Peter Robinson <pbrobinson@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ David Airlie <airlied@linux.ie>
+References: <20210827100027.1577561-1-javierm@redhat.com>
+ <bb5d045c-c9de-b6df-cf45-32b1a866264a@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fe280681-ca70-4170-255b-08d96990326d
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4706:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4706BC02AF39E3B8718D4DECF7C89@BL0PR12MB4706.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1201;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ya929svkZTU1O/ExNSHaCJvF5PwBxltS6XEPbjD+03p2pNBMQEN3Kk6vRgGGQeLoDtrZB95LyNJvw5hszxtZE3oj1qvXWKcf8FKSly4fjCioWaHu6V7xPQPmBBamvnO7rDOqTv5wFgeM8N0iBYe0/9xYw6pcnSRHSKr7AGd3VMNC/xcoqA3BVoRXF05ZH3tfZ3bWNTf49Oh+ENDJHvN5Yxx7/lJylGRzYi1NpkaOS0iVDw22B2KbYCVBZeg1W9ooChsUK+yj0iAH4WhLur3qpr0S4osA4pJbZNPfTfS8dubNpwn9nxwersbxdC1npNA9JFs3NVYUHG3Qc6anCUdPLJhD41r6z4z3YVs78QGUQNoxG1tiah/T4lxZ9JQAnTP7y+7+IJuIFJ/e9aTE3OQzRhZqfUEYX4CxyMm7wYSrXOrz1q+kLT1qhWImNqigPzIXczWljNllnAGMc3mA+RS3bcHa/bXDGBFJVD7F1Dban7o+PvD15Np0/2cq12xHEGQ3fQIaSU7TvCoS+gqLy86xSebNfpHlBRaWRpvhZ6uyfMVF6vzNxTvRmh2qqvl5oHlbQz+VQlMK2aDTsZ/MnL38Nfjx2P9h7zhOyg+UA1ImYVSKtnrhRS5ieGz4N1Nm8YvuU+bC4U464hVOupu1YjFPQWiQVGKcqMQTLxEX1Ylu0iyZpk7wnAqdYcXlTbVfVyh/qW28MKQSkt4wFRmj6KDoPjYyeVQrL4Ai4D8UjJDUw0U=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(426003)(508600001)(70586007)(36860700001)(83380400001)(316002)(81166007)(47076005)(2906002)(110136005)(6666004)(8676002)(8936002)(4326008)(7696005)(82310400003)(336012)(26005)(36756003)(966005)(86362001)(16526019)(186003)(1076003)(356005)(70206006)(5660300002)(2616005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 19:23:49.0287 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe280681-ca70-4170-255b-08d96990326d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT011.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4706
+In-Reply-To: <bb5d045c-c9de-b6df-cf45-32b1a866264a@suse.de>
+X-Operating-System: Linux phenom 5.10.0-7-amd64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,151 +92,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Fri, Aug 27, 2021 at 07:50:23PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 27.08.21 um 12:00 schrieb Javier Martinez Canillas:
+> > This patch series splits the fbdev core support in two different Kconfig
+> > symbols: FB and FB_CORE. The motivation for this is to allow CONFIG_FB to
+> > be disabled, while still using fbcon with the DRM fbdev emulation layer.
+> 
+> I'm skeptical. DRM's fbdev emulation is not just the console emulation, it's
+> a full fbdev device. You can see the related device file as /dev/fb*.
+> Providing the file while having CONFIG_FB disabled doesn't make much sense
+> to me. I know it's not pretty, but it's consistent at least.
+> 
+> If you want to remove fbdev, you could try to untangle fbdev and the console
+> emulation such that DRM can set up a console by itself. Old fbdev drives
+> would also set up the console individually.
 
-Fixes for 5.15.
+Yeah given the horrendous security track record of all that code, and the
+maze of handover we have (stuff like flicker free boot and all that) I'm
+wondering whether typing a new drmcon wouldn't be faster and a lot more
+maintainable.
 
-The following changes since commit 90a9266269eb9f71af1f323c33e1dca53527bd22:
+With drm_client this shouldn't be too much work at least for the drm code.
 
-  drm/amdgpu: Cancel delayed work when GFXOFF is disabled (2021-08-20 12:09:44 -0400)
+> Another low-hangling fruit is a config option to enable/disable the fbdev
+> userspace interface (i.e., dev/fb*). Disabling the interface would remove
+> the rsp mmap of the fbdev graphics buffer. We sometimes have to use an extra
+> shadow buffer because mmap requires non-moving buffers. Without mmap we
+> might be able to avoid some of the costly internal memcpys for some of our
+> drivers.
 
-are available in the Git repository at:
+And yeah stuff like that wouldn't be needed for drmcon either.
+-Daniel
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.15-2021-08-27
+> 
+> Best regards
+> Thomas
+> 
+> > 
+> > The reason for doing this is that now with simpledrm we could just boot
+> > with simpledrm -> real DRM driver, without needing any legacy fbdev driver
+> > (e.g: efifb or simplefb) even for the early console.
+> > 
+> > We want to do that in the Fedora kernel, but currently need to keep option
+> > CONFIG_FB enabled and all fbdev drivers explicitly disabled, which makes
+> > the configuration harder to maintain.
+> > 
+> > It is a RFC because I'm not that familiar with the fbdev core, but I have
+> > tested and works with CONFIG_DRM_FBDEV_EMULATION=y and CONFIG_FB disabled.
+> > This config automatically disables all the fbdev drivers that is our goal.
+> > 
+> > Patch 1/4 is just a clean up, patch 2/4 moves a couple of functions out of
+> > fbsysfs.o, that are not related to sysfs attributes creation and finally
+> > patch 3/4 makes the fbdev split that is mentioned above.
+> > 
+> > Patch 4/4 makes the DRM fbdev emulation depend on the new FB_CORE symbol
+> > instead of FB. This could be done as a follow-up but for completeness is
+> > also included in this series.
+> > 
+> > Best regards,
+> > Javier
+> > 
+> > 
+> > Javier Martinez Canillas (4):
+> >    fbdev: Rename fb_*_device() functions names to match what they do
+> >    fbdev: Move framebuffer_{alloc,release}() functions to fbmem.c
+> >    fbdev: Split frame buffer support in FB and FB_CORE symbols
+> >    drm: Make fbdev emulation depend on FB_CORE instead of FB
+> > 
+> >   arch/x86/Makefile                  |  2 +-
+> >   arch/x86/video/Makefile            |  2 +-
+> >   drivers/gpu/drm/Kconfig            |  2 +-
+> >   drivers/video/console/Kconfig      |  2 +-
+> >   drivers/video/fbdev/Kconfig        | 57 +++++++++++++---------
+> >   drivers/video/fbdev/core/Makefile  | 13 +++--
+> >   drivers/video/fbdev/core/fbmem.c   | 73 ++++++++++++++++++++++++++--
+> >   drivers/video/fbdev/core/fbsysfs.c | 77 +-----------------------------
+> >   include/linux/fb.h                 | 18 ++++++-
+> >   9 files changed, 134 insertions(+), 112 deletions(-)
+> > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Felix Imendörffer
+> 
 
-for you to fetch changes up to 61d861cf478576d85d6032f864360a34b26084b1:
 
-  drm/amd/display: Move AllowDRAMSelfRefreshOrDRAMClockChangeInVblank to bounding box (2021-08-26 13:57:33 -0400)
 
-----------------------------------------------------------------
-amd-drm-next-5.15-2021-08-27:
 
-amdgpu:
-- PLL fix for SI
-- Misc code cleanups
-- RAS fixes
-- PSP cleanups
-- Polaris UVD/VCE suspend fixes
-- aldebaran fixes
-- DCN3.x mclk fixes
-
-amdkfd:
-- CWSR fixes for arcturus and aldebaran
-- SVM fixes
-
-----------------------------------------------------------------
-Aurabindo Pillai (2):
-      drm/amd/display: Update number of DCN3 clock states
-      drm/amd/display: Remove duplicate dml init
-
-Borislav Petkov (1):
-      drm/amdgpu: Fix build with missing pm_suspend_target_state module export
-
-Candice Li (2):
-      drm/amd/amdgpu: add name field back to ras_common_if
-      drm/amd/amdgpu: consolidate PSP TA init shared buf functions
-
-Christophe JAILLET (2):
-      drm/amdgpu: switch from 'pci_' to 'dma_' API
-      drm/radeon: switch from 'pci_' to 'dma_' API
-
-Eric Yang (1):
-      drm/amd/display: refactor riommu invalidation wa
-
-Evan Quan (3):
-      drm/amdgpu: add missing cleanups for Polaris12 UVD/VCE on suspend
-      drm/amdgpu: add missing cleanups for more ASICs on UVD/VCE suspend
-      drm/amdgpu: drop redundant cancel_delayed_work_sync call
-
-Hawking Zhang (1):
-      drm/amdgpu: disable GFX CGCG in aldebaran
-
-Jerry (Fangzhi) Zuo (1):
-      drm/amd/display: Update bounding box states (v2)
-
-John Clements (4):
-      drm/amdgpu: Add driver infrastructure for MCA RAS
-      drm/amdgpu: Update RAS XGMI Error Query
-      drm/amdgpu: Add support for RAS XGMI err query
-      drm/amdgpu: Clear RAS interrupt status on aldebaran
-
-Mukul Joshi (1):
-      drm/amdkfd: CWSR with sw scheduler on Aldebaran and Arcturus
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Move AllowDRAMSelfRefreshOrDRAMClockChangeInVblank to bounding box
-
-Philip Yang (2):
-      drm/amdkfd: check access permisson to restore retry fault
-      drm/amdkfd: map SVM range with correct access permission
-
-Praful Swarnakar (1):
-      drm/amd/display: Add Logging for HDMI color depth information
-
-Sean Keely (1):
-      drm/amdkfd: Account for SH/SE count when setting up cu masks.
-
-Shashank Sharma (1):
-      drm/amdgpu/OLAND: clip the ref divider max value
-
-Yifan Zhang (1):
-      drm/amdgpu: rename amdgpu_bo_get_preferred_pin_domain
-
- drivers/gpu/drm/amd/amdgpu/Makefile                |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |   2 +-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_aldebaran.c   |   1 +
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c    |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c  |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.h  |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c           |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |  21 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c           |   2 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c            | 117 +++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_mca.h            |  72 +++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   8 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c            |  20 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_pll.h            |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            | 142 ++++++------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c            |   1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c            |   1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |   2 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   7 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |  69 ++++++++-
- drivers/gpu/drm/amd/amdgpu/atombios_crtc.c         |   2 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   3 +-
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  19 ++-
- drivers/gpu/drm/amd/amdgpu/mca_v3_0.c              | 125 ++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/mca_v3_0.h              |  26 ++++
- drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c             |  34 ++++-
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |   2 -
- drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c              |  24 +++
- drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c              |  24 +++
- drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c              |  25 +++-
- drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c              |  24 +++
- drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c              |  24 +++
- drivers/gpu/drm/amd/amdgpu/vce_v2_0.c              |  25 ++++
- drivers/gpu/drm/amd/amdgpu/vce_v3_0.c              |  23 +++
- drivers/gpu/drm/amd/amdgpu/vce_v4_0.c              |  23 +++
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c       |  84 ++++++++---
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h       |   1 +
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               | 163 ++++++++++++++-------
- drivers/gpu/drm/amd/amdkfd/kfd_svm.h               |   5 +-
- .../amd/display/dc/dcn10/dcn10_stream_encoder.c    |  11 ++
- .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |  49 +++++--
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c |  17 ---
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c  |   2 +-
- .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |   1 -
- .../amd/display/dc/dml/dcn30/display_mode_vba_30.c |   7 +-
- .../gpu/drm/amd/display/dc/dml/display_mode_vba.c  |   4 +-
- .../drm/amd/display/dc/inc/hw_sequencer_private.h  |   1 -
- drivers/gpu/drm/radeon/radeon_device.c             |   6 +-
- 53 files changed, 997 insertions(+), 258 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_mca.h
- create mode 100644 drivers/gpu/drm/amd/amdgpu/mca_v3_0.c
- create mode 100644 drivers/gpu/drm/amd/amdgpu/mca_v3_0.h
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
