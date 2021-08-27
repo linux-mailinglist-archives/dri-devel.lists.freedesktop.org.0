@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359FF3F99A4
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 15:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829673F99A1
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 15:23:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2C6E6E944;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ECFD6E940;
 	Fri, 27 Aug 2021 13:23:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3A2A6E93F
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:23:22 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id q14so10415485wrp.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 06:23:22 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71FD46E93F
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:23:24 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id t15so4177798wrg.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 06:23:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nCYo7FJcxKoQshzkwg/+mjeEX0Thq4lUy2ZqW0h0e+4=;
- b=CqLSDPoTRTt5AxGXzE4OegrS+nbPyEbSUZqXjNJMmWXb60nyV6rYTuNTSo+YwS0DeU
- VOqpsvIqjxsKodYtVyLryYG8x3RZmAwp6WetsVcN/3rHTSum8oJPWXEqrhi/nq80vbSB
- 07ThCzHHBmufClWem0nxWIsw2mtD/e+2TjHoqvMwXfShAXIy1E2FlsRLftTkMYQ523bC
- NFGyi8MejlBZ03yr41o2pRSWJq+GkXJzLFGMPsZjYp54kF5+wBjNB+Wqn+DJl3eJQQf4
- beMVlSr/XNDCMa4hVGteb7l5sC9XUQA4AVnADGZgpf8s0XP0pPTtHe4mKLUHJJ+2LhYG
- RbHg==
+ bh=GsjiOIONlFkeiKb/INebhBc5lywdJIjsSRJt4IKPGns=;
+ b=fH3b05GKveYwAkc9duGadR6u+z356FlLTrepePBf3ShmZSe0Ibqa7RsSYNAvYrr9J1
+ xh4LahdAXtGh6PXIhSzO1cGUXzOTJQbcgU4qPgAgg+SWQiGZZUN9YiAlbbqJoRtHgqwE
+ Zv+TZ/NE8Qkjc/aORO7lho0I2FhwvafgdZFscKwgRj50vk50s7lgQMAzFadby9BthoOJ
+ OUII0D2NUhOlm4/dJAZw4RD95lw/bZqiOXnwAL+nYCo+CXJI6sFb6wVX73z7kG5HSWq4
+ wuJ5iyWC1xUbKP3vmTjRK0ic7oMiuoWJVnZGw8hdU46pVzaCLf1TFD2LcrPgc6l7zEE/
+ vmVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nCYo7FJcxKoQshzkwg/+mjeEX0Thq4lUy2ZqW0h0e+4=;
- b=bkzFtnWIiTgC7gpGGaLGBJM4oWQAdlw05uCNx568qUYuJpCFwCPdDtUg40WR8+Famg
- wAc+HLN7Av4mI2r9B2eDhPgBNxGwH7mubYir7Zeu1031EnnA544UPhDpCqrS5E0Ce0Zy
- iyjWvHZJRgY/ShANtPL53GXViIdYexVfd0ne7t0CTWeZ1JUyFoAsUSZJbiG5aZ9m/odl
- YoVrxsw48qJP+WUJkO30SopGiXVSR4N9lO2bUqp9+iG7hi/dHHQO08lDRH5pGBJ1MPC4
- mZjOFE++JcGrA7zFIXnF3ERSLHjktM/dGHyXULfMKE8c1RMnb/E3gNe5Z7sKnCG5d8Vw
- 6uDQ==
-X-Gm-Message-State: AOAM5317N3SI8wLz0ujgD3CCLmBTjIFgyPjR/ATwdNDmcDmJ7eQTdGeB
- c+Bm6F/Rlg8+x+oFvZolAsirIPaA/m4=
-X-Google-Smtp-Source: ABdhPJyiFoerR3lESbOmmSFrx2p8NZJJDXo1NdDcQgS3GHKb20MaAuzYeXA/IN8n2avW3Wjq7xIKkw==
-X-Received: by 2002:adf:d0c3:: with SMTP id z3mr10494233wrh.108.1630070601201; 
- Fri, 27 Aug 2021 06:23:21 -0700 (PDT)
+ bh=GsjiOIONlFkeiKb/INebhBc5lywdJIjsSRJt4IKPGns=;
+ b=nTMbKIrwVVTXY4R9XgabyDyXs+9ZtAQvmgJlHtA4sZ7t4rIUSaDGfyua1UVx4xVy96
+ UArbvUydyewK0vF8hAzb+svOh577+1il9Oy6ch9ZUAMT2paI4FqCB5ejgRKkuJjd7aG4
+ hFhNV3tScDxInCiVy+bCrA9Y6dxbJAzTrQQ4bHgINxrETdvBZ4uzCXHGkROfF4Ep6oru
+ HD3oqgpJMoLOAuKLTAs7VoWYntpIDWet/Kgbr3PekY7vR2E2EyhL9ZcumYQekJq/Fw+S
+ JhGv1LxmiNeg88zqPDCQVM8rKFNH5nsXbS1EeWwgYIdoj6SGnmFZaGDGFMrv/tb3uS3E
+ A/tQ==
+X-Gm-Message-State: AOAM533W7sGZykw3KJpCHC24uuWg3fST5Y8KMcZrfL+IbN+TIxki411H
+ Ep61bBkKScCj4qjGagKsxRBvxTgihcM=
+X-Google-Smtp-Source: ABdhPJwhhfJtbCEb8K/twv+oQ/ZOildS44AZcI+udm9RqxwT2SOpQOx34YgejuF0McTq4BDdaa9Q3A==
+X-Received: by 2002:adf:dc8a:: with SMTP id r10mr9962476wrj.371.1630070603040; 
+ Fri, 27 Aug 2021 06:23:23 -0700 (PDT)
 Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id a129sm3865486wme.14.2021.08.27.06.23.20
+ by smtp.gmail.com with ESMTPSA id m24sm8530823wrb.18.2021.08.27.06.23.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 06:23:20 -0700 (PDT)
+ Fri, 27 Aug 2021 06:23:22 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH libdrm 05/25] tegra: Add flink helpers
-Date: Fri, 27 Aug 2021 15:22:45 +0200
-Message-Id: <20210827132305.3572077-6-thierry.reding@gmail.com>
+Subject: [PATCH libdrm 06/25] tegra: Add PRIME support helpers
+Date: Fri, 27 Aug 2021 15:22:46 +0200
+Message-Id: <20210827132305.3572077-7-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210827132305.3572077-1-thierry.reding@gmail.com>
 References: <20210827132305.3572077-1-thierry.reding@gmail.com>
@@ -74,7 +74,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Add helpers to export and import buffer objects via flink names.
+These helpers facilitate exporting and importing buffer objects to and
+from PRIME file descriptors.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
@@ -82,72 +83,82 @@ Changes in v3:
 - add drm_public annotations
 ---
  tegra/tegra-symbols.txt |  2 ++
- tegra/tegra.c           | 50 +++++++++++++++++++++++++++++++++++++++++
- tegra/tegra.h           |  3 +++
- 3 files changed, 55 insertions(+)
+ tegra/tegra.c           | 61 +++++++++++++++++++++++++++++++++++++++++
+ tegra/tegra.h           |  4 +++
+ 3 files changed, 67 insertions(+)
 
 diff --git a/tegra/tegra-symbols.txt b/tegra/tegra-symbols.txt
-index 9422696c1416..630e075fa5d7 100644
+index 630e075fa5d7..f8811bcd26f4 100644
 --- a/tegra/tegra-symbols.txt
 +++ b/tegra/tegra-symbols.txt
-@@ -1,6 +1,8 @@
+@@ -1,5 +1,7 @@
++drm_tegra_bo_export
  drm_tegra_bo_get_handle
-+drm_tegra_bo_get_name
+ drm_tegra_bo_get_name
++drm_tegra_bo_import
  drm_tegra_bo_map
  drm_tegra_bo_new
-+drm_tegra_bo_open
- drm_tegra_bo_ref
- drm_tegra_bo_unmap
- drm_tegra_bo_unref
+ drm_tegra_bo_open
 diff --git a/tegra/tegra.c b/tegra/tegra.c
-index 5225ad052fb3..5eb8518104ef 100644
+index 5eb8518104ef..240600c3c496 100644
 --- a/tegra/tegra.c
 +++ b/tegra/tegra.c
-@@ -244,3 +244,53 @@ drm_public int drm_tegra_bo_unmap(struct drm_tegra_bo *bo)
- 
-     return 0;
+@@ -294,3 +294,64 @@ free:
+     free(bo);
+     return err;
  }
 +
-+drm_public int drm_tegra_bo_get_name(struct drm_tegra_bo *bo, uint32_t *name)
++drm_public int drm_tegra_bo_export(struct drm_tegra_bo *bo, uint32_t flags)
 +{
-+    struct drm_tegra *drm = bo->drm;
-+    struct drm_gem_flink args;
-+    int err;
++    int fd, err;
 +
-+    memset(&args, 0, sizeof(args));
-+    args.handle = bo->handle;
++    flags |= DRM_CLOEXEC;
 +
-+    err = drmIoctl(drm->fd, DRM_IOCTL_GEM_FLINK, &args);
++    err = drmPrimeHandleToFD(bo->drm->fd, bo->handle, flags, &fd);
 +    if (err < 0)
 +        return err;
 +
-+    if (name)
-+        *name = args.name;
++    return fd;
++}
 +
-+    return 0;
++static ssize_t fd_get_size(int fd)
++{
++    ssize_t size, offset;
++    int err;
++
++    offset = lseek(fd, 0, SEEK_CUR);
++    if (offset < 0)
++        return -errno;
++
++    size = lseek(fd, 0, SEEK_END);
++    if (size < 0)
++        return -errno;
++
++    err = lseek(fd, offset, SEEK_SET);
++    if (err < 0)
++        return -errno;
++
++    return size;
 +}
 +
 +drm_public int
-+drm_tegra_bo_open(struct drm_tegra *drm, uint32_t name, uint32_t flags,
-+                  struct drm_tegra_bo **bop)
++drm_tegra_bo_import(struct drm_tegra *drm, int fd, struct drm_tegra_bo **bop)
 +{
-+    struct drm_gem_open args;
 +    struct drm_tegra_bo *bo;
++    ssize_t size;
 +    int err;
 +
-+    bo = drm_tegra_bo_alloc(drm, 0, flags, 0);
++    size = fd_get_size(fd);
++    if (size < 0)
++        return size;
++
++    bo = drm_tegra_bo_alloc(drm, 0, 0, size);
 +    if (!bo)
 +        return -ENOMEM;
 +
-+    memset(&args, 0, sizeof(args));
-+    args.name = name;
-+
-+    err = drmIoctl(drm->fd, DRM_IOCTL_GEM_OPEN, &args);
++    err = drmPrimeFDToHandle(drm->fd, fd, &bo->handle);
 +    if (err < 0)
 +        goto free;
-+
-+    bo->handle = args.handle;
-+    bo->size = args.size;
 +
 +    *bop = bo;
 +
@@ -158,17 +169,17 @@ index 5225ad052fb3..5eb8518104ef 100644
 +    return err;
 +}
 diff --git a/tegra/tegra.h b/tegra/tegra.h
-index c6b4f984de45..333690f23118 100644
+index 333690f23118..aaaf455fbc8e 100644
 --- a/tegra/tegra.h
 +++ b/tegra/tegra.h
-@@ -44,5 +44,8 @@ int drm_tegra_bo_get_handle(struct drm_tegra_bo *bo, uint32_t *handle);
- int drm_tegra_bo_map(struct drm_tegra_bo *bo, void **ptr);
- int drm_tegra_bo_unmap(struct drm_tegra_bo *bo);
+@@ -48,4 +48,8 @@ int drm_tegra_bo_get_name(struct drm_tegra_bo *bo, uint32_t *name);
+ int drm_tegra_bo_open(struct drm_tegra *drm, uint32_t name, uint32_t flags,
+                       struct drm_tegra_bo **bop);
  
-+int drm_tegra_bo_get_name(struct drm_tegra_bo *bo, uint32_t *name);
-+int drm_tegra_bo_open(struct drm_tegra *drm, uint32_t name, uint32_t flags,
-+                      struct drm_tegra_bo **bop);
- 
++int drm_tegra_bo_export(struct drm_tegra_bo *bo, uint32_t flags);
++int drm_tegra_bo_import(struct drm_tegra *drm, int fd,
++                        struct drm_tegra_bo **bop);
++
  #endif /* __DRM_TEGRA_H__ */
 -- 
 2.32.0
