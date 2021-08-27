@@ -1,64 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AAC3F9603
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 10:24:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F263F9623
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 10:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E67646E0E1;
-	Fri, 27 Aug 2021 08:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A1A6E8F5;
+	Fri, 27 Aug 2021 08:31:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A294F6E0E1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 08:24:38 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id x16so1825528pll.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 01:24:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jLsLHxbd3S4fLhjqH4jOQcn0e2LX+uyZe1sVTwZGed0=;
- b=kWMrAoKSV+P98zUQj80khcge2kuQuZ9TplBLiiFuxmahSR3sar03XWITz8IRu5NlEg
- 2yPEqDlAg4xU40qPy7BDI2010AjkKoZvuMJfDB5Q0PitN31kZ08/08aw/RPCq+LMzIfT
- wdYmCh0Jjg/HmjIbYuUcx5ndcDqUE6vPauBi3jJk6c0l09JDWH7Oh10Hlebi7Urbv/0a
- DedX27D+K2EmKs9LS8TrjNr57xqLpXM7+e8D2SVH0dh5FGb9ujAqABq937MG+s0yv3uH
- to/zh+xcZC0vexcpm3iAyD4E6GHiRLdVB9DzUMTPpSxGrM81H6qogMJ3qZsvhgwEZV8e
- zG/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jLsLHxbd3S4fLhjqH4jOQcn0e2LX+uyZe1sVTwZGed0=;
- b=T02N6weXswXouRZX6ugMYdJWg0cbDR1FIdKbJypsYAy3otZ66T4YX4oDtlf/bz+U3O
- TncqeAXpR7GJSHlbAcO9BzcGmgY4HTDKgky5US0lkBFGryA2MXGCvKLCjCaK/Ve8DE8r
- KKBixwV/nhltI60oasZJghBx2PhAMmLUS82tM3MTWNplgAUKKc/OhJ2mh+b+k8+jlkIW
- PufOp3rf4YiF8X7rqevSbNydSsFkEvEgjUADIw2qsArqCY3Een7caxDclDZsDV233GZx
- SNUc5CNX6sNNEXRe32ghcjVKHhIY4emNZJ1TTBvMMOBN5iEBUJ7lwL6+AZ6RRAWeiw4c
- fLMw==
-X-Gm-Message-State: AOAM533l9uGmRA7Z037ajNTU99dsBTE8DJr2a69DHTxXDiAH3mJ7F01V
- cvbDt6ZxtBTv8SdU1Xioyuc+bTboq+dKBPJC
-X-Google-Smtp-Source: ABdhPJyFwInI9upXRx4q+KT8Bp36P/OXbwoFTTpiMb9TyNAh25Zf/DLxOU3ql5iXB18AsaHtfmLj+A==
-X-Received: by 2002:a17:902:ba81:b0:132:3a70:c16 with SMTP id
- k1-20020a170902ba8100b001323a700c16mr7538652pls.60.1630052678314; 
- Fri, 27 Aug 2021 01:24:38 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.213])
- by smtp.gmail.com with ESMTPSA id m18sm5391371pjq.32.2021.08.27.01.24.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 01:24:38 -0700 (PDT)
-From: yangcong <yangcong5@huaqin.corp-partner.google.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, dianders@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- yangcong <yangcong5@huaqin.corp-partner.google.com>
-Subject: [v3 4/4] dt-bindngs: display: panel: Add BOE and INX panel bindings
-Date: Fri, 27 Aug 2021 16:24:07 +0800
-Message-Id: <20210827082407.101053-5-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210827082407.101053-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20210827082407.101053-1-yangcong5@huaqin.corp-partner.google.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D86F26E05D
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 08:31:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A85EE60F4F;
+ Fri, 27 Aug 2021 08:31:52 +0000 (UTC)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>,
+ Huacai Chen <chenhuacai@loongson.cn>
+Subject: [PATCH V4 00/10] PCI/VGA: Rework default VGA device selection
+Date: Fri, 27 Aug 2021 16:31:19 +0800
+Message-Id: <20210827083129.2781420-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,28 +41,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for boe tv110c9m-ll3, inx hj110iz-01a panel.
+My original work is at [1].
 
-Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
+Bjorn do some rework and extension in V2. It moves the VGA arbiter to
+the PCI subsystem, fixes a few nits, and breaks a few pieces to make
+the main patch a little smaller.
+
+V3 rewrite the commit log of the last patch (which is also summarized
+by Bjorn).
+
+V4 split the last patch to two steps.
+
+All comments welcome!
+
+[1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
+
+Bjorn Helgaas (4):
+  PCI/VGA: Move vgaarb to drivers/pci
+  PCI/VGA: Replace full MIT license text with SPDX identifier
+  PCI/VGA: Use unsigned format string to print lock counts
+  PCI/VGA: Remove empty vga_arb_device_card_gone()
+
+Huacai Chen (6):
+  PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
+  PCI/VGA: Prefer vga_default_device()
+  PCI/VGA: Split out vga_arb_update_default_device()
+  PCI/VGA: Log bridge control messages when adding devices
+  PCI/VGA: Rework default VGA device selection (Step 1)
+  PCI/VGA: Rework default VGA device selection (Step 2)
+
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com> 
 ---
- .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml   | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-index a7091ae0f791..45bd82931805 100644
---- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-@@ -26,6 +26,10 @@ properties:
-       - auo,b101uan08.3
-         # BOE TV105WUM-NW0 10.5" WUXGA TFT LCD panel
-       - boe,tv105wum-nw0
-+        # BOE TV110C9M-LL3 10.95" WUXGA TFT LCD panel
-+      - boe,tv110c9m-ll3
-+        # INX HJ110IZ-01A 10.95" WUXGA TFT LCD panel
-+      - inx,hj110iz-01a
- 
-   reg:
-     description: the virtual channel number of a DSI peripheral
--- 
-2.25.1
+ drivers/gpu/vga/Kconfig           |  19 ---
+ drivers/gpu/vga/Makefile          |   1 -
+ drivers/pci/Kconfig               |  19 +++
+ drivers/pci/Makefile              |   1 +
+ drivers/{gpu/vga => pci}/vgaarb.c | 269 ++++++++++++------------------
+ 5 files changed, 126 insertions(+), 183 deletions(-)
+ rename drivers/{gpu/vga => pci}/vgaarb.c (90%)
+--
+2.27.0
 
