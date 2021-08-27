@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFEB3F9CA7
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 18:40:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AEE3F9CA8
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 18:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA9506E993;
-	Fri, 27 Aug 2021 16:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10CD26E994;
+	Fri, 27 Aug 2021 16:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD0A16E993
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 16:40:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40AE86E994
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 16:40:15 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: Phong LE <ple@baylibre.com>,
 	Neil Armstrong <narmstrong@baylibre.com>
@@ -21,9 +21,11 @@ Cc: Andrzej Hajda <a.hajda@samsung.com>, Robert Foss <robert.foss@linaro.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  list@opendingux.net, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 1/2] drm/bridge: it66121: Initialize {device,vendor}_ids
-Date: Fri, 27 Aug 2021 17:39:55 +0100
-Message-Id: <20210827163956.27517-1-paul@crapouillou.net>
+Subject: [PATCH 2/2] drm/bridge: it66121: Wait for next bridge to be probed
+Date: Fri, 27 Aug 2021 17:39:56 +0100
+Message-Id: <20210827163956.27517-2-paul@crapouillou.net>
+In-Reply-To: <20210827163956.27517-1-paul@crapouillou.net>
+References: <20210827163956.27517-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,35 +43,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These two arrays are populated with data read from the I2C device
-through regmap_read(), and the data is then compared with hardcoded
-vendor/product ID values of supported chips.
+If run before the next bridge is initialized, of_drm_find_bridge() will
+give us a NULL pointer.
 
-However, the return value of regmap_read() was never checked. This is
-fine, as long as the two arrays are zero-initialized, so that we don't
-compare the vendor/product IDs against whatever garbage is left on the
-stack.
-
-Address this issue by zero-initializing these two arrays.
+If that's the case, return -EPROBE_DEFER; we may have more luck next
+time.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/ite-it66121.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 2f2a09adb4bc..b130d01147c6 100644
+index b130d01147c6..9dc41a7b9136 100644
 --- a/drivers/gpu/drm/bridge/ite-it66121.c
 +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -889,7 +889,7 @@ static irqreturn_t it66121_irq_threaded_handler(int irq, void *dev_id)
- static int it66121_probe(struct i2c_client *client,
- 			 const struct i2c_device_id *id)
- {
--	u32 vendor_ids[2], device_ids[2], revision_id;
-+	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
- 	struct device_node *ep;
- 	int ret;
- 	struct it66121_ctx *ctx;
+@@ -924,6 +924,9 @@ static int it66121_probe(struct i2c_client *client,
+ 	ctx->next_bridge = of_drm_find_bridge(ep);
+ 	of_node_put(ep);
+ 
++	if (!ctx->next_bridge)
++		return -EPROBE_DEFER;
++
+ 	i2c_set_clientdata(client, ctx);
+ 	mutex_init(&ctx->lock);
+ 
 -- 
 2.33.0
 
