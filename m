@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A82F3F97B8
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 12:00:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBCA3F97B9
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 12:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5440B6E90F;
-	Fri, 27 Aug 2021 10:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5341A6E910;
+	Fri, 27 Aug 2021 10:00:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D11476E90F
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 10:00:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40556E910
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 10:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630058446;
+ s=mimecast20190719; t=1630058447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+aJr1NTbvoxTLmIeJJqoJBHarMi/IcOrX6ArL1A6zIk=;
- b=fRWSaOwPFB7Z01gV0zjfd0ApL4De7177A4ITtcWUmbkwhfFdEKgCqnHvc4OpqjFlUOEeCY
- azCaLhwslixqC+1jQ6Lwk7uor0TxLnt5Hr84uB8bjYWKdHuIw+v793caBKSdXv0N9TXFvM
- 8mXpCqpHfewUHP1KmYpAfE29qGP+n7E=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-8LhHVT7INZ-dLWOZiqlkPA-1; Fri, 27 Aug 2021 06:00:42 -0400
-X-MC-Unique: 8LhHVT7INZ-dLWOZiqlkPA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- b8-20020a5d5508000000b001574e8e9237so1693476wrv.16
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 03:00:42 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=foW7usJ3woghuCkc/3vNgB/OwFOj3a3CXY41KP8I0wQ=;
+ b=h4Q6q2tYZtegPHA3JcbBH1/SPPpGlfhKVeSENY+c5zfbfYwWA7YfBRzX9nwSup9Bj3CRy5
+ rgVWgoiRUsBL/V6Lgql+qUgGV2geurqqsTMoHgiEtMlW4FjGSirUM7gjOoodZM7d6DFkih
+ IiJMqNjMTWDq6hLN4wmLHInbasS8Rco=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-277-EgWRDGxNPmeERvb88keKKw-1; Fri, 27 Aug 2021 06:00:46 -0400
+X-MC-Unique: EgWRDGxNPmeERvb88keKKw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r11-20020a5d4e4b000000b001575c5ed4b4so1702529wrt.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 03:00:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+aJr1NTbvoxTLmIeJJqoJBHarMi/IcOrX6ArL1A6zIk=;
- b=AzxqUL7DRkg9NV1tXZozRbALZai5fF0Sl99S+cYSejP5qXlHN7Fogx8Oqk1gIULnj5
- IZIhuFLNXkNGdvTtjByMVIKCPqiTkZq9CSHPLfASvqmETlveKmT+vMJTSlzapF8fgncv
- O/x5vR3Vsk8T9qGJArqUsE9i6In9HyilQRSzIcprgDLUz70tTHf1/ExAN2eM+1mh7tlP
- 1D++4HI7EoSQzTSbrR9dMKllcNDVIg1WCOWnkLWvKb5S1JOpXt/GdN3j3AIWEX3b5GR2
- O8n/wX4SsKUD3T/W4c91FtmN15cKDkseSr5WQn5+NgVYR9p2PQ7F8krCAGuImFpwfeN+
- chvQ==
-X-Gm-Message-State: AOAM531r32JANyG1hXo1AsCmfS3Hw5H9aQIKKQkGZIn4cZrJHv6qXfv1
- 1+kEhYcn0ASWM93XLACBB+YFWlZo+qMfgkIe7um4x42aekpjdZp+eSPJjTJvataGN/jSz61Z7CK
- q+b+RW07RvRP66tScxrvsqCvjzoHO
-X-Received: by 2002:a05:600c:428a:: with SMTP id
- v10mr18455117wmc.25.1630058441648; 
- Fri, 27 Aug 2021 03:00:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwD3l80v92gfAfOSZ8b1Ut69bemPoE/9nlRVQcrJ7xuf3wtFFgtxktW5NFZYCYctIfnyuFMVA==
-X-Received: by 2002:a05:600c:428a:: with SMTP id
- v10mr18455078wmc.25.1630058441335; 
- Fri, 27 Aug 2021 03:00:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=foW7usJ3woghuCkc/3vNgB/OwFOj3a3CXY41KP8I0wQ=;
+ b=hxMpBJwPjdr8V1olE2ogWDZ37ZZDgWKjKwxdW6A8XNFkqyWi3kd+JamDFZVUc144gJ
+ tuJx4reZLqiLam6f7CzDk2fwd/QOcvfLHdL3HrmPMSmMv8znBCiICkJI7O+BNtwfqoMa
+ ggFXa/ZXGJzTlv/zaZTZ7jWbEx6z6JRUvxzF2ZNh3wnCddBab4GD5GFd+4F3LTngm20/
+ VUpAUh1k4/6N33aZ1k7krjcFxAVOLvIeKfv0LB2Knr5rilTH4fY7GeyCj+Z5UecUrpjV
+ gpqOjacgFSWF9Q95JSjX+1bvusQUhiwplp1Arx6u9ok19jiuvYa8Dgado3AYxNKUl9Wo
+ 9XnQ==
+X-Gm-Message-State: AOAM5319YixB/fjEjISY48l/f7ObwRlV3tP6d/qdHCctisPKoWETZc2v
+ LK7feRjvXZLFXVO5QA/GkvjsPmYp7XYzjzYm+QWjXi9B7JDkYbWr3WMJR6SsDEDCdcggg/WhZ5c
+ 2uyY5ZiefGHW3B+D9BCjJ8fU+B4n3
+X-Received: by 2002:a1c:f314:: with SMTP id q20mr18904189wmq.154.1630058443406; 
+ Fri, 27 Aug 2021 03:00:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFlYp1BMQ77FCjlALBardwbtrf8PR3eyfLYaynSRZe3DMWKOKmTwk3yQe4c5MOPI7tPuHpLw==
+X-Received: by 2002:a1c:f314:: with SMTP id q20mr18904160wmq.154.1630058443199; 
+ Fri, 27 Aug 2021 03:00:43 -0700 (PDT)
 Received: from minerva.home ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id z17sm1121267wrh.66.2021.08.27.03.00.40
+ by smtp.gmail.com with ESMTPSA id z17sm1121267wrh.66.2021.08.27.03.00.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 03:00:40 -0700 (PDT)
+ Fri, 27 Aug 2021 03:00:42 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: "H . Peter Anvin" <hpa@zytor.com>,
@@ -66,11 +65,13 @@ Cc: "H . Peter Anvin" <hpa@zytor.com>,
  Daniel Vetter <daniel@ffwll.ch>, Ingo Molnar <mingo@redhat.com>,
  David Airlie <airlied@linux.ie>,
  Javier Martinez Canillas <javierm@redhat.com>
-Subject: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with CONFIG_FB
- disabled
-Date: Fri, 27 Aug 2021 12:00:23 +0200
-Message-Id: <20210827100027.1577561-1-javierm@redhat.com>
+Subject: [RFC PATCH 1/4] fbdev: Rename fb_*_device() functions names to match
+ what they do
+Date: Fri, 27 Aug 2021 12:00:24 +0200
+Message-Id: <20210827100027.1577561-2-javierm@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210827100027.1577561-1-javierm@redhat.com>
+References: <20210827100027.1577561-1-javierm@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
@@ -93,51 +94,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series splits the fbdev core support in two different Kconfig
-symbols: FB and FB_CORE. The motivation for this is to allow CONFIG_FB to
-be disabled, while still using fbcon with the DRM fbdev emulation layer.
+The fb_init_device() and fb_cleanup_device() functions only register and
+unregister sysfs attributes as their initialization and cleanup logic.
+Let's rename these functions to better match what they actually do.
 
-The reason for doing this is that now with simpledrm we could just boot
-with simpledrm -> real DRM driver, without needing any legacy fbdev driver
-(e.g: efifb or simplefb) even for the early console.
+There's only a call to dev_set_drvdata() that's not related to the sysfs
+registration, so move it to the do_register_framebuffer() function which
+is where the device is created.
 
-We want to do that in the Fedora kernel, but currently need to keep option
-CONFIG_FB enabled and all fbdev drivers explicitly disabled, which makes
-the configuration harder to maintain.
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-It is a RFC because I'm not that familiar with the fbdev core, but I have
-tested and works with CONFIG_DRM_FBDEV_EMULATION=y and CONFIG_FB disabled.
-This config automatically disables all the fbdev drivers that is our goal.
+ drivers/video/fbdev/core/fbmem.c   | 8 +++++---
+ drivers/video/fbdev/core/fbsysfs.c | 6 ++----
+ include/linux/fb.h                 | 4 ++--
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-Patch 1/4 is just a clean up, patch 2/4 moves a couple of functions out of
-fbsysfs.o, that are not related to sysfs attributes creation and finally
-patch 3/4 makes the fbdev split that is mentioned above.
-
-Patch 4/4 makes the DRM fbdev emulation depend on the new FB_CORE symbol
-instead of FB. This could be done as a follow-up but for completeness is
-also included in this series.
-
-Best regards,
-Javier
-
-
-Javier Martinez Canillas (4):
-  fbdev: Rename fb_*_device() functions names to match what they do
-  fbdev: Move framebuffer_{alloc,release}() functions to fbmem.c
-  fbdev: Split frame buffer support in FB and FB_CORE symbols
-  drm: Make fbdev emulation depend on FB_CORE instead of FB
-
- arch/x86/Makefile                  |  2 +-
- arch/x86/video/Makefile            |  2 +-
- drivers/gpu/drm/Kconfig            |  2 +-
- drivers/video/console/Kconfig      |  2 +-
- drivers/video/fbdev/Kconfig        | 57 +++++++++++++---------
- drivers/video/fbdev/core/Makefile  | 13 +++--
- drivers/video/fbdev/core/fbmem.c   | 73 ++++++++++++++++++++++++++--
- drivers/video/fbdev/core/fbsysfs.c | 77 +-----------------------------
- include/linux/fb.h                 | 18 ++++++-
- 9 files changed, 134 insertions(+), 112 deletions(-)
-
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 71fb710f1ce..d886582c0a4 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1602,8 +1602,10 @@ static int do_register_framebuffer(struct fb_info *fb_info)
+ 		/* Not fatal */
+ 		printk(KERN_WARNING "Unable to create device for framebuffer %d; errno = %ld\n", i, PTR_ERR(fb_info->dev));
+ 		fb_info->dev = NULL;
+-	} else
+-		fb_init_device(fb_info);
++	} else {
++		dev_set_drvdata(fb_info->dev, fb_info);
++		fb_register_sysfs(fb_info);
++	}
+ 
+ 	if (fb_info->pixmap.addr == NULL) {
+ 		fb_info->pixmap.addr = kmalloc(FBPIXMAPSIZE, GFP_KERNEL);
+@@ -1701,7 +1703,7 @@ static void do_unregister_framebuffer(struct fb_info *fb_info)
+ 	fb_destroy_modelist(&fb_info->modelist);
+ 	registered_fb[fb_info->node] = NULL;
+ 	num_registered_fb--;
+-	fb_cleanup_device(fb_info);
++	fb_unregister_sysfs(fb_info);
+ #ifdef CONFIG_GUMSTIX_AM200EPD
+ 	{
+ 		struct fb_event event;
+diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
+index 65dae05fff8..a040d6bd6c3 100644
+--- a/drivers/video/fbdev/core/fbsysfs.c
++++ b/drivers/video/fbdev/core/fbsysfs.c
+@@ -507,12 +507,10 @@ static struct device_attribute device_attrs[] = {
+ #endif
+ };
+ 
+-int fb_init_device(struct fb_info *fb_info)
++int fb_register_sysfs(struct fb_info *fb_info)
+ {
+ 	int i, error = 0;
+ 
+-	dev_set_drvdata(fb_info->dev, fb_info);
+-
+ 	fb_info->class_flag |= FB_SYSFS_FLAG_ATTR;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(device_attrs); i++) {
+@@ -531,7 +529,7 @@ int fb_init_device(struct fb_info *fb_info)
+ 	return 0;
+ }
+ 
+-void fb_cleanup_device(struct fb_info *fb_info)
++void fb_unregister_sysfs(struct fb_info *fb_info)
+ {
+ 	unsigned int i;
+ 
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 5950f8f5dc7..96111248a25 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -689,8 +689,8 @@ static inline bool fb_be_math(struct fb_info *info)
+ /* drivers/video/fbsysfs.c */
+ extern struct fb_info *framebuffer_alloc(size_t size, struct device *dev);
+ extern void framebuffer_release(struct fb_info *info);
+-extern int fb_init_device(struct fb_info *fb_info);
+-extern void fb_cleanup_device(struct fb_info *head);
++extern int fb_register_sysfs(struct fb_info *fb_info);
++extern void fb_unregister_sysfs(struct fb_info *head);
+ extern void fb_bl_default_curve(struct fb_info *fb_info, u8 off, u8 min, u8 max);
+ 
+ /* drivers/video/fbmon.c */
 -- 
 2.31.1
 
