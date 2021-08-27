@@ -2,58 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91373F9B6E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 17:05:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFEB3F9CA7
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 18:40:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1788F6E98E;
-	Fri, 27 Aug 2021 15:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9506E993;
+	Fri, 27 Aug 2021 16:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11B806E98E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 15:05:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 932EB60EB3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 15:05:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630076720;
- bh=QUyQWk70lcmW8EocvElfX85YobyPWarTtpHZgglG8go=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=fPNYxPW7cxtDziJXo1QE04HKNbEQfeqaWWXCaq9/w7NK873cGtkdDI7qZsw/88KV9
- 4rU7wKtx1W8yelN82RxDI0bdcxtXr0BF0CG4rkhrkdLFdAKDY6FgvtsCCeL817GTVY
- PUXSnKvTNkZz8n3xva8gpZcpQrnigdBuYmuN7fIbjybsC23ko3IsrdhEBX228lAHVh
- rlLvmPiU35fHE7NCBNFdpQTj44SUrlfGciURDDMNuK3SQnmA2xMdIYyWR1CMpFK9Sh
- yhOZyZReu+LAD39nwwOPuDQrN1E0L3ACsomiug4M/WsNgmxShGfTaLmcEwa1pGN6RW
- 1W9W34zWmZDqw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 7F7D460EBC; Fri, 27 Aug 2021 15:05:20 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214197] [Asus G713QY] RX6800M not usable after exiting Vulkan
- application
-Date: Fri, 27 Aug 2021 15:05:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-214197-2300-yAsnuuqlAv@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214197-2300@https.bugzilla.kernel.org/>
-References: <bug-214197-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD0A16E993
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 16:40:07 +0000 (UTC)
+From: Paul Cercueil <paul@crapouillou.net>
+To: Phong LE <ple@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>
+Cc: Andrzej Hajda <a.hajda@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ list@opendingux.net, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH 1/2] drm/bridge: it66121: Initialize {device,vendor}_ids
+Date: Fri, 27 Aug 2021 17:39:55 +0100
+Message-Id: <20210827163956.27517-1-paul@crapouillou.net>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,19 +41,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214197
+These two arrays are populated with data read from the I2C device
+through regmap_read(), and the data is then compared with hardcoded
+vendor/product ID values of supported chips.
 
-Alex Deucher (alexdeucher@gmail.com) changed:
+However, the return value of regmap_read() was never checked. This is
+fine, as long as the two arrays are zero-initialized, so that we don't
+compare the vendor/product IDs against whatever garbage is left on the
+stack.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
+Address this issue by zero-initializing these two arrays.
 
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-Please attach your full dmesg output from boot through the problematic case.
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 2f2a09adb4bc..b130d01147c6 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -889,7 +889,7 @@ static irqreturn_t it66121_irq_threaded_handler(int irq, void *dev_id)
+ static int it66121_probe(struct i2c_client *client,
+ 			 const struct i2c_device_id *id)
+ {
+-	u32 vendor_ids[2], device_ids[2], revision_id;
++	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
+ 	struct device_node *ep;
+ 	int ret;
+ 	struct it66121_ctx *ctx;
+-- 
+2.33.0
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
