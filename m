@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17C03F999D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 15:23:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABCD3F999E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 15:23:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA1A86E93D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE536E93B;
 	Fri, 27 Aug 2021 13:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA8C6E93C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:23:18 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id n5so10329207wro.12
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 06:23:18 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B85D6E93B
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:23:20 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id x6so2167473wrv.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 06:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mVo6QL2otSkWlz3BNGQoToVxXIroVXY+I539FhGuJc4=;
- b=VMHuaH6HuSy7nYxCiYjNJIXWyDgMmIEutFTUgYKfoooLBZzoUpo4DTYPC4Vj/vre0u
- 9BilEZ4of81AI8C96idLZjoZoU5/b5QPW5jTTODvUbHaOrCyBZ0u4n2P5fc88i88RUcN
- be0pEvsQBoGK214sP2wcXpuJREK0UijC9k/HooSmi130SdFxL4TWpN7lzk85thxQYG2G
- gCvezGNJBW38uomhhNAMpTTPl8p2OPncSeLw+by814f6aAhxwZ8GTFwkPZ3mAQqCJZxX
- 91tmgAE3ylthpOjcJfZQb8CfWrnDWMtLqCn0X3tunzGvIR1gA57aL5UKFownu5YoPxCR
- RdvA==
+ bh=FBdsYqHeqx6lb5nLRyVgCyGnQTI8xvcildAZAC0FEaE=;
+ b=O81AqUuTZoeZzFSsgdCr0JShVJGZWZQdXULiy2Qe6hkBFinQ3qwYQPAb+76kz70Eob
+ iWplycCT7d6Jm9EduxIAGDrCzfdhL5tFbsiAuhLaHGUuhkUUd1nGAuhoRO/wgLWWWnqc
+ 59m+X0nybTywT1bS4aLTkt0j7YbUTyzj31+ENC+/L+3m5E8QYXCzJDaKi3wqO89XaHVf
+ i3HjqBhaLOG0r4HIqLryNPH7mtQcLl++HEsJ/Vivwl0oiIUmHlko75s7tirpcNIVLtkk
+ mQ83e6/osegiUn8jeLh2IQp3SGC5L9axB+iq+M7N7WJxXZQWXk26lRlIzNupOdjftbAD
+ LfRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mVo6QL2otSkWlz3BNGQoToVxXIroVXY+I539FhGuJc4=;
- b=E9dGZkY4z/RC3EsMC2rtrnMaMvMF4c+FT31pZDu/4JPB6rYVEyGDvEVQszoqLZU15a
- WNw+/ZToHGjtHKPrEM+A4MyOwyFXpLmINZJAKv4NLzzxFe0NH6xaHmDqcBvA/sALyJn5
- YlIZzoptBl8KQ8h2MAkrgUfLWZ0Aedyl3edYjGkx2C8tbzi9+Lb3llH8k04QkBKJjkGb
- lWotKVP6BOuuzacVyyhOeL81KgwOFAQoytkolGJ7tvcLlSkti1kCzcea9Zd4+yQEYkqP
- UZ6q+0WjEVbGXZpyxAK04YeSaf3tesbslZdjRLNAeZhp6QBBB+rd9LkGX2FkX/VqsNmu
- Pzcw==
-X-Gm-Message-State: AOAM531fJXil1NL26D3QMEXoYkB+FGrSVyCSugXrX+XX7BxXLn5cRANH
- cfslltIdyWDnSIl1U+a1IS0925IfLR8=
-X-Google-Smtp-Source: ABdhPJxj9fWPvQT7+wv8J9Cxf6JrAYRu4RsFoZU0mr2BIVBXMeWD8DaRSGY/7wWzNBMgKUBIBPivpA==
-X-Received: by 2002:a5d:6301:: with SMTP id i1mr9969579wru.423.1630070597150; 
- Fri, 27 Aug 2021 06:23:17 -0700 (PDT)
+ bh=FBdsYqHeqx6lb5nLRyVgCyGnQTI8xvcildAZAC0FEaE=;
+ b=sKIU15RWkrygjNvA2N3HluVJD9tIcSWO3y+HUztjvacLjtwiAQ/iuX3JHyTEz/Y1wM
+ iU4Ulre/x4Wfsbb7RFxHeYo4rtrWQwbbWE5noaRTiL7SMehxBOpTNiTYii90LX16qvG1
+ HB5/t3uH2hEno9EqcfJDksKIwlgbjdHeWUBx0j1x6Yy7aLFfNNVEJFwhnnwpb9cSKbY5
+ F2xDoUAxHGOLGMXUVCJ7Lcd15992VYG2191nNV/Wzv6JTIPvP1e0ryK3qTVuCKPMGhpG
+ l1dN6mY7DpbZ4abeEptIhPFk/3exvHCh9UlwdlnhfhmTCNq3WuosONAezbHKHppY8ITJ
+ Vqdg==
+X-Gm-Message-State: AOAM53320SUhvzzHsM+DhajgyPDC1p1eOebyn5ZRpHo56HmsaA5Kcuyt
+ i0EnCZgRbc2q3YMcY4I/sqs=
+X-Google-Smtp-Source: ABdhPJzxv6Bj55wCSWTpVkwuk38XzehXa9nn2snemNLVc2gKQiRBtONNITad+Hj2lq3qCehFx/z+yg==
+X-Received: by 2002:adf:9ccc:: with SMTP id h12mr10180484wre.385.1630070599204; 
+ Fri, 27 Aug 2021 06:23:19 -0700 (PDT)
 Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id 19sm11331098wmo.39.2021.08.27.06.23.16
+ by smtp.gmail.com with ESMTPSA id y24sm2425114wma.9.2021.08.27.06.23.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 06:23:16 -0700 (PDT)
+ Fri, 27 Aug 2021 06:23:18 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH libdrm 03/25] tegra: Extract common buffer object allocation
- code
-Date: Fri, 27 Aug 2021 15:22:43 +0200
-Message-Id: <20210827132305.3572077-4-thierry.reding@gmail.com>
+Subject: [PATCH libdrm 04/25] tegra: Fix mmap() of GEM buffer objects
+Date: Fri, 27 Aug 2021 15:22:44 +0200
+Message-Id: <20210827132305.3572077-5-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210827132305.3572077-1-thierry.reding@gmail.com>
 References: <20210827132305.3572077-1-thierry.reding@gmail.com>
@@ -75,80 +74,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-All of the buffer object allocation functions use the same boilerplate
-code. Move that code into a separate function that can be reused.
+Store 64-bit offset values and use libdrm's built-in drm_mmap() function
+instead of mmap() to ensure the full 64-bit offset is used.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- tegra/tegra.c | 35 ++++++++++++++++++++++-------------
- 1 file changed, 22 insertions(+), 13 deletions(-)
+ tegra/private.h | 2 +-
+ tegra/tegra.c   | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/tegra/private.h b/tegra/private.h
+index 215dd3309bce..d0f2944bfb3a 100644
+--- a/tegra/private.h
++++ b/tegra/private.h
+@@ -41,7 +41,7 @@ struct drm_tegra {
+ struct drm_tegra_bo {
+     struct drm_tegra *drm;
+     uint32_t handle;
+-    uint32_t offset;
++    uint64_t offset;
+     uint32_t flags;
+     uint32_t size;
+     atomic_t ref;
 diff --git a/tegra/tegra.c b/tegra/tegra.c
-index 94840ad42795..bf8e5c9213ca 100644
+index bf8e5c9213ca..5225ad052fb3 100644
 --- a/tegra/tegra.c
 +++ b/tegra/tegra.c
-@@ -101,6 +101,26 @@ drm_public void drm_tegra_close(struct drm_tegra *drm)
-     free(drm);
- }
+@@ -215,8 +215,8 @@ drm_public int drm_tegra_bo_map(struct drm_tegra_bo *bo, void **ptr)
  
-+static struct drm_tegra_bo *drm_tegra_bo_alloc(struct drm_tegra *drm,
-+                                               uint32_t handle,
-+                                               uint32_t flags,
-+                                               uint32_t size)
-+{
-+    struct drm_tegra_bo *bo;
-+
-+    bo = calloc(1, sizeof(*bo));
-+    if (!bo)
-+        return NULL;
-+
-+    atomic_set(&bo->ref, 1);
-+    bo->handle = handle;
-+    bo->flags = flags;
-+    bo->size = size;
-+    bo->drm = drm;
-+
-+    return bo;
-+}
-+
- drm_public int
- drm_tegra_bo_new(struct drm_tegra_bo **bop, struct drm_tegra *drm,
-                  uint32_t flags, uint32_t size)
-@@ -112,15 +132,10 @@ drm_tegra_bo_new(struct drm_tegra_bo **bop, struct drm_tegra *drm,
-     if (!drm || size == 0 || !bop)
-         return -EINVAL;
+         bo->offset = args.offset;
  
--    bo = calloc(1, sizeof(*bo));
-+    bo = drm_tegra_bo_alloc(drm, 0, flags, size);
-     if (!bo)
-         return -ENOMEM;
- 
--    atomic_set(&bo->ref, 1);
--    bo->flags = flags;
--    bo->size = size;
--    bo->drm = drm;
--
-     memset(&args, 0, sizeof(args));
-     args.flags = flags;
-     args.size = size;
-@@ -149,16 +164,10 @@ drm_tegra_bo_wrap(struct drm_tegra_bo **bop, struct drm_tegra *drm,
-     if (!drm || !bop)
-         return -EINVAL;
- 
--    bo = calloc(1, sizeof(*bo));
-+    bo = drm_tegra_bo_alloc(drm, handle, flags, size);
-     if (!bo)
-         return -ENOMEM;
- 
--    atomic_set(&bo->ref, 1);
--    bo->handle = handle;
--    bo->flags = flags;
--    bo->size = size;
--    bo->drm = drm;
--
-     *bop = bo;
- 
-     return 0;
+-        bo->map = mmap(0, bo->size, PROT_READ | PROT_WRITE, MAP_SHARED,
+-                       drm->fd, bo->offset);
++        bo->map = drm_mmap(NULL, bo->size, PROT_READ | PROT_WRITE, MAP_SHARED,
++                           drm->fd, bo->offset);
+         if (bo->map == MAP_FAILED) {
+             bo->map = NULL;
+             return -errno;
 -- 
 2.32.0
 
