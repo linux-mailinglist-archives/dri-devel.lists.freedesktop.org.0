@@ -1,67 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B0E3FA085
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 22:23:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 412203FA0AE
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 22:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA576E9BD;
-	Fri, 27 Aug 2021 20:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC206E9C3;
+	Fri, 27 Aug 2021 20:39:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4E06E9BB
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 20:23:33 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id x6so3953654wrv.13
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 13:23:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=SH4smeHuT0xsWwZuM3q5Wjxs+0gdoVgjvGEw6S+uOoo=;
- b=WLBhfHVkDrF3VFCwexlhpWcwuv/mrfu+/ekY9lmus2oitDKeSoxbqBB9w/MecXp2Zt
- p/ixUDwyfgKEtgom7LaAhv6fPinlm1+awxG88V3jTfQORo/D6gvlDtrbW9lpf81x3DPa
- poup178NdlUdrpODAeRUsqbjhD51sVbVcvYDw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=SH4smeHuT0xsWwZuM3q5Wjxs+0gdoVgjvGEw6S+uOoo=;
- b=J6gdlCZxsg7RIksccNUzoJ9c0elZ+FziGqKBtwU51rstYtTnR858dhlSdeKMxwlWSo
- eOKVcOWyOljXwMLuuAnICpVZCJQE8mL0YqiSegnKR3I/oLV4RgwFzt2W+x8RmFQCqyF8
- RDcKPZPypkYdNNh1EVZ7q9mILYqpKYSlqaWsEYxDoNCY2EPMVdJb5/2evQHLP0Vzy8zo
- KHXMnbSsGRWbPwLFuKz8t7cSkHOmKcxIZOFdjWOpGuSzd3qRcU0RoqDvo8ZPy/CXpP2r
- gRpUPu7nlnSBmabeKoRFB1FUqTBdmA79Vv+IW5s9g7yXO1eofNSSDJLwz8Tt/pa0xA2/
- Oy3w==
-X-Gm-Message-State: AOAM5322s7SpGFIvHEIP6UMDmN2/rOV9vNtdZGIkXceat0eScSIO9Fxz
- Z7TZLz22k07wzLGCdpou0PYiFQ==
-X-Google-Smtp-Source: ABdhPJyXAVHKOTbeXJZ2GxqnjCZWlcj6hPfzvGK6QNK07JKxU+X8EPp3T/6Sq9RXo9QaoPCgmp0C0w==
-X-Received: by 2002:adf:9f0c:: with SMTP id l12mr12861983wrf.146.1630095811632; 
- Fri, 27 Aug 2021 13:23:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a133sm12097302wme.5.2021.08.27.13.23.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 13:23:31 -0700 (PDT)
-Date: Fri, 27 Aug 2021 22:23:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, hridya@google.com,
- john.stultz@linaro.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, gustavo@padovan.org,
- linux-media@vger.kernel.org, adelva@google.com, sspatil@google.com
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-Message-ID: <YSlJwX0lNBSdj880@phenom.ffwll.local>
-References: <20210818105443.1578-1-christian.koenig@amd.com>
- <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
- <YSdXEaBDpijEBx/6@phenom.ffwll.local>
- <0c150724-032f-b566-4f61-b4771bafe7a8@gmail.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2071.outbound.protection.outlook.com [40.107.223.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8961E6E9C0;
+ Fri, 27 Aug 2021 20:39:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hb0Qe2UqwoxXJ+DOb7mamHIZMfSbJzH5nCs601gvZDMFizoSgEOL3qFGNawSrw33MdBLFOwXsH2UK8kz+sCqB+gvA3dbmJgDXtSPmPkwE+JMqFp33uw9nKKS0ZdGMQzQO9GV8mHsOY3HG/RTyNN3nKzxXo8wC9IrzVIUuh6Otk9MUffX+BvmR5uWAz8nmujPyamXb0X93caRPAEJHta9QZBWEkQZSD8MMPjAPupZY2nHcZcNfChlEV/NYSNV0DxbMc+tCBZBtDJ95Hg423E9QyUDldN+mjSykZwS8QoOUW2zTdKoXm9XfgKkHR0B65ggbGB+liAVhkhuMhbyS/4TVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VgrXsw5gwGJnlgE/QDHrq9WCKt/zayMqL/hGFZ1cWF4=;
+ b=lIuX9kL1Rdnj370rNBDdLIcM5ENtNle17qaEA+TbSEhj3624yr2yes8B9fjFA4mikor1zFb0j3KjDMpFEDmEzDmkXgO9nwgL1+6F7CEiWxkm2rjJ625FeQ/tExtB0iUUzIjciGdzjExrhYUj0+02YmcXO4bjgmG6Am+/KIXId7+rG6S5oArrtGFGEJoaDBuM13LuUc/0W1olxO9xWqO1UEynLC+mofudr0GaZD+p4PsVTyqaoXrdADbxIixAiKXfIEU2KvSrn3GZ3V9kg4IaKeC4djMSVwNlS5Dgk7m85WBzv+h9JtdSFRkqEKtZmxhwmWvtdy8G7d9uN5cITRPIXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VgrXsw5gwGJnlgE/QDHrq9WCKt/zayMqL/hGFZ1cWF4=;
+ b=VM5ntgt277hugsEAKadUr9K+tg70KRp0dWwlmZRGJ7YDWrYrxzcnVHiD3xH9pthAOYzUwa/DACechnQNoBF4KEhsLPEFwiGRh1jug9aaj8D0Ux6CirvMTCzxS+Iblot6wrc5IxUggtVEM4hvoSXflHCxVWZR8j9AaBKkXtrRoqs=
+Received: from BN8PR07CA0035.namprd07.prod.outlook.com (2603:10b6:408:ac::48)
+ by BY5PR12MB4933.namprd12.prod.outlook.com (2603:10b6:a03:1d5::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.23; Fri, 27 Aug
+ 2021 20:39:20 +0000
+Received: from BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ac:cafe::8) by BN8PR07CA0035.outlook.office365.com
+ (2603:10b6:408:ac::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend
+ Transport; Fri, 27 Aug 2021 20:39:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT054.mail.protection.outlook.com (10.13.177.102) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4457.17 via Frontend Transport; Fri, 27 Aug 2021 20:39:20 +0000
+Received: from agrodzovsky-All-Series.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 27 Aug 2021 15:39:19 -0500
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+CC: <ckoenig.leichtzumerken@gmail.com>, Andrey Grodzovsky
+ <andrey.grodzovsky@amd.com>
+Subject: [PATCH v3 0/4] Various fixes to pass libdrm hotunplug tests
+Date: Fri, 27 Aug 2021 16:39:06 -0400
+Message-ID: <20210827203910.5565-1-andrey.grodzovsky@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0c150724-032f-b566-4f61-b4771bafe7a8@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 681c3dac-85b9-4c7a-5a7b-08d9699abf6e
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4933:
+X-Microsoft-Antispam-PRVS: <BY5PR12MB4933B06B540426C69A976316EAC89@BY5PR12MB4933.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZV2Bfl6lSkoGxgYSmG01IrKj0onOHAdh9VLDqvtvOfHCmeD04QQZq+NEa7vr9nnLKDdP7DPMNhQD0ChkRsePHGPykoiFM6/U5ylRQOQt1UwqmdUoz7A0a/+8BFPUlFAabV5+j55tNWP+NZ2UinqGobz5SAY1sRJn3End7RjAT+zQVHhikmNkNz6fH9F/UUAv4FWNFgbNIKXdrJ7xjWPBKhMeT3sO4KhGoGLkab5M/grpRFlmvMp2DpSxiBkJVg3Yo2QyHbFU3Sczipuik+/aVVCzT7oW0fZ1ZBEEouaYuaoS9K6m6vnnDxxT7md46dQTPZ0AXqf8x5Bup7y1fDumGUeWp6pFmfjBQH6QixuZRd7r0XrrRkd070ASWlrw0bDvtTAbOt+/lCaFwZVEAbTRzMDSg5l9/1BqFGauQvGh5k4WNAs0Bo1HnpkDPyt3IthX5skd0J8O/Jy5Q/GA2vglfGRnAxkR9MdI6PP2CtunhcoNcK6FqGpXeAZnBR5u/fYtpI/KoCmLeqzvXeA4Xo0EYvx4nLiGiEWED56rJbeLqfge5Zp1b4DLvMEj63pFx5q+BLwRt5mHDBTcUBvdPCJr/mEd+jh0OXxM/7iCf3dw22ffM00sWmpVgJstUhpIMtwn6Lq0WBy+9+6HTSsBytR1zNd9apvgO0Uj46vtAlDK5TPkLtkTcvvkHHgTKJ5qE7DH7k6rdjzwIGzwvtbl3r0uCwjfhcYFUbAziMW51zx2v/Q=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(39860400002)(346002)(396003)(36840700001)(46966006)(81166007)(186003)(2616005)(2906002)(336012)(316002)(44832011)(47076005)(70586007)(6666004)(83380400001)(86362001)(110136005)(70206006)(7696005)(82740400003)(82310400003)(8676002)(36860700001)(356005)(1076003)(966005)(426003)(4326008)(36756003)(26005)(478600001)(4744005)(16526019)(8936002)(54906003)(5660300002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 20:39:20.6776 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 681c3dac-85b9-4c7a-5a7b-08d9699abf6e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4933
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,214 +106,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 27, 2021 at 11:07:58AM +0200, Christian König wrote:
-> Am 26.08.21 um 10:55 schrieb Daniel Vetter:
-> > On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
-> > > Just a gentle ping. Daniel any more comments on this?
-> > Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
-> > this is just going to cause fails and reboots in our ci (we reboot on
-> > taints).
-> 
-> *sigh* can I at least print a warning without breaking the igt tests?
+Bunch of fixes to enable passing hotplug tests i previosly added
+here[1] with latest code. 
+Once accepted I will enable the tests on libdrm side.
 
-CI watches dmesg too ... it just doesn't force a reboot (which hurts run
-rate really badly).
+[1] - https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/172
 
-> > > I'm not sure if the second patch will cause trouble with any unit test, but
-> > > I'm willing to try it. We can always trivial revert it.
-> > See above, remove the igts and we should be fine I think. I don't think
-> > there's any selftests or kselftests, but checking that should be a quick
-> > grep at most.
-> 
-> Yeah, we don't have any selftests as far as I can see but this stuff is so
-> interweaved with igt that it will be hard to remove I think.
-> 
-> A good bunch of the igt code seems to have been moved to using VGEM instead,
-> but as far as I can see there is still plenty left relying on this.
-> 
-> Alternatively could we make the config option depend on CONFIG_DEBUG?
+v2:
+Dropping VCE patch since relevant function already fixed in latest
+code.
+Moving IOMMU hnadling to TTM layer.
 
-Hm I thought it was just down to sw_sync igt testcase, and everything else
-is moved to vgem. Do we have more, or has more landed since I looked a
-while ago?
--Daniel
+v3:
+Move pinned list to ttm device and a few others.
 
-> 
-> Christian.
-> 
-> > -Daniel
-> > 
-> > > Thanks,
-> > > Christian.
-> > > 
-> > > Am 18.08.21 um 12:54 schrieb Christian König:
-> > > > Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
-> > > > on a non existing config option to actually emit some code.
-> > > > 
-> > > > v2: keep the signal path as is for now
-> > > > 
-> > > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > > ---
-> > > >    drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
-> > > >    drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
-> > > >    drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
-> > > >    include/linux/dma-fence.h                 | 22 ---------------------
-> > > >    4 files changed, 7 insertions(+), 67 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > > > index 0b1c48590c43..c65994e382bd 100644
-> > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > > > @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
-> > > >    	struct amdgpu_fence_driver *drv = &ring->fence_drv;
-> > > >    	struct amdgpu_device *adev = ring->adev;
-> > > >    	uint32_t seq, last_seq;
-> > > > -	int r;
-> > > >    	do {
-> > > >    		last_seq = atomic_read(&ring->fence_drv.last_seq);
-> > > > @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
-> > > >    		if (!fence)
-> > > >    			continue;
-> > > > -		r = dma_fence_signal(fence);
-> > > > -		if (!r)
-> > > > -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
-> > > > -		else
-> > > > -			BUG();
-> > > > -
-> > > > +		dma_fence_signal(fence);
-> > > >    		dma_fence_put(fence);
-> > > >    		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-> > > >    		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > > > @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
-> > > >    	if (!timer_pending(&ring->fence_drv.fallback_timer))
-> > > >    		amdgpu_fence_schedule_fallback(ring);
-> > > > -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
-> > > > -
-> > > >    	return true;
-> > > >    }
-> > > > diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-> > > > index 18f2c2e0dfb3..3f351d222cbb 100644
-> > > > --- a/drivers/gpu/drm/radeon/radeon_fence.c
-> > > > +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-> > > > @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
-> > > >    	 */
-> > > >    	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
-> > > >    	if (seq >= fence->seq) {
-> > > > -		int ret = dma_fence_signal_locked(&fence->base);
-> > > > -
-> > > > -		if (!ret)
-> > > > -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
-> > > > -		else
-> > > > -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
-> > > > -
-> > > > +		dma_fence_signal_locked(&fence->base);
-> > > >    		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
-> > > >    		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
-> > > >    		dma_fence_put(&fence->base);
-> > > > -	} else
-> > > > -		DMA_FENCE_TRACE(&fence->base, "pending\n");
-> > > > +	}
-> > > >    	return 0;
-> > > >    }
-> > > > @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
-> > > >    	fence->fence_wake.func = radeon_fence_check_signaled;
-> > > >    	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
-> > > >    	dma_fence_get(f);
-> > > > -
-> > > > -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
-> > > >    	return true;
-> > > >    }
-> > > > @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
-> > > >    		return true;
-> > > >    	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
-> > > > -		int ret;
-> > > > -
-> > > > -		ret = dma_fence_signal(&fence->base);
-> > > > -		if (!ret)
-> > > > -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
-> > > > +		dma_fence_signal(&fence->base);
-> > > >    		return true;
-> > > >    	}
-> > > >    	return false;
-> > > > @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
-> > > >    {
-> > > >    	uint64_t seq[RADEON_NUM_RINGS] = {};
-> > > >    	long r;
-> > > > -	int r_sig;
-> > > >    	/*
-> > > >    	 * This function should not be called on !radeon fences.
-> > > > @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
-> > > >    		return r;
-> > > >    	}
-> > > > -	r_sig = dma_fence_signal(&fence->base);
-> > > > -	if (!r_sig)
-> > > > -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
-> > > > +	dma_fence_signal(&fence->base);
-> > > >    	return r;
-> > > >    }
-> > > > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> > > > index 69de2c76731f..3736746c47bd 100644
-> > > > --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> > > > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> > > > @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
-> > > >    void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
-> > > >    {
-> > > > -	int ret = dma_fence_signal(&fence->scheduled);
-> > > > -
-> > > > -	if (!ret)
-> > > > -		DMA_FENCE_TRACE(&fence->scheduled,
-> > > > -				"signaled from irq context\n");
-> > > > -	else
-> > > > -		DMA_FENCE_TRACE(&fence->scheduled,
-> > > > -				"was already signaled\n");
-> > > > +	dma_fence_signal(&fence->scheduled);
-> > > >    }
-> > > >    void drm_sched_fence_finished(struct drm_sched_fence *fence)
-> > > >    {
-> > > > -	int ret = dma_fence_signal(&fence->finished);
-> > > > -
-> > > > -	if (!ret)
-> > > > -		DMA_FENCE_TRACE(&fence->finished,
-> > > > -				"signaled from irq context\n");
-> > > > -	else
-> > > > -		DMA_FENCE_TRACE(&fence->finished,
-> > > > -				"was already signaled\n");
-> > > > +	dma_fence_signal(&fence->finished);
-> > > >    }
-> > > >    static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
-> > > > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > > > index 6ffb4b2c6371..4cc119ab272f 100644
-> > > > --- a/include/linux/dma-fence.h
-> > > > +++ b/include/linux/dma-fence.h
-> > > > @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
-> > > >    struct dma_fence *dma_fence_allocate_private_stub(void);
-> > > >    u64 dma_fence_context_alloc(unsigned num);
-> > > > -#define DMA_FENCE_TRACE(f, fmt, args...) \
-> > > > -	do {								\
-> > > > -		struct dma_fence *__ff = (f);				\
-> > > > -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
-> > > > -			pr_info("f %llu#%llu: " fmt,			\
-> > > > -				__ff->context, __ff->seqno, ##args);	\
-> > > > -	} while (0)
-> > > > -
-> > > > -#define DMA_FENCE_WARN(f, fmt, args...) \
-> > > > -	do {								\
-> > > > -		struct dma_fence *__ff = (f);				\
-> > > > -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
-> > > > -			 ##args);					\
-> > > > -	} while (0)
-> > > > -
-> > > > -#define DMA_FENCE_ERR(f, fmt, args...) \
-> > > > -	do {								\
-> > > > -		struct dma_fence *__ff = (f);				\
-> > > > -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
-> > > > -			##args);					\
-> > > > -	} while (0)
-> > > > -
-> > > >    #endif /* __LINUX_DMA_FENCE_H */
-> 
+Andrey Grodzovsky (4):
+  drm/ttm: Create pinned list
+  drm/ttm: Clear all DMA mappings on demand
+  drm/amdgpu: drm/amdgpu: Handle IOMMU enabled case
+  drm/amdgpu: Add a UAPI flag for hot plug/unplug
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  3 +-
+ drivers/gpu/drm/ttm/ttm_bo.c               | 18 ++++++--
+ drivers/gpu/drm/ttm/ttm_device.c           | 48 ++++++++++++++++++++++
+ include/drm/ttm/ttm_device.h               |  2 +
+ 5 files changed, 68 insertions(+), 5 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
