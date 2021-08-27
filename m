@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F143F9B17
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 16:46:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E91373F9B6E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 17:05:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B8E6E985;
-	Fri, 27 Aug 2021 14:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1788F6E98E;
+	Fri, 27 Aug 2021 15:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
- [IPv6:2607:f8b0:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED3C6E985
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 14:46:12 +0000 (UTC)
-Received: by mail-il1-x12c.google.com with SMTP id l10so7234555ilh.8
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 07:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TzOUQOR04WNA4/YVeKBqMlLPAY17QH2nosfTS9IvUQM=;
- b=tZDh69nDdVY5p7wRtH8bR1I7nA5Lti7qTlnAa+w2NJMyRCyNUDyujRpwCrdFBwcM9c
- wOkBjm2SZoBOXeA75VW9eEXPBO6RHPJvykSOIAfv1w3a+ad7jPs7uYOiNSuusNIlumh6
- nSsyDYW3SbZjy88g9okTipYz0IjSQXXJpb/+3Iyz0KTpIxP3RIK7YtTn/G5e2UkTckvB
- qey7hclft0SQShoNbO3yj8qYz8OJrSDRy8XJpTwREgJbKNKOWpsPbrc1br7t5+2SRnix
- bjTxpNKKuDAp8QH8C+hV3mWtFPjPa32fe/lhHP8ffNAOiGfPv6FaFus9FhAcWPK/Qh83
- QsFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TzOUQOR04WNA4/YVeKBqMlLPAY17QH2nosfTS9IvUQM=;
- b=ihZhA2nCdntPjsuJQjbeXU7d9vM6IWGUKMiajhc/QFWTYzlWFNDcOPh6mIbd/Gk4NS
- RGOBoU1s6Si9NT9KCdkkhPyIuo/XrLNAasO2sJAMFUW6QGSv1rFY6iY5dB5tG9cRO2NX
- XZezhpAH6lhaoA1Fat1BPYEPqEHbHImsQc3whGqjJJp2iOfSxStgyuppMGooenOCYSoJ
- 3GBz2gr6KKGS2uPekT/OIHPVzT5wBmpCBgpJZLAsIdRYtJjiNeMo9YlXIZwgJ1TZz9fR
- qu+puJchucX6EHJWCdaAZoypssM88jxC/IhfCBHBU1yDD7Z8nGcoUyBczjA7ZL89zyzV
- PqSw==
-X-Gm-Message-State: AOAM5308j4jGO8Zj5gCfv8NdkJHCLB2P8rsSV5ugJ27RkdGQfNzmviwZ
- ECPn9pVVD21gadyKkV0VP0xDsJgceovPAznZWWfyOg==
-X-Google-Smtp-Source: ABdhPJx90jiXR/+Kuna9VvwisR0DddZo5lVJ7fj2PG+cx5IfLN0T4GMa1sjlVy8FyIiIF7WR0UGBSnO1/nHgexAlrhc=
-X-Received: by 2002:a92:a008:: with SMTP id e8mr6603471ili.187.1630075571040; 
- Fri, 27 Aug 2021 07:46:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210827082407.101053-1-yangcong5@huaqin.corp-partner.google.com>
- <20210827082407.101053-5-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20210827082407.101053-5-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Fri, 27 Aug 2021 07:45:58 -0700
-Message-ID: <CAD=FV=URvNk1rBpRaRKTjGS+0u8PePd7reY9ix6cT272_MZcjA@mail.gmail.com>
-Subject: Re: [v3 4/4] dt-bindngs: display: panel: Add BOE and INX panel
- bindings
-To: yangcong <yangcong5@huaqin.corp-partner.google.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11B806E98E
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 15:05:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 932EB60EB3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 15:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1630076720;
+ bh=QUyQWk70lcmW8EocvElfX85YobyPWarTtpHZgglG8go=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=fPNYxPW7cxtDziJXo1QE04HKNbEQfeqaWWXCaq9/w7NK873cGtkdDI7qZsw/88KV9
+ 4rU7wKtx1W8yelN82RxDI0bdcxtXr0BF0CG4rkhrkdLFdAKDY6FgvtsCCeL817GTVY
+ PUXSnKvTNkZz8n3xva8gpZcpQrnigdBuYmuN7fIbjybsC23ko3IsrdhEBX228lAHVh
+ rlLvmPiU35fHE7NCBNFdpQTj44SUrlfGciURDDMNuK3SQnmA2xMdIYyWR1CMpFK9Sh
+ yhOZyZReu+LAD39nwwOPuDQrN1E0L3ACsomiug4M/WsNgmxShGfTaLmcEwa1pGN6RW
+ 1W9W34zWmZDqw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 7F7D460EBC; Fri, 27 Aug 2021 15:05:20 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214197] [Asus G713QY] RX6800M not usable after exiting Vulkan
+ application
+Date: Fri, 27 Aug 2021 15:05:20 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-214197-2300-yAsnuuqlAv@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214197-2300@https.bugzilla.kernel.org/>
+References: <bug-214197-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,25 +69,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214197
 
-On Fri, Aug 27, 2021 at 1:24 AM yangcong
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> Add documentation for boe tv110c9m-ll3, inx hj110iz-01a panel.
->
-> Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml   | 4 ++++
->  1 file changed, 4 insertions(+)
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-Lumping these new panels in like this seems to be what Sam was
-suggesting [1] and it seems fine to me. Thus:
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+--- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
+Please attach your full dmesg output from boot through the problematic case.
 
-[1] https://lore.kernel.org/r/YSPAseE6WD8dDRuz@ravnborg.org/
+--=20
+You may reply to this email to add a comment.
 
-Note: please make sure to carry forward Reviewed-by tags to the v4
-version of this patch series unless something substantially changes
-about a patch.
+You are receiving this mail because:
+You are watching the assignee of the bug.=
