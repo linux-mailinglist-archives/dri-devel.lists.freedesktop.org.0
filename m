@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DB03F9838
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 12:44:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F033F9859
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Aug 2021 13:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF9FA6E91C;
-	Fri, 27 Aug 2021 10:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2ED6E91E;
+	Fri, 27 Aug 2021 11:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDE16E91C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 10:44:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id CED6C60FE7
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 10:44:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5E826E91E
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 11:08:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8D32060F25
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Aug 2021 11:08:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630061075;
- bh=OhWaJfmetirYyXBUDktGSz7HnjJCIN4kFOpsRrVnJU0=;
+ s=k20201202; t=1630062483;
+ bh=v08ttHGw3W8i+l3otuhy4+NjW9uCNe9hfyBYR2jevsc=;
  h=From:To:Subject:Date:From;
- b=JMgLuuQRqkjy4A+AFTMQGAOUFHY7JzWMu9r/JMsc5lIahwKjqjO1rBIF5NvFNVXK8
- 5KbVB+LOt6G9cfjEW6hlxoALpRPWJML4K9zHMnWXROb3N5mhlvoFh4svA67XoKz8M5
- buH3BFdKzsd37EJk3URoBA8CG9Yt0z98bgdkjfQ9VVg5Rz/4xf0RFHMHrhbdWeHiBH
- Pd5sVw5FsfkBffYmTdV+4CpTtJeEApaq2vJy5wkbIH052OFISGKfMm2DWNNL+OE47c
- G+j8022hLng8sYa3tuyUaY2bhTqyZNF807sM+zeDtHLoWSKXvFwqvOk5OWjDdPLZLK
- L2WwvMUzaZPVQ==
+ b=nFNxSJo+KYAWrj+c676wSm/Py4epcuqAXC0SVwB8qRE2sBaDP6mqYk8MdIGfxowaT
+ k7wUK4oBaDn7WIOWiYQo/4ZEMsv0h500dph/OvcPXv3fTZt0nx91+p1ugLXWQcPPPD
+ qleLByGE7UcjszBlpy+d9EmeBDSs+2XdrbU6VroPJeHL+PLHiOycgFiL/Xlyd1Lfwh
+ 6qsROdOYQKG7/keSlIXxT7yv1i1yenUgSxDZHN7Cgy5X9RKrvPAT+zLsPgA60/Vuz5
+ wFMQKF/8R0wtdSo6VC2dvzZY+KrSi5n82P2bo4X0dRVK99uzY7XhLHrurC6bpeer5x
+ ByN6M7OYsS+vA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id C13C760EBC; Fri, 27 Aug 2021 10:44:35 +0000 (UTC)
+ id 803A360EE5; Fri, 27 Aug 2021 11:08:03 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214197] New: [Asus G713QY] RX6800M not usable after exiting
- Vulkan application
-Date: Fri, 27 Aug 2021 10:44:35 +0000
+Subject: [Bug 214199] New: Sapphire NITRO+ RX 580 4G G5 - Secondary display
+ doesn't wake up on boot, both displays won't wake up from suspend
+Date: Fri, 27 Aug 2021 11:08:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,7 +39,7 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: velemas@gmail.com
+X-Bugzilla-Who: kernel@zeljko.anonaddy.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
@@ -47,8 +47,8 @@ X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version
  cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-214197-2300@https.bugzilla.kernel.org/>
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-214199-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -69,15 +69,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214197
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214199
 
-            Bug ID: 214197
-           Summary: [Asus G713QY] RX6800M not usable after exiting Vulkan
-                    application
+            Bug ID: 214199
+           Summary: Sapphire NITRO+ RX 580 4G G5 - Secondary display
+                    doesn't wake up on boot, both displays won't wake up
+                    from suspend
            Product: Drivers
            Version: 2.5
-    Kernel Version: 5.13.13
-          Hardware: x86-64
+    Kernel Version: 5.13.12
+          Hardware: All
                 OS: Linux
               Tree: Mainline
             Status: NEW
@@ -85,33 +86,27 @@ https://bugzilla.kernel.org/show_bug.cgi?id=3D214197
           Priority: P1
          Component: Video(DRI - non Intel)
           Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: velemas@gmail.com
+          Reporter: kernel@zeljko.anonaddy.com
         Regression: No
 
-Asus ROG Strix G17 Advantage Edition (G713QY) has hybrid-graphics with dGPU
-RX6800M. After exiting any Vulkan application, it becomes unusable. Vulkani=
-nfo
-sees dGPU before Vulkan app and does not see RX6800M after.
+Created attachment 298497
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298497&action=3Dedit
+Boot dmesg
 
-After Vulkan app close, dmesg reports:
+Hi! This is the first time I've tried Linux with this graphics card.
 
-[  154.385749] amdgpu 0000:03:00.0: amdgpu: RAS: optional ras ta ucode is n=
-ot
-available
-[  154.401405] amdgpu 0000:03:00.0: amdgpu: SECUREDISPLAY: securedisplay ta
-ucode is not available
-[  154.401409] amdgpu 0000:03:00.0: amdgpu: SMU is resuming...
-[  159.038150] amdgpu 0000:03:00.0: amdgpu: message:        RunDcBtc (54)=
-=20=20=20=20=20=20
-param: 0x00000000 is timeout (no response)
-[  159.038154] amdgpu 0000:03:00.0: amdgpu: Failed to setup smc hw!
-[  159.038156] [drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume=
- of
-IP block <smu> failed -62
-[  159.038220] amdgpu 0000:03:00.0: amdgpu: amdgpu_device_ip_resume failed
-(-62).
+The issues are that my second monitor doesn't wake up from stand by on boot=
+ and
+also both monitors won't wake up from suspend.
 
-Using amdgpu.runpm=3D0 parameter fixes the issue.
+If I turn off the second monitor and turn it back on after boot it works fi=
+ne.
+
+Same with both monitors after the computer wakes up from suspend. I have to
+turn off both of them and turn them back on.
+
+I'm attaching both boot and suspend dmesg logs with drm.debug=3D0xe kernel
+parameter from a fresh install of Arch Linux.
 
 --=20
 You may reply to this email to add a comment.
