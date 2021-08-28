@@ -2,33 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D183FA633
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Aug 2021 16:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3443FA63E
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Aug 2021 16:40:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C6D56EA4F;
-	Sat, 28 Aug 2021 14:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7586EA58;
+	Sat, 28 Aug 2021 14:40:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC6ED6EA4F
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Aug 2021 14:12:31 +0000 (UTC)
-Date: Sat, 28 Aug 2021 15:12:19 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 2/2] drm/panel: Add driver for the AUO A030JTN01 TFT LCD
-To: Kari Argillander <kari.argillander@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
- <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>, Christophe Branchereau
- <cbranchereau@gmail.com>, list@opendingux.net,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <JGZJYQ.UFG8C3UEXPVS1@crapouillou.net>
-In-Reply-To: <20210828140139.vwhgcjmgnas4fh7w@kari-VirtualBox>
-References: <20210828112640.7248-1-paul@crapouillou.net>
- <20210828112640.7248-2-paul@crapouillou.net>
- <20210828140139.vwhgcjmgnas4fh7w@kari-VirtualBox>
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE9B6EA58
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Aug 2021 14:40:35 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ o16-20020a9d2210000000b0051b1e56c98fso11861894ota.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Aug 2021 07:40:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5YPoL8GlpbFtSNjK3CYZgxgeOeetG15fvTthzuY2WMc=;
+ b=iVWEM1beHr4kq2zNmhblRgSN3FGepoKEmyL4yElV1Ctij9bUPoWDx72laKDCLFu0/r
+ KdBqgnRmDcf6v/Ut6bhfq+iUmWHKKH/+6ENEJYcmuvHqBzgxRTXrxY7CXN+mhqb0BYfU
+ JIsRVh1vXfGNfz3aii0PcBHTgbhBV8sp4cojFlWasi6VWv6L0bLGeflI5Db1Z0SJHC2w
+ g+Jz5QDAUPspAB8f6HGy67XQQb3hPKc3WbhQoDFCD7QsmDpRRa2b84fuckfol4OIBBVr
+ HzLx4qcl5Sr3DWMjTyBFeWuwHW2HK9iZKjobSIaKa/NcLp9dT05T/EzdUSwKh+OoSMqb
+ J4TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5YPoL8GlpbFtSNjK3CYZgxgeOeetG15fvTthzuY2WMc=;
+ b=S/UYzRIFgzoD/U45Ed2hTTuqsE1TeE8nzwf3SygbfDoAM4br8NZwWZZO1NNTT6s3gt
+ KfMqgQEmNK3fwG05mOOsz04O/ZYuoDcW9I/vJCAWrfiTLwHPYnunEHfreOUgZWPBQf8x
+ cL6Xkyv9lXKPt7n9JwXa5F0ulbjSu1rw2LMyA9JMZ6tFm6VS+Ug58f3dFG8Cq2CMBmsF
+ M2HaQuCjYr9E9bI2zHWYytjVtfDDgBLtKW4bX4fDLcpLxhlJpXfFPil9feEKLZCUbFGm
+ 5rw98skaPSQduN1n3ue8pFmAGohRETF5AehuNuYYBoj6izr9WHJjQIel1gflFYq2qb8+
+ HyNQ==
+X-Gm-Message-State: AOAM530kPKGb5sOP9KjsdfLfNOjPuPh5TCd4+OBtj5BU5yeB2ZoDY82i
+ OR/cjA/ygqqDZB8oAQs9P90M7A==
+X-Google-Smtp-Source: ABdhPJzKJsmSdUekZjhIgLwPoay9yS3v22MJnOumK09rmQaevnM2pWN41fMpQJqzK/xbyf2unTc4vw==
+X-Received: by 2002:a05:6830:402c:: with SMTP id
+ i12mr12679667ots.287.1630161634668; 
+ Sat, 28 Aug 2021 07:40:34 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id k1sm1942767otr.43.2021.08.28.07.40.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Aug 2021 07:40:34 -0700 (PDT)
+Date: Sat, 28 Aug 2021 09:40:31 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vara Reddy <varar@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
+Message-ID: <YSpK3wTUdqlUyJxb@yoga>
+References: <20210726231351.655302-1-bjorn.andersson@linaro.org>
+ <CAD=FV=UGtHXD==Yy8CVCOioYGb=2hqGQOoNWftD1Jj7OiEp51g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=UGtHXD==Yy8CVCOioYGb=2hqGQOoNWftD1Jj7OiEp51g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,384 +84,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri 27 Aug 15:52 CDT 2021, Doug Anderson wrote:
 
-Le sam., ao=FBt 28 2021 at 17:01:39 +0300, Kari Argillander=20
-<kari.argillander@gmail.com> a =E9crit :
-> On Sat, Aug 28, 2021 at 12:26:40PM +0100, Paul Cercueil wrote:
->>  From: Christophe Branchereau <cbranchereau@gmail.com>
->>=20
->>  Add driver for the AUO A030JTN01 panel, which is a 320x480 3.0" 4:3
->>  24-bit TFT LCD with non-square pixels and a delta-RGB 8-bit=20
->> interface.
->>=20
->>  Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>   drivers/gpu/drm/panel/Kconfig               |   8 +
->>   drivers/gpu/drm/panel/Makefile              |   1 +
->>   drivers/gpu/drm/panel/panel-auo-a030jtn01.c | 297=20
->> ++++++++++++++++++++
->>   3 files changed, 306 insertions(+)
->>   create mode 100644 drivers/gpu/drm/panel/panel-auo-a030jtn01.c
->>=20
->>  diff --git a/drivers/gpu/drm/panel/Kconfig=20
->> b/drivers/gpu/drm/panel/Kconfig
->>  index 0b3784941312..42d42f999266 100644
->>  --- a/drivers/gpu/drm/panel/Kconfig
->>  +++ b/drivers/gpu/drm/panel/Kconfig
->>  @@ -8,6 +8,14 @@ config DRM_PANEL
->>   menu "Display Panels"
->>   	depends on DRM && DRM_PANEL
->>=20
->>  +config DRM_PANEL_AUO_A030JTN01
->>  +	tristate "AUO A030JTN01"
->>  +	depends on OF && SPI
->>  +	select REGMAP_SPI
->>  +	help
->>  +	  Say Y here to enable support for the AUO A030JTN01 320x480 3.0"=20
->> panel
->>  +	  as found in the YLM RS-97 handheld gaming console.
->>  +
->=20
-> It seems that these should be alphabetical order.
+> Hi,
+> 
+> On Mon, Jul 26, 2021 at 4:15 PM Bjorn Andersson
+> <bjorn.andersson@linaro.org> wrote:
+> >
+> > +static int dp_parser_find_panel(struct dp_parser *parser)
+> > +{
+> > +       struct device_node *np = parser->pdev->dev.of_node;
+> > +       int rc;
+> > +
+> > +       rc = drm_of_find_panel_or_bridge(np, 2, 0, &parser->drm_panel, NULL);
+> 
+> Why port 2? Shouldn't this just be port 1 always? The yaml says that
+> port 1 is "Output endpoint of the controller". We should just use port
+> 1 here, right?
+> 
 
-You're totally right, sorry about that.
+I thought port 1 was the link to the Type-C controller, didn't give it a
+second thought and took the next available.
 
->>   config DRM_PANEL_ABT_Y030XX067A
->>   	tristate "ABT Y030XX067A 320x480 LCD panel"
->>   	depends on OF && SPI
->>  diff --git a/drivers/gpu/drm/panel/Makefile=20
->> b/drivers/gpu/drm/panel/Makefile
->>  index 60c0149fc54a..edf62866e4af 100644
->>  --- a/drivers/gpu/drm/panel/Makefile
->>  +++ b/drivers/gpu/drm/panel/Makefile
->>  @@ -1,4 +1,5 @@
->>   # SPDX-License-Identifier: GPL-2.0
->>  +obj-$(CONFIG_DRM_PANEL_AUO_A030JTN01) +=3D panel-auo-a030jtn01.o
->>   obj-$(CONFIG_DRM_PANEL_ABT_Y030XX067A) +=3D panel-abt-y030xx067a.o
->>   obj-$(CONFIG_DRM_PANEL_ARM_VERSATILE) +=3D panel-arm-versatile.o
->>   obj-$(CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596) +=3D=20
->> panel-asus-z00t-tm5p5-n35596.o
->>  diff --git a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c=20
->> b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
->>  new file mode 100644
->>  index 000000000000..804567a59d19
->>  --- /dev/null
->>  +++ b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
->>  @@ -0,0 +1,297 @@
->>  +// SPDX-License-Identifier: GPL-2.0
->>  +/*
->>  + * AU Optronics A030JTN01.0 TFT LCD panel driver
->>  + *
->>  + * Copyright (C) 2020, Paul Cercueil <paul@crapouillou.net>
->>  + * Copyright (C) 2020, Christophe Branchereau=20
->> <cbranchereau@gmail.com>
->=20
-> Should these be 2021?
+But per the binding it makes sense that the panel is the "Output
+endpoint of the controller" and I guess one will have either a Type-C
+controller or a panel - even after the DP rework?
 
-The commits were written in 2021, but I guess I can update the date,=20
-yes.
-
-Cheers,
--Paul
-
->     Argillander
->=20
->>  + */
->>  +
->>  +#include <linux/delay.h>
->>  +#include <linux/device.h>
->>  +#include <linux/gpio/consumer.h>
->>  +#include <linux/media-bus-format.h>
->>  +#include <linux/module.h>
->>  +#include <linux/of_device.h>
->>  +#include <linux/regmap.h>
->>  +#include <linux/regulator/consumer.h>
->>  +#include <linux/spi/spi.h>
->>  +
->>  +#include <drm/drm_modes.h>
->>  +#include <drm/drm_panel.h>
->>  +
->>  +struct a030jtn01_info {
->>  +	const struct drm_display_mode *display_modes;
->>  +	unsigned int num_modes;
->>  +	u16 width_mm, height_mm;
->>  +	u32 bus_format, bus_flags;
->>  +};
->>  +
->>  +struct a030jtn01 {
->>  +	struct drm_panel panel;
->>  +	struct spi_device *spi;
->>  +	struct regmap *map;
->>  +
->>  +	const struct a030jtn01_info *panel_info;
->>  +
->>  +	struct regulator *supply;
->>  +	struct gpio_desc *reset_gpio;
->>  +};
->>  +
->>  +static inline struct a030jtn01 *to_a030jtn01(struct drm_panel=20
->> *panel)
->>  +{
->>  +	return container_of(panel, struct a030jtn01, panel);
->>  +}
->>  +
->>  +static int a030jtn01_prepare(struct drm_panel *panel)
->>  +{
->>  +	struct a030jtn01 *priv =3D to_a030jtn01(panel);
->>  +	struct device *dev =3D &priv->spi->dev;
->>  +	int err;
->>  +
->>  +	err =3D regulator_enable(priv->supply);
->>  +	if (err) {
->>  +		dev_err(dev, "Failed to enable power supply: %d\n", err);
->>  +		return err;
->>  +	}
->>  +
->>  +	usleep_range(1000, 8000);
->>  +
->>  +	/* Reset the chip */
->>  +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
->>  +	usleep_range(100, 8000);
->>  +	gpiod_set_value_cansleep(priv->reset_gpio, 0);
->>  +	usleep_range(2000, 8000);
->>  +
->>  +	/*
->>  +	 * No idea why two writes are needed. If this write is commented,
->>  +	 * the colors are wrong. Doesn't seem to be timing-related, since
->>  +	 * a msleep(200) doesn't fix it.
->>  +	 */
->>  +	regmap_write(priv->map, 0x06, 0x00);
->>  +
->>  +	/* Use (24 + 6) =3D=3D 0x1e as the vertical back porch */
->>  +	err =3D regmap_write(priv->map, 0x06, 0x1e);
->>  +	if (err)
->>  +		goto err_disable_regulator;
->>  +
->>  +	/* Use (42 + 30) * 3 =3D=3D 0xd8 as the horizontal back porch */
->>  +	err =3D regmap_write(priv->map, 0x07, 0xd8);
->>  +	if (err)
->>  +		goto err_disable_regulator;
->>  +
->>  +	regmap_write(priv->map, 0x05, 0x74);
->>  +
->>  +	return 0;
->>  +
->>  +err_disable_regulator:
->>  +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
->>  +	regulator_disable(priv->supply);
->>  +	return err;
->>  +}
->>  +
->>  +static int a030jtn01_unprepare(struct drm_panel *panel)
->>  +{
->>  +	struct a030jtn01 *priv =3D to_a030jtn01(panel);
->>  +
->>  +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
->>  +	regulator_disable(priv->supply);
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static int a030jtn01_enable(struct drm_panel *panel)
->>  +{
->>  +	struct a030jtn01 *priv =3D to_a030jtn01(panel);
->>  +	int ret;
->>  +
->>  +	ret =3D regmap_write(priv->map, 0x05, 0x75);
->>  +	if (ret)
->>  +		return ret;
->>  +
->>  +	/* Wait for the picture to be stable */
->>  +	if (panel->backlight)
->>  +		msleep(100);
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static int a030jtn01_disable(struct drm_panel *panel)
->>  +{
->>  +	struct a030jtn01 *priv =3D to_a030jtn01(panel);
->>  +
->>  +	return regmap_write(priv->map, 0x05, 0x74);
->>  +}
->>  +
->>  +static int a030jtn01_get_modes(struct drm_panel *panel,
->>  +				struct drm_connector *connector)
->>  +{
->>  +	struct a030jtn01 *priv =3D to_a030jtn01(panel);
->>  +	const struct a030jtn01_info *panel_info =3D priv->panel_info;
->>  +	struct drm_display_mode *mode;
->>  +	unsigned int i;
->>  +
->>  +	for (i =3D 0; i < panel_info->num_modes; i++) {
->>  +		mode =3D drm_mode_duplicate(connector->dev,
->>  +					  &panel_info->display_modes[i]);
->>  +		if (!mode)
->>  +			return -ENOMEM;
->>  +
->>  +		drm_mode_set_name(mode);
->>  +
->>  +		mode->type =3D DRM_MODE_TYPE_DRIVER;
->>  +		if (panel_info->num_modes =3D=3D 1)
->>  +			mode->type |=3D DRM_MODE_TYPE_PREFERRED;
->>  +
->>  +		drm_mode_probed_add(connector, mode);
->>  +	}
->>  +
->>  +	connector->display_info.bpc =3D 8;
->>  +	connector->display_info.width_mm =3D panel_info->width_mm;
->>  +	connector->display_info.height_mm =3D panel_info->height_mm;
->>  +
->>  +	drm_display_info_set_bus_formats(&connector->display_info,
->>  +					 &panel_info->bus_format, 1);
->>  +	connector->display_info.bus_flags =3D panel_info->bus_flags;
->>  +
->>  +	return panel_info->num_modes;
->>  +}
->>  +
->>  +static const struct drm_panel_funcs a030jtn01_funcs =3D {
->>  +	.prepare	=3D a030jtn01_prepare,
->>  +	.unprepare	=3D a030jtn01_unprepare,
->>  +	.enable		=3D a030jtn01_enable,
->>  +	.disable	=3D a030jtn01_disable,
->>  +	.get_modes	=3D a030jtn01_get_modes,
->>  +};
->>  +
->>  +static bool a030jtn01_has_reg(struct device *dev, unsigned int reg)
->>  +{
->>  +	static const u32 a030jtn01_regs_mask =3D 0x001823f1fb;
->>  +
->>  +	return a030jtn01_regs_mask & BIT(reg);
->>  +};
->>  +
->>  +static const struct regmap_config a030jtn01_regmap_config =3D {
->>  +	.reg_bits =3D 8,
->>  +	.val_bits =3D 8,
->>  +	.read_flag_mask =3D 0x40,
->>  +	.max_register =3D 0x1c,
->>  +	.readable_reg =3D a030jtn01_has_reg,
->>  +	.writeable_reg =3D a030jtn01_has_reg,
->>  +};
->>  +
->>  +static int a030jtn01_probe(struct spi_device *spi)
->>  +{
->>  +	struct device *dev =3D &spi->dev;
->>  +	struct a030jtn01 *priv;
->>  +	int err;
->>  +
->>  +	spi->mode |=3D SPI_MODE_3 | SPI_3WIRE;
->>  +
->>  +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->>  +	if (!priv)
->>  +		return -ENOMEM;
->>  +
->>  +	priv->spi =3D spi;
->>  +	spi_set_drvdata(spi, priv);
->>  +
->>  +	priv->map =3D devm_regmap_init_spi(spi, &a030jtn01_regmap_config);
->>  +	if (IS_ERR(priv->map)) {
->>  +		dev_err(dev, "Unable to init regmap\n");
->>  +		return PTR_ERR(priv->map);
->>  +	}
->>  +
->>  +	priv->panel_info =3D of_device_get_match_data(dev);
->>  +	if (!priv->panel_info)
->>  +		return -EINVAL;
->>  +
->>  +	priv->supply =3D devm_regulator_get(dev, "power");
->>  +	if (IS_ERR(priv->supply)) {
->>  +		dev_err(dev, "Failed to get power supply\n");
->>  +		return PTR_ERR(priv->supply);
->>  +	}
->>  +
->>  +	priv->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
->>  +	if (IS_ERR(priv->reset_gpio)) {
->>  +		dev_err(dev, "Failed to get reset GPIO\n");
->>  +		return PTR_ERR(priv->reset_gpio);
->>  +	}
->>  +
->>  +	drm_panel_init(&priv->panel, dev, &a030jtn01_funcs,
->>  +		       DRM_MODE_CONNECTOR_DPI);
->>  +
->>  +	err =3D drm_panel_of_backlight(&priv->panel);
->>  +	if (err)
->>  +		return err;
->>  +
->>  +	drm_panel_add(&priv->panel);
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static int a030jtn01_remove(struct spi_device *spi)
->>  +{
->>  +	struct a030jtn01 *priv =3D spi_get_drvdata(spi);
->>  +
->>  +	drm_panel_remove(&priv->panel);
->>  +	drm_panel_disable(&priv->panel);
->>  +	drm_panel_unprepare(&priv->panel);
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static const struct drm_display_mode a030jtn01_modes[] =3D {
->>  +	{ /* 60 Hz */
->>  +		.clock =3D 14400,
->>  +		.hdisplay =3D 320,
->>  +		.hsync_start =3D 320 + 8,
->>  +		.hsync_end =3D 320 + 8 + 42,
->>  +		.htotal =3D 320 + 8 + 42 + 30,
->>  +		.vdisplay =3D 480,
->>  +		.vsync_start =3D 480 + 90,
->>  +		.vsync_end =3D 480 + 90 + 24,
->>  +		.vtotal =3D 480 + 90 + 24 + 6,
->>  +		.flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
->>  +	},
->>  +	{ /* 50 Hz */
->>  +		.clock =3D 12000,
->>  +		.hdisplay =3D 320,
->>  +		.hsync_start =3D 320 + 8,
->>  +		.hsync_end =3D 320 + 8 + 42,
->>  +		.htotal =3D 320 + 8 + 42 + 30,
->>  +		.vdisplay =3D 480,
->>  +		.vsync_start =3D 480 + 90,
->>  +		.vsync_end =3D 480 + 90 + 24,
->>  +		.vtotal =3D 480 + 90 + 24 + 6,
->>  +		.flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
->>  +	},
->>  +};
->>  +
->>  +static const struct a030jtn01_info a030jtn01_info =3D {
->>  +	.display_modes =3D a030jtn01_modes,
->>  +	.num_modes =3D ARRAY_SIZE(a030jtn01_modes),
->>  +	.width_mm =3D 70,
->>  +	.height_mm =3D 51,
->>  +	.bus_format =3D MEDIA_BUS_FMT_RGB888_3X8_DELTA,
->>  +	.bus_flags =3D DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
->>  +};
->>  +
->>  +static const struct of_device_id a030jtn01_of_match[] =3D {
->>  +	{ .compatible =3D "auo,a030jtn01", .data =3D &a030jtn01_info },
->>  +	{ /* sentinel */ }
->>  +};
->>  +MODULE_DEVICE_TABLE(of, a030jtn01_of_match);
->>  +
->>  +static struct spi_driver a030jtn01_driver =3D {
->>  +	.driver =3D {
->>  +		.name =3D "auo-a030jtn01",
->>  +		.of_match_table =3D a030jtn01_of_match,
->>  +	},
->>  +	.probe =3D a030jtn01_probe,
->>  +	.remove =3D a030jtn01_remove,
->>  +};
->>  +module_spi_driver(a030jtn01_driver);
->>  +
->>  +MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
->>  +MODULE_AUTHOR("Christophe Branchereau <cbranchereau@gmail.com>");
->>  +MODULE_LICENSE("GPL v2");
->>  --
->>  2.33.0
->>=20
-
-
+Regards,
+Bjorn
