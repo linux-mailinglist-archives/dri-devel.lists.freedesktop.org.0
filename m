@@ -2,42 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6CF3FA6D3
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Aug 2021 18:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DE03FA6D5
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Aug 2021 18:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60E4B6E037;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC896E03D;
 	Sat, 28 Aug 2021 16:54:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 497 seconds by postgrey-1.36 at gabe;
- Sat, 28 Aug 2021 11:10:37 UTC
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8A146EA3E
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Aug 2021 11:10:37 +0000 (UTC)
-Received: from localhost.localdomain (ip-213-127-63-121.ip.prioritytelecom.net
- [213.127.63.121])
- by mail.z3ntu.xyz (Postfix) with ESMTPSA id 97FD2C938F;
- Sat, 28 Aug 2021 11:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
- t=1630148538; bh=593ciw0QW1roD1h3TFS7025Qd9Um6NsB+kmDNsGtp2E=;
- h=From:To:Cc:Subject:Date;
- b=YP2K5BgAcdkPXUhhs/TGPxseXSfdP9tL7CEpGui+ebRwolbC6RJgoLExFn/Gi+gQI
- pb+EnTaSgi2YfGHzc52ilbSZA0liS9jVntxAKYO2gszKX4KUp8dMxuYojfTIcff2an
- F3rqQjRAwyerZbdyuSn/4ZCIchyIRxsflmqhBf+Q=
-From: Luca Weiss <luca@z3ntu.xyz>
-To: linux-fbdev@vger.kernel.org
-Cc: ~postmarketos/upstreaming@lists.sr.ht, Luca Weiss <luca@z3ntu.xyz>,
- Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEB976EA48
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Aug 2021 12:40:08 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id c4so5797357plh.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Aug 2021 05:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=itfac-mrt-ac-lk.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=Zy9gkrL+JNg6cRW4icctxicuy4ZeA0G5BPg5O9lEsNU=;
+ b=bwjBnqx4LEGWPO1ua6UvMdtVFJQGbeRev3+UpUcHQGbuzxEJ2ReH569Qo0oF/c+OVm
+ xenJdUNtkbo4C0M4/yfDu2VMy2+SwdEYYavcPlxwWEypx+Zc9xSaUJBtWrnCTJBOYrHE
+ aYprmhZnHHk0Ixd8cGEu3aJD0mBeV//r3D8VjdN2kzxSiADJzfOmEd+zZSU/m38qo/FS
+ wn+lVLIPupqW6Vm1T2YwdXNQ6PJOL1f3Uia+1cly3357KNXcQ9FExymCIk/hoiviZwhw
+ mTiZnqUwICb3nUIy35RvBee2EJFur70+YoecPqRtUiqOzXEghtKnzhoOQX/CukIaQttZ
+ Acdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Zy9gkrL+JNg6cRW4icctxicuy4ZeA0G5BPg5O9lEsNU=;
+ b=j90VApqphf4hoXfqJnI7G/nEDUlYyJOZPIJE9NJA1p9d4NYSSr4dMfoPyjaeFu4G2I
+ As8UnpCYwH1JFYexDHntNW48tWpmNh2wrMg3/0Buyrg7N1jlIO4j1Ey5dVGXHJ9o8bta
+ oGYy+2ys4+WIiCnz9rONY4de+GH++U5HywTVHyxKMpm305zCiqA1rfwqiBp52DWhaVIN
+ GRVao6cWimXl8N7HHQuTK6Ms250EQjx4bgmwpl+bX5rDAgVlnqSYm2XzJbJpP6NiIrus
+ jGfwHqZO8kuXUSWVbrXsE0CR1fmGiJtujUJiev9hDIJgyfi0PeG+PbISE54LWCFEBZBe
+ rAvg==
+X-Gm-Message-State: AOAM532o726J1GkrXLk5+TwyNfopp3eg5h5IOJxesrTcbR5J8j6cD7Tr
+ jRPZkJX1kwfPhWa3I/VYy9IEZCPxLINo3mU=
+X-Google-Smtp-Source: ABdhPJxU5fwbsuc0VGnWo5NfZ2kAr86vT5sENmLWWX05JxS+Ngw0j7+c9e6KFEnnaOUnwcJuGMeSeA==
+X-Received: by 2002:a17:902:bb81:b0:12d:a7ec:3d85 with SMTP id
+ m1-20020a170902bb8100b0012da7ec3d85mr13385759pls.17.1630154407725; 
+ Sat, 28 Aug 2021 05:40:07 -0700 (PDT)
+Received: from localhost.localdomain ([123.231.122.209])
+ by smtp.gmail.com with ESMTPSA id a20sm15116122pjh.46.2021.08.28.05.40.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Aug 2021 05:40:07 -0700 (PDT)
+From: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch
+Cc: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: display: add missing simple-framebuffer formats
-Date: Sat, 28 Aug 2021 13:02:05 +0200
-Message-Id: <20210828110206.142899-1-luca@z3ntu.xyz>
-X-Mailer: git-send-email 2.33.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] GPU: drm: fix style errors
+Date: Sat, 28 Aug 2021 18:09:42 +0530
+Message-Id: <20210828123942.1556-1-asha.16@itfac.mrt.ac.lk>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Sat, 28 Aug 2021 16:54:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,44 +70,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document all formats currently present in include/linux/platform_data/
-simplefb.h
+This patch fixes style issues in drm_ioctl.c
 
-Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+Signed-off-by: F.A. SULAIMAN <asha.16@itfac.mrt.ac.lk>
 ---
- .../bindings/display/simple-framebuffer.yaml         | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/drm_ioctl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-index c2499a7906f5..c1acd2859ae8 100644
---- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-+++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-@@ -83,13 +83,25 @@ properties:
-   format:
-     description: >
-       Format of the framebuffer:
-+        * `a1r5g5b5` - 16-bit pixels, d[15]=a, d[14:10]=r, d[9:5]=g, d[4:0]=b
-+        * `a2r10g10b10` - 32-bit pixels, d[31:30]=a, d[29:20]=r, d[19:10]=g, d[9:0]=b
-         * `a8b8g8r8` - 32-bit pixels, d[31:24]=a, d[23:16]=b, d[15:8]=g, d[7:0]=r
-+        * `a8r8g8b8` - 32-bit pixels, d[31:24]=a, d[23:16]=r, d[15:8]=g, d[7:0]=b
-         * `r5g6b5` - 16-bit pixels, d[15:11]=r, d[10:5]=g, d[4:0]=b
-+        * `r5g5b5a1` - 16-bit pixels, d[15:11]=r, d[10:6]=g, d[5:1]=b, d[0]=a
-+        * `r8g8b8` - 24-bit pixels, d[23:16]=r, d[15:8]=g, d[7:0]=b
-+        * `x1r5g5b5` - 16-bit pixels, d[14:10]=r, d[9:5]=g, d[4:0]=b
-         * `x2r10g10b10` - 32-bit pixels, d[29:20]=r, d[19:10]=g, d[9:0]=b
-         * `x8r8g8b8` - 32-bit pixels, d[23:16]=r, d[15:8]=g, d[7:0]=b
-     enum:
-+      - a1r5g5b5
-+      - a2r10g10b10
-       - a8b8g8r8
-+      - a8r8g8b8
-       - r5g6b5
-+      - r5g5b5a1
-+      - r8g8b8
-+      - x1r5g5b5
-       - x2r10g10b10
-       - x8r8g8b8
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index be4a52dc4d6f..1355879ab809 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -725,7 +725,7 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
+ };
+ 
+-#define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE( drm_ioctls )
++#define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE(drm_ioctls)
+ 
+ /**
+  * DOC: driver specific ioctls
+@@ -834,8 +834,8 @@ long drm_ioctl(struct file *filp,
+ 	if (drm_dev_is_unplugged(dev))
+ 		return -ENODEV;
+ 
+-       if (DRM_IOCTL_TYPE(cmd) != DRM_IOCTL_BASE)
+-               return -ENOTTY;
++	if (DRM_IOCTL_TYPE(cmd) != DRM_IOCTL_BASE)
++		return -ENOTTY;
+ 
+ 	is_driver_ioctl = nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END;
  
 -- 
-2.33.0
+2.17.1
 
