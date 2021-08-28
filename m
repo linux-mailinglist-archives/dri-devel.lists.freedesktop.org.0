@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B65D3FA6D2
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6CF3FA6D3
 	for <lists+dri-devel@lfdr.de>; Sat, 28 Aug 2021 18:55:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57B336E096;
-	Sat, 28 Aug 2021 16:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60E4B6E037;
+	Sat, 28 Aug 2021 16:54:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1050 seconds by postgrey-1.36 at gabe;
- Sat, 28 Aug 2021 11:02:19 UTC
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B0F6EA3E
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Aug 2021 11:02:19 +0000 (UTC)
-Received: from dggeml765-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GxY9N6Cv6zYs73;
- Sat, 28 Aug 2021 18:44:08 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by dggeml765-chm.china.huawei.com
- (10.1.199.175) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Sat, 28
- Aug 2021 18:44:45 +0800
-From: liuyuntao <liuyuntao10@huawei.com>
-To: <kraxel@redhat.com>, <airlied@linux.ie>, <airlied@gmail.com>,
- <mst@redhat.com>
-CC: <dri-devel@lists.freedesktop.org>,
- <virtualization@lists.linux-foundation.org>, <wuxu.wu@huawei.com>,
- <windspectator@gmail.com>
-Subject: [PATCH] virtio-gpu: fix possible memory allocation failure
-Date: Sat, 28 Aug 2021 18:43:21 +0800
-Message-ID: <20210828104321.3410312-1-liuyuntao10@huawei.com>
-X-Mailer: git-send-email 2.23.0
+X-Greylist: delayed 497 seconds by postgrey-1.36 at gabe;
+ Sat, 28 Aug 2021 11:10:37 UTC
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8A146EA3E
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Aug 2021 11:10:37 +0000 (UTC)
+Received: from localhost.localdomain (ip-213-127-63-121.ip.prioritytelecom.net
+ [213.127.63.121])
+ by mail.z3ntu.xyz (Postfix) with ESMTPSA id 97FD2C938F;
+ Sat, 28 Aug 2021 11:02:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+ t=1630148538; bh=593ciw0QW1roD1h3TFS7025Qd9Um6NsB+kmDNsGtp2E=;
+ h=From:To:Cc:Subject:Date;
+ b=YP2K5BgAcdkPXUhhs/TGPxseXSfdP9tL7CEpGui+ebRwolbC6RJgoLExFn/Gi+gQI
+ pb+EnTaSgi2YfGHzc52ilbSZA0liS9jVntxAKYO2gszKX4KUp8dMxuYojfTIcff2an
+ F3rqQjRAwyerZbdyuSn/4ZCIchyIRxsflmqhBf+Q=
+From: Luca Weiss <luca@z3ntu.xyz>
+To: linux-fbdev@vger.kernel.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht, Luca Weiss <luca@z3ntu.xyz>,
+ Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: add missing simple-framebuffer formats
+Date: Sat, 28 Aug 2021 13:02:05 +0200
+Message-Id: <20210828110206.142899-1-luca@z3ntu.xyz>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggeml765-chm.china.huawei.com (10.1.199.175)
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sat, 28 Aug 2021 16:54:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,46 +54,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When kmem_cache_zalloc in virtio_gpu_get_vbuf fails, it will return
-an error code. But none of its callers checks this error code, and
-a core dump will take place.
+Document all formats currently present in include/linux/platform_data/
+simplefb.h
 
-Considering many of its callers can't handle such error, I add
-a __GFP_NOFAIL flag when calling kmem_cache_zalloc to make sure
-it won't fail, and delete those unused error handlings.
-
-Fixes: dc5698e80cf724 ("Add virtio gpu driver.")
-Signed-off-by: Yuntao Liu <liuyuntao10@huawei.com>
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 ---
- drivers/gpu/drm/virtio/virtgpu_vq.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ .../bindings/display/simple-framebuffer.yaml         | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index cf84d382dd41..5286cf110208 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -91,9 +91,7 @@ virtio_gpu_get_vbuf(struct virtio_gpu_device *vgdev,
- {
- 	struct virtio_gpu_vbuffer *vbuf;
+diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+index c2499a7906f5..c1acd2859ae8 100644
+--- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
++++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+@@ -83,13 +83,25 @@ properties:
+   format:
+     description: >
+       Format of the framebuffer:
++        * `a1r5g5b5` - 16-bit pixels, d[15]=a, d[14:10]=r, d[9:5]=g, d[4:0]=b
++        * `a2r10g10b10` - 32-bit pixels, d[31:30]=a, d[29:20]=r, d[19:10]=g, d[9:0]=b
+         * `a8b8g8r8` - 32-bit pixels, d[31:24]=a, d[23:16]=b, d[15:8]=g, d[7:0]=r
++        * `a8r8g8b8` - 32-bit pixels, d[31:24]=a, d[23:16]=r, d[15:8]=g, d[7:0]=b
+         * `r5g6b5` - 16-bit pixels, d[15:11]=r, d[10:5]=g, d[4:0]=b
++        * `r5g5b5a1` - 16-bit pixels, d[15:11]=r, d[10:6]=g, d[5:1]=b, d[0]=a
++        * `r8g8b8` - 24-bit pixels, d[23:16]=r, d[15:8]=g, d[7:0]=b
++        * `x1r5g5b5` - 16-bit pixels, d[14:10]=r, d[9:5]=g, d[4:0]=b
+         * `x2r10g10b10` - 32-bit pixels, d[29:20]=r, d[19:10]=g, d[9:0]=b
+         * `x8r8g8b8` - 32-bit pixels, d[23:16]=r, d[15:8]=g, d[7:0]=b
+     enum:
++      - a1r5g5b5
++      - a2r10g10b10
+       - a8b8g8r8
++      - a8r8g8b8
+       - r5g6b5
++      - r5g5b5a1
++      - r8g8b8
++      - x1r5g5b5
+       - x2r10g10b10
+       - x8r8g8b8
  
--	vbuf = kmem_cache_zalloc(vgdev->vbufs, GFP_KERNEL);
--	if (!vbuf)
--		return ERR_PTR(-ENOMEM);
-+	vbuf = kmem_cache_zalloc(vgdev->vbufs, GFP_KERNEL | __GFP_NOFAIL);
- 
- 	BUG_ON(size > MAX_INLINE_CMD_SIZE ||
- 	       size < sizeof(struct virtio_gpu_ctrl_hdr));
-@@ -147,10 +145,6 @@ static void *virtio_gpu_alloc_cmd_resp(struct virtio_gpu_device *vgdev,
- 
- 	vbuf = virtio_gpu_get_vbuf(vgdev, cmd_size,
- 				   resp_size, resp_buf, cb);
--	if (IS_ERR(vbuf)) {
--		*vbuffer_p = NULL;
--		return ERR_CAST(vbuf);
--	}
- 	*vbuffer_p = vbuf;
- 	return (struct virtio_gpu_command *)vbuf->buf;
- }
 -- 
-2.23.0
+2.33.0
 
