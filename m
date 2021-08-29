@@ -2,64 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334763FA9E6
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Aug 2021 09:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6ED33FAB77
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Aug 2021 14:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2C689DE6;
-	Sun, 29 Aug 2021 07:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBEE289E0D;
+	Sun, 29 Aug 2021 12:45:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A116189C9A;
- Sun, 29 Aug 2021 02:21:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1630203691;
- bh=V7qK4IrstNH3AProRHMWv7XjCfkBcbCbKQMNFd3lyWM=;
- h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:References;
- b=htYWNyw0d/496zUttrIsOxeI9hqmbZfOeAHdyOAbACfCGHr+NOW6cHUt8XIb0Q3WY
- V58h8SbYG2zVrNhtAanmgmVobau/ETbuQosJdVyVQKqC4zJpCwe1tzOPpEFLXI6wI4
- GMSbWuEiHSWRiqSNSRYDmQHaZF/JERy9W89nUdag=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from homer.fritz.box ([185.191.217.207]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MrhUE-1mpuIQ44uq-00neVS; Sun, 29
- Aug 2021 04:21:31 +0200
-Message-ID: <733f071797b9d358eae3f972f69c590ed81f638f.camel@gmx.de>
-Subject: Re: dri, nouveau: BUG: KASAN: use-after-free in
- dma_fence_signal_timestamp_locked+0x399/0x430
-From: Mike Galbraith <efault@gmx.de>
-To: lkml <linux-kernel@vger.kernel.org>
-Cc: Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org
-Date: Sun, 29 Aug 2021 04:21:30 +0200
-In-Reply-To: <b6faf6b447f2a5e92e50adb30bea8ebaa2e70ae1.camel@gmx.de>
-References: <b6faf6b447f2a5e92e50adb30bea8ebaa2e70ae1.camel@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.41.2 
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A644289E0D
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Aug 2021 12:45:02 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id e4c79135-08c6-11ec-aa7e-0050568cd888;
+ Sun, 29 Aug 2021 12:44:47 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 66AB2194B76;
+ Sun, 29 Aug 2021 14:45:06 +0200 (CEST)
+Date: Sun, 29 Aug 2021 14:44:54 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Christophe Branchereau <cbranchereau@gmail.com>,
+ list@opendingux.net, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: display/panel: Add AUO A030JTN01
+Message-ID: <YSuBRjVDJyIPlaX0@ravnborg.org>
+References: <20210828112640.7248-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:fNcxUyiRZPevO/4lVvGn6WhhCmsG464bBfQP2rDimT3hUy/CDeS
- ebShOJgExsoQdkXo5uBevX+RiUwIx0kc9CP9gx1qR3+2+1GHEQmr1FKN9UgcdSZtasF7EkJ
- AJJ1X0yq7j0ad/vAGAnXNLkorefAs6A02Op4aKpy49FmDOGNleOCLc0wmye9MetjBPuzM98
- nDP8+GxMeDnU7qJvkYb7g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lYfTE8v5jiY=:s1YkHLZy2oGK4EJ+uDa9Zx
- kWCi0c7Eo4xHsAWcY0gN2N1DRbQ8NgVoOXGz+NocQo1wlVGlqyqmDde614kuI3Aq625w1sv8d
- l1kuOc5FxZGRq3O/ho1lAKw9H6rOz4C+kD2k2spRouPMouuphCx7pBbm8ymhuPQWAPA1YLfk6
- 8QI2BqdSAJ6lYek6p2MWKUvwybjDiPxfM9deaBXYZTw79f71EztN981Bzpojd1SPY8K7jQ2UF
- /GOC69W8HrpEKHqH9KYEnnYSbjnZLVIVfIcnCucQW+PlqIkbexbJLVldqsuN6EiGOFKNPs3v7
- GX12IrEH4Z6vmTANZLxeMURgy1Tndq42HcROHWLB4fJ+5KZp7dZC4O6+CGym2c6ULNWEMmvr8
- JTq/CcKn3TD8NxaB6vL3srAizq3EzHdpoQbq45KzD32/PEZYj85dUTVL/qnBShciaZ+lqwCRB
- L4aE6nkVH0wOr/attQQSCTgwm6yk3SnO87Ql5Knd++MBgxO+zntCM44j+zFtu738hVwJbMtAe
- KJIF+s8xqCZ+VMLIWIqkjha/DppDs00oN7s0smnTsvlIKYRqQvoODqPVuNM7x4PD16lCTO4fF
- AlQNm2Gooy5iGb219uCDxVG9h94DBVPWw/XmtJp5YdTdNaM5kKnuDG+4MYoi742KHa+5A2lrV
- aDvVS5KucRYJjvqRiG99cNugqegE85N5mbPosB5bSRCQ1W0yjK/5tLT+emP2h7xWNCY53LeOb
- EztrvHskRDrHw/vFuODVoJX5JawGP4wtI69iVMJB80BTPv2sovNWK4z4EdhYHJlTJCoZ2HpPL
- E5WZzoqH11t+MtZegt5hi73/kyfN4zi8agNzTjr1ZwXE5Kt9Xju+xP6GSOyEer/mfR3lQu9uI
- hZj4JO1RIszHg0+d1tE4zd5C386aJfMgM5g9Zd47vjk2fzzakuN2L/G8Ce/cKfAezXOvVOp97
- AXSixsquRlPO50GSvVZ6pQsOC9oGFvy9LBzpY38goj3K/XTpUH5V/BGLPU/Ui3bTo7sZwykwT
- 05ongIOyhUD6ogKoCX27ANlmP0C5RnH73EsT9FR8swAdWMv/pqyTN0q6UMIcPlzb6BTFNW2gH
- 15bxvwDqrYVe103dmBtyIWckLSEzRRepPBc
-X-Mailman-Approved-At: Sun, 29 Aug 2021 07:15:39 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210828112640.7248-1-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,12 +55,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2021-08-28 at 11:38 +0200, Mike Galbraith wrote:
-> Enabling kasan or kcsan in my GTX-980 equipped box will in fairly short
-> order...
+Hi PAul,
 
-Correction: kasan does NOT reproduce on demand.  My bottom line remains
-the same though, before enabling, either fix it, or evict it, lest it
-take testing center stage ala "Hey, over here, me me fix me" :)
+On Sat, Aug 28, 2021 at 12:26:39PM +0100, Paul Cercueil wrote:
+> Add binding for the AUO A030JTN01 panel, which is a 320x480 3.0" 4:3
+> 24-bit TFT LCD panel with non-square pixels and a delta-RGB 8-bit
+> interface.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  .../bindings/display/panel/auo,a030jtn01.yaml | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml b/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
+> new file mode 100644
+> index 000000000000..21c9d62e3625
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
+> @@ -0,0 +1,57 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/auo,a030jtn01.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: AUO A030JTN01 3.0" (320x480 pixels) 24-bit TFT LCD
+> +
+> +description: |
+> +  The panel must obey the rules for a SPI slave device as specified in
+> +  spi/spi-controller.yaml
+> +
+> +maintainers:
+> +  - Paul Cercueil <paul@crapouillou.net>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: auo,a030jtn01
+> +
+> +  backlight: true
+> +  port: true
+> +  power-supply: true
+> +  reg: true
+> +  reset-gpios: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - power-supply
+> +  - reset-gpios
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
 
-	-Mike
+As this is a spi slave, then it is supposed to be a node below a spi
+node.
+Other bindings add:
+    spi {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        ...
+    }
+
+to make this obvious.
+
+> +
+> +    panel@0 {
+> +      compatible = "auo,a030jtn01";
+> +      reg = <0>;
+> +
+> +      spi-max-frequency = <10000000>;
+> +
+> +      reset-gpios = <&gpe 4 GPIO_ACTIVE_LOW>;
+> +      power-supply = <&lcd_power>;
+> +
+> +      backlight = <&backlight>;
+> +
+> +      port {
+> +        panel_input: endpoint {
+> +          remote-endpoint = <&panel_output>;
+> +        };
+> +      };
+> +    };
+
+My personal preference is indent with 4 spaces in the example - but
+there is no hard rules so 2 spaces is also fine.
+
+With or without my nits above:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+
+	Sam
