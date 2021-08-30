@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814D43FB9B5
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0343FB9B7
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 616CC89C68;
-	Mon, 30 Aug 2021 16:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9773989C5E;
+	Mon, 30 Aug 2021 16:06:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9E689C68
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 16:05:33 +0000 (UTC)
-Received: from fsav312.sakura.ne.jp (fsav312.sakura.ne.jp [153.120.85.143])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 17UG571e040414;
- Tue, 31 Aug 2021 01:05:07 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav312.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp);
- Tue, 31 Aug 2021 01:05:07 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 17UG56nK040407
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 31 Aug 2021 01:05:07 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: [PATCH] fbmem: don't allow too huge resolutions
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>,
- akpm@linux-foundation.org, b.zolnierkie@samsung.com,
- colin.king@canonical.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- masahiroy@kernel.org, syzkaller-bugs@googlegroups.com,
- Randy Dunlap <rdunlap@infradead.org>
-References: <000000000000815b9605c70e74f8@google.com>
- <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
- <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
- <339bfb21-8e80-c7d9-46dd-c416f87c50c0@infradead.org>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <535e404d-03bf-8e7a-b296-132a2a98c599@i-love.sakura.ne.jp>
-Date: Tue, 31 Aug 2021 01:05:05 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B68FF89C5E
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 16:06:17 +0000 (UTC)
+Date: Mon, 30 Aug 2021 16:06:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1630339575;
+ bh=6BtEWVe5hUeab8q8CCkZgYLqgz9PL4mbc3f0l6qdXAo=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=EeAOOX03lkc7k3EXPRBQonyTQS5/D7GQLTZp5QwNvHUocDNirfXUfWQFLSwhoySoC
+ 5Fg6AP4pApoG1XNBS/UMDK+UHrDjHk5OUJCdMrfhQGi31r43exHSHEN0E06iPtY5he
+ 9OL3ev6CCxJgcuBisu39/+LFjeoxSp8T3wSoB1t19R484Fy76DhKCWvOt0HgDEm1P5
+ 7uX7wX1UOaf4X3xTtJNT5gswy0bAhYhHeOpYqildTkZYKvJeD0F+KAvVv8eiNfJo5P
+ VhrwLTOeWSZP0p1z6uHqn2ocU/oqwbhLe8HKJefdV5tztwhdQCnF9wEOPsUnJIYG2J
+ bRwgZKB1X9ovA==
+To: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
+From: Simon Ser <contact@emersion.fr>
+Cc: airlied@redhat.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] GPU:DRM: returning ENOMEM
+Message-ID: <Fcjg562QO6IVEH6CeOsulpchEyhg3JBRlvZ82YlQbbccdvUXMuShJFaxdWQDAhzgiMnajVDv7STloW0YuQniJE1cy4izlJz9zvSWs551gxg=@emersion.fr>
+In-Reply-To: <20210830160207.23936-1-asha.16@itfac.mrt.ac.lk>
+References: <20210828154027.8198-1-asha.16@itfac.mrt.ac.lk>
+ <20210830160207.23936-1-asha.16@itfac.mrt.ac.lk>
 MIME-Version: 1.0
-In-Reply-To: <339bfb21-8e80-c7d9-46dd-c416f87c50c0@infradead.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +53,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot is reporting page fault at vga16fb_fillrect() [1], for
-vga16fb_check_var() is failing to detect multiplication overflow.
+Maybe the commit message can be improved a bit? Add a prefix to make it
+clear this is about the udl driver, make it clear this is about the
+udl_get_edid_block function. The new `return ret` statement may return
+something different from ENOMEM.
 
-  if (vxres * vyres > maxmem) {
-    vyres = maxmem / vxres;
-    if (vyres < yres)
-      return -ENOMEM;
-  }
+This would give something among these lines:
 
-Since no module would accept too huge resolutions where multiplication
-overflow happens, let's reject in the common path.
-
-This patch does not use array_size(), for array_size() is allowed to
-return UINT_MAX on 32bits even if overflow did not happen. We want to
-detect only overflow here, for individual module will recheck with more
-strict limits as needed.
-
-Link: https://syzkaller.appspot.com/bug?extid=04168c8063cfdde1db5e [1]
-Reported-by: syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>
-Debugged-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Tested-by: syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>
----
- drivers/video/fbdev/core/fbmem.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 1c855145711b..9f5075dc2345 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1008,6 +1008,11 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
- 	if (var->xres < 8 || var->yres < 8)
- 		return -EINVAL;
- 
-+	/* Don't allow u32 * u32 to overflow. */
-+	if ((u64) var->xres * var->yres > UINT_MAX ||
-+	    (u64) var->xres_virtual * var->yres_virtual > UINT_MAX)
-+		return -EINVAL;
-+
- 	ret = info->fbops->fb_check_var(var, info);
- 
- 	if (ret)
--- 
-2.18.4
-
-
+    drm/udl: return -errno in udl_get_edid_block
