@@ -1,75 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 664DC3FBAA6
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 19:09:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C693FBAA8
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 19:09:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5691689CB8;
-	Mon, 30 Aug 2021 17:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AFFA89DE3;
+	Mon, 30 Aug 2021 17:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B41B489CB8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 17:08:53 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D256989DE3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 17:09:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630343332;
+ s=mimecast20190719; t=1630343369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RJ2p1fjjD8ERbYVIX3Rp+Pa17H7hfIARQi230Atxhhs=;
- b=bYYR3LBHXovkIH+e0odd/L27InpuCJ5NZru0AtEfon2YHshEnQ4OZP46PFvfR2jRVa9qRh
- 2GiRZRBsKqxlfvPzfu9QsMxBS5jxx7Ra43UqnwWpTgE4plcVHpUzMv6F1KXfFr0dDqgps5
- YLSADc0MoS+bda6023BH2pHFPRuvvdw=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-lb9Ml2J1OLKjOpq9CWN-Mg-1; Mon, 30 Aug 2021 13:08:49 -0400
-X-MC-Unique: lb9Ml2J1OLKjOpq9CWN-Mg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- h10-20020a05620a284a00b003d30e8c8cb5so1197977qkp.11
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 10:08:49 -0700 (PDT)
+ bh=C/p1OSWm2CX6t/EcjGNpZmpBR9OMpxp/jIg4r2klJBs=;
+ b=FQ3XuKAXQYIRGviXgMu/I41NI8QXbYoKWVRnuv2KUMM54njdk9LzWo65u60anFM5pw7OG8
+ IabIJ0tznrgCfrW+X6x1oTQdhZyT7TzeZYprWp8qUINU+9xd792v2Enng71LIO2jr/LIGg
+ mYquEoq8UAKt41EUrtIs21Rw9OLLUbQ=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-jOMa1dstMbqHG9tFylvUBA-1; Mon, 30 Aug 2021 13:09:26 -0400
+X-MC-Unique: jOMa1dstMbqHG9tFylvUBA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ o4-20020ae9f504000000b003d39d97b227so124216qkg.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 10:09:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=RJ2p1fjjD8ERbYVIX3Rp+Pa17H7hfIARQi230Atxhhs=;
- b=fYuP8iyoJ+ofZDTFOjpYKN0q49toHJ0NxgGUVg/PYg/u24JPzcxu/9z/QVhIazS/I5
- Ccc3236T6lpilDkHp1Z1/WrugjLGAvfJ2wMvuHS+jCYgk5umetVYEDc0clGMLqtXc/XS
- kHIHSs/zxKtT2AdSVFwZLMhdNOloKq7wbOY8eeKTLZmp012llaUzhFNnw21g6R21iENv
- IT89AmDc+xYqApua36eRNrovT4ArJQBzAsnDX7o0C6mC/OKX1kD6Zzr9sBUUj/dZqOTT
- 1v4XydjqaFa12ZxA0voYZ/Em0duM3hhHgTHPsdVgLF8tdvzwEngRxujraIAwv8oQOVWk
- NAiQ==
-X-Gm-Message-State: AOAM532Jgjm7cGzBZhB2EEe6o/snD/1CWdomRqjSxPerbtk4+K/oqYWC
- 6n3m29RSrw3onkl0ZCPgpQUuyxr5Fx9dRnStcPRrIWMAYYXw8hK2Vyvjddz6Vnww7EBjuDrguYu
- ZuSiF+YO6VatE9SFbDqWGTfQev4Ck
-X-Received: by 2002:a05:620a:81d:: with SMTP id
- s29mr23761968qks.301.1630343329147; 
- Mon, 30 Aug 2021 10:08:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/+cPlJFfzxjZYDasfknZytxGolZm+T7/j6hx198c4EYh9UytMtKYed3Gms4R3lAi7g+R6nQ==
-X-Received: by 2002:a05:620a:81d:: with SMTP id
- s29mr23761951qks.301.1630343328961; 
- Mon, 30 Aug 2021 10:08:48 -0700 (PDT)
+ bh=C/p1OSWm2CX6t/EcjGNpZmpBR9OMpxp/jIg4r2klJBs=;
+ b=pSMgpaRkhKCE56Z9zoqXz4D5eU7icma/QiL8hcouxHVK7Ce7c6FOhwx7biyvnTTkiM
+ kaj8dR7zDIZNYbRY4ecPSsVBjBZqai4LVTdarnYIhRo1yPhsqh6OMNmntylSuztNvv2Z
+ HU0kcl0A0qaf0Bikwf1tbrEuufe7w3k7Xv5091ANIXvqqC608Q4afkAXt3DTIyC3OuD7
+ yU0EBJLUgGm9knAXjFZ0Hay6ziHZYXAhD6tWfTl3khMeiHKuWBDgUiTm9hypMA/n/rAK
+ tfxRZPC6+AWgHEAzUyyKU75cY74EHOQpkhvtmZLLW1As8qdU/EHcZcUdQFkBrGxbqqNy
+ G4Dw==
+X-Gm-Message-State: AOAM530sdqZX883bRD/BoDEqMAL4DUtsK8KnMQ/RpYyyvzEZUP7whsz4
+ sLtCAYuYdisRoiJG7b/tnhdg/MoPIVWC2G1l3CaSoyc3KgJOXlX+VOb+7bjDl1Ldl1c1rOR1hTi
+ k+0wA26NG6+ZlihgtG5z0stPyRxRX
+X-Received: by 2002:a37:8f04:: with SMTP id r4mr23370423qkd.351.1630343366111; 
+ Mon, 30 Aug 2021 10:09:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhvH3r1WkYkyhjkLLonaz0tUVij62Is1SewKkxp8wDoeh+XEGYZJb1rr+7K3QO3YKZJeC6uQ==
+X-Received: by 2002:a37:8f04:: with SMTP id r4mr23370410qkd.351.1630343365881; 
+ Mon, 30 Aug 2021 10:09:25 -0700 (PDT)
 Received: from [192.168.8.104] (pool-108-49-102-102.bstnma.fios.verizon.net.
  [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id g7sm8835996qtj.28.2021.08.30.10.08.47
+ by smtp.gmail.com with ESMTPSA id m68sm12047562qkb.105.2021.08.30.10.09.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 10:08:48 -0700 (PDT)
-Message-ID: <c0e64fb9332b03c920de05be4c4c27f916ff6534.camel@redhat.com>
+ Mon, 30 Aug 2021 10:09:25 -0700 (PDT)
+Message-ID: <0777c34ddbd22ae247d293cf013cb763947b0b50.camel@redhat.com>
 Subject: Re: [PATCH AUTOSEL 5.13 20/26] drm/nouveau: recognise GA107
 From: Lyude Paul <lyude@redhat.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, Ben Skeggs
  <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org, 
  nouveau@lists.freedesktop.org
-Date: Mon, 30 Aug 2021 13:08:47 -0400
-In-Reply-To: <YSzMR4FnrnT5gjbe@sashalap>
+Date: Mon, 30 Aug 2021 13:09:24 -0400
+In-Reply-To: <c0e64fb9332b03c920de05be4c4c27f916ff6534.camel@redhat.com>
 References: <20210824005356.630888-1-sashal@kernel.org>
  <20210824005356.630888-20-sashal@kernel.org>
  <6607dde4207eb7ad1666b131c86f60a57a2a193c.camel@redhat.com>
  <YSzMR4FnrnT5gjbe@sashalap>
+ <c0e64fb9332b03c920de05be4c4c27f916ff6534.camel@redhat.com>
 Organization: Red Hat
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
 MIME-Version: 1.0
@@ -94,16 +93,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ahhh-ok, that makes these patchs make a bit more sense then. If Ben doesn't
-have any objections I'd say these are fine to backport then
+oops-except for "drm/nouveau: block a bunch of classes from userspace" of
+course. the rest are fine though
 
-On Mon, 2021-08-30 at 08:17 -0400, Sasha Levin wrote:
-> On Tue, Aug 24, 2021 at 01:08:28PM -0400, Lyude Paul wrote:
-> > This is more hardware enablement, I'm not sure this should be going into
-> > stable either. Ben?
+On Mon, 2021-08-30 at 13:08 -0400, Lyude Paul wrote:
+> ahhh-ok, that makes these patchs make a bit more sense then. If Ben doesn't
+> have any objections I'd say these are fine to backport then
 > 
-> We take this sort of hardware enablement patches (where the platform
-> code is already there, and we just add quirks/ids/etc.
+> On Mon, 2021-08-30 at 08:17 -0400, Sasha Levin wrote:
+> > On Tue, Aug 24, 2021 at 01:08:28PM -0400, Lyude Paul wrote:
+> > > This is more hardware enablement, I'm not sure this should be going into
+> > > stable either. Ben?
+> > 
+> > We take this sort of hardware enablement patches (where the platform
+> > code is already there, and we just add quirks/ids/etc.
+> > 
 > 
 
 -- 
