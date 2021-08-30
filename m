@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FF13FB9F7
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58B13FBA48
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECEA889131;
-	Mon, 30 Aug 2021 16:17:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBD7589A86;
+	Mon, 30 Aug 2021 16:43:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com
- [IPv6:2607:f8b0:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECAA689131
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 16:17:49 +0000 (UTC)
-Received: by mail-il1-x12a.google.com with SMTP id v2so16637475ilg.12
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 09:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nfzNrOmv2YiRjvQswBNc4WHEh4DSAzBWkoHqRjK3dy8=;
- b=d9/QBDnEGBQ72Erph/eIdUiV6qrcStrNFk8vsZVfX/3Ti4YujTKIU7L4Sh+1jCUi4R
- xUIMFcBgjHUznvgSzlDZQc1yEssjRtTBDNP4lnZpsbamDRPpqAZ9zdtlwRcHZkUgkaYe
- c+EdQRM7fY/JuLvJDKePxSHQfa5jaf4m3UvFNax4Af3yLDgHnuv8zCKbMOgJQif5PX4S
- IQLX+jo0dNI5vkJyZFAZ0++JwYOHnhUuRCfImdwMJwa3Dn2B3ZvxzAduNIOByKS86GQt
- KYQccZyCgVBRnHCaeTidrfMo7q5B15T9GSOlArFmRe2oQsPxyW4CJkXF6cBvU570u4n3
- CwfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nfzNrOmv2YiRjvQswBNc4WHEh4DSAzBWkoHqRjK3dy8=;
- b=H2NGk3pyjIbXHRWJ1GfksDd2T7kEodA8YBX3bQp29qZI0wYUY9E5dcpSpEmDKB16Q8
- 1khVQ1B0DUirjDZ+B6TKCK9FXSZ2zXfLfEFRf369nrxpuF1y6vYj6uXOf0ETvvb2q+VG
- 9Md8GdBLuEHxPDopGytXl32FcLLobZsytkIGvhLWqnOxdAalbfTBsGx3a8/yAg0fO+xc
- C1OD+72cxpehNDQA1f8r3ji0KL1Z42WyEA1rjiYIISjBx/5hnKlOh7Rxbqz9yf4rQVGL
- 3Q6jSypa3js0sdMgZbtH7AL2hvGezwSwDpFFO0eFKW6bQe0YmFANZm1gvxLqo3SggwjO
- UMwA==
-X-Gm-Message-State: AOAM532KqxM18H14/oO/bG5XlqZgohlFhs4ZkJm/eWGROnQnrKl4ofwO
- avZLpWtJa2coZuxAX74EijRuqY4EpzX5WCPKTYMNOw==
-X-Google-Smtp-Source: ABdhPJxLPJaQvCs6nLDT2CD5K46HzLBsxGup9E2eQR5G9BwCq+36P/T25Gy8JNWJbkdm2pmzlGqOEWHmYw7KDSK8JDc=
-X-Received: by 2002:a92:cf4a:: with SMTP id c10mr17367601ilr.269.1630340269053; 
- Mon, 30 Aug 2021 09:17:49 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E85CB89A86;
+ Mon, 30 Aug 2021 16:43:02 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="240547750"
+X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="240547750"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Aug 2021 09:43:02 -0700
+X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="530497798"
+Received: from jasauer1-mobl4.amr.corp.intel.com (HELO intel.com)
+ ([10.255.38.180])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Aug 2021 09:43:00 -0700
+Date: Mon, 30 Aug 2021 12:42:58 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Imre Deak <imre.deak@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ Sean Paul <seanpaul@chromium.org>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/dp: Use max params for panels <
+ eDP 1.4
+Message-ID: <YS0KkvYfvwbQTjfC@intel.com>
+References: <20210820075301.693099-1-kai.heng.feng@canonical.com>
+ <YR/ltlF5jRTYzQ3F@intel.com> <YSfRXjuRWa57uxXN@intel.com>
 MIME-Version: 1.0
-References: <20210830023849.258839-1-yangcong5@huaqin.corp-partner.google.com>
- <20210830023849.258839-4-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20210830023849.258839-4-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Mon, 30 Aug 2021 09:17:35 -0700
-Message-ID: <CAD=FV=WcvanAAjWix=qv=irMr_KfhTNQW+Hgauwcs7=03510FA@mail.gmail.com>
-Subject: Re: [v4 3/4] drm/panel: support for BOE and INX video mode panel
-To: yangcong <yangcong5@huaqin.corp-partner.google.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YSfRXjuRWa57uxXN@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,35 +59,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Aug 26, 2021 at 01:37:34PM -0400, Rodrigo Vivi wrote:
+> On Fri, Aug 20, 2021 at 08:26:14PM +0300, Ville Syrjälä wrote:
+> > On Fri, Aug 20, 2021 at 03:52:59PM +0800, Kai-Heng Feng wrote:
+> > > Users reported that after commit 2bbd6dba84d4 ("drm/i915: Try to use
+> > > fast+narrow link on eDP again and fall back to the old max strategy on
+> > > failure"), the screen starts to have wobbly effect.
+> > > 
+> > > Commit a5c936add6a2 ("drm/i915/dp: Use slow and wide link training for
+> > > everything") doesn't help either, that means the affected eDP 1.2 panels
+> > > only work with max params.
+> > > 
+> > > So use max params for panels < eDP 1.4 as Windows does to solve the
+> > > issue.
+> > > 
+> > > v3:
+> > >  - Do the eDP rev check in intel_edp_init_dpcd()
+> > > 
+> > > v2:
+> > >  - Check eDP 1.4 instead of DPCD 1.1 to apply max params
+> > > 
+> > > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3714
+> > > Fixes: 2bbd6dba84d4 ("drm/i915: Try to use fast+narrow link on eDP again and fall back to the old max strategy on failure")
+> > > Fixes: a5c936add6a2 ("drm/i915/dp: Use slow and wide link training for everything")
+> > > Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > 
+> > Slapped a cc:stable on it and pushed to drm-intel-next. Thanks.
+> 
+> Since I got a strange failure on CI_DIF_604 that I don't see on CI_DIF_603,
+> I'm avoiding the display patches. This one and also
+> dab1b47e57e0 ("drm/i915/dp: return proper DPRX link training result")
+> 
+> I know, it is probably the other one, but I had to remove both patches for
+> now and I'm not confident the CI will allow me to test with this one alone.
+> 
+> If we have -rc8 I will check again later. Otherwise we will have to send
+> to the stable mailing list later.
 
-On Sun, Aug 29, 2021 at 7:39 PM yangcong
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> Support for these two panels fits in nicely with the existing
-> panel-boe-tv101wum-nl6 driver as suggested by Sam [1]. The main things
-> we needed to handle were:
-> a) These panels need slightly longer delays in two places. Since these
-> new delays aren't much longer, let's just unconditionally increase
-> them for the driver.
-> b) One of these two panels doesn't support DSI HS mode so this patch
-> adds a flag for a panel to disable that.
->
-> [1] https://lore.kernel.org/r/YSPAseE6WD8dDRuz@ravnborg.org/
->
-> Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 915 +++++++++++++++++-
->  1 file changed, 912 insertions(+), 3 deletions(-)
+CI didn't run on TGL again, so I couldn't send this patch last week.
+And 5.14 got released.
 
-This looks fine to me now.
+If this is important for 5.14 or any other stable release, please
+confirm this is not the one breaking linking training on TGL and then
+please send it to the stable mailing list.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+https://www.kernel.org/doc/Documentation/process/stable-kernel-rules.rst
 
-I'm happy to help land this series or for others to land it. For now
-my plan is to let them sit for a couple of weeks and if there is
-silence I will plan to land them in drm-misc-next. I'm happy to land
-earlier with an Ack or I'm happy to step back if someone else wants to
-take charge. ;-)
+Sorry,
+Rodrigo.
 
--Doug
+> 
+> > 
+> > > ---
+> > >  drivers/gpu/drm/i915/display/intel_dp.c | 5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> > > index 75d4ebc669411..e0dbd35ae7bc0 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > > @@ -2445,11 +2445,14 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
+> > >  	 */
+> > >  	if (drm_dp_dpcd_read(&intel_dp->aux, DP_EDP_DPCD_REV,
+> > >  			     intel_dp->edp_dpcd, sizeof(intel_dp->edp_dpcd)) ==
+> > > -			     sizeof(intel_dp->edp_dpcd))
+> > > +			     sizeof(intel_dp->edp_dpcd)) {
+> > >  		drm_dbg_kms(&dev_priv->drm, "eDP DPCD: %*ph\n",
+> > >  			    (int)sizeof(intel_dp->edp_dpcd),
+> > >  			    intel_dp->edp_dpcd);
+> > >  
+> > > +		intel_dp->use_max_params = intel_dp->edp_dpcd[0] < DP_EDP_14;
+> > > +	}
+> > > +
+> > >  	/*
+> > >  	 * This has to be called after intel_dp->edp_dpcd is filled, PSR checks
+> > >  	 * for SET_POWER_CAPABLE bit in intel_dp->edp_dpcd[1]
+> > > -- 
+> > > 2.32.0
+> > 
+> > -- 
+> > Ville Syrjälä
+> > Intel
