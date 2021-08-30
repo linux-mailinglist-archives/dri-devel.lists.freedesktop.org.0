@@ -2,51 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BC03FAFC8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 04:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF39F3FAFD3
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 04:39:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1465389CD7;
-	Mon, 30 Aug 2021 02:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0D6F89D4B;
+	Mon, 30 Aug 2021 02:38:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9482D89CD7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 02:31:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=Jxx+nBbp11l5ZDB/Fk4qIsZNM8MYtLgBg6pRgatfv2Q=; b=0lAb7dUTSjUGFtdCGkJOZ7T/lY
- KH+e0MnHt1mVLY6h/bVnvC/KqQGrzhwYPlKnlmDexWxewc7yo/QA88YW9DY5V93maaPvL4PNyHiRr
- +Qq7StwlBbBTQRJNIO4VGFfJ+Ba2Fo2aVVmXgGeHfFYThnk1xYptq00qbI4Gt5EpwpPb+At++T/x0
- tyP6XIXG/O/e9NVbEZnjs4bDMVHBIisPsnP+Z4K4x4MSXllhMZyppdthzXFG1XGodCKbOrG+V0cV1
- g8gXa0NCkv58VffaMGBmgmBlMDlUUTxHVXLCj1azyJ/OKUdkpO8yRToQqYH8gabWWABaNZVaU2VzA
- geiF3xew==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mKX5W-00GJAa-62; Mon, 30 Aug 2021 02:31:54 +0000
-Subject: Re: [syzbot] BUG: unable to handle kernel paging request in
- vga16fb_fillrect
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>,
- akpm@linux-foundation.org, b.zolnierkie@samsung.com,
- colin.king@canonical.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- masahiroy@kernel.org, syzkaller-bugs@googlegroups.com
-References: <000000000000815b9605c70e74f8@google.com>
- <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
- <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <339bfb21-8e80-c7d9-46dd-c416f87c50c0@infradead.org>
-Date: Sun, 29 Aug 2021 19:31:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0276589D4B
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 02:38:56 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id q68so12001668pga.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Aug 2021 19:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VqeRjMhmJZnvzq8NRFzwezD8T9i12vRMn3+M5Ojy160=;
+ b=vBM2F2xHG2bkvPHfHeQLO6ooNyZfC1lnI89BEoY3Ui5mQZ3XPEUEfLiV27i1UNtZo0
+ 9kGc6ml/6sPGK3JqCKVJkJbXVMh3AxKDqZhQL6wCqVIxBBq8M5zP1gvE7HmrqmrODQt+
+ ROcluGli4e3VaCMw0dVOvKfkBg1jxDcUV0Kj7ONzLdWeDVy47EvKYVPnk/SkLat7cMfY
+ AExAdB7OTVDmxHc7pnaW8C6OBUttzBb0HakPIS4hb3/KpPVgWfG6a7UUfC7OX4AlWtPz
+ 0Kul9zhc/ctmMLzC0uzT21eYlN9y2IJlgJHv84DSvKve1uFX+UlpgHbyf1J2oxY83kE8
+ O2sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VqeRjMhmJZnvzq8NRFzwezD8T9i12vRMn3+M5Ojy160=;
+ b=GYQK2VO2u4O7QZjHTSSw59tiNDy2E5FjeXU8i0wzc+bR2J0FCh2N6XEE69a0M4865a
+ xlwMy+BcS3F48hr9ScIDLQA03I5nM3Wzk3ivGhOuK6L+v7rgfVyAOxMKuEHQO01JWUUa
+ n1XDvEXOGrj2hv14sCbTRhPRYBC7KvGLdWUd2lTprlGAG/El74PHtCwvPXoQuonxGTBH
+ jOJicbBiH8CxFWDGw/1WgBx74Fx0aPC17t1wKTolwG/h764ZNayIxWJHGi9bTaCO73qW
+ nvvoGBuRTdeti3ghFdcFOW4RjekTG1njTyv5nunUkZclytMhbBYOoIBEQ9sADlfKA3Ob
+ ugHw==
+X-Gm-Message-State: AOAM531QN9Xa/w4CKHVjeKwx0biRq11CrCbTffKBojFe64YaU4WpRgmP
+ T+PV+iP2viMlPR/L7raIBEp7hQ==
+X-Google-Smtp-Source: ABdhPJw2x1+qhg9TcS8T6ndTpvoYCeMp8Baca9OpE+M5FQGpHd2THM2a9EOnc6WdUnCwUBBsRN/fyg==
+X-Received: by 2002:a62:f90d:0:b0:3e3:5739:d075 with SMTP id
+ o13-20020a62f90d000000b003e35739d075mr21129479pfh.19.1630291136493; 
+ Sun, 29 Aug 2021 19:38:56 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.213])
+ by smtp.gmail.com with ESMTPSA id g13sm906839pfi.176.2021.08.29.19.38.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Aug 2021 19:38:56 -0700 (PDT)
+From: yangcong <yangcong5@huaqin.corp-partner.google.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
+ daniel@ffwll.ch, dianders@google.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ yangcong <yangcong5@huaqin.corp-partner.google.com>
+Subject: [v4 0/4] drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
+Date: Mon, 30 Aug 2021 10:38:45 +0800
+Message-Id: <20210830023849.258839-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,69 +74,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/29/21 7:27 PM, Tetsuo Handa wrote:
-> On 2021/08/30 9:24, Randy Dunlap wrote:
->> Note that yres_virtual is set to 0x10000000. Is there no practical limit
->> (hence limit check) that can be used here?
->>
->> Also, in vga16fb_check_var(), beginning at line 404:
->>
->>    404        if (yres > vyres)
->>    405            vyres = yres;
->>    406        if (vxres * vyres > maxmem) {
->>    407            vyres = maxmem / vxres;
->>    408            if (vyres < yres)
->>    409                return -ENOMEM;
->>    410        }
->>
->> At line 406, the product of vxres * vyres overflows 32 bits (is 0 in this
->> case/example), so any protection from this block is lost.
-> 
-> OK. Then, we can check overflow like below.
-> 
-> diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-> index e2757ff1c23d..e483a3f5fd47 100644
-> --- a/drivers/video/fbdev/vga16fb.c
-> +++ b/drivers/video/fbdev/vga16fb.c
-> @@ -403,7 +403,7 @@ static int vga16fb_check_var(struct fb_var_screeninfo *var,
->   
->   	if (yres > vyres)
->   		vyres = yres;
-> -	if (vxres * vyres > maxmem) {
-> +	if ((u64) vxres * vyres > (u64) maxmem) {
->   		vyres = maxmem / vxres;
->   		if (vyres < yres)
->   			return -ENOMEM;
-> 
-> But I think we can check overflow in the common code like below. (Both patch fixed the oops.)
+Compared to v3, remove the "//9A" and modify boe_panel_prepare timing in 
+drm/panel: boe-tv101wum-nl6
+ 
+-       _INIT_DCS_CMD(0x5A, 0xBA),      //9A
++       _INIT_DCS_CMD(0x5A, 0xBA),
+...
+...
+...
 
-OK, great. Thanks.
+-       usleep_range(10000, 15000);
++       usleep_range(10000, 11000);
 
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 1c855145711b..8899679bbc46 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1008,6 +1008,11 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
->   	if (var->xres < 8 || var->yres < 8)
->   		return -EINVAL;
->   
-> +	/* Don't allow u32 * u32 to overflow. */
-> +	if ((u64) var->xres * var->yres > (u64) UINT_MAX ||
-> +	    (u64) var->xres_virtual * var->yres_virtual > (u64) UINT_MAX)
-> +		return -EINVAL;
-> +
->   	ret = info->fbops->fb_check_var(var, info);
->   
->   	if (ret)
-> 
->>
->> But even if yres_virtual (aka vyres) is "only" 0x01000000, so no
->> multiplication overflow occurs, the resulting value of vyres "seems"
->> to still be too large and can cause an error [I'm not sure about this
->> last part -- I need to use a new gcc so that KASAN will work.]
-> 
+Update commit message.
 
+yangcong (4):
+  drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
+  dt-bindings: drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
+  drm/panel: support for BOE and INX video mode panel
+  dt-bindngs: display: panel: Add BOE and INX panel bindings
+
+ .../display/panel/boe,tv101wum-nl6.yaml       |   7 +
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 926 +++++++++++++++++-
+ 2 files changed, 930 insertions(+), 3 deletions(-)
 
 -- 
-~Randy
+2.25.1
 
