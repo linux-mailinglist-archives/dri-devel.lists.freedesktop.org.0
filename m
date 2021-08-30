@@ -2,70 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BB73FBA8E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 19:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9BA3FBAC5
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 19:20:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC8EE89CDD;
-	Mon, 30 Aug 2021 17:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9F789E01;
+	Mon, 30 Aug 2021 17:20:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 109C089CDD
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 17:02:55 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- d22-20020a1c1d16000000b002e7777970f0so15200243wmd.3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 10:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=D+Nad5OlsBSS16xoLQublD0ghsL11extwJCEgynH9MU=;
- b=vhyfyoi3TzT04nzr43jRN47fl8SNnpoyV+UqsFka6SM1Kwzcxbf8f9BX895v1C5TCb
- j7UI3IuZ8/0Y1vXYFmDkkoxSSN/x8FzRHzIy2qzZz4tPToO2klOUDtF+5Y2957WpJcfN
- vpGtrvpqRwH/Yfcrse0NTzmzsb1YxamOmn0f1/yGdNtey+j7wW9sdgVmqTh/I2gjfIHM
- aemmQKbaNVE37KLQE/r4yd/oMs20d8WABZCIeOccrIPy6TkmVbum8Voho4emxvZVrrcS
- PTQs89vw3iuD2gXLbBFbdmMTrlT8QX7QvYJHZhsrwDzzTuM7QM4/sc6iqXIw0dDgCOX0
- SESQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=D+Nad5OlsBSS16xoLQublD0ghsL11extwJCEgynH9MU=;
- b=EnOnNVvt12eL3Ix330BLAnTU7eRfRDYvP2Y0GuC70wfpmbeHKw9vwb90IUBAgi/He5
- 9+scGHRl9dwKVFAfxELPTiiBZ3OPQYQRDw6nqcKeqyQ0P+bBq15Z4JcbFYi1KSLqbf4i
- 2wmtWAjEI+Q4+XmGPUJtd9b+kQ6jOYiLdmlHLTW++Rz3yK7sdQZkexGNvctB4mOzXurZ
- B6zbawbYuS7js8FCSLo44pEykxDQTU492R85mUnCuWoT5ha7Nl8qxjH2jw6OsbicQsWd
- j3cPlyrr5lk3ggjfh1dRF9s14ftltjD6dACQsivGu30XBuI+PYKMJE9DUEA37zH22Xh7
- LaXA==
-X-Gm-Message-State: AOAM532I55ZzKVxKKJZDxTp3B2ZItO+spm4wq/ULO9rhD+KcgyO1WX0c
- nHO9uz/eGHaCA/PiGrX4rowObDE+vlY=
-X-Google-Smtp-Source: ABdhPJxREpGIdt/28dn1GPKDOUra7LyTyAIx0yjxTo9q0IOTWxGHmR4pNPlqGEAc1zYkgkTx+nOhPA==
-X-Received: by 2002:a7b:cb53:: with SMTP id v19mr21131wmj.127.1630342973520;
- Mon, 30 Aug 2021 10:02:53 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:1cdb:22e7:b4cc:b339?
- ([2a02:908:1252:fb60:1cdb:22e7:b4cc:b339])
- by smtp.gmail.com with ESMTPSA id d9sm19696363wrb.36.2021.08.30.10.02.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 10:02:53 -0700 (PDT)
-Subject: Re: [PATCH 05/12] drm/ttm: move the LRU into resource handling
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- thomas.hellstrom@linux.intel.com, dri-devel@lists.freedesktop.org
-References: <20210830085707.209508-1-christian.koenig@amd.com>
- <20210830085707.209508-5-christian.koenig@amd.com>
- <5a3d0707-bd54-cf26-32d7-489e1ca83aa2@amd.com>
- <c489c547-0164-15b5-e129-f4d08bd4756d@gmail.com>
- <2fce2eb0-e8b6-a830-d3a8-cc373528aaee@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <5795827b-04d3-3f83-e112-9108640ea301@gmail.com>
-Date: Mon, 30 Aug 2021 19:02:51 +0200
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68B489DFB
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 17:20:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HGFBerVA/d+mmlBClLmirMqfGa0M/xIhR7fGTLeB2JozBYXusbVolTFndvsNv1+rr5xbFDm4H/cMwHtctfj4QZsPnAVhUAXfEfjwjfHIjmR/IbkrR0OSKdF2h2NuIveRlcSbaayPIUxP9zdotjbB5oqSgc35YBb2JLofEgnreHm+rm3MR6N5VYVQuLkAVaaNtYaUWxT4uoAsSsCNwMUeoq0zaLx+gW93fvdJZkg18XjxXYUqMv3cfNSALWZtjTeJszJM09L3GjgRviBfZLaxNvhPFdxJ8sMFhSAPtgat3A1wj3ZorFQvDIB8IvsmXPi3swglY1ucvW+FCfiRPXbYOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4Tf3TFiBF8cW8Yq8rz/x47xf8yWdp+ZU3SLm1JOaKR8=;
+ b=EEnjVS1f1QbeZUCZmPC9yARhODNmkTXAoqt4OC5LBaKZrKYXaEzhsAxOCyp5MpfWu+49wlG/x1dKKMv8GZ78ujSU41Md8AcRi54WZtKuXiU+qCMtfQIlkQZDpFnxipn3uTkXnkndv6v9jMD7QgfEqd/ldpTyrizFWL7EBSPVN7H0Zj0Dq4vm2Ixg1n/g9vZlJM29gzbr5jODtQfxU6JzscPf2wLWra3mYnm0V8iyUPIDrVZvHrtZrAs++RD2DBojdNuiQoAHPcjY7CIy8/u6KPRtsLsLwzrI08hZ8HDdG9UinLWcKJ/DIBWyHAwkZYxxZI0Us8jB2tngoaXgBQuH2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4Tf3TFiBF8cW8Yq8rz/x47xf8yWdp+ZU3SLm1JOaKR8=;
+ b=T7FWXdjavInq2XI9vXk2CEkBI22JA36jNbiHlIgUzzO9TmCbY4mEIqCcoMrsL2PoFLkBL2h/7OM3nyqVGwZA8kQf70AP0PqfX5vQgvBiTXsMQV+9ZyAEZQFYMeC1pOFa3yT/wcN9qNm4+Ygk9r8oP/57LmgkuIuwbvZEijx9Na0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5292.namprd12.prod.outlook.com (2603:10b6:408:105::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20; Mon, 30 Aug
+ 2021 17:04:46 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb%3]) with mapi id 15.20.4457.024; Mon, 30 Aug 2021
+ 17:04:46 +0000
+Subject: Re: [PATCH v1 03/14] mm: add iomem vma selection for memory migration
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
+ akpm@linux-foundation.org, linux-mm@kvack.org, rcampbell@nvidia.com,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jgg@nvidia.com, jglisse@redhat.com
+References: <20210825034828.12927-1-alex.sierra@amd.com>
+ <20210825034828.12927-4-alex.sierra@amd.com> <20210825074602.GA29620@lst.de>
+ <c4241eb3-07d2-c85b-0f48-cce4b8369381@amd.com>
+ <a9eb2c4a-d8cc-9553-57b7-fd1622679aaa@amd.com> <20210830082800.GA6836@lst.de>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <e40b3b79-f548-b87b-7a85-f654f25ed8dd@amd.com>
+Date: Mon, 30 Aug 2021 13:04:43 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <2fce2eb0-e8b6-a830-d3a8-cc373528aaee@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210830082800.GA6836@lst.de>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+X-ClientProxiedBy: YQBPR0101CA0152.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:e::25) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.186.47.3) by
+ YQBPR0101CA0152.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:e::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.21 via Frontend
+ Transport; Mon, 30 Aug 2021 17:04:45 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8f7b7b39-51ac-447a-f889-08d96bd844ca
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5292:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB52920A338B5E0C741EB77C7992CB9@BN9PR12MB5292.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9rScD7ZJqp4O7sotzfPJATG8iRgNFnadVgTRhfABBgYSYKO/D32TsFnctkp4ryFYAYgRJc8kw3Xh+u64AOc2CoGNjdztG79VfgnBeBZHZtnNjuJ4L4ajJjiwBt6pwOaH2PQEF95lrqyHC6TVOlVYVQerpzjaQN5l32I8XthlXsXII0NeR3p2k53c3oDvQLlItyXWc3KK+S6T/sw5my30C5ltaklJb/a6FhtpP4lwocWj+cV771inRngFAiCDGKZmdLtO/DXbYRi5A/D9GfPpY+woGQzXQKWnWHhsHUO7K0HY5jmWtFoV+fh/rXj1Zg6LuyVqJOU6hlg0B1M+6EgS0CnLJFfA7qLasUvOmaexI6NIa+FCtei3vqdUY34jHttO+MhOqRso+VLtPU0doYUQEb69ZQy8Sp1a/VYx95Xe2YYXukuwvRNCXAP6neT/gWOhfXFh6nPzNkAxF9BUcdWN6A01K1f0QY+wIaQVnSuDl7MoAt/3opUx5k9IYYWE+pCYBoy8svaVC2ryczpKl/GZGK80vAMyjnC8TSlqgryIA8oNalsfVHUYJ8E1usxiHH85rl8luFm2onw3EQHGK7MNODod6inyffDXL1y64/rEeeY4mrYcdDWZcs0xaBBfAw6AYWFkH/KNak56nwaxZocERtKYb/N79OnZyU8WTKZKmGIvkr2O+D3tKPmsx3x+69MCWQ2danOA83UQfahGP/v5yj31IGN3EQThqYSXn1yL5y4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(136003)(396003)(39860400002)(366004)(26005)(66476007)(66556008)(186003)(66946007)(5660300002)(83380400001)(31696002)(478600001)(31686004)(2616005)(8676002)(8936002)(16576012)(36756003)(2906002)(7416002)(316002)(6916009)(44832011)(6486002)(4326008)(86362001)(956004)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3R4ZFlpdUh2clNVK3FIem93ZGg5V2FEaWdzYjlWRXdhais1R0NxZTNUdjhn?=
+ =?utf-8?B?S0hnY3VrM1BRMVRFZXVtSFQrV1JNQVNwNFozdGQycmhsTThVdjhsZzlJaFA3?=
+ =?utf-8?B?M3FVUjloMC9IZnBXWTdEaWxMOW1nTHBLM3hJek1wVm1idzlTVnlYbzlmS2Qr?=
+ =?utf-8?B?MUNvc3ZuS2w0eUtLc0hCb2xsOEJCQ3c0dy83UU84a0JFTEQ5dmY0UkxqeEtW?=
+ =?utf-8?B?SCtpNHk1T3pZc3FkNWVxY1c0aEx0MExJbnhLZHpPYkJEQnBqOG9iSFhPL0pO?=
+ =?utf-8?B?SnBFWVZFVUw0czNzS1dUaklqM044VHFDNjVIdlVsZVFNMlVrMUQzMW1sbkFW?=
+ =?utf-8?B?V0xRTi9qeit6a1R4OWUybjR1bEhZcS96aHdwNTRaRlJpcVpNaTJRS2I4YXpL?=
+ =?utf-8?B?bXZnV284SjNaWTFkWldJUk1hdFh6eGtXSjZqeUFBYVl6cWlVcDdTNWh2aGln?=
+ =?utf-8?B?SGxhUmZtRFNVNjFRK043ZTI4cERpMnhLeldScVZ3Z2toWm1tNlkxSlZOQnVs?=
+ =?utf-8?B?ck04ZEEyUkdoVFBTMndLQWsydklldTBFc0p1UTMwaGxSYVlYMDNYM2NTdlY1?=
+ =?utf-8?B?Zisrb1h1UUl6dnBiaUxaSW11dlZmSk54WGlGOFRqZGJEbm50dERRN1BvZ29w?=
+ =?utf-8?B?am9GdEJXTTlZS2xaNkZuQkZ3MFdkTFU4NVYwQVovOWlvb0pWNGJON1h6NWUz?=
+ =?utf-8?B?QVBHVkV1bVpPTGt1VXA3NmErUWRSK2pweXREZC9HbnRmTlFtQnBMSUN2SFdL?=
+ =?utf-8?B?MU9GbXRnU2FsRjJVQ3RFWnJickVKaFc5UHMwL2hhamZBK3psRHNEayt0SDNn?=
+ =?utf-8?B?NXlpMVJrWlRtWlgveXYwelZnL3ZVMk1Cc2VMaEhReWs2WHZlRXlBRk8wZEVv?=
+ =?utf-8?B?Z2FKaFl6bHJKd3JsQld1Z2o2WmlEcUY5eFVKdFJKaGRwZkx5YjFVRXBIOE13?=
+ =?utf-8?B?UnFhVldRQk96ZkJ6QWhUR2gyOWdSelVwMUhSNk9kdS9OUm1tRmJ4Vmw4VTI5?=
+ =?utf-8?B?NCtua3VDUkE0ckt6b0lMeEE3bnd4OVM5UFM5Qld4OWw0QzZpNDFsL3oyM0Mw?=
+ =?utf-8?B?VjdKaFZ0SjlnbFUzbGVMSlQ1cERJdTNaZlBoMXBCbEZPMTF6WVl1ZWtFNzlp?=
+ =?utf-8?B?QVpya1hoeHRidWpoQU9HMzlqUTUyM2JrMWtsM0RYeE9MVHR1b3hHUnppdTdw?=
+ =?utf-8?B?OHpUTnh5QUZwL0NzbkUvYWgwVGdDdjVOZUZxUG5JMXB0MTN3S0VGVTM3c3p4?=
+ =?utf-8?B?WUNqQ0s4OEp3dHZNeGwrSVA0Q3VoblczaTRsMFFJU0tqT0hKOTRSZloxTVZ3?=
+ =?utf-8?B?ditocGxTdlNybWFoV0hIUml5SWszU1RsdGlUSkkrRVV0dmZpbURCV0pOL1N0?=
+ =?utf-8?B?ZzAzOGh6czV4U1NINUUrS0lOQ09ycElWejdTMXNmYlhXNThhaVpHdkU4SmJE?=
+ =?utf-8?B?N2lzMmVIUjZTZ25CYUsrZDRGZHEvdDc4Tm1jTGhDekFZRUFqY0pHQm1WMm4y?=
+ =?utf-8?B?ZFVWMkVxOE5kWTdlYlNpQTFyRkFOcTdhYlhvWXlWQzhmcnBHREI3dUVwbW95?=
+ =?utf-8?B?TXozd0V2Zks0OThyNEJLOHBYVklBVnoxUUNab0JMcldzYjJiZGhWMUhIcWsv?=
+ =?utf-8?B?VlVscnY2ZVkvNUJYYUlORDFPa1dLRVV1V1pSWkFiNlJYanlSbFVMVDdXdkFw?=
+ =?utf-8?B?Wml0TEJQZGlEUFowZWpHVDBmTnhHYTl6Zk04aFZ6VlQ5VFJNck10MzE0aWVH?=
+ =?utf-8?Q?S/uowfNUMC3wOBjMV2rEG+4m91Co1JI/GQsW67s?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f7b7b39-51ac-447a-f889-08d96bd844ca
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2021 17:04:46.4580 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w8qthcJsEPtf3a+G/X8B0TOnW7JLYHEoihfvatHcPqLAwADTGQT6FHlgELzjIFFIiVPAOU3FZD1nZTZp9kbG+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5292
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,651 +138,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.08.21 um 19:00 schrieb Andrey Grodzovsky:
->
-> On 2021-08-30 12:55 p.m., Christian König wrote:
->> Am 30.08.21 um 18:53 schrieb Andrey Grodzovsky:
->>>
->>> On 2021-08-30 4:57 a.m., Christian König wrote:
->>>> This way we finally fix the problem that new resource are
->>>> not immediately evict-able after allocation.
->>>>
->>>> That has caused numerous problems including OOM on GDS handling
->>>> and not being able to use TTM as general resource manager.
->>>>
->>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>> ---
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c  |   8 +-
->>>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c |   2 +-
->>>>   drivers/gpu/drm/ttm/ttm_bo.c            | 105 ++------------------
->>>>   drivers/gpu/drm/ttm/ttm_bo_util.c       |   1 -
->>>>   drivers/gpu/drm/ttm/ttm_device.c        |   8 +-
->>>>   drivers/gpu/drm/ttm/ttm_resource.c      | 127 
->>>> ++++++++++++++++++++++++
->>>>   include/drm/ttm/ttm_bo_api.h            |  16 ---
->>>>   include/drm/ttm/ttm_bo_driver.h         |  29 +-----
->>>>   include/drm/ttm/ttm_resource.h          |  35 +++++++
->>>>   9 files changed, 181 insertions(+), 150 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c 
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>> index 6362e861a3f5..70d2cbb1dbb4 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>>> @@ -683,12 +683,12 @@ void amdgpu_vm_move_to_lru_tail(struct 
->>>> amdgpu_device *adev,
->>>>         if (vm->bulk_moveable) {
->>>>           spin_lock(&adev->mman.bdev.lru_lock);
->>>> - ttm_bo_bulk_move_lru_tail(&vm->lru_bulk_move);
->>>> +        ttm_lru_bulk_move_tail(&vm->lru_bulk_move);
->>>>           spin_unlock(&adev->mman.bdev.lru_lock);
->>>>           return;
->>>>       }
->>>>   -    memset(&vm->lru_bulk_move, 0, sizeof(vm->lru_bulk_move));
->>>> +    ttm_lru_bulk_move_init(&vm->lru_bulk_move);
->>>>         spin_lock(&adev->mman.bdev.lru_lock);
->>>>       list_for_each_entry(bo_base, &vm->idle, vm_status) {
->>>> @@ -698,11 +698,9 @@ void amdgpu_vm_move_to_lru_tail(struct 
->>>> amdgpu_device *adev,
->>>>           if (!bo->parent)
->>>>               continue;
->>>>   -        ttm_bo_move_to_lru_tail(&bo->tbo, bo->tbo.resource,
->>>> -                    &vm->lru_bulk_move);
->>>> +        ttm_bo_move_to_lru_tail(&bo->tbo, &vm->lru_bulk_move);
->>>>           if (shadow)
->>>>               ttm_bo_move_to_lru_tail(&shadow->tbo,
->>>> -                        shadow->tbo.resource,
->>>>                           &vm->lru_bulk_move);
->>>>       }
->>>>       spin_unlock(&adev->mman.bdev.lru_lock);
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>> index e646aac9d7a4..41f0de841d72 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->>>> @@ -471,7 +471,7 @@ static void i915_ttm_adjust_lru(struct 
->>>> drm_i915_gem_object *obj)
->>>>               bo->priority = I915_TTM_PRIO_NO_PAGES;
->>>>       }
->>>>   -    ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
->>>> +    ttm_bo_move_to_lru_tail(bo, NULL);
->>>>       spin_unlock(&bo->bdev->lru_lock);
->>>>   }
->>>>   diff --git a/drivers/gpu/drm/ttm/ttm_bo.c 
->>>> b/drivers/gpu/drm/ttm/ttm_bo.c
->>>> index 49f4bc97c35a..d5c6e096fd31 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
->>>> @@ -69,98 +69,16 @@ static void ttm_bo_mem_space_debug(struct 
->>>> ttm_buffer_object *bo,
->>>>       }
->>>>   }
->>>>   -static void ttm_bo_del_from_lru(struct ttm_buffer_object *bo)
->>>> -{
->>>> -    struct ttm_device *bdev = bo->bdev;
->>>> -
->>>> -    list_del_init(&bo->lru);
->>>> -
->>>> -    if (bdev->funcs->del_from_lru_notify)
->>>> -        bdev->funcs->del_from_lru_notify(bo);
->>>> -}
->>>> -
->>>> -static void ttm_bo_bulk_move_set_pos(struct ttm_lru_bulk_move_pos 
->>>> *pos,
->>>> -                     struct ttm_buffer_object *bo)
->>>> -{
->>>> -    if (!pos->first)
->>>> -        pos->first = bo;
->>>> -    pos->last = bo;
->>>> -}
->>>> -
->>>>   void ttm_bo_move_to_lru_tail(struct ttm_buffer_object *bo,
->>>> -                 struct ttm_resource *mem,
->>>>                    struct ttm_lru_bulk_move *bulk)
->>>>   {
->>>> -    struct ttm_device *bdev = bo->bdev;
->>>> -    struct ttm_resource_manager *man;
->>>> -
->>>> -    if (!bo->deleted)
->>>> -        dma_resv_assert_held(bo->base.resv);
->>>> -
->>>> -    if (bo->pin_count) {
->>>> -        ttm_bo_del_from_lru(bo);
->>>> -        return;
->>>> -    }
->>>> -
->>>> -    if (!mem)
->>>> -        return;
->>>> -
->>>> -    man = ttm_manager_type(bdev, mem->mem_type);
->>>> -    list_move_tail(&bo->lru, &man->lru[bo->priority]);
->>>> -
->>>> -    if (bdev->funcs->del_from_lru_notify)
->>>> -        bdev->funcs->del_from_lru_notify(bo);
->>>> -
->>>> -    if (bulk && !bo->pin_count) {
->>>> -        switch (bo->resource->mem_type) {
->>>> -        case TTM_PL_TT:
->>>> - ttm_bo_bulk_move_set_pos(&bulk->tt[bo->priority], bo);
->>>> -            break;
->>>> +    dma_resv_assert_held(bo->base.resv);
->>>>   -        case TTM_PL_VRAM:
->>>> - ttm_bo_bulk_move_set_pos(&bulk->vram[bo->priority], bo);
->>>> -            break;
->>>> -        }
->>>> -    }
->>>> +    if (bo->resource)
->>>> +        ttm_resource_move_to_lru_tail(bo->resource, bulk);
->>>>   }
->>>>   EXPORT_SYMBOL(ttm_bo_move_to_lru_tail);
->>>>   -void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
->>>> -{
->>>> -    unsigned i;
->>>> -
->>>> -    for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
->>>> -        struct ttm_lru_bulk_move_pos *pos = &bulk->tt[i];
->>>> -        struct ttm_resource_manager *man;
->>>> -
->>>> -        if (!pos->first)
->>>> -            continue;
->>>> -
->>>> -        dma_resv_assert_held(pos->first->base.resv);
->>>> -        dma_resv_assert_held(pos->last->base.resv);
->>>> -
->>>> -        man = ttm_manager_type(pos->first->bdev, TTM_PL_TT);
->>>> -        list_bulk_move_tail(&man->lru[i], &pos->first->lru,
->>>> -                    &pos->last->lru);
->>>> -    }
->>>> -
->>>> -    for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
->>>> -        struct ttm_lru_bulk_move_pos *pos = &bulk->vram[i];
->>>> -        struct ttm_resource_manager *man;
->>>> -
->>>> -        if (!pos->first)
->>>> -            continue;
->>>> -
->>>> -        dma_resv_assert_held(pos->first->base.resv);
->>>> -        dma_resv_assert_held(pos->last->base.resv);
->>>> -
->>>> -        man = ttm_manager_type(pos->first->bdev, TTM_PL_VRAM);
->>>> -        list_bulk_move_tail(&man->lru[i], &pos->first->lru,
->>>> -                    &pos->last->lru);
->>>> -    }
->>>> -}
->>>> -EXPORT_SYMBOL(ttm_bo_bulk_move_lru_tail);
->>>> -
->>>>   static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
->>>>                     struct ttm_resource *mem, bool evict,
->>>>                     struct ttm_operation_ctx *ctx,
->>>> @@ -342,7 +260,6 @@ static int ttm_bo_cleanup_refs(struct 
->>>> ttm_buffer_object *bo,
->>>>           return ret;
->>>>       }
->>>>   -    ttm_bo_del_from_lru(bo);
->>>
->>>
->>> Here and in other places this was removed, I assume ttm_resource_fini
->>> should replace it but I don't see where exactly this takes place.
->>
->> Take a look at function ttm_resource_fini().
->>
->> Christian.
->
->
-> What I mean is that I don't see where ttm_resource_fini will be called to
-> compensate for removal of  ttm_bo_del_from_lru here.
+Am 2021-08-30 um 4:28 a.m. schrieb Christoph Hellwig:
+> On Thu, Aug 26, 2021 at 06:27:31PM -0400, Felix Kuehling wrote:
+>> I think we're missing something here. As far as I can tell, all the work
+>> we did first with DEVICE_GENERIC and now DEVICE_PUBLIC always used
+>> normal pages. Are we missing something in our driver code that would
+>> make these PTEs special? I don't understand how that can be, because
+>> driver code is not really involved in updating the CPU mappings. Maybe
+>> it's something we need to do in the migration helpers.
+> It looks like I'm totally misunderstanding what you are adding here
+> then.  Why do we need any special treatment at all for memory that
+> has normal struct pages and is part of the direct kernel map?
 
-That always called during normal resource destruction, e.g. when we move 
-a BO from A to B or destroy a BO.
+The pages are like normal memory for purposes of mapping them in CPU
+page tables and for coherent access from the CPU. From an application
+perspective, we want file-backed and anonymous mappings to be able to
+use DEVICE_PUBLIC pages with coherent CPU access. The goal is to
+optimize performance for GPU heavy workloads while minimizing the need
+to migrate data back-and-forth between system memory and device memory.
 
-Otherwise we would leak memory and notice really fast.
+The pages are special in two ways:
 
-Christian.
+ 1. The memory is managed not by the Linux buddy allocator, but by the
+    GPU driver's TTM memory manager
+ 2. We want to migrate data in response to GPU page faults and
+    application hints using the migrate_vma helpers
 
->
-> Andrey
->
->
->>
->>>
->>> Andrey
->>>
->>>
->>>> list_del_init(&bo->ddestroy);
->>>>       spin_unlock(&bo->bdev->lru_lock);
->>>>       ttm_bo_cleanup_memtype_use(bo);
->>>> @@ -443,7 +360,7 @@ static void ttm_bo_release(struct kref *kref)
->>>>            */
->>>>           if (bo->pin_count) {
->>>>               bo->pin_count = 0;
->>>> -            ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
->>>> +            ttm_resource_move_to_lru_tail(bo->resource, NULL);
->>>>           }
->>>>             kref_init(&bo->kref);
->>>> @@ -456,7 +373,6 @@ static void ttm_bo_release(struct kref *kref)
->>>>       }
->>>>         spin_lock(&bo->bdev->lru_lock);
->>>> -    ttm_bo_del_from_lru(bo);
->>>>       list_del(&bo->ddestroy);
->>>>       spin_unlock(&bo->bdev->lru_lock);
->>>>   @@ -670,15 +586,17 @@ int ttm_mem_evict_first(struct ttm_device 
->>>> *bdev,
->>>>               struct ww_acquire_ctx *ticket)
->>>>   {
->>>>       struct ttm_buffer_object *bo = NULL, *busy_bo = NULL;
->>>> +    struct ttm_resource *res;
->>>>       bool locked = false;
->>>>       unsigned i;
->>>>       int ret;
->>>>         spin_lock(&bdev->lru_lock);
->>>>       for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
->>>> -        list_for_each_entry(bo, &man->lru[i], lru) {
->>>> +        list_for_each_entry(res, &man->lru[i], lru) {
->>>>               bool busy;
->>>>   +            bo = res->bo;
->>>>               if (!ttm_bo_evict_swapout_allowable(bo, ctx, place,
->>>>                                   &locked, &busy)) {
->>>>                   if (busy && !busy_bo && ticket !=
->>>> @@ -696,7 +614,7 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
->>>>           }
->>>>             /* If the inner loop terminated early, we have our 
->>>> candidate */
->>>> -        if (&bo->lru != &man->lru[i])
->>>> +        if (&res->lru != &man->lru[i])
->>>>               break;
->>>>             bo = NULL;
->>>> @@ -870,9 +788,6 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
->>>>       }
->>>>     error:
->>>> -    if (bo->resource->mem_type == TTM_PL_SYSTEM && !bo->pin_count)
->>>> -        ttm_bo_move_to_lru_tail_unlocked(bo);
->>>> -
->>>>       return ret;
->>>>   }
->>>>   EXPORT_SYMBOL(ttm_bo_mem_space);
->>>> @@ -1012,7 +927,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
->>>>       bo->destroy = destroy ? destroy : ttm_bo_default_destroy;
->>>>         kref_init(&bo->kref);
->>>> -    INIT_LIST_HEAD(&bo->lru);
->>>>       INIT_LIST_HEAD(&bo->ddestroy);
->>>>       bo->bdev = bdev;
->>>>       bo->type = type;
->>>> @@ -1062,8 +976,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
->>>>           return ret;
->>>>       }
->>>>   -    ttm_bo_move_to_lru_tail_unlocked(bo);
->>>> -
->>>>       return ret;
->>>>   }
->>>>   EXPORT_SYMBOL(ttm_bo_init_reserved);
->>>> @@ -1165,7 +1077,6 @@ int ttm_bo_swapout(struct ttm_buffer_object 
->>>> *bo, struct ttm_operation_ctx *ctx,
->>>>           return 0;
->>>>       }
->>>>   -    ttm_bo_del_from_lru(bo);
->>>>       /* TODO: Cleanup the locking */
->>>>       spin_unlock(&bo->bdev->lru_lock);
->>>>   diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c 
->>>> b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>>> index c5d02edaefc0..49b4bedf8715 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>>> @@ -232,7 +232,6 @@ static int ttm_buffer_object_transfer(struct 
->>>> ttm_buffer_object *bo,
->>>>         atomic_inc(&ttm_glob.bo_count);
->>>>       INIT_LIST_HEAD(&fbo->base.ddestroy);
->>>> -    INIT_LIST_HEAD(&fbo->base.lru);
->>>>       fbo->base.moving = NULL;
->>>>       drm_vma_node_reset(&fbo->base.base.vma_node);
->>>>   diff --git a/drivers/gpu/drm/ttm/ttm_device.c 
->>>> b/drivers/gpu/drm/ttm/ttm_device.c
->>>> index 519deea8e39b..9e0dfceff68c 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_device.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
->>>> @@ -134,6 +134,7 @@ int ttm_device_swapout(struct ttm_device *bdev, 
->>>> struct ttm_operation_ctx *ctx,
->>>>   {
->>>>       struct ttm_resource_manager *man;
->>>>       struct ttm_buffer_object *bo;
->>>> +    struct ttm_resource *res;
->>>>       unsigned i, j;
->>>>       int ret;
->>>>   @@ -144,8 +145,11 @@ int ttm_device_swapout(struct ttm_device 
->>>> *bdev, struct ttm_operation_ctx *ctx,
->>>>               continue;
->>>>             for (j = 0; j < TTM_MAX_BO_PRIORITY; ++j) {
->>>> -            list_for_each_entry(bo, &man->lru[j], lru) {
->>>> -                uint32_t num_pages = PFN_UP(bo->base.size);
->>>> +            list_for_each_entry(res, &man->lru[j], lru) {
->>>> +                uint32_t num_pages;
->>>> +
->>>> +                bo = res->bo;
->>>> +                num_pages = PFN_UP(bo->base.size);
->>>>                     ret = ttm_bo_swapout(bo, ctx, gfp_flags);
->>>>                   /* ttm_bo_swapout has dropped the lru_lock */
->>>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c 
->>>> b/drivers/gpu/drm/ttm/ttm_resource.c
->>>> index 426e6841fc89..355c542758b5 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->>>> @@ -29,6 +29,115 @@
->>>>   #include <drm/ttm/ttm_resource.h>
->>>>   #include <drm/ttm/ttm_bo_driver.h>
->>>>   +/**
->>>> + * ttm_lru_bulk_move_init - initialize a bulk move structure
->>>> + * @bulk: the structure to init
->>>> + *
->>>> + * For now just memset the structure to zero.
->>>> + */
->>>> +void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk)
->>>> +{
->>>> +    memset(bulk, 0, sizeof(*bulk));
->>>> +}
->>>> +EXPORT_SYMBOL(ttm_lru_bulk_move_init);
->>>> +
->>>> +/**
->>>> + * ttm_lru_bulk_move_tail
->>>> + *
->>>> + * @bulk: bulk move structure
->>>> + *
->>>> + * Bulk move BOs to the LRU tail, only valid to use when driver 
->>>> makes sure that
->>>> + * resource order never changes. Should be called with 
->>>> ttm_device::lru_lock held.
->>>> + */
->>>> +void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk)
->>>> +{
->>>> +    unsigned i;
->>>> +
->>>> +    for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
->>>> +        struct ttm_lru_bulk_move_pos *pos = &bulk->tt[i];
->>>> +        struct ttm_resource_manager *man;
->>>> +
->>>> +        if (!pos->first)
->>>> +            continue;
->>>> +
->>>> + dma_resv_assert_held(pos->first->bo->base.resv);
->>>> + dma_resv_assert_held(pos->last->bo->base.resv);
->>>> +
->>>> +        man = ttm_manager_type(pos->first->bo->bdev, TTM_PL_TT);
->>>> +        list_bulk_move_tail(&man->lru[i], &pos->first->lru,
->>>> +                    &pos->last->lru);
->>>> +    }
->>>> +
->>>> +    for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
->>>> +        struct ttm_lru_bulk_move_pos *pos = &bulk->vram[i];
->>>> +        struct ttm_resource_manager *man;
->>>> +
->>>> +        if (!pos->first)
->>>> +            continue;
->>>> +
->>>> + dma_resv_assert_held(pos->first->bo->base.resv);
->>>> + dma_resv_assert_held(pos->last->bo->base.resv);
->>>> +
->>>> +        man = ttm_manager_type(pos->first->bo->bdev, TTM_PL_VRAM);
->>>> +        list_bulk_move_tail(&man->lru[i], &pos->first->lru,
->>>> +                    &pos->last->lru);
->>>> +    }
->>>> +}
->>>> +EXPORT_SYMBOL(ttm_lru_bulk_move_tail);
->>>> +
->>>> +/* Record a resource position in a bulk move structure */
->>>> +static void ttm_lru_bulk_move_set_pos(struct ttm_lru_bulk_move_pos 
->>>> *pos,
->>>> +                      struct ttm_resource *res)
->>>> +{
->>>> +    if (!pos->first)
->>>> +        pos->first = res;
->>>> +    pos->last = res;
->>>> +}
->>>> +
->>>> +/* Remove a resource from the LRU */
->>>> +static void ttm_resource_del_from_lru(struct ttm_resource *res)
->>>> +{
->>>> +    struct ttm_device *bdev = res->bo->bdev;
->>>> +
->>>> +    list_del_init(&res->lru);
->>>> +
->>>> +    if (bdev->funcs->del_from_lru_notify)
->>>> +        bdev->funcs->del_from_lru_notify(res->bo);
->>>> +}
->>>> +
->>>> +/* Move a resource to the LRU tail and track the bulk position */
->>>> +void ttm_resource_move_to_lru_tail(struct ttm_resource *res,
->>>> +                   struct ttm_lru_bulk_move *bulk)
->>>> +{
->>>> +    struct ttm_buffer_object *bo = res->bo;
->>>> +    struct ttm_device *bdev = bo->bdev;
->>>> +    struct ttm_resource_manager *man;
->>>> +
->>>> +    if (bo->pin_count) {
->>>> +        ttm_resource_del_from_lru(res);
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    man = ttm_manager_type(bdev, res->mem_type);
->>>> +    list_move_tail(&res->lru, &man->lru[bo->priority]);
->>>> +
->>>> +    if (bdev->funcs->del_from_lru_notify)
->>>> +        bdev->funcs->del_from_lru_notify(bo);
->>>> +
->>>> +    if (!bulk)
->>>> +        return;
->>>> +
->>>> +    switch (res->mem_type) {
->>>> +    case TTM_PL_TT:
->>>> + ttm_lru_bulk_move_set_pos(&bulk->tt[bo->priority], res);
->>>> +        break;
->>>> +
->>>> +    case TTM_PL_VRAM:
->>>> + ttm_lru_bulk_move_set_pos(&bulk->vram[bo->priority], res);
->>>> +        break;
->>>> +    }
->>>> +}
->>>> +
->>>>   void ttm_resource_init(struct ttm_buffer_object *bo,
->>>>                          const struct ttm_place *place,
->>>>                          struct ttm_resource *res)
->>>> @@ -44,15 +153,33 @@ void ttm_resource_init(struct 
->>>> ttm_buffer_object *bo,
->>>>       res->bus.is_iomem = false;
->>>>       res->bus.caching = ttm_cached;
->>>>       res->bo = bo;
->>>> +    INIT_LIST_HEAD(&res->lru);
->>>>         man = ttm_manager_type(bo->bdev, place->mem_type);
->>>>       atomic64_add(bo->base.size, &man->usage);
->>>> +
->>>> +    spin_lock(&bo->bdev->lru_lock);
->>>> +    ttm_resource_move_to_lru_tail(res, NULL);
->>>> +    spin_unlock(&bo->bdev->lru_lock);
->>>>   }
->>>>   EXPORT_SYMBOL(ttm_resource_init);
->>>>   +/**
->>>> + * ttm_resource_fini
->>>> + *
->>>> + * @res: the resource to clean up
->>>> + *
->>>> + * Make sure the resource is removed from the LRU before destruction.
->>>> + */
->>>>   void ttm_resource_fini(struct ttm_resource_manager *man,
->>>>                  struct ttm_resource *res)
->>>>   {
->>>> +    struct ttm_device *bdev = res->bo->bdev;
->>>> +
->>>> +    spin_lock(&bdev->lru_lock);
->>>> +    ttm_resource_del_from_lru(res);
->>>> +    spin_unlock(&bdev->lru_lock);
->>>> +
->>>>       atomic64_sub(res->bo->base.size, &man->usage);
->>>>   }
->>>>   EXPORT_SYMBOL(ttm_resource_fini);
->>>> diff --git a/include/drm/ttm/ttm_bo_api.h 
->>>> b/include/drm/ttm/ttm_bo_api.h
->>>> index f681bbdbc698..0928d8cfb45a 100644
->>>> --- a/include/drm/ttm/ttm_bo_api.h
->>>> +++ b/include/drm/ttm/ttm_bo_api.h
->>>> @@ -56,8 +56,6 @@ struct ttm_placement;
->>>>     struct ttm_place;
->>>>   -struct ttm_lru_bulk_move;
->>>> -
->>>>   /**
->>>>    * enum ttm_bo_type
->>>>    *
->>>> @@ -95,7 +93,6 @@ struct ttm_tt;
->>>>    * @ttm: TTM structure holding system pages.
->>>>    * @evicted: Whether the object was evicted without user-space 
->>>> knowing.
->>>>    * @deleted: True if the object is only a zombie and already 
->>>> deleted.
->>>> - * @lru: List head for the lru list.
->>>>    * @ddestroy: List head for the delayed destroy list.
->>>>    * @swap: List head for swap LRU list.
->>>>    * @moving: Fence set when BO is moving
->>>> @@ -144,7 +141,6 @@ struct ttm_buffer_object {
->>>>        * Members protected by the bdev::lru_lock.
->>>>        */
->>>>   -    struct list_head lru;
->>>>       struct list_head ddestroy;
->>>>         /**
->>>> @@ -308,7 +304,6 @@ void ttm_bo_put(struct ttm_buffer_object *bo);
->>>>    * ttm_bo_move_to_lru_tail
->>>>    *
->>>>    * @bo: The buffer object.
->>>> - * @mem: Resource object.
->>>>    * @bulk: optional bulk move structure to remember BO positions
->>>>    *
->>>>    * Move this BO to the tail of all lru lists used to lookup and 
->>>> reserve an
->>>> @@ -316,19 +311,8 @@ void ttm_bo_put(struct ttm_buffer_object *bo);
->>>>    * held, and is used to make a BO less likely to be considered 
->>>> for eviction.
->>>>    */
->>>>   void ttm_bo_move_to_lru_tail(struct ttm_buffer_object *bo,
->>>> -                 struct ttm_resource *mem,
->>>>                    struct ttm_lru_bulk_move *bulk);
->>>>   -/**
->>>> - * ttm_bo_bulk_move_lru_tail
->>>> - *
->>>> - * @bulk: bulk move structure
->>>> - *
->>>> - * Bulk move BOs to the LRU tail, only valid to use when driver 
->>>> makes sure that
->>>> - * BO order never changes. Should be called with 
->>>> ttm_global::lru_lock held.
->>>> - */
->>>> -void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk);
->>>> -
->>>>   /**
->>>>    * ttm_bo_lock_delayed_workqueue
->>>>    *
->>>> diff --git a/include/drm/ttm/ttm_bo_driver.h 
->>>> b/include/drm/ttm/ttm_bo_driver.h
->>>> index 68d6069572aa..fba2f7d3d34e 100644
->>>> --- a/include/drm/ttm/ttm_bo_driver.h
->>>> +++ b/include/drm/ttm/ttm_bo_driver.h
->>>> @@ -45,33 +45,6 @@
->>>>   #include "ttm_tt.h"
->>>>   #include "ttm_pool.h"
->>>>   -/**
->>>> - * struct ttm_lru_bulk_move_pos
->>>> - *
->>>> - * @first: first BO in the bulk move range
->>>> - * @last: last BO in the bulk move range
->>>> - *
->>>> - * Positions for a lru bulk move.
->>>> - */
->>>> -struct ttm_lru_bulk_move_pos {
->>>> -    struct ttm_buffer_object *first;
->>>> -    struct ttm_buffer_object *last;
->>>> -};
->>>> -
->>>> -/**
->>>> - * struct ttm_lru_bulk_move
->>>> - *
->>>> - * @tt: first/last lru entry for BOs in the TT domain
->>>> - * @vram: first/last lru entry for BOs in the VRAM domain
->>>> - * @swap: first/last lru entry for BOs on the swap list
->>>> - *
->>>> - * Helper structure for bulk moves on the LRU list.
->>>> - */
->>>> -struct ttm_lru_bulk_move {
->>>> -    struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
->>>> -    struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
->>>> -};
->>>> -
->>>>   /*
->>>>    * ttm_bo.c
->>>>    */
->>>> @@ -182,7 +155,7 @@ static inline void
->>>>   ttm_bo_move_to_lru_tail_unlocked(struct ttm_buffer_object *bo)
->>>>   {
->>>>       spin_lock(&bo->bdev->lru_lock);
->>>> -    ttm_bo_move_to_lru_tail(bo, bo->resource, NULL);
->>>> +    ttm_bo_move_to_lru_tail(bo, NULL);
->>>>       spin_unlock(&bo->bdev->lru_lock);
->>>>   }
->>>>   diff --git a/include/drm/ttm/ttm_resource.h 
->>>> b/include/drm/ttm/ttm_resource.h
->>>> index 526fe359c603..5f9797f9d64a 100644
->>>> --- a/include/drm/ttm/ttm_resource.h
->>>> +++ b/include/drm/ttm/ttm_resource.h
->>>> @@ -26,10 +26,12 @@
->>>>   #define _TTM_RESOURCE_H_
->>>>     #include <linux/types.h>
->>>> +#include <linux/list.h>
->>>>   #include <linux/mutex.h>
->>>>   #include <linux/atomic.h>
->>>>   #include <linux/dma-buf-map.h>
->>>>   #include <linux/dma-fence.h>
->>>> +
->>>>   #include <drm/drm_print.h>
->>>>   #include <drm/ttm/ttm_caching.h>
->>>>   #include <drm/ttm/ttm_kmap_iter.h>
->>>> @@ -177,6 +179,33 @@ struct ttm_resource {
->>>>       uint32_t placement;
->>>>       struct ttm_bus_placement bus;
->>>>       struct ttm_buffer_object *bo;
->>>> +    struct list_head lru;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct ttm_lru_bulk_move_pos
->>>> + *
->>>> + * @first: first res in the bulk move range
->>>> + * @last: last res in the bulk move range
->>>> + *
->>>> + * Positions for a lru bulk move.
->>>> + */
->>>> +struct ttm_lru_bulk_move_pos {
->>>> +    struct ttm_resource *first;
->>>> +    struct ttm_resource *last;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct ttm_lru_bulk_move
->>>> + *
->>>> + * @tt: first/last lru entry for resources in the TT domain
->>>> + * @vram: first/last lru entry for resources in the VRAM domain
->>>> + *
->>>> + * Helper structure for bulk moves on the LRU list.
->>>> + */
->>>> +struct ttm_lru_bulk_move {
->>>> +    struct ttm_lru_bulk_move_pos tt[TTM_MAX_BO_PRIORITY];
->>>> +    struct ttm_lru_bulk_move_pos vram[TTM_MAX_BO_PRIORITY];
->>>>   };
->>>>     /**
->>>> @@ -278,6 +307,12 @@ ttm_resource_manager_usage(struct 
->>>> ttm_resource_manager *man)
->>>>       return atomic64_read(&man->usage);
->>>>   }
->>>>   +void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk);
->>>> +void ttm_lru_bulk_move_tail(struct ttm_lru_bulk_move *bulk);
->>>> +
->>>> +void ttm_resource_move_to_lru_tail(struct ttm_resource *res,
->>>> +                   struct ttm_lru_bulk_move *bulk);
->>>> +
->>>>   void ttm_resource_init(struct ttm_buffer_object *bo,
->>>>                          const struct ttm_place *place,
->>>>                          struct ttm_resource *res);
->>
+It's the second part that we're really trying to address with this patch
+series.
+
+Regards,
+  Felix
+
 
