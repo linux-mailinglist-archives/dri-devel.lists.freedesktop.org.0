@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107123FB99B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814D43FB9B5
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:05:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2D689C54;
-	Mon, 30 Aug 2021 16:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 616CC89C68;
+	Mon, 30 Aug 2021 16:05:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67ADF89C54
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 16:02:27 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id bg1so3512528plb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 09:02:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=itfac-mrt-ac-lk.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hNk/SrVEmg7Gzq5MxNtJIEjH5tFYQ/WLaoYBWOwLSUQ=;
- b=r3TF70SGQCmi1RFWL7Q87qJS+315SjC061HqKVTQ/zRP825EgMFQzFKjVuOBTjgQl4
- wFe7OGI2Z9Gcsel7FzhRA7dIl6cutqUTKLG/d1Y6x5au16uCFGay/QaxzSdsiNUd6fla
- 4WCPm1yXTeBjozce64gtHh1Fkcw7ewtoXNGagU0hl5LIe2pVEnAR7ReePHrDKCpBiXlw
- GJOsIRWyZidSNDJuOLEkFqp90C6QWLcYG6T13atodtyyZhE8bpI6ScewMPjm75zu5Z/O
- Q5YqgAA8CQXlh6PTuCFL+qbT68K5/kKLI2u6Bbg/07pVr9vof1ir8sXsKID//9eGavhU
- r9aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=hNk/SrVEmg7Gzq5MxNtJIEjH5tFYQ/WLaoYBWOwLSUQ=;
- b=h2odpb/pvltlWQv3YJbbtf3531bWcM+0VPN/bPRt5DJCpyEBzezSAT/tU2A/gH9Qhj
- rXBxhaBTxw0acXXVnEzS5cOGIEnDGm5xWu7/MiGkx7jT5rZYG4sTBH3qH/o9K3ak7A6f
- x97hILhCPjWoL539iwQoum1YYom9eyqrZ5IXDn6n8xJndvvoGkLimm1VKOBeOqzGtta8
- QAAo6FbQ01leOUCG28CwdO0l4SaN7SC5Czx7LjC6FYcN3wfXr+t5jPzcTYfXhPyPkDom
- M8RjEunSxn1G/YjZFILr/kzGOPjbRQX0eCBER1iZ5JdA5UVoi60vff5NGuPsW4bLKbhB
- 09gQ==
-X-Gm-Message-State: AOAM5326UEMH1heOIcOMUhK6bfGhDP6rfF4nBjdfocLG1RFrX0JojXwz
- bePsCYbE+MxPlp2fIWOeAncOCjJab8aogN8=
-X-Google-Smtp-Source: ABdhPJx4DxXGLG7em8lQRLdFAzcH7JiTibGi2elZTt3jtjjRILnfiRYLKK11DdVYUjWbHna22/ipwA==
-X-Received: by 2002:a17:90a:1b07:: with SMTP id
- q7mr27310433pjq.100.1630339346870; 
- Mon, 30 Aug 2021 09:02:26 -0700 (PDT)
-Received: from localhost.localdomain ([175.157.63.238])
- by smtp.gmail.com with ESMTPSA id t186sm15451666pfb.53.2021.08.30.09.02.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 09:02:26 -0700 (PDT)
-From: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
-To: airlied@redhat.com,
-	sean@poorly.run,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Cc: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] GPU:DRM: returning ENOMEM
-Date: Mon, 30 Aug 2021 21:32:07 +0530
-Message-Id: <20210830160207.23936-1-asha.16@itfac.mrt.ac.lk>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210828154027.8198-1-asha.16@itfac.mrt.ac.lk>
-References: <20210828154027.8198-1-asha.16@itfac.mrt.ac.lk>
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9E689C68
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 16:05:33 +0000 (UTC)
+Received: from fsav312.sakura.ne.jp (fsav312.sakura.ne.jp [153.120.85.143])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 17UG571e040414;
+ Tue, 31 Aug 2021 01:05:07 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav312.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp);
+ Tue, 31 Aug 2021 01:05:07 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 17UG56nK040407
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 31 Aug 2021 01:05:07 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: [PATCH] fbmem: don't allow too huge resolutions
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>,
+ akpm@linux-foundation.org, b.zolnierkie@samsung.com,
+ colin.king@canonical.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ masahiroy@kernel.org, syzkaller-bugs@googlegroups.com,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <000000000000815b9605c70e74f8@google.com>
+ <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
+ <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
+ <339bfb21-8e80-c7d9-46dd-c416f87c50c0@infradead.org>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <535e404d-03bf-8e7a-b296-132a2a98c599@i-love.sakura.ne.jp>
+Date: Tue, 31 Aug 2021 01:05:05 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <339bfb21-8e80-c7d9-46dd-c416f87c50c0@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,45 +64,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-check the return value and pass the proper error code.
+syzbot is reporting page fault at vga16fb_fillrect() [1], for
+vga16fb_check_var() is failing to detect multiplication overflow.
 
-Signed-off-by: F.A. SULAIMAN <asha.16@itfac.mrt.ac.lk>
+  if (vxres * vyres > maxmem) {
+    vyres = maxmem / vxres;
+    if (vyres < yres)
+      return -ENOMEM;
+  }
+
+Since no module would accept too huge resolutions where multiplication
+overflow happens, let's reject in the common path.
+
+This patch does not use array_size(), for array_size() is allowed to
+return UINT_MAX on 32bits even if overflow did not happen. We want to
+detect only overflow here, for individual module will recheck with more
+strict limits as needed.
+
+Link: https://syzkaller.appspot.com/bug?extid=04168c8063cfdde1db5e [1]
+Reported-by: syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>
+Debugged-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Tested-by: syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>
 ---
- drivers/gpu/drm/udl/udl_connector.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/core/fbmem.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
-index cdc1c42e1669..857d2c97ef0e 100644
---- a/drivers/gpu/drm/udl/udl_connector.c
-+++ b/drivers/gpu/drm/udl/udl_connector.c
-@@ -23,7 +23,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 1c855145711b..9f5075dc2345 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1008,6 +1008,11 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+ 	if (var->xres < 8 || var->yres < 8)
+ 		return -EINVAL;
  
- 	read_buff = kmalloc(2, GFP_KERNEL);
- 	if (!read_buff)
--		return -1;
-+		return -ENOMEM;
- 
- 	for (i = 0; i < len; i++) {
- 		int bval = (i + block * EDID_LENGTH) << 8;
-@@ -31,11 +31,16 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
- 				      usb_rcvctrlpipe(udl->udev, 0),
- 					  (0x02), (0x80 | (0x02 << 5)), bval,
- 					  0xA1, read_buff, 2, HZ);
--		if (ret < 1) {
-+		if (ret == 0) {
-+			DRM_ERROR("Reading EDID block %d returned empty result\n", i);
-+			kfree(read_buff);
-+			return -EINVAL;
-+		} else if (ret < 0) {
- 			DRM_ERROR("Read EDID byte %d failed err %x\n", i, ret);
- 			kfree(read_buff);
--			return -1;
-+			return ret;
- 		}
++	/* Don't allow u32 * u32 to overflow. */
++	if ((u64) var->xres * var->yres > UINT_MAX ||
++	    (u64) var->xres_virtual * var->yres_virtual > UINT_MAX)
++		return -EINVAL;
 +
- 		buf[i] = read_buff[1];
- 	}
+ 	ret = info->fbops->fb_check_var(var, info);
  
+ 	if (ret)
 -- 
-2.17.1
+2.18.4
+
 
