@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127703FB2BD
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 10:57:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF833FB2BF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 10:57:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1312D89C1F;
-	Mon, 30 Aug 2021 08:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4264989CF4;
+	Mon, 30 Aug 2021 08:57:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF50A89C1F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 08:57:11 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id u16so21345908wrn.5
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 01:57:11 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7458089C1F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 08:57:12 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id g18so13813978wrc.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 01:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=q0OlNS0LSkpXgvHR+mVwwOaKy9gbdtsNwjOto1SH2o4=;
- b=dVvt/B60Ktmp+VqjMfVkjVSGGmMbpSAlnTK8jOulbTFiytl3+Z49Cxs59F0ZmqfO89
- tY9L6d1/T7qOdR/SCF9jm2mn083CzHLFm8Iekmji7LOBw2iA8hBg9KfkRKWaveH33lty
- UbOuNtBmKTCSP0e9wlV59Dq1OZOeGFK/5FZjzdXVhB0o+8/8fuOUYEvaM7hLofFD8n72
- 4mgehiczA3K00YJrCAj8kLfW2R6OwS9kEtfIslfA26v+I7L2oD2GM8W9y7187Pxcjcxc
- ACqULKhg/eMKCu2lW5I4bO7t0Em1UZ3zQinKgibXTpiTG2wvkn8wTdj/6J0yhYKeSeUT
- /Mdw==
+ bh=y2mBcyi6G8qw3eNNRjd0aYmw0jGNBXwReTvxTXz1KpQ=;
+ b=TBMhCEi6Iyjoe8q7vBT0ikppaGgayaHbiDsv2XiCFAzuSl2luymSb8WQj4k/izQhFJ
+ eMOe8KFc41KzKFMZkkGNLBMxyzr5HnTbUAG22o6MfXiTOzy4K6Dxg+0reuwAksfs0GJ5
+ LJVvvevNES7XUXZBOgCIa8Hz5yqbz7XNzZCKEFb1LiwSifHW5Mr5FkusRet2ia9munNI
+ gpolTMBshNQ3dFS6kqSn0GQU+DhZl90NA8GgpbJ3aaB8oUJQcGxQmdL6ntw+qXO8NKyA
+ 4xTnMSoEb9y771bnRUxw2r9uMzY+mAmeIHkdA5EyNTLJvT2tILW8NZ5AT1E5YUBo7p2d
+ rkzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=q0OlNS0LSkpXgvHR+mVwwOaKy9gbdtsNwjOto1SH2o4=;
- b=cdzzizYeeJ44zpKZu65co5QTwq6pmBxMgP6O6dZHptc/OsZusDWDQcvIl1QLNILrQP
- ZBmnSl1YqplignFXEKMAYT+3RPzZ+wR7FKZgHLinLVr+iVMK5rf/iMwLQz4M9MUUjTN4
- NzKXEO80t4tUIsuOm75wHxNmHx00I7DyMZU1qIbq5MSPW2gqnXVCTdVIB3umiDAENG6E
- nRvL1+yVuNcBnvyhBqoR0q3FfiPRfokEZApM03S6ZDWqgWkkiAAv9tUStruJmjvnvTOC
- sUsLQNf/ARbfaPFVMIVJdtsyYew60KxrUhZb4tDddd8wFK2zeFsNjkSRJtIIOlNT8F3z
- KP5Q==
-X-Gm-Message-State: AOAM533jadtLFgORhX8LHYf1sz35oN/ZDSKV7K6WxprTZJA8//5CFedU
- weISxwz1ADFAq7WATvXX9F8=
-X-Google-Smtp-Source: ABdhPJw6Xeez2G7ReVNZ+eHXK8TToiXBEZSExmLsJA0Rm/mMMd7jN6mUM4NptUJ884AlYfuxjkWkRw==
-X-Received: by 2002:adf:9e48:: with SMTP id v8mr8061339wre.141.1630313830201; 
+ bh=y2mBcyi6G8qw3eNNRjd0aYmw0jGNBXwReTvxTXz1KpQ=;
+ b=DTefoYEAth44BvjpBiu1YnrVgki0LMW2dmvVtBGkYpYgxrvFHyP6ik54rlk7jWaX84
+ bzWVyZdh1QxALzUA/i6vx4YxILae/jiJN2of7BF05wuwdkkfOA7G8raetFNmk/hJCkye
+ svK355fMIWB6ZnOtrYVRwHPi9vKhDttXt8FdS97giZ9JoFXYpSU/Pq0EnOBNgfOS8ENU
+ iQdTwLwo7hbuNXTOx57TrErwxNFz8jLJQgP8y7oTiS9ooh458xtUMZFgsccHjBxYcUPS
+ J2wJrrEAkvzJ1GP8VEiMqicTyr5v0ZaTO4SXdAR9zZ2hIUlgHgMgKOQm2DTMUg7O8Jr6
+ 9n1w==
+X-Gm-Message-State: AOAM530Eq7wLdfNncVtm0oUdBR5wOZDFYj+RnhlgpKDCxNOf8rrkDtY6
+ Sl58Y+NrlMzE34vszr4DVS4=
+X-Google-Smtp-Source: ABdhPJyIMOGEmQe8mweJZ5jEpmV2FJ9OYKwTb43cnIWhs4qqdQkHeicE5gClwK9coeV+l/SMYZAL+Q==
+X-Received: by 2002:adf:eb89:: with SMTP id t9mr25767152wrn.66.1630313830974; 
  Mon, 30 Aug 2021 01:57:10 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- u2sm8843245wmj.29.2021.08.30.01.57.09
+ u2sm8843245wmj.29.2021.08.30.01.57.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 01:57:09 -0700 (PDT)
+ Mon, 30 Aug 2021 01:57:10 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: thomas.hellstrom@linux.intel.com, dri-devel@lists.freedesktop.org,
  andrey.grodzovsky@amd.com
-Subject: [PATCH 02/12] drm/ttm: add back a reference to the bdev to the res
- manager
-Date: Mon, 30 Aug 2021 10:56:57 +0200
-Message-Id: <20210830085707.209508-2-christian.koenig@amd.com>
+Subject: [PATCH 03/12] drm/ttm: add a weak BO reference to the resource v3
+Date: Mon, 30 Aug 2021 10:56:58 +0200
+Message-Id: <20210830085707.209508-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830085707.209508-1-christian.koenig@amd.com>
 References: <20210830085707.209508-1-christian.koenig@amd.com>
@@ -76,196 +75,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is simply a lot cleaner to have this around instead of adding
-the device throughout the call chain.
+Keep track for which BO a resource was allocated.
+This is necessary to move the LRU handling into the resources.
+
+A bit problematic is i915 since it tries to use the resource
+interface without a BO which is illegal from the conceptional
+point of view.
+
+v2: Document that this is a weak reference and add a workaround for i915
+v3: further document that this is protected by ttm_device::lru_lock and
+    clarify the i915 workaround
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c     | 3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c    | 3 ++-
- drivers/gpu/drm/nouveau/nouveau_ttm.c           | 4 ++--
- drivers/gpu/drm/ttm/ttm_range_manager.c         | 2 +-
- drivers/gpu/drm/ttm/ttm_resource.c              | 3 +++
- drivers/gpu/drm/ttm/ttm_sys_manager.c           | 2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c   | 2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_thp.c             | 2 +-
- include/drm/ttm/ttm_resource.h                  | 8 ++++----
- 10 files changed, 18 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/intel_region_ttm.c | 22 ++++++++++++----------
+ drivers/gpu/drm/ttm/ttm_bo_util.c       |  7 +++++--
+ drivers/gpu/drm/ttm/ttm_resource.c      |  9 +++++++++
+ include/drm/ttm/ttm_resource.h          |  4 ++++
+ 4 files changed, 30 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 77cfb64dd312..1dae68caa974 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -293,7 +293,8 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
- 	man->use_tt = true;
- 	man->func = &amdgpu_gtt_mgr_func;
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index 27fe0668d094..1b2a61b085f7 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -75,24 +75,26 @@ intel_region_ttm_node_reserve(struct intel_memory_region *mem,
+ 	int ret;
  
--	ttm_resource_manager_init(man, gtt_size >> PAGE_SHIFT);
-+	ttm_resource_manager_init(man, &adev->mman.bdev,
-+				  gtt_size >> PAGE_SHIFT);
+ 	/*
+-	 * Having to use a mock_bo is unfortunate but stems from some
+-	 * drivers having private managers that insist to know what the
+-	 * allocate memory is intended for, using it to send private
+-	 * data to the manager. Also recently the bo has been used to send
+-	 * alignment info to the manager. Assume that apart from the latter,
+-	 * none of the managers we use will ever access the buffer object
+-	 * members, hoping we can pass the alignment info in the
+-	 * struct ttm_place in the future.
++	 * This is essential an illegal use the of the TTM resource manager
++	 * backend and should be fixed in the future. For now work around by
++	 * using a mock_bo with at least the mandatory fields initialized.
++	 *
++	 * The resource should be ignored by TTM since it can't grab a
++	 * reference to the BO during eviction.
+ 	 */
  
- 	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
- 	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-index ffddec08e931..6f7189d32f0a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c
-@@ -153,7 +153,7 @@ int amdgpu_preempt_mgr_init(struct amdgpu_device *adev)
- 	man->use_tt = true;
- 	man->func = &amdgpu_preempt_mgr_func;
+ 	place.fpfn = offset >> PAGE_SHIFT;
+ 	place.lpfn = place.fpfn + (size >> PAGE_SHIFT);
+ 	mock_bo.base.size = size;
++	mock_bo.bdev = &mem->i915->bdev;
+ 	ret = man->func->alloc(man, &mock_bo, &place, &res);
+ 	if (ret == -ENOSPC)
+-		ret = -ENXIO;
++		return ERR_PTR(-ENXIO);
++	if (ret)
++		return ERR_PTR(ret);
  
--	ttm_resource_manager_init(man, (1 << 30));
-+	ttm_resource_manager_init(man, &adev->mman.bdev, (1 << 30));
+-	return ret ? ERR_PTR(ret) : res;
++	res->bo = NULL;
++	return 0;
+ }
  
- 	atomic64_set(&mgr->used, 0);
+ /**
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 763fa6f4e07d..c5d02edaefc0 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -242,6 +242,11 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+ 	if (bo->type != ttm_bo_type_sg)
+ 		fbo->base.base.resv = &fbo->base.base._resv;
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index 0184210744a7..c1e97c865c2b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -699,7 +699,8 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
- 	struct amdgpu_vram_mgr *mgr = &adev->mman.vram_mgr;
- 	struct ttm_resource_manager *man = &mgr->manager;
++	if (fbo->base.resource) {
++		ttm_resource_set_bo(fbo->base.resource, &fbo->base);
++		bo->resource = NULL;
++	}
++
+ 	dma_resv_init(&fbo->base.base._resv);
+ 	fbo->base.base.dev = NULL;
+ 	ret = dma_resv_trylock(&fbo->base.base._resv);
+@@ -510,7 +515,6 @@ static int ttm_bo_move_to_ghost(struct ttm_buffer_object *bo,
+ 		ghost_obj->ttm = NULL;
+ 	else
+ 		bo->ttm = NULL;
+-	bo->resource = NULL;
  
--	ttm_resource_manager_init(man, adev->gmc.real_vram_size >> PAGE_SHIFT);
-+	ttm_resource_manager_init(man, &adev->mman.bdev,
-+				  adev->gmc.real_vram_size >> PAGE_SHIFT);
- 
- 	man->func = &amdgpu_vram_mgr_func;
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index 34421174ed59..6adee64b2332 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -164,7 +164,7 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- 
- 		man->func = &nouveau_vram_manager;
- 
--		ttm_resource_manager_init(man,
-+		ttm_resource_manager_init(man, &drm->ttm.bdev,
- 					  drm->gem.vram_available >> PAGE_SHIFT);
- 		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
- 		ttm_resource_manager_set_used(man, true);
-@@ -211,7 +211,7 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
- 
- 	man->func = func;
- 	man->use_tt = true;
--	ttm_resource_manager_init(man, size_pages);
-+	ttm_resource_manager_init(man, &drm->ttm.bdev, size_pages);
- 	ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
- 	ttm_resource_manager_set_used(man, true);
+ 	dma_resv_unlock(&ghost_obj->base._resv);
+ 	ttm_bo_put(ghost_obj);
+@@ -638,7 +642,6 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+ 	dma_resv_unlock(&ghost->base._resv);
+ 	ttm_bo_put(ghost);
+ 	bo->ttm = ttm;
+-	bo->resource = NULL;
+ 	ttm_bo_assign_mem(bo, sys_res);
  	return 0;
-diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index 69962b5769c5..5c62cbb2a205 100644
---- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -156,7 +156,7 @@ int ttm_range_man_init(struct ttm_device *bdev,
  
- 	man->func = &ttm_range_manager_func;
- 
--	ttm_resource_manager_init(man, p_size);
-+	ttm_resource_manager_init(man, bdev, p_size);
- 
- 	drm_mm_init(&rman->mm, 0, p_size);
- 	spin_lock_init(&rman->lock);
 diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index 2e0db43ff99c..122f19e6968b 100644
+index 122f19e6968b..a4c495da0040 100644
 --- a/drivers/gpu/drm/ttm/ttm_resource.c
 +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -77,16 +77,19 @@ EXPORT_SYMBOL(ttm_resource_free);
+@@ -41,6 +41,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+ 	res->bus.offset = 0;
+ 	res->bus.is_iomem = false;
+ 	res->bus.caching = ttm_cached;
++	res->bo = bo;
+ }
+ EXPORT_SYMBOL(ttm_resource_init);
+ 
+@@ -73,6 +74,14 @@ void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res)
+ }
+ EXPORT_SYMBOL(ttm_resource_free);
+ 
++void ttm_resource_set_bo(struct ttm_resource *res,
++			 struct ttm_buffer_object *bo)
++{
++	spin_lock(&bo->bdev->lru_lock);
++	res->bo = bo;
++	spin_unlock(&bo->bdev->lru_lock);
++}
++
+ /**
   * ttm_resource_manager_init
   *
-  * @man: memory manager object to init
-+ * @bdev: ttm device this manager belongs to
-  * @p_size: size managed area in pages.
-  *
-  * Initialise core parts of a manager object.
-  */
- void ttm_resource_manager_init(struct ttm_resource_manager *man,
-+			       struct ttm_device *bdev,
- 			       unsigned long p_size)
- {
- 	unsigned i;
- 
- 	spin_lock_init(&man->move_lock);
-+	man->bdev = bdev;
- 	man->size = p_size;
- 
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
-diff --git a/drivers/gpu/drm/ttm/ttm_sys_manager.c b/drivers/gpu/drm/ttm/ttm_sys_manager.c
-index 135394dcca95..2ced169513cb 100644
---- a/drivers/gpu/drm/ttm/ttm_sys_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_sys_manager.c
-@@ -43,7 +43,7 @@ void ttm_sys_man_init(struct ttm_device *bdev)
- 	man->use_tt = true;
- 	man->func = &ttm_sys_manager_func;
- 
--	ttm_resource_manager_init(man, 0);
-+	ttm_resource_manager_init(man, bdev, 0);
- 	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, man);
- 	ttm_resource_manager_set_used(man, true);
- }
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-index bfd686bb8d19..4fe4eeb95bf3 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-@@ -150,7 +150,7 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
- 	man->func = &vmw_gmrid_manager_func;
- 	/* TODO: This is most likely not correct */
- 	man->use_tt = true;
--	ttm_resource_manager_init(man, 0);
-+	ttm_resource_manager_init(man, &dev_priv->bdev, 0);
- 	spin_lock_init(&gman->lock);
- 	gman->used_gmr_pages = 0;
- 	ida_init(&gman->gmr_ida);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-index 4fcbd94ccc11..b8cd89cd624c 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-@@ -135,7 +135,7 @@ int vmw_thp_init(struct vmw_private *dev_priv)
- 	if (!rman)
- 		return -ENOMEM;
- 
--	ttm_resource_manager_init(&rman->manager,
-+	ttm_resource_manager_init(&rman->manager, &dev_priv->bdev,
- 				  dev_priv->vram_size >> PAGE_SHIFT);
- 
- 	rman->manager.func = &vmw_thp_func;
 diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index dd6929f0c4f6..c004672789b6 100644
+index c004672789b6..e8080192cae4 100644
 --- a/include/drm/ttm/ttm_resource.h
 +++ b/include/drm/ttm/ttm_resource.h
-@@ -102,11 +102,9 @@ struct ttm_resource_manager_func {
-  * struct ttm_resource_manager
+@@ -160,6 +160,7 @@ struct ttm_bus_placement {
+  * @mem_type: Resource type of the allocation.
+  * @placement: Placement flags.
+  * @bus: Placement on io bus accessible to the CPU
++ * @bo: weak reference to the BO, protected by ttm_device::lru_lock
   *
-  * @use_type: The memory type is enabled.
-- * @flags: TTM_MEMTYPE_XX flags identifying the traits of the memory
-- * managed by this memory type.
-- * @gpu_offset: If used, the GPU offset of the first managed page of
-- * fixed memory or the first managed location in an aperture.
-+ * @use_tt: allocate TTM object for this resources
-  * @size: Size of the managed region.
-+ * @bdev: ttm device this manager belongs to
-  * @func: structure pointer implementing the range manager. See above
-  * @move_lock: lock for move fence
-  * static information. bdev::driver::io_mem_free is never used.
-@@ -121,6 +119,7 @@ struct ttm_resource_manager {
- 	 */
- 	bool use_type;
- 	bool use_tt;
-+	struct ttm_device *bdev;
- 	uint64_t size;
- 	const struct ttm_resource_manager_func *func;
- 	spinlock_t move_lock;
-@@ -271,6 +270,7 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+  * Structure indicating the placement and space resources used by a
+  * buffer object.
+@@ -170,6 +171,7 @@ struct ttm_resource {
+ 	uint32_t mem_type;
+ 	uint32_t placement;
+ 	struct ttm_bus_placement bus;
++	struct ttm_buffer_object *bo;
+ };
+ 
+ /**
+@@ -268,6 +270,8 @@ int ttm_resource_alloc(struct ttm_buffer_object *bo,
+ 		       const struct ttm_place *place,
+ 		       struct ttm_resource **res);
  void ttm_resource_free(struct ttm_buffer_object *bo, struct ttm_resource **res);
++void ttm_resource_set_bo(struct ttm_resource *res,
++			 struct ttm_buffer_object *bo);
  
  void ttm_resource_manager_init(struct ttm_resource_manager *man,
-+			       struct ttm_device *bdev,
- 			       unsigned long p_size);
- 
- int ttm_resource_manager_evict_all(struct ttm_device *bdev,
+ 			       struct ttm_device *bdev,
 -- 
 2.25.1
 
