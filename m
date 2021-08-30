@@ -2,39 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225C03FBD14
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 21:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027243FBD3C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 22:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B3B89E9B;
-	Mon, 30 Aug 2021 19:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00DC89C7F;
+	Mon, 30 Aug 2021 20:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17E2B89CA4;
- Mon, 30 Aug 2021 19:38:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="198577494"
-X-IronPort-AV: E=Sophos;i="5.84,364,1620716400"; d="scan'208";a="198577494"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2021 12:38:53 -0700
-X-IronPort-AV: E=Sophos;i="5.84,364,1620716400"; d="scan'208";a="540706049"
-Received: from unerlige-ril-10.jf.intel.com ([10.165.21.208])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2021 12:38:53 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: intel-gfx@lists.freedesktop.org,
- Lionel G Landwerlin <lionel.g.landwerlin@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, jason@jlekstrand.net
-Subject: [PATCH 8/8] drm/i915/perf: Map OA buffer to user space for gen12
- performance query
-Date: Mon, 30 Aug 2021 12:38:51 -0700
-Message-Id: <20210830193851.15607-9-umesh.nerlige.ramappa@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210830193851.15607-1-umesh.nerlige.ramappa@intel.com>
-References: <20210830193851.15607-1-umesh.nerlige.ramappa@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E36A689C7F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 20:00:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630353621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TclmamUQAg7Kq6o8IuapTdzVGFJV410iIkAqikExtck=;
+ b=J3YwNlUXdOH4kX0BhAedErLPqorCQhhAr+hIJyGBd8EmXKk/q5iCbyzGy7WC2hGtQ3lAGx
+ 8gO6mk6WitPZJyx6CY/wm1ahCvuZbu2UHBSDCNlLjKgKNw2qpPXnLZ5eNSUdPLMjuNcyX8
+ H43wKpCcjdHuAJjcICDcDXUuqG5fIaM=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-_X_sFbWfNByCAt2zIfeLXA-1; Mon, 30 Aug 2021 16:00:20 -0400
+X-MC-Unique: _X_sFbWfNByCAt2zIfeLXA-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ b24-20020ac86798000000b0029eaa8c35d6so717539qtp.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 13:00:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=TclmamUQAg7Kq6o8IuapTdzVGFJV410iIkAqikExtck=;
+ b=QOCNV02NCS+OPUWj1xD8KaPFrhNarhM8aRfZ755CRbMh32EHyMKkRoJYU6GS4A1Jdj
+ 9x117vEP8XpBV13o1aFLxkjJMTqEEWhPxzsVI3R8sMjISSLBsvhd/JGo5/mwkXIGNVuE
+ 0AEdiclVAFMhEw4WlxCxsN1nX9twhvve2qBYivfwTBmIR70N575v4A9SZHQRCbKDIjH9
+ XZDAMd/ZYL1F77OcNS0e3YTCm+mMhlQWqXCE0dz7mZLwmPQGNiCaPTt36/AeOwwpWcFk
+ ZA5VO4U86ljNzWJzGLhibeJgaY3vCA4Mn51uadFh7OFWpxAtws6rgZJ1AtV3W3RW7exs
+ v6Ww==
+X-Gm-Message-State: AOAM531ZFOd58+GoEmDcJtsB3kJaIyVgFsFFNBPJfH57ExylckWdryBx
+ bglktUpKnz/U4ApHxG4clzXyn+2anugvKh+SLl79Kfcqa01VVMtF5hn+Ctmy+61nGMxlyib+pRL
+ H3YY5Sf3SI8w99ldg93FfJ9VY00rz
+X-Received: by 2002:a37:6447:: with SMTP id y68mr23699479qkb.296.1630353620202; 
+ Mon, 30 Aug 2021 13:00:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydFi13FOuDGZdniWRzV4OwgUKdKZCE/V64t0fD6gyGqYBfla7yIlFmaAzmmif5JXxAaMiw2A==
+X-Received: by 2002:a37:6447:: with SMTP id y68mr23699460qkb.296.1630353619949; 
+ Mon, 30 Aug 2021 13:00:19 -0700 (PDT)
+Received: from [192.168.8.104] (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id v128sm12177119qkh.27.2021.08.30.13.00.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Aug 2021 13:00:19 -0700 (PDT)
+Message-ID: <373e528ab10df8d95214f3bf961281e516da8469.camel@redhat.com>
+Subject: Re: [PATCH 1/2] drm: Update MST First Link Slot Information Based
+ on Encoding Format
+From: Lyude Paul <lyude@redhat.com>
+To: Fangzhi Zuo <Jerry.Zuo@amd.com>, dri-devel@lists.freedesktop.org
+Cc: harry.wentland@amd.com, Nicholas.Kazlauskas@amd.com, wayne.lin@amd.com
+Date: Mon, 30 Aug 2021 16:00:18 -0400
+In-Reply-To: <20210827234322.2740301-2-Jerry.Zuo@amd.com>
+References: <20210827234322.2740301-1-Jerry.Zuo@amd.com>
+ <20210827234322.2740301-2-Jerry.Zuo@amd.com>
+Organization: Red Hat
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,348 +89,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i915 used to support time based sampling mode which is good for overall
-system monitoring, but is not enough for query mode used to measure a
-single draw call or dispatch. Gen9-Gen11 are using current i915 perf
-implementation for query, but Gen12+ requires a new approach for query
-based on triggered reports within oa buffer.
+On Fri, 2021-08-27 at 19:43 -0400, Fangzhi Zuo wrote:
+> 8b/10b encoding format requires to reserve the first slot for
+> recording metadata. Real data transmission starts from the second slot,
+> with a total of available 63 slots available.
+> 
+> In 128b/132b encoding format, metadata is transmitted separately
+> in LLCP packet before MTP. Real data transmission starts from
+> the first slot, with a total of 64 slots available.
+> 
+> Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 27 ++++++++++++++++++++-------
+>  include/drm/drm_dp_mst_helper.h       |  9 +++++++++
+>  2 files changed, 29 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 86d13d6bc463..30544801d2b8 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -3370,7 +3370,7 @@ int drm_dp_update_payload_part1(struct
+> drm_dp_mst_topology_mgr *mgr)
+>         struct drm_dp_payload req_payload;
+>         struct drm_dp_mst_port *port;
+>         int i, j;
+> -       int cur_slots = 1;
+> +       int cur_slots = mgr->start_slot;
+>         bool skip;
+>  
+>         mutex_lock(&mgr->payload_lock);
+> @@ -4323,7 +4323,7 @@ int drm_dp_find_vcpi_slots(struct
+> drm_dp_mst_topology_mgr *mgr,
+>         num_slots = DIV_ROUND_UP(pbn, mgr->pbn_div);
+>  
+>         /* max. time slots - one slot for MTP header */
+> -       if (num_slots > 63)
+> +       if (num_slots > mgr->total_avail_slots)
+>                 return -ENOSPC;
+>         return num_slots;
+>  }
+> @@ -4335,7 +4335,7 @@ static int drm_dp_init_vcpi(struct
+> drm_dp_mst_topology_mgr *mgr,
+>         int ret;
+>  
+>         /* max. time slots - one slot for MTP header */
+> -       if (slots > 63)
+> +       if (slots > mgr->total_avail_slots)
+>                 return -ENOSPC;
+>  
+>         vcpi->pbn = pbn;
+> @@ -4509,6 +4509,17 @@ int drm_dp_atomic_release_vcpi_slots(struct
+> drm_atomic_state *state,
+>  }
+>  EXPORT_SYMBOL(drm_dp_atomic_release_vcpi_slots);
+>  
+> +void drm_dp_mst_update_encoding_cap(struct drm_dp_mst_topology_mgr *mgr,
+> uint8_t link_encoding_cap)
+> +{
+> +       if (link_encoding_cap == DP_CAP_ANSI_128B132B) {
+> +               mgr->total_avail_slots = 64;
+> +               mgr->start_slot = 0;
+> +       }
+> +       DRM_DEBUG_KMS("%s encoding format determined\n",
+> +                     (link_encoding_cap == DP_CAP_ANSI_128B132B) ?
+> "128b/132b" : "8b/10b");
+> +}
+> +EXPORT_SYMBOL(drm_dp_mst_update_encoding_cap);
+> +
 
-Triggering reports into the OA buffer is achieved by writing into a
-a trigger register. Optionally an unused counter/register is set with a
-marker value such that a triggered report can be identified in the OA
-buffer. Reports are usually triggered at the start and end of work that
-is measured.
+This seems to be missing kdocs, can you fix that?
 
-Since OA buffer is large and queries can be frequent, an efficient way
-to look for triggered reports is required. By knowing the current head
-and tail offsets into the OA buffer, it is easier to determine the
-locality of the reports of interest.
+Also - I'm not convinced this is all of the work we have to do, as there's no
+locking taking place here in this function. If we're changing the number of
+available VCPI slots that we have, we need to be able to factor that into the
+atomic check logic which means that we can't rely on mgr->* for any kind of
+data that isn't guaranteed to remain consistent throughout the lifetime of the
+driver or topology. (Note that some of the old MST code didn't follow this
+logic, so I wouldn't be surprised if there's still exceptions to this we need
+to clean up).
 
-Current perf OA interface does not expose head/tail information to the
-user and it filters out invalid reports before sending data to user.
-Also considering limited size of user buffer used during a query,
-creating a 1:1 copy of the OA buffer at the user space added undesired
-complexity.
+Note that I still expect we'll have to keep some sort of track of the current
+total slot count in the topology mgr, but that should be reflecting the
+currently programmed state and not be relied on from our atomic check.
 
-The solution was to map the OA buffer to user space provided
+IMHO - the correct way we should go about adding support for this is to add
+something into drm_dp_mst_topology_state and integrate this into the atomic
+check helpers.
 
-(1) that it is accessed from a privileged user.
-(2) OA report filtering is not used.
+>  /**
+>   * drm_dp_mst_allocate_vcpi() - Allocate a virtual channel
+>   * @mgr: manager for this port
+> @@ -4540,8 +4551,8 @@ bool drm_dp_mst_allocate_vcpi(struct
+> drm_dp_mst_topology_mgr *mgr,
+>  
+>         ret = drm_dp_init_vcpi(mgr, &port->vcpi, pbn, slots);
+>         if (ret) {
+> -               drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=63
+> ret=%d\n",
+> -                           DIV_ROUND_UP(pbn, mgr->pbn_div), ret);
+> +               drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=%d
+> ret=%d\n",
+> +                           DIV_ROUND_UP(pbn, mgr->pbn_div), mgr-
+> >total_avail_slots, ret);
+>                 drm_dp_mst_topology_put_port(port);
+>                 goto out;
+>         }
+> @@ -5228,7 +5239,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct
+> drm_dp_mst_topology_mgr *mgr,
+>                                          struct drm_dp_mst_topology_state
+> *mst_state)
+>  {
+>         struct drm_dp_vcpi_allocation *vcpi;
+> -       int avail_slots = 63, payload_count = 0;
+> +       int avail_slots = mgr->total_avail_slots, payload_count = 0;
+>  
+>         list_for_each_entry(vcpi, &mst_state->vcpis, next) {
+>                 /* Releasing VCPI is always OK-even if the port is gone */
+> @@ -5257,7 +5268,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct
+> drm_dp_mst_topology_mgr *mgr,
+>                 }
+>         }
+>         drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p VCPI avail=%d
+> used=%d\n",
+> -                      mgr, mst_state, avail_slots, 63 - avail_slots);
+> +                      mgr, mst_state, avail_slots, mgr->total_avail_slots -
+> avail_slots);
+>  
+>         return 0;
+>  }
+> @@ -5529,6 +5540,8 @@ int drm_dp_mst_topology_mgr_init(struct
+> drm_dp_mst_topology_mgr *mgr,
+>         if (!mgr->proposed_vcpis)
+>                 return -ENOMEM;
+>         set_bit(0, &mgr->payload_mask);
+> +       mgr->total_avail_slots = 63;
+> +       mgr->start_slot = 1;
+>  
+>         mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
+>         if (mst_state == NULL)
+> diff --git a/include/drm/drm_dp_mst_helper.h
+> b/include/drm/drm_dp_mst_helper.h
+> index ddb9231d0309..eac5ce48f214 100644
+> --- a/include/drm/drm_dp_mst_helper.h
+> +++ b/include/drm/drm_dp_mst_helper.h
+> @@ -661,6 +661,15 @@ struct drm_dp_mst_topology_mgr {
+>          */
+>         int pbn_div;
+>  
+> +       /**
+> +        * @total_avail_slots: available slots for data transmission
+> +        */
+> +       u8 total_avail_slots;
+> +       /**
+> +        * @start_slot: first slot index for data transmission
+> +        */
+> +       u8 start_slot;
+> +
+>         /**
+>          * @funcs: Atomic helper callbacks
+>          */
 
-These 2 conditions would satisfy the safety criteria that the current
-perf interface addresses.
-
-To enable the query:
-- Add an ioctl to expose head and tail to the user
-- Add an ioctl to return size and offset of the OA buffer
-- Map the OA buffer to the user space
-
-v2:
-- Improve commit message (Chris)
-- Do not mmap based on gem object filp. Instead, use perf_fd and support
-  mmap syscall (Chris)
-- Pass non-zero offset in mmap to enforce the right object is
-  mapped (Chris)
-- Do not expose gpu_address (Chris)
-- Verify start and length of vma for page alignment (Lionel)
-- Move SQNTL config out (Lionel)
-
-v3: (Chris)
-- Omit redundant checks
-- Return VM_FAULT_SIGBUS is old stream is closed
-- Maintain reference counts to stream in vm_open and vm_close
-- Use switch to identify object to be mapped
-
-v4: Call kref_put on closing perf fd (Chris)
-v5:
-- Strip access to OA buffer from unprivileged child of a privileged
-  parent. Use VM_DONTCOPY
-- Enforce MAP_PRIVATE by checking for VM_MAYSHARE
-
-v6:
-(Chris)
-- Use len of -1 in unmap_mapping_range
-- Don't use stream->oa_buffer.vma->obj in vm_fault_oa
-- Use kernel block comment style
-- do_mmap gets a reference to the file and puts it in do_munmap, so
-  no need to maintain a reference to i915_perf_stream. Hence, remove
-  vm_open/vm_close and stream->closed hooks/checks.
-(Umesh)
-- Do not allow mmap if SAMPLE_OA_REPORT is not set during
-  i915_perf_open_ioctl.
-- Drop ioctl returning head/tail since this information is already
-  whitelisted. Remove hooks to read head register.
-
-v7: (Chris)
-- unmap before destroy
-- change ioctl argument struct
-
-v8: Documentation and more checks (Chris)
-v9: Fix comment style (Umesh)
-v10: Update uapi comment (Ashutosh)
-
-Signed-off-by: Piotr Maciejewski <piotr.maciejewski@intel.com>
-Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_mman.h |   2 +
- drivers/gpu/drm/i915/i915_perf.c         | 126 ++++++++++++++++++++++-
- include/uapi/drm/i915_drm.h              |  33 ++++++
- 4 files changed, 161 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index 5130e8ed9564..84cdce2ee447 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -213,7 +213,7 @@ compute_partial_view(const struct drm_i915_gem_object *obj,
- 	return view;
- }
- 
--static vm_fault_t i915_error_to_vmf_fault(int err)
-+vm_fault_t i915_error_to_vmf_fault(int err)
- {
- 	switch (err) {
- 	default:
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-index efee9e0d2508..1190a3a228ea 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-@@ -29,4 +29,6 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
- 
- void i915_gem_object_release_mmap_offset(struct drm_i915_gem_object *obj);
- 
-+vm_fault_t i915_error_to_vmf_fault(int err);
-+
- #endif
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index de3d1738aabe..1f8d4f3a2148 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -192,10 +192,12 @@
-  */
- 
- #include <linux/anon_inodes.h>
-+#include <linux/mman.h>
- #include <linux/sizes.h>
- #include <linux/uuid.h>
- 
- #include "gem/i915_gem_context.h"
-+#include "gem/i915_gem_mman.h"
- #include "gt/intel_engine_pm.h"
- #include "gt/intel_engine_user.h"
- #include "gt/intel_execlists_submission.h"
-@@ -3322,6 +3324,44 @@ static long i915_perf_config_locked(struct i915_perf_stream *stream,
- 	return ret;
- }
- 
-+#define I915_PERF_OA_BUFFER_MMAP_OFFSET 1
-+
-+/**
-+ * i915_perf_oa_buffer_info_locked - size and offset of the OA buffer
-+ * @stream: i915 perf stream
-+ * @cmd: ioctl command
-+ * @arg: pointer to oa buffer info filled by this function.
-+ */
-+static int i915_perf_oa_buffer_info_locked(struct i915_perf_stream *stream,
-+					   unsigned int cmd,
-+					   unsigned long arg)
-+{
-+	struct drm_i915_perf_oa_buffer_info info;
-+	void __user *output = (void __user *)arg;
-+
-+	if (i915_perf_stream_paranoid && !perfmon_capable()) {
-+		DRM_DEBUG("Insufficient privileges to access OA buffer info\n");
-+		return -EACCES;
-+	}
-+
-+	if (_IOC_SIZE(cmd) != sizeof(info))
-+		return -EINVAL;
-+
-+	if (copy_from_user(&info, output, sizeof(info)))
-+		return -EFAULT;
-+
-+	if (info.type || info.flags || info.rsvd)
-+		return -EINVAL;
-+
-+	info.size = stream->oa_buffer.vma->size;
-+	info.offset = I915_PERF_OA_BUFFER_MMAP_OFFSET * PAGE_SIZE;
-+
-+	if (copy_to_user(output, &info, sizeof(info)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
- /**
-  * i915_perf_ioctl_locked - support ioctl() usage with i915 perf stream FDs
-  * @stream: An i915 perf stream
-@@ -3347,6 +3387,8 @@ static long i915_perf_ioctl_locked(struct i915_perf_stream *stream,
- 		return 0;
- 	case I915_PERF_IOCTL_CONFIG:
- 		return i915_perf_config_locked(stream, arg);
-+	case I915_PERF_IOCTL_GET_OA_BUFFER_INFO:
-+		return i915_perf_oa_buffer_info_locked(stream, cmd, arg);
- 	}
- 
- 	return -EINVAL;
-@@ -3418,6 +3460,14 @@ static int i915_perf_release(struct inode *inode, struct file *file)
- 	struct i915_perf_stream *stream = file->private_data;
- 	struct i915_perf *perf = stream->perf;
- 
-+	/*
-+	 * User could have multiple vmas from multiple mmaps. We want to zap
-+	 * them all here. Note that a fresh fault cannot occur as the mmap holds
-+	 * a reference to the stream via the vma->vm_file, so before user's
-+	 * munmap, the stream cannot be destroyed.
-+	 */
-+	unmap_mapping_range(file->f_mapping, 0, -1, 1);
-+
- 	mutex_lock(&perf->lock);
- 	i915_perf_destroy_locked(stream);
- 	mutex_unlock(&perf->lock);
-@@ -3428,6 +3478,75 @@ static int i915_perf_release(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
-+static vm_fault_t vm_fault_oa(struct vm_fault *vmf)
-+{
-+	struct vm_area_struct *vma = vmf->vma;
-+	struct i915_perf_stream *stream = vma->vm_private_data;
-+	int err;
-+
-+	err = remap_io_sg(vma,
-+			  vma->vm_start, vma->vm_end - vma->vm_start,
-+			  stream->oa_buffer.vma->pages->sgl, -1);
-+
-+	return i915_error_to_vmf_fault(err);
-+}
-+
-+static const struct vm_operations_struct vm_ops_oa = {
-+	.fault = vm_fault_oa,
-+};
-+
-+static int i915_perf_mmap(struct file *file, struct vm_area_struct *vma)
-+{
-+	struct i915_perf_stream *stream = file->private_data;
-+
-+	/* mmap-ing OA buffer to user space MUST absolutely be privileged */
-+	if (i915_perf_stream_paranoid && !perfmon_capable()) {
-+		DRM_DEBUG("Insufficient privileges to map OA buffer\n");
-+		return -EACCES;
-+	}
-+
-+	switch (vma->vm_pgoff) {
-+	/*
-+	 * A non-zero offset ensures that we are mapping the right object. Also
-+	 * leaves room for future objects added to this implementation.
-+	 */
-+	case I915_PERF_OA_BUFFER_MMAP_OFFSET:
-+		if (!(stream->sample_flags & SAMPLE_OA_REPORT))
-+			return -EINVAL;
-+
-+		if (vma->vm_end - vma->vm_start > stream->oa_buffer.vma->size)
-+			return -EINVAL;
-+
-+		/*
-+		 * Only support VM_READ. Enforce MAP_PRIVATE by checking for
-+		 * VM_MAYSHARE.
-+		 */
-+		if (vma->vm_flags & (VM_WRITE | VM_EXEC |
-+				     VM_SHARED | VM_MAYSHARE))
-+			return -EINVAL;
-+
-+		vma->vm_flags &= ~(VM_MAYWRITE | VM_MAYEXEC);
-+
-+		/*
-+		 * If the privileged parent forks and child drops root
-+		 * privilege, we do not want the child to retain access to the
-+		 * mapped OA buffer. Explicitly set VM_DONTCOPY to avoid such
-+		 * cases.
-+		 */
-+		vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND |
-+				 VM_DONTDUMP | VM_DONTCOPY;
-+		break;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-+	vma->vm_private_data = stream;
-+	vma->vm_ops = &vm_ops_oa;
-+
-+	return 0;
-+}
- 
- static const struct file_operations fops = {
- 	.owner		= THIS_MODULE,
-@@ -3440,6 +3559,7 @@ static const struct file_operations fops = {
- 	 * to handle 32bits compatibility.
- 	 */
- 	.compat_ioctl   = i915_perf_ioctl,
-+	.mmap		= i915_perf_mmap,
- };
- 
- 
-@@ -4639,8 +4759,12 @@ int i915_perf_ioctl_version(void)
- 	 *
- 	 *    - OA buffer head/tail/status/buffer registers for read only
- 	 *    - OA counters A18, A19, A20 for read/write
-+	 *
-+	 * 8: Added an option to map oa buffer at umd driver level and trigger
-+	 *    oa reports within oa buffer from command buffer. See
-+	 *    I915_PERF_IOCTL_GET_OA_BUFFER_INFO.
- 	 */
--	return 7;
-+	return 8;
- }
- 
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index bde5860b3686..2c17fe845604 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -2417,6 +2417,39 @@ struct drm_i915_perf_open_param {
-  */
- #define I915_PERF_IOCTL_CONFIG	_IO('i', 0x2)
- 
-+/*
-+ * Returns OA buffer properties to be used with mmap.
-+ *
-+ * This ioctl is available in perf revision 8.
-+ */
-+#define I915_PERF_IOCTL_GET_OA_BUFFER_INFO _IOWR('i', 0x3, struct drm_i915_perf_oa_buffer_info)
-+
-+/*
-+ * OA buffer size and offset.
-+ *
-+ * OA output buffer
-+ *   type: 0
-+ *   flags: mbz
-+ *
-+ *   After querying the info, pass (size,offset) to mmap(),
-+ *
-+ *   mmap(0, info.size, PROT_READ, MAP_PRIVATE, perf_fd, info.offset).
-+ *
-+ *   Note that only a private (not shared between processes, or across fork())
-+ *   read-only mmapping is allowed.
-+ *
-+ *   HW is continually writing data to the mapped  OA buffer and it conforms to
-+ *   the OA format as specified by user config. The buffer provides reports that
-+ *   have OA counters - A, B and C.
-+ */
-+struct drm_i915_perf_oa_buffer_info {
-+	__u32 type;   /* in */
-+	__u32 flags;  /* in */
-+	__u64 size;   /* out */
-+	__u64 offset; /* out */
-+	__u64 rsvd;   /* mbz */
-+};
-+
- /*
-  * Common to all i915 perf records
-  */
 -- 
-2.20.1
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
