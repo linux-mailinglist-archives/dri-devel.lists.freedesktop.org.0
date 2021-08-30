@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AE63FBC57
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 20:25:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4693FBC5C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 20:25:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5564389C49;
-	Mon, 30 Aug 2021 18:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F85589C3F;
+	Mon, 30 Aug 2021 18:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13B8589E39
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 18:24:58 +0000 (UTC)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37C6889E65
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 18:24:59 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 6A85A3E7B2;
- Mon, 30 Aug 2021 20:24:55 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8115B3E83E;
+ Mon, 30 Aug 2021 20:24:56 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
  linux-arm-msm@vger.kernel.org
@@ -39,11 +39,11 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht,
  Jonathan Marek <jonathan@marek.ca>, Matthias Kaehlcke <mka@chromium.org>,
  Douglas Anderson <dianders@chromium.org>, linux-clk@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
-Subject: [PATCH v2 1/2] drm/msm/dsi: Use "ref" fw clock instead of global name
- for VCO parent
-Date: Mon, 30 Aug 2021 20:24:44 +0200
-Message-Id: <20210830182445.167527-2-marijn.suijten@somainline.org>
+ freedreno@lists.freedesktop.org
+Subject: [PATCH v2 2/2] clk: qcom: gcc-sdm660: Remove transient global "xo"
+ clock
+Date: Mon, 30 Aug 2021 20:24:45 +0200
+Message-Id: <20210830182445.167527-3-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210830182445.167527-1-marijn.suijten@somainline.org>
 References: <20210830182445.167527-1-marijn.suijten@somainline.org>
@@ -64,115 +64,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All DSI PHY/PLL drivers were referencing their VCO parent clock by a
-global name, most of which don't exist or have been renamed.  These
-clock drivers seem to function fine without that except the 14nm driver
-for the sdm6xx [1].
+The DSI PHY/PLL was relying on a global "xo" clock to be found, but the
+real clock is named "xo_board" in the DT.  The standard nowadays is to
+never use global clock names anymore but require the firmware (DT) to
+provide every clock binding explicitly with .fw_name.  The DSI PLLs have
+since been converted to this mechanism (specifically 14nm for SDM660)
+and this transient clock can now be removed.
 
-At the same time all DTs provide a "ref" clock as per the requirements
-of dsi-phy-common.yaml, but the clock is never used.  This patchset puts
-that clock to use without relying on a global clock name, so that all
-dependencies are explicitly defined in DT (the firmware) in the end.
+This issue was originally discovered in:
+https://lore.kernel.org/linux-arm-msm/386db1a6-a1cd-3c7d-a88e-dc83f8a1be96@somainline.org/
+and prevented the removal of "xo" at that time.
 
-Note that msm8974 is the only board not providing this clock, and
-apq8064 was providing the wrong clock (19.2MHz cxo instead of 27MHz
-pxo).  Both have been been addressed in separate patches that are
-supposed to land well in advance of this patchset.
-
-Furthermore not all board-DTs provided this clock initially but that
-deficiency has been addressed in followup patches (see the Fixes:
-below).  Those commits seem to assume that the clock was used, while
-nothing in history indicates that this "ref" clock was ever retrieved.
-
-[1]: https://lore.kernel.org/linux-arm-msm/386db1a6-a1cd-3c7d-a88e-dc83f8a1be96@somainline.org/
-
-Fixes: 79e51645a1dd ("arm64: dts: qcom: msm8916: Set 'xo_board' as ref clock of the DSI PHY")
-Fixes: 6969d1d9c615 ("ARM: dts: qcom-apq8064: Set 'cxo_board' as ref clock of the DSI PHY")
-Fixes: 0c0e72705a33 ("arm64: dts: sdm845: Set 'bi_tcxo' as ref clock of the DSI PHYs")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      | 4 +++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      | 4 +++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      | 4 +++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 4 +++-
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       | 4 +++-
- 5 files changed, 15 insertions(+), 5 deletions(-)
+ drivers/clk/qcom/gcc-sdm660.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-index e46b10fc793a..3cbb1f1475e8 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-@@ -562,7 +562,9 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
- 	char clk_name[32], parent[32], vco_name[32];
- 	char parent2[32], parent3[32], parent4[32];
- 	struct clk_init_data vco_init = {
--		.parent_names = (const char *[]){ "xo" },
-+		.parent_data = &(const struct clk_parent_data) {
-+			.fw_name = "ref",
-+		},
- 		.num_parents = 1,
- 		.name = vco_name,
- 		.flags = CLK_IGNORE_UNUSED,
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-index bb31230721bd..406470265408 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-@@ -804,7 +804,9 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
- {
- 	char clk_name[32], parent[32], vco_name[32];
- 	struct clk_init_data vco_init = {
--		.parent_names = (const char *[]){ "xo" },
-+		.parent_data = &(const struct clk_parent_data) {
-+			.fw_name = "ref",
-+		},
- 		.num_parents = 1,
- 		.name = vco_name,
- 		.flags = CLK_IGNORE_UNUSED,
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-index 2da673a2add6..8ee9c9c0548d 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-@@ -521,7 +521,9 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- {
- 	char clk_name[32], parent1[32], parent2[32], vco_name[32];
- 	struct clk_init_data vco_init = {
--		.parent_names = (const char *[]){ "xo" },
-+		.parent_data = &(const struct clk_parent_data) {
-+			.fw_name = "ref",
-+		},
- 		.num_parents = 1,
- 		.name = vco_name,
- 		.flags = CLK_IGNORE_UNUSED,
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-index aaa37456f4ee..9662cb236468 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-@@ -385,7 +385,9 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- {
- 	char *clk_name, *parent_name, *vco_name;
- 	struct clk_init_data vco_init = {
--		.parent_names = (const char *[]){ "pxo" },
-+		.parent_data = &(const struct clk_parent_data) {
-+			.fw_name = "ref",
-+		},
- 		.num_parents = 1,
- 		.flags = CLK_IGNORE_UNUSED,
- 		.ops = &clk_ops_dsi_pll_28nm_vco,
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-index 7c23d4c47338..c77c30628cca 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-@@ -590,7 +590,9 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 	char clk_name[32], parent[32], vco_name[32];
- 	char parent2[32], parent3[32], parent4[32];
- 	struct clk_init_data vco_init = {
--		.parent_names = (const char *[]){ "bi_tcxo" },
-+		.parent_data = &(const struct clk_parent_data) {
-+			.fw_name = "ref",
-+		},
- 		.num_parents = 1,
- 		.name = vco_name,
- 		.flags = CLK_IGNORE_UNUSED,
+diff --git a/drivers/clk/qcom/gcc-sdm660.c b/drivers/clk/qcom/gcc-sdm660.c
+index 9b97425008ce..16fd16351f95 100644
+--- a/drivers/clk/qcom/gcc-sdm660.c
++++ b/drivers/clk/qcom/gcc-sdm660.c
+@@ -37,19 +37,6 @@ enum {
+ 	P_GPLL1_EARLY_DIV,
+ };
+ 
+-static struct clk_fixed_factor xo = {
+-	.mult = 1,
+-	.div = 1,
+-	.hw.init = &(struct clk_init_data){
+-		.name = "xo",
+-		.parent_data = &(const struct clk_parent_data) {
+-			.fw_name = "xo"
+-		},
+-		.num_parents = 1,
+-		.ops = &clk_fixed_factor_ops,
+-	},
+-};
+-
+ static struct clk_alpha_pll gpll0_early = {
+ 	.offset = 0x0,
+ 	.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_DEFAULT],
+@@ -2281,7 +2268,6 @@ static struct gdsc pcie_0_gdsc = {
+ };
+ 
+ static struct clk_hw *gcc_sdm660_hws[] = {
+-	&xo.hw,
+ 	&gpll0_early_div.hw,
+ 	&gpll1_early_div.hw,
+ };
 -- 
 2.33.0
 
