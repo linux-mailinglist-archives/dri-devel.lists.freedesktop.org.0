@@ -1,43 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F14A3FB8CF
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 17:11:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 153C03FB960
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 17:56:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACC9892B7;
-	Mon, 30 Aug 2021 15:11:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D931898CC;
+	Mon, 30 Aug 2021 15:56:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400E889138;
- Mon, 30 Aug 2021 15:11:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="240528934"
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="240528934"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2021 08:11:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="445756975"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga002.jf.intel.com with SMTP; 30 Aug 2021 08:10:59 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 30 Aug 2021 18:10:58 +0300
-Date: Mon, 30 Aug 2021 18:10:58 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/5] drm/edid: parse the DisplayID v2.0 VESA vendor block
- for MSO
-Message-ID: <YSz1AhsVUc7m3Ng7@intel.com>
-References: <cover.1630319138.git.jani.nikula@intel.com>
- <09f57d55813f916578d1dd1e28bee3a621068bdd.1630319138.git.jani.nikula@intel.com>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCFF1898CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 15:56:17 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1630338980; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=U10YrBfczfj2F0eAJkorX2N74cH0fDyM7HdEotnpp4w=;
+ b=GICsiM44pNtuVwH7tm8WL2Ja1HG2RYkGMpo6ZXlb+PV7OG1kDL0BOFP8yD5Uf+/whHRX/qQ5
+ jF+mT2OpXOQIqXcGxoyYXH8LxYqdvuSwLcOZy7QhrGOKqSTDIu5c6lfss/J79hKpuR8uYKM1
+ QIAaJMGiHBE28+hTH360RUiPTUw=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 612cff934d644b7d1c20dd0b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 30 Aug 2021 15:56:03
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 68534C4361A; Mon, 30 Aug 2021 15:56:03 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 48AA7C43460;
+ Mon, 30 Aug 2021 15:56:02 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <09f57d55813f916578d1dd1e28bee3a621068bdd.1630319138.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+Date: Mon, 30 Aug 2021 08:56:02 -0700
+From: khsieh@codeaurora.org
+To: Lyude Paul <lyude@redhat.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org, abhinavk@codeaurora.org,
+ aravindh@codeaurora.org, rsubbia@codeaurora.org, rnayak@codeaurora.org,
+ freedreno@lists.freedesktop.org, airlied@linux.ie, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drm/dp_mst: Fix return code on sideband message failure
+In-Reply-To: <88b5fbe60c95bcdf42353bec9f8c48aefa864a31.camel@redhat.com>
+References: <1625585434-9562-1-git-send-email-khsieh@codeaurora.org>
+ <87zguy7c5a.fsf@intel.com> <a514c19f712a6feeddf854dc17cb8eb5@codeaurora.org>
+ <2da3949fa3504592da42c9d01dc060691c6a8b8b.camel@redhat.com>
+ <d9ec812b4be57e32246735ca2f5e9560@codeaurora.org>
+ <79c5a60fc189261b7a9ef611acd126a41f921593.camel@redhat.com>
+ <696a009e2ab34747abd12bda03c103c7@codeaurora.org>
+ <e725235a77935184cd20dab5af55da95b28d9e88.camel@redhat.com>
+ <64049ef6c598910c1025e0e5802bb83e@codeaurora.org>
+ <88b5fbe60c95bcdf42353bec9f8c48aefa864a31.camel@redhat.com>
+Message-ID: <f0fcfe7a73e87150a7a1f042269b76a3@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,188 +82,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 30, 2021 at 01:29:01PM +0300, Jani Nikula wrote:
-> The VESA Organization Vendor-Specific Data Block, defined in VESA
-> DisplayID Standard v2.0, specifies the eDP Multi-SST Operation (MSO)
-> stream count and segment pixel overlap.
-> 
-> DisplayID v1.3 has Appendix B: DisplayID as an EDID Extension,
-> describing how DisplayID sections may be embedded in EDID extension
-> blocks. DisplayID v2.0 does not have such a section, perhaps implying
-> that DisplayID v2.0 data should not be included in EDID extensions, but
-> rather in a "pure" DisplayID structure at its own DDC address pair
-> A4h/A5h, as described in VESA E-DDC Standard v1.3 chapter 3.
-> 
-> However, in practice, displays out in the field have embedded DisplayID
-> v2.0 data blocks in EDID extensions, including, in particular, some eDP
-> MSO displays, where a pure DisplayID structure is not available at all.
-> 
-> Parse the MSO data from the DisplayID data block. Do it as part of
-> drm_add_display_info(), extending it to parse also DisplayID data to
-> avoid requiring extra calls to update the information.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c  | 63 +++++++++++++++++++++++++++++++++++++
->  include/drm/drm_connector.h | 12 +++++++
->  include/drm/drm_displayid.h | 11 +++++++
->  3 files changed, 86 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 6325877c5fd6..7e8083068f3f 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -28,6 +28,7 @@
->   * DEALINGS IN THE SOFTWARE.
->   */
->  
-> +#include <linux/bitfield.h>
->  #include <linux/hdmi.h>
->  #include <linux/i2c.h>
->  #include <linux/kernel.h>
-> @@ -5148,6 +5149,62 @@ void drm_get_monitor_range(struct drm_connector *connector,
->  		      info->monitor_range.max_vfreq);
->  }
->  
-> +static void drm_parse_vesa_mso_data(struct drm_connector *connector,
-> +				    const struct displayid_block *block)
-> +{
-> +	struct displayid_vesa_vendor_specific_block *vesa =
-> +		(struct displayid_vesa_vendor_specific_block *)block;
-> +	struct drm_display_info *info = &connector->display_info;
-> +
-> +	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
-> +		drm_dbg_kms(connector->dev, "Unexpected VESA vendor block size\n");
-> +		return;
-> +	}
-> +
-> +	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
-> +	default:
-> +		drm_dbg_kms(connector->dev, "Reserved MSO mode value\n");
-> +		fallthrough;
-> +	case 0:
-> +		info->mso_stream_count = 0;
-> +		break;
-> +	case 1:
-> +		info->mso_stream_count = 2; /* 2 or 4 links */
-> +		break;
-> +	case 2:
-> +		info->mso_stream_count = 4; /* 4 links */
-> +		break;
-> +	}
-> +
-> +	if (!info->mso_stream_count) {
-> +		info->mso_pixel_overlap = 0;
-> +		return;
-> +	}
-> +
-> +	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
-> +	if (info->mso_pixel_overlap > 8) {
-> +		drm_dbg_kms(connector->dev, "Reserved MSO pixel overlap value %u\n",
-> +			    info->mso_pixel_overlap);
-> +		info->mso_pixel_overlap = 8;
-> +	}
-> +
-> +	drm_dbg_kms(connector->dev, "MSO stream count %u, pixel overlap %u\n",
-> +		    info->mso_stream_count, info->mso_pixel_overlap);
-> +}
-> +
-> +static void drm_update_mso(struct drm_connector *connector, const struct edid *edid)
-> +{
-> +	const struct displayid_block *block;
-> +	struct displayid_iter iter;
-> +
-> +	displayid_iter_edid_begin(edid, &iter);
-> +	displayid_iter_for_each(block, &iter) {
-> +		if (block->tag == DATA_BLOCK_2_VENDOR_SPECIFIC)
+On 2021-08-25 09:26, Lyude Paul wrote:
+> The patch was pushed yes (was part of drm-misc-next-2021-07-29), seems 
+> like it
+> just hasn't trickled down to linus's branch quite yet.
 
-Don't we need to check the OUI to make sure the block is the right
-type? I don't have the v2 spec at hand atm, but I presume a vendor
-specific block could contain all kinds of different things?
+Hi Stephen B,
 
-> +			drm_parse_vesa_mso_data(connector, block);
-> +	}
-> +	displayid_iter_end(&iter);
-> +}
-> +
->  /* A connector has no EDID information, so we've got no EDID to compute quirks from. Reset
->   * all of the values which would have been set from EDID
->   */
-> @@ -5171,6 +5228,9 @@ drm_reset_display_info(struct drm_connector *connector)
->  
->  	info->non_desktop = 0;
->  	memset(&info->monitor_range, 0, sizeof(info->monitor_range));
-> +
-> +	info->mso_stream_count = 0;
-> +	info->mso_pixel_overlap = 0;
->  }
->  
->  u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
-> @@ -5249,6 +5309,9 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
->  		info->color_formats |= DRM_COLOR_FORMAT_YCRCB444;
->  	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
->  		info->color_formats |= DRM_COLOR_FORMAT_YCRCB422;
-> +
-> +	drm_update_mso(connector, edid);
-> +
->  	return quirks;
->  }
->  
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 79fa34e5ccdb..379746d3266f 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -590,6 +590,18 @@ struct drm_display_info {
->  	 * @monitor_range: Frequency range supported by monitor range descriptor
->  	 */
->  	struct drm_monitor_range_info monitor_range;
-> +
-> +	/**
-> +	 * @mso_stream_count: eDP Multi-SST Operation (MSO) stream count from
-> +	 * the DisplayID VESA vendor block. 0 for conventional Single-Stream
-> +	 * Transport (SST), or 2 or 4 MSO streams.
-> +	 */
-> +	u8 mso_stream_count;
-> +
-> +	/**
-> +	 * @mso_pixel_overlap: eDP MSO segment pixel overlap, 0-8 pixels.
-> +	 */
-> +	u8 mso_pixel_overlap;
->  };
->  
->  int drm_display_info_set_bus_formats(struct drm_display_info *info,
-> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-> index 79771091771a..b18611e016a2 100644
-> --- a/include/drm/drm_displayid.h
-> +++ b/include/drm/drm_displayid.h
-> @@ -23,6 +23,7 @@
->  #define DRM_DISPLAYID_H
->  
->  #include <linux/types.h>
-> +#include <linux/bits.h>
->  
->  struct edid;
->  
-> @@ -126,6 +127,16 @@ struct displayid_detailed_timing_block {
->  	struct displayid_detailed_timings_1 timings[];
->  };
->  
-> +#define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
-> +#define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
-> +
-> +struct displayid_vesa_vendor_specific_block {
-> +	struct displayid_block base;
-> +	u8 oui[3];
-> +	u8 data_structure_type;
-> +	u8 mso;
-> +} __packed;
-> +
->  /* DisplayID iteration */
->  struct displayid_iter {
->  	const struct edid *edid;
-> -- 
-> 2.20.1
+Would you mind back porting this patch to V5.10 branch?
+It will have lots of helps for us to support display port MST case.
+Thanks,
 
--- 
-Ville Syrjälä
-Intel
+
+
+> 
+> On Wed, 2021-08-25 at 09:06 -0700, khsieh@codeaurora.org wrote:
+>> On 2021-07-27 15:44, Lyude Paul wrote:
+>> > Nice timing, you literally got me as I was 2 minutes away from leaving
+>> > work
+>> > for the day :P. I will go ahead and push it now.
+>> >
+>> Hi Lyude,
+>> 
+>> Had you pushed this patch yet?
+>> We still did not see this patch at msm-nex and v5.10 branch.
+>> Thanks,
+>> 
+>> 
+>> > BTW - in the future I recommend using dim to add Fixes: tags as it'll
+>> > add Cc:
+>> > to stable as appropriate (this patch in particular should be Cc:
+>> > stable@vger.kernel.orgÂ # v5.3+). will add these tags when I push it
+>> >
+>> > On Tue, 2021-07-27 at 15:41 -0700, khsieh@codeaurora.orgÂ wrote:
+>> > > On 2021-07-27 12:21, Lyude Paul wrote:
+>> > > > On Thu, 2021-07-22 at 15:28 -0700, khsieh@codeaurora.orgÂ wrote:
+>> > > > >
+>> > > > > It looks like this patch is good to go (mainlined).
+>> > > > > Anything needed from me to do?
+>> > > > > Thanks,
+>> > > >
+>> > > > Do you have access for pushing this patch? If not let me know and I
+>> > > > can
+>> > > > go
+>> > > > ahead and push it to drm-misc-next for you.
+>> > > no, I do not have access to drm-misc-next.
+>> > > Please push it for me.
+>> > > Thanks a lots.
+>> > >
+>> 
