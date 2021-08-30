@@ -1,123 +1,169 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CB33FB671
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 14:51:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 166023FB69E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 15:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21EE8999C;
-	Mon, 30 Aug 2021 12:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7E489A1F;
+	Mon, 30 Aug 2021 13:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2071.outbound.protection.outlook.com [40.107.236.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6712E89781;
- Mon, 30 Aug 2021 12:51:28 +0000 (UTC)
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F85F89A1F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 13:00:41 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17UBO0N8014293; 
+ Mon, 30 Aug 2021 13:00:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=bcjPxZS3sqBxi2fZB94p+SGJNUBKQEzkPc1CM21Krvw=;
+ b=vM+uf0XQno/aCWaDEpltyE8BQthdtCK141YJdlR/LOGoxdG7gJukk0sX0LcwDwziNQ7q
+ gRkl4g84sp5gqCFiTelnbbLJofwehbMbJ/MKhHJlsTafoZXYhomEbmeX/IF21k/RO3SJ
+ YBQaXnrDPz0wsN6Q+t/1hyIv28QbEFVaWag0/ZjwTjFzRzRgnTSu3pCb3Dp/HsNNhDab
+ MSSx4MpSEV2qeUurN6x/8ZMQ6gN+MIeRz7LdJwl4yZFGOk4P4Tjs7dirP3uNu1/BgcaO
+ lITqjhxOUWQisczk9PQr1jzmkzPjSAj8Y2+Z/Wb5DQfIGQCtkOEjNJW6Xnoo/zCkagmG 6g== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=bcjPxZS3sqBxi2fZB94p+SGJNUBKQEzkPc1CM21Krvw=;
+ b=scm6TmON1aPyMKBI1JOsZbQnx+7P9hxAvdA9Vck988oDyq5oA3KG9SS5fueQSKHKCoUc
+ 6h6Q5JjBYy6ga45UL9kRNkSNF5XLZ0FfTPm8vmeL/oxYWOD2rTtygD15pzUzxhUtuPhU
+ zsbUlBW2pz4NV8LWFwontf7uHTCvJ7udwOhKHIcoAanxic7qr0zKf9a6VlGN/MvOBeRk
+ pmYXX32MhhjTm/0NDMalp0ysIqZ+5+g7IRVXiRvq2A3KG0aZKlrM/AosROU0f66HgD5B
+ 7QxG4EMe19mDoxKQY1/FiwbDJj+P81DtOouHDMNoTmqUqYNpZhzB+oY4U6T9ifQd/vti sA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3arbymhemt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 30 Aug 2021 13:00:26 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17UCuAxE016761;
+ Mon, 30 Aug 2021 13:00:24 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2103.outbound.protection.outlook.com [104.47.55.103])
+ by userp3030.oracle.com with ESMTP id 3arpf29frk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 30 Aug 2021 13:00:23 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B54aHuBZKn1hnuzWiSPtsTT8gI6zd3LkengwKTXUUiq4QO9mwnYfs10X2rUIenlWVWNgB1zeip5PPfdc0ia9MysyaD5i9oJhvQgqZCL6yt4Eo+3iLGpzShRyIGeCtwObBnBO7wt6xIkFVlC9ThUpymjO1oRk1jqUQWCkH3iSXJ0yaOnmN60hcjj8/Gd52ZJ/AkszAtKIaGf5+niFGUIx0alRk1Wms87S2HEjH0q1uNqLAIUpDHy9v4xGswRQ0FZkbswRmata9N9BI/7iUw2nvl4wyB0QXhIINv7OzTN3JbszUGEEAdjeWJbEaEcxe/YkDufmFQxynvFQu5f3pakwpA==
+ b=Doc5Jp4sd1wb/mQR9h6Q41TKX4fkchDxX1+++hdXvP/cvkkJZYqGQLvsOtmZxb/quUXAbewlOTXirwLSHwLF66S9OJKiCq31VtXFaIwuloc71EPOfXJeQro3lL5bTLuEy1+YPVFtv5TY8r/4aRJfHrQbaKYhzii/bSBSFn05hMU8wGOFNZmLsg7gDjp2umQH/pxQ2EOk941p78qRhiS0r3k8hIikrEbLenpSIJPD9MZLeNVKVXuv+FbLl6aXl0O41EWYY0ICRP3MlvoQAyJLNRpG6pNc6pWPaf/MfMflXeWJ4pcFpeyvzxy5yFu9IvF96T0JT5TGmZ+FUGOmYfetPQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BliR+zj9oI09U4HUdp4ZWQ7xAhHzeGdgC+2pneqkR+M=;
- b=bczzkkJ1YXV23yv4EGchW0kN3Rz6P3zmwmtEAzzYPOL8jGQrB8WjzClRSxD8lthCu58DYl0ph/481GoaT3xalBztgUCLCWsgm7UPYhdvJ5Cr1/XTrKfqTHSO1wSJTt3txG2ktbQ/eWKVYARRTMEa/k9wOwOc1gDuvx3UhEzUxogwMuTC1RuKZ4AWJtq/9TxzUiZxxoRZDeHWjrWS8PxetVqya24ODrR377osNeIFz8yP00IC69TbntKmUEoDgixSMAW6nAaSJkT4SMwTcKTAiFgIGWOEaTKwrPV8ZmmDyNdjkYmeXvGmm+SIk7u8w8YW8oRqVDkKnjOGo1ezlUEz9Q==
+ bh=bcjPxZS3sqBxi2fZB94p+SGJNUBKQEzkPc1CM21Krvw=;
+ b=A0n81nQhOSzIce0NGQB1gm7HkDYi+IvDQyCbp1MpwLgfuv8P2VPT6CIhQ80bc5EAMWBcAdZjS6tyc3AkgGanC/BtPantxVwJK6DTp+3U1EFE7eceqOc0STdg8d6MaN99PURiGF7sFwPZLffCDab64XSBD4SII9pDhGDt1GHsEBwXh6FCOAu0cxLIBgKdaj8Ltw/ELJ6dOKqcih9ygNdexWnE7Anfs8ywAdaR58DaeFiIbXSuuc/PUgXHJINNg8eQP/CoLdZoeq3bC/XaZxIwDvgD9nQnulv3utUH1UnLx84AaMd6vygFoeio8LWjzkYliL2vx7VnrAuKZGyaMxcqCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BliR+zj9oI09U4HUdp4ZWQ7xAhHzeGdgC+2pneqkR+M=;
- b=gx5EYxNjqhD/10pADoh0q4KXuTducXALJRf/I+5msxBC3LqyGcez2BbMp9ABPcD4/IsmcyQcgbh/pvymBLj18hgMxwQrEpsMJvn4Peplfz1bHvHvPQH8amY2wSqPNaCLC1nk4nNyzGhfh8S8iEtSpDQl0UwATiKctOZJYBx2ksY=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4111.namprd12.prod.outlook.com (2603:10b6:208:1de::22)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=bcjPxZS3sqBxi2fZB94p+SGJNUBKQEzkPc1CM21Krvw=;
+ b=NSQc8aBe0+sOK9I4VphFOlA7BnsBKQrjh01dtdJQMEzxRdER+elBvxNuOcWfmMoPnbmOLsUL5kFTV+5/pQCCEgcfykXv2eX632gPP5zpMHIdO9wPuVmj3BtSRsrppuAxPEv7GjoLfLRiMuKM6X1/HLPKjoisv/ziBC1agtio46o=
+Authentication-Results: linux-m68k.org; dkim=none (message not signed)
+ header.d=none;linux-m68k.org; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR1001MB2318.namprd10.prod.outlook.com
+ (2603:10b6:301:2f::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Mon, 30 Aug
- 2021 12:51:26 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4457.024; Mon, 30 Aug 2021
- 12:51:26 +0000
-Subject: Re: [PATCH] drm/radeon: Make use of the helper macro
- SET_RUNTIME_PM_OPS()
-To: Cai Huoqing <caihuoqing@baidu.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210828085052.756-1-caihuoqing@baidu.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <18719622-d60a-c73a-512d-defbf182d3d7@amd.com>
-Date: Mon, 30 Aug 2021 14:51:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210828085052.756-1-caihuoqing@baidu.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM9P195CA0009.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:21f::14) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ 2021 13:00:20 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4457.024; Mon, 30 Aug 2021
+ 13:00:20 +0000
+Date: Mon, 30 Aug 2021 16:00:00 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Colin King <colin.king@canonical.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] BUG: unable to handle kernel paging request in
+ vga16fb_fillrect
+Message-ID: <20210830130000.GW7722@kadam>
+References: <000000000000815b9605c70e74f8@google.com>
+ <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
+ <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
+ <CAMuHMdV=xVhEHLEoYt3OF+kmGrLOr6t7SP1sghSmp9JqXD+3Og@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV=xVhEHLEoYt3OF+kmGrLOr6t7SP1sghSmp9JqXD+3Og@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0004.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::16)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.178.21] (91.14.161.181) by
- AM9P195CA0009.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.18 via Frontend Transport; Mon, 30 Aug 2021 12:51:24 +0000
+Received: from kadam (62.8.83.99) by JNXP275CA0004.ZAFP275.PROD.OUTLOOK.COM
+ (2603:1086:0:19::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20 via Frontend
+ Transport; Mon, 30 Aug 2021 13:00:14 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65dc43bb-6c0b-4a3b-d0b9-08d96bb4e05b
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4111:
+X-MS-Office365-Filtering-Correlation-Id: b8df0aab-e346-4237-51ee-08d96bb61f31
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2318:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4111CF9526E708A41D1F861983CB9@MN2PR12MB4111.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <MWHPR1001MB23188A656EDA39F08BAF89F88ECB9@MWHPR1001MB2318.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Gg9xsZ7KZNlytChlmxbIabvYmCFODg83TqE8KOMrKfhXidAQofvxSPjo18Khww97s6DSvxIXzp1KTnIT/vm8Q9a3d6YM5PV/oOBLc4QDvBJAlmOzKzJv7vmv/o74kPPUEvUcMdac2W4o6re1sVt4RPZLIaHxTRBuC7Acnzaw4saLkO3KW1ZC7qcrdeQvv73MU8kpho/WZdJcXF7A8pQEUPoUza3BNCQ1+vk5CKSkMR20zBJRn2QcG8674OOItvEJlf99hR9bS8E70Of7pisSSf4MyLny+fCehXKjaoJ+440xtZEvBWgPfwpXexidHEqkjzp+JttYXjE+Lx6EDaRM1YZYu8Ja/I27K04+9lVv8l3awdfqUo1VnXPDtkjqSHWTVxbd531vsD4aKNgayZVSEOMGvnZepw3//UH0ZqrKTRnK9BMYhi+TJAYcq7PBI7LVUnry78tNYSf1+Sj8N1XR1W9+gUNsX43U6uPz8okTz4YWWNDMd/uaJLNreZ5LuML/LJxwaS04vWZA8MYL+i5ktbX2KT89eazIl20NyFPQ46NupHDfyteT/AScJ/cGcx6ajQM3PHQg03Ao2JhFZRSG/V2g95As4Rse4I1iOGJxiKZ1wIL++grVmZD/xkjcb60QNpTW4CU6BT0Kqrn/JZX2LkwPh0fnIUH0q1HFAbmc+ck2RB/OIYQjUVyMHlhPOnc38MBYMtuz8G1uvdO0xwJMgAK6R3ljbhm0aVajcWANxXE=
+X-Microsoft-Antispam-Message-Info: QvF5E273TJt433B29Qd3fLMjlggSlOhcfZMp2/A1lHrLzTFrQC33Z54HS/IrVWbIsfM7KT7UGZVHQDKTVcdbSOQphIpPKegDwiuNyurzrp60fsswBmk31n000m8OT3zD7E5Lyhp4SzFhWkhWCacACRvlkBrqPfJGx5kpU9h7+uJNYTFWAZTvJbMsk4zEruGSDIadrRlea/qt+yCBZs0YxhGHEMYvaJZRYzmRcFHEWrY7qC2MuOXSSPIBwX+/HdqCQ1bpJ+BlpWPbIuzGJccvYV914vTGGmiOmfedrbF6Gfk/tV/e4KTXvcVqYQ99r2hDfL9kAncIagR+60O/6gR60iHb8ETkyt0LH2J5Qm0T1k4Kp065NOXcIVjDHwgGnu72DuIlwbzxdcJMd3YsheLcdxh7xmHdx5DLnf5M2pfQg1tRm5O3CcN/Ii9GFlKV8527zJ+KIDyhUibGmKauY2aIzVw0eLSatrGjet2bPutX8F0EDIyhfZcuqlr0QArFlGOLULAKSFx39B7ZjkzLvIHeJjnIm6rIxcnTC1oWKUOwL9y9o4UHSIAvsJw3mPENYmEj4Ifzt0owC22qxV92wq/ZUCUII+KzkamE+TnRomSscHHSQece429ELMINFFRhMS8ohgquPR3g1nD1d0NF45xlJbSJ13TdkVGaz4fXV8UEvd4Veg4UpydTmN8o7ZPcMkAgdamZFa9OKnM5/gxUShy2Sg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(346002)(396003)(366004)(376002)(39860400002)(66556008)(26005)(6666004)(31696002)(316002)(16576012)(186003)(5660300002)(83380400001)(86362001)(31686004)(38100700002)(8936002)(956004)(2906002)(8676002)(36756003)(6486002)(66946007)(2616005)(66476007)(478600001)(4326008)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(376002)(346002)(136003)(366004)(396003)(6666004)(33716001)(9686003)(55016002)(54906003)(33656002)(478600001)(956004)(6916009)(44832011)(86362001)(8676002)(38100700002)(38350700002)(8936002)(52116002)(83380400001)(2906002)(66946007)(1076003)(26005)(53546011)(66556008)(6496006)(186003)(316002)(5660300002)(9576002)(4326008)(7416002)(66476007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWorSklNa0crTzRCbm5OeTNpWi9nRVlzckdyWGwzUDE1cTk0WnNaU3JVQWVu?=
- =?utf-8?B?R0pSY3oyQ1FFcXBycy92RE1ORUdzVi9jOEtrNDI1VFlOY3Z6d3V1cE1GTmFM?=
- =?utf-8?B?elZISllMby9nQkd0UUZPVGFsbWRPcHFnWlUwNENTZkx6WnhjaGVETHgzekN2?=
- =?utf-8?B?MjNxb1lhamtJTjNFNFZSNy9teXdPTlc4bXlET3BkYVEyb3dhV0VXYk9CWWVP?=
- =?utf-8?B?UFVrYkp3MWZCREg0dThUNVAxKzFaZGd2U0Z6RERhendWYnIvdk1rSEJ4cXpP?=
- =?utf-8?B?VDdMZmlRUlE0VjB2bGEzd1U2T2ppRXc0dGdiM1RJSXI2eHlWOXBpSEh6TElk?=
- =?utf-8?B?V202MWVPK1QwWkhzVm5pNHdoSVVQTVRWQjRlNGJ5bnJ6U2J5T2k0eDNWNGRl?=
- =?utf-8?B?UkJnKzNvQm5oSll1bGgzWlI4dkpsbnNXczR0TUgzOVVFT3FCeGErU3B5TG15?=
- =?utf-8?B?UVBpMTd2MGh5WVk5RWliazQyRURKa3NJUzhjSzBVbjY4WGpBSnFBRnQyRkE5?=
- =?utf-8?B?ZXNzR1VBQ2hkMXhTNkZGekdFWWd0OFlmelFyZUFwUnUwNjd3eE91b05HN3FJ?=
- =?utf-8?B?cWJnWEFyb0dOdlhLNzA3L2Vqd2dXWXlZSG50dVFlTEY2YjVVc3p4eTNhMTdJ?=
- =?utf-8?B?cmxDRjNFYWc4LzNqSzgrbm9DLy9SSlluZi9TYnNVNWhoVUg3NkZoSDg2RWxQ?=
- =?utf-8?B?bi8rQlNqampPQ2dyUlVuRHhhT0VPTFl3cEwwQzNDVzA1cWVPd3NrTkhsSUhW?=
- =?utf-8?B?Zld1bm8xcTkxbE96bWt1aFpNaDF0dFBnUU0xcG5UZCtQUHVCZ1BqdC93Nm1H?=
- =?utf-8?B?WERTRFFWRGFGbzlEdmRKZGVIT1ZIa0xqMzZLTEtMSEc4Y3FWVHhKekNna0Z1?=
- =?utf-8?B?R2FDUjZkdHRLaEhWKzROWDJEQXN5VFZBelkrc0RjTVpwdE0vVDZBVGVoUDFT?=
- =?utf-8?B?L0hrTEN1MnlPa1JpY0hTUVI4NVRPMnBEdzh4OCtJTDJ1a2dEWVRQODJwNldO?=
- =?utf-8?B?dkpsWTJEKyswaE44SFpQL0xDNVlxa2JOUTFtRDh1bFJrUVpRelgwckdxOG0z?=
- =?utf-8?B?MmczTmRXWk15SEdDTFBBN2hIV2JvNEhDaW1DdHJkZGF4SjM3RU1BcWFtS2xD?=
- =?utf-8?B?aHoxbXkwVlEydzYrVmF3VU1yVStaU3ExQUYzb2R4YnBaK0J2YTN0TloxZkJ3?=
- =?utf-8?B?cnVYd1dxbWZncHNZelhIbTl1WGVJK0NLV2IrdW9iYTk4RU9aYjN5WnJLT05Z?=
- =?utf-8?B?bThsNk5NaHd2dUxpWTN1WFg3YW5qazNPdU83SXdhdkJHSkZlSnUxeld0L0hl?=
- =?utf-8?B?ek0vdnd5Q1JsUktZVU5WK29HK0N4NVowQlJBRE9sbnAzZUh5Tm1KaFJoNnVF?=
- =?utf-8?B?SksxME9yL2VsQkhxOTlDZllRRENPbzNDcmpOQUNRQ253clRNNTEwZVFlK0xV?=
- =?utf-8?B?Z2JMSnNkYmRKWjNqU2plT1g3QTZuUjJPQndrT1dlZjM5QzlrMjJuMFhsaFlL?=
- =?utf-8?B?Q3FUUFpZTi9lMzZPSGFReGhIZng5U0tzZkpKSjFVK2RXbmFkY0twcS9TYThK?=
- =?utf-8?B?dlNoWVRHbUZPRUdtTmMyMk9wVW1XSkI0aDJIRzNMQVJnN0NVTFU0VUM4WXJG?=
- =?utf-8?B?U3J2TDBNYXpqUE5NeVRueUt6dXFGaTR6Zmg2TXdGZExFSTYrblJVbUxXYmlp?=
- =?utf-8?B?VzBIU2xabE9sUnZzczlFQjlnL0JxVmZpeXpCWEFKNDEwWnQzMCtpeVJBMkxG?=
- =?utf-8?Q?HRmekjii5nY/T0KkVhkIkkH894w2IQLx792opck?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65dc43bb-6c0b-4a3b-d0b9-08d96bb4e05b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?J2AbSXZyRj9//ay6Ea7bX5IcUm+uBBO02kGyRC/duJyqZD0GpPLLZnIEeeSx?=
+ =?us-ascii?Q?r8Unhl7jnnjIGyJaFXXvAqIk6Ecf/nD7ryPF5BGOZ9XX+EnSEkZkDdn21baR?=
+ =?us-ascii?Q?o2mJ54htK8v5bR5qtxsnzrXe3fveZp9zbGucKMRuK+GAzaWVPT9c/9mx/YSv?=
+ =?us-ascii?Q?Gl7CtOvtiTaO0Ec2wpqgZiHEsVdOaaV4McHnqJOsBYK52MCS9Pv8fo6doZGc?=
+ =?us-ascii?Q?bg2lLU7eIEK4sfbxbxZH6k90uU7XxZKV7Xx7eTrKdsIEARayXqZzjbrTk/Kn?=
+ =?us-ascii?Q?/UxDcC1CWAssW9t8Gty+jLZbCoULgu+LhzWYh5k7WeDvNA88R5uQgFQ8+f52?=
+ =?us-ascii?Q?Ab7gooPgGGLNkaEjkwCLJTBKnSAZF1cYrvDJEs5d6XNw10djBhHDmQVNWfe6?=
+ =?us-ascii?Q?BlUwtQIig+nKdMspgxbpaPOom6XvpcARNGioKBFZrH26uFSH/5mBAJYX39Zi?=
+ =?us-ascii?Q?Mze+0DuGc0zSs0k7QOTbQlHHz1hYh56mikzBe+zMnehHMU51CZEvoel/YXB/?=
+ =?us-ascii?Q?E92XErHt5GL5aF6Ti70V9tqe6jSIIqMCIO97SjpF6gLFEHA930AeYi6EYN7v?=
+ =?us-ascii?Q?1TpxsYEHGCgVbAe/hYYCcY6IjAGMn2WGuNpVYtgZrH3gU3FV1RjWFjxlBysM?=
+ =?us-ascii?Q?eZQFmUeR0VO4rWgou9Yhkl4go3wFv41HIb4K8ME1McsiA5lXCgSsTaViZUqb?=
+ =?us-ascii?Q?cNx8eB8hfyFls/N6TgUduXPX5PjtNuvRe0D1bHGD9BdifsyVDOa6mjyJj0bY?=
+ =?us-ascii?Q?NNmT+i++7nvkKwwdOLdb1p9bObyQwIFhr2r/OHn9G08y2guMYcQt980GBb0T?=
+ =?us-ascii?Q?buiMw17EscXkKjj4m31IPYy/rk021vRj+OK6Q5/1vWduf2cLW7Ro1aAS+9t5?=
+ =?us-ascii?Q?HCsfusAeV1SO8J4iJJSXpM/wmKp2fwJwoUpaUUwd7RPfAJeKMDq5D5B/qB4N?=
+ =?us-ascii?Q?xNeMbLWFV3fYZwr7ptuWleTk21NQmfohnMyKay/mMmg6k2WRlHIRldAT1xJk?=
+ =?us-ascii?Q?M8/9nL6RlRwt+PE8tAai34NAfFcve/2hZ+kOJBys+PldmOLrNGTxgUlCNXJl?=
+ =?us-ascii?Q?YaOB6LCNZ4rwgH+vRh/9vnmHBnFKHCbwEm/m5n7KWaCLW7N3HlXbO7cX9Wrj?=
+ =?us-ascii?Q?i8FmrnonD5QkmUObZ6AWncWbc+7NTWISfz3b7WVjsIYlILhzqwLtBRRkqcLI?=
+ =?us-ascii?Q?2Pjr3f+XLKQBLWstxvkZzz7SB/QcHyv1PYi4bOCHoMUZoze0F6FsT8L2dsl9?=
+ =?us-ascii?Q?7O4P9D66Di2BK7TN7PIWFvQSHRwtXyq48GAFXWM86EnP+fQko4/tIGscwVSY?=
+ =?us-ascii?Q?M9QwpS89djnA/vz8VU8ci7wk?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8df0aab-e346-4237-51ee-08d96bb61f31
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2021 12:51:26.0799 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2021 13:00:20.6362 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dMKJkKGEI1QztpyDbR9hY0cgU+hsrgDB+DoYRUumuPLRGzjlNmCH8/qaoAyJMqVK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4111
+X-MS-Exchange-CrossTenant-UserPrincipalName: NEuBAIbljagaz1+svTK+k5BjK8C5QJ7RVEe7O7oLrgxKTgK9HB098auP2XSajtbsjw+WItXdW5fd+k1igw9tnvLuMKb2Apd0VmWpwMDE4yY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2318
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10091
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ bulkscore=0 phishscore=0
+ spamscore=0 mlxlogscore=999 adultscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108300093
+X-Proofpoint-ORIG-GUID: ouoOpO6IVxP804W5Zp4g2KOtS-NVKE8O
+X-Proofpoint-GUID: ouoOpO6IVxP804W5Zp4g2KOtS-NVKE8O
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,42 +179,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 28.08.21 um 10:50 schrieb Cai Huoqing:
-> Use the helper macro SET_RUNTIME_PM_OPS() instead of the verbose
-> operators ".runtime_suspend/.runtime_resume/.runtime_idle", because
-> the SET_RUNTIME_PM_OPS() is a nice helper macro that could be brought
-> in to make code a little clearer, a little more concise.
+On Mon, Aug 30, 2021 at 02:00:21PM +0200, Geert Uytterhoeven wrote:
+> Hi Testsuo,
+> 
+> On Mon, Aug 30, 2021 at 4:27 AM Tetsuo Handa
+> <penguin-kernel@i-love.sakura.ne.jp> wrote:
+> > On 2021/08/30 9:24, Randy Dunlap wrote:
+> > > Note that yres_virtual is set to 0x10000000. Is there no practical limit
+> > > (hence limit check) that can be used here?
+> > >
+> > > Also, in vga16fb_check_var(), beginning at line 404:
+> > >
+> > >   404        if (yres > vyres)
+> > >   405            vyres = yres;
+> > >   406        if (vxres * vyres > maxmem) {
+> > >   407            vyres = maxmem / vxres;
+> > >   408            if (vyres < yres)
+> > >   409                return -ENOMEM;
+> > >   410        }
+> > >
+> > > At line 406, the product of vxres * vyres overflows 32 bits (is 0 in this
+> > > case/example), so any protection from this block is lost.
+> >
+> > OK. Then, we can check overflow like below.
+> >
+> > diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
+> > index e2757ff1c23d..e483a3f5fd47 100644
+> > --- a/drivers/video/fbdev/vga16fb.c
+> > +++ b/drivers/video/fbdev/vga16fb.c
+> > @@ -403,7 +403,7 @@ static int vga16fb_check_var(struct fb_var_screeninfo *var,
+> >
+> >         if (yres > vyres)
+> >                 vyres = yres;
+> > -       if (vxres * vyres > maxmem) {
+> > +       if ((u64) vxres * vyres > (u64) maxmem) {
+> 
+> Mindlessly changing the sizes is not the solution.
+> Please use e.g. the array_size() helper from <linux/overflow.h>
+> instead.
 
-To be honest I don't think that this is cleaner at all.
+On a 64bit system the array_size() macro is going to do the exact same
+casts?  But I do think this code would be easier to understand if the
+integer overflow check were pull out separately and done first:
 
-Christian.
+	if (array_size(vxres, vyres) >= UINT_MAX)
+		return -EINVAL;
 
->
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
->   drivers/gpu/drm/radeon/radeon_drv.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-> index b74cebca1f89..c2eb725e87f6 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -529,15 +529,14 @@ static long radeon_kms_compat_ioctl(struct file *filp, unsigned int cmd, unsigne
->   #endif
->   
->   static const struct dev_pm_ops radeon_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(radeon_pmops_runtime_suspend,
-> +			   radeon_pmops_runtime_resume, radeon_pmops_runtime_idle)
->   	.suspend = radeon_pmops_suspend,
->   	.resume = radeon_pmops_resume,
->   	.freeze = radeon_pmops_freeze,
->   	.thaw = radeon_pmops_thaw,
->   	.poweroff = radeon_pmops_freeze,
->   	.restore = radeon_pmops_resume,
-> -	.runtime_suspend = radeon_pmops_runtime_suspend,
-> -	.runtime_resume = radeon_pmops_runtime_resume,
-> -	.runtime_idle = radeon_pmops_runtime_idle,
->   };
->   
->   static const struct file_operations radeon_driver_kms_fops = {
+	if (vxres * vyres > maxmem) {
+		...
+
+The UINT_MAX is because vxres and vyres are u32.
+
+This would maybe be the first time anyone ever did an integer overflow
+check like this in the kernel.  It's a new idiom.
+
+regards,
+dan carpenter
 
