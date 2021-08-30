@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2FE3FB3DF
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 12:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B263FB3E1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 12:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D586B89DE1;
-	Mon, 30 Aug 2021 10:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C5F89DEC;
+	Mon, 30 Aug 2021 10:29:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6022589DC0;
- Mon, 30 Aug 2021 10:29:26 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10091"; a="198486538"
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="198486538"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2021 03:29:25 -0700
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="687129711"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC49089DEC;
+ Mon, 30 Aug 2021 10:29:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10091"; a="205379173"
+X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="205379173"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Aug 2021 03:29:33 -0700
+X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="689212090"
 Received: from anikolae-mobl1.ccr.corp.intel.com (HELO localhost)
  ([10.249.47.21])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2021 03:29:24 -0700
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Aug 2021 03:29:29 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: jani.nikula@intel.com
-Subject: [PATCH 3/5] drm/edid: parse the DisplayID v2.0 VESA vendor block for
- MSO
-Date: Mon, 30 Aug 2021 13:29:01 +0300
-Message-Id: <09f57d55813f916578d1dd1e28bee3a621068bdd.1630319138.git.jani.nikula@intel.com>
+Subject: [PATCH 4/5] drm/i915/edp: postpone MSO init until after EDID read
+Date: Mon, 30 Aug 2021 13:29:02 +0300
+Message-Id: <ad82dc721bef296ebf2f37967f37b3b090d87ce1.1630319138.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1630319138.git.jani.nikula@intel.com>
 References: <cover.1630319138.git.jani.nikula@intel.com>
@@ -51,179 +50,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VESA Organization Vendor-Specific Data Block, defined in VESA
-DisplayID Standard v2.0, specifies the eDP Multi-SST Operation (MSO)
-stream count and segment pixel overlap.
-
-DisplayID v1.3 has Appendix B: DisplayID as an EDID Extension,
-describing how DisplayID sections may be embedded in EDID extension
-blocks. DisplayID v2.0 does not have such a section, perhaps implying
-that DisplayID v2.0 data should not be included in EDID extensions, but
-rather in a "pure" DisplayID structure at its own DDC address pair
-A4h/A5h, as described in VESA E-DDC Standard v1.3 chapter 3.
-
-However, in practice, displays out in the field have embedded DisplayID
-v2.0 data blocks in EDID extensions, including, in particular, some eDP
-MSO displays, where a pure DisplayID structure is not available at all.
-
-Parse the MSO data from the DisplayID data block. Do it as part of
-drm_add_display_info(), extending it to parse also DisplayID data to
-avoid requiring extra calls to update the information.
+MSO will require segment pixel overlap information from the
+EDID. Postpone MSO init until after we've read and cached the EDID.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c  | 63 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_connector.h | 12 +++++++
- include/drm/drm_displayid.h | 11 +++++++
- 3 files changed, 86 insertions(+)
+ drivers/gpu/drm/i915/display/intel_dp.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 6325877c5fd6..7e8083068f3f 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -28,6 +28,7 @@
-  * DEALINGS IN THE SOFTWARE.
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/hdmi.h>
- #include <linux/i2c.h>
- #include <linux/kernel.h>
-@@ -5148,6 +5149,62 @@ void drm_get_monitor_range(struct drm_connector *connector,
- 		      info->monitor_range.max_vfreq);
- }
- 
-+static void drm_parse_vesa_mso_data(struct drm_connector *connector,
-+				    const struct displayid_block *block)
-+{
-+	struct displayid_vesa_vendor_specific_block *vesa =
-+		(struct displayid_vesa_vendor_specific_block *)block;
-+	struct drm_display_info *info = &connector->display_info;
-+
-+	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
-+		drm_dbg_kms(connector->dev, "Unexpected VESA vendor block size\n");
-+		return;
-+	}
-+
-+	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
-+	default:
-+		drm_dbg_kms(connector->dev, "Reserved MSO mode value\n");
-+		fallthrough;
-+	case 0:
-+		info->mso_stream_count = 0;
-+		break;
-+	case 1:
-+		info->mso_stream_count = 2; /* 2 or 4 links */
-+		break;
-+	case 2:
-+		info->mso_stream_count = 4; /* 4 links */
-+		break;
-+	}
-+
-+	if (!info->mso_stream_count) {
-+		info->mso_pixel_overlap = 0;
-+		return;
-+	}
-+
-+	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
-+	if (info->mso_pixel_overlap > 8) {
-+		drm_dbg_kms(connector->dev, "Reserved MSO pixel overlap value %u\n",
-+			    info->mso_pixel_overlap);
-+		info->mso_pixel_overlap = 8;
-+	}
-+
-+	drm_dbg_kms(connector->dev, "MSO stream count %u, pixel overlap %u\n",
-+		    info->mso_stream_count, info->mso_pixel_overlap);
-+}
-+
-+static void drm_update_mso(struct drm_connector *connector, const struct edid *edid)
-+{
-+	const struct displayid_block *block;
-+	struct displayid_iter iter;
-+
-+	displayid_iter_edid_begin(edid, &iter);
-+	displayid_iter_for_each(block, &iter) {
-+		if (block->tag == DATA_BLOCK_2_VENDOR_SPECIFIC)
-+			drm_parse_vesa_mso_data(connector, block);
-+	}
-+	displayid_iter_end(&iter);
-+}
-+
- /* A connector has no EDID information, so we've got no EDID to compute quirks from. Reset
-  * all of the values which would have been set from EDID
-  */
-@@ -5171,6 +5228,9 @@ drm_reset_display_info(struct drm_connector *connector)
- 
- 	info->non_desktop = 0;
- 	memset(&info->monitor_range, 0, sizeof(info->monitor_range));
-+
-+	info->mso_stream_count = 0;
-+	info->mso_pixel_overlap = 0;
- }
- 
- u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
-@@ -5249,6 +5309,9 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
- 		info->color_formats |= DRM_COLOR_FORMAT_YCRCB444;
- 	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
- 		info->color_formats |= DRM_COLOR_FORMAT_YCRCB422;
-+
-+	drm_update_mso(connector, edid);
-+
- 	return quirks;
- }
- 
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 79fa34e5ccdb..379746d3266f 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -590,6 +590,18 @@ struct drm_display_info {
- 	 * @monitor_range: Frequency range supported by monitor range descriptor
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 7f8e8865048f..8e75543334c2 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -2575,8 +2575,6 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
  	 */
- 	struct drm_monitor_range_info monitor_range;
+ 	intel_edp_init_source_oui(intel_dp, true);
+ 
+-	intel_edp_mso_init(intel_dp);
+-
+ 	return true;
+ }
+ 
+@@ -5269,6 +5267,9 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+ 	if (fixed_mode)
+ 		downclock_mode = intel_dp_drrs_init(intel_connector, fixed_mode);
+ 
++	/* MSO requires information from the EDID */
++	intel_edp_mso_init(intel_dp);
 +
-+	/**
-+	 * @mso_stream_count: eDP Multi-SST Operation (MSO) stream count from
-+	 * the DisplayID VESA vendor block. 0 for conventional Single-Stream
-+	 * Transport (SST), or 2 or 4 MSO streams.
-+	 */
-+	u8 mso_stream_count;
-+
-+	/**
-+	 * @mso_pixel_overlap: eDP MSO segment pixel overlap, 0-8 pixels.
-+	 */
-+	u8 mso_pixel_overlap;
- };
- 
- int drm_display_info_set_bus_formats(struct drm_display_info *info,
-diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-index 79771091771a..b18611e016a2 100644
---- a/include/drm/drm_displayid.h
-+++ b/include/drm/drm_displayid.h
-@@ -23,6 +23,7 @@
- #define DRM_DISPLAYID_H
- 
- #include <linux/types.h>
-+#include <linux/bits.h>
- 
- struct edid;
- 
-@@ -126,6 +127,16 @@ struct displayid_detailed_timing_block {
- 	struct displayid_detailed_timings_1 timings[];
- };
- 
-+#define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
-+#define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
-+
-+struct displayid_vesa_vendor_specific_block {
-+	struct displayid_block base;
-+	u8 oui[3];
-+	u8 data_structure_type;
-+	u8 mso;
-+} __packed;
-+
- /* DisplayID iteration */
- struct displayid_iter {
- 	const struct edid *edid;
+ 	/* multiply the mode clock and horizontal timings for MSO */
+ 	intel_edp_mso_mode_fixup(intel_connector, fixed_mode);
+ 	intel_edp_mso_mode_fixup(intel_connector, downclock_mode);
 -- 
 2.20.1
 
