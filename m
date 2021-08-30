@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D982C3FB7E8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 16:22:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 195BD3FB7ED
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 16:26:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBDA89E2B;
-	Mon, 30 Aug 2021 14:22:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1876989E35;
+	Mon, 30 Aug 2021 14:26:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 077D289C6E;
- Mon, 30 Aug 2021 14:22:42 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 910501F4B4;
- Mon, 30 Aug 2021 16:22:39 +0200 (CEST)
-Date: Mon, 30 Aug 2021 16:22:38 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] drm/msm/dsi: Use "ref" fw clock instead of global
- name for VCO parent
-Message-ID: <YSzprptcXt6hxYRt@Marijn-Arch-PC.localdomain>
-References: <20210829203027.276143-1-marijn.suijten@somainline.org>
- <20210829203027.276143-3-marijn.suijten@somainline.org>
- <CAA8EJppmBvohk3CC87N_P3m+CP=bRLWWknS7esDrYb-xArJFvg@mail.gmail.com>
- <a27b4e74-3856-8c5c-73af-05e976430ea2@somainline.org>
- <CAA8EJpp38fRff+j-+iG2pATSQ9e_R4zRxepmbGqpKP=gcOZotA@mail.gmail.com>
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3792689E35
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 14:26:11 +0000 (UTC)
+Received: from fsav117.sakura.ne.jp (fsav117.sakura.ne.jp [27.133.134.244])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 17UEPqjZ076941;
+ Mon, 30 Aug 2021 23:25:52 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav117.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav117.sakura.ne.jp);
+ Mon, 30 Aug 2021 23:25:52 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav117.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 17UEPqK6076922
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 30 Aug 2021 23:25:52 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [syzbot] BUG: unable to handle kernel paging request in
+ vga16fb_fillrect
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Colin King <colin.king@canonical.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, syzkaller-bugs@googlegroups.com
+References: <000000000000815b9605c70e74f8@google.com>
+ <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
+ <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
+ <CAMuHMdV=xVhEHLEoYt3OF+kmGrLOr6t7SP1sghSmp9JqXD+3Og@mail.gmail.com>
+ <20210830130000.GW7722@kadam>
+ <8ed0ca59-226b-2d0e-b1ae-82305202558d@i-love.sakura.ne.jp>
+ <20210830134719.GI12231@kadam>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <03d0f549-9731-8b06-1393-60d4bef27884@i-love.sakura.ne.jp>
+Date: Mon, 30 Aug 2021 23:25:51 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpp38fRff+j-+iG2pATSQ9e_R4zRxepmbGqpKP=gcOZotA@mail.gmail.com>
+In-Reply-To: <20210830134719.GI12231@kadam>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,72 +71,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-On Mon, Aug 30, 2021 at 04:17:32AM +0300, Dmitry Baryshkov wrote:
-> On Mon, 30 Aug 2021 at 00:53, Marijn Suijten
-> <marijn.suijten@somainline.org> wrote:
-> >
-> > Hi Dmitry,
-> >
-> > On 8/29/21 10:39 PM, Dmitry Baryshkov wrote:
-> > > Hi,
-> > >
-> > > On Sun, 29 Aug 2021 at 23:30, Marijn Suijten
-> > > <marijn.suijten@somainline.org> wrote:
-> > >>
-> > >> All DSI PHY/PLL drivers were referencing their VCO parent clock by a
-> > >> global name, most of which don't exist or have been renamed.  These
-> > >> clock drivers seem to function fine without that except the 14nm driver
-> > >> for the sdm6xx [1].
-> > >>
-> > >> At the same time all DTs provide a "ref" clock as per the requirements
-> > >> of dsi-phy-common.yaml, but the clock is never used.  This patchset puts
-> > >> that clock to use without relying on a global clock name, so that all
-> > >> dependencies are explicitly defined in DT (the firmware) in the end.
-> > >
-> > > msm8974 (28nm-hpm) does not define the "ref" clock. So you'd have to:
-> > > 1) add ref clock to the dtsi (should come in a separate patch).
-> >
-> >
-> > Thanks for double-checking and noticing this!  I've queued up this patch
-> > for v2.
-> >
-> > > 2) add .name = "xo" as a fallback to the 28nm driver (to be compatible
-> > > with older devices)
-> >
-> >
-> > Are there msm8974 devices out there that might upgrade kernels, but not
-> > firmware (DT)?  On other boards (sdm630) I'm removing these from various
-> > drivers as to not have any possibility of relying on global names, in
-> > favour of having the clock dependencies fully specified in the DT.
+On 2021/08/30 22:47, Dan Carpenter wrote:
+> On Mon, Aug 30, 2021 at 10:37:31PM +0900, Tetsuo Handa wrote:
+>> On 2021/08/30 22:00, Dan Carpenter wrote:
+>>>>> diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
+>>>>> index e2757ff1c23d..e483a3f5fd47 100644
+>>>>> --- a/drivers/video/fbdev/vga16fb.c
+>>>>> +++ b/drivers/video/fbdev/vga16fb.c
+>>>>> @@ -403,7 +403,7 @@ static int vga16fb_check_var(struct fb_var_screeninfo *var,
+>>>>>
+>>>>>         if (yres > vyres)
+>>>>>                 vyres = yres;
+>>>>> -       if (vxres * vyres > maxmem) {
+>>>>> +       if ((u64) vxres * vyres > (u64) maxmem) {
+>>>>
+>>>> Mindlessly changing the sizes is not the solution.
+>>>> Please use e.g. the array_size() helper from <linux/overflow.h>
+>>>> instead.
+>>>
+>>> On a 64bit system the array_size() macro is going to do the exact same
+>>> casts?  But I do think this code would be easier to understand if the
+>>> integer overflow check were pull out separately and done first:
+>>>
+>>> 	if (array_size(vxres, vyres) >= UINT_MAX)
+>>> 		return -EINVAL;
+>>
+>> This is wrong. array_size() returns ULONG_MAX on 64bits upon overflow and
+>> returns UINT_MAX on 32bits upon overflow. However, UINT_MAX is a valid
+>> value without overflow (e.g. vxres == UINT_MAX / 15 && vyres == 15).
 > 
-> IIUC it is a general policy of trying to be (somewhat)
-> backwards-compatible. For example because your dts might come from a
-> different source/be a part of different build process/etc.
+> Huh...  I just assumed we didn't allow resolutions that high.
 
-Good thinking; DT was after all intended to be used as firmware shipping
-on the device, when we're usually modifying and shipping it with the
-kernel in the end.
+Of course, we don't allow resolutions that high. ;-)
 
-Just to make sure other platforms aren't affected by these changes,
-every board currently providing a "ref" clock has done so since the DSI
-node was added, except these for these three patches that added them
-after the fact:
+Since I don't know possible max resolutions, I chose UINT_MAX + 1 as a common
+limit for returning -EINVAL. Unless overflow happens, vga16fb_check_var() will
+return -ENOMEM on such high resolutions.
 
-    79e51645a1dd ("arm64: dts: qcom: msm8916: Set 'xo_board' as ref clock of the DSI PHY")
-    6969d1d9c615 ("ARM: dts: qcom-apq8064: Set 'cxo_board' as ref clock of the DSI PHY")
-    0c0e72705a33 ("arm64: dts: sdm845: Set 'bi_tcxo' as ref clock of the DSI PHYs")
+> 
+>> Comparing like "> (u64) UINT_MAX" is to detect only overflow.
+>>
+> 
+> Of course, that doesn't work on 32 bit systems.  Also the cast isn't
+> required because of type promotion.
 
-Their commit-messages confuse me.  They make it seem like the "ref"
-clock was previously used when this doesn't seem to be the case (hence
-my patch).  Has there possibly been a patchset like mine that removed
-the mentioned hardcoded clock, but ended up never being merged?
+Indeed, "> UINT_MAX" seems to work on both 32bits and 64bits.
 
-Either way, perhaps it's worth mentioning those patches with Fixes: so
-that this commit can be backported (have to be careful that DT changes
-for the other drivers are also backported, or this patch is split per
-PHY file), and maybe it's worth cc-ing the original authors to ask for
-clarification or at least make them aware?
+----------
+#include <stdio.h>
+#include <limits.h>
 
-- Marijn
+int main(int argc, char *argv[])
+{
+        unsigned int w = 0x600;
+        unsigned int h = 0x10000000;
+        if ((unsigned long long) w * h > UINT_MAX)
+                printf("Overflowed\n");
+        else
+                printf("No overflow\n");
+        return 0;
+}
+----------
+
