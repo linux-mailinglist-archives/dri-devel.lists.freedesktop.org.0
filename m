@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660683FB72E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 15:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8EA3FB72F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 15:45:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 211E389CB2;
-	Mon, 30 Aug 2021 13:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1C8A89CF6;
+	Mon, 30 Aug 2021 13:45:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 198BB89CB2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 13:45:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id D6BD460E98
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 13:45:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E633789CF6
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 13:45:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id B8AC260F3A
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 13:45:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630331106;
- bh=e+g5/ZSVDWDJaH6UT3SSyypDDFQXQLHzgVuqQYw82QM=;
+ s=k20201202; t=1630331137;
+ bh=tYBtzgTrlQjAFM4FfyDpeE7voqgUUsXeL3fUXhSgkCs=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=FxoaDF2mNRON8pUPXqGEGBOtICb/Rfx7b/PU6aAyvsiW8gMEXo/WsiH85ZYM2dQEB
- CrWP2A3vkY8tF16uLipN+Df187PgG6jYEoPsOoZjNEnVY232QEtB6NaxAR3fBeCb2T
- bhZS3c/2BZ84ca4Ps7OA747er9qZHr1z+Fd0AxvDXXPRiq3Y7HEwjAKjWNtEPQXcmM
- /9t+nuJiZ8q/w5r+GhYateFbyY5vHY0z4793IqgYCjUOtFmk+MLHyAEudsqro6kvLi
- affang6FIxD1QL7Dxcg0zMQIFewdICOHtKWTxOoJR8yScvUltmr4Aiz8XmpL9DAdtp
- IYjoecR6lZZ5A==
+ b=BhJK50VGBJRFzuaIoux9wm+NC9v1FyjdBKnfQYf/GwjKb18yv5IKGICcs1nU9IymL
+ WoV3Y1Bd+3Ptr1d1uvM1lmvLwRPC7/+SJcmMhCKQrZX1pQyV2P7fHghja3FQNWEWG/
+ GvcX23aTJ7rWFZt6I8f0ypq9rmH5V4RCkbeEpbBYtt2XoriQCyqfGXf71atPUas4p/
+ 89wNzM5XAevmVo8Xhux9+gbka24p7eI11eaq5Jw7e7kvqHFuU/8iLXKJ1Y8kEG/+E+
+ xNgxPDrKEP9wupPrmHTrtWMNIfNP9uOYAf4zbFE64XO9SZwlOroERR/6d15f0kR6BZ
+ jdJz28i+3COTw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id CEB6260FC1; Mon, 30 Aug 2021 13:45:06 +0000 (UTC)
+ id B541360FC1; Mon, 30 Aug 2021 13:45:37 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 214029] [NAVI] Several memory leaks in amdgpu and ttm
-Date: Mon, 30 Aug 2021 13:45:06 +0000
+Date: Mon, 30 Aug 2021 13:45:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,7 +45,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-214029-2300-RbjiXs9URR@https.bugzilla.kernel.org/>
+Message-ID: <bug-214029-2300-V9xYJFsKGG@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-214029-2300@https.bugzilla.kernel.org/>
 References: <bug-214029-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -74,13 +74,13 @@ Erhard F. (erhard_f@mailbox.org) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
- Attachment #298269|0                           |1
+ Attachment #298265|0                           |1
         is obsolete|                            |
 
---- Comment #3 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 298525
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298525&action=3Dedit
-kernel .config (kernel 5.14, AMD FX-8370)
+--- Comment #4 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 298527
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298527&action=3Dedit
+kernel dmesg (kernel 5.14, AMD FX-8370)
 
 --=20
 You may reply to this email to add a comment.
