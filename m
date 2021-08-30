@@ -1,52 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C966C3FB50E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 14:08:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8123FB5C0
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 14:17:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D73AC89C8F;
-	Mon, 30 Aug 2021 12:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6510A89AB3;
+	Mon, 30 Aug 2021 12:17:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE5A189CB2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 12:08:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dpALsa2BbKFzfHppSTrsEO4f6c9z6xEhjN8GTy+EJWE=; b=gBZcPNsbybctNvrQJuYvrvGGt8
- iHKXHHk//WB3tBl6I7IUnwykVj0MtTFveD25prie0HaXEXSGLqenAhlECy/N7713i8i9oyN9oJQPj
- +bQTJMICSZAfqIcCaiCB1gd43tLH1FBK3BJ16IxhFmAOntIvUaSAoC1Q9ew15If9Q9PbvgxyAMgyS
- POHPcify/rPFEQSxUF90ba5jO89M0wbRcPu5zL9UAm8vR9mp44blWfBkLrQalb08DL5fcFnwgCq4p
- xNSVnIqedmCikgAstyfX6vlV08gCs4irN45YHsi4oVXNJICfhm6RNvvFD5A6/R+jCU5O5w+cCd3Tg
- LtaRexTQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:50116
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1mKg5J-0004KT-II; Mon, 30 Aug 2021 14:08:17 +0200
-Subject: Re: [PATCH 2/7] drm/format-helper: Add drm_fb_xrgb8888_to_rgb332()
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, peter@stuge.se,
- linus.walleij@linaro.org, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20210817122917.49929-1-noralf@tronnes.org>
- <20210817122917.49929-3-noralf@tronnes.org>
- <YRu/+nEX4A5i4sfl@phenom.ffwll.local>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <d72f5ef1-f701-3549-c459-236716674fd6@tronnes.org>
-Date: Mon, 30 Aug 2021 14:08:14 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE72B89AB3;
+ Mon, 30 Aug 2021 12:17:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 608E5610FB;
+ Mon, 30 Aug 2021 12:17:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1630325832;
+ bh=tFvVHHaMT6FlpbVDOckw2bd08wQ0Fl+0KjyQgVzmY3c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oMjVfd3wgG6wqDUbaNgLfLsPz3zM32dKy64W5urL0GCkXgmiM0LrLMU3MoNQiXDXc
+ JsO8349ziptSjBteMiE1WofnvbNNaB+MNzUqZRJEXQBNSTgGvwylMIZAkU3EkMoe1D
+ QW+Q/+ewl+bE+avsGzKgWBLCqzE3QDJeepxVgJyBInc3E1g199RegSPXTSBNH0hz0s
+ kxtHDRz1z9AeEyQItbgzRrYKQU7AxAAcd6v6iaJiNVKt33F6aiVh1egbz6hTtm3zPC
+ 7HWD9TRl0u+z5daA/qidwz4Khr4uelQd43pTN78T9f7KTU8Vv9VNmVokqaGGVeQ/ZF
+ fPHMunvXk8yWg==
+Date: Mon, 30 Aug 2021 08:17:11 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Lyude Paul <lyude@redhat.com>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: Re: [PATCH AUTOSEL 5.13 20/26] drm/nouveau: recognise GA107
+Message-ID: <YSzMR4FnrnT5gjbe@sashalap>
+References: <20210824005356.630888-1-sashal@kernel.org>
+ <20210824005356.630888-20-sashal@kernel.org>
+ <6607dde4207eb7ad1666b131c86f60a57a2a193c.camel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YRu/+nEX4A5i4sfl@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <6607dde4207eb7ad1666b131c86f60a57a2a193c.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,125 +54,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Aug 24, 2021 at 01:08:28PM -0400, Lyude Paul wrote:
+>This is more hardware enablement, I'm not sure this should be going into
+>stable either. Ben?
 
+We take this sort of hardware enablement patches (where the platform
+code is already there, and we just add quirks/ids/etc.
 
-Den 17.08.2021 15.56, skrev Daniel Vetter:
-> On Tue, Aug 17, 2021 at 02:29:12PM +0200, Noralf Trønnes wrote:
->> Add XRGB8888 emulation support for devices that can only do RGB332.
->>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
->> ---
->>  drivers/gpu/drm/drm_format_helper.c | 47 +++++++++++++++++++++++++++++
->>  include/drm/drm_format_helper.h     |  2 ++
->>  2 files changed, 49 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
->> index 5231104b1498..53b426da7467 100644
->> --- a/drivers/gpu/drm/drm_format_helper.c
->> +++ b/drivers/gpu/drm/drm_format_helper.c
->> @@ -135,6 +135,53 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
->>  }
->>  EXPORT_SYMBOL(drm_fb_swab);
->>  
->> +static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, u32 *sbuf, unsigned int pixels)
->> +{
->> +	unsigned int x;
->> +
->> +	for (x = 0; x < pixels; x++)
->> +		dbuf[x] = ((sbuf[x] & 0x00e00000) >> 16) |
-> 
-> I think for 2/3 bits correct rounding would be useful, not just masking.
-> i.e. before you shift add 0x00100000 here, and similar below.
-> 
-
-Math isn't my strongest side and my brain failed to turn this into code.
-
-> Also I just realized we've totally ignored endianess on these, which is
-> not great, because strictly speaking all the drm_fourcc codes should be
-> little endian. But I'm also not sure that's worth fixing ...
-> 
-
-Is it as simple as using le32_to_cpu()?
-
-static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, __le32 *sbuf,
-unsigned int pixels)
-{
-	unsigned int x;
-	u32 pix;
-
-	for (x = 0; x < pixels; x++) {
-		pix = le32_to_cpu(sbuf[x]);
-		dbuf[x] = ((pix & 0x00e00000) >> 16) |
-			  ((pix & 0x0000e000) >> 11) |
-			  ((pix & 0x000000c0) >> 6);
-	}
-}
-
-Noralf.
-
-> Either way, lgtm:
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
->> +			  ((sbuf[x] & 0x0000e000) >> 11) |
->> +			  ((sbuf[x] & 0x000000c0) >> 6);
->> +}
->> +
->> +/**
->> + * drm_fb_xrgb8888_to_rgb332 - Convert XRGB8888 to RGB332 clip buffer
->> + * @dst: RGB332 destination buffer
->> + * @src: XRGB8888 source buffer
->> + * @fb: DRM framebuffer
->> + * @clip: Clip rectangle area to copy
->> + *
->> + * Drivers can use this function for RGB332 devices that don't natively support XRGB8888.
->> + *
->> + * This function does not apply clipping on dst, i.e. the destination is a small buffer
->> + * containing the clip rect only.
->> + */
->> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *src, struct drm_framebuffer *fb,
->> +			       struct drm_rect *clip)
->> +{
->> +	size_t width = drm_rect_width(clip);
->> +	size_t src_len = width * sizeof(u32);
->> +	unsigned int y;
->> +	void *sbuf;
->> +
->> +	/* Use a buffer to speed up access on buffers with uncached read mapping (i.e. WC) */
->> +	sbuf = kmalloc(src_len, GFP_KERNEL);
->> +	if (!sbuf)
->> +		return;
->> +
->> +	src += clip_offset(clip, fb->pitches[0], sizeof(u32));
->> +	for (y = 0; y < drm_rect_height(clip); y++) {
->> +		memcpy(sbuf, src, src_len);
->> +		drm_fb_xrgb8888_to_rgb332_line(dst, sbuf, width);
->> +		src += fb->pitches[0];
->> +		dst += width;
->> +	}
->> +
->> +	kfree(sbuf);
->> +}
->> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
->> +
->>  static void drm_fb_xrgb8888_to_rgb565_line(u16 *dbuf, u32 *sbuf,
->>  					   unsigned int pixels,
->>  					   bool swab)
->> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
->> index 4e0258a61311..d0809aff5cf8 100644
->> --- a/include/drm/drm_format_helper.h
->> +++ b/include/drm/drm_format_helper.h
->> @@ -16,6 +16,8 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vadd
->>  			   struct drm_rect *clip);
->>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
->>  		 struct drm_rect *clip, bool cached);
->> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct drm_framebuffer *fb,
->> +			       struct drm_rect *clip);
->>  void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
->>  			       struct drm_framebuffer *fb,
->>  			       struct drm_rect *clip, bool swab);
->> -- 
->> 2.32.0
->>
-> 
+-- 
+Thanks,
+Sasha
