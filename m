@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153C03FB960
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 17:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA9C3FB99A
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:02:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D931898CC;
-	Mon, 30 Aug 2021 15:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE2D89B29;
+	Mon, 30 Aug 2021 16:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCFF1898CC
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 15:56:17 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1630338980; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=U10YrBfczfj2F0eAJkorX2N74cH0fDyM7HdEotnpp4w=;
- b=GICsiM44pNtuVwH7tm8WL2Ja1HG2RYkGMpo6ZXlb+PV7OG1kDL0BOFP8yD5Uf+/whHRX/qQ5
- jF+mT2OpXOQIqXcGxoyYXH8LxYqdvuSwLcOZy7QhrGOKqSTDIu5c6lfss/J79hKpuR8uYKM1
- QIAaJMGiHBE28+hTH360RUiPTUw=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 612cff934d644b7d1c20dd0b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 30 Aug 2021 15:56:03
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 68534C4361A; Mon, 30 Aug 2021 15:56:03 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 48AA7C43460;
- Mon, 30 Aug 2021 15:56:02 +0000 (UTC)
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20C5689AEE
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 16:02:14 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id b10so20580835ioq.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 09:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G49FQ0uWZW6i9vFSjQGplZyOwvgazjM4XABr+KXbVDU=;
+ b=FgHn+o867IORlJciLs9Bi5TiNrh3rHwcUaE5v5BWRE+D8Ogj7RMwzmHDca7m5f8xyj
+ 9k6vgOSezNdEwZZ1S0k2a3NC7CqeBjcGdzWdN8NEYaWiFGWtWUCGltPFnCPFQ9udKeno
+ Z4/rimxn50hBdSQnCkBaIIuQD78qeLnmmelk0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G49FQ0uWZW6i9vFSjQGplZyOwvgazjM4XABr+KXbVDU=;
+ b=ghX8DcJW/wrvlIRAw/HEK2Qan5ZC790N4HnzPTcYH3fJK5GVFO0fLy4VG7R/JaCJal
+ mUO9Jnyf0RcJzDAdOCMBSpj7AZRciBhodvxtVSimhewaNrsDKk56PpjTyEh5HRY8Nejn
+ SmJAYCGA2oh/k9UoTw2i0xUtrCXLe+ONs99fWStKn03THVyRG2BOhWkUfSVmym2UM8/Q
+ nw6XNRMjFzZxVJu2hoT3tsV7IS0KCKpe+jObaZB7nicnTlwYhK0XegfCSuVeh4FnyMV7
+ cFVgyEiS8f7LUjn+BGNri884/xTKtUZC2bOUInqSX9AsPOCt1x5RM4nju/ptetzpYHx9
+ +jfg==
+X-Gm-Message-State: AOAM531iMnyXlhTDlO+0BvT68lMaZJdYUxnxlbHSGhSYLSz0ItpK120G
+ UZ7LNKgmsEYQChF2x7EDrNtXiYkQSTvnvA==
+X-Google-Smtp-Source: ABdhPJydq1m57InBplhAN/L1SxLacaQGk5GzsBRFNvuJUs0/QMf2SnE++iZnbw1qUZoZmEpygwsSSA==
+X-Received: by 2002:a5e:d80a:: with SMTP id l10mr4419571iok.36.1630339333263; 
+ Mon, 30 Aug 2021 09:02:13 -0700 (PDT)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com.
+ [209.85.166.51])
+ by smtp.gmail.com with ESMTPSA id e22sm5262089iob.52.2021.08.30.09.02.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Aug 2021 09:02:12 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id e186so20559290iof.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 09:02:11 -0700 (PDT)
+X-Received: by 2002:a02:c7d2:: with SMTP id s18mr17206234jao.22.1630339331487; 
+ Mon, 30 Aug 2021 09:02:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date: Mon, 30 Aug 2021 08:56:02 -0700
-From: khsieh@codeaurora.org
-To: Lyude Paul <lyude@redhat.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org, abhinavk@codeaurora.org,
- aravindh@codeaurora.org, rsubbia@codeaurora.org, rnayak@codeaurora.org,
- freedreno@lists.freedesktop.org, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/dp_mst: Fix return code on sideband message failure
-In-Reply-To: <88b5fbe60c95bcdf42353bec9f8c48aefa864a31.camel@redhat.com>
-References: <1625585434-9562-1-git-send-email-khsieh@codeaurora.org>
- <87zguy7c5a.fsf@intel.com> <a514c19f712a6feeddf854dc17cb8eb5@codeaurora.org>
- <2da3949fa3504592da42c9d01dc060691c6a8b8b.camel@redhat.com>
- <d9ec812b4be57e32246735ca2f5e9560@codeaurora.org>
- <79c5a60fc189261b7a9ef611acd126a41f921593.camel@redhat.com>
- <696a009e2ab34747abd12bda03c103c7@codeaurora.org>
- <e725235a77935184cd20dab5af55da95b28d9e88.camel@redhat.com>
- <64049ef6c598910c1025e0e5802bb83e@codeaurora.org>
- <88b5fbe60c95bcdf42353bec9f8c48aefa864a31.camel@redhat.com>
-Message-ID: <f0fcfe7a73e87150a7a1f042269b76a3@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210726231351.655302-1-bjorn.andersson@linaro.org>
+ <CAD=FV=UGtHXD==Yy8CVCOioYGb=2hqGQOoNWftD1Jj7OiEp51g@mail.gmail.com>
+ <YSpK3wTUdqlUyJxb@yoga>
+In-Reply-To: <YSpK3wTUdqlUyJxb@yoga>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 30 Aug 2021 09:01:58 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=URLJHujmu36sNMfPVMYtDZUirJq5T-PLbeMGqjLuMtNQ@mail.gmail.com>
+Message-ID: <CAD=FV=URLJHujmu36sNMfPVMYtDZUirJq5T-PLbeMGqjLuMtNQ@mail.gmail.com>
+Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, 
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>, 
+ Kuogee Hsieh <khsieh@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Vara Reddy <varar@codeaurora.org>, freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,52 +83,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-08-25 09:26, Lyude Paul wrote:
-> The patch was pushed yes (was part of drm-misc-next-2021-07-29), seems 
-> like it
-> just hasn't trickled down to linus's branch quite yet.
+Hi,
 
-Hi Stephen B,
+On Sat, Aug 28, 2021 at 7:40 AM Bjorn Andersson
+<bjorn.andersson@linaro.org> wrote:
+>
+> On Fri 27 Aug 15:52 CDT 2021, Doug Anderson wrote:
+>
+> > Hi,
+> >
+> > On Mon, Jul 26, 2021 at 4:15 PM Bjorn Andersson
+> > <bjorn.andersson@linaro.org> wrote:
+> > >
+> > > +static int dp_parser_find_panel(struct dp_parser *parser)
+> > > +{
+> > > +       struct device_node *np = parser->pdev->dev.of_node;
+> > > +       int rc;
+> > > +
+> > > +       rc = drm_of_find_panel_or_bridge(np, 2, 0, &parser->drm_panel, NULL);
+> >
+> > Why port 2? Shouldn't this just be port 1 always? The yaml says that
+> > port 1 is "Output endpoint of the controller". We should just use port
+> > 1 here, right?
+> >
+>
+> I thought port 1 was the link to the Type-C controller, didn't give it a
+> second thought and took the next available.
+>
+> But per the binding it makes sense that the panel is the "Output
+> endpoint of the controller" and I guess one will have either a Type-C
+> controller or a panel - even after the DP rework?
 
-Would you mind back porting this patch to V5.10 branch?
-It will have lots of helps for us to support display port MST case.
-Thanks,
+Right, my understanding is that "port 1" is the output port
+irregardless of whether you're outputting to a panel or a DP
+connector. I think the only case it would make sense to add a new port
+is if it was possible for the output to be connected to both a panel
+and a DP port simultaneously. ...but that doesn't make sense.
 
-
-
-> 
-> On Wed, 2021-08-25 at 09:06 -0700, khsieh@codeaurora.org wrote:
->> On 2021-07-27 15:44, Lyude Paul wrote:
->> > Nice timing, you literally got me as I was 2 minutes away from leaving
->> > work
->> > for the day :P. I will go ahead and push it now.
->> >
->> Hi Lyude,
->> 
->> Had you pushed this patch yet?
->> We still did not see this patch at msm-nex and v5.10 branch.
->> Thanks,
->> 
->> 
->> > BTW - in the future I recommend using dim to add Fixes: tags as it'll
->> > add Cc:
->> > to stable as appropriate (this patch in particular should be Cc:
->> > stable@vger.kernel.org # v5.3+). will add these tags when I push it
->> >
->> > On Tue, 2021-07-27 at 15:41 -0700, khsieh@codeaurora.org wrote:
->> > > On 2021-07-27 12:21, Lyude Paul wrote:
->> > > > On Thu, 2021-07-22 at 15:28 -0700, khsieh@codeaurora.org wrote:
->> > > > >
->> > > > > It looks like this patch is good to go (mainlined).
->> > > > > Anything needed from me to do?
->> > > > > Thanks,
->> > > >
->> > > > Do you have access for pushing this patch? If not let me know and I
->> > > > can
->> > > > go
->> > > > ahead and push it to drm-misc-next for you.
->> > > no, I do not have access to drm-misc-next.
->> > > Please push it for me.
->> > > Thanks a lots.
->> > >
->> 
+-Doug
