@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85F13FB4E1
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 14:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09EA3FB4E2
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 14:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A3089D56;
-	Mon, 30 Aug 2021 12:00:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C0189C9D;
+	Mon, 30 Aug 2021 12:00:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB98C89D56
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 12:00:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 08ED961152;
- Mon, 30 Aug 2021 12:00:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F260089C9B
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 12:00:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2640460232;
+ Mon, 30 Aug 2021 12:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630324804;
+ s=k20201202; t=1630324819;
  bh=9kJQP3kDazEVJswsuuU6kyZ7aIsHLDddyN3en8ooMZA=;
  h=From:To:Cc:Subject:Date:From;
- b=SjoY/dm2CB68GG3awrockFoKPv5Dh+3N5TUjEfJH8rYpMiO/niqp0w/EcQaYk9mIm
- /Cc4bWTeo0REGKQu4y6QZS8+m8wcOEpMaRsxzt6ysBUO0UNoq+BbYtyRyRYI1U7att
- dS9UHeD9i91LlxPdCQN75T2eIHrSxxe1HfNQddke5I1EBadfirQ/mkH04RZllQZdRr
- 0fNtn9pXMsbrI9hieJl8RYz2Jov3ZDPsRTaO4IqMnbWEBlwUXIsuK1rLwJvGPmSsYC
- GkaDC3ImtANgKn1XzYf8dcwsFYZIeDCPHcAwWtB0Th0QbyKTAcq5xpASarEx54LxdX
- USanh9TQbPUBA==
+ b=tZN7J1aW2C+cPmgj2mCLNqSrMEteAYvQfDDbCehkg3qwDrSqZLW9FkfnDXobO1B+V
+ oWvcCg/k8YTlyR0kQxiPRC125olYm5rQFPcU72MlcRud4sbwOlwYUmGC+boeHv2LY8
+ 9QZxINLzap8N9AWu9pu0zCiKy0/RDHO4CEsh5qQcTTb5/9aOagcM9ndvxi7Z/9vsqT
+ BzFy22OMd2r8rDu3a7s9voSGjBkIJOcWp5Cdkr/mtKfJ7rA2aYHus0OoEtJSHDPdSB
+ SesVU40UHZfbD+lLm/hl/UICX29UfmmgBOWwi+JyDCC7DrDPiFJmAeQTHY1HViOvY2
+ 2GKQrT/bMnyqw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
  Philipp Zabel <p.zabel@pengutronix.de>, Sasha Levin <sashal@kernel.org>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 01/11] gpu: ipu-v3: Fix i.MX IPU-v3 offset
+Subject: [PATCH AUTOSEL 5.4 01/10] gpu: ipu-v3: Fix i.MX IPU-v3 offset
  calculations for (semi)planar U/V formats
-Date: Mon, 30 Aug 2021 07:59:52 -0400
-Message-Id: <20210830120002.1017700-1-sashal@kernel.org>
+Date: Mon, 30 Aug 2021 08:00:08 -0400
+Message-Id: <20210830120018.1017841-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 X-stable: review
