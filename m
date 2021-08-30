@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751173FAF9F
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 03:54:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C433FAFF7
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 05:12:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D22689C98;
-	Mon, 30 Aug 2021 01:54:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE74C89C84;
+	Mon, 30 Aug 2021 03:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0616489D5E;
- Mon, 30 Aug 2021 01:54:20 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id t19so27795323ejr.8;
- Sun, 29 Aug 2021 18:54:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uxsiSscGykjrFqq8NV9Iq8rhc1F7sw+otXN/4lad2y8=;
- b=QLN8nyCMD7KXtGf+YXaZFTj1i54xtrNhqT31OwN3JtpalHEvkARnjhrG19VbE6mVe3
- PjAw2rqOsg2XjvccegWaNencX1KG7Vic3QHSvIhE1TpkkHm7A7dp+TCe2GdgLfzrVC55
- eROJvW+RVjjPZZP0UwzTmF/aIv1sPa70fKHEgRmfahyX/kiTdfX8AjA5unORD7YkuEPz
- GFKo1uINFhQS/cVfHj5MOhf09jBDFtSzhaU9LvJSlHnpxFzjhS4nTja1CsTsYDzbvaae
- G0E02tswDBSNBufw8k4pHlM4K8JQoSA8S/zln4N0GARiVT3AUmJGi9UMdWgIf7VxQfkb
- 5URA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uxsiSscGykjrFqq8NV9Iq8rhc1F7sw+otXN/4lad2y8=;
- b=p/CIE+O5Lem+gldHBN42gVuz+GvQELkoWkJxl1mwN6DLLR/4JZjHZ8KXI00lSowIAD
- Pu68nkLGrEVuhJNURvCNNwLnyLKLfvB7wyEfBYEEs5iVqCydkb2ZTXp1QWClLbexdewc
- 6uvbE4kGwh9NMQqnIaz9k2rNZB40JDSbEySnloSr/HfI/UnGeCLFuT/Ms4uU57vy9OKd
- BLPbsjj84xuHlOK30vvEJ2dTUMCh/CaRp4IhQ8T26YkEvOQufH1xzopvtX9iXn0XUUzw
- ohlHrlV3mKfkDiEczUPvOSqHcXHgkd7Rp/twtVJ1RrJhH1PLO7HE+VROuNy/rqGCb8F+
- 5mXg==
-X-Gm-Message-State: AOAM530+gUJNtWnPBepdE2xgip2YT9rDNUw/md1Axdh8BD9X6bdcWUU3
- ekkuBjfV/4wZwo53f7RhhqeqPx23K7lsMRYKiQ8=
-X-Google-Smtp-Source: ABdhPJxq1Ao3hWRIXGiAf7IYwhJ5V75f6h2J1sRj0PPGktvAVhvSzKE7SGDJCA3YfptqTEawZfamEKMjvyM/SYN2yvk=
-X-Received: by 2002:a17:906:3b99:: with SMTP id
- u25mr22686084ejf.101.1630288458435; 
- Sun, 29 Aug 2021 18:54:18 -0700 (PDT)
+X-Greylist: delayed 2690 seconds by postgrey-1.36 at gabe;
+ Mon, 30 Aug 2021 03:12:43 UTC
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9945E89C84
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 03:12:43 +0000 (UTC)
+Received: from fsav313.sakura.ne.jp (fsav313.sakura.ne.jp [153.120.85.144])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 17U2RT56028520;
+ Mon, 30 Aug 2021 11:27:29 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav313.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp);
+ Mon, 30 Aug 2021 11:27:29 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 17U2RS7V028517
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 30 Aug 2021 11:27:28 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [syzbot] BUG: unable to handle kernel paging request in
+ vga16fb_fillrect
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>,
+ akpm@linux-foundation.org, b.zolnierkie@samsung.com,
+ colin.king@canonical.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ masahiroy@kernel.org, syzkaller-bugs@googlegroups.com
+References: <000000000000815b9605c70e74f8@google.com>
+ <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
+Date: Mon, 30 Aug 2021 11:27:27 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210602083818.241793-1-thomas.hellstrom@linux.intel.com>
- <20210602083818.241793-4-thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20210602083818.241793-4-thomas.hellstrom@linux.intel.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 30 Aug 2021 11:54:07 +1000
-Message-ID: <CAPM=9twjYTME6CPuNmn3S7A_ACUNhMOAY1QcpoOqAZ5RHM6JzA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v10 03/11] drm/ttm: Add a generic TTM memcpy
- move for page-based iomem
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Ben Skeggs <skeggsb@gmail.com>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +64,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I've just been talking with Ben about nouveau having some issues since
-this path,
+On 2021/08/30 9:24, Randy Dunlap wrote:
+> Note that yres_virtual is set to 0x10000000. Is there no practical limit
+> (hence limit check) that can be used here?
+> 
+> Also, in vga16fb_check_var(), beginning at line 404:
+> 
+>   404        if (yres > vyres)
+>   405            vyres = yres;
+>   406        if (vxres * vyres > maxmem) {
+>   407            vyres = maxmem / vxres;
+>   408            if (vyres < yres)
+>   409                return -ENOMEM;
+>   410        }
+> 
+> At line 406, the product of vxres * vyres overflows 32 bits (is 0 in this
+> case/example), so any protection from this block is lost.
 
-ttm_resource can be subclassed by drivers, and the code below that
-copies ttm_resources around pretty much seems to destroy that.
+OK. Then, we can check overflow like below.
 
+diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
+index e2757ff1c23d..e483a3f5fd47 100644
+--- a/drivers/video/fbdev/vga16fb.c
++++ b/drivers/video/fbdev/vga16fb.c
+@@ -403,7 +403,7 @@ static int vga16fb_check_var(struct fb_var_screeninfo *var,
+ 
+ 	if (yres > vyres)
+ 		vyres = yres;
+-	if (vxres * vyres > maxmem) {
++	if ((u64) vxres * vyres > (u64) maxmem) {
+ 		vyres = maxmem / vxres;
+ 		if (vyres < yres)
+ 			return -ENOMEM;
 
-> +       struct ttm_resource *src_mem = &bo->mem;
-> +       struct ttm_resource_manager *src_man =
-> +               ttm_manager_type(bdev, src_mem->mem_type);
-> +       struct ttm_resource src_copy = *src_mem;
+But I think we can check overflow in the common code like below. (Both patch fixed the oops.)
 
-This here ^^
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 1c855145711b..8899679bbc46 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1008,6 +1008,11 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+ 	if (var->xres < 8 || var->yres < 8)
+ 		return -EINVAL;
+ 
++	/* Don't allow u32 * u32 to overflow. */
++	if ((u64) var->xres * var->yres > (u64) UINT_MAX ||
++	    (u64) var->xres_virtual * var->yres_virtual > (u64) UINT_MAX)
++		return -EINVAL;
++
+ 	ret = info->fbops->fb_check_var(var, info);
+ 
+ 	if (ret)
 
-> +       union {
-> +               struct ttm_kmap_iter_tt tt;
-> +               struct ttm_kmap_iter_linear_io io;
-> +       } _dst_iter, _src_iter;
-> +       struct ttm_kmap_iter *dst_iter, *src_iter;
-> +       int ret = 0;
->
-> -       /*
-> -        * TTM might be null for moves within the same region.
-> -        */
-> -       if (ttm) {
-> +       if (ttm && ((ttm->page_flags & TTM_PAGE_FLAG_SWAPPED) ||
-> +                   dst_man->use_tt)) {
->                 ret = ttm_tt_populate(bdev, ttm, ctx);
->                 if (ret)
-> -                       goto out1;
-> +                       return ret;
->         }
->
-> -       for (i = 0; i < new_mem->num_pages; ++i) {
-> -               if (old_iomap == NULL) {
-> -                       pgprot_t prot = ttm_io_prot(bo, old_mem, PAGE_KERNEL);
-> -                       ret = ttm_copy_ttm_io_page(ttm, new_iomap, i,
-> -                                                  prot);
-> -               } else if (new_iomap == NULL) {
-> -                       pgprot_t prot = ttm_io_prot(bo, new_mem, PAGE_KERNEL);
-> -                       ret = ttm_copy_io_ttm_page(ttm, old_iomap, i,
-> -                                                  prot);
-> -               } else {
-> -                       ret = ttm_copy_io_page(new_iomap, old_iomap, i);
-> -               }
-> -               if (ret)
-> -                       goto out1;
-> +       dst_iter = ttm_kmap_iter_linear_io_init(&_dst_iter.io, bdev, dst_mem);
-> +       if (PTR_ERR(dst_iter) == -EINVAL && dst_man->use_tt)
-> +               dst_iter = ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm);
-> +       if (IS_ERR(dst_iter))
-> +               return PTR_ERR(dst_iter);
-> +
-> +       src_iter = ttm_kmap_iter_linear_io_init(&_src_iter.io, bdev, src_mem);
-> +       if (PTR_ERR(src_iter) == -EINVAL && src_man->use_tt)
-> +               src_iter = ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm);
-> +       if (IS_ERR(src_iter)) {
-> +               ret = PTR_ERR(src_iter);
-> +               goto out_src_iter;
->         }
-> -       mb();
-> -out2:
-> -       old_copy = *old_mem;
->
-> -       ttm_bo_assign_mem(bo, new_mem);
-> -
-> -       if (!man->use_tt)
-> -               ttm_bo_tt_destroy(bo);
-> +       ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
-> +       src_copy = *src_mem;
-> +       ttm_bo_move_sync_cleanup(bo, dst_mem);
->
-> -out1:
-> -       ttm_resource_iounmap(bdev, old_mem, new_iomap);
-> -out:
-> -       ttm_resource_iounmap(bdev, &old_copy, old_iomap);
-> +       if (!src_iter->ops->maps_tt)
-> +               ttm_kmap_iter_linear_io_fini(&_src_iter.io, bdev, &src_copy);
+> 
+> But even if yres_virtual (aka vyres) is "only" 0x01000000, so no
+> multiplication overflow occurs, the resulting value of vyres "seems"
+> to still be too large and can cause an error [I'm not sure about this
+> last part -- I need to use a new gcc so that KASAN will work.]
 
-passes a copy into linear_io_fini which calls the driver io_mem_free
-without the subclass data.
-
-Dave.
