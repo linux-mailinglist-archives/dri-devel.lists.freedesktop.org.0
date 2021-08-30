@@ -1,128 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9BA3FBAC5
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 19:20:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C94B3FBA99
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 19:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9F789E01;
-	Mon, 30 Aug 2021 17:20:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C454989D5F;
+	Mon, 30 Aug 2021 17:05:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E68B489DFB
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 17:20:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HGFBerVA/d+mmlBClLmirMqfGa0M/xIhR7fGTLeB2JozBYXusbVolTFndvsNv1+rr5xbFDm4H/cMwHtctfj4QZsPnAVhUAXfEfjwjfHIjmR/IbkrR0OSKdF2h2NuIveRlcSbaayPIUxP9zdotjbB5oqSgc35YBb2JLofEgnreHm+rm3MR6N5VYVQuLkAVaaNtYaUWxT4uoAsSsCNwMUeoq0zaLx+gW93fvdJZkg18XjxXYUqMv3cfNSALWZtjTeJszJM09L3GjgRviBfZLaxNvhPFdxJ8sMFhSAPtgat3A1wj3ZorFQvDIB8IvsmXPi3swglY1ucvW+FCfiRPXbYOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Tf3TFiBF8cW8Yq8rz/x47xf8yWdp+ZU3SLm1JOaKR8=;
- b=EEnjVS1f1QbeZUCZmPC9yARhODNmkTXAoqt4OC5LBaKZrKYXaEzhsAxOCyp5MpfWu+49wlG/x1dKKMv8GZ78ujSU41Md8AcRi54WZtKuXiU+qCMtfQIlkQZDpFnxipn3uTkXnkndv6v9jMD7QgfEqd/ldpTyrizFWL7EBSPVN7H0Zj0Dq4vm2Ixg1n/g9vZlJM29gzbr5jODtQfxU6JzscPf2wLWra3mYnm0V8iyUPIDrVZvHrtZrAs++RD2DBojdNuiQoAHPcjY7CIy8/u6KPRtsLsLwzrI08hZ8HDdG9UinLWcKJ/DIBWyHAwkZYxxZI0Us8jB2tngoaXgBQuH2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Tf3TFiBF8cW8Yq8rz/x47xf8yWdp+ZU3SLm1JOaKR8=;
- b=T7FWXdjavInq2XI9vXk2CEkBI22JA36jNbiHlIgUzzO9TmCbY4mEIqCcoMrsL2PoFLkBL2h/7OM3nyqVGwZA8kQf70AP0PqfX5vQgvBiTXsMQV+9ZyAEZQFYMeC1pOFa3yT/wcN9qNm4+Ygk9r8oP/57LmgkuIuwbvZEijx9Na0=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
- by BN9PR12MB5292.namprd12.prod.outlook.com (2603:10b6:408:105::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20; Mon, 30 Aug
- 2021 17:04:46 +0000
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::b891:a906:28f0:fdb%3]) with mapi id 15.20.4457.024; Mon, 30 Aug 2021
- 17:04:46 +0000
-Subject: Re: [PATCH v1 03/14] mm: add iomem vma selection for memory migration
-To: Christoph Hellwig <hch@lst.de>
-Cc: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
- akpm@linux-foundation.org, linux-mm@kvack.org, rcampbell@nvidia.com,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jgg@nvidia.com, jglisse@redhat.com
-References: <20210825034828.12927-1-alex.sierra@amd.com>
- <20210825034828.12927-4-alex.sierra@amd.com> <20210825074602.GA29620@lst.de>
- <c4241eb3-07d2-c85b-0f48-cce4b8369381@amd.com>
- <a9eb2c4a-d8cc-9553-57b7-fd1622679aaa@amd.com> <20210830082800.GA6836@lst.de>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <e40b3b79-f548-b87b-7a85-f654f25ed8dd@amd.com>
-Date: Mon, 30 Aug 2021 13:04:43 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3200789D43;
+ Mon, 30 Aug 2021 17:05:09 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id h13so23473885wrp.1;
+ Mon, 30 Aug 2021 10:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=0C34+brYzwY9aWac7hPOscm2QX2P/NjZi2aJrRvqbWQ=;
+ b=cR6sXl0+8+Zea/fopksQOpEttCzTTCT8PbR7xjg0EZbbRhVsVDIMkq5/HLtcZwJpGD
+ rsFUDOJbyrq9isPd14fnKA272A7fta13SBr50fRM4eckBZlNNsTzdld/o0Na6W/co7cA
+ l/Z+yPnn7Twd8nBbveoKCgrysc1uKKtxFHx6tKFDa/RQFGDohKEc5eF54rttFqhBwm1s
+ VtU/Q5bVLQ2Q9N++DPk7CRrWFmk/PmlxHLCWyiH/uREfKpRsi6+xAcepp9xHd3No54bR
+ 1sytuyikBUpjgFELmj+G5MuOmjEOpRfzTae4lVmYCKwHzYGN3+wSl01UIQ2ek0oxkDuL
+ 8IZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=0C34+brYzwY9aWac7hPOscm2QX2P/NjZi2aJrRvqbWQ=;
+ b=hCQmOxTD/+6K5Bms0b1eFW4XWH5FeKP5woro271YiOUtTAMcNHT9d1OagyjpoBdQ3M
+ RRZwpQvN7lgRiurkGwOOnzXua8HpOcWnGuZE74xQ5z1ZkLCMwLx+G6ZxuoK+vQIXuxqU
+ YdvYWARStfPZeQVsIT1PVRyuABsw0aduaXZPtuuOnOxs4CoxKikUh/V0JIhWQwSKiSwV
+ 6Ehsp06ThI+3bWc9iRDK1HCr4ah3njBcaOZNILOna6bU53JWAj25OKeIqATTN211RPCz
+ +KkUR+JXMucKcOEJImA2HO8DCHRwcHBCk2N9BqP++T4VmBdxeFxLzDgagJSrdmP8Z3u4
+ QkBw==
+X-Gm-Message-State: AOAM530q3DagMknBqPrx86G+0zcDdAH3WdDDs+ofBf07HVT/cJWvbqNc
+ skZQ+2Rf2ztbYnojqxlGjToqAFMAqLY=
+X-Google-Smtp-Source: ABdhPJzVnVtZJSG0wWpUeUShw4tqJc+VtPFi49B2oVDxzqvo+I/h+ihdoyvaSxs9LlfIVMrYQMiY5A==
+X-Received: by 2002:adf:cd0f:: with SMTP id w15mr27125342wrm.346.1630343107729; 
+ Mon, 30 Aug 2021 10:05:07 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:1cdb:22e7:b4cc:b339?
+ ([2a02:908:1252:fb60:1cdb:22e7:b4cc:b339])
+ by smtp.gmail.com with ESMTPSA id t7sm17450297wrq.90.2021.08.30.10.05.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Aug 2021 10:05:07 -0700 (PDT)
+Subject: Re: [PATCH v3 1/4] drm/ttm: Create pinned list
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20210827203910.5565-1-andrey.grodzovsky@amd.com>
+ <20210827203910.5565-2-andrey.grodzovsky@amd.com>
+ <a13d095d-1b0f-a31c-1479-1275c2e93877@amd.com>
+ <e716dd6d-a338-86ae-9100-0e869f12732c@amd.com>
+ <e70b7078-eea6-c798-0c67-0e59ec68d75f@gmail.com>
+ <b985fb23-b74a-9401-154d-5f240a97799f@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <dc3fb1c9-dbf5-cd1f-8913-328faae9b820@gmail.com>
+Date: Mon, 30 Aug 2021 19:05:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210830082800.GA6836@lst.de>
-Content-Type: text/plain; charset=utf-8
+MIME-Version: 1.0
+In-Reply-To: <b985fb23-b74a-9401-154d-5f240a97799f@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-ClientProxiedBy: YQBPR0101CA0152.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:e::25) To BN9PR12MB5129.namprd12.prod.outlook.com
- (2603:10b6:408:136::12)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.186.47.3) by
- YQBPR0101CA0152.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:e::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.21 via Frontend
- Transport; Mon, 30 Aug 2021 17:04:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8f7b7b39-51ac-447a-f889-08d96bd844ca
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5292:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN9PR12MB52920A338B5E0C741EB77C7992CB9@BN9PR12MB5292.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9rScD7ZJqp4O7sotzfPJATG8iRgNFnadVgTRhfABBgYSYKO/D32TsFnctkp4ryFYAYgRJc8kw3Xh+u64AOc2CoGNjdztG79VfgnBeBZHZtnNjuJ4L4ajJjiwBt6pwOaH2PQEF95lrqyHC6TVOlVYVQerpzjaQN5l32I8XthlXsXII0NeR3p2k53c3oDvQLlItyXWc3KK+S6T/sw5my30C5ltaklJb/a6FhtpP4lwocWj+cV771inRngFAiCDGKZmdLtO/DXbYRi5A/D9GfPpY+woGQzXQKWnWHhsHUO7K0HY5jmWtFoV+fh/rXj1Zg6LuyVqJOU6hlg0B1M+6EgS0CnLJFfA7qLasUvOmaexI6NIa+FCtei3vqdUY34jHttO+MhOqRso+VLtPU0doYUQEb69ZQy8Sp1a/VYx95Xe2YYXukuwvRNCXAP6neT/gWOhfXFh6nPzNkAxF9BUcdWN6A01K1f0QY+wIaQVnSuDl7MoAt/3opUx5k9IYYWE+pCYBoy8svaVC2ryczpKl/GZGK80vAMyjnC8TSlqgryIA8oNalsfVHUYJ8E1usxiHH85rl8luFm2onw3EQHGK7MNODod6inyffDXL1y64/rEeeY4mrYcdDWZcs0xaBBfAw6AYWFkH/KNak56nwaxZocERtKYb/N79OnZyU8WTKZKmGIvkr2O+D3tKPmsx3x+69MCWQ2danOA83UQfahGP/v5yj31IGN3EQThqYSXn1yL5y4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(396003)(39860400002)(366004)(26005)(66476007)(66556008)(186003)(66946007)(5660300002)(83380400001)(31696002)(478600001)(31686004)(2616005)(8676002)(8936002)(16576012)(36756003)(2906002)(7416002)(316002)(6916009)(44832011)(6486002)(4326008)(86362001)(956004)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3R4ZFlpdUh2clNVK3FIem93ZGg5V2FEaWdzYjlWRXdhais1R0NxZTNUdjhn?=
- =?utf-8?B?S0hnY3VrM1BRMVRFZXVtSFQrV1JNQVNwNFozdGQycmhsTThVdjhsZzlJaFA3?=
- =?utf-8?B?M3FVUjloMC9IZnBXWTdEaWxMOW1nTHBLM3hJek1wVm1idzlTVnlYbzlmS2Qr?=
- =?utf-8?B?MUNvc3ZuS2w0eUtLc0hCb2xsOEJCQ3c0dy83UU84a0JFTEQ5dmY0UkxqeEtW?=
- =?utf-8?B?SCtpNHk1T3pZc3FkNWVxY1c0aEx0MExJbnhLZHpPYkJEQnBqOG9iSFhPL0pO?=
- =?utf-8?B?SnBFWVZFVUw0czNzS1dUaklqM044VHFDNjVIdlVsZVFNMlVrMUQzMW1sbkFW?=
- =?utf-8?B?V0xRTi9qeit6a1R4OWUybjR1bEhZcS96aHdwNTRaRlJpcVpNaTJRS2I4YXpL?=
- =?utf-8?B?bXZnV284SjNaWTFkWldJUk1hdFh6eGtXSjZqeUFBYVl6cWlVcDdTNWh2aGln?=
- =?utf-8?B?SGxhUmZtRFNVNjFRK043ZTI4cERpMnhLeldScVZ3Z2toWm1tNlkxSlZOQnVs?=
- =?utf-8?B?ck04ZEEyUkdoVFBTMndLQWsydklldTBFc0p1UTMwaGxSYVlYMDNYM2NTdlY1?=
- =?utf-8?B?Zisrb1h1UUl6dnBiaUxaSW11dlZmSk54WGlGOFRqZGJEbm50dERRN1BvZ29w?=
- =?utf-8?B?am9GdEJXTTlZS2xaNkZuQkZ3MFdkTFU4NVYwQVovOWlvb0pWNGJON1h6NWUz?=
- =?utf-8?B?QVBHVkV1bVpPTGt1VXA3NmErUWRSK2pweXREZC9HbnRmTlFtQnBMSUN2SFdL?=
- =?utf-8?B?MU9GbXRnU2FsRjJVQ3RFWnJickVKaFc5UHMwL2hhamZBK3psRHNEayt0SDNn?=
- =?utf-8?B?NXlpMVJrWlRtWlgveXYwelZnL3ZVMk1Cc2VMaEhReWs2WHZlRXlBRk8wZEVv?=
- =?utf-8?B?Z2FKaFl6bHJKd3JsQld1Z2o2WmlEcUY5eFVKdFJKaGRwZkx5YjFVRXBIOE13?=
- =?utf-8?B?UnFhVldRQk96ZkJ6QWhUR2gyOWdSelVwMUhSNk9kdS9OUm1tRmJ4Vmw4VTI5?=
- =?utf-8?B?NCtua3VDUkE0ckt6b0lMeEE3bnd4OVM5UFM5Qld4OWw0QzZpNDFsL3oyM0Mw?=
- =?utf-8?B?VjdKaFZ0SjlnbFUzbGVMSlQ1cERJdTNaZlBoMXBCbEZPMTF6WVl1ZWtFNzlp?=
- =?utf-8?B?QVpya1hoeHRidWpoQU9HMzlqUTUyM2JrMWtsM0RYeE9MVHR1b3hHUnppdTdw?=
- =?utf-8?B?OHpUTnh5QUZwL0NzbkUvYWgwVGdDdjVOZUZxUG5JMXB0MTN3S0VGVTM3c3p4?=
- =?utf-8?B?WUNqQ0s4OEp3dHZNeGwrSVA0Q3VoblczaTRsMFFJU0tqT0hKOTRSZloxTVZ3?=
- =?utf-8?B?ditocGxTdlNybWFoV0hIUml5SWszU1RsdGlUSkkrRVV0dmZpbURCV0pOL1N0?=
- =?utf-8?B?ZzAzOGh6czV4U1NINUUrS0lOQ09ycElWejdTMXNmYlhXNThhaVpHdkU4SmJE?=
- =?utf-8?B?N2lzMmVIUjZTZ25CYUsrZDRGZHEvdDc4Tm1jTGhDekFZRUFqY0pHQm1WMm4y?=
- =?utf-8?B?ZFVWMkVxOE5kWTdlYlNpQTFyRkFOcTdhYlhvWXlWQzhmcnBHREI3dUVwbW95?=
- =?utf-8?B?TXozd0V2Zks0OThyNEJLOHBYVklBVnoxUUNab0JMcldzYjJiZGhWMUhIcWsv?=
- =?utf-8?B?VlVscnY2ZVkvNUJYYUlORDFPa1dLRVV1V1pSWkFiNlJYanlSbFVMVDdXdkFw?=
- =?utf-8?B?Wml0TEJQZGlEUFowZWpHVDBmTnhHYTl6Zk04aFZ6VlQ5VFJNck10MzE0aWVH?=
- =?utf-8?Q?S/uowfNUMC3wOBjMV2rEG+4m91Co1JI/GQsW67s?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f7b7b39-51ac-447a-f889-08d96bd844ca
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2021 17:04:46.4580 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w8qthcJsEPtf3a+G/X8B0TOnW7JLYHEoihfvatHcPqLAwADTGQT6FHlgELzjIFFIiVPAOU3FZD1nZTZp9kbG+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5292
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,36 +82,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2021-08-30 um 4:28 a.m. schrieb Christoph Hellwig:
-> On Thu, Aug 26, 2021 at 06:27:31PM -0400, Felix Kuehling wrote:
->> I think we're missing something here. As far as I can tell, all the work
->> we did first with DEVICE_GENERIC and now DEVICE_PUBLIC always used
->> normal pages. Are we missing something in our driver code that would
->> make these PTEs special? I don't understand how that can be, because
->> driver code is not really involved in updating the CPU mappings. Maybe
->> it's something we need to do in the migration helpers.
-> It looks like I'm totally misunderstanding what you are adding here
-> then.  Why do we need any special treatment at all for memory that
-> has normal struct pages and is part of the direct kernel map?
 
-The pages are like normal memory for purposes of mapping them in CPU
-page tables and for coherent access from the CPU. From an application
-perspective, we want file-backed and anonymous mappings to be able to
-use DEVICE_PUBLIC pages with coherent CPU access. The goal is to
-optimize performance for GPU heavy workloads while minimizing the need
-to migrate data back-and-forth between system memory and device memory.
 
-The pages are special in two ways:
+Am 30.08.21 um 19:02 schrieb Andrey Grodzovsky:
+>
+> On 2021-08-30 12:51 p.m., Christian König wrote:
+>> Am 30.08.21 um 16:16 schrieb Andrey Grodzovsky:
+>>>
+>>> On 2021-08-30 4:58 a.m., Christian König wrote:
+>>>> Am 27.08.21 um 22:39 schrieb Andrey Grodzovsky:
+>>>>> This list will be used to capture all non VRAM BOs not
+>>>>> on LRU so when device is hot unplugged we can iterate
+>>>>> the list and unmap DMA mappings before device is removed.
+>>>>>
+>>>>> v2: Reanme function to ttm_bo_move_to_pinned
+>>>>> v3: Move the pinned list to ttm device
+>>>>
+>>>> As far as I can see there is not list_del() remaining. So this 
+>>>> won't work correctly.
+>>>
+>>>
+>>> It's in ttm_bo_release, there was no code change there hence it's 
+>>> not captured in the patch.
+>>
+>> Ah! So you keep the logic as is there. Sorry totally missed that.
+>>
+>> In this case the patch is Reviewed-by: Christian König 
+>> <christian.koenig@amd.com>
+>>
+>> Can you push this to drm-misc-next?
+>>
+>> Thanks,
+>> Christian.
+>
+>
+> I think It's supposed to go on top of your changes you mention here 
+> which are not pushed yet.
+> I will need to apply all the patches on top of yours and retest (I was 
+> doing everything in amd-staging-drm-next)
+> until now.
 
- 1. The memory is managed not by the Linux buddy allocator, but by the
-    GPU driver's TTM memory manager
- 2. We want to migrate data in response to GPU page faults and
-    application hints using the migrate_vma helpers
+Works for me as well. Alternatively you can just push this patch here to 
+drm-misc-next so that I can rebase on top and merge the rest through 
+amd-staging-drm-next.
 
-It's the second part that we're really trying to address with this patch
-series.
+The patch pushed to drm-misc-next should automatically fall out when 
+Alex rebases his stuff on upstream the next time.
 
-Regards,
-  Felix
+Christian.
 
+>
+> Andrey
+>
+>
+>>
+>>>
+>>> Andrey
+>>>
+>>>
+>>>>
+>>>> I suggest to rather rebase on top of the stuff I'm working on for a 
+>>>> while to move the LRU into the resource instead.
+>>>>
+>>>> Just send out the latest patch set of this with you in CC.
+>>>>
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>>>> Suggested-by: Christian König <christian.koenig@amd.com>
+>>>>> ---
+>>>>>   drivers/gpu/drm/ttm/ttm_bo.c     | 18 ++++++++++++++----
+>>>>>   drivers/gpu/drm/ttm/ttm_device.c |  1 +
+>>>>>   include/drm/ttm/ttm_device.h     |  1 +
+>>>>>   3 files changed, 16 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c 
+>>>>> b/drivers/gpu/drm/ttm/ttm_bo.c
+>>>>> index 1b950b45cf4b..1fedd0eb67ba 100644
+>>>>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>>>>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>>>>> @@ -69,7 +69,17 @@ static void ttm_bo_mem_space_debug(struct 
+>>>>> ttm_buffer_object *bo,
+>>>>>       }
+>>>>>   }
+>>>>>   -static void ttm_bo_del_from_lru(struct ttm_buffer_object *bo)
+>>>>> +static inline void ttm_bo_move_to_pinned(struct ttm_buffer_object 
+>>>>> *bo)
+>>>>> +{
+>>>>> +    struct ttm_device *bdev = bo->bdev;
+>>>>> +
+>>>>> +    list_move_tail(&bo->lru, &bdev->pinned);
+>>>>> +
+>>>>> +    if (bdev->funcs->del_from_lru_notify)
+>>>>> +        bdev->funcs->del_from_lru_notify(bo);
+>>>>> +}
+>>>>> +
+>>>>> +static inline void ttm_bo_del_from_lru(struct ttm_buffer_object *bo)
+>>>>>   {
+>>>>>       struct ttm_device *bdev = bo->bdev;
+>>>>>   @@ -98,7 +108,7 @@ void ttm_bo_move_to_lru_tail(struct 
+>>>>> ttm_buffer_object *bo,
+>>>>>           dma_resv_assert_held(bo->base.resv);
+>>>>>         if (bo->pin_count) {
+>>>>> -        ttm_bo_del_from_lru(bo);
+>>>>> +        ttm_bo_move_to_pinned(bo);
+>>>>>           return;
+>>>>>       }
+>>>>>   @@ -339,7 +349,7 @@ static int ttm_bo_cleanup_refs(struct 
+>>>>> ttm_buffer_object *bo,
+>>>>>           return ret;
+>>>>>       }
+>>>>>   -    ttm_bo_del_from_lru(bo);
+>>>>> +    ttm_bo_move_to_pinned(bo);
+>>>>>       list_del_init(&bo->ddestroy);
+>>>>>       spin_unlock(&bo->bdev->lru_lock);
+>>>>>       ttm_bo_cleanup_memtype_use(bo);
+>>>>> @@ -1154,7 +1164,7 @@ int ttm_bo_swapout(struct ttm_buffer_object 
+>>>>> *bo, struct ttm_operation_ctx *ctx,
+>>>>>           return 0;
+>>>>>       }
+>>>>>   -    ttm_bo_del_from_lru(bo);
+>>>>> +    ttm_bo_move_to_pinned(bo);
+>>>>>       /* TODO: Cleanup the locking */
+>>>>>       spin_unlock(&bo->bdev->lru_lock);
+>>>>>   diff --git a/drivers/gpu/drm/ttm/ttm_device.c 
+>>>>> b/drivers/gpu/drm/ttm/ttm_device.c
+>>>>> index 5f31acec3ad7..530a9c36be37 100644
+>>>>> --- a/drivers/gpu/drm/ttm/ttm_device.c
+>>>>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+>>>>> @@ -208,6 +208,7 @@ int ttm_device_init(struct ttm_device *bdev, 
+>>>>> struct ttm_device_funcs *funcs,
+>>>>>       INIT_DELAYED_WORK(&bdev->wq, ttm_device_delayed_workqueue);
+>>>>>       spin_lock_init(&bdev->lru_lock);
+>>>>>       INIT_LIST_HEAD(&bdev->ddestroy);
+>>>>> +    INIT_LIST_HEAD(&bdev->pinned);
+>>>>>       bdev->dev_mapping = mapping;
+>>>>>       mutex_lock(&ttm_global_mutex);
+>>>>>       list_add_tail(&bdev->device_list, &glob->device_list);
+>>>>> diff --git a/include/drm/ttm/ttm_device.h 
+>>>>> b/include/drm/ttm/ttm_device.h
+>>>>> index cd592f8e941b..03fb44d061e0 100644
+>>>>> --- a/include/drm/ttm/ttm_device.h
+>>>>> +++ b/include/drm/ttm/ttm_device.h
+>>>>> @@ -265,6 +265,7 @@ struct ttm_device {
+>>>>>        */
+>>>>>       spinlock_t lru_lock;
+>>>>>       struct list_head ddestroy;
+>>>>> +    struct list_head pinned;
+>>>>>         /*
+>>>>>        * Protected by load / firstopen / lastclose /unload sync.
+>>>>
+>>
 
