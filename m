@@ -2,48 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58B13FBA48
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706BD3FBA65
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 18:51:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBD7589A86;
-	Mon, 30 Aug 2021 16:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B19989CAC;
+	Mon, 30 Aug 2021 16:51:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E85CB89A86;
- Mon, 30 Aug 2021 16:43:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="240547750"
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="240547750"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2021 09:43:02 -0700
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; d="scan'208";a="530497798"
-Received: from jasauer1-mobl4.amr.corp.intel.com (HELO intel.com)
- ([10.255.38.180])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2021 09:43:00 -0700
-Date: Mon, 30 Aug 2021 12:42:58 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Imre Deak <imre.deak@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Sean Paul <seanpaul@chromium.org>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/dp: Use max params for panels <
- eDP 1.4
-Message-ID: <YS0KkvYfvwbQTjfC@intel.com>
-References: <20210820075301.693099-1-kai.heng.feng@canonical.com>
- <YR/ltlF5jRTYzQ3F@intel.com> <YSfRXjuRWa57uxXN@intel.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53E7E89CAC;
+ Mon, 30 Aug 2021 16:51:13 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id g18so15855485wrc.11;
+ Mon, 30 Aug 2021 09:51:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=gf70W02tYmrUZh4IgFEsxTVilFSZlkLKQPCLlQa9Glc=;
+ b=VjxVAuPmKFCSnyXq7EFfkJo43GiH+J1rse9rDrOqFpUhkelGcpc9cAaQjNPuBVi+CS
+ UN9F42BwopaMLf63OpBmGpW41Gi/zBl5GuATwTJcc5JgagrZ2XUpJ6CMDxW/CsoqQ2np
+ 8ZfKjAwz4LvTIw2/pjLJ8hqTO3FGzStxbxKkbm3L4SA7RAQxtyTtsPVRNTteHQ1XsRkm
+ jpFq03PkYhl4GrGIHQhcdruPUebvg6YIjUtSjwegypkhnXZxIDs3DljBuLCXnV2SuLHt
+ 6sI2uIoa/Hn4O1H+/Ljyi+h/xEEEYSsflWpcIFmkUjEINSEAeC6ZsxEtv1VFLFb85DMn
+ uPzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=gf70W02tYmrUZh4IgFEsxTVilFSZlkLKQPCLlQa9Glc=;
+ b=rfgsTarYPnUdiKbBIxsL3VTGmdRrPXXyzKK9P8npQHvs0XAZrhxh1BaH6ycOCNjjfe
+ 5OeQ6T+9WNnFZTxR4O90nxqhyE8aMCV6P5fxQ29tZ6/0wZpbJMbF6s3CaY6/gHEq2wFB
+ oNeatZaD56dT0R2D4+vHTDHOAP+Tit8sgpYXcS3wTyl1w0CQi6oFmmgUzHL01m4NMV6w
+ c5kNWW+0HX8TiBNwesw6XlnLAChr7mpQ1OstdU/uznvgLO8pngb/6zHSXLwsu9rcTZsV
+ 80CEOP9oLv2mu7dMzC+nb++ZypOkhTnS9U7hH0EQZWCFCfrGrL2TY8lqNGQXjHMqGsfw
+ q8vw==
+X-Gm-Message-State: AOAM531sb93gD9kxDO4k2320UenWdgyvf/4vc2ww1FGKJw56ilL9pXUI
+ JvC4VCtmAGhlc9mSYEWSoZYfrRzl7z4=
+X-Google-Smtp-Source: ABdhPJyg3ayrf1ne3jGX3caBFGU53fqVn6CSZtCSYgDovh2QA4cw5lM8ciQflrvq9EAc5R9GuvCriw==
+X-Received: by 2002:a5d:6cc9:: with SMTP id c9mr14748722wrc.158.1630342271953; 
+ Mon, 30 Aug 2021 09:51:11 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:1cdb:22e7:b4cc:b339?
+ ([2a02:908:1252:fb60:1cdb:22e7:b4cc:b339])
+ by smtp.gmail.com with ESMTPSA id z6sm65654wmp.1.2021.08.30.09.51.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Aug 2021 09:51:11 -0700 (PDT)
+Subject: Re: [PATCH v3 1/4] drm/ttm: Create pinned list
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20210827203910.5565-1-andrey.grodzovsky@amd.com>
+ <20210827203910.5565-2-andrey.grodzovsky@amd.com>
+ <a13d095d-1b0f-a31c-1479-1275c2e93877@amd.com>
+ <e716dd6d-a338-86ae-9100-0e869f12732c@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e70b7078-eea6-c798-0c67-0e59ec68d75f@gmail.com>
+Date: Mon, 30 Aug 2021 18:51:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <e716dd6d-a338-86ae-9100-0e869f12732c@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YSfRXjuRWa57uxXN@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,85 +80,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 26, 2021 at 01:37:34PM -0400, Rodrigo Vivi wrote:
-> On Fri, Aug 20, 2021 at 08:26:14PM +0300, Ville Syrj�l� wrote:
-> > On Fri, Aug 20, 2021 at 03:52:59PM +0800, Kai-Heng Feng wrote:
-> > > Users reported that after commit 2bbd6dba84d4 ("drm/i915: Try to use
-> > > fast+narrow link on eDP again and fall back to the old max strategy on
-> > > failure"), the screen starts to have wobbly effect.
-> > > 
-> > > Commit a5c936add6a2 ("drm/i915/dp: Use slow and wide link training for
-> > > everything") doesn't help either, that means the affected eDP 1.2 panels
-> > > only work with max params.
-> > > 
-> > > So use max params for panels < eDP 1.4 as Windows does to solve the
-> > > issue.
-> > > 
-> > > v3:
-> > >  - Do the eDP rev check in intel_edp_init_dpcd()
-> > > 
-> > > v2:
-> > >  - Check eDP 1.4 instead of DPCD 1.1 to apply max params
-> > > 
-> > > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/3714
-> > > Fixes: 2bbd6dba84d4 ("drm/i915: Try to use fast+narrow link on eDP again and fall back to the old max strategy on failure")
-> > > Fixes: a5c936add6a2 ("drm/i915/dp: Use slow and wide link training for everything")
-> > > Suggested-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
-> > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > 
-> > Slapped a cc:stable on it and pushed to drm-intel-next. Thanks.
-> 
-> Since I got a strange failure on CI_DIF_604 that I don't see on CI_DIF_603,
-> I'm avoiding the display patches. This one and also
-> dab1b47e57e0 ("drm/i915/dp: return proper DPRX link training result")
-> 
-> I know, it is probably the other one, but I had to remove both patches for
-> now and I'm not confident the CI will allow me to test with this one alone.
-> 
-> If we have -rc8 I will check again later. Otherwise we will have to send
-> to the stable mailing list later.
+Am 30.08.21 um 16:16 schrieb Andrey Grodzovsky:
+>
+> On 2021-08-30 4:58 a.m., Christian König wrote:
+>> Am 27.08.21 um 22:39 schrieb Andrey Grodzovsky:
+>>> This list will be used to capture all non VRAM BOs not
+>>> on LRU so when device is hot unplugged we can iterate
+>>> the list and unmap DMA mappings before device is removed.
+>>>
+>>> v2: Reanme function to ttm_bo_move_to_pinned
+>>> v3: Move the pinned list to ttm device
+>>
+>> As far as I can see there is not list_del() remaining. So this won't 
+>> work correctly.
+>
+>
+> It's in ttm_bo_release, there was no code change there hence it's not 
+> captured in the patch.
 
-CI didn't run on TGL again, so I couldn't send this patch last week.
-And 5.14 got released.
+Ah! So you keep the logic as is there. Sorry totally missed that.
 
-If this is important for 5.14 or any other stable release, please
-confirm this is not the one breaking linking training on TGL and then
-please send it to the stable mailing list.
+In this case the patch is Reviewed-by: Christian König 
+<christian.koenig@amd.com>
 
-https://www.kernel.org/doc/Documentation/process/stable-kernel-rules.rst
+Can you push this to drm-misc-next?
 
-Sorry,
-Rodrigo.
+Thanks,
+Christian.
 
-> 
-> > 
-> > > ---
-> > >  drivers/gpu/drm/i915/display/intel_dp.c | 5 ++++-
-> > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> > > index 75d4ebc669411..e0dbd35ae7bc0 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > > @@ -2445,11 +2445,14 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
-> > >  	 */
-> > >  	if (drm_dp_dpcd_read(&intel_dp->aux, DP_EDP_DPCD_REV,
-> > >  			     intel_dp->edp_dpcd, sizeof(intel_dp->edp_dpcd)) ==
-> > > -			     sizeof(intel_dp->edp_dpcd))
-> > > +			     sizeof(intel_dp->edp_dpcd)) {
-> > >  		drm_dbg_kms(&dev_priv->drm, "eDP DPCD: %*ph\n",
-> > >  			    (int)sizeof(intel_dp->edp_dpcd),
-> > >  			    intel_dp->edp_dpcd);
-> > >  
-> > > +		intel_dp->use_max_params = intel_dp->edp_dpcd[0] < DP_EDP_14;
-> > > +	}
-> > > +
-> > >  	/*
-> > >  	 * This has to be called after intel_dp->edp_dpcd is filled, PSR checks
-> > >  	 * for SET_POWER_CAPABLE bit in intel_dp->edp_dpcd[1]
-> > > -- 
-> > > 2.32.0
-> > 
-> > -- 
-> > Ville Syrj�l�
-> > Intel
+>
+> Andrey
+>
+>
+>>
+>> I suggest to rather rebase on top of the stuff I'm working on for a 
+>> while to move the LRU into the resource instead.
+>>
+>> Just send out the latest patch set of this with you in CC.
+>>
+>> Christian.
+>>
+>>>
+>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>> Suggested-by: Christian König <christian.koenig@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/ttm/ttm_bo.c     | 18 ++++++++++++++----
+>>>   drivers/gpu/drm/ttm/ttm_device.c |  1 +
+>>>   include/drm/ttm/ttm_device.h     |  1 +
+>>>   3 files changed, 16 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c 
+>>> b/drivers/gpu/drm/ttm/ttm_bo.c
+>>> index 1b950b45cf4b..1fedd0eb67ba 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>>> @@ -69,7 +69,17 @@ static void ttm_bo_mem_space_debug(struct 
+>>> ttm_buffer_object *bo,
+>>>       }
+>>>   }
+>>>   -static void ttm_bo_del_from_lru(struct ttm_buffer_object *bo)
+>>> +static inline void ttm_bo_move_to_pinned(struct ttm_buffer_object *bo)
+>>> +{
+>>> +    struct ttm_device *bdev = bo->bdev;
+>>> +
+>>> +    list_move_tail(&bo->lru, &bdev->pinned);
+>>> +
+>>> +    if (bdev->funcs->del_from_lru_notify)
+>>> +        bdev->funcs->del_from_lru_notify(bo);
+>>> +}
+>>> +
+>>> +static inline void ttm_bo_del_from_lru(struct ttm_buffer_object *bo)
+>>>   {
+>>>       struct ttm_device *bdev = bo->bdev;
+>>>   @@ -98,7 +108,7 @@ void ttm_bo_move_to_lru_tail(struct 
+>>> ttm_buffer_object *bo,
+>>>           dma_resv_assert_held(bo->base.resv);
+>>>         if (bo->pin_count) {
+>>> -        ttm_bo_del_from_lru(bo);
+>>> +        ttm_bo_move_to_pinned(bo);
+>>>           return;
+>>>       }
+>>>   @@ -339,7 +349,7 @@ static int ttm_bo_cleanup_refs(struct 
+>>> ttm_buffer_object *bo,
+>>>           return ret;
+>>>       }
+>>>   -    ttm_bo_del_from_lru(bo);
+>>> +    ttm_bo_move_to_pinned(bo);
+>>>       list_del_init(&bo->ddestroy);
+>>>       spin_unlock(&bo->bdev->lru_lock);
+>>>       ttm_bo_cleanup_memtype_use(bo);
+>>> @@ -1154,7 +1164,7 @@ int ttm_bo_swapout(struct ttm_buffer_object 
+>>> *bo, struct ttm_operation_ctx *ctx,
+>>>           return 0;
+>>>       }
+>>>   -    ttm_bo_del_from_lru(bo);
+>>> +    ttm_bo_move_to_pinned(bo);
+>>>       /* TODO: Cleanup the locking */
+>>>       spin_unlock(&bo->bdev->lru_lock);
+>>>   diff --git a/drivers/gpu/drm/ttm/ttm_device.c 
+>>> b/drivers/gpu/drm/ttm/ttm_device.c
+>>> index 5f31acec3ad7..530a9c36be37 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_device.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+>>> @@ -208,6 +208,7 @@ int ttm_device_init(struct ttm_device *bdev, 
+>>> struct ttm_device_funcs *funcs,
+>>>       INIT_DELAYED_WORK(&bdev->wq, ttm_device_delayed_workqueue);
+>>>       spin_lock_init(&bdev->lru_lock);
+>>>       INIT_LIST_HEAD(&bdev->ddestroy);
+>>> +    INIT_LIST_HEAD(&bdev->pinned);
+>>>       bdev->dev_mapping = mapping;
+>>>       mutex_lock(&ttm_global_mutex);
+>>>       list_add_tail(&bdev->device_list, &glob->device_list);
+>>> diff --git a/include/drm/ttm/ttm_device.h 
+>>> b/include/drm/ttm/ttm_device.h
+>>> index cd592f8e941b..03fb44d061e0 100644
+>>> --- a/include/drm/ttm/ttm_device.h
+>>> +++ b/include/drm/ttm/ttm_device.h
+>>> @@ -265,6 +265,7 @@ struct ttm_device {
+>>>        */
+>>>       spinlock_t lru_lock;
+>>>       struct list_head ddestroy;
+>>> +    struct list_head pinned;
+>>>         /*
+>>>        * Protected by load / firstopen / lastclose /unload sync.
+>>
+
