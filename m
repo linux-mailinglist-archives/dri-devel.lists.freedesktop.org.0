@@ -2,126 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655843FB116
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 08:16:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D40B3FB12F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Aug 2021 08:28:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B7589B33;
-	Mon, 30 Aug 2021 06:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA9789CD3;
+	Mon, 30 Aug 2021 06:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B21DD89B33;
- Mon, 30 Aug 2021 06:16:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JCUWK2kPv+L8rn1EDFk9MLqYhvuMavEm/iXhHM+RxoPl3KDGkvFGmnkP3j0bjnvrVtphxalLqOtpCOrLLEuIedARYBV+ddNCauK/IL6yvSDjsG1LnRZNByLIqpD1c7x+9Eop6WE/+c7bUJ4wl4Q9AZTpYgVf0MGq1VjODMLwsujp0kfFQ+qNdFwOdFo3EwOKYt3NFiv4fuPn9DXAqiYJQlzaGQ8CywcFKC/TdOdG/qgUBI8Jtwn7C1nBQEvwCMv3yimlXRvKSajq5uOpCtsn6p28u+OplS3JjdPfdR2NRmUOBek6t1F+ZVClrk06JpZY+nj3H5b6Ck57VhFfqvGJ8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iLDJ2mIawJjrmX7PEDg+UCbuHiFXugJplLeQ5ofVR/g=;
- b=mt0knw5I17NCErP05aIGXQbkkihoGStL+vZ6thfrqfeoxP1/VpIRNfrhCdIGtAEmApG7KoJOdLyThnps6BC38J7NGP4biX1PMnWC7aSrq1KWuBUt+nnL3U8VvgiYBRsf9lZG5ZTRWmgp+DQ0mHeIgufZD3LGUOIYcCOKvsLhwVOCqLyLqcG55ZUzDftqoFqwvg3WcN++IlT7TSrXKdEXASOQ90d/XkTXKXwZxnVZR86bR7LG2CZFc78UfqLpewGpBxREYdLu0cg5N4GisamyMWjttSQdVJXjNNOm2svFvFrBSTV2apNRrmaJa6JdScJiB9LAXHcTLrTrzl5P+x5Vrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iLDJ2mIawJjrmX7PEDg+UCbuHiFXugJplLeQ5ofVR/g=;
- b=ONk4uQDNlV8s1anJ5hedjzeLdNNoUCxFmkDuQR3i/hTSxj7BL0EjTfhNQZbVGmdfZ4Umwr1N4ullvkEvI8AfdwWpRL2/AZZ2MT6fz5Q9R4r8KT+emt4y7xoZ+vfJ+jeQ9y2FgM32UQct6KnJQgJmzgaQP3QHrHHJ+EJ0/ZUODLs=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3727.namprd12.prod.outlook.com (2603:10b6:208:15a::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20; Mon, 30 Aug
- 2021 06:16:26 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4457.024; Mon, 30 Aug 2021
- 06:16:26 +0000
-Subject: Re: [Intel-gfx] [PATCH v10 03/11] drm/ttm: Add a generic TTM memcpy
- move for page-based iomem
-To: Dave Airlie <airlied@gmail.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Ben Skeggs <skeggsb@gmail.com>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-References: <20210602083818.241793-1-thomas.hellstrom@linux.intel.com>
- <20210602083818.241793-4-thomas.hellstrom@linux.intel.com>
- <CAPM=9twjYTME6CPuNmn3S7A_ACUNhMOAY1QcpoOqAZ5RHM6JzA@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <1c8ee7b0-97ef-0c04-8e92-ec6bdc56bd40@amd.com>
-Date: Mon, 30 Aug 2021 08:16:20 +0200
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F04FE89CBC
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Aug 2021 06:28:53 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ m25-20020a7bcb99000000b002e751bcb5dbso8611469wmi.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Aug 2021 23:28:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=/8bxOlo74rRVYf26aZTCGP8ojUZakctlijGZ8qjNPZ8=;
+ b=odb9VMvPQWEaLk9fyZ4W3/9GSA+xOdgL21tpw2eW/o86y/uda1Oj2+DXU3WxhAAFn7
+ y22gk7MSSJzsWz3WWnk/dHulSU/8DrYJw7pS4nu2fltQC4SpQu5iDil21Tlq/fUfUdTy
+ WnOOPG3ffGJIfZ5gx1U0qZt184eY/mjIJn5AfLvo1mbvBPaHwfzPCEM0oOpgEbMgVjYZ
+ xC9QLSWZD18mkac1ovd99tHEhdJhB3TYYuU8Rf9gcujKxVi2ykIgb7NGZ7Ht0yqFclge
+ VqHvexFoMY3QaF87AiyP7blcvKCJ6UY6pECh5lxvfPy9DXd8YsO+rlv7igQEfQjg3V9q
+ jGrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=/8bxOlo74rRVYf26aZTCGP8ojUZakctlijGZ8qjNPZ8=;
+ b=j3RagsuDqAqd+BCR/WoUl6oQ5tUT5kDdBXu7j9ZNDP1jIxREnWYUf/2uf0jvZ7GTI9
+ A4Lsfd1NBz1XB3kG4Kz6czCGP1S5m+RWN5Mk+/epTHvB96hSvlK97jlhqQVig6wxWcsS
+ 6jEbapwmIuKZDLTlUgaSjXeplYNfSaxI2qKcVXCqj28VpC5mYHmJr2rV75W0mcBdoxqk
+ +d1+F0Exl1PWy1fNnyJ7RhGah6DRXcrCYz8s1+Jp/B2cXqefkWvswBBUNUdflIN0gnEv
+ GbsX82QVQdqQI5M3vR3ShUFyul7Z2NIjQto4oegV8KTlng5DMX30UZKalpqXDnlHMhS0
+ EO1w==
+X-Gm-Message-State: AOAM532xWUPLEmElkCbWtHEASi3nXCjSv0CnbOWH9kmNc6VPqYxvNBts
+ 4ep40jOXxR6N8WOy2vz/lDo=
+X-Google-Smtp-Source: ABdhPJzy5grAK8C6bCUR1/Objp2EznfMAKV49i+Ld/e35kaOC8p6G5W/e9Wyf3JwFNm2+numr5vmkw==
+X-Received: by 2002:a1c:7d06:: with SMTP id y6mr20400089wmc.7.1630304932307;
+ Sun, 29 Aug 2021 23:28:52 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id y15sm14167509wrw.64.2021.08.29.23.28.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 29 Aug 2021 23:28:51 -0700 (PDT)
+Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: hridya@google.com, john.stultz@linaro.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ gustavo@padovan.org, linux-media@vger.kernel.org, adelva@google.com,
+ sspatil@google.com
+References: <20210818105443.1578-1-christian.koenig@amd.com>
+ <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
+ <YSdXEaBDpijEBx/6@phenom.ffwll.local>
+ <0c150724-032f-b566-4f61-b4771bafe7a8@gmail.com>
+ <YSlJwX0lNBSdj880@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d41b682d-f4ec-b050-8f45-78b9a9ce944d@gmail.com>
+Date: Mon, 30 Aug 2021 08:28:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <CAPM=9twjYTME6CPuNmn3S7A_ACUNhMOAY1QcpoOqAZ5RHM6JzA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR01CA0106.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::47) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.178.21] (91.14.161.181) by
- AM0PR01CA0106.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20 via Frontend
- Transport; Mon, 30 Aug 2021 06:16:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ba573dfd-86f6-4b9d-fee4-08d96b7db25e
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3727:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB37271428086C10AE56F41F4383CB9@MN2PR12MB3727.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LZe86yGcGL+FlLGqsTESJFt/LBmWEg4n3lCB5L+jyO89vRdKK5dxwl/EZTIcAGEO4pwRXBfdY5Ri0Ob5n6VsPAyyJbb+Jt+nWLTGeMQcB+V8oU9FD7j+4+luC0mIhmFdHae8mlLVyKExScFW8jyq5tkOj6NLud8qr9oFfDxZPwc/5q+kIBck5IYIzM+lTTkXZ4pumIYJVWLwbciZyLdRuMBFaWEXDRxMg195H49WPlpl1/XW1SAJKLSOLkgIm+z2mbT+R5nYUXI3xsjTWn7YGP7uapt5djF9i3c3NV2j6eGUg9BSD9lZD2IkESoI7h/U+9cwGgkYwbZI1zYWdgcPV+zUfupRlTR7hEue/7syS7Bra0P7BVYZPTSA9UFKktCBP6RpjIRa+0C2X4ypwpjQO15Sj2jM/OBI9Uf9GQdwmH7gB8bedJA+q4Fo08X9h+Lxz3M7PuiPxvpCrmX3+UNA1w2SqBp8Y8O5WFvdLZf4h1F7U6ps5DkG3GWVA98pVI/YNI61l4opI2dU9QU2aGQxMCBF8i0uP5+o7cReJwLEmcJczYeQspfb7y/2MRv+TEAzGWKbj8pmKdH2hvNYH0gp8hgevySpoMB3viU8ESKZzYRIsQOaoPRT59FOOXXKAyuM4QOoEY6sPJZyoKLgiCdY0NpFVyqS4r9uVx83aqzQMgTMsEchdFEnQsee1eEAba2k6tDIQwiMGGF1ETJlGCdRpYUVygq426/XlaDAtge+7Gw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(39860400002)(376002)(346002)(396003)(2906002)(956004)(6486002)(2616005)(4326008)(6666004)(8936002)(31696002)(66476007)(66556008)(26005)(31686004)(66946007)(8676002)(110136005)(54906003)(186003)(38100700002)(36756003)(16576012)(478600001)(316002)(86362001)(5660300002)(41533002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NkI3cHIvOGJLNUp4b1VGcHFJZG1sNm1uOVFLYm1TNjQ1c3hkMmpCbUtESXds?=
- =?utf-8?B?TnhPM1FCZCt1QzBuemlobDRJQkNYTyt0K3JPdUlvZjJTUzJIOTBScVhsUG9W?=
- =?utf-8?B?T3VPVFFTQkVlRUJTU0YvbXArSEU4cDljeEVxdGpQdmMrYWl2UFNYUHdPNStJ?=
- =?utf-8?B?cVVGaDBLUHFZS004alJkeG5UOHhXdlR0UW91aUthV1hudS9lQkVHVDFaNG1Z?=
- =?utf-8?B?TDNqbW1oQlRCOGtUejAzaUczZVppQVRFVVBzdlZLcUJTVTdGOHZCLzg1SHlD?=
- =?utf-8?B?bWZpZ2dWbUdTdzRHNjBxZE5UYmx5eVc0NllYdWpsTWczdzUyTk1uL0N0aTVS?=
- =?utf-8?B?RFFMQTBaaHp1TndSU3cwZEI3V2w0b3dJSHh3cEJPaXBrc2JLbUFrNUg1Yzdm?=
- =?utf-8?B?N3lZWFNDNjE5eFk3M3YwWVRMbmRZa3I0dVduVDA3QllCOTA4a3pybmJlMVgz?=
- =?utf-8?B?Mkp0ZzRtcjQwUGIxSDdHelhjMlo5WVI5S1FiTFhwN2UrM3lMWWlacDVJVmhn?=
- =?utf-8?B?V2dDNVNXcGlSSHNON2o0VVVycUJRMW0ybG1mMTJGNnZ6RVdjMnZWWi9MNnNO?=
- =?utf-8?B?eS9EV0psOTlnSEM4WXkvRm9TOWIvRkpIcUpSRjIzY09XMzZpbXFMMWxwbm44?=
- =?utf-8?B?RVVVY1BmZkdwdTNxYVc1T3RzK2MvY29UV1QxcW5KdjBzSFhOTjFOVFBjQVA4?=
- =?utf-8?B?aW0yeGwvZmI3bVVOYVI2L3Exbnc0dmw1QjZqMGU4TE9xUHVHRTN6aXZKRGRr?=
- =?utf-8?B?amhTS2tqcnRiTmtPWkVRTGt6QWFyME9ET2czVXoySldnbVBQeGROK01uVGU4?=
- =?utf-8?B?RFVrckNnOGZsb1gxMThTdW1xUzFlNXNPSFBPQXNYK0tMOU9mOEcwUjg5eU5H?=
- =?utf-8?B?a25zV3J2M3g3V2E4K2tSUkpET0V5M1ZNSzUyRWFrZ0Z1elVUbkZ1RXMvVzNE?=
- =?utf-8?B?MllQQXNzMndKSE81R2V0cXhyQXFNVW12RHQ5M3VSeGlIS2FUMTIvTVJ2ZmlB?=
- =?utf-8?B?MHF5Q1lIN1FtWFczUXFjR3ZvZGpsTnlwVisxUUdYclNHa2J3WENiRVhOZE1N?=
- =?utf-8?B?aTBKRU1jSGRUY3FTWDh6cFFLemFvV1lMMWhMTis1aUwvTWNJeVI2VDRUSkJn?=
- =?utf-8?B?cmswRXROL3VtVzYxK29YdXJPNGF2Q1Y5RGlseDFkZzduWDE4RXFUeWlWcmdR?=
- =?utf-8?B?Y1pFSTduZEZZN0krY0doZGVuajBybWNIOTRna25MTkpreExVdjJBSWZWdzNy?=
- =?utf-8?B?ZDhlRWE0OXQydUcrZHZvZjBnUEpkclJLei9YdzFsbGlXOXdUV0hGeVFXMGd2?=
- =?utf-8?B?UmRqRDdNTGhVMGVxOG0vaGNCZ1Job29SV1JCMjhpbkZGK0JiRUtVQzJPUUVl?=
- =?utf-8?B?UjdwK0FBQlpyTnZVRFcwa0YxTy9mNk9tOXdpdzY4Y3NpWGFsUXEvSUVPejlZ?=
- =?utf-8?B?K2xVUlYrWmFwMkJWbjNFdHhCeTJnSzA5NUduRUJDYjlqQnNtc0tKc0VQMTZH?=
- =?utf-8?B?TEdUaUU1bXpoOHk5cnhIQ2tsZU1VZVlXOGNwU2N3TjlpcmlSZitncXpXdGIz?=
- =?utf-8?B?SXlZNkVweEVrN0JtcWtWWEh6azVjM2xhVHhBaEpnRkRWaHg1WEpkSWJlSXNU?=
- =?utf-8?B?Q29Nd1NKbXlZaVJLTmZpdGozNzU0ZGVYMk80UUNaOWl1RHYzMmNySWJPUWJN?=
- =?utf-8?B?aVNvQzZJYTF1S2daNTRsMStJNHF5Sk5kYUxYc296NzhFZTVnK3g1RmdrVm1w?=
- =?utf-8?Q?/Y1LShzfXpk0JLkSJ4nDUdSnJfLtKdFLsa0EGAh?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba573dfd-86f6-4b9d-fee4-08d96b7db25e
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2021 06:16:26.1587 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iyflwI8pRBCk95LOUnCCRkbBIyjvg6vSYJaM7MROYSgQeOxeJKADlHEYAYv29Ieb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3727
+In-Reply-To: <YSlJwX0lNBSdj880@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,96 +84,221 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.08.21 um 03:54 schrieb Dave Airlie:
-> I've just been talking with Ben about nouveau having some issues since
-> this path,
+Am 27.08.21 um 22:23 schrieb Daniel Vetter:
+> On Fri, Aug 27, 2021 at 11:07:58AM +0200, Christian König wrote:
+>> Am 26.08.21 um 10:55 schrieb Daniel Vetter:
+>>> On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
+>>>> Just a gentle ping. Daniel any more comments on this?
+>>> Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
+>>> this is just going to cause fails and reboots in our ci (we reboot on
+>>> taints).
+>> *sigh* can I at least print a warning without breaking the igt tests?
+> CI watches dmesg too ... it just doesn't force a reboot (which hurts run
+> rate really badly).
 >
-> ttm_resource can be subclassed by drivers, and the code below that
-> copies ttm_resources around pretty much seems to destroy that.
->
->
->> +       struct ttm_resource *src_mem = &bo->mem;
->> +       struct ttm_resource_manager *src_man =
->> +               ttm_manager_type(bdev, src_mem->mem_type);
->> +       struct ttm_resource src_copy = *src_mem;
-> This here ^^
+>>>> I'm not sure if the second patch will cause trouble with any unit test, but
+>>>> I'm willing to try it. We can always trivial revert it.
+>>> See above, remove the igts and we should be fine I think. I don't think
+>>> there's any selftests or kselftests, but checking that should be a quick
+>>> grep at most.
+>> Yeah, we don't have any selftests as far as I can see but this stuff is so
+>> interweaved with igt that it will be hard to remove I think.
+>>
+>> A good bunch of the igt code seems to have been moved to using VGEM instead,
+>> but as far as I can see there is still plenty left relying on this.
+>>
+>> Alternatively could we make the config option depend on CONFIG_DEBUG?
+> Hm I thought it was just down to sw_sync igt testcase, and everything else
+> is moved to vgem. Do we have more, or has more landed since I looked a
+> while ago?
 
-Mhm, that's most likely a rebase/merge conflict between my change to 
-subclass ttm_resource which came in through the drm-misc-next tree and 
-Thomas change here.
+The code under lib/sw_sync.c uses this and based on that 
+lib/igt_dummyload.c defines an IGT_CORK_FENCE which is then used by at 
+least:
 
-Thomas can you take a look?
+tests/i915/gem_exec_fence.c
+tests/i915/gem_eio.c
+tests/i915/gem_exec_schedule.c
+tests/i915/gem_exec_balancer.c
+tests/i915/gem_ctx_shared.c
+tests/kms_busy.c
 
-Thanks,
+After that I've stoped looking deeper into it.
+
 Christian.
 
+> -Daniel
 >
->> +       union {
->> +               struct ttm_kmap_iter_tt tt;
->> +               struct ttm_kmap_iter_linear_io io;
->> +       } _dst_iter, _src_iter;
->> +       struct ttm_kmap_iter *dst_iter, *src_iter;
->> +       int ret = 0;
+>> Christian.
 >>
->> -       /*
->> -        * TTM might be null for moves within the same region.
->> -        */
->> -       if (ttm) {
->> +       if (ttm && ((ttm->page_flags & TTM_PAGE_FLAG_SWAPPED) ||
->> +                   dst_man->use_tt)) {
->>                  ret = ttm_tt_populate(bdev, ttm, ctx);
->>                  if (ret)
->> -                       goto out1;
->> +                       return ret;
->>          }
->>
->> -       for (i = 0; i < new_mem->num_pages; ++i) {
->> -               if (old_iomap == NULL) {
->> -                       pgprot_t prot = ttm_io_prot(bo, old_mem, PAGE_KERNEL);
->> -                       ret = ttm_copy_ttm_io_page(ttm, new_iomap, i,
->> -                                                  prot);
->> -               } else if (new_iomap == NULL) {
->> -                       pgprot_t prot = ttm_io_prot(bo, new_mem, PAGE_KERNEL);
->> -                       ret = ttm_copy_io_ttm_page(ttm, old_iomap, i,
->> -                                                  prot);
->> -               } else {
->> -                       ret = ttm_copy_io_page(new_iomap, old_iomap, i);
->> -               }
->> -               if (ret)
->> -                       goto out1;
->> +       dst_iter = ttm_kmap_iter_linear_io_init(&_dst_iter.io, bdev, dst_mem);
->> +       if (PTR_ERR(dst_iter) == -EINVAL && dst_man->use_tt)
->> +               dst_iter = ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm);
->> +       if (IS_ERR(dst_iter))
->> +               return PTR_ERR(dst_iter);
->> +
->> +       src_iter = ttm_kmap_iter_linear_io_init(&_src_iter.io, bdev, src_mem);
->> +       if (PTR_ERR(src_iter) == -EINVAL && src_man->use_tt)
->> +               src_iter = ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm);
->> +       if (IS_ERR(src_iter)) {
->> +               ret = PTR_ERR(src_iter);
->> +               goto out_src_iter;
->>          }
->> -       mb();
->> -out2:
->> -       old_copy = *old_mem;
->>
->> -       ttm_bo_assign_mem(bo, new_mem);
->> -
->> -       if (!man->use_tt)
->> -               ttm_bo_tt_destroy(bo);
->> +       ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
->> +       src_copy = *src_mem;
->> +       ttm_bo_move_sync_cleanup(bo, dst_mem);
->>
->> -out1:
->> -       ttm_resource_iounmap(bdev, old_mem, new_iomap);
->> -out:
->> -       ttm_resource_iounmap(bdev, &old_copy, old_iomap);
->> +       if (!src_iter->ops->maps_tt)
->> +               ttm_kmap_iter_linear_io_fini(&_src_iter.io, bdev, &src_copy);
-> passes a copy into linear_io_fini which calls the driver io_mem_free
-> without the subclass data.
->
-> Dave.
+>>> -Daniel
+>>>
+>>>> Thanks,
+>>>> Christian.
+>>>>
+>>>> Am 18.08.21 um 12:54 schrieb Christian König:
+>>>>> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
+>>>>> on a non existing config option to actually emit some code.
+>>>>>
+>>>>> v2: keep the signal path as is for now
+>>>>>
+>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>>> ---
+>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
+>>>>>     drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
+>>>>>     drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
+>>>>>     include/linux/dma-fence.h                 | 22 ---------------------
+>>>>>     4 files changed, 7 insertions(+), 67 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>>>>> index 0b1c48590c43..c65994e382bd 100644
+>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+>>>>> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
+>>>>>     	struct amdgpu_fence_driver *drv = &ring->fence_drv;
+>>>>>     	struct amdgpu_device *adev = ring->adev;
+>>>>>     	uint32_t seq, last_seq;
+>>>>> -	int r;
+>>>>>     	do {
+>>>>>     		last_seq = atomic_read(&ring->fence_drv.last_seq);
+>>>>> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
+>>>>>     		if (!fence)
+>>>>>     			continue;
+>>>>> -		r = dma_fence_signal(fence);
+>>>>> -		if (!r)
+>>>>> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
+>>>>> -		else
+>>>>> -			BUG();
+>>>>> -
+>>>>> +		dma_fence_signal(fence);
+>>>>>     		dma_fence_put(fence);
+>>>>>     		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+>>>>>     		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+>>>>> @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
+>>>>>     	if (!timer_pending(&ring->fence_drv.fallback_timer))
+>>>>>     		amdgpu_fence_schedule_fallback(ring);
+>>>>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
+>>>>> -
+>>>>>     	return true;
+>>>>>     }
+>>>>> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+>>>>> index 18f2c2e0dfb3..3f351d222cbb 100644
+>>>>> --- a/drivers/gpu/drm/radeon/radeon_fence.c
+>>>>> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
+>>>>> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
+>>>>>     	 */
+>>>>>     	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
+>>>>>     	if (seq >= fence->seq) {
+>>>>> -		int ret = dma_fence_signal_locked(&fence->base);
+>>>>> -
+>>>>> -		if (!ret)
+>>>>> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
+>>>>> -		else
+>>>>> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
+>>>>> -
+>>>>> +		dma_fence_signal_locked(&fence->base);
+>>>>>     		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
+>>>>>     		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
+>>>>>     		dma_fence_put(&fence->base);
+>>>>> -	} else
+>>>>> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
+>>>>> +	}
+>>>>>     	return 0;
+>>>>>     }
+>>>>> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
+>>>>>     	fence->fence_wake.func = radeon_fence_check_signaled;
+>>>>>     	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
+>>>>>     	dma_fence_get(f);
+>>>>> -
+>>>>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
+>>>>>     	return true;
+>>>>>     }
+>>>>> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
+>>>>>     		return true;
+>>>>>     	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
+>>>>> -		int ret;
+>>>>> -
+>>>>> -		ret = dma_fence_signal(&fence->base);
+>>>>> -		if (!ret)
+>>>>> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
+>>>>> +		dma_fence_signal(&fence->base);
+>>>>>     		return true;
+>>>>>     	}
+>>>>>     	return false;
+>>>>> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
+>>>>>     {
+>>>>>     	uint64_t seq[RADEON_NUM_RINGS] = {};
+>>>>>     	long r;
+>>>>> -	int r_sig;
+>>>>>     	/*
+>>>>>     	 * This function should not be called on !radeon fences.
+>>>>> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
+>>>>>     		return r;
+>>>>>     	}
+>>>>> -	r_sig = dma_fence_signal(&fence->base);
+>>>>> -	if (!r_sig)
+>>>>> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
+>>>>> +	dma_fence_signal(&fence->base);
+>>>>>     	return r;
+>>>>>     }
+>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+>>>>> index 69de2c76731f..3736746c47bd 100644
+>>>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+>>>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+>>>>> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
+>>>>>     void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
+>>>>>     {
+>>>>> -	int ret = dma_fence_signal(&fence->scheduled);
+>>>>> -
+>>>>> -	if (!ret)
+>>>>> -		DMA_FENCE_TRACE(&fence->scheduled,
+>>>>> -				"signaled from irq context\n");
+>>>>> -	else
+>>>>> -		DMA_FENCE_TRACE(&fence->scheduled,
+>>>>> -				"was already signaled\n");
+>>>>> +	dma_fence_signal(&fence->scheduled);
+>>>>>     }
+>>>>>     void drm_sched_fence_finished(struct drm_sched_fence *fence)
+>>>>>     {
+>>>>> -	int ret = dma_fence_signal(&fence->finished);
+>>>>> -
+>>>>> -	if (!ret)
+>>>>> -		DMA_FENCE_TRACE(&fence->finished,
+>>>>> -				"signaled from irq context\n");
+>>>>> -	else
+>>>>> -		DMA_FENCE_TRACE(&fence->finished,
+>>>>> -				"was already signaled\n");
+>>>>> +	dma_fence_signal(&fence->finished);
+>>>>>     }
+>>>>>     static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
+>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>>>> index 6ffb4b2c6371..4cc119ab272f 100644
+>>>>> --- a/include/linux/dma-fence.h
+>>>>> +++ b/include/linux/dma-fence.h
+>>>>> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
+>>>>>     struct dma_fence *dma_fence_allocate_private_stub(void);
+>>>>>     u64 dma_fence_context_alloc(unsigned num);
+>>>>> -#define DMA_FENCE_TRACE(f, fmt, args...) \
+>>>>> -	do {								\
+>>>>> -		struct dma_fence *__ff = (f);				\
+>>>>> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
+>>>>> -			pr_info("f %llu#%llu: " fmt,			\
+>>>>> -				__ff->context, __ff->seqno, ##args);	\
+>>>>> -	} while (0)
+>>>>> -
+>>>>> -#define DMA_FENCE_WARN(f, fmt, args...) \
+>>>>> -	do {								\
+>>>>> -		struct dma_fence *__ff = (f);				\
+>>>>> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
+>>>>> -			 ##args);					\
+>>>>> -	} while (0)
+>>>>> -
+>>>>> -#define DMA_FENCE_ERR(f, fmt, args...) \
+>>>>> -	do {								\
+>>>>> -		struct dma_fence *__ff = (f);				\
+>>>>> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
+>>>>> -			##args);					\
+>>>>> -	} while (0)
+>>>>> -
+>>>>>     #endif /* __LINUX_DMA_FENCE_H */
 
