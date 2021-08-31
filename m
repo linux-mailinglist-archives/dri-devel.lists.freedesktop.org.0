@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBB53FC995
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:18:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFC93FC99B
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:20:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E628C6E07F;
-	Tue, 31 Aug 2021 14:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D016E063;
+	Tue, 31 Aug 2021 14:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECD996E090;
- Tue, 31 Aug 2021 14:18:16 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10093"; a="218527553"
-X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="218527553"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 07:18:16 -0700
-X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="498309342"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 111396E063;
+ Tue, 31 Aug 2021 14:19:57 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10093"; a="218491667"
+X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="218491667"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 07:19:57 -0700
+X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="460136303"
 Received: from anicol1x-mobl.ger.corp.intel.com (HELO localhost)
  ([10.251.211.207])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 07:18:13 -0700
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 07:19:54 -0700
 From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- jani.nikula@intel.com
-Subject: [PATCH v2 6/6] drm/i915/edp: use MSO pixel overlap from DisplayID data
-Date: Tue, 31 Aug 2021 17:17:35 +0300
-Message-Id: <87d8d80ba205eb2ecb50f613219e0a821a842616.1630419362.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1630419362.git.jani.nikula@intel.com>
-References: <cover.1630419362.git.jani.nikula@intel.com>
-MIME-Version: 1.0
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 3/5] drm/edid: parse the DisplayID v2.0 VESA vendor block
+ for MSO
+In-Reply-To: <87wno2avaq.fsf@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <cover.1630319138.git.jani.nikula@intel.com>
+ <09f57d55813f916578d1dd1e28bee3a621068bdd.1630319138.git.jani.nikula@intel.com>
+ <YSz1AhsVUc7m3Ng7@intel.com> <87wno2avaq.fsf@intel.com>
+Date: Tue, 31 Aug 2021 17:19:51 +0300
+Message-ID: <87mtoxbss8.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,47 +52,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have MSO pixel overlap in display info, use it.
+On Tue, 31 Aug 2021, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Mon, 30 Aug 2021, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.c=
+om> wrote:
+>> Don't we need to check the OUI to make sure the block is the right
+>> type? I don't have the v2 spec at hand atm, but I presume a vendor
+>> specific block could contain all kinds of different things?
+>
+> You're right.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+I resent the entire series because I added an OUI helper patch. I don't
+think patchwork could handle that as an in-reply-to update.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index df402f63b741..baf21f9aa40e 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -2420,6 +2420,8 @@ static void intel_edp_mso_mode_fixup(struct intel_connector *connector,
- static void intel_edp_mso_init(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-+	struct intel_connector *connector = intel_dp->attached_connector;
-+	struct drm_display_info *info = &connector->base.display_info;
- 	u8 mso;
- 
- 	if (intel_dp->edp_dpcd[0] < DP_EDP_14)
-@@ -2438,8 +2440,9 @@ static void intel_edp_mso_init(struct intel_dp *intel_dp)
- 	}
- 
- 	if (mso) {
--		drm_dbg_kms(&i915->drm, "Sink MSO %ux%u configuration\n",
--			    mso, drm_dp_max_lane_count(intel_dp->dpcd) / mso);
-+		drm_dbg_kms(&i915->drm, "Sink MSO %ux%u configuration, pixel overlap %u\n",
-+			    mso, drm_dp_max_lane_count(intel_dp->dpcd) / mso,
-+			    info->mso_pixel_overlap);
- 		if (!HAS_MSO(i915)) {
- 			drm_err(&i915->drm, "No source MSO support, disabling\n");
- 			mso = 0;
-@@ -2447,7 +2450,7 @@ static void intel_edp_mso_init(struct intel_dp *intel_dp)
- 	}
- 
- 	intel_dp->mso_link_count = mso;
--	intel_dp->mso_pixel_overlap = 0; /* FIXME: read from DisplayID v2.0 */
-+	intel_dp->mso_pixel_overlap = mso ? info->mso_pixel_overlap : 0;
- }
- 
- static bool
--- 
-2.30.2
+https://patchwork.freedesktop.org/series/94161/
 
+BR,
+Jani.
+
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
