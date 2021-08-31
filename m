@@ -1,44 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C07C3FC924
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:58:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9F83FC925
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:58:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BDC089F99;
-	Tue, 31 Aug 2021 13:58:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85DD96E02D;
+	Tue, 31 Aug 2021 13:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
- by gabe.freedesktop.org (Postfix) with ESMTP id DD0F789F99
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:58:15 +0000 (UTC)
-Received: from BC-Mail-Ex05.internal.baidu.com (unknown [172.31.51.45])
- by Forcepoint Email with ESMTPS id C55C368E0499D7A89664;
- Tue, 31 Aug 2021 21:58:14 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex05.internal.baidu.com (172.31.51.45) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Tue, 31 Aug 2021 21:58:14 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Tue, 31 Aug 2021 21:58:14 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-CC: Thierry Reding <thierry.reding@gmail.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter
- <jonathanh@nvidia.com>, <dri-devel@lists.freedesktop.org>,
- <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/tegra: Make use of the helper function
- devm_platform_ioremap_resource()
-Date: Tue, 31 Aug 2021 21:58:07 +0800
-Message-ID: <20210831135808.4876-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C56DE89FA0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:58:17 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210831135815euoutp0116b8194e801ece9474a2fc938c2985a1~gaM09_HP90324103241euoutp01k
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:58:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20210831135815euoutp0116b8194e801ece9474a2fc938c2985a1~gaM09_HP90324103241euoutp01k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1630418295;
+ bh=KLx+wB6fGjZ+uzwRdYhEHqROGtQk40hFjJq/qzshiXg=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=gaK9zA+wzm58PDfJgKHz40bPP12ZVtjPd5dEIddmp//5M9X6lIrmMq+HGqgntuSbb
+ P2JS4JZ4YVoCtJuCjMAjDyxvJ/MZUYlsvBYckwPJFC0ZQjH8K4QNAkb6tuJShV7n2l
+ LrGd08pcveVrvU2bWPvo6zxOK95y7bMvnG+28V9o=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210831135815eucas1p20597d52838acc6f1d6a76f869b2a7b25~gaM0mgNka2260822608eucas1p2k;
+ Tue, 31 Aug 2021 13:58:15 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 6D.6A.42068.7753E216; Tue, 31
+ Aug 2021 14:58:15 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210831135814eucas1p24ce3aa6c3d1fee0055bdfa04a875044d~gaM0E44Tw2260822608eucas1p2j;
+ Tue, 31 Aug 2021 13:58:14 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210831135814eusmtrp2b0864f230ef1fd8c14ab76ec68e6831c~gaM0D9HJF2254422544eusmtrp2v;
+ Tue, 31 Aug 2021 13:58:14 +0000 (GMT)
+X-AuditID: cbfec7f4-c89ff7000002a454-d3-612e35770c47
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id E7.42.20981.6753E216; Tue, 31
+ Aug 2021 14:58:14 +0100 (BST)
+Received: from [106.210.131.79] (unknown [106.210.131.79]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210831135814eusmtip1518535899bd3d7458c1ee0d4f2bcb7f8~gaMzfAZQ21720917209eusmtip1t;
+ Tue, 31 Aug 2021 13:58:14 +0000 (GMT)
+Message-ID: <5ef0c227-555d-a12c-1685-ff43e43bdf97@samsung.com>
+Date: Tue, 31 Aug 2021 15:58:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex30.internal.baidu.com (172.31.51.24) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0)
+ Gecko/20100101 Thunderbird/92.0
+Subject: Re: [PATCH] drm/bridge: cdns: Make use of the helper function
+ devm_platform_ioremap_resource()
+Content-Language: en-GB
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, Robert Foss
+ <robert.foss@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+In-Reply-To: <20210831135048.4305-1-caihuoqing@baidu.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKKsWRmVeSWpSXmKPExsWy7djPc7rlpnqJBvO/iVr0njvJZLHm3l82
+ i//bJjJbXPn6ns3i+fx1jBYn31xlseicuITd4vKuOWwWh/qiLT7NesjswOXxZWkzs8f7G63s
+ Hnu/LWDx2DnrLrvH7I6ZrB4nJlxi8rhzbQ+bx/ZvD1g97ncfZ/L4vEkugCuKyyYlNSezLLVI
+ 3y6BK2P+vW1sBTuZKu5+mMLUwNjL1MXIySEhYCJx7ddl1i5GLg4hgRWMEs/WbmSGcL4wStz6
+ uxwq85lRYnLbXRaYluV33jJBJJYzSsw+eo8FwnnPKNEweR0jSBWvgJ3E9G9H2UBsFgFVidc/
+ HrNAxAUlTs58AmaLCiRIPF/6FewQYYFMiX0rDrKD2MwC4hJNX1aygtgiAmoSUyZNZwdZwCxw
+ n0niye/nzCAJNgFNib+bbwIt4ODgFLCU+PCJH6JXXqJ562ywHyQEpnNKLNm8AepTF4lFVx4w
+ Q9jCEq+Ob2GHsGUk/u+cD1VTL3F/RQtUcwejxNYNO6EarCXunPsFtowZaPH6XfoQYUeJnXtO
+ MoKEJQT4JG68FYS4gU9i0rbpzBBhXomONiGIakWJ+2e3Qg0Ul1h64SvbBEalWUihMgvJ97OQ
+ fDMLYe8CRpZVjOKppcW56anFRnmp5XrFibnFpXnpesn5uZsYgSnt9L/jX3YwLn/1Ue8QIxMH
+ 4yFGCQ5mJRHe7DdaiUK8KYmVValF+fFFpTmpxYcYpTlYlMR5k7asiRcSSE8sSc1OTS1ILYLJ
+ MnFwSjUwCfk9dp64Nux3Q2cowxTvtK7mNVKmG078fGlySH2j4S3TlwdUmb8b6DTpeTNtylc8
+ b/razOPN6vlz5jL8+h+0vPwR0yr9q4tNg4Ofup93NO3cNsFfb7m4v5vPxCyt6Ztq1teVpnKU
+ sn498WPR4uC71Z+5dzzK7Ti8/a/p+ZCan+bthl+EbYxuNdxy43nZoKC3g3Mxx02ZbQpnJzTc
+ W3Kr11bj6EGdW9ks0z6/5rO/ley9UnLb97iz2ZPmM3hLL0m9Wllv/nk2e0XY8RqBYBsp/b/X
+ MlXEQ0rS17893d7TpcPxfoe8fdr127O3OXk/nOF1VLbDMthfts0kRP6IScUyRzV+DzvtQJ1l
+ dsrmB+uUWIozEg21mIuKEwG2H1WS2AMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRmVeSWpSXmKPExsVy+t/xu7plpnqJBm2fdC16z51kslhz7y+b
+ xf9tE5ktrnx9z2bxfP46RouTb66yWHROXMJucXnXHDaLQ33RFp9mPWR24PL4srSZ2eP9jVZ2
+ j73fFrB47Jx1l91jdsdMVo8TEy4xedy5tofNY/u3B6we97uPM3l83iQXwBWlZ1OUX1qSqpCR
+ X1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5eglzH/3ja2gp1MFXc/TGFq
+ YOxl6mLk5JAQMJFYfuctkM3FISSwlFFizdSZrBAJcYnd898yQ9jCEn+udbFBFL1llFiyfCI7
+ SIJXwE5i+rejbCA2i4CqxOsfj1kg4oISJ2c+AbNFBRIkdh/uAqsXFsiU2LfiIJjNDLSg6ctK
+ sGUiAmoSUyZNZwdZwCxwn0li95anrBDbehglJi3ZAzaJTUBT4u/mm0DbODg4BSwlPnzihxhk
+ JtG1tYsRwpaXaN46m3kCo9AsJHfMQrJvFpKWWUhaFjCyrGIUSS0tzk3PLTbSK07MLS7NS9dL
+ zs/dxAiM4m3Hfm7Zwbjy1Ue9Q4xMHIyHGCU4mJVEeLPfaCUK8aYkVlalFuXHF5XmpBYfYjQF
+ BsZEZinR5HxgGskriTc0MzA1NDGzNDC1NDNWEuc1ObImXkggPbEkNTs1tSC1CKaPiYNTqoFp
+ i+qHaRXyEbWWVTab1Zjy1F4nJ3UdjIxymvmdKUav88CxV9Iha37mZVm8kFvreF6mg21fGEvg
+ m+0S/+JZnOVULFtnfnjCzmdne9K9/LJuxYbPRbNTt144srf7QllcitDRM7s+7txn9PpYw8tJ
+ WUqqDquMIx2nNyzRW5hkt/py7x272xEGU177v5q5/Lkb8+T8uGdtf/1bBeYv/LJYw2NC1HZV
+ cdPNAVdV66dO/vbg0DzhmayOv1lybp19en3aFNcP07qlrizKmeV9eotohBh/y9UJO5dI3rvG
+ yc6woY/5SN7CT8/+VcQn3PzXtHcO96TLd8zP1Ka9zvU9+Xidrpbq126NfQv3L3iUPFM/ZL7n
+ OyWW4oxEQy3mouJEABXCCkprAwAA
+X-CMS-MailID: 20210831135814eucas1p24ce3aa6c3d1fee0055bdfa04a875044d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210831135143eucas1p1bc6f6a6ca587818c1bb036a64723577c
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210831135143eucas1p1bc6f6a6ca587818c1bb036a64723577c
+References: <CGME20210831135143eucas1p1bc6f6a6ca587818c1bb036a64723577c@eucas1p1.samsung.com>
+ <20210831135048.4305-1-caihuoqing@baidu.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,134 +124,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the devm_platform_ioremap_resource() helper instead of
-calling platform_get_resource() and devm_ioremap_resource()
-separately
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/gpu/drm/tegra/dpaux.c | 4 +---
- drivers/gpu/drm/tegra/dsi.c   | 4 +---
- drivers/gpu/drm/tegra/hdmi.c  | 4 +---
- drivers/gpu/drm/tegra/sor.c   | 4 +---
- drivers/gpu/drm/tegra/vic.c   | 9 +--------
- 5 files changed, 5 insertions(+), 20 deletions(-)
+W dniu 31.08.2021 o 15:50, Cai Huoqing pisze:
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
+>
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
-diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
-index 1f96e416fa08..52750853625d 100644
---- a/drivers/gpu/drm/tegra/dpaux.c
-+++ b/drivers/gpu/drm/tegra/dpaux.c
-@@ -447,7 +447,6 @@ static const struct pinmux_ops tegra_dpaux_pinmux_ops = {
- static int tegra_dpaux_probe(struct platform_device *pdev)
- {
- 	struct tegra_dpaux *dpaux;
--	struct resource *regs;
- 	u32 value;
- 	int err;
- 
-@@ -461,8 +460,7 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
- 	INIT_LIST_HEAD(&dpaux->list);
- 	dpaux->dev = &pdev->dev;
- 
--	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dpaux->regs = devm_ioremap_resource(&pdev->dev, regs);
-+	dpaux->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dpaux->regs))
- 		return PTR_ERR(dpaux->regs);
- 
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index f46d377f0c30..4a49fe059911 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -1550,7 +1550,6 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
- static int tegra_dsi_probe(struct platform_device *pdev)
- {
- 	struct tegra_dsi *dsi;
--	struct resource *regs;
- 	int err;
- 
- 	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
-@@ -1616,8 +1615,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dsi->regs = devm_ioremap_resource(&pdev->dev, regs);
-+	dsi->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dsi->regs))
- 		return PTR_ERR(dsi->regs);
- 
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index e5d2a4026028..24ab2f049710 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1637,7 +1637,6 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
- {
- 	const char *level = KERN_ERR;
- 	struct tegra_hdmi *hdmi;
--	struct resource *regs;
- 	int err;
- 
- 	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
-@@ -1712,8 +1711,7 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
- 	if (err < 0)
- 		return err;
- 
--	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hdmi->regs = devm_ioremap_resource(&pdev->dev, regs);
-+	hdmi->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(hdmi->regs))
- 		return PTR_ERR(hdmi->regs);
- 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 0ea320c1092b..0a0917547053 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3718,7 +3718,6 @@ static int tegra_sor_probe(struct platform_device *pdev)
- {
- 	struct device_node *np;
- 	struct tegra_sor *sor;
--	struct resource *regs;
- 	int err;
- 
- 	sor = devm_kzalloc(&pdev->dev, sizeof(*sor), GFP_KERNEL);
-@@ -3791,8 +3790,7 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	sor->regs = devm_ioremap_resource(&pdev->dev, regs);
-+	sor->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(sor->regs)) {
- 		err = PTR_ERR(sor->regs);
- 		goto remove;
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index c02010ff2b7f..7b2eb7951b11 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -404,7 +404,6 @@ static int vic_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct host1x_syncpt **syncpts;
--	struct resource *regs;
- 	struct vic *vic;
- 	int err;
- 
-@@ -425,13 +424,7 @@ static int vic_probe(struct platform_device *pdev)
- 	if (!syncpts)
- 		return -ENOMEM;
- 
--	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!regs) {
--		dev_err(&pdev->dev, "failed to get registers\n");
--		return -ENXIO;
--	}
--
--	vic->regs = devm_ioremap_resource(dev, regs);
-+	vic->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(vic->regs))
- 		return PTR_ERR(vic->regs);
- 
--- 
-2.25.1
-
+Regards
+Andrzej
