@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF493FCF9E
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 00:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD8D3FCFA1
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 00:45:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A720F6E0D4;
-	Tue, 31 Aug 2021 22:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8549E6E0D5;
+	Tue, 31 Aug 2021 22:45:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA9386E0D4
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 22:44:21 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E806E0D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 22:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630449860;
+ s=mimecast20190719; t=1630449909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jOz3ENKsYXJqh19GRtNwGjsx5Pb12hCtU/RNERu1J8E=;
- b=dYRCNGOHtT/Beott8u1WgT30T2stlf99yVs2VgN1EdI34WsvSANHHw72NQTIPLqQhgmBCZ
- TzAF8bJUkX04kc+gNFIPVFNnYb1+H6zIAKqQJ8MtkynWyMD+YmWUEkjnWaP0dKia3Xbhe8
- Zw6QqRXipIdrgH5hrkCmV13A14lTvfg=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-_qFHKdhLN-2YCwoKTnxKZw-1; Tue, 31 Aug 2021 18:44:17 -0400
-X-MC-Unique: _qFHKdhLN-2YCwoKTnxKZw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- e6-20020ac84e46000000b0029baad9aaa0so1229723qtw.11
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 15:44:17 -0700 (PDT)
+ bh=sXieOzYzZNbS5OR0GdTJYbIv/SWjchQyzLFH/91h4Qo=;
+ b=HxOoMMqCVRKWI1+6qFFbqJxl2s1mt9RauFEhmo/Kc3HQW1Gndp2PtG775wvHdM7S9Ox4aE
+ EjSO2lqhwTQ31NGoi18Fw1CTo3DzJ0sYF79UMiRXQNrLJqTI+PXkG2P4HDJtvWroQUMyUo
+ nJ+oYt4Dev3WLdzZRSeq167YNvq2wgM=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-w-44DsFkPLCfvZZE_wwe-g-1; Tue, 31 Aug 2021 18:45:08 -0400
+X-MC-Unique: w-44DsFkPLCfvZZE_wwe-g-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ u19-20020a05620a121300b0042665527c3bso1187446qkj.14
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 15:45:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=jOz3ENKsYXJqh19GRtNwGjsx5Pb12hCtU/RNERu1J8E=;
- b=e+YI3FcoSisk1hfoz2lZuEcYcmtJ4jvg2Z/mfqtJ2zPvnJpCIVXhtBf49dKE40Mtff
- 33/COc+oUa5w/CMGuBjjzgegwKpXcjQejbhM0yollwxhOY5HYzHo3/I39LDO+cZXJL2k
- bMSMMFc2lZ8uE7IhFBGEghqcDi4leEfF5SrJvzlujhk57qxkkyzhIG3rtPDNPKX6yZER
- kf7jTqErYUZLzaQTuszfrTfSVzkADwZbFpjZHuhaPkVQFGm6Dg0ax86XaWRTFqYDcsFo
- kqWBzgF0j0dTL53Ctp8JTk8OzEsFpPhrFGlR4IHsJOwZxhifUxd6/NpncJWVXZ3GxOoD
- ZsmQ==
-X-Gm-Message-State: AOAM5306z6ZWRDJ6+3iuSD1rpecq+7ehu8Qrsyc1LbxBTZCmrEisxzJC
- YfwOAsf7iD2pwFOriKGM2IMEfeurR0HTghPyNCPne9jMYKdKCZknbQxTXZfQee64Hrogp2U2QhH
- e+ZtvLZ9r4LJN7Cp5bWn44SKH4rSh
-X-Received: by 2002:a37:a3cd:: with SMTP id m196mr5421967qke.253.1630449856853; 
- Tue, 31 Aug 2021 15:44:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8ohn/G08YFEan3vdNZrUZ+StFbXK1B8QCG8FLzHWYnnsaIkKG+udMt2ZtCuygc1lihf2gGw==
-X-Received: by 2002:a37:a3cd:: with SMTP id m196mr5421956qke.253.1630449856689; 
- Tue, 31 Aug 2021 15:44:16 -0700 (PDT)
+ bh=sXieOzYzZNbS5OR0GdTJYbIv/SWjchQyzLFH/91h4Qo=;
+ b=UWVRDXStzY4s8/2YeWgVVPw++huNB0y5QUlXgQawRbKgXG4iMmLYeo5kH2iIZDxsk/
+ A8QLh2BrfUm+Aq52XAKWLmmIgEVf40vH7nczs4UKYJZgtRg+oNpPoY9+yWxlYvh0I5Uc
+ EErfB8gCIAo0nL9DldoECjN3AFncBqvb7giS+NW9kiwS8WuhuQiiczlo4VxHWlmGulgR
+ Fr+6BVhpxGwcSwW6Um6yYYcqKviPgIw0v5zGxsaRiRLUfDp+CDHVTziechwH9KWNevkK
+ CGw7tza6/kUaJHVRCCBPIthsehlmRkqwCjcxotbjZ+Dc7kH5ptE2N4c9n5C2rGbq3VZB
+ KoQA==
+X-Gm-Message-State: AOAM531aFUSg1Ifk54zWH4RchKBTDbjdnGRog25HU2EQitOHsETPwIFG
+ 8i6RZuPYAHw2axJ8KVgobx5XinqJhgQm+NpoDd2wVnPP11k4u0nuF44A6BoZKqRdvK8Bb3kVN3o
+ CjBQDKetZOAST94uZTDZGEg7fEdqJ
+X-Received: by 2002:a05:620a:1402:: with SMTP id
+ d2mr5532227qkj.141.1630449907618; 
+ Tue, 31 Aug 2021 15:45:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXB3oEZeC48qjYzJ4FAtaLdUUljVwhplr8EfaPoSOOfN0fHKcWO4ReEMn9cHVUjot8/WfAog==
+X-Received: by 2002:a05:620a:1402:: with SMTP id
+ d2mr5532214qkj.141.1630449907414; 
+ Tue, 31 Aug 2021 15:45:07 -0700 (PDT)
 Received: from [192.168.8.104] (pool-108-49-102-102.bstnma.fios.verizon.net.
  [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id n18sm15239774qkn.63.2021.08.31.15.44.15
+ by smtp.gmail.com with ESMTPSA id v145sm15418179qkb.132.2021.08.31.15.45.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 15:44:15 -0700 (PDT)
-Message-ID: <5e463fbc3d633eea1078e838ba5be0065ffbeb1e.camel@redhat.com>
+ Tue, 31 Aug 2021 15:45:07 -0700 (PDT)
+Message-ID: <836fe57ca1c4eb7916d27752ed8b087f2474ace6.camel@redhat.com>
 Subject: Re: [PATCH 1/2] drm: Update MST First Link Slot Information Based
  on Encoding Format
 From: Lyude Paul <lyude@redhat.com>
@@ -63,7 +65,7 @@ To: "Zuo, Jerry" <Jerry.Zuo@amd.com>, "dri-devel@lists.freedesktop.org"
  <dri-devel@lists.freedesktop.org>
 Cc: "Wentland, Harry" <Harry.Wentland@amd.com>, "Kazlauskas, Nicholas"
  <Nicholas.Kazlauskas@amd.com>, "Lin, Wayne" <Wayne.Lin@amd.com>
-Date: Tue, 31 Aug 2021 18:44:14 -0400
+Date: Tue, 31 Aug 2021 18:45:05 -0400
 In-Reply-To: <DM6PR12MB49128A88F7C315D866945443E5CC9@DM6PR12MB4912.namprd12.prod.outlook.com>
 References: <20210827234322.2740301-1-Jerry.Zuo@amd.com>
  <20210827234322.2740301-2-Jerry.Zuo@amd.com>
@@ -93,11 +95,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(I am going to try responding to this tomorrow btw. I haven't been super busy
-this week, but this has been a surprisingly difficult email to respond to
-because I need to actually need to do a deep dive some of the MST helpers
-tomorrow to figure out more of the specifics on why I realized we couldn't
-just hot add/remove port->connector here).
+(sorry - I just wrote a second response to your email I meant to send to your
+coworker Jerry Zuo! You can ignore it)
 
 On Tue, 2021-08-31 at 19:44 +0000, Zuo, Jerry wrote:
 > [AMD Official Use Only]
