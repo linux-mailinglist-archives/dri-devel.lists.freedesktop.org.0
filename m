@@ -2,148 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445963FCD29
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 21:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18863FCDBC
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 21:44:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F10D989913;
-	Tue, 31 Aug 2021 19:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D87CB892F2;
+	Tue, 31 Aug 2021 19:44:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD81C89913;
- Tue, 31 Aug 2021 19:09:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10093"; a="198787087"
-X-IronPort-AV: E=Sophos;i="5.84,367,1620716400"; d="scan'208";a="198787087"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 12:09:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,367,1620716400"; d="scan'208";a="687844450"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by fmsmga006.fm.intel.com with ESMTP; 31 Aug 2021 12:09:51 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 31 Aug 2021 12:09:51 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 31 Aug 2021 12:09:50 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Tue, 31 Aug 2021 12:09:50 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.48) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 31 Aug 2021 12:09:49 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2072.outbound.protection.outlook.com [40.107.236.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1246892F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 19:44:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aDtZxjJOdyVSd6XlMsoRDpvjjst8KDyf2DOFa+No2R0DsCSjYoyU7G/Ga+x/bW9dkTeDRrVGOFzFwmhliVIybGLZuD797hTbUS4DHSNWLwj9wCVu3lhuMv6eJSy7j0IQ1rMqGfZbf/vnpz8TI+1cvykSOzis2yFyY3D7apI9qdG7/XFSpq0Cq7+SYhfgRvAmWernBuVetorOknIMfFQbxLXxxit4mdJK74JZbOftyZNL6GTDc+ySIa34z8QL2EldN7i/g07bgQrfmdgl8LK6dk+Ask137dkugrqBHYcOb1fve3uEmxVj7YtQxwdw12gRsWiAmQakiHkARhq/L5LYqA==
+ b=YYGXhZ2u1fGodoFHnW1RUidIqRQrqkrrQoAYxVhXgF8rJullwJyATFNIG0QxpROA7jfkR/O3pzwxGPnH84twTmLrkXP4sXHHuai02qOzxDHVektYcZziF8AqbAWDaQnY1lEswJfbAah00fLWhjrxkL00YckMpi81TV3+a56+asY1wGSH+am9gkgBbxJIrzn3bpjuPRO4IMuMdHRCUlxKWUDqv43C3H83WbYr1/2DpVGqdyn6zP8kY2srFjWsj4NloWdT11fvDZg9PxSdThbHVp3z+CGFSNHbsk/BnQUfhGQg8HQxBYZuX6mRXbFSeJ2XfnX7I/r3usrhK4fY6lNWvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8j4KDvL6cgTI/Db7/GFrRwRnCSs+wJPXgo/REPdVn30=;
- b=B78UiwOQBZnFKZ8JVzhekSUnMZHXZ3sr6mCuMI3ol/Pg2xua3k5uPXs+ZB1PyKC9yHnrZPoJ16kbOoL4gXAXL5/Ci50Se4VjzdR15CSPxta4GShpwCWREH48/o8xbmKe/sAV/kFJSKcm2205rSBpb6ihKvowRXXEVXRV9PD3KjSuhj4bUlB9r6wN6z46Y7jmycw7QUX5bu49sZQysgVWh0RLhcgf3RNToAuWmI10WCuBtnxE3+AABgwraHgRgWxNvB7kc/mdJafnsRD5YRW1AC5TKxOCyZRg3huTpaP0PcseB95o+RwyBQGgkTFR1QxJAG+RoalwL+9OL9hVEgaAuQ==
+ bh=gSwCgRAclgp5qo5PN8TADsR/RtXA5lpmL4jHfUBSq4M=;
+ b=PUy0BNL9muQmyWpk6wSSYXAHJwe+Se2ocVTM47mcnTb4wOGwryEe/iCfI/ff4AO86kTMuOlVrkswdrhts+a7HBB51Cox7bHzgVFQWr4tp7KAbTMiSzXi1v8gH/6mL4JQxHGSl26wQpuO7ErX0mdDk7KsiHj7te0D1Q2kg5SkM8LPE2Xn1MwBkru1qbW2Ih9uk6yUhWQUnEk8bg5Us5o0EJTPykGsbut2eq3Ng1NQ7RKELH/hJ+U0NCRY3FutOSwiDvtjeB9EFlVbAIufz1diaTiwFEwgKup71aOkgBBkIIgw48xmnTcfKKfIn0gLH28u5wjoKndVRFCVRc91I2doPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8j4KDvL6cgTI/Db7/GFrRwRnCSs+wJPXgo/REPdVn30=;
- b=b2fJHNwnH/ANgx+9S/1/vJuDo7D+ybByywHpnZesUEakTun2mULm+OWozR3O14ZrVhPMyT7L/725ygP6awVsGbYVJj0Ofs7rEny1sjbYiy9HWJ6lncV7sRe/yvWDzzzbP3mdq3np7N7uY5Z56Bsldg1/pC7LpO0zO465smRERYY=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5659.namprd11.prod.outlook.com (2603:10b6:510:ea::6) with
+ bh=gSwCgRAclgp5qo5PN8TADsR/RtXA5lpmL4jHfUBSq4M=;
+ b=rdkC0moE644XJDILjLwiaMJ1hk2ctcYBY2BiZKrV3yw949gNQaaPSvtoL3tL5K5XKsVyMfqvtp2Oe0r/IzLd8E65gjeYjQ5JTplc9lexf56UVRG3KDnSS6ZGh3ccnhxjfYN8iY4ppYfKPTonrPINVIguATschvNhIn4L7k0SslM=
+Received: from DM6PR12MB4912.namprd12.prod.outlook.com (2603:10b6:5:20b::24)
+ by DM5PR12MB2376.namprd12.prod.outlook.com (2603:10b6:4:b9::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Tue, 31 Aug
- 2021 19:09:33 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%7]) with mapi id 15.20.4457.024; Tue, 31 Aug 2021
- 19:09:33 +0000
-Subject: Re: [Intel-gfx] [PATCH 27/27] drm/i915/guc: Drop static inline
- functions intel_guc_submission.c
-To: Matthew Brost <matthew.brost@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <daniele.ceraolospurio@intel.com>
-References: <20210826032327.18078-1-matthew.brost@intel.com>
- <20210826032327.18078-28-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <f2152efb-f384-e391-1f45-608aad29b849@intel.com>
-Date: Tue, 31 Aug 2021 12:09:31 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
-In-Reply-To: <20210826032327.18078-28-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: MWHPR14CA0020.namprd14.prod.outlook.com
- (2603:10b6:300:ae::30) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+ 2021 19:44:06 +0000
+Received: from DM6PR12MB4912.namprd12.prod.outlook.com
+ ([fe80::81f5:b123:f485:e51a]) by DM6PR12MB4912.namprd12.prod.outlook.com
+ ([fe80::81f5:b123:f485:e51a%7]) with mapi id 15.20.4457.024; Tue, 31 Aug 2021
+ 19:44:05 +0000
+From: "Zuo, Jerry" <Jerry.Zuo@amd.com>
+To: Lyude Paul <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+CC: "Wentland, Harry" <Harry.Wentland@amd.com>, "Kazlauskas, Nicholas"
+ <Nicholas.Kazlauskas@amd.com>, "Lin, Wayne" <Wayne.Lin@amd.com>
+Subject: RE: [PATCH 1/2] drm: Update MST First Link Slot Information Based on
+ Encoding Format
+Thread-Topic: [PATCH 1/2] drm: Update MST First Link Slot Information Based on
+ Encoding Format
+Thread-Index: AQHXm52eLAzSDwY0YUmO7AYnxZ9K0auMfBQAgAFuAEA=
+Date: Tue, 31 Aug 2021 19:44:05 +0000
+Message-ID: <DM6PR12MB49128A88F7C315D866945443E5CC9@DM6PR12MB4912.namprd12.prod.outlook.com>
+References: <20210827234322.2740301-1-Jerry.Zuo@amd.com>
+ <20210827234322.2740301-2-Jerry.Zuo@amd.com>
+ <373e528ab10df8d95214f3bf961281e516da8469.camel@redhat.com>
+In-Reply-To: <373e528ab10df8d95214f3bf961281e516da8469.camel@redhat.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=9427f1fa-fc96-4763-8570-67bc6b496883;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD
+ Official Use Only-AIP 2.0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-08-31T17:50:16Z;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0c9329b0-e83c-47fd-49e2-08d96cb7b154
+x-ms-traffictypediagnostic: DM5PR12MB2376:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR12MB2376F01E001B1D59033C352DE5CC9@DM5PR12MB2376.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 42/52NCNSUm7ctBBzzPPRUFJDqqw0PBYq1N5xZt09nj9rHrff3Gx6pNKcH9822i32tLP+N+91HCXPGHm58g94BVpjdy4Tw0Kq9vhbAop3bJLLziosLvqIRziweWV3PBKfy1V8vAEEfYBHJqo9HjmqNQU/V1oyOAPu9N0i8OmCLpQSEA0O0TvGAAaMayhJSVqs6AqW24DEr+1vvKckn2/eDNDyL+JXlHlR54HW+ik/v4Xlq2UsJle8qTbVn0/YN5Yjt2S8ZKHMWPcoC9TcpnNx0/ZG595atpFGF+/2hZQ2P0bbKHF2dz4nzbqA5s8i30tcSwCcRyZNFB3xnMruPQuAIAuSZ6GUdGK18CLLUmsxVbO8DhAO5qc3URNLQOhoYW0J4eZV6C3CNiA5xTp487YYN/6pDA67zQYT3YSwOdMlAtm9b2g/t+U8JZqokKMoz+SmK7aWs7gtL7HeseYw+aae4Y09iq9y59JWu0qBIR3rJq0aZA7L0HsjGAdsR/Xpb626N23cRyP2tHYljndy9Tzqb2EM211W1pGzy+8PX1eUKz2bkLY5LQjQVNdXKUVs2k/8OtOrfygbkeM+Yd0mrp4973yTHV7GNVA71B7o6hYhSgg7zuUYJPvq1nrZAQ2/0g3h3Cqkg8thDCLzYnzSas2EVJJp3UWF1agGNzc3awyMKN26thQWEwz7fWBhy49Y+MU76FASdL2DcejmToqJp+b+w==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4912.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(366004)(376002)(346002)(39860400002)(53546011)(8676002)(7696005)(83380400001)(6506007)(86362001)(4326008)(186003)(15650500001)(66476007)(478600001)(33656002)(54906003)(2906002)(110136005)(9686003)(55016002)(5660300002)(66946007)(66446008)(64756008)(66556008)(76116006)(122000001)(8936002)(38070700005)(52536014)(71200400001)(316002)(38100700002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RkNXYnJzaWg1Wllqc1pjbHZxeTFMbE9Ga0ROZmRtai9MSmdEdEhuSGhVdWdF?=
+ =?utf-8?B?S1ZHenZYcnluaWZXVXB3V0pNTlQwVTFFU21QN3ZWSWpoWmtXSW9Ta1RmKy9k?=
+ =?utf-8?B?SUFBb0tUTVo0UE5WdWFadTJETFFyUWo4Q2dkN01sRlVsSjZZbTljenlIVmpM?=
+ =?utf-8?B?TWFQeTJ2UzZGSi9yMFdHRTVpS1hob0dMZzFXSjJmZlFFMERRdTI2c25TajFi?=
+ =?utf-8?B?UnZkWGlPVk4vcStyMmNqdUhpYTRIZWVNTnlEa3huRkVmV0ExcTFxUHpVNUxD?=
+ =?utf-8?B?cXdhSlVnbFROaVMzMWVsamo2T0htT2h2cGJsTHF5WjMyS0lPS3hhbWNiSHNU?=
+ =?utf-8?B?cDBvT1ZKbC9QcnphNklPN3NrNUR5SjI2RUd0NjUvYVhFT0YzOG9rRGwxY0Qw?=
+ =?utf-8?B?VmlhWHVjcnIzZGREcnA2TU5XQ1RGS3ZyMkVEdWN2UE5yc1QvWU1PMGJJWDZB?=
+ =?utf-8?B?ZHFaUytDYlFldUhBZGU2aVAvN1FYWnk3WGk3c2V5dXNWMWFDREpXSE16SFVI?=
+ =?utf-8?B?bW5hczhzMjFFdnllbG9wSHFNQ29xZmNER2xweDJOcDhmRGxVcVdBYjFQR3pJ?=
+ =?utf-8?B?WlFjRGVIbG9pQlJpdGEyaXVQUE45OCtSYTA1c24zNk0xUERCVkZNWEU0THFH?=
+ =?utf-8?B?V1lrM09FTGdTTTM2U1U1WUZBMzl3RmtzYmlzRGdDa055YzVNbVJERXlaZHBX?=
+ =?utf-8?B?enhuc0RRaWI4VHdIeXk2REtWb1Mycmo3a0IyQlNmcnEwcHFvTHN1VkRqckhv?=
+ =?utf-8?B?cHJWTlNLQWxGMVRhZ3BNcmx5Z2tia2c0VnNWS1Z3ZEV6OTFlSHJzdzczSDZZ?=
+ =?utf-8?B?WGRKT3RydWdVVzA5d0FvS29wRTIzcXhsQkxGemxDUGw0NlJCUk1XdmhXL3dz?=
+ =?utf-8?B?QXZLb0x2djVRaHJzNGNnRVNSdEQ4dlg3eTV3dSswSUkrc2hmR0ZNemk1V1Bh?=
+ =?utf-8?B?aXJxNVo4TXVpMzBJQzVRNWRwUHZyeHFNWXpubmZQUlcvUkRzaHZzVHpOVUpT?=
+ =?utf-8?B?WHNXK1hpcnhEOHBOTGZpNkliSjE3SXdkT01DbDNjVWRwaGVpZGVkQzVWTW11?=
+ =?utf-8?B?YythdjFjMldLUTBCeW1rc216TUh0NGxIbEhGc0RBL2w4ak13ZVl0Q3RoSFcx?=
+ =?utf-8?B?TTlwUzlFUHJyQVJ5WmxNem5oTThSYnplNitYbDF6SXVaQXdpNUh3T2hTMURl?=
+ =?utf-8?B?N2JheXgzYUcrb09kTjZTdUNlWUowUUUwUUVxNktsUVU4ZGZpdTk4dFhWYUJh?=
+ =?utf-8?B?YXdpc2Q4TG5NWmx2eGd4UlRjalhJZjQ5Q28xdjJqQ0o0WjFmZWxKK1gxaVRJ?=
+ =?utf-8?B?eXpJei9yWlA2QytJVEkzYUx2WnNuRmhJOVdsN3FENXhJZndxS3R2OERIUUFk?=
+ =?utf-8?B?ZHhLdkFTTjAvcWdiWkg4S1BWNjBLS0trd05Rd1JUQzlIQ3ZoV2NnY3JWaWlY?=
+ =?utf-8?B?NHRVd0lqaUlmOEpFTXNIN3Y1THorTHRVVEk1T3FIc0NyNytXemM1K2VkV3Ni?=
+ =?utf-8?B?VHVPOGR3QkFHS0xsaEZmOXZmdkJ5REErSXIrSXR3SGRrMGU0enNVallMbWpm?=
+ =?utf-8?B?bXprZWdjdlF3UitaQnZtbVVpYnpCcTQxRWZTcVdqbzgwR3pOTmFGYlQ2bXdV?=
+ =?utf-8?B?bDVPbEcvelBjdkJWd1hGYlZtOE5oZnpKTWlodkxuN3NDV3ZRc2xjL2VLN1My?=
+ =?utf-8?B?NEdTbWUyR2lMdXM4dHBIdDhzYWtPRmlNYXhSQjlFbEx6OGRJTUZGSmZRWkpX?=
+ =?utf-8?B?THE4UUg5Nk10dFJHL3BnQVUvNWN2ZERTV3FWb3M4TGEvZyt2emJpV3RNTXVl?=
+ =?utf-8?B?WTQrZEluRXYvVS9kMWNnc0FndXROdG9pQVBTY3FndGtrbEVoMVNuN3pjZ1Ny?=
+ =?utf-8?Q?9Ha60JbpxmjXe?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.221] (73.157.192.58) by
- MWHPR14CA0020.namprd14.prod.outlook.com (2603:10b6:300:ae::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.21 via Frontend Transport; Tue, 31 Aug 2021 19:09:32 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 685672e9-09db-4c77-792c-08d96cb2ddee
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5659:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB5659EB0339E2A128F5601B28BDCC9@PH0PR11MB5659.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4wMwdp7wKiu+58zWmuPlVI66pxGJUFkIHxpXHlmn7yfGcQfog/Al7pqhqFJcngPJSuhPH4IhyG8RfRzVba5uxH8jJdnRHDBwgjT2pYdPfLIeG6kEx5uSyzylkuwPJdHf2/JRvz6jE1OcgasF/A+XKERjMkF54Ab2j2XJAjzbsDeA58ESoMHKaawi5if2ETzesGk7VIei/ulcxF/GRgXsxxcFq2tzExZ/CFgmrnCbmsFKGZI6PQ4dXUvpSlJtUwmitkEgB2S6fbQqjyJ9OljCaC3vO+NM3RmbKCb1PrVgbekS17FVMnkkGyH64NG1hPxcqfljnof3Q3r717+JoiIPBcdLl3WMdDDVbUzitwWm2/oU+VacxLqUKAI/1GaqsxN4YM0BapZaHBiXsarzPJowEzWehp8+z928O5OXFO4Kr9lBQeHJuW+gVY2XTkGOx6cw0zfVGBmOxbstTHpPwV3FvCxcFsJLMehUD/91XEpPnmRorp2FFrIxGii5DjV9XnpX+EP3rspHamFd23dIVkr0hyTaUT+ljBm+F6FGdPy8CgNlwY7YgzRLiC8KzcWFrAyd5B2jBwzWpbHgseExPkP/hWO08JR/qn163ZvJ76xBafTuHlaeUHotQTxeaO/9yENo6AcFOxyqwYAxswzn36niZfOHWGsv8d1rAdF1AeMmpJzQgsX0770TqyoaSemMQ6YfFYvixkfRhKqT/Grqehkbl3UDbgf/ueOLuzmVnYqj7T5cCF/aCx/QjkNlpiGOgiy9KyiqUwNQM8DABEgdp7Ab3A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66556008)(2616005)(86362001)(16576012)(53546011)(66476007)(316002)(956004)(186003)(31696002)(36756003)(6486002)(83380400001)(26005)(5660300002)(4326008)(450100002)(2906002)(66946007)(8676002)(508600001)(38100700002)(30864003)(107886003)(8936002)(31686004)(43740500002)(45980500001)(309714004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ujl3dlJLT3BFVHRDYmU0ajFsUmdVTmdSNmEzeWt2MTIzREliU1lRMFp2a1dJ?=
- =?utf-8?B?bnpObWpUcHIzanNYYVdzSU80REdobGZLYWtJZEdPUVdkQXJZNm81bVdiZDBi?=
- =?utf-8?B?K3Q5T3BSVkdRcHFZbWlLQWkvQVJoTVJyM0hOSlBsNnpTV210RHVHMHlFSUIy?=
- =?utf-8?B?aEZERzI3cWhvdHBvakpZcDlnbTB1eFVZVGNOYjJIMU55NWVZVTNFcEZZeTBl?=
- =?utf-8?B?NGQrckc2VTdYcmxMTDlSMWhrZGF3UGFqam90Y2VrMDdIOFV1aTZKK1NORklL?=
- =?utf-8?B?Sk01L244cm5EN0lyTjcydTNEQjR2SzNlOEF6MTFtVUIyQnl4MFMwTG5XZVBF?=
- =?utf-8?B?L2JmbXY3WFc3K29LOWdxZXNnYXhiMHo4dnpvdDdmaXpORElWVzJtczRkZGV2?=
- =?utf-8?B?RHNleWR6UFNwdjZyalovMzJCYU1KVlRNTllrSFpWbjlhbTlWbUhTR1BUZ1BE?=
- =?utf-8?B?dlgwdDBUTTJpaFZHc3lrQjhzUEE0Ym91My9JM3BtLyttdWZKWktxczBKNWhL?=
- =?utf-8?B?SExkMVQwNDV0THdIdWtON1pwTkUreXpzb3o4bFcvVEFuUHhhOUF0dmdueUF6?=
- =?utf-8?B?dE5SSUoxbjdUY2NIQ1IxVTRhK3ZyanhyYXUrSjhrbTJEMXNWb2E5di9yU3dZ?=
- =?utf-8?B?VHM5RWExRi9mcEpYMG5LeGkwdTZoUkdGMXg3UlpJWlNKU1laZHc1aEhpRmw1?=
- =?utf-8?B?UE9oL2RFZ3d3cGNidml2T1crWWdudEVUajdnNUtCL1pCVWMyckhGckpWR0Ft?=
- =?utf-8?B?dU9UbWlKWWNlT2JOajhVNWl4b0JPaTEvQkMvOUdCY09hOHl2OVFIRW1UdnBU?=
- =?utf-8?B?aEtrTUVDM0xXL0FSRjllemxINmJVdUxJanNJUVdrVy9rRituN1hERGtHSko5?=
- =?utf-8?B?T0NhMUd2RUlpdWFGanFUc0Q5cDJlMTdrQXRodHJTdU5YTDkxMnQxdEZhQitY?=
- =?utf-8?B?ZU5zbHAzOUJhcnF4eXhUODByclEwYU5za0E3d3U1L3lKTHpEd09USDVUR3Bs?=
- =?utf-8?B?UStoci91M2pObmNkSnorQWp5WmNYUzd5eUNRR3pHck1pQ29ySlA2ZExURm9x?=
- =?utf-8?B?ZmFSYzE4WVd4UnZaeEwzbXl1T0VNd2ZEUjBFOThTS2YxdVoyS0JYS29PU2ZC?=
- =?utf-8?B?cjdlb2VGRUVSUHBPTXlTdXVuRDZBdjFWR0pJYVRQSzlZa251ZXJhbXVibXFW?=
- =?utf-8?B?OWdQbyszcEgrQUNpZllhODhLZzZVcFZLQ1BQQkdMZFpaZVpFbjRjZGRRYkFH?=
- =?utf-8?B?UU5hWmRnZVJRL1dWbVB5ZnhzRXJiSGtjbmRaNkk4V25xMzVLVVVMV0R3MGpu?=
- =?utf-8?B?czh1Q3V4bVFHbW5ZU2pwQ29md0x2YkY1aVVjR3doL05CaGtzdnpvNEFPQTVR?=
- =?utf-8?B?NU9GQzU3dHFHNGV3cGUxVVFhVW02YTE5NzNZWklRYmZJQTRTM2VwUjgzV1RN?=
- =?utf-8?B?MXg4Q1QxNzNYdTNJL1RBenQzd0pZcmMySFZIWFZKU0tlTnhGa0VXNkQvYkda?=
- =?utf-8?B?U2pJMG9GWVo1VUJ6TGtXeml1bVc5VDZUeXNBbFZ0d2Y0aXV3d0ZCTWFUZ1Iv?=
- =?utf-8?B?WTA0a0hqcStvcDlHWTloOU80WFF5aUxLRkRhQUpRTnhCSnZSR2dzUy9WalZF?=
- =?utf-8?B?RzdLUG5oTTlkSEFZNmpGTFBGMjNXdUNUd2d2bTVRZnlBcHc1R0Q2b1UvOVNh?=
- =?utf-8?B?MURoZ2pBejhsOUx2Zjg1ZEYrRmE3LytXMVp4R3ZrRUxFL0lOTmhWSURONW02?=
- =?utf-8?Q?OBH+YJfTyx6dK75Oe/KGlu+QqWbTxbSEIPI7JdB?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 685672e9-09db-4c77-792c-08d96cb2ddee
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
+X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2021 19:09:33.5675 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o+ew8oe/b+Jnuh8Bu9fSdsXMSkRjsiRf6xD3MF39Dj+ewfldrI3jl1OjCD1Ei+C9gJ0DlBhZHykd5q1S0FqibzSt7bzFW0P0aAoJbg/ocIE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5659
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4912.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c9329b0-e83c-47fd-49e2-08d96cb7b154
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2021 19:44:05.8018 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LFytuEV4SRkefPNHH67aQ/SM5ImttH+X5hZGfwTIorZqPhHRHYRnvCAbjqX9lm/r
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2376
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,446 +141,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Subject should be 'drop .. functions *from* intel...'.
-
-
-On 8/25/2021 20:23, Matthew Brost wrote:
-> s/static inline/static/g + fix function argument alignment to make
-> checkpatch happy.
-Why?
-
->
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 116 +++++++++---------
->   1 file changed, 57 insertions(+), 59 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 3fe45eca95ff..f921763eb7a4 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -144,7 +144,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
->   #define SCHED_STATE_BLOCKED		BIT(SCHED_STATE_BLOCKED_SHIFT)
->   #define SCHED_STATE_BLOCKED_MASK	(0xfff << SCHED_STATE_BLOCKED_SHIFT)
->   
-> -static inline void init_sched_state(struct intel_context *ce)
-> +static void init_sched_state(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state &= SCHED_STATE_BLOCKED_MASK;
-> @@ -161,14 +161,14 @@ static bool sched_state_is_init(struct intel_context *ce)
->   		 ~(SCHED_STATE_BLOCKED_MASK | SCHED_STATE_REGISTERED));
->   }
->   
-> -static inline bool
-> +static bool
->   context_wait_for_deregister_to_register(struct intel_context *ce)
-Could probably un-linewrap most of these split declarations and still 
-stay under the line length limit.
-
-
->   {
->   	return ce->guc_state.sched_state &
->   		SCHED_STATE_WAIT_FOR_DEREGISTER_TO_REGISTER;
->   }
->   
-> -static inline void
-> +static void
->   set_context_wait_for_deregister_to_register(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
-> @@ -176,7 +176,7 @@ set_context_wait_for_deregister_to_register(struct intel_context *ce)
->   		SCHED_STATE_WAIT_FOR_DEREGISTER_TO_REGISTER;
->   }
->   
-> -static inline void
-> +static void
->   clr_context_wait_for_deregister_to_register(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
-> @@ -184,111 +184,111 @@ clr_context_wait_for_deregister_to_register(struct intel_context *ce)
->   		~SCHED_STATE_WAIT_FOR_DEREGISTER_TO_REGISTER;
->   }
->   
-> -static inline bool
-> +static bool
->   context_destroyed(struct intel_context *ce)
->   {
->   	return ce->guc_state.sched_state & SCHED_STATE_DESTROYED;
->   }
->   
-> -static inline void
-> +static void
->   set_context_destroyed(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state |= SCHED_STATE_DESTROYED;
->   }
->   
-> -static inline bool context_pending_disable(struct intel_context *ce)
-> +static bool context_pending_disable(struct intel_context *ce)
->   {
->   	return ce->guc_state.sched_state & SCHED_STATE_PENDING_DISABLE;
->   }
->   
-> -static inline void set_context_pending_disable(struct intel_context *ce)
-> +static void set_context_pending_disable(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state |= SCHED_STATE_PENDING_DISABLE;
->   }
->   
-> -static inline void clr_context_pending_disable(struct intel_context *ce)
-> +static void clr_context_pending_disable(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state &= ~SCHED_STATE_PENDING_DISABLE;
->   }
->   
-> -static inline bool context_banned(struct intel_context *ce)
-> +static bool context_banned(struct intel_context *ce)
->   {
->   	return ce->guc_state.sched_state & SCHED_STATE_BANNED;
->   }
->   
-> -static inline void set_context_banned(struct intel_context *ce)
-> +static void set_context_banned(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state |= SCHED_STATE_BANNED;
->   }
->   
-> -static inline void clr_context_banned(struct intel_context *ce)
-> +static void clr_context_banned(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state &= ~SCHED_STATE_BANNED;
->   }
->   
-> -static inline bool context_enabled(struct intel_context *ce)
-> +static bool context_enabled(struct intel_context *ce)
->   {
->   	return ce->guc_state.sched_state & SCHED_STATE_ENABLED;
->   }
->   
-> -static inline void set_context_enabled(struct intel_context *ce)
-> +static void set_context_enabled(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state |= SCHED_STATE_ENABLED;
->   }
->   
-> -static inline void clr_context_enabled(struct intel_context *ce)
-> +static void clr_context_enabled(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state &= ~SCHED_STATE_ENABLED;
->   }
->   
-> -static inline bool context_pending_enable(struct intel_context *ce)
-> +static bool context_pending_enable(struct intel_context *ce)
->   {
->   	return ce->guc_state.sched_state & SCHED_STATE_PENDING_ENABLE;
->   }
->   
-> -static inline void set_context_pending_enable(struct intel_context *ce)
-> +static void set_context_pending_enable(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state |= SCHED_STATE_PENDING_ENABLE;
->   }
->   
-> -static inline void clr_context_pending_enable(struct intel_context *ce)
-> +static void clr_context_pending_enable(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state &= ~SCHED_STATE_PENDING_ENABLE;
->   }
->   
-> -static inline bool context_registered(struct intel_context *ce)
-> +static bool context_registered(struct intel_context *ce)
->   {
->   	return ce->guc_state.sched_state & SCHED_STATE_REGISTERED;
->   }
->   
-> -static inline void set_context_registered(struct intel_context *ce)
-> +static void set_context_registered(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state |= SCHED_STATE_REGISTERED;
->   }
->   
-> -static inline void clr_context_registered(struct intel_context *ce)
-> +static void clr_context_registered(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	ce->guc_state.sched_state &= ~SCHED_STATE_REGISTERED;
->   }
->   
-> -static inline u32 context_blocked(struct intel_context *ce)
-> +static u32 context_blocked(struct intel_context *ce)
->   {
->   	return (ce->guc_state.sched_state & SCHED_STATE_BLOCKED_MASK) >>
->   		SCHED_STATE_BLOCKED_SHIFT;
->   }
->   
-> -static inline void incr_context_blocked(struct intel_context *ce)
-> +static void incr_context_blocked(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   
-> @@ -297,7 +297,7 @@ static inline void incr_context_blocked(struct intel_context *ce)
->   	GEM_BUG_ON(!context_blocked(ce));	/* Overflow check */
->   }
->   
-> -static inline void decr_context_blocked(struct intel_context *ce)
-> +static void decr_context_blocked(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   
-> @@ -306,41 +306,41 @@ static inline void decr_context_blocked(struct intel_context *ce)
->   	ce->guc_state.sched_state -= SCHED_STATE_BLOCKED;
->   }
->   
-> -static inline bool context_has_committed_requests(struct intel_context *ce)
-> +static bool context_has_committed_requests(struct intel_context *ce)
->   {
->   	return !!ce->guc_state.number_committed_requests;
->   }
->   
-> -static inline void incr_context_committed_requests(struct intel_context *ce)
-> +static void incr_context_committed_requests(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	++ce->guc_state.number_committed_requests;
->   	GEM_BUG_ON(ce->guc_state.number_committed_requests < 0);
->   }
->   
-> -static inline void decr_context_committed_requests(struct intel_context *ce)
-> +static void decr_context_committed_requests(struct intel_context *ce)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	--ce->guc_state.number_committed_requests;
->   	GEM_BUG_ON(ce->guc_state.number_committed_requests < 0);
->   }
->   
-> -static inline bool context_guc_id_invalid(struct intel_context *ce)
-> +static bool context_guc_id_invalid(struct intel_context *ce)
->   {
->   	return ce->guc_id.id == GUC_INVALID_LRC_ID;
->   }
->   
-> -static inline void set_context_guc_id_invalid(struct intel_context *ce)
-> +static void set_context_guc_id_invalid(struct intel_context *ce)
->   {
->   	ce->guc_id.id = GUC_INVALID_LRC_ID;
->   }
->   
-> -static inline struct intel_guc *ce_to_guc(struct intel_context *ce)
-> +static struct intel_guc *ce_to_guc(struct intel_context *ce)
->   {
->   	return &ce->engine->gt->uc.guc;
->   }
->   
-> -static inline struct i915_priolist *to_priolist(struct rb_node *rb)
-> +static struct i915_priolist *to_priolist(struct rb_node *rb)
->   {
->   	return rb_entry(rb, struct i915_priolist, node);
->   }
-> @@ -354,7 +354,7 @@ static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
->   	return &base[index];
->   }
->   
-> -static inline struct intel_context *__get_context(struct intel_guc *guc, u32 id)
-> +static struct intel_context *__get_context(struct intel_guc *guc, u32 id)
->   {
->   	struct intel_context *ce = xa_load(&guc->context_lookup, id);
->   
-> @@ -384,12 +384,12 @@ static void guc_lrc_desc_pool_destroy(struct intel_guc *guc)
->   	i915_vma_unpin_and_release(&guc->lrc_desc_pool, I915_VMA_RELEASE_MAP);
->   }
->   
-> -static inline bool guc_submission_initialized(struct intel_guc *guc)
-> +static bool guc_submission_initialized(struct intel_guc *guc)
->   {
->   	return !!guc->lrc_desc_pool_vaddr;
->   }
->   
-> -static inline void reset_lrc_desc(struct intel_guc *guc, u32 id)
-> +static void reset_lrc_desc(struct intel_guc *guc, u32 id)
->   {
->   	if (likely(guc_submission_initialized(guc))) {
->   		struct guc_lrc_desc *desc = __get_lrc_desc(guc, id);
-> @@ -407,13 +407,13 @@ static inline void reset_lrc_desc(struct intel_guc *guc, u32 id)
->   	}
->   }
->   
-> -static inline bool lrc_desc_registered(struct intel_guc *guc, u32 id)
-> +static bool lrc_desc_registered(struct intel_guc *guc, u32 id)
->   {
->   	return __get_context(guc, id);
->   }
->   
-> -static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
-> -					   struct intel_context *ce)
-> +static void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
-> +				    struct intel_context *ce)
->   {
->   	unsigned long flags;
->   
-> @@ -576,13 +576,13 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
->   	return err;
->   }
->   
-> -static inline void guc_set_lrc_tail(struct i915_request *rq)
-> +static void guc_set_lrc_tail(struct i915_request *rq)
->   {
->   	rq->context->lrc_reg_state[CTX_RING_TAIL] =
->   		intel_ring_set_tail(rq->ring, rq->tail);
->   }
->   
-> -static inline int rq_prio(const struct i915_request *rq)
-> +static int rq_prio(const struct i915_request *rq)
->   {
->   	return rq->sched.attr.priority;
->   }
-> @@ -749,7 +749,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
->   	xa_unlock_irqrestore(&guc->context_lookup, flags);
->   }
->   
-> -static inline bool
-> +static bool
->   submission_disabled(struct intel_guc *guc)
->   {
->   	struct i915_sched_engine * const sched_engine = guc->sched_engine;
-> @@ -830,7 +830,7 @@ guc_virtual_get_sibling(struct intel_engine_cs *ve, unsigned int sibling)
->   	return NULL;
->   }
->   
-> -static inline struct intel_engine_cs *
-> +static struct intel_engine_cs *
->   __context_to_physical_engine(struct intel_context *ce)
->   {
->   	struct intel_engine_cs *engine = ce->engine;
-> @@ -1146,9 +1146,9 @@ void intel_guc_submission_fini(struct intel_guc *guc)
->   	i915_sched_engine_put(guc->sched_engine);
->   }
->   
-> -static inline void queue_request(struct i915_sched_engine *sched_engine,
-> -				 struct i915_request *rq,
-> -				 int prio)
-> +static void queue_request(struct i915_sched_engine *sched_engine,
-> +			  struct i915_request *rq,
-> +			  int prio)
-Could unwrap the prio field.
-
-John.
-
->   {
->   	GEM_BUG_ON(!list_empty(&rq->sched.link));
->   	list_add_tail(&rq->sched.link,
-> @@ -1838,7 +1838,7 @@ static void guc_context_sched_disable(struct intel_context *ce)
->   	intel_context_sched_disable_unpin(ce);
->   }
->   
-> -static inline void guc_lrc_desc_unpin(struct intel_context *ce)
-> +static void guc_lrc_desc_unpin(struct intel_context *ce)
->   {
->   	struct intel_guc *guc = ce_to_guc(ce);
->   
-> @@ -1978,7 +1978,7 @@ static void guc_context_set_prio(struct intel_guc *guc,
->   	trace_intel_context_set_prio(ce);
->   }
->   
-> -static inline u8 map_i915_prio_to_guc_prio(int prio)
-> +static u8 map_i915_prio_to_guc_prio(int prio)
->   {
->   	if (prio == I915_PRIORITY_NORMAL)
->   		return GUC_CLIENT_PRIORITY_KMD_NORMAL;
-> @@ -1990,8 +1990,7 @@ static inline u8 map_i915_prio_to_guc_prio(int prio)
->   		return GUC_CLIENT_PRIORITY_KMD_HIGH;
->   }
->   
-> -static inline void add_context_inflight_prio(struct intel_context *ce,
-> -					     u8 guc_prio)
-> +static void add_context_inflight_prio(struct intel_context *ce, u8 guc_prio)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_state.prio_count));
-> @@ -2002,8 +2001,7 @@ static inline void add_context_inflight_prio(struct intel_context *ce,
->   	GEM_WARN_ON(!ce->guc_state.prio_count[guc_prio]);
->   }
->   
-> -static inline void sub_context_inflight_prio(struct intel_context *ce,
-> -					     u8 guc_prio)
-> +static void sub_context_inflight_prio(struct intel_context *ce, u8 guc_prio)
->   {
->   	lockdep_assert_held(&ce->guc_state.lock);
->   	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_state.prio_count));
-> @@ -2014,7 +2012,7 @@ static inline void sub_context_inflight_prio(struct intel_context *ce,
->   	--ce->guc_state.prio_count[guc_prio];
->   }
->   
-> -static inline void update_context_prio(struct intel_context *ce)
-> +static void update_context_prio(struct intel_context *ce)
->   {
->   	struct intel_guc *guc = &ce->engine->gt->uc.guc;
->   	int i;
-> @@ -2032,7 +2030,7 @@ static inline void update_context_prio(struct intel_context *ce)
->   	}
->   }
->   
-> -static inline bool new_guc_prio_higher(u8 old_guc_prio, u8 new_guc_prio)
-> +static bool new_guc_prio_higher(u8 old_guc_prio, u8 new_guc_prio)
->   {
->   	/* Lower value is higher priority */
->   	return new_guc_prio < old_guc_prio;
-> @@ -2506,15 +2504,15 @@ static void guc_set_default_submission(struct intel_engine_cs *engine)
->   	engine->submit_request = guc_submit_request;
->   }
->   
-> -static inline void guc_kernel_context_pin(struct intel_guc *guc,
-> -					  struct intel_context *ce)
-> +static void guc_kernel_context_pin(struct intel_guc *guc,
-> +				   struct intel_context *ce)
->   {
->   	if (context_guc_id_invalid(ce))
->   		pin_guc_id(guc, ce);
->   	guc_lrc_desc_pin(ce, true);
->   }
->   
-> -static inline void guc_init_lrc_mapping(struct intel_guc *guc)
-> +static void guc_init_lrc_mapping(struct intel_guc *guc)
->   {
->   	struct intel_gt *gt = guc_to_gt(guc);
->   	struct intel_engine_cs *engine;
-> @@ -2617,7 +2615,7 @@ static void rcs_submission_override(struct intel_engine_cs *engine)
->   	}
->   }
->   
-> -static inline void guc_default_irqs(struct intel_engine_cs *engine)
-> +static void guc_default_irqs(struct intel_engine_cs *engine)
->   {
->   	engine->irq_keep_mask = GT_RENDER_USER_INTERRUPT;
->   	intel_engine_set_irq_handler(engine, cs_irq_handler);
-> @@ -2713,7 +2711,7 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
->   	guc->submission_selected = __guc_submission_selected(guc);
->   }
->   
-> -static inline struct intel_context *
-> +static struct intel_context *
->   g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
->   {
->   	struct intel_context *ce;
-> @@ -3085,8 +3083,8 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
->   	drm_printf(p, "\n");
->   }
->   
-> -static inline void guc_log_context_priority(struct drm_printer *p,
-> -					    struct intel_context *ce)
-> +static void guc_log_context_priority(struct drm_printer *p,
-> +				     struct intel_context *ce)
->   {
->   	int i;
->   
-
+W0FNRCBPZmZpY2lhbCBVc2UgT25seV0NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
+PiBGcm9tOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPg0KPiBTZW50OiBBdWd1c3QgMzAs
+IDIwMjEgNDowMCBQTQ0KPiBUbzogWnVvLCBKZXJyeSA8SmVycnkuWnVvQGFtZC5jb20+OyBkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IENjOiBXZW50bGFuZCwgSGFycnkgPEhhcnJ5
+LldlbnRsYW5kQGFtZC5jb20+OyBLYXpsYXVza2FzLCBOaWNob2xhcw0KPiA8TmljaG9sYXMuS2F6
+bGF1c2thc0BhbWQuY29tPjsgTGluLCBXYXluZSA8V2F5bmUuTGluQGFtZC5jb20+DQo+IFN1Ympl
+Y3Q6IFJlOiBbUEFUQ0ggMS8yXSBkcm06IFVwZGF0ZSBNU1QgRmlyc3QgTGluayBTbG90IEluZm9y
+bWF0aW9uIEJhc2VkDQo+IG9uIEVuY29kaW5nIEZvcm1hdA0KPg0KPiBPbiBGcmksIDIwMjEtMDgt
+MjcgYXQgMTk6NDMgLTA0MDAsIEZhbmd6aGkgWnVvIHdyb3RlOg0KPiA+IDhiLzEwYiBlbmNvZGlu
+ZyBmb3JtYXQgcmVxdWlyZXMgdG8gcmVzZXJ2ZSB0aGUgZmlyc3Qgc2xvdCBmb3INCj4gPiByZWNv
+cmRpbmcgbWV0YWRhdGEuIFJlYWwgZGF0YSB0cmFuc21pc3Npb24gc3RhcnRzIGZyb20gdGhlIHNl
+Y29uZA0KPiA+IHNsb3QsIHdpdGggYSB0b3RhbCBvZiBhdmFpbGFibGUgNjMgc2xvdHMgYXZhaWxh
+YmxlLg0KPiA+DQo+ID4gSW4gMTI4Yi8xMzJiIGVuY29kaW5nIGZvcm1hdCwgbWV0YWRhdGEgaXMg
+dHJhbnNtaXR0ZWQgc2VwYXJhdGVseSBpbg0KPiA+IExMQ1AgcGFja2V0IGJlZm9yZSBNVFAuIFJl
+YWwgZGF0YSB0cmFuc21pc3Npb24gc3RhcnRzIGZyb20gdGhlIGZpcnN0DQo+ID4gc2xvdCwgd2l0
+aCBhIHRvdGFsIG9mIDY0IHNsb3RzIGF2YWlsYWJsZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6
+IEZhbmd6aGkgWnVvIDxKZXJyeS5adW9AYW1kLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9n
+cHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYyB8IDI3DQo+ID4gKysrKysrKysrKysrKysrKysr
+KystLS0tLS0tDQo+ID4gIGluY2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVyLmggICAgICAgfCAg
+OSArKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspLCA3IGRl
+bGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
+bXN0X3RvcG9sb2d5LmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5
+LmMNCj4gPiBpbmRleCA4NmQxM2Q2YmM0NjMuLjMwNTQ0ODAxZDJiOCAxMDA2NDQNCj4gPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYw0KPiA+IEBAIC0zMzcwLDcgKzMzNzAsNyBA
+QCBpbnQgZHJtX2RwX3VwZGF0ZV9wYXlsb2FkX3BhcnQxKHN0cnVjdA0KPiA+IGRybV9kcF9tc3Rf
+dG9wb2xvZ3lfbWdyICptZ3IpDQo+ID4gICAgICAgICBzdHJ1Y3QgZHJtX2RwX3BheWxvYWQgcmVx
+X3BheWxvYWQ7DQo+ID4gICAgICAgICBzdHJ1Y3QgZHJtX2RwX21zdF9wb3J0ICpwb3J0Ow0KPiA+
+ICAgICAgICAgaW50IGksIGo7DQo+ID4gLSAgICAgICBpbnQgY3VyX3Nsb3RzID0gMTsNCj4gPiAr
+ICAgICAgIGludCBjdXJfc2xvdHMgPSBtZ3ItPnN0YXJ0X3Nsb3Q7DQo+ID4gICAgICAgICBib29s
+IHNraXA7DQo+ID4NCj4gPiAgICAgICAgIG11dGV4X2xvY2soJm1nci0+cGF5bG9hZF9sb2NrKTsg
+QEAgLTQzMjMsNyArNDMyMyw3IEBAIGludA0KPiA+IGRybV9kcF9maW5kX3ZjcGlfc2xvdHMoc3Ry
+dWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsDQo+ID4gICAgICAgICBudW1fc2xvdHMg
+PSBESVZfUk9VTkRfVVAocGJuLCBtZ3ItPnBibl9kaXYpOw0KPiA+DQo+ID4gICAgICAgICAvKiBt
+YXguIHRpbWUgc2xvdHMgLSBvbmUgc2xvdCBmb3IgTVRQIGhlYWRlciAqLw0KPiA+IC0gICAgICAg
+aWYgKG51bV9zbG90cyA+IDYzKQ0KPiA+ICsgICAgICAgaWYgKG51bV9zbG90cyA+IG1nci0+dG90
+YWxfYXZhaWxfc2xvdHMpDQo+ID4gICAgICAgICAgICAgICAgIHJldHVybiAtRU5PU1BDOw0KPiA+
+ICAgICAgICAgcmV0dXJuIG51bV9zbG90czsNCj4gPiAgfQ0KPiA+IEBAIC00MzM1LDcgKzQzMzUs
+NyBAQCBzdGF0aWMgaW50IGRybV9kcF9pbml0X3ZjcGkoc3RydWN0DQo+ID4gZHJtX2RwX21zdF90
+b3BvbG9neV9tZ3IgKm1nciwNCj4gPiAgICAgICAgIGludCByZXQ7DQo+ID4NCj4gPiAgICAgICAg
+IC8qIG1heC4gdGltZSBzbG90cyAtIG9uZSBzbG90IGZvciBNVFAgaGVhZGVyICovDQo+ID4gLSAg
+ICAgICBpZiAoc2xvdHMgPiA2MykNCj4gPiArICAgICAgIGlmIChzbG90cyA+IG1nci0+dG90YWxf
+YXZhaWxfc2xvdHMpDQo+ID4gICAgICAgICAgICAgICAgIHJldHVybiAtRU5PU1BDOw0KPiA+DQo+
+ID4gICAgICAgICB2Y3BpLT5wYm4gPSBwYm47DQo+ID4gQEAgLTQ1MDksNiArNDUwOSwxNyBAQCBp
+bnQgZHJtX2RwX2F0b21pY19yZWxlYXNlX3ZjcGlfc2xvdHMoc3RydWN0DQo+ID4gZHJtX2F0b21p
+Y19zdGF0ZSAqc3RhdGUsDQo+ID4gIH0NCj4gPiAgRVhQT1JUX1NZTUJPTChkcm1fZHBfYXRvbWlj
+X3JlbGVhc2VfdmNwaV9zbG90cyk7DQo+ID4NCj4gPiArdm9pZCBkcm1fZHBfbXN0X3VwZGF0ZV9l
+bmNvZGluZ19jYXAoc3RydWN0DQo+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyDQo+ID4gKyptZ3Is
+DQo+ID4gdWludDhfdCBsaW5rX2VuY29kaW5nX2NhcCkNCj4gPiArew0KPiA+ICsgICAgICAgaWYg
+KGxpbmtfZW5jb2RpbmdfY2FwID09IERQX0NBUF9BTlNJXzEyOEIxMzJCKSB7DQo+ID4gKyAgICAg
+ICAgICAgICAgIG1nci0+dG90YWxfYXZhaWxfc2xvdHMgPSA2NDsNCj4gPiArICAgICAgICAgICAg
+ICAgbWdyLT5zdGFydF9zbG90ID0gMDsNCj4gPiArICAgICAgIH0NCj4gPiArICAgICAgIERSTV9E
+RUJVR19LTVMoIiVzIGVuY29kaW5nIGZvcm1hdCBkZXRlcm1pbmVkXG4iLA0KPiA+ICsgICAgICAg
+ICAgICAgICAgICAgICAobGlua19lbmNvZGluZ19jYXAgPT0gRFBfQ0FQX0FOU0lfMTI4QjEzMkIp
+ID8NCj4gPiAiMTI4Yi8xMzJiIiA6ICI4Yi8xMGIiKTsNCj4gPiArfQ0KPiA+ICtFWFBPUlRfU1lN
+Qk9MKGRybV9kcF9tc3RfdXBkYXRlX2VuY29kaW5nX2NhcCk7DQo+ID4gKw0KPg0KPiBUaGlzIHNl
+ZW1zIHRvIGJlIG1pc3Npbmcga2RvY3MsIGNhbiB5b3UgZml4IHRoYXQ/DQo+DQo+IEFsc28gLSBJ
+J20gbm90IGNvbnZpbmNlZCB0aGlzIGlzIGFsbCBvZiB0aGUgd29yayB3ZSBoYXZlIHRvIGRvLCBh
+cyB0aGVyZSdzIG5vDQo+IGxvY2tpbmcgdGFraW5nIHBsYWNlIGhlcmUgaW4gdGhpcyBmdW5jdGlv
+bi4gSWYgd2UncmUgY2hhbmdpbmcgdGhlIG51bWJlciBvZg0KPiBhdmFpbGFibGUgVkNQSSBzbG90
+cyB0aGF0IHdlIGhhdmUsIHdlIG5lZWQgdG8gYmUgYWJsZSB0byBmYWN0b3IgdGhhdCBpbnRvIHRo
+ZQ0KPiBhdG9taWMgY2hlY2sgbG9naWMgd2hpY2ggbWVhbnMgdGhhdCB3ZSBjYW4ndCByZWx5IG9u
+IG1nci0+KiBmb3IgYW55IGtpbmQgb2YNCj4gZGF0YSB0aGF0IGlzbid0IGd1YXJhbnRlZWQgdG8g
+cmVtYWluIGNvbnNpc3RlbnQgdGhyb3VnaG91dCB0aGUgbGlmZXRpbWUgb2YgdGhlDQo+IGRyaXZl
+ciBvciB0b3BvbG9neS4gKE5vdGUgdGhhdCBzb21lIG9mIHRoZSBvbGQgTVNUIGNvZGUgZGlkbid0
+IGZvbGxvdyB0aGlzDQo+IGxvZ2ljLCBzbyBJIHdvdWxkbid0IGJlIHN1cnByaXNlZCBpZiB0aGVy
+ZSdzIHN0aWxsIGV4Y2VwdGlvbnMgdG8gdGhpcyB3ZSBuZWVkIHRvDQo+IGNsZWFuIHVwKS4NCj4N
+Cj4gTm90ZSB0aGF0IEkgc3RpbGwgZXhwZWN0IHdlJ2xsIGhhdmUgdG8ga2VlcCBzb21lIHNvcnQg
+b2YgdHJhY2sgb2YgdGhlIGN1cnJlbnQNCj4gdG90YWwgc2xvdCBjb3VudCBpbiB0aGUgdG9wb2xv
+Z3kgbWdyLCBidXQgdGhhdCBzaG91bGQgYmUgcmVmbGVjdGluZyB0aGUNCj4gY3VycmVudGx5IHBy
+b2dyYW1tZWQgc3RhdGUgYW5kIG5vdCBiZSByZWxpZWQgb24gZnJvbSBvdXIgYXRvbWljIGNoZWNr
+Lg0KPg0KDQpUaGFua3MgTHl1ZGUgZm9yIHlvdXIgY29tbWVudHMuDQoNClNlZW1zIEkgc2hvdWxk
+IGtlZXAgZXhpc3RpbmcgY29kZSB0byBrZWVwIHRyYWNrIG9mIGN1cnJlbnQgc2xvdCBzdGF0dXMg
+aW4gbWdyLg0KVGhhdCBpbmZvcm1hdGlvbiBpcyBnZXR0aW5nIHVwZGF0ZWQgZWFjaCB0aW1lIHdo
+ZW4gdG9wb2xvZ3kgY2hhbmdlIGRldGVjdGVkLg0KVGhhdCBzbG90IGluZm9ybWF0aW9uIHNhdmVk
+IGluIG1nciBpcyBhIHNvcnQgb2Ygc3RhdGljLCBhbmQgY291bGQgb25seSBiZSB1c2VkDQpmb3Ig
+ZGVidWcgcHVycG9zZSB0byB0cmFjayB3aGF0IGlzIHRoZSBjdXJyZW50IGVuY29kaW5nIGZvcm1h
+dC4NCg0KPiBJTUhPIC0gdGhlIGNvcnJlY3Qgd2F5IHdlIHNob3VsZCBnbyBhYm91dCBhZGRpbmcg
+c3VwcG9ydCBmb3IgdGhpcyBpcyB0byBhZGQNCj4gc29tZXRoaW5nIGludG8gZHJtX2RwX21zdF90
+b3BvbG9neV9zdGF0ZSBhbmQgaW50ZWdyYXRlIHRoaXMgaW50byB0aGUNCj4gYXRvbWljIGNoZWNr
+IGhlbHBlcnMuDQoNClRoZSBzbG90IGluZm9ybWF0aW9uIHNob3VsZCBhbHNvIGJlIGFkZGVkIGlu
+dG8gZHJtX2RwX21zdF90b3BvbG9neV9zdGF0ZSB0bw0KcmVmbGVjdCB0aGUgcmVhbC10aW1lIHNs
+b3Qgc3RhdHVzLg0KDQpJJ2QgbGlrZSB0byBjb25maXJtIHRoZSBiZXN0IHBsYWNlIHRvIGdldCBz
+bG90IGNvdW50IGluZm8uIHVwZGF0ZWQuDQpTaG91bGQgdGhlIHVwZGF0ZSBiZSBkb25lIHdpdGhp
+biAmZHJtX21vZGVfY29uZmlnX2Z1bmNzLiBhdG9taWNfY2hlY2soKSwNCmJlZm9yZSBuZXcgc3Ry
+ZWFtIGlzIGNyZWF0ZWQsIE9SDQpzaG91bGQgYmUgdXBkYXRlZCB3aXRoaW4gZHJtX2RwX21zdF9h
+dG9taWNfY2hlY2soKSA/DQoNClRoZSB1cGRhdGVkIHNsb3QgY291bnQgd2lsbCBiZSB1c2VkIGlu
+IGRybV9kcF9tc3RfYXRvbWljX2NoZWNrKCkgdG8gY2hlY2sgc2xvdCBsaW1pdCwNCmFuZCBpbiBk
+cm1fZHBfdXBkYXRlX3BheWxvYWRfcGFydDEoKSBhcyBpbml0aWFsIGN1cl9zbG90cy4NCg0KPg0K
+PiA+ICAvKioNCj4gPiAgICogZHJtX2RwX21zdF9hbGxvY2F0ZV92Y3BpKCkgLSBBbGxvY2F0ZSBh
+IHZpcnR1YWwgY2hhbm5lbA0KPiA+ICAgKiBAbWdyOiBtYW5hZ2VyIGZvciB0aGlzIHBvcnQNCj4g
+PiBAQCAtNDU0MCw4ICs0NTUxLDggQEAgYm9vbCBkcm1fZHBfbXN0X2FsbG9jYXRlX3ZjcGkoc3Ry
+dWN0DQo+ID4gZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwNCj4gPg0KPiA+ICAgICAgICAg
+cmV0ID0gZHJtX2RwX2luaXRfdmNwaShtZ3IsICZwb3J0LT52Y3BpLCBwYm4sIHNsb3RzKTsNCj4g
+PiAgICAgICAgIGlmIChyZXQpIHsNCj4gPiAtICAgICAgICAgICAgICAgZHJtX2RiZ19rbXMobWdy
+LT5kZXYsICJmYWlsZWQgdG8gaW5pdCB2Y3BpIHNsb3RzPSVkDQo+ID4gbWF4PTYzIHJldD0lZFxu
+IiwNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgRElWX1JPVU5EX1VQKHBibiwgbWdy
+LT5wYm5fZGl2KSwgcmV0KTsNCj4gPiArICAgICAgICAgICAgICAgZHJtX2RiZ19rbXMobWdyLT5k
+ZXYsICJmYWlsZWQgdG8gaW5pdCB2Y3BpIHNsb3RzPSVkDQo+ID4gK21heD0lZA0KPiA+IHJldD0l
+ZFxuIiwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgRElWX1JPVU5EX1VQKHBibiwg
+bWdyLT5wYm5fZGl2KSwgbWdyLQ0KPiA+ID50b3RhbF9hdmFpbF9zbG90cywgcmV0KTsNCj4gPiAg
+ICAgICAgICAgICAgICAgZHJtX2RwX21zdF90b3BvbG9neV9wdXRfcG9ydChwb3J0KTsNCj4gPiAg
+ICAgICAgICAgICAgICAgZ290byBvdXQ7DQo+ID4gICAgICAgICB9DQo+ID4gQEAgLTUyMjgsNyAr
+NTIzOSw3IEBADQo+IGRybV9kcF9tc3RfYXRvbWljX2NoZWNrX3ZjcGlfYWxsb2NfbGltaXQoc3Ry
+dWN0DQo+ID4gZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwNCj4gPiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdA0KPiA+IGRybV9kcF9tc3RfdG9wb2xv
+Z3lfc3RhdGUNCj4gPiAqbXN0X3N0YXRlKQ0KPiA+ICB7DQo+ID4gICAgICAgICBzdHJ1Y3QgZHJt
+X2RwX3ZjcGlfYWxsb2NhdGlvbiAqdmNwaTsNCj4gPiAtICAgICAgIGludCBhdmFpbF9zbG90cyA9
+IDYzLCBwYXlsb2FkX2NvdW50ID0gMDsNCj4gPiArICAgICAgIGludCBhdmFpbF9zbG90cyA9IG1n
+ci0+dG90YWxfYXZhaWxfc2xvdHMsIHBheWxvYWRfY291bnQgPSAwOw0KPiA+DQo+ID4gICAgICAg
+ICBsaXN0X2Zvcl9lYWNoX2VudHJ5KHZjcGksICZtc3Rfc3RhdGUtPnZjcGlzLCBuZXh0KSB7DQo+
+ID4gICAgICAgICAgICAgICAgIC8qIFJlbGVhc2luZyBWQ1BJIGlzIGFsd2F5cyBPSy1ldmVuIGlm
+IHRoZSBwb3J0IGlzDQo+ID4gZ29uZSAqLyBAQCAtNTI1Nyw3ICs1MjY4LDcgQEANCj4gPiBkcm1f
+ZHBfbXN0X2F0b21pY19jaGVja192Y3BpX2FsbG9jX2xpbWl0KHN0cnVjdA0KPiA+IGRybV9kcF9t
+c3RfdG9wb2xvZ3lfbWdyICptZ3IsDQo+ID4gICAgICAgICAgICAgICAgIH0NCj4gPiAgICAgICAg
+IH0NCj4gPiAgICAgICAgIGRybV9kYmdfYXRvbWljKG1nci0+ZGV2LCAiW01TVCBNR1I6JXBdIG1z
+dCBzdGF0ZSAlcCBWQ1BJDQo+ID4gYXZhaWw9JWQgdXNlZD0lZFxuIiwNCj4gPiAtICAgICAgICAg
+ICAgICAgICAgICAgIG1nciwgbXN0X3N0YXRlLCBhdmFpbF9zbG90cywgNjMgLSBhdmFpbF9zbG90
+cyk7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICBtZ3IsIG1zdF9zdGF0ZSwgYXZhaWxfc2xv
+dHMsDQo+ID4gK21nci0+dG90YWxfYXZhaWxfc2xvdHMgLQ0KPiA+IGF2YWlsX3Nsb3RzKTsNCj4g
+Pg0KPiA+ICAgICAgICAgcmV0dXJuIDA7DQo+ID4gIH0NCj4gPiBAQCAtNTUyOSw2ICs1NTQwLDgg
+QEAgaW50IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyX2luaXQoc3RydWN0DQo+ID4gZHJtX2RwX21z
+dF90b3BvbG9neV9tZ3IgKm1nciwNCj4gPiAgICAgICAgIGlmICghbWdyLT5wcm9wb3NlZF92Y3Bp
+cykNCj4gPiAgICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07DQo+ID4gICAgICAgICBzZXRf
+Yml0KDAsICZtZ3ItPnBheWxvYWRfbWFzayk7DQo+ID4gKyAgICAgICBtZ3ItPnRvdGFsX2F2YWls
+X3Nsb3RzID0gNjM7DQo+ID4gKyAgICAgICBtZ3ItPnN0YXJ0X3Nsb3QgPSAxOw0KPiA+DQo+ID4g
+ICAgICAgICBtc3Rfc3RhdGUgPSBremFsbG9jKHNpemVvZigqbXN0X3N0YXRlKSwgR0ZQX0tFUk5F
+TCk7DQo+ID4gICAgICAgICBpZiAobXN0X3N0YXRlID09IE5VTEwpDQo+ID4gZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVyLmgNCj4gPiBiL2luY2x1ZGUvZHJtL2RybV9k
+cF9tc3RfaGVscGVyLmggaW5kZXggZGRiOTIzMWQwMzA5Li5lYWM1Y2U0OGYyMTQNCj4gPiAxMDA2
+NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZHBfbXN0X2hlbHBlci5oDQo+ID4gKysrIGIv
+aW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaA0KPiA+IEBAIC02NjEsNiArNjYxLDE1IEBA
+IHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciB7DQo+ID4gICAgICAgICAgKi8NCj4gPiAg
+ICAgICAgIGludCBwYm5fZGl2Ow0KPiA+DQo+ID4gKyAgICAgICAvKioNCj4gPiArICAgICAgICAq
+IEB0b3RhbF9hdmFpbF9zbG90czogYXZhaWxhYmxlIHNsb3RzIGZvciBkYXRhIHRyYW5zbWlzc2lv
+bg0KPiA+ICsgICAgICAgICovDQo+ID4gKyAgICAgICB1OCB0b3RhbF9hdmFpbF9zbG90czsNCj4g
+PiArICAgICAgIC8qKg0KPiA+ICsgICAgICAgICogQHN0YXJ0X3Nsb3Q6IGZpcnN0IHNsb3QgaW5k
+ZXggZm9yIGRhdGEgdHJhbnNtaXNzaW9uDQo+ID4gKyAgICAgICAgKi8NCj4gPiArICAgICAgIHU4
+IHN0YXJ0X3Nsb3Q7DQo+ID4gKw0KPiA+ICAgICAgICAgLyoqDQo+ID4gICAgICAgICAgKiBAZnVu
+Y3M6IEF0b21pYyBoZWxwZXIgY2FsbGJhY2tzDQo+ID4gICAgICAgICAgKi8NCj4NCj4gLS0NCj4g
+Q2hlZXJzLA0KPiAgTHl1ZGUgUGF1bCAoc2hlL2hlcikNCj4gIFNvZnR3YXJlIEVuZ2luZWVyIGF0
+IFJlZCBIYXQNCg0K
