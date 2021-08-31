@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E1F3FC384
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 09:43:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4953FC386
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 09:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E962C899A3;
-	Tue, 31 Aug 2021 07:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B08B89B60;
+	Tue, 31 Aug 2021 07:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from baidu.com (mx21.baidu.com [220.181.3.85])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0049B899A3
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 07:43:28 +0000 (UTC)
-Received: from BC-Mail-Ex32.internal.baidu.com (unknown [172.31.51.26])
- by Forcepoint Email with ESMTPS id 1B3C1FCD9D0533221AE1;
- Tue, 31 Aug 2021 15:43:28 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7643189B60
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 07:44:57 +0000 (UTC)
+Received: from BC-Mail-Ex29.internal.baidu.com (unknown [172.31.51.23])
+ by Forcepoint Email with ESMTPS id 865D435C8539B30CF12D;
+ Tue, 31 Aug 2021 15:44:56 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex32.internal.baidu.com (172.31.51.26) with Microsoft SMTP Server
+ BC-Mail-Ex29.internal.baidu.com (172.31.51.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Tue, 31 Aug 2021 15:43:27 +0800
+ 15.1.2242.12; Tue, 31 Aug 2021 15:44:56 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Tue, 31 Aug 2021 15:43:27 +0800
+ 15.1.2308.14; Tue, 31 Aug 2021 15:44:55 +0800
 From: Cai Huoqing <caihuoqing@baidu.com>
-To: <liviu.dudau@arm.com>, <brian.starkey@arm.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, Cai Huoqing <caihuoqing@baidu.com>
-Subject: [PATCH] drm/arm/hdlcd: Make use of the helper function
+To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>, <andrew@aj.id.au>
+CC: <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, Cai Huoqing <caihuoqing@baidu.com>
+Subject: [PATCH] drm/aspeed: Make use of the helper function
  devm_platform_ioremap_resource()
-Date: Tue, 31 Aug 2021 15:43:19 +0800
-Message-ID: <20210831074319.518-1-caihuoqing@baidu.com>
+Date: Tue, 31 Aug 2021 15:44:49 +0800
+Message-ID: <20210831074449.563-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -58,31 +58,26 @@ separately
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/gpu/drm/arm/hdlcd_drv.c | 4 +---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-index 479c2422a2e0..72e63c8fad4e 100644
---- a/drivers/gpu/drm/arm/hdlcd_drv.c
-+++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-@@ -129,7 +129,6 @@ static int hdlcd_load(struct drm_device *drm, unsigned long flags)
- {
- 	struct hdlcd_drm_private *hdlcd = drm->dev_private;
- 	struct platform_device *pdev = to_platform_device(drm->dev);
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index b53fee6f1c17..de65da467de7 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -133,11 +133,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ 	struct device_node *np = pdev->dev.of_node;
+ 	const struct aspeed_gfx_config *config;
+ 	const struct of_device_id *match;
 -	struct resource *res;
- 	u32 version;
  	int ret;
  
-@@ -144,8 +143,7 @@ static int hdlcd_load(struct drm_device *drm, unsigned long flags)
- 	atomic_set(&hdlcd->dma_end_count, 0);
- #endif
- 
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hdlcd->mmio = devm_ioremap_resource(drm->dev, res);
-+	hdlcd->mmio = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(hdlcd->mmio)) {
- 		DRM_ERROR("failed to map control registers area\n");
- 		ret = PTR_ERR(hdlcd->mmio);
+-	priv->base = devm_ioremap_resource(drm->dev, res);
++	priv->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
+ 
 -- 
 2.25.1
 
