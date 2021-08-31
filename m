@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A343FC95A
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482D93FC96F
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:12:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E4888427;
-	Tue, 31 Aug 2021 14:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8897C89FF7;
+	Tue, 31 Aug 2021 14:12:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF21488427
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 14:06:58 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id m9so3521783wrb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 07:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=aUc3eXInjb0FHOaaLzB6UYNRDsZ34fm2dfQ3CE2MII8=;
- b=cHg7ga4URUdh/4HI5khzpVlbzagiMReyKUHPANBkkLwTvkKyU9DuHNTb88sZj4hKpg
- q/1SiUkKvUmlHkyiVlz+08IfYFf0+WJI5D1rU8I0bHmoNZykglQGXreQHatyfIarel4e
- 9jz1z3Y3Ln5lDX9hf+mkYGjm8RMGLbCQrrVdY=
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75B2689FF7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 14:12:01 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ j4-20020a17090a734400b0018f6dd1ec97so2513256pjs.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 07:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DwBG0kbYLoprwx2xDskuGjAg4KxbwGBk3fVvkOflJfY=;
+ b=n4plaO9ZqXTMabwQQad7OQWiFxsARGV7/IksaEq0V+fk0Zar3ZT8MUTLoE2UWcX4MU
+ zrVz9ULgAArOMtdajOyS0NRgdYmASL0E3tULikziScQjHqXjdDxNJe8F3UuhQ5DCFetJ
+ SEjUA0AznWEznLoyb4A+/Bp9ZQWGW+j2Wi4KjQWGqZ/+PuIH8uulXO87Q40BX/X/C9Ji
+ VCkkkixVthgv0kfgThJ3bvFwJ2rmHkmipXXtLzc4YtwSC1Eot/27pCBts9+zBhgCXaZb
+ YfbUSJPuTMOYkdYUSs1GXJ3NX3d2DI4yxeCMPM+avwPD8BP70QqkWLTTS/lNdppx7Rkm
+ mVlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=aUc3eXInjb0FHOaaLzB6UYNRDsZ34fm2dfQ3CE2MII8=;
- b=ukz3OuUcPjmIO3vngo6WdsWuMr9Oke8pBXxN1bwgHQ14n8it+/2mnwc+rdJ5BNL5eM
- n701UCO/iHaOUPi8U4OgX3eMsz1SG7XAzZlwwO9WjgHTeyEb0xH6Lbi825q5jlSrAT/2
- Dmtmek423Y+ocQ5oIzrxwyoamYY2Hrq1yAnBCrygpnElp9RHVetA3EzM1HaZa26xE3vH
- 5uWqz2EjZxY7YV46QwrQNtvFMG3Otc8QCm3Cld6K/xS+N2PyEwjDpWnsxbqtpfjWJQ9I
- XPsIX5ZlUemJuxvaa+zongfGRHaA8rzeD70/BUl1amAy4kHdlxz8dINYrpL9opmYM/0A
- BQSw==
-X-Gm-Message-State: AOAM532oYShigI2L0GFda9x1XrPrp2iwVEV1G4RYtjIIW2uNwhw9n2/U
- nOiIaaekVJNE72JkePfFmKlXWA==
-X-Google-Smtp-Source: ABdhPJxh/QuipVt9KKdAfDdY2BiCq3CPbubtx6vn+2660T8RTVZFb8ibrHTsB2ujn52SxuPkLXYuQA==
-X-Received: by 2002:a5d:460a:: with SMTP id t10mr31998206wrq.147.1630418817356; 
- Tue, 31 Aug 2021 07:06:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o7sm2487474wmc.46.2021.08.31.07.06.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 07:06:56 -0700 (PDT)
-Date: Tue, 31 Aug 2021 16:06:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] panfrost: Don't cleanup the job if it was successfully
- queued
-Message-ID: <YS43f+k0oxt0K2Iy@phenom.ffwll.local>
-References: <20210831133556.236984-1-boris.brezillon@collabora.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DwBG0kbYLoprwx2xDskuGjAg4KxbwGBk3fVvkOflJfY=;
+ b=cH6MiKfGhYV61bydOZoe64y7NhEVAmJVRCxW7dJXlwt4U8TaK2g0Cc9Q0a3c31YGkp
+ CDsmOdQkQglprME9JtFQX0lXUoTk6+Rup8sV04ijinHgo+YpbgETUY8votVSoKuEDrIl
+ etFs2QKImN//7wkSHxS9DFdMO6fYp8gjCynaz3L30M2pvnta3oNkFfh+EdUXN9181bO/
+ PyhCdwLB7M4T8YkkCH5IzEgzVyELC19k1PcvkL/BhEOr5yHkbfVssgcV95ZjSiiqGa7T
+ wr1kv7U3Fzgx1UGFaXgmeNUIvjO4h3ZoqQDBz3GXx37IL2sfwlh8C3ORriBSSoIg5j1A
+ Rylg==
+X-Gm-Message-State: AOAM532WCBMAuJcJVyBz/TFrvZSsgBozr3HE98V4rCqV3EFuw2Si4MxE
+ g52jc/EWMW406lIZQIjSYSpP6PolpiUCpwOJTgQ5Pg==
+X-Google-Smtp-Source: ABdhPJx5yHJTTzBrXq2AUYXsGcTAO5IKtUmnDI+oVOLx/pegeMs0loQRWMfDgCq3QQK52OVn5wqzTEChmIVQ8Q2ox7A=
+X-Received: by 2002:a17:902:a513:b029:11a:9be6:f1b9 with SMTP id
+ s19-20020a170902a513b029011a9be6f1b9mr4831914plq.55.1630419120987; Tue, 31
+ Aug 2021 07:12:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210831133556.236984-1-boris.brezillon@collabora.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20210819060110.3427256-1-xji@analogixsemi.com>
+In-Reply-To: <20210819060110.3427256-1-xji@analogixsemi.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 31 Aug 2021 16:11:49 +0200
+Message-ID: <CAG3jFytk21cSVKiFcu859CBvUW593XQw5_D97Uydsf798jyWDg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: anx7625: enable DSI EOTP
+To: Xin Ji <xji@analogixsemi.com>
+Cc: Nicolas Boichat <drinkcat@google.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Dan Carpenter <dan.carpenter@oracle.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Torsten Duwe <duwe@lst.de>, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Bernie Liang <bliang@analogixsemi.com>, Qilin Wen <qwen@analogixsemi.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, devel@driverdev.osuosl.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,81 +79,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 31, 2021 at 03:35:56PM +0200, Boris Brezillon wrote:
-> The labels are misleading. Even though they are all prefixed with 'fail_'
-> the success case also takes that path, and we should definitely not
-> cleanup the job if it's been queued. While at it, let's rename those
-> labels so we don't do the same mistake again.
-> 
-> Fixes: 53516280cc38 ("drm/panfrost: use scheduler dependency tracking")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Oops sorry about that, I thought I've had a t-b from panfrost already?
-
-Anyway this looks good to me:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Thu, 19 Aug 2021 at 08:01, Xin Ji <xji@analogixsemi.com> wrote:
+>
+> Enable DSI EOTP feature for fixing some panel screen constant shift issue.
+> Removing MIPI flag MIPI_DSI_MODE_NO_EOT_PACKET to enable DSI EOTP.
+>
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> Signed-off-by: Xin Ji <xji@analogixsemi.com>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 16212b6b202e..077cbbfa506b 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -253,7 +253,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->  	job = kzalloc(sizeof(*job), GFP_KERNEL);
->  	if (!job) {
->  		ret = -ENOMEM;
-> -		goto fail_out_sync;
-> +		goto out_put_syncout;
->  	}
->  
->  	kref_init(&job->refcount);
-> @@ -270,29 +270,30 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->  				 &job->file_priv->sched_entity[slot],
->  				 NULL);
->  	if (ret)
-> -		goto fail_job_put;
-> +		goto out_put_job;
->  
->  	ret = panfrost_copy_in_sync(dev, file, args, job);
->  	if (ret)
-> -		goto fail_job;
-> +		goto out_cleanup_job;
->  
->  	ret = panfrost_lookup_bos(dev, file, args, job);
->  	if (ret)
-> -		goto fail_job;
-> +		goto out_cleanup_job;
->  
->  	ret = panfrost_job_push(job);
->  	if (ret)
-> -		goto fail_job;
-> +		goto out_cleanup_job;
->  
->  	/* Update the return sync object for the job */
->  	if (sync_out)
->  		drm_syncobj_replace_fence(sync_out, job->render_done_fence);
->  
-> -fail_job:
-> -	drm_sched_job_cleanup(&job->base);
-> -fail_job_put:
-> +out_cleanup_job:
-> +	if (ret)
-> +		drm_sched_job_cleanup(&job->base);
-> +out_put_job:
->  	panfrost_job_put(job);
-> -fail_out_sync:
-> +out_put_syncout:
->  	if (sync_out)
->  		drm_syncobj_put(sync_out);
->  
-> -- 
-> 2.31.1
-> 
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index abc8db77bfd3..1a871f6b6822 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -1335,7 +1335,6 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
+>         dsi->format = MIPI_DSI_FMT_RGB888;
+>         dsi->mode_flags = MIPI_DSI_MODE_VIDEO   |
+>                 MIPI_DSI_MODE_VIDEO_SYNC_PULSE  |
+> -               MIPI_DSI_MODE_NO_EOT_PACKET     |
+>                 MIPI_DSI_MODE_VIDEO_HSE;
+>
+>         if (mipi_dsi_attach(dsi) < 0) {
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Applied to drm-misc-next
