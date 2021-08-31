@@ -1,77 +1,100 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B163FCFA7
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 00:47:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1A83FCFA5
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 00:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 999EB6E0EA;
-	Tue, 31 Aug 2021 22:47:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C73BC8912D;
+	Tue, 31 Aug 2021 22:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0ACA6E0EA
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 22:47:20 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0918A8912D
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 22:47:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630450039;
+ s=mimecast20190719; t=1630450026;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lcHNx8YNEvbqLcGIkhlgoBpXUTa8ClUykCMCpsVZUJI=;
- b=SS0rAJ6Ia3RtNQCZH3lqR7vE3+MpyrPfHMt8XiTC2jM0u7d8KgMWIWtj1g1uqNeCrAHtJG
- of2/xZBh4/enZvWI7y8nt8JaXo+1pB/7NIRhylX1UNNU4Dm5VZvpadriqvkCnMY6qrmWxK
- jRvhnCbX2leguzsR47BIwUwq2pr931Q=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-rlTjOp5vOM2oXdSfN8A9ag-1; Tue, 31 Aug 2021 18:46:14 -0400
-X-MC-Unique: rlTjOp5vOM2oXdSfN8A9ag-1
-Received: by mail-qk1-f199.google.com with SMTP id
- 70-20020a370b49000000b003d2f5f0dcc6so1219294qkl.9
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 15:46:14 -0700 (PDT)
+ bh=7/wf0dWM2AVPSdi3Bhn+aKs+Xl0MyRli1xt2vcgD0ys=;
+ b=VvjBmz2M9rKd/GzS/RH3CpgEDjO96kgS4mVG1wNHIy9Km1ljZ/ww7fdNwewBKreDV8TyZQ
+ EA6vYJwNX2suZmSd7nBcSI/1Stl5+MOMgYQYg8xB2nHf/gbXTslZwRieFcSTzSR4rzNFzT
+ bh7aW7E6/eQGXiujMJ16cMAjMbFyJ+M=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-hYucij8GPHCUDioLr_BbSA-1; Tue, 31 Aug 2021 18:47:05 -0400
+X-MC-Unique: hYucij8GPHCUDioLr_BbSA-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ l3-20020a056214104300b00366988901acso1171304qvr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 15:47:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=lcHNx8YNEvbqLcGIkhlgoBpXUTa8ClUykCMCpsVZUJI=;
- b=Ix03+3vc5Ft0UffZimQuh+tAkPvSuuPGzJfC1d/AwSg0DYtf3/4DlMxjOiyP9mGqc6
- WksAGZ6XL6eSoAF8hZCWNfri+jAYeTqfF55WzZUvbueTZLOKRgZe0k2Mg0Fv2L9hZ3xB
- zC1mQxWmE4E1tJoC+sxiGlxdrG94tpLl2IbecNB/rI1+tNvPjNfm0oL2o1VXbLn5B227
- N95puLg2g6/3tTMm6YiSInor6kL54MEYKlptBltnd8L9mV0dgfu6lkrjyU8OdKlc4T19
- 78/KXVFQDe5jGB0jBYr958IC0I1dShEm52akVAoVuMaCIXwgEbB02TL8/t25xQ79qXCS
- DM1A==
-X-Gm-Message-State: AOAM531wU6PtYSeQKFaivSKDTZIO4rtQZjmjy/OvfqM8cTMFWSVDoyOs
- y+Ph/EmDUIG0co9jK2B6t8r6PWXAblhw7bQmEeyBeYltPJFx4vUNRbk+BzZrtNCAdsL/8ppn2wo
- VcNU5MG2Y+L+RiJS+02YVzOfXF47C
-X-Received: by 2002:a05:622a:81:: with SMTP id
- o1mr5054798qtw.361.1630449974102; 
- Tue, 31 Aug 2021 15:46:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwPCjvIc5j7K+g5aTix1PRIMbEW/jM8o50tZcTHcIkE05e3RRMcKzdYPPQrsmLHGhyS5+57Cw==
-X-Received: by 2002:a05:622a:81:: with SMTP id
- o1mr5054784qtw.361.1630449973904; 
- Tue, 31 Aug 2021 15:46:13 -0700 (PDT)
+ bh=7/wf0dWM2AVPSdi3Bhn+aKs+Xl0MyRli1xt2vcgD0ys=;
+ b=a4wiyuQlcFqYD8xpvjZqMzD2IONxMkCVu1EKE2fOxFo3yuYovrwJUqGuNEje5blEOI
+ NjJJkNyW5C6VRraDbemIJTrf4XMKilj0TntpDRRyJ5wT3H/OUwrKwGjcoRjY96FAYJns
+ NokKeKawoiX2unY4tB3Hc1NrtQm8kgKqAZne12ErS2d8vdyJZr/Axk7PWXVAlNnZljX5
+ ZjzutRqYsXL6UUzkNbCd5fLrfuKl5YvxChQdGeZzAz1CSDUe7d65xFNv8dbj3Mqqj7wt
+ eg5vMPeSx66bvM+5/BF298w7cmKNJC7jpYxxWEA2UEbqLWtzX1BJ/7S7Wt66hLEbmilY
+ ZwQQ==
+X-Gm-Message-State: AOAM533Jenr4vaCXzDJtbwxD6KqXc2z9iaDSWyYXn/dBVVYzb4sPQf5q
+ VnIGJIDh19NqKaRpnLdjitp/6lRTk1epD48P/4iYEz5ezh/shHbdKE43sjOF8Gderl1pGVIEomo
+ AOvH9/lR53mpZxwEyrVFsq7XfEXSg
+X-Received: by 2002:a05:620a:1582:: with SMTP id
+ d2mr5396989qkk.268.1630450024532; 
+ Tue, 31 Aug 2021 15:47:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzAyWFiQoCgN30DgcJpzh5Z6bSiZ+3UsKEZJO24HzLOtK9027pz/YSru+VTyOeDzu6KeCLn2Q==
+X-Received: by 2002:a05:620a:1582:: with SMTP id
+ d2mr5396978qkk.268.1630450024340; 
+ Tue, 31 Aug 2021 15:47:04 -0700 (PDT)
 Received: from [192.168.8.104] (pool-108-49-102-102.bstnma.fios.verizon.net.
  [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id m8sm14473831qkk.130.2021.08.31.15.46.13
+ by smtp.gmail.com with ESMTPSA id x2sm11340891qtr.6.2021.08.31.15.47.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 15:46:13 -0700 (PDT)
-Message-ID: <dfa7d3536bf1f1c491f909509c4465d1a5bbc8af.camel@redhat.com>
-Subject: Re: [PATCH 1/2] drm: Update MST First Link Slot Information Based
- on Encoding Format
+ Tue, 31 Aug 2021 15:47:03 -0700 (PDT)
+Message-ID: <a0a8ce9d25cc5b68e14384329e8c635e546cee90.camel@redhat.com>
+Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected end
+ device
 From: Lyude Paul <lyude@redhat.com>
-To: "Zuo, Jerry" <Jerry.Zuo@amd.com>, "dri-devel@lists.freedesktop.org"
+To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
  <dri-devel@lists.freedesktop.org>
-Cc: "Wentland, Harry" <Harry.Wentland@amd.com>, "Kazlauskas, Nicholas"
- <Nicholas.Kazlauskas@amd.com>, "Lin, Wayne" <Wayne.Lin@amd.com>
-Date: Tue, 31 Aug 2021 18:46:12 -0400
-In-Reply-To: <836fe57ca1c4eb7916d27752ed8b087f2474ace6.camel@redhat.com>
-References: <20210827234322.2740301-1-Jerry.Zuo@amd.com>
- <20210827234322.2740301-2-Jerry.Zuo@amd.com>
- <373e528ab10df8d95214f3bf961281e516da8469.camel@redhat.com>
- <DM6PR12MB49128A88F7C315D866945443E5CC9@DM6PR12MB4912.namprd12.prod.outlook.com>
- <836fe57ca1c4eb7916d27752ed8b087f2474ace6.camel@redhat.com>
+Cc: "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>, "Wentland, Harry"
+ <Harry.Wentland@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Wu, Hersen"
+ <hersenxs.wu@amd.com>, Juston Li <juston.li@intel.com>, Imre Deak
+ <imre.deak@intel.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Sean Paul <sean@poorly.run>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>, "Siqueira, Rodrigo"
+ <Rodrigo.Siqueira@amd.com>,  "Pillai, Aurabindo"
+ <Aurabindo.Pillai@amd.com>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ "Cornij, Nikola" <Nikola.Cornij@amd.com>, Jani Nikula
+ <jani.nikula@intel.com>, Manasi Navare <manasi.d.navare@intel.com>, Ankit
+ Nautiyal <ankit.k.nautiyal@intel.com>,  =?ISO-8859-1?Q?Jos=E9?= Roberto de
+ Souza <jose.souza@intel.com>, Sean Paul <seanpaul@chromium.org>, Ben Skeggs
+ <bskeggs@redhat.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+Date: Tue, 31 Aug 2021 18:47:02 -0400
+In-Reply-To: <CO6PR12MB5489987336A4D5DF83C4FD3CFCC69@CO6PR12MB5489.namprd12.prod.outlook.com>
+References: <20210720160342.11415-1-Wayne.Lin@amd.com>
+ <20210720160342.11415-3-Wayne.Lin@amd.com>
+ <69a5f39580f0d3519468f45ecbfd50d7ad1b3036.camel@redhat.com>
+ <292d6ead03d6afe54f81d52f705e38bbf9feb7bd.camel@redhat.com>
+ <SJ0PR12MB550410E529057F59023153D9FCF19@SJ0PR12MB5504.namprd12.prod.outlook.com>
+ <2012d26bb2bece43e65ce435e6ba03f1d8767f61.camel@redhat.com>
+ <CO6PR12MB5489274038BFF71A80EA9ECEFCF89@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <cd24fffcbda28ffc6734fb6d6d28b39e8782e0dd.camel@redhat.com>
+ <CO6PR12MB548965A84DF69BAC30F74AC5FCC19@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <db10eb95b1ec7e822c7379d310c54975810acd2b.camel@redhat.com>
+ <CO6PR12MB548913A9CC63A199BBBD6545FCC49@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <6a0868a8ce6befd5f7ddea3481e70285079fcb6a.camel@redhat.com>
+ <CO6PR12MB5489987336A4D5DF83C4FD3CFCC69@CO6PR12MB5489.namprd12.prod.outlook.com>
 Organization: Red Hat
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
 MIME-Version: 1.0
@@ -96,237 +119,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-...I meant Wayne Lin, whoops. been going through a lot of emails today 😅
+(I am going to try responding to this tomorrow btw. I haven't been super busy
+this week, but this has been a surprisingly difficult email to respond to
+because I need to actually need to do a deep dive some of the MST helpers
+tomorrow to figure out more of the specifics on why I realized we couldn't
+just hot add/remove port->connector here).
 
-
-On Tue, 2021-08-31 at 18:45 -0400, Lyude Paul wrote:
-> (sorry - I just wrote a second response to your email I meant to send to
-> your
-> coworker Jerry Zuo! You can ignore it)
+On Wed, 2021-08-25 at 03:35 +0000, Lin, Wayne wrote:
+> [Public]
 > 
-> On Tue, 2021-08-31 at 19:44 +0000, Zuo, Jerry wrote:
-> > [AMD Official Use Only]
+> > -----Original Message-----
+> > From: Lyude Paul <lyude@redhat.com>
+> > Sent: Tuesday, August 24, 2021 5:18 AM
+> > To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org
+> > Cc: Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Wentland, Harry
+> > <Harry.Wentland@amd.com>; Zuo, Jerry
+> > <Jerry.Zuo@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Juston Li
+> > <juston.li@intel.com>; Imre Deak <imre.deak@intel.com>;
+> > Ville Syrjälä <ville.syrjala@linux.intel.com>; Daniel Vetter
+> > <daniel.vetter@ffwll.ch>; Sean Paul <sean@poorly.run>; Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
+> > Thomas Zimmermann <tzimmermann@suse.de>;
+> > David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Deucher,
+> > Alexander <Alexander.Deucher@amd.com>; Siqueira,
+> > Rodrigo <Rodrigo.Siqueira@amd.com>; Pillai, Aurabindo
+> > <Aurabindo.Pillai@amd.com>; Bas Nieuwenhuizen
+> > <bas@basnieuwenhuizen.nl>; Cornij, Nikola <Nikola.Cornij@amd.com>; Jani
+> > Nikula <jani.nikula@intel.com>; Manasi Navare
+> > <manasi.d.navare@intel.com>; Ankit Nautiyal <ankit.k.nautiyal@intel.com>;
+> > José Roberto de Souza <jose.souza@intel.com>; Sean
+> > Paul <seanpaul@chromium.org>; Ben Skeggs <bskeggs@redhat.com>;
+> > stable@vger.kernel.org
+> > Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected
+> > end device
 > > 
-> > > -----Original Message-----
-> > > From: Lyude Paul <lyude@redhat.com>
-> > > Sent: August 30, 2021 4:00 PM
-> > > To: Zuo, Jerry <Jerry.Zuo@amd.com>; dri-devel@lists.freedesktop.org
-> > > Cc: Wentland, Harry <Harry.Wentland@amd.com>; Kazlauskas, Nicholas
-> > > <Nicholas.Kazlauskas@amd.com>; Lin, Wayne <Wayne.Lin@amd.com>
-> > > Subject: Re: [PATCH 1/2] drm: Update MST First Link Slot Information
-> > > Based
-> > > on Encoding Format
+> > [snip]
+> > 
+> > I think I might still be misunderstanding something, some comments below
+> > 
+> > On Mon, 2021-08-23 at 06:33 +0000, Lin, Wayne wrote:
+> > > > > Hi Lyude,
+> > > > > 
+> > > > > Really thankful for willing to explain in such details. Really
+> > > > > appreciate.
+> > > > > 
+> > > > > I'm trying to fix some problems that observed after these 2
+> > > > > patches
+> > > > > * 09b974e8983 drm/amd/amdgpu_dm/mst: Remove ->destroy_connector()
+> > > > > callback
+> > > > > * 72dc0f51591 drm/dp_mst: Remove
+> > > > > drm_dp_mst_topology_cbs.destroy_connector
+> > > > > 
+> > > > > With above patches, we now change to remove dc_sink when connector
+> > > > > is about to be destroyed. However, we found out that connectors
+> > > > > won't get destroyed after hotplugs. Thus, after few times
+> > > > > hotplugs, we won't create any new dc_sink since number of sink is
+> > > > > exceeding our limitation. As the result of that, I'm trying to
+> > > > > figure out why the refcount of connectors won't get zero.
+> > > > > 
+> > > > > Based on my analysis, I found out that if we connect a sst monitor
+> > > > > to a mst hub then connect the hub to the system, and then unplug
+> > > > > the sst monitor from the hub. E.g.
+> > > > > src - mst hub - sst monitor => src - mst hub  (unplug) sst monitor
+> > > > > 
+> > > > > Within this case, we won't try to put refcount of the sst monitor.
+> > > > > Which is what I tried to resolve by [PATCH 3/4].
+> > > > > But here comes a problem which is confusing me that if I can
+> > > > > destroy connector in this case. By comparing to another case, if
+> > > > > now mst hub is connected with a mst monitor like this:
+> > > > > src - mst hub - mst monitor => src - mst hub  (unplug) mst monitor
+> > > > > 
+> > > > > We will put the topology refcount of mst monitor's branching unit
+> > > > > in and
+> > > > > drm_dp_port_set_pdt() and eventually call
+> > > > > drm_dp_delayed_destroy_port() to unregister the connector of the
+> > > > > logical port. So following the same rule, I think to dynamically
+> > > > > unregister a mst connector is what we want and should be
+> > > > > reasonable to also destroy sst connectors in my case. But this
+> > > > > conflicts the idea what we have here. We want to create connectors
+> > > > > for all output ports.
+> > > > > So if dynamically creating/destroying connectors is what we want,
+> > > > > when is the appropriate time for us to create one is what I'm
+> > > > > considering.
+> > > > > 
+> > > > > Take the StartTech hub DP 1to4 DP output ports for instance. This
+> > > > > hub, internally, is constructed by  3 1-to-2 mst branch chips. 2
+> > > > > output ports of 1st chip are hardwired to another 2 chips. It's
+> > > > > how it makes it to support 1-to-4 mst branching. So within this
+> > > > > case, the internal
+> > > > > 2 output ports of 1st chip is not connecting to a stream sink and
+> > > > > will never get connected to one.  Thus, I'm thinking maybe the
+> > > > > best timing to attach a connector to a port is when the port is
+> > > > > connected, and the connected PDT is determined as a stream sink.
+> > > > > 
+> > > > > Sorry if I misunderstand anything here and really thanks for your
+> > > > > time to shed light on this : ) Thanks Lyude.
+> > > > 
+> > > > It's no problem, it is my job after all! Sorry for how long my
+> > > > responses have been taking, but my plate seems to be finally
+> > > > clearing up for the foreseeable future.
+> > > > 
+> > > > That being said - it sounds like with this we still aren't actually
+> > > > clear on where the topology refcount leak is happening - only when
+> > > > it's happening, which says to me that's the issue we really need to
+> > > > be figuring out the cause of as opposed to trying to workaround it.
+> > > > 
+> > > > Actually - refcount leaks is an issue I've ran into a number of
+> > > > times before in the past, so a while back I actually added some nice
+> > > > debugging features to assist with debugging leaks. If you enable the
+> > > > following options in your kernel config:
+> > > > 
+> > > > CONFIG_EXPERT=y # This must be set first before the next option
+> > > > CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS=y
+> > > > 
+> > > > Unfortunately, I'm suddenly realizing after typing this that
+> > > > apparently I never bothered adding a way for us to debug the
+> 
+> > > > refcounts of ports/mstbs that haven't been released yet - only the
+> > > > ones for ones that have. This shouldn't be difficult at all for me
+> > > > to add, so I'll send you a patch either today or at the start of
+> > > > next week to try debugging with using this, and then we can figure
+> > > > out where this leak is really coming from.
 > > > 
-> > > On Fri, 2021-08-27 at 19:43 -0400, Fangzhi Zuo wrote:
-> > > > 8b/10b encoding format requires to reserve the first slot for
-> > > > recording metadata. Real data transmission starts from the second
-> > > > slot, with a total of available 63 slots available.
-> > > > 
-> > > > In 128b/132b encoding format, metadata is transmitted separately in
-> > > > LLCP packet before MTP. Real data transmission starts from the first
-> > > > slot, with a total of 64 slots available.
-> > > > 
-> > > > Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_dp_mst_topology.c | 27
-> > > > ++++++++++++++++++++-------
-> > > >  include/drm/drm_dp_mst_helper.h       |  9 +++++++++
-> > > >  2 files changed, 29 insertions(+), 7 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > index 86d13d6bc463..30544801d2b8 100644
-> > > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > @@ -3370,7 +3370,7 @@ int drm_dp_update_payload_part1(struct
-> > > > drm_dp_mst_topology_mgr *mgr)
-> > > >         struct drm_dp_payload req_payload;
-> > > >         struct drm_dp_mst_port *port;
-> > > >         int i, j;
-> > > > -       int cur_slots = 1;
-> > > > +       int cur_slots = mgr->start_slot;
-> > > >         bool skip;
-> > > > 
-> > > >         mutex_lock(&mgr->payload_lock); @@ -4323,7 +4323,7 @@ int
-> > > > drm_dp_find_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
-> > > >         num_slots = DIV_ROUND_UP(pbn, mgr->pbn_div);
-> > > > 
-> > > >         /* max. time slots - one slot for MTP header */
-> > > > -       if (num_slots > 63)
-> > > > +       if (num_slots > mgr->total_avail_slots)
-> > > >                 return -ENOSPC;
-> > > >         return num_slots;
-> > > >  }
-> > > > @@ -4335,7 +4335,7 @@ static int drm_dp_init_vcpi(struct
-> > > > drm_dp_mst_topology_mgr *mgr,
-> > > >         int ret;
-> > > > 
-> > > >         /* max. time slots - one slot for MTP header */
-> > > > -       if (slots > 63)
-> > > > +       if (slots > mgr->total_avail_slots)
-> > > >                 return -ENOSPC;
-> > > > 
-> > > >         vcpi->pbn = pbn;
-> > > > @@ -4509,6 +4509,17 @@ int drm_dp_atomic_release_vcpi_slots(struct
-> > > > drm_atomic_state *state,
-> > > >  }
-> > > >  EXPORT_SYMBOL(drm_dp_atomic_release_vcpi_slots);
-> > > > 
-> > > > +void drm_dp_mst_update_encoding_cap(struct
-> > > drm_dp_mst_topology_mgr
-> > > > +*mgr,
-> > > > uint8_t link_encoding_cap)
-> > > > +{
-> > > > +       if (link_encoding_cap == DP_CAP_ANSI_128B132B) {
-> > > > +               mgr->total_avail_slots = 64;
-> > > > +               mgr->start_slot = 0;
-> > > > +       }
-> > > > +       DRM_DEBUG_KMS("%s encoding format determined\n",
-> > > > +                     (link_encoding_cap == DP_CAP_ANSI_128B132B) ?
-> > > > "128b/132b" : "8b/10b");
-> > > > +}
-> > > > +EXPORT_SYMBOL(drm_dp_mst_update_encoding_cap);
-> > > > +
+> > > Thanks Lyude!
 > > > 
-> > > This seems to be missing kdocs, can you fix that?
+> > > Sorry to bother you, but I would like to clarify this again.  So it
+> > > sounds
+> > 
+> > It's no problem! It's my job and I'm happy to help :).
+> 
+> Thanks!
+> I would like to learn more from you as below : p
+> > 
+> > > like you also agree that we should destroy associated connector
+> > 
+> > Not quite. I think a better way of explaining this might be to point out
+> > that the lifetime of an MST port and its connector isn't supposed
+> > to be determined by whether or not it has something plugged into it - its
+> > lifetime is supposed to depend on whether there's a valid
+> > path from us down the MST topology to the port we're trying to reach. So
+> > an MSTB with ports that is unplugged would destroy all of
+> > its ports - but an unplugged port should just be the same as a
+> > disconnected DRM connector - even if the port itself is just hosting a
+> > branching device.
+> 
+> This is the part a bit difficult to me. I treat DRM connector as the place
+> where we associate with a stream sink. So if the statement
+> is "All DP mst output ports are places we connect with stream sink", I would
+> say false to this since I can find the negative example when
+> output port is connected with mst branch device. Thus, looks like we could
+> only determine whether to create a connector for an output
+> port when the peer device type is known?
+> > 
+> > Additionally - we don't want to try "delaying" connector creation either.
+> > In the modern world hotplugging is almost always reliable in
+> > normal situations, but even so there's still use cases for wanting force
+> > probing for analog devices on DP converters and just in general
+> > as it's a feature commonly used by developers or users working around
+> > monitors with problematic HPD issues or EDID issues.
+> 
+> I think I understand that why we want to create connectors for all output
+> ports here. But under these mentioned use cases, aren't we still
+> capable to force connector to enable stream? MST hub with muti-functon
+> capability, it will enumerate connected virtual DP peer device.
+> For problematic HPD issues or EDID issues, their connection status is also
+> connected.
+> 
+> My understanding of output port is it is an internal node to help construct
+> an end-to-end virtual channel between a stream source device
+> and a stream sink device. Creating connectors for internal nodes within a
+> virtual channel is a bit hard for me to get the idea. Please correct
+> me if I misunderstand anything here. Thanks Lyude!
+> > 
+> > > when we unplug sst monitor from a mst hub in the case that I
+> > > described? In the case I described (unplug sst monitor), we only
+> > > receive CSN from the hub that notifying us the connection status of
+> > > one of its downstream output ports is changed to disconnected. There
+> > > is no topology refcount needed to be decreased on this disconnected
+> > > port but the malloc refcount. Since the output port is still declared
+> > > by
+> > 
+> > Apologies - I misunderstood your original mail as implying that topology
+> > refcounts were being leaked - but it sounds like it's actually
+> > malloc refcounts being leaked instead? In any case - that means we're
+> > still tracing down a leak, just a malloc ref leak.
+> > 
+> > But, this still doesn't totally make sense to me. Malloc refs only keep
+> > the actual drm_dp_mst_port/drm_dp_mst_branch struct alive in
+> > memory.
+> > Nothing else is kept around, meaning the DRM connector (and I assume by
+> > proxy, the dc_sink) should both be getting dropped still
+> > and the only thing that should be leaked is a memory allocation. These
+> > things should instead be dropped once there's no longer any
+> > topology references around. So, are we _sure_ that the problem here is a
+> > missing
+> > drm_dp_mst_port_put_malloc() or drm_dp_mst_mstb_put_malloc()?
+> 
+> Just my two cents, I don't think it's leak of malloc ref neither. As you
+> said, malloc ref is dealing with the last step to free port/mstb.
+> If there is still topology refcount on port/mstb in my case, we won't free
+> port/mstb.
+> > 
+> > If we are unfortunately we don't have equivalent tools for malloc()
+> > tracing. I'm totally fine with trying to add some if we have trouble
+> > figuring out this issue, but I'm a bit suspicious of the commits you
+> > mentioned that introduced this problem. If the problem doesn't
+> > happen until those two commits, then it's something in the code changes
+> > there that are causing this problem.
+> 
+> I think we probably also have the problem before these commits, but we
+> didn't notice this before. Just when we change to clean up all
+> things in dm_dp_mst_connector_destroy(), I start to try to figure out all
+> these things out.
+> > 
+> > The main thing I'm suspicious of just from looking at changes in
+> > 09b974e8983a4b163d4a406b46d50bf869da3073 is that the call to
+> > amdgpu_dm_update_freesync_caps() that was previously in
+> > dm_dp_destroy_mst_connector() appears to be dropped and not re-added in
+> > (oh dear, this is a /very/ confusingly similar function
+> 
+> Lol. I also have hard time on this..
+> > name!!!) dm_dp_mst_connector_destroy(). I don't remember if this was
+> > intentional on my part, but does adding a call back to
+> > amdgpu_dm_update_freesync_caps() into dm_dp_destroy_mst_connector() right
+> > before the dc_link_remove_remote_sink() call fix
+> > anything?
+> > 
+> > As well, I'm far less suspicious of this one but does re-adding this
+> > hunk:
+> > 
+> >       aconnector->dc_sink = NULL;
+> >       aconnector->dc_link->cur_link_settings.lane_count = 0;
+> > 
+> > After dc_sink_release() fix anything either?
+> 
+> So the main problem is we don't have chance to call
+> dc_link_remove_remote_sink() in the unplugging SST case. We only have chance
+> to
+> remove the remote sink of a link when unplug a mstb.
+> > 
+> > > the mst hub,  I think we shouldn't destroy the port. Actually, no
+> > > ports nor mst branch devices should get destroyed in this case I think.
+> > > The result of LINK_ADDRESS is still the same before/after removing the
+> > > sst monitor except the DisplayPort_Device_Plug_Status/
+> > > Legacy_Device_Plug_Status.
 > > > 
-> > > Also - I'm not convinced this is all of the work we have to do, as
-> > > there's
-> > > no
-> > > locking taking place here in this function. If we're changing the number
-> > > of
-> > > available VCPI slots that we have, we need to be able to factor that
-> > > into
-> > > the
-> > > atomic check logic which means that we can't rely on mgr->* for any kind
-> > > of
-> > > data that isn't guaranteed to remain consistent throughout the lifetime
-> > > of
-> > > the
-> > > driver or topology. (Note that some of the old MST code didn't follow
-> > > this
-> > > logic, so I wouldn't be surprised if there's still exceptions to this we
-> > > need to
-> > > clean up).
+> > > Hence, if you agree that we should put refcount of the connector of
+> > > the disconnected port within the unplugging sst monitor case to
+> > > release the allocated resource, it means we don't want to create
+> > > connectors for those disconnected ports. Which conflicts current flow
+> > > to create connectors for all declared output ports.
 > > > 
-> > > Note that I still expect we'll have to keep some sort of track of the
-> > > current
-> > > total slot count in the topology mgr, but that should be reflecting the
-> > > currently programmed state and not be relied on from our atomic check.
-> > > 
+> > > Thanks again for your time Lyude!
 > > 
-> > Thanks Lyude for your comments.
-> > 
-> > Seems I should keep existing code to keep track of current slot status in
-> > mgr.
-> > That information is getting updated each time when topology change
-> > detected.
-> > That slot information saved in mgr is a sort of static, and could only be
-> > used
-> > for debug purpose to track what is the current encoding format.
-> > 
-> > > IMHO - the correct way we should go about adding support for this is to
-> > > add
-> > > something into drm_dp_mst_topology_state and integrate this into the
-> > > atomic check helpers.
-> > 
-> > The slot information should also be added into drm_dp_mst_topology_state
-> > to
-> > reflect the real-time slot status.
-> > 
-> > I'd like to confirm the best place to get slot count info. updated.
-> > Should the update be done within &drm_mode_config_funcs. atomic_check(),
-> > before new stream is created, OR
-> > should be updated within drm_dp_mst_atomic_check() ?
-> > 
-> > The updated slot count will be used in drm_dp_mst_atomic_check() to check
-> > slot limit,
-> > and in drm_dp_update_payload_part1() as initial cur_slots.
-> > 
-> > > 
-> > > >  /**
-> > > >   * drm_dp_mst_allocate_vcpi() - Allocate a virtual channel
-> > > >   * @mgr: manager for this port
-> > > > @@ -4540,8 +4551,8 @@ bool drm_dp_mst_allocate_vcpi(struct
-> > > > drm_dp_mst_topology_mgr *mgr,
-> > > > 
-> > > >         ret = drm_dp_init_vcpi(mgr, &port->vcpi, pbn, slots);
-> > > >         if (ret) {
-> > > > -               drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d
-> > > > max=63 ret=%d\n",
-> > > > -                           DIV_ROUND_UP(pbn, mgr->pbn_div), ret);
-> > > > +               drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d
-> > > > +max=%d
-> > > > ret=%d\n",
-> > > > +                           DIV_ROUND_UP(pbn, mgr->pbn_div), mgr-
-> > > > > total_avail_slots, ret);
-> > > >                 drm_dp_mst_topology_put_port(port);
-> > > >                 goto out;
-> > > >         }
-> > > > @@ -5228,7 +5239,7 @@
-> > > drm_dp_mst_atomic_check_vcpi_alloc_limit(struct
-> > > > drm_dp_mst_topology_mgr *mgr,
-> > > >                                          struct
-> > > > drm_dp_mst_topology_state
-> > > > *mst_state)
-> > > >  {
-> > > >         struct drm_dp_vcpi_allocation *vcpi;
-> > > > -       int avail_slots = 63, payload_count = 0;
-> > > > +       int avail_slots = mgr->total_avail_slots, payload_count = 0;
-> > > > 
-> > > >         list_for_each_entry(vcpi, &mst_state->vcpis, next) {
-> > > >                 /* Releasing VCPI is always OK-even if the port is
-> > > > gone */ @@ -5257,7 +5268,7 @@
-> > > > drm_dp_mst_atomic_check_vcpi_alloc_limit(struct
-> > > > drm_dp_mst_topology_mgr *mgr,
-> > > >                 }
-> > > >         }
-> > > >         drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p VCPI
-> > > > avail=%d used=%d\n",
-> > > > -                      mgr, mst_state, avail_slots, 63 - avail_slots);
-> > > > +                      mgr, mst_state, avail_slots,
-> > > > +mgr->total_avail_slots -
-> > > > avail_slots);
-> > > > 
-> > > >         return 0;
-> > > >  }
-> > > > @@ -5529,6 +5540,8 @@ int drm_dp_mst_topology_mgr_init(struct
-> > > > drm_dp_mst_topology_mgr *mgr,
-> > > >         if (!mgr->proposed_vcpis)
-> > > >                 return -ENOMEM;
-> > > >         set_bit(0, &mgr->payload_mask);
-> > > > +       mgr->total_avail_slots = 63;
-> > > > +       mgr->start_slot = 1;
-> > > > 
-> > > >         mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
-> > > >         if (mst_state == NULL)
-> > > > diff --git a/include/drm/drm_dp_mst_helper.h
-> > > > b/include/drm/drm_dp_mst_helper.h index ddb9231d0309..eac5ce48f214
-> > > > 100644
-> > > > --- a/include/drm/drm_dp_mst_helper.h
-> > > > +++ b/include/drm/drm_dp_mst_helper.h
-> > > > @@ -661,6 +661,15 @@ struct drm_dp_mst_topology_mgr {
-> > > >          */
-> > > >         int pbn_div;
-> > > > 
-> > > > +       /**
-> > > > +        * @total_avail_slots: available slots for data transmission
-> > > > +        */
-> > > > +       u8 total_avail_slots;
-> > > > +       /**
-> > > > +        * @start_slot: first slot index for data transmission
-> > > > +        */
-> > > > +       u8 start_slot;
-> > > > +
-> > > >         /**
-> > > >          * @funcs: Atomic helper callbacks
-> > > >          */
-> > > 
-> > > --
-> > > Cheers,
-> > >  Lyude Paul (she/her)
-> > >  Software Engineer at Red Hat
-> > 
+> > --
+> > Cheers,
+> >  Lyude Paul (she/her)
+> >  Software Engineer at Red Hat
+> --
+> Regards,
+> Wayne
 > 
 
 -- 
