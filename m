@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876B43FCD12
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 20:48:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E133FCD14
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 20:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 267346E039;
-	Tue, 31 Aug 2021 18:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 860F16E02C;
+	Tue, 31 Aug 2021 18:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E43589FF6
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 18:48:40 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- j14-20020a1c230e000000b002e748b9a48bso2417034wmj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 11:48:40 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03D856E02C
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 18:49:32 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id m2so122914wmm.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 11:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ssx/Du/IP+VJ6yRDjCWSrw9PFpibgX8+LOfvx0arrC0=;
- b=puHwvGy27ZCKW1/hb24T4TxdTwdhH8hvACG5TZRQSpyCBIIMky52bBklkqr9uJutP9
- P0wNNsLYBf1rjLSkYPzkH9uMmpQw22uPzb75brSLN9IoR/EySrsjS3gV+thkKOc8/H82
- DI3D7LnOxXZVwTOxYbmAGqepG19w67uxdr+UqtuKgQlAouvhp3shcbNh69RePVDN7xVj
- WLCwur8FuuCsy2nyBXl015EN7380NvJAK3gPDqMFBvPm9y+8MyNgk67elQ7sxGSnioVa
- bz6G4tYRWV/i22lvNZPWSLbZFkZstVT/Xrky1y3wroe9W8wxlSJZn3OiE4MwLdI7la+B
- yM9A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Ttx6bMAS94NZgVYt3K54B5DCBv1SzFZ1QKmkOM0BMAg=;
+ b=Dq4GrPtWYnjI7PdaRg1IumGNlB44PZSucGm9dkqcxaFRVTtR7mBHN0AWl7woAcYqVa
+ SpVwV3DJp67FH2aL7ESf87/ZHT4YX9a0dWmiL6wsA90raBTueNXG3y/s+LuJOybUPv0S
+ nhyItsTCAonsIFzohuEh6tIzkb3lDSoiwOmo0wgUJp74UZorJ0mUvTs0l0rlFbGRoCil
+ Al86cXeBVzIcTLWC716gBirbwVpbEHr8ARyrLhY+Qt4W6r6JVD5y/Cpu7ej3qLTmVpxa
+ iR8Gq9CF1ogUW1TQENSq0YD9gGt1SNG2zTrga4D+yGCEKca/GW/WJ+B1gOCoVK7uc+tU
+ NtTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ssx/Du/IP+VJ6yRDjCWSrw9PFpibgX8+LOfvx0arrC0=;
- b=JzXeLFydT6Reci32RXwhiqO28AcqiEdghVTnDfB30UIC7W2PNknt7BPHhZFUJT0uWS
- IiV+B4E31+iIgaNIK/UqbjKdsJy2X4SxbC+6u6po+o1yDMy0GLwlGGFhDmh2Abrvb2Fv
- NzWEdSNPj2DwPYpnWtD4pBuZj2y5Pzi/T7BhWvZ3n6bxij5iJ3qzqjVSxHTgfeOCjlt7
- /xU3i2wCc4breaXogf8PnH9jC3XtZ4gFdHyD1e+oqr/oBe+ygIsri8S/2ux3hzLU2ZKQ
- FVUaOXS/48GPhf7YGZAm354VsFO9XdqsjvzOtYe7Jye0e/tyHUXJxUQAM3Rvaqp+sFp/
- ZUKQ==
-X-Gm-Message-State: AOAM530FRSR/N8eByyxQwxGOIUJaGTcNdVR1pvxs3g9ib6akV1y22slq
- +9V93XU2Zrrg6KbRtQ6fkkk=
-X-Google-Smtp-Source: ABdhPJxpHtUrxMXrtWzNzUZfT5NDgfPAC3iEvcgbop4yUZWCq6uU0jUnfin9kUgN30R0dGd3QoArGw==
-X-Received: by 2002:a1c:e904:: with SMTP id q4mr5857630wmc.26.1630435719011;
- Tue, 31 Aug 2021 11:48:39 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net.
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Ttx6bMAS94NZgVYt3K54B5DCBv1SzFZ1QKmkOM0BMAg=;
+ b=EBw0jA3siUE3ZJeu9fBv4EE6rSYP0psvFxy2PPxbtFRc4sql+y/EW8XaOJDoYzvg4q
+ oWZ3TznQGxxb6pLgzXiRMY54dMbrXbtH7chUkZLGDV7OKITFL95OBkhQC2NQkxCLplbn
+ DoPZN/kHNi/YpbL4rEdfonjPmwW0srPP8OJKdWiXhJkZNLkN7gnWiaw89NPVrhp3oVTN
+ zoCOU7UB8KkZint49e8C267qghpixPbQ/bqZYUPhMJ4U4Udvszpx3VnW5TDNDrNY1CLw
+ DMSnZZ603z29lPfV2KZv1YENd6ysF7yXby88KtZcZhao/QK3Fhm9DAzHctF5M7aJUqKT
+ AEkg==
+X-Gm-Message-State: AOAM5304vpVdMYertd+bcRR5c8lZTYodq9UGM9x+nrJSExjxT+x9mc3O
+ 5wqwFuwIGc2pETZn93hptkY=
+X-Google-Smtp-Source: ABdhPJwAEe8emf73MKBgtwUTkWNiQwV7+aOlGc21X5WxoUr2WhNG7cEgbtVvKlNEZqofi4z1CN+rYw==
+X-Received: by 2002:a7b:c255:: with SMTP id b21mr5745302wmj.44.1630435771581; 
+ Tue, 31 Aug 2021 11:49:31 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net.
  [86.58.29.253])
- by smtp.gmail.com with ESMTPSA id d145sm3111884wmd.3.2021.08.31.11.48.37
+ by smtp.gmail.com with ESMTPSA id a133sm3354391wme.5.2021.08.31.11.49.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 11:48:38 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- stable@vger.kernel.org, Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: [PATCH] drm/sun4i: Fix macros in sun8i_csc.h
-Date: Tue, 31 Aug 2021 20:48:19 +0200
-Message-Id: <20210831184819.93670-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.33.0
+ Tue, 31 Aug 2021 11:49:31 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+Subject: Re: Re: Re: DE2.0 YV12 playback issues after ea067aee45a8
+Date: Tue, 31 Aug 2021 20:49:30 +0200
+Message-ID: <8627733.mJVyAx2qjc@kista>
+In-Reply-To: <CAGphcdnAtpFaAtp_QSKhNfQ4HkiL6dwYfP_pfMgNKwNGdyW-sw@mail.gmail.com>
+References: <CAGphcd=ZR-Gh0zq=y-L9mf9agLwJBiav34q6TqUV+Te_UWFBuA@mail.gmail.com>
+ <2072790.9m3SFDGqga@kista>
+ <CAGphcdnAtpFaAtp_QSKhNfQ4HkiL6dwYfP_pfMgNKwNGdyW-sw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,40 +74,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Macros SUN8I_CSC_CTRL() and SUN8I_CSC_COEFF() don't follow usual
-recommendation of having arguments enclosed in parenthesis. While that
-didn't change anything for quiet sometime, it actually become important
-after CSC code rework with commit ea067aee45a8 ("drm/sun4i: de2/de3:
-Remove redundant CSC matrices").
+Dne torek, 31. avgust 2021 ob 19:18:42 CEST je Roman Stratiienko napisal(a):
+> Hi Jernej,
+>=20
+> =D0=B2=D1=82, 31 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 19:52, Jernej =
+=C5=A0krabec <jernej.skrabec@gmail.com>:
+> >
+> > Hi!
+> >
+> > Dne petek, 27. avgust 2021 ob 15:16:03 CEST je Roman Stratiienko=20
+napisal(a):
+> > > +CC: jernej.skrabec@gmail.com
+> > >
+> > > =D0=BF=D1=82, 27 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 16:12, Roman=
+ Stratiienko=20
+<r.stratiienko@gmail.com>:
+> > > >
+> > > > Hello Jernej,
+> > > >
+> > > > During local testing I faced an issue where YV12 buffers are displa=
+yed
+> > > > all in blue.
+> > > >
+> > > > Issue can be fixed by reverting:
+> > > > ea067aee45a8 ("drm/sun4i: de2/de3: Remove redundant CSC matrices")
+> > > >
+> > > > Could you have a look please?
+> >
+> > I believe I found the issue. Can you try replacing this line:
+> > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/
+> > sun8i_csc.h#L20
+> >
+> > with:
+> > #define SUN8I_CSC_COEFF(base, i)        (base + 0x10 + 4 * (i))
+> >
+> > Note that "i" is in parenthesis.
+>=20
+> Thank you for your quick response.
+> Yeah, that's it. Adding parenthesis solves the issue.
 
-Without this fix, colours are completely off for supported YVU formats
-on SoCs with DE2 (A64, H3, R40, etc.).
+Thanks for reporting & testing!
 
-Fix the issue by enclosing macro arguments in parenthesis.
+Best regards,
+Jernej
 
-Cc: stable@vger.kernel.org # 5.12+
-Fixes: 883029390550 ("drm/sun4i: Add DE2 CSC library")
-Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/gpu/drm/sun4i/sun8i_csc.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> >
+> > Best regards,
+> > Jernej
+> >
+> > > >
+> > > > Best regards,
+> > > > Roman Stratiienko
+> > >
+> >
+> >
+>=20
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_csc.h b/drivers/gpu/drm/sun4i/sun8i_csc.h
-index a55a38ad849c..022cafa6c06c 100644
---- a/drivers/gpu/drm/sun4i/sun8i_csc.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_csc.h
-@@ -16,8 +16,8 @@ struct sun8i_mixer;
- #define CCSC10_OFFSET 0xA0000
- #define CCSC11_OFFSET 0xF0000
- 
--#define SUN8I_CSC_CTRL(base)		(base + 0x0)
--#define SUN8I_CSC_COEFF(base, i)	(base + 0x10 + 4 * i)
-+#define SUN8I_CSC_CTRL(base)		((base) + 0x0)
-+#define SUN8I_CSC_COEFF(base, i)	((base) + 0x10 + 4 * (i))
- 
- #define SUN8I_CSC_CTRL_EN		BIT(0)
- 
--- 
-2.33.0
 
