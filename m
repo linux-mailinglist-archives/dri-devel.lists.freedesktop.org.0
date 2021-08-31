@@ -1,36 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE78B3FC855
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:36:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC5E3FC8D0
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:51:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1AFA89F31;
-	Tue, 31 Aug 2021 13:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAA7089A57;
+	Tue, 31 Aug 2021 13:51:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDE889F31
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:36:04 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4E9451F431EA;
- Tue, 31 Aug 2021 14:36:02 +0100 (BST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH] panfrost: Don't cleanup the job if it was successfully queued
-Date: Tue, 31 Aug 2021 15:35:56 +0200
-Message-Id: <20210831133556.236984-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.31.1
+Received: from baidu.com (mx21.baidu.com [220.181.3.85])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9AA2089A57
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:51:35 +0000 (UTC)
+Received: from BC-Mail-Ex15.internal.baidu.com (unknown [172.31.51.55])
+ by Forcepoint Email with ESMTPS id 67E125BF96C6CBF0CB15;
+ Tue, 31 Aug 2021 21:51:33 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex15.internal.baidu.com (172.31.51.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.12; Tue, 31 Aug 2021 21:51:33 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Tue, 31 Aug 2021 21:51:32 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <caihuoqing@baidu.com>
+CC: Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/bridge: cdns: Make use of the helper function
+ devm_platform_ioremap_resource()
+Date: Tue, 31 Aug 2021 21:50:47 +0800
+Message-ID: <20210831135048.4305-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex30.internal.baidu.com (172.31.51.24) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,69 +56,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The labels are misleading. Even though they are all prefixed with 'fail_'
-the success case also takes that path, and we should definitely not
-cleanup the job if it's been queued. While at it, let's rename those
-labels so we don't do the same mistake again.
+Use the devm_platform_ioremap_resource() helper instead of
+calling platform_get_resource() and devm_ioremap_resource()
+separately
 
-Fixes: 53516280cc38 ("drm/panfrost: use scheduler dependency tracking")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/cdns-dsi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 16212b6b202e..077cbbfa506b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -253,7 +253,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 	job = kzalloc(sizeof(*job), GFP_KERNEL);
- 	if (!job) {
- 		ret = -ENOMEM;
--		goto fail_out_sync;
-+		goto out_put_syncout;
- 	}
+diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
+index e6e331071a00..d8a15c459b42 100644
+--- a/drivers/gpu/drm/bridge/cdns-dsi.c
++++ b/drivers/gpu/drm/bridge/cdns-dsi.c
+@@ -1171,7 +1171,6 @@ static int cdns_dsi_drm_probe(struct platform_device *pdev)
+ {
+ 	struct cdns_dsi *dsi;
+ 	struct cdns_dsi_input *input;
+-	struct resource *res;
+ 	int ret, irq;
+ 	u32 val;
  
- 	kref_init(&job->refcount);
-@@ -270,29 +270,30 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 				 &job->file_priv->sched_entity[slot],
- 				 NULL);
- 	if (ret)
--		goto fail_job_put;
-+		goto out_put_job;
+@@ -1183,8 +1182,7 @@ static int cdns_dsi_drm_probe(struct platform_device *pdev)
  
- 	ret = panfrost_copy_in_sync(dev, file, args, job);
- 	if (ret)
--		goto fail_job;
-+		goto out_cleanup_job;
+ 	input = &dsi->input;
  
- 	ret = panfrost_lookup_bos(dev, file, args, job);
- 	if (ret)
--		goto fail_job;
-+		goto out_cleanup_job;
- 
- 	ret = panfrost_job_push(job);
- 	if (ret)
--		goto fail_job;
-+		goto out_cleanup_job;
- 
- 	/* Update the return sync object for the job */
- 	if (sync_out)
- 		drm_syncobj_replace_fence(sync_out, job->render_done_fence);
- 
--fail_job:
--	drm_sched_job_cleanup(&job->base);
--fail_job_put:
-+out_cleanup_job:
-+	if (ret)
-+		drm_sched_job_cleanup(&job->base);
-+out_put_job:
- 	panfrost_job_put(job);
--fail_out_sync:
-+out_put_syncout:
- 	if (sync_out)
- 		drm_syncobj_put(sync_out);
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	dsi->regs = devm_ioremap_resource(&pdev->dev, res);
++	dsi->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(dsi->regs))
+ 		return PTR_ERR(dsi->regs);
  
 -- 
-2.31.1
+2.25.1
 
