@@ -1,42 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2728E3FC396
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 10:11:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB343FC4A9
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 11:15:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6371089C51;
-	Tue, 31 Aug 2021 08:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C36089503;
+	Tue, 31 Aug 2021 09:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F7689C51;
- Tue, 31 Aug 2021 08:10:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="218434690"
-X-IronPort-AV: E=Sophos;i="5.84,365,1620716400"; d="scan'208";a="218434690"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 01:10:57 -0700
-X-IronPort-AV: E=Sophos;i="5.84,365,1620716400"; d="scan'208";a="498182662"
-Received: from anicol1x-mobl.ger.corp.intel.com (HELO localhost)
- ([10.251.211.207])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 01:10:55 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/5] drm/edid: parse the DisplayID v2.0 VESA vendor block
- for MSO
-In-Reply-To: <YSz1AhsVUc7m3Ng7@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1630319138.git.jani.nikula@intel.com>
- <09f57d55813f916578d1dd1e28bee3a621068bdd.1630319138.git.jani.nikula@intel.com>
- <YSz1AhsVUc7m3Ng7@intel.com>
-Date: Tue, 31 Aug 2021 11:10:53 +0300
-Message-ID: <87wno2avaq.fsf@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA54C89503;
+ Tue, 31 Aug 2021 09:15:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="205566594"
+X-IronPort-AV: E=Sophos;i="5.84,365,1620716400"; d="scan'208";a="205566594"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 02:15:06 -0700
+X-IronPort-AV: E=Sophos;i="5.84,365,1620716400"; d="scan'208";a="540936944"
+Received: from cfitzp2-mobl2.ger.corp.intel.com (HELO [10.213.255.231])
+ ([10.213.255.231])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 02:15:05 -0700
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Handle Intel igfx + Intel dgfx
+ hybrid graphics setup
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+References: <20210827133039.287075-1-tvrtko.ursulin@linux.intel.com>
+ <20210827143941.287958-1-tvrtko.ursulin@linux.intel.com>
+ <9c042851-9a27-6bc7-0749-ed0c573e9c80@linux.intel.com>
+ <YSyWMxUyxgTYZCYw@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <a382488e-cf1e-e61e-f132-d0868f4f23cf@linux.intel.com>
+Date: Tue, 31 Aug 2021 10:15:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YSyWMxUyxgTYZCYw@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,203 +57,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Aug 2021, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Mon, Aug 30, 2021 at 01:29:01PM +0300, Jani Nikula wrote:
->> The VESA Organization Vendor-Specific Data Block, defined in VESA
->> DisplayID Standard v2.0, specifies the eDP Multi-SST Operation (MSO)
->> stream count and segment pixel overlap.
->>=20
->> DisplayID v1.3 has Appendix B: DisplayID as an EDID Extension,
->> describing how DisplayID sections may be embedded in EDID extension
->> blocks. DisplayID v2.0 does not have such a section, perhaps implying
->> that DisplayID v2.0 data should not be included in EDID extensions, but
->> rather in a "pure" DisplayID structure at its own DDC address pair
->> A4h/A5h, as described in VESA E-DDC Standard v1.3 chapter 3.
->>=20
->> However, in practice, displays out in the field have embedded DisplayID
->> v2.0 data blocks in EDID extensions, including, in particular, some eDP
->> MSO displays, where a pure DisplayID structure is not available at all.
->>=20
->> Parse the MSO data from the DisplayID data block. Do it as part of
->> drm_add_display_info(), extending it to parse also DisplayID data to
->> avoid requiring extra calls to update the information.
->>=20
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/drm_edid.c  | 63 +++++++++++++++++++++++++++++++++++++
->>  include/drm/drm_connector.h | 12 +++++++
->>  include/drm/drm_displayid.h | 11 +++++++
->>  3 files changed, 86 insertions(+)
->>=20
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 6325877c5fd6..7e8083068f3f 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -28,6 +28,7 @@
->>   * DEALINGS IN THE SOFTWARE.
->>   */
->>=20=20
->> +#include <linux/bitfield.h>
->>  #include <linux/hdmi.h>
->>  #include <linux/i2c.h>
->>  #include <linux/kernel.h>
->> @@ -5148,6 +5149,62 @@ void drm_get_monitor_range(struct drm_connector *=
-connector,
->>  		      info->monitor_range.max_vfreq);
->>  }
->>=20=20
->> +static void drm_parse_vesa_mso_data(struct drm_connector *connector,
->> +				    const struct displayid_block *block)
->> +{
->> +	struct displayid_vesa_vendor_specific_block *vesa =3D
->> +		(struct displayid_vesa_vendor_specific_block *)block;
->> +	struct drm_display_info *info =3D &connector->display_info;
->> +
->> +	if (sizeof(*vesa) !=3D sizeof(*block) + block->num_bytes) {
->> +		drm_dbg_kms(connector->dev, "Unexpected VESA vendor block size\n");
->> +		return;
->> +	}
->> +
->> +	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
->> +	default:
->> +		drm_dbg_kms(connector->dev, "Reserved MSO mode value\n");
->> +		fallthrough;
->> +	case 0:
->> +		info->mso_stream_count =3D 0;
->> +		break;
->> +	case 1:
->> +		info->mso_stream_count =3D 2; /* 2 or 4 links */
->> +		break;
->> +	case 2:
->> +		info->mso_stream_count =3D 4; /* 4 links */
->> +		break;
->> +	}
->> +
->> +	if (!info->mso_stream_count) {
->> +		info->mso_pixel_overlap =3D 0;
->> +		return;
->> +	}
->> +
->> +	info->mso_pixel_overlap =3D FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa=
-->mso);
->> +	if (info->mso_pixel_overlap > 8) {
->> +		drm_dbg_kms(connector->dev, "Reserved MSO pixel overlap value %u\n",
->> +			    info->mso_pixel_overlap);
->> +		info->mso_pixel_overlap =3D 8;
->> +	}
->> +
->> +	drm_dbg_kms(connector->dev, "MSO stream count %u, pixel overlap %u\n",
->> +		    info->mso_stream_count, info->mso_pixel_overlap);
->> +}
->> +
->> +static void drm_update_mso(struct drm_connector *connector, const struc=
-t edid *edid)
->> +{
->> +	const struct displayid_block *block;
->> +	struct displayid_iter iter;
->> +
->> +	displayid_iter_edid_begin(edid, &iter);
->> +	displayid_iter_for_each(block, &iter) {
->> +		if (block->tag =3D=3D DATA_BLOCK_2_VENDOR_SPECIFIC)
->
-> Don't we need to check the OUI to make sure the block is the right
-> type? I don't have the v2 spec at hand atm, but I presume a vendor
-> specific block could contain all kinds of different things?
 
-You're right.
+On 30/08/2021 09:26, Daniel Vetter wrote:
+> On Fri, Aug 27, 2021 at 03:44:42PM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 27/08/2021 15:39, Tvrtko Ursulin wrote:
+>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
+>>> when rendering is done on Intel dgfx and scanout/composition on Intel
+>>> igfx.
+>>>
+>>> Before this patch the driver was not quite ready for that setup, mainly
+>>> because it was able to emit a semaphore wait between the two GPUs, which
+>>> results in deadlocks because semaphore target location in HWSP is neither
+>>> shared between the two, nor mapped in both GGTT spaces.
+>>>
+>>> To fix it the patch adds an additional check to a couple of relevant code
+>>> paths in order to prevent using semaphores for inter-engine
+>>> synchronisation between different driver instances.
+>>>
+>>> Patch also moves singly used i915_gem_object_last_write_engine to be
+>>> private in its only calling unit (debugfs), while modifying it to only
+>>> show activity belonging to the respective driver instance.
+>>>
+>>> What remains in this problem space is the question of the GEM busy ioctl.
+>>> We have a somewhat ambigous comment there saying only status of native
+>>> fences will be reported, which could be interpreted as either i915, or
+>>> native to the drm fd. For now I have decided to leave that as is, meaning
+>>> any i915 instance activity continues to be reported.
+>>>
+>>> v2:
+>>>    * Avoid adding rq->i915. (Chris)
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> Can't we just delete semaphore code and done?
+> - GuC won't have it
+> - media team benchmarked on top of softpin media driver, found no
+>    difference
 
-BR,
-Jani.
+You have S-curve for saturated workloads or something else? How thorough 
+and which media team I guess.
 
->
->> +			drm_parse_vesa_mso_data(connector, block);
->> +	}
->> +	displayid_iter_end(&iter);
->> +}
->> +
->>  /* A connector has no EDID information, so we've got no EDID to compute=
- quirks from. Reset
->>   * all of the values which would have been set from EDID
->>   */
->> @@ -5171,6 +5228,9 @@ drm_reset_display_info(struct drm_connector *conne=
-ctor)
->>=20=20
->>  	info->non_desktop =3D 0;
->>  	memset(&info->monitor_range, 0, sizeof(info->monitor_range));
->> +
->> +	info->mso_stream_count =3D 0;
->> +	info->mso_pixel_overlap =3D 0;
->>  }
->>=20=20
->>  u32 drm_add_display_info(struct drm_connector *connector, const struct =
-edid *edid)
->> @@ -5249,6 +5309,9 @@ u32 drm_add_display_info(struct drm_connector *con=
-nector, const struct edid *edi
->>  		info->color_formats |=3D DRM_COLOR_FORMAT_YCRCB444;
->>  	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
->>  		info->color_formats |=3D DRM_COLOR_FORMAT_YCRCB422;
->> +
->> +	drm_update_mso(connector, edid);
->> +
->>  	return quirks;
->>  }
->>=20=20
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 79fa34e5ccdb..379746d3266f 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -590,6 +590,18 @@ struct drm_display_info {
->>  	 * @monitor_range: Frequency range supported by monitor range descript=
-or
->>  	 */
->>  	struct drm_monitor_range_info monitor_range;
->> +
->> +	/**
->> +	 * @mso_stream_count: eDP Multi-SST Operation (MSO) stream count from
->> +	 * the DisplayID VESA vendor block. 0 for conventional Single-Stream
->> +	 * Transport (SST), or 2 or 4 MSO streams.
->> +	 */
->> +	u8 mso_stream_count;
->> +
->> +	/**
->> +	 * @mso_pixel_overlap: eDP MSO segment pixel overlap, 0-8 pixels.
->> +	 */
->> +	u8 mso_pixel_overlap;
->>  };
->>=20=20
->>  int drm_display_info_set_bus_formats(struct drm_display_info *info,
->> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
->> index 79771091771a..b18611e016a2 100644
->> --- a/include/drm/drm_displayid.h
->> +++ b/include/drm/drm_displayid.h
->> @@ -23,6 +23,7 @@
->>  #define DRM_DISPLAYID_H
->>=20=20
->>  #include <linux/types.h>
->> +#include <linux/bits.h>
->>=20=20
->>  struct edid;
->>=20=20
->> @@ -126,6 +127,16 @@ struct displayid_detailed_timing_block {
->>  	struct displayid_detailed_timings_1 timings[];
->>  };
->>=20=20
->> +#define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
->> +#define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
->> +
->> +struct displayid_vesa_vendor_specific_block {
->> +	struct displayid_block base;
->> +	u8 oui[3];
->> +	u8 data_structure_type;
->> +	u8 mso;
->> +} __packed;
->> +
->>  /* DisplayID iteration */
->>  struct displayid_iter {
->>  	const struct edid *edid;
->> --=20
->> 2.20.1
+ From memory it was a nice win for some benchmarks (non-saturated ones), 
+but as I have told you previously, we haven't been putting numbers in 
+commit messages since it wasn't allowed. I may be able to dig out some 
+more details if I went trawling through GEM channel IRC logs, although 
+probably not the actual numbers since those were usually on pastebin. Or 
+you go an talk with Chris since he probably remembers more details. Or 
+you just decide you don't care and remove it. I wouldn't do that without 
+putting the complete story in writing, but it's your call after all.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Anyway, without the debugfs churn it is more or less two line patch to 
+fix igfx + dgfx hybrid setup. So while mulling it over this could go in. 
+I'd just refine it to use a GGTT check instead of GT. And unless DG1 
+ends up being GuC only.
+
+> - pre-gen8 semaphore code was also silently ditched and no one cared
+> 
+> Plus removing semaphore code would greatly simplify conversion to
+> drm/sched.
+> 
+>>> ---
+>>>    drivers/gpu/drm/i915/gem/i915_gem_object.h | 17 ----------
+>>>    drivers/gpu/drm/i915/i915_debugfs.c        | 39 ++++++++++++++++++++--
+>>>    drivers/gpu/drm/i915/i915_request.c        | 12 ++++++-
+>>>    3 files changed, 47 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> index 48112b9d76df..3043fcbd31bd 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> @@ -503,23 +503,6 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
+>>>    	i915_gem_object_unpin_pages(obj);
+>>>    }
+>>> -static inline struct intel_engine_cs *
+>>> -i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+>>> -{
+>>> -	struct intel_engine_cs *engine = NULL;
+>>> -	struct dma_fence *fence;
+>>> -
+>>> -	rcu_read_lock();
+>>> -	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>> -	rcu_read_unlock();
+>>> -
+>>> -	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
+>>> -		engine = to_request(fence)->engine;
+>>> -	dma_fence_put(fence);
+>>> -
+>>> -	return engine;
+>>> -}
+>>> -
+>>>    void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
+>>>    					 unsigned int cache_level);
+>>>    void i915_gem_object_flush_if_display(struct drm_i915_gem_object *obj);
+>>> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+>>> index 04351a851586..55fd6191eb32 100644
+>>> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+>>> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+>>> @@ -135,13 +135,46 @@ static const char *stringify_vma_type(const struct i915_vma *vma)
+>>>    	return "ppgtt";
+>>>    }
+>>> +static char *
+>>> +last_write_engine(struct drm_i915_private *i915,
+>>> +		  struct drm_i915_gem_object *obj)
+>>> +{
+>>> +	struct intel_engine_cs *engine;
+>>> +	struct dma_fence *fence;
+>>> +	char *res = NULL;
+>>> +
+>>> +	rcu_read_lock();
+>>> +	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>> +	rcu_read_unlock();
+>>> +
+>>> +	if (!fence || dma_fence_is_signaled(fence))
+>>> +		goto out;
+>>> +
+>>> +	if (!dma_fence_is_i915(fence)) {
+>>> +		res = "<external-fence>";
+>>> +		goto out;
+>>> +	}
+>>> +
+>>> +	engine = to_request(fence)->engine;
+>>> +	if (engine->gt->i915 != i915) {
+>>> +		res = "<external-i915>";
+>>> +		goto out;
+>>> +	}
+>>> +
+>>> +	res = engine->name;
+>>> +
+>>> +out:
+>>> +	dma_fence_put(fence);
+>>> +	return res;
+>>> +}
+>>> +
+>>>    void
+>>>    i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+>>>    {
+>>>    	struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
+>>> -	struct intel_engine_cs *engine;
+>>>    	struct i915_vma *vma;
+>>>    	int pin_count = 0;
+>>> +	char *engine;
+>>>    	seq_printf(m, "%pK: %c%c%c %8zdKiB %02x %02x %s%s%s",
+>>>    		   &obj->base,
+>>> @@ -230,9 +263,9 @@ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+>>>    	if (i915_gem_object_is_framebuffer(obj))
+>>>    		seq_printf(m, " (fb)");
+>>> -	engine = i915_gem_object_last_write_engine(obj);
+>>> +	engine = last_write_engine(dev_priv, obj);
+>>>    	if (engine)
+>>> -		seq_printf(m, " (%s)", engine->name);
+>>> +		seq_printf(m, " (%s)", engine);
+>>
+>> Or I zap this from the code altogether. Not sure it is very useful since the
+>> only caller is i915_gem_framebuffer debugfs file and how much it can care
+>> about maybe hitting the timing window when exclusive fence will contain
+>> something.
+> 
+> Ideally we'd just look at the fence timeline name. But i915 has this very
+> convoluted typesafe-by-rcu reuse which means we actually can't do that,
+> and our fence timeline name is very useless.
+
+Why do we even care to output any of this here? I'd just remove it since 
+it is a very transient state with an extremely short window of 
+opportunity to make it show anything. Which I think makes it pretty 
+useless in debugfs.
+
+Regards,
+
+Tvrtko
+
+> 
+> Would be good to fix that, Matt Auld has started an attempt but didn't get
+> very far.
+> -Daniel
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>    }
+>>>    static int i915_gem_object_info(struct seq_file *m, void *data)
+>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>> index ce446716d092..64adf619fe82 100644
+>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>> @@ -1152,6 +1152,12 @@ __emit_semaphore_wait(struct i915_request *to,
+>>>    	return 0;
+>>>    }
+>>> +static bool
+>>> +can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
+>>> +{
+>>> +	return to->engine->gt == from->engine->gt;
+>>> +}
+>>> +
+>>>    static int
+>>>    emit_semaphore_wait(struct i915_request *to,
+>>>    		    struct i915_request *from,
+>>> @@ -1160,6 +1166,9 @@ emit_semaphore_wait(struct i915_request *to,
+>>>    	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
+>>>    	struct i915_sw_fence *wait = &to->submit;
+>>> +	if (!can_use_semaphore_wait(to, from))
+>>> +		goto await_fence;
+>>> +
+>>>    	if (!intel_context_use_semaphores(to->context))
+>>>    		goto await_fence;
+>>> @@ -1263,7 +1272,8 @@ __i915_request_await_execution(struct i915_request *to,
+>>>    	 * immediate execution, and so we must wait until it reaches the
+>>>    	 * active slot.
+>>>    	 */
+>>> -	if (intel_engine_has_semaphores(to->engine) &&
+>>> +	if (can_use_semaphore_wait(to, from) &&
+>>> +	    intel_engine_has_semaphores(to->engine) &&
+>>>    	    !i915_request_has_initial_breadcrumb(to)) {
+>>>    		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
+>>>    		if (err < 0)
+>>>
+> 
