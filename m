@@ -1,65 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C533FC7AA
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:55:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE603FC7AE
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:57:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1303D89E36;
-	Tue, 31 Aug 2021 12:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0C4E896A5;
+	Tue, 31 Aug 2021 12:57:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D9A489E5A
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:55:41 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id q11so27522044wrr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=bT10+xLEaT4R6xj8WMWY+EgeKIi0dzu377XUeV50jEk=;
- b=T3eaz6sLSntlteeRrVcEvGsjElLi/q8X0E0h5ZNHU2i11G22ix8m1Xeq9HCq+Kh2wY
- oe6599R6oHFF6uKdINEQ9WZVEukx0zTA930RxWqmIcSXJBOPVdPOJ0APdpi84tcrG7bl
- C866UQzQCYmShcQhZ1BgzXLdEOwEH6YMiBJ+A=
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09A1896A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:57:08 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ o39-20020a05600c512700b002e74638b567so2478790wms.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=W8rndnjSShIHnb9dOQh9Iuc319AK6ZOXUUhl63lhKp0=;
+ b=cEB4iqdB0vrd71y7jc6v+xVzOtjSdrXKsIUfuqJQMxhjNsJGWsShvE9CezZfro9XQr
+ JoyEhkk7wzjdmR6K5FcT7Ok1FADkmKumhjbhwuWblaoUWePvZeIacGbknNhHFFtFg6jZ
+ XOaLBVabK/cit7Y9b+0ckvHkSJ4E6vYTBIKuMkBz9knm/1ed+uG9MNkGwswqhteDSxUB
+ fg2j2llArpvPRIMWg4qNWH+V6DNYdY21ulCKQ7aMEoG1dgS6TGoeWU24EtqJTRLCZ/e1
+ pq016BijSWIKYlxUXbzaVVUr6iWOWVcCMko3vnjXj9iEwPyyBiRPXIePDNXPmNxSNWrN
+ I6gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bT10+xLEaT4R6xj8WMWY+EgeKIi0dzu377XUeV50jEk=;
- b=jkOZ5o4dMVotrMweUHMbcaG7iuSrg1P6Y6yG8w3S6eQNHzkR6PVS4Z3aAwbrLz579s
- iPABcAnOmMzMWbWpVj7NMDIYt/pM1qbT/pQ02dQ4NDH+9naj8EEjkHbTLZ4myrGs+IGh
- AkBvnVR0SpTKK3oC6WPcUMrwrwvPo/b/9ZMaZIPLr4xMFuolUovTCBTEahivm6GDeTkf
- h5iUhoctEzpFhwm3PmI+TBNBjckKtazTk8gABcCUK6KOd4jRvjijZC8iJ/avj3iG2yEC
- m0yb9uxObQCab8kuHkghwv5hhJmIaeHU/i9jUtQyzhayfYPcQgbSDxq3VuatHl/n9WEj
- SUww==
-X-Gm-Message-State: AOAM531e3YpkwVeDY0s8A2MFD3vJ+UqOwgb1yM+fCIUWHGMn1Lj/Am9u
- 6zvkItKCzCdxBwg8TZf6bDI7aA==
-X-Google-Smtp-Source: ABdhPJzU7TmEoQKS9GQ5pd7Vfg7ngnlIm6NlLakfJbr8fn9uhxmj6s6g1SKHh913PjOLdoGneaxd+g==
-X-Received: by 2002:adf:edc2:: with SMTP id v2mr31066292wro.255.1630414539812; 
- Tue, 31 Aug 2021 05:55:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k14sm18024999wri.46.2021.08.31.05.55.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 05:55:39 -0700 (PDT)
-Date: Tue, 31 Aug 2021 14:55:37 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: intel-gfx@lists.freedesktop.org,
- Lionel G Landwerlin <lionel.g.landwerlin@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, jason@jlekstrand.net
-Subject: Re: [PATCH 8/8] drm/i915/perf: Map OA buffer to user space for gen12
- performance query
-Message-ID: <YS4myWfCp2IP4iFn@phenom.ffwll.local>
-References: <20210830193851.15607-1-umesh.nerlige.ramappa@intel.com>
- <20210830193851.15607-9-umesh.nerlige.ramappa@intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=W8rndnjSShIHnb9dOQh9Iuc319AK6ZOXUUhl63lhKp0=;
+ b=jzIJagJ+8Pl+c6tcuyw+hQXtNljkuUNbCp9lDf/AjeURsXstwSvkhaimMVfr2REuM7
+ /pBvwcqDDNegeA0iommpH2y1T2tna8GqjupRiVvCmam3l1qv3LreWHTejLedYHk/ciUk
+ /tthadPSldGezvsGiK2YJd75cA02/yNiqk9t7vwlFAxA4jpuc3Jh3gLpYLR+q06bzjCo
+ ouT+pXn96NowJy2vs6pyNohsHB5yE+Uof65mkghULl9KM95baOfMRZwiZ+kYuQ1Rcuno
+ w2vCriEdL0+0IPCi05PlHELQ+Jvhxl0AtNNh/LinVhpQtiSr9CoWftOIj+RAPOBDtQAv
+ KZdg==
+X-Gm-Message-State: AOAM53276HAytWc8XPVfH2M1IKg9hCplQOAZeP/dsCBRvxc32n4XcO6Q
+ T4J3oO+pO1NXY7LG2cJ+vsU4lQkOgnPakLgO
+X-Google-Smtp-Source: ABdhPJwr2Rxp6REx7pP6t+baqT5c+w5HU+Zc7Pn92CZGAP7SuU/Tt5iOEeDUM3DjrA5OSddqFWAtxA==
+X-Received: by 2002:a1c:1b53:: with SMTP id b80mr4171362wmb.133.1630414627408; 
+ Tue, 31 Aug 2021 05:57:07 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id r26sm2522630wmh.27.2021.08.31.05.57.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Aug 2021 05:57:06 -0700 (PDT)
+Subject: Re: [PATCH 04/12] drm/ttm: add common accounting to the resource mgr
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: thomas.hellstrom@linux.intel.com, dri-devel@lists.freedesktop.org,
+ andrey.grodzovsky@amd.com
+References: <20210830085707.209508-1-christian.koenig@amd.com>
+ <20210830085707.209508-4-christian.koenig@amd.com>
+ <YS4mCPDUQSE1PK0t@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <116910d5-7238-316d-bb5a-c28337201449@gmail.com>
+Date: Tue, 31 Aug 2021 14:57:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210830193851.15607-9-umesh.nerlige.ramappa@intel.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <YS4mCPDUQSE1PK0t@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,372 +80,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 30, 2021 at 12:38:51PM -0700, Umesh Nerlige Ramappa wrote:
-> i915 used to support time based sampling mode which is good for overall
-> system monitoring, but is not enough for query mode used to measure a
-> single draw call or dispatch. Gen9-Gen11 are using current i915 perf
-> implementation for query, but Gen12+ requires a new approach for query
-> based on triggered reports within oa buffer.
-> 
-> Triggering reports into the OA buffer is achieved by writing into a
-> a trigger register. Optionally an unused counter/register is set with a
-> marker value such that a triggered report can be identified in the OA
-> buffer. Reports are usually triggered at the start and end of work that
-> is measured.
-> 
-> Since OA buffer is large and queries can be frequent, an efficient way
-> to look for triggered reports is required. By knowing the current head
-> and tail offsets into the OA buffer, it is easier to determine the
-> locality of the reports of interest.
-> 
-> Current perf OA interface does not expose head/tail information to the
-> user and it filters out invalid reports before sending data to user.
-> Also considering limited size of user buffer used during a query,
-> creating a 1:1 copy of the OA buffer at the user space added undesired
-> complexity.
-> 
-> The solution was to map the OA buffer to user space provided
-> 
-> (1) that it is accessed from a privileged user.
-> (2) OA report filtering is not used.
-> 
-> These 2 conditions would satisfy the safety criteria that the current
-> perf interface addresses.
+Am 31.08.21 um 14:52 schrieb Daniel Vetter:
+> On Mon, Aug 30, 2021 at 10:56:59AM +0200, Christian König wrote:
+>> It makes sense to have this in the common manager for debugging and
+>> accounting of how much resources are used.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_resource.c |  8 ++++++++
+>>   include/drm/ttm/ttm_resource.h     | 18 ++++++++++++++++++
+>>   2 files changed, 26 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+>> index a4c495da0040..426e6841fc89 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>> @@ -33,6 +33,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>>                          const struct ttm_place *place,
+>>                          struct ttm_resource *res)
+>>   {
+>> +	struct ttm_resource_manager *man;
+>> +
+>>   	res->start = 0;
+>>   	res->num_pages = PFN_UP(bo->base.size);
+>>   	res->mem_type = place->mem_type;
+>> @@ -42,12 +44,16 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>>   	res->bus.is_iomem = false;
+>>   	res->bus.caching = ttm_cached;
+>>   	res->bo = bo;
+>> +
+>> +	man = ttm_manager_type(bo->bdev, place->mem_type);
+>> +	atomic64_add(bo->base.size, &man->usage);
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_init);
+>>   
+>>   void ttm_resource_fini(struct ttm_resource_manager *man,
+>>   		       struct ttm_resource *res)
+>>   {
+>> +	atomic64_sub(res->bo->base.size, &man->usage);
+>>   }
+>>   EXPORT_SYMBOL(ttm_resource_fini);
+>>   
+>> @@ -100,6 +106,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+>>   	spin_lock_init(&man->move_lock);
+>>   	man->bdev = bdev;
+>>   	man->size = p_size;
+>> +	atomic64_set(&man->usage, 0);
+>>   
+>>   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>>   		INIT_LIST_HEAD(&man->lru[i]);
+>> @@ -172,6 +179,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+>>   	drm_printf(p, "  use_type: %d\n", man->use_type);
+>>   	drm_printf(p, "  use_tt: %d\n", man->use_tt);
+>>   	drm_printf(p, "  size: %llu\n", man->size);
+>> +	drm_printf(p, "  usage: %llu\n", atomic64_read(&man->usage));
+>>   	if (man->func->debug)
+>>   		man->func->debug(man, p);
+>>   }
+>> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+>> index e8080192cae4..526fe359c603 100644
+>> --- a/include/drm/ttm/ttm_resource.h
+>> +++ b/include/drm/ttm/ttm_resource.h
+>> @@ -27,6 +27,7 @@
+>>   
+>>   #include <linux/types.h>
+>>   #include <linux/mutex.h>
+>> +#include <linux/atomic.h>
+>>   #include <linux/dma-buf-map.h>
+>>   #include <linux/dma-fence.h>
+>>   #include <drm/drm_print.h>
+>> @@ -110,6 +111,7 @@ struct ttm_resource_manager_func {
+>>    * static information. bdev::driver::io_mem_free is never used.
+>>    * @lru: The lru list for this memory type.
+>>    * @move: The fence of the last pipelined move operation.
+>> + * @usage: How much of the region is used.
+>>    *
+>>    * This structure is used to identify and manage memory types for a device.
+>>    */
+>> @@ -134,6 +136,9 @@ struct ttm_resource_manager {
+>>   	 * Protected by @move_lock.
+>>   	 */
+>>   	struct dma_fence *move;
+>> +
+>> +	/* Own protection */
+>> +	atomic64_t usage;
+> Shouldn't we keep track of this together with the lru updates, under the
+> same spinlock?
 
-This is a perf improvement. Please include benchmark numbers to justify
-it.
+Mhm, what should that be good for? As far as I know we use it for two 
+use cases:
+1. Early abort when size-usage < requested.
+2. Statistics for debugging.
 
-> 
-> To enable the query:
-> - Add an ioctl to expose head and tail to the user
-> - Add an ioctl to return size and offset of the OA buffer
-> - Map the OA buffer to the user space
-> 
-> v2:
-> - Improve commit message (Chris)
-> - Do not mmap based on gem object filp. Instead, use perf_fd and support
->   mmap syscall (Chris)
-> - Pass non-zero offset in mmap to enforce the right object is
->   mapped (Chris)
-> - Do not expose gpu_address (Chris)
-> - Verify start and length of vma for page alignment (Lionel)
-> - Move SQNTL config out (Lionel)
-> 
-> v3: (Chris)
-> - Omit redundant checks
-> - Return VM_FAULT_SIGBUS is old stream is closed
-> - Maintain reference counts to stream in vm_open and vm_close
-> - Use switch to identify object to be mapped
-> 
-> v4: Call kref_put on closing perf fd (Chris)
-> v5:
-> - Strip access to OA buffer from unprivileged child of a privileged
->   parent. Use VM_DONTCOPY
-> - Enforce MAP_PRIVATE by checking for VM_MAYSHARE
-> 
-> v6:
-> (Chris)
-> - Use len of -1 in unmap_mapping_range
-> - Don't use stream->oa_buffer.vma->obj in vm_fault_oa
-> - Use kernel block comment style
-> - do_mmap gets a reference to the file and puts it in do_munmap, so
->   no need to maintain a reference to i915_perf_stream. Hence, remove
->   vm_open/vm_close and stream->closed hooks/checks.
-> (Umesh)
-> - Do not allow mmap if SAMPLE_OA_REPORT is not set during
->   i915_perf_open_ioctl.
-> - Drop ioctl returning head/tail since this information is already
->   whitelisted. Remove hooks to read head register.
-> 
-> v7: (Chris)
-> - unmap before destroy
-> - change ioctl argument struct
-> 
-> v8: Documentation and more checks (Chris)
-> v9: Fix comment style (Umesh)
-> v10: Update uapi comment (Ashutosh)
-> 
-> Signed-off-by: Piotr Maciejewski <piotr.maciejewski@intel.com>
-> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_mman.c |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_mman.h |   2 +
->  drivers/gpu/drm/i915/i915_perf.c         | 126 ++++++++++++++++++++++-
->  include/uapi/drm/i915_drm.h              |  33 ++++++
->  4 files changed, 161 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> index 5130e8ed9564..84cdce2ee447 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> @@ -213,7 +213,7 @@ compute_partial_view(const struct drm_i915_gem_object *obj,
->  	return view;
->  }
->  
-> -static vm_fault_t i915_error_to_vmf_fault(int err)
-> +vm_fault_t i915_error_to_vmf_fault(int err)
->  {
->  	switch (err) {
->  	default:
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> index efee9e0d2508..1190a3a228ea 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> @@ -29,4 +29,6 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
->  
->  void i915_gem_object_release_mmap_offset(struct drm_i915_gem_object *obj);
->  
-> +vm_fault_t i915_error_to_vmf_fault(int err);
-> +
->  #endif
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index de3d1738aabe..1f8d4f3a2148 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -192,10 +192,12 @@
->   */
->  
->  #include <linux/anon_inodes.h>
-> +#include <linux/mman.h>
->  #include <linux/sizes.h>
->  #include <linux/uuid.h>
->  
->  #include "gem/i915_gem_context.h"
-> +#include "gem/i915_gem_mman.h"
->  #include "gt/intel_engine_pm.h"
->  #include "gt/intel_engine_user.h"
->  #include "gt/intel_execlists_submission.h"
-> @@ -3322,6 +3324,44 @@ static long i915_perf_config_locked(struct i915_perf_stream *stream,
->  	return ret;
->  }
->  
-> +#define I915_PERF_OA_BUFFER_MMAP_OFFSET 1
-> +
-> +/**
-> + * i915_perf_oa_buffer_info_locked - size and offset of the OA buffer
-> + * @stream: i915 perf stream
-> + * @cmd: ioctl command
-> + * @arg: pointer to oa buffer info filled by this function.
-> + */
-> +static int i915_perf_oa_buffer_info_locked(struct i915_perf_stream *stream,
-> +					   unsigned int cmd,
-> +					   unsigned long arg)
-> +{
-> +	struct drm_i915_perf_oa_buffer_info info;
-> +	void __user *output = (void __user *)arg;
-> +
-> +	if (i915_perf_stream_paranoid && !perfmon_capable()) {
-> +		DRM_DEBUG("Insufficient privileges to access OA buffer info\n");
-> +		return -EACCES;
-> +	}
-> +
-> +	if (_IOC_SIZE(cmd) != sizeof(info))
-> +		return -EINVAL;
-> +
-> +	if (copy_from_user(&info, output, sizeof(info)))
-> +		return -EFAULT;
-> +
-> +	if (info.type || info.flags || info.rsvd)
-> +		return -EINVAL;
-> +
-> +	info.size = stream->oa_buffer.vma->size;
-> +	info.offset = I915_PERF_OA_BUFFER_MMAP_OFFSET * PAGE_SIZE;
-> +
-> +	if (copy_to_user(output, &info, sizeof(info)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * i915_perf_ioctl_locked - support ioctl() usage with i915 perf stream FDs
->   * @stream: An i915 perf stream
-> @@ -3347,6 +3387,8 @@ static long i915_perf_ioctl_locked(struct i915_perf_stream *stream,
->  		return 0;
->  	case I915_PERF_IOCTL_CONFIG:
->  		return i915_perf_config_locked(stream, arg);
-> +	case I915_PERF_IOCTL_GET_OA_BUFFER_INFO:
-> +		return i915_perf_oa_buffer_info_locked(stream, cmd, arg);
->  	}
->  
->  	return -EINVAL;
-> @@ -3418,6 +3460,14 @@ static int i915_perf_release(struct inode *inode, struct file *file)
->  	struct i915_perf_stream *stream = file->private_data;
->  	struct i915_perf *perf = stream->perf;
->  
-> +	/*
-> +	 * User could have multiple vmas from multiple mmaps. We want to zap
-> +	 * them all here. Note that a fresh fault cannot occur as the mmap holds
-> +	 * a reference to the stream via the vma->vm_file, so before user's
-> +	 * munmap, the stream cannot be destroyed.
-> +	 */
-> +	unmap_mapping_range(file->f_mapping, 0, -1, 1);
-> +
->  	mutex_lock(&perf->lock);
->  	i915_perf_destroy_locked(stream);
->  	mutex_unlock(&perf->lock);
-> @@ -3428,6 +3478,75 @@ static int i915_perf_release(struct inode *inode, struct file *file)
->  	return 0;
->  }
->  
-> +static vm_fault_t vm_fault_oa(struct vm_fault *vmf)
-> +{
-> +	struct vm_area_struct *vma = vmf->vma;
-> +	struct i915_perf_stream *stream = vma->vm_private_data;
-> +	int err;
-> +
-> +	err = remap_io_sg(vma,
-> +			  vma->vm_start, vma->vm_end - vma->vm_start,
-> +			  stream->oa_buffer.vma->pages->sgl, -1);
-> +
-> +	return i915_error_to_vmf_fault(err);
-> +}
-> +
-> +static const struct vm_operations_struct vm_ops_oa = {
-> +	.fault = vm_fault_oa,
-> +};
-> +
-> +static int i915_perf_mmap(struct file *file, struct vm_area_struct *vma)
-> +{
-> +	struct i915_perf_stream *stream = file->private_data;
-> +
-> +	/* mmap-ing OA buffer to user space MUST absolutely be privileged */
-> +	if (i915_perf_stream_paranoid && !perfmon_capable()) {
-> +		DRM_DEBUG("Insufficient privileges to map OA buffer\n");
-> +		return -EACCES;
-> +	}
-> +
-> +	switch (vma->vm_pgoff) {
-> +	/*
-> +	 * A non-zero offset ensures that we are mapping the right object. Also
-> +	 * leaves room for future objects added to this implementation.
-> +	 */
-> +	case I915_PERF_OA_BUFFER_MMAP_OFFSET:
-> +		if (!(stream->sample_flags & SAMPLE_OA_REPORT))
-> +			return -EINVAL;
-> +
-> +		if (vma->vm_end - vma->vm_start > stream->oa_buffer.vma->size)
-> +			return -EINVAL;
-> +
-> +		/*
-> +		 * Only support VM_READ. Enforce MAP_PRIVATE by checking for
-> +		 * VM_MAYSHARE.
-> +		 */
-> +		if (vma->vm_flags & (VM_WRITE | VM_EXEC |
-> +				     VM_SHARED | VM_MAYSHARE))
-> +			return -EINVAL;
-> +
-> +		vma->vm_flags &= ~(VM_MAYWRITE | VM_MAYEXEC);
-> +
-> +		/*
-> +		 * If the privileged parent forks and child drops root
-> +		 * privilege, we do not want the child to retain access to the
-> +		 * mapped OA buffer. Explicitly set VM_DONTCOPY to avoid such
-> +		 * cases.
-> +		 */
-> +		vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND |
-> +				 VM_DONTDUMP | VM_DONTCOPY;
-> +		break;
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-> +	vma->vm_private_data = stream;
-> +	vma->vm_ops = &vm_ops_oa;
-> +
-> +	return 0;
-> +}
->  
->  static const struct file_operations fops = {
->  	.owner		= THIS_MODULE,
-> @@ -3440,6 +3559,7 @@ static const struct file_operations fops = {
->  	 * to handle 32bits compatibility.
->  	 */
->  	.compat_ioctl   = i915_perf_ioctl,
-> +	.mmap		= i915_perf_mmap,
->  };
->  
->  
-> @@ -4639,8 +4759,12 @@ int i915_perf_ioctl_version(void)
->  	 *
->  	 *    - OA buffer head/tail/status/buffer registers for read only
->  	 *    - OA counters A18, A19, A20 for read/write
-> +	 *
-> +	 * 8: Added an option to map oa buffer at umd driver level and trigger
-> +	 *    oa reports within oa buffer from command buffer. See
-> +	 *    I915_PERF_IOCTL_GET_OA_BUFFER_INFO.
->  	 */
-> -	return 7;
-> +	return 8;
->  }
->  
->  #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index bde5860b3686..2c17fe845604 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -2417,6 +2417,39 @@ struct drm_i915_perf_open_param {
->   */
->  #define I915_PERF_IOCTL_CONFIG	_IO('i', 0x2)
->  
-> +/*
+Especially the first use case is rather important under memory pressure 
+to avoid costly acquiring of a contended lock.
 
-Please make this proper kerneldoc. Ideally also fix up all the other perf
-related uapi and also document it all with kerneldoc.
+> Otherwise this usage here just becomes kinda meaningless I think, and just
+> for some debugging. I really don't like sprinkling random atomic_t around
+> (mostly because i915-gem code has gone totally overboard with them, with
+> complete disregard to complexity of the result).
 
-Please make sure the result looks good with
+Well this here just replaces what drivers did anyway and the cost of 
+inc/dec an atomic is pretty much negligible.
 
-$ make htmldocs
+Christian.
 
-Also, this is uapi, therefore your patch needs to include
-- link to the igts for this
-- link to the userspace MR that uses this (I guess it's mesa?)
+> -Daniel
+>
+>>   };
+>>   
+>>   /**
+>> @@ -260,6 +265,19 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+>>   	man->move = NULL;
+>>   }
+>>   
+>> +/**
+>> + * ttm_resource_manager_usage
+>> + *
+>> + * @man: A memory manager object.
+>> + *
+>> + * Return how many resources are currently used.
+>> + */
+>> +static inline uint64_t
+>> +ttm_resource_manager_usage(struct ttm_resource_manager *man)
+>> +{
+>> +	return atomic64_read(&man->usage);
+>> +}
+>> +
+>>   void ttm_resource_init(struct ttm_buffer_object *bo,
+>>                          const struct ttm_place *place,
+>>                          struct ttm_resource *res);
+>> -- 
+>> 2.25.1
+>>
 
-Cheers, Daniel
-
-> + * Returns OA buffer properties to be used with mmap.
-> + *
-> + * This ioctl is available in perf revision 8.
-> + */
-> +#define I915_PERF_IOCTL_GET_OA_BUFFER_INFO _IOWR('i', 0x3, struct drm_i915_perf_oa_buffer_info)
-> +
-> +/*
-> + * OA buffer size and offset.
-> + *
-> + * OA output buffer
-> + *   type: 0
-> + *   flags: mbz
-> + *
-> + *   After querying the info, pass (size,offset) to mmap(),
-> + *
-> + *   mmap(0, info.size, PROT_READ, MAP_PRIVATE, perf_fd, info.offset).
-> + *
-> + *   Note that only a private (not shared between processes, or across fork())
-> + *   read-only mmapping is allowed.
-> + *
-> + *   HW is continually writing data to the mapped  OA buffer and it conforms to
-> + *   the OA format as specified by user config. The buffer provides reports that
-> + *   have OA counters - A, B and C.
-> + */
-> +struct drm_i915_perf_oa_buffer_info {
-> +	__u32 type;   /* in */
-> +	__u32 flags;  /* in */
-> +	__u64 size;   /* out */
-> +	__u64 offset; /* out */
-> +	__u64 rsvd;   /* mbz */
-> +};
-> +
->  /*
->   * Common to all i915 perf records
->   */
-> -- 
-> 2.20.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
