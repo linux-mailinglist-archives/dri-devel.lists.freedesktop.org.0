@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07B93FC273
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 08:14:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A953FC275
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 08:14:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB2CA89B3C;
-	Tue, 31 Aug 2021 06:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A53589B20;
+	Tue, 31 Aug 2021 06:14:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7872B89B22;
- Tue, 31 Aug 2021 06:14:32 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id m4so10010306pll.0;
- Mon, 30 Aug 2021 23:14:32 -0700 (PDT)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B57D89B20;
+ Tue, 31 Aug 2021 06:14:47 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ z24-20020a17090acb1800b0018e87a24300so1641004pjt.0; 
+ Mon, 30 Aug 2021 23:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=brM7hW6JylJKzonqvDJYo3SspnbZ8CW+4pmvj8jGqAU=;
- b=TYqGCHFl281XM/Qsit8ay9Zvizlo3WsBq5y4Obt8jQHjiox2dt6MPHCEVsE0keSEFe
- RVBMplpcZxGJR3qyTkA0pPPouAWFmaRtqHYDQ5q9RW0g1lwmiQjAD0ViWNUs3dao+kx4
- S2UvHOz/hjQkH9bwTm+PgxCySQVOYy02T+CcvZuSiad3G56SQJPckpPWvECGc6uGkywE
- 0E6AyJFNzwK/zRaE5CXVonaqmQcKxK76Jm37BWzpf5bT2UcoYiKXeREgNDRnb1NCBqZb
- Za6F8DrOiQ0lsDgXis4hdyTqctY0f/9POhO9D/nybaASbrGDiAI7LGYTSmzHAcUG242w
- s88w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tHn1bKbgKWkWnpZZfeyzrlp2g8PdlS3oPFK4wibr8zM=;
+ b=eXIjFmJAssVk3qum2qiXCLhVDT8BHwEP00acuPJC6D3sWtXepsNRzl7WSa6QoQy99y
+ dUAJT/Gv/isjtGOA3E207i4Tsg3jM8j5lwtN9mQ5mIE1L4CtzGYd9e/zLEhVdXiEHfEX
+ MK3cuuw+X9WOT70++OXU9foFpZmdwQL8+ub9sVd8DFGdh2I4LBOAdF3P8oABbUdS/Y54
+ 4Qjd1EndwTYPXWN/mnR2yMNqh9M9wuTMFPtmjSuKYEHNCteFwK4boUyHPOoTuD7my/aS
+ UQusq/C0g8X0wUQzNjsJflhtzcsL03ZTs8shCqEgQNJ4GLN+7wm4QawSviE32FE7ZpHH
+ +2hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=brM7hW6JylJKzonqvDJYo3SspnbZ8CW+4pmvj8jGqAU=;
- b=P86yJaFptVxKEMiHWqJvvQLQDKW3Dx2NZM2opfMeEIUDpQc/2F9ESKBZSsWKQPO736
- sqL6UpZKutJtZ89U8o0Y7S+81BRBQvo4raNXU+99XV3ZNV080h56wWzJYcP6LHOw6aJE
- yjKJuYLiHh5JaRXmYtasShJcvfPATcjNwea/RAzVbpixeIvV2oNxjNnfbd/+XW78dFFq
- lte1o5hfkAefAl+NNXpzVzBODVTxk0RLAsHXS7SgQaF7G6/k2WGGEvEm08poo7sH1w8A
- 0uOmpSHZc5UrVhqGDbuRP4m8Bq6Z33LbUgPRXFcevn1duC7i2U79JrX9RGDHxofnkXZK
- mPLQ==
-X-Gm-Message-State: AOAM5326uSAlG5eGJ9nA4C/Dq8xclHhnt4dKtkj0rVOIjAyAZVUzW3CB
- 1XENu5ACqc06qB+xRGLVCh8=
-X-Google-Smtp-Source: ABdhPJxog7P3VF21VautBAMxYZ/3o73trUNelQsW8wAG+bh7Wi6vvj2BRI8XRqDepYX6Plvg5agctw==
-X-Received: by 2002:a17:902:c9d5:b0:138:a025:c944 with SMTP id
- q21-20020a170902c9d500b00138a025c944mr3135880pld.61.1630390472061; 
- Mon, 30 Aug 2021 23:14:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tHn1bKbgKWkWnpZZfeyzrlp2g8PdlS3oPFK4wibr8zM=;
+ b=fV3z1QUy9qUqUFvfa9JEsnso/apO9+bl+sHTYQwLMdvkxFXyTCO4rY47nzQF1OQj06
+ rAMcNQ3VJMwXw8UDZ5wojPtYn/lBfBdEU+NvR8NtSJDN9sUZdfXnj9/27mdFNcr+g2Lr
+ H1igRGObaD+ZAAcnU0AZ3Qw+bVc0jlDY/I2J4YxpQYzJ+yGJhCAmOh9nW4/SRcghwuN5
+ Q0D1PJuS6BIHRKn46GPgbXBDAAGAhR3RU5sy2M6p8mnJXSIOK60+K59OVSk1IqV4eAjl
+ y8A76OFNvPHeoWejhuTLoKCm19+6KYuI/AiXkfWQ3f3BjF6T9CBiFHp0MxbyTKx3yNsS
+ 8ydw==
+X-Gm-Message-State: AOAM530fdoxIgf11Q6hCP0O/4nJQw6js/wGiLrjVA7ubGFrgAQ9PQk/v
+ Kl1kRkrLO0GmDUVpk0FbA5o=
+X-Google-Smtp-Source: ABdhPJzGmBXOz6okx6of+AFSntvusISTlHPl1xEvUsw8GRcQjM3xZQnn+uaj9N1kZDXhTmMeOXLoJw==
+X-Received: by 2002:a17:90b:390d:: with SMTP id
+ ob13mr3460845pjb.129.1630390486636; 
+ Mon, 30 Aug 2021 23:14:46 -0700 (PDT)
 Received: from sanitydock.wifi-cloud.jp ([210.160.217.69])
- by smtp.gmail.com with ESMTPSA id z7sm1405724pjr.42.2021.08.30.23.14.27
+ by smtp.gmail.com with ESMTPSA id z7sm1405724pjr.42.2021.08.30.23.14.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 23:14:31 -0700 (PDT)
+ Mon, 30 Aug 2021 23:14:46 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
@@ -54,11 +55,14 @@ Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, skhan@linuxfoundation.org,
  gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v9 0/4] drm: update locking for modesetting
-Date: Tue, 31 Aug 2021 14:13:44 +0800
-Message-Id: <20210831061348.97696-1-desmondcheongzx@gmail.com>
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ stable@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v9 1/4] drm: fix null ptr dereference in drm_master_release
+Date: Tue, 31 Aug 2021 14:13:45 +0800
+Message-Id: <20210831061348.97696-2-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210831061348.97696-1-desmondcheongzx@gmail.com>
+References: <20210831061348.97696-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,105 +80,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+drm_master_release can be called on a drm_file without a master, which
+results in a null ptr dereference of file_priv->master->magic_map. The
+three cases are:
 
-I updated the patch set with some suggestions by Daniel Vetter, and
-dropped the patches after patch 4 so that we can stick the landing for
-avoiding races with modesetting rights before dealing with the tricky
-spinlock.
+1. Error path in drm_open_helper
+  drm_open():
+    drm_open_helper():
+      drm_master_open():
+        drm_new_set_master(); <--- returns -ENOMEM,
+                                   drm_file.master not set
+      drm_file_free():
+        drm_master_release(); <--- NULL ptr dereference
+                                   (file_priv->master->magic_map)
 
-Overall, this series fixes races with modesetting rights, and converts
-drm_device.master_mutex into master_rwsem.
+2. Error path in mock_drm_getfile
+  mock_drm_getfile():
+    anon_inode_getfile(); <--- returns error, drm_file.master not set
+    drm_file_free():
+      drm_master_release(); <--- NULL ptr dereference
+                                 (file_priv->master->magic_map)
 
-- Patch 1: Fix a potential null ptr dereference in drm_master_release
+3. In drm_client_close, as drm_client_open doesn't set up a master
 
-- Patch 2: Convert master_mutex into rwsem (avoids creating a new lock)
+drm_file.master is set up in drm_open_helper through the call to
+drm_master_open, so we mirror it with a call to drm_master_release in
+drm_close_helper, and remove drm_master_release from drm_file_free to
+avoid the null ptr dereference.
 
-- Patch 3: Update global mutex locking in the ioctl handler (avoids
-deadlock when grabbing read lock on master_rwsem in drm_ioctl_kernel)
+Fixes: 7eeaeb90a6a5 ("drm/file: Don't set master on in-kernel clients")
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc: stable@vger.kernel.org
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/drm_file.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-- Patch 4: Plug races with drm modesetting rights
-
-v8 -> v9 (suggested by Daniel Vetter):
-- Dropped patches 5-7 to handle it in another series
-- Added the appropriate Fixes: tag for the null ptr dereference fix
-(patch 1)
-- Create a locked_ioctl bool to clarify locking/unlocking patterns in
-the ioctl handler (patch 3)
-- Clarified the kernel doc for master_rwsem (patch 4)
-
-v7 -> v8:
-- Avoid calling drm_lease_held in drm_mode_setcrtc and
-drm_wait_vblank_ioctl, caught by Intel-gfx CI
-
-v6 -> v7:
-- Export __drm_mode_object_find for loadable modules, caught by the
-Intel-gfx CI
-
-v5 -> v6:
-- Fix recursive locking on master_rwsem, caught by the Intel-gfx CI
-
-v4 -> v5:
-- Avoid calling drm_file_get_master while holding on to the modeset
-mutex, caught by the Intel-gfx CI
-
-v3 -> v4 (suggested by Daniel Vetter):
-- Drop a patch that added an unnecessary master_lookup_lock in
-drm_master_release
-- Drop a patch that addressed a non-existent race in
-drm_is_current_master_locked
-- Remove fixes for non-existent null ptr dereferences
-- Protect drm_master.magic_map,unique{_len} with master_rwsem instead of
-master_lookup_lock
-- Drop the patch that moved master_lookup_lock into struct drm_device
-- Drop a patch to export task_work_add
-- Revert the check for the global mutex in the ioctl handler to use
-drm_core_check_feature instead of drm_dev_needs_global_mutex
-- Push down master_rwsem locking for selected ioctls to avoid lock
-hierarchy inversions, and to allow us to hold write locks on
-master_rwsem instead of flushing readers
-- Remove master_lookup_lock by replacing it with master_rwsem
-
-v2 -> v3:
-- Unexport drm_master_flush, as suggested by Daniel Vetter.
-- Merge master_mutex and master_rwsem, as suggested by Daniel Vetter.
-- Export task_work_add, reported by kernel test robot.
-- Make master_flush static, reported by kernel test robot.
-- Move master_lookup_lock into struct drm_device.
-- Add a missing lock on master_lookup_lock in drm_master_release.
-- Fix a potential race in drm_is_current_master_locked.
-- Fix potential null ptr dereferences in drm_{auth, ioctl}.
-- Protect magic_map,unique{_len} with  master_lookup_lock.
-- Convert master_mutex into a rwsem.
-- Update global mutex locking in the ioctl handler.
-
-v1 -> v2 (suggested by Daniel Vetter):
-- Address an additional race when drm_open runs.
-- Switch from SRCU to rwsem to synchronise readers and writers.
-- Implement drm_master_flush with task_work so that flushes can be
-queued to run before returning to userspace without creating a new
-DRM_MASTER_FLUSH ioctl flag.
-
-Best wishes,
-Desmond
-
-Desmond Cheong Zhi Xi (4):
-  drm: fix null ptr dereference in drm_master_release
-  drm: convert drm_device.master_mutex into a rwsem
-  drm: lock drm_global_mutex earlier in the ioctl handler
-  drm: avoid races with modesetting rights
-
- drivers/gpu/drm/drm_auth.c    | 39 ++++++++++++++++------------
- drivers/gpu/drm/drm_debugfs.c |  4 +--
- drivers/gpu/drm/drm_drv.c     |  3 +--
- drivers/gpu/drm/drm_file.c    |  6 ++---
- drivers/gpu/drm/drm_ioctl.c   | 49 ++++++++++++++++++++++-------------
- drivers/gpu/drm/drm_lease.c   | 35 +++++++++++++++++--------
- include/drm/drm_auth.h        |  6 ++---
- include/drm/drm_device.h      | 16 +++++++++---
- include/drm/drm_file.h        | 12 ++++-----
- 9 files changed, 104 insertions(+), 66 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index ed25168619fc..90b62f360da1 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -282,9 +282,6 @@ void drm_file_free(struct drm_file *file)
+ 
+ 	drm_legacy_ctxbitmap_flush(dev, file);
+ 
+-	if (drm_is_primary_client(file))
+-		drm_master_release(file);
+-
+ 	if (dev->driver->postclose)
+ 		dev->driver->postclose(dev, file);
+ 
+@@ -305,6 +302,9 @@ static void drm_close_helper(struct file *filp)
+ 	list_del(&file_priv->lhead);
+ 	mutex_unlock(&dev->filelist_mutex);
+ 
++	if (drm_is_primary_client(file_priv))
++		drm_master_release(file_priv);
++
+ 	drm_file_free(file_priv);
+ }
+ 
 -- 
 2.25.1
 
