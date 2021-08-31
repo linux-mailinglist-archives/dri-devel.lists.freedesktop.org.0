@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075523FC9A6
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:23:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E81383FC9B3
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5700C6E087;
-	Tue, 31 Aug 2021 14:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 828F26E09E;
+	Tue, 31 Aug 2021 14:26:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
  [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF456E087
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 14:22:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA916E09E
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 14:26:05 +0000 (UTC)
 Received: by mail-pj1-x102a.google.com with SMTP id
- w19-20020a17090aaf9300b00191e6d10a19so2551636pjq.1
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 07:22:56 -0700 (PDT)
+ g13-20020a17090a3c8d00b00196286963b9so2127479pjc.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 07:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=agCwJbjopXjgdjmt4UnQYJb9rZ+TRxYP+Vp/4vfg7+k=;
- b=xUfPT7uqyNTLbSkt8EJkfnL621vuvL4YaeyQMQcEyMiFDL4/I5sTnl5XcQ5k3PpyE9
- Rjs+X9He+NEyKrm3YHptM2QT7wsAMniI7Dk5IXuxP0CgeoQzedp6hG4mkDvWv6vYUdjD
- uoO9n4eDgTjDFTzMOizrpN9LrpGx6wRzgNrSmrwXzhRsgt43uULPFtYQRHdmG9OgSnST
- 6NZ2aINyRolFvpynKmPIPcfSQ8OCvenMfgfOdK8upQh+Te0gCDws+NKP/ZLTJ6NpfhPY
- j113oi2x/NWHM4B6HltsQfeuRoVdi22TthwV51cFm5KQ0w8WMCejRSd8q8OxFu3lhJ2o
- 4VQw==
+ :cc; bh=ysJARml9hvQhxWkQGnSee4N2rvgFLMKbDovp4lP2LPg=;
+ b=CIerM5zaDu3bLrRJpOuATMcjNqRG0wlOpQrPsxVcyxfa2iOx7sdZArfmwf0y2rXRoe
+ fEmQXMNWn+9/I4vkHRUcJ7zFupltTpHxoqW/7CZ5QpR47qkREE/5YZozs8DL7oppEGsa
+ Ve0fMZdA2MR/pCnNmwUEtaCs2xKjK2jF5cif9F4XtoiB7IUs2GZSYPj97OvYbpBhin5F
+ TJY5o4bOI4+Q1t2hy3CuK3rLZhFKL7pQO4kW4DrgaFkimLQyAKpzydtYIkj3xaBtqN9Z
+ NrPfWWu8d5wgSVaDAHPa/6T0W21QfjWlSkIF1poYrys4414b9s+/C+PjJ3mibqOQyNti
+ O8PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=agCwJbjopXjgdjmt4UnQYJb9rZ+TRxYP+Vp/4vfg7+k=;
- b=mku9ggBWqELwDUZ9eul9bjxqxYg7ThJRma+13cEDnhH3UknXf6ZZt8I5CHajEPyXtY
- 97oDJuL3bn07xsbgKkZuzV4Ph1X3JTKTgrMNAg8uvViodJoyT8NANaHU2mxNvKGZCjF0
- wXVFv3UjfrBTdj2t1XcnM0qrgplKk48fCjCpJ38Y7lNdtRvfP0JJRDCx2GbQjGFT4iQo
- rS7X9qU6F6b5AvL0CO8mse3xTGRqhspDTENET0GKTnh4j4hfSeTYt2G6BQJLq+t3W6vL
- v8AvQkatOL5YPaV0qdQnShfzMjT2zZsOVRaAFeHEe0/kkZvpTKXlutxCkvPnIyuQ5KL2
- D5Ew==
-X-Gm-Message-State: AOAM53176I7UTwaGjm2UdZDDaW2JqWlDWZDeDIVzrLFHuHEj1OZiDiRN
- Kt9FkzzALUk8kJQ70rzCxcTTcPoQ/+51dJztnv3Nkw==
-X-Google-Smtp-Source: ABdhPJxRfsG7ydqj58dpKD9O7I8cMNgCJ98STKID3Y4Eep+EHuVwC6xKW+BLX4aQHDJ5ezz2uuvo491L64pugzlwrjE=
-X-Received: by 2002:a17:90b:4c8b:: with SMTP id
- my11mr5588645pjb.220.1630419775900; 
- Tue, 31 Aug 2021 07:22:55 -0700 (PDT)
+ bh=ysJARml9hvQhxWkQGnSee4N2rvgFLMKbDovp4lP2LPg=;
+ b=m1k49LhNvOT1n0DwokAmUeKTQ8/lqNdr5YvUxjGnm4EB2TSwy7+EWeg72cKXPLrjis
+ 8UFvgoW0j7IKG/6LXRaJJEPPZbl5vLR5xb/ZDjFSO7aF2KuUhMoREYLbnAZU/gv3OYsd
+ +NMBN9fLmmnAhTD3M56vo4T+VKEPzQAUQzfHWEQdH5oqa1OoLfDBKJ9MVKb6gw0eJLJA
+ W9I4FUNEV0tvxUcLQZ7qW3s2FpXwoeHZ1+2cJhVIAETCP6c4suHmuhK9AlMhFHYLmXF1
+ pHj6FCsyzSFsnNkm3kOvE9hILiA5sQiaBZodOh85xLXulxI89PZN13GtwyAkHE5bVXVY
+ usqg==
+X-Gm-Message-State: AOAM532jPb4nd4jfr+nrpRdj22RsWMuGjv6J2LxwK/BRIwehzpeXWvr2
+ SReZ+L/VzWkFVJcmbpiJNQtXkILBh9J0TvzeRcw2dQ==
+X-Google-Smtp-Source: ABdhPJw85e6v2e4XdIa48zuxRlXebSpwS2wWM3qtUei3YMH29CKgSxWgYhYxZKgyJ2OO5TsAIkN+cZA5IWxX63J56aA=
+X-Received: by 2002:a17:902:6b8a:b029:12d:3f99:9e5e with SMTP id
+ p10-20020a1709026b8ab029012d3f999e5emr4996810plk.66.1630419964677; Tue, 31
+ Aug 2021 07:26:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210827163956.27517-1-paul@crapouillou.net>
- <27e68baf-5797-9c66-37b2-382cb8792467@baylibre.com>
-In-Reply-To: <27e68baf-5797-9c66-37b2-382cb8792467@baylibre.com>
+References: <CGME20210831135143eucas1p1bc6f6a6ca587818c1bb036a64723577c@eucas1p1.samsung.com>
+ <20210831135048.4305-1-caihuoqing@baidu.com>
+ <5ef0c227-555d-a12c-1685-ff43e43bdf97@samsung.com>
+In-Reply-To: <5ef0c227-555d-a12c-1685-ff43e43bdf97@samsung.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 31 Aug 2021 16:22:44 +0200
-Message-ID: <CAG3jFytAdkt5DDzsm9T+buAL0vqS-X4M66aNyOaB8=5N3CbKWg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/bridge: it66121: Initialize {device,vendor}_ids
-To: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Paul Cercueil <paul@crapouillou.net>, Phong LE <ple@baylibre.com>, 
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- list@opendingux.net, dri-devel <dri-devel@lists.freedesktop.org>, 
+Date: Tue, 31 Aug 2021 16:25:53 +0200
+Message-ID: <CAG3jFyvot4auJMVrndw_+DHhBsis05iuhTDzYYtyRHsD-GR12Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: cdns: Make use of the helper function
+ devm_platform_ioremap_resource()
+To: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Cai Huoqing <caihuoqing@baidu.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
  linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,43 +76,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Aug 2021 at 11:40, Neil Armstrong <narmstrong@baylibre.com> wrote:
+On Tue, 31 Aug 2021 at 15:58, Andrzej Hajda <a.hajda@samsung.com> wrote:
 >
-> On 27/08/2021 18:39, Paul Cercueil wrote:
-> > These two arrays are populated with data read from the I2C device
-> > through regmap_read(), and the data is then compared with hardcoded
-> > vendor/product ID values of supported chips.
-> >
-> > However, the return value of regmap_read() was never checked. This is
-> > fine, as long as the two arrays are zero-initialized, so that we don't
-> > compare the vendor/product IDs against whatever garbage is left on the
-> > stack.
-> >
-> > Address this issue by zero-initializing these two arrays.
-> >
 >
-> Fixes: 988156dc2fc9 ("drm: bridge: add it66121 driver")
->
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > ---
-> >  drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> W dniu 31.08.2021 o 15:50, Cai Huoqing pisze:
+> > Use the devm_platform_ioremap_resource() helper instead of
+> > calling platform_get_resource() and devm_ioremap_resource()
+> > separately
 > >
-> > diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> > index 2f2a09adb4bc..b130d01147c6 100644
-> > --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> > +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> > @@ -889,7 +889,7 @@ static irqreturn_t it66121_irq_threaded_handler(int irq, void *dev_id)
-> >  static int it66121_probe(struct i2c_client *client,
-> >                        const struct i2c_device_id *id)
-> >  {
-> > -     u32 vendor_ids[2], device_ids[2], revision_id;
-> > +     u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
-> >       struct device_node *ep;
-> >       int ret;
-> >       struct it66121_ctx *ctx;
-> >
->
-> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+> > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 
-Applied series to drm-misc-next.
+Applied to drm-misc-next.
