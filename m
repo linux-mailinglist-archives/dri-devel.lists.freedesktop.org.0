@@ -1,63 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E133FCD14
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 20:49:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF7A3FCD1C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 20:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 860F16E02C;
-	Tue, 31 Aug 2021 18:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9E5189568;
+	Tue, 31 Aug 2021 18:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03D856E02C
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 18:49:32 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id m2so122914wmm.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 11:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ttx6bMAS94NZgVYt3K54B5DCBv1SzFZ1QKmkOM0BMAg=;
- b=Dq4GrPtWYnjI7PdaRg1IumGNlB44PZSucGm9dkqcxaFRVTtR7mBHN0AWl7woAcYqVa
- SpVwV3DJp67FH2aL7ESf87/ZHT4YX9a0dWmiL6wsA90raBTueNXG3y/s+LuJOybUPv0S
- nhyItsTCAonsIFzohuEh6tIzkb3lDSoiwOmo0wgUJp74UZorJ0mUvTs0l0rlFbGRoCil
- Al86cXeBVzIcTLWC716gBirbwVpbEHr8ARyrLhY+Qt4W6r6JVD5y/Cpu7ej3qLTmVpxa
- iR8Gq9CF1ogUW1TQENSq0YD9gGt1SNG2zTrga4D+yGCEKca/GW/WJ+B1gOCoVK7uc+tU
- NtTw==
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD1C89568
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 18:53:33 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ z1-20020a4a2241000000b0028e8dfb83b4so35078ooe.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 11:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K3WeVuI2Ie18d37UDwbFXiRTN6XtflUPlbndkkdnihc=;
+ b=Fw6KBtGLD/jWglWRhsR/o4BZqgoEc6axGzFW2v+o9w0LIHT39bt8YL7h3Tz9WrzHj5
+ wuClhCt0Mzh//bdKhWPGY4xZ9lq2K6S68RrqL+OGdRWe+DbyoWNmBh4Ld1LF03AkCDkh
+ 5eJBtcldjtHzWuPfbKf8QouJRnOZuVyzn3Dbw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ttx6bMAS94NZgVYt3K54B5DCBv1SzFZ1QKmkOM0BMAg=;
- b=EBw0jA3siUE3ZJeu9fBv4EE6rSYP0psvFxy2PPxbtFRc4sql+y/EW8XaOJDoYzvg4q
- oWZ3TznQGxxb6pLgzXiRMY54dMbrXbtH7chUkZLGDV7OKITFL95OBkhQC2NQkxCLplbn
- DoPZN/kHNi/YpbL4rEdfonjPmwW0srPP8OJKdWiXhJkZNLkN7gnWiaw89NPVrhp3oVTN
- zoCOU7UB8KkZint49e8C267qghpixPbQ/bqZYUPhMJ4U4Udvszpx3VnW5TDNDrNY1CLw
- DMSnZZ603z29lPfV2KZv1YENd6ysF7yXby88KtZcZhao/QK3Fhm9DAzHctF5M7aJUqKT
- AEkg==
-X-Gm-Message-State: AOAM5304vpVdMYertd+bcRR5c8lZTYodq9UGM9x+nrJSExjxT+x9mc3O
- 5wqwFuwIGc2pETZn93hptkY=
-X-Google-Smtp-Source: ABdhPJwAEe8emf73MKBgtwUTkWNiQwV7+aOlGc21X5WxoUr2WhNG7cEgbtVvKlNEZqofi4z1CN+rYw==
-X-Received: by 2002:a7b:c255:: with SMTP id b21mr5745302wmj.44.1630435771581; 
- Tue, 31 Aug 2021 11:49:31 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net.
- [86.58.29.253])
- by smtp.gmail.com with ESMTPSA id a133sm3354391wme.5.2021.08.31.11.49.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 11:49:31 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Roman Stratiienko <r.stratiienko@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: Re: DE2.0 YV12 playback issues after ea067aee45a8
-Date: Tue, 31 Aug 2021 20:49:30 +0200
-Message-ID: <8627733.mJVyAx2qjc@kista>
-In-Reply-To: <CAGphcdnAtpFaAtp_QSKhNfQ4HkiL6dwYfP_pfMgNKwNGdyW-sw@mail.gmail.com>
-References: <CAGphcd=ZR-Gh0zq=y-L9mf9agLwJBiav34q6TqUV+Te_UWFBuA@mail.gmail.com>
- <2072790.9m3SFDGqga@kista>
- <CAGphcdnAtpFaAtp_QSKhNfQ4HkiL6dwYfP_pfMgNKwNGdyW-sw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K3WeVuI2Ie18d37UDwbFXiRTN6XtflUPlbndkkdnihc=;
+ b=phFNtcz0jlNXgBlK84yZVCPkK1/1Unt0ZkC1EBb6boM+q04sNKg/QW7TLPqVBU4oms
+ 0XYDmiR2qe8AWRBkJUbmSWaRk/Y8MzW53tg6Fu/TfG/bSW/SAdMw8UkLGwUx/r1hM9wv
+ VTpLUUcpUvY567DqujwdKXqOpio5juIkcc0/Fj7JUQXocZYCOPNDxcs8zsJbacY45K+E
+ B3TQ65imXAs3dk0k3mI66gdm5fEoGkYqnL1bOG73mkBPrv9ln1c1vZedXzORSeXHbzmd
+ 1nXET2inEHyb2ya34YeUxNScZLGjggSF9dMXC4bEpfJcSOLS+Cbf28UktDJ2XijKVHBA
+ f4LQ==
+X-Gm-Message-State: AOAM530eiwkOnn1bTuVhB2zcWNjoAqMotgawSaLdD8Rv8iDKmp6tNXcp
+ bJvjoONw9zPQ5f4UO/rim3mcdHgDBXuEqpPe4OQD+A==
+X-Google-Smtp-Source: ABdhPJyxNK7E5I3v65z4yphp0rFW9SBfjaG5Qv+6XKkbHiElJJdCebdvqr57TPyZWckcm3owXCsKyPmjeB6gUqbBBbg=
+X-Received: by 2002:a4a:2549:: with SMTP id v9mr15539279ooe.28.1630436012777; 
+ Tue, 31 Aug 2021 11:53:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <000000000000815b9605c70e74f8@google.com>
+ <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
+ <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
+ <339bfb21-8e80-c7d9-46dd-c416f87c50c0@infradead.org>
+ <535e404d-03bf-8e7a-b296-132a2a98c599@i-love.sakura.ne.jp>
+ <CAMuHMdWX7s63X_zR9329canbQkPGBVxZNG4O+_=jUut60aGR9g@mail.gmail.com>
+ <5c6d2b95-31d7-0d59-5e62-2593d9a0e1fe@i-love.sakura.ne.jp>
+ <CAMuHMdWbSUGRGAVi-17C3hyDBZnGLAsmbAs+wXPHiCNWWLbMpA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWbSUGRGAVi-17C3hyDBZnGLAsmbAs+wXPHiCNWWLbMpA@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 31 Aug 2021 20:53:21 +0200
+Message-ID: <CAKMK7uF1cnen2UVWeOL164z1CCqOuRMC5SmM+5GvRvi7C-UOTw@mail.gmail.com>
+Subject: Re: [PATCH] fbmem: don't allow too huge resolutions
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
+ syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Colin King <colin.king@canonical.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,61 +80,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne torek, 31. avgust 2021 ob 19:18:42 CEST je Roman Stratiienko napisal(a):
-> Hi Jernej,
->=20
-> =D0=B2=D1=82, 31 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 19:52, Jernej =
-=C5=A0krabec <jernej.skrabec@gmail.com>:
+On Tue, Aug 31, 2021 at 7:19 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Handa-san,
+>
+> On Tue, Aug 31, 2021 at 5:24 PM Tetsuo Handa
+> <penguin-kernel@i-love.sakura.ne.jp> wrote:
+> > On 2021/08/31 15:48, Geert Uytterhoeven wrote:
+> > > Furthermore, this restricts the virtual frame buffer size on 64-bit,
+> > > too, while graphics cards can have much more than 4 GiB of RAM.
 > >
-> > Hi!
-> >
-> > Dne petek, 27. avgust 2021 ob 15:16:03 CEST je Roman Stratiienko=20
-napisal(a):
-> > > +CC: jernej.skrabec@gmail.com
-> > >
-> > > =D0=BF=D1=82, 27 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 16:12, Roman=
- Stratiienko=20
-<r.stratiienko@gmail.com>:
-> > > >
-> > > > Hello Jernej,
-> > > >
-> > > > During local testing I faced an issue where YV12 buffers are displa=
-yed
-> > > > all in blue.
-> > > >
-> > > > Issue can be fixed by reverting:
-> > > > ea067aee45a8 ("drm/sun4i: de2/de3: Remove redundant CSC matrices")
-> > > >
-> > > > Could you have a look please?
-> >
-> > I believe I found the issue. Can you try replacing this line:
-> > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/
-> > sun8i_csc.h#L20
-> >
-> > with:
-> > #define SUN8I_CSC_COEFF(base, i)        (base + 0x10 + 4 * (i))
-> >
-> > Note that "i" is in parenthesis.
->=20
-> Thank you for your quick response.
-> Yeah, that's it. Adding parenthesis solves the issue.
+> > Excuse me, but do you mean that some hardware allows allocating more than
+> > UINT_MAX bytes of memory for kernel frame buffer drivers?
+>
+> While smem_len is u32 (there have been complaints about such
+> limitations on 64-bit platforms as far as 10 years ago), I see no
+> reason why a graphics card with more than 4 GiB of RAM would not be
+> able to provide a very large virtual screen.
+>
+> Of course e.g. vga16fb cannot, as it is limited to 64 KiB.
 
-Thanks for reporting & testing!
+The first gpus with 4GB or more memory started shipping in 2012. We're
+not going to have fbdev drivers for these, so let's not invent code
+for use-cases that aren't please.
 
-Best regards,
-Jernej
-
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> > > >
-> > > > Best regards,
-> > > > Roman Stratiienko
-> > >
-> >
-> >
->=20
-
-
+Thanks, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
