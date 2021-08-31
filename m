@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF423FC91B
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:57:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C07C3FC924
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:58:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 785716E02B;
-	Tue, 31 Aug 2021 13:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BDC089F99;
+	Tue, 31 Aug 2021 13:58:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baidu.com (mx21.baidu.com [220.181.3.85])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9C0DF6E02B
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:57:48 +0000 (UTC)
-Received: from BC-Mail-Ex06.internal.baidu.com (unknown [172.31.51.46])
- by Forcepoint Email with ESMTPS id 36AE43F512D1FCBF18F5;
- Tue, 31 Aug 2021 21:57:47 +0800 (CST)
+Received: from baidu.com (mx20.baidu.com [111.202.115.85])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DD0F789F99
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:58:15 +0000 (UTC)
+Received: from BC-Mail-Ex05.internal.baidu.com (unknown [172.31.51.45])
+ by Forcepoint Email with ESMTPS id C55C368E0499D7A89664;
+ Tue, 31 Aug 2021 21:58:14 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex06.internal.baidu.com (172.31.51.46) with Microsoft SMTP Server
+ BC-Mail-Ex05.internal.baidu.com (172.31.51.45) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Tue, 31 Aug 2021 21:57:47 +0800
+ 15.1.2242.12; Tue, 31 Aug 2021 21:58:14 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Tue, 31 Aug 2021 21:57:46 +0800
+ 15.1.2308.14; Tue, 31 Aug 2021 21:58:14 +0800
 From: Cai Huoqing <caihuoqing@baidu.com>
 To: <caihuoqing@baidu.com>
-CC: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/sun4i: Make use of the helper function
+CC: Thierry Reding <thierry.reding@gmail.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter
+ <jonathanh@nvidia.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/tegra: Make use of the helper function
  devm_platform_ioremap_resource()
-Date: Tue, 31 Aug 2021 21:57:39 +0800
-Message-ID: <20210831135740.4826-1-caihuoqing@baidu.com>
+Date: Tue, 31 Aug 2021 21:58:07 +0800
+Message-ID: <20210831135808.4876-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -61,187 +60,128 @@ separately
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_backend.c  | 4 +---
- drivers/gpu/drm/sun4i/sun4i_frontend.c | 4 +---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 4 +---
- drivers/gpu/drm/sun4i/sun4i_tcon.c     | 4 +---
- drivers/gpu/drm/sun4i/sun4i_tv.c       | 4 +---
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 4 +---
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 4 +---
- drivers/gpu/drm/sun4i/sun8i_tcon_top.c | 4 +---
- 8 files changed, 8 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/tegra/dpaux.c | 4 +---
+ drivers/gpu/drm/tegra/dsi.c   | 4 +---
+ drivers/gpu/drm/tegra/hdmi.c  | 4 +---
+ drivers/gpu/drm/tegra/sor.c   | 4 +---
+ drivers/gpu/drm/tegra/vic.c   | 9 +--------
+ 5 files changed, 5 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index bf8cfefa0365..f52ff4e6c662 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -782,7 +782,6 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun4i_backend *backend;
- 	const struct sun4i_backend_quirks *quirks;
--	struct resource *res;
- 	void __iomem *regs;
- 	int i, ret;
- 
-@@ -815,8 +814,7 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 	if (IS_ERR(backend->frontend))
- 		dev_warn(dev, "Couldn't find matching frontend, frontend features disabled\n");
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-index edb60ae0a9b7..56ae38389db0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-@@ -561,7 +561,6 @@ static int sun4i_frontend_bind(struct device *dev, struct device *master,
- 	struct sun4i_frontend *frontend;
- 	struct drm_device *drm = data;
- 	struct sun4i_drv *drv = drm->dev_private;
--	struct resource *res;
- 	void __iomem *regs;
- 
- 	frontend = devm_kzalloc(dev, sizeof(*frontend), GFP_KERNEL);
-@@ -576,8 +575,7 @@ static int sun4i_frontend_bind(struct device *dev, struct device *master,
- 	if (!frontend->data)
- 		return -ENODEV;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 2f2c9f0a1071..3799a745b7dd 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -489,7 +489,6 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	struct cec_connector_info conn_info;
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun4i_hdmi *hdmi;
--	struct resource *res;
- 	u32 reg;
- 	int ret;
- 
-@@ -504,8 +503,7 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	if (!hdmi->variant)
- 		return -EINVAL;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hdmi->base = devm_ioremap_resource(dev, res);
-+	hdmi->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(hdmi->base)) {
- 		dev_err(dev, "Couldn't map the HDMI encoder registers\n");
- 		return PTR_ERR(hdmi->base);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 9f06dec0fc61..88db2d2a9336 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -841,11 +841,9 @@ static int sun4i_tcon_init_regmap(struct device *dev,
- 				  struct sun4i_tcon *tcon)
+diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+index 1f96e416fa08..52750853625d 100644
+--- a/drivers/gpu/drm/tegra/dpaux.c
++++ b/drivers/gpu/drm/tegra/dpaux.c
+@@ -447,7 +447,6 @@ static const struct pinmux_ops tegra_dpaux_pinmux_ops = {
+ static int tegra_dpaux_probe(struct platform_device *pdev)
  {
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct resource *res;
- 	void __iomem *regs;
+ 	struct tegra_dpaux *dpaux;
+-	struct resource *regs;
+ 	u32 value;
+ 	int err;
  
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
+@@ -461,8 +460,7 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	INIT_LIST_HEAD(&dpaux->list);
+ 	dpaux->dev = &pdev->dev;
  
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index cb91bc11a0c7..94883abe0dfd 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -538,7 +538,6 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
- 	struct drm_device *drm = data;
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun4i_tv *tv;
--	struct resource *res;
- 	void __iomem *regs;
- 	int ret;
+-	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	dpaux->regs = devm_ioremap_resource(&pdev->dev, regs);
++	dpaux->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(dpaux->regs))
+ 		return PTR_ERR(dpaux->regs);
  
-@@ -548,8 +547,7 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
- 	tv->drv = drv;
- 	dev_set_drvdata(dev, tv);
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index f46d377f0c30..4a49fe059911 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -1550,7 +1550,6 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
+ static int tegra_dsi_probe(struct platform_device *pdev)
+ {
+ 	struct tegra_dsi *dsi;
+-	struct resource *regs;
+ 	int err;
  
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs)) {
- 		dev_err(dev, "Couldn't map the TV encoder registers\n");
- 		return PTR_ERR(regs);
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 4f5efcace68e..4371684697bd 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1104,7 +1104,6 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	const char *bus_clk_name = NULL;
- 	struct sun6i_dsi *dsi;
--	struct resource *res;
- 	void __iomem *base;
- 	int ret;
- 
-@@ -1120,8 +1119,7 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 				    "allwinner,sun6i-a31-mipi-dsi"))
- 		bus_clk_name = "bus";
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base = devm_ioremap_resource(dev, res);
-+	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base)) {
- 		dev_err(dev, "Couldn't map the DSI encoder registers\n");
- 		return PTR_ERR(base);
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 5b42cf25cc86..f5e8aeaa3cdf 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -337,7 +337,6 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	struct drm_device *drm = data;
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun8i_mixer *mixer;
--	struct resource *res;
- 	void __iomem *regs;
- 	unsigned int base;
- 	int plane_cnt;
-@@ -390,8 +389,7 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	if (!mixer->cfg)
- 		return -EINVAL;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-index 75d8e60c149d..1b9b8b48f4a7 100644
---- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-@@ -128,7 +128,6 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
- 	struct clk_hw_onecell_data *clk_data;
- 	struct sun8i_tcon_top *tcon_top;
- 	const struct sun8i_tcon_top_quirks *quirks;
--	struct resource *res;
- 	void __iomem *regs;
- 	int ret, i;
- 
-@@ -158,8 +157,7 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
- 		return PTR_ERR(tcon_top->bus);
+ 	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
+@@ -1616,8 +1615,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+ 		return err;
  	}
  
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	tcon_top->regs = regs;
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
+-	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	dsi->regs = devm_ioremap_resource(&pdev->dev, regs);
++	dsi->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(dsi->regs))
+ 		return PTR_ERR(dsi->regs);
+ 
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index e5d2a4026028..24ab2f049710 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -1637,7 +1637,6 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
+ {
+ 	const char *level = KERN_ERR;
+ 	struct tegra_hdmi *hdmi;
+-	struct resource *regs;
+ 	int err;
+ 
+ 	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+@@ -1712,8 +1711,7 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
+ 	if (err < 0)
+ 		return err;
+ 
+-	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	hdmi->regs = devm_ioremap_resource(&pdev->dev, regs);
++	hdmi->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(hdmi->regs))
+ 		return PTR_ERR(hdmi->regs);
+ 
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 0ea320c1092b..0a0917547053 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -3718,7 +3718,6 @@ static int tegra_sor_probe(struct platform_device *pdev)
+ {
+ 	struct device_node *np;
+ 	struct tegra_sor *sor;
+-	struct resource *regs;
+ 	int err;
+ 
+ 	sor = devm_kzalloc(&pdev->dev, sizeof(*sor), GFP_KERNEL);
+@@ -3791,8 +3790,7 @@ static int tegra_sor_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
+-	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	sor->regs = devm_ioremap_resource(&pdev->dev, regs);
++	sor->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(sor->regs)) {
+ 		err = PTR_ERR(sor->regs);
+ 		goto remove;
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index c02010ff2b7f..7b2eb7951b11 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -404,7 +404,6 @@ static int vic_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct host1x_syncpt **syncpts;
+-	struct resource *regs;
+ 	struct vic *vic;
+ 	int err;
+ 
+@@ -425,13 +424,7 @@ static int vic_probe(struct platform_device *pdev)
+ 	if (!syncpts)
+ 		return -ENOMEM;
+ 
+-	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!regs) {
+-		dev_err(&pdev->dev, "failed to get registers\n");
+-		return -ENXIO;
+-	}
+-
+-	vic->regs = devm_ioremap_resource(dev, regs);
++	vic->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(vic->regs))
+ 		return PTR_ERR(vic->regs);
+ 
 -- 
 2.25.1
 
