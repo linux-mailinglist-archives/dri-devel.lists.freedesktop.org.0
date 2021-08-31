@@ -1,64 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4621D3FC781
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:44:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A933FC78C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:47:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F7089A9B;
-	Tue, 31 Aug 2021 12:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA9B89B4D;
+	Tue, 31 Aug 2021 12:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2696E89A9B
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:44:45 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- j14-20020a1c230e000000b002e748b9a48bso1832325wmj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:44:45 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA5789B4D
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:47:07 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id t15so21295056wrg.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=3lF/YGkjHdfMWZFM4uJQXZ5WbkLfubp1yE6urxdbpwE=;
- b=C0YsUWMFy2LtGNz22J5d4dyYTj5DyRsxTUd6XcJEfS8POPS7XFk8BnB+JAowDtutw/
- TEcuRc1Vvk9uuA1gFk2VnFP4vTvZ4hy9jA5/7kX7BjZswgCyXfTR1HkQKL74SbFO11dy
- YeWldnXoUHALIj7ULOHZI7l8b6n3m0wlQVjTc=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lqW6r2QxBjf3naPSK7ElejDN0miJGNk4JeUrWNu5dFo=;
+ b=P7GUI4rzpcJORZdrR45U9tZBVNt+YutkUgaZAyUSoo0hNOv5YFYj2LVa3BDKBVLlEZ
+ 8P09RZ77gdJ/9bmvIGELMImn15ss9sRZV4C/seGIidibDM6yqDjkjA6TuRj46kpJciNn
+ Jh7pnUHhLdusLFGeigWIF2NedtczE/Aou9GJw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=3lF/YGkjHdfMWZFM4uJQXZ5WbkLfubp1yE6urxdbpwE=;
- b=ubWiP3vq1z89Gh68omF6AAUh03uBfioeRTT8RJqoXM8xO53oguT6pq1Y/zZjIdsLTV
- OmX7Ub9crMavreSiVYYu6gdtQqwkI70EHP+CjbKHrhv7h+BwZAPKZiU1Ung21mVByHWV
- ZlrFhgzHRsU1+jy1KARF0LV6ckEW314OTeHMnvkZsy4t/7oezIr+npGmSB1vJKCoriQV
- J9hTOuOir9P0nJT0EYE8a6riq1xd6kKFfL3mc0E+ZUlzxVQxjxrcfabG5FDl189WNH3r
- fnz/k6x+tOfL0u02X+XSMwNCqMFT29x49ac4qN25oTIqeUxJkdI1024Plq/VHSQ5LaSt
- K16Q==
-X-Gm-Message-State: AOAM5335y6R3uck34LGfgpXcBXbdpU+lUBhlHNbsHSZQ0nNu4QT1dWsQ
- jkYDkW81qN933Yr1TQlVmnmYZw==
-X-Google-Smtp-Source: ABdhPJyCKyTE84UnS3cDbx+VhpSKBWWjMCSkG6G2cPi4OR6gmNCJZonYLRByEOG+0fXDamC8nNBjoA==
-X-Received: by 2002:a1c:9d8f:: with SMTP id g137mr4088050wme.187.1630413883714; 
- Tue, 31 Aug 2021 05:44:43 -0700 (PDT)
+ bh=lqW6r2QxBjf3naPSK7ElejDN0miJGNk4JeUrWNu5dFo=;
+ b=a+EYLwVDRdSTiZtcB/99UBVKnri/Fa0I3ypJHQ5DwLzyR3Xi0so+03o4H220J3VfIo
+ iExn6X/78CL8bLs3fsv+0pdDdJTzjqyH7VCLcnX6yVD6CXd8ClGQWlZoctd6z1WUpO8I
+ 9hLdd7yVDAjLqssrAAG+2jXo0XZABjo8YhStzHXbMro1w9tRaVeWKohN5xjuO3PuGIr8
+ O0LowamhbQoBGHzl+QK686tbF0B7u67qEDhVwoRn0cl79qgQX4RvNsn7IoGd/113ANk7
+ syrFzXO26IJg6fl9AxEJ1gIkheSSrazITNsGrIka3tsWAP7g3kFjGzs9ohrWwa1FTk3c
+ RZqQ==
+X-Gm-Message-State: AOAM532JKdjWEy42fzbDSlzNISI05SWJw0r3cfgcPsygslIzm+/AElgw
+ KzczjWr4ppXMjjx0s6F/+vF0YCz0l4mgrg==
+X-Google-Smtp-Source: ABdhPJxwoD0EiQFf+7rgqTumGOUaiOiYizQOADtUbwoy+P/jmw6DFg/J4Q4QffVcbtqcMVqvU1avQw==
+X-Received: by 2002:adf:c40d:: with SMTP id v13mr29016331wrf.388.1630414026094; 
+ Tue, 31 Aug 2021 05:47:06 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q13sm18136066wrv.79.2021.08.31.05.44.42
+ by smtp.gmail.com with ESMTPSA id q14sm11701297wrc.31.2021.08.31.05.47.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 05:44:43 -0700 (PDT)
-Date: Tue, 31 Aug 2021 14:44:41 +0200
+ Tue, 31 Aug 2021 05:47:05 -0700 (PDT)
+Date: Tue, 31 Aug 2021 14:47:03 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: hridya@google.com, john.stultz@linaro.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- gustavo@padovan.org, linux-media@vger.kernel.org, adelva@google.com,
- sspatil@google.com, daniel@ffwll.ch
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-Message-ID: <YS4kOY85qk3IhRZ7@phenom.ffwll.local>
-References: <20210818105443.1578-1-christian.koenig@amd.com>
+To: guangming.cao@mediatek.com
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <john.stultz@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
+ "open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA-BUF HEAPS FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ wsd_upstream@mediatek.com, isaacm@codeaurora.org,
+ sspatil@google.com, hridya@google.com
+Subject: Re: [PATCH] dma-buf: Add support for mapping buffers with DMA
+ attributes
+Message-ID: <YS4kx3thdJOu3uHX@phenom.ffwll.local>
+Mail-Followup-To: guangming.cao@mediatek.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <john.stultz@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
+ "open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA-BUF HEAPS FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ wsd_upstream@mediatek.com, isaacm@codeaurora.org,
+ sspatil@google.com, hridya@google.com
+References: <20210830023911.4410-1-guangming.cao@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210818105443.1578-1-christian.koenig@amd.com>
+In-Reply-To: <20210830023911.4410-1-guangming.cao@mediatek.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,190 +103,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 18, 2021 at 12:54:42PM +0200, Christian König wrote:
-> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
-> on a non existing config option to actually emit some code.
+On Mon, Aug 30, 2021 at 10:39:11AM +0800, guangming.cao@mediatek.com wrote:
+> From: Guangming Cao <Guangming.Cao@mediatek.com>
 > 
-> v2: keep the signal path as is for now
+> When mapping the memory represented by a dma-buf into a device's
+> address space, it might be desireable to map the memory with
+> certain DMA attributes. Thus, introduce the dma_mapping_attrs
+> field in the dma_buf_attachment structure so that when
+> the memory is mapped with dma_buf_map_attachment, it is mapped
+> with the desired DMA attributes.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+> Signed-off-by: Sandeep Patil <sspatil@google.com>
+> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Can you pls include the code that's going to use this here too?
+
+At a glance all the attributes you might want to set are supposed to be
+under the control of the exporter, not the importer.
+-Daniel
 
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
->  drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
->  drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
->  include/linux/dma-fence.h                 | 22 ---------------------
->  4 files changed, 7 insertions(+), 67 deletions(-)
+>  drivers/dma-buf/heaps/cma_heap.c    | 6 ++++--
+>  drivers/dma-buf/heaps/system_heap.c | 6 ++++--
+>  include/linux/dma-buf.h             | 3 +++
+>  3 files changed, 11 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index 0b1c48590c43..c65994e382bd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->  	struct amdgpu_fence_driver *drv = &ring->fence_drv;
->  	struct amdgpu_device *adev = ring->adev;
->  	uint32_t seq, last_seq;
-> -	int r;
->  
->  	do {
->  		last_seq = atomic_read(&ring->fence_drv.last_seq);
-> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->  		if (!fence)
->  			continue;
->  
-> -		r = dma_fence_signal(fence);
-> -		if (!r)
-> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
-> -		else
-> -			BUG();
-> -
-> +		dma_fence_signal(fence);
->  		dma_fence_put(fence);
->  		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
->  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->  	if (!timer_pending(&ring->fence_drv.fallback_timer))
->  		amdgpu_fence_schedule_fallback(ring);
->  
-> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
-> -
->  	return true;
->  }
->  
-> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-> index 18f2c2e0dfb3..3f351d222cbb 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fence.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
->  	 */
->  	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
->  	if (seq >= fence->seq) {
-> -		int ret = dma_fence_signal_locked(&fence->base);
-> -
-> -		if (!ret)
-> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
-> -		else
-> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
-> -
-> +		dma_fence_signal_locked(&fence->base);
->  		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
->  		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
->  		dma_fence_put(&fence->base);
-> -	} else
-> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
-> +	}
->  	return 0;
->  }
->  
-> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
->  	fence->fence_wake.func = radeon_fence_check_signaled;
->  	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
->  	dma_fence_get(f);
-> -
-> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
->  	return true;
->  }
->  
-> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
->  		return true;
->  
->  	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
-> -		int ret;
-> -
-> -		ret = dma_fence_signal(&fence->base);
-> -		if (!ret)
-> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
-> +		dma_fence_signal(&fence->base);
->  		return true;
->  	}
->  	return false;
-> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+> index 0c05b79870f9..2c9feb3bfc3e 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -99,9 +99,10 @@ static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
 >  {
->  	uint64_t seq[RADEON_NUM_RINGS] = {};
->  	long r;
-> -	int r_sig;
+>  	struct dma_heap_attachment *a = attachment->priv;
+>  	struct sg_table *table = &a->table;
+> +	int attrs = attachment->dma_map_attrs;
+>  	int ret;
 >  
->  	/*
->  	 * This function should not be called on !radeon fences.
-> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->  		return r;
->  	}
->  
-> -	r_sig = dma_fence_signal(&fence->base);
-> -	if (!r_sig)
-> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
-> +	dma_fence_signal(&fence->base);
->  	return r;
->  }
->  
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 69de2c76731f..3736746c47bd 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
->  
->  void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
+> -	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
+> +	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
+>  	if (ret)
+>  		return ERR_PTR(-ENOMEM);
+>  	a->mapped = true;
+> @@ -113,9 +114,10 @@ static void cma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
+>  				   enum dma_data_direction direction)
 >  {
-> -	int ret = dma_fence_signal(&fence->scheduled);
-> -
-> -	if (!ret)
-> -		DMA_FENCE_TRACE(&fence->scheduled,
-> -				"signaled from irq context\n");
-> -	else
-> -		DMA_FENCE_TRACE(&fence->scheduled,
-> -				"was already signaled\n");
-> +	dma_fence_signal(&fence->scheduled);
+>  	struct dma_heap_attachment *a = attachment->priv;
+> +	int attrs = attachment->dma_map_attrs;
+>  
+>  	a->mapped = false;
+> -	dma_unmap_sgtable(attachment->dev, table, direction, 0);
+> +	dma_unmap_sgtable(attachment->dev, table, direction, attrs);
 >  }
 >  
->  void drm_sched_fence_finished(struct drm_sched_fence *fence)
+>  static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+> index 23a7e74ef966..fc7b1e02988e 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -130,9 +130,10 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
 >  {
-> -	int ret = dma_fence_signal(&fence->finished);
-> -
-> -	if (!ret)
-> -		DMA_FENCE_TRACE(&fence->finished,
-> -				"signaled from irq context\n");
-> -	else
-> -		DMA_FENCE_TRACE(&fence->finished,
-> -				"was already signaled\n");
-> +	dma_fence_signal(&fence->finished);
+>  	struct dma_heap_attachment *a = attachment->priv;
+>  	struct sg_table *table = a->table;
+> +	int attrs = attachment->dma_map_attrs;
+>  	int ret;
+>  
+> -	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
+> +	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
+>  	if (ret)
+>  		return ERR_PTR(ret);
+>  
+> @@ -145,9 +146,10 @@ static void system_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
+>  				      enum dma_data_direction direction)
+>  {
+>  	struct dma_heap_attachment *a = attachment->priv;
+> +	int attrs = attachment->dma_map_attrs;
+>  
+>  	a->mapped = false;
+> -	dma_unmap_sgtable(attachment->dev, table, direction, 0);
+> +	dma_unmap_sgtable(attachment->dev, table, direction, attrs);
 >  }
 >  
->  static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 6ffb4b2c6371..4cc119ab272f 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
->  struct dma_fence *dma_fence_allocate_private_stub(void);
->  u64 dma_fence_context_alloc(unsigned num);
+>  static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index efdc56b9d95f..4d650731766e 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -379,6 +379,8 @@ struct dma_buf_attach_ops {
+>   * @importer_ops: importer operations for this attachment, if provided
+>   * dma_buf_map/unmap_attachment() must be called with the dma_resv lock held.
+>   * @importer_priv: importer specific attachment data.
+> + * @dma_map_attrs: DMA attributes to be used when the exporter maps the buffer
+> + * through dma_buf_map_attachment.
+>   *
+>   * This structure holds the attachment information between the dma_buf buffer
+>   * and its user device(s). The list contains one attachment struct per device
+> @@ -399,6 +401,7 @@ struct dma_buf_attachment {
+>  	const struct dma_buf_attach_ops *importer_ops;
+>  	void *importer_priv;
+>  	void *priv;
+> +	unsigned long dma_map_attrs;
+>  };
 >  
-> -#define DMA_FENCE_TRACE(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
-> -			pr_info("f %llu#%llu: " fmt,			\
-> -				__ff->context, __ff->seqno, ##args);	\
-> -	} while (0)
-> -
-> -#define DMA_FENCE_WARN(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
-> -			 ##args);					\
-> -	} while (0)
-> -
-> -#define DMA_FENCE_ERR(f, fmt, args...) \
-> -	do {								\
-> -		struct dma_fence *__ff = (f);				\
-> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
-> -			##args);					\
-> -	} while (0)
-> -
->  #endif /* __LINUX_DMA_FENCE_H */
+>  /**
 > -- 
-> 2.25.1
+> 2.17.1
 > 
 
 -- 
