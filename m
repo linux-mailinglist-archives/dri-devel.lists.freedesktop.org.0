@@ -1,41 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC2F3FC4C6
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 11:45:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D44E23FC4C9
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 11:52:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C88A889A16;
-	Tue, 31 Aug 2021 09:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA1089958;
+	Tue, 31 Aug 2021 09:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FC7A89A16;
- Tue, 31 Aug 2021 09:45:26 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="218157984"
-X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="218157984"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 02:45:23 -0700
-X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="531029971"
-Received: from wenqitan-mobl1.ger.corp.intel.com (HELO [10.252.59.180])
- ([10.252.59.180])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 02:45:21 -0700
-Subject: Re: [PATCH] drm/i915/gem: Fix the mman selftest
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210826072414.384945-1-thomas.hellstrom@linux.intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <fd125fb6-17ef-fcca-3437-d0fcabacee0e@linux.intel.com>
-Date: Tue, 31 Aug 2021 11:45:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4690A89958
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 09:52:01 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id g9so23838909ioq.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 02:52:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=astier-eu.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HtHyg8rQp5wB2dqxPJUR6f3KHhh9TxPYkel+BqDOL4A=;
+ b=FcmrJN7u6bJB28HNRKhVZIUw+ZATnS9aCmqqC48oXwe9wLet89Kb4EGDZ9f0VethpP
+ ZKb9YsFZOUnLspfMiunp+rrNWA2qdFPvLrm2TF5bwY0wO96qzmeUnAE8krFxB+ZH5D8T
+ of/UHYGQQ/C0cKlSMbjfqvR3BfH1ve0Mv6Kkwq1IIioB4ADpn1bffUqc/r/z49zr7h7e
+ LFnsyXhWeb7KLOCmMKvnejEHcE8lqAan8LykhqSf9+ruHqTsBW5sGs/d6bLJlInfRa1k
+ B78ut8Ss/J2ZRSh8iYpkmsHsxqHixi9UwTZF1s5dSon30/ujWV+SPj3+Rux9NqYaA2yi
+ IqSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HtHyg8rQp5wB2dqxPJUR6f3KHhh9TxPYkel+BqDOL4A=;
+ b=ftxkhG2MKwoK6ZXG08fTftVc2jQZJS5k1IrF66ub4Xi9gOpz8kNi2O+DZtYTR/V1qc
+ JZ0DU57rMZPg33DU1YKXHU1pK9KGlMYngTptn0q8ZS03Hhl3dRCdSTf1QH8PCBPYH9Uh
+ Vb/4OTZEd+A44aRs/gWKDcRMxdAiElH75t8ff4vLgNyhtINpJKc/lKDVVzeyVZpx4zF8
+ cxql9frM4SUoAOaEX0bY8LfbQtrcRVKysLP/3RFen9/Bl57n5F+15K7aaSXQ2HjKofIo
+ zHUik8WbvBvZYjgKQXl1ndZB/5KpthAxFuORAtthNpc43T/B5cubjqpxzr9+uuU9gcGY
+ sSmA==
+X-Gm-Message-State: AOAM5331VGCJP5MSfmutkzM2kaFw1/5I3f4RWM64Tnchg9KlLnDripf1
+ z4sf9DJqBmKU2/xR+YmSKaRFxWNEOzTQf9xZanLCkA==
+X-Google-Smtp-Source: ABdhPJxm+QXPOQqeBc/6xcKSl5KqQc8mT62v9Cr48x+RKcWVtGaGJ9c0kNxiMwl1GPLJJLVB/9aQG3kDxs7/JxEXWl8=
+X-Received: by 2002:a6b:8bcf:: with SMTP id
+ n198mr12556204iod.178.1630403520626; 
+ Tue, 31 Aug 2021 02:52:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210826072414.384945-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210817204329.5457-1-anisse@astier.eu> <87pmtuarhh.fsf@intel.com>
+In-Reply-To: <87pmtuarhh.fsf@intel.com>
+From: Anisse Astier <anisse@astier.eu>
+Date: Tue, 31 Aug 2021 11:51:49 +0200
+Message-ID: <CALUN=qJ9DX2nRPXUb08t7orJY1=+O+Y3Th=dgiURc8Z4VYvw8A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] GPD Win Max display fixes
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ Hans de Goede <hdegoede@redhat.com>, Uma Shankar <uma.shankar@intel.com>, 
+ Daniel Dadap <ddadap@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,112 +72,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 26-08-2021 om 09:24 schreef Thomas Hellström:
-> Using the I915_MMAP_TYPE_FIXED mmap type requires the TTM backend, so
-> for that mmap type, use __i915_gem_object_create_user() instead of
-> i915_gem_object_create_internal(), as we really want to tests objects
-> mmap-able by user-space.
+On Tue, Aug 31, 2021 at 11:33 AM Jani Nikula <jani.nikula@intel.com> wrote:
 >
-> This also means that the out-of-space error happens at object creation
-> and returns -ENXIO rather than -ENOSPC, so fix the code up to expect
-> that on out-of-offset-space errors.
+> On Tue, 17 Aug 2021, Anisse Astier <anisse@astier.eu> wrote:
+> > This patch series is for making the GPD Win Max display usable with
+> > Linux.
+> >
+> > The GPD Win Max is a small laptop, and its eDP panel does not send an
+> > EDID over DPCD; the EDID is instead available in the intel opregion, in
+> > mailbox #5 [1]
+> >
+> > The first patch is based on Jani's patch series [2] adding support for
+> > the opregion, with changes. I've changed authorship, but I'd be glad to
+> > revert it
 >
-> Finally only use I915_MMAP_TYPE_FIXED for LMEM and SMEM for now if
-> testing on LMEM-capable devices. For stolen LMEM, we still take the
-> same path as for integrated, as that haven't been moved over to TTM yet,
-> and user-space should not be able to create out of stolen LMEM anyway.
+> If you don't mind, please just add:
 >
-> Fixes: 7961c5b60f23 ("drm/i915: Add TTM offset argument to mmap.")
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->  .../drm/i915/gem/selftests/i915_gem_mman.c    | 26 +++++++++++++++----
->  1 file changed, 21 insertions(+), 5 deletions(-)
+> Co-developed-by: Jani Nikula <jani.nikula@intel.com>
+
+I don't mind at all, I think you should be first author for this
+series, I just didn't feel like giving you the blame for the bugs
+after this many modifications, without asking first. Will be in next
+iteration.
+
+Anisse
+
+
 >
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> index b20f5621f62b..68da25e66b69 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> @@ -581,6 +581,20 @@ static enum i915_mmap_type default_mapping(struct drm_i915_private *i915)
->  	return I915_MMAP_TYPE_GTT;
->  }
->  
-> +static struct drm_i915_gem_object *
-> +create_sys_or_internal(struct drm_i915_private *i915,
-> +		       unsigned long size)
-> +{
-> +	if (HAS_LMEM(i915)) {
-> +		struct intel_memory_region *sys_region =
-> +			i915->mm.regions[INTEL_REGION_SMEM];
-> +
-> +		return __i915_gem_object_create_user(i915, size, &sys_region, 1);
-> +	}
-> +
-> +	return i915_gem_object_create_internal(i915, size);
-> +}
-> +
->  static bool assert_mmap_offset(struct drm_i915_private *i915,
->  			       unsigned long size,
->  			       int expected)
-> @@ -589,7 +603,7 @@ static bool assert_mmap_offset(struct drm_i915_private *i915,
->  	u64 offset;
->  	int ret;
->  
-> -	obj = i915_gem_object_create_internal(i915, size);
-> +	obj = create_sys_or_internal(i915, size);
->  	if (IS_ERR(obj))
->  		return expected && expected == PTR_ERR(obj);
->  
-> @@ -633,6 +647,7 @@ static int igt_mmap_offset_exhaustion(void *arg)
->  	struct drm_mm_node *hole, *next;
->  	int loop, err = 0;
->  	u64 offset;
-> +	int enospc = HAS_LMEM(i915) ? -ENXIO : -ENOSPC;
->  
->  	/* Disable background reaper */
->  	disable_retire_worker(i915);
-> @@ -683,14 +698,14 @@ static int igt_mmap_offset_exhaustion(void *arg)
->  	}
->  
->  	/* Too large */
-> -	if (!assert_mmap_offset(i915, 2 * PAGE_SIZE, -ENOSPC)) {
-> +	if (!assert_mmap_offset(i915, 2 * PAGE_SIZE, enospc)) {
->  		pr_err("Unexpectedly succeeded in inserting too large object into single page hole\n");
->  		err = -EINVAL;
->  		goto out;
->  	}
->  
->  	/* Fill the hole, further allocation attempts should then fail */
-> -	obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
-> +	obj = create_sys_or_internal(i915, PAGE_SIZE);
->  	if (IS_ERR(obj)) {
->  		err = PTR_ERR(obj);
->  		pr_err("Unable to create object for reclaimed hole\n");
-> @@ -703,7 +718,7 @@ static int igt_mmap_offset_exhaustion(void *arg)
->  		goto err_obj;
->  	}
->  
-> -	if (!assert_mmap_offset(i915, PAGE_SIZE, -ENOSPC)) {
-> +	if (!assert_mmap_offset(i915, PAGE_SIZE, enospc)) {
->  		pr_err("Unexpectedly succeeded in inserting object into no holes!\n");
->  		err = -EINVAL;
->  		goto err_obj;
-> @@ -842,7 +857,8 @@ static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
->  	bool no_map;
->  
-> -	if (HAS_LMEM(i915))
-> +	if (HAS_LMEM(i915) && (obj->mm.region->id == INTEL_REGION_SMEM ||
-> +			       obj->mm.region->id == INTEL_REGION_LMEM))
-
-Ooh just noticed, make the whole line "if (obj->ops->mmap_offset)" instead to match i915_gem_mman.c?
-
-Otherwise looks good.
-
-Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-
->  		return type == I915_MMAP_TYPE_FIXED;
->  	else if (type == I915_MMAP_TYPE_FIXED)
->  		return false;
-
-
+>
+> Thanks,
+> Jani.
+>
+> >
+> > The second patch is just to fix the orientation of the panel.
+> >
+> > Changes since v1:
+> >  - rebased on drm-tip
+> >  - squashed patch 1 & 2
+> >  - picked up Reviewed-by from Hans de Goede (thanks for the review)
+> >
+> > Changes since v2:
+> >  - rebased on drm-tip
+> >  - updated commit message
+> >
+> > When v2 was initially sent [3] Ville Syrj=C3=A4l=C3=A4 suggested that i=
+t might be
+> > a good idea to use the ACPI _DDC method instead to get the EDID, to
+> > cover a wider range of hardware. Unfortunately, it doesn't seem
+> > available on GPD Win Max, so I think this work should be done
+> > independently, and this patch series considered separately.
+> >
+> > [1]: https://gitlab.freedesktop.org/drm/intel/-/issues/3454
+> > [2]: https://patchwork.kernel.org/project/intel-gfx/patch/2020082806194=
+1.17051-1-jani.nikula@intel.com/
+> > [3]: https://patchwork.kernel.org/project/intel-gfx/patch/2021053120464=
+2.4907-2-anisse@astier.eu/
+> >
+> >
+> > Anisse Astier (2):
+> >   drm/i915/opregion: add support for mailbox #5 EDID
+> >   drm: Add orientation quirk for GPD Win Max
+> >
+> >  .../gpu/drm/drm_panel_orientation_quirks.c    |  6 ++
+> >  drivers/gpu/drm/i915/display/intel_dp.c       |  3 +
+> >  drivers/gpu/drm/i915/display/intel_opregion.c | 69 ++++++++++++++++++-
+> >  drivers/gpu/drm/i915/display/intel_opregion.h |  8 +++
+> >  4 files changed, 85 insertions(+), 1 deletion(-)
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
