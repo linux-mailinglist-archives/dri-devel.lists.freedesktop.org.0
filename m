@@ -1,73 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F60D3FC7EC
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:11:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 660CB3FC7FA
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:15:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15C1C899AB;
-	Tue, 31 Aug 2021 13:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE8C89994;
+	Tue, 31 Aug 2021 13:15:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A27289954
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:11:39 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id q11so27608195wrr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 06:11:39 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B6589994
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:15:45 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id x6so19425323wrv.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 06:15:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=NXSiHSF/O6ASQcBeyP4E41YwXaZJiR+NQCf8vo0r73M=;
- b=SbqpgbqgxppNY7bkAok7YEDIKxqjtSfVBNFgLhkMwNx31JtEDpXN9k1+LuCuFlUymB
- IuXayMs3wya5GyXAKm0z0+mQCr9+0k2x5iV4tLkO4WHZUjVx5Sk92mPmJntqfud8FR7a
- mF16JYbfwgrFOVkovbUx14mPMy90plxcavvP4=
+ bh=trHskT2CtpQMpkSfC5aSCNvAyE3U61xq8FE0wLzwOgI=;
+ b=f9O1W2IpsIYutklbvjg+FWFSHLzqiZuOZNYrn6kuoj4HW8Rv4NMlOydJh28ppwBauW
+ WQGrEMfrsdvpjXq7CZMOg/zvmFEIaQ5ffrYh2U9CfD3v8y/wcoStY4dAEfXYgwejPf5S
+ euFN3tskyfYSHj2AZrjXH+Tdiin8CDwrRknzQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=NXSiHSF/O6ASQcBeyP4E41YwXaZJiR+NQCf8vo0r73M=;
- b=SXQUIZtHIt5eyqVQ/QbZBx3KVYvH4hBFt/YnOG1LcngGan9Wp6WXhqbL61eYhg4nOH
- o19pTUNsBK9Wwd3knWlpQtJsBP9q4KLqVoJn3bVSkyKTudJKGo9PeOi+h7dbATuj2109
- r17jb5KgpPeuWMLwlkI7EPK0OmMO1Hs3Jgt1LVjKwL9w6T5QlQR9xl7DI7TM28+YRFHS
- qLsSGMcpWlNxa+fRTb77ptijtryvm+S+Udksn2LSOiSAm3g1uP8GKbx4ALdp5rPsgNJB
- 8t5cj5Dg37A8NVo5sc/MHCm06X77uxvgdXJehQKSz88Y2PvjMNTQa23R3TxK1TDc9610
- BCsg==
-X-Gm-Message-State: AOAM533uGLvM2acO3faIHZefQjDAbummcxiGyxAnwvgeRBMkYBIQSu5i
- FDM/T25dIume0zdzhgdQnxqqig==
-X-Google-Smtp-Source: ABdhPJxBAI9aWj1N1ynt6AwhWlXcBXSkCWd+0mSxlzXRmDNH6eYs8Msd0161nrssS6cqB1VtNCZwSQ==
-X-Received: by 2002:adf:9e49:: with SMTP id v9mr14663268wre.39.1630415498016; 
- Tue, 31 Aug 2021 06:11:38 -0700 (PDT)
+ bh=trHskT2CtpQMpkSfC5aSCNvAyE3U61xq8FE0wLzwOgI=;
+ b=Z7qaGuzQH6ZPxv0CDUC5hQoIVZlJXXPI6PF10X3/N9OXDr21+DzHajng9h5OK6esX9
+ cV28XWIOAttAL9TnW7a45lqljdnNE+yku/65hgx/LmNKj8DxZySHiY/KTrECV2AC45Fi
+ lfDb+vX08UIxXospmBl5rLxhvKbPChR+MPe/FlT/CUn/iuP5W4fLbGazXRSLuJr/WwSj
+ 21BS5/oNw1ThDa9FWpfucCjCFz6H7wyV5B+4cOd9PXsvJF3luiwuX2ygYxW0iqAJhP5c
+ OGIYK2t8GmZXsQw1c76tcLg1jRMJZKkjcFCzYdhUmqm8rFkqz9IPBgBlUIbQ2a571PJk
+ rVYQ==
+X-Gm-Message-State: AOAM532gwmInJEoB6LTLVhUZo18qEgu3duB2ydLVDtUlLZGOLzRtKk/Q
+ 0SyPbTweT9dgt92+UV4kKQRUyA==
+X-Google-Smtp-Source: ABdhPJwXCg/GkRMDR5idQXtOFpoc96n6f+iFD1OWHF2FPMMQCS2szbtJd9wGkEw63bf0EiBIGxjY0A==
+X-Received: by 2002:adf:eac3:: with SMTP id o3mr30870673wrn.60.1630415743982; 
+ Tue, 31 Aug 2021 06:15:43 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c24sm18275926wrb.57.2021.08.31.06.11.36
+ by smtp.gmail.com with ESMTPSA id k17sm2782259wmj.0.2021.08.31.06.15.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 06:11:37 -0700 (PDT)
-Date: Tue, 31 Aug 2021 15:11:35 +0200
+ Tue, 31 Aug 2021 06:15:43 -0700 (PDT)
+Date: Tue, 31 Aug 2021 15:15:41 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>,
- Jingwen Chen <Jingwen.Chen2@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "monk.liu" <monk.liu@amd.com>, Christian Koenig <christian.koenig@amd.com>
-Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
-Message-ID: <YS4qhxIrcB0Ko3SB@phenom.ffwll.local>
-References: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
- <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
- <69cbf5bd-42c2-be55-a604-43f4ebba159d@amd.com>
- <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
- <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
- <YR0cb43Wv8jGiIbb@phenom.ffwll.local>
- <82782ff5-d2a7-a4a8-8526-d1ff231630ed@amd.com>
- <YR4k0fPfUL5viMRY@phenom.ffwll.local>
- <c1b7d154-55b0-1efd-4903-0d6730ccabb7@amd.com>
- <YSdZDtXcjxE/SPpr@phenom.ffwll.local>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, thomas.hellstrom@linux.intel.com,
+ dri-devel@lists.freedesktop.org, andrey.grodzovsky@amd.com
+Subject: Re: [PATCH 04/12] drm/ttm: add common accounting to the resource mgr
+Message-ID: <YS4rfYno1OQ19J61@phenom.ffwll.local>
+References: <20210830085707.209508-1-christian.koenig@amd.com>
+ <20210830085707.209508-4-christian.koenig@amd.com>
+ <YS4mCPDUQSE1PK0t@phenom.ffwll.local>
+ <116910d5-7238-316d-bb5a-c28337201449@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YSdZDtXcjxE/SPpr@phenom.ffwll.local>
+In-Reply-To: <116910d5-7238-316d-bb5a-c28337201449@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,233 +75,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 26, 2021 at 11:04:14AM +0200, Daniel Vetter wrote:
-> On Thu, Aug 19, 2021 at 11:25:09AM -0400, Andrey Grodzovsky wrote:
-> > 
-> > On 2021-08-19 5:30 a.m., Daniel Vetter wrote:
-> > > On Wed, Aug 18, 2021 at 10:51:00AM -0400, Andrey Grodzovsky wrote:
-> > > > On 2021-08-18 10:42 a.m., Daniel Vetter wrote:
-> > > > > On Wed, Aug 18, 2021 at 10:36:32AM -0400, Andrey Grodzovsky wrote:
-> > > > > > On 2021-08-18 10:32 a.m., Daniel Vetter wrote:
-> > > > > > > On Wed, Aug 18, 2021 at 10:26:25AM -0400, Andrey Grodzovsky wrote:
-> > > > > > > > On 2021-08-18 10:02 a.m., Alex Deucher wrote:
-> > > > > > > > 
-> > > > > > > > > + dri-devel
-> > > > > > > > > 
-> > > > > > > > > Since scheduler is a shared component, please add dri-devel on all
-> > > > > > > > > scheduler patches.
-> > > > > > > > > 
-> > > > > > > > > On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@amd.com> wrote:
-> > > > > > > > > > [Why]
-> > > > > > > > > > for bailing job, this commit will delete it from pending list thus the
-> > > > > > > > > > bailing job will never have a chance to be resubmitted even in advance
-> > > > > > > > > > tdr mode.
-> > > > > > > > > > 
-> > > > > > > > > > [How]
-> > > > > > > > > > after embeded hw_fence into amdgpu_job is done, the race condition that
-> > > > > > > > > > this commit tries to work around is completely solved.So revert this
-> > > > > > > > > > commit.
-> > > > > > > > > > This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c90.
-> > > > > > > > > > v2:
-> > > > > > > > > > add dma_fence_get/put() around timedout_job to avoid concurrent delete
-> > > > > > > > > > during processing timedout_job
-> > > > > > > > > > 
-> > > > > > > > > > Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
-> > > > > > > > > > ---
-> > > > > > > > > >      drivers/gpu/drm/scheduler/sched_main.c | 23 +++++------------------
-> > > > > > > > > >      1 file changed, 5 insertions(+), 18 deletions(-)
-> > > > > > > > > > 
-> > > > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > index a2a953693b45..f9b9b3aefc4a 100644
-> > > > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
-> > > > > > > > > >      {
-> > > > > > > > > >             struct drm_gpu_scheduler *sched;
-> > > > > > > > > >             struct drm_sched_job *job;
-> > > > > > > > > > +       struct dma_fence *fence;
-> > > > > > > > > >             enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
-> > > > > > > > > > 
-> > > > > > > > > >             sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
-> > > > > > > > > > @@ -325,11 +326,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
-> > > > > > > > > > 
-> > > > > > > > > >             if (job) {
-> > > > > > > > > >                     /*
-> > > > > > > > > > -                * Remove the bad job so it cannot be freed by concurrent
-> > > > > > > > > > -                * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
-> > > > > > > > > > -                * is parked at which point it's safe.
-> > > > > > > > > > +                * Get job->s_fence->parent here to avoid concurrent delete during
-> > > > > > > > > > +                * processing timedout_job
-> > > > > > > > > >                      */
-> > > > > > > > > > -               list_del_init(&job->list);
-> > > > > > > > > > +               fence = dma_fence_get(job->s_fence->parent);
-> > > > > > > > While this is true for amdgpu, it has no meaning for other drivers for whom
-> > > > > > > > we haven't
-> > > > > > > > done the refactoring of embedding HW fence (parent) into the job structure.
-> > > > > > > > In fact thinking
-> > > > > > > > about it, unless you do the HW fence embedding for all the drivers using the
-> > > > > > > > scheduler you cannot
-> > > > > > > > revert this patch or you will just break them.
-> > > > > > > btw, why did you do that embedding? I do still have my patches with
-> > > > > > > dma_fence annotations floating around, but my idea at least was to fix
-> > > > > > > that issue with a mempool, not with embeddeding. What was the motivation
-> > > > > > > for embedding the wh fence?
-> > > > > > > -Daniel
-> > > > > > The motivation was 2 fold, avoid memory allocation during jobs submissions
-> > > > > > (HW fence allocation) because as Christian explained this leads to deadlock
-> > > > > > with
-> > > > > > mm code during evictions due to memory pressure (Christian can clarify if I
-> > > > > > messed
-> > > > > Yeah that's the exact same thing I've chased with my dma_fence
-> > > > > annotations, but thus far zero to none interested in getting it sorted. I
-> > > > > think it'd be good to have some cross-driver agreement on how this should
-> > > > > be solved before someone just charges ahead ...
-> > > > > 
-> > > > > > this explanation). Second is to exactly revert this patch because while it
-> > > > > > solved the issue
-> > > > > > described in the patch it created another with drivers who baildc out early
-> > > > > > during TDR handling
-> > > > > > for various reason and the job would just leak because it was already
-> > > > > > removed form pending list.
-> > > > > Can't we reinsert it before we restart the scheduler thread? It might need
-> > > > > a separate list for that due to the lockless queue tricks. Or am I
-> > > > > thinking about the wrong kind of "we lost the job"?
-> > > > > -Danile
-> > > > 
-> > > > If you look at the original patch it would reinsert it even earlier - right
-> > > > after stopping the  SW scheduler thread, and even then it was to late for
-> > > > some drivers as they would decide to return back from their TDR handler even
-> > > > before that. It is solvable but in an ugly way as far as I see, you need to
-> > > > require each driver in his code to put the job back in the list if they do
-> > > > it before reaching the place where scheduler framework does it. Kind of
-> > > > spaghetti code seems to me.
-> > > Hm yeah I didn't realize this all happens before we stop the scheduler
-> > > thread.
+On Tue, Aug 31, 2021 at 02:57:05PM +0200, Christian König wrote:
+> Am 31.08.21 um 14:52 schrieb Daniel Vetter:
+> > On Mon, Aug 30, 2021 at 10:56:59AM +0200, Christian König wrote:
+> > > It makes sense to have this in the common manager for debugging and
+> > > accounting of how much resources are used.
 > > > 
-> > > Why can't we stop the scheduler thread first, so that there's guaranteed
-> > > no race? I've recently had a lot of discussions with panfrost folks about
-> > > their reset that spawns across engines, and without stopping the scheduler
-> > > thread first before you touch anything it's just plain impossible.
-> > 
-> > 
-> > Talked with Christian on that, for each TDR we actually stop all the
-> > schedulers for all the rings and not only the hanged ring since
-> > ASIC reset will impact all the rings anyway. So we cannot allow
-> > other timeout handlers for other rings run in parallel to ours
-> > as they will stop/restart the threads we just stopped and rely
-> > on them being stopped. So it's all done with device wide lock
-> > inside the amdgpu tTDR handler. Only inside the locked
-> > section then we may stop/restart the scheduler threads.
-> > Christian also mentioned that you proposed at some point
-> > to serialize all TDR handling into single threading for all rings - this
-> > seems
-> > like something that could be used - we then don't need any
-> > locking against TDR handlers from other rings and then we may
-> > stop the scheduler thread as first step
-> > 
-> > 
+> > > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > > ---
+> > >   drivers/gpu/drm/ttm/ttm_resource.c |  8 ++++++++
+> > >   include/drm/ttm/ttm_resource.h     | 18 ++++++++++++++++++
+> > >   2 files changed, 26 insertions(+)
 > > > 
-> > > I'm also still not understanding what exactly you guys have done,
-> > > can someone please dig out the the amdgpu patches that motivate all this
-> > > maybe that's clearer? A full explanation would still be good since I've
-> > > only started in scheduler stuff.
-> > 
-> > 
-> > https://gitlab.freedesktop.org/agd5f/linux/-/commit/de7515d43659f852590645a688f8d493e4a18141
+> > > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> > > index a4c495da0040..426e6841fc89 100644
+> > > --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> > > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> > > @@ -33,6 +33,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+> > >                          const struct ttm_place *place,
+> > >                          struct ttm_resource *res)
+> > >   {
+> > > +	struct ttm_resource_manager *man;
+> > > +
+> > >   	res->start = 0;
+> > >   	res->num_pages = PFN_UP(bo->base.size);
+> > >   	res->mem_type = place->mem_type;
+> > > @@ -42,12 +44,16 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+> > >   	res->bus.is_iomem = false;
+> > >   	res->bus.caching = ttm_cached;
+> > >   	res->bo = bo;
+> > > +
+> > > +	man = ttm_manager_type(bo->bdev, place->mem_type);
+> > > +	atomic64_add(bo->base.size, &man->usage);
+> > >   }
+> > >   EXPORT_SYMBOL(ttm_resource_init);
+> > >   void ttm_resource_fini(struct ttm_resource_manager *man,
+> > >   		       struct ttm_resource *res)
+> > >   {
+> > > +	atomic64_sub(res->bo->base.size, &man->usage);
+> > >   }
+> > >   EXPORT_SYMBOL(ttm_resource_fini);
+> > > @@ -100,6 +106,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+> > >   	spin_lock_init(&man->move_lock);
+> > >   	man->bdev = bdev;
+> > >   	man->size = p_size;
+> > > +	atomic64_set(&man->usage, 0);
+> > >   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+> > >   		INIT_LIST_HEAD(&man->lru[i]);
+> > > @@ -172,6 +179,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+> > >   	drm_printf(p, "  use_type: %d\n", man->use_type);
+> > >   	drm_printf(p, "  use_tt: %d\n", man->use_tt);
+> > >   	drm_printf(p, "  size: %llu\n", man->size);
+> > > +	drm_printf(p, "  usage: %llu\n", atomic64_read(&man->usage));
+> > >   	if (man->func->debug)
+> > >   		man->func->debug(man, p);
+> > >   }
+> > > diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> > > index e8080192cae4..526fe359c603 100644
+> > > --- a/include/drm/ttm/ttm_resource.h
+> > > +++ b/include/drm/ttm/ttm_resource.h
+> > > @@ -27,6 +27,7 @@
+> > >   #include <linux/types.h>
+> > >   #include <linux/mutex.h>
+> > > +#include <linux/atomic.h>
+> > >   #include <linux/dma-buf-map.h>
+> > >   #include <linux/dma-fence.h>
+> > >   #include <drm/drm_print.h>
+> > > @@ -110,6 +111,7 @@ struct ttm_resource_manager_func {
+> > >    * static information. bdev::driver::io_mem_free is never used.
+> > >    * @lru: The lru list for this memory type.
+> > >    * @move: The fence of the last pipelined move operation.
+> > > + * @usage: How much of the region is used.
+> > >    *
+> > >    * This structure is used to identify and manage memory types for a device.
+> > >    */
+> > > @@ -134,6 +136,9 @@ struct ttm_resource_manager {
+> > >   	 * Protected by @move_lock.
+> > >   	 */
+> > >   	struct dma_fence *move;
+> > > +
+> > > +	/* Own protection */
+
+Please document struct members with the inline kerneldoc style, that way
+the comment here shows up in the kerneldoc too.
+
+Would be good to just convert the entire struct I think.
+
+> > > +	atomic64_t usage;
+> > Shouldn't we keep track of this together with the lru updates, under the
+> > same spinlock?
 > 
-> Uh, it would have been really good if this was discussed a bit wider
-> beforehand. Now we have rather diverging approaches to this. Also would be
-> really good to resurrect the dma_fence annotations too.
+> Mhm, what should that be good for? As far as I know we use it for two use
+> cases:
+> 1. Early abort when size-usage < requested.
+
+But doesn't have all kinds of potential temporary leaks again? Except this
+time around we can't even fix them eventually, because these allocations
+aren't on the lru list at all.
+
+> 2. Statistics for debugging.
 > 
-> Can you guys pls spend a bit of time on this? Shouldn't be to hard to type
-> up rfc conversion patches for the other drivers.
+> Especially the first use case is rather important under memory pressure to
+> avoid costly acquiring of a contended lock.
 
-Ping for this. Currently the hw fence is returned from the ->run_job
-callback, and that's not great design.
+Or maybe I'm just not understanding where this matters? Don't you need to
+grab the lru lock anyway under memory pressure?
 
-If we embed it, then I think it should start existing latest from
-drm_sched_job_arm. Maybe not yet initialized, but at least allocated. So
-the right thing to do here is to have the hw fence as a pointer in
-struct drm_sched_job. And check in drm_sched_job_arm() that it's at least
-allocated.
+> > Otherwise this usage here just becomes kinda meaningless I think, and just
+> > for some debugging. I really don't like sprinkling random atomic_t around
+> > (mostly because i915-gem code has gone totally overboard with them, with
+> > complete disregard to complexity of the result).
+> 
+> Well this here just replaces what drivers did anyway and the cost of inc/dec
+> an atomic is pretty much negligible.
 
-Otherwise we're just diverging across drivers and tempting them to do the
-wrong thing with the current ->run_job callback interface.
-
-Can you guys look into this?
+Complexity in understanding the locking. The cpu has not problem with this
+stuff ofc.
 -Daniel
 
-> > > Another thing I recently pondered for tdr races looking at i915 code is
-> > > whether the tdr should first block the completion fence for that job. My
-> > > motivation is to have a race-free error capture (if the completion races
-> > > then we might start evicting memory and everything goes boom), but maybe
-> > > that helps here too. Some kind of atomic "block this fence from
-> > > completing thing.
+> 
+> Christian.
+> 
+> > -Daniel
+> > 
+> > >   };
+> > >   /**
+> > > @@ -260,6 +265,19 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+> > >   	man->move = NULL;
+> > >   }
+> > > +/**
+> > > + * ttm_resource_manager_usage
+> > > + *
+> > > + * @man: A memory manager object.
+> > > + *
+> > > + * Return how many resources are currently used.
+> > > + */
+> > > +static inline uint64_t
+> > > +ttm_resource_manager_usage(struct ttm_resource_manager *man)
+> > > +{
+> > > +	return atomic64_read(&man->usage);
+> > > +}
+> > > +
+> > >   void ttm_resource_init(struct ttm_buffer_object *bo,
+> > >                          const struct ttm_place *place,
+> > >                          struct ttm_resource *res);
+> > > -- 
+> > > 2.25.1
 > > > 
-> > > Or I'm I completely guessing in the wrong direction?
-> > 
-> > 
-> > I think we already do it here - https://elixir.bootlin.com/linux/v5.14-rc1/source/drivers/gpu/drm/scheduler/sched_main.c#L410
 > 
-> Ah yes this works becase drm/sched has separate hw fence from the logical
-> job fence.
-> -Daniel
-> 
-> > 
-> > Andrey
-> > 
-> > 
-> > > -Daniel
-> > > 
-> > > > Andrey
-> > > > 
-> > > > 
-> > > > > > Andrey
-> > > > > > 
-> > > > > > 
-> > > > > > > > Andrey
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > > >                     spin_unlock(&sched->job_list_lock);
-> > > > > > > > > > 
-> > > > > > > > > >                     status = job->sched->ops->timedout_job(job);
-> > > > > > > > > > @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
-> > > > > > > > > >                             job->sched->ops->free_job(job);
-> > > > > > > > > >                             sched->free_guilty = false;
-> > > > > > > > > >                     }
-> > > > > > > > > > +               dma_fence_put(fence);
-> > > > > > > > > >             } else {
-> > > > > > > > > >                     spin_unlock(&sched->job_list_lock);
-> > > > > > > > > >             }
-> > > > > > > > > > @@ -392,20 +393,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
-> > > > > > > > > > 
-> > > > > > > > > >             kthread_park(sched->thread);
-> > > > > > > > > > 
-> > > > > > > > > > -       /*
-> > > > > > > > > > -        * Reinsert back the bad job here - now it's safe as
-> > > > > > > > > > -        * drm_sched_get_cleanup_job cannot race against us and release the
-> > > > > > > > > > -        * bad job at this point - we parked (waited for) any in progress
-> > > > > > > > > > -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
-> > > > > > > > > > -        * now until the scheduler thread is unparked.
-> > > > > > > > > > -        */
-> > > > > > > > > > -       if (bad && bad->sched == sched)
-> > > > > > > > > > -               /*
-> > > > > > > > > > -                * Add at the head of the queue to reflect it was the earliest
-> > > > > > > > > > -                * job extracted.
-> > > > > > > > > > -                */
-> > > > > > > > > > -               list_add(&bad->list, &sched->pending_list);
-> > > > > > > > > > -
-> > > > > > > > > >             /*
-> > > > > > > > > >              * Iterate the job list from later to  earlier one and either deactive
-> > > > > > > > > >              * their HW callbacks or remove them from pending list if they already
-> > > > > > > > > > --
-> > > > > > > > > > 2.25.1
-> > > > > > > > > > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
