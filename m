@@ -2,64 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3630A3FC6A3
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 13:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A915A3FC6F4
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:14:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCA9D896E7;
-	Tue, 31 Aug 2021 11:51:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A36FF89895;
+	Tue, 31 Aug 2021 12:14:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042EC8977A;
- Tue, 31 Aug 2021 11:51:38 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- j4-20020a17090a734400b0018f6dd1ec97so2191247pjs.3; 
- Tue, 31 Aug 2021 04:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RX2rigJ/4yVGAmIjeTnRBQKJ9haoWNb/JQuSYn5hcTw=;
- b=oK5tdGSOQTMsLfb4/ETbVqXw4L2ZZPy7lgqdzuKE5vGRQ9NRXt3hyP4pkf+9CWn1I9
- JuuRZsjmLhas77RfTcWUeWg0TZBjR6pcEs0Jvu2IHxVmD3ZW/7TNY4HTfnSLoHC0WyfU
- Io6jF6RjVQ2U77QU7U000QluIYRTee+UuOWvI2Tfod4dkOU3vHk+4tXpGX/4TmlmX420
- 2t3vi+xtP94r268cWL1AzAwpIz4xv5FNijaoCHf9CrRI63svgHwH3gVKAeBJ7QFq4kRb
- wEzPfOrSoCD6LRpPK5QZpiMWCEzYg27he/KSY2SJs4+Gs+TRPCR9ExT/pBpYsFjfeOq6
- SsJw==
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C139989895
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:14:35 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ j17-20020a05600c1c1100b002e754875260so2363637wms.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:14:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YO9uC5hNM99y7yKPddUhpObplxDl4Qznr3A7+kNWTLA=;
+ b=DAuciB5Ys5bKNgltPm664Y06ygcw4h9Mia6NB9bCVTJk8DpDLayosBSJTi19QSwfBD
+ PJInnr4Ii2fCflksyrdSc+H1zKJm9CiULXU6dOIFJtXQNxtN9P7cJCW4pKsUFP7gF3EK
+ HcjO6DfsSptrqXo1tHeoMTzuOh0RX2VCgxgRk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RX2rigJ/4yVGAmIjeTnRBQKJ9haoWNb/JQuSYn5hcTw=;
- b=ZSurMLhj64nkBt1WXaPf3RvYYGQ/y3gsFj9a9LIUBt1k7NOKhqra6Y/kyiZTRiZ9ya
- Eok6X14AGXED1/yndcSSMMRL4d2EE3f+SWH0DmL25koIqdjc/cgswThTmKema7ava539
- HxH1XUpRXg1PeOfFsLyEDr1/5WRDU4G+mCWb5CgNrEjGLAPEI32Tcm3j6IB8TcdI3o9b
- GMv46XBpACaTrDisCGWdz8jV6A+TfW30uZ54sVVij90Z0nI8itdvwyYBrCboYoZRU1+s
- Y3/aaWaDNTLWzGVZcz4lBw31fVvXgDj9K4yiqQJVIz2Z7DQSGJu+PrmaMAifZ+n92mAi
- 46mg==
-X-Gm-Message-State: AOAM531zVBzNdqUmzMjh20sp0LKV9erPXondDZz0oLR5hC11llfDACK0
- amIoG632WoxdNbImM8J0nc0=
-X-Google-Smtp-Source: ABdhPJzXWq2tYhWG1U3hwSgB2KoPkJW4AwHFV1/8WNeGxVPjtCWZWir2TS/a1El7ezWCydmwoCMq9w==
-X-Received: by 2002:a17:902:a70e:b0:12d:9eff:23be with SMTP id
- w14-20020a170902a70e00b0012d9eff23bemr4351271plq.34.1630410697578; 
- Tue, 31 Aug 2021 04:51:37 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id r8sm20399460pgp.30.2021.08.31.04.51.34
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YO9uC5hNM99y7yKPddUhpObplxDl4Qznr3A7+kNWTLA=;
+ b=QuQAhuyJeWI96I9/lv5jMrDxTBXss1MLX7Kk17/4j6HrM/Mf2wrVlz3XkVRVdxa3tX
+ Lsf8qQApAlwrL6td3Flf69ZglfsCZ4D3CLeYeIko5N5x4AUrvy7qpJ1aovH80DAGZBiO
+ auwfSfpOOGgDvY0qahk6Q+SQHjOQQgjngZ5/mecoyeTtHfgiKs1xXLndGAz8CpWCQUCL
+ 2wvtO94rltKieYyj56c9NCNC63NNzHR0XZSFYH4icdY4ozFHKM7Xs1BIb/MvvWJ5jgcp
+ f9lNzsEeAkZMZbubFsClFaatuvhspqaiiayR93w9Y/XFfwp8Ma94pPQgYbkI9oNT+uJG
+ PN/g==
+X-Gm-Message-State: AOAM530wR4PImnmVP2S6gO+susFRKnH/i7JgjAlYCizFk5n7mXOOoaKZ
+ KaCXTVDgdmAcNoZTmjsYZ+KXXiH72uhqkw==
+X-Google-Smtp-Source: ABdhPJyZO8Dxk//4ns9/TlFKg5I4yLK+WS2cXfD0fmIx+i53ilX6GkBBBAMiChk68tiSC32mQqn7eg==
+X-Received: by 2002:a1c:9a91:: with SMTP id c139mr3923817wme.106.1630412074466; 
+ Tue, 31 Aug 2021 05:14:34 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 19sm2327961wmo.39.2021.08.31.05.14.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 04:51:37 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To: robdclark@gmail.com
-Cc: sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch, lyude@redhat.com,
- airlied@redhat.com, laurent.pinchart@ideasonboard.com,
- chi.minghao@zte.com.cn, treding@nvidia.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] drm/msm: remove unneeded variable
-Date: Tue, 31 Aug 2021 04:51:27 -0700
-Message-Id: <20210831115127.18236-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ Tue, 31 Aug 2021 05:14:33 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
+Subject: [PATCH] drm/i915: use xa_lock/unlock for fpriv->vm_xa lookups
+Date: Tue, 31 Aug 2021 14:14:26 +0200
+Message-Id: <20210831121426.689019-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210813203033.3179400-10-daniel.vetter@ffwll.ch>
+References: <20210813203033.3179400-10-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,39 +80,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chi Minghao <chi.minghao@zte.com.cn>
+We don't need the absolute speed of rcu for this. And
+i915_address_space in general dont need rcu protection anywhere else,
+after we've made gem contexts and engines a lot more immutable.
 
-Fix the following coccicheck REVIEW:
-./drivers/gpu/drm/msm/edp/edp_ctrl.c:1245:5-8 Unneeded variable
+Note that this semantically reverts
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Chi Minghao <chi.minghao@zte.com.cn>
+commit aabbe344dc3ca5f7d8263a02608ba6179e8a4499
+Author: Chris Wilson <chris@chris-wilson.co.uk>
+Date:   Fri Aug 30 19:03:25 2019 +0100
+
+    drm/i915: Use RCU for unlocked vm_idr lookup
+
+except we have the conversion from idr to xarray in between.
+
+v2: kref_get_unless_zero is no longer required (Maarten)
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/msm/edp/edp_ctrl.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/i915/i915_drv.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/edp/edp_ctrl.c b/drivers/gpu/drm/msm/edp/edp_ctrl.c
-index 4fb397ee7c84..3610e26e62fa 100644
---- a/drivers/gpu/drm/msm/edp/edp_ctrl.c
-+++ b/drivers/gpu/drm/msm/edp/edp_ctrl.c
-@@ -1242,8 +1242,6 @@ bool msm_edp_ctrl_panel_connected(struct edp_ctrl *ctrl)
- int msm_edp_ctrl_get_panel_info(struct edp_ctrl *ctrl,
- 		struct drm_connector *connector, struct edid **edid)
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index be2392bbcecc..d89ff55d8fc8 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1874,11 +1874,11 @@ i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id)
  {
--	int ret = 0;
--
- 	mutex_lock(&ctrl->dev_mutex);
+ 	struct i915_address_space *vm;
  
- 	if (ctrl->edid) {
-@@ -1278,7 +1276,7 @@ int msm_edp_ctrl_get_panel_info(struct edp_ctrl *ctrl,
- 	}
- unlock_ret:
- 	mutex_unlock(&ctrl->dev_mutex);
--	return ret;
-+	return 0;
+-	rcu_read_lock();
++	xa_lock(&file_priv->vm_xa);
+ 	vm = xa_load(&file_priv->vm_xa, id);
+-	if (vm && !kref_get_unless_zero(&vm->ref))
+-		vm = NULL;
+-	rcu_read_unlock();
++	if (vm)
++		kref_get(&vm->ref);
++	xa_unlock(&file_priv->vm_xa);
+ 
+ 	return vm;
  }
- 
- int msm_edp_ctrl_timing_cfg(struct edp_ctrl *ctrl,
 -- 
-2.25.1
+2.33.0
 
