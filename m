@@ -2,68 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482D93FC96F
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:12:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BAA3FC985
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:17:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8897C89FF7;
-	Tue, 31 Aug 2021 14:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3084E89AD2;
+	Tue, 31 Aug 2021 14:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75B2689FF7
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 14:12:01 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- j4-20020a17090a734400b0018f6dd1ec97so2513256pjs.3
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 07:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DwBG0kbYLoprwx2xDskuGjAg4KxbwGBk3fVvkOflJfY=;
- b=n4plaO9ZqXTMabwQQad7OQWiFxsARGV7/IksaEq0V+fk0Zar3ZT8MUTLoE2UWcX4MU
- zrVz9ULgAArOMtdajOyS0NRgdYmASL0E3tULikziScQjHqXjdDxNJe8F3UuhQ5DCFetJ
- SEjUA0AznWEznLoyb4A+/Bp9ZQWGW+j2Wi4KjQWGqZ/+PuIH8uulXO87Q40BX/X/C9Ji
- VCkkkixVthgv0kfgThJ3bvFwJ2rmHkmipXXtLzc4YtwSC1Eot/27pCBts9+zBhgCXaZb
- YfbUSJPuTMOYkdYUSs1GXJ3NX3d2DI4yxeCMPM+avwPD8BP70QqkWLTTS/lNdppx7Rkm
- mVlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DwBG0kbYLoprwx2xDskuGjAg4KxbwGBk3fVvkOflJfY=;
- b=cH6MiKfGhYV61bydOZoe64y7NhEVAmJVRCxW7dJXlwt4U8TaK2g0Cc9Q0a3c31YGkp
- CDsmOdQkQglprME9JtFQX0lXUoTk6+Rup8sV04ijinHgo+YpbgETUY8votVSoKuEDrIl
- etFs2QKImN//7wkSHxS9DFdMO6fYp8gjCynaz3L30M2pvnta3oNkFfh+EdUXN9181bO/
- PyhCdwLB7M4T8YkkCH5IzEgzVyELC19k1PcvkL/BhEOr5yHkbfVssgcV95ZjSiiqGa7T
- wr1kv7U3Fzgx1UGFaXgmeNUIvjO4h3ZoqQDBz3GXx37IL2sfwlh8C3ORriBSSoIg5j1A
- Rylg==
-X-Gm-Message-State: AOAM532WCBMAuJcJVyBz/TFrvZSsgBozr3HE98V4rCqV3EFuw2Si4MxE
- g52jc/EWMW406lIZQIjSYSpP6PolpiUCpwOJTgQ5Pg==
-X-Google-Smtp-Source: ABdhPJx5yHJTTzBrXq2AUYXsGcTAO5IKtUmnDI+oVOLx/pegeMs0loQRWMfDgCq3QQK52OVn5wqzTEChmIVQ8Q2ox7A=
-X-Received: by 2002:a17:902:a513:b029:11a:9be6:f1b9 with SMTP id
- s19-20020a170902a513b029011a9be6f1b9mr4831914plq.55.1630419120987; Tue, 31
- Aug 2021 07:12:00 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E943189AD2;
+ Tue, 31 Aug 2021 14:17:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10093"; a="282195744"
+X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="282195744"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 07:17:42 -0700
+X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="541026181"
+Received: from anicol1x-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.251.211.207])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 07:17:39 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+ jani.nikula@intel.com
+Subject: [PATCH v2 0/6] drm/displayid: VESA vendor block and drm/i915 MSO use
+ of it
+Date: Tue, 31 Aug 2021 17:17:29 +0300
+Message-Id: <cover.1630419362.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210819060110.3427256-1-xji@analogixsemi.com>
-In-Reply-To: <20210819060110.3427256-1-xji@analogixsemi.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 31 Aug 2021 16:11:49 +0200
-Message-ID: <CAG3jFytk21cSVKiFcu859CBvUW593XQw5_D97Uydsf798jyWDg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: anx7625: enable DSI EOTP
-To: Xin Ji <xji@analogixsemi.com>
-Cc: Nicolas Boichat <drinkcat@google.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Dan Carpenter <dan.carpenter@oracle.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Sam Ravnborg <sam@ravnborg.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Torsten Duwe <duwe@lst.de>, Vasily Khoruzhick <anarsoul@gmail.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Bernie Liang <bliang@analogixsemi.com>, Qilin Wen <qwen@analogixsemi.com>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, devel@driverdev.osuosl.org
-Content-Type: text/plain; charset="UTF-8"
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,28 +49,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 19 Aug 2021 at 08:01, Xin Ji <xji@analogixsemi.com> wrote:
->
-> Enable DSI EOTP feature for fixing some panel screen constant shift issue.
-> Removing MIPI flag MIPI_DSI_MODE_NO_EOT_PACKET to enable DSI EOTP.
->
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index abc8db77bfd3..1a871f6b6822 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1335,7 +1335,6 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
->         dsi->format = MIPI_DSI_FMT_RGB888;
->         dsi->mode_flags = MIPI_DSI_MODE_VIDEO   |
->                 MIPI_DSI_MODE_VIDEO_SYNC_PULSE  |
-> -               MIPI_DSI_MODE_NO_EOT_PACKET     |
->                 MIPI_DSI_MODE_VIDEO_HSE;
->
->         if (mipi_dsi_attach(dsi) < 0) {
+v2 of https://patchwork.freedesktop.org/series/94161/ with the VESA OUI
+check and an OUI helper patch added.
 
-Applied to drm-misc-next
+Jani Nikula (6):
+  drm/displayid: re-align data block macros
+  drm/displayid: add DisplayID v2.0 data blocks and primary use cases
+  drm/edid: abstract OUI conversion to 24-bit int
+  drm/edid: parse the DisplayID v2.0 VESA vendor block for MSO
+  drm/i915/edp: postpone MSO init until after EDID read
+  drm/i915/edp: use MSO pixel overlap from DisplayID data
+
+ drivers/gpu/drm/drm_edid.c              |  89 ++++++++++++++++++---
+ drivers/gpu/drm/i915/display/intel_dp.c |  14 ++--
+ include/drm/drm_connector.h             |  12 +++
+ include/drm/drm_displayid.h             | 101 +++++++++++++++++-------
+ 4 files changed, 172 insertions(+), 44 deletions(-)
+
+-- 
+2.30.2
+
