@@ -1,68 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489833FCB6A
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 18:20:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACD23FCB93
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 18:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B3F6E029;
-	Tue, 31 Aug 2021 16:20:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA4589F85;
+	Tue, 31 Aug 2021 16:38:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B6D6E029
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 16:20:20 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- g66-20020a9d12c8000000b0051aeba607f1so23492239otg.11
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 09:20:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8Nxjd5f4FQP+iuJdlCMMXyBCT1vbYwVqlZ+8XK9fwdQ=;
- b=J72jUYPDy5vSnEPtLJff6zOJWiJ8rBr7sxb0kJeX18yOKAaIgyhAtBo/RdbLgqvVbT
- +NJL+5U10HnPXrjROQSfIq3yQ6aZ5hP7SRh9gkLZO6vO2kx9nWceTIE8S2OJrVUDTDvy
- XSY+zI9ptht4vdGw7GKMLV5oX50v6/cjMOekM=
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0C789F71
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 16:38:56 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id x6so20522302wrv.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 09:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=w8Pqc83PIRgH3BzycVik/NXM5xJcLHU0opchQoMghiA=;
+ b=ohTmwadsjLj+nN9yVdB0KWJYMalk079iIuEW2E0omzhq/AkuPSQ99UXMoJH2rflYHr
+ 9Pn3ebrbpXnxZNYEQ4cDlPF/2gmVFY8BLNVmmFpfPn4BCYKLn8D9x6iJpW8Js/PWJCkr
+ dsDxNsrbxzJ7/B6vv6l4/S7unoT3U7AWp3/ZLHG8W92wecrU9PwH/+a00Tmh+A1nGQfE
+ 9KQ3LJ7x1vfuFaeP/3ejee2Ppwu/7xzG3gkqX8ZlrQpLAkENLjQtGCeWyUVbNVWy1jdJ
+ T3FklFix0j3n7hpqQG1Bj17BRk1xLrnty32xfekHcFbvGqteswksRbZXZAiIS9CMxFlh
+ Sccg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8Nxjd5f4FQP+iuJdlCMMXyBCT1vbYwVqlZ+8XK9fwdQ=;
- b=LVkoH5f91D2lPqklmXlepUvFDIpXbkMGmvN9cz7GfbnnOELAJoWdy+ASyXcVifi2jM
- uqZaP/7O8P9X4sYJ5w48Fv/XTA+V92TKLVWiHajb+LbYI8gLY38nng9PuiDV3EBpAI9u
- zV0hqQW1kMCmP4GSppPbAKU2nKlg+YiFasXyvd2NkBnjSMcV25DoONRgzryUc6bUyeku
- mJvuHc+oLzumAySmbbldzpJ5WfTdyMwUBPW3TwaKpJLNPuKhtL42wirgZ0NCjDKyHHph
- ww8oWPPnWMGFKEIMn8h7hB98sRrUgSZSXDKZfUr53kmj1pwLLwK2RaT0KWf6v/naylUS
- tz3g==
-X-Gm-Message-State: AOAM530Cd29BKA2eY4TTuxFGK4dPfIR6qHbSww334eB/9lTGHDYHrner
- 6HLmiCeg0xBXOrwKwNVSMdx7TCRJPpcpm67NQXWH8A==
-X-Google-Smtp-Source: ABdhPJwStM5dJA6wjR+VVbKMzJ3V+gw9bRn26N055U5GnWbinAi7zEmvwJCmKgB5Hcu7VTrZr/ZjSHHRE3i3ciIrmVE=
-X-Received: by 2002:a9d:65da:: with SMTP id z26mr24499621oth.303.1630426820214; 
- Tue, 31 Aug 2021 09:20:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=w8Pqc83PIRgH3BzycVik/NXM5xJcLHU0opchQoMghiA=;
+ b=JAVyFn4j/f6pcvb8bQ7Y+nCZTfiNW6xEAFwIIChKRKTyyID1Re+0FtkGwp9ZQYG9Nj
+ w5rRtmrE0+JQ/LCiYOOaFYireSuYAna9WlQfqndKr+5/50X2xGSWWjudLYDmuBJTn3gP
+ Z23a7VkE3qVCX3lGTNHt9RcqSqIRFxA6ZHrUpmTKV6fmht0hYWFB/bx7bVQevB/BcZTC
+ ps9r/FCD3qbre8KYLwOokCIcJJUX55ErZDC9w2Wm7m3EeJdP+7Ytd0BRXHy/cSTxx2WE
+ uWOs+WwL64lpG1pwElL7mcnG7aB2xp/m293hl2Pc9TN4UmnE5Q+LR++aR2ftSP1bp2aC
+ vRGA==
+X-Gm-Message-State: AOAM530fOZ3Nb/A7PxVkliJkIAOe8KHSrAMQf9AtJI3cJf3Cm/RV3TKP
+ 6eoNhrwoBXRCbo08Zsaa9+k=
+X-Google-Smtp-Source: ABdhPJxzc5ivgUekzySQzRU9Vf+RmAdoZOerJx8PIQ3ULePwuTt/SuSyqiJrF4TtZ4s91DT7Ap4x9w==
+X-Received: by 2002:adf:c104:: with SMTP id r4mr12682824wre.404.1630427934982; 
+ Tue, 31 Aug 2021 09:38:54 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net.
+ [86.58.29.253])
+ by smtp.gmail.com with ESMTPSA id d9sm23133899wrb.36.2021.08.31.09.38.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Aug 2021 09:38:54 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+Subject: Re: Re: DE2.0 YV12 playback issues after ea067aee45a8
+Date: Tue, 31 Aug 2021 18:38:53 +0200
+Message-ID: <5260533.ZaFvgIizOL@kista>
+In-Reply-To: <CAGphcd=L8GazB_io8Guy-0TdPGAt-m+4H38jrwCzNmt4+=moNg@mail.gmail.com>
+References: <CAGphcd=ZR-Gh0zq=y-L9mf9agLwJBiav34q6TqUV+Te_UWFBuA@mail.gmail.com>
+ <CAGphcd=L8GazB_io8Guy-0TdPGAt-m+4H38jrwCzNmt4+=moNg@mail.gmail.com>
 MIME-Version: 1.0
-References: <000000000000815b9605c70e74f8@google.com>
- <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
- <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
- <339bfb21-8e80-c7d9-46dd-c416f87c50c0@infradead.org>
- <535e404d-03bf-8e7a-b296-132a2a98c599@i-love.sakura.ne.jp>
- <CAMuHMdWX7s63X_zR9329canbQkPGBVxZNG4O+_=jUut60aGR9g@mail.gmail.com>
- <5c6d2b95-31d7-0d59-5e62-2593d9a0e1fe@i-love.sakura.ne.jp>
-In-Reply-To: <5c6d2b95-31d7-0d59-5e62-2593d9a0e1fe@i-love.sakura.ne.jp>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 31 Aug 2021 18:20:09 +0200
-Message-ID: <CAKMK7uEbvUjskYmobK1g-iA++LeQvfUUik=ZJtrHh0+TdjE7+A@mail.gmail.com>
-Subject: Re: [PATCH] fbmem: don't allow too huge resolutions
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
- syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Colin King <colin.king@canonical.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>, 
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Randy Dunlap <rdunlap@infradead.org>
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,38 +73,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 31, 2021 at 5:24 PM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
-> On 2021/08/31 15:48, Geert Uytterhoeven wrote:
-> > Furthermore, this restricts the virtual frame buffer size on 64-bit,
-> > too, while graphics cards can have much more than 4 GiB of RAM.
->
-> Excuse me, but do you mean that some hardware allows allocating more than
-> UINT_MAX bytes of memory for kernel frame buffer drivers?
->
-> > IMHO that should be fixed in vga16fb, too.
->
-> According to https://elixir.bootlin.com/linux/v5.14/A/ident/fb_check_var ,
-> there are 89 files. Randomly picking up drivers/video/fbdev/udlfb.c as
-> an example. dlfb_is_valid_mode() from dlfb_ops_check_var() is doing
->
->   if (mode->xres * mode->yres > dlfb->sku_pixel_limit)
->     return 0;
->   return 1;
->
-> where max dlfb->sku_pixel_limit seems to be 2048 * 1152 but I think we need
-> same overflow check. I want to avoid patching individual modules if possible.
-> That depends on whether some hardware needs to allocate more than UINT_MAX
-> bytes of memory.
+Hi Roman!
 
-Yeah basic input validation makes no sense to push into each driver.
-That's just asking that most of the fbdev drivers will never be fixed.
+Dne petek, 27. avgust 2021 ob 15:16:03 CEST je Roman Stratiienko napisal(a):
+> +CC: jernej.skrabec@gmail.com
+>=20
+> =D0=BF=D1=82, 27 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 16:12, Roman Str=
+atiienko <r.stratiienko@gmail.com>:
+> >
+> > Hello Jernej,
+> >
+> > During local testing I faced an issue where YV12 buffers are displayed
+> > all in blue.
+> >
+> > Issue can be fixed by reverting:
+> > ea067aee45a8 ("drm/sun4i: de2/de3: Remove redundant CSC matrices")
+> >
+> > Could you have a look please?
 
-Same for not-so-basic input validation, if there's no driver that
-actually needs the flexibility (like the virtual vs physical size
-thing that's floating around maybe).
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yes, but I need more info - which SoCs are you using? Different routes are=
+=20
+taken for DE3 and DE2. In theory, they should be the same...
+
+Best regards,
+Jernej
+
+> >
+> > Best regards,
+> > Roman Stratiienko
+>=20
+
+
