@@ -1,70 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A915A3FC6F4
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:14:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 861763FC6F7
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:17:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A36FF89895;
-	Tue, 31 Aug 2021 12:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 105AE89930;
+	Tue, 31 Aug 2021 12:17:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C139989895
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:14:35 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- j17-20020a05600c1c1100b002e754875260so2363637wms.4
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:14:35 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEA5989930
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:17:00 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ z9-20020a7bc149000000b002e8861aff59so1948633wmi.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=YO9uC5hNM99y7yKPddUhpObplxDl4Qznr3A7+kNWTLA=;
- b=DAuciB5Ys5bKNgltPm664Y06ygcw4h9Mia6NB9bCVTJk8DpDLayosBSJTi19QSwfBD
- PJInnr4Ii2fCflksyrdSc+H1zKJm9CiULXU6dOIFJtXQNxtN9P7cJCW4pKsUFP7gF3EK
- HcjO6DfsSptrqXo1tHeoMTzuOh0RX2VCgxgRk=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=T2lgE0IkIC7oFKkAT/qIaSVwEdEUqyyLmRFppoclZSo=;
+ b=Eb7QDeaWoM6bBmmUStvfD2QhIlP+01ibpr4WntvGm5AIHEcuk7GDFyt8FuEBUr65pE
+ +bsL1UzJCP23hDRPpBiVHC1jc3SkAGwj/2LwFNLjQ0zmfK6CYTPjlPSH9/+UKfpl5iYp
+ cXcg+PVuuUVWyHhsS31/xWAlaWkv9sdhlv9q8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YO9uC5hNM99y7yKPddUhpObplxDl4Qznr3A7+kNWTLA=;
- b=QuQAhuyJeWI96I9/lv5jMrDxTBXss1MLX7Kk17/4j6HrM/Mf2wrVlz3XkVRVdxa3tX
- Lsf8qQApAlwrL6td3Flf69ZglfsCZ4D3CLeYeIko5N5x4AUrvy7qpJ1aovH80DAGZBiO
- auwfSfpOOGgDvY0qahk6Q+SQHjOQQgjngZ5/mecoyeTtHfgiKs1xXLndGAz8CpWCQUCL
- 2wvtO94rltKieYyj56c9NCNC63NNzHR0XZSFYH4icdY4ozFHKM7Xs1BIb/MvvWJ5jgcp
- f9lNzsEeAkZMZbubFsClFaatuvhspqaiiayR93w9Y/XFfwp8Ma94pPQgYbkI9oNT+uJG
- PN/g==
-X-Gm-Message-State: AOAM530wR4PImnmVP2S6gO+susFRKnH/i7JgjAlYCizFk5n7mXOOoaKZ
- KaCXTVDgdmAcNoZTmjsYZ+KXXiH72uhqkw==
-X-Google-Smtp-Source: ABdhPJyZO8Dxk//4ns9/TlFKg5I4yLK+WS2cXfD0fmIx+i53ilX6GkBBBAMiChk68tiSC32mQqn7eg==
-X-Received: by 2002:a1c:9a91:: with SMTP id c139mr3923817wme.106.1630412074466; 
- Tue, 31 Aug 2021 05:14:34 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=T2lgE0IkIC7oFKkAT/qIaSVwEdEUqyyLmRFppoclZSo=;
+ b=LDxtA1e3bBPbXXi2oVDoD9SiHIiqBI2t/yfPXx82VKPmBnQuEE5dUl5PzrMhhu5e1s
+ +0yknMj2rPe+T+gHf+YTtLYHdCzZU8QSpOP7hu+Bim/2d3CdHdwIGNCtZPeGrMZDoA4J
+ UJblaN2CmK8Un6g8Ym6ue+2jgkCwKRcDyd22u98fS0XOBfqDqVeUZrVuv7VY2sK1ihVv
+ 8+KhYonwdSlolQCp73YxaSIw3R02QMAJNG+kNOFcUYkmwLgt7kcUP4EHTCSPtV/vdJca
+ kEHh9pJ3IX9QjfbY5idAH0oq+/GkbrbJCWfmJJ5Ze1ZxeRdnCKxlqwHuOPl0/1i0OCAA
+ fptg==
+X-Gm-Message-State: AOAM533+uzATeKcxLKGIzhaSsjCiW1o/CIuiwij5mBDEAUfw+PCJtDVS
+ HRRzuwF9b4EoCU7ypcCoBlxX+w==
+X-Google-Smtp-Source: ABdhPJxzHOr7ZNp7C6tnbLP28xvXmxfJ85BH0pkjNwYF9iZdmV/1ZQPm5oUEc0eW8ASBJ6hixwKgdQ==
+X-Received: by 2002:a05:600c:a05:: with SMTP id
+ z5mr3999335wmp.73.1630412219236; 
+ Tue, 31 Aug 2021 05:16:59 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 19sm2327961wmo.39.2021.08.31.05.14.32
+ by smtp.gmail.com with ESMTPSA id s7sm18293622wra.75.2021.08.31.05.16.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 05:14:33 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Tue, 31 Aug 2021 05:16:58 -0700 (PDT)
+Date: Tue, 31 Aug 2021 14:16:56 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Jon Bloomfield <jon.bloomfield@intel.com>,
  Chris Wilson <chris@chris-wilson.co.uk>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
  Matthew Auld <matthew.auld@intel.com>,
  Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
  Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-Subject: [PATCH] drm/i915: use xa_lock/unlock for fpriv->vm_xa lookups
-Date: Tue, 31 Aug 2021 14:14:26 +0200
-Message-Id: <20210831121426.689019-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210813203033.3179400-10-daniel.vetter@ffwll.ch>
-References: <20210813203033.3179400-10-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/i915: Release i915_gem_context from a worker
+Message-ID: <YS4duGerKwxk2dh5@phenom.ffwll.local>
+References: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
+ <20210814104319.3226156-1-daniel.vetter@ffwll.ch>
+ <b872283f-5d31-0a6e-7b02-83c665ec6981@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b872283f-5d31-0a6e-7b02-83c665ec6981@linux.intel.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +85,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We don't need the absolute speed of rcu for this. And
-i915_address_space in general dont need rcu protection anywhere else,
-after we've made gem contexts and engines a lot more immutable.
+On Tue, Aug 31, 2021 at 11:38:27AM +0200, Maarten Lankhorst wrote:
+> Op 14-08-2021 om 12:43 schreef Daniel Vetter:
+> > The only reason for this really is the i915_gem_engines->fence
+> > callback engines_notify(), which exists purely as a fairly funky
+> > reference counting scheme for that. Otherwise all other callers are
+> > from process context, and generally fairly benign locking context.
+> >
+> > Unfortunately untangling that requires some major surgery, and we have
+> > a few i915_gem_context reference counting bugs that need fixing, and
+> > they blow in the current hardirq calling context, so we need a
+> > stop-gap measure.
+> >
+> > Put a FIXME comment in when this should be removable again.
+> >
+> > v2: Fix mock_context(), noticed by intel-gfx-ci.
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+> > Cc: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_context.c       | 13 +++++++++++--
+> >  drivers/gpu/drm/i915/gem/i915_gem_context_types.h | 12 ++++++++++++
+> >  drivers/gpu/drm/i915/gem/selftests/mock_context.c |  1 +
+> >  3 files changed, 24 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > index fd169cf2f75a..051bc357ff65 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -986,9 +986,10 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
+> >  	return err;
+> >  }
+> >  
+> > -void i915_gem_context_release(struct kref *ref)
+> > +static void i915_gem_context_release_work(struct work_struct *work)
+> >  {
+> > -	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
+> > +	struct i915_gem_context *ctx = container_of(work, typeof(*ctx),
+> > +						    release_work);
+> >  
+> >  	trace_i915_context_free(ctx);
+> >  	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
+> > @@ -1002,6 +1003,13 @@ void i915_gem_context_release(struct kref *ref)
+> >  	kfree_rcu(ctx, rcu);
+> >  }
+> >  
+> > +void i915_gem_context_release(struct kref *ref)
+> > +{
+> > +	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
+> > +
+> > +	queue_work(ctx->i915->wq, &ctx->release_work);
+> > +}
+> > +
+> >  static inline struct i915_gem_engines *
+> >  __context_engines_static(const struct i915_gem_context *ctx)
+> >  {
+> > @@ -1303,6 +1311,7 @@ i915_gem_create_context(struct drm_i915_private *i915,
+> >  	ctx->sched = pc->sched;
+> >  	mutex_init(&ctx->mutex);
+> >  	INIT_LIST_HEAD(&ctx->link);
+> > +	INIT_WORK(&ctx->release_work, i915_gem_context_release_work);
+> >  
+> >  	spin_lock_init(&ctx->stale.lock);
+> >  	INIT_LIST_HEAD(&ctx->stale.engines);
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > index 94c03a97cb77..0c38789bd4a8 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > @@ -288,6 +288,18 @@ struct i915_gem_context {
+> >  	 */
+> >  	struct kref ref;
+> >  
+> > +	/**
+> > +	 * @release_work:
+> > +	 *
+> > +	 * Work item for deferred cleanup, since i915_gem_context_put() tends to
+> > +	 * be called from hardirq context.
+> > +	 *
+> > +	 * FIXME: The only real reason for this is &i915_gem_engines.fence, all
+> > +	 * other callers are from process context and need at most some mild
+> > +	 * shuffling to pull the i915_gem_context_put() call out of a spinlock.
+> > +	 */
+> > +	struct work_struct release_work;
+> > +
+> >  	/**
+> >  	 * @rcu: rcu_head for deferred freeing.
+> >  	 */
+> > diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_context.c b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > index fee070df1c97..067d68a6fe4c 100644
+> > --- a/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+> > @@ -23,6 +23,7 @@ mock_context(struct drm_i915_private *i915,
+> >  	kref_init(&ctx->ref);
+> >  	INIT_LIST_HEAD(&ctx->link);
+> >  	ctx->i915 = i915;
+> > +	INIT_WORK(&ctx->release_work, i915_gem_context_release_work);
+> >  
+> >  	mutex_init(&ctx->mutex);
+> >  
+> 
+> ----
+> Is the workqueue really needed? I'm not sure you could still race in
+> drm_syncobj_free when refcount is zero, so in that case removing locking
+> from _release would work as well as a workqueue.
+> 
+> Something like below would keep the drm_sync_obj_put hardirq safe.
+> 
+> I assume when freeing, the  cb list is supposed to be empty, so I added a WARN_ON just to be sure, otherwise we should just tear down the list without locking too.
+> 
+> This should be a better alternative for patch 1.
 
-Note that this semantically reverts
+This isn't enough, because the problem isn't just the syncobj put. It's
+also the i915_vm_put, and if we dercuify the intel_context stuff too, then
+there will be more intel_context_put on top.
 
-commit aabbe344dc3ca5f7d8263a02608ba6179e8a4499
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Fri Aug 30 19:03:25 2019 +0100
+So we really need the worker here I think. Trying to make every _unpin() and
+_put() work from hardirq context with clever locking tricks is why the
+current code is so incomprehensible.
 
-    drm/i915: Use RCU for unlocked vm_idr lookup
+Also vms are rare enough that we really don't care about some
+overhead/delay here.
+-Daniel
 
-except we have the conversion from idr to xarray in between.
+> ----8<-------
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+> index c9a9d74f338c..9d561decd97e 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -462,7 +462,13 @@ void drm_syncobj_free(struct kref *kref)
+>  	struct drm_syncobj *syncobj = container_of(kref,
+>  						   struct drm_syncobj,
+>  						   refcount);
+> -	drm_syncobj_replace_fence(syncobj, NULL);
+> +	struct dma_fence *old_fence;
+> +
+> +	old_fence = rcu_dereference_protected(syncobj->fence, !kref_read(&syncobj->refcount));
+> +	dma_fence_put(old_fence);
+> +
+> +	WARN_ON(!list_empty(&syncobj->cb_list));
+> +
+>  	kfree(syncobj);
+>  }
+>  EXPORT_SYMBOL(drm_syncobj_free);
+> 
+> 
 
-v2: kref_get_unless_zero is no longer required (Maarten)
-
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Thomas HellstrÃ¶m" <thomas.hellstrom@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
----
- drivers/gpu/drm/i915/i915_drv.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index be2392bbcecc..d89ff55d8fc8 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1874,11 +1874,11 @@ i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id)
- {
- 	struct i915_address_space *vm;
- 
--	rcu_read_lock();
-+	xa_lock(&file_priv->vm_xa);
- 	vm = xa_load(&file_priv->vm_xa, id);
--	if (vm && !kref_get_unless_zero(&vm->ref))
--		vm = NULL;
--	rcu_read_unlock();
-+	if (vm)
-+		kref_get(&vm->ref);
-+	xa_unlock(&file_priv->vm_xa);
- 
- 	return vm;
- }
 -- 
-2.33.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
