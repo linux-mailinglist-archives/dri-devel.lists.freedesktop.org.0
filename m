@@ -1,46 +1,131 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039DB3FCE9F
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 22:36:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3153FCEDC
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 22:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 252296E08E;
-	Tue, 31 Aug 2021 20:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94A889A91;
+	Tue, 31 Aug 2021 20:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6296E069;
- Tue, 31 Aug 2021 20:35:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10093"; a="279573537"
-X-IronPort-AV: E=Sophos;i="5.84,367,1620716400"; d="scan'208";a="279573537"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 13:35:50 -0700
-X-IronPort-AV: E=Sophos;i="5.84,367,1620716400"; d="scan'208";a="466579571"
-Received: from unerlige-ril-10.jf.intel.com (HELO unerlige-ril-10.165.21.208)
- ([10.165.21.208])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 13:35:50 -0700
-Date: Tue, 31 Aug 2021 13:35:45 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org,
- Lionel G Landwerlin <lionel.g.landwerlin@intel.com>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, jason@jlekstrand.net
-Subject: Re: [PATCH 8/8] drm/i915/perf: Map OA buffer to user space for gen12
- performance query
-Message-ID: <20210831203545.GA15813@unerlige-ril-10.165.21.208>
-References: <20210830193851.15607-1-umesh.nerlige.ramappa@intel.com>
- <20210830193851.15607-9-umesh.nerlige.ramappa@intel.com>
- <YS4myWfCp2IP4iFn@phenom.ffwll.local>
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2060.outbound.protection.outlook.com [40.107.244.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3A8789A91;
+ Tue, 31 Aug 2021 20:56:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CnE1tLPDFswByxp+0u49pon6f/ZuR8Tx7g5UWyNy5+FZ6WuAdKJToz8p+mNIkfC556za0shmY3Gju4CnDZaG59csIH36jPN54Wm/+NnHLVKFhg5N+xQtN37CUWNc13RbHRiXjM2c+Z7o4jp4kaJFcc7KtC1F8U37Jm6isU6dWRfUa0OBozJ7dSss/PxMWfdMW2zmH6sbJVtDkNsKggkXiGjf8ygD8dgh0ZNbJ2/oUXlHdMSpwhjbKxj3+8BvQZvCwysa5CCmZSt015J0Y2c8DeuaLhO9Bd3R7TaK3H9/Ktfsy9eCx2UAlkVFAZv4k+PC4ksOT/OZ1SHuiEAoB41ohQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e8RhxPwIU3Q7D5i5NUD0v6Td8RieCXkZsCseXrzZipg=;
+ b=hFNV/ABKDRCPaelsKgIf4rAMNREn46sznWNhYAV3HpMgyjX36i0KSEoctnOqFIDLiQ0jvwbbbKf1kzxKNpuFm4oCLkXaoEtiNtKAOPSZ8xLQWKub9Cg1zlcZSTTR5HQNYXHTZO4W4+9CVKKES0qOFQtkrs9yezfgDG72CA5ZWeKQ4dHzYcLX2H0HM85Fy3DcZS/PMn1CJQKvM5pbAgtMvwFatXYXvXvCCpJsT2yarT7QNZz9rJn+8FI8qQJuqqtatd3RHwL5CzemVDIkm2Oh1S8PlerPhfYn/UIQ6gfbpt9XaJc/h2Lo1waB7rFIOQN6Tvt6fdt4jzfvsJX5uv0Ptw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e8RhxPwIU3Q7D5i5NUD0v6Td8RieCXkZsCseXrzZipg=;
+ b=rVpnndvwHTnJNkWTbFLRRYeFbTD8KwWgK/RfcjxShDkhV+SoZR7SLpQFpd1a83rZSPsLUrSQx6i/6a0R/KfAMR4MgI4SE8WoU5iwXvjKRKhWYvxwp0YutOjmvJ/5qJoLbCLqbdtv5y2r3m8zSxw96E78QpKRRf5GO+RvGnEZmrc=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
+ by SA0PR12MB4493.namprd12.prod.outlook.com (2603:10b6:806:72::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Tue, 31 Aug
+ 2021 20:56:06 +0000
+Received: from SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::c4ac:2505:5bd8:295d]) by SN6PR12MB4623.namprd12.prod.outlook.com
+ ([fe80::c4ac:2505:5bd8:295d%6]) with mapi id 15.20.4457.024; Tue, 31 Aug 2021
+ 20:56:06 +0000
+Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
+To: Luben Tuikov <luben.tuikov@amd.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Monk Liu <Monk.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, jingwen chen <jingwen.chen@amd.com>
+References: <1630406139-19621-1-git-send-email-Monk.Liu@amd.com>
+ <1630406139-19621-2-git-send-email-Monk.Liu@amd.com>
+ <29be989b-c2a5-69b3-f0b8-2df52f50047f@amd.com>
+ <YS42tI6qAUb3yqOk@phenom.ffwll.local>
+ <11d6acb1-ce9f-372e-3993-232379436e4b@amd.com>
+ <YS4+1evCjyCA50iP@phenom.ffwll.local>
+ <ab9aa89a-c057-b1f0-d02b-3d79f50e97e8@amd.com>
+ <acb17005-3b6e-c43b-ce2a-933c0300dd57@amd.com>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Message-ID: <41967bb9-f1ba-3090-aedc-e22397655647@amd.com>
+Date: Tue, 31 Aug 2021 16:56:03 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <acb17005-3b6e-c43b-ce2a-933c0300dd57@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <YS4myWfCp2IP4iFn@phenom.ffwll.local>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::6) To SN6PR12MB4623.namprd12.prod.outlook.com
+ (2603:10b6:805:e9::17)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2607:fea8:3edf:49b0:b95:7ef3:48be:2d7e]
+ (2607:fea8:3edf:49b0:b95:7ef3:48be:2d7e) by
+ YT1PR01CA0037.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.19 via Frontend Transport; Tue, 31 Aug 2021 20:56:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 814b1866-df8d-48da-bdc9-08d96cc1c031
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4493:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4493FD651EB6F7526A567867EACC9@SA0PR12MB4493.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ruabQAQlC8EwUpo1dx//Czel2U4tNIbFOnR6k9WqrZ8P44FZ3W1iEkl+h32AKYU8cSgiRpK++skhTYmUpfh35Jz3dFocraC0sBQ26ofpAZ8WILj3B+y3eLp4xMWLggGTwLF705S+csnOyE/x5D7qxYnBooOr5NY9kSKLToCYLsg8EPZ/Hq2axomOgCPCu6cr1TASGOgANoOywRLvecYTCkJMwEAzwO8OJnOAtH55dpP+USR+qGgGPVYmSqPUUNJmvVVTSa89dJNONLRfUtI2cfslY7Fn4eogXPI/VaLff6QY9RcAh+jlKmsYPRe7jgZgYVLeSexqRzGa2+1XVLV+rVNVttKSlATdfuIuYB+Wd8BoKwWDbDgw3wVhc0Ls2ItaQndxD0w2UIsnSgk66/4lBSwRBgMvIYSCQG1983cmPp3+7Q6zBEL2N9NhcG8ZTQaff/NKEP19tgopR/fvHCPMhIH7zdPkIbCdP4uSq97LB5z2e9bzHQFP7OreDtRxNiN6qXSEwtCb47I2V0ag2XnYUj8+Unc9eVl4JjXoi+knLQ9qRGWrnjdKwudr3wxdHBOgsInXEiCjUlvq1Ax3hzh7iZNOvbXMKdnnfDLJ2+B9SgGpF49KWdRrDbbdYbVlbcLZskO8JXqVKyqINKAAK4NJsnZ7BVBtj+8dmzYjFGlsbWxqqk134Oxw8QE9g/3ZD3NRDvSvgj5b50y2AD4c3NLAUfIRz544l5Jyar/NORuZv1olDYyTKVIzAUSqOSnTNKfL3Wxna+20lqkKILQ+1loWf3ou18Axr4MfD0PW22nL1sxg2fOK54CzHMX2XEaLU1O106lk0GtRWlV+Pkx/LVVzHgfWuYW+rc+zmcAFfOSd8E8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66476007)(6486002)(8676002)(31696002)(38100700002)(8936002)(53546011)(110136005)(508600001)(186003)(45080400002)(66556008)(31686004)(5660300002)(86362001)(966005)(2906002)(316002)(36756003)(4326008)(2616005)(54906003)(83380400001)(44832011)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WE1CS2szaFhDbHFqNCtrVjB5WS9VYzYzdlVZcEVuRXYydTVhc1ZaSFNJK2dO?=
+ =?utf-8?B?dUx6amJ0bTdrbzZDNXIxSkFkdVBhZ0VwM0pkdEhCQUFsa0F4N3FSbTFKYUts?=
+ =?utf-8?B?MmJueHNyT3BvWGZGVEJkRHN1d2VUOEJoV24xeFpFeExSclRPQzc5Wi9WUjhX?=
+ =?utf-8?B?ZEVWMXZyYU9GNmtVTGlzdzNvbkxjQXBxcjdJdkQ1ZzhBY0tObVd0VTdBTzVP?=
+ =?utf-8?B?Vi9VWVZrbENHOW9CUGRTQWdDR24wYkJlSzV1WEF0ZU4xeXp3aTdwSlh1SEhU?=
+ =?utf-8?B?NHBVVlViS09QYk94M0NvU0JHMWpQWEk5bFBxL2l0NG1EYzA0SnY1RlB6TkNI?=
+ =?utf-8?B?Vzk2UExPbDd3QWpJWTFobTdKbTF5dWdZaG93VHBBSUNEb2ttSnZka1VaV091?=
+ =?utf-8?B?K1g1L2pjRitVMFV3a2NBWXNSSHozMFlTRWt1Q0dHMHB5RlZoYW1iK3JKU3BR?=
+ =?utf-8?B?NTB1TG5DSHhUakpJR2lvTDJFNVo1RGx0L0lzSCtEbEtwOUhzdHg1QWxCLzJB?=
+ =?utf-8?B?aVVrTTV1ckxpTlQwQnA0L1BPWnlSVTRNeWd6ay9CMTdrU09JL1VuaHJhazh5?=
+ =?utf-8?B?cmt6dERMbzRRSXZjWlBKZUEzMjJkamgzTU5oWUtlWnhOZW1SMzR0Z2lGYStT?=
+ =?utf-8?B?MEJ2ZWpqU1phc0UrTm9PL1pOYkFNYmpQajQwRFNHSE9keEppK0lWR2NCTFRX?=
+ =?utf-8?B?S3gyZUVXU1VNNkp2Smt5eXVXazBHbHcrNW5NbUh3OGpDNENMdDEwMzY2aU9i?=
+ =?utf-8?B?SUdFMytucmFTdGM0OVo3bWZNUjlubmdjYy9LSzNJenZZbzFJTWdYMmdhdGhU?=
+ =?utf-8?B?ODlLWkZTSFlWMnp5MXo5NFlIMjdDbGo0U2NIUFJ6WWhLVHJ1UEw5MlUyeXNp?=
+ =?utf-8?B?UmZyNWZkbm1JMjRxK1dia3VsajQydXJvVXhIRlpVNkwxM3JBOS9teUZnekN6?=
+ =?utf-8?B?bWttYnk3Z2hvaUR3QTFpRTBHRWQrWnNuc3hzT0pFMGZNUlF6ZVdLMUgzUUlG?=
+ =?utf-8?B?enhWQnRRMWxOcjJiZlBGZzR4eFFKMzNYTUwwT1VIU2svN3I3REFkemViVGhI?=
+ =?utf-8?B?M00rQWZ0c1Bsc1lvK0tERmx1TjJtSmc4UFltRHRCUjNaRDk0d1pSa1FzUDMz?=
+ =?utf-8?B?VmFNaDhhY0JnM1gyTFB0RW1LTTFWa2VtTyttdGduMmRBNEpCNkVWVWNPd0Uw?=
+ =?utf-8?B?RkxQai96S29lQjdIZUJxWDBrcFhSbzJSUmpkMkdMMnFvSnZMNExWM1YrUmdk?=
+ =?utf-8?B?RWdUWWZMTUxKVjNYOVhZVWpQbHA2ZGVWOVFaZ1RPckQ1WndHM3g1TEQ4WWhB?=
+ =?utf-8?B?OXFpeWU5K1BNSzhBZEhETFpzaFVMcXA4OEFQT0NtMllTenE0Y0R1eWNlY2Ny?=
+ =?utf-8?B?TVpQNHlTZUFVSXZMUlUySmJKSXhuQjhEOFdVb09XRU1yZVpNRlB2ZmFGTGx4?=
+ =?utf-8?B?c29oS2poN2p3a1JFZU1IU1ZyS2xRTVp3TnNJOVkrd09saERUc1dJOUJaU0Nz?=
+ =?utf-8?B?QXNBai9ERTBseTZPRVZmNlU5bkV1U3MwdHl0eEVYYThrZFlHMGFoTzlINGFY?=
+ =?utf-8?B?QW11OU54bklBaHRra2JmUzkrY1U2WWFhSHFWRGhUM04vemdPQXZNUWZRVG9o?=
+ =?utf-8?B?QlVoTHhRNnA3YUlsQnB5Yys2eFZjTndOZUdtakh4OEl4UktwWWxYUVZkZk00?=
+ =?utf-8?B?QlgycVAyUHo3TG9jMy9xOStuSGVNVWM2Q0QzZjJjeWp6MnhxZGhJZzZoWVRH?=
+ =?utf-8?B?SUlHL0wrK1VNYjMyMFN5ZEJ5L2xsTm1nQlR6QW5zbllSbTdwc2kvUmNrVmFL?=
+ =?utf-8?B?aG9sdHdCblRlcjdyWDM0L2ozUEoyalg3RXg2aGxmZ0V6WmdtQWFubmtPSjV3?=
+ =?utf-8?Q?bjcplCRV795Af?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 814b1866-df8d-48da-bdc9-08d96cc1c031
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2021 20:56:06.1207 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OsGiBNzFHegcZJcKytV1PqEdZsdySUrGSj5BDRsdsBhqU0bkaGDYFpnqz+Urua+y6aRedDb1gRDPoaVUR180vw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4493
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,420 +141,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 31, 2021 at 02:55:37PM +0200, Daniel Vetter wrote:
->On Mon, Aug 30, 2021 at 12:38:51PM -0700, Umesh Nerlige Ramappa wrote:
->> i915 used to support time based sampling mode which is good for overall
->> system monitoring, but is not enough for query mode used to measure a
->> single draw call or dispatch. Gen9-Gen11 are using current i915 perf
->> implementation for query, but Gen12+ requires a new approach for query
->> based on triggered reports within oa buffer.
+
+On 2021-08-31 12:01 p.m., Luben Tuikov wrote:
+> On 2021-08-31 11:23, Andrey Grodzovsky wrote:
+>> On 2021-08-31 10:38 a.m., Daniel Vetter wrote:
+>>> On Tue, Aug 31, 2021 at 10:20:40AM -0400, Andrey Grodzovsky wrote:
+>>>> On 2021-08-31 10:03 a.m., Daniel Vetter wrote:
+>>>>> On Tue, Aug 31, 2021 at 09:53:36AM -0400, Andrey Grodzovsky wrote:
+>>>>>> It's says patch [2/2] but i can't find patch 1
+>>>>>>
+>>>>>> On 2021-08-31 6:35 a.m., Monk Liu wrote:
+>>>>>>> tested-by: jingwen chen <jingwen.chen@amd.com>
+>>>>>>> Signed-off-by: Monk Liu <Monk.Liu@amd.com>
+>>>>>>> Signed-off-by: jingwen chen <jingwen.chen@amd.com>
+>>>>>>> ---
+>>>>>>>      drivers/gpu/drm/scheduler/sched_main.c | 24 ++++--------------------
+>>>>>>>      1 file changed, 4 insertions(+), 20 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>> index ecf8140..894fdb24 100644
+>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>>> @@ -319,19 +319,17 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>>>>>>>      	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
+>>>>>>>      	/* Protects against concurrent deletion in drm_sched_get_cleanup_job */
+>>>>>>> +	if (!__kthread_should_park(sched->thread))
+>>>>>>> +		kthread_park(sched->thread);
+>>>>>>> +
+>>>>>> As mentioned before, without serializing against other TDR handlers from
+>>>>>> other
+>>>>>> schedulers you just race here against them, e.g. you parked it now but
+>>>>>> another
+>>>>>> one in progress will unpark it as part of calling  drm_sched_start for other
+>>>>>> rings[1]
+>>>>>> Unless I am missing something since I haven't found patch [1/2]
+>>>>>>
+>>>>>> [1] - https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Flatest%2Fsource%2Fdrivers%2Fgpu%2Fdrm%2Famd%2Famdgpu%2Famdgpu_device.c%23L5041&amp;data=04%7C01%7Cluben.tuikov%40amd.com%7C228bd1600c914efe24aa08d96c934bbb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660202148713283%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=PrrvFHAwDeLlbcOctlKHsCFs9%2F56XNVzoLVcT1RoJgI%3D&amp;reserved=0
+>>>>> You need to have your own wq and run all your tdr work on the same wq if
+>>>>> your reset has any cross-engine impact.
+>>>> IMHO what is problematic in serializing vs. locking (with trylock and bail
+>>>> out like we do in [1]) is for multiple TO events arising from same reason
+>>>> like maybe one job just waits for another and once first is hanged the
+>>>> second will also appear to be hanged triggering it's own TO event.
+>>>> In this case multiple TOs event will trigger multiple resets if we serialize
+>>>> but if we use lock with trylock the second one will quietly bail out.
+>>>>
+>>>> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Flatest%2Fsource%2Fdrivers%2Fgpu%2Fdrm%2Famd%2Famdgpu%2Famdgpu_device.c%23L4903&amp;data=04%7C01%7Cluben.tuikov%40amd.com%7C228bd1600c914efe24aa08d96c934bbb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660202148713283%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=kxSWBoshVTLMMFIFZdPsP4MBgUAoC%2F3szo9GUemSRLY%3D&amp;reserved=0
+>>> Hm so I guess a single wq here, that will hold up all other TO. And they
+>>> should recheck whether the job is moving meanwhile.
+>> Can you clarify about this ? What job should be moving ? The dependent job ?
 >>
->> Triggering reports into the OA buffer is achieved by writing into a
->> a trigger register. Optionally an unused counter/register is set with a
->> marker value such that a triggered report can be identified in the OA
->> buffer. Reports are usually triggered at the start and end of work that
->> is measured.
 >>
->> Since OA buffer is large and queries can be frequent, an efficient way
->> to look for triggered reports is required. By knowing the current head
->> and tail offsets into the OA buffer, it is easier to determine the
->> locality of the reports of interest.
+>>> Also unless you use hw semaphores the job shouldn't even start before the
+>>> deps are singalled, so not sure how this goes wrong?
+>> What about a simple example where
+>> we actually can submit a shader on one ring and a simple
+>> WAIT_REG_MEM packet on another to wait for the shader to write
+>> a specific value to specific memory location. Here you have both of them
+>> started
+>> in close proximity and no explicit dependencies involved (at the
+>> scheduler level)
+>> and yet if the shader hangs also the WAIT_REG_MEM job will hang.
 >>
->> Current perf OA interface does not expose head/tail information to the
->> user and it filters out invalid reports before sending data to user.
->> Also considering limited size of user buffer used during a query,
->> creating a 1:1 copy of the OA buffer at the user space added undesired
->> complexity.
 >>
->> The solution was to map the OA buffer to user space provided
->>
->> (1) that it is accessed from a privileged user.
->> (2) OA report filtering is not used.
->>
->> These 2 conditions would satisfy the safety criteria that the current
->> perf interface addresses.
+>>> The vm_id flush stuff can make things a bit more fun for your specific
+>>> case, but in your specific case you have to run all TO handlers on the
+>>> same ordered workqueue anyway (because trying to paper over this in other
+>>> ways doesn't work imo).
+>> I didn't get this one.
+> So, awhile back I tried to "serialize" this by moving timed-out jobs
+> into their own timed-out-dedicated list, then freeing them asynchronously,
+> but I never got it to work reliably due to races with low-level drivers and
+> assumptions made way back.
 >
->This is a perf improvement. Please include benchmark numbers to justify
->it.
-
-OA supports 2 mechanisms of perf measurements.
-
-1) query interface where perf countes can be queried.
-2) OA buffer use case where counter-snapshots are captured periodically 
-and analyzed for performance.
-
-This patch series is actually just (1) query interface implementation 
-for discrete and not a perf improvement.
-
-The old mechanism to query OA report (MI_REPORT_PERF_COUNT) is not 
-available for all engines. In the new mechanism, a query is triggered 
-from a batch by writing to a whitelisted OA trigger register. Once a 
-query is triggered, the resulting report is captured in the OA buffer.  
-To locate the report quickly, the batch also captures the OA HW tail 
-pointer before/after writing to the trigger register. This gives the 
-user a window/locality in the OA buffer where the report of interest 
-lies.  
-
-For this new mechanism, the current interface to read reports from the 
-OA buffer is inefficient since the reads are sequential and reports are 
-copied to user buffer.
-
-mmap provides an accurate and faster way to fetch the queried reports 
-based on locality.
-
-Note that mmap does not replace the OA buffer use case from (2) which 
-still reads reports sequentially to analyze performance.
-
+> My idea was to atomic-move timed-out jobs into their own list, at the time of
+> timeout, and later asynchronously to free them (or better yet, inquire about
+> their state, and free them or move them back--ideally the inquiry is atomic
+> and done at timeout time before being moved to the timeout list). Anyway...
 >
->>
->> To enable the query:
->> - Add an ioctl to expose head and tail to the user
->> - Add an ioctl to return size and offset of the OA buffer
->> - Map the OA buffer to the user space
->>
->> v2:
->> - Improve commit message (Chris)
->> - Do not mmap based on gem object filp. Instead, use perf_fd and support
->>   mmap syscall (Chris)
->> - Pass non-zero offset in mmap to enforce the right object is
->>   mapped (Chris)
->> - Do not expose gpu_address (Chris)
->> - Verify start and length of vma for page alignment (Lionel)
->> - Move SQNTL config out (Lionel)
->>
->> v3: (Chris)
->> - Omit redundant checks
->> - Return VM_FAULT_SIGBUS is old stream is closed
->> - Maintain reference counts to stream in vm_open and vm_close
->> - Use switch to identify object to be mapped
->>
->> v4: Call kref_put on closing perf fd (Chris)
->> v5:
->> - Strip access to OA buffer from unprivileged child of a privileged
->>   parent. Use VM_DONTCOPY
->> - Enforce MAP_PRIVATE by checking for VM_MAYSHARE
->>
->> v6:
->> (Chris)
->> - Use len of -1 in unmap_mapping_range
->> - Don't use stream->oa_buffer.vma->obj in vm_fault_oa
->> - Use kernel block comment style
->> - do_mmap gets a reference to the file and puts it in do_munmap, so
->>   no need to maintain a reference to i915_perf_stream. Hence, remove
->>   vm_open/vm_close and stream->closed hooks/checks.
->> (Umesh)
->> - Do not allow mmap if SAMPLE_OA_REPORT is not set during
->>   i915_perf_open_ioctl.
->> - Drop ioctl returning head/tail since this information is already
->>   whitelisted. Remove hooks to read head register.
->>
->> v7: (Chris)
->> - unmap before destroy
->> - change ioctl argument struct
->>
->> v8: Documentation and more checks (Chris)
->> v9: Fix comment style (Umesh)
->> v10: Update uapi comment (Ashutosh)
->>
->> Signed-off-by: Piotr Maciejewski <piotr.maciejewski@intel.com>
->> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
->> Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
->> ---
->>  drivers/gpu/drm/i915/gem/i915_gem_mman.c |   2 +-
->>  drivers/gpu/drm/i915/gem/i915_gem_mman.h |   2 +
->>  drivers/gpu/drm/i915/i915_perf.c         | 126 ++++++++++++++++++++++-
->>  include/uapi/drm/i915_drm.h              |  33 ++++++
->>  4 files changed, 161 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->> index 5130e8ed9564..84cdce2ee447 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
->> @@ -213,7 +213,7 @@ compute_partial_view(const struct drm_i915_gem_object *obj,
->>  	return view;
->>  }
->>
->> -static vm_fault_t i915_error_to_vmf_fault(int err)
->> +vm_fault_t i915_error_to_vmf_fault(int err)
->>  {
->>  	switch (err) {
->>  	default:
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
->> index efee9e0d2508..1190a3a228ea 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
->> @@ -29,4 +29,6 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
->>
->>  void i915_gem_object_release_mmap_offset(struct drm_i915_gem_object *obj);
->>
->> +vm_fault_t i915_error_to_vmf_fault(int err);
->> +
->>  #endif
->> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
->> index de3d1738aabe..1f8d4f3a2148 100644
->> --- a/drivers/gpu/drm/i915/i915_perf.c
->> +++ b/drivers/gpu/drm/i915/i915_perf.c
->> @@ -192,10 +192,12 @@
->>   */
->>
->>  #include <linux/anon_inodes.h>
->> +#include <linux/mman.h>
->>  #include <linux/sizes.h>
->>  #include <linux/uuid.h>
->>
->>  #include "gem/i915_gem_context.h"
->> +#include "gem/i915_gem_mman.h"
->>  #include "gt/intel_engine_pm.h"
->>  #include "gt/intel_engine_user.h"
->>  #include "gt/intel_execlists_submission.h"
->> @@ -3322,6 +3324,44 @@ static long i915_perf_config_locked(struct i915_perf_stream *stream,
->>  	return ret;
->>  }
->>
->> +#define I915_PERF_OA_BUFFER_MMAP_OFFSET 1
->> +
->> +/**
->> + * i915_perf_oa_buffer_info_locked - size and offset of the OA buffer
->> + * @stream: i915 perf stream
->> + * @cmd: ioctl command
->> + * @arg: pointer to oa buffer info filled by this function.
->> + */
->> +static int i915_perf_oa_buffer_info_locked(struct i915_perf_stream *stream,
->> +					   unsigned int cmd,
->> +					   unsigned long arg)
->> +{
->> +	struct drm_i915_perf_oa_buffer_info info;
->> +	void __user *output = (void __user *)arg;
->> +
->> +	if (i915_perf_stream_paranoid && !perfmon_capable()) {
->> +		DRM_DEBUG("Insufficient privileges to access OA buffer info\n");
->> +		return -EACCES;
->> +	}
->> +
->> +	if (_IOC_SIZE(cmd) != sizeof(info))
->> +		return -EINVAL;
->> +
->> +	if (copy_from_user(&info, output, sizeof(info)))
->> +		return -EFAULT;
->> +
->> +	if (info.type || info.flags || info.rsvd)
->> +		return -EINVAL;
->> +
->> +	info.size = stream->oa_buffer.vma->size;
->> +	info.offset = I915_PERF_OA_BUFFER_MMAP_OFFSET * PAGE_SIZE;
->> +
->> +	if (copy_to_user(output, &info, sizeof(info)))
->> +		return -EFAULT;
->> +
->> +	return 0;
->> +}
->> +
->>  /**
->>   * i915_perf_ioctl_locked - support ioctl() usage with i915 perf stream FDs
->>   * @stream: An i915 perf stream
->> @@ -3347,6 +3387,8 @@ static long i915_perf_ioctl_locked(struct i915_perf_stream *stream,
->>  		return 0;
->>  	case I915_PERF_IOCTL_CONFIG:
->>  		return i915_perf_config_locked(stream, arg);
->> +	case I915_PERF_IOCTL_GET_OA_BUFFER_INFO:
->> +		return i915_perf_oa_buffer_info_locked(stream, cmd, arg);
->>  	}
->>
->>  	return -EINVAL;
->> @@ -3418,6 +3460,14 @@ static int i915_perf_release(struct inode *inode, struct file *file)
->>  	struct i915_perf_stream *stream = file->private_data;
->>  	struct i915_perf *perf = stream->perf;
->>
->> +	/*
->> +	 * User could have multiple vmas from multiple mmaps. We want to zap
->> +	 * them all here. Note that a fresh fault cannot occur as the mmap holds
->> +	 * a reference to the stream via the vma->vm_file, so before user's
->> +	 * munmap, the stream cannot be destroyed.
->> +	 */
->> +	unmap_mapping_range(file->f_mapping, 0, -1, 1);
->> +
->>  	mutex_lock(&perf->lock);
->>  	i915_perf_destroy_locked(stream);
->>  	mutex_unlock(&perf->lock);
->> @@ -3428,6 +3478,75 @@ static int i915_perf_release(struct inode *inode, struct file *file)
->>  	return 0;
->>  }
->>
->> +static vm_fault_t vm_fault_oa(struct vm_fault *vmf)
->> +{
->> +	struct vm_area_struct *vma = vmf->vma;
->> +	struct i915_perf_stream *stream = vma->vm_private_data;
->> +	int err;
->> +
->> +	err = remap_io_sg(vma,
->> +			  vma->vm_start, vma->vm_end - vma->vm_start,
->> +			  stream->oa_buffer.vma->pages->sgl, -1);
->> +
->> +	return i915_error_to_vmf_fault(err);
->> +}
->> +
->> +static const struct vm_operations_struct vm_ops_oa = {
->> +	.fault = vm_fault_oa,
->> +};
->> +
->> +static int i915_perf_mmap(struct file *file, struct vm_area_struct *vma)
->> +{
->> +	struct i915_perf_stream *stream = file->private_data;
->> +
->> +	/* mmap-ing OA buffer to user space MUST absolutely be privileged */
->> +	if (i915_perf_stream_paranoid && !perfmon_capable()) {
->> +		DRM_DEBUG("Insufficient privileges to map OA buffer\n");
->> +		return -EACCES;
->> +	}
->> +
->> +	switch (vma->vm_pgoff) {
->> +	/*
->> +	 * A non-zero offset ensures that we are mapping the right object. Also
->> +	 * leaves room for future objects added to this implementation.
->> +	 */
->> +	case I915_PERF_OA_BUFFER_MMAP_OFFSET:
->> +		if (!(stream->sample_flags & SAMPLE_OA_REPORT))
->> +			return -EINVAL;
->> +
->> +		if (vma->vm_end - vma->vm_start > stream->oa_buffer.vma->size)
->> +			return -EINVAL;
->> +
->> +		/*
->> +		 * Only support VM_READ. Enforce MAP_PRIVATE by checking for
->> +		 * VM_MAYSHARE.
->> +		 */
->> +		if (vma->vm_flags & (VM_WRITE | VM_EXEC |
->> +				     VM_SHARED | VM_MAYSHARE))
->> +			return -EINVAL;
->> +
->> +		vma->vm_flags &= ~(VM_MAYWRITE | VM_MAYEXEC);
->> +
->> +		/*
->> +		 * If the privileged parent forks and child drops root
->> +		 * privilege, we do not want the child to retain access to the
->> +		 * mapped OA buffer. Explicitly set VM_DONTCOPY to avoid such
->> +		 * cases.
->> +		 */
->> +		vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND |
->> +				 VM_DONTDUMP | VM_DONTCOPY;
->> +		break;
->> +
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +
->> +	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->> +	vma->vm_private_data = stream;
->> +	vma->vm_ops = &vm_ops_oa;
->> +
->> +	return 0;
->> +}
->>
->>  static const struct file_operations fops = {
->>  	.owner		= THIS_MODULE,
->> @@ -3440,6 +3559,7 @@ static const struct file_operations fops = {
->>  	 * to handle 32bits compatibility.
->>  	 */
->>  	.compat_ioctl   = i915_perf_ioctl,
->> +	.mmap		= i915_perf_mmap,
->>  };
->>
->>
->> @@ -4639,8 +4759,12 @@ int i915_perf_ioctl_version(void)
->>  	 *
->>  	 *    - OA buffer head/tail/status/buffer registers for read only
->>  	 *    - OA counters A18, A19, A20 for read/write
->> +	 *
->> +	 * 8: Added an option to map oa buffer at umd driver level and trigger
->> +	 *    oa reports within oa buffer from command buffer. See
->> +	 *    I915_PERF_IOCTL_GET_OA_BUFFER_INFO.
->>  	 */
->> -	return 7;
->> +	return 8;
->>  }
->>
->>  #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->> index bde5860b3686..2c17fe845604 100644
->> --- a/include/uapi/drm/i915_drm.h
->> +++ b/include/uapi/drm/i915_drm.h
->> @@ -2417,6 +2417,39 @@ struct drm_i915_perf_open_param {
->>   */
->>  #define I915_PERF_IOCTL_CONFIG	_IO('i', 0x2)
->>
->> +/*
+> But I found out that all these knobs and levers weren't in place and I was
+> getting problems with it and it never materialized.
 >
->Please make this proper kerneldoc. Ideally also fix up all the other perf
->related uapi and also document it all with kerneldoc.
+> The paradigm was loosely "let someone else do it", like, "on an event,
+> move it to a list, and let someone else handle it", or "on an event, mark
+> it, and let someone else handle it". (loosely borrowed from an iSCSI target
+> I did many many years ago--it worked well and there were no races, even with
+> out-of-order executions.)
 >
->Please make sure the result looks good with
+> If you guys have any ideas to that end, maybe we can try it out.
 >
->$ make htmldocs
+> Regards,
+> Luben
 
->Also, this is uapi, therefore your patch needs to include
->- link to the igts for this
-IGT tests: https://patchwork.freedesktop.org/series/94172/ Patches 1,2
 
->- link to the userspace MR that uses this (I guess it's mesa?)
+I wonder if we really need this serialization at all, if we do HW fence 
+embedding
+at the drm_sched_job level instead of doing it only for amdgpu, and 
+modifying all
+the drivers to support this we can both remove this hack and solve the race
+against concurrent drm_sched_cleanup_jobs job freeing just by taking 
+reference
+to the hw fence of the job at the beginning of drm_sched_job_timedout
 
-For now GPUvis is the userspace for all perf OA interfaces.
+Andrey
 
-GPUvis provides the visualization for OA reports. It has 2 parts
-1) It uses perf library from IGT. The perf library changes are here:
-IGT: https://patchwork.freedesktop.org/series/94172/ Patches 3,4 and 5.
-
-2) GPUvis changes:
-https://github.com/unerlige/gpuvis/commit/1c19c134a64564f7b8d7ca3b46449324040a40be
-Should I create an MR for GPUvis while this kernel patch and (1) are not 
-yet merged? Please advise.
-
-Thanks,
-Umesh
 
 >
->Cheers, Daniel
 >
->> + * Returns OA buffer properties to be used with mmap.
->> + *
->> + * This ioctl is available in perf revision 8.
->> + */
->> +#define I915_PERF_IOCTL_GET_OA_BUFFER_INFO _IOWR('i', 0x3, struct drm_i915_perf_oa_buffer_info)
->> +
->> +/*
->> + * OA buffer size and offset.
->> + *
->> + * OA output buffer
->> + *   type: 0
->> + *   flags: mbz
->> + *
->> + *   After querying the info, pass (size,offset) to mmap(),
->> + *
->> + *   mmap(0, info.size, PROT_READ, MAP_PRIVATE, perf_fd, info.offset).
->> + *
->> + *   Note that only a private (not shared between processes, or across fork())
->> + *   read-only mmapping is allowed.
->> + *
->> + *   HW is continually writing data to the mapped  OA buffer and it conforms to
->> + *   the OA format as specified by user config. The buffer provides reports that
->> + *   have OA counters - A, B and C.
->> + */
->> +struct drm_i915_perf_oa_buffer_info {
->> +	__u32 type;   /* in */
->> +	__u32 flags;  /* in */
->> +	__u64 size;   /* out */
->> +	__u64 offset; /* out */
->> +	__u64 rsvd;   /* mbz */
->> +};
->> +
->>  /*
->>   * Common to all i915 perf records
->>   */
->> --
->> 2.20.1
+>> Andrey
 >>
->
->-- 
->Daniel Vetter
->Software Engineer, Intel Corporation
-GPUvis pro
->http://blog.ffwll.ch
+>>
+>>> So I think this should all work, no need for tricky cross-scheduler
+>>> locking.
+>>> -Daniel
+>>>
+>>>> Andrey
+>>>>
+>>>>
+>>>>> See
+>>>>>
+>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdri.freedesktop.org%2Fdocs%2Fdrm%2Fgpu%2Fdrm-mm.html%23c.drm_sched_backend_ops&amp;data=04%7C01%7Cluben.tuikov%40amd.com%7C228bd1600c914efe24aa08d96c934bbb%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660202148713283%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=Fpt%2Btho2W4woHKQ861cEbBzoOidS6zuDhFi%2B1UTwWJg%3D&amp;reserved=0
+>>>>>
+>>>>> for the ->timeout_job callback docs. I thought I brought this up already?
+>>>>> -Daniel
+>>>> Yes, this discussion is a continuation of your comment about serializing, I
+>>>> mentioned before that you proposed it.
+>>>>
+>>>> Andrey
+>>>>
+>>>>
+>>>>>> Andrey
+>>>>>>
+>>>>>>
+>>>>>>>      	spin_lock(&sched->job_list_lock);
+>>>>>>>      	job = list_first_entry_or_null(&sched->pending_list,
+>>>>>>>      				       struct drm_sched_job, list);
+>>>>>>>      	if (job) {
+>>>>>>> -		/*
+>>>>>>> -		 * Remove the bad job so it cannot be freed by concurrent
+>>>>>>> -		 * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
+>>>>>>> -		 * is parked at which point it's safe.
+>>>>>>> -		 */
+>>>>>>> -		list_del_init(&job->list);
+>>>>>>>      		spin_unlock(&sched->job_list_lock);
+>>>>>>> +		/* vendor's timeout_job should call drm_sched_start() */
+>>>>>>>      		status = job->sched->ops->timedout_job(job);
+>>>>>>>      		/*
+>>>>>>> @@ -393,20 +391,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+>>>>>>>      	kthread_park(sched->thread);
+>>>>>>>      	/*
+>>>>>>> -	 * Reinsert back the bad job here - now it's safe as
+>>>>>>> -	 * drm_sched_get_cleanup_job cannot race against us and release the
+>>>>>>> -	 * bad job at this point - we parked (waited for) any in progress
+>>>>>>> -	 * (earlier) cleanups and drm_sched_get_cleanup_job will not be called
+>>>>>>> -	 * now until the scheduler thread is unparked.
+>>>>>>> -	 */
+>>>>>>> -	if (bad && bad->sched == sched)
+>>>>>>> -		/*
+>>>>>>> -		 * Add at the head of the queue to reflect it was the earliest
+>>>>>>> -		 * job extracted.
+>>>>>>> -		 */
+>>>>>>> -		list_add(&bad->list, &sched->pending_list);
+>>>>>>> -
+>>>>>>> -	/*
+>>>>>>>      	 * Iterate the job list from later to  earlier one and either deactive
+>>>>>>>      	 * their HW callbacks or remove them from pending list if they already
+>>>>>>>      	 * signaled.
