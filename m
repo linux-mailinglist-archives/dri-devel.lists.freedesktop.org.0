@@ -2,64 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660CB3FC7FA
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262DE3FC80A
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 15:18:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE8C89994;
-	Tue, 31 Aug 2021 13:15:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44960899A5;
+	Tue, 31 Aug 2021 13:18:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71B6589994
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 13:15:45 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id x6so19425323wrv.13
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 06:15:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=trHskT2CtpQMpkSfC5aSCNvAyE3U61xq8FE0wLzwOgI=;
- b=f9O1W2IpsIYutklbvjg+FWFSHLzqiZuOZNYrn6kuoj4HW8Rv4NMlOydJh28ppwBauW
- WQGrEMfrsdvpjXq7CZMOg/zvmFEIaQ5ffrYh2U9CfD3v8y/wcoStY4dAEfXYgwejPf5S
- euFN3tskyfYSHj2AZrjXH+Tdiin8CDwrRknzQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=trHskT2CtpQMpkSfC5aSCNvAyE3U61xq8FE0wLzwOgI=;
- b=Z7qaGuzQH6ZPxv0CDUC5hQoIVZlJXXPI6PF10X3/N9OXDr21+DzHajng9h5OK6esX9
- cV28XWIOAttAL9TnW7a45lqljdnNE+yku/65hgx/LmNKj8DxZySHiY/KTrECV2AC45Fi
- lfDb+vX08UIxXospmBl5rLxhvKbPChR+MPe/FlT/CUn/iuP5W4fLbGazXRSLuJr/WwSj
- 21BS5/oNw1ThDa9FWpfucCjCFz6H7wyV5B+4cOd9PXsvJF3luiwuX2ygYxW0iqAJhP5c
- OGIYK2t8GmZXsQw1c76tcLg1jRMJZKkjcFCzYdhUmqm8rFkqz9IPBgBlUIbQ2a571PJk
- rVYQ==
-X-Gm-Message-State: AOAM532gwmInJEoB6LTLVhUZo18qEgu3duB2ydLVDtUlLZGOLzRtKk/Q
- 0SyPbTweT9dgt92+UV4kKQRUyA==
-X-Google-Smtp-Source: ABdhPJwXCg/GkRMDR5idQXtOFpoc96n6f+iFD1OWHF2FPMMQCS2szbtJd9wGkEw63bf0EiBIGxjY0A==
-X-Received: by 2002:adf:eac3:: with SMTP id o3mr30870673wrn.60.1630415743982; 
- Tue, 31 Aug 2021 06:15:43 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k17sm2782259wmj.0.2021.08.31.06.15.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 06:15:43 -0700 (PDT)
-Date: Tue, 31 Aug 2021 15:15:41 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, thomas.hellstrom@linux.intel.com,
- dri-devel@lists.freedesktop.org, andrey.grodzovsky@amd.com
-Subject: Re: [PATCH 04/12] drm/ttm: add common accounting to the resource mgr
-Message-ID: <YS4rfYno1OQ19J61@phenom.ffwll.local>
-References: <20210830085707.209508-1-christian.koenig@amd.com>
- <20210830085707.209508-4-christian.koenig@amd.com>
- <YS4mCPDUQSE1PK0t@phenom.ffwll.local>
- <116910d5-7238-316d-bb5a-c28337201449@gmail.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0274F8991C;
+ Tue, 31 Aug 2021 13:18:21 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="198028835"
+X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="198028835"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 06:18:18 -0700
+X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="541006350"
+Received: from cfitzp2-mobl2.ger.corp.intel.com (HELO [10.213.255.231])
+ ([10.213.255.231])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 06:18:17 -0700
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Handle Intel igfx + Intel dgfx
+ hybrid graphics setup
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+References: <20210827133039.287075-1-tvrtko.ursulin@linux.intel.com>
+ <20210827143941.287958-1-tvrtko.ursulin@linux.intel.com>
+ <9c042851-9a27-6bc7-0749-ed0c573e9c80@linux.intel.com>
+ <YSyWMxUyxgTYZCYw@phenom.ffwll.local>
+ <a382488e-cf1e-e61e-f132-d0868f4f23cf@linux.intel.com>
+ <YS4j+PbS8ImB/p9v@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <a177847d-7953-bd08-5c58-48f9975a1d3a@linux.intel.com>
+Date: Tue, 31 Aug 2021 14:18:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <116910d5-7238-316d-bb5a-c28337201449@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <YS4j+PbS8ImB/p9v@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,156 +59,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 31, 2021 at 02:57:05PM +0200, Christian König wrote:
-> Am 31.08.21 um 14:52 schrieb Daniel Vetter:
-> > On Mon, Aug 30, 2021 at 10:56:59AM +0200, Christian König wrote:
-> > > It makes sense to have this in the common manager for debugging and
-> > > accounting of how much resources are used.
-> > > 
-> > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > > ---
-> > >   drivers/gpu/drm/ttm/ttm_resource.c |  8 ++++++++
-> > >   include/drm/ttm/ttm_resource.h     | 18 ++++++++++++++++++
-> > >   2 files changed, 26 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> > > index a4c495da0040..426e6841fc89 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> > > @@ -33,6 +33,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
-> > >                          const struct ttm_place *place,
-> > >                          struct ttm_resource *res)
-> > >   {
-> > > +	struct ttm_resource_manager *man;
-> > > +
-> > >   	res->start = 0;
-> > >   	res->num_pages = PFN_UP(bo->base.size);
-> > >   	res->mem_type = place->mem_type;
-> > > @@ -42,12 +44,16 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
-> > >   	res->bus.is_iomem = false;
-> > >   	res->bus.caching = ttm_cached;
-> > >   	res->bo = bo;
-> > > +
-> > > +	man = ttm_manager_type(bo->bdev, place->mem_type);
-> > > +	atomic64_add(bo->base.size, &man->usage);
-> > >   }
-> > >   EXPORT_SYMBOL(ttm_resource_init);
-> > >   void ttm_resource_fini(struct ttm_resource_manager *man,
-> > >   		       struct ttm_resource *res)
-> > >   {
-> > > +	atomic64_sub(res->bo->base.size, &man->usage);
-> > >   }
-> > >   EXPORT_SYMBOL(ttm_resource_fini);
-> > > @@ -100,6 +106,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
-> > >   	spin_lock_init(&man->move_lock);
-> > >   	man->bdev = bdev;
-> > >   	man->size = p_size;
-> > > +	atomic64_set(&man->usage, 0);
-> > >   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
-> > >   		INIT_LIST_HEAD(&man->lru[i]);
-> > > @@ -172,6 +179,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
-> > >   	drm_printf(p, "  use_type: %d\n", man->use_type);
-> > >   	drm_printf(p, "  use_tt: %d\n", man->use_tt);
-> > >   	drm_printf(p, "  size: %llu\n", man->size);
-> > > +	drm_printf(p, "  usage: %llu\n", atomic64_read(&man->usage));
-> > >   	if (man->func->debug)
-> > >   		man->func->debug(man, p);
-> > >   }
-> > > diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-> > > index e8080192cae4..526fe359c603 100644
-> > > --- a/include/drm/ttm/ttm_resource.h
-> > > +++ b/include/drm/ttm/ttm_resource.h
-> > > @@ -27,6 +27,7 @@
-> > >   #include <linux/types.h>
-> > >   #include <linux/mutex.h>
-> > > +#include <linux/atomic.h>
-> > >   #include <linux/dma-buf-map.h>
-> > >   #include <linux/dma-fence.h>
-> > >   #include <drm/drm_print.h>
-> > > @@ -110,6 +111,7 @@ struct ttm_resource_manager_func {
-> > >    * static information. bdev::driver::io_mem_free is never used.
-> > >    * @lru: The lru list for this memory type.
-> > >    * @move: The fence of the last pipelined move operation.
-> > > + * @usage: How much of the region is used.
-> > >    *
-> > >    * This structure is used to identify and manage memory types for a device.
-> > >    */
-> > > @@ -134,6 +136,9 @@ struct ttm_resource_manager {
-> > >   	 * Protected by @move_lock.
-> > >   	 */
-> > >   	struct dma_fence *move;
-> > > +
-> > > +	/* Own protection */
 
-Please document struct members with the inline kerneldoc style, that way
-the comment here shows up in the kerneldoc too.
-
-Would be good to just convert the entire struct I think.
-
-> > > +	atomic64_t usage;
-> > Shouldn't we keep track of this together with the lru updates, under the
-> > same spinlock?
+On 31/08/2021 13:43, Daniel Vetter wrote:
+> On Tue, Aug 31, 2021 at 10:15:03AM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 30/08/2021 09:26, Daniel Vetter wrote:
+>>> On Fri, Aug 27, 2021 at 03:44:42PM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 27/08/2021 15:39, Tvrtko Ursulin wrote:
+>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>
+>>>>> In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
+>>>>> when rendering is done on Intel dgfx and scanout/composition on Intel
+>>>>> igfx.
+>>>>>
+>>>>> Before this patch the driver was not quite ready for that setup, mainly
+>>>>> because it was able to emit a semaphore wait between the two GPUs, which
+>>>>> results in deadlocks because semaphore target location in HWSP is neither
+>>>>> shared between the two, nor mapped in both GGTT spaces.
+>>>>>
+>>>>> To fix it the patch adds an additional check to a couple of relevant code
+>>>>> paths in order to prevent using semaphores for inter-engine
+>>>>> synchronisation between different driver instances.
+>>>>>
+>>>>> Patch also moves singly used i915_gem_object_last_write_engine to be
+>>>>> private in its only calling unit (debugfs), while modifying it to only
+>>>>> show activity belonging to the respective driver instance.
+>>>>>
+>>>>> What remains in this problem space is the question of the GEM busy ioctl.
+>>>>> We have a somewhat ambigous comment there saying only status of native
+>>>>> fences will be reported, which could be interpreted as either i915, or
+>>>>> native to the drm fd. For now I have decided to leave that as is, meaning
+>>>>> any i915 instance activity continues to be reported.
+>>>>>
+>>>>> v2:
+>>>>>     * Avoid adding rq->i915. (Chris)
+>>>>>
+>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> Can't we just delete semaphore code and done?
+>>> - GuC won't have it
+>>> - media team benchmarked on top of softpin media driver, found no
+>>>     difference
+>>
+>> You have S-curve for saturated workloads or something else? How thorough and
+>> which media team I guess.
+>>
+>>  From memory it was a nice win for some benchmarks (non-saturated ones), but
+>> as I have told you previously, we haven't been putting numbers in commit
+>> messages since it wasn't allowed. I may be able to dig out some more details
+>> if I went trawling through GEM channel IRC logs, although probably not the
+>> actual numbers since those were usually on pastebin. Or you go an talk with
+>> Chris since he probably remembers more details. Or you just decide you don't
+>> care and remove it. I wouldn't do that without putting the complete story in
+>> writing, but it's your call after all.
 > 
-> Mhm, what should that be good for? As far as I know we use it for two use
-> cases:
-> 1. Early abort when size-usage < requested.
+> Media has also changed, they're not using relocations anymore.
 
-But doesn't have all kinds of potential temporary leaks again? Except this
-time around we can't even fix them eventually, because these allocations
-aren't on the lru list at all.
+Meaning you think it changes the benchmarking story? When coupled with 
+removal of GPU relocations then possibly yes.
 
-> 2. Statistics for debugging.
+> Unless there's solid data performance tuning of any kind that gets in the
+> way simply needs to be removed. Yes this is radical, but the codebase is
+> in a state to require this.
 > 
-> Especially the first use case is rather important under memory pressure to
-> avoid costly acquiring of a contended lock.
+> So either way we'd need to rebenchmark this if it's really required. Also
 
-Or maybe I'm just not understanding where this matters? Don't you need to
-grab the lru lock anyway under memory pressure?
+Therefore can you share what benchmarks have been done or is it secret? 
+  As said, I think the non-saturated case was the more interesting one here.
 
-> > Otherwise this usage here just becomes kinda meaningless I think, and just
-> > for some debugging. I really don't like sprinkling random atomic_t around
-> > (mostly because i915-gem code has gone totally overboard with them, with
-> > complete disregard to complexity of the result).
+> if we really need this code still someone needs to fix the design, the
+> current code is making layering violations an art form.
+ >
+>> Anyway, without the debugfs churn it is more or less two line patch to fix
+>> igfx + dgfx hybrid setup. So while mulling it over this could go in. I'd
+>> just refine it to use a GGTT check instead of GT. And unless DG1 ends up
+>> being GuC only.
 > 
-> Well this here just replaces what drivers did anyway and the cost of inc/dec
-> an atomic is pretty much negligible.
+> The minimal robust fix here is imo to stop us from upcasting dma_fence to
+> i915_request if it's not for our device. Not sprinkle code here into the
+> semaphore code. We shouldn't even get this far with foreign fences.
 
-Complexity in understanding the locking. The cpu has not problem with this
-stuff ofc.
--Daniel
+Device check does not work for multi-tile. It was one of my earlier 
+attempts before I realized the problem. You'll see v3 which I think 
+handles all the cases.
 
-> 
-> Christian.
-> 
-> > -Daniel
-> > 
-> > >   };
-> > >   /**
-> > > @@ -260,6 +265,19 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
-> > >   	man->move = NULL;
-> > >   }
-> > > +/**
-> > > + * ttm_resource_manager_usage
-> > > + *
-> > > + * @man: A memory manager object.
-> > > + *
-> > > + * Return how many resources are currently used.
-> > > + */
-> > > +static inline uint64_t
-> > > +ttm_resource_manager_usage(struct ttm_resource_manager *man)
-> > > +{
-> > > +	return atomic64_read(&man->usage);
-> > > +}
-> > > +
-> > >   void ttm_resource_init(struct ttm_buffer_object *bo,
-> > >                          const struct ttm_place *place,
-> > >                          struct ttm_resource *res);
-> > > -- 
-> > > 2.25.1
-> > > 
-> 
+You also forgot to comment on the question lower in the email. I'll just 
+send a patch which removes that anyway so you can comment there.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+
+Tvrtko
+
+> -Daniel
+> 
+>>
+>>> - pre-gen8 semaphore code was also silently ditched and no one cared
+>>>
+>>> Plus removing semaphore code would greatly simplify conversion to
+>>> drm/sched.
+>>>
+>>>>> ---
+>>>>>     drivers/gpu/drm/i915/gem/i915_gem_object.h | 17 ----------
+>>>>>     drivers/gpu/drm/i915/i915_debugfs.c        | 39 ++++++++++++++++++++--
+>>>>>     drivers/gpu/drm/i915/i915_request.c        | 12 ++++++-
+>>>>>     3 files changed, 47 insertions(+), 21 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>> index 48112b9d76df..3043fcbd31bd 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>> @@ -503,23 +503,6 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
+>>>>>     	i915_gem_object_unpin_pages(obj);
+>>>>>     }
+>>>>> -static inline struct intel_engine_cs *
+>>>>> -i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+>>>>> -{
+>>>>> -	struct intel_engine_cs *engine = NULL;
+>>>>> -	struct dma_fence *fence;
+>>>>> -
+>>>>> -	rcu_read_lock();
+>>>>> -	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>>> -	rcu_read_unlock();
+>>>>> -
+>>>>> -	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
+>>>>> -		engine = to_request(fence)->engine;
+>>>>> -	dma_fence_put(fence);
+>>>>> -
+>>>>> -	return engine;
+>>>>> -}
+>>>>> -
+>>>>>     void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
+>>>>>     					 unsigned int cache_level);
+>>>>>     void i915_gem_object_flush_if_display(struct drm_i915_gem_object *obj);
+>>>>> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+>>>>> index 04351a851586..55fd6191eb32 100644
+>>>>> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+>>>>> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+>>>>> @@ -135,13 +135,46 @@ static const char *stringify_vma_type(const struct i915_vma *vma)
+>>>>>     	return "ppgtt";
+>>>>>     }
+>>>>> +static char *
+>>>>> +last_write_engine(struct drm_i915_private *i915,
+>>>>> +		  struct drm_i915_gem_object *obj)
+>>>>> +{
+>>>>> +	struct intel_engine_cs *engine;
+>>>>> +	struct dma_fence *fence;
+>>>>> +	char *res = NULL;
+>>>>> +
+>>>>> +	rcu_read_lock();
+>>>>> +	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>>> +	rcu_read_unlock();
+>>>>> +
+>>>>> +	if (!fence || dma_fence_is_signaled(fence))
+>>>>> +		goto out;
+>>>>> +
+>>>>> +	if (!dma_fence_is_i915(fence)) {
+>>>>> +		res = "<external-fence>";
+>>>>> +		goto out;
+>>>>> +	}
+>>>>> +
+>>>>> +	engine = to_request(fence)->engine;
+>>>>> +	if (engine->gt->i915 != i915) {
+>>>>> +		res = "<external-i915>";
+>>>>> +		goto out;
+>>>>> +	}
+>>>>> +
+>>>>> +	res = engine->name;
+>>>>> +
+>>>>> +out:
+>>>>> +	dma_fence_put(fence);
+>>>>> +	return res;
+>>>>> +}
+>>>>> +
+>>>>>     void
+>>>>>     i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+>>>>>     {
+>>>>>     	struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
+>>>>> -	struct intel_engine_cs *engine;
+>>>>>     	struct i915_vma *vma;
+>>>>>     	int pin_count = 0;
+>>>>> +	char *engine;
+>>>>>     	seq_printf(m, "%pK: %c%c%c %8zdKiB %02x %02x %s%s%s",
+>>>>>     		   &obj->base,
+>>>>> @@ -230,9 +263,9 @@ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+>>>>>     	if (i915_gem_object_is_framebuffer(obj))
+>>>>>     		seq_printf(m, " (fb)");
+>>>>> -	engine = i915_gem_object_last_write_engine(obj);
+>>>>> +	engine = last_write_engine(dev_priv, obj);
+>>>>>     	if (engine)
+>>>>> -		seq_printf(m, " (%s)", engine->name);
+>>>>> +		seq_printf(m, " (%s)", engine);
+>>>>
+>>>> Or I zap this from the code altogether. Not sure it is very useful since the
+>>>> only caller is i915_gem_framebuffer debugfs file and how much it can care
+>>>> about maybe hitting the timing window when exclusive fence will contain
+>>>> something.
+>>>
+>>> Ideally we'd just look at the fence timeline name. But i915 has this very
+>>> convoluted typesafe-by-rcu reuse which means we actually can't do that,
+>>> and our fence timeline name is very useless.
+>>
+>> Why do we even care to output any of this here? I'd just remove it since it
+>> is a very transient state with an extremely short window of opportunity to
+>> make it show anything. Which I think makes it pretty useless in debugfs.
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>> Would be good to fix that, Matt Auld has started an attempt but didn't get
+>>> very far.
+>>> -Daniel
+>>>
+>>>>
+>>>> Regards,
+>>>>
+>>>> Tvrtko
+>>>>
+>>>>>     }
+>>>>>     static int i915_gem_object_info(struct seq_file *m, void *data)
+>>>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>>>> index ce446716d092..64adf619fe82 100644
+>>>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>>>> @@ -1152,6 +1152,12 @@ __emit_semaphore_wait(struct i915_request *to,
+>>>>>     	return 0;
+>>>>>     }
+>>>>> +static bool
+>>>>> +can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
+>>>>> +{
+>>>>> +	return to->engine->gt == from->engine->gt;
+>>>>> +}
+>>>>> +
+>>>>>     static int
+>>>>>     emit_semaphore_wait(struct i915_request *to,
+>>>>>     		    struct i915_request *from,
+>>>>> @@ -1160,6 +1166,9 @@ emit_semaphore_wait(struct i915_request *to,
+>>>>>     	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
+>>>>>     	struct i915_sw_fence *wait = &to->submit;
+>>>>> +	if (!can_use_semaphore_wait(to, from))
+>>>>> +		goto await_fence;
+>>>>> +
+>>>>>     	if (!intel_context_use_semaphores(to->context))
+>>>>>     		goto await_fence;
+>>>>> @@ -1263,7 +1272,8 @@ __i915_request_await_execution(struct i915_request *to,
+>>>>>     	 * immediate execution, and so we must wait until it reaches the
+>>>>>     	 * active slot.
+>>>>>     	 */
+>>>>> -	if (intel_engine_has_semaphores(to->engine) &&
+>>>>> +	if (can_use_semaphore_wait(to, from) &&
+>>>>> +	    intel_engine_has_semaphores(to->engine) &&
+>>>>>     	    !i915_request_has_initial_breadcrumb(to)) {
+>>>>>     		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
+>>>>>     		if (err < 0)
+>>>>>
+>>>
+> 
