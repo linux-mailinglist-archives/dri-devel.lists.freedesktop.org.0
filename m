@@ -1,64 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A6D3FCD1E
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 20:56:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AB63FCD22
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 21:01:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 626BC89803;
-	Tue, 31 Aug 2021 18:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B86B89875;
+	Tue, 31 Aug 2021 19:01:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
- [209.85.217.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08B0589803
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 18:56:39 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id p14so406373vsm.2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 11:56:39 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8B16E051
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 19:01:06 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id v10so705737wrd.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GaO4Y8XjQpzWxvDdexo754mM2cY3NapS9Dixf6RCivI=;
+ b=YUG3gg4HztKsujLCsWJkVM63g5Ld67nElGVgmaaKpnO00peskYekUXADHXQacrLLGZ
+ o4kXYmPzBOKFaZilUon4gZHiF50Ky/lT2mqJjuPaMZ+J8UbDEvFQz6btJTc7yvwOjRm2
+ MsPulb8kG37VQyBoPlAQ93dGI1slLOtc4kRiF7UBlHF8R4bsNs2nMQ/vG2vU4YOWWNPf
+ aHuHQqGdNBST9fzF0d4kW3VGCet8xSyjzRnp5/WwZlcEmkIMlcudjGv2ljcmAfGiLiFz
+ DsbIDLvg6yBpIL6zjIqn+Yxlo2uiGL8StBibDApyH4aHAgaaYWn6iEKqIBmQxbjM94Mi
+ uXIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0hrVR/Pp4bY5ExwU3CuX6SzlhALUUdWlYKXEp50Y348=;
- b=MyYAqZF4gi78hGhVVP/PL2X49K9e0GlEILuZtyMEt3hB9eTS1mC96GAlvhYdRelRke
- oc/WQjFf4YVv30Wmnxq+2jGip2mWiQi2Q55CitM9vMjqt9g3JirhJO+/9Na/9DZrqnke
- sSRrQ25d4G4Y9Z/xMMhF4wjsvvHAHvbznzxACrRaMsQ5W/bNDvxTmoxOpekga+npHMwP
- 7hdJft+9tZ2YeUQ6uzsTcmH1k9KF7wH6uCTrras7WCWnldZzHg16Jl3cyuaxebgkHfwV
- r4DmlsvkBGvLFAXeg5C2HdfiCC+yItSSj0uQhNR4ghMkWShEI6TekaPPBa6QgEQ3YRQF
- UiFw==
-X-Gm-Message-State: AOAM531sD4idnAv42hC90CHERwitIr+eoc/8d22WkeSSvIQJ55S7tbuW
- bGoaOG2Pr5pdiTyLFsIlpe55RtGD5hD65al1jQs=
-X-Google-Smtp-Source: ABdhPJz9v59KKZoqK9rLnaHapES3XW5DBPdu8VPOELGOeHWSav0EGFF40rmu9oSffgZtAtzQvdPp23duhz+ykWeWZKU=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr20702000vsl.9.1630436198992; 
- Tue, 31 Aug 2021 11:56:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GaO4Y8XjQpzWxvDdexo754mM2cY3NapS9Dixf6RCivI=;
+ b=SitvNqcEFDnLBQra6UeVWFhBf3x9b/bZiMu+jRxdbCOOF3WKWs+gNi2bL7+yXa0pz1
+ l5RGpsMwOgPLUHmtGx3CAUvqoQ6paCKf1Cotk790Y9kBiFezI6T5Yxdc9414+oHmPLih
+ /6GyXcjUpT1V/BXWqhVjux4Cckb1seTLjC4kYBr0dM9iswUrE5HqV0ugRNebVMajy/1A
+ K27uqm2KBuGsHu+biJqsj7R7cd9GmFHlT5qIoEA8Wmwa+/u/LpsU1hU3UwbHyev7xdKV
+ e5A6vGsRFqORhkzzo9Ls1mVz6d+RI7icX8XQofll9J9MzXafBsbLo1F/0PjGGtjo7I5c
+ Ecsw==
+X-Gm-Message-State: AOAM530hdsmB/3GK+9asrdLkaqxmvTJkZALjeXc1UBMTnDX9/FkoDpLU
+ MG626V5KcNDsMZPd9oBqPbM=
+X-Google-Smtp-Source: ABdhPJxOmIjlk4xNGEooBmwcvg3/uM6eZEOaaAuISu6L6yMnHMyNxJUsSeX6S3KIALWZ26cW9yF9cQ==
+X-Received: by 2002:a5d:6e91:: with SMTP id k17mr33391524wrz.77.1630436464829; 
+ Tue, 31 Aug 2021 12:01:04 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net.
+ [86.58.29.253])
+ by smtp.gmail.com with ESMTPSA id j17sm18906057wrh.67.2021.08.31.12.01.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Aug 2021 12:01:04 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: caihuoqing@baidu.com, Cai Huoqing <caihuoqing@baidu.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: Make use of the helper function
+ devm_platform_ioremap_resource()
+Date: Tue, 31 Aug 2021 21:01:03 +0200
+Message-ID: <3342147.tElmWuj8HH@kista>
+In-Reply-To: <20210831135740.4826-1-caihuoqing@baidu.com>
+References: <20210831135740.4826-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
-References: <000000000000815b9605c70e74f8@google.com>
- <131b24e5-ee31-6f7b-42b4-c34583711913@infradead.org>
- <2fccb5d3-191c-924e-159f-1c9d423e282f@i-love.sakura.ne.jp>
- <339bfb21-8e80-c7d9-46dd-c416f87c50c0@infradead.org>
- <535e404d-03bf-8e7a-b296-132a2a98c599@i-love.sakura.ne.jp>
- <CAMuHMdWX7s63X_zR9329canbQkPGBVxZNG4O+_=jUut60aGR9g@mail.gmail.com>
- <5c6d2b95-31d7-0d59-5e62-2593d9a0e1fe@i-love.sakura.ne.jp>
- <CAMuHMdWbSUGRGAVi-17C3hyDBZnGLAsmbAs+wXPHiCNWWLbMpA@mail.gmail.com>
- <CAKMK7uF1cnen2UVWeOL164z1CCqOuRMC5SmM+5GvRvi7C-UOTw@mail.gmail.com>
-In-Reply-To: <CAKMK7uF1cnen2UVWeOL164z1CCqOuRMC5SmM+5GvRvi7C-UOTw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 31 Aug 2021 20:56:27 +0200
-Message-ID: <CAMuHMdWNYaZxZB0Td4PFb76rrtQMumKu6cJgLi2aNnW-9NmG8A@mail.gmail.com>
-Subject: Re: [PATCH] fbmem: don't allow too huge resolutions
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
- syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Colin King <colin.king@canonical.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>, 
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,40 +76,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi!
 
-On Tue, Aug 31, 2021 at 8:53 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> On Tue, Aug 31, 2021 at 7:19 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Aug 31, 2021 at 5:24 PM Tetsuo Handa
-> > <penguin-kernel@i-love.sakura.ne.jp> wrote:
-> > > On 2021/08/31 15:48, Geert Uytterhoeven wrote:
-> > > > Furthermore, this restricts the virtual frame buffer size on 64-bit,
-> > > > too, while graphics cards can have much more than 4 GiB of RAM.
-> > >
-> > > Excuse me, but do you mean that some hardware allows allocating more than
-> > > UINT_MAX bytes of memory for kernel frame buffer drivers?
-> >
-> > While smem_len is u32 (there have been complaints about such
-> > limitations on 64-bit platforms as far as 10 years ago), I see no
-> > reason why a graphics card with more than 4 GiB of RAM would not be
-> > able to provide a very large virtual screen.
-> >
-> > Of course e.g. vga16fb cannot, as it is limited to 64 KiB.
->
-> The first gpus with 4GB or more memory started shipping in 2012. We're
-> not going to have fbdev drivers for these, so let's not invent code
-> for use-cases that aren't please.
+Dne torek, 31. avgust 2021 ob 15:57:39 CEST je Cai Huoqing napisal(a):
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-This code path is used with fbdev emulation for drm drivers, too,
-right?
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Gr{oetje,eeting}s,
+Best regards,
+Jernej
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
