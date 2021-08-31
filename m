@@ -1,75 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAA13FC76B
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:39:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFCF3FC77A
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D436A89A77;
-	Tue, 31 Aug 2021 12:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA1D2897F3;
+	Tue, 31 Aug 2021 12:43:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
  [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 260C689A77
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:39:34 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id z4so27445472wrr.6
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=XqVnP2fWqmBvYXnrJLFFt5iNlUAQKQMrg2mpN7vlVm0=;
- b=kBSw5G2LmT74tiONoQs1NV79WDwDwFfXtW8xksWcnw+IOgce4CbFGe/vg1ms8Dh5jW
- N5mSg1YAxIruSK2WFmFLUUnV0flQKXL2i0fxOMuxHHjQ6AENN9DSmcYxZ6P84zZJIkZf
- r9i6GCd2wIo/H2G8pI6HaeyVMX/mkF7ZZk8QVmQJ2KfaNYbY7BX1jExsAV+IgzxGsBDW
- Szxk1TSXp469D0KXAwTvZ1XSrvMU4BAZwnrC4V39JeLHUpn5pwMBGmdrXX7KogXyufmO
- 9/eyEDghSJGH9v3RIIvDu2B1qzoTO5/oLktgBOVqKA49vqtEsbsc9/dyGknckXUFt/PC
- Fi0Q==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5860B897F3
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:43:40 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id x6so19255474wrv.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0eDqauXKGTNMKedPNITzQrMvhIAJT4shn/5MiSEH11o=;
+ b=ddkWr7i9n83+E2YBRK4rg4fqwSima9AeiWr404cI/hoiGhlFMgM58V22128x6GWVM0
+ shXo/S4EbrW3eCRiLnJBWaxBJrQ/FO+p+4xBu9wm7PDqJifKUSGzbgeiXqPat/TX2pE7
+ kiFI6y41SEL+U33UpvGxnK8t0si4dMjGUx4Qc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=XqVnP2fWqmBvYXnrJLFFt5iNlUAQKQMrg2mpN7vlVm0=;
- b=d0Bl4sCb5in4D79kQVxv1wbwZcBo417J1HttnZRKPNiEcWhapLZz0MIfilCfnPVGJ6
- dJpHERs0vwsrz3+s56vz0p1FHaaencF1qq2Rl8EczJr2qCsVJU7BdCCktpAI7Zoptdby
- 9I3mBYLREZKPUTDa+h/KZkHjwNv6rTV/c6UOk9K+Y3AUZDhE6UE76KihSZyMEsfzdz4c
- isn8XexM8/w+I4JvU4lVKcfpbThD3oW7Xya6Xj7H0XTzlZmNQpor7/94c/M6KWYBfYNa
- jGXL8dWgjaLIaCmOolqD1JG5HSXRok/1CVJ+qQct0MWASyG0WDH+5I/tnZWdtcUQaUU7
- h/tg==
-X-Gm-Message-State: AOAM532w7j4g16HZ3M8ApRv60VmUYvhbuTFBWGcfeb8kQH8d5L2g/9ZB
- nFrZ2FtdNTZF7PpvaWK2hmo=
-X-Google-Smtp-Source: ABdhPJzPC9sC6DmZWXfLMD6H7scVQ9h5zI9zYi+YoL29mhsdIY8onDoUqCwTB4a69gSzKokXyqZbbg==
-X-Received: by 2002:a5d:6085:: with SMTP id w5mr31631494wrt.104.1630413572639; 
- Tue, 31 Aug 2021 05:39:32 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
- [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id b62sm2331777wmb.17.2021.08.31.05.39.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Aug 2021 05:39:32 -0700 (PDT)
-Subject: Re: [PATCH 1/2] dma-buf: nuke DMA_FENCE_TRACE macros v2
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: hridya@google.com, john.stultz@linaro.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- gustavo@padovan.org, linux-media@vger.kernel.org, adelva@google.com,
- sspatil@google.com
-References: <20210818105443.1578-1-christian.koenig@amd.com>
- <015fd5ed-9255-9c28-44f3-3c8dde90ebad@gmail.com>
- <YSdXEaBDpijEBx/6@phenom.ffwll.local>
- <0c150724-032f-b566-4f61-b4771bafe7a8@gmail.com>
- <YSlJwX0lNBSdj880@phenom.ffwll.local>
- <d41b682d-f4ec-b050-8f45-78b9a9ce944d@gmail.com>
- <YS4hAhVPlyAWdX/n@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <8ab2702e-3f5c-2c78-cb61-730aa3b04b18@gmail.com>
-Date: Tue, 31 Aug 2021 14:39:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0eDqauXKGTNMKedPNITzQrMvhIAJT4shn/5MiSEH11o=;
+ b=FVyzDRUvsCqe/zkXF18JHqkrSVm5XheRWKQmO0awR7mvyVUwvgRAc/UKjruFFxuXoL
+ sZZx4+hironOzLqcV7EltdAC7WvDBvOtUXvD/F+wVwutSiN6Zg/MhS7QecRotBGuImgy
+ x8hL4/43r83CuxaBKMb4pbNq3PSC04ikhVuORkodr/7J59ohas5KKQT7bMrzL89Bha9P
+ cNu1PmfNcIcAN6Xqj/O9n+wQPrqt1TjpXozh0tBl0TebOMB6nRAnAI/S4CNFdVWZRY9F
+ //NL3XeUy2yUMYWLpEy/U0pni0ncRseErmMK4s7oM0kVuGe0SMeY/xE0v2uJZagXwXU6
+ 8QNg==
+X-Gm-Message-State: AOAM530P86VIbPz0zsm2du6yJSVWVqe1azDyEZl+ldXMH1wjFL9VMAUq
+ EHmk+amoVTT7Dlb5cWyhKu2AJQ==
+X-Google-Smtp-Source: ABdhPJzUPnDGqngg4R+zIU/wSL2gDhX8BqRuYB0FjP7RTVaRCIfDy0ayF9OkoK2iCIzW4hsC+tlw5A==
+X-Received: by 2002:adf:c506:: with SMTP id q6mr30327927wrf.78.1630413818768; 
+ Tue, 31 Aug 2021 05:43:38 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o12sm2392780wmr.2.2021.08.31.05.43.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Aug 2021 05:43:37 -0700 (PDT)
+Date: Tue, 31 Aug 2021 14:43:36 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Handle Intel igfx + Intel dgfx
+ hybrid graphics setup
+Message-ID: <YS4j+PbS8ImB/p9v@phenom.ffwll.local>
+References: <20210827133039.287075-1-tvrtko.ursulin@linux.intel.com>
+ <20210827143941.287958-1-tvrtko.ursulin@linux.intel.com>
+ <9c042851-9a27-6bc7-0749-ed0c573e9c80@linux.intel.com>
+ <YSyWMxUyxgTYZCYw@phenom.ffwll.local>
+ <a382488e-cf1e-e61e-f132-d0868f4f23cf@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YS4hAhVPlyAWdX/n@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a382488e-cf1e-e61e-f132-d0868f4f23cf@linux.intel.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,232 +75,244 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 31.08.21 um 14:30 schrieb Daniel Vetter:
-> On Mon, Aug 30, 2021 at 08:28:49AM +0200, Christian König wrote:
->> Am 27.08.21 um 22:23 schrieb Daniel Vetter:
->>> On Fri, Aug 27, 2021 at 11:07:58AM +0200, Christian König wrote:
->>>> Am 26.08.21 um 10:55 schrieb Daniel Vetter:
->>>>> On Tue, Aug 24, 2021 at 10:12:24AM +0200, Christian König wrote:
->>>>>> Just a gentle ping. Daniel any more comments on this?
->>>>> Still haven't seen a patch set to nuke the sw_sync igt tests. Otherwise
->>>>> this is just going to cause fails and reboots in our ci (we reboot on
->>>>> taints).
->>>> *sigh* can I at least print a warning without breaking the igt tests?
->>> CI watches dmesg too ... it just doesn't force a reboot (which hurts run
->>> rate really badly).
->>>
->>>>>> I'm not sure if the second patch will cause trouble with any unit test, but
->>>>>> I'm willing to try it. We can always trivial revert it.
->>>>> See above, remove the igts and we should be fine I think. I don't think
->>>>> there's any selftests or kselftests, but checking that should be a quick
->>>>> grep at most.
->>>> Yeah, we don't have any selftests as far as I can see but this stuff is so
->>>> interweaved with igt that it will be hard to remove I think.
->>>>
->>>> A good bunch of the igt code seems to have been moved to using VGEM instead,
->>>> but as far as I can see there is still plenty left relying on this.
->>>>
->>>> Alternatively could we make the config option depend on CONFIG_DEBUG?
->>> Hm I thought it was just down to sw_sync igt testcase, and everything else
->>> is moved to vgem. Do we have more, or has more landed since I looked a
->>> while ago?
->> The code under lib/sw_sync.c uses this and based on that lib/igt_dummyload.c
->> defines an IGT_CORK_FENCE which is then used by at least:
->>
->> tests/i915/gem_exec_fence.c
->> tests/i915/gem_eio.c
->> tests/i915/gem_exec_schedule.c
->> tests/i915/gem_exec_balancer.c
->> tests/i915/gem_ctx_shared.c
->> tests/kms_busy.c
->>
->> After that I've stoped looking deeper into it.
-> Uh crap, I totally missed this. This is a rather messy area of igt with a
-> pile of questionable tests and stuff ... No idea when we'll get around to
-> cleaning that up with all the other fires going on :-(
+On Tue, Aug 31, 2021 at 10:15:03AM +0100, Tvrtko Ursulin wrote:
+> 
+> On 30/08/2021 09:26, Daniel Vetter wrote:
+> > On Fri, Aug 27, 2021 at 03:44:42PM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 27/08/2021 15:39, Tvrtko Ursulin wrote:
+> > > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > 
+> > > > In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
+> > > > when rendering is done on Intel dgfx and scanout/composition on Intel
+> > > > igfx.
+> > > > 
+> > > > Before this patch the driver was not quite ready for that setup, mainly
+> > > > because it was able to emit a semaphore wait between the two GPUs, which
+> > > > results in deadlocks because semaphore target location in HWSP is neither
+> > > > shared between the two, nor mapped in both GGTT spaces.
+> > > > 
+> > > > To fix it the patch adds an additional check to a couple of relevant code
+> > > > paths in order to prevent using semaphores for inter-engine
+> > > > synchronisation between different driver instances.
+> > > > 
+> > > > Patch also moves singly used i915_gem_object_last_write_engine to be
+> > > > private in its only calling unit (debugfs), while modifying it to only
+> > > > show activity belonging to the respective driver instance.
+> > > > 
+> > > > What remains in this problem space is the question of the GEM busy ioctl.
+> > > > We have a somewhat ambigous comment there saying only status of native
+> > > > fences will be reported, which could be interpreted as either i915, or
+> > > > native to the drm fd. For now I have decided to leave that as is, meaning
+> > > > any i915 instance activity continues to be reported.
+> > > > 
+> > > > v2:
+> > > >    * Avoid adding rq->i915. (Chris)
+> > > > 
+> > > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > 
+> > Can't we just delete semaphore code and done?
+> > - GuC won't have it
+> > - media team benchmarked on top of softpin media driver, found no
+> >    difference
+> 
+> You have S-curve for saturated workloads or something else? How thorough and
+> which media team I guess.
+> 
+> From memory it was a nice win for some benchmarks (non-saturated ones), but
+> as I have told you previously, we haven't been putting numbers in commit
+> messages since it wasn't allowed. I may be able to dig out some more details
+> if I went trawling through GEM channel IRC logs, although probably not the
+> actual numbers since those were usually on pastebin. Or you go an talk with
+> Chris since he probably remembers more details. Or you just decide you don't
+> care and remove it. I wouldn't do that without putting the complete story in
+> writing, but it's your call after all.
 
-Ok in this case please just give me an acked-by or rb on the first patch 
-and I will put the second on hold until we have cleaned that up.
+Media has also changed, they're not using relocations anymore.
 
-Thanks,
-Christian.
+Unless there's solid data performance tuning of any kind that gets in the
+way simply needs to be removed. Yes this is radical, but the codebase is
+in a state to require this.
 
-> -Daniel
->
->> Christian.
->>
->>> -Daniel
->>>
->>>> Christian.
->>>>
->>>>> -Daniel
->>>>>
->>>>>> Thanks,
->>>>>> Christian.
->>>>>>
->>>>>> Am 18.08.21 um 12:54 schrieb Christian König:
->>>>>>> Only the DRM GPU scheduler, radeon and amdgpu where using them and they depend
->>>>>>> on a non existing config option to actually emit some code.
->>>>>>>
->>>>>>> v2: keep the signal path as is for now
->>>>>>>
->>>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>>>> ---
->>>>>>>      drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 10 +---------
->>>>>>>      drivers/gpu/drm/radeon/radeon_fence.c     | 24 ++++-------------------
->>>>>>>      drivers/gpu/drm/scheduler/sched_fence.c   | 18 ++---------------
->>>>>>>      include/linux/dma-fence.h                 | 22 ---------------------
->>>>>>>      4 files changed, 7 insertions(+), 67 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>>>>> index 0b1c48590c43..c65994e382bd 100644
->>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>>>>> @@ -246,7 +246,6 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>>>>>>      	struct amdgpu_fence_driver *drv = &ring->fence_drv;
->>>>>>>      	struct amdgpu_device *adev = ring->adev;
->>>>>>>      	uint32_t seq, last_seq;
->>>>>>> -	int r;
->>>>>>>      	do {
->>>>>>>      		last_seq = atomic_read(&ring->fence_drv.last_seq);
->>>>>>> @@ -278,12 +277,7 @@ bool amdgpu_fence_process(struct amdgpu_ring *ring)
->>>>>>>      		if (!fence)
->>>>>>>      			continue;
->>>>>>> -		r = dma_fence_signal(fence);
->>>>>>> -		if (!r)
->>>>>>> -			DMA_FENCE_TRACE(fence, "signaled from irq context\n");
->>>>>>> -		else
->>>>>>> -			BUG();
->>>>>>> -
->>>>>>> +		dma_fence_signal(fence);
->>>>>>>      		dma_fence_put(fence);
->>>>>>>      		pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
->>>>>>>      		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
->>>>>>> @@ -639,8 +633,6 @@ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->>>>>>>      	if (!timer_pending(&ring->fence_drv.fallback_timer))
->>>>>>>      		amdgpu_fence_schedule_fallback(ring);
->>>>>>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", ring->idx);
->>>>>>> -
->>>>>>>      	return true;
->>>>>>>      }
->>>>>>> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
->>>>>>> index 18f2c2e0dfb3..3f351d222cbb 100644
->>>>>>> --- a/drivers/gpu/drm/radeon/radeon_fence.c
->>>>>>> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
->>>>>>> @@ -176,18 +176,11 @@ static int radeon_fence_check_signaled(wait_queue_entry_t *wait, unsigned mode,
->>>>>>>      	 */
->>>>>>>      	seq = atomic64_read(&fence->rdev->fence_drv[fence->ring].last_seq);
->>>>>>>      	if (seq >= fence->seq) {
->>>>>>> -		int ret = dma_fence_signal_locked(&fence->base);
->>>>>>> -
->>>>>>> -		if (!ret)
->>>>>>> -			DMA_FENCE_TRACE(&fence->base, "signaled from irq context\n");
->>>>>>> -		else
->>>>>>> -			DMA_FENCE_TRACE(&fence->base, "was already signaled\n");
->>>>>>> -
->>>>>>> +		dma_fence_signal_locked(&fence->base);
->>>>>>>      		radeon_irq_kms_sw_irq_put(fence->rdev, fence->ring);
->>>>>>>      		__remove_wait_queue(&fence->rdev->fence_queue, &fence->fence_wake);
->>>>>>>      		dma_fence_put(&fence->base);
->>>>>>> -	} else
->>>>>>> -		DMA_FENCE_TRACE(&fence->base, "pending\n");
->>>>>>> +	}
->>>>>>>      	return 0;
->>>>>>>      }
->>>>>>> @@ -422,8 +415,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
->>>>>>>      	fence->fence_wake.func = radeon_fence_check_signaled;
->>>>>>>      	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
->>>>>>>      	dma_fence_get(f);
->>>>>>> -
->>>>>>> -	DMA_FENCE_TRACE(&fence->base, "armed on ring %i!\n", fence->ring);
->>>>>>>      	return true;
->>>>>>>      }
->>>>>>> @@ -441,11 +432,7 @@ bool radeon_fence_signaled(struct radeon_fence *fence)
->>>>>>>      		return true;
->>>>>>>      	if (radeon_fence_seq_signaled(fence->rdev, fence->seq, fence->ring)) {
->>>>>>> -		int ret;
->>>>>>> -
->>>>>>> -		ret = dma_fence_signal(&fence->base);
->>>>>>> -		if (!ret)
->>>>>>> -			DMA_FENCE_TRACE(&fence->base, "signaled from radeon_fence_signaled\n");
->>>>>>> +		dma_fence_signal(&fence->base);
->>>>>>>      		return true;
->>>>>>>      	}
->>>>>>>      	return false;
->>>>>>> @@ -550,7 +537,6 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>>>>>>      {
->>>>>>>      	uint64_t seq[RADEON_NUM_RINGS] = {};
->>>>>>>      	long r;
->>>>>>> -	int r_sig;
->>>>>>>      	/*
->>>>>>>      	 * This function should not be called on !radeon fences.
->>>>>>> @@ -567,9 +553,7 @@ long radeon_fence_wait_timeout(struct radeon_fence *fence, bool intr, long timeo
->>>>>>>      		return r;
->>>>>>>      	}
->>>>>>> -	r_sig = dma_fence_signal(&fence->base);
->>>>>>> -	if (!r_sig)
->>>>>>> -		DMA_FENCE_TRACE(&fence->base, "signaled from fence_wait\n");
->>>>>>> +	dma_fence_signal(&fence->base);
->>>>>>>      	return r;
->>>>>>>      }
->>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>>> index 69de2c76731f..3736746c47bd 100644
->>>>>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>>>> @@ -50,26 +50,12 @@ static void __exit drm_sched_fence_slab_fini(void)
->>>>>>>      void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
->>>>>>>      {
->>>>>>> -	int ret = dma_fence_signal(&fence->scheduled);
->>>>>>> -
->>>>>>> -	if (!ret)
->>>>>>> -		DMA_FENCE_TRACE(&fence->scheduled,
->>>>>>> -				"signaled from irq context\n");
->>>>>>> -	else
->>>>>>> -		DMA_FENCE_TRACE(&fence->scheduled,
->>>>>>> -				"was already signaled\n");
->>>>>>> +	dma_fence_signal(&fence->scheduled);
->>>>>>>      }
->>>>>>>      void drm_sched_fence_finished(struct drm_sched_fence *fence)
->>>>>>>      {
->>>>>>> -	int ret = dma_fence_signal(&fence->finished);
->>>>>>> -
->>>>>>> -	if (!ret)
->>>>>>> -		DMA_FENCE_TRACE(&fence->finished,
->>>>>>> -				"signaled from irq context\n");
->>>>>>> -	else
->>>>>>> -		DMA_FENCE_TRACE(&fence->finished,
->>>>>>> -				"was already signaled\n");
->>>>>>> +	dma_fence_signal(&fence->finished);
->>>>>>>      }
->>>>>>>      static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->>>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>>>>>> index 6ffb4b2c6371..4cc119ab272f 100644
->>>>>>> --- a/include/linux/dma-fence.h
->>>>>>> +++ b/include/linux/dma-fence.h
->>>>>>> @@ -590,26 +590,4 @@ struct dma_fence *dma_fence_get_stub(void);
->>>>>>>      struct dma_fence *dma_fence_allocate_private_stub(void);
->>>>>>>      u64 dma_fence_context_alloc(unsigned num);
->>>>>>> -#define DMA_FENCE_TRACE(f, fmt, args...) \
->>>>>>> -	do {								\
->>>>>>> -		struct dma_fence *__ff = (f);				\
->>>>>>> -		if (IS_ENABLED(CONFIG_DMA_FENCE_TRACE))			\
->>>>>>> -			pr_info("f %llu#%llu: " fmt,			\
->>>>>>> -				__ff->context, __ff->seqno, ##args);	\
->>>>>>> -	} while (0)
->>>>>>> -
->>>>>>> -#define DMA_FENCE_WARN(f, fmt, args...) \
->>>>>>> -	do {								\
->>>>>>> -		struct dma_fence *__ff = (f);				\
->>>>>>> -		pr_warn("f %llu#%llu: " fmt, __ff->context, __ff->seqno,\
->>>>>>> -			 ##args);					\
->>>>>>> -	} while (0)
->>>>>>> -
->>>>>>> -#define DMA_FENCE_ERR(f, fmt, args...) \
->>>>>>> -	do {								\
->>>>>>> -		struct dma_fence *__ff = (f);				\
->>>>>>> -		pr_err("f %llu#%llu: " fmt, __ff->context, __ff->seqno,	\
->>>>>>> -			##args);					\
->>>>>>> -	} while (0)
->>>>>>> -
->>>>>>>      #endif /* __LINUX_DMA_FENCE_H */
+So either way we'd need to rebenchmark this if it's really required. Also
+if we really need this code still someone needs to fix the design, the
+current code is making layering violations an art form.
 
+> Anyway, without the debugfs churn it is more or less two line patch to fix
+> igfx + dgfx hybrid setup. So while mulling it over this could go in. I'd
+> just refine it to use a GGTT check instead of GT. And unless DG1 ends up
+> being GuC only.
+
+The minimal robust fix here is imo to stop us from upcasting dma_fence to
+i915_request if it's not for our device. Not sprinkle code here into the
+semaphore code. We shouldn't even get this far with foreign fences.
+-Daniel
+
+> 
+> > - pre-gen8 semaphore code was also silently ditched and no one cared
+> > 
+> > Plus removing semaphore code would greatly simplify conversion to
+> > drm/sched.
+> > 
+> > > > ---
+> > > >    drivers/gpu/drm/i915/gem/i915_gem_object.h | 17 ----------
+> > > >    drivers/gpu/drm/i915/i915_debugfs.c        | 39 ++++++++++++++++++++--
+> > > >    drivers/gpu/drm/i915/i915_request.c        | 12 ++++++-
+> > > >    3 files changed, 47 insertions(+), 21 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > > > index 48112b9d76df..3043fcbd31bd 100644
+> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > > > @@ -503,23 +503,6 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
+> > > >    	i915_gem_object_unpin_pages(obj);
+> > > >    }
+> > > > -static inline struct intel_engine_cs *
+> > > > -i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+> > > > -{
+> > > > -	struct intel_engine_cs *engine = NULL;
+> > > > -	struct dma_fence *fence;
+> > > > -
+> > > > -	rcu_read_lock();
+> > > > -	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+> > > > -	rcu_read_unlock();
+> > > > -
+> > > > -	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
+> > > > -		engine = to_request(fence)->engine;
+> > > > -	dma_fence_put(fence);
+> > > > -
+> > > > -	return engine;
+> > > > -}
+> > > > -
+> > > >    void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
+> > > >    					 unsigned int cache_level);
+> > > >    void i915_gem_object_flush_if_display(struct drm_i915_gem_object *obj);
+> > > > diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+> > > > index 04351a851586..55fd6191eb32 100644
+> > > > --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> > > > +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> > > > @@ -135,13 +135,46 @@ static const char *stringify_vma_type(const struct i915_vma *vma)
+> > > >    	return "ppgtt";
+> > > >    }
+> > > > +static char *
+> > > > +last_write_engine(struct drm_i915_private *i915,
+> > > > +		  struct drm_i915_gem_object *obj)
+> > > > +{
+> > > > +	struct intel_engine_cs *engine;
+> > > > +	struct dma_fence *fence;
+> > > > +	char *res = NULL;
+> > > > +
+> > > > +	rcu_read_lock();
+> > > > +	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+> > > > +	rcu_read_unlock();
+> > > > +
+> > > > +	if (!fence || dma_fence_is_signaled(fence))
+> > > > +		goto out;
+> > > > +
+> > > > +	if (!dma_fence_is_i915(fence)) {
+> > > > +		res = "<external-fence>";
+> > > > +		goto out;
+> > > > +	}
+> > > > +
+> > > > +	engine = to_request(fence)->engine;
+> > > > +	if (engine->gt->i915 != i915) {
+> > > > +		res = "<external-i915>";
+> > > > +		goto out;
+> > > > +	}
+> > > > +
+> > > > +	res = engine->name;
+> > > > +
+> > > > +out:
+> > > > +	dma_fence_put(fence);
+> > > > +	return res;
+> > > > +}
+> > > > +
+> > > >    void
+> > > >    i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+> > > >    {
+> > > >    	struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
+> > > > -	struct intel_engine_cs *engine;
+> > > >    	struct i915_vma *vma;
+> > > >    	int pin_count = 0;
+> > > > +	char *engine;
+> > > >    	seq_printf(m, "%pK: %c%c%c %8zdKiB %02x %02x %s%s%s",
+> > > >    		   &obj->base,
+> > > > @@ -230,9 +263,9 @@ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+> > > >    	if (i915_gem_object_is_framebuffer(obj))
+> > > >    		seq_printf(m, " (fb)");
+> > > > -	engine = i915_gem_object_last_write_engine(obj);
+> > > > +	engine = last_write_engine(dev_priv, obj);
+> > > >    	if (engine)
+> > > > -		seq_printf(m, " (%s)", engine->name);
+> > > > +		seq_printf(m, " (%s)", engine);
+> > > 
+> > > Or I zap this from the code altogether. Not sure it is very useful since the
+> > > only caller is i915_gem_framebuffer debugfs file and how much it can care
+> > > about maybe hitting the timing window when exclusive fence will contain
+> > > something.
+> > 
+> > Ideally we'd just look at the fence timeline name. But i915 has this very
+> > convoluted typesafe-by-rcu reuse which means we actually can't do that,
+> > and our fence timeline name is very useless.
+> 
+> Why do we even care to output any of this here? I'd just remove it since it
+> is a very transient state with an extremely short window of opportunity to
+> make it show anything. Which I think makes it pretty useless in debugfs.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > 
+> > Would be good to fix that, Matt Auld has started an attempt but didn't get
+> > very far.
+> > -Daniel
+> > 
+> > > 
+> > > Regards,
+> > > 
+> > > Tvrtko
+> > > 
+> > > >    }
+> > > >    static int i915_gem_object_info(struct seq_file *m, void *data)
+> > > > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> > > > index ce446716d092..64adf619fe82 100644
+> > > > --- a/drivers/gpu/drm/i915/i915_request.c
+> > > > +++ b/drivers/gpu/drm/i915/i915_request.c
+> > > > @@ -1152,6 +1152,12 @@ __emit_semaphore_wait(struct i915_request *to,
+> > > >    	return 0;
+> > > >    }
+> > > > +static bool
+> > > > +can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
+> > > > +{
+> > > > +	return to->engine->gt == from->engine->gt;
+> > > > +}
+> > > > +
+> > > >    static int
+> > > >    emit_semaphore_wait(struct i915_request *to,
+> > > >    		    struct i915_request *from,
+> > > > @@ -1160,6 +1166,9 @@ emit_semaphore_wait(struct i915_request *to,
+> > > >    	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
+> > > >    	struct i915_sw_fence *wait = &to->submit;
+> > > > +	if (!can_use_semaphore_wait(to, from))
+> > > > +		goto await_fence;
+> > > > +
+> > > >    	if (!intel_context_use_semaphores(to->context))
+> > > >    		goto await_fence;
+> > > > @@ -1263,7 +1272,8 @@ __i915_request_await_execution(struct i915_request *to,
+> > > >    	 * immediate execution, and so we must wait until it reaches the
+> > > >    	 * active slot.
+> > > >    	 */
+> > > > -	if (intel_engine_has_semaphores(to->engine) &&
+> > > > +	if (can_use_semaphore_wait(to, from) &&
+> > > > +	    intel_engine_has_semaphores(to->engine) &&
+> > > >    	    !i915_request_has_initial_breadcrumb(to)) {
+> > > >    		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
+> > > >    		if (err < 0)
+> > > > 
+> > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
