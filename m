@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52553FC98A
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:18:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C1F3FC98D
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 16:18:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E206B6E071;
-	Tue, 31 Aug 2021 14:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8804C6E077;
+	Tue, 31 Aug 2021 14:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F05D66E05F;
- Tue, 31 Aug 2021 14:17:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10093"; a="216631816"
-X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="216631816"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 07:17:53 -0700
-X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="531120060"
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E79796E075;
+ Tue, 31 Aug 2021 14:17:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10093"; a="282195776"
+X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="282195776"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 07:17:59 -0700
+X-IronPort-AV: E=Sophos;i="5.84,366,1620716400"; d="scan'208";a="541026287"
 Received: from anicol1x-mobl.ger.corp.intel.com (HELO localhost)
  ([10.251.211.207])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 07:17:51 -0700
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2021 07:17:57 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
  jani.nikula@intel.com
-Subject: [PATCH v2 2/6] drm/displayid: add DisplayID v2.0 data blocks and
- primary use cases
-Date: Tue, 31 Aug 2021 17:17:31 +0300
-Message-Id: <5a5c7e4477782c174f494947e2a2ea618b2b1ef2.1630419362.git.jani.nikula@intel.com>
+Subject: [PATCH v2 3/6] drm/edid: abstract OUI conversion to 24-bit int
+Date: Tue, 31 Aug 2021 17:17:32 +0300
+Message-Id: <2f43032d5f001510c7eed059321ceeb76d07a606.1630419362.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1630419362.git.jani.nikula@intel.com>
 References: <cover.1630419362.git.jani.nikula@intel.com>
@@ -51,68 +50,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DisplayID v2.0 changes the data block identifiers and product types (now
-called primary use cases).
+Replace the open coded OUI conversion from three bytes to a 24-bit int,
+as we'll be adding one more user shortly. No functional changes.
+
+Side note: CTA-861 format has the OUI bytes in reverse order.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_displayid.h | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/gpu/drm/drm_edid.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-index 0ed9445b5482..79771091771a 100644
---- a/include/drm/drm_displayid.h
-+++ b/include/drm/drm_displayid.h
-@@ -26,6 +26,10 @@
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 6325877c5fd6..92974b1478bc 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -49,6 +49,11 @@
+ 	(((edid)->version > (maj)) || \
+ 	 ((edid)->version == (maj) && (edid)->revision > (min)))
  
- struct edid;
- 
-+/* DisplayID Structure versions */
-+#define DISPLAY_ID_STRUCTURE_VER_12		0x12
-+#define DISPLAY_ID_STRUCTURE_VER_20		0x20
++static int oui(u8 first, u8 second, u8 third)
++{
++	return (first << 16) | (second << 8) | third;
++}
 +
- /* DisplayID Structure v1r2 Data Blocks */
- #define DATA_BLOCK_PRODUCT_ID			0x00
- #define DATA_BLOCK_DISPLAY_PARAMETERS		0x01
-@@ -48,6 +52,20 @@ struct edid;
- #define DATA_BLOCK_VENDOR_SPECIFIC		0x7f
- #define DATA_BLOCK_CTA				0x81
+ #define EDID_EST_TIMINGS 16
+ #define EDID_STD_TIMINGS 8
+ #define EDID_DETAILED_TIMINGS 4
+@@ -4113,32 +4118,24 @@ cea_db_offsets(const u8 *cea, int *start, int *end)
  
-+/* DisplayID Structure v2r0 Data Blocks */
-+#define DATA_BLOCK_2_PRODUCT_ID			0x20
-+#define DATA_BLOCK_2_DISPLAY_PARAMETERS		0x21
-+#define DATA_BLOCK_2_TYPE_7_DETAILED_TIMING	0x22
-+#define DATA_BLOCK_2_TYPE_8_ENUMERATED_TIMING	0x23
-+#define DATA_BLOCK_2_TYPE_9_FORMULA_TIMING	0x24
-+#define DATA_BLOCK_2_DYNAMIC_VIDEO_TIMING	0x25
-+#define DATA_BLOCK_2_DISPLAY_INTERFACE_FEATURES	0x26
-+#define DATA_BLOCK_2_STEREO_DISPLAY_INTERFACE	0x27
-+#define DATA_BLOCK_2_TILED_DISPLAY_TOPOLOGY	0x28
-+#define DATA_BLOCK_2_CONTAINER_ID		0x29
-+#define DATA_BLOCK_2_VENDOR_SPECIFIC		0x7e
-+#define DATA_BLOCK_2_CTA_DISPLAY_ID		0x81
-+
- /* DisplayID Structure v1r2 Product Type */
- #define PRODUCT_TYPE_EXTENSION			0
- #define PRODUCT_TYPE_TEST			1
-@@ -57,6 +75,17 @@ struct edid;
- #define PRODUCT_TYPE_REPEATER			5
- #define PRODUCT_TYPE_DIRECT_DRIVE		6
+ static bool cea_db_is_hdmi_vsdb(const u8 *db)
+ {
+-	int hdmi_id;
+-
+ 	if (cea_db_tag(db) != VENDOR_BLOCK)
+ 		return false;
  
-+/* DisplayID Structure v2r0 Display Product Primary Use Case (~Product Type) */
-+#define PRIMARY_USE_EXTENSION			0
-+#define PRIMARY_USE_TEST			1
-+#define PRIMARY_USE_GENERIC			2
-+#define PRIMARY_USE_TV				3
-+#define PRIMARY_USE_DESKTOP_PRODUCTIVITY	4
-+#define PRIMARY_USE_DESKTOP_GAMING		5
-+#define PRIMARY_USE_PRESENTATION		6
-+#define PRIMARY_USE_HEAD_MOUNTED_VR		7
-+#define PRIMARY_USE_HEAD_MOUNTED_AR		8
-+
- struct displayid_header {
- 	u8 rev;
- 	u8 bytes;
+ 	if (cea_db_payload_len(db) < 5)
+ 		return false;
+ 
+-	hdmi_id = db[1] | (db[2] << 8) | (db[3] << 16);
+-
+-	return hdmi_id == HDMI_IEEE_OUI;
++	return oui(db[3], db[2], db[1]) == HDMI_IEEE_OUI;
+ }
+ 
+ static bool cea_db_is_hdmi_forum_vsdb(const u8 *db)
+ {
+-	unsigned int oui;
+-
+ 	if (cea_db_tag(db) != VENDOR_BLOCK)
+ 		return false;
+ 
+ 	if (cea_db_payload_len(db) < 7)
+ 		return false;
+ 
+-	oui = db[3] << 16 | db[2] << 8 | db[1];
+-
+-	return oui == HDMI_FORUM_IEEE_OUI;
++	return oui(db[3], db[2], db[1]) == HDMI_FORUM_IEEE_OUI;
+ }
+ 
+ static bool cea_db_is_vcdb(const u8 *db)
 -- 
 2.30.2
 
