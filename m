@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454123FC5D9
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 13:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8D53FC5DA
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 13:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314978857E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 232B288437;
 	Tue, 31 Aug 2021 11:21:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC19C89A4B
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 11:21:20 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id g18so19574615wrc.11
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 04:21:20 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7B3189A88
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 11:21:21 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id i3so10928066wmq.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 04:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=tiFOqnz2z9TFVO081gYMvI20BrMbbHMcIhSg1/O4wb0=;
- b=uOXt+r8EOMI/yccnOkd7uL3MSo/II7r9+vBoMAaePbQujdBxitpB1ZSRFC2gMPgbPU
- cmKSSvze/9xl9d87LH8w0I0RepsVMjyDQMs/axAVC9Y4TCmlGvh0eZKUiKEEwbAsdL0N
- eH5WLoZRUb9YXvBAwnAYNb+2h0jR9zTjn8ADrRLmbxUglEpO5MeQm939rd7IwP6ZrQnY
- I3n/R4+a1hTu1FXX+XXI/n2sX89wOIwDbA6mzNVhXVNYi4HRnp6epUSxFh+6eOGMNLkw
- ue0MLKKvzO1zoVnVDKezVaqYl6ytVccqn3H1ws5TZ8guMOUEGUoN2I+yf+vrNMs7zv81
- b+yQ==
+ bh=sVca61Kl8JxO61bspaysHLQGaf8iPz7R5MzqkuTuH/s=;
+ b=FseTJq0Eg8bx8KSzKCrp+uxvkg54GC/ajfso+5pjYWaChKOwBse0XRmn0bWo01q2oA
+ gy8jVYcfI979UvEvD7N2r77N20YSSJOdhOdjD7jq61uG33jPlvBmmqD5zNN646XTYNMg
+ oCs5ZaGwlSGBfjgdRjsL61EczrcmlDAQrb/vQM5e5uiKl5MNnjQSJ44SBRno9x5d8Vrn
+ vzHqcZ1s+arZEKpurSU1u2GpABp61jXbRvTCBY/s7QBKXKY/NvT/yxdhlud+jkY0OkBy
+ LX0BIRm2Kx1kDRfUBx8Nf3k/HDKAQeu6y1CzGLwbLQXTDYytbVhIBDcDJ3d+coJtRRxM
+ ArYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tiFOqnz2z9TFVO081gYMvI20BrMbbHMcIhSg1/O4wb0=;
- b=DxqSRPISHUsEW8UGjIyhPB3mv+YTolS+BXgT+UkLs0HOtv6auajGPJYO6c4fjQk+jR
- W16bW+UMhUsciPC2ESgBxl0g3ClCjsxlNRd4MDVT480SaKeut9OU+DevtHy1u0Mq8Yw+
- GuFfxnlsGYa2ZX6RneY2NGv7JzCbr3iB8S6FD8vlOTUyfPgfdX6OV29r/4NGl45+seQk
- 3gQ7FEvzdQ+291HOF8BAGDtMmHKyt4yXmll2C6mRSvg11hO8k8S4kj3AvF3Keu2TyhEp
- qNa2kpp8Nm0v20AX/6IkOli2op1jCK3omf+zONU9Ja4NvC6Hdwa9TUzxbE8m0oVf0dR5
- L2gw==
-X-Gm-Message-State: AOAM533eq+LkfU0+saGpQxICQiFkS6DTicdjUVmeDcBLDAIENVOOIoVB
- VtFNFpVmjP/k1bSehhgoWo6NSZP0vFxYZVOL
-X-Google-Smtp-Source: ABdhPJwSCcygeaivKCmOUcM0AjHxTlZK7CaOhDugctA/4BGjT8NixHRoS7AgzBL5w1pGJ7wH+rgVVQ==
-X-Received: by 2002:adf:b7c5:: with SMTP id t5mr19120139wre.322.1630408879385; 
- Tue, 31 Aug 2021 04:21:19 -0700 (PDT)
+ bh=sVca61Kl8JxO61bspaysHLQGaf8iPz7R5MzqkuTuH/s=;
+ b=V4w2dK6H5f7W8m4dm2119s42dmEDglZfq85BVXpE8Qvov9hkfJcPFB6Ehjpd1GptXb
+ J5nkzAKlUlBSShU9vtXhdyzdwU6OvP31Pp07/ljRiVsBscQkpzovh0f9zvitMSQFbq5S
+ 9RU4PKvmcgwz8E2uJlOZVbBVjiimtAIz3+LAuNyXqsGO9xq03zPcWxOtsu3p9SZJzNaX
+ M9R62QlCI0/SgkExEe2Rst/c45pYqmVMU96Ymp1KJYsWPBGWE7+iZse1AAJw3b78shzt
+ hqll41rFXWM4n8WvyDSWPmm8GJZSrdcyPSoAYaXmBVXeVGMsucysoY0bcv+AFy52IMqk
+ 7Kfg==
+X-Gm-Message-State: AOAM532C1hYE76RMF7hlbSjrw9JfzWPZJNQalNmCBcF4r0xzeuk+9wSh
+ 55LkW6ddSvqjm9XkfbeuLvL5do1LyBB+zzHh
+X-Google-Smtp-Source: ABdhPJzgpIw+lBzOG5rbdDT/s6QFxI6NKtRCMuZHQao8d8a+KmpS4eiC44k+r6c/gBr1D7+rBmDmxw==
+X-Received: by 2002:a1c:1f49:: with SMTP id f70mr3533481wmf.13.1630408880227; 
+ Tue, 31 Aug 2021 04:21:20 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- g5sm18054957wrq.80.2021.08.31.04.21.18
+ g5sm18054957wrq.80.2021.08.31.04.21.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 31 Aug 2021 04:21:19 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
@@ -51,9 +51,9 @@ X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org, thomas.hellstrom@linux.intel.com,
  ray.huang@amd.com
-Subject: [PATCH 2/5] drm/ttm: add busy and idle placement flags
-Date: Tue, 31 Aug 2021 13:21:07 +0200
-Message-Id: <20210831112110.113196-2-christian.koenig@amd.com>
+Subject: [PATCH 3/5] drm/amdgpu: use new placement flags
+Date: Tue, 31 Aug 2021 13:21:08 +0200
+Message-Id: <20210831112110.113196-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210831112110.113196-1-christian.koenig@amd.com>
 References: <20210831112110.113196-1-christian.koenig@amd.com>
@@ -75,64 +75,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-More flexible than the busy placements.
+Instead of the busy placement.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c    | 8 +++++++-
- include/drm/ttm/ttm_placement.h | 6 ++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 3 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 0a3127436f61..c7034040c67f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -834,6 +834,9 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
- 		const struct ttm_place *place = &placement->placement[i];
- 		struct ttm_resource_manager *man;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index d15eee98204d..327b8af6cc1a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1393,8 +1393,7 @@ vm_fault_t amdgpu_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+ 					AMDGPU_GEM_DOMAIN_GTT);
  
-+		if (place->flags & TTM_PL_FLAG_BUSY)
-+			continue;
-+
- 		man = ttm_manager_type(bdev, place->mem_type);
- 		if (!man || !ttm_resource_manager_used(man))
- 			continue;
-@@ -860,6 +863,9 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
- 		const struct ttm_place *place = &placement->busy_placement[i];
- 		struct ttm_resource_manager *man;
+ 	/* Avoid costly evictions; only set GTT as a busy placement */
+-	abo->placement.num_busy_placement = 1;
+-	abo->placement.busy_placement = &abo->placements[1];
++	abo->placements[0].flags |= TTM_PL_FLAG_IDLE;
  
-+		if (place->flags & TTM_PL_FLAG_IDLE)
-+			continue;
-+
- 		man = ttm_manager_type(bdev, place->mem_type);
- 		if (!man || !ttm_resource_manager_used(man))
- 			continue;
-@@ -869,7 +875,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
- 		if (likely(!ret))
- 			return 0;
- 
--		if (ret && ret != -EBUSY)
-+		if (ret != -EBUSY)
- 			goto error;
- 	}
- 
-diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
-index 8995c9e4ec1b..63f7217354c0 100644
---- a/include/drm/ttm/ttm_placement.h
-+++ b/include/drm/ttm/ttm_placement.h
-@@ -53,6 +53,12 @@
- /* For multihop handling */
- #define TTM_PL_FLAG_TEMPORARY   (1 << 2)
- 
-+/* Placement is only used when we are evicting */
-+#define TTM_PL_FLAG_BUSY	(1 << 3)
-+
-+/* Placement is only used when we are not evicting */
-+#define TTM_PL_FLAG_IDLE	(1 << 4)
-+
- /**
-  * struct ttm_place
-  *
+ 	r = ttm_bo_validate(bo, &abo->placement, &ctx);
+ 	if (unlikely(r == -EBUSY || r == -ERESTARTSYS))
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 489e22190e29..27f0acb7b3da 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -153,8 +153,7 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
+ 							AMDGPU_GEM_DOMAIN_CPU);
+ 			abo->placements[0].fpfn = adev->gmc.visible_vram_size >> PAGE_SHIFT;
+ 			abo->placements[0].lpfn = 0;
+-			abo->placement.busy_placement = &abo->placements[1];
+-			abo->placement.num_busy_placement = 1;
++			abo->placements[0].flags = TTM_PL_FLAG_IDLE;
+ 		} else {
+ 			/* Move to GTT memory */
+ 			amdgpu_bo_placement_from_domain(abo, AMDGPU_GEM_DOMAIN_GTT |
 -- 
 2.25.1
 
