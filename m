@@ -1,68 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B8C3FC27B
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 08:15:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DF13FC2AF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 08:31:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEBC89B96;
-	Tue, 31 Aug 2021 06:15:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C375898A8;
+	Tue, 31 Aug 2021 06:31:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6017289B9F;
- Tue, 31 Aug 2021 06:15:06 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id 17so15682088pgp.4;
- Mon, 30 Aug 2021 23:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XOWjtPmVcuZURRHCItqd8KeCjmehloMsJa1Tvd/rfGo=;
- b=mYm7klhu8D1d0GjuqfIbWTRUjRNgIEAa3dL8lyoQNp0mVTIahS//yMyxbRIQDR1tAm
- cm/s2CR7gS51s5nM0xi6LPGiZlv09rLOPKOXoUxKwlJMn8GxUx6fFNKfhbe2Z6bbPtma
- 0K52TUob6x00E1p2GLsdVsUsTfgFY/FxXI9Q7bJASogTgCkIbZ7sgpacphMTmtGEfC6E
- 2DC2WkZCBnVHIPLJFSejF9aIeUAFT8Lt9OaiXcKsyD2kiJVH2Ytj5HGgvZRC7AOMGKFI
- ajUn8qFPhAblyPjCxIOwpFpn/kXha1yCrkZ5fXacFxoSrw1Cszy58viw4gWJ51fc0u46
- M5+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XOWjtPmVcuZURRHCItqd8KeCjmehloMsJa1Tvd/rfGo=;
- b=IdphWmqE1OaGALzQLUfIHdK5+rdulaPrpS9CdzeWGfg0WtVf12LFzBOXxiDUnE8Weu
- WO95s+zL94xiFpv/OfaoqCEx89MLxNtZTT5ZgayHmPzzjUign+yMkZwDy2chmSXXNVWR
- CIFPhTmtEXeLGy7nq2XVkTPnyob8yBblN73zM58RX0iy9pMT6NkZgNHk3tJuT1HCX9z9
- XGkMhDTRoAx1zNkZXH82WcO33Wq66UjoqcI5RTZVhdlL2lFvb19llZldUljDEAaFLLu3
- 78itoFPYl/TS4wXC70HMNdltVvu5M2g/UJA3ChmEr3WtFZxMNPjs5RR17LkQCHcIOLcE
- XUPQ==
-X-Gm-Message-State: AOAM5328oD4x/vqyRnmqSCR5AUFoMm25zuKOt/+B/wYukbQI6FYCtMy/
- u9mY8fYrpW9piQcMtxyAnxo=
-X-Google-Smtp-Source: ABdhPJztsAuXiccegNYT+v+yGrR62NbefH2Z/EZ4yrQw6VeBuAlR9qar3ZRXKLdP9fPvQh2G8zu7VA==
-X-Received: by 2002:a65:5845:: with SMTP id s5mr24426433pgr.227.1630390505792; 
- Mon, 30 Aug 2021 23:15:05 -0700 (PDT)
-Received: from sanitydock.wifi-cloud.jp ([210.160.217.69])
- by smtp.gmail.com with ESMTPSA id z7sm1405724pjr.42.2021.08.30.23.15.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 23:15:05 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH v9 4/4] drm: avoid races with modesetting rights
-Date: Tue, 31 Aug 2021 14:13:48 +0800
-Message-Id: <20210831061348.97696-5-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210831061348.97696-1-desmondcheongzx@gmail.com>
-References: <20210831061348.97696-1-desmondcheongzx@gmail.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2040.outbound.protection.outlook.com [40.107.223.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FE4F898A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 06:31:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hx94KWhkUN2o3QMnYmfCKT1ry96j8+gBWeoQvkoGyfpF3z9iI16Zk1Rbx06cCLLK679p84qcQ4jDxUJlJd+Mc04bRzrDDT8PPMZZGwsBm6iUJQ0qrQkXMrcleCcwjYWHm2r+fxGdPpMbKsgImrsOFYl7g7WjbMDHiWMVClfpX/7vCrOuKvgE9SzypIMi497WbbbgZoI736wYEeeRBtoXgLSYnyZ/Sy0uz8vlobtK03Lp1Hs2AjBzvgraIbmL5xdvatAjEvJFIZGyO92BhyqekXJg7hG9td1dgk7XfbLJA621UxYMID3J2GuOnFaDyI/40qw2/AA2W5uR2Bha3XsGlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FzSNFFZs4c99WXVPwgImMnSgH3KfmFLUi53AAFh/hK0=;
+ b=ACM7FJDmAZnId45ttItYSAzXxb/sK4DC2HCboHqw1lPbExPjmdlbp7aO3zztRHik+60WOmLg4GrPuhFlGFnf/lkg3aBt8LlxP03Pn2ifMYGwu+SWmW00g0ufGRm66l2UXHsNynJwChZAplKnNjyGA3wq0oxaHcjOnFX7FCUDgAflVwEmoh5O9FmETrllmyNDUKEotaSYrWoWH4Bq2x5UJXN55wndETmW76WoOm8kt8zhkXMnt0fh22g/3H2x4rVmTST5PRcdEuWt4VlDCXflo6vk1HHNy3aWFbGFz1SrbBztvpbtJqw6puRnQMVPYPWrjf53k6urxIFcZI4wXlI5bw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FzSNFFZs4c99WXVPwgImMnSgH3KfmFLUi53AAFh/hK0=;
+ b=im3KkEjY9Z5GHGHZpYjaQ2N9H/Ukdhg2ee4Fn67m9Fr1kPHXIcFUZuALkxO/tQBR6eSyUazr57BoQ94+vN8r5y9vNLTJDwvkPWJxNQYzgf8ELJ2GuaOi/V6cSYnJM7hnERTM+aqaNKgcD6EmFEAmua6CVgH1HMjP+QssCsHp5Yk=
+Authentication-Results: mediatek.com; dkim=none (message not signed)
+ header.d=none;mediatek.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3903.namprd12.prod.outlook.com (2603:10b6:208:15a::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.24; Tue, 31 Aug
+ 2021 06:31:29 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4457.024; Tue, 31 Aug 2021
+ 06:31:29 +0000
+Subject: Re: [PATCH] dma-buf: heaps: remove duplicated cache sync
+To: guangming.cao@mediatek.com
+Cc: Brian.Starkey@arm.com, benjamin.gaignard@linaro.org,
+ dri-devel@lists.freedesktop.org, john.stultz@linaro.org, labbott@redhat.com,
+ linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, lmark@codeaurora.org,
+ matthias.bgg@gmail.com, sumit.semwal@linaro.org, wsd_upstream@mediatek.com
+References: <dd5ba603-8c9d-f6a0-cbcc-dfb353fb6701@amd.com>
+ <20210831034405.41916-1-guangming.cao@mediatek.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <0b48df29-a20f-65f6-bc4c-6c0a7522ecd7@amd.com>
+Date: Tue, 31 Aug 2021 08:31:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210831034405.41916-1-guangming.cao@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR02CA0181.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28e::18) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.178.21] (91.14.161.181) by
+ AM0PR02CA0181.eurprd02.prod.outlook.com (2603:10a6:20b:28e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.21 via Frontend
+ Transport; Tue, 31 Aug 2021 06:31:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6205f434-79cc-466d-18da-08d96c48f705
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3903:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3903F9AF510AEB4E2E88CBF083CC9@MN2PR12MB3903.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8salqPox4/I0Ive1XqPQ7ftCdr1TP1CDhvMk+ZSxTMq972c5/tyO5/+GXa8Z81VjK8z8liawVHRvNka40xMkU8h5y98PRyZGfg+SZKj8oCNrwlry/xYtJh/ESxaWDSYD/WqR4usFzqF82ZVUWKXt8gSN9hIPTtXHPe+FBfNL7I6j/r5PUD8FwAPzB4fj6ukdIHeSAzeU2NTxlrjS0moJRq3kW6eHv0VQLLQJ1VlmtOuYjLZnSCvu5zXC431J033/xOFN0+4xXWro4Jv+KNi8Abi8KyziVkFvfID//OpHNKalQ4Sdtw56i61fS+RIBqRH9eA64ijyfJ8LliVYtLNVQsp4pDt1fsjIn6FthZ2nwjgy+pfX2gxJq2ke5yrQFmNmfKpRxgXfRjqfx4bYbOLWX/2eWI8xOo9hzLPzxjsfSk8F2lXHe9zdIMRdIdBTXyYrVQv04Dad1aBfNTKCiwmBSb+N3E/RVe4tls+JGj4vP6MSC1MKQ9nOf53gWUlAO05V5TIzg2XXc8mopwL2pR1aqbvyCJIPTacp1LJUydQUgeGw3pBktT18z7QOHrUrLGBFdVFj9ynJy3IGi4qUJaobaIXZgaFeQNABeOFKZ6X/YwLn+8WK3AvkIEE2w8UU0rrEYsi2ZR3QGMFWLbE/rsWvFe4ts0Fk1MjCY4TFcMKdDPqMRU/QGupV+N99nC2A8sOf2XEQciPyE6diScGwda/TNbuh+cs1yghXkycCDchbDRQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(366004)(346002)(39860400002)(376002)(4326008)(6666004)(6916009)(86362001)(83380400001)(66556008)(66946007)(6486002)(5660300002)(66476007)(36756003)(2906002)(16576012)(31686004)(478600001)(38100700002)(2616005)(316002)(26005)(8936002)(31696002)(8676002)(956004)(7416002)(186003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TmhoQXlpSU9mUlByNmw3d0tKSUk1cFZ3a2xKY1RPVjY1TTZNeGpRcU5pWWJh?=
+ =?utf-8?B?ckFYMWtIZnphYW1rUGpHci9EM09mbFdpWW1rYXp6aXgvaDd1SGYvOEwzZFVv?=
+ =?utf-8?B?UzFvd2hTdEx3a2d2RnhzZ0NuemZWWUIxN2NCR1JEMkZDVGdBYVdHRFZJRGZr?=
+ =?utf-8?B?WHhIWlNUNHJzbTBUSmFDQUNuWHVMazFoTC9GT2FmTmpRTmJQOVUwZExjUHFp?=
+ =?utf-8?B?TXRsV2RVaE4zbW1TZnUvZzdJZWM4bUxNMDhIb3p1SEp3SzZhSjVJUTl5VHAv?=
+ =?utf-8?B?QnVqQWR1SUEvcGtvTlc2bUQzNVAxVnBwcmJlTWlHWW9JdUpreDJVT0I0RWhq?=
+ =?utf-8?B?RTB2aGtRR2dWTU1NNjVaNWh2R05uVG91REFHaUZ1U0dZU2JkZlhrVmd5R3o2?=
+ =?utf-8?B?c3VuZE1mc2JKMjl0LzdncHA4eEFna1BZSFNVb2VOVm1iY094R2U2ckJYMnEw?=
+ =?utf-8?B?ZlBhVnlxc3FleHhvUXIxTDdCZ3FreDZvbkxBNml6ZTZ6dXFrNVFWZldId29x?=
+ =?utf-8?B?b01nWkcrWXFlY04yNjlzMWtTdVBXTDU3N2VGVjZ0UFJrMnp1ZDNOMTZFZG1i?=
+ =?utf-8?B?Zi94bU5DaW1oeWoyeW4zVjQzaUY3bWxmN3BCb3hLbWV5NkR3ditDVmdnQmdU?=
+ =?utf-8?B?c2dhT0VyU2JJbk94TUFYNFRaTEQxZkd6S3Z2U3BoOVlpUk95QkNVbjNKbjhr?=
+ =?utf-8?B?QVJLTVhyZ0luVXYvK3lZUTIyMm9kd3A5cHNXZTVTdkoxdkZ0Y0w5cUVyN2U3?=
+ =?utf-8?B?bHBEVlBxcUZzbCt1YUN3K2tvWGtEWXNCRFVaT1J5VVNJZ1ZPRDhMQ085RUd2?=
+ =?utf-8?B?eVJpZ0NmRkYzZFJ6MlU0b2NKeS9LMzR3ZG5DaXRFRXdpbkZhK2I0aTFPWk8x?=
+ =?utf-8?B?ckwwWEhoaktpZGI5YnNKMWhkZXJKMnczNlFOYVB6OFhQYkxTOVJrTkNYc1RG?=
+ =?utf-8?B?aXN6RTF2WmVMVkY2d2k2S2x5dC9VRE96OFZBQ0FtR2Y1YUN1VkpLWkg5R0ts?=
+ =?utf-8?B?NmpvUlNteWxubFpqWWtvSDdXOGRSY2l1ZGw2MzJSOHFFSHdidnBnNjI2RnVH?=
+ =?utf-8?B?a2VEek82WnFsbHNOY200b0g4c25CS3lzSEpjRzVicXN1MFJ5TEk1TTlRY1RU?=
+ =?utf-8?B?MkJHMS96Y0F1bHFpQ1paY2lBN05uODROckZxaVNzVmUva2RaYVdEamVPYWVz?=
+ =?utf-8?B?Z0JMQnlBellPZStkdUxmSmN2T1ZPZHRoVVZjMlVwckhrQzI2ZDFPMkZjcVov?=
+ =?utf-8?B?cEV5SisyK3VEdXhTZ0pXc3RycStUbFV3UkI1VFJmV3Q2b2RienZ2UkprenVG?=
+ =?utf-8?B?eVUrRWx5aGRPTm5teCthb0E0aCs2N2JkUE1ucmVYZHlOaTRYMjRldTNGblVK?=
+ =?utf-8?B?WkFKaUZLc0p0TEJxQ3dON29scmhOa3Z5eUlYV2V1T1RnN3JYUm1lOGU2ekln?=
+ =?utf-8?B?V0FGaDQrK1ZaaTV4OXNENGF5Rk8ycWJWM1A0YjVHMzAycnAyY2gwU0dGOWlp?=
+ =?utf-8?B?WWZHdlVXU1pWaHZWb3BXU3B3SkR1MW1uSUNScjFTemY3czJIVkhudkRYc3da?=
+ =?utf-8?B?V1Jhd1p0S2dwZzNZeTdCUDN4MVhUbFM3WG1QR05KdktLZnhPbGtBZHJJYmcx?=
+ =?utf-8?B?SlUwbkR4dEpYeFlueVdlR1I4bGlESU52NUpBenVjb3NBRGRYV1VRVEIxUnhX?=
+ =?utf-8?B?dHNOdWpHak9VVUpibEs5UGdkL3FBKzc0TkIzbjQxQWFwSVB3eC9HUUFlcndq?=
+ =?utf-8?Q?UgwkTAq+AKtr8dnGoQ/LBZ5tJcDnMaAgC+Zz/At?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6205f434-79cc-466d-18da-08d96c48f705
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2021 06:31:29.7341 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qte71PpFY1gxU8vMv8x0qnu6OwUUq0AvQ9HlP8BiczGzU3JwZY6upp6ixCef9jv0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3903
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,236 +136,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_client_modeset.c and drm_fb_helper.c,
-drm_master_internal_{acquire,release} are used to avoid races with DRM
-userspace. These functions hold onto drm_device.master_rwsem while
-committing, and bail if there's already a master.
+Am 31.08.21 um 05:44 schrieb guangming.cao@mediatek.com:
+> From: Guangming Cao <Guangming.Cao@mediatek.com>
+>
+>> Am 30.08.21 um 12:01 schrieb guangming.cao@mediatek.com:
+>>> From: Guangming Cao <Guangming.Cao@mediatek.com>
+>>>
+>>> Current flow, one dmabuf maybe call cache sync many times if
+>>> it has beed mapped more than one time.
+>> Well I'm not an expert on DMA heaps, but this will most likely not work
+>> correctly.
+>>
+> All attachments of one dmabuf will add into a list, I think it means dmabuf
+> supports map more than one time. Could you tell me more about it?
 
-However, there are other places where modesetting rights can race. A
-time-of-check-to-time-of-use error can occur if an ioctl that changes
-the modeset has its rights revoked after it validates its permissions,
-but before it completes.
+Yes, that's correct and all of those needs to be synced as far as I know.
 
-There are four places where modesetting permissions can change:
+See the dma_sync_sgtable_for_cpu() is intentionally for each SG table 
+given out.
 
-- DROP_MASTER ioctl removes rights for a master and its leases
+>>> Is there any case that attachments of one dmabuf will points to
+>>> different memory? If not, seems do sync only one time is more better.
+>> I think that this can happen, yes.
+>>
+>> Christian.
+>>
+> Seems it's a very special case on Android, if you don't mind, could you
+> tell me more about it?
 
-- REVOKE_LEASE ioctl revokes rights for a specific lease
+That might be the case, nevertheless this change here is illegal from 
+the DMA API point of view as far as I can see.
 
-- SET_MASTER ioctl sets the device master if the master role hasn't
-been acquired yet
+Regards,
+Christian.
 
-- drm_open which can create a new master for a device if one does not
-currently exist
-
-These races can be avoided using drm_device.master_rwsem: users that
-perform modesetting should hold a read lock on the new
-drm_device.master_rwsem, and users that change these permissions
-should hold a write lock.
-
-To avoid deadlocks with master_rwsem, for ioctls that need to check
-for modesetting permissions, but also need to hold a write lock on
-master_rwsem to protect some other attribute (or recurses to some
-function that holds a write lock, like drm_mode_create_lease_ioctl
-which eventually calls drm_master_open), we remove the DRM_MASTER flag
-and push the master_rwsem lock and permissions check into the ioctl.
-
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/drm_auth.c  |  4 ++++
- drivers/gpu/drm/drm_ioctl.c | 20 +++++++++++++++-----
- drivers/gpu/drm/drm_lease.c | 35 ++++++++++++++++++++++++-----------
- include/drm/drm_device.h    |  6 ++++++
- 4 files changed, 49 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 73ade0513ccb..65065f7e1499 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -120,6 +120,10 @@ int drm_authmagic(struct drm_device *dev, void *data,
- 	DRM_DEBUG("%u\n", auth->magic);
- 
- 	down_write(&dev->master_rwsem);
-+	if (unlikely(!drm_is_current_master(file_priv))) {
-+		up_write(&dev->master_rwsem);
-+		return -EACCES;
-+	}
- 	file = idr_find(&file_priv->master->magic_map, auth->magic);
- 	if (file) {
- 		file->authenticated = 1;
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 59c5aa850dd5..96ae6b661c0a 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -386,6 +386,10 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- 	int if_version, retcode = 0;
- 
- 	down_write(&dev->master_rwsem);
-+	if (unlikely(!drm_is_current_master(file_priv))) {
-+		retcode = -EACCES;
-+		goto unlock;
-+	}
- 	if (sv->drm_di_major != -1) {
- 		if (sv->drm_di_major != DRM_IF_MAJOR ||
- 		    sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MINOR) {
-@@ -420,8 +424,9 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- 	sv->drm_di_minor = DRM_IF_MINOR;
- 	sv->drm_dd_major = dev->driver->major;
- 	sv->drm_dd_minor = dev->driver->minor;
--	up_write(&dev->master_rwsem);
- 
-+unlock:
-+	up_write(&dev->master_rwsem);
- 	return retcode;
- }
- 
-@@ -574,12 +579,12 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 	DRM_IOCTL_DEF(DRM_IOCTL_GET_STATS, drm_getstats, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_GET_CAP, drm_getcap, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF(DRM_IOCTL_SET_CLIENT_CAP, drm_setclientcap, 0),
--	DRM_IOCTL_DEF(DRM_IOCTL_SET_VERSION, drm_setversion, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_SET_VERSION, drm_setversion, 0),
- 
- 	DRM_IOCTL_DEF(DRM_IOCTL_SET_UNIQUE, drm_invalid_op, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
- 	DRM_IOCTL_DEF(DRM_IOCTL_BLOCK, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
- 	DRM_IOCTL_DEF(DRM_IOCTL_UNBLOCK, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF(DRM_IOCTL_AUTH_MAGIC, drm_authmagic, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_AUTH_MAGIC, drm_authmagic, 0),
- 
- 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_ADD_MAP, drm_legacy_addmap_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
- 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_RM_MAP, drm_legacy_rmmap_ioctl, DRM_AUTH),
-@@ -706,10 +711,10 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 		      DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF(DRM_IOCTL_CRTC_GET_SEQUENCE, drm_crtc_get_sequence_ioctl, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_CRTC_QUEUE_SEQUENCE, drm_crtc_queue_sequence_ioctl, 0),
--	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
--	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, 0),
- };
- 
- #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE( drm_ioctls )
-@@ -779,6 +784,9 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
- 	if (locked_ioctl)
- 		mutex_lock(&drm_global_mutex);
- 
-+	if (unlikely(flags & DRM_MASTER))
-+		down_read(&dev->master_rwsem);
-+
- 	retcode = drm_ioctl_permit(flags, file_priv);
- 	if (unlikely(retcode))
- 		goto out;
-@@ -786,6 +794,8 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
- 	retcode = func(dev, kdata, file_priv);
- 
- out:
-+	if (unlikely(flags & DRM_MASTER))
-+		up_read(&dev->master_rwsem);
- 	if (locked_ioctl)
- 		mutex_unlock(&drm_global_mutex);
- 	return retcode;
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index dee4f24a1808..bed6f7636cbe 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -500,6 +500,18 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 		return -EINVAL;
- 	}
- 
-+	/* Clone the lessor file to create a new file for us */
-+	DRM_DEBUG_LEASE("Allocating lease file\n");
-+	lessee_file = file_clone_open(lessor_file);
-+	if (IS_ERR(lessee_file))
-+		return PTR_ERR(lessee_file);
-+
-+	down_read(&dev->master_rwsem);
-+	if (unlikely(!drm_is_current_master(lessor_priv))) {
-+		ret = -EACCES;
-+		goto out_file;
-+	}
-+
- 	lessor = drm_file_get_master(lessor_priv);
- 	/* Do not allow sub-leases */
- 	if (lessor->lessor) {
-@@ -547,14 +559,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 		goto out_leases;
- 	}
- 
--	/* Clone the lessor file to create a new file for us */
--	DRM_DEBUG_LEASE("Allocating lease file\n");
--	lessee_file = file_clone_open(lessor_file);
--	if (IS_ERR(lessee_file)) {
--		ret = PTR_ERR(lessee_file);
--		goto out_lessee;
--	}
--
- 	lessee_priv = lessee_file->private_data;
- 	/* Change the file to a master one */
- 	drm_master_put(&lessee_priv->master);
-@@ -571,17 +575,19 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	fd_install(fd, lessee_file);
- 
- 	drm_master_put(&lessor);
-+	up_read(&dev->master_rwsem);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
- 	return 0;
- 
--out_lessee:
--	drm_master_put(&lessee);
--
- out_leases:
- 	put_unused_fd(fd);
- 
- out_lessor:
- 	drm_master_put(&lessor);
-+
-+out_file:
-+	up_read(&dev->master_rwsem);
-+	fput(lessee_file);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
- 	return ret;
- }
-@@ -705,6 +711,11 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
-+	down_write(&dev->master_rwsem);
-+	if (unlikely(!drm_is_current_master(lessor_priv))) {
-+		ret = -EACCES;
-+		goto unlock;
-+	}
- 	lessor = drm_file_get_master(lessor_priv);
- 	mutex_lock(&dev->mode_config.idr_mutex);
- 
-@@ -728,5 +739,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 	mutex_unlock(&dev->mode_config.idr_mutex);
- 	drm_master_put(&lessor);
- 
-+unlock:
-+	up_write(&dev->master_rwsem);
- 	return ret;
- }
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 142fb2f6e74d..5504f9192408 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -151,6 +151,12 @@ struct drm_device {
- 	 * Lock for &drm_device.master, &drm_file.was_master,
- 	 * &drm_file.is_master, &drm_file.master, &drm_master.unique,
- 	 * &drm_master.unique_len, and &drm_master.magic_map.
-+	 *
-+	 * Additionally, synchronizes access rights to exclusive resources like
-+	 * modesetting access between multiple users. For example, users that
-+	 * can change the modeset or display state must hold a read lock on
-+	 * @master_rwsem, and users that change modesetting rights should hold
-+	 * a write lock.
- 	 */
- 	struct rw_semaphore master_rwsem;
- 
--- 
-2.25.1
+>
+>>> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+>>> ---
+>>>    drivers/dma-buf/heaps/system_heap.c | 14 ++++++++------
+>>>    1 file changed, 8 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+>>> index 23a7e74ef966..909ef652a8c8 100644
+>>> --- a/drivers/dma-buf/heaps/system_heap.c
+>>> +++ b/drivers/dma-buf/heaps/system_heap.c
+>>> @@ -162,9 +162,10 @@ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+>>>    		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
+>>>    
+>>>    	list_for_each_entry(a, &buffer->attachments, list) {
+>>> -		if (!a->mapped)
+>>> -			continue;
+>>> -		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
+>>> +		if (a->mapped) {
+>>> +			dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
+>>> +			break;
+>>> +		}
+>>>    	}
+>>>    	mutex_unlock(&buffer->lock);
+>>>    
+>>> @@ -183,9 +184,10 @@ static int system_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+>>>    		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
+>>>    
+>>>    	list_for_each_entry(a, &buffer->attachments, list) {
+>>> -		if (!a->mapped)
+>>> -			continue;
+>>> -		dma_sync_sgtable_for_device(a->dev, a->table, direction);
+>>> +		if (!a->mapped) {
+>>> +			dma_sync_sgtable_for_device(a->dev, a->table, direction);
+>>> +			break;
+>>> +		}
+>>>    	}
+>>>    	mutex_unlock(&buffer->lock);
+>>>    
 
