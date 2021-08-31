@@ -2,91 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A933FC78C
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D613FC79B
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Aug 2021 14:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA9B89B4D;
-	Tue, 31 Aug 2021 12:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC5889C6A;
+	Tue, 31 Aug 2021 12:52:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA5789B4D
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:47:07 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id t15so21295056wrg.7
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:47:07 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3AE389C6A
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 12:52:28 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id u16so27538865wrn.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 05:52:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=lqW6r2QxBjf3naPSK7ElejDN0miJGNk4JeUrWNu5dFo=;
- b=P7GUI4rzpcJORZdrR45U9tZBVNt+YutkUgaZAyUSoo0hNOv5YFYj2LVa3BDKBVLlEZ
- 8P09RZ77gdJ/9bmvIGELMImn15ss9sRZV4C/seGIidibDM6yqDjkjA6TuRj46kpJciNn
- Jh7pnUHhLdusLFGeigWIF2NedtczE/Aou9GJw=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=z9k9QrM+sqCDh/Z+pKMqcv5ihjAhkGCXXwpSgZA9mSs=;
+ b=hhkTVuBrHU+EtGZff8CsRlrynpmBE9PA/Yj6QvCypfZNJOI2RYB7kRzxFFPjhRrHq5
+ ThtOQZt1I5wOvjdgP4K7cfBUdK70/Ga41SixNQGjpsAWv2EeimfLkw42ObtJ+qyfZfAv
+ S6j/2lGMKR/s5bZp5hmUq5z4m9Inx4FLfVMjo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=lqW6r2QxBjf3naPSK7ElejDN0miJGNk4JeUrWNu5dFo=;
- b=a+EYLwVDRdSTiZtcB/99UBVKnri/Fa0I3ypJHQ5DwLzyR3Xi0so+03o4H220J3VfIo
- iExn6X/78CL8bLs3fsv+0pdDdJTzjqyH7VCLcnX6yVD6CXd8ClGQWlZoctd6z1WUpO8I
- 9hLdd7yVDAjLqssrAAG+2jXo0XZABjo8YhStzHXbMro1w9tRaVeWKohN5xjuO3PuGIr8
- O0LowamhbQoBGHzl+QK686tbF0B7u67qEDhVwoRn0cl79qgQX4RvNsn7IoGd/113ANk7
- syrFzXO26IJg6fl9AxEJ1gIkheSSrazITNsGrIka3tsWAP7g3kFjGzs9ohrWwa1FTk3c
- RZqQ==
-X-Gm-Message-State: AOAM532JKdjWEy42fzbDSlzNISI05SWJw0r3cfgcPsygslIzm+/AElgw
- KzczjWr4ppXMjjx0s6F/+vF0YCz0l4mgrg==
-X-Google-Smtp-Source: ABdhPJxwoD0EiQFf+7rgqTumGOUaiOiYizQOADtUbwoy+P/jmw6DFg/J4Q4QffVcbtqcMVqvU1avQw==
-X-Received: by 2002:adf:c40d:: with SMTP id v13mr29016331wrf.388.1630414026094; 
- Tue, 31 Aug 2021 05:47:06 -0700 (PDT)
+ bh=z9k9QrM+sqCDh/Z+pKMqcv5ihjAhkGCXXwpSgZA9mSs=;
+ b=cpv5wSzh92g2bs2CEaIdJtCwU5kFnUcTAbD+XSYgrk5Stl9AAMQEOJI0g4OI/zGGzQ
+ SQy2B4AaHQyMn+yVPlHZMuvnea9VfIOCidXji+T1041BL/IJDwUe55vtnMWSKG4XehQ6
+ uJVbyX4gQgTeP1bIc/hH52pFzwsiacA3RyPAKBOzeddI1feE4SMHDIgx2AvobgIxLrQr
+ XMMb1igsYqL0qsNP6vrX0zckyeZkm94WHVCCh100H+WqGSJZUlM1pO63TkNK09ASMVOt
+ ZtTTZ32i2M75+HLJVNVv4V3unilghKW+ctp/i9nXwmUvRN0ZMFhDabN/EDmEjbl4wZ+y
+ L3Ow==
+X-Gm-Message-State: AOAM532icCnIPTb5uRQZCQ7qEdkhUeB274C7j0RexdHLvZml5efad5ZL
+ JDDh0ZGKJkXOX8VLeX+WdtIAOA==
+X-Google-Smtp-Source: ABdhPJyGld7buZREuKNHWQnrZmTlgqAGRYXVZcC/S3JtEzhtUqTWHGMPwwtl4lnvea2scioroO8aWg==
+X-Received: by 2002:adf:9d45:: with SMTP id o5mr29570376wre.226.1630414347223; 
+ Tue, 31 Aug 2021 05:52:27 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q14sm11701297wrc.31.2021.08.31.05.47.05
+ by smtp.gmail.com with ESMTPSA id d6sm16159402wra.5.2021.08.31.05.52.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 05:47:05 -0700 (PDT)
-Date: Tue, 31 Aug 2021 14:47:03 +0200
+ Tue, 31 Aug 2021 05:52:26 -0700 (PDT)
+Date: Tue, 31 Aug 2021 14:52:24 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: guangming.cao@mediatek.com
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
- Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <john.stultz@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
- "open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA-BUF HEAPS FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- wsd_upstream@mediatek.com, isaacm@codeaurora.org,
- sspatil@google.com, hridya@google.com
-Subject: Re: [PATCH] dma-buf: Add support for mapping buffers with DMA
- attributes
-Message-ID: <YS4kx3thdJOu3uHX@phenom.ffwll.local>
-Mail-Followup-To: guangming.cao@mediatek.com,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
- Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <john.stultz@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
- "open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA-BUF HEAPS FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- wsd_upstream@mediatek.com, isaacm@codeaurora.org,
- sspatil@google.com, hridya@google.com
-References: <20210830023911.4410-1-guangming.cao@mediatek.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: thomas.hellstrom@linux.intel.com, dri-devel@lists.freedesktop.org,
+ andrey.grodzovsky@amd.com
+Subject: Re: [PATCH 04/12] drm/ttm: add common accounting to the resource mgr
+Message-ID: <YS4mCPDUQSE1PK0t@phenom.ffwll.local>
+References: <20210830085707.209508-1-christian.koenig@amd.com>
+ <20210830085707.209508-4-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210830023911.4410-1-guangming.cao@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210830085707.209508-4-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,111 +73,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 30, 2021 at 10:39:11AM +0800, guangming.cao@mediatek.com wrote:
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
+On Mon, Aug 30, 2021 at 10:56:59AM +0200, Christian König wrote:
+> It makes sense to have this in the common manager for debugging and
+> accounting of how much resources are used.
 > 
-> When mapping the memory represented by a dma-buf into a device's
-> address space, it might be desireable to map the memory with
-> certain DMA attributes. Thus, introduce the dma_mapping_attrs
-> field in the dma_buf_attachment structure so that when
-> the memory is mapped with dma_buf_map_attachment, it is mapped
-> with the desired DMA attributes.
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_resource.c |  8 ++++++++
+>  include/drm/ttm/ttm_resource.h     | 18 ++++++++++++++++++
+>  2 files changed, 26 insertions(+)
 > 
-> Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-> Signed-off-by: Sandeep Patil <sspatil@google.com>
-> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index a4c495da0040..426e6841fc89 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -33,6 +33,8 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>                         const struct ttm_place *place,
+>                         struct ttm_resource *res)
+>  {
+> +	struct ttm_resource_manager *man;
+> +
+>  	res->start = 0;
+>  	res->num_pages = PFN_UP(bo->base.size);
+>  	res->mem_type = place->mem_type;
+> @@ -42,12 +44,16 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+>  	res->bus.is_iomem = false;
+>  	res->bus.caching = ttm_cached;
+>  	res->bo = bo;
+> +
+> +	man = ttm_manager_type(bo->bdev, place->mem_type);
+> +	atomic64_add(bo->base.size, &man->usage);
+>  }
+>  EXPORT_SYMBOL(ttm_resource_init);
+>  
+>  void ttm_resource_fini(struct ttm_resource_manager *man,
+>  		       struct ttm_resource *res)
+>  {
+> +	atomic64_sub(res->bo->base.size, &man->usage);
+>  }
+>  EXPORT_SYMBOL(ttm_resource_fini);
+>  
+> @@ -100,6 +106,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+>  	spin_lock_init(&man->move_lock);
+>  	man->bdev = bdev;
+>  	man->size = p_size;
+> +	atomic64_set(&man->usage, 0);
+>  
+>  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>  		INIT_LIST_HEAD(&man->lru[i]);
+> @@ -172,6 +179,7 @@ void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+>  	drm_printf(p, "  use_type: %d\n", man->use_type);
+>  	drm_printf(p, "  use_tt: %d\n", man->use_tt);
+>  	drm_printf(p, "  size: %llu\n", man->size);
+> +	drm_printf(p, "  usage: %llu\n", atomic64_read(&man->usage));
+>  	if (man->func->debug)
+>  		man->func->debug(man, p);
+>  }
+> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> index e8080192cae4..526fe359c603 100644
+> --- a/include/drm/ttm/ttm_resource.h
+> +++ b/include/drm/ttm/ttm_resource.h
+> @@ -27,6 +27,7 @@
+>  
+>  #include <linux/types.h>
+>  #include <linux/mutex.h>
+> +#include <linux/atomic.h>
+>  #include <linux/dma-buf-map.h>
+>  #include <linux/dma-fence.h>
+>  #include <drm/drm_print.h>
+> @@ -110,6 +111,7 @@ struct ttm_resource_manager_func {
+>   * static information. bdev::driver::io_mem_free is never used.
+>   * @lru: The lru list for this memory type.
+>   * @move: The fence of the last pipelined move operation.
+> + * @usage: How much of the region is used.
+>   *
+>   * This structure is used to identify and manage memory types for a device.
+>   */
+> @@ -134,6 +136,9 @@ struct ttm_resource_manager {
+>  	 * Protected by @move_lock.
+>  	 */
+>  	struct dma_fence *move;
+> +
+> +	/* Own protection */
+> +	atomic64_t usage;
 
-Can you pls include the code that's going to use this here too?
+Shouldn't we keep track of this together with the lru updates, under the
+same spinlock?
 
-At a glance all the attributes you might want to set are supposed to be
-under the control of the exporter, not the importer.
+Otherwise this usage here just becomes kinda meaningless I think, and just
+for some debugging. I really don't like sprinkling random atomic_t around
+(mostly because i915-gem code has gone totally overboard with them, with
+complete disregard to complexity of the result).
 -Daniel
 
-> ---
->  drivers/dma-buf/heaps/cma_heap.c    | 6 ++++--
->  drivers/dma-buf/heaps/system_heap.c | 6 ++++--
->  include/linux/dma-buf.h             | 3 +++
->  3 files changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> index 0c05b79870f9..2c9feb3bfc3e 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -99,9 +99,10 @@ static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
->  {
->  	struct dma_heap_attachment *a = attachment->priv;
->  	struct sg_table *table = &a->table;
-> +	int attrs = attachment->dma_map_attrs;
->  	int ret;
->  
-> -	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-> +	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
->  	if (ret)
->  		return ERR_PTR(-ENOMEM);
->  	a->mapped = true;
-> @@ -113,9 +114,10 @@ static void cma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
->  				   enum dma_data_direction direction)
->  {
->  	struct dma_heap_attachment *a = attachment->priv;
-> +	int attrs = attachment->dma_map_attrs;
->  
->  	a->mapped = false;
-> -	dma_unmap_sgtable(attachment->dev, table, direction, 0);
-> +	dma_unmap_sgtable(attachment->dev, table, direction, attrs);
->  }
->  
->  static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 23a7e74ef966..fc7b1e02988e 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -130,9 +130,10 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
->  {
->  	struct dma_heap_attachment *a = attachment->priv;
->  	struct sg_table *table = a->table;
-> +	int attrs = attachment->dma_map_attrs;
->  	int ret;
->  
-> -	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-> +	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
->  	if (ret)
->  		return ERR_PTR(ret);
->  
-> @@ -145,9 +146,10 @@ static void system_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
->  				      enum dma_data_direction direction)
->  {
->  	struct dma_heap_attachment *a = attachment->priv;
-> +	int attrs = attachment->dma_map_attrs;
->  
->  	a->mapped = false;
-> -	dma_unmap_sgtable(attachment->dev, table, direction, 0);
-> +	dma_unmap_sgtable(attachment->dev, table, direction, attrs);
->  }
->  
->  static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..4d650731766e 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -379,6 +379,8 @@ struct dma_buf_attach_ops {
->   * @importer_ops: importer operations for this attachment, if provided
->   * dma_buf_map/unmap_attachment() must be called with the dma_resv lock held.
->   * @importer_priv: importer specific attachment data.
-> + * @dma_map_attrs: DMA attributes to be used when the exporter maps the buffer
-> + * through dma_buf_map_attachment.
->   *
->   * This structure holds the attachment information between the dma_buf buffer
->   * and its user device(s). The list contains one attachment struct per device
-> @@ -399,6 +401,7 @@ struct dma_buf_attachment {
->  	const struct dma_buf_attach_ops *importer_ops;
->  	void *importer_priv;
->  	void *priv;
-> +	unsigned long dma_map_attrs;
 >  };
 >  
 >  /**
+> @@ -260,6 +265,19 @@ ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+>  	man->move = NULL;
+>  }
+>  
+> +/**
+> + * ttm_resource_manager_usage
+> + *
+> + * @man: A memory manager object.
+> + *
+> + * Return how many resources are currently used.
+> + */
+> +static inline uint64_t
+> +ttm_resource_manager_usage(struct ttm_resource_manager *man)
+> +{
+> +	return atomic64_read(&man->usage);
+> +}
+> +
+>  void ttm_resource_init(struct ttm_buffer_object *bo,
+>                         const struct ttm_place *place,
+>                         struct ttm_resource *res);
 > -- 
-> 2.17.1
+> 2.25.1
 > 
 
 -- 
