@@ -1,56 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE7C3FE568
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 00:22:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8673FE559
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 00:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83BD66E3CE;
-	Wed,  1 Sep 2021 22:22:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D43B56E3AE;
+	Wed,  1 Sep 2021 22:13:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1136 seconds by postgrey-1.36 at gabe;
- Wed, 01 Sep 2021 22:22:11 UTC
-Received: from mail110.syd.optusnet.com.au (mail110.syd.optusnet.com.au
- [211.29.132.97])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8BA6D6E3CE;
- Wed,  1 Sep 2021 22:22:11 +0000 (UTC)
-Received: from dread.disaster.area (pa49-195-182-146.pa.nsw.optusnet.com.au
- [49.195.182.146])
- by mail110.syd.optusnet.com.au (Postfix) with ESMTPS id 19347110DA0;
- Thu,  2 Sep 2021 08:03:09 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
- (envelope-from <david@fromorbit.com>)
- id 1mLYK4-007bho-FA; Thu, 02 Sep 2021 08:03:08 +1000
-Date: Thu, 2 Sep 2021 08:03:08 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Cc: Christoph Hellwig <hch@lst.de>,
- "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
- akpm@linux-foundation.org, linux-mm@kvack.org, rcampbell@nvidia.com,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jgg@nvidia.com, jglisse@redhat.com
-Subject: Re: [PATCH v1 03/14] mm: add iomem vma selection for memory migration
-Message-ID: <20210901220308.GL2566745@dread.disaster.area>
-References: <20210825034828.12927-1-alex.sierra@amd.com>
- <20210825034828.12927-4-alex.sierra@amd.com>
- <20210825074602.GA29620@lst.de>
- <c4241eb3-07d2-c85b-0f48-cce4b8369381@amd.com>
- <a9eb2c4a-d8cc-9553-57b7-fd1622679aaa@amd.com>
- <20210830082800.GA6836@lst.de>
- <e40b3b79-f548-b87b-7a85-f654f25ed8dd@amd.com>
- <20210901082925.GA21961@lst.de>
- <11d64457-9d61-f82d-6c98-d68762dce85d@amd.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18CC6E3AE
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 22:13:43 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04F6E340;
+ Thu,  2 Sep 2021 00:13:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1630534422;
+ bh=09bxQvWBNLZUb9b+id81hZsBnKjmRqZOhUOZz7Th8Dg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hJHOHTQLzK17Jef6QZoYnLPMw+SnzNTsso5L0cV5OBrrhVFnPjFotDyuxRe8h905Y
+ 1TECrmKMxxwth9d3Zsca+cSfLIaXSH9+cDz/s4cQCdl1ZCmAI9tGELHGPCR59SwbOs
+ tP7dmJSeMZV90JsRRUJGnng1Sf7Ao/DCAoZ8CAL8=
+Date: Thu, 2 Sep 2021 01:13:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] dt-bindings: display: renesas,du: Provide bindings for
+ r8a779a0
+Message-ID: <YS/7BlBvEsU+rkXP@pendragon.ideasonboard.com>
+References: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
+ <CAMuHMdW8vYC3+gVCv5eG_vkX79vU8RQL-6fSJd9McetDzikzSA@mail.gmail.com>
+ <22bf664e-4a28-3ae2-0106-5913a8643625@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <11d64457-9d61-f82d-6c98-d68762dce85d@amd.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=F8MpiZpN c=1 sm=1 tr=0
- a=QpfB3wCSrn/dqEBSktpwZQ==:117 a=QpfB3wCSrn/dqEBSktpwZQ==:17
- a=kj9zAlcOel0A:10 a=7QKq2e-ADPsA:10 a=7-415B0cAAAA:8
- a=f3XvwggIp9kaoS7fsTAA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+In-Reply-To: <22bf664e-4a28-3ae2-0106-5913a8643625@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,64 +60,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 01, 2021 at 11:40:43AM -0400, Felix Kuehling wrote:
-> 
-> Am 2021-09-01 um 4:29 a.m. schrieb Christoph Hellwig:
-> > On Mon, Aug 30, 2021 at 01:04:43PM -0400, Felix Kuehling wrote:
-> >>>> driver code is not really involved in updating the CPU mappings. Maybe
-> >>>> it's something we need to do in the migration helpers.
-> >>> It looks like I'm totally misunderstanding what you are adding here
-> >>> then.  Why do we need any special treatment at all for memory that
-> >>> has normal struct pages and is part of the direct kernel map?
-> >> The pages are like normal memory for purposes of mapping them in CPU
-> >> page tables and for coherent access from the CPU.
-> > That's the user page tables.  What about the kernel direct map?
-> > If there is a normal kernel struct page backing there really should
-> > be no need for the pgmap.
-> 
-> I'm not sure. The physical address ranges are in the UEFI system address
-> map as special-purpose memory. Does Linux create the struct pages and
-> kernel direct map for that without a pgmap call? I didn't see that last
-> time I went digging through that code.
-> 
-> 
-> >
-> >> From an application
-> >> perspective, we want file-backed and anonymous mappings to be able to
-> >> use DEVICE_PUBLIC pages with coherent CPU access. The goal is to
-> >> optimize performance for GPU heavy workloads while minimizing the need
-> >> to migrate data back-and-forth between system memory and device memory.
-> > I don't really understand that part.  file backed pages are always
-> > allocated by the file system using the pagecache helpers, that is
-> > using the page allocator.  Anonymouns memory also always comes from
-> > the page allocator.
-> 
-> I'm coming at this from my experience with DEVICE_PRIVATE. Both
-> anonymous and file-backed pages should be migrateable to DEVICE_PRIVATE
-> memory by the migrate_vma_* helpers for more efficient access by our
-> GPU. (*) It's part of the basic premise of HMM as I understand it. I
-> would expect the same thing to work for DEVICE_PUBLIC memory.
-> 
-> (*) I believe migrating file-backed pages to DEVICE_PRIVATE doesn't
-> currently work, but that's something I'm hoping to fix at some point.
+Hi Kieran,
 
-FWIW, I'd love to see the architecture documents that define how
-filesystems are supposed to interact with this device private
-memory. This whole "hand filesystem controlled memory to other
-devices" is a minefield that is trivial to get wrong iand very
-difficult to fix - just look at the historical mess that RDMA
-to/from file backed and/or DAX pages has been.
+On Wed, Sep 01, 2021 at 11:01:11PM +0100, Kieran Bingham wrote:
+> On 23/06/2021 13:53, Geert Uytterhoeven wrote:
+> > On Wed, Jun 23, 2021 at 1:11 AM Kieran Bingham wrote:
+> >> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >>
+> >> Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+> >>
+> >> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > 
+> > Thanks for your patch!
+> > 
+> >> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> >> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> >> @@ -39,6 +39,7 @@ properties:
+> >>        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+> >>        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+> >>        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> >> +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+> >>
+> >>    reg:
+> >>      maxItems: 1
+> >> @@ -774,6 +775,57 @@ allOf:
+> >>          - reset-names
+> >>          - renesas,vsps
+> >>
+> >> +  - if:
+> >> +      properties:
+> >> +        compatible:
+> >> +          contains:
+> >> +            enum:
+> >> +              - renesas,du-r8a779a0
+> >> +    then:
+> >> +      properties:
+> >> +        clocks:
+> >> +          items:
+> >> +            - description: Functional clock for DU0
+> >> +            - description: Functional clock for DU1
+> >> +
+> >> +        clock-names:
+> >> +          items:
+> >> +            - const: du.0
+> >> +            - const: du.1
+> > 
+> > The hardware block has only a single function clock for both channels,
+> > like on R-Car H1.
+> 
+> Indeed, but I believe both channels still need to set them, if they can
+> be operated independently, the driver looks up the clock based on the
+> du.%d, and so for DU1, it is simply expressed as the same clock in DT.
+> 
+> Is this acceptable? or is there further issues there?
 
-So, really, from my perspective as a filesystem engineer, I want to
-see an actual specification for how this new memory type is going to
-interact with filesystem and the page cache so everyone has some
-idea of how this is going to work and can point out how it doesn't
-work before code that simply doesn't work is pushed out into
-production systems and then merged....
+Could we handle that on the driver side, like we do for H1 by not
+setting RCAR_DU_FEATURE_CRTC_IRQ_CLOCK ? We would probably need to split
+that flag in two, as there are two interrupts.
 
-Cheers,
+It's a bit annoying not knowing what the MSTP bits do exactly, we've
+modelled them as gates for the functional clock, but maybe in cases like
+this one the mapping isn't fully correct, I'm not sure.
 
-Dave.
+> > And what about DU_DOTCLKIN?
+> 
+> This thread has already discussed this with Laurent, and I concur -
+> There doesn't appear to be any relevant reference to DU_DOTCLKIN on the
+> DU side.
+
 -- 
-Dave Chinner
-david@fromorbit.com
+Regards,
+
+Laurent Pinchart
