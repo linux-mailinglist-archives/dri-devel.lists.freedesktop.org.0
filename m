@@ -1,66 +1,130 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F92E3FDE7A
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 17:20:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE92F3FDEDD
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 17:40:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC3AE6E202;
-	Wed,  1 Sep 2021 15:20:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8231D6E20A;
+	Wed,  1 Sep 2021 15:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FAF76E1F6;
- Wed,  1 Sep 2021 15:20:07 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id y128so4177891oie.4;
- Wed, 01 Sep 2021 08:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bUaBP4RJLklreyl4xWNpJJVXkInXA9mu/Fn0S4fBdPE=;
- b=LGfEGgudH3XvY0jQZvrOzzxJtYXkvpRS15tjq4FpG20T7IzdzAxyMOSUdzg5k8Z6Xs
- nv4cd5AMQW0FT5+n11ZfHL37l2buychK+TjrvpqbXszKaJ8mVuVjXif4voFz8RU75pYW
- oTq9wsbRNk2oT6UVC/URQrPUcmOOqEOLaCsKG9n40VIx7Gh3ORAr3CvqSf0J7+77ntje
- gnapro/59FYeVrXf7QlxNbCXJtHIxL2oE9AucEti8nhQmDn34b2Irb6XRcmoFvShpRPq
- sU7y2skHdfiaFteqY4I98l9ghKTNO3Pf9pLCOiPdFYjpR+MdWC4S8YL00udmz6AOdRCU
- wWmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bUaBP4RJLklreyl4xWNpJJVXkInXA9mu/Fn0S4fBdPE=;
- b=psI24HBwd1+qCIb9BwVaKK5tnZmIG43MHfGRCUtUYLRMESq87Hm2QM2Umig4I+fwHH
- z1PQWMjIhp64ffYKAOKXzNCGtrzyP7NmfhlqAJuNNWJKxvw2u96zRwqud5+Nib/I3P4A
- HJarhYuUWm2vmWIAoMYrE2iqH1jQPRi7jw+tqxyIiTdwUmScrfzIZ8MtR8/nB15WEhNl
- 9bvDNQQKbPcAsmdJLK2pCXYBWhA89+nadXkQ913bNHPgs0vfnxHkxJHlpp5M2t8MnFR0
- JdNJIyyT11szUp1mdHokEuMWSN9SRCW7I6NRbLJaBvVz6ES8vSqXXCZAGzdiUPQ6VqxP
- Mhnw==
-X-Gm-Message-State: AOAM530zMN9GbSpHKOXs7Z2LwgYsWqB7k1GFWeJNd+nC5S9GfogKOelM
- 0Q2GrOp3LOyyoiGwudRolBDFY5gwcVlJT2PHCoCDx/6m
-X-Google-Smtp-Source: ABdhPJwjrZWAJKUaZ/tVWyAtoPeay7oDXeG2BX/9PykJ4FVcnvL8x/8ZDtRFVP1NeiGgI4eKhZ2oz8UhfJwkPTUJYkY=
-X-Received: by 2002:a05:6808:6d2:: with SMTP id
- m18mr59895oih.120.1630509607229; 
- Wed, 01 Sep 2021 08:20:07 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2053.outbound.protection.outlook.com [40.107.243.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB4726E1FB;
+ Wed,  1 Sep 2021 15:40:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VnG99YxyMFxQdRra+pxl+qv+CZLseKmWUybQUS7Tb0qsQmahRL3I8vflUWfogjNF7zvuiHbiyr6faLwDZgTOgDJ2/crs/CKtDJVITWig3eXEi1S9bGZHzDDpJSHKcPJOKMc7iCm73A39UZj7qsSwUOthNVeddKfPsDtPHk8SjySahPpqbbf0MdqRaAyjACj/VlxixsNhDZQ6Yy8ueX+OPXuX/hp3Me/zib2Z32JkJa4ZkzOGENPWrynn+S/VnImiTXDjXIe0Vi5OpJO5FFnrRFh1khu/LMuOXtBtoEunlOppM2kull88ToGH48caMGnsoIDdk+kmm2x3yniCNZ7w7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eq1A3hWQGXYX+bVwQ4HYkoqrw6bW+rc4zaooUDnZbHE=;
+ b=Wm/juQiepYSRXCWBW/sqbjp84IacURH/I+t4xhSBpQLfZuzkdCIAAc3j4AwkfW8+xKKRtOrj6Dbrmbl7zNaYsOAcOXZEc0Ou8bbsWS95PdkLECzupPcWPBkaw/XXIjrPkXk2958EqpCkO/o2Plm6d5NDGfm75ZkZ/22G8UrUAzBfcUqdz/Q6gXBqNMXMTzwNyMCSYur9EvwAeEuUlaA7PholNBOi+d4/Pif+aAOnsiXb4b2BHjzb73MqVeTnT1qAWfaU3OxGfAe5OrRILDMmQET/w1jntWnoqHdvwHS04UrhN6PUTSjchAGeMgLGIHQcV78yRP28juF3qx2oRmXGCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eq1A3hWQGXYX+bVwQ4HYkoqrw6bW+rc4zaooUDnZbHE=;
+ b=GFkFkqV1OtE0lzDy6l/bdMqcyCAicDb8JATd+Jepwf5zZMCfyHu8uy5kxhb5gOfjWnxM9nk1Dk/EVwO5FCl9VEvTXTFefyZ6WiTggz+xrUlenyZilPzQF2vk9cz6rHAoFrI8Shuft9rha8mMRTzEp97SGLdU8nwh5D4uxth+iWU=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5258.namprd12.prod.outlook.com (2603:10b6:408:11f::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Wed, 1 Sep
+ 2021 15:40:46 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb%3]) with mapi id 15.20.4457.024; Wed, 1 Sep 2021
+ 15:40:46 +0000
+Subject: Re: [PATCH v1 03/14] mm: add iomem vma selection for memory migration
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
+ akpm@linux-foundation.org, linux-mm@kvack.org, rcampbell@nvidia.com,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jgg@nvidia.com, jglisse@redhat.com
+References: <20210825034828.12927-1-alex.sierra@amd.com>
+ <20210825034828.12927-4-alex.sierra@amd.com> <20210825074602.GA29620@lst.de>
+ <c4241eb3-07d2-c85b-0f48-cce4b8369381@amd.com>
+ <a9eb2c4a-d8cc-9553-57b7-fd1622679aaa@amd.com> <20210830082800.GA6836@lst.de>
+ <e40b3b79-f548-b87b-7a85-f654f25ed8dd@amd.com>
+ <20210901082925.GA21961@lst.de>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <11d64457-9d61-f82d-6c98-d68762dce85d@amd.com>
+Date: Wed, 1 Sep 2021 11:40:43 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20210901082925.GA21961@lst.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YTOPR0101CA0023.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::36) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
 MIME-Version: 1.0
-References: <BL1PR12MB526942160701B46D4B28EEEC84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
- <CAKMK7uHKX0rSVk_yBPo_KAEJ-UeLk5UxQ2kBdv+FD2j9zAjfZA@mail.gmail.com>
- <BL1PR12MB5269B303372A6251EDD1DC2C84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
-In-Reply-To: <BL1PR12MB5269B303372A6251EDD1DC2C84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 1 Sep 2021 11:19:56 -0400
-Message-ID: <CADnq5_PUvgt9Cv2L3G4GGBJv_WBhtOp8DN+3WMvoES_80UMKfQ@mail.gmail.com>
-Subject: Re: [diagnostic TDR mode patches] unify our solution
- opinions/suggestions in one thread
-To: "Liu, Monk" <Monk.Liu@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, 
- "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>, "Chen,
- JingWen" <JingWen.Chen2@amd.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.186.47.3) by
+ YTOPR0101CA0023.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::36) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20 via Frontend
+ Transport; Wed, 1 Sep 2021 15:40:45 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5c19172f-e664-4cda-8893-08d96d5edd4a
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5258:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB5258594B9DB97C0D912E976692CD9@BN9PR12MB5258.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Qtmr2r15kQFgb2D0iAxixnwQpA1HK2JD9AN7CeW6qxI1r8SYEGCYjY1KsvIK7Zn6UxPmfrVkl+6PCPWoh3Ke5az8juPjJU9JPHwUI6ZbpFmmrBkGLhdk5ATZIMMyCa/aJ+vw7mN5SIqfl6qOsUSmgKHRcLtqjGYXPZjb2DawmhBKl2IIC4kWtZ3mmGRvCfGwKA1qXoVswUFR47vHG5sPKauJUxljEQYi8KxVf5OyuYDc7rqeu6klW4tT6Uw9Psm6hXq5khsh2mTIevGs3PbM9kaetPKswX1lXV0ZB+fk78KCFwkVQDZss8/hqIBpTVSFOXc2faMMPsFdzZwLqkGDXdy+AXiANTVGEJNc35hvWPGM0ZyhcT0JGwMY/YdOWmu+EGMMxkmxP1RukGgAQWsiFILG8Km+6swJ7T90HIlbgFzMG9QqUg8dT9AAZkTZf8Xlj2CJG8SGUuC0BschrKgfHorkEcdhmWZnL1Omnrw2WkvHjByjTW+2Jal5hrC648e0r22Qxpx0jPLfI3amELBB3B6TZ5GBopz0XAo/7oUyn/rhuXXTembyL2NL68BFoBOupwQA9/yRDteO/kL2R5TdlE5n12dMAWJj06Oh+v8zuGkIaUnku256M03LeAC0yNZ3YfYq4Nx9n2qMJxhy4HsqALxEzlH7YTl6quQ3CpdEy1BrbunqONCeFNTGqF4u9LomRNMBQTcf+IrrV9Dn8EJZD46QOcPmqPu9JcvuG/PW/Hc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(316002)(6486002)(508600001)(2906002)(7416002)(26005)(8676002)(38100700002)(8936002)(44832011)(16576012)(5660300002)(86362001)(31696002)(956004)(4326008)(83380400001)(31686004)(66476007)(36756003)(6916009)(186003)(66556008)(2616005)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WitlZ1RyN21yeXQ2SFdSU0hhbTFqR2xhZCtXKzRUMjRPZ2RyV0J3ZWZqeHZ4?=
+ =?utf-8?B?Q2xzRXdmNWlCWFd4REFrZGpod1N5V2VCYWhIUUo3TDEyekRuT3V3N05zOVpO?=
+ =?utf-8?B?UmxMVGN3ZDlhYzlNQnNiUWVxc2Y4QmNMNkdNM0dNNllWU0VQKzI4UFJBQlp2?=
+ =?utf-8?B?eXJhQkwzZHM3YytPcHhSRUNmTWUybWdQWTlBMVBUemplOFptWFhBc1RNWHo1?=
+ =?utf-8?B?TUltM2VjOHh4VHQ0WnBYTVMwdWd6QUhtVVI3VXVWcVQ4M2cwQXFuNVp0NkI2?=
+ =?utf-8?B?d25sS1JwRGlxOEh4Z3VHMzFQNFArcmJyM29vby85dVVJcjNFNm1WTktENjZZ?=
+ =?utf-8?B?U1NYY29xODUwS1BVR2dkS2NpKzRDcUJkUjUzUWpxOHp1RVBJU2lkMThTYkRE?=
+ =?utf-8?B?ekNoUXBwSEdUMVIwL25IelJROFJybHV1aTlFak5HU1dFWmNmTTczdmpvZ1VL?=
+ =?utf-8?B?dTZ5NFhBaFhudTdqb3dyZDhzQW1qZy9UWnp3M2VxcFVuTVpXUW54R000R3gr?=
+ =?utf-8?B?Z2thRjdpQjJ1SlpJK3VRREJ0VVdIa2R4MTdlZm41ZzQ4Ujhzek1tK2xTYW5Q?=
+ =?utf-8?B?TUJBcmJKOTVxUFF5TTlkUDJteU9HUC9kUEw1dFdZY3UvcGF4cVZmK3QxWDJQ?=
+ =?utf-8?B?KzQrK0pmZHpXQWhEUU9FRzdWT0lQSEw4ZEk4dFM2VGhCU20yR05MQ0sySTRU?=
+ =?utf-8?B?NUJqOUF1YkZhd2x2T1lMcWp3bFBUd3RONk1EamdEakYrTDcrcTdzVExhbFJK?=
+ =?utf-8?B?aFpqTE1XQ0VQNWxQNDdNZldGRDAyV2hIM2V2Y3hMTFEycUd0N0F2bWZjZ1VJ?=
+ =?utf-8?B?ZzErOGpnOTNkNWk1Ylg4eEVxSVVvUFZYc0RlcE51a2Iwei90V1NnU2IybGwy?=
+ =?utf-8?B?N2M1ZjFEcTAxZTJ3dVFiaFJlcG5PK3J2OUxyeFdYaVh2RldoalNYRzVKODFT?=
+ =?utf-8?B?YzJ0SkJBSTBzUXRseGJlekFMbnc1SnVKdDJqc0syU0hpMEZIa0J3aDRTVEVO?=
+ =?utf-8?B?S2ZQcGp4LzEvV0x4MzU1b09TV0pVeis1eXFtWmhkVUxpVmtOL3NpYy9HN1Ey?=
+ =?utf-8?B?MmhDQlMyajZ5dDB6WlNYbC91eDBRZU5GNjlWZVExZUNVM2FKY0pwLzZvQ2Jx?=
+ =?utf-8?B?MHJINkVndDZrak5zNHVMUTdZZ2dlVjdUM1VSSFlBODlwY04xOHE0Nm1WYU1V?=
+ =?utf-8?B?VzFFMk5DSmF4eE5QWkQ5Y1lWZ1VXOUw4Ymw0NU1yOXRDNUFKZ1Q3ZktUUkoy?=
+ =?utf-8?B?TmlZYXNYR2RKTUdMRjhOSmxQWnVGd1R1SldsUjRkQk5WZVJaYUJMSlpJVEIy?=
+ =?utf-8?B?ajlsd1MrY0FJc2s4Qkp3YnNGSkpTZUlaMjNuaXVDbGN1YTg3V1dEYUFkdjNl?=
+ =?utf-8?B?bm42ZEZEaXNWVkhpa3dMYmdESG9VY1FCRUNxaXQ2K3ZyaXVMVksrMDFGZVZa?=
+ =?utf-8?B?ZHVxbWZtS3VHT3RFK3ZqbGFoN01ic1JlUnJyM2UxNmtLeTNBSktpWEMxYkxy?=
+ =?utf-8?B?U0FMWXM3VVZ1N3hobDQwVThIU3pCdDlscVNtYzBQMXByU1hncUQ4MlBYeXZG?=
+ =?utf-8?B?Y3V4MnJ5cmhGMFFyZ2tSMW4rODZLKy9lVldJNm5WdWVydUNCYlZ0ckd2a25X?=
+ =?utf-8?B?WlNoKy84SDZCeEZSeDloTWNwYlZLMDFOYmtpdUdHRHB5WG1GaGE4ZFdHOXNN?=
+ =?utf-8?B?cDZhdk5DZ3NMSlp1TWNxMmQrRGhsL3BUVkw4MC9jTXhvWVBaQUEzSUdwVlpa?=
+ =?utf-8?Q?gOOUlcuRYyxVqzPra6WlWuvbv/WMk0B8ndhzfIy?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c19172f-e664-4cda-8893-08d96d5edd4a
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 15:40:46.0003 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZCpbIeEXW0ZMPL1fMdQvlgdM6IItpVBTzCRQpsd5sE8NplK18EHO73h5OlZGXnSrVxXvArIjVsTJt4F9N7aqOA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5258
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,215 +140,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 1, 2021 at 6:19 AM Liu, Monk <Monk.Liu@amd.com> wrote:
->
-> [AMD Official Use Only]
->
-> Daniel
->
-> From the link you share it looks you(or someone else) have quite a bunch =
-patches that changes DRM_SCHED or even amdgpu, by that case before they are=
- merged to kernel tree I'm wondering if any AMD develop reviewed them ?
->
-> They looks to me somehow conflicting with what we changed in our repo....
->
-> It is really a chaos for AMDer if someone else out side of AMD changes ou=
-r kernel driver (or/and scheduler) without reviewed by AMDer, just like we =
-are requiring your review if we tend to change scheduler's logic here ....
->
-> This one changes AMD's code: https://lore.kernel.org/dri-devel/2021062513=
-3327.2598825-2-boris.brezillon@collabora.com/
-> And I didn't see any reviewed-by from AMDers ...
->
-> This one also touches AMD's code: https://lore.kernel.org/dri-devel/20200=
-604081224.863494-12-daniel.vetter@ffwll.ch/
-> Which is conflicting with one patch we submitted (in our repo rightnow), =
-and neither see AMDder gave a review-by on this one (let me know if I misse=
-d it)
->
 
-Monk, this is not how upstream works.  You need to participate.
-That's how communities work.  There's a reason all these discussions
-happen on public mailing lists.  The patch author can't be expected to
-know every person on every vendor team to CC with a patch.  If you
-have concerns, you need to raise them when the patches are being
-discussed.
+Am 2021-09-01 um 4:29 a.m. schrieb Christoph Hellwig:
+> On Mon, Aug 30, 2021 at 01:04:43PM -0400, Felix Kuehling wrote:
+>>>> driver code is not really involved in updating the CPU mappings. Maybe
+>>>> it's something we need to do in the migration helpers.
+>>> It looks like I'm totally misunderstanding what you are adding here
+>>> then.  Why do we need any special treatment at all for memory that
+>>> has normal struct pages and is part of the direct kernel map?
+>> The pages are like normal memory for purposes of mapping them in CPU
+>> page tables and for coherent access from the CPU.
+> That's the user page tables.  What about the kernel direct map?
+> If there is a normal kernel struct page backing there really should
+> be no need for the pgmap.
 
-Alex
+I'm not sure. The physical address ranges are in the UEFI system address
+map as special-purpose memory. Does Linux create the struct pages and
+kernel direct map for that without a pgmap call? I didn't see that last
+time I went digging through that code.
 
 
-> Thanks
 >
-> ------------------------------------------
-> Monk Liu | Cloud-GPU Core team
-> ------------------------------------------
+>> From an application
+>> perspective, we want file-backed and anonymous mappings to be able to
+>> use DEVICE_PUBLIC pages with coherent CPU access. The goal is to
+>> optimize performance for GPU heavy workloads while minimizing the need
+>> to migrate data back-and-forth between system memory and device memory.
+> I don't really understand that part.  file backed pages are always
+> allocated by the file system using the pagecache helpers, that is
+> using the page allocator.  Anonymouns memory also always comes from
+> the page allocator.
+
+I'm coming at this from my experience with DEVICE_PRIVATE. Both
+anonymous and file-backed pages should be migrateable to DEVICE_PRIVATE
+memory by the migrate_vma_* helpers for more efficient access by our
+GPU. (*) It's part of the basic premise of HMM as I understand it. I
+would expect the same thing to work for DEVICE_PUBLIC memory.
+
+(*) I believe migrating file-backed pages to DEVICE_PRIVATE doesn't
+currently work, but that's something I'm hoping to fix at some point.
+
+
 >
-> -----Original Message-----
-> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Daniel=
- Vetter
-> Sent: Wednesday, September 1, 2021 4:18 PM
-> To: Liu, Monk <Monk.Liu@amd.com>
-> Cc: Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky, Andrey <And=
-rey.Grodzovsky@amd.com>; Chen, JingWen <JingWen.Chen2@amd.com>; DRI Develop=
-ment <dri-devel@lists.freedesktop.org>; amd-gfx@lists.freedesktop.org
-> Subject: Re: [diagnostic TDR mode patches] unify our solution opinions/su=
-ggestions in one thread
+>> The pages are special in two ways:
+>>
+>>  1. The memory is managed not by the Linux buddy allocator, but by the
+>>     GPU driver's TTM memory manager
+> Why?
+
+It's a system architectural decision based on the access latency to the
+memory and the expected use cases that we do not want the GPU driver and
+the Linux buddy allocator and VM subsystem competing for the same device
+memory.
+
+
 >
-> Hi Monk,
->
-> On Wed, Sep 1, 2021 at 3:23 AM Liu, Monk <Monk.Liu@amd.com> wrote:
-> >
-> > [AMD Official Use Only]
-> >
-> >
-> > Hi Daniel/Christian/Andrey
-> >
-> >
-> >
-> > It looks the voice from you three are spread over those email floods to=
- me, the feature we are working on (diagnostic TDR scheme) is pending there=
- for more than 6 month (we started it from feb 2021).
->
-> For me your project exists since a few weeks at most, because that is whe=
-n your team showed up on dri-devel. That you already spent 6 months on this=
- within amd, on a code area that very much affects shared code, without kic=
-king of any thread on dri-devel isn't great, but also not something we can =
-fix, since time machines don't exist.
->
-> So we have to make the best out of the situation and move ahead where we =
-are. From my understanding you've done a bunch of changes to the scheduler =
-code. As far as I can see there's been two related things your team has don=
-e:
->
-> - remove some allocations from scheduler code, because that can lead to d=
-eadlocks. I've kicked up this topic quite a while ago here
->
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.=
-kernel.org%2Fdri-devel%2F20200604081224.863494-10-daniel.vetter%40ffwll.ch%=
-2F&amp;data=3D04%7C01%7Cmonk.liu%40amd.com%7Cd90ad990ac1a499c266208d96d2113=
-8d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660811106940372%7CUnknow=
-n%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI=
-6Mn0%3D%7C1000&amp;sdata=3DpG5sG5pjVXEAMaahvfNS11VwbHkYWRuWrtHFXM9mEyo%3D&a=
-mp;reserved=3D0
->
-> This is just one patch of the entire series. This is an area where we rea=
-lly need a consistent solution across all drm/sched drivers, not something =
-that individual drivers just fix in their own way.
->
-> - the other one is the timeout issue for the patches you cite here.
-> Again there's been discussion on this on dri-devel with Boris from panfro=
-st about how we can handle at least some of the races in tdr.
-> That resulted in lots of discussions and documentation improvements.
-> Those patches are merged now, link
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.=
-kernel.org%2Fdri-devel%2F20210625133327.2598825-2-boris.brezillon%40collabo=
-ra.com%2F&amp;data=3D04%7C01%7Cmonk.liu%40amd.com%7Cd90ad990ac1a499c266208d=
-96d21138d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660811106940372%7=
-CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwi=
-LCJXVCI6Mn0%3D%7C1000&amp;sdata=3Dm6U6tJbX2x38xiwQXE1oV0sz2BxXZfPlcouyqIqPZ=
-NU%3D&amp;reserved=3D0
->
-> There's been more than just this, also quite some doc patches from Boris =
-that explain how it's all supposed to work and be race-free.
-> Again your driver isn't the only one with interesting TDR races.
->
-> Your team hasn't been active in any of these discussions, but now suddenl=
-y pops up out of nowhere and demands that your approach needs to land asap.=
- That's really not how upstream works.
->
-> The other thing where I'm struggling is that there's a lot of missing con=
-text for outsiders. The patches sometimes come with zero commit message, fo=
-r tricky concurrency bugs. And there's no context with what you've done alr=
-eady on the amdgpu side (since that never showed up on dri-devel), which ma=
-kes constructive discussions here really hard.
->
-> Now fixing these bugs is obviously good, but the way this is supposed to =
-work when touching shared infrastructure is:
->
-> - Before you start merging anything kick off an RFC thread on dri-devel (=
-or whatever the topic really is about) about the problem you have and how y=
-our trying to solve it. This can be just text if it's a big thing, but it c=
-an also already include some proof of concept solution in the form of patch=
-es.
->
-> - Then we iterate on the solution, across drivers and shared code _togeth=
-er_. Not "merge amdgpu code first, then get annoyed when the core changes d=
-on't land immediately after you've practially finished the project".
->
-> - This might mean changes to other drivers if we need to adjust interface=
-s.
->
-> On the plus side you can plan much better, because you know you have upst=
-ream buy-in before you start to put in real work on the project.
->
-> > Honestly speaking the email ways that we are using now is not friendly =
-and quite painful to me ....
->
-> Yes this is painful :-(
->
-> I think the best way forward is to go through the above process again and=
- essentially restart. So submit a complete patch series with problem descri=
-ptions, solution you picked, why you picked that, all the amdgpu patches to=
- get there and the core patches too. Since it sounds like a bunch of this h=
-as all landed already you probably need a patch 1 that goes back to 6 month=
-s ago so that we can see the overall direction, and review whether that's t=
-he right one or not.
->
-> The not-so-painful approach would have been to do this from the start,
-> 6 months ago. It would definitely have helped if the tdr discussion we've=
- had just a few months ago would have involved your team too, I'm sure ther=
-e would have been some good insights from amd's side. I'd really want you a=
-nd your engineers involved here, so let's do this properly!
->
-> Cheers, Daniel
->
-> > Can we try to put all our opinions, suggestions, or even objects here t=
-ogether, let's go through them one by one, it's too hard for us to reply ea=
-ch email on different questions .
-> >
-> >
-> >
-> > For [PATCH 1/2] drm/sched: fix the bug of time out calculation(v4)
-> >
-> >
-> >
-> > This is a fixing patch on the timeout timer in scheduler, can we comple=
-te this one first ? it should already resolved all the questions and sugges=
-tions.
-> >
-> >
-> >
-> > For [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
-> >
-> >
-> >
-> > I think I already explained the questions raised by Daniel in other
-> > thread , regarding why I use __kthread_should_park()
-> >
-> > For other aspects, can we put all our opinion synthesized here ?
-> >
-> >
-> >
-> > Thanks !
-> >
-> >
-> >
-> > ------------------------------------------
-> >
-> > Monk Liu | Cloud-GPU Core team
-> >
-> > ------------------------------------------
-> >
-> >
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fblog.f=
-fwll.ch%2F&amp;data=3D04%7C01%7Cmonk.liu%40amd.com%7Cd90ad990ac1a499c266208=
-d96d21138d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660811106940372%=
-7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWw=
-iLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DNA3iopIUYFOuTokczRA%2BNBcwVrvMMMHGPM96%2=
-B%2Bm0nEg%3D&amp;reserved=3D0
+>>  2. We want to migrate data in response to GPU page faults and
+>>     application hints using the migrate_vma helpers
+> Why? 
+
+Device memory has much higher bandwidth and much lower latency than
+regular system memory for the GPU to access. It's essential for enabling
+good GPU application performance. Page-based memory migration enables
+good performance with more intuitive programming models such as
+managed/unified memory in HIP or unified shared memory in OpenMP. We do
+this on our discrete GPUs with DEVICE_PRIVATE memory.
+
+I see DEVICE_PUBLIC as an improved version of DEVICE_PRIVATE that allows
+the CPU to map the device memory coherently to minimize the need for
+migrations when CPU and GPU access the same memory concurrently or
+alternatingly. But we're not going as far as putting that memory
+entirely under the management of the Linux memory manager and VM
+subsystem. Our (and HPE's) system architects decided that this memory is
+not suitable to be used like regular NUMA system memory by the Linux
+memory manager.
+
+Regards,
+  Felix
+
+
