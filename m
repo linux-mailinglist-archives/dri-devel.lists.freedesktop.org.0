@@ -1,60 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDFD3FE434
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 22:43:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E263FE49A
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 23:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18DD789829;
-	Wed,  1 Sep 2021 20:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4E86E332;
+	Wed,  1 Sep 2021 21:12:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8DF189789;
- Wed,  1 Sep 2021 20:42:54 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- o16-20020a9d2210000000b0051b1e56c98fso1344292ota.8; 
- Wed, 01 Sep 2021 13:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D25AA6E332
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 21:12:11 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id w7so762840pgk.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 14:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lixom-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rkhuZvq+shymVUY9DQPrDCFVIHRPcwcVZZ5t4/rt9es=;
- b=HdagvxRZ/AQC5i+JCe+nYp4fxLw+i9EU0dEY4n941PHd+4iI9iWAvnn5EyvcxJdA6/
- qIqQrf6+KdFJ3rYYEE2+HFQqBb1PZ5ZBkwdVE/dyGsu4UGkljw+JV6z/iiJvLjuFvyU+
- xcmxNUx5gdrEQmr8I/63oJF7nRxbOI56gE6s3lDbQrcyWMzCPstLTFjQTq1h/8+oeYO9
- L1wjCjV8EemaSqLJ4xCKSzxNvmjQ+3bT8gKLJ6SQLxa8uJOOdk0eyw+JzE18rT77eXFq
- miuXrjKeN9y1jnM7oVaRsH3zwBPoJttDJkuZnmBPkd7Uz2EcDqeCDTUfpqvUBgs43Msp
- FmQA==
+ :cc; bh=NmD6NfZ4ntJSAzZVeHzGwx+9LMKE03Sdt9CwYbMKD7Y=;
+ b=rrRU0L93Wl3dd/9llX/ZnoKYuGFSdDWKG1uN8Gv1fFTegETF12B23Ag/5WGRKWIWau
+ O8EFhntrOcOx6d3AuhaU2V/BjDQCb3DDLPHbovVi9M84wf1HCPIfdTV3Ba9ZKbS4IcCZ
+ 6YwnCs8Zp7jc6H4EJrtjsZ2KLjXqnLzng7NRbloC/ZV8ZeG9KOkOWoMxlnk4mkCW/ld7
+ KBqQbYocAZvotTNrQotqhaBCSrQ83H2JX/t6VU/1//LmZ3sJZKp0o6j2aD3IYvNDDn9D
+ MVfd+v7Ryf93lGSGYO8a9PhqJoN1GODF+EVDV18LG2HXaHV9nfFd6fumgo4HVnFq9yqu
+ 0N1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rkhuZvq+shymVUY9DQPrDCFVIHRPcwcVZZ5t4/rt9es=;
- b=Kah3zKPzXQFRZxvs9U4newl8v+pr9X5J0Eegob0I3eVS+4YO3Ouw22sHFjKT6D6Trj
- WGV8Bn4Z1o4q6337UNY122OUj4aXzX4JAgyxMXxSXRqZLcD/IgvX+7wW2gNJ3gLx/CBb
- 0DyollkoiU07qy84xIUZLgfotPVg0SDUu33b0LRY0Ut5oY6DSiiDpK8I/SRRS1iioH7C
- cG2BnmQ0XiSc3oaS1+ASL6We+BrqM0cFMoSHYG1fW0NzB9H4UfR92vL4eOLfYxLQFyvX
- jPbuY5lbma+Ohr2gmDfg9DYMjHTPWcRpdnP+eMhRo0r9ayuHnJZGaJ0tsVU/8/HqlCNT
- R+Kw==
-X-Gm-Message-State: AOAM530xT1RljHnaiClo6y8hDSRSU4u26eygAUFekyGexZshq6ZVbpfN
- +KcyZJUWCFiBvXCAPisKOcVJAGNeoEKIEHIhFAQ=
-X-Google-Smtp-Source: ABdhPJze4fN3NU901yfediHZr4cn+IK62RLdAGfviX3//HKPT6YxtyQbLLRX2OwuCXKyJYXoCK7yCWvrxwNnOd4qkQY=
-X-Received: by 2002:a9d:4c15:: with SMTP id l21mr1118528otf.311.1630528974072; 
- Wed, 01 Sep 2021 13:42:54 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=NmD6NfZ4ntJSAzZVeHzGwx+9LMKE03Sdt9CwYbMKD7Y=;
+ b=TT96caicsigB/84bOLxfhQD9p5ikZUkL2jtBKXlVGchVhBOhYjguB+Q796ICzxX3I5
+ AzJz3+HRUzGp9kZpuj0PgpqCYSy91jdQ5O/hQ5r926eDhW/Oj6ckJ1fOHmg0/mcCrf8V
+ OKHGyHfBW2URgEI5ot+E6pdcR2mhPwl+eTTtPrYF4mNoPrvaIA8Zhb+pPe4N2vs8PKKm
+ 2p9fK/5ezVTL45ndejBStKdYA9TgpYwUlr3qSqE1QsSIYy0ZRYhNrt4mTKNfw6msJrDW
+ EGXYcIcTQD7IM48D7PU2Gzi6EMc6e+lzYxvsqapW+bWP5MXqmUKqkQWgWzEoXrgF+zZ5
+ jGoQ==
+X-Gm-Message-State: AOAM531YyJtE3v5EBAx0H2OSK8qFLhYoNLR90/k39V6qU+qIN0Xto55k
+ nimVCGJIWte01qxN18/w+pKTyl1/O+NlL9jlGAaI+w==
+X-Google-Smtp-Source: ABdhPJylbGieillP4v3Sou9GfiOafHmfSdD7JjHyJBYaAf+EOtB7ue7nViFrVdrgxVrSReapdfqxB6ae0ZGRSPj/Qs0=
+X-Received: by 2002:a65:44c4:: with SMTP id g4mr981021pgs.254.1630530731360;
+ Wed, 01 Sep 2021 14:12:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <1630457207-13107-1-git-send-email-Monk.Liu@amd.com>
- <28709f7f-8a48-40ad-87bb-c2f0dd89da38@gmail.com>
-In-Reply-To: <28709f7f-8a48-40ad-87bb-c2f0dd89da38@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 1 Sep 2021 16:42:43 -0400
-Message-ID: <CADnq5_PRE4WyftqO15c08qwQx2CRszsj4gJQtDeon9TvtV+qkA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/sched: fix the bug of time out calculation(v4)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Monk Liu <Monk.Liu@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+References: <20210901201934.1084250-1-dianders@chromium.org>
+ <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
+In-Reply-To: <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
+From: Olof Johansson <olof@lixom.net>
+Date: Wed, 1 Sep 2021 14:12:00 -0700
+Message-ID: <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com>
+Subject: Re: [PATCH v3 06/16] ARM: configs: Everyone who had PANEL_SIMPLE now
+ gets PANEL_SIMPLE_EDP
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Linus W <linus.walleij@linaro.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, DTML <devicetree@vger.kernel.org>, 
+ Steev Klimaszewski <steev@kali.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>, 
+ Al Viro <viro@zeniv.linux.org.uk>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Andreas Kemnade <andreas@kemnade.info>, 
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Anson Huang <Anson.Huang@nxp.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>, 
+ Claudiu Beznea <claudiu.beznea@microchip.com>, 
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+ Corentin Labbe <clabbe@baylibre.com>, 
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Dmitry Osipenko <digetx@gmail.com>, 
+ Emil Velikov <emil.velikov@collabora.com>,
+ Eugen Hristev <eugen.hristev@microchip.com>, 
+ Fabio Estevam <festevam@gmail.com>, Fabrice Gasnier <fabrice.gasnier@st.com>, 
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Grygorii Strashko <grygorii.strashko@ti.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Kees Cook <keescook@chromium.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ =?UTF-8?Q?Martin_J=C3=BCcker?= <martin.juecker@gmail.com>, 
+ NXP Linux Team <linux-imx@nxp.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Olivier Moysan <olivier.moysan@st.com>,
+ Otavio Salvador <otavio@ossystems.com.br>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Razvan Stefanescu <razvan.stefanescu@microchip.com>, 
+ Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Stefan Wahren <stefan.wahren@i2se.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+ Tony Lindgren <tony@atomide.com>, Tudor Ambarus <tudor.ambarus@microchip.com>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Vladimir Zapolskiy <vz@mleia.com>, 
+ Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-omap <linux-omap@vger.kernel.org>, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+ "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES"
+ <linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev, 
+ "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+ =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,119 +124,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 1, 2021 at 2:50 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org> wrote:
 >
-> Am 01.09.21 um 02:46 schrieb Monk Liu:
-> > issue:
-> > in cleanup_job the cancle_delayed_work will cancel a TO timer
-> > even the its corresponding job is still running.
-> >
-> > fix:
-> > do not cancel the timer in cleanup_job, instead do the cancelling
-> > only when the heading job is signaled, and if there is a "next" job
-> > we start_timeout again.
-> >
-> > v2:
-> > further cleanup the logic, and do the TDR timer cancelling if the signa=
-led job
-> > is the last one in its scheduler.
-> >
-> > v3:
-> > change the issue description
-> > remove the cancel_delayed_work in the begining of the cleanup_job
-> > recover the implement of drm_sched_job_begin.
-> >
-> > v4:
-> > remove the kthread_should_park() checking in cleanup_job routine,
-> > we should cleanup the signaled job asap
-> >
-> > TODO:
-> > 1)introduce pause/resume scheduler in job_timeout to serial the handlin=
-g
-> > of scheduler and job_timeout.
-> > 2)drop the bad job's del and insert in scheduler due to above serializa=
-tion
-> > (no race issue anymore with the serialization)
-> >
-> > tested-by: jingwen <jingwen.chen@@amd.com>
-> > Signed-off-by: Monk Liu <Monk.Liu@amd.com>
+> In the patch ("drm/panel-simple-edp: Split eDP panels out of
+> panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
+> give everyone who had the old driver enabled the new driver too. If
+> folks want to opt-out of one or the other they always can later.
 >
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Are you planning to push this to drm-misc?
-
-Alex
+Isn't this a case where the new option should just have had the old
+option as the default value to avoid this kind of churn and possibly
+broken platforms?
 
 
-> > ---
-> >   drivers/gpu/drm/scheduler/sched_main.c | 26 +++++++++----------------=
--
-> >   1 file changed, 9 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> > index a2a9536..3e0bbc7 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -676,15 +676,6 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler=
- *sched)
-> >   {
-> >       struct drm_sched_job *job, *next;
-> >
-> > -     /*
-> > -      * Don't destroy jobs while the timeout worker is running  OR thr=
-ead
-> > -      * is being parked and hence assumed to not touch pending_list
-> > -      */
-> > -     if ((sched->timeout !=3D MAX_SCHEDULE_TIMEOUT &&
-> > -         !cancel_delayed_work(&sched->work_tdr)) ||
-> > -         kthread_should_park())
-> > -             return NULL;
-> > -
-> >       spin_lock(&sched->job_list_lock);
-> >
-> >       job =3D list_first_entry_or_null(&sched->pending_list,
-> > @@ -693,17 +684,21 @@ drm_sched_get_cleanup_job(struct drm_gpu_schedule=
-r *sched)
-> >       if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
-> >               /* remove job from pending_list */
-> >               list_del_init(&job->list);
-> > +
-> > +             /* cancel this job's TO timer */
-> > +             cancel_delayed_work(&sched->work_tdr);
-> >               /* make the scheduled timestamp more accurate */
-> >               next =3D list_first_entry_or_null(&sched->pending_list,
-> >                                               typeof(*next), list);
-> > -             if (next)
-> > +
-> > +             if (next) {
-> >                       next->s_fence->scheduled.timestamp =3D
-> >                               job->s_fence->finished.timestamp;
-> > -
-> > +                     /* start TO timer for next job */
-> > +                     drm_sched_start_timeout(sched);
-> > +             }
-> >       } else {
-> >               job =3D NULL;
-> > -             /* queue timeout for next job */
-> > -             drm_sched_start_timeout(sched);
-> >       }
-> >
-> >       spin_unlock(&sched->job_list_lock);
-> > @@ -791,11 +786,8 @@ static int drm_sched_main(void *param)
-> >                                         (entity =3D drm_sched_select_en=
-tity(sched))) ||
-> >                                        kthread_should_stop());
-> >
-> > -             if (cleanup_job) {
-> > +             if (cleanup_job)
-> >                       sched->ops->free_job(cleanup_job);
-> > -                     /* queue timeout for next job */
-> > -                     drm_sched_start_timeout(sched);
-> > -             }
-> >
-> >               if (!entity)
-> >                       continue;
->
+-Olof
