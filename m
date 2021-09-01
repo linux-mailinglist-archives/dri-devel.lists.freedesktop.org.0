@@ -2,34 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4FF3FDF53
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 18:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D213FDF4F
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 18:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BCC36E210;
-	Wed,  1 Sep 2021 16:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1BAD6E1F7;
+	Wed,  1 Sep 2021 16:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.bugwerft.de (mail.bugwerft.de [IPv6:2a03:6000:1011::59])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9ACFF6E210
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 16:06:07 +0000 (UTC)
-Received: from hq-00021.. (unknown [46.183.103.17])
- by mail.bugwerft.de (Postfix) with ESMTPSA id 9E20B32D3FA;
- Wed,  1 Sep 2021 16:05:55 +0000 (UTC)
-From: Daniel Mack <daniel@zonque.org>
-To: airlied@linux.ie,
-	daniel@ffwll.ch
-Cc: robh+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Daniel Mack <daniel@zonque.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v10 2/2] drm/tiny: add driver for newhaven,1.8-128160EF
-Date: Wed,  1 Sep 2021 18:03:29 +0200
-Message-Id: <20210901160329.1519656-3-daniel@zonque.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210901160329.1519656-1-daniel@zonque.org>
-References: <20210901160329.1519656-1-daniel@zonque.org>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8641C6E1ED;
+ Wed,  1 Sep 2021 16:05:37 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="216943886"
+X-IronPort-AV: E=Sophos;i="5.84,369,1620716400"; d="scan'208";a="216943886"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2021 09:05:36 -0700
+X-IronPort-AV: E=Sophos;i="5.84,369,1620716400"; d="scan'208";a="532259842"
+Received: from frodasgo-mobl3.amr.corp.intel.com (HELO intel.com)
+ ([10.255.39.35])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2021 09:05:34 -0700
+Date: Wed, 1 Sep 2021 12:05:33 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Anshuman Gupta <anshuman.gupta@intel.com>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Gaurav Kumar <kumar.gaurav@intel.com>, Shankar Uma <uma.shankar@intel.com>,
+ Juston Li <juston.li@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v7 14/17] drm/i915/pxp: black pixels on pxp
+ disabled
+Message-ID: <YS+kzX7yIE2cpJPx@intel.com>
+References: <20210828012738.317661-1-daniele.ceraolospurio@intel.com>
+ <20210828012738.317661-15-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210828012738.317661-15-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,285 +55,213 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds support for Newhaven's NHD-1.8-128160EF display, featuring
-an Ilitek ILI9163 controller.
+On Fri, Aug 27, 2021 at 06:27:35PM -0700, Daniele Ceraolo Spurio wrote:
+> From: Anshuman Gupta <anshuman.gupta@intel.com>
+> 
+> When protected sufaces has flipped and pxp session is disabled,
+> display black pixels by using plane color CTM correction.
+> 
+> v2:
+> - Display black pixels in async flip too.
+> 
+> v3:
+> - Removed the black pixels logic for async flip. [Ville]
+> - Used plane state to force black pixels. [Ville]
+> 
+> v4 (Daniele): update pxp_is_borked check.
+> 
+> v5: rebase on top of v9 plane decryption moving the decrypt check
+>     (Juston)
+> 
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Gaurav Kumar <kumar.gaurav@intel.com>
+> Cc: Shankar Uma <uma.shankar@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Signed-off-by: Juston Li <juston.li@intel.com>
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> #v4
 
-Signed-off-by: Daniel Mack <daniel@zonque.org>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/tiny/Kconfig   |  13 ++
- drivers/gpu/drm/tiny/Makefile  |   1 +
- drivers/gpu/drm/tiny/ili9163.c | 224 +++++++++++++++++++++++++++++++++
- 3 files changed, 238 insertions(+)
- create mode 100644 drivers/gpu/drm/tiny/ili9163.c
+The end result looks identical to me, so my rv-b remains valid.
 
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index d46f95d9196d..ca2d9255548b 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -67,6 +67,19 @@ config TINYDRM_HX8357D
- 
- 	  If M is selected the module will be called hx8357d.
- 
-+config TINYDRM_ILI9163
-+	tristate "DRM support for ILI9163 display panels"
-+	depends on DRM && SPI
-+	select BACKLIGHT_CLASS_DEVICE
-+	select DRM_KMS_CMA_HELPER
-+	select DRM_KMS_HELPER
-+	select DRM_MIPI_DBI
-+	help
-+	  DRM driver for the following Ilitek ILI9163 panels:
-+	  * NHD-1.8-128160EF 128x160 TFT
-+
-+	  If M is selected the module will be called ili9163.
-+
- config TINYDRM_ILI9225
- 	tristate "DRM support for ILI9225 display panels"
- 	depends on DRM && SPI
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 9cc847e756da..c96c663c3499 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -5,6 +5,7 @@ obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
- obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
- obj-$(CONFIG_DRM_SIMPLEDRM)		+= simpledrm.o
- obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
-+obj-$(CONFIG_TINYDRM_ILI9163)		+= ili9163.o
- obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
- obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
- obj-$(CONFIG_TINYDRM_ILI9486)		+= ili9486.o
-diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
-new file mode 100644
-index 000000000000..b0953e1aa3ed
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/ili9163.c
-@@ -0,0 +1,224 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/spi/spi.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_modeset_helper.h>
-+#include <video/mipi_display.h>
-+
-+#define ILI9163_FRMCTR1		0xb1
-+
-+#define ILI9163_PWCTRL1		0xc0
-+#define ILI9163_PWCTRL2		0xc1
-+#define ILI9163_VMCTRL1		0xc5
-+#define ILI9163_VMCTRL2		0xc7
-+#define ILI9163_PWCTRLA		0xcb
-+#define ILI9163_PWCTRLB		0xcf
-+
-+#define ILI9163_EN3GAM		0xf2
-+
-+#define ILI9163_MADCTL_BGR	BIT(3)
-+#define ILI9163_MADCTL_MV	BIT(5)
-+#define ILI9163_MADCTL_MX	BIT(6)
-+#define ILI9163_MADCTL_MY	BIT(7)
-+
-+static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
-+			     struct drm_crtc_state *crtc_state,
-+			     struct drm_plane_state *plane_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	u8 addr_mode;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+		return;
-+
-+	DRM_DEBUG_KMS("\n");
-+
-+	ret = mipi_dbi_poweron_conditional_reset(dbidev);
-+	if (ret < 0)
-+		goto out_exit;
-+	if (ret == 1)
-+		goto out_enable;
-+
-+	/* Gamma */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, 0x04);
-+	mipi_dbi_command(dbi, ILI9163_EN3GAM, 0x00);
-+
-+	/* Frame Rate */
-+	mipi_dbi_command(dbi, ILI9163_FRMCTR1, 0x0a, 0x14);
-+
-+	/* Power Control */
-+	mipi_dbi_command(dbi, ILI9163_PWCTRL1, 0x0a, 0x00);
-+	mipi_dbi_command(dbi, ILI9163_PWCTRL2, 0x02);
-+
-+	/* VCOM */
-+	mipi_dbi_command(dbi, ILI9163_VMCTRL1, 0x2f, 0x3e);
-+	mipi_dbi_command(dbi, ILI9163_VMCTRL2, 0x40);
-+
-+	/* Memory Access Control */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(100);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	msleep(100);
-+
-+out_enable:
-+	switch (dbidev->rotation) {
-+	default:
-+		addr_mode = ILI9163_MADCTL_MX | ILI9163_MADCTL_MY;
-+		break;
-+	case 90:
-+		addr_mode = ILI9163_MADCTL_MX | ILI9163_MADCTL_MV;
-+		break;
-+	case 180:
-+		addr_mode = 0;
-+		break;
-+	case 270:
-+		addr_mode = ILI9163_MADCTL_MY | ILI9163_MADCTL_MV;
-+		break;
-+	}
-+	addr_mode |= ILI9163_MADCTL_BGR;
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
-+	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-+out_exit:
-+	drm_dev_exit(idx);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs ili9163_pipe_funcs = {
-+	.enable = yx240qv29_enable,
-+	.disable = mipi_dbi_pipe_disable,
-+	.update = mipi_dbi_pipe_update,
-+	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
-+};
-+
-+static const struct drm_display_mode yx240qv29_mode = {
-+	DRM_SIMPLE_MODE(128, 160, 28, 35),
-+};
-+
-+DEFINE_DRM_GEM_CMA_FOPS(ili9163_fops);
-+
-+static struct drm_driver ili9163_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &ili9163_fops,
-+	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	.debugfs_init		= mipi_dbi_debugfs_init,
-+	.name			= "ili9163",
-+	.desc			= "Ilitek ILI9163",
-+	.date			= "20210208",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+static const struct of_device_id ili9163_of_match[] = {
-+	{ .compatible = "newhaven,1.8-128160EF" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ili9163_of_match);
-+
-+static const struct spi_device_id ili9163_id[] = {
-+	{ "nhd-1.8-128160EF", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(spi, ili9163_id);
-+
-+static int ili9163_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct mipi_dbi_dev *dbidev;
-+	struct drm_device *drm;
-+	struct mipi_dbi *dbi;
-+	struct gpio_desc *dc;
-+	u32 rotation = 0;
-+	int ret;
-+
-+	dbidev = devm_drm_dev_alloc(dev, &ili9163_driver,
-+				    struct mipi_dbi_dev, drm);
-+	if (IS_ERR(dbidev))
-+		return PTR_ERR(dbidev);
-+
-+	dbi = &dbidev->dbi;
-+	drm = &dbidev->drm;
-+
-+	spi_set_drvdata(spi, drm);
-+
-+	dbi->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(dbi->reset)) {
-+		DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
-+		return PTR_ERR(dbi->reset);
-+	}
-+
-+	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
-+	if (IS_ERR(dc)) {
-+		DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
-+		return PTR_ERR(dc);
-+	}
-+
-+	dbidev->backlight = devm_of_find_backlight(dev);
-+	if (IS_ERR(dbidev->backlight))
-+		return PTR_ERR(dbidev->backlight);
-+
-+	device_property_read_u32(dev, "rotation", &rotation);
-+
-+	ret = mipi_dbi_spi_init(spi, dbi, dc);
-+	if (ret)
-+		return ret;
-+
-+	ret = mipi_dbi_dev_init(dbidev, &ili9163_pipe_funcs, &yx240qv29_mode, rotation);
-+	if (ret)
-+		return ret;
-+
-+	drm_mode_config_reset(drm);
-+
-+	ret = drm_dev_register(drm, 0);
-+	if (ret)
-+		return ret;
-+
-+	drm_fbdev_generic_setup(drm, 0);
-+
-+	return 0;
-+}
-+
-+static int ili9163_remove(struct spi_device *spi)
-+{
-+	struct drm_device *drm = spi_get_drvdata(spi);
-+
-+	drm_dev_unplug(drm);
-+	drm_atomic_helper_shutdown(drm);
-+
-+	return 0;
-+}
-+
-+static void ili9163_shutdown(struct spi_device *spi)
-+{
-+	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-+}
-+
-+static struct spi_driver ili9163_spi_driver = {
-+	.driver = {
-+		.name = "ili9163",
-+		.of_match_table = ili9163_of_match,
-+	},
-+	.id_table = ili9163_id,
-+	.probe = ili9163_probe,
-+	.remove = ili9163_remove,
-+	.shutdown = ili9163_shutdown,
-+};
-+module_spi_driver(ili9163_spi_driver);
-+
-+MODULE_DESCRIPTION("Ilitek ILI9163 DRM driver");
-+MODULE_AUTHOR("Daniel Mack <daniel@zonque.org>");
-+MODULE_LICENSE("GPL");
--- 
-2.31.1
-
+> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c  | 12 ++++-
+>  .../drm/i915/display/intel_display_types.h    |  3 ++
+>  .../drm/i915/display/skl_universal_plane.c    | 36 ++++++++++++++-
+>  drivers/gpu/drm/i915/i915_reg.h               | 46 +++++++++++++++++++
+>  4 files changed, 94 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index f04d98fcea46..146c87440cc6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -9157,6 +9157,11 @@ static bool bo_has_valid_encryption(struct drm_i915_gem_object *obj)
+>  	return intel_pxp_key_check(&i915->gt.pxp, obj, false) == 0;
+>  }
+>  
+> +static bool pxp_is_borked(struct drm_i915_gem_object *obj)
+> +{
+> +	return i915_gem_object_is_protected(obj) && !bo_has_valid_encryption(obj);
+> +}
+> +
+>  static int intel_atomic_check_planes(struct intel_atomic_state *state)
+>  {
+>  	struct drm_i915_private *dev_priv = to_i915(state->base.dev);
+> @@ -9218,10 +9223,13 @@ static int intel_atomic_check_planes(struct intel_atomic_state *state)
+>  		new_plane_state = intel_atomic_get_new_plane_state(state, plane);
+>  		old_plane_state = intel_atomic_get_old_plane_state(state, plane);
+>  		fb = new_plane_state->hw.fb;
+> -		if (fb)
+> +		if (fb) {
+>  			new_plane_state->decrypt = bo_has_valid_encryption(intel_fb_obj(fb));
+> -		else
+> +			new_plane_state->force_black = pxp_is_borked(intel_fb_obj(fb));
+> +		} else {
+>  			new_plane_state->decrypt = old_plane_state->decrypt;
+> +			new_plane_state->force_black = old_plane_state->force_black;
+> +		}
+>  	}
+>  
+>  	return 0;
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 6d4ea1d5bf7b..05d2e6676387 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -632,6 +632,9 @@ struct intel_plane_state {
+>  	/* Plane pxp decryption state */
+>  	bool decrypt;
+>  
+> +	/* Plane state to display black pixels when pxp is borked */
+> +	bool force_black;
+> +
+>  	/* plane control register */
+>  	u32 ctl;
+>  
+> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> index 55e3f093b951..c4adcb3e12b3 100644
+> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> @@ -1002,6 +1002,33 @@ static u32 skl_surf_address(const struct intel_plane_state *plane_state,
+>  	}
+>  }
+>  
+> +static void intel_load_plane_csc_black(struct intel_plane *intel_plane)
+> +{
+> +	struct drm_i915_private *dev_priv = to_i915(intel_plane->base.dev);
+> +	enum pipe pipe = intel_plane->pipe;
+> +	enum plane_id plane = intel_plane->id;
+> +	u16 postoff = 0;
+> +
+> +	drm_dbg_kms(&dev_priv->drm, "plane color CTM to black  %s:%d\n",
+> +		    intel_plane->base.name, plane);
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 0), 0);
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 1), 0);
+> +
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 2), 0);
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 3), 0);
+> +
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 4), 0);
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_COEFF(pipe, plane, 5), 0);
+> +
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
+> +
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 0), postoff);
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 1), postoff);
+> +	intel_de_write_fw(dev_priv, PLANE_CSC_POSTOFF(pipe, plane, 2), postoff);
+> +}
+> +
+>  static void
+>  skl_program_plane(struct intel_plane *plane,
+>  		  const struct intel_crtc_state *crtc_state,
+> @@ -1115,14 +1142,21 @@ skl_program_plane(struct intel_plane *plane,
+>  	 */
+>  	intel_de_write_fw(dev_priv, PLANE_CTL(pipe, plane_id), plane_ctl);
+>  	plane_surf = intel_plane_ggtt_offset(plane_state) + surf_addr;
+> +	plane_color_ctl = intel_de_read_fw(dev_priv, PLANE_COLOR_CTL(pipe, plane_id));
+>  
+>  	/*
+>  	 * FIXME: pxp session invalidation can hit any time even at time of commit
+>  	 * or after the commit, display content will be garbage.
+>  	 */
+> -	if (plane_state->decrypt)
+> +	if (plane_state->decrypt) {
+>  		plane_surf |= PLANE_SURF_DECRYPT;
+> +	} else if (plane_state->force_black) {
+> +		intel_load_plane_csc_black(plane);
+> +		plane_color_ctl |= PLANE_COLOR_PLANE_CSC_ENABLE;
+> +	}
+>  
+> +	intel_de_write_fw(dev_priv, PLANE_COLOR_CTL(pipe, plane_id),
+> +			  plane_color_ctl);
+>  	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id), plane_surf);
+>  
+>  	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index 148cfc859c63..806f29f3fa7d 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -7234,6 +7234,7 @@ enum {
+>  #define _PLANE_COLOR_CTL_3_A			0x703CC /* GLK+ */
+>  #define   PLANE_COLOR_PIPE_GAMMA_ENABLE		(1 << 30) /* Pre-ICL */
+>  #define   PLANE_COLOR_YUV_RANGE_CORRECTION_DISABLE	(1 << 28)
+> +#define   PLANE_COLOR_PLANE_CSC_ENABLE			REG_BIT(21) /* ICL+ */
+>  #define   PLANE_COLOR_INPUT_CSC_ENABLE		(1 << 20) /* ICL+ */
+>  #define   PLANE_COLOR_PIPE_CSC_ENABLE		(1 << 23) /* Pre-ICL */
+>  #define   PLANE_COLOR_CSC_MODE_BYPASS			(0 << 17)
+> @@ -11375,6 +11376,51 @@ enum skl_power_gate {
+>  					_PAL_PREC_MULTI_SEG_DATA_A, \
+>  					_PAL_PREC_MULTI_SEG_DATA_B)
+>  
+> +#define _MMIO_PLANE_GAMC(plane, i, a, b)  _MMIO(_PIPE(plane, a, b) + (i) * 4)
+> +
+> +/* Plane CSC Registers */
+> +#define _PLANE_CSC_RY_GY_1_A	0x70210
+> +#define _PLANE_CSC_RY_GY_2_A	0x70310
+> +
+> +#define _PLANE_CSC_RY_GY_1_B	0x71210
+> +#define _PLANE_CSC_RY_GY_2_B	0x71310
+> +
+> +#define _PLANE_CSC_RY_GY_1(pipe)	_PIPE(pipe, _PLANE_CSC_RY_GY_1_A, \
+> +					      _PLANE_CSC_RY_GY_1_B)
+> +#define _PLANE_CSC_RY_GY_2(pipe)	_PIPE(pipe, _PLANE_INPUT_CSC_RY_GY_2_A, \
+> +					      _PLANE_INPUT_CSC_RY_GY_2_B)
+> +#define PLANE_CSC_COEFF(pipe, plane, index)	_MMIO_PLANE(plane, \
+> +							    _PLANE_CSC_RY_GY_1(pipe) +  (index) * 4, \
+> +							    _PLANE_CSC_RY_GY_2(pipe) + (index) * 4)
+> +
+> +#define _PLANE_CSC_PREOFF_HI_1_A		0x70228
+> +#define _PLANE_CSC_PREOFF_HI_2_A		0x70328
+> +
+> +#define _PLANE_CSC_PREOFF_HI_1_B		0x71228
+> +#define _PLANE_CSC_PREOFF_HI_2_B		0x71328
+> +
+> +#define _PLANE_CSC_PREOFF_HI_1(pipe)	_PIPE(pipe, _PLANE_CSC_PREOFF_HI_1_A, \
+> +					      _PLANE_CSC_PREOFF_HI_1_B)
+> +#define _PLANE_CSC_PREOFF_HI_2(pipe)	_PIPE(pipe, _PLANE_CSC_PREOFF_HI_2_A, \
+> +					      _PLANE_CSC_PREOFF_HI_2_B)
+> +#define PLANE_CSC_PREOFF(pipe, plane, index)	_MMIO_PLANE(plane, _PLANE_CSC_PREOFF_HI_1(pipe) + \
+> +							    (index) * 4, _PLANE_CSC_PREOFF_HI_2(pipe) + \
+> +							    (index) * 4)
+> +
+> +#define _PLANE_CSC_POSTOFF_HI_1_A		0x70234
+> +#define _PLANE_CSC_POSTOFF_HI_2_A		0x70334
+> +
+> +#define _PLANE_CSC_POSTOFF_HI_1_B		0x71234
+> +#define _PLANE_CSC_POSTOFF_HI_2_B		0x71334
+> +
+> +#define _PLANE_CSC_POSTOFF_HI_1(pipe)	_PIPE(pipe, _PLANE_CSC_POSTOFF_HI_1_A, \
+> +					      _PLANE_CSC_POSTOFF_HI_1_B)
+> +#define _PLANE_CSC_POSTOFF_HI_2(pipe)	_PIPE(pipe, _PLANE_CSC_POSTOFF_HI_2_A, \
+> +					      _PLANE_CSC_POSTOFF_HI_2_B)
+> +#define PLANE_CSC_POSTOFF(pipe, plane, index)	_MMIO_PLANE(plane, _PLANE_CSC_POSTOFF_HI_1(pipe) + \
+> +							    (index) * 4, _PLANE_CSC_POSTOFF_HI_2(pipe) + \
+> +							    (index) * 4)
+> +
+>  /* pipe CSC & degamma/gamma LUTs on CHV */
+>  #define _CGM_PIPE_A_CSC_COEFF01	(VLV_DISPLAY_BASE + 0x67900)
+>  #define _CGM_PIPE_A_CSC_COEFF23	(VLV_DISPLAY_BASE + 0x67904)
+> -- 
+> 2.25.1
+> 
