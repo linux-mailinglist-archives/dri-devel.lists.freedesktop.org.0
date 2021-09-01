@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A8A3FE188
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 19:55:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBB93FE189
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 19:55:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBB4A6E231;
-	Wed,  1 Sep 2021 17:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C552F6E233;
+	Wed,  1 Sep 2021 17:55:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from rosenzweig.io (rosenzweig.io [138.197.143.207])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79EF86E231
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 17:55:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE286E233
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 17:55:15 +0000 (UTC)
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 To: dri-devel@lists.freedesktop.org
 Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
@@ -31,10 +31,11 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-arm-msm@vger.kernel.org
-Subject: [PATCH 3/5] drm/msm: Use common drm_fixed_16_16 helper
-Date: Wed,  1 Sep 2021 13:54:29 -0400
-Message-Id: <20210901175431.14060-3-alyssa@rosenzweig.io>
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH 4/5] drm/rockchip: Use common drm_fixed_16_16 helper
+Date: Wed,  1 Sep 2021 13:54:30 -0400
+Message-Id: <20210901175431.14060-4-alyssa@rosenzweig.io>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210901175431.14060-1-alyssa@rosenzweig.io>
 References: <20210901175431.14060-1-alyssa@rosenzweig.io>
@@ -59,73 +60,60 @@ Replace our open-coded FRAC_16_16 with the common drm_fixed_16_16
 helper to reduce code duplication between drivers.
 
 Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c  | 2 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 8 ++++----
- drivers/gpu/drm/msm/msm_drv.h              | 3 +--
- 3 files changed, 6 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 9 +++++----
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h | 1 -
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index c989621209aa..fc9a9f544110 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -964,7 +964,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 		crtc_state = drm_atomic_get_new_crtc_state(state,
- 							   new_plane_state->crtc);
- 
--	min_scale = FRAC_16_16(1, pdpu->pipe_sblk->maxupscale);
-+	min_scale = drm_fixed_16_16(1, pdpu->pipe_sblk->maxupscale);
- 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
- 						  min_scale,
- 						  pdpu->pipe_sblk->maxdwnscale << 16,
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-index c6b69afcbac8..079b0662ee3c 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-@@ -199,8 +199,8 @@ static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
- 		return -ERANGE;
- 	}
- 
--	min_scale = FRAC_16_16(1, 8);
--	max_scale = FRAC_16_16(8, 1);
-+	min_scale = drm_fixed_16_16(1, 8);
-+	max_scale = drm_fixed_16_16(8, 1);
- 
- 	ret = drm_atomic_helper_check_plane_state(state, crtc_state,
- 						  min_scale, max_scale,
-@@ -381,8 +381,8 @@ static int mdp5_plane_atomic_async_check(struct drm_plane *plane,
- 	    plane->state->fb != new_plane_state->fb)
- 		return -EINVAL;
- 
--	min_scale = FRAC_16_16(1, 8);
--	max_scale = FRAC_16_16(8, 1);
-+	min_scale = drm_fixed_16_16(1, 8);
-+	max_scale = drm_fixed_16_16(8, 1);
- 
- 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
- 						  min_scale, max_scale,
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 8b005d1ac899..b5aa94024a42 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -32,6 +32,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/msm_drm.h>
- #include <drm/drm_gem.h>
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index ba9e14da41b4..9428fcba400f 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -29,6 +29,7 @@
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_self_refresh_helper.h>
+ #include <drm/drm_vblank.h>
 +#include <drm/drm_fixed.h>
  
- struct msm_kms;
- struct msm_gpu;
-@@ -51,8 +52,6 @@ struct msm_disp_state;
- #define MAX_BRIDGES    8
- #define MAX_CONNECTORS 8
+ #ifdef CONFIG_DRM_ANALOGIX_DP
+ #include <drm/bridge/analogix_dp.h>
+@@ -789,9 +790,9 @@ static int vop_plane_atomic_check(struct drm_plane *plane,
+ 	struct vop_win *vop_win = to_vop_win(plane);
+ 	const struct vop_win_data *win = vop_win->data;
+ 	int ret;
+-	int min_scale = win->phy->scl ? FRAC_16_16(1, 8) :
++	int min_scale = win->phy->scl ? drm_fixed_16_16(1, 8) :
+ 					DRM_PLANE_HELPER_NO_SCALING;
+-	int max_scale = win->phy->scl ? FRAC_16_16(8, 1) :
++	int max_scale = win->phy->scl ? drm_fixed_16_16(8, 1) :
+ 					DRM_PLANE_HELPER_NO_SCALING;
+ 
+ 	if (!crtc || WARN_ON(!fb))
+@@ -1037,9 +1038,9 @@ static int vop_plane_atomic_async_check(struct drm_plane *plane,
+ 										 plane);
+ 	struct vop_win *vop_win = to_vop_win(plane);
+ 	const struct vop_win_data *win = vop_win->data;
+-	int min_scale = win->phy->scl ? FRAC_16_16(1, 8) :
++	int min_scale = win->phy->scl ? drm_fixed_16_16(1, 8) :
+ 					DRM_PLANE_HELPER_NO_SCALING;
+-	int max_scale = win->phy->scl ? FRAC_16_16(8, 1) :
++	int max_scale = win->phy->scl ? drm_fixed_16_16(8, 1) :
+ 					DRM_PLANE_HELPER_NO_SCALING;
+ 	struct drm_crtc_state *crtc_state;
+ 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+index 857d97cdc67c..cada12e653cc 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+@@ -335,7 +335,6 @@ enum vop_pol {
+ 	DEN_NEGATIVE   = 2
+ };
  
 -#define FRAC_16_16(mult, div)    (((mult) << 16) / (div))
--
- struct msm_file_private {
- 	rwlock_t queuelock;
- 	struct list_head submitqueues;
+ #define SCL_FT_DEFAULT_FIXPOINT_SHIFT	12
+ #define SCL_MAX_VSKIPLINES		4
+ #define MIN_SCL_FT_AFTER_VSKIP		1
 -- 
 2.30.2
 
