@@ -2,46 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E0B3FDFC9
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 18:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47ACB3FE03A
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 18:42:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADD566E1F8;
-	Wed,  1 Sep 2021 16:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05C36E207;
+	Wed,  1 Sep 2021 16:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AFE76E1F3
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 16:23:36 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD636559;
- Wed,  1 Sep 2021 18:23:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1630513415;
- bh=rQcKBSIJIO0CAdUQve/kEYEH9mXfsV3rEctHKZgCmxo=;
- h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
- b=LJ2p9wRfbE/XBTDzgP+JHOXcSY9L812mpUMJAzJTGWatlqH5oECSoVVCn+Y2WiekB
- U9YS4UgTt3j2vaakNtVqecMVU+ovWgOdHFAmh6ZJysieJsjz6OFzbqylhm8G73Ch9U
- 7WgdrSOXLJ5sFzuoIPH3g49FYo64cfte9vaN5mAA=
-Subject: Re: [PATCH] drm: rcar-du: Improve kernel log messages when
- initializing encoders
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20210822003948.11684-1-laurent.pinchart+renesas@ideasonboard.com>
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <d868ea31-86cf-80bc-e15a-2de4a9fce260@ideasonboard.com>
-Date: Wed, 1 Sep 2021 17:23:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB436E207
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 16:42:14 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id x4so24914pgh.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 09:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=1rGeijHq8WZgg+lrwUTnmHa7aiFWRXgtn3qY3995sgA=;
+ b=ceTE2ch8NNIa92TZhOHa1RRLewscF9g9GuxKxhL/HkPP7v7lfazyZalGElcYWHyX9L
+ zAMevYtcQFRsaaiTb8orLn2cb5q5FY233/uKgTK9xzzgCZHY+IT42xhC6VfDiXCGq45M
+ TwZ039c9Xox2GO6CQxzGJbJP+xwC9ODaIxW+Pp1KfaQO2A/IYM1P2SpMtaCrCLzddmKD
+ 5gW+s3ZFtM+k5MED5VHduMvDDol05Hp/rp/IbjbCaATy5I4tXMjiXLAn8TUWSTX4D2VI
+ md3b4zLELgvS5pMOG9aTMG8gkQ9VRiDelRnhHlDBS1J6o9UPE17rz27mVB/qsW4dOCRi
+ eq1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=1rGeijHq8WZgg+lrwUTnmHa7aiFWRXgtn3qY3995sgA=;
+ b=Q1pV0wdALxpFErf/8/AAThX6xXmxLCSGcRSx7UOFoj8HID/2KtWJnkqJ5VWCferXrx
+ 5pQXVcnalYUbOR3q5xUQoN9zRZOE1ljTqHoGUo/0BWTREkBzt0i6fNhWBdyyd4mrZCsw
+ gZh+0cx0NqU+igsS5SR2PE7SeTPZaDqH+ltu6g0iz+HH0oJvGe59QpFOU2TcHnpuPN8D
+ 3Kv2wgiBEaLECwxOUsPHGTHj/mhg875wq/92BZS2EAgrcrQ0uPZDrJdGWYYHkxSoUg9x
+ Kn/kRS9a98oSCqltIvcmEn2kPgzkWc6GeoJLmPmba1j0fJawlTDwnOs0v1NgS/zDIlqQ
+ 0VHw==
+X-Gm-Message-State: AOAM531TQxnU5a21Ov1yKKen8HLjna58BdlHvV8ei7PIkKwkBbcCfPmp
+ TXl6PNsgXwT5296fmQWGfh8=
+X-Google-Smtp-Source: ABdhPJxywaujLQLOBCM9G/jjnxtpahJPwLQrm88Lz/Rb+Tb6db2w7Gq7LNrwMSgxW5S+aVGIhtBNbw==
+X-Received: by 2002:aa7:800b:0:b029:330:455f:57a8 with SMTP id
+ j11-20020aa7800b0000b0290330455f57a8mr363476pfi.7.1630514534105; 
+ Wed, 01 Sep 2021 09:42:14 -0700 (PDT)
+Received: from adolin ([49.207.225.208])
+ by smtp.gmail.com with ESMTPSA id cm17sm79295pjb.35.2021.09.01.09.42.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Sep 2021 09:42:13 -0700 (PDT)
+Date: Wed, 1 Sep 2021 22:10:49 +0530
+From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+To: melissa.srw@gmail.com
+Cc: rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com, daniel@ffwll.ch,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH V6 0/2] drm/vkms: Add virtual hardware module
+Message-ID: <cover.1630512292.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210822003948.11684-1-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,170 +68,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2021 01:39, Laurent Pinchart wrote:
-> Improve the debugging and error messages printing when initializing
-> encoders by replacing the output number by the output name, printing the
-> bridge OF node name, and the error code of failed operations.
-> 
-> While at it, move the related rcar_du_output enumeration from
-> rcar_du_crtc.h to rcar_du_drv.h as it's not specific to the CRTC.
-> 
+This patchset adds support for emulating virtual hardware with VKMS.
+The virtual hardware mode can be enabled by using the following command
+while loading the module:
+        sudo modprobe vkms enable_virtual_hw=1
 
-It would be nice if you applied "drm: rcar-du: Sort the DU outputs" [0]
-before this patch.
+The first patch is prep work for adding virtual_hw mode and refactors
+the plane composition in vkms by adding a helper function
+vkms_composer_common() which can be used for both vblank mode
+and virtual mode.
 
-[0]
-https://patchwork.kernel.org/project/linux-renesas-soc/patch/20210622232024.3215248-2-kieran.bingham@ideasonboard.com/
+The second patch adds virtual hardware support as a module option.
+It adds new atomic helper functions for the virtual mode
+and uses the existing atomic helpers for vblank mode
+This gives us two sets of drm_crtc_funcs and drm_crtc_helper_funcs
+structs for both modes, making the code flow cleaner and
+easier to debug.
 
-But I can always rebase that later otherwise.
+This patchset has been tested with the igt tests- kms_writeback, kms_atomic,
+kms_lease, kms_flip, kms_pipe_get_crc and preserves results except for
+subtests related to crc reads and vertical blanking, in which case,
+tests are skipped.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Sumera Priyadarsini (2):
+  drm/vkms: Refactor vkms_composer_worker() to prep for virtual_hw mode
+  drm/vkms: Add support for virtual hardware mode
 
+ drivers/gpu/drm/vkms/vkms_composer.c  | 92 +++++++++++++++++----------
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 43 ++++++++++++-
+ drivers/gpu/drm/vkms/vkms_drv.c       | 16 +++--
+ drivers/gpu/drm/vkms/vkms_drv.h       |  4 ++
+ drivers/gpu/drm/vkms/vkms_writeback.c |  3 +-
+ 5 files changed, 117 insertions(+), 41 deletions(-)
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h    | 11 -----------
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c     | 18 ++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h     | 13 +++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 12 +++++++-----
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c     |  4 ++--
->  5 files changed, 40 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> index 5f2940c42225..66e8839db708 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -93,17 +93,6 @@ struct rcar_du_crtc_state {
->  
->  #define to_rcar_crtc_state(s) container_of(s, struct rcar_du_crtc_state, state)
->  
-> -enum rcar_du_output {
-> -	RCAR_DU_OUTPUT_DPAD0,
-> -	RCAR_DU_OUTPUT_DPAD1,
-> -	RCAR_DU_OUTPUT_LVDS0,
-> -	RCAR_DU_OUTPUT_LVDS1,
-> -	RCAR_DU_OUTPUT_HDMI0,
-> -	RCAR_DU_OUTPUT_HDMI1,
-> -	RCAR_DU_OUTPUT_TCON,
-> -	RCAR_DU_OUTPUT_MAX,
-> -};
-> -
->  int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
->  			unsigned int hwindex);
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 4ac26d08ebb4..d4dc101dc1d7 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -502,6 +502,24 @@ static const struct of_device_id rcar_du_of_table[] = {
->  
->  MODULE_DEVICE_TABLE(of, rcar_du_of_table);
->  
-> +const char *rcar_du_output_name(enum rcar_du_output output)
-> +{
-> +	static const char * const names[] = {
-> +		[RCAR_DU_OUTPUT_DPAD0] = "DPAD0",
-> +		[RCAR_DU_OUTPUT_DPAD1] = "DPAD1",
-> +		[RCAR_DU_OUTPUT_LVDS0] = "LVDS0",
-> +		[RCAR_DU_OUTPUT_LVDS1] = "LVDS1",
-> +		[RCAR_DU_OUTPUT_HDMI0] = "HDMI0",
-> +		[RCAR_DU_OUTPUT_HDMI1] = "HDMI1",
-> +		[RCAR_DU_OUTPUT_TCON] = "TCON",
-> +	};
-> +
-> +	if (output >= ARRAY_SIZE(names) || !names[output])
-> +		return "UNKNOWN";
-> +
-> +	return names[output];
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * DRM operations
->   */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> index 02ca2d0e1b55..859fd5992601 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> @@ -33,6 +33,17 @@ struct rcar_du_device;
->  
->  #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
->  
-> +enum rcar_du_output {
-> +	RCAR_DU_OUTPUT_DPAD0,
-> +	RCAR_DU_OUTPUT_DPAD1,
-> +	RCAR_DU_OUTPUT_LVDS0,
-> +	RCAR_DU_OUTPUT_LVDS1,
-> +	RCAR_DU_OUTPUT_HDMI0,
-> +	RCAR_DU_OUTPUT_HDMI1,
-> +	RCAR_DU_OUTPUT_TCON,
-> +	RCAR_DU_OUTPUT_MAX,
-> +};
-> +
->  /*
->   * struct rcar_du_output_routing - Output routing specification
->   * @possible_crtcs: bitmask of possible CRTCs for the output
-> @@ -126,4 +137,6 @@ static inline void rcar_du_write(struct rcar_du_device *rcdu, u32 reg, u32 data)
->  	iowrite32(data, rcdu->mmio + reg);
->  }
->  
-> +const char *rcar_du_output_name(enum rcar_du_output output);
-> +
->  #endif /* __RCAR_DU_DRV_H__ */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> index 4bf4e25d7f01..3977aaa1ab5a 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> @@ -103,8 +103,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  			return -ENOLINK;
->  	}
->  
-> -	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
-> -		enc_node, output);
-> +	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %s\n",
-> +		enc_node, rcar_du_output_name(output));
->  
->  	renc = drmm_encoder_alloc(&rcdu->ddev, struct rcar_du_encoder, base,
->  				  &rcar_du_encoder_funcs, DRM_MODE_ENCODER_NONE,
-> @@ -118,8 +118,9 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  	ret = drm_bridge_attach(&renc->base, bridge, NULL,
->  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->  	if (ret) {
-> -		dev_err(rcdu->dev, "failed to attach bridge for output %u\n",
-> -			output);
-> +		dev_err(rcdu->dev,
-> +			"failed to attach bridge %pOF for output %s (%d)\n",
-> +			bridge->of_node, rcar_du_output_name(output), ret);
->  		return ret;
->  	}
->  
-> @@ -127,7 +128,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base);
->  	if (IS_ERR(connector)) {
->  		dev_err(rcdu->dev,
-> -			"failed to created connector for output %u\n", output);
-> +			"failed to created connector for output %s (%ld)\n",
-> +			rcar_du_output_name(output), PTR_ERR(connector));
->  		return PTR_ERR(connector);
->  	}
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index fdb8a0d127ad..ca29e4a62816 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -513,8 +513,8 @@ static int rcar_du_encoders_init_one(struct rcar_du_device *rcdu,
->  	ret = rcar_du_encoder_init(rcdu, output, entity);
->  	if (ret && ret != -EPROBE_DEFER && ret != -ENOLINK)
->  		dev_warn(rcdu->dev,
-> -			 "failed to initialize encoder %pOF on output %u (%d), skipping\n",
-> -			 entity, output, ret);
-> +			 "failed to initialize encoder %pOF on output %s (%d), skipping\n",
-> +			 entity, rcar_du_output_name(output), ret);
->  
->  	of_node_put(entity);
->  
-> 
+-- 
+2.31.1
 
