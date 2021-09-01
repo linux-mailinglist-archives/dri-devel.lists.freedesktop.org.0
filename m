@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28023FD522
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 10:18:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F053FD570
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 10:32:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2039C89801;
-	Wed,  1 Sep 2021 08:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D79FB6E06E;
+	Wed,  1 Sep 2021 08:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B35B889801
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 08:18:24 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- g66-20020a9d12c8000000b0051aeba607f1so2452103otg.11
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 01:18:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wPcw5tjWJ+wO9coOpJKKvWC5n1KGwBjvh1fc5dEcMak=;
- b=GKmhYL4pRQIrhOQLDXeEiolsAcieFrKye7ekmI57dLqPsfyKZbR49zMI+os9YcPst8
- kMpWvtNRV1DaqjKF8CEFeXISv/IpYYmjX4nHioDz+7imVmaPxcGEXu1x4tJNA0ZiB6ME
- wrDlR2+sHCZP2XGPstW012wEHctoPZKGxsQ4k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wPcw5tjWJ+wO9coOpJKKvWC5n1KGwBjvh1fc5dEcMak=;
- b=eZpi2kkg6yng1DMGavh2bB18o1s3MdT5LR8qhHg98y42D16Z3nV3igyYQjBluLQsda
- KQGhWEn3y40Ni5cep9Iu8tL8DdqYeaIWX3koEZyP6smkN1ggK7E5Rjet+IMvO1ZuLSVx
- y0JZe4VMtxe2Blk6j+15AGRKolB09dl8CpMb3KQB9P7HyANqHH8m2GAH33vZ2iFsz4Zb
- 4M5E0bzpPjdkubtd/NFeWFqwKExfPFiUhDK3Diug/H23xC04cpy0U8GQdfsE4nYQ9DjF
- 9LfPDA7oxZYny7MR1sylOokmLcguGaYkIc4tq2mB/WB0ghuRFMXmyBTxXLV9go2RlAy3
- EOew==
-X-Gm-Message-State: AOAM530JQsPdy1mEYC8MW5w2iZYtDxJoAL4NOHfKPus/ASsiaVDIZ7H3
- RkoV54xNOphtYMPXA1GcOG6KRXejmTmwc4v+yZhxpg==
-X-Google-Smtp-Source: ABdhPJz05c+G8CWnq+IuHlbwS0UMDxrh1BXJ7T3nyc1jesV4PcZ3cgvBCyzaQXvZIt+vhh7tv0IHX/yHZqwwpLy10xM=
-X-Received: by 2002:a05:6830:70b:: with SMTP id
- y11mr284176ots.281.1630484303762; 
- Wed, 01 Sep 2021 01:18:23 -0700 (PDT)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1B036E06E
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 08:32:23 +0000 (UTC)
+X-UUID: 856cffb399cb400ba9538a58177eca88-20210901
+X-UUID: 856cffb399cb400ba9538a58177eca88-20210901
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1573207313; Wed, 01 Sep 2021 16:32:20 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkexhb01.mediatek.inc (172.21.101.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 1 Sep 2021 16:32:19 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 1 Sep 2021 16:32:18 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 1 Sep 2021 16:32:17 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
+ Shih" <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+CC: Daniel Vetter <daniel@ffwll.ch>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Hsin-Yi Wang <hsinyi@chromium.org>, "Fritz
+ Koenig" <frkoenig@chromium.org>, Irui Wang <irui.wang@mediatek.com>,
+ <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <srv_heupstream@mediatek.com>, <linux-mediatek@lists.infradead.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v6,
+ 00/15] Using component framework to support multi hardware decode
+Date: Wed, 1 Sep 2021 16:32:00 +0800
+Message-ID: <20210901083215.25984-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <BL1PR12MB526942160701B46D4B28EEEC84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
-In-Reply-To: <BL1PR12MB526942160701B46D4B28EEEC84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 1 Sep 2021 10:18:12 +0200
-Message-ID: <CAKMK7uHKX0rSVk_yBPo_KAEJ-UeLk5UxQ2kBdv+FD2j9zAjfZA@mail.gmail.com>
-Subject: Re: [diagnostic TDR mode patches] unify our solution
- opinions/suggestions in one thread
-To: "Liu, Monk" <Monk.Liu@amd.com>
-Cc: "Koenig, Christian" <Christian.Koenig@amd.com>, 
- "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>, "Chen,
- JingWen" <JingWen.Chen2@amd.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,147 +66,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Monk,
+This series adds support for multi hardware decode into mtk-vcodec, by first
+adding component framework to manage each hardware information: interrupt,
+clock, register bases and power. Secondly add core thread to deal with core
+hardware message, at the same time, add msg queue for different hardware
+share messages. Lastly, the architecture of different specs are not the same,
+using specs type to separate them.
 
-On Wed, Sep 1, 2021 at 3:23 AM Liu, Monk <Monk.Liu@amd.com> wrote:
->
-> [AMD Official Use Only]
->
->
-> Hi Daniel/Christian/Andrey
->
->
->
-> It looks the voice from you three are spread over those email floods to m=
-e, the feature we are working on (diagnostic TDR scheme) is pending there f=
-or more than 6 month (we started it from feb 2021).
+This series has been tested with both MT8183 and MT8173. Decoding was working
+for both chips.
 
-For me your project exists since a few weeks at most, because that is
-when your team showed up on dri-devel. That you already spent 6 months
-on this within amd, on a code area that very much affects shared code,
-without kicking of any thread on dri-devel isn't great, but also not
-something we can fix, since time machines don't exist.
+Patches 1~3 rewrite get register bases and power on/off interface.
 
-So we have to make the best out of the situation and move ahead where
-we are. From my understanding you've done a bunch of changes to the
-scheduler code. As far as I can see there's been two related things
-your team has done:
+Patch 4 add component framework to support multi hardware.
 
-- remove some allocations from scheduler code, because that can lead
-to deadlocks. I've kicked up this topic quite a while ago here
+Patch 5 separate video encoder and decoder document
 
-https://lore.kernel.org/dri-devel/20200604081224.863494-10-daniel.vetter@ff=
-wll.ch/
+Patches 6-15 add interfaces to support core hardware.
+----
+This patch dependents on : "media: mtk-vcodec: support for MT8183 decoder"[1] and
+"Mediatek MT8192 clock support"[2].
 
-This is just one patch of the entire series. This is an area where we
-really need a consistent solution across all drm/sched drivers, not
-something that individual drivers just fix in their own way.
+1: Multi hardware decode is based on stateless decoder, MT8183 is the first time
+to add stateless decoder. Otherwise it will cause conflict. This patch will be
+accepted in 5.15[1].
 
-- the other one is the timeout issue for the patches you cite here.
-Again there's been discussion on this on dri-devel with Boris from
-panfrost about how we can handle at least some of the races in tdr.
-That resulted in lots of discussions and documentation improvements.
-Those patches are merged now, link
-https://lore.kernel.org/dri-devel/20210625133327.2598825-2-boris.brezillon@=
-collabora.com/
+2: The definition of decoder clocks are in mt8192-clk.h, this patch already in clk tree[2].
 
-There's been more than just this, also quite some doc patches from
-Boris that explain how it's all supposed to work and be race-free.
-Again your driver isn't the only one with interesting TDR races.
+[1]https://patchwork.linuxtv.org/project/linux-media/list/?series=5826
+[2]https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=f35f1a23e0e12e3173e9e9dedbc150d139027189
+----
+Changes compared with v5:
+-Add decoder hardware block diagram for patch 13/15
 
-Your team hasn't been active in any of these discussions, but now
-suddenly pops up out of nowhere and demands that your approach needs
-to land asap. That's really not how upstream works.
+Changes compared with v4:
+- Fix comments for patch 4/15
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  Fix platform_set_drvdata.
+- Fix build error for patch 9/15
+- Add depend patch in case of error header file for patch 13/15
 
-The other thing where I'm struggling is that there's a lot of missing
-context for outsiders. The patches sometimes come with zero commit
-message, for tricky concurrency bugs. And there's no context with what
-you've done already on the amdgpu side (since that never showed up on
-dri-devel), which makes constructive discussions here really hard.
+Changes compared with v3:
+- Fix return value for patch 1/15
+- Fix comments for patch 4/15
+  > Looking up "mediatek,mtk-vcodec-core" to determine if it uses component framwork sounds like...
+  Add prameter in pdata, for all platform will use compoent after mt8183
 
-Now fixing these bugs is obviously good, but the way this is supposed
-to work when touching shared infrastructure is:
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  > + Has asked the same question in [1].  Why it removes the
+  > +platform_set_drvdata() above?  mtk_vcodec_init_master() also calls platform_set_drvdata().
+  Must call component_master_add_with_match after platform_set_drvdata for component architecture.
+- Fix yaml files check fail for patch 5/15
+- Fix yaml file check fail for patch 14/15
 
-- Before you start merging anything kick off an RFC thread on
-dri-devel (or whatever the topic really is about) about the problem
-you have and how your trying to solve it. This can be just text if
-it's a big thing, but it can also already include some proof of
-concept solution in the form of patches.
+Changes compared with v1:
+- Fix many comments for patch 3/14
+- Remove unnecessary code for patch 4/14
+- Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+- Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+- Using yaml format to instead of txt file for patch 12/14
 
-- Then we iterate on the solution, across drivers and shared code
-_together_. Not "merge amdgpu code first, then get annoyed when the
-core changes don't land immediately after you've practially finished
-the project".
+Yunfei Dong (15):
+  media: mtk-vcodec: Get numbers of register bases from DT
+  media: mtk-vcodec: Align vcodec wake up interrupt interface
+  media: mtk-vcodec: Refactor vcodec pm interface
+  media: mtk-vcodec: Use component framework to manage each hardware
+    information
+  dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+    dt-bindings
+  media: mtk-vcodec: Use pure single core for MT8183
+  media: mtk-vcodec: Add irq interface for multi hardware
+  media: mtk-vcodec: Add msg queue feature for lat and core architecture
+  media: mtk-vcodec: Generalize power and clock on/off interfaces
+  media: mtk-vcodec: Add new interface to lock different hardware
+  media: mtk-vcodec: Add core thread
+  media: mtk-vcodec: Support 34bits dma address for vdec
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+  media: mtk-vcodec: Add core dec and dec end ipi msg
+  media: mtk-vcodec: Use codec type to separate different hardware
 
-- This might mean changes to other drivers if we need to adjust interfaces.
+ .../media/mediatek,vcodec-comp-decoder.yaml   | 192 ++++++++++++
+ .../media/mediatek,vcodec-decoder.yaml        | 175 +++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        | 185 +++++++++++
+ .../bindings/media/mediatek-vcodec.txt        | 130 --------
+ drivers/media/platform/mtk-vcodec/Makefile    |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 276 ++++++++++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 184 +++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  53 ++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  98 ++++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  13 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  71 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  12 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   1 -
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  87 +++++-
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 290 ++++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      | 157 ++++++++++
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+ 33 files changed, 1812 insertions(+), 279 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
 
-On the plus side you can plan much better, because you know you have
-upstream buy-in before you start to put in real work on the project.
+-- 
+2.25.1
 
-> Honestly speaking the email ways that we are using now is not friendly an=
-d quite painful to me =E2=80=A6.
-
-Yes this is painful :-(
-
-I think the best way forward is to go through the above process again
-and essentially restart. So submit a complete patch series with
-problem descriptions, solution you picked, why you picked that, all
-the amdgpu patches to get there and the core patches too. Since it
-sounds like a bunch of this has all landed already you probably need a
-patch 1 that goes back to 6 months ago so that we can see the overall
-direction, and review whether that's the right one or not.
-
-The not-so-painful approach would have been to do this from the start,
-6 months ago. It would definitely have helped if the tdr discussion
-we've had just a few months ago would have involved your team too, I'm
-sure there would have been some good insights from amd's side. I'd
-really want you and your engineers involved here, so let's do this
-properly!
-
-Cheers, Daniel
-
-> Can we try to put all our opinions, suggestions, or even objects here tog=
-ether, let=E2=80=99s go through them one by one, it=E2=80=99s too hard for =
-us to reply each email on different questions .
->
->
->
-> For [PATCH 1/2] drm/sched: fix the bug of time out calculation(v4)
->
->
->
-> This is a fixing patch on the timeout timer in scheduler, can we complete=
- this one first ? it should already resolved all the questions and suggesti=
-ons.
->
->
->
-> For [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
->
->
->
-> I think I already explained the questions raised by Daniel in other threa=
-d , regarding why I use __kthread_should_park()
->
-> For other aspects, can we put all our opinion synthesized here ?
->
->
->
-> Thanks !
->
->
->
-> ------------------------------------------
->
-> Monk Liu | Cloud-GPU Core team
->
-> ------------------------------------------
->
->
-
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
