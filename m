@@ -2,63 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103DC3FE043
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 18:44:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F343FE148
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 19:39:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDCCC6E221;
-	Wed,  1 Sep 2021 16:44:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4667E6E220;
+	Wed,  1 Sep 2021 17:39:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5796E219
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 16:44:07 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id v1so1827845plo.10
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 09:44:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=q3IargEtzXAWk12WDeyXf95r5c1qBudaWcqjDG08vIA=;
- b=bo8H9Mc5SOXkM03M+CVjgZSaRewamuVb1K6JCHjxLvv0YkiTvXmWyroAmd+DfExPUL
- hoVIppdF103P3NlEHQVj2xXA1pbt+5vo7T9pK/VgW/fPPYUe4RzDRqx52BXBIKvS/O9d
- wJ3IGhfPuIjvLxzEpuaYUIgFUnDqJTYWcIgnN3AIO+Eliq00KoU7LrAFEpCH5FdAaE2s
- PActsfTf6Ipt6mzgt8BxP6M63ie9uC11yswxFIQaHXoJTd1aA1X861oTlpL528zDdcqz
- Pk3+qA4bAVZzTio8v//y/ynY608FG+wdjjmkHqQKfch1V+sxcDYOM6NqUNwotVVLozr9
- VVtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=q3IargEtzXAWk12WDeyXf95r5c1qBudaWcqjDG08vIA=;
- b=unANxXgXGRdheJoQvZvKJXg5zPFhGw5aQHrTVmiKxfUYr7I9oYMPQ3owx/BYQcahrq
- XRw7LFSuaMP9Zjw3R/jbtnuILboMNzncK2CEk6PMEgway9VbUNPEa5KLznpn2zgyfrBt
- D+oTiLc1nNSbgdswaPOjlaN9VLeMxvOFOg3raiZYpeN5D/NiPqqCgJYFgxGCgmRQgsBs
- ybFMhRgzsLs2s//K+6FAL2uwq3vGru1Z8c84ZlcrGhxxdE6K0IQcPWMc2OWgHj7CtIqY
- nh23DgY5pyENPVPHRWihEDfvWFuNSCNrJB+FS4HfhgML5HLYTFQipQ22j1+2fdmBA7vG
- fjGg==
-X-Gm-Message-State: AOAM533eHJrYbv9qRjz4M2qC2+HeUoS71Qt2jqypftnyon60kB2XDxek
- IuRa5A4zDF/clGkvBGutPGg=
-X-Google-Smtp-Source: ABdhPJwaV+swi3HqzMT7V2OTL78lbH3Wc6HsnZ1f5n/kW4mIl4CXtrCHUFc9SHpz/mYNYcWwZBm+KQ==
-X-Received: by 2002:a17:90b:4b44:: with SMTP id
- mi4mr295415pjb.23.1630514647178; 
- Wed, 01 Sep 2021 09:44:07 -0700 (PDT)
-Received: from adolin ([49.207.225.208])
- by smtp.gmail.com with ESMTPSA id x28sm50277pfu.51.2021.09.01.09.44.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 09:44:06 -0700 (PDT)
-Date: Wed, 1 Sep 2021 22:12:42 +0530
-From: Sumera Priyadarsini <sylphrenadin@gmail.com>
-To: melissa.srw@gmail.com
-Cc: rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com, daniel@ffwll.ch,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH V6 2/2] drm/vkms: Add support for virtual hardware mode
-Message-ID: <9ba2c2aa6a607b09de5a0f4615550d3ccdbec0fd.1630512292.git.sylphrenadin@gmail.com>
-References: <cover.1630512292.git.sylphrenadin@gmail.com>
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2FA26E21C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 17:39:37 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 2C3513F24A;
+ Wed,  1 Sep 2021 19:31:17 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+To: thierry.reding@gmail.com
+Cc: sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, konrad.dybcio@somainline.org,
+ marijn.suijten@somainline.org, martin.botka@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ paul.bouchara@somainline.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Subject: [PATCH 1/2] drm/panel: Add BOE BF060Y8M-AJ0 5.99" AMOLED panel driver
+Date: Wed,  1 Sep 2021 19:31:14 +0200
+Message-Id: <20210901173115.998628-1-angelogioacchino.delregno@somainline.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1630512292.git.sylphrenadin@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,281 +48,502 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a virtual hardware or vblank-less mode as a module
-to enable VKMS to emulate virtual hardware drivers. This means
-no vertical blanking events occur and pageflips are completed
-arbitrarily and when required for updating the frame.
+This adds support for the BOE BF060Y8M-AJ0 5.99" AMOLED module
+that can be found in some F(x)Tec Pro1 and Elephone U1 devices.
 
-Add a new drm_crtc_funcs struct, vkms_vblankless_crtc_funcs and a
-drm_crtc_helper_funcs struct, vkms_vblankless_crtc_helper_funcs()
-which hold the atomic helpers for virtual hardware mode.
-The existing vkms_crtc_funcs struct and vkms_crtc_helper_funcs
-struct hold atomic helpers for the default vblank mode.
-This makes the code flow clearer and testing
-virtual hardware mode easier.
-
-Add a function vkms_crtc_composer() which calls the helper function,
-vkms_composer_common() for plane composition in vblank-less mode.
-vkms_crtc_composer() is directly called in the atomic hook in
-vkms_crtc_atomic_begin().
-
-However, some crc captures still use vblanks which causes the crc-based
-igt tests to crash. So, no CRC functions are called in vblankless mode
-for now and will be implemented in a later patch.
-
-This patchset has been tested with the igt tests- kms_writeback, kms_atomic
-, kms_lease, kms_flip, kms_pipe_get_crc and preserves results except for
-subtests related to crc reads and vertical blanking, in which case,
-tests are skipped.
-
-The patch is based on Rodrigo Siqueira's
-patch(https://patchwork.freedesktop.org/patch/316851/?series=48469&rev=3)
-and the ensuing review.
-
-Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
-Changes in V6:
-- Skip CRC functions in vblankless mode
-- Refactor helper function names(Melissa)
-Changes in V5:
-- Move vkms_crtc_composer() to this patch(Melissa)
-- Add more clarification for "vblank-less" mode(Pekka)
-- Replace kzalloc() with kvmalloc() in compose_active_planes()
-to fix memory allocation error for output frame
-- Fix checkpatch warnings (Melissa)
-Changes in V3:
-- Refactor patchset(Melissa)
-Changes in V2:
-- Add atomic helper functions in a separate struct for virtual hardware
-mode (Daniel)
-- Remove spinlock across 'vkms_output->lock' in vkms_crtc.c(Daniel)
-- Add vkms_composer_common() (Daniel)
----
- drivers/gpu/drm/vkms/vkms_composer.c  | 21 +++++++++++--
- drivers/gpu/drm/vkms/vkms_crtc.c      | 43 +++++++++++++++++++++++++--
- drivers/gpu/drm/vkms/vkms_drv.c       | 16 +++++++---
- drivers/gpu/drm/vkms/vkms_drv.h       |  2 ++
- drivers/gpu/drm/vkms/vkms_writeback.c |  3 +-
- 5 files changed, 74 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-boe-bf060y8m-aj0.c    | 445 ++++++++++++++++++
+ 3 files changed, 457 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index bca746fb5b53..a009589b2c3a 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -176,11 +176,12 @@ static int compose_active_planes(void **vaddr_out,
- {
- 	struct drm_framebuffer *fb = &primary_composer->fb;
- 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index beb581b96ecd..ab5a52c71ec5 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -37,6 +37,17 @@ config DRM_PANEL_ASUS_Z00T_TM5P5_NT35596
+ 	  NT35596 1080x1920 video mode panel as found in some Asus
+ 	  Zenfone 2 Laser Z00T devices.
+ 
++config DRM_PANEL_BOE_BF060Y8M_AJ0
++	tristate "Boe BF060Y8M-AJ0 panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y here if you want to enable support for Boe BF060Y8M-AJ0
++	  5.99" AMOLED modules. The panel has a 1080x2160 resolution and
++	  uses 24 bit RGB per pixel. It provides a MIPI DSI interface to
++	  the host and backlight is controlled through DSI commands.
 +
- 	const void *vaddr;
- 	int i;
- 
- 	if (!*vaddr_out) {
--		*vaddr_out = kzalloc(gem_obj->size, GFP_KERNEL);
-+		*vaddr_out = kvmalloc(gem_obj->size, GFP_KERNEL);
- 		if (!*vaddr_out) {
- 			DRM_ERROR("Cannot allocate memory for output frame.");
- 			return -ENOMEM;
-@@ -229,7 +230,7 @@ int vkms_composer_common(struct vkms_crtc_state *crtc_state,
- 
- 	if (ret) {
- 		if ((ret == -EINVAL || ret == -ENOMEM) && !wb_pending)
--			kfree(vaddr_out);
-+			kvfree(vaddr_out);
- 		return ret;
- 	}
- 
-@@ -241,7 +242,7 @@ int vkms_composer_common(struct vkms_crtc_state *crtc_state,
- 		crtc_state->wb_pending = false;
- 		spin_unlock_irq(&out->composer_lock);
- 	} else {
--		kfree(vaddr_out);
-+		kvfree(vaddr_out);
- 	}
- 
- 	return 0;
-@@ -296,6 +297,20 @@ void vkms_composer_worker(struct work_struct *work)
- 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
- }
- 
-+void vkms_crtc_composer(struct vkms_crtc_state *crtc_state)
+ config DRM_PANEL_BOE_HIMAX8279D
+ 	tristate "Boe Himax8279d panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index c8132050bcec..1b494d479ffd 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_DRM_PANEL_ABT_Y030XX067A) += panel-abt-y030xx067a.o
+ obj-$(CONFIG_DRM_PANEL_ARM_VERSATILE) += panel-arm-versatile.o
+ obj-$(CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596) += panel-asus-z00t-tm5p5-n35596.o
++obj-$(CONFIG_DRM_PANEL_BOE_BF060Y8M_AJ0) += panel-boe-bf060y8m-aj0.o
+ obj-$(CONFIG_DRM_PANEL_BOE_HIMAX8279D) += panel-boe-himax8279d.o
+ obj-$(CONFIG_DRM_PANEL_BOE_TV101WUM_NL6) += panel-boe-tv101wum-nl6.o
+ obj-$(CONFIG_DRM_PANEL_DSI_CM) += panel-dsi-cm.o
+diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
+new file mode 100644
+index 000000000000..8d080004b86c
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
+@@ -0,0 +1,445 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * BOE BF060Y8M-AJ0 5.99" MIPI-DSI OLED Panel on SW43404 DriverIC
++ *
++ * Copyright (c) 2020 AngeloGioacchino Del Regno
++ *                    <angelogioacchino.delregno@somainline.org>
++ */
++
++#include <linux/backlight.h>
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/regulator/consumer.h>
++#include <video/mipi_display.h>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++
++#define DCS_ALLOW_HBM_RANGE		0x0c
++#define DCS_DISALLOW_HBM_RANGE		0x08
++
++enum boe_bf060y8m_aj0_supplies {
++	BF060Y8M_VREG_VCC,
++	BF060Y8M_VREG_VDDIO,
++	BF060Y8M_VREG_VCI,
++	BF060Y8M_VREG_EL_VDD,
++	BF060Y8M_VREG_EL_VSS,
++	BF060Y8M_VREG_MAX
++};
++
++struct boe_bf060y8m_aj0 {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	struct regulator_bulk_data vregs[BF060Y8M_VREG_MAX];
++	struct gpio_desc *reset_gpio;
++	bool prepared;
++};
++
++static inline
++struct boe_bf060y8m_aj0 *to_boe_bf060y8m_aj0(struct drm_panel *panel)
 +{
-+	struct drm_crtc *crtc = crtc_state->base.crtc;
-+	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-+	u32 crc32 = 0;
++	return container_of(panel, struct boe_bf060y8m_aj0, panel);
++}
++
++#define dsi_dcs_write_seq(dsi, seq...) do {				\
++		static const u8 d[] = { seq };				\
++		int ret;						\
++		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
++		if (ret < 0)						\
++			return ret;					\
++	} while (0)
++
++static void boe_bf060y8m_aj0_reset(struct boe_bf060y8m_aj0 *boe)
++{
++	gpiod_set_value_cansleep(boe->reset_gpio, 0);
++	usleep_range(2000, 3000);
++	gpiod_set_value_cansleep(boe->reset_gpio, 1);
++	usleep_range(15000, 16000);
++	gpiod_set_value_cansleep(boe->reset_gpio, 0);
++	usleep_range(5000, 6000);
++}
++
++static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
++{
++	struct mipi_dsi_device *dsi = boe->dsi;
++	struct device *dev = &dsi->dev;
 +	int ret;
 +
-+	ret = vkms_composer_common(crtc_state, out, crtc_state->wb_pending, &crc32);
-+	if (ret == -EINVAL)
-+		return;
++	dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
++	dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0x4c);
++	dsi_dcs_write_seq(dsi, MIPI_DCS_SET_3D_CONTROL, 0x10);
++	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, DCS_ALLOW_HBM_RANGE);
++	dsi_dcs_write_seq(dsi, 0xf8,
++			  0x00, 0x08, 0x10, 0x00, 0x22, 0x00, 0x00, 0x2d);
 +
-+	drm_crtc_add_crc_entry(crtc, true, 0, &crc32);
++	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
++		return ret;
++	}
++	msleep(30);
++
++	dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
++	dsi_dcs_write_seq(dsi, 0xc0,
++			  0x08, 0x48, 0x65, 0x33, 0x33, 0x33,
++			  0x2a, 0x31, 0x39, 0x20, 0x09);
++	dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x00, 0x00, 0x1f, 0x1f,
++			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
++			  0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
++	dsi_dcs_write_seq(dsi, 0xe2, 0x20, 0x04, 0x10, 0x12, 0x92,
++			  0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83, 0x83,
++			  0x5c, 0x5c, 0x5c);
++	dsi_dcs_write_seq(dsi, 0xde, 0x01, 0x2c, 0x00, 0x77, 0x3e);
++
++	msleep(30);
++
++	ret = mipi_dsi_dcs_set_display_on(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display on: %d\n", ret);
++		return ret;
++	}
++	msleep(50);
++
++	return 0;
 +}
 +
- static const char * const pipe_crc_sources[] = {"auto"};
- 
- const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 57bbd32e9beb..4a933553e0e4 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -174,6 +174,15 @@ static const struct drm_crtc_funcs vkms_crtc_funcs = {
- 	.verify_crc_source	= vkms_verify_crc_source,
- };
- 
-+static const struct drm_crtc_funcs vkms_vblankless_crtc_funcs = {
-+	.set_config             = drm_atomic_helper_set_config,
-+	.destroy                = drm_crtc_cleanup,
-+	.page_flip              = drm_atomic_helper_page_flip,
-+	.reset                  = vkms_atomic_crtc_reset,
-+	.atomic_duplicate_state = vkms_atomic_crtc_duplicate_state,
-+	.atomic_destroy_state   = vkms_atomic_crtc_destroy_state,
-+};
-+
- static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 				  struct drm_atomic_state *state)
- {
-@@ -268,6 +277,20 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 	spin_unlock_irq(&vkms_output->lock);
- }
- 
-+/*
-+ * Crtc functions for virtual hardware/vblankless mode
-+ */
-+static void vkms_vblankless_crtc_atomic_flush(struct drm_crtc *crtc,
-+					      struct drm_atomic_state *state)
++static int boe_bf060y8m_aj0_off(struct boe_bf060y8m_aj0 *boe)
 +{
-+	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc_state *vkms_state = to_vkms_crtc_state(crtc->state);
++	struct mipi_dsi_device *dsi = boe->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
 +
-+	vkms_crtc_composer(vkms_state);
++	/* OFF commands sent in HS mode */
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++	ret = mipi_dsi_dcs_set_display_off(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display off: %d\n", ret);
++		return ret;
++	}
++	msleep(20);
 +
-+	vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
++	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
++		return ret;
++	}
++	usleep_range(1000, 2000);
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	return 0;
 +}
 +
- static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
- 	.atomic_check	= vkms_crtc_atomic_check,
- 	.atomic_begin	= vkms_crtc_atomic_begin,
-@@ -276,20 +299,34 @@ static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
- 	.atomic_disable	= vkms_crtc_atomic_disable,
- };
- 
-+static const struct drm_crtc_helper_funcs vkms_vblankless_crtc_helper_funcs = {
-+	.atomic_check	= vkms_crtc_atomic_check,
-+	.atomic_flush	= vkms_vblankless_crtc_atomic_flush,
++static int boe_bf060y8m_aj0_prepare(struct drm_panel *panel)
++{
++	struct boe_bf060y8m_aj0 *boe = to_boe_bf060y8m_aj0(panel);
++	struct device *dev = &boe->dsi->dev;
++	int ret;
++
++	if (boe->prepared)
++		return 0;
++
++	/*
++	 * Enable EL Driving Voltage first - doing that at the beginning
++	 * or at the end of the power sequence doesn't matter, so enable
++	 * it here to avoid yet another usleep at the end.
++	 */
++	ret = regulator_enable(boe->vregs[BF060Y8M_VREG_EL_VDD].consumer);
++	if (ret)
++		return ret;
++	ret = regulator_enable(boe->vregs[BF060Y8M_VREG_EL_VSS].consumer);
++	if (ret)
++		goto err_elvss;
++
++	ret = regulator_enable(boe->vregs[BF060Y8M_VREG_VCC].consumer);
++	if (ret)
++		goto err_vcc;
++	usleep_range(1000, 2000);
++	ret = regulator_enable(boe->vregs[BF060Y8M_VREG_VDDIO].consumer);
++	if (ret)
++		goto err_vddio;
++	usleep_range(500, 1000);
++	ret = regulator_enable(boe->vregs[BF060Y8M_VREG_VCI].consumer);
++	if (ret)
++		goto err_vci;
++	usleep_range(2000, 3000);
++
++	boe_bf060y8m_aj0_reset(boe);
++
++	ret = boe_bf060y8m_aj0_on(boe);
++	if (ret < 0) {
++		dev_err(dev, "Failed to initialize panel: %d\n", ret);
++		gpiod_set_value_cansleep(boe->reset_gpio, 1);
++		return ret;
++	}
++
++	boe->prepared = true;
++	return 0;
++
++err_vci:
++	regulator_disable(boe->vregs[BF060Y8M_VREG_VDDIO].consumer);
++err_vddio:
++	regulator_disable(boe->vregs[BF060Y8M_VREG_VCC].consumer);
++err_vcc:
++	regulator_disable(boe->vregs[BF060Y8M_VREG_EL_VSS].consumer);
++err_elvss:
++	regulator_disable(boe->vregs[BF060Y8M_VREG_EL_VDD].consumer);
++	return ret;
++}
++
++static int boe_bf060y8m_aj0_unprepare(struct drm_panel *panel)
++{
++	struct boe_bf060y8m_aj0 *boe = to_boe_bf060y8m_aj0(panel);
++	struct device *dev = &boe->dsi->dev;
++	int ret;
++
++	if (!boe->prepared)
++		return 0;
++
++	ret = boe_bf060y8m_aj0_off(boe);
++	if (ret < 0)
++		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++
++	gpiod_set_value_cansleep(boe->reset_gpio, 1);
++	ret = regulator_bulk_disable(ARRAY_SIZE(boe->vregs), boe->vregs);
++
++	boe->prepared = false;
++	return 0;
++}
++
++static const struct drm_display_mode boe_bf060y8m_aj0_mode = {
++	.clock = 165268,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 36,
++	.hsync_end = 1080 + 36 + 24,
++	.htotal = 1080 + 36 + 24 + 96,
++	.vdisplay = 2160,
++	.vsync_start = 2160 + 16,
++	.vsync_end = 2160 + 16 + 1,
++	.vtotal = 2160 + 16 + 1 + 15,
++	.width_mm = 68,   /* 68.04 mm */
++	.height_mm = 136, /* 136.08 mm */
 +};
 +
- int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 		   struct drm_plane *primary, struct drm_plane *cursor)
- {
- 	struct vkms_output *vkms_out = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
- 	int ret;
- 
--	ret = drm_crtc_init_with_planes(dev, crtc, primary, cursor,
--					&vkms_crtc_funcs, NULL);
-+	if (vkmsdev->config->virtual_hw)
-+		ret = drm_crtc_init_with_planes(dev, crtc, primary, cursor,
-+						&vkms_vblankless_crtc_funcs, NULL);
-+	else
-+		ret = drm_crtc_init_with_planes(dev, crtc, primary, cursor,
-+						&vkms_crtc_funcs, NULL);
++static int boe_bf060y8m_aj0_get_modes(struct drm_panel *panel,
++					    struct drm_connector *connector)
++{
++	struct drm_display_mode *mode;
 +
- 	if (ret) {
- 		DRM_ERROR("Failed to init CRTC\n");
- 		return ret;
- 	}
- 
--	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
-+	if (vkmsdev->config->virtual_hw)
-+		drm_crtc_helper_add(crtc, &vkms_vblankless_crtc_helper_funcs);
-+	else
-+		drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
- 
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 0ffe5f0e33f7..ee78f5eef653 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -51,6 +51,10 @@ static bool enable_overlay;
- module_param_named(enable_overlay, enable_overlay, bool, 0444);
- MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
- 
-+static bool enable_virtual_hw;
-+module_param_named(enable_virtual_hw, enable_virtual_hw, bool, 0444);
-+MODULE_PARM_DESC(enable_virtual_hw, "Enable/Disable virtual hardware mode(vblank-less mode)");
++	mode = drm_mode_duplicate(connector->dev, &boe_bf060y8m_aj0_mode);
++	if (!mode)
++		return -ENOMEM;
 +
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
-@@ -98,6 +102,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
- 	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
- 	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
-+	seq_printf(m, "virtual_hw=%d\n", vkmsdev->config->virtual_hw);
- 
- 	return 0;
- }
-@@ -191,10 +196,12 @@ static int vkms_create(struct vkms_config *config)
- 		goto out_devres;
- 	}
- 
--	ret = drm_vblank_init(&vkms_device->drm, 1);
--	if (ret) {
--		DRM_ERROR("Failed to vblank\n");
--		goto out_devres;
-+	if (!vkms_device->config->virtual_hw) {
-+		ret = drm_vblank_init(&vkms_device->drm, 1);
-+		if (ret) {
-+			DRM_ERROR("Failed to vblank\n");
-+			goto out_devres;
-+		}
- 	}
- 
- 	ret = vkms_modeset_init(vkms_device);
-@@ -229,6 +236,7 @@ static int __init vkms_init(void)
- 	config->cursor = enable_cursor;
- 	config->writeback = enable_writeback;
- 	config->overlay = enable_overlay;
-+	config->virtual_hw = enable_virtual_hw;
- 
- 	return vkms_create(config);
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 6f5f63591c20..d64554f21838 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -97,6 +97,7 @@ struct vkms_config {
- 	bool writeback;
- 	bool cursor;
- 	bool overlay;
-+	bool virtual_hw;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
- };
-@@ -141,6 +142,7 @@ int vkms_composer_common(struct vkms_crtc_state *crtc_state, struct vkms_output
- 			 bool wb_pending, uint32_t *crcs);
- void vkms_composer_worker(struct work_struct *work);
- void vkms_set_composer(struct vkms_output *out, bool enabled);
-+void vkms_crtc_composer(struct vkms_crtc_state *crtc_state);
- 
- /* Writeback */
- int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 8694227f555f..6082cacbca1e 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -120,7 +120,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	if (!conn_state)
- 		return;
- 
--	vkms_set_composer(&vkmsdev->output, true);
-+	if (!vkmsdev->config->virtual_hw)
-+		vkms_set_composer(&vkmsdev->output, true);
- 
- 	spin_lock_irq(&output->composer_lock);
- 	crtc_state->active_writeback = conn_state->writeback_job->priv;
++	drm_mode_set_name(mode);
++
++	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	connector->display_info.width_mm = mode->width_mm;
++	connector->display_info.height_mm = mode->height_mm;
++	drm_mode_probed_add(connector, mode);
++
++	return 1;
++}
++
++static const struct drm_panel_funcs boe_bf060y8m_aj0_panel_funcs = {
++	.prepare = boe_bf060y8m_aj0_prepare,
++	.unprepare = boe_bf060y8m_aj0_unprepare,
++	.get_modes = boe_bf060y8m_aj0_get_modes,
++};
++
++static int boe_bf060y8m_aj0_bl_update_status(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	u16 brightness = backlight_get_brightness(bl);
++	int ret;
++
++	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
++static int boe_bf060y8m_aj0_bl_get_brightness(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	u16 brightness;
++	int ret;
++
++	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
++	if (ret < 0)
++		return ret;
++
++	return brightness & 0xff;
++}
++
++static const struct backlight_ops boe_bf060y8m_aj0_bl_ops = {
++	.update_status = boe_bf060y8m_aj0_bl_update_status,
++	.get_brightness = boe_bf060y8m_aj0_bl_get_brightness,
++};
++
++static struct backlight_device *
++boe_bf060y8m_aj0_create_backlight(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	const struct backlight_properties props = {
++		.type = BACKLIGHT_RAW,
++		.brightness = 127,
++		.max_brightness = 255,
++		.scale = BACKLIGHT_SCALE_NON_LINEAR,
++	};
++
++	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
++					      &boe_bf060y8m_aj0_bl_ops, &props);
++}
++
++static int boe_bf060y8m_aj0_init_vregs(struct boe_bf060y8m_aj0 *boe,
++				       struct device *dev)
++{
++	struct regulator *vreg;
++	int ret;
++
++	boe->vregs[BF060Y8M_VREG_VCC].supply = "vcc";
++	boe->vregs[BF060Y8M_VREG_VDDIO].supply = "vddio";
++	boe->vregs[BF060Y8M_VREG_VCI].supply = "vci";
++	boe->vregs[BF060Y8M_VREG_EL_VDD].supply = "elvdd";
++	boe->vregs[BF060Y8M_VREG_EL_VSS].supply = "elvss";
++	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(boe->vregs),
++				      boe->vregs);
++	if (ret < 0) {
++		dev_err(dev, "Failed to get regulators: %d\n", ret);
++		return ret;
++	}
++
++	vreg = boe->vregs[BF060Y8M_VREG_VCC].consumer;
++	ret = regulator_is_supported_voltage(vreg, 2700000, 3600000);
++	if (!ret)
++		return ret;
++
++	vreg = boe->vregs[BF060Y8M_VREG_VDDIO].consumer;
++	ret = regulator_is_supported_voltage(vreg, 1620000, 1980000);
++	if (!ret)
++		return ret;
++
++	vreg = boe->vregs[BF060Y8M_VREG_VCI].consumer;
++	ret = regulator_is_supported_voltage(vreg, 2600000, 3600000);
++	if (!ret)
++		return ret;
++
++	vreg = boe->vregs[BF060Y8M_VREG_EL_VDD].consumer;
++	ret = regulator_is_supported_voltage(vreg, 4400000, 4800000);
++	if (!ret)
++		return ret;
++
++	/* ELVSS is negative: -5.00V to -1.40V */
++	vreg = boe->vregs[BF060Y8M_VREG_EL_VSS].consumer;
++	ret = regulator_is_supported_voltage(vreg, 1400000, 5000000);
++	if (!ret)
++		return ret;
++
++	/*
++	 * Set min/max rated current, known only for VCI and VDDIO and,
++	 * in case of failure, just go on gracefully, as this step is not
++	 * guaranteed to succeed on all regulator HW but do a debug print
++	 * to inform the developer during debugging.
++	 * In any case, these two supplies are also optional, so they may
++	 * be fixed-regulator which, at the time of writing, does not
++	 * support fake current limiting.
++	 */
++	vreg = boe->vregs[BF060Y8M_VREG_VDDIO].consumer;
++	ret = regulator_set_current_limit(vreg, 1500, 2500);
++	if (ret)
++		dev_dbg(dev, "Current limit cannot be set on %s: %d\n",
++			boe->vregs[1].supply, ret);
++
++	vreg = boe->vregs[BF060Y8M_VREG_VCI].consumer;
++	ret = regulator_set_current_limit(vreg, 20000, 40000);
++	if (ret)
++		dev_dbg(dev, "Current limit cannot be set on %s: %d\n",
++			boe->vregs[2].supply, ret);
++
++	return 0;
++}
++
++static int boe_bf060y8m_aj0_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct boe_bf060y8m_aj0 *boe;
++	int ret;
++
++	boe = devm_kzalloc(dev, sizeof(*boe), GFP_KERNEL);
++	if (!boe)
++		return -ENOMEM;
++
++	ret = boe_bf060y8m_aj0_init_vregs(boe, dev);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "Failed to initialize supplies.\n");
++
++	boe->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
++	if (IS_ERR(boe->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(boe->reset_gpio),
++				     "Failed to get reset-gpios\n");
++
++	boe->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, boe);
++
++	dsi->lanes = 4;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET |
++			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
++			  MIPI_DSI_CLOCK_NON_CONTINUOUS |
++			  MIPI_DSI_MODE_LPM;
++
++	drm_panel_init(&boe->panel, dev, &boe_bf060y8m_aj0_panel_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++
++	boe->panel.backlight = boe_bf060y8m_aj0_create_backlight(dsi);
++	if (IS_ERR(boe->panel.backlight))
++		return dev_err_probe(dev, PTR_ERR(boe->panel.backlight),
++				     "Failed to create backlight\n");
++
++	drm_panel_add(&boe->panel);
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int boe_bf060y8m_aj0_remove(struct mipi_dsi_device *dsi)
++{
++	struct boe_bf060y8m_aj0 *boe = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
++
++	drm_panel_remove(&boe->panel);
++
++	return 0;
++}
++
++static const struct of_device_id boe_bf060y8m_aj0_of_match[] = {
++	{ .compatible = "boe,bf060y8m-aj0" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, boe_bf060y8m_aj0_of_match);
++
++static struct mipi_dsi_driver boe_bf060y8m_aj0_driver = {
++	.probe = boe_bf060y8m_aj0_probe,
++	.remove = boe_bf060y8m_aj0_remove,
++	.driver = {
++		.name = "panel-sw43404-boe-fhd-amoled",
++		.of_match_table = boe_bf060y8m_aj0_of_match,
++	},
++};
++module_mipi_dsi_driver(boe_bf060y8m_aj0_driver);
++
++MODULE_AUTHOR("AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>");
++MODULE_DESCRIPTION("BOE BF060Y8M-AJ0 MIPI-DSI OLED panel");
++MODULE_LICENSE("GPL v2");
 -- 
-2.31.1
+2.32.0
 
