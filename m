@@ -1,67 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28343FE19A
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 19:57:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0533FE1FB
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 20:11:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7025A6E239;
-	Wed,  1 Sep 2021 17:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8F3D6E23F;
+	Wed,  1 Sep 2021 18:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D50216E23B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 17:57:52 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id j4so683697lfg.9
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 10:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e56BZ5hXZwdZQAhiBk+g+d3p7hy50ZxnDyqlFRLPbEM=;
- b=RQ09MJkGQrhwqn/8fWS6q3ZRok81XPPuE9PHGsJAPyM9/fsl7dQy8cQDsJzGPFWqOI
- TW2C/QFJL9uWMi6kMns1ljR6PA1iLPxony2Q4uzq4iH0xlbwuya43BLSz2XR4OP2tRA5
- LX91IISfhrJsw0PoemGcrYNwtU7KOuq7Vkx+Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e56BZ5hXZwdZQAhiBk+g+d3p7hy50ZxnDyqlFRLPbEM=;
- b=nW+mKdaSEpJlpf9MqrFVpbzrF0JE4xpBzpdiLDbo9eggqqumWiZKa903ELwztxNGRH
- /aA6tEKOeuATC7bLLJc41hh4DOC1YJ0d4Br8J3VdJTk4BTnJvXAN5Awp10f8LPYKNB95
- Z8DwG65F28ya5RT/CtCUbPk7Tzi7xDkDX8oJNkWoPgLVGRS3eEHwfyyJUgZly1hAdgtA
- sJcRxiV4wVGNX3iwjhb3kuVvNtCJ92RJZXuXFKO7HAHnm4G2lH+TFP9g4vHydJlyuLA8
- UcNKPh5NITEqAd13wtns3cinyCgGkd4sb7VAMxCHX2wKv7KYIARv6hWzqWeZqf43ITx0
- qGFg==
-X-Gm-Message-State: AOAM533dJPGgBhOsh9Ey002NAsnyWWmX95Hf81SCQq5yELTE2K9nPpUv
- IdI1neF8kTgpqgtRH5fchWhX9NUSk/jv5WPC
-X-Google-Smtp-Source: ABdhPJyxqA9gRqv0eayjya0lgn4QYNF8/MgO3Kn4VCWaa4VmCSms9EcziXDEvosgFxGrqkQKe3aOxw==
-X-Received: by 2002:a05:6512:b27:: with SMTP id
- w39mr494082lfu.129.1630519070498; 
- Wed, 01 Sep 2021 10:57:50 -0700 (PDT)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com.
- [209.85.208.177])
- by smtp.gmail.com with ESMTPSA id m1sm18495lfr.35.2021.09.01.10.57.49
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 10:57:49 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id f2so496648ljn.1
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 10:57:49 -0700 (PDT)
-X-Received: by 2002:a2e:84c7:: with SMTP id q7mr737503ljh.61.1630519069193;
- Wed, 01 Sep 2021 10:57:49 -0700 (PDT)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C03C6E237;
+ Wed,  1 Sep 2021 18:11:41 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 0DDD23F357;
+ Wed,  1 Sep 2021 20:11:40 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+To: robdclark@gmail.com
+Cc: sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ dmitry.baryshkov@linaro.org, abhinavk@codeaurora.org, robh+dt@kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ konrad.dybcio@somainline.org, marijn.suijten@somainline.org,
+ martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, paul.bouchara@somainline.org,
+ devicetree@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Subject: [PATCH 1/3] drm/msm/dpu1: Add DMA2, DMA3 clock control to enum
+Date: Wed,  1 Sep 2021 20:11:36 +0200
+Message-Id: <20210901181138.1052653-1-angelogioacchino.delregno@somainline.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <CAPM=9txeN-qCRJvYV552zdo2H9iVy1ruVrq=YdZBP5Dmpc3Jmg@mail.gmail.com>
-In-Reply-To: <CAPM=9txeN-qCRJvYV552zdo2H9iVy1ruVrq=YdZBP5Dmpc3Jmg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 1 Sep 2021 10:57:32 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whP_v5nrK9B5vefnZS6Xz3-vZDFxUvSmW8W82hhNh67sA@mail.gmail.com>
-Message-ID: <CAHk-=whP_v5nrK9B5vefnZS6Xz3-vZDFxUvSmW8W82hhNh67sA@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.15-rc1
-To: Dave Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,25 +51,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 30, 2021 at 10:53 PM Dave Airlie <airlied@gmail.com> wrote:
->
-> There are a bunch of conflicts with your tree, but none of them seem
-> too serious, but I might have missed something.
+The enum dpu_clk_ctrl_type misses DPU_CLK_CTRL_DMA{2,3} even though
+this driver does actually handle both, if present: add the two in
+preparation for adding support for SoCs having them.
 
-No worries. I enjoyed seeing the AMD code-names in the conflicts, they
-are using positively kernel-level naming.
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-That said, I wonder why AMD people can't use consistent formatting,
-mixing ALL-CAPS with underscores, spaces, whatever:
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index d2a945a27cfa..059e1402b7d0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -432,6 +432,8 @@ enum dpu_clk_ctrl_type {
+ 	DPU_CLK_CTRL_RGB3,
+ 	DPU_CLK_CTRL_DMA0,
+ 	DPU_CLK_CTRL_DMA1,
++	DPU_CLK_CTRL_DMA2,
++	DPU_CLK_CTRL_DMA3,
+ 	DPU_CLK_CTRL_CURSOR0,
+ 	DPU_CLK_CTRL_CURSOR1,
+ 	DPU_CLK_CTRL_INLINE_ROT0_SSPP,
+-- 
+2.32.0
 
-        /* Sienna_Cichlid */
-        /* Yellow Carp */
-        /* Navy_Flounder */
-        /* DIMGREY_CAVEFISH */
-        /* Aldebaran */
-        /* CYAN_SKILLFISH */
-        /* BEIGE_GOBY */
-
-which shows a distinct lack of professionalism and caring in the silly naming.
-
-             Linus
