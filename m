@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA863FD656
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7C63FD657
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:19:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C846E084;
-	Wed,  1 Sep 2021 09:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2647B6E0C8;
+	Wed,  1 Sep 2021 09:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E16566E073
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:19:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id E6A7B580AF6;
- Wed,  1 Sep 2021 05:19:17 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DF6E6E084
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:19:20 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7FB92580B15;
+ Wed,  1 Sep 2021 05:19:19 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 01 Sep 2021 05:19:17 -0400
+ by compute6.internal (MEProxy); Wed, 01 Sep 2021 05:19:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=UG4V63LsRa+ih
- MW8trf2Hja3yc/9NOeyTCI/9D5mq8k=; b=B7uM3XO+B7AJm2X2XMg58DqEyIbQD
- scU6NT9yXJug7EkryevhYDQVEUMJThvHI9bqSUzwKza7MjJM06KGxJiilMKo5u/8
- +wpcfeG4tnCGRozhh5jwCcArh9kdQSlSMdQW15IwsYUG5g3qHl1elz20vT70HpPs
- HGH6aYeZbGl21Y5CanhLaKuUrhsYQ2nkIPzRaajlKCCJbWrTjg9g9HEKQbkip4i0
- VOVSVzZ+QYXGVPBJo9fkXyrKiS3Tfe2/13rlBiURZSXv1+ggM9vN8uLTFXY12nzU
- vqXAZu/jhpm8CqMCXxsXJxcoPKxL9GfKg1115BnzoS8PyCIgw8AtEKQEA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=ivwRNusf130v8
+ DVR4zqFl6TgXkOLDLGG4R3kJtx6uxc=; b=vN0yaQNatfQldUuPV+xdea/1MR80d
+ VwkFBmMOj+QeuHfSJvgTbQG+SYFkgAQQyNPSfzI7cz8Ad1naVYLwxG4jMWVnPw7u
+ 3qX0r5xiOqwLvMzMtJhU8WBeXnut7nDjKhkJuHBkMg+Eb9ha4m1iFbvPhfkvLpTx
+ WZCAGSOVhWYieXm0VdzlSojUt489sceKe6BlXy05DrKv5ZtuGRaS1ICxEChwYHwz
+ ///wqfZp3PckBiu7dAl29Z46IPvF72nj88p/fflXxDWxUyv1AuyyGyvmTouClxVx
+ 5FKrPtY0Gzb8Y6TwD2aKkNNLiqzFrxldRQ/xd01MpHhpJF539soTTvzMw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=UG4V63LsRa+ihMW8trf2Hja3yc/9NOeyTCI/9D5mq8k=; b=CJWGfMw7
- 2PN8XYs7wi8Inf6EhPQ9vzFNb7XpOrf348v7b235oM/+exszNXHxjRNkxRPX+Ykh
- H13TGa7vhZfcCecsnRP3HK36FKS/jVGA7fWCN7oOxauOIi0Jx5AFITy8b4RVRq6r
- 4mHtAZQzJelQnrOP3D4M+icnx9cnK6aEjTiT1sumW02pF+D4A1r5mOir5DBLrceZ
- BPb3yoqv73gqgjeeIICtod5EXp5VNjFOSAwR2zKbm2fsB4Jto+LBSIQBcKTvvtEK
- rZwZO7tZzTmVVTdQHYsQ6fIqpsu+bFT+LVuieFXL2I9zk52DKSSw5UtvGjahwB1i
- w7d2eZduR/gFlw==
-X-ME-Sender: <xms:lEUvYYxLQf4N0w3iwjwAPzvHh5DS9yrUDua6dC3ZKE6xtDYgQCsXgQ>
- <xme:lEUvYcQOs0AnNY74ERcuGe61EHUxr0k-t7aD-cbnxM-qJ9rMq3pMzlIWnp6ESJdPJ
- 8wniMcKQX9PBQSjcm8>
-X-ME-Received: <xmr:lEUvYaW5kfeKtxX8ae5YU_C9MLjhb7iopMIoMZQcdtZmnEnzKjFZS7SRh3g0LIWWIz4g4k4yYP2Khw8HLctnIPMufz31NeIrj4iR>
+ fm3; bh=ivwRNusf130v8DVR4zqFl6TgXkOLDLGG4R3kJtx6uxc=; b=rjCY2N1k
+ cPkedx2bT8tzeQrgrsjzCRFtXJ2UZULrkHuR9r2p8QeTOWMT+G5idxZD6k7Q5RYM
+ ivQt3XcyCX7xGXeSd7BpQ9xJTN47ytUoIdtBzB1WEZb/s7tu7e1QlO9pjFpTm0B9
+ P0cS+Mv3Ct2c7f6DmuWb02l2Jb3TAiT+r0ek3xoVKlrm32ZwMADzpdEfRMQ38myM
+ yYrnGQvITt86aOJ3sXeKAYAOZjkbKPknuIvx+Fx4Mcwvvpu0B6KRwNGjRd8Je9Qz
+ ZtiVQxmKxKXhSgvvdAy6EEyPXl5HB+675Iip/Jz2IPQ0lGfeKnUYhJQd9+raUjHW
+ dm3lVQbGYtQhIg==
+X-ME-Sender: <xms:l0UvYf7ESSO2qEvz3Jdi2zCZn2TyIQfoPNjOrWMY3koGM-XTYsSopA>
+ <xme:l0UvYU4wg3NKKTdhm9uply0TrCy6RPUbyQQFmbRLR8j4QcHPUJRNQt8GPeWY6WwnO
+ 09f4KVz-Pa8b4VUU28>
+X-ME-Received: <xmr:l0UvYWf9iS8jJxK05TyXfagaVR2KnfnHtQ9HiQyxXMH7dZVvvijS5-bWIr3fxMrs8GTD3mr_FDSsmZGOHjC9yQx4aBDfzpradnfp>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,14 +49,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudegucetufdoteggod
  fhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrg
  igihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeevjeeijedtvefg
  fffgjeeugffguedtleetkeegteeufedtuddttdfgfffhgfeuffenucffohhmrghinhepug
- gvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+ gvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghm
  pehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:lEUvYWi11dSCEN391PQXufsdGBR1Gmx2Ab9WGyeAj-WB-pLF6phQWg>
- <xmx:lEUvYaBxHUho5Wf6kaRNXdC_92P8IggnSGvUpMTqCcoufwBx6QpQ7Q>
- <xmx:lEUvYXK9BSnCilJ7ZhmjCExDnpfcDd_CEQvghnTLspuCLAv7IRSQfQ>
- <xmx:lUUvYe6rQ5cWtOOvkiBrnVRWwFaPsbGI0mtZQ_AAdTVKdXDFcf0JcA>
+X-ME-Proxy: <xmx:l0UvYQLbQmk4EHGlHnBAvewjXzA1GLzSPkqf1mYYVbeHWez8bWdaiA>
+ <xmx:l0UvYTLQVsA2pqs8y61Mw2W-r_h95QseK0oZe1Jnw6WaPrj1Nlq9Uw>
+ <xmx:l0UvYZwtAq_ksu_2JbNybTauTnCw1OhNjH4EWdUInSPZtSTM4SMP4A>
+ <xmx:l0UvYQDTuSqh8SedBFC27hEX932ZMsAzmQMuOUsUS8s8StF8JZHZXw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Sep 2021 05:19:16 -0400 (EDT)
+ 1 Sep 2021 05:19:19 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
@@ -66,9 +66,9 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
  dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 11/52] dt-bindings: display: Move idk-2121wr to panel-lvds
-Date: Wed,  1 Sep 2021 11:18:11 +0200
-Message-Id: <20210901091852.479202-12-maxime@cerno.tech>
+Subject: [PATCH v2 12/52] dt-bindings: display: Move ee101ia-01d to panel-lvds
+Date: Wed,  1 Sep 2021 11:18:12 +0200
+Message-Id: <20210901091852.479202-13-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210901091852.479202-1-maxime@cerno.tech>
 References: <20210901091852.479202-1-maxime@cerno.tech>
@@ -89,14 +89,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Advantech IDK-2121WR Device Tree binding uses most of the panel-lvds
-binding, aside from a requirement on the data-mapping and the
-definition of the dual link binding.
-
-The LVDS dual link binding applies to any panel with a dual-link setup,
-and thus could be made generic, and we can move the data-mapping
-requirement to a conditional.
-
+The Innolux EE101IA-01D Device Tree binding doesn't really add any
+useful content that is not already present in the panel-lvds binding.
 Let's move it to the generic panel-lvds binding
 
 Cc: dri-devel@lists.freedesktop.org
@@ -105,254 +99,60 @@ Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- .../display/panel/advantech,idk-2121wr.yaml   | 121 ------------------
- .../bindings/display/panel/lvds.yaml          |  88 ++++++++++++-
- 2 files changed, 87 insertions(+), 122 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+ .../display/panel/innolux,ee101ia-01d.yaml    | 31 -------------------
+ .../bindings/display/panel/lvds.yaml          |  1 +
+ 2 files changed, 1 insertion(+), 31 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/innolux,ee101ia-01d.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+diff --git a/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-01d.yaml b/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-01d.yaml
 deleted file mode 100644
-index 67682fe77f10..000000000000
---- a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+index a69681e724cb..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/innolux,ee101ia-01d.yaml
 +++ /dev/null
-@@ -1,121 +0,0 @@
--# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+@@ -1,31 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
 -%YAML 1.2
 ----
--$id: http://devicetree.org/schemas/display/panel/advantech,idk-2121wr.yaml#
+-$id: http://devicetree.org/schemas/display/panel/innolux,ee101ia-01d.yaml#
 -$schema: http://devicetree.org/meta-schemas/core.yaml#
 -
--title: Advantech IDK-2121WR 21.5" Full-HD dual-LVDS panel
+-title: Innolux Corporation 10.1" EE101IA-01D WXGA (1280x800) LVDS panel
 -
 -maintainers:
--  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+-  - Heiko Stuebner <heiko.stuebner@bq.com>
 -  - Thierry Reding <thierry.reding@gmail.com>
 -
--description: |
--  The IDK-2121WR from Advantech is a Full-HD dual-LVDS panel.
--  A dual-LVDS interface is a dual-link connection with even pixels traveling
--  on one link, and with odd pixels traveling on the other link.
--
--  The panel expects odd pixels on the first port, and even pixels on the
--  second port, therefore the ports must be marked accordingly (with either
--  dual-lvds-odd-pixels or dual-lvds-even-pixels).
+-allOf:
+-  - $ref: lvds.yaml#
 -
 -properties:
 -  compatible:
 -    items:
--      - const: advantech,idk-2121wr
+-      - const: innolux,ee101ia-01d
 -      - {} # panel-lvds, but not listed here to avoid false select
 -
--  width-mm:
--    const: 476
--
--  height-mm:
--    const: 268
--
--  data-mapping:
--    const: vesa-24
--
+-  backlight: true
+-  enable-gpios: true
+-  power-supply: true
+-  width-mm: true
+-  height-mm: true
 -  panel-timing: true
--
--  ports:
--    $ref: /schemas/graph.yaml#/properties/ports
--
--    properties:
--      port@0:
--        $ref: /schemas/graph.yaml#/$defs/port-base
--        unevaluatedProperties: false
--        description: The sink for odd pixels.
--        properties:
--          dual-lvds-odd-pixels: true
--
--        required:
--          - dual-lvds-odd-pixels
--
--      port@1:
--        $ref: /schemas/graph.yaml#/$defs/port-base
--        unevaluatedProperties: false
--        description: The sink for even pixels.
--        properties:
--          dual-lvds-even-pixels: true
--
--        required:
--          - dual-lvds-even-pixels
--
--    required:
--      - port@0
--      - port@1
+-  port: true
 -
 -additionalProperties: false
--
--required:
--  - compatible
--  - width-mm
--  - height-mm
--  - data-mapping
--  - panel-timing
--  - ports
--
--examples:
--  - |+
--    panel-lvds {
--      compatible = "advantech,idk-2121wr", "panel-lvds";
--
--      width-mm = <476>;
--      height-mm = <268>;
--
--      data-mapping = "vesa-24";
--
--      panel-timing {
--        clock-frequency = <148500000>;
--        hactive = <1920>;
--        vactive = <1080>;
--        hsync-len = <44>;
--        hfront-porch = <88>;
--        hback-porch = <148>;
--        vfront-porch = <4>;
--        vback-porch = <36>;
--        vsync-len = <5>;
--      };
--
--      ports {
--        #address-cells = <1>;
--        #size-cells = <0>;
--
--        port@0 {
--          reg = <0>;
--          dual-lvds-odd-pixels;
--          panel_in0: endpoint {
--            remote-endpoint = <&lvds0_out>;
--          };
--        };
--
--        port@1 {
--          reg = <1>;
--          dual-lvds-even-pixels;
--          panel_in1: endpoint {
--            remote-endpoint = <&lvds1_out>;
--          };
--        };
--      };
--    };
--
 -...
 diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-index e4e49e06f302..9b3b329e4e67 100644
+index 9b3b329e4e67..91a6d97a96e0 100644
 --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
 +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-@@ -39,11 +39,26 @@ allOf:
-         data-mapping:
-           const: jeida-24
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: advantech,idk-2121wr
-+
-+    then:
-+      properties:
-+        data-mapping:
-+          const: vesa-24
-+
-+      required:
-+        - ports
-+
- properties:
-   compatible:
-     items:
+@@ -59,6 +59,7 @@ properties:
        - enum:
            - advantech,idk-1110wr
-+          - advantech,idk-2121wr
+           - advantech,idk-2121wr
++          - innolux,ee101ia-01d
        - const: panel-lvds
  
    data-mapping:
-@@ -105,7 +120,34 @@ properties:
-       data lanes, transmitting bits for slots 6 to 0 instead of 0 to 6.
- 
-   port: true
--  ports: true
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: The sink for odd pixels.
-+        properties:
-+          dual-lvds-odd-pixels: true
-+
-+        required:
-+          - dual-lvds-odd-pixels
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description: The sink for even pixels.
-+        properties:
-+          dual-lvds-even-pixels: true
-+
-+        required:
-+          - dual-lvds-even-pixels
-+
-+    required:
-+      - port@0
-+      - port@1
- 
- required:
-   - compatible
-@@ -122,4 +164,48 @@ oneOf:
- 
- unevaluatedProperties: false
- 
-+examples:
-+  - |+
-+    panel-lvds {
-+      compatible = "advantech,idk-2121wr", "panel-lvds";
-+
-+      width-mm = <476>;
-+      height-mm = <268>;
-+
-+      data-mapping = "vesa-24";
-+
-+      panel-timing {
-+        clock-frequency = <148500000>;
-+        hactive = <1920>;
-+        vactive = <1080>;
-+        hsync-len = <44>;
-+        hfront-porch = <88>;
-+        hback-porch = <148>;
-+        vfront-porch = <4>;
-+        vback-porch = <36>;
-+        vsync-len = <5>;
-+      };
-+
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        port@0 {
-+          reg = <0>;
-+          dual-lvds-odd-pixels;
-+          panel_in0: endpoint {
-+            remote-endpoint = <&lvds0_out>;
-+          };
-+        };
-+
-+        port@1 {
-+          reg = <1>;
-+          dual-lvds-even-pixels;
-+          panel_in1: endpoint {
-+            remote-endpoint = <&lvds1_out>;
-+          };
-+        };
-+      };
-+    };
-+
- ...
 -- 
 2.31.1
 
