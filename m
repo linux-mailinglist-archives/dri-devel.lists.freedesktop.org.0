@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B373FE39D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 22:20:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA49A3FE39E
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 22:20:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838066E2A3;
-	Wed,  1 Sep 2021 20:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A3A6E2B8;
+	Wed,  1 Sep 2021 20:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A10EA6E29D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 20:20:26 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id s29so738999pfw.5
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 13:20:26 -0700 (PDT)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3591B6E29D
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 20:20:28 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id r2so633029pgl.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 13:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+u2QuOkRRMX/DqMZWfX/UVRQi9noRYZC06sr4Cz0Hp8=;
- b=ZMMPana7L7vTDCgu/jp5FKD2Lrbrz0jK26GBO0aS5kFqX8ZWAwDd8LGVRgMmKIW4cy
- pM4/1N42XKs3Esi1gnR1zGqKA++SzJlDvfQrVg5j28Z5B5k6XohhNOknkTV7aRkmINrK
- CmPERtsKo0Rsb/rb2L17uz6Xg8W52l6oAnoOY=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MFz/J7aAijkpNMg5cMsZk7y0NR1FdTOY1jwRJZxc2nE=;
+ b=f5Rs2FjUW6nkR+AHabo7d9WoP1/vWzHJZv9+bW4me5pWqFLdEYjIS+1PUPQ+PFZ2+F
+ uZ4RJoMTRSOrTb4aB9brFgTboAtAPRO4wfnaMb86fjyTkkJcnxUE47msuUGg7A3aj9H4
+ qevn5ZG395T+ZN4kb2Qr3SSsuEgZRbY290rn8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+u2QuOkRRMX/DqMZWfX/UVRQi9noRYZC06sr4Cz0Hp8=;
- b=hiHXN+eG87VMkGVNystQlqXbda1QT3RiDbuJpbBgC0ceXZALYGmxOiKZ+gpf3wRB8j
- jlx6fhriEfUHR8yks1D8bPL6Y8+Z6MjDCGS06Q2cNg2T6tMTYj/s5+QzT/h4FoRmkBPJ
- 5/X+im9zEUghSGAfwUUNvCoCuVxbsOIJuCpiR2FYy6bIfFDH/IwkcrIjpD9RORFdL5bl
- SDJQ6JkVtMPracUL0bxaSDLoBd6K4xmU1jXsCbXITHTe/XLAzrDKKvbnrgD6kKD9hIeN
- 74gkNvvYtZODnewKqgH6mAGcw6HTet0l0is8o/xFazzGCgiCz96APQbBXjnVqKkPVTgM
- HHRw==
-X-Gm-Message-State: AOAM532cKEvTqieRDmoiPOrMiwdx/O1tKKeLD4QUkdLP+BfWYkEfRAMk
- /zDZ+nIhwiL2PK9RbyVYc/sX5Q==
-X-Google-Smtp-Source: ABdhPJzep5JI+YTg6jYwfIvOqV7EJbMgqrs4tymTqpHRzn2sts2yu7nyKA3inirB5PAxwEJh4dOyVA==
-X-Received: by 2002:a65:6642:: with SMTP id z2mr790331pgv.240.1630527626154;
- Wed, 01 Sep 2021 13:20:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MFz/J7aAijkpNMg5cMsZk7y0NR1FdTOY1jwRJZxc2nE=;
+ b=Qzb1copqITYu1F4R76Gbefe27tlcoQ7STEB9r8ntloxuSxcLH49SJLTvAkJygbxZwl
+ zDEvLOsioTKwKzLRBEQXm82fMGm+KBqYwZ/b6vdB72o+PZ6EkUyqm3yZd8A8z0IlJ2cf
+ ZqiaOTCv/2Lih2pjAXrJGji+XDuiw9yKjeyzuQHuhxeAqKhEYtxR2ahInwjSbLKf8u1a
+ M3LR4n2aU0oA2lZwU00K+inI1A/nYdlSxOD/1ajso9WozhP6wxhi0jspgi8H9L2GaYi3
+ n7pqMKQuMOcsbMCJj1oYxpvh0LVzeSIdoHm4ICu3zTlhaBaiyLDeZ/su8GIqrQa1dsPM
+ ZyzA==
+X-Gm-Message-State: AOAM5313KbTiLbQiYunnnZ7zUQ6h1R6Ll2ox0vD2v4etX7U5vDfyPDPt
+ HfN1ATJ7QEgxCkOyn/18C64Efg==
+X-Google-Smtp-Source: ABdhPJzG561MW4j1aGa/s8L4HHSGGsl+PzC3APu3L1sVM4dFh/eFb6YO0xt2ZtmTRVxRFQ3ueRbOrg==
+X-Received: by 2002:a63:4b53:: with SMTP id k19mr783896pgl.3.1630527627758;
+ Wed, 01 Sep 2021 13:20:27 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:958b:b561:a735:e774])
- by smtp.gmail.com with ESMTPSA id x15sm321178pfq.31.2021.09.01.13.20.21
+ by smtp.gmail.com with ESMTPSA id x15sm321178pfq.31.2021.09.01.13.20.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 13:20:25 -0700 (PDT)
+ Wed, 01 Sep 2021 13:20:27 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
@@ -54,66 +54,14 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
  dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Al Viro <viro@zeniv.linux.org.uk>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Andreas Kemnade <andreas@kemnade.info>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Anson Huang <Anson.Huang@nxp.com>, Arnd Bergmann <arnd@arndb.de>,
- Catalin Marinas <catalin.marinas@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
- Corentin Labbe <clabbe@baylibre.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dmitry Osipenko <digetx@gmail.com>,
- Emil Velikov <emil.velikov@collabora.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Eugen Hristev <eugen.hristev@microchip.com>,
- Fabio Estevam <festevam@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@st.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Grygorii Strashko <grygorii.strashko@ti.com>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Jonathan Hunter <jonathanh@nvidia.com>, Kees Cook <keescook@chromium.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- =?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
- Michael Walle <michael@walle.cc>, NXP Linux Team <linux-imx@nxp.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Nishanth Menon <nm@ti.com>,
- Olivier Moysan <olivier.moysan@st.com>, Olof Johansson <olof@lixom.net>,
- Otavio Salvador <otavio@ossystems.com.br>,
- Paul Cercueil <paul@crapouillou.net>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Razvan Stefanescu <razvan.stefanescu@microchip.com>,
- Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Stefan Wahren <stefan.wahren@i2se.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Tony Lindgren <tony@atomide.com>,
- Tudor Ambarus <tudor.ambarus@microchip.com>, Vinod Koul <vkoul@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Vladimir Zapolskiy <vz@mleia.com>,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org,
- =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
-Subject: [PATCH v3 00/16] eDP: Support probing eDP panels dynamically instead
- of hardcoding
-Date: Wed,  1 Sep 2021 13:19:18 -0700
-Message-Id: <20210901201934.1084250-1-dianders@chromium.org>
+ Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 01/16] dt-bindings: drm/panel-simple-edp: Introduce generic
+ eDP panels
+Date: Wed,  1 Sep 2021 13:19:19 -0700
+Message-Id: <20210901131531.v3.1.I1116e79d34035338a45c1fc7cdd14a097909c8e0@changeid>
 X-Mailer: git-send-email 2.33.0.259.gc128427fd7-goog
+In-Reply-To: <20210901201934.1084250-1-dianders@chromium.org>
+References: <20210901201934.1084250-1-dianders@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -131,115 +79,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The goal of this patch series is to move away from hardcoding exact
-eDP panels in device tree files. As discussed in the various patches
-in this series (I'm not repeating everything here), most eDP panels
-are 99% probable and we can get that last 1% by allowing two "power
-up" delays to be specified in the device tree file and then using the
-panel ID (found in the EDID) to look up additional power sequencing
-delays for the panel.
+eDP panels generally contain almost everything needed to control them
+in their EDID. This comes from their DP heritage were a computer needs
+to be able to properly control pretty much any DP display that's
+plugged into it.
 
-This patch series is the logical contiunation of a previous patch
-series where I proposed solving this problem by adding a
-board-specific compatible string [1]. In the discussion that followed
-it sounded like people were open to something like the solution
-proposed in this new series.
+The one big issue with eDP panels and the reason that we need a panel
+driver for them is that the power sequencing can be different per
+panel.
 
-In version 2 I got rid of the idea that we could have a "fallback"
-compatible string that we'd use if we didn't recognize the ID in the
-EDID. This simplifies the bindings a lot and the implementation
-somewhat. As a result of not having a "fallback", though, I'm not
-confident in transitioning any existing boards over to this since
-we'll have to fallback to very conservative timings if we don't
-recognize the ID from the EDID and I can't guarantee that I've seen
-every panel that might have shipped on an existing product. The plan
-is to use "edp-panel" only on new boards or new revisions of old
-boards where we can guarantee that every EDID that ships out of the
-factory has an ID in the table.
+While it is true that eDP panel sequencing can be arbitrarily complex,
+in practice it turns out that many eDP panels are compatible with just
+some slightly different delays. See the contents of the bindings file
+introduced in this patch for some details.
 
-Version 3 of this series now splits out all eDP panels to their own
-driver and adds the generic eDP panel support to this new driver. I
-believe this is what Sam was looking for [2].
+The fact that eDP panels are 99% probable and that the power
+sequencing (especially power up) can be compatible between many panels
+means that there's a constant desire to plug multiple different panels
+into the same board. This could be for second sourcing purposes or to
+support multiple SKUs (maybe a 11" and a 13", for instance).
 
-[1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
-[2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
+As discussed [1], it should be OK to support this by adding two
+properties to the device tree to specify the delays needed for
+powering up the panel the first time. We'll create a new "edp-panel"
+bindings file and define the two delays that might need to be
+specified. NOTE: in the vast majority of the cases (HPD is hooked up
+and isn't glitchy or is debounced) even these delays aren't needed.
 
-Changes in v3:
-- Decode hex product ID w/ same endianness as everyone else.
-- ("Reorder logicpd_type_28...") patch new for v3.
-- Split eDP panels patch new for v3.
-- Move wayward panels patch new for v3.
-- ("Non-eDP panels don't need "HPD" handling") new for v3.
-- Split the delay structure out patch just on eDP now.
-- ("Better describe eDP panel delays") new for v3.
-- Fix "prepare_to_enable" patch new for v3.
-- ("Don't re-read the EDID every time") moved to eDP only patch.
-- Generic "edp-panel" handled by the eDP panel driver now.
-- Change init order to we power at the end.
-- Adjust endianness of product ID.
-- Fallback to conservative delays if panel not recognized.
-- Add Sharp LQ116M1JW10 to table.
-- Add AUO B116XAN06.1 to table.
-- Rename delays more generically so they can be reused.
+[1] https://lore.kernel.org/r/CAD=FV=VZYOMPwQZzWdhJGh5cjJWw_EcM-wQVEivZ-bdGXjPrEQ@mail.gmail.com
+
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+
+(no changes since v2)
 
 Changes in v2:
 - No longer allow fallback to panel-simple.
 - Add "-ms" suffix to delays.
-- Don't support a "fallback" panel. Probed panels must be probed.
-- Not based on patch to copy "desc"--just allocate for probed panels.
-- Add "-ms" suffix to delays.
 
-Douglas Anderson (16):
-  dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
-  drm/edid: Break out reading block 0 of the EDID
-  drm/edid: Allow the querying/working with the panel ID from the EDID
-  drm/panel-simple: Reorder logicpd_type_28 / mitsubishi_aa070mc01
-  drm/panel-simple-edp: Split eDP panels out of panel-simple
-  ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
-  arm64: defconfig: Everyone who had PANEL_SIMPLE now gets
-    PANEL_SIMPLE_EDP
-  MIPS: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
-  drm/panel-simple-edp: Move some wayward panels to the eDP driver
-  drm/panel-simple: Non-eDP panels don't need "HPD" handling
-  drm/panel-simple-edp: Split the delay structure out
-  drm/panel-simple-edp: Better describe eDP panel delays
-  drm/panel-simple-edp: hpd_reliable shouldn't be subtraced from
-    hpd_absent
-  drm/panel-simple-edp: Fix "prepare_to_enable" if panel doesn't handle
-    HPD
-  drm/panel-simple-edp: Don't re-read the EDID every time we power off
-    the panel
-  drm/panel-simple-edp: Implement generic "edp-panel"s probed by EDID
-
- .../bindings/display/panel/panel-edp.yaml     |  188 ++
- arch/arm/configs/at91_dt_defconfig            |    1 +
- arch/arm/configs/exynos_defconfig             |    1 +
- arch/arm/configs/imx_v6_v7_defconfig          |    1 +
- arch/arm/configs/lpc32xx_defconfig            |    1 +
- arch/arm/configs/multi_v5_defconfig           |    1 +
- arch/arm/configs/multi_v7_defconfig           |    1 +
- arch/arm/configs/omap2plus_defconfig          |    1 +
- arch/arm/configs/qcom_defconfig               |    1 +
- arch/arm/configs/realview_defconfig           |    1 +
- arch/arm/configs/sama5_defconfig              |    1 +
- arch/arm/configs/shmobile_defconfig           |    1 +
- arch/arm/configs/sunxi_defconfig              |    1 +
- arch/arm/configs/tegra_defconfig              |    1 +
- arch/arm/configs/versatile_defconfig          |    1 +
- arch/arm/configs/vexpress_defconfig           |    1 +
- arch/arm64/configs/defconfig                  |    1 +
- arch/mips/configs/qi_lb60_defconfig           |    1 +
- arch/mips/configs/rs90_defconfig              |    1 +
- drivers/gpu/drm/drm_edid.c                    |  121 +-
- drivers/gpu/drm/panel/Kconfig                 |   16 +-
- drivers/gpu/drm/panel/Makefile                |    1 +
- drivers/gpu/drm/panel/panel-simple-edp.c      | 1895 +++++++++++++++++
- drivers/gpu/drm/panel/panel-simple.c          | 1100 +---------
- include/drm/drm_edid.h                        |   47 +
- 25 files changed, 2293 insertions(+), 1093 deletions(-)
+ .../bindings/display/panel/panel-edp.yaml     | 188 ++++++++++++++++++
+ 1 file changed, 188 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-edp.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-simple-edp.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-edp.yaml b/Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+new file mode 100644
+index 000000000000..6a621376ff86
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+@@ -0,0 +1,188 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/panel-edp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Probable (via DP AUX / EDID) eDP Panels with simple poweron sequences
++
++maintainers:
++  - Douglas Anderson <dianders@chromium.org>
++
++description: |
++  This binding file can be used to indicate that an eDP panel is connected
++  to a Embedded DisplayPort AUX bus (see display/dp-aux-bus.yaml) without
++  actually specifying exactly what panel is connected. This is useful for
++  the case that more than one different panel could be connected to the
++  board, either for second-sourcing purposes or to support multiple SKUs
++  with different LCDs that hook up to a common board.
++
++  As per above, a requirement for using this binding is that the panel is
++  represented under the DP AUX bus. This means that we can use any
++  information provided by the DP AUX bus (including the EDID) to identify
++  the panel. We can use this to identify display size, resolution, and
++  timings among other things.
++
++  One piece of information about eDP panels that is typically _not_
++  provided anywhere on the DP AUX bus is the power sequencing timings.
++  This is the reason why, historically, we've always had to explicitly
++  list eDP panels. We solve that here with two tricks. The "worst case"
++  power on timings for any panels expected to be connected to a board are
++  specified in these bindings. Once we've powered on, it's expected that
++  the operating system will lookup the panel in a table (based on EDID
++  information) to figure out other power sequencing timings.
++
++  eDP panels in general can have somewhat arbitrary power sequencing
++  requirements. However, even though it's arbitrary in general, the
++  vast majority of panel datasheets have a power sequence diagram that
++  looks the exactly the same as every other panel. Each panel datasheet
++  cares about different timings in this diagram but the fact that the
++  diagram is so similar means we can come up with a single driver to
++  handle it.
++
++  These diagrams all look roughly like this, sometimes labeled with
++  slightly different numbers / lines but all pretty much the same
++  sequence. This is because much of this diagram comes straight from
++  the eDP Standard.
++
++                __________________________________________________
++  Vdd       ___/:                                                :\____       /
++          _/    :                                                :     \_____/
++           :<T1>:<T2>:                                 :<--T10-->:<T11>:<T12>:
++                :    +-----------------------+---------+---------+
++  eDP     -----------+ Black video           | Src vid | Blk vid +
++  Display       :    +-----------------------+---------+---------+
++                :     _______________________:_________:_________:
++  HPD           :<T3>|                       :         :         |
++          ___________|                       :         :         |_____________
++                     :                       :         :         :
++  Sink               +-----------------------:---------:---------+
++  AUX CH  -----------+ AUX Ch operational    :         :         +-------------
++                     +-----------------------:---------:---------+
++                     :                       :         :         :
++                     :<T4>:             :<T7>:         :         :
++  Src main                +------+------+--------------+---------+
++  lnk data----------------+LnkTrn| Idle |Valid vid data| Idle/off+-------------
++                          +------+------+--------------+---------+
++                          : <T5> :<-T6->:<-T8->:       :
++                                               :__:<T9>:
++  LED_EN                                       |  |
++          _____________________________________|  |____________________________
++                                               :  :
++                                     __________:__:_
++  PWM                               |          :  : |
++          __________________________|          :  : |__________________________
++                                    :          :  : :
++                       _____________:__________:__:_:______
++  Bklight         ____/:            :          :  : :     :\____
++  power   _______/     :<---T13---->:          :  : :<T16>:     \______________
++  (Vbl)          :<T17>:<---------T14--------->:  :<-T15->:<T18>:
++
++  The above looks fairly complex but, as per above, each panel only cares
++  about a subset of those timings.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: edp-panel
++
++  hpd-reliable-delay-ms:
++    description:
++      A fixed amount of time that must be waited after powering on the
++      panel's power-supply before the HPD signal is a reliable way to know
++      when the AUX channel is ready. This is useful for panels that glitch
++      the HPD at the start of power-on. This value is not needed if HPD is
++      always reliable for all panels that might be connected.
++
++  hpd-absent-delay-ms:
++    description:
++      The panel specifies that HPD will be asserted this many milliseconds
++      from power on (timing T3 in the diagram above). If we have no way to
++      measure HPD then a fixed delay of this many milliseconds can be used.
++      This can also be used as a timeout when waiting for HPD. Does not
++      include the hpd-reliable-delay, so if hpd-reliable-delay was 80 ms
++      and hpd-absent-delay was 200 ms then we'd do a fixed 80 ms delay and
++      then we know HPD would assert in the next 120 ms. This value is not
++      needed if HPD hooked up, either through a GPIO in the panel node or
++      hooked up directly to the eDP controller.
++
++  backlight: true
++  enable-gpios: true
++  port: true
++  power-supply: true
++  no-hpd: true
++  hpd-gpios: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - power-supply
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,rpmh.h>
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      bridge@2d {
++        compatible = "ti,sn65dsi86";
++        reg = <0x2d>;
++
++        interrupt-parent = <&tlmm>;
++        interrupts = <10 IRQ_TYPE_LEVEL_HIGH>;
++
++        enable-gpios = <&tlmm 102 GPIO_ACTIVE_HIGH>;
++
++        vpll-supply = <&src_pp1800_s4a>;
++        vccio-supply = <&src_pp1800_s4a>;
++        vcca-supply = <&src_pp1200_l2a>;
++        vcc-supply = <&src_pp1200_l2a>;
++
++        clocks = <&rpmhcc RPMH_LN_BB_CLK2>;
++        clock-names = "refclk";
++
++        no-hpd;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++            endpoint {
++              remote-endpoint = <&dsi0_out>;
++            };
++          };
++
++          port@1 {
++            reg = <1>;
++            sn65dsi86_out: endpoint {
++              remote-endpoint = <&panel_in_edp>;
++            };
++          };
++        };
++
++        aux-bus {
++          panel {
++            compatible = "edp-panel";
++            power-supply = <&pp3300_dx_edp>;
++            backlight = <&backlight>;
++            hpd-gpios = <&sn65dsi86_bridge 2 GPIO_ACTIVE_HIGH>;
++            hpd-reliable-delay-ms = <15>;
++
++            port {
++              panel_in_edp: endpoint {
++                remote-endpoint = <&sn65dsi86_out>;
++              };
++            };
++          };
++        };
++      };
++    };
 -- 
 2.33.0.259.gc128427fd7-goog
 
