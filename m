@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FF83FE3F4
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 22:25:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 452B13FE425
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 22:39:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4C2F6E30C;
-	Wed,  1 Sep 2021 20:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B05676E311;
+	Wed,  1 Sep 2021 20:39:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 492C06E30C
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 20:24:55 +0000 (UTC)
-Date: Wed, 01 Sep 2021 20:24:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1630527892;
- bh=wvdyfuuvgWLif0GJRW36mFo+P+Mh6ICaw07RdRnThMg=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=FrOHTCIqt3I61txak4+8iO45X6EB6GXHWcTHEKdddUWY4TMJs3jk6y9iRunsikf29
- qxgUBzAuDs+6z/AtVYTrrAqGdbtnsRES5dYDjUhiK996OGbms/vNwaQlSS52QX762A
- c2Er8dhAynJU55dGgf/PsxJpqXGP9k614B8zUIWLD/q4M9FXwrOpQkIQqZGavRXAo7
- anAkGzcOPMk07mYhB6PotWuIQv3JlVbI7Kd/OzvykK1+nmRITr22gKri6oveI4bcTc
- upn39DNKvUZ1wyVU4qvWhjiwdu7HxcTna4lXh8vcpc+r03cU4Ws58Wk46GD9vAAvSm
- HUZPw/Q4fFM9g==
-To: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: VKMS: New plane formats
-Message-ID: <Qkd7rIf9j9Y-IlDoCbF8VB8T5sIKykTIuTfZIc1pCFPfvnfwIBGOMTnFo8i5jAWqGitlGEBH865MLF3C2jdIVk7TbRRFb_KVlte_FI0hjgI=@emersion.fr>
-In-Reply-To: <d1ceaa32-e143-8d3c-4bfb-7b31673cc76c@gmail.com>
-References: <d1ceaa32-e143-8d3c-4bfb-7b31673cc76c@gmail.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9306E311
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 20:39:16 +0000 (UTC)
+Date: Wed, 01 Sep 2021 21:39:02 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v3 08/16] MIPS: configs: Everyone who had PANEL_SIMPLE now
+ gets PANEL_SIMPLE_EDP
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Linus W
+ <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ devicetree@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>, Daniel Thompson
+ <daniel.thompson@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Viresh Kumar
+ <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org
+Message-Id: <21WRYQ.3FG7R58QMYBX2@crapouillou.net>
+In-Reply-To: <20210901131531.v3.8.Ic7a6e3f8dd4760a302c91320843be5a00206bd63@changeid>
+References: <20210901201934.1084250-1-dianders@chromium.org>
+ <20210901131531.v3.8.Ic7a6e3f8dd4760a302c91320843be5a00206bd63@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,14 +49,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ideally the final composition format would have enough precision for
-all of the planes. I think it'd make sense to use ARGB16161616 if the
-primary plane uses ARGB8888 and an overlay plane uses ARGB16161616.
+Hi Douglas,
 
-To simplify the code, maybe it's fine to always use ARGB16161616 for
-the output, and add getters which fetch an ARGB16161616 row for each
-supported plane format.
+Le mer., sept. 1 2021 at 13:19:26 -0700, Douglas Anderson=20
+<dianders@chromium.org> a =E9crit :
+> In the patch ("drm/panel-simple-edp: Split eDP panels out of
+> panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
+> give everyone who had the old driver enabled the new driver too. If
+> folks want to opt-out of one or the other they always can later.
+>=20
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>=20
+> (no changes since v1)
+>=20
+>  arch/mips/configs/qi_lb60_defconfig | 1 +
+>  arch/mips/configs/rs90_defconfig    | 1 +
+
+The SoCs on these two boards don't support eDP, you can drop this patch.
+
+Cheers,
+-Paul
+
+>  2 files changed, 2 insertions(+)
+>=20
+> diff --git a/arch/mips/configs/qi_lb60_defconfig=20
+> b/arch/mips/configs/qi_lb60_defconfig
+> index b4448d0876d5..3e99e223ea02 100644
+> --- a/arch/mips/configs/qi_lb60_defconfig
+> +++ b/arch/mips/configs/qi_lb60_defconfig
+> @@ -72,6 +72,7 @@ CONFIG_REGULATOR_FIXED_VOLTAGE=3Dy
+>  CONFIG_DRM=3Dy
+>  CONFIG_DRM_FBDEV_OVERALLOC=3D200
+>  CONFIG_DRM_PANEL_SIMPLE=3Dy
+> +CONFIG_DRM_PANEL_SIMPLE_EDP=3Dy
+>  CONFIG_DRM_INGENIC=3Dy
+>  CONFIG_BACKLIGHT_CLASS_DEVICE=3Dy
+>  # CONFIG_VGA_CONSOLE is not set
+> diff --git a/arch/mips/configs/rs90_defconfig=20
+> b/arch/mips/configs/rs90_defconfig
+> index 7ce3b814fdc8..42b4f621cbfa 100644
+> --- a/arch/mips/configs/rs90_defconfig
+> +++ b/arch/mips/configs/rs90_defconfig
+> @@ -94,6 +94,7 @@ CONFIG_REGULATOR_FIXED_VOLTAGE=3Dy
+>  CONFIG_DRM=3Dy
+>  CONFIG_DRM_FBDEV_OVERALLOC=3D300
+>  CONFIG_DRM_PANEL_SIMPLE=3Dy
+> +CONFIG_DRM_PANEL_SIMPLE_EDP=3Dy
+>  CONFIG_DRM_INGENIC=3Dy
+>  CONFIG_BACKLIGHT_CLASS_DEVICE=3Dy
+>  CONFIG_BACKLIGHT_PWM=3Dy
+> --
+> 2.33.0.259.gc128427fd7-goog
+>=20
+
+
