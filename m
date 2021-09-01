@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC3A3FD65A
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:19:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E81C93FD65B
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:19:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 911FC6E0E1;
-	Wed,  1 Sep 2021 09:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBD36E139;
+	Wed,  1 Sep 2021 09:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7676E0E1
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:19:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECF456E131
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:19:26 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id C9CD8580B25;
- Wed,  1 Sep 2021 05:19:24 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 01 Sep 2021 05:19:24 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6665C580B26;
+ Wed,  1 Sep 2021 05:19:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 01 Sep 2021 05:19:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=w+cDPXeAXhPt4
- EwFiXD7zdQEhQIElGXlovgIUCKWC0w=; b=aBVEIBnVKlUnmFnBf9OxgCjHlUzNu
- axgWciJzWaZPWkRfqJ7UztXfdgWyZaxWbMw3byHT5NtImp22L2eZkiQZVqLlWibt
- GC9wMYr3DrlLTVw8MetVHWhv6sjVC1y1rbY3Gjo9WkF7lj5v5dgrRdLtRJGg77IV
- y9S/4cPjs67PzruAc+lPQ4JIiMncpOK7Tmh753RIKM4rLI6912fSDDgf59pX2t8+
- /VcVFnK/7e2VwX0nOK3MDCaCBB1y2x8oOVZXsF5zS6oSkqfXtOeOGQdeTncMLPiw
- J4f0rZ9ylvJT/a8cKPvBlWlV54VC0ObwOYUxJH3g4W4zZnOoecANZCE0w==
+ :mime-version:content-transfer-encoding; s=fm3; bh=kChwgH7u3z2E5
+ tTqVK/r7JAXC8KOtIc4AjwI8ZPHg0Y=; b=BRYCVaSogG+rESrPwu2mJTQN5qbZP
+ 7KjbIC+HcZ6nLuqIsbd8045GRAjoGCXBFJt4pDBS/pwjx50WaMywS2iqDHazngxQ
+ 43+UFUxW1LMKOGV9tsERghR5OVlkj//Jid4MSp/T7e6I5DzVXVTiMDH+v0WhLXl2
+ eFE2GeQE8RgwGtXwRKa2m5zxVWF0UO+zB9lS28L5hcb6BmhU+ngpj5HSyAt6WSJ1
+ tRrHVyh0GcDW2TegHi1SpJ3lc+jpbpTuCudrmO/79pFcZ5nOjLA/HTt3B0DUD9Qk
+ gkUEpZyI6ZwXuufLvsAeS5WowCNvjuRuy0HHbj6J59PMEE7e3lbRfuk+Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=w+cDPXeAXhPt4EwFiXD7zdQEhQIElGXlovgIUCKWC0w=; b=nBQYmexS
- 4TsQpZaSQInu9R2LZ1K4kScJWR+ylf+zbWBCl7AOyD+RpgiyBE+8IGM0Mdwtf3o9
- AX9dQ9lXczPkWgm4ZVCNPUcylmlHTR/RH1zKD2MzPWnl7xxE2MjGE64eAWd+nD5F
- V2bXySzVdlOafDXYR8yCyoXUq9NKHxBgYGA8NPAqWlUc9bZZhO+huHSx5aOCLX8q
- B2yr/zr23wXNKaxgk1q++E18gWvNMQpE+SEklG/MtIrD1JLuNCNar7DEmPCB/YDx
- 771nrol8K8gjIxe1euDDzQtD98x6ltqrlQC2Q1ML/8eJsO+ElN3QHhfKepAUgt9+
- QtJWtivkuAVQJA==
-X-ME-Sender: <xms:nEUvYXL83NCdmTRZDUqB9Db9Jt_HsNTxmk7lO-Iyim7-fUhZ2e-6RQ>
- <xme:nEUvYbIE9FXa4Wd3fPpMEdCIYiJcB4MTrxlefps5j7NjdYCJpZWHhZqcIo6BrpG8g
- kfZV1nyAiw541mBklU>
-X-ME-Received: <xmr:nEUvYftDlnwGSAa9CAYKu15jEzKodHHo3fgUXrzwsfK0jzaL-r-hBl22ODnfuzG_0l0Gpivd5aTFmMSclaIKWd3qGB3e3Z8PB6po>
+ fm3; bh=kChwgH7u3z2E5tTqVK/r7JAXC8KOtIc4AjwI8ZPHg0Y=; b=Vr5lDfSK
+ xZEwQ0BB55K/X1RLmo6vACqYTK2uhJ6o3Vt2gW0ilvBNQdys/JJ6rsxF4urW4UW1
+ vPDiobSUzMbWzXaKGHmKx27HpnM9ey4wXGn3BFRWjIW4bAu6HPpIAspw1ZgVP20D
+ fMdtRXBmKn+LHmZuMSu4cqq7UiYPAKxvA2XVZv67sqCXQTMDAXOoAA1QQWmlf94c
+ kvIVRLk/HEpPK4rZZhGSQ65HbIqXDtzVCfhAtZZcwJQjpAzQOWsaehHht5AHQ2cf
+ jfk07IQsACT0gj4q6ogmSjmaD6KQbl9w0jCkYdNrgmoFAateuTmgfsxk7jFyNozd
+ RL4Ep+E9IpOMNA==
+X-ME-Sender: <xms:nkUvYV5Xm40G_6lNc9gkszABkhLF6CFTukoDEAfp1w590S-mwf_tiQ>
+ <xme:nkUvYS7DQDJJDRyrvGbPaIfM_2FNkqdjty9msZyaWcxtmjyJ46dqzg6AmEqqrQ9HN
+ ol43dxF_nX-Xe4By6k>
+X-ME-Received: <xmr:nkUvYcfGtl7ffEU3biu4dKTT6FB-avLliHUhT1Evpv0dDl6LRKKKfJLcObdJsiZEDagDHnIlAlhXu7OSDtFyJRjAfvIkRjt6qLvQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- govehorghsthgrlhdqhfeguddvqddtvdculdduhedtmdenucfjughrpefhvffufffkofgj
- fhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrg
- igihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeevjeeijedtvefg
- fffgjeeugffguedtleetkeegteeufedtuddttdfgfffhgfeuffenucffohhmrghinhepug
- gvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
- pehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:nEUvYQbgVae3BVgZ5dYHywZ0mghfkZhl8dPC4je_QvNrXrzM2e5H3A>
- <xmx:nEUvYeaKoVzTEA7Urlu05O0aVS1UOvcsZYMDH43VRpUEk7bMNn_jng>
- <xmx:nEUvYUBkgZTAPYcnFX3QLCDKbcV1Wo1qCPvguTAF2abkhiVtDD1MFA>
- <xmx:nEUvYbSiuIjhVzG1aFWuJ5cbC60s96-Q_YAllPng0duvkyrnxg3q8A>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:nkUvYeLYwKA_NeXXLPZDXRaxMJx9tnOlpE5skRb1E4CRWn0GAcwdVA>
+ <xmx:nkUvYZIok90tkCrKEUFXSCUqm_IzpoV2FJevtJTmkMtKo6crVRLyUw>
+ <xmx:nkUvYXwOmhE7tNW8s65bp6ZyEur7Xn_oV6u1Suy_-wRr2zAD5-kZWw>
+ <xmx:nkUvYWADPRuoBe3FsHSlvwbRVnWd1gRxkIZJNWFleAYk1Fmx-i7EUg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Sep 2021 05:19:23 -0400 (EDT)
+ 1 Sep 2021 05:19:25 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
@@ -66,9 +65,10 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
  dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 15/52] dt-bindings: display: Move aa104xd12 to panel-lvds
-Date: Wed,  1 Sep 2021 11:18:15 +0200
-Message-Id: <20210901091852.479202-16-maxime@cerno.tech>
+Subject: [PATCH v2 16/52] dt-bindings: display: aa121td01: Remove unused
+ vcc-supply
+Date: Wed,  1 Sep 2021 11:18:16 +0200
+Message-Id: <20210901091852.479202-17-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210901091852.479202-1-maxime@cerno.tech>
 References: <20210901091852.479202-1-maxime@cerno.tech>
@@ -89,11 +89,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Mitsubishi AA104XD12 Device Tree binding doesn't really add any
-useful content that is not already present in the panel-lvds binding
-aside from a requirement on the data-mapping.
-
-Let's move it to the generic panel-lvds binding
+The Mitsubishi AA121TD01 Device Tree Binding was requiring a vcc-supply
+property. However, neither the existing device trees using that binding,
+nor the driver were actually using that property which is also redundant
+with power-supply. Let's just drop it.
 
 Cc: dri-devel@lists.freedesktop.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -101,117 +100,37 @@ Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- .../bindings/display/panel/lvds.yaml          | 12 ++++
- .../display/panel/mitsubishi,aa104xd12.yaml   | 70 -------------------
- 2 files changed, 12 insertions(+), 70 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml
+ .../bindings/display/panel/mitsubishi,aa121td01.yaml         | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-index 91a6d97a96e0..09a818a60f2e 100644
---- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-@@ -28,6 +28,17 @@ description: |+
+diff --git a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml b/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
+index 977c50a85b67..b0f1d4eff12d 100644
+--- a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
++++ b/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
+@@ -19,9 +19,6 @@ properties:
+       - const: mitsubishi,aa121td01
+       - {} # panel-lvds, but not listed here to avoid false select
  
- allOf:
-   - $ref: panel-common.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: mitsubishi,aa104xd12
-+
-+    then:
-+      properties:
-+        data-mapping:
-+          const: jeida-18
-+
-   - if:
-       properties:
-         compatible:
-@@ -60,6 +71,7 @@ properties:
-           - advantech,idk-1110wr
-           - advantech,idk-2121wr
-           - innolux,ee101ia-01d
-+          - mitsubishi,aa104xd12
-       - const: panel-lvds
- 
+-  vcc-supply:
+-    description: Reference to the regulator powering the panel VCC pins.
+-
    data-mapping:
-diff --git a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml b/Documentation/devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml
-deleted file mode 100644
-index 2d1c85e377cd..000000000000
---- a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa104xd12.yaml
-+++ /dev/null
-@@ -1,70 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--%YAML 1.2
-----
--$id: http://devicetree.org/schemas/display/panel/mitsubishi,aa104xd12.yaml#
--$schema: http://devicetree.org/meta-schemas/core.yaml#
--
--title: Mitsubishi AA104XD12 10.4" XGA LVDS Display Panel
--
--maintainers:
--  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
--  - Thierry Reding <thierry.reding@gmail.com>
--
--allOf:
--  - $ref: lvds.yaml#
--
--properties:
--  compatible:
--    items:
--      - const: mitsubishi,aa104xd12
--      - {} # panel-lvds, but not listed here to avoid false select
--
--  data-mapping:
--    const: jeida-18
--
--  width-mm:
--    const: 210
--
--  height-mm:
--    const: 158
--
--  panel-timing: true
--  port: true
--
--additionalProperties: false
--
--required:
--  - compatible
--
--examples:
--  - |+
--
--    panel {
--      compatible = "mitsubishi,aa104xd12", "panel-lvds";
--
--      width-mm = <210>;
--      height-mm = <158>;
--
--      data-mapping = "jeida-18";
--
--      panel-timing {
--        /* 1024x768 @65Hz */
--        clock-frequency = <65000000>;
--        hactive = <1024>;
--        vactive = <768>;
--        hsync-len = <136>;
--        hfront-porch = <20>;
--        hback-porch = <160>;
--        vfront-porch = <3>;
--        vback-porch = <29>;
--        vsync-len = <6>;
--      };
--
--      port {
--        panel_in: endpoint {
--          remote-endpoint = <&lvds_encoder>;
--        };
--      };
--    };
--
--...
+     const: jeida-24
+ 
+@@ -38,13 +35,11 @@ additionalProperties: false
+ 
+ required:
+   - compatible
+-  - vcc-supply
+ 
+ examples:
+   - |+
+     panel {
+       compatible = "mitsubishi,aa121td01", "panel-lvds";
+-      vcc-supply = <&vcc_3v3>;
+ 
+       width-mm = <261>;
+       height-mm = <163>;
 -- 
 2.31.1
 
