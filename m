@@ -1,55 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDB23FE228
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 20:13:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99163FE26D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 20:33:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E00206E24D;
-	Wed,  1 Sep 2021 18:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE446E255;
+	Wed,  1 Sep 2021 18:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C30D6E24D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 18:13:22 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98EFA559;
- Wed,  1 Sep 2021 20:13:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1630520000;
- bh=BDl0EmauITqkvN6b/L6wjyoZWA3yqKvMu0HJWSPXVEU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ucoRfpQEdOL5uWiJHPl4jRLJICaNAL5SCAJcbYTw57fqz6f46uYHeDfj1y/scMT25
- wijEhCS5NbSCTmWwQB44Jf1aPl7ADNgmaqlr6CVpNDLt5XVCxwDJo8rkGYgnpChKr8
- NxkykMaOVW8YiPowN9atrwmqi+FyI5NJjXJGKXMc=
-Date: Wed, 1 Sep 2021 21:13:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] drm: Add drm_fixed_16_16 helper
-Message-ID: <YS/CsCSqKeFYF9x7@pendragon.ideasonboard.com>
-References: <20210901175431.14060-1-alyssa@rosenzweig.io>
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04CA66E255
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 18:33:22 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id s12so731218ljg.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 11:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wmlFp7IyZjhJM+UbKugZxR7EIWg6Bz16CqvqAdC73iw=;
+ b=aO3JVvdoC0SVDHw81BnqPRgF6kxIUydorxW6tTvTFB4MtXnxf1a0Fm48pYWaQujiim
+ dLsdxQ0vNUOunTxKmSEr9gJ0o0NL0XYCbLKU3AV2I7ckznr09qJ/3xJKozXgyoB6Gk25
+ vn1MlVEcgjn8f8Si8qJ1ioGLyIrav6X+gUCt8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wmlFp7IyZjhJM+UbKugZxR7EIWg6Bz16CqvqAdC73iw=;
+ b=T48Sx8akHeRK2ucESkcU9yzz4Wgww8kfuNMzu6bY4zr3Dbx86oPCklXUqvUDaI6jun
+ 7+z9/bI8sgQc/XvXhgjADumA53Mx/Fc/y1FiyYdagbk3voHC19xCxBE6OQTlyVLlMF/0
+ f3H5oQKHZvogZnWm83JirTZN4doLz58aEoCZicuwgKvyMM3CdcixnQAVvHmH0OZfKsf0
+ xo+L7NqF6Mc0MBHZVUwG3ap09TQAO9jHAOckp89K3VY2QUHHWlMrrF9XhJGvywTcCAav
+ MBHb+Ln9wYvnanvc1i9qzZt65+i+/dVJuQkjpHG9F0ah8iLP66hQXZENcFFLoUHSvXRu
+ PXuw==
+X-Gm-Message-State: AOAM532FT2Cp+2eCChJkmdbvpFL5VsdVsxxszV+Os8RDWAdFs1jui0eS
+ AJIiqLkK8EzLB9MPMdLpgq4WHPIrRwHADVAS
+X-Google-Smtp-Source: ABdhPJzwXbPxTw2ZIrmYm6PiH7s9+pT/PYtwKnJidH3Oi4k7fZkXeZr8cnUXyb8bPfIjJtxHoudD9w==
+X-Received: by 2002:a2e:b16a:: with SMTP id a10mr890786ljm.18.1630521200979;
+ Wed, 01 Sep 2021 11:33:20 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com.
+ [209.85.208.171])
+ by smtp.gmail.com with ESMTPSA id y2sm24922lfe.242.2021.09.01.11.33.19
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Sep 2021 11:33:19 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id g14so635067ljk.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 11:33:19 -0700 (PDT)
+X-Received: by 2002:a05:651c:908:: with SMTP id
+ e8mr836025ljq.507.1630521198866; 
+ Wed, 01 Sep 2021 11:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210901175431.14060-1-alyssa@rosenzweig.io>
+References: <CAPM=9txeN-qCRJvYV552zdo2H9iVy1ruVrq=YdZBP5Dmpc3Jmg@mail.gmail.com>
+ <CAHk-=whP_v5nrK9B5vefnZS6Xz3-vZDFxUvSmW8W82hhNh67sA@mail.gmail.com>
+In-Reply-To: <CAHk-=whP_v5nrK9B5vefnZS6Xz3-vZDFxUvSmW8W82hhNh67sA@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 1 Sep 2021 11:33:01 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiyPpwYLBXTdXi0DyMFhTKsTstmqU-LLjgD5fNxUnB_WA@mail.gmail.com>
+Message-ID: <CAHk-=wiyPpwYLBXTdXi0DyMFhTKsTstmqU-LLjgD5fNxUnB_WA@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.15-rc1
+To: Dave Airlie <airlied@gmail.com>, John Clements <john.clements@amd.com>, 
+ Hawking Zhang <Hawking.Zhang@amd.com>, Alex Deucher <alexander.deucher@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,51 +79,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alyssa,
+On Wed, Sep 1, 2021 at 10:57 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> No worries. I enjoyed seeing the AMD code-names in the conflicts, they
+> are using positively kernel-level naming.
 
-Thank you for the patch.
+Oh, I spoke too soon.
 
-On Wed, Sep 01, 2021 at 01:54:27PM -0400, Alyssa Rosenzweig wrote:
-> This constructs a fixed 16.16 rational, useful to specify the minimum
-> and maximum scaling in drm_atomic_helper_check_plane_state. It is
-> open-coded as a macro in multiple drivers, so let's share the helper.
-> 
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> ---
->  include/drm/drm_fixed.h | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
-> index 553210c02ee0..df1f369b4918 100644
-> --- a/include/drm/drm_fixed.h
-> +++ b/include/drm/drm_fixed.h
-> @@ -208,4 +208,9 @@ static inline s64 drm_fixp_exp(s64 x)
->  	return sum;
->  }
->  
+The conflict in amdgpu_ras_eeprom.c is trivial to fix up, but the
+*code* is garbage.
 
-Missing documentation :-)
+It does this (from commit 14fb496a84f1: "drm/amdgpu: set RAS EEPROM
+address from VBIOS"):
 
-> +static inline int drm_fixed_16_16(s32 mult, s32 div)
+        ...
+        control->i2c_address = 0;
 
-You should return a s32.
+        if (amdgpu_atomfirmware_ras_rom_addr(adev,
+(uint8_t*)&control->i2c_address))
+        {
+                if (control->i2c_address == 0xA0)
+                        control->i2c_address = 0;
+        ...
 
-The function name isn't very explicit, and departs from the naming
-scheme of other functions in the same file. As fixed-point numbers are
-stored in a s64 for the drm_fixp_* helpers, we shouldn't rese the
-drm_fixp_ prefix, maybe drm_fixp_s16_16_ would be a good prefix. The
-function should probably be named drm_fixp_s16_16 from_fraction() then,
-but then the same logic should possibly be replicated to ensure optimal
-precision. I wonder if it wouldn't be best to simply use
-drm_fixp_from_fraction() and shift the result right by 16 bits.
+and honestly, that just hurts to look at. It's completely wrong, even
+if it happens to work on a little-endian machine.
 
-> +{
-> +	return (mult << 16) / div;
-> +}
-> +
->  #endif
+Yes, yes, BE is irrelevant, and doubly so for an AMD GPU driver, but still.
 
--- 
-Regards,
+It's assigning a 8-bit value to a 32-bit entity by doing a pointer
+cast on the address, and then mixing things up by using/assigning to
+that same field.
 
-Laurent Pinchart
+That's just *wrong* and nasty.
+
+Oh, the resolution would be easy - just take that broken code as-is -
+but I can't actually make myself do that.
+
+So I fixed it up to not be that incredibly ugly garbage.
+
+Please holler if I did something wrong.
+
+             Linus
