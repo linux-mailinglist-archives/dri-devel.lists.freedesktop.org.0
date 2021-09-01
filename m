@@ -1,109 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1A83FCFA5
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 00:47:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 424853FD049
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 02:25:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C73BC8912D;
-	Tue, 31 Aug 2021 22:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02A6989F4F;
+	Wed,  1 Sep 2021 00:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0918A8912D
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 22:47:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630450026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7/wf0dWM2AVPSdi3Bhn+aKs+Xl0MyRli1xt2vcgD0ys=;
- b=VvjBmz2M9rKd/GzS/RH3CpgEDjO96kgS4mVG1wNHIy9Km1ljZ/ww7fdNwewBKreDV8TyZQ
- EA6vYJwNX2suZmSd7nBcSI/1Stl5+MOMgYQYg8xB2nHf/gbXTslZwRieFcSTzSR4rzNFzT
- bh7aW7E6/eQGXiujMJ16cMAjMbFyJ+M=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-hYucij8GPHCUDioLr_BbSA-1; Tue, 31 Aug 2021 18:47:05 -0400
-X-MC-Unique: hYucij8GPHCUDioLr_BbSA-1
-Received: by mail-qv1-f72.google.com with SMTP id
- l3-20020a056214104300b00366988901acso1171304qvr.2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Aug 2021 15:47:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=7/wf0dWM2AVPSdi3Bhn+aKs+Xl0MyRli1xt2vcgD0ys=;
- b=a4wiyuQlcFqYD8xpvjZqMzD2IONxMkCVu1EKE2fOxFo3yuYovrwJUqGuNEje5blEOI
- NjJJkNyW5C6VRraDbemIJTrf4XMKilj0TntpDRRyJ5wT3H/OUwrKwGjcoRjY96FAYJns
- NokKeKawoiX2unY4tB3Hc1NrtQm8kgKqAZne12ErS2d8vdyJZr/Axk7PWXVAlNnZljX5
- ZjzutRqYsXL6UUzkNbCd5fLrfuKl5YvxChQdGeZzAz1CSDUe7d65xFNv8dbj3Mqqj7wt
- eg5vMPeSx66bvM+5/BF298w7cmKNJC7jpYxxWEA2UEbqLWtzX1BJ/7S7Wt66hLEbmilY
- ZwQQ==
-X-Gm-Message-State: AOAM533Jenr4vaCXzDJtbwxD6KqXc2z9iaDSWyYXn/dBVVYzb4sPQf5q
- VnIGJIDh19NqKaRpnLdjitp/6lRTk1epD48P/4iYEz5ezh/shHbdKE43sjOF8Gderl1pGVIEomo
- AOvH9/lR53mpZxwEyrVFsq7XfEXSg
-X-Received: by 2002:a05:620a:1582:: with SMTP id
- d2mr5396989qkk.268.1630450024532; 
- Tue, 31 Aug 2021 15:47:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzAyWFiQoCgN30DgcJpzh5Z6bSiZ+3UsKEZJO24HzLOtK9027pz/YSru+VTyOeDzu6KeCLn2Q==
-X-Received: by 2002:a05:620a:1582:: with SMTP id
- d2mr5396978qkk.268.1630450024340; 
- Tue, 31 Aug 2021 15:47:04 -0700 (PDT)
-Received: from [192.168.8.104] (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id x2sm11340891qtr.6.2021.08.31.15.47.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 15:47:03 -0700 (PDT)
-Message-ID: <a0a8ce9d25cc5b68e14384329e8c635e546cee90.camel@redhat.com>
-Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected end
- device
-From: Lyude Paul <lyude@redhat.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Cc: "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>, "Wentland, Harry"
- <Harry.Wentland@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Wu, Hersen"
- <hersenxs.wu@amd.com>, Juston Li <juston.li@intel.com>, Imre Deak
- <imre.deak@intel.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?=
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- Sean Paul <sean@poorly.run>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Siqueira, Rodrigo"
- <Rodrigo.Siqueira@amd.com>,  "Pillai, Aurabindo"
- <Aurabindo.Pillai@amd.com>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- "Cornij, Nikola" <Nikola.Cornij@amd.com>, Jani Nikula
- <jani.nikula@intel.com>, Manasi Navare <manasi.d.navare@intel.com>, Ankit
- Nautiyal <ankit.k.nautiyal@intel.com>,  =?ISO-8859-1?Q?Jos=E9?= Roberto de
- Souza <jose.souza@intel.com>, Sean Paul <seanpaul@chromium.org>, Ben Skeggs
- <bskeggs@redhat.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>
-Date: Tue, 31 Aug 2021 18:47:02 -0400
-In-Reply-To: <CO6PR12MB5489987336A4D5DF83C4FD3CFCC69@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20210720160342.11415-1-Wayne.Lin@amd.com>
- <20210720160342.11415-3-Wayne.Lin@amd.com>
- <69a5f39580f0d3519468f45ecbfd50d7ad1b3036.camel@redhat.com>
- <292d6ead03d6afe54f81d52f705e38bbf9feb7bd.camel@redhat.com>
- <SJ0PR12MB550410E529057F59023153D9FCF19@SJ0PR12MB5504.namprd12.prod.outlook.com>
- <2012d26bb2bece43e65ce435e6ba03f1d8767f61.camel@redhat.com>
- <CO6PR12MB5489274038BFF71A80EA9ECEFCF89@CO6PR12MB5489.namprd12.prod.outlook.com>
- <cd24fffcbda28ffc6734fb6d6d28b39e8782e0dd.camel@redhat.com>
- <CO6PR12MB548965A84DF69BAC30F74AC5FCC19@CO6PR12MB5489.namprd12.prod.outlook.com>
- <db10eb95b1ec7e822c7379d310c54975810acd2b.camel@redhat.com>
- <CO6PR12MB548913A9CC63A199BBBD6545FCC49@CO6PR12MB5489.namprd12.prod.outlook.com>
- <6a0868a8ce6befd5f7ddea3481e70285079fcb6a.camel@redhat.com>
- <CO6PR12MB5489987336A4D5DF83C4FD3CFCC69@CO6PR12MB5489.namprd12.prod.outlook.com>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD0B89DA8;
+ Wed,  1 Sep 2021 00:24:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nia3CAG98kU2TwIoha/f7Vz4ov75yAqUtcgLlWmztInQzr2wPy4pYnH7YSce9n+cuF/SKHUWy+PjpE32reICiwwzKTT9w0zkhZFW2OHhP4UMQHIvd0RylM7IH92YiE15d9HfWcEzQjCHIHnMbAYO5m43tIeuljHKZxnXtl1sNHE2hDbOqptw+4tIAo8ISYIFdQeSG5G9klysLNBV+scIyzqAbEqPvCebrHmIKBBV2dpKrxvemhX92Wpf8KtS82DKanPmSBn52zHE+hENUp9ls44r2IC6smNPFs5kwxqsJ9S1uF92jiEFawjw3wo8vhjKqmy82YyYszf1S2s0oP+89A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=L1Uaw/73VMkWwAa31kXYPkk8nzJI/Q4QS7dwWazt1JU=;
+ b=VtxUo6cDaJYcEOybWMrVuY9AH5eQxukhyOo97618p5BjxVV8uqfimE24hTnBz0A1NbAKjLK/uVw11TO61ZrLQ1YLrcTpUpx4oTfY8WL+MJnG1T07ettiJHQKDTc40nR3s/5yZvjVZX/JaTsRmm3Q5UgnHnLrbBp1kTXrorMQL7bKlRDXG+CZjes8anxRObvf5j9NgMNbjmgsYZISFY2OGvO51Tij9spssHoV8rmbaOc1X+FUXbxHxlbjEbhm4PJxQgHyZwsKvJSMFX1+sWVnFIzxRCpnUL74AvfULERLlrQUXc/bJgs6clkNxDKuPEviTQ2oT+1Xfn5vH8uq41B8cg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L1Uaw/73VMkWwAa31kXYPkk8nzJI/Q4QS7dwWazt1JU=;
+ b=bCtbN9PRW2HgzCImN/bwgAM0Zt/xwIK10rA99rJCw2PPu22F0utRNXXz6i4k3Nn7maBo+ZxVRYTMieMkqJ0YpuQOBQawGjzpwPLgD4N+LDymfAmA1J6O4duxyrcXXgyQMN5G4qD5O1LOblHjpJllJstzwWEnfT53h1kZUSqwIpY=
+Received: from BL1PR12MB5269.namprd12.prod.outlook.com (2603:10b6:208:30b::20)
+ by BL1PR12MB5378.namprd12.prod.outlook.com (2603:10b6:208:31d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.17; Wed, 1 Sep
+ 2021 00:24:51 +0000
+Received: from BL1PR12MB5269.namprd12.prod.outlook.com
+ ([fe80::acc6:c407:1353:6a]) by BL1PR12MB5269.namprd12.prod.outlook.com
+ ([fe80::acc6:c407:1353:6a%5]) with mapi id 15.20.4457.024; Wed, 1 Sep 2021
+ 00:24:51 +0000
+From: "Liu, Monk" <Monk.Liu@amd.com>
+To: "Liu, Monk" <Monk.Liu@amd.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH 1/2] drm/sched: fix the bug of time out calculation(v3)
+Thread-Topic: [PATCH 1/2] drm/sched: fix the bug of time out calculation(v3)
+Thread-Index: AQHXnlP03r7KbMowyEq+U+g7v0FK2quOUrDQ
+Date: Wed, 1 Sep 2021 00:24:50 +0000
+Message-ID: <BL1PR12MB526965057AF19DCC9A8860EA84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
+References: <1630406139-19621-1-git-send-email-Monk.Liu@amd.com>
+In-Reply-To: <1630406139-19621-1-git-send-email-Monk.Liu@amd.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-09-01T00:24:46Z; 
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
+ Only-AIP 2.0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=433e92c1-6c99-4542-a5a0-26f7594dc5a6;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
+authentication-results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 44dc0472-7362-4a57-9117-08d96cdee9cd
+x-ms-traffictypediagnostic: BL1PR12MB5378:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BL1PR12MB5378259265541C29927DC00284CD9@BL1PR12MB5378.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1265;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Ui8ZuIUvyQNVdENJzdK8E2Ad3N4Mhw19ovHgCTRFtGAOEZ6gEsmaOiSDLWtvgahXfah7bO2L9DLDpthy04ouvRllHs5gJFj9Miy6vNbJ3LkiwYMdxPL+y+qyl4yCJVRiVnkc4Va4PRBdcCUroxhPnpgLf8AGWO7X+MfhvoDn6WbigR/EPJ1JM9MaO2ibZFf+8G7qfayOU6g9itlyZpnd1LKkip/whYb+s6gCmJwBOyDL2VB3wQ+gjVqn/12OzgtGkCQ7qHlIWCzO09AVzlCbqz7uZ91o/PzDefgqTmTUpMBzE5ZyZLNLZT5cDeFRDrB+9D3A2qBSLlZN8zEDSZHVJEIzZBnEI00bktng7z9D5+Dsiahzxyfy58hbOLAMxuZydg9q3dnEK3c/uTElH3K5lNAduYI/9T1xBVKEyLxsYjmmcnGRhIBKuen7d2Vl8NL9VotNxI9NI1/I79IYEU1cr110wdVKaHek10fNgYkHcQ5461I+p3sQVssPIAXDy1edheHOu1p3onoqUYpEQFUIQQVRXKNbZNa8KQHLsp5ciIGRzyzAmXcG0o1NXa+OrYoLrUUGf8B29fNINvUQ2Rdfzcok88RlrH7DHUB0x3vws7T4bUs3fo2uCTCVgeuYU78jULkA5/Hg+83fVPnqfnZpkAzFf9rDUOgZ3v6cXL5TNqR6Dp7z27z037LpB+5K5GhHIc5DUFYjroQznZyCJn+A8w==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5269.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(346002)(376002)(39860400002)(136003)(8936002)(66556008)(66446008)(4326008)(38070700005)(66476007)(83380400001)(33656002)(2906002)(76116006)(64756008)(7696005)(450100002)(478600001)(186003)(71200400001)(6506007)(38100700002)(9686003)(66946007)(86362001)(55016002)(52536014)(316002)(110136005)(122000001)(5660300002)(26005)(53546011)(8676002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AlgusgEiWGoL+LJh2CJypN9NDdRxGZ87yXN3pxtv6aJStG5YWKPEG2LGRB2s?=
+ =?us-ascii?Q?47pArKj28+RRfHH6B3enjmxKdGYrdW0NZHCrgN9b+6FfihOxsft+swRjcGmS?=
+ =?us-ascii?Q?X4MooPWsKjHUl2yc0Y1mwZC89XWx3c1qjSK2dKbffqXPfaZieFOJlfGHP27r?=
+ =?us-ascii?Q?cBYGnIeaK+zJVV/VGgLgM0l+rpP77cwod0fiy3QfCVfsH/ZlMewOko9vNJHY?=
+ =?us-ascii?Q?qAPRAfCDs7UYbwbSArPr+LJOIuHnzFnpdCoGXXej1krnOlUOO3KCQkHt27z9?=
+ =?us-ascii?Q?SCUOIUwv2p9RvZdnpzmXWfJiCfjD5muEJARBjK8KnLomvR+kxpk/VXAT9YEE?=
+ =?us-ascii?Q?yw4bzAqCNFRYtz6LyGFiIu9ZuTTw5RB8+P9SoWxwVO+3delQ+69Q8BLzskuK?=
+ =?us-ascii?Q?gkIaUpuBR8QhgJfJtdTMwJB3fGn9N7KAe6Xy9YFUc5nS0Rv7zNFgJzSt2tqX?=
+ =?us-ascii?Q?bTmemkXwCwervC7eO8EK/qooNqoPlnH/kFilFc+oImmEOMuaKlhDFjN0TKOT?=
+ =?us-ascii?Q?1msU2hSMkRAHinowXG9Fu9jY8Guk6zxHjKawXo4X36yb/6HzBvqNPrO2Rhu7?=
+ =?us-ascii?Q?c1Rx8ymVHcK8jsf4ZQ0LTTr625RArHrGtwOAx9mIqperMTrtNDxAJlYihqWc?=
+ =?us-ascii?Q?I0hS/g1Dyw2xxIbl0jfqT1lupCyaB0lmsj1bfc9DfM7FL0e8vrTVCdW+D2A3?=
+ =?us-ascii?Q?jW+nmFabvMOF/nNoNLVxA5KaQbk8NidMyMa3ylIa07QK3tUhy3+RP1ws3Rz9?=
+ =?us-ascii?Q?WqdmJ8dK0oLBAEbz3xA0uQ32RZOUf/Lfe4JF12YjbazqtxZitC51z69eZ7t4?=
+ =?us-ascii?Q?kIyAMNk6s1/CzzYHr3LA+yqTFjoEGRXuPtdCMkKEfn+jSQLHHRP/jWx3upAz?=
+ =?us-ascii?Q?71NVmSqFh/5YqbMVEdw7yQh2ul+fr/OVrNkOqpkjNkvlMShJsLIo1FlLudno?=
+ =?us-ascii?Q?ZMFE8IIfhG5sI+xqhZLI1AgyMk6XSAcdrE4LKpJFPxjHrHtGSLoQn1jsn9LM?=
+ =?us-ascii?Q?F6+wZPxZyMLcU0psNDpyxtjpyxQBCG03kwBBgnkLmDL/AcFLYhmGGKIC5Do7?=
+ =?us-ascii?Q?OqUmc9PqyjRJVf7qNRnBWCkgFrfR6slQCdbrOORJAc28TSu3BAODb1zD/91O?=
+ =?us-ascii?Q?o3b2JIMfBRM16dcfPIahF5iybaqTroWqWCChR73qwtvvqfE1Oph4F8b/l5Ct?=
+ =?us-ascii?Q?9oR4eUGbJQMV/AuTz+QZ41FhEQUmnZBcXnbHFcR3ap+hYXcChrMniyQ7vP6z?=
+ =?us-ascii?Q?XlOp6t4DftHOvSSLvK4edFItf8u+5BMVeKxxZapLJEmC3Zuwpguk0hloOGI8?=
+ =?us-ascii?Q?RsjHft+4mlooCDa1zjilnnbx?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5269.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44dc0472-7362-4a57-9117-08d96cdee9cd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2021 00:24:50.9245 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fn8jtcag+3D0BOoOi4M3wdhRTXadj0V07zIhRgDX02szK6TuEKB9XtLht0kDuspd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5378
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,270 +127,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(I am going to try responding to this tomorrow btw. I haven't been super busy
-this week, but this has been a surprisingly difficult email to respond to
-because I need to actually need to do a deep dive some of the MST helpers
-tomorrow to figure out more of the specifics on why I realized we couldn't
-just hot add/remove port->connector here).
+[AMD Official Use Only]
 
-On Wed, 2021-08-25 at 03:35 +0000, Lin, Wayne wrote:
-> [Public]
-> 
-> > -----Original Message-----
-> > From: Lyude Paul <lyude@redhat.com>
-> > Sent: Tuesday, August 24, 2021 5:18 AM
-> > To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org
-> > Cc: Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Wentland, Harry
-> > <Harry.Wentland@amd.com>; Zuo, Jerry
-> > <Jerry.Zuo@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Juston Li
-> > <juston.li@intel.com>; Imre Deak <imre.deak@intel.com>;
-> > Ville Syrjälä <ville.syrjala@linux.intel.com>; Daniel Vetter
-> > <daniel.vetter@ffwll.ch>; Sean Paul <sean@poorly.run>; Maarten Lankhorst
-> > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
-> > Thomas Zimmermann <tzimmermann@suse.de>;
-> > David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Deucher,
-> > Alexander <Alexander.Deucher@amd.com>; Siqueira,
-> > Rodrigo <Rodrigo.Siqueira@amd.com>; Pillai, Aurabindo
-> > <Aurabindo.Pillai@amd.com>; Bas Nieuwenhuizen
-> > <bas@basnieuwenhuizen.nl>; Cornij, Nikola <Nikola.Cornij@amd.com>; Jani
-> > Nikula <jani.nikula@intel.com>; Manasi Navare
-> > <manasi.d.navare@intel.com>; Ankit Nautiyal <ankit.k.nautiyal@intel.com>;
-> > José Roberto de Souza <jose.souza@intel.com>; Sean
-> > Paul <seanpaul@chromium.org>; Ben Skeggs <bskeggs@redhat.com>;
-> > stable@vger.kernel.org
-> > Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected
-> > end device
-> > 
-> > [snip]
-> > 
-> > I think I might still be misunderstanding something, some comments below
-> > 
-> > On Mon, 2021-08-23 at 06:33 +0000, Lin, Wayne wrote:
-> > > > > Hi Lyude,
-> > > > > 
-> > > > > Really thankful for willing to explain in such details. Really
-> > > > > appreciate.
-> > > > > 
-> > > > > I'm trying to fix some problems that observed after these 2
-> > > > > patches
-> > > > > * 09b974e8983 drm/amd/amdgpu_dm/mst: Remove ->destroy_connector()
-> > > > > callback
-> > > > > * 72dc0f51591 drm/dp_mst: Remove
-> > > > > drm_dp_mst_topology_cbs.destroy_connector
-> > > > > 
-> > > > > With above patches, we now change to remove dc_sink when connector
-> > > > > is about to be destroyed. However, we found out that connectors
-> > > > > won't get destroyed after hotplugs. Thus, after few times
-> > > > > hotplugs, we won't create any new dc_sink since number of sink is
-> > > > > exceeding our limitation. As the result of that, I'm trying to
-> > > > > figure out why the refcount of connectors won't get zero.
-> > > > > 
-> > > > > Based on my analysis, I found out that if we connect a sst monitor
-> > > > > to a mst hub then connect the hub to the system, and then unplug
-> > > > > the sst monitor from the hub. E.g.
-> > > > > src - mst hub - sst monitor => src - mst hub  (unplug) sst monitor
-> > > > > 
-> > > > > Within this case, we won't try to put refcount of the sst monitor.
-> > > > > Which is what I tried to resolve by [PATCH 3/4].
-> > > > > But here comes a problem which is confusing me that if I can
-> > > > > destroy connector in this case. By comparing to another case, if
-> > > > > now mst hub is connected with a mst monitor like this:
-> > > > > src - mst hub - mst monitor => src - mst hub  (unplug) mst monitor
-> > > > > 
-> > > > > We will put the topology refcount of mst monitor's branching unit
-> > > > > in and
-> > > > > drm_dp_port_set_pdt() and eventually call
-> > > > > drm_dp_delayed_destroy_port() to unregister the connector of the
-> > > > > logical port. So following the same rule, I think to dynamically
-> > > > > unregister a mst connector is what we want and should be
-> > > > > reasonable to also destroy sst connectors in my case. But this
-> > > > > conflicts the idea what we have here. We want to create connectors
-> > > > > for all output ports.
-> > > > > So if dynamically creating/destroying connectors is what we want,
-> > > > > when is the appropriate time for us to create one is what I'm
-> > > > > considering.
-> > > > > 
-> > > > > Take the StartTech hub DP 1to4 DP output ports for instance. This
-> > > > > hub, internally, is constructed by  3 1-to-2 mst branch chips. 2
-> > > > > output ports of 1st chip are hardwired to another 2 chips. It's
-> > > > > how it makes it to support 1-to-4 mst branching. So within this
-> > > > > case, the internal
-> > > > > 2 output ports of 1st chip is not connecting to a stream sink and
-> > > > > will never get connected to one.  Thus, I'm thinking maybe the
-> > > > > best timing to attach a connector to a port is when the port is
-> > > > > connected, and the connected PDT is determined as a stream sink.
-> > > > > 
-> > > > > Sorry if I misunderstand anything here and really thanks for your
-> > > > > time to shed light on this : ) Thanks Lyude.
-> > > > 
-> > > > It's no problem, it is my job after all! Sorry for how long my
-> > > > responses have been taking, but my plate seems to be finally
-> > > > clearing up for the foreseeable future.
-> > > > 
-> > > > That being said - it sounds like with this we still aren't actually
-> > > > clear on where the topology refcount leak is happening - only when
-> > > > it's happening, which says to me that's the issue we really need to
-> > > > be figuring out the cause of as opposed to trying to workaround it.
-> > > > 
-> > > > Actually - refcount leaks is an issue I've ran into a number of
-> > > > times before in the past, so a while back I actually added some nice
-> > > > debugging features to assist with debugging leaks. If you enable the
-> > > > following options in your kernel config:
-> > > > 
-> > > > CONFIG_EXPERT=y # This must be set first before the next option
-> > > > CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS=y
-> > > > 
-> > > > Unfortunately, I'm suddenly realizing after typing this that
-> > > > apparently I never bothered adding a way for us to debug the
-> 
-> > > > refcounts of ports/mstbs that haven't been released yet - only the
-> > > > ones for ones that have. This shouldn't be difficult at all for me
-> > > > to add, so I'll send you a patch either today or at the start of
-> > > > next week to try debugging with using this, and then we can figure
-> > > > out where this leak is really coming from.
-> > > 
-> > > Thanks Lyude!
-> > > 
-> > > Sorry to bother you, but I would like to clarify this again.  So it
-> > > sounds
-> > 
-> > It's no problem! It's my job and I'm happy to help :).
-> 
-> Thanks!
-> I would like to learn more from you as below : p
-> > 
-> > > like you also agree that we should destroy associated connector
-> > 
-> > Not quite. I think a better way of explaining this might be to point out
-> > that the lifetime of an MST port and its connector isn't supposed
-> > to be determined by whether or not it has something plugged into it - its
-> > lifetime is supposed to depend on whether there's a valid
-> > path from us down the MST topology to the port we're trying to reach. So
-> > an MSTB with ports that is unplugged would destroy all of
-> > its ports - but an unplugged port should just be the same as a
-> > disconnected DRM connector - even if the port itself is just hosting a
-> > branching device.
-> 
-> This is the part a bit difficult to me. I treat DRM connector as the place
-> where we associate with a stream sink. So if the statement
-> is "All DP mst output ports are places we connect with stream sink", I would
-> say false to this since I can find the negative example when
-> output port is connected with mst branch device. Thus, looks like we could
-> only determine whether to create a connector for an output
-> port when the peer device type is known?
-> > 
-> > Additionally - we don't want to try "delaying" connector creation either.
-> > In the modern world hotplugging is almost always reliable in
-> > normal situations, but even so there's still use cases for wanting force
-> > probing for analog devices on DP converters and just in general
-> > as it's a feature commonly used by developers or users working around
-> > monitors with problematic HPD issues or EDID issues.
-> 
-> I think I understand that why we want to create connectors for all output
-> ports here. But under these mentioned use cases, aren't we still
-> capable to force connector to enable stream? MST hub with muti-functon
-> capability, it will enumerate connected virtual DP peer device.
-> For problematic HPD issues or EDID issues, their connection status is also
-> connected.
-> 
-> My understanding of output port is it is an internal node to help construct
-> an end-to-end virtual channel between a stream source device
-> and a stream sink device. Creating connectors for internal nodes within a
-> virtual channel is a bit hard for me to get the idea. Please correct
-> me if I misunderstand anything here. Thanks Lyude!
-> > 
-> > > when we unplug sst monitor from a mst hub in the case that I
-> > > described? In the case I described (unplug sst monitor), we only
-> > > receive CSN from the hub that notifying us the connection status of
-> > > one of its downstream output ports is changed to disconnected. There
-> > > is no topology refcount needed to be decreased on this disconnected
-> > > port but the malloc refcount. Since the output port is still declared
-> > > by
-> > 
-> > Apologies - I misunderstood your original mail as implying that topology
-> > refcounts were being leaked - but it sounds like it's actually
-> > malloc refcounts being leaked instead? In any case - that means we're
-> > still tracing down a leak, just a malloc ref leak.
-> > 
-> > But, this still doesn't totally make sense to me. Malloc refs only keep
-> > the actual drm_dp_mst_port/drm_dp_mst_branch struct alive in
-> > memory.
-> > Nothing else is kept around, meaning the DRM connector (and I assume by
-> > proxy, the dc_sink) should both be getting dropped still
-> > and the only thing that should be leaked is a memory allocation. These
-> > things should instead be dropped once there's no longer any
-> > topology references around. So, are we _sure_ that the problem here is a
-> > missing
-> > drm_dp_mst_port_put_malloc() or drm_dp_mst_mstb_put_malloc()?
-> 
-> Just my two cents, I don't think it's leak of malloc ref neither. As you
-> said, malloc ref is dealing with the last step to free port/mstb.
-> If there is still topology refcount on port/mstb in my case, we won't free
-> port/mstb.
-> > 
-> > If we are unfortunately we don't have equivalent tools for malloc()
-> > tracing. I'm totally fine with trying to add some if we have trouble
-> > figuring out this issue, but I'm a bit suspicious of the commits you
-> > mentioned that introduced this problem. If the problem doesn't
-> > happen until those two commits, then it's something in the code changes
-> > there that are causing this problem.
-> 
-> I think we probably also have the problem before these commits, but we
-> didn't notice this before. Just when we change to clean up all
-> things in dm_dp_mst_connector_destroy(), I start to try to figure out all
-> these things out.
-> > 
-> > The main thing I'm suspicious of just from looking at changes in
-> > 09b974e8983a4b163d4a406b46d50bf869da3073 is that the call to
-> > amdgpu_dm_update_freesync_caps() that was previously in
-> > dm_dp_destroy_mst_connector() appears to be dropped and not re-added in
-> > (oh dear, this is a /very/ confusingly similar function
-> 
-> Lol. I also have hard time on this..
-> > name!!!) dm_dp_mst_connector_destroy(). I don't remember if this was
-> > intentional on my part, but does adding a call back to
-> > amdgpu_dm_update_freesync_caps() into dm_dp_destroy_mst_connector() right
-> > before the dc_link_remove_remote_sink() call fix
-> > anything?
-> > 
-> > As well, I'm far less suspicious of this one but does re-adding this
-> > hunk:
-> > 
-> >       aconnector->dc_sink = NULL;
-> >       aconnector->dc_link->cur_link_settings.lane_count = 0;
-> > 
-> > After dc_sink_release() fix anything either?
-> 
-> So the main problem is we don't have chance to call
-> dc_link_remove_remote_sink() in the unplugging SST case. We only have chance
-> to
-> remove the remote sink of a link when unplug a mstb.
-> > 
-> > > the mst hub,  I think we shouldn't destroy the port. Actually, no
-> > > ports nor mst branch devices should get destroyed in this case I think.
-> > > The result of LINK_ADDRESS is still the same before/after removing the
-> > > sst monitor except the DisplayPort_Device_Plug_Status/
-> > > Legacy_Device_Plug_Status.
-> > > 
-> > > Hence, if you agree that we should put refcount of the connector of
-> > > the disconnected port within the unplugging sst monitor case to
-> > > release the allocated resource, it means we don't want to create
-> > > connectors for those disconnected ports. Which conflicts current flow
-> > > to create connectors for all declared output ports.
-> > > 
-> > > Thanks again for your time Lyude!
-> > 
-> > --
-> > Cheers,
-> >  Lyude Paul (she/her)
-> >  Software Engineer at Red Hat
-> --
-> Regards,
-> Wayne
-> 
+Ping Christian, Andrey
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Can we merge this patch first ? this is a standalone patch for the timer=20
 
+Thanks=20
+
+------------------------------------------
+Monk Liu | Cloud-GPU Core team
+------------------------------------------
+
+-----Original Message-----
+From: Monk Liu <Monk.Liu@amd.com>=20
+Sent: Tuesday, August 31, 2021 6:36 PM
+To: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org; Liu, Monk <Monk.Liu@amd.com>
+Subject: [PATCH 1/2] drm/sched: fix the bug of time out calculation(v3)
+
+issue:
+in cleanup_job the cancle_delayed_work will cancel a TO timer even the its =
+corresponding job is still running.
+
+fix:
+do not cancel the timer in cleanup_job, instead do the cancelling only when=
+ the heading job is signaled, and if there is a "next" job we start_timeout=
+ again.
+
+v2:
+further cleanup the logic, and do the TDR timer cancelling if the signaled =
+job is the last one in its scheduler.
+
+v3:
+change the issue description
+remove the cancel_delayed_work in the begining of the cleanup_job recover t=
+he implement of drm_sched_job_begin.
+
+TODO:
+1)introduce pause/resume scheduler in job_timeout to serial the handling of=
+ scheduler and job_timeout.
+2)drop the bad job's del and insert in scheduler due to above serialization=
+ (no race issue anymore with the serialization)
+
+tested-by: jingwen <jingwen.chen@@amd.com>
+Signed-off-by: Monk Liu <Monk.Liu@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 25 ++++++++++---------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sched=
+uler/sched_main.c
+index a2a9536..ecf8140 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -676,13 +676,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sc=
+hed)  {
+ 	struct drm_sched_job *job, *next;
+=20
+-	/*
+-	 * Don't destroy jobs while the timeout worker is running  OR thread
+-	 * is being parked and hence assumed to not touch pending_list
+-	 */
+-	if ((sched->timeout !=3D MAX_SCHEDULE_TIMEOUT &&
+-	    !cancel_delayed_work(&sched->work_tdr)) ||
+-	    kthread_should_park())
++	if (kthread_should_park())
+ 		return NULL;
+=20
+ 	spin_lock(&sched->job_list_lock);
+@@ -693,17 +687,21 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *s=
+ched)
+ 	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+ 		/* remove job from pending_list */
+ 		list_del_init(&job->list);
++
++		/* cancel this job's TO timer */
++		cancel_delayed_work(&sched->work_tdr);
+ 		/* make the scheduled timestamp more accurate */
+ 		next =3D list_first_entry_or_null(&sched->pending_list,
+ 						typeof(*next), list);
+-		if (next)
++
++		if (next) {
+ 			next->s_fence->scheduled.timestamp =3D
+ 				job->s_fence->finished.timestamp;
+-
++			/* start TO timer for next job */
++			drm_sched_start_timeout(sched);
++		}
+ 	} else {
+ 		job =3D NULL;
+-		/* queue timeout for next job */
+-		drm_sched_start_timeout(sched);
+ 	}
+=20
+ 	spin_unlock(&sched->job_list_lock);
+@@ -791,11 +789,8 @@ static int drm_sched_main(void *param)
+ 					  (entity =3D drm_sched_select_entity(sched))) ||
+ 					 kthread_should_stop());
+=20
+-		if (cleanup_job) {
++		if (cleanup_job)
+ 			sched->ops->free_job(cleanup_job);
+-			/* queue timeout for next job */
+-			drm_sched_start_timeout(sched);
+-		}
+=20
+ 		if (!entity)
+ 			continue;
+--
+2.7.4
