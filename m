@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBBD3FE154
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 19:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7D93FE185
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 19:54:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDC396E223;
-	Wed,  1 Sep 2021 17:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6DF6E226;
+	Wed,  1 Sep 2021 17:54:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C06F6E21D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 17:43:52 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 6F52420115;
- Wed,  1 Sep 2021 19:43:50 +0200 (CEST)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-To: robdclark@gmail.com
-Cc: sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- dmitry.baryshkov@linaro.org, abhinavk@codeaurora.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- konrad.dybcio@somainline.org, marijn.suijten@somainline.org,
- martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, paul.bouchara@somainline.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Subject: [PATCH 2/2] drm/msm/dpu: Fix timeout issues on command mode panels
-Date: Wed,  1 Sep 2021 19:43:47 +0200
-Message-Id: <20210901174347.1012129-2-angelogioacchino.delregno@somainline.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210901174347.1012129-1-angelogioacchino.delregno@somainline.org>
-References: <20210901174347.1012129-1-angelogioacchino.delregno@somainline.org>
+Received: from rosenzweig.io (rosenzweig.io [138.197.143.207])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BCB56E22F
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 17:54:48 +0000 (UTC)
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Subject: [PATCH 1/5] drm: Add drm_fixed_16_16 helper
+Date: Wed,  1 Sep 2021 13:54:27 -0400
+Message-Id: <20210901175431.14060-1-alyssa@rosenzweig.io>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,40 +53,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In function dpu_encoder_phys_cmd_wait_for_commit_done we are always
-checking if the relative CTL is started by waiting for an interrupt
-to fire: it is fine to do that, but then sometimes we call this
-function while the CTL is up and has never been put down, but that
-interrupt gets raised only when the CTL gets a state change from
-0 to 1 (disabled to enabled), so we're going to wait for something
-that will never happen on its own.
+This constructs a fixed 16.16 rational, useful to specify the minimum
+and maximum scaling in drm_atomic_helper_check_plane_state. It is
+open-coded as a macro in multiple drivers, so let's share the helper.
 
-Solving this while avoiding to restart the CTL is actually possible
-and can be done by just checking if it is already up and running
-when the wait_for_commit_done function is called: in this case, so,
-if the CTL was already running, we can say that the commit is done
-if the command transmission is complete (in other terms, if the
-interface has been flushed).
-
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/drm/drm_fixed.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index aa01698d6b25..b5b1b555ac4e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -682,6 +682,9 @@ static int dpu_encoder_phys_cmd_wait_for_commit_done(
- 	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
- 		return 0;
- 
-+	if (phys_enc->hw_ctl->ops.is_started)
-+		return dpu_encoder_phys_cmd_wait_for_tx_complete(phys_enc);
-+
- 	return _dpu_encoder_phys_cmd_wait_for_ctl_start(phys_enc);
+diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
+index 553210c02ee0..df1f369b4918 100644
+--- a/include/drm/drm_fixed.h
++++ b/include/drm/drm_fixed.h
+@@ -208,4 +208,9 @@ static inline s64 drm_fixp_exp(s64 x)
+ 	return sum;
  }
  
++static inline int drm_fixed_16_16(s32 mult, s32 div)
++{
++	return (mult << 16) / div;
++}
++
+ #endif
 -- 
-2.32.0
+2.30.2
 
