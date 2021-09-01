@@ -2,78 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFDF3FD65F
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87043FD714
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:43:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92A706E15E;
-	Wed,  1 Sep 2021 09:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1CE86E165;
+	Wed,  1 Sep 2021 09:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566E46E15E
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:19:33 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id C5760580B23;
- Wed,  1 Sep 2021 05:19:32 -0400 (EDT)
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24A276E165
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:43:54 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6082E5C0226;
+ Wed,  1 Sep 2021 05:43:53 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 01 Sep 2021 05:19:32 -0400
+ by compute2.internal (MEProxy); Wed, 01 Sep 2021 05:43:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=2zOpJG7/H4t6V
- Hd32EAUxgRVWVLyjHJSNvcl3R+xi04=; b=h4H6eXaLJ4C8Gw5L7hSC54JrL5cuc
- Gtv4L8oK0vLokAhX5GASjypGuK50Ild2m0EZGZxXDOjpWGfAusFANofYub24dcZb
- +Y6aC1RoyANnw2RWZeLA09DEji+xT2N8apkgrxna4Ssx/VHjE1PctWNM94dpooRm
- oJ6ltf79U+mod9ChSI2qJYapX26hRYoMfnWy+cd1jbDoZNPdbLAYj1CWu4Ct4nuR
- UXypSY4AhxLxSP3CYQ4KlyPJQLBD6LIMvxePj1o23seWrjvauWWbbOhCSeXNQ78X
- rugMpzkg1ZEmEBtlEWRmAC5PSJKYbQ9Z+3piMzW79BwYJpABLq8SjC0Ow==
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=tPaaO9Wsip2Db1F49Na9e6nwAhl
+ yg/DljRWFcHhYfaA=; b=MUI6wKaH+Q6eJyb4F9yxJlVLHYDLtrZV1DF5cSD86Ml
+ 0MSFORP9DwlD3lCnCsNunqd8BMZkfmajhXTB3ffl5tDz/S6QytXSAlS2DtsX5zUL
+ 7SqPSgBlp6SUndMPt+JAxEgCl2lOdcUFDLzvP7sQjfX5zizvEalaKXfKxpD7hoLS
+ kxfWBfecGDoaj9JIg41RQi8B1P0CkbCUTQZxPc7ROrlLIkrht6KZZiP0NBj1SoLV
+ bXE2n+hcHV0tpcYTKymTCqUNzn+DRmNPjOfju1gzGcm9XrZuoSeTjZqv+0jrpT1h
+ 9BPtj9E872xuyo31w401VWIhDcxX9LG7JDyvi4fai0w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=2zOpJG7/H4t6VHd32EAUxgRVWVLyjHJSNvcl3R+xi04=; b=hgiHE99n
- HABQuY+6USkvPcMTKxh4LRpgodIFWrLSbi7qfcPZLl8bO6gM+KCTGxd+Fs3aYJ51
- STK/VwPythhEfUl1Oq7hdE6akhm7yBY+vCfWEDxnpRbRu4NQR5S3bs46EnEsR9N9
- m5ieN5K27Fgz/jHwbo6QrzzN5o8U31BzXSkR3K5fwyoSt4QAADUt4tLXowuf1yBe
- bNX7C8hrhRAC7qoFYw5P3/3Yj0DrMmLa1N+QOpLJhjSsN2xD7eQoBk71KQm/oR0O
- jJg7dI0sjQU8AMez/OQVJl6vOUvKtdBZwiP4lQV8t0KFzAx74XKR9KElgVI6UxVu
- q8zHTpVCOSkKJw==
-X-ME-Sender: <xms:pEUvYYk3nil1bLQxEqTfzVh9TKb6veuP7yJyM5yhyJ4WPwe1Y6KW8g>
- <xme:pEUvYX3XhCZ0ii8UsNV8eL_M2nCdiyuWvd4hRd32vJg5XAvvPZ7AdaR-HwFUyItmt
- pOGXPvYFFHIvzfqPEw>
-X-ME-Received: <xmr:pEUvYWpmxsR9NzYJw-OB1ndiRAHS6p7gpPF4UHa7FGPIglL_Y47zwxT_4LZN7NoZpWogjXf1raQRUsymm9EcQEGWevi4qEqaSP8A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudehucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=tPaaO9
+ Wsip2Db1F49Na9e6nwAhlyg/DljRWFcHhYfaA=; b=nXU6fk8ywlaTIR487GKrrq
+ noTyW3927OmlxQMstqz+wWt7NECFKo+jumAGMaGlF52UnZX70DULtQwKGLwuRLdZ
+ kGuFpeapXiqz7Z0jpMstkuOia1t9MnfODm2EFsZkCb4lI62zo6J3TkrU8f1IXhuV
+ sfox+gnH6+ej3RGqClEY+Wmq6avGCMLPflXu3XYMrGgx7Oa24cDr0DZz68h6ZIwy
+ bkXU/3SMEYWML6hhTvyXqzKur7rVIkeecdOx6uEZ8Y6AMLUegaHC8msaVBnmI1A6
+ yCIcvIRMhx6y//AaLQrEMA7iJB9S+INq23LfSOsqRaxVhiVSNuip8ET5cSZNSH+g
+ ==
+X-ME-Sender: <xms:VksvYY2mxo4ONXJeb-EpwOG8fM8h75oEvXZE0FodXV6lA5U_pusqjQ>
+ <xme:VksvYTG0KVzYhxfxchBd9iJQUAbiP8fbON3dM-RL1Ji1Fg1VHnvFvH4Of5s5UhUWd
+ sS-FOGrzXsYVHw8Yv0>
+X-ME-Received: <xmr:VksvYQ4XMkiQdN3uPN3l9tU96EqXzZCTpeRsgDTmketqnk2lH4Ch8vKyoUZUfP_8tSGrQGRWyCFrbchsrIEVNftClDaQL_MXjQyj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:pEUvYUlDGKOXy_Ck3xWYfqiot9ZcccDqInL-q1Z7_GuPTd-wa4lDqA>
- <xmx:pEUvYW0AWM9YnNamLQ1lAAQQ3JnBnwX93s0yeg48so_B1dDt6urzdg>
- <xmx:pEUvYbu4PMSmy8eLFrSn4QW0mZof8lX1kf_Vk_x_Qhpf9ceCnsOmsQ>
- <xmx:pEUvYfuHI_dvN6CrcsYX17C6aXzSdOG5d7qBviH18muGIGjbKKjzQQ>
+X-ME-Proxy: <xmx:VksvYR3R1WcdCl4GfcLtCaENcEXhkAq3U5TMrXMtF61qLHLXwDSsMA>
+ <xmx:VksvYbHb6XiyskRzO8J3oRPAvGbGWhYV6jRJdMwSNc6O4pqXofjKvQ>
+ <xmx:VksvYa8sBh2V3lmKgSndrQBd9mn-B5UQ1JmMsKbspNdWppprL0oqCw>
+ <xmx:WUsvYfg4ZHeqFf0N6KINrH6PEjBzDucZBU9QLRjVTU5RFgOIHwXxtg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Sep 2021 05:19:32 -0400 (EDT)
+ 1 Sep 2021 05:43:49 -0400 (EDT)
+Date: Wed, 1 Sep 2021 11:43:48 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Maxime Ripard <maxime@cerno.tech>,
- =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 20/52] dt-bindings: display: panel-lvds: Document missing
- panel compatibles
-Date: Wed,  1 Sep 2021 11:18:20 +0200
-Message-Id: <20210901091852.479202-21-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210901091852.479202-1-maxime@cerno.tech>
-References: <20210901091852.479202-1-maxime@cerno.tech>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/vc4: Make use of the helper function
+ devm_platform_ioremap_resource()
+Message-ID: <20210901094348.tbpyn7cygmlt7zoh@gilmour>
+References: <20210831135903.4931-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="537hztmt54oz6r25"
+Content-Disposition: inline
+In-Reply-To: <20210831135903.4931-1-caihuoqing@baidu.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,34 +86,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A few panel-lvds compatibles were never documented. Let's add them.
 
-Cc: dri-devel@lists.freedesktop.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- Documentation/devicetree/bindings/display/panel/lvds.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+--537hztmt54oz6r25
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-index 1563d57bc793..b2e8f5b263d7 100644
---- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-@@ -73,10 +73,12 @@ properties:
-       - enum:
-           - advantech,idk-1110wr
-           - advantech,idk-2121wr
-+          - auo,b101ew05
-           - innolux,ee101ia-01d
-           - mitsubishi,aa104xd12
-           - mitsubishi,aa121td01
-           - sgd,gktw70sdae4se
-+          - tbs,a711-panel
-       - const: panel-lvds
- 
-   data-mapping:
--- 
-2.31.1
+On Tue, Aug 31, 2021 at 09:59:03PM +0800, Cai Huoqing wrote:
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
+>=20
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
+Applied, thanks
+
+Maxime
+
+--537hztmt54oz6r25
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYS9LVAAKCRDj7w1vZxhR
+xZdVAQCb8y8BWfgy/CsY3VIjfyQOtwIfaSADdy+WoAdBKGVs2QD9GiCse9sedc9m
+Vq+T8eoy/7lBR8i2oBH04vn2bNXqGgM=
+=Pvqy
+-----END PGP SIGNATURE-----
+
+--537hztmt54oz6r25--
