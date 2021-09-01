@@ -1,78 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DDCE3FD716
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:44:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDAE3FD71F
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:44:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4DB66E167;
-	Wed,  1 Sep 2021 09:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE1E6E16F;
+	Wed,  1 Sep 2021 09:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 005DC6E167
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:44:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9C16E16F
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:44:34 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 70FD15C014F;
- Wed,  1 Sep 2021 05:44:05 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 01 Sep 2021 05:44:05 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id 9E9435C0211;
+ Wed,  1 Sep 2021 05:44:33 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 01 Sep 2021 05:44:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=6cqD6nQU5pFx8MAxYYBBxZtH1FT
- T+OpzwxSoVHjjIx8=; b=Jjx+mQGGcl0KfpMh6xBG9jcGkscjv7OVbOWc6HAYONz
- i/zDxG1I1XyZTkJ5cuPlhpAiQjZGl78/YwGXaT8wcOwkxRERAs+m+/LbUFq6Sqil
- nleOQlAWeiSCk1kKuVywYvz29de7sXDCdkyHJWq41sW2Voov+XO7Gko8bxJKElga
- vu3mnoNNhdO2+OmEl98W3EbUmNVfiFUgpuoSxvh+NmYQHeZJKfBy18lmaEoVtyxH
- UUIRMDpflee9nGPOLpam9IW88WtjthcGs3cgAEW+9WVhq4uni/WsjasQx99X2sop
- f+6oxY4pmGss9aBbfcxti782vfg/W1hRNj6DRLRITkQ==
+ :content-type:in-reply-to; s=fm3; bh=ObGIxgtavz3gno3t76LBvmoj5Ql
+ 2fJX6NjBj+UThj6Q=; b=fD9vSbiQMjsju5Wr/6YMldqR0dR7nVHim4kMKlkpg6e
+ N/ddGyhhZs7fQOS46tNWmUZvVhrJRwuj5C1DGlqdF4XjYnL+EJ/13Kgsi4m9O6/E
+ Qu1JHnkKlgykl1gBYgGHzjaly7yN4yQgkqiMRaVk4iGeRg7H5RfRi2oRrrjeJaWh
+ ntH7ve8skERGo5Kn1Ju9i028n2WWnUSq2D1N2j2NDFWryNAxxCt0DpvpjSjACqcC
+ 2WngnQ0ZRtEJTQrw7gs3MCZcadQ5UwZ4M0sPTcSoAhVzwNaqbpt7kqymUIB5lZOW
+ 0nrYtHCLkx6A8okEnYzRVAEMFfOozKKIdzPlA9WnfBw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=6cqD6n
- QU5pFx8MAxYYBBxZtH1FTT+OpzwxSoVHjjIx8=; b=du+Xej6xiP9EGnN59wRQ/a
- Srup81rEW7CptsszqncYW44yweYDS5Yow4Tndzd1Vje9aH23zXdjfL0uDVxb6YcM
- JkAblFPLpPTXv7vp5TjEt1qTs2pxRcnKV9EeOZAo5NHhPOzrZmIV8HmWxeXr6qO0
- Ll8iesTe9SJZ2ygGJFW0qzf2fdI0gmFHKbvYBf6YCWGPNjA9Q29h6fGNSAIC4tlY
- f1147co1vzcWT6BKc/r6xuvdzHrsnp0ZI74dTSOVQ9UALuCdR0tjSfj82GypE5iS
- uSVEz6rLba5bXjvD4xAKORyuTBdIN36jB0n7ZWiChPi9o4MbMqf99EFVLY844WPg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ObGIxg
+ tavz3gno3t76LBvmoj5Ql2fJX6NjBj+UThj6Q=; b=Kf+ltLw9cRH78lTyx0wdM0
+ +wXcWBGj3THi5181qi7Z/j5L2e0Omvf1dNrNjnf2Cv4wEIIbeT8/jGm6QZoCPjXd
+ yzRQUwNeUgq9I8wLNkP6l09eVakoyzbHvyltddc3wANztx+AW4M9pAWzberFmF7J
+ X8IVj990Agr2L/6CQaR3kON1bjTCo75RCMOIfJsiOEtwEXhd8p4lB5s2Vr8kWr16
+ eqVvfWrIFSBgoVhzAaTbiy8xsPV1ShYdBGszZVzA83VibdaJNvJZ6/WVU00p2N4Q
+ 2kL83GgVm/EfAvf+NusQINP9AwHLtxM014jWQpsaNzvL+a5yVvWRrQJAm5p6oZwA
  ==
-X-ME-Sender: <xms:ZEsvYVDH1KnE0bc8Baym3zYXNNAWm3wJOmdSJ72I_in2S2y3Wipv-w>
- <xme:ZEsvYTjZYOBbdprRwYe75IHuNPEkqm0FHDUikMn2Ce5ZWNypHVQmSonr2v5IaEdYC
- oaOzyVdFwXVSbN3hAw>
-X-ME-Received: <xmr:ZEsvYQklZVOEx5MBsBXLLx2nXZeV_DTowQQ42dlenbzDlu9i9uRtcGauwVmqZ3V17W_Ok7UxolH7E9P4lQTU8oA9JqnsbUoFhIPM>
+X-ME-Sender: <xms:gUsvYeFG3KDBUrpUOEtB3pgzpdq6Jzo1DJo0xMRpbUXCe0FnNewUSA>
+ <xme:gUsvYfVv2iI5SR4no5M8O_bOPlUEsJL85kRKdU-q5vnK_A9Jw1c0GAHfvi3H002CP
+ QDC0fP8JakWfA7Jjoo>
+X-ME-Received: <xmr:gUsvYYIh1Lr603A8LAfwA1NGWEooOukZOnOaCP5-CIQHP5OPSAEiNR33FwsJEWYKDmlmg0piabrD9j_oqbAm6sZfEPv0PIAyjGIy>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ gedunecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ZEsvYfxGhphYsEYqMY5S5EZLsCb2iSI-MIPUCIREA0Uv56IupVkhcg>
- <xmx:ZEsvYaRlhskCQbmNGpMbNLLxyLFLbOW2vUico55VB9yRTmumYGEiqQ>
- <xmx:ZEsvYSY7ofla5CHO8g_f4_5nxffjlqRgctqxC-rgEaxjbVlaVtIHlQ>
- <xmx:ZUsvYXQhExoXMwwJPUBJzGcUT3dPtW-8_k6sEuhvWq5b0OlvzFYfQg>
+X-ME-Proxy: <xmx:gUsvYYF8KAdQeuXI97NPjWwpeX4Lb95ZiyZ4GVBgOyti-aKyM1XdXw>
+ <xmx:gUsvYUWtSE1e3WWp3NqcvkhDLZ7RAMg2-ffVkGI7lEn_MWtZXRLdEw>
+ <xmx:gUsvYbNgIEZLky4TK0swAZXMC9H9_Xc6qloa6AgWw_4VPYZC3q2fNw>
+ <xmx:gUsvYYputj4KvjXaczmNAbCZw9J_IaHArtPVAn-vX4Q5RqZFPUf7Ng>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Sep 2021 05:44:03 -0400 (EDT)
-Date: Wed, 1 Sep 2021 11:44:01 +0200
+ 1 Sep 2021 05:44:33 -0400 (EDT)
+Date: Wed, 1 Sep 2021 11:44:32 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: Make use of the helper function
- devm_platform_ioremap_resource()
-Message-ID: <20210901094401.rwaux4lyy3ivn4nc@gilmour>
-References: <20210831135740.4826-1-caihuoqing@baidu.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>,
+ stable <stable@vger.kernel.org>,
+ Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: Re: [PATCH] drm/sun4i: Fix macros in sun8i_csc.h
+Message-ID: <20210901094432.5kc33m2bnmkbjahq@gilmour>
+References: <20210831184819.93670-1-jernej.skrabec@gmail.com>
+ <CAGb2v67TNrkeP438t3nLcquFvGTfS+F0MvBmGAS=qmZ5JZFmag@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="okxolxv65jazku7a"
+ protocol="application/pgp-signature"; boundary="jscf64iuvdbjnile"
 Content-Disposition: inline
-In-Reply-To: <20210831135740.4826-1-caihuoqing@baidu.com>
+In-Reply-To: <CAGb2v67TNrkeP438t3nLcquFvGTfS+F0MvBmGAS=qmZ5JZFmag@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,30 +91,50 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---okxolxv65jazku7a
+--jscf64iuvdbjnile
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 31, 2021 at 09:57:39PM +0800, Cai Huoqing wrote:
-> Use the devm_platform_ioremap_resource() helper instead of
-> calling platform_get_resource() and devm_ioremap_resource()
-> separately
+On Wed, Sep 01, 2021 at 11:13:01AM +0800, Chen-Yu Tsai wrote:
+> On Wed, Sep 1, 2021 at 2:48 AM Jernej Skrabec <jernej.skrabec@gmail.com> =
+wrote:
+> >
+> > Macros SUN8I_CSC_CTRL() and SUN8I_CSC_COEFF() don't follow usual
+> > recommendation of having arguments enclosed in parenthesis. While that
+> > didn't change anything for quiet sometime, it actually become important
 >=20
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+>                              ^ Typo
+>=20
+> > after CSC code rework with commit ea067aee45a8 ("drm/sun4i: de2/de3:
+> > Remove redundant CSC matrices").
+> >
+> > Without this fix, colours are completely off for supported YVU formats
+> > on SoCs with DE2 (A64, H3, R40, etc.).
+> >
+> > Fix the issue by enclosing macro arguments in parenthesis.
+> >
+> > Cc: stable@vger.kernel.org # 5.12+
+> > Fixes: 883029390550 ("drm/sun4i: Add DE2 CSC library")
+> > Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+> Otherwise,
+>=20
+> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 
-Applied, thanks
+Fixed the typo and applied, thanks
 Maxime
 
---okxolxv65jazku7a
+--jscf64iuvdbjnile
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYS9LYQAKCRDj7w1vZxhR
-xX18AP4/IqAB1srwA8hQX/sBqM5thlUz3OEzuv9Pc2S2lAEzLQEAkizux+YgDtIN
-iesfNJpUVVlmUgfshBN/eXr4M/T4Kwo=
-=YXNY
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYS9LgAAKCRDj7w1vZxhR
+xQCQAP4rfWKEyPEnTNdnRgDKYsiznnq7wZw/kcJzMyysWVHTCAD/Th6T6Tj85KFX
+yNQia6HiL+VmJWmGWJtFXjh0G495iwc=
+=nV88
 -----END PGP SIGNATURE-----
 
---okxolxv65jazku7a--
+--jscf64iuvdbjnile--
