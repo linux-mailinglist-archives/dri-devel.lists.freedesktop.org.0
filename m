@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109873FE3B9
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 22:20:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3883FE3BA
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 22:20:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAE836E2D8;
-	Wed,  1 Sep 2021 20:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF2676E2D7;
+	Wed,  1 Sep 2021 20:20:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 358696E2D5
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 20:20:43 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id n18so629604pgm.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 13:20:43 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76BD66E2DC
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 20:20:45 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id e7so676355pgk.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 13:20:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WM1bi4Camo4x38t+lOpl/85fschHMfokf9rT4eUa3DY=;
- b=f+ybnhpuTQ57f3nJIk1Jq6u2MAVamT1UtJdAKIxnQ768VSVBgqG6Rgpu/cw1Utc6sS
- /bMn6sOsWMrckKWPdEB26mmvkyIodgTuwS/D48gj83/BMDRgnzcEwm2ggv/v4v6DHE2j
- 0GxUuSg95a57DDbsxzg/NLj/O5zWdfa38OmFs=
+ bh=GfDSM+2QYHdGcoTm6Pi4I7ZIC6scIIHACy6gHGuwnY8=;
+ b=Z7OOph7EfISY90d/d1EMVTUK48LJIX8PcEf1KO+iwgHqTllE8qUi7C96DtUFo2QHH4
+ ZLbiS6cvDbEzMAUK1IzCClmCC6v+3Jnd55kaB7KfauYJWbwPit+A2ha/X+j8DfBFy0SQ
+ GFSzO2wxoJc+9/iEDN4sulhfxUjS7+z1zQdm8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WM1bi4Camo4x38t+lOpl/85fschHMfokf9rT4eUa3DY=;
- b=dE9tSRaHvdnice4/cW5VOeT6o3oZ7Xy7uzbFM4SijZUaPXksXM8nYe8moUpK/I8x5t
- NusBbEUk2UC+zQlaFsJLl2UcSk3qFiIz9IrkkmwoV5Cc+NAOm2COjJ51GsKOoU0hKLDk
- Vss5YUBm3JSk4d6Cbh1NWGAJp1ENRHpnyEWJIUtUnwLYrPnLjw2NtM7jKqXX2ikhz0xF
- HYHn+COaRcfjx1engkR5IZ/6L/2Fu+hbWe6x2yQG4WKO9wxDR3j6B1Ol7dKNG2u2EIVE
- yH8dPuaGoyUk5ankZ+452x/yt3VqsCtX7MODfWJ8MwzLzWETPGIfpnUJIs3DQP3ThSg1
- mYXw==
-X-Gm-Message-State: AOAM533Hl/dQKHUpODlXKz82UnBMa9YZ+BXPxVeoWHkhBeEFvkF4rArb
- yB+wo34jZTfk9GsVHKkyRr9yGw==
-X-Google-Smtp-Source: ABdhPJydT+Tqv+gWUMHLSx9OUkDrer4gbLtZdgIdTopu2ejfGNW+Ki6l+q5vwHDM20EqiwpPRfWvug==
-X-Received: by 2002:a05:6a00:796:b0:3ed:989b:f0c3 with SMTP id
- g22-20020a056a00079600b003ed989bf0c3mr1117119pfu.9.1630527642834; 
- Wed, 01 Sep 2021 13:20:42 -0700 (PDT)
+ bh=GfDSM+2QYHdGcoTm6Pi4I7ZIC6scIIHACy6gHGuwnY8=;
+ b=OEuBfdQSi1Edtutn0jOgFKXVwRVp8Xl36tJHdvqDAQuxvoR1HRjGiFnGopLlzertJd
+ 3OkBhmcrOmYk6LGNfu5h/yQQpwSuDnAvqZrwSw8WNJQSK0LmIGh/c/r3Cc2e7gs2FkLf
+ TORe3ypM4febuEcWTk5HcE1shTbrhTcueOJiPcr8B7adhaf/D9uiAAOm58Ocq0vJm5tk
+ 2/2MENI4cr/dWcHieZ+hYLNH2ig0ZRQ408f+NgcQmpd/gDjQ+dkT4JgG14T4hsrBpbDE
+ /w2cTynKgCZt4SeISQLIXkud9aloDeJ4wIBBGU7Gw+d+BXF+oyTOvL2F+11JK7I08hAP
+ QLhg==
+X-Gm-Message-State: AOAM531Di7RQwHf6DW2jorQuDWNOjH5az4Mby5KzGh+syH1HD+bVBg5B
+ nHmJ5EmGjkUaEYDKUR3V8PXOQQ==
+X-Google-Smtp-Source: ABdhPJxMphER5ztIdAU4sQOK1W1Po/XI2s0ld9OzjMhVK+eodQDnuFlymvtXnt2EK1OymcIBX8wYfQ==
+X-Received: by 2002:aa7:94bb:0:b0:40a:6478:d637 with SMTP id
+ a27-20020aa794bb000000b0040a6478d637mr1179920pfl.1.1630527644988; 
+ Wed, 01 Sep 2021 13:20:44 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:958b:b561:a735:e774])
- by smtp.gmail.com with ESMTPSA id x15sm321178pfq.31.2021.09.01.13.20.41
+ by smtp.gmail.com with ESMTPSA id x15sm321178pfq.31.2021.09.01.13.20.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 13:20:42 -0700 (PDT)
+ Wed, 01 Sep 2021 13:20:44 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
@@ -55,17 +55,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
  dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Paul Cercueil <paul@crapouillou.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Viresh Kumar <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org
-Subject: [PATCH v3 08/16] MIPS: configs: Everyone who had PANEL_SIMPLE now
- gets PANEL_SIMPLE_EDP
-Date: Wed,  1 Sep 2021 13:19:26 -0700
-Message-Id: <20210901131531.v3.8.Ic7a6e3f8dd4760a302c91320843be5a00206bd63@changeid>
+ Yakir Yang <ykk@rock-chips.com>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 09/16] drm/panel-simple-edp: Move some wayward panels to
+ the eDP driver
+Date: Wed,  1 Sep 2021 13:19:27 -0700
+Message-Id: <20210901131531.v3.9.I84e36f9f86d5d693fce0641a55ddb264a518a947@changeid>
 X-Mailer: git-send-email 2.33.0.259.gc128427fd7-goog
 In-Reply-To: <20210901201934.1084250-1-dianders@chromium.org>
 References: <20210901201934.1084250-1-dianders@chromium.org>
@@ -86,44 +81,999 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the patch ("drm/panel-simple-edp: Split eDP panels out of
-panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
-give everyone who had the old driver enabled the new driver too. If
-folks want to opt-out of one or the other they always can later.
+Not all panels in panel-simple were marked what type of panel they
+were. I searched through ARM/ARM64 Chromebooks or Chromebook-related
+reference boards that I was aware of and found some panels that needed
+to be moved. I also skimmed for panels that had no mode and were "big"
+since it's quite rare to see a small eDP panel. Here's what I found:
+* auo,b101ean01 - rk3288-veyron-minnie
+* auo,b133htn01 - exynos5800-peach-pi
+* auo,b133xtn01 - tegra124-nyan-big
+* boe,nv101wxmn51 - rk3399-gru-bob
+* innolux,p120zdg-bf1 - sdm845-cheza
+* lg,lp079qx1-sp0v - rk3399-evb and similar
+* lg,lp097qx1-spa1 - According to commit 0355dde26e52 ("drm/panel:
+  simple: Add support for LG LP097QX1-SPA1 panel") this is an eDP
+  panel.
+* lg,lp129qe - tegra124-venice2
+* samsung,lsn122dl01-c01 - According to commit 0330eaf39082
+  ("drm/panel: simple: Add support for Samsung LSN122DL01-C01 panel")
+  this is an eDP panel.
+* samsung,ltn140at29-301 - tegra124-nyan-blaze
+* sharp,ld-d5116z01b - According to commit cd5e1cbe1f0a ("drm/panel:
+  simple: Add support for Sharp LD-D5116Z01B panel") this is an eDP
+  panel.
+* sharp,lq123p1jx31 - rk3399-gru-kevin
+* starry,kr122ea0sra - rk3399-gru-gru (reference board, not upstream)
 
+I won't promise that I didn't miss a single panel, but that's fairly
+complete I think.
+
+I'm not sure the full impact of the fact that they didn't have the
+connector type specified, but at least as of commit 9f069c6fbc72
+("drm/panel: panel-simple: add default connector_type") we may have
+been accidentally thinking of them as DPI panels. We also would
+certainly have had a warning. In any case since we don't want to
+support anything eDP in the old simple-panel driver, we should move
+these.
+
+Cc: Yakir Yang <ykk@rock-chips.com>
+Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Cc: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
-(no changes since v1)
+Changes in v3:
+- Move wayward panels patch new for v3.
 
- arch/mips/configs/qi_lb60_defconfig | 1 +
- arch/mips/configs/rs90_defconfig    | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple-edp.c | 363 ++++++++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c     | 365 -----------------------
+ 2 files changed, 363 insertions(+), 365 deletions(-)
 
-diff --git a/arch/mips/configs/qi_lb60_defconfig b/arch/mips/configs/qi_lb60_defconfig
-index b4448d0876d5..3e99e223ea02 100644
---- a/arch/mips/configs/qi_lb60_defconfig
-+++ b/arch/mips/configs/qi_lb60_defconfig
-@@ -72,6 +72,7 @@ CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_DRM=y
- CONFIG_DRM_FBDEV_OVERALLOC=200
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_SIMPLE_EDP=y
- CONFIG_DRM_INGENIC=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
- # CONFIG_VGA_CONSOLE is not set
-diff --git a/arch/mips/configs/rs90_defconfig b/arch/mips/configs/rs90_defconfig
-index 7ce3b814fdc8..42b4f621cbfa 100644
---- a/arch/mips/configs/rs90_defconfig
-+++ b/arch/mips/configs/rs90_defconfig
-@@ -94,6 +94,7 @@ CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_DRM=y
- CONFIG_DRM_FBDEV_OVERALLOC=300
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_SIMPLE_EDP=y
- CONFIG_DRM_INGENIC=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
- CONFIG_BACKLIGHT_PWM=y
+diff --git a/drivers/gpu/drm/panel/panel-simple-edp.c b/drivers/gpu/drm/panel/panel-simple-edp.c
+index 5b47ee4bc338..8acac5bb792e 100644
+--- a/drivers/gpu/drm/panel/panel-simple-edp.c
++++ b/drivers/gpu/drm/panel/panel-simple-edp.c
+@@ -723,6 +723,28 @@ static void panel_edp_shutdown(struct device *dev)
+ 	drm_panel_unprepare(&panel->base);
+ }
+ 
++static const struct display_timing auo_b101ean01_timing = {
++	.pixelclock = { 65300000, 72500000, 75000000 },
++	.hactive = { 1280, 1280, 1280 },
++	.hfront_porch = { 18, 119, 119 },
++	.hback_porch = { 21, 21, 21 },
++	.hsync_len = { 32, 32, 32 },
++	.vactive = { 800, 800, 800 },
++	.vfront_porch = { 4, 4, 4 },
++	.vback_porch = { 8, 8, 8 },
++	.vsync_len = { 18, 20, 20 },
++};
++
++static const struct panel_desc auo_b101ean01 = {
++	.timings = &auo_b101ean01_timing,
++	.num_timings = 1,
++	.bpc = 6,
++	.size = {
++		.width = 217,
++		.height = 136,
++	},
++};
++
+ static const struct drm_display_mode auo_b116xak01_mode = {
+ 	.clock = 69300,
+ 	.hdisplay = 1366,
+@@ -802,6 +824,55 @@ static const struct panel_desc auo_b133han05 = {
+ 	},
+ };
+ 
++static const struct drm_display_mode auo_b133htn01_mode = {
++	.clock = 150660,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 172,
++	.hsync_end = 1920 + 172 + 80,
++	.htotal = 1920 + 172 + 80 + 60,
++	.vdisplay = 1080,
++	.vsync_start = 1080 + 25,
++	.vsync_end = 1080 + 25 + 10,
++	.vtotal = 1080 + 25 + 10 + 10,
++};
++
++static const struct panel_desc auo_b133htn01 = {
++	.modes = &auo_b133htn01_mode,
++	.num_modes = 1,
++	.bpc = 6,
++	.size = {
++		.width = 293,
++		.height = 165,
++	},
++	.delay = {
++		.prepare = 105,
++		.enable = 20,
++		.unprepare = 50,
++	},
++};
++
++static const struct drm_display_mode auo_b133xtn01_mode = {
++	.clock = 69500,
++	.hdisplay = 1366,
++	.hsync_start = 1366 + 48,
++	.hsync_end = 1366 + 48 + 32,
++	.htotal = 1366 + 48 + 32 + 20,
++	.vdisplay = 768,
++	.vsync_start = 768 + 3,
++	.vsync_end = 768 + 3 + 6,
++	.vtotal = 768 + 3 + 6 + 13,
++};
++
++static const struct panel_desc auo_b133xtn01 = {
++	.modes = &auo_b133xtn01_mode,
++	.num_modes = 1,
++	.bpc = 6,
++	.size = {
++		.width = 293,
++		.height = 165,
++	},
++};
++
+ static const struct drm_display_mode auo_b140han06_mode = {
+ 	.clock = 141000,
+ 	.hdisplay = 1920,
+@@ -829,6 +900,46 @@ static const struct panel_desc auo_b140han06 = {
+ 	},
+ };
+ 
++static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
++	{
++		.clock = 71900,
++		.hdisplay = 1280,
++		.hsync_start = 1280 + 48,
++		.hsync_end = 1280 + 48 + 32,
++		.htotal = 1280 + 48 + 32 + 80,
++		.vdisplay = 800,
++		.vsync_start = 800 + 3,
++		.vsync_end = 800 + 3 + 5,
++		.vtotal = 800 + 3 + 5 + 24,
++	},
++	{
++		.clock = 57500,
++		.hdisplay = 1280,
++		.hsync_start = 1280 + 48,
++		.hsync_end = 1280 + 48 + 32,
++		.htotal = 1280 + 48 + 32 + 80,
++		.vdisplay = 800,
++		.vsync_start = 800 + 3,
++		.vsync_end = 800 + 3 + 5,
++		.vtotal = 800 + 3 + 5 + 24,
++	},
++};
++
++static const struct panel_desc boe_nv101wxmn51 = {
++	.modes = boe_nv101wxmn51_modes,
++	.num_modes = ARRAY_SIZE(boe_nv101wxmn51_modes),
++	.bpc = 8,
++	.size = {
++		.width = 217,
++		.height = 136,
++	},
++	.delay = {
++		.prepare = 210,
++		.enable = 50,
++		.unprepare = 160,
++	},
++};
++
+ static const struct drm_display_mode boe_nv110wtm_n61_modes[] = {
+ 	{
+ 		.clock = 207800,
+@@ -1027,6 +1138,33 @@ static const struct panel_desc innolux_n125hce_gn1 = {
+ 	},
+ };
+ 
++static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
++	.clock = 206016,
++	.hdisplay = 2160,
++	.hsync_start = 2160 + 48,
++	.hsync_end = 2160 + 48 + 32,
++	.htotal = 2160 + 48 + 32 + 80,
++	.vdisplay = 1440,
++	.vsync_start = 1440 + 3,
++	.vsync_end = 1440 + 3 + 10,
++	.vtotal = 1440 + 3 + 10 + 27,
++	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
++};
++
++static const struct panel_desc innolux_p120zdg_bf1 = {
++	.modes = &innolux_p120zdg_bf1_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 254,
++		.height = 169,
++	},
++	.delay = {
++		.hpd_absent_delay = 200,
++		.unprepare = 500,
++	},
++};
++
+ static const struct drm_display_mode ivo_m133nwf4_r0_mode = {
+ 	.clock = 138778,
+ 	.hdisplay = 1920,
+@@ -1080,6 +1218,49 @@ static const struct panel_desc kingdisplay_kd116n21_30nv_a010 = {
+ 	},
+ };
+ 
++static const struct drm_display_mode lg_lp079qx1_sp0v_mode = {
++	.clock = 200000,
++	.hdisplay = 1536,
++	.hsync_start = 1536 + 12,
++	.hsync_end = 1536 + 12 + 16,
++	.htotal = 1536 + 12 + 16 + 48,
++	.vdisplay = 2048,
++	.vsync_start = 2048 + 8,
++	.vsync_end = 2048 + 8 + 4,
++	.vtotal = 2048 + 8 + 4 + 8,
++	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
++};
++
++static const struct panel_desc lg_lp079qx1_sp0v = {
++	.modes = &lg_lp079qx1_sp0v_mode,
++	.num_modes = 1,
++	.size = {
++		.width = 129,
++		.height = 171,
++	},
++};
++
++static const struct drm_display_mode lg_lp097qx1_spa1_mode = {
++	.clock = 205210,
++	.hdisplay = 2048,
++	.hsync_start = 2048 + 150,
++	.hsync_end = 2048 + 150 + 5,
++	.htotal = 2048 + 150 + 5 + 5,
++	.vdisplay = 1536,
++	.vsync_start = 1536 + 3,
++	.vsync_end = 1536 + 3 + 1,
++	.vtotal = 1536 + 3 + 1 + 9,
++};
++
++static const struct panel_desc lg_lp097qx1_spa1 = {
++	.modes = &lg_lp097qx1_spa1_mode,
++	.num_modes = 1,
++	.size = {
++		.width = 208,
++		.height = 147,
++	},
++};
++
+ static const struct drm_display_mode lg_lp120up1_mode = {
+ 	.clock = 162300,
+ 	.hdisplay = 1920,
+@@ -1102,6 +1283,28 @@ static const struct panel_desc lg_lp120up1 = {
+ 	},
+ };
+ 
++static const struct drm_display_mode lg_lp129qe_mode = {
++	.clock = 285250,
++	.hdisplay = 2560,
++	.hsync_start = 2560 + 48,
++	.hsync_end = 2560 + 48 + 32,
++	.htotal = 2560 + 48 + 32 + 80,
++	.vdisplay = 1700,
++	.vsync_start = 1700 + 3,
++	.vsync_end = 1700 + 3 + 10,
++	.vtotal = 1700 + 3 + 10 + 36,
++};
++
++static const struct panel_desc lg_lp129qe = {
++	.modes = &lg_lp129qe_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 272,
++		.height = 181,
++	},
++};
++
+ static const struct drm_display_mode neweast_wjfh116008a_modes[] = {
+ 	{
+ 		.clock = 138500,
+@@ -1143,8 +1346,132 @@ static const struct panel_desc neweast_wjfh116008a = {
+ 	},
+ };
+ 
++static const struct drm_display_mode samsung_lsn122dl01_c01_mode = {
++	.clock = 271560,
++	.hdisplay = 2560,
++	.hsync_start = 2560 + 48,
++	.hsync_end = 2560 + 48 + 32,
++	.htotal = 2560 + 48 + 32 + 80,
++	.vdisplay = 1600,
++	.vsync_start = 1600 + 2,
++	.vsync_end = 1600 + 2 + 5,
++	.vtotal = 1600 + 2 + 5 + 57,
++};
++
++static const struct panel_desc samsung_lsn122dl01_c01 = {
++	.modes = &samsung_lsn122dl01_c01_mode,
++	.num_modes = 1,
++	.size = {
++		.width = 263,
++		.height = 164,
++	},
++};
++
++static const struct drm_display_mode samsung_ltn140at29_301_mode = {
++	.clock = 76300,
++	.hdisplay = 1366,
++	.hsync_start = 1366 + 64,
++	.hsync_end = 1366 + 64 + 48,
++	.htotal = 1366 + 64 + 48 + 128,
++	.vdisplay = 768,
++	.vsync_start = 768 + 2,
++	.vsync_end = 768 + 2 + 5,
++	.vtotal = 768 + 2 + 5 + 17,
++};
++
++static const struct panel_desc samsung_ltn140at29_301 = {
++	.modes = &samsung_ltn140at29_301_mode,
++	.num_modes = 1,
++	.bpc = 6,
++	.size = {
++		.width = 320,
++		.height = 187,
++	},
++};
++
++static const struct drm_display_mode sharp_ld_d5116z01b_mode = {
++	.clock = 168480,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 48,
++	.hsync_end = 1920 + 48 + 32,
++	.htotal = 1920 + 48 + 32 + 80,
++	.vdisplay = 1280,
++	.vsync_start = 1280 + 3,
++	.vsync_end = 1280 + 3 + 10,
++	.vtotal = 1280 + 3 + 10 + 57,
++	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
++};
++
++static const struct panel_desc sharp_ld_d5116z01b = {
++	.modes = &sharp_ld_d5116z01b_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 260,
++		.height = 120,
++	},
++};
++
++static const struct display_timing sharp_lq123p1jx31_timing = {
++	.pixelclock = { 252750000, 252750000, 266604720 },
++	.hactive = { 2400, 2400, 2400 },
++	.hfront_porch = { 48, 48, 48 },
++	.hback_porch = { 80, 80, 84 },
++	.hsync_len = { 32, 32, 32 },
++	.vactive = { 1600, 1600, 1600 },
++	.vfront_porch = { 3, 3, 3 },
++	.vback_porch = { 33, 33, 120 },
++	.vsync_len = { 10, 10, 10 },
++	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
++};
++
++static const struct panel_desc sharp_lq123p1jx31 = {
++	.timings = &sharp_lq123p1jx31_timing,
++	.num_timings = 1,
++	.bpc = 8,
++	.size = {
++		.width = 259,
++		.height = 173,
++	},
++	.delay = {
++		.prepare = 110,
++		.enable = 50,
++		.unprepare = 550,
++	},
++};
++
++static const struct drm_display_mode starry_kr122ea0sra_mode = {
++	.clock = 147000,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 16,
++	.hsync_end = 1920 + 16 + 16,
++	.htotal = 1920 + 16 + 16 + 32,
++	.vdisplay = 1200,
++	.vsync_start = 1200 + 15,
++	.vsync_end = 1200 + 15 + 2,
++	.vtotal = 1200 + 15 + 2 + 18,
++	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
++};
++
++static const struct panel_desc starry_kr122ea0sra = {
++	.modes = &starry_kr122ea0sra_mode,
++	.num_modes = 1,
++	.size = {
++		.width = 263,
++		.height = 164,
++	},
++	.delay = {
++		.prepare = 10 + 200,
++		.enable = 50,
++		.unprepare = 10 + 500,
++	},
++};
++
+ static const struct of_device_id platform_of_match[] = {
+ 	{
++		.compatible = "auo,b101ean01",
++		.data = &auo_b101ean01,
++	}, {
+ 		.compatible = "auo,b116xa01",
+ 		.data = &auo_b116xak01,
+ 	}, {
+@@ -1153,9 +1480,18 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "auo,b133han05",
+ 		.data = &auo_b133han05,
++	}, {
++		.compatible = "auo,b133htn01",
++		.data = &auo_b133htn01,
++	}, {
++		.compatible = "auo,b133xtn01",
++		.data = &auo_b133xtn01,
+ 	}, {
+ 		.compatible = "auo,b140han06",
+ 		.data = &auo_b140han06,
++	}, {
++		.compatible = "boe,nv101wxmn51",
++		.data = &boe_nv101wxmn51,
+ 	}, {
+ 		.compatible = "boe,nv110wtm-n61",
+ 		.data = &boe_nv110wtm_n61,
+@@ -1177,18 +1513,45 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "innolux,n125hce-gn1",
+ 		.data = &innolux_n125hce_gn1,
++	}, {
++		.compatible = "innolux,p120zdg-bf1",
++		.data = &innolux_p120zdg_bf1,
+ 	}, {
+ 		.compatible = "ivo,m133nwf4-r0",
+ 		.data = &ivo_m133nwf4_r0,
+ 	}, {
+ 		.compatible = "kingdisplay,kd116n21-30nv-a010",
+ 		.data = &kingdisplay_kd116n21_30nv_a010,
++	}, {
++		.compatible = "lg,lp079qx1-sp0v",
++		.data = &lg_lp079qx1_sp0v,
++	}, {
++		.compatible = "lg,lp097qx1-spa1",
++		.data = &lg_lp097qx1_spa1,
+ 	}, {
+ 		.compatible = "lg,lp120up1",
+ 		.data = &lg_lp120up1,
++	}, {
++		.compatible = "lg,lp129qe",
++		.data = &lg_lp129qe,
+ 	}, {
+ 		.compatible = "neweast,wjfh116008a",
+ 		.data = &neweast_wjfh116008a,
++	}, {
++		.compatible = "samsung,lsn122dl01-c01",
++		.data = &samsung_lsn122dl01_c01,
++	}, {
++		.compatible = "samsung,ltn140at29-301",
++		.data = &samsung_ltn140at29_301,
++	}, {
++		.compatible = "sharp,ld-d5116z01b",
++		.data = &sharp_ld_d5116z01b,
++	}, {
++		.compatible = "sharp,lq123p1jx31",
++		.data = &sharp_lq123p1jx31,
++	}, {
++		.compatible = "starry,kr122ea0sra",
++		.data = &starry_kr122ea0sra,
+ 	}, {
+ 		/* sentinel */
+ 	}
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 29b2c98231fc..dcfec124d69d 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -954,28 +954,6 @@ static const struct panel_desc auo_b101aw03 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-static const struct display_timing auo_b101ean01_timing = {
+-	.pixelclock = { 65300000, 72500000, 75000000 },
+-	.hactive = { 1280, 1280, 1280 },
+-	.hfront_porch = { 18, 119, 119 },
+-	.hback_porch = { 21, 21, 21 },
+-	.hsync_len = { 32, 32, 32 },
+-	.vactive = { 800, 800, 800 },
+-	.vfront_porch = { 4, 4, 4 },
+-	.vback_porch = { 8, 8, 8 },
+-	.vsync_len = { 18, 20, 20 },
+-};
+-
+-static const struct panel_desc auo_b101ean01 = {
+-	.timings = &auo_b101ean01_timing,
+-	.num_timings = 1,
+-	.bpc = 6,
+-	.size = {
+-		.width = 217,
+-		.height = 136,
+-	},
+-};
+-
+ static const struct drm_display_mode auo_b101xtn01_mode = {
+ 	.clock = 72000,
+ 	.hdisplay = 1366,
+@@ -999,55 +977,6 @@ static const struct panel_desc auo_b101xtn01 = {
+ 	},
+ };
+ 
+-static const struct drm_display_mode auo_b133xtn01_mode = {
+-	.clock = 69500,
+-	.hdisplay = 1366,
+-	.hsync_start = 1366 + 48,
+-	.hsync_end = 1366 + 48 + 32,
+-	.htotal = 1366 + 48 + 32 + 20,
+-	.vdisplay = 768,
+-	.vsync_start = 768 + 3,
+-	.vsync_end = 768 + 3 + 6,
+-	.vtotal = 768 + 3 + 6 + 13,
+-};
+-
+-static const struct panel_desc auo_b133xtn01 = {
+-	.modes = &auo_b133xtn01_mode,
+-	.num_modes = 1,
+-	.bpc = 6,
+-	.size = {
+-		.width = 293,
+-		.height = 165,
+-	},
+-};
+-
+-static const struct drm_display_mode auo_b133htn01_mode = {
+-	.clock = 150660,
+-	.hdisplay = 1920,
+-	.hsync_start = 1920 + 172,
+-	.hsync_end = 1920 + 172 + 80,
+-	.htotal = 1920 + 172 + 80 + 60,
+-	.vdisplay = 1080,
+-	.vsync_start = 1080 + 25,
+-	.vsync_end = 1080 + 25 + 10,
+-	.vtotal = 1080 + 25 + 10 + 10,
+-};
+-
+-static const struct panel_desc auo_b133htn01 = {
+-	.modes = &auo_b133htn01_mode,
+-	.num_modes = 1,
+-	.bpc = 6,
+-	.size = {
+-		.width = 293,
+-		.height = 165,
+-	},
+-	.delay = {
+-		.prepare = 105,
+-		.enable = 20,
+-		.unprepare = 50,
+-	},
+-};
+-
+ static const struct display_timing auo_g070vvn01_timings = {
+ 	.pixelclock = { 33300000, 34209000, 45000000 },
+ 	.hactive = { 800, 800, 800 },
+@@ -1391,46 +1320,6 @@ static const struct panel_desc boe_hv070wsa = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
+-	{
+-		.clock = 71900,
+-		.hdisplay = 1280,
+-		.hsync_start = 1280 + 48,
+-		.hsync_end = 1280 + 48 + 32,
+-		.htotal = 1280 + 48 + 32 + 80,
+-		.vdisplay = 800,
+-		.vsync_start = 800 + 3,
+-		.vsync_end = 800 + 3 + 5,
+-		.vtotal = 800 + 3 + 5 + 24,
+-	},
+-	{
+-		.clock = 57500,
+-		.hdisplay = 1280,
+-		.hsync_start = 1280 + 48,
+-		.hsync_end = 1280 + 48 + 32,
+-		.htotal = 1280 + 48 + 32 + 80,
+-		.vdisplay = 800,
+-		.vsync_start = 800 + 3,
+-		.vsync_end = 800 + 3 + 5,
+-		.vtotal = 800 + 3 + 5 + 24,
+-	},
+-};
+-
+-static const struct panel_desc boe_nv101wxmn51 = {
+-	.modes = boe_nv101wxmn51_modes,
+-	.num_modes = ARRAY_SIZE(boe_nv101wxmn51_modes),
+-	.bpc = 8,
+-	.size = {
+-		.width = 217,
+-		.height = 136,
+-	},
+-	.delay = {
+-		.prepare = 210,
+-		.enable = 50,
+-		.unprepare = 160,
+-	},
+-};
+-
+ static const struct drm_display_mode cdtech_s043wq26h_ct7_mode = {
+ 	.clock = 9000,
+ 	.hdisplay = 480,
+@@ -2378,33 +2267,6 @@ static const struct panel_desc innolux_n156bge_l21 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
+-	.clock = 206016,
+-	.hdisplay = 2160,
+-	.hsync_start = 2160 + 48,
+-	.hsync_end = 2160 + 48 + 32,
+-	.htotal = 2160 + 48 + 32 + 80,
+-	.vdisplay = 1440,
+-	.vsync_start = 1440 + 3,
+-	.vsync_end = 1440 + 3 + 10,
+-	.vtotal = 1440 + 3 + 10 + 27,
+-	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
+-};
+-
+-static const struct panel_desc innolux_p120zdg_bf1 = {
+-	.modes = &innolux_p120zdg_bf1_mode,
+-	.num_modes = 1,
+-	.bpc = 8,
+-	.size = {
+-		.width = 254,
+-		.height = 169,
+-	},
+-	.delay = {
+-		.hpd_absent_delay = 200,
+-		.unprepare = 500,
+-	},
+-};
+-
+ static const struct drm_display_mode innolux_zj070na_01p_mode = {
+ 	.clock = 51501,
+ 	.hdisplay = 1024,
+@@ -2578,71 +2440,6 @@ static const struct panel_desc lg_lb070wv8 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-static const struct drm_display_mode lg_lp079qx1_sp0v_mode = {
+-	.clock = 200000,
+-	.hdisplay = 1536,
+-	.hsync_start = 1536 + 12,
+-	.hsync_end = 1536 + 12 + 16,
+-	.htotal = 1536 + 12 + 16 + 48,
+-	.vdisplay = 2048,
+-	.vsync_start = 2048 + 8,
+-	.vsync_end = 2048 + 8 + 4,
+-	.vtotal = 2048 + 8 + 4 + 8,
+-	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+-};
+-
+-static const struct panel_desc lg_lp079qx1_sp0v = {
+-	.modes = &lg_lp079qx1_sp0v_mode,
+-	.num_modes = 1,
+-	.size = {
+-		.width = 129,
+-		.height = 171,
+-	},
+-};
+-
+-static const struct drm_display_mode lg_lp097qx1_spa1_mode = {
+-	.clock = 205210,
+-	.hdisplay = 2048,
+-	.hsync_start = 2048 + 150,
+-	.hsync_end = 2048 + 150 + 5,
+-	.htotal = 2048 + 150 + 5 + 5,
+-	.vdisplay = 1536,
+-	.vsync_start = 1536 + 3,
+-	.vsync_end = 1536 + 3 + 1,
+-	.vtotal = 1536 + 3 + 1 + 9,
+-};
+-
+-static const struct panel_desc lg_lp097qx1_spa1 = {
+-	.modes = &lg_lp097qx1_spa1_mode,
+-	.num_modes = 1,
+-	.size = {
+-		.width = 208,
+-		.height = 147,
+-	},
+-};
+-
+-static const struct drm_display_mode lg_lp129qe_mode = {
+-	.clock = 285250,
+-	.hdisplay = 2560,
+-	.hsync_start = 2560 + 48,
+-	.hsync_end = 2560 + 48 + 32,
+-	.htotal = 2560 + 48 + 32 + 80,
+-	.vdisplay = 1700,
+-	.vsync_start = 1700 + 3,
+-	.vsync_end = 1700 + 3 + 10,
+-	.vtotal = 1700 + 3 + 10 + 36,
+-};
+-
+-static const struct panel_desc lg_lp129qe = {
+-	.modes = &lg_lp129qe_mode,
+-	.num_modes = 1,
+-	.bpc = 8,
+-	.size = {
+-		.width = 272,
+-		.height = 181,
+-	},
+-};
+-
+ static const struct display_timing logictechno_lt161010_2nh_timing = {
+ 	.pixelclock = { 26400000, 33300000, 46800000 },
+ 	.hactive = { 800, 800, 800 },
+@@ -3313,27 +3110,6 @@ static const struct panel_desc rocktech_rk101ii01d_ct = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-static const struct drm_display_mode samsung_lsn122dl01_c01_mode = {
+-	.clock = 271560,
+-	.hdisplay = 2560,
+-	.hsync_start = 2560 + 48,
+-	.hsync_end = 2560 + 48 + 32,
+-	.htotal = 2560 + 48 + 32 + 80,
+-	.vdisplay = 1600,
+-	.vsync_start = 1600 + 2,
+-	.vsync_end = 1600 + 2 + 5,
+-	.vtotal = 1600 + 2 + 5 + 57,
+-};
+-
+-static const struct panel_desc samsung_lsn122dl01_c01 = {
+-	.modes = &samsung_lsn122dl01_c01_mode,
+-	.num_modes = 1,
+-	.size = {
+-		.width = 263,
+-		.height = 164,
+-	},
+-};
+-
+ static const struct drm_display_mode samsung_ltn101nt05_mode = {
+ 	.clock = 54030,
+ 	.hdisplay = 1024,
+@@ -3359,28 +3135,6 @@ static const struct panel_desc samsung_ltn101nt05 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-static const struct drm_display_mode samsung_ltn140at29_301_mode = {
+-	.clock = 76300,
+-	.hdisplay = 1366,
+-	.hsync_start = 1366 + 64,
+-	.hsync_end = 1366 + 64 + 48,
+-	.htotal = 1366 + 64 + 48 + 128,
+-	.vdisplay = 768,
+-	.vsync_start = 768 + 2,
+-	.vsync_end = 768 + 2 + 5,
+-	.vtotal = 768 + 2 + 5 + 17,
+-};
+-
+-static const struct panel_desc samsung_ltn140at29_301 = {
+-	.modes = &samsung_ltn140at29_301_mode,
+-	.num_modes = 1,
+-	.bpc = 6,
+-	.size = {
+-		.width = 320,
+-		.height = 187,
+-	},
+-};
+-
+ static const struct display_timing satoz_sat050at40h12r2_timing = {
+ 	.pixelclock = {33300000, 33300000, 50000000},
+ 	.hactive = {800, 800, 800},
+@@ -3405,31 +3159,6 @@ static const struct panel_desc satoz_sat050at40h12r2 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-static const struct drm_display_mode sharp_ld_d5116z01b_mode = {
+-	.clock = 168480,
+-	.hdisplay = 1920,
+-	.hsync_start = 1920 + 48,
+-	.hsync_end = 1920 + 48 + 32,
+-	.htotal = 1920 + 48 + 32 + 80,
+-	.vdisplay = 1280,
+-	.vsync_start = 1280 + 3,
+-	.vsync_end = 1280 + 3 + 10,
+-	.vtotal = 1280 + 3 + 10 + 57,
+-	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
+-};
+-
+-static const struct panel_desc sharp_ld_d5116z01b = {
+-	.modes = &sharp_ld_d5116z01b_mode,
+-	.num_modes = 1,
+-	.bpc = 8,
+-	.size = {
+-		.width = 260,
+-		.height = 120,
+-	},
+-	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+-	.bus_flags = DRM_BUS_FLAG_DATA_MSB_TO_LSB,
+-};
+-
+ static const struct drm_display_mode sharp_lq070y3dg3b_mode = {
+ 	.clock = 33260,
+ 	.hdisplay = 800,
+@@ -3504,34 +3233,6 @@ static const struct panel_desc sharp_lq101k1ly04 = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
+-static const struct display_timing sharp_lq123p1jx31_timing = {
+-	.pixelclock = { 252750000, 252750000, 266604720 },
+-	.hactive = { 2400, 2400, 2400 },
+-	.hfront_porch = { 48, 48, 48 },
+-	.hback_porch = { 80, 80, 84 },
+-	.hsync_len = { 32, 32, 32 },
+-	.vactive = { 1600, 1600, 1600 },
+-	.vfront_porch = { 3, 3, 3 },
+-	.vback_porch = { 33, 33, 120 },
+-	.vsync_len = { 10, 10, 10 },
+-	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
+-};
+-
+-static const struct panel_desc sharp_lq123p1jx31 = {
+-	.timings = &sharp_lq123p1jx31_timing,
+-	.num_timings = 1,
+-	.bpc = 8,
+-	.size = {
+-		.width = 259,
+-		.height = 173,
+-	},
+-	.delay = {
+-		.prepare = 110,
+-		.enable = 50,
+-		.unprepare = 550,
+-	},
+-};
+-
+ static const struct drm_display_mode sharp_ls020b1dd01d_modes[] = {
+ 	{ /* 50 Hz */
+ 		.clock = 3000,
+@@ -3620,33 +3321,6 @@ static const struct panel_desc starry_kr070pe2t = {
+ 	.connector_type = DRM_MODE_CONNECTOR_DPI,
+ };
+ 
+-static const struct drm_display_mode starry_kr122ea0sra_mode = {
+-	.clock = 147000,
+-	.hdisplay = 1920,
+-	.hsync_start = 1920 + 16,
+-	.hsync_end = 1920 + 16 + 16,
+-	.htotal = 1920 + 16 + 16 + 32,
+-	.vdisplay = 1200,
+-	.vsync_start = 1200 + 15,
+-	.vsync_end = 1200 + 15 + 2,
+-	.vtotal = 1200 + 15 + 2 + 18,
+-	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+-};
+-
+-static const struct panel_desc starry_kr122ea0sra = {
+-	.modes = &starry_kr122ea0sra_mode,
+-	.num_modes = 1,
+-	.size = {
+-		.width = 263,
+-		.height = 164,
+-	},
+-	.delay = {
+-		.prepare = 10 + 200,
+-		.enable = 50,
+-		.unprepare = 10 + 500,
+-	},
+-};
+-
+ static const struct drm_display_mode tfc_s9700rtwv43tr_01b_mode = {
+ 	.clock = 30000,
+ 	.hdisplay = 800,
+@@ -4013,18 +3687,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "auo,b101aw03",
+ 		.data = &auo_b101aw03,
+-	}, {
+-		.compatible = "auo,b101ean01",
+-		.data = &auo_b101ean01,
+ 	}, {
+ 		.compatible = "auo,b101xtn01",
+ 		.data = &auo_b101xtn01,
+-	}, {
+-		.compatible = "auo,b133htn01",
+-		.data = &auo_b133htn01,
+-	}, {
+-		.compatible = "auo,b133xtn01",
+-		.data = &auo_b133xtn01,
+ 	}, {
+ 		.compatible = "auo,g070vvn01",
+ 		.data = &auo_g070vvn01,
+@@ -4064,9 +3729,6 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "boe,hv070wsa-100",
+ 		.data = &boe_hv070wsa
+-	}, {
+-		.compatible = "boe,nv101wxmn51",
+-		.data = &boe_nv101wxmn51,
+ 	}, {
+ 		.compatible = "cdtech,s043wq26h-ct7",
+ 		.data = &cdtech_s043wq26h_ct7,
+@@ -4181,9 +3843,6 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "innolux,n156bge-l21",
+ 		.data = &innolux_n156bge_l21,
+-	}, {
+-		.compatible = "innolux,p120zdg-bf1",
+-		.data = &innolux_p120zdg_bf1,
+ 	}, {
+ 		.compatible = "innolux,zj070na-01p",
+ 		.data = &innolux_zj070na_01p,
+@@ -4205,15 +3864,6 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "lg,lb070wv8",
+ 		.data = &lg_lb070wv8,
+-	}, {
+-		.compatible = "lg,lp079qx1-sp0v",
+-		.data = &lg_lp079qx1_sp0v,
+-	}, {
+-		.compatible = "lg,lp097qx1-spa1",
+-		.data = &lg_lp097qx1_spa1,
+-	}, {
+-		.compatible = "lg,lp129qe",
+-		.data = &lg_lp129qe,
+ 	}, {
+ 		.compatible = "logicpd,type28",
+ 		.data = &logicpd_type_28,
+@@ -4292,21 +3942,12 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "rocktech,rk101ii01d-ct",
+ 		.data = &rocktech_rk101ii01d_ct,
+-	}, {
+-		.compatible = "samsung,lsn122dl01-c01",
+-		.data = &samsung_lsn122dl01_c01,
+ 	}, {
+ 		.compatible = "samsung,ltn101nt05",
+ 		.data = &samsung_ltn101nt05,
+-	}, {
+-		.compatible = "samsung,ltn140at29-301",
+-		.data = &samsung_ltn140at29_301,
+ 	}, {
+ 		.compatible = "satoz,sat050at40h12r2",
+ 		.data = &satoz_sat050at40h12r2,
+-	}, {
+-		.compatible = "sharp,ld-d5116z01b",
+-		.data = &sharp_ld_d5116z01b,
+ 	}, {
+ 		.compatible = "sharp,lq035q7db03",
+ 		.data = &sharp_lq035q7db03,
+@@ -4316,9 +3957,6 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "sharp,lq101k1ly04",
+ 		.data = &sharp_lq101k1ly04,
+-	}, {
+-		.compatible = "sharp,lq123p1jx31",
+-		.data = &sharp_lq123p1jx31,
+ 	}, {
+ 		.compatible = "sharp,ls020b1dd01d",
+ 		.data = &sharp_ls020b1dd01d,
+@@ -4328,9 +3966,6 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "starry,kr070pe2t",
+ 		.data = &starry_kr070pe2t,
+-	}, {
+-		.compatible = "starry,kr122ea0sra",
+-		.data = &starry_kr122ea0sra,
+ 	}, {
+ 		.compatible = "tfc,s9700rtwv43tr-01b",
+ 		.data = &tfc_s9700rtwv43tr_01b,
 -- 
 2.33.0.259.gc128427fd7-goog
 
