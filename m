@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272483FE13E
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 19:39:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498803FE153
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 19:43:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DC06E214;
-	Wed,  1 Sep 2021 17:39:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A50A76E21D;
+	Wed,  1 Sep 2021 17:43:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 461 seconds by postgrey-1.36 at gabe;
- Wed, 01 Sep 2021 17:39:00 UTC
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA36C6E214
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 17:39:00 +0000 (UTC)
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9F326E226
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 17:43:51 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id D9736200D6;
- Wed,  1 Sep 2021 19:31:29 +0200 (CEST)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 0366E200F6;
+ Wed,  1 Sep 2021 19:43:49 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-To: thierry.reding@gmail.com
-Cc: sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, konrad.dybcio@somainline.org,
- marijn.suijten@somainline.org, martin.botka@somainline.org,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- paul.bouchara@somainline.org,
+To: robdclark@gmail.com
+Cc: sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ dmitry.baryshkov@linaro.org, abhinavk@codeaurora.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ konrad.dybcio@somainline.org, marijn.suijten@somainline.org,
+ martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, paul.bouchara@somainline.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Subject: [PATCH 2/2] dt-bindings: display: Add bindings for Novatek NT35950
-Date: Wed,  1 Sep 2021 19:31:27 +0200
-Message-Id: <20210901173127.998901-2-angelogioacchino.delregno@somainline.org>
+Subject: [PATCH 1/2] drm/msm/dpu: Add a function to retrieve the current CTL
+ status
+Date: Wed,  1 Sep 2021 19:43:46 +0200
+Message-Id: <20210901174347.1012129-1-angelogioacchino.delregno@somainline.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210901173127.998901-1-angelogioacchino.delregno@somainline.org>
-References: <20210901173127.998901-1-angelogioacchino.delregno@somainline.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,132 +51,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The nt35950 IC from Novatek is a Driver IC used to drive MIPI-DSI panels,
-with Static RAM for content retention in command mode and also supports
-video mode with VESA Frame Buffer Compression or Display Stream Compression
-on single, or dual dsi port(s).
-This DDIC is also capable of upscaling an input image to the panel's native
-resolution, for example it can upscale a 1920x1080 input to 3840x2160 with
-either bilinear interpolation or pixel duplication.
+Add a function that returns whether the requested CTL is active or not:
+this will be used in a later commit to fix command mode panel issues.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- .../display/panel/novatek,nt35950.yaml        | 106 ++++++++++++++++++
- 1 file changed, 106 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 6 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h | 7 +++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
-new file mode 100644
-index 000000000000..377a05d48a02
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35950.yaml
-@@ -0,0 +1,106 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/novatek,nt35950.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 64740ddb983e..3b6fd73eb3a8 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -91,6 +91,11 @@ static inline void dpu_hw_ctl_trigger_start(struct dpu_hw_ctl *ctx)
+ 	DPU_REG_WRITE(&ctx->hw, CTL_START, 0x1);
+ }
+ 
++static inline bool dpu_hw_ctl_is_started(struct dpu_hw_ctl *ctx)
++{
++	return !!(DPU_REG_READ(&ctx->hw, CTL_START) & BIT(0));
++}
 +
-+title: Novatek NT35950-based display panels
+ static inline void dpu_hw_ctl_trigger_pending(struct dpu_hw_ctl *ctx)
+ {
+ 	trace_dpu_hw_ctl_trigger_prepare(ctx->pending_flush_mask,
+@@ -579,6 +584,7 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+ 	ops->get_pending_flush = dpu_hw_ctl_get_pending_flush;
+ 	ops->get_flush_register = dpu_hw_ctl_get_flush_register;
+ 	ops->trigger_start = dpu_hw_ctl_trigger_start;
++	ops->is_started = dpu_hw_ctl_is_started;
+ 	ops->trigger_pending = dpu_hw_ctl_trigger_pending;
+ 	ops->reset = dpu_hw_ctl_reset_control;
+ 	ops->wait_reset_status = dpu_hw_ctl_wait_reset_status;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 806c171e5df2..ac1544474022 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -61,6 +61,13 @@ struct dpu_hw_ctl_ops {
+ 	 */
+ 	void (*trigger_start)(struct dpu_hw_ctl *ctx);
+ 
++	/**
++	 * check if the ctl is started
++	 * @ctx       : ctl path ctx pointer
++	 * @Return: true if started, false if stopped
++	 */
++	bool (*is_started)(struct dpu_hw_ctl *ctx);
 +
-+maintainers:
-+  - AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-+
-+description: |
-+  The nt35950 IC from Novatek is a Driver IC used to drive MIPI-DSI panels,
-+  with Static RAM for content retention in command mode and also supports
-+  video mode with VESA Frame Buffer Compression or Display Stream Compression
-+  on single, or dual dsi port(s).
-+  This DDIC is also capable of upscaling an input image to the panel's native
-+  resolution, for example it can upscale a 1920x1080 input to 3840x2160 with
-+  either bilinear interpolation or pixel duplication.
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - sharp,ls055d1sx04
-+      - const: novatek,nt35950
-+    description: This indicates the panel manufacturer of the panel
-+      that is in turn using the NT35950 panel driver. The compatible
-+      string determines how the NT35950 panel driver shall be configured
-+      to work with the indicated panel. The novatek,nt35950 compatible shall
-+      always be provided as a fallback.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description: phandle of gpio for reset line - This should be 8mA, gpio
-+      can be configured using mux, pinctrl, pinctrl-names (active high)
-+
-+  avdd-supply:
-+    description: positive boost supply regulator
-+  avee-supply:
-+    description: negative boost supply regulator
-+  dvdd-supply:
-+    description: regulator that supplies the digital voltage
-+  vddio-supply:
-+    description: regulator that supplies the I/O voltage
-+
-+  backlight: true
-+  ports: true
-+  reg: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+  - avdd-supply
-+  - avee-supply
-+  - dvdd-supply
-+  - vddio-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    dsi0 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        panel@0 {
-+            compatible = "sharp,ls055d1sx04", "novatek,nt35950";
-+            reg = <0>;
-+
-+            backlight = <&pmi8998_wled>;
-+            reset-gpios = <&tlmm 94 GPIO_ACTIVE_HIGH>;
-+
-+            avdd-supply = <&lab>;
-+            avee-supply = <&ibb>;
-+            dvdd-supply = <&disp_dvdd_vreg>;
-+            vddio-supply = <&vreg_l14a_1p85>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    panel_in0: endpoint {
-+                        remote-endpoint = <&dsi0_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    panel_in1: endpoint {
-+                        remote-endpoint = <&dsi1_out>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-+
-+...
+ 	/**
+ 	 * kickoff prepare is in progress hw operation for sw
+ 	 * controlled interfaces: DSI cmd mode and WB interface
 -- 
 2.32.0
 
