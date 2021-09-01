@@ -1,130 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE92F3FDEDD
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 17:40:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C16B23FDEF5
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 17:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8231D6E20A;
-	Wed,  1 Sep 2021 15:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95AAA89A8B;
+	Wed,  1 Sep 2021 15:47:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2053.outbound.protection.outlook.com [40.107.243.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB4726E1FB;
- Wed,  1 Sep 2021 15:40:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VnG99YxyMFxQdRra+pxl+qv+CZLseKmWUybQUS7Tb0qsQmahRL3I8vflUWfogjNF7zvuiHbiyr6faLwDZgTOgDJ2/crs/CKtDJVITWig3eXEi1S9bGZHzDDpJSHKcPJOKMc7iCm73A39UZj7qsSwUOthNVeddKfPsDtPHk8SjySahPpqbbf0MdqRaAyjACj/VlxixsNhDZQ6Yy8ueX+OPXuX/hp3Me/zib2Z32JkJa4ZkzOGENPWrynn+S/VnImiTXDjXIe0Vi5OpJO5FFnrRFh1khu/LMuOXtBtoEunlOppM2kull88ToGH48caMGnsoIDdk+kmm2x3yniCNZ7w7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eq1A3hWQGXYX+bVwQ4HYkoqrw6bW+rc4zaooUDnZbHE=;
- b=Wm/juQiepYSRXCWBW/sqbjp84IacURH/I+t4xhSBpQLfZuzkdCIAAc3j4AwkfW8+xKKRtOrj6Dbrmbl7zNaYsOAcOXZEc0Ou8bbsWS95PdkLECzupPcWPBkaw/XXIjrPkXk2958EqpCkO/o2Plm6d5NDGfm75ZkZ/22G8UrUAzBfcUqdz/Q6gXBqNMXMTzwNyMCSYur9EvwAeEuUlaA7PholNBOi+d4/Pif+aAOnsiXb4b2BHjzb73MqVeTnT1qAWfaU3OxGfAe5OrRILDMmQET/w1jntWnoqHdvwHS04UrhN6PUTSjchAGeMgLGIHQcV78yRP28juF3qx2oRmXGCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eq1A3hWQGXYX+bVwQ4HYkoqrw6bW+rc4zaooUDnZbHE=;
- b=GFkFkqV1OtE0lzDy6l/bdMqcyCAicDb8JATd+Jepwf5zZMCfyHu8uy5kxhb5gOfjWnxM9nk1Dk/EVwO5FCl9VEvTXTFefyZ6WiTggz+xrUlenyZilPzQF2vk9cz6rHAoFrI8Shuft9rha8mMRTzEp97SGLdU8nwh5D4uxth+iWU=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
- by BN9PR12MB5258.namprd12.prod.outlook.com (2603:10b6:408:11f::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Wed, 1 Sep
- 2021 15:40:46 +0000
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::b891:a906:28f0:fdb%3]) with mapi id 15.20.4457.024; Wed, 1 Sep 2021
- 15:40:46 +0000
-Subject: Re: [PATCH v1 03/14] mm: add iomem vma selection for memory migration
-To: Christoph Hellwig <hch@lst.de>
-Cc: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
- akpm@linux-foundation.org, linux-mm@kvack.org, rcampbell@nvidia.com,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jgg@nvidia.com, jglisse@redhat.com
-References: <20210825034828.12927-1-alex.sierra@amd.com>
- <20210825034828.12927-4-alex.sierra@amd.com> <20210825074602.GA29620@lst.de>
- <c4241eb3-07d2-c85b-0f48-cce4b8369381@amd.com>
- <a9eb2c4a-d8cc-9553-57b7-fd1622679aaa@amd.com> <20210830082800.GA6836@lst.de>
- <e40b3b79-f548-b87b-7a85-f654f25ed8dd@amd.com>
- <20210901082925.GA21961@lst.de>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <11d64457-9d61-f82d-6c98-d68762dce85d@amd.com>
-Date: Wed, 1 Sep 2021 11:40:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20210901082925.GA21961@lst.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YTOPR0101CA0023.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:15::36) To BN9PR12MB5129.namprd12.prod.outlook.com
- (2603:10b6:408:136::12)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 742C489A8B;
+ Wed,  1 Sep 2021 15:47:32 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="206012511"
+X-IronPort-AV: E=Sophos;i="5.84,369,1620716400"; d="scan'208";a="206012511"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2021 08:47:31 -0700
+X-IronPort-AV: E=Sophos;i="5.84,369,1620716400"; d="scan'208";a="541865816"
+Received: from frodasgo-mobl3.amr.corp.intel.com (HELO intel.com)
+ ([10.255.39.35])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2021 08:47:30 -0700
+Date: Wed, 1 Sep 2021 11:47:28 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Bommu Krishnaiah <krishnaiah.bommu@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v7 10/17] drm/i915/pxp: interfaces for using
+ protected objects
+Message-ID: <YS+gkOgCB4ZQv5ho@intel.com>
+References: <20210828012738.317661-1-daniele.ceraolospurio@intel.com>
+ <20210828012738.317661-11-daniele.ceraolospurio@intel.com>
+ <YS6fdOrnQ0JyoYi3@intel.com>
+ <17361a26-3516-64df-0e47-3e1e025cef1e@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.186.47.3) by
- YTOPR0101CA0023.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::36) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20 via Frontend
- Transport; Wed, 1 Sep 2021 15:40:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5c19172f-e664-4cda-8893-08d96d5edd4a
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5258:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5258594B9DB97C0D912E976692CD9@BN9PR12MB5258.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Qtmr2r15kQFgb2D0iAxixnwQpA1HK2JD9AN7CeW6qxI1r8SYEGCYjY1KsvIK7Zn6UxPmfrVkl+6PCPWoh3Ke5az8juPjJU9JPHwUI6ZbpFmmrBkGLhdk5ATZIMMyCa/aJ+vw7mN5SIqfl6qOsUSmgKHRcLtqjGYXPZjb2DawmhBKl2IIC4kWtZ3mmGRvCfGwKA1qXoVswUFR47vHG5sPKauJUxljEQYi8KxVf5OyuYDc7rqeu6klW4tT6Uw9Psm6hXq5khsh2mTIevGs3PbM9kaetPKswX1lXV0ZB+fk78KCFwkVQDZss8/hqIBpTVSFOXc2faMMPsFdzZwLqkGDXdy+AXiANTVGEJNc35hvWPGM0ZyhcT0JGwMY/YdOWmu+EGMMxkmxP1RukGgAQWsiFILG8Km+6swJ7T90HIlbgFzMG9QqUg8dT9AAZkTZf8Xlj2CJG8SGUuC0BschrKgfHorkEcdhmWZnL1Omnrw2WkvHjByjTW+2Jal5hrC648e0r22Qxpx0jPLfI3amELBB3B6TZ5GBopz0XAo/7oUyn/rhuXXTembyL2NL68BFoBOupwQA9/yRDteO/kL2R5TdlE5n12dMAWJj06Oh+v8zuGkIaUnku256M03LeAC0yNZ3YfYq4Nx9n2qMJxhy4HsqALxEzlH7YTl6quQ3CpdEy1BrbunqONCeFNTGqF4u9LomRNMBQTcf+IrrV9Dn8EJZD46QOcPmqPu9JcvuG/PW/Hc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(316002)(6486002)(508600001)(2906002)(7416002)(26005)(8676002)(38100700002)(8936002)(44832011)(16576012)(5660300002)(86362001)(31696002)(956004)(4326008)(83380400001)(31686004)(66476007)(36756003)(6916009)(186003)(66556008)(2616005)(66946007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WitlZ1RyN21yeXQ2SFdSU0hhbTFqR2xhZCtXKzRUMjRPZ2RyV0J3ZWZqeHZ4?=
- =?utf-8?B?Q2xzRXdmNWlCWFd4REFrZGpod1N5V2VCYWhIUUo3TDEyekRuT3V3N05zOVpO?=
- =?utf-8?B?UmxMVGN3ZDlhYzlNQnNiUWVxc2Y4QmNMNkdNM0dNNllWU0VQKzI4UFJBQlp2?=
- =?utf-8?B?eXJhQkwzZHM3YytPcHhSRUNmTWUybWdQWTlBMVBUemplOFptWFhBc1RNWHo1?=
- =?utf-8?B?TUltM2VjOHh4VHQ0WnBYTVMwdWd6QUhtVVI3VXVWcVQ4M2cwQXFuNVp0NkI2?=
- =?utf-8?B?d25sS1JwRGlxOEh4Z3VHMzFQNFArcmJyM29vby85dVVJcjNFNm1WTktENjZZ?=
- =?utf-8?B?U1NYY29xODUwS1BVR2dkS2NpKzRDcUJkUjUzUWpxOHp1RVBJU2lkMThTYkRE?=
- =?utf-8?B?ekNoUXBwSEdUMVIwL25IelJROFJybHV1aTlFak5HU1dFWmNmTTczdmpvZ1VL?=
- =?utf-8?B?dTZ5NFhBaFhudTdqb3dyZDhzQW1qZy9UWnp3M2VxcFVuTVpXUW54R000R3gr?=
- =?utf-8?B?Z2thRjdpQjJ1SlpJK3VRREJ0VVdIa2R4MTdlZm41ZzQ4Ujhzek1tK2xTYW5Q?=
- =?utf-8?B?TUJBcmJKOTVxUFF5TTlkUDJteU9HUC9kUEw1dFdZY3UvcGF4cVZmK3QxWDJQ?=
- =?utf-8?B?KzQrK0pmZHpXQWhEUU9FRzdWT0lQSEw4ZEk4dFM2VGhCU20yR05MQ0sySTRU?=
- =?utf-8?B?NUJqOUF1YkZhd2x2T1lMcWp3bFBUd3RONk1EamdEakYrTDcrcTdzVExhbFJK?=
- =?utf-8?B?aFpqTE1XQ0VQNWxQNDdNZldGRDAyV2hIM2V2Y3hMTFEycUd0N0F2bWZjZ1VJ?=
- =?utf-8?B?ZzErOGpnOTNkNWk1Ylg4eEVxSVVvUFZYc0RlcE51a2Iwei90V1NnU2IybGwy?=
- =?utf-8?B?N2M1ZjFEcTAxZTJ3dVFiaFJlcG5PK3J2OUxyeFdYaVh2RldoalNYRzVKODFT?=
- =?utf-8?B?YzJ0SkJBSTBzUXRseGJlekFMbnc1SnVKdDJqc0syU0hpMEZIa0J3aDRTVEVO?=
- =?utf-8?B?S2ZQcGp4LzEvV0x4MzU1b09TV0pVeis1eXFtWmhkVUxpVmtOL3NpYy9HN1Ey?=
- =?utf-8?B?MmhDQlMyajZ5dDB6WlNYbC91eDBRZU5GNjlWZVExZUNVM2FKY0pwLzZvQ2Jx?=
- =?utf-8?B?MHJINkVndDZrak5zNHVMUTdZZ2dlVjdUM1VSSFlBODlwY04xOHE0Nm1WYU1V?=
- =?utf-8?B?VzFFMk5DSmF4eE5QWkQ5Y1lWZ1VXOUw4Ymw0NU1yOXRDNUFKZ1Q3ZktUUkoy?=
- =?utf-8?B?TmlZYXNYR2RKTUdMRjhOSmxQWnVGd1R1SldsUjRkQk5WZVJaYUJMSlpJVEIy?=
- =?utf-8?B?ajlsd1MrY0FJc2s4Qkp3YnNGSkpTZUlaMjNuaXVDbGN1YTg3V1dEYUFkdjNl?=
- =?utf-8?B?bm42ZEZEaXNWVkhpa3dMYmdESG9VY1FCRUNxaXQ2K3ZyaXVMVksrMDFGZVZa?=
- =?utf-8?B?ZHVxbWZtS3VHT3RFK3ZqbGFoN01ic1JlUnJyM2UxNmtLeTNBSktpWEMxYkxy?=
- =?utf-8?B?U0FMWXM3VVZ1N3hobDQwVThIU3pCdDlscVNtYzBQMXByU1hncUQ4MlBYeXZG?=
- =?utf-8?B?Y3V4MnJ5cmhGMFFyZ2tSMW4rODZLKy9lVldJNm5WdWVydUNCYlZ0ckd2a25X?=
- =?utf-8?B?WlNoKy84SDZCeEZSeDloTWNwYlZLMDFOYmtpdUdHRHB5WG1GaGE4ZFdHOXNN?=
- =?utf-8?B?cDZhdk5DZ3NMSlp1TWNxMmQrRGhsL3BUVkw4MC9jTXhvWVBaQUEzSUdwVlpa?=
- =?utf-8?Q?gOOUlcuRYyxVqzPra6WlWuvbv/WMk0B8ndhzfIy?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c19172f-e664-4cda-8893-08d96d5edd4a
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 15:40:46.0003 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZCpbIeEXW0ZMPL1fMdQvlgdM6IItpVBTzCRQpsd5sE8NplK18EHO73h5OlZGXnSrVxXvArIjVsTJt4F9N7aqOA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5258
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <17361a26-3516-64df-0e47-3e1e025cef1e@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,82 +58,260 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Aug 31, 2021 at 03:01:51PM -0700, Daniele Ceraolo Spurio wrote:
+> <snip>
+> 
+> > > +}
+> > > +
+> > > +void intel_pxp_invalidate(struct intel_pxp *pxp)
+> > > +{
+> > > +	struct drm_i915_private *i915 = pxp_to_gt(pxp)->i915;
+> > > +	struct i915_gem_context *ctx, *cn;
+> > > +
+> > > +	/* ban all contexts marked as protected */
+> > > +	spin_lock_irq(&i915->gem.contexts.lock);
+> > > +	list_for_each_entry_safe(ctx, cn, &i915->gem.contexts.list, link) {
+> > > +		struct i915_gem_engines_iter it;
+> > > +		struct intel_context *ce;
+> > > +
+> > > +		if (!kref_get_unless_zero(&ctx->ref))
+> > > +			continue;
+> > > +
+> > > +		if (likely(!i915_gem_context_uses_protected_content(ctx))) {
+> > > +			i915_gem_context_put(ctx);
+> > > +			continue;
+> > > +		}
+> > > +
+> > > +		spin_unlock_irq(&i915->gem.contexts.lock);
+> > > +
+> > > +		/*
+> > > +		 * By the time we get here, the HW keys are already long gone,
+> > > +		 * so any batch using them that's already on the engines is very
+> > > +		 * likely a lost cause (and it has probably already hung the
+> > > +		 * engine). Therefore, we skip attempting to pull the running
+> > > +		 * context out of the HW and we prioritize bringing the session
+> > > +		 * back as soon as possible.
+> > > +		 * For each context we ban we increase the ctx->guilty_count, so
+> > > +		 * that userspace can see that all the intel contexts have been
+> > > +		 * banned (on a non-recoverable gem context, guilty intel
+> > > +		 * contexts are banned immediately on reset, so we report the
+> > > +		 * same way here).
+> > hmm... but guilty specifically means that they indeed caused the GPU hang.
+> > does the umd really need this indication? any other way of doing this?
+> 
+> The request from Daniel was to re-use the existing interface and AFAICT the
+> guilty_count is the only one we have for this. The alternative would be to
+> add a new flag (like I had in the previous version of this patch), but that
+> was shot down already. Lionel can probably comment more on the UMD
+> requirements for this since it was a request from the mesa side.
 
-Am 2021-09-01 um 4:29 a.m. schrieb Christoph Hellwig:
-> On Mon, Aug 30, 2021 at 01:04:43PM -0400, Felix Kuehling wrote:
->>>> driver code is not really involved in updating the CPU mappings. Maybe
->>>> it's something we need to do in the migration helpers.
->>> It looks like I'm totally misunderstanding what you are adding here
->>> then.  Why do we need any special treatment at all for memory that
->>> has normal struct pages and is part of the direct kernel map?
->> The pages are like normal memory for purposes of mapping them in CPU
->> page tables and for coherent access from the CPU.
-> That's the user page tables.  What about the kernel direct map?
-> If there is a normal kernel struct page backing there really should
-> be no need for the pgmap.
+Daniel and Lionel, could you please comment here?
+Are we really expanding the guilty from the hang meaning?
+Is it really better than creating the new flag?
 
-I'm not sure. The physical address ranges are in the UEFI system address
-map as special-purpose memory. Does Linux create the struct pages and
-kernel direct map for that without a pgmap call? I didn't see that last
-time I went digging through that code.
+> 
+> 
+> > > +		 */
+> > > +		for_each_gem_engine(ce, i915_gem_context_lock_engines(ctx), it)
+> > > +			if (!intel_context_ban(ce, NULL))
+> > > +				atomic_inc(&ctx->guilty_count);
+> > > +		i915_gem_context_unlock_engines(ctx);
+> > > +
+> > > +		/*
+> > > +		 * The context has been killed, no need to keep the wakeref.
+> > > +		 * This is safe from races because the only other place this
+> > > +		 * is touched is context_close and we're holding a ctx ref
+> > > +		 */
+> > The comments make sense, but maybe we should avoid the optimization here,
+> > but maybe we should avoid the optimization and just keep it locked?
+> 
+> The lock released above the comment and the one taken after the pm_put are
+> different ones, so even if we don't release the wakeref here we still need
+> to do the same locking steps. Or did you mean something different with
+> keeping it locked?
 
+oh, please ignore me here. I thought it was the same locking...
 
->
->> From an application
->> perspective, we want file-backed and anonymous mappings to be able to
->> use DEVICE_PUBLIC pages with coherent CPU access. The goal is to
->> optimize performance for GPU heavy workloads while minimizing the need
->> to migrate data back-and-forth between system memory and device memory.
-> I don't really understand that part.  file backed pages are always
-> allocated by the file system using the pagecache helpers, that is
-> using the page allocator.  Anonymouns memory also always comes from
-> the page allocator.
-
-I'm coming at this from my experience with DEVICE_PRIVATE. Both
-anonymous and file-backed pages should be migrateable to DEVICE_PRIVATE
-memory by the migrate_vma_* helpers for more efficient access by our
-GPU. (*) It's part of the basic premise of HMM as I understand it. I
-would expect the same thing to work for DEVICE_PUBLIC memory.
-
-(*) I believe migrating file-backed pages to DEVICE_PRIVATE doesn't
-currently work, but that's something I'm hoping to fix at some point.
-
-
->
->> The pages are special in two ways:
->>
->>  1. The memory is managed not by the Linux buddy allocator, but by the
->>     GPU driver's TTM memory manager
-> Why?
-
-It's a system architectural decision based on the access latency to the
-memory and the expected use cases that we do not want the GPU driver and
-the Linux buddy allocator and VM subsystem competing for the same device
-memory.
-
-
->
->>  2. We want to migrate data in response to GPU page faults and
->>     application hints using the migrate_vma helpers
-> Why? 
-
-Device memory has much higher bandwidth and much lower latency than
-regular system memory for the GPU to access. It's essential for enabling
-good GPU application performance. Page-based memory migration enables
-good performance with more intuitive programming models such as
-managed/unified memory in HIP or unified shared memory in OpenMP. We do
-this on our discrete GPUs with DEVICE_PRIVATE memory.
-
-I see DEVICE_PUBLIC as an improved version of DEVICE_PRIVATE that allows
-the CPU to map the device memory coherently to minimize the need for
-migrations when CPU and GPU access the same memory concurrently or
-alternatingly. But we're not going as far as putting that memory
-entirely under the management of the Linux memory manager and VM
-subsystem. Our (and HPE's) system architects decided that this memory is
-not suitable to be used like regular NUMA system memory by the Linux
-memory manager.
-
-Regards,
-  Felix
-
-
+> 
+> Thanks,
+> Daniele
+> 
+> > 
+> > > +		if (ctx->pxp_wakeref) {
+> > > +			intel_runtime_pm_put(&i915->runtime_pm,
+> > > +					     ctx->pxp_wakeref);
+> > > +			ctx->pxp_wakeref = 0;
+> > > +		}
+> > > +
+> > > +		spin_lock_irq(&i915->gem.contexts.lock);
+> > > +		list_safe_reset_next(ctx, cn, link);
+> > > +		i915_gem_context_put(ctx);
+> > > +	}
+> > > +	spin_unlock_irq(&i915->gem.contexts.lock);
+> > > +}
+> > > +
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+> > > index 8f1e86caa53f..f942bdd2af0c 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+> > > @@ -9,6 +9,8 @@
+> > >   #include "gt/intel_gt_types.h"
+> > >   #include "intel_pxp_types.h"
+> > > +struct drm_i915_gem_object;
+> > > +
+> > >   static inline struct intel_gt *pxp_to_gt(const struct intel_pxp *pxp)
+> > >   {
+> > >   	return container_of(pxp, struct intel_gt, pxp);
+> > > @@ -33,6 +35,10 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp);
+> > >   void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
+> > >   int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp);
+> > > +
+> > > +int intel_pxp_key_check(struct intel_pxp *pxp, struct drm_i915_gem_object *obj);
+> > > +
+> > > +void intel_pxp_invalidate(struct intel_pxp *pxp);
+> > >   #else
+> > >   static inline void intel_pxp_init(struct intel_pxp *pxp)
+> > >   {
+> > > @@ -46,6 +52,12 @@ static inline int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp)
+> > >   {
+> > >   	return -ENODEV;
+> > >   }
+> > > +
+> > > +static inline int intel_pxp_key_check(struct intel_pxp *pxp,
+> > > +				      struct drm_i915_gem_object *obj)
+> > > +{
+> > > +	return -ENODEV;
+> > > +}
+> > >   #endif
+> > >   #endif /* __INTEL_PXP_H__ */
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+> > > index 67c30e534d50..c6a5e4197e40 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+> > > @@ -72,6 +72,9 @@ static int pxp_create_arb_session(struct intel_pxp *pxp)
+> > >   		return ret;
+> > >   	}
+> > > +	if (!++pxp->key_instance)
+> > > +		++pxp->key_instance;
+> > > +
+> > >   	pxp->arb_is_valid = true;
+> > >   	return 0;
+> > > @@ -85,6 +88,9 @@ static int pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
+> > >   	/* must mark termination in progress calling this function */
+> > >   	GEM_WARN_ON(pxp->arb_is_valid);
+> > > +	/* invalidate protected objects */
+> > > +	intel_pxp_invalidate(pxp);
+> > > +
+> > >   	/* terminate the hw sessions */
+> > >   	ret = intel_pxp_terminate_session(pxp, ARB_SESSION);
+> > >   	if (ret) {
+> > > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> > > index 5a170e43c959..c394ab2e452b 100644
+> > > --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> > > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> > > @@ -7,7 +7,9 @@
+> > >   #define __INTEL_PXP_TYPES_H__
+> > >   #include <linux/completion.h>
+> > > +#include <linux/list.h>
+> > >   #include <linux/mutex.h>
+> > > +#include <linux/spinlock.h>
+> > >   #include <linux/types.h>
+> > >   #include <linux/workqueue.h>
+> > > @@ -27,6 +29,13 @@ struct intel_pxp {
+> > >   	 */
+> > >   	bool arb_is_valid;
+> > > +	/*
+> > > +	 * Keep track of which key instance we're on, so we can use it to
+> > > +	 * determine if an object was created using the current key or a
+> > > +	 * previous one.
+> > > +	 */
+> > > +	u32 key_instance;
+> > > +
+> > >   	struct mutex tee_mutex; /* protects the tee channel binding */
+> > >   	/*
+> > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> > > index 920e9e852e5a..9ff77732428b 100644
+> > > --- a/include/uapi/drm/i915_drm.h
+> > > +++ b/include/uapi/drm/i915_drm.h
+> > > @@ -1846,12 +1846,36 @@ struct drm_i915_gem_context_param {
+> > >    * attempted to use it, never re-use this context param number.
+> > >    */
+> > >   #define I915_CONTEXT_PARAM_RINGSIZE	0xc
+> > > +
+> > > +/*
+> > > + * I915_CONTEXT_PARAM_PROTECTED_CONTENT:
+> > > + *
+> > > + * Mark that the context makes use of protected content, which will result
+> > > + * in the context being invalidated when the protected content session is. The
+> > > + * invalidation is reported back to userspace by banning all the engine contexts
+> > > + * within the gem context and increasing the guilty_count to match; this will
+> > > + * be reported in the RESET_STATS ioctl the same way as if the bans were due to
+> > > + * hangs. Given that the protected content session is killed on suspend, the
+> > > + * device is kept awake for the lifetime of a protected context, so the user
+> > > + * should make sure to dispose of them once done.
+> > > + * This flag can only be set at context creation time and, when set to true,
+> > > + * must be preceded by an explicit setting of I915_CONTEXT_PARAM_RECOVERABLE
+> > > + * to false. This flag can't be set to true in conjunction with setting the
+> > > + * I915_CONTEXT_PARAM_BANNABLE flag to false.
+> > > + *
+> > > + * In addition to the normal failure cases, setting this flag during context
+> > > + * creation can result in the following errors:
+> > > + *
+> > > + * -ENODEV: feature not available
+> > > + * -EPERM: trying to mark a recoverable or not bannable context as protected
+> > > + */
+> > > +#define I915_CONTEXT_PARAM_PROTECTED_CONTENT    0xd
+> > >   /* Must be kept compact -- no holes and well documented */
+> > >   	__u64 value;
+> > >   };
+> > > -/*
+> > > +/**
+> > >    * Context SSEU programming
+> > >    *
+> > >    * It may be necessary for either functional or performance reason to configure
+> > > @@ -2979,8 +3003,12 @@ struct drm_i915_gem_create_ext {
+> > >   	 *
+> > >   	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
+> > >   	 * struct drm_i915_gem_create_ext_memory_regions.
+> > > +	 *
+> > > +	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+> > > +	 * struct drm_i915_gem_create_ext_protected_content.
+> > >   	 */
+> > >   #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+> > > +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
+> > >   	__u64 extensions;
+> > >   };
+> > > @@ -3038,6 +3066,31 @@ struct drm_i915_gem_create_ext_memory_regions {
+> > >   	__u64 regions;
+> > >   };
+> > > +/**
+> > > + * struct drm_i915_gem_create_ext_protected_content - The
+> > > + * I915_OBJECT_PARAM_PROTECTED_CONTENT extension.
+> > > + *
+> > > + * If this extension is provided, buffer contents are expected to be protected
+> > > + * by PXP encryption and require decryption for scan out and processing. This
+> > > + * is only possible on platforms that have PXP enabled, on all other scenarios
+> > > + * using this extension will cause the ioctl to fail and return -ENODEV. The
+> > > + * flags parameter is reserved for future expansion and must currently be set
+> > > + * to zero.
+> > > + *
+> > > + * The buffer contents are considered invalid after a PXP session teardown.
+> > > + *
+> > > + * The encryption is guaranteed to be processed correctly only if the object
+> > > + * is submitted with a context created using the
+> > > + * I915_CONTEXT_PARAM_PROTECTED_CONTENT flag. This will also enable extra checks
+> > > + * at submission time on the validity of the objects involved.
+> > > + */
+> > > +struct drm_i915_gem_create_ext_protected_content {
+> > > +	/** @base: Extension link. See struct i915_user_extension. */
+> > > +	struct i915_user_extension base;
+> > > +	/** @flags: reserved for future usage, currently MBZ */
+> > > +	__u32 flags;
+> > > +};
+> > > +
+> > >   /* ID of the protected content session managed by i915 when PXP is active */
+> > >   #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
+> > > -- 
+> > > 2.25.1
+> > > 
+> 
