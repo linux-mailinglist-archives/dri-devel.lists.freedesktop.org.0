@@ -2,119 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D793FD0B7
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 03:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87B33FD0BB
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 03:30:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C82206E10C;
-	Wed,  1 Sep 2021 01:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9390E6E10D;
+	Wed,  1 Sep 2021 01:30:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2076.outbound.protection.outlook.com [40.107.243.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C519F6E107;
- Wed,  1 Sep 2021 01:29:21 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2058.outbound.protection.outlook.com [40.107.94.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0E106E107;
+ Wed,  1 Sep 2021 01:30:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dt0IbOWihUSoGRuev+O8krrNM9FPxSCdkYD2KLMVUUAYsNhmhnc9sD3JyDGFr4RcrWbBdS/gKtKR1Mh4RBOpID3Q0bzoBI43vKCTiDoW0X2sqBHmSkinpxbj3JYEs5hEqCHuS3KGtKjMqyafpmI3ffRRIzEpI2qQVYxT2DTg3+kNJ5n/DMxcHknJKP9oMqwTBNDBfiUDpAh0yiGFSXclmhBtycPWe6dUuM83YBr3AczdTNZtj0sY0w5tbV8MKNbSvqb8H+/vKrLdVw1VH5WstRYajx0t9DQdbyjFT/1EzERUsg+HzC7K4p9G2qY7Kd3mfGLy56Z8nce5OwZzXDQaog==
+ b=Rx7ZLbWkQiTKqYe/GPWSU0FeisM2ICwsAlER45IfRZUqGBB5RLCaOgS40SFgEsiBjvcdzgAjj+vmzelc/3f140IDhoYg8Qn8FKBgg2tlefHfrwa0rJrjXQVKiz+eX/JfyETNqvqDo/7/3TAfNu3cb1hnW5IBqFItq8Yhz92f9XT8kYKPTIzzlcyQz2lqak/KZO8ybdjqv8uQzhtDnGlpt+QWIdBT1hq0LWN1LFkZCU1M/s50+Um8AHdJtK+RLqiFKY1kUrK2kSaevHQpXLpUuuaLTe1UaiCCwpoF417xAvh4YCiJpddmeaMNOv16uJoogRsyBgfrP9A37hNhv/cSRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2IoesVJS42qi0rGgwujGKUYndVI92Z6/GsD5AAqzaqI=;
- b=HEbmAHZcqVR441bnnmxTgdn03Lmd1OnS9hck4+TbpKldjt6Bn+UUQnBRQUPmD0Iaa2WsYQNXPoLa6Z6kBc85RpTjvYOUpc6ZFtcYvfFmGEswmxwkpcIK/Fp2nSBj9Yl5S9Xawfof4odqfNDh598rHS+y9N7UqVhbxjTurLOd+ZrW0FOQknJdX7HG+Fm5w0boZg29djyOnkEnnPD5cFeL2Ep+3CvpnBJz2hxHn+SJn+0OJrWBA+mOo2xbIoM6rKPhsErMtXxf3d0a1d1ae/Eg4WeP9CmWM92QW8NNumQuNK5acH9k/7QQS207WjADY+jaz2AjAKqCxXK1MJNQbXCOqw==
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=QAu+0GK19Peut1mMsW4NxJZZOkwuZmN1gCWHYj2rRrg=;
+ b=eU3VgpQnwooGbZGeqAOBVXox/wMhjepC4cB0OzZkuyBAR3uvAl3GzXmlXF3yWBnZUoODXcSk9bMYNoCmAPVGyy4S+k/23eN6BhxMhXZfpwSxlo0ge9exMy915XG6t4aV9NHIopihwEkqM1qQ1Sxt/NNSSsodfaQT9b0laqHhcsR/VdB+lQyNpeERFdn/YqwpZG0hET5rLW6OTfNXqPG8pw6br/njqZLwLeUPQJKZMpMTtfWGSWFHtvVEMihl4iv6XCebO/ExgD+11QJ2dwIVrDJ7B+sRS+2m2ryoirMk1lXKGyW7+53WEuroHzk2/TNvl9Mq8fRp5tlH6ruv/ESHnA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2IoesVJS42qi0rGgwujGKUYndVI92Z6/GsD5AAqzaqI=;
- b=DJA/goHnD04zBl8vE57pS2Z7VpLU+rv6Z2tsOeVngDYCgnY0iZMLN/gUmWsQ7F5Vd/tr/CIQb+91nlV3lEKs9kh+m9w6EZ303fyspEFELY9eRx0+EcaB1WS6MeVOyElqB/v5IB9i6jQsLNCFLSin+2HigV5p0lSIiZHba55frPI=
+ bh=QAu+0GK19Peut1mMsW4NxJZZOkwuZmN1gCWHYj2rRrg=;
+ b=QRByJYsACjAkhpL2zg4ufcbnW6ztcR85KAKwSIVoYDoY5v87Wj1Q+xCjNaZHZa6IYZYqU1XhP0IiD3a+TiI32gRvnEXusBlEMCRmePbfPd7CjlofOdYcM+YI8Z63TkIuDfIZM0RrruX6vhKmTG4IMC9CrLjDytRv44K4mypYlU4=
 Received: from BL1PR12MB5269.namprd12.prod.outlook.com (2603:10b6:208:30b::20)
- by BL1PR12MB5141.namprd12.prod.outlook.com (2603:10b6:208:309::7)
+ by BL1PR12MB5224.namprd12.prod.outlook.com (2603:10b6:208:319::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Wed, 1 Sep
- 2021 01:29:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.17; Wed, 1 Sep
+ 2021 01:30:45 +0000
 Received: from BL1PR12MB5269.namprd12.prod.outlook.com
  ([fe80::acc6:c407:1353:6a]) by BL1PR12MB5269.namprd12.prod.outlook.com
  ([fe80::acc6:c407:1353:6a%5]) with mapi id 15.20.4457.024; Wed, 1 Sep 2021
- 01:29:19 +0000
+ 01:30:45 +0000
 From: "Liu, Monk" <Monk.Liu@amd.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-CC: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Chen,
- Jingwen" <Jingwen.Chen@amd.com>
-Subject: RE: [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
-Thread-Topic: [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
-Thread-Index: AQHXnlP2mFtzZkoHtk2/en3mh4fQiauNk0kAgAAAugCAANDbAA==
-Date: Wed, 1 Sep 2021 01:29:19 +0000
-Message-ID: <BL1PR12MB5269292A3E9E6014043C280E84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
-References: <1630406139-19621-1-git-send-email-Monk.Liu@amd.com>
- <1630406139-19621-2-git-send-email-Monk.Liu@amd.com>
- <YS4nlkpjeitiwFy1@phenom.ffwll.local> <YS4oMrFTj0+wmMbY@phenom.ffwll.local>
-In-Reply-To: <YS4oMrFTj0+wmMbY@phenom.ffwll.local>
+To: Daniel Vetter <daniel@ffwll.ch>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>
+CC: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
+ =?iso-8859-1?Q?Christian_K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/sched: fix the bug of time out calculation(v3)
+Thread-Topic: [PATCH] drm/sched: fix the bug of time out calculation(v3)
+Thread-Index: AQHXmjadxsIrIGn2Y02EiNcylnR376uF0cOAgABnvwCAALnqcIAAbyWAgAAI6wCAAEEfgIAAAjQAgAXvW4CAAM8IcA==
+Date: Wed, 1 Sep 2021 01:30:45 +0000
+Message-ID: <BL1PR12MB526981C97D188633E7C728D984CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
+References: <1629953731-14629-1-git-send-email-Monk.Liu@amd.com>
+ <20419179-ee90-45aa-f4b8-b6bcb20a9c52@amd.com>
+ <cc01416c-c04e-a716-f617-71351c1ad06a@amd.com>
+ <BL1PR12MB5269AAC2FA518CF85724C85D84C89@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <257202a9-a670-5b89-f98d-01855b6e41cf@amd.com>
+ <da180d36-b5dd-733e-3721-3333b0cf405e@gmail.com>
+ <9bb9b448-ea93-e8f9-818e-c6d27d4a8264@amd.com>
+ <8171ae25-72b6-7400-6969-61885ca5094b@amd.com>
+ <YS4pz4SZBLPyllG+@phenom.ffwll.local>
+In-Reply-To: <YS4pz4SZBLPyllG+@phenom.ffwll.local>
 Accept-Language: en-US, zh-CN
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-09-01T01:29:18Z; 
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-09-01T01:30:44Z; 
  MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
  MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
  Only-AIP 2.0;
  MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=bedbb393-8a99-432c-a673-d2d1dc91a9b7;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=b5fcefe8-2217-4699-90c3-b7b72f7fc7e8;
  MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
 authentication-results: ffwll.ch; dkim=none (message not signed)
  header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 29f136d5-a108-4ba9-3088-08d96ce7ebd9
-x-ms-traffictypediagnostic: BL1PR12MB5141:
+x-ms-office365-filtering-correlation-id: 91f19b1e-6d5a-48b0-7c37-08d96ce81eea
+x-ms-traffictypediagnostic: BL1PR12MB5224:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BL1PR12MB5141C9712331547946D1E2BF84CD9@BL1PR12MB5141.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-microsoft-antispam-prvs: <BL1PR12MB522476D13269EE76CEA4495C84CD9@BL1PR12MB5224.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BtoNB5nEMOFv/uA26BmRr3NThbFn0+lnANtHp51c+3MuorMKhyKQXeCBWQIlur3RriUBjCkj4m4wWgyOpgGTEQVquwRZ8nj5zJAOkkMDeTQPXe3g4NSyPWkbdgDgDACHjHVvQgybkubG+3NM97fzUt8mWmP5dPSb1g92uyGYwQ+xeIwC0oVoF92fHUWyz3jCUrdxbZn0WjrwsbM90pT3Y04zUpmFcnRsqjQZU1eOmThfQLveI5kiiUogoEpN11Ode4CsR+Wpdsx2IW/EKPGNLw9l0di69Xrw//u4MIPqPV78Zha+8x8BF+kqimeUdF/N3U7/iHQ64W3lFigIKVWJyCyGtxZdj5HNTrhNFYVZ94aq5QcVwOKvDe+yfXFB1CcSMGwidA4v4rn3xzgZe0hvokV/tZO4dfeSUX9iA93R+z6rCLwMFpBPZE4edcJ+y6PSU6gsF32+KkNPlmdQ12oQWT8DxIfY5seLtPizVzMk+wf8zrS+IyhqJk8cx5ytrUgVhoGdPlcYdVgVAgr2I94eZ/kr4bvywWw2Xt9mdM5mkZlvvMmk732hDHOR+wIiJ4p3Siiwp4DtUMGesu1/SGB4vukLm/+YamTZpv/RhlQXDPuPoQIa7eoClDCqokR94m2EZufwh7POFkTKaEMAMtLLzstMFPBzBlzGgle2zTz1qaDFrJZG/xCb0rlxPMkZqWsK67hgL6AiZmh3Fpfw1GJIzRqLbemADkDUcSIxo2xEYBNqWEOiyqntFQpCCy2dc9R0A9DAO8S7QrG1O9IxEfqu/eYMw8zcanPP0Do05tuDQE+sx4EypedEcBgEH5i8L3P2k1k2cLvfqvzzowKhACViSg==
+x-microsoft-antispam-message-info: ZITAUskfftz1pkA2EpjUxSCdTJIx7Yu/EyHPl/ICGyG3sjOrKInwR3AC2yEOypkypXcib9MMmDDemHz/6xw+wJ/Ok0grP2yZYBuQk50+lZ0NfIIVIHSudjj5Mu6Lbf+qVsIBuSKo3zcikyLNRXWge/Mhj2LQ9A7Ux/uyCiUwClne65ccyfw2oXuSpt9gjd4arkPj7sQXBhRINjDxwEtpVvIgD7yvdJRVfXF13/qWPWWdm7PDICJAtPeP9OJvZISPIOyZnXryIqE5DvB3ibxUjV9h83WPywVxkvlq+Na4j/2aVM/6KWvSnQ6xtK+h6IHH04mDDMyGzhhyQuiCY/X2Jr+2THHj1plTuHi8efpmXNgMLxClGNIeyIKoPlA7/1avzZ68MX1CcqBT2FSGaq/udGKfViKnz3mU/XlPPvX1Y6JF/MRr7I1/0zyhCsNNCTUn8dD1q73P8IADaLm9Z1FLzzwrYeqOifRECn3xvlQqPI08s9NXh+3ShkNuyEleoks52bU/Ke9N521bQVEV9O2ghzGP2WSkDmMPsuDcj8bA5tKs8ISCMm1Vuq7X9Hju8Rn16SMpXp48TBoP6F0EC8uXUPkYg47bUi9fnDHvgaz291XiVb9N4iEKk6cLic89enFAXzYqBBVO54BbazU+najdxXTIq0RjRW3+vwfJ6E2GqWPmCKLtaZucMZYxslDPdx9eMnaZl9uo9ThYj3WC9Tx9Rh+qXe5tYkfV9w5hbu7SDCyGQrthM4lgC+4ZD/gGbum1PWpVq/JgIOc8nQAklh5J+VrDVWaHA2Q/cuJ+dpnLb4GiAzSfuPQgTrk/fo/S3GJNd6A7i+PvyjfJ5SaJgXiWPw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL1PR12MB5269.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(26005)(66556008)(6916009)(5660300002)(122000001)(54906003)(966005)(71200400001)(508600001)(316002)(6506007)(66446008)(186003)(76116006)(53546011)(64756008)(83380400001)(86362001)(8936002)(38100700002)(66476007)(4326008)(2906002)(33656002)(38070700005)(7696005)(9686003)(45080400002)(66946007)(55016002)(52536014)(8676002);
+ SFS:(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(38100700002)(5660300002)(122000001)(7696005)(6506007)(478600001)(53546011)(33656002)(66574015)(71200400001)(2906002)(52536014)(4326008)(110136005)(86362001)(9686003)(55016002)(76116006)(186003)(8676002)(45080400002)(38070700005)(54906003)(966005)(6636002)(316002)(66946007)(26005)(66446008)(64756008)(66556008)(66476007)(8936002)(83380400001);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Qa/Pp720j1SUvDCQkhZZDjdeIApt3HG9sIhtbs86GdFxKc8Acxoz5DMtCBqp?=
- =?us-ascii?Q?Zlz2n9ZiqujOpgq+5bSX0ubmDwOSGsr3CuvHywdFsLGTLWsMUzHnLvZmoUc9?=
- =?us-ascii?Q?YGjaRjhHUP/SC22iUiUZ7E5fL9IQg8qHl73ypjM9rFHl+ngeEJD+cV2mPxL3?=
- =?us-ascii?Q?KI1G9ADGfUX97/1NkRP4KOmWd0KDiWSIE6cd2/jNrPsvjd7xMPWKpsJQavFX?=
- =?us-ascii?Q?XHBBLX/HkVjO9zlYuCU/ASC8sanKNPqKjU7/FxBWX49vQGCbzDSaCnZlAcyc?=
- =?us-ascii?Q?D34ClInomtYmQu4Ey/cReIEdsNwhM1EIlhWK230XNgyBrvgTCDujHxy0Bb+s?=
- =?us-ascii?Q?YKsjEldRyIfJpY+COB/tJ9uo4fXMeIhbhKtBtVgrou8WgNAyTA1T7sxJiMGB?=
- =?us-ascii?Q?DXPD245HrQebi1ALeeDV4oLcZU1MdkdCVx1QNxNt/FjwPNiZUtAR5Mzmuot9?=
- =?us-ascii?Q?TBeP/+v+AJQHKlDH9MjtefX4fi0Djl2uX7tdYdZ1uk9q6AUMfsEwob99gH4H?=
- =?us-ascii?Q?Ey9eiPM5B5PIj9wEwY0IXvPCzpPJxzowZYO39nN/GpVeFOck4q3io0+amzEa?=
- =?us-ascii?Q?IJZLgo0KGCKz8QYgFE6PFOWpPcMnmkZoA9xlcCbKARkJukdrme09XMts69Vv?=
- =?us-ascii?Q?C6rCupdFPmkf+4zQGPjUm2vPaR8G+4SzwC7FKy6uvD4zxvXI5qF5Ck8hy3lP?=
- =?us-ascii?Q?6bs4RYpPiJQjdfyzN19Y0M8YswDeaLbRiGmiZnjKaRnG6ou/u7/GZwkAuMyo?=
- =?us-ascii?Q?fbGELFWmSe1oa+9MW1W4HgKGRLNRcQIf1rk2IgicoXZqBnJVcxiC38d0T9YF?=
- =?us-ascii?Q?kdAZu2ZtSffWMgATMHKenNYBiv3bDONF2qy4j3M3xUEIFAy9J5qC5Fi/Keuc?=
- =?us-ascii?Q?2P3O53n92rBQJp309E+9IqEdiNYJQyKxWi+11uNsv2sZHt8oxRTn2h2sRya0?=
- =?us-ascii?Q?w9h70pQp7qNfT4MVYG/O+8WRurd6Kmmcvr87bgHMb6+ljOd8ni/vGH3/xxIE?=
- =?us-ascii?Q?zv0UjyFXrQZZdOkA9l5sgCVWZCH0BakSjVZE1VZetjlswCAB9RLPFWyIE9+I?=
- =?us-ascii?Q?36NecF7D11jsf7c9CkNtUgxCD6+Sh3DKmp8sTxIYbS4NYNRNsUoQI/bWN2AN?=
- =?us-ascii?Q?fPce+MqNAS4oAsTCmw/O6eKr/FmVYtMgUZGm5AjGtAQ9/V2W6tUlwWk/zTXz?=
- =?us-ascii?Q?JzT1fEi0Yn60B54WELL2GZRw5E0nEkFkx+MCnlmfobcVikqkYGgMo4Q2sHuo?=
- =?us-ascii?Q?u2mRP2WOmE5N/c/9NEL8+bZafrMn4qAPUEJgQ8FnPLVL2b7nRqL6ajSecZ0c?=
- =?us-ascii?Q?Q8B0erOIZkJ4JQrsVqXqZmSW?=
-Content-Type: text/plain; charset="us-ascii"
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?IvNao+iI94irCUq9PJ/VH6dxVB0gvFAYfYCxbpdO/PvG3M8cexfvLJDOBi?=
+ =?iso-8859-1?Q?GYZ/kLAcsng//xRNqEfkc0GRmUzQlK08chXbpNutVrfFHOS0XzKN0G6GgW?=
+ =?iso-8859-1?Q?z2MKvjqqjn+g7AdEnFlet7Dy9y9/Pc6811+AGdfgSwWWYNLcWqwkuh+Csn?=
+ =?iso-8859-1?Q?nM0HfQQUIzZ4KDLzkbnRMi5FzeqSepAaoZPJrcl91U/gImw2Km4pkPx4pk?=
+ =?iso-8859-1?Q?MWzKdPWgWSLxmZ9f0loyKRGjhpgyVUJcOkfj4q5/UXddD8VBUitzBYUjvc?=
+ =?iso-8859-1?Q?Xe3EwkGs3Xglvx0UnOnBQtJNFwb/VrjtSNWBQ7ZTCAfsC6KsG0B2Rd1zIy?=
+ =?iso-8859-1?Q?cDf8+pkpKiwkV1JoxR7TxGHaDLhzkjAIDo6VXsKdMD4wZMiJjo9AmizmKK?=
+ =?iso-8859-1?Q?rzBz6PZ6OGHLM6iy9osn8XmNcXQrZ4LbvpJUcYonZ+vHqZwkyPm8+a4v1k?=
+ =?iso-8859-1?Q?IX4T8lS9maMej0QDfmlztWPcDpuNITokswygbT4VwZA6XCf3ANovAJF6Fx?=
+ =?iso-8859-1?Q?WPfGSgW7ES6Ci8qeepNyEQbIz8khQQzIcBrPtGpnhPVkX2b5KeH+wepH9v?=
+ =?iso-8859-1?Q?7/UdMu+Nc7YcCycdtWr0nxuCZ9wWAIk6q8xO4foLgXoZa5Cdc5B8X+d3fv?=
+ =?iso-8859-1?Q?LjJCXjyrES51ka0YnJdEUyAcP+jgeDwA38z6LTaQEhf78RL3aOpsQdXpzy?=
+ =?iso-8859-1?Q?rJX2QWueRaRpRw8ZIJr7s+1nDzkov4FfHgRo3NW6uUDeP8GuTml0CaIYXr?=
+ =?iso-8859-1?Q?SCdtEXCkpUpS9SbsFO0aN9YQOU48Vl9RjQ9TeXUNIb99FiZKnA93wOv4HX?=
+ =?iso-8859-1?Q?BFJXR8szmF+E/IejaZZ5/IYcu8Qh9CcjVvlGj2v3vVcKwzqOoMUoSnhSdM?=
+ =?iso-8859-1?Q?gvrzI+in/BCSmwhyg0UFb5Ln8a9taIEg+OJ1kJFC1hc0KIH3v1pRlO2uzq?=
+ =?iso-8859-1?Q?nPIvxC3NdTFi4ciDAahGPazoAI0TooPrSCFflFbT2lfqNf2Dkky4YVCkcV?=
+ =?iso-8859-1?Q?ZcijJzetgDt3ht/CwfiEJjErNW476c8eJJ+WIKFtTbvEMWC1HQ9w0t30R0?=
+ =?iso-8859-1?Q?rfSIn9thza4zlUIXs452NZin6ITCIZDhj2gxrcWuxNSw4EIdckNOTnodJA?=
+ =?iso-8859-1?Q?T8jMMiGPzCrG3FCz8qdaSml3GMqUFPMPjgcYB56a3inqY1Py9zqFIIUj7Q?=
+ =?iso-8859-1?Q?VrFXJiSB9jkLKD15ewXrownJCibKpl9biMihlAm/mcEb45FakHvSG9M4ij?=
+ =?iso-8859-1?Q?EjrCv7tJsG2LOSIu+iOPrLGBAfpywcSbRJrkYLsYvnF5LhLkn9gD4oFEPj?=
+ =?iso-8859-1?Q?4CYz9AWwEHHqEqXEUa6B2meILPUyItSj816HTtM4Opn2REQ/9absajYBN1?=
+ =?iso-8859-1?Q?YaF1GzkGOg?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5269.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29f136d5-a108-4ba9-3088-08d96ce7ebd9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2021 01:29:19.9222 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91f19b1e-6d5a-48b0-7c37-08d96ce81eea
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2021 01:30:45.5735 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: StuEv3txz4kwxpf2LIMvflMjoHr05ZqBzFYYHrasGR79Z8k8E6gG8juw1vPGZFC/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5141
+X-MS-Exchange-CrossTenant-userprincipalname: yZ0hRg/zCgHdeyDofa3lV6YOlzEwQzCA3NHPCRQDQtNi/pDYJZpCvx1jlFOPs+Hq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5224
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,7 +141,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 [AMD Official Use Only]
 
-Okay, I will reprepare this patch
+That' really matter in practice, when two jobs from different process sched=
+uled to the ring close to each other, if we don't discriminate A from B the=
+n B will be considered a bad job due to A's timeout, which will force B's p=
+rocess to exit (e.g.: X server)
 
 Thanks=20
 
@@ -142,117 +154,242 @@ Monk Liu | Cloud-GPU Core team
 
 -----Original Message-----
 From: Daniel Vetter <daniel@ffwll.ch>=20
-Sent: Tuesday, August 31, 2021 9:02 PM
-To: Liu, Monk <Monk.Liu@amd.com>
-Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Chen, J=
-ingwen <Jingwen.Chen@amd.com>
-Subject: Re: [PATCH 2/2] drm/sched: serialize job_timeout and scheduler
+Sent: Tuesday, August 31, 2021 9:09 PM
+To: Koenig, Christian <Christian.Koenig@amd.com>
+Cc: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Christian K=F6nig <ckoe=
+nig.leichtzumerken@gmail.com>; Liu, Monk <Monk.Liu@amd.com>; amd-gfx@lists.=
+freedesktop.org; dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/sched: fix the bug of time out calculation(v3)
 
-On Tue, Aug 31, 2021 at 02:59:02PM +0200, Daniel Vetter wrote:
-> Can we please have some actual commit message here, with detailed=20
-> explanation of the race/bug/whatever, how you fix it and why this is=20
-> the best option?
+On Fri, Aug 27, 2021 at 08:30:32PM +0200, Christian K=F6nig wrote:
+> Yeah, that's what I meant with that the start of processing a job is a=20
+> bit swampy defined.
 >=20
-> On Tue, Aug 31, 2021 at 06:35:39PM +0800, Monk Liu wrote:
-> > tested-by: jingwen chen <jingwen.chen@amd.com>
-> > Signed-off-by: Monk Liu <Monk.Liu@amd.com>
-> > Signed-off-by: jingwen chen <jingwen.chen@amd.com>
-> > ---
-> >  drivers/gpu/drm/scheduler/sched_main.c | 24=20
-> > ++++--------------------
-> >  1 file changed, 4 insertions(+), 20 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c=20
-> > b/drivers/gpu/drm/scheduler/sched_main.c
-> > index ecf8140..894fdb24 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -319,19 +319,17 @@ static void drm_sched_job_timedout(struct work_st=
-ruct *work)
-> >  	sched =3D container_of(work, struct drm_gpu_scheduler,=20
-> > work_tdr.work);
-> > =20
-> >  	/* Protects against concurrent deletion in=20
-> > drm_sched_get_cleanup_job */
-> > +	if (!__kthread_should_park(sched->thread))
+> Jobs overload, but we simply don't have another good indicator that a=20
+> job started except that the previous one completed.
 >=20
-> This is a __ function, i.e. considered internal, and it's lockless=20
-> atomic, i.e. unordered. And you're not explaining why this works.
->=20
-> Iow it's probably buggy, and an just unconditionally parking the=20
-> kthread is probably the right thing to do. If it's not the right thing=20
-> to do, there's a bug here for sure.
+> It's still better than starting the timer when pushing the job to the=20
+> ring buffer, because that is completely off.
 
-Also why don't we reuse the function drivers already have to stop a schedul=
-er thread? We seem to have two kthread_park now, that's probably one too mu=
-ch.
+Not sure this matters that much really in practice, and in some cases we mi=
+ght want to actually just reset it all if the built up backlog is way too l=
+ong.
+
+For anything that really runs way too long you want preempt-ctx/revoke fenc=
+es anyway, not end-of-cs fences with tdr.
 -Daniel
 
-> > +		kthread_park(sched->thread);
-> > +
-> >  	spin_lock(&sched->job_list_lock);
-> >  	job =3D list_first_entry_or_null(&sched->pending_list,
-> >  				       struct drm_sched_job, list);
-> > =20
-> >  	if (job) {
-> > -		/*
-> > -		 * Remove the bad job so it cannot be freed by concurrent
-> > -		 * drm_sched_cleanup_jobs. It will be reinserted back after sched->t=
-hread
-> > -		 * is parked at which point it's safe.
-> > -		 */
-> > -		list_del_init(&job->list);
-> >  		spin_unlock(&sched->job_list_lock);
-> > =20
-> > +		/* vendor's timeout_job should call drm_sched_start() */
-> >  		status =3D job->sched->ops->timedout_job(job);
-> > =20
-> >  		/*
-> > @@ -393,20 +391,6 @@ void drm_sched_stop(struct drm_gpu_scheduler *sche=
-d, struct drm_sched_job *bad)
-> >  	kthread_park(sched->thread);
-> > =20
-> >  	/*
-> > -	 * Reinsert back the bad job here - now it's safe as
-> > -	 * drm_sched_get_cleanup_job cannot race against us and release the
-> > -	 * bad job at this point - we parked (waited for) any in progress
-> > -	 * (earlier) cleanups and drm_sched_get_cleanup_job will not be calle=
-d
-> > -	 * now until the scheduler thread is unparked.
-> > -	 */
-> > -	if (bad && bad->sched =3D=3D sched)
-> > -		/*
-> > -		 * Add at the head of the queue to reflect it was the earliest
-> > -		 * job extracted.
-> > -		 */
-> > -		list_add(&bad->list, &sched->pending_list);
-> > -
-> > -	/*
-> >  	 * Iterate the job list from later to  earlier one and either deactiv=
-e
-> >  	 * their HW callbacks or remove them from pending list if they alread=
-y
-> >  	 * signaled.
-> > --
-> > 2.7.4
-> >=20
 >=20
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fblog.
-> ffwll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea18f4fbf76
-> b308d96c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6376601170
-> 51194614%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiL
-> CJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0aWL5%2BJLg
-> KeKbGaMMGqeGI9KE0P0LXlN4%3D&amp;reserved=3D0
+> Christian.
+>=20
+> Am 27.08.21 um 20:22 schrieb Andrey Grodzovsky:
+> > As I mentioned to Monk before - what about cases such as in this=20
+> > test -=20
+> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgi
+> > tlab.freedesktop.org%2Fmesa%2Fdrm%2F-%2Fcommit%2Fbc21168fa924d3fc4a0
+> > 00492e861f50a1a135b25&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7Cbd1847
+> > 4429e34f8eaac208d96c80710e%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C
+> > 0%7C637660121179715855%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiL
+> > CJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3D1WTD3
+> > opiBtT29bbbqJub5nfhWgX5vMNppiFKgWDe%2FoQ%3D&amp;reserved=3D0
+> >=20
+> > Here you don't have serialized sequence where when jobs finishes=20
+> > processing and second starts, they execute together=A0 concurrently -=20
+> > for those cases seems to me restarting the timer for the second job=20
+> > from scratch will let it hang much longer then allowed by TO value.
+> >=20
+> > Andrey
+> >=20
+> > On 2021-08-27 10:29 a.m., Christian K=F6nig wrote:
+> > > I don't think that makes sense.
+> > >=20
+> > > See we don't want to start the time when the job is inserted into=20
+> > > the ring buffer, but rather when it starts processing.
+> > >=20
+> > > Starting processing is a bit swampy defined, but just starting the=20
+> > > timer when the previous job completes should be fine enough.
+> > >=20
+> > > Christian.
+> > >=20
+> > > Am 27.08.21 um 15:57 schrieb Andrey Grodzovsky:
+> > > > The TS represents the point in time when the job was inserted=20
+> > > > into the pending list.
+> > > > I don't think it matters when it actually starts to be=20
+> > > > processed, what matters is when this job was inserted into=20
+> > > > pending list because right at that point you arm the TO timer=20
+> > > > (when no other is running already) and so when the previous job=20
+> > > > completes and you cancel and rearm again you can use that TS=20
+> > > > from the next job in pending list to calculate how much time has=20
+> > > > actually left for it to run before TDR must be initiated and not=20
+> > > > just give it again full TO value to run even if it has already=20
+> > > > been running for a while.
+> > > >=20
+> > > > Also, i am not sure also about the assumption that what we=20
+> > > > measure is processing by HW, what we measure is from the moment=20
+> > > > it was scheduled to ring to the moment the job completed (EOP=20
+> > > > event). At least that what our TDR timer measures and so it=20
+> > > > makes sense to set the TS at this point.
+> > > >=20
+> > > > Andrey
+> > > >=20
+> > > > On 2021-08-27 3:20 a.m., Liu, Monk wrote:
+> > > > > [AMD Official Use Only]
+> > > > >=20
+> > > > > what is that 'ts' representing for ? it looks to me the=20
+> > > > > jiffies that it get scheduled to the ring,=A0 but a job=20
+> > > > > scheduled to the ring doesn't represent it's being processed=20
+> > > > > by hw.
+> > > > >=20
+> > > > > Thanks
+> > > > >=20
+> > > > > ------------------------------------------
+> > > > > Monk Liu | Cloud-GPU Core team
+> > > > > ------------------------------------------
+> > > > >=20
+> > > > > -----Original Message-----
+> > > > > From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
+> > > > > Sent: Friday, August 27, 2021 4:14 AM
+> > > > > To: Liu, Monk <Monk.Liu@amd.com>;=20
+> > > > > amd-gfx@lists.freedesktop.org; Koenig, Christian=20
+> > > > > <Christian.Koenig@amd.com>
+> > > > > Cc: dri-devel@lists.freedesktop.org
+> > > > > Subject: Re: [PATCH] drm/sched: fix the bug of time out
+> > > > > calculation(v3)
+> > > > >=20
+> > > > > Attached quick patch for per job TTL calculation to make more=20
+> > > > > precises next timer expiration. It's on top of the patch in=20
+> > > > > this thread. Let me know if this makes sense.
+> > > > >=20
+> > > > > Andrey
+> > > > >=20
+> > > > > On 2021-08-26 10:03 a.m., Andrey Grodzovsky wrote:
+> > > > > > On 2021-08-26 12:55 a.m., Monk Liu wrote:
+> > > > > > > issue:
+> > > > > > > in cleanup_job the cancle_delayed_work will cancel a TO=20
+> > > > > > > timer even the its corresponding job is still running.
+> > > > > > >=20
+> > > > > > > fix:
+> > > > > > > do not cancel the timer in cleanup_job, instead do the=20
+> > > > > > > cancelling only when the heading job is signaled, and if=20
+> > > > > > > there is a "next" job we start_timeout again.
+> > > > > > >=20
+> > > > > > > v2:
+> > > > > > > further cleanup the logic, and do the TDR timer cancelling=20
+> > > > > > > if the signaled job is the last one in its scheduler.
+> > > > > > >=20
+> > > > > > > v3:
+> > > > > > > change the issue description remove the=20
+> > > > > > > cancel_delayed_work in the begining of the cleanup_job=20
+> > > > > > > recover the implement of drm_sched_job_begin.
+> > > > > > >=20
+> > > > > > > TODO:
+> > > > > > > 1)introduce pause/resume scheduler in job_timeout to=20
+> > > > > > > serial the handling of scheduler and job_timeout.
+> > > > > > > 2)drop the bad job's del and insert in scheduler due to=20
+> > > > > > > above serialization (no race issue anymore with the=20
+> > > > > > > serialization)
+> > > > > > >=20
+> > > > > > > Signed-off-by: Monk Liu <Monk.Liu@amd.com>
+> > > > > > > ---
+> > > > > > > =A0=A0 drivers/gpu/drm/scheduler/sched_main.c | 25
+> > > > > > > ++++++++++---------------
+> > > > > > > =A0=A0 1 file changed, 10 insertions(+), 15 deletions(-)
+> > > > > > >=20
+> > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > index a2a9536..ecf8140 100644
+> > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > @@ -676,13 +676,7 @@ drm_sched_get_cleanup_job(struct=20
+> > > > > > > drm_gpu_scheduler *sched)
+> > > > > > > =A0=A0 {
+> > > > > > > =A0=A0=A0=A0=A0=A0 struct drm_sched_job *job, *next;
+> > > > > > > =A0=A0 -=A0=A0=A0 /*
+> > > > > > > -=A0=A0=A0=A0 * Don't destroy jobs while the timeout worker i=
+s=20
+> > > > > > > running OR thread
+> > > > > > > -=A0=A0=A0=A0 * is being parked and hence assumed to not touc=
+h=20
+> > > > > > > pending_list
+> > > > > > > -=A0=A0=A0=A0 */
+> > > > > > > -=A0=A0=A0 if ((sched->timeout !=3D MAX_SCHEDULE_TIMEOUT &&
+> > > > > > > -=A0=A0=A0=A0=A0=A0=A0 !cancel_delayed_work(&sched->work_tdr)=
+) ||
+> > > > > > > -=A0=A0=A0=A0=A0=A0=A0 kthread_should_park())
+> > > > > > > +=A0=A0=A0 if (kthread_should_park())
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return NULL;
+> > > > > >=20
+> > > > > > I actually don't see why we need to keep the above, on the=20
+> > > > > > other side (in drm_sched_stop) we won't touch the pending=20
+> > > > > > list anyway until sched thread came to full stop=20
+> > > > > > (kthread_park). If you do see a reason why this needed then=20
+> > > > > > a comment should be here i think.
+> > > > > >=20
+> > > > > > Andrey
+> > > > > >=20
+> > > > > >=20
+> > > > > > > spin_lock(&sched->job_list_lock); @@ -693,17 +687,21 @@=20
+> > > > > > > drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+> > > > > > > =A0=A0=A0=A0=A0=A0 if (job &&=20
+> > > > > > > dma_fence_is_signaled(&job->s_fence->finished)) {
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* remove job from pending_lis=
+t */
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 list_del_init(&job->list);
+> > > > > > > +
+> > > > > > > +=A0=A0=A0=A0=A0=A0=A0 /* cancel this job's TO timer */
+> > > > > > > +=A0=A0=A0=A0=A0=A0=A0 cancel_delayed_work(&sched->work_tdr);
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* make the scheduled timestam=
+p more accurate=20
+> > > > > > > */
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 next =3D=20
+> > > > > > > list_first_entry_or_null(&sched->pending_list,
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0 typeof(*next), list);
+> > > > > > > -=A0=A0=A0=A0=A0=A0=A0 if (next)
+> > > > > > > +
+> > > > > > > +=A0=A0=A0=A0=A0=A0=A0 if (next) {
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 next->s_fence->sch=
+eduled.timestamp =3D
+> > > > > > > job->s_fence->finished.timestamp;
+> > > > > > > -
+> > > > > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* start TO timer for next=
+ job */
+> > > > > > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 drm_sched_start_timeout(sc=
+hed);
+> > > > > > > +=A0=A0=A0=A0=A0=A0=A0 }
+> > > > > > > =A0=A0=A0=A0=A0=A0 } else {
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 job =3D NULL;
+> > > > > > > -=A0=A0=A0=A0=A0=A0=A0 /* queue timeout for next job */
+> > > > > > > -=A0=A0=A0=A0=A0=A0=A0 drm_sched_start_timeout(sched);
+> > > > > > > =A0=A0=A0=A0=A0=A0 }
+> > > > > > > =A0=A0 =A0=A0=A0=A0=A0 spin_unlock(&sched->job_list_lock);
+> > > > > > > @@ -791,11 +789,8 @@ static int drm_sched_main(void=20
+> > > > > > > *param)
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0 (entity =3D
+> > > > > > > drm_sched_select_entity(sched))) ||
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 kthread_should_stop());
+> > > > > > > =A0=A0 -=A0=A0=A0=A0=A0=A0=A0 if (cleanup_job) {
+> > > > > > > +=A0=A0=A0=A0=A0=A0=A0 if (cleanup_job)
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 sched->ops->free_j=
+ob(cleanup_job);
+> > > > > > > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* queue timeout for next =
+job */
+> > > > > > > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 drm_sched_start_timeout(sc=
+hed);
+> > > > > > > -=A0=A0=A0=A0=A0=A0=A0 }
+> > > > > > > =A0=A0 =A0=A0=A0=A0=A0=A0=A0=A0=A0 if (!entity)
+> > > > > > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 continue;
+> > >=20
+>=20
 
 --
 Daniel Vetter
 Software Engineer, Intel Corporation
 https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fblog.ffw=
-ll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7C298815bea18f4fbf76b308d9=
-6c7f7a8b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660117051194614%7C=
+ll.ch%2F&amp;data=3D04%7C01%7CMonk.Liu%40amd.com%7Cbd18474429e34f8eaac208d9=
+6c80710e%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637660121179715855%7C=
 Unknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiL=
-CJXVCI6Mn0%3D%7C1000&amp;sdata=3DQzgCU7%2BPdA0aWL5%2BJLgKeKbGaMMGqeGI9KE0P0=
-LXlN4%3D&amp;reserved=3D0
+CJXVCI6Mn0%3D%7C1000&amp;sdata=3DyB5ssoeNrhCR6b%2BndHJd9IQK2mjoKlpyYP5noVeh=
+0iA%3D&amp;reserved=3D0
