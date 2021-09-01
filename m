@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F078F3FD65D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE403FD65E
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 11:19:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD81C6E13A;
-	Wed,  1 Sep 2021 09:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45ECA6E15D;
+	Wed,  1 Sep 2021 09:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203B86E131
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:19:30 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 91A85580AF6;
- Wed,  1 Sep 2021 05:19:29 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 01 Sep 2021 05:19:29 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEECD6E15E
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 09:19:31 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2B714580B15;
+ Wed,  1 Sep 2021 05:19:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 01 Sep 2021 05:19:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=+IDpZWqHLZxZ/
- +9usMOrZ5icOaGJhchmI8t+OLelMfc=; b=xbykfo+Pysi3P6v6Nt1FlqrucPQCu
- qLT6YIDSBZXLES+0co6UPG4F8r/4qAj90Xljdv6Xh2R9B/5AUYLAjYUM8RWzR/uv
- U/6p62YQPq7rbpcCMH3YyhXh+wpe7daoNtxeb6Nqqeu8T+3YczMAgwS8D5pRxKuf
- cfmJGIUEMkCnSd1U/3FoNyF0lQJNE8WupAuS7FXZs4otTAA3enU8y2kEiiMKg21u
- pf8opIJdT39HeZoHfpqKkrxLI1KDzPVvWpXK0RVsnoYI5asyC/WENq9OEC3l6Fc3
- sp5XbyUs0sKMB+uIVnZwsMdClUbL2nlfLlgr4164LDAoOHxuldgCDiYGQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=Lmxk/iY9lXpDy
+ GZnbE6M/ltzW3Z2reaejq/REFXa1GQ=; b=4N+xEelDU2MSselcbQXvP5NKz4/Fk
+ bQ3QKRuiO86LYmryH2a6+PPH8pHsnrQzUALZl5cN6aIsKzoI0gsGmoDbDqMYVVGh
+ QWExMnrVsi3OWSHYaSx6Znx9VV/Up8U95+oWBq3cB2umBkFA9oYHjobXbEnq4suN
+ iX7u3lRggLEgAdEOMgeU0ZducarYd6LG3MCmBp/HMkIWwb7u8CS3O4XgCA7itOYi
+ Vqe6nm5nnDf5s9OejQKAxDkvPyBEoKvp41lY9Pm55uKp5lPe4TQ63djqIazSfr6k
+ F15oGm5Yn9LixOPwjulibB5ibX/1by+txuhVeG/P4yO98uZ1lxz19MZ3g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=+IDpZWqHLZxZ/+9usMOrZ5icOaGJhchmI8t+OLelMfc=; b=RIJb0g5k
- F+4wLHqj4oSr0vdoSn7it83inOzMxWcpWJ6UP+Ow4p6IMNPmrittnugwLE82xJ82
- 1hPP8CMM3qIgwmRhtDiwOqa7SK/N9nb4MXQWNL15n0SUeGZrZI8zpBEo5ANWPZL1
- fa5tEmhvGFr80DQgUCxfiUZMZ5twey466wk09LzLta3zlzRd8nORwFVqj6FChu1J
- XH4xRASLCCeD/FMhb6wB8Mw37a+3boFyRC0uMBRuD6wT3/uNo7kbbeEL2dtQfb52
- iLwunJhM2/h+GNanAOj6TtY/e6fLLfVPQSBGbnNL7YXQxzyHPyanxHT/nkDxNnIR
- xF09c34pzA7+Jw==
-X-ME-Sender: <xms:oUUvYephe-wqG2uv68YPhrDu-FNxjoudkHEPBz955NYExMW2B4juHw>
- <xme:oUUvYcoILwJ5PqJFsJFeDAqmPF0H1wQlTx7x5ELwXw3OUoVY6xNenau3CwBzZwslp
- yg8w7HS2dnr8jGjolQ>
-X-ME-Received: <xmr:oUUvYTOShG1QIRXbPryNp1Vi7WF2M9O7eIjsJm56IK4Bmm1JA3yd1MxyJVF8weLhBRkRB9gHUOAIfz8FdqgDK1jJFgm4fIaaUbE5>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudehucetufdoteggodetrfdotf
+ fm3; bh=Lmxk/iY9lXpDyGZnbE6M/ltzW3Z2reaejq/REFXa1GQ=; b=fFUOSAdG
+ FlNhMy71yo7ljGdFC1kMjJ9E2no11s+sdMfkFhbN1kew9K6Mo7rdzAtVyw2/1Jfm
+ 3Sz+2W8AxSGBfcSy292FFePxcevd1uqXzOR9+F9qO4PdlNUUINIpbDrKEi5rHleq
+ yCemJgrHz+DIPxwuCE+IdZiSWe4KkLSQwVG/GwpfGN4SxFbzBqEXiph+xU+TUKC/
+ +25kNfAdVAZvDdtI0etK5Cxu0lc/V5XyV/73PinQfPoxsPf1Q6PvP9mgStg3FbQu
+ nSheX65U9U0qL0+jG05PhZt3thEJBIBxzVugoZI8HsJ8g5LiKJh1y12qx/+c8vTm
+ c1Jd2/e/yKo9Vw==
+X-ME-Sender: <xms:o0UvYfTAsZYEB4qng-4v2UGiO-NOkCke3VcfLWx7RfA76Ujopn-RvQ>
+ <xme:o0UvYQx88J3Dixa8DvUJJczGx7_kjzZlcNo2TKv_aUeSj0Vd75GXBvp6n-BAtaSzS
+ FRBacsOzWqtqT4qE00>
+X-ME-Received: <xmr:o0UvYU3xRwkVQd9nJcsAlWbYqWbp3hOej4HYWdI3NqGm_PZuoJ-NfwpylTWA_llhigGZ5WXt2Y9kIyr366gTXO37kwnjIVRpGgN2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  govehorghsthgrlhdqhfeguddvqddtvdculdduhedtmdenucfjughrpefhvffufffkofgj
  fhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrg
  igihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeevjeeijedtvefg
  fffgjeeugffguedtleetkeegteeufedtuddttdfgfffhgfeuffenucffohhmrghinhepug
- gvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+ gvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghm
  pehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:oUUvYd59swK3IVQLzpMpa6lKN1Q7DBzEn-AFCQyJLqcy5D1Tmn22vg>
- <xmx:oUUvYd7PbTIn1UQmURVMhm2q9dkJjt32uJ1h46cBI6Dk4InALN4cvw>
- <xmx:oUUvYdiREccW2az-6slGCW_5rp9bGJ7X_GdlMknGfJEFZfG3uyNF4A>
- <xmx:oUUvYawVgKpg8AzUSLPiVr4MQRfcYICybO9uhEM-qImlqsTsYujNDA>
+X-ME-Proxy: <xmx:o0UvYfBXTBT9iZrgR6J3RVo9QvrZxLDoRXPJRsq_e6MRDtPyKkd61A>
+ <xmx:o0UvYYjVBqkDa9Gmy9ovfAIWfiIBIsia3Z7BkE-X0GFCvDgPF3cRFg>
+ <xmx:o0UvYTq3B2a1fCldjQgo6KflyDV8_DS3bwPdJ9F3TOFIPOIM7vBwHQ>
+ <xmx:o0UvYdbZbUqEMnZxLI6LfWjn4mJXzJci8zzI4-n4XCksScm7bsPfxQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Sep 2021 05:19:29 -0400 (EDT)
+ 1 Sep 2021 05:19:30 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
@@ -66,9 +66,10 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
  dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 18/52] dt-bindings: display: Move aa121td01 to panel-lvds
-Date: Wed,  1 Sep 2021 11:18:18 +0200
-Message-Id: <20210901091852.479202-19-maxime@cerno.tech>
+Subject: [PATCH v2 19/52] dt-bindings: display: Move gktw70sdae4se to
+ panel-lvds
+Date: Wed,  1 Sep 2021 11:18:19 +0200
+Message-Id: <20210901091852.479202-20-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210901091852.479202-1-maxime@cerno.tech>
 References: <20210901091852.479202-1-maxime@cerno.tech>
@@ -89,9 +90,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Mitsubishi AA121TD01 Device Tree binding doesn't really add any
-useful content that is not already present in the panel-lvds binding
-aside from a requirement on the data-mapping.
+The Solomon Goldentek Display GKTW70SDAE4SE Device Tree binding doesn't
+really add any useful content that is not already present in the
+panel-lvds binding aside from a requirement on the data-mapping.
 
 Let's move it to the generic panel-lvds binding
 
@@ -101,50 +102,47 @@ Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- .../bindings/display/panel/lvds.yaml          |  5 +-
- .../display/panel/mitsubishi,aa121td01.yaml   | 69 -------------------
- 2 files changed, 4 insertions(+), 70 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
+ .../bindings/display/panel/lvds.yaml          |  2 +
+ .../display/panel/sgd,gktw70sdae4se.yaml      | 68 -------------------
+ 2 files changed, 2 insertions(+), 68 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml
 
 diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-index 09a818a60f2e..22f6cf1e134d 100644
+index 22f6cf1e134d..1563d57bc793 100644
 --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
 +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-@@ -32,7 +32,9 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: mitsubishi,aa104xd12
-+            enum:
-+              - mitsubishi,aa104xd12
-+              - mitsubishi,aa121td01
+@@ -35,6 +35,7 @@ allOf:
+             enum:
+               - mitsubishi,aa104xd12
+               - mitsubishi,aa121td01
++              - sgd,gktw70sdae4se
  
      then:
        properties:
-@@ -72,6 +74,7 @@ properties:
-           - advantech,idk-2121wr
+@@ -75,6 +76,7 @@ properties:
            - innolux,ee101ia-01d
            - mitsubishi,aa104xd12
-+          - mitsubishi,aa121td01
+           - mitsubishi,aa121td01
++          - sgd,gktw70sdae4se
        - const: panel-lvds
  
    data-mapping:
-diff --git a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml b/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
+diff --git a/Documentation/devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml b/Documentation/devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml
 deleted file mode 100644
-index 467a0ed4d444..000000000000
---- a/Documentation/devicetree/bindings/display/panel/mitsubishi,aa121td01.yaml
+index e63a570ae59d..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/sgd,gktw70sdae4se.yaml
 +++ /dev/null
-@@ -1,69 +0,0 @@
+@@ -1,68 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0
 -%YAML 1.2
 ----
--$id: http://devicetree.org/schemas/display/panel/mitsubishi,aa121td01.yaml#
+-$id: http://devicetree.org/schemas/display/panel/sgd,gktw70sdae4se.yaml#
 -$schema: http://devicetree.org/meta-schemas/core.yaml#
 -
--title: Mitsubishi AA121TD01 12.1" WXGA LVDS Display Panel
+-title: Solomon Goldentek Display GKTW70SDAE4SE 7" WVGA LVDS Display Panel
 -
 -maintainers:
--  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+-  - Neil Armstrong <narmstrong@baylibre.com>
 -  - Thierry Reding <thierry.reding@gmail.com>
 -
 -allOf:
@@ -153,17 +151,17 @@ index 467a0ed4d444..000000000000
 -properties:
 -  compatible:
 -    items:
--      - const: mitsubishi,aa121td01
+-      - const: sgd,gktw70sdae4se
 -      - {} # panel-lvds, but not listed here to avoid false select
 -
 -  data-mapping:
 -    const: jeida-18
 -
 -  width-mm:
--    const: 261
+-    const: 153
 -
 -  height-mm:
--    const: 163
+-    const: 86
 -
 -  panel-timing: true
 -  port: true
@@ -176,24 +174,23 @@ index 467a0ed4d444..000000000000
 -examples:
 -  - |+
 -    panel {
--      compatible = "mitsubishi,aa121td01", "panel-lvds";
+-      compatible = "sgd,gktw70sdae4se", "panel-lvds";
 -
--      width-mm = <261>;
--      height-mm = <163>;
+-      width-mm = <153>;
+-      height-mm = <86>;
 -
 -      data-mapping = "jeida-18";
 -
 -      panel-timing {
--        /* 1280x800 @60Hz */
--        clock-frequency = <71000000>;
--        hactive = <1280>;
--        vactive = <800>;
--        hsync-len = <70>;
--        hfront-porch = <20>;
--        hback-porch = <70>;
--        vsync-len = <5>;
--        vfront-porch = <3>;
--        vback-porch = <15>;
+-        clock-frequency = <32000000>;
+-        hactive = <800>;
+-        vactive = <480>;
+-        hback-porch = <39>;
+-        hfront-porch = <39>;
+-        vback-porch = <29>;
+-        vfront-porch = <13>;
+-        hsync-len = <47>;
+-        vsync-len = <2>;
 -      };
 -
 -      port {
