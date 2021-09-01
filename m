@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EC53FE286
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 20:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C777B3FE289
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 20:51:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B013B6E250;
-	Wed,  1 Sep 2021 18:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA05A89B38;
+	Wed,  1 Sep 2021 18:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C21376E250;
- Wed,  1 Sep 2021 18:51:10 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id u14so1166582ejf.13;
- Wed, 01 Sep 2021 11:51:10 -0700 (PDT)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 270BB89B38
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 18:51:46 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ i3-20020a056830210300b0051af5666070so961708otc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 11:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uo8KSFTOZI4VpQQ+BhHQP63dF3Fk50Tmc8d1l6vAmKA=;
- b=dMKlSmIjTGaRFxxo1eFawPjWsKhmECXZln2Cr40VSGRtYd+tz5V/lfz0DeA2/q9spM
- RQjIZTJAny1byemUTpNbnx5Jb8Yu53WuWlrYWiVpw35cDlwe1U6c+gTh3d3saXnOy5wS
- bbO+XwHLgYhaR4sqyvkUs4QgcGCuX3O6m017CgHRPWDvomNdrHiKMWMOYlov05vd4LAY
- UujJW6gPCpHzAa/EYTda5DtE7UymI5xDraJGLgVtPPl4wlDu40XnLxIVGKONBzntkeKO
- itsbJnLMTZmcNWUAR7+f3utPO84vHvRb6flEGe8tW7WCIzX5sPdZRRYSIjxUR61OMy+G
- LRew==
+ :cc; bh=WpMrHx2xrjALxDo2+qnSwUhR97fWUA7NiL67FnzoBbs=;
+ b=e0RtJHV/x1N7itMnl6FhNdz+AWN7rEUsOba8pGEb/GUQf8QzzGBLO/6NdlnDBtHOAL
+ mZTXK4KBBNp4du3di0UJDTtOGr2LkdET0W2eonjElLZhYtR3s4XT2F0/509vgq3dZUv/
+ xpMndW6JBu3Uc/gxHrcFHsach9TXFR+W7WmwlaUBqId3hsBiXeqjSdJRjZwLBiBaApA3
+ 8AhN3BCUrjIgmcYriMpojx7fTh1kFKpSTudSN3SXNFsLwl50DSbqomsVHQ691wcTRzJz
+ I0nEDJsrLfT7YBpSxVVmncx9NZdGd5+tKZVl2SuQ1G0r115AYm+uPOfDPTbFz8CNitj1
+ 1yFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uo8KSFTOZI4VpQQ+BhHQP63dF3Fk50Tmc8d1l6vAmKA=;
- b=UBfkTh5kBzkdIKdsalcL6nvXABShCHr7RNd+eUI3p+tWxNMnIOO1TTlOxmpNBHn7oI
- RZo1VaZAFZODBLECpicMxfsiR9W8xGNwm9mb+n2MbTce0OXbnr0hLKD4kTOJg4LbG4Du
- Mvvx3vX6/44YiDzUrV/hzDKwxXlX5RcHMTwOv6Y4Z9mXpgl++6RIN6Z97c7EZa/p02zv
- i4x92PLEzkw8JOLgw47I6/CnC1PAf79IZcL9bnpela3fBzwerwSsraK1LxWIqWFKWcEG
- 3GxPyRkddUWDjgeeZ7tX38COP+SG7MxnNJ/3Fdt7Fpttjrsh4gBf4Rw2shmbyHaS2hvQ
- mHrw==
-X-Gm-Message-State: AOAM5307QaX5hQ44OKaw6ITyFS7mNs0MuHY5hOoNmKuNN7r4X++kTuh9
- 6rp9EV60hJTsUtkBCyO8WCWsSCG2M1xYOYTMneo=
-X-Google-Smtp-Source: ABdhPJyW9LjbebWnAFBPfu0iZIJQGc0GwqzvY/JTblbaqLdWUtg7kVLRyEFCXSOqRvZiEzCC9R4xgHqkK3dlNK1I+Wk=
-X-Received: by 2002:a17:906:3693:: with SMTP id
- a19mr993014ejc.237.1630522269102; 
- Wed, 01 Sep 2021 11:51:09 -0700 (PDT)
+ bh=WpMrHx2xrjALxDo2+qnSwUhR97fWUA7NiL67FnzoBbs=;
+ b=LqG2iy2BCmv+/s6P4X4dwGyjt6VJoqcSqbarPjRptXL99A39c3M9xbcPJcGqKp0Axp
+ Msl3cvj2srQRMu0cECfXv5bucmdHcGac4G2wdziWYgIEc1EV9ylw4kMhWfQCdiAkksOl
+ f1GPBdyp2hBpZV4iDZ9sXT9nM9148J0I80pwUaUrrh8340obBBRBz33SD127Hu6hDFal
+ 3qhKU83EAGBD7kmVkR1JwMOAVGDRTVdJWmeeYM8VX8hRTg/O75BfApG8zeZqOLzRnUO3
+ uIflyeoJPI2oqrz7y70oevmDpHppwHs5naXmvUxxFwp7rn+Kal+qRj1NdVfC8Dp+7XLC
+ 1vtQ==
+X-Gm-Message-State: AOAM532+NhJfqh7P4ffdZantV+TcYWdblpXLh2/YmPETR3HXw2uDRJ/P
+ nKteIl5drwFF3D5bstuhFWuI+CEQqKf+VISnPnQ=
+X-Google-Smtp-Source: ABdhPJw8t4vsqP/7Q9PflPtjlczDwGn9Ca+aw7OmDyIMY4azGHA/6DyJI9o6HDQ2fy8EvZf613m/TDLq3FE8zD/9Jl0=
+X-Received: by 2002:a05:6830:4:: with SMTP id c4mr765105otp.23.1630522305399; 
+ Wed, 01 Sep 2021 11:51:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <BL1PR12MB526942160701B46D4B28EEEC84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
- <CAKMK7uHKX0rSVk_yBPo_KAEJ-UeLk5UxQ2kBdv+FD2j9zAjfZA@mail.gmail.com>
- <BL1PR12MB5269B303372A6251EDD1DC2C84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
- <CADnq5_PUvgt9Cv2L3G4GGBJv_WBhtOp8DN+3WMvoES_80UMKfQ@mail.gmail.com>
-In-Reply-To: <CADnq5_PUvgt9Cv2L3G4GGBJv_WBhtOp8DN+3WMvoES_80UMKfQ@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 2 Sep 2021 04:50:57 +1000
-Message-ID: <CAPM=9tz-66nXR8gbMucsBo5Q1VJ5AsrVZh4pF0r0WfFi7CQtzg@mail.gmail.com>
-Subject: Re: [diagnostic TDR mode patches] unify our solution
- opinions/suggestions in one thread
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: "Liu, Monk" <Monk.Liu@amd.com>, Daniel Vetter <daniel@ffwll.ch>, 
- "Koenig, Christian" <Christian.Koenig@amd.com>, "Grodzovsky,
- Andrey" <Andrey.Grodzovsky@amd.com>, 
- "Chen, JingWen" <JingWen.Chen2@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+References: <CAPM=9txeN-qCRJvYV552zdo2H9iVy1ruVrq=YdZBP5Dmpc3Jmg@mail.gmail.com>
+ <CAHk-=whP_v5nrK9B5vefnZS6Xz3-vZDFxUvSmW8W82hhNh67sA@mail.gmail.com>
+ <CAHk-=wiyPpwYLBXTdXi0DyMFhTKsTstmqU-LLjgD5fNxUnB_WA@mail.gmail.com>
+In-Reply-To: <CAHk-=wiyPpwYLBXTdXi0DyMFhTKsTstmqU-LLjgD5fNxUnB_WA@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 1 Sep 2021 14:51:33 -0400
+Message-ID: <CADnq5_N9GgDuAdLmYED19Mx2z=5fhc1JCPj5_icFMZ-U1bO-Sg@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.15-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Dave Airlie <airlied@gmail.com>, John Clements <john.clements@amd.com>, 
+ Hawking Zhang <Hawking.Zhang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,48 +72,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2 Sept 2021 at 01:20, Alex Deucher <alexdeucher@gmail.com> wrote:
+On Wed, Sep 1, 2021 at 2:33 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> On Wed, Sep 1, 2021 at 6:19 AM Liu, Monk <Monk.Liu@amd.com> wrote:
+> On Wed, Sep 1, 2021 at 10:57 AM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
 > >
-> > [AMD Official Use Only]
-> >
-> > Daniel
-> >
-> > From the link you share it looks you(or someone else) have quite a bunch patches that changes DRM_SCHED or even amdgpu, by that case before they are merged to kernel tree I'm wondering if any AMD develop reviewed them ?
-> >
-> > They looks to me somehow conflicting with what we changed in our repo....
-> >
-> > It is really a chaos for AMDer if someone else out side of AMD changes our kernel driver (or/and scheduler) without reviewed by AMDer, just like we are requiring your review if we tend to change scheduler's logic here ....
-> >
-> > This one changes AMD's code: https://lore.kernel.org/dri-devel/20210625133327.2598825-2-boris.brezillon@collabora.com/
-> > And I didn't see any reviewed-by from AMDers ...
-> >
-> > This one also touches AMD's code: https://lore.kernel.org/dri-devel/20200604081224.863494-12-daniel.vetter@ffwll.ch/
-> > Which is conflicting with one patch we submitted (in our repo rightnow), and neither see AMDder gave a review-by on this one (let me know if I missed it)
-> >
+> > No worries. I enjoyed seeing the AMD code-names in the conflicts, they
+> > are using positively kernel-level naming.
 >
-> Monk, this is not how upstream works.  You need to participate.
-> That's how communities work.  There's a reason all these discussions
-> happen on public mailing lists.  The patch author can't be expected to
-> know every person on every vendor team to CC with a patch.  If you
-> have concerns, you need to raise them when the patches are being
-> discussed.
+> Oh, I spoke too soon.
 >
+> The conflict in amdgpu_ras_eeprom.c is trivial to fix up, but the
+> *code* is garbage.
+>
+> It does this (from commit 14fb496a84f1: "drm/amdgpu: set RAS EEPROM
+> address from VBIOS"):
+>
+>         ...
+>         control->i2c_address = 0;
+>
+>         if (amdgpu_atomfirmware_ras_rom_addr(adev,
+> (uint8_t*)&control->i2c_address))
+>         {
+>                 if (control->i2c_address == 0xA0)
+>                         control->i2c_address = 0;
+>         ...
+>
+> and honestly, that just hurts to look at. It's completely wrong, even
+> if it happens to work on a little-endian machine.
+>
+> Yes, yes, BE is irrelevant, and doubly so for an AMD GPU driver, but still.
+>
+> It's assigning a 8-bit value to a 32-bit entity by doing a pointer
+> cast on the address, and then mixing things up by using/assigning to
+> that same field.
+>
+> That's just *wrong* and nasty.
+>
+> Oh, the resolution would be easy - just take that broken code as-is -
+> but I can't actually make myself do that.
+>
+> So I fixed it up to not be that incredibly ugly garbage.
+>
+> Please holler if I did something wrong.
 
-I'm not sure I can add much to help this along, I'm sure Alex has some
-internal training,
+Fix looks good.  Thanks,
 
-Once your driver is upstream, it belongs to upstream, you can maintain
-it, but you no longer control it 100%, it's a tradeoff, it's not one
-companies always understand.
-
-Usually people are fine developing away internally, but once
-interaction with other parts of the kernel/subsystem is required they
-have the realisation that they needed to work upstream 6 months
-earlier.
-
-The best time to interact with upstream was 6 months ago, the second
-best time is now.
-
-Dave.
+Alex
