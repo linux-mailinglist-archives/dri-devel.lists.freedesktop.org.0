@@ -2,107 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113FE3FE51E
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 00:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17353FE521
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 00:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06AD46E3C4;
-	Wed,  1 Sep 2021 21:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFCDA6E3B2;
+	Wed,  1 Sep 2021 22:01:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E2E36E400
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 21:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630533593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uaJ6JdAwGVr6C+6ju0Ho3/Oo9maaQwWf3p+I5+adotY=;
- b=LNgiMdukDK7H2vL8PfxbkWpDVGNhahcxR+9hLfZWEUNuOBYDFk+5SXP5Z+sWN1RR17+5uu
- llfuvzlLr4yn07gIjnTXmAlLSN9ENwgZ46IrtC1HFOu8DZRmIArpZ6qjpWaYBokDcC3xL9
- VkIs3/WkYTFuJpaPGWELcx5XKeFFFfE=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-ZrLFEo0qMbetdP_Y7E4adg-1; Wed, 01 Sep 2021 17:59:50 -0400
-X-MC-Unique: ZrLFEo0qMbetdP_Y7E4adg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- 70-20020a370b49000000b003d2f5f0dcc6so982748qkl.9
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 14:59:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=uaJ6JdAwGVr6C+6ju0Ho3/Oo9maaQwWf3p+I5+adotY=;
- b=JyEA8uUmT3TvhpAbDI7fUsRZGiWxLp/+c4cxWQCn/zjp4BPy8olgCrvCSU+eSLTmcr
- PAe0FGKGdkRwBhrifWM5AYFPy9F7C5FBvwZuxcy0j+LQfqfIXV6GJBNNm9Z7A7LFa0Wo
- 2iaNZONjnD6dMVs4fkvX+j+DVI15Navm1E4CGwEDEWnIvAjvTM5+7QeZ3745ay+X7SoW
- pni14Z/LY5q6VD6+6SNeWxzH632/4a642D9EK0vFpTKE6hLT99XYmzoU7t1jIO3Q/kOd
- vDSXTC6swIspqE3JS9jfdwxv1QaGV95XS5tUWWb+LFWXJav4OjJRaHF6mICxh/mveWAp
- m/8Q==
-X-Gm-Message-State: AOAM532e9G7ITOTZZEzDFArIjZVDlY5Z+UjkqYQDiEA0yDKv6AX14dJt
- 6I3cwP7ssoiWZF+sILO0KhvvAbaBRmsMakFSsXHW/8VaSyAc2ZXRJQm/JWqn6sYBBcSmv1n/e9D
- 549o20pzMbQMyyewd8q+aZe5HdQck
-X-Received: by 2002:ac8:7516:: with SMTP id u22mr1611369qtq.119.1630533589496; 
- Wed, 01 Sep 2021 14:59:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzS0EfxoDKe30r19w7LTQumxLJiraDbw+JW3yjbYYNxa2GGnb6eeeIYa1/9Q1loUlbuQ+LWmA==
-X-Received: by 2002:ac8:7516:: with SMTP id u22mr1611346qtq.119.1630533589262; 
- Wed, 01 Sep 2021 14:59:49 -0700 (PDT)
-Received: from [192.168.8.104] (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id e21sm724922qtg.40.2021.09.01.14.59.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 14:59:48 -0700 (PDT)
-Message-ID: <f3d1df941d36a2772f317973dd3dc1d7a666957e.camel@redhat.com>
-Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected end
- device
-From: Lyude Paul <lyude@redhat.com>
-To: "Lin, Wayne" <Wayne.Lin@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Cc: "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>, "Wentland, Harry"
- <Harry.Wentland@amd.com>, "Zuo, Jerry" <Jerry.Zuo@amd.com>, "Wu, Hersen"
- <hersenxs.wu@amd.com>, Juston Li <juston.li@intel.com>, Imre Deak
- <imre.deak@intel.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?=
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- Sean Paul <sean@poorly.run>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Siqueira, Rodrigo"
- <Rodrigo.Siqueira@amd.com>,  "Pillai, Aurabindo"
- <Aurabindo.Pillai@amd.com>, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- "Cornij, Nikola" <Nikola.Cornij@amd.com>, Jani Nikula
- <jani.nikula@intel.com>, Manasi Navare <manasi.d.navare@intel.com>, Ankit
- Nautiyal <ankit.k.nautiyal@intel.com>,  =?ISO-8859-1?Q?Jos=E9?= Roberto de
- Souza <jose.souza@intel.com>, Sean Paul <seanpaul@chromium.org>, Ben Skeggs
- <bskeggs@redhat.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>
-Date: Wed, 01 Sep 2021 17:59:46 -0400
-In-Reply-To: <a0a8ce9d25cc5b68e14384329e8c635e546cee90.camel@redhat.com>
-References: <20210720160342.11415-1-Wayne.Lin@amd.com>
- <20210720160342.11415-3-Wayne.Lin@amd.com>
- <69a5f39580f0d3519468f45ecbfd50d7ad1b3036.camel@redhat.com>
- <292d6ead03d6afe54f81d52f705e38bbf9feb7bd.camel@redhat.com>
- <SJ0PR12MB550410E529057F59023153D9FCF19@SJ0PR12MB5504.namprd12.prod.outlook.com>
- <2012d26bb2bece43e65ce435e6ba03f1d8767f61.camel@redhat.com>
- <CO6PR12MB5489274038BFF71A80EA9ECEFCF89@CO6PR12MB5489.namprd12.prod.outlook.com>
- <cd24fffcbda28ffc6734fb6d6d28b39e8782e0dd.camel@redhat.com>
- <CO6PR12MB548965A84DF69BAC30F74AC5FCC19@CO6PR12MB5489.namprd12.prod.outlook.com>
- <db10eb95b1ec7e822c7379d310c54975810acd2b.camel@redhat.com>
- <CO6PR12MB548913A9CC63A199BBBD6545FCC49@CO6PR12MB5489.namprd12.prod.outlook.com>
- <6a0868a8ce6befd5f7ddea3481e70285079fcb6a.camel@redhat.com>
- <CO6PR12MB5489987336A4D5DF83C4FD3CFCC69@CO6PR12MB5489.namprd12.prod.outlook.com>
- <a0a8ce9d25cc5b68e14384329e8c635e546cee90.camel@redhat.com>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C33656E3B2
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 22:01:16 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98A33340;
+ Thu,  2 Sep 2021 00:01:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1630533675;
+ bh=oBIuv/gN5NyegE3mK/LDP8EEP5EAxS3NGI0JIKQpmEE=;
+ h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+ b=dtVrH0E6SkIwLsiU8IcybDaJs94nn4MAXDUf9jRMZEG/veXfBlLVFUw+H3DpYQzy2
+ R4984RKnHKvDnh+PbCMmupf/SBjYW6g7kYLZVrl9VWl1je5N9jsS1KJ1kP0PpT6HLs
+ H0oGE3CmUghBiSYLHyBRiEfWdZT+Y2nrrX7pb8Ys=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] dt-bindings: display: renesas,du: Provide bindings for
+ r8a779a0
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+References: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
+ <CAMuHMdW8vYC3+gVCv5eG_vkX79vU8RQL-6fSJd9McetDzikzSA@mail.gmail.com>
+Message-ID: <22bf664e-4a28-3ae2-0106-5913a8643625@ideasonboard.com>
+Date: Wed, 1 Sep 2021 23:01:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdW8vYC3+gVCv5eG_vkX79vU8RQL-6fSJd9McetDzikzSA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,297 +62,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Actually - did some more thinking, and I think we shouldn't try to make
-changes like this until we actually know what the problem is here. I could try
-to figure out what the actual race conditions I was facing before with trying
-to add/destroy connectors based on PDT, but we still don't even actually have
-a clear idea of what's broken here. I'd much rather us figure out exactly how
-this leak is happening before considering making changes like this, because we
-have no way of knowing if we've properly fixed it or not if we don't know what
-the problem is in the first place.
+Hi Geert,
 
-I'm still happy to write up the topology debugging stuff I mentioned to you if
-you think that would help you debug this issue - since that would make it a
-lot easier for you to track down what references are keeping a connector alive
-(and additkionally, where those references were taken in code. thanks
-stack_depot!)
-
-On Tue, 2021-08-31 at 18:47 -0400, Lyude Paul wrote:
-> (I am going to try responding to this tomorrow btw. I haven't been super
-> busy
-> this week, but this has been a surprisingly difficult email to respond to
-> because I need to actually need to do a deep dive some of the MST helpers
-> tomorrow to figure out more of the specifics on why I realized we couldn't
-> just hot add/remove port->connector here).
+On 23/06/2021 13:53, Geert Uytterhoeven wrote:
+> Hi Kieran,
 > 
-> On Wed, 2021-08-25 at 03:35 +0000, Lin, Wayne wrote:
-> > [Public]
-> > 
-> > > -----Original Message-----
-> > > From: Lyude Paul <lyude@redhat.com>
-> > > Sent: Tuesday, August 24, 2021 5:18 AM
-> > > To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org
-> > > Cc: Kazlauskas, Nicholas <Nicholas.Kazlauskas@amd.com>; Wentland, Harry
-> > > <Harry.Wentland@amd.com>; Zuo, Jerry
-> > > <Jerry.Zuo@amd.com>; Wu, Hersen <hersenxs.wu@amd.com>; Juston Li
-> > > <juston.li@intel.com>; Imre Deak <imre.deak@intel.com>;
-> > > Ville Syrjälä <ville.syrjala@linux.intel.com>; Daniel Vetter
-> > > <daniel.vetter@ffwll.ch>; Sean Paul <sean@poorly.run>; Maarten Lankhorst
-> > > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
-> > > Thomas Zimmermann <tzimmermann@suse.de>;
-> > > David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>;
-> > > Deucher,
-> > > Alexander <Alexander.Deucher@amd.com>; Siqueira,
-> > > Rodrigo <Rodrigo.Siqueira@amd.com>; Pillai, Aurabindo
-> > > <Aurabindo.Pillai@amd.com>; Bas Nieuwenhuizen
-> > > <bas@basnieuwenhuizen.nl>; Cornij, Nikola <Nikola.Cornij@amd.com>; Jani
-> > > Nikula <jani.nikula@intel.com>; Manasi Navare
-> > > <manasi.d.navare@intel.com>; Ankit Nautiyal
-> > > <ankit.k.nautiyal@intel.com>;
-> > > José Roberto de Souza <jose.souza@intel.com>; Sean
-> > > Paul <seanpaul@chromium.org>; Ben Skeggs <bskeggs@redhat.com>;
-> > > stable@vger.kernel.org
-> > > Subject: Re: [PATCH 2/4] drm/dp_mst: Only create connector for connected
-> > > end device
-> > > 
-> > > [snip]
-> > > 
-> > > I think I might still be misunderstanding something, some comments below
-> > > 
-> > > On Mon, 2021-08-23 at 06:33 +0000, Lin, Wayne wrote:
-> > > > > > Hi Lyude,
-> > > > > > 
-> > > > > > Really thankful for willing to explain in such details. Really
-> > > > > > appreciate.
-> > > > > > 
-> > > > > > I'm trying to fix some problems that observed after these 2
-> > > > > > patches
-> > > > > > * 09b974e8983 drm/amd/amdgpu_dm/mst: Remove ->destroy_connector()
-> > > > > > callback
-> > > > > > * 72dc0f51591 drm/dp_mst: Remove
-> > > > > > drm_dp_mst_topology_cbs.destroy_connector
-> > > > > > 
-> > > > > > With above patches, we now change to remove dc_sink when connector
-> > > > > > is about to be destroyed. However, we found out that connectors
-> > > > > > won't get destroyed after hotplugs. Thus, after few times
-> > > > > > hotplugs, we won't create any new dc_sink since number of sink is
-> > > > > > exceeding our limitation. As the result of that, I'm trying to
-> > > > > > figure out why the refcount of connectors won't get zero.
-> > > > > > 
-> > > > > > Based on my analysis, I found out that if we connect a sst monitor
-> > > > > > to a mst hub then connect the hub to the system, and then unplug
-> > > > > > the sst monitor from the hub. E.g.
-> > > > > > src - mst hub - sst monitor => src - mst hub  (unplug) sst monitor
-> > > > > > 
-> > > > > > Within this case, we won't try to put refcount of the sst monitor.
-> > > > > > Which is what I tried to resolve by [PATCH 3/4].
-> > > > > > But here comes a problem which is confusing me that if I can
-> > > > > > destroy connector in this case. By comparing to another case, if
-> > > > > > now mst hub is connected with a mst monitor like this:
-> > > > > > src - mst hub - mst monitor => src - mst hub  (unplug) mst monitor
-> > > > > > 
-> > > > > > We will put the topology refcount of mst monitor's branching unit
-> > > > > > in and
-> > > > > > drm_dp_port_set_pdt() and eventually call
-> > > > > > drm_dp_delayed_destroy_port() to unregister the connector of the
-> > > > > > logical port. So following the same rule, I think to dynamically
-> > > > > > unregister a mst connector is what we want and should be
-> > > > > > reasonable to also destroy sst connectors in my case. But this
-> > > > > > conflicts the idea what we have here. We want to create connectors
-> > > > > > for all output ports.
-> > > > > > So if dynamically creating/destroying connectors is what we want,
-> > > > > > when is the appropriate time for us to create one is what I'm
-> > > > > > considering.
-> > > > > > 
-> > > > > > Take the StartTech hub DP 1to4 DP output ports for instance. This
-> > > > > > hub, internally, is constructed by  3 1-to-2 mst branch chips. 2
-> > > > > > output ports of 1st chip are hardwired to another 2 chips. It's
-> > > > > > how it makes it to support 1-to-4 mst branching. So within this
-> > > > > > case, the internal
-> > > > > > 2 output ports of 1st chip is not connecting to a stream sink and
-> > > > > > will never get connected to one.  Thus, I'm thinking maybe the
-> > > > > > best timing to attach a connector to a port is when the port is
-> > > > > > connected, and the connected PDT is determined as a stream sink.
-> > > > > > 
-> > > > > > Sorry if I misunderstand anything here and really thanks for your
-> > > > > > time to shed light on this : ) Thanks Lyude.
-> > > > > 
-> > > > > It's no problem, it is my job after all! Sorry for how long my
-> > > > > responses have been taking, but my plate seems to be finally
-> > > > > clearing up for the foreseeable future.
-> > > > > 
-> > > > > That being said - it sounds like with this we still aren't actually
-> > > > > clear on where the topology refcount leak is happening - only when
-> > > > > it's happening, which says to me that's the issue we really need to
-> > > > > be figuring out the cause of as opposed to trying to workaround it.
-> > > > > 
-> > > > > Actually - refcount leaks is an issue I've ran into a number of
-> > > > > times before in the past, so a while back I actually added some nice
-> > > > > debugging features to assist with debugging leaks. If you enable the
-> > > > > following options in your kernel config:
-> > > > > 
-> > > > > CONFIG_EXPERT=y # This must be set first before the next option
-> > > > > CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS=y
-> > > > > 
-> > > > > Unfortunately, I'm suddenly realizing after typing this that
-> > > > > apparently I never bothered adding a way for us to debug the
-> > 
-> > > > > refcounts of ports/mstbs that haven't been released yet - only the
-> > > > > ones for ones that have. This shouldn't be difficult at all for me
-> > > > > to add, so I'll send you a patch either today or at the start of
-> > > > > next week to try debugging with using this, and then we can figure
-> > > > > out where this leak is really coming from.
-> > > > 
-> > > > Thanks Lyude!
-> > > > 
-> > > > Sorry to bother you, but I would like to clarify this again.  So it
-> > > > sounds
-> > > 
-> > > It's no problem! It's my job and I'm happy to help :).
-> > 
-> > Thanks!
-> > I would like to learn more from you as below : p
-> > > 
-> > > > like you also agree that we should destroy associated connector
-> > > 
-> > > Not quite. I think a better way of explaining this might be to point out
-> > > that the lifetime of an MST port and its connector isn't supposed
-> > > to be determined by whether or not it has something plugged into it -
-> > > its
-> > > lifetime is supposed to depend on whether there's a valid
-> > > path from us down the MST topology to the port we're trying to reach. So
-> > > an MSTB with ports that is unplugged would destroy all of
-> > > its ports - but an unplugged port should just be the same as a
-> > > disconnected DRM connector - even if the port itself is just hosting a
-> > > branching device.
-> > 
-> > This is the part a bit difficult to me. I treat DRM connector as the place
-> > where we associate with a stream sink. So if the statement
-> > is "All DP mst output ports are places we connect with stream sink", I
-> > would
-> > say false to this since I can find the negative example when
-> > output port is connected with mst branch device. Thus, looks like we could
-> > only determine whether to create a connector for an output
-> > port when the peer device type is known?
-> > > 
-> > > Additionally - we don't want to try "delaying" connector creation
-> > > either.
-> > > In the modern world hotplugging is almost always reliable in
-> > > normal situations, but even so there's still use cases for wanting force
-> > > probing for analog devices on DP converters and just in general
-> > > as it's a feature commonly used by developers or users working around
-> > > monitors with problematic HPD issues or EDID issues.
-> > 
-> > I think I understand that why we want to create connectors for all output
-> > ports here. But under these mentioned use cases, aren't we still
-> > capable to force connector to enable stream? MST hub with muti-functon
-> > capability, it will enumerate connected virtual DP peer device.
-> > For problematic HPD issues or EDID issues, their connection status is also
-> > connected.
-> > 
-> > My understanding of output port is it is an internal node to help
-> > construct
-> > an end-to-end virtual channel between a stream source device
-> > and a stream sink device. Creating connectors for internal nodes within a
-> > virtual channel is a bit hard for me to get the idea. Please correct
-> > me if I misunderstand anything here. Thanks Lyude!
-> > > 
-> > > > when we unplug sst monitor from a mst hub in the case that I
-> > > > described? In the case I described (unplug sst monitor), we only
-> > > > receive CSN from the hub that notifying us the connection status of
-> > > > one of its downstream output ports is changed to disconnected. There
-> > > > is no topology refcount needed to be decreased on this disconnected
-> > > > port but the malloc refcount. Since the output port is still declared
-> > > > by
-> > > 
-> > > Apologies - I misunderstood your original mail as implying that topology
-> > > refcounts were being leaked - but it sounds like it's actually
-> > > malloc refcounts being leaked instead? In any case - that means we're
-> > > still tracing down a leak, just a malloc ref leak.
-> > > 
-> > > But, this still doesn't totally make sense to me. Malloc refs only keep
-> > > the actual drm_dp_mst_port/drm_dp_mst_branch struct alive in
-> > > memory.
-> > > Nothing else is kept around, meaning the DRM connector (and I assume by
-> > > proxy, the dc_sink) should both be getting dropped still
-> > > and the only thing that should be leaked is a memory allocation. These
-> > > things should instead be dropped once there's no longer any
-> > > topology references around. So, are we _sure_ that the problem here is a
-> > > missing
-> > > drm_dp_mst_port_put_malloc() or drm_dp_mst_mstb_put_malloc()?
-> > 
-> > Just my two cents, I don't think it's leak of malloc ref neither. As you
-> > said, malloc ref is dealing with the last step to free port/mstb.
-> > If there is still topology refcount on port/mstb in my case, we won't free
-> > port/mstb.
-> > > 
-> > > If we are unfortunately we don't have equivalent tools for malloc()
-> > > tracing. I'm totally fine with trying to add some if we have trouble
-> > > figuring out this issue, but I'm a bit suspicious of the commits you
-> > > mentioned that introduced this problem. If the problem doesn't
-> > > happen until those two commits, then it's something in the code changes
-> > > there that are causing this problem.
-> > 
-> > I think we probably also have the problem before these commits, but we
-> > didn't notice this before. Just when we change to clean up all
-> > things in dm_dp_mst_connector_destroy(), I start to try to figure out all
-> > these things out.
-> > > 
-> > > The main thing I'm suspicious of just from looking at changes in
-> > > 09b974e8983a4b163d4a406b46d50bf869da3073 is that the call to
-> > > amdgpu_dm_update_freesync_caps() that was previously in
-> > > dm_dp_destroy_mst_connector() appears to be dropped and not re-added in
-> > > (oh dear, this is a /very/ confusingly similar function
-> > 
-> > Lol. I also have hard time on this..
-> > > name!!!) dm_dp_mst_connector_destroy(). I don't remember if this was
-> > > intentional on my part, but does adding a call back to
-> > > amdgpu_dm_update_freesync_caps() into dm_dp_destroy_mst_connector()
-> > > right
-> > > before the dc_link_remove_remote_sink() call fix
-> > > anything?
-> > > 
-> > > As well, I'm far less suspicious of this one but does re-adding this
-> > > hunk:
-> > > 
-> > >       aconnector->dc_sink = NULL;
-> > >       aconnector->dc_link->cur_link_settings.lane_count = 0;
-> > > 
-> > > After dc_sink_release() fix anything either?
-> > 
-> > So the main problem is we don't have chance to call
-> > dc_link_remove_remote_sink() in the unplugging SST case. We only have
-> > chance
-> > to
-> > remove the remote sink of a link when unplug a mstb.
-> > > 
-> > > > the mst hub,  I think we shouldn't destroy the port. Actually, no
-> > > > ports nor mst branch devices should get destroyed in this case I
-> > > > think.
-> > > > The result of LINK_ADDRESS is still the same before/after removing the
-> > > > sst monitor except the DisplayPort_Device_Plug_Status/
-> > > > Legacy_Device_Plug_Status.
-> > > > 
-> > > > Hence, if you agree that we should put refcount of the connector of
-> > > > the disconnected port within the unplugging sst monitor case to
-> > > > release the allocated resource, it means we don't want to create
-> > > > connectors for those disconnected ports. Which conflicts current flow
-> > > > to create connectors for all declared output ports.
-> > > > 
-> > > > Thanks again for your time Lyude!
-> > > 
-> > > --
-> > > Cheers,
-> > >  Lyude Paul (she/her)
-> > >  Software Engineer at Red Hat
-> > --
-> > Regards,
-> > Wayne
-> > 
+> On Wed, Jun 23, 2021 at 1:11 AM Kieran Bingham
+> <kieran.bingham@ideasonboard.com> wrote:
+>> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>
+>> Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > 
+> Thanks for your patch!
+> 
+>> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+>> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+>> @@ -39,6 +39,7 @@ properties:
+>>        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+>>        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+>>        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+>> +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+>>
+>>    reg:
+>>      maxItems: 1
+>> @@ -774,6 +775,57 @@ allOf:
+>>          - reset-names
+>>          - renesas,vsps
+>>
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - renesas,du-r8a779a0
+>> +    then:
+>> +      properties:
+>> +        clocks:
+>> +          items:
+>> +            - description: Functional clock for DU0
+>> +            - description: Functional clock for DU1
+>> +
+>> +        clock-names:
+>> +          items:
+>> +            - const: du.0
+>> +            - const: du.1
+> 
+> The hardware block has only a single function clock for both channels,
+> like on R-Car H1.
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Indeed, but I believe both channels still need to set them, if they can
+be operated independently, the driver looks up the clock based on the
+du.%d, and so for DU1, it is simply expressed as the same clock in DT.
 
+Is this acceptable? or is there further issues there?
+
+> 
+> And what about DU_DOTCLKIN?
+
+This thread has already discussed this with Laurent, and I concur -
+There doesn't appear to be any relevant reference to DU_DOTCLKIN on the
+DU side.
+
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
