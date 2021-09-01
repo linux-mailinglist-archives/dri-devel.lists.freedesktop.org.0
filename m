@@ -1,29 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FC33FDF50
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 18:05:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D9A3FDF52
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Sep 2021 18:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C58C16E20B;
-	Wed,  1 Sep 2021 16:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F02CF6E20C;
+	Wed,  1 Sep 2021 16:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.bugwerft.de (mail.bugwerft.de [IPv6:2a03:6000:1011::59])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A42E6E20B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 16:05:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 32ABB6E20C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 16:05:56 +0000 (UTC)
 Received: from hq-00021.. (unknown [46.183.103.17])
- by mail.bugwerft.de (Postfix) with ESMTPSA id 5D00532D3FA;
- Wed,  1 Sep 2021 16:03:58 +0000 (UTC)
+ by mail.bugwerft.de (Postfix) with ESMTPSA id 15C2832D3FB;
+ Wed,  1 Sep 2021 16:05:41 +0000 (UTC)
 From: Daniel Mack <daniel@zonque.org>
 To: airlied@linux.ie,
 	daniel@ffwll.ch
 Cc: robh+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Daniel Mack <daniel@zonque.org>
-Subject: [PATCH v10 0/2] gpu: drm: add driver for ili9361 panel
-Date: Wed,  1 Sep 2021 18:03:27 +0200
-Message-Id: <20210901160329.1519656-1-daniel@zonque.org>
+ dri-devel@lists.freedesktop.org, Daniel Mack <daniel@zonque.org>,
+ Rob Herring <robh@kernel.org>
+Subject: [PATCH v10 1/2] dt-bindings: display: add bindings for newhaven,
+ 1.8-128160EF
+Date: Wed,  1 Sep 2021 18:03:28 +0200
+Message-Id: <20210901160329.1519656-2-daniel@zonque.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210901160329.1519656-1-daniel@zonque.org>
+References: <20210901160329.1519656-1-daniel@zonque.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,47 +45,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is v10 of the series.
+This adds documentation for a new ILI9163 based, SPI connected display.
 
-Changelog:
-
-v2 -> v3:
-	* Turn Documentation into yaml format
-
-v3 -> v4:
-	* Fix reference error in yaml file
-
-v4 -> v5:
-	* More yaml file documentation fixes
-
-v5 -> v6:
-	* More yaml file documentation fixes
-
-v6 -> v7:
-	* Fix ordering of patches
-
-v7 -> v8:
-	* More yaml file documentation fixes
-
-v8 -> v9:
-	* Addressed some minor issues pointed out by Thomas Zimmermann
-	* Rebased
-
-v9 -> v10:
-	* Re-apply the yaml file in favour of the txt file
-
-Daniel Mack (2):
-  dt-bindings: display: add bindings for newhaven,1.8-128160EF
-  drm/tiny: add driver for newhaven,1.8-128160EF
-
- .../display/panel/ilitek,ili9163.yaml         |  69 ++++++
- drivers/gpu/drm/tiny/Kconfig                  |  13 +
- drivers/gpu/drm/tiny/Makefile                 |   1 +
- drivers/gpu/drm/tiny/ili9163.c                | 224 ++++++++++++++++++
- 4 files changed, 307 insertions(+)
+Signed-off-by: Daniel Mack <daniel@zonque.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../display/panel/ilitek,ili9163.yaml         | 69 +++++++++++++++++++
+ 1 file changed, 69 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml
- create mode 100644 drivers/gpu/drm/tiny/ili9163.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml
+new file mode 100644
+index 000000000000..7e7a8362b951
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9163.yaml
+@@ -0,0 +1,69 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/ilitek,ili9163.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Ilitek ILI9163 display panels device tree bindings
++
++maintainers:
++  - Daniel Mack <daniel@zonque.org>
++
++description:
++  This binding is for display panels using an Ilitek ILI9163 controller in SPI
++  mode.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - newhaven,1.8-128160EF
++      - const: ilitek,ili9163
++
++  spi-max-frequency:
++    maximum: 32000000
++
++  dc-gpios:
++    maxItems: 1
++    description: Display data/command selection (D/CX)
++
++  backlight: true
++  reg: true
++  reset-gpios: true
++  rotation: true
++
++required:
++  - compatible
++  - reg
++  - dc-gpios
++  - reset-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    backlight: backlight {
++            compatible = "gpio-backlight";
++            gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
++    };
++    spi {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            display@0 {
++                    compatible = "newhaven,1.8-128160EF", "ilitek,ili9163";
++                    reg = <0>;
++                    spi-max-frequency = <32000000>;
++                    dc-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
++                    reset-gpios = <&gpio0 25 GPIO_ACTIVE_HIGH>;
++                    rotation = <180>;
++                    backlight = <&backlight>;
++            };
++    };
++
++...
 -- 
 2.31.1
 
