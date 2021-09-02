@@ -1,56 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10DB23FE91F
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 08:08:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8843FE9E0
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 09:17:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C65AD6E450;
-	Thu,  2 Sep 2021 06:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0D06E462;
+	Thu,  2 Sep 2021 07:17:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
- [185.70.41.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90E186E237
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 18:07:42 +0000 (UTC)
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com
- [51.77.79.158])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4H0BqJ6b2Bz4xC4V
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Sep 2021 18:07:40 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
- dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com
- header.b="hknCXgjm"
-Date: Wed, 01 Sep 2021 18:07:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1630519656;
- bh=hpiMhb7xaOG5AAFkGBjxr0I36weG/Yx7rV+awK0m7/Y=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=hknCXgjmK2oau81RE8Rr2N5Tq9ls7bQi8KUOFK733CyX/8jF2dehPtMq1Yp7WM+Wb
- ge4Wewyu4PCdF73vIltxlkSw2K3XFXSLIxmiEAPqWcl7ChbXf7NIkt2LhNMDdgYP9K
- dBeYNZDCuiJkxtA/+PPqeAXiash3wNlxQqJ7TzdA=
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>
-From: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: Yassine Oudjana <y.oudjana@protonmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] dt-bindings: display: Add binding for LG.Philips SW43101
-Message-ID: <20210901180644.248177-3-y.oudjana@protonmail.com>
-In-Reply-To: <20210901180644.248177-1-y.oudjana@protonmail.com>
-References: <20210901180644.248177-1-y.oudjana@protonmail.com>
+Received: from www.kot-begemot.co.uk (ivanoab7.miniserver.com [37.128.132.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 571BD6E453
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 06:23:30 +0000 (UTC)
+Received: from tun252.jain.kot-begemot.co.uk ([192.168.18.6]
+ helo=jain.kot-begemot.co.uk)
+ by www.kot-begemot.co.uk with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <anton.ivanov@cambridgegreys.com>)
+ id 1mLfai-0002ca-79; Thu, 02 Sep 2021 05:48:52 +0000
+Received: from madding.kot-begemot.co.uk ([192.168.3.98])
+ by jain.kot-begemot.co.uk with esmtps
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <anton.ivanov@cambridgegreys.com>)
+ id 1mLfad-0005F9-F2; Thu, 02 Sep 2021 06:48:47 +0100
+Subject: Re: [PATCH] drm/ttm: provide default page protection for UML
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+ linux-um@lists.infradead.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20210902020129.25952-1-rdunlap@infradead.org>
+From: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Organization: Cambridge Greys
+Message-ID: <9faacbc8-3346-8033-5b4d-60543eae959e@cambridgegreys.com>
+Date: Thu, 2 Sep 2021 06:48:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
-X-Mailman-Approved-At: Thu, 02 Sep 2021 06:08:04 +0000
+In-Reply-To: <20210902020129.25952-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -1.0
+X-Spam-Score: -1.0
+X-Clacks-Overhead: GNU Terry Pratchett
+X-Mailman-Approved-At: Thu, 02 Sep 2021 07:17:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,81 +58,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Yassine Oudjana <y.oudjana@protonmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a device tree binding for LG.Philips SW43101.
+On 02/09/2021 03:01, Randy Dunlap wrote:
+> boot_cpu_data [struct cpuinfo_um (on UML)] does not have a struct
+> member named 'x86', so provide a default page protection mode
+> for CONFIG_UML.
+> 
+> Mends this build error:
+> ../drivers/gpu/drm/ttm/ttm_module.c: In function ‘ttm_prot_from_caching’:
+> ../drivers/gpu/drm/ttm/ttm_module.c:59:24: error: ‘struct cpuinfo_um’ has no member named ‘x86’
+>    else if (boot_cpu_data.x86 > 3)
+>                          ^
+> 
+> Fixes: 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for page-based iomem")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Jeff Dike <jdike@addtoit.com>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> Cc: linux-um@lists.infradead.org
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>   drivers/gpu/drm/ttm/ttm_module.c |    4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> --- linux-next-20210901.orig/drivers/gpu/drm/ttm/ttm_module.c
+> +++ linux-next-20210901/drivers/gpu/drm/ttm/ttm_module.c
+> @@ -53,6 +53,9 @@ pgprot_t ttm_prot_from_caching(enum ttm_
+>   	if (caching == ttm_cached)
+>   		return tmp;
+>   
+> +#ifdef CONFIG_UML
+> +	tmp = pgprot_noncached(tmp);
+> +#else
+>   #if defined(__i386__) || defined(__x86_64__)
+>   	if (caching == ttm_write_combined)
+>   		tmp = pgprot_writecombine(tmp);
+> @@ -69,6 +72,7 @@ pgprot_t ttm_prot_from_caching(enum ttm_
+>   #if defined(__sparc__)
+>   	tmp = pgprot_noncached(tmp);
+>   #endif
+> +#endif
+>   	return tmp;
+>   }
+>   
 
-Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
----
- .../display/panel/lgphilips,sw43101.yaml      | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/lgphili=
-ps,sw43101.yaml
+Patch looks OK.
 
-diff --git a/Documentation/devicetree/bindings/display/panel/lgphilips,sw43=
-101.yaml b/Documentation/devicetree/bindings/display/panel/lgphilips,sw4310=
-1.yaml
-new file mode 100644
-index 000000000000..da049e9f244e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/lgphilips,sw43101.yam=
-l
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: BSD-3-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/lgphilips,sw43101.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: LG.Philips SW43101 1080x1920 OLED panel
-+
-+maintainers:
-+  - Yassine Oudjana <y.oudjana@protonmail.com>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: lgphilips,sw43101
-+
-+  port: true
-+  reg: true
-+  reset-gpios: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    dsi {
-+        #address-cells =3D <1>;
-+        #size-cells =3D <0>;
-+
-+        panel@0 {
-+            compatible =3D "lgphilips,sw43101";
-+            reg =3D <0>;
-+
-+            reset-gpios =3D <&msmgpio 8 GPIO_ACTIVE_LOW>;
-+
-+            port {
-+                panel_in: endpoint {
-+                    remote-endpoint =3D <&dsi_out>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
---=20
-2.33.0
+I have a question though - why all of DRM is not !UML in config. Not 
+like we can use them.
+
+> 
+> _______________________________________________
+> linux-um mailing list
+> linux-um@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-um
+> 
 
 
+-- 
+Anton R. Ivanov
+Cambridgegreys Limited. Registered in England. Company Number 10273661
+https://www.cambridgegreys.com/
