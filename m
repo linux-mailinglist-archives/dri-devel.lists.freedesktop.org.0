@@ -2,65 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF55E3FEF71
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2F93FEF76
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:31:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A42CC6E56A;
-	Thu,  2 Sep 2021 14:28:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC736E56D;
+	Thu,  2 Sep 2021 14:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 713D96E56A
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:28:22 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id h16so1849022lfk.10
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=CrN1aM08Y4JK/xLQVCkBWpsAqJhJ+3F4Ue3r3U3/KEA=;
- b=PGmZMjskPB/T5uQv2ljZyX39SO32H4KJiUxiHAaSipRKlq6coU95wJ0bIaKk5qYtCH
- Qd2WkyBKEFojuK0Tbik17+CWwe4Vu4eoND7Tle+BINidikOAs3hIC3Jd+Q+qgOco3HJJ
- UIqbZ9kv3YrNuaa2lMScRDwYOrjdWfOo5/QJHtfol+u82mxvxH2muxjP5/kDvO9ZfWjW
- bhdAz8W4Mwg7oFWKwebxxMd7wIzkZiAv83GhkhIqbuC/w87bD8dyPysGVGdtFAHBchkq
- //vYUfYPwZWBu1u0bPE+dfP7Gursc5hqg2iEGh5PKuYOfmOvWIG1e3aI2Y08YCpwg1/r
- m3xw==
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 711946E56D
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:31:07 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id b10so3332732wru.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:31:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9hkBk7sDsjjBAe7AUgCdS1m+mzXVFS6kHPRELfYsC1c=;
+ b=Y8s+NJiGqgx8TszOhrhN5R6tvbQ7OHnBDyaDgw6+AHEg2rkX66x3Eo/nHE/GhXLryx
+ FbQUh7PMIldTWufZmHktHyoYa9nBOPtA/s+X3D8V/zBTco6SXapOdpzOu19bHY1XLrza
+ rNkak6BgIt+mGk19F7UnVzexpNRxSt+wWtTLU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=CrN1aM08Y4JK/xLQVCkBWpsAqJhJ+3F4Ue3r3U3/KEA=;
- b=Mb7EvZGmo5Y6B/q5IQhKa5m4ILAk7TW+554Q4o7YBqISVBQeWCpmbfdP3xgdH9DqYe
- b7alo2uAflcFxC99mdJHosIXMG+MIaPx64EOVV/3J5FYwt7PRW0ASXsgXm2aDsqLSK1a
- 8TKoRW6Q5x7VHMYUhVN+4wEL7jrgHDnqVgofi8vXODDW7pCMH4nlQ6N5kcOACfyK+QRi
- YWCRTdEppuugZE3+5mwiL3PgGwb43S2lpHmw6viNbhcee3nsQaqUdfGflvSxmeBS1j6w
- O8PrtK8eI3OYbGRWwj8V8rtNLfRLc3if6xRhrCxMFOE/gaHckUyxemFBuGUdwskdffRJ
- OySQ==
-X-Gm-Message-State: AOAM5338ZkzmcfIUI3mSsBxTNsCs+vC4n/cbCzstnwRjv4OWgitoYzr+
- vIdxgeBi+2d8AbM6frFfSko=
-X-Google-Smtp-Source: ABdhPJzLdbKNLMXvsxPPaUOcF0F1xmy70XPcPzlky8uSxJoftKm3KXNidl6vlQ077drde8UT4Byrfg==
-X-Received: by 2002:a05:6512:3a84:: with SMTP id
- q4mr2814118lfu.543.1630592900716; 
- Thu, 02 Sep 2021 07:28:20 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id b17sm240377ljj.35.2021.09.02.07.28.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=9hkBk7sDsjjBAe7AUgCdS1m+mzXVFS6kHPRELfYsC1c=;
+ b=dQF9bb+sOpwiYxDigZxT4z4PJLZfAwTihmspU/G8DhVZbsp0Jx1dfqCwKwg9XZVgL8
+ aYfkweisBXWYkHpwG0VkLc8NLqPm0BMP+RpyXI43rFuJOW5fdw/7C1CRc+y1ICobkwAK
+ RJ4SH1MKxKdBIBTogvCORC5DBNQf6PH40flEAcROwu09hvY+xtC+vXIj/H2NZiqUd9cR
+ blmQMIj+gZ/JxNn3ATWIjCvdkbwStQRV7KRyDRD5RzGTFc9sqde3kdXwV37UNqOdDTrP
+ mrmFNf1UbLNoeFlBFsBJiVEFGBWguwaE7aImKpD8p6iz9TVIX13OtXrIFBTGBK+GBiIZ
+ 7yAg==
+X-Gm-Message-State: AOAM532xmD7TQdpv3nnMIgDtaYlAgyKUWEdLYzuvqzdJ5C/Eh73HSWsE
+ Y6cuK/4lvprgpkrjiRfZv4+07RlDhPcZAw==
+X-Google-Smtp-Source: ABdhPJxDISoWhPmKGT3+Q/iYvIAPQ+5R6ghnjptaueBqR4FsG1+SlZZK1g+D/kr9jqMd27RZBQKuPA==
+X-Received: by 2002:a05:6000:1623:: with SMTP id
+ v3mr4235895wrb.288.1630593065981; 
+ Thu, 02 Sep 2021 07:31:05 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m4sm1874978wml.28.2021.09.02.07.31.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 07:28:20 -0700 (PDT)
-Date: Thu, 2 Sep 2021 17:28:10 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Stone <daniels@collabora.com>, Michel =?UTF-8?B?RMOkbnplcg==?=
- <michel@daenzer.net>, Emil Velikov <emil.l.velikov@gmail.com>, Keith
- Packard <keithp@keithp.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH] drm/lease: allow empty leases
-Message-ID: <20210902172810.24ed05bb@eldfell>
-In-Reply-To: <20210902091126.2312-1-contact@emersion.fr>
-References: <20210902091126.2312-1-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ Thu, 02 Sep 2021 07:31:05 -0700 (PDT)
+Date: Thu, 2 Sep 2021 16:31:03 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Peter Robinson <pbrobinson@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ David Airlie <airlied@linux.ie>
+Subject: Re: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with
+ CONFIG_FB disabled
+Message-ID: <YTDgJzhOHEQ5ov3x@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Peter Robinson <pbrobinson@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ David Airlie <airlied@linux.ie>
+References: <20210827100027.1577561-1-javierm@redhat.com>
+ <bb5d045c-c9de-b6df-cf45-32b1a866264a@suse.de>
+ <YSlI+ryYqoRxM7aB@phenom.ffwll.local>
+ <a7395626-f022-5c89-07cd-c30d0d52d3dd@redhat.com>
+ <YS4iIR689bAZ4QT9@phenom.ffwll.local>
+ <b6ba8f6b-4f0c-53cc-e384-ecea3af78410@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/c3vU/2zJ+vcEZgflLdE=Zwt";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b6ba8f6b-4f0c-53cc-e384-ecea3af78410@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,131 +96,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/c3vU/2zJ+vcEZgflLdE=Zwt
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 01, 2021 at 11:08:10AM +0200, Javier Martinez Canillas wrote:
+> On 8/31/21 2:35 PM, Daniel Vetter wrote:
+> > On Sat, Aug 28, 2021 at 12:02:21AM +0200, Javier Martinez Canillas wrote:
+> 
+> [snip]
+> 
+> >>
+> >> We talked about a drmcon with Peter Robinson as well but then decided that a
+> >> way to disable CONFIG_FB but still having the DRM fbdev emulation could be a
+> >> intermediary step, hence these RFC patches.
+> >>
+> >> But yes, I agree that a drmcon would be the proper approach for this, to not
+> >> need any fbdev support at all. We will just keep the explicit disable for the
+> >> fbdev drivers then in the meantime.
+> > 
+> > I think the only intermediate step would be to disable the fbdev uapi
+> > (char node and anything in sysfs), while still registering against the
+> > fbcon layer so you have a console.
+> >
+> 
+> Right, $subject disabled the sysfs interface but left the fbdev chardev. I can
+> try to do a v2 that also disables that interface but just keep the fbcon part.
+>  
+> > But looking at the things syzbot finds the really problematic code is all
+> > in the fbcon and console layer in general, and /dev/fb0 seems pretty
+> > solid.
+> >
+> 
+> Yes, but still would be an improvement in the sense that no legacy fbdev uAPI
+> will be exposed and so user-space would only depend on the DRM/KMS interface.
+> 
+> > I think for a substantial improvement here in robustness what you really
+> > want is
+> > - kmscon in userspace
+> > - disable FB layer
+> > - ideally also disable console/vt layer in the kernel
+> 
+> Earlier in the thread it was mentioned that an in-kernel drmcon could be used
+> instead. My worry with kmscon is that moving something as critical as console
+> output to user-space might make harder to troubleshoot early booting issues.
+> 
+> And also that will require user-space changes. An in-kernel drmcon could be a
+> drop-in replacement though.
 
-On Thu, 02 Sep 2021 09:11:40 +0000
-Simon Ser <contact@emersion.fr> wrote:
+The drmcon wouldn't be a full console, but just an emergency log renderer.
+See Sam's reply, he found the series again.
 
-> This can be used to create a separate DRM file description, thus
-> creating a new GEM handle namespace. See [1].
->=20
-> Example usage in wlroots is available at [2].
->=20
-> [1]: https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/110
-> [2]: https://github.com/swaywm/wlroots/pull/3158
->=20
+The real attack surface reduction is in getting rid of the console/vt uapi
+implementation from the kernel.
+-Daniel
 
-Hi Simon,
+> > - have a minimal emergency/boot-up log thing in drm, patches for that
+> >   floated around a few times
+> >
+> 
+> Interesting. Do you have any pointers for this? My search-fu failed me when
+> trying to find these patches.
+> 
+> Best regards,
+> -- 
+> Javier Martinez Canillas
+> Linux Engineering
+> Red Hat
+> 
 
-I have a feeling that this is a good idea, but could you explain in
-this commit message some real use cases where one needs a new GEM
-handle namespace? Not just "when you share a DRM fd between processes"
-but *why* you shared a DRM device fd between processes.
-
-If I have trouble remembering or figuring that out from those links,
-then I'm sure others have too.
-
-
-Thanks,
-pq
-
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Daniel Stone <daniels@collabora.com>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> Cc: Michel D=C3=A4nzer <michel@daenzer.net>
-> Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> Cc: Keith Packard <keithp@keithp.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/drm_lease.c | 39 +++++++++++++++++--------------------
->  1 file changed, 18 insertions(+), 21 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-> index dee4f24a1808..d72c2fac0ff1 100644
-> --- a/drivers/gpu/drm/drm_lease.c
-> +++ b/drivers/gpu/drm/drm_lease.c
-> @@ -489,12 +489,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *d=
-ev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
-> =20
-> -	/* need some objects */
-> -	if (cl->object_count =3D=3D 0) {
-> -		DRM_DEBUG_LEASE("no objects in lease\n");
-> -		return -EINVAL;
-> -	}
-> -
->  	if (cl->flags && (cl->flags & ~(O_CLOEXEC | O_NONBLOCK))) {
->  		DRM_DEBUG_LEASE("invalid flags\n");
->  		return -EINVAL;
-> @@ -510,23 +504,26 @@ int drm_mode_create_lease_ioctl(struct drm_device *=
-dev,
-> =20
->  	object_count =3D cl->object_count;
-> =20
-> -	object_ids =3D memdup_user(u64_to_user_ptr(cl->object_ids),
-> -			array_size(object_count, sizeof(__u32)));
-> -	if (IS_ERR(object_ids)) {
-> -		ret =3D PTR_ERR(object_ids);
-> -		goto out_lessor;
-> -	}
-> -
-> +	/* Handle leased objects, if any */
->  	idr_init(&leases);
-> +	if (object_count !=3D 0) {
-> +		object_ids =3D memdup_user(u64_to_user_ptr(cl->object_ids),
-> +					 array_size(object_count, sizeof(__u32)));
-> +		if (IS_ERR(object_ids)) {
-> +			ret =3D PTR_ERR(object_ids);
-> +			idr_destroy(&leases);
-> +			goto out_lessor;
-> +		}
-> =20
-> -	/* fill and validate the object idr */
-> -	ret =3D fill_object_idr(dev, lessor_priv, &leases,
-> -			      object_count, object_ids);
-> -	kfree(object_ids);
-> -	if (ret) {
-> -		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
-> -		idr_destroy(&leases);
-> -		goto out_lessor;
-> +		/* fill and validate the object idr */
-> +		ret =3D fill_object_idr(dev, lessor_priv, &leases,
-> +				      object_count, object_ids);
-> +		kfree(object_ids);
-> +		if (ret) {
-> +			DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
-> +			idr_destroy(&leases);
-> +			goto out_lessor;
-> +		}
->  	}
-> =20
->  	/* Allocate a file descriptor for the lease */
-
-
---Sig_/c3vU/2zJ+vcEZgflLdE=Zwt
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmEw33oACgkQI1/ltBGq
-qqcXoQ//Vz942Ehjc6LkYZqAIAZyuMc+ptIbrZTTMDyrelrwtlF7em8QVt4CXCYp
-4rNWzlp6NxGX7WqD4w4XeK++KYoyy3DnGTs4J5Nd3wZHmGlBGTQ+eilr991r8Enj
-NPBKeY9tNfHJmUpt8xk1tiiYEB+dOSbOVWLa+TJUXifxdPew5v7iCE+LJprag+nJ
-6dSrBOx42mC93oXzQVISz88eMRSpkwc3yIjISf/SWt+9jkVZm3rHQ127J2TQqiRN
-LWIimmjv0n9Ox8jtWWHWT7/9bNeqTei/bq9+Zvqvylj8A+ITls1ANiSXS+Q48p1P
-p/p7dixZv4hdzrIzRJ8O8Zl0xiqKlg5ts7m+c4G1ZvJiKvCKdztawXtDHUQfRSLd
-uH7bhmfxxmR78B23TWNPFjkOQ97DkVsCyiPnkgGEo9GOHKye9XhXsQNQJM6WBLog
-JafF7EWmA/TNDPjEzHMClEDO2Uf9mI6S5nLmj8Zpksh1JK761Fakqr9LmrDmL7xS
-Rfu/Yyx9vA75ndeDoS4M5JdB8/qecXqZr5+WOmIShi7t/lH1LYXAbn4HYjOiCE5u
-Ad9mM0TcFTu6Tv7527tEQlKW6ND0JVOWKVDsFfkKBKiZ454HxgVk2XjqsA7jRbsU
-ZVi0Iwf0+M7ltLgyPkakWcv/Q8TNqQKt8+4dtIW+qddfEM2Tnn8=
-=VO7+
------END PGP SIGNATURE-----
-
---Sig_/c3vU/2zJ+vcEZgflLdE=Zwt--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
