@@ -2,74 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EF83FEFCF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 17:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BCF3FEFD6
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 17:06:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F9B6E5A3;
-	Thu,  2 Sep 2021 15:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27E126E5B4;
+	Thu,  2 Sep 2021 15:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE1866E5A3
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 15:04:43 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 182DKGFJ025318;
- Thu, 2 Sep 2021 17:04:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=selector1;
- bh=xFU7L59UQKbHgNzk21dP0eFG6dpb8/xpYj0dfSaG5Vc=;
- b=vGWNBZfXa7KRkBZBCzfjkPZpsB1MT0HW3nz1Brp4Vkf65DO4YIUv7Dy8togNGp8CQFKo
- fz4rCOqiaRcZ0UhwRG1/zkzmtWLgniYiSvqlQoHe74ohV4NSMne7sA8vPpg/d319CgpO
- 1CUIkVIch9C9AwfnUoy/swFhoHQlZ2tuwi/j0mv7VKOjBTxjFK3l40KpFz+NiBtaukw8
- AvM7w4ZVNqOkluvxn9ijBlyMWZi7jHpN4svbCX+hcLmXHgZgMhNFZjMAmqNRGqUdsffB
- n+G8e/Ij/4qXDX/Qs3XHKhbGt5W0AGP92Ao+NawHsxwzdR+i7nduNFCc4rAo4RuoXEph 6w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 3attgdahjb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Sep 2021 17:04:36 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1286F10002A;
- Thu,  2 Sep 2021 17:04:35 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node1.st.com [10.75.127.4])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E8B9E214D33;
- Thu,  2 Sep 2021 17:04:34 +0200 (CEST)
-Received: from SFHDAG2NODE3.st.com (10.75.127.6) by SFHDAG2NODE1.st.com
- (10.75.127.4) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 2 Sep
- 2021 17:04:34 +0200
-Received: from SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c]) by
- SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c%20]) with mapi id
- 15.00.1497.015; Thu, 2 Sep 2021 17:04:34 +0200
-From: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-CC: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, Yannick FERTRE - foss
- <yannick.fertre@foss.st.com>, Philippe CORNU - foss
- <philippe.cornu@foss.st.com>, Raphael GALLAIS-POU - foss
- <raphael.gallais-pou@foss.st.com>, Raphael GALLAIS-POU
- <raphael.gallais-pou@st.com>
-Subject: [PATCH] drm/panel: otm8009a: add a 60 fps mode
-Thread-Topic: [PATCH] drm/panel: otm8009a: add a 60 fps mode
-Thread-Index: AQHXoAvWQIlcPy1QlUOj2tqsnPmKrg==
-Date: Thu, 2 Sep 2021 15:04:34 +0000
-Message-ID: <20210902150351.3779-1-raphael.gallais-pou@foss.st.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.48]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 436896E5B4
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 15:06:10 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id c79so2901562oib.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 08:06:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/HUX+FUDNFG18O692ix3uIE+zCabiK1I/2x37rP8KGM=;
+ b=D0z57gSNU+duP5dQ5coOX0Rbe3NKZwmcSWVzl6yLTmFYkf6H5feapse/NQRRhS9Kw1
+ vIkMzVT6V1wgcQjbs2ENVDPgSvxUfS+LcU3DFsDotSU1RF0ZHkq/IsFdEnzw5IpHLOeV
+ Pm0GtA/SGFh1DjcRSTzh4VWfk4wLp1mziYDkU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/HUX+FUDNFG18O692ix3uIE+zCabiK1I/2x37rP8KGM=;
+ b=EPXvlb+ZeE47lC0hGxzlI/Uyy1EKQDpbxd+3El5uuqkfnGhOUAW2app9RRL6UGVlRS
+ rLkiPOZ2sgb7vwU14ZgWmqXO58rTV38LwtTaKOr/lmvFWYJnTBFyF89Zn2luGnZpvVAo
+ 98zdb8JXdsgfr/2+1Ly37DAZLDCJN3FS1dyCTaXuK30vkawMsUCzMNx753+JIfoWM9lF
+ XQQXaATLpnYYOuxGpWIuRrBoa9CEV6hNPnae64BMEvVGXcQk6okP6NsqWq5CPbvYBBzI
+ J67plqpU6XQCRjWkm8vVGENft/Me59JFxblNjxU1doAoo6Zt98RpmCg6FKsd3i7Nb0L+
+ b8cw==
+X-Gm-Message-State: AOAM531McMXHZHfBMoOqitB7pv8MZ0WXrWvUTu+JPcRlgvhsSK+hTA61
+ cVj6xvb33RAdySyAtHs9aPjRktfdn5EvUj1bTLB3Yl3yNWI=
+X-Google-Smtp-Source: ABdhPJyovgDnJSIu79UmNJXmCwKZoUoB4bm5E1cg0S1oM+Qbo6rA89ysqlVw4I88hrFogaMxe5rjGsYBODquC4/TGMI=
+X-Received: by 2002:aca:3954:: with SMTP id g81mr2548632oia.101.1630595169455; 
+ Thu, 02 Sep 2021 08:06:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-02_04,2021-09-02_03,2020-04-07_01
+References: <20210813203033.3179400-1-daniel.vetter@ffwll.ch>
+ <9d8cba62-e1e1-a62c-1482-89d2db49d5af@linux.intel.com>
+In-Reply-To: <9d8cba62-e1e1-a62c-1482-89d2db49d5af@linux.intel.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 2 Sep 2021 17:05:58 +0200
+Message-ID: <CAKMK7uG4F9ooosoovjUP3XFVPjpU_wV2Me2hxjyit3b1FGbSWQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 01/11] drm/i915: Release i915_gem_context from
+ a worker
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, 
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Matthew Auld <matthew.auld@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>, 
+ Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,141 +76,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds a 60 fps mode to the Orisetech OTM8009A panel.
-The 50 fps mode is left as preferred.
+On Thu, Sep 2, 2021 at 2:42 PM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 13/08/2021 21:30, Daniel Vetter wrote:
+> > The only reason for this really is the i915_gem_engines->fence
+> > callback engines_notify(), which exists purely as a fairly funky
+> > reference counting scheme for that. Otherwise all other callers are
+> > from process context, and generally fairly benign locking context.
+>
+> There is reset which definitely isn't process context.
 
-Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
----
- .../gpu/drm/panel/panel-orisetech-otm8009a.c  | 85 ++++++++++++-------
- 1 file changed, 56 insertions(+), 29 deletions(-)
+gpu reset runs in process context. The tasklet context is the
+engines_notify I'm talking about above.
 
-diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu=
-/drm/panel/panel-orisetech-otm8009a.c
-index f80b44a8a700..dfb43b1374e7 100644
---- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-+++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-@@ -60,6 +60,9 @@
- #define MCS_CMD2_ENA1	0xFF00	/* Enable Access Command2 "CMD2" */
- #define MCS_CMD2_ENA2	0xFF80	/* Enable Access Orise Command2 */
-=20
-+#define OTM8009A_HDISPLAY	480
-+#define OTM8009A_VDISPLAY	800
-+
- struct otm8009a {
- 	struct device *dev;
- 	struct drm_panel panel;
-@@ -70,19 +73,35 @@ struct otm8009a {
- 	bool enabled;
- };
-=20
--static const struct drm_display_mode default_mode =3D {
--	.clock =3D 29700,
--	.hdisplay =3D 480,
--	.hsync_start =3D 480 + 98,
--	.hsync_end =3D 480 + 98 + 32,
--	.htotal =3D 480 + 98 + 32 + 98,
--	.vdisplay =3D 800,
--	.vsync_start =3D 800 + 15,
--	.vsync_end =3D 800 + 15 + 10,
--	.vtotal =3D 800 + 15 + 10 + 14,
--	.flags =3D 0,
--	.width_mm =3D 52,
--	.height_mm =3D 86,
-+static const struct drm_display_mode modes[] =3D {
-+	{ /* 50 Hz, preferred */
-+		.clock =3D 29700,
-+		.hdisplay =3D 480,
-+		.hsync_start =3D 480 + 98,
-+		.hsync_end =3D 480 + 98 + 32,
-+		.htotal =3D 480 + 98 + 32 + 98,
-+		.vdisplay =3D 800,
-+		.vsync_start =3D 800 + 15,
-+		.vsync_end =3D 800 + 15 + 10,
-+		.vtotal =3D 800 + 15 + 10 + 14,
-+		.flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+		.width_mm =3D 52,
-+		.height_mm =3D 86,
-+	},
-+	{ /* 60 Hz */
-+		.clock =3D 33000,
-+		.hdisplay =3D 480,
-+		.hsync_start =3D 480 + 70,
-+		.hsync_end =3D 480 + 70 + 32,
-+		.htotal =3D 480 + 70 + 32 + 72,
-+		.vdisplay =3D 800,
-+		.vsync_start =3D 800 + 15,
-+		.vsync_end =3D 800 + 15 + 10,
-+		.vtotal =3D 800 + 15 + 10 + 16,
-+		.flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+		.width_mm =3D 52,
-+		.height_mm =3D 86,
-+	},
- };
-=20
- static inline struct otm8009a *panel_to_otm8009a(struct drm_panel *panel)
-@@ -208,12 +227,11 @@ static int otm8009a_init_sequence(struct otm8009a *ct=
-x)
- 	/* Default portrait 480x800 rgb24 */
- 	dcs_write_seq(ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
-=20
--	ret =3D mipi_dsi_dcs_set_column_address(dsi, 0,
--					      default_mode.hdisplay - 1);
-+	ret =3D mipi_dsi_dcs_set_column_address(dsi, 0, OTM8009A_HDISPLAY - 1);
- 	if (ret)
- 		return ret;
-=20
--	ret =3D mipi_dsi_dcs_set_page_address(dsi, 0, default_mode.vdisplay - 1);
-+	ret =3D mipi_dsi_dcs_set_page_address(dsi, 0, OTM8009A_VDISPLAY - 1);
- 	if (ret)
- 		return ret;
-=20
-@@ -337,24 +355,33 @@ static int otm8009a_get_modes(struct drm_panel *panel=
-,
- 			      struct drm_connector *connector)
- {
- 	struct drm_display_mode *mode;
--
--	mode =3D drm_mode_duplicate(connector->dev, &default_mode);
--	if (!mode) {
--		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
--			default_mode.hdisplay, default_mode.vdisplay,
--			drm_mode_vrefresh(&default_mode));
--		return -ENOMEM;
-+	unsigned int num_modes =3D ARRAY_SIZE(modes);
-+	unsigned int i;
-+
-+	for (i =3D 0; i < num_modes; i++) {
-+		mode =3D drm_mode_duplicate(connector->dev, &modes[i]);
-+		if (!mode) {
-+			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-+				modes[i].hdisplay,
-+				modes[i].vdisplay,
-+				drm_mode_vrefresh(&modes[i]));
-+			return -ENOMEM;
-+		}
-+
-+		mode->type =3D DRM_MODE_TYPE_DRIVER;
-+
-+		/* Setting first mode as preferred */
-+		if (!i)
-+			mode->type |=3D  DRM_MODE_TYPE_PREFERRED;
-+
-+		drm_mode_set_name(mode);
-+		drm_mode_probed_add(connector, mode);
- 	}
-=20
--	drm_mode_set_name(mode);
--
--	mode->type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
--	drm_mode_probed_add(connector, mode);
--
- 	connector->display_info.width_mm =3D mode->width_mm;
- 	connector->display_info.height_mm =3D mode->height_mm;
-=20
--	return 1;
-+	return num_modes;
- }
-=20
- static const struct drm_panel_funcs otm8009a_drm_funcs =3D {
+> Otherwise I did not really get from the commit message is this patch
+> fixing an existing problem or preparing something for the future. If the
+> former then as I wrote above - I am pretty sure there are call sites
+> from the tasklet already.
+>
+> Regards,
+>
+> Tvrtko
+>
+> > Unfortunately untangling that requires some major surgery, and we have
+> > a few i915_gem_context reference counting bugs that need fixing, and
+> > they blow in the current hardirq calling context, so we need a
+> > stop-gap measure.
+
+I guess this para wasn't clear, but subsequent patches fix the
+refcount bugs and need this prep patch here.
+-Daniel
+
+> >
+> > Put a FIXME comment in when this should be removable again.
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+> > Cc: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_context.c       | 13 +++++++++++--
+> >   drivers/gpu/drm/i915/gem/i915_gem_context_types.h | 12 ++++++++++++
+> >   2 files changed, 23 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/=
+drm/i915/gem/i915_gem_context.c
+> > index fd169cf2f75a..051bc357ff65 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> > @@ -986,9 +986,10 @@ static struct i915_gem_engines *user_engines(struc=
+t i915_gem_context *ctx,
+> >       return err;
+> >   }
+> >
+> > -void i915_gem_context_release(struct kref *ref)
+> > +static void i915_gem_context_release_work(struct work_struct *work)
+> >   {
+> > -     struct i915_gem_context *ctx =3D container_of(ref, typeof(*ctx), =
+ref);
+> > +     struct i915_gem_context *ctx =3D container_of(work, typeof(*ctx),
+> > +                                                 release_work);
+> >
+> >       trace_i915_context_free(ctx);
+> >       GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
+> > @@ -1002,6 +1003,13 @@ void i915_gem_context_release(struct kref *ref)
+> >       kfree_rcu(ctx, rcu);
+> >   }
+> >
+> > +void i915_gem_context_release(struct kref *ref)
+> > +{
+> > +     struct i915_gem_context *ctx =3D container_of(ref, typeof(*ctx), =
+ref);
+> > +
+> > +     queue_work(ctx->i915->wq, &ctx->release_work);
+> > +}
+> > +
+> >   static inline struct i915_gem_engines *
+> >   __context_engines_static(const struct i915_gem_context *ctx)
+> >   {
+> > @@ -1303,6 +1311,7 @@ i915_gem_create_context(struct drm_i915_private *=
+i915,
+> >       ctx->sched =3D pc->sched;
+> >       mutex_init(&ctx->mutex);
+> >       INIT_LIST_HEAD(&ctx->link);
+> > +     INIT_WORK(&ctx->release_work, i915_gem_context_release_work);
+> >
+> >       spin_lock_init(&ctx->stale.lock);
+> >       INIT_LIST_HEAD(&ctx->stale.engines);
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/driver=
+s/gpu/drm/i915/gem/i915_gem_context_types.h
+> > index 94c03a97cb77..0c38789bd4a8 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+> > @@ -288,6 +288,18 @@ struct i915_gem_context {
+> >        */
+> >       struct kref ref;
+> >
+> > +     /**
+> > +      * @release_work:
+> > +      *
+> > +      * Work item for deferred cleanup, since i915_gem_context_put() t=
+ends to
+> > +      * be called from hardirq context.
+> > +      *
+> > +      * FIXME: The only real reason for this is &i915_gem_engines.fenc=
+e, all
+> > +      * other callers are from process context and need at most some m=
+ild
+> > +      * shuffling to pull the i915_gem_context_put() call out of a spi=
+nlock.
+> > +      */
+> > +     struct work_struct release_work;
+> > +
+> >       /**
+> >        * @rcu: rcu_head for deferred freeing.
+> >        */
+> >
+
+
+
 --=20
-2.17.1
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
