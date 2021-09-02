@@ -1,69 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA9B3FEFAE
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:47:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E563FEFBD
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 395786E593;
-	Thu,  2 Sep 2021 14:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04FD06E59D;
+	Thu,  2 Sep 2021 14:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5726E593
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:47:38 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- l7-20020a1c2507000000b002e6be5d86b3so1550031wml.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=bmnFc+3KKaFI2ANGRuUW8hsGhsal2uOwCkvONqI8gJA=;
- b=Hr7rsCo1GYxr9LhmTSx4oDSriTUT1rhtCBfxGnlH7EZTrcopR2bTop9Fk8h+ejGxiN
- CuJVwfjJuCGWfn4mzdbLHpI1KmsoWp51caDSUeG3M7rPGu218UB3qGjnhs4aH8DGNYdr
- RftB+RhSBASzkmct5mmtuHUJzOTkPCQEViHe0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bmnFc+3KKaFI2ANGRuUW8hsGhsal2uOwCkvONqI8gJA=;
- b=UGquHdT/jUa3KxvEAeSzAgimXEJUZTSmtRphnywbzk/oR5a1f3hYp6ZbH2AfheQrEc
- HhY9xoKthugOaDuCd8hWbukOcNJRUvTU/A3GYW8DXy0/5A/i0B7JTjka/Fx1SWHim3c7
- 5zmRp7KmRPjfUcHNsb81jI1qSccxAzCnbEnF+2KtR3quaZo2e+F9+Yk8ApgsjtQ7bruQ
- Z8oner8bFVyJ5RXPI6oVltoKV2LATrOMDslSuUwQj+E0RaBASAd8+kOyzre6jkXL4dUH
- 93BpIK4AQdI2s7fuN9Y1m7EGCsl9uZBK2FO9yPL1lfrBJFkH7d88aZT3EyDQjUQrek13
- YbPw==
-X-Gm-Message-State: AOAM530QJ5I6ilw+ZZL4UYNR/3R16iJEtyXUPau/INdM7uQ26FcCR58c
- IceGtkfMwm2ZSeISDE+esHy91A==
-X-Google-Smtp-Source: ABdhPJzznbKpEm89FGRfInwUPR2jriyfkrQ2085VLjIRu6nEAaRFI/BY1LtJmgOcNvkUTtwukXZARA==
-X-Received: by 2002:a1c:f214:: with SMTP id s20mr3569210wmc.14.1630594057264; 
- Thu, 02 Sep 2021 07:47:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u27sm2114288wru.2.2021.09.02.07.47.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 07:47:36 -0700 (PDT)
-Date: Thu, 2 Sep 2021 16:47:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Stone <daniels@collabora.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Emil Velikov <emil.l.velikov@gmail.com>, Keith Packard <keithp@keithp.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH] drm/lease: allow empty leases
-Message-ID: <YTDkB2JSuBwRWcnP@phenom.ffwll.local>
-References: <20210902091126.2312-1-contact@emersion.fr>
- <20210902172810.24ed05bb@eldfell>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60BC96E598;
+ Thu,  2 Sep 2021 14:54:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="218847652"
+X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="218847652"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 07:54:40 -0700
+X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="461695549"
+Received: from rlsmith2-mobl1.amr.corp.intel.com (HELO [10.213.229.210])
+ ([10.213.229.210])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 07:54:37 -0700
+Subject: Re: [Intel-gfx] [PATCH 07/11] drm/i915: Add
+ i915_gem_context_is_full_ppgtt
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
+References: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
+ <20210902142057.929669-7-daniel.vetter@ffwll.ch>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <1cb4b910-ad02-ff02-46ef-7b3b4f393eb3@linux.intel.com>
+Date: Thu, 2 Sep 2021 15:54:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20210902142057.929669-7-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210902172810.24ed05bb@eldfell>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,120 +64,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 02, 2021 at 05:28:10PM +0300, Pekka Paalanen wrote:
-> On Thu, 02 Sep 2021 09:11:40 +0000
-> Simon Ser <contact@emersion.fr> wrote:
-> 
-> > This can be used to create a separate DRM file description, thus
-> > creating a new GEM handle namespace. See [1].
-> > 
-> > Example usage in wlroots is available at [2].
-> > 
-> > [1]: https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/110
-> > [2]: https://github.com/swaywm/wlroots/pull/3158
-> > 
-> 
-> Hi Simon,
-> 
-> I have a feeling that this is a good idea, but could you explain in
-> this commit message some real use cases where one needs a new GEM
-> handle namespace? Not just "when you share a DRM fd between processes"
-> but *why* you shared a DRM device fd between processes.
-> 
-> If I have trouble remembering or figuring that out from those links,
-> then I'm sure others have too.
 
-Also please document the uapi headers and explain the use-case there and
-why and all that.
-
-I'd like that we officiate all uapi we intentionally create in the docs as
-much as possible.
-
-Also igt testcase patch for this too pls.
--Daniel
-
+On 02/09/2021 15:20, Daniel Vetter wrote:
+> And use it anywhere we have open-coded checks for ctx->vm that really
+> only check for full ppgtt.
 > 
+> Plus for paranoia add a GEM_BUG_ON that checks it's really only set
+> when we have full ppgtt, just in case. gem_context->vm is different
+> since it's NULL in ggtt mode, unlike intel_context->vm or gt->vm,
+> which is always set.
 > 
-> Thanks,
-> pq
+> v2: 0day found a testcase that I missed.
 > 
-> > Signed-off-by: Simon Ser <contact@emersion.fr>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Daniel Stone <daniels@collabora.com>
-> > Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> > Cc: Michel D‰nzer <michel@daenzer.net>
-> > Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> > Cc: Keith Packard <keithp@keithp.com>
-> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > ---
-> >  drivers/gpu/drm/drm_lease.c | 39 +++++++++++++++++--------------------
-> >  1 file changed, 18 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-> > index dee4f24a1808..d72c2fac0ff1 100644
-> > --- a/drivers/gpu/drm/drm_lease.c
-> > +++ b/drivers/gpu/drm/drm_lease.c
-> > @@ -489,12 +489,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
-> >  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-> >  		return -EOPNOTSUPP;
-> >  
-> > -	/* need some objects */
-> > -	if (cl->object_count == 0) {
-> > -		DRM_DEBUG_LEASE("no objects in lease\n");
-> > -		return -EINVAL;
-> > -	}
-> > -
-> >  	if (cl->flags && (cl->flags & ~(O_CLOEXEC | O_NONBLOCK))) {
-> >  		DRM_DEBUG_LEASE("invalid flags\n");
-> >  		return -EINVAL;
-> > @@ -510,23 +504,26 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
-> >  
-> >  	object_count = cl->object_count;
-> >  
-> > -	object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
-> > -			array_size(object_count, sizeof(__u32)));
-> > -	if (IS_ERR(object_ids)) {
-> > -		ret = PTR_ERR(object_ids);
-> > -		goto out_lessor;
-> > -	}
-> > -
-> > +	/* Handle leased objects, if any */
-> >  	idr_init(&leases);
-> > +	if (object_count != 0) {
-> > +		object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
-> > +					 array_size(object_count, sizeof(__u32)));
-> > +		if (IS_ERR(object_ids)) {
-> > +			ret = PTR_ERR(object_ids);
-> > +			idr_destroy(&leases);
-> > +			goto out_lessor;
-> > +		}
-> >  
-> > -	/* fill and validate the object idr */
-> > -	ret = fill_object_idr(dev, lessor_priv, &leases,
-> > -			      object_count, object_ids);
-> > -	kfree(object_ids);
-> > -	if (ret) {
-> > -		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
-> > -		idr_destroy(&leases);
-> > -		goto out_lessor;
-> > +		/* fill and validate the object idr */
-> > +		ret = fill_object_idr(dev, lessor_priv, &leases,
-> > +				      object_count, object_ids);
-> > +		kfree(object_ids);
-> > +		if (ret) {
-> > +			DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
-> > +			idr_destroy(&leases);
-> > +			goto out_lessor;
-> > +		}
-> >  	}
-> >  
-> >  	/* Allocate a file descriptor for the lease */
+> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: "Thomas Hellstr√∂m" <thomas.hellstrom@linux.intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c           | 2 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_context.h           | 7 +++++++
+>   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c        | 2 +-
+>   drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 6 +++---
+>   4 files changed, 12 insertions(+), 5 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 7a566fb7cca4..1eec85944c1f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -1566,7 +1566,7 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
+>   	int err;
+>   	u32 id;
+>   
+> -	if (!rcu_access_pointer(ctx->vm))
+> +	if (!i915_gem_context_is_full_ppgtt(ctx))
 
+It reads a bit wrong because GEM context cannot *be* full ppggt. It can 
+be associated with a VM which is or isn't full ppgtt. So a test on a VM 
+retrieved from a context is semnntically more correct. Perhaps you want 
+to consider adding a helper to that effect instead? It could mean 
+splitting into two helpers (getter + test) or maybe just renaming would 
+work. Like i915_gem_context_has_full_ppgtt_vm(ctx)?
 
+Regards,
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Tvrtko
+
+>   		return -ENODEV;
+>   
+>   	rcu_read_lock();
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> index da6e8b506d96..37536a260e6e 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+> @@ -154,6 +154,13 @@ i915_gem_context_vm(struct i915_gem_context *ctx)
+>   	return rcu_dereference_protected(ctx->vm, lockdep_is_held(&ctx->mutex));
+>   }
+>   
+> +static inline bool i915_gem_context_is_full_ppgtt(struct i915_gem_context *ctx)
+> +{
+> +	GEM_BUG_ON(!!rcu_access_pointer(ctx->vm) != HAS_FULL_PPGTT(ctx->i915));
+> +
+> +	return !!rcu_access_pointer(ctx->vm);
+> +}
+> +
+>   static inline struct i915_address_space *
+>   i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
+>   {
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 905b1cbd22d5..40f08948f0b2 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -749,7 +749,7 @@ static int eb_select_context(struct i915_execbuffer *eb)
+>   		return PTR_ERR(ctx);
+>   
+>   	eb->gem_context = ctx;
+> -	if (rcu_access_pointer(ctx->vm))
+> +	if (i915_gem_context_is_full_ppgtt(ctx))
+>   		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
+>   
+>   	return 0;
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> index fc7fb33a3a52..947154e445a7 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> @@ -704,7 +704,7 @@ static int igt_ctx_exec(void *arg)
+>   				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
+>   				       ndwords, dw, max_dwords(obj),
+>   				       engine->name,
+> -				       yesno(!!rcu_access_pointer(ctx->vm)),
+> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
+>   				       err);
+>   				intel_context_put(ce);
+>   				kernel_context_close(ctx);
+> @@ -838,7 +838,7 @@ static int igt_shared_ctx_exec(void *arg)
+>   				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
+>   				       ndwords, dw, max_dwords(obj),
+>   				       engine->name,
+> -				       yesno(!!rcu_access_pointer(ctx->vm)),
+> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
+>   				       err);
+>   				intel_context_put(ce);
+>   				kernel_context_close(ctx);
+> @@ -1417,7 +1417,7 @@ static int igt_ctx_readonly(void *arg)
+>   				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
+>   				       ndwords, dw, max_dwords(obj),
+>   				       ce->engine->name,
+> -				       yesno(!!ctx_vm(ctx)),
+> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
+>   				       err);
+>   				i915_gem_context_unlock_engines(ctx);
+>   				goto out_file;
+> 
