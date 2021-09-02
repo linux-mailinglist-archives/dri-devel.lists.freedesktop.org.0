@@ -2,56 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F4F3FF1B6
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 18:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91813FF1F5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 18:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34EED6E7D2;
-	Thu,  2 Sep 2021 16:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9DB6E3EE;
+	Thu,  2 Sep 2021 16:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E211C6E7D2;
- Thu,  2 Sep 2021 16:41:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="206305004"
-X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="206305004"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2021 09:41:58 -0700
-X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="461754207"
-Received: from rlsmith2-mobl1.amr.corp.intel.com (HELO [10.213.229.210])
- ([10.213.229.210])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2021 09:41:55 -0700
-Subject: Re: [Intel-gfx] [PATCH 07/11] drm/i915: Add
- i915_gem_context_is_full_ppgtt
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-References: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
- <20210902142057.929669-7-daniel.vetter@ffwll.ch>
- <1cb4b910-ad02-ff02-46ef-7b3b4f393eb3@linux.intel.com>
- <YTDsKX2rQ4Kjr3io@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <68d369f3-b072-e138-8195-f6ff14f708a2@linux.intel.com>
-Date: Thu, 2 Sep 2021 17:41:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 772C66E7D3
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 16:58:03 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id c206so5082851ybb.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 09:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mPo7kSBxF2NMjbODsw6VV5fR1Wgl9LQdhHj7hVWwqFY=;
+ b=guCzNX8M+/BNv5RUnag25d8CAlhMu7tEp6FSYtx9HQFKqjA3NjS9LuNEQlHwNygYog
+ QBcTaL3PomAyQ3x00MmVQ2+FbHWL/JPfS8pAhGrm4+0hPo0UghEZwQxdq23rFbGdhfvZ
+ E+wTmq3dwQhebfgyX6zEk7Y2tWiWFpnUUpK5L+q6LFoQcT3V8PDadOPNogH+WlGhNRsm
+ Ho3ejxBw9ecNEIRqJPH5jMmEvL0TbLihz3MELarlZov9qkQnP/RAmVSmIK0xoeKgjnqT
+ TESLO+aaP4c5HWv4SVna2uYpDh39fIWtC7SQkRZ1/UP1uIpO0gtl8QmfnCPi12ZwGjT1
+ inKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mPo7kSBxF2NMjbODsw6VV5fR1Wgl9LQdhHj7hVWwqFY=;
+ b=smcunr439L/+XtCWPKzynzsqhnb2kp6Y9AYSS4a+nozy18/mC/8yd47rXKDTAgj6Gs
+ yr8Xi5WpxMchHPmikQOl3/ADR6OvSfaT0D+b50pdYoWgimRdCYCj8uaR4q8jr7eUKCWi
+ TBny+o/Q0Kltdm0zO5c9YfQ2n9CNOIG3hE6kZzRW2rnsDLtxJ5It8iIzcDUbHzINO0Rk
+ X7xycL/8DDJcFHAA/KN5nHA/SCRr+AAIL0eWYhdMepNCOooXfce6qY9XnlhM0QkkUdkf
+ u4uT2uqBSpp9P/Fzu0J8Ut6LoK7jvj2BS6VLR7DVeGcoHoGG55/jXufN5aGd1yU/nliZ
+ KxSg==
+X-Gm-Message-State: AOAM533IFUVVHyepYpF4Wlri8GUg8SJihJr/vMDY3cJTWAAStmiBZjlw
+ 98rCgJ7ZImEUrrqClxCvWlZPHJeirXgQXwwXcZ8ETA==
+X-Google-Smtp-Source: ABdhPJxp037KKgrTJN59O5wUm42z08mT8r+D1KDZSkntLAxAQJHiXMwqt+jVbufumiRBU6DkQLeUHcL1BKJR1lzZbOo=
+X-Received: by 2002:a25:5b44:: with SMTP id p65mr5369975ybb.301.1630601882719; 
+ Thu, 02 Sep 2021 09:58:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YTDsKX2rQ4Kjr3io@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <BL1PR12MB526942160701B46D4B28EEEC84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <CAKMK7uHKX0rSVk_yBPo_KAEJ-UeLk5UxQ2kBdv+FD2j9zAjfZA@mail.gmail.com>
+ <BL1PR12MB5269B303372A6251EDD1DC2C84CD9@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <CADnq5_PUvgt9Cv2L3G4GGBJv_WBhtOp8DN+3WMvoES_80UMKfQ@mail.gmail.com>
+ <CAPM=9tz-66nXR8gbMucsBo5Q1VJ5AsrVZh4pF0r0WfFi7CQtzg@mail.gmail.com>
+ <BL1PR12MB5269F6B279EDE278C8FDF90A84CE9@BL1PR12MB5269.namprd12.prod.outlook.com>
+In-Reply-To: <BL1PR12MB5269F6B279EDE278C8FDF90A84CE9@BL1PR12MB5269.namprd12.prod.outlook.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 2 Sep 2021 17:57:51 +0100
+Message-ID: <CAPj87rPS7ns5XaJDi2vvsnDr-gr1_9eWC6NLL0wjSaEWnr=pkg@mail.gmail.com>
+Subject: Re: [diagnostic TDR mode patches] unify our solution
+ opinions/suggestions in one thread
+To: "Liu, Monk" <Monk.Liu@amd.com>
+Cc: Dave Airlie <airlied@gmail.com>, Alex Deucher <alexdeucher@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>, "Chen,
+ JingWen" <JingWen.Chen2@amd.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,141 +77,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Monk,
 
-On 02/09/2021 16:22, Daniel Vetter wrote:
-> On Thu, Sep 02, 2021 at 03:54:36PM +0100, Tvrtko Ursulin wrote:
->> On 02/09/2021 15:20, Daniel Vetter wrote:
->>> And use it anywhere we have open-coded checks for ctx->vm that really
->>> only check for full ppgtt.
->>>
->>> Plus for paranoia add a GEM_BUG_ON that checks it's really only set
->>> when we have full ppgtt, just in case. gem_context->vm is different
->>> since it's NULL in ggtt mode, unlike intel_context->vm or gt->vm,
->>> which is always set.
->>>
->>> v2: 0day found a testcase that I missed.
->>>
->>> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
->>> Cc: Matthew Auld <matthew.auld@intel.com>
->>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->>> Cc: Dave Airlie <airlied@redhat.com>
->>> Cc: Jason Ekstrand <jason@jlekstrand.net>
->>> ---
->>>    drivers/gpu/drm/i915/gem/i915_gem_context.c           | 2 +-
->>>    drivers/gpu/drm/i915/gem/i915_gem_context.h           | 7 +++++++
->>>    drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c        | 2 +-
->>>    drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 6 +++---
->>>    4 files changed, 12 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> index 7a566fb7cca4..1eec85944c1f 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> @@ -1566,7 +1566,7 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
->>>    	int err;
->>>    	u32 id;
->>> -	if (!rcu_access_pointer(ctx->vm))
->>> +	if (!i915_gem_context_is_full_ppgtt(ctx))
->>
->> It reads a bit wrong because GEM context cannot *be* full ppggt. It can be
->> associated with a VM which is or isn't full ppgtt. So a test on a VM
->> retrieved from a context is semnntically more correct. Perhaps you want to
->> consider adding a helper to that effect instead? It could mean splitting
->> into two helpers (getter + test) or maybe just renaming would work. Like
->> i915_gem_context_has_full_ppgtt_vm(ctx)?
-> 
-> The pointer isn't set when the driver/context isn't running in full ppgtt
-> mode. This is why I've added the GEM_BUG_ON to check we're not breaking
-> any invariants. So yeah it is a full ppgtt context or it's not, that is
-> indeed the question here.
-> 
-> I'm happy to bikeshed the naming, but I don't see how your suggestion is
-> an improvement.
+On Thu, 2 Sept 2021 at 06:52, Liu, Monk <Monk.Liu@amd.com> wrote:
+> I didn't mean your changes on AMD driver need my personal approval or review ... and  I'm totally already get used that our driver is not 100% under control by AMDers,
+> but supposedly any one from community (including you) who tend to change AMD's driver need at least to get approvement from someone in AMD, e.g.: AlexD or Christian, doesn't that reasonable?
+> just like we need your approve if we try to modify DRM-sched, or need panfrost's approval if we need to change panfrost code ...
+>
+> by only CC AMD's engineers looks not quite properly, how do you know if your changes (on AMD code part) are conflicting with AMD's on-going internal features/refactoring or not ?
 
-I think the pointer being set or not is implementation detail, for 
-instance we could have it always set just like it is in intel_context.
+Looking at the patches in question, they were (at least mostly) CCed
+both to the amd-gfx@ mailing list and also to ckoenig. Unfortunately
+it is not possible for every single patch to get mandatory signoff
+from every single stakeholder - e.g. if every AMD patch which touched
+the scheduler required explicit approval from Etnaviv, Freedreno,
+Lima, Panfrost, and V3D teams, it would become very difficult for AMD
+to merge any code.
 
-I simply think GEM context *isn't* full ppgtt, but the VM is. And since 
-GEM context *points* to a VM, *has* is the right verb in my mind. You 
-did not write why do you not see has as more correct than is so I don't 
-want to be guessing too much.
+So the approach is that patches are sent for approval, they are CCed
+to people who should be interested, and after some time with no
+comments, they may be merged if it seems like a reasonable thing to
+do.
 
-Regards,
+The problem with internal work is that, well, it's internal. If the
+community sends patches to amd-gfx@, there is no comment from AMD, and
+then months later we are told that it should not have happened because
+it conflicts with development that AMD has been doing - how should the
+rest of the community have known about this? So unfortunately this is
+the compromise: if you decide to do private development, not inform
+anyone about your plans, and not join in any common discussion, then
+it is your responsibility to deal with any changes or conflicts that
+happen whilst you are developing privately.
 
-Tvrtko
+The only way we can successfully have support in the same ecosystem
+for AMD, Arm, Broadcom, Intel, NVIDIA, Qualcomm, and VeriSilicon, is
+that we are all working together openly. If community development had
+to stop because each of these vendors had been doing internal
+development for several months without even informing the community of
+their plans, any kind of shared development is clearly impossible.
 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>    		return -ENODEV;
->>>    	rcu_read_lock();
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
->>> index da6e8b506d96..37536a260e6e 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
->>> @@ -154,6 +154,13 @@ i915_gem_context_vm(struct i915_gem_context *ctx)
->>>    	return rcu_dereference_protected(ctx->vm, lockdep_is_held(&ctx->mutex));
->>>    }
->>> +static inline bool i915_gem_context_is_full_ppgtt(struct i915_gem_context *ctx)
->>> +{
->>> +	GEM_BUG_ON(!!rcu_access_pointer(ctx->vm) != HAS_FULL_PPGTT(ctx->i915));
->>> +
->>> +	return !!rcu_access_pointer(ctx->vm);
->>> +}
->>> +
->>>    static inline struct i915_address_space *
->>>    i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
->>>    {
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> index 905b1cbd22d5..40f08948f0b2 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> @@ -749,7 +749,7 @@ static int eb_select_context(struct i915_execbuffer *eb)
->>>    		return PTR_ERR(ctx);
->>>    	eb->gem_context = ctx;
->>> -	if (rcu_access_pointer(ctx->vm))
->>> +	if (i915_gem_context_is_full_ppgtt(ctx))
->>>    		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
->>>    	return 0;
->>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->>> index fc7fb33a3a52..947154e445a7 100644
->>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->>> @@ -704,7 +704,7 @@ static int igt_ctx_exec(void *arg)
->>>    				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
->>>    				       ndwords, dw, max_dwords(obj),
->>>    				       engine->name,
->>> -				       yesno(!!rcu_access_pointer(ctx->vm)),
->>> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
->>>    				       err);
->>>    				intel_context_put(ce);
->>>    				kernel_context_close(ctx);
->>> @@ -838,7 +838,7 @@ static int igt_shared_ctx_exec(void *arg)
->>>    				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
->>>    				       ndwords, dw, max_dwords(obj),
->>>    				       engine->name,
->>> -				       yesno(!!rcu_access_pointer(ctx->vm)),
->>> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
->>>    				       err);
->>>    				intel_context_put(ce);
->>>    				kernel_context_close(ctx);
->>> @@ -1417,7 +1417,7 @@ static int igt_ctx_readonly(void *arg)
->>>    				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
->>>    				       ndwords, dw, max_dwords(obj),
->>>    				       ce->engine->name,
->>> -				       yesno(!!ctx_vm(ctx)),
->>> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
->>>    				       err);
->>>    				i915_gem_context_unlock_engines(ctx);
->>>    				goto out_file;
->>>
-> 
+Cheers,
+Daniel
