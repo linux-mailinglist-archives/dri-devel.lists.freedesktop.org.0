@@ -1,54 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB4E3FEA28
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 09:44:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 157233FEA6F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 10:10:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C9E6E47A;
-	Thu,  2 Sep 2021 07:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19A066E487;
+	Thu,  2 Sep 2021 08:10:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F6F6E47A
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 07:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=cPw2UIImbh1rU9+9v0uyD9QdNxdfxbeQEJ1fObWlMwA=; 
- t=1630568637; x=1631778237; b=FIrNM/20DosDxvGyADO2+jNDYlGu+86eo2h+lS0ars2HONj
- wy8/pYHc7sf2YzeNpquUZKoZzN+kv07okPgrc5NKsw8Sw5gxhVOEXivj45H2WYaRNWaKG/KJkLfbG
- dfVpaClZOHJVX+63P/ymx8JXMotHRwcDYqXZsAgsnurBY/tGJq2V/ry4wZtQC0bupGArIdIg/xQzm
- 97iyb+f/zUqqUwOAJb1uKBm5qBSeBJeS9OfwOm5GTngHOtGFlsSzMQSEbISqOsp1wofHmRU6VgVUT
- SLTIJSr2tpsrK55ptQXfRR+wefPYa6MIcP5frs4uVSzGXhB5DMWS7CTzzt+QZfmQ==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2) (envelope-from <johannes@sipsolutions.net>)
- id 1mLhNn-001W6C-8D; Thu, 02 Sep 2021 09:43:35 +0200
-Message-ID: <288a2d4dbcb1e6b0fbeff6da86569aa92df09202.camel@sipsolutions.net>
-Subject: Re: [PATCH] drm/ttm: provide default page protection for UML
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Anton Ivanov <anton.ivanov@cambridgegreys.com>, Randy Dunlap
- <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Huang Rui
- <ray.huang@amd.com>,  dri-devel@lists.freedesktop.org, Jeff Dike
- <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
- linux-um@lists.infradead.org, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Thu, 02 Sep 2021 09:43:33 +0200
-In-Reply-To: <0887903c-483d-49c7-0d35-f59be2f85bac@cambridgegreys.com>
-References: <20210902020129.25952-1-rdunlap@infradead.org>
- <9faacbc8-3346-8033-5b4d-60543eae959e@cambridgegreys.com>
- <f978cae5-7275-6780-8a17-c6e61247bce7@infradead.org>
- <0887903c-483d-49c7-0d35-f59be2f85bac@cambridgegreys.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 470A86E487
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 08:10:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 0BCAD60F6C
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 08:10:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1630570240;
+ bh=aEggHXp6qbmDXwwtDZy8qa1McsH9cy4kF0dgrMQo2YU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=OcCzLapsR6r6tW/1D/dcy+kIyl5F843+mhPo2aaSkuadLr4korAmQo1mX+JACQeXD
+ jdeJNGIyZV0hpqDYp/mylkD/5vVyJYAyulbsNCdB1TEHtVQyW5+UTNNWb0t6mxejh/
+ /Whd/zlMDmkrtjfasIxSwO3bJjnBZb/x+eso4BC/isx7BgApvOVtrT78Y8fPcF0+xP
+ hwwlqCvtpMK7eOS9DfkEJCCTbL0GD9K+TEM0NbRAJprblrPBwm6KONlolLWQJmnjbp
+ gEUKGqhxfZxN/3nXA4Amy4errfHLQiwXnNSl3YRpXMImz3PtIjv4hPFY5naV3ZIduO
+ igNCHM+UqKSKQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id F260F61002; Thu,  2 Sep 2021 08:10:39 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212655] AMDGPU crashes when resuming from suspend when
+ amd_iommu=on
+Date: Thu, 02 Sep 2021 08:10:39 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: kostas.kardaras@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-212655-2300-nGKQHr71Y1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212655-2300@https.bugzilla.kernel.org/>
+References: <bug-212655-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +69,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2021-09-02 at 07:19 +0100, Anton Ivanov wrote:
-> > > 
-> > > I have a question though - why all of DRM is not !UML in config. Not 
-> > > like we can use them.
-> > 
-> > I have no idea about that.
-> > Hopefully one of the (other) UML maintainers can answer you.
-> 
-> Touche.
-> 
-> We will discuss that and possibly push a patch to !UML that part of the 
-> tree. IMHO it is not applicable.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D212655
 
-As I just said on the other patch, all of this is fallout from my commit
-68f5d3f3b654 ("um: add PCI over virtio emulation driver") which is the
-first time that you could have PCI on UML.
+coxackie (kostas.kardaras@gmail.com) changed:
 
-Without having checked, in this particular case it's probably something
-like
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |kostas.kardaras@gmail.com
 
-	depends on PCI && X86_64
-
-as we've seen in other drivers (idxd, ioat).
-
-The biggest problem is probably that UML internally uses X86_64
-(arch/x86/um/Kconfig), which is ... unexpected ... since CONFIG_X86_64
-is typically considered the ARCH, and now the ARCH is actually um.
-
-I think we can just fix that and get rid of this entire class of
-problems? Something like
-
-https://p.sipsolutions.net/fbac19d86637e286.txt
-
-johannes
+--- Comment #1 from coxackie (kostas.kardaras@gmail.com) ---
+I have the same problem on Alienware Aurora R10 - AMD Radeon RX 5700 GPU. A=
+rch
+linux, Now at kernel 5.13. I have not "turned on iommu AMDGPU", but there i=
+s a
+crash all the same. The monitor does not get any signal, so cannot turn on
+after suspend.
 
 
+logs:
+
+```
+amdgpu 0000:0d:00.0: amdgpu: message:          RunBtc (58)         param:
+0x00000000 is timeout (no response)
+amdgpu 0000:0d:00.0: amdgpu: RunBtc failed!
+amdgpu 0000:0d:00.0: amdgpu: Failed to setup smc hw!
+[drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block <s=
+mu>
+failed -62
+amdgpu 0000:0d:00.0: amdgpu: amdgpu_device_ip_resume failed (-62).
+PM: dpm_run_callback(): pci_pm_resume+0x0/0xe0 returns -62
+amdgpu 0000:0d:00.0: PM: failed to resume async: error -62
+amdgpu: Move buffer fallback to memcpy unavailable
+[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to process the buffer list -1=
+9!
+```
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
