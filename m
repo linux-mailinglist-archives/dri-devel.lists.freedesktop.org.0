@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2053FEE3D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 14:59:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 086E83FEE50
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 15:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A27626E52D;
-	Thu,  2 Sep 2021 12:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB3286E52E;
+	Thu,  2 Sep 2021 13:05:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDC46E52D
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 12:59:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 28533610E7
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 12:59:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630587592;
- bh=m7UvnLfumJgPO8ihyMPMbBhJUsHIJaCFNmnmL7I8hRo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=OsQOXzo0c/Ni64HJXX18Ohgg8NahFic3g2e3Q7XPryfw/AhVUAN/2lYKsNzR2IW8l
- xwdGmJJmco4fANFMUHKstvsURe5j2YhfU7kIOcFRoV/1BQgaP+wKvSU3ahYGW38DF0
- QP7YecpcWZ0QYZAYO3sej90tkOFXQeOu5uBQBx0cNrV8QeaK7r6NwjD0SgXFtnjG5g
- YmvYJk2TWsAF2CUOHzU80sAlCyObpyBsbDMQCUGFPBhVoBLgZaY8K/LBBPmJp+2Yjf
- 38CpqBxGLUnDg2deMsF54MrkwHAzGqEXwdG16OpPIxJ45vQqTdTYdy4kYL4ubNlPoP
- eMum8ABF/IEJw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 25402610E8; Thu,  2 Sep 2021 12:59:52 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Thu, 02 Sep 2021 12:59:51 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jamesz@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-Z7Yh9FeYLJ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3906E52F
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 13:05:39 +0000 (UTC)
+Received: from Marijn-Arch-Book.localdomain (D57D4C6E.static.ziggozakelijk.nl
+ [213.125.76.110])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id CC4D03F215;
+ Thu,  2 Sep 2021 15:05:35 +0200 (CEST)
+Date: Thu, 2 Sep 2021 15:05:34 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>, Andy Gross <agross@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Matthias Kaehlcke <mka@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/2] clk: qcom: gcc-sdm660: Remove transient global
+ "xo" clock
+Message-ID: <YTDMHq3rLUrldNfB@Marijn-Arch-Book.localdomain>
+References: <20210830182445.167527-1-marijn.suijten@somainline.org>
+ <20210830182445.167527-3-marijn.suijten@somainline.org>
+ <163047455623.42057.15513441659841056105@swboyd.mtv.corp.google.com>
+ <YS9Aa0tADAf5KMSl@Marijn-Arch-PC.localdomain>
+ <163055439497.405991.16122720273000010218@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <163055439497.405991.16122720273000010218@swboyd.mtv.corp.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,19 +67,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
+On 2021-09-01 20:46:34, Stephen Boyd wrote:
+> Quoting Marijn Suijten (2021-09-01 01:57:15)
+> > On 2021-08-31 22:35:56, Stephen Boyd wrote:
+> > > Quoting Marijn Suijten (2021-08-30 11:24:45)
+> > > > The DSI PHY/PLL was relying on a global "xo" clock to be found, but the
+> > > > real clock is named "xo_board" in the DT.  The standard nowadays is to
+> > > > never use global clock names anymore but require the firmware (DT) to
+> > > > provide every clock binding explicitly with .fw_name.  The DSI PLLs have
+> > > > since been converted to this mechanism (specifically 14nm for SDM660)
+> > > > and this transient clock can now be removed.
+> > > > 
+> > > > This issue was originally discovered in:
+> > > > https://lore.kernel.org/linux-arm-msm/386db1a6-a1cd-3c7d-a88e-dc83f8a1be96@somainline.org/
+> > > > and prevented the removal of "xo" at that time.
+> > > > 
+> > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > > > ---
+> > > 
+> > > Presumably this wants to go with the first one.
+> > 
+> > What are you referring to with "the first one"?  This patch can only go
+> > in after patch 1/2 of this series, unless you are suggesting to squash
+> > it with Bjorns cleanup and making sure that lands after the fix in the
+> > DSI?
+> 
+> The first patch in this series.
 
---- Comment #42 from James Zhu (jamesz@amd.com) ---
-Hi Jerome and kolAflash,
-
-Thanks for confirmation. I have a workaround for this issue. But I wish I c=
-an
-find the root cause or better workaround.
-
-James
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Are you suggesting to squash this patch into the first patch in this
+series?  Note that the first patch touches drm/msm/dsi, the second
+(this) patch touches clk/qcom.
