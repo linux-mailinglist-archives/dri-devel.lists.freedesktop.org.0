@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086E83FEE50
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 15:05:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4691B3FEE84
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 15:15:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB3286E52E;
-	Thu,  2 Sep 2021 13:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B05DA6E544;
+	Thu,  2 Sep 2021 13:15:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3906E52F
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 13:05:39 +0000 (UTC)
-Received: from Marijn-Arch-Book.localdomain (D57D4C6E.static.ziggozakelijk.nl
- [213.125.76.110])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id CC4D03F215;
- Thu,  2 Sep 2021 15:05:35 +0200 (CEST)
-Date: Thu, 2 Sep 2021 15:05:34 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>, Andy Gross <agross@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, Matthias Kaehlcke <mka@chromium.org>,
- Douglas Anderson <dianders@chromium.org>, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/2] clk: qcom: gcc-sdm660: Remove transient global
- "xo" clock
-Message-ID: <YTDMHq3rLUrldNfB@Marijn-Arch-Book.localdomain>
-References: <20210830182445.167527-1-marijn.suijten@somainline.org>
- <20210830182445.167527-3-marijn.suijten@somainline.org>
- <163047455623.42057.15513441659841056105@swboyd.mtv.corp.google.com>
- <YS9Aa0tADAf5KMSl@Marijn-Arch-PC.localdomain>
- <163055439497.405991.16122720273000010218@swboyd.mtv.corp.google.com>
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
+ [209.85.221.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3F416E544
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 13:15:36 +0000 (UTC)
+Received: by mail-vk1-f176.google.com with SMTP id s126so605718vkd.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 06:15:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=97U7yjyC9u7K560fHPV0AzvZLQ1JtD7v4r1SnsrSUGw=;
+ b=kUcS6BcxskmaJD7dvT4PQrJiGnCTuFV+uWYwsgpCyEXXR2QPYylJ1EJiw7nnoWcxfT
+ 9hGQTKtYLnamwcEnH2unq+gtI8H4nc+soQTZxM9h7GomYERWGEIHjEBBT5Yjrv96bZDJ
+ RMr1rYOJeX6Eq0o+tJzCjB7GDPThiOtrm4JNyRT54+/4ruB8lzdccrJN5yTqzDDE2K3r
+ AUrR6AxXTtD0mP5YzG46lxsqKuyoobi84PddO15/NZqBPGqQyFxUGbg5/FiT9hS1SyGZ
+ YqtSHOLkZYuR8mfnIPip5efqkXu1uJIMyLXRYBiBd6JvxfM6CsgHnlbR88tTI69n9pNS
+ dzbA==
+X-Gm-Message-State: AOAM533yln3fTtoiHuyMHPPmZqdCdIs/2rdHw7i3q/pHUoEsqT2Y3cGe
+ 7RIPZAiJMrQBZQWu1ruj+2eCy/PSReIdrQjItq8=
+X-Google-Smtp-Source: ABdhPJyQfNHd8eekTjjRF+Djs44a/sSv6U+YNBayDddfjAvJLpLh7J03k+WxXm3fVzYEOjiv/xorOOUMd/FOKfZUqC4=
+X-Received: by 2002:a1f:bd0a:: with SMTP id n10mr1537493vkf.5.1630588535725;
+ Thu, 02 Sep 2021 06:15:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163055439497.405991.16122720273000010218@swboyd.mtv.corp.google.com>
+References: <20210902060213.1702544-1-mudongliangabcd@gmail.com>
+In-Reply-To: <20210902060213.1702544-1-mudongliangabcd@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 2 Sep 2021 15:15:24 +0200
+Message-ID: <CAMuHMdVPUMGZ7Sq2rBgr+US0H3ZF4WVkfPPnKQD1cMg5Wd0+-w@mail.gmail.com>
+Subject: Re: [PATCH 4.19] fbmem: add margin check to fb_check_caps()
+To: Dongliang Mu <mudongliangabcd@gmail.com>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ George Kennedy <george.kennedy@oracle.com>, 
+ syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com, 
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Dhaval Giani <dhaval.giani@oracle.com>, Sasha Levin <sashal@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,33 +63,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-09-01 20:46:34, Stephen Boyd wrote:
-> Quoting Marijn Suijten (2021-09-01 01:57:15)
-> > On 2021-08-31 22:35:56, Stephen Boyd wrote:
-> > > Quoting Marijn Suijten (2021-08-30 11:24:45)
-> > > > The DSI PHY/PLL was relying on a global "xo" clock to be found, but the
-> > > > real clock is named "xo_board" in the DT.  The standard nowadays is to
-> > > > never use global clock names anymore but require the firmware (DT) to
-> > > > provide every clock binding explicitly with .fw_name.  The DSI PLLs have
-> > > > since been converted to this mechanism (specifically 14nm for SDM660)
-> > > > and this transient clock can now be removed.
-> > > > 
-> > > > This issue was originally discovered in:
-> > > > https://lore.kernel.org/linux-arm-msm/386db1a6-a1cd-3c7d-a88e-dc83f8a1be96@somainline.org/
-> > > > and prevented the removal of "xo" at that time.
-> > > > 
-> > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > > > ---
-> > > 
-> > > Presumably this wants to go with the first one.
-> > 
-> > What are you referring to with "the first one"?  This patch can only go
-> > in after patch 1/2 of this series, unless you are suggesting to squash
-> > it with Bjorns cleanup and making sure that lands after the fix in the
-> > DSI?
-> 
-> The first patch in this series.
+Hi Dongliang,
 
-Are you suggesting to squash this patch into the first patch in this
-series?  Note that the first patch touches drm/msm/dsi, the second
-(this) patch touches clk/qcom.
+On Thu, Sep 2, 2021 at 8:04 AM Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+> [ Upstream commit a49145acfb975d921464b84fe00279f99827d816 ]
+
+Oops, looks like I missed when that one was submitted for review...
+
+> A fb_ioctl() FBIOPUT_VSCREENINFO call with invalid xres setting
+> or yres setting in struct fb_var_screeninfo will result in a
+> KASAN: vmalloc-out-of-bounds failure in bitfill_aligned() as
+> the margins are being cleared. The margins are cleared in
+> chunks and if the xres setting or yres setting is a value of
+> zero upto the chunk size, the failure will occur.
+>
+> Add a margin check to validate xres and yres settings.
+
+Shouldn't (the caller of) bitfill_aligned() be fixed instead?
+Can this be triggered by e.g. using the mini_4x6 font?
+
+> Note that, this patch needs special handling to backport it to linux
+> kernel 4.19, 4.14, 4.9, 4.4.
+>
+> Signed-off-by: George Kennedy <george.kennedy@oracle.com>
+> Reported-by: syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Cc: Dhaval Giani <dhaval.giani@oracle.com>
+> Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Link: https://patchwork.freedesktop.org/patch/msgid/1594149963-13801-1-git-send-email-george.kennedy@oracle.com
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/video/fbdev/core/fbmem.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 84845275dbef..de04c097d67c 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -991,6 +991,10 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+>                         goto done;
+>                 }
+>
+> +               /* bitfill_aligned() assumes that it's at least 8x8 */
+> +               if (var->xres < 8 || var->yres < 8)
+> +                       return -EINVAL;
+
+Are you sure there don't exist such small displays (e.g. OLED)?
+
+> +
+>                 ret = info->fbops->fb_check_var(var, info);
+>
+>                 if (ret)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
