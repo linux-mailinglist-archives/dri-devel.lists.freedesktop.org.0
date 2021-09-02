@@ -1,67 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAB43FE926
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 08:11:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 905903FE9DF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 09:17:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD9EE6E452;
-	Thu,  2 Sep 2021 06:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFA2D6E461;
+	Thu,  2 Sep 2021 07:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22DD66E452
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 06:11:11 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id w8so834022pgf.5
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Sep 2021 23:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4Re97f8GY8el/iMPEVsgvs7BOVwiJIsCI6/eriuguFs=;
- b=j+slSkBVQcYRtdw95G6g19jR/rB/V0QtgWg0gDoNculxcUhKBluCdvr9+ENgca+loQ
- 6SsF1yA6cwrlfTcWS3PfI7Da1FWj2a+ya4nsSnBgAmkZLvJw1bUCAXNgP+CMA/r2adaF
- CKtELkqVFzd2sYiVNyDAKUbklFDb3kQQLdsp2cfuFtREKOS04Gi0mxUrxKcRyoXL3nOz
- 3AKCvoDj7qSUIwi3lNXZdN9WeqQqpb/R2/IiCH/Bjapl1xn7qOd4jC8+viZW/dLciMvv
- B7to9pR2xfCaGk29uvlFFufCc/w+a3YLT71VG0apS6x7UpY3eEQpfIR+HVEZ2vwupSNA
- HS4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4Re97f8GY8el/iMPEVsgvs7BOVwiJIsCI6/eriuguFs=;
- b=jphUbNcYhoz+sJIqQqa0CAPPSd1UtQKRpH22zaRom8LTDGJ8Yz1hTrtSOwL9oc/pY3
- M5GTZ8oA265/vM1QtaebvV1nfmhKsJ18xFDF6OaJ9u4YD7Fy7QIBGNX92uMSaBAVVoXu
- 1FihH13OzKViLuqFEUhnMOBRY2T7iqve0NH701wPO/qsCedbs84stWMnyFNhf1t3hdwB
- KRP9UJVL1kUkj4N4EfX08WuVF7NaJmddFNUe6YhGu+rFd5aAlPBCtoCo27wVDlsvAbKl
- ++Zi0tTtV5hoGnMP2pprGE3m3f7JbVLrYeMvVwzkii0xDNc/RPpEb1N1gXJyA8aiUZkO
- OsOg==
-X-Gm-Message-State: AOAM531eLLiX/zAtH+DxM5o4fK/BbG44FWoBINzGyPgLOKno/z/HdfGh
- 6/0yqSZsFi+pKb9gvqtQuiw=
-X-Google-Smtp-Source: ABdhPJxvDl67Vw7WqN2iDOfF3qLz5rISiJX7ErxXYDu87qoPUWHnwS86fuE072+LdWIKRC49er4+RQ==
-X-Received: by 2002:aa7:9ae9:0:b0:3f5:e1a7:db23 with SMTP id
- y9-20020aa79ae9000000b003f5e1a7db23mr1801940pfp.42.1630563070572; 
- Wed, 01 Sep 2021 23:11:10 -0700 (PDT)
-Received: from localhost.localdomain ([45.135.186.48])
- by smtp.gmail.com with ESMTPSA id 10sm914446pgd.12.2021.09.01.23.11.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 23:11:10 -0700 (PDT)
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-To: stable@vger.kernel.org, gregkh@linuxfoundation.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Dongliang Mu <mudongliangabcd@gmail.com>,
- George Kennedy <george.kennedy@oracle.com>,
- syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Dhaval Giani <dhaval.giani@oracle.com>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 4.19] fbmem: add margin check to fb_check_caps()
-Date: Thu,  2 Sep 2021 14:10:48 +0800
-Message-Id: <20210902061048.1703559-1-mudongliangabcd@gmail.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 1810 seconds by postgrey-1.36 at gabe;
+ Thu, 02 Sep 2021 06:19:15 UTC
+Received: from www.kot-begemot.co.uk (ivanoab7.miniserver.com [37.128.132.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98CDA6E453
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 06:19:15 +0000 (UTC)
+Received: from tun252.jain.kot-begemot.co.uk ([192.168.18.6]
+ helo=jain.kot-begemot.co.uk)
+ by www.kot-begemot.co.uk with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <anton.ivanov@cambridgegreys.com>)
+ id 1mLg43-0002iY-Fn; Thu, 02 Sep 2021 06:19:11 +0000
+Received: from madding.kot-begemot.co.uk ([192.168.3.98])
+ by jain.kot-begemot.co.uk with esmtps
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <anton.ivanov@cambridgegreys.com>)
+ id 1mLg3x-00060b-Ah; Thu, 02 Sep 2021 07:19:07 +0100
+Subject: Re: [PATCH] drm/ttm: provide default page protection for UML
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+ linux-um@lists.infradead.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20210902020129.25952-1-rdunlap@infradead.org>
+ <9faacbc8-3346-8033-5b4d-60543eae959e@cambridgegreys.com>
+ <f978cae5-7275-6780-8a17-c6e61247bce7@infradead.org>
+From: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Organization: Cambridge Greys
+Message-ID: <0887903c-483d-49c7-0d35-f59be2f85bac@cambridgegreys.com>
+Date: Thu, 2 Sep 2021 07:19:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <f978cae5-7275-6780-8a17-c6e61247bce7@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -1.0
+X-Spam-Score: -1.0
+X-Clacks-Overhead: GNU Terry Pratchett
+X-Mailman-Approved-At: Thu, 02 Sep 2021 07:17:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,46 +65,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[ Upstream commit a49145acfb975d921464b84fe00279f99827d816 ]
+On 02/09/2021 06:52, Randy Dunlap wrote:
+> On 9/1/21 10:48 PM, Anton Ivanov wrote:
+>> On 02/09/2021 03:01, Randy Dunlap wrote:
+>>> boot_cpu_data [struct cpuinfo_um (on UML)] does not have a struct
+>>> member named 'x86', so provide a default page protection mode
+>>> for CONFIG_UML.
+>>>
+>>> Mends this build error:
+>>> ../drivers/gpu/drm/ttm/ttm_module.c: In function 
+>>> ‘ttm_prot_from_caching’:
+>>> ../drivers/gpu/drm/ttm/ttm_module.c:59:24: error: ‘struct cpuinfo_um’ 
+>>> has no member named ‘x86’
+>>>    else if (boot_cpu_data.x86 > 3)
+>>>                          ^
+>>>
+>>> Fixes: 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for 
+>>> page-based iomem")
+>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Huang Rui <ray.huang@amd.com>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Cc: Jeff Dike <jdike@addtoit.com>
+>>> Cc: Richard Weinberger <richard@nod.at>
+>>> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+>>> Cc: linux-um@lists.infradead.org
+>>> Cc: David Airlie <airlied@linux.ie>
+>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>> ---
+>>>   drivers/gpu/drm/ttm/ttm_module.c |    4 ++++
+>>>   1 file changed, 4 insertions(+)
+>>>
+>>> --- linux-next-20210901.orig/drivers/gpu/drm/ttm/ttm_module.c
+>>> +++ linux-next-20210901/drivers/gpu/drm/ttm/ttm_module.c
+>>> @@ -53,6 +53,9 @@ pgprot_t ttm_prot_from_caching(enum ttm_
+>>>       if (caching == ttm_cached)
+>>>           return tmp;
+>>> +#ifdef CONFIG_UML
+>>> +    tmp = pgprot_noncached(tmp);
+>>> +#else
+>>>   #if defined(__i386__) || defined(__x86_64__)
+>>>       if (caching == ttm_write_combined)
+>>>           tmp = pgprot_writecombine(tmp);
+>>> @@ -69,6 +72,7 @@ pgprot_t ttm_prot_from_caching(enum ttm_
+>>>   #if defined(__sparc__)
+>>>       tmp = pgprot_noncached(tmp);
+>>>   #endif
+>>> +#endif
+>>>       return tmp;
+>>>   }
+>>
+>> Patch looks OK.
+>>
+>> I have a question though - why all of DRM is not !UML in config. Not 
+>> like we can use them.
+> 
+> I have no idea about that.
+> Hopefully one of the (other) UML maintainers can answer you.
 
-A fb_ioctl() FBIOPUT_VSCREENINFO call with invalid xres setting
-or yres setting in struct fb_var_screeninfo will result in a
-KASAN: vmalloc-out-of-bounds failure in bitfill_aligned() as
-the margins are being cleared. The margins are cleared in
-chunks and if the xres setting or yres setting is a value of
-zero upto the chunk size, the failure will occur.
+Touche.
 
-Add a margin check to validate xres and yres settings.
+We will discuss that and possibly push a patch to !UML that part of the 
+tree. IMHO it is not applicable.
 
-Note that, this patch needs special handling to backport it to linux
-kernel 4.19, 4.14, 4.9, 4.4.
+A.
 
-Signed-off-by: George Kennedy <george.kennedy@oracle.com>
-Reported-by: syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Dhaval Giani <dhaval.giani@oracle.com>
-Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/1594149963-13801-1-git-send-email-george.kennedy@oracle.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/core/fbmem.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> 
+> thanks.
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 84845275dbef..de04c097d67c 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -991,6 +991,10 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
- 			goto done;
- 		}
- 
-+		/* bitfill_aligned() assumes that it's at least 8x8 */
-+		if (var->xres < 8 || var->yres < 8)
-+			return -EINVAL;
-+
- 		ret = info->fbops->fb_check_var(var, info);
- 
- 		if (ret)
+
 -- 
-2.25.1
-
+Anton R. Ivanov
+Cambridgegreys Limited. Registered in England. Company Number 10273661
+https://www.cambridgegreys.com/
