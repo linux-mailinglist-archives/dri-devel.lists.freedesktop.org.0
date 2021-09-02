@@ -1,66 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65973FEF4B
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:21:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 678393FEF4D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:21:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3646E560;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7DFF6E566;
 	Thu,  2 Sep 2021 14:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 473066E593
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:21:09 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 79-20020a1c0452000000b002e6cf79e572so1591158wme.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:21:09 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DAA16E560
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:21:10 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ o39-20020a05600c512700b002e74638b567so1502029wms.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ux0otQKkFIhr/QzCoIyfdoj8qLEcSwHP4PZjPx1SDPA=;
- b=GmC3l0SIdMeNjne5Uk2zC1bP6hyYwVk2VagtX+0PlQBCOc7cqIetweS/52DGepj7LA
- e6qHIg6QCPEv7VKLQu0Q4xATcbeAsWcdJR3MY/WxxqOCyNyxrmdXq9QQ78ElKr+ZqS4f
- Ay10seIzo6Xw1Q8LjK3JU6W2+t8MBpPgayS64=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kHxySUBarwyq+uIoraBDAn2647tAv51/ZjGNoHPr4nw=;
+ b=M42Yiuoksq0nnwVBIVl2+j+fs62frRSpcc+KsFvNaWF6P6yzhrSa236Ni5LNQQZC6h
+ n7ocLx5paBNaLrEp3gi/ho2Mr7QVakblKZhiBNdXaiuR9R443mz5ntP36ijfQV6Zgdf0
+ 5Ma3M94B84cMItaTPazY0s5pmyfo8DYha4rYk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ux0otQKkFIhr/QzCoIyfdoj8qLEcSwHP4PZjPx1SDPA=;
- b=p0YQfArzW4BidrF/+6iMRPFwCxzRszx0rCFPPZvrmpguotUewBADY7R9i9v8GXVswL
- YMsprSWMciA6XwQNMvH0jdkipVk8Lgd7Ff8EQYSLd0HJknIMxIGQ64j3Jw8mcQNvPLz0
- MwS8A8vYnHSvULI6RWOlDDu44SiumU0ktQj/f+UvSBtOSunbSm9nBTuhV/kAnmRbcm6g
- K1J6ap0Xo+GKzjT3fiR7rpEv7suV9IJ/LCiCvR18cLQxXfqL5a0uvEoeZKFVo2WwvaZq
- 3AtWDJps0RPY/QpSFOslRMFR+DBmTmU8Ft7fBim/sVbHvciZ4tgASOfucCUIExWLqGd0
- enbQ==
-X-Gm-Message-State: AOAM532NZ1BIvuh5Ujrw+/+mAQgjsnOQltWBPXLwMeZAQHlj3mxjnzGF
- 2Lp3QZDuiA+R98O4hrl4G960ZIDNiBhcJg==
-X-Google-Smtp-Source: ABdhPJz+E4l437MOTIMiP8zWOjOwsHBZ4wPX0HjuuHeYspQFpcOUQoUr1QX8nZwLzQ86oD+eA7lnlA==
-X-Received: by 2002:a05:600c:2056:: with SMTP id
- p22mr3489538wmg.8.1630592467758; 
- Thu, 02 Sep 2021 07:21:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kHxySUBarwyq+uIoraBDAn2647tAv51/ZjGNoHPr4nw=;
+ b=idwdxJlgeSuHi5Vf5YhqVl8qm68aF8aeI6LTGVQcaev7axOhIDkUH/BPYT1m3ieQ6p
+ 4Av8xFH4hfMOfI/xolwUp2/UwYrouB2rWYVTIB3CHup1eFV69jxL0ffeATZze84m0N8g
+ LRmDnyF63JZXYgk0uGUyqCEcjnJ8y9kXvFs0mzKdkdViO6bgKpLXCD9tRJQoA1oCc+5J
+ c6i6j++9xw/X20RZ61W2vfGn1WGD5LuwGZej8SSvwS9l0SitG2Fwhsio0LHs6E/CJ+/9
+ w5Pexa/o+DuUEstQGt9qKbAdjv8Q4rC1/ZncVTwhwmCQKC/uNpfCw5pzoO7bGpUB02ha
+ MYHA==
+X-Gm-Message-State: AOAM533DbVImkbvoRANQEpq6Ey4xVMtvLLj3irdVUeFK3JUu5aTxZKF8
+ L0VZFYoNtrAeOY4UYEUvqyt0ykkNaJmKcg==
+X-Google-Smtp-Source: ABdhPJylHoit35om1yQP1kEQKTl1YJ1rCZ1Q3cSeQDCgdEXVHYW4IG43dm+xw2rZ8CBWUMGZIFOHDQ==
+X-Received: by 2002:a05:600c:206:: with SMTP id
+ 6mr3468587wmi.178.1630592468733; 
+ Thu, 02 Sep 2021 07:21:08 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l2sm1841811wmi.1.2021.09.02.07.21.06
+ by smtp.gmail.com with ESMTPSA id l2sm1841811wmi.1.2021.09.02.07.21.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 07:21:07 -0700 (PDT)
+ Thu, 02 Sep 2021 07:21:08 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
- "Acked-by : Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
  Chris Wilson <chris@chris-wilson.co.uk>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
  Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
  Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-Subject: [PATCH 01/11] drm/i915: Release i915_gem_context from a worker
-Date: Thu,  2 Sep 2021 16:20:47 +0200
-Message-Id: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
+ Dave Airlie <airlied@redhat.com>
+Subject: [PATCH 02/11] drm/i915: Release ctx->syncobj on final put,
+ not on ctx close
+Date: Thu,  2 Sep 2021 16:20:48 +0200
+Message-Id: <20210902142057.929669-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
+References: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -79,112 +84,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only reason for this really is the i915_gem_engines->fence
-callback engines_notify(), which exists purely as a fairly funky
-reference counting scheme for that. Otherwise all other callers are
-from process context, and generally fairly benign locking context.
+gem context refcounting is another exercise in least locking design it
+seems, where most things get destroyed upon context closure (which can
+race with anything really). Only the actual memory allocation and the
+locks survive while holding a reference.
 
-Unfortunately untangling that requires some major surgery, and we have
-a few i915_gem_context reference counting bugs that need fixing, and
-they blow in the current hardirq calling context, so we need a
-stop-gap measure.
+This tripped up Jason when reimplementing the single timeline feature
+in
 
-Put a FIXME comment in when this should be removable again.
+commit 00dae4d3d35d4f526929633b76e00b0ab4d3970d
+Author: Jason Ekstrand <jason@jlekstrand.net>
+Date:   Thu Jul 8 10:48:12 2021 -0500
 
-v2: Fix mock_context(), noticed by intel-gfx-ci.
+    drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)
 
-Acked-by: Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+We could fix the bug by holding ctx->mutex in execbuf and clear the
+pointer (again while holding the mutex) context_close, but it's
+cleaner to just make the context object actually invariant over its
+_entire_ lifetime. This way any other ioctl that's potentially racing,
+but holding a full reference, can still rely on ctx->syncobj being
+an immutable pointer. Which without this change, is not the case.
+
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Fixes: 00dae4d3d35d ("drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)")
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@intel.com>
 Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c       | 13 +++++++++++--
- drivers/gpu/drm/i915/gem/i915_gem_context_types.h | 12 ++++++++++++
- drivers/gpu/drm/i915/gem/selftests/mock_context.c |  1 +
- 3 files changed, 24 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index fd169cf2f75a..051bc357ff65 100644
+index 051bc357ff65..5a053cf14948 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -986,9 +986,10 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
- 	return err;
- }
- 
--void i915_gem_context_release(struct kref *ref)
-+static void i915_gem_context_release_work(struct work_struct *work)
- {
--	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
-+	struct i915_gem_context *ctx = container_of(work, typeof(*ctx),
-+						    release_work);
- 
+@@ -994,6 +994,9 @@ static void i915_gem_context_release_work(struct work_struct *work)
  	trace_i915_context_free(ctx);
  	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
-@@ -1002,6 +1003,13 @@ void i915_gem_context_release(struct kref *ref)
- 	kfree_rcu(ctx, rcu);
- }
  
-+void i915_gem_context_release(struct kref *ref)
-+{
-+	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
++	if (ctx->syncobj)
++		drm_syncobj_put(ctx->syncobj);
 +
-+	queue_work(ctx->i915->wq, &ctx->release_work);
-+}
-+
- static inline struct i915_gem_engines *
- __context_engines_static(const struct i915_gem_context *ctx)
- {
-@@ -1303,6 +1311,7 @@ i915_gem_create_context(struct drm_i915_private *i915,
- 	ctx->sched = pc->sched;
- 	mutex_init(&ctx->mutex);
- 	INIT_LIST_HEAD(&ctx->link);
-+	INIT_WORK(&ctx->release_work, i915_gem_context_release_work);
+ 	mutex_destroy(&ctx->engines_mutex);
+ 	mutex_destroy(&ctx->lut_mutex);
  
- 	spin_lock_init(&ctx->stale.lock);
- 	INIT_LIST_HEAD(&ctx->stale.engines);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-index 94c03a97cb77..0c38789bd4a8 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-@@ -288,6 +288,18 @@ struct i915_gem_context {
- 	 */
- 	struct kref ref;
+@@ -1220,9 +1223,6 @@ static void context_close(struct i915_gem_context *ctx)
+ 	if (vm)
+ 		i915_vm_close(vm);
  
-+	/**
-+	 * @release_work:
-+	 *
-+	 * Work item for deferred cleanup, since i915_gem_context_put() tends to
-+	 * be called from hardirq context.
-+	 *
-+	 * FIXME: The only real reason for this is &i915_gem_engines.fence, all
-+	 * other callers are from process context and need at most some mild
-+	 * shuffling to pull the i915_gem_context_put() call out of a spinlock.
-+	 */
-+	struct work_struct release_work;
-+
- 	/**
- 	 * @rcu: rcu_head for deferred freeing.
- 	 */
-diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_context.c b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-index fee070df1c97..067d68a6fe4c 100644
---- a/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
-@@ -23,6 +23,7 @@ mock_context(struct drm_i915_private *i915,
- 	kref_init(&ctx->ref);
- 	INIT_LIST_HEAD(&ctx->link);
- 	ctx->i915 = i915;
-+	INIT_WORK(&ctx->release_work, i915_gem_context_release_work);
+-	if (ctx->syncobj)
+-		drm_syncobj_put(ctx->syncobj);
+-
+ 	ctx->file_priv = ERR_PTR(-EBADF);
  
- 	mutex_init(&ctx->mutex);
- 
+ 	/*
 -- 
 2.33.0
 
