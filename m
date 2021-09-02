@@ -1,51 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E9E3FEFC7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 17:01:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48EF83FEFCF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 17:04:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF24C6E5B0;
-	Thu,  2 Sep 2021 15:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1F9B6E5A3;
+	Thu,  2 Sep 2021 15:04:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A333A6E5A3;
- Thu,  2 Sep 2021 15:01:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="241421203"
-X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="241421203"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2021 08:01:43 -0700
-X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="461698969"
-Received: from rlsmith2-mobl1.amr.corp.intel.com (HELO [10.213.229.210])
- ([10.213.229.210])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2021 08:01:42 -0700
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Handle Intel igfx + Intel dgfx
- hybrid graphics setup
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-References: <20210827133039.287075-1-tvrtko.ursulin@linux.intel.com>
- <20210827143941.287958-1-tvrtko.ursulin@linux.intel.com>
- <9c042851-9a27-6bc7-0749-ed0c573e9c80@linux.intel.com>
- <YSyWMxUyxgTYZCYw@phenom.ffwll.local>
- <a382488e-cf1e-e61e-f132-d0868f4f23cf@linux.intel.com>
- <YS4j+PbS8ImB/p9v@phenom.ffwll.local>
- <a177847d-7953-bd08-5c58-48f9975a1d3a@linux.intel.com>
- <YTDgp6DATyh/aBtz@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <af5dab08-24ca-ebe2-e93d-e3d82ac90e1e@linux.intel.com>
-Date: Thu, 2 Sep 2021 16:01:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <YTDgp6DATyh/aBtz@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE1866E5A3
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 15:04:43 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 182DKGFJ025318;
+ Thu, 2 Sep 2021 17:04:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=selector1;
+ bh=xFU7L59UQKbHgNzk21dP0eFG6dpb8/xpYj0dfSaG5Vc=;
+ b=vGWNBZfXa7KRkBZBCzfjkPZpsB1MT0HW3nz1Brp4Vkf65DO4YIUv7Dy8togNGp8CQFKo
+ fz4rCOqiaRcZ0UhwRG1/zkzmtWLgniYiSvqlQoHe74ohV4NSMne7sA8vPpg/d319CgpO
+ 1CUIkVIch9C9AwfnUoy/swFhoHQlZ2tuwi/j0mv7VKOjBTxjFK3l40KpFz+NiBtaukw8
+ AvM7w4ZVNqOkluvxn9ijBlyMWZi7jHpN4svbCX+hcLmXHgZgMhNFZjMAmqNRGqUdsffB
+ n+G8e/Ij/4qXDX/Qs3XHKhbGt5W0AGP92Ao+NawHsxwzdR+i7nduNFCc4rAo4RuoXEph 6w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 3attgdahjb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Sep 2021 17:04:36 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1286F10002A;
+ Thu,  2 Sep 2021 17:04:35 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node1.st.com [10.75.127.4])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E8B9E214D33;
+ Thu,  2 Sep 2021 17:04:34 +0200 (CEST)
+Received: from SFHDAG2NODE3.st.com (10.75.127.6) by SFHDAG2NODE1.st.com
+ (10.75.127.4) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 2 Sep
+ 2021 17:04:34 +0200
+Received: from SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c]) by
+ SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c%20]) with mapi id
+ 15.00.1497.015; Thu, 2 Sep 2021 17:04:34 +0200
+From: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+CC: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, "Daniel
+ Vetter" <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Yannick FERTRE - foss
+ <yannick.fertre@foss.st.com>, Philippe CORNU - foss
+ <philippe.cornu@foss.st.com>, Raphael GALLAIS-POU - foss
+ <raphael.gallais-pou@foss.st.com>, Raphael GALLAIS-POU
+ <raphael.gallais-pou@st.com>
+Subject: [PATCH] drm/panel: otm8009a: add a 60 fps mode
+Thread-Topic: [PATCH] drm/panel: otm8009a: add a 60 fps mode
+Thread-Index: AQHXoAvWQIlcPy1QlUOj2tqsnPmKrg==
+Date: Thu, 2 Sep 2021 15:04:34 +0000
+Message-ID: <20210902150351.3779-1-raphael.gallais-pou@foss.st.com>
+Accept-Language: fr-FR, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.48]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-02_04,2021-09-02_03,2020-04-07_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,292 +85,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch adds a 60 fps mode to the Orisetech OTM8009A panel.
+The 50 fps mode is left as preferred.
 
-On 02/09/2021 15:33, Daniel Vetter wrote:
-> On Tue, Aug 31, 2021 at 02:18:15PM +0100, Tvrtko Ursulin wrote:
->>
->> On 31/08/2021 13:43, Daniel Vetter wrote:
->>> On Tue, Aug 31, 2021 at 10:15:03AM +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 30/08/2021 09:26, Daniel Vetter wrote:
->>>>> On Fri, Aug 27, 2021 at 03:44:42PM +0100, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> On 27/08/2021 15:39, Tvrtko Ursulin wrote:
->>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>>>
->>>>>>> In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
->>>>>>> when rendering is done on Intel dgfx and scanout/composition on Intel
->>>>>>> igfx.
->>>>>>>
->>>>>>> Before this patch the driver was not quite ready for that setup, mainly
->>>>>>> because it was able to emit a semaphore wait between the two GPUs, which
->>>>>>> results in deadlocks because semaphore target location in HWSP is neither
->>>>>>> shared between the two, nor mapped in both GGTT spaces.
->>>>>>>
->>>>>>> To fix it the patch adds an additional check to a couple of relevant code
->>>>>>> paths in order to prevent using semaphores for inter-engine
->>>>>>> synchronisation between different driver instances.
->>>>>>>
->>>>>>> Patch also moves singly used i915_gem_object_last_write_engine to be
->>>>>>> private in its only calling unit (debugfs), while modifying it to only
->>>>>>> show activity belonging to the respective driver instance.
->>>>>>>
->>>>>>> What remains in this problem space is the question of the GEM busy ioctl.
->>>>>>> We have a somewhat ambigous comment there saying only status of native
->>>>>>> fences will be reported, which could be interpreted as either i915, or
->>>>>>> native to the drm fd. For now I have decided to leave that as is, meaning
->>>>>>> any i915 instance activity continues to be reported.
->>>>>>>
->>>>>>> v2:
->>>>>>>      * Avoid adding rq->i915. (Chris)
->>>>>>>
->>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>
->>>>> Can't we just delete semaphore code and done?
->>>>> - GuC won't have it
->>>>> - media team benchmarked on top of softpin media driver, found no
->>>>>      difference
->>>>
->>>> You have S-curve for saturated workloads or something else? How thorough and
->>>> which media team I guess.
->>>>
->>>>   From memory it was a nice win for some benchmarks (non-saturated ones), but
->>>> as I have told you previously, we haven't been putting numbers in commit
->>>> messages since it wasn't allowed. I may be able to dig out some more details
->>>> if I went trawling through GEM channel IRC logs, although probably not the
->>>> actual numbers since those were usually on pastebin. Or you go an talk with
->>>> Chris since he probably remembers more details. Or you just decide you don't
->>>> care and remove it. I wouldn't do that without putting the complete story in
->>>> writing, but it's your call after all.
->>>
->>> Media has also changed, they're not using relocations anymore.
->>
->> Meaning you think it changes the benchmarking story? When coupled with
->> removal of GPU relocations then possibly yes.
->>
->>> Unless there's solid data performance tuning of any kind that gets in the
->>> way simply needs to be removed. Yes this is radical, but the codebase is
->>> in a state to require this.
->>>
->>> So either way we'd need to rebenchmark this if it's really required. Also
->>
->> Therefore can you share what benchmarks have been done or is it secret?  As
->> said, I think the non-saturated case was the more interesting one here.
->>
->>> if we really need this code still someone needs to fix the design, the
->>> current code is making layering violations an art form.
->>>
->>>> Anyway, without the debugfs churn it is more or less two line patch to fix
->>>> igfx + dgfx hybrid setup. So while mulling it over this could go in. I'd
->>>> just refine it to use a GGTT check instead of GT. And unless DG1 ends up
->>>> being GuC only.
->>>
->>> The minimal robust fix here is imo to stop us from upcasting dma_fence to
->>> i915_request if it's not for our device. Not sprinkle code here into the
->>> semaphore code. We shouldn't even get this far with foreign fences.
->>
->> Device check does not work for multi-tile. It was one of my earlier attempts
->> before I realized the problem. You'll see v3 which I think handles all the
->> cases.
-> 
-> There is no hw semaphores on multi-tile.
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+---
+ .../gpu/drm/panel/panel-orisetech-otm8009a.c  | 85 ++++++++++++-------
+ 1 file changed, 56 insertions(+), 29 deletions(-)
 
-You mean because of GuC? Okay, there may not be after bringup has been 
-done. In which case an assert is needed somewhere just in case, if you 
-are adamant not to accept this fix. It may indeed not matter hugely 
-outside of the current transition period since I spotted patches to 
-enable GuC on DG1. But then again it is trivial and fixes current pains 
-for more than just me.
-
-> But there _is_ a lot more going on than just hw semaphores that spawn
-> driver instances. Like priority boosting, clock boosting, and all kinds of
-> other things. I really dont' think it's very robust if we play
-> whack-a-mole here with things leaking.
-
-You mean span not spawn? I audited those and they looks good to me. 
-AFAIR scheduling was in fact designed with a global lock just so that 
-works. Plus the cases you mention end up not holding pointers to 
-"foreign" instances anyway, they just do priority inheritance. Which is 
-probably nice not to lose if not unavoidable.
-
->> You also forgot to comment on the question lower in the email. I'll just
->> send a patch which removes that anyway so you can comment there.
-
-:(
-
-Regards,
-
-Tvrtko
-
->
->> Regards,
->>
->> Tvrtko
->>
->>> -Daniel
->>>
->>>>
->>>>> - pre-gen8 semaphore code was also silently ditched and no one cared
->>>>>
->>>>> Plus removing semaphore code would greatly simplify conversion to
->>>>> drm/sched.
->>>>>
->>>>>>> ---
->>>>>>>      drivers/gpu/drm/i915/gem/i915_gem_object.h | 17 ----------
->>>>>>>      drivers/gpu/drm/i915/i915_debugfs.c        | 39 ++++++++++++++++++++--
->>>>>>>      drivers/gpu/drm/i915/i915_request.c        | 12 ++++++-
->>>>>>>      3 files changed, 47 insertions(+), 21 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>>> index 48112b9d76df..3043fcbd31bd 100644
->>>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
->>>>>>> @@ -503,23 +503,6 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
->>>>>>>      	i915_gem_object_unpin_pages(obj);
->>>>>>>      }
->>>>>>> -static inline struct intel_engine_cs *
->>>>>>> -i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
->>>>>>> -{
->>>>>>> -	struct intel_engine_cs *engine = NULL;
->>>>>>> -	struct dma_fence *fence;
->>>>>>> -
->>>>>>> -	rcu_read_lock();
->>>>>>> -	fence = dma_resv_get_excl_unlocked(obj->base.resv);
->>>>>>> -	rcu_read_unlock();
->>>>>>> -
->>>>>>> -	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
->>>>>>> -		engine = to_request(fence)->engine;
->>>>>>> -	dma_fence_put(fence);
->>>>>>> -
->>>>>>> -	return engine;
->>>>>>> -}
->>>>>>> -
->>>>>>>      void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
->>>>>>>      					 unsigned int cache_level);
->>>>>>>      void i915_gem_object_flush_if_display(struct drm_i915_gem_object *obj);
->>>>>>> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
->>>>>>> index 04351a851586..55fd6191eb32 100644
->>>>>>> --- a/drivers/gpu/drm/i915/i915_debugfs.c
->>>>>>> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
->>>>>>> @@ -135,13 +135,46 @@ static const char *stringify_vma_type(const struct i915_vma *vma)
->>>>>>>      	return "ppgtt";
->>>>>>>      }
->>>>>>> +static char *
->>>>>>> +last_write_engine(struct drm_i915_private *i915,
->>>>>>> +		  struct drm_i915_gem_object *obj)
->>>>>>> +{
->>>>>>> +	struct intel_engine_cs *engine;
->>>>>>> +	struct dma_fence *fence;
->>>>>>> +	char *res = NULL;
->>>>>>> +
->>>>>>> +	rcu_read_lock();
->>>>>>> +	fence = dma_resv_get_excl_unlocked(obj->base.resv);
->>>>>>> +	rcu_read_unlock();
->>>>>>> +
->>>>>>> +	if (!fence || dma_fence_is_signaled(fence))
->>>>>>> +		goto out;
->>>>>>> +
->>>>>>> +	if (!dma_fence_is_i915(fence)) {
->>>>>>> +		res = "<external-fence>";
->>>>>>> +		goto out;
->>>>>>> +	}
->>>>>>> +
->>>>>>> +	engine = to_request(fence)->engine;
->>>>>>> +	if (engine->gt->i915 != i915) {
->>>>>>> +		res = "<external-i915>";
->>>>>>> +		goto out;
->>>>>>> +	}
->>>>>>> +
->>>>>>> +	res = engine->name;
->>>>>>> +
->>>>>>> +out:
->>>>>>> +	dma_fence_put(fence);
->>>>>>> +	return res;
->>>>>>> +}
->>>>>>> +
->>>>>>>      void
->>>>>>>      i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
->>>>>>>      {
->>>>>>>      	struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
->>>>>>> -	struct intel_engine_cs *engine;
->>>>>>>      	struct i915_vma *vma;
->>>>>>>      	int pin_count = 0;
->>>>>>> +	char *engine;
->>>>>>>      	seq_printf(m, "%pK: %c%c%c %8zdKiB %02x %02x %s%s%s",
->>>>>>>      		   &obj->base,
->>>>>>> @@ -230,9 +263,9 @@ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
->>>>>>>      	if (i915_gem_object_is_framebuffer(obj))
->>>>>>>      		seq_printf(m, " (fb)");
->>>>>>> -	engine = i915_gem_object_last_write_engine(obj);
->>>>>>> +	engine = last_write_engine(dev_priv, obj);
->>>>>>>      	if (engine)
->>>>>>> -		seq_printf(m, " (%s)", engine->name);
->>>>>>> +		seq_printf(m, " (%s)", engine);
->>>>>>
->>>>>> Or I zap this from the code altogether. Not sure it is very useful since the
->>>>>> only caller is i915_gem_framebuffer debugfs file and how much it can care
->>>>>> about maybe hitting the timing window when exclusive fence will contain
->>>>>> something.
->>>>>
->>>>> Ideally we'd just look at the fence timeline name. But i915 has this very
->>>>> convoluted typesafe-by-rcu reuse which means we actually can't do that,
->>>>> and our fence timeline name is very useless.
->>>>
->>>> Why do we even care to output any of this here? I'd just remove it since it
->>>> is a very transient state with an extremely short window of opportunity to
->>>> make it show anything. Which I think makes it pretty useless in debugfs.
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>>
->>>>>
->>>>> Would be good to fix that, Matt Auld has started an attempt but didn't get
->>>>> very far.
->>>>> -Daniel
->>>>>
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>> Tvrtko
->>>>>>
->>>>>>>      }
->>>>>>>      static int i915_gem_object_info(struct seq_file *m, void *data)
->>>>>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
->>>>>>> index ce446716d092..64adf619fe82 100644
->>>>>>> --- a/drivers/gpu/drm/i915/i915_request.c
->>>>>>> +++ b/drivers/gpu/drm/i915/i915_request.c
->>>>>>> @@ -1152,6 +1152,12 @@ __emit_semaphore_wait(struct i915_request *to,
->>>>>>>      	return 0;
->>>>>>>      }
->>>>>>> +static bool
->>>>>>> +can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
->>>>>>> +{
->>>>>>> +	return to->engine->gt == from->engine->gt;
->>>>>>> +}
->>>>>>> +
->>>>>>>      static int
->>>>>>>      emit_semaphore_wait(struct i915_request *to,
->>>>>>>      		    struct i915_request *from,
->>>>>>> @@ -1160,6 +1166,9 @@ emit_semaphore_wait(struct i915_request *to,
->>>>>>>      	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
->>>>>>>      	struct i915_sw_fence *wait = &to->submit;
->>>>>>> +	if (!can_use_semaphore_wait(to, from))
->>>>>>> +		goto await_fence;
->>>>>>> +
->>>>>>>      	if (!intel_context_use_semaphores(to->context))
->>>>>>>      		goto await_fence;
->>>>>>> @@ -1263,7 +1272,8 @@ __i915_request_await_execution(struct i915_request *to,
->>>>>>>      	 * immediate execution, and so we must wait until it reaches the
->>>>>>>      	 * active slot.
->>>>>>>      	 */
->>>>>>> -	if (intel_engine_has_semaphores(to->engine) &&
->>>>>>> +	if (can_use_semaphore_wait(to, from) &&
->>>>>>> +	    intel_engine_has_semaphores(to->engine) &&
->>>>>>>      	    !i915_request_has_initial_breadcrumb(to)) {
->>>>>>>      		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
->>>>>>>      		if (err < 0)
->>>>>>>
->>>>>
->>>
-> 
+diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu=
+/drm/panel/panel-orisetech-otm8009a.c
+index f80b44a8a700..dfb43b1374e7 100644
+--- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
++++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+@@ -60,6 +60,9 @@
+ #define MCS_CMD2_ENA1	0xFF00	/* Enable Access Command2 "CMD2" */
+ #define MCS_CMD2_ENA2	0xFF80	/* Enable Access Orise Command2 */
+=20
++#define OTM8009A_HDISPLAY	480
++#define OTM8009A_VDISPLAY	800
++
+ struct otm8009a {
+ 	struct device *dev;
+ 	struct drm_panel panel;
+@@ -70,19 +73,35 @@ struct otm8009a {
+ 	bool enabled;
+ };
+=20
+-static const struct drm_display_mode default_mode =3D {
+-	.clock =3D 29700,
+-	.hdisplay =3D 480,
+-	.hsync_start =3D 480 + 98,
+-	.hsync_end =3D 480 + 98 + 32,
+-	.htotal =3D 480 + 98 + 32 + 98,
+-	.vdisplay =3D 800,
+-	.vsync_start =3D 800 + 15,
+-	.vsync_end =3D 800 + 15 + 10,
+-	.vtotal =3D 800 + 15 + 10 + 14,
+-	.flags =3D 0,
+-	.width_mm =3D 52,
+-	.height_mm =3D 86,
++static const struct drm_display_mode modes[] =3D {
++	{ /* 50 Hz, preferred */
++		.clock =3D 29700,
++		.hdisplay =3D 480,
++		.hsync_start =3D 480 + 98,
++		.hsync_end =3D 480 + 98 + 32,
++		.htotal =3D 480 + 98 + 32 + 98,
++		.vdisplay =3D 800,
++		.vsync_start =3D 800 + 15,
++		.vsync_end =3D 800 + 15 + 10,
++		.vtotal =3D 800 + 15 + 10 + 14,
++		.flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
++		.width_mm =3D 52,
++		.height_mm =3D 86,
++	},
++	{ /* 60 Hz */
++		.clock =3D 33000,
++		.hdisplay =3D 480,
++		.hsync_start =3D 480 + 70,
++		.hsync_end =3D 480 + 70 + 32,
++		.htotal =3D 480 + 70 + 32 + 72,
++		.vdisplay =3D 800,
++		.vsync_start =3D 800 + 15,
++		.vsync_end =3D 800 + 15 + 10,
++		.vtotal =3D 800 + 15 + 10 + 16,
++		.flags =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
++		.width_mm =3D 52,
++		.height_mm =3D 86,
++	},
+ };
+=20
+ static inline struct otm8009a *panel_to_otm8009a(struct drm_panel *panel)
+@@ -208,12 +227,11 @@ static int otm8009a_init_sequence(struct otm8009a *ct=
+x)
+ 	/* Default portrait 480x800 rgb24 */
+ 	dcs_write_seq(ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
+=20
+-	ret =3D mipi_dsi_dcs_set_column_address(dsi, 0,
+-					      default_mode.hdisplay - 1);
++	ret =3D mipi_dsi_dcs_set_column_address(dsi, 0, OTM8009A_HDISPLAY - 1);
+ 	if (ret)
+ 		return ret;
+=20
+-	ret =3D mipi_dsi_dcs_set_page_address(dsi, 0, default_mode.vdisplay - 1);
++	ret =3D mipi_dsi_dcs_set_page_address(dsi, 0, OTM8009A_VDISPLAY - 1);
+ 	if (ret)
+ 		return ret;
+=20
+@@ -337,24 +355,33 @@ static int otm8009a_get_modes(struct drm_panel *panel=
+,
+ 			      struct drm_connector *connector)
+ {
+ 	struct drm_display_mode *mode;
+-
+-	mode =3D drm_mode_duplicate(connector->dev, &default_mode);
+-	if (!mode) {
+-		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
+-			default_mode.hdisplay, default_mode.vdisplay,
+-			drm_mode_vrefresh(&default_mode));
+-		return -ENOMEM;
++	unsigned int num_modes =3D ARRAY_SIZE(modes);
++	unsigned int i;
++
++	for (i =3D 0; i < num_modes; i++) {
++		mode =3D drm_mode_duplicate(connector->dev, &modes[i]);
++		if (!mode) {
++			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
++				modes[i].hdisplay,
++				modes[i].vdisplay,
++				drm_mode_vrefresh(&modes[i]));
++			return -ENOMEM;
++		}
++
++		mode->type =3D DRM_MODE_TYPE_DRIVER;
++
++		/* Setting first mode as preferred */
++		if (!i)
++			mode->type |=3D  DRM_MODE_TYPE_PREFERRED;
++
++		drm_mode_set_name(mode);
++		drm_mode_probed_add(connector, mode);
+ 	}
+=20
+-	drm_mode_set_name(mode);
+-
+-	mode->type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+-	drm_mode_probed_add(connector, mode);
+-
+ 	connector->display_info.width_mm =3D mode->width_mm;
+ 	connector->display_info.height_mm =3D mode->height_mm;
+=20
+-	return 1;
++	return num_modes;
+ }
+=20
+ static const struct drm_panel_funcs otm8009a_drm_funcs =3D {
+--=20
+2.17.1
