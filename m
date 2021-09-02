@@ -1,48 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0143FE9C8
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 09:10:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 484FF3FE9FC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 09:27:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA586E45D;
-	Thu,  2 Sep 2021 07:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 111246E47B;
+	Thu,  2 Sep 2021 07:27:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B16EA6E45D
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 07:10:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=wsEUpJDilSHKQhB8V4biJ9qqXdXIwzngZTn7EDF2jGE=; 
- t=1630566635; x=1631776235; b=Ittc4UvHuKmI7v4ISfvL7hSleRaCCjX1Uz8HkM6pgqnNiVf
- Eh7ULsgFO9jWF4DhXLF0r/bCs1sDmsyWEpI9Kjg3+CFfri1GwXz2PF+kWM0YezwI5rV604NPEhDgQ
- YCY7iVpgxFOs6nnp2Aw+4qxIjRfhJj74bDqPzAkTw9oihxnfkiXx8DBOJVWx0t4WmVvab7Kw6GEhP
- OpZRRpXTSr1OMx+GmE6/qD0mWi2iF3zDu46hsKzebpFhS4gISJjzSK7jy6CHly+K97MCyTg6E2fA1
- 3PQXblnV/qCceaKkmNWu4o6KXLXl7TBohBvXDQJSmfu6cQqUqJ6pU3G93znAh5uw==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2) (envelope-from <johannes@sipsolutions.net>)
- id 1mLgrd-001VVH-8J; Thu, 02 Sep 2021 09:10:21 +0200
-Message-ID: <626cc3f828c2dab14cd66e8cac0c8ea84e7ba088.camel@sipsolutions.net>
-Subject: Re: [PATCH] drm/r128: fix build for UML
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, Jeff Dike <jdike@addtoit.com>, Richard
- Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>,  linux-um@lists.infradead.org
-Date: Thu, 02 Sep 2021 09:10:20 +0200
-In-Reply-To: <20210902021721.27274-1-rdunlap@infradead.org>
-References: <20210902021721.27274-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62E176E47A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 07:27:52 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id DA8F03F35F;
+ Thu,  2 Sep 2021 09:27:49 +0200 (CEST)
+Subject: Re: [PATCH v2 1/2] drm/msm/dsi: Use "ref" fw clock instead of global
+ name for VCO parent
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ phone-devel@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-arm-msm@vger.kernel.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>, Andy Gross <agross@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Jonathan Marek <jonathan@marek.ca>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+References: <20210830182445.167527-1-marijn.suijten@somainline.org>
+ <20210830182445.167527-2-marijn.suijten@somainline.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Message-ID: <18b7fbaf-a284-660d-09d7-e1191166efb8@somainline.org>
+Date: Thu, 2 Sep 2021 09:27:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-malware-bazaar: not-scanned
+In-Reply-To: <20210830182445.167527-2-marijn.suijten@somainline.org>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,23 +65,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2021-09-01 at 19:17 -0700, Randy Dunlap wrote:
-> Fix a build error on CONFIG_UML, which does not support (provide)
-> wbinvd(). UML can use the generic mb() instead.
+Il 30/08/21 20:24, Marijn Suijten ha scritto:
+> All DSI PHY/PLL drivers were referencing their VCO parent clock by a
+> global name, most of which don't exist or have been renamed.  These
+> clock drivers seem to function fine without that except the 14nm driver
+> for the sdm6xx [1].
 > 
-> ../drivers/gpu/drm/r128/ati_pcigart.c: In function ‘drm_ati_pcigart_init’:
-> ../drivers/gpu/drm/r128/ati_pcigart.c:218:2: error: implicit declaration of function ‘wbinvd’ [-Werror=implicit-function-declaration]
->   wbinvd();
->   ^~~~~~
+> At the same time all DTs provide a "ref" clock as per the requirements
+> of dsi-phy-common.yaml, but the clock is never used.  This patchset puts
+> that clock to use without relying on a global clock name, so that all
+> dependencies are explicitly defined in DT (the firmware) in the end.
 > 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2") # pre-git
+> Note that msm8974 is the only board not providing this clock, and
+> apq8064 was providing the wrong clock (19.2MHz cxo instead of 27MHz
+> pxo).  Both have been been addressed in separate patches that are
+> supposed to land well in advance of this patchset.
+> 
+> Furthermore not all board-DTs provided this clock initially but that
+> deficiency has been addressed in followup patches (see the Fixes:
+> below).  Those commits seem to assume that the clock was used, while
+> nothing in history indicates that this "ref" clock was ever retrieved.
+> 
+> [1]: https://lore.kernel.org/linux-arm-msm/386db1a6-a1cd-3c7d-a88e-dc83f8a1be96@somainline.org/
+> 
+> Fixes: 79e51645a1dd ("arm64: dts: qcom: msm8916: Set 'xo_board' as ref clock of the DSI PHY")
+> Fixes: 6969d1d9c615 ("ARM: dts: qcom-apq8064: Set 'cxo_board' as ref clock of the DSI PHY")
+> Fixes: 0c0e72705a33 ("arm64: dts: sdm845: Set 'bi_tcxo' as ref clock of the DSI PHYs")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-Arguably, that could be
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 
-Fixes: 68f5d3f3b654 ("um: add PCI over virtio emulation driver")
-
-because prior to that, Kconfig options depending on PCI couldn't be
-selected on ARCH=um.
-
-johannes
+> ---
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      | 4 +++-
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      | 4 +++-
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      | 4 +++-
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 4 +++-
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       | 4 +++-
+>   5 files changed, 15 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+> index e46b10fc793a..3cbb1f1475e8 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+> @@ -562,7 +562,9 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
+>   	char clk_name[32], parent[32], vco_name[32];
+>   	char parent2[32], parent3[32], parent4[32];
+>   	struct clk_init_data vco_init = {
+> -		.parent_names = (const char *[]){ "xo" },
+> +		.parent_data = &(const struct clk_parent_data) {
+> +			.fw_name = "ref",
+> +		},
+>   		.num_parents = 1,
+>   		.name = vco_name,
+>   		.flags = CLK_IGNORE_UNUSED,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+> index bb31230721bd..406470265408 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+> @@ -804,7 +804,9 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
+>   {
+>   	char clk_name[32], parent[32], vco_name[32];
+>   	struct clk_init_data vco_init = {
+> -		.parent_names = (const char *[]){ "xo" },
+> +		.parent_data = &(const struct clk_parent_data) {
+> +			.fw_name = "ref",
+> +		},
+>   		.num_parents = 1,
+>   		.name = vco_name,
+>   		.flags = CLK_IGNORE_UNUSED,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> index 2da673a2add6..8ee9c9c0548d 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> @@ -521,7 +521,9 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+>   {
+>   	char clk_name[32], parent1[32], parent2[32], vco_name[32];
+>   	struct clk_init_data vco_init = {
+> -		.parent_names = (const char *[]){ "xo" },
+> +		.parent_data = &(const struct clk_parent_data) {
+> +			.fw_name = "ref",
+> +		},
+>   		.num_parents = 1,
+>   		.name = vco_name,
+>   		.flags = CLK_IGNORE_UNUSED,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+> index aaa37456f4ee..9662cb236468 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
+> @@ -385,7 +385,9 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+>   {
+>   	char *clk_name, *parent_name, *vco_name;
+>   	struct clk_init_data vco_init = {
+> -		.parent_names = (const char *[]){ "pxo" },
+> +		.parent_data = &(const struct clk_parent_data) {
+> +			.fw_name = "ref",
+> +		},
+>   		.num_parents = 1,
+>   		.flags = CLK_IGNORE_UNUSED,
+>   		.ops = &clk_ops_dsi_pll_28nm_vco,
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index 7c23d4c47338..c77c30628cca 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -590,7 +590,9 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
+>   	char clk_name[32], parent[32], vco_name[32];
+>   	char parent2[32], parent3[32], parent4[32];
+>   	struct clk_init_data vco_init = {
+> -		.parent_names = (const char *[]){ "bi_tcxo" },
+> +		.parent_data = &(const struct clk_parent_data) {
+> +			.fw_name = "ref",
+> +		},
+>   		.num_parents = 1,
+>   		.name = vco_name,
+>   		.flags = CLK_IGNORE_UNUSED,
+> 
 
