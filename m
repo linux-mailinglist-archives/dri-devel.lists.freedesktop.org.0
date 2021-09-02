@@ -1,120 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0FA3FF6EC
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 00:10:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D743FF6F2
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 00:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B226E822;
-	Thu,  2 Sep 2021 22:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E49766E826;
+	Thu,  2 Sep 2021 22:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C4B6E822
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 22:10:18 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210902221017euoutp02bfd174f4a0a5bd42a5a2d879a5387074~hIM-VkBY41794317943euoutp02a
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 22:10:17 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20210902221017euoutp02bfd174f4a0a5bd42a5a2d879a5387074~hIM-VkBY41794317943euoutp02a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1630620617;
- bh=+cFvhzqtn0hctNTDhhm/VOiBMV5RGPNkUgUXiD3jIK0=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=o0FxlQXixmRpphhR0faJ2ZK1gFlt9GZeVw2Cwl4YIgEIoQVYTu7AZXUoPY/zZSv0+
- iMvCNNln7a8US9tSzPZqXDDJ5e2sVmLNj/8dDMavfwK1ketN0814IQImT/dd+hirPQ
- WtfOtayOfBkHTTFrqNoYg1NYlJH5B0FzvZfScaX8=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20210902221016eucas1p146dd1b1577cef73d9ba4381e4bd14fa4~hIM_wvUet2964729647eucas1p1p;
- Thu,  2 Sep 2021 22:10:16 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 8B.EE.45756.8CB41316; Thu,  2
- Sep 2021 23:10:16 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20210902221015eucas1p26fae8f6ba4c70087dc7b007a271dce4b~hIM9ditUN1154911549eucas1p26;
- Thu,  2 Sep 2021 22:10:15 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210902221015eusmtrp20ae878e47dc423f33a52ecc70a1327aa~hIM9cpaEB1635516355eusmtrp2S;
- Thu,  2 Sep 2021 22:10:15 +0000 (GMT)
-X-AuditID: cbfec7f2-7bdff7000002b2bc-8a-61314bc8b16f
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id EA.C7.20981.6CB41316; Thu,  2
- Sep 2021 23:10:14 +0100 (BST)
-Received: from [192.168.0.14] (unknown [106.210.131.79]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210902221014eusmtip29eaf4ecb5d0517c13a0294299bd3d215~hIM8hETkp1495614956eusmtip2V;
- Thu,  2 Sep 2021 22:10:14 +0000 (GMT)
-Subject: Re: [PATCH v3 00/16] eDP: Support probing eDP panels dynamically
- instead of hardcoding
-To: Douglas Anderson <dianders@chromium.org>, Thierry Reding
- <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>, Sam Ravnborg
- <sam@ravnborg.org>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, Maxime Ripard
- <mripard@kernel.org>, dri-devel@lists.freedesktop.org, NXP Linux Team
- <linux-imx@nxp.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, =?UTF-8?Q?=c5=81ukasz_Stelmach?=
- <l.stelmach@samsung.com>
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <b1b67791-69b7-a5c0-9e98-73bb82afaeaa@samsung.com>
-Date: Fri, 3 Sep 2021 00:10:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <20210901201934.1084250-1-dianders@chromium.org>
-Content-Language: en-US
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BCFF6E825;
+ Thu,  2 Sep 2021 22:11:40 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="206478792"
+X-IronPort-AV: E=Sophos;i="5.85,263,1624345200"; d="scan'208";a="206478792"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 15:11:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,263,1624345200"; d="scan'208";a="476939460"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP; 02 Sep 2021 15:11:39 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 2 Sep 2021 15:11:39 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Thu, 2 Sep 2021 15:11:39 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.10; Thu, 2 Sep 2021 15:11:39 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VX8P+vXSecCxwZtyo379mbA6U3wnO62TS72phRwRBwVm3Dik0cKd0UiXrbkzWvi91+wqge44nwHHYe/STCNAsbUfbh8IHYL+HTJpdEYLZxdGu3dpSGM4VbOapQXo2V8lvkrMEcKxR/4UnbTKJpie7oVhgcEupH1fPwHjF6vBvnJzZWsb5DZn5m6OzHHgsN+EB7SmWQuwoBRmga/7am9S4mM2e267uVZq5gFxGqi8KehlrkyIZLkoElVal4LVrJ8LhOyYqVp/6qvsGTm0+rI04NkbpXM54lYmKnLUcaxTW8/5yfhCjw1TV7mO5Jvrh72EBe8sMSX7CDL/WfItdicanQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=er8MaVPuGLbANo0JoLcTbIWUraAZQo2ho7Sm7FDbkkk=;
+ b=bu8tTTW5ZTa8ksy9jiGjYOdNC/AREYyhlNCUxP6+ovySAs9qvpTfdxVLS4FA3y9Llf8aYVprU42t2Cim0xACqNyAUbGnlNfcFCqBg/7yEZAxq7VPsBc7DrOsHmP6c7duQ3+Bn8EPsht1G6sk7876TLp7ILIxk3aAP066Ly/Crhz4Ds1dg6rn03G7Rb8vY2bXl2sLd4DRuW+7sLXP+5yiizOjimwlAmUysuWwX9pHl7Nfc3wted/Z5RQElh2Emr9mNaAdgeFsI+lF9uMVq3RtB0kpPkippUjiYXvM+5To2zQSqm6MjAG8a6QisuCFTKLqU92uQV0k7skb7h3lXQFfig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=er8MaVPuGLbANo0JoLcTbIWUraAZQo2ho7Sm7FDbkkk=;
+ b=MD0C2Kf+SXUH3LYgCMxdF+UX8sUo9abEHU9ulCkVcBb0OZqcu8Jr14OmFYTsYTRLE5omCyR3zpleWRLjAhPwQgYg18AOKO1ThB088MPhWtSGUrhiefqzQq494/Cs8qZBHU62v+AyeFlpzcC629IYbP642Vhlh6/InSX2XShlmTU=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
+ by PH0PR11MB5675.namprd11.prod.outlook.com (2603:10b6:510:d4::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Thu, 2 Sep
+ 2021 22:11:38 +0000
+Received: from PH0PR11MB5642.namprd11.prod.outlook.com
+ ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
+ ([fe80::880d:1a54:ca07:738a%9]) with mapi id 15.20.4478.021; Thu, 2 Sep 2021
+ 22:11:37 +0000
+Subject: Re: [PATCH v5 02/25] drm/i915/guc: Fix outstanding G2H accounting
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+CC: <dri-devel@lists.freedesktop.org>, <matthew.brost@intel.com>
+References: <20210902005022.711767-1-daniele.ceraolospurio@intel.com>
+ <20210902005022.711767-3-daniele.ceraolospurio@intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <e2422131-56f7-091c-b2ba-fb8387af9b60@intel.com>
+Date: Thu, 2 Sep 2021 15:11:34 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
+In-Reply-To: <20210902005022.711767-3-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNKsWRmVeSWpSXmKPExsWy7djPc7onvA0TDbrmiFrMP3KO1eLssoNs
- Fle+vmezuHloBaPFpsfXWC0m7j/LbtH1ayWzxeVdc9gsOjdtZbSYvaSfxWLry3dMFjPO72Oy
- mLJvF1Diyyw2i7bOZawWrXuPsFus+AlU93PXPBYHIY/ZDRdZPHbOusvusWlVJ5vH/e7jTB6b
- l9R7vNg8k9Fj47sdTB5Lpl1l8+jbsorR4/MmuQCuKC6blNSczLLUIn27BK6Ml5PusBY8FanY
- NFusgfG8QBcjB4eEgInEyb3BXYxcHEICKxglbtxbzgzhfGGUWHvtMiOE85lRYk/jf7YuRk6w
- jqMdi1ghEssZJY7PfAPV8pZRoufWMiaQKmGBRInZiyezgtgiAvMYJe48UAApYhZ4zSyx58sa
- sASbgKbE3803wcbyCthJ/Hi3hRHkKBYBFYmjC6VBwqICkRJ/T+5ihSgRlDg58wkLiM0pYCtx
- /tlisF3MAuISt57Mh7LlJba/nQN2kITAJU6JbR2tjBBnu0jsvbKSGcIWlnh1fAs7hC0j8X8n
- RLOEQL3E/RUtUM0djBJbN+yEarCWuHPuFxvIccxAR6/fpQ8RdpT4cmkvKyQg+SRuvBWEuIFP
- YtK26cwQYV6JjjYhiGpFiftnt0INFJdYeuEr2wRGpVlIPpuF5JtZSL6ZhbB3ASPLKkbx1NLi
- 3PTUYsO81HK94sTc4tK8dL3k/NxNjMD0ePrf8U87GOe++qh3iJGJg/EQowQHs5II7043g0Qh
- 3pTEyqrUovz4otKc1OJDjNIcLErivKtmr4kXEkhPLEnNTk0tSC2CyTJxcEo1MMknlZRt8Tu6
- PtPnzeroLbr+7/ev2PJS3dnoxrL1Du/Pbd8YPPMmd+DSAOmPL0wdbs6wKzp4Tlb27829ace3
- JmYVOFrwt11+du2bY8KxSTsOTwm/s/CDVtzl/xoiD1kWTd3sEr9GbH65lsNstr+yvy0nbrMp
- Wusd8SP2mQETT+efGWaVk172OpU43+tcLstaY6+19ABfefM7zy+LFx7+YM/MLXNT9eKEX2KN
- 5mHL1V04fNatYo/O+GPT9or3U51nUuuqa6yvw3ImT9f40u6a9qrrGqdC2gsjd2FXi2Nupob+
- Gl4Slbcmh188Lvp+nmHPRWmrU5W1bH9MHtRZJTTV1WdPsd6dLqqwgtFqI8uto0osxRmJhlrM
- RcWJAOa1PYP+AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLIsWRmVeSWpSXmKPExsVy+t/xe7rHvA0TDR7cs7GYf+Qcq8XZZQfZ
- LK58fc9mcfPQCkaLTY+vsVpM3H+W3aLr10pmi8u75rBZdG7aymgxe0k/i8XWl++YLGac38dk
- MWXfLqDEl1lsFm2dy1gtWvceYbdY8ROo7ueueSwOQh6zGy6yeOycdZfdY9OqTjaP+93HmTw2
- L6n3eLF5JqPHxnc7mDyWTLvK5tG3ZRWjx+dNcgFcUXo2RfmlJakKGfnFJbZK0YYWRnqGlhZ6
- RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZLyfdYS14KlKxabZYA+N5gS5GTg4JAROJox2L
- WLsYuTiEBJYySrSd6WCHSIhL7J7/lhnCFpb4c62LDaLoNaPEu8O9rCAJYYFEidmLJ4PZIgLz
- GCVOrHQHKWIWeM0ssezZLKBuDqAOG4kbW/VBatgENCX+br7JBmLzCthJ/Hi3hRGkhEVAReLo
- QmmQsKhApETTia1QJYISJ2c+YQGxOQVsJc4/W8wEYjMLmEnM2/yQGcIWl7j1ZD5UXF5i+9s5
- zBMYhWYhaZ+FpGUWkpZZSFoWMLKsYhRJLS3OTc8tNtIrTswtLs1L10vOz93ECEwH24793LKD
- ceWrj3qHGJk4GA8xSnAwK4nw7nQzSBTiTUmsrEotyo8vKs1JLT7EaAr0zkRmKdHkfGBCyiuJ
- NzQzMDU0MbM0MLU0M1YS5zU5siZeSCA9sSQ1OzW1ILUIpo+Jg1OqgUljjRjr7+UX+yw2LSxJ
- 3JMUtIItWOkDV26vliLf5ZXeKqEZM4U9nzHcC1cvFjpfscAmym5C9Z5JN6+eWOg1mePuVFtl
- /ou/HzTPzY2vbS5hTelmOOp/VPOtx7bWeT/91P9t/6ByqIprwrGrPbpKlmpHjvx69TFpndfk
- 1I0fH99si3g2cUHS5lYhxojJ9Q8Ed+tIHXiltkAp3Dzfx+6vlqSrdotvyvLZ/YJp6WKXnp7Y
- zbZerPLMCVvVj00tLPGJNrJCG9V26N6xyvj0O2Km/T/ric+bZrLdz1uvM43rsIlHF9uKjvKv
- hTvnhLn98X5qwa8vfJ7J+1nL29ueG25cnR0wK7rgj2Pz3i7O6YaTniqxFGckGmoxFxUnAgCo
- in5UkAMAAA==
-X-CMS-MailID: 20210902221015eucas1p26fae8f6ba4c70087dc7b007a271dce4b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210902221015eucas1p26fae8f6ba4c70087dc7b007a271dce4b
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210902221015eucas1p26fae8f6ba4c70087dc7b007a271dce4b
-References: <20210901201934.1084250-1-dianders@chromium.org>
- <CGME20210902221015eucas1p26fae8f6ba4c70087dc7b007a271dce4b@eucas1p2.samsung.com>
+Content-Language: en-GB
+X-ClientProxiedBy: MW4P221CA0011.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:303:8b::16) To PH0PR11MB5642.namprd11.prod.outlook.com
+ (2603:10b6:510:e5::13)
+MIME-Version: 1.0
+Received: from [192.168.1.221] (73.157.192.58) by
+ MW4P221CA0011.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.21 via Frontend Transport; Thu, 2 Sep 2021 22:11:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5a475bd9-f322-43b9-8c18-08d96e5ea22c
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5675:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <PH0PR11MB5675F0F84FA9E32E1B8C60F5BDCE9@PH0PR11MB5675.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 20hnxnNLFNTKWneCYShDfYxZ0L6B+BUvnKzbxK708nPQeBwMTbdHz44OaPYnKwSWWnBCd2LVPnfnvJy1EU5KSunqxq8d2UL84gqmCXN3qFsX5x0dxL63H274ovZF2tV0Bo3lwMTJvPmOwdEmCsMNlRnl01F27AKZPSjfICTk8hfxy2WD5umgnRPP2BNG7am95lxqv7SCefZTZIAtOyB9t5LCFZB8xRvIHqDvBOXVMtHaS2omB2HZNqGBKCvDMDQ9brmVKR+b0XiDIJsYrc+R9V9hQPcZ8/cMEmd+QrjKsonDyKwp9Gky5LxPJpZMwOd8/CQCm6N/Y2smUeoAjb4p/MqkOBiuWAhS8U/OB3+LSWpZeWb+pNNi/czM8PyhqOyCZ60V9IMRyyh5XoZH48KNzP5fb4ioQmlS6zOpPmj6blzupxH7jtDfv7Nav8q2fyQen/BY1cRAsgbCLkT856dSwrseV4g5uRVaMRL/0OtQDY3DtLqINkIUCTwhbnehIx5UtsTEEZXsE6F4o/sFLBZTglCgXptwFG8CT5StPZ/08pG9mMODW++sslHvNZTiOb/b3SqNQVYo1Ms2OWXZFueE4fOfW07HY1Vl4VrtM0AZwZHnBIUjeeXaX8j1eg5F7VChWHSMh8GYUxQQRp+IXDuCfbvfx6mQqPGNbzFtzO9NFXxxmF1x71Q1IjLEFamy5Bhl10x5PDou0l8KwrK44+bk5sJj8tghBBCJgmWUleskRpPThcOm1C1khvr0JQCuoC3O
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(396003)(366004)(376002)(346002)(53546011)(186003)(6666004)(31696002)(107886003)(16576012)(36756003)(66556008)(66476007)(31686004)(26005)(4326008)(8676002)(38100700002)(66946007)(478600001)(450100002)(83380400001)(8936002)(2906002)(6486002)(2616005)(86362001)(5660300002)(956004)(316002)(15650500001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?czdsaFpvdzQvK2xPMFkwY2VNWjM3Q0E2L0x1U0FOZXUrRU9xTWVONTBWNkw2?=
+ =?utf-8?B?UXR3TFMvSkU0NjJ0YzVoUGM2NDA2L29ya0pXb2FibEFVM1pmTDdLSGZ3Z3Er?=
+ =?utf-8?B?M21XT0lVeTJNYmplNjUwNitiNnBYdW45LzFiQzNRYjhrR2w3Qnh5bzZjSWx4?=
+ =?utf-8?B?aVR3NVBzMG5Sa1padXBZTmFkajdUMWdMU2NWaGFwd1ZwZVB3cVpOdmZXS1dD?=
+ =?utf-8?B?MGwzZE94c1BaS2pDSzRGY1A5TmFodkwzczRCbVFTTjd6cnVPd1V1dzZRa3RF?=
+ =?utf-8?B?SmRrL28zc2ltalEyazRpOTZsYzVNMk96ajZtSHRlbVJ2V29tN1duVzhGU2dL?=
+ =?utf-8?B?L2RJaE1DMFlVSW12Zktvb2tGQ09BR3BBbE1adTRodlg2Tk9OLzRtWnowSFhC?=
+ =?utf-8?B?QWpZcWNJcWRtc0NZdXlOYUdSdE93ZDF6RUhKUkxDdDRTUTZuTlcxOU43WVRZ?=
+ =?utf-8?B?K0FkcHU5V3AzSXVGa0dFT2JaYnRjRlJPTXc2OE41VzJLNjZuT1Zna2RmbXha?=
+ =?utf-8?B?NThISWNtL3V0a2NMOUlPVFBJRzRSQ3k5S1BJT0JFOXVZTS9HTG9kU1ZJOGRl?=
+ =?utf-8?B?cm4weVBuQlBzSTk3Wm83STVzMGlrNlNyMzF2aGoxS095QWdIRjdiTlBLMTBy?=
+ =?utf-8?B?VXh1bmphS3l0bGJHZ2I4NFVvb2UyeU12YXFjZk9aRms2clkzaXZwc05DNnBm?=
+ =?utf-8?B?RThBbE1lUXo1U0xuTFpJZEdrSy9hVllhclRhM2RGWDdOYlZwckJ0eGpZNmZ1?=
+ =?utf-8?B?ZldHblZqSTUvRUprNGdNQ3J0VVRFcWdvVDR2SHJ1bGdSMUJNUGl2QnFLcERL?=
+ =?utf-8?B?dGptMWNxaGlsc3hscGp0bWVDeDNUcmRnVEhxZDlrcERZWlRGcGcvQmZaMWtt?=
+ =?utf-8?B?c1o3MW9tRG1CVDVaTjU0b0gxUHlFaldPVDRNK2lhYWt2eFQyY2o1RUNLdXJP?=
+ =?utf-8?B?Q1p3Ujk1RVhCNFpjYW0xRzVpWjNKVnd0aWRqRjljZTFZV25yTmNYck9TQXla?=
+ =?utf-8?B?WGozODIzMHZOQWhIbW8wQ3c0UlIvcmlBblFzK0hkTXVhNU5hR0JIZWxBeFg0?=
+ =?utf-8?B?YnpZUVcvZWNiVUtla1RwK3dEMEU4dVJhN01xanVsUS9nQWdQN3QzNUwxTk1y?=
+ =?utf-8?B?SkpnRVdUVlJFZURHc2lRQUZKWlB6c3J2bkk3TEZDYmlLZnpuUjdQRnhNZmsy?=
+ =?utf-8?B?OGRGQmovbDFMTTRmMnJQTUdydTA5OUFiRHR3c01QMTZwTHBtZ0FMWUt2bWZT?=
+ =?utf-8?B?ai9kaUx0dlVXYjJNUXArbEhKT2xQKzIya2lwb0FINFZLQkx5NG9BZGhuU3dU?=
+ =?utf-8?B?YnhQRWRYUmtDRjhlbXc4U1BmQ2V4bitNQzJJTVROYWRNU0swa3BCOFdXZ1No?=
+ =?utf-8?B?ZkhqRTZuakpCQUxVUC9tZmJIRVZZZ3VZVytzNmVMSDIwSjgyYTRoUGI1d1RB?=
+ =?utf-8?B?TkJLbXNPSlV5OG13aXdBWlppTk9oSTE4Q1Q1b0owYnZvVlFsSmp6RUMvdSs0?=
+ =?utf-8?B?dVNvL3prZU91WjNGamVaL0dDNVI5R2hKaHF4dTh2enU0L3h5aTU2aEl4dldh?=
+ =?utf-8?B?cmhIMG8rNGhTaFBTT0x4Q0FaTVZteFdocmYxMElVdkkyWVVPWGdlL2Y0UWdT?=
+ =?utf-8?B?UkZIQ3UzOWlITVFJUStxVG53Smg4bStkaElCR0JRWS9SMnQ5T2FDMG1lRTRm?=
+ =?utf-8?B?V0xidXpqMjBwWGxYZGN1c1BQZ1JTREdDS09CNzFxcjlFMklMdmpSbVpGcGdl?=
+ =?utf-8?Q?fqrf1a0IICkFEV12eKk0vSogy955o0yN2wZEtIj?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a475bd9-f322-43b9-8c18-08d96e5ea22c
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 22:11:37.8486 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P1seH5vlEPzc1edSOMxULSVoxBPjzUDShcR9Q5fYPEuyZHkIxKbduEO0DeHpqyjoPkG/8vqk6cFHUsB132g9/ff7IXnaC4gMr6LigOaklcM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5675
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,55 +153,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/1/2021 17:49, Daniele Ceraolo Spurio wrote:
+> From: Matthew Brost <matthew.brost@intel.com>
+>
+> A small race that could result in incorrect accounting of the number
+> of outstanding G2H. Basically prior to this patch we did not increment
+> the number of outstanding G2H if we encoutered a GT reset while sending
+> a H2G. This was incorrect as the context state had already been updated
+> to anticipate a G2H response thus the counter should be incremented.
+>
+> As part of this change we remove a legacy (now unused) path that was the
+> last caller requiring a G2H response that was not guaranteed to loop.
+> This allows us to simplify the accounting as we don't need to handle the
+> case where the send fails due to the channel being busy.
+>
+> Also always use helper when decrementing this value.
+>
+> v2 (Daniele): update GEM_BUG_ON check, pull in dead code removal from
+> later patch, remove loop param from context_deregister.
+>
+> Fixes: f4eb1f3fe946 ("drm/i915/guc: Ensure G2H response has space in buffer")
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: <stable@vger.kernel.org>
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
-Removed most CC: SMTP server protested.
+> ---
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 79 +++++++++----------
+>   1 file changed, 37 insertions(+), 42 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 69faa39da178..aff5dd247a88 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -352,20 +352,29 @@ static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
+>   	xa_unlock_irqrestore(&guc->context_lookup, flags);
+>   }
+>   
+> +static void decr_outstanding_submission_g2h(struct intel_guc *guc)
+> +{
+> +	if (atomic_dec_and_test(&guc->outstanding_submission_g2h))
+> +		wake_up_all(&guc->ct.wq);
+> +}
+> +
+>   static int guc_submission_send_busy_loop(struct intel_guc *guc,
+>   					 const u32 *action,
+>   					 u32 len,
+>   					 u32 g2h_len_dw,
+>   					 bool loop)
+>   {
+> -	int err;
+> -
+> -	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+> +	/*
+> +	 * We always loop when a send requires a reply (i.e. g2h_len_dw > 0),
+> +	 * so we don't handle the case where we don't get a reply because we
+> +	 * aborted the send due to the channel being busy.
+> +	 */
+> +	GEM_BUG_ON(g2h_len_dw && !loop);
+>   
+> -	if (!err && g2h_len_dw)
+> +	if (g2h_len_dw)
+>   		atomic_inc(&guc->outstanding_submission_g2h);
+>   
+> -	return err;
+> +	return intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
+>   }
+>   
+>   int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+> @@ -616,7 +625,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+>   		init_sched_state(ce);
+>   
+>   		if (pending_enable || destroyed || deregister) {
+> -			atomic_dec(&guc->outstanding_submission_g2h);
+> +			decr_outstanding_submission_g2h(guc);
+>   			if (deregister)
+>   				guc_signal_context_fence(ce);
+>   			if (destroyed) {
+> @@ -635,7 +644,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+>   				intel_engine_signal_breadcrumbs(ce->engine);
+>   			}
+>   			intel_context_sched_disable_unpin(ce);
+> -			atomic_dec(&guc->outstanding_submission_g2h);
+> +			decr_outstanding_submission_g2h(guc);
+>   			spin_lock_irqsave(&ce->guc_state.lock, flags);
+>   			guc_blocked_fence_complete(ce);
+>   			spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> @@ -1233,8 +1242,7 @@ static int register_context(struct intel_context *ce, bool loop)
+>   }
+>   
+>   static int __guc_action_deregister_context(struct intel_guc *guc,
+> -					   u32 guc_id,
+> -					   bool loop)
+> +					   u32 guc_id)
+>   {
+>   	u32 action[] = {
+>   		INTEL_GUC_ACTION_DEREGISTER_CONTEXT,
+> @@ -1243,16 +1251,16 @@ static int __guc_action_deregister_context(struct intel_guc *guc,
+>   
+>   	return guc_submission_send_busy_loop(guc, action, ARRAY_SIZE(action),
+>   					     G2H_LEN_DW_DEREGISTER_CONTEXT,
+> -					     loop);
+> +					     true);
+>   }
+>   
+> -static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
+> +static int deregister_context(struct intel_context *ce, u32 guc_id)
+>   {
+>   	struct intel_guc *guc = ce_to_guc(ce);
+>   
+>   	trace_intel_context_deregister(ce);
+>   
+> -	return __guc_action_deregister_context(guc, guc_id, loop);
+> +	return __guc_action_deregister_context(guc, guc_id);
+>   }
+>   
+>   static intel_engine_mask_t adjust_engine_mask(u8 class, intel_engine_mask_t mask)
+> @@ -1340,26 +1348,23 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   	 * registering this context.
+>   	 */
+>   	if (context_registered) {
+> +		bool disabled;
+> +		unsigned long flags;
+> +
+>   		trace_intel_context_steal_guc_id(ce);
+> -		if (!loop) {
+> +		GEM_BUG_ON(!loop);
+> +
+> +		/* Seal race with Reset */
+> +		spin_lock_irqsave(&ce->guc_state.lock, flags);
+> +		disabled = submission_disabled(guc);
+> +		if (likely(!disabled)) {
+>   			set_context_wait_for_deregister_to_register(ce);
+>   			intel_context_get(ce);
+> -		} else {
+> -			bool disabled;
+> -			unsigned long flags;
+> -
+> -			/* Seal race with Reset */
+> -			spin_lock_irqsave(&ce->guc_state.lock, flags);
+> -			disabled = submission_disabled(guc);
+> -			if (likely(!disabled)) {
+> -				set_context_wait_for_deregister_to_register(ce);
+> -				intel_context_get(ce);
+> -			}
+> -			spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> -			if (unlikely(disabled)) {
+> -				reset_lrc_desc(guc, desc_idx);
+> -				return 0;	/* Will get registered later */
+> -			}
+> +		}
+> +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> +		if (unlikely(disabled)) {
+> +			reset_lrc_desc(guc, desc_idx);
+> +			return 0;	/* Will get registered later */
+>   		}
+>   
+>   		/*
+> @@ -1367,13 +1372,9 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   		 * context whose guc_id was stolen.
+>   		 */
+>   		with_intel_runtime_pm(runtime_pm, wakeref)
+> -			ret = deregister_context(ce, ce->guc_id, loop);
+> -		if (unlikely(ret == -EBUSY)) {
+> -			clr_context_wait_for_deregister_to_register(ce);
+> -			intel_context_put(ce);
+> -		} else if (unlikely(ret == -ENODEV)) {
+> +			ret = deregister_context(ce, ce->guc_id);
+> +		if (unlikely(ret == -ENODEV))
+>   			ret = 0;	/* Will get registered later */
+> -		}
+>   	} else {
+>   		with_intel_runtime_pm(runtime_pm, wakeref)
+>   			ret = register_context(ce, loop);
+> @@ -1730,7 +1731,7 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+>   	GEM_BUG_ON(context_enabled(ce));
+>   
+>   	clr_context_registered(ce);
+> -	deregister_context(ce, ce->guc_id, true);
+> +	deregister_context(ce, ce->guc_id);
+>   }
+>   
+>   static void __guc_context_destroy(struct intel_context *ce)
+> @@ -2583,12 +2584,6 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
+>   	return ce;
+>   }
+>   
+> -static void decr_outstanding_submission_g2h(struct intel_guc *guc)
+> -{
+> -	if (atomic_dec_and_test(&guc->outstanding_submission_g2h))
+> -		wake_up_all(&guc->ct.wq);
+> -}
+> -
+>   int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+>   					  const u32 *msg,
+>   					  u32 len)
 
-On 01.09.2021 22:19, Douglas Anderson wrote:
-> The goal of this patch series is to move away from hardcoding exact
-> eDP panels in device tree files. As discussed in the various patches
-> in this series (I'm not repeating everything here), most eDP panels
-> are 99% probable and we can get that last 1% by allowing two "power
-> up" delays to be specified in the device tree file and then using the
-> panel ID (found in the EDID) to look up additional power sequencing
-> delays for the panel.
-> 
-> This patch series is the logical contiunation of a previous patch
-> series where I proposed solving this problem by adding a
-> board-specific compatible string [1]. In the discussion that followed
-> it sounded like people were open to something like the solution
-> proposed in this new series.
-> 
-> In version 2 I got rid of the idea that we could have a "fallback"
-> compatible string that we'd use if we didn't recognize the ID in the
-> EDID. This simplifies the bindings a lot and the implementation
-> somewhat. As a result of not having a "fallback", though, I'm not
-> confident in transitioning any existing boards over to this since
-> we'll have to fallback to very conservative timings if we don't
-> recognize the ID from the EDID and I can't guarantee that I've seen
-> every panel that might have shipped on an existing product. The plan
-> is to use "edp-panel" only on new boards or new revisions of old
-> boards where we can guarantee that every EDID that ships out of the
-> factory has an ID in the table.
-> 
-> Version 3 of this series now splits out all eDP panels to their own
-> driver and adds the generic eDP panel support to this new driver. I
-> believe this is what Sam was looking for [2].
-> 
-> [1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
-> [2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
-> 
-I like the idea - if something can be configured dynamically lets do it.
-But I have few questions:
-1. Have you read different real panels id's? In many cases (MIPI DSI, 
-LVDS with EDID) manufacturers often forgot to set proper id fields. I do 
-not know how EDID's ids are reliable in case of edp panels.
-2. You are working with edp panels - beside EDID they have DPCD which 
-contains things like IEEE_OUI and "Device Identification String", I 
-guess they could be also used for detecting panels, have you considered 
-it? I think DPCD Id should be assigned to EDP-Sink interface, and EDID 
-Id to the actual panel behind it. With this assumption one could 
-consider which timings should be property of which entity.
-
-
-Regards
-Andrzej
