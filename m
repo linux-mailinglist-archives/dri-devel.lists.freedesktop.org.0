@@ -2,34 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715853FEF0F
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBF53FEF28
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5A036E4D4;
-	Thu,  2 Sep 2021 14:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982E66E508;
+	Thu,  2 Sep 2021 14:08:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4485C6E528
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:01:07 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B5D61FB;
- Thu,  2 Sep 2021 07:01:06 -0700 (PDT)
-Received: from e122027.lan (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB69F3F5A1;
- Thu,  2 Sep 2021 07:01:04 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panfrost: Calculate lock region size correctly
-Date: Thu,  2 Sep 2021 15:00:38 +0100
-Message-Id: <20210902140038.221437-1-steven.price@arm.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA6CC6E528
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:08:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bw/td3GssnwtaBeINhtYQ/1qNIlura/RSFQlypdU1SY=; b=c/k/TKt5fLdGPjWCONe/5nriVj
+ T353ets3IrCKf4nNLYel5YBEfv1dUulR1QI6KcWpolWY18Reu45V4UTfRvnElPaeyDUQYuvww2l5z
+ 4G2IyozoY9loVBoOYJiAM27zESLPdrUIoSgy3L2tubszkwAYRe2Mdkb0eWcbE7p/t0K+fb1p/ki6p
+ t+Nn7f/w0sferhjGAGQq7NFDP2BpnQ2ZJyJ9K72+5FyOFvA51lSsL7VQpylmwU0m09nJr7+zIuEBK
+ J4rHdHdUO4phun3/w997ti/xAFt08QgscpcAabEHdMPSUVvMECLGMKiXWdO57LuACaszQ1J5FJJXq
+ xJSpRm4A==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51795
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1mLnO5-0005yF-Ai; Thu, 02 Sep 2021 16:08:17 +0200
+Subject: Re: [PATCH 2/7] drm/format-helper: Add drm_fb_xrgb8888_to_rgb332()
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, peter@stuge.se,
+ linus.walleij@linaro.org, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20210817122917.49929-1-noralf@tronnes.org>
+ <20210817122917.49929-3-noralf@tronnes.org>
+ <YRu/+nEX4A5i4sfl@phenom.ffwll.local>
+ <d72f5ef1-f701-3549-c459-236716674fd6@tronnes.org>
+ <YS4fTzPUbwMvK5NK@phenom.ffwll.local>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <848f5d65-8bad-0d69-18dd-ae81549283b4@tronnes.org>
+Date: Thu, 2 Sep 2021 16:08:14 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
+In-Reply-To: <YS4fTzPUbwMvK5NK@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,82 +64,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It turns out that when locking a region, the region must be a naturally
-aligned power of 2. The upshot of this is that if the desired region
-crosses a 'large boundary' the region size must be increased
-significantly to ensure that the locked region completely covers the
-desired region. Previous calculations (including in kbase for the
-proprietary driver) failed to take this into account.
 
-Since it's known that the lock region must be naturally aligned we can
-compute the required size by looking at the highest bit position which
-changes between the start/end of the lock region (subtracting 1 from the
-end because the end address is exclusive). The start address is then
-aligned based on the size (this is technically unnecessary as the
-hardware will ignore these bits, but the spec advises to do this "to
-avoid confusion").
 
-Signed-off-by: Steven Price <steven.price@arm.com>
----
-See previous discussion[1] for more details. This bug also existed in
-the 'kbase' driver, so it's unlikely to actually hit very often.
+Den 31.08.2021 14.23, skrev Daniel Vetter:
+> On Mon, Aug 30, 2021 at 02:08:14PM +0200, Noralf Trønnes wrote:
+>>
+>>
+>> Den 17.08.2021 15.56, skrev Daniel Vetter:
+>>> On Tue, Aug 17, 2021 at 02:29:12PM +0200, Noralf Trønnes wrote:
+>>>> Add XRGB8888 emulation support for devices that can only do RGB332.
+>>>>
+>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+>>>> ---
+>>>>  drivers/gpu/drm/drm_format_helper.c | 47 +++++++++++++++++++++++++++++
+>>>>  include/drm/drm_format_helper.h     |  2 ++
+>>>>  2 files changed, 49 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+>>>> index 5231104b1498..53b426da7467 100644
+>>>> --- a/drivers/gpu/drm/drm_format_helper.c
+>>>> +++ b/drivers/gpu/drm/drm_format_helper.c
+>>>> @@ -135,6 +135,53 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+>>>>  }
+>>>>  EXPORT_SYMBOL(drm_fb_swab);
+>>>>  
+>>>> +static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, u32 *sbuf, unsigned int pixels)
+>>>> +{
+>>>> +	unsigned int x;
+>>>> +
+>>>> +	for (x = 0; x < pixels; x++)
+>>>> +		dbuf[x] = ((sbuf[x] & 0x00e00000) >> 16) |
+>>>
+>>> I think for 2/3 bits correct rounding would be useful, not just masking.
+>>> i.e. before you shift add 0x00100000 here, and similar below.
+>>>
+>>
+>> Math isn't my strongest side and my brain failed to turn this into code.
+> 
+> Essentially add half of the lowest bit before you mask, so
+> 
+> ((sbuf[x] + 0x10) & 0xe0 )
+> 
 
-This patch is based on drm-misc-next-fixes as it builds on top of
-Alyssa's changes to lock_region.
+But what if the value is 0xff, it overflows:
 
-[1] https://lore.kernel.org/dri-devel/6fe675c4-d22b-22da-ba3c-f6d33419b9ed@arm.com/
+((0xff + 0x10) & 0xe0 ) == 0x00
 
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 33 +++++++++++++++++++------
- 1 file changed, 26 insertions(+), 7 deletions(-)
+Should it be OR?
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index dfe5f1d29763..afec15bb3db5 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -58,17 +58,36 @@ static int write_cmd(struct panfrost_device *pfdev, u32 as_nr, u32 cmd)
- }
- 
- static void lock_region(struct panfrost_device *pfdev, u32 as_nr,
--			u64 iova, u64 size)
-+			u64 region_start, u64 size)
- {
- 	u8 region_width;
--	u64 region = iova & PAGE_MASK;
-+	u64 region;
-+	u64 region_size;
-+	u64 region_end = region_start + size;
- 
--	/* The size is encoded as ceil(log2) minus(1), which may be calculated
--	 * with fls. The size must be clamped to hardware bounds.
-+	if (!size)
-+		return;
-+
-+	/*
-+	 * The locked region is a naturally aligned power of 2 block encoded as
-+	 * log2 minus(1).
-+	 * Calculate the desired start/end and look for the highest bit which
-+	 * differs. The smallest naturally aligned block must include this bit
-+	 * change the desired region starts with this bit (and subsequent bits)
-+	 * zeroed and ends with the bit (and subsequent bits) set to one.
-+	 *
- 	 */
--	size = max_t(u64, size, AS_LOCK_REGION_MIN_SIZE);
--	region_width = fls64(size - 1) - 1;
--	region |= region_width;
-+	region_size = region_start ^ (region_end - 1);
-+	region_width = max(fls64(region_size),
-+			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
-+
-+	/*
-+	 * Mask off the low bits of region_start (which would be ignored by
-+	 * the hardware anyway)
-+	 */
-+	region_start &= GENMASK_ULL(63, region_width);
-+
-+	region = region_width | region_start;
- 
- 	/* Lock the region that needs to be updated */
- 	mmu_write(pfdev, AS_LOCKADDR_LO(as_nr), region & 0xFFFFFFFFUL);
--- 
-2.30.2
+((0xff | 0x10) & 0xe0 ) == 0xe0
 
+Noralf.
+
+> I dropped the shift to make it clear what's going on. If you're mask is
+> 0xc0, then you simply add 0x20 before masking.
+> 
+>>> Also I just realized we've totally ignored endianess on these, which is
+>>> not great, because strictly speaking all the drm_fourcc codes should be
+>>> little endian. But I'm also not sure that's worth fixing ...
+>>>
+>>
+>> Is it as simple as using le32_to_cpu()?
+> 
+> I think so.
+> 
+> Plus on any format that has u16 output we'd need a cpu_to_le16 wrapped
+> around the entire thing.
+> -Daniel
+> 
+>> static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, __le32 *sbuf,
+>> unsigned int pixels)
+>> {
+>> 	unsigned int x;
+>> 	u32 pix;
+>>
+>> 	for (x = 0; x < pixels; x++) {
+>> 		pix = le32_to_cpu(sbuf[x]);
+>> 		dbuf[x] = ((pix & 0x00e00000) >> 16) |
+>> 			  ((pix & 0x0000e000) >> 11) |
+>> 			  ((pix & 0x000000c0) >> 6);
+>> 	}
+>> }
+>>
+>> Noralf.
+>>
+>>> Either way, lgtm:
+>>>
+>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>
+>>>> +			  ((sbuf[x] & 0x0000e000) >> 11) |
+>>>> +			  ((sbuf[x] & 0x000000c0) >> 6);
+>>>> +}
+>>>> +
+>>>> +/**
+>>>> + * drm_fb_xrgb8888_to_rgb332 - Convert XRGB8888 to RGB332 clip buffer
+>>>> + * @dst: RGB332 destination buffer
+>>>> + * @src: XRGB8888 source buffer
+>>>> + * @fb: DRM framebuffer
+>>>> + * @clip: Clip rectangle area to copy
+>>>> + *
+>>>> + * Drivers can use this function for RGB332 devices that don't natively support XRGB8888.
+>>>> + *
+>>>> + * This function does not apply clipping on dst, i.e. the destination is a small buffer
+>>>> + * containing the clip rect only.
+>>>> + */
+>>>> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *src, struct drm_framebuffer *fb,
+>>>> +			       struct drm_rect *clip)
+>>>> +{
+>>>> +	size_t width = drm_rect_width(clip);
+>>>> +	size_t src_len = width * sizeof(u32);
+>>>> +	unsigned int y;
+>>>> +	void *sbuf;
+>>>> +
+>>>> +	/* Use a buffer to speed up access on buffers with uncached read mapping (i.e. WC) */
+>>>> +	sbuf = kmalloc(src_len, GFP_KERNEL);
+>>>> +	if (!sbuf)
+>>>> +		return;
+>>>> +
+>>>> +	src += clip_offset(clip, fb->pitches[0], sizeof(u32));
+>>>> +	for (y = 0; y < drm_rect_height(clip); y++) {
+>>>> +		memcpy(sbuf, src, src_len);
+>>>> +		drm_fb_xrgb8888_to_rgb332_line(dst, sbuf, width);
+>>>> +		src += fb->pitches[0];
+>>>> +		dst += width;
+>>>> +	}
+>>>> +
+>>>> +	kfree(sbuf);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
+>>>> +
+>>>>  static void drm_fb_xrgb8888_to_rgb565_line(u16 *dbuf, u32 *sbuf,
+>>>>  					   unsigned int pixels,
+>>>>  					   bool swab)
+>>>> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+>>>> index 4e0258a61311..d0809aff5cf8 100644
+>>>> --- a/include/drm/drm_format_helper.h
+>>>> +++ b/include/drm/drm_format_helper.h
+>>>> @@ -16,6 +16,8 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vadd
+>>>>  			   struct drm_rect *clip);
+>>>>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+>>>>  		 struct drm_rect *clip, bool cached);
+>>>> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct drm_framebuffer *fb,
+>>>> +			       struct drm_rect *clip);
+>>>>  void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
+>>>>  			       struct drm_framebuffer *fb,
+>>>>  			       struct drm_rect *clip, bool swab);
+>>>> -- 
+>>>> 2.32.0
+>>>>
+>>>
+> 
