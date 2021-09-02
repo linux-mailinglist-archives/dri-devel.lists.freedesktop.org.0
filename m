@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72263FF133
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 18:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F0F3FF132
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 18:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23A976E5D2;
-	Thu,  2 Sep 2021 16:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF5136E5CE;
+	Thu,  2 Sep 2021 16:21:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B415089F3C;
- Thu,  2 Sep 2021 16:00:35 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id v123so1986844pfb.11;
- Thu, 02 Sep 2021 09:00:35 -0700 (PDT)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0112A89F3C;
+ Thu,  2 Sep 2021 16:00:46 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id c17so2480598pgc.0;
+ Thu, 02 Sep 2021 09:00:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Fk9qOIpqNtU9mgu+Mf4bLSy/z5UFG7XV8I5EL88asX4=;
- b=LfetnEEzuuv1qb0fAS/ttShZ8N+iLIfmiaAvg0iByOqil4Eglps4NdIUsbuJYWHc6+
- r3nPDtzkMYi2sXbCSa7bm69tT5eg1CTUkkYi4qrEtmJ3UnHdCxI3AwFfDtgSW+m267Py
- BSgxMtUBWixV+cqF1xu1NfFxhNYPFrbJujQdoWdhoN0oruKGzaUes320a1GvPq1kEbNb
- 2PKzLo3z470yxoFtsruvSXyYgfYlQFR1UDvywszuIoRKbCu/GAkghVh/RGYcHym4XKVO
- CXoHsSDXkGtA8Shtt62oSnZSROQGNOxh2ewV5Guk1ZcRBYhUEUMHgSyg52KpY38olKT1
- /98Q==
+ bh=FI6R42Oo7MX5/xkTwAAMjl52Mc/0wUr0Fx+yPEL+Ji4=;
+ b=pG0CALULKhiASC09JpVPt1vkukpytG62yV6Mp9KfeIeVKWMoOSEec0UbnaaogMMcpR
+ uWYdwegsIf6sgyLoCzWyKm7Fry3mK97lwK9d1mDzPWfLJgU//CWikizRdYlxDn0zlgD2
+ +t29ZweiXajDQmCxJhfkkixnxKe3je+hA4DDP334QKLeJZub0HZO55Ac6tWfWlmJekbM
+ finZLxbBUa5ixuOw403oufmJFzXW/S7z/LRNrQs/4zGdp8IUfjfDj9NA8S32R5IcGKrb
+ bZHmy0UDJTu4GlSDjlx+K+D1N1DNUC84ZZ8YjxhF+QBRhTDCpyZfkc0ol/dXzbph2t8Z
+ c/+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Fk9qOIpqNtU9mgu+Mf4bLSy/z5UFG7XV8I5EL88asX4=;
- b=XhWrQhaWUf/Vn6wF1rYnxrtk9AbvrEywIdv9tkTy9P+tYgET8xutK5aVVxJ79OyVWM
- yrykVqha4ZN8iqzy8TweQFwW9Y84T7f/8fy+MStMiW/szUn5MEDkAwBytzqvCevAkgQb
- Giioc4G0Vy2sip3IKLzty4XAmrxxe5tfWG3HeEF12xswzbuSfE0OHgZQnLsLoI5aAu/M
- WmYeTxYo+u1V7OYlBsqqhofLHmWR0iJAJ8cXIEWYRr0DdaiiyDlstU4ymdYGjiPl+5B/
- oi239YfzPVYhQA/7eAtBN/WQGAohMwwFUON5EQ8PIQHZ0LjgovXplFYUwErCyZcUkbnn
- zPvQ==
-X-Gm-Message-State: AOAM530L3wLXO90GD1SILXukijg0eOVEX53it+5o2yLMYJ8FlXJ64EXC
- 5K2sSsxfEq+xX+92fSX9XwI=
-X-Google-Smtp-Source: ABdhPJwdcf0AY5VrBw8nqRBAXD7oZ7oS0Nq63NYpoqJ/4WbclGVKR/NdySwp0vV0i/uql9AyHvpanw==
-X-Received: by 2002:a63:62c7:: with SMTP id w190mr3837011pgb.105.1630598435401; 
- Thu, 02 Sep 2021 09:00:35 -0700 (PDT)
+ bh=FI6R42Oo7MX5/xkTwAAMjl52Mc/0wUr0Fx+yPEL+Ji4=;
+ b=RnGkSD4bKhjq7FPbRd7Dl6FiKNJHYbpUHfECXfiInA0Q1xAMealGrIh3sKaeQlwQbC
+ opWAkMKWvt4vPxudrkFb2Ne80Lt89CysqL4amMkRYKTgC6TMPyGUeTDslecdIx9nOBeJ
+ yM5CJLRHnUPGKFZcPGNsPM4A9t7ROAjbVq9pmKAeuLrl9qkBimfHAG4uAUfVb6Y/BhNK
+ dfCHUe2ZknQ3Lu4I6QLBHrob6yAf5UzPHn2sPGawdPk9mSgsougZLYbIT9UxUNDECtO7
+ 8FU2huG2vxy2t2/lUaQr5i1WgUtvll6RJujRHZdLQSsZUTxmoNLx1FnuJqFWaWHzH2BF
+ oEfA==
+X-Gm-Message-State: AOAM530XuUmIkRxcEPFF3ydbGg9xVDd/dVuGiwVb+fC+DB38p5b0MZl/
+ oQAVtQAtTdeeo+/DYnSzOys=
+X-Google-Smtp-Source: ABdhPJzWTVwG+AcHQ6VecSgeEqu+OM6E3bEx4MFUqtuGtjaEp9E8MMCgF3Zu4sdQepTKE/L+840OaQ==
+X-Received: by 2002:a63:1d25:: with SMTP id d37mr3953926pgd.52.1630598446597; 
+ Thu, 02 Sep 2021 09:00:46 -0700 (PDT)
 Received: from skynet-linux.local ([106.203.214.216])
- by smtp.googlemail.com with ESMTPSA id a15sm3528540pgn.25.2021.09.02.09.00.30
+ by smtp.googlemail.com with ESMTPSA id a15sm3528540pgn.25.2021.09.02.09.00.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 09:00:34 -0700 (PDT)
+ Thu, 02 Sep 2021 09:00:46 -0700 (PDT)
 From: Sireesh Kodali <sireeshkodali1@gmail.com>
 To: sireeshkodali1@gmail.com
 Cc: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
  dri-devel@lists.freedesktop.org, airlied@linux.ie, robdclark@gmail.com,
  linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
  Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ James Willcox <jwillcox@squareup.com>,
  Abhinav Kumar <abhinavk@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>,
- Rajeev Nandan <rajeevny@codeaurora.org>,
- Krishna Manikandan <mkrishn@codeaurora.org>,
  freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
- devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
- BINDINGS), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/2] drm/msm/dsi: Add phy configuration for MSM8953
-Date: Thu,  2 Sep 2021 21:29:50 +0530
-Message-Id: <20210902155951.6672-2-sireeshkodali1@gmail.com>
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 2/2] drm/msm/mdp5: Add configuration for MDP v1.16
+Date: Thu,  2 Sep 2021 21:29:51 +0530
+Message-Id: <20210902155951.6672-3-sireeshkodali1@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210902155951.6672-1-sireeshkodali1@gmail.com>
 References: <20210902155951.6672-1-sireeshkodali1@gmail.com>
@@ -86,84 +82,123 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Vladimir Lypak <vladimir.lypak@gmail.com>
 
-Add phy configuration for 14nm dsi phy found on MSM8953 SoC. Only
-difference from existing configurations are io_start addresses.
+MDP version v1.16 is almost identical to v1.15 with most significant
+difference being presence of second DSI interface. MDP v1.16 is found on
+SoCs such as MSM8x53, SDM450, SDM632 (All with Adreno 506).
 
 Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
 Signed-off-by: Sireesh Kodali <sireeshkodali1@gmail.com>
 ---
- .../bindings/display/msm/dsi-phy-14nm.yaml    |  1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         |  2 ++
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |  1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    | 21 +++++++++++++++++++
- 4 files changed, 25 insertions(+)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 89 ++++++++++++++++++++++++
+ 1 file changed, 89 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
-index 72a00cce0147..7527fb299caa 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
-@@ -17,6 +17,7 @@ properties:
-     oneOf:
-       - const: qcom,dsi-phy-14nm
-       - const: qcom,dsi-phy-14nm-660
-+      - const: qcom,dsi-phy-14nm-8953
- 
-   reg:
-     items:
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index 8c65ef6968ca..9842e04b5858 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -627,6 +627,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
- 	  .data = &dsi_phy_14nm_cfgs },
- 	{ .compatible = "qcom,dsi-phy-14nm-660",
- 	  .data = &dsi_phy_14nm_660_cfgs },
-+	{ .compatible = "qcom,dsi-phy-14nm-8953",
-+	  .data = &dsi_phy_14nm_8953_cfgs },
- #endif
- #ifdef CONFIG_DRM_MSM_DSI_10NM_PHY
- 	{ .compatible = "qcom,dsi-phy-10nm",
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index b91303ada74f..4c8257581bfc 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-@@ -48,6 +48,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8960_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs;
-+extern const struct msm_dsi_phy_cfg dsi_phy_14nm_8953_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_10nm_8998_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs;
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-index d13552b2213b..9a6b1f0cbbaf 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-@@ -1065,3 +1065,24 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs = {
- 	.io_start = { 0xc994400, 0xc996000 },
- 	.num_dsi_phy = 2,
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+index 9741544ffc35..0d28c8ff4009 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+@@ -752,6 +752,94 @@ const struct mdp5_cfg_hw msm8x76_config = {
+ 	.max_clk = 360000000,
  };
+ 
++static const struct mdp5_cfg_hw msm8x53_config = {
++	.name = "msm8x53",
++	.mdp = {
++		.count = 1,
++		.caps = MDP_CAP_CDM |
++			MDP_CAP_SRC_SPLIT,
++	},
++	.ctl = {
++		.count = 3,
++		.base = { 0x01000, 0x01200, 0x01400 },
++		.flush_hw_mask = 0xffffffff,
++	},
++	.pipe_vig = {
++		.count = 1,
++		.base = { 0x04000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SCALE	|
++			MDP_PIPE_CAP_CSC	|
++			MDP_PIPE_CAP_DECIMATION	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_rgb = {
++		.count = 2,
++		.base = { 0x14000, 0x16000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_DECIMATION	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_dma = {
++		.count = 1,
++		.base = { 0x24000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_cursor = {
++		.count = 1,
++		.base = { 0x34000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			MDP_PIPE_CAP_CURSOR	|
++			0,
++	},
 +
-+const struct msm_dsi_phy_cfg dsi_phy_14nm_8953_cfgs = {
-+	.has_phy_lane = true,
-+	.reg_cfg = {
-+		.num = 1,
-+		.regs = {
-+			{"vcca", 17000, 32},
++	.lm = {
++		.count = 3,
++		.base = { 0x44000, 0x45000 },
++		.instances = {
++				{ .id = 0, .pp = 0, .dspp = 0,
++				  .caps = MDP_LM_CAP_DISPLAY |
++					  MDP_LM_CAP_PAIR },
++				{ .id = 1, .pp = 1, .dspp = -1,
++				  .caps = MDP_LM_CAP_DISPLAY },
++			     },
++		.nb_stages = 5,
++		.max_width = 2048,
++		.max_height = 0xFFFF,
++	},
++	.dspp = {
++		.count = 1,
++		.base = { 0x54000 },
++
++	},
++	.pp = {
++		.count = 2,
++		.base = { 0x70000, 0x70800 },
++	},
++	.cdm = {
++		.count = 1,
++		.base = { 0x79200 },
++	},
++	.intf = {
++		.base = { 0x6a000, 0x6a800, 0x6b000 },
++		.connect = {
++			[0] = INTF_DISABLED,
++			[1] = INTF_DSI,
++			[2] = INTF_DSI,
 +		},
 +	},
-+	.ops = {
-+		.enable = dsi_14nm_phy_enable,
-+		.disable = dsi_14nm_phy_disable,
-+		.pll_init = dsi_pll_14nm_init,
-+		.save_pll_state = dsi_14nm_pll_save_state,
-+		.restore_pll_state = dsi_14nm_pll_restore_state,
-+	},
-+	.min_pll_rate = VCO_MIN_RATE,
-+	.max_pll_rate = VCO_MAX_RATE,
-+	.io_start = { 0x1a94400, 0x1a96400 },
-+	.num_dsi_phy = 2,
++	.max_clk = 400000000,
 +};
++
+ static const struct mdp5_cfg_hw msm8917_config = {
+ 	.name = "msm8917",
+ 	.mdp = {
+@@ -1151,6 +1239,7 @@ static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
+ 	{ .revision = 7, .config = { .hw = &msm8x96_config } },
+ 	{ .revision = 11, .config = { .hw = &msm8x76_config } },
+ 	{ .revision = 15, .config = { .hw = &msm8917_config } },
++	{ .revision = 16, .config = { .hw = &msm8x53_config } },
+ };
+ 
+ static const struct mdp5_cfg_handler cfg_handlers_v3[] = {
 -- 
 2.33.0
 
