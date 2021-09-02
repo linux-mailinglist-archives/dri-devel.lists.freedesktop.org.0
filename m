@@ -1,53 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBF53FEF28
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:08:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B65973FEF4B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 982E66E508;
-	Thu,  2 Sep 2021 14:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3646E560;
+	Thu,  2 Sep 2021 14:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA6CC6E528
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:08:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=bw/td3GssnwtaBeINhtYQ/1qNIlura/RSFQlypdU1SY=; b=c/k/TKt5fLdGPjWCONe/5nriVj
- T353ets3IrCKf4nNLYel5YBEfv1dUulR1QI6KcWpolWY18Reu45V4UTfRvnElPaeyDUQYuvww2l5z
- 4G2IyozoY9loVBoOYJiAM27zESLPdrUIoSgy3L2tubszkwAYRe2Mdkb0eWcbE7p/t0K+fb1p/ki6p
- t+Nn7f/w0sferhjGAGQq7NFDP2BpnQ2ZJyJ9K72+5FyOFvA51lSsL7VQpylmwU0m09nJr7+zIuEBK
- J4rHdHdUO4phun3/w997ti/xAFt08QgscpcAabEHdMPSUVvMECLGMKiXWdO57LuACaszQ1J5FJJXq
- xJSpRm4A==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51795
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1mLnO5-0005yF-Ai; Thu, 02 Sep 2021 16:08:17 +0200
-Subject: Re: [PATCH 2/7] drm/format-helper: Add drm_fb_xrgb8888_to_rgb332()
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, peter@stuge.se,
- linus.walleij@linaro.org, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20210817122917.49929-1-noralf@tronnes.org>
- <20210817122917.49929-3-noralf@tronnes.org>
- <YRu/+nEX4A5i4sfl@phenom.ffwll.local>
- <d72f5ef1-f701-3549-c459-236716674fd6@tronnes.org>
- <YS4fTzPUbwMvK5NK@phenom.ffwll.local>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <848f5d65-8bad-0d69-18dd-ae81549283b4@tronnes.org>
-Date: Thu, 2 Sep 2021 16:08:14 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 473066E593
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:21:09 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 79-20020a1c0452000000b002e6cf79e572so1591158wme.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:21:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ux0otQKkFIhr/QzCoIyfdoj8qLEcSwHP4PZjPx1SDPA=;
+ b=GmC3l0SIdMeNjne5Uk2zC1bP6hyYwVk2VagtX+0PlQBCOc7cqIetweS/52DGepj7LA
+ e6qHIg6QCPEv7VKLQu0Q4xATcbeAsWcdJR3MY/WxxqOCyNyxrmdXq9QQ78ElKr+ZqS4f
+ Ay10seIzo6Xw1Q8LjK3JU6W2+t8MBpPgayS64=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ux0otQKkFIhr/QzCoIyfdoj8qLEcSwHP4PZjPx1SDPA=;
+ b=p0YQfArzW4BidrF/+6iMRPFwCxzRszx0rCFPPZvrmpguotUewBADY7R9i9v8GXVswL
+ YMsprSWMciA6XwQNMvH0jdkipVk8Lgd7Ff8EQYSLd0HJknIMxIGQ64j3Jw8mcQNvPLz0
+ MwS8A8vYnHSvULI6RWOlDDu44SiumU0ktQj/f+UvSBtOSunbSm9nBTuhV/kAnmRbcm6g
+ K1J6ap0Xo+GKzjT3fiR7rpEv7suV9IJ/LCiCvR18cLQxXfqL5a0uvEoeZKFVo2WwvaZq
+ 3AtWDJps0RPY/QpSFOslRMFR+DBmTmU8Ft7fBim/sVbHvciZ4tgASOfucCUIExWLqGd0
+ enbQ==
+X-Gm-Message-State: AOAM532NZ1BIvuh5Ujrw+/+mAQgjsnOQltWBPXLwMeZAQHlj3mxjnzGF
+ 2Lp3QZDuiA+R98O4hrl4G960ZIDNiBhcJg==
+X-Google-Smtp-Source: ABdhPJz+E4l437MOTIMiP8zWOjOwsHBZ4wPX0HjuuHeYspQFpcOUQoUr1QX8nZwLzQ86oD+eA7lnlA==
+X-Received: by 2002:a05:600c:2056:: with SMTP id
+ p22mr3489538wmg.8.1630592467758; 
+ Thu, 02 Sep 2021 07:21:07 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l2sm1841811wmi.1.2021.09.02.07.21.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Sep 2021 07:21:07 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "Acked-by : Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
+Subject: [PATCH 01/11] drm/i915: Release i915_gem_context from a worker
+Date: Thu,  2 Sep 2021 16:20:47 +0200
+Message-Id: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <YS4fTzPUbwMvK5NK@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,154 +79,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The only reason for this really is the i915_gem_engines->fence
+callback engines_notify(), which exists purely as a fairly funky
+reference counting scheme for that. Otherwise all other callers are
+from process context, and generally fairly benign locking context.
 
+Unfortunately untangling that requires some major surgery, and we have
+a few i915_gem_context reference counting bugs that need fixing, and
+they blow in the current hardirq calling context, so we need a
+stop-gap measure.
 
-Den 31.08.2021 14.23, skrev Daniel Vetter:
-> On Mon, Aug 30, 2021 at 02:08:14PM +0200, Noralf Trønnes wrote:
->>
->>
->> Den 17.08.2021 15.56, skrev Daniel Vetter:
->>> On Tue, Aug 17, 2021 at 02:29:12PM +0200, Noralf Trønnes wrote:
->>>> Add XRGB8888 emulation support for devices that can only do RGB332.
->>>>
->>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
->>>> ---
->>>>  drivers/gpu/drm/drm_format_helper.c | 47 +++++++++++++++++++++++++++++
->>>>  include/drm/drm_format_helper.h     |  2 ++
->>>>  2 files changed, 49 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
->>>> index 5231104b1498..53b426da7467 100644
->>>> --- a/drivers/gpu/drm/drm_format_helper.c
->>>> +++ b/drivers/gpu/drm/drm_format_helper.c
->>>> @@ -135,6 +135,53 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
->>>>  }
->>>>  EXPORT_SYMBOL(drm_fb_swab);
->>>>  
->>>> +static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, u32 *sbuf, unsigned int pixels)
->>>> +{
->>>> +	unsigned int x;
->>>> +
->>>> +	for (x = 0; x < pixels; x++)
->>>> +		dbuf[x] = ((sbuf[x] & 0x00e00000) >> 16) |
->>>
->>> I think for 2/3 bits correct rounding would be useful, not just masking.
->>> i.e. before you shift add 0x00100000 here, and similar below.
->>>
->>
->> Math isn't my strongest side and my brain failed to turn this into code.
-> 
-> Essentially add half of the lowest bit before you mask, so
-> 
-> ((sbuf[x] + 0x10) & 0xe0 )
-> 
+Put a FIXME comment in when this should be removable again.
 
-But what if the value is 0xff, it overflows:
+v2: Fix mock_context(), noticed by intel-gfx-ci.
 
-((0xff + 0x10) & 0xe0 ) == 0x00
+Acked-by: Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c       | 13 +++++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_context_types.h | 12 ++++++++++++
+ drivers/gpu/drm/i915/gem/selftests/mock_context.c |  1 +
+ 3 files changed, 24 insertions(+), 2 deletions(-)
 
-Should it be OR?
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index fd169cf2f75a..051bc357ff65 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -986,9 +986,10 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
+ 	return err;
+ }
+ 
+-void i915_gem_context_release(struct kref *ref)
++static void i915_gem_context_release_work(struct work_struct *work)
+ {
+-	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
++	struct i915_gem_context *ctx = container_of(work, typeof(*ctx),
++						    release_work);
+ 
+ 	trace_i915_context_free(ctx);
+ 	GEM_BUG_ON(!i915_gem_context_is_closed(ctx));
+@@ -1002,6 +1003,13 @@ void i915_gem_context_release(struct kref *ref)
+ 	kfree_rcu(ctx, rcu);
+ }
+ 
++void i915_gem_context_release(struct kref *ref)
++{
++	struct i915_gem_context *ctx = container_of(ref, typeof(*ctx), ref);
++
++	queue_work(ctx->i915->wq, &ctx->release_work);
++}
++
+ static inline struct i915_gem_engines *
+ __context_engines_static(const struct i915_gem_context *ctx)
+ {
+@@ -1303,6 +1311,7 @@ i915_gem_create_context(struct drm_i915_private *i915,
+ 	ctx->sched = pc->sched;
+ 	mutex_init(&ctx->mutex);
+ 	INIT_LIST_HEAD(&ctx->link);
++	INIT_WORK(&ctx->release_work, i915_gem_context_release_work);
+ 
+ 	spin_lock_init(&ctx->stale.lock);
+ 	INIT_LIST_HEAD(&ctx->stale.engines);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+index 94c03a97cb77..0c38789bd4a8 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
+@@ -288,6 +288,18 @@ struct i915_gem_context {
+ 	 */
+ 	struct kref ref;
+ 
++	/**
++	 * @release_work:
++	 *
++	 * Work item for deferred cleanup, since i915_gem_context_put() tends to
++	 * be called from hardirq context.
++	 *
++	 * FIXME: The only real reason for this is &i915_gem_engines.fence, all
++	 * other callers are from process context and need at most some mild
++	 * shuffling to pull the i915_gem_context_put() call out of a spinlock.
++	 */
++	struct work_struct release_work;
++
+ 	/**
+ 	 * @rcu: rcu_head for deferred freeing.
+ 	 */
+diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_context.c b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+index fee070df1c97..067d68a6fe4c 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/mock_context.c
++++ b/drivers/gpu/drm/i915/gem/selftests/mock_context.c
+@@ -23,6 +23,7 @@ mock_context(struct drm_i915_private *i915,
+ 	kref_init(&ctx->ref);
+ 	INIT_LIST_HEAD(&ctx->link);
+ 	ctx->i915 = i915;
++	INIT_WORK(&ctx->release_work, i915_gem_context_release_work);
+ 
+ 	mutex_init(&ctx->mutex);
+ 
+-- 
+2.33.0
 
-((0xff | 0x10) & 0xe0 ) == 0xe0
-
-Noralf.
-
-> I dropped the shift to make it clear what's going on. If you're mask is
-> 0xc0, then you simply add 0x20 before masking.
-> 
->>> Also I just realized we've totally ignored endianess on these, which is
->>> not great, because strictly speaking all the drm_fourcc codes should be
->>> little endian. But I'm also not sure that's worth fixing ...
->>>
->>
->> Is it as simple as using le32_to_cpu()?
-> 
-> I think so.
-> 
-> Plus on any format that has u16 output we'd need a cpu_to_le16 wrapped
-> around the entire thing.
-> -Daniel
-> 
->> static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, __le32 *sbuf,
->> unsigned int pixels)
->> {
->> 	unsigned int x;
->> 	u32 pix;
->>
->> 	for (x = 0; x < pixels; x++) {
->> 		pix = le32_to_cpu(sbuf[x]);
->> 		dbuf[x] = ((pix & 0x00e00000) >> 16) |
->> 			  ((pix & 0x0000e000) >> 11) |
->> 			  ((pix & 0x000000c0) >> 6);
->> 	}
->> }
->>
->> Noralf.
->>
->>> Either way, lgtm:
->>>
->>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>
->>>> +			  ((sbuf[x] & 0x0000e000) >> 11) |
->>>> +			  ((sbuf[x] & 0x000000c0) >> 6);
->>>> +}
->>>> +
->>>> +/**
->>>> + * drm_fb_xrgb8888_to_rgb332 - Convert XRGB8888 to RGB332 clip buffer
->>>> + * @dst: RGB332 destination buffer
->>>> + * @src: XRGB8888 source buffer
->>>> + * @fb: DRM framebuffer
->>>> + * @clip: Clip rectangle area to copy
->>>> + *
->>>> + * Drivers can use this function for RGB332 devices that don't natively support XRGB8888.
->>>> + *
->>>> + * This function does not apply clipping on dst, i.e. the destination is a small buffer
->>>> + * containing the clip rect only.
->>>> + */
->>>> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *src, struct drm_framebuffer *fb,
->>>> +			       struct drm_rect *clip)
->>>> +{
->>>> +	size_t width = drm_rect_width(clip);
->>>> +	size_t src_len = width * sizeof(u32);
->>>> +	unsigned int y;
->>>> +	void *sbuf;
->>>> +
->>>> +	/* Use a buffer to speed up access on buffers with uncached read mapping (i.e. WC) */
->>>> +	sbuf = kmalloc(src_len, GFP_KERNEL);
->>>> +	if (!sbuf)
->>>> +		return;
->>>> +
->>>> +	src += clip_offset(clip, fb->pitches[0], sizeof(u32));
->>>> +	for (y = 0; y < drm_rect_height(clip); y++) {
->>>> +		memcpy(sbuf, src, src_len);
->>>> +		drm_fb_xrgb8888_to_rgb332_line(dst, sbuf, width);
->>>> +		src += fb->pitches[0];
->>>> +		dst += width;
->>>> +	}
->>>> +
->>>> +	kfree(sbuf);
->>>> +}
->>>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
->>>> +
->>>>  static void drm_fb_xrgb8888_to_rgb565_line(u16 *dbuf, u32 *sbuf,
->>>>  					   unsigned int pixels,
->>>>  					   bool swab)
->>>> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
->>>> index 4e0258a61311..d0809aff5cf8 100644
->>>> --- a/include/drm/drm_format_helper.h
->>>> +++ b/include/drm/drm_format_helper.h
->>>> @@ -16,6 +16,8 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vadd
->>>>  			   struct drm_rect *clip);
->>>>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
->>>>  		 struct drm_rect *clip, bool cached);
->>>> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct drm_framebuffer *fb,
->>>> +			       struct drm_rect *clip);
->>>>  void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
->>>>  			       struct drm_framebuffer *fb,
->>>>  			       struct drm_rect *clip, bool swab);
->>>> -- 
->>>> 2.32.0
->>>>
->>>
-> 
