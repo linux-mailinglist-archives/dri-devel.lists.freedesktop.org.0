@@ -1,68 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057173FECCA
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 13:18:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E701B3FECED
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 13:28:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C24656E4CD;
-	Thu,  2 Sep 2021 11:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1E36E4F4;
+	Thu,  2 Sep 2021 11:28:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3EC6E4CD
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 11:18:19 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id v10so2304845wrd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 04:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=ZTiW4luCSMfWjbqhEJKygUhu82TdRH/NEECLCQ1wsrg=;
- b=XQD+7N51b/DELgFV2Nf1n9hwj1LsaDBVJhEh2yfvpslvWwohqXuukdG6Gyb6uSbRCD
- RkqQ7zQlel1Z8GCdp6MKLW7HdPcHKJ8nF+QQUgDaMQcJj92vv2N/52lfBz9ZhzkMyPbX
- f0ZzGhK/1uiRQjRVcecxAj8qnqHku98pV8OrqOEuVXCZQLE8jt4mzy5kztxu+SKYduJI
- GQH4mahVmMEIMa+7oaaSqRWm9w2nPG1CyqwtJx1vj4gRShTgEA8+lfjCyRjwxSjZ8P5u
- GLixfp8BarEMM2WPHXaQKVWKquy9ag8zgwqksXJ+VG7o6HPlCpcqGbWhAY+3hY7rOzKa
- ahOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=ZTiW4luCSMfWjbqhEJKygUhu82TdRH/NEECLCQ1wsrg=;
- b=Ewgl+ra9omEy4/IRv84Oe5rwuP/H3OWGXoYAU1xLKrbn547bKT9AGfFJhBs6mZppbw
- bJgQUyA8zpCulfSm+djQOJxQY006TZ7GPmaEXdMWpyqHCxhiWjhoidXGccQxeEDIv7bE
- 3ECM/xxk6o+DSnPvj8KMIWM1FE3fXJcbLgWRY4EBSAycEEsuyjbfGOO7SnVb/7f9ilsK
- THIswPvsURVZJMb09uF92KVOe+7dyoCzvnlJRLPM1cSR9FthjW3jivv238kVhcPhzFPL
- 7ligA689nXg9v4LwZWYB8QliDik7Mk92vc2AuI+vunqmB7q65dtbNxC3WTY/VD7JfYkZ
- IEEw==
-X-Gm-Message-State: AOAM530b9VwZe4ffmNvSz18pT4VC2zI2aNNXMy3LacDxr0gxT1f01saf
- u6dW2BgEtBFMVOpu6fm1At22HzGSfl4=
-X-Google-Smtp-Source: ABdhPJx74JrKbqmVDVRbksuTFUNjk6yyFRhvOmczGs4/EoId84JEuMcUQbNRXMiRd9hPZgd3LJMO5w==
-X-Received: by 2002:adf:f2d1:: with SMTP id d17mr3073614wrp.381.1630581497960; 
- Thu, 02 Sep 2021 04:18:17 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:eecb:a21b:e309:246?
- ([2a02:908:1252:fb60:eecb:a21b:e309:246])
- by smtp.gmail.com with ESMTPSA id x18sm1554878wrw.19.2021.09.02.04.18.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Sep 2021 04:18:17 -0700 (PDT)
-Subject: Re: [PATCH] dma-buf: cleanup kerneldoc of removed component
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20210901080002.5892-1-christian.koenig@amd.com>
- <CAO_48GG0KVArNe23KcwL4qXCn9PGCmfx9B21een4_h+UUv7xMA@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <66a15ece-4a89-6e68-4b75-1d48b6796eb4@gmail.com>
-Date: Thu, 2 Sep 2021 13:18:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 226196E4E8;
+ Thu,  2 Sep 2021 11:28:46 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="219088318"
+X-IronPort-AV: E=Sophos;i="5.84,372,1620716400"; d="scan'208";a="219088318"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 04:28:45 -0700
+X-IronPort-AV: E=Sophos;i="5.84,372,1620716400"; d="scan'208";a="542604191"
+Received: from smirnov2-mobl.ccr.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.24])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 04:28:43 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 0/6] drm/i915: Suspend / resume backup- and restore of LMEM. 
+Date: Thu,  2 Sep 2021 13:28:18 +0200
+Message-Id: <20210902112824.118524-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAO_48GG0KVArNe23KcwL4qXCn9PGCmfx9B21een4_h+UUv7xMA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,50 +49,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 01.09.21 um 16:53 schrieb Sumit Semwal:
-> Hi Christian,
->
-> On Wed, 1 Sept 2021 at 13:30, Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> The seqno-fence was removed, cleanup the kerneldoc include as well.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Fixes: 992c238188a8 ("dma-buf: nuke seqno-fence")
-> Thanks for fixing; LGTM, please feel free to add my
-> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
->
-> Or I could push it as well, if you'd like.
+Implement backup and restore of LMEM during suspend / resume.
+What complicates things a bit is handling of pinned LMEM memory during
+suspend and the fact that we might be dealing with unmappable LMEM in
+the future, which makes us want to restrict the number of pinned objects that
+need memcpy resume.
 
-Already taken care of.
+The first two patches are prereq patches implementing object content copy
+and a generic means of iterating through all objects in a region.
+The third patch adds the backup / recover / restore functions and the
+two last patches deal with restricting the number of objects we need to
+use memcpy for.
 
-Thanks,
-Christian.
+Thomas Hellström (6):
+  drm/i915/ttm: Implement a function to copy the contents of two
+    TTM-base objects
+  drm/i915/gem: Implement a function to process all gem objects of a
+    region
+  drm/i915 Implement LMEM backup and restore for suspend / resume
+  drm/i915/gt: Register the migrate contexts with their engines
+  drm/i915: Don't back up pinned LMEM context images and rings during
+    suspend
+  drm/i915: Reduce the number of objects subject to memcpy recover
 
->
->> ---
->>   Documentation/driver-api/dma-buf.rst | 6 ------
->>   1 file changed, 6 deletions(-)
->>
->> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
->> index f5ac4c90b237..2cd7db82d9fe 100644
->> --- a/Documentation/driver-api/dma-buf.rst
->> +++ b/Documentation/driver-api/dma-buf.rst
->> @@ -176,12 +176,6 @@ DMA Fences Functions Reference
->>   .. kernel-doc:: include/linux/dma-fence.h
->>      :internal:
->>
->> -Seqno Hardware Fences
->> -~~~~~~~~~~~~~~~~~~~~~
->> -
->> -.. kernel-doc:: include/linux/seqno-fence.h
->> -   :internal:
->> -
->>   DMA Fence Array
->>   ~~~~~~~~~~~~~~~
->>
->> --
->> 2.25.1
->>
-> Best,
-> Sumit.
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |   4 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  21 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c        |  46 ++++
+ drivers/gpu/drm/i915/gem/i915_gem_pm.h        |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    |  70 ++++++
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |  33 +++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  87 +++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |   8 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c    | 199 ++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h    |  23 ++
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |   2 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |   5 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |   4 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   8 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   4 +
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c     |  23 ++
+ drivers/gpu/drm/i915/gt/intel_engine_pm.h     |   2 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |   7 +
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   3 +
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   3 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   9 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |   3 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c       |   2 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  13 +-
+ drivers/gpu/drm/i915/gt/intel_ring.c          |   3 +-
+ drivers/gpu/drm/i915/gt/mock_engine.c         |   1 +
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |   2 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  10 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c          |   2 +-
+ drivers/gpu/drm/i915/i915_drv.c               |   4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   4 +-
+ 35 files changed, 566 insertions(+), 47 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h
+
+-- 
+2.31.1
 
