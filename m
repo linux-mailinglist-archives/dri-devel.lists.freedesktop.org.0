@@ -2,131 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CFC3FEAE0
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 10:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13B43FEAF5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 11:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51FD58976D;
-	Thu,  2 Sep 2021 08:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5F716E48F;
+	Thu,  2 Sep 2021 09:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2057.outbound.protection.outlook.com [40.107.237.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E96258976D
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 08:56:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N3Bh5BM155a5ViJVt+CLrZUK/UkVvV8xEdIxFqkKWZIwDlq2ECbNq4bd8y4LmNHonY/tJY8hQkqfJelxLZQu2lFIftVVP+6vyrkgPV+rPN8vgXVE0/Qy/Xa0G2BozIqMxgnwkLA6Q03wJ3pBk8U4m6E3UDTr1JkCxEUOv0egQP+ljdYr7zT5xms6p2j+B1jur9qEI7SfwmQ9hPzxxjH05EM/zQcIzoUTH9d9qSXEa+YM0d2eL78xRb0ZjeBqHTSzUuKeA5GbY0ZRfN1AN/m+N90HKtEptp0i1i9+pltXU+uYrcKYRcrlOQSGgrl2cH6FCKSqnE/QNTDfTsreCNumfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=88LUEYD00A19pUUsQF13FobaYWXSdIRkLDUMyBtILxI=;
- b=UlQMt0bv4c6cbTeGf35tAl0a0KrhLPbw5IB8q/6FoXtRT5N1lJlPnHZzinnzVGh8QUf3vh1oZBN6DTcsNHDUsIX/WzOwRw+gyOOUTJkQAa0vHtym1tqVyorwqCxVkyHqlnESxXLlOpbud/eAiYEzb6/IiEKBc3tHXIMYzI7VIC/QXOBAPJKJiAOcd9G4fqNIZSLAkjX5fw4B/C7t0XF8bZWEeieAnBzbdSYA/l0dw4zCTRGrj0RXrVdKyq3HgSv7+nAkEc71hmxkNpo6P0kXl5oCtJ6fH16eZw/OeEESJsUCIWugrNGf0yz5wYnyIUobqjhpMHQhHO6jY9kgFPd9WA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=88LUEYD00A19pUUsQF13FobaYWXSdIRkLDUMyBtILxI=;
- b=v75M4Ilvk5bAMwef/CT+NdUN0J3TJ/lNaMv2DA3WXTojhGV1mAPlI+jBSNUmiecNgBWquye8HRnQBW9BFbvTwdtu+Ly8ER6fIbpHP7rDsvJq6u46B6f4Kp36ujiRAt/Q4vcmquiVDahsZLKC1325+4XcoOElk7P+Z0FRjfNXHL8=
-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3184.namprd12.prod.outlook.com (2603:10b6:208:100::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Thu, 2 Sep
- 2021 08:56:43 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4478.021; Thu, 2 Sep 2021
- 08:56:42 +0000
-Subject: Re: [PATCH] drm/ttm: provide default page protection for UML
-To: Johannes Berg <johannes@sipsolutions.net>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
- linux-um@lists.infradead.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20210902020129.25952-1-rdunlap@infradead.org>
- <9faacbc8-3346-8033-5b4d-60543eae959e@cambridgegreys.com>
- <f978cae5-7275-6780-8a17-c6e61247bce7@infradead.org>
- <0887903c-483d-49c7-0d35-f59be2f85bac@cambridgegreys.com>
- <288a2d4dbcb1e6b0fbeff6da86569aa92df09202.camel@sipsolutions.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <e4e4a4c2-6729-4964-edc9-8e06733207a9@amd.com>
-Date: Thu, 2 Sep 2021 10:56:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <288a2d4dbcb1e6b0fbeff6da86569aa92df09202.camel@sipsolutions.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM8P190CA0001.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::6) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E79A6E48F
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 09:08:56 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id r4so2499545ybp.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 02:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=mQr/L7ZjVpmLfN8cENBwEeg7NglFMIF4ED9673cgn3A=;
+ b=ajhH2QZuD5pICF/MTN/xhRY8PZ8pix2SLAjQ7OORIOp2PFhgSC/kazkh7Y3QrZFj5o
+ nfSfh7DFh8CaSKq6J2apjdnzDCiYCg+xgF1wCmFR0/X2J1wzzEtC40J30ieRCytuBDsw
+ GP8neNxMnL71tU6gLnNikZk/aNOQQeXY+P0taZEcTFx1bs475NKpcj0JwqgpWv8PqqWr
+ 6xaWxNjUhJYGs3vpR+9ZBk9xscGWJ8ghu2L3I/QjcIhnTtjpvj3HlbKFWBmlEZwfcrAP
+ TTDSTfr+x5hRGgfT+4odTdyE3tRfidYHjMMssrIAZ5kyyf02qYl1R51zBFu7xVyt/CNf
+ yTOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=mQr/L7ZjVpmLfN8cENBwEeg7NglFMIF4ED9673cgn3A=;
+ b=k29MmamJDODrRU+QEg1oh9AM2zNt1tt02GPlneByqS7FkxWgXITtx/vQpcimJIKgoj
+ 55bFIfOESPrQCydClsjVyrzmms56+vEjzs65rfcudiyoHH7k5w/4hSNkPpneD8ctxMTm
+ qCDID7JgLPsYtUIwZQ3Xpyv7SQTlm0yNaZSTT1pgkjcYbuqPbRoWCLUoG9qd7qzxIJll
+ SGwIY6QmTlBXxn5+DYG2dtoJMwibOTIUezBXMud89WgYPnR6mi/J5JbsrbU6QLflNUTL
+ ErnN7XKV3j5jElPjgkmyFXG+Be5vXViatz64iAMxiXpVW0W/wKBMEixokhgNh/iQTmJk
+ 6SPg==
+X-Gm-Message-State: AOAM530X3COadzRXf8O+W/x/RFyuCGfWk77S5xu6b7VibhUWsaBnst5a
+ 9ttrfcsCstrLqoqDD8VSeYib04g2Hcsjz9nE/Z8=
+X-Google-Smtp-Source: ABdhPJx3NLSARENTHnXXyb4JxKDC2aWF8hyYDlBhrUqz1UfE+XVEMP3p+wxqLqU2X8A5UZ0jcauto+81232EGJwYZE8=
+X-Received: by 2002:a25:2b48:: with SMTP id r69mr3258398ybr.448.1630573735406; 
+ Thu, 02 Sep 2021 02:08:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:eecb:a21b:e309:246]
- (2a02:908:1252:fb60:eecb:a21b:e309:246) by
- AM8P190CA0001.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.19 via Frontend Transport; Thu, 2 Sep 2021 08:56:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eeb1e388-ac09-42d2-9341-08d96def952b
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3184:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3184348D99EAFA338E2121E883CE9@MN2PR12MB3184.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Kxob7+ddY0ZGlmI4bcqZHmlnoJ5YoBmpN6xZXGv3dCJBsYvIm8NVE21/F+Z9Va4S3RQ/xvouLjhrodgyATXTeEqjaVTUMhI8nufh0zFDYTiqilQLKuDft/bk+dWlrEzgGKM/iJIRPnsw/I5FucDVDpZ/0974U168FEgL1jRaH9mOqE8ghfsmIpQBODdNhKCf+XNeEFdqBNhCco/7D5/XitNG17O34oP+0ixBulynIUhLihSgj+zAIQnc4IvUl88kDCFykW2ytPgLCVSQry57MwDUsHdZFugqIrbuiuStE1H9ZVCMg+c8a0LTysFVb8Bj4mZHUdEQS4M7u8p+TtsM9gIs3OG+4jr/Rxw7Va1QAdnkCqSwfuWZ6jY5Xesudc0y9Hu1ru/eZsQJSxKXYZQAG757FbmLZXwXjUVqgH5VKpSf6bwyueNhsqDTYDsWwooRRM6Y0ywW+J8f+OhZfC/JmmJ48XWOq/iU08AukAd0kwKN1gErUXOChW53uFAv5VUcPv6BMB5sA/OtoCJbQwWv7Nns+oRn9P03RizjgA43a8OqIgUk9yedRXy/OIudbykZz/oZq0olLiXPyMzoFYL2C86i8X2IBFUvfA0AvF39sYatT46KEt9xLwHRq5vual49GCgW9WD8pSmp7Fbr5mRjkvQ1OG2/C4J89+3Setelc1X/UaiFT12TU9N/YxjTv5JHnSAQsLFzBuOeKwytpmrJHeaO/2Q74kugrspczFS5lUaZO7EkNk4VqA0b9/5fR+2clyR1Ri9JCbCUOdPrXD819/9a0iOqldcO77O9drIFOpGBhxkTqBbBUZAFKui5Y3VM
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(36756003)(86362001)(316002)(186003)(6666004)(966005)(8936002)(31686004)(54906003)(8676002)(508600001)(45080400002)(2906002)(38100700002)(7416002)(2616005)(5660300002)(66556008)(110136005)(66476007)(6486002)(66946007)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rk4yTkU1Rk4xZ1dZSUlxMjdkWFlJWEs2NlQrdGZ2T1BybVJ0Y1NzUy9Lckhr?=
- =?utf-8?B?SjlTeFZXai9zMDRCQTlJK0dxVXRTUFdLRkxZR09NbnMzVUJETDdTRmp0RUJD?=
- =?utf-8?B?bTByVE5zamtUT2trL2dabnZad1ltbjNDWFc3cnlTZ1pjQ0FEYjd2ZENBSjlR?=
- =?utf-8?B?QjBhdVZWanN6bTVXcjBDY3RvV0pQWGtrUDZYM2h1RzhsMG1OY0xSYTY5NmZ5?=
- =?utf-8?B?cy9hSmZ3RHcxc1RFWHFnNHZDeGozbW9qQjQ4Rlo0M3Avb255SGlpam9YWFFL?=
- =?utf-8?B?QzU2RWxDVStaeExvdys4MGp3UjFuWjF2ZjhMQUZYQVIrVXhqTldMS2JzKzUz?=
- =?utf-8?B?ZTdxM3lZM0tEbkhFSC9yZkpiVVErbGJWZTdTcDlDZGVOUWN2R2RKTFlVbFlX?=
- =?utf-8?B?VmUreXZNL0w2eEtKZjVDdGY3ODVVeWVQL2dZUUlmWEliR3huVHo3c1NKQ3N4?=
- =?utf-8?B?TUFUbXI2WkhMU2RZQWNYcGtER2lvSHg3aHFPYkZ5bWJzR2JRT3dmblovOEZx?=
- =?utf-8?B?SzM3ZnNZbUlUeldDUVpNSXlQUkltc1FrU2cybFhDUVI4QmZzUXJna2ovSHhq?=
- =?utf-8?B?SGlJcVZDVkQ2akFxSjlCOXNrNTcybXc5SGFaalhUdG51ak9RQkoxN0JQcm1s?=
- =?utf-8?B?MEZheFBRazZjbFhXaWU1MEFJNFNBdHNheXZHRk9YOFN6YXppT2ZnUHlEUG5M?=
- =?utf-8?B?OE0yRUFQK0s3MUlkd0FiZlEveTFqbXY4Z1lDVTVpYTFsRTdKZzVSZ0xwTm5D?=
- =?utf-8?B?VEwwVlNHODJEMmh6SG1sc2ZFeThBMURoSXRVOU1yUk1ieXppbWlhTkw5Q1Nh?=
- =?utf-8?B?bjVWdGJ3SU1DdlJsdmxUdmF2RlVKNm1Rc1JhZHhmcjF1d01FVHgrbXV0U2Ru?=
- =?utf-8?B?dXlxUk5pVzF3eEpRM09IaHQvQVNJSTE2NkEvQmhET1l0TXJzWjVvODk3d2RQ?=
- =?utf-8?B?SmFwSGFNQVNWSUxPYTRQNnRJRGYvdDk0dHAyemdOU1VLTUxkaWM0Sm80ZlM3?=
- =?utf-8?B?c1NZQlpzM2xDUS9Mbi9rcUk3NFRNc0dXcGhRckQ0dDRVM2tRdW1Xb1lZNDcw?=
- =?utf-8?B?STVseS9sZGZaanB4SFprRTBJMVR5aERBYUlzUEs1eGJqM29TWGQvWE1Bb0k3?=
- =?utf-8?B?N2dUVHB3NUdFL1VZQ0t2eXBITjMxVkkvL0NjZGpVNHkranJmQzJRZnJGc2hQ?=
- =?utf-8?B?TUIwVU5ZSm5nTStVSzdjY1ExTnJoaXVoUjVhTllYQWRYN3REREZ1R1ozL0R6?=
- =?utf-8?B?ZjJucnlNZC9tK2JsVW9Xb2M3RzlGZThqeHU1enp5OFQzeXYwajRkK25oRGY0?=
- =?utf-8?B?M0VZR0RHT3AvUVFoZ1lsM3crakFKYnF1MFU1dHlFakxYQVBINjJXRHRBQ2dQ?=
- =?utf-8?B?WkFEaFBCckdSRTZ4NmZISXNuV0pNRTZjSnBUdVdVYVB4VW5wKzIzR0lZRklO?=
- =?utf-8?B?SWJlQVEyc01iNTk5RXdnd1N0T2V6VDB1OTRqam1BbGZQeFkzRkhreldldmdS?=
- =?utf-8?B?TVI0WEpQN3F3UlF1a0c2ZTB6MjhmSlFiejhmQkVqZlR0b1RYUmZia2NwdElh?=
- =?utf-8?B?TE9Tc1hOalZPWHl1ZHB0NmN0ZFpYWjJCYWNEVXFEaE1ISzFrRldDVDgxejNJ?=
- =?utf-8?B?b0k2a1l0R2hIVDBPRUVENzl1Qk51TUNtUEsrcittNEtpMHdOVjQ0cGMzVVVz?=
- =?utf-8?B?QmllSGJwb0phMlUwTDR0QTJFSkdndDQ4bUh3RkNYOUNkWW1ZWTJKTTdSU05y?=
- =?utf-8?B?a1BGcEQwdW5INE1vcVZtZXk2eUlpalUwM1ZIa2lCZ1F1eDlJZXFRNjhlaEJm?=
- =?utf-8?B?ZFU0RVhSMDhiNDQwQWhxaENrdVVqbFZSYUd4dDJRWE9XR3dWR0pVU2orSFht?=
- =?utf-8?Q?8rQ7NVvWAUaO1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eeb1e388-ac09-42d2-9341-08d96def952b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 08:56:42.3404 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2nyrWczuuFzzmeuAOdk7zm0KY2sG/2iLNzdl8ELaoe7awi3EA3x7C6MTZCtPM6u1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3184
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Thu, 2 Sep 2021 10:08:19 +0100
+Message-ID: <CADVatmPB9-oKd=ypvj25UYysVo6EZhQ6bCM7EvztQBMyiZfAyw@mail.gmail.com>
+Subject: Regression with mainline kernel on rpi4
+To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,49 +66,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.09.21 um 09:43 schrieb Johannes Berg:
-> On Thu, 2021-09-02 at 07:19 +0100, Anton Ivanov wrote:
->>>> I have a question though - why all of DRM is not !UML in config. Not
->>>> like we can use them.
->>> I have no idea about that.
->>> Hopefully one of the (other) UML maintainers can answer you.
->> Touche.
->>
->> We will discuss that and possibly push a patch to !UML that part of the
->> tree. IMHO it is not applicable.
-> As I just said on the other patch, all of this is fallout from my commit
-> 68f5d3f3b654 ("um: add PCI over virtio emulation driver") which is the
-> first time that you could have PCI on UML.
->
-> Without having checked, in this particular case it's probably something
-> like
->
-> 	depends on PCI && X86_64
->
-> as we've seen in other drivers (idxd, ioat).
->
-> The biggest problem is probably that UML internally uses X86_64
-> (arch/x86/um/Kconfig), which is ... unexpected ... since CONFIG_X86_64
-> is typically considered the ARCH, and now the ARCH is actually um.
+Hi All,
 
-Yeah, as TTM maintainer I was about to NAK that approach here.
+Our last night's test on rpi4 had a nasty trace. The test was with
+7c636d4d20f8 ("Merge tag 'dt-5.15' of
+git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc"). Previous test
+was on 9e9fb7655ed5 ("Merge tag 'net-next-5.15' of
+git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next") and it
+did not have this trace.
 
-Basically you are claiming to be X86_64, but then you don't use the 
-X86_64 architecture and are surprised that it things break somewhere else.
+[   40.975161] Unable to handle kernel access to user memory outside
+uaccess routines at virtual address 0000000000000348
+[   40.986187] Mem abort info:
+[   40.989062]   ESR = 0x96000004
+[   40.992233]   EC = 0x25: DABT (current EL), IL = 32 bits
+[   40.997699]   SET = 0, FnV = 0
+[   41.001205]   EA = 0, S1PTW = 0
+[   41.004428]   FSC = 0x04: level 0 translation fault
+[   41.009468] Data abort info:
+[   41.012410]   ISV = 0, ISS = 0x00000004
+[   41.016325]   CM = 0, WnR = 0
+[   41.019358] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000042ae1000
+[   41.025926] [0000000000000348] pgd=0000000000000000, p4d=0000000000000000
+[   41.032845] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+[   41.038495] Modules linked in: overlay algif_hash algif_skcipher
+af_alg bnep sch_fq_codel ppdev lp parport ip_tables x_tables autofs4
+btrfs blake2b_generic zstd_compress raid10 raid456 async_raid6_recov
+async_memcpy async_pq async_xor async_tx xor xor_neon raid6_pq
+libcrc32c raid1 raid0 multipath linear uas usb_storage
+snd_soc_hdmi_codec btsdio brcmfmac brcmutil hci_uart btqca btrtl
+bcm2835_v4l2(C) btbcm crct10dif_ce bcm2835_mmal_vchiq(C) btintel
+raspberrypi_hwmon videobuf2_vmalloc videobuf2_memops bluetooth
+videobuf2_v4l2 videobuf2_common cfg80211 ecdh_generic ecc vc4
+drm_kms_helper videodev dwc2 cec snd_bcm2835(C) i2c_brcmstb udc_core
+roles drm xhci_pci mc pwm_bcm2835 xhci_pci_renesas snd_soc_core
+ac97_bus snd_pcm_dmaengine snd_pcm phy_generic snd_timer
+uio_pdrv_genirq snd fb_sys_fops syscopyarea sysfillrect sysimgblt uio
+aes_neon_bs aes_neon_blk crypto_simd cryptd
+[   41.116584] CPU: 0 PID: 1569 Comm: pulseaudio Tainted: G         C
+      5.14.0-7c636d4d20f8 #1
+[   41.125494] Hardware name: Raspberry Pi 4 Model B (DT)
+[   41.130699] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   41.137756] pc : vc4_hdmi_audio_prepare+0x3c0/0xba4 [vc4]
+[   41.143256] lr : vc4_hdmi_audio_prepare+0x308/0xba4 [vc4]
+[   41.148747] sp : ffff800012f73a50
+[   41.152099] x29: ffff800012f73a50 x28: ffff0000562ecc00 x27: 0000000000000000
+[   41.159338] x26: 0000000000000000 x25: 000000000000ac44 x24: 0000000021002003
+[   41.166574] x23: ffff800012f73b40 x22: 0000000000000003 x21: ffff000059400080
+[   41.173811] x20: ffff0000594004c8 x19: 0005833333380600 x18: 0000000000000000
+[   41.181047] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+[   41.188283] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000991
+[   41.195520] x11: 0000000000000001 x10: 000000000001d4c0 x9 : ffff800009047838
+[   41.202757] x8 : 0000000000000031 x7 : 000000000001d4c0 x6 : 0000000000000030
+[   41.209993] x5 : ffff800012f73a98 x4 : ffff80000905bb60 x3 : 0000000010624dd3
+[   41.217230] x2 : 00000000000003e8 x1 : 0000000000000000 x0 : 0000000000562200
+[   41.224466] Call trace:
+[   41.226939]  vc4_hdmi_audio_prepare+0x3c0/0xba4 [vc4]
+[   41.232080]  hdmi_codec_prepare+0xe8/0x1b0 [snd_soc_hdmi_codec]
+[   41.238083]  snd_soc_pcm_dai_prepare+0x5c/0x10c [snd_soc_core]
+[   41.244038]  soc_pcm_prepare+0x5c/0x130 [snd_soc_core]
+[   41.249276]  snd_pcm_prepare+0x150/0x1f0 [snd_pcm]
+[   41.254149]  snd_pcm_common_ioctl+0x1644/0x1d14 [snd_pcm]
+[   41.259635]  snd_pcm_ioctl+0x3c/0x5c [snd_pcm]
+[   41.264152]  __arm64_sys_ioctl+0xb4/0x100
+[   41.268216]  invoke_syscall+0x50/0x120
+[   41.272014]  el0_svc_common+0x18c/0x1a4
+[   41.275899]  do_el0_svc+0x34/0x9c
+[   41.279254]  el0_svc+0x2c/0xc0
+[   41.282348]  el0t_64_sync_handler+0xa4/0x12c
+[   41.286673]  el0t_64_sync+0x1a4/0x1a8
+[   41.290385] Code: 52807d02 72a20c43 f9400421 9ba37c13 (f941a423)
+[   41.296563] ---[ end trace dcfe08f10aaf6873 ]---
 
-This is not something you can blame on subsystems or even drivers, but 
-rather just a broken architectural design and so needs to be fixed there.
+You can see the complete dmesg at
+https://openqa.qa.codethink.co.uk/tests/76#step/dmesg/8
 
-Regards,
-Christian.
-
->
-> I think we can just fix that and get rid of this entire class of
-> problems? Something like
->
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fp.sipsolutions.net%2Ffbac19d86637e286.txt&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cd773b1e8b66643874d1308d96de56a86%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637661654674393046%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=xBT%2Fj%2FbEgltQfvE%2B7%2FGRV7IctGn3sDvy8ycmBvTTSXU%3D&amp;reserved=0
->
-> johannes
->
->
-
+-- 
+Regards
+Sudip
