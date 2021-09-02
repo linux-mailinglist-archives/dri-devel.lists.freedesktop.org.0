@@ -1,59 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F583FEFBF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:56:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E9E3FEFC7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 17:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 750B16E598;
-	Thu,  2 Sep 2021 14:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF24C6E5B0;
+	Thu,  2 Sep 2021 15:01:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9526E598
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:56:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 121B3610D2
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:56:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630594568;
- bh=aPkc9810gRXyjgSTsL1EnpeU/7Fm9yB2/doe2L5V66E=;
- h=From:To:Subject:Date:From;
- b=AWYAuatIcLwLrXOimSblJJ3S9URa9/Kp3wTuSQkkobKhzjiUaRmPLoE5lDG+3ypGd
- dfNUqSWee9yU5U5n3ubgpRC5YKvZGN07Bwurpzr2U2BGdWXy5zQ2pWrS49gtslrGAh
- xADpyloEuXJFgDCmw5EOn+LgS8rrCYeHahzoWQyo/5APnRDYlpMuX3YuugK7ccWNIo
- 8ne/T3MOyNwsU1yhgeME2mdp35HHTUn6WTnQdTJoGb3vRSI2F5E1BLsrP32XWDTUhi
- 5AfUDefbRo1Lle/CrPHJ3nuy/zJ0BJK6DF83KV1aU1eZi6JqK/8PgLiuo9R/es4IBO
- ak6WFE4sffkgQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 06054610F7; Thu,  2 Sep 2021 14:56:08 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214289] New: amdgpu Msg issuing pre-check failed and SMU may be
- not in the right state!
-Date: Thu, 02 Sep 2021 14:56:07 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michal.przybylowicz@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-214289-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A333A6E5A3;
+ Thu,  2 Sep 2021 15:01:45 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="241421203"
+X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="241421203"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 08:01:43 -0700
+X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="461698969"
+Received: from rlsmith2-mobl1.amr.corp.intel.com (HELO [10.213.229.210])
+ ([10.213.229.210])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 08:01:42 -0700
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Handle Intel igfx + Intel dgfx
+ hybrid graphics setup
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+References: <20210827133039.287075-1-tvrtko.ursulin@linux.intel.com>
+ <20210827143941.287958-1-tvrtko.ursulin@linux.intel.com>
+ <9c042851-9a27-6bc7-0749-ed0c573e9c80@linux.intel.com>
+ <YSyWMxUyxgTYZCYw@phenom.ffwll.local>
+ <a382488e-cf1e-e61e-f132-d0868f4f23cf@linux.intel.com>
+ <YS4j+PbS8ImB/p9v@phenom.ffwll.local>
+ <a177847d-7953-bd08-5c58-48f9975a1d3a@linux.intel.com>
+ <YTDgp6DATyh/aBtz@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <af5dab08-24ca-ebe2-e93d-e3d82ac90e1e@linux.intel.com>
+Date: Thu, 2 Sep 2021 16:01:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <YTDgp6DATyh/aBtz@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,284 +61,292 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214289
 
-            Bug ID: 214289
-           Summary: amdgpu Msg issuing pre-check failed and SMU may be not
-                    in the right state!
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.13.13
-          Hardware: Intel
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: michal.przybylowicz@gmail.com
-        Regression: No
+On 02/09/2021 15:33, Daniel Vetter wrote:
+> On Tue, Aug 31, 2021 at 02:18:15PM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 31/08/2021 13:43, Daniel Vetter wrote:
+>>> On Tue, Aug 31, 2021 at 10:15:03AM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 30/08/2021 09:26, Daniel Vetter wrote:
+>>>>> On Fri, Aug 27, 2021 at 03:44:42PM +0100, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> On 27/08/2021 15:39, Tvrtko Ursulin wrote:
+>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>>>
+>>>>>>> In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
+>>>>>>> when rendering is done on Intel dgfx and scanout/composition on Intel
+>>>>>>> igfx.
+>>>>>>>
+>>>>>>> Before this patch the driver was not quite ready for that setup, mainly
+>>>>>>> because it was able to emit a semaphore wait between the two GPUs, which
+>>>>>>> results in deadlocks because semaphore target location in HWSP is neither
+>>>>>>> shared between the two, nor mapped in both GGTT spaces.
+>>>>>>>
+>>>>>>> To fix it the patch adds an additional check to a couple of relevant code
+>>>>>>> paths in order to prevent using semaphores for inter-engine
+>>>>>>> synchronisation between different driver instances.
+>>>>>>>
+>>>>>>> Patch also moves singly used i915_gem_object_last_write_engine to be
+>>>>>>> private in its only calling unit (debugfs), while modifying it to only
+>>>>>>> show activity belonging to the respective driver instance.
+>>>>>>>
+>>>>>>> What remains in this problem space is the question of the GEM busy ioctl.
+>>>>>>> We have a somewhat ambigous comment there saying only status of native
+>>>>>>> fences will be reported, which could be interpreted as either i915, or
+>>>>>>> native to the drm fd. For now I have decided to leave that as is, meaning
+>>>>>>> any i915 instance activity continues to be reported.
+>>>>>>>
+>>>>>>> v2:
+>>>>>>>      * Avoid adding rq->i915. (Chris)
+>>>>>>>
+>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>
+>>>>> Can't we just delete semaphore code and done?
+>>>>> - GuC won't have it
+>>>>> - media team benchmarked on top of softpin media driver, found no
+>>>>>      difference
+>>>>
+>>>> You have S-curve for saturated workloads or something else? How thorough and
+>>>> which media team I guess.
+>>>>
+>>>>   From memory it was a nice win for some benchmarks (non-saturated ones), but
+>>>> as I have told you previously, we haven't been putting numbers in commit
+>>>> messages since it wasn't allowed. I may be able to dig out some more details
+>>>> if I went trawling through GEM channel IRC logs, although probably not the
+>>>> actual numbers since those were usually on pastebin. Or you go an talk with
+>>>> Chris since he probably remembers more details. Or you just decide you don't
+>>>> care and remove it. I wouldn't do that without putting the complete story in
+>>>> writing, but it's your call after all.
+>>>
+>>> Media has also changed, they're not using relocations anymore.
+>>
+>> Meaning you think it changes the benchmarking story? When coupled with
+>> removal of GPU relocations then possibly yes.
+>>
+>>> Unless there's solid data performance tuning of any kind that gets in the
+>>> way simply needs to be removed. Yes this is radical, but the codebase is
+>>> in a state to require this.
+>>>
+>>> So either way we'd need to rebenchmark this if it's really required. Also
+>>
+>> Therefore can you share what benchmarks have been done or is it secret?  As
+>> said, I think the non-saturated case was the more interesting one here.
+>>
+>>> if we really need this code still someone needs to fix the design, the
+>>> current code is making layering violations an art form.
+>>>
+>>>> Anyway, without the debugfs churn it is more or less two line patch to fix
+>>>> igfx + dgfx hybrid setup. So while mulling it over this could go in. I'd
+>>>> just refine it to use a GGTT check instead of GT. And unless DG1 ends up
+>>>> being GuC only.
+>>>
+>>> The minimal robust fix here is imo to stop us from upcasting dma_fence to
+>>> i915_request if it's not for our device. Not sprinkle code here into the
+>>> semaphore code. We shouldn't even get this far with foreign fences.
+>>
+>> Device check does not work for multi-tile. It was one of my earlier attempts
+>> before I realized the problem. You'll see v3 which I think handles all the
+>> cases.
+> 
+> There is no hw semaphores on multi-tile.
 
-I am using kernel 5.13.13 with amdgpu drivers. My graphics card is: PowerCo=
-lor
-RX 6800 XT (connected through riser cable - if that means something).
+You mean because of GuC? Okay, there may not be after bringup has been 
+done. In which case an assert is needed somewhere just in case, if you 
+are adamant not to accept this fix. It may indeed not matter hugely 
+outside of the current transition period since I spotted patches to 
+enable GuC on DG1. But then again it is trivial and fixes current pains 
+for more than just me.
 
-I don't have issues when using card with windows 10 (playing games etc.)
+> But there _is_ a lot more going on than just hw semaphores that spawn
+> driver instances. Like priority boosting, clock boosting, and all kinds of
+> other things. I really dont' think it's very robust if we play
+> whack-a-mole here with things leaking.
 
-$ inxi -Gx
-Graphics:  Device-1: Advanced Micro Devices [AMD/ATI] Navi 21 [Radeon RX
-6800/6800 XT / 6900 XT] vendor: Tul=20
-           driver: amdgpu v: kernel bus-ID: 03:00.0=20
-           Display: server: X.Org 1.20.11 driver: loaded: amdgpu resolution:
-3440x1440~144Hz=20
-           OpenGL: renderer: AMD Radeon RX 6800 XT (SIENNA_CICHLID DRM 3.41=
-.0
-5.13.13-051313-lowlatency LLVM 12.0.1)=20
-           v: 4.6 Mesa 21.3.0-devel (git-dfef775 2021-09-02 hirsute-oibaf-p=
-pa)
-direct render: Yes
+You mean span not spawn? I audited those and they looks good to me. 
+AFAIR scheduling was in fact designed with a global lock just so that 
+works. Plus the cases you mention end up not holding pointers to 
+"foreign" instances anyway, they just do priority inheritance. Which is 
+probably nice not to lose if not unavoidable.
 
-Almost everyday during normal browser usage (watching youtube videos or twi=
-tch)
-I see these messages in the journalctl:
+>> You also forgot to comment on the question lower in the email. I'll just
+>> send a patch which removes that anyway so you can comment there.
 
-ep 02 16:39:13 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing pre-c=
-heck
-failed and SMU may be not in the right state!
-Sep 02 16:39:13 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:21 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:21 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:22 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:22 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
-gate
-VCN!
-Sep 02 16:39:24 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
-Dpm
-disable uvd failed, ret =3D -5.=20
-Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
-gfxoff!
-Sep 02 16:39:26 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:26 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:26 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
-gate
-VCN!
-Sep 02 16:39:27 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
-Dpm
-disable uvd failed, ret =3D -5.=20
-Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
-gfxoff!
-Sep 02 16:39:29 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:29 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:30 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:30 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
-gfxoff!
-Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
-gate
-VCN!
-Sep 02 16:39:32 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
-Dpm
-disable uvd failed, ret =3D -5.=20
-Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
-gfxoff!
-Sep 02 16:39:34 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:34 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:34 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:35 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:39:35 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:40:33 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:40:33 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:40:38 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:40:39 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:42:10 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:42:10 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
-gate
-VCN!
-Sep 02 16:44:05 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
-Dpm
-disable uvd failed, ret =3D -5.=20
-Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
-gfxoff!
-Sep 02 16:44:19 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:44:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
-pre-check failed and SMU may be not in the right state!
-Sep 02 16:44:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
-gate
-VCN!
-Sep 02 16:44:20 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
-Dpm
-disable uvd failed, ret =3D -5.=20
+:(
 
-I don't know what do these mean, so I am posting them here.
+Regards,
 
-My amdgpu module settings:
+Tvrtko
 
-$ cat /etc/modprobe.d/amdgpu.conf
-options amdgpu msi=3D1 aspm=3D0 audio=3D0 ppfeaturemask=3D0xffffffff
-
-$ systool -vm amdgpu=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20
-Module =3D "amdgpu"
-
-  Attributes:
-    coresize            =3D "6381568"
-    initsize            =3D "0"
-    initstate           =3D "live"
-    refcnt              =3D "17"
-    srcversion          =3D "426501DD3A5EEAA91AC749F"
-    taint               =3D ""
-    uevent              =3D <store method only>
-
-  Parameters:
-    abmlevel            =3D "0"
-    aspm                =3D "0"
-    async_gfx_ring      =3D "1"
-    audio               =3D "0"
-    backlight           =3D "-1"
-    bad_page_threshold  =3D "-1"
-    bapm                =3D "-1"
-    benchmark           =3D "0"
-    cg_mask             =3D "4294967295"
-    cik_support         =3D "0"
-    compute_multipipe   =3D "-1"
-    cwsr_enable         =3D "1"
-    dc                  =3D "-1"
-    dcdebugmask         =3D "0"
-    dcfeaturemask       =3D "2"
-    debug_evictions     =3D "N"
-    debug_largebar      =3D "0"
-    deep_color          =3D "0"
-    disable_cu          =3D "(null)"
-    discovery           =3D "-1"
-    disp_priority       =3D "0"
-    dpm                 =3D "-1"
-    emu_mode            =3D "0"
-    exp_hw_support      =3D "0"
-    force_asic_type     =3D "-1"
-    forcelongtraining   =3D "0"
-    freesync_video      =3D "0"
-    fw_load_type        =3D "-1"
-    gpu_recovery        =3D "-1"
-    halt_if_hws_hang    =3D "0"
-    hw_i2c              =3D "0"
-    hws_gws_support     =3D "N"
-    hws_max_conc_proc   =3D "8"
-    ignore_crat         =3D "0"
-    ip_block_mask       =3D "4294967295"
-    job_hang_limit      =3D "0"
-    lbpw                =3D "-1"
-    lockup_timeout      =3D ""
-    max_num_of_queues_per_device=3D "4096"
-    mcbp                =3D "0"
-    mes                 =3D "0"
-    msi                 =3D "1"
-    no_queue_eviction_on_vm_fault=3D "0"
-    no_system_mem_limit =3D "N"
-    noretry             =3D "-1"
-    num_kcq             =3D "-1"
-    pcie_gen2           =3D "-1"
-    pcie_gen_cap        =3D "0"
-    pcie_lane_cap       =3D "0"
-    pg_mask             =3D "4294967295"
-    ppfeaturemask       =3D "0xffffffff"
-    queue_preemption_timeout_ms=3D "9000"
-    ras_enable          =3D "-1"
-    ras_mask            =3D "4294967295"
-    reset_method        =3D "-1"
-    runpm               =3D "-1"
-    sched_hw_submission =3D "2"
-    sched_jobs          =3D "32"
-    sched_policy        =3D "0"
-    sdma_phase_quantum  =3D "32"
-    send_sigterm        =3D "0"
-    si_support          =3D "0"
-    smu_memory_pool_size=3D "0"
-    smu_pptable_id      =3D "-1"
-    test                =3D "0"
-    timeout_fatal_disable=3D "N"
-    timeout_period      =3D "0"
-    tmz                 =3D "-1"
-    virtual_display     =3D "(null)"
-    vis_vramlimit       =3D "0"
-    vm_block_size       =3D "-1"
-    vm_debug            =3D "0"
-    vm_fault_stop       =3D "0"
-    vm_fragment_size    =3D "-1"
-    vm_size             =3D "-1"
-    vm_update_mode      =3D "-1"
-
-  Sections:
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> -Daniel
+>>>
+>>>>
+>>>>> - pre-gen8 semaphore code was also silently ditched and no one cared
+>>>>>
+>>>>> Plus removing semaphore code would greatly simplify conversion to
+>>>>> drm/sched.
+>>>>>
+>>>>>>> ---
+>>>>>>>      drivers/gpu/drm/i915/gem/i915_gem_object.h | 17 ----------
+>>>>>>>      drivers/gpu/drm/i915/i915_debugfs.c        | 39 ++++++++++++++++++++--
+>>>>>>>      drivers/gpu/drm/i915/i915_request.c        | 12 ++++++-
+>>>>>>>      3 files changed, 47 insertions(+), 21 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>>>> index 48112b9d76df..3043fcbd31bd 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>>>>> @@ -503,23 +503,6 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
+>>>>>>>      	i915_gem_object_unpin_pages(obj);
+>>>>>>>      }
+>>>>>>> -static inline struct intel_engine_cs *
+>>>>>>> -i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+>>>>>>> -{
+>>>>>>> -	struct intel_engine_cs *engine = NULL;
+>>>>>>> -	struct dma_fence *fence;
+>>>>>>> -
+>>>>>>> -	rcu_read_lock();
+>>>>>>> -	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>>>>> -	rcu_read_unlock();
+>>>>>>> -
+>>>>>>> -	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
+>>>>>>> -		engine = to_request(fence)->engine;
+>>>>>>> -	dma_fence_put(fence);
+>>>>>>> -
+>>>>>>> -	return engine;
+>>>>>>> -}
+>>>>>>> -
+>>>>>>>      void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
+>>>>>>>      					 unsigned int cache_level);
+>>>>>>>      void i915_gem_object_flush_if_display(struct drm_i915_gem_object *obj);
+>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+>>>>>>> index 04351a851586..55fd6191eb32 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+>>>>>>> @@ -135,13 +135,46 @@ static const char *stringify_vma_type(const struct i915_vma *vma)
+>>>>>>>      	return "ppgtt";
+>>>>>>>      }
+>>>>>>> +static char *
+>>>>>>> +last_write_engine(struct drm_i915_private *i915,
+>>>>>>> +		  struct drm_i915_gem_object *obj)
+>>>>>>> +{
+>>>>>>> +	struct intel_engine_cs *engine;
+>>>>>>> +	struct dma_fence *fence;
+>>>>>>> +	char *res = NULL;
+>>>>>>> +
+>>>>>>> +	rcu_read_lock();
+>>>>>>> +	fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>>>>> +	rcu_read_unlock();
+>>>>>>> +
+>>>>>>> +	if (!fence || dma_fence_is_signaled(fence))
+>>>>>>> +		goto out;
+>>>>>>> +
+>>>>>>> +	if (!dma_fence_is_i915(fence)) {
+>>>>>>> +		res = "<external-fence>";
+>>>>>>> +		goto out;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	engine = to_request(fence)->engine;
+>>>>>>> +	if (engine->gt->i915 != i915) {
+>>>>>>> +		res = "<external-i915>";
+>>>>>>> +		goto out;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	res = engine->name;
+>>>>>>> +
+>>>>>>> +out:
+>>>>>>> +	dma_fence_put(fence);
+>>>>>>> +	return res;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>>      void
+>>>>>>>      i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+>>>>>>>      {
+>>>>>>>      	struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
+>>>>>>> -	struct intel_engine_cs *engine;
+>>>>>>>      	struct i915_vma *vma;
+>>>>>>>      	int pin_count = 0;
+>>>>>>> +	char *engine;
+>>>>>>>      	seq_printf(m, "%pK: %c%c%c %8zdKiB %02x %02x %s%s%s",
+>>>>>>>      		   &obj->base,
+>>>>>>> @@ -230,9 +263,9 @@ i915_debugfs_describe_obj(struct seq_file *m, struct drm_i915_gem_object *obj)
+>>>>>>>      	if (i915_gem_object_is_framebuffer(obj))
+>>>>>>>      		seq_printf(m, " (fb)");
+>>>>>>> -	engine = i915_gem_object_last_write_engine(obj);
+>>>>>>> +	engine = last_write_engine(dev_priv, obj);
+>>>>>>>      	if (engine)
+>>>>>>> -		seq_printf(m, " (%s)", engine->name);
+>>>>>>> +		seq_printf(m, " (%s)", engine);
+>>>>>>
+>>>>>> Or I zap this from the code altogether. Not sure it is very useful since the
+>>>>>> only caller is i915_gem_framebuffer debugfs file and how much it can care
+>>>>>> about maybe hitting the timing window when exclusive fence will contain
+>>>>>> something.
+>>>>>
+>>>>> Ideally we'd just look at the fence timeline name. But i915 has this very
+>>>>> convoluted typesafe-by-rcu reuse which means we actually can't do that,
+>>>>> and our fence timeline name is very useless.
+>>>>
+>>>> Why do we even care to output any of this here? I'd just remove it since it
+>>>> is a very transient state with an extremely short window of opportunity to
+>>>> make it show anything. Which I think makes it pretty useless in debugfs.
+>>>>
+>>>> Regards,
+>>>>
+>>>> Tvrtko
+>>>>
+>>>>>
+>>>>> Would be good to fix that, Matt Auld has started an attempt but didn't get
+>>>>> very far.
+>>>>> -Daniel
+>>>>>
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Tvrtko
+>>>>>>
+>>>>>>>      }
+>>>>>>>      static int i915_gem_object_info(struct seq_file *m, void *data)
+>>>>>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>>>>>> index ce446716d092..64adf619fe82 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>>>>>> @@ -1152,6 +1152,12 @@ __emit_semaphore_wait(struct i915_request *to,
+>>>>>>>      	return 0;
+>>>>>>>      }
+>>>>>>> +static bool
+>>>>>>> +can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
+>>>>>>> +{
+>>>>>>> +	return to->engine->gt == from->engine->gt;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>>      static int
+>>>>>>>      emit_semaphore_wait(struct i915_request *to,
+>>>>>>>      		    struct i915_request *from,
+>>>>>>> @@ -1160,6 +1166,9 @@ emit_semaphore_wait(struct i915_request *to,
+>>>>>>>      	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
+>>>>>>>      	struct i915_sw_fence *wait = &to->submit;
+>>>>>>> +	if (!can_use_semaphore_wait(to, from))
+>>>>>>> +		goto await_fence;
+>>>>>>> +
+>>>>>>>      	if (!intel_context_use_semaphores(to->context))
+>>>>>>>      		goto await_fence;
+>>>>>>> @@ -1263,7 +1272,8 @@ __i915_request_await_execution(struct i915_request *to,
+>>>>>>>      	 * immediate execution, and so we must wait until it reaches the
+>>>>>>>      	 * active slot.
+>>>>>>>      	 */
+>>>>>>> -	if (intel_engine_has_semaphores(to->engine) &&
+>>>>>>> +	if (can_use_semaphore_wait(to, from) &&
+>>>>>>> +	    intel_engine_has_semaphores(to->engine) &&
+>>>>>>>      	    !i915_request_has_initial_breadcrumb(to)) {
+>>>>>>>      		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
+>>>>>>>      		if (err < 0)
+>>>>>>>
+>>>>>
+>>>
+> 
