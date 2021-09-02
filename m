@@ -1,54 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E563FEFBD
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:54:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F583FEFBF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:56:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04FD06E59D;
-	Thu,  2 Sep 2021 14:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 750B16E598;
+	Thu,  2 Sep 2021 14:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60BC96E598;
- Thu,  2 Sep 2021 14:54:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="218847652"
-X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="218847652"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2021 07:54:40 -0700
-X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="461695549"
-Received: from rlsmith2-mobl1.amr.corp.intel.com (HELO [10.213.229.210])
- ([10.213.229.210])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2021 07:54:37 -0700
-Subject: Re: [Intel-gfx] [PATCH 07/11] drm/i915: Add
- i915_gem_context_is_full_ppgtt
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-References: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
- <20210902142057.929669-7-daniel.vetter@ffwll.ch>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <1cb4b910-ad02-ff02-46ef-7b3b4f393eb3@linux.intel.com>
-Date: Thu, 2 Sep 2021 15:54:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9526E598
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:56:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 121B3610D2
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:56:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1630594568;
+ bh=aPkc9810gRXyjgSTsL1EnpeU/7Fm9yB2/doe2L5V66E=;
+ h=From:To:Subject:Date:From;
+ b=AWYAuatIcLwLrXOimSblJJ3S9URa9/Kp3wTuSQkkobKhzjiUaRmPLoE5lDG+3ypGd
+ dfNUqSWee9yU5U5n3ubgpRC5YKvZGN07Bwurpzr2U2BGdWXy5zQ2pWrS49gtslrGAh
+ xADpyloEuXJFgDCmw5EOn+LgS8rrCYeHahzoWQyo/5APnRDYlpMuX3YuugK7ccWNIo
+ 8ne/T3MOyNwsU1yhgeME2mdp35HHTUn6WTnQdTJoGb3vRSI2F5E1BLsrP32XWDTUhi
+ 5AfUDefbRo1Lle/CrPHJ3nuy/zJ0BJK6DF83KV1aU1eZi6JqK/8PgLiuo9R/es4IBO
+ ak6WFE4sffkgQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 06054610F7; Thu,  2 Sep 2021 14:56:08 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214289] New: amdgpu Msg issuing pre-check failed and SMU may be
+ not in the right state!
+Date: Thu, 02 Sep 2021 14:56:07 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michal.przybylowicz@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-214289-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210902142057.929669-7-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,122 +69,284 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214289
 
-On 02/09/2021 15:20, Daniel Vetter wrote:
-> And use it anywhere we have open-coded checks for ctx->vm that really
-> only check for full ppgtt.
-> 
-> Plus for paranoia add a GEM_BUG_ON that checks it's really only set
-> when we have full ppgtt, just in case. gem_context->vm is different
-> since it's NULL in ggtt mode, unlike intel_context->vm or gt->vm,
-> which is always set.
-> 
-> v2: 0day found a testcase that I missed.
-> 
-> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_context.c           | 2 +-
->   drivers/gpu/drm/i915/gem/i915_gem_context.h           | 7 +++++++
->   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c        | 2 +-
->   drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 6 +++---
->   4 files changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 7a566fb7cca4..1eec85944c1f 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -1566,7 +1566,7 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
->   	int err;
->   	u32 id;
->   
-> -	if (!rcu_access_pointer(ctx->vm))
-> +	if (!i915_gem_context_is_full_ppgtt(ctx))
+            Bug ID: 214289
+           Summary: amdgpu Msg issuing pre-check failed and SMU may be not
+                    in the right state!
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.13.13
+          Hardware: Intel
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: michal.przybylowicz@gmail.com
+        Regression: No
 
-It reads a bit wrong because GEM context cannot *be* full ppggt. It can 
-be associated with a VM which is or isn't full ppgtt. So a test on a VM 
-retrieved from a context is semnntically more correct. Perhaps you want 
-to consider adding a helper to that effect instead? It could mean 
-splitting into two helpers (getter + test) or maybe just renaming would 
-work. Like i915_gem_context_has_full_ppgtt_vm(ctx)?
+I am using kernel 5.13.13 with amdgpu drivers. My graphics card is: PowerCo=
+lor
+RX 6800 XT (connected through riser cable - if that means something).
 
-Regards,
+I don't have issues when using card with windows 10 (playing games etc.)
 
-Tvrtko
+$ inxi -Gx
+Graphics:  Device-1: Advanced Micro Devices [AMD/ATI] Navi 21 [Radeon RX
+6800/6800 XT / 6900 XT] vendor: Tul=20
+           driver: amdgpu v: kernel bus-ID: 03:00.0=20
+           Display: server: X.Org 1.20.11 driver: loaded: amdgpu resolution:
+3440x1440~144Hz=20
+           OpenGL: renderer: AMD Radeon RX 6800 XT (SIENNA_CICHLID DRM 3.41=
+.0
+5.13.13-051313-lowlatency LLVM 12.0.1)=20
+           v: 4.6 Mesa 21.3.0-devel (git-dfef775 2021-09-02 hirsute-oibaf-p=
+pa)
+direct render: Yes
 
->   		return -ENODEV;
->   
->   	rcu_read_lock();
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> index da6e8b506d96..37536a260e6e 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> @@ -154,6 +154,13 @@ i915_gem_context_vm(struct i915_gem_context *ctx)
->   	return rcu_dereference_protected(ctx->vm, lockdep_is_held(&ctx->mutex));
->   }
->   
-> +static inline bool i915_gem_context_is_full_ppgtt(struct i915_gem_context *ctx)
-> +{
-> +	GEM_BUG_ON(!!rcu_access_pointer(ctx->vm) != HAS_FULL_PPGTT(ctx->i915));
-> +
-> +	return !!rcu_access_pointer(ctx->vm);
-> +}
-> +
->   static inline struct i915_address_space *
->   i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
->   {
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 905b1cbd22d5..40f08948f0b2 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -749,7 +749,7 @@ static int eb_select_context(struct i915_execbuffer *eb)
->   		return PTR_ERR(ctx);
->   
->   	eb->gem_context = ctx;
-> -	if (rcu_access_pointer(ctx->vm))
-> +	if (i915_gem_context_is_full_ppgtt(ctx))
->   		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
->   
->   	return 0;
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> index fc7fb33a3a52..947154e445a7 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> @@ -704,7 +704,7 @@ static int igt_ctx_exec(void *arg)
->   				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
->   				       ndwords, dw, max_dwords(obj),
->   				       engine->name,
-> -				       yesno(!!rcu_access_pointer(ctx->vm)),
-> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
->   				       err);
->   				intel_context_put(ce);
->   				kernel_context_close(ctx);
-> @@ -838,7 +838,7 @@ static int igt_shared_ctx_exec(void *arg)
->   				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
->   				       ndwords, dw, max_dwords(obj),
->   				       engine->name,
-> -				       yesno(!!rcu_access_pointer(ctx->vm)),
-> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
->   				       err);
->   				intel_context_put(ce);
->   				kernel_context_close(ctx);
-> @@ -1417,7 +1417,7 @@ static int igt_ctx_readonly(void *arg)
->   				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
->   				       ndwords, dw, max_dwords(obj),
->   				       ce->engine->name,
-> -				       yesno(!!ctx_vm(ctx)),
-> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
->   				       err);
->   				i915_gem_context_unlock_engines(ctx);
->   				goto out_file;
-> 
+Almost everyday during normal browser usage (watching youtube videos or twi=
+tch)
+I see these messages in the journalctl:
+
+ep 02 16:39:13 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing pre-c=
+heck
+failed and SMU may be not in the right state!
+Sep 02 16:39:13 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:21 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:21 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:22 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:22 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
+gate
+VCN!
+Sep 02 16:39:24 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
+Dpm
+disable uvd failed, ret =3D -5.=20
+Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:24 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
+gfxoff!
+Sep 02 16:39:26 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:26 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:26 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
+gate
+VCN!
+Sep 02 16:39:27 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
+Dpm
+disable uvd failed, ret =3D -5.=20
+Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:27 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
+gfxoff!
+Sep 02 16:39:29 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:29 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:30 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:30 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
+gfxoff!
+Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:31 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
+gate
+VCN!
+Sep 02 16:39:32 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
+Dpm
+disable uvd failed, ret =3D -5.=20
+Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:32 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
+gfxoff!
+Sep 02 16:39:34 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:34 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:34 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:35 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:39:35 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:40:33 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:40:33 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:40:38 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:40:39 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:42:10 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:42:10 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
+gate
+VCN!
+Sep 02 16:44:05 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
+Dpm
+disable uvd failed, ret =3D -5.=20
+Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:44:05 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to enable
+gfxoff!
+Sep 02 16:44:19 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:44:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Msg issuing
+pre-check failed and SMU may be not in the right state!
+Sep 02 16:44:20 dagon kernel: amdgpu 0000:03:00.0: amdgpu: Failed to power =
+gate
+VCN!
+Sep 02 16:44:20 dagon kernel: [drm:amdgpu_dpm_enable_uvd [amdgpu]] *ERROR* =
+Dpm
+disable uvd failed, ret =3D -5.=20
+
+I don't know what do these mean, so I am posting them here.
+
+My amdgpu module settings:
+
+$ cat /etc/modprobe.d/amdgpu.conf
+options amdgpu msi=3D1 aspm=3D0 audio=3D0 ppfeaturemask=3D0xffffffff
+
+$ systool -vm amdgpu=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20
+Module =3D "amdgpu"
+
+  Attributes:
+    coresize            =3D "6381568"
+    initsize            =3D "0"
+    initstate           =3D "live"
+    refcnt              =3D "17"
+    srcversion          =3D "426501DD3A5EEAA91AC749F"
+    taint               =3D ""
+    uevent              =3D <store method only>
+
+  Parameters:
+    abmlevel            =3D "0"
+    aspm                =3D "0"
+    async_gfx_ring      =3D "1"
+    audio               =3D "0"
+    backlight           =3D "-1"
+    bad_page_threshold  =3D "-1"
+    bapm                =3D "-1"
+    benchmark           =3D "0"
+    cg_mask             =3D "4294967295"
+    cik_support         =3D "0"
+    compute_multipipe   =3D "-1"
+    cwsr_enable         =3D "1"
+    dc                  =3D "-1"
+    dcdebugmask         =3D "0"
+    dcfeaturemask       =3D "2"
+    debug_evictions     =3D "N"
+    debug_largebar      =3D "0"
+    deep_color          =3D "0"
+    disable_cu          =3D "(null)"
+    discovery           =3D "-1"
+    disp_priority       =3D "0"
+    dpm                 =3D "-1"
+    emu_mode            =3D "0"
+    exp_hw_support      =3D "0"
+    force_asic_type     =3D "-1"
+    forcelongtraining   =3D "0"
+    freesync_video      =3D "0"
+    fw_load_type        =3D "-1"
+    gpu_recovery        =3D "-1"
+    halt_if_hws_hang    =3D "0"
+    hw_i2c              =3D "0"
+    hws_gws_support     =3D "N"
+    hws_max_conc_proc   =3D "8"
+    ignore_crat         =3D "0"
+    ip_block_mask       =3D "4294967295"
+    job_hang_limit      =3D "0"
+    lbpw                =3D "-1"
+    lockup_timeout      =3D ""
+    max_num_of_queues_per_device=3D "4096"
+    mcbp                =3D "0"
+    mes                 =3D "0"
+    msi                 =3D "1"
+    no_queue_eviction_on_vm_fault=3D "0"
+    no_system_mem_limit =3D "N"
+    noretry             =3D "-1"
+    num_kcq             =3D "-1"
+    pcie_gen2           =3D "-1"
+    pcie_gen_cap        =3D "0"
+    pcie_lane_cap       =3D "0"
+    pg_mask             =3D "4294967295"
+    ppfeaturemask       =3D "0xffffffff"
+    queue_preemption_timeout_ms=3D "9000"
+    ras_enable          =3D "-1"
+    ras_mask            =3D "4294967295"
+    reset_method        =3D "-1"
+    runpm               =3D "-1"
+    sched_hw_submission =3D "2"
+    sched_jobs          =3D "32"
+    sched_policy        =3D "0"
+    sdma_phase_quantum  =3D "32"
+    send_sigterm        =3D "0"
+    si_support          =3D "0"
+    smu_memory_pool_size=3D "0"
+    smu_pptable_id      =3D "-1"
+    test                =3D "0"
+    timeout_fatal_disable=3D "N"
+    timeout_period      =3D "0"
+    tmz                 =3D "-1"
+    virtual_display     =3D "(null)"
+    vis_vramlimit       =3D "0"
+    vm_block_size       =3D "-1"
+    vm_debug            =3D "0"
+    vm_fault_stop       =3D "0"
+    vm_fragment_size    =3D "-1"
+    vm_size             =3D "-1"
+    vm_update_mode      =3D "-1"
+
+  Sections:
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
