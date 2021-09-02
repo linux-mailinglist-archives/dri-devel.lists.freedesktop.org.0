@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031423FF594
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 23:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDA03FF5C4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 23:45:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37AA76E80B;
-	Thu,  2 Sep 2021 21:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B7A6E81B;
+	Thu,  2 Sep 2021 21:45:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB6E26E80B
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 21:24:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8F9CB610CC
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 21:24:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630617852;
- bh=xatwNsT8Sn0lsCJgyMgKlmKERK0+k7XtIgDU23Cpl4o=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=DTDGhaU6yzIHd5dw54K3WNUMMdsL6nSJtZrxsZoyloNn2ZZ31A0tOFXXHACy31bY+
- nxJsLU8hMjrV8Siw0e1distrdFXOkeC8p7PGYuJLjizq4McqQ7b0kBs3OYm0wARk5f
- E8vCyZNLm4n7YuCi+KJPAIzPIQhlWBnk+zixyMC7JoLVYQkuIYp1VFyKgfHTn7A+sK
- f04miah8u8kB0GcRGyhoEr+VXXTijfcVGWSEzfk4jR+Nuqxf1uTYUho6WrA0itYO/x
- uDasmFdzly/duXa5mUgssVN9rN1u256Dc3uQbH3On6avEQIHt+NqljunVAph3IYDia
- mCJWhO9AhuToQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8CC6C610E8; Thu,  2 Sep 2021 21:24:12 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Thu, 02 Sep 2021 21:24:11 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jamesz@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-211277-2300-t6Ftr1BUK8@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from smtp-relay-canonical-1.canonical.com
+ (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 005F56E81B;
+ Thu,  2 Sep 2021 21:45:13 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id ECE8F3FE71; 
+ Thu,  2 Sep 2021 21:45:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1630619112;
+ bh=s9p5QLB1+aDHhWrCWaZs6bVSkWVQnpCvcnaOFCjNF1w=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=uqdIoGDigSHGeux/F/gdDe1/0r9C8ZJjDg/Zssuiyaf7iStZADcs8G1Agx+zAG0Zz
+ DavD3If6UqRelNJ7Iyu3VYe4DxH/B5WA/JhdMMOoWqblbAs0ideETSSn2WfrtcCmEg
+ PQKlH8kp5ziQ+8jNGWGV/KsHB6TQpsi4h2C7voTwuCBigjptd8reBUmcjWdo1HDL83
+ xgQ+AEE2pNYMB5ceNhLrugjnODd1AkQOPa47EKmWfAviEipmR1aQkIL4Hgh1vTH5Hr
+ bvLNmiZJ0p0KseS3Bkd2I9mPoACChBoB9/6UajHNv1c4yL6MjC9OlccsaMZJyjMsAE
+ iZpzC0q9yQ7/A==
+From: Colin King <colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/amdgpu: clean up inconsistent indenting
+Date: Thu,  2 Sep 2021 22:45:10 +0100
+Message-Id: <20210902214510.55070-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,29 +59,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
+From: Colin Ian King <colin.king@canonical.com>
 
---- Comment #44 from James Zhu (jamesz@amd.com) ---
-Created attachment 298651
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298651&action=3Dedit
-A workaround for suspend/resume hung issue
+There are a couple of statements that are indented one character
+too deeply, clean these up.
 
-The VCN block passed all ring tests, usually the vcn will get into idle wit=
-hin
-1 sec. Somehow it affected later amd iommu device resume which is controlle=
-d by
-kfd resume. This workaround is to gate vcn block immediately when ring test
-passed.
-It can fix the suspend/resume hung issue.
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Hi kolAflash,
-Please help check the WA in your setup. I will continue working on root cau=
-se.
-thanks!
-James
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+index d6aa032890ee..a573424a6e0b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -60,10 +60,9 @@ static vm_fault_t amdgpu_gem_fault(struct vm_fault *vmf)
+ 			goto unlock;
+ 		}
+ 
+-		 ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
+-						TTM_BO_VM_NUM_PREFAULT, 1);
+-
+-		 drm_dev_exit(idx);
++		ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
++					       TTM_BO_VM_NUM_PREFAULT, 1);
++		drm_dev_exit(idx);
+ 	} else {
+ 		ret = ttm_bo_vm_dummy_page(vmf, vmf->vma->vm_page_prot);
+ 	}
+-- 
+2.32.0
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
