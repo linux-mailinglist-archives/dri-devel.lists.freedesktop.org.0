@@ -1,55 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B073FE710
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 03:14:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6636F3FE741
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 03:44:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34AD96E438;
-	Thu,  2 Sep 2021 01:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE0A06E408;
+	Thu,  2 Sep 2021 01:44:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail109.syd.optusnet.com.au (mail109.syd.optusnet.com.au
- [211.29.132.80])
- by gabe.freedesktop.org (Postfix) with ESMTP id 262656E438;
- Thu,  2 Sep 2021 01:14:44 +0000 (UTC)
-Received: from dread.disaster.area (pa49-195-182-146.pa.nsw.optusnet.com.au
- [49.195.182.146])
- by mail109.syd.optusnet.com.au (Postfix) with ESMTPS id EBFB185A7C;
- Thu,  2 Sep 2021 11:14:40 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
- (envelope-from <david@fromorbit.com>)
- id 1mLbJO-007ej5-L3; Thu, 02 Sep 2021 11:14:38 +1000
-Date: Thu, 2 Sep 2021 11:14:38 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Cc: Christoph Hellwig <hch@lst.de>,
- "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>,
- akpm@linux-foundation.org, linux-mm@kvack.org, rcampbell@nvidia.com,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jgg@nvidia.com, jglisse@redhat.com
-Subject: Re: [PATCH v1 03/14] mm: add iomem vma selection for memory migration
-Message-ID: <20210902011438.GM2566745@dread.disaster.area>
-References: <20210825034828.12927-4-alex.sierra@amd.com>
- <20210825074602.GA29620@lst.de>
- <c4241eb3-07d2-c85b-0f48-cce4b8369381@amd.com>
- <a9eb2c4a-d8cc-9553-57b7-fd1622679aaa@amd.com>
- <20210830082800.GA6836@lst.de>
- <e40b3b79-f548-b87b-7a85-f654f25ed8dd@amd.com>
- <20210901082925.GA21961@lst.de>
- <11d64457-9d61-f82d-6c98-d68762dce85d@amd.com>
- <20210901220308.GL2566745@dread.disaster.area>
- <e6a9e3cc-9dca-946a-c3fc-f86753fe8fd4@amd.com>
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 598376E408
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 01:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1630547048;
+ bh=NuRwbu7de8byElVZzBMKg3pNIEyi41fKQhrIZwjdqVk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=uyHBypnb12dseI+aFeaWaE+vjczLuqQy5MeZhpdnt2ExpcTDdaeirxgGKMtWlanL4
+ T+/62rKzZbnLubrPd6lShqGvnIOhPelMtNEAUlIPo9v+9SvYiXx8t5P8o+2UIfAMu2
+ ZbIGKV7jR2lFwXZwkd6f60BT2s7zrBOGD8i9w8ft7On6EbrygtrBaWUzKUltKLCx7+
+ UnN0L6cSK6LVDMSwb2UAy3SstHZnvNLOA9kZpqyLp3tUdtr2creDIhDUd6xVibWy7R
+ oPU4/AF19W/qxwT9oOwn6Amg2x8xUetVRoAFcskyuPZw9TlzzArAJoMnGAh+ZhKPgw
+ BUeRO6BYPRQOQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4H0Nxy1KFvz9sCD;
+ Thu,  2 Sep 2021 11:44:05 +1000 (AEST)
+Date: Thu, 2 Sep 2021 11:44:05 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>, ARM
+ <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Brown <broonie@kernel.org>, Dave Airlie <airlied@linux.ie>, DRI
+ <dri-devel@lists.freedesktop.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, John Stultz
+ <john.stultz@linaro.org>
+Subject: Re: linux-next: manual merge of the drm tree with the qcom/for-next
+ tree
+Message-ID: <20210902114346.430e7ba2@elm.ozlabs.ibm.com>
+In-Reply-To: <20210726163814.6483-1-broonie@kernel.org>
+References: <20210726163814.6483-1-broonie@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e6a9e3cc-9dca-946a-c3fc-f86753fe8fd4@amd.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=F8MpiZpN c=1 sm=1 tr=0
- a=QpfB3wCSrn/dqEBSktpwZQ==:117 a=QpfB3wCSrn/dqEBSktpwZQ==:17
- a=kj9zAlcOel0A:10 a=7QKq2e-ADPsA:10 a=7-415B0cAAAA:8
- a=vsX3ScuNT_vdrx7wniQA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+Content-Type: multipart/signed; boundary="Sig_/Q5w3+hlLAetVcLJKtBO9Vme";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,117 +62,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 01, 2021 at 07:07:34PM -0400, Felix Kuehling wrote:
-> On 2021-09-01 6:03 p.m., Dave Chinner wrote:
-> > On Wed, Sep 01, 2021 at 11:40:43AM -0400, Felix Kuehling wrote:
-> > > Am 2021-09-01 um 4:29 a.m. schrieb Christoph Hellwig:
-> > > > On Mon, Aug 30, 2021 at 01:04:43PM -0400, Felix Kuehling wrote:
-> > > > > > > driver code is not really involved in updating the CPU mappings. Maybe
-> > > > > > > it's something we need to do in the migration helpers.
-> > > > > > It looks like I'm totally misunderstanding what you are adding here
-> > > > > > then.  Why do we need any special treatment at all for memory that
-> > > > > > has normal struct pages and is part of the direct kernel map?
-> > > > > The pages are like normal memory for purposes of mapping them in CPU
-> > > > > page tables and for coherent access from the CPU.
-> > > > That's the user page tables.  What about the kernel direct map?
-> > > > If there is a normal kernel struct page backing there really should
-> > > > be no need for the pgmap.
-> > > I'm not sure. The physical address ranges are in the UEFI system address
-> > > map as special-purpose memory. Does Linux create the struct pages and
-> > > kernel direct map for that without a pgmap call? I didn't see that last
-> > > time I went digging through that code.
-> > > 
-> > > 
-> > > > >  From an application
-> > > > > perspective, we want file-backed and anonymous mappings to be able to
-> > > > > use DEVICE_PUBLIC pages with coherent CPU access. The goal is to
-> > > > > optimize performance for GPU heavy workloads while minimizing the need
-> > > > > to migrate data back-and-forth between system memory and device memory.
-> > > > I don't really understand that part.  file backed pages are always
-> > > > allocated by the file system using the pagecache helpers, that is
-> > > > using the page allocator.  Anonymouns memory also always comes from
-> > > > the page allocator.
-> > > I'm coming at this from my experience with DEVICE_PRIVATE. Both
-> > > anonymous and file-backed pages should be migrateable to DEVICE_PRIVATE
-> > > memory by the migrate_vma_* helpers for more efficient access by our
-> > > GPU. (*) It's part of the basic premise of HMM as I understand it. I
-> > > would expect the same thing to work for DEVICE_PUBLIC memory.
-> > > 
-> > > (*) I believe migrating file-backed pages to DEVICE_PRIVATE doesn't
-> > > currently work, but that's something I'm hoping to fix at some point.
-> > FWIW, I'd love to see the architecture documents that define how
-> > filesystems are supposed to interact with this device private
-> > memory. This whole "hand filesystem controlled memory to other
-> > devices" is a minefield that is trivial to get wrong iand very
-> > difficult to fix - just look at the historical mess that RDMA
-> > to/from file backed and/or DAX pages has been.
-> > 
-> > So, really, from my perspective as a filesystem engineer, I want to
-> > see an actual specification for how this new memory type is going to
-> > interact with filesystem and the page cache so everyone has some
-> > idea of how this is going to work and can point out how it doesn't
-> > work before code that simply doesn't work is pushed out into
-> > production systems and then merged....
-> 
-> OK. To be clear, that's not part of this patch series. And I have no
-> authority to push anything in this part of the kernel, so you have nothing
-> to fear. ;)
+--Sig_/Q5w3+hlLAetVcLJKtBO9Vme
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I know this isn't part of the series. but this patchset is laying
-the foundation for future work that will impact subsystems that
-currently have zero visibility and/or knowledge of these changes.
-There must be an overall architectural plan for this functionality,
-regardless of the current state of implementation. It's that overall
-architectural plan I'm asking about here, because I need to
-understand that before I can sanely comment on the page
-cache/filesystem aspect of the proposed functionality...
+Hi all,
 
-> FWIW, we already have the ability to map file-backed system memory pages
-> into device page tables with HMM and interval notifiers. But we cannot
-> currently migrate them to ZONE_DEVICE pages.
+On Mon, 26 Jul 2021 17:38:14 +0100 Mark Brown <broonie@kernel.org> wrote:
+>=20
+> Today's linux-next merge of the drm tree got a conflict in:
+>=20
+>   drivers/firmware/Makefile
+>=20
+> between commit:
+>=20
+>   b42000e4b874 ("firmware: qcom_scm: Allow qcom_scm driver to be loadable=
+ as a permenent module")
+>=20
+> from the qcom/for-next tree and commits:
+>=20
+>   8633ef82f101 ("drivers/firmware: consolidate EFI framebuffer setup for =
+all arches")
+>   d391c5827107 ("drivers/firmware: move x86 Generic System Framebuffers s=
+upport")
+>=20
+> from the drm tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+> diff --git a/drivers/firmware/Makefile b/drivers/firmware/Makefile
+> index 3c2af2e98def..5ced0673d94b 100644
+> --- a/drivers/firmware/Makefile
+> +++ b/drivers/firmware/Makefile
+> @@ -19,6 +19,8 @@ obj-$(CONFIG_RASPBERRYPI_FIRMWARE) +=3D raspberrypi.o
+>  obj-$(CONFIG_FW_CFG_SYSFS)	+=3D qemu_fw_cfg.o
+>  obj-$(CONFIG_QCOM_SCM)		+=3D qcom-scm.o
+>  qcom-scm-objs +=3D qcom_scm.o qcom_scm-smc.o qcom_scm-legacy.o
+> +obj-$(CONFIG_SYSFB)		+=3D sysfb.o
+> +obj-$(CONFIG_SYSFB_SIMPLEFB)	+=3D sysfb_simplefb.o
+>  obj-$(CONFIG_TI_SCI_PROTOCOL)	+=3D ti_sci.o
+>  obj-$(CONFIG_TRUSTED_FOUNDATIONS) +=3D trusted_foundations.o
+>  obj-$(CONFIG_TURRIS_MOX_RWTM)	+=3D turris-mox-rwtm.o
 
-Sure, but sharing page cache pages allocated and managed by the
-filesystem is not what you are talking about. You're talking about
-migrating page cache data to completely different memory allocated
-by a different memory manager that the filesystems currently have no
-knowledge of or have any way of interfacing with.
+This is now a conflict between the arm-soc tree and Linus' tree.
 
-So I'm asking basic, fundamental questions about how these special
-device based pages are going to work.  How are these pages different
-to normal pages - does page_lock() still guarantee exclusive access
-to the page state across all hardware that can access it? If not,
-what provides access serialisation for pages that are allocated in
-device memory rather than CPU memory (e.g. for truncate
-serialisation)?  Does the hardware that own these pages raise page
-faults on the CPU when those pages are accessed/dirtied? How does
-demand paging in and out of device memory work (i.e. mapping files
-larger than device memory).  How does IO to/from storage work - can
-the filesystem build normal bios out of these device pages and issue
-IO on them?  Are the additional constraints on IO because p2p DMA is
-needed to move the data from the storage HBA directly into/out of
-the GPU memory?
-
-I can think of lots more complex questions about how filesystems are
-supposed to manage remote device memory in the page cache, but these
-are just some of the basic things that make file-backed mappings
-different to anonymous mappings that I need to understand before I
-can make head or tail of what is being proposed here.....
-
-> Beyond that, my understanding
-> of how filesystems and page cache work is rather superficial at this point.
-> I'll keep your name in mind for when I am ready to discuss this in more
-> detail.
-
-If you don't know what the bigger picture is, then who does?
-Somebody built the design/architecture you are working towards, and
-they had to communicate it to you somehow. I'm asking for that
-information to documented and made available to all the people these
-changes might impact, not whether you personally know how it
-works....
-
+--=20
 Cheers,
+Stephen Rothwell
 
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+--Sig_/Q5w3+hlLAetVcLJKtBO9Vme
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmEwLGUACgkQAVBC80lX
+0GxsNAf9HtMmr/YzsLeSPdGg3EE57M4qQCg9drEy1J/d2jc0kz4XT+n/frtOWJeh
+33CLNmuUsolbWf40TRAeBAf8dl+16LS82KSoNNqo1W1n0A5bk5glJKWp3vKsh8KJ
+ottOVtMGeZK2SF6Xk2VO0dV2J+yzU/I/tQYcbjrmVlpUkX8XInkf7vsX+N4m4lc1
+ZoiQzM5YE6ZdhbuMveMpFQYjqfDNDQbjX168WNqbhtPAsvdds+exbc3hlZ0A8pMq
+AVt3gb/uk5b1XrOGlnlOqEoRlimUKzbDQamOVRHLPRkkbPvNGVx/WR6t2eAAyMEj
+nvqf8fJfF32GHVUcrIbnIGPaLP6Z6g==
+=zodR
+-----END PGP SIGNATURE-----
+
+--Sig_/Q5w3+hlLAetVcLJKtBO9Vme--
