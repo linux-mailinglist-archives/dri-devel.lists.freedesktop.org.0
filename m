@@ -2,62 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C303FEF98
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B8A3FEFA6
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5877E6E588;
-	Thu,  2 Sep 2021 14:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31C286E591;
+	Thu,  2 Sep 2021 14:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 111906E588
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:43:00 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- x2-20020a1c7c02000000b002e6f1f69a1eso1630263wmc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:42:59 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21C3E6E591
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:45:46 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id b6so3349244wrh.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=3GYw4VqZJwFbN7M1V+7uxZEpfGH+re55UYwuc0UfZW4=;
- b=UlizNpztkm4p+pWlclD5c2BKS3cZxIzvJpqfIyd8KvZynLcyZoIlyw2l/D7C2jDbcs
- 9o6EoEERzph5Y1xjmSqUhBQX2t7vHnIzDtzHnlx0xqX3wNBL04zBSPAFXAyPQVfdDDB/
- W+S31AQdBz5SVyjOA8y2aX9BJLKr5Qp9s1oB4=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=SBemzdNlacrnzlvpl8xEUdWlxlnHw5Q7DGxxpD9O63Y=;
+ b=F8wErhsmbA7OzEGYxYwrW/Ypa4d2zsPTUaFJ2kuCx++KprCEIFpMBzF+cr7aJETYo+
+ KFhZn4WGn0jMyyuX+h7O1akoKvYdNc9yVDCQSnh9D5m2DTmRMyJW/lkNwpL/JTqWL6CH
+ qGStHPYxUqdTVkuLr1dlgkH9PG9a59+CYai+U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=3GYw4VqZJwFbN7M1V+7uxZEpfGH+re55UYwuc0UfZW4=;
- b=Ly0yqrQmQqVzQeXzJmxwF/Z0bMekxE1FE7hEGmvzN72zDx7ecV5ieUOD/Ft9wfSMjt
- 3VBt8iq513OZJIF9hQerEMY6razUaCjwBm8mDGHC/sRR5T8VTR7UoJbLS/wV4Ed/0lks
- Mxl6S+RTEeE0nJGQmUUD/Aj6zomE22YcVhj65VSKmOB2txmlTv4s30qadUJtCBOTkC/T
- wY2UWMoFrt275sYXjaUsvyhbvKFNz2swhoVa2+kLVf/NMNA6DJGGeBfx1ifxVEtTwoQQ
- NegopQTaqH6ScuHeTmvpei+INJRuoSK5iNP+AYA8SQcyaXPmbDlbkasBUtvkYYSrebNz
- C7Hw==
-X-Gm-Message-State: AOAM530UqUBPiqdAGCF3XqPnw+q7mBhcRJPyBSgwZv+zvYipJB4OU9fX
- YsHvBoppl5LOo2W6g/AqWjNEEQ==
-X-Google-Smtp-Source: ABdhPJyZcl/ZQXO0rzpkYxiXrq7qIAF+5K0riWJ2qNh/8exAgaKJsVxQFYTRVgybEU4ihhul4mAKyQ==
-X-Received: by 2002:a7b:c751:: with SMTP id w17mr3599808wmk.162.1630593778688; 
- Thu, 02 Sep 2021 07:42:58 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=SBemzdNlacrnzlvpl8xEUdWlxlnHw5Q7DGxxpD9O63Y=;
+ b=Sfg2SOQ2l5K2nqRVLpRYVbHbTJ46JOfUhWcnqN0WNan5T4c3F4PhnSQooFSi623Da4
+ k2g78h5anErVU++QZKfEhrPzjIHhKNrA4ZVuk1cqnhV6FHgOEh1iK0b3W9AHaMx/d2Sq
+ s7CR1lXz4+Zm/I3bRwCIjYtdzDd1XFjI3Aqr8edahybPqev2L2E/JYS4iWN4VWiWIgOb
+ mX4O4mE8jQEqktP3RcWa24+S2BPMtcGMlZrz68D35o2nOnhQLERs/MOt2yaKbhemqbKI
+ qKWb1JCSOxkRRd63zk5alZ7A/zDsZPOjX3WUy4OcKjWOhWJkTb3+xzMhd3BKPrV1osoh
+ e5Rg==
+X-Gm-Message-State: AOAM531occWmKCmvH4JTfKv7Racw1F07zUcLqO7ijcMKp2z9j9OzmPjP
+ c+vE+6oIomkrr6a4OPD/bqtJaw==
+X-Google-Smtp-Source: ABdhPJzCf8R2j8AB7PFlwy6aj/BOqLVbGNBReozZiXXYkSZ3rkJO8mhoVRbpW+vAiWPAyABsC+xqdw==
+X-Received: by 2002:a05:6000:1627:: with SMTP id
+ v7mr4233886wrb.195.1630593944785; 
+ Thu, 02 Sep 2021 07:45:44 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a6sm1922618wmb.7.2021.09.02.07.42.57
+ by smtp.gmail.com with ESMTPSA id j20sm1952481wrb.5.2021.09.02.07.45.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 07:42:58 -0700 (PDT)
-Date: Thu, 2 Sep 2021 16:42:56 +0200
+ Thu, 02 Sep 2021 07:45:44 -0700 (PDT)
+Date: Thu, 2 Sep 2021 16:45:42 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 2/2] dma-buf: clarify dma_fence_add_callback documentation
-Message-ID: <YTDi8BNRXcEkf8a4@phenom.ffwll.local>
-References: <20210901120240.7339-1-christian.koenig@amd.com>
- <20210901120240.7339-3-christian.koenig@amd.com>
+To: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+ linux-um@lists.infradead.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/ttm: provide default page protection for UML
+Message-ID: <YTDjlixwDWi7Y2uR@phenom.ffwll.local>
+Mail-Followup-To: Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+ linux-um@lists.infradead.org, David Airlie <airlied@linux.ie>
+References: <20210902020129.25952-1-rdunlap@infradead.org>
+ <9faacbc8-3346-8033-5b4d-60543eae959e@cambridgegreys.com>
+ <f978cae5-7275-6780-8a17-c6e61247bce7@infradead.org>
+ <0887903c-483d-49c7-0d35-f59be2f85bac@cambridgegreys.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210901120240.7339-3-christian.koenig@amd.com>
+In-Reply-To: <0887903c-483d-49c7-0d35-f59be2f85bac@cambridgegreys.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,61 +88,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 01, 2021 at 02:02:40PM +0200, Christian K�nig wrote:
-> That the caller doesn't need to keep a reference is rather
-> risky and not defensive at all.
+On Thu, Sep 02, 2021 at 07:19:01AM +0100, Anton Ivanov wrote:
+> On 02/09/2021 06:52, Randy Dunlap wrote:
+> > On 9/1/21 10:48 PM, Anton Ivanov wrote:
+> > > On 02/09/2021 03:01, Randy Dunlap wrote:
+> > > > boot_cpu_data [struct cpuinfo_um (on UML)] does not have a struct
+> > > > member named 'x86', so provide a default page protection mode
+> > > > for CONFIG_UML.
+> > > > 
+> > > > Mends this build error:
+> > > > ../drivers/gpu/drm/ttm/ttm_module.c: In function
+> > > > ‘ttm_prot_from_caching’:
+> > > > ../drivers/gpu/drm/ttm/ttm_module.c:59:24: error: ‘struct
+> > > > cpuinfo_um’ has no member named ‘x86’
+> > > >    else if (boot_cpu_data.x86 > 3)
+> > > >                          ^
+> > > > 
+> > > > Fixes: 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for
+> > > > page-based iomem")
+> > > > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > > > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > > > Cc: Christian König <christian.koenig@amd.com>
+> > > > Cc: Huang Rui <ray.huang@amd.com>
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > Cc: Jeff Dike <jdike@addtoit.com>
+> > > > Cc: Richard Weinberger <richard@nod.at>
+> > > > Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> > > > Cc: linux-um@lists.infradead.org
+> > > > Cc: David Airlie <airlied@linux.ie>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > ---
+> > > >   drivers/gpu/drm/ttm/ttm_module.c |    4 ++++
+> > > >   1 file changed, 4 insertions(+)
+> > > > 
+> > > > --- linux-next-20210901.orig/drivers/gpu/drm/ttm/ttm_module.c
+> > > > +++ linux-next-20210901/drivers/gpu/drm/ttm/ttm_module.c
+> > > > @@ -53,6 +53,9 @@ pgprot_t ttm_prot_from_caching(enum ttm_
+> > > >       if (caching == ttm_cached)
+> > > >           return tmp;
+> > > > +#ifdef CONFIG_UML
+> > > > +    tmp = pgprot_noncached(tmp);
+> > > > +#else
+> > > >   #if defined(__i386__) || defined(__x86_64__)
+> > > >       if (caching == ttm_write_combined)
+> > > >           tmp = pgprot_writecombine(tmp);
+> > > > @@ -69,6 +72,7 @@ pgprot_t ttm_prot_from_caching(enum ttm_
+> > > >   #if defined(__sparc__)
+> > > >       tmp = pgprot_noncached(tmp);
+> > > >   #endif
+> > > > +#endif
+> > > >       return tmp;
+> > > >   }
+> > > 
+> > > Patch looks OK.
+> > > 
+> > > I have a question though - why all of DRM is not !UML in config. Not
+> > > like we can use them.
+> > 
+> > I have no idea about that.
+> > Hopefully one of the (other) UML maintainers can answer you.
 > 
-> Especially dma_buf_poll got that horrible wrong, so better
-> remove that sentence and also clarify that the callback
-> might be called in atomic or interrupt context.
+> Touche.
 > 
-> Signed-off-by: Christian K�nig <christian.koenig@amd.com>
+> We will discuss that and possibly push a patch to !UML that part of the
+> tree. IMHO it is not applicable.
 
-Still on the fence between documenting the precise rules and documenting
-the safe rules, but this is tricky enough that you got me convinced. Plus
-shorter, simpler, clearer kerneldoc has much better chances of being read,
-understood and followed.
+I thought kunit is based on top of uml, and we do want to eventually adopt
+that. Especially for helper libraries like ttm.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/dma-buf/dma-fence.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index ce0f5eff575d..1e82ecd443fa 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -616,20 +616,17 @@ EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
->   * @cb: the callback to register
->   * @func: the function to call
->   *
-> + * Add a software callback to the fence. The caller should keep a reference to
-> + * the fence.
-> + *
->   * @cb will be initialized by dma_fence_add_callback(), no initialization
->   * by the caller is required. Any number of callbacks can be registered
->   * to a fence, but a callback can only be registered to one fence at a time.
->   *
-> - * Note that the callback can be called from an atomic context.  If
-> - * fence is already signaled, this function will return -ENOENT (and
-> + * If fence is already signaled, this function will return -ENOENT (and
->   * *not* call the callback).
->   *
-> - * Add a software callback to the fence. Same restrictions apply to
-> - * refcount as it does to dma_fence_wait(), however the caller doesn't need to
-> - * keep a refcount to fence afterward dma_fence_add_callback() has returned:
-> - * when software access is enabled, the creator of the fence is required to keep
-> - * the fence alive until after it signals with dma_fence_signal(). The callback
-> - * itself can be called from irq context.
-> + * Note that the callback can be called from an atomic context or irq context.
->   *
->   * Returns 0 in case of success, -ENOENT if the fence is already signaled
->   * and -EINVAL in case of error.
-> -- 
-> 2.25.1
-> 
-
+But also that's quite a bit in the future.
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
