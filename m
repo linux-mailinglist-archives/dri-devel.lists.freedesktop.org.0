@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362743FEF5D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:21:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFB33FEF67
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:24:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66A446E5A9;
-	Thu,  2 Sep 2021 14:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1D316E55C;
+	Thu,  2 Sep 2021 14:24:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE5E66E5AB
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:21:19 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id i6so3231217wrv.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:21:19 -0700 (PDT)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1326E55C
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:24:13 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ j17-20020a05600c1c1100b002e754875260so1490073wms.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:24:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=g0XBtYrEBgPfE/HHWOAGOHufsoeb5EQp2AAWGd3hiXs=;
- b=YVCblO2U3LnsRlrLvgNH0zW3Fp7U/FtcitmAiYQgy5DA6D7/Fp2hb8dUA8f2yXWYrv
- 1qrAXYEQIE/mUrI058FDPmkmZIj+m0SWu3ZID54rL8I5pQcf8omQbNLMRAXZT7qRmUx8
- 30UDrE4N7YBimU9ONGgUJtCl2mvFn/KEjLVUc=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=QoNN22ajOMvRQNcLC8uwpltb5flTtT9IbnLxzI9BxdY=;
+ b=Bzc0xHlRgq5HN46k3ndj1r++Uunhck7RT4C0lVheskae2nkF7c0K/npYDOV2YuJAyV
+ ri56v+jm06evSm1ysPhNBoSQsN35iL8d4GcukFwbm7jFLESsp2AJPzwXIyMSioGZLFJi
+ o2n53Ey00Mc+IJ8zMfMgyfNN0sS4Kw/md2DM8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=g0XBtYrEBgPfE/HHWOAGOHufsoeb5EQp2AAWGd3hiXs=;
- b=ktgPHQCg43BeQWBZpWle9yRBbdL6XH/lobzdeEGuTu8rvKsz43cYuINnCR2J1YWpSE
- yVuhYJ37nqEqqIwtHpS/vm13yu/NIIO3mDOftF76H1j0A+yB6Wp3Ap1zZyL4v4XpWuLb
- vP9PFE/BtwrbHZT+EpeV3PzCK2tJgGTllyonP3tjgdNrU+PtBEFc4z2RvUhV0UBngizI
- XVPRVrf8k7KXdys3oW9KXy3UD0oyLhRStmGdJgd3K65gbENTtyN9FV68vdKwJlnb0dkm
- 2KGFdScBzh0T+SCoWKNw2vEQ2vSoqTieORqlLzJUJz6zRG3+T+Z3/W+/lTMS+ZX8nCpA
- EuWQ==
-X-Gm-Message-State: AOAM53184Xh8u5ExJTC8CNykBKYBMdXEt4SD1CrZvI/QZLo3YQ9lHqYe
- V/z+xJngB4gxpyrQVuCdAfisCsbQOUX6Uw==
-X-Google-Smtp-Source: ABdhPJz1/7eHvmdzjlTKiNIyEzWyS8Ta5ULbn8Ie3v16MJ/CCjLO83eJOHZssXRHyeHMdsVGTk8k8w==
-X-Received: by 2002:adf:e0cd:: with SMTP id m13mr4122575wri.137.1630592478398; 
- Thu, 02 Sep 2021 07:21:18 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QoNN22ajOMvRQNcLC8uwpltb5flTtT9IbnLxzI9BxdY=;
+ b=FzKD7OBVzDw/IWPkztNPNpVg6BveLpP+C9EXCzUlv6dx4EBM/xKZMWqVXB+3OGVACC
+ poIGgEQS15hMtZyb4N02OSnmLU/Dtj2OtnMJILQoRzobjZlR8YJlmsPTDgldE135dHe9
+ j7w7Rh6iuRSmN3w5zyTh2qIIlJdTlB3ywx+V8sPxbQssegWChPgbwvgbNZtXHdreRcig
+ kb6Y3kqvQAcmqI6EMui0+HOQvBIy2ID8h5Fgm8FnFej2SxU52NCWZg7NpfwpPRfRuC/P
+ SFwoP4sQsF/r2e/BawljmsgmefqpraQSXaQxSJX6QAd3Xtg8vvChopPehshvHinew3gA
+ YW8A==
+X-Gm-Message-State: AOAM531TFqUWvSaEC+pQIC0GoKGGkzN/XUfk4W4l4c+yXLPHJwG3CYeh
+ 5tVdm7TowGVqtTpw8ii0BFOmNw==
+X-Google-Smtp-Source: ABdhPJwdnzgZMjVBZEN/GLVu5W+FxZHfU5gQU2GBrBsDPKj60MWxgaKkT7toQzSIT7KPlYwkpHX73g==
+X-Received: by 2002:a05:600c:259:: with SMTP id
+ 25mr3456950wmj.82.1630592651809; 
+ Thu, 02 Sep 2021 07:24:11 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l2sm1841811wmi.1.2021.09.02.07.21.17
+ by smtp.gmail.com with ESMTPSA id y1sm1869832wmq.43.2021.09.02.07.24.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 07:21:17 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-Subject: [PATCH 11/11] drm/i915: Stop rcu support for i915_address_space
-Date: Thu,  2 Sep 2021 16:20:57 +0200
-Message-Id: <20210902142057.929669-11-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
-References: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
+ Thu, 02 Sep 2021 07:24:11 -0700 (PDT)
+Date: Thu, 2 Sep 2021 16:24:09 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ peter@stuge.se, linus.walleij@linaro.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/7] drm/format-helper: Add drm_fb_xrgb8888_to_rgb332()
+Message-ID: <YTDeibTXOvMzRV0P@phenom.ffwll.local>
+References: <20210817122917.49929-1-noralf@tronnes.org>
+ <20210817122917.49929-3-noralf@tronnes.org>
+ <YRu/+nEX4A5i4sfl@phenom.ffwll.local>
+ <d72f5ef1-f701-3549-c459-236716674fd6@tronnes.org>
+ <YS4fTzPUbwMvK5NK@phenom.ffwll.local>
+ <848f5d65-8bad-0d69-18dd-ae81549283b4@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <848f5d65-8bad-0d69-18dd-ae81549283b4@tronnes.org>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,283 +80,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The full audit is quite a bit of work:
+On Thu, Sep 02, 2021 at 04:08:14PM +0200, Noralf Trønnes wrote:
+> 
+> 
+> Den 31.08.2021 14.23, skrev Daniel Vetter:
+> > On Mon, Aug 30, 2021 at 02:08:14PM +0200, Noralf Trønnes wrote:
+> >>
+> >>
+> >> Den 17.08.2021 15.56, skrev Daniel Vetter:
+> >>> On Tue, Aug 17, 2021 at 02:29:12PM +0200, Noralf Trønnes wrote:
+> >>>> Add XRGB8888 emulation support for devices that can only do RGB332.
+> >>>>
+> >>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> >>>> ---
+> >>>>  drivers/gpu/drm/drm_format_helper.c | 47 +++++++++++++++++++++++++++++
+> >>>>  include/drm/drm_format_helper.h     |  2 ++
+> >>>>  2 files changed, 49 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> >>>> index 5231104b1498..53b426da7467 100644
+> >>>> --- a/drivers/gpu/drm/drm_format_helper.c
+> >>>> +++ b/drivers/gpu/drm/drm_format_helper.c
+> >>>> @@ -135,6 +135,53 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+> >>>>  }
+> >>>>  EXPORT_SYMBOL(drm_fb_swab);
+> >>>>  
+> >>>> +static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, u32 *sbuf, unsigned int pixels)
+> >>>> +{
+> >>>> +	unsigned int x;
+> >>>> +
+> >>>> +	for (x = 0; x < pixels; x++)
+> >>>> +		dbuf[x] = ((sbuf[x] & 0x00e00000) >> 16) |
+> >>>
+> >>> I think for 2/3 bits correct rounding would be useful, not just masking.
+> >>> i.e. before you shift add 0x00100000 here, and similar below.
+> >>>
+> >>
+> >> Math isn't my strongest side and my brain failed to turn this into code.
+> > 
+> > Essentially add half of the lowest bit before you mask, so
+> > 
+> > ((sbuf[x] + 0x10) & 0xe0 )
+> > 
+> 
+> But what if the value is 0xff, it overflows:
 
-- i915_dpt has very simple lifetime (somehow we create a display pagetable vm
-  per object, so its _very_ simple, there's only ever a single vma in there),
-  and uses i915_vm_close(), which internally does a i915_vm_put(). No rcu.
+Your math is better than mine ...
 
-  Aside: wtf is i915_dpt doing in the intel_display.c garbage collector as a new
-  feature, instead of added as a separate file with some clean-ish interface.
+> ((0xff + 0x10) & 0xe0 ) == 0x00
+> 
+> Should it be OR?
+> 
+> ((0xff | 0x10) & 0xe0 ) == 0xe0
 
-  Also, i915_dpt unfortunately re-introduces some coding patterns from
-  pre-dma_resv_lock conversion times.
+Probably need a max on top to limit the overflow:
 
-- i915_gem_proto_ctx is fully refcounted and no rcu, all protected by
-  fpriv->proto_context_lock.
+max(sbuf[x] + 0x10, 0xe)
 
-- i915_gem_context is itself rcu protected, and that might leak to anything it
-  points at. Before
+But also maybe really not worth the head-scratching :-)
+-Daniel
 
-	commit cf977e18610e66e48c31619e7e0cfa871be9eada
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Wed Dec 2 11:21:40 2020 +0000
+> 
+> Noralf.
+> 
+> > I dropped the shift to make it clear what's going on. If you're mask is
+> > 0xc0, then you simply add 0x20 before masking.
+> > 
+> >>> Also I just realized we've totally ignored endianess on these, which is
+> >>> not great, because strictly speaking all the drm_fourcc codes should be
+> >>> little endian. But I'm also not sure that's worth fixing ...
+> >>>
+> >>
+> >> Is it as simple as using le32_to_cpu()?
+> > 
+> > I think so.
+> > 
+> > Plus on any format that has u16 output we'd need a cpu_to_le16 wrapped
+> > around the entire thing.
+> > -Daniel
+> > 
+> >> static void drm_fb_xrgb8888_to_rgb332_line(u8 *dbuf, __le32 *sbuf,
+> >> unsigned int pixels)
+> >> {
+> >> 	unsigned int x;
+> >> 	u32 pix;
+> >>
+> >> 	for (x = 0; x < pixels; x++) {
+> >> 		pix = le32_to_cpu(sbuf[x]);
+> >> 		dbuf[x] = ((pix & 0x00e00000) >> 16) |
+> >> 			  ((pix & 0x0000e000) >> 11) |
+> >> 			  ((pix & 0x000000c0) >> 6);
+> >> 	}
+> >> }
+> >>
+> >> Noralf.
+> >>
+> >>> Either way, lgtm:
+> >>>
+> >>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >>>
+> >>>> +			  ((sbuf[x] & 0x0000e000) >> 11) |
+> >>>> +			  ((sbuf[x] & 0x000000c0) >> 6);
+> >>>> +}
+> >>>> +
+> >>>> +/**
+> >>>> + * drm_fb_xrgb8888_to_rgb332 - Convert XRGB8888 to RGB332 clip buffer
+> >>>> + * @dst: RGB332 destination buffer
+> >>>> + * @src: XRGB8888 source buffer
+> >>>> + * @fb: DRM framebuffer
+> >>>> + * @clip: Clip rectangle area to copy
+> >>>> + *
+> >>>> + * Drivers can use this function for RGB332 devices that don't natively support XRGB8888.
+> >>>> + *
+> >>>> + * This function does not apply clipping on dst, i.e. the destination is a small buffer
+> >>>> + * containing the clip rect only.
+> >>>> + */
+> >>>> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *src, struct drm_framebuffer *fb,
+> >>>> +			       struct drm_rect *clip)
+> >>>> +{
+> >>>> +	size_t width = drm_rect_width(clip);
+> >>>> +	size_t src_len = width * sizeof(u32);
+> >>>> +	unsigned int y;
+> >>>> +	void *sbuf;
+> >>>> +
+> >>>> +	/* Use a buffer to speed up access on buffers with uncached read mapping (i.e. WC) */
+> >>>> +	sbuf = kmalloc(src_len, GFP_KERNEL);
+> >>>> +	if (!sbuf)
+> >>>> +		return;
+> >>>> +
+> >>>> +	src += clip_offset(clip, fb->pitches[0], sizeof(u32));
+> >>>> +	for (y = 0; y < drm_rect_height(clip); y++) {
+> >>>> +		memcpy(sbuf, src, src_len);
+> >>>> +		drm_fb_xrgb8888_to_rgb332_line(dst, sbuf, width);
+> >>>> +		src += fb->pitches[0];
+> >>>> +		dst += width;
+> >>>> +	}
+> >>>> +
+> >>>> +	kfree(sbuf);
+> >>>> +}
+> >>>> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
+> >>>> +
+> >>>>  static void drm_fb_xrgb8888_to_rgb565_line(u16 *dbuf, u32 *sbuf,
+> >>>>  					   unsigned int pixels,
+> >>>>  					   bool swab)
+> >>>> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+> >>>> index 4e0258a61311..d0809aff5cf8 100644
+> >>>> --- a/include/drm/drm_format_helper.h
+> >>>> +++ b/include/drm/drm_format_helper.h
+> >>>> @@ -16,6 +16,8 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vadd
+> >>>>  			   struct drm_rect *clip);
+> >>>>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+> >>>>  		 struct drm_rect *clip, bool cached);
+> >>>> +void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct drm_framebuffer *fb,
+> >>>> +			       struct drm_rect *clip);
+> >>>>  void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
+> >>>>  			       struct drm_framebuffer *fb,
+> >>>>  			       struct drm_rect *clip, bool swab);
+> >>>> -- 
+> >>>> 2.32.0
+> >>>>
+> >>>
+> > 
 
-	    drm/i915/gem: Spring clean debugfs
-
-  and
-
-	commit db80a1294c231b6ac725085f046bb2931e00c9db
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Mon Jan 18 11:08:54 2021 +0000
-
-	    drm/i915/gem: Remove per-client stats from debugfs/i915_gem_objects
-
-  we had a bunch of debugfs files that relied on rcu protecting everything, but
-  those are gone now. The main one was removed even earlier with
-
-  There doesn't seem to be anything left that's actually protecting
-  stuff now that the ctx->vm itself is invariant. See
-
-	commit ccbc1b97948ab671335e950271e39766729736c3
-	Author: Jason Ekstrand <jason@jlekstrand.net>
-	Date:   Thu Jul 8 10:48:30 2021 -0500
-
-	    drm/i915/gem: Don't allow changing the VM on running contexts (v4)
-
-  Note that we drop the vm refcount before the final release of the gem context
-  refcount, so this is all very dangerous even without rcu. Note that aside from
-  later on creating new engines (a defunct feature) and debug output we're never
-  looked at gem_ctx->vm for anything functional, hence why this is ok.
-  Fingers crossed.
-
-  Preceeding patches removed all vestiges of rcu use from gem_ctx->vm
-  derferencing to make it clear it's really not used.
-
-  The gem_ctx->rcu protection was introduced in
-
-	commit a4e7ccdac38ec8335d9e4e2656c1a041c77feae1
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Fri Oct 4 14:40:09 2019 +0100
-
-	    drm/i915: Move context management under GEM
-
-  The commit message is somewhat entertaining because it fails to
-  mention this fact completely, and compensates that by an in-commit
-  changelog entry that claims that ctx->vm is protected by ctx->mutex.
-  Which was the case _before_ this commit, but no longer after it.
-
-- intel_context holds a full reference. Unfortunately intel_context is also rcu
-  protected and the reference to the ->vm is dropped before the
-  rcu barrier - only the kfree is delayed. So again we need to check
-  whether that leaks anywhere on the intel_context->vm. RCU is only
-  used to protect intel_context sitting on the breadcrumb lists, which
-  don't look at the vm anywhere, so we are fine.
-
-  Nothing else relies on rcu protection of intel_context and hence is
-  fully protected by the kref refcount alone, which protects
-  intel_context->vm in turn.
-
-  The breadcrumbs rcu usage was added in
-
-	commit c744d50363b714783bbc88d986cc16def13710f7
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Thu Nov 26 14:04:06 2020 +0000
-
-	    drm/i915/gt: Split the breadcrumb spinlock between global and contexts
-
-  its parent commit added the intel_context rcu protection:
-
-	commit 14d1eaf08845c534963c83f754afe0cb14cb2512
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Thu Nov 26 14:04:05 2020 +0000
-
-	    drm/i915/gt: Protect context lifetime with RCU
-
-  given some credence to my claim that I've actually caught them all.
-
-- drm_i915_gem_object's shares_resv_from pointer has a full refcount to the
-  dma_resv, which is a sub-refcount that's released after the final
-  i915_vm_put() has been called. Safe.
-
-  Aside: Maybe we should have a struct dma_resv_shared which is just dma_resv +
-  kref as a stand-alone thing. It's a pretty useful pattern which other drivers
-  might want to copy.
-
-  For a bit more context see
-
-	commit 4d8151ae5329cf50781a02fd2298a909589a5bab
-	Author: Thomas HellstrÃ¶m <thomas.hellstrom@linux.intel.com>
-	Date:   Tue Jun 1 09:46:41 2021 +0200
-
-	    drm/i915: Don't free shared locks while shared
-
-- the fpriv->vm_xa was relying on rcu_read_lock for lookup, but that
-  was updated in a prep patch too to just be a spinlock-protected
-  lookup.
-
-- intel_gt->vm is set at driver load in intel_gt_init() and released
-  in intel_gt_driver_release(). There seems to be some issue that
-  in some error paths this is called twice, but otherwise no rcu to be
-  found anywhere. This was added in the below commit, which
-  unfortunately doesn't explain why this complication exists.
-
-	commit e6ba76480299a0d77c51d846f7467b1673aad25b
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Sat Dec 21 16:03:24 2019 +0000
-
-	    drm/i915: Remove i915->kernel_context
-
-  The proper fix most likely for this is to start using drmm_ at large
-  scale, but that's also huge amounts of work.
-
-- i915_vma->vm is some real pain, because rcu is rcu protected, at
-  least in the vma lookup in the context lookup cache in
-  eb_lookup_vma(). This was added in
-
-	commit 4ff4b44cbb70c269259958cbcc48d7b8a2cb9ec8
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Fri Jun 16 15:05:16 2017 +0100
-
-	    drm/i915: Store a direct lookup from object handle to vma
-
-  This was changed to a radix tree from the hashtable in, but with the
-  locking unchanged, in
-
-	commit d1b48c1e7184d9bc4ae6d7f9fe2eed9efed11ffc
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Wed Aug 16 09:52:08 2017 +0100
-
-	    drm/i915: Replace execbuf vma ht with an idr
-
-  In
-
-	commit 93159e12353c2a47e5576d642845a91fa00530bf
-	Author: Chris Wilson <chris@chris-wilson.co.uk>
-	Date:   Mon Mar 23 09:28:41 2020 +0000
-
-	    drm/i915/gem: Avoid gem_context->mutex for simple vma lookup
-
-  the locking was changed from dev->struct_mutex to rcu, which added
-  the requirement to rcu protect i915_vma. Somehow this was missed in
-  review (or I'm completely blind).
-
-  Irrespective of all that the vma lookup cache rcu_read_lock grabs a
-  full reference of the vma and the rcu doesn't leak further. So no
-  impact on i915_address_space from that.
-
-  I have not found any other rcu use for i915_vma, but given that it
-  seems broken I also didn't bother to do a careful in-depth audit.
-
-Alltogether there's nothing left in-tree anymore which requires that a
-pointer deref to an i915_address_space is safe undre rcu_read_lock
-only.
-
-rcu protection of i915_address_space was introduced in
-
-commit b32fa811156328aea5a3c2ff05cc096490382456
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Thu Jun 20 19:37:05 2019 +0100
-
-    drm/i915/gtt: Defer address space cleanup to an RCU worker
-
-by mixing up a bugfixing (i915_address_space needs to be released from
-a worker) with enabling rcu support. The commit message also seems
-somewhat confused, because it talks about cleanup of WC pages
-requiring sleep, while the code and linked bugzilla are about a
-requirement to take dev->struct_mutex (which yes sleeps but it's a
-much more specific problem). Since final kref_put can be called from
-pretty much anywhere (including hardirq context through the
-scheduler's i915_active cleanup) we need a worker here. Hence that
-part must be kept.
-
-Ideally all these reclaim workers should have some kind of integration
-with our shrinkers, but for some of these it's rather tricky. Anyway,
-that's a preexisting condition in the codeebase that we wont fix in
-this patch here.
-
-We also remove the rcu_barrier in ggtt_cleanup_hw added in
-
-commit 60a4233a4952729089e4df152e730f8f4d0e82ce
-Author: Chris Wilson <chris@chris-wilson.co.uk>
-Date:   Mon Jul 29 14:24:12 2019 +0100
-
-    drm/i915: Flush the i915_vm_release before ggtt shutdown
-
-Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Thomas HellstrÃ¶m" <thomas.hellstrom@linux.intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
----
- drivers/gpu/drm/i915/gt/intel_ggtt.c | 1 -
- drivers/gpu/drm/i915/gt/intel_gtt.c  | 6 +++---
- drivers/gpu/drm/i915/gt/intel_gtt.h  | 2 +-
- 3 files changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index de3ac58fceec..8d71f67926f1 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -727,7 +727,6 @@ static void ggtt_cleanup_hw(struct i915_ggtt *ggtt)
- 
- 	atomic_set(&ggtt->vm.open, 0);
- 
--	rcu_barrier(); /* flush the RCU'ed__i915_vm_release */
- 	flush_workqueue(ggtt->vm.i915->wq);
- 
- 	mutex_lock(&ggtt->vm.mutex);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index e137dd32b5b8..a0c2b952aa57 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -155,7 +155,7 @@ void i915_vm_resv_release(struct kref *kref)
- static void __i915_vm_release(struct work_struct *work)
- {
- 	struct i915_address_space *vm =
--		container_of(work, struct i915_address_space, rcu.work);
-+		container_of(work, struct i915_address_space, release_work);
- 
- 	vm->cleanup(vm);
- 	i915_address_space_fini(vm);
-@@ -171,7 +171,7 @@ void i915_vm_release(struct kref *kref)
- 	GEM_BUG_ON(i915_is_ggtt(vm));
- 	trace_i915_ppgtt_release(vm);
- 
--	queue_rcu_work(vm->i915->wq, &vm->rcu);
-+	queue_work(vm->i915->wq, &vm->release_work);
- }
- 
- void i915_address_space_init(struct i915_address_space *vm, int subclass)
-@@ -185,7 +185,7 @@ void i915_address_space_init(struct i915_address_space *vm, int subclass)
- 	if (!kref_read(&vm->resv_ref))
- 		kref_init(&vm->resv_ref);
- 
--	INIT_RCU_WORK(&vm->rcu, __i915_vm_release);
-+	INIT_WORK(&vm->release_work, __i915_vm_release);
- 	atomic_set(&vm->open, 1);
- 
- 	/*
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index bc7153018ebd..5b539bd7645d 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -213,7 +213,7 @@ struct i915_vma_ops {
- 
- struct i915_address_space {
- 	struct kref ref;
--	struct rcu_work rcu;
-+	struct work_struct release_work;
- 
- 	struct drm_mm mm;
- 	struct intel_gt *gt;
 -- 
-2.33.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
