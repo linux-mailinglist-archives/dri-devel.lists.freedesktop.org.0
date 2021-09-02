@@ -2,76 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B8A3FEFA6
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA9B3FEFAE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 16:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31C286E591;
-	Thu,  2 Sep 2021 14:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 395786E593;
+	Thu,  2 Sep 2021 14:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21C3E6E591
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:45:46 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id b6so3349244wrh.10
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:45:46 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5726E593
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 14:47:38 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so1550031wml.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 07:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=SBemzdNlacrnzlvpl8xEUdWlxlnHw5Q7DGxxpD9O63Y=;
- b=F8wErhsmbA7OzEGYxYwrW/Ypa4d2zsPTUaFJ2kuCx++KprCEIFpMBzF+cr7aJETYo+
- KFhZn4WGn0jMyyuX+h7O1akoKvYdNc9yVDCQSnh9D5m2DTmRMyJW/lkNwpL/JTqWL6CH
- qGStHPYxUqdTVkuLr1dlgkH9PG9a59+CYai+U=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=bmnFc+3KKaFI2ANGRuUW8hsGhsal2uOwCkvONqI8gJA=;
+ b=Hr7rsCo1GYxr9LhmTSx4oDSriTUT1rhtCBfxGnlH7EZTrcopR2bTop9Fk8h+ejGxiN
+ CuJVwfjJuCGWfn4mzdbLHpI1KmsoWp51caDSUeG3M7rPGu218UB3qGjnhs4aH8DGNYdr
+ RftB+RhSBASzkmct5mmtuHUJzOTkPCQEViHe0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=SBemzdNlacrnzlvpl8xEUdWlxlnHw5Q7DGxxpD9O63Y=;
- b=Sfg2SOQ2l5K2nqRVLpRYVbHbTJ46JOfUhWcnqN0WNan5T4c3F4PhnSQooFSi623Da4
- k2g78h5anErVU++QZKfEhrPzjIHhKNrA4ZVuk1cqnhV6FHgOEh1iK0b3W9AHaMx/d2Sq
- s7CR1lXz4+Zm/I3bRwCIjYtdzDd1XFjI3Aqr8edahybPqev2L2E/JYS4iWN4VWiWIgOb
- mX4O4mE8jQEqktP3RcWa24+S2BPMtcGMlZrz68D35o2nOnhQLERs/MOt2yaKbhemqbKI
- qKWb1JCSOxkRRd63zk5alZ7A/zDsZPOjX3WUy4OcKjWOhWJkTb3+xzMhd3BKPrV1osoh
- e5Rg==
-X-Gm-Message-State: AOAM531occWmKCmvH4JTfKv7Racw1F07zUcLqO7ijcMKp2z9j9OzmPjP
- c+vE+6oIomkrr6a4OPD/bqtJaw==
-X-Google-Smtp-Source: ABdhPJzCf8R2j8AB7PFlwy6aj/BOqLVbGNBReozZiXXYkSZ3rkJO8mhoVRbpW+vAiWPAyABsC+xqdw==
-X-Received: by 2002:a05:6000:1627:: with SMTP id
- v7mr4233886wrb.195.1630593944785; 
- Thu, 02 Sep 2021 07:45:44 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=bmnFc+3KKaFI2ANGRuUW8hsGhsal2uOwCkvONqI8gJA=;
+ b=UGquHdT/jUa3KxvEAeSzAgimXEJUZTSmtRphnywbzk/oR5a1f3hYp6ZbH2AfheQrEc
+ HhY9xoKthugOaDuCd8hWbukOcNJRUvTU/A3GYW8DXy0/5A/i0B7JTjka/Fx1SWHim3c7
+ 5zmRp7KmRPjfUcHNsb81jI1qSccxAzCnbEnF+2KtR3quaZo2e+F9+Yk8ApgsjtQ7bruQ
+ Z8oner8bFVyJ5RXPI6oVltoKV2LATrOMDslSuUwQj+E0RaBASAd8+kOyzre6jkXL4dUH
+ 93BpIK4AQdI2s7fuN9Y1m7EGCsl9uZBK2FO9yPL1lfrBJFkH7d88aZT3EyDQjUQrek13
+ YbPw==
+X-Gm-Message-State: AOAM530QJ5I6ilw+ZZL4UYNR/3R16iJEtyXUPau/INdM7uQ26FcCR58c
+ IceGtkfMwm2ZSeISDE+esHy91A==
+X-Google-Smtp-Source: ABdhPJzznbKpEm89FGRfInwUPR2jriyfkrQ2085VLjIRu6nEAaRFI/BY1LtJmgOcNvkUTtwukXZARA==
+X-Received: by 2002:a1c:f214:: with SMTP id s20mr3569210wmc.14.1630594057264; 
+ Thu, 02 Sep 2021 07:47:37 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j20sm1952481wrb.5.2021.09.02.07.45.43
+ by smtp.gmail.com with ESMTPSA id u27sm2114288wru.2.2021.09.02.07.47.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 07:45:44 -0700 (PDT)
-Date: Thu, 2 Sep 2021 16:45:42 +0200
+ Thu, 02 Sep 2021 07:47:36 -0700 (PDT)
+Date: Thu, 2 Sep 2021 16:47:35 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
- linux-um@lists.infradead.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/ttm: provide default page protection for UML
-Message-ID: <YTDjlixwDWi7Y2uR@phenom.ffwll.local>
-Mail-Followup-To: Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
- linux-um@lists.infradead.org, David Airlie <airlied@linux.ie>
-References: <20210902020129.25952-1-rdunlap@infradead.org>
- <9faacbc8-3346-8033-5b4d-60543eae959e@cambridgegreys.com>
- <f978cae5-7275-6780-8a17-c6e61247bce7@infradead.org>
- <0887903c-483d-49c7-0d35-f59be2f85bac@cambridgegreys.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Stone <daniels@collabora.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ Emil Velikov <emil.l.velikov@gmail.com>, Keith Packard <keithp@keithp.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH] drm/lease: allow empty leases
+Message-ID: <YTDkB2JSuBwRWcnP@phenom.ffwll.local>
+References: <20210902091126.2312-1-contact@emersion.fr>
+ <20210902172810.24ed05bb@eldfell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0887903c-483d-49c7-0d35-f59be2f85bac@cambridgegreys.com>
+In-Reply-To: <20210902172810.24ed05bb@eldfell>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,76 +79,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 02, 2021 at 07:19:01AM +0100, Anton Ivanov wrote:
-> On 02/09/2021 06:52, Randy Dunlap wrote:
-> > On 9/1/21 10:48 PM, Anton Ivanov wrote:
-> > > On 02/09/2021 03:01, Randy Dunlap wrote:
-> > > > boot_cpu_data [struct cpuinfo_um (on UML)] does not have a struct
-> > > > member named 'x86', so provide a default page protection mode
-> > > > for CONFIG_UML.
-> > > > 
-> > > > Mends this build error:
-> > > > ../drivers/gpu/drm/ttm/ttm_module.c: In function
-> > > > ‘ttm_prot_from_caching’:
-> > > > ../drivers/gpu/drm/ttm/ttm_module.c:59:24: error: ‘struct
-> > > > cpuinfo_um’ has no member named ‘x86’
-> > > >    else if (boot_cpu_data.x86 > 3)
-> > > >                          ^
-> > > > 
-> > > > Fixes: 3bf3710e3718 ("drm/ttm: Add a generic TTM memcpy move for
-> > > > page-based iomem")
-> > > > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > > > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > > Cc: Christian König <christian.koenig@amd.com>
-> > > > Cc: Huang Rui <ray.huang@amd.com>
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Cc: Jeff Dike <jdike@addtoit.com>
-> > > > Cc: Richard Weinberger <richard@nod.at>
-> > > > Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-> > > > Cc: linux-um@lists.infradead.org
-> > > > Cc: David Airlie <airlied@linux.ie>
-> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > ---
-> > > >   drivers/gpu/drm/ttm/ttm_module.c |    4 ++++
-> > > >   1 file changed, 4 insertions(+)
-> > > > 
-> > > > --- linux-next-20210901.orig/drivers/gpu/drm/ttm/ttm_module.c
-> > > > +++ linux-next-20210901/drivers/gpu/drm/ttm/ttm_module.c
-> > > > @@ -53,6 +53,9 @@ pgprot_t ttm_prot_from_caching(enum ttm_
-> > > >       if (caching == ttm_cached)
-> > > >           return tmp;
-> > > > +#ifdef CONFIG_UML
-> > > > +    tmp = pgprot_noncached(tmp);
-> > > > +#else
-> > > >   #if defined(__i386__) || defined(__x86_64__)
-> > > >       if (caching == ttm_write_combined)
-> > > >           tmp = pgprot_writecombine(tmp);
-> > > > @@ -69,6 +72,7 @@ pgprot_t ttm_prot_from_caching(enum ttm_
-> > > >   #if defined(__sparc__)
-> > > >       tmp = pgprot_noncached(tmp);
-> > > >   #endif
-> > > > +#endif
-> > > >       return tmp;
-> > > >   }
-> > > 
-> > > Patch looks OK.
-> > > 
-> > > I have a question though - why all of DRM is not !UML in config. Not
-> > > like we can use them.
+On Thu, Sep 02, 2021 at 05:28:10PM +0300, Pekka Paalanen wrote:
+> On Thu, 02 Sep 2021 09:11:40 +0000
+> Simon Ser <contact@emersion.fr> wrote:
+> 
+> > This can be used to create a separate DRM file description, thus
+> > creating a new GEM handle namespace. See [1].
 > > 
-> > I have no idea about that.
-> > Hopefully one of the (other) UML maintainers can answer you.
+> > Example usage in wlroots is available at [2].
+> > 
+> > [1]: https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/110
+> > [2]: https://github.com/swaywm/wlroots/pull/3158
+> > 
 > 
-> Touche.
+> Hi Simon,
 > 
-> We will discuss that and possibly push a patch to !UML that part of the
-> tree. IMHO it is not applicable.
+> I have a feeling that this is a good idea, but could you explain in
+> this commit message some real use cases where one needs a new GEM
+> handle namespace? Not just "when you share a DRM fd between processes"
+> but *why* you shared a DRM device fd between processes.
+> 
+> If I have trouble remembering or figuring that out from those links,
+> then I'm sure others have too.
 
-I thought kunit is based on top of uml, and we do want to eventually adopt
-that. Especially for helper libraries like ttm.
+Also please document the uapi headers and explain the use-case there and
+why and all that.
 
-But also that's quite a bit in the future.
+I'd like that we officiate all uapi we intentionally create in the docs as
+much as possible.
+
+Also igt testcase patch for this too pls.
 -Daniel
+
+> 
+> 
+> Thanks,
+> pq
+> 
+> > Signed-off-by: Simon Ser <contact@emersion.fr>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Daniel Stone <daniels@collabora.com>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> > Cc: Michel D�nzer <michel@daenzer.net>
+> > Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> > Cc: Keith Packard <keithp@keithp.com>
+> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > ---
+> >  drivers/gpu/drm/drm_lease.c | 39 +++++++++++++++++--------------------
+> >  1 file changed, 18 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+> > index dee4f24a1808..d72c2fac0ff1 100644
+> > --- a/drivers/gpu/drm/drm_lease.c
+> > +++ b/drivers/gpu/drm/drm_lease.c
+> > @@ -489,12 +489,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+> >  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> >  		return -EOPNOTSUPP;
+> >  
+> > -	/* need some objects */
+> > -	if (cl->object_count == 0) {
+> > -		DRM_DEBUG_LEASE("no objects in lease\n");
+> > -		return -EINVAL;
+> > -	}
+> > -
+> >  	if (cl->flags && (cl->flags & ~(O_CLOEXEC | O_NONBLOCK))) {
+> >  		DRM_DEBUG_LEASE("invalid flags\n");
+> >  		return -EINVAL;
+> > @@ -510,23 +504,26 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+> >  
+> >  	object_count = cl->object_count;
+> >  
+> > -	object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
+> > -			array_size(object_count, sizeof(__u32)));
+> > -	if (IS_ERR(object_ids)) {
+> > -		ret = PTR_ERR(object_ids);
+> > -		goto out_lessor;
+> > -	}
+> > -
+> > +	/* Handle leased objects, if any */
+> >  	idr_init(&leases);
+> > +	if (object_count != 0) {
+> > +		object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
+> > +					 array_size(object_count, sizeof(__u32)));
+> > +		if (IS_ERR(object_ids)) {
+> > +			ret = PTR_ERR(object_ids);
+> > +			idr_destroy(&leases);
+> > +			goto out_lessor;
+> > +		}
+> >  
+> > -	/* fill and validate the object idr */
+> > -	ret = fill_object_idr(dev, lessor_priv, &leases,
+> > -			      object_count, object_ids);
+> > -	kfree(object_ids);
+> > -	if (ret) {
+> > -		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
+> > -		idr_destroy(&leases);
+> > -		goto out_lessor;
+> > +		/* fill and validate the object idr */
+> > +		ret = fill_object_idr(dev, lessor_priv, &leases,
+> > +				      object_count, object_ids);
+> > +		kfree(object_ids);
+> > +		if (ret) {
+> > +			DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
+> > +			idr_destroy(&leases);
+> > +			goto out_lessor;
+> > +		}
+> >  	}
+> >  
+> >  	/* Allocate a file descriptor for the lease */
+> 
+
+
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
