@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081853FF1A0
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 18:40:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F4F3FF1B6
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 18:42:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D26D6E7D0;
-	Thu,  2 Sep 2021 16:39:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34EED6E7D2;
+	Thu,  2 Sep 2021 16:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A7D6E7D0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 16:39:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5E6CC610A0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 16:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630600797;
- bh=szwh7oehAqNt8Zqs+PGnE2g33HVzS4jmy2M5qHgxCrU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=sbNwDz7J8ZpWV21lmgYBxKwgZ0ZoZXKIK+CyL//nhMcgymhf54rcTnPwpd/bTHHmZ
- I9DsfcO/4bm1KQ64hZHoshOI+6RzW/R3KGwZ+EkiCb6ZndhzKyskNEa6ovJMEFQL7A
- 8wrV3QLJS9tfENFDB5mAmAbeSW1xU+I3hOf8fx7QRT+UNvieKuLT3LmScrKQMnOau4
- tlYvuZ1w8vKprZo9D0LUSOrzKsu1ys0jSrR9cKG/xueK2fzjN5NUoLFvicjy4dbgus
- pjpwaIkcctjxcISxxnst3WzSg1tVsHT38pATWsqbc02AAG5gCaoUUSOtX4zYQJpObI
- LJcl7ygc37ZEA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 55B1E610FA; Thu,  2 Sep 2021 16:39:57 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214289] amdgpu Msg issuing pre-check failed and SMU may be not
- in the right state!
-Date: Thu, 02 Sep 2021 16:39:57 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michal.przybylowicz@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214289-2300-J1aX6Hye9X@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214289-2300@https.bugzilla.kernel.org/>
-References: <bug-214289-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E211C6E7D2;
+ Thu,  2 Sep 2021 16:41:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="206305004"
+X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="206305004"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 09:41:58 -0700
+X-IronPort-AV: E=Sophos;i="5.85,262,1624345200"; d="scan'208";a="461754207"
+Received: from rlsmith2-mobl1.amr.corp.intel.com (HELO [10.213.229.210])
+ ([10.213.229.210])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 09:41:55 -0700
+Subject: Re: [Intel-gfx] [PATCH 07/11] drm/i915: Add
+ i915_gem_context_is_full_ppgtt
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
+References: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
+ <20210902142057.929669-7-daniel.vetter@ffwll.ch>
+ <1cb4b910-ad02-ff02-46ef-7b3b4f393eb3@linux.intel.com>
+ <YTDsKX2rQ4Kjr3io@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <68d369f3-b072-e138-8195-f6ff14f708a2@linux.intel.com>
+Date: Thu, 2 Sep 2021 17:41:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <YTDsKX2rQ4Kjr3io@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,57 +67,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214289
 
---- Comment #3 from Michal Przybylowicz (michal.przybylowicz@gmail.com) ---
-Just one thing that I have noticed it looks like these messages appear when=
- I
-do some interactions on webpages like clicking dropdown...=20
+On 02/09/2021 16:22, Daniel Vetter wrote:
+> On Thu, Sep 02, 2021 at 03:54:36PM +0100, Tvrtko Ursulin wrote:
+>> On 02/09/2021 15:20, Daniel Vetter wrote:
+>>> And use it anywhere we have open-coded checks for ctx->vm that really
+>>> only check for full ppgtt.
+>>>
+>>> Plus for paranoia add a GEM_BUG_ON that checks it's really only set
+>>> when we have full ppgtt, just in case. gem_context->vm is different
+>>> since it's NULL in ggtt mode, unlike intel_context->vm or gt->vm,
+>>> which is always set.
+>>>
+>>> v2: 0day found a testcase that I missed.
+>>>
+>>> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+>>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+>>> Cc: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>>> Cc: Dave Airlie <airlied@redhat.com>
+>>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+>>> ---
+>>>    drivers/gpu/drm/i915/gem/i915_gem_context.c           | 2 +-
+>>>    drivers/gpu/drm/i915/gem/i915_gem_context.h           | 7 +++++++
+>>>    drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c        | 2 +-
+>>>    drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 6 +++---
+>>>    4 files changed, 12 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> index 7a566fb7cca4..1eec85944c1f 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> @@ -1566,7 +1566,7 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
+>>>    	int err;
+>>>    	u32 id;
+>>> -	if (!rcu_access_pointer(ctx->vm))
+>>> +	if (!i915_gem_context_is_full_ppgtt(ctx))
+>>
+>> It reads a bit wrong because GEM context cannot *be* full ppggt. It can be
+>> associated with a VM which is or isn't full ppgtt. So a test on a VM
+>> retrieved from a context is semnntically more correct. Perhaps you want to
+>> consider adding a helper to that effect instead? It could mean splitting
+>> into two helpers (getter + test) or maybe just renaming would work. Like
+>> i915_gem_context_has_full_ppgtt_vm(ctx)?
+> 
+> The pointer isn't set when the driver/context isn't running in full ppgtt
+> mode. This is why I've added the GEM_BUG_ON to check we're not breaking
+> any invariants. So yeah it is a full ppgtt context or it's not, that is
+> indeed the question here.
+> 
+> I'm happy to bikeshed the naming, but I don't see how your suggestion is
+> an improvement.
 
-I am using Vivaldi: 4.1.2369.21 (Stable channel) stable (64-bit)
+I think the pointer being set or not is implementation detail, for 
+instance we could have it always set just like it is in intel_context.
 
-And it also spams its log with these errors (maybe this all is related):
+I simply think GEM context *isn't* full ppgtt, but the VM is. And since 
+GEM context *points* to a VM, *has* is the right verb in my mind. You 
+did not write why do you not see has as more correct than is so I don't 
+want to be guessing too much.
 
-[1542:1542:0902/180420.608750:ERROR:shared_context_state.cc(73)] : Skia sha=
-der
-compilation error ------------------------ Errors:
-[1542:1542:0902/180425.551298:ERROR:gles2_cmd_decoder.cc(18958)] :
-[.RendererMainThread-0x3b5002c41a00]GL ERROR :GL_INVALID_OPERATION :
-DoBeginSharedImageAccessCHROMIUM: bound texture is not a shared image
-[1542:1542:0902/180425.552365:ERROR:gles2_cmd_decoder.cc(18987)] :
-[.RendererMainThread-0x3b5002c41a00]GL ERROR :GL_INVALID_OPERATION :
-DoEndSharedImageAccessCHROMIUM: bound texture is not a shared image
-[1542:1542:0902/180539.574319:ERROR:shared_image_manager.cc(214)] :
-SharedImageManager::ProduceSkia: Trying to Produce a Skia representation fr=
-om a
-non-existent mailbox.
-[1542:1542:0902/180539.574446:ERROR:shared_image_manager.cc(214)] :
-SharedImageManager::ProduceSkia: Trying to Produce a Skia representation fr=
-om a
-non-existent mailbox.
-[1542:1542:0902/180606.529719:ERROR:shared_context_state.cc(73)] : Skia sha=
-der
-compilation error ------------------------ Errors:
-[1542:1542:0902/180606.557709:ERROR:shared_context_state.cc(73)] : Skia sha=
-der
-compilation error ------------------------ Errors:
-[1542:1542:0902/183031.153537:ERROR:shared_image_manager.cc(214)] :
-SharedImageManager::ProduceSkia: Trying to Produce a Skia representation fr=
-om a
-non-existent mailbox.
-[1542:1542:0902/183031.153664:ERROR:shared_image_manager.cc(214)] :
-SharedImageManager::ProduceSkia: Trying to Produce a Skia representation fr=
-om a
-non-existent mailbox.
-[1542:1542:0902/183143.069374:ERROR:shared_context_state.cc(73)] : Skia sha=
-der
-compilation error ------------------------ Errors:
-[1542:1542:0902/183213.030240:ERROR:shared_context_state.cc(73)] : Skia sha=
-der
-compilation error ------------------------ Errors:
+Regards,
 
---=20
-You may reply to this email to add a comment.
+Tvrtko
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>    		return -ENODEV;
+>>>    	rcu_read_lock();
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>>> index da6e8b506d96..37536a260e6e 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>>> @@ -154,6 +154,13 @@ i915_gem_context_vm(struct i915_gem_context *ctx)
+>>>    	return rcu_dereference_protected(ctx->vm, lockdep_is_held(&ctx->mutex));
+>>>    }
+>>> +static inline bool i915_gem_context_is_full_ppgtt(struct i915_gem_context *ctx)
+>>> +{
+>>> +	GEM_BUG_ON(!!rcu_access_pointer(ctx->vm) != HAS_FULL_PPGTT(ctx->i915));
+>>> +
+>>> +	return !!rcu_access_pointer(ctx->vm);
+>>> +}
+>>> +
+>>>    static inline struct i915_address_space *
+>>>    i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
+>>>    {
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>> index 905b1cbd22d5..40f08948f0b2 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>> @@ -749,7 +749,7 @@ static int eb_select_context(struct i915_execbuffer *eb)
+>>>    		return PTR_ERR(ctx);
+>>>    	eb->gem_context = ctx;
+>>> -	if (rcu_access_pointer(ctx->vm))
+>>> +	if (i915_gem_context_is_full_ppgtt(ctx))
+>>>    		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
+>>>    	return 0;
+>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>>> index fc7fb33a3a52..947154e445a7 100644
+>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>>> @@ -704,7 +704,7 @@ static int igt_ctx_exec(void *arg)
+>>>    				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
+>>>    				       ndwords, dw, max_dwords(obj),
+>>>    				       engine->name,
+>>> -				       yesno(!!rcu_access_pointer(ctx->vm)),
+>>> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
+>>>    				       err);
+>>>    				intel_context_put(ce);
+>>>    				kernel_context_close(ctx);
+>>> @@ -838,7 +838,7 @@ static int igt_shared_ctx_exec(void *arg)
+>>>    				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
+>>>    				       ndwords, dw, max_dwords(obj),
+>>>    				       engine->name,
+>>> -				       yesno(!!rcu_access_pointer(ctx->vm)),
+>>> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
+>>>    				       err);
+>>>    				intel_context_put(ce);
+>>>    				kernel_context_close(ctx);
+>>> @@ -1417,7 +1417,7 @@ static int igt_ctx_readonly(void *arg)
+>>>    				pr_err("Failed to fill dword %lu [%lu/%lu] with gpu (%s) [full-ppgtt? %s], err=%d\n",
+>>>    				       ndwords, dw, max_dwords(obj),
+>>>    				       ce->engine->name,
+>>> -				       yesno(!!ctx_vm(ctx)),
+>>> +				       yesno(i915_gem_context_is_full_ppgtt(ctx)),
+>>>    				       err);
+>>>    				i915_gem_context_unlock_engines(ctx);
+>>>    				goto out_file;
+>>>
+> 
