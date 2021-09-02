@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA27D3FE7E9
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 05:13:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B653FE782
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 04:17:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481BA6E415;
-	Thu,  2 Sep 2021 03:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0267A6E413;
+	Thu,  2 Sep 2021 02:17:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rosenzweig.io (rosenzweig.io [138.197.143.207])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 085486E415
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 03:13:15 +0000 (UTC)
-Date: Wed, 1 Sep 2021 21:35:40 -0400
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] drm: Add drm_fixed_16_16 helper
-Message-ID: <YTAqbAhoYPe6Stjn@sunset>
-References: <20210901175431.14060-1-alyssa@rosenzweig.io>
- <YS/CsCSqKeFYF9x7@pendragon.ideasonboard.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 964FC6E413
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Sep 2021 02:17:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=mequYaOSC8flI66LQgtrrKi6Dh4jUXB1i7lEFHYul5o=; b=dLOW0jSHug5ohyKzJC83Hc1+J3
+ 5ZV4XGai8OxJqDtw9LwtoqW0XqUsB5MMmwk9K/FuheA9TqrWXrsY25xeE3qvuPc+asIPlhPfthQBP
+ EC2ErdwoTlDg+VR2MHnrzi3yBtqiMo3ux1vGjIMznPAADcjeB390zI/NJNSODWpNlHG3KxXsnFk1k
+ GmIDYccfXiCpZidr5Rs7NpbYyIvXnEDXIT5ShpHsdF8nytXiu3qcb10RvX9QsRO75kW2g/gXw7XjE
+ jzPQeJr+Zc44Q+jFO3VGJRBQ4xZ8qaBtye0waA+ektyM6XdxkpIsvHtbN440WM7FV571tUzcfm1Pi
+ 2EBVUgXw==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mLcI6-008BRB-8f; Thu, 02 Sep 2021 02:17:22 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-um@lists.infradead.org
+Subject: [PATCH] drm/r128: fix build for UML
+Date: Wed,  1 Sep 2021 19:17:21 -0700
+Message-Id: <20210902021721.27274-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YS/CsCSqKeFYF9x7@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,30 +55,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Missing documentation :-)
+Fix a build error on CONFIG_UML, which does not support (provide)
+wbinvd(). UML can use the generic mb() instead.
 
-Ack.
+../drivers/gpu/drm/r128/ati_pcigart.c: In function ‘drm_ati_pcigart_init’:
+../drivers/gpu/drm/r128/ati_pcigart.c:218:2: error: implicit declaration of function ‘wbinvd’ [-Werror=implicit-function-declaration]
+  wbinvd();
+  ^~~~~~
 
-> > +static inline int drm_fixed_16_16(s32 mult, s32 div)
-> 
-> You should return a s32.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2") # pre-git
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Jeff Dike <jdike@addtoit.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: linux-um@lists.infradead.org
+---
+ drivers/gpu/drm/r128/ati_pcigart.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ack.
-
-> The function name isn't very explicit, and departs from the naming
-> scheme of other functions in the same file. As fixed-point numbers are
-> stored in a s64 for the drm_fixp_* helpers, we shouldn't rese the
-> drm_fixp_ prefix, maybe drm_fixp_s16_16_ would be a good prefix. The
-> function should probably be named drm_fixp_s16_16 from_fraction() then,
-> but then the same logic should possibly be replicated to ensure optimal
-> precision. I wonder if it wouldn't be best to simply use
-> drm_fixp_from_fraction() and shift the result right by 16 bits.
-
-Sure, I'm not attached to the naming ... will wait to hear what colours
-everyone else wants the bikehed painted.
-
-As for the implementation, I just went with what was used across
-multiple drivers already (no chance of regressions that way) but could
-reuse other helpers if it's better..? If the behaviour changes this goes
-from a trivial cleanup to a much more invasive changeset. I don't own
-half of the hardware here.
+--- linux-next-20210901.orig/drivers/gpu/drm/r128/ati_pcigart.c
++++ linux-next-20210901/drivers/gpu/drm/r128/ati_pcigart.c
+@@ -214,7 +214,7 @@ int drm_ati_pcigart_init(struct drm_devi
+ 	}
+ 	ret = 0;
+ 
+-#if defined(__i386__) || defined(__x86_64__)
++#if (defined(__i386__) || defined(__x86_64__)) && !defined(CONFIG_UML)
+ 	wbinvd();
+ #else
+ 	mb();
