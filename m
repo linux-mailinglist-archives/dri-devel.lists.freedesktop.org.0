@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12623FE6D3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 02:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DFC3FE6D8
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Sep 2021 02:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3B56E42E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE8C16E42A;
 	Thu,  2 Sep 2021 00:52:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32F776E441;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65B046E41B;
  Thu,  2 Sep 2021 00:52:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="217058124"
-X-IronPort-AV: E=Sophos;i="5.84,370,1620716400"; d="scan'208";a="217058124"
+X-IronPort-AV: E=McAfee;i="6200,9189,10094"; a="217058126"
+X-IronPort-AV: E=Sophos;i="5.84,370,1620716400"; d="scan'208";a="217058126"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2021 17:52:46 -0700
-X-IronPort-AV: E=Sophos;i="5.84,370,1620716400"; d="scan'208";a="646030182"
+ 01 Sep 2021 17:52:47 -0700
+X-IronPort-AV: E=Sophos;i="5.84,370,1620716400"; d="scan'208";a="646030188"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Sep 2021 17:52:46 -0700
@@ -25,14 +25,15 @@ From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, John.C.Harrison@Intel.com,
  matthew.brost@intel.com
-Subject: [PATCH v5 10/25] drm/i915/guc: Copy whole golden context,
- set engine state size of subset
-Date: Wed,  1 Sep 2021 17:50:07 -0700
-Message-Id: <20210902005022.711767-11-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v5 11/25] drm/i915/selftests: Add initial GuC selftest for
+ scrubbing lost G2H
+Date: Wed,  1 Sep 2021 17:50:08 -0700
+Message-Id: <20210902005022.711767-12-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210902005022.711767-1-daniele.ceraolospurio@intel.com>
 References: <20210902005022.711767-1-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,87 +52,302 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Matthew Brost <matthew.brost@intel.com>
 
-When the GuC does a media reset, it copies a golden context state back
-into the corrupted context's state. The address of the golden context
-and the size of the engine state restore are passed in via the GuC ADS.
-The i915 had a bug where it passed in the whole size of the golden
-context, not the size of the engine state to restore resulting in a
-memory corruption.
+While debugging an issue with full GT resets I went down a rabbit hole
+thinking the scrubbing of lost G2H wasn't working correctly. This proved
+to be incorrect as this was working just fine but this chase inspired me
+to write a selftest to prove that this works. This simple selftest
+injects errors dropping various G2H and then issues a full GT reset
+proving that the scrubbing of these G2H doesn't blow up.
 
-Also copy the entire golden context on init rather than just the engine
-state that is restored.
+v2:
+ (Daniel Vetter)
+  - Use ifdef instead of macros for selftests
+v3:
+ (Checkpatch)
+  - A space after 'switch' statement
+v4:
+ (Daniele)
+  - A comment saying GT won't idle if G2H are lost
 
-v2 (Daniele): use defines to avoid duplicated const variables (John).
-
-Fixes: 481d458caede ("drm/i915/guc: Add golden context to GuC ADS")
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c | 26 ++++++++++++++--------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  18 +++
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  25 ++++
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     | 127 ++++++++++++++++++
+ .../drm/i915/selftests/i915_live_selftests.h  |   1 +
+ .../i915/selftests/intel_scheduler_helpers.c  |  12 ++
+ .../i915/selftests/intel_scheduler_helpers.h  |   2 +
+ 6 files changed, 185 insertions(+)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc.c
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 6926919bcac6..2c6ea64af7ec 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -349,6 +349,8 @@ static void fill_engine_enable_masks(struct intel_gt *gt,
- 	info->engine_enabled_masks[GUC_VIDEOENHANCE_CLASS] = VEBOX_MASK(gt);
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index e54351a170e2..3a73f3117873 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -198,6 +198,24 @@ struct intel_context {
+ 	 */
+ 	u8 guc_prio;
+ 	u32 guc_prio_count[GUC_CLIENT_PRIORITY_NUM];
++
++#ifdef CONFIG_DRM_I915_SELFTEST
++	/**
++	 * @drop_schedule_enable: Force drop of schedule enable G2H for selftest
++	 */
++	bool drop_schedule_enable;
++
++	/**
++	 * @drop_schedule_disable: Force drop of schedule disable G2H for
++	 * selftest
++	 */
++	bool drop_schedule_disable;
++
++	/**
++	 * @drop_deregister: Force drop of deregister G2H for selftest
++	 */
++	bool drop_deregister;
++#endif
+ };
+ 
+ #endif /* __INTEL_CONTEXT_TYPES__ */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index f5bee833ee7d..5970c54a2e72 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -2639,6 +2639,13 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+ 
+ 	trace_intel_context_deregister_done(ce);
+ 
++#ifdef CONFIG_DRM_I915_SELFTEST
++	if (unlikely(ce->drop_deregister)) {
++		ce->drop_deregister = false;
++		return 0;
++	}
++#endif
++
+ 	if (context_wait_for_deregister_to_register(ce)) {
+ 		struct intel_runtime_pm *runtime_pm =
+ 			&ce->engine->gt->i915->runtime_pm;
+@@ -2693,10 +2700,24 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+ 	trace_intel_context_sched_done(ce);
+ 
+ 	if (context_pending_enable(ce)) {
++#ifdef CONFIG_DRM_I915_SELFTEST
++		if (unlikely(ce->drop_schedule_enable)) {
++			ce->drop_schedule_enable = false;
++			return 0;
++		}
++#endif
++
+ 		clr_context_pending_enable(ce);
+ 	} else if (context_pending_disable(ce)) {
+ 		bool banned;
+ 
++#ifdef CONFIG_DRM_I915_SELFTEST
++		if (unlikely(ce->drop_schedule_disable)) {
++			ce->drop_schedule_disable = false;
++			return 0;
++		}
++#endif
++
+ 		/*
+ 		 * Unpin must be done before __guc_signal_context_fence,
+ 		 * otherwise a race exists between the requests getting
+@@ -3073,3 +3094,7 @@ bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve)
+ 
+ 	return false;
  }
++
++#if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
++#include "selftest_guc.c"
++#endif
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+new file mode 100644
+index 000000000000..fb0e4a7bd8ca
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+@@ -0,0 +1,127 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright �� 2021 Intel Corporation
++ */
++
++#include "selftests/intel_scheduler_helpers.h"
++
++static struct i915_request *nop_user_request(struct intel_context *ce,
++					     struct i915_request *from)
++{
++	struct i915_request *rq;
++	int ret;
++
++	rq = intel_context_create_request(ce);
++	if (IS_ERR(rq))
++		return rq;
++
++	if (from) {
++		ret = i915_sw_fence_await_dma_fence(&rq->submit,
++						    &from->fence, 0,
++						    I915_FENCE_GFP);
++		if (ret < 0) {
++			i915_request_put(rq);
++			return ERR_PTR(ret);
++		}
++	}
++
++	i915_request_get(rq);
++	i915_request_add(rq);
++
++	return rq;
++}
++
++static int intel_guc_scrub_ctbs(void *arg)
++{
++	struct intel_gt *gt = arg;
++	int ret = 0;
++	int i;
++	struct i915_request *last[3] = {NULL, NULL, NULL}, *rq;
++	intel_wakeref_t wakeref;
++	struct intel_engine_cs *engine;
++	struct intel_context *ce;
++
++	wakeref = intel_runtime_pm_get(gt->uncore->rpm);
++	engine = intel_selftest_find_any_engine(gt);
++
++	/* Submit requests and inject errors forcing G2H to be dropped */
++	for (i = 0; i < 3; ++i) {
++		ce = intel_context_create(engine);
++		if (IS_ERR(ce)) {
++			ret = PTR_ERR(ce);
++			pr_err("Failed to create context, %d: %d\n", i, ret);
++			goto err;
++		}
++
++		switch (i) {
++		case 0:
++			ce->drop_schedule_enable = true;
++			break;
++		case 1:
++			ce->drop_schedule_disable = true;
++			break;
++		case 2:
++			ce->drop_deregister = true;
++			break;
++		}
++
++		rq = nop_user_request(ce, NULL);
++		intel_context_put(ce);
++
++		if (IS_ERR(rq)) {
++			ret = PTR_ERR(rq);
++			pr_err("Failed to create request, %d: %d\n", i, ret);
++			goto err;
++		}
++
++		last[i] = rq;
++	}
++
++	for (i = 0; i < 3; ++i) {
++		ret = i915_request_wait(last[i], 0, HZ);
++		if (ret < 0) {
++			pr_err("Last request failed to complete: %d\n", ret);
++			goto err;
++		}
++		i915_request_put(last[i]);
++		last[i] = NULL;
++	}
++
++	/* Force all H2G / G2H to be submitted / processed */
++	intel_gt_retire_requests(gt);
++	msleep(500);
++
++	/* Scrub missing G2H */
++	intel_gt_handle_error(engine->gt, -1, 0, "selftest reset");
++
++	/* GT will not idle if G2H are lost */
++	ret = intel_gt_wait_for_idle(gt, HZ);
++	if (ret < 0) {
++		pr_err("GT failed to idle: %d\n", ret);
++		goto err;
++	}
++
++err:
++	for (i = 0; i < 3; ++i)
++		if (last[i])
++			i915_request_put(last[i]);
++	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
++
++	return ret;
++}
++
++int intel_guc_live_selftests(struct drm_i915_private *i915)
++{
++	static const struct i915_subtest tests[] = {
++		SUBTEST(intel_guc_scrub_ctbs),
++	};
++	struct intel_gt *gt = &i915->gt;
++
++	if (intel_gt_is_wedged(gt))
++		return 0;
++
++	if (!intel_uc_uses_guc_submission(&gt->uc))
++		return 0;
++
++	return intel_gt_live_subtests(tests, gt);
++}
+diff --git a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+index cfa5c4165a4f..3cf6758931f9 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
++++ b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+@@ -47,5 +47,6 @@ selftest(execlists, intel_execlists_live_selftests)
+ selftest(ring_submission, intel_ring_submission_live_selftests)
+ selftest(perf, i915_perf_live_selftests)
+ selftest(slpc, intel_slpc_live_selftests)
++selftest(guc, intel_guc_live_selftests)
+ /* Here be dragons: keep last to run last! */
+ selftest(late_gt_pm, intel_gt_pm_late_selftests)
+diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+index 4b328346b48a..310fb83c527e 100644
+--- a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
++++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+@@ -14,6 +14,18 @@
+ #define REDUCED_PREEMPT		10
+ #define WAIT_FOR_RESET_TIME	10000
  
-+#define LR_HW_CONTEXT_SIZE (80 * sizeof(u32))
-+#define LRC_SKIP_SIZE (LRC_PPHWSP_SZ * PAGE_SIZE + LR_HW_CONTEXT_SIZE)
- static int guc_prep_golden_context(struct intel_guc *guc,
- 				   struct __guc_ads_blob *blob)
- {
-@@ -396,7 +398,18 @@ static int guc_prep_golden_context(struct intel_guc *guc,
- 		if (!blob)
- 			continue;
++struct intel_engine_cs *intel_selftest_find_any_engine(struct intel_gt *gt)
++{
++	struct intel_engine_cs *engine;
++	enum intel_engine_id id;
++
++	for_each_engine(engine, gt, id)
++		return engine;
++
++	pr_err("No valid engine found!\n");
++	return NULL;
++}
++
+ int intel_selftest_modify_policy(struct intel_engine_cs *engine,
+ 				 struct intel_selftest_saved_policy *saved,
+ 				 u32 modify_type)
+diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+index 35c098601ac0..ae60bb507f45 100644
+--- a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
++++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+@@ -10,6 +10,7 @@
  
--		blob->ads.eng_state_size[guc_class] = real_size;
-+		/*
-+		 * This interface is slightly confusing. We need to pass the
-+		 * base address of the full golden context and the size of just
-+		 * the engine state, which is the section of the context image
-+		 * that starts after the execlists context. This is required to
-+		 * allow the GuC to restore just the engine state when a
-+		 * watchdog reset occurs.
-+		 * We calculate the engine state size by removing the size of
-+		 * what comes before it in the context image (which is identical
-+		 * on all engines).
-+		 */
-+		blob->ads.eng_state_size[guc_class] = real_size - LRC_SKIP_SIZE;
- 		blob->ads.golden_context_lrca[guc_class] = addr_ggtt;
- 		addr_ggtt += alloc_size;
- 	}
-@@ -436,11 +449,6 @@ static void guc_init_golden_context(struct intel_guc *guc)
- 	u8 engine_class, guc_class;
- 	u8 *ptr;
+ struct i915_request;
+ struct intel_engine_cs;
++struct intel_gt;
  
--	/* Skip execlist and PPGTT registers + HWSP */
--	const u32 lr_hw_context_size = 80 * sizeof(u32);
--	const u32 skip_size = LRC_PPHWSP_SZ * PAGE_SIZE +
--		lr_hw_context_size;
--
- 	if (!intel_uc_uses_guc_submission(&gt->uc))
- 		return;
+ struct intel_selftest_saved_policy {
+ 	u32 flags;
+@@ -23,6 +24,7 @@ enum selftest_scheduler_modify {
+ 	SELFTEST_SCHEDULER_MODIFY_FAST_RESET,
+ };
  
-@@ -476,12 +484,12 @@ static void guc_init_golden_context(struct intel_guc *guc)
- 			continue;
- 		}
- 
--		GEM_BUG_ON(blob->ads.eng_state_size[guc_class] != real_size);
-+		GEM_BUG_ON(blob->ads.eng_state_size[guc_class] !=
-+			   real_size - LRC_SKIP_SIZE);
- 		GEM_BUG_ON(blob->ads.golden_context_lrca[guc_class] != addr_ggtt);
- 		addr_ggtt += alloc_size;
- 
--		shmem_read(engine->default_state, skip_size, ptr + skip_size,
--			   real_size - skip_size);
-+		shmem_read(engine->default_state, 0, ptr, real_size);
- 		ptr += alloc_size;
- 	}
- 
++struct intel_engine_cs *intel_selftest_find_any_engine(struct intel_gt *gt);
+ int intel_selftest_modify_policy(struct intel_engine_cs *engine,
+ 				 struct intel_selftest_saved_policy *saved,
+ 				 enum selftest_scheduler_modify modify_type);
 -- 
 2.25.1
 
