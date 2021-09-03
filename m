@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765964003A7
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 18:47:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0788C4003DE
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 19:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0F16E8B3;
-	Fri,  3 Sep 2021 16:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE026E8B2;
+	Fri,  3 Sep 2021 17:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2DA36E8B2
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 16:47:12 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id s12so10526473ljg.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Sep 2021 09:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3SbG8sX/0ZzQsMJDjp4NMB1XLP9fPSRfuxnRQ0qJ6ZQ=;
- b=h96jPvB1VF8aXmsyKYTK3pyMfkjlr4jae/eMazr84KKEVE3WPPzLi2drfZe0sltNls
- ezB2zs40eBbOBAXGEZgOIBC/h9TYpHxHyV9nqS09K3LiD89aE2JMppnmeBY2mrvEMKxc
- vIH5g7LBEYPFVstKUTFJLfFel+honSYDWbJZaoE+GV+VdCFmQcIqwmyg0XxY3b8BMj2c
- YS0SrgO4m0l7CqlY79p/FdLyjpU3CcIOGbV6VR/tfo2w/3mbglFhvWKq5g1HLR0GEGmw
- Wt/1hfZqzflI3KNZZZ8AHcrEYVSJzdk/v6pPtL6LNUO0YHz8P2AvUL/46173JDZ2Qv6u
- zvPw==
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D44A06E8B2
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 17:09:02 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id s11so6111489pgr.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Sep 2021 10:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=32EQLdfDTCRCdMRemhZOmZoqSg85NLCnv9qxhDUzup4=;
+ b=FqSavnJkeVM8xIg3hQ3VVqpS0xthnfgZNfDX1AaGl4kDvEWoAWI6FMOVP2ZfcE/4YB
+ yFJb5mV4nUddkUN7SopNeCSjlC0p0SP/5ziSfVN/lNXcNDDrxsmTqR6T+/YcTJX6iZQC
+ JfHRJ0FW3e2GnSVXSTKIaEnh8KKsI29iKqEuaPrGY/WULmyy7Ld652r4njvRLASYbpus
+ 18hjU2DfMeiRikDvKf37MVRgGI5QMZakziM1PHWWqZ84ueQNbd/fVx8wM0dV6+BXm3l+
+ G2uq+SAAMPJHqxwU3+Ikg8KFOBjxzyTrkgHwaEDMyeibWl/JCq8ut2ElRovtO/3bF9Mz
+ P9+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3SbG8sX/0ZzQsMJDjp4NMB1XLP9fPSRfuxnRQ0qJ6ZQ=;
- b=D60e/QGd+71H0bJaJlFDqmErEteABrvERiYbvQdy18gsMiiV18wAuOwhdzPaMrrGw0
- arDe76Z5GMlHyYONDvRnXeC4wD9jXzfKlvy70bVOKOkDG8q7r9mHFDYY0nT8MgFmHhmi
- MeygK5FOgLVoOU+UrRMi5aejUoH3uQqRpBqCK78yyX8HpKkUW/Vr2YbVEiGMecsVHUJb
- 32eKRq31ssB3Vs+br9CK35CRyFP4rdoW9g3HgG51UjIF2BKFb1/zg/ZtsiSBkwrm/nJ9
- 0x5F9qB0tY05APnsYb07jBBu6GKixUQzyEqafgzRkSghTJYaE2tPrl4S8t7ds96OhMD0
- b58A==
-X-Gm-Message-State: AOAM532j2WDJz4anHwFfBj44rNowCzEANQvbShpJeV1XyUyrz0nOQhT0
- l15afO+V+I0HX1IrRWy/hyeYFwg+pU8Lo0es2sZ/bw==
-X-Google-Smtp-Source: ABdhPJwNAt83j9fd+RPScqWuwfEU2cw02u/Mf4m+X7BGCDeel+rBomwbplyiuXmf8qSWEvlZ/A+44IrmpEVPwQGr418=
-X-Received: by 2002:a2e:8e8f:: with SMTP id z15mr3538184ljk.121.1630687631028; 
- Fri, 03 Sep 2021 09:47:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=32EQLdfDTCRCdMRemhZOmZoqSg85NLCnv9qxhDUzup4=;
+ b=Y/diVh1TgnT4VCVm1aeKn8PSoYAst1WA66FnDRN8YYhnL/+NXJMUgHflZy2VfzZgkN
+ XrUIdLFGm85JkhcBFiweN6kbPzMgwbLN2gRmB03AO/JIxfCQUxcM1efr0pLsRyTQZAqV
+ UYtuuHmiteIeg/mppUzpD6IOl24VjqWOTBMS7cP2SUgzQ88G72oF78VzatLUHDlCoaNY
+ NREv1AiM0Q/YDnwxYP2+lBm8y1620l0B8bRyJOhy9u/bGzgfJuhZuGKglAPMk3DYMdR5
+ 4YejquV3+Cy3n8vymDWUWP/rpu9EQhwOKBaEm+lqLedVASF+1AFjd5onT8zOlij86+X5
+ ie1A==
+X-Gm-Message-State: AOAM530hI3Wj5NVn1PDXveh78oT3/RADuQSPH0gTzeXBip3uOb+gvoWb
+ 7yEwS5BTJ0IZh/ZnMUva5t1kdiWIq5n0Ag==
+X-Google-Smtp-Source: ABdhPJxGolyM7co+r0l5xbZhBkdb1JccCKzpw4VmeIZgvlpyTIIH08eZkbmaP+kzlokxfvXmvjxMQw==
+X-Received: by 2002:a65:5a49:: with SMTP id z9mr47166pgs.121.1630688942457;
+ Fri, 03 Sep 2021 10:09:02 -0700 (PDT)
+Received: from skynet-linux.local ([122.171.5.147])
+ by smtp.googlemail.com with ESMTPSA id 130sm5905361pfy.175.2021.09.03.10.09.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Sep 2021 10:09:01 -0700 (PDT)
+From: Sireesh Kodali <sireeshkodali1@gmail.com>
+To: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+Cc: Sireesh Kodali <sireeshkodali1@gmail.com>
+Subject: [PATCH v2 0/3] MSM8953 MDP/DSI PHY enablement
+Date: Fri,  3 Sep 2021 22:38:41 +0530
+Message-Id: <20210903170844.35694-1-sireeshkodali1@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20210902124913.2698760-1-geert@linux-m68k.org>
-In-Reply-To: <20210902124913.2698760-1-geert@linux-m68k.org>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Fri, 3 Sep 2021 22:16:59 +0530
-Message-ID: <CAO_48GF3OL9+x-jdEXN9kYZaS2kBgAq0MNmGYfxKasPWcmJWaA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] dma-buf: Add missing dependencies on DMA_SHARED_BUFFER
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hridya Valsaraju <hridya@google.com>, 
- Chris Wilson <chris@chris-wilson.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,46 +71,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
+This patch series adds support for the MDP and DSI PHY as found on the
+MSM8953 platform (APQ8053, SDM450, SDA450, SDM625, SDM626). All the SoCs
+on this platform use the adreno 506 GPU.
 
-On Thu, 2 Sept 2021 at 18:19, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
->         Hi Sumit, Christian,
->
-> This patch series adds missing dependencies on DMA_SHARED_BUFFER to
-> various options of DMA-BUF, and drops a bogus select.
->
-> As drivers/dma-buf/Kconfig contains interleaved options that select or
-> depend on DMA_SHARED_BUFFER, they can't be wrapped inside a big
-> "if DMA_SHARED_BUFFER / endif" block.
+Changes since v1:
+- Split the dsi phy doc changes into a separate commit
+- Add Reviewed-by tag to patch 2
 
-Thanks for catching these issues and the patch-set. LGTM!
+Sireesh Kodali (1):
+  dt-bindings: msm: dsi: Add MSM8953 dsi phy
 
-I'll apply them over.
->
-> Thanks!
->
-> Geert Uytterhoeven (3):
->   dma-buf: DMABUF_MOVE_NOTIFY should depend on DMA_SHARED_BUFFER
->   dma-buf: DMABUF_DEBUG should depend on DMA_SHARED_BUFFER
->   dma-buf: DMABUF_SYSFS_STATS should depend on DMA_SHARED_BUFFER
->
->  drivers/dma-buf/Kconfig | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> --
-> 2.25.1
->
-> Gr{oetje,eeting}s,
->
->                                                 Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                                             -- Linus Torvalds
+Vladimir Lypak (2):
+  drm/msm/dsi: Add phy configuration for MSM8953
+  drm/msm/mdp5: Add configuration for MDP v1.16
 
-Best,
-Sumit.
+ .../bindings/display/msm/dsi-phy-14nm.yaml    |  2 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c      | 89 +++++++++++++++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c         |  2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h         |  1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    | 21 +++++
+ 5 files changed, 115 insertions(+)
+
+-- 
+2.33.0
+
