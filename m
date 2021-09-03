@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DA93FFF97
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 14:12:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7CA3FFF98
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 14:13:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B767B6E87E;
-	Fri,  3 Sep 2021 12:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD7516E880;
+	Fri,  3 Sep 2021 12:13:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E77A6E87E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 12:12:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 42915610E9
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 12:12:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00F2E6E880
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 12:13:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C7111610F7
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 12:13:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630671136;
- bh=e9tF45wFwpo9DgF6jo88ze2NaAn8TxkRW4qR28fcjUY=;
+ s=k20201202; t=1630671213;
+ bh=Je4iIlISZN38lm8qfD9jF6MK73Y0gJk329S7mgriEoQ=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=C2XUy6UDSzQWN4iXwfxLhB18ycHckTCs+vGl4KgiDYTANUHmhEW68bUG7iL5p/yUQ
- Cougp40qyoakQ3WB5AUcNBOQr/bW79QFqzgyxBN8M8AHLVnQiER/YnhkRsi6cJDeii
- S+eyPDCthHs3HM+nd8eLdzXytEg+u4Rel8WF1w8ItvtyS9znkcYlOqlfhERd+YEMcy
- V0Vw4+lNj5y08/rf6PDOKUUeubRMqA6JHgILfplir8tNxF0J9wWPsVI2AU7dsP02c+
- IcR25QWLNtaSxO1QOAl95VqX/+i8O1NEebc1iiLPDlAWtaCtilyF/IkXHCeudgrKQH
- MnUJEfovUM3NQ==
+ b=apNuxRky9iM5FIFFmk6W/m32SQJRqUjAfwUh74eXLV1CweW6WZruPRYrr/ju83kqu
+ 4z4HKgg4+0/oG5jwIXEqyS8nKke+nxcHmDAGHr/k3ZyQSLzR9iFEdg65y7KgJmve5h
+ C+P4VRV8B0TwWyrvWtsYqBhF5WznJY2m+K6sOtTzhvu/eTYmqmuKAGwVroYBJXXGej
+ cDHtItTvVC3zohlhJWxN5Hp1RRCdEn6DkvJ8EhWXJq5+2VCW9ljgrdgiYkQENWuqAv
+ jEgRmRqLpVok1+zjucVxu3P/Y+UQfhJN+TMGwJEtTbRIm+/rH/rKH8159z6e/TPQjK
+ c+NCw8pXV3Rbw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3F9B1603E1; Fri,  3 Sep 2021 12:12:16 +0000 (UTC)
+ id C443F60E97; Fri,  3 Sep 2021 12:13:33 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
  drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Fri, 03 Sep 2021 12:12:15 +0000
+Date: Fri, 03 Sep 2021 12:13:33 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-211277-2300-eLErcabQ9W@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-211277-2300-NQPHLLcVpx@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
 References: <bug-211277-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,22 +71,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-Anthony Rabbito (ted437@gmail.com) changed:
+--- Comment #49 from Anthony Rabbito (ted437@gmail.com) ---
+Created attachment 298661
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298661&action=3Dedit
+journalctl of amdgpu trace
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |ted437@gmail.com
-
---- Comment #48 from Anthony Rabbito (ted437@gmail.com) ---
-I'm also facing consistent wake up from screen saver crashes on a Radeon VI=
-I.
-This became more appearant 5.14.0-rc7 and has made it's way to 5.14.0. After
-the screens blank waking up from sleep typically leaves artifacts on one
-screen, another screen will be forozen, and a third screen allows to unlock=
- out
-of SDDM. I will attach kernel logs of a trace while this happens. Please le=
-t me
-know if I can assist in anyway.
+(In reply to Anthony Rabbito from comment #48)
 
 --=20
 You may reply to this email to add a comment.
