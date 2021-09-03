@@ -2,53 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A4C3FFB87
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 10:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE553FFBCB
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 10:22:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82EB56E853;
-	Fri,  3 Sep 2021 08:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C3F6E092;
+	Fri,  3 Sep 2021 08:22:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0A366E851;
- Fri,  3 Sep 2021 08:05:05 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="219371172"
-X-IronPort-AV: E=Sophos;i="5.85,264,1624345200"; d="scan'208";a="219371172"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2021 01:05:04 -0700
-X-IronPort-AV: E=Sophos;i="5.85,264,1624345200"; d="scan'208";a="500220436"
-Received: from ojcasey-mobl.ger.corp.intel.com (HELO [10.213.195.251])
- ([10.213.195.251])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2021 01:05:01 -0700
-Subject: Re: [Intel-gfx] [PATCH 05/11] drm/i915: Rename
- i915_gem_context_get_vm_rcu to i915_gem_context_get_eb_vm
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
-References: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
- <20210902142057.929669-5-daniel.vetter@ffwll.ch>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <2a1f1395-2fe3-3c3d-48a6-bf741f910023@linux.intel.com>
-Date: Fri, 3 Sep 2021 09:05:00 +0100
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E87176E092
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 08:22:03 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id x6so6995536wrv.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Sep 2021 01:22:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=MgMZnvLFXAcSBdvB9Oxgj/mRrofgWEwJiqDsGLdXgQc=;
+ b=ohorBxGGL874DiMlNf0oZ8t7n+49x8bJ2gftr1I1Q0cKWBj13bs5G8PvKMWlOEl2+X
+ xYY44rW/kP8t9ic4mbVdXfL6e8g4inoOUm8Vj8lEgiJPNaWMNeOt8lnDFvZWsSiPXjrf
+ gB+VJftyUa5qsxCrUb9BW5xrJDEIDtBOr4XKiRfqjJ64nhENIc8rKXwdw/3+BiNDnR4l
+ 2XXgm1lVZy3xtYcORP33b3uw94lNG48Zj0tpX6ZoewM3BCQosAfUO0VQkDAkhcOU1suJ
+ eyhR+LHEto7JhQ575B8zgwjfwqMLwtDx8lwljeQx8QtcXjOjJxRhoLHd903VTETt6o2T
+ DlAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=MgMZnvLFXAcSBdvB9Oxgj/mRrofgWEwJiqDsGLdXgQc=;
+ b=pWoH7X2YfUgL1ek+1lM39Xp0aI1CjYq28W4pzGKAJzE4FQcFgo6j/nVjY1gj2zPQia
+ QY2RkTf29g588bxSsDScOpbiNflJh2TV8WB+lbBnM1Js29SzH0YhyI6tFy/uTsM7rlbp
+ EnMrYykO64tFFvFYMs2ruJIKmakwIftnI4pFmH+6OcSByytGtFNGcBjy9NTNUwSCP5+o
+ XDCNh2xelT0CQVNuT8oltdWoCmg9ck3xQSnWTf7/xr7fTjHN7eqImHjbD86z7iYoKFSi
+ VvhVqcRkvVZKka1gIQuPh9myAmdXheV8BvA6IoDXfQ+FrvmCiH8e40iNMpqodwls5rdk
+ wrjg==
+X-Gm-Message-State: AOAM5316WIQO5hin+mY9bMVs+gzcw9m7Z04eZINMIwr2UbN4nEjznR/M
+ 5zb3tosUhNu1xB0zD1Wqbek=
+X-Google-Smtp-Source: ABdhPJwXY6GkZxqh7co8a/VRchCKbhjMyuqujyVMVqVrZPFQA1Kc45qboE2uhd8vPXT3FWi3vJTNIw==
+X-Received: by 2002:adf:c785:: with SMTP id l5mr2653367wrg.360.1630657322464; 
+ Fri, 03 Sep 2021 01:22:02 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id a77sm3919302wmd.31.2021.09.03.01.22.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Sep 2021 01:22:02 -0700 (PDT)
+Subject: Re: [PATCH 2/2] dma-buf: clarify dma_fence_add_callback documentation
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20210901120240.7339-1-christian.koenig@amd.com>
+ <20210901120240.7339-3-christian.koenig@amd.com>
+ <YTDi8BNRXcEkf8a4@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <992a4531-da58-d6e5-8cb2-a21407743397@gmail.com>
+Date: Fri, 3 Sep 2021 10:22:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210902142057.929669-5-daniel.vetter@ffwll.ch>
+In-Reply-To: <YTDi8BNRXcEkf8a4@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,169 +79,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 02.09.21 um 16:42 schrieb Daniel Vetter:
+> On Wed, Sep 01, 2021 at 02:02:40PM +0200, Christian König wrote:
+>> That the caller doesn't need to keep a reference is rather
+>> risky and not defensive at all.
+>>
+>> Especially dma_buf_poll got that horrible wrong, so better
+>> remove that sentence and also clarify that the callback
+>> might be called in atomic or interrupt context.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Still on the fence between documenting the precise rules and documenting
+> the safe rules, but this is tricky enough that you got me convinced. Plus
+> shorter, simpler, clearer kerneldoc has much better chances of being read,
+> understood and followed.
 
-On 02/09/2021 15:20, Daniel Vetter wrote:
-> The important part isn't so much that this does an rcu lookup - that's
-> more an implementation detail, which will also be removed.
-> 
-> The thing that makes this different from other functions is that it's
-> gettting you the vm that batchbuffers will run in for that gem
-> context, which is either a full ppgtt stored in gem->ctx, or the ggtt.
-> 
-> We'll make more use of this function later on.
-> 
-> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_context.h           | 2 +-
->   drivers/gpu/drm/i915/gem/selftests/huge_pages.c       | 4 ++--
->   drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 4 ++--
->   drivers/gpu/drm/i915/gt/selftest_execlists.c          | 2 +-
->   drivers/gpu/drm/i915/gt/selftest_hangcheck.c          | 2 +-
->   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c         | 4 ++--
->   drivers/gpu/drm/i915/selftests/i915_vma.c             | 2 +-
->   7 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> index 18060536b0c2..da6e8b506d96 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> @@ -155,7 +155,7 @@ i915_gem_context_vm(struct i915_gem_context *ctx)
->   }
->   
->   static inline struct i915_address_space *
-> -i915_gem_context_get_vm_rcu(struct i915_gem_context *ctx)
-> +i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
->   {
->   	struct i915_address_space *vm;
->   
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> index a094f3ce1a90..6c68fe26bb32 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> @@ -1456,7 +1456,7 @@ static int igt_tmpfs_fallback(void *arg)
->   	struct i915_gem_context *ctx = arg;
->   	struct drm_i915_private *i915 = ctx->i915;
->   	struct vfsmount *gemfs = i915->mm.gemfs;
-> -	struct i915_address_space *vm = i915_gem_context_get_vm_rcu(ctx);
-> +	struct i915_address_space *vm = i915_gem_context_get_eb_vm(ctx);
->   	struct drm_i915_gem_object *obj;
->   	struct i915_vma *vma;
->   	u32 *vaddr;
-> @@ -1512,7 +1512,7 @@ static int igt_shrink_thp(void *arg)
->   {
->   	struct i915_gem_context *ctx = arg;
->   	struct drm_i915_private *i915 = ctx->i915;
-> -	struct i915_address_space *vm = i915_gem_context_get_vm_rcu(ctx);
-> +	struct i915_address_space *vm = i915_gem_context_get_eb_vm(ctx);
+I think that for documentation we should apply the same rules we have 
+for code.
 
-Problem here (and probably elsewhere) is that this test does no "eb", 
-nor even submits any requests for execution.
+E.g. keep it simple until you absolutely have to make it complex and 
+keep it defensive with the least probability for something to go wrong.
 
-More so, execbuf path does currently rely on intel_context->vm which is 
-always set. So I really wonder how it would look, what I touched on 
-elsewhere in the thread, if we instead made ctx->vm always point to 
-something. It would align the rules between intel_context and GEM 
-context and may end up with a more consistent situation.
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Regards,
+Thanks,
+Christian.
 
-Tvrtko
+>
+>> ---
+>>   drivers/dma-buf/dma-fence.c | 13 +++++--------
+>>   1 file changed, 5 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index ce0f5eff575d..1e82ecd443fa 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -616,20 +616,17 @@ EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+>>    * @cb: the callback to register
+>>    * @func: the function to call
+>>    *
+>> + * Add a software callback to the fence. The caller should keep a reference to
+>> + * the fence.
+>> + *
+>>    * @cb will be initialized by dma_fence_add_callback(), no initialization
+>>    * by the caller is required. Any number of callbacks can be registered
+>>    * to a fence, but a callback can only be registered to one fence at a time.
+>>    *
+>> - * Note that the callback can be called from an atomic context.  If
+>> - * fence is already signaled, this function will return -ENOENT (and
+>> + * If fence is already signaled, this function will return -ENOENT (and
+>>    * *not* call the callback).
+>>    *
+>> - * Add a software callback to the fence. Same restrictions apply to
+>> - * refcount as it does to dma_fence_wait(), however the caller doesn't need to
+>> - * keep a refcount to fence afterward dma_fence_add_callback() has returned:
+>> - * when software access is enabled, the creator of the fence is required to keep
+>> - * the fence alive until after it signals with dma_fence_signal(). The callback
+>> - * itself can be called from irq context.
+>> + * Note that the callback can be called from an atomic context or irq context.
+>>    *
+>>    * Returns 0 in case of success, -ENOENT if the fence is already signaled
+>>    * and -EINVAL in case of error.
+>> -- 
+>> 2.25.1
+>>
 
->   	struct drm_i915_gem_object *obj;
->   	struct i915_gem_engines_iter it;
->   	struct intel_context *ce;
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> index 4d2758718d21..fc7fb33a3a52 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> @@ -1528,7 +1528,7 @@ static int write_to_scratch(struct i915_gem_context *ctx,
->   
->   	intel_gt_chipset_flush(engine->gt);
->   
-> -	vm = i915_gem_context_get_vm_rcu(ctx);
-> +	vm = i915_gem_context_get_eb_vm(ctx);
->   	vma = i915_vma_instance(obj, vm, NULL);
->   	if (IS_ERR(vma)) {
->   		err = PTR_ERR(vma);
-> @@ -1607,7 +1607,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
->   	if (GRAPHICS_VER(i915) >= 8) {
->   		const u32 GPR0 = engine->mmio_base + 0x600;
->   
-> -		vm = i915_gem_context_get_vm_rcu(ctx);
-> +		vm = i915_gem_context_get_eb_vm(ctx);
->   		vma = i915_vma_instance(obj, vm, NULL);
->   		if (IS_ERR(vma)) {
->   			err = PTR_ERR(vma);
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> index f12ffe797639..b3863abc51f5 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> @@ -3493,7 +3493,7 @@ static int smoke_submit(struct preempt_smoke *smoke,
->   	if (batch) {
->   		struct i915_address_space *vm;
->   
-> -		vm = i915_gem_context_get_vm_rcu(ctx);
-> +		vm = i915_gem_context_get_eb_vm(ctx);
->   		vma = i915_vma_instance(batch, vm, NULL);
->   		i915_vm_put(vm);
->   		if (IS_ERR(vma))
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> index 2c1ed32ca5ac..8be23e0f9306 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> @@ -117,7 +117,7 @@ static struct i915_request *
->   hang_create_request(struct hang *h, struct intel_engine_cs *engine)
->   {
->   	struct intel_gt *gt = h->gt;
-> -	struct i915_address_space *vm = i915_gem_context_get_vm_rcu(h->ctx);
-> +	struct i915_address_space *vm = i915_gem_context_get_eb_vm(h->ctx);
->   	struct drm_i915_gem_object *obj;
->   	struct i915_request *rq = NULL;
->   	struct i915_vma *hws, *vma;
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> index f843a5040706..2d60a5a5b065 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> @@ -1300,7 +1300,7 @@ static int exercise_mock(struct drm_i915_private *i915,
->   	if (!ctx)
->   		return -ENOMEM;
->   
-> -	vm = i915_gem_context_get_vm_rcu(ctx);
-> +	vm = i915_gem_context_get_eb_vm(ctx);
->   	err = func(vm, 0, min(vm->total, limit), end_time);
->   	i915_vm_put(vm);
->   
-> @@ -1848,7 +1848,7 @@ static int igt_cs_tlb(void *arg)
->   		goto out_unlock;
->   	}
->   
-> -	vm = i915_gem_context_get_vm_rcu(ctx);
-> +	vm = i915_gem_context_get_eb_vm(ctx);
->   	if (i915_is_ggtt(vm))
->   		goto out_vm;
->   
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
-> index dd0607254a95..79ba72da0813 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
-> @@ -118,7 +118,7 @@ static int create_vmas(struct drm_i915_private *i915,
->   				struct i915_vma *vma;
->   				int err;
->   
-> -				vm = i915_gem_context_get_vm_rcu(ctx);
-> +				vm = i915_gem_context_get_eb_vm(ctx);
->   				vma = checked_vma_instance(obj, vm, NULL);
->   				i915_vm_put(vm);
->   				if (IS_ERR(vma))
-> 
