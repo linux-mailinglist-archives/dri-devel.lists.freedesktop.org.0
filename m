@@ -2,132 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EF43FFAEE
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 09:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC693FFB44
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 09:47:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA4D6E84D;
-	Fri,  3 Sep 2021 07:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6C7A6E850;
+	Fri,  3 Sep 2021 07:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2C76E84D
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 07:18:36 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210903071834euoutp018a9845f4416a95f3d67eb89ba7805b6b~hPrtBSW291419514195euoutp01e
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 07:18:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20210903071834euoutp018a9845f4416a95f3d67eb89ba7805b6b~hPrtBSW291419514195euoutp01e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1630653514;
- bh=jzfva8tySkoBOZr2tYVsxf46AbNPcgeN/pneM9rWZ7M=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=YHQT2KhGoOEH+ry4ouVkAW9b7mjzp7NHHnYMhKJyvj5aS8/1nWhoqnQhSZfstHmUh
- eFn7KIm7X0znMMoIRkfT31nu3YD1oE5sHcrcxcfpe8Srv9F0M9+W7mw9s46lEEq6mS
- UUU/r3hPJQoabiDe6YIfg1D7HgekIwgSNFR84GFo=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20210903071833eucas1p176cb4b6def20e6660e2b3ce075ab5b68~hPrsTJmFf2482524825eucas1p1M;
- Fri,  3 Sep 2021 07:18:33 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id BA.3B.42068.94CC1316; Fri,  3
- Sep 2021 08:18:33 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1~hPrr0SjpP2476624766eucas1p1c;
- Fri,  3 Sep 2021 07:18:32 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210903071832eusmtrp1ee4a743996cc9c282753936e3c679c16~hPrryLsZp3052030520eusmtrp1y;
- Fri,  3 Sep 2021 07:18:32 +0000 (GMT)
-X-AuditID: cbfec7f4-c89ff7000002a454-1c-6131cc49558e
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 23.36.20981.84CC1316; Fri,  3
- Sep 2021 08:18:32 +0100 (BST)
-Received: from [192.168.0.14] (unknown [106.210.131.79]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210903071831eusmtip1b3a77e8d246906c962e97defe4b33642~hPrqixxyX3135731357eusmtip1I;
- Fri,  3 Sep 2021 07:18:31 +0000 (GMT)
-Subject: Re: [PATCH v3 06/16] ARM: configs: Everyone who had PANEL_SIMPLE
- now gets PANEL_SIMPLE_EDP
-To: Doug Anderson <dianders@chromium.org>, Olof Johansson <olof@lixom.net>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Linus W <linus.walleij@linaro.org>, Daniel
- Vetter <daniel@ffwll.ch>, DTML <devicetree@vger.kernel.org>, Maxime Ripard
- <mripard@kernel.org>, David Airlie <airlied@linux.ie>, DRI mailing list
- <dri-devel@lists.freedesktop.org>, Arnd Bergmann <arnd@arndb.de>, Emil
- Velikov <emil.velikov@collabora.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@canonical.com>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Russell King
- <linux@armlinux.org.uk>, Linux ARM Mailing List
- <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, linux-omap <linux-omap@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>, "moderated
- list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES"
- <linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev, "open
- list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <5c3b3c1c-6fc2-123b-b1bc-c6e085996e01@samsung.com>
-Date: Fri, 3 Sep 2021 09:18:26 +0200
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2069.outbound.protection.outlook.com [40.107.223.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D80C06E84F;
+ Fri,  3 Sep 2021 07:47:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E4rN95CY8onAZ5FWyZZB3DLZuyMP+j3sq5GS1kBamnldLEhvney7Zr6X/Mbp1sty65mBwquv83n+jqyRuepVZ0GRyVxLtAClRILQ1DjBV5rJXskKoI0NjJQcfwmR3YXDlodaD+ZWLj9f5QNYjQSg+0OlFG6mBRGs/8iXUNIbpYRvTe1791kbEimF/7ND1k7E8LKvULeE+rSaVGGFx6Qv9vjN+UPrCco9xvA2QRVGa51WJG+rcWVuPIs15OgqxGyOE2vXv/iH9WQYwwBecA4Suyasg71WIU9AiH2yXAFKcO5oRlWAlkqtmGHTfuEuD0NmsHo6B2ZWIdeKbBqTeRJ8oQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=VcsUEueTmliTaufNp4AcSx6VF136ounTubfGe2jkzso=;
+ b=Pd1ozGMgZJvLg2ywuZBq4gcaRSeUG8XPpOFHxDLoS8ZSdEyGH9QpWCqYRy7IWVI9G4qMmZxeWdgr2S2cW6W3kbt2yqMEdUIMmdc1sTGKalE9wngZseghnnDufNegp+/BkVck0HdjDFU5HTErhnrj9A/mjaLjNfQdWXxdwgyvwdQBGV6WZ9OrssXxC1wMSnPhnmQFvQlgZoTyRkFPlrO3c59sY8M+xxWd0EoqlWeEcLVT5zXVrGF6mzmojEVgnYmnlkHqBN/AT0uPKQM3Fxo3dYQXrt+/z9sKxqxSjMMT3MUrGTBRLr0P9EK9KqpNwCdRAXBkkOPvmuAbO03UGR9NXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VcsUEueTmliTaufNp4AcSx6VF136ounTubfGe2jkzso=;
+ b=R1umVusNSEfZVKC8bqq30S3qL9DBomVuOeJcMFu46tunr2d5kr+rEiJyYNMbYJd7U2aSa1I3fuwAge1XkWETHIib7WvW6phSE2it9PGY6Z3w1SfkyQDjyMifCZfwocjbcyN9MbHfkIL4TnaD8uVNxTjbv520immWirYxYP3lmAk=
+Authentication-Results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4390.namprd12.prod.outlook.com (2603:10b6:208:26e::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Fri, 3 Sep
+ 2021 07:47:04 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4478.022; Fri, 3 Sep 2021
+ 07:47:04 +0000
+Subject: Re: [PATCH 2/2] drm/amdpgu: Use VRAM domain in UVD IB test
+To: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ amd-gfx <amd-gfx-bounces@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>
+References: <88539BB5-333A-4019-A411-D09859291404@amd.com>
+ <627484d5-3cfc-5ac2-125d-5a902c852222@amd.com>
+ <866A4D9E-18AB-4FF0-9437-E4E47A518BD9@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <f68af776-0a2b-f846-cde3-f4ceff5af1b7@amd.com>
+Date: Fri, 3 Sep 2021 09:47:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
+In-Reply-To: <866A4D9E-18AB-4FF0-9437-E4E47A518BD9@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG8957e9uiLdfixis2KmRuw20gSrKXbHHTkHG34ZQtYdNtYsVr
- NVAkvaDsI4MxYcCsCk6FlggkfElMtNRC21mIXaUiX0qhTCapDsYYrjDKZ2Gdo1zM+O85z/md
- 9zkneQW4xEgGCY6lpDHKFFlyCOlHNLR4ul57tz1CtrVwXIBUna0Y8ha18FFb8xiBnjYU4qjM
- 2slDHdW3SNQzPU6i3wtcJKq7YCSQ1jWHoR//qcFQ/aCDhwqbO/ioYP4KjuymUhJpKs8SSP/n
- GIaKu5oWuSYTifKn1CSyXDADVDGhJ1BufjUP3e2bJFGO2cpHtR49QB7TZeLt9bTdcR+nF+aL
- AK3OUpG0Jus+QRsGKgFtniknaKN6gE/X1+WT9EPHTZJunHnEoy+3xtHOH2wYravMpEd0JYDu
- uZPNo7VjBmxvwH6/Nw8zycdOMMrwHQf9jj445yRTTVRG71/D/CxQKioAQgGkIqHdkccvAH4C
- CVUL4NCQe7mYAtBebCK4YhLAEvNV3rMRzeQwyTVqAKzy3MG4wgXgRPZpzEcFUAy0tdzj+/Ra
- 6j140fBkCcKpYiGsGO1fgkgqFHp1D0ifFlE7oK6oB/dpgnoBdo5MEz79HLUPeltNPI5ZA1tL
- hpZ8IRUHf/5teInHqUDYP1SGcXojbHSV4r4wSJn94GyXAeP2joZ9zRcJTgfAUdsNPqelsO38
- 6WU/EzprTy0P5wGov27EucYb8GHn/OKmgsWEUHjNFM7ZO6H9tpvw2ZASw19ca7gdxLCo4RLO
- 2SKYlyvh6GDo7NAvPxgIq+5Nk+dAiHrFZeoV16hXXKP+P7ccEHUgkElnFXKG3ZbCnAxjZQo2
- PUUelnhcUQ8Wf3fbv7YpA6gZnQizAEwALAAK8JC1IuM7W2US0WHZF18yyuMJyvRkhrWA9QIi
- JFB06MbVBAkll6UxSQyTyiifdTGBMCgLi9M6viqWHtLMJp5flzDAard39wY/37Rqu/elt8Y3
- bXZkfDjnhU+yK+sjRMFqdfxn9rqamLnvbkX5r3p/XfnH0RVNu1xXeg8oE6pybuvgtfaMlzNY
- 99n4Ld//dOJkmKq4YdO+usbuAKnpk7I0/QfA3R7lMfj3RkfyreW5sUWWkehLqqCbObtfmd4v
- j9QiL5X07YvUpxv+Xv2He9AMPwprCu3TyPsrDD1RXbO7fz0QEzMzSxl5muHXqTPW6l1HrKvF
- jw5u6371a1w1mFzmVsjlexThVRuv7zFlJjnZnZrUb/ptT7sTY3n10gWz/112w2axOPbxkdSc
- z/cKpQvxZWcenyJEIQR7VBaxBVeysv8AlYUuhUwEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDKsWRmVeSWpSXmKPExsVy+t/xu7oeZwwTDb49VLboPXeSyeLvpGPs
- Fqf3v2Ox+L9tIrPF/CPnWC3OLjvIZnHl63s2i6ddb9ksVk3dyWKx8e0PJospf5YzWWx6fI3V
- YuL+s+wWXb9WMltc3jWHzWL2kn4Wi60v3zFZzDi/D6hu3y42i84vs9gsDk3dy2ix8ONWFou2
- zmWsFqeuf2azaN17hN1ixc+tjBY/d81jcZD2uHztIrPH71+TGD1mNfSyecxuuMjisePuEkaP
- vd8WsHjsnHWX3WPTqk42jzvX9rB5bP/2gNVj3slAj/vdx5k8Ni+p93ixeSajx5UTTaweG9/t
- YAoQjtKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DL
- uDnhPlvBLoGKq2+esTcwzuHtYuTkkBAwkZj9+RlbFyMXh5DAUkaJ+X9/s0EkxCV2z3/LDGEL
- S/y51gVV9JpR4u/CF0wgCWGBVIlrB5cygtgiAl4S03a8ZgIpYhaYxynxefojFoiOqUwSy1//
- YQGpYhPQlPi7+SbYCl4BO4nNk66ArWARUJE49+IrWI2oQKRE04mtUDWCEidnPgGLcwoEShx+
- 9AysnlnATGLe5odQtrjErSfzmSBseYntb+cwT2AUmoWkfRaSlllIWmYhaVnAyLKKUSS1tDg3
- PbfYSK84Mbe4NC9dLzk/dxMjMFltO/Zzyw7Gla8+6h1iZOJgPMQowcGsJMK7080gUYg3JbGy
- KrUoP76oNCe1+BCjKdA/E5mlRJPzgekyryTe0MzA1NDEzNLA1NLMWEmc1+TImnghgfTEktTs
- 1NSC1CKYPiYOTqkGph1rbWbMmzXjSG2amHRz3sLLVyasclgV8HE2w44Hp/lOCMYKZ7lZmGou
- XykuZy4oHnLxhAdT+aTOb/rZr5Y8vZTRktTQycCxIuxqQ4zCxIU6scq6GmoztimZNUn3/Xt6
- w9tMtFLiQ/Ct3eXPQhw6T8Qa7IsOf6dl8e6envRB9ikn97ld7+ncv7XgsNebmoTKOm45SY7d
- P4tKShnf7p+uv8T+FsOW+pUtZ4vuF8VI/c6/dSvElVk6+fB8EbEE9+bflwvk3rFFbL3mtMv/
- VphE6IH7RQ93mNk6Tog3irVb2Rt/vu7uRY5Ja9sOhK5akbHm7Dqt04tccuZah7L4HNJSZ503
- Y7vf+wNzkl/uvRXxX4mlOCPRUIu5qDgRAD32K4LfAwAA
-X-CMS-MailID: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
-References: <20210901201934.1084250-1-dianders@chromium.org>
- <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
- <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com>
- <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
- <CGME20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1@eucas1p1.samsung.com>
+X-ClientProxiedBy: AM0P190CA0023.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::33) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+Received: from [192.168.178.21] (91.14.161.181) by
+ AM0P190CA0023.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.19 via Frontend Transport; Fri, 3 Sep 2021 07:47:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 03774ce6-85a2-41f0-3e7f-08d96eaf05af
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4390:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4390CDB93825ADCF4FBC3E9B83CF9@MN2PR12MB4390.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aeWlPkY5Zf+gVhk/awmWHOtcJSb+Hz6fPSKh8SFGV4YFcmBRk7T7/jCV4GwRphr731hAEkTdf3MSfd8p85YejzzjXKs5vNmeg7IvAi4U1niaeyLuRV45xd9K0Zity7nKm9x9qmgWTmftgNA+YOkwZbOFaKH0bEzQqW7mnHbcZ5Wx7tVMLUHR26KMhrgj3bppJJyUPUoW6TDXnqyrAhrqhXMsHZ8pfDKYz0iUCWcZSu5cgAuSW3q5eiwCffbO2LWDMLLwAS+PSPcV4jqLnAuUUeYUc4GhbajqePM+5F6Gw3e+rsWrDUqzMc5i/tLC4kZcdQHDEyX0Y15b9h8U7+bfki+teoGSyFp0SGmaQRbPrnM0XKjFniRilQnHH3AzNKO9BCKrPnKLeoc72bVMljnrYwFKscso2KM8ZWPaXpCmMuT5kCr5IbHobwDSi1oxBCMgQyytfdiKtnQNGzixptcBilMk7Xmgv+DG2bygZ5R9tMOQQHDTT9+hi9vzjEGzM9+o3u/ZbHvOiNH7fHyM+GnHe+CdXV6rafNVb+BhfEbhEg5faVrpqZG7TBguXmjhPQaF2Kig2bBxLkwiq9+QZWRYf0lrK48ARUDMu6k0Ha8bv9h655Gl+tjgIJbpBT+6CF78lMtvhrszT6W5GgaJDOiVgX+Xtt6NiA0WKIHz992MQ1Bv6DElBzYCgOj0+0VjsbVZoCsW88yUXl6k3MrWpIeK2MX0UOE06Jux9mNdqN4eRQ4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(366004)(396003)(136003)(39860400002)(110136005)(956004)(5660300002)(2616005)(478600001)(86362001)(16576012)(31696002)(66946007)(66556008)(66476007)(2906002)(36756003)(316002)(83380400001)(8676002)(4326008)(38100700002)(186003)(31686004)(54906003)(6486002)(26005)(8936002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MUJ0NlV1VmJ6RzNmZk9KZGdQTWJHcjZDK005ZVFCd1czdE9VdVZTcDlVNTlU?=
+ =?utf-8?B?QTZpRlN4Zit5bWJXK0lyZnI1VmI1NUlzS3B6VGUzQWszL2R0TG5nb1Y2MUVv?=
+ =?utf-8?B?ZUxjSno5eUpjV2RoNzNRSURuTU9IMVhjK1grVWw0RUYrd3l5WlJlbVoxbGk2?=
+ =?utf-8?B?NGpyR01xb0ZDMVNMQ3l4ckUxN3ZvaWNtYmd3M2UwZjIyT3FRL3hNM2NmTFpJ?=
+ =?utf-8?B?eHZIdjlZSTgxWVA3TlhMZEY3UFVvTm9JZ1JodmpMZ3czU2tvaURoVXVzb3hP?=
+ =?utf-8?B?ZVgxMWtxOHBsaFh5c2l4Ukk5NmFOQmVvSU9MNmg0S1hEbnlKTlZJWlZnRVVC?=
+ =?utf-8?B?YmtKZ0d1TGRQQkNDcmlqeTRCdCtISWR3Y0RIYndvNnVYMEVjQXBLelFpcE4x?=
+ =?utf-8?B?T1ZmM1FTY1B0K214cVFsOU5GcGZTekg1L2xTcnpXSkw2cnJXeXJkaVA3bUlL?=
+ =?utf-8?B?QzlvaVNmUFNLWmtwcDZvSER2Wnd3WG5lcE95d283NDB5azFPSU9ZMHM3VWRV?=
+ =?utf-8?B?M0dMWC9xUVYrVXowVUZRQVFPRThpNDI3YkVHV0ZPcnlJbkNZb25NbmVOUVBx?=
+ =?utf-8?B?RisxRHN3cEMyVWJKaC9tRXRaNlA5TldtcnBpbEpvVXQrR2pEcnhiUU9VNXN2?=
+ =?utf-8?B?cFFxdXdWQVdJbkY4Zkp2eitNa2JNV29Fcy85aVk5NWR3UTlETHZ4UncvYitU?=
+ =?utf-8?B?Tzl2T0U4czlTQjBNSXBCOXYwdjRyMXhTdm9wdE9pRitwU0tONFpYSDdSTTE2?=
+ =?utf-8?B?YTcrWjUxNUNkZytlY1JZZzZDLzRPbUdkUG9TdFNpcmN0UG5sNksxZVAxQzNh?=
+ =?utf-8?B?RkJMaVZmL24zTkJLT2M0RkhIWm5NeUpWVlJSc0JjYkd4a0drVG9MNmNMYnJS?=
+ =?utf-8?B?d09PaitHQ0ppS01ZSXhBN2JCQWt4SmxIY1VIS3BNcTFzODFMbmt5VEYwWVlr?=
+ =?utf-8?B?cm9xMVlwNEtDRGdsL0ZTMCtnWE1EaFN0VTBMU3Q0eTZwVUZtQjZKNktRMll3?=
+ =?utf-8?B?WmJORlFMZkVON2JGU3NYbUlsdzlsTmdjcUJyaWhUVlAzQThhaWxzRFJDaEF4?=
+ =?utf-8?B?ZW1FQitsK3I2cmlHRFpHdXRCeGx6bHBQbWJseWRGTFFHaXJIeXpmeVZreG0w?=
+ =?utf-8?B?elFMZWhxQURMNGZSK3I1TVB0QmJIc3JnZnlBZ201T29pQkU5K3pZeklybzZG?=
+ =?utf-8?B?ME5UTGlQU0lZQ0JiOWwzVFVUUGpDcGJJQVArQUc5enlnd3k3eStGdzRNYlZS?=
+ =?utf-8?B?RnFiL1l3WXJmRWRuWU8zQll4U2l6WCtZcGV5emFsMGpVb0dwbXVPUUhPZHQ1?=
+ =?utf-8?B?c3QxM2xYelFwTmxMZWVtZGdVQjk3MWpHcGE5NzUrTDJOWDZ6UW9HdkIrVitR?=
+ =?utf-8?B?VFkrUHE1UnNmc0dRbW1HOVhzck1SdTlkMlhVd3JXRWM3MG4rL0o3QlVRbXRN?=
+ =?utf-8?B?UkF6b24rN2pQamdWWkZwOURQZFZaUzlzWExEUXBKNDBSd3FaaFZUWDNpMmxL?=
+ =?utf-8?B?em1GZmRIWktZZmRWTjdTaCtXSnZYdFlIL0JIN25TRzU5ZW9DMkhHaXJQTFFJ?=
+ =?utf-8?B?bE1HZ3FtZWlWdXZsc2dQMjZKT0c1V3FlaVFybFRTWmFSMm01MWpVK0NXNUU2?=
+ =?utf-8?B?WjU4Y21KWXhNQnM3eXVzMGU3OGJWWENKTDZ2Z0gxc2ZCczdDU0Fla0I1akEw?=
+ =?utf-8?B?S0lINjV3T1JTcEFGQnZOemthZlJjT1R2VERPOWZIQnMxOXUyQW43SVMyci9S?=
+ =?utf-8?Q?xzGmKjTYcVgOwacA6oatcPk7kh/WKhm1JFXA3Zk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03774ce6-85a2-41f0-3e7f-08d96eaf05af
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2021 07:47:04.6067 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k1V8g/+lgaEdNx2pp9+yzcQIO9+Zyl+9gE+e+5YuN7jSaUH/Fp8LqvccEfU9zzeD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4390
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,54 +135,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02.09.2021 01:10, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Sep 1, 2021 at 2:12 PM Olof Johansson <olof@lixom.net> wrote:
->>
->> On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org> wrote:
->>>
->>> In the patch ("drm/panel-simple-edp: Split eDP panels out of
->>> panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
->>> give everyone who had the old driver enabled the new driver too. If
->>> folks want to opt-out of one or the other they always can later.
->>>
->>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->>
->> Isn't this a case where the new option should just have had the old
->> option as the default value to avoid this kind of churn and possibly
->> broken platforms?
-> 
-> I'm happy to go either way. I guess I didn't do that originally
-> because logically there's not any reason to link the two drivers going
-> forward. Said another way, someone enabling the "simple panel" driver
-> for non-eDP panels wouldn't expect that the "simple panel" driver for
-> DP panels would also get enabled by default. They really have nothing
-> to do with one another. Enabling by default for something like this
-> also seems like it would lead to bloat. I could have sworn that
-> periodically people get yelled at for marking drivers on by default
-> when it doesn't make sense.
-> 
-> ...that being said, I'm happy to change the default as you suggest.
-> Just let me know.
+Am 03.09.21 um 09:15 schrieb Pan, Xinhui:
+>
+> ﻿在 2021/9/3 15:04，“Koenig, Christian”<Christian.Koenig@amd.com> 写入:
+>
+>      Am 03.09.21 um 08:49 schrieb Pan, Xinhui:
+>      > Like vce/vcn does, visible VRAM is ok for ib test.
+>      > And in ib test stage, VRAM is sufficient.
+>      
+>      NAK, that won't work for older hw generations (e.g. SI, maybe CIK as
+>      well) where the IBs must be in a specific GTT hardware window.
+>      
+>      Christian.
+>    
+> Not has older HW on hand for test.
+> But the uvd code says below. Looks like IBs should be in specific VRAM range[0 - 256MB]?
 
-I guess this is just misunderstanding. Symbol names:
-	CONFIG_DRM_PANEL_SIMPLE=y
-	CONFIG_DRM_PANEL_SIMPLE_EDP=y
-suggests that CONFIG_DRM_PANEL_SIMPLE_EDP is an 'suboption' of 
-CONFIG_DRM_PANEL_SIMPLE, but these symbols are independent - old symbol 
-has been split into two independent new symbols.
-So Doug's approach seems correct to me. Maybe one could change names of 
-symbols to avoid confusion(?).
+Well, it's a long time that I locked into this.
 
-One more thing, I suspect previous patch can break platforms with EDP 
-panels. Even if this patch fixes it, maybe it would be better to squash 
-these patches? Or add temporal solution to save bisecatability.
+The old UVD hardware has multiple 256MiB "windows". One is for message 
+and feedback buffers which *must* be in VRAM and another one is for the 
+DPB which should be in VRAM.
 
-Regards
-Andrzej
+The IB on the other hand always had to be in GTT (except for 15+ year 
+old AGP systems where it should be in VRAM as well for coherency reasons).
 
-> 
-> -Doug
-> 
+Could be that my memory is failing me and on SI/CIK both GTT and VRAM 
+would work. But key point is don't touch this without extensive testing, 
+it's really old stuff and was extremely painful to get working everywhere.
+
+Christian.
+
+>          if (!ring->adev->uvd.address_64_bit) {
+>                  struct ttm_operation_ctx ctx = { true, false };
+>
+>                  amdgpu_bo_placement_from_domain(bo, AMDGPU_GEM_DOMAIN_VRAM);
+>                  amdgpu_uvd_force_into_uvd_segment(bo);
+>                  r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
+>                  if (r)
+>                          goto err;
+>          }
+>    
+>      >
+>      > Signed-off-by: xinhui pan <xinhui.pan@amd.com>
+>      > ---
+>      >   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 4 ++--
+>      >   1 file changed, 2 insertions(+), 2 deletions(-)
+>      >
+>      > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>      > index d451c359606a..1c099b79d12c 100644
+>      > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>      > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+>      > @@ -1178,7 +1178,7 @@ int amdgpu_uvd_get_create_msg(struct amdgpu_ring *ring, uint32_t handle,
+>      >   	int r, i;
+>      >
+>      >   	r = amdgpu_bo_create_reserved(adev, 1024, PAGE_SIZE,
+>      > -				      AMDGPU_GEM_DOMAIN_GTT,
+>      > +				      AMDGPU_GEM_DOMAIN_VRAM,
+>      >   				      &bo, NULL, (void **)&msg);
+>      >   	if (r)
+>      >   		return r;
+>      > @@ -1210,7 +1210,7 @@ int amdgpu_uvd_get_destroy_msg(struct amdgpu_ring *ring, uint32_t handle,
+>      >   	int r, i;
+>      >
+>      >   	r = amdgpu_bo_create_reserved(adev, 1024, PAGE_SIZE,
+>      > -				      AMDGPU_GEM_DOMAIN_GTT,
+>      > +				      AMDGPU_GEM_DOMAIN_VRAM,
+>      >   				      &bo, NULL, (void **)&msg);
+>      >   	if (r)
+>      >   		return r;
+>      
+>      
+>
 
